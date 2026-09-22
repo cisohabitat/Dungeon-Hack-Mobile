@@ -190,8 +190,9 @@ const Renderer = (() => {
         const vis = x < x1 && tY < zbuf[x];
         if (vis && run < 0) run = x;
         if (!vis && run >= 0) {
-          const u0 = (run - left) / sw * 16, u1 = (x - left) / sw * 16;
-          ctx.drawImage(img, u0, 0, Math.max(0.01, u1 - u0), 16, run, top, x - run, sh);
+          const tw = img.width, th = img.height;   // sprites are not all one size
+          const u0 = (run - left) / sw * tw, u1 = (x - left) / sw * tw;
+          ctx.drawImage(img, u0, 0, Math.max(0.01, u1 - u0), th, run, top, x - run, sh);
           run = -1;
         }
       }

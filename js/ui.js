@@ -446,7 +446,12 @@ const UI = (() => {
       const dps = item => {
         if (!item) return 0;
         const d = ITEMS[item.t].dmg, sp = ITEMS[item.t].speed;
-        return ((d[0] * (d[1] + 1) / 2) + d[2] + (item.e || 0) + Game.mod(p.stats.str)) / (sp / 1000);
+        // mirrors the damage rule: flat bonuses scale with swing time, except
+        // for a thief's finesse, which does not
+        const finesse = p.cls === 'thief';
+        const base = Game.mod(finesse ? p.stats.dex : p.stats.str) + Game.skillDamage();
+        const flat = finesse ? base : base * (sp / 700);
+        return ((d[0] * (d[1] + 1) / 2) + d[2] + (item.e || 0) + flat) / (sp / 1000);
       };
       const now = dps(cur), next = dps(it);
       label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs bare hands';

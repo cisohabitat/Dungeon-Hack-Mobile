@@ -56,7 +56,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 
 Everything is original: the raycast renderer with textured floors and ceilings, procedural
 wall textures, pixel-art sprites and sound effects are all generated in code. No external
-assets or dependencies.
+assets or dependencies. Creatures are drawn as 24x24 tone art; the outline, contact shadow and
+overhead light are applied at load time so every sprite reads the same way against a dark wall.
 
 ## Deploy on Vercel
 
@@ -115,15 +116,23 @@ Tuned against the simulator rather than by feel. Over 240 bot runs on a fixed se
 
 | Class | Win rate | Average depth reached |
 | --- | --- | --- |
-| Fighter | 27% | 5.5 |
-| Cleric | 43% | 4.8 |
-| Mage | 20% | 4.4 |
-| Thief | 22% | 4.8 |
-| **Overall** | **28%** | **4.9** |
+| Fighter | 30% | 5.6 |
+| Cleric | 48% | 5.2 |
+| Mage | 15% | 4.3 |
+| Thief | 10% | 4.5 |
+| **Overall** | **26%** | **4.9** |
 
-The bot is a mediocre player, so a human should do considerably better. The test suite guards the
-arithmetic that matters: the boss fight must be winnable by a level 8 fighter in chain mail with a
-plain long sword, with a 25% margin, and every class must have a weapon that reaches at range.
+The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
+mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
+test suite guards the arithmetic that matters: the boss fight must be winnable by a level 8
+fighter in chain mail with a plain long sword, with a 25% margin, and every class must have a
+weapon that reaches at range.
+
+Flat damage bonuses from strength and experience scale with how long a weapon takes to swing, so
+melee arms land within a couple of points of each other on damage per second rather than the
+fastest weapon always winning. Missile weapons sit deliberately below them, paying for reach.
+Thieves are the exception: their bonus comes from dexterity and ignores swing weight, which is
+what finesse means.
 
 ## Controls
 

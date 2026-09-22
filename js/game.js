@@ -540,7 +540,12 @@ const Game = (() => {
       floatText(m, 'miss', '#bbb');
       return;
     }
-    let dmg = d(...w.dmg) + w.e + mod(p.stats.str) + skillDamage() + (effect('might') ? 2 : 0);
+    // Thieves strike where it counts rather than swinging hard, so their bonus
+    // comes from dexterity and does not scale with the weight of the weapon.
+    const finesse = p.cls === 'thief';
+    const flat = (finesse ? mod(p.stats.dex) : mod(p.stats.str)) + skillDamage() + (effect('might') ? 2 : 0);
+    const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
+    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700));
     if (crit) dmg *= 2;
     if (sneak) dmg *= 2;
     dmg = Math.max(1, dmg);

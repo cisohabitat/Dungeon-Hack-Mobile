@@ -17,14 +17,19 @@ const T = Dungeon.T;
 let failures = 0;
 function check(cond, msg) { if (!cond) { failures++; console.error('FAIL:', msg); } }
 
-// sprites are 16x16 with complete palettes
+// sprites are rectangular, square and fully described by their palette
 for (const k in SPRITES) {
   const s = SPRITES[k];
-  check(s.rows.length === 16, `${k} has ${s.rows.length} rows`);
+  const w = s.rows[0].length;
+  check(s.rows.length === w, `${k} is ${w}x${s.rows.length}, not square`);
+  check(w === 16 || w === 24, `${k} is ${w} wide; expected 16 or 24`);
   s.rows.forEach((row, i) => {
-    check(row.length === 16, `${k} row ${i} has ${row.length} columns`);
+    check(row.length === w, `${k} row ${i} has ${row.length} columns, expected ${w}`);
     for (const ch of row) check(ch === '.' || s.pal[ch], `${k} uses unknown palette key '${ch}'`);
   });
+  // unused palette entries are dead weight and usually a typo
+  const used = new Set(s.rows.join('').split('').filter(c => c !== '.'));
+  for (const key in s.pal) check(used.has(key), `${k} palette key '${key}' is never used`);
 }
 
 function solvable(L) {

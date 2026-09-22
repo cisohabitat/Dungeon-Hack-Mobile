@@ -22,18 +22,70 @@ const Assets = (() => {
   }
 
   // ---- sprites ----
+  // Art is drawn as flat tones; the outline, contact shadow and top light are
+  // added here so every sprite reads the same way against a dark wall.
   function makeSprite(def) {
-    const h = def.rows.length, w = def.rows[0].length;
-    const base = canvas(w, h);
-    const ctx = base.getContext('2d');
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
+    const aw = def.rows[0].length, ah = def.rows.length;
+    const w = aw + 2, h = ah + 2;               // room for the outline
+    const art = canvas(aw, ah);
+    const actx = art.getContext('2d');
+    const solid = new Uint8Array(aw * ah);
+    for (let y = 0; y < ah; y++) {
+      for (let x = 0; x < aw; x++) {
         const ch = def.rows[y][x];
         if (ch === '.') continue;
-        ctx.fillStyle = def.pal[ch] || '#ff00ff';
-        ctx.fillRect(x, y, 1, 1);
+        solid[y * aw + x] = 1;
+        actx.fillStyle = def.pal[ch] || '#ff00ff';
+        actx.fillRect(x, y, 1, 1);
       }
     }
+    const base = canvas(w, h);
+    const ctx = base.getContext('2d');
+    // a soft contact shadow so creatures sit on the floor instead of hovering
+    if (def.shadow) {
+      let minX = aw, maxX = -1;
+      for (let x = 0; x < aw; x++) for (let y = ah - 4; y < ah; y++) if (solid[y * aw + x]) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
+      if (maxX >= minX) {
+        const cx = (minX + maxX) / 2 + 1, rx = Math.max(3, (maxX - minX) / 2 + 1.5);
+        const g = ctx.createRadialGradient(cx, h - 1.5, 0, cx, h - 1.5, rx);
+        g.addColorStop(0, 'rgba(0,0,0,0.55)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.save();
+        ctx.translate(cx, h - 1.5);
+        ctx.scale(1, 0.34);
+        ctx.translate(-cx, -(h - 1.5));
+        ctx.beginPath();
+        ctx.arc(cx, h - 1.5, rx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+    // outline every edge pixel
+    const outline = def.outline || '#0a0810';
+    ctx.fillStyle = outline;
+    for (let y = -1; y <= ah; y++) {
+      for (let x = -1; x <= aw; x++) {
+        if (x >= 0 && y >= 0 && x < aw && y < ah && solid[y * aw + x]) continue;
+        let touches = false;
+        for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+          const nx = x + ox, ny = y + oy;
+          if (nx < 0 || ny < 0 || nx >= aw || ny >= ah) continue;
+          if (solid[ny * aw + nx]) { touches = true; break; }
+        }
+        if (touches) ctx.fillRect(x + 1, y + 1, 1, 1);
+      }
+    }
+    ctx.drawImage(art, 1, 1);
+    // light from above, shadow pooling at the feet
+    const lg = ctx.createLinearGradient(0, 0, 0, h);
+    lg.addColorStop(0, 'rgba(255,245,215,0.16)');
+    lg.addColorStop(0.45, 'rgba(255,245,215,0)');
+    lg.addColorStop(1, 'rgba(0,0,20,0.28)');
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = lg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'source-over';
     const tintOf = (color, alpha) => {
       const c = canvas(w, h);
       const cx = c.getContext('2d');
