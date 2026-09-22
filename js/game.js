@@ -884,6 +884,9 @@ const Game = (() => {
     emit('won');
   }
   function score(p, depth, won) { return p.gold + p.xp * 2 + p.deepest * 100 + (won ? 2000 : 0); }
+  // Only one page is buried per floor, so a short dungeon holds fewer than the
+  // archive knows about. Count what this delve can actually yield, not the lot.
+  function pagesInDungeon() { return Math.min(G && G.opts ? G.opts.levels : JOURNAL.length, JOURNAL.length); }
   // How the story closes, in the voice of the life that brought you here.
   function epilogue(won) {
     const p = P();
@@ -893,9 +896,10 @@ const Game = (() => {
     if (won) {
       lines.push(`${p.name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.`);
       lines.push(bg.epi);
-      lines.push(read >= JOURNAL.length
+      const total = pagesInDungeon();
+      lines.push(read >= total
         ? 'They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.'
-        : `They left ${JOURNAL.length - read} of the earlier crews' pages down there in the dark. Someone else will have to go back for those.`);
+        : `They left ${total - read} of the earlier crews' pages down there in the dark. Someone else will have to go back for those.`);
     } else {
       lines.push(`${p.name} got as far as level ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`);
       lines.push(bg.epi);
@@ -1266,7 +1270,7 @@ const Game = (() => {
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
-    pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [],
+    pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage,
     wasteReason, spellWasteReason, isEscaping: () => !!(G && G.escaping),

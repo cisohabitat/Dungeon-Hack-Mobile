@@ -427,7 +427,7 @@ const UI = (() => {
 
   function renderJournal() {
     const got = Game.journal();
-    $('#journal-count').textContent = `${got.length} of ${JOURNAL.length}`;
+    $('#journal-count').textContent = `${got.length} of ${Game.pagesInDungeon()}`;
     const el = $('#journal-list');
     if (!got.length) {
       el.innerHTML = '<p class="dim">The crews who came before you left pages behind. You have not found any yet.</p>';
@@ -782,7 +782,7 @@ const UI = (() => {
     r('Kills', p.kills); r('Steps', p.steps);
     r('Deepest level', p.deepest); r('Seed', escapeHtml(G.seed));
     r('Background', BACKGROUNDS[p.bg] ? BACKGROUNDS[p.bg].name : '—', true);
-    r('Pages found', `${Game.journal().length} of ${JOURNAL.length}`, true);
+    r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
     if (p.boons && p.boons.length) {
       const names = p.boons.map(id => { const b = BOONS.find(x => x.id === id); return b ? b.name : id; });
       r('Learned', escapeHtml(names.join(', ')), true);

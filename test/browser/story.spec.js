@@ -80,7 +80,7 @@ test.describe('story and progression', () => {
       const page0 = L.items[key].find(i => i.t === 'page');
       Game.takeItem(page0);
       Game.takeItem(page0);                 // a second pickup must not double count
-      return { entries: Game.journal().length, total: JOURNAL.length };
+      return { entries: Game.journal().length, total: Game.pagesInDungeon(), levels: Game.state().opts.levels, archive: JOURNAL.length };
     });
     expect(picked, 'every level should carry one page').not.toBeNull();
     expect(picked.entries).toBe(1);
@@ -89,6 +89,9 @@ test.describe('story and progression', () => {
     await expect(page.locator('#ov-journal')).toHaveClass(/open/);
     await expect(page.locator('.journal-entry')).toHaveCount(1);
     await expect(page.locator('#journal-count')).toHaveText(`1 of ${picked.total}`);
+    // the count is out of what this delve buried, never the archive's full eight
+    expect(picked.total, 'a delve holds one page per floor, capped at the archive')
+      .toBe(Math.min(picked.levels, picked.archive));
   });
 
   test('the epilogue names the hero and differs between winning and dying', async ({ page }) => {

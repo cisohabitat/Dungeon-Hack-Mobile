@@ -364,6 +364,21 @@ await test('journal pages are recorded once and survive a save', async () => {
   return Game.journal().length === 1;
 });
 
+await test('a short delve counts pages out of what it actually buried', async () => {
+  const ctx = await newContext();
+  const { Game } = ctx;
+  // one page per floor, so a four level delve holds four of the archive's eight
+  Game.newGame({ name: 'Wren', cls: 'fighter', bg: 'tombwise', stats: { ...evenStats }, opts: { ...OPTS, levels: 4 } });
+  if (Game.pagesInDungeon() !== 4) return `a four level delve claims ${Game.pagesInDungeon()} pages`;
+  for (let i = 0; i < 4; i++) Game.journal().push({ i, depth: i + 1 });
+  const won = Game.epilogue(true).join(' ');
+  if (/left \d+ of the earlier crews/.test(won)) return 'all four pages found, yet the epilogue mourns missing ones';
+  if (!won.includes('every page')) return 'a complete journal did not close the story';
+  // a long delve is still capped by the archive itself
+  Game.newGame({ name: 'Wren', cls: 'fighter', bg: 'tombwise', stats: { ...evenStats }, opts: { ...OPTS, levels: 16 } });
+  return Game.pagesInDungeon() === 8 || `a sixteen level delve claims ${Game.pagesInDungeon()} pages`;
+});
+
 await test('the epilogue names the hero and reflects the background', async () => {
   const ctx = await newContext();
   ctx.Game.newGame({ name: 'Wren', cls: 'thief', bg: 'tombwise', stats: { ...evenStats }, opts: OPTS });
