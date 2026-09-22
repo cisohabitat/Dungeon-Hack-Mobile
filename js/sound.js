@@ -8,7 +8,8 @@ const Sound = (() => {
   function ensure() {
     if (!enabled) return null;
     if (!ctx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
+      // Safari shipped this prefixed for years and still answers to it
+      const AC = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
       if (!AC) return null;
       ctx = new AC();
     }

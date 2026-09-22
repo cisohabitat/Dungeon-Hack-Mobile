@@ -751,7 +751,8 @@ const UI = (() => {
     const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest' };
     const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal' };
     window.addEventListener('keydown', e => {
-      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
+      const target = /** @type {HTMLElement} */ (e.target);
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT')) return;
       if (!$('#screen-game').classList.contains('active')) return;
       if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }

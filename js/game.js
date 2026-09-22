@@ -15,6 +15,7 @@ const Game = (() => {
   const MOVE_MS = 220;
   const TURN_MS = 200;
 
+  /** @type {import('./types.js').GameState|null} */
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
@@ -25,7 +26,9 @@ const Game = (() => {
 
   const mod = s => Math.floor((s - 10) / 2);
   const key = (x, y) => x + ',' + y;
+  /** @returns {import('./types.js').Level} the floor the player is standing on */
   const lvl = () => G.levels[G.depth];
+  /** @returns {import('./types.js').Player} */
   const P = () => G.player;
   const cls = () => CLASSES[G.player.cls];
 
@@ -106,10 +109,12 @@ const Game = (() => {
   function spellAvailable(sp) { return P().level >= sp.lvl * 2 - 1; }
 
   // Effective monster stats, including any champion bonuses.
+  /** A champion with no matching prefix behaves exactly like its plain kind. */
+  const NO_ELITE = { prefix: '', hp: 1, ac: 0, hit: 0, dmg: 0, xp: 1, speed: 1, tint: '#fff' };
   function mstat(m) {
     const b = MONSTERS[m.id];
     if (!m.elite) return b;
-    const e = ELITES.find(x => x.prefix === m.elite) || {};
+    const e = ELITES.find(x => x.prefix === m.elite) || NO_ELITE;
     return {
       name: `${m.elite} ${b.name}`, ac: b.ac + (e.ac || 0), hit: b.hit + (e.hit || 0),
       dmg: [b.dmg[0], b.dmg[1], b.dmg[2] + (e.dmg || 0)],
@@ -138,6 +143,11 @@ const Game = (() => {
     if (!isKnown(it.t)) return G.looks[it.t].sprite;
     return ITEMS[it.t].sprite;
   }
+  /**
+   * Put an item in the pack, stacking it where the kind allows.
+   * @param {import('./types.js').Item} it
+   * @returns {boolean} false when the pack is full
+   */
   function giveItem(it) {
     const p = P();
     const b = ITEMS[it.t];
@@ -149,6 +159,11 @@ const Game = (() => {
     p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name });
     return true;
   }
+  /**
+   * Take a single unit out of the pack.
+   * @param {import('./types.js').Item} it
+   * @returns {import('./types.js').Item|null} null when it was not being carried
+   */
   function removeOne(it) {
     const p = P();
     const i = p.inv.indexOf(it);
@@ -775,7 +790,7 @@ const Game = (() => {
   }
   // While escaping, the dark keeps producing pursuers.
   function spawnHunter() {
-    const L = lvl(), p = P();
+    const L = lvl();
     if (L.monsters.length > 40) return;
     ensureDist();
     const cands = [];

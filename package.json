@@ -5,13 +5,15 @@
   "private": true,
   "scripts": {
     "start": "node test/server.js 4173",
-    "test": "node test/run.js && node test/rules.js",
+    "test": "npm run typecheck && node test/run.js && node test/rules.js",
     "test:browser": "playwright test",
     "test:all": "npm test && npm run test:browser",
-    "playtest": "node test/playtest.js"
+    "playtest": "node test/playtest.js",
+    "typecheck": "tsc --noEmit"
   },
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.56.1"
+    "@playwright/test": "^1.56.1",
+    "typescript": "^7.0.2"
   }
 }

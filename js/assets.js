@@ -216,7 +216,6 @@ const Assets = (() => {
     // steps
     const steps = 7;
     for (let i = 0; i < steps; i++) {
-      const t = i / (steps - 1);
       let y, hgt, inset, bright;
       if (down) {
         // steps descend away from the viewer into darkness
@@ -338,6 +337,7 @@ const Assets = (() => {
     ctx.fillStyle = '#5a3a1a';
     ctx.fillRect(30, 24, 4, 8);
     // flame
+    /** @type {Array<[string, number]>} */
     const flame = [['#ff4010', 9], ['#ff9020', 6], ['#ffe060', 3]];
     for (const [col, r] of flame) {
       ctx.fillStyle = col;

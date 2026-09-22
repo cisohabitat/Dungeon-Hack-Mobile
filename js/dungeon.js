@@ -9,6 +9,13 @@ const Dungeon = (() => {
   const KEY_ORDER = ['brass', 'silver', 'gold', 'iron', 'bone'];
   const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
 
+  /**
+   * Build one floor. The same seed and depth always give the same floor.
+   * @param {string} seed
+   * @param {number} depth
+   * @param {import('./types.js').DungeonOptions} opts
+   * @returns {import('./types.js').Level}
+   */
   function generate(seed, depth, opts) {
     const rng = new Rng(`${seed}#${depth}`);
     const w = SIZES[opts.size] || 36, h = w;
@@ -93,7 +100,11 @@ const Dungeon = (() => {
     }
 
     // ---- stairs slots (a wall tile on a room's edge, facing into the room) ----
-    function wallSlot(room) {
+    function wallSlot(room, relaxed) {
+      // `relaxed` drops the tidiness requirements. The strict pass wants a wall
+      // that touches exactly one floor square and no door, which reads best; the
+      // relaxed pass takes any wall the room touches, so that a room can always
+      // yield somewhere to put a staircase.
       const cands = [];
       const tryS = (sx, sy, fx, fy, dir) => {
         if (get(sx, sy) !== T.WALL) return;
@@ -103,7 +114,7 @@ const Dungeon = (() => {
           if (t !== T.WALL) floors++;
           if (t === T.DOOR) doorAdj = true;
         }
-        if (floors === 1 && !doorAdj) cands.push({ x: sx, y: sy, fx, fy, dir });
+        if (relaxed ? floors >= 1 : (floors === 1 && !doorAdj)) cands.push({ x: sx, y: sy, fx, fy, dir });
       };
       for (let x = room.x; x < room.x + room.w; x++) {
         tryS(x, room.y - 1, x, room.y, 2);
@@ -118,6 +129,12 @@ const Dungeon = (() => {
 
     let startRoom = null, upSlot = null;
     for (const r of rooms) { upSlot = wallSlot(r); if (upSlot) { startRoom = r; break; } }
+    // No room offered a tidy slot. Rather than fail to build the level at all,
+    // take any wall a room touches; every room has at least one.
+    if (!upSlot) {
+      for (const r of rooms) { upSlot = wallSlot(r, true); if (upSlot) { startRoom = r; break; } }
+    }
+    if (!upSlot) throw new Error(`cannot place the entrance stair on level ${depth} of "${seed}"`);
     tiles[idx(upSlot.x, upSlot.y)] = T.STAIRS_UP;
     const start = { x: upSlot.fx, y: upSlot.fy, dir: upSlot.dir };
 
@@ -126,10 +143,14 @@ const Dungeon = (() => {
     let farRoom = byDist[0] || startRoom;
     let downStart = null, stairsDown = null;
     if (!isFinal) {
-      for (const r of byDist) {
-        const s = wallSlot(r);
-        if (s) { farRoom = r; tiles[idx(s.x, s.y)] = T.STAIRS_DOWN; stairsDown = { x: s.x, y: s.y }; downStart = { x: s.fx, y: s.fy, dir: s.dir }; break; }
+      for (const relaxed of [false, true]) {
+        if (downStart) break;
+        for (const r of byDist) {
+          const s = wallSlot(r, relaxed);
+          if (s) { farRoom = r; tiles[idx(s.x, s.y)] = T.STAIRS_DOWN; stairsDown = { x: s.x, y: s.y }; downStart = { x: s.fx, y: s.fy, dir: s.dir }; break; }
+        }
       }
+      if (!downStart) throw new Error(`cannot place the exit stair on level ${depth} of "${seed}"`);
     }
 
     // ---- items & locked doors ----

@@ -66,7 +66,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   PWA with offline support. Keyboard controls on desktop.
 
 The code is plain ES modules with no build step: the page loads `js/main.js` and the browser
-resolves the rest, so what you edit is what ships. Everything is original: the raycast renderer
+resolves the rest, so what you edit is what ships. Types are written as JSDoc and checked by
+TypeScript in `--noEmit` mode, which catches renamed fields and bad shapes without putting a
+compiler between the source and the browser. Everything is original: the raycast renderer
 with textured floors and ceilings, procedural
 wall textures, pixel-art sprites and sound effects are all generated in code. No external
 assets or dependencies. Creatures are drawn as 24x24 tone art; the outline, contact shadow and
@@ -111,7 +113,8 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ## Tests
 
 ```bash
-npm test              # generator, sprite, balance and rule checks (no browser)
+npm run typecheck     # JSDoc types, via tsc; nothing is compiled
+npm test              # typecheck, then generator, sprite, balance and rule checks
 npm run test:browser  # 32 Playwright tests against a real browser
 npm run test:all      # both
 npm run playtest      # 240 simulated runs, reports win rate by class
@@ -198,6 +201,7 @@ js/sound.js       WebAudio sound effects
 js/game.js        rules, state, AI, save/load
 js/ui.js          screens, overlays, touch and keyboard input
 js/main.js        entry point, game loop, debug surface
+js/types.js       JSDoc shapes for the type checker
 sw.js             offline cache
 manifest.json     PWA manifest
 vercel.json       Vercel headers

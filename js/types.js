@@ -1,0 +1,143 @@
+// Shape declarations for the checker. This file defines no values and is never
+// imported at runtime; `npm run typecheck` reads it to catch the kind of bug
+// that used to reach the browser: a field renamed in one place, a palette key
+// that does not exist, a function that returns null into a caller that assumed
+// an object.
+
+/**
+ * @typedef {Object} Stats
+ * @property {number} str @property {number} dex @property {number} con
+ * @property {number} int @property {number} wis @property {number} cha
+ */
+
+/**
+ * One thing in a pack, on the floor, or on a trader's shelf.
+ * @typedef {Object} Item
+ * @property {string} t          the key into ITEMS
+ * @property {number} q          how many, or the value in coin for gold and gems
+ * @property {number} [e]        enchantment, added to damage or armour
+ * @property {string} [color]    which lock a key opens
+ * @property {string} [name]     the gem's own name
+ * @property {number} [page]     which journal entry a torn page carries
+ */
+
+/**
+ * @typedef {Object} Equipment
+ * @property {Item|null} weapon
+ * @property {Item|null} armor
+ * @property {Item|null} shield
+ */
+
+/**
+ * @typedef {Object} Player
+ * @property {string} name @property {string} cls @property {string} bg
+ * @property {Stats} stats
+ * @property {number} level @property {number} xp
+ * @property {number} hp @property {number} maxHp
+ * @property {number} sp @property {number} maxSp
+ * @property {number} food @property {number} gold
+ * @property {Item[]} inv
+ * @property {Equipment} eq
+ * @property {Object<string, {amount: number, until: number}>} effects
+ * @property {{until: number, next: number}|null} poison
+ * @property {number} x @property {number} y @property {number} dir
+ * @property {number} nextAttack @property {number} kills @property {number} steps
+ * @property {number} deepest
+ * @property {string[]} [boons]
+ * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
+ * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen]
+ */
+
+/**
+ * A monster as it exists on a level, as opposed to its entry in MONSTERS.
+ * @typedef {Object} Monster
+ * @property {number} uid @property {string} id
+ * @property {number} x @property {number} y
+ * @property {number} hp @property {number} maxHp
+ * @property {boolean} awake @property {number} nextAct
+ * @property {number} rx @property {number} ry
+ * @property {number} fromX @property {number} fromY
+ * @property {number} moveT0 @property {number} moveT1 @property {number} flashUntil
+ * @property {string} [elite]     the champion prefix, if it is one
+ * @property {boolean} [fleeing]
+ * @property {number} [lostAt]    when it last lost your trail
+ * @property {number} [nextRegen]
+ */
+
+/**
+ * @typedef {Object} Trader
+ * @property {string} id @property {number} x @property {number} y
+ * @property {Item[]} stock
+ * @property {number} markup      multiplier over an item's own value
+ * @property {boolean} greeted
+ */
+
+/**
+ * One generated floor of the dungeon.
+ * @typedef {Object} Level
+ * @property {number} depth @property {number} w @property {number} h
+ * @property {number[]} tiles     one of Dungeon.T per square
+ * @property {number[]} roomId    which room a square belongs to, or -1
+ * @property {number[]} explored
+ * @property {Object<string, Item[]>} items    keyed "x,y"
+ * @property {Monster[]} monsters
+ * @property {Trader[]} npcs
+ * @property {Object<string, string>} traps    keyed "x,y"
+ * @property {Object<string, string>} locks    keyed "x,y", valued by key colour
+ * @property {Object<string, {type: string, used: boolean}>} features
+ * @property {Array<{x: number, y: number}>} lights
+ * @property {{x: number, y: number, dir: number}} start
+ * @property {{x: number, y: number, dir: number}|null} downStart
+ * @property {{x: number, y: number}} stairsUp
+ * @property {{x: number, y: number}|null} stairsDown
+ * @property {number} theme
+ * @property {boolean} isFinal
+ * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
+ */
+
+/**
+ * An entry in the ITEMS table: what a kind of thing is, as opposed to one you
+ * are carrying. Most fields only apply to some kinds.
+ * @typedef {Object} ItemDef
+ * @property {string} kind @property {string} name
+ * @property {number} [value] @property {string} [sprite] @property {string} [desc]
+ * @property {boolean} [stack]
+ * @property {[number, number, number]} [dmg] @property {number} [speed]
+ * @property {number} [range] @property {boolean} [twoHanded] @property {string[]} [cls]
+ * @property {number} [ac] @property {string} [weight] @property {number} [tier]
+ * @property {string} [effect] @property {[number, number, number]} [heal]
+ * @property {number} [food]
+ */
+
+/**
+ * How the player chose to play, fixed when the run begins.
+ * @typedef {Object} DungeonOptions
+ * @property {number} levels @property {string} size
+ * @property {string} monsters @property {string} treasure
+ * @property {boolean} lockedDoors @property {boolean} traps
+ * @property {boolean} [permadeath]
+ */
+
+/**
+ * Everything a save file holds.
+ * @typedef {Object} GameState
+ * @property {string} seed
+ * @property {DungeonOptions} opts
+ * @property {Player} player
+ * @property {Object<number, Level>} levels
+ * @property {number} depth
+ * @property {Array<{m: string, c: string}>} log
+ * @property {number} t                      elapsed game time in milliseconds
+ * @property {'playing'|'dead'|'won'} status
+ * @property {string|null} lastSpell
+ * @property {number} created @property {number} version
+ * @property {Object<string, {adj: string, sprite: string}>} looks
+ * @property {Object<string, number>} known
+ * @property {boolean} escaping
+ * @property {number} escapeStart @property {number} nextHunt @property {number} hunts
+ * @property {number} [escapeMs]
+ * @property {Array<{i: number, depth: number}>} journal
+ * @property {string[][]} pendingBoons
+ */
+
+export {};
