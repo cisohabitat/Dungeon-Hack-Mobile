@@ -251,10 +251,12 @@ test.describe('seeing the dice behind a swing', () => {
 
     const swing = async () => page.evaluate(async () => {
       const p = Game.player(), G = Game.state();
-      const before = G.log.length;
+      // count new lines by sequence, not by length: the log is capped
+      const before = G.logSeq;
       for (let i = 0; i < 12; i++) { G.t = p.nextAttack; Game.input('attack'); }
       await new Promise(r => setTimeout(r, 120));
-      return G.log.slice(before).map(e => e.m);
+      const n = G.logSeq - before;
+      return G.log.slice(-Math.min(n, G.log.length)).map(e => e.m);
     });
 
     const loud = await swing();

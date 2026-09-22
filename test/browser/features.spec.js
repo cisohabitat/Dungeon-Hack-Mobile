@@ -177,4 +177,52 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#item-detail button', { hasText: 'Off hand' })).toHaveCount(0);
     expect(errors).toEqual([]);
   });
+  test('the Use button says Descend when you face the stairs, and taking them works', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'use-descend' });
+    await clearBoons(page);
+    const btn = page.locator('[data-tap="use"]');
+    // stand on the approach square facing along the wall, then turn to the stair
+    const plan = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player();
+      L.monsters.length = 0;
+      for (const k in L.items) delete L.items[k];
+      const ds = L.downStart, toward = (ds.dir + 2) % 4;
+      p.x = ds.x; p.y = ds.y; p.dir = (toward + 1) % 4;
+      return { toward };
+    });
+    await page.waitForTimeout(150);
+    await expect(btn).not.toHaveText(/Descend/);
+    await page.evaluate(t => { Game.player().dir = t; }, plan.toward);
+    await expect(btn).toHaveText(/Descend/);
+    await expect(btn).toHaveClass(/ctx/);
+    await expect(btn).toHaveAttribute('aria-label', 'Descend');
+    await btn.click();
+    await expect.poll(() => page.evaluate(() => Game.state().depth)).toBe(2);
+    expect(errors).toEqual([]);
+  });
+
+  test('a scroll of mapping shows the whole level the moment the map opens', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'map-scroll', cls: 'Thief' });   // the thief starts with one
+    await clearBoons(page);
+    await page.click('[data-open="inv"]');
+    const idx = await page.evaluate(() => Game.player().inv.findIndex(i => /map/i.test(i.t)));
+    expect(idx, 'the thief should start with a scroll of mapping').toBeGreaterThanOrEqual(0);
+    await page.locator('#inv-grid .slot').nth(idx).click();
+    await page.locator('#item-detail button', { hasText: 'Read' }).click();
+    await page.keyboard.press('Escape');
+    await page.click('[data-open="map"]');
+    // no waiting: the playtest reported a sparse first look
+    const first = await page.evaluate(() => {
+      const c = document.getElementById('map-canvas'), L = Game.level();
+      const r = c.getBoundingClientRect();
+      return { all: L.explored.every(Boolean), tile: Number(c.dataset.tile), cols: c.width / Number(c.dataset.tile),
+        fits: r.right <= innerWidth + 1 && r.bottom <= innerHeight + 1 && r.left >= -1 };
+    });
+    expect(first.all, 'every square should be known').toBe(true);
+    expect(first.cols, 'the map should span the level, not the ten squares walked').toBeGreaterThan(20);
+    expect(first.fits, 'the whole map should be on screen').toBe(true);
+    expect(errors).toEqual([]);
+  });
 });

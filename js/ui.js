@@ -285,6 +285,7 @@ const UI = (() => {
 
   // ---------- HUD ----------
   function refreshHud() {
+    refreshUse();
     const G = Game.state();
     if (!G) return;
     const p = G.player;
@@ -316,6 +317,19 @@ const UI = (() => {
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     $('#hud-status').innerHTML = st.join('');
+  }
+  // The Use button names what it will do: a staircase you are facing should
+  // say Descend, not leave you to guess that Use means it.
+  let useSig = '';
+  function refreshUse() {
+    const label = Game.useLabel();
+    if (label === useSig) return;
+    useSig = label;
+    const btn = document.querySelector('[data-tap="use"]');
+    if (!btn) return;
+    btn.querySelector('small').textContent = label;
+    btn.setAttribute('aria-label', label);
+    btn.classList.toggle('ctx', label !== 'Use' && label !== 'Search');
   }
   function refreshLog() {
     const G = Game.state();
@@ -590,7 +604,7 @@ const UI = (() => {
     const b = ITEMS[it.t];
     box.classList.add('open');
     let info = itemBlurb(it);
-    if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].name + 's').join(', ')}.`;
+    if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
@@ -777,7 +791,7 @@ const UI = (() => {
     const p = Game.player();
     const spells = Game.knownSpells();
     list.innerHTML = '';
-    if (!spells.length) { list.innerHTML = `<p class="dim">${CLASSES[p.cls].name}s cannot cast spells, but anyone can read scrolls from their pack.</p>`; return; }
+    if (!spells.length) { list.innerHTML = `<p class="dim">${CLASSES[p.cls].plural} cannot cast spells, but anyone can read scrolls from their pack.</p>`; return; }
     list.innerHTML = `<p class="dim small">Spell points: <b>${p.sp}/${p.maxSp}</b>. They return slowly as you walk and fully when you rest.</p>`;
     for (const sp of spells) {
       const ok = Game.spellAvailable(sp);

@@ -282,6 +282,7 @@ function play(ctx, cls, seed, opts, bg) {
   rec.kills = p.kills;
   rec.goldFound = p.gold;
   rec.died = G.status === 'dead';
+  if (rec.died && !rec.cause) rec.cause = (G.lastAttacker && G.lastAttacker.name) || (p.food <= 0 ? 'starvation' : 'poison or a trap');
   rec.won = G.status === 'won';
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
@@ -289,7 +290,8 @@ function play(ctx, cls, seed, opts, bg) {
   return rec;
 }
 
-const opts = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
+// MONSTERS=many (or few) measures a density other than the default
+const opts = { levels: 8, size: 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
 // A fixed seed set so results are comparable between tuning passes. The dice are
 // seeded per run too, so the same command twice gives the same answer.
 const SEEDS = Array.from({ length: 20 }, (_, i) => 'bench' + i);
@@ -319,8 +321,18 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
+}
+// CAUSES=1 lists what ended the runs that never left the first floor
+if (process.env.CAUSES) {
+  const tally = {};
+  for (const cls in results) for (const r of results[cls]) {
+    if (!(r.died && r.deepest === 1)) continue;
+    const k = `${cls.padEnd(7)} ${r.cause || '?'} (level ${r.level || '?'})`;
+    tally[k] = (tally[k] || 0) + 1;
+  }
+  Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 14).forEach(([k, n]) => console.log(`   ${String(n).padStart(3)}  ${k}`));
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);
 }

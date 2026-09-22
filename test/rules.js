@@ -23,6 +23,15 @@ async function start(cls, seed, opts) {
   return ctx;
 }
 
+// Lines logged since a mark, read by count rather than position. The log is
+// capped at eighty, so once full its length stops moving and a slice from the
+// old length returns nothing at all: the same fault the message box had.
+const markLog = G => G.logSeq;
+const linesSince = (G, mark) => {
+  const n = G.logSeq - mark;
+  return n > 0 ? G.log.slice(-Math.min(n, G.log.length)).map(e => e.m) : [];
+};
+
 let failures = 0;
 async function test(name, fn) {
   try {
@@ -176,9 +185,9 @@ await test('the combat log shows the roll that decided the swing, and it is true
     L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
       awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
     G.t = p.nextAttack;
-    const before = G.log.length;
+    const before = markLog(G);
     Game.input('attack');
-    for (const e of G.log.slice(before)) lines.push(e.m);
+    lines.push(...linesSince(G, before));
   }
   const hits = lines.filter(l => /^You hit /.test(l));
   const misses = lines.filter(l => /^You miss /.test(l));
@@ -206,6 +215,10 @@ await test('blows that land on you show their roll too, and it is true', async (
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
   Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'incoming', opts: OPTS });
+  // The live dice are seeded from the clock. This test needs a natural one and
+  // a natural twenty to turn up, which forty-odd unseeded rolls missed about one
+  // run in five: seed them, and roll enough that neither can plausibly hide.
+  ctx.Dice.s = new ctx.Rng('incoming-rolls').s;
   const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
   // a straight run of floor, so an archer three squares off has a clear shot
   outer: for (let y = 1; y < L.h - 1; y++) for (let x = 1; x < L.w - 1; x++) for (let dir = 0; dir < 4; dir++) {
@@ -221,12 +234,12 @@ await test('blows that land on you show their roll too, and it is true', async (
     const m = { uid: 7, id, x: p.x + dx * dist, y: p.y + dy * dist, hp: 50, maxHp: 50, awake: true,
       nextAct: 0, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
     L.monsters.push(m);
-    for (let i = 0; i < 250; i++) {
+    for (let i = 0; i < 1500; i++) {
       p.hp = p.maxHp = 9999;               // the point is the log, not the funeral
       m.x = p.x + dx * dist; m.y = p.y + dy * dist;
-      const before = G.log.length;
+      const before = markLog(G);
       Game.update(G.t + 100, 100);
-      for (const e of G.log.slice(before)) lines.push(e.m);
+      lines.push(...linesSince(G, before));
     }
   }
   const incoming = lines.filter(l => /^The .* (hits you|misses you|at you)/.test(l));
@@ -258,7 +271,7 @@ await test('turning the rolls off silences them and survives a reload', async ()
   if (!Game.rollsShown()) return 'the rolls should be on to begin with';
   if (Game.toggleRolls() !== false) return 'toggling did not turn them off';
 
-  const before = G.log.length;
+  const before = markLog(G);
   for (let i = 0; i < 60; i++) {
     L.monsters.length = 0;
     L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
@@ -271,7 +284,7 @@ await test('turning the rolls off silences them and survives a reload', async ()
   L.monsters.push({ uid: 2, id: 'orc', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
     awake: true, nextAct: 0, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
   for (let i = 0; i < 40; i++) { p.hp = p.maxHp = 9999; Game.update(G.t + 100, 100); }
-  const quiet = G.log.slice(before).map(e => e.m);
+  const quiet = linesSince(G, before);
   if (!quiet.length) return 'no swings were logged at all';
   if (!quiet.some(l => /^The Orc (hits|misses) you/.test(l))) return 'the orc never swung back';
   if (quiet.some(l => /d20/.test(l))) return 'a roll was printed with the rolls turned off';
@@ -284,6 +297,198 @@ await test('turning the rolls off silences them and survives a reload', async ()
   if (/showRolls|"rolls"/.test(saved)) return 'the preference leaked into the save file';
   Game.toggleRolls();
   return Game.rollsShown() === true || 'toggling did not turn them back on';
+});
+
+await test('standing beside the stairs facing stone, the game points at them', async () => {
+  // The second playtest reached the stairs, faced the wall beside them, bumped
+  // it and searched it, and was told nothing useful either time.
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx, T = Dungeon.T;
+  Game.newGame({ name: 'S', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'stair-hint',
+    opts: { ...OPTS, lockedDoors: true, traps: true } });
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  for (const k in L.items) delete L.items[k];
+  let now = 0;
+  const settle = () => { for (let i = 0; i < 20; i++) { now += 50; Game.update(now, 50); } };
+  const say = fn => { const m = markLog(G); fn(); settle(); return linesSince(G, m).join(' | '); };
+  const ds = L.downStart, toward = (ds.dir + 2) % 4;     // arrival faces away from the stair
+  // a square beside the approach, along the wall
+  let side = null;
+  for (const turn of [1, 3]) {
+    const k = (toward + turn) % 4, sx = ds.x - Dungeon.DIRS[k][0], sy = ds.y - Dungeon.DIRS[k][1];
+    if (L.tiles[sy * L.w + sx] === T.FLOOR) { side = { x: sx, y: sy, dir: k, turn }; break; }
+  }
+  if (!side) return 'no floor beside the stair approach on this seed';
+  p.x = side.x; p.y = side.y; p.dir = side.dir; settle();
+  const stepped = say(() => Game.input('forward'));
+  const where = side.turn === 1 ? 'on your left' : 'on your right';
+  if (!stepped.includes(`Stairs lead down, ${where}`)) return `stepping alongside said: "${stepped}"`;
+  // stepping again beside the same stair must not repeat it
+  // now face the wall that is not the stair, bump it and search it
+  let wall = -1;
+  for (let k = 0; k < 4; k++) if (k !== toward && L.tiles[(p.y + Dungeon.DIRS[k][1]) * L.w + (p.x + Dungeon.DIRS[k][0])] === T.WALL) wall = k;
+  if (wall < 0) return 'no plain wall beside the approach';
+  p.dir = wall;
+  if (Game.useLabel() !== 'Search') return `facing a wall, Use says "${Game.useLabel()}"`;
+  const bump = say(() => Game.input('forward'));
+  if (!/A wall blocks your path\. The stairs down are (on your left|on your right|behind you)\./.test(bump)) return `the bump said: "${bump}"`;
+  const search = say(() => Game.input('use'));
+  if (!/You search the wall but find nothing\. The stairs down are /.test(search)) return `the search said: "${search}"`;
+  // face them: the button says what it will do, and doing it works
+  p.dir = toward;
+  if (Game.useLabel() !== 'Descend') return `facing the stair, Use says "${Game.useLabel()}"`;
+  say(() => Game.input('use'));
+  return G.depth === 2 || `Use on the stair left you on level ${G.depth}`;
+});
+
+await test('the Use button names each thing it can do', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx, T = Dungeon.T;
+  Game.newGame({ name: 'U', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'use-label', opts: OPTS });
+  const p = Game.player(), L = Game.level();
+  L.monsters.length = 0;
+  for (const k in L.items) delete L.items[k];
+  const ahead = () => { const [dx, dy] = Dungeon.DIRS[p.dir]; return (p.y + dy) * L.w + (p.x + dx); };
+  const was = L.tiles[ahead()];
+  const expect = [[T.DOOR, 'Open'], [T.DOOR_LOCKED, 'Unlock'], [T.STAIRS_DOWN, 'Descend'], [T.FOUNTAIN, 'Drink'],
+    [T.DOOR_OPEN, 'Close'], [T.WALL, 'Search'], [T.TORCH, 'Search'], [T.SECRET, 'Search'], [T.FLOOR, 'Use']];
+  for (const [t, want] of expect) {
+    L.tiles[ahead()] = t;
+    if (Game.useLabel() !== want) return `facing tile ${t}, Use says "${Game.useLabel()}", wanted "${want}"`;
+  }
+  L.tiles[ahead()] = T.FLOOR;
+  // a hidden door must not label differently from the wall it hides in
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.monsters.push({ uid: 5, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 3, maxHp: 3, awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  if (Game.useLabel() !== 'Attack') return `facing a rat, Use says "${Game.useLabel()}"`;
+  L.monsters.length = 0;
+  (L.items[p.x + ',' + p.y] = []).push({ t: 'ration', q: 1 });
+  if (Game.useLabel() !== 'Take') return `standing on a ration, Use says "${Game.useLabel()}"`;
+  delete L.items[p.x + ',' + p.y];
+  L.tiles[ahead()] = was;
+  return true;
+});
+
+await test('a monster that wakes beside you growls before it strikes', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'W', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'wake', opts: OPTS });
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  // beside you but not in front: you start with the stairs at your back, so
+  // take whichever flank is open floor
+  const k = [1, 3, 2].map(r => (p.dir + r) % 4).find(k => L.tiles[(p.y + Dungeon.DIRS[k][1]) * L.w + (p.x + Dungeon.DIRS[k][0])] === T.FLOOR);
+  if (k === undefined) return 'the start square has no open flank on this seed';
+  const [dx, dy] = Dungeon.DIRS[k];
+  L.monsters.length = 0;
+  const m = { uid: 9, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 20, maxHp: 20, awake: false, nextAct: 0,
+    rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+  L.monsters.push(m);
+  const hp0 = p.hp;
+  const mark = markLog(G);
+  Game.update(G.t + 16, 16);                                 // one frame
+  if (!m.awake) return 'a goblin at your back did not notice you';
+  if (linesSince(G, mark).some(l => /Goblin (hits|misses) you/.test(l)) || p.hp < hp0) return 'it struck in the same frame it woke';
+  // well inside the beat: still nothing
+  for (let t = 0; t < 400; t += 50) Game.update(G.t + 50, 50);
+  if (linesSince(G, mark).some(l => /Goblin (hits|misses) you/.test(l))) return 'it struck inside the warning beat';
+  // after it: it gets its swing
+  for (let t = 0; t < 1500; t += 50) { p.hp = p.maxHp; Game.update(G.t + 50, 50); }
+  return linesSince(G, mark).some(l => /Goblin (hits|misses) you/.test(l)) || 'it never swung at all';
+});
+
+await test('blows from several attackers land one at a time', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon, Rng } = ctx;
+  Game.newGame({ name: 'B', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'crowd', opts: OPTS });
+  ctx.Dice.s = new Rng('crowd').s;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  // surround the hero, all set to swing on the same instant
+  for (let k = 0; k < 4; k++) {
+    const [dx, dy] = Dungeon.DIRS[k];
+    L.monsters.push({ uid: 20 + k, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, nextAct: G.t,
+      rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  }
+  const times = [];
+  for (let i = 0; i < 400; i++) {
+    p.hp = p.maxHp = 9999;
+    const mark = markLog(G);
+    Game.update(G.t + 10, 10);
+    for (const l of linesSince(G, mark)) if (/Rat (hits|misses) you/.test(l)) times.push(G.t);
+  }
+  if (times.length < 6) return `only ${times.length} blows in four seconds from four rats`;
+  for (let i = 1; i < times.length; i++) {
+    if (times[i] - times[i - 1] < 250) return `two blows landed ${times[i] - times[i - 1]}ms apart`;
+  }
+  return true;
+});
+
+await test('a warning marker points at anything closing in from out of sight', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'M', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'threat', opts: OPTS });
+  const p = Game.player(), L = Game.level();
+  const side = ['ahead', 'right', 'behind', 'left'];
+  // [forward, right, what the marker should say]
+  const cases = [[1, 0, null], [2, 0, null], [0, 1, 'right near'], [-1, 0, 'behind near'], [0, -1, 'left near'],
+    [0, 2, 'right far'], [-2, 0, 'behind far'], [1, 1, 'right far'], [-1, -1, 'left far'], [3, 0, null], [0, 3, null]];
+  for (let dir = 0; dir < 4; dir++) {
+    p.dir = dir;
+    const F = Dungeon.DIRS[dir], R = Dungeon.DIRS[(dir + 1) % 4];
+    for (const [f, r, want] of cases) {
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 1, id: 'goblin', x: p.x + F[0] * f + R[0] * r, y: p.y + F[1] * f + R[1] * r, hp: 5, maxHp: 5,
+        awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const t = Game.renderState(0).fx.threats;
+      const got = t.length ? `${side[t[0].rel]} ${t[0].near ? 'near' : 'far'}` : null;
+      if (got !== want) return `facing ${dir}, a goblin ${f} ahead and ${r} right showed ${got}, wanted ${want}`;
+    }
+  }
+  // a sleeping or fleeing one is no threat
+  L.monsters[0].x = p.x - Dungeon.DIRS[p.dir][0]; L.monsters[0].y = p.y - Dungeon.DIRS[p.dir][1];
+  L.monsters[0].awake = false;
+  if (Game.renderState(0).fx.threats.length) return 'a sleeping monster raised the alarm';
+  L.monsters[0].awake = true; L.monsters[0].fleeing = true;
+  return Game.renderState(0).fx.threats.length === 0 || 'a fleeing monster raised the alarm';
+});
+
+await test('every class starts with at least ten hit points', async () => {
+  for (const cls of ['fighter', 'cleric', 'mage', 'thief']) {
+    for (let i = 0; i < 60; i++) {
+      const ctx = await newContext();
+      ctx.Game.newGame({ name: 'H', cls, bg: 'oathbroken', stats: ctx.Game.rollStats(), seed: 'hp' + i, opts: OPTS });
+      const hp = ctx.Game.player().maxHp;
+      if (hp < 10) return `a ${cls} started on ${hp} hit points`;
+    }
+  }
+  return true;
+});
+
+await test('a crowded dungeon starts crowding from the second floor', async () => {
+  for (let i = 0; i < 12; i++) {
+    const seed = 'dense' + i;
+    const at = (monsters, depth) => {
+      const L = (/** @type {any} */ (globalThis).__D).generate(seed, depth, { ...OPTS, levels: 8, size: 'medium', monsters });
+      return L.monsters.length;
+    };
+    const ctx = await newContext();
+    /** @type {any} */ (globalThis).__D = ctx.Dungeon;
+    if (at('many', 1) !== at('normal', 1)) return `${seed}: floor one on Many held ${at('many', 1)}, on Normal ${at('normal', 1)}`;
+    if (!(at('many', 2) > at('normal', 2))) return `${seed}: floor two on Many was no busier than Normal`;
+  }
+  return true;
+});
+
+await test('class names are pluralised as words, not by adding an s', async () => {
+  const ctx = await newContext();
+  const { Game } = ctx;
+  Game.newGame({ name: 'P', cls: 'thief', bg: 'oathbroken', stats: { ...evenStats }, seed: 'plural', opts: OPTS });
+  const p = Game.player();
+  p.inv.push({ t: 'plate', q: 1, e: 0 });
+  const why = Game.canEquip(p.inv[p.inv.length - 1]) || '';
+  if (/Thiefs/.test(why)) return `the refusal read "${why}"`;
+  return /Thieves/.test(why) || `expected "Thieves" in "${why}"`;
 });
 
 await test('using the last of a stack removes its slot', async () => {

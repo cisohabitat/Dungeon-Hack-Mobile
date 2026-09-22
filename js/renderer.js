@@ -277,6 +277,32 @@ const Renderer = (() => {
       else if (fx.hurtFrom === 1) ctx.fillRect(W - bw, 0, bw, H);
       else ctx.fillRect(0, 0, bw, H);
     }
+    // A chevron on the edge nearest anything that can reach you from out of
+    // sight: pulsing when it is beside you, steady when it is a step away.
+    if (fx.threats && fx.threats.length) {
+      const drawn = new Set();
+      for (const t of fx.threats) {
+        if (drawn.has(t.rel)) continue;        // one per side; nearest wins, it is sorted first
+        drawn.add(t.rel);
+        const a = t.near ? 0.6 + 0.35 * Math.sin(now / 110) : 0.45;
+        const s = t.near ? 9 : 7;
+        let cx, cy, ang;
+        if (t.rel === 1) { cx = W - 10; cy = H / 2; ang = 0; }
+        else if (t.rel === 3) { cx = 10; cy = H / 2; ang = Math.PI; }
+        else { cx = W / 2; cy = H - 10; ang = Math.PI / 2; }
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(ang);
+        ctx.globalAlpha = a;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(-s * 0.6, -s); ctx.lineTo(s * 0.5, 0); ctx.lineTo(-s * 0.6, s);
+        ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(0,0,0,0.8)'; ctx.stroke();
+        ctx.lineWidth = 2.5; ctx.strokeStyle = '#ff5a48'; ctx.stroke();
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+    }
     if (now < fx.healUntil) {
       const a = (fx.healUntil - now) / 260;
       ctx.fillStyle = 'rgba(80,220,120,1)';

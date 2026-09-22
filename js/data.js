@@ -96,22 +96,22 @@ const MAX_LEVEL = 12;
 
 const CLASSES = {
   fighter: {
-    name: 'Fighter', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
+    name: 'Fighter', plural: 'Fighters', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armor, and the only one trained to fight with a blade in each hand.',
     startKit: ['longsword', 'chain', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead.',
     startKit: ['mace', 'studded', 'buckler', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', hitDie: 4, hitProg: 1 / 3, armor: 'none', shield: false, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 4, hitProg: 1 / 3, armor: 'none', shield: false, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar wielding devastating bolts of force and flame.',
     startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', hitDie: 8, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'Quick and cunning. Disarms traps and strikes sleeping foes twice as hard.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },

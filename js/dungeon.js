@@ -220,7 +220,10 @@ const Dungeon = (() => {
     };
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && depth >= MONSTERS[id].tier[0] && depth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
-    const density = { few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1;
+    // The first floor is where the controls are learned, so a crowded setting
+    // starts from the second: at full density a third to a half of runs on
+    // Many ended before the stairs were found, most at character level one.
+    const density = Math.min({ few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1, depth === 1 ? 1.0 : Infinity);
     const count = Math.round(rooms.length * density * 0.85) + Math.floor(depth / 3);
     const mCands = [];
     for (let i = 0; i < w * h; i++) {

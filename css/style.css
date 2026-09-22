@@ -275,3 +275,7 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
   .logo-rule::before { display: none; }
   .title-fade { background: linear-gradient(to right, rgba(11,10,16,0.3) 0%, rgba(11,10,16,0.55) 45%, rgba(11,10,16,0.88) 100%); }
 }
+
+/* the Use button lights up when it has something specific to do */
+.ctl.ctx { border-color: var(--gold); color: var(--gold); }
+.ctl.ctx small { color: var(--gold); }

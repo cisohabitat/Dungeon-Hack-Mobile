@@ -142,6 +142,7 @@
  * @property {string[][]} pendingBoons
  * @property {{name: string, dmg: number, bearing: string}} [lastAttacker]
  * @property {string[]} [deathLog]
+ * @property {number} [blowGate]   no monster blow may land on you before this time
  */
 
 export {};

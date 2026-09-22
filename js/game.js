@@ -124,8 +124,8 @@ const Game = (() => {
   function offhandReason(it) {
     const p = P(), b = ITEMS[it.t];
     if (!b || b.kind !== 'weapon') return 'That is not a weapon.';
-    if (!CLASSES[p.cls].dualWield) return `${CLASSES[p.cls].name}s fight with one blade.`;
-    if (!b.cls.includes(p.cls)) return `${CLASSES[p.cls].name}s cannot wield a ${b.name.toLowerCase()}.`;
+    if (!CLASSES[p.cls].dualWield) return `${CLASSES[p.cls].plural} fight with one blade.`;
+    if (!b.cls.includes(p.cls)) return `${CLASSES[p.cls].plural} cannot wield a ${b.name.toLowerCase()}.`;
     if (b.twoHanded) return 'A two-handed weapon needs both hands.';
     if (b.range) return 'You cannot fence with a missile weapon.';
     if (b.speed > OFFHAND_MAX_SPEED) return `A ${b.name.toLowerCase()} is too heavy for the off hand.`;
@@ -231,14 +231,14 @@ const Game = (() => {
   }
   function canEquip(it) {
     const p = P(), b = ITEMS[it.t], c = cls();
-    if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.name}s cannot wield a ${b.name.toLowerCase()}.`;
+    if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield a ${b.name.toLowerCase()}.`;
     if (b.kind === 'armor') {
-      if (c.armor === 'none') return `${c.name}s cannot wear armor.`;
-      if (c.armor === 'light' && b.weight !== 'light') return `${c.name}s can only wear light armor.`;
+      if (c.armor === 'none') return `${c.plural} cannot wear armor.`;
+      if (c.armor === 'light' && b.weight !== 'light') return `${c.plural} can only wear light armor.`;
       return null;
     }
     if (b.kind === 'shield') {
-      if (!c.shield) return `${c.name}s cannot use shields.`;
+      if (!c.shield) return `${c.plural} cannot use shields.`;
       if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) return 'You need a free hand for a shield.';
       if (p.eq.offhand) return 'Your off hand is holding a weapon.';
       return null;
@@ -471,7 +471,11 @@ const Game = (() => {
     if (bg === 'ashborn') p.stats.con++;
     if (bg === 'oathbroken') p.perkHit = 1;
     if (bg === 'debtor') p.gold = 150;
-    p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
+    // A level-one mage used to start on six to eight hit points, which two
+    // goblin blows could take, and a fifth of runs never left the first floor.
+    // Starting a little sturdier costs nothing by the fourth floor, where
+    // levels have added far more than this.
+    p.maxHp = Math.max(10, c.hitDie + 6 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
@@ -495,6 +499,9 @@ const Game = (() => {
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
+    // you arrive beside the stair you came by; that one needs no announcing
+    const came = stairsBeside();
+    besideKey = came ? came.key : '';
     for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; }
     shop = null;
     snapCam();
@@ -525,12 +532,61 @@ const Game = (() => {
   }
 
   // ---------- movement ----------
+  // ---------- finding the way on ----------
+  // A staircase is a block set into the wall, so you can stand right beside
+  // one and be facing stone. The two moments a player does that and then asks
+  // the game for help, bumping the wall and searching it, used to answer with
+  // nothing useful. Point at the stairs instead.
+  const SIDE_WORDS = ['ahead', 'on your right', 'behind you', 'on your left'];
+  let besideKey = '';
+  function stairsBeside() {
+    const p = P();
+    for (let k = 0; k < 4; k++) {
+      const sx = p.x + DIRS[k][0], sy = p.y + DIRS[k][1], t = tile(sx, sy);
+      if (t !== T.STAIRS_DOWN && t !== T.STAIRS_UP) continue;
+      // the entrance stays sealed until you carry the Heart, so it is no way on
+      if (t === T.STAIRS_UP && G.depth === 1 && !G.escaping) continue;
+      const rel = (k - p.dir + 4) % 4;
+      if (rel === 0) continue;
+      return { down: t === T.STAIRS_DOWN, rel, word: SIDE_WORDS[rel], key: `${G.depth}:${sx},${sy}` };
+    }
+    return null;
+  }
+  function stairHint() {
+    const s = stairsBeside();
+    return s ? ` The stairs ${s.down ? 'down' : 'up'} are ${s.word}.` : '';
+  }
+  // Say so once when a step brings a staircase alongside, not on every step.
+  function noticeStairs() {
+    const s = stairsBeside();
+    const k = s ? s.key : '';
+    if (s && k !== besideKey) log(`Stairs lead ${s.down ? 'down' : 'up'}, ${s.word}.`, 'info');
+    besideKey = k;
+  }
+  /** What Use will do right now, so the button can say it. Mirrors use(). */
+  function useLabel() {
+    if (!G || G.status !== 'playing') return 'Use';
+    const p = P();
+    if (floorItems().length) return 'Take';
+    const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1], t = tile(tx, ty);
+    if (t === T.DOOR) return 'Open';
+    if (t === T.DOOR_LOCKED) return 'Unlock';
+    if (t === T.STAIRS_DOWN) return 'Descend';
+    if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : (G.escaping ? 'Escape' : 'Use');
+    if (t === T.FOUNTAIN) return 'Drink';
+    if (npcAt(tx, ty)) return 'Trade';
+    if (monsterAt(tx, ty)) return 'Attack';
+    if (t === T.DOOR_OPEN) return 'Close';
+    // a hidden door reads as wall until found, so it must not label differently
+    if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
+    return 'Use';
+  }
   function tryMove(rel) {
     const p = P();
     const dir = (p.dir + rel) % 4;
     const nx = p.x + DIRS[dir][0], ny = p.y + DIRS[dir][1];
     const t = tile(nx, ny);
-    if (t === T.WALL || t === T.TORCH) { blocked('A wall blocks your path.'); return false; }
+    if (t === T.WALL || t === T.TORCH) { blocked('A wall blocks your path.' + stairHint()); return false; }
     if (t === T.DOOR) { openDoor(nx, ny); return true; }
     if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny); return true; }
     if (t === T.STAIRS_DOWN) { descend(); return true; }
@@ -551,6 +607,7 @@ const Game = (() => {
     const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0);
     if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < eye) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
+    if (G.status === 'playing') noticeStairs();
     return true;
   }
   function turn(dd) {
@@ -660,7 +717,7 @@ const Game = (() => {
     const ahead = npcAt(tx, ty);
     if (ahead) return openShop(ahead);
     if (monsterAt(tx, ty)) return attack();
-    if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.'); return; }
+    if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
@@ -1176,6 +1233,8 @@ const Game = (() => {
     if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
     if (mb.drain && Math.random() < 0.25) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
   }
+  const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
+  const BLOW_GAP = 250;    // ms between any two blows landing on you
   function updateMonsters() {
     const L = lvl(), p = P();
     ensureDist();
@@ -1186,7 +1245,10 @@ const Game = (() => {
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
         const notice = P().bg === 'deepborn' ? 4 : 6;
-        if (di >= 0 && di <= notice) { m.awake = true; Sound.play('growl'); }
+        // Waking is not acting. The growl used to land in the same frame as the
+        // first blow from anything that woke beside you, so the only warning was
+        // the damage. Give the growl a beat to be heard and turned toward.
+        if (di >= 0 && di <= notice) { m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT; continue; }
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 12) {
@@ -1211,8 +1273,14 @@ const Game = (() => {
         if (away) { moveMonster(m, away[0], away[1]); m.nextAct = G.t + mb.speed; continue; }
         m.fleeing = false; // cornered: fight on
       }
-      if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) { monsterAttack(m); m.nextAct = G.t + mb.speed; if (G.status !== 'playing') return; continue; }
-      if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) { rangedAttack(m); m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
+      const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+      const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range);
+      // Blows from several attackers used to land in one frame, read as one
+      // hit, and kill faster than anyone could turn. Space them so each one
+      // is its own flash, sound and line of the log.
+      if ((adjacent || shot) && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
+      if (adjacent) { monsterAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; if (G.status !== 'playing') return; continue; }
+      if (shot) { rangedAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
       let best = null, bd = di;
       for (const [dx, dy] of DIRS) {
         const nx = m.x + dx, ny = m.y + dy;
@@ -1284,6 +1352,35 @@ const Game = (() => {
   }
 
   // ---------- render state ----------
+  /**
+   * What is about to hit you from somewhere you are not looking. The damage
+   * flash only says where a blow came from after it lands; this says where
+   * the next one is coming from before it does. Anything in front is already
+   * on screen, so only flanks and rear are reported, nearest first.
+   * @returns {Array<{rel: number, near: boolean}>}
+   */
+  function threats() {
+    if (!G || G.status !== 'playing') return [];
+    const p = P(), out = [];
+    for (const m of lvl().monsters) {
+      if (!m.awake || m.fleeing) continue;
+      const dx = m.x - p.x, dy = m.y - p.y, dist = Math.abs(dx) + Math.abs(dy);
+      if (dist > 2) continue;
+      // the side it is on: the longer axis, and a diagonal counts as the flank
+      const ax = Math.abs(dx) >= Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)];
+      let k = DIRS.findIndex(([x, y]) => x === ax[0] && y === ax[1]);
+      let rel = (k - p.dir + 4) % 4;
+      if (Math.abs(dx) === Math.abs(dy)) {
+        // equal both ways: report whichever of the two sides is not straight ahead or behind
+        const k2 = DIRS.findIndex(([x, y]) => x === 0 && y === Math.sign(dy));
+        const r2 = (k2 - p.dir + 4) % 4;
+        if (rel === 0 || rel === 2) rel = r2;
+      }
+      if (rel === 0) continue;
+      out.push({ rel, near: dist === 1 });
+    }
+    return out.sort((a, b) => Number(b.near) - Number(a.near));
+  }
   function renderState(now) {
     const L = lvl();
     const sprites = [];
@@ -1308,6 +1405,7 @@ const Game = (() => {
       const it = list[list.length - 1];
       sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.5 : 0.32, yOff: it.t === 'artifact' ? 0.1 + Math.sin(now / 300) * 0.03 : 0 });
     }
+    fx.threats = threats();
     return { level: L, cam, sprites, fx };
   }
 
@@ -1369,7 +1467,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls,
+    offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
