@@ -169,6 +169,92 @@ const Assets = (() => {
     return c;
   }
 
+  // Floor and ceiling textures are stored as Uint32 pixel arrays at 8 darkness
+  // levels so the floor caster can copy pixels without per-pixel math.
+  const FLOOR_LEVELS = 8;
+  function toLevels(c) {
+    const data = c.getContext('2d').getImageData(0, 0, TEX, TEX).data;
+    const out = [];
+    for (let l = 0; l < FLOOR_LEVELS; l++) {
+      const f = 1 - l / (FLOOR_LEVELS - 1);
+      const arr = new Uint32Array(TEX * TEX);
+      for (let i = 0; i < TEX * TEX; i++) {
+        const r = (data[i * 4] * f) | 0, g = (data[i * 4 + 1] * f) | 0, b = (data[i * 4 + 2] * f) | 0;
+        arr[i] = 0xff000000 | (b << 16) | (g << 8) | r;
+      }
+      out.push(arr);
+    }
+    return out;
+  }
+  function makeFloor(theme, seed) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    ctx.fillStyle = adjust(theme.floor, -18);
+    ctx.fillRect(0, 0, TEX, TEX);
+    const n = 4, s = TEX / n;
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+      const sh = rng.int(-10, 10);
+      ctx.fillStyle = adjust(theme.floor, sh + 6);
+      ctx.fillRect(x * s + 1, y * s + 1, s - 2, s - 2);
+      ctx.fillStyle = adjust(theme.floor, sh + 16);
+      ctx.fillRect(x * s + 1, y * s + 1, s - 2, 1);
+      ctx.fillStyle = adjust(theme.floor, sh - 10);
+      ctx.fillRect(x * s + 1, y * s + s - 2, s - 2, 1);
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      for (let k = 0; k < 6; k++) ctx.fillRect(x * s + rng.int(2, s - 3), y * s + rng.int(2, s - 3), 1, 1);
+    }
+    return c;
+  }
+  function makeCeiling(theme, seed) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    ctx.fillStyle = theme.ceil;
+    ctx.fillRect(0, 0, TEX, TEX);
+    for (let i = 0; i < 260; i++) {
+      ctx.fillStyle = adjust(theme.ceil, rng.int(-10, 14));
+      ctx.fillRect(rng.int(0, TEX - 1), rng.int(0, TEX - 1), rng.int(1, 3), rng.int(1, 2));
+    }
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    for (let i = 0; i < 4; i++) { let x = rng.int(0, TEX - 1); for (let y = 0; y < TEX; y += 2) { ctx.fillRect(x, y, 1, 2); x = (x + rng.int(-1, 1) + TEX) % TEX; } }
+    return c;
+  }
+  function makeFountain(theme, wallTex, dry) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    ctx.drawImage(wallTex, 0, 0);
+    // carved niche
+    ctx.fillStyle = '#101018';
+    ctx.beginPath();
+    ctx.moveTo(14, 40); ctx.lineTo(14, 18); ctx.quadraticCurveTo(32, 2, 50, 18); ctx.lineTo(50, 40); ctx.closePath(); ctx.fill();
+    // spout face
+    ctx.fillStyle = '#7a7a84';
+    ctx.fillRect(28, 18, 8, 8);
+    ctx.fillStyle = '#3a3a44';
+    ctx.fillRect(30, 20, 4, 4);
+    // basin
+    ctx.fillStyle = '#5a5a66';
+    ctx.fillRect(8, 40, 48, 18);
+    ctx.fillStyle = '#8a8a94';
+    ctx.fillRect(8, 40, 48, 2);
+    ctx.fillStyle = '#3a3a44';
+    ctx.fillRect(10, 44, 44, 12);
+    if (!dry) {
+      ctx.fillStyle = '#3070c0';
+      ctx.fillRect(11, 45, 42, 10);
+      ctx.fillStyle = '#7ab0f0';
+      for (let i = 0; i < 8; i++) ctx.fillRect(13 + i * 5, 46 + (i % 2) * 3, 3, 1);
+      // falling water
+      ctx.fillStyle = '#9ac8ff';
+      ctx.fillRect(31, 26, 2, 19);
+    } else {
+      ctx.fillStyle = '#2a2a30';
+      ctx.fillRect(11, 47, 42, 8);
+    }
+    return c;
+  }
+
   function makeTheme(theme, i) {
     const wall = makeWall(theme, 'wall' + i, false);
     const wallCracked = makeWall(theme, 'crack' + i, true);
@@ -180,6 +266,10 @@ const Assets = (() => {
       locked,
       stairsDown: makeStairs(theme, wall, true),
       stairsUp: makeStairs(theme, wall, false),
+      fountain: makeFountain(theme, wall, false),
+      fountainDry: makeFountain(theme, wall, true),
+      floor: toLevels(makeFloor(theme, 'floor' + i)),
+      ceil: toLevels(makeCeiling(theme, 'ceil' + i)),
       theme,
     };
   }
@@ -189,5 +279,5 @@ const Assets = (() => {
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 
-  return { init, sprites, themes, SHADES };
+  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX };
 })();

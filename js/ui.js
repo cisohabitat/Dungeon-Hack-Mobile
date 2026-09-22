@@ -8,7 +8,7 @@ const UI = (() => {
   let overlay = null;
   let create = { cls: 'fighter', stats: null };
   let selectedItem = null, selectedSlot = null;
-  let logCount = -1, hudSig = '';
+  let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
 
   function showScreen(id) {
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
@@ -130,6 +130,58 @@ const UI = (() => {
   }
   function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
 
+  // Small live automap in the corner of the view, 15x15 tiles around the player.
+  function refreshMinimap(now) {
+    if (now - miniAt < 120) return;
+    miniAt = now;
+    const L = Game.level(), p = Game.player();
+    const R = 7, size = 6;
+    const sig = [p.x, p.y, p.dir, L.depth].join(',');
+    const c = $('#minimap');
+    const ctx = c.getContext('2d');
+    const T = Dungeon.T;
+    ctx.fillStyle = 'rgba(5,5,10,0.6)';
+    ctx.fillRect(0, 0, c.width, c.height);
+    for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+      const x = p.x + dx, y = p.y + dy;
+      if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
+      const t = L.tiles[y * L.w + x];
+      let col = '#1c1a26';
+      if (t === T.WALL || t === T.SECRET) col = '#5a5670';
+      else if (t === T.DOOR) col = '#a0783c';
+      else if (t === T.DOOR_OPEN) col = '#6a5030';
+      else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
+      else if (t === T.STAIRS_DOWN) col = '#e0c060';
+      else if (t === T.STAIRS_UP) col = '#80c0e0';
+      else if (t === T.FOUNTAIN) col = '#4090e0';
+      ctx.fillStyle = col;
+      ctx.fillRect((dx + R) * size, (dy + R) * size, size, size);
+    }
+    for (const m of L.monsters) {
+      const dx = m.x - p.x, dy = m.y - p.y;
+      if (Math.abs(dx) > R || Math.abs(dy) > R || !L.explored[m.y * L.w + m.x] || !m.awake) continue;
+      ctx.fillStyle = '#e04030';
+      ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
+    }
+    ctx.save();
+    ctx.translate(R * size + size / 2, R * size + size / 2);
+    ctx.rotate(p.dir * Math.PI / 2);
+    ctx.fillStyle = '#ff6a50';
+    ctx.beginPath(); ctx.moveTo(0, -3.5); ctx.lineTo(3, 3); ctx.lineTo(-3, 3); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    miniSig = sig;
+  }
+  function renderLogHistory() {
+    const G = Game.state();
+    $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('') + '</div>';
+  }
+  function renderHall() {
+    const list = Game.hall();
+    const el = $('#hall-list');
+    if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)} the ${CLASSES[h.cls] ? CLASSES[h.cls].name : h.cls} ${h.level}<small>${h.won ? 'Claimed the Heart' : 'Fell on level ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}</span></div>`).join('') + '</div>';
+  }
+
   // ---------- overlays ----------
   function openOverlay(name) {
     closeOverlay();
@@ -142,6 +194,7 @@ const UI = (() => {
     if (name === 'spells') renderSpells();
     if (name === 'char') renderChar();
     if (name === 'menu') renderMenu();
+    if (name === 'log') renderLogHistory();
   }
   function closeOverlay() {
     if (!overlay) return;
@@ -341,7 +394,7 @@ const UI = (() => {
   function bindControls() {
     for (const b of $$('.ctl[data-act]')) {
       const act = b.dataset.act;
-      const down = e => { e.preventDefault(); Sound.unlock(); held.add(act); b.classList.add('held'); Game.input(act); };
+      const down = e => { e.preventDefault(); Sound.unlock(); try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } held.add(act); b.classList.add('held'); Game.input(act); };
       const up = e => { if (e) e.preventDefault(); held.delete(act); b.classList.remove('held'); };
       b.addEventListener('pointerdown', down);
       b.addEventListener('pointerup', up);
@@ -353,6 +406,23 @@ const UI = (() => {
       b.addEventListener('click', () => { Sound.unlock(); Game.input(b.dataset.tap); });
     }
     for (const b of $$('[data-open]')) b.addEventListener('click', () => { Sound.unlock(); openOverlay(b.dataset.open); });
+    $('#minimap').addEventListener('click', () => openOverlay('map'));
+    $('#log').addEventListener('click', () => openOverlay('log'));
+
+    // Tap the view to act, swipe to turn or step.
+    const view = $('#view');
+    let swipe = null;
+    view.addEventListener('pointerdown', e => { e.preventDefault(); Sound.unlock(); swipe = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+    view.addEventListener('pointerup', e => {
+      if (!swipe) return;
+      const dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+      const dist = Math.hypot(dx, dy);
+      swipe = null;
+      if (dist < 24) { Game.input('use'); return; }
+      if (Math.abs(dx) > Math.abs(dy)) Game.input(dx > 0 ? 'right' : 'left');
+      else Game.input(dy < 0 ? 'forward' : 'back');
+    });
+    view.addEventListener('pointercancel', () => { swipe = null; });
     for (const b of $$('[data-close]')) b.addEventListener('click', () => closeOverlay());
     $('#m-save').addEventListener('click', () => { Game.save(); closeOverlay(); });
     $('#m-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
@@ -395,6 +465,8 @@ const UI = (() => {
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); create.stats = Game.rollStats(); buildCreate(); showScreen('screen-create'); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => showScreen('screen-help'));
+    $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
+    $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
     $('#c-reroll').addEventListener('click', () => { create.stats = Game.rollStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
@@ -408,5 +480,5 @@ const UI = (() => {
     window.addEventListener('resize', () => { if (overlay === 'map') renderMap(); });
   }
 
-  return { init, paused, pumpHeld, refreshHud, refreshLog, handleEvents, showScreen, isPlaying: () => $('#screen-game').classList.contains('active') };
+  return { init, paused, pumpHeld, refreshHud, refreshLog, refreshMinimap, handleEvents, showScreen, isPlaying: () => $('#screen-game').classList.contains('active') };
 })();

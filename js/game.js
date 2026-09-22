@@ -6,13 +6,15 @@ const Game = (() => {
   const DIRS = Dungeon.DIRS;
   const INV_MAX = 20;
   const SAVE_KEY = 'deepdelve.save';
+  const HALL_KEY = 'deepdelve.hall';
   const MOVE_MS = 220;
   const TURN_MS = 200;
 
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
-  const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, castColor: '#fff', texts: [] };
+  const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0, castColor: '#fff', texts: [] };
+  const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
 
@@ -267,7 +269,7 @@ const Game = (() => {
       inv: [], eq: { weapon: null, armor: null, shield: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
     };
-    p.maxHp = Math.max(4, c.hitDie + mod(p.stats.con));
+    p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 1 };
@@ -323,12 +325,16 @@ const Game = (() => {
     if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny); return true; }
     if (t === T.STAIRS_DOWN) { descend(); return true; }
     if (t === T.STAIRS_UP) { ascend(); return true; }
+    if (t === T.SECRET) { revealSecret(nx, ny, false); return true; }
+    if (t === T.FOUNTAIN) { drinkFountain(nx, ny); return true; }
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     p.x = nx; p.y = ny; p.steps++;
     startCam(MOVE_MS);
+    Sound.play('step');
     distFieldAt = -1e9;
     onStep();
+    if (p.cls === 'thief') for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < 0.5) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
     return true;
   }
@@ -338,6 +344,22 @@ const Game = (() => {
     startCam(TURN_MS);
   }
   function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
+  function revealSecret(x, y, keenEyes) {
+    setTile(x, y, T.DOOR_OPEN);
+    log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
+    Sound.play('secret');
+  }
+  function drinkFountain(x, y) {
+    const L = lvl(), p = P();
+    const f = L.features && L.features[key(x, y)];
+    if (!f || f.used) { log('The fountain is dry.'); return; }
+    f.used = true;
+    p.hp = p.maxHp; p.sp = p.maxSp; p.poison = null;
+    fx.healUntil = realNow + 400;
+    log('You drink deeply from the fountain. Your wounds close and your mind clears.', 'good');
+    Sound.play('fountain');
+    emit('stats');
+  }
   function tryUnlock(x, y) {
     const L = lvl(), p = P();
     const color = L.locks[key(x, y)] || 'brass';
@@ -394,7 +416,10 @@ const Game = (() => {
     if (t === T.DOOR_LOCKED) return tryUnlock(tx, ty);
     if (t === T.STAIRS_DOWN) return descend();
     if (t === T.STAIRS_UP) return ascend();
+    if (t === T.SECRET) return revealSecret(tx, ty, false);
+    if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
     if (monsterAt(tx, ty)) return attack();
+    if (t === T.WALL) { log('You search the wall but find nothing.'); return; }
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
@@ -438,6 +463,7 @@ const Game = (() => {
     m.flashUntil = realNow + 130;
     floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' ? '#f84' : '#fff'));
     Sound.play('hit');
+    buzz(12);
     if (m.hp <= 0) { killMonster(m); return; }
     const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
     log(`${pre}You hit the ${mb.name} for ${dmg}.`);
@@ -474,7 +500,9 @@ const Game = (() => {
     const p = P();
     p.hp -= dmg;
     fx.damageUntil = realNow + 260;
+    fx.shakeUntil = realNow + 220;
     Sound.play('hurt');
+    buzz(40);
     if (msg) log(msg, 'bad');
     emit('stats');
     if (p.hp <= 0) die();
@@ -493,6 +521,7 @@ const Game = (() => {
     log(`${p.name} has died on level ${G.depth}.`, 'bad');
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
+    recordHero(false);
     emit('dead');
   }
   function win() {
@@ -500,7 +529,22 @@ const Game = (() => {
     log('You lift the Heart of the Mountain. Its light fills the halls. You have won!', 'good');
     Sound.play('win');
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+    recordHero(true);
     emit('won');
+  }
+  function score(p, depth, won) { return p.gold + p.xp * 2 + depth * 100 + (won ? 2000 : 0); }
+  function recordHero(won) {
+    const p = P();
+    const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won) };
+    try {
+      const list = hall();
+      list.push(entry);
+      list.sort((a, b) => b.score - a.score);
+      localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
+    } catch (e) { /* ignore */ }
+  }
+  function hall() {
+    try { return JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { return []; }
   }
   function boltTargets(range, pierce) {
     const p = P();
@@ -603,6 +647,28 @@ const Game = (() => {
     }
     if (opts.length) { const o = Dice.pick(opts); moveMonster(m, o[0], o[1]); }
   }
+  // A straight, unobstructed line from the monster to the player within range.
+  function hasLineToPlayer(m, range) {
+    const p = P();
+    if (m.x !== p.x && m.y !== p.y) return null;
+    const dx = Math.sign(p.x - m.x), dy = Math.sign(p.y - m.y);
+    const dist = Math.abs(p.x - m.x) + Math.abs(p.y - m.y);
+    if (dist > range || dist < 2) return null;
+    for (let i = 1; i < dist; i++) {
+      const x = m.x + dx * i, y = m.y + dy * i;
+      if (!passable(x, y) || monsterAt(x, y)) return null;
+    }
+    return dist;
+  }
+  function rangedAttack(m) {
+    const mb = MONSTERS[m.id], r = mb.ranged;
+    const roll = d(1, 20);
+    Sound.play('arrow');
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} ${r.verb} you and misses.`); return; }
+    let dmg = Math.max(1, d(...r.dmg));
+    if (roll === 20) dmg *= 2;
+    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you for ${dmg}.`);
+  }
   function monsterAttack(m) {
     const p = P(), mb = MONSTERS[m.id];
     const roll = d(1, 20);
@@ -623,11 +689,12 @@ const Game = (() => {
       if (G.t < m.nextAct) continue;
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
-        if (di >= 0 && di <= 6) { m.awake = true; }
+        if (di >= 0 && di <= 6) { m.awake = true; Sound.play('growl'); }
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 16) { if (Math.random() < 0.3) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) { monsterAttack(m); m.nextAct = G.t + mb.speed; if (G.status !== 'playing') return; continue; }
+      if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) { rangedAttack(m); m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
       let best = null, bd = di;
       for (const [dx, dy] of DIRS) {
         const nx = m.x + dx, ny = m.y + dy;
@@ -691,7 +758,7 @@ const Game = (() => {
       } else { m.rx = m.x; m.ry = m.y; }
       const mb = MONSTERS[m.id];
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
-      sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites[mb.sprite], scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil });
+      sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites[mb.sprite], scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
     }
     for (const k in L.items) {
       const list = L.items[k];
@@ -725,6 +792,7 @@ const Game = (() => {
       if (!data || !data.player || !data.levels) return false;
       G = data;
       G.status = 'playing';
+      for (const dpt in G.levels) if (!G.levels[dpt].features) G.levels[dpt].features = {};
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
       snapCam();
       distFieldAt = -1e9;
@@ -744,7 +812,7 @@ const Game = (() => {
   }
 
   return {
-    newGame, load, save, hasSave, saveSummary, rollStats,
+    newGame, load, save, hasSave, saveSummary, rollStats, hall,
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip,

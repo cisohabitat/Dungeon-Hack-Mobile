@@ -26,13 +26,19 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and colour-coded keys for locked doors.
 - **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
   nearby enemies.
-- **Automap** of explored areas, four-line message log, save/load to local storage with
-  autosave on every level change.
-- **Mobile first.** Big touch d-pad with hold-to-walk, portrait and landscape layouts, safe-area
-  aware, installable as a PWA with offline support. Keyboard controls on desktop.
+- **Secrets.** Hidden doors lead to treasure vaults. Search suspicious walls, or play a Thief and
+  spot them in passing. Wall fountains restore you fully, once per fountain.
+- **Ranged foes.** Goblin archers and dark acolytes attack down corridors, so cover matters.
+- **Automap** of explored areas plus a live corner minimap, message log with full history,
+  monster health bars, save/load to local storage with autosave on every level change, and a
+  Hall of Heroes that remembers your best runs.
+- **Mobile first.** Big touch d-pad with hold-to-walk, swipe on the view to turn or step, tap
+  it to act, haptic feedback, portrait and landscape layouts, safe-area aware, installable as a
+  PWA with offline support. Keyboard controls on desktop.
 
-Everything is original: the raycast renderer, procedural wall textures, pixel-art sprites and
-sound effects are all generated in code. No external assets or dependencies.
+Everything is original: the raycast renderer with textured floors and ceilings, procedural
+wall textures, pixel-art sprites and sound effects are all generated in code. No external
+assets or dependencies.
 
 ## Deploy on Vercel
 
@@ -78,7 +84,8 @@ npm test
 
 Runs the headless generator checks: every level for a set of seeds and sizes must be solvable
 (keys before the doors they open, stairs or artifact reachable), deterministic, and internally
-consistent. The sprite sheets are validated too.
+consistent. The sprite sheets are validated too. The same suite runs in GitHub Actions on every
+push and pull request.
 
 ## Controls
 
@@ -88,7 +95,8 @@ consistent. The sprite sheets are validated too.
 | Turn left / right | ↶ / ↷ | A / D |
 | Sidestep | ◀ / ▶ | Q / E |
 | Attack the square ahead | Attack | Space or F |
-| Use (doors, stairs, pick up, close door) | Use | U |
+| Use (doors, stairs, pick up, search wall, drink) | Use or tap the view | U |
+| Turn or step by gesture | swipe the view | |
 | Cast last spell | Cast | C |
 | Rest | Rest | R |
 | Map, Pack, Spells, Hero | bottom bar | M, I, P, H |

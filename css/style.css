@@ -86,7 +86,19 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 #hud-gold { color: var(--gold); }
 #hud-compass { color: var(--dim); font-family: monospace; }
 .view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border); }
-#view { display: block; width: 100%; aspect-ratio: 16/10; max-height: 46vh; max-height: 46dvh; margin: 0 auto; }
+#view { display: block; width: 100%; aspect-ratio: 16/10; max-height: 46vh; max-height: 46dvh; margin: 0 auto; touch-action: none; }
+#minimap { position: absolute; top: 6px; right: 6px; width: 90px; height: 90px; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; background: rgba(0,0,0,0.55); image-rendering: auto; opacity: 0.9; }
+.log-history div { padding: 4px 0; border-bottom: 1px solid #1c1a26; }
+.log-history div.bad { color: #f08a80; }
+.log-history div.good { color: #9ee08a; }
+.log-history div.info { color: #9ab8f0; }
+.hall { display: flex; flex-direction: column; gap: 6px; }
+.hall-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+.hall-row .rank { color: var(--gold); font-size: 1.2rem; min-width: 28px; }
+.hall-row .who { flex: 1; }
+.hall-row .who small { display: block; color: var(--dim); }
+.hall-row .score { color: var(--gold); font-family: monospace; font-size: 1.05rem; }
+.hall-row.won { border-color: var(--gold); }
 .hud-status { position: absolute; top: 6px; left: 8px; display: flex; gap: 6px; pointer-events: none; }
 .hud-status span { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); }
 .hud-status .bad { color: #f88; }

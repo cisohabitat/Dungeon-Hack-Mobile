@@ -101,6 +101,8 @@ const MONSTERS = {
   ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [6, 13],  sprite: 'ogre',     scale: 1.3 },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1 },
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35 },
+  archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
+  acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
   lich:     { name: 'Dread Lich',  hp: [16, 10, 30], ac: 19, hit: 12, dmg: [3, 8, 4], speed: 900,  xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true },
 };
 
@@ -385,6 +387,24 @@ const SPRITES = {
     '..##########....',
     '..##########....',
     '.############...',
+  ] },
+  fountain_hint: { pal: { '#': '#8a8a94', 'w': '#4090e0', 's': '#a0c8ff' }, rows: [
+    '................',
+    '................',
+    '.......ss.......',
+    '......ssss......',
+    '.....swwwws.....',
+    '......ssss......',
+    '.......ss.......',
+    '.......ss.......',
+    '...##########...',
+    '..#wwwwwwwwww#..',
+    '..#wwwwwwwwww#..',
+    '..############..',
+    '...##########...',
+    '....########....',
+    '..############..',
+    '................',
   ] },
   // items
   potion_red: { pal: { '#': '#cfd8e6', 'l': '#e03040', 'c': '#8a6a3a' }, rows: [
@@ -705,4 +725,6 @@ const SPRITES = {
   variant('potion_red', 'potion_orange', { l: '#ff9030' });
   variant('potion_red', 'potion_blue', { l: '#4080ff' });
   for (const c in KEY_COLORS) variant('key', 'key_' + c, { '#': KEY_COLORS[c] });
+  variant('goblin', 'archer', { '#': '#6a8a3a', 'r': '#4a3a2a', 's': '#a07840' });
+  variant('lich', 'acolyte', { 'b': '#c8a080', 'o': '#ff4040', '#': '#4a1a2a', 'g': '#6a2a3a', 's': '#8a6a3a' });
 })();

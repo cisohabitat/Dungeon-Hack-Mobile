@@ -2,7 +2,7 @@
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
-  const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6 };
+  const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6, SECRET: 7, FOUNTAIN: 8 };
   const SIZES = { small: 28, medium: 36, large: 44 };
   const KEY_ORDER = ['brass', 'silver', 'gold', 'iron', 'bone'];
   const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
@@ -216,6 +216,40 @@ const Dungeon = (() => {
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });
 
+    // ---- features: fountains and secret vaults ----
+    const features = {};
+    if (rng.chance(0.55)) {
+      const cands = rng.shuffle(rooms.filter(r => r !== startRoom));
+      for (const r of cands) {
+        const s = wallSlot(r);
+        if (!s) continue;
+        tiles[idx(s.x, s.y)] = T.FOUNTAIN;
+        features[s.x + ',' + s.y] = { type: 'fountain', used: false };
+        break;
+      }
+    }
+    const nVaults = rng.int(0, 2) + (depth >= 3 ? 1 : 0);
+    for (let v = 0, tries = 0; v < nVaults && tries < 40; tries++) {
+      const r = rng.pick(rooms);
+      const s = wallSlot(r);
+      if (!s) continue;
+      const od = DIRS[(s.dir + 2) % 4]; // direction away from the room
+      const cx = s.x + od[0] * 2, cy = s.y + od[1] * 2;
+      let ok = true;
+      for (let yy = cy - 2; yy <= cy + 2 && ok; yy++) for (let xx = cx - 2; xx <= cx + 2; xx++) {
+        if (xx === s.x && yy === s.y) continue;
+        if (xx <= 0 || yy <= 0 || xx >= w - 1 || yy >= h - 1 || tiles[idx(xx, yy)] !== T.WALL) { ok = false; break; }
+      }
+      if (!ok) continue;
+      for (let yy = cy - 1; yy <= cy + 1; yy++) for (let xx = cx - 1; xx <= cx + 1; xx++) tiles[idx(xx, yy)] = T.FLOOR;
+      tiles[idx(s.x, s.y)] = T.SECRET;
+      addItem(cx, cy, { t: 'gold', q: rng.int(20, 40) * depth });
+      addItem(cx + od[0], cy + od[1], rollLoot(rng, depth + 2));
+      addItem(cx - od[1], cy + od[0], rollLoot(rng, depth + 1));
+      if (rng.chance(0.4)) monsters.push(makeMonster(rng.pick(pool), cx + od[1], cy - od[0]));
+      v++;
+    }
+
     // ---- final level: boss and artifact ----
     if (isFinal) {
       const ax = farRoom.cx, ay = farRoom.cy;
@@ -229,7 +263,7 @@ const Dungeon = (() => {
     const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
     return {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
-      items, monsters, traps, locks, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
+      items, monsters, traps, locks, features, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
       theme, isFinal, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
   }

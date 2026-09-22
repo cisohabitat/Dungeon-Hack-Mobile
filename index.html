@@ -27,6 +27,7 @@
       <div class="menu">
         <button id="btn-new" class="big primary">New Game</button>
         <button id="btn-continue" class="big">Continue</button>
+        <button id="btn-hall" class="big ghost">Hall of Heroes</button>
         <button id="btn-help" class="big ghost">How to Play</button>
       </div>
       <p id="save-summary" class="foot"></p>
@@ -61,13 +62,24 @@
     </div>
   </section>
 
+  <!-- Hall of Heroes -->
+  <section id="screen-hall" class="screen scroll">
+    <div class="panel">
+      <h2>Hall of Heroes</h2>
+      <div id="hall-list"></div>
+      <div class="row"><button id="hall-back" class="big primary">Back</button></div>
+    </div>
+  </section>
+
   <!-- Help -->
   <section id="screen-help" class="screen scroll">
     <div class="panel">
       <h2>How to Play</h2>
       <p>You are alone in a dungeon generated from a seed. Descend every level, find the <b>Heart of the Mountain</b> on the deepest floor, and take it from the thing that guards it.</p>
       <h3>Moving</h3>
-      <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Hold a button to keep walking.</p>
+      <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you.</p>
+      <h3>Secrets</h3>
+      <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
       <h3>Fighting</h3>
       <p>Everything happens in real time. <b>Attack</b> strikes the square in front of you. Monsters that reach you will hit back; step away, close doors behind you, or fight in corridors where only one can reach you. Thieves deal double damage to sleeping foes.</p>
       <h3>Magic</h3>
@@ -97,6 +109,7 @@
         <div class="view-wrap">
           <canvas id="view" width="320" height="200"></canvas>
           <div id="hud-status" class="hud-status"></div>
+          <canvas id="minimap" width="90" height="90" title="Open map"></canvas>
         </div>
         <div id="log" class="log"></div>
       </div>
@@ -148,6 +161,10 @@
     <div id="ov-char" class="overlay">
       <div class="ov-head"><h2>Hero</h2><button class="close" data-close>✕</button></div>
       <div class="ov-body" id="char-sheet"></div>
+    </div>
+    <div id="ov-log" class="overlay">
+      <div class="ov-head"><h2>Messages</h2><button class="close" data-close>✕</button></div>
+      <div class="ov-body" id="log-history"></div>
     </div>
     <div id="ov-menu" class="overlay">
       <div class="ov-head"><h2>Menu</h2><button class="close" data-close>✕</button></div>

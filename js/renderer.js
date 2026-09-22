@@ -7,29 +7,57 @@ const Renderer = (() => {
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
   const T = Dungeon.T;
-  let canvas, ctx;
+  let canvas, ctx, fb, fb32;
   const zbuf = new Float32Array(W);
+  const rowLevel = new Uint8Array(H);   // darkness level per floor row
+  const rowDist = new Float32Array(H);
+  for (let y = H / 2 + 1; y < H; y++) {
+    const dist = (H / 2) / (y - H / 2);
+    rowDist[y] = dist;
+    rowLevel[y] = Math.min(7, Math.round(dist / FOG * 7));
+  }
   const shadeStyles = [];
   for (let i = 0; i <= 20; i++) shadeStyles.push(`rgba(0,0,0,${(i / 20).toFixed(2)})`);
-  const gradCache = {};
 
   function init(c) {
     canvas = c;
     canvas.width = W; canvas.height = H;
     ctx = canvas.getContext('2d', { alpha: false });
     ctx.imageSmoothingEnabled = false;
+    fb = ctx.createImageData(W, H);
+    fb32 = new Uint32Array(fb.data.buffer);
   }
 
-  function gradients(theme, ti) {
-    if (gradCache[ti]) return gradCache[ti];
-    const ceil = ctx.createLinearGradient(0, 0, 0, H / 2);
-    ceil.addColorStop(0, theme.ceil);
-    ceil.addColorStop(1, '#000');
-    const floor = ctx.createLinearGradient(0, H / 2, 0, H);
-    floor.addColorStop(0, '#000');
-    floor.addColorStop(0.15, '#050505');
-    floor.addColorStop(1, theme.floor);
-    return (gradCache[ti] = { ceil, floor });
+  // Textured floor and ceiling: for every screen row below the horizon, walk
+  // the world-space line it sees and copy pre-shaded texture pixels.
+  function castFloor(tex, px, py, dirX, dirY, planeX, planeY) {
+    const TX = Assets.TEX;
+    const floorT = tex.floor, ceilT = tex.ceil;
+    const rdx0 = dirX - planeX, rdy0 = dirY - planeY;
+    const rdx1 = dirX + planeX, rdy1 = dirY + planeY;
+    const half = H / 2;
+    for (let y = half + 1; y < H; y++) {
+      const level = rowLevel[y];
+      const dist = rowDist[y];
+      const fl = floorT[level], ce = ceilT[level];
+      const stepX = dist * (rdx1 - rdx0) / W, stepY = dist * (rdy1 - rdy0) / W;
+      let fx = px + dist * rdx0, fy = py + dist * rdy0;
+      let o = y * W, oc = (H - 1 - y) * W;
+      if (level >= 7) {
+        for (let x = 0; x < W; x++) { fb32[o + x] = 0xff000000; fb32[oc + x] = 0xff000000; }
+        continue;
+      }
+      for (let x = 0; x < W; x++) {
+        const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
+        const ti = ty * TX + tx;
+        fb32[o + x] = fl[ti];
+        fb32[oc + x] = ce[ti];
+        fx += stepX; fy += stepY;
+      }
+    }
+    // horizon rows
+    for (let x = 0; x < W; x++) { fb32[half * W + x] = 0xff000000; fb32[(half - 1) * W + x] = 0xff000000; }
+    ctx.putImageData(fb, 0, 0);
   }
 
   function isSolid(t) { return t !== T.FLOOR && t !== T.DOOR_OPEN; }
@@ -40,6 +68,7 @@ const Renderer = (() => {
       case T.DOOR_LOCKED: return null; // resolved by caller using locks
       case T.STAIRS_DOWN: return tex.stairsDown;
       case T.STAIRS_UP: return tex.stairsUp;
+      case T.FOUNTAIN: return null;
       default: return ((x * 7 + y * 13) % 6 === 0) ? tex.wallCracked : tex.wall;
     }
   }
@@ -47,14 +76,10 @@ const Renderer = (() => {
   // sprites: [{x, y, img (sprite asset), scale, yOff, flash}]
   function render(level, cam, sprites, fx, now) {
     const tex = Assets.themes[level.theme];
-    const theme = tex.theme;
-    const g = gradients(theme, level.theme);
-    ctx.fillStyle = g.ceil; ctx.fillRect(0, 0, W, H / 2);
-    ctx.fillStyle = g.floor; ctx.fillRect(0, H / 2, W, H / 2);
-
     const px = cam.x, py = cam.y;
     const dirX = Math.cos(cam.angle), dirY = Math.sin(cam.angle);
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
+    castFloor(tex, px, py, dirX, dirY, planeX, planeY);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -83,7 +108,10 @@ const Renderer = (() => {
       let tx = Math.floor(wallX * 64);
       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
       let img = texFor(tex, tile, mapX, mapY);
-      if (!img) { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
+      if (!img) {
+        if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
+        else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
+      }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       let shade = dist / FOG + (side === 1 ? 0.12 : 0);
       if (shade > 0.03) {
@@ -125,7 +153,15 @@ const Renderer = (() => {
           run = -1;
         }
       }
-      s._screen = { x: screenX, top, h: sh };
+      if (s.hp != null && s.hp < s.maxHp && top > 6) {
+        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.floor(top) - 5;
+        ctx.fillStyle = '#000';
+        ctx.fillRect(bx - 1, by - 1, bw + 2, 4);
+        ctx.fillStyle = '#5a1a1a';
+        ctx.fillRect(bx, by, bw, 2);
+        ctx.fillStyle = '#e04030';
+        ctx.fillRect(bx, by, Math.max(1, Math.round(bw * s.hp / s.maxHp)), 2);
+      }
     }
 
     // floating texts
