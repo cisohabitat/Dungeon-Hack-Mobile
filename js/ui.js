@@ -323,9 +323,22 @@ const UI = (() => {
     if (!G || G.logSeq === logCount) return;
     logCount = G.logSeq;
     const el = $('#log');
-    el.innerHTML = G.log.slice(-4).map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('');
+    el.innerHTML = G.log.slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    // Lines wrap on a narrow phone, so four of them can overflow the panel.
+    // Drop whole old lines rather than leave half of one clipped at the top;
+    // the full history is a tap away. The panel stacks from the bottom, so
+    // overflow spills off the top where scrollHeight does not count it: ask
+    // where the oldest line starts instead.
+    const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
+    while (el.children.length > 1 && el.firstElementChild.getBoundingClientRect().top < top) el.removeChild(el.firstElementChild);
   }
   function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
+  // The dice come in one fixed shape, so set them apart as a footnote that
+  // stays in one piece and drops to its own line when the phone is narrow.
+  // It was the tail of the line, which is exactly what an ellipsis cuts.
+  function logLine(m) {
+    return escapeHtml(m).replace(/ \((d20 [^)]*)\)/, ' <span class="roll">($1)</span>');
+  }
 
   // Small live automap in the corner of the view, 15x15 tiles around the player.
   function refreshMinimap(now) {
@@ -464,7 +477,7 @@ const UI = (() => {
 
   function renderLogHistory() {
     const G = Game.state();
-    $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('') + '</div>';
+    $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
   }
   function renderHall() {
     const list = Game.hall();

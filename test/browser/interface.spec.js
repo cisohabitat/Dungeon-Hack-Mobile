@@ -40,6 +40,10 @@ test.describe('interface', () => {
   test('the text a player reads clears the 4.5:1 contrast minimum', async ({ page }) => {
     await startGame(page, { seed: 'ui-contrast' });
     await clearBoons(page);
+    // the dice are set in a dimmer tone than the line they sit on, and they are
+    // the part being read, so make sure there is one on screen to measure
+    await page.evaluate(() => Game.log('You hit the Goblin for 7. (d20 14+5 vs AC 13)'));
+    await page.waitForTimeout(200);
     const samples = await page.evaluate(() => {
       const pick = sel => {
         const el = document.querySelector(sel);
@@ -47,10 +51,11 @@ test.describe('interface', () => {
         const cs = getComputedStyle(el);
         return { sel, color: cs.color, bg: cs.backgroundColor };
       };
-      return ['#log div', '.hud-name', '#hud-depth', '.bottombar button', '#hud-gold']
+      return ['#log div', '#log .roll', '.hud-name', '#hud-depth', '.bottombar button', '#hud-gold']
         .map(pick).filter(Boolean);
     });
     expect(samples.length).toBeGreaterThan(3);
+    expect(samples.some(x => x.sel === '#log .roll'), 'no roll on screen to measure').toBe(true);
     const page_bg = [14, 13, 20];
     for (const s of samples) {
       const bg = /, 0\)$/.test(s.bg) || rgb(s.bg).length < 3 ? page_bg : rgb(s.bg);
@@ -136,6 +141,42 @@ test.describe('interface', () => {
     // and the capped array itself is still doing its job
     const size = await page.evaluate(() => Game.state().log.length);
     expect(size, 'the log should stay capped').toBeLessThanOrEqual(80);
+    expect(errors).toEqual([]);
+  });
+
+  test('on a narrow phone the message box wraps rather than cutting off the roll', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 360, height: 780 });
+    await startGame(page, { seed: 'log-wrap' });
+    await clearBoons(page);
+    // the longest lines the game writes, each ending in the part worth reading
+    await page.evaluate(() => {
+      Game.log('You hit the Goblin for 7. (d20 14+5 vs AC 13)');
+      Game.log('The Goblin Archer shoots an arrow at you for 5. (d20 18+3 vs AC 18)');
+      Game.log('A mighty blow! You hit the Skeleton for 18. (d20 20, a telling blow)');
+      Game.log('The Dark Acolyte hurls a bolt of shadow at you from your left for 9. (d20 15+6 vs AC 18)');
+    });
+    await page.waitForTimeout(250);
+    const shown = await page.evaluate(() => {
+      const el = document.getElementById('log'), box = el.getBoundingClientRect();
+      return [...el.children].map(d => {
+        const db = d.getBoundingClientRect(), s = d.querySelector('.roll'), rb = s && s.getBoundingClientRect();
+        return {
+          text: d.textContent,
+          whole: db.top >= box.top - 0.5 && db.bottom <= box.bottom + 0.5,
+          roll: !!rb && rb.top >= db.top - 0.5 && rb.bottom <= db.bottom + 0.5 && rb.right <= box.right + 0.5,
+          cut: d.scrollWidth > d.clientWidth + 1,
+        };
+      });
+    });
+    expect(shown.length, 'at least the newest two should fit').toBeGreaterThanOrEqual(2);
+    // the newest line is the one being read, and it is the longest
+    expect(shown[shown.length - 1].text).toContain('Dark Acolyte');
+    for (const line of shown) {
+      expect(line.whole, `half a line left in the panel: ${line.text}`).toBe(true);
+      expect(line.cut, `a line was cut off sideways: ${line.text}`).toBe(false);
+      expect(line.roll, `the roll was hidden: ${line.text}`).toBe(true);
+    }
     expect(errors).toEqual([]);
   });
 

@@ -169,7 +169,12 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud-status .bad { color: #f88; }
 .hud-status .good { color: #8f8; }
 .log { height: 6.4em; overflow: hidden; padding: 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
-.log div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #cfc8ba; }
+/* lines wrap rather than truncate: on a phone the ellipsis was eating the
+   damage and the dice, which were the parts worth reading. They must not
+   shrink either, or the flex column squashes a wrapped line back to one row
+   and clips its second half inside its own box. */
+.log div { flex-shrink: 0; overflow-wrap: anywhere; color: #cfc8ba; }
+.log .roll, .log-history .roll { color: #948da3; font-size: 0.86em; white-space: nowrap; }
 .log div.bad { color: #f08a80; }
 .log div.good { color: #9ee08a; }
 .log div.info { color: #9ab8f0; }
