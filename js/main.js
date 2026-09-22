@@ -6,7 +6,7 @@
   function loop(now) {
     const dt = last ? Math.min(100, now - last) : 0;
     last = now;
-    if (UI.isTitle()) UI.renderTitle(now);
+    if (UI.isTitle()) { UI.renderTitle(now); Sound.stopAmbience(); }
     const G = Game.state();
     if (G && UI.isPlaying()) {
       if (G.status === 'playing' && !UI.paused()) {
@@ -28,6 +28,10 @@
       UI.refreshHud();
       UI.refreshLog();
       UI.handleEvents();
+      if (G.status === 'playing') {
+        Sound.setAmbience(G.escaping ? 1 : 0);
+        Sound.heartbeat(G.player.hp / G.player.maxHp, now);
+      } else Sound.stopAmbience();
     }
     requestAnimationFrame(loop);
   }

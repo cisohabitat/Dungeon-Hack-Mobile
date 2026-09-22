@@ -72,10 +72,84 @@ const Sound = (() => {
     error: () => tone(150, 0.15, 'square', 0.08, -50),
   };
 
+  // ---- ambience: a low drone under the dungeon, and a heartbeat when hurt ----
+  let amb = null;          // { osc, sub, gain, filter }
+  let ambLevel = 0;        // 0 quiet exploration, 1 the escape
+  let beatAt = 0, beatRate = 0;
+
+  function startAmbience() {
+    const c = ensure();
+    if (!c || amb) return;
+    try {
+      const gain = c.createGain();
+      gain.gain.value = 0.0;
+      const filter = c.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 220;
+      const osc = c.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.value = 42;
+      const sub = c.createOscillator();
+      sub.type = 'sine';
+      sub.frequency.value = 27;
+      // a slow wobble keeps the drone from sounding like a dial tone
+      const lfo = c.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.07;
+      const lfoGain = c.createGain();
+      lfoGain.gain.value = 5;
+      lfo.connect(lfoGain).connect(osc.frequency);
+      osc.connect(filter);
+      sub.connect(filter);
+      filter.connect(gain).connect(c.destination);
+      osc.start(); sub.start(); lfo.start();
+      amb = { osc, sub, lfo, gain, filter };
+      gain.gain.linearRampToValueAtTime(0.035, c.currentTime + 3);
+    } catch (e) { amb = null; }
+  }
+  function stopAmbience() {
+    if (!amb || !ctx) { amb = null; return; }
+    try {
+      amb.gain.gain.cancelScheduledValues(ctx.currentTime);
+      amb.gain.gain.setValueAtTime(amb.gain.gain.value, ctx.currentTime);
+      amb.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+      const dead = amb;
+      setTimeout(() => { try { dead.osc.stop(); dead.sub.stop(); dead.lfo.stop(); } catch (e) { /* ignore */ } }, 600);
+    } catch (e) { /* ignore */ }
+    amb = null;
+  }
+  function setAmbience(level) {
+    if (!enabled) return;
+    if (!amb) startAmbience();
+    if (!amb || !ctx || level === ambLevel) { ambLevel = level; return; }
+    ambLevel = level;
+    try {
+      const t = ctx.currentTime;
+      amb.gain.gain.linearRampToValueAtTime(level ? 0.075 : 0.035, t + 1.5);
+      amb.filter.frequency.linearRampToValueAtTime(level ? 420 : 220, t + 1.5);
+      amb.osc.frequency.linearRampToValueAtTime(level ? 54 : 42, t + 1.5);
+    } catch (e) { /* ignore */ }
+  }
+  // hpFraction 0..1; below a quarter the player hears their own pulse
+  function heartbeat(hpFraction, now) {
+    if (!enabled || hpFraction > 0.25 || hpFraction <= 0) { beatRate = 0; return; }
+    beatRate = 1100 - (0.25 - hpFraction) * 2400;
+    if (now < beatAt) return;
+    beatAt = now + Math.max(420, beatRate);
+    tone(58, 0.11, 'sine', 0.22);
+    tone(46, 0.13, 'sine', 0.16, 0, 0.16);
+  }
+
   return {
     play(name) { if (!enabled) return; try { (FX[name] || (() => {}))(); } catch (e) { /* ignore */ } },
-    toggle() { enabled = !enabled; try { localStorage.setItem('deepdelve.sound', enabled ? 'on' : 'off'); } catch (e) { /* ignore */ } if (enabled) ensure(); return enabled; },
+    toggle() {
+      enabled = !enabled;
+      try { localStorage.setItem('deepdelve.sound', enabled ? 'on' : 'off'); } catch (e) { /* ignore */ }
+      if (enabled) ensure(); else { stopAmbience(); ambLevel = 0; }
+      return enabled;
+    },
     isEnabled() { return enabled; },
     unlock() { ensure(); },
+    setAmbience, stopAmbience, heartbeat,
   };
 })();

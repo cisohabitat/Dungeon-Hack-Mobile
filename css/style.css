@@ -46,6 +46,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 /* Title */
 #screen-title { overflow: hidden; }
+/* the end screen shares the title's inner block but has no art to sit under */
+#screen-end .title-inner { margin-top: auto; margin-bottom: auto; padding-top: calc(16px + var(--sat)); }
+#screen-end .end-stats { margin-top: 18px; }
 /* The art occupies a band at the top so the 16:10 scene is not cropped to a
    sliver on tall phones; the fade blends it into the menu below. */
 .title-bg { position: absolute; top: 0; left: 0; right: 0; height: 64%; z-index: 0; }
@@ -113,6 +116,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .bar span { position: absolute; inset: 0; font-size: 9px; line-height: 11px; text-align: center; color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000; font-family: monospace; }
 .hud-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; font-size: 0.8rem; line-height: 1.2; }
 #hud-gold { color: var(--gold); }
+#hud-depth.escaping { color: #ffcf5a; }
+.hud-status .escape { color: #ffd76a; border-color: rgba(255,200,80,0.6); }
+.compare { margin: 6px 0 0; font-size: 0.88rem; }
+.compare.up { color: var(--green); }
+.compare.down { color: #e08a80; }
 #hud-compass { color: var(--dim); font-family: monospace; }
 .view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border); }
 #view { display: block; width: 100%; aspect-ratio: 16/10; max-height: 46vh; max-height: 46dvh; margin: 0 auto; touch-action: none; }

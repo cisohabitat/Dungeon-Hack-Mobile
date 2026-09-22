@@ -223,6 +223,9 @@ const Game = (() => {
     } else if (b.kind === 'key') {
       log('Use keys by walking into a locked door.');
       return;
+    } else if (b.kind === 'artifact') {
+      log('The Heart pulses warmly. The way out is up.', 'info');
+      return;
     } else {
       log('You cannot use that.');
       return;
@@ -231,6 +234,7 @@ const Game = (() => {
   }
   function dropItem(it) {
     const p = P(), L = lvl();
+    if (it.t === 'artifact') { log('You could not bear to part with it.', 'bad'); return; }
     const one = removeOne(it);
     const k = key(p.x, p.y);
     (L.items[k] = L.items[k] || []).push(one);
@@ -245,7 +249,7 @@ const Game = (() => {
     if (i < 0) return;
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
-    else if (it.t === 'artifact') { list.splice(i, 1); win(); }
+    else if (it.t === 'artifact') { list.splice(i, 1); startEscape(); }
     else if (giveItem(it)) { log(`You pick up the ${itemName(it)}.`); Sound.play('pickup'); list.splice(i, 1); }
     else { log('Your pack is full.', 'bad'); }
     if (!list.length) delete L.items[k];
@@ -308,7 +312,7 @@ const Game = (() => {
     p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
-    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 2, looks: buildLooks(cfg.seed), known: {} };
+    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 3, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0 };
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
     for (const id of c.startKit) giveItem({ t: id, q: 1, e: 0 });
@@ -346,7 +350,11 @@ const Game = (() => {
     save(true);
   }
   function ascend() {
-    if (G.depth === 1) { log('The way out is sealed behind you. Only the depths remain.', 'info'); return; }
+    if (G.depth === 1) {
+      if (G.escaping) { win(); return; }
+      log('The way out is sealed behind you. Only the depths remain.', 'info');
+      return;
+    }
     Sound.play('stairs');
     enterLevel(G.depth - 1, 'up');
     save(true);
@@ -583,15 +591,66 @@ const Game = (() => {
     recordHero(false);
     emit('dead');
   }
+  // Lifting the Heart wakes the whole mountain. Now carry it back to the surface.
+  function startEscape() {
+    const p = P();
+    p.inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
+    G.escaping = true;
+    G.escapeStart = G.t;
+    G.nextHunt = G.t + 16000;
+    G.hunts = 0;
+    for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) m.awake = true;
+    log('You lift the Heart of the Mountain. Its light is warm in your hands.', 'good');
+    log('The walls groan. Every dead thing in the mountain now knows where you are.', 'bad');
+    log(`Climb back to level 1 and take the stairs out. You are ${G.depth} levels down.`, 'info');
+    Sound.play('win');
+    fx.shakeUntil = realNow + 900;
+    emit('stats');
+    emit('escape');
+  }
+  // While escaping, the dark keeps producing pursuers.
+  function spawnHunter() {
+    const L = lvl(), p = P();
+    if (L.monsters.length > 40) return;
+    ensureDist();
+    const cands = [];
+    for (let i = 0; i < L.w * L.h; i++) {
+      if (L.tiles[i] !== T.FLOOR) continue;
+      const dd = distField[i];
+      if (dd < 6 || dd > 15) continue;
+      if (monsterAt(i % L.w, (i / L.w) | 0)) continue;
+      cands.push(i);
+    }
+    if (!cands.length) return;
+    const i = Dice.pick(cands);
+    const pool = ['skeleton', 'ghoul', 'zombie', 'wraith'];
+    const id = pool[Math.min(pool.length - 1, Math.floor(G.hunts / 2))];
+    const b = MONSTERS[id];
+    const hp = Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
+    L.monsters.push({
+      uid: 900000 + G.hunts * 17 + Math.floor(Math.random() * 1000), id, x: i % L.w, y: (i / L.w) | 0,
+      hp, maxHp: hp, awake: true, nextAct: G.t + 500, rx: i % L.w, ry: (i / L.w) | 0,
+      fromX: i % L.w, fromY: (i / L.w) | 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+    });
+    G.hunts++;
+    log(Dice.pick([
+      'Something claws its way out of the dark behind you.',
+      'Bone scrapes on stone. It is closer than before.',
+      'The air turns cold. You are not alone in this corridor.',
+    ]), 'bad');
+    Sound.play('growl');
+  }
+
   function win() {
     G.status = 'won';
-    log('You lift the Heart of the Mountain. Its light fills the halls. You have won!', 'good');
+    G.escapeMs = G.escaping ? G.t - G.escapeStart : 0;
+    log('You climb into daylight with the Heart of the Mountain. You have escaped!', 'good');
     Sound.play('win');
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
     recordHero(true);
     emit('won');
   }
-  function score(p, depth, won) { return p.gold + p.xp * 2 + depth * 100 + (won ? 2000 : 0); }
+  function score(p, depth, won) { return p.gold + p.xp * 2 + p.deepest * 100 + (won ? 2000 : 0); }
   function recordHero(won) {
     const p = P();
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won) };
@@ -795,6 +854,10 @@ const Game = (() => {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
       else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.'); }
     }
+    if (G.escaping && G.t >= G.nextHunt) {
+      spawnHunter();
+      G.nextHunt = G.t + Math.max(9000, 22000 - G.hunts * 900);
+    }
     for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
   }
@@ -870,6 +933,7 @@ const Game = (() => {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
       }
+      if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
       if (!G.looks) G.looks = buildLooks(G.seed);
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
@@ -895,7 +959,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect,
+    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();

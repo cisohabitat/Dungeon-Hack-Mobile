@@ -237,7 +237,7 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0].join('|');
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -250,7 +250,8 @@ const UI = (() => {
     $('#txt-sp').textContent = `SP ${p.sp}/${p.maxSp}`;
     $('#bar-food').style.width = p.food + '%';
     $('#txt-food').textContent = p.food > 30 ? 'Fed' : (p.food > 0 ? 'Hungry' : 'Starving');
-    $('#hud-depth').textContent = `Level ${G.depth}/${G.opts.levels}`;
+    $('#hud-depth').textContent = G.escaping ? (G.depth === 1 ? 'Find the stairs up' : `Climb: ${G.depth} to go`) : `Level ${G.depth}/${G.opts.levels}`;
+    $('#hud-depth').classList.toggle('escaping', !!G.escaping);
     $('#hud-gold').textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
@@ -258,6 +259,7 @@ const UI = (() => {
     if (Game.effect('ac')) st.push('<span class="good">Shielded</span>');
     if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
     if (Game.effect('might')) st.push('<span class="good">Mighty</span>');
+    if (G.escaping) st.push('<span class="escape">Carrying the Heart</span>');
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     $('#hud-status').innerHTML = st.join('');
@@ -417,7 +419,8 @@ const UI = (() => {
     if (b.kind === 'food') info = `Restores ${b.food} nourishment.`;
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
-    box.innerHTML = `<h3>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p><div class="buttons"></div>`;
+    const compare = selectedSlot ? '' : compareText(it, b);
+    box.innerHTML = `<h3>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
     if (selectedSlot) add('Unequip', () => Game.unequip(selectedSlot));
@@ -429,6 +432,31 @@ const UI = (() => {
       add('Drop', () => Game.dropItem(it), 'danger');
     }
     add('Close', () => {});
+  }
+
+  // How an unequipped piece of gear stacks up against the one in its slot.
+  function compareText(it, b) {
+    const p = Game.player();
+    if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') return '';
+    const cur = p.eq[b.kind];
+    if (cur === it) return '';
+    const fmt = n => (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
+    let label, delta;
+    if (b.kind === 'weapon') {
+      const dps = item => {
+        if (!item) return 0;
+        const d = ITEMS[item.t].dmg, sp = ITEMS[item.t].speed;
+        return ((d[0] * (d[1] + 1) / 2) + d[2] + (item.e || 0) + Game.mod(p.stats.str)) / (sp / 1000);
+      };
+      const now = dps(cur), next = dps(it);
+      label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs bare hands';
+      delta = next - now;
+      return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second</p>`;
+    }
+    const acOf = item => (item ? ITEMS[item.t].ac + (item.e || 0) : 0);
+    delta = acOf(it) - acOf(cur);
+    label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs nothing worn';
+    return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armor class</p>`;
   }
 
   function renderMap() {
@@ -528,9 +556,13 @@ const UI = (() => {
     closeOverlay();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
-      ? `${p.name} the ${CLASSES[p.cls].name} carried the Heart of the Mountain out of the deep.`
-      : `${p.name} the ${CLASSES[p.cls].name} fell on level ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`;
-    const rows = [['Level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest', p.deepest], ['Seed', G.seed]];
+      ? `${p.name} the ${CLASSES[p.cls].name} climbed out of the deep with the Heart of the Mountain.`
+      : (G.escaping
+        ? `${p.name} the ${CLASSES[p.cls].name} died on level ${G.depth} with the Heart still in hand. ${G.opts.permadeath ? 'The save has been erased.' : ''}`
+        : `${p.name} the ${CLASSES[p.cls].name} fell on level ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
+    const rows = [['Level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest', p.deepest]];
+    if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
+    rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
     showScreen('screen-end');
@@ -598,7 +630,8 @@ const UI = (() => {
 
   function handleEvents() {
     for (const e of Game.takeEvents()) {
-      if (e === 'dead') showEnd(false);
+      if (e === 'escape') { hudSig = ''; refreshHud(); }
+      else if (e === 'dead') showEnd(false);
       else if (e === 'won') showEnd(true);
       else if (e === 'inv' && overlay === 'inv') renderInv();
     }

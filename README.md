@@ -26,6 +26,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and colour-coded keys for locked doors.
 - **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
   nearby enemies.
+- **A real endgame.** Taking the Heart of the Mountain does not end the run. Every dead thing in
+  the mountain wakes, the dark starts producing pursuers, and you must climb all the way back to
+  level 1 and out. Your escape time is recorded.
 - **Unknown potions and scrolls.** Every dungeon shuffles appearances, so a "cloudy potion" is
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
@@ -37,7 +40,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   Wounded monsters break and flee, and a strong character can shoulder a locked door open.
 - **Automap** of explored areas plus a live corner minimap, message log with full history,
   monster health bars, save/load to local storage with autosave on every level change, and a
-  Hall of Heroes that remembers your best runs.
+  Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
+  what you are already wearing, in damage per second or armour class.
+- **Sound.** A low drone under the dungeon that tightens during the escape, and your own
+  heartbeat once you are badly wounded.
 - **A living title screen.** The menu sits over a real generated dungeon with a ghost camera
   walking it, drawn by the same raycaster as the game, with drifting embers and torch flicker.
 - **Mobile first.** Big touch d-pad with hold-to-walk, swipe on the view to turn or step, tap
