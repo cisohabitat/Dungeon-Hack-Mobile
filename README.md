@@ -26,9 +26,15 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and colour-coded keys for locked doors.
 - **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
   nearby enemies.
+- **Unknown potions and scrolls.** Every dungeon shuffles appearances, so a "cloudy potion" is
+  a different draught in each seed. Drink or read it to learn what it is.
+- **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
+  They hit harder, take more killing, and always drop something worth having.
+- **Torchlit halls.** Wall brackets cast real pools of light across floors, walls and monsters.
 - **Secrets.** Hidden doors lead to treasure vaults. Search suspicious walls, or play a Thief and
   spot them in passing. Wall fountains restore you fully, once per fountain.
 - **Ranged foes.** Goblin archers and dark acolytes attack down corridors, so cover matters.
+  Wounded monsters break and flee, and a strong character can shoulder a locked door open.
 - **Automap** of explored areas plus a live corner minimap, message log with full history,
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs.

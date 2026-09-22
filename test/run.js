@@ -45,7 +45,7 @@ function solvable(L) {
         if (dist[ni] >= 0) continue;
         const t = L.tiles[ni];
         if (t === T.STAIRS_DOWN) { reached = true; continue; }
-        if (t === T.WALL || t === T.STAIRS_UP || t === T.SECRET || t === T.FOUNTAIN) continue;
+        if (t === T.WALL || t === T.STAIRS_UP || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH) continue;
         if (t === T.DOOR_LOCKED && !opened.has(ni)) {
           const c = L.locks[nx + ',' + ny];
           if (keys.has(c)) { opened.add(ni); progress = true; } else continue;
@@ -62,7 +62,7 @@ function solvable(L) {
   return L.isFinal ? artifact : reached;
 }
 
-let vaults = 0, fountains = 0;
+let vaults = 0, fountains = 0, torches = 0, elites = 0;
 let levels = 0;
 for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x', 'a longer seed with spaces']) {
   for (const size of ['small', 'medium', 'large']) {
@@ -73,6 +73,10 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
       check(solvable(L), `level not solvable: seed=${seed} size=${size} depth=${depth}`);
       vaults += L.tiles.filter(t => t === T.SECRET).length;
       fountains += Object.keys(L.features).length;
+      torches += L.lights.length;
+      elites += L.monsters.filter(m => m.elite).length;
+      // a torch must sit in a wall and light an adjacent floor tile
+      for (const l of L.lights) check(L.tiles[l.y * L.w + l.x] === T.FLOOR, `torch lights a non-floor tile: seed=${seed} depth=${depth}`);
       check(L.monsters.every(m => L.tiles[m.y * L.w + m.x] === T.FLOOR), `monster on non-floor: seed=${seed} depth=${depth}`);
       check(new Set(L.monsters.map(m => m.uid)).size === L.monsters.length, `duplicate monster uid: seed=${seed} depth=${depth}`);
       check(L.isFinal ? L.monsters.some(m => m.id === 'lich') : !!L.stairsDown, `missing stairs/boss: seed=${seed} depth=${depth}`);
@@ -83,5 +87,6 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
   }
 }
 check(vaults > 0 && fountains > 0, 'no vaults or fountains generated at all');
-console.log(`${levels} levels checked (${vaults} secret vaults, ${fountains} fountains), ${failures} failure(s)`);
+check(torches > 0 && elites > 0, 'no torches or elite monsters generated at all');
+console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);

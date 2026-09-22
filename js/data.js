@@ -125,6 +125,25 @@ const SPELLS = {
   ],
 };
 
+// Unidentified item appearances. A seeded shuffle maps each potion/scroll type to
+// one of these, so "a cloudy potion" means something different in every dungeon.
+const POTION_LOOKS = [
+  ['cloudy', 'potion_red'], ['fizzy', 'potion_pink'], ['murky', 'potion_green'],
+  ['golden', 'potion_orange'], ['silvery', 'potion_blue'], ['oily', 'potion_red'],
+  ['glowing', 'potion_pink'], ['dark', 'potion_green'],
+];
+const SCROLL_LOOKS = [
+  'crumbling', 'crisp', 'singed', 'blood-stained', 'gilt-edged', 'water-damaged', 'tightly rolled',
+];
+
+// Elite monster prefixes: a champion is stronger, worth more, and always drops loot.
+const ELITES = [
+  { prefix: 'Feral',    hp: 1.5, hit: 2, dmg: 2, xp: 2.0, speed: 0.8, tint: '#ff6040' },
+  { prefix: 'Armoured', hp: 1.6, ac: 3,  hit: 1, xp: 2.0, speed: 1.2, tint: '#80a0ff' },
+  { prefix: 'Ancient',  hp: 2.0, hit: 3, dmg: 3, xp: 2.6, speed: 1.0, tint: '#c060ff' },
+  { prefix: 'Rabid',    hp: 1.2, hit: 2, dmg: 1, xp: 1.6, speed: 0.6, tint: '#ffd040' },
+];
+
 const THEMES = [
   { name: 'Grey Halls',       wall: '#6e6e78', mortar: '#34343e', floor: '#3a3630', ceil: '#24222a', accent: '#8a8a70', flavor: 'Cold stone halls stretch into darkness.' },
   { name: 'Brown Catacombs',  wall: '#7a5a3a', mortar: '#3a2a1a', floor: '#3a2e22', ceil: '#241c14', accent: '#a08050', flavor: 'The air is thick with dust and old bones.' },

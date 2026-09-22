@@ -34,7 +34,7 @@ const Assets = (() => {
         ctx.fillRect(x, y, 1, 1);
       }
     }
-    const tint = (color, alpha) => {
+    const tintOf = (color, alpha) => {
       const c = canvas(w, h);
       const cx = c.getContext('2d');
       cx.drawImage(base, 0, 0);
@@ -44,12 +44,27 @@ const Assets = (() => {
       cx.fillRect(0, 0, w, h);
       return c;
     };
-    return {
+    const make = () => ({
       w, h,
-      levels: SHADES.map(a => (a === 0 ? base : tint('#000', a))),
-      flash: tint('#fff', 0.85),
+      levels: SHADES.map(a => (a === 0 ? base : tintOf('#000', a))),
+      flash: tintOf('#fff', 0.85),
       url: base.toDataURL(),
-    };
+    });
+    const sprite = make();
+    // Elite variants: the base sprite washed with the champion's colour, then shaded.
+    sprite.elite = {};
+    for (const e of ELITES) {
+      const washed = tintOf(e.tint, 0.4);
+      const shade = a => {
+        const c = canvas(w, h);
+        const cx = c.getContext('2d');
+        cx.drawImage(washed, 0, 0);
+        if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
+        return c;
+      };
+      sprite.elite[e.prefix] = { w, h, levels: SHADES.map(shade), flash: sprite.flash, url: washed.toDataURL() };
+    }
+    return sprite;
   }
 
   // ---- textures ----
@@ -255,6 +270,39 @@ const Assets = (() => {
     return c;
   }
 
+  // A wall with a lit torch bracket. Used as a light source in corridors.
+  function makeTorch(theme, wallTex, seed) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    ctx.drawImage(wallTex, 0, 0);
+    // bracket
+    ctx.fillStyle = '#2a2a32';
+    ctx.fillRect(29, 30, 6, 12);
+    ctx.fillRect(26, 40, 12, 3);
+    // handle
+    ctx.fillStyle = '#5a3a1a';
+    ctx.fillRect(30, 24, 4, 8);
+    // flame
+    const flame = [['#ff4010', 9], ['#ff9020', 6], ['#ffe060', 3]];
+    for (const [col, r] of flame) {
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.ellipse(32, 20 - r * 0.4, r * 0.7, r, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // glow on the surrounding stone
+    const g = ctx.createRadialGradient(32, 20, 2, 32, 20, 30);
+    g.addColorStop(0, 'rgba(255,180,60,0.45)');
+    g.addColorStop(1, 'rgba(255,140,40,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, TEX, TEX);
+    // soot
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    for (let i = 0; i < 20; i++) ctx.fillRect(rng.int(24, 40), rng.int(0, 14), 2, 1);
+    return c;
+  }
+
   function makeTheme(theme, i) {
     const wall = makeWall(theme, 'wall' + i, false);
     const wallCracked = makeWall(theme, 'crack' + i, true);
@@ -266,6 +314,7 @@ const Assets = (() => {
       locked,
       stairsDown: makeStairs(theme, wall, true),
       stairsUp: makeStairs(theme, wall, false),
+      torch: makeTorch(theme, wall, 'torch' + i),
       fountain: makeFountain(theme, wall, false),
       fountainDry: makeFountain(theme, wall, true),
       floor: toLevels(makeFloor(theme, 'floor' + i)),

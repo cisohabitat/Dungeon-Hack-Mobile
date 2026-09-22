@@ -2,7 +2,7 @@
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
-  const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6, SECRET: 7, FOUNTAIN: 8 };
+  const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6, SECRET: 7, FOUNTAIN: 8, TORCH: 9 };
   const SIZES = { small: 28, medium: 36, large: 44 };
   const KEY_ORDER = ['brass', 'silver', 'gold', 'iron', 'bone'];
   const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
@@ -187,6 +187,14 @@ const Dungeon = (() => {
       occupied.add(idx(x, y));
       return { uid: depth * 1000 + uid++, id, x, y, hp, maxHp: hp, awake: false, nextAct: 0, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 };
     };
+    // Promote a monster to a named champion: tougher, and worth more when it falls.
+    const makeElite = m => {
+      m.elite = rng.pick(ELITES).prefix;
+      const e = ELITES.find(x => x.prefix === m.elite);
+      m.maxHp = Math.round(m.maxHp * e.hp);
+      m.hp = m.maxHp;
+      return m;
+    };
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && depth >= MONSTERS[id].tier[0] && depth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     const density = { few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1;
@@ -203,7 +211,10 @@ const Dungeon = (() => {
       if (occupied.has(c)) continue;
       // deeper levels favour the tougher end of the pool
       const weighted = pool.map(id => [id, 1 + Math.max(0, depth - MONSTERS[id].tier[0])]);
-      monsters.push(makeMonster(rng.weighted(weighted), c % w, (c / w) | 0));
+      const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
+      // champions appear more often the deeper you go
+      if (rng.chance(Math.min(0.2, 0.02 + depth * 0.018))) makeElite(m);
+      monsters.push(m);
     }
 
     // ---- loot ----
@@ -215,6 +226,31 @@ const Dungeon = (() => {
     for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });
+
+    // ---- torches: wall brackets that light corridors and rooms ----
+    const lights = [];
+    {
+      const cands = [];
+      for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+        if (tiles[idx(x, y)] !== T.WALL) continue;
+        let openSides = 0, dir = -1;
+        for (let k = 0; k < 4; k++) {
+          const t = get(x + DIRS[k][0], y + DIRS[k][1]);
+          if (t === T.FLOOR) { openSides++; dir = k; }
+        }
+        if (openSides === 1) cands.push({ x, y, dir });
+      }
+      rng.shuffle(cands);
+      const want = Math.round(rooms.length * 0.9) + 4;
+      const minGap = 5;
+      for (const c of cands) {
+        if (lights.length >= want) break;
+        if (lights.some(l => Math.abs(l.x - c.x) + Math.abs(l.y - c.y) < minGap)) continue;
+        tiles[idx(c.x, c.y)] = T.TORCH;
+        // the lit tile is the floor the torch faces
+        lights.push({ x: c.x + DIRS[c.dir][0], y: c.y + DIRS[c.dir][1] });
+      }
+    }
 
     // ---- features: fountains and secret vaults ----
     const features = {};
@@ -263,7 +299,7 @@ const Dungeon = (() => {
     const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
     return {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
-      items, monsters, traps, locks, features, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
+      items, monsters, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
       theme, isFinal, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
   }

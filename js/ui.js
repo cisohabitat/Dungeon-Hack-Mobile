@@ -97,7 +97,9 @@ const UI = (() => {
     const G = Game.state();
     if (!G) return;
     const p = G.player;
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might')].join('|');
+    const L = Game.level();
+    const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -119,6 +121,7 @@ const UI = (() => {
     if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
     if (Game.effect('might')) st.push('<span class="good">Mighty</span>');
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
+    if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     $('#hud-status').innerHTML = st.join('');
   }
   function refreshLog() {
@@ -148,6 +151,7 @@ const UI = (() => {
       const t = L.tiles[y * L.w + x];
       let col = '#1c1a26';
       if (t === T.WALL || t === T.SECRET) col = '#5a5670';
+      else if (t === T.TORCH) col = '#c08030';
       else if (t === T.DOOR) col = '#a0783c';
       else if (t === T.DOOR_OPEN) col = '#6a5030';
       else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
@@ -273,6 +277,7 @@ const UI = (() => {
     if (b.kind === 'armor') info = `Armor class +${b.ac + (it.e || 0)} (${b.weight}).`;
     if (b.kind === 'shield') info = `Armor class +${b.ac + (it.e || 0)}. Needs a free hand.`;
     if (b.kind === 'food') info = `Restores ${b.food} nourishment.`;
+    if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     box.innerHTML = `<h3>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p><div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
@@ -312,6 +317,9 @@ const UI = (() => {
         case T.DOOR_LOCKED: col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040'; break;
         case T.STAIRS_DOWN: col = '#e0c060'; break;
         case T.STAIRS_UP: col = '#80c0e0'; break;
+        case T.SECRET: col = '#4a4660'; break;
+        case T.TORCH: col = '#c08030'; break;
+        case T.FOUNTAIN: col = '#4090e0'; break;
       }
       ctx.fillStyle = col; ctx.fillRect(x * size, y * size, size, size);
       if (t === T.STAIRS_DOWN || t === T.STAIRS_UP) {

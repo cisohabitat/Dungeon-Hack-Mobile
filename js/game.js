@@ -80,18 +80,37 @@ const Game = (() => {
   }
   function spellAvailable(sp) { return P().level >= sp.lvl * 2 - 1; }
 
+  // Effective monster stats, including any champion bonuses.
+  function mstat(m) {
+    const b = MONSTERS[m.id];
+    if (!m.elite) return b;
+    const e = ELITES.find(x => x.prefix === m.elite) || {};
+    return {
+      name: `${m.elite} ${b.name}`, ac: b.ac + (e.ac || 0), hit: b.hit + (e.hit || 0),
+      dmg: [b.dmg[0], b.dmg[1], b.dmg[2] + (e.dmg || 0)],
+      speed: Math.round(b.speed * (e.speed || 1)), xp: Math.round(b.xp * (e.xp || 1)),
+      sprite: b.sprite, scale: b.scale, undead: b.undead, poison: b.poison, fly: b.fly,
+      regen: b.regen, boss: b.boss, drain: b.drain, ranged: b.ranged,
+    };
+  }
+
   // ---------- items ----------
   function itemName(it) {
     if (it.t === 'key') return `${it.color[0].toUpperCase() + it.color.slice(1)} Key`;
     if (it.t === 'gem') return it.name || 'Gem';
     const b = ITEMS[it.t];
     let n = b.name;
+    if (!isKnown(it.t)) {
+      const look = G.looks[it.t];
+      n = b.kind === 'potion' ? `${look.adj[0].toUpperCase() + look.adj.slice(1)} Potion` : `${look.adj[0].toUpperCase() + look.adj.slice(1)} Scroll`;
+    }
     if (it.e) n += ` +${it.e}`;
     if (it.q > 1) n += ` ×${it.q}`;
     return n;
   }
   function spriteFor(it) {
     if (it.t === 'key') return 'key_' + it.color;
+    if (!isKnown(it.t)) return G.looks[it.t].sprite;
     return ITEMS[it.t].sprite;
   }
   function giveItem(it) {
@@ -162,7 +181,9 @@ const Game = (() => {
       log(`You eat the ${b.name.toLowerCase()}. ${p.food >= 90 ? 'You are full.' : 'That was good.'}`, 'good');
       Sound.play('eat');
     } else if (b.kind === 'potion') {
+      const wasNew = !isKnown(it.t);
       removeOne(it);
+      if (wasNew) { G.known[it.t] = 1; log(`You drink the unknown potion... it is a ${b.name}.`, 'info'); }
       switch (b.effect) {
         case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
         case 'cure': p.poison = null; log('The poison leaves your veins.', 'good'); Sound.play('heal'); break;
@@ -170,7 +191,9 @@ const Game = (() => {
         case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); Sound.play('spell'); break;
       }
     } else if (b.kind === 'scroll') {
+      const wasNewS = !isKnown(it.t);
       removeOne(it);
+      if (wasNewS) { G.known[it.t] = 1; log(`You read the unknown scroll... it is a ${b.name}.`, 'info'); }
       fx.castUntil = realNow + 260; fx.castColor = '#fe8';
       switch (b.effect) {
         case 'fire': {
@@ -261,6 +284,19 @@ const Game = (() => {
   }
 
   // ---------- new game / levels ----------
+  // Each dungeon shuffles which appearance belongs to which potion/scroll type.
+  function buildLooks(seed) {
+    const rng = new Rng('looks#' + seed);
+    const potions = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'potion');
+    const scrolls = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'scroll');
+    const pl = rng.shuffle(POTION_LOOKS.slice());
+    const sl = rng.shuffle(SCROLL_LOOKS.slice());
+    const looks = {};
+    potions.forEach((id, i) => { looks[id] = { adj: pl[i % pl.length][0], sprite: pl[i % pl.length][1] }; });
+    scrolls.forEach((id, i) => { looks[id] = { adj: sl[i % sl.length], sprite: 'scroll' }; });
+    return looks;
+  }
+  function isKnown(t) { const b = ITEMS[t]; return !b || (b.kind !== 'potion' && b.kind !== 'scroll') || !G.looks[t] || G.known[t]; }
   function newGame(cfg) {
     const c = CLASSES[cfg.cls];
     const p = {
@@ -272,7 +308,9 @@ const Game = (() => {
     p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
-    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 1 };
+    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 2, looks: buildLooks(cfg.seed), known: {} };
+    // the starting kit is familiar to its owner
+    for (const id of c.startKit) G.known[id] = 1;
     for (const id of c.startKit) giveItem({ t: id, q: 1, e: 0 });
     for (const it of p.inv.slice()) {
       const k = ITEMS[it.t].kind;
@@ -364,7 +402,22 @@ const Game = (() => {
     const L = lvl(), p = P();
     const color = L.locks[key(x, y)] || 'brass';
     const k = p.inv.find(it => it.t === 'key' && it.color === color);
-    if (!k) { log(`The door is locked. It needs a ${color} key.`, 'bad'); Sound.play('locked'); return false; }
+    if (!k) {
+      // a strong character can force a locked door, slowly and loudly
+      const chance = 0.08 + mod(p.stats.str) * 0.05 + (p.cls === 'fighter' ? 0.1 : 0);
+      if (Math.random() < Math.max(0.05, chance)) {
+        setTile(x, y, T.DOOR_OPEN);
+        delete L.locks[key(x, y)];
+        log('You throw your shoulder against the door and it bursts open!', 'good');
+        Sound.play('door');
+        for (const m of L.monsters) if (Math.abs(m.x - x) + Math.abs(m.y - y) < 10) m.awake = true;
+        return true;
+      }
+      log(`The door is locked. It needs a ${color} key. You fail to force it.`, 'bad');
+      Sound.play('locked');
+      p.nextAttack = G.t + 700; // forcing it costs you a moment
+      return false;
+    }
     removeOne(k);
     delete L.locks[key(x, y)];
     setTile(x, y, T.DOOR_OPEN);
@@ -440,8 +493,8 @@ const Game = (() => {
     p.nextAttack = G.t + w.speed;
     fx.swingUntil = realNow + 160;
     if (!m) { Sound.play('miss'); return; }
-    const mb = MONSTERS[m.id];
-    const sneak = p.cls === 'thief' && !m.awake;
+    const mb = mstat(m);
+    const sneak = p.cls === 'thief' && (!m.awake || m.fleeing);
     m.awake = true;
     const roll = d(1, 20);
     if (roll === 1 || (roll !== 20 && roll + toHit() < mb.ac)) {
@@ -457,7 +510,7 @@ const Game = (() => {
     damageMonster(m, dmg, roll === 20 ? 'crit' : (sneak ? 'sneak' : null));
   }
   function damageMonster(m, dmg, tag) {
-    const mb = MONSTERS[m.id];
+    const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
     m.flashUntil = realNow + 130;
@@ -467,17 +520,23 @@ const Game = (() => {
     if (m.hp <= 0) { killMonster(m); return; }
     const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
     log(`${pre}You hit the ${mb.name} for ${dmg}.`);
+    // wounded, non-boss monsters may break and run
+    if (!mb.boss && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
+      m.fleeing = true;
+      log(`The ${mb.name} turns to flee!`, 'good');
+    }
   }
   function killMonster(m) {
-    const L = lvl(), p = P(), mb = MONSTERS[m.id];
+    const L = lvl(), p = P(), mb = mstat(m);
     L.monsters.splice(L.monsters.indexOf(m), 1);
     p.kills++;
     p.xp += mb.xp;
     log(`The ${mb.name} is destroyed! (+${mb.xp} xp)`, 'good');
     if (mb.boss) log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good');
-    if (Math.random() < 0.4 || mb.boss) {
+    // champions and bosses always drop something worthwhile
+    if (Math.random() < 0.4 || mb.boss || m.elite) {
       const k = key(m.x, m.y);
-      const loot = Dungeon.rollLoot(Dice, G.depth);
+      const loot = Dungeon.rollLoot(Dice, G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
     }
     checkLevelUp();
@@ -574,7 +633,7 @@ const Game = (() => {
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
         for (const m of targets) {
           let dmg = d(...sp.dmg(p.level));
-          if (sp.holy && MONSTERS[m.id].undead) dmg *= 2;
+          if (sp.holy && mstat(m).undead) dmg *= 2;
           damageMonster(m, dmg, 'fire');
         }
         break;
@@ -661,7 +720,7 @@ const Game = (() => {
     return dist;
   }
   function rangedAttack(m) {
-    const mb = MONSTERS[m.id], r = mb.ranged;
+    const mb = mstat(m), r = mb.ranged;
     const roll = d(1, 20);
     Sound.play('arrow');
     if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} ${r.verb} you and misses.`); return; }
@@ -670,7 +729,7 @@ const Game = (() => {
     hurtPlayer(dmg, `The ${mb.name} ${r.verb} you for ${dmg}.`);
   }
   function monsterAttack(m) {
-    const p = P(), mb = MONSTERS[m.id];
+    const p = P(), mb = mstat(m);
     const roll = d(1, 20);
     if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} misses you.`); return; }
     let dmg = Math.max(1, d(...mb.dmg));
@@ -684,7 +743,7 @@ const Game = (() => {
     const L = lvl(), p = P();
     ensureDist();
     for (const m of L.monsters.slice()) {
-      const mb = MONSTERS[m.id];
+      const mb = mstat(m);
       if (mb.regen && m.hp < m.maxHp && G.t >= (m.nextRegen || 0)) { m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000; }
       if (G.t < m.nextAct) continue;
       const di = distField[m.y * L.w + m.x];
@@ -693,6 +752,19 @@ const Game = (() => {
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 16) { if (Math.random() < 0.3) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
+      if (m.fleeing) {
+        // run for the darkness; recover nerve once far enough away
+        if (di > 8) { m.fleeing = false; m.nextAct = G.t + mb.speed; continue; }
+        let away = null, ad = di;
+        for (const [dx, dy] of DIRS) {
+          const nx = m.x + dx, ny = m.y + dy;
+          if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
+          const dd = distField[ny * L.w + nx];
+          if (dd > ad && !monsterAt(nx, ny)) { ad = dd; away = [nx, ny]; }
+        }
+        if (away) { moveMonster(m, away[0], away[1]); m.nextAct = G.t + mb.speed; continue; }
+        m.fleeing = false; // cornered: fight on
+      }
       if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) { monsterAttack(m); m.nextAct = G.t + mb.speed; if (G.status !== 'playing') return; continue; }
       if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) { rangedAttack(m); m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
       let best = null, bd = di;
@@ -758,7 +830,9 @@ const Game = (() => {
       } else { m.rx = m.x; m.ry = m.y; }
       const mb = MONSTERS[m.id];
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
-      sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites[mb.sprite], scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
+      const base = Assets.sprites[mb.sprite];
+      const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
+      sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
     }
     for (const k in L.items) {
       const list = L.items[k];
@@ -792,7 +866,12 @@ const Game = (() => {
       if (!data || !data.player || !data.levels) return false;
       G = data;
       G.status = 'playing';
-      for (const dpt in G.levels) if (!G.levels[dpt].features) G.levels[dpt].features = {};
+      for (const dpt in G.levels) {
+        if (!G.levels[dpt].features) G.levels[dpt].features = {};
+        if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
+      }
+      if (!G.looks) G.looks = buildLooks(G.seed);
+      if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
       snapCam();
       distFieldAt = -1e9;
@@ -815,7 +894,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall,
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
-    itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip,
+    itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect,
     INV_MAX, T,
   };

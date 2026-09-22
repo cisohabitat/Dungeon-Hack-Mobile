@@ -7,6 +7,9 @@ const Renderer = (() => {
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
   const T = Dungeon.T;
+  const LIGHT_R = 4.5;        // torch radius in tiles
+  const LIGHT_MAX = 3.2;       // strongest brightening, in shade levels
+  let lightMap = null, lightKey = '';
   let canvas, ctx, fb, fb32;
   const zbuf = new Float32Array(W);
   const rowLevel = new Uint8Array(H);   // darkness level per floor row
@@ -30,9 +33,10 @@ const Renderer = (() => {
 
   // Textured floor and ceiling: for every screen row below the horizon, walk
   // the world-space line it sees and copy pre-shaded texture pixels.
-  function castFloor(tex, px, py, dirX, dirY, planeX, planeY) {
+  function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm) {
     const TX = Assets.TEX;
     const floorT = tex.floor, ceilT = tex.ceil;
+    const lw = level.w, lh = level.h;
     const rdx0 = dirX - planeX, rdy0 = dirY - planeY;
     const rdx1 = dirX + planeX, rdy1 = dirY + planeY;
     const half = H / 2;
@@ -40,18 +44,28 @@ const Renderer = (() => {
       const level = rowLevel[y];
       const dist = rowDist[y];
       const fl = floorT[level], ce = ceilT[level];
+      if (level >= 7 && dist > FOG) {
+        const o0 = y * W, oc0 = (H - 1 - y) * W;
+        for (let x = 0; x < W; x++) { fb32[o0 + x] = 0xff000000; fb32[oc0 + x] = 0xff000000; }
+        continue;
+      }
       const stepX = dist * (rdx1 - rdx0) / W, stepY = dist * (rdy1 - rdy0) / W;
       let fx = px + dist * rdx0, fy = py + dist * rdy0;
       let o = y * W, oc = (H - 1 - y) * W;
-      if (level >= 7) {
-        for (let x = 0; x < W; x++) { fb32[o + x] = 0xff000000; fb32[oc + x] = 0xff000000; }
-        continue;
-      }
       for (let x = 0; x < W; x++) {
+        const mx = fx | 0, my = fy | 0;
+        let lv = level;
+        if (mx >= 0 && my >= 0 && mx < lw && my < lh) {
+          const boost = lm[my * lw + mx];
+          if (boost > 0) lv = Math.max(0, level - Math.round(boost));
+        }
+        if (lv >= 7) { fb32[o + x] = 0xff000000; fb32[oc + x] = 0xff000000; fx += stepX; fy += stepY; continue; }
+        const src = lv === level ? fl : floorT[lv];
+        const csrc = lv === level ? ce : ceilT[lv];
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const ti = ty * TX + tx;
-        fb32[o + x] = fl[ti];
-        fb32[oc + x] = ce[ti];
+        fb32[o + x] = src[ti];
+        fb32[oc + x] = csrc[ti];
         fx += stepX; fy += stepY;
       }
     }
@@ -62,6 +76,28 @@ const Renderer = (() => {
 
   function isSolid(t) { return t !== T.FLOOR && t !== T.DOOR_OPEN; }
 
+  // A per-tile brightness field from the level's torches, built once per level.
+  function ensureLights(level) {
+    const k = level.depth + ':' + (level.lights ? level.lights.length : 0);
+    if (lightKey === k && lightMap) return lightMap;
+    const lm = new Float32Array(level.w * level.h);
+    for (const l of (level.lights || [])) {
+      const r = Math.ceil(LIGHT_R);
+      for (let y = Math.max(0, l.y - r); y <= Math.min(level.h - 1, l.y + r); y++) {
+        for (let x = Math.max(0, l.x - r); x <= Math.min(level.w - 1, l.x + r); x++) {
+          const dist = Math.hypot(x - l.x, y - l.y);
+          if (dist > LIGHT_R) continue;
+          const v = LIGHT_MAX * (1 - dist / LIGHT_R) * (1 - dist / LIGHT_R);
+          const i = y * level.w + x;
+          if (v > lm[i]) lm[i] = v;
+        }
+      }
+    }
+    lightKey = k;
+    lightMap = lm;
+    return lm;
+  }
+
   function texFor(tex, tile, x, y) {
     switch (tile) {
       case T.DOOR: return tex.door;
@@ -69,6 +105,7 @@ const Renderer = (() => {
       case T.STAIRS_DOWN: return tex.stairsDown;
       case T.STAIRS_UP: return tex.stairsUp;
       case T.FOUNTAIN: return null;
+      case T.TORCH: return tex.torch;
       default: return ((x * 7 + y * 13) % 6 === 0) ? tex.wallCracked : tex.wall;
     }
   }
@@ -79,7 +116,8 @@ const Renderer = (() => {
     const px = cam.x, py = cam.y;
     const dirX = Math.cos(cam.angle), dirY = Math.sin(cam.angle);
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
-    castFloor(tex, px, py, dirX, dirY, planeX, planeY);
+    const lm = ensureLights(level);
+    castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -114,6 +152,9 @@ const Renderer = (() => {
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       let shade = dist / FOG + (side === 1 ? 0.12 : 0);
+      // torchlight falling on this wall face brightens it
+      const lightHere = lm[mapY * w + mapX];
+      if (lightHere > 0 || tile === T.TORCH) shade -= (tile === T.TORCH ? LIGHT_MAX : lightHere) / 7;
       if (shade > 0.03) {
         ctx.fillStyle = shadeStyles[Math.min(20, Math.round(shade * 20))];
         ctx.fillRect(col, top, 1, lineH);
@@ -141,7 +182,9 @@ const Renderer = (() => {
       const left = screenX - sw / 2;
       const x0 = Math.max(0, Math.floor(left)), x1 = Math.min(W, Math.ceil(left + sw));
       if (x1 <= x0) continue;
-      const shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / FOG * Assets.SHADES.length));
+      let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / FOG * Assets.SHADES.length));
+      const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
+      if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
       const img = (s.flash && now < s.flash) ? s.img.flash : s.img.levels[shadeIdx];
       let run = -1;
       for (let x = x0; x <= x1; x++) {
