@@ -144,6 +144,51 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  for (const [label, vp] of Object.entries({
+    'small phone': { width: 360, height: 640 },
+    'iPhone SE': { width: 375, height: 667 },
+    'tall phone': { width: 393, height: 851 },
+    'landscape phone': { width: 844, height: 390 },
+    'small landscape': { width: 740, height: 360 },
+    desktop: { width: 1280, height: 800 },
+  })) {
+    test(`every control can be reached on a ${label}`, async ({ page }) => {
+      // A landscape phone once had Cast below the bottom edge: a spellcaster
+      // playing sideways could not cast at all, and nothing noticed.
+      const errors = watchForErrors(page);
+      await page.setViewportSize(vp);
+      await startGame(page, { seed: 'reach' });
+      await clearBoons(page);
+      await page.waitForTimeout(250);
+      const out = await page.evaluate(() => [...document.querySelectorAll('#screen-game .ctl, #screen-game .bottombar button')]
+        .filter(b => { const r = b.getBoundingClientRect(); return r.bottom > innerHeight + 1 || r.right > innerWidth + 1 || r.top < -1 || r.height < 30; })
+        .map(b => b.getAttribute('aria-label') || b.textContent.trim()));
+      expect(out, 'controls off screen or too small to press').toEqual([]);
+      expect(errors).toEqual([]);
+    });
+  }
+
+  test('on a tall phone the view grows into the spare height without stretching', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 393, height: 851 });
+    await startGame(page, { seed: 'tall-view' });
+    await clearBoons(page);
+    await page.waitForTimeout(250);
+    const v = await page.evaluate(() => {
+      const c = document.getElementById('view'), b = c.getBoundingClientRect();
+      const pad = document.querySelector('.dpad').getBoundingClientRect(), ctl = document.querySelector('.controls').getBoundingClientRect();
+      return { share: b.height / innerHeight, buffer: c.height, aspect: (b.width / c.width) / (b.height / c.height),
+        slack: ctl.height - pad.height };
+    });
+    // the view used to be fixed at 16:10, under 30% of the screen, while the
+    // controls padded a quarter of it with nothing
+    expect(v.share, 'the view should take a real share of a tall screen').toBeGreaterThan(0.4);
+    expect(v.buffer, 'the renderer should draw a taller picture, not scale a short one').toBeGreaterThan(260);
+    expect(Math.abs(v.aspect - 1), 'pixels should stay square').toBeLessThan(0.03);
+    expect(v.slack, 'the controls should not be padded with empty space').toBeLessThan(40);
+    expect(errors).toEqual([]);
+  });
+
   test('on a narrow phone the message box wraps rather than cutting off the roll', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.setViewportSize({ width: 360, height: 780 });

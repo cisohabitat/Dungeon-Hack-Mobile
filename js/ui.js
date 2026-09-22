@@ -22,7 +22,7 @@ const UI = (() => {
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     // the raycaster draws into whichever canvas is on screen
     if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; refreshTitle(); }
-    else if (id === 'screen-game') Renderer.init($('#view'));
+    else if (id === 'screen-game') { Renderer.init($('#view')); fitView(); }
   }
   function refreshTitle() {
     const s = Game.saveSummary();
@@ -345,6 +345,15 @@ const UI = (() => {
     // where the oldest line starts instead.
     const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
     while (el.children.length > 1 && el.firstElementChild.getBoundingClientRect().top < top) el.removeChild(el.firstElementChild);
+  }
+  // Render exactly as many rows as the box the view was given has room for,
+  // so its pixels stay square however tall the phone is.
+  function fitView() {
+    if (!$('#screen-game').classList.contains('active')) return;
+    const box = $('#view').parentElement.getBoundingClientRect();
+    if (box.width < 10 || box.height < 10) return;
+    const want = Renderer.W * box.height / box.width;
+    if (Math.abs(want - Renderer.H) >= 2) Renderer.setHeight(want);
   }
   function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
   // The dice come in one fixed shape, so set them apart as a footnote that
@@ -961,10 +970,10 @@ const UI = (() => {
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));
     bindControls();
     refreshTitle();
-    window.addEventListener('resize', () => { if (overlay === 'map') renderMap(); });
+    window.addEventListener('resize', () => { fitView(); if (overlay === 'map') renderMap(); });
   }
 
-  return { init, paused, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
+  return { init, paused, fitView, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'),
     isTitle: () => $('#screen-title').classList.contains('active') };
 })();

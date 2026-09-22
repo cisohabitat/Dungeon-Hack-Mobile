@@ -131,8 +131,12 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* Game layout */
 #screen-game { padding-top: var(--sat); }
 .game-layout { display: flex; flex-direction: column; height: 100%; }
-.view-col { display: flex; flex-direction: column; flex: 0 0 auto; }
-.ctrl-col { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+/* Portrait: the view takes the spare height first (up to square), the log
+   what is left after that, and the controls only what the buttons need. The
+   controls used to take all the slack, which on a modern phone left a quarter
+   of the screen as padding around the buttons. */
+.view-col { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.ctrl-col { display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; }
 .hud { display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: var(--panel); border-bottom: 1px solid var(--border); font-size: 0.85rem; }
 .hud-name { flex: 0 0 auto; max-width: 30%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .hud-bars { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
@@ -150,8 +154,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .compare.up { color: var(--green); }
 .compare.down { color: #e08a80; }
 #hud-compass { color: var(--dim); font-family: monospace; }
-.view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border); }
-#view { display: block; width: 100%; aspect-ratio: 16/10; max-height: 46vh; max-height: 46dvh; margin: 0 auto; touch-action: none; }
+.view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border);
+  flex: 1000 1 auto; min-height: calc(100vw * 0.625); max-height: calc(100vw * 0.9375); }
+/* the buffer height is matched to this box in script, so the fill is exact;
+   contain only matters at the extremes where the buffer hits its limits */
+#view { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0 auto; touch-action: none; }
 #minimap { position: absolute; top: 6px; right: 6px; width: 90px; height: 90px; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; background: rgba(0,0,0,0.55); image-rendering: auto; opacity: 0.9; }
 .log-history div { padding: 4px 0; border-bottom: 1px solid #1c1a26; }
 .log-history div.bad { color: #f08a80; }
@@ -168,7 +175,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud-status span { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); }
 .hud-status .bad { color: #f88; }
 .hud-status .good { color: #8f8; }
-.log { height: 6.4em; overflow: hidden; padding: 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
+.log { flex: 1 1 auto; height: 6.4em; min-height: 5.6em; overflow: hidden; padding: 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
 /* lines wrap rather than truncate: on a phone the ellipsis was eating the
    damage and the dice, which were the parts worth reading. They must not
    shrink either, or the flex column squashes a wrapped line back to one row
@@ -179,9 +186,10 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log div.good { color: #9ee08a; }
 .log div.info { color: #9ab8f0; }
 .log div:last-child { color: #fff; }
-.controls { flex: 1 1 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; min-height: 150px; }
-.dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 6px; width: 52%; max-width: 250px; height: min(100%, 150px); }
-.actions { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; width: 44%; max-width: 220px; height: min(100%, 150px); }
+.controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; }
+/* sized to the screen: roomier on a big phone, never cramped on a small one */
+.dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 6px; width: 52%; max-width: 250px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }
+.actions { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; width: 44%; max-width: 220px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }
 .actions .attack { grid-row: 1 / 3; background: #4a2020; border-color: #8a3a34; font-size: 1.6rem; }
 .ctl { font-size: 1.5rem; padding: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; touch-action: none; }
 .ctl small { font-size: 0.65rem; color: var(--dim); margin-top: 3px; letter-spacing: 0.05em; }
@@ -252,11 +260,18 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
   .view-col { flex: 1 1 60%; max-width: none; justify-content: center; min-width: 0; }
   .view-wrap { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; min-height: 0; }
   #view { max-height: none; max-width: 100%; width: 100%; height: 100%; object-fit: contain; aspect-ratio: auto; }
+  .view-wrap { min-height: 0; max-height: none; }
   .ctrl-col { flex: 0 0 340px; border-left: 1px solid var(--border); justify-content: space-between; }
   /* fill the column rather than hugging the top corner */
   .controls { flex-direction: column; justify-content: center; gap: 18px; flex: 1 1 auto; padding: 16px; }
-  .dpad, .actions { width: 100%; max-width: 300px; height: auto; aspect-ratio: 3 / 2; margin: 0 auto; }
-  .actions { aspect-ratio: 2 / 2; }
+  /* Size the pads from the height there is, not the column's width: on a
+     landscape phone the width-driven version was 550px tall in a 390px
+     screen, and Cast sat below the edge where nobody could press it. */
+  .controls { min-height: 0; }
+  .dpad, .actions { width: auto; max-width: 100%; align-self: center; margin: 0 auto;
+    height: min(200px, calc((100vh - 118px - var(--sat) - var(--sab)) / 2));
+    height: min(200px, calc((100dvh - 118px - var(--sat) - var(--sab)) / 2)); aspect-ratio: 3 / 2; }
+  .actions { aspect-ratio: 1; }
   .log { flex: 1 1 auto; height: auto; min-height: 7.4em; justify-content: flex-end; }
   .view-col { display: flex; flex-direction: column; }
 }

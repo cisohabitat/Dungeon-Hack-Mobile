@@ -4,7 +4,13 @@ import { Dungeon } from './dungeon.js';
 // First-person raycast renderer with textured walls and billboard sprites.
 
 const Renderer = (() => {
-  const W = 320, H = 200;
+  // The buffer is always 320 wide; its height follows the shape of the space
+  // the view is given, so a tall phone gets a tall view instead of empty
+  // screen. P is the projection scale, the height a wall one tile away fills.
+  // It stays fixed, so walls keep their proportions and a taller view simply
+  // shows more floor and ceiling, as a lens held upright would.
+  const W = 320, P = 200, H_MIN = 200, H_MAX = 300;
+  let H = H_MIN;
   const FOV = Math.PI / 3;
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
@@ -14,23 +20,34 @@ const Renderer = (() => {
   const lightCache = new WeakMap();
   let canvas, ctx, fb, fb32;
   const zbuf = new Float32Array(W);
-  const rowLevel = new Uint8Array(H);   // darkness level per floor row
-  const rowDist = new Float32Array(H);
-  for (let y = H / 2 + 1; y < H; y++) {
-    const dist = (H / 2) / (y - H / 2);
-    rowDist[y] = dist;
-    rowLevel[y] = Math.min(7, Math.round(dist / FOG * 7));
+  const rowLevel = new Uint8Array(H_MAX);   // darkness level per floor row
+  const rowDist = new Float32Array(H_MAX);
+  function buildRows() {
+    for (let y = H / 2 + 1; y < H; y++) {
+      const dist = (P / 2) / (y - H / 2);
+      rowDist[y] = dist;
+      rowLevel[y] = Math.min(7, Math.round(dist / FOG * 7));
+    }
   }
+  buildRows();
   const shadeStyles = [];
   for (let i = 0; i <= 20; i++) shadeStyles.push(`rgba(0,0,0,${(i / 20).toFixed(2)})`);
 
-  function init(c) {
+  function init(c, height) {
     canvas = c;
+    setHeight(height || H_MIN);
+  }
+  /** Match the buffer to the view's shape. Returns the height it settled on. */
+  function setHeight(h) {
+    // even, so the horizon falls between two rows as it always has
+    H = Math.max(H_MIN, Math.min(H_MAX, Math.round(h / 2) * 2));
     canvas.width = W; canvas.height = H;
     ctx = canvas.getContext('2d', { alpha: false });
     ctx.imageSmoothingEnabled = false;
     fb = ctx.createImageData(W, H);
     fb32 = new Uint32Array(fb.data.buffer);
+    buildRows();
+    return H;
   }
 
   // Textured floor and ceiling: for every screen row below the horizon, walk
@@ -144,7 +161,7 @@ const Renderer = (() => {
       const dist = side === 0 ? (sdx - ddx) : (sdy - ddy);
       zbuf[col] = dist;
       if (dist > FOG + 1) continue;
-      const lineH = Math.floor(H / dist);
+      const lineH = Math.floor(P / dist);
       const top = ((H - lineH) / 2) | 0;
       let wallX = side === 0 ? py + dist * rdy : px + dist * rdx;
       wallX -= Math.floor(wallX);
@@ -179,7 +196,7 @@ const Renderer = (() => {
     list.sort((a, b) => b.tY - a.tY);
     for (const { s, tX, tY } of list) {
       const screenX = (W / 2) * (1 + tX / tY);
-      const hFull = H / tY;
+      const hFull = P / tY;
       const sh = hFull * s.scale;
       const sw = sh;
       const floorY = H / 2 + hFull / 2;
@@ -222,7 +239,7 @@ const Renderer = (() => {
       if (tY <= 0.15) continue;
       const tX = invDet * (dirY * sx - dirX * sy);
       const screenX = (W / 2) * (1 + tX / tY);
-      const hFull = H / tY;
+      const hFull = P / tY;
       const age = (now - t.born) / (t.until - t.born);
       const y = H / 2 - hFull * 0.4 - age * 18;
       ctx.globalAlpha = Math.max(0, 1 - age);
@@ -312,7 +329,7 @@ const Renderer = (() => {
     }
   }
 
-  return { init, render, W, H, FOG };
+  return { init, render, setHeight, W, H_MIN, H_MAX, FOG, get H() { return H; } };
 })();
 
 export { Renderer };
