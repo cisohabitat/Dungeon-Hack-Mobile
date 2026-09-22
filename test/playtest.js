@@ -41,6 +41,7 @@ function run(ctx, cls, seed, opts) {
   // BFS from the player over passable tiles, returning a distance field
   const field = (L, tx, ty, treatDoorsOpen) => {
     const dist = new Int32Array(L.w * L.h).fill(-1);
+    const solidNpc = new Set((L.npcs || []).map(n => n.y * L.w + n.x).filter(i => i !== ty * L.w + tx));
     const q = [ty * L.w + tx];
     dist[q[0]] = 0;
     for (let qi = 0; qi < q.length; qi++) {
@@ -51,6 +52,7 @@ function run(ctx, cls, seed, opts) {
         const ni = ny * L.w + nx;
         if (dist[ni] >= 0) continue;
         const t = L.tiles[ni];
+        if (solidNpc.has(ni)) continue;
         if (t === T.FLOOR || t === T.DOOR_OPEN || t === T.DOOR || (treatDoorsOpen && t === T.DOOR_LOCKED)) { dist[ni] = dist[i] + 1; q.push(ni); }
       }
     }

@@ -120,11 +120,11 @@ Tuned against the simulator rather than by feel. Over 240 bot runs on a fixed se
 
 | Class | Win rate | Average depth reached |
 | --- | --- | --- |
-| Fighter | 30% | 5.6 |
-| Cleric | 48% | 5.2 |
-| Mage | 15% | 4.3 |
-| Thief | 10% | 4.5 |
-| **Overall** | **26%** | **4.9** |
+| Fighter | 35% | 6.2 |
+| Cleric | 50% | 5.0 |
+| Mage | 18% | 4.4 |
+| Thief | 15% | 4.6 |
+| **Overall** | **30%** | **5.0** |
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
 mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
