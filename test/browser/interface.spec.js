@@ -139,6 +139,59 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the corner map draws a torch as the wall it is set into', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'mini-torch' });
+    await clearBoons(page);
+
+    // stand next to a torch with the ground around it explored, then read the
+    // pixel the corner map draws for it
+    const probe = await page.evaluate(async () => {
+      const L = Game.level(), p = Game.player(), T = Dungeon.T;
+      let at = null;
+      for (let i = 0; i < L.tiles.length && !at; i++) {
+        if (L.tiles[i] !== T.TORCH) continue;
+        const tx = i % L.w, ty = (i / L.w) | 0;
+        // a walkable square next to it to stand on
+        for (const [dx, dy] of Dungeon.DIRS) {
+          const sx = tx + dx, sy = ty + dy;
+          if (L.tiles[sy * L.w + sx] === T.FLOOR) { at = { tx, ty, sx, sy }; break; }
+        }
+      }
+      if (!at) return null;
+      p.x = at.sx; p.y = at.sy;
+      // the map only draws what has been seen
+      for (let y = at.sy - 2; y <= at.sy + 2; y++) for (let x = at.sx - 2; x <= at.sx + 2; x++) {
+        if (x >= 0 && y >= 0 && x < L.w && y < L.h) L.explored[y * L.w + x] = 1;
+      }
+      await new Promise(r => setTimeout(r, 300));
+
+      const c = document.getElementById('minimap');
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      const R = 7, size = 6;
+      const read = (gx, gy) => {
+        const px = (gx - at.sx + R) * size + 3, py = (gy - at.sy + R) * size + 3;
+        const d = ctx.getImageData(px, py, 1, 1).data;
+        return `${d[0]},${d[1]},${d[2]}`;
+      };
+      // a plain wall to compare against, and a floor square
+      let wall = null, floor = null;
+      for (let y = at.sy - 2; y <= at.sy + 2 && !(wall && floor); y++) {
+        for (let x = at.sx - 2; x <= at.sx + 2; x++) {
+          const t = L.tiles[y * L.w + x];
+          if (t === T.WALL && !wall) wall = read(x, y);
+          if (t === T.FLOOR && !floor && !(x === at.sx && y === at.sy)) floor = read(x, y);
+        }
+      }
+      return { torch: read(at.tx, at.ty), wall, floor };
+    });
+
+    test.skip(!probe, 'no torch with open ground beside it on this level');
+    expect(probe.torch, 'a torch should be drawn as wall, not picked out').toBe(probe.wall);
+    if (probe.floor) expect(probe.torch, 'and never as walkable floor').not.toBe(probe.floor);
+    expect(errors).toEqual([]);
+  });
+
   test('the pack compares a weapon against the one already in hand', async ({ page }) => {
     await startGame(page, { seed: 'ui-compare' });
     await clearBoons(page);

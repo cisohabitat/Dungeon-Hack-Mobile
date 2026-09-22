@@ -345,8 +345,10 @@ const UI = (() => {
       if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
       const t = L.tiles[y * L.w + x];
       let col = '#1c1a26';
-      if (t === T.WALL || t === T.SECRET) col = '#5a5670';
-      else if (t === T.TORCH) col = '#c08030';
+      // a torch is a bracket set into a wall, so it reads as wall here: picking
+      // it out in its own colour made the corner map busy and told you nothing
+      // you could act on
+      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#5a5670';
       else if (t === T.DOOR) col = '#a0783c';
       else if (t === T.DOOR_OPEN) col = '#6a5030';
       else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
