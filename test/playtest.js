@@ -8,6 +8,25 @@ const BACKGROUND_ROTATION = ['oathbroken', 'tombwise', 'ashborn', 'cloistered', 
 const TICK = 300;   // ms of game time per bot action, roughly a brisk human pace
 
 function run(ctx, cls, seed, opts, bg) {
+  const { Rng, Dice } = ctx;
+  // Live events roll two ways: the shared Dice, seeded from the clock when the
+  // module loads, and bare Math.random. Neither is reproducible, so two
+  // benchmark passes never saw the same fight and comparing them measured
+  // noise. Seed both from the run's own identity, and a tuning change becomes
+  // the only thing that can differ between two passes.
+  const key = `${seed}|${cls}|${bg}`;
+  const loose = new Rng(key + '|loose');
+  const realRandom = Math.random;
+  Dice.s = new Rng(key).s;
+  Math.random = () => loose.next();
+  try {
+    return play(ctx, cls, seed, opts, bg);
+  } finally {
+    Math.random = realRandom;
+  }
+}
+
+function play(ctx, cls, seed, opts, bg) {
   const { Game, Dungeon, ITEMS } = ctx;
   const T = Dungeon.T;
   Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
@@ -250,8 +269,8 @@ function run(ctx, cls, seed, opts, bg) {
 }
 
 const opts = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
-// A fixed seed set so results are comparable between tuning passes, with repeat
-// trials because combat dice are unseeded.
+// A fixed seed set so results are comparable between tuning passes. The dice are
+// seeded per run too, so the same command twice gives the same answer.
 const SEEDS = Array.from({ length: 20 }, (_, i) => 'bench' + i);
 const TRIALS = parseInt(process.argv[3] || '2', 10);
 const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief'];

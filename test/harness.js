@@ -43,6 +43,7 @@ async function loadGame(opts = {}) {
     Game: game.Game,
     Dungeon: dungeon.Dungeon,
     Rng: rng.Rng,
+    Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
     store,
     ...data,
   };
