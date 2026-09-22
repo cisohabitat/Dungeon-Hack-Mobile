@@ -28,6 +28,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   anyone can read.
 - **Items.** Weapons, armour and shields with enchantments, potions, scrolls, food, gems, gold,
   and colour-coded keys for locked doors.
+- **A trader in the dark.** A hooded merchant keeps a pitch on about two levels in five, selling
+  potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
+  its worth. Buying something identifies it. Gold you never spend is just a number on your
+  gravestone.
 - **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
   nearby enemies.
 - **A real endgame.** Taking the Heart of the Mountain does not end the run. Every dead thing in

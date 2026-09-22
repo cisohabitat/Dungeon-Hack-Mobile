@@ -159,6 +159,32 @@ const THEMES = [
 
 // Pixel art. '.' is transparent; other characters map to palette colours.
 const SPRITES = {
+  merchant: { shadow: 1, pal: { 'm': '#c8a078', 'l': '#e0bc96', 'd': '#8a6a4a', 'k': '#141018', 'b': '#141018', 'w': '#e8e4d8', 'c': '#6b4a8a', 'y': '#e0b84a' }, rows: [
+    '........................',
+    '........................',
+    '.......lmmmmmmmml.......',
+    '......lmmmmmmmmmml......',
+    '......mmkkbmmbkkmm......',
+    '......mmmmmmmmmmmm......',
+    '......mwwwmmmmwwwm......',
+    '.......wwwmmmmwww.......',
+    '.......mmmmmmmmmm.......',
+    '........ccc..ccc........',
+    '....cllccccccccccllc....',
+    '...ccc.cccccccccc.ccc...',
+    '...ccc.cccccccccc.ccc...',
+    '...dcc.cyyyccyyyc.ccd...',
+    '...dcc.cyyyccyyyc.ccd...',
+    '....dc.cccccccccc.cd....',
+    '.......cccccccccc.......',
+    '.......cccccccccc.......',
+    '........ccc..ccc........',
+    '........ccc..ccc........',
+    '........ccc..ccc........',
+    '........ccc..ccc........',
+    '.......dccc..cccd.......',
+    '......dcccd..dcccd......',
+  ] },
   skeleton: { shadow: 1, pal: { 'm': '#ded6c0', 'l': '#fffaf0', 'd': '#9a9078', 'k': '#141018' }, rows: [
     '........................',
     '........................',

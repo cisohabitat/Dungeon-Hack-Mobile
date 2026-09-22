@@ -315,6 +315,62 @@ const UI = (() => {
     ctx.restore();
     miniSig = sig;
   }
+  // What an item does, in one line. Unknown potions and scrolls stay a mystery.
+  function itemBlurb(it) {
+    const b = ITEMS[it.t];
+    if (!Game.isKnown(it.t)) return 'You do not know what this does';
+    if (b.kind === 'weapon') {
+      const d = b.dmg;
+      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${it.e ? ' +' + it.e : ''}, ${(b.speed / 1000).toFixed(1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
+    }
+    if (b.kind === 'armor') return `Armor class +${b.ac + (it.e || 0)} (${b.weight})`;
+    if (b.kind === 'shield') return `Armor class +${b.ac + (it.e || 0)}, needs a free hand`;
+    if (b.kind === 'food') return `Restores ${b.food} nourishment`;
+    return b.desc || '';
+  }
+
+  function shopRow(it, price, label, enabled, onClick, note) {
+    const row = document.createElement('div');
+    row.className = 'shop-row';
+    const img = document.createElement('img');
+    img.src = Assets.sprites[Game.spriteFor(it)].url;
+    img.alt = '';
+    row.appendChild(img);
+    const what = document.createElement('div');
+    what.className = 'what';
+    what.innerHTML = `<b>${escapeHtml(Game.itemName(it))}</b><small>${escapeHtml(note || '')}</small>`;
+    row.appendChild(what);
+    const btn = document.createElement('button');
+    btn.textContent = `${label} ${price}g`;
+    btn.disabled = !enabled;
+    if (enabled) btn.className = 'afford';
+    btn.addEventListener('click', () => { onClick(); renderShop(); });
+    row.appendChild(btn);
+    return row;
+  }
+  function renderShop() {
+    const s = Game.currentShop();
+    if (!s) { closeOverlay(); return; }
+    const p = Game.player();
+    $('#shop-gold').textContent = `${p.gold} gold`;
+    const stock = $('#shop-stock');
+    stock.innerHTML = '';
+    if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
+    for (const it of s.stock.slice()) {
+      const price = Game.buyPrice(s, it);
+      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'The trader will tell you what it is') + (it.q > 1 ? ` · ${it.q} in stock` : '');
+      stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
+    }
+    const sellBox = $('#shop-sell');
+    sellBox.innerHTML = '';
+    const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key');
+    if (!sellable.length) sellBox.innerHTML = '<div class="shop-empty">Nothing in your pack the trader wants.</div>';
+    for (const it of sellable) {
+      const price = Game.sellPrice(it);
+      sellBox.appendChild(shopRow(it, price, 'Sell', true, () => Game.sell(it), it.q > 1 ? `You carry ${it.q}` : itemBlurb(it)));
+    }
+  }
+
   function renderLogHistory() {
     const G = Game.state();
     $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('') + '</div>';
@@ -339,9 +395,11 @@ const UI = (() => {
     if (name === 'char') renderChar();
     if (name === 'menu') renderMenu();
     if (name === 'log') renderLogHistory();
+    if (name === 'shop') renderShop();
   }
   function closeOverlay() {
     if (!overlay) return;
+    if (overlay === 'shop') Game.closeShop();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
     selectedItem = null; selectedSlot = null;
@@ -412,11 +470,8 @@ const UI = (() => {
     if (!it) { box.classList.remove('open'); return; }
     const b = ITEMS[it.t];
     box.classList.add('open');
-    let info = b.desc || '';
-    if (b.kind === 'weapon') info = `Damage ${b.dmg[0]}d${b.dmg[1]}${b.dmg[2] ? '+' + b.dmg[2] : ''}${it.e ? ' +' + it.e : ''}, speed ${(b.speed / 1000).toFixed(1)}s${b.twoHanded ? ', two-handed' : ''}. Usable by ${b.cls.map(c => CLASSES[c].name + 's').join(', ')}.`;
-    if (b.kind === 'armor') info = `Armor class +${b.ac + (it.e || 0)} (${b.weight}).`;
-    if (b.kind === 'shield') info = `Armor class +${b.ac + (it.e || 0)}. Needs a free hand.`;
-    if (b.kind === 'food') info = `Restores ${b.food} nourishment.`;
+    let info = itemBlurb(it);
+    if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].name + 's').join(', ')}.`;
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
@@ -635,10 +690,12 @@ const UI = (() => {
 
   function handleEvents() {
     for (const e of Game.takeEvents()) {
-      if (e === 'escape') { hudSig = ''; refreshHud(); }
+      if (e === 'shop') openOverlay('shop');
+      else if (e === 'escape') { hudSig = ''; refreshHud(); }
       else if (e === 'dead') showEnd(false);
       else if (e === 'won') showEnd(true);
-      else if (e === 'inv' && overlay === 'inv') renderInv();
+      else if (e === 'inv') { if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
+      else if (e === 'stats' && overlay === 'shop') renderShop();
     }
   }
 

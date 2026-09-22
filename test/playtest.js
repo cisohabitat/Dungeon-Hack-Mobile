@@ -178,6 +178,39 @@ function run(ctx, cls, seed, opts) {
       if (Game.rest()) { rec.rests++; Game.update(now, TICK); continue; }
     }
 
+    // --- visit the trader while we still have coin and room to carry
+    const npc = (L.npcs || [])[0];
+    // give up after a while: the trader may sit behind a door we have no key for
+    if (npc && !rec.shopped && p.gold >= 50 && p.inv.length < 16 && (rec.shopTries = (rec.shopTries || 0) + 1) < 140) {
+      const beside = Math.abs(npc.x - p.x) + Math.abs(npc.y - p.y) === 1;
+      if (Game.currentShop()) {
+        // stock up on what keeps us alive, cheapest first
+        const s = Game.currentShop();
+        const want = s.stock
+          .filter(i => ['potion_heal', 'potion_xheal', 'ration', 'meat', 'potion_cure'].includes(i.t))
+          .sort((a, b) => Game.buyPrice(s, a) - Game.buyPrice(s, b));
+        let bought = 0;
+        for (const i of want) {
+          while (i.q > 0 && p.gold >= Game.buyPrice(s, i) * 2 && p.inv.length < 18 && Game.buy(i)) bought++;
+        }
+        rec.bought = bought;
+        rec.shopped = true;
+        Game.closeShop();
+        Game.update(now, TICK);
+        continue;
+      }
+      if (beside) {
+        p.dir = Dungeon.DIRS.findIndex(([dx, dy]) => p.x + dx === npc.x && p.y + dy === npc.y);
+        Game.input('forward');
+        Game.update(now, TICK);
+        continue;
+      }
+      stepToward(npc.x, npc.y);
+      Game.update(now, TICK);
+      continue;
+    }
+    if (npc && rec.shopTries >= 140) rec.shopped = true;   // stop trying, get on with it
+
     // --- otherwise head for the down stairs, picking up what we pass
     const target = L.stairsDown;
     if (!target) {
@@ -216,6 +249,7 @@ function run(ctx, cls, seed, opts) {
   const fin = snap();
   rec.adjAtEnd = fin.adj; rec.nearAtEnd = fin.near; rec.awakeAtEnd = fin.awake; rec.totalAtEnd = fin.total;
   rec.killerLog = G.log.slice(-6).map(l => l.m).filter(m => /hits you|shoots|poison|starv|trap|dart|needle|pit/i.test(m)).slice(-3);
+  rec.goldSpent = rec.goldSpent || 0;
   rec.depth = G.depth;
   rec.deepest = p.deepest;
   rec.kills = p.kills;
@@ -254,7 +288,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  stuck ${stuck}`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);

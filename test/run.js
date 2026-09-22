@@ -32,8 +32,9 @@ for (const k in SPRITES) {
   for (const key in s.pal) check(used.has(key), `${k} palette key '${key}' is never used`);
 }
 
-function solvable(L) {
+function solvable(L, blockNpcs) {
   const { w, h } = L;
+  const blocked = new Set(blockNpcs ? (L.npcs || []).map(n => n.y * w + n.x) : []);
   const keys = new Set(), opened = new Set();
   let progress = true, reached = false, artifact = false;
   while (progress) {
@@ -51,6 +52,7 @@ function solvable(L) {
         const t = L.tiles[ni];
         if (t === T.STAIRS_DOWN) { reached = true; continue; }
         if (t === T.WALL || t === T.STAIRS_UP || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH) continue;
+        if (blocked.has(ni)) continue;   // you cannot walk through the trader
         if (t === T.DOOR_LOCKED && !opened.has(ni)) {
           const c = L.locks[nx + ',' + ny];
           if (keys.has(c)) { opened.add(ni); progress = true; } else continue;
@@ -67,7 +69,7 @@ function solvable(L) {
   return L.isFinal ? artifact : reached;
 }
 
-let vaults = 0, fountains = 0, torches = 0, elites = 0;
+let vaults = 0, fountains = 0, torches = 0, elites = 0, traders = 0;
 let levels = 0;
 for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x', 'a longer seed with spaces']) {
   for (const size of ['small', 'medium', 'large']) {
@@ -76,6 +78,14 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
       const L = Dungeon.generate(seed, depth, opts);
       levels++;
       check(solvable(L), `level not solvable: seed=${seed} size=${size} depth=${depth}`);
+      // the trader stands on a floor tile, so they must not be the only way past
+      check(solvable(L, true), `trader blocks the only route: seed=${seed} size=${size} depth=${depth}`);
+      for (const n of (L.npcs || [])) {
+        check(L.tiles[n.y * L.w + n.x] === T.FLOOR, `trader is not on a floor tile: seed=${seed} depth=${depth}`);
+        check(!L.monsters.some(m => m.x === n.x && m.y === n.y), `a monster shares the trader's tile: seed=${seed} depth=${depth}`);
+        check(n.stock.length > 0, `trader has nothing to sell: seed=${seed} depth=${depth}`);
+      }
+      traders += (L.npcs || []).length;
       vaults += L.tiles.filter(t => t === T.SECRET).length;
       fountains += Object.keys(L.features).length;
       torches += L.lights.length;
@@ -123,5 +133,6 @@ const dpsOf = m => (m.dmg[0] * (m.dmg[1] + 1) / 2 + m.dmg[2]) / (m.speed / 1000)
 }
 check(vaults > 0 && fountains > 0, 'no vaults or fountains generated at all');
 check(torches > 0 && elites > 0, 'no torches or elite monsters generated at all');
-console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions), ${failures} failure(s)`);
+check(traders > 0, 'no traders generated at all');
+console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);

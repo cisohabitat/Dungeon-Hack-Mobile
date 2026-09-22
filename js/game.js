@@ -39,6 +39,7 @@ const Game = (() => {
   }
   function setTile(x, y, t) { const L = lvl(); L.tiles[y * L.w + x] = t; }
   function monsterAt(x, y) { return lvl().monsters.find(m => m.x === x && m.y === y) || null; }
+  function npcAt(x, y) { const L = lvl(); return (L.npcs || []).find(n => n.x === x && n.y === y) || null; }
   function passable(x, y) { const t = tile(x, y); return t === T.FLOOR || t === T.DOOR_OPEN; }
 
   // ---------- character ----------
@@ -350,6 +351,7 @@ const Game = (() => {
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
     for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; }
+    shop = null;
     snapCam();
     distFieldAt = -1e9;
     p.deepest = Math.max(p.deepest, depth);
@@ -390,6 +392,8 @@ const Game = (() => {
     if (t === T.STAIRS_UP) { ascend(); return true; }
     if (t === T.SECRET) { revealSecret(nx, ny, false); return true; }
     if (t === T.FOUNTAIN) { drinkFountain(nx, ny); return true; }
+    const trader = npcAt(nx, ny);
+    if (trader) { openShop(trader); return true; }
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     p.x = nx; p.y = ny; p.steps++;
@@ -496,6 +500,8 @@ const Game = (() => {
     if (t === T.STAIRS_UP) return ascend();
     if (t === T.SECRET) return revealSecret(tx, ty, false);
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
+    const ahead = npcAt(tx, ty);
+    if (ahead) return openShop(ahead);
     if (monsterAt(tx, ty)) return attack();
     if (t === T.WALL) { log('You search the wall but find nothing.'); return; }
     if (t === T.DOOR_OPEN) {
@@ -503,6 +509,61 @@ const Game = (() => {
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
     log('There is nothing to use here.');
+  }
+
+  // ---------- trading ----------
+  // Prices key off the item's own value so the shelf stays sane at any depth.
+  function buyPrice(shop, it) {
+    const v = ITEMS[it.t].value || 5;
+    return Math.max(2, Math.round(v * shop.markup * (1 + (it.e || 0) * 0.9)));
+  }
+  function sellPrice(it) {
+    const v = ITEMS[it.t].value || 1;
+    return Math.max(1, Math.round(v * 0.45 * (1 + (it.e || 0) * 0.8)));
+  }
+  let shop = null;
+  function openShop(n) {
+    shop = n;
+    if (!n.greeted) {
+      n.greeted = true;
+      log('A hooded trader looks up from a lantern-lit pack. "Coin for goods, friend."', 'info');
+    }
+    Sound.play('gold');
+    emit('shop');
+    return true;
+  }
+  function currentShop() { return shop; }
+  function closeShop() { shop = null; }
+  function buy(it) {
+    const p = P();
+    if (!shop) return false;
+    const price = buyPrice(shop, it);
+    if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
+    const one = { t: it.t, q: 1, e: it.e || 0 };
+    if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
+    p.gold -= price;
+    it.q--;
+    if (it.q <= 0) shop.stock.splice(shop.stock.indexOf(it), 1);
+    G.known[one.t] = 1;   // the trader tells you what it is, so name it plainly
+    log(`You buy the ${itemName(one)} for ${price} gold.`, 'good');
+    Sound.play('gold');
+    emit('inv'); emit('stats');
+    return true;
+  }
+  function sell(it) {
+    const p = P();
+    if (!shop) return false;
+    if (it.t === 'artifact') { log('The trader pales and refuses to touch it.', 'bad'); return false; }
+    if (it.t === 'key') { log('"Keys are no use to me."'); return false; }
+    const price = sellPrice(it);
+    const one = removeOne(it);
+    p.gold += price;
+    const ex = shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0));
+    if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0 });
+    log(`You sell the ${itemName(one)} for ${price} gold.`, 'good');
+    Sound.play('gold');
+    emit('inv'); emit('stats');
+    return true;
   }
 
   // ---------- combat ----------
@@ -797,7 +858,7 @@ const Game = (() => {
     const opts = [];
     for (const [dx, dy] of DIRS) {
       const nx = m.x + dx, ny = m.y + dy;
-      if (passable(nx, ny) && !monsterAt(nx, ny) && !(nx === p.x && ny === p.y)) opts.push([nx, ny]);
+      if (passable(nx, ny) && !monsterAt(nx, ny) && !npcAt(nx, ny) && !(nx === p.x && ny === p.y)) opts.push([nx, ny]);
     }
     if (opts.length) { const o = Dice.pick(opts); moveMonster(m, o[0], o[1]); }
   }
@@ -875,7 +936,7 @@ const Game = (() => {
         const nx = m.x + dx, ny = m.y + dy;
         if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
         const dd = distField[ny * L.w + nx];
-        if (dd >= 0 && dd < bd && !monsterAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
+        if (dd >= 0 && dd < bd && !monsterAt(nx, ny) && !npcAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
       }
       const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
       if (best) {
@@ -955,6 +1016,9 @@ const Game = (() => {
       const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
       sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
     }
+    for (const n of (L.npcs || [])) {
+      sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites.merchant, scale: 0.95, yOff: 0 });
+    }
     for (const k in L.items) {
       const list = L.items[k];
       if (!list.length) continue;
@@ -990,6 +1054,7 @@ const Game = (() => {
       for (const dpt in G.levels) {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
+        if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
       }
       if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
       if (!G.looks) G.looks = buildLooks(G.seed);
@@ -1017,6 +1082,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };

@@ -287,6 +287,73 @@ const Dungeon = (() => {
       v++;
     }
 
+    // ---- a merchant, so the gold you haul up is worth something ----
+    const npcs = [];
+    if (!isFinal && depth > 1 && rng.chance(0.45)) {
+      const cands = rooms.filter(r => r !== startRoom);
+      for (const r of rng.shuffle(cands.slice())) {
+        const spots = [];
+        for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y]) spots.push([x, y]);
+        }
+        if (!spots.length) continue;
+        // The trader is solid, so they must not be the one tile holding the level
+        // together. Count what is reachable with and without them standing there.
+        const reach = blocker => {
+          const seen = new Uint8Array(w * h);
+          const q = [idx(start.x, start.y)];
+          seen[q[0]] = 1;
+          let n = 0;
+          for (let qi = 0; qi < q.length; qi++) {
+            const i = q[qi], x = i % w, y = (i / w) | 0;
+            n++;
+            for (const [dx, dy] of DIRS) {
+              const nx = x + dx, ny = y + dy;
+              if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+              const ni = idx(nx, ny);
+              if (seen[ni] || ni === blocker) continue;
+              const t = tiles[ni];
+              if (t === T.WALL || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH || t === T.STAIRS_UP) continue;
+              seen[ni] = 1;
+              q.push(ni);
+            }
+          }
+          return n;
+        };
+        const open = reach(-1);
+        let chosen = null;
+        for (const [sx, sy] of rng.shuffle(spots.slice())) {
+          if (reach(idx(sx, sy)) === open - 1) { chosen = [sx, sy]; break; }
+        }
+        if (!chosen) continue;   // every spot in this room is a chokepoint
+        const [mx, my] = chosen;
+        occupied.add(idx(mx, my));
+        // monsters must not be standing on top of the shop
+        for (let i = monsters.length - 1; i >= 0; i--) {
+          if (Math.abs(monsters[i].x - mx) + Math.abs(monsters[i].y - my) <= 1) monsters.splice(i, 1);
+        }
+        const stock = [];
+        const shelf = [
+          ['potion_heal', 40], ['potion_xheal', 12 + depth * 2], ['potion_cure', 14], ['potion_might', 10],
+          ['potion_mana', 12], ['scroll_heal', 12], ['scroll_fire', 10], ['scroll_map', 12], ['scroll_teleport', 8],
+          ['ration', 26], ['meat', 14],
+        ];
+        const n = rng.int(4, 6);
+        for (let i = 0; i < n; i++) {
+          const t = rng.weighted(shelf);
+          const ex = stock.find(s => s.t === t);
+          if (ex) ex.q++; else stock.push({ t, q: 1, e: 0 });
+        }
+        // one piece of gear, sometimes enchanted, priced accordingly
+        const maxTier = 1 + Math.floor(depth / 2);
+        const gearKind = rng.weighted([['weapon', 5], ['armor', 3], ['shield', 2]]);
+        const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1);
+        if (gearIds.length) stock.push({ t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 });
+        npcs.push({ id: 'merchant', x: mx, y: my, stock, markup: 1.8 + rng.next() * 0.6, greeted: false });
+        break;
+      }
+    }
+
     // ---- final level: boss and artifact ----
     if (isFinal) {
       const ax = farRoom.cx, ay = farRoom.cy;
@@ -300,7 +367,7 @@ const Dungeon = (() => {
     const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
     return {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
-      items, monsters, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
+      items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
       theme, isFinal, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
   }
