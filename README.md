@@ -102,14 +102,18 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ## Tests
 
 ```bash
-npm test          # generator, sprite and balance checks
+npm test          # generator, sprite, balance and rule checks
 npm run playtest  # 240 simulated runs, reports win rate by class
 ```
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
 depth per class, which is how the balance below was tuned rather than guessed at. `npm test`
-runs the headless generator checks: every level for a set of seeds and sizes must be solvable
+runs the headless generator checks, plus a rule suite that loads the real game logic and
+exercises the edge cases that are easy to break quietly: enchanted duplicates not merging in the
+pack, two-handed weapons stowing the shield, save surviving a JSON round trip with buffs intact,
+dropping from a full pack, poison and buffs expiring, the Heart resisting sale, and a trader
+charging the right price. The generator checks: every level for a set of seeds and sizes must be solvable
 (keys before the doors they open, stairs or artifact reachable), deterministic, and internally
 consistent. The sprite sheets are validated too. The same suite runs in GitHub Actions on every
 push and pull request.
