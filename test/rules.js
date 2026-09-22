@@ -101,6 +101,16 @@ await test('a second blade buys damage with rhythm, not for free', async () => {
 
   const o = Game.offhandWeapon();
   if (!o || o.name !== 'Short Sword') return 'the off hand reports no weapon';
+
+  // the second blade parries a little, but a shield is still the armour choice
+  p.eq.offhand = null; p.eq.shield = null;
+  const bare = Game.playerAC();
+  p.eq.offhand = blade;
+  const parrying = Game.playerAC();
+  p.eq.offhand = null; p.eq.shield = { t: 'towershield', q: 1, e: 0 };
+  const shielded = Game.playerAC();
+  if (!(parrying > bare)) return 'a second blade turned no blows aside';
+  if (!(shielded > parrying)) return 'a second blade guarded as well as a tower shield';
   return true;
 });
 

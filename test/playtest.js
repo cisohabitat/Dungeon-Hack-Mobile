@@ -33,6 +33,10 @@ function play(ctx, cls, seed, opts, bg) {
   const { Game, Dungeon, ITEMS } = ctx;
   const T = Dungeon.T;
   Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
+  // Measuring the build, not the drop rate: without this only about a third of
+  // runs happen to find a light blade, and the comparison mostly reports how
+  // often loot obliged.
+  if (DUAL && Game.canDualWield()) Game.player().inv.push({ t: 'shortsword', q: 1, e: 0 });
   let now = 0;
   const G = Game.state();
   const p = Game.player();
@@ -281,6 +285,7 @@ function play(ctx, cls, seed, opts, bg) {
   rec.won = G.status === 'won';
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
+  rec.dual = !!p.eq.offhand;      // did this bot actually end up fighting two-handed
   return rec;
 }
 
@@ -314,7 +319,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);

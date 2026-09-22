@@ -90,6 +90,10 @@ const Game = (() => {
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.15;
   const DUAL_HIT_PENALTY = 3;
+  // and turns a few blows aside on its own: without this the build measured
+  // eight points of win rate worse than a shield over full runs, which is a
+  // trap rather than a choice. One point of armour brings it level.
+  const DUAL_PARRY = 1;
   const OFFHAND_MAX_SPEED = 550;   // dagger, club, short sword: nothing heavier
   /** Why this cannot ride in the off hand, or null if it can. */
   function offhandReason(it) {
@@ -125,6 +129,8 @@ const Game = (() => {
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0);
+    // a second blade turns some blows aside, though never as many as a shield
+    if (p.eq.offhand) ac += DUAL_PARRY;
     return ac;
   }
   function knownSpells() {
