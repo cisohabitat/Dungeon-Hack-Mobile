@@ -22,9 +22,9 @@ const CLASSES = {
     startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', hitDie: 6, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Thief', hitDie: 8, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'Quick and cunning. Disarms traps and strikes sleeping foes twice as hard.',
-    startKit: ['shortsword', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
+    startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
 
@@ -43,6 +43,10 @@ const ITEMS = {
   flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'mace', tier: 3 },
   battleaxe:  { kind: 'weapon', name: 'Battle Axe',       dmg: [1, 8, 1],  speed: 850,  cls: ['fighter'], value: 18, sprite: 'axe', tier: 3 },
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'sword', tier: 4 },
+  // thrown and missile arms. Attack reaches down the corridor when one is in hand.
+  throwknife: { kind: 'weapon', name: 'Throwing Knives', dmg: [1, 4, 0], speed: 520, range: 4, cls: ['fighter', 'thief', 'mage'], value: 12, sprite: 'dagger', tier: 1 },
+  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric'], value: 10, sprite: 'sling', tier: 2 },
+  shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief'], twoHanded: true, value: 30, sprite: 'bow', tier: 3 },
   // armor
   leather: { kind: 'armor', name: 'Leather Armor',   ac: 2, weight: 'light', value: 10,  sprite: 'armor', tier: 1 },
   studded: { kind: 'armor', name: 'Studded Leather', ac: 3, weight: 'light', value: 20,  sprite: 'armor', tier: 2 },
@@ -66,9 +70,9 @@ const ITEMS = {
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this level.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this level.' },
   // food
-  ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 40 },
-  meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 25 },
-  bread:  { kind: 'food', name: 'Stale Bread', stack: true, value: 1, sprite: 'bread',  food: 15 },
+  ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 45 },
+  meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
+  bread:  { kind: 'food', name: 'Stale Bread', stack: true, value: 1, sprite: 'bread',  food: 18 },
   // special
   key:      { kind: 'key', name: 'Key', sprite: 'key', value: 0, desc: 'Opens one locked door of matching colour on this level.' },
   gold:     { kind: 'gold', name: 'Gold', sprite: 'gold' },
@@ -103,7 +107,7 @@ const MONSTERS = {
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35 },
   archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
   acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
-  lich:     { name: 'Dread Lich',  hp: [16, 10, 30], ac: 19, hit: 12, dmg: [3, 8, 4], speed: 900,  xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true },
+  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true },
 };
 
 // Spells: available at character level (lvl * 2 - 1). dmg/heal are functions of caster level.
@@ -568,6 +572,42 @@ const SPRITES = {
     '.......ww.......',
     '.......ww.......',
     '................',
+    '................',
+  ] },
+  sling: { pal: { 'l': '#8a6a3a', 'p': '#b0b8c0', 'd': '#6a4a2a' }, rows: [
+    '................',
+    '.......ll.......',
+    '......l..l......',
+    '.....l....l.....',
+    '....l......l....',
+    '....l......l....',
+    '....d......d....',
+    '....dpppppd.....',
+    '.....dpppd......',
+    '......ddd.......',
+    '.......l........',
+    '.......l........',
+    '.......l........',
+    '.......l........',
+    '................',
+    '................',
+  ] },
+  bow: { pal: { 'w': '#8a6a3a', 's': '#d8d8c8', 'd': '#6a4a2a' }, rows: [
+    '......www.......',
+    '.....w...s......',
+    '....w....s......',
+    '...w.....s......',
+    '...w.....s......',
+    '..w......s......',
+    '..w......s......',
+    '..w....ssssss...',
+    '..w......s......',
+    '..w......s......',
+    '...w.....s......',
+    '...w.....s......',
+    '....w....s......',
+    '.....w...s......',
+    '......www.......',
     '................',
   ] },
   armor: { pal: { '#': '#9098a8', 's': '#c0c8d8', 'd': '#606878' }, rows: [

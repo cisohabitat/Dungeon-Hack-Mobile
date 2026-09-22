@@ -10,8 +10,8 @@ vm.createContext(ctx);
 for (const f of ['rng', 'data', 'dungeon']) {
   vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
 }
-vm.runInContext('globalThis.Dungeon = Dungeon; globalThis.SPRITES = SPRITES;', ctx);
-const { Dungeon, SPRITES } = ctx;
+vm.runInContext('globalThis.Dungeon = Dungeon; globalThis.SPRITES = SPRITES; globalThis.MONSTERS = MONSTERS; globalThis.ITEMS = ITEMS; globalThis.CLASSES = CLASSES; globalThis.XP_TABLE = XP_TABLE;', ctx);
+const { Dungeon, SPRITES, MONSTERS, ITEMS } = ctx;
 const T = Dungeon.T;
 
 let failures = 0;
@@ -84,6 +84,36 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
       const again = Dungeon.generate(seed, depth, opts);
       check(JSON.stringify(again.tiles) === JSON.stringify(L.tiles), `generator not deterministic: seed=${seed} depth=${depth}`);
     }
+  }
+}
+// Balance guards. These encode the arithmetic that made the game unwinnable
+// before: a boss that outdamaged the player faster than it could be killed.
+const avgHp = m => m.hp[0] * (m.hp[1] + 1) / 2 + m.hp[2];
+const dpsOf = m => (m.dmg[0] * (m.dmg[1] + 1) / 2 + m.dmg[2]) / (m.speed / 1000);
+{
+  // a level 8 fighter in chain with a long sword, the expected state at the bottom
+  const lvl = 8;
+  const playerHp = 10 + 3 + 1 + (lvl - 1) * (5.5 + 1);
+  const skillSpeed = 1 - Math.min(0.42, (lvl - 1) * 0.045);
+  const skillDmg = Math.floor((lvl - 1) / 3);
+  const w = ITEMS.longsword;
+  const playerDps = (w.dmg[0] * (w.dmg[1] + 1) / 2 + w.dmg[2] + 1 + skillDmg) / (w.speed * skillSpeed / 1000);
+  const boss = MONSTERS.lich;
+  const timeToKill = avgHp(boss) / playerDps;
+  const timeToDie = playerHp / dpsOf(boss);
+  // a 25% margin at the weakest plausible arrival state, leaving room for
+  // potions, spells and the odd wandering monster joining in
+  check(timeToKill < timeToDie * 0.75,
+    `boss fight is not winnable: ${timeToKill.toFixed(1)}s to kill it, ${timeToDie.toFixed(1)}s to die`);
+  // and it should still be a fight, not a formality
+  check(timeToKill > 2, `boss dies too fast: ${timeToKill.toFixed(1)}s`);
+}
+{
+  // every class must be able to put out damage its own tier of monsters can absorb
+  for (const cls of ['fighter', 'cleric', 'mage', 'thief']) {
+    const usable = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'weapon' && ITEMS[id].cls.includes(cls));
+    check(usable.length >= 2, `${cls} has too few usable weapons`);
+    check(usable.some(id => ITEMS[id].range), `${cls} has no way to attack at range`);
   }
 }
 check(vaults > 0 && fountains > 0, 'no vaults or fountains generated at all');

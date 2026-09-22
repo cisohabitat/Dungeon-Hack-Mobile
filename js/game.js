@@ -50,13 +50,28 @@ const Game = (() => {
     const c = CLASSES[p.cls];
     if (!c.spells) return 0;
     const stat = p.stats[c.primary];
-    return Math.max(2, p.level * (2 + mod(stat))) + 2;
+    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)))) + 3;
   }
+  // Practice tells: a veteran swings faster and puts more behind it. Without this
+  // the player's damage is flat for the whole game while monster hit points grow.
+  function skillSpeed() {
+    const p = P();
+    const rate = p.cls === 'thief' ? 0.062 : 0.045;   // thieves gain speed fastest
+    return 1 - Math.min(p.cls === 'thief' ? 0.55 : 0.42, (p.level - 1) * rate);
+  }
+  // the roll at or above which an attack is a critical hit
+  function critFloor() {
+    const p = P();
+    if (p.cls !== 'thief') return 20;
+    return p.level >= 9 ? 18 : 19;
+  }
+  function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
     const p = P();
-    if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: 450, e: 0 };
+    const spd = skillSpeed();
+    if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, range: 0 };
     const b = ITEMS[p.eq.weapon.t];
-    return { name: b.name, dmg: b.dmg, speed: b.speed, e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded };
+    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0 };
   }
   function effect(name) {
     const e = P().effects[name];
@@ -69,6 +84,8 @@ const Game = (() => {
   function playerAC() {
     const p = P();
     let ac = 10 + mod(p.stats.dex) + effect('ac');
+    // thieves stay alive by not being where the blow lands
+    if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0);
     return ac;
@@ -442,7 +459,7 @@ const Game = (() => {
       if (p.food === 10) log('You are very hungry!', 'bad');
     }
     if (p.food === 0 && p.steps % 6 === 0) hurtPlayer(1, 'You are starving!');
-    if (p.maxSp && p.sp < p.maxSp && p.steps % 15 === 0) p.sp++;
+    if (p.maxSp && p.sp < p.maxSp && p.steps % 9 === 0) p.sp++;
   }
   function checkTile() {
     const L = lvl(), p = P(), k = key(p.x, p.y);
@@ -497,25 +514,37 @@ const Game = (() => {
     if (G.t < p.nextAttack) return;
     const w = weapon();
     const [dx, dy] = DIRS[p.dir];
-    const m = monsterAt(p.x + dx, p.y + dy);
+    let m = monsterAt(p.x + dx, p.y + dy);
+    let atRange = false;
+    // a missile weapon reaches the first foe down the corridor
+    if (!m && w.range) {
+      for (let i = 2; i <= w.range; i++) {
+        const x = p.x + dx * i, y = p.y + dy * i;
+        if (!passable(x, y)) break;
+        const t = monsterAt(x, y);
+        if (t) { m = t; atRange = true; break; }
+      }
+    }
     p.nextAttack = G.t + w.speed;
     fx.swingUntil = realNow + 160;
     if (!m) { Sound.play('miss'); return; }
+    if (atRange) Sound.play('arrow');
     const mb = mstat(m);
-    const sneak = p.cls === 'thief' && (!m.awake || m.fleeing);
+    const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing);
     m.awake = true;
     const roll = d(1, 20);
-    if (roll === 1 || (roll !== 20 && roll + toHit() < mb.ac)) {
+    const crit = roll >= critFloor();
+    if (roll === 1 || (!crit && roll + toHit() < mb.ac)) {
       log(`You miss the ${mb.name}.`);
       Sound.play('miss');
       floatText(m, 'miss', '#bbb');
       return;
     }
-    let dmg = d(...w.dmg) + w.e + mod(p.stats.str) + (effect('might') ? 2 : 0);
-    if (roll === 20) dmg *= 2;
+    let dmg = d(...w.dmg) + w.e + mod(p.stats.str) + skillDamage() + (effect('might') ? 2 : 0);
+    if (crit) dmg *= 2;
     if (sneak) dmg *= 2;
     dmg = Math.max(1, dmg);
-    damageMonster(m, dmg, roll === 20 ? 'crit' : (sneak ? 'sneak' : null));
+    damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null));
   }
   function damageMonster(m, dmg, tag) {
     const mb = mstat(m);
@@ -566,6 +595,7 @@ const Game = (() => {
   function hurtPlayer(dmg, msg) {
     const p = P();
     p.hp -= dmg;
+    p.lastHurt = G.t;
     fx.damageUntil = realNow + 260;
     fx.shakeUntil = realNow + 220;
     Sound.play('hurt');
@@ -712,11 +742,11 @@ const Game = (() => {
   function rest() {
     const p = P(), L = lvl();
     ensureDist();
-    const near = L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 8; });
+    const near = L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
     if (near) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
-    if (p.food < 10) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
-    p.food -= 10;
+    if (p.food < 6) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
+    p.food -= 6;
     p.hp = p.maxHp; p.sp = p.maxSp;
     G.t += 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = G.t + 300; }
@@ -754,7 +784,8 @@ const Game = (() => {
   function moveMonster(m, nx, ny) {
     m.fromX = m.x; m.fromY = m.y;
     m.x = nx; m.y = ny;
-    m.moveT0 = realNow; m.moveT1 = realNow + 260;
+    m.moveT0 = realNow;
+    m.moveT1 = realNow + Math.max(200, Math.round(MONSTERS[m.id].speed * 0.45));
   }
   function wander(m) {
     const p = P();
@@ -796,7 +827,7 @@ const Game = (() => {
     hurtPlayer(dmg, `The ${mb.name} hits you for ${dmg}.`);
     if (G.status !== 'playing') return;
     if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
-    if (mb.drain) { p.maxHp = Math.max(5, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    if (mb.drain && Math.random() < 0.25) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
   }
   function updateMonsters() {
     const L = lvl(), p = P();
@@ -810,7 +841,15 @@ const Game = (() => {
         if (di >= 0 && di <= 6) { m.awake = true; Sound.play('growl'); }
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
-      if (di < 0 || di > 16) { if (Math.random() < 0.3) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
+      if (di < 0 || di > 12) {
+        // it has lost you; after a while it stops hunting and settles again
+        if (!m.lostAt) m.lostAt = G.t;
+        else if (G.t - m.lostAt > 7000 && !G.escaping) { m.awake = false; m.lostAt = 0; }
+        if (Math.random() < 0.3) wander(m);
+        m.nextAct = G.t + mb.speed * 1.5;
+        continue;
+      }
+      m.lostAt = 0;
       if (m.fleeing) {
         // run for the darkness; recover nerve once far enough away
         if (di > 8) { m.fleeing = false; m.nextAct = G.t + mb.speed; continue; }
@@ -833,11 +872,12 @@ const Game = (() => {
         const dd = distField[ny * L.w + nx];
         if (dd >= 0 && dd < bd && !monsterAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
       }
+      const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
       if (best) {
         if (tile(best[0], best[1]) === T.DOOR) { setTile(best[0], best[1], T.DOOR_OPEN); log('Something opens a door nearby.', 'bad'); Sound.play('door'); }
         else moveMonster(m, best[0], best[1]);
-      }
-      m.nextAct = G.t + mb.speed;
+        m.nextAct = G.t + moveSpeed;
+      } else m.nextAct = G.t + mb.speed;
     }
   }
 
@@ -850,6 +890,19 @@ const Game = (() => {
     updateCam();
     updateMonsters();
     if (G.status !== 'playing') return;
+    // out of combat and unpursued, wounds close slowly on their own
+    if (p.hp < p.maxHp && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0)) {
+      ensureDist();
+      const L = lvl();
+      const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
+      if (!hunted) {
+        // scale with the pool so recovery takes about the same time at every level
+        const hardy = p.cls === 'fighter' ? 1.6 : 1;
+        p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
+        p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
+        emit('stats');
+      } else p.nextRegen = G.t + 1200;
+    }
     if (p.poison) {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
       else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.'); }
@@ -959,7 +1012,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, isEscaping: () => !!(G && G.escaping),
+    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();

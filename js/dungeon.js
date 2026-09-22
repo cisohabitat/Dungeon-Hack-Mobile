@@ -198,7 +198,7 @@ const Dungeon = (() => {
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && depth >= MONSTERS[id].tier[0] && depth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     const density = { few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1;
-    const count = Math.round(rooms.length * density * 0.9) + Math.floor(depth / 2);
+    const count = Math.round(rooms.length * density * 0.85) + Math.floor(depth / 3);
     const mCands = [];
     for (let i = 0; i < w * h; i++) {
       if (tiles[i] !== T.FLOOR || dist0[i] < 5) continue;
@@ -224,6 +224,7 @@ const Dungeon = (() => {
     for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y)) roomTiles.push(i);
     const dropAt = it => { const c = rng.pick(roomTiles); addItem(c % w, (c / w) | 0, it); };
     for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
+    dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });
 
@@ -293,7 +294,7 @@ const Dungeon = (() => {
       const spots = [];
       for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
       if (spots.length) { const s = spots[0]; monsters.push(makeMonster('lich', s[0], s[1])); }
-      for (let i = 1; i < Math.min(3, spots.length); i++) monsters.push(makeMonster('wraith', spots[i][0], spots[i][1]));
+      // no escort: the level already crawls with the deep tier's own horrors
     }
 
     const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
@@ -305,7 +306,7 @@ const Dungeon = (() => {
   }
 
   function rollLoot(rng, depth) {
-    const kind = rng.weighted([['gold', 30], ['potion', 18], ['food', 14], ['scroll', 8], ['weapon', 9], ['armor', 7], ['shield', 4], ['gem', 6]]);
+    const kind = rng.weighted([['gold', 24], ['potion', 23], ['food', 18], ['scroll', 8], ['weapon', 10], ['armor', 8], ['shield', 4], ['gem', 5]]);
     const maxTier = 1 + Math.floor(depth / 2);
     const gear = k => {
       const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier);
@@ -317,7 +318,7 @@ const Dungeon = (() => {
     switch (kind) {
       case 'gold': return { t: 'gold', q: rng.int(5, 20) * depth + rng.int(0, 10) };
       case 'gem': { const g = rng.pick(GEMS); return { t: 'gem', name: g[0], q: Math.round(g[1] * (1 + depth * 0.15)) }; }
-      case 'potion': return { t: rng.weighted([['potion_heal', 50], ['potion_xheal', 10 + depth * 3], ['potion_cure', 15], ['potion_might', 10], ['potion_mana', 12]]), q: 1 };
+      case 'potion': return { t: rng.weighted([['potion_heal', 70], ['potion_xheal', 14 + depth * 4], ['potion_cure', 12], ['potion_might', 9], ['potion_mana', 10]]), q: 1 };
       case 'food': return { t: rng.weighted([['ration', 50], ['meat', 30], ['bread', 20]]), q: 1 };
       case 'scroll': return { t: rng.weighted([['scroll_fire', 35], ['scroll_heal', 30], ['scroll_map', 20], ['scroll_teleport', 15]]), q: 1 };
       case 'weapon': return gear('weapon');

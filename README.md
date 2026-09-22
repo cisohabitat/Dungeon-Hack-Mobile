@@ -16,7 +16,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   dungeon-customisation screen.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,
-  experience levels up to 12.
+  experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover
+  faster, clerics heal, mages kill at range, thieves dodge, crit often and backstab.
+- **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
+  and casters are not the only ones with an answer at range. Monsters move faster than they
+  swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you, open doors, and attack on their own
   clocks. Fourteen monster types including undead, poisoners, a regenerating troll and a
   life-draining boss guarding the artifact on the deepest level.
@@ -93,13 +97,33 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ## Tests
 
 ```bash
-npm test
+npm test          # generator, sprite and balance checks
+npm run playtest  # 240 simulated runs, reports win rate by class
 ```
 
-Runs the headless generator checks: every level for a set of seeds and sizes must be solvable
+`npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
+fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
+depth per class, which is how the balance below was tuned rather than guessed at. `npm test`
+runs the headless generator checks: every level for a set of seeds and sizes must be solvable
 (keys before the doors they open, stairs or artifact reachable), deterministic, and internally
 consistent. The sprite sheets are validated too. The same suite runs in GitHub Actions on every
 push and pull request.
+
+## Balance
+
+Tuned against the simulator rather than by feel. Over 240 bot runs on a fixed seed set:
+
+| Class | Win rate | Average depth reached |
+| --- | --- | --- |
+| Fighter | 27% | 5.5 |
+| Cleric | 43% | 4.8 |
+| Mage | 20% | 4.4 |
+| Thief | 22% | 4.8 |
+| **Overall** | **28%** | **4.9** |
+
+The bot is a mediocre player, so a human should do considerably better. The test suite guards the
+arithmetic that matters: the boss fight must be winnable by a level 8 fighter in chain mail with a
+plain long sword, with a 25% margin, and every class must have a weapon that reaches at range.
 
 ## Controls
 
