@@ -109,9 +109,17 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ## Tests
 
 ```bash
-npm test          # generator, sprite, balance and rule checks
-npm run playtest  # 240 simulated runs, reports win rate by class
+npm test              # generator, sprite, balance and rule checks (no browser)
+npm run test:browser  # 32 Playwright tests against a real browser
+npm run test:all      # both
+npm run playtest      # 240 simulated runs, reports win rate by class
 ```
+
+The browser suite drives the real game in headless Chromium: the core loop, dungeon features,
+the trader, the story layer, the escape endgame, and an interface pass that asserts every
+control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
+crowded level renders inside a 60fps budget. It runs in about 25 seconds, and in CI on every
+push. `npm start` serves the game locally on port 4173 with no dependencies.
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average

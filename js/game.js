@@ -336,7 +336,10 @@ const Game = (() => {
     scrolls.forEach((id, i) => { looks[id] = { adj: sl[i % sl.length], sprite: 'scroll' }; });
     return looks;
   }
-  function isKnown(t) { const b = ITEMS[t]; return !b || (b.kind !== 'potion' && b.kind !== 'scroll') || !G.looks[t] || G.known[t]; }
+  function isKnown(t) {
+    const b = ITEMS[t];
+    return !!(!b || (b.kind !== 'potion' && b.kind !== 'scroll') || !G.looks[t] || G.known[t]);
+  }
   function newGame(cfg) {
     const c = CLASSES[cfg.cls];
     const bg = BACKGROUNDS[cfg.bg] ? cfg.bg : 'oathbroken';

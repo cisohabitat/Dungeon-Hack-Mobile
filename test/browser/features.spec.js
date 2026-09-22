@@ -1,0 +1,134 @@
+'use strict';
+// Dungeon features: secrets, fountains, ranged attacks, champions, identification.
+const { test } = require('@playwright/test');
+const { expect, watchForErrors, startGame, faceOpenGround, placeMonster } = require('./helpers');
+
+test.describe('dungeon features', () => {
+  test('a secret door can be found by walking into the wall that hides it', async ({ page }) => {
+    await startGame(page, { seed: 'feat-secret' });
+    const revealed = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      const x = p.x + dx, y = p.y + dy;
+      const was = L.tiles[y * L.w + x];
+      L.tiles[y * L.w + x] = T.SECRET;
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 250));
+      const now = L.tiles[y * L.w + x];
+      L.tiles[y * L.w + x] = was;
+      return now === T.DOOR_OPEN;
+    });
+    expect(revealed).toBe(true);
+  });
+
+  test('a fountain heals once and then runs dry', async ({ page }) => {
+    await startGame(page, { seed: 'feat-fountain' });
+    const result = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      const x = p.x + dx, y = p.y + dy;
+      L.tiles[y * L.w + x] = T.FOUNTAIN;
+      L.features[`${x},${y}`] = { type: 'fountain', used: false };
+      p.hp = 1;
+      Game.input('use');
+      const healed = p.hp === p.maxHp;
+      p.hp = 1;
+      Game.input('use');
+      return { healed, dryAgain: p.hp === 1, message: Game.state().log.slice(-1)[0].m };
+    });
+    expect(result.healed, 'the first drink should heal to full').toBe(true);
+    expect(result.dryAgain, 'the second drink should do nothing').toBe(true);
+    expect(result.message).toMatch(/dry/i);
+  });
+
+  test('a missile weapon reaches down a corridor and a champion is tougher', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'feat-ranged', cls: 4 });  // the thief starts with knives
+    await faceOpenGround(page, 4);
+
+    const placed = await placeMonster(page, 'goblin', 3, { hp: 60, maxHp: 60 });
+    test.skip(!placed, 'no straight corridor on this seed');
+
+    const shot = await page.evaluate(async (uid) => {
+      const p = Game.player(), L = Game.level();
+      const knives = p.inv.find(i => i.t === 'throwknife');
+      if (knives) Game.equip(knives);
+      const w = Game.weapon();
+      const m = L.monsters.find(x => x.uid === uid);
+      const before = m.hp;
+      for (let i = 0; i < 10; i++) { p.nextAttack = 0; Game.input('attack'); await new Promise(r => setTimeout(r, 40)); }
+      return { range: w.range, damage: before - m.hp, distance: Math.abs(m.x - p.x) + Math.abs(m.y - p.y) };
+    }, placed.uid);
+
+    expect(shot.range, 'throwing knives should have reach').toBeGreaterThan(1);
+    expect(shot.damage, 'the missile should land at range').toBeGreaterThan(0);
+    expect(shot.distance, 'the target should not have closed').toBe(3);
+
+    const elite = await page.evaluate((uid) => {
+      const m = Game.level().monsters.find(x => x.uid === uid);
+      const plain = Game.mstat(m);
+      m.elite = 'Ancient';
+      const champ = Game.mstat(m);
+      return { plainName: plain.name, champName: champ.name, harder: champ.hit > plain.hit && champ.xp > plain.xp };
+    }, placed.uid);
+    expect(elite.champName).toBe(`Ancient ${elite.plainName}`);
+    expect(elite.harder).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
+  test('unfamiliar potions read as an appearance until one is drunk', async ({ page }) => {
+    await startGame(page, { seed: 'feat-ident' });
+    const before = await page.evaluate(() => {
+      const G = Game.state();
+      const unknown = Object.keys(ITEMS).filter(
+        id => (ITEMS[id].kind === 'potion' || ITEMS[id].kind === 'scroll') && !G.known[id]);
+      return {
+        anyUnknown: unknown.length > 0,
+        allVague: unknown.every(id => !Game.itemName({ t: id, q: 1 }).includes(ITEMS[id].name)),
+        first: unknown[0],
+      };
+    });
+    expect(before.anyUnknown).toBe(true);
+    expect(before.allVague, 'every unknown item must hide its true name').toBe(true);
+
+    const after = await page.evaluate((id) => {
+      const p = Game.player();
+      p.inv.push({ t: id, q: 1, e: 0 });
+      Game.useItem(p.inv[p.inv.length - 1]);
+      return { id, known: Game.isKnown(id), name: Game.itemName({ t: id, q: 1 }),
+               log: Game.state().log.slice(-2).map(l => l.m) };
+    }, before.first);
+    expect(after.known, `drinking ${after.id} did not identify it: ${JSON.stringify(after)}`).toBe(true);
+    expect(after.name).toContain(await page.evaluate(id => ITEMS[id].name, before.first));
+  });
+
+  test('a strong character can force a locked door without the key', async ({ page }) => {
+    await startGame(page, { seed: 'feat-bash' });
+    const bashed = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      p.stats.str = 18;
+      p.inv = p.inv.filter(i => i.t !== 'key');
+      // stand on a floor tile that borders a wall, and lock that wall
+      let spot = null;
+      for (let i = 0; i < L.w * L.h && !spot; i++) {
+        if (L.tiles[i] !== T.FLOOR) continue;
+        const x = i % L.w, y = (i / L.w) | 0;
+        const k = Dungeon.DIRS.findIndex(([dx, dy]) => L.tiles[(y + dy) * L.w + (x + dx)] === T.WALL);
+        if (k >= 0) spot = { x, y, k };
+      }
+      if (!spot) return 'no wall-adjacent floor tile';
+      const [dx, dy] = Dungeon.DIRS[spot.k];
+      const wx = spot.x + dx, wy = spot.y + dy;
+      p.x = spot.x; p.y = spot.y; p.dir = spot.k;
+      L.tiles[wy * L.w + wx] = T.DOOR_LOCKED;
+      L.locks[`${wx},${wy}`] = 'gold';
+      for (let i = 0; i < 80; i++) {
+        p.nextAttack = 0;
+        Game.input('use');
+        if (L.tiles[wy * L.w + wx] === T.DOOR_OPEN) return true;
+      }
+      return 'eighty attempts failed';
+    });
+    expect(bashed).toBe(true);
+  });
+});
