@@ -160,6 +160,53 @@ await test('buffs expire on their own clock', async () => {
   return Game.effect('hit') === 0;
 });
 
+// ---- movement against every tile type ----
+
+// Movement used to be allow-by-default, so a tile type added later was walkable
+// until somebody remembered to reject it. That is how wall torches became
+// something you could stand inside. This walks the whole tile enum rather than
+// the cases anyone thought of, so the next new tile cannot repeat it.
+await test('only floor and open doors can be walked into', async () => {
+  const probe = await newContext();
+  const WALKABLE = new Set(['FLOOR', 'DOOR_OPEN']);
+  const CHANGES_LEVEL = new Set(['STAIRS_DOWN']);
+  const wrong = [];
+  for (const [name, value] of Object.entries(probe.Dungeon.T)) {
+    const ctx = await start('fighter', 'tiles-' + name);
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), L = Game.level();
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + (p.x + dx)] = value;
+    const from = { x: p.x, y: p.y, depth: Game.state().depth };
+    Game.input('forward');
+    const changedLevel = Game.state().depth !== from.depth;
+    const entered = !changedLevel && (p.x !== from.x || p.y !== from.y);
+    if (entered !== WALKABLE.has(name)) {
+      wrong.push(`${name} ${entered ? 'was walked into' : 'blocked the player'}`);
+    }
+    if (CHANGES_LEVEL.has(name) && !changedLevel) wrong.push(`${name} did not change level`);
+  }
+  return wrong.length ? wrong.join('; ') : true;
+});
+
+await test('a wall torch is solid to monsters as well as to the player', async () => {
+  const { Game, Dungeon } = await start('fighter', 'torch-solid');
+  const T = Dungeon.T;
+  const L = Game.level(), p = Game.player();
+  let placed = null;
+  for (let i = 0; i < L.tiles.length && !placed; i++) {
+    if (L.tiles[i] !== T.FLOOR) continue;
+    const x = i % L.w, y = (i / L.w) | 0;
+    if (x === p.x && y === p.y) continue;
+    L.tiles[i] = T.TORCH;
+    placed = { x, y };
+  }
+  if (!placed) return 'no floor tile to convert';
+  // the generator marks torches as walls, so nothing should treat one as ground
+  const monstersOnTorch = L.monsters.filter(m => m.x === placed.x && m.y === placed.y);
+  return monstersOnTorch.length === 0 ? true : 'a monster is standing in a torch';
+});
+
 // ---- story and progression ----
 
 await test('every background is complete and keeps its voice straight', async () => {

@@ -443,6 +443,8 @@ const Game = (() => {
     if (trader) { openShop(trader); return true; }
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
+    // anything the interactive cases above did not claim had better be walkable
+    if (!passable(nx, ny)) { Sound.play('bump'); return false; }
     p.x = nx; p.y = ny; p.steps++;
     startCam(MOVE_MS);
     Sound.play('step');
@@ -553,7 +555,7 @@ const Game = (() => {
     const ahead = npcAt(tx, ty);
     if (ahead) return openShop(ahead);
     if (monsterAt(tx, ty)) return attack();
-    if (t === T.WALL) { log('You search the wall but find nothing.'); return; }
+    if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.'); return; }
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
