@@ -1,0 +1,261 @@
+'use strict';
+// Procedural dungeon generator. Deterministic per (seed, depth).
+
+const Dungeon = (() => {
+  const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6 };
+  const SIZES = { small: 28, medium: 36, large: 44 };
+  const KEY_ORDER = ['brass', 'silver', 'gold', 'iron', 'bone'];
+  const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+
+  function generate(seed, depth, opts) {
+    const rng = new Rng(`${seed}#${depth}`);
+    const w = SIZES[opts.size] || 36, h = w;
+    const tiles = new Array(w * h).fill(T.WALL);
+    const roomId = new Array(w * h).fill(-1);
+    const idx = (x, y) => y * w + x;
+    const get = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[idx(x, y)];
+    const isFinal = depth >= opts.levels;
+
+    // ---- rooms ----
+    const rooms = [];
+    const maxRooms = Math.floor(w * h / 70);
+    for (let a = 0; a < 500 && rooms.length < maxRooms; a++) {
+      const rw = rng.int(3, 7), rh = rng.int(3, 6);
+      const rx = rng.int(2, w - rw - 3), ry = rng.int(2, h - rh - 3);
+      let ok = true;
+      for (const r of rooms) {
+        if (rx < r.x + r.w + 2 && rx + rw + 2 > r.x && ry < r.y + r.h + 2 && ry + rh + 2 > r.y) { ok = false; break; }
+      }
+      if (!ok) continue;
+      rooms.push({ x: rx, y: ry, w: rw, h: rh, cx: rx + (rw >> 1), cy: ry + (rh >> 1) });
+    }
+    rooms.sort((a, b) => a.cx - b.cx || a.cy - b.cy);
+    rooms.forEach((r, id) => {
+      r.id = id;
+      for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) { tiles[idx(x, y)] = T.FLOOR; roomId[idx(x, y)] = id; }
+    });
+
+    // ---- corridors ----
+    const carve = (x, y) => {
+      if (x <= 0 || y <= 0 || x >= w - 1 || y >= h - 1) return;
+      if (tiles[idx(x, y)] === T.WALL) tiles[idx(x, y)] = T.FLOOR;
+    };
+    function corridor(a, b) {
+      let x = a.cx, y = a.cy;
+      const goX = () => { while (x !== b.cx) { x += Math.sign(b.cx - x); carve(x, y); } };
+      const goY = () => { while (y !== b.cy) { y += Math.sign(b.cy - y); carve(x, y); } };
+      if (rng.chance(0.5)) { goX(); goY(); } else { goY(); goX(); }
+    }
+    for (let i = 1; i < rooms.length; i++) corridor(rooms[i - 1], rooms[i]);
+    const extra = Math.max(1, Math.floor(rooms.length / 4));
+    for (let i = 0; i < extra; i++) corridor(rng.pick(rooms), rng.pick(rooms));
+
+    // ---- doors ----
+    const doors = [];
+    for (let y = 1; y < h - 1; y++) {
+      for (let x = 1; x < w - 1; x++) {
+        const i = idx(x, y);
+        if (tiles[i] !== T.FLOOR || roomId[i] !== -1) continue;
+        const l = get(x - 1, y), r = get(x + 1, y), u = get(x, y - 1), dn = get(x, y + 1);
+        const vertical = l === T.WALL && r === T.WALL && u !== T.WALL && dn !== T.WALL;
+        const horizontal = u === T.WALL && dn === T.WALL && l !== T.WALL && r !== T.WALL;
+        if (!vertical && !horizontal) continue;
+        const n1 = vertical ? roomId[idx(x, y - 1)] : roomId[idx(x - 1, y)];
+        const n2 = vertical ? roomId[idx(x, y + 1)] : roomId[idx(x + 1, y)];
+        if ((n1 === -1) === (n2 === -1)) continue;
+        if ([l, r, u, dn].some(t => t === T.DOOR)) continue;
+        if (rng.chance(0.75)) { tiles[i] = T.DOOR; doors.push({ x, y }); }
+      }
+    }
+
+    // ---- BFS helper ----
+    function bfs(sx, sy, lockedSolid) {
+      const dist = new Int32Array(w * h).fill(-1);
+      const q = [idx(sx, sy)];
+      dist[q[0]] = 0;
+      for (let qi = 0; qi < q.length; qi++) {
+        const i = q[qi], x = i % w, y = (i / w) | 0;
+        for (const [dx, dy] of DIRS) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const ni = idx(nx, ny);
+          if (dist[ni] >= 0) continue;
+          const t = tiles[ni];
+          if (t === T.WALL || t === T.STAIRS_DOWN || t === T.STAIRS_UP) continue;
+          if (t === T.DOOR_LOCKED && lockedSolid) continue;
+          dist[ni] = dist[i] + 1;
+          q.push(ni);
+        }
+      }
+      return dist;
+    }
+
+    // ---- stairs slots (a wall tile on a room's edge, facing into the room) ----
+    function wallSlot(room) {
+      const cands = [];
+      const tryS = (sx, sy, fx, fy, dir) => {
+        if (get(sx, sy) !== T.WALL) return;
+        let floors = 0, doorAdj = false;
+        for (const [dx, dy] of DIRS) {
+          const t = get(sx + dx, sy + dy);
+          if (t !== T.WALL) floors++;
+          if (t === T.DOOR) doorAdj = true;
+        }
+        if (floors === 1 && !doorAdj) cands.push({ x: sx, y: sy, fx, fy, dir });
+      };
+      for (let x = room.x; x < room.x + room.w; x++) {
+        tryS(x, room.y - 1, x, room.y, 2);
+        tryS(x, room.y + room.h, x, room.y + room.h - 1, 0);
+      }
+      for (let y = room.y; y < room.y + room.h; y++) {
+        tryS(room.x - 1, y, room.x, y, 1);
+        tryS(room.x + room.w, y, room.x + room.w - 1, y, 3);
+      }
+      return cands.length ? rng.pick(cands) : null;
+    }
+
+    let startRoom = null, upSlot = null;
+    for (const r of rooms) { upSlot = wallSlot(r); if (upSlot) { startRoom = r; break; } }
+    tiles[idx(upSlot.x, upSlot.y)] = T.STAIRS_UP;
+    const start = { x: upSlot.fx, y: upSlot.fy, dir: upSlot.dir };
+
+    const dist0 = bfs(start.x, start.y, false);
+    const byDist = rooms.filter(r => r !== startRoom).sort((a, b) => dist0[idx(b.cx, b.cy)] - dist0[idx(a.cx, a.cy)]);
+    let farRoom = byDist[0] || startRoom;
+    let downStart = null, stairsDown = null;
+    if (!isFinal) {
+      for (const r of byDist) {
+        const s = wallSlot(r);
+        if (s) { farRoom = r; tiles[idx(s.x, s.y)] = T.STAIRS_DOWN; stairsDown = { x: s.x, y: s.y }; downStart = { x: s.fx, y: s.fy, dir: s.dir }; break; }
+      }
+    }
+
+    // ---- items & locked doors ----
+    const items = {};
+    const addItem = (x, y, it) => { const k = x + ',' + y; (items[k] = items[k] || []).push(it); };
+    const locks = {};
+    if (opts.lockedDoors && doors.length) {
+      const nLock = Math.min(rng.int(1, 3), doors.length, KEY_ORDER.length);
+      const shuffled = rng.shuffle(doors.slice());
+      let placed = 0;
+      for (const dr of shuffled) {
+        if (placed >= nLock) break;
+        const di = idx(dr.x, dr.y);
+        if (tiles[di] !== T.DOOR) continue;
+        tiles[di] = T.DOOR_LOCKED;
+        const reach = bfs(start.x, start.y, true);
+        // the door must border the reachable side, otherwise it is pointless
+        const borders = DIRS.some(([dx, dy]) => reach[idx(dr.x + dx, dr.y + dy)] >= 0);
+        const cands = [];
+        for (let i = 0; i < w * h; i++) {
+          if (reach[i] >= 0 && roomId[i] >= 0 && !(i === idx(start.x, start.y))) cands.push(i);
+        }
+        if (!borders || !cands.length) { tiles[di] = T.DOOR; continue; }
+        const color = KEY_ORDER[placed];
+        locks[dr.x + ',' + dr.y] = color;
+        const ci = rng.pick(cands);
+        addItem(ci % w, (ci / w) | 0, { t: 'key', color, q: 1 });
+        placed++;
+      }
+    }
+
+    // ---- traps ----
+    const traps = {};
+    if (opts.traps) {
+      const n = rng.int(1, 2) + Math.floor(depth / 2);
+      const cands = [];
+      for (let i = 0; i < w * h; i++) {
+        if (tiles[i] !== T.FLOOR || roomId[i] !== -1 || dist0[i] < 4) continue;
+        const x = i % w, y = (i / w) | 0;
+        if (DIRS.some(([dx, dy]) => { const t = get(x + dx, y + dy); return t === T.DOOR || t === T.DOOR_LOCKED; })) continue;
+        cands.push(i);
+      }
+      rng.shuffle(cands);
+      for (let i = 0; i < Math.min(n, cands.length); i++) {
+        const c = cands[i];
+        traps[(c % w) + ',' + ((c / w) | 0)] = rng.weighted([['dart', 40], ['needle', 25], ['pit', 20 + depth * 2], ['alarm', 15]]);
+      }
+    }
+
+    // ---- monsters ----
+    const monsters = [];
+    const occupied = new Set([idx(start.x, start.y)]);
+    let uid = 1;
+    const makeMonster = (id, x, y) => {
+      const b = MONSTERS[id];
+      const hp = rng.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((depth - 1) / 2);
+      occupied.add(idx(x, y));
+      return { uid: depth * 1000 + uid++, id, x, y, hp, maxHp: hp, awake: false, nextAct: 0, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    };
+    let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && depth >= MONSTERS[id].tier[0] && depth <= MONSTERS[id].tier[1]);
+    if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
+    const density = { few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1;
+    const count = Math.round(rooms.length * density * 0.9) + Math.floor(depth / 2);
+    const mCands = [];
+    for (let i = 0; i < w * h; i++) {
+      if (tiles[i] !== T.FLOOR || dist0[i] < 5) continue;
+      if (roomId[i] === startRoom.id) continue;
+      if (roomId[i] >= 0 || rng.chance(0.25)) mCands.push(i);
+    }
+    rng.shuffle(mCands);
+    for (let i = 0; i < count && i < mCands.length; i++) {
+      const c = mCands[i];
+      if (occupied.has(c)) continue;
+      // deeper levels favour the tougher end of the pool
+      const weighted = pool.map(id => [id, 1 + Math.max(0, depth - MONSTERS[id].tier[0])]);
+      monsters.push(makeMonster(rng.weighted(weighted), c % w, (c / w) | 0));
+    }
+
+    // ---- loot ----
+    const treasure = { scarce: 0.6, normal: 1.0, rich: 1.6 }[opts.treasure] || 1;
+    const nItems = Math.round(rooms.length * treasure * 0.8) + 2;
+    const roomTiles = [];
+    for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y)) roomTiles.push(i);
+    const dropAt = it => { const c = rng.pick(roomTiles); addItem(c % w, (c / w) | 0, it); };
+    for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
+    dropAt({ t: 'ration', q: 1 });
+    dropAt({ t: 'potion_heal', q: 1 });
+
+    // ---- final level: boss and artifact ----
+    if (isFinal) {
+      const ax = farRoom.cx, ay = farRoom.cy;
+      addItem(ax, ay, { t: 'artifact', q: 1 });
+      const spots = [];
+      for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
+      if (spots.length) { const s = spots[0]; monsters.push(makeMonster('lich', s[0], s[1])); }
+      for (let i = 1; i < Math.min(3, spots.length); i++) monsters.push(makeMonster('wraith', spots[i][0], spots[i][1]));
+    }
+
+    const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
+    return {
+      depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
+      items, monsters, traps, locks, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
+      theme, isFinal, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
+    };
+  }
+
+  function rollLoot(rng, depth) {
+    const kind = rng.weighted([['gold', 30], ['potion', 18], ['food', 14], ['scroll', 8], ['weapon', 9], ['armor', 7], ['shield', 4], ['gem', 6]]);
+    const maxTier = 1 + Math.floor(depth / 2);
+    const gear = k => {
+      const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier);
+      const id = rng.weighted(cands.map(id => [id, ITEMS[id].tier]));
+      let e = 0;
+      if (rng.chance(0.12 + depth * 0.03)) e = rng.chance(0.25 + depth * 0.02) ? 2 : 1;
+      return { t: id, q: 1, e };
+    };
+    switch (kind) {
+      case 'gold': return { t: 'gold', q: rng.int(5, 20) * depth + rng.int(0, 10) };
+      case 'gem': { const g = rng.pick(GEMS); return { t: 'gem', name: g[0], q: Math.round(g[1] * (1 + depth * 0.15)) }; }
+      case 'potion': return { t: rng.weighted([['potion_heal', 50], ['potion_xheal', 10 + depth * 3], ['potion_cure', 15], ['potion_might', 10], ['potion_mana', 12]]), q: 1 };
+      case 'food': return { t: rng.weighted([['ration', 50], ['meat', 30], ['bread', 20]]), q: 1 };
+      case 'scroll': return { t: rng.weighted([['scroll_fire', 35], ['scroll_heal', 30], ['scroll_map', 20], ['scroll_teleport', 15]]), q: 1 };
+      case 'weapon': return gear('weapon');
+      case 'armor': return gear('armor');
+      case 'shield': return gear('shield');
+    }
+    return { t: 'gold', q: 5 };
+  }
+
+  return { T, generate, rollLoot, DIRS, SIZES };
+})();

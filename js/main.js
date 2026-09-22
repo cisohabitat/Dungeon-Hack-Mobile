@@ -1,0 +1,37 @@
+'use strict';
+// Bootstrap and main loop.
+
+(function () {
+  let last = 0;
+  function loop(now) {
+    const dt = last ? Math.min(100, now - last) : 0;
+    last = now;
+    const G = Game.state();
+    if (G && UI.isPlaying()) {
+      if (G.status === 'playing' && !UI.paused()) {
+        UI.pumpHeld();
+        Game.update(now, dt);
+      } else {
+        Game.tick(now);
+      }
+      if (G.status === 'playing' || G.status === 'dead' || G.status === 'won') {
+        const rs = Game.renderState(now);
+        Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
+      }
+      UI.refreshHud();
+      UI.refreshLog();
+      UI.handleEvents();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('load', () => {
+    Assets.init();
+    Renderer.init(document.getElementById('view'));
+    UI.init();
+    requestAnimationFrame(loop);
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  });
+})();
