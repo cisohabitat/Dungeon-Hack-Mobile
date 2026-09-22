@@ -34,8 +34,11 @@ const Game = (() => {
   const cls = () => CLASSES[G.player.cls];
 
   // ---------- messages ----------
+  // The log is capped, so once it is full its length stops changing. Anything
+  // watching for new messages has to count them, not measure the array.
   function log(m, c) {
     G.log.push({ m, c: c || '' });
+    G.logSeq = (G.logSeq || 0) + 1;
     if (G.log.length > 80) G.log.splice(0, G.log.length - 80);
   }
   function emit(e) { events.push(e); }
@@ -403,7 +406,7 @@ const Game = (() => {
     p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
-    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
+    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
@@ -1242,6 +1245,7 @@ const Game = (() => {
       }
       if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
       if (!G.journal) G.journal = [];
+      if (G.logSeq == null) G.logSeq = G.log ? G.log.length : 0;
       if (!G.pendingBoons) G.pendingBoons = [];
       if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);

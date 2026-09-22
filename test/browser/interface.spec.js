@@ -113,6 +113,32 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the message panel keeps scrolling after the log fills up', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'log-cap' });
+    await clearBoons(page);
+
+    // the log is capped at 80 entries, so push well past that: a panel that
+    // watches the array's length instead of counting messages freezes here
+    const read = () => page.locator('#log').innerText();
+    await page.evaluate(() => { for (let i = 1; i <= 120; i++) Game.log(`filler ${i}`); });
+    await page.waitForTimeout(150);
+    const full = await read();
+    expect(full, 'the newest message should be on screen').toContain('filler 120');
+
+    await page.evaluate(() => Game.log('the message after the cap'));
+    await page.waitForTimeout(150);
+    const after = await read();
+    expect(after, 'a message written past the cap must still appear')
+      .toContain('the message after the cap');
+    expect(after, 'the panel should have moved on').not.toBe(full);
+
+    // and the capped array itself is still doing its job
+    const size = await page.evaluate(() => Game.state().log.length);
+    expect(size, 'the log should stay capped').toBeLessThanOrEqual(80);
+    expect(errors).toEqual([]);
+  });
+
   test('the pack compares a weapon against the one already in hand', async ({ page }) => {
     await startGame(page, { seed: 'ui-compare' });
     await clearBoons(page);

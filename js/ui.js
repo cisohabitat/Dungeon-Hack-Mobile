@@ -319,8 +319,9 @@ const UI = (() => {
   }
   function refreshLog() {
     const G = Game.state();
-    if (!G || G.log.length === logCount) return;
-    logCount = G.log.length;
+    // count messages ever written, not the length of a capped array
+    if (!G || G.logSeq === logCount) return;
+    logCount = G.logSeq;
     const el = $('#log');
     el.innerHTML = G.log.slice(-4).map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('');
   }
