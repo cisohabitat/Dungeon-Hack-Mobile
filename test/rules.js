@@ -164,6 +164,75 @@ await test('no fighter build is dead: each of the three wins somewhere', async (
   return true;
 });
 
+await test('the combat log shows the roll that decided the swing, and it is true', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rolls', opts: OPTS });
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const lines = [];
+  for (let i = 0; i < 300; i++) {
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
+      awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    G.t = p.nextAttack;
+    const before = G.log.length;
+    Game.input('attack');
+    for (const e of G.log.slice(before)) lines.push(e.m);
+  }
+  const hits = lines.filter(l => /^You hit /.test(l));
+  const misses = lines.filter(l => /^You miss /.test(l));
+  if (!hits.length || !misses.length) return 'three hundred swings produced no hit or no miss to check';
+  if (!lines.every(l => !/^You (hit|miss) /.test(l) || / \(d20 /.test(l))) return 'a swing was logged without its roll';
+
+  // the arithmetic printed has to be the arithmetic that was used
+  const ac = Game.mstat(L.monsters[0]).ac;
+  for (const l of lines) {
+    const m = l.match(/\(d20 (\d+)\+(\d+) vs AC (\d+)\)/);
+    if (!m) continue;
+    const [roll, bonus, shownAc] = [Number(m[1]), Number(m[2]), Number(m[3])];
+    if (shownAc !== ac) return `the log claimed AC ${shownAc}, the goblin has ${ac}`;
+    const landed = /^You hit |^Your off hand|destroyed/.test(l);
+    if (landed && roll + bonus < shownAc) return `a hit was logged as ${roll}+${bonus} against AC ${shownAc}`;
+    if (!landed && roll + bonus >= shownAc) return `a miss was logged as ${roll}+${bonus} against AC ${shownAc}`;
+  }
+  // a natural one and a natural twenty say so instead of printing a sum
+  if (!lines.some(l => /d20 1, a fumble/.test(l))) return 'no fumble was ever spelled out';
+  if (!lines.some(l => /a telling blow/.test(l))) return 'no telling blow was ever spelled out';
+  return true;
+});
+
+await test('turning the rolls off silences them and survives a reload', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rolls2', opts: OPTS });
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  if (!Game.rollsShown()) return 'the rolls should be on to begin with';
+  if (Game.toggleRolls() !== false) return 'toggling did not turn them off';
+
+  const before = G.log.length;
+  for (let i = 0; i < 60; i++) {
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
+      awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    G.t = p.nextAttack;
+    Game.input('attack');
+  }
+  const quiet = G.log.slice(before).map(e => e.m);
+  if (!quiet.length) return 'no swings were logged at all';
+  if (quiet.some(l => /d20/.test(l))) return 'a roll was printed with the rolls turned off';
+  if (!quiet.some(l => /^You (hit|miss) /.test(l))) return 'the swings themselves stopped being reported';
+
+  // the preference is remembered, and is not part of the run
+  if (ctx.store.get('deepdelve.rolls') !== 'off') return 'the preference was not remembered';
+  Game.save(true);
+  const saved = [...ctx.store.entries()].filter(([k]) => k !== 'deepdelve.rolls').map(([, v]) => v).join('');
+  if (/showRolls|"rolls"/.test(saved)) return 'the preference leaked into the save file';
+  Game.toggleRolls();
+  return Game.rollsShown() === true || 'toggling did not turn them back on';
+});
+
 await test('using the last of a stack removes its slot', async () => {
   const { Game } = await start('fighter', 'r3');
   const p = Game.player();

@@ -33,6 +33,30 @@ const Game = (() => {
   const P = () => G.player;
   const cls = () => CLASSES[G.player.cls];
 
+  // ---------- the dice, in the open ----------
+  // Off by nobody's default: the classic crawlers showed their arithmetic and
+  // it is how you learn that your weapon is too slow or the thing in front of
+  // you is armoured. Kept out of the save file: it is a preference, not a run.
+  let showRolls = true;
+  try { showRolls = localStorage.getItem('deepdelve.rolls') !== 'off'; } catch (e) { /* ignore */ }
+  function rollsShown() { return showRolls; }
+  function toggleRolls() {
+    showRolls = !showRolls;
+    try { localStorage.setItem('deepdelve.rolls', showRolls ? 'on' : 'off'); } catch (e) { /* ignore */ }
+    return showRolls;
+  }
+  /**
+   * How a swing was decided, in the shorthand the old crawlers used. A fumble
+   * and a telling blow ignore the arithmetic, so those say so rather than
+   * printing a sum that did not decide anything.
+   */
+  function rollNote(roll, bonus, ac, crit) {
+    if (!showRolls) return '';
+    if (roll === 1) return ' (d20 1, a fumble)';
+    if (crit) return ` (d20 ${roll}, a telling blow)`;
+    return ` (d20 ${roll}${bonus < 0 ? '' : '+'}${bonus} vs AC ${ac})`;
+  }
+
   // ---------- messages ----------
   // The log is capped, so once it is full its length stops changing. Anything
   // watching for new messages has to count them, not measure the array.
@@ -731,8 +755,9 @@ const Game = (() => {
     m.awake = true;
     const roll = d(1, 20);
     const crit = roll >= critFloor();
+    const note = rollNote(roll, toHit(), mb.ac, crit);
     if (roll === 1 || (!crit && roll + toHit() < mb.ac)) {
-      log(`You miss the ${mb.name}.`);
+      log(`You miss the ${mb.name}.${note}`);
       Sound.play('miss');
       floatText(m, 'miss', '#bbb');
       return;
@@ -746,7 +771,7 @@ const Game = (() => {
     if (crit) dmg *= 2;
     if (sneak) dmg *= 2;
     dmg = Math.max(1, dmg);
-    damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null));
+    damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null), note);
     if (m.hp > 0) offhandStrike(m, atRange);
   }
   /**
@@ -759,15 +784,15 @@ const Game = (() => {
     if (!o || atRange) return;
     const mb = mstat(m);
     const roll = d(1, 20);
+    const note = rollNote(roll, toHit() - DUAL_HIT_PENALTY, mb.ac, false);
     if (roll === 1 || roll + toHit() - DUAL_HIT_PENALTY < mb.ac) {
-      log(`Your ${o.name.toLowerCase()} goes wide.`);
+      log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
     const dmg = Math.max(1, d(...o.dmg) + o.e);
-    log(`Your off hand finds the ${mb.name}.`);
-    damageMonster(m, dmg, null);
+    damageMonster(m, dmg, 'offhand', note);
   }
-  function damageMonster(m, dmg, tag) {
+  function damageMonster(m, dmg, tag, note) {
     const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
@@ -775,23 +800,26 @@ const Game = (() => {
     floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' ? '#f84' : '#fff'));
     Sound.play('hit');
     buzz(12);
-    if (m.hp <= 0) { killMonster(m); return; }
-    const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
-    log(`${pre}You hit the ${mb.name} for ${dmg}.`);
+    if (m.hp <= 0) { killMonster(m, note); return; }
+    if (tag === 'offhand') { log(`Your off hand finds the ${mb.name} for ${dmg}.${note || ''}`); }
+    else {
+      const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
+      log(`${pre}You hit the ${mb.name} for ${dmg}.${note || ''}`);
+    }
     // wounded, non-boss monsters may break and run
     if (!mb.boss && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
       log(`The ${mb.name} turns to flee!`, 'good');
     }
   }
-  function killMonster(m) {
+  function killMonster(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     const at = L.monsters.indexOf(m);
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
     p.kills++;
     p.xp += mb.xp;
-    log(`The ${mb.name} is destroyed! (+${mb.xp} xp)`, 'good');
+    log(`The ${mb.name} is destroyed!${note || ''} (+${mb.xp} xp)`, 'good');
     if (mb.boss) log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good');
     // champions and bosses always drop something worthwhile
     if (Math.random() < 0.4 || mb.boss || m.elite) {
@@ -1336,7 +1364,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    offhandReason, offhandWeapon, canDualWield,
+    offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],

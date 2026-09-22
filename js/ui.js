@@ -804,6 +804,7 @@ const UI = (() => {
     const G = Game.state();
     $('#m-load').disabled = !Game.hasSave();
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
+    $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-seed').textContent = `Seed "${G.seed}" · ${G.opts.levels} levels · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
@@ -873,6 +874,7 @@ const UI = (() => {
     $('#m-save').addEventListener('click', () => { Game.save(); closeOverlay(); });
     $('#m-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#m-sound').addEventListener('click', () => { Sound.toggle(); renderMenu(); });
+    $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-help').addEventListener('click', () => { closeOverlay(); showScreen('screen-help'); });
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 

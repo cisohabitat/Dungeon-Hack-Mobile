@@ -239,3 +239,41 @@ test.describe('being readable by assistive technology', () => {
     await expect(slot).toHaveAttribute('aria-pressed', 'true');
   });
 });
+
+test.describe('seeing the dice behind a swing', () => {
+  test('the message box shows the roll behind a swing, and the menu can silence it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'roll-ui' });
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    const foe = await placeMonster(page, 'goblin', 1, { hp: 400, maxHp: 400 });
+    expect(foe, 'needed open ground to put a goblin on').not.toBeNull();
+
+    const swing = async () => page.evaluate(async () => {
+      const p = Game.player(), G = Game.state();
+      const before = G.log.length;
+      for (let i = 0; i < 12; i++) { G.t = p.nextAttack; Game.input('attack'); }
+      await new Promise(r => setTimeout(r, 120));
+      return G.log.slice(before).map(e => e.m);
+    });
+
+    const loud = await swing();
+    expect(loud.some(l => /\(d20 /.test(l)), `no roll in: ${loud.join(' | ')}`).toBe(true);
+    // and it reaches the panel the player actually reads
+    await expect(page.locator('#log')).toContainText(/d20/);
+
+    // the menu turns it off
+    await page.click('[data-open="menu"]');
+    const btn = page.locator('#m-rolls');
+    await expect(btn).toHaveText(/Combat rolls: On/);
+    await btn.click();
+    await expect(btn).toHaveText(/Combat rolls: Off/);
+    await page.click('#ov-menu [data-close]');
+
+    const quiet = await swing();
+    expect(quiet.length, 'swings should still be reported').toBeGreaterThan(0);
+    expect(quiet.some(l => /d20/.test(l)), `a roll survived the toggle: ${quiet.join(' | ')}`).toBe(false);
+    expect(quiet.some(l => /^You (hit|miss) /.test(l)), 'the swing itself should still be logged').toBe(true);
+    expect(errors).toEqual([]);
+  });
+});
