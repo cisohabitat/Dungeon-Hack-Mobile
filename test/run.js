@@ -134,5 +134,31 @@ const dpsOf = m => (m.dmg[0] * (m.dmg[1] + 1) / 2 + m.dmg[2]) / (m.speed / 1000)
 check(vaults > 0 && fountains > 0, 'no vaults or fountains generated at all');
 check(torches > 0 && elites > 0, 'no torches or elite monsters generated at all');
 check(traders > 0, 'no traders generated at all');
+
+// A wide sweep aimed squarely at the trader, who is a solid tile and so can seal
+// a level off. The suite above uses a handful of fixed seeds, which is not enough
+// to catch a fault that shows up in well under one percent of levels.
+{
+  let sweptTraders = 0, sealed = 0, onLoot = 0, onKey = 0;
+  for (let s = 0; s < 150; s++) {
+    for (const size of ['small', 'medium', 'large']) {
+      for (let depth = 1; depth <= 8; depth++) {
+        const L = Dungeon.generate('sweep' + s, depth, { levels: 8, size, monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+        for (const n of (L.npcs || [])) {
+          sweptTraders++;
+          const under = L.items[n.x + ',' + n.y] || [];
+          if (under.length) onLoot++;
+          if (under.some(i => i.t === 'key')) onKey++;
+        }
+        if ((L.npcs || []).length && !solvable(L, true)) sealed++;
+      }
+    }
+  }
+  check(sweptTraders > 200, `sweep produced only ${sweptTraders} traders`);
+  check(sealed === 0, `${sealed} levels sealed off by a trader across ${sweptTraders} traders`);
+  check(onLoot === 0, `${onLoot} traders stand on loot that can never be picked up`);
+  check(onKey === 0, `${onKey} traders stand on a key`);
+  console.log(`trader sweep: ${sweptTraders} traders over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
+}
 console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);

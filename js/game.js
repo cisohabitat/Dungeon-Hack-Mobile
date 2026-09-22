@@ -144,9 +144,10 @@ const Game = (() => {
   }
   function removeOne(it) {
     const p = P();
-    if (it.q > 1) { it.q--; return { t: it.t, q: 1, e: it.e, color: it.color, name: it.name }; }
     const i = p.inv.indexOf(it);
-    if (i >= 0) p.inv.splice(i, 1);
+    if (i < 0) return null;                                  // not in the pack
+    if (it.q > 1) { it.q--; return { t: it.t, q: 1, e: it.e, color: it.color, name: it.name }; }
+    p.inv.splice(i, 1);
     return it;
   }
   function canEquip(it) {
@@ -166,6 +167,8 @@ const Game = (() => {
   }
   function equip(it, quiet) {
     const p = P(), b = ITEMS[it.t];
+    if (p.eq[b.kind] === it) return true;                    // already worn
+    if (p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return false; }
     const why = canEquip(it);
     if (why) { if (!quiet) log(why, 'bad'); return false; }
     const slot = b.kind;
@@ -193,6 +196,8 @@ const Game = (() => {
   }
   function useItem(it) {
     const p = P(), b = ITEMS[it.t];
+    const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
+    if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
     if (b.kind === 'food') {
       removeOne(it);
       p.food = Math.min(100, p.food + b.food);
@@ -254,6 +259,7 @@ const Game = (() => {
     const p = P(), L = lvl();
     if (it.t === 'artifact') { log('You could not bear to part with it.', 'bad'); return; }
     const one = removeOne(it);
+    if (!one) { log('You are not carrying that.', 'bad'); return; }
     const k = key(p.x, p.y);
     (L.items[k] = L.items[k] || []).push(one);
     log(`You drop the ${itemName(one)}.`);
@@ -543,7 +549,10 @@ const Game = (() => {
     if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
-    if (it.q <= 0) shop.stock.splice(shop.stock.indexOf(it), 1);
+    if (it.q <= 0) {
+      const at = shop.stock.indexOf(it);
+      if (at >= 0) shop.stock.splice(at, 1);
+    }
     G.known[one.t] = 1;   // the trader tells you what it is, so name it plainly
     log(`You buy the ${itemName(one)} for ${price} gold.`, 'good');
     Sound.play('gold');
@@ -557,6 +566,7 @@ const Game = (() => {
     if (it.t === 'key') { log('"Keys are no use to me."'); return false; }
     const price = sellPrice(it);
     const one = removeOne(it);
+    if (!one) { log('You are not carrying that.', 'bad'); return false; }
     p.gold += price;
     const ex = shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0));
     if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0 });
@@ -631,7 +641,9 @@ const Game = (() => {
   }
   function killMonster(m) {
     const L = lvl(), p = P(), mb = mstat(m);
-    L.monsters.splice(L.monsters.indexOf(m), 1);
+    const at = L.monsters.indexOf(m);
+    if (at < 0) return;                    // already removed by something else
+    L.monsters.splice(at, 1);
     p.kills++;
     p.xp += mb.xp;
     log(`The ${mb.name} is destroyed! (+${mb.xp} xp)`, 'good');
@@ -714,7 +726,7 @@ const Game = (() => {
       if (L.tiles[i] !== T.FLOOR) continue;
       const dd = distField[i];
       if (dd < 6 || dd > 15) continue;
-      if (monsterAt(i % L.w, (i / L.w) | 0)) continue;
+      if (monsterAt(i % L.w, (i / L.w) | 0) || npcAt(i % L.w, (i / L.w) | 0)) continue;
       cands.push(i);
     }
     if (!cands.length) return;

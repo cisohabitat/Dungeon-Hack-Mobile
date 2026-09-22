@@ -113,6 +113,10 @@ const Renderer = (() => {
   function render(level, cam, sprites, fx, now) {
     const tex = Assets.themes[level.theme];
     const px = cam.x, py = cam.y;
+    {
+      const hx = px | 0, hy = py | 0;
+      if (hx >= 0 && hy >= 0 && hx < level.w && hy < level.h) level.explored[hy * level.w + hx] = 1;
+    }
     const dirX = Math.cos(cam.angle), dirY = Math.sin(cam.angle);
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
     const lm = ensureLights(level);

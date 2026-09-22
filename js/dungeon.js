@@ -294,12 +294,16 @@ const Dungeon = (() => {
       for (const r of rng.shuffle(cands.slice())) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
-          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y]) spots.push([x, y]);
+          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y]) spots.push([x, y]);
         }
         if (!spots.length) continue;
         // The trader is solid, so they must not be the one tile holding the level
         // together. Count what is reachable with and without them standing there.
-        const reach = blocker => {
+        // The trader is solid, so they must never be the tile holding the level
+        // together. Locked doors make this two questions, not one: a spot can be
+        // harmless once every key is found and still seal off the key itself, so
+        // the count has to hold both with locked doors shut and with them open.
+        const reach = (blocker, lockedPassable) => {
           const seen = new Uint8Array(w * h);
           const q = [idx(start.x, start.y)];
           seen[q[0]] = 1;
@@ -314,16 +318,21 @@ const Dungeon = (() => {
               if (seen[ni] || ni === blocker) continue;
               const t = tiles[ni];
               if (t === T.WALL || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH || t === T.STAIRS_UP) continue;
+              if (t === T.DOOR_LOCKED && !lockedPassable) continue;
               seen[ni] = 1;
               q.push(ni);
             }
           }
           return n;
         };
-        const open = reach(-1);
+        const openAll = reach(-1, true), openShut = reach(-1, false);
         let chosen = null;
         for (const [sx, sy] of rng.shuffle(spots.slice())) {
-          if (reach(idx(sx, sy)) === open - 1) { chosen = [sx, sy]; break; }
+          const i = idx(sx, sy);
+          const costAll = openAll - reach(i, true);
+          const costShut = openShut - reach(i, false);
+          // standing there may remove their own tile from reach, nothing more
+          if (costAll === 1 && costShut <= 1) { chosen = [sx, sy]; break; }
         }
         if (!chosen) continue;   // every spot in this room is a chokepoint
         const [mx, my] = chosen;

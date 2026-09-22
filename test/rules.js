@@ -141,10 +141,12 @@ test('walking into a trader opens a shop that charges gold and identifies goods'
   if (p.x !== movedInto.x || p.y !== movedInto.y) return 'the player walked through the trader';
   const it = Game.currentShop().stock[0];
   const price = Game.buyPrice(Game.currentShop(), it);
-  const packBefore = p.inv.length;
+  // stackables merge into an existing slot, so count pieces rather than slots
+  const count = () => p.inv.reduce((a, i) => a + (i.q || 1), 0);
+  const packBefore = count();
   if (!Game.buy(it)) return 'buy failed with 1000 gold in hand';
   if (p.gold !== 1000 - price) return `gold went ${p.gold}, expected ${1000 - price}`;
-  if (p.inv.length !== packBefore + 1) return 'the bought item did not reach the pack';
+  if (count() !== packBefore + 1) return 'the bought item did not reach the pack';
   if (!Game.isKnown(it.t)) return 'buying did not identify the item';
   // and the trader refuses the Heart
   p.inv.push({ t: 'artifact', q: 1, e: 0 });

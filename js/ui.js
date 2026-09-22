@@ -279,7 +279,8 @@ const UI = (() => {
     miniAt = now;
     const L = Game.level(), p = Game.player();
     const R = 7, size = 6;
-    const sig = [p.x, p.y, p.dir, L.depth].join(',');
+    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length].join(',');
+    if (sig === miniSig) return;
     const c = $('#minimap');
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
