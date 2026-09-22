@@ -1,0 +1,4 @@
+{
+  "//": "Marks js/ as ES modules so Node does not have to guess, while the test harnesses in test/ stay CommonJS.",
+  "type": "module"
+}

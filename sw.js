@@ -1,7 +1,8 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v1';
+const CACHE = 'deepdelve-v2';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png',
+  './js/package.json',
   './js/rng.js', './js/data.js', './js/assets.js', './js/dungeon.js', './js/renderer.js', './js/sound.js', './js/game.js', './js/ui.js', './js/main.js',
 ];
 self.addEventListener('install', e => {

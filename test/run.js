@@ -1,17 +1,10 @@
 'use strict';
-// Headless checks: loads the browser-free modules in a VM and verifies that every
-// generated level is solvable (stairs or artifact reachable once keys are collected).
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
+// Generator, sprite and balance checks. These run without a browser: the game's
+// modules are imported directly and exercised as libraries.
+const { loadGame } = require('./harness');
 
-const ctx = { console };
-vm.createContext(ctx);
-for (const f of ['rng', 'data', 'dungeon']) {
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
-}
-vm.runInContext('globalThis.Dungeon = Dungeon; globalThis.SPRITES = SPRITES; globalThis.MONSTERS = MONSTERS; globalThis.ITEMS = ITEMS; globalThis.CLASSES = CLASSES; globalThis.XP_TABLE = XP_TABLE;', ctx);
-const { Dungeon, SPRITES, MONSTERS, ITEMS } = ctx;
+async function main() {
+const { Dungeon, SPRITES, MONSTERS, ITEMS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -160,5 +153,8 @@ check(traders > 0, 'no traders generated at all');
   check(onKey === 0, `${onKey} traders stand on a key`);
   console.log(`trader sweep: ${sweptTraders} traders over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
 }
-console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders), ${failures} failure(s)`);
+  console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
+}
+
+main().catch(e => { console.error(e); process.exit(1); });

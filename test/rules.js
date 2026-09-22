@@ -1,42 +1,30 @@
 'use strict';
-// Rule-level regression checks. These load the real game logic headlessly and
-// exercise the edge cases that are easy to break and hard to notice in play.
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
-const ROOT = path.join(__dirname, '..');
+// Rule-level regression checks. These load the real game logic and exercise the
+// edge cases that are easy to break and hard to notice in play.
+const { loadGame } = require('./harness');
 
-function newContext() {
-  const store = new Map();
-  const ctx = {
-    console,
-    localStorage: {
-      getItem: k => (store.has(k) ? store.get(k) : null),
-      setItem: (k, v) => store.set(k, String(v)),
-      removeItem: k => store.delete(k),
-    },
-    navigator: {},
-    Sound: { play() {}, setAmbience() {}, heartbeat() {}, stopAmbience() {}, unlock() {}, isEnabled: () => false, toggle: () => false },
-    Assets: { sprites: new Proxy({}, { get: () => ({ levels: [], elite: {}, url: '' }) }) },
-  };
-  vm.createContext(ctx);
-  for (const f of ['rng', 'data', 'dungeon', 'game']) {
-    vm.runInContext(fs.readFileSync(path.join(ROOT, 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
-  }
-  vm.runInContext('globalThis.Game = Game; globalThis.Dungeon = Dungeon; globalThis.ITEMS = ITEMS; globalThis.MONSTERS = MONSTERS;', ctx);
-  return ctx;
-}
 const OPTS = { levels: 4, size: 'small', monsters: 'few', treasure: 'normal', lockedDoors: false, traps: false, permadeath: false };
-function start(cls, seed, opts) {
-  const ctx = newContext();
+// flat scores, so a background's effect is the only thing that can move a number
+const evenStats = { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 };
+
+async function main() {
+const modules = [];
+/** A fresh game world. Each call is isolated from every other. */
+async function newContext() {
+  const m = await loadGame();
+  modules.push(m);
+  return m;
+}
+async function start(cls, seed, opts) {
+  const ctx = await newContext();
   ctx.Game.newGame({ name: 'Test', cls, stats: ctx.Game.rollStats(), seed, opts: Object.assign({}, OPTS, opts) });
   return ctx;
 }
 
 let failures = 0;
-function test(name, fn) {
+async function test(name, fn) {
   try {
-    const r = fn();
+    const r = await fn();
     if (r === true) return;
     failures++;
     console.error('FAIL:', name, r === false ? '' : '-> ' + r);
@@ -46,8 +34,8 @@ function test(name, fn) {
   }
 }
 
-test('identical items with different enchantments do not merge', () => {
-  const { Game } = start('fighter', 'r1');
+await test('identical items with different enchantments do not merge', async () => {
+  const { Game } = await start('fighter', 'r1');
   const p = Game.player();
   p.inv.length = 0;
   p.inv.push({ t: 'longsword', q: 1, e: 0 });
@@ -55,8 +43,8 @@ test('identical items with different enchantments do not merge', () => {
   return p.inv.length === 2 && p.inv[1].e === 2;
 });
 
-test('equipping a two-handed weapon stows the shield', () => {
-  const { Game } = start('fighter', 'r2');
+await test('equipping a two-handed weapon stows the shield', async () => {
+  const { Game } = await start('fighter', 'r2');
   const p = Game.player();
   if (!p.eq.shield) return true;              // nothing to stow
   p.inv.push({ t: 'greatsword', q: 1, e: 0 });
@@ -64,8 +52,8 @@ test('equipping a two-handed weapon stows the shield', () => {
   return p.eq.weapon.t === 'greatsword' && !p.eq.shield && p.inv.some(i => i.t === 'shield');
 });
 
-test('using the last of a stack removes its slot', () => {
-  const { Game } = start('fighter', 'r3');
+await test('using the last of a stack removes its slot', async () => {
+  const { Game } = await start('fighter', 'r3');
   const p = Game.player();
   p.inv.length = 0;
   p.inv.push({ t: 'ration', q: 1, e: 0 });
@@ -73,8 +61,8 @@ test('using the last of a stack removes its slot', () => {
   return p.inv.length === 0;
 });
 
-test('a save survives the JSON round trip, effects included', () => {
-  const { Game } = start('mage', 'r4', { lockedDoors: true, traps: true });
+await test('a save survives the JSON round trip, effects included', async () => {
+  const { Game } = await start('mage', 'r4', { lockedDoors: true, traps: true });
   const p = Game.player();
   p.effects.ac = { amount: 4, until: 99999 };
   Game.save(true);
@@ -85,8 +73,8 @@ test('a save survives the JSON round trip, effects included', () => {
     && q.effects.ac && q.effects.ac.amount === 4;
 });
 
-test('dropping from a full pack frees a slot', () => {
-  const { Game } = start('fighter', 'r5');
+await test('dropping from a full pack frees a slot', async () => {
+  const { Game } = await start('fighter', 'r5');
   const p = Game.player();
   p.inv.length = 0;
   for (let i = 0; i < Game.INV_MAX; i++) p.inv.push({ t: 'dagger', q: 1, e: 0 });
@@ -94,8 +82,8 @@ test('dropping from a full pack frees a slot', () => {
   return p.inv.length === Game.INV_MAX - 1 && Game.floorItems().length >= 1;
 });
 
-test('a dead player takes no more turns', () => {
-  const { Game } = start('fighter', 'r6');
+await test('a dead player takes no more turns', async () => {
+  const { Game } = await start('fighter', 'r6');
   const p = Game.player();
   const steps = p.steps;
   Game.state().status = 'dead';
@@ -103,8 +91,8 @@ test('a dead player takes no more turns', () => {
   return p.steps === steps;
 });
 
-test('the Heart cannot be sold or dropped', () => {
-  const ctx = start('fighter', 'r7');
+await test('the Heart cannot be sold or dropped', async () => {
+  const ctx = await start('fighter', 'r7');
   const { Game } = ctx;
   const p = Game.player();
   p.inv.push({ t: 'artifact', q: 1, e: 0 });
@@ -113,8 +101,8 @@ test('the Heart cannot be sold or dropped', () => {
   return p.inv.some(i => i.t === 'artifact');
 });
 
-test('walking into a trader opens a shop that charges gold and identifies goods', () => {
-  const ctx = start('fighter', 'r8', { levels: 8, size: 'medium' });
+await test('walking into a trader opens a shop that charges gold and identifies goods', async () => {
+  const ctx = await start('fighter', 'r8', { levels: 8, size: 'medium' });
   const { Game, Dungeon } = ctx;
   const G = Game.state();
   const T = Dungeon.T;
@@ -154,8 +142,8 @@ test('walking into a trader opens a shop that charges gold and identifies goods'
   return sold === false && p.inv.some(i => i.t === 'artifact');
 });
 
-test('poison wears off rather than lasting forever', () => {
-  const { Game } = start('fighter', 'r9');
+await test('poison wears off rather than lasting forever', async () => {
+  const { Game } = await start('fighter', 'r9');
   const p = Game.player();
   const G = Game.state();
   p.poison = { until: G.t + 1000, next: G.t + 100 };
@@ -164,8 +152,8 @@ test('poison wears off rather than lasting forever', () => {
   return !p.poison;
 });
 
-test('buffs expire on their own clock', () => {
-  const { Game } = start('cleric', 'r10');
+await test('buffs expire on their own clock', async () => {
+  const { Game } = await start('cleric', 'r10');
   const G = Game.state();
   Game.player().effects.hit = { amount: 2, until: G.t + 500 };
   for (let i = 0; i < 20; i++) Game.update(i * 300, 300);
@@ -174,11 +162,11 @@ test('buffs expire on their own clock', () => {
 
 // ---- story and progression ----
 
-test('every background is complete and keeps its voice straight', () => {
-  const { Game } = start('fighter', 'story1');
+await test('every background is complete and keeps its voice straight', async () => {
+  const { Game } = await start('fighter', 'story1');
   void Game;
-  const ctx = newContext();
-  const BG = vm.runInContext('BACKGROUNDS', ctx);
+  const ctx = await newContext();
+  const BG = ctx.BACKGROUNDS;
   const ids = Object.keys(BG);
   if (ids.length < 4) return `only ${ids.length} backgrounds`;
   for (const id of ids) {
@@ -192,32 +180,30 @@ test('every background is complete and keeps its voice straight', () => {
   return true;
 });
 
-test('each background grants its stated advantage', () => {
-  const plain = start('fighter', 'story2').Game.player();
-  const debtor = (() => {
-    const ctx = newContext();
-    ctx.Game.newGame({ name: 'T', cls: 'fighter', bg: 'debtor', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
-    return ctx.Game.player();
-  })();
+await test('each background grants its stated advantage', async () => {
+  const plain = (await start('fighter', 'story2')).Game.player();
+  const ctxD = await newContext();
+  ctxD.Game.newGame({ name: 'T', cls: 'fighter', bg: 'debtor', stats: { ...evenStats }, opts: OPTS });
+  const debtor = ctxD.Game.player();
   if (debtor.gold !== 150) return `debtor starts with ${debtor.gold} gold, expected 150`;
   if (plain.gold !== 0) return `a plain start carries ${plain.gold} gold`;
 
-  const ctxO = newContext();
-  ctxO.Game.newGame({ name: 'T', cls: 'fighter', bg: 'oathbroken', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  const ctxO = await newContext();
+  ctxO.Game.newGame({ name: 'T', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, opts: OPTS });
   if ((ctxO.Game.player().perkHit || 0) !== 1) return 'oathbroken does not gain +1 to hit';
 
-  const ctxA = newContext();
-  ctxA.Game.newGame({ name: 'T', cls: 'fighter', bg: 'ashborn', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  const ctxA = await newContext();
+  ctxA.Game.newGame({ name: 'T', cls: 'fighter', bg: 'ashborn', stats: { ...evenStats }, opts: OPTS });
   if (ctxA.Game.player().stats.con !== 13) return 'ashborn does not gain a point of constitution';
 
-  const ctxC = newContext();
-  ctxC.Game.newGame({ name: 'T', cls: 'mage', bg: 'cloistered', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  const ctxC = await newContext();
+  ctxC.Game.newGame({ name: 'T', cls: 'mage', bg: 'cloistered', stats: { ...evenStats }, opts: OPTS });
   if (!ctxC.Game.isKnown('potion_xheal')) return 'cloistered does not begin knowing every draught';
   return true;
 });
 
-test('levelling offers a choice that must be made and changes the character', () => {
-  const ctx = start('fighter', 'story3', { levels: 8, size: 'medium' });
+await test('levelling offers a choice that must be made and changes the character', async () => {
+  const ctx = await start('fighter', 'story3', { levels: 8, size: 'medium' });
   const { Game, Dungeon } = ctx;
   const p = Game.player();
   const L = Game.level();
@@ -245,8 +231,8 @@ test('levelling offers a choice that must be made and changes the character', ()
   return p.boons && p.boons.length === 1;
 });
 
-test('journal pages are recorded once and survive a save', () => {
-  const ctx = start('fighter', 'story4', { levels: 8, size: 'medium' });
+await test('journal pages are recorded once and survive a save', async () => {
+  const ctx = await start('fighter', 'story4', { levels: 8, size: 'medium' });
   const { Game } = ctx;
   const L = Game.level();
   const p = Game.player();
@@ -265,9 +251,9 @@ test('journal pages are recorded once and survive a save', () => {
   return Game.journal().length === 1;
 });
 
-test('the epilogue names the hero and reflects the background', () => {
-  const ctx = newContext();
-  ctx.Game.newGame({ name: 'Wren', cls: 'thief', bg: 'tombwise', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+await test('the epilogue names the hero and reflects the background', async () => {
+  const ctx = await newContext();
+  ctx.Game.newGame({ name: 'Wren', cls: 'thief', bg: 'tombwise', stats: { ...evenStats }, opts: OPTS });
   const lost = ctx.Game.epilogue(false).join(' ');
   const won = ctx.Game.epilogue(true).join(' ');
   if (!lost.includes('Wren') || !won.includes('Wren')) return 'the epilogue does not name the hero';
@@ -276,5 +262,8 @@ test('the epilogue names the hero and reflects the background', () => {
   return true;
 });
 
-console.log(`rule checks complete, ${failures} failure(s)`);
-process.exit(failures ? 1 : 0);
+  console.log(`rule checks complete, ${failures} failure(s)`);
+  process.exit(failures ? 1 : 0);
+}
+
+main().catch(e => { console.error(e); process.exit(1); });

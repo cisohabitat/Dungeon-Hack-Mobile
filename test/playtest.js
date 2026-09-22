@@ -1,36 +1,14 @@
 'use strict';
 // Headless playtest: loads the real game rules and plays full runs with a bot,
 // so balance can be measured instead of guessed at.
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
-const ROOT = path.join(__dirname, '..');
+const { loadGame } = require('./harness');
 
-function makeGame() {
-  const store = new Map();
-  const ctx = {
-    console,
-    localStorage: {
-      getItem: k => (store.has(k) ? store.get(k) : null),
-      setItem: (k, v) => store.set(k, String(v)),
-      removeItem: k => store.delete(k),
-    },
-    navigator: {},
-    Sound: { play() {}, setAmbience() {}, heartbeat() {}, stopAmbience() {}, unlock() {}, isEnabled: () => false, toggle: () => false },
-    Assets: { sprites: new Proxy({}, { get: () => ({ levels: [], flash: null, elite: {} }) }) },
-  };
-  vm.createContext(ctx);
-  for (const f of ['rng', 'data', 'dungeon', 'game']) {
-    vm.runInContext(fs.readFileSync(path.join(ROOT, 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
-  }
-  vm.runInContext('globalThis.Game = Game; globalThis.Dungeon = Dungeon; globalThis.MONSTERS = MONSTERS; globalThis.ITEMS = ITEMS; globalThis.CLASSES = CLASSES; globalThis.XP_TABLE = XP_TABLE;', ctx);
-  return ctx;
-}
+const BACKGROUND_ROTATION = ['oathbroken', 'tombwise', 'ashborn', 'cloistered', 'deepborn', 'debtor'];
 
 const TICK = 300;   // ms of game time per bot action, roughly a brisk human pace
 
 function run(ctx, cls, seed, opts, bg) {
-  const { Game, Dungeon, MONSTERS, ITEMS } = ctx;
+  const { Game, Dungeon, ITEMS } = ctx;
   const T = Dungeon.T;
   Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
   let now = 0;
@@ -277,15 +255,15 @@ const opts = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal'
 const SEEDS = Array.from({ length: 20 }, (_, i) => 'bench' + i);
 const TRIALS = parseInt(process.argv[3] || '2', 10);
 const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief'];
+async function main() {
 const results = {};
 for (const cls of classes) {
   const rows = [];
   for (const seed of SEEDS) {
     for (let t = 0; t < TRIALS; t++) {
-      const ctx = makeGame();
+      const ctx = await loadGame();
       // rotate backgrounds so the benchmark is not one perk repeated 60 times
-      const bgs = Object.keys(vm.runInContext('BACKGROUNDS', ctx));
-      const bg = bgs[(SEEDS.indexOf(seed) * TRIALS + t) % bgs.length];
+      const bg = BACKGROUND_ROTATION[(SEEDS.indexOf(seed) * TRIALS + t) % BACKGROUND_ROTATION.length];
       try { rows.push(run(ctx, cls, seed, opts, bg)); }
       catch (e) { rows.push({ cls, died: true, cause: 'ERROR ' + e.message, deepest: 0, level: 0 }); }
     }
@@ -305,3 +283,6 @@ for (const cls in results) {
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);
+}
+
+main().catch(e => { console.error(e); process.exit(1); });

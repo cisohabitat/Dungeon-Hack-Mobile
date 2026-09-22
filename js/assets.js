@@ -1,4 +1,6 @@
-'use strict';
+import { Rng } from './rng.js';
+import { SPRITES, THEMES, KEY_COLORS, ELITES } from './data.js';
+
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
 const Assets = (() => {
@@ -382,3 +384,5 @@ const Assets = (() => {
 
   return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX };
 })();
+
+export { Assets };

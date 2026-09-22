@@ -65,7 +65,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   it to act, haptic feedback, portrait and landscape layouts, safe-area aware, installable as a
   PWA with offline support. Keyboard controls on desktop.
 
-Everything is original: the raycast renderer with textured floors and ceilings, procedural
+The code is plain ES modules with no build step: the page loads `js/main.js` and the browser
+resolves the rest, so what you edit is what ships. Everything is original: the raycast renderer
+with textured floors and ceilings, procedural
 wall textures, pixel-art sprites and sound effects are all generated in code. No external
 assets or dependencies. Creatures are drawn as 24x24 tone art; the outline, contact shadow and
 overhead light are applied at load time so every sprite reads the same way against a dark wall.
@@ -185,7 +187,7 @@ a staircase takes it.
 ## Project layout
 
 ```
-index.html        app shell
+index.html        app shell, loads one module
 css/style.css     mobile-first styles
 js/rng.js         seeded PRNG
 js/data.js        classes, items, monsters, spells, themes, pixel art
@@ -195,11 +197,15 @@ js/renderer.js    canvas raycaster
 js/sound.js       WebAudio sound effects
 js/game.js        rules, state, AI, save/load
 js/ui.js          screens, overlays, touch and keyboard input
-js/main.js        bootstrap and game loop
+js/main.js        entry point, game loop, debug surface
 sw.js             offline cache
 manifest.json     PWA manifest
 vercel.json       Vercel headers
-test/run.js       headless generator tests
+test/harness.js   loads the game's modules into Node
+test/run.js       generator, sprite and balance checks
+test/rules.js     rule-level regression checks
+test/browser/     Playwright suites
+test/server.js    dependency-free static server
 ```
 
 ## License

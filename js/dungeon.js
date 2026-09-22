@@ -1,4 +1,6 @@
-'use strict';
+import { Rng } from './rng.js';
+import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
+
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
@@ -408,3 +410,5 @@ const Dungeon = (() => {
 
   return { T, generate, rollLoot, DIRS, SIZES };
 })();
+
+export { Dungeon };

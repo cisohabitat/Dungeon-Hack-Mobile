@@ -1,4 +1,3 @@
-'use strict';
 // Static game data: classes, items, monsters, spells, level themes and pixel art.
 // All art and content here is original.
 
@@ -1017,3 +1016,5 @@ const SPRITES = {
   variant('goblin', 'archer', { m: '#6f9440', l: '#8cb45c', d: '#456028', r: '#5a4028' });
   variant('lich', 'acolyte', { b: '#d8b090', o: '#ff5252', m: '#4a1c2e', l: '#6a2c44', d: '#2c1020', g: '#8a6a3a' });
 })();
+
+export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES };

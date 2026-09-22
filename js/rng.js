@@ -1,4 +1,3 @@
-'use strict';
 // Seeded pseudo-random number generator (mulberry32) plus helpers.
 // Dungeons are generated from a seed string so the same seed always
 // produces the same dungeon, just like the classic seed-based crawlers.
@@ -56,3 +55,5 @@ function randomSeedWord() {
   for (let i = 0; i < n; i++) s += Dice.pick(SEED_SYLLABLES);
   return s + Dice.int(10, 99);
 }
+
+export { hashSeed, Rng, Dice, d, randomSeedWord };

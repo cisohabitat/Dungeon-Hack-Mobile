@@ -1,4 +1,9 @@
-'use strict';
+import { Rng, Dice, d } from './rng.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, ELITES, THEMES } from './data.js';
+import { Assets } from './assets.js';
+import { Dungeon } from './dungeon.js';
+import { Sound } from './sound.js';
+
 // Core game state and rules.
 
 const Game = (() => {
@@ -1177,3 +1182,5 @@ const Game = (() => {
     INV_MAX, T,
   };
 })();
+
+export { Game };

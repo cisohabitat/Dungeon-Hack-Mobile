@@ -1,4 +1,11 @@
-'use strict';
+import { randomSeedWord } from './rng.js';
+import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES } from './data.js';
+import { Assets } from './assets.js';
+import { Dungeon } from './dungeon.js';
+import { Renderer } from './renderer.js';
+import { Sound } from './sound.js';
+import { Game } from './game.js';
+
 // DOM, touch controls, overlays and screens.
 
 const UI = (() => {
@@ -800,3 +807,5 @@ const UI = (() => {
     isPlaying: () => $('#screen-game').classList.contains('active'),
     isTitle: () => $('#screen-title').classList.contains('active') };
 })();
+
+export { UI };

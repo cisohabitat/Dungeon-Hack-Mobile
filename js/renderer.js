@@ -1,4 +1,6 @@
-'use strict';
+import { Assets } from './assets.js';
+import { Dungeon } from './dungeon.js';
+
 // First-person raycast renderer with textured walls and billboard sprites.
 
 const Renderer = (() => {
@@ -265,3 +267,5 @@ const Renderer = (() => {
 
   return { init, render, W, H, FOG };
 })();
+
+export { Renderer };

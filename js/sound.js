@@ -1,4 +1,3 @@
-'use strict';
 // Tiny synthesized sound effects via WebAudio. No audio files needed.
 
 const Sound = (() => {
@@ -153,3 +152,5 @@ const Sound = (() => {
     setAmbience, stopAmbience, heartbeat,
   };
 })();
+
+export { Sound };
