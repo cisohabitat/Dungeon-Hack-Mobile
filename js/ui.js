@@ -527,9 +527,12 @@ const UI = (() => {
     const p = Game.player();
     const eq = $('#equip');
     eq.innerHTML = '';
-    for (const slot of ['weapon', 'armor', 'shield']) {
+    // the off hand only earns a slot for a class that can use it
+    const slots = Game.canDualWield() || p.eq.offhand
+      ? ['weapon', 'offhand', 'armor', 'shield'] : ['weapon', 'armor', 'shield'];
+    for (const slot of slots) {
       const it = p.eq[slot];
-      const el = slotEl(it, slot);
+      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot);
       if (it) el.addEventListener('click', () => { selectedItem = it; selectedSlot = slot; renderInv(); });
       if (selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
@@ -581,7 +584,11 @@ const UI = (() => {
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
     if (selectedSlot) add('Unequip', () => Game.unequip(selectedSlot));
     else {
-      if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') { if (!why) add('Equip', () => Game.equip(it), 'primary'); }
+      if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
+        if (!why) add('Equip', () => Game.equip(it), 'primary');
+        // a light blade can go in either hand, so offer the second one
+        if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
+      }
       else if (b.kind === 'food') add('Eat', () => Game.useItem(it), 'primary');
       else if (b.kind === 'potion') add('Drink', () => Game.useItem(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => Game.useItem(it), 'primary');

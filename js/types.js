@@ -26,6 +26,7 @@
  * @property {Item|null} weapon
  * @property {Item|null} armor
  * @property {Item|null} shield
+ * @property {Item|null} offhand   a second light weapon, where the class allows it
  */
 
 /**

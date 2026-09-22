@@ -82,10 +82,32 @@ const Game = (() => {
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
     const p = P();
-    const spd = skillSpeed();
+    const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1);
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, range: 0 };
     const b = ITEMS[p.eq.weapon.t];
     return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0 };
+  }
+  // Two blades means neither hand swings clean, so the main hand loses rhythm.
+  const DUAL_SWING_COST = 1.15;
+  const DUAL_HIT_PENALTY = 3;
+  const OFFHAND_MAX_SPEED = 550;   // dagger, club, short sword: nothing heavier
+  /** Why this cannot ride in the off hand, or null if it can. */
+  function offhandReason(it) {
+    const p = P(), b = ITEMS[it.t];
+    if (!b || b.kind !== 'weapon') return 'That is not a weapon.';
+    if (!CLASSES[p.cls].dualWield) return `${CLASSES[p.cls].name}s fight with one blade.`;
+    if (!b.cls.includes(p.cls)) return `${CLASSES[p.cls].name}s cannot wield a ${b.name.toLowerCase()}.`;
+    if (b.twoHanded) return 'A two-handed weapon needs both hands.';
+    if (b.range) return 'You cannot fence with a missile weapon.';
+    if (b.speed > OFFHAND_MAX_SPEED) return `A ${b.name.toLowerCase()} is too heavy for the off hand.`;
+    return null;
+  }
+  function canDualWield() { return !!(G && CLASSES[P().cls].dualWield); }
+  function offhandWeapon() {
+    const p = P();
+    if (!p.eq.offhand) return null;
+    const b = ITEMS[p.eq.offhand.t];
+    return { name: b.name, dmg: b.dmg, e: p.eq.offhand.e || 0 };
   }
   function effect(name) {
     const e = P().effects[name];
@@ -187,21 +209,36 @@ const Game = (() => {
     if (b.kind === 'shield') {
       if (!c.shield) return `${c.name}s cannot use shields.`;
       if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) return 'You need a free hand for a shield.';
+      if (p.eq.offhand) return 'Your off hand is holding a weapon.';
       return null;
     }
     return 'That cannot be equipped.';
   }
-  function equip(it, quiet) {
+  function equip(it, quiet, toSlot) {
     const p = P(), b = ITEMS[it.t];
-    if (p.eq[b.kind] === it) return true;                    // already worn
+    const slot = toSlot === 'offhand' ? 'offhand' : b.kind;
+    if (p.eq[slot] === it) return true;                      // already worn
     if (p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return false; }
-    const why = canEquip(it);
+    const why = slot === 'offhand' ? offhandReason(it) : canEquip(it);
     if (why) { if (!quiet) log(why, 'bad'); return false; }
-    const slot = b.kind;
-    if (slot === 'weapon' && b.twoHanded && p.eq.shield) {
-      if (p.inv.length >= INV_MAX) { log('No room in your pack to stow the shield.', 'bad'); return false; }
-      p.inv.push(p.eq.shield); p.eq.shield = null;
-      if (!quiet) log('You sling your shield onto your back.');
+    // the off hand, a shield and a two-handed grip all want the same hand
+    const freeHand = held => {
+      if (!held) return true;
+      if (p.inv.length >= INV_MAX) { log(`No room in your pack to stow the ${itemName(held)}.`, 'bad'); return false; }
+      p.inv.push(held);
+      if (!quiet) log(`You stow the ${itemName(held)}.`);
+      return true;
+    };
+    if (slot === 'offhand') {
+      if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) { if (!quiet) log('A two-handed weapon needs both hands.', 'bad'); return false; }
+      if (!freeHand(p.eq.shield)) return false;
+      p.eq.shield = null;
+    }
+    if (slot === 'weapon' && b.twoHanded) {
+      if (!freeHand(p.eq.shield)) return false;
+      p.eq.shield = null;
+      if (!freeHand(p.eq.offhand)) return false;
+      p.eq.offhand = null;
     }
     const i = p.inv.indexOf(it);
     if (i >= 0) p.inv.splice(i, 1);
@@ -396,7 +433,7 @@ const Game = (() => {
     const p = {
       name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
-      inv: [], eq: { weapon: null, armor: null, shield: null }, effects: {}, poison: null,
+      inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
     };
     // the background is who you were before the first stair, and it shows
@@ -704,6 +741,25 @@ const Game = (() => {
     if (sneak) dmg *= 2;
     dmg = Math.max(1, dmg);
     damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null));
+    if (m.hp > 0) offhandStrike(m, atRange);
+  }
+  /**
+   * The second blade follows the first. It swings wilder and carries none of
+   * your strength behind it, so two light weapons beat one heavy one only
+   * against the sort of thing that is easy to hit in the first place.
+   */
+  function offhandStrike(m, atRange) {
+    const o = offhandWeapon();
+    if (!o || atRange) return;
+    const mb = mstat(m);
+    const roll = d(1, 20);
+    if (roll === 1 || roll + toHit() - DUAL_HIT_PENALTY < mb.ac) {
+      log(`Your ${o.name.toLowerCase()} goes wide.`);
+      return;
+    }
+    const dmg = Math.max(1, d(...o.dmg) + o.e);
+    log(`Your off hand finds the ${mb.name}.`);
+    damageMonster(m, dmg, null);
   }
   function damageMonster(m, dmg, tag) {
     const mb = mstat(m);
@@ -1246,6 +1302,7 @@ const Game = (() => {
       if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
       if (!G.journal) G.journal = [];
       if (G.logSeq == null) G.logSeq = G.log ? G.log.length : 0;
+      if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
       if (!G.pendingBoons) G.pendingBoons = [];
       if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);
@@ -1273,6 +1330,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    offhandReason, offhandWeapon, canDualWield,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],

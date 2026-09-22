@@ -6,6 +6,9 @@ const { loadGame } = require('./harness');
 const BACKGROUND_ROTATION = ['oathbroken', 'tombwise', 'ashborn', 'cloistered', 'deepborn', 'debtor'];
 
 const TICK = 300;   // ms of game time per bot action, roughly a brisk human pace
+// DUAL=1 plays the fighter with a blade in each hand instead of a shield, so the
+// two builds can be compared over the same seeds rather than argued about.
+const DUAL = process.env.DUAL === '1';
 
 function run(ctx, cls, seed, opts, bg) {
   const { Rng, Dice } = ctx;
@@ -105,6 +108,19 @@ function play(ctx, cls, seed, opts, bg) {
         return dps * (bx.range ? 1.5 : 1);   // reach is worth paying for
       };
       if (val(it) > val(cur)) Game.equip(it, true);
+    }
+    // --- a second blade, when this bot is playing that build
+    if (DUAL && Game.canDualWield()) {
+      let best = null, bestDps = 0;
+      for (const it of p.inv.slice()) {
+        if (Game.offhandReason(it)) continue;
+        const bx = ITEMS[it.t];
+        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (it.e || 0)) / (bx.speed / 1000);
+        if (dps > bestDps) { bestDps = dps; best = it; }
+      }
+      const cur = p.eq.offhand;
+      const curDps = cur ? (ITEMS[cur.t].dmg[0] * (ITEMS[cur.t].dmg[1] + 1) / 2 + ITEMS[cur.t].dmg[2] + (cur.e || 0)) / (ITEMS[cur.t].speed / 1000) : 0;
+      if (best && bestDps > curDps) Game.equip(best, true, 'offhand');
     }
 
     // --- shoot down the corridor before anything closes the distance

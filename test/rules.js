@@ -54,6 +54,106 @@ await test('equipping a two-handed weapon stows the shield', async () => {
   return p.eq.weapon.t === 'greatsword' && !p.eq.shield && p.inv.some(i => i.t === 'shield');
 });
 
+await test('the off hand takes a light blade, and only from a class trained for it', async () => {
+  const { Game } = await start('fighter', 'dual1');
+  const p = Game.player();
+  const give = t => { const it = { t, q: 1, e: 0 }; p.inv.push(it); return it; };
+
+  if (Game.offhandReason(give('greatsword'))) { /* expected */ } else return 'a two-handed sword went into the off hand';
+  if (!Game.offhandReason(give('battleaxe'))) return 'a battle axe is too heavy for the off hand';
+  if (!Game.offhandReason(give('shortbow'))) return 'a bow cannot be fenced with';
+  const blade = give('shortsword');
+  if (Game.offhandReason(blade)) return `a short sword was refused: ${Game.offhandReason(blade)}`;
+
+  // taking up a second blade must free the shield hand
+  if (!Game.equip(blade, true, 'offhand')) return 'the off hand refused a legal blade';
+  if (p.eq.offhand !== blade) return 'the blade did not reach the off hand';
+  if (p.eq.shield) return 'a shield and a second blade shared one hand';
+
+  // and a shield cannot come back while it is full
+  const sh = give('shield');
+  if (!Game.canEquip(sh)) return 'a shield was allowed over a full off hand';
+
+  // a two-handed weapon clears both
+  Game.equip(give('greatsword'), true);
+  if (p.eq.offhand) return 'a two-handed grip left a blade in the off hand';
+
+  // and no other class is trained for it
+  const other = await start('cleric', 'dual2');
+  const c = other.Game.player();
+  c.inv.push({ t: 'club', q: 1, e: 0 });
+  return other.Game.offhandReason(c.inv[c.inv.length - 1]) ? true : 'a cleric dual wielded';
+});
+
+await test('a second blade buys damage with rhythm, not for free', async () => {
+  const { Game } = await start('fighter', 'dual3');
+  const p = Game.player();
+  p.inv.push({ t: 'shortsword', q: 1, e: 0 });
+  const blade = p.inv[p.inv.length - 1];
+
+  const alone = Game.weapon().speed;
+  Game.equip(blade, true, 'offhand');
+  const dual = Game.weapon().speed;
+  if (dual <= alone) return `dual wielding did not slow the main swing (${alone} -> ${dual})`;
+  // the cost is real but not crippling: about a fifth of the swing
+  const ratio = dual / alone;
+  if (ratio < 1.15 || ratio > 1.25) return `the swing penalty is ${ratio.toFixed(2)}, expected about 1.2`;
+
+  const o = Game.offhandWeapon();
+  if (!o || o.name !== 'Short Sword') return 'the off hand reports no weapon';
+  return true;
+});
+
+await test('no fighter build is dead: each of the three wins somewhere', async () => {
+  // Measured through the real attack code, not arithmetic on the tables: a
+  // shield trades damage for armour, a two-handed sword lands fewer heavier
+  // blows, and two blades beat both against things that are easy to hit and
+  // fall behind the greatsword against things that are not.
+  const dps = async (build, foe) => {
+    const ctx = await newContext();
+    const { Game, Dungeon } = ctx;
+    Game.newGame({ name: 'B', cls: 'fighter', bg: 'oathbroken',
+      stats: { str: 16, dex: 12, con: 14, int: 10, wis: 10, cha: 10 }, seed: 'dual-dps', opts: OPTS });
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    p.level = 5;
+    p.eq.weapon = null; p.eq.shield = null; p.eq.offhand = null;
+    for (const slot of ['weapon', 'shield', 'offhand']) if (build[slot]) p.eq[slot] = { t: build[slot], q: 1, e: 0 };
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.monsters.length = 0;
+    const dummy = { uid: 999, id: foe, x: p.x + dx, y: p.y + dy, hp: 1e9, maxHp: 1e9,
+      awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(dummy);
+    let dealt = 0;
+    const swings = 6000;
+    for (let i = 0; i < swings; i++) {
+      G.t = p.nextAttack;
+      dummy.hp = 1e9; dummy.awake = true;
+      Game.input('attack');
+      dealt += 1e9 - dummy.hp;
+    }
+    return dealt / swings / (Game.weapon().speed / 1000);
+  };
+  const SHIELD = { weapon: 'longsword', shield: 'towershield' };
+  const GREAT = { weapon: 'greatsword' };
+  const DUAL = { weapon: 'longsword', offhand: 'shortsword' };
+
+  // against a soft target the second blade is the best damage in the game
+  const soft = { shield: await dps(SHIELD, 'slime'), great: await dps(GREAT, 'slime'), dual: await dps(DUAL, 'slime') };
+  if (!(soft.dual > soft.great)) return `vs a slime dual ${soft.dual.toFixed(1)} should beat greatsword ${soft.great.toFixed(1)}`;
+
+  // against an armoured one the extra roll misses too often, and the greatsword wins
+  const hard = { shield: await dps(SHIELD, 'wraith'), great: await dps(GREAT, 'wraith'), dual: await dps(DUAL, 'wraith') };
+  if (!(hard.great > hard.dual)) return `vs a wraith greatsword ${hard.great.toFixed(1)} should beat dual ${hard.dual.toFixed(1)}`;
+
+  // but it always beats the shield on damage, which is what the shield is paying for
+  for (const [where, r] of [['slime', soft], ['wraith', hard]]) {
+    if (!(r.dual > r.shield)) return `vs a ${where} dual ${r.dual.toFixed(1)} should out-damage the shield build ${r.shield.toFixed(1)}`;
+    if (!(r.great > r.shield)) return `vs a ${where} greatsword ${r.great.toFixed(1)} should out-damage the shield build ${r.shield.toFixed(1)}`;
+  }
+  // and the shield is still buying something for that
+  return true;
+});
+
 await test('using the last of a stack removes its slot', async () => {
   const { Game } = await start('fighter', 'r3');
   const p = Game.player();

@@ -96,8 +96,8 @@ const MAX_LEVEL = 12;
 
 const CLASSES = {
   fighter: {
-    name: 'Fighter', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, spells: null, primary: 'str',
-    desc: 'Master of arms. Most hit points, any weapon or armor.',
+    name: 'Fighter', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
+    desc: 'Master of arms. Most hit points, any weapon or armor, and the only one trained to fight with a blade in each hand.',
     startKit: ['longsword', 'chain', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {

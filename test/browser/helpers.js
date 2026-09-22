@@ -32,7 +32,9 @@ async function startGame(page, opts = {}) {
   await page.goto('/');
   await page.click('#btn-new');
   if (opts.name) await page.fill('#c-name', opts.name);
-  if (opts.cls) await page.click(`.class-card:nth-child(${opts.cls})`);
+  // a class by name reads better than a position and survives reordering
+  if (typeof opts.cls === 'number') await page.click(`.class-card:nth-child(${opts.cls})`);
+  else if (opts.cls) await page.locator('.class-card', { has: page.locator('b', { hasText: new RegExp(`^${opts.cls}$`, 'i') }) }).click();
   if (opts.bg) await page.locator('.bg-card', { hasText: opts.bg }).click();
   if (opts.levels) await page.selectOption('#c-levels', opts.levels);
   await page.fill('#c-seed', opts.seed || 'spec');

@@ -1,7 +1,7 @@
 'use strict';
 // Dungeon features: secrets, fountains, ranged attacks, champions, identification.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, faceOpenGround, placeMonster } = require('./helpers');
+const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 test.describe('dungeon features', () => {
   test('a secret door can be found by walking into the wall that hides it', async ({ page }) => {
@@ -130,5 +130,51 @@ test.describe('dungeon features', () => {
       return 'eighty attempts failed';
     });
     expect(bashed).toBe(true);
+  });
+  test('a fighter can take a second blade, and the shield hand knows it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'dual-ui', cls: 'fighter' });
+    await clearBoons(page);
+
+    const start = await page.evaluate(() => {
+      const p = Game.player();
+      p.inv.push({ t: 'shortsword', q: 1, e: 0 });
+      return { ac: Game.playerAC(), shield: !!p.eq.shield, swing: Game.weapon().speed };
+    });
+
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#ov-inv')).toHaveClass(/open/);
+    // the off hand has its own slot, empty for now
+    await expect(page.locator('#equip .slot').filter({ hasText: /off hand/i })).toHaveCount(1);
+
+    // pick the short sword out of the pack and send it to the off hand
+    await page.locator('#inv-grid .slot.filled').filter({ has: page.locator('img') }).last().click();
+    const offBtn = page.locator('#item-detail button', { hasText: 'Off hand' });
+    await expect(offBtn).toBeVisible();
+    await offBtn.click();
+
+    const after = await page.evaluate(() => {
+      const p = Game.player();
+      return { off: p.eq.offhand && p.eq.offhand.t, shield: !!p.eq.shield,
+        stowed: p.inv.some(i => i.t === 'shield'), ac: Game.playerAC(), swing: Game.weapon().speed };
+    });
+    expect(after.off, 'the blade should be in the off hand').toBe('shortsword');
+    expect(after.shield, 'the shield cannot share the hand').toBe(false);
+    if (start.shield) expect(after.stowed, 'the shield should go back in the pack').toBe(true);
+    expect(after.ac, 'losing the shield should cost armour').toBeLessThan(start.ac);
+    expect(after.swing, 'two blades should swing slower than one').toBeGreaterThan(start.swing);
+    expect(errors).toEqual([]);
+  });
+
+  test('a cleric is offered no second blade', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'dual-cleric', cls: 'cleric' });
+    await clearBoons(page);
+    await page.evaluate(() => Game.player().inv.push({ t: 'club', q: 1, e: 0 }));
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#equip .slot').filter({ hasText: /off hand/i })).toHaveCount(0);
+    await page.locator('#inv-grid .slot.filled').filter({ has: page.locator('img') }).last().click();
+    await expect(page.locator('#item-detail button', { hasText: 'Off hand' })).toHaveCount(0);
+    expect(errors).toEqual([]);
   });
 });
