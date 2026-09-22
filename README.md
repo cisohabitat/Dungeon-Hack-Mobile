@@ -3,7 +3,9 @@
 A first-person, real-time dungeon crawler for mobile browsers, built in the spirit of the
 1993 seed-generated dungeon classics. Pick a class, roll your stats, type a seed, and descend.
 
-**Play it:** deploy to Vercel (see below) or run locally with any static file server.
+**Play it now:** https://dungeon-hack-mobile.vercel.app
+
+Open it on your phone and choose "Add to Home Screen" to install it as an app. It works offline after the first load.
 
 ## Features
 
