@@ -29,14 +29,14 @@ function makeGame() {
 
 const TICK = 300;   // ms of game time per bot action, roughly a brisk human pace
 
-function run(ctx, cls, seed, opts) {
+function run(ctx, cls, seed, opts, bg) {
   const { Game, Dungeon, MONSTERS, ITEMS } = ctx;
   const T = Dungeon.T;
-  Game.newGame({ name: 'Bot', cls, stats: Game.rollStats(), seed, opts });
+  Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
   let now = 0;
   const G = Game.state();
   const p = Game.player();
-  const rec = { cls, seed, depth: 1, deepest: 1, died: false, won: false, cause: '', ticks: 0, kills: 0, potionsDrunk: 0, rests: 0, starved: 0, packFull: 0, goldFound: 0, hpLow: 0 };
+  const rec = { cls, bg, seed, depth: 1, deepest: 1, died: false, won: false, cause: '', ticks: 0, kills: 0, potionsDrunk: 0, rests: 0, starved: 0, packFull: 0, goldFound: 0, hpLow: 0 };
 
   // BFS from the player over passable tiles, returning a distance field
   const field = (L, tx, ty, treatDoorsOpen) => {
@@ -73,6 +73,14 @@ function run(ctx, cls, seed, opts) {
     rec.ticks++;
     if (p.hp <= p.maxHp * 0.5) { const s2 = snap(); rec.lastAdj = s2.adj; rec.lastNear = s2.near; rec.lastAwake = s2.awake; rec.lastTotal = s2.total; }
     now += TICK;
+    // experience offers a choice on every level; take the most useful one
+    while (Game.pendingBoons()) {
+      const offer = Game.pendingBoons();
+      const order = ['con', 'vigor', 'keen', 'swift', 'str', 'dex', 'hardy', 'focus', 'int', 'wis'];
+      const pick = order.find(id => offer.includes(id)) || offer[0];
+      Game.chooseBoon(pick);
+      rec.boons = (rec.boons || 0) + 1;
+    }
     const L = Game.level();
     const hpFrac = p.hp / p.maxHp;
     if (hpFrac < 0.3) rec.hpLow++;
@@ -275,7 +283,10 @@ for (const cls of classes) {
   for (const seed of SEEDS) {
     for (let t = 0; t < TRIALS; t++) {
       const ctx = makeGame();
-      try { rows.push(run(ctx, cls, seed, opts)); }
+      // rotate backgrounds so the benchmark is not one perk repeated 60 times
+      const bgs = Object.keys(vm.runInContext('BACKGROUNDS', ctx));
+      const bg = bgs[(SEEDS.indexOf(seed) * TRIALS + t) % bgs.length];
+      try { rows.push(run(ctx, cls, seed, opts, bg)); }
       catch (e) { rows.push({ cls, died: true, cause: 'ERROR ' + e.message, deepest: 0, level: 0 }); }
     }
   }
@@ -290,7 +301,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);

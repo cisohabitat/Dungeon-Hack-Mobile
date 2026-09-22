@@ -51,14 +51,15 @@ const Game = (() => {
     const c = CLASSES[p.cls];
     if (!c.spells) return 0;
     const stat = p.stats[c.primary];
-    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)))) + 3;
+    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)))) + 3 + (p.bonusSp || 0);
   }
   // Practice tells: a veteran swings faster and puts more behind it. Without this
   // the player's damage is flat for the whole game while monster hit points grow.
   function skillSpeed() {
     const p = P();
     const rate = p.cls === 'thief' ? 0.062 : 0.045;   // thieves gain speed fastest
-    return 1 - Math.min(p.cls === 'thief' ? 0.55 : 0.42, (p.level - 1) * rate);
+    const cap = (p.cls === 'thief' ? 0.55 : 0.42) + (p.perkSpeed || 0);
+    return 1 - Math.min(cap, (p.level - 1) * rate + (p.perkSpeed || 0));
   }
   // the roll at or above which an attack is a critical hit
   function critFloor() {
@@ -80,7 +81,8 @@ const Game = (() => {
   }
   function toHit() {
     const p = P();
-    return Math.floor(p.level * cls().hitProg) + mod(p.stats.str) + effect('hit') + weapon().e + (effect('might') ? 2 : 0);
+    return Math.floor(p.level * cls().hitProg) + mod(p.stats.str) + effect('hit') + weapon().e
+      + (p.perkHit || 0) + (effect('might') ? 2 : 0);
   }
   function playerAC() {
     const p = P();
@@ -274,6 +276,16 @@ const Game = (() => {
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') { list.splice(i, 1); startEscape(); }
+    else if (it.t === 'page') {
+      list.splice(i, 1);
+      const entry = JOURNAL[it.page];
+      if (entry && !G.journal.some(j => j.i === it.page)) {
+        G.journal.push({ i: it.page, depth: G.depth });
+        log(`You find ${entry.title.toLowerCase()}.`, 'info');
+        Sound.play('pickup');
+        emit('page');
+      }
+    }
     else if (giveItem(it)) { log(`You pick up the ${itemName(it)}.`); Sound.play('pickup'); list.splice(i, 1); }
     else { log('Your pack is full.', 'bad'); }
     if (!list.length) delete L.items[k];
@@ -327,16 +339,22 @@ const Game = (() => {
   function isKnown(t) { const b = ITEMS[t]; return !b || (b.kind !== 'potion' && b.kind !== 'scroll') || !G.looks[t] || G.known[t]; }
   function newGame(cfg) {
     const c = CLASSES[cfg.cls];
+    const bg = BACKGROUNDS[cfg.bg] ? cfg.bg : 'oathbroken';
     const p = {
-      name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, stats: cfg.stats, level: 1, xp: 0,
+      name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
       inv: [], eq: { weapon: null, armor: null, shield: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
     };
+    // the background is who you were before the first stair, and it shows
+    if (bg === 'ashborn') p.stats.con++;
+    if (bg === 'oathbroken') p.perkHit = 1;
+    if (bg === 'debtor') p.gold = 150;
     p.maxHp = Math.max(6, c.hitDie + 3 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
-    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 3, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0 };
+    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
+    if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
     for (const id of c.startKit) giveItem({ t: id, q: 1, e: 0 });
@@ -407,7 +425,8 @@ const Game = (() => {
     Sound.play('step');
     distFieldAt = -1e9;
     onStep();
-    if (p.cls === 'thief') for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < 0.5) revealSecret(p.x + dx, p.y + dy, true);
+    const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0);
+    if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < eye) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
     return true;
   }
@@ -481,7 +500,9 @@ const Game = (() => {
     const L = lvl(), p = P();
     const tr = TRAP_TYPES[L.traps[k]];
     delete L.traps[k];
-    if (p.cls === 'thief' && Math.random() < 0.5 + p.level * 0.04) {
+    let spot = p.cls === 'thief' ? 0.5 + p.level * 0.04 : 0;
+    if (p.bg === 'tombwise') spot += 0.35;
+    if (spot > 0 && Math.random() < spot) {
       log(`You spot and disarm a ${tr.name}.`, 'good');
       return;
     }
@@ -668,7 +689,35 @@ const Game = (() => {
       Sound.play('levelup');
       const unlocked = knownSpells().filter(s => s.lvl * 2 - 1 === p.level);
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');
+      if (p.level % 3 === 0) offerBoons();   // a choice every third level
     }
+  }
+  // Three things experience could have taught you. You keep one.
+  function offerBoons() {
+    const p = P();
+    const taken = p.boons || [];
+    const pool = BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)));
+    const picked = Dice.shuffle(pool.slice()).slice(0, 3).map(b => b.id);
+    G.pendingBoons = (G.pendingBoons || []).concat([picked]);
+    emit('boons');
+  }
+  function pendingBoons() { return G.pendingBoons && G.pendingBoons.length ? G.pendingBoons[0] : null; }
+  function chooseBoon(id) {
+    const offer = pendingBoons();
+    if (!offer || !offer.includes(id)) return false;
+    const boon = BOONS.find(b => b.id === id);
+    if (!boon) return false;
+    const p = P();
+    boon.apply(p);
+    p.maxSp = spMax(p);
+    p.sp = Math.min(p.maxSp, p.sp);
+    p.boons = (p.boons || []).concat(id);
+    G.pendingBoons.shift();
+    log(`${boon.name}. ${boon.desc}`, 'good');
+    Sound.play('levelup');
+    emit('stats');
+    if (!pendingBoons()) emit('boonsDone');
+    return true;
   }
   function hurtPlayer(dmg, msg) {
     const p = P();
@@ -759,6 +808,27 @@ const Game = (() => {
     emit('won');
   }
   function score(p, depth, won) { return p.gold + p.xp * 2 + p.deepest * 100 + (won ? 2000 : 0); }
+  // How the story closes, in the voice of the life that brought you here.
+  function epilogue(won) {
+    const p = P();
+    const bg = BACKGROUNDS[p.bg] || BACKGROUNDS.oathbroken;
+    const read = G.journal ? G.journal.length : 0;
+    const lines = [];
+    if (won) {
+      lines.push(`${p.name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.`);
+      lines.push(bg.epi);
+      lines.push(read >= JOURNAL.length
+        ? 'They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.'
+        : `They left ${JOURNAL.length - read} of the earlier crews' pages down there in the dark. Someone else will have to go back for those.`);
+    } else {
+      lines.push(`${p.name} got as far as level ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`);
+      lines.push(bg.epi);
+      lines.push(read > 0
+        ? `They were carrying ${read} of the earlier crews' pages when they fell. In time someone will find those too, along with a new name for the roster.`
+        : 'They carried nothing out and left nothing behind but another name for the roster.');
+    }
+    return lines;
+  }
   function recordHero(won) {
     const p = P();
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won) };
@@ -916,7 +986,8 @@ const Game = (() => {
       if (G.t < m.nextAct) continue;
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
-        if (di >= 0 && di <= 6) { m.awake = true; Sound.play('growl'); }
+        const notice = P().bg === 'deepborn' ? 4 : 6;
+        if (di >= 0 && di <= notice) { m.awake = true; Sound.play('growl'); }
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 12) {
@@ -975,7 +1046,7 @@ const Game = (() => {
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
       if (!hunted) {
         // scale with the pool so recovery takes about the same time at every level
-        const hardy = p.cls === 'fighter' ? 1.6 : 1;
+        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
         p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
         p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
         emit('stats');
@@ -1069,6 +1140,9 @@ const Game = (() => {
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
       }
       if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
+      if (!G.journal) G.journal = [];
+      if (!G.pendingBoons) G.pendingBoons = [];
+      if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
@@ -1095,6 +1169,7 @@ const Game = (() => {
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
+    pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };

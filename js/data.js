@@ -2,6 +2,96 @@
 // Static game data: classes, items, monsters, spells, level themes and pixel art.
 // All art and content here is original.
 
+// ---------- Story, backgrounds and progression ----------
+
+// The frame the whole run hangs on, shown before the first step.
+const PROLOGUE = [
+  'For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost.',
+  'Three winters ago it went out. The wells came up black. The orchards died standing. The old road filled with people walking the other way.',
+  'The delving guilds sent crews down the Deepdelve to find out why. None of the crews came back, and after the fourth the guilds stopped sending them.',
+  'What is down there now wears their faces.',
+];
+
+// Who you are before the first stair. Each gives a line of the prologue, a
+// motive that colours the ending, and one plain mechanical advantage.
+const BACKGROUNDS = {
+  oathbroken: {
+    name: 'The Oathbroken',
+    blurb: 'You ran. The line held without you, and it cost them.',
+    perk: 'Every blow lands truer: +1 to hit.',
+    story: 'You were sworn to the valley guard, and at Cairn Ford you ran. Forty held the ford without you and none of them walked home. No one in the valley has said the word coward to your face. They do not have to.',
+    motive: 'You came down here to spend what is left of yourself well.',
+    epi: 'They went down to spend what was left of themselves well.',
+  },
+  tombwise: {
+    name: 'The Tombwise',
+    blurb: 'You have opened graves for a living. You know their tricks.',
+    perk: 'A thief’s eye for traps and hidden doors.',
+    story: 'You have been opening other people’s graves since you were eleven, and you are still alive, which puts you ahead of most in the trade. You know what a false flagstone sounds like. You know which walls are lying.',
+    motive: 'You came down here because it is the largest grave anyone has ever offered you.',
+    epi: 'They went down because it was the largest grave anyone had ever offered them.',
+  },
+  ashborn: {
+    name: 'The Ashborn',
+    blurb: 'Your village burned the night the mountain stirred.',
+    perk: 'Hard to put down: +1 Constitution.',
+    story: 'When the mountain first shifted, the fires came up through the floor of your village and took it in a night. You carried two children out and went back for a third. You are told you should not have survived the third trip.',
+    motive: 'You came down here to make certain it never does that again.',
+    epi: 'They went down to make certain the mountain never did that again.',
+  },
+  cloistered: {
+    name: 'The Cloistered',
+    blurb: 'Raised among books. You know every draught by sight.',
+    perk: 'You recognise every potion and scroll on sight.',
+    story: 'You were left at the door of the Hollow Library as an infant and raised among its shelves. You can name any draught by the cast of its light and any scroll by the hand that wrote it. You have also never held a weapon in anger.',
+    motive: 'You came down here because the last four chapters of the story are missing.',
+    epi: 'They went down because the last four chapters of the story were missing.',
+  },
+  deepborn: {
+    name: 'The Deep-born',
+    blurb: 'Born under stone. The dark does not notice you.',
+    perk: 'Things in the dark are slower to notice you.',
+    story: 'You were born in the lower galleries and did not see open sky until you were nineteen. You still find it too large. Down here you move the way the people down here move, and the dark takes longer to work out that you are not part of it.',
+    motive: 'You came down here because it is the only place that has ever felt like a ceiling and not a lid.',
+    epi: 'They went down because it was the only place that had ever felt like a ceiling and not a lid.',
+  },
+  debtor: {
+    name: 'The Debtor',
+    blurb: 'Sold down the delve to clear a debt. Paid in advance.',
+    perk: 'You start with 150 gold in hand.',
+    story: 'Your father’s debt outlived him and came looking for you. The house that bought it offered a choice: the delve, or the work gangs on the coast. They paid you in advance, which told you what they expect to get back.',
+    motive: 'You came down here owing a debt you intend to close in person.',
+    epi: 'They went down owing a debt they meant to close in person.',
+  },
+};
+
+// Pages left behind by the crews who went first. One per level, in order, so the
+// story of what happened down here unfolds as you descend.
+const JOURNAL = [
+  { title: 'A guild roster, water-stained', text: 'Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: "the struck ones still answer to their names. do not use their names."' },
+  { title: 'A surveyor’s note', text: 'The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.' },
+  { title: 'A letter, never sent', text: 'Mira — the Heart is not out. I have stood in the vault and felt it beating through the rock. It has been taken down, not extinguished. Something carried it deeper and it is still warm. Tell the guild. Tell them it is still warm.' },
+  { title: 'A page torn from a ledger', text: 'He was the delve’s own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.' },
+  { title: 'A prayer, scratched into the wall', text: 'Not to any god of the valley. The letters run the wrong way and the last line reads: he says the mountain will keep us warm forever. he says we only have to stop.' },
+  { title: 'A child’s drawing', text: 'A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: "she has never been below the third floor. she has never seen him. ask how she knows."' },
+  { title: 'The last crew’s log', text: 'Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever he did to the Heart, he did it to the distance as well.' },
+  { title: 'A single line, cut deep', text: 'IT WILL LET YOU TAKE IT. THAT IS THE PART NOBODY WRITES DOWN.' },
+];
+
+// On every level gained, three of these are offered and one is kept.
+const BOONS = [
+  { id: 'str', name: 'Hard Won Strength', desc: '+1 Strength. Heavier blows.', apply: p => { p.stats.str++; } },
+  { id: 'dex', name: 'Sure Footing', desc: '+1 Dexterity. Harder to hit, quicker hands.', apply: p => { p.stats.dex++; } },
+  { id: 'con', name: 'Deep Wind', desc: '+1 Constitution. Every level to come pays more.', apply: p => { p.stats.con++; } },
+  { id: 'int', name: 'Sharpened Wits', desc: '+1 Intelligence.', apply: p => { p.stats.int++; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
+  { id: 'wis', name: 'Clear Sight', desc: '+1 Wisdom.', apply: p => { p.stats.wis++; }, when: p => p.cls === 'cleric' },
+  { id: 'vigor', name: 'Old Scars', desc: '+5 hit points.', apply: p => { p.maxHp += 5; p.hp += 5; } },
+  { id: 'focus', name: 'Quiet Mind', desc: '+4 spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; }, when: p => !!CLASSES[p.cls].spells },
+  { id: 'keen', name: 'Killing Eye', desc: 'Permanently +1 to hit.', unique: true, apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },
+  { id: 'swift', name: 'Practised Hands', desc: 'Strike five percent faster, for good.', unique: true, apply: p => { p.perkSpeed = (p.perkSpeed || 0) + 0.05; } },
+  { id: 'hardy', name: 'Slow to Bleed', desc: 'Wounds close faster when nothing hunts you.', unique: true, apply: p => { p.perkRegen = (p.perkRegen || 0) + 0.5; } },
+];
+
 const XP_TABLE = [0, 40, 100, 220, 450, 850, 1500, 2500, 4000, 6200, 9200, 13500, 19000];
 const MAX_LEVEL = 12;
 
@@ -75,6 +165,7 @@ const ITEMS = {
   bread:  { kind: 'food', name: 'Stale Bread', stack: true, value: 1, sprite: 'bread',  food: 18 },
   // special
   key:      { kind: 'key', name: 'Key', sprite: 'key', value: 0, desc: 'Opens one locked door of matching colour on this level.' },
+  page:     { kind: 'page', name: 'Torn Page', sprite: 'scroll', value: 0, desc: 'Something one of the earlier crews left behind.' },
   gold:     { kind: 'gold', name: 'Gold', sprite: 'gold' },
   gem:      { kind: 'gem', name: 'Gem', sprite: 'gem' },
   artifact: { kind: 'artifact', name: 'The Heart of the Mountain', sprite: 'artifact', desc: 'The treasure you came for. Its light is warm in your hands.' },

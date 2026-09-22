@@ -14,6 +14,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Customisable descent.** Choose the number of levels (4 to 16), map size, monster density,
   treasure density, locked doors and keys, traps, and permadeath, just like the original's
   dungeon-customisation screen.
+- **A story you descend into.** An opening sets up the valley above Karrathal and what went wrong
+  beneath it. Each of the eight levels holds one page left by the guild crews who went first, and
+  the Journal collects them as the account of what actually happened down there assembles itself.
+- **Six backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
+  gives a lasting advantage, a paragraph of the opening, and the line your run closes on.
+- **A choice on every second level.** Ten lessons the delve can teach, three offered at a time.
+  Ability gains can be taken repeatedly; the permanent perks only once.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,
   experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover
@@ -124,11 +131,18 @@ Tuned against the simulator rather than by feel. Over 240 bot runs on a fixed se
 
 | Class | Win rate | Average depth reached |
 | --- | --- | --- |
-| Fighter | 32% | 6.2 |
-| Cleric | 45% | 5.0 |
-| Mage | 15% | 4.7 |
-| Thief | 12% | 4.5 |
-| **Overall** | **26%** | **5.1** |
+| Fighter | 47% | 6.2 |
+| Cleric | 57% | 5.3 |
+| Mage | 30% | 5.5 |
+| Thief | 25% | 4.8 |
+| **Overall** | **40%** | **5.4** |
+
+Backgrounds are rotated across runs so the figures are not one perk repeated sixty times.
+Adding backgrounds and level-up choices lifted the overall rate from 26% and, more usefully,
+narrowed the spread between the strongest and weakest class from 33 points to 32 while raising
+the floor: the mage and thief gained the most, because a choice every third level is how a
+fragile character shores up the thing that keeps killing it. Pick more than eight levels at
+creation if you want the old difficulty back.
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
 mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
@@ -154,7 +168,7 @@ what finesse means.
 | Turn or step by gesture | swipe the view | |
 | Cast last spell | Cast | C |
 | Rest | Rest | R |
-| Map, Pack, Spells, Hero | bottom bar | M, I, P, H |
+| Map, Pack, Spells, Hero, Journal | bottom bar | M, I, P, H, J |
 | Menu / close | Menu | Esc |
 
 Walking into doors opens them, walking into locked doors uses a matching key, and walking into

@@ -224,6 +224,8 @@ const Dungeon = (() => {
     for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y)) roomTiles.push(i);
     const dropAt = it => { const c = rng.pick(roomTiles); addItem(c % w, (c / w) | 0, it); };
     for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
+    // a page left by the crews who came first, so the story unfolds as you descend
+    if (depth >= 1 && depth <= JOURNAL.length) dropAt({ t: 'page', q: 1, page: depth - 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });

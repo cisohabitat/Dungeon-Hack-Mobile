@@ -6,7 +6,8 @@ const UI = (() => {
   const $$ = s => Array.from(document.querySelectorAll(s));
   const held = new Set();
   let overlay = null;
-  let create = { cls: 'fighter', stats: null };
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null };
+  let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
 
@@ -191,6 +192,17 @@ const UI = (() => {
       b.addEventListener('click', () => { create.cls = id; buildCreate(); });
       grid.appendChild(b);
     }
+    const bgGrid = $('#c-backgrounds');
+    bgGrid.innerHTML = '';
+    for (const id in BACKGROUNDS) {
+      const b = BACKGROUNDS[id];
+      const el = document.createElement('button');
+      el.className = 'bg-card' + (id === create.bg ? ' sel' : '');
+      el.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small>`;
+      el.addEventListener('click', () => { create.bg = id; buildCreate(); });
+      bgGrid.appendChild(el);
+    }
+    $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
     if (!create.stats) create.stats = Game.rollStats();
     const st = $('#c-stats');
     st.innerHTML = '';
@@ -203,10 +215,20 @@ const UI = (() => {
       st.appendChild(div);
     }
   }
+  function showPrologue(cfg) {
+    pendingCfg = cfg;
+    const b = BACKGROUNDS[cfg.bg];
+    $('#pro-world').innerHTML = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
+    $('#pro-who').textContent = b.name;
+    $('#pro-story').textContent = b.story;
+    $('#pro-motive').textContent = b.motive;
+    showScreen('screen-prologue');
+  }
   function beginGame() {
     const cfg = {
       name: $('#c-name').value,
       cls: create.cls,
+      bg: create.bg,
       stats: create.stats,
       seed: ($('#c-seed').value || '').trim() || randomSeedWord(),
       opts: {
@@ -219,7 +241,12 @@ const UI = (() => {
         permadeath: $('#c-permadeath').checked,
       },
     };
-    Game.newGame(cfg);
+    showPrologue(cfg);
+  }
+  function commitGame() {
+    if (!pendingCfg) return;
+    Game.newGame(pendingCfg);
+    pendingCfg = null;
     Game.save(true);
     startPlaying();
   }
@@ -372,6 +399,40 @@ const UI = (() => {
     }
   }
 
+  function renderJournal() {
+    const got = Game.journal();
+    $('#journal-count').textContent = `${got.length} of ${JOURNAL.length}`;
+    const el = $('#journal-list');
+    if (!got.length) {
+      el.innerHTML = '<p class="dim">The crews who came before you left pages behind. You have not found any yet.</p>';
+      return;
+    }
+    el.innerHTML = got.slice().sort((a, b) => a.i - b.i).map(j => {
+      const e = JOURNAL[j.i];
+      return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on level ${j.depth}</p></div>`;
+    }).join('');
+  }
+  function renderBoons() {
+    const offer = Game.pendingBoons();
+    if (!offer) { closeOverlay(); return; }
+    const p = Game.player();
+    $('#boon-title').textContent = `Level ${p.level}: what the delve taught you`;
+    const el = $('#boon-list');
+    el.innerHTML = '';
+    for (const id of offer) {
+      const b = BOONS.find(x => x.id === id);
+      if (!b) continue;
+      const btn = document.createElement('button');
+      btn.className = 'boon';
+      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.desc)}</small>`;
+      btn.addEventListener('click', () => {
+        Game.chooseBoon(id);
+        if (Game.pendingBoons()) renderBoons(); else closeOverlay();
+      });
+      el.appendChild(btn);
+    }
+  }
+
   function renderLogHistory() {
     const G = Game.state();
     $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${escapeHtml(e.m)}</div>`).join('') + '</div>';
@@ -397,9 +458,12 @@ const UI = (() => {
     if (name === 'menu') renderMenu();
     if (name === 'log') renderLogHistory();
     if (name === 'shop') renderShop();
+    if (name === 'journal') renderJournal();
+    if (name === 'boons') renderBoons();
   }
   function closeOverlay() {
     if (!overlay) return;
+    if (overlay === 'boons' && Game.pendingBoons()) return;   // a choice must be made
     if (overlay === 'shop') Game.closeShop();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
@@ -601,6 +665,12 @@ const UI = (() => {
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
     r('Kills', p.kills); r('Steps', p.steps);
     r('Deepest level', p.deepest); r('Seed', escapeHtml(G.seed));
+    r('Background', BACKGROUNDS[p.bg] ? BACKGROUNDS[p.bg].name : '—', true);
+    r('Pages found', `${Game.journal().length} of ${JOURNAL.length}`, true);
+    if (p.boons && p.boons.length) {
+      const names = p.boons.map(id => { const b = BOONS.find(x => x.id === id); return b ? b.name : id; });
+      r('Learned', escapeHtml(names.join(', ')), true);
+    }
     $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>`;
   }
 
@@ -625,6 +695,7 @@ const UI = (() => {
     if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
+    $('#end-epilogue').innerHTML = Game.epilogue(won).map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
     showScreen('screen-end');
   }
@@ -671,7 +742,7 @@ const UI = (() => {
 
     const KEYS = { ArrowUp: 'forward', KeyW: 'forward', ArrowDown: 'back', KeyS: 'back', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', KeyQ: 'strafeL', KeyE: 'strafeR', Space: 'attack', KeyF: 'attack' };
     const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest' };
-    const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char' };
+    const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal' };
     window.addEventListener('keydown', e => {
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
       if (!$('#screen-game').classList.contains('active')) return;
@@ -691,7 +762,10 @@ const UI = (() => {
 
   function handleEvents() {
     for (const e of Game.takeEvents()) {
-      if (e === 'shop') openOverlay('shop');
+      if (e === 'boons') { if (overlay === 'boons') renderBoons(); else openOverlay('boons'); }
+      else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
+      else if (e === 'page' && overlay === 'journal') renderJournal();
+      else if (e === 'shop') openOverlay('shop');
       else if (e === 'escape') { hudSig = ''; refreshHud(); }
       else if (e === 'dead') showEnd(false);
       else if (e === 'won') showEnd(true);
@@ -713,6 +787,7 @@ const UI = (() => {
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);
+    $('#pro-begin').addEventListener('click', commitGame);
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#end-new').addEventListener('click', () => { create.stats = Game.rollStats(); buildCreate(); showScreen('screen-create'); });
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));

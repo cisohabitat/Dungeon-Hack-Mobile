@@ -172,5 +172,109 @@ test('buffs expire on their own clock', () => {
   return Game.effect('hit') === 0;
 });
 
+// ---- story and progression ----
+
+test('every background is complete and keeps its voice straight', () => {
+  const { Game } = start('fighter', 'story1');
+  void Game;
+  const ctx = newContext();
+  const BG = vm.runInContext('BACKGROUNDS', ctx);
+  const ids = Object.keys(BG);
+  if (ids.length < 4) return `only ${ids.length} backgrounds`;
+  for (const id of ids) {
+    const b = BG[id];
+    for (const field of ['name', 'blurb', 'perk', 'story', 'motive', 'epi']) {
+      if (!b[field]) return `${id} is missing ${field}`;
+    }
+    if (!/^You /.test(b.motive)) return `${id} motive is not in second person`;
+    if (/\byou\b|\byour\b|\byourself\b/i.test(b.epi)) return `${id} epilogue leaks second person: ${b.epi}`;
+  }
+  return true;
+});
+
+test('each background grants its stated advantage', () => {
+  const plain = start('fighter', 'story2').Game.player();
+  const debtor = (() => {
+    const ctx = newContext();
+    ctx.Game.newGame({ name: 'T', cls: 'fighter', bg: 'debtor', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+    return ctx.Game.player();
+  })();
+  if (debtor.gold !== 150) return `debtor starts with ${debtor.gold} gold, expected 150`;
+  if (plain.gold !== 0) return `a plain start carries ${plain.gold} gold`;
+
+  const ctxO = newContext();
+  ctxO.Game.newGame({ name: 'T', cls: 'fighter', bg: 'oathbroken', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  if ((ctxO.Game.player().perkHit || 0) !== 1) return 'oathbroken does not gain +1 to hit';
+
+  const ctxA = newContext();
+  ctxA.Game.newGame({ name: 'T', cls: 'fighter', bg: 'ashborn', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  if (ctxA.Game.player().stats.con !== 13) return 'ashborn does not gain a point of constitution';
+
+  const ctxC = newContext();
+  ctxC.Game.newGame({ name: 'T', cls: 'mage', bg: 'cloistered', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  if (!ctxC.Game.isKnown('potion_xheal')) return 'cloistered does not begin knowing every draught';
+  return true;
+});
+
+test('levelling offers a choice that must be made and changes the character', () => {
+  const ctx = start('fighter', 'story3', { levels: 8, size: 'medium' });
+  const { Game, Dungeon } = ctx;
+  const p = Game.player();
+  const L = Game.level();
+  // one kill short of the level that grants a choice
+  p.xp = 99999;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const m = L.monsters[0];
+  if (!m) return 'no monster to kill';
+  m.x = p.x + dx; m.y = p.y + dy; m.rx = m.x; m.ry = m.y;
+  m.hp = 1; m.maxHp = 1; m.awake = true; m.nextAct = 1e12;
+  const before = JSON.stringify(p.stats) + p.maxHp;
+  for (let i = 0; i < 40 && L.monsters.includes(m); i++) {
+    p.nextAttack = 0;                        // the swing timer is not what is under test
+    Game.input('attack');
+  }
+  if (L.monsters.includes(m)) return 'forty swings failed to land';
+  if (p.level < 2) return `level did not rise, still ${p.level}`;
+  const offer = Game.pendingBoons();
+  if (!offer) return 'no boon offered after levelling';
+  if (offer.length !== 3) return `offered ${offer.length} boons, expected 3`;
+  if (Game.chooseBoon('not-a-real-boon')) return 'an unknown boon id was accepted';
+  if (!Game.chooseBoon(offer[0])) return 'a valid boon was rejected';
+  const after = JSON.stringify(p.stats) + p.maxHp;
+  if (before === after && !p.perkHit && !p.perkSpeed && !p.perkRegen && !p.bonusSp) return 'the boon changed nothing';
+  return p.boons && p.boons.length === 1;
+});
+
+test('journal pages are recorded once and survive a save', () => {
+  const ctx = start('fighter', 'story4', { levels: 8, size: 'medium' });
+  const { Game } = ctx;
+  const L = Game.level();
+  const p = Game.player();
+  let key = null;
+  for (const k in L.items) if (L.items[k].some(i => i.t === 'page')) key = k;
+  if (!key) return 'no journal page generated on the first level';
+  const [x, y] = key.split(',').map(Number);
+  p.x = x; p.y = y;
+  const page = L.items[key].find(i => i.t === 'page');
+  Game.takeItem(page);
+  if (Game.journal().length !== 1) return `journal holds ${Game.journal().length} entries, expected 1`;
+  Game.takeItem(page);                       // picking it up twice must not double count
+  if (Game.journal().length !== 1) return 'the same page was recorded twice';
+  Game.save(true);
+  Game.load();
+  return Game.journal().length === 1;
+});
+
+test('the epilogue names the hero and reflects the background', () => {
+  const ctx = newContext();
+  ctx.Game.newGame({ name: 'Wren', cls: 'thief', bg: 'tombwise', stats: { str: 12, dex: 12, con: 12, int: 12, wis: 12, cha: 12 }, opts: OPTS });
+  const lost = ctx.Game.epilogue(false).join(' ');
+  const won = ctx.Game.epilogue(true).join(' ');
+  if (!lost.includes('Wren') || !won.includes('Wren')) return 'the epilogue does not name the hero';
+  if (!lost.includes('grave') || !won.includes('grave')) return 'the epilogue ignores the background';
+  if (lost === won) return 'winning and dying read the same';
+  return true;
+});
+
 console.log(`rule checks complete, ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
