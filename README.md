@@ -38,6 +38,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Automap** of explored areas plus a live corner minimap, message log with full history,
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs.
+- **A living title screen.** The menu sits over a real generated dungeon with a ghost camera
+  walking it, drawn by the same raycaster as the game, with drifting embers and torch flicker.
 - **Mobile first.** Big touch d-pad with hold-to-walk, swipe on the view to turn or step, tap
   it to act, haptic feedback, portrait and landscape layouts, safe-area aware, installable as a
   PWA with offline support. Keyboard controls on desktop.

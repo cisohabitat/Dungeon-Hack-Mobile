@@ -9,7 +9,7 @@ const Renderer = (() => {
   const T = Dungeon.T;
   const LIGHT_R = 4.5;        // torch radius in tiles
   const LIGHT_MAX = 3.2;       // strongest brightening, in shade levels
-  let lightMap = null, lightKey = '';
+  const lightCache = new WeakMap();
   let canvas, ctx, fb, fb32;
   const zbuf = new Float32Array(W);
   const rowLevel = new Uint8Array(H);   // darkness level per floor row
@@ -78,8 +78,8 @@ const Renderer = (() => {
 
   // A per-tile brightness field from the level's torches, built once per level.
   function ensureLights(level) {
-    const k = level.depth + ':' + (level.lights ? level.lights.length : 0);
-    if (lightKey === k && lightMap) return lightMap;
+    const cached = lightCache.get(level);
+    if (cached) return cached;
     const lm = new Float32Array(level.w * level.h);
     for (const l of (level.lights || [])) {
       const r = Math.ceil(LIGHT_R);
@@ -93,8 +93,7 @@ const Renderer = (() => {
         }
       }
     }
-    lightKey = k;
-    lightMap = lm;
+    lightCache.set(level, lm);
     return lm;
   }
 

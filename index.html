@@ -20,17 +20,25 @@
 
   <!-- Title -->
   <section id="screen-title" class="screen active">
-    <div class="title-inner">
+    <div class="title-bg">
       <canvas id="title-art" width="320" height="200"></canvas>
-      <h1 class="logo">DEEP<span>DELVE</span></h1>
-      <p class="tagline">A first-person dungeon crawl for your pocket</p>
-      <div class="menu">
-        <button id="btn-new" class="big primary">New Game</button>
-        <button id="btn-continue" class="big">Continue</button>
-        <button id="btn-hall" class="big ghost">Hall of Heroes</button>
-        <button id="btn-help" class="big ghost">How to Play</button>
+      <div class="title-vignette"></div>
+      <div class="title-fade"></div>
+    </div>
+    <div class="title-inner">
+      <div class="logo-block">
+        <div class="logo-rule"><span>✦</span></div>
+        <h1 class="logo"><span class="l1">DEEP</span><span class="l2">DELVE</span></h1>
+        <p class="tagline">Descend. Survive. Claim the Heart of the Mountain.</p>
       </div>
-      <p id="save-summary" class="foot"></p>
+      <div class="menu">
+        <button id="btn-new" class="big primary"><b>New Game</b><small>Roll a hero and pick a seed</small></button>
+        <button id="btn-continue" class="big"><b>Continue</b><small id="save-summary">No saved game</small></button>
+        <div class="menu-row">
+          <button id="btn-hall" class="ghost">Hall of Heroes</button>
+          <button id="btn-help" class="ghost">How to Play</button>
+        </div>
+      </div>
     </div>
   </section>
 

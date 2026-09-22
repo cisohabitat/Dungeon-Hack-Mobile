@@ -6,6 +6,7 @@
   function loop(now) {
     const dt = last ? Math.min(100, now - last) : 0;
     last = now;
+    if (UI.isTitle()) UI.renderTitle(now);
     const G = Game.state();
     if (G && UI.isPlaying()) {
       if (G.status === 'playing' && !UI.paused()) {
@@ -33,7 +34,7 @@
 
   window.addEventListener('load', () => {
     Assets.init();
-    Renderer.init(document.getElementById('view'));
+    Renderer.init(document.getElementById('title-art'));
     UI.init();
     requestAnimationFrame(loop);
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
