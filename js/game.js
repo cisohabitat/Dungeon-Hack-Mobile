@@ -19,7 +19,8 @@ const Game = (() => {
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
-  const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0, castColor: '#fff', texts: [] };
+  const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
+               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [] };
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
@@ -216,10 +217,36 @@ const Game = (() => {
     p.eq[slot] = null;
     emit('inv');
   }
+  /**
+   * Why using this right now would achieve nothing, or null if it would.
+   * @param {import('./types.js').Item} it
+   * @returns {string|null}
+   */
+  function wasteReason(it) {
+    const p = P(), b = ITEMS[it.t];
+    if (!b) return null;
+    if (!isKnown(it.t)) return null;
+    if (b.kind === 'food' && p.food >= 100) return 'You are too full to eat another bite.';
+    if (b.kind === 'potion') {
+      if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The draught would be wasted.';
+      if (b.effect === 'cure' && !p.poison) return 'You are not poisoned.';
+      if (b.effect === 'mana' && (!p.maxSp || p.sp >= p.maxSp)) return 'Your mind is already clear.';
+    }
+    if (b.kind === 'scroll') {
+      if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The scroll would be wasted.';
+      if (b.effect === 'fire' && !boltTargets(3, false).length) return 'There is nothing ahead to burn.';
+      if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this level.';
+    }
+    return null;
+  }
   function useItem(it) {
     const p = P(), b = ITEMS[it.t];
     const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
     if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
+    if (consumable) {
+      const why = wasteReason(it);
+      if (why) { log(why, 'bad'); Sound.play('error'); emit('waste'); return; }
+    }
     if (b.kind === 'food') {
       removeOne(it);
       p.food = Math.min(100, p.food + b.food);
@@ -432,7 +459,7 @@ const Game = (() => {
     const dir = (p.dir + rel) % 4;
     const nx = p.x + DIRS[dir][0], ny = p.y + DIRS[dir][1];
     const t = tile(nx, ny);
-    if (t === T.WALL) { Sound.play('bump'); return false; }
+    if (t === T.WALL || t === T.TORCH) { blocked('A wall blocks your path.'); return false; }
     if (t === T.DOOR) { openDoor(nx, ny); return true; }
     if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny); return true; }
     if (t === T.STAIRS_DOWN) { descend(); return true; }
@@ -444,7 +471,7 @@ const Game = (() => {
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
-    if (!passable(nx, ny)) { Sound.play('bump'); return false; }
+    if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
     p.x = nx; p.y = ny; p.steps++;
     startCam(MOVE_MS);
     Sound.play('step');
@@ -459,6 +486,13 @@ const Game = (() => {
     const p = P();
     p.dir = (p.dir + dd + 4) % 4;
     startCam(TURN_MS);
+  }
+  // Bumping something should be legible, not just audible, but repeating the
+  // same line while a key is held would bury the log.
+  let lastBlocked = -1e9;
+  function blocked(message) {
+    Sound.play('bump');
+    if (G.t - lastBlocked > 700) { log(message); lastBlocked = G.t; }
   }
   function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
@@ -744,10 +778,26 @@ const Game = (() => {
     if (!pendingBoons()) emit('boonsDone');
     return true;
   }
-  function hurtPlayer(dmg, msg) {
+  /** Which way an attacker lies relative to the way the player is facing. */
+  function relativeBearing(m) {
+    const p = P();
+    const dx = m.x - p.x, dy = m.y - p.y;
+    let dir = -1;
+    for (let k = 0; k < 4; k++) if (DIRS[k][0] === Math.sign(dx) && DIRS[k][1] === Math.sign(dy)) dir = k;
+    if (dir < 0) return null;
+    const rel = (dir - p.dir + 4) % 4;
+    return { rel, word: ['from ahead', 'from your right', 'from behind', 'from your left'][rel] };
+  }
+  function hurtPlayer(dmg, msg, from) {
     const p = P();
     p.hp -= dmg;
     p.lastHurt = G.t;
+    if (from) {
+      const bearing = relativeBearing(from);
+      fx.hurtFrom = bearing ? bearing.rel : 0;
+      fx.hurtFromUntil = realNow + 900;
+      G.lastAttacker = { name: mstat(from).name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
+    }
     fx.damageUntil = realNow + 260;
     fx.shakeUntil = realNow + 220;
     Sound.play('hurt');
@@ -767,6 +817,7 @@ const Game = (() => {
     const p = P();
     p.hp = 0;
     G.status = 'dead';
+    G.deathLog = G.log.slice(-6).map(e => e.m);
     log(`${p.name} has died on level ${G.depth}.`, 'bad');
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
@@ -879,10 +930,22 @@ const Game = (() => {
     }
     return out;
   }
+  /** Why casting this now would waste the points, or null if it would not. */
+  function spellWasteReason(sp) {
+    const p = P();
+    if (sp.kind === 'heal' && p.hp >= p.maxHp) return `You are unhurt. ${sp.name} would be wasted.`;
+    if (sp.kind === 'bolt' && !boltTargets(sp.range, sp.pierce).length) {
+      return `Nothing within reach for ${sp.name} to strike.`;
+    }
+    if (sp.kind === 'buff' && effect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
+    return null;
+  }
   function castSpell(sp) {
     const p = P();
     if (!spellAvailable(sp)) { log(`You are not experienced enough to cast ${sp.name}.`, 'bad'); return false; }
     if (p.sp < sp.cost) { log('Not enough spell points.', 'bad'); Sound.play('error'); return false; }
+    const waste = spellWasteReason(sp);
+    if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
     p.sp -= sp.cost;
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color;
@@ -989,15 +1052,24 @@ const Game = (() => {
     if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} ${r.verb} you and misses.`); return; }
     let dmg = Math.max(1, d(...r.dmg));
     if (roll === 20) dmg *= 2;
-    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you for ${dmg}.`);
+    const where = relativeBearing(m);
+    const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
+    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.`, m);
   }
   function monsterAttack(m) {
     const p = P(), mb = mstat(m);
     const roll = d(1, 20);
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} misses you.`); return; }
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) {
+      const miss = relativeBearing(m);
+      log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.`, miss && miss.rel !== 0 ? 'bad' : '');
+      if (miss && miss.rel !== 0) { fx.hurtFrom = miss.rel; fx.hurtFromUntil = realNow + 700; }
+      return;
+    }
     let dmg = Math.max(1, d(...mb.dmg));
     if (roll === 20) dmg *= 2;
-    hurtPlayer(dmg, `The ${mb.name} hits you for ${dmg}.`);
+    const where = relativeBearing(m);
+    const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
+    hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.`, m);
     if (G.status !== 'playing') return;
     if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
     if (mb.drain && Math.random() < 0.25) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
@@ -1195,7 +1267,9 @@ const Game = (() => {
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [],
-    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, isEscaping: () => !!(G && G.escaping),
+    lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
+    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage,
+    wasteReason, spellWasteReason, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();

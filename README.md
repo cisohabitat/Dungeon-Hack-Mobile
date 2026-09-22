@@ -35,7 +35,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   anyone can read.
 - **Items.** Weapons, armour and shields with enchantments, potions, scrolls, food, gems, gold,
   and colour-coded keys for locked doors.
-- **A trader in the dark.** A hooded merchant keeps a pitch on about two levels in five, selling
+- **A trader in the dark.** A hooded merchant sets up shop on about two levels in five, selling
   potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
   its worth. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
@@ -53,6 +53,15 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   spot them in passing. Wall fountains restore you fully, once per fountain.
 - **Ranged foes.** Goblin archers and dark acolytes attack down corridors, so cover matters.
   Wounded monsters break and flee, and a strong character can shoulder a locked door open.
+- **A map you can read.** Explored ground is cropped and scaled to fill the screen, the player
+  is a ringed square with a facing arrow, stairs, doors, locked doors, fountains and traders each
+  have their own colour and symbol, and a legend names them all. A live corner minimap too.
+- **You are told what is happening.** Attacks name the direction they came from, the edge of the
+  view flashes on that side, walking into a wall says so, and the death screen names your killer
+  and replays your last moments.
+- **Nothing is spent for nothing.** Food, potions, scrolls and spells refuse to be used when they
+  could not help, and say why. Unidentified draughts are always usable, since refusing one would
+  tell you what it is.
 - **Automap** of explored areas plus a live corner minimap, message log with full history,
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against

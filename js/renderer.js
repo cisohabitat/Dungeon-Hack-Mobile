@@ -256,6 +256,27 @@ const Renderer = (() => {
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+    // Which edge the blow came from. The view only shows what is ahead, so
+    // without this an attacker behind you is invisible and unexplained.
+    if (fx.hurtFrom >= 0 && now < fx.hurtFromUntil) {
+      const a = Math.min(1, (fx.hurtFromUntil - now) / 900);
+      const band = 16;
+      const grads = [
+        [0, 0, 0, band, 0, band],                 // ahead: down from the top
+        [W, 0, W - band, 0, band, H],             // right
+        [0, H, 0, H - band, W, band],             // behind: up from the bottom
+        [0, 0, band, 0, band, H],                 // left
+      ];
+      const [gx0, gy0, gx1, gy1, bw, bh] = grads[fx.hurtFrom];
+      const g = ctx.createLinearGradient(gx0, gy0, gx1, gy1);
+      g.addColorStop(0, `rgba(255,60,50,${(a * 0.85).toFixed(2)})`);
+      g.addColorStop(1, 'rgba(255,60,50,0)');
+      ctx.fillStyle = g;
+      if (fx.hurtFrom === 0) ctx.fillRect(0, 0, W, bh);
+      else if (fx.hurtFrom === 2) ctx.fillRect(0, H - bh, W, bh);
+      else if (fx.hurtFrom === 1) ctx.fillRect(W - bw, 0, bw, H);
+      else ctx.fillRect(0, 0, bw, H);
+    }
     if (now < fx.healUntil) {
       const a = (fx.healUntil - now) / 260;
       ctx.fillStyle = 'rgba(80,220,120,1)';

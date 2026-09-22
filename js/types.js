@@ -138,6 +138,8 @@
  * @property {number} [escapeMs]
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
+ * @property {{name: string, dmg: number, bearing: string}} [lastAttacker]
+ * @property {string[]} [deathLog]
  */
 
 export {};

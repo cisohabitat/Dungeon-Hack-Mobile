@@ -1,0 +1,241 @@
+'use strict';
+// What the player is told: where they are, what hit them, and why an action
+// did nothing. The second playtest lost characters to all three being silent.
+const { test } = require('@playwright/test');
+const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+
+/**
+ * Where the map has drawn the player, expressed as a dungeon square so it can be
+ * compared with where the game says the player is.
+ */
+async function markerAt(page) {
+  await page.click('[data-open="map"]');
+  await page.waitForTimeout(150);
+  const r = await page.evaluate(() => {
+    const c = document.querySelector('#map-canvas');
+    const g = c.getContext('2d', { willReadFrequently: true });
+    const d = g.getImageData(0, 0, c.width, c.height).data;
+    let sx = 0, sy = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i] > 200 && d[i + 1] > 80 && d[i + 1] < 140 && d[i + 2] > 50 && d[i + 2] < 110) {
+        sx += (i / 4) % c.width; sy += Math.floor((i / 4) / c.width); n++;
+      }
+    }
+    const tile = Number(c.dataset.tile);
+    const originX = Number(c.dataset.originX), originY = Number(c.dataset.originY);
+    const p = Game.player();
+    return {
+      pixels: n, tile,
+      // the square the marker's centre falls in
+      square: n ? { x: Math.floor(sx / n / tile) + originX, y: Math.floor(sy / n / tile) + originY } : null,
+      player: { x: p.x, y: p.y },
+    };
+  });
+  await page.click('#ov-map [data-close]');
+  await page.waitForTimeout(80);
+  return r;
+}
+
+test.describe('knowing where you are', () => {
+  test('the map marker sits on the square the player is standing on', async ({ page }) => {
+    await startGame(page, { seed: 'aware-map' });
+    await clearBoons(page);
+
+    const before = await markerAt(page);
+    expect(before.pixels, 'the marker should be on the map').toBeGreaterThan(0);
+    expect(before.square, 'the marker must be on the player').toEqual(before.player);
+    // and it must be big enough to notice a single step
+    expect(before.tile, 'map squares should be legible').toBeGreaterThanOrEqual(8);
+    expect(before.pixels, 'the marker should fill its square').toBeGreaterThan(before.tile * before.tile * 0.4);
+
+    await page.evaluate(async () => {
+      const p = Game.player();
+      const target = p.steps + 3;
+      for (let i = 0; i < 40 && p.steps < target; i++) {
+        Game.input('forward');
+        await new Promise(r => setTimeout(r, 240));
+        if (p.steps < target && i % 3 === 2) { Game.input('right'); await new Promise(r => setTimeout(r, 240)); }
+      }
+    });
+
+    const after = await markerAt(page);
+    const moved = Math.abs(after.player.x - before.player.x) + Math.abs(after.player.y - before.player.y);
+    expect(moved, 'the player should have moved').toBeGreaterThan(0);
+    expect(after.square, 'the marker must follow the player').toEqual(after.player);
+  });
+
+  test('the map has a legend naming what the colours mean', async ({ page }) => {
+    await startGame(page, { seed: 'aware-legend' });
+    await clearBoons(page);
+    await page.click('[data-open="map"]');
+    const keys = page.locator('#map-legend .key');
+    await expect(keys.first()).toBeVisible();
+    expect(await keys.count()).toBeGreaterThan(6);
+    await expect(page.locator('#map-legend')).toContainText('Stairs down');
+    await expect(page.locator('#map-legend')).toContainText('Locked door');
+    await expect(page.locator('#map-legend')).toContainText('You');
+  });
+
+  test('walking into a wall says so', async ({ page }) => {
+    await startGame(page, { seed: 'aware-bump' });
+    await clearBoons(page);
+    const said = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + (p.x + dx)] = T.WALL;
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 200));
+      return Game.state().log[Game.state().log.length - 1].m;
+    });
+    expect(said).toMatch(/wall blocks your path/i);
+  });
+});
+
+test.describe('knowing what is hitting you', () => {
+  test('an attack from behind says which way it came from', async ({ page }) => {
+    await startGame(page, { seed: 'aware-behind' });
+    await clearBoons(page);
+    const result = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      p.maxHp = 500; p.hp = 500;
+      // put a bat directly behind the player, on open ground
+      const back = Dungeon.DIRS[(p.dir + 2) % 4];
+      const bx = p.x + back[0], by = p.y + back[1];
+      L.tiles[by * L.w + bx] = T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 4242, id: 'bat', x: bx, y: by, hp: 50, maxHp: 50, awake: true,
+        nextAct: 0, rx: bx, ry: by, fromX: bx, fromY: by, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 60; i++) {
+        Game.update(i * 300, 300);
+        const hit = Game.state().log.find(e => /Cave Bat/.test(e.m) && /(hits|misses) you/.test(e.m));
+        if (hit) return { line: hit.m, attacker: Game.lastAttacker() };
+      }
+      return { line: null };
+    });
+    expect(result.line, 'the bat should have acted').not.toBeNull();
+    expect(result.line, 'the message must say where it struck from').toMatch(/from behind/i);
+  });
+
+  test('the death screen names the killer and shows the last moments', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'aware-death' });
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#end-cause')).toContainText(/Killed by/i);
+    await expect(page.locator('#end-cause')).toContainText(/Ogre/i);
+    await expect(page.locator('#end-final')).toBeVisible();
+    expect(await page.locator('#end-final-log p').count()).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
+});
+
+test.describe('not wasting what you carry', () => {
+  test('a known potion is refused at full health, and an unknown one is not', async ({ page }) => {
+    await startGame(page, { seed: 'aware-waste' });
+    await clearBoons(page);
+    const result = await page.evaluate(() => {
+      const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp;
+      p.inv.length = 0;
+      G.known.potion_heal = 1;
+      p.inv.push({ t: 'potion_heal', q: 2, e: 0 });
+      Game.useItem(p.inv[0]);
+      const knownRefused = p.inv[0].q === 2;
+      const knownMessage = G.log[G.log.length - 1].m;
+      // an unidentified draught must still be drinkable, or refusing it would
+      // tell the player what it is
+      const unknownId = Object.keys(ITEMS).find(
+        id => ITEMS[id].kind === 'potion' && ITEMS[id].effect === 'heal' && !G.known[id]);
+      let unknownUsed = null;
+      if (unknownId) {
+        p.inv.push({ t: unknownId, q: 1, e: 0 });
+        const n = p.inv.length;
+        Game.useItem(p.inv[n - 1]);
+        unknownUsed = p.inv.length < n || p.inv[n - 1].q === 0;
+      }
+      return { knownRefused, knownMessage, unknownId, unknownUsed };
+    });
+    expect(result.knownRefused, 'a known healing potion must not be drunk at full health').toBe(true);
+    expect(result.knownMessage).toMatch(/unhurt/i);
+    if (result.unknownId) {
+      expect(result.unknownUsed, 'refusing an unknown potion would reveal what it is').toBe(true);
+    }
+  });
+
+  test('a spell with no target costs nothing', async ({ page }) => {
+    await startGame(page, { seed: 'aware-spell', cls: 3 });
+    await clearBoons(page);
+    const result = await page.evaluate(() => {
+      const p = Game.player();
+      p.maxSp = 40; p.sp = 40; p.hp = p.maxHp;
+      Game.level().monsters.length = 0;
+      const bolt = Game.knownSpells().find(s => s.kind === 'bolt');
+      const cast = Game.castSpell(bolt);
+      return { cast, sp: p.sp, said: Game.state().log[Game.state().log.length - 1].m };
+    });
+    expect(result.cast).toBe(false);
+    expect(result.sp, 'no points should be spent').toBe(40);
+    expect(result.said).toMatch(/nothing within reach/i);
+  });
+});
+
+test.describe('not losing a run by accident', () => {
+  test('starting a new run warns before replacing a saved hero', async ({ page }) => {
+    await startGame(page, { seed: 'aware-save', name: 'Keepme' });
+    await clearBoons(page);
+    await page.evaluate(() => Game.save());
+    await page.click('[data-open="menu"]');
+    await page.click('#m-quit');
+    await expect(page.locator('#screen-title')).toBeVisible();
+
+    await page.click('#btn-new');
+    await expect(page.locator('#screen-confirm')).toBeVisible();
+    await expect(page.locator('#confirm-who')).toContainText('Keepme');
+    await expect(page.locator('#screen-create')).not.toBeVisible();
+
+    // keeping the old hero resumes that run rather than starting over
+    await page.click('#confirm-keep');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => Game.player().name)).toBe('Keepme');
+  });
+
+  test('choosing to replace reaches character creation', async ({ page }) => {
+    await startGame(page, { seed: 'aware-replace', name: 'Oldone' });
+    await clearBoons(page);
+    await page.evaluate(() => Game.save());
+    await page.click('[data-open="menu"]');
+    await page.click('#m-quit');
+    await page.click('#btn-new');
+    await page.click('#confirm-replace');
+    await expect(page.locator('#screen-create')).toBeVisible();
+  });
+});
+
+test.describe('being readable by assistive technology', () => {
+  test('the chosen class, background and item announce their state', async ({ page }) => {
+    await page.goto('/');
+    await page.click('#btn-new');
+    const chosen = page.locator('.class-card[aria-pressed="true"]');
+    await expect(chosen).toHaveCount(1);
+    await page.locator('.class-card', { hasText: 'Thief' }).click();
+    await expect(page.locator('.class-card[aria-pressed="true"]')).toContainText('Thief');
+    await expect(page.locator('.bg-card[aria-pressed="true"]')).toHaveCount(1);
+
+    await page.fill('#c-seed', 'aware-a11y');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await clearBoons(page);
+    await page.click('[data-open="inv"]');
+    // a filled slot is a real button with a name, not a clickable div
+    const slot = page.locator('#inv-grid button.slot.filled').first();
+    await expect(slot).toBeVisible();
+    await expect(slot).toHaveAttribute('aria-label', /.+/);
+    await slot.click();
+    await expect(slot).toHaveAttribute('aria-pressed', 'true');
+  });
+});

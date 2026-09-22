@@ -15,6 +15,8 @@ async function newContext() {
   modules.push(m);
   return m;
 }
+/** The ITEMS table from whichever world a test is using. */
+function ITEMS_FOR_TEST(game) { return modules[modules.length - 1].ITEMS; }
 async function start(cls, seed, opts) {
   const ctx = await newContext();
   ctx.Game.newGame({ name: 'Test', cls, stats: ctx.Game.rollStats(), seed, opts: Object.assign({}, OPTS, opts) });
@@ -56,9 +58,73 @@ await test('using the last of a stack removes its slot', async () => {
   const { Game } = await start('fighter', 'r3');
   const p = Game.player();
   p.inv.length = 0;
+  p.food = 20;                                 // eating at full nourishment is refused
   p.inv.push({ t: 'ration', q: 1, e: 0 });
   Game.useItem(p.inv[0]);
   return p.inv.length === 0;
+});
+
+await test('nothing is consumed when it could not possibly help', async () => {
+  const { Game } = await start('cleric', 'waste');
+  const p = Game.player();
+  p.inv.length = 0;
+  p.hp = p.maxHp;
+  p.food = 100;
+  p.poison = null;
+  // the guard only applies to things already identified: refusing an unknown
+  // draught would tell the player what it is
+  for (const id of ['ration', 'potion_heal', 'potion_cure']) Game.state().known[id] = 1;
+  p.inv.push({ t: 'ration', q: 2, e: 0 });
+  p.inv.push({ t: 'potion_heal', q: 2, e: 0 });
+  p.inv.push({ t: 'potion_cure', q: 1, e: 0 });
+  const before = p.inv.map(i => i.q).join(',');
+  Game.useItem(p.inv[0]);                      // full up
+  Game.useItem(p.inv[1]);                      // unhurt
+  Game.useItem(p.inv[2]);                      // unpoisoned
+  if (p.inv.map(i => i.q).join(',') !== before) return 'something was consumed for no benefit';
+  // and each refusal explains itself
+  const said = Game.state().log.slice(-3).map(e => e.m).join(' ');
+  if (!/full/i.test(said) || !/unhurt/i.test(said) || !/poison/i.test(said)) {
+    return 'a refusal did not say why: ' + said;
+  }
+  // once it would help, it works
+  p.hp = 1;
+  Game.useItem(p.inv[1]);
+  return p.hp > 1 && p.inv.find(i => i.t === 'potion_heal').q === 1;
+});
+
+await test('an unidentified draught is never refused, since that would reveal it', async () => {
+  const { Game } = await start('fighter', 'waste-unknown');
+  const p = Game.player();
+  const G = Game.state();
+  p.hp = p.maxHp;
+  const unknown = Object.keys(ITEMS_FOR_TEST(Game)).find(
+    id => !G.known[id] && G.looks[id] && ITEMS_FOR_TEST(Game)[id].effect === 'heal');
+  if (!unknown) return true;                     // nothing unidentified to check
+  p.inv.push({ t: unknown, q: 1, e: 0 });
+  const before = p.inv.length;
+  Game.useItem(p.inv[p.inv.length - 1]);
+  return p.inv.length < before ? true : 'an unknown potion was refused, which leaks what it is';
+});
+
+await test('spells do not spend points on nothing', async () => {
+  const { Game } = await start('cleric', 'waste-spell');
+  const p = Game.player();
+  p.level = 5;
+  p.maxSp = 40; p.sp = 40;
+  p.hp = p.maxHp;
+  const heal = Game.knownSpells().find(s => s.kind === 'heal');
+  const bolt = Game.knownSpells().find(s => s.kind === 'bolt');
+  if (!heal || !bolt) return 'the cleric should know a heal and a bolt';
+  if (Game.castSpell(heal) !== false) return 'healing at full health was allowed';
+  if (p.sp !== 40) return `healing at full health spent ${40 - p.sp} points`;
+  // clear the way ahead so the bolt has provably no target
+  const L = Game.level();
+  L.monsters.length = 0;
+  if (Game.castSpell(bolt) !== false) return 'a bolt was cast at nothing';
+  if (p.sp !== 40) return `casting at nothing spent ${40 - p.sp} points`;
+  p.hp = 1;
+  return Game.castSpell(heal) === true && p.sp < 40;
 });
 
 await test('a save survives the JSON round trip, effects included', async () => {

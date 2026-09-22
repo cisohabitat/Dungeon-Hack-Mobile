@@ -27,7 +27,9 @@ const UI = (() => {
   function refreshTitle() {
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
-    $('#save-summary').textContent = s ? `${s.name} the ${s.cls} · level ${s.level} · dungeon level ${s.depth}` : 'No saved game';
+    $('#save-summary').textContent = s
+      ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
+      : 'No saved game';
   }
 
   // ---------- animated title scene ----------
@@ -195,6 +197,8 @@ const UI = (() => {
       const c = CLASSES[id];
       const b = document.createElement('button');
       b.className = 'class-card' + (id === create.cls ? ' sel' : '');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(id === create.cls));
       b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small>`;
       b.addEventListener('click', () => { create.cls = id; buildCreate(); });
       grid.appendChild(b);
@@ -205,6 +209,8 @@ const UI = (() => {
       const b = BACKGROUNDS[id];
       const el = document.createElement('button');
       el.className = 'bg-card' + (id === create.bg ? ' sel' : '');
+      el.type = 'button';
+      el.setAttribute('aria-pressed', String(id === create.bg));
       el.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small>`;
       el.addEventListener('click', () => { create.bg = id; buildCreate(); });
       bgGrid.appendChild(el);
@@ -221,6 +227,19 @@ const UI = (() => {
       if (CLASSES[create.cls].primary === k) div.style.color = '#f2e2b8';
       st.appendChild(div);
     }
+  }
+  function openCreation() {
+    create.stats = Game.rollStats();
+    buildCreate();
+    showScreen('screen-create');
+  }
+  /** A run in progress is a real investment, so never discard one silently. */
+  function startNewGameFlow() {
+    const saved = Game.saveSummary();
+    if (!saved) { openCreation(); return; }
+    $('#confirm-who').textContent =
+      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on dungeon level ${saved.depth}.`;
+    showScreen('screen-confirm');
   }
   function showPrologue(cfg) {
     pendingCfg = cfg;
@@ -448,7 +467,7 @@ const UI = (() => {
     const list = Game.hall();
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)} the ${CLASSES[h.cls] ? CLASSES[h.cls].name : h.cls} ${h.level}<small>${h.won ? 'Claimed the Heart' : 'Fell on level ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}</span></div>`).join('') + '</div>';
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)} the ${CLASSES[h.cls] ? CLASSES[h.cls].name : h.cls} ${h.level}<small>${h.won ? 'Claimed the Heart' : 'Fell on level ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -479,7 +498,14 @@ const UI = (() => {
   function paused() { return !!overlay; }
 
   function slotEl(it, label) {
-    const div = document.createElement('div');
+    const div = document.createElement(it ? 'button' : 'div');
+    if (it) {
+      div.setAttribute('type', 'button');
+      div.setAttribute('aria-label',
+        `${label ? label + ': ' : ''}${Game.itemName(it)}`);
+    } else if (label) {
+      div.setAttribute('aria-label', `${label}: empty`);
+    }
     div.className = 'slot' + (it ? ' filled' : '');
     if (label) div.innerHTML = `<span class="lbl">${label}</span>`;
     if (it) {
@@ -504,7 +530,8 @@ const UI = (() => {
       const it = p.eq[slot];
       const el = slotEl(it, slot);
       if (it) el.addEventListener('click', () => { selectedItem = it; selectedSlot = slot; renderInv(); });
-      if (selectedItem === it && it) el.classList.add('sel');
+      if (selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
+      else if (it) el.setAttribute('aria-pressed', 'false');
       eq.appendChild(el);
     }
     const grid = $('#inv-grid');
@@ -514,6 +541,7 @@ const UI = (() => {
       const el = slotEl(it, null);
       if (it) {
         el.addEventListener('click', () => { selectedItem = it; selectedSlot = null; renderInv(); });
+        el.setAttribute('aria-pressed', String(selectedItem === it));
         if (selectedItem === it) el.classList.add('sel');
       }
       grid.appendChild(el);
@@ -591,53 +619,134 @@ const UI = (() => {
     return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armor class</p>`;
   }
 
+  // Colours and shapes the legend below the map also uses, so the two cannot
+  // drift apart.
+  const MAP_KEY = [
+    { id: 'player', colour: '#ff6a50', label: 'You' },
+    { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
+    { id: 'up', colour: '#7cc4ee', label: 'Stairs up' },
+    { id: 'door', colour: '#c08a3e', label: 'Door' },
+    { id: 'locked', colour: '#e05050', label: 'Locked door' },
+    { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
+    { id: 'trader', colour: '#b57ae0', label: 'Trader' },
+    { id: 'loot', colour: '#e8d84a', label: 'Something here' },
+    { id: 'floor', colour: '#2c2a3a', label: 'Walked' },
+    { id: 'wall', colour: '#5a5670', label: 'Wall' },
+  ];
+
   function renderMap() {
     const L = Game.level(), p = Game.player();
     const c = $('#map-canvas');
-    const avail = Math.min(window.innerWidth - 32, window.innerHeight - 140);
-    const size = Math.max(4, Math.floor(avail / L.w));
-    c.width = L.w * size; c.height = L.h * size;
-    c.style.width = c.width + 'px';
-    $('#map-title').textContent = `Level ${L.depth}: ${THEMES[L.theme].name}`;
-    const ctx = c.getContext('2d');
-    ctx.fillStyle = '#05050a'; ctx.fillRect(0, 0, c.width, c.height);
     const T = Dungeon.T;
-    for (let y = 0; y < L.h; y++) for (let x = 0; x < L.w; x++) {
-      const i = y * L.w + x;
-      if (!L.explored[i]) continue;
-      const t = L.tiles[i];
-      let col = null;
-      switch (t) {
-        case T.WALL: col = '#4a4660'; break;
-        case T.FLOOR: col = '#1c1a26'; break;
-        case T.DOOR: col = '#a0783c'; break;
-        case T.DOOR_OPEN: col = '#6a5030'; break;
-        case T.DOOR_LOCKED: col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040'; break;
-        case T.STAIRS_DOWN: col = '#e0c060'; break;
-        case T.STAIRS_UP: col = '#80c0e0'; break;
-        case T.SECRET: col = '#4a4660'; break;
-        case T.TORCH: col = '#c08030'; break;
-        case T.FOUNTAIN: col = '#4090e0'; break;
-      }
-      ctx.fillStyle = col; ctx.fillRect(x * size, y * size, size, size);
-      if (t === T.STAIRS_DOWN || t === T.STAIRS_UP) {
-        ctx.fillStyle = '#000'; ctx.font = `${size}px monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(t === T.STAIRS_DOWN ? '▼' : '▲', x * size + size / 2, y * size + size / 2 + 1);
+    // Fill the space available rather than assuming a tiny tile: a marker that
+    // shifts only a few pixels per step reads as though nothing happened.
+    let minX = L.w, minY = L.h, maxX = 0, maxY = 0, seen = 0;
+    for (let y = 0; y < L.h; y++) {
+      for (let x = 0; x < L.w; x++) {
+        if (!L.explored[y * L.w + x]) continue;
+        seen++;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
       }
     }
-    // items seen on explored tiles
+    if (!seen) { minX = p.x - 1; maxX = p.x + 1; minY = p.y - 1; maxY = p.y + 1; }
+    const pad = 2;
+    minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
+    maxX = Math.min(L.w - 1, maxX + pad); maxY = Math.min(L.h - 1, maxY + pad);
+    const cols = maxX - minX + 1, rows = maxY - minY + 1;
+    const availW = window.innerWidth - 24, availH = window.innerHeight - 230;
+    const size = Math.max(8, Math.floor(Math.min(availW / cols, availH / rows)));
+    c.width = cols * size; c.height = rows * size;
+    c.style.width = c.width + 'px';
+    const ox = minX * size, oy = minY * size;
+    c.dataset.tile = String(size);
+    c.dataset.originX = String(minX);
+    c.dataset.originY = String(minY);
+    $('#map-title').textContent = `Level ${L.depth}: ${THEMES[L.theme].name}`;
+
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#05050a';
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    const glyph = (ch, x, y, colour) => {
+      ctx.fillStyle = colour;
+      ctx.font = `bold ${Math.round(size * 0.82)}px monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(ch, x * size - ox + size / 2, y * size - oy + size / 2 + 1);
+    };
+
+    for (let y = 0; y < L.h; y++) {
+      for (let x = 0; x < L.w; x++) {
+        const i = y * L.w + x;
+        if (!L.explored[i]) continue;
+        const t = L.tiles[i];
+        let col = '#2c2a3a', mark = null, markColour = '#000';
+        switch (t) {
+          case T.WALL: case T.SECRET: col = '#5a5670'; break;
+          case T.TORCH: col = '#5a5670'; mark = '*'; markColour = '#ffb45a'; break;
+          case T.FLOOR: col = '#2c2a3a'; break;
+          case T.DOOR: col = '#c08a3e'; mark = '+'; break;
+          case T.DOOR_OPEN: col = '#7a5a34'; mark = "'"; break;
+          case T.DOOR_LOCKED:
+            col = '#e05050';
+            mark = '\u2716';
+            markColour = KEY_COLORS[L.locks[x + ',' + y]] || '#fff';
+            break;
+          case T.STAIRS_DOWN: col = '#ffd24a'; mark = '\u25bc'; break;
+          case T.STAIRS_UP: col = '#7cc4ee'; mark = '\u25b2'; break;
+          case T.FOUNTAIN: col = '#49a6f0'; mark = '\u2248'; break;
+        }
+        ctx.fillStyle = col;
+        ctx.fillRect(x * size - ox, y * size - oy, size, size);
+        if (mark) glyph(mark, x, y, markColour);
+      }
+    }
+
+    // anything worth walking back for
     for (const k in L.items) {
       const [x, y] = k.split(',').map(Number);
       if (!L.explored[y * L.w + x] || !L.items[k].length) continue;
-      ctx.fillStyle = '#e0d060'; ctx.fillRect(x * size + size * 0.3, y * size + size * 0.3, size * 0.4, size * 0.4);
+      ctx.fillStyle = '#e8d84a';
+      ctx.fillRect(x * size - ox + size * 0.28, y * size - oy + size * 0.28, size * 0.44, size * 0.44);
     }
-    // player arrow
-    ctx.save();
-    ctx.translate(p.x * size + size / 2, p.y * size + size / 2);
-    ctx.rotate(p.dir * Math.PI / 2);
+    for (const n of (L.npcs || [])) {
+      if (!L.explored[n.y * L.w + n.x]) continue;
+      ctx.fillStyle = '#b57ae0';
+      ctx.fillRect(n.x * size - ox, n.y * size - oy, size, size);
+      glyph('\u00a4', n.x, n.y, '#2a1a38');
+    }
+
+    // The player owns one whole square, ringed so the eye finds it at a glance,
+    // with the arrow inside it showing which way they face.
+    const cx = p.x * size - ox + size / 2, cy = p.y * size - oy + size / 2;
     ctx.fillStyle = '#ff6a50';
-    ctx.beginPath(); ctx.moveTo(0, -size * 0.45); ctx.lineTo(size * 0.38, size * 0.4); ctx.lineTo(-size * 0.38, size * 0.4); ctx.closePath(); ctx.fill();
+    ctx.fillRect(p.x * size - ox, p.y * size - oy, size, size);
+    ctx.strokeStyle = '#fff3e0';
+    ctx.lineWidth = Math.max(1, size * 0.12);
+    ctx.strokeRect(p.x * size - ox + 0.5, p.y * size - oy + 0.5, size - 1, size - 1);
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(p.dir * Math.PI / 2);
+    ctx.fillStyle = '#2a0f08';
+    ctx.beginPath();
+    ctx.moveTo(0, -size * 0.3);
+    ctx.lineTo(size * 0.26, size * 0.26);
+    ctx.lineTo(-size * 0.26, size * 0.26);
+    ctx.closePath();
+    ctx.fill();
     ctx.restore();
+
+    renderMapLegend();
+  }
+
+  function renderMapLegend() {
+    const el = $('#map-legend');
+    if (!el || el.childElementCount) return;      // built once
+    el.innerHTML = MAP_KEY.map(k =>
+      `<span class="key"><i style="background:${k.colour}"></i>${escapeHtml(k.label)}</span>`).join('');
   }
 
   function renderSpells() {
@@ -702,6 +811,16 @@ const UI = (() => {
     if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
+    const cause = $('#end-cause');
+    const killer = Game.lastAttacker();
+    if (!won && killer) {
+      cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
+    } else if (!won) {
+      cause.textContent = 'Killed by the dungeon itself.';
+    } else cause.textContent = '';
+    const moments = Game.deathLog();
+    $('#end-final').style.display = (!won && moments.length) ? '' : 'none';
+    $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');
     $('#end-epilogue').innerHTML = Game.epilogue(won).map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
     showScreen('screen-end');
@@ -785,7 +904,7 @@ const UI = (() => {
   function init() {
     buildCreate();
     $('#c-seed').value = randomSeedWord();
-    $('#btn-new').addEventListener('click', () => { Sound.unlock(); create.stats = Game.rollStats(); buildCreate(); showScreen('screen-create'); });
+    $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => showScreen('screen-help'));
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
@@ -797,7 +916,9 @@ const UI = (() => {
     $('#c-begin').addEventListener('click', beginGame);
     $('#pro-begin').addEventListener('click', commitGame);
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
-    $('#end-new').addEventListener('click', () => { create.stats = Game.rollStats(); buildCreate(); showScreen('screen-create'); });
+    $('#end-new').addEventListener('click', () => startNewGameFlow());
+    $('#confirm-keep').addEventListener('click', () => { if (Game.load()) startPlaying(); });
+    $('#confirm-replace').addEventListener('click', () => openCreation());
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));
     bindControls();
     refreshTitle();

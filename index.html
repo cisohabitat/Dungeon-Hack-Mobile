@@ -73,6 +73,19 @@
     </div>
   </section>
 
+  <!-- Replacing a saved run -->
+  <section id="screen-confirm" class="screen">
+    <div class="title-inner">
+      <h2>You already have a hero below</h2>
+      <p id="confirm-who" class="tagline"></p>
+      <p>Starting a new run will replace that saved character. Heroes who have already fallen or escaped stay in the Hall of Heroes either way.</p>
+      <div class="menu">
+        <button id="confirm-keep" class="big primary">Keep playing that hero</button>
+        <button id="confirm-replace" class="big danger">Replace with a new hero</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Prologue -->
   <section id="screen-prologue" class="screen scroll">
     <div class="panel story">
@@ -89,6 +102,7 @@
   <section id="screen-hall" class="screen scroll">
     <div class="panel">
       <h2>Hall of Heroes</h2>
+      <p class="dim small">Score rewards depth above all: gold, plus twice your experience, plus 100 for every level reached, plus 2000 for escaping with the Heart.</p>
       <div id="hall-list"></div>
       <div class="row"><button id="hall-back" class="big primary">Back</button></div>
     </div>
@@ -109,7 +123,7 @@
       <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you.</p>
       <h3>Secrets</h3>
       <h3>Gold</h3>
-      <p>A hooded trader keeps a pitch on some levels. Walk into them to open the shop. They sell potions, scrolls, food and the occasional weapon, and buy anything you do not want at about half its worth. Gold you never spend is only a number on your gravestone.</p>
+      <p>A hooded trader sets up shop on some levels. Walk into them to open the shop. They sell potions, scrolls, food and the occasional weapon, and buy anything you do not want at about half its worth. Gold you never spend is only a number on your gravestone.</p>
       <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
       <h3>Fighting</h3>
       <p>Everything happens in real time. <b>Attack</b> strikes the square in front of you. Monsters that reach you will hit back; step away, close doors behind you, or fight in corridors where only one can reach you. Thieves deal double damage to sleeping foes.</p>
@@ -186,7 +200,11 @@
     </div>
     <div id="ov-map" class="overlay">
       <div class="ov-head"><h2 id="map-title">Map</h2><button class="close" data-close>✕</button></div>
-      <div class="ov-body center"><canvas id="map-canvas"></canvas><p class="dim small">Explored areas only. You are the arrow.</p></div>
+      <div class="ov-body center">
+        <canvas id="map-canvas"></canvas>
+        <div id="map-legend" class="map-legend"></div>
+        <p class="dim small">Explored ground only. You are the ringed square.</p>
+      </div>
     </div>
     <div id="ov-spells" class="overlay">
       <div class="ov-head"><h2>Spells</h2><button class="close" data-close>✕</button></div>
@@ -237,7 +255,9 @@
       <h1 id="end-title" class="logo"></h1>
       <p id="end-text" class="tagline"></p>
       <div id="end-epilogue" class="epilogue"></div>
+      <div id="end-cause" class="cause"></div>
       <div id="end-stats" class="stats end-stats"></div>
+      <details id="end-final" class="final-moments"><summary>Final moments</summary><div id="end-final-log"></div></details>
       <div class="menu">
         <button id="end-load" class="big">Load Last Save</button>
         <button id="end-new" class="big primary">New Game</button>
