@@ -34,9 +34,10 @@ const Game = (() => {
   const cls = () => CLASSES[G.player.cls];
 
   // ---------- the dice, in the open ----------
-  // Off by nobody's default: the classic crawlers showed their arithmetic and
-  // it is how you learn that your weapon is too slow or the thing in front of
-  // you is armoured. Kept out of the save file: it is a preference, not a run.
+  // On unless turned off: the classic crawlers showed their arithmetic, and
+  // it is how you learn that the thing in front of you is armoured, or that
+  // your own armour has stopped keeping up with what hits you. Kept out of the
+  // save file: it is a preference, not a run.
   let showRolls = true;
   try { showRolls = localStorage.getItem('deepdelve.rolls') !== 'off'; } catch (e) { /* ignore */ }
   function rollsShown() { return showRolls; }
@@ -1145,20 +1146,24 @@ const Game = (() => {
   function rangedAttack(m) {
     const mb = mstat(m), r = mb.ranged;
     const roll = d(1, 20);
+    const ac = playerAC();
+    const note = rollNote(roll, mb.hit, ac, roll === 20);
     Sound.play('arrow');
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) { log(`The ${mb.name} ${r.verb} you and misses.`); return; }
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
     let dmg = Math.max(1, d(...r.dmg));
     if (roll === 20) dmg *= 2;
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.`, m);
+    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${note}`, m);
   }
   function monsterAttack(m) {
     const p = P(), mb = mstat(m);
     const roll = d(1, 20);
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < playerAC())) {
+    const ac = playerAC();
+    const note = rollNote(roll, mb.hit, ac, roll === 20);
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) {
       const miss = relativeBearing(m);
-      log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.`, miss && miss.rel !== 0 ? 'bad' : '');
+      log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
       if (miss && miss.rel !== 0) { fx.hurtFrom = miss.rel; fx.hurtFromUntil = realNow + 700; }
       return;
     }
@@ -1166,7 +1171,7 @@ const Game = (() => {
     if (roll === 20) dmg *= 2;
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.`, m);
+    hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.${note}`, m);
     if (G.status !== 'playing') return;
     if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
     if (mb.drain && Math.random() < 0.25) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }

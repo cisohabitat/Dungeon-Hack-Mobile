@@ -202,6 +202,53 @@ await test('the combat log shows the roll that decided the swing, and it is true
   return true;
 });
 
+await test('blows that land on you show their roll too, and it is true', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'incoming', opts: OPTS });
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  // a straight run of floor, so an archer three squares off has a clear shot
+  outer: for (let y = 1; y < L.h - 1; y++) for (let x = 1; x < L.w - 1; x++) for (let dir = 0; dir < 4; dir++) {
+    const [ddx, ddy] = Dungeon.DIRS[dir];
+    let ok = true;
+    for (let k = 0; k <= 4; k++) if (L.tiles[(y + ddy * k) * L.w + (x + ddx * k)] !== T.FLOOR) { ok = false; break; }
+    if (ok) { p.x = x; p.y = y; p.dir = dir; break outer; }
+  }
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const lines = [];
+  for (const [id, dist] of [['orc', 1], ['archer', 3]]) {
+    L.monsters.length = 0;
+    const m = { uid: 7, id, x: p.x + dx * dist, y: p.y + dy * dist, hp: 50, maxHp: 50, awake: true,
+      nextAct: 0, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(m);
+    for (let i = 0; i < 250; i++) {
+      p.hp = p.maxHp = 9999;               // the point is the log, not the funeral
+      m.x = p.x + dx * dist; m.y = p.y + dy * dist;
+      const before = G.log.length;
+      Game.update(G.t + 100, 100);
+      for (const e of G.log.slice(before)) lines.push(e.m);
+    }
+  }
+  const incoming = lines.filter(l => /^The .* (hits you|misses you|at you)/.test(l));
+  if (!incoming.some(l => /Orc/.test(l))) return 'the orc never swung';
+  if (!incoming.some(l => /Archer/.test(l))) return 'the archer never shot';
+  if (!incoming.every(l => / \(d20 /.test(l))) return `an attack on you was logged without its roll: ${incoming.find(l => !/d20/.test(l))}`;
+
+  const ac = Game.playerAC();
+  for (const l of incoming) {
+    const m = l.match(/\(d20 (\d+)\+(\d+) vs AC (\d+)\)/);
+    if (!m) continue;
+    const [roll, bonus, shownAc] = [Number(m[1]), Number(m[2]), Number(m[3])];
+    if (shownAc !== ac) return `the log claimed your AC was ${shownAc}, it is ${ac}`;
+    const landed = !/misses/.test(l);
+    if (landed && roll + bonus < shownAc) return `a blow on you was logged as ${roll}+${bonus} against AC ${shownAc}`;
+    if (!landed && roll + bonus >= shownAc) return `a miss on you was logged as ${roll}+${bonus} against AC ${shownAc}`;
+  }
+  if (!incoming.some(l => /a fumble/.test(l))) return 'a monster fumble was never spelled out';
+  if (!incoming.some(l => /a telling blow/.test(l))) return 'a monster critical was never spelled out';
+  return true;
+});
+
 await test('turning the rolls off silences them and survives a reload', async () => {
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
@@ -219,8 +266,14 @@ await test('turning the rolls off silences them and survives a reload', async ()
     G.t = p.nextAttack;
     Game.input('attack');
   }
+  // and let something swing back, so both directions are checked for silence
+  L.monsters.length = 0;
+  L.monsters.push({ uid: 2, id: 'orc', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500,
+    awake: true, nextAct: 0, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  for (let i = 0; i < 40; i++) { p.hp = p.maxHp = 9999; Game.update(G.t + 100, 100); }
   const quiet = G.log.slice(before).map(e => e.m);
   if (!quiet.length) return 'no swings were logged at all';
+  if (!quiet.some(l => /^The Orc (hits|misses) you/.test(l))) return 'the orc never swung back';
   if (quiet.some(l => /d20/.test(l))) return 'a roll was printed with the rolls turned off';
   if (!quiet.some(l => /^You (hit|miss) /.test(l))) return 'the swings themselves stopped being reported';
 
