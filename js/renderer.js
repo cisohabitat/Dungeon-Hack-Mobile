@@ -129,6 +129,85 @@ const Renderer = (() => {
   }
 
   // sprites: [{x, y, img (sprite asset), scale, yOff, flash}]
+  // ---------- the hero's hands ----------
+  // What the hero holds, drawn at the bottom of the view: the weapon's own
+  // picture in a gloved fist at the right, a shield or second blade at the
+  // left. It sways at rest, bobs with each step, slashes across on Attack,
+  // jolts when a blow lands, and the other hand rises glowing to cast.
+  // Item pictures lie grip at the lower left, point at the upper right; this
+  // is where the grip is in them.
+  const GRIP = [0.2, 0.8];
+  const ease = u => (u < 0 ? 0 : u > 1 ? 1 : u * u * (3 - 2 * u));
+  function held(id, gx, gy, size, angle, mirror) {
+    const art = Assets.sprites[id];
+    if (!art) return;
+    const img = art.levels[0];
+    ctx.save();
+    ctx.translate(gx, gy);
+    ctx.rotate(angle);
+    if (mirror) ctx.scale(-1, 1);
+    ctx.drawImage(img, -GRIP[0] * size, -GRIP[1] * size, size, size);
+    ctx.restore();
+  }
+  function hand(id, cx, cy, size, glow) {
+    const art = Assets.sprites[id];
+    if (!art) return;
+    if (glow) {
+      const g = ctx.createRadialGradient(cx, cy - size * 0.2, 0, cx, cy - size * 0.2, size * 0.8);
+      g.addColorStop(0, glow.replace(/^#(.)(.)(.)$/, '#$1$1$2$2$3$3') + 'cc'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.fillRect(cx - size, cy - size, size * 2, size * 2);
+    }
+    ctx.drawImage(art.levels[0], cx - size * 0.5, cy - size * 0.55, size, size);
+  }
+  function drawView(fx, now) {
+    const v = fx.view;
+    if (!v) return;
+    // a step's bob and a slow sway at rest
+    const step = Math.sin((v.walk || 0) * Math.PI);
+    const bx = Math.sin(now / 900) * 1.5 + (v.steps % 2 ? 1 : -1) * step * 3, by = Math.abs(step) * 7 + Math.sin(now / 700) * 1.2;
+    // a blow landing jolts the hands down
+    const hurt = now < fx.damageUntil ? (fx.damageUntil - now) / 260 : 0;
+    const jx = hurt ? Math.sin(now / 17) * 4 * hurt : 0, jy = hurt * 9;
+    // the swing: drawn back a moment, slashed across, and back to rest
+    const u = (now - fx.swingAt) / (fx.swingMs || 300);
+    let sa = 0, sx = 0, sy = 0;
+    if (u >= 0 && u < 1) {
+      const back = ease(u / 0.22), cut = ease((u - 0.22) / 0.4), home = ease((u - 0.72) / 0.28);
+      sa = 0.3 * back - 1.25 * cut * (1 - home) - 0.3 * back * cut;
+      sx = -W * 0.2 * cut * (1 - home); sy = H * 0.06 * cut * (1 - home) - H * 0.03 * back * (1 - cut);
+    }
+    const ou = (now - fx.offAt) / 260;
+    const oa = ou >= 0 && ou < 1 ? Math.sin(ou * Math.PI) : 0;
+    // casting: the off hand rises into view, alight
+    const cu = (now - fx.castAt) / 520;
+    const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
+
+    // left: shield, second blade, or a bare fist
+    const lx = W * 0.17 + bx + jx, ly = H + by + jy;
+    if (v.shield) {
+      const dip = cast * H * 0.35;
+      held(v.shield, lx - W * 0.13, ly + dip - H * 0.02 - hurt * 10, H * 0.6, -0.3 + hurt * 0.1, false);
+    } else if (v.offhand) {
+      held(v.offhand, lx + W * 0.02 + oa * W * 0.12, ly - oa * H * 0.04 + cast * H * 0.3, H * 0.75, -0.3 + oa * 1.1, false);
+      hand(v.fist, lx + W * 0.02 + oa * W * 0.12, ly - oa * H * 0.04 + cast * H * 0.3 - H * 0.02, H * 0.34);
+    } else if (!v.two) {
+      hand(v.fist, lx, ly + H * 0.1 - cast * H * 0.02, H * 0.36);
+    }
+    if (cast > 0) hand(v.fist, W * 0.3 + bx, H * (1.12 - cast * 0.3) + by, H * 0.38, fx.castColor);
+
+    // right: the weapon in the fist, or the fist alone
+    if (v.weapon) {
+      // a pole is held low and upright, off to the side, so it never hides the corridor
+      const gx = (v.pole ? W * 0.8 : v.two ? W * 0.74 : W * 0.84) + bx + jx + sx, gy = (v.two ? H * 1.04 : H * 1.03) + by + jy + sy;
+      held(v.weapon, gx, gy, H * (v.pole ? 0.8 : v.two ? 0.92 : 0.78), (v.pole ? 0.95 : 0.66) + sa, true);
+      hand(v.fist, gx + H * 0.02, gy - H * 0.03, H * 0.34);
+      if (v.two) hand(v.fist, gx - H * 0.13, gy + H * 0.05, H * 0.32);
+    } else {
+      const punch = u >= 0 && u < 1 ? Math.sin(Math.min(1, u / 0.6) * Math.PI) : 0;
+      hand(v.fist, W * 0.78 + bx + jx - punch * W * 0.18, H + by + jy + H * 0.1 - punch * H * 0.2, H * 0.36 * (1 + punch * 0.25));
+    }
+  }
+
   // ---------- spell effects ----------
   // Each spell draws its own effect between the hero's hand and what it
   // hits, instead of only tinting the view: darts that fly, a fan of fire,
@@ -359,8 +438,9 @@ const Renderer = (() => {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
       // a monster winding up a blow swells a little toward you as it draws back
-      const sh = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
-      const sw = sh;
+      const size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
+      // a monster's body squashes and stretches as it breathes, lunges and falls
+      const sh = size * (s.sqy || 1), sw = size * (s.sqx || 1);
       const floorY = H / 2 + hFull / 2;
       const top = floorY - sh - (s.yOff || 0) * hFull;
       // where the drawing itself begins: bars and marks sit on it, not on the empty frame
@@ -373,6 +453,8 @@ const Renderer = (() => {
       if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
       const img = (s.flash && now < s.flash) ? s.img.flash : s.img.levels[shadeIdx];
       let run = -1;
+      const fading = s.alpha != null && s.alpha < 1;
+      if (fading) ctx.globalAlpha = Math.max(0, s.alpha);
       for (let x = x0; x <= x1; x++) {
         const vis = x < x1 && tY < zbuf[x];
         if (vis && run < 0) run = x;
@@ -383,6 +465,7 @@ const Renderer = (() => {
           run = -1;
         }
       }
+      if (fading) ctx.globalAlpha = 1;
       // an ogre up close is taller than the view: its bar stays inside it
       if (s.hp != null && s.hp < s.maxHp) {
         const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.max(3, Math.floor(drawnTop) - 5);
@@ -463,14 +546,8 @@ const Renderer = (() => {
     });
 
     // effects
-    if (now < fx.swingUntil) {
-      const p = 1 - (fx.swingUntil - now) / 160;
-      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(W * 0.62, H * 0.95, 70, Math.PI * (1.15 + p * 0.3), Math.PI * (1.3 + p * 0.3));
-      ctx.stroke();
-    }
+    // the hero's hands, over the world and under the flashes
+    drawView(fx, now);
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;
       ctx.fillStyle = fx.castColor;

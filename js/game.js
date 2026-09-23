@@ -23,7 +23,11 @@ const Game = (() => {
   let realNow = 0;
   const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
-               /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}}>} */ spells: [] };
+               /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}}>} */ spells: [],
+               swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9,
+               /** the fallen, sinking and fading where they fell */
+               /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
+               /** @type {any} */ view: null };
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
@@ -1266,6 +1270,7 @@ const Game = (() => {
     }
     p.nextAttack = G.t + w.speed;
     fx.swingUntil = realNow + 160;
+    fx.swingAt = realNow; fx.swingMs = Math.max(200, Math.min(380, Math.round(w.speed * 0.55)));
     if (!m) { Sound.play('miss'); return; }
     if (atRange) Sound.play('arrow');
     const mb = mstat(m);
@@ -1336,6 +1341,7 @@ const Game = (() => {
   function offhandStrike(m, atRange) {
     const o = offhandWeapon();
     if (!o || atRange) return;
+    fx.offAt = realNow + 90;
     const mb = mstat(m);
     const roll = d(1, 20);
     const note = rollNote(roll, toHit() - DUAL_HIT_PENALTY, mb.ac, false);
@@ -1411,6 +1417,7 @@ const Game = (() => {
   /** One of them falls: the reward, the log line and the chance of loot. */
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
+    fallen(m);
     p.kills++;
     // the two halves of a split slime are worth one slime between them
     const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
@@ -1425,6 +1432,14 @@ const Game = (() => {
     }
     checkLevelUp();
     emit('stats');
+  }
+  /** A body sinking and fading where it fell, knocked back from the hero. */
+  function fallen(m) {
+    const p = P(), base = MONSTERS[m.id];
+    const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
+    const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
+    fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite, scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
+      born: realNow, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
   }
   /** The next of the group steps into the front. */
   function promote(m) {
@@ -1786,7 +1801,7 @@ const Game = (() => {
     p.nextAttack = G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
     p.sp -= sp.cost;
     G.lastSpell = sp.id;
-    fx.castUntil = realNow + 260; fx.castColor = sp.color;
+    fx.castUntil = realNow + 260; fx.castColor = sp.color; fx.castAt = realNow;
     Sound.play('spell');
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
@@ -1925,6 +1940,7 @@ const Game = (() => {
   }
   function rangedAttack(m) {
     const mb = mstat(m), r = mb.ranged;
+    m.lungeAt = realNow;
     meet(m);
     const roll = d(1, 20);
     const ac = playerAC();
@@ -1941,6 +1957,7 @@ const Game = (() => {
   /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string}} [heavy]  a trick's blow: surer and harder */
   function monsterAttack(m, heavy) {
     const p = P(), mb = mstat(m), h = heavy || {};
+    m.lungeAt = realNow;
     meet(m);
     const roll = d(1, 20);
     const ac = playerAC();
@@ -2322,6 +2339,7 @@ const Game = (() => {
           // made to miss, it presses in: the next blow is drawn back faster, so
           // stepping away is a save, not a loop that keeps it from ever landing
           m.pressing = true;
+          m.lungeAt = realNow;               // it still swings, at nothing
           if (w.kind === 'melee') riposte();
         }
         m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
@@ -2407,6 +2425,7 @@ const Game = (() => {
     for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
     if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
+    if (fx.corpses.length) fx.corpses = fx.corpses.filter(c => now - c.born < CORPSE_MS);
   }
   function tick(now) { realNow = now; }
 
@@ -2470,6 +2489,32 @@ const Game = (() => {
     }
     return out.sort((a, b) => Number(b.tell) - Number(a.tell) || Number(b.near) - Number(a.near));
   }
+  // ---------- motion ----------
+  // Monsters are still pictures; these give them a body. They breathe, hop a
+  // little as they step, lean back as a blow is drawn and lunge as it lands,
+  // recoil and squash when struck, and sink and fade when they fall. Only the
+  // drawing moves: where a monster stands, and every rule, is unchanged.
+  const CORPSE_MS = 520;
+  function motion(m, now, i, tell) {
+    const p = P(), mb = MONSTERS[m.id];
+    const vx = p.x + 0.5 - (m.rx + 0.5), vy = p.y + 0.5 - (m.ry + 0.5), len = Math.hypot(vx, vy) || 1;
+    const tx = vx / len, ty = vy / len;          // toward the hero
+    let push = 0, lift = 0, sqx = 1, sqy = 1;
+    if (!mb.fly) {
+      const b = Math.sin(now / 520 + m.uid * 1.7 + i * 2.1) * 0.022;
+      sqy += b; sqx -= b * 0.6;
+    }
+    if (m.moveT1 > now) {
+      const t = (now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0);
+      lift += Math.abs(Math.sin(t * Math.PI)) * 0.07;
+    }
+    if (tell > 0 && tell < 1) push -= 0.07 * tell;          // drawing back
+    const lu = (now - (m.lungeAt || -1e9)) / 220;
+    if (lu >= 0 && lu < 1) { push += Math.sin(lu * Math.PI) * 0.28; sqy *= 1 + 0.06 * Math.sin(lu * Math.PI); }
+    const hu = (m.flashUntil - now) / 130;
+    if (hu > 0) { push -= 0.1 * hu; sqx *= 1 + 0.12 * hu; sqy *= 1 - 0.1 * hu; }
+    return { dx: tx * push, dy: ty * push, lift, sqx, sqy };
+  }
   function renderState(now) {
     const L = lvl();
     const sprites = [];
@@ -2493,14 +2538,19 @@ const Game = (() => {
         sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites.bone_heap || img, scale: mb.scale * 0.95, yOff: 0, flash: m.flashUntil, heap: rising });
         continue;
       }
-      if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell, special }); continue; }
+      if (n === 1) {
+        const mo = motion(m, now, 0, tell);
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell, special });
+        continue;
+      }
       // a group stands abreast across your view: the front one a little
       // nearer and carrying the health bar, the rest at its shoulders
       const ax = Math.cos(cam.angle), ay = Math.sin(cam.angle), sx = -ay, sy = ax;
       const spots = n === 2 ? [[0.17, -0.06], [-0.2, 0.06]] : [[0, -0.1], [0.27, 0.05], [-0.27, 0.07]];
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back, y: m.ry + 0.5 + sy * side + ay * back, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2,
+        const mo = motion(m, now, i, i === 0 ? tell : 0);
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy,
           flash: i === 0 ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
@@ -2517,6 +2567,22 @@ const Game = (() => {
       const floats = it.t === 'artifact' || !!it.u;
       sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32), yOff: floats ? 0.04 + Math.sin(now / 300) * 0.03 : 0 });
     }
+    // the fallen: knocked back, sinking into a heap and fading
+    for (const c of fx.corpses) {
+      const art = Assets.sprites[c.sprite];
+      if (!art) continue;
+      const u = Math.min(1, (now - c.born) / CORPSE_MS);
+      const back = Math.sin(Math.min(1, u * 1.6) * Math.PI / 2) * 0.18;
+      sprites.push({ x: c.x + c.dx * back, y: c.y + c.dy * back, img: (c.elite && art.elite && art.elite[c.elite]) || art, scale: c.scale, yOff: c.fly * (1 - u),
+        sqx: 1 + 0.3 * u, sqy: Math.max(0.12, 1 - 0.85 * u * u), alpha: 1 - u * u, flash: u < 0.15 ? now + 1 : 0 });
+    }
+    // what the hero holds, for the view at the bottom of the screen
+    const p = P(), wIt = p.eq.weapon;
+    fx.view = {
+      weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), pole: !!(wIt && /staff|spear/.test(ITEMS[wIt.t].sprite || '')),
+      shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
+      fist: 'fist_' + p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
+    };
     fx.threats = threats();
     return { level: L, cam, sprites, fx };
   }

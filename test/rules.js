@@ -2710,7 +2710,8 @@ await test('Cleave carries half the blow into the one behind', async () => {
   p.perkHit = 60; talent(ctx, 'cleave');
   const m = groupAhead(ctx, 'goblin', 2, 400);
   m.nextAct = 1e12;
-  G.t = p.nextAttack; Game.input('attack');
+  // a natural 1 misses whatever the bonus, so swing until one lands
+  for (let i = 0; i < 20 && m.hp === 400; i++) { G.t = p.nextAttack; Game.input('attack'); }
   const front = 400 - m.hp, back = 400 - m.pack[0].hp;
   return (front > 0 && back === Math.max(1, Math.floor(front / 2))) || `front took ${front}, behind ${back}`;
 });
@@ -3209,6 +3210,63 @@ await test('every spell, and the Scroll of Fire, shows its own effect where it l
   const fx = Game.renderState(0).fx.spells;
   if (!fx.some(e => e.style === 'fireball')) out.push('the Scroll of Fire showed no fireball');
   return out.length ? out.join('; ') : true;
+});
+
+// ---------- the hero's hands and monsters that move ----------
+await test('the view holds what is equipped: weapon, shield or second blade, and the class fist', async () => {
+  const out = [];
+  { const ctx = await start('fighter', 'view-f'); const { Game } = ctx; const p = Game.player();
+    p.eq.weapon = { t: 'longsword', q: 1, e: 0 }; p.eq.shield = { t: 'shield', q: 1, e: 0 };
+    const v = Game.renderState(0).fx.view;
+    if (v.weapon !== 'longsword' || v.shield !== 'shield' || v.two || v.pole) out.push(`sword and board: ${JSON.stringify(v)}`);
+    if (v.fist !== 'fist_fighter') out.push(`fighter fist ${v.fist}`);
+    p.eq.weapon = { t: 'staff', q: 1, e: 0 }; p.eq.shield = null;
+    const s = Game.renderState(0).fx.view;
+    if (!s.two || !s.pole || s.shield) out.push(`staff: ${JSON.stringify(s)}`);
+    p.eq.weapon = null;
+    if (Game.renderState(0).fx.view.weapon !== null) out.push('bare hands still held a weapon'); }
+  { const ctx = await start('thief', 'view-t'); const { Game } = ctx; const p = Game.player();
+    p.eq.weapon = { t: 'shortsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+    const v = Game.renderState(0).fx.view;
+    if (v.offhand !== 'dagger' || v.fist !== 'fist_thief') out.push(`dual: ${JSON.stringify(v)}`); }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Attack swings the held weapon, a spell lifts the casting hand, and a monster lunges when it strikes', async () => {
+  const out = [];
+  const ctx = await start('mage', 'motion');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.sp = p.maxSp = 99;
+  const m = beside(ctx, 'orc', { hp: 9999, maxHp: 9999, nextAct: 1e12 });
+  const fx = Game.renderState(0).fx;
+  fx.swingAt = fx.castAt = -1e9;
+  G.t = p.nextAttack; Game.input('attack');
+  if (!(fx.swingAt > -1e9)) out.push('attacking did not swing');
+  if (!(fx.swingMs >= 200 && fx.swingMs <= 380)) out.push(`swing lasted ${fx.swingMs}ms`);
+  G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === 'magic_missile'));
+  if (!(fx.castAt > -1e9)) out.push('casting did not raise the hand');
+  m.nextAct = G.t; m.lungeAt = undefined;
+  run(Game, G, 3000);
+  if (!(m.lungeAt > 0)) out.push('the orc struck without lunging');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a slain monster falls where it stood, and is gone once it has fallen', async () => {
+  const ctx = await start('fighter', 'corpse');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  beside(ctx, 'goblin', { hp: 1, maxHp: 1, nextAct: 1e12 });
+  const fx = Game.renderState(0).fx;
+  for (let i = 0; i < 50 && Game.level().monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+  if (Game.level().monsters.length) return 'the goblin never died';
+  const c = fx.corpses[fx.corpses.length - 1];
+  if (!c || c.sprite !== 'goblin') return `no goblin corpse: ${JSON.stringify(fx.corpses)}`;
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  if (Math.floor(c.x) !== p.x + dx || Math.floor(c.y) !== p.y + dy) return `it fell at ${c.x},${c.y}`;
+  if (!(c.dx * dx + c.dy * dy > 0.9)) return `it was knocked toward ${c.dx},${c.dy}`;
+  Game.update(c.born + 2000, 25);
+  if (fx.corpses.includes(c)) return 'the corpse never cleared';
+  return true;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

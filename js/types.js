@@ -90,6 +90,7 @@
  * @property {boolean} [split]     a slime that has already split
  * @property {number} [burnUntil]  a troll's burns: no regrowth until then
  * @property {number} [phase]      how many times a boss has called for help
+ * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
  * @property {{kind: string, until: number, next: number}|null} [dot]  burning or poisoned by the hero
  */
 
