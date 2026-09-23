@@ -489,6 +489,7 @@ const Game = (() => {
   }
   function useItem(it) {
     const p = P(), b = ITEMS[it.t];
+    if (p.held > G.t) { blocked('You are frozen in place!'); return; }
     const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
     if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
     if (consumable) {
@@ -711,7 +712,7 @@ const Game = (() => {
     p.maxHp = Math.max(10, c.hitDie + 6 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
-    lastBlocked = -1e9; queuedAttack = false;   // nothing carries over from the last run's clock
+    lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -730,7 +731,7 @@ const Game = (() => {
 
   function enterLevel(depth, from) {
     const p = P();
-    queuedAttack = false;                  // a swing waiting on the last floor stays there
+    queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); }
     G.depth = depth;
@@ -753,12 +754,24 @@ const Game = (() => {
     emit('level');
     checkTile();
   }
+  /** Why the hero cannot leave by the stairs right now, if they cannot. */
+  function pinnedReason() {
+    const p = P();
+    if (p.held > G.t) return 'You are frozen in place!';
+    if (p.webbed > G.t) return 'You are stuck in the web. Push against it to tear free.';
+    if (p.grabbed) return 'You are held fast. Pull free first.';
+    return '';
+  }
   function descend() {
+    const pinned = pinnedReason();
+    if (pinned) { blocked(pinned); return; }
     Sound.play('stairs');
     enterLevel(G.depth + 1, 'down');
     save(true);
   }
   function ascend() {
+    const pinned = pinnedReason();
+    if (pinned) { blocked(pinned); return; }
     if (G.depth === 1) {
       if (G.escaping) { win(); return; }
       log('The way out is sealed behind you. Only the depths remain.', 'info');
@@ -825,8 +838,9 @@ const Game = (() => {
     const p = P();
     if (p.held > G.t) { blocked('You are frozen in place!'); return false; }
     if (p.webbed > G.t) {
-      // every push tears at it
-      p.webbed -= 400;
+      // every push tears at it, though no faster than a push a quarter second:
+      // a held button resends every frame and used to shred it in a moment
+      if (G.t - (p.lastTear || -1e9) >= 250) { p.webbed -= 400; p.lastTear = G.t; }
       if (p.webbed > G.t) { blocked('You struggle against the web.'); return false; }
       log('You tear free of the web.', 'good');
       learn('spider', 'answer');
@@ -1210,6 +1224,7 @@ const Game = (() => {
   function attack() {
     const p = P();
     if (G.t < p.nextAttack) return;
+    if (p.held > G.t) { blocked('You are frozen in place!'); return; }
     const w = weapon();
     const [dx, dy] = DIRS[p.dir];
     let m = monsterAt(p.x + dx, p.y + dy);
@@ -1332,10 +1347,12 @@ const Game = (() => {
     const L = lvl(), p = P(), mb = mstat(m);
     p.kills++;
     learn(m.id, 'kill');
-    p.xp += mb.xp;
-    log(`The ${mb.name} is destroyed!${note || ''} (+${mb.xp} xp)`, 'good');
+    // the two halves of a split slime are worth one slime between them
+    const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
+    p.xp += xp;
+    log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp)`, 'good');
     // champions and bosses always drop something worthwhile
-    if (Math.random() < 0.4 || mb.boss || m.elite) {
+    if (Math.random() < (m.split ? 0.2 : 0.4) || mb.boss || m.elite) {
       const k = key(m.x, m.y);
       const loot = Dungeon.rollLoot(Dice, G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
@@ -1552,7 +1569,18 @@ const Game = (() => {
   const TRICK_KILLS = 3, ANSWER_KILLS = 5;
   /** @returns {Record<string, {met: number, kills: number, deaths: number, trick?: number, answer?: number}>} */
   function bestiary() {
-    try { const v = JSON.parse(localStorage.getItem(BESTIARY_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; }
+    let v = {};
+    try { v = JSON.parse(localStorage.getItem(BESTIARY_KEY) || '{}'); } catch (e) { /* start afresh */ }
+    if (!v || typeof v !== 'object' || Array.isArray(v)) v = {};
+    // whatever was stored, each record comes back as numbers, never a crash
+    const out = {};
+    for (const id in v) {
+      if (!MONSTERS[id]) continue;
+      const r = v[id] && typeof v[id] === 'object' ? v[id] : {};
+      const n = x => Math.max(0, Math.floor(Number(x) || 0));
+      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}) };
+    }
+    return out;
   }
   /** Note something learned about a kind of monster, and say so when it is new. */
   function learn(id, what) {
@@ -1619,6 +1647,7 @@ const Game = (() => {
   function castSpell(sp) {
     const p = P();
     queuedAttack = false;
+    if (p.held > G.t) { blocked('You are frozen in place!'); return false; }
     if (!spellAvailable(sp)) { log(`You are not experienced enough to cast ${sp.name}.`, 'bad'); return false; }
     // choosing a spell readies it on the Cast button, even if it cannot fly
     // yet: a mage picks Burning Hands before the fight, not during it
@@ -1751,7 +1780,7 @@ const Game = (() => {
     if (dist > range || dist < 2) return null;
     for (let i = 1; i < dist; i++) {
       const x = m.x + dx * i, y = m.y + dy * i;
-      if (!passable(x, y) || monsterAt(x, y)) return null;
+      if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y)) return null;
     }
     return dist;
   }
@@ -1784,7 +1813,7 @@ const Game = (() => {
       return;
     }
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
-    if (roll === 20) dmg *= 2;
+    if (roll === 20 && !h.mult) dmg *= 2;          // a crushing blow is doubled already
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${note}`, m);
@@ -1830,6 +1859,12 @@ const Game = (() => {
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
+  /** The cold fire spreads over open floor: two steps' walk, so a wall or a corner is cover. */
+  function novaReaches(m) {
+    ensureDist();
+    const w = distField[m.y * lvl().w + m.x];
+    return w >= 0 && w <= NOVA_REACH;
+  }
   /** Crushing and magic keep a skeleton down; an edge only takes it apart. */
   function breaksBones(tag) {
     if (tag === 'fire' || tag === 'burn') return true;
@@ -1851,7 +1886,6 @@ const Game = (() => {
   function startMove(m, mb, adjacent) {
     const p = P(), mv = mb.move;
     if (!mv || G.t < (m.moveReady || 0) || packSize(m) > 1) return false;
-    const dist = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
     let say = '', extra = {};
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
     else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' ? 4 : 3) && Math.random() < 0.6) {
@@ -1863,7 +1897,7 @@ const Game = (() => {
       const t = mendTarget(m);
       if (t) { say = t === m ? `The ${mb.name} begins a dark chant over its own wounds!` : `The ${mb.name} begins a dark chant over the wounded ${mstat(t).name}!`; extra = { target: t.uid }; }
     }
-    else if (mv === 'nova' && dist <= NOVA_REACH && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
+    else if (mv === 'nova' && novaReaches(m) && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: G.t, until: G.t + SPECIAL_MS[mv], ...extra };
@@ -1887,7 +1921,7 @@ const Game = (() => {
         break;
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
-        if (inLine && (dist === 1 || hasLineToPlayer(m, 8))) {
+        if (inLine && (dist === 1 || hasLineToPlayer(m, 6))) {
           const tx = p.x - (w.dx || 0), ty = p.y - (w.dy || 0);
           if (tx !== m.x || ty !== m.y) moveMonster(m, tx, ty);
           monsterAttack(m, { hit: 2, extra: m.id === 'minotaur' ? [2, 6, 0] : [1, 6, 0], verb: 'slams into' });
@@ -1932,7 +1966,7 @@ const Game = (() => {
         break;
       }
       case 'nova':
-        if (dist <= NOVA_REACH) { const n = d(4, 6); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
+        if (novaReaches(m)) { const n = d(4, 6); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
         else { log('The storm of cold fire breaks short of you.', 'good'); learn(m.id, 'answer'); }
         m.nextAct = G.t + mb.speed;
         break;
@@ -1964,18 +1998,25 @@ const Game = (() => {
     // the lich calls up the dead as it weakens: once at two thirds, again at one third
     if (mb.boss) {
       const phase = m.hp < m.maxHp / 3 ? 2 : (m.hp < m.maxHp * 2 / 3 ? 1 : 0);
-      if (phase > (m.phase || 0)) { m.phase = phase; raiseGuards(m); }
+      while ((m.phase || 0) < phase) { m.phase = (m.phase || 0) + 1; raiseGuards(m); }
     }
   }
   /** Two skeletons sharing a square beside the lich. */
   function raiseGuards(m) {
     const p = P();
-    const spots = [];
-    for (let r = 1; r <= 2 && !spots.length; r++)
-      for (let y = m.y - r; y <= m.y + r; y++) for (let x = m.x - r; x <= m.x + r; x++) {
-        if (tile(x, y) !== T.FLOOR || monsterAt(x, y) || npcAt(x, y) || (x === p.x && y === p.y)) continue;
-        spots.push([x, y]);
+    // the nearest open squares the lich could walk to, never behind a wall
+    const spots = [], seen = new Set([key(m.x, m.y)]);
+    let ring = [[m.x, m.y]];
+    for (let r = 1; r <= 3 && !spots.length; r++) {
+      const next = [];
+      for (const [cx, cy] of ring) for (const [dx, dy] of DIRS) {
+        const x = cx + dx, y = cy + dy, k = key(x, y);
+        if (seen.has(k) || !passable(x, y)) continue;
+        seen.add(k); next.push([x, y]);
+        if (tile(x, y) === T.FLOOR && !monsterAt(x, y) && !npcAt(x, y) && !(x === p.x && y === p.y)) spots.push([x, y]);
       }
+      ring = next;
+    }
     if (!spots.length) return;
     const [x, y] = Dice.pick(spots);
     const b = MONSTERS.skeleton, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
@@ -1988,7 +2029,7 @@ const Game = (() => {
   /** A monster that appears mid-fight, awake and already hunting. */
   function newMonster(id, x, y, hp) {
     const m = {
-      uid: 900000 + Math.floor(Math.random() * 90000), id, x, y,
+      uid: 900000 + (G.nextUid = (G.nextUid || 0) + 1), id, x, y,
       hp, maxHp: hp, awake: true, nextAct: G.t + WAKE_BEAT, rx: x, ry: y,
       fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0,
     };
@@ -2063,6 +2104,9 @@ const Game = (() => {
         // the rest of a group's volley, each blow a beat behind the last;
         // step out of reach and the ones still to come hit the air
         const inReach = m.volley.kind === 'melee' ? adjacent : shot;
+        // the ones cut down mid-volley have no blow left to land
+        m.volley.left = Math.min(m.volley.left, packSize(m) - 1);
+        if (m.volley.left <= 0) { m.nextAct = Math.max(G.t + 120, m.volley.next); m.volley = null; continue; }
         if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
         if (inReach) {
           monsterAttack(m); G.blowGate = G.t + BLOW_GAP;
@@ -2147,7 +2191,7 @@ const Game = (() => {
     const p = P();
     updateCam();
     if (queuedAttack && G.t >= p.nextAttack) { queuedAttack = false; attack(); }
-    if (queuedMove && !(cam.moving && camProgress() < 0.7)) { const q = queuedMove; queuedMove = null; if (G.t - q.at < 400) input(q.act); }
+    if (queuedMove && !(cam.moving && camProgress() < 0.7)) { const q = queuedMove; queuedMove = null; if (q.at <= G.t && G.t - q.at < 400) input(q.act); }
     updateMonsters();
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
@@ -2334,7 +2378,7 @@ const Game = (() => {
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; m.volley = null; }
-      lastBlocked = -1e9;
+      lastBlocked = -1e9; queuedAttack = false; queuedMove = null;
       snapCam();
       distFieldAt = -1e9;
       fx.texts = [];

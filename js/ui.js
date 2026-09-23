@@ -354,7 +354,7 @@ const UI = (() => {
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
     if (showTip('controls')) return;
-    if (L.monsters.some(m => (m.windup && m.windup.move) || m.collapsed) && showTip('trick')) return;
+    if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick')) return;
     if (L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3) && showTip('monster')) return;
     const label = Game.useLabel();
     const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };

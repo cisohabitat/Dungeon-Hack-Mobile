@@ -53,6 +53,8 @@ test.describe('bestiary', () => {
     await startGame(page, { seed: 'bestiary-tab' });
     await clearBoons(page);
     await page.evaluate(() => {
+      // anything that woke while the game started is not what this test is about
+      localStorage.removeItem('deepdelve.bestiary');
       const p = Game.player(), L = Game.level(), G = Game.state();
       const [dx, dy] = Dungeon.DIRS[p.dir];
       L.monsters.length = 0;

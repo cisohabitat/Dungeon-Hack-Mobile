@@ -2446,6 +2446,160 @@ await test('a trick seen again does not rewrite the bestiary: a regrowing troll 
   return writes === 0 || `five more seconds of regrowth wrote the bestiary ${writes} times`;
 });
 
+// ---------- round five review ----------
+await test('holding a direction does not shred a web: pushes tear no faster than four a second', async () => {
+  const ctx = await start('fighter', 'web-hold');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  clearBehind(ctx);
+  p.webbed = G.t + 2500;
+  const x0 = p.x, y0 = p.y;
+  for (let i = 0; i < 38; i++) { Game.update(G.t + 16, 16); Game.input('back', true); Game.input('back'); }
+  return (p.x === x0 && p.y === y0) || 'six hundred milliseconds of holding tore a 2.5s web';
+});
+
+await test('a frozen hero cannot cast, drink or swing from any screen', async () => {
+  const ctx = await start('mage', 'frozen-screens');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  p.held = G.t + 5000; p.hp = 1; G.t = Math.max(G.t, p.nextAttack);
+  const sp0 = p.sp;
+  if (Game.castSpell(Game.knownSpells().find(s => s.id === 'shield'))) return 'Shield was cast while frozen';
+  const draught = p.inv.find(i => i.t === 'potion_heal');
+  if (draught) { Game.useItem(draught); if (p.hp !== 1) return 'a potion was drunk while frozen'; }
+  return p.sp === sp0 || 'spell points were spent while frozen';
+});
+
+await test('a trader stands in the way of a charge and a shot', async () => {
+  const ctx = await start('fighter', 'trader-line');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 999;
+  const m = ahead(ctx, 'orc', 3);
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.npcs.length = 0;
+  L.npcs.push({ id: 'merchant', x: p.x + dx * 2, y: p.y + dy * 2, markup: 2, stock: [] });
+  let charged = false;
+  await pinned(0.1, () => { for (let i = 0; i < 40; i++) { Game.update(G.t + 25, 25); if (m.windup && m.windup.move === 'charge') charged = true; } });
+  if (m.x === p.x + dx * 2 && m.y === p.y + dy * 2) return 'the orc charged onto the trader';
+  return !charged || 'the orc began a charge through the trader';
+});
+
+await test('a volley ends early when the group falls mid-volley', async () => {
+  const ctx = await start('fighter', 'volley-cut');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = groupAhead(ctx, 'goblin', 3, 999);
+  const mark = markLog(G);
+  for (let i = 0; i < 40 && !m.volley; i++) Game.update(G.t + 25, 25);
+  if (!m.volley) return 'no volley began';
+  delete m.pack;                                     // the other two cut down
+  run(Game, G, 700);
+  const blows = linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
+  return blows === 1 || `a lone goblin landed ${blows} blows of a trio's volley`;
+});
+
+await test('a step queued at the end of one run does not happen in the next', async () => {
+  const ctx = await start('fighter', 'queue-carry');
+  const { Game } = ctx;
+  Game.level().monsters.length = 0;
+  Game.input('left'); Game.input('left');              // the second is queued
+  Game.newGame({ name: 'Next', cls: 'fighter', stats: Game.rollStats(), seed: 'queue-carry-2', opts: OPTS });
+  const G = Game.state(), d0 = Game.player().dir;
+  Game.level().monsters.length = 0;
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  return Game.player().dir === d0 || 'the last run\'s turn happened in the new one';
+});
+
+await test('webbed or held fast, the hero cannot take the stairs', async () => {
+  const ctx = await start('fighter', 'pinned-stairs');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.STAIRS_DOWN;   // facing a way down
+  const z = beside(ctx, 'zombie', { nextAct: 1e12 });
+  L.monsters.length = 0;
+  p.webbed = G.t + 2000;
+  Game.input('use');
+  if (G.depth !== 1) return 'a webbed hero went down the stairs';
+  p.webbed = 0;
+  L.monsters.push(Object.assign(z, { x: p.x - dx, y: p.y - dy }));   // holding on from behind
+  L.tiles[z.y * L.w + z.x] = Dungeon.T.FLOOR;
+  p.grabbed = { uid: z.uid, until: G.t + 4000, nextTry: 0 };
+  Game.input('use');
+  return G.depth === 1 || 'a grabbed hero went down the stairs';
+});
+
+await test('one great blow past both thresholds raises both of the lich\'s guards, on open floor', async () => {
+  const ctx = await start('fighter', 'lich-phases');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  p.perkHit = 60;
+  const m = beside(ctx, 'lich', { hp: 90, maxHp: 300, nextAct: 1e12 });
+  // wall the lich in on three sides: guards must come out of the open side, not the stone
+  for (const [dx, dy] of Dungeon.DIRS) { const x = m.x + dx, y = m.y + dy; if (x !== p.x || y !== p.y) L.tiles[y * L.w + x] = T.WALL; }
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  const guards = L.monsters.filter(o => o.id === 'skeleton');
+  if (guards.length !== 2) return `${guards.length} guard groups rose from one blow past both thresholds`;
+  // every guard can walk to the lich
+  const reach = new Set([m.y * L.w + m.x]), q = [[m.x, m.y]];
+  while (q.length) { const [x, y] = q.shift(); for (const [dx, dy] of Dungeon.DIRS) { const nx = x + dx, ny = y + dy, i = ny * L.w + nx; if (reach.has(i)) continue; const t = L.tiles[i]; if (t === T.WALL || t === T.TORCH || t === T.SECRET) continue; reach.add(i); if (reach.size < 400) q.push([nx, ny]); } }
+  const cut = guards.filter(g => !reach.has(g.y * L.w + g.x));
+  return !cut.length || `guards rose behind a wall at ${cut.map(g => g.x + ',' + g.y).join(' ')}`;
+});
+
+await test('a split slime is worth one slime between its halves', async () => {
+  const ctx = await start('fighter', 'split-xp');
+  const { Game, MONSTERS } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.perkHit = 60;
+  const m = beside(ctx, 'slime', { hp: 30, maxHp: 30, nextAct: 1e12 });
+  const xp0 = p.xp;
+  G.t = p.nextAttack; Game.input('attack');
+  if (!m.pack) return 'it did not split';
+  m.hp = 1; m.pack[0].hp = 1;
+  G.t = p.nextAttack; Game.input('attack');
+  G.t = p.nextAttack; Game.input('attack');
+  if (L.monsters.includes(m)) return 'the halves did not both fall';
+  return p.xp - xp0 <= MONSTERS.slime.xp + 1 || `the halves paid ${p.xp - xp0} xp for a ${MONSTERS.slime.xp} xp slime`;
+});
+
+await test('a corrupt bestiary in storage is shrugged off, not a crash', async () => {
+  const ctx = await start('fighter', 'beast-corrupt');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  for (const bad of ['{"goblin":5}', '{"goblin":null}', '[]', 'not json', '{"goblin":{"met":"lots","kills":null}}']) {
+    localStorage.setItem('deepdelve.bestiary', bad);
+    const m = beside(ctx, 'goblin', { uid: 300 + bad.length, hp: 1, maxHp: 1, nextAct: 1e12 });
+    G.t = p.nextAttack;
+    try { Game.input('attack'); } catch (e) { return `stored ${bad}: ${e.message}`; }
+    if (Game.level().monsters.includes(m)) return `stored ${bad}: the goblin did not die`;
+    const r = Game.bestiary().goblin;
+    if (!r || r.kills < 1 || !Number.isFinite(r.met)) return `stored ${bad}: the record came back ${JSON.stringify(r)}`;
+  }
+  return true;
+});
+
+await test('the lich\'s cold fire does not reach round a wall', async () => {
+  const ctx = await start('fighter', 'nova-wall');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  const hp0 = p.hp;
+  const m = ahead(ctx, 'lich', 2, { nextAct: 1e12 });
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = T.WALL;      // a wall between them
+  m.windup = { kind: 'move', move: 'nova', at: G.t, until: G.t + 10 };
+  m.nextAct = G.t;
+  const mark = markLog(G);
+  run(Game, G, 100);
+  if (p.hp < hp0) return `the nova burned through the wall for ${hp0 - p.hp}`;
+  return linesSince(G, mark).some(l => /breaks short/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

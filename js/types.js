@@ -52,6 +52,7 @@
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
+ * @property {number} [lastTear]  when the hero last tore at a web
  * @property {number} [held]    frozen by a ghoul's touch until then
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
  */
@@ -162,6 +163,7 @@
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
  * @property {{name: string, dmg: number, bearing: string, encounter?: boolean}} [lastAttacker]
+ * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time
