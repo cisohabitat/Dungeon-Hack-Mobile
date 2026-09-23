@@ -1536,8 +1536,9 @@ const Game = (() => {
         for (const m of targets) {
           let dmg = d(...sp.dmg(p.level));
           if (sp.holy && mstat(m).undead) dmg *= 2;
-          // a bolt that tears through everything in its path takes a whole group
-          if (sp.pierce) hitGroup(m, dmg, 'fire'); else damageMonster(m, dmg, 'fire');
+          // a bolt that tears through everything in its path, or a blast that
+          // fills the square, takes a whole group; a dart only the front one
+          if (sp.pierce || sp.area) hitGroup(m, dmg, 'fire'); else damageMonster(m, dmg, 'fire');
         }
         break;
       }

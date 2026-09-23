@@ -344,4 +344,27 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#spell-list .spell-why')).toContainText(/Nothing|nothing/);
     expect(errors).toEqual([]);
   });
+
+  test('Lightning Bolt cast from the spell list fells a whole group of three', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'pack-lightning', cls: 'Mage' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state();
+      p.level = 9; p.sp = p.maxSp = 99; p.xp = XP_TABLE[8];
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      const x = p.x + dx, y = p.y + dy;
+      L.monsters.push({ uid: 7, id: 'skeleton', x, y, hp: 2, maxHp: 2, awake: true, nextAct: G.t + 60000, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0,
+        pack: [{ hp: 2, maxHp: 2 }, { hp: 2, maxHp: 2 }] });
+    });
+    await page.click('[data-open="spells"]');
+    await page.locator('#spell-list button.spell', { hasText: 'Lightning Bolt' }).click();
+    await expect(page.locator('#ov-spells')).not.toHaveClass(/open/);
+    const after = await page.evaluate(() => ({ left: Game.level().monsters.length, destroyed: Game.state().log.slice(-8).filter(l => /Skeleton is destroyed/.test(l.m)).length }));
+    expect(after.left, 'the whole group should be gone').toBe(0);
+    expect(after.destroyed, 'each of the three should be logged as destroyed').toBe(3);
+    expect(errors).toEqual([]);
+  });
 });

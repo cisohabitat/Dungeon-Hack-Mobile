@@ -1586,23 +1586,62 @@ await test('each member of a group swings: a pair strikes about twice as often a
   return (two >= one * 1.7 && two <= one * 2.3) || `a lone goblin swung ${one} times in 15s, a pair ${two}`;
 });
 
-await test('a bolt that tears through takes the whole group; a single dart only the front', async () => {
-  const ctx = await start('mage', 'pack-bolt');
+await test('every area spell hits a whole group, and every single-target one only its front', async () => {
+  const results = [];
+  for (const cls of ['mage', 'cleric']) {
+    const ctx = await start(cls, 'pack-spells-' + cls);
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    p.level = 9;
+    for (const sp of Game.knownSpells().filter(s => s.kind === 'bolt')) {
+      const area = !!(sp.pierce || sp.area);
+      // three goblins in one square, weak enough that any hit fells one
+      const m = groupAhead(ctx, 'goblin', 3, 1);
+      m.nextAct = 1e9;
+      p.sp = p.maxSp = 99; p.nextAttack = G.t;
+      const kills = p.kills;
+      if (!Game.castSpell(sp)) { results.push(`${sp.name} could not be cast`); continue; }
+      const left = L.monsters.includes(m) ? 1 + (m.pack ? m.pack.length : 0) : 0;
+      if (area && (left !== 0 || p.kills !== kills + 3)) results.push(`${sp.name} left ${left} of three standing (${p.kills - kills} killed)`);
+      if (!area && (left !== 2 || p.kills !== kills + 1)) results.push(`${sp.name}, a single-target spell, left ${left} of three`);
+      G.t += 5000;
+    }
+  }
+  // the Scroll of Fire is a ball of flame: the whole square burns
+  const ctx = await start('thief', 'pack-scroll');
   const { Game } = ctx;
-  const p = Game.player(), L = Game.level();
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const m = groupAhead(ctx, 'goblin', 3, 1);
+  m.nextAct = 1e9;
+  G.known.scroll_fire = 1;
+  p.inv.push({ t: 'scroll_fire', q: 1, e: 0 });
+  Game.useItem(p.inv.find(i => i.t === 'scroll_fire'));
+  if (L.monsters.includes(m)) results.push(`the Scroll of Fire left ${1 + (m.pack ? m.pack.length : 0)} of three standing`);
+  return results.length ? results.join('; ') : true;
+});
+
+await test('an area spell that does not kill wounds every member, and a piercing bolt reaches a second group', async () => {
+  const ctx = await start('mage', 'pack-wound');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
   p.level = 9; p.sp = p.maxSp = 99;
-  const spells = Game.knownSpells();
-  const lightning = spells.find(s => s.id === 'lightning'), missile = spells.find(s => s.id === 'magic_missile');
-  let m = groupAhead(ctx, 'goblin', 3, 2);
-  m.nextAct = 1e9;
-  p.nextAttack = 0;
+  const lightning = Game.knownSpells().find(s => s.id === 'lightning');
+  // sturdy enough to survive one bolt: every member must still be hurt
+  const m = groupAhead(ctx, 'ogre', 3, 400);
+  m.nextAct = 1e9; p.nextAttack = G.t;
   Game.castSpell(lightning);
-  if (L.monsters.includes(m)) return `lightning left ${1 + (m.pack ? m.pack.length : 0)} of a group of three standing`;
-  m = groupAhead(ctx, 'goblin', 3, 2);
-  m.nextAct = 1e9;
-  p.nextAttack = Game.state().t;
-  Game.castSpell(missile);
-  return (L.monsters.includes(m) && m.pack && m.pack.length === 1) || 'a magic missile hit more than the front of the group';
+  if (!(m.hp < 400 && m.pack && m.pack.length === 2 && m.pack.every(b => b.hp < 400))) return `after one bolt: front ${m.hp}, behind ${JSON.stringify(m.pack)}`;
+  if (!m.pack.every(b => b.hp === m.hp)) return 'the same bolt hurt members of one group by different amounts';
+  // two groups in a line down a straight corridor: the bolt takes both
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (let i = 1; i <= 3; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = T.FLOOR;
+  const near = groupAhead(ctx, 'goblin', 2, 1);
+  const far = { ...near, uid: 71, x: p.x + dx * 3, y: p.y + dy * 3, pack: [{ hp: 1, maxHp: 1 }] };
+  L.monsters.push(far);
+  near.nextAct = far.nextAct = 1e9;
+  G.t += 5000; p.nextAttack = G.t;
+  Game.castSpell(lightning);
+  return (!L.monsters.includes(near) && !L.monsters.includes(far)) || 'a lightning bolt stopped at the first group in its path';
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
