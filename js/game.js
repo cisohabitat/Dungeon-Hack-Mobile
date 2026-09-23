@@ -519,7 +519,7 @@ const Game = (() => {
           Sound.play('spell');
           const targets = boltTargets(3, false);
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
-          for (const m of targets) damageMonster(m, d(4, 6), 'fire');
+          for (const m of targets) hitGroup(m, d(4, 6), 'fire');
           break;
         }
         case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
@@ -1234,28 +1234,46 @@ const Game = (() => {
     floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' ? '#f84' : '#fff'));
     Sound.play('hit');
     buzz(12);
-    if (m.hp <= 0) { killMonster(m, note); return; }
-    if (tag === 'offhand') { log(`Your off hand finds the ${mb.name} for ${dmg}.${note || ''}`); }
+    if (m.hp <= 0) {
+      // in a group the front one falls and the next steps up; the square
+      // empties only when the last of them is down
+      if (m.pack && m.pack.length) { memberDown(m, note); promote(m); return; }
+      killMonster(m, note);
+      return;
+    }
+    const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
+    if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else {
       const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
-      log(`${pre}You hit the ${mb.name} for ${dmg}.${note || ''}`);
+      log(`${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     // wounded, non-boss monsters may break and run
-    if (!mb.boss && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
+    if (!mb.boss && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
       log(`The ${mb.name} turns to flee!`, 'good');
     }
   }
   function killMonster(m, note) {
-    const L = lvl(), p = P(), mb = mstat(m);
+    const L = lvl(), mb = mstat(m);
     const at = L.monsters.indexOf(m);
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
+    memberDown(m, note);
+    if (mb.boss) log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good');
+  }
+
+  // ---------- groups ----------
+  // Pack creatures can share a square: one monster that carries the others
+  // (m.pack, each {hp, maxHp}). They move as one, the front one takes your
+  // blows, each of them swings, and a blast that fills the square hits all.
+  const packSize = m => 1 + (m.pack ? m.pack.length : 0);
+  /** One of them falls: the reward, the log line and the chance of loot. */
+  function memberDown(m, note) {
+    const L = lvl(), p = P(), mb = mstat(m);
     p.kills++;
     p.xp += mb.xp;
     log(`The ${mb.name} is destroyed!${note || ''} (+${mb.xp} xp)`, 'good');
-    if (mb.boss) log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good');
     // champions and bosses always drop something worthwhile
     if (Math.random() < 0.4 || mb.boss || m.elite) {
       const k = key(m.x, m.y);
@@ -1264,6 +1282,25 @@ const Game = (() => {
     }
     checkLevelUp();
     emit('stats');
+  }
+  /** The next of the group steps into the front. */
+  function promote(m) {
+    const next = m.pack.shift();
+    m.hp = next.hp; m.maxHp = next.maxHp;
+    if (!m.pack.length) delete m.pack;
+    const left = packSize(m);
+    log(left > 1 ? `Another ${mstat(m).name} steps up. ${left} are left.` : `The last ${mstat(m).name} steps up.`, 'bad');
+  }
+  /** A blast that fills the square: the ones behind take it too. */
+  function hitGroup(m, dmg, tag) {
+    if (m.pack) {
+      for (const b of m.pack.slice()) {
+        b.hp -= dmg;
+        if (b.hp <= 0) { m.pack.splice(m.pack.indexOf(b), 1); memberDown(m); }
+      }
+      if (!m.pack.length) delete m.pack;
+    }
+    damageMonster(m, dmg, tag);
   }
   function checkLevelUp() {
     const p = P();
@@ -1499,7 +1536,8 @@ const Game = (() => {
         for (const m of targets) {
           let dmg = d(...sp.dmg(p.level));
           if (sp.holy && mstat(m).undead) dmg *= 2;
-          damageMonster(m, dmg, 'fire');
+          // a bolt that tears through everything in its path takes a whole group
+          if (sp.pierce) hitGroup(m, dmg, 'fire'); else damageMonster(m, dmg, 'fire');
         }
         break;
       }
@@ -1669,7 +1707,7 @@ const Game = (() => {
       // hit, and kill faster than anyone could turn. Space them so each one
       // is its own flash, sound and line of the log.
       if ((adjacent || shot) && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
-      if (adjacent) { monsterAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; if (G.status !== 'playing') return; continue; }
+      if (adjacent) { monsterAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed / packSize(m); if (G.status !== 'playing') return; continue; }
       if (shot) { rangedAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
       let best = null, bd = di;
       for (const [dx, dy] of DIRS) {
@@ -1798,7 +1836,17 @@ const Game = (() => {
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
       const base = Assets.sprites[mb.sprite];
       const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
-      sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
+      const n = packSize(m);
+      if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp }); continue; }
+      // a group stands abreast across your view: the front one a little
+      // nearer and carrying the health bar, the rest at its shoulders
+      const ax = Math.cos(cam.angle), ay = Math.sin(cam.angle), sx = -ay, sy = ax;
+      const spots = n === 2 ? [[0.17, -0.06], [-0.2, 0.06]] : [[0, -0.1], [0.27, 0.05], [-0.27, 0.07]];
+      spots.slice(0, n).forEach(([side, back], i) => {
+        const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back, y: m.ry + 0.5 + sy * side + ay * back, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2,
+          flash: i === 0 ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp } : {}) });
+      });
     }
     for (const n of (L.npcs || [])) {
       const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;

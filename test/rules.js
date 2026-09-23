@@ -1532,6 +1532,79 @@ await test('no champions wait on the first floor', async () => {
   return deeper.monsters.some(m => m.elite) || Array.from({ length: 20 }, (_, i) => Dungeon.generate('champ' + i, 4, { levels: 8, size: 'medium', monsters: 'many', treasure: 'normal', lockedDoors: true, traps: true })).some(L => L.monsters.some(m => m.elite)) || 'champions vanished from deeper floors too';
 });
 
+
+// ---------- groups ----------
+/** A goblin with company, standing in front of the hero. */
+function groupAhead(ctx, id, members, hp = 6) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), G = Game.state();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.monsters.length = 0;
+  const m = { uid: 70, id, x: p.x + dx, y: p.y + dy, hp, maxHp: hp, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+    pack: Array.from({ length: members - 1 }, () => ({ hp, maxHp: hp })) };
+  L.monsters.push(m);
+  return m;
+}
+
+await test('a group falls one at a time: each pays its experience, the next steps up', async () => {
+  const ctx = await start('fighter', 'pack-fight');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.perkHit = 60;                                 // every blow lands
+  const m = groupAhead(ctx, 'goblin', 2, 1);
+  m.nextAct = 1e9;
+  const xp0 = p.xp, kills0 = p.kills;
+  const mark = markLog(G);
+  G.t = p.nextAttack; Game.input('attack');
+  if (!L.monsters.includes(m)) return 'killing the front goblin emptied the square';
+  if (m.pack) return 'the second goblin did not step up';
+  if (p.kills !== kills0 + 1 || p.xp <= xp0) return 'the fallen goblin paid nothing';
+  if (!linesSince(G, mark).some(l => /last Goblin steps up/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+  const xp1 = p.xp;
+  G.t = p.nextAttack; Game.input('attack');
+  if (L.monsters.includes(m)) return 'the last goblin would not die';
+  return (p.kills === kills0 + 2 && p.xp - xp1 === xp1 - xp0) || 'the second goblin paid differently from the first';
+});
+
+await test('each member of a group swings: a pair strikes about twice as often as one', async () => {
+  const swingsBy = async members => {
+    const ctx = await start('fighter', 'pack-swings');
+    ctx.Dice.s = new ctx.Rng('pack-swings').s;
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    groupAhead(ctx, 'goblin', members, 999);
+    let n = 0;
+    for (let i = 0; i < 300; i++) {
+      p.hp = p.maxHp = 9999;
+      const mark = markLog(G);
+      Game.update(G.t + 50, 50);
+      n += linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
+    }
+    return n;
+  };
+  const one = await swingsBy(1), two = await swingsBy(2);
+  return (two >= one * 1.7 && two <= one * 2.3) || `a lone goblin swung ${one} times in 15s, a pair ${two}`;
+});
+
+await test('a bolt that tears through takes the whole group; a single dart only the front', async () => {
+  const ctx = await start('mage', 'pack-bolt');
+  const { Game } = ctx;
+  const p = Game.player(), L = Game.level();
+  p.level = 9; p.sp = p.maxSp = 99;
+  const spells = Game.knownSpells();
+  const lightning = spells.find(s => s.id === 'lightning'), missile = spells.find(s => s.id === 'magic_missile');
+  let m = groupAhead(ctx, 'goblin', 3, 2);
+  m.nextAct = 1e9;
+  p.nextAttack = 0;
+  Game.castSpell(lightning);
+  if (L.monsters.includes(m)) return `lightning left ${1 + (m.pack ? m.pack.length : 0)} of a group of three standing`;
+  m = groupAhead(ctx, 'goblin', 3, 2);
+  m.nextAct = 1e9;
+  p.nextAttack = Game.state().t;
+  Game.castSpell(missile);
+  return (L.monsters.includes(m) && m.pack && m.pack.length === 1) || 'a magic missile hit more than the front of the group';
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

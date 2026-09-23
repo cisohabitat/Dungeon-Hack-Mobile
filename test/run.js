@@ -165,7 +165,7 @@ function solvable(L, blockNpcs) {
   return L.isFinal ? artifact : reached;
 }
 
-let vaults = 0, fountains = 0, torches = 0, elites = 0, traders = 0, encounters = 0;
+let vaults = 0, fountains = 0, torches = 0, elites = 0, traders = 0, encounters = 0, groups = 0;
 let levels = 0;
 for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x', 'a longer seed with spaces']) {
   for (const size of ['small', 'medium', 'large']) {
@@ -189,6 +189,16 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
       fountains += Object.keys(L.features).length;
       torches += L.lights.length;
       elites += L.monsters.filter(m => m.elite).length;
+      // groups: pack kinds only, never champions, none on the first floor,
+      // in twos until the fifth floor and at most threes after
+      for (const m of L.monsters.filter(m => m.pack)) {
+        groups++;
+        check(depth >= 2, `a group of ${m.id}s waits on floor ${depth}`);
+        check(Dungeon.PACK_KINDS.includes(m.id), `${m.id}s came in a group`);
+        check(!m.elite, `a champion ${m.id} came with company`);
+        check(m.pack.length >= 1 && m.pack.length <= (depth >= 5 ? 2 : 1), `a group of ${1 + m.pack.length} ${m.id}s on floor ${depth}`);
+        check(m.pack.every(b => b.hp > 0 && b.hp === b.maxHp), `a ${m.id} in a group started hurt or dead`);
+      }
       // a torch must sit in a wall and light an adjacent floor tile
       for (const l of L.lights) check(L.tiles[l.y * L.w + l.x] === T.FLOOR, `torch lights a non-floor tile: seed=${seed} depth=${depth}`);
       check(L.monsters.every(m => L.tiles[m.y * L.w + m.x] === T.FLOOR), `monster on non-floor: seed=${seed} depth=${depth}`);
@@ -232,6 +242,7 @@ const dpsOf = m => (m.dmg[0] * (m.dmg[1] + 1) / 2 + m.dmg[2]) / (m.speed / 1000)
 }
 check(vaults > 0 && fountains > 0, 'no vaults or fountains generated at all');
 check(torches > 0 && elites > 0, 'no torches or elite monsters generated at all');
+check(groups > 0, 'no monster groups generated at all');
 check(traders > 0, 'no traders generated at all');
 
 // A wide sweep aimed squarely at the trader, who is a solid tile and so can seal
@@ -260,7 +271,7 @@ check(traders > 0, 'no traders generated at all');
   check(onKey === 0, `${onKey} traders or encounters stand on a key`);
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
 }
-  console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
+  console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
 }
 

@@ -2,6 +2,9 @@ import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
 import { encounterPlan } from './encounters.js';
 
+/** Creatures that go about in twos and threes. */
+const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
+
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
@@ -246,6 +249,32 @@ const Dungeon = (() => {
       monsters.push(m);
     }
 
+    // ---- groups ----
+    // From the second floor down, pack creatures share a square: in twos,
+    // and in threes deeper. A stream of its own, so every other roll in the
+    // level falls where it did. For every extra body a lone monster is taken
+    // away, the same kind first and otherwise the weakest, so a floor holds
+    // about as many as before, gathered together.
+    if (depth >= 2) {
+      const grng = new Rng(`${seed}|packs|${depth}`);
+      const most = depth >= 5 ? 3 : 2;
+      for (const m of monsters.slice()) {
+        if (!PACK_KINDS.includes(m.id) || m.elite || m.pack || !monsters.includes(m) || !grng.chance(0.3)) continue;
+        const extra = most === 3 && grng.chance(0.4) ? 2 : 1;
+        const loners = monsters.filter(o => o !== m && !o.pack && !o.elite)
+          .sort((a, b) => Number(b.id === m.id) - Number(a.id === m.id) || MONSTERS[a.id].xp - MONSTERS[b.id].xp);
+        if (loners.length < extra) continue;
+        m.pack = [];
+        for (let k = 0; k < extra; k++) {
+          const b = MONSTERS[m.id], hp = grng.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((depth - 1) / 2);
+          m.pack.push({ hp, maxHp: hp });
+          const gone = loners.shift();
+          monsters.splice(monsters.indexOf(gone), 1);
+          occupied.delete(idx(gone.x, gone.y));
+        }
+      }
+    }
+
     // ---- loot ----
     const treasure = { scarce: 0.6, normal: 1.0, rich: 1.6 }[opts.treasure] || 1;
     const nItems = Math.round(rooms.length * treasure * 0.8) + 2;
@@ -475,7 +504,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES };
+  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS };
 })();
 
 export { Dungeon };

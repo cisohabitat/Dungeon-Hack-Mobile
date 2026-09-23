@@ -67,6 +67,7 @@
  * @property {boolean} [fleeing]
  * @property {number} [lostAt]    when it last lost your trail
  * @property {number} [nextRegen]
+ * @property {Array<{hp: number, maxHp: number}>} [pack]  the others sharing its square, behind it
  */
 
 /**
