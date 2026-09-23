@@ -2123,13 +2123,16 @@ const Game = (() => {
   }
   function tick(now) { realNow = now; }
 
-  function input(act) {
+  /** @param {string} act @param {boolean} [repeat]  sent again because a button is still held, not a fresh press */
+  function input(act, repeat) {
     if (!G || G.status !== 'playing') return;
     switch (act) {
       case 'forward': case 'back': case 'strafeL': case 'strafeR': case 'left': case 'right':
         // a step tapped while the last one is still easing in is kept, not
         // dropped: the tap that turns you to face a flanker must not be lost
-        if (cam.moving && camProgress() < 0.7) { queuedMove = { act, at: G.t }; return; }
+        // A held button is resent every frame; only a fresh press is kept, or
+        // a single tap on Turn would queue a second turn and spin you round.
+        if (cam.moving && camProgress() < 0.7) { if (!repeat) queuedMove = { act, at: G.t }; return; }
         queuedMove = null;
         queuedAttack = false;              // a step or turn cancels a waiting swing
         if (act === 'forward') tryMove(0);

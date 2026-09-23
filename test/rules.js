@@ -2046,6 +2046,18 @@ await test('a step tapped while the camera is still turning is kept, not dropped
   return p.dir === (d0 + 2) % 4 || `facing ${p.dir} from ${d0}: the second turn was lost`;
 });
 
+await test('a held button resent while the view turns is not kept as a second press', async () => {
+  const ctx = await start('fighter', 'held-turn');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  const d0 = p.dir;
+  Game.input('left');
+  Game.input('left', true);                           // the hold loop, a frame later
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  return p.dir === (d0 + 3) % 4 || `one held tap turned the hero from ${d0} to ${p.dir}`;
+});
+
 await test('a first-level mage can already cast Shield', async () => {
   const { SPELLS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
   const all = SPELLS.mage;

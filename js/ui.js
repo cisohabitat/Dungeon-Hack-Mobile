@@ -12,7 +12,11 @@ import { RELIC_POWERS } from './relics.js';
 const UI = (() => {
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
-  const held = new Set();
+  /** Buttons and keys held down, and when each was pressed. */
+  const held = new Map();
+  // A held button repeats only after this long, like a keyboard: an ordinary
+  // tap lasts 100-200ms, and repeating sooner turned one tap into two turns.
+  const HOLD_DELAY = 320;
   let overlay = null;
   let create = { cls: 'fighter', bg: 'oathbroken', stats: null };
   let pendingCfg = null;
@@ -1091,7 +1095,7 @@ const UI = (() => {
   function bindControls() {
     for (const b of $$('.ctl[data-act]')) {
       const act = b.dataset.act;
-      const down = e => { e.preventDefault(); Sound.unlock(); try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } held.add(act); b.classList.add('held'); Game.input(act); };
+      const down = e => { e.preventDefault(); Sound.unlock(); try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } held.set(act, performance.now()); b.classList.add('held'); Game.input(act); };
       const up = e => { if (e) e.preventDefault(); held.delete(act); b.classList.remove('held'); };
       b.addEventListener('pointerdown', down);
       b.addEventListener('pointerup', up);
@@ -1140,7 +1144,7 @@ const UI = (() => {
       if (!$('#screen-game').classList.contains('active')) return;
       if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }
-      if (KEYS[e.code]) { e.preventDefault(); if (!e.repeat) { held.add(KEYS[e.code]); Game.input(KEYS[e.code]); } }
+      if (KEYS[e.code]) { e.preventDefault(); if (!e.repeat) { held.set(KEYS[e.code], performance.now()); Game.input(KEYS[e.code]); } }
       else if (TAPS[e.code]) { e.preventDefault(); Game.input(TAPS[e.code]); }
       else if (OPENS[e.code]) { e.preventDefault(); openOverlay(OPENS[e.code]); }
     });
@@ -1152,7 +1156,8 @@ const UI = (() => {
     if (overlay) return;
     const atk = attackBtn || (attackBtn = document.querySelector('.ctl.attack'));
     if (atk) { const r = Math.round(Game.attackReady() * 20) / 20; if (r !== atkShown) { atkShown = r; atk.style.setProperty('--ready', String(r)); atk.classList.toggle('cooling', r < 1); } }
-    for (const act of held) Game.input(act);
+    const now = performance.now();
+    for (const [act, at] of held) if (now - at >= HOLD_DELAY) Game.input(act, true);
   }
 
   function handleEvents() {

@@ -65,4 +65,38 @@ test.describe('movement', () => {
     });
     expect(wrong).toEqual([]);
   });
+  test('one tap on a turn button turns a quarter, however long the finger rests on it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'turn-tap' });
+    await clearBoons(page);
+    for (const [act, step] of [['left', 3], ['right', 1]]) {
+      for (const hold of [40, 150, 190]) {
+        const d0 = await page.evaluate(() => Game.player().dir);
+        const box = await page.locator(`.ctl[data-act="${act}"]`).boundingBox();
+        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await page.mouse.down();
+        await page.waitForTimeout(hold);
+        await page.mouse.up();
+        await page.waitForTimeout(700);
+        const d1 = await page.evaluate(() => Game.player().dir);
+        expect(`${act} held ${hold}ms: ${d1}`).toBe(`${act} held ${hold}ms: ${(d0 + step) % 4}`);
+      }
+    }
+    expect(errors).toEqual([]);
+  });
+  test('holding a turn button keeps turning', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'turn-hold' });
+    await clearBoons(page);
+    // count every change of facing while the button is down
+    await page.evaluate(() => { window.__turns = 0; let last = Game.player().dir; setInterval(() => { const d = Game.player().dir; if (d !== last) { window.__turns++; last = d; } }, 10); });
+    const box = await page.locator('.ctl[data-act="right"]').boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(1100);
+    await page.mouse.up();
+    const n = await page.evaluate(() => window.__turns);
+    expect(n).toBeGreaterThanOrEqual(3);
+    expect(errors).toEqual([]);
+  });
 });
