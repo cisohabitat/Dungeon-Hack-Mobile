@@ -1283,6 +1283,15 @@ const Game = (() => {
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone' };
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
+  // What is only for the eye draws on its own numbers, never the dice's:
+  // a spray of blood must not change what the next blow rolls.
+  let lookSeed = 0x2f6b1d3;
+  const look = () => {
+    lookSeed = (lookSeed + 0x6D2B79F5) | 0;
+    let t = Math.imul(lookSeed ^ (lookSeed >>> 15), 1 | lookSeed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
   /**
    * Throw a spray from a monster, away from the hero.
    * @param {import('./types.js').Monster} m
@@ -1298,20 +1307,20 @@ const Game = (() => {
     const z0 = (mb.fly || 0) + mb.scale * 0.55;
     const n = Math.round(5 + Math.min(1, amount) * 16);
     for (let i = 0; i < n; i++) {
-      const sp = 0.6 + Math.random() * 1.6, side = (Math.random() * 2 - 1) * 1.1;
+      const sp = 0.6 + look() * 1.6, side = (look() * 2 - 1) * 1.1;
       fx.bits.push({
-        x: cx - ux * 0.3, y: cy - uy * 0.3, z: z0 + (Math.random() - 0.5) * 0.2,
-        vx: ux * sp - uy * side, vy: uy * sp + ux * side, vz: 0.6 + Math.random() * 1.8,
-        g: g.g, c: g.c[i % g.c.length], born: realNow, life: 380 + Math.random() * 360,
-        size: Math.random() < 0.3 ? 0.024 : 0.015, glow: g.glow,
+        x: cx - ux * 0.3, y: cy - uy * 0.3, z: z0 + (look() - 0.5) * 0.2,
+        vx: ux * sp - uy * side, vy: uy * sp + ux * side, vz: 0.6 + look() * 1.8,
+        g: g.g, c: g.c[i % g.c.length], born: realNow, life: 380 + look() * 360,
+        size: look() < 0.3 ? 0.024 : 0.015, glow: g.glow,
       });
     }
     if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
     if (pool && g.stain) {
       const list = fx.stains[G.depth] || (fx.stains[G.depth] = []);
       // it lands a little beyond the monster, on the side away from the blow
-      list.push({ x: cx + ux * (0.1 + Math.random() * 0.25) + (Math.random() - 0.5) * 0.3, y: cy + uy * (0.1 + Math.random() * 0.25) + (Math.random() - 0.5) * 0.3,
-        r: 0.06 + Math.min(1, amount) * 0.1, c: g.c[2], seed: Math.random() * 1000 });
+      list.push({ x: cx + ux * (0.1 + look() * 0.25) + (look() - 0.5) * 0.3, y: cy + uy * (0.1 + look() * 0.25) + (look() - 0.5) * 0.3,
+        r: 0.06 + Math.min(1, amount) * 0.1, c: g.c[2], seed: look() * 1000 });
       if (list.length > STAINS_PER_FLOOR) list.shift();
     }
   }
@@ -1664,10 +1673,10 @@ const Game = (() => {
     const n = Math.round(2 + hard * 6);
     for (let i = 0; i < n; i++) {
       // along the edges, never over the middle where the enemy is
-      const edge = Math.floor(Math.random() * 4), t = Math.random();
-      const x = edge === 0 ? 0.03 + Math.random() * 0.12 : edge === 1 ? 0.85 + Math.random() * 0.12 : t;
-      const y = edge >= 2 ? (edge === 2 ? 0.02 + Math.random() * 0.12 : 0.86 + Math.random() * 0.1) : t;
-      fx.drops.push({ x, y, r: 0.008 + Math.random() * 0.012 * (0.5 + hard), born: realNow + Math.random(), life: 1300 + Math.random() * 700 });
+      const edge = Math.floor(look() * 4), t = look();
+      const x = edge === 0 ? 0.03 + look() * 0.12 : edge === 1 ? 0.85 + look() * 0.12 : t;
+      const y = edge >= 2 ? (edge === 2 ? 0.02 + look() * 0.12 : 0.86 + look() * 0.1) : t;
+      fx.drops.push({ x, y, r: 0.008 + look() * 0.012 * (0.5 + hard), born: realNow + look(), life: 1300 + look() * 700 });
     }
     if (fx.drops.length > 24) fx.drops.splice(0, fx.drops.length - 24);
   }
