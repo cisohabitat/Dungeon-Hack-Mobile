@@ -29,8 +29,16 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you, open doors, and attack on their own
-  clocks. Fourteen monster types including undead, poisoners, a regenerating troll and a
+  clocks. Sixteen monster types including undead, poisoners, a regenerating troll and a
   life-draining boss guarding the artifact on the deepest level.
+- **A boss fight in three acts.** The Dread Lich speaks when it wakes, and its life runs across
+  the top of the view. At two thirds it raises skeleton guards and steps back behind them to
+  throw grave-cold over their heads; at one third it puts out every torch in its hall,
+  quickens, and tries to drink the Heart's light to mend itself, a rite any wound breaks.
+- **Blows that leave a mark.** Every monster bleeds its own colour, from red to a slime's
+  green to a wraith's cold light; heavy blows and kills stain the floor, misses strike sparks,
+  and a hard hit on you jolts the view and leaves blood on its edges. Poison, frost, webs and
+  blessings each tint the view their own way, and timed effects count down.
 - **Magic.** Mage and Cleric spell lists (bolts, buffs, heals) with spell points, plus scrolls
   anyone can read.
 - **Items.** Weapons, armour and shields with enchantments, potions, scrolls, food, gems, gold,
@@ -58,7 +66,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   have their own colour and symbol, and a legend names them all. A live corner minimap too.
 - **You are told what is happening.** Attacks name the direction they came from, the edge of the
   view flashes on that side, walking into a wall says so, and the death screen names your killer
-  and replays your last moments.
+  and replays your last moments. Win or lose, the end screen sums up the run: your best blow,
+  the hardest hit you took, what you killed and how many, the talents and relics you carried.
 - **Nothing is spent for nothing.** Food, potions, scrolls and spells refuse to be used when they
   could not help, and say why. Unidentified draughts are always usable, since refusing one would
   tell you what it is.
