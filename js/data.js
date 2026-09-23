@@ -98,7 +98,7 @@ const CLASSES = {
   fighter: {
     name: 'Fighter', plural: 'Fighters', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armor, and the only one trained to fight with a blade in each hand.',
-    startKit: ['longsword', 'chain', 'shield', 'ration', 'ration', 'potion_heal'],
+    startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
     name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, castMs: 1000, spMul: 0.8, spells: 'cleric', primary: 'wis',
@@ -106,12 +106,12 @@ const CLASSES = {
     startKit: ['mace', 'studded', 'buckler', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 4, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.6, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.6, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them.',
     startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
