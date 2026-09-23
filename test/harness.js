@@ -37,6 +37,7 @@ async function loadGame(opts = {}) {
   // data and rng hold no mutable game state, so they can be shared
   const data = await import(url('data.js'));
   const rng = await import(url('rng.js'));
+  const creatures = await import(url('creatures.js'));   // pure: parts and the painter
   const dungeon = await import(url('dungeon.js') + bust);
   const game = await import(url('game.js') + bust);
   return {
@@ -45,6 +46,7 @@ async function loadGame(opts = {}) {
     Rng: rng.Rng,
     Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
     store,
+    CREATURES: creatures.CREATURES, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
     ...data,
   };
 }

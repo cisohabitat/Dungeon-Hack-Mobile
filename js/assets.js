@@ -1,5 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES } from './data.js';
+import { CREATURES, FLOATING, paintParts } from './creatures.js';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
@@ -27,17 +28,19 @@ const Assets = (() => {
   // Art is drawn as flat tones; the outline, contact shadow and top light are
   // added here so every sprite reads the same way against a dark wall.
   function makeSprite(def) {
-    const aw = def.rows[0].length, ah = def.rows.length;
+    // a creature built from parts arrives already lit; the old grids are flat
+    const painted = def.parts ? paintParts(def.parts) : null;
+    const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     const w = aw + 2, h = ah + 2;               // room for the outline
     const art = canvas(aw, ah);
     const actx = art.getContext('2d');
     const solid = new Uint8Array(aw * ah);
     for (let y = 0; y < ah; y++) {
       for (let x = 0; x < aw; x++) {
-        const ch = def.rows[y][x];
-        if (ch === '.') continue;
+        const c = painted ? painted.color[y * aw + x] : (def.rows[y][x] === '.' ? null : (def.pal[def.rows[y][x]] || '#ff00ff'));
+        if (!c) continue;
         solid[y * aw + x] = 1;
-        actx.fillStyle = def.pal[ch] || '#ff00ff';
+        actx.fillStyle = c;
         actx.fillRect(x, y, 1, 1);
       }
     }
@@ -81,9 +84,9 @@ const Assets = (() => {
     ctx.drawImage(art, 1, 1);
     // light from above, shadow pooling at the feet
     const lg = ctx.createLinearGradient(0, 0, 0, h);
-    lg.addColorStop(0, 'rgba(255,245,215,0.16)');
+    lg.addColorStop(0, `rgba(255,245,215,${painted ? 0.05 : 0.16})`);
     lg.addColorStop(0.45, 'rgba(255,245,215,0)');
-    lg.addColorStop(1, 'rgba(0,0,20,0.28)');
+    lg.addColorStop(1, `rgba(0,0,20,${painted ? 0.2 : 0.28})`);
     ctx.globalCompositeOperation = 'source-atop';
     ctx.fillStyle = lg;
     ctx.fillRect(0, 0, w, h);
@@ -379,6 +382,8 @@ const Assets = (() => {
 
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
+    // creatures built from parts replace their old grids
+    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1 });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 

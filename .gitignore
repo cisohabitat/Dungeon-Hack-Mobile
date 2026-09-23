@@ -4,3 +4,6 @@ node_modules/
 test-results/
 playwright-report/
 .playwright/
+
+# throwaway specs for screenshots and measurements while working
+test/browser/zz-*.spec.js

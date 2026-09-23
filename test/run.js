@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, FLOATING, paintParts } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -24,6 +24,40 @@ for (const k in SPRITES) {
   const used = new Set(s.rows.join('').split('').filter(c => c !== '.'));
   for (const key in s.pal) check(used.has(key), `${k} palette key '${key}' is never used`);
 }
+
+// every creature the game can put in front of you has a picture
+for (const id in MONSTERS) {
+  const sp = MONSTERS[id].sprite;
+  check(CREATURES[sp] || SPRITES[sp], `monster ${id} wants sprite '${sp}', which does not exist`);
+}
+check(CREATURES.merchant, 'the trader has no sprite');
+
+// Creatures built from parts: each paints something sensible, grounded ones
+// stand on the floor, and no two share a silhouette. The old grids had seven
+// humanoids that were one body in different colours; this is the guard.
+const masks = {};
+for (const k in CREATURES) {
+  const { aw, ah, color } = paintParts(CREATURES[k]());
+  const filled = color.filter(Boolean);
+  check(aw === 32 && ah === 32, `${k} painted at ${aw}x${ah}, not 32x32`);
+  check(filled.length > 120, `${k} painted only ${filled.length} pixels`);
+  check(filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted a colour that is not #rrggbb`);
+  let lowest = -1;
+  color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / aw)); });
+  if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats: its lowest pixel is row ${lowest}, the floor is 31`);
+  masks[k] = color.map(Boolean);
+}
+let closest = { iou: 0, pair: '' };
+const keys = Object.keys(masks);
+for (let i = 0; i < keys.length; i++) for (let j = i + 1; j < keys.length; j++) {
+  const a = masks[keys[i]], b = masks[keys[j]];
+  let inter = 0, uni = 0;
+  for (let n = 0; n < a.length; n++) { if (a[n] && b[n]) inter++; if (a[n] || b[n]) uni++; }
+  const iou = inter / uni;
+  if (iou > closest.iou) closest = { iou, pair: `${keys[i]} and ${keys[j]}` };
+}
+check(closest.iou < 0.8, `${closest.pair} share ${Math.round(closest.iou * 100)}% of their silhouette`);
+console.log(`${keys.length} creatures painted; the most alike pair, ${closest.pair}, share ${Math.round(closest.iou * 100)}% of their outline`);
 
 function solvable(L, blockNpcs) {
   const { w, h } = L;
