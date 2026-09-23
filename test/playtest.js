@@ -37,20 +37,22 @@ function run(ctx, cls, seed, opts, bg) {
 }
 
 function play(ctx, cls, seed, opts, bg) {
-  const { Game, Dungeon, ITEMS } = ctx;
+  const { Game, Dungeon, ITEMS, RELICS } = ctx;
   const T = Dungeon.T;
   Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
   // Measuring the build, not the drop rate: without this only about a third of
   // runs happen to find a light blade, and the comparison mostly reports how
   // often loot obliged.
   if (DUAL && Game.canDualWield()) Game.player().inv.push({ t: 'shortsword', q: 1, e: 0 });
+  // NORELIC=1 plays the same run with no relics in it, to measure what they add
+  if (process.env.NORELIC) { Game.state().relics.floor = {}; Game.state().relics.shop = []; }
   let now = 0;
   const G = Game.state();
   const p = Game.player();
   const rec = { cls, bg, seed, depth: 1, deepest: 1, died: false, won: false, cause: '', ticks: 0, kills: 0, potionsDrunk: 0, rests: 0, starved: 0, packFull: 0, goldFound: 0, hpLow: 0 };
 
   // BFS from the player over passable tiles, returning a distance field
-  const field = (L, tx, ty, treatDoorsOpen) => {
+  const field = (L, tx, ty, treatDoorsOpen, colors) => {
     const dist = new Int32Array(L.w * L.h).fill(-1);
     const solidNpc = new Set((L.npcs || []).map(n => n.y * L.w + n.x).filter(i => i !== ty * L.w + tx));
     const q = [ty * L.w + tx];
@@ -64,7 +66,7 @@ function play(ctx, cls, seed, opts, bg) {
         if (dist[ni] >= 0) continue;
         const t = L.tiles[ni];
         if (solidNpc.has(ni)) continue;
-        if (t === T.FLOOR || t === T.DOOR_OPEN || t === T.DOOR || (treatDoorsOpen && t === T.DOOR_LOCKED)) { dist[ni] = dist[i] + 1; q.push(ni); }
+        if (t === T.FLOOR || t === T.DOOR_OPEN || t === T.DOOR || (t === T.DOOR_LOCKED && (treatDoorsOpen || (colors && colors.has(L.locks[nx + ',' + ny] || 'brass'))))) { dist[ni] = dist[i] + 1; q.push(ni); }
       }
     }
     return dist;
@@ -139,11 +141,30 @@ function play(ctx, cls, seed, opts, bg) {
       const val = x => {
         if (!x) return 0;
         const bx = ITEMS[x.t];
-        if (b.kind !== 'weapon') return bx.ac + (x.e || 0);
-        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (x.e || 0)) / (bx.speed / 1000);
-        return dps * (bx.range ? 1.5 : 1);   // reach is worth paying for
+        // a relic's powers are worth something: about a point of armour, or a
+        // sixth more damage, each (swift is counted where it acts, on the swing)
+        const powers = x.u ? RELICS[x.u].powers : [];
+        if (b.kind !== 'weapon') return bx.ac + (x.e || 0) + powers.length;
+        const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
+        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (x.e || 0)) / (speed / 1000);
+        return dps * (bx.range ? 1.5 : 1) * (1 + powers.filter(k => k !== 'swift').length / 6);   // reach is worth paying for
       };
       if (val(it) > val(cur)) Game.equip(it, true);
+    }
+    // --- keep room in the pack: a person drops gear they cannot use or have
+    // bettered, rather than walking past everything once the pack is full
+    if (p.inv.length >= Game.INV_MAX - 1) {
+      const worth = x => { const bx = ITEMS[x.t]; return bx.kind === 'weapon' ? (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (x.e || 0)) / (bx.speed / 1000) : (bx.ac || 0) + (x.e || 0); };
+      const junk = p.inv.find(it => {
+        const b = ITEMS[it.t];
+        if (it.u) return false;                           // a relic is worth more than its numbers
+        if (it.t === 'key') return !Object.values(L.locks || {}).includes(it.color);   // nothing left here it opens
+        if (!['weapon', 'armor', 'shield'].includes(b.kind)) return false;
+        if (Game.canEquip(it)) return true;
+        const cur = p.eq[b.kind];
+        return !!cur && worth(it) <= worth(cur) && !(DUAL && !Game.offhandReason(it));
+      });
+      if (junk) { Game.dropItem(junk); rec.dropped = (rec.dropped || 0) + 1; }
     }
     // --- a second blade, when this bot is playing that build
     if (DUAL && Game.canDualWield()) {
@@ -306,11 +327,17 @@ function play(ctx, cls, seed, opts, bg) {
     // (encounter props stand in the same list, so find the trader by kind)
     const npc = (L.npcs || []).find(n => n.kind !== 'encounter');
     // give up after a while: the trader may sit behind a door we have no key for
-    if (npc && !rec.shopped && p.gold >= 50 && p.inv.length < 16 && (rec.shopTries = (rec.shopTries || 0) + 1) < 140) {
+    // every trader once, as a person would (SHOPONCE=1: only the first, the old way)
+    const shopKey = process.env.SHOPONCE ? 'any' : G.depth;
+    rec.shopped = rec.shopped || {}; rec.shopTries = rec.shopTries || {};
+    if (npc && !rec.shopped[shopKey] && p.gold >= 50 && p.inv.length < 16 && (rec.shopTries[shopKey] = (rec.shopTries[shopKey] || 0) + 1) < 140) {
       const beside = Math.abs(npc.x - p.x) + Math.abs(npc.y - p.y) === 1;
       if (Game.currentShop()) {
         // stock up on what keeps us alive, cheapest first
         const s = Game.currentShop();
+        // a relic this hero can use comes first: it is what the gold is for
+        const relic = s.stock.find(i => i.u && !Game.canEquip(i) && p.gold >= Game.buyPrice(s, i));
+        if (relic && Game.buy(relic)) rec.relicsBought = (rec.relicsBought || 0) + 1;
         const want = s.stock
           .filter(i => ['potion_heal', 'potion_xheal', 'ration', 'meat', 'potion_cure'].includes(i.t))
           .sort((a, b) => Game.buyPrice(s, a) - Game.buyPrice(s, b));
@@ -318,8 +345,8 @@ function play(ctx, cls, seed, opts, bg) {
         for (const i of want) {
           while (i.q > 0 && p.gold >= Game.buyPrice(s, i) * 2 && p.inv.length < 18 && Game.buy(i)) bought++;
         }
-        rec.bought = bought;
-        rec.shopped = true;
+        rec.bought = (rec.bought || 0) + bought;
+        rec.shopped[shopKey] = true;
         Game.closeShop();
         step();
         continue;
@@ -334,7 +361,7 @@ function play(ctx, cls, seed, opts, bg) {
       step();
       continue;
     }
-    if (npc && rec.shopTries >= 140) rec.shopped = true;   // stop trying, get on with it
+    if (npc && rec.shopTries[shopKey] >= 140) rec.shopped[shopKey] = true;   // stop trying, get on with it
 
     // --- walk up to an encounter on this floor (ENC=0 ignores them, to compare)
     const enc = ENC && (L.npcs || []).find(n => n.kind === 'encounter');
@@ -361,7 +388,9 @@ function play(ctx, cls, seed, opts, bg) {
         if (x >= 0 && y >= 0 && x < L.w && y < L.h) fl.seen[y * L.w + x] = 1;
       }
       fl.done.add(`${p.x},${p.y}`);
-      const reach = field(L, p.x, p.y, false);
+      // a door we hold the key for is a door, not a wall
+      const colors = new Set(p.inv.filter(i => i.t === 'key').map(i => i.color));
+      const reach = field(L, p.x, p.y, false, colors);
       if (!fl.open) for (let i = 0; i < reach.length; i++) if (reach[i] >= 0) fl.open++;
       let seen = 0;
       for (let i = 0; i < reach.length; i++) if (reach[i] >= 0 && fl.seen[i]) seen++;
@@ -376,7 +405,7 @@ function play(ctx, cls, seed, opts, bg) {
       }
       // a budget, so a floor that will not give up its last corner cannot hold the run
       if (goal >= 0 && ++fl.ticks < 4000) {
-        stepToward(goal % L.w, (goal / L.w) | 0);
+        stepToward(goal % L.w, (goal / L.w) | 0, colors);
         step();
         continue;
       }
@@ -397,9 +426,9 @@ function play(ctx, cls, seed, opts, bg) {
     }
     step();
 
-    function stepToward(tx, ty) {
+    function stepToward(tx, ty, colors) {
       const L2 = Game.level();
-      const dist = field(L2, tx, ty, true);
+      const dist = colors ? field(L2, tx, ty, false, colors) : field(L2, tx, ty, true);
       const here = dist[p.y * L2.w + p.x];
       let best = null, bd = here < 0 ? Infinity : here;
       for (let k = 0; k < 4; k++) {
@@ -431,6 +460,19 @@ function play(ctx, cls, seed, opts, bg) {
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
   rec.dual = !!p.eq.offhand;
+  if (process.env.RELICLOG) {
+    // why a relic was left behind: out of reach without a key, or a full pack
+    rec.relicLeft = rec.relicLeft || { reach: 0, locked: 0, full: p.inv.length >= Game.INV_MAX ? 1 : 0 };
+    for (const dd in G.levels) {
+      const L = G.levels[dd];
+      for (const k in L.items) if (L.items[k].some(i => i.u)) {
+        const [x, y] = k.split(',').map(Number);
+        rec.relicLeft[field(L, L.start.x, L.start.y, false)[y * L.w + x] >= 0 ? 'reach' : 'locked']++;
+      }
+    }
+  }
+  rec.relics = [...p.inv, ...Object.values(p.eq)].filter(i => i && i.u).length;
+  rec.relicsWorn = Object.values(p.eq).filter(i => i && i.u).length;
   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
   return rec;
 }
@@ -466,7 +508,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 // GEAR=1 shows what each class ended its runs holding
@@ -499,6 +541,14 @@ if (process.env.ENCLOG) {
     }
     console.log(`   ${cls.padEnd(8)} per run: ${Object.entries(tot).map(([k, v]) => `${k} ${(v / rows.length).toFixed(1)}`).join('  ')}`);
     console.log(`            choices: ${Object.entries(chose).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, v]) => `${k} ${(v / rows.length).toFixed(2)}`).join(' | ')}`);
+  }
+}
+// RELICLOG=1: relics left lying, and whether they were reachable without a key
+if (process.env.RELICLOG) {
+  for (const cls in results) {
+    const t = { reach: 0, locked: 0, full: 0 };
+    for (const r of results[cls]) for (const k in (r.relicLeft || {})) t[k] += r.relicLeft[k];
+    console.log(`   ${cls.padEnd(8)} relics left per run: reachable ${(t.reach / results[cls].length).toFixed(2)}, behind locks ${(t.locked / results[cls].length).toFixed(2)}; runs ending with a full pack ${t.full}`);
   }
 }
 // CAUSES=1 lists what ended the runs that never left the first floor
