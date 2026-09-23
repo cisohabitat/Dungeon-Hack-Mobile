@@ -22,7 +22,8 @@ const Game = (() => {
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
   const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
-               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1 };
+               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
+               /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}}>} */ spells: [] };
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
@@ -537,6 +538,7 @@ const Game = (() => {
         case 'fire': {
           Sound.play('spell');
           const targets = boltTargets(3, false);
+          spellFx('fireball', '#ff7020', 750, targets, 3);
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
           castingName = 'fireball';
           for (const m of targets) {
@@ -1756,6 +1758,19 @@ const Game = (() => {
   // each moment is a choice between them. A class may cast faster or slower
   // than this: a mage's words are quick, a cleric's prayers are not.
   const CAST_MS = 800;
+  /** How each spell looks, and how long its effect plays. */
+  const SPELL_FX = {
+    magic_missile: ['missile', 650], burning_hands: ['hands', 450], shield: ['buff', 600], lightning: ['lightning', 380],
+    cone_cold: ['cone', 520], cure_light: ['heal', 800], bless: ['buff', 600], smite: ['smite', 560],
+    cure_serious: ['heal', 850], protection: ['buff', 600], flame_strike: ['pillar', 700],
+  };
+  /** Show a spell's effect: where it lands, or the square ahead if nowhere. */
+  function spellFx(style, color, dur, targets, reach) {
+    const p = P(), [dx, dy] = DIRS[p.dir];
+    fx.spells.push({ style, color, born: realNow, until: realNow + dur,
+      pts: targets.map(m => ({ x: m.rx + 0.5, y: m.ry + 0.5 })),
+      ahead: { x: p.x + dx * (reach || 1) + 0.5, y: p.y + dy * (reach || 1) + 0.5 } });
+  }
   function castSpell(sp) {
     const p = P();
     queuedAttack = false;
@@ -1773,6 +1788,8 @@ const Game = (() => {
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color;
     Sound.play('spell');
+    const look = SPELL_FX[sp.id] || ['buff', 500];
+    if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
       case 'heal': { const n = Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1)); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
       case 'buff':
@@ -1782,6 +1799,7 @@ const Game = (() => {
         break;
       case 'bolt': {
         const targets = boltTargets(spellRange(sp), sp.pierce);
+        spellFx(look[0], sp.color, look[1], targets, spellRange(sp));
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
         // an Empowered or Radiant spell says so in every line it hits with
         castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
@@ -2388,6 +2406,7 @@ const Game = (() => {
     }
     for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
+    if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
   }
   function tick(now) { realNow = now; }
 

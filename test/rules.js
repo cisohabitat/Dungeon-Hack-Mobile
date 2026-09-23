@@ -3178,6 +3178,39 @@ await test('Empower, Radiance and Lucky say so when they matter', async () => {
   return out.length ? out.join('; ') : true;
 });
 
+// ---------- spell effects ----------
+await test('every spell, and the Scroll of Fire, shows its own effect where it lands', async () => {
+  const out = [];
+  for (const [cls, ids] of [['mage', ['magic_missile', 'burning_hands', 'shield', 'lightning', 'cone_cold']], ['cleric', ['cure_light', 'bless', 'smite', 'cure_serious', 'protection', 'flame_strike']]]) {
+    for (const id of ids) {
+      const ctx = await start(cls, 'fx-' + id);
+      const { Game } = ctx;
+      const p = Game.player(), G = Game.state();
+      p.level = 9; p.sp = p.maxSp = 999; p.hp = 5; p.maxHp = 999;
+      const range = { burning_hands: 1, cone_cold: 2 }[id] || 2;
+      ahead(ctx, 'goblin', range, { hp: 9999, maxHp: 9999, nextAct: 1e12 });
+      G.t = p.nextAttack;
+      if (!Game.castSpell(Game.knownSpells().find(s => s.id === id))) { out.push(`${id} was not cast`); continue; }
+      const fx = Game.renderState(0).fx.spells;
+      const e = fx[fx.length - 1];
+      if (!e) { out.push(`${id} showed nothing`); continue; }
+      const sp = Game.knownSpells().find(s => s.id === id);
+      if (sp.kind === 'bolt' && e.pts.length !== 1) out.push(`${id} aimed at ${e.pts.length} targets`);
+      if (!(e.until > e.born)) out.push(`${id} effect has no time to play`);
+    }
+  }
+  const ctx = await start('thief', 'fx-scroll');
+  const { Game } = ctx;
+  const p = Game.player();
+  ahead(ctx, 'goblin', 2, { hp: 9999, maxHp: 9999, nextAct: 1e12 });
+  p.inv.push({ t: 'scroll_fire', q: 1, e: 0 });
+  Game.state().known = Game.state().known || {}; Game.state().known.scroll_fire = 1;
+  Game.useItem(p.inv.find(i => i.t === 'scroll_fire'));
+  const fx = Game.renderState(0).fx.spells;
+  if (!fx.some(e => e.style === 'fireball')) out.push('the Scroll of Fire showed no fireball');
+  return out.length ? out.join('; ') : true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

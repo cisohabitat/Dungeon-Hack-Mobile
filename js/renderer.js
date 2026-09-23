@@ -129,6 +129,167 @@ const Renderer = (() => {
   }
 
   // sprites: [{x, y, img (sprite asset), scale, yOff, flash}]
+  // ---------- spell effects ----------
+  // Each spell draws its own effect between the hero's hand and what it
+  // hits, instead of only tinting the view: darts that fly, a fan of fire,
+  // a jagged bolt, a pillar of light. Particles are placed by a hash of their
+  // index, not by chance, so a frame never flickers from randomness alone.
+  const hash = n => { const s = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
+  const clamp01 = v => (v < 0 ? 0 : v > 1 ? 1 : v);
+  function glow(x, y, r, color, alpha) {
+    if (alpha <= 0 || r <= 0) return;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(255,255,255,${alpha.toFixed(3)})`);
+    g.addColorStop(0.35, hexA(color, alpha * 0.9));
+    g.addColorStop(1, hexA(color, 0));
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  function hexA(hex, a) {
+    const h = hex.length === 4 ? hex.slice(1).split('').map(c => c + c).join('') : hex.slice(1);
+    const n = parseInt(h, 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${Math.max(0, Math.min(1, a)).toFixed(3)})`;
+  }
+  function drawSpells(fx, now, proj) {
+    if (!fx.spells || !fx.spells.length) return;
+    const hand = { x: W * 0.5, y: H * 0.95, r: H * 0.4 };
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (const s of fx.spells) {
+      if (now >= s.until || now < s.born) continue;
+      const t = (now - s.born) / (s.until - s.born);
+      const fade = 1 - t;
+      const pts = s.pts.map(proj).filter(Boolean);
+      const aim = pts.length ? pts[pts.length - 1] : (s.ahead ? proj(s.ahead) : null) || { x: W / 2, y: H * 0.55, r: H * 0.5 };
+      const first = pts[0] || aim;
+      const c = s.color;
+      switch (s.style) {
+        case 'missile': {
+          // three darts, a beat apart, curving in from either side
+          for (let i = 0; i < 3; i++) {
+            const u = clamp01((t - i * 0.12) / 0.5);
+            if (u <= 0) continue;
+            if (u < 1) {
+              for (let k = 0; k < 4; k++) {
+                const v = Math.max(0, u - k * 0.05);
+                const x = hand.x + (first.x - hand.x) * v + (i - 1) * W * 0.12 * Math.sin(Math.PI * v), y = hand.y + (first.y - hand.y) * v;
+                glow(x, y, (10 - k * 2) * (1 - v * 0.3), c, 0.95 - k * 0.2);
+              }
+            } else {
+              const b = clamp01((t - i * 0.12 - 0.5) / 0.25);
+              glow(first.x + (i - 1) * 4, first.y, 6 + b * first.r * 0.25, c, 1 - b);
+            }
+          }
+          break;
+        }
+        case 'hands': {
+          // a fan of flame from the hand into the square ahead
+          for (let i = 0; i < 26; i++) {
+            const u = clamp01(t * 1.7 - hash(i) * 0.5);
+            if (u <= 0 || u >= 1) continue;
+            const spread = (hash(i + 31) - 0.5) * first.r * 0.9 * u;
+            const x = hand.x + (first.x - hand.x) * u + spread, y = hand.y + (first.y - hand.y) * u - hash(i + 7) * first.r * 0.2 * u;
+            glow(x, y, 4 + u * first.r * 0.12, u < 0.5 ? '#ffd040' : c, (1 - u) * 0.9);
+          }
+          break;
+        }
+        case 'pillar': {
+          // a column of fire rising out of the floor where the foe stands
+          glow(first.x, first.y + first.r * 0.3, first.r * 0.6, '#ff9040', fade * 0.9);
+          for (let i = 0; i < 34; i++) {
+            const u = (t * 1.6 + hash(i)) % 1;
+            const x = first.x + (hash(i + 11) - 0.5) * first.r * 0.55, y = first.y + first.r * 0.35 - u * first.r * 1.4;
+            glow(x, y, 5 + (1 - u) * first.r * 0.12, u < 0.35 ? '#fff0a0' : '#ff8030', Math.min(1, fade * 1.3) * (1 - u * 0.8));
+          }
+          break;
+        }
+        case 'fireball': {
+          // an orb flies, then bursts
+          const u = clamp01(t / 0.35);
+          if (u < 1) glow(hand.x + (first.x - hand.x) * u, hand.y + (first.y - hand.y) * u, 8 + u * 6, c, 1);
+          else {
+            const b = clamp01((t - 0.35) / 0.65);
+            for (const q of pts.length ? pts : [first]) {
+              glow(q.x, q.y, q.r * (0.25 + b * 0.8), '#ff8030', (1 - b) * 0.9);
+              glow(q.x, q.y, q.r * (0.1 + b * 0.35), '#ffe080', (1 - b));
+            }
+          }
+          break;
+        }
+        case 'lightning': {
+          // a jagged bolt to the furthest foe, forking to each one it passes
+          const seed = Math.floor(now / 45);
+          const bolt = (a, b, width, alpha, salt) => {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            const n = 9;
+            for (let k = 1; k < n; k++) {
+              const f = k / n;
+              const j = (hash(seed * 31 + k * 7 + salt) - 0.5) * W * 0.09 * Math.sin(Math.PI * f);
+              ctx.lineTo(a.x + (b.x - a.x) * f + j, a.y + (b.y - a.y) * f + j * 0.4);
+            }
+            ctx.lineTo(b.x, b.y);
+            ctx.lineWidth = width * 3; ctx.strokeStyle = hexA(c, alpha * 0.35); ctx.stroke();
+            ctx.lineWidth = width; ctx.strokeStyle = `rgba(255,255,240,${alpha.toFixed(3)})`; ctx.stroke();
+          };
+          const a = fade * (0.7 + 0.3 * hash(seed));
+          bolt(hand, aim, 2.2, a, 0);
+          pts.forEach((q, i) => { glow(q.x, q.y, q.r * 0.3, c, a); if (q !== aim) bolt({ x: q.x, y: q.y - q.r * 0.3 }, q, 1.2, a * 0.8, 50 + i); });
+          break;
+        }
+        case 'cone': {
+          // a widening cone of frost to the furthest foe it reaches
+          const half = Math.max(aim.r * 0.9, W * 0.18);
+          const g = ctx.createLinearGradient(hand.x, hand.y, aim.x, aim.y);
+          g.addColorStop(0, hexA('#ffffff', fade * 0.55));
+          g.addColorStop(1, hexA(c, fade * 0.25));
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(hand.x - 6, hand.y); ctx.lineTo(aim.x - half, aim.y - aim.r * 0.3);
+          ctx.lineTo(aim.x + half, aim.y + aim.r * 0.1); ctx.lineTo(hand.x + 6, hand.y);
+          ctx.closePath(); ctx.fill();
+          for (let i = 0; i < 24; i++) {
+            const u = (t * 1.3 + hash(i)) % 1;
+            const side = (hash(i + 5) - 0.5) * 2 * half * u;
+            glow(hand.x + (aim.x - hand.x) * u + side, hand.y + (aim.y - hand.y) * u, 2 + u * 3, '#e8fbff', fade);
+          }
+          break;
+        }
+        case 'smite': {
+          // a shaft of light straight down on the foe
+          const bw = Math.max(8, first.r * 0.3) * (1 - t * 0.5);
+          const g = ctx.createLinearGradient(first.x - bw, 0, first.x + bw, 0);
+          g.addColorStop(0, hexA(c, 0)); g.addColorStop(0.5, `rgba(255,255,235,${(fade * 0.9).toFixed(3)})`); g.addColorStop(1, hexA(c, 0));
+          ctx.fillStyle = g;
+          ctx.fillRect(first.x - bw, 0, bw * 2, first.y + first.r * 0.35);
+          glow(first.x, first.y + first.r * 0.3, first.r * 0.45, c, fade);
+          break;
+        }
+        case 'heal': {
+          // green sparks rising through the view
+          for (let i = 0; i < 28; i++) {
+            const u = clamp01(t * 1.2 - hash(i) * 0.3);
+            if (u <= 0 || u >= 1) continue;
+            const x = hash(i + 17) * W, y = H * (1.02 - u * (0.6 + hash(i + 3) * 0.4));
+            glow(x, y, 3 + hash(i + 9) * 4, c, (1 - u) * 0.9);
+          }
+          break;
+        }
+        case 'buff': {
+          // a ring of light spreading from the hero, and the edges of the view glowing
+          const R = Math.max(W, H) * (0.1 + t * 0.7);
+          ctx.lineWidth = 6 * fade + 1;
+          ctx.strokeStyle = hexA(c, fade * 0.8);
+          ctx.beginPath(); ctx.ellipse(W / 2, H * 0.62, R, R * 0.55, 0, 0, Math.PI * 2); ctx.stroke();
+          const e = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.7);
+          e.addColorStop(0, hexA(c, 0)); e.addColorStop(1, hexA(c, fade * 0.45));
+          ctx.fillStyle = e; ctx.fillRect(0, 0, W, H);
+          break;
+        }
+      }
+    }
+    ctx.restore();
+  }
   function render(level, cam, sprites, fx, now) {
     const tex = Assets.themes[level.theme];
     const px = cam.x, py = cam.y;
@@ -291,6 +452,16 @@ const Renderer = (() => {
       ctx.globalAlpha = 1;
     }
 
+    // spells, drawn over the world where they land
+    drawSpells(fx, now, pt => {
+      const sx = pt.x - px, sy = pt.y - py;
+      const tY = invDet * (-planeY * sx + planeX * sy);
+      if (tY <= 0.2) return null;
+      const tX = invDet * (dirY * sx - dirX * sy);
+      const hFull = P / tY;
+      return { x: (W / 2) * (1 + tX / tY), y: H / 2 + hFull * 0.08, r: hFull };
+    });
+
     // effects
     if (now < fx.swingUntil) {
       const p = 1 - (fx.swingUntil - now) / 160;
@@ -303,7 +474,7 @@ const Renderer = (() => {
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;
       ctx.fillStyle = fx.castColor;
-      ctx.globalAlpha = a * 0.45;
+      ctx.globalAlpha = a * 0.18;
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
