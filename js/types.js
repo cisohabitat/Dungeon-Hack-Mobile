@@ -156,6 +156,21 @@
  */
 
 /**
+ * What happened over one run, kept for the end screen. The rules never read it.
+ * @typedef {Object} RunStats
+ * @property {number} dealt    damage the hero's blows, spells and burns did
+ * @property {number} taken    damage the hero took, from anything
+ * @property {number} healed   hit points actually restored, not counting what overflowed
+ * @property {{dmg: number, to: string, id: string, how: string, depth: number}|null} best  the hardest blow landed: on whom (to, a name; id, a MONSTERS key) and with what
+ * @property {{dmg: number, from: string, id: string, depth: number}|null} worst  the hardest blow taken; from and id are '' when no monster struck it
+ * @property {Object<string, number>} kills   by MONSTERS key
+ * @property {Object<string, number>} spells  casts, by spell id
+ * @property {Object<number, number>} hurtOn  damage taken, by floor
+ * @property {number} potions @property {number} scrolls @property {number} meals
+ * @property {number} gold     picked up off the floor, gems included
+ */
+
+/**
  * Everything a save file holds.
  * @typedef {Object} GameState
  * @property {string} seed
@@ -186,6 +201,7 @@
  * @property {Object<string, number>} [studied]  item kind -> the level at which studying it last failed
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
+ * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
  */
 
 export {};

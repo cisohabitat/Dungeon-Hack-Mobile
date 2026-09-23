@@ -105,4 +105,54 @@ test.describe('core play', () => {
     const hall = await page.evaluate(() => Game.hall().length);
     expect(hall).toBeGreaterThan(0);
   });
+
+  test('the death screen sums up the run: the best blow, the kills in pictures, talents and relics', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'play-summary', cls: 'fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { const p = Game.player(); p.maxHp = p.hp = 300; p.perkHit = 60; });
+    await faceOpenGround(page, 2);
+    // three goblins and a rat, killed with the sword, so there is an order to show
+    for (const id of ['goblin', 'rat', 'goblin', 'goblin']) {
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      const m = await placeMonster(page, id, 1, { hp: 4 });
+      expect(await killMonster(page, m.uid)).toBe(true);
+      await clearBoons(page);
+    }
+    const best = await page.evaluate(() => {
+      const G = Game.state();
+      Game.player().talents = ['cleave'];
+      G.relics.found.push('grimtooth');
+      Game.level().monsters.length = 0;
+      return Game.runStats().best;
+    });
+    expect(best && best.dmg).toBeGreaterThan(0);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+
+    const summary = page.locator('#end-summary');
+    await expect(summary).toBeVisible();
+    await expect(summary).toContainText(new RegExp(`Your best blow: ${best.dmg} to an? ${best.to}, with the Long Sword`));
+    await expect(summary).toContainText(/hardest hit you took: \d+, from an Ogre/);
+    // most killed first, each a picture with its count
+    const kills = summary.locator('.end-kills .kill');
+    await expect(kills).toHaveCount(2);
+    await expect(kills.nth(0)).toHaveAttribute('data-kill', 'goblin');
+    await expect(kills.nth(0)).toContainText('×3');
+    await expect(kills.nth(1)).toHaveAttribute('data-kill', 'rat');
+    expect(await kills.nth(0).locator('img').evaluate(img => /** @type {HTMLImageElement} */ (img).naturalWidth)).toBeGreaterThan(0);
+    await expect(summary.locator('.end-tags .tag', { hasText: 'Cleave' })).toBeVisible();
+    await expect(summary.locator('.end-tags .tag.relic', { hasText: 'Grimtooth' })).toBeVisible();
+    await expect(summary.locator('.end-totals')).toContainText('damage dealt');
+    // the cause of death and the last moments are still there
+    await expect(page.locator('#end-cause')).toContainText(/Killed by/);
+    await expect(page.locator('#end-final')).toBeVisible();
+    // the summary makes the screen taller than a phone, so it must scroll to
+    // reach the buttons (a script can scroll a clipped box; a thumb cannot)
+    const box = await page.locator('#screen-end').evaluate(el => ({ tall: el.scrollHeight > el.clientHeight, overflow: getComputedStyle(el).overflowY }));
+    expect(box.tall).toBe(true);
+    expect(['auto', 'scroll']).toContain(box.overflow);
+    expect(errors).toEqual([]);
+  });
 });

@@ -1,11 +1,11 @@
 import { randomSeedWord } from './rng.js';
-import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS } from './data.js';
+import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
-import { RELIC_POWERS } from './relics.js';
+import { RELIC_POWERS, RELICS } from './relics.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -1205,6 +1205,67 @@ const UI = (() => {
   }
 
   // ---------- end screens ----------
+  // The run told back: a few lines in the log's voice, then pictures and names, numbers last.
+  const aName = (id, name) => MONSTERS[id] && MONSTERS[id].boss ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+  const upFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
+  /** A few lines about the run, the notable parts only, in the log's voice. */
+  function runHighlights(G, won) {
+    const s = Game.runStats(), p = G.player, out = [];
+    const b = s.best;
+    if (b) out.push(`Your best blow: <b>${b.dmg}</b> to ${escapeHtml(aName(b.id, b.to))}, with ${escapeHtml(b.how)}.`);
+    else out.push('You never landed a blow.');
+    const w = s.worst;
+    if (w) out.push(w.from ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : `The hardest hit you took: <b>${w.dmg}</b>, and no monster dealt it.`);
+    else out.push('Nothing so much as scratched you.');
+    // the pictures below carry no names, so the kind that fell most often gets one here
+    const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((x, y) => y[1] - x[1]);
+    if (kills.length && kills[0][1] >= 3) out.push(`The ${escapeHtml(MONSTERS[kills[0][0]].name)}s came off worst: <b>${kills[0][1]}</b> never got up.`);
+    // the floor that cost the most, when there was more than one to compare
+    const floors = Object.keys(s.hurtOn).map(Number).filter(f => s.hurtOn[f] > 0);
+    if (floors.length > 1) {
+      const worst = floors.reduce((a, f) => (s.hurtOn[f] > s.hurtOn[a] ? f : a));
+      out.push(`Floor ${worst} took the most out of you: <b>${s.hurtOn[worst]}</b> of the ${s.taken} hit points you lost.`);
+    }
+    const casts = Object.entries(s.spells).sort((x, y) => y[1] - x[1]);
+    if (casts.length) {
+      const own = SPELLS[p.cls] || [];
+      const nameOf = id => { const sp = own.find(x => x && x.id === id); return sp ? sp.name : id; };
+      const total = casts.reduce((n, [, k]) => n + k, 0);
+      const [topId, topN] = casts[0];
+      out.push(casts.length === 1
+        ? `You cast ${escapeHtml(nameOf(topId))} ${topN === 1 ? 'once' : `<b>${topN}</b> times`}, and nothing else.`
+        : (topN * 2 > total
+          ? `You cast <b>${total}</b> spells, most of them ${escapeHtml(nameOf(topId))}.`
+          : `You cast <b>${total}</b> spells, ${escapeHtml(nameOf(topId))} more than any other.`));
+    }
+    // dying with the cure in your pack is worth a word
+    const healing = !won ? p.inv.filter(it => ITEMS[it.t] && ITEMS[it.t].kind === 'potion' && ITEMS[it.t].effect === 'heal').reduce((n, it) => n + it.q, 0) : 0;
+    if (healing) out.push(`You died with ${healing === 1 ? 'a healing potion' : `<b>${healing}</b> healing potions`} still in your pack.`);
+    else if (s.potions) out.push(`You drank ${s.potions === 1 ? 'one potion' : `<b>${s.potions}</b> potions`}${s.scrolls ? ` and read ${s.scrolls === 1 ? 'one scroll' : `<b>${s.scrolls}</b> scrolls`}` : ''}.`);
+    return out;
+  }
+  /** The summary block: highlights, the kills as pictures, talents, relics, totals. */
+  function renderSummary(G, won) {
+    const s = Game.runStats(), p = G.player, parts = [];
+    parts.push('<div class="end-h"><span>The run</span></div><ul class="end-lines">' + runHighlights(G, won).map(l => `<li>${l}</li>`).join('') + '</ul>');
+    // most killed first; a tie goes to the tougher kind
+    const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((a, b) => b[1] - a[1] || MONSTERS[b[0]].xp - MONSTERS[a[0]].xp);
+    if (kills.length) {
+      parts.push('<div class="end-h"><span>Slain</span></div><div class="end-kills">' + kills.map(([id, n]) => {
+        const mb = MONSTERS[id], art = Assets.sprites[mb.sprite];
+        const label = `${mb.name} \u00d7${n}`;
+        return `<div class="kill" data-kill="${id}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}"><img src="${art ? art.url : ''}" alt=""><span>\u00d7${n}</span></div>`;
+      }).join('') + '</div>');
+    } else parts.push('<p class="end-none">Nothing died by your hand.</p>');
+    const own = TALENTS[p.cls] || [];
+    const talents = (p.talents || []).map(id => own.find(t => t.id === id)).filter(Boolean);
+    if (talents.length) parts.push('<div class="end-h"><span>Talents</span></div><div class="end-tags">' + talents.map(t => `<span class="tag">${escapeHtml(t.name)}</span>`).join('') + '</div>');
+    const relics = ((G.relics && G.relics.found) || []).filter(id => RELICS[id]);
+    if (relics.length) parts.push('<div class="end-h"><span>Relics found</span></div><div class="end-tags">' + relics.map(id => `<span class="tag relic">${escapeHtml(upFirst(RELICS[id].name))}</span>`).join('') + '</div>');
+    parts.push(`<div class="end-totals"><div><b>${s.dealt}</b><small>damage dealt</small></div><div><b>${s.taken}</b><small>damage taken</small></div><div><b>${s.healed}</b><small>healed</small></div></div>`);
+    $('#end-summary').innerHTML = parts.join('');
+  }
+
   function showEnd(won) {
     const G = Game.state(), p = G.player;
     closeOverlay();
@@ -1219,6 +1280,7 @@ const UI = (() => {
     rows.unshift(['Score', Game.score(p, G.depth, won)]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
+    renderSummary(G, won);
     const cause = $('#end-cause');
     const killer = Game.lastAttacker();
     if (!won && killer && killer.encounter) {

@@ -532,6 +532,7 @@ const Game = (() => {
     if (consumable) {
       const why = wasteReason(it);
       if (why) { log(why, 'bad'); Sound.play('error'); emit('waste'); return; }
+      noteUsed(b.kind);
     }
     if (b.kind === 'food') {
       removeOne(it);
@@ -663,6 +664,7 @@ const Game = (() => {
     const list = L.items[k] || [];
     const i = list.indexOf(it);
     if (i < 0) return;
+    if (it.t === 'gold' || it.t === 'gem') noteGold(it.q);
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') { list.splice(i, 1); startEscape(); }
@@ -754,6 +756,7 @@ const Game = (() => {
     clearFx();
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
+    G.stats = freshStats();
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
@@ -1423,6 +1426,7 @@ const Game = (() => {
     damageMonster(m, dmg, 'offhand', note);
   }
   function damageMonster(m, dmg, tag, note) {
+    noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
@@ -1493,6 +1497,7 @@ const Game = (() => {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
     p.kills++;
+    noteKill(m);
     // the two halves of a split slime are worth one slime between them
     const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
     p.xp += xp;
@@ -1528,6 +1533,7 @@ const Game = (() => {
     if (m.pack && m.split) learn(m.id, 'answer');     // a blast that takes both halves of a split slime
     if (m.pack) {
       for (const b of m.pack.slice()) {
+        noteDealt(m, dmg, tag);
         b.hp -= dmg;
         if (b.hp <= 0) { m.pack.splice(m.pack.indexOf(b), 1); memberDown(m); }
       }
@@ -1618,6 +1624,7 @@ const Game = (() => {
     return { rel, word: ['from ahead', 'from your right', 'from behind', 'from your left'][rel] };
   }
   function hurtPlayer(dmg, msg, from) {
+    noteTaken(dmg, from);
     const p = P();
     p.hp -= dmg;
     p.lastHurt = G.t;
@@ -1666,6 +1673,7 @@ const Game = (() => {
   }
   function healPlayer(n) {
     const p = P();
+    noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp)));
     p.hp = Math.min(p.maxHp, p.hp + n);
     fx.healUntil = realNow + 260;
     Sound.play('heal');
@@ -1775,6 +1783,48 @@ const Game = (() => {
       localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
     } catch (e) { /* ignore */ }
   }
+  // ---------- the run in numbers ----------
+  // What the end screen tells about the run: who was killed, the best blow,
+  // where it hurt. Only ever written to, never read by the rules, so nothing
+  // here can change how a fight goes. The hooks elsewhere are one line each.
+  /** @returns {import('./types.js').RunStats} */
+  function freshStats() {
+    return { dealt: 0, taken: 0, healed: 0, best: null, worst: null, kills: {}, spells: {}, hurtOn: {}, potions: 0, scrolls: 0, meals: 0, gold: 0 };
+  }
+  /** This run's stats; a save from before they were kept starts them at nothing. */
+  function runStats() {
+    if (!G.stats) G.stats = freshStats();
+    return G.stats;
+  }
+  /** A blow the hero landed, and what it was struck with. */
+  function noteDealt(m, dmg, tag) {
+    const s = runStats(), p = P();
+    s.dealt += dmg;
+    if (s.best && dmg <= s.best.dmg) return;
+    // the first blow to reach a number keeps the record, so a tie does not rename it
+    const how = castingName ? cap(castingName)
+      : tag === 'offhand' ? (p.eq.offhand ? the(p.eq.offhand) : 'your off hand')
+      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison'
+      : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
+    s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
+  }
+  /** Damage the hero took, from a monster or from anything else. */
+  function noteTaken(dmg, from) {
+    const s = runStats();
+    s.taken += dmg;
+    s.hurtOn[G.depth] = (s.hurtOn[G.depth] || 0) + dmg;
+    if (!s.worst || dmg > s.worst.dmg) s.worst = { dmg, from: from ? mstat(from).name : '', id: from ? from.id : '', depth: G.depth };
+  }
+  function noteKill(m) { const k = runStats().kills; k[m.id] = (k[m.id] || 0) + 1; }
+  function noteSpell(sp) { const c = runStats().spells; c[sp.id] = (c[sp.id] || 0) + 1; }
+  function noteHealed(n) { runStats().healed += n; }
+  function noteGold(n) { runStats().gold += n; }
+  /** Something eaten, drunk or read. */
+  function noteUsed(kind) {
+    const s = runStats();
+    if (kind === 'potion') s.potions++; else if (kind === 'scroll') s.scrolls++; else if (kind === 'food') s.meals++;
+  }
+
   // ---------- bestiary ----------
   // What the hero has learned about each kind of monster, kept across runs
   // like the Hall of Heroes. Meeting one shows its picture and nature; the
@@ -1892,6 +1942,7 @@ const Game = (() => {
     if (G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
     p.nextAttack = G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
     p.sp -= sp.cost;
+    noteSpell(sp);
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color; fx.castAt = realNow;
     Sound.play('spell');
@@ -2824,6 +2875,8 @@ const Game = (() => {
       if (!G.looks) G.looks = buildLooks(G.seed);
       // a run from before relics finds them on the floors it has yet to see
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
+      // a run from before the end screen kept its numbers counts from here on
+      G.stats = { ...freshStats(), ...G.stats };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; m.volley = null; }
       lastBlocked = -1e9; queuedAttack = false; queuedMove = null;
@@ -2854,7 +2907,7 @@ const Game = (() => {
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
-    bestiary, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
+    bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
