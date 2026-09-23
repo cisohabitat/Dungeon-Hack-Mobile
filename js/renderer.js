@@ -147,10 +147,9 @@ const Renderer = (() => {
   }
   // where the hand is in each pose, as a fraction of the view
   const POSE_AT = {
-    rest: [0.78, 0.87], windup: [0.8, 0.68], cut: [0.6, 0.78], through: [0.42, 0.95],
-    fist: [0.78, 0.9], punch: [0.58, 0.74], left: [0.2, 0.9], cast: [0.3, 0.86], bow: [0.66, 0.8],
+    rest: [0.75, 0.8], windup: [0.8, 0.62], cut: [0.58, 0.74], through: [0.42, 0.92],
+    fist: [0.76, 0.86], punch: [0.58, 0.72], left: [0.24, 0.84], cast: [0.3, 0.86], shield: [0.22, 0.84], bow: [0.44, 0.68],
   };
-  // a two-handed grip holds the weapon higher, so the lower hand shows too
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
   function drawView(fx, now) {
     const v = fx.view;
@@ -163,6 +162,7 @@ const Renderer = (() => {
     const jx = hurt ? Math.sin(now / 17) * 4 * hurt : 0, jy = hurt * 9;
     const dx = bx + jx, dy = by + jy;
     const u = (now - fx.swingAt) / (fx.swingMs || 300);
+    const swinging = u >= 0 && u < 1;
     const ou = (now - fx.offAt) / 260;
     const jab = ou >= 0 && ou < 1 ? Math.sin(ou * Math.PI) : 0;
     // casting: the off hand rises into view, alight, and what it held dips
@@ -170,9 +170,40 @@ const Renderer = (() => {
     const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
 
     // left: a shield carried low, or a second blade
-    if (v.shield) {
-      const fr = Assets.carried(v.shield);
-      put(fr, W * 0.13 + dx - hurt * 4, H * 0.92 + dy + cast * H * 0.4 + hurt * 6);
+    if (v.weapon && v.drawn) {
+      // a bow: held out in the left hand, the right on the string; an attack
+      // draws the string back to the cheek and looses it
+      const [x, y] = at('bow'), fr = Assets.held(v.weapon, 'rest', v.cls, false);
+      const pull = swinging && u < 0.7 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.7;
+      const hx = x + dx + W * 0.11 + pull * W * 0.12, hy = y + dy + H * 0.11 + pull * H * 0.06;
+      put(fr, x + dx, y + dy);
+      if (fr) {
+        const k = artK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(y + dy - fr.ay * k);
+        const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
+        const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
+        // the string hangs straight until the fingers draw it back
+        const [nx, ny] = pull > 0.04 ? [hx, hy - H * 0.02] : [(tx + bx2) / 2, (ty + by2) / 2];
+        ctx.lineCap = 'round';
+        for (const [c, w] of [['#0a0810', 3], ['#e8e0cc', 1]]) {
+          ctx.strokeStyle = c; ctx.lineWidth = w;
+          ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(nx, ny); ctx.lineTo(bx2, by2); ctx.stroke();
+        }
+        if (!loosed) {
+          // the arrow, nocked, foreshortened toward what it is aimed at
+          const ax = W * 0.5, ay = H * 0.4, len = 0.55;
+          const ex = nx + (ax - nx) * len, ey = ny + (ay - ny) * len;
+          for (const [c, w] of [['#0a0810', 4], ['#b08858', 2]]) {
+            ctx.strokeStyle = c; ctx.lineWidth = w;
+            ctx.beginPath(); ctx.moveTo(nx, ny); ctx.lineTo(ex, ey); ctx.stroke();
+          }
+          ctx.fillStyle = '#d8dce4'; ctx.beginPath(); ctx.arc(ex, ey, 2, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#e04838'; ctx.fillRect(nx - 3, ny - 6, 6, 4);
+        }
+      }
+      put(Assets.held(null, 'fist', v.cls, false), hx, hy);
+    } else if (v.shield) {
+      const [x, y] = at('shield');
+      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4, y + dy + cast * H * 0.4 + hurt * 6);
     } else if (v.offhand) {
       const [x, y] = at('left');
       put(Assets.held(v.offhand, 'left', v.cls, false), x + dx + jab * W * 0.14, y + dy - jab * H * 0.1 + cast * H * 0.4);
@@ -186,14 +217,11 @@ const Renderer = (() => {
     }
 
     // right: the weapon, through the poses of a swing, or a bare fist
-    const swinging = u >= 0 && u < 1;
     if (v.weapon && v.drawn) {
-      // a bow or sling does not swing: it is drawn back and loosed
-      const p = at('bow');
-      const pull = swinging ? Math.sin(Math.min(1, u / 0.7) * Math.PI) : 0;
-      put(Assets.held(v.weapon, 'rest', v.cls, false), p[0] + dx + pull * W * 0.03, p[1] + dy + pull * H * 0.05);
+      // drawn above, with the left hand
     } else if (v.weapon) {
-      const lift = v.two ? 0.05 : 0;
+      // a two-handed grip sits higher so the lower hand shows; a sling hangs from the hand
+      const lift = v.two ? 0.05 : /sling$/.test(v.weapon) ? 0.22 : 0;
       let pose = 'rest', p = at('rest', lift);
       if (swinging) {
         if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
