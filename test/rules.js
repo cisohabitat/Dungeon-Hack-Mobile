@@ -2966,6 +2966,128 @@ await test('Riposte answers a blow on the air, not an arrow flying wide', async 
   return p.nextAttack > G.t + 5000 || 'dodging an arrow readied the swing';
 });
 
+// ---------- round six playtest ----------
+await test('every stat lesson raises that ability\'s bonus by one, from an odd or an even score', async () => {
+  const ctx = await start('fighter', 'lesson-bonus');
+  const { Game, BOONS } = ctx;
+  const p = Game.player(), out = [];
+  for (const start of [15, 16]) {
+    for (const b of BOONS.filter(b => b.stat)) {
+      p.stats[b.stat] = start;
+      const m0 = Game.mod(p.stats[b.stat]);
+      b.apply(p);
+      if (Game.mod(p.stats[b.stat]) !== m0 + 1) out.push(`${b.id} from ${start}: ${start} -> ${p.stats[b.stat]}`);
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a talent that needs a spell waits until the spell is known', async () => {
+  const ctx = await start('cleric', 'talent-needs');
+  const { Game, XP_TABLE } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  const seen = new Set();
+  for (let run = 0; run < 12; run++) {
+    G.pendingBoons = []; G.pendingLevels = [];
+    p.level = 2; p.xp = XP_TABLE[2];
+    const m = beside(ctx, 'rat', { uid: 1200 + run, hp: 1, maxHp: 1, nextAct: 1e12 });
+    for (let k = 0; k < 6 && Game.level().monsters.includes(m); k++) { G.t = p.nextAttack; Game.input('attack'); }
+    for (const id of Game.pendingBoons() || []) seen.add(id);
+  }
+  return !seen.has('warding_light') || 'Warding Light was offered at level 3, before Protection';
+});
+
+await test('a riposte lands with a bonus, and the log says so', async () => {
+  const ctx = await start('fighter', 'riposte-bonus');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  talent(ctx, 'riposte');
+  const m = beside(ctx, 'goblin', { hp: 500, maxHp: 500, nextAct: 1e12 });
+  p.riposteUntil = 0;
+  // open a riposte the way a missed blow does
+  const mark = markLog(G);
+  p.riposteUntil = G.t + 2500; p.nextAttack = G.t;
+  G.t += 1500; Game.input('attack');
+  const said = linesSince(G, mark).join(' | ');
+  void m;
+  if (!/Riposte! (A mighty blow! )?You hit|miss/.test(said)) return `said: ${said}`;
+  return !(p.riposteUntil > G.t) || 'one opening gave more than one riposte';
+});
+
+await test('Shadow Step still holds a moment after the sidestep: a goblin takes a second to come back into reach', async () => {
+  const ctx = await start('thief', 'shadow-late');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  talent(ctx, 'shadow_step'); p.perkHit = 60;
+  const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
+  const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+  L.tiles[(p.y + sy) * L.w + p.x + sx] = Dungeon.T.FLOOR;
+  G.t = p.nextAttack;
+  Game.input('strafeR');
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  m.x = p.x + dx; m.y = p.y + dy;
+  G.t += 1800;                                        // the goblin's step back in
+  const mark = markLog(G);
+  p.nextAttack = G.t; Game.input('attack');
+  return linesSince(G, mark).some(l => /from the shadows/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+await test('a level-up remembers what it gave, for the choice screen', async () => {
+  const ctx = await start('mage', 'level-note');
+  const { Game, XP_TABLE } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60; p.level = 4; p.xp = XP_TABLE[4] - 1;
+  const m = beside(ctx, 'rat', { hp: 1, maxHp: 1, nextAct: 1e12 });
+  for (let k = 0; k < 6 && Game.level().monsters.includes(m); k++) { G.t = p.nextAttack; Game.input('attack'); }
+  const note = Game.levelNote(5);
+  return (note && note.hp >= 1 && note.spells.includes('Lightning Bolt')) || `level 5 note: ${JSON.stringify(note)}`;
+});
+
+await test('Use facing an item on the floor ahead says to step onto it', async () => {
+  const ctx = await start('fighter', 'use-ahead');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+  L.items[`${p.x + dx},${p.y + dy}`] = [{ t: 'potion_heal', q: 1, e: 0 }];
+  L.items[`${p.x},${p.y}`] = [];
+  const mark = markLog(G);
+  Game.input('use');
+  return linesSince(G, mark).some(l => /Step forward onto it/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+await test('a stat lesson is offered at most twice a run', async () => {
+  const ctx = await start('fighter', 'lesson-cap');
+  const { Game, XP_TABLE } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  p.boons = ['con', 'con', 'str', 'str', 'dex', 'dex'];
+  for (let run = 0; run < 15; run++) {
+    G.pendingBoons = []; G.pendingLevels = [];
+    p.level = 3; p.xp = XP_TABLE[3];                  // level 4: a lesson
+    const m = beside(ctx, 'rat', { uid: 1300 + run, hp: 1, maxHp: 1, nextAct: 1e12 });
+    for (let k = 0; k < 6 && Game.level().monsters.includes(m); k++) { G.t = p.nextAttack; Game.input('attack'); }
+    const offer = Game.pendingBoons() || [];
+    const again = offer.find(id => ['con', 'str', 'dex'].includes(id));
+    if (again) return `${again} was offered a third time`;
+  }
+  return true;
+});
+
+await test('Last Rites spends every spell point it saves you with', async () => {
+  const ctx = await start('cleric', 'rites-cost');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  talent(ctx, 'last_rites');
+  p.eq.armor = null; p.eq.shield = null; p.stats.dex = 3;
+  beside(ctx, 'ogre');
+  p.hp = 1; p.sp = p.maxSp;
+  for (let i = 0; i < 400 && !p.ritesUsed; i++) { Game.update(G.t + 25, 25); if (!p.ritesUsed) p.sp = p.maxSp; }
+  return (p.ritesUsed && p.sp === 0) || `rites ${p.ritesUsed}, spell points ${p.sp}`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

@@ -373,4 +373,28 @@ test.describe('talents', () => {
     await expect(page.locator('#char-sheet')).toContainText(name);
     expect(errors).toEqual([]);
   });
+
+  test('a tap already on its way when the level-up opens does not choose, and the screen says what the level gave', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'talent-guard', cls: 'Fighter' });
+    await clearBoons(page);
+    const early = await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.xp = XP_TABLE[1] - 1; p.perkHit = 60;
+      L.monsters.push({ uid: 6, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+      return true;
+    });
+    expect(early).toBe(true);
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    // a mashed tap in the first moment
+    await page.evaluate(() => document.querySelector('#boon-list .boon').click());
+    expect(await page.evaluate(() => !!Game.pendingBoons())).toBe(true);
+    await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points/);
+    await expect(page.locator('.boon-head')).toContainText('a talent at the next level');
+    await page.locator('#boon-list .boon').first().click();
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    expect(errors).toEqual([]);
+  });
 });

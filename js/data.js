@@ -79,11 +79,13 @@ const JOURNAL = [
 
 // On every level gained, three of these are offered and one is kept.
 const BOONS = [
-  { id: 'str', name: 'Hard Won Strength', desc: '+1 Strength. Heavier blows.', apply: p => { p.stats.str++; } },
-  { id: 'dex', name: 'Sure Footing', desc: '+1 Dexterity. Harder to hit, quicker hands.', apply: p => { p.stats.dex++; } },
-  { id: 'con', name: 'Deep Wind', desc: '+1 Constitution. Every level to come pays more.', apply: p => { p.stats.con++; } },
-  { id: 'int', name: 'Sharpened Wits', desc: '+1 Intelligence.', apply: p => { p.stats.int++; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
-  { id: 'wis', name: 'Clear Sight', desc: '+1 Wisdom.', apply: p => { p.stats.wis++; }, when: p => p.cls === 'cleric' },
+  // A stat lesson lifts the score to the next even number, so its bonus always
+  // rises by one: +1 to an even score used to change nothing at all.
+  { id: 'str', stat: 'str', max: 2, name: 'Hard Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; } },
+  { id: 'dex', stat: 'dex', max: 2, name: 'Sure Footing', desc: 'Your Dexterity bonus rises by one.', apply: p => { p.stats.dex += p.stats.dex % 2 ? 1 : 2; } },
+  { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
+  { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
+  { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' },
   { id: 'vigor', name: 'Old Scars', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
   { id: 'focus', name: 'Quiet Mind', desc: '+4 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; }, when: p => !!CLASSES[p.cls].spells },
   { id: 'keen', name: 'Killing Eye', desc: '+1 to hit with every blow, for good.', unique: true, apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },
@@ -97,18 +99,18 @@ const BOONS = [
 const TALENTS = {
   fighter: [
     { id: 'cleave', name: 'Cleave', desc: 'Strike a group and the one behind the front takes half the blow.' },
-    { id: 'riposte', name: 'Riposte', desc: 'A blow that misses you, or swings at the air where you stood, readies your next swing at once.' },
+    { id: 'riposte', name: 'Riposte', desc: 'A blow that misses you, or swings at the air where you stood, opens a riposte: your next swing within two and a half seconds comes at once, with +4 to hit and +2 damage.' },
     { id: 'stand_firm', name: 'Stand Firm', desc: 'A monster\'s trick that lands does half damage to you: a crush, a charge, a claw, the lich\'s storm. Nothing can grab you.' },
     { id: 'second_wind', name: 'Second Wind', desc: 'Falling below a quarter of your health heals another quarter at once. Once every two minutes.' },
     { id: 'weapon_master', name: 'Weapon Master', desc: '+2 damage with every blow of a two-handed weapon, +1 with any other.' },
     { id: 'bulwark', name: 'Bulwark', desc: 'A shield gives you 2 more armour class.' },
   ],
   cleric: [
-    { id: 'healing_hands', name: 'Healing Hands', desc: 'Your healing spells heal half as much again.' },
-    { id: 'sanctified', name: 'Sanctified', desc: 'Your blows deal +1d4 to the undead, and no undead touch can drain your life.' },
+    { id: 'healing_hands', name: 'Healing Hands', desc: 'Your healing spells heal a third as much again.' },
+    { id: 'sanctified', name: 'Sanctified', desc: 'Your blows deal +1d4 to the undead.' },
     { id: 'zeal', name: 'Zeal', desc: 'Bless lasts twice as long, and while it holds every blow deals +1 damage.' },
-    { id: 'warding_light', name: 'Warding Light', desc: 'While Protection is upon you, you heal a hit point every three seconds, even mid-fight.' },
-    { id: 'last_rites', name: 'Last Rites', desc: 'Once a run, a blow that would kill you leaves you standing on 1 hit point.' },
+    { id: 'warding_light', needs: 'protection', name: 'Warding Light', desc: 'While Protection is upon you, you heal a hit point every three seconds, even mid-fight.' },
+    { id: 'last_rites', name: 'Last Rites', desc: 'Once a run, a blow that would kill you leaves you standing on 1 hit point, at the cost of every spell point you hold.' },
     { id: 'radiance', name: 'Radiance', desc: 'Holy Smite deals half as much again and reaches two squares further.' },
   ],
   mage: [
@@ -116,7 +118,7 @@ const TALENTS = {
     { id: 'arcane_flow', name: 'Arcane Flow', desc: 'Spell points come back twice as fast as you walk.' },
     { id: 'mirror_image', name: 'Mirror Image', desc: 'Casting Shield also conjures two images of you: the next two blows aimed at you strike them instead.' },
     { id: 'quick_words', name: 'Quick Words', desc: 'Casting takes a quarter less time.' },
-    { id: 'rime', name: 'Rime', desc: 'Lightning and Cone of Cold jolt everything they hit, holding back its next move by most of a second.' },
+    { id: 'rime', needs: 'lightning', name: 'Rime', desc: 'Lightning and Cone of Cold jolt everything they hit, holding back its next move by most of a second.' },
     { id: 'kindling', name: 'Kindling', desc: 'Your fire leaves what it hits burning, 1d4 a second for three seconds. Burns stop a troll regrowing.' },
   ],
   thief: [
@@ -124,7 +126,7 @@ const TALENTS = {
     { id: 'evasion', name: 'Evasion', desc: 'One arrow or bolt in three misses you outright, and webs slide off you.' },
     { id: 'venom', name: 'Venomed Blades', desc: 'One hit in four poisons the living: 1d3 a second for four seconds.' },
     { id: 'lucky', name: 'Lucky', desc: 'Your critical hits land one number sooner on the die.' },
-    { id: 'shadow_step', name: 'Shadow Step', desc: 'Sidestep, and your next blow within a second strikes from the shadows.' },
+    { id: 'shadow_step', name: 'Shadow Step', desc: 'Sidestep, and your next blow within two and a half seconds strikes from the shadows.' },
     { id: 'light_fingers', name: 'Light Fingers', desc: 'Monsters drop loot half as often again, and traders pay you a quarter more.' },
   ],
 };

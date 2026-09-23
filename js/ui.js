@@ -261,8 +261,14 @@ const UI = (() => {
     const pool = firstRun ? ['fighter', 'cleric'] : classes;
     create.cls = pool[Math.floor(Math.random() * pool.length)];
     create.bg = pasts[Math.floor(Math.random() * pasts.length)];
-    create.rolled = Game.rollStats();
-    fitStats();
+    // "straight in" should not mean a hero who cannot hit a rat: roll again
+    // until the key stat and the fighting stat both pull their weight
+    for (let i = 0; i < 40; i++) {
+      create.rolled = Game.rollStats();
+      fitStats();
+      const s = create.stats, fight = create.cls === 'thief' ? s.dex : s.str;
+      if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
+    }
     const NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
     showPrologue({ name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
       opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } });
@@ -353,7 +359,10 @@ const UI = (() => {
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
-    tipUntil = tipAt + 7000;
+    // in a fight a tip keeps out of the way sooner
+    const L = Game.level(), p = Game.player();
+    const fighting = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
+    tipUntil = tipAt + (fighting ? 4000 : 7000);
     return true;
   }
   function checkTips() {
@@ -386,7 +395,7 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0].join('|');
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -410,6 +419,8 @@ const UI = (() => {
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (Game.effect('ac')) st.push('<span class="good">Shielded</span>');
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
+    if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
+    if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
     if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
     if (Game.effect('might')) st.push('<span class="good">Mighty</span>');
     if (G.escaping) st.push('<span class="escape">Carrying the Heart</span>');
@@ -710,6 +721,20 @@ const UI = (() => {
     done.addEventListener('click', () => closeOverlay());
     el.appendChild(done);
   }
+  const BOON_GUARD_MS = 700;
+  /** A lesson's card: for a stat, what it will be and what it buys this hero. */
+  function lessonText(b, p) {
+    if (!b.stat) return b.desc;
+    const s = p.stats[b.stat], next = s + (s % 2 ? 1 : 2);
+    const what = {
+      str: p.cls === 'thief' ? 'to hit' : 'to hit and to damage',
+      dex: p.cls === 'thief' ? 'to armour class and to damage' : 'to armour class',
+      con: 'hit point with every level from now on',
+      int: p.cls === 'mage' ? 'spell point for every hero level' : 'on every reckoning and reading in the dark',
+      wis: p.cls === 'cleric' ? 'spell point for every hero level, and a surer will against draining' : 'against draining',
+    }[b.stat];
+    return `${STAT_NAMES[b.stat]} ${s} \u2192 ${next}: +1 ${what}.`;
+  }
   function renderBoons() {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
@@ -721,19 +746,33 @@ const UI = (() => {
       : `Hero level ${Game.pendingLevel()}: what the delve taught you`;
     const el = $('#boon-list');
     el.innerHTML = '';
-    if (isTalent) {
-      const note = document.createElement('p');
-      note.className = 'dim small';
-      note.textContent = 'A talent is for good, and each can be taken once. Choose the one that suits how you fight.';
-      el.appendChild(note);
-    }
+    // what the level brought, and what comes next
+    const level = Game.pendingLevel(), got = Game.levelNote(level);
+    const bits = [];
+    if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
+    const nextTalent = Math.ceil((level + 1) / 3) * 3;
+    if (nextTalent <= MAX_LEVEL) bits.push(isTalent ? `next talent at level ${nextTalent}` : (nextTalent === level + 1 ? 'a talent at the next level' : `next talent at level ${nextTalent}`));
+    const head = document.createElement('p');
+    head.className = 'boon-head';
+    head.textContent = bits.join(' \u00b7 ');
+    el.appendChild(head);
+    const note = document.createElement('p');
+    note.className = 'dim small';
+    note.textContent = isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight.'
+      : 'A small lesson. Choose one.';
+    el.appendChild(note);
+    // a tap already on its way when the screen opened must not choose for you
+    const openedAt = performance.now();
     for (const id of offer) {
       const b = BOONS.find(x => x.id === id) || talents.find(x => x.id === id);
       if (!b) continue;
       const btn = document.createElement('button');
       btn.className = 'boon' + (isTalent ? ' talent' : '');
-      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.desc)}</small>`;
+      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(isTalent ? b.desc : lessonText(b, p))}</small>`;
+      btn.disabled = true;
+      setTimeout(() => { btn.disabled = false; }, BOON_GUARD_MS);
       btn.addEventListener('click', () => {
+        if (performance.now() - openedAt < BOON_GUARD_MS) return;
         Game.chooseBoon(id);
         if (Game.pendingBoons()) renderBoons(); else closeOverlay();
       });
@@ -1105,10 +1144,13 @@ const UI = (() => {
     r('Deepest floor', p.deepest); r('Seed', escapeHtml(G.seed));
     r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
+    let extra = '';
     if (p.talents && p.talents.length) {
       const own = TALENTS[p.cls] || [];
-      const lines = p.talents.map(id => { const t = own.find(x => x.id === id); return t ? `<b>${escapeHtml(t.name)}</b>: ${escapeHtml(t.desc)}` : escapeHtml(id); });
-      r('Talents', lines.join('<br>'), true);
+      extra += '<h3 class="sheet-h">Talents</h3><ul class="talent-list">' + p.talents.map(id => {
+        const t = own.find(x => x.id === id);
+        return t ? `<li><b>${escapeHtml(t.name)}</b><span>${escapeHtml(t.desc)}</span></li>` : '';
+      }).join('') + '</ul>';
     }
     if (p.boons && p.boons.length) {
       // the same lesson taken twice reads as "Deep Wind ×2", not twice over
@@ -1117,7 +1159,7 @@ const UI = (() => {
       const names = [...counts].map(([id, n]) => { const b = BOONS.find(x => x.id === id); return (b ? b.name : id) + (n > 1 ? ` \u00d7${n}` : ''); });
       r('Learned', escapeHtml(names.join(', ')), true);
     }
-    $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>`;
+    $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>${extra}`;
   }
 
   // Text size scales the whole interface from the root, so every rem follows.
@@ -1149,7 +1191,7 @@ const UI = (() => {
       ? `${p.name} the ${CLASSES[p.cls].name} climbed out of the deep with the Heart of the Mountain.`
       : (G.escaping
         ? `${p.name} the ${CLASSES[p.cls].name} died on level ${G.depth} with the Heart still in hand. ${G.opts.permadeath ? 'The save has been erased.' : ''}`
-        : `${p.name} the ${CLASSES[p.cls].name} fell on level ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
+        : `${p.name} the ${CLASSES[p.cls].name} fell on floor ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
     rows.unshift(['Score', Game.score(p, G.depth, won)]);

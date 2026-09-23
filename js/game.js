@@ -132,7 +132,13 @@ const Game = (() => {
     return 1 - Math.min(cap, (p.level - 1) * rate + (p.perkSpeed || 0));
   }
   /** Riposte: a blow that misses you readies your next swing at once. */
-  function riposte() { if (hasTalent('riposte')) P().nextAttack = Math.min(P().nextAttack, G.t); }
+  function riposte() {
+    const p = P();
+    if (!hasTalent('riposte')) return;
+    if (!(p.riposteUntil > G.t)) log('Riposte: you see an opening!', 'good');
+    p.nextAttack = Math.min(p.nextAttack, G.t);
+    p.riposteUntil = G.t + 2500;
+  }
   /** Whether the hero has taken this class talent. */
   const hasTalent = id => !!(P().talents && P().talents.includes(id));
   // the roll at or above which an attack is a critical hit
@@ -881,7 +887,7 @@ const Game = (() => {
     // anything the interactive cases above did not claim had better be walkable
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
     p.x = nx; p.y = ny; p.steps++;
-    if (rel === 1 || rel === 3) p.shadowUntil = G.t + 1000;
+    if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
     startCam(MOVE_MS);
     Sound.play('step');
     distFieldAt = -1e9;
@@ -904,7 +910,11 @@ const Game = (() => {
     Sound.play('bump');
     if (G.t - lastBlocked <= 700) return;
     lastBlocked = G.t;
-    // the same bump again counts up on its own line instead of pushing
+    logMerged(message);
+  }
+  /** Log a line, or count it up if it just said the same thing. */
+  function logMerged(message) {
+    // the same line again counts up on its own line instead of pushing
     // everything that mattered off the top of the log
     const last = G.log[G.log.length - 1];
     if (last && (last.base || last.m) === message) {
@@ -915,7 +925,7 @@ const Game = (() => {
     }
     log(message);
   }
-  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
+  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); logMerged('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
     setTile(x, y, T.DOOR_OPEN);
     log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
@@ -1017,7 +1027,8 @@ const Game = (() => {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
-    log('There is nothing to use here.');
+    if ((lvl().items[key(tx, ty)] || []).length) { logMerged('Step forward onto it to pick it up.'); return; }
+    logMerged('There is nothing to use here.');
   }
 
   // ---------- trading ----------
@@ -1259,8 +1270,11 @@ const Game = (() => {
     m.awake = true;
     const roll = d(1, 20);
     const crit = roll >= critFloor();
-    const note = rollNote(roll, toHit(), mb.ac, crit);
-    if (roll === 1 || (!crit && roll + toHit() < mb.ac)) {
+    // a riposte: the opening a missed blow left, taken
+    const rip = !atRange && p.riposteUntil > G.t ? 4 : 0;
+    if (rip) p.riposteUntil = 0;
+    const note = rollNote(roll, toHit() + rip, mb.ac, crit);
+    if (roll === 1 || (!crit && roll + toHit() + rip < mb.ac)) {
       log(`You miss the ${mb.name}.${note}`);
       Sound.play('miss');
       floatText(m, 'miss', '#e4e4ee');
@@ -1273,7 +1287,7 @@ const Game = (() => {
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0);
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + baneDamage(m, 'weapon');
+    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon');
     if (crit) dmg *= 2;
     if (sneak) dmg *= hasTalent('assassinate') ? 3 : 2;
     dmg = Math.max(1, dmg);
@@ -1282,7 +1296,7 @@ const Game = (() => {
     // is settled before the blow, since a killing blow brings them forward.
     const behind = !atRange && !w.range && hasTalent('cleave') && m.pack && m.pack.length ? m.pack[0] : null;
     const packBefore = packSize(m);
-    damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null), note);
+    damageMonster(m, dmg, crit ? (rip ? 'riposte-crit' : 'crit') : (sneak ? 'sneak' : (rip ? 'riposte' : null)), note);
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
     if (behind && lvl().monsters.includes(m)) {
       const n = Math.max(1, Math.floor(dmg / 2));
@@ -1323,7 +1337,7 @@ const Game = (() => {
     m.hp -= dmg;
     m.awake = true;
     m.flashUntil = realNow + 130;
-    floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
+    floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     Sound.play('hit');
     buzz(12);
     if (m.hp <= 0) {
@@ -1352,7 +1366,7 @@ const Game = (() => {
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else {
-      const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
+      const pre = { crit: 'A mighty blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     moveOnHurt(m, mb, tag);
@@ -1428,6 +1442,8 @@ const Game = (() => {
       Sound.play('levelup');
       const unlocked = knownSpells().filter(s => s.lvl * 2 - 1 === p.level);
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');
+      G.levelNotes = G.levelNotes || {};
+      G.levelNotes[p.level] = { hp: gain, spells: unlocked.map(s => s.name) };
       // a small lesson at every level, and every third a talent of the hero's class
       if (p.level % 3 === 0) offerTalents(); else offerBoons();
     }
@@ -1436,7 +1452,9 @@ const Game = (() => {
   function offerBoons() {
     const p = P();
     const taken = p.boons || [];
-    const pool = BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)));
+    // a stat lesson twice at most: stacking one every level was the whole of a build
+    const times = id => taken.filter(t => t === id).length;
+    const pool = BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
     const picked = Dice.shuffle(pool.slice()).slice(0, 3).map(b => b.id);
     G.pendingBoons = (G.pendingBoons || []).concat([picked]);
     G.pendingLevels = (G.pendingLevels || []).concat(p.level);
@@ -1445,7 +1463,9 @@ const Game = (() => {
   /** Three of the class's talents not yet taken; a lesson instead once all are. */
   function offerTalents() {
     const p = P();
-    const pool = (TALENTS[p.cls] || []).filter(t => !(p.talents || []).includes(t.id));
+    // a talent for a spell not yet learned would sit useless for levels: it waits
+    const knows = id => knownSpells().some(s => s.id === id && spellAvailable(s));
+    const pool = (TALENTS[p.cls] || []).filter(t => !(p.talents || []).includes(t.id) && (!t.needs || knows(t.needs)));
     if (!pool.length) { offerBoons(); return; }
     G.pendingBoons = (G.pendingBoons || []).concat([Dice.shuffle(pool.slice()).slice(0, 3).map(t => t.id)]);
     G.pendingLevels = (G.pendingLevels || []).concat(p.level);
@@ -1453,6 +1473,8 @@ const Game = (() => {
   }
   /** The level the offer now showing was earned at. */
   function pendingLevel() { return G.pendingLevels && G.pendingLevels.length ? G.pendingLevels[0] : P().level; }
+  /** What a level brought besides the choice: hit points, and any spell learned. */
+  function levelNote(level) { return (G.levelNotes && G.levelNotes[level]) || null; }
   function pendingBoons() { return G.pendingBoons && G.pendingBoons.length ? G.pendingBoons[0] : null; }
   function chooseBoon(id) {
     const offer = pendingBoons();
@@ -1507,8 +1529,8 @@ const Game = (() => {
     buzz(40);
     if (msg) log(msg, 'bad');
     if (p.hp <= 0 && hasTalent('last_rites') && !p.ritesUsed) {
-      p.hp = 1; p.ritesUsed = true;
-      log('Last rites: a light holds you up when you should have fallen. It will not come again.', 'good');
+      p.hp = 1; p.ritesUsed = true; p.sp = 0;
+      log('Last rites: a light holds you up when you should have fallen, and takes every prayer you had left. It will not come again.', 'good');
     }
     if (p.hp > 0 && p.hp < p.maxHp / 4 && hasTalent('second_wind') && G.t >= (p.windReady || 0)) {
       const n = Math.ceil(p.maxHp / 4);
@@ -1533,7 +1555,7 @@ const Game = (() => {
     fx.hpFrac = 1;                         // no near-death pulse over the fallen
     G.status = 'dead';
     G.deathLog = G.log.slice(-6).map(e => e.m);
-    log(`${p.name} has died on level ${G.depth}.`, 'bad');
+    log(`${p.name} has died on floor ${G.depth}.`, 'bad');
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
     recordHero(false);
@@ -1739,7 +1761,7 @@ const Game = (() => {
     fx.castUntil = realNow + 260; fx.castColor = sp.color;
     Sound.play('spell');
     switch (sp.kind) {
-      case 'heal': { const n = Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 1.5 : 1)); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.`, 'good'); break; }
+      case 'heal': { const n = Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1)); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: sp.amount, until: G.t + sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1), src: sp.id };
         log(`You cast ${sp.name}. ${sp.desc}`, 'good');
@@ -1903,14 +1925,15 @@ const Game = (() => {
     }
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
     if (roll === 20 && !h.mult) dmg *= 2;          // a crushing blow is doubled already
-    if (heavy && hasTalent('stand_firm')) dmg = Math.max(1, Math.ceil(dmg / 2));
+    const firm = heavy && hasTalent('stand_firm');
+    if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${note}`, m);
+    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${note}`, m);
     if (G.status !== 'playing') return true;
     if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     // a strong will holds on to itself against the drain
-    if (mb.drain && !hasPower('ward') && !hasTalent('sanctified') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
     return true;
   }
@@ -2530,7 +2553,7 @@ const Game = (() => {
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
-    pendingLevel, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
+    pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

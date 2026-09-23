@@ -377,3 +377,15 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .beast .locked { color: var(--dim); font-style: italic; }
 .beast .where { color: var(--dim); font-size: 0.8rem; }
 
+/* the level-up screen: what the level gave, then the choice */
+.boon-head { color: var(--gold); margin: 4px 0 2px; font-size: 0.95rem; }
+.boon:disabled { opacity: 0.55; }
+/* talents on the Hero sheet: one to a line, name then what it does */
+.sheet-h { margin: 14px 0 6px; font-size: 1rem; color: var(--gold); }
+.talent-list { list-style: none; margin: 0; padding: 0; }
+.talent-list li { padding: 7px 0; border-bottom: 1px solid var(--border); line-height: 1.4; }
+.talent-list b { display: block; color: var(--gold); }
+.talent-list span { color: #c8bfae; font-size: 0.9rem; }
+/* creation stats: two to a row, so a starred score never breaks its line */
+#c-stats { grid-template-columns: repeat(2, 1fr); }
+

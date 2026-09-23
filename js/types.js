@@ -55,6 +55,7 @@
  * @property {number} [lastTear]  when the hero last tore at a web
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
+ * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
@@ -170,6 +171,7 @@
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
  * @property {number[]} [pendingLevels]  the level each queued offer was earned at
+ * @property {Record<number, {hp: number, spells: string[]}>} [levelNotes]  what each level-up brought
  * @property {{name: string, dmg: number, bearing: string, encounter?: boolean}} [lastAttacker]
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary

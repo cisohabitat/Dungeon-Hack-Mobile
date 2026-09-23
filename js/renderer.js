@@ -222,8 +222,9 @@ const Renderer = (() => {
           run = -1;
         }
       }
-      if (s.hp != null && s.hp < s.maxHp && drawnTop > 6) {
-        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.floor(drawnTop) - 5;
+      // an ogre up close is taller than the view: its bar stays inside it
+      if (s.hp != null && s.hp < s.maxHp) {
+        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.max(3, Math.floor(drawnTop) - 5);
         ctx.fillStyle = '#000';
         ctx.fillRect(bx - 1, by - 1, bw + 2, 4);
         ctx.fillStyle = '#5a1a1a';
@@ -249,7 +250,7 @@ const Renderer = (() => {
         // a monster's own trick: a bigger violet mark, unlike any plain blow
         // half as big again as it was, and sat on the drawing, not its frame
         const size = Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4))));
-        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + 3, Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
+        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + (s.hp != null && s.hp < s.maxHp ? 10 : 3), Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
         ctx.save();
         ctx.lineJoin = 'round';
         ctx.beginPath();
