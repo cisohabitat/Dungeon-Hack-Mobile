@@ -101,18 +101,18 @@ const CLASSES = {
     startKit: ['longsword', 'chain', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, castMs: 1000, spMul: 0.8, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead.',
     startKit: ['mace', 'studded', 'buckler', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 4, hitProg: 1 / 3, armor: 'none', shield: false, spells: 'mage', primary: 'int',
-    desc: 'Fragile scholar wielding devastating bolts of force and flame.',
+    name: 'Mage', plural: 'Mages', hitDie: 4, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.6, spells: 'mage', primary: 'int',
+    desc: 'Fragile scholar with deep reserves of power and quick words to spend them.',
     startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
     name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 1 / 2, armor: 'light', shield: false, spells: null, primary: 'dex',
-    desc: 'Quick and cunning. Disarms traps and strikes sleeping foes twice as hard.',
+    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
@@ -210,11 +210,11 @@ const SPELLS = {
     { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, color: '#8ef', desc: 'A freezing blast down the corridor ahead.' },
   ],
   cleric: [
-    { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + level hit points.' },
-    { id: 'bless',        name: 'Bless',               lvl: 1, cost: 2,  kind: 'buff', stat: 'hit', amount: 2, dur: 60000, color: '#ff8', desc: '+2 to hit for a minute.' },
-    { id: 'smite',        name: 'Holy Smite',          lvl: 2, cost: 4,  kind: 'bolt', range: 3, dmg: L => [2, 6, L], holy: true, color: '#ffd', desc: 'Radiant strike. Double damage to the undead.' },
-    { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [3, 8, L], color: '#8f8', desc: 'Heals 3d8 + level hit points.' },
-    { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 4, dur: 90000, color: '#adf', desc: '+4 armour class for ninety seconds.' },
+    { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, Math.floor(L / 2)], color: '#8f8', desc: 'Heals 1d8 + half your level in hit points.' },
+    { id: 'bless',        name: 'Bless',               lvl: 1, cost: 2,  kind: 'buff', stat: 'hit', amount: 2, dur: 30000, color: '#ff8', desc: '+2 to hit for thirty seconds.' },
+    { id: 'smite',        name: 'Holy Smite',          lvl: 2, cost: 4,  kind: 'bolt', range: 3, dmg: L => [1, 6, Math.floor(L / 2)], holy: true, color: '#ffd', desc: 'Radiant strike. Double damage to the undead.' },
+    { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, Math.floor(L / 2)], color: '#8f8', desc: 'Heals 2d8 + half your level in hit points.' },
+    { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 45000, color: '#adf', desc: '+2 armour class for forty-five seconds.' },
     { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], color: '#f84', desc: 'A pillar of holy fire consumes the foe ahead.' },
   ],
 };

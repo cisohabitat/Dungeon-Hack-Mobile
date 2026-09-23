@@ -111,15 +111,18 @@ await test('a second blade buys damage with rhythm, not for free', async () => {
   const o = Game.offhandWeapon();
   if (!o || o.name !== 'Short Sword') return 'the off hand reports no weapon';
 
-  // the second blade parries a little, but a shield is still the armour choice
+  // the shield is the armour choice: a second blade adds none. (It once added
+  // one point, tuned against a benchmark that rounded every swing up to 300ms
+  // and so never charged the two-blade build its slower swing. Timed exactly,
+  // the builds are level without it.)
   p.eq.offhand = null; p.eq.shield = null;
   const bare = Game.playerAC();
   p.eq.offhand = blade;
-  const parrying = Game.playerAC();
+  const twoBlades = Game.playerAC();
   p.eq.offhand = null; p.eq.shield = { t: 'towershield', q: 1, e: 0 };
   const shielded = Game.playerAC();
-  if (!(parrying > bare)) return 'a second blade turned no blows aside';
-  if (!(shielded > parrying)) return 'a second blade guarded as well as a tower shield';
+  if (twoBlades !== bare) return `a second blade changed armour class from ${bare} to ${twoBlades}`;
+  if (!(shielded > bare)) return 'a tower shield added no armour';
   return true;
 });
 
@@ -489,6 +492,85 @@ await test('class names are pluralised as words, not by adding an s', async () =
   const why = Game.canEquip(p.inv[p.inv.length - 1]) || '';
   if (/Thiefs/.test(why)) return `the refusal read "${why}"`;
   return /Thieves/.test(why) || `expected "Thieves" in "${why}"`;
+});
+
+await test('casting takes time, and a mage casts faster than a cleric', async () => {
+  // Casting used to cost nothing: a cleric could bless, ward, heal and strike
+  // in one instant, and a mage could empty their points as fast as Cast could
+  // be tapped.
+  const timeToRecover = async (cls, spellId) => {
+    const ctx = await newContext();
+    const { Game, Dungeon } = ctx;
+    Game.newGame({ name: 'C', cls, bg: 'oathbroken', stats: { ...evenStats, int: 16, wis: 16 }, seed: 'cast-' + cls, opts: OPTS });
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    L.monsters.length = 0;
+    p.level = 3;                          // Shield is a second-circle spell
+    p.sp = p.maxSp = 99;
+    const sp = Game.knownSpells().find(s => s.id === spellId);
+    if (!sp) return `a ${cls} does not know ${spellId}`;
+    if (!Game.castSpell(sp)) return `${spellId} would not cast at all`;
+    // lift the buff each time, so the waste guard (which rightly refuses to
+    // recast a ward already up) cannot be what is stopping the second cast
+    const lift = () => { p.effects = {}; };
+    lift();
+    const before = p.sp;
+    if (Game.castSpell(sp)) return `${spellId} cast twice in the same instant`;
+    if (p.sp !== before) return 'a refused cast still spent points';
+    let waited = 0;
+    for (;;) { lift(); if (Game.castSpell(sp)) break; G.t += 25; waited += 25; if (waited > 3000) return `never recovered from ${spellId}`; }
+    return waited;
+  };
+  const mage = await timeToRecover('mage', 'shield');
+  const cleric = await timeToRecover('cleric', 'bless');
+  if (typeof mage === 'string') return mage;
+  if (typeof cleric === 'string') return cleric;
+  if (mage < 300) return `a mage recovered in ${mage}ms, which is no cost at all`;
+  if (!(cleric > mage)) return `a cleric (${cleric}ms) recovered no slower than a mage (${mage}ms)`;
+  // and a cast holds up the next swing too
+  const ctx = await newContext();
+  const { Game } = ctx;
+  Game.newGame({ name: 'C', cls: 'cleric', bg: 'oathbroken', stats: { ...evenStats }, seed: 'cast-swing', opts: OPTS });
+  const p = Game.player(), G = Game.state();
+  p.sp = p.maxSp = 99;
+  Game.castSpell(Game.knownSpells().find(s => s.id === 'bless'));
+  return p.nextAttack > G.t || 'casting left the sword arm free to swing at once';
+});
+
+await test('the unarmoured mage carries a deeper pool than the armoured cleric', async () => {
+  // same level, same score in the casting stat: only the class differs
+  const pool = async (cls, stat) => {
+    const ctx = await newContext();
+    ctx.Game.newGame({ name: 'P', cls, bg: 'oathbroken', stats: { ...evenStats, [stat]: 14 }, seed: 'pool', opts: OPTS });
+    return ctx.Game.player().maxSp;
+  };
+  const mage = await pool('mage', 'int'), cleric = await pool('cleric', 'wis');
+  return mage > cleric || `a level-one mage holds ${mage} points against a cleric's ${cleric}`;
+});
+
+await test('a thief is noticed later than a fighter', async () => {
+  // At the old six-square notice nothing stayed asleep long enough for a
+  // thief to reach it, so the class's double blow on a sleeper rarely landed.
+  const wakes = async cls => {
+    const ctx = await newContext();
+    const { Game, Dungeon } = ctx, T = Dungeon.T;
+    Game.newGame({ name: 'N', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'notice', opts: OPTS });
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    // a straight run of floor so the distance is walked, not guessed
+    outer: for (let y = 1; y < L.h - 1; y++) for (let x = 1; x < L.w - 1; x++) for (let dir = 0; dir < 4; dir++) {
+      const [dx, dy] = Dungeon.DIRS[dir]; let ok = true;
+      for (let k = 0; k <= 6; k++) if (L.tiles[(y + dy * k) * L.w + (x + dx * k)] !== T.FLOOR) { ok = false; break; }
+      if (ok) { p.x = x; p.y = y; p.dir = dir; break outer; }
+    }
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.monsters.length = 0;
+    const m = { uid: 3, id: 'goblin', x: p.x + dx * 5, y: p.y + dy * 5, hp: 9, maxHp: 9, awake: false, nextAct: 0,
+      rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(m);
+    for (let i = 0; i < 40; i++) { m.x = p.x + dx * 5; m.y = p.y + dy * 5; Game.update(G.t + 100, 100); if (m.awake) return true; }
+    return false;
+  };
+  if (!(await wakes('fighter'))) return 'a goblin five squares off never noticed a fighter';
+  return !(await wakes('thief')) || 'a goblin five squares off noticed a thief just as quickly';
 });
 
 await test('using the last of a stack removes its slot', async () => {

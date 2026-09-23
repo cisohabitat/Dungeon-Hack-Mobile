@@ -88,7 +88,9 @@ const Game = (() => {
     const c = CLASSES[p.cls];
     if (!c.spells) return 0;
     const stat = p.stats[c.primary];
-    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)))) + 3 + (p.bonusSp || 0);
+    // the armoured cleric holds fewer prayers; the unarmoured mage runs deep
+    const mul = c.spMul || 1;
+    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0);
   }
   // Practice tells: a veteran swings faster and puts more behind it. Without this
   // the player's damage is flat for the whole game while monster hit points grow.
@@ -115,10 +117,6 @@ const Game = (() => {
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.15;
   const DUAL_HIT_PENALTY = 3;
-  // and turns a few blows aside on its own: without this the build measured
-  // eight points of win rate worse than a shield over full runs, which is a
-  // trap rather than a choice. One point of armour brings it level.
-  const DUAL_PARRY = 1;
   const OFFHAND_MAX_SPEED = 550;   // dagger, club, short sword: nothing heavier
   /** Why this cannot ride in the off hand, or null if it can. */
   function offhandReason(it) {
@@ -154,8 +152,6 @@ const Game = (() => {
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0);
-    // a second blade turns some blows aside, though never as many as a shield
-    if (p.eq.offhand) ac += DUAL_PARRY;
     return ac;
   }
   function knownSpells() {
@@ -1095,12 +1091,20 @@ const Game = (() => {
     if (sp.kind === 'buff' && effect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
     return null;
   }
+  // A spell takes time, and shares the swing's timer. Casting used to cost
+  // nothing: a cleric could bless, ward, heal and strike in the same instant,
+  // and a mage could empty their points as fast as they could tap Cast. Now
+  // each moment is a choice between them. A class may cast faster or slower
+  // than this: a mage's words are quick, a cleric's prayers are not.
+  const CAST_MS = 800;
   function castSpell(sp) {
     const p = P();
     if (!spellAvailable(sp)) { log(`You are not experienced enough to cast ${sp.name}.`, 'bad'); return false; }
     if (p.sp < sp.cost) { log('Not enough spell points.', 'bad'); Sound.play('error'); return false; }
     const waste = spellWasteReason(sp);
     if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
+    if (G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
+    p.nextAttack = G.t + (cls().castMs || CAST_MS);
     p.sp -= sp.cost;
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color;
@@ -1244,7 +1248,10 @@ const Game = (() => {
       if (G.t < m.nextAct) continue;
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
-        const notice = P().bg === 'deepborn' ? 4 : 6;
+        // Thieves move quietly, so their double blow on a sleeping foe can
+        // actually happen: at six squares almost nothing stayed asleep long
+        // enough to be reached. Deep-born blood stacks with it.
+        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0));
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
