@@ -1075,25 +1075,6 @@ for (const k in PROP_DETAILS) {
 // The hero's own hand, seen from behind at the bottom of the view: a fist
 // on a sleeve, gloved as each class goes armed. It holds the weapon drawn
 // over it, and rises into view to cast.
-function fist(glove, cuff, sleeve) {
-  return [
-    limb(16, 31.5, 16.5, 22, 4.6, 4, sleeve),
-    limb(16.2, 23.5, 16.4, 21.5, 4.4, 4.2, cuff),
-    ball(16.5, 17.5, 5.6, 4.6, glove),
-    ...[11.8, 14.9, 18, 21].map((x, i) => ball(x, 13.6 + (i === 0 || i === 3 ? 0.6 : 0), 1.8, 1.7, glove)),
-    limb(11, 20, 10.5, 15.5, 1.6, 1.4, glove),
-    hair(12.5, 15.5, 20.5, 15.5, '#1a1418'), hair(13.5, 13, 13.5, 14.5, '#1a1418'), hair(16.5, 12.5, 16.5, 14.5, '#1a1418'), hair(19.5, 13, 19.5, 14.5, '#1a1418'),
-    specks([[12, 12.5], [15, 12], [18, 12], [21, 12.5]], '#ffffff'),
-    hair(12, 23, 21, 22.5, '#1a1418'),
-  ];
-}
-const HANDS = {
-  fighter: () => fist('#8a929e', '#5a606a', '#6a4a30'),
-  cleric: () => fist('#8a6440', '#c9a24a', '#e8e0d0'),
-  mage: () => fist('#d8b090', '#6a4aa0', '#4a3a78'),
-  thief: () => fist('#3a3438', '#5a4a3a', '#3e4a3a'),
-};
-
 // Creatures that hover, and so cast no shadow on the floor.
 const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp']);
 
@@ -1291,4 +1272,4 @@ function paintParts(parts, grid = 32, scale = 1) {
   return { aw: size, ah: size, color: col };
 }
 
-export { CREATURES, PROPS, HANDS, FLOATING, paintParts, ball, limb, sheet, line, dots, specks, hair, both };
+export { CREATURES, PROPS, FLOATING, paintParts, ball, limb, sheet, line, dots, specks, hair, both };

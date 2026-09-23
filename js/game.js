@@ -2579,9 +2579,9 @@ const Game = (() => {
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;
     fx.view = {
-      weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), pole: !!(wIt && /staff|spear/.test(ITEMS[wIt.t].sprite || '')),
+      weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && /shortbow|sling/.test(ITEMS[wIt.t].sprite || '')),
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
-      fist: 'fist_' + p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
+      cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
     };
     fx.threats = threats();
     return { level: L, cam, sprites, fx };

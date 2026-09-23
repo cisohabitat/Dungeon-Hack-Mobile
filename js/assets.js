@@ -1,7 +1,8 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS } from './data.js';
-import { CREATURES, PROPS, HANDS, FLOATING, paintParts } from './creatures.js';
+import { CREATURES, PROPS, FLOATING, paintParts } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
+import { heldParts } from './heldart.js';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
@@ -402,11 +403,52 @@ const Assets = (() => {
     // are painted twice as fine as the items in the pack
     for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
     for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
-    for (const k in HANDS) sprites['fist_' + k] = makeSprite({ parts: HANDS[k](), fine: true });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 
-  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX };
+  // ---- what the hero holds ----
+  // Painted three times as fine as the grid and only when first needed: a
+  // frame for each pose of the swing, cropped to what was drawn, with the
+  // hand's place in it kept so the view can put the hand where it wants it.
+  const heldCache = new Map();
+  function trim(painted, outline, anchor) {
+    const { aw, color } = painted;
+    let x0 = aw, y0 = aw, x1 = -1, y1 = -1;
+    for (let y = 0; y < aw; y++) for (let x = 0; x < aw; x++) if (color[y * aw + x]) {
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+    if (x1 < 0) return null;
+    const w = x1 - x0 + 3, h = y1 - y0 + 3;
+    const c = canvas(w, h), cx = c.getContext('2d');
+    const on = (x, y) => x >= 0 && y >= 0 && x < aw && y < aw && !!color[y * aw + x];
+    cx.fillStyle = outline;
+    for (let y = y0 - 1; y <= y1 + 1; y++) for (let x = x0 - 1; x <= x1 + 1; x++) {
+      if (on(x, y)) { cx.fillStyle = color[y * aw + x]; cx.fillRect(x - x0 + 1, y - y0 + 1, 1, 1); continue; }
+      if (on(x + 1, y) || on(x - 1, y) || on(x, y + 1) || on(x, y - 1)) { cx.fillStyle = outline; cx.fillRect(x - x0 + 1, y - y0 + 1, 1, 1); }
+    }
+    return { img: c, ax: anchor[0] - x0 + 1, ay: anchor[1] - y0 + 1 };
+  }
+  /** One pose of a held weapon (or bare fist, id null) with the hand on it. */
+  function held(id, pose, cls, two) {
+    const key = `${id}|${pose}|${cls}|${two ? 2 : 1}`;
+    if (heldCache.has(key)) return heldCache.get(key);
+    const h = heldParts(id, pose, cls, two);
+    const SCALE = 3;
+    const fr = h ? trim(paintParts(h.parts, h.grid, SCALE), id && id.startsWith('relic_') ? '#e8b84a' : '#0a0810', h.anchor.map(v => v * SCALE)) : null;
+    heldCache.set(key, fr);
+    return fr;
+  }
+  /** A shield as it is carried: its own picture, painted fine, not turned. */
+  function carried(id) {
+    const key = 'carried|' + id;
+    if (heldCache.has(key)) return heldCache.get(key);
+    const art = ITEM_ART[id.replace(/^relic_/, '')];
+    const fr = art ? trim(paintParts(art(), 32, 3), id.startsWith('relic_') ? '#e8b84a' : '#0a0810', [48, 48]) : null;
+    heldCache.set(key, fr);
+    return fr;
+  }
+
+  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried };
 })();
 
 export { Assets };

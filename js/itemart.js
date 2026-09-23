@@ -849,4 +849,18 @@ for (const k in ITEM_DETAILS) {
 }
 
 /** Every item picture, painted: sprite key -> parts. */
-export { ITEM_ART };
+// Where the hand closes on each weapon when the hero holds it, in the icon's
+// own coordinates: a point on the weapon's axis, a second lower down for the
+// other hand of a two-handed grip. A sling hangs from its loop and a bow is
+// held by its stave, canted so the arrow points into the view; neither
+// turns with the swing as a blade does.
+const GRIPS = {
+  dagger: { at: at(7.8) }, shortsword: { at: at(7.3) }, longsword: { at: at(7) },
+  greatsword: { at: at(8.6), second: at(4.4) }, throwknife: { at: at(12.5) },
+  club: { at: at(5.6) }, staff: { at: at(13.5), second: at(6.5) }, spear: { at: at(9.5) },
+  mace: { at: at(5.2) }, hammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
+  sling: { at: [8, 6.5], fixed: true }, shortbow: { at: [19.6, 16], fixed: true, turn: -1.8 },
+};
+const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
+
+export { ITEM_ART, GRIPS, ICON_AXIS };

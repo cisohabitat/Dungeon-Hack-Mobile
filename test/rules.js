@@ -3213,22 +3213,24 @@ await test('every spell, and the Scroll of Fire, shows its own effect where it l
 });
 
 // ---------- the hero's hands and monsters that move ----------
-await test('the view holds what is equipped: weapon, shield or second blade, and the class fist', async () => {
+await test('the view holds what is equipped: weapon, shield or second blade, and the class glove', async () => {
   const out = [];
   { const ctx = await start('fighter', 'view-f'); const { Game } = ctx; const p = Game.player();
     p.eq.weapon = { t: 'longsword', q: 1, e: 0 }; p.eq.shield = { t: 'shield', q: 1, e: 0 };
     const v = Game.renderState(0).fx.view;
-    if (v.weapon !== 'longsword' || v.shield !== 'shield' || v.two || v.pole) out.push(`sword and board: ${JSON.stringify(v)}`);
-    if (v.fist !== 'fist_fighter') out.push(`fighter fist ${v.fist}`);
+    if (v.weapon !== 'longsword' || v.shield !== 'shield' || v.two || v.drawn) out.push(`sword and board: ${JSON.stringify(v)}`);
+    if (v.cls !== 'fighter') out.push(`fighter hands ${v.cls}`);
     p.eq.weapon = { t: 'staff', q: 1, e: 0 }; p.eq.shield = null;
     const s = Game.renderState(0).fx.view;
-    if (!s.two || !s.pole || s.shield) out.push(`staff: ${JSON.stringify(s)}`);
+    if (!s.two || s.drawn || s.shield) out.push(`staff: ${JSON.stringify(s)}`);
+    p.eq.weapon = { t: 'shortbow', q: 1, e: 0 };
+    if (!Game.renderState(0).fx.view.drawn) out.push('a bow was swung like a blade');
     p.eq.weapon = null;
     if (Game.renderState(0).fx.view.weapon !== null) out.push('bare hands still held a weapon'); }
   { const ctx = await start('thief', 'view-t'); const { Game } = ctx; const p = Game.player();
     p.eq.weapon = { t: 'shortsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
     const v = Game.renderState(0).fx.view;
-    if (v.offhand !== 'dagger' || v.fist !== 'fist_thief') out.push(`dual: ${JSON.stringify(v)}`); }
+    if (v.offhand !== 'dagger' || v.cls !== 'thief') out.push(`dual: ${JSON.stringify(v)}`); }
   return out.length ? out.join('; ') : true;
 });
 
