@@ -2876,6 +2876,96 @@ await test('the smaller talents do what they say', async () => {
   return out.length ? out.join('; ') : true;
 });
 
+// ---------- round six review ----------
+await test('a burn and a poison tick their full count at a phone\'s frame rate', async () => {
+  const ticks = async (cls, id, spell) => {
+    const ctx = await start(cls, 'dot-60-' + id);
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    talent(ctx, id); p.perkHit = 60; p.sp = p.maxSp = 99;
+    const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
+    if (spell) { G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === spell)); }
+    else { const real = Math.random; Math.random = () => 0; try { for (let i = 0; i < 6 && !m.dot; i++) { G.t = p.nextAttack; Game.input('attack'); } } finally { Math.random = real; } }
+    if (!m.dot) return -1;
+    const mark = markLog(G);
+    for (let i = 0; i < 400; i++) Game.update(G.t + 1000 / 60, 1000 / 60);
+    return linesSince(G, mark).filter(l => /burns for|poison eats/.test(l)).length;
+  };
+  const burn = await ticks('mage', 'kindling', 'burning_hands'), venom = await ticks('thief', 'venom');
+  return (burn === 3 && venom === 4) || `at 60fps a burn ticked ${burn} of 3, poison ${venom} of 4`;
+});
+
+await test('Weapon Master adds its whole number to every blow, whatever the weapon', async () => {
+  const total = async (weapon, wm) => {
+    const ctx = await start('fighter', 'wm-' + weapon);
+    ctx.Dice.s = new ctx.Rng('wm-dice').s;
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.perkHit = 60; p.stats.str = 16; p.eq.weapon = { t: weapon, q: 1, e: 0 }; p.eq.shield = null;
+    if (wm) talent(ctx, 'weapon_master');
+    const m = beside(ctx, 'orc', { hp: 1e9, maxHp: 1e9, nextAct: 1e12, split: true });
+    for (let i = 0; i < 50; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    return 1e9 - m.hp;
+  };
+  const out = [];
+  for (const [w, each] of [['dagger', 1], ['longsword', 1], ['greatsword', 2]]) {
+    const plain = await total(w, false), master = await total(w, true);
+    // the same dice both times: the difference is the talent on every blow that landed
+    if (master - plain < each * 40) out.push(`${w}: +${master - plain} over 50 swings`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Cleave: a blow that kills the front still carries into the one stepping up', async () => {
+  const ctx = await start('fighter', 'cleave-kill');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60; talent(ctx, 'cleave');
+  const m = groupAhead(ctx, 'goblin', 2, 40);
+  m.hp = 1; m.nextAct = 1e12;
+  for (let i = 0; i < 6 && m.pack; i++) { G.t = p.nextAttack; Game.input('attack'); }
+  return m.hp < 40 || 'the goblin stepping up took nothing from the swing that felled the first';
+});
+
+await test('a poison dies with the one it was on, not the next of the group', async () => {
+  const ctx = await start('thief', 'venom-group');
+  const { Game } = ctx;
+  const G = Game.state();
+  const m = groupAhead(ctx, 'goblin', 2, 40);
+  m.hp = 1; m.nextAct = 1e12;
+  m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 100 };
+  run(Game, G, 300);
+  if (m.pack) return 'the poison did not fell the front goblin';
+  return !m.dot || 'the poison moved on to the goblin that stepped up';
+});
+
+await test('Warding Light and Zeal answer the hero\'s own spells, not a shrine\'s blessing', async () => {
+  const ctx = await start('cleric', 'ward-src');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  talent(ctx, 'warding_light');
+  Game.level().monsters.length = 0;
+  p.maxHp = 100; p.hp = 50; p.lastHurt = G.t; p.food = 0;   // no ordinary mending
+  p.effects.ac = { amount: 2, until: G.t + 20000 };           // a blessing from a shrine
+  run(Game, G, 6500);
+  return p.hp === 50 || `a shrine's blessing warded the hero back to ${p.hp}`;
+});
+
+await test('Riposte answers a blow on the air, not an arrow flying wide', async () => {
+  const ctx = await start('fighter', 'riposte-arrow');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  talent(ctx, 'riposte');
+  const m = ahead(ctx, 'archer', 3);
+  for (let i = 0; i < 40 && !(m.windup && m.windup.kind === 'shot'); i++) Game.update(G.t + 25, 25);
+  if (!m.windup) return 'the archer never drew';
+  p.nextAttack = G.t + 9000;
+  shift(ctx, 'side');
+  run(Game, G, 800);
+  void L; void Dungeon;
+  return p.nextAttack > G.t + 5000 || 'dodging an arrow readied the swing';
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

@@ -172,6 +172,8 @@ const Game = (() => {
     const b = ITEMS[p.eq.offhand.t];
     return { name: b.name, dmg: b.dmg, e: p.eq.offhand.e || 0, blunt: !!b.blunt };
   }
+  /** Whether an effect is on, and was put there by this spell (not a shrine's blessing). */
+  function effectFrom(name, spell) { const e = P().effects[name]; return !!(e && e.until > G.t && e.src === spell); }
   function effect(name) {
     const e = P().effects[name];
     return e && e.until > G.t ? e.amount : 0;
@@ -1267,25 +1269,31 @@ const Game = (() => {
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
     const finesse = p.cls === 'thief';
-    const flat = (finesse ? mod(p.stats.dex) : mod(p.stats.str)) + skillDamage() + (effect('might') ? 2 : 0)
-      + (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effect('hit') ? 1 : 0);
+    const flat = (finesse ? mod(p.stats.dex) : mod(p.stats.str)) + skillDamage() + (effect('might') ? 2 : 0);
+    // talents promise a number, so it is added whole, not scaled by the weapon's weight
+    const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0);
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + baneDamage(m, 'weapon');
+    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + baneDamage(m, 'weapon');
     if (crit) dmg *= 2;
     if (sneak) dmg *= hasTalent('assassinate') ? 3 : 2;
     dmg = Math.max(1, dmg);
     leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
-    const behind = !atRange && hasTalent('cleave') && m.pack && m.pack.length;
+    // Cleave: the swing carries on into the one behind the front. Who that is
+    // is settled before the blow, since a killing blow brings them forward.
+    const behind = !atRange && !w.range && hasTalent('cleave') && m.pack && m.pack.length ? m.pack[0] : null;
+    const packBefore = packSize(m);
     damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null), note);
-    // Cleave: the swing carries on into the one behind the front
-    if (behind && lvl().monsters.includes(m) && m.pack && m.pack.length) {
-      const b = m.pack[0], n = Math.max(1, Math.floor(dmg / 2));
-      b.hp -= n;
-      if (b.hp <= 0) { m.pack.shift(); if (!m.pack.length) delete m.pack; memberDown(m); }
-      else log(`Your swing carries into the ${mb.name} behind for ${n}.`);
+    const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
+    if (behind && lvl().monsters.includes(m)) {
+      const n = Math.max(1, Math.floor(dmg / 2));
+      if (m.pack && m.pack.includes(behind)) {
+        behind.hp -= n;
+        if (behind.hp <= 0) { m.pack.splice(m.pack.indexOf(behind), 1); if (!m.pack.length) delete m.pack; memberDown(m); }
+        else log(`Your swing carries into the ${mb.name} behind for ${n}.`);
+      } else if (!m.collapsed) damageMonster(m, n, 'cleave');   // it has stepped up into the swing
     }
-    // Venomed Blades: one hit in four poisons anything living
-    if (hasTalent('venom') && lvl().monsters.includes(m) && !mb.undead && !m.collapsed && Math.random() < 0.25) {
+    // Venomed Blades: one hit in four poisons anything living, and only the one struck
+    if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
@@ -1321,10 +1329,10 @@ const Game = (() => {
     if (m.hp <= 0) {
       // in a group the front one falls and the next steps up; the square
       // empties only when the last of them is down
-      if (m.pack && m.pack.length) { memberDown(m, note); promote(m); return; }
+      if (m.pack && m.pack.length) { m.dot = null; memberDown(m, note); promote(m); return; }
       // a skeleton cut down by an edge falls apart and pulls itself back
       // together; crushed bones, and bones struck by magic, stay down
-      if (mb.move === 'rise' && !m.risen && !m.collapsed && breaksBones(tag) && !(m.pack && m.pack.length)) learn(m.id, 'answer');
+      const crushed = mb.move === 'rise' && !m.risen && !m.collapsed && breaksBones(tag) && !(m.pack && m.pack.length);
       if (mb.move === 'rise' && !m.risen && !m.collapsed && !breaksBones(tag)) {
         m.risen = true; m.collapsed = G.t + RISE_MS; m.hp = 0;
         m.windup = null; m.volley = null; m.fleeing = false;
@@ -1333,6 +1341,7 @@ const Game = (() => {
         return;
       }
       killMonster(m, note);
+      if (crushed) learn(m.id, 'answer');    // told after its death, not before
       return;
     }
     meet(m);                               // still standing: met now, not before its death is told
@@ -1340,6 +1349,7 @@ const Game = (() => {
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
+    else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else {
       const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
@@ -1429,6 +1439,7 @@ const Game = (() => {
     const pool = BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)));
     const picked = Dice.shuffle(pool.slice()).slice(0, 3).map(b => b.id);
     G.pendingBoons = (G.pendingBoons || []).concat([picked]);
+    G.pendingLevels = (G.pendingLevels || []).concat(p.level);
     emit('boons');
   }
   /** Three of the class's talents not yet taken; a lesson instead once all are. */
@@ -1437,8 +1448,11 @@ const Game = (() => {
     const pool = (TALENTS[p.cls] || []).filter(t => !(p.talents || []).includes(t.id));
     if (!pool.length) { offerBoons(); return; }
     G.pendingBoons = (G.pendingBoons || []).concat([Dice.shuffle(pool.slice()).slice(0, 3).map(t => t.id)]);
+    G.pendingLevels = (G.pendingLevels || []).concat(p.level);
     emit('boons');
   }
+  /** The level the offer now showing was earned at. */
+  function pendingLevel() { return G.pendingLevels && G.pendingLevels.length ? G.pendingLevels[0] : P().level; }
   function pendingBoons() { return G.pendingBoons && G.pendingBoons.length ? G.pendingBoons[0] : null; }
   function chooseBoon(id) {
     const offer = pendingBoons();
@@ -1447,7 +1461,7 @@ const Game = (() => {
     const talent = (TALENTS[p.cls] || []).find(t => t.id === id);
     if (talent) {
       p.talents = (p.talents || []).concat(id);
-      G.pendingBoons.shift();
+      G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
       log(`Talent: ${talent.name}. ${talent.desc}`, 'good');
       Sound.play('levelup');
       emit('stats');
@@ -1460,7 +1474,7 @@ const Game = (() => {
     p.maxSp = spMax(p);
     p.sp = Math.min(p.maxSp, p.sp);
     p.boons = (p.boons || []).concat(id);
-    G.pendingBoons.shift();
+    G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
     log(`${boon.name}. ${boon.desc}`, 'good');
     Sound.play('levelup');
     emit('stats');
@@ -1516,6 +1530,7 @@ const Game = (() => {
   function die() {
     const p = P();
     p.hp = 0;
+    fx.hpFrac = 1;                         // no near-death pulse over the fallen
     G.status = 'dead';
     G.deathLog = G.log.slice(-6).map(e => e.m);
     log(`${p.name} has died on level ${G.depth}.`, 'bad');
@@ -1726,7 +1741,7 @@ const Game = (() => {
     switch (sp.kind) {
       case 'heal': { const n = Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 1.5 : 1)); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.`, 'good'); break; }
       case 'buff':
-        p.effects[sp.stat] = { amount: sp.amount, until: G.t + sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) };
+        p.effects[sp.stat] = { amount: sp.amount, until: G.t + sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1), src: sp.id };
         log(`You cast ${sp.name}. ${sp.desc}`, 'good');
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
@@ -2148,7 +2163,7 @@ const Game = (() => {
       }
       if (m.dot && G.t >= m.dot.next) {
         const dot = m.dot;
-        if (G.t > dot.until) m.dot = null;
+        if (dot.next > dot.until) m.dot = null;
         else {
           dot.next += 1000;
           damageMonster(m, dot.kind === 'venom' ? d(1, 3) : d(1, 4), dot.kind);
@@ -2252,7 +2267,7 @@ const Game = (() => {
           // made to miss, it presses in: the next blow is drawn back faster, so
           // stepping away is a save, not a loop that keeps it from ever landing
           m.pressing = true;
-          riposte();
+          if (w.kind === 'melee') riposte();
         }
         m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
         continue;
@@ -2315,7 +2330,7 @@ const Game = (() => {
         emit('stats');
       } else p.nextRegen = G.t + 1200;
     }
-    if (p.hp < p.maxHp && effect('ac') && hasTalent('warding_light') && G.t >= (p.nextWard || 0)) {
+    if (p.hp < p.maxHp && effectFrom('ac', 'protection') && hasTalent('warding_light') && G.t >= (p.nextWard || 0)) {
       p.hp++; p.nextWard = G.t + 3000; emit('stats');
     }
     if (p.hp < p.maxHp && G.t >= (p.nextMend || 0) && hasPower('mend')) {
@@ -2334,7 +2349,7 @@ const Game = (() => {
       spawnHunter();
       G.nextHunt = G.t + Math.max(9000, 22000 - G.hunts * 900);
     }
-    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
+    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
   }
   function tick(now) { realNow = now; }
@@ -2515,7 +2530,7 @@ const Game = (() => {
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
-    currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
+    pendingLevel, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

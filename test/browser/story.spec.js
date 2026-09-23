@@ -117,3 +117,20 @@ test.describe('story and progression', () => {
     expect(text.lost).not.toMatch(/\byou\b/i);
   });
 });
+
+test.describe('choices kept', () => {
+  test('a level-up choice left waiting is still waiting after the game is reloaded', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'boon-reload' });
+    await faceOpenGround(page, 2);
+    const placed = await placeMonster(page, 'goblin', 1, { hp: 1, maxHp: 1 });
+    await page.evaluate(() => { Game.player().xp = XP_TABLE[1] - 1; });
+    expect(await killMonster(page, placed.uid)).toBe(true);
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await page.evaluate(() => Game.save());
+    await page.reload();
+    await page.click('#btn-continue');
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#boon-title')).toContainText('Hero level 2');
+  });
+});

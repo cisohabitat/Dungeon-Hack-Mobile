@@ -317,6 +317,8 @@ const UI = (() => {
     closeOverlay();
     showScreen('screen-game');
     refreshLog(); refreshHud();
+    // a choice left waiting when the game was put away is waiting still
+    if (Game.pendingBoons()) openOverlay('boons');
   }
 
   // ---------- first-moment tips ----------
@@ -384,7 +386,7 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed].join('|');
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -407,6 +409,7 @@ const UI = (() => {
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (Game.effect('ac')) st.push('<span class="good">Shielded</span>');
+    if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
     if (Game.effect('might')) st.push('<span class="good">Mighty</span>');
     if (G.escaping) st.push('<span class="escape">Carrying the Heart</span>');
@@ -714,8 +717,8 @@ const UI = (() => {
     const talents = TALENTS[p.cls] || [];
     const isTalent = offer.some(id => talents.some(t => t.id === id));
     $('#boon-title').textContent = isTalent
-      ? `Hero level ${p.level}: a ${CLASSES[p.cls].name}'s talent`
-      : `Hero level ${p.level}: what the delve taught you`;
+      ? `Hero level ${Game.pendingLevel()}: a ${CLASSES[p.cls].name}'s talent`
+      : `Hero level ${Game.pendingLevel()}: what the delve taught you`;
     const el = $('#boon-list');
     el.innerHTML = '';
     if (isTalent) {

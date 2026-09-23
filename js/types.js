@@ -43,7 +43,7 @@
  * @property {number} food @property {number} gold
  * @property {Item[]} inv
  * @property {Equipment} eq
- * @property {Object<string, {amount: number, until: number}>} effects
+ * @property {Object<string, {amount: number, until: number, src?: string}>} effects  src: the spell that cast it
  * @property {{until: number, next: number}|null} poison
  * @property {number} x @property {number} y @property {number} dir
  * @property {number} nextAttack @property {number} kills @property {number} steps
@@ -169,6 +169,7 @@
  * @property {number} [escapeMs]
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
+ * @property {number[]} [pendingLevels]  the level each queued offer was earned at
  * @property {{name: string, dmg: number, bearing: string, encounter?: boolean}} [lastAttacker]
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
