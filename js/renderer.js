@@ -73,15 +73,17 @@ const Renderer = (() => {
       let o = y * W, oc = (H - 1 - y) * W;
       for (let x = 0; x < W; x++) {
         const mx = fx | 0, my = fy | 0;
+        const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         let lv = level;
         if (mx >= 0 && my >= 0 && mx < lw && my < lh) {
           const boost = lm[my * lw + mx];
-          if (boost > 0) lv = Math.max(0, level - Math.round(boost));
+          // rounded to a shade level, with a pattern fixed to the texture
+          // deciding the texels of a tile that sits between two
+          if (boost > 0) lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
         }
         if (lv >= 7) { fb32[o + x] = 0xff000000; fb32[oc + x] = 0xff000000; fx += stepX; fy += stepY; continue; }
         const src = lv === level ? fl : floorT[lv];
         const csrc = lv === level ? ce : ceilT[lv];
-        const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const ti = ty * TX + tx;
         fb32[o + x] = src[ti];
         fb32[oc + x] = csrc[ti];
@@ -97,13 +99,17 @@ const Renderer = (() => {
 
   // A per-tile brightness field from the level's torches, built once per
   // level, and again whenever its list of lights is replaced: the lich puts
-  // its torches out, and they catch again when it falls.
+  // its torches out, and they catch again when it falls. Each lit tile also
+  // remembers which torch lights it most, so the field can flicker torch by
+  // torch: `live` is the field as it stands this frame.
   function ensureLights(level) {
     const key = level.lights || level;
     const cached = lightCache.get(key);
     if (cached) return cached;
     const lm = new Float32Array(level.w * level.h);
-    for (const l of (level.lights || [])) {
+    const src = new Int16Array(level.w * level.h).fill(-1);
+    const lights = level.lights || [];
+    lights.forEach((l, k) => {
       const r = Math.ceil(LIGHT_R);
       for (let y = Math.max(0, l.y - r); y <= Math.min(level.h - 1, l.y + r); y++) {
         for (let x = Math.max(0, l.x - r); x <= Math.min(level.w - 1, l.x + r); x++) {
@@ -111,13 +117,57 @@ const Renderer = (() => {
           if (dist > LIGHT_R) continue;
           const v = LIGHT_MAX * (1 - dist / LIGHT_R) * (1 - dist / LIGHT_R);
           const i = y * level.w + x;
-          if (v > lm[i]) lm[i] = v;
+          if (v > lm[i]) { lm[i] = v; src[i] = k; }
         }
       }
-    }
-    lightCache.set(key, lm);
-    return lm;
+    });
+    const lit = [];
+    for (let i = 0; i < lm.length; i++) if (lm[i] > 0) lit.push(i);
+    // each torch's own rhythm, fixed by where it hangs so it never changes
+    const phase = new Float32Array(lights.length), rate = new Float32Array(lights.length);
+    lights.forEach((l, k) => {
+      phase[k] = ((l.x * 73 + l.y * 151) % 97) / 97 * Math.PI * 2;
+      rate[k] = 0.85 + ((l.x * 37 + l.y * 17) % 31) / 31 * 0.3;
+    });
+    const L = { lm, src, lit: Int32Array.from(lit), live: lm.slice(), gain: new Float32Array(lights.length).fill(1), phase, rate, at: -1 };
+    lightCache.set(key, L);
+    return L;
   }
+
+  // This frame's torchlight. Each torch breathes on its own slow rhythm, three
+  // sines of unrelated speeds so it never visibly repeats, swinging its light
+  // by up to a fifth either way, and every tile it lights follows it. Only lit
+  // tiles are touched, once a frame; the floor, walls and sprites all read the
+  // result, so they rise and fall together.
+  function flickerLights(L, now) {
+    if (L.at === now) return L.live;
+    L.at = now;
+    const t = now / 1000, { gain, phase, rate, lm, live, lit, src } = L;
+    for (let k = 0; k < gain.length; k++) {
+      const p = phase[k], r = rate[k];
+      gain[k] = 1 + 0.09 * Math.sin(t * 2.1 * r + p) + 0.06 * Math.sin(t * 5.3 * r + p * 1.7) + 0.035 * Math.sin(t * 11.3 + p * 2.3);
+    }
+    for (let j = 0; j < lit.length; j++) { const i = lit[j]; live[i] = lm[i] * gain[src[i]]; }
+    return live;
+  }
+  // A 4x4 ordered-dither threshold per texel, squeezed round a half: a tile
+  // well inside a shade level is solid, as plain rounding left it, and only
+  // one close to the edge between two levels mixes them, so it fades across
+  // as its torch flickers instead of jumping.
+  const DITHER = new Float32Array([0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => 0.35 + 0.3 * (v + 0.5) / 16));
+
+  // Which plain walls wear one of the theme's decorations: a hash of the tile,
+  // so the choice never changes and costs nothing to store. About one wall in
+  // twelve; the rest stay plain, so a decoration is something to notice.
+  function decorAt(x, y) {
+    let h = Math.imul(x, 73856093) ^ Math.imul(y, 19349663);
+    h = Math.imul(h ^ (h >>> 13), 0x5bd1e995);
+    return (h ^ (h >>> 15)) >>> 0;
+  }
+  // the flame's frames in an uneven order, so it never visibly cycles
+  const FLAME_SEQ = [0, 1, 0, 2, 1, 2, 0, 2, 1];
+  const FLAME_MS = 140;
+  let flameTick = 0;
 
   function texFor(tex, tile, x, y) {
     switch (tile) {
@@ -126,8 +176,13 @@ const Renderer = (() => {
       case T.STAIRS_DOWN: return tex.stairsDown;
       case T.STAIRS_UP: return tex.stairsUp;
       case T.FOUNTAIN: return null;
-      case T.TORCH: return tex.torch;
-      default: return ((x * 7 + y * 13) % 6 === 0) ? tex.wallCracked : tex.wall;
+      // each torch starts at its own place in the sequence
+      case T.TORCH: return tex.torchFrames[FLAME_SEQ[(flameTick + x * 5 + y * 3) % FLAME_SEQ.length]];
+      default: {
+        if ((x * 7 + y * 13) % 6 === 0) return tex.wallCracked;
+        const h = decorAt(x, y);
+        return h % 12 === 0 && tex.decor.length ? tex.decor[(h >>> 8) % tex.decor.length] : tex.wall;
+      }
     }
   }
 
@@ -588,7 +643,9 @@ const Renderer = (() => {
     }
     const dirX = Math.cos(cam.angle), dirY = Math.sin(cam.angle);
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
-    const lm = ensureLights(level);
+    const lights = ensureLights(level);
+    const lm = flickerLights(lights, now);
+    flameTick = Math.floor(now / FLAME_MS);
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
     // stains lie on the floor, so the walls drawn next hide them where they should
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm);
@@ -626,9 +683,11 @@ const Renderer = (() => {
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       let shade = dist / FOG + (side === 1 ? 0.12 : 0);
-      // torchlight falling on this wall face brightens it
+      // torchlight falling on this wall face brightens it; a torch's own wall
+      // is lit fully, rising and falling with its flame
       const lightHere = lm[mapY * w + mapX];
-      if (lightHere > 0 || tile === T.TORCH) shade -= (tile === T.TORCH ? LIGHT_MAX : lightHere) / 7;
+      if (tile === T.TORCH) { const k = lights.src[mapY * w + mapX]; shade -= LIGHT_MAX * (k >= 0 ? lights.gain[k] : 1) / 7; }
+      else if (lightHere > 0) shade -= lightHere / 7;
       if (shade > 0.03) {
         ctx.fillStyle = shadeStyles[Math.min(20, Math.round(shade * 20))];
         ctx.fillRect(col, top, 1, lineH);
