@@ -1,6 +1,7 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS } from './data.js';
 import { CREATURES, PROPS, FLOATING, paintParts } from './creatures.js';
+import { ITEM_ART } from './itemart.js';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
@@ -382,9 +383,11 @@ const Assets = (() => {
 
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
+    // items painted from parts replace their old grids too
+    for (const k in ITEM_ART) sprites[k] = makeSprite({ parts: ITEM_ART[k]() });
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite))) {
-      if (SPRITES[k]) sprites['relic_' + k] = makeSprite({ ...SPRITES[k], outline: '#e8b84a' });
+      if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a' });
     }
     // creatures built from parts replace their old grids
     for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1 });

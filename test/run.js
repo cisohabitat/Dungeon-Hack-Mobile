@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -89,6 +89,32 @@ for (const k in PROPS) {
   let lowest = -1;
   color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); });
   if (!FLOATING.has(k)) check(lowest >= 29, `prop ${k} floats: its lowest pixel is row ${lowest}`);
+}
+// Every item has a picture, painted from parts, and no two pieces of gear
+// share one: a chain shirt must not look like plate. The armours share an
+// outline on purpose, so pictures are compared pixel for pixel, colour and all.
+{
+  const want = new Set([...Object.values(ITEMS).map(b => b.sprite), ...POTION_LOOKS.map(l => l[1]), ...Object.keys(KEY_COLORS).map(c => 'key_' + c)]);
+  for (const k of want) check(ITEM_ART[k] || SPRITES[k], `sprite '${k}' is wanted by an item but painted nowhere`);
+  const gearMask = {};
+  for (const k in ITEM_ART) {
+    const { color } = paintParts(ITEM_ART[k]());
+    const filled = color.filter(Boolean);
+    check(filled.length > 40, `item ${k} painted only ${filled.length} pixels`);
+    check(filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `item ${k} painted a colour that is not #rrggbb`);
+    if (Object.values(ITEMS).some(b => b.sprite === k && ['weapon', 'armor', 'shield'].includes(b.kind))) gearMask[k] = color;
+  }
+  const gear = Object.keys(gearMask);
+  let alike = { iou: 0, pair: '' };
+  for (let i = 0; i < gear.length; i++) for (let j = i + 1; j < gear.length; j++) {
+    const a = gearMask[gear[i]], b = gearMask[gear[j]];
+    let same = 0, uni = 0;
+    for (let n = 0; n < a.length; n++) { if (a[n] && a[n] === b[n]) same++; if (a[n] || b[n]) uni++; }
+    if (same / uni > alike.iou) alike = { iou: same / uni, pair: `${gear[i]} and ${gear[j]}` };
+  }
+  check(alike.iou < 0.5, `${alike.pair} are ${Math.round(alike.iou * 100)}% the same picture`);
+  check(new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite)).size === Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).length, 'two pieces of gear share a sprite');
+  console.log(`${Object.keys(ITEM_ART).length} items painted; the most alike gear, ${alike.pair}, are ${Math.round(alike.iou * 100)}% the same picture`);
 }
 let closest = { iou: 0, pair: '' };
 const keys = Object.keys(masks);

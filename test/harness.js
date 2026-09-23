@@ -48,6 +48,7 @@ async function loadGame(opts = {}) {
     store,
     CREATURES: creatures.CREATURES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
     ENCOUNTERS: (await import(url('encounters.js'))).ENCOUNTERS,
+    ITEM_ART: (await import(url('itemart.js'))).ITEM_ART,
     ...(({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }) => ({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }))(await import(url('relics.js'))),
     ...data,
   };

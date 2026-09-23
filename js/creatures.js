@@ -675,4 +675,4 @@ function paintParts(parts, size = 32) {
   return { aw: size, ah: size, color: col };
 }
 
-export { CREATURES, PROPS, FLOATING, paintParts };
+export { CREATURES, PROPS, FLOATING, paintParts, ball, limb, sheet, line, dots, both };
