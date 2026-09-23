@@ -49,8 +49,16 @@ check(CREATURES.merchant, 'the trader has no sprite');
 // stand on the floor, and no two share a silhouette. The old grids had seven
 // humanoids that were one body in different colours; this is the guard.
 const masks = {};
+const filledCount = k => paintParts(CREATURES[k]()).color.filter(Boolean).length;
 for (const k in CREATURES) {
   const { aw, ah, color } = paintParts(CREATURES[k]());
+  // every monster carries hand-drawn detail on the fine grid, and it shows
+  if (MONSTERS[k]) {
+    const fine = CREATURES[k]().filter(p => p.k === 'specks' || p.k === 'hair');
+    check(fine.length >= 6, `${k} has only ${fine.length} fine details`);
+    const hi = paintParts(CREATURES[k](), 32, 2);
+    check(hi.aw === 64 && hi.color.filter(Boolean).length > filledCount(k) * 3.2, `${k} painted finely covers too little`);
+  }
   const filled = color.filter(Boolean);
   check(aw === 32 && ah === 32, `${k} painted at ${aw}x${ah}, not 32x32`);
   check(filled.length > 120, `${k} painted only ${filled.length} pixels`);

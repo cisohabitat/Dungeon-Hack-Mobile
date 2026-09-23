@@ -18,12 +18,19 @@ const sheet = (pts, c, o = {}) => ({ k: 'sheet', pts, c, ...o });
 const line = (x1, y1, x2, y2, c, o = {}) => ({ k: 'line', x1, y1, x2, y2, c, ...o });
 /** exact pixels, unlit: eyes, teeth, glints */
 const dots = (pts, c, o = {}) => ({ k: 'dots', pts, c, ...o });
+/** exact pixels on the fine grid (half units of the 32-grid): claws, stitches, rivets, glints */
+const specks = (pts, c, o = {}) => ({ k: 'specks', pts, c, ...o });
+/** a hairline on the fine grid: seams, cracks, veins, fur strokes */
+const hair = (x1, y1, x2, y2, c, o = {}) => ({ k: 'hair', x1, y1, x2, y2, c, ...o });
 /** mirror a part across the sprite's centre line (x = 15.5) */
 const mirror = p => {
   const m = x => 31 - x;
   if (p.k === 'ball') return { ...p, x: m(p.x) };
   if (p.k === 'limb' || p.k === 'line') return { ...p, x1: m(p.x1), x2: m(p.x2) };
   if (p.k === 'sheet' || p.k === 'dots') return { ...p, pts: p.pts.map(([x, y]) => [m(x), y]) };
+  // the fine grid mirrors about the same centre, a half unit over
+  if (p.k === 'specks') return { ...p, pts: p.pts.map(([x, y]) => [31.5 - x, y]) };
+  if (p.k === 'hair') return { ...p, x1: 31.5 - p.x1, x2: 31.5 - p.x2 };
   return p;
 };
 const both = p => [p, mirror(p)];
@@ -438,6 +445,252 @@ const CREATURES = {
   },
 };
 
+// Hand-drawn detail laid over each monster on the fine grid, half a unit to
+// the pixel: the claws, seams, cracks, rivets and fur that a 32-grid could
+// only suggest. Painted coarsely (the art checks, scale 1) they fold back
+// onto whole pixels and change little.
+const DETAILS = {
+  goblin: () => [
+    // brow creases and a nicked ear
+    hair(12.5, 6.5, 14.5, 7, '#4a8034'), hair(17.5, 7, 19.5, 6.5, '#4a8034'), hair(14.5, 5.5, 17.5, 5.5, '#57913d'),
+    specks([[4.5, 6.5], [5, 6.5]], '#1c1a22'),
+    // nostrils, a scar down one cheek, and a snaggle tooth
+    specks([[15.5, 12.5], [16.5, 12.5]], '#2e5020'),
+    hair(19, 10.5, 20.5, 12.5, '#3f6e2c'), specks([[19.5, 11], [20, 12]], '#8ac06a'),
+    specks([[17.5, 14.5], [17.5, 15]], '#f0e6c8'),
+    // a crude buckle, stitching round the tunic and a patch
+    specks([[15.5, 17], [16, 17], [16.5, 17], [15.5, 17.5], [16.5, 17.5], [15.5, 18], [16, 18], [16.5, 18]], '#c9a24a'),
+    specks([[12, 19.5], [13.5, 19.5], [15, 19.5], [17, 19.5], [18.5, 19.5], [20, 19.5]], '#a88258'),
+    specks([[18, 21], [19, 21], [18, 22], [19, 22], [18.5, 21.5]], '#5a3a20'),
+    // claws on the empty hand, rust and a notch on the blade
+    specks([[6, 24], [7, 24.5], [8, 24.5], [8.5, 24]], '#e8e0c0'),
+    specks([[26.5, 18], [27, 16.5], [27.5, 15]], '#8a5a30'), specks([[28.5, 16]], '#3a2a2a'),
+    // knees and toes
+    ...both(specks([[12.5, 26.5], [13, 26.5]], '#4f8a36')),
+    ...both(specks([[10, 30.5], [11, 30.5], [12, 30.5]], '#2a2018')),
+  ],
+
+  skeleton: () => [
+    // a crack across the skull, the brow over the sockets, cheekbones
+    hair(17.5, 2, 18.5, 3.5, '#8a826c'), hair(18.5, 3.5, 18, 5, '#8a826c'),
+    hair(12.5, 4.5, 14.5, 4.5, '#b8ae94'), hair(17.5, 4.5, 19.5, 4.5, '#b8ae94'),
+    specks([[12.5, 8.5], [19.5, 8.5]], '#a89e84'),
+    // gaps between the teeth
+    specks([[14.5, 10], [15.5, 10], [17.5, 10]], '#6a6252'),
+    // the breastbone, and the ends of each rib where it meets it
+    specks([[16, 12], [16, 13.5], [16, 15.5], [16, 17.5]], '#f6f0de'),
+    specks([[11.5, 12], [21, 12], [12.5, 14], [20, 14], [12.5, 16], [20, 16], [13.5, 18], [19, 18]], '#8a826c'),
+    // knuckles, finger bones and a pitted blade
+    specks([[9.5, 24.5], [10.5, 24.5], [11, 24], [9, 24]], '#ddd5bd'),
+    specks([[27, 6.5], [28, 4], [27.5, 9]], '#8a6a4a'), hair(27, 12, 29, 2, '#eef2f6'),
+    // kneecaps and the grain of the long bones
+    ...both(specks([[12.5, 26], [13, 26]], '#f6f0de')),
+    hair(13, 27.5, 13, 29.5, '#b8ae94'), hair(19, 27.5, 19, 29.5, '#b8ae94'),
+  ],
+
+  spider: () => [
+    // bristles standing up off the abdomen, and its segments
+    hair(10, 16, 9.5, 14.5, '#7a6a94'), hair(12, 14, 11.5, 12.5, '#7a6a94'), hair(16, 13, 16, 11.5, '#7a6a94'),
+    hair(20, 14, 20.5, 12.5, '#7a6a94'), hair(22, 16, 22.5, 14.5, '#7a6a94'),
+    hair(10.5, 19, 13, 17.5, '#3a3050'), hair(19, 17.5, 21.5, 19, '#3a3050'),
+    // hair on the legs
+    ...both(specks([[6.5, 15.5], [4, 19.5], [4, 24], [6.5, 27]], '#8a7aa6')),
+    // fangs wet with venom
+    specks([[15, 30], [17, 30]], '#ffffff'), specks([[15, 30.5], [17, 31]], '#9af060'),
+    // the smaller eyes round the big ones
+    specks([[13.5, 23.5], [18.5, 23.5], [14.5, 22.5], [17.5, 22.5]], '#ff7050'),
+  ],
+
+  rat: () => [
+    // fur laid back along the body
+    hair(12, 21.5, 13.5, 22, '#6a4e34'), hair(15, 20.5, 16.5, 21, '#6a4e34'), hair(18, 20.5, 19.5, 21, '#6a4e34'),
+    hair(21, 21, 22.5, 21.5, '#6a4e34'), hair(24, 22, 25.5, 23, '#6a4e34'), hair(14, 24, 15.5, 24.5, '#a4845e'),
+    hair(18, 23.5, 19.5, 24, '#a4845e'), hair(10, 22, 11, 22.5, '#6a4e34'),
+    // rings on the tail
+    specks([[25.5, 25.5], [27, 24.5], [28.5, 23.5], [29.5, 21.5], [29, 19.5]], '#b07a78'),
+    // a vein in the ear, whiskers, claws, a nick of a tooth
+    hair(10, 19.5, 10, 21.5, '#c07878'),
+    hair(3.5, 25, 0.5, 25, '#e8e0d0'),
+    specks([[13.5, 31], [14.5, 31], [15, 31], [23, 31], [24, 31], [24.5, 31]], '#f4ecd8'),
+    specks([[2.5, 24.5]], '#ffffff'),
+  ],
+
+  bat: () => [
+    // the finer veins between the ribs of each wing, and a claw at its peak
+    ...both(hair(11, 12, 5, 8.5, '#4e4268')), ...both(hair(10, 14.5, 4, 14.5, '#4e4268')), ...both(hair(9, 16.5, 5.5, 16, '#4e4268')),
+    ...both(specks([[7, 7], [6.5, 6.5]], '#e8e0d0')),
+    // fur on the chest, the inside of the ears, a snarl
+    specks([[15, 13], [17, 13], [16, 14.5], [15.5, 16], [16.5, 16], [16, 17.5]], '#6e608a'),
+    ...both(hair(13.5, 7.5, 13, 5.5, '#8a5a78')),
+    specks([[16, 11.5], [15.5, 11], [16.5, 11]], '#2a1a24'),
+  ],
+
+  slime: () => [
+    // something it swallowed: a bone, a coin, a key
+    hair(19.5, 25, 22, 26.5, '#e8e0c8'), specks([[19.5, 24.5], [22, 27]], '#e8e0c8'),
+    specks([[9.5, 27.5], [10, 27.5], [10.5, 27.5], [10, 28]], '#ffd060'),
+    specks([[22.5, 22], [23, 22], [23.5, 22.5], [23, 23]], '#b0a060'),
+    // highlights along its skin, a drip and a sag at the base
+    hair(8, 21, 10, 19.5, '#e8ffee'), specks([[21.5, 19], [22.5, 19.5]], '#e8ffee'),
+    specks([[7, 31], [7, 31.5], [25, 31], [16, 31.5]], '#2e8a44'),
+    specks([[26, 27.5], [27, 28]], '#b8ffc8'),
+  ],
+
+  archer: () => [
+    // red fletching on the nocked arrow, and a bracer on the bow arm
+    specks([[1, 13.5], [1.5, 13.5], [1, 14.5], [1.5, 14.5]], '#c04040'),
+    specks([[6, 13.5], [7, 13.5], [6, 15], [7, 15]], '#5a3a1a'),
+    // the quiver strap across the chest, and its buckle
+    hair(11, 17.5, 21, 23, '#3a2a1a'), specks([[16, 20], [16.5, 20.5]], '#c9a24a'),
+    // stitching round the hood, nostrils, a squint
+    specks([[11, 8.5], [13, 7.5], [16, 7], [19, 7.5], [21, 8.5]], '#7a6a48'),
+    specks([[15.5, 12.5], [16.5, 12.5]], '#2e5020'),
+    hair(11.5, 9, 14, 9.5, '#3f6e2c'), hair(18, 9.5, 20.5, 9, '#3f6e2c'),
+    // grain on the bow, claws on the drawing hand
+    specks([[3.5, 9], [3, 13], [3, 16], [3.5, 19]], '#b08040'),
+    specks([[3.5, 15], [4.5, 15.5]], '#e8e0c0'),
+  ],
+
+  zombie: () => [
+    // stitches across the scalp and a flap of skin
+    hair(12.5, 6, 16.5, 5.5, '#3a2a2a'), specks([[13, 5.5], [13.5, 6.5], [14.5, 5], [15, 6], [16, 5], [16.5, 6]], '#3a2a2a'),
+    // rot and bruising on the face and reaching arm
+    specks([[15.5, 11], [16, 11.5], [10, 10.5], [23.5, 13], [25.5, 14.5], [26, 13]], '#6a7a52'),
+    specks([[24.5, 14], [25, 14]], '#e8e0c8'),
+    // a drool of something dark from the mouth
+    specks([[12, 14], [12, 14.5], [12.5, 15.5]], '#4a1818'),
+    // holes and a dangling thread in the shirt
+    specks([[11.5, 17], [12, 17.5], [20.5, 23], [13, 21]], '#2a2430'),
+    hair(19, 25, 19.5, 27, '#4e5a78'),
+    // bone showing at the knee through torn trousers
+    specks([[20, 26], [20.5, 26], [20, 26.5]], '#cfc6aa'),
+    // yellowed nails on the reaching hand
+    specks([[30, 12.5], [30, 13.5], [29.5, 14.5]], '#c8c080'),
+  ],
+
+  orc: () => [
+    // mail rings over the breastplate's edges, and rivets on the pauldrons
+    ...[15, 16.5, 18].map(y => specks([[11.5, y], [12.5, y + 0.5], [19.5, y], [20.5, y + 0.5]], '#5a6270')).flat(),
+    ...both(specks([[7, 12.5], [8.5, 12], [10, 12.5]], '#d8dee8')),
+    // a scar through one brow, a ring in the ear, broken tusk tip
+    hair(12.5, 5.5, 14.5, 9.5, '#3f5a24'), specks([[13, 6.5], [14, 8.5]], '#8aa860'),
+    specks([[10.5, 9.5], [10.5, 10]], '#c9a24a'),
+    specks([[19, 9.5]], '#1a1810'),
+    // stitching on the leather skirt and the belt's tongue
+    specks([[11, 21.5], [13, 21.5], [19, 21.5], [21, 21.5]], '#8a6040'),
+    specks([[17.5, 23], [17.5, 23.5]], '#2a1a10'),
+    // the axe: wear along the edge, grain in the haft, a wrapped grip
+    specks([[30.5, 6], [30.5, 9], [30.5, 11]], '#5a6270'), hair(27, 14, 27, 20, '#8a6a42'),
+    specks([[26.5, 22], [27.5, 22.5], [26.5, 23], [27.5, 23.5]], '#3a2818'),
+    // knuckles
+    specks([[5.5, 24], [6.5, 24.5], [7.5, 24]], '#4f6e2e'), specks([[26, 21.5], [27, 22], [28, 21.5]], '#4f6e2e'),
+  ],
+
+  ghoul: () => [
+    // veins on the arms and wasted chest, a knobbled spine
+    hair(9, 16.5, 7, 19.5, '#7a6a8a'), hair(23, 16.5, 25, 19.5, '#7a6a8a'), hair(12, 20, 14, 21.5, '#7a6a8a'),
+    specks([[16, 14.5], [16, 16.5], [16, 18.5], [16, 20.5]], '#c8c2ac'),
+    // warts, and drool hanging from the jaw
+    specks([[12.5, 12], [19.5, 12.5], [14, 20], [19, 21]], '#7a7462'),
+    specks([[15, 15.5], [15, 16.5], [17.5, 16], [17.5, 17]], '#c8e0c0'),
+    // a split lip, and grave dirt under the claws
+    specks([[16.5, 14.5]], '#8a2020'),
+    specks([[4, 28.5], [5.5, 29], [27.5, 28.5], [26, 29]], '#4a4030'),
+    // hollow cheeks
+    hair(12.5, 12.5, 13.5, 14, '#7a7462'), hair(19.5, 12.5, 18.5, 14, '#7a7462'),
+  ],
+
+  acolyte: () => [
+    // an embroidered sigil down the front of the robe, and gold at the cuffs
+    specks([[16, 24.5], [16, 26], [15.5, 26.5], [16.5, 26.5], [16, 27.5], [15, 28.5], [17, 28.5], [16, 29.5]], '#c9a24a'),
+    specks([[12, 17.5], [13, 18], [20, 17.5], [19, 18]], '#c9a24a'),
+    // stitches round the hood's edge and a fold at its peak
+    specks([[11, 13], [11.5, 10], [12.5, 7], [19.5, 7], [20.5, 10], [21, 13]], '#8a2a44'),
+    hair(16, 1.5, 15.5, 4.5, '#4a1224'),
+    // a swirl of light inside the orb, and fingers round it
+    hair(15, 18, 16.5, 17, '#f0d8ff'), specks([[17, 18.5], [16, 19]], '#f0d8ff'),
+    specks([[13, 19.5], [14, 19.5], [18, 19.5], [19, 19.5]], '#b89878'),
+    // the frayed hem
+    specks([[10, 30.5], [12.5, 30.5], [19, 30.5], [21.5, 30.5]], '#4a1224'),
+  ],
+
+  wraith: () => [
+    // holes worn through the cloak, frost at the fingertips
+    specks([[11, 19], [11.5, 19], [20.5, 16], [21, 16.5], [14, 26], [18.5, 27]], '#1a1028'),
+    specks([[1.5, 16], [1, 18.5], [3.5, 20], [30, 16], [30.5, 18.5], [28, 20]], '#e0f8ff'),
+    // wisps trailing off the ragged ends
+    hair(8, 29, 7, 31, '#8a7ab0'), hair(13, 31, 12.5, 31.5, '#8a7ab0'), hair(19, 31, 19.5, 31.5, '#8a7ab0'), hair(24, 29, 25, 31, '#8a7ab0'),
+    // folds catching what light there is
+    hair(12, 13, 11, 20, '#7a64a8'), hair(20, 13, 21, 20, '#7a64a8'), hair(16, 15, 16, 20, '#7a64a8'),
+    // a cold breath from the dark of the hood
+    specks([[15.5, 11], [16.5, 11.5], [16, 12]], '#a0c8e0'),
+  ],
+
+  ogre: () => [
+    // grain and nails in the club
+    hair(26.5, 20, 27.5, 6, '#5a3e22'), specks([[26.5, 10], [28, 8], [27, 14]], '#3a2a18'),
+    // stretch marks on the belly, a mole, the rope that holds the loincloth
+    hair(11, 19, 12, 21.5, '#9a7650'), hair(21, 19, 20, 21.5, '#9a7650'), specks([[13, 17]], '#6a4a2a'),
+    hair(8.5, 24, 23.5, 24, '#3a2a18'), specks([[16, 24.5], [16.5, 25], [16, 25.5]], '#3a2a18'),
+    // stubble, a split lip, a tooth missing
+    specks([[14, 12.5], [15.5, 13], [17, 13], [18.5, 12.5]], '#8a6a44'),
+    specks([[16.5, 12]], '#8a2a20'),
+    // knuckles and toenails
+    specks([[4, 25.5], [5, 26], [6, 25.5], [25.5, 23], [26.5, 23.5], [27.5, 23]], '#8a6a44'),
+    ...both(specks([[9, 31], [10.5, 31], [12, 31]], '#d8c8a0')),
+  ],
+
+  troll: () => [
+    // moss and a sprig growing out of the hair
+    specks([[11, 5], [13, 3.5], [19, 3.5], [21.5, 6], [10, 9], [22, 9.5]], '#7aaa48'),
+    hair(20, 3, 21.5, 1, '#4a7a30'), specks([[21.5, 0.5]], '#c8e060'),
+    // warts on the nose, a scar across the chest, knuckle hair
+    specks([[17.5, 9], [18.5, 11]], '#3e7a44'),
+    hair(12, 13, 17, 17, '#3e6a40'),
+    specks([[4, 28], [5, 27.5], [27, 27.5], [28, 28]], '#2e4a26'),
+    // ribs showing on its gaunt side
+    hair(10.5, 15.5, 12, 16, '#46804a'), hair(10.5, 17, 12, 17.5, '#46804a'), hair(21.5, 15.5, 20, 16, '#46804a'),
+    // a fringe of rags on the loincloth
+    specks([[11.5, 24.5], [13.5, 24], [18.5, 24], [20.5, 24.5]], '#3e3020'),
+  ],
+
+  minotaur: () => [
+    // rings worn into the horns
+    ...both(specks([[9.5, 5], [7.5, 4.5], [5.5, 3]], '#c8bfa0')),
+    // shaggy fur on the chest and brow, a scar over the muzzle
+    hair(13, 14, 14, 16, '#5a3a22'), hair(16, 14.5, 16, 16.5, '#5a3a22'), hair(19, 14, 18, 16, '#5a3a22'),
+    hair(12.5, 4, 14, 5, '#4e3320'), hair(19.5, 4, 18, 5, '#4e3320'),
+    hair(16.5, 9.5, 18, 12, '#8a6a52'),
+    // steam from the nostrils, the nose ring's shine
+    specks([[13, 13.5], [12.5, 14], [19, 13.5], [19.5, 14]], '#e8e0d8'),
+    specks([[16, 13.5]], '#fff0a0'),
+    // an engraved axe head and a studded belt
+    hair(27, 8, 29.5, 7.5, '#6a727e'), hair(27, 16, 29.5, 16.5, '#6a727e'),
+    specks([[11, 21], [13.5, 21], [18.5, 21], [21, 21]], '#fff0a0'),
+    // split hooves
+    ...both(specks([[12, 30], [12, 30.5], [12, 31]], '#5a4838')),
+  ],
+
+  lich: () => [
+    // runes stitched down the robe in faded silver
+    specks([[12.5, 17], [13, 17.5], [12.5, 18], [19.5, 17], [19, 17.5], [19.5, 18]], '#8a7ab0'),
+    specks([[11, 26], [11.5, 27], [12, 26], [20, 26], [20.5, 27], [21, 26]], '#8a7ab0'),
+    // cracks in the skull and gems in the crown
+    hair(14, 4, 15, 6, '#9a927c'), hair(18.5, 3.5, 18, 5.5, '#9a927c'),
+    specks([[13.5, 2.5], [18.5, 2.5]], '#40e8ff'),
+    // the staff: bands of rune light, a claw holding the stone
+    specks([[26, 9], [26, 13], [26, 17], [26, 21], [26, 25]], '#40e8ff'),
+    specks([[24.5, 5], [27.5, 5]], '#d8a840'),
+    // frost gathering at the hem, and knucklebones on the hand
+    specks([[7, 30.5], [9, 30], [23, 30], [25, 30.5]], '#c8f0ff'),
+    specks([[24.5, 19], [25.5, 19.5], [26.5, 19]], '#b8ae94'),
+  ],
+};
+for (const k in DETAILS) {
+  const base = CREATURES[k];
+  CREATURES[k] = () => [...base(), ...DETAILS[k]()];
+}
+
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
 const PROPS = {
@@ -769,6 +1022,21 @@ function paintParts(parts, grid = 32, scale = 1) {
       }
       return;
     }
+    if (p.k === 'specks') { for (const [x, y] of p.pts) put(Math.floor(x * scale), Math.floor(y * scale), i, p.c, 0, true); return; }
+    if (p.k === 'hair') {
+      let x0 = Math.floor(p.x1 * scale), y0 = Math.floor(p.y1 * scale);
+      const x1 = Math.floor(p.x2 * scale), y1 = Math.floor(p.y2 * scale);
+      const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+      let err = dx + dy;
+      for (;;) {
+        put(x0, y0, i, p.c, 0, true);
+        if (x0 === x1 && y0 === y1) break;
+        const e2 = 2 * err;
+        if (e2 >= dy) { err += dy; x0 += sx; }
+        if (e2 <= dx) { err += dx; y0 += sy; }
+      }
+      return;
+    }
     if (p.k === 'line') {
       // a line keeps its width in the grid, so a blade reads as far off as before
       let x0 = Math.round(p.x1) * scale, y0 = Math.round(p.y1) * scale;
@@ -848,7 +1116,7 @@ function paintParts(parts, grid = 32, scale = 1) {
       const nx = x + ox, ny = y + oy;
       if (nx < 0 || ny < 0 || nx >= size || ny >= size) continue;
       const q = ny * size + nx;
-      if (owner[q] > owner[k] && tone[q] >= 0 && parts[owner[q]].k !== 'dots') {
+      if (owner[q] > owner[k] && tone[q] >= 0 && parts[owner[q]].k !== 'dots' && parts[owner[q]].k !== 'specks' && parts[owner[q]].k !== 'hair') {
         shadeK[k] = Math.max(0, tone[k] - (base[q] === base[k] ? 1 : 2));
         break;
       }
@@ -868,4 +1136,4 @@ function paintParts(parts, grid = 32, scale = 1) {
   return { aw: size, ah: size, color: col };
 }
 
-export { CREATURES, PROPS, FLOATING, paintParts, ball, limb, sheet, line, dots, both };
+export { CREATURES, PROPS, FLOATING, paintParts, ball, limb, sheet, line, dots, specks, hair, both };
