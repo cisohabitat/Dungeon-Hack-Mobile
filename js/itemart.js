@@ -6,7 +6,7 @@
 // they read best in a pack slot and uses the whole square. Potions keep one
 // bottle shape per colour, so the colour is never the only clue.
 
-import { ball, limb, sheet, line, dots } from './creatures.js';
+import { ball, limb, sheet, line, dots, specks, hair } from './creatures.js';
 import { KEY_COLORS } from './data.js';
 
 const STEEL = '#b4bcc8', DARK_STEEL = '#7a808c', IRON = '#6e727c', BRASS = '#c8a040', GOLD = '#e8b830';
@@ -419,6 +419,434 @@ const ITEM_ART = {
     ball(25.3, 25.3, 1.5, 1.5, c),
   ]])),
 };
+
+// Hand-drawn detail laid over each item on the fine grid, half a unit to the
+// pixel, as the monsters have: bevels and nicks on blades, cord round grips,
+// grain in hafts, stitching, rivets, glints in glass and the ink on a page.
+// The base pictures above stay as they were; painted coarsely (scale 1) these
+// fold back onto whole pixels and change little.
+
+/** A colour mixed toward white (f > 0) or black (f < 0). */
+function shade(hex, f) {
+  const n = parseInt(hex.slice(1), 16), t = f > 0 ? 255 : 0, a = Math.abs(f);
+  return '#' + [16, 8, 0].map(sh => Math.round(((n >> sh) & 255) * (1 - a) + t * a).toString(16).padStart(2, '0')).join('');
+}
+/** a hairline between two points on the weapon axis */
+const hairAt = (s0, o0, s1, o1, c) => hair(...at(s0, o0), ...at(s1, o1), c);
+/** fine pixels at points on the weapon axis */
+const specksAt = (pts, c) => specks(pts.map(([s, o]) => at(s, o)), c);
+/** a bright bevel down a blade's lit edge, a dark one down its shaded edge */
+function bevels(s0, s1, w, tipLen = w * 1.3, light = '#f6faff', dark = '#6e7682') {
+  const b = s1 - tipLen, e = w / 2 - 0.45;
+  return [
+    hairAt(s0 + 0.4, -e, b, -e, light), hairAt(b, -e, s1 - 0.7, -0.2, light),
+    hairAt(s0 + 0.4, e, b, e, dark), hairAt(b, e, s1 - 0.9, 0.3, dark),
+  ];
+}
+/** cord wound round a grip: short strokes slanting across it */
+function cord(s0, s1, r, c, step = 1) {
+  const out = [];
+  for (let s = s0; s < s1 - 0.4; s += step) out.push(hairAt(s, -r * 0.8, s + step * 0.55, r * 0.8, c));
+  return out;
+}
+/** broken grain lines running along a haft */
+const grain = (runs, c) => runs.map(([s0, s1, o]) => hairAt(s0, o, s1, o, c));
+/** a round rivet: a dark body with a glint on its upper left */
+const rivet = (x, y, c = '#4a4e58', glint = '#f4f8ff') => [specks([[x, y], [x + 0.5, y], [x, y + 0.5], [x + 0.5, y + 0.5]], c), specks([[x, y]], glint)];
+
+const ITEM_DETAILS = {
+  // ---- blades ----
+  dagger: () => [
+    ...cord(6, 10, 1.1, '#2e1c10', 0.9),
+    ...bevels(11, 22, 2.6),
+    // a nick in the edge, a pin through the guard, glints on guard and pommel
+    specksAt([[16.5, 1.25], [17, 1.25]], '#3a3e48'),
+    ...rivet(...at(10.5, 0).map(v => v - 0.25), '#8a6a20', '#fff2b0'),
+    specksAt([[10.5, -2.6], [10.2, -2.3]], '#fff2b0'),
+    specks([[at(4.8)[0] - 0.8, at(4.8)[1] - 0.8], [at(4.8)[0] - 0.3, at(4.8)[1] - 1.1]], '#fff2b0'),
+  ],
+  shortsword: () => [
+    // a leather thong wound over the dark grip, a peened pommel
+    ...cord(5, 10, 1.2, '#7a5236', 1.1),
+    ...bevels(11.5, 26.5, 3.3),
+    hairAt(12, 0.6, 20, 0.6, '#8a929e'),
+    ...rivet(...at(3.6).map(v => v - 0.25), '#50545e', '#e8eef6'),
+    ...rivet(...at(10.8).map(v => v - 0.25), '#50545e', '#e8eef6'),
+    // quillon tips worn bright, a notch from a parry
+    specksAt([[10.2, -4.3], [10.2, 4.3]], '#dfe5ee'),
+    specksAt([[19, -1.4], [19.4, -1.4]], '#3a3e48'),
+  ],
+  longsword: () => [
+    ...cord(3.6, 10.5, 1.15, '#2a1a0e', 1.4),
+    ...bevels(11.5, 31, 3.1),
+    // a smith's mark, a little cross, struck below the fuller
+    specks([[at(13.4, 0.7)[0], at(13.4, 0.7)[1] - 0.5], [at(13.4, 0.7)[0] - 0.5, at(13.4, 0.7)[1]], [at(13.4, 0.7)[0] + 0.5, at(13.4, 0.7)[1]], [at(13.4, 0.7)[0], at(13.4, 0.7)[1] + 0.5]], '#5a6270'),
+    // a gilt line along the guard, glints on its knobs and the pommel
+    hairAt(11, -4.8, 11, 4.8, '#9aa2ae'),
+    specks([[at(11, -5.5)[0] - 0.5, at(11, -5.5)[1] - 0.5], [at(11, 5.5)[0] - 0.5, at(11, 5.5)[1] - 0.5]], '#eef3fa'),
+    specks([[at(2.4)[0] - 1, at(2.4)[1] - 0.8], [at(2.4)[0] - 0.5, at(2.4)[1] - 1.2], [at(2.4)[0] - 1, at(2.4)[1] - 0.3]], '#ffffff'),
+    specksAt([[24, 1.3], [24.3, 1.3]], '#3a3e48'),
+  ],
+  greatsword: () => [
+    ...bevels(12.8, 33.5, 3.8),
+    // cord crossed over the leather ricasso, a ruby in the guard
+    ...cord(13.2, 16.2, 1.5, '#2e1c10', 0.8),
+    specks([[at(12)[0] - 0.5, at(12)[1] - 0.5], [at(12)[0], at(12)[1] - 0.5], [at(12)[0] - 0.5, at(12)[1]], [at(12)[0], at(12)[1]]], '#c02838'),
+    specks([[at(12)[0] - 0.5, at(12)[1] - 0.5]], '#ff9aa0'),
+    // engraving on the quillons and the brass pommel's glint
+    hairAt(11.2, -6.6, 12, -3.4, '#8a6a20'), hairAt(11.2, 6.6, 12, 3.4, '#8a6a20'),
+    specks([[at(1.2)[0] - 1, at(1.2)[1] - 1], [at(1.2)[0] - 0.5, at(1.2)[1] - 1.5], [at(1.2)[0] - 1.5, at(1.2)[1] - 0.5]], '#fff2b0'),
+    // two nicks and a runnel of old blood near the point
+    specksAt([[22, -1.6], [22.4, -1.6], [27, 1.6]], '#3a3e48'),
+  ],
+  throwknife: () => [0, 6.5, -6.5].flatMap((off, i) => {
+    const s = i ? 3 : 6;
+    return [
+      hairAt(s + 8.5, off - 0.85, s + 15, off - 0.85, '#f6faff'), hairAt(s + 15, off - 0.85, s + 17.8, off - 0.1, '#f6faff'),
+      hairAt(s + 8.5, off + 0.85, s + 15, off + 0.85, '#6e7682'),
+      specksAt([[s + 5.8, off - 0.3], [s + 6.8, off - 0.3], [s + 7.8, off - 0.3]], '#2e1c10'),
+      specks([[at(s + 3.5, off)[0] - 1, at(s + 3.5, off)[1] - 0.8]], '#dfe5ee'),
+    ];
+  }),
+
+  // ---- hafted ----
+  club: () => [
+    ...grain([[9, 14, -0.5], [11, 16.5, 0.5], [17, 22, -1.3], [19, 24.5, 0.8], [23, 26.5, -0.2], [13, 15.5, -0.9]], '#5e3c1e'),
+    ...grain([[10, 13, -0.9], [21.5, 24, -2.3]], '#b88a58'),
+    ...cord(3.3, 8, 1.45, '#2e1c10', 0.9),
+    // a knot with rings round it, and iron nails hammered through the head
+    specksAt([[16, 0.9], [15.6, 1.4], [16.4, 1.9], [16.6, 1.2]], '#4a2e14'),
+    ...rivet(...at(22.5, 1.9), '#4a4e58', '#e8eef6'), ...rivet(...at(25, -2), '#4a4e58', '#e8eef6'),
+    ...rivet(...at(19.5, -1.2), '#4a4e58', '#e8eef6'),
+  ],
+  staff: () => [
+    ...grain([[2, 6, 0.4], [7.5, 11, -0.35], [16, 21, 0.4], [22, 26.5, -0.35]], '#5e3c1e'),
+    ...grain([[4, 7, -0.5], [18, 20, -0.5]], '#b88a58'),
+    ...cord(12.3, 15, 1.35, '#2e1c10', 0.8),
+    // an engraved line round the brass band and prongs gripping the stone
+    hairAt(28.25, -1.4, 28.25, 1.4, '#8a6a20'), specksAt([[27.8, -1.3]], '#fff2b0'),
+    // light swirling inside the orb, and a dark heart to it
+    hair(...at(30.2, -1.6), ...at(31.8, -1.4), '#c8f2ff'), specksAt([[31.8, 1], [32.3, 0.5]], '#2a6ab0'),
+    specksAt([[30.6, 1.4], [31.1, 1.6]], '#d8a840'),
+    specks([[at(0.2)[0] - 0.6, at(0.2)[1] - 0.6]], '#c8ccd6'),
+  ],
+  spear: () => [
+    ...grain([[3, 8, 0.3], [10, 16, -0.3], [17, 21.5, 0.3]], '#5e3c1e'),
+    ...cord(22.7, 25, 1.35, '#2e1c10', 0.75),
+    // the head: a bright lit edge, a shadow along the midrib, a rivet through the socket
+    hairAt(25, -0.95, 27.5, -1.75, '#f6faff'), hairAt(27.5, -1.75, 32.2, -0.2, '#f6faff'),
+    hairAt(25.5, 0.55, 31, 0.3, '#7a828e'),
+    ...rivet(...at(24.2).map(v => v - 0.25), '#4a4e58', '#dfe5ee'),
+    // a red streamer tied below the head
+    hair(...at(22.3, 0.9), at(22.3, 0.9)[0] + 0.5, at(22.3, 0.9)[1] + 3, '#c83838'),
+    hair(at(22.3, 0.9)[0] + 0.5, at(22.3, 0.9)[1], at(22.3, 0.9)[0] + 1.5, at(22.3, 0.9)[1] + 2.5, '#e05048'),
+  ],
+  mace: () => {
+    const c = at(25.5);
+    return [
+      ...grain([[9, 14, 0.35], [15.5, 21, -0.35]], '#3e2614'),
+      ...cord(2.3, 8, 1.35, '#2e1c10', 0.9),
+      // the lit flanges' edges catching the light, a glint on the head
+      ...[3, 4, 5].map(i => {
+        const a = i / 6 * Math.PI * 2 + 0.3;
+        return hair(c[0] + Math.cos(a) * 3.6, c[1] + Math.sin(a) * 3.6, c[0] + Math.cos(a) * 4.5, c[1] + Math.sin(a) * 4.5, '#dfe5ee');
+      }),
+      // a collar where the head is set on the haft
+      hairAt(22.4, -1.1, 22.4, 1.1, '#3a3e46'), specksAt([[22.9, -0.9]], '#b8c0cc'),
+      specks([[c[0] - 1.4, c[1] - 1.2], [c[0] - 0.9, c[1] - 1.6]], '#eef3fa'),
+      specks([[at(29.2)[0] - 0.5, at(29.2)[1] - 0.5]], '#dfe5ee'),
+    ];
+  },
+  hammer: () => [
+    ...grain([[8.5, 13, 0.3], [14.5, 20, -0.3], [9, 11, -0.4]], '#5e3c1e'),
+    ...cord(2.3, 8, 1.3, '#2e1c10', 0.9),
+    // bevels round the head, a groove across it, the wedges holding the haft
+    hairAt(26.1, -6.3, 26.1, 0.6, '#e2e6ee'), hairAt(22.4, -6.3, 22.4, 0.6, '#4a4e58'),
+    hairAt(22.6, -3.2, 25.9, -3.2, '#4a4e58'), hairAt(22.6, -3.7, 25.9, -3.7, '#c8ccd6'),
+    ...rivet(...at(23.2, -1).map(v => v - 0.25), '#3a3e46', '#dfe5ee'), ...rivet(...at(25.3, -1).map(v => v - 0.25), '#3a3e46', '#dfe5ee'),
+    // the beak's lit edge and the spike's point
+    hairAt(25.6, 1.5, 24.5, 6, '#c8ccd6'),
+    specksAt([[29.5, -0.3]], '#eef3fa'),
+  ],
+  flail: () => [
+    ...grain([[7.5, 13, 0.35], [9, 11.5, -0.45]], '#5e3c1e'),
+    ...cord(2.3, 7, 1.45, '#2e1c10', 0.9),
+    // each link a ring: a hole through it, a glint on its rim
+    ...[[15.8, 15.9], [17.2, 15.6], [18.6, 15.9], [19.8, 16.8], [20.7, 18]].flatMap(([x, y]) => [
+      specks([[x, y]], '#24262c'), specks([[x - 0.5, y - 0.5]], '#e2e6ee')]),
+    specks([[at(14.8)[0] - 0.7, at(14.8)[1] - 0.7]], '#dfe5ee'),
+    // the lit spikes' points, dents in the ball, a glint on it
+    ...[4, 5, 6].map(i => {
+      const a = i / 8 * Math.PI * 2;
+      return hair(22.5 + Math.cos(a) * 3.6, 21.5 + Math.sin(a) * 3.6, 22.5 + Math.cos(a) * 4.6, 21.5 + Math.sin(a) * 4.6, '#dfe5ee');
+    }),
+    specks([[23.5, 22], [24, 22.5], [21.5, 23.5]], '#44484f'),
+    specks([[21, 20], [21.5, 19.5], [21, 19.5]], '#eef3fa'),
+  ],
+  battleaxe: () => [
+    ...grain([[8, 14, 0.35], [15.5, 21.5, -0.35], [26.5, 30, 0.3]], '#5e3c1e'),
+    ...cord(1.3, 7, 1.3, '#2e1c10', 0.9),
+    // an etched line following the edge, a nick in it, the collar's rivets
+    hairAt(20, -8.5, 22.5, -9.8, '#6e7684'), hairAt(22.5, -9.8, 26.5, -9.8, '#6e7684'), hairAt(26.5, -9.8, 29, -8.5, '#6e7684'),
+    specksAt([[25.5, -12], [26, -12]], '#4a4e58'),
+    ...rivet(...at(23.6, -0.4).map(v => v - 0.25), '#3a3e46', '#dfe5ee'), ...rivet(...at(25.4, -0.4).map(v => v - 0.25), '#3a3e46', '#dfe5ee'),
+    hairAt(23.8, 1.5, 24.4, 5, '#b8bec8'),
+  ],
+
+  // ---- missiles ----
+  sling: () => [
+    // the twist of the cords, a stitched pouch, a speckled stone, a frayed tail
+    specks([[10, 9.5], [11, 11.5], [12, 13.5], [13.5, 16], [14.5, 17.5], [21.5, 18.5], [22.5, 16.5], [23.5, 14.5], [24.5, 12], [25, 10]], '#d0a878'),
+    specks([[15.5, 22.5], [17, 23.3], [18.5, 23.6], [20, 23.3], [21.5, 22.5]], '#c8a070'),
+    specks([[19.5, 20.5], [18, 20.5], [19, 18.5]], '#6a6660'), specks([[17.5, 18.5]], '#ffffff'),
+    hair(26.8, 8.3, 27.8, 10.5, '#a07848'), hair(26.3, 8.5, 26.5, 10.8, '#a07848'),
+    specks([[6.5, 5], [7, 4.5]], '#d0a878'),
+  ],
+  shortbow: () => [
+    // grain on the limbs, cord wrapped round the grip, horn nocks at the tips
+    hair(12, 5, 15, 7.5, '#6a4424'), hair(16.5, 9.5, 18.5, 12, '#6a4424'),
+    hair(18.5, 20, 16.5, 23, '#6a4424'), hair(15, 24.5, 12, 27, '#6a4424'),
+    hair(12.5, 5.5, 14, 6.5, '#c8905a'), hair(14, 26, 12.5, 27, '#c8905a'),
+    ...[13.5, 15, 16.5, 18].map(y => hair(19, y, 20.5, y + 0.9, '#2e1c10')),
+    specks([[8, 2.5], [8.5, 2.5], [8, 29], [8.5, 29]], '#e8dcc0'),
+    // a serving on the string, a shaded arrow shaft, a bright arrowhead edge
+    specks([[9, 13.5], [9.5, 14], [9, 14.5], [9.5, 15], [9, 17.5], [9.5, 18], [9, 18.5], [9.5, 19]], '#9a8a68'),
+    hair(10, 16.5, 25.5, 16.5, '#7a5a38'),
+    hair(26.5, 14.5, 29.5, 15.8, '#f6faff'), hair(26.5, 17.5, 29, 16.4, '#6e7682'),
+    // the fletching's vanes
+    hair(4, 14.5, 7, 15.5, '#ff9078'), hair(4, 17.5, 7, 16.5, '#a02820'),
+  ],
+
+  // ---- body armour ----
+  leather: () => [
+    // the lace criss-crossing between its eyelets
+    ...[[15.5, 12.5, 17.5, 13.5], [17.5, 13.5, 15.5, 14.5], [15.5, 14.5, 17.5, 15.5], [17.5, 15.5, 15.5, 16.5],
+      [15.5, 16.5, 17.5, 17.5], [17.5, 17.5, 15.5, 18.5], [15.5, 18.5, 17.5, 19.5]].map(([a, b, c, d]) => hair(a, b, c, d, '#b89868')),
+    // stitching round the hem and the shoulders, holes in the belt, a tongue in the buckle
+    specks([10, 11.5, 13, 14.5, 18, 19.5, 21, 22.5].map(x => [x, 26.2]), '#c89a68'),
+    specks([[5.5, 9.5], [6.5, 11], [8, 11.5], [9.5, 11], [22.5, 11], [24, 11.5], [25.5, 11], [26.5, 9.5]], '#c89a68'),
+    specks([[19.5, 23], [21, 23], [22.5, 23]], '#1e120a'),
+    hair(16, 23, 18.5, 23, '#fff0a0'),
+    // scuffs and creases in the hide
+    hair(10, 15, 11.5, 17.5, '#a87448'), hair(21, 16.5, 22, 18.5, '#6a4426'), hair(11, 19.5, 12.5, 21, '#6a4426'),
+  ],
+  studded: () => [
+    // every stud domed: a glint above, a shadow below
+    ...[11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => specks([[x + (r % 2), y]], '#ffffff'))),
+    specks([11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => [x + (r % 2) + 0.5, y + 0.5])), '#8a909a'),
+    // stitching down the sides and round the hem, a strap at each shoulder
+    specks([10, 12, 14, 18, 20, 22].map(x => [x + 0.5, 26.3]), '#a07a52'),
+    specks([[9, 16], [9, 19], [9, 22], [23, 16], [23, 19], [23, 22]], '#a07a52'),
+    hair(6, 10.5, 9.5, 11.5, '#3a2616'), hair(22.5, 11.5, 26, 10.5, '#3a2616'),
+  ],
+  scale: () => [
+    // a few scales catching the light, one lost, and the leather edging
+    specks([[12, 11.5], [14, 14.5], [11, 17.5], [13, 20.5], [19, 11.5], [21, 14.5]], '#fff4c8'),
+    specks([[18, 19], [18.5, 19], [18, 19.5], [18.5, 19.5]], '#3a2c18'),
+    hair(9, 26.5, 23, 26.5, '#5e4c28'),
+    specks([10, 12, 14, 16, 18, 20, 22].map(x => [x, 26.5]), '#c8a868'),
+    // rims and rivets on the shoulder guards
+    hair(5.5, 10.5, 10, 11.3, '#6e5a30'), hair(22, 11.3, 26.5, 10.5, '#6e5a30'),
+    specks([[7, 8], [25, 8]], '#fff4c8'),
+  ],
+  chain: () => [
+    // light through the rings on the lit shoulder and chest
+    specks(inside(TORSO, (x, y) => y > 8 && y < 20 && x < 19 && (x + y) % 2 === 1 && y % 2 === 1 && !(y < 11 && x > 12)), '#d4d9e1'),
+    // a leather collar and a row of bright links at the hem
+    hair(12.5, 7.5, 14.5, 11, '#6a4a30'), hair(19, 7.5, 17, 11, '#6a4a30'),
+    specks([9.5, 11.5, 13.5, 15.5, 17.5, 19.5, 21.5].map(x => [x, 26]), '#dfe5ee'),
+    // a split link and the sleeves' ends
+    specks([[21, 20], [21.5, 20.5]], '#2a2e36'),
+    specks([[4.5, 18], [5.5, 18.5], [25.5, 18.5], [26.5, 18]], '#c8ced8'),
+  ],
+  splint: () => [
+    // each strip lit down one side, its rivets glinting
+    ...[10, 13, 16, 19, 22].map(x => hair(x, 13.5, x, 24, '#eef3fa')),
+    specks([10, 13, 16, 19, 22].flatMap(x => [[x, 12], [x, 25]]), '#fff4b0'),
+    specks([10, 13, 16, 19, 22].map(x => [x + 1.5, 18.5]), '#8a7058'),
+    // rims and rivets on the pauldrons, a buckle on the collar strap
+    hair(4.5, 11, 9.5, 12, '#6a707c'), hair(22, 12, 27, 11, '#6a707c'),
+    ...rivet(6, 9), ...rivet(25, 9),
+    specks([[15.5, 10.5], [16, 10.5], [16.5, 10.5], [15.5, 11.5], [16.5, 11.5]], BRASS),
+  ],
+  plate: () => [
+    // the ridge's shadow side, the lames' rivets, a dent in the breast
+    hair(17, 12.5, 17, 21, '#7a8494'),
+    ...rivet(9.5, 22.3), ...rivet(22, 22.3), ...rivet(9.5, 24.8), ...rivet(22, 24.8),
+    specks([[12.5, 16.5], [13, 17]], '#6a7484'), specks([[12, 16], [12.5, 16]], '#f4f8ff'),
+    // rivets on the pauldrons, gilt pins at the ends of the collar trim
+    specks([[13, 11], [19.5, 11]], '#fff0a0'),
+    ...rivet(6, 8.5), ...rivet(25.5, 8.5),
+    hair(4.5, 9, 7, 6.5, '#f4f8ff'),
+  ],
+
+  // ---- shields ----
+  buckler: () => [
+    // grain curving across the boards, the lit rim, a glint on the boss
+    hair(9.5, 12.5, 12.5, 11, '#5e3c1e'), hair(9, 16, 12.5, 15.5, '#5e3c1e'), hair(19.5, 18.5, 23, 18, '#5e3c1e'),
+    hair(10, 21, 13, 22.5, '#5e3c1e'), hair(18.5, 22.5, 21.5, 21, '#5e3c1e'), hair(19, 12, 22, 13.5, '#a87448'),
+    specks([[14.5, 15], [15, 14.5], [15, 15]], '#ffffff'),
+    hair(8, 12, 10.5, 9.5, '#b8bec8'),
+    // a cut across the face
+    hair(19.5, 21.5, 22, 20, '#3a2414'), hair(19.5, 22, 22, 20.5, '#b88a58'),
+  ],
+  shield: () => [
+    // the bend's edges, and a silver star in each empty quarter
+    hair(10.5, 6.5, 24.5, 20.5, '#fff0a0'), hair(7.5, 10, 21.5, 23, '#a07818'),
+    specks([[20, 9.5], [20, 10], [20, 11], [20, 11.5], [19, 10.5], [19.5, 10.5], [20.5, 10.5], [21, 10.5], [20, 10.5]], '#e8ecf4'),
+    specks([[12, 16.5], [12, 17], [12, 18], [12, 18.5], [11, 17.5], [11.5, 17.5], [12.5, 17.5], [13, 17.5], [12, 17.5]], '#e8ecf4'),
+    // the lit rim and a scratch through the paint
+    hair(5.5, 5.5, 5.5, 13.5, '#c8ccd6'), hair(8, 4.5, 15, 4.5, '#c8ccd6'),
+    hair(21.5, 15, 23.5, 13.5, '#8aa0c8'),
+  ],
+  towershield: () => [
+    // grain and knots in the planks, nails down the painted stripe
+    hair(8, 4, 8.5, 7, '#5e3c1e'), hair(8, 10, 7.5, 20, '#5e3c1e'), hair(12, 10, 12, 16, '#5e3c1e'),
+    hair(20.5, 9.5, 20, 14, '#5e3c1e'), hair(24, 10, 24.5, 20, '#5e3c1e'), hair(11.5, 23.5, 12, 27, '#5e3c1e'), hair(20, 24, 20, 27.5, '#5e3c1e'),
+    specks([[12, 18.5], [12.5, 18], [12.5, 19]], '#4a2e14'), specks([[20.5, 5], [21, 5.5]], '#4a2e14'),
+    specks([[15.5, 5], [15.5, 11], [15.5, 19], [15.5, 26.5]], '#e0a0a0'),
+    // more rivets along the bands, a glint on the boss
+    ...rivet(11.5, 7.7, '#3a3e46'), ...rivet(20, 7.7, '#3a3e46'), ...rivet(11.5, 21.7, '#3a3e46'), ...rivet(20, 21.7, '#3a3e46'),
+    specks([[14.5, 13.5], [15, 13], [15, 13.5]], '#ffffff'),
+  ],
+
+  // ---- draughts ----
+  potion_red: () => [
+    // the meniscus, bubbles rising, a curve of light round the glass
+    hair(9, 19, 23, 19, '#ff8a88'),
+    specks([[18, 23], [20, 21], [19.5, 25.5], [15.5, 26.5]], '#f07078'),
+    hair(9.5, 23.5, 10.5, 26.5, '#f4b0b4'),
+    // a twine tie round the neck, grain in the cork
+    hair(14.5, 11, 17.5, 11, '#c89a58'), specks([[17.5, 11.5], [17.5, 12.5]], '#c89a58'),
+    specks([[15.5, 6.5], [16.5, 7.5]], '#6a4424'), specks([[15, 6]], '#c89a68'),
+    specks([[21.5, 16.5], [22, 17]], '#f4fbff'),
+  ],
+  potion_pink: () => [
+    // graduations up the flask's side, a meniscus, bubbles, a cork
+    ...[16, 18, 22, 24].map(y => hair(19.5 + (y - 12) * 0.45, y, 18.5 + (y - 12) * 0.45, y, '#7a8698')),
+    hair(9.5, 20, 22.5, 20, '#ffb0dc'),
+    specks([[13, 23], [15.5, 25.5], [18, 22.5], [12, 27]], '#ff9ad0'),
+    specks([[15.5, 3.5], [16.5, 4.5]], '#6a4424'), specks([[15, 3]], '#c89a68'),
+    hair(13, 13, 11, 17, '#f4fbff'),
+  ],
+  potion_green: () => [
+    // a paper label round the tube with a line of ink, bubbles, a cork
+    hair(13, 22, 19, 22, '#e8dcb8'), hair(13, 22.5, 19, 22.5, '#e8dcb8'), hair(13, 23, 19, 23, '#e8dcb8'),
+    hair(13, 23.5, 19, 23.5, '#e8dcb8'), hair(14, 22.5, 18, 22.5, '#5a4a38'),
+    hair(14.5, 16.5, 17.5, 16.5, '#a8f0b8'),
+    specks([[16.5, 19], [15.5, 20.5], [17, 26], [15.5, 27]], '#7ae890'),
+    specks([[15.5, 4], [16.5, 5]], '#6a4424'), specks([[15, 3.5]], '#c89a68'),
+  ],
+  potion_orange: () => [
+    // a label on the square bottle with a word in ink, a meniscus, a cork
+    ...[20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5].map(y => hair(12, y, 20, y, '#ece0bc')),
+    hair(12, 20.5, 20, 20.5, '#a89870'), hair(12, 24.5, 20, 24.5, '#a89870'),
+    hair(13, 22, 18.5, 22, '#4a3a2c'), hair(14, 23.5, 17.5, 23.5, '#4a3a2c'),
+    hair(9, 18, 23, 18, '#ffc080'),
+    specks([[22, 26.5], [11, 27]], '#ffb060'),
+    specks([[15.5, 3], [16.5, 4]], '#6a4424'), specks([[15, 2.5]], '#c89a68'),
+    hair(22.5, 13.5, 22.5, 16.5, '#f4fbff'),
+  ],
+  potion_blue: () => [
+    // red wax dripping down the neck from the stopper, and its stamp
+    hair(13, 12.5, 13, 15, '#b8383a'), hair(18.5, 12.5, 18.5, 14, '#b8383a'), specks([[13, 15.5]], '#d8585a'),
+    specks([[15.5, 11], [16, 11.5], [16.5, 11]], '#7a1c20'),
+    // meniscus, bubbles, a highlight curving round the belly
+    hair(8, 22, 24, 22, '#90b8ff'),
+    specks([[18, 25], [20.5, 24], [14, 27], [22, 26.5]], '#70a0f8'),
+    hair(22.5, 19.5, 24, 21, '#f4fbff'), hair(11, 27.5, 13, 28.5, '#6a98f0'),
+  ],
+
+  // ---- paper ----
+  scroll: () => [
+    // shade where the paper curls under each rod, a heading with a flourish
+    hair(8.5, 9.3, 23.5, 9.3, '#b8a47a'), hair(8.5, 23.8, 23.5, 23.8, '#b8a47a'),
+    hair(12, 10.5, 19, 10.5, '#8a2a20'), hair(19, 10.5, 20.5, 9.8, '#8a2a20'), specks([[11.5, 11]], '#8a2a20'),
+    // a signature, glints on the rod ends, the seal's stamp
+    hair(17, 22.5, 18.5, 21.8, '#4a3c30'), hair(18.5, 21.8, 20.5, 22.5, '#4a3c30'),
+    specks([[5.3, 6.3], [25.7, 6.3], [5.3, 25.3], [25.7, 25.3]], '#c89a68'),
+    specks([[18.5, 26], [19.5, 26], [19, 25.5], [19, 26.5]], '#7a141c'),
+  ],
+  page: () => [
+    // a fold down the middle, a coffee ring, a torn edge darkened with age
+    hair(7.5, 15.8, 25.5, 16.3, '#b8a47a'), hair(7.5, 16.3, 25.5, 16.8, '#f4ead0'),
+    specks([[10, 19], [11, 18.5], [12, 19], [12.5, 20], [12, 21], [11, 21.5], [10, 21], [9.5, 20]], '#b8945e'),
+    specks([[9.5, 27], [12, 28.5], [15, 27], [18, 28.5], [21, 26.5], [23, 28], [25.5, 26.5], [24.5, 5]], '#a88a5a'),
+    // a heading underlined, and a blot where the pen rested
+    hair(10, 6.5, 18, 6.5, '#4a3c30'),
+    specks([[22.5, 18.5], [23, 18.5], [23, 19], [22.5, 19], [23.5, 19.5]], '#2a2018'),
+  ],
+
+  // ---- food ----
+  ration: () => [
+    // creases in the paper, the twist of the string, a grease spot, a stamp
+    hair(6, 16, 9, 18.5, '#8a7048'), hair(26, 16, 23.5, 18, '#8a7048'), hair(9, 11, 12, 13, '#f0dcb0'),
+    specks([[16, 16], [16, 18.5], [16, 22], [16, 25], [8, 20], [11, 20], [21, 20], [24.5, 20]], '#a8865a'),
+    specks([[21, 23.5], [22, 24], [21.5, 24.5], [22.5, 23]], '#98804c'),
+    specks([[9.5, 23], [10.5, 24], [10.5, 23], [9.5, 24], [10, 23.5]], '#8a2a20'),
+    hair(13, 9, 12.5, 8, '#7a5a3a'), hair(19.5, 9.5, 20.5, 8.5, '#7a5a3a'),
+  ],
+  meat: () => [
+    // streaks of fat through the roast, char, pepper, a glisten
+    hair(8, 16, 11, 18, '#e8b898'), hair(14.5, 19, 17.5, 18.5, '#e8b898'), hair(17, 11, 19.5, 13, '#e8b898'),
+    specks([[7, 12], [12, 20.5], [19, 17.5], [20, 11], [16.5, 8]], '#5a2414'),
+    specks([[10, 13], [15, 16], [18, 14], [8.5, 17]], '#3a1a10'),
+    specks([[9, 10.5], [11.5, 9]], '#ffffff'),
+    // the knuckle of the bone
+    hair(19.5, 21, 24, 25.5, '#ffffff'), specks([[25.5, 27], [26, 27]], '#b8ae94'),
+  ],
+  bread: () => [
+    // flour dusted on the crown, cracks in the crust, crumbs fallen from it
+    specks([[11, 16.5], [13, 16], [15.5, 15.5], [18, 16], [20, 16.5], [12, 18], [17, 17.5], [22.5, 18.5]], '#f8ecd4'),
+    hair(6, 21, 8, 22.5, '#8a5220'), hair(24, 20, 26, 21.5, '#8a5220'), hair(13, 24.5, 16, 25, '#8a5220'),
+    specks([[7, 27], [9.5, 27.5], [22.5, 27.5], [25, 27]], '#b87a38'),
+    specks([[7, 18.5], [8, 17.5]], '#f0c080'),
+  ],
+
+  // ---- treasure ----
+  gold: () => [
+    // a crown stamped on the top coin, rims round the others, glints
+    specks([[15, 19], [16, 18.5], [17, 19], [15.5, 19.5], [16.5, 19.5]], '#fff4b0'),
+    ...[[8.5, 27.5], [15.5, 28], [22.5, 27.5], [12, 25], [19, 25], [15.5, 22.3], [10, 22.8]].map(([x, y]) => hair(x - 2.5, y + 1.2, x + 2.5, y + 1.2, '#a07818')),
+    specks([[23, 18], [23, 19.5], [23, 21], [23, 22.5], [7.5, 16], [7.5, 17.5], [7.5, 19], [7.5, 20.5]], '#a07818'),
+    specks([[13, 21.5], [18.5, 24], [7, 27], [21.5, 26.5]], '#ffffff'),
+  ],
+  gem: () => [
+    // facets cut into the crown and pavilion, and a star of light
+    hair(12, 8.5, 9.5, 12.5, '#bff0ff'), hair(20, 8.5, 22.5, 12.5, '#3c9ad8'),
+    hair(9, 13.5, 16, 28, '#8ae0ff'), hair(23, 13.5, 16, 28, '#1a6aa8'), hair(20, 13.5, 16.5, 27, '#1e78b8'),
+    specks([[21.5, 9.5], [21.5, 10.5], [21.5, 11.5], [20.5, 10.5], [22.5, 10.5]], '#ffffff'),
+    specks([[16.5, 9], [18, 9]], '#e8faff'),
+  ],
+  artifact: () => [
+    // veins across the stone heart, a glow at its centre, a chased gold stand
+    hair(21, 9, 23, 12, '#8a1622'), hair(22, 16, 20, 19, '#8a1622'), hair(12, 18, 13.5, 20, '#8a1622'),
+    specks([[15.5, 13.5], [16, 13], [16.5, 13.5], [16, 14]], '#ffd0a0'),
+    hair(9.5, 27.5, 22.5, 27.5, '#fff0a0'),
+    specks([[11, 29.5], [13, 29.5], [15, 29.5], [17, 29.5], [19, 29.5], [21, 29.5]], '#8a6a20'),
+    specks([[8.5, 8], [7.5, 9]], '#ffffff'),
+  ],
+};
+
+// the keys, each in its own metal: a bevel on the shaft, a glint on the bow,
+// a collar where they meet and the cuts between the teeth
+for (const k in ITEM_ART) {
+  if (k !== 'key' && !k.startsWith('key_')) continue;
+  const c = k === 'key' ? BRASS : KEY_COLORS[k.slice(4)];
+  ITEM_DETAILS[k] = () => [
+    hair(14, 13, 21, 20, shade(c, 0.55)),
+    hair(13, 14.5, 19, 20.5, shade(c, -0.3)),
+    hair(12.8, 14.6, 14.6, 12.8, shade(c, -0.45)), hair(13.3, 15, 15, 13.3, shade(c, 0.35)),
+    specks([[6.5, 7], [7, 6.5], [7.5, 6]], shade(c, 0.7)),
+    specks([[12, 11], [11.5, 12]], shade(c, -0.4)),
+    specks([[19, 22.5], [21.5, 24.5], [20.5, 23.5]], shade(c, -0.5)),
+    specks([[24.5, 24.5]], shade(c, 0.7)),
+  ];
+}
+for (const k in ITEM_DETAILS) {
+  const base = ITEM_ART[k];
+  ITEM_ART[k] = () => [...base(), ...ITEM_DETAILS[k]()];
+}
 
 /** Every item picture, painted: sprite key -> parts. */
 export { ITEM_ART };
