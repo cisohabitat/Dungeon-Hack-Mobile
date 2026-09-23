@@ -990,7 +990,8 @@ const UI = (() => {
         if (Game.castSpell(sp)) { closeOverlay(); return; }
         // the reason goes to the log, hidden behind this list: show it here
         // too, but only if this cast wrote one (an older line is not the reason)
-        let why = Game.state().logSeq > seq ? Game.state().log.slice(-1)[0].m : 'You are still recovering from your last action.';
+        const last = Game.state().log.slice(-1)[0];
+        let why = Game.state().logSeq > seq ? (last.base || last.m) : 'You are still recovering from your last action.';
         if (Game.castLabel() === sp.name) why += ` ${sp.name} is ready on the Cast button.`;
         renderSpells();
         const n = document.createElement('p'); n.className = 'spell-why'; n.textContent = why; $('#spell-list').prepend(n);
@@ -1024,7 +1025,7 @@ const UI = (() => {
 
   // Text size scales the whole interface from the root, so every rem follows.
   const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 18.5 }];
-  function textSize() { const v = Number(store('deepdelve.textSize')); return v >= 0 && v < TEXT_SIZES.length && store('deepdelve.textSize') !== null ? v : 1; }
+  function textSize() { const raw = store('deepdelve.textSize'), v = Number(raw); return raw !== null && Number.isInteger(v) && v >= 0 && v < TEXT_SIZES.length ? v : 1; }
   function setTextSize(i) {
     store('deepdelve.textSize', String(i));
     document.documentElement.style.fontSize = TEXT_SIZES[i].px + 'px';
@@ -1032,7 +1033,9 @@ const UI = (() => {
   }
   function renderMenu() {
     const G = Game.state();
-    $('#m-load').disabled = !Game.hasSave();
+    // under permadeath there is no going back, and a save made when the app
+    // was put away must not become a checkpoint to reload before a gamble
+    $('#m-load').disabled = !Game.hasSave() || !!G.opts.permadeath;
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;

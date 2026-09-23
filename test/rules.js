@@ -1882,6 +1882,81 @@ await test('a monster that steps up to you is already winding up as it arrives',
   return (m.windup && m.windup.kind === 'melee' && m.windup.at >= G.t - 25) || 'it arrived beside the hero without drawing back';
 });
 
+
+// ---------- round four review ----------
+await test('a drawn blow is dropped once the monster loses you, and on leaving the floor', async () => {
+  const ctx = await start('fighter', 'drop-windup');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const m = beside(ctx, 'goblin');
+  Game.update(G.t + 25, 25);
+  if (!m.windup) return 'no wind-up began';
+  // carry the hero far off: it can no longer find them
+  const far = [];
+  for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === Dungeon.T.FLOOR && Math.abs(i % L.w - m.x) + Math.abs(((i / L.w) | 0) - m.y) > 20) far.push(i);
+  if (!far.length) return 'no far square on this floor';
+  p.x = far[0] % L.w; p.y = (far[0] / L.w) | 0;
+  for (let i = 0; i < 40; i++) Game.update(G.t + 250, 250);
+  if (m.windup) return `after ten seconds out of reach it still held ${JSON.stringify(m.windup)}`;
+  return true;
+});
+
+await test('buying back an unknown piece keeps it unknown', async () => {
+  const ctx = await start('fighter', 'buy-hidden');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+  Game.input('forward');
+  const blade = { t: 'longsword', q: 1, e: 2, h: 1 };
+  p.inv.push(blade);
+  Game.sell(blade);
+  p.gold = 999;
+  Game.buy(shop.stock.find(s => s.t === 'longsword'));
+  const back = p.inv.find(i => i.t === 'longsword' && i !== blade);
+  return (back && back.h === 1) || `bought back as ${JSON.stringify(back)}`;
+});
+
+await test('a new game starts with a clean clock for bump messages', async () => {
+  const ctx = await start('fighter', 'bump-clock');
+  const { Game, Dungeon } = ctx;
+  const bumpNow = () => {
+    const p = Game.player(), L = Game.level(), G = Game.state();
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.WALL;
+    L.monsters.length = 0;
+    const mark = markLog(G);
+    Game.input('forward');
+    return linesSince(G, mark).some(l => /blocks your path/.test(l));
+  };
+  Game.state().t = 600000;
+  if (!bumpNow()) return 'the first run logged no bump';
+  Game.newGame({ name: 'Two', cls: 'fighter', stats: Game.rollStats(), seed: 'bump-clock-2', opts: OPTS });
+  Game.update(0, 1000);
+  return bumpNow() || 'the second run swallowed its first bump';
+});
+
+await test('a monster made to miss presses in: its next blow is drawn back faster', async () => {
+  const ctx = await start('fighter', 'pressing');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 999;
+  const m = beside(ctx, 'goblin');
+  Game.update(G.t + 25, 25);
+  const first = m.windup.until - m.windup.at;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y - dy) * L.w + p.x - dx] = Dungeon.T.FLOOR;
+  p.x -= dx; p.y -= dy;                               // step back: it whiffs
+  let second = null;
+  for (let i = 0; i < 80 && second === null; i++) {
+    Game.update(G.t + 25, 25);
+    if (m.windup && m.windup.at > G.t - 30 && G.t > 600) second = m.windup.until - m.windup.at;
+  }
+  if (second === null) return 'no second wind-up followed the miss';
+  return (second < first && second >= 250) || `after a miss the wind-up went from ${first}ms to ${second}ms`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

@@ -711,6 +711,7 @@ const Game = (() => {
     p.maxHp = Math.max(10, c.hitDie + 6 + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
+    lastBlocked = -1e9; queuedAttack = false;   // nothing carries over from the last run's clock
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -738,7 +739,7 @@ const Game = (() => {
     // you arrive beside the stair you came by; that one needs no announcing
     const came = stairsBeside();
     besideKey = came ? came.key : '';
-    for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; }
+    for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; }
     shop = null;
     snapCam();
     distFieldAt = -1e9;
@@ -1145,7 +1146,7 @@ const Game = (() => {
     if (!shop) return false;
     const price = buyPrice(shop, it);
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
-    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}) };
+    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}) };
     if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
@@ -1590,6 +1591,7 @@ const Game = (() => {
    */
   function quaff() {
     const p = P();
+    queuedAttack = false;
     const draughts = p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t));
     if (!draughts.length) { log('You have no healing draught you know by sight.', 'bad'); Sound.play('error'); return false; }
     const missing = p.maxHp - p.hp;
@@ -1718,6 +1720,7 @@ const Game = (() => {
   const WINDUP_MS = 450;
   /** Draw a blow back: it lands in dur ms, if you are still there. */
   function beginWindup(m, kind, dur) {
+    if (m.pressing) { dur = Math.max(250, Math.round(dur * 0.55)); m.pressing = false; }
     m.windup = { kind, at: G.t, until: G.t + dur };
     m.nextAct = m.windup.until;
     Sound.play('windup');
@@ -1752,6 +1755,7 @@ const Game = (() => {
         // it has lost you; after a while it stops hunting and settles again
         if (!m.lostAt) m.lostAt = G.t;
         else if (G.t - m.lostAt > 7000 && !G.escaping) { m.awake = false; m.lostAt = 0; }
+        m.windup = null;                   // a blow drawn at you is dropped once it has lost you
         if (Math.random() < 0.3) wander(m);
         m.nextAct = G.t + mb.speed * 1.5;
         continue;
@@ -1789,6 +1793,9 @@ const Game = (() => {
         } else {
           log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
           Sound.play('miss');
+          // made to miss, it presses in: the next blow is drawn back faster, so
+          // stepping away is a save, not a loop that keeps it from ever landing
+          m.pressing = true;
         }
         m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
         continue;
@@ -2000,7 +2007,8 @@ const Game = (() => {
       // a run from before relics finds them on the floors it has yet to see
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
-      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
+      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; }
+      lastBlocked = -1e9;
       snapCam();
       distFieldAt = -1e9;
       fx.texts = [];
