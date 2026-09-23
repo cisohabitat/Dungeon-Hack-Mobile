@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY } from './data.js';
+import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -711,14 +711,24 @@ const UI = (() => {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
     const p = Game.player();
-    $('#boon-title').textContent = `Hero level ${p.level}: what the delve taught you`;
+    const talents = TALENTS[p.cls] || [];
+    const isTalent = offer.some(id => talents.some(t => t.id === id));
+    $('#boon-title').textContent = isTalent
+      ? `Hero level ${p.level}: a ${CLASSES[p.cls].name}'s talent`
+      : `Hero level ${p.level}: what the delve taught you`;
     const el = $('#boon-list');
     el.innerHTML = '';
+    if (isTalent) {
+      const note = document.createElement('p');
+      note.className = 'dim small';
+      note.textContent = 'A talent is for good, and each can be taken once. Choose the one that suits how you fight.';
+      el.appendChild(note);
+    }
     for (const id of offer) {
-      const b = BOONS.find(x => x.id === id);
+      const b = BOONS.find(x => x.id === id) || talents.find(x => x.id === id);
       if (!b) continue;
       const btn = document.createElement('button');
-      btn.className = 'boon';
+      btn.className = 'boon' + (isTalent ? ' talent' : '');
       btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.desc)}</small>`;
       btn.addEventListener('click', () => {
         Game.chooseBoon(id);
@@ -1092,8 +1102,16 @@ const UI = (() => {
     r('Deepest floor', p.deepest); r('Seed', escapeHtml(G.seed));
     r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
+    if (p.talents && p.talents.length) {
+      const own = TALENTS[p.cls] || [];
+      const lines = p.talents.map(id => { const t = own.find(x => x.id === id); return t ? `<b>${escapeHtml(t.name)}</b>: ${escapeHtml(t.desc)}` : escapeHtml(id); });
+      r('Talents', lines.join('<br>'), true);
+    }
     if (p.boons && p.boons.length) {
-      const names = p.boons.map(id => { const b = BOONS.find(x => x.id === id); return b ? b.name : id; });
+      // the same lesson taken twice reads as "Deep Wind ×2", not twice over
+      const counts = new Map();
+      for (const id of p.boons) counts.set(id, (counts.get(id) || 0) + 1);
+      const names = [...counts].map(([id, n]) => { const b = BOONS.find(x => x.id === id); return (b ? b.name : id) + (n > 1 ? ` \u00d7${n}` : ''); });
       r('Learned', escapeHtml(names.join(', ')), true);
     }
     $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>`;

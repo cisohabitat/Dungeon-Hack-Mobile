@@ -53,6 +53,12 @@
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
  * @property {number} [lastTear]  when the hero last tore at a web
+ * @property {string[]} [talents]  class talents taken, by id
+ * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
+ * @property {boolean} [ritesUsed]  Last Rites has been spent this run
+ * @property {number} [windReady]  Second Wind can come again from then
+ * @property {number} [mirrors]  Mirror Image: images left to take a blow
+ * @property {number} [nextWard]  Warding Light: the next hit point from then
  * @property {number} [held]    frozen by a ghoul's touch until then
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
  */
@@ -82,6 +88,7 @@
  * @property {boolean} [split]     a slime that has already split
  * @property {number} [burnUntil]  a troll's burns: no regrowth until then
  * @property {number} [phase]      how many times a boss has called for help
+ * @property {{kind: string, until: number, next: number}|null} [dot]  burning or poisoned by the hero
  */
 
 /**

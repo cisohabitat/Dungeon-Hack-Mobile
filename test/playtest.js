@@ -100,7 +100,12 @@ function play(ctx, cls, seed, opts, bg) {
     // experience offers a choice on every level; take the most useful one
     while (Game.pendingBoons()) {
       const offer = Game.pendingBoons();
-      const order = ['con', 'vigor', 'keen', 'swift', 'str', 'dex', 'hardy', 'focus', 'int', 'wis'];
+      // a talent by what a sensible player of each class would reach for first
+      const order = ['second_wind', 'weapon_master', 'bulwark', 'stand_firm', 'cleave', 'riposte',
+        'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
+        'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
+        'lucky', 'assassinate', 'venom', 'evasion', 'light_fingers', 'shadow_step',
+        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'hardy', 'focus', 'int', 'wis'];
       const pick = order.find(id => offer.includes(id)) || offer[0];
       Game.chooseBoon(pick);
       rec.boons = (rec.boons || 0) + 1;

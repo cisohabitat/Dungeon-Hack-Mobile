@@ -41,7 +41,8 @@ test.describe('story and progression', () => {
     const placed = await placeMonster(page, 'goblin', 1, { hp: 1, maxHp: 1 });
     expect(placed).not.toBeNull();
 
-    await page.evaluate(() => { Game.player().xp = XP_TABLE[2] - 1; });
+    // one level up: level 2 now brings a lesson (a talent waits for level 3)
+    await page.evaluate(() => { Game.player().xp = XP_TABLE[1] - 1; });
     expect(await killMonster(page, placed.uid)).toBe(true);
     await page.waitForTimeout(150);
 

@@ -91,7 +91,45 @@ const BOONS = [
   { id: 'hardy', name: 'Slow to Bleed', desc: 'Between fights, wounds close half again as fast.', unique: true, apply: p => { p.perkRegen = (p.perkRegen || 0) + 0.5; } },
 ];
 
-const XP_TABLE = [0, 40, 100, 220, 450, 850, 1500, 2500, 4000, 6200, 9200, 13500, 19000];
+// Class talents: on every third level the hero picks one of three from their
+// class's six, each taken once. They change how a class plays rather than
+// adding a point here and there; game.js honours each by id.
+const TALENTS = {
+  fighter: [
+    { id: 'cleave', name: 'Cleave', desc: 'Strike a group and the one behind the front takes half the blow.' },
+    { id: 'riposte', name: 'Riposte', desc: 'A blow that misses you, or swings at the air where you stood, readies your next swing at once.' },
+    { id: 'stand_firm', name: 'Stand Firm', desc: 'A monster\'s trick that lands does half damage to you: a crush, a charge, a claw, the lich\'s storm. Nothing can grab you.' },
+    { id: 'second_wind', name: 'Second Wind', desc: 'Falling below a quarter of your health heals another quarter at once. Once every two minutes.' },
+    { id: 'weapon_master', name: 'Weapon Master', desc: '+2 damage with every blow of a two-handed weapon, +1 with any other.' },
+    { id: 'bulwark', name: 'Bulwark', desc: 'A shield gives you 2 more armour class.' },
+  ],
+  cleric: [
+    { id: 'healing_hands', name: 'Healing Hands', desc: 'Your healing spells heal half as much again.' },
+    { id: 'sanctified', name: 'Sanctified', desc: 'Your blows deal +1d4 to the undead, and no undead touch can drain your life.' },
+    { id: 'zeal', name: 'Zeal', desc: 'Bless lasts twice as long, and while it holds every blow deals +1 damage.' },
+    { id: 'warding_light', name: 'Warding Light', desc: 'While Protection is upon you, you heal a hit point every three seconds, even mid-fight.' },
+    { id: 'last_rites', name: 'Last Rites', desc: 'Once a run, a blow that would kill you leaves you standing on 1 hit point.' },
+    { id: 'radiance', name: 'Radiance', desc: 'Holy Smite deals half as much again and reaches two squares further.' },
+  ],
+  mage: [
+    { id: 'empower', name: 'Empower', desc: 'Your bolts and blasts deal a fifth more damage.' },
+    { id: 'arcane_flow', name: 'Arcane Flow', desc: 'Spell points come back twice as fast as you walk.' },
+    { id: 'mirror_image', name: 'Mirror Image', desc: 'Casting Shield also conjures two images of you: the next two blows aimed at you strike them instead.' },
+    { id: 'quick_words', name: 'Quick Words', desc: 'Casting takes a quarter less time.' },
+    { id: 'rime', name: 'Rime', desc: 'Lightning and Cone of Cold jolt everything they hit, holding back its next move by most of a second.' },
+    { id: 'kindling', name: 'Kindling', desc: 'Your fire leaves what it hits burning, 1d4 a second for three seconds. Burns stop a troll regrowing.' },
+  ],
+  thief: [
+    { id: 'assassinate', name: 'Assassinate', desc: 'A strike from the shadows deals triple damage, not double.' },
+    { id: 'evasion', name: 'Evasion', desc: 'One arrow or bolt in three misses you outright, and webs slide off you.' },
+    { id: 'venom', name: 'Venomed Blades', desc: 'One hit in four poisons the living: 1d3 a second for four seconds.' },
+    { id: 'lucky', name: 'Lucky', desc: 'Your critical hits land one number sooner on the die.' },
+    { id: 'shadow_step', name: 'Shadow Step', desc: 'Sidestep, and your next blow within a second strikes from the shadows.' },
+    { id: 'light_fingers', name: 'Light Fingers', desc: 'Monsters drop loot half as often again, and traders pay you a quarter more.' },
+  ],
+};
+
+const XP_TABLE = [0, 45, 120, 265, 540, 1020, 1800, 3000, 4800, 7400, 11000, 16200, 22800];
 const MAX_LEVEL = 12;
 
 const CLASSES = {
@@ -317,4 +355,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY };
+export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY, TALENTS };
