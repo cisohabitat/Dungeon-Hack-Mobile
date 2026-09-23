@@ -438,8 +438,130 @@ const CREATURES = {
   },
 };
 
+// Props for encounters (see encounters.js): things you walk up to, drawn with
+// the same painter so they sit in the same light as the creatures.
+const PROPS = {
+  // a fall of stone, and a hand still moving under it
+  rubble: () => {
+    const rock = '#7a7268', dark = '#5a544c';
+    return [
+      ball(9, 27, 5.5, 4, dark), ball(22, 27.5, 6.5, 3.8, dark),
+      limb(19, 22.5, 25, 18.5, 1.4, 1.2, '#d4a47a'), ball(25.8, 18, 1.6, 1.4, '#d4a47a'),
+      dots([[27, 16], [27, 17], [28, 18], [26, 16]], '#e0b48a'),
+      sheet([[17, 22], [22, 21], [23, 25], [17, 26]], '#34507a', { curve: 0.6 }),
+      line(17, 22, 22, 21, '#c9a24a'),
+      ball(15, 25, 6, 5, rock), ball(8.5, 22.5, 3.2, 2.8, rock), ball(20, 24.5, 3, 2.6, '#8a8278'),
+      ball(13, 18.5, 3.4, 3, '#8a8278'), ball(17.5, 20, 2.4, 2.2, rock), ball(5, 28.5, 2.4, 2, rock),
+      ball(26, 29, 2.8, 2, rock), ball(11, 29.5, 3, 1.8, '#6a645a'),
+      dots([[12, 17], [14, 23], [7, 21], [19, 23]], '#a8a096'),
+    ];
+  },
+  // a squat idol older than the delve, with fresh offerings at its feet
+  shrine: () => {
+    const stone = '#6e6a62';
+    return [
+      sheet([[5, 26], [27, 26], [28, 31], [4, 31]], '#5a564e', { curve: 0.7 }),
+      sheet([[8, 21], [24, 21], [25, 26.5], [7, 26.5]], stone, { curve: 0.8 }),
+      ball(16, 14.5, 6, 6.5, '#7e7a70'),
+      ball(16, 7.5, 4, 3.6, '#8a867c'),
+      dots([[14, 7], [18, 7]], '#1c1a18'), dots([[14, 8], [18, 8]], '#3a3630'),
+      line(14, 10, 18, 10, '#3a3630'),
+      limb(11, 14, 13.5, 18, 1.4, 1.2, '#747068'), limb(21, 14, 18.5, 18, 1.4, 1.2, '#747068'),
+      ...both(line(7, 24, 7, 20, '#e8e0c8')), ...both(dots([[7, 19], [7, 18]], '#ffc050')), ...both(dots([[7, 17]], '#fff0a0')),
+      dots([[12, 24], [13, 24], [19, 24], [20, 23], [16, 25], [17, 25]], '#e8c040'),
+      dots([[15, 23], [16, 23]], '#b03040'),
+    ];
+  },
+  // a slab cut deep with letters that will not keep still
+  runestone: () => {
+    const slab = '#3e3a48';
+    return [
+      sheet([[8, 6], [12, 2.5], [21, 2.5], [24, 6], [25, 31], [7, 31]], slab, { curve: 0.8 }),
+      line(24, 8, 24, 30, '#2a2632'),
+      ...[[11, 8], [15, 8], [19, 8], [12, 13], [17, 13], [11, 18], [15, 18], [20, 18], [13, 23], [18, 23]].flatMap(([x, y]) => [
+        dots([[x, y], [x + 1, y], [x, y + 1], [x + 1, y + 2], [x + 2, y + 1]], '#8a70ff'),
+      ]),
+      dots([[12, 8], [16, 13], [12, 18], [16, 18], [14, 23]], '#d8ccff'),
+      line(9, 26, 12, 29, '#2a2632'), line(20, 4, 22, 7, '#2a2632'),
+    ];
+  },
+  // slumped against the wall, clutching its side, knife held out
+  goblin_hurt: () => {
+    const skin = '#6aa84a', dark = '#3f6e2c';
+    return [
+      ...both(limb(13, 27, 7, 29.5, 1.8, 1.5, dark)),
+      ...both(ball(5.5, 29.8, 2, 1.2, '#4a3a2a')),
+      ball(16, 23, 5.4, 5, skin),
+      sheet([[11, 22], [21, 22], [21.5, 28], [10.5, 28]], '#7a5230', { curve: 1 }),
+      limb(11.5, 20, 14.5, 25, 1.5, 1.2, skin), ball(15, 25.5, 1.6, 1.4, skin),
+      dots([[16, 25], [17, 26], [16, 27], [15, 27], [17, 24]], '#c02828'),
+      limb(20.5, 20, 25, 18.5, 1.5, 1.2, skin), ball(25.8, 18.3, 1.5, 1.4, skin),
+      line(26, 18, 29, 15, '#b8bcc4'), line(27, 18, 30, 15, '#8a8e96'),
+      sheet([[10.5, 15], [3.5, 12.5], [10.5, 17.5]], skin, { tilt: [-0.5, 0] }),
+      sheet([[21.5, 15], [28.5, 12.5], [21.5, 17.5]], skin, { tilt: [0.5, 0] }),
+      ball(16, 16, 5.4, 4.6, skin),
+      dots([[13, 16], [19, 16]], '#ffe040'), dots([[13, 15], [14, 15], [18, 15], [19, 15]], '#2e5020'),
+      dots([[14, 19], [15, 19], [16, 19], [17, 19], [18, 19]], '#2a1010'),
+    ];
+  },
+  // the fourth crew's box: rusted lock, chain that has not rusted
+  strongbox: () => {
+    const wood = '#6a4424', iron = '#6a7078';
+    return [
+      line(16, 31, 16, 28, '#8a929a'), dots([[15, 31], [17, 31], [16, 30]], '#a8b0b8'),
+      sheet([[6, 18], [26, 18], [27, 29], [5, 29]], wood, { curve: 0.8 }),
+      sheet([[6, 13], [26, 13], [26, 18.5], [6, 18.5]], '#7a5030', { tilt: [0, -0.6] }),
+      line(6, 18, 26, 18, '#2a1a10'),
+      ...[9, 16, 23].map(x => line(x, 13, x, 29, iron)),
+      line(5, 29, 27, 29, iron),
+      sheet([[14, 17], [18, 17], [18, 22], [14, 22]], '#a07830', { curve: 0.5 }),
+      dots([[16, 19], [16, 20]], '#1a1008'),
+      dots([[4, 22], [3, 24], [4, 26], [3, 28], [4, 30], [28, 22], [29, 24], [28, 26], [29, 28], [28, 30]], '#9aa2aa'),
+    ];
+  },
+  // a voice with nothing behind it: a cold light, trailing
+  wisp: () => [
+    ball(16, 16, 5.5, 5.5, '#4a5a7a'),
+    ball(16, 16, 3.8, 3.8, '#9ab8e8'),
+    ball(15.2, 15.2, 2, 2, '#e8f4ff'),
+    limb(16, 20, 13, 27, 1.6, 0.4, '#5a6a8a'), limb(16, 20, 19.5, 26, 1.2, 0.3, '#5a6a8a'),
+    dots([[9, 12], [23, 10], [8, 20], [24, 19], [12, 8], [21, 23]], '#c8dcff'),
+    dots([[14, 15], [18, 15]], '#2a3450'), dots([[15, 18], [16, 18], [17, 18]], '#2a3450'),
+  ],
+  // pale caps growing thick on something that was a person
+  fungus: () => {
+    const cap = '#e8e0cc', stem = '#c8bca4';
+    const shroom = (x, y, r, h) => [limb(x, 31, x, y, r * 0.35, r * 0.3, stem), ball(x, y, r, r * 0.55, cap), dots([[Math.round(x - r / 2), Math.round(y - 1)]], '#fffaf0')];
+    return [
+      ball(16, 28.5, 10, 3.5, '#4a4038'),
+      ball(9, 27, 3, 2.5, '#d8d0bc'), dots([[8, 27], [10, 27]], '#2a2420'),
+      ...shroom(13, 20, 4.5), ...shroom(20, 17, 5.5), ...shroom(25, 24, 3.2), ...shroom(6, 23, 2.8), ...shroom(17, 25, 2.5),
+      dots([[20, 16], [22, 17], [12, 20], [14, 19]], '#c8a890'),
+    ];
+  },
+  // a skeleton with a cup of dice, and a pot of gold in front of it
+  bones: () => {
+    const bone = '#ddd5bd', worn = '#a89e84';
+    return [
+      limb(13, 25, 7, 29, 1, 0.9, worn), limb(19, 25, 25, 29, 1, 0.9, worn),
+      ball(6, 29.8, 1.8, 1, bone), ball(26, 29.8, 1.8, 1, bone),
+      ball(16, 24.5, 3.6, 1.8, bone),
+      limb(16, 13, 16, 24, 0.6, 0.6, worn),
+      ...[15.5, 17.5, 19.5].map(y => limb(12.5, y, 19.5, y, 0.55, 0.55, bone)),
+      limb(12, 15, 10, 21, 0.8, 0.7, bone), limb(20, 15, 21, 21, 0.8, 0.7, bone),
+      ball(21, 22, 2, 1.7, '#7a5030'), dots([[20, 20], [22, 20]], '#f4ecd8'),
+      ball(15.5, 10, 4.2, 4, bone), ball(15.5, 13.6, 2.6, 1.3, worn),
+      dots([[13, 9], [14, 9], [13, 10], [17, 9], [18, 9], [17, 10]], '#140e14'),
+      dots([[14, 13], [15, 13], [16, 13], [17, 13]], '#f6f0de'),
+      ball(10, 29, 3.4, 2, '#a07830'), ball(10, 28, 2.6, 1.4, '#e8c040'), dots([[9, 27], [11, 27], [10, 26]], '#fff0a0'),
+      dots([[17, 29], [18, 29], [17, 30], [18, 30], [21, 30], [22, 30], [21, 31], [22, 31]], '#f4ecd8'),
+      dots([[17, 29], [22, 31], [18, 30]], '#1a1418'),
+    ];
+  },
+};
+
 // Creatures that hover, and so cast no shadow on the floor.
-const FLOATING = new Set(['bat', 'wraith', 'lich']);
+const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp']);
 
 function hexToRgb(hex) {
   const n = parseInt(hex.slice(1), 16);
@@ -553,4 +675,4 @@ function paintParts(parts, size = 32) {
   return { aw: size, ah: size, color: col };
 }
 
-export { CREATURES, FLOATING, paintParts };
+export { CREATURES, PROPS, FLOATING, paintParts };

@@ -108,6 +108,17 @@ async function play(page, opts) {
       // a level-up choice blocks everything until it is made
       if (Game.pendingBoons()) { Game.chooseBoon(Game.pendingBoons()[0]); return { acted: 'boon' }; }
 
+      // an encounter walked into by accident: this run is checking the route,
+      // not the encounters, so it takes the way out and moves on
+      if (Game.currentEncounter()) {
+        if (!Game.currentEncounter().result) {
+          const opts = Game.encounterOptions();
+          Game.chooseEncounter(opts[opts.length - 1].i);
+        }
+        Game.closeEncounter();
+        return { acted: 'encounter' };
+      }
+
       // the trader: sell nothing, buy what keeps us alive
       if (Game.currentShop()) {
         const s = Game.currentShop();
@@ -194,7 +205,7 @@ test('a four floor campaign: down to the Heart and back out alive', async ({ pag
   for (let floor = 1; floor <= 3; floor++) {
     const before = await page.evaluate(() => ({
       depth: Game.state().depth,
-      hasTrader: (Game.level().npcs || []).length > 0,
+      hasTrader: (Game.level().npcs || []).some(n => n.kind !== 'encounter'),
       locked: Object.keys(Game.level().locks).length,
       pages: Game.journal().length,
     }));

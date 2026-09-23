@@ -573,6 +573,134 @@ await test('a thief is noticed later than a fighter', async () => {
   return !(await wakes('thief')) || 'a goblin five squares off noticed a thief just as quickly';
 });
 
+await test('a stat check is a d20 plus the modifier, and it reports itself truthfully', async () => {
+  const ctx = await newContext();
+  const { Game, Rng } = ctx;
+  Game.newGame({ name: 'S', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, str: 16 }, seed: 'checks', opts: OPTS });
+  ctx.Dice.s = new Rng('checks').s;
+  let passes = 0, nat1 = 0, nat20 = 0;
+  for (let i = 0; i < 2000; i++) {
+    const c = Game.statCheck('str', 14);
+    if (c.mod !== 3) return `strength 16 should add 3, added ${c.mod}`;
+    const expect = c.roll === 20 || (c.roll !== 1 && c.roll + 3 >= 14);
+    if (c.pass !== expect) return `rolled ${c.roll}+3 against 14 and was told ${c.pass ? 'pass' : 'fail'}`;
+    if (c.roll === 1) { nat1++; if (!/a fumble/.test(c.note)) return 'a natural one was not called a fumble'; }
+    else if (c.roll === 20) { nat20++; if (!/a triumph/.test(c.note)) return 'a natural twenty was not called a triumph'; }
+    else if (!c.note.includes(`Strength d20 ${c.roll}+3 vs 14`)) return `the note read "${c.note}"`;
+    if (c.pass) passes++;
+  }
+  // the odds shown before committing must match what actually happens
+  const shown = Game.checkChance('str', 14), seen = passes / 2000;
+  if (Math.abs(shown - seen) > 0.04) return `the odds shown were ${shown}, the rate seen was ${seen.toFixed(3)}`;
+  return nat1 > 0 && nat20 > 0 || 'two thousand rolls without a natural one or twenty';
+});
+
+await test('charisma sets the trader\'s prices, and charisma was used for nothing before', async () => {
+  const price = async cha => {
+    const ctx = await newContext();
+    ctx.Game.newGame({ name: 'C', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, cha }, seed: 'charm', opts: OPTS });
+    const shop = { markup: 2 }, it = { t: 'potion_heal', q: 1, e: 0 };
+    return { buy: ctx.Game.buyPrice(shop, it), sell: ctx.Game.sellPrice(it) };
+  };
+  const plain = await price(10), charming = await price(16), boor = await price(6);
+  if (!(charming.buy < plain.buy)) return `charisma 16 paid ${charming.buy}, charisma 10 paid ${plain.buy}`;
+  if (!(boor.buy > plain.buy)) return `charisma 6 paid ${boor.buy}, charisma 10 paid ${plain.buy}`;
+  if (!(charming.sell > plain.sell)) return `charisma 16 was paid ${charming.sell} for a sale, charisma 10 ${plain.sell}`;
+  return true;
+});
+
+await test('intelligence can identify an unknown potion without drinking it', async () => {
+  const ctx = await newContext();
+  const { Game, Rng, ITEMS } = ctx;
+  Game.newGame({ name: 'I', cls: 'mage', bg: 'oathbroken', stats: { ...evenStats, int: 18 }, seed: 'study', opts: OPTS });
+  ctx.Dice.s = new Rng('study').s;
+  const p = Game.player();
+  const unknown = Object.keys(ITEMS).find(id => ITEMS[id].kind === 'potion' && !Game.isKnown(id));
+  if (!unknown) return 'every potion was already known';
+  const it = { t: unknown, q: 1, e: 0 };
+  p.inv.push(it);
+  const before = p.inv.length;
+  let c = null;
+  for (let tries = 0; tries < 30 && !Game.isKnown(unknown); tries++) {
+    c = Game.study(it);
+    if (c && !c.pass) {
+      // a failure bars the same kind until the hero learns something more
+      if (Game.studyReason(it) === null) return 'a failed study could be retried at once';
+      p.level++;
+    }
+  }
+  if (!Game.isKnown(unknown)) return 'thirty studies at intelligence 18 never identified it';
+  if (p.inv.length !== before || !p.inv.includes(it)) return 'studying used the potion up';
+  return Game.studyReason(it) !== null || 'a known potion could still be studied';
+});
+
+await test('every encounter offers a free, safe way out, and every effect is one the engine knows', async () => {
+  // The encounter screen cannot be dismissed unanswered, which is only fair
+  // if there is always a choice that costs and risks nothing.
+  const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'wake', 'identifyAll', 'ambush', 'stat']);
+  const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
+  for (const [id, e] of Object.entries(ENCOUNTERS)) {
+    const last = e.choices[e.choices.length - 1];
+    if (last.check || last.cost || !last.outcome || last.outcome.effects.length) return `${id}: the last choice is not a free way out`;
+    for (const ch of e.choices) {
+      if (ch.check && !stats.has(ch.check.stat)) return `${id}: "${ch.label}" checks unknown stat ${ch.check.stat}`;
+      if (!ch.check && !ch.outcome) return `${id}: "${ch.label}" has neither a check nor an outcome`;
+      if (ch.check && !(ch.pass && ch.fail)) return `${id}: "${ch.label}" is missing a pass or a fail`;
+      for (const o of [ch.outcome, ch.pass, ch.fail].filter(Boolean)) {
+        if (!o.text) return `${id}: "${ch.label}" has an outcome with no words`;
+        for (const eff of o.effects) for (const k of Object.keys(eff)) if (!known.has(k)) return `${id}: unknown effect "${k}"`;
+      }
+    }
+  }
+  return true;
+});
+
+await test('an encounter resolves once: the check, the effects, the prop gone, never again', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon, Rng } = ctx;
+  Game.newGame({ name: 'E', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, str: 18 }, seed: 'tour', opts: { ...OPTS, levels: 8 } });
+  ctx.Dice.s = new Rng('enc').s;
+  const p = Game.player(), L = Game.level();
+  const prop = L.npcs.find(n => n.kind === 'encounter');
+  if (!prop) return 'floor one of this seed has no encounter';
+  // stand beside it and walk in
+  const T = Dungeon.T;
+  const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(prop.y - dy) * L.w + (prop.x - dx)] === T.FLOOR; });
+  const [dx, dy] = Dungeon.DIRS[k];
+  p.x = prop.x - dx; p.y = prop.y - dy; p.dir = k;
+  L.monsters.length = 0;
+  if (Game.useLabel() !== 'Examine') return `facing the prop, Use says "${Game.useLabel()}"`;
+  Game.input('forward');
+  const e = Game.currentEncounter();
+  if (!e || e.npc !== prop) return 'walking into the prop did not open its encounter';
+  const opts = Game.encounterOptions();
+  const checked = opts.find(o => o.stat);
+  if (!checked || !(checked.chance > 0 && checked.chance <= 1)) return 'a checked choice showed no odds';
+  const xp0 = p.xp;
+  const r = Game.chooseEncounter(checked.i);
+  if (!r || !r.check) return 'choosing a checked option returned no roll';
+  if (!r.lines.length && r.check.pass) return 'a success changed nothing and said so';
+  if (Game.chooseEncounter(checked.i)) return 'the same encounter resolved twice';
+  if (L.npcs.includes(prop)) return 'the prop is still standing after being answered';
+  if (!(Game.state().metEncounters || []).includes(prop.id)) return 'the encounter was not recorded as met';
+  void xp0;
+  Game.closeEncounter();
+  return Game.currentEncounter() === null || 'the encounter would not close';
+});
+
+await test('the whole run meets each encounter at most once, deepest floor excepted', async () => {
+  const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  for (const levels of [4, 8, 16]) for (let i = 0; i < 40; i++) {
+    const plan = encounterPlan('plan' + i, levels);
+    const all = plan.flat();
+    if (new Set(all).size !== all.length) return `seed plan${i} over ${levels} floors repeats an encounter`;
+    if (plan[levels].length) return `the deepest floor of a ${levels}-floor run has an encounter`;
+    if (levels >= 6 && all.length < 8) return `a ${levels}-floor run met only ${all.length} of 8`;
+  }
+  return true;
+});
+
 await test('using the last of a stack removes its slot', async () => {
   const { Game } = await start('fighter', 'r3');
   const p = Game.player();
@@ -694,7 +822,9 @@ await test('walking into a trader opens a shop that charges gold and identifies 
   let trader = null;
   for (let d = 2; d <= 8 && !trader; d++) {
     G.levels[d] = G.levels[d] || Dungeon.generate(G.seed, d, G.opts);
-    if (G.levels[d].npcs.length) { G.depth = d; trader = G.levels[d].npcs[0]; }
+    // encounter props share the list now: find the trader by kind
+    const t = G.levels[d].npcs.find(n => n.kind !== 'encounter');
+    if (t) { G.depth = d; trader = t; }
   }
   if (!trader) return 'no trader generated in eight levels';
   const L = Game.level();

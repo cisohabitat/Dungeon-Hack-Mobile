@@ -1,9 +1,9 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v3';
+const CACHE = 'deepdelve-v4';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png',
   './js/package.json',
-  './js/rng.js', './js/data.js', './js/creatures.js', './js/assets.js', './js/dungeon.js', './js/renderer.js', './js/sound.js', './js/game.js', './js/ui.js', './js/main.js',
+  './js/rng.js', './js/data.js', './js/creatures.js', './js/encounters.js', './js/assets.js', './js/dungeon.js', './js/renderer.js', './js/sound.js', './js/game.js', './js/ui.js', './js/main.js',
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

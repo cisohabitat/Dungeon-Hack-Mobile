@@ -1,5 +1,6 @@
 import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
+import { encounterPlan } from './encounters.js';
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
@@ -315,8 +316,42 @@ const Dungeon = (() => {
       v++;
     }
 
-    // ---- a merchant, so the gold you haul up is worth something ----
+    // ---- who may stand where ----
+    // Traders and encounter props are solid, so none of them may be the one
+    // square holding the level together. Locked doors make that two questions,
+    // not one: a square can be harmless once every key is found and still
+    // seal off the key itself, so reach is counted both with locked doors shut
+    // and with them open. Everything already standing counts as a wall, or two
+    // props could together seal what neither would alone.
     const npcs = [];
+    const reach = (extra, lockedPassable) => {
+      const standing = new Set(npcs.map(n => idx(n.x, n.y)));
+      if (extra >= 0) standing.add(extra);
+      const seen = new Uint8Array(w * h);
+      const q = [idx(start.x, start.y)];
+      seen[q[0]] = 1;
+      let n = 0;
+      for (let qi = 0; qi < q.length; qi++) {
+        const i = q[qi], x = i % w, y = (i / w) | 0;
+        n++;
+        for (const [dx, dy] of DIRS) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const ni = idx(nx, ny);
+          if (seen[ni] || standing.has(ni)) continue;
+          const t = tiles[ni];
+          if (t === T.WALL || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH || t === T.STAIRS_UP) continue;
+          if (t === T.DOOR_LOCKED && !lockedPassable) continue;
+          seen[ni] = 1;
+          q.push(ni);
+        }
+      }
+      return n;
+    };
+    // standing there may remove its own square from reach, and nothing more
+    const harmless = i => reach(-1, true) - reach(i, true) === 1 && reach(-1, false) - reach(i, false) <= 1;
+
+    // ---- a merchant, so the gold you haul up is worth something ----
     if (!isFinal && depth > 1 && rng.chance(0.45)) {
       const cands = rooms.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {
@@ -325,42 +360,9 @@ const Dungeon = (() => {
           if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y]) spots.push([x, y]);
         }
         if (!spots.length) continue;
-        // The trader is solid, so they must not be the one tile holding the level
-        // together. Count what is reachable with and without them standing there.
-        // The trader is solid, so they must never be the tile holding the level
-        // together. Locked doors make this two questions, not one: a spot can be
-        // harmless once every key is found and still seal off the key itself, so
-        // the count has to hold both with locked doors shut and with them open.
-        const reach = (blocker, lockedPassable) => {
-          const seen = new Uint8Array(w * h);
-          const q = [idx(start.x, start.y)];
-          seen[q[0]] = 1;
-          let n = 0;
-          for (let qi = 0; qi < q.length; qi++) {
-            const i = q[qi], x = i % w, y = (i / w) | 0;
-            n++;
-            for (const [dx, dy] of DIRS) {
-              const nx = x + dx, ny = y + dy;
-              if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-              const ni = idx(nx, ny);
-              if (seen[ni] || ni === blocker) continue;
-              const t = tiles[ni];
-              if (t === T.WALL || t === T.SECRET || t === T.FOUNTAIN || t === T.TORCH || t === T.STAIRS_UP) continue;
-              if (t === T.DOOR_LOCKED && !lockedPassable) continue;
-              seen[ni] = 1;
-              q.push(ni);
-            }
-          }
-          return n;
-        };
-        const openAll = reach(-1, true), openShut = reach(-1, false);
         let chosen = null;
         for (const [sx, sy] of rng.shuffle(spots.slice())) {
-          const i = idx(sx, sy);
-          const costAll = openAll - reach(i, true);
-          const costShut = openShut - reach(i, false);
-          // standing there may remove their own tile from reach, nothing more
-          if (costAll === 1 && costShut <= 1) { chosen = [sx, sy]; break; }
+          if (harmless(idx(sx, sy))) { chosen = [sx, sy]; break; }
         }
         if (!chosen) continue;   // every spot in this room is a chokepoint
         const [mx, my] = chosen;
@@ -388,6 +390,36 @@ const Dungeon = (() => {
         if (gearIds.length) stock.push({ t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 });
         npcs.push({ id: 'merchant', x: mx, y: my, stock, markup: 1.8 + rng.next() * 0.6, greeted: false });
         break;
+      }
+    }
+
+    // ---- encounters: the dungeon asks something of you ----
+    // Which ones sit on this floor is decided for the whole run by the seed
+    // (see encounters.js). Where they stand uses a stream of its own, so
+    // adding them does not move anything else on a seed's level.
+    const erng = new Rng(`${seed}|encounter-spots|${depth}`);
+    for (const encId of (encounterPlan(seed, opts.levels || 8)[depth] || [])) {
+      let placed = false;
+      for (const r of erng.shuffle(rooms.filter(rr => rr !== startRoom))) {
+        const spots = [];
+        for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+          const i = idx(x, y);
+          if (tiles[i] !== T.FLOOR || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y]) continue;
+          // not in a doorway's mouth, where it would read as a wall across the way in
+          if (DIRS.some(([dx, dy]) => { const t = get(x + dx, y + dy); return t === T.DOOR || t === T.DOOR_LOCKED || t === T.DOOR_OPEN; })) continue;
+          spots.push([x, y]);
+        }
+        for (const [sx, sy] of erng.shuffle(spots)) {
+          if (!harmless(idx(sx, sy))) continue;
+          npcs.push({ id: encId, kind: 'encounter', x: sx, y: sy });
+          occupied.add(idx(sx, sy));
+          for (let i = monsters.length - 1; i >= 0; i--) {
+            if (Math.abs(monsters[i].x - sx) + Math.abs(monsters[i].y - sy) <= 1) monsters.splice(i, 1);
+          }
+          placed = true;
+          break;
+        }
+        if (placed) break;
       }
     }
 

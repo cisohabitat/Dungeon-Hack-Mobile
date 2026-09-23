@@ -445,7 +445,9 @@ const UI = (() => {
     const s = Game.currentShop();
     if (!s) { closeOverlay(); return; }
     const p = Game.player();
-    $('#shop-gold').textContent = `${p.gold} gold`;
+    // say what charisma is doing to the prices, or it is invisible
+    const charm = Math.round(Game.charm() * 100);
+    $('#shop-gold').textContent = `${p.gold} gold` + (charm > 0 ? ` · your charm: ${charm}% off` : charm < 0 ? ` · your manner: ${-charm}% dearer` : '');
     const stock = $('#shop-stock');
     stock.innerHTML = '';
     if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
@@ -476,6 +478,47 @@ const UI = (() => {
       const e = JOURNAL[j.i];
       return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on level ${j.depth}</p></div>`;
     }).join('');
+  }
+  // An encounter: the prose, then each choice with what it tests and how
+  // likely it is to go well; once chosen, what happened and what it did.
+  function renderEncounter() {
+    const e = Game.currentEncounter();
+    if (!e) { closeOverlay(); return; }
+    $('#enc-title').textContent = e.def.title;
+    const art = Assets.sprites[e.def.sprite];
+    $('#enc-art').src = art ? art.url : '';
+    const el = $('#enc-choices');
+    el.innerHTML = '';
+    if (!e.result) {
+      $('#enc-text').textContent = e.def.text;
+      for (const o of Game.encounterOptions()) {
+        const btn = document.createElement('button');
+        btn.className = 'boon enc-choice';
+        const bits = [];
+        if (o.stat) bits.push(`${o.statName}: d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ${Math.round(o.chance * 100)}% chance${o.knack ? ' (your training helps)' : ''}`);
+        if (o.cost) bits.push(`costs ${o.cost}`);
+        if (o.blocked) bits.push(o.blocked);
+        btn.innerHTML = `<b>${escapeHtml(o.label)}</b>${bits.length ? `<small>${escapeHtml(bits.join(' · '))}</small>` : ''}`;
+        btn.disabled = !!o.blocked;
+        btn.addEventListener('click', () => { Game.chooseEncounter(o.i); renderEncounter(); });
+        el.appendChild(btn);
+      }
+      return;
+    }
+    const r = e.result;
+    const verdict = r.check ? (r.check.pass ? '<b class="enc-pass">It goes well.</b> ' : '<b class="enc-fail">It goes badly.</b> ') : '';
+    $('#enc-text').innerHTML = verdict + escapeHtml(r.text) + (r.check && r.check.note ? ` <span class="roll">${escapeHtml(r.check.note.trim())}</span>` : '');
+    if (r.lines.length) {
+      const ul = document.createElement('ul');
+      ul.className = 'enc-lines';
+      ul.innerHTML = r.lines.map(l => `<li>${escapeHtml(l)}</li>`).join('');
+      el.appendChild(ul);
+    }
+    const done = document.createElement('button');
+    done.className = 'primary';
+    done.textContent = 'Continue';
+    done.addEventListener('click', () => closeOverlay());
+    el.appendChild(done);
   }
   function renderBoons() {
     const offer = Game.pendingBoons();
@@ -525,10 +568,14 @@ const UI = (() => {
     if (name === 'shop') renderShop();
     if (name === 'journal') renderJournal();
     if (name === 'boons') renderBoons();
+    if (name === 'encounter') renderEncounter();
   }
   function closeOverlay() {
     if (!overlay) return;
     if (overlay === 'boons' && Game.pendingBoons()) return;   // a choice must be made
+    // an encounter must be answered: every one offers a way to leave, so
+    // backing out would only be a free look at the odds
+    if (overlay === 'encounter') { const e = Game.currentEncounter(); if (e && !e.result) return; Game.closeEncounter(); }
     if (overlay === 'shop') Game.closeShop();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
@@ -630,6 +677,12 @@ const UI = (() => {
       else if (b.kind === 'food') add('Eat', () => Game.useItem(it), 'primary');
       else if (b.kind === 'potion') add('Drink', () => Game.useItem(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => Game.useItem(it), 'primary');
+      // an unknown potion or scroll can be puzzled out instead of risked
+      if ((b.kind === 'potion' || b.kind === 'scroll') && !Game.isKnown(it.t)) {
+        const block = Game.studyReason(it);
+        const odds = Math.round(Game.checkChance('int', Game.STUDY_DC, Game.player().cls === 'mage' ? 2 : 0) * 100);
+        if (!block) add(`Study (${odds}%)`, () => Game.study(it));
+      }
       add('Drop', () => Game.dropItem(it), 'danger');
     }
     add('Close', () => {});
@@ -860,7 +913,9 @@ const UI = (() => {
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
     const cause = $('#end-cause');
     const killer = Game.lastAttacker();
-    if (!won && killer) {
+    if (!won && killer && killer.encounter) {
+      cause.innerHTML = `Died at <b>${escapeHtml(killer.name)}</b>, when a choice went wrong (${killer.dmg} damage).`;
+    } else if (!won && killer) {
       cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
     } else if (!won) {
       cause.textContent = 'Killed by the dungeon itself.';
@@ -941,6 +996,7 @@ const UI = (() => {
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
+      else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       else if (e === 'escape') { hudSig = ''; refreshHud(); }
       else if (e === 'dead') showEnd(false);
       else if (e === 'won') showEnd(true);

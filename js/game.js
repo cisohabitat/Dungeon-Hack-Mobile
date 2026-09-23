@@ -2,6 +2,7 @@ import { Rng, Dice, d } from './rng.js';
 import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, ELITES, THEMES } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
+import { ENCOUNTERS, encounterDc } from './encounters.js';
 import { Sound } from './sound.js';
 
 // Core game state and rules.
@@ -56,6 +57,34 @@ const Game = (() => {
     if (roll === 1) return ' (d20 1, a fumble)';
     if (crit) return ` (d20 ${roll}, a telling blow)`;
     return ` (d20 ${roll}${bonus < 0 ? '' : '+'}${bonus} vs AC ${ac})`;
+  }
+
+  // ---------- checks ----------
+  // Everything outside a fight that your character is good or bad at comes
+  // down to one roll: a d20 plus the stat's modifier against a difficulty. As
+  // in combat a natural twenty always succeeds and a natural one always
+  // fails, and the log shows the working the same way.
+  const STAT_WORD = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
+  function checkNote(stat, roll, m, dc) {
+    if (!showRolls) return '';
+    const w = STAT_WORD[stat];
+    if (roll === 1) return ` (${w} d20 1, a fumble)`;
+    if (roll === 20) return ` (${w} d20 20, a triumph)`;
+    return ` (${w} d20 ${roll}${m < 0 ? '' : '+'}${m} vs ${dc})`;
+  }
+  /** The bonus a check gets: the stat's modifier plus anything situational. */
+  function checkBonus(stat, bonus = 0) { return mod(P().stats[stat]) + bonus; }
+  /** How likely a check is to succeed, for showing odds before committing. */
+  function checkChance(stat, dc, bonus = 0) {
+    const m = checkBonus(stat, bonus);
+    let n = 0;
+    for (let r = 1; r <= 20; r++) if (r === 20 || (r !== 1 && r + m >= dc)) n++;
+    return n / 20;
+  }
+  function statCheck(stat, dc, bonus = 0) {
+    const roll = d(1, 20), m = checkBonus(stat, bonus);
+    const pass = roll === 20 || (roll !== 1 && roll + m >= dc);
+    return { stat, dc, roll, mod: m, pass, note: checkNote(stat, roll, m, dc) };
   }
 
   // ---------- messages ----------
@@ -371,6 +400,33 @@ const Game = (() => {
     }
     emit('inv');
   }
+  // Intelligence lets you work out what an unknown potion or scroll is by
+  // looking at it, rather than finding out by drinking it. A failed attempt
+  // cannot be retried on the same kind until you have learned something
+  // more, which is to say gained a level.
+  const STUDY_DC = 12;
+  function studyReason(it) {
+    const b = ITEMS[it.t];
+    if (!b || (b.kind !== 'potion' && b.kind !== 'scroll')) return 'There is nothing to puzzle out about that.';
+    if (isKnown(it.t)) return 'You already know what that is.';
+    if (G.studied && G.studied[it.t] === P().level) return 'It still means nothing to you. Perhaps with more experience.';
+    return null;
+  }
+  function study(it) {
+    const why = studyReason(it);
+    if (why) { log(why); return null; }
+    const c = statCheck('int', STUDY_DC, P().cls === 'mage' ? 2 : 0);
+    if (c.pass) {
+      const was = itemName(it);
+      G.known[it.t] = 1;
+      log(`You study the ${was} and recognise it: ${ITEMS[it.t].name}.${c.note}`, 'good');
+    } else {
+      (G.studied = G.studied || {})[it.t] = P().level;
+      log(`You turn the ${itemName(it)} over and over, but it means nothing to you yet.${c.note}`);
+    }
+    emit('inv');
+    return c;
+  }
   function dropItem(it) {
     const p = P(), L = lvl();
     if (it.t === 'artifact') { log('You could not bear to part with it.', 'bad'); return; }
@@ -570,7 +626,7 @@ const Game = (() => {
     if (t === T.STAIRS_DOWN) return 'Descend';
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : (G.escaping ? 'Escape' : 'Use');
     if (t === T.FOUNTAIN) return 'Drink';
-    if (npcAt(tx, ty)) return 'Trade';
+    if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
     if (monsterAt(tx, ty)) return 'Attack';
     if (t === T.DOOR_OPEN) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
@@ -590,7 +646,7 @@ const Game = (() => {
     if (t === T.SECRET) { revealSecret(nx, ny, false); return true; }
     if (t === T.FOUNTAIN) { drinkFountain(nx, ny); return true; }
     const trader = npcAt(nx, ny);
-    if (trader) { openShop(trader); return true; }
+    if (trader) { if (trader.kind === 'encounter') openEncounter(trader); else openShop(trader); return true; }
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
@@ -685,6 +741,8 @@ const Game = (() => {
     delete L.traps[k];
     let spot = p.cls === 'thief' ? 0.5 + p.level * 0.04 : 0;
     if (p.bg === 'tombwise') spot += 0.35;
+    // a wise hero notices the loose flagstone whatever their trade
+    spot += Math.max(0, mod(p.stats.wis)) * 0.1;
     if (spot > 0 && Math.random() < spot) {
       log(`You spot and disarm a ${tr.name}.`, 'good');
       return;
@@ -711,7 +769,7 @@ const Game = (() => {
     if (t === T.SECRET) return revealSecret(tx, ty, false);
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
     const ahead = npcAt(tx, ty);
-    if (ahead) return openShop(ahead);
+    if (ahead) return ahead.kind === 'encounter' ? openEncounter(ahead) : openShop(ahead);
     if (monsterAt(tx, ty)) return attack();
     if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
     if (t === T.DOOR_OPEN) {
@@ -723,14 +781,144 @@ const Game = (() => {
 
   // ---------- trading ----------
   // Prices key off the item's own value so the shelf stays sane at any depth.
+  // Charisma is how the trader sees you: each point of modifier is six
+  // percent off what you buy and on what you sell, within reason. It was
+  // rolled for every hero and, until this, used for nothing at all.
+  function charm() { return Math.max(-0.3, Math.min(0.3, mod(P().stats.cha) * 0.06)); }
   function buyPrice(shop, it) {
     const v = ITEMS[it.t].value || 5;
-    return Math.max(2, Math.round(v * shop.markup * (1 + (it.e || 0) * 0.9)));
+    return Math.max(2, Math.round(v * shop.markup * (1 + (it.e || 0) * 0.9) * (1 - charm())));
   }
   function sellPrice(it) {
     const v = ITEMS[it.t].value || 1;
-    return Math.max(1, Math.round(v * 0.45 * (1 + (it.e || 0) * 0.8)));
+    return Math.max(1, Math.round(v * 0.45 * (1 + (it.e || 0) * 0.8) * (1 + charm())));
   }
+  // ---------- encounters ----------
+  // A choice the dungeon puts to you (see encounters.js). While one is open
+  // the game waits, as it does for the trader, and the prop that started it
+  // is gone once it has been answered.
+  let encounter = null;
+  function openEncounter(n) {
+    const def = ENCOUNTERS[n.id];
+    if (!def) return false;
+    encounter = { npc: n, def, result: null };
+    Sound.play('door');
+    emit('encounter');
+    return true;
+  }
+  function knack(check) {
+    const p = P();
+    let n = 0;
+    for (const [c, bg, v] of (check.knack || [])) if ((c && p.cls === c) || (bg && p.bg === bg)) n += v;
+    return n;
+  }
+  function costOf(choice) {
+    const c = choice.cost;
+    if (!c) return null;
+    if (c.goldPerDepth) return { gold: c.goldPerDepth * G.depth, text: `${c.goldPerDepth * G.depth} gold` };
+    if (c.hurtFrac) { const n = Math.ceil(P().maxHp * c.hurtFrac); return { hp: n, text: `${n} hit points` }; }
+    return null;
+  }
+  /** What each choice will ask of you, and how likely it is to go well. */
+  function encounterOptions() {
+    if (!encounter) return [];
+    const p = P();
+    return encounter.def.choices.map((ch, i) => {
+      const cost = costOf(ch);
+      let blocked = null;
+      if (cost && cost.gold && p.gold < cost.gold) blocked = `You need ${cost.gold} gold.`;
+      if (cost && cost.hp && p.hp <= cost.hp) blocked = 'You are too weak to spare the blood.';
+      const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
+      if (ch.check) {
+        const dc = encounterDc(ch.check, G.depth), bonus = knack(ch.check);
+        Object.assign(o, { stat: ch.check.stat, statName: STAT_WORD[ch.check.stat], dc, bonus: checkBonus(ch.check.stat, bonus),
+          chance: checkChance(ch.check.stat, dc, bonus), knack: bonus });
+      }
+      return o;
+    });
+  }
+  function chooseEncounter(i) {
+    if (!encounter || encounter.result) return null;
+    const { def, npc } = encounter, p = P(), L = lvl();
+    const ch = def.choices[i];
+    if (!ch) return null;
+    const opt = encounterOptions()[i];
+    if (opt.blocked) { log(opt.blocked, 'bad'); return null; }
+    const cost = costOf(ch);
+    const lines = [];
+    if (cost && cost.gold) { p.gold -= cost.gold; lines.push(`−${cost.gold} gold`); }
+    if (cost && cost.hp) { p.hp -= cost.hp; fx.damageUntil = realNow + 260; lines.push(`−${cost.hp} hit points`); }
+    let c = null, outcome = ch.outcome;
+    if (ch.check) {
+      c = statCheck(ch.check.stat, encounterDc(ch.check, G.depth), knack(ch.check));
+      outcome = c.pass ? ch.pass : ch.fail;
+    }
+    // answered: the prop goes, and this encounter will not come again
+    L.npcs = (L.npcs || []).filter(n => n !== npc);
+    (G.metEncounters = G.metEncounters || []).push(npc.id);
+    log(`${def.title}: ${outcome.text}${c ? c.note : ''}`, c ? (c.pass ? 'good' : 'bad') : 'info');
+    lines.push(...applyEffects(outcome.effects, def));
+    encounter.result = { label: ch.label, text: outcome.text, check: c, lines };
+    checkLevelUp();
+    emit('encounter'); emit('inv'); emit('stats');
+    return encounter.result;
+  }
+  function closeEncounter() { encounter = null; }
+  // Carry out what an outcome says, and say back what happened, line by line.
+  function applyEffects(effects, def) {
+    const p = P(), L = lvl(), out = [];
+    const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); const name = itemName(it); pickupAll(); return name; };
+    for (const e of effects) {
+      if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
+      if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
+      if (e.goldPerDepth) {
+        const n = e.goldPerDepth * G.depth;
+        if (n > 0) { p.gold += n; out.push(`+${n} gold`); }
+        else { const took = Math.min(p.gold, -n); p.gold -= took; if (took) out.push(`−${took} gold`); }
+      }
+      if (e.hurt || e.hurtFrac) {
+        const n = e.hurtFrac ? Math.max(1, Math.ceil(p.maxHp * e.hurtFrac)) : Math.max(1, d(...e.hurt));
+        G.lastAttacker = { name: def.title, dmg: n, bearing: '', encounter: true };
+        out.push(`−${n} hit points`);
+        hurtPlayer(n, null);
+      }
+      if (e.heal) { const n = e.heal === 'full' ? p.maxHp - p.hp : e.heal; healPlayer(n); out.push(e.heal === 'full' ? 'Fully healed' : `+${n} hit points`); }
+      if (e.maxHp) {
+        p.maxHp = Math.max(10, p.maxHp + e.maxHp);
+        p.hp = Math.min(p.maxHp, p.hp + Math.max(0, e.maxHp));
+        out.push(`${e.maxHp > 0 ? '+' : '−'}${Math.abs(e.maxHp)} maximum hit points`);
+      }
+      if (e.food) { p.food = Math.max(0, Math.min(100, p.food + e.food)); out.push(`${e.food > 0 ? '+' : '−'}${Math.abs(e.food)} nourishment`); }
+      if (e.loot != null) out.push(`Found: ${pickUp(Dungeon.rollLoot(Dice, G.depth + e.loot))}`);
+      if (e.item) out.push(`Found: ${pickUp({ t: e.item.t, q: e.item.q || 1, e: 0 })}`);
+      if (e.buff) {
+        for (const [stat, n] of e.buff.stats) p.effects[stat] = { amount: n, until: G.t + e.buff.dur };
+        out.push(`Blessed: ${e.buff.stats.map(([s, n]) => `+${n} ${s === 'hit' ? 'to hit' : s === 'ac' ? 'armour' : s}`).join(', ')} for ${Math.round(e.buff.dur / 60000)} minutes`);
+      }
+      if (e.poison && !p.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; out.push('Poisoned'); }
+      if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
+      if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
+      if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; out.push('Every potion and scroll identified'); }
+      if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${STAT_WORD[e.stat[0]]}`); }
+      if (e.ambush) {
+        let placed = 0;
+        for (let r = 2; r <= 4 && placed < e.ambush.n; r++) {
+          for (let dy = -r; dy <= r && placed < e.ambush.n; dy++) for (let dx = -r; dx <= r && placed < e.ambush.n; dx++) {
+            if (Math.abs(dx) + Math.abs(dy) !== r) continue;
+            const x = p.x + dx, y = p.y + dy;
+            if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y)) continue;
+            const b = MONSTERS[e.ambush.id], hp = Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
+            L.monsters.push({ uid: 800000 + Math.floor(Dice.next() * 99999), id: e.ambush.id, x, y, hp, maxHp: hp, awake: true,
+              nextAct: G.t + 800, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+            placed++;
+          }
+        }
+        if (placed) { distFieldAt = -1e9; out.push(`${placed > 1 ? placed + ' ' : 'A '}${MONSTERS[e.ambush.id].name.toLowerCase()}${placed > 1 ? 's' : ''} attack${placed > 1 ? '' : 's'}!`); }
+      }
+    }
+    return out;
+  }
+
   let shop = null;
   function openShop(n) {
     shop = n;
@@ -1235,7 +1423,8 @@ const Game = (() => {
     hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.${note}`, m);
     if (G.status !== 'playing') return;
     if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
-    if (mb.drain && Math.random() < 0.25) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    // a strong will holds on to itself against the drain
+    if (mb.drain && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
   }
   const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
   const BLOW_GAP = 250;    // ms between any two blows landing on you
@@ -1403,7 +1592,8 @@ const Game = (() => {
       sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp });
     }
     for (const n of (L.npcs || [])) {
-      sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites.merchant, scale: 0.95, yOff: 0 });
+      const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;
+      sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[look ? look.sprite : 'merchant'] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
     }
     for (const k in L.items) {
       const list = L.items[k];
@@ -1475,6 +1665,8 @@ const Game = (() => {
     state: () => G, player: P, level: lvl, log, mod,
     itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
+    statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
+    currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],

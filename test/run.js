@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, FLOATING, paintParts } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -23,6 +23,19 @@ for (const k in SPRITES) {
   // unused palette entries are dead weight and usually a typo
   const used = new Set(s.rows.join('').split('').filter(c => c !== '.'));
   for (const key in s.pal) check(used.has(key), `${k} palette key '${key}' is never used`);
+}
+
+// Every module the game loads must be in the offline cache, or an installed
+// copy fails to start without a connection. New files are easy to forget.
+{
+  const fs = require('fs'), path = require('path');
+  const root = path.join(__dirname, '..');
+  const sw = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+  const listed = new Set([...sw.matchAll(/'\.\/(js\/[a-z]+\.js)'/g)].map(m => m[1]));
+  for (const f of fs.readdirSync(path.join(root, 'js'))) {
+    if (!f.endsWith('.js') || f === 'types.js') continue;   // types.js is read by the checker only
+    check(listed.has('js/' + f), `js/${f} is not in the offline cache in sw.js`);
+  }
 }
 
 // every creature the game can put in front of you has a picture
@@ -46,6 +59,17 @@ for (const k in CREATURES) {
   color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / aw)); });
   if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats: its lowest pixel is row ${lowest}, the floor is 31`);
   masks[k] = color.map(Boolean);
+}
+// every encounter has a prop to stand in the corridor, and every prop paints
+for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
+for (const k in PROPS) {
+  const { color } = paintParts(PROPS[k]());
+  const filled = color.filter(Boolean);
+  check(filled.length > 80, `prop ${k} painted only ${filled.length} pixels`);
+  check(filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `prop ${k} painted a colour that is not #rrggbb`);
+  let lowest = -1;
+  color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); });
+  if (!FLOATING.has(k)) check(lowest >= 29, `prop ${k} floats: its lowest pixel is row ${lowest}`);
 }
 let closest = { iou: 0, pair: '' };
 const keys = Object.keys(masks);
@@ -96,7 +120,7 @@ function solvable(L, blockNpcs) {
   return L.isFinal ? artifact : reached;
 }
 
-let vaults = 0, fountains = 0, torches = 0, elites = 0, traders = 0;
+let vaults = 0, fountains = 0, torches = 0, elites = 0, traders = 0, encounters = 0;
 let levels = 0;
 for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x', 'a longer seed with spaces']) {
   for (const size of ['small', 'medium', 'large']) {
@@ -105,14 +129,17 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
       const L = Dungeon.generate(seed, depth, opts);
       levels++;
       check(solvable(L), `level not solvable: seed=${seed} size=${size} depth=${depth}`);
-      // the trader stands on a floor tile, so they must not be the only way past
-      check(solvable(L, true), `trader blocks the only route: seed=${seed} size=${size} depth=${depth}`);
+      // traders and encounter props stand on floor tiles, so together they
+      // must never be the only way past
+      check(solvable(L, true), `a trader or encounter blocks the only route: seed=${seed} size=${size} depth=${depth}`);
       for (const n of (L.npcs || [])) {
-        check(L.tiles[n.y * L.w + n.x] === T.FLOOR, `trader is not on a floor tile: seed=${seed} depth=${depth}`);
-        check(!L.monsters.some(m => m.x === n.x && m.y === n.y), `a monster shares the trader's tile: seed=${seed} depth=${depth}`);
+        const who = n.kind === 'encounter' ? `encounter ${n.id}` : 'trader';
+        check(L.tiles[n.y * L.w + n.x] === T.FLOOR, `${who} is not on a floor tile: seed=${seed} depth=${depth}`);
+        check(!L.monsters.some(m => m.x === n.x && m.y === n.y), `a monster shares the ${who}'s tile: seed=${seed} depth=${depth}`);
+        if (n.kind === 'encounter') { encounters++; continue; }
         check(n.stock.length > 0, `trader has nothing to sell: seed=${seed} depth=${depth}`);
+        traders++;
       }
-      traders += (L.npcs || []).length;
       vaults += L.tiles.filter(t => t === T.SECRET).length;
       fountains += Object.keys(L.features).length;
       torches += L.lights.length;
@@ -166,13 +193,13 @@ check(traders > 0, 'no traders generated at all');
 // a level off. The suite above uses a handful of fixed seeds, which is not enough
 // to catch a fault that shows up in well under one percent of levels.
 {
-  let sweptTraders = 0, sealed = 0, onLoot = 0, onKey = 0;
+  let sweptTraders = 0, sweptEncounters = 0, sealed = 0, onLoot = 0, onKey = 0;
   for (let s = 0; s < 150; s++) {
     for (const size of ['small', 'medium', 'large']) {
       for (let depth = 1; depth <= 8; depth++) {
         const L = Dungeon.generate('sweep' + s, depth, { levels: 8, size, monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
         for (const n of (L.npcs || [])) {
-          sweptTraders++;
+          if (n.kind === 'encounter') sweptEncounters++; else sweptTraders++;
           const under = L.items[n.x + ',' + n.y] || [];
           if (under.length) onLoot++;
           if (under.some(i => i.t === 'key')) onKey++;
@@ -182,12 +209,13 @@ check(traders > 0, 'no traders generated at all');
     }
   }
   check(sweptTraders > 200, `sweep produced only ${sweptTraders} traders`);
-  check(sealed === 0, `${sealed} levels sealed off by a trader across ${sweptTraders} traders`);
-  check(onLoot === 0, `${onLoot} traders stand on loot that can never be picked up`);
-  check(onKey === 0, `${onKey} traders stand on a key`);
-  console.log(`trader sweep: ${sweptTraders} traders over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
+  check(sweptEncounters > 1000, `sweep produced only ${sweptEncounters} encounters`);
+  check(sealed === 0, `${sealed} levels sealed off by a trader or encounter`);
+  check(onLoot === 0, `${onLoot} traders or encounters stand on loot that can never be picked up`);
+  check(onKey === 0, `${onKey} traders or encounters stand on a key`);
+  console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
 }
-  console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders), ${failures} failure(s)`);
+  console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
 }
 

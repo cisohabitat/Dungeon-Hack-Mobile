@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES } from './data.js';
-import { CREATURES, FLOATING, paintParts } from './creatures.js';
+import { CREATURES, PROPS, FLOATING, paintParts } from './creatures.js';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
@@ -384,6 +384,7 @@ const Assets = (() => {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
     // creatures built from parts replace their old grids
     for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1 });
+    for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1 });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 

@@ -10,6 +10,7 @@ const TICK = 300;   // ms of game time per bot action, roughly a brisk human pac
 // two builds can be compared over the same seeds rather than argued about.
 const DUAL = process.env.DUAL === '1';
 const SMART = process.env.SMART !== '0';
+const ENC = process.env.ENC !== '0';
 
 function run(ctx, cls, seed, opts, bg) {
   const { Rng, Dice } = ctx;
@@ -231,8 +232,74 @@ function play(ctx, cls, seed, opts, bg) {
       if (Game.rest()) { rec.rests++; step(); continue; }
     }
 
+    // --- answer an encounter the way a thoughtful player would: read what
+    // success and failure would each do, weigh them by the odds and by how
+    // much this hero can afford to lose, and walk away unless it is worth it.
+    // (The first version took any check better than even and ignored the
+    // stakes, which made fragile heroes take gambles a person would refuse.)
+    if (Game.currentEncounter()) {
+      const cur = Game.currentEncounter();
+      if (!cur.result) {
+        const frail = 30 / Math.max(10, p.maxHp);            // how much a blow matters to this hero
+        const worth = effects => effects.reduce((v, e) => {
+          if (e.map) v += 2;
+          if (e.xp) v += e.xp / 25;
+          if (e.goldPerDepth) v += e.goldPerDepth / 12;
+          if (e.hurt) v -= (e.hurt[0] * (e.hurt[1] + 1) / 2 + e.hurt[2]) / Math.max(1, p.hp) * 12;
+          if (e.hurtFrac) v -= e.hurtFrac * p.maxHp / Math.max(1, p.hp) * 12;
+          if (e.heal) v += (e.heal === 'full' ? (p.maxHp - p.hp) : e.heal) / p.maxHp * 5;
+          if (e.maxHp) v += e.maxHp > 0 ? e.maxHp * 0.6 : e.maxHp * 0.9;
+          if (e.food) v += e.food / 30;
+          if (e.loot != null) v += 2 + e.loot;
+          if (e.item) v += 1;
+          if (e.buff) v += 2;
+          if (e.poison) v -= 2 * frail;
+          if (e.cure) v += p.poison ? 2 : 0;
+          if (e.wake) v -= p.cls === 'thief' ? 5 : 3;
+          if (e.identifyAll) v += 2;
+          if (e.ambush) v -= (e.ambush.id === 'wraith' ? 5 : 3) * e.ambush.n * frail;
+          return v;
+        }, 0);
+        let best = null, bestValue = 0;
+        cur.def.choices.forEach((ch, i) => {
+          const o = Game.encounterOptions()[i];
+          if (o.blocked) return;
+          let v = ch.check ? o.chance * worth(ch.pass.effects) + (1 - o.chance) * worth(ch.fail.effects) : worth(ch.outcome.effects);
+          if (ch.cost && ch.cost.goldPerDepth) v -= ch.cost.goldPerDepth / 12;
+          if (ch.cost && ch.cost.hurtFrac) v -= ch.cost.hurtFrac * 12;
+          if (v > bestValue) { bestValue = v; best = o; }
+        });
+        // nothing worth the risk: take the way out, which is always last
+        // (ENCLEAVE=1 always walks away: the detour without the rewards)
+        if (!best || process.env.ENCLEAVE) best = Game.encounterOptions()[cur.def.choices.length - 1];
+        const r = Game.chooseEncounter(best.i);
+        rec.encounters = (rec.encounters || 0) + 1;
+        // tally what the encounter actually handed over, for ENCLOG=1
+        rec.encGot = rec.encGot || {};
+        rec.encChose = rec.encChose || {};
+        rec.encChose[`${cur.def.title} / ${best.label}`] = (rec.encChose[`${cur.def.title} / ${best.label}`] || 0) + 1;
+        for (const l of (r ? r.lines : [])) {
+          let m;
+          if ((m = l.match(/^\+(\d+) experience/))) rec.encGot.xp = (rec.encGot.xp || 0) + Number(m[1]);
+          else if ((m = l.match(/^([+−])(\d+) maximum hit points/))) rec.encGot.maxHp = (rec.encGot.maxHp || 0) + (m[1] === '+' ? 1 : -1) * Number(m[2]);
+          else if ((m = l.match(/^\+(\d+) gold/))) rec.encGot.gold = (rec.encGot.gold || 0) + Number(m[1]);
+          else if ((m = l.match(/^−(\d+) hit points/))) rec.encGot.hurt = (rec.encGot.hurt || 0) + Number(m[1]);
+          else if (/^Blessed/.test(l)) rec.encGot.blessed = (rec.encGot.blessed || 0) + 1;
+          else if (/^Found/.test(l)) rec.encGot.found = (rec.encGot.found || 0) + 1;
+          else if (/attack/.test(l)) rec.encGot.ambush = (rec.encGot.ambush || 0) + 1;
+          else if (/awake/.test(l)) rec.encGot.woke = (rec.encGot.woke || 0) + 1;
+          else if (/Fully healed/.test(l)) rec.encGot.healed = (rec.encGot.healed || 0) + 1;
+        }
+        if (r && r.check) rec[r.check.pass ? 'encPass' : 'encFail'] = (rec[r.check.pass ? 'encPass' : 'encFail'] || 0) + 1;
+      }
+      Game.closeEncounter();
+      step();
+      continue;
+    }
+
     // --- visit the trader while we still have coin and room to carry
-    const npc = (L.npcs || [])[0];
+    // (encounter props stand in the same list, so find the trader by kind)
+    const npc = (L.npcs || []).find(n => n.kind !== 'encounter');
     // give up after a while: the trader may sit behind a door we have no key for
     if (npc && !rec.shopped && p.gold >= 50 && p.inv.length < 16 && (rec.shopTries = (rec.shopTries || 0) + 1) < 140) {
       const beside = Math.abs(npc.x - p.x) + Math.abs(npc.y - p.y) === 1;
@@ -263,6 +330,22 @@ function play(ctx, cls, seed, opts, bg) {
       continue;
     }
     if (npc && rec.shopTries >= 140) rec.shopped = true;   // stop trying, get on with it
+
+    // --- walk up to an encounter on this floor (ENC=0 ignores them, to compare)
+    const enc = ENC && (L.npcs || []).find(n => n.kind === 'encounter');
+    if (enc) {
+      const k = `${G.depth}:${enc.x},${enc.y}`;
+      rec.encTries = rec.encTries || {};
+      rec.encTries[k] = (rec.encTries[k] || 0) + 1;
+      if (rec.encTries[k] < 140) {
+        if (Math.abs(enc.x - p.x) + Math.abs(enc.y - p.y) === 1) {
+          p.dir = Dungeon.DIRS.findIndex(([dx, dy]) => p.x + dx === enc.x && p.y + dy === enc.y);
+          Game.input('forward');
+        } else stepToward(enc.x, enc.y);
+        step();
+        continue;
+      }
+    }
 
     // --- otherwise head for the down stairs, picking up what we pass
     const target = L.stairsDown;
@@ -348,7 +431,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 // GEAR=1 shows what each class ended its runs holding
@@ -369,6 +452,18 @@ if (process.env.DEATHS) {
     for (const r of dead) killers[r.cause] = (killers[r.cause] || 0) + 1;
     const top = Object.entries(killers).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k} ${n}`).join(', ');
     console.log(`   ${cls.padEnd(8)} died on floor: ${Object.entries(byFloor).map(([f, n]) => `${f}:${n}`).join(' ')}  | killers: ${top}`);
+  }
+}
+// ENCLOG=1: what encounters handed each class per run, and its commonest choices
+if (process.env.ENCLOG) {
+  for (const cls in results) {
+    const rows = results[cls], tot = {}, chose = {};
+    for (const r of rows) {
+      for (const k in (r.encGot || {})) tot[k] = (tot[k] || 0) + r.encGot[k];
+      for (const k in (r.encChose || {})) chose[k] = (chose[k] || 0) + r.encChose[k];
+    }
+    console.log(`   ${cls.padEnd(8)} per run: ${Object.entries(tot).map(([k, v]) => `${k} ${(v / rows.length).toFixed(1)}`).join('  ')}`);
+    console.log(`            choices: ${Object.entries(chose).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, v]) => `${k} ${(v / rows.length).toFixed(2)}`).join(' | ')}`);
   }
 }
 // CAUSES=1 lists what ended the runs that never left the first floor

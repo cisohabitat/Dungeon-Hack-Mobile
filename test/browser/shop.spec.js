@@ -9,8 +9,9 @@ async function findTrader(page) {
     const G = Game.state(), p = G.player, T = Dungeon.T;
     for (let d = 1; d <= 7; d++) {
       const L = Game.level();
-      if ((L.npcs || []).length) {
-        const n = L.npcs[0];
+      // encounter props share the list: find the trader by kind
+      const n = (L.npcs || []).find(q => q.kind !== 'encounter');
+      if (n) {
         for (let k = 0; k < 4; k++) {
           const [dx, dy] = Dungeon.DIRS[k];
           const x = n.x - dx, y = n.y - dy;

@@ -46,7 +46,8 @@ async function loadGame(opts = {}) {
     Rng: rng.Rng,
     Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
     store,
-    CREATURES: creatures.CREATURES, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
+    CREATURES: creatures.CREATURES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
+    ENCOUNTERS: (await import(url('encounters.js'))).ENCOUNTERS,
     ...data,
   };
 }

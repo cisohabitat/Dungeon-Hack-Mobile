@@ -225,4 +225,60 @@ test.describe('dungeon features', () => {
     expect(first.fits, 'the whole map should be on screen').toBe(true);
     expect(errors).toEqual([]);
   });
+  test('an encounter asks, shows the odds, cannot be dodged, and reports what it did', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'tour' });
+    await clearBoons(page);
+    const placed = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), T = Dungeon.T;
+      const e = L.npcs.find(n => n.kind === 'encounter');
+      if (!e) return null;
+      L.monsters.length = 0;
+      for (let k = 0; k < 4; k++) {
+        const [dx, dy] = Dungeon.DIRS[k];
+        if (L.tiles[(e.y - dy) * L.w + (e.x - dx)] === T.FLOOR) { p.x = e.x - dx; p.y = e.y - dy; p.dir = k; return e.id; }
+      }
+      return null;
+    });
+    expect(placed, 'floor one of this seed should hold an encounter').not.toBeNull();
+    await expect(page.locator('[data-tap="use"]')).toHaveText(/Examine/);
+    await page.locator('[data-tap="use"]').click();
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    // every checked choice states its stat, the roll it needs and the odds
+    const smalls = await page.locator('.enc-choice small').allInnerTexts();
+    expect(smalls.some(t => /d20[+-]\d+ vs \d+, \d+% chance/.test(t)), `no odds shown: ${smalls.join(' | ')}`).toBe(true);
+    // Escape does not dodge it
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    // answer it with the first checked choice
+    await page.locator('.enc-choice').first().click();
+    await expect(page.locator('#enc-text')).toContainText(/It goes (well|badly)\./);
+    await expect(page.locator('#enc-text .roll')).toContainText(/d20/);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
+    const left = await page.evaluate(id => Game.level().npcs.filter(n => n.id === id).length, placed);
+    expect(left, 'the prop should be gone once answered').toBe(0);
+    expect(errors).toEqual([]);
+  });
+
+  test('an unknown potion can be studied from the pack, with the odds on the button', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'study-ui', cls: 'Mage' });
+    await clearBoons(page);
+    const t = await page.evaluate(() => {
+      const id = Object.keys(ITEMS).find(k => ITEMS[k].kind === 'potion' && !Game.isKnown(k));
+      Game.player().inv.push({ t: id, q: 1, e: 0 });
+      return id;
+    });
+    await page.click('[data-open="inv"]');
+    const idx = await page.evaluate(t => Game.player().inv.findIndex(i => i.t === t), t);
+    await page.locator('#inv-grid .slot').nth(idx).click();
+    const btn = page.locator('#item-detail button', { hasText: /^Study \(\d+%\)$/ });
+    await expect(btn).toBeVisible();
+    await btn.click();
+    const after = await page.evaluate(t => ({ known: Game.isKnown(t), blocked: !!Game.studyReason({ t, q: 1, e: 0 }) }), t);
+    // either it worked, or it failed and cannot be retried at this level
+    expect(after.known || after.blocked, 'a study should identify it or bar a retry').toBe(true);
+    expect(errors).toEqual([]);
+  });
 });

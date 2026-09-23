@@ -117,6 +117,10 @@
       <p>Pick a class and a background. The class decides what you can wield and cast. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
       <h3>Growing</h3>
       <p>Experience raises your hit points and unlocks spells on its own. On every second level the delve also teaches you something, and you choose one of three lessons. Stat gains can be taken again and again; the lasting perks only once, so late choices matter.</p>
+      <h3>Encounters</h3>
+      <p>Not everything down here wants to fight. On most floors something waits to be dealt with: a survivor under fallen stone, a shrine that still takes offerings, words cut into a wall, a voice in the dark that knows your name. Walk up to it or press <b>Examine</b>. Each choice says what it tests and how likely it is to go well &mdash; <i>Strength: d20+2 vs 12, 55% chance</i> &mdash; and some cost gold or blood before you roll. There is always a way to walk away, and you have to choose one: once you have looked, the moment has to be answered. Each encounter is met at most once in a run.</p>
+      <h3>Your six scores</h3>
+      <p>Every score matters, fighting or not. <b>Strength</b> lands harder blows and forces doors. <b>Dexterity</b> keeps you out of reach and your fingers quick. <b>Constitution</b> is your hit points and your stomach. <b>Intelligence</b> powers a mage's spells and lets anyone work out an unknown potion or scroll &mdash; choose <b>Study</b> in your pack rather than finding out by drinking it. <b>Wisdom</b> powers a cleric's prayers, spots traps before you step on them and holds your life together against the drain of the dead. <b>Charisma</b> changes what traders charge you and pay you, and talks you through many encounters. Your class and background give a knack for some things: a thief picks locks well, a cleric's prayers are heard, the tombwise read old writing.</p>
       <h3>The crews who went first</h3>
       <p>Four guild crews came down before you and none came back. Each level holds one page of what they left behind, up to eight in all, so a short delve holds fewer. Pick them up and read them in the <b>Journal</b>. Whether you carry them out is part of how your run is remembered.</p>
       <h3>Moving</h3>
@@ -233,6 +237,14 @@
     <div id="ov-boons" class="overlay">
       <div class="ov-head"><h2 id="boon-title">What the delve taught you</h2></div>
       <div class="ov-body" id="boon-list"></div>
+    </div>
+    <div id="ov-encounter" class="overlay">
+      <div class="ov-head"><h2 id="enc-title"></h2></div>
+      <div class="ov-body">
+        <div class="enc-art"><img id="enc-art" alt=""></div>
+        <p id="enc-text" class="enc-text"></p>
+        <div id="enc-choices"></div>
+      </div>
     </div>
     <div id="ov-log" class="overlay">
       <div class="ov-head"><h2>Messages</h2><button class="close" data-close>✕</button></div>

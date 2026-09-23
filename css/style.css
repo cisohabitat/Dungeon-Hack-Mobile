@@ -294,3 +294,14 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* the Use button lights up when it has something specific to do */
 .ctl.ctx { border-color: var(--gold); color: var(--gold); }
 .ctl.ctx small { color: var(--gold); }
+
+/* encounters */
+.enc-art { text-align: center; margin: 4px 0 8px; }
+.enc-art img { width: 112px; height: 112px; image-rendering: pixelated; }
+.enc-text { max-width: 520px; margin: 0 auto 14px; line-height: 1.5; color: #d8cfbe; }
+#enc-choices { max-width: 520px; margin: 0 auto; }
+.enc-choice:disabled { opacity: 0.5; }
+.enc-pass { color: var(--green); font-weight: normal; }
+.enc-fail { color: #f08a80; font-weight: normal; }
+.enc-lines { margin: 0 0 14px; padding-left: 20px; color: var(--gold); line-height: 1.6; }
+#enc-choices > .primary { width: 100%; }

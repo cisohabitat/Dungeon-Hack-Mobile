@@ -66,11 +66,14 @@
  */
 
 /**
+ * Someone or something standing on a square: a trader, or an encounter's prop
+ * (kind 'encounter', whose id names the encounter and which has no stock).
  * @typedef {Object} Trader
  * @property {string} id @property {number} x @property {number} y
- * @property {Item[]} stock
- * @property {number} markup      multiplier over an item's own value
- * @property {boolean} greeted
+ * @property {string} [kind]
+ * @property {Item[]} [stock]
+ * @property {number} [markup]    multiplier over an item's own value
+ * @property {boolean} [greeted]
  */
 
 /**
@@ -140,9 +143,11 @@
  * @property {number} [escapeMs]
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
- * @property {{name: string, dmg: number, bearing: string}} [lastAttacker]
+ * @property {{name: string, dmg: number, bearing: string, encounter?: boolean}} [lastAttacker]
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time
+ * @property {Object<string, number>} [studied]  item kind -> the level at which studying it last failed
+ * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  */
 
 export {};
