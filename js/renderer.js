@@ -147,7 +147,7 @@ const Renderer = (() => {
   }
   // where the hand is in each pose, as a fraction of the view
   const POSE_AT = {
-    rest: [0.75, 0.8], windup: [0.8, 0.62], cut: [0.58, 0.74], through: [0.42, 0.92],
+    rest: [0.75, 0.8], windup: [0.78, 0.6], cut: [0.58, 0.74], through: [0.44, 0.9],
     fist: [0.76, 0.86], punch: [0.58, 0.72], left: [0.24, 0.84], cast: [0.3, 0.86], shield: [0.22, 0.84], bow: [0.44, 0.68],
   };
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
@@ -221,7 +221,7 @@ const Renderer = (() => {
       // drawn above, with the left hand
     } else if (v.weapon) {
       // a two-handed grip sits higher so the lower hand shows; a sling hangs from the hand
-      const lift = v.two ? 0.05 : /sling$/.test(v.weapon) ? 0.22 : 0;
+      const lift = v.two ? 0.1 : /sling$/.test(v.weapon) ? 0.22 : 0;
       let pose = 'rest', p = at('rest', lift);
       if (swinging) {
         if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
@@ -229,7 +229,8 @@ const Renderer = (() => {
         else if (u < 0.52) { pose = 'through'; p = lerp(at('cut', lift), at('through', lift), ease((u - 0.32) / 0.2)); }
         else p = [p[0], p[1] + (1 - ease((u - 0.52) / 0.48)) * H * 0.5];
       }
-      put(Assets.held(v.weapon, pose, v.cls, v.two), p[0] + dx, p[1] + dy);
+      // the lower hand of a two-handed grip is the one that casts
+      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast), p[0] + dx, p[1] + dy);
     } else {
       const punch = swinging && u < 0.55;
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');

@@ -29,11 +29,11 @@ const DARK = '#1a1418', LEATHER = '#3a2618', WOOD = '#7a5230', RIM = '#7a808c';
 const deg = d => d * Math.PI / 180;
 const POSES = {
   rest:    { a: deg(-100), arm: deg(52) },
-  windup:  { a: deg(-42), arm: deg(88) },
+  windup:  { a: deg(-58), arm: deg(86) },
   cut:     { a: deg(-152), arm: deg(20) },
-  through: { a: deg(-202), arm: deg(2) },
-  fist:    { a: deg(-96), arm: deg(58) },
-  punch:   { a: deg(-92), arm: deg(46) },
+  through: { a: deg(-200), arm: deg(26) },
+  fist:    { a: deg(-96), arm: deg(58), bare: true },
+  punch:   { a: deg(-92), arm: deg(46), bare: true },
   left:    { a: deg(-78), arm: deg(130), left: true },
   cast:    { a: deg(-90), arm: deg(108), open: true, left: true },
 };
@@ -53,7 +53,7 @@ function moved(p, f) {
  * The forearm runs along arm. Seen from behind, the fingers wrap the grip
  * from the back of the hand across to their tips on the far side, the
  * thumb lying along the grip over the first finger.
- * @param {{open?: boolean, left?: boolean, sleeve?: boolean}} [o]
+ * @param {{open?: boolean, bare?: boolean, left?: boolean, sleeve?: boolean}} [o]
  */
 function hand(x, y, a, arm, cls, o = {}) {
   const [glove, cuff, sleeve] = HAND_COLORS[cls] || HAND_COLORS.fighter;
@@ -63,7 +63,7 @@ function hand(x, y, a, arm, cls, o = {}) {
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy * s, vy = ux * s, wx = Math.cos(arm), wy = Math.sin(arm);
   const P = (u, v = 0, w = 0) => [x + ux * u + vx * v + wx * w, y + uy * u + vy * v + wy * w];
   const glint = glove === '#3a3438' ? '#7a727a' : '#ffffff';
-  const behind = o.sleeve === false ? [] : [limb(...P(0, 1.2, 6), ...P(0, 1.2, 30), 3.4, 5, sleeve), limb(...P(0, 1, 2.4), ...P(0, 1, 6.4), 3, 3.5, cuff)];
+  const behind = o.sleeve === false ? [] : [limb(...P(0, 0.6, 6), ...P(0, 0.6, 30), 3.3, 5, sleeve), limb(...P(0, 0.5, 2.6), ...P(0, 0.5, 6.4), 3, 3.4, cuff)];
   if (o.open) {
     // the palm toward the enemy, fingers spread away from the wrist, the
     // thumb out to the side; q runs across the palm
@@ -78,17 +78,37 @@ function hand(x, y, a, arm, cls, o = {}) {
       ],
     };
   }
-  const fingers = [2.3, 0.9, -0.5, -1.9];
+  if (o.bare) {
+    // an empty fist, knuckles toward the enemy: the back of the hand, the
+    // knuckle ridge along its far edge, the fingers curled away out of sight
+    // and the thumb folded over them on the near side
+    const row = [-2.2, -0.75, 0.75, 2.2];
+    return {
+      behind,
+      front: [
+        ball(...P(0, 0.2), 3.3, 3.3, glove),
+        limb(...P(1.6, -2.6), ...P(1.6, 2.6), 1.5, 1.5, glove),
+        ...row.map(k => ball(...P(2.6, k), 1.15, 1.15, glove)),                   // knuckles
+        ...[-1.45, 0, 1.45].map(k => hair(...P(2.9, k), ...P(1.2, k), DARK)),     // creases between them
+        limb(...P(0.2, -3.2), ...P(-1.9, -1.2), 1.05, 0.95, glove),               // the thumb, tucked
+        hair(...P(-0.4, -2.2), ...P(-1.8, -0.4), DARK),
+        specks(row.map(k => P(2.9, k - 0.3)), glint),
+      ],
+    };
+  }
+  // closed round a grip: the fingers wrap it from the back of the hand and
+  // curl out of sight behind it; the thumb lies over the first finger
+  const fingers = [2.2, 0.85, -0.5, -1.85];
   return {
     behind,
     front: [
-      limb(...P(-2.8, 2.2), ...P(2.4, 2.4), 2.3, 2.5, glove),                  // the back of the hand
-      ...fingers.map(k => limb(...P(k, 2.6), ...P(k, -2.4), 1.05, 0.9, glove)),   // fingers round the grip
-      ...fingers.map(k => ball(...P(k, 2.5), 1.2, 1.2, glove)),                  // knuckles
-      limb(...P(1.3, 1.4), ...P(4.7, -0.1), 1.15, 0.9, glove),                   // the thumb along the grip
-      ...[1.6, 0.2, -1.2].map(k => hair(...P(k, 1.6), ...P(k, -2.2), DARK)),      // creases between the fingers
-      hair(...P(0.6, 0.6), ...P(2.6, -0.4), DARK),                               // and under the thumb
-      specks(fingers.map(k => P(k + 0.3, 2.9)), glint),
+      limb(...P(-2.4, 1.8), ...P(2, 1.9), 2.2, 2.3, glove),                       // the back of the hand
+      ...fingers.map(k => limb(...P(k, 2.4), ...P(k, -1.5), 1.05, 0.85, glove)),  // fingers round the grip
+      ...fingers.map(k => ball(...P(k, 2.3), 1.15, 1.15, glove)),                 // knuckles
+      limb(...P(0.9, 1), ...P(2.9, -0.3), 1.1, 0.95, glove),                      // the thumb over the first finger
+      ...[1.5, 0.2, -1.2].map(k => hair(...P(k, 1.4), ...P(k, -1.6), DARK)),      // creases between the fingers
+      hair(...P(0.4, 0.2), ...P(2.2, -0.9), DARK),                               // and under the thumb
+      specks(fingers.map(k => P(k + 0.3, 2.7)), glint),
     ],
   };
 }
@@ -181,7 +201,7 @@ function heldParts(id, pose, cls, two = false) {
     }
   }
   const a = base && GRIPS[base].fixed ? -Math.PI / 2 : P.a;
-  const h = hand(C, C, a, P.arm, cls, { open: !!P.open, left: !!P.left });
+  const h = hand(C, C, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left });
   return { grid: GRID, anchor: [C, C], parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
 }
 
