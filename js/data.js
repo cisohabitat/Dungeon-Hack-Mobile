@@ -232,6 +232,50 @@ const SCROLL_LOOKS = [
 ];
 
 // Elite monster prefixes: a champion is stronger, worth more, and always drops loot.
+// The bestiary: what the hero learns about each kind of monster by meeting
+// it. The lore is there from the first meeting; the trick once it has been
+// seen (or after a few kills), and the answer once the hero has beaten it.
+const BESTIARY = {
+  rat:      { lore: 'Big as a dog and never alone for long. They come in twos and threes from the second floor down, and the square is clear only when the last one drops.' },
+  bat:      { lore: 'Quick, weak and hard to hit, it flutters above your blade. It bites fast, so its warning is short: watch for the mark and step back early.' },
+  slime:    { lore: 'A slow heap of green that eats whatever it rolls over, bones included.',
+    trick: 'Struck hard, it splits into two smaller slimes sharing its square.',
+    answer: 'Fire, or anything that fills the square, burns both halves at once. Split slimes do not split again.' },
+  spider:   { lore: 'Its bite is venomous. It prefers to hang back in a corridor and let its web do the work.',
+    trick: 'Spits a web down a straight line from a few squares off. Webbed, you cannot step away, though you can still fight and turn.',
+    answer: 'Step out of its line while it rears back. Caught, keep pushing: every push tears at the web.' },
+  goblin:   { lore: 'Small, mean and brave in numbers. Goblins go about in groups and swing together in a quick volley.' },
+  skeleton: { lore: 'Bones held together by something that will not let them rest. Undead: holy magic burns it twice as badly.',
+    trick: 'Cut down by an edge, it falls into a heap of bones and pulls itself back together a few seconds later.',
+    answer: 'Smash the heap before it rises: any blow shatters it. A mace, hammer, flail, club, staff or spell breaks the bones for good the first time.' },
+  zombie:   { lore: 'Slow and stupid, and stronger than it looks. Undead: holy magic burns it twice as badly.',
+    trick: 'Its blow can take hold of you. Held, you cannot step away from it.',
+    answer: 'Strength tears you free: keep trying to step away. Killing it lets go at once.' },
+  orc:      { lore: 'A trained soldier, heavier and surer than a goblin. It likes a long straight corridor.',
+    trick: 'Lowers its head and charges down a straight line, slamming into you harder than any blow.',
+    answer: 'Sidestep out of the line while it lowers its head. It thunders past and stumbles, wide open.' },
+  ghoul:    { lore: 'It eats the dead and would like you to be one. Undead: holy magic burns it twice as badly.',
+    trick: 'Its touch can freeze you in place for a moment: no step, swing or spell.',
+    answer: 'A hardy constitution shakes the numbness off. Keep your health up; you will take a free blow or two while frozen.' },
+  wraith:   { lore: 'A cold shape that drifts above the floor. Its touch drains your life force, lowering your maximum health for good. Undead: holy magic burns it twice as badly; a strong will resists the drain.' },
+  ogre:     { lore: 'Huge, slow and very strong. Its club hits like a falling wall.',
+    trick: 'Every third swing it heaves its club high for a crushing blow at twice the damage.',
+    answer: 'Step back while it heaves. The club smashes the floor and it staggers, wide open.' },
+  troll:    { lore: 'Long-armed and hungry, and very hard to kill: its wounds close as you watch.',
+    trick: 'It grows back a hit point every second, so a slow fight goes nowhere.',
+    answer: 'Fire. Burns do not close: Burning Hands, Flame Strike or a Scroll of Fire stops it regrowing for a while.' },
+  minotaur: { lore: 'The master of the deep halls, bull-headed and tireless. It hits harder than anything but the lich.',
+    trick: 'Charges down a straight line from four squares off and slams into you.',
+    answer: 'Sidestep out of the line. It thunders past and stumbles, wide open.' },
+  archer:   { lore: 'A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses.' },
+  acolyte:  { lore: 'A servant of the dark who hurls bolts of shadow from five squares off.',
+    trick: 'Chants to mend a badly wounded monster nearby, itself included.',
+    answer: 'Any blow or spell that hurts it breaks the chant. Kill the acolyte first.' },
+  lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life, and it does not flee.',
+    trick: 'Gathers a storm of cold fire that bursts two squares around it. As it weakens it raises the dead to guard it.',
+    answer: 'When it gathers the storm, get three squares away. Deal with the risen guards, or burn them all together.' },
+};
+
 const ELITES = [
   { prefix: 'Feral',    hp: 1.5, hit: 2, dmg: 2, xp: 2.0, speed: 0.8, tint: '#ff6040' },
   { prefix: 'Armoured', hp: 1.6, ac: 3,  hit: 1, xp: 2.0, speed: 1.2, tint: '#80a0ff' },
@@ -273,4 +317,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES };
+export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY };

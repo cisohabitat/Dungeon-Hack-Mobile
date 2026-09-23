@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, ELITES, THEMES } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, ELITES, THEMES, BESTIARY } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -829,6 +829,7 @@ const Game = (() => {
       p.webbed -= 400;
       if (p.webbed > G.t) { blocked('You struggle against the web.'); return false; }
       log('You tear free of the web.', 'good');
+      learn('spider', 'answer');
     }
     if (p.grabbed) {
       const g = lvl().monsters.find(o => o.uid === p.grabbed.uid);
@@ -839,6 +840,7 @@ const Game = (() => {
         if (d(1, 20) + mod(p.stats.str) < 12) { p.grabbed.nextTry = G.t + 600; blocked(`The ${who}'s grip holds you fast.`); return false; }
         p.grabbed = null;
         log(`You tear free of the ${who}'s grip!`, 'good');
+        learn(g.id, 'answer');
       }
     }
     const dir = (p.dir + rel) % 4;
@@ -1226,7 +1228,7 @@ const Game = (() => {
     if (!m) { Sound.play('miss'); return; }
     if (atRange) Sound.play('arrow');
     const mb = mstat(m);
-    if (m.collapsed) { damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
+    if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
     const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing);
     m.awake = true;
     const roll = d(1, 20);
@@ -1274,6 +1276,7 @@ const Game = (() => {
     const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
+    meet(m);
     m.flashUntil = realNow + 130;
     floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     Sound.play('hit');
@@ -1284,10 +1287,12 @@ const Game = (() => {
       if (m.pack && m.pack.length) { memberDown(m, note); promote(m); return; }
       // a skeleton cut down by an edge falls apart and pulls itself back
       // together; crushed bones, and bones struck by magic, stay down
+      if (mb.move === 'rise' && !m.risen && !m.collapsed && breaksBones(tag) && !(m.pack && m.pack.length)) learn(m.id, 'answer');
       if (mb.move === 'rise' && !m.risen && !m.collapsed && !breaksBones(tag)) {
         m.risen = true; m.collapsed = G.t + RISE_MS; m.hp = 0;
         m.windup = null; m.volley = null; m.fleeing = false;
         log(`The ${mb.name} clatters into a heap of bones... and the bones begin to twitch. Smash them before it rises!`, 'bad');
+        learn(m.id, 'trick');
         return;
       }
       killMonster(m, note);
@@ -1326,6 +1331,7 @@ const Game = (() => {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     p.kills++;
+    learn(m.id, 'kill');
     p.xp += mb.xp;
     log(`The ${mb.name} is destroyed!${note || ''} (+${mb.xp} xp)`, 'good');
     // champions and bosses always drop something worthwhile
@@ -1347,6 +1353,7 @@ const Game = (() => {
   }
   /** A blast that fills the square: the ones behind take it too. */
   function hitGroup(m, dmg, tag) {
+    if (m.pack && m.split) learn(m.id, 'answer');     // a blast that takes both halves of a split slime
     if (m.pack) {
       for (const b of m.pack.slice()) {
         b.hp -= dmg;
@@ -1423,6 +1430,7 @@ const Game = (() => {
     buzz(40);
     if (msg) log(msg, 'bad');
     emit('stats');
+    if (p.hp <= 0 && from) learn(from.id, 'death');
     if (p.hp <= 0) die();
   }
   function healPlayer(n) {
@@ -1534,6 +1542,48 @@ const Game = (() => {
       list.sort((a, b) => b.score - a.score);
       localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
     } catch (e) { /* ignore */ }
+  }
+  // ---------- bestiary ----------
+  // What the hero has learned about each kind of monster, kept across runs
+  // like the Hall of Heroes. Meeting one shows its picture and nature; the
+  // first kill shows its numbers; its trick is written down once seen (or
+  // after a few kills), and the answer once the hero has beaten the trick.
+  const BESTIARY_KEY = 'deepdelve.bestiary';
+  const TRICK_KILLS = 3, ANSWER_KILLS = 5;
+  /** @returns {Record<string, {met: number, kills: number, deaths: number, trick?: number, answer?: number}>} */
+  function bestiary() {
+    try { const v = JSON.parse(localStorage.getItem(BESTIARY_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; }
+  }
+  /** Note something learned about a kind of monster, and say so when it is new. */
+  function learn(id, what) {
+    if (!MONSTERS[id]) return;
+    const all = bestiary(), name = MONSTERS[id].name, lore = BESTIARY[id] || {};
+    const r = all[id] || (all[id] = { met: 0, kills: 0, deaths: 0 });
+    const news = [];
+    if (what === 'met') { if (!r.met) news.push(`New in your bestiary: the ${name}.`); r.met++; }
+    else if (what === 'kill') {
+      r.met = Math.max(1, r.met);
+      r.kills++;
+      if (r.kills === 1) news.push(`Bestiary: you have the measure of the ${name} now.`);
+      if (r.kills >= TRICK_KILLS && lore.trick && !r.trick) { r.trick = 1; news.push(`Bestiary: you have learned the ${name}'s trick.`); }
+      if (r.kills >= ANSWER_KILLS && lore.answer && !r.answer) { r.answer = 1; news.push(`Bestiary: you have learned how to beat the ${name}'s trick.`); }
+    }
+    else if (what === 'trick') { if (lore.trick && !r.trick) { r.trick = 1; news.push(`Bestiary: you have seen the ${name}'s trick.`); } }
+    else if (what === 'answer') {
+      if (lore.answer && !r.answer) { r.answer = 1; r.trick = 1; news.push(`Bestiary: you have learned how to beat the ${name}'s trick.`); }
+    }
+    else if (what === 'death') r.deaths++;
+    // a trick seen or beaten again is nothing new, and a troll regrows every second
+    if ((what === 'trick' || what === 'answer') && !news.length) return;
+    try { localStorage.setItem(BESTIARY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
+    if (G && G.status === 'playing') for (const n of news) log(n, 'info');
+  }
+  /** The first meeting with this particular monster, this run. */
+  function meet(m) {
+    if (!G.met) G.met = {};
+    if (G.met[m.uid]) return;
+    G.met[m.uid] = 1;
+    learn(m.id, 'met');
   }
   function hall() {
     try { return JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { return []; }
@@ -1707,6 +1757,7 @@ const Game = (() => {
   }
   function rangedAttack(m) {
     const mb = mstat(m), r = mb.ranged;
+    meet(m);
     const roll = d(1, 20);
     const ac = playerAC();
     const note = rollNote(roll, mb.hit, ac, roll === 20);
@@ -1721,6 +1772,7 @@ const Game = (() => {
   /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string}} [heavy]  a trick's blow: surer and harder */
   function monsterAttack(m, heavy) {
     const p = P(), mb = mstat(m), h = heavy || {};
+    meet(m);
     const roll = d(1, 20);
     const ac = playerAC();
     const hit = mb.hit + (h.hit || 0);
@@ -1740,10 +1792,11 @@ const Game = (() => {
     if (mb.move === 'grab' && !p.grabbed && Math.random() < 0.5) {
       p.grabbed = { uid: m.uid, until: G.t + 4000, nextTry: 0 };
       log(`The ${mb.name} grabs hold of you! Pulling free takes strength.`, 'bad');
+      learn(m.id, 'trick');
     }
     if (mb.move === 'paralyse' && !(p.held > G.t) && Math.random() < 0.3) {
-      if (d(1, 20) + mod(p.stats.con) >= 12) log(`The ${mb.name}'s claws numb you, but you shake it off.`);
-      else { p.held = G.t + HELD_MS; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); }
+      if (d(1, 20) + mod(p.stats.con) >= 12) { log(`The ${mb.name}'s claws numb you, but you shake it off.`); learn(m.id, 'answer'); }
+      else { p.held = G.t + HELD_MS; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); learn(m.id, 'trick'); }
     }
     if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     // a strong will holds on to itself against the drain
@@ -1814,6 +1867,7 @@ const Game = (() => {
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: G.t, until: G.t + SPECIAL_MS[mv], ...extra };
+    meet(m); learn(m.id, 'trick');
     m.nextAct = m.windup.until;
     log(say, 'bad');
     Sound.play('special');
@@ -1829,7 +1883,7 @@ const Game = (() => {
     switch (w.move) {
       case 'crush':
         if (dist === 1) { monsterAttack(m, { hit: 2, mult: 2, verb: 'brings its club down on' }); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; }
-        else { log(`The ${mb.name}'s club smashes the floor where you stood. It staggers, wide open!`, 'good'); Sound.play('bump'); m.nextAct = G.t + 1600; }
+        else { log(`The ${mb.name}'s club smashes the floor where you stood. It staggers, wide open!`, 'good'); Sound.play('bump'); m.nextAct = G.t + 1600; learn(m.id, 'answer'); }
         break;
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
@@ -1849,6 +1903,7 @@ const Game = (() => {
           }
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           log(`The ${mb.name} thunders past you and stumbles, wide open!`, 'good');
+          learn(m.id, 'answer');
           Sound.play('bump');
           m.nextAct = G.t + 1600;
         }
@@ -1860,7 +1915,7 @@ const Game = (() => {
           p.webbed = G.t + 2500;
           log('Sticky web binds your legs! Keep pushing to tear free.', 'bad');
           Sound.play('hurt');
-        } else log(`The ${mb.name}'s web sails past you.`, 'good');
+        } else { log(`The ${mb.name}'s web sails past you.`, 'good'); learn(m.id, 'answer'); }
         m.moveReady = G.t + 7000;
         m.nextAct = G.t + Math.round(mb.speed * 0.6);
         break;
@@ -1878,7 +1933,7 @@ const Game = (() => {
       }
       case 'nova':
         if (dist <= NOVA_REACH) { const n = d(4, 6); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
-        else log('The storm of cold fire breaks short of you.', 'good');
+        else { log('The storm of cold fire breaks short of you.', 'good'); learn(m.id, 'answer'); }
         m.nextAct = G.t + mb.speed;
         break;
     }
@@ -1889,10 +1944,11 @@ const Game = (() => {
     if (m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 700;
       log(`You break the ${mb.name}'s chant!`, 'good');
+      learn(m.id, 'answer');
     }
     // fire sears a troll's wounds shut, so they cannot grow back for a while
     if (tag === 'burn' && mb.regen) {
-      if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good');
+      if (!(m.burnUntil > G.t)) { log(`The ${mb.name}'s burns do not close.`, 'good'); learn(m.id, 'answer'); }
       m.burnUntil = G.t + 6000;
     }
     // a slime struck hard enough splits into two smaller ones in its square
@@ -1903,6 +1959,7 @@ const Game = (() => {
       m.pack = [{ hp: half, maxHp: m.maxHp }];
       m.windup = null;
       log(`The ${mb.name} splits in two!`, 'bad');
+      learn(m.id, 'trick');
     }
     // the lich calls up the dead as it weakens: once at two thirds, again at one third
     if (mb.boss) {
@@ -1925,6 +1982,7 @@ const Game = (() => {
     const g = newMonster('skeleton', x, y, hp());
     const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true;
     log(`The ${mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`, 'bad');
+    learn(m.id, 'trick');
     Sound.play('growl');
   }
   /** A monster that appears mid-fight, awake and already hunting. */
@@ -1951,7 +2009,10 @@ const Game = (() => {
         }
         continue;
       }
-      if (mb.regen && m.hp < m.maxHp && !(m.burnUntil > G.t) && G.t >= (m.nextRegen || 0)) { m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000; }
+      if (mb.regen && m.hp < m.maxHp && !(m.burnUntil > G.t) && G.t >= (m.nextRegen || 0)) {
+        m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000;
+        if (G.met && G.met[m.uid]) learn(m.id, 'trick');   // you watched its wounds close
+      }
       if (G.t < m.nextAct) continue;
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
@@ -1963,7 +2024,7 @@ const Game = (() => {
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
         if (di >= 0 && di <= notice) {
-          m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT;
+          m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT; meet(m);
           // woken right beside you, its first blow is already being drawn back
           if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
           continue;
@@ -2301,7 +2362,7 @@ const Game = (() => {
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
-    lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
+    bestiary, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,

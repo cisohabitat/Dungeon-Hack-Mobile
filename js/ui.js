@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES } from './data.js';
+import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -320,7 +320,7 @@ const UI = (() => {
   const TIPS = {
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
     monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
-    trick: 'A <b>violet mark</b> means a trick, not a blow. Read the log for what is coming; <b>Help</b> lists every trick and its answer.',
+    trick: 'A <b>violet mark</b> means a trick, not a blow. Read the log for what is coming. Your <b>Bestiary</b>, in the Journal, writes down each trick you see.',
     take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
     stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
@@ -593,7 +593,10 @@ const UI = (() => {
     }
   }
 
+  let journalTab = 'pages';
   function renderJournal() {
+    for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
+    if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     const got = Game.journal();
     $('#journal-count').textContent = `${got.length} of ${Game.pagesInDungeon()}`;
     const el = $('#journal-list');
@@ -606,6 +609,50 @@ const UI = (() => {
       return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on level ${j.depth}</p></div>`;
     }).join('');
   }
+  // ---------- bestiary ----------
+  const avg = ([n, s, b]) => Math.round(n * (s + 1) / 2 + b);
+  const dice = ([n, s, b]) => `${n}d${s}${b ? '+' + b : ''}`;
+  const times = n => n === 1 ? 'once' : (n === 2 ? 'twice' : `${n} times`);
+  /** What kind of thing it is, once one has been killed. */
+  function beastTraits(id, mb) {
+    const t = [];
+    if (mb.undead) t.push('undead');
+    if (Dungeon.PACK_KINDS.includes(id)) t.push('goes about in groups');
+    if (mb.fly) t.push('flies');
+    if (mb.ranged) t.push(`shoots from ${mb.ranged.range} squares (${dice(mb.ranged.dmg)})`);
+    if (mb.poison) t.push('venomous');
+    if (mb.drain) t.push('drains life');
+    if (mb.regen) t.push('regrows its wounds');
+    return t;
+  }
+  /** Fill el with the bestiary; returns the count line. */
+  function renderBestiary(el) {
+    const known = Game.bestiary();
+    const ids = Object.keys(MONSTERS).sort((a, b) => MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
+    const met = ids.filter(id => known[id] && known[id].met).length;
+    el.innerHTML = '<div class="beasts">' + ids.map(id => {
+      const mb = MONSTERS[id], r = known[id] || { met: 0, kills: 0, deaths: 0 }, lore = BESTIARY[id] || {};
+      const art = Assets.sprites[mb.sprite];
+      const img = `<img src="${art ? art.url : ''}" alt="">`;
+      const where = mb.boss ? 'Guards the Heart of the Mountain' : `From floor ${mb.tier[0]} down`;
+      if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
+      const bits = [`<h3>${escapeHtml(mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
+      if (r.kills) {
+        const traits = beastTraits(id, mb);
+        bits.push(`<p class="beast-stats">About ${avg(mb.hp)} HP · AC ${mb.ac} · hits for ${dice(mb.dmg)} · a blow every ${(mb.speed / 1000).toFixed(1)}s · ${mb.xp} xp${traits.length ? ' · ' + traits.join(', ') : ''}</p>`);
+      } else bits.push('<p class="locked">Kill one to take its measure.</p>');
+      if (lore.trick) {
+        bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
+        bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');
+      }
+      const rec = [`${where}`, r.kills ? `killed ${r.kills}` : 'none killed yet'];
+      if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
+      bits.push(`<p class="where">${rec.join(' · ')}</p>`);
+      return `<div class="beast" data-beast="${id}">${img}<div>${bits.join('')}</div></div>`;
+    }).join('') + '</div>';
+    return `${met} of ${ids.length} met`;
+  }
+
   // An encounter: the prose, then each choice with what it tests and how
   // likely it is to go well; once chosen, what happened and what it did.
   function renderEncounter() {
@@ -1182,6 +1229,9 @@ const UI = (() => {
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => showScreen('screen-help'));
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
+    $('#btn-beasts').addEventListener('click', () => { $('#beasts-count').textContent = renderBestiary($('#beasts-list')); showScreen('screen-beasts'); });
+    $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
+    for (const t of $$('[data-jtab]')) t.addEventListener('click', () => { journalTab = t.dataset.jtab; renderJournal(); });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
     $('#c-reroll').addEventListener('click', () => { create.stats = Game.rollStats(); fitStats(); buildCreate(); });

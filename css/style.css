@@ -349,3 +349,22 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* the list of monster tricks in the help */
 ul.tricks { margin: 0.4em 0 0.8em; padding-left: 1.2em; }
 ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
+
+/* journal tabs */
+.tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.tabs .tab { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); color: var(--dim); font: inherit; }
+.tabs .tab.on { color: var(--gold); border-color: var(--gold); }
+
+/* the bestiary */
+.beast { display: flex; gap: 12px; align-items: flex-start; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.beast img { flex: 0 0 64px; width: 64px; height: 64px; object-fit: contain; image-rendering: pixelated; }
+.beast.unmet img { filter: brightness(0); opacity: 0.55; }
+.beast h3 { margin: 0 0 4px; font-size: 1rem; }
+.beast p { margin: 4px 0 0; line-height: 1.45; color: #c8bfae; font-size: 0.9rem; }
+.beast .beast-stats { color: var(--text); font-size: 0.85rem; }
+.beast > div { flex: 1; min-width: 0; }
+.beast .trick b { color: #c890ff; }
+.beast .answer b { color: #8fdc8f; }
+.beast .locked { color: var(--dim); font-style: italic; }
+.beast .where { color: var(--dim); font-size: 0.8rem; }
+
