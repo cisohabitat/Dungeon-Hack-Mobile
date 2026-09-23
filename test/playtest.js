@@ -9,6 +9,7 @@ const TICK = 300;   // ms of game time per bot action, roughly a brisk human pac
 // DUAL=1 plays the fighter with a blade in each hand instead of a shield, so the
 // two builds can be compared over the same seeds rather than argued about.
 const DUAL = process.env.DUAL === '1';
+const SMART = process.env.SMART !== '0';
 
 function run(ctx, cls, seed, opts, bg) {
   const { Rng, Dice } = ctx;
@@ -73,7 +74,18 @@ function play(ctx, cls, seed, opts, bg) {
     }
     return { adj, near, awake: L.monsters.filter(m => m.awake).length, total: L.monsters.length };
   };
-  while (rec.ticks < 40000 && G.status === 'playing') {
+  // Advance to the next moment worth acting in: a whole tick normally, but no
+  // further than the instant the hero can swing or cast again, the way a
+  // player holding Attack strikes the moment the blow is ready. Rounding
+  // every action up to a whole 300ms tick made a 400ms dagger take 600ms,
+  // favoured slow weapons over fast ones, and hid the dual-wield swing cost
+  // entirely: a 700ms and an 805ms swing both came out at 900ms.
+  const step = () => {
+    const wait = p.nextAttack - G.t;
+    const dt = wait > 0 && wait < TICK ? Math.max(16, Math.ceil(wait)) : TICK;
+    Game.update(now, dt);
+  };
+  while (rec.ticks < 80000 && G.status === 'playing') {
     rec.ticks++;
     if (p.hp <= p.maxHp * 0.5) { const s2 = snap(); rec.lastAdj = s2.adj; rec.lastNear = s2.near; rec.lastAwake = s2.awake; rec.lastTotal = s2.total; }
     now += TICK;
@@ -89,13 +101,27 @@ function play(ctx, cls, seed, opts, bg) {
     const hpFrac = p.hp / p.maxHp;
     if (hpFrac < 0.3) rec.hpLow++;
 
+    // --- use the class's own kit before its consumables. The bot used to cast
+    // only attack spells, so a cleric never healed and a mage never raised
+    // Shield, and the class comparison measured a player who ignored half of
+    // what each class is for. SMART=0 plays the old way, to compare.
+    if (SMART) {
+      // casting shares the swing timer, so only try when ready
+      const castable = G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && !Game.spellWasteReason(sp));
+      const healSp = castable.filter(sp => sp.kind === 'heal').pop();
+      if (hpFrac < 0.5 && healSp && !process.env.NOHEAL) { Game.castSpell(healSp); rec.healsCast = (rec.healsCast || 0) + 1; step(); continue; }
+      // a fight is about to start: raise defences first, keeping points in hand
+      const closing = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
+      const buff = closing && !process.env.NOBUFF && castable.find(sp => sp.kind === 'buff' && p.sp >= sp.cost + 2);
+      if (buff) { Game.castSpell(buff); rec.buffsCast = (rec.buffsCast || 0) + 1; step(); continue; }
+    }
     // --- emergency: drink a healing potion
     const heal = p.inv.find(i => i.t === 'potion_heal' || i.t === 'potion_xheal');
-    if (hpFrac < 0.35 && heal) { Game.useItem(heal); rec.potionsDrunk++; Game.update(now, TICK); continue; }
+    if (hpFrac < 0.35 && heal) { Game.useItem(heal); rec.potionsDrunk++; step(); continue; }
     // --- eat when hungry
     if (p.food < 25) {
       const food = p.inv.find(i => ITEMS[i.t].kind === 'food');
-      if (food) { Game.useItem(food); Game.update(now, TICK); continue; }
+      if (food) { Game.useItem(food); step(); continue; }
       else rec.starved++;
     }
     // --- equip anything better that we can use
@@ -128,7 +154,7 @@ function play(ctx, cls, seed, opts, bg) {
     }
 
     // --- shoot down the corridor before anything closes the distance
-    const bolts = Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && sp.kind === 'bolt');
+    const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && sp.kind === 'bolt');
     if (bolts.length) {
       let shot = null;
       for (let k = 0; k < 4 && !shot; k++) {
@@ -145,7 +171,7 @@ function play(ctx, cls, seed, opts, bg) {
           }
         }
       }
-      if (shot) { p.dir = shot.dir; Game.castSpell(shot.sp); Game.update(now, TICK); continue; }
+      if (shot) { p.dir = shot.dir; Game.castSpell(shot.sp); step(); continue; }
     }
 
     // --- loose a missile if the weapon in hand reaches
@@ -161,7 +187,7 @@ function play(ctx, cls, seed, opts, bg) {
           if (L.monsters.some(mm => mm.x === x && mm.y === y)) { shot = k; break; }
         }
       }
-      if (shot !== null) { p.dir = shot; Game.input('attack'); Game.update(now, TICK); continue; }
+      if (shot !== null) { p.dir = shot; Game.input('attack'); step(); continue; }
     }
 
     // --- break off when badly hurt and out of remedies
@@ -178,7 +204,7 @@ function play(ctx, cls, seed, opts, bg) {
           const dd = away[ny * L.w + nx];
           if (dd > bd) { bd = dd; best = k; }
         }
-        if (best !== null) { p.dir = best; Game.input('forward'); rec.retreats = (rec.retreats || 0) + 1; Game.update(now, TICK); continue; }
+        if (best !== null) { p.dir = best; Game.input('forward'); rec.retreats = (rec.retreats || 0) + 1; step(); continue; }
       }
     }
 
@@ -192,17 +218,17 @@ function play(ctx, cls, seed, opts, bg) {
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
-      const spells = Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= s.cost && s.kind === 'bolt');
+      const spells = process.env.NOBOLT ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= s.cost && s.kind === 'bolt');
       if (spells.length && p.sp > p.maxSp * 0.4) Game.castSpell(spells[spells.length - 1]);
       else Game.input('attack');
-      Game.update(now, TICK);
+      step();
       continue;
     }
 
     // --- rest when safe and hurt
     if ((hpFrac < 0.75 || (p.maxSp && p.sp < p.maxSp * 0.4)) && p.food > 10) {
       const before = p.hp;
-      if (Game.rest()) { rec.rests++; Game.update(now, TICK); continue; }
+      if (Game.rest()) { rec.rests++; step(); continue; }
     }
 
     // --- visit the trader while we still have coin and room to carry
@@ -223,17 +249,17 @@ function play(ctx, cls, seed, opts, bg) {
         rec.bought = bought;
         rec.shopped = true;
         Game.closeShop();
-        Game.update(now, TICK);
+        step();
         continue;
       }
       if (beside) {
         p.dir = Dungeon.DIRS.findIndex(([dx, dy]) => p.x + dx === npc.x && p.y + dy === npc.y);
         Game.input('forward');
-        Game.update(now, TICK);
+        step();
         continue;
       }
       stepToward(npc.x, npc.y);
-      Game.update(now, TICK);
+      step();
       continue;
     }
     if (npc && rec.shopTries >= 140) rec.shopped = true;   // stop trying, get on with it
@@ -251,7 +277,7 @@ function play(ctx, cls, seed, opts, bg) {
     } else {
       stepToward(target.x, target.y);
     }
-    Game.update(now, TICK);
+    step();
 
     function stepToward(tx, ty) {
       const L2 = Game.level();
@@ -286,7 +312,8 @@ function play(ctx, cls, seed, opts, bg) {
   rec.won = G.status === 'won';
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
-  rec.dual = !!p.eq.offhand;      // did this bot actually end up fighting two-handed
+  rec.dual = !!p.eq.offhand;
+  rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
   return rec;
 }
 
@@ -321,8 +348,28 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
+}
+// GEAR=1 shows what each class ended its runs holding
+if (process.env.GEAR) {
+  for (const cls in results) {
+    const t = {};
+    for (const r of results[cls]) t[r.gear] = (t[r.gear] || 0) + 1;
+    console.log(`   ${cls.padEnd(8)} ${Object.entries(t).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k} ×${n}`).join(' | ')}`);
+  }
+}
+// DEATHS=1 shows, per class, which floor runs died on and what killed them
+if (process.env.DEATHS) {
+  for (const cls in results) {
+    const dead = results[cls].filter(r => r.died);
+    const byFloor = {};
+    for (const r of dead) byFloor[r.deepest] = (byFloor[r.deepest] || 0) + 1;
+    const killers = {};
+    for (const r of dead) killers[r.cause] = (killers[r.cause] || 0) + 1;
+    const top = Object.entries(killers).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k} ${n}`).join(', ');
+    console.log(`   ${cls.padEnd(8)} died on floor: ${Object.entries(byFloor).map(([f, n]) => `${f}:${n}`).join(' ')}  | killers: ${top}`);
+  }
 }
 // CAUSES=1 lists what ended the runs that never left the first floor
 if (process.env.CAUSES) {
