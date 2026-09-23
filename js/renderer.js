@@ -202,6 +202,8 @@ const Renderer = (() => {
       const sw = sh;
       const floorY = H / 2 + hFull / 2;
       const top = floorY - sh - (s.yOff || 0) * hFull;
+      // where the drawing itself begins: bars and marks sit on it, not on the empty frame
+      const drawnTop = top + (s.img.top || 0) * sh;
       const left = screenX - sw / 2;
       const x0 = Math.max(0, Math.floor(left)), x1 = Math.min(W, Math.ceil(left + sw));
       if (x1 <= x0) continue;
@@ -220,8 +222,8 @@ const Renderer = (() => {
           run = -1;
         }
       }
-      if (s.hp != null && s.hp < s.maxHp && top > 6) {
-        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.floor(top) - 5;
+      if (s.hp != null && s.hp < s.maxHp && drawnTop > 6) {
+        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.floor(drawnTop) - 5;
         ctx.fillStyle = '#000';
         ctx.fillRect(bx - 1, by - 1, bw + 2, 4);
         ctx.fillStyle = '#5a1a1a';
@@ -229,12 +231,25 @@ const Renderer = (() => {
         ctx.fillStyle = '#e04030';
         ctx.fillRect(bx, by, Math.max(1, Math.round(bw * s.hp / s.maxHp)), 2);
       }
+      // a skeleton's heap of bones: a violet ring on the floor round it that
+      // closes as it pulls itself together, a countdown rather than a warning
+      if (s.heap) {
+        const cx = Math.round(screenX), cy = Math.round(floorY - sh * 0.18);
+        const rx = Math.max(6, sw * 0.46), ry = Math.max(3, sh * 0.16);
+        ctx.save();
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.85)';
+        ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 2; ctx.strokeStyle = s.heap > 0.75 ? '#ff40e0' : '#b060ff';
+        ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * s.heap); ctx.stroke();
+        ctx.restore();
+      }
       // the tell: a bright mark over anything about to strike, filling as the
       // blow comes, so it can be seen and answered before it lands
       if (s.tell) {
         // a monster's own trick: a bigger violet mark, unlike any plain blow
-        const size = Math.max(s.special ? 10 : 7, Math.min(s.special ? 21 : 16, Math.round(sw * (s.special ? 0.36 : 0.28))));
-        const tx = Math.round(screenX), ty = Math.max(size + 2, Math.floor(top) - (s.hp != null && s.hp < s.maxHp ? 9 : 4));
+        // half as big again as it was, and sat on the drawing, not its frame
+        const size = Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4))));
+        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + 3, Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
         ctx.save();
         ctx.lineJoin = 'round';
         ctx.beginPath();
@@ -251,7 +266,7 @@ const Renderer = (() => {
     }
 
     // floating texts
-    ctx.font = 'bold 13px monospace';
+    ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'center';
     ctx.lineJoin = 'round';
     for (const t of fx.texts) {
@@ -262,10 +277,12 @@ const Renderer = (() => {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
       const age = (now - t.born) / (t.until - t.born);
-      const y = H / 2 - hFull * 0.4 - age * 18;
-      ctx.globalAlpha = Math.max(0, 1 - age);
+      // rise from the monster's middle, not the ceiling: close up, the old
+      // spot was the top edge of the view, dark and easy to miss
+      const y = Math.max(18, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22));
+      ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 4;
       ctx.strokeStyle = 'rgba(0,0,0,0.9)';
       ctx.strokeText(t.text, screenX, y);
       ctx.fillStyle = t.color;
@@ -288,6 +305,16 @@ const Renderer = (() => {
       ctx.globalAlpha = a * 0.45;
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
+    }
+    // near death, the edges of the view pulse red: the heartbeat is no help
+    // to someone playing with the sound off, which on a phone is most people
+    if (fx.hpFrac > 0 && fx.hpFrac < 0.25) {
+      const beat = 0.5 + 0.5 * Math.sin(now / (fx.hpFrac < 0.12 ? 140 : 220));
+      const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.62);
+      g.addColorStop(0, 'rgba(160,0,0,0)');
+      g.addColorStop(1, `rgba(190,0,0,${(0.35 + 0.3 * beat).toFixed(2)})`);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
     }
     if (now < fx.damageUntil) {
       const a = (fx.damageUntil - now) / 260;

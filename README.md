@@ -19,7 +19,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   the Journal collects them as the account of what actually happened down there assembles itself.
 - **Six backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
   gives a lasting advantage, a paragraph of the opening, and the line your run closes on.
-- **A choice on every second level.** Ten lessons the delve can teach, three offered at a time.
+- **A choice on every third level.** Ten lessons the delve can teach, three offered at a time.
   Ability gains can be taken repeatedly; the permanent perks only once.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,

@@ -315,3 +315,39 @@ test.describe('layout', () => {
     });
   }
 });
+
+test.describe('round five playtest', () => {
+  test('trying another class and coming back gives back the same numbers, and a background bonus shows', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    const card = name => page.locator('.class-card', { has: page.locator('b', { hasText: new RegExp(`^${name}$`, 'i') }) });
+    await card('Fighter').click();
+    const before = await page.locator('#c-stats').innerText();
+    await card('Mage').click();
+    await card('Thief').click();
+    await card('Fighter').click();
+    expect(await page.locator('#c-stats').innerText()).toBe(before);
+    const conOf = async () => Number((await page.locator('#c-stats > div', { hasText: 'CON' }).innerText()).match(/CON\s+(\d+)/)[1]);
+    await page.locator('.bg-card', { hasText: 'Oathbroken' }).click();
+    const plain = await conOf();
+    await page.locator('.bg-card', { hasText: 'Ashborn' }).click();
+    expect(await conOf()).toBe(plain + 1);
+    expect(errors).toEqual([]);
+  });
+
+  test('a tap on a tip puts it away, and does not act in the dungeon', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
+    await startGame(page, { seed: 'tip-tap' });
+    await clearBoons(page);
+    const tip = page.locator('#tip.show');
+    await expect(tip).toBeVisible();
+    const log0 = await page.evaluate(() => Game.state().logSeq);
+    await tip.click();
+    await expect(page.locator('#tip')).not.toHaveClass(/show/);
+    expect(await page.evaluate(() => Game.state().logSeq)).toBe(log0);
+    expect(errors).toEqual([]);
+  });
+});

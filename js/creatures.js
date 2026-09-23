@@ -669,6 +669,23 @@ const PROPS = {
   },
 };
 
+// A cut-down skeleton: a low, scattered heap on the floor, not a figure, so it
+// never reads as something still standing. The skull sits on top, eyes lit.
+PROPS.bone_heap = () => {
+  const bone = '#ddd5bd', worn = '#a89e84';
+  return [
+    limb(5, 29, 15, 26.5, 0.9, 0.8, worn), ball(4.6, 29.2, 1.3, 1, bone), ball(15.4, 26.4, 1.2, 1, bone),
+    limb(17, 26, 27, 29.5, 0.9, 0.8, worn), ball(16.6, 25.9, 1.2, 1, bone), ball(27.4, 29.6, 1.3, 1, bone),
+    limb(8, 25.5, 23, 30, 0.8, 0.7, bone), ball(7.6, 25.3, 1.1, 0.9, bone), ball(23.4, 30.2, 1.2, 0.9, bone),
+    ...[26.5, 28, 29.5].map((y, i) => limb(11 + i, y, 20 - i, y + 0.5, 0.5, 0.5, bone)),
+    ball(16, 30, 4.2, 1.6, worn),
+    ball(13, 23.6, 3.6, 3.3, bone), ball(13.4, 26.4, 2.2, 1, worn),
+    dots([[11, 23], [12, 23], [14, 23], [15, 23]], '#140e14'),
+    dots([[11, 23], [14, 23]], '#b040ff'),
+    dots([[12, 26], [13, 26], [14, 26]], '#f6f0de'),
+  ];
+};
+
 // Creatures that hover, and so cast no shadow on the floor.
 const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp']);
 

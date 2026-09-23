@@ -1805,7 +1805,7 @@ await test('a monster winds up before it strikes, and the blow comes a moment la
   }
   if (!sawWindup) return 'the goblin struck without winding up';
   if (firstBlowAt === null) return 'the goblin never struck';
-  return (firstBlowAt >= 300 && firstBlowAt <= 500) || `the blow landed ${firstBlowAt}ms after the wind-up began`;
+  return (firstBlowAt >= 300 && firstBlowAt <= 700) || `the blow landed ${firstBlowAt}ms after the wind-up began`;
 });
 
 await test('stepping out of reach during the wind-up makes the blow miss', async () => {
@@ -1968,7 +1968,7 @@ await test('a group draws back as one: a full warning, then every member\'s blow
   if (!m.windup) return 'the trio struck without drawing back';
   if (m.windup.until - m.windup.at < 400) return `a trio's warning lasted only ${m.windup.until - m.windup.at}ms`;
   const mark = markLog(G);
-  for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);
+  for (let i = 0; i < 56; i++) Game.update(G.t + 25, 25);
   const blows = linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
   return blows === 3 || `the volley landed ${blows} blows, not three`;
 });
@@ -2330,7 +2330,7 @@ await test('a dark acolyte chants to mend the wounded, and a blow breaks the cha
   const G2 = c2.Game.state();
   c2.Game.player().hp = 9999;
   c2.Game.update(G2.t + 25, 25);
-  run(c2.Game, G2, 1200);
+  run(c2.Game, G2, 2000);
   return (m2.hp > 20 && hp1 < 20) || `unbroken it reached ${m2.hp}; broken, ${hp1}`;
 });
 
@@ -2368,7 +2368,7 @@ await test('the bestiary counts each monster once when met, and says so the firs
   for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);
   if (!m.awake) return 'the goblin never woke';
   const said = linesSince(G, mark);
-  if (!said.some(l => /New in your bestiary: the Goblin/.test(l))) return `said: ${said.join(' | ')}`;
+  if (!said.some(l => /Bestiary, Goblin: new entry/.test(l))) return `said: ${said.join(' | ')}`;
   if (Game.bestiary().goblin.met !== 1) return `met counted ${Game.bestiary().goblin.met} for one goblin`;
   // the same goblin again, asleep and woken, is not a new meeting; another is
   m.awake = false;
@@ -2378,7 +2378,7 @@ await test('the bestiary counts each monster once when met, and says so the firs
   const m2 = markLog(G);
   for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);
   if (Game.bestiary().goblin.met !== 2) return `a second goblin left met at ${Game.bestiary().goblin.met}`;
-  return !linesSince(G, m2).some(l => /New in your bestiary/.test(l)) || 'the second goblin was announced as new';
+  return !linesSince(G, m2).some(l => /new entry/.test(l)) || 'the second goblin was announced as new';
 });
 
 await test('kills fill the bestiary in: its measure at one, its trick at three, the answer at five', async () => {
@@ -2389,7 +2389,7 @@ await test('kills fill the bestiary in: its measure at one, its trick at three, 
   const seen = [];
   for (let k = 1; k <= 5; k++) {
     const m = beside(ctx, 'orc', { uid: 500 + k, hp: 1, maxHp: 1, nextAct: 1e12 });
-    G.t = p.nextAttack; Game.input('attack');
+    for (let i = 0; i < 6 && L.monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }   // a natural 1 still misses
     if (L.monsters.includes(m)) return `orc ${k} survived`;
     const r = Game.bestiary().orc;
     seen.push(`${r.kills}:${r.trick ? 't' : '-'}${r.answer ? 'a' : '-'}`);
@@ -2412,7 +2412,7 @@ await test('seeing a trick writes it down, and beating it writes the answer', as
   const r2 = Game.bestiary().ogre;
   if (!r2.answer) return `after dodging it: ${JSON.stringify(r2)}`;
   void p;
-  return linesSince(G, mark).some(l => /how to beat the Ogre's trick/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+  return linesSince(G, mark).some(l => /Bestiary, Ogre: how to beat it/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
 });
 
 await test('the bestiary remembers what killed you, and outlasts the run', async () => {
@@ -2598,6 +2598,59 @@ await test('the lich\'s cold fire does not reach round a wall', async () => {
   run(Game, G, 100);
   if (p.hp < hp0) return `the nova burned through the wall for ${hp0 - p.hp}`;
   return linesSince(G, mark).some(l => /breaks short/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+// ---------- round five playtest ----------
+for (const [id, verb, air] of [['zombie', 'lurches forward', /grabs at the air/], ['ghoul', 'numbing claw', /closes on the air/]]) {
+  await test(`the ${id}'s trick is telegraphed in violet, and a step back makes it miss`, async () => {
+    const ctx = await start('fighter', 'tell-' + id);
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.con = 3;
+    const m = beside(ctx, id, { blows: 2 });
+    const mark = markLog(G);
+    Game.update(G.t + 25, 25);
+    if (!m.windup || !m.windup.move) return `it drew ${JSON.stringify(m.windup)}`;
+    if (!linesSince(G, mark).some(l => l.includes(verb))) return `said: ${linesSince(G, mark).join(' | ')}`;
+    shift(ctx, 'back');
+    run(Game, G, 800);
+    if (p.grabbed || p.held > G.t) return 'the dodged trick still took hold';
+    return linesSince(G, mark).some(l => air.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+  });
+}
+
+await test('the log tells what happened before what the bestiary learned from it', async () => {
+  const ctx = await start('fighter', 'log-order');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.perkHit = 60;
+  const m = ahead(ctx, 'spider', 3);
+  const mark = markLog(G);
+  Game.update(G.t + 25, 25);
+  const said = linesSince(G, mark);
+  const trick = said.findIndex(l => /rears back to spit a web/.test(l)), note = said.findIndex(l => /^Bestiary, Cave Spider/.test(l));
+  if (trick < 0 || note < 0 || note < trick) return `order: ${said.join(' | ')}`;
+  if (said.filter(l => /^Bestiary/.test(l)).length !== 1) return `more than one bestiary line: ${said.join(' | ')}`;
+  // and a kill: destroyed first, then one note
+  const m2 = beside(ctx, 'rat', { uid: 612, hp: 1, maxHp: 1, nextAct: 1e12 });
+  const k = markLog(G);
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  const after = linesSince(G, k);
+  void m; void m2;
+  const dead = after.findIndex(l => /destroyed/.test(l)), n2 = after.findIndex(l => /^Bestiary, Giant Rat/.test(l));
+  return (dead >= 0 && n2 > dead && after.filter(l => /^Bestiary/.test(l)).length === 1) || `order: ${after.join(' | ')}`;
+});
+
+await test('even a quick rat gives a thumb over half a second of warning as it arrives', async () => {
+  const ctx = await start('fighter', 'rat-warning');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 999;
+  const m = ahead(ctx, 'rat', 2);
+  for (let i = 0; i < 60 && !m.windup; i++) Game.update(G.t + 25, 25);
+  if (!m.windup) return 'the rat never drew back';
+  const dur = m.windup.until - m.windup.at;
+  return dur >= 550 || `the rat's first blow gave ${dur}ms of warning`;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

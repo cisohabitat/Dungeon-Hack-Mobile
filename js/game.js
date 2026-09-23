@@ -22,7 +22,7 @@ const Game = (() => {
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
   const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
-               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [] };
+               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1 };
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
@@ -1291,7 +1291,6 @@ const Game = (() => {
     const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
-    meet(m);
     m.flashUntil = realNow + 130;
     floatText(m, dmg, tag === 'crit' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     Sound.play('hit');
@@ -1307,12 +1306,13 @@ const Game = (() => {
         m.risen = true; m.collapsed = G.t + RISE_MS; m.hp = 0;
         m.windup = null; m.volley = null; m.fleeing = false;
         log(`The ${mb.name} clatters into a heap of bones... and the bones begin to twitch. Smash them before it rises!`, 'bad');
-        learn(m.id, 'trick');
+        meet(m, 'trick');
         return;
       }
       killMonster(m, note);
       return;
     }
+    meet(m);                               // still standing: met now, not before its death is told
     const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
@@ -1346,11 +1346,11 @@ const Game = (() => {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     p.kills++;
-    learn(m.id, 'kill');
     // the two halves of a split slime are worth one slime between them
     const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
     p.xp += xp;
     log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp)`, 'good');
+    meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     if (Math.random() < (m.split ? 0.2 : 0.4) || mb.boss || m.elite) {
       const k = key(m.x, m.y);
@@ -1582,36 +1582,40 @@ const Game = (() => {
     }
     return out;
   }
-  /** Note something learned about a kind of monster, and say so when it is new. */
-  function learn(id, what) {
+  /** Note something learned about a kind of monster, and say so when it is new.
+   * `met` also counts a first meeting, so a trick seen at first sight is one line. */
+  function learn(id, what, met) {
     if (!MONSTERS[id]) return;
     const all = bestiary(), name = MONSTERS[id].name, lore = BESTIARY[id] || {};
     const r = all[id] || (all[id] = { met: 0, kills: 0, deaths: 0 });
     const news = [];
-    if (what === 'met') { if (!r.met) news.push(`New in your bestiary: the ${name}.`); r.met++; }
+    if (met && what !== 'met') { if (!r.met) news.push('new entry'); r.met++; }
+    if (what === 'met') { if (!r.met) news.push('new entry'); r.met++; }
     else if (what === 'kill') {
+      if (!r.met) news.push('new entry');
       r.met = Math.max(1, r.met);
       r.kills++;
-      if (r.kills === 1) news.push(`Bestiary: you have the measure of the ${name} now.`);
-      if (r.kills >= TRICK_KILLS && lore.trick && !r.trick) { r.trick = 1; news.push(`Bestiary: you have learned the ${name}'s trick.`); }
-      if (r.kills >= ANSWER_KILLS && lore.answer && !r.answer) { r.answer = 1; news.push(`Bestiary: you have learned how to beat the ${name}'s trick.`); }
+      if (r.kills === 1) news.push('its strength');
+      if (r.kills >= TRICK_KILLS && lore.trick && !r.trick) { r.trick = 1; news.push('its trick'); }
+      if (r.kills >= ANSWER_KILLS && lore.answer && !r.answer) { r.answer = 1; news.push('how to beat it'); }
     }
-    else if (what === 'trick') { if (lore.trick && !r.trick) { r.trick = 1; news.push(`Bestiary: you have seen the ${name}'s trick.`); } }
+    else if (what === 'trick') { if (lore.trick && !r.trick) { r.trick = 1; news.push('its trick'); } }
     else if (what === 'answer') {
-      if (lore.answer && !r.answer) { r.answer = 1; r.trick = 1; news.push(`Bestiary: you have learned how to beat the ${name}'s trick.`); }
+      if (lore.answer && !r.answer) { if (!r.trick) news.push('its trick'); r.answer = 1; r.trick = 1; news.push('how to beat it'); }
     }
     else if (what === 'death') r.deaths++;
     // a trick seen or beaten again is nothing new, and a troll regrows every second
-    if ((what === 'trick' || what === 'answer') && !news.length) return;
+    if ((what === 'trick' || what === 'answer') && !news.length && !met) return;
     try { localStorage.setItem(BESTIARY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
-    if (G && G.status === 'playing') for (const n of news) log(n, 'info');
+    if (news.length && G && G.status === 'playing') log(`Bestiary, ${name}: ${news.join(', ')}.`, 'info');
   }
   /** The first meeting with this particular monster, this run. */
-  function meet(m) {
+  function meet(m, also) {
     if (!G.met) G.met = {};
-    if (G.met[m.uid]) return;
+    const fresh = !G.met[m.uid];
     G.met[m.uid] = 1;
-    learn(m.id, 'met');
+    if (also) learn(m.id, also, fresh);
+    else if (fresh) learn(m.id, 'met');
   }
   function hall() {
     try { return JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { return []; }
@@ -1810,40 +1814,35 @@ const Game = (() => {
       const miss = relativeBearing(m);
       log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
       if (miss && miss.rel !== 0) { fx.hurtFrom = miss.rel; fx.hurtFromUntil = realNow + 700; }
-      return;
+      return false;
     }
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
     if (roll === 20 && !h.mult) dmg *= 2;          // a crushing blow is doubled already
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${note}`, m);
-    if (G.status !== 'playing') return;
-    if (mb.move === 'grab' && !p.grabbed && Math.random() < 0.5) {
-      p.grabbed = { uid: m.uid, until: G.t + 4000, nextTry: 0 };
-      log(`The ${mb.name} grabs hold of you! Pulling free takes strength.`, 'bad');
-      learn(m.id, 'trick');
-    }
-    if (mb.move === 'paralyse' && !(p.held > G.t) && Math.random() < 0.3) {
-      if (d(1, 20) + mod(p.stats.con) >= 12) { log(`The ${mb.name}'s claws numb you, but you shake it off.`); learn(m.id, 'answer'); }
-      else { p.held = G.t + HELD_MS; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); learn(m.id, 'trick'); }
-    }
+    if (G.status !== 'playing') return true;
     if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     // a strong will holds on to itself against the drain
     if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
+    return true;
   }
   // Every blow is telegraphed: a monster winds up, and the blow lands only if
   // you are still in reach when it comes down. Step away, or kill it first.
   // The wind-up is taken out of the gap between blows, not added to it, so a
   // monster strikes as often as it always did; it is capped at most of that
   // gap so fast things and groups keep their pace.
-  const WINDUP_MS = 450;
+  const WINDUP_MS = 600;
   /** Poison lasts longer the deeper the venom: a first-floor needle burns
    * for about ten seconds, the deep ones for the full twenty. */
   const poisonFor = () => ({ until: G.t + Math.min(20000, 6000 + 3500 * G.depth), next: G.t + 2000 });
+  /** How long a blow is drawn back: most of the gap between blows, up to WINDUP_MS. A
+   * rat's used to be 405ms, and seeing it and moving a thumb to Step takes longer. */
+  const windupFor = cycle => Math.round(Math.min(WINDUP_MS, cycle * 0.7));
   /** Draw a blow back: it lands in dur ms, if you are still there. */
   function beginWindup(m, kind, dur) {
-    if (m.pressing) { dur = Math.max(250, Math.round(dur * 0.55)); m.pressing = false; }
+    if (m.pressing) { dur = Math.max(350, Math.round(dur * 0.6)); m.pressing = false; }
     m.windup = { kind, at: G.t, until: G.t + dur };
     m.nextAct = m.windup.until;
     Sound.play('windup');
@@ -1855,7 +1854,7 @@ const Game = (() => {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1100, nova: 1300 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750 };
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
@@ -1897,13 +1896,15 @@ const Game = (() => {
       const t = mendTarget(m);
       if (t) { say = t === m ? `The ${mb.name} begins a dark chant over its own wounds!` : `The ${mb.name} begins a dark chant over the wounded ${mstat(t).name}!`; extra = { target: t.uid }; }
     }
+    else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
+    else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} reaches out with a numbing claw!`;
     else if (mv === 'nova' && novaReaches(m) && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: G.t, until: G.t + SPECIAL_MS[mv], ...extra };
-    meet(m); learn(m.id, 'trick');
     m.nextAct = m.windup.until;
     log(say, 'bad');
+    meet(m, 'trick');
     Sound.play('special');
     return true;
   }
@@ -1944,6 +1945,26 @@ const Game = (() => {
         m.moveReady = G.t + 8000;
         break;
       }
+      case 'grab':
+        if (dist === 1) {
+          if (monsterAttack(m, { verb: 'seizes' }) && G.status === 'playing' && !p.grabbed) {
+            p.grabbed = { uid: m.uid, until: G.t + 4000, nextTry: 0 };
+            log(`The ${mb.name} has hold of you! Pull free: stepping away takes strength.`, 'bad');
+          }
+          G.blowGate = G.t + BLOW_GAP;
+        } else { log(`The ${mb.name} grabs at the air where you stood.`, 'good'); learn(m.id, 'answer'); }
+        m.nextAct = G.t + mb.speed;
+        break;
+      case 'paralyse':
+        if (dist === 1) {
+          if (monsterAttack(m, { verb: 'claws' }) && G.status === 'playing') {
+            if (d(1, 20) + mod(p.stats.con) >= 12) log(`The ${mb.name}'s claws numb you, but you shake it off.`);
+            else { p.held = G.t + HELD_MS; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); }
+          }
+          G.blowGate = G.t + BLOW_GAP;
+        } else { log(`The ${mb.name}'s claw closes on the air where you stood.`, 'good'); learn(m.id, 'answer'); }
+        m.nextAct = G.t + mb.speed;
+        break;
       case 'web':
         if (dist === 1 || hasLineToPlayer(m, 4)) {
           p.webbed = G.t + 2500;
@@ -2153,7 +2174,7 @@ const Game = (() => {
       }
       if (adjacent || shot) {
         const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed;
-        beginWindup(m, adjacent ? 'melee' : 'shot', Math.round(Math.min(WINDUP_MS, cycle * 0.6)));
+        beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
         continue;
       }
       let best = null, bd = di;
@@ -2171,8 +2192,9 @@ const Game = (() => {
         // Stepping up to you, it draws back as it comes, so its first blow
         // lands exactly when it always did: the warning costs a watchful
         // player nothing and gives an unwatchful one nothing either.
-        if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', moveSpeed);
-        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) beginWindup(m, 'shot', moveSpeed);
+        // the first blow of a fight gets the full warning, even from something quick
+        if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', Math.max(moveSpeed, windupFor(mb.speed)));
+        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
       } else m.nextAct = G.t + mb.speed;
     }
   }
@@ -2189,6 +2211,7 @@ const Game = (() => {
     if (!G || G.status !== 'playing') return;
     G.t += dt;
     const p = P();
+    fx.hpFrac = p.hp / p.maxHp;
     updateCam();
     if (queuedAttack && G.t >= p.nextAttack) { queuedAttack = false; attack(); }
     if (queuedMove && !(cam.moving && camProgress() < 0.7)) { const q = queuedMove; queuedMove = null; if (q.at <= G.t && G.t - q.at < 400) input(q.act); }
@@ -2306,9 +2329,9 @@ const Game = (() => {
       // a monster's own trick is marked in violet, so it reads as more than a blow
       const special = !!(m.windup && m.windup.move);
       if (m.collapsed) {
-        // a heap of bones on the floor, its mark filling as it pulls itself together
-        const rising = Math.min(1, Math.max(0.05, 1 - (m.collapsed - G.t) / RISE_MS));
-        sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale * 0.38, yOff: 0, flash: m.flashUntil, tell: rising, special: true });
+        // a heap of bones on the floor, a ring round it filling as it pulls itself together
+        const rising = Math.min(1, Math.max(0.02, 1 - (m.collapsed - G.t) / RISE_MS));
+        sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites.bone_heap || img, scale: mb.scale * 0.95, yOff: 0, flash: m.flashUntil, heap: rising });
         continue;
       }
       if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell, special }); continue; }

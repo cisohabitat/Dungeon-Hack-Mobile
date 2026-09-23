@@ -18,7 +18,7 @@ const UI = (() => {
   // tap lasts 100-200ms, and repeating sooner turned one tap into two turns.
   const HOLD_DELAY = 320;
   let overlay = null;
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null };
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null };
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
@@ -221,27 +221,34 @@ const UI = (() => {
       bgGrid.appendChild(el);
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
-    if (!create.stats) create.stats = Game.rollStats();
+    if (!create.stats) fitStats();
     const st = $('#c-stats');
     st.innerHTML = '';
     for (const k in STAT_NAMES) {
-      const v = create.stats[k];
+      // shown as the hero will have it, background bonus included
+      const boost = create.bg === 'ashborn' && k === 'con' ? 1 : 0;
+      const v = create.stats[k] + boost;
       const m = Game.mod(v);
       const div = document.createElement('div');
       const key = CLASSES[create.cls].primary === k;
       div.innerHTML = `${STAT_NAMES[k].slice(0, 3).toUpperCase()}${key ? ' \u2605' : ''} <span>${v} (${m >= 0 ? '+' : ''}${m})</span>`;
       if (key) { div.className = 'key-stat'; div.title = `Key stat for a ${CLASSES[create.cls].name}`; }
+      if (boost) { div.classList.add('bg-boost'); div.title = `Includes +${boost} from your background, ${BACKGROUNDS[create.bg].name}`; }
       st.appendChild(div);
     }
   }
-  /** The best roll belongs in the class's key stat: a thief with 7 dexterity was a trap. */
+  /** The best roll belongs in the class's key stat: a thief with 7 dexterity was a
+   * trap. Worked out afresh from the roll each time, so trying Mage and going back to
+   * Fighter gives back the Fighter's numbers rather than keeping the Mage's swap. */
   function fitStats() {
-    const st = create.stats, keyStat = CLASSES[create.cls].primary;
+    if (!create.rolled) create.rolled = Game.rollStats();
+    const st = { ...create.rolled }, keyStat = CLASSES[create.cls].primary;
     const best = Object.keys(st).reduce((a, b) => (st[b] > st[a] ? b : a), keyStat);
     [st[keyStat], st[best]] = [st[best], st[keyStat]];
+    create.stats = st;
   }
   function openCreation() {
-    create.stats = Game.rollStats();
+    create.rolled = Game.rollStats();
     fitStats();
     buildCreate();
     showScreen('screen-create');
@@ -254,7 +261,7 @@ const UI = (() => {
     const pool = firstRun ? ['fighter', 'cleric'] : classes;
     create.cls = pool[Math.floor(Math.random() * pool.length)];
     create.bg = pasts[Math.floor(Math.random() * pasts.length)];
-    create.stats = Game.rollStats();
+    create.rolled = Game.rollStats();
     fitStats();
     const NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
     showPrologue({ name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
@@ -342,6 +349,7 @@ const UI = (() => {
     el.innerHTML = TIPS[id];
     el.dataset.tip = id;
     el.classList.add('show');
+    el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
     tipUntil = tipAt + 7000;
     return true;
@@ -355,7 +363,11 @@ const UI = (() => {
     const p = Game.player(), L = Game.level();
     if (showTip('controls')) return;
     if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick')) return;
-    if (L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3) && showTip('monster')) return;
+    const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
+    if (close && showTip('monster')) return;
+    // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
+    // covers the view just when it matters most
+    if (close) return;
     const label = Game.useLabel();
     const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };
     if (byLabel[label] && showTip(byLabel[label])) return;
@@ -520,7 +532,9 @@ const UI = (() => {
     if (b.kind === 'weapon') {
       const d = b.dmg;
       const sp = b.speed * (swiftOf(it) ? 0.85 : 1);
-      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${enchText(it)}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
+      // one figure, enchantment folded in: "1d6+1 +1" read as a typo
+      const add = d[2] + knownE(it);
+      return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
     if (b.kind === 'armor') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight})`;
     if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
@@ -530,7 +544,6 @@ const UI = (() => {
 
   // what the player knows of an enchantment: nothing, while it is hidden
   const knownE = it => (it.h ? 0 : (it.e || 0));
-  const enchText = it => (it.h ? ' ?' : it.e > 0 ? ` +${it.e}` : it.e < 0 ? ` −${-it.e}` : '');
   const swiftOf = it => { const r = Game.relicOf(it); return !!r && r.powers.includes('swift'); };
 
   function shopRow(it, price, label, enabled, onClick, note) {
@@ -558,7 +571,7 @@ const UI = (() => {
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
-    $('#shop-gold').textContent = `${p.gold} gold` + (charm > 0 ? ` · your charm: ${charm}% off` : charm < 0 ? ` · your manner: ${-charm}% dearer` : '');
+    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your charm: ${charm}% off</small>` : charm < 0 ? `<br><small>your manner: ${-charm}% dearer</small>` : '');
     const stock = $('#shop-stock');
     stock.innerHTML = '';
     if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
@@ -723,7 +736,7 @@ const UI = (() => {
     const list = Game.hall();
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)} the ${CLASSES[h.cls] ? CLASSES[h.cls].name : h.cls} ${h.level}<small>${h.won ? 'Claimed the Heart' : 'Fell on level ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -1155,6 +1168,8 @@ const UI = (() => {
     }
     for (const b of $$('[data-open]')) b.addEventListener('click', () => { Sound.unlock(); openOverlay(b.dataset.open); });
     $('#minimap').addEventListener('click', () => openOverlay('map'));
+    // a tip goes at a tap on it, and the tap goes no further
+    $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); });
     $('#log').addEventListener('click', () => openOverlay('log'));
 
     // Tap the view to act, swipe to turn or step.
@@ -1236,7 +1251,7 @@ const UI = (() => {
     for (const t of $$('[data-jtab]')) t.addEventListener('click', () => { journalTab = t.dataset.jtab; renderJournal(); });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
-    $('#c-reroll').addEventListener('click', () => { create.stats = Game.rollStats(); fitStats(); buildCreate(); });
+    $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);

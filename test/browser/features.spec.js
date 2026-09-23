@@ -399,8 +399,10 @@ test.describe('dungeon features', () => {
     await startGame(page, { seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
-    // it never catches a tap meant for the view
-    expect(await page.evaluate(() => getComputedStyle(document.getElementById('tip')).pointerEvents)).toBe('none');
+    // a tap on it puts it away (and goes no further: see the round five tests),
+    // and it keeps to the bottom of the view, clear of the middle where taps act
+    const box = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return { tipTop: t.top, mid: v.top + v.height / 2 }; });
+    expect(box.tipTop).toBeGreaterThan(box.mid);
     const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
     expect(seen).toContain('controls');
     // a second run on this device does not repeat it. Leaving the page saves

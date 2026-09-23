@@ -102,8 +102,13 @@ const Assets = (() => {
       cx.fillRect(0, 0, w, h);
       return c;
     };
+    // where the drawing starts, as a fraction of the frame: a rat fills only
+    // the bottom of its frame, and a mark over the frame floated far above it
+    let firstRow = 0;
+    while (firstRow < ah && !solid.subarray(firstRow * aw, firstRow * aw + aw).some(v => v)) firstRow++;
+    const top = firstRow / h;
     const make = () => ({
-      w, h,
+      w, h, top,
       levels: SHADES.map(a => (a === 0 ? base : tintOf('#000', a))),
       flash: tintOf('#fff', 0.85),
       url: base.toDataURL(),
@@ -122,7 +127,7 @@ const Assets = (() => {
         if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
         return c;
       };
-      sprite.elite[e.prefix] = { w, h, levels: SHADES.map(shade), flash: sprite.flash, url: washed.toDataURL() };
+      sprite.elite[e.prefix] = { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, url: washed.toDataURL() };
     }
     return sprite;
   }
