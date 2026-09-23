@@ -3017,21 +3017,29 @@ await test('a riposte lands with a bonus, and the log says so', async () => {
 });
 
 await test('Shadow Step still holds a moment after the sidestep: a goblin takes a second to come back into reach', async () => {
-  const ctx = await start('thief', 'shadow-late');
-  const { Game, Dungeon } = ctx;
-  const p = Game.player(), G = Game.state(), L = Game.level();
-  talent(ctx, 'shadow_step'); p.perkHit = 60;
-  const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
-  const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
-  L.tiles[(p.y + sy) * L.w + p.x + sx] = Dungeon.T.FLOOR;
-  G.t = p.nextAttack;
-  Game.input('strafeR');
-  const [dx, dy] = Dungeon.DIRS[p.dir];
-  m.x = p.x + dx; m.y = p.y + dy;
-  G.t += 1800;                                        // the goblin's step back in
-  const mark = markLog(G);
-  p.nextAttack = G.t; Game.input('attack');
-  return linesSince(G, mark).some(l => /from the shadows/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+  // a natural 20 is told as a mighty blow instead of a strike from the
+  // shadows, so a run that rolls one is tried again
+  let said = '';
+  for (let tries = 0; tries < 4; tries++) {
+    const ctx = await start('thief', 'shadow-late' + tries);
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    talent(ctx, 'shadow_step'); p.perkHit = 60;
+    const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
+    const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    L.tiles[(p.y + sy) * L.w + p.x + sx] = Dungeon.T.FLOOR;
+    G.t = p.nextAttack;
+    Game.input('strafeR');
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    m.x = p.x + dx; m.y = p.y + dy;
+    G.t += 1800;                                        // the goblin's step back in
+    const mark = markLog(G);
+    p.nextAttack = G.t; Game.input('attack');
+    if (linesSince(G, mark).some(l => /from the shadows/.test(l))) return true;
+    said = linesSince(G, mark).join(' | ');
+    if (!/mighty blow/.test(said)) break;
+  }
+  return `said: ${said}`;
 });
 
 await test('a level-up remembers what it gave, for the choice screen', async () => {
