@@ -715,11 +715,25 @@ function ramp(hex) {
   rampCache.set(hex, out);
   return out;
 }
-function toneFor(nx, ny, nz) {
+const BANDS = [0.3, 0.45, 0.58, 0.76, 0.9];
+// a 4x4 ordered-dither matrix: where two tones meet, the upper edge of the
+// darker band is stippled with the lighter one, so a curve grades smoothly
+const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
+/** The ramp step for a surface normal; with a pixel given, blended across band edges. */
+function toneFor(nx, ny, nz, px, py) {
   const n = Math.hypot(nx, ny, nz) || 1;
   const v = 0.3 + 0.7 * Math.max(0, (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / n);
-  return v < 0.3 ? 0 : v < 0.45 ? 1 : v < 0.58 ? 2 : v < 0.76 ? 3 : v < 0.9 ? 4 : 5;
+  let i = 0;
+  while (i < BANDS.length && v >= BANDS[i]) i++;
+  if (px == null || i >= BANDS.length) return i;
+  const lo = i ? BANDS[i - 1] : 0.3, hi = BANDS[i], f = (v - lo) / ((hi - lo) || 1);
+  const soft = 0.4;
+  return f > 1 - soft && BAYER[(py & 3) * 4 + (px & 3)] < (f - (1 - soft)) / soft ? i + 1 : i;
 }
+/** Strong, bright colours in a creature's dots are its eyes (teeth and bone are pale, not saturated). */
+function isEyeColour(hex) { const [r, g, b] = hexToRgb(hex); return Math.max(r, g, b) - Math.min(r, g, b) > 110 && Math.max(r, g, b) > 170; }
+/** A steady value in [0, 1) for a pixel of a part: grain that never flickers. */
+const grain = (x, y, i) => { const s = Math.sin(x * 127.1 + y * 311.7 + i * 74.7) * 43758.5453; return s - Math.floor(s); };
 function insidePoly(pts, x, y) {
   let inside = false;
   for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
@@ -728,8 +742,14 @@ function insidePoly(pts, x, y) {
   }
   return inside;
 }
-/** @returns {{aw: number, ah: number, color: (string|null)[]}} */
-function paintParts(parts, size = 32) {
+/**
+ * @param {number} [scale]  how many pixels to paint for each unit of the 32-grid
+ *   the parts are drawn on: 2 paints a monster at 64x64, with smoother curves,
+ *   blended shading and a fine grain on skin and cloth, from the same parts.
+ * @returns {{aw: number, ah: number, color: (string|null)[]}}
+ */
+function paintParts(parts, grid = 32, scale = 1) {
+  const size = grid * scale;
   const N = size * size;
   const col = new Array(N).fill(null), tone = new Int8Array(N).fill(-1), owner = new Int16Array(N).fill(-1);
   const base = new Array(N).fill(null);
@@ -739,14 +759,24 @@ function paintParts(parts, size = 32) {
     owner[k] = i; base[k] = exact ? null : b; tone[k] = exact ? -1 : t; col[k] = exact ? b : null;
   };
   parts.forEach((p, i) => {
-    if (p.k === 'dots') { for (const [x, y] of p.pts) put(Math.round(x), Math.round(y), i, p.c, 0, true); return; }
+    // eyes, teeth and glints stay whole pixels of the grid, crisp at any scale
+    if (p.k === 'dots') {
+      // painted finely, a coloured eye catches a glint in its upper corner
+      const glint = scale > 1 && isEyeColour(p.c) ? mixTo(hexToRgb(p.c), LIGHT_CREAM, 0.75) : null;
+      for (const [x, y] of p.pts) {
+        const gx = Math.round(x) * scale, gy = Math.round(y) * scale;
+        for (let a = 0; a < scale; a++) for (let b = 0; b < scale; b++) put(gx + a, gy + b, i, glint && a === 0 && b === 0 ? glint : p.c, 0, true);
+      }
+      return;
+    }
     if (p.k === 'line') {
-      let x0 = Math.round(p.x1), y0 = Math.round(p.y1);
-      const x1 = Math.round(p.x2), y1 = Math.round(p.y2);
+      // a line keeps its width in the grid, so a blade reads as far off as before
+      let x0 = Math.round(p.x1) * scale, y0 = Math.round(p.y1) * scale;
+      const x1 = Math.round(p.x2) * scale, y1 = Math.round(p.y2) * scale;
       const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
       let err = dx + dy;
       for (;;) {
-        put(x0, y0, i, p.c, 0, true);
+        for (let a = 0; a < scale; a++) for (let b = 0; b < scale; b++) put(x0 + a, y0 + b, i, p.c, 0, true);
         if (x0 === x1 && y0 === y1) break;
         const e2 = 2 * err;
         if (e2 >= dy) { err += dy; x0 += sx; }
@@ -765,14 +795,28 @@ function paintParts(parts, size = 32) {
       const xs = p.pts.map(q => q[0]), ys = p.pts.map(q => q[1]);
       x0 = Math.min(...xs); x1 = Math.max(...xs); y0 = Math.min(...ys); y1 = Math.max(...ys);
     }
-    const bx0 = Math.max(0, Math.floor(x0) - 1), bx1 = Math.min(size - 1, Math.ceil(x1) + 1);
-    const by0 = Math.max(0, Math.floor(y0) - 1), by1 = Math.min(size - 1, Math.ceil(y1) + 1);
+    const bx0 = Math.max(0, Math.floor(x0 * scale) - 1), bx1 = Math.min(size - 1, Math.ceil(x1 * scale) + 1);
+    const by0 = Math.max(0, Math.floor(y0 * scale) - 1), by1 = Math.min(size - 1, Math.ceil(y1 * scale) + 1);
+    // at scale 1 the tones stay as they always were; finer painting blends them
+    const fine = scale > 1, rough = fine && !p.smooth;
+    const tn = (nx, ny, nz, x, y) => {
+      // cloth is flat enough that blending its bands only reads as mesh
+      let t = fine && p.k !== 'sheet' ? toneFor(nx, ny, nz, x, y) : toneFor(nx, ny, nz);
+      if (rough && t > 0) {
+        if (p.k === 'sheet') {
+          // cloth hangs in folds: a few broad darker runs down it, not speckle
+          const fx = x / scale, fy = y / scale;
+          if (Math.sin(fx * 1.25 + Math.sin(fy * 0.35 + i) * 1.1) > 0.9) t--;
+        } else if (grain(x, y, i) < 0.09) t--;   // a fine grain on skin and fur
+      }
+      return t;
+    };
     for (let y = by0; y <= by1; y++) for (let x = bx0; x <= bx1; x++) {
-      const px = x + 0.5, py = y + 0.5;
+      const px = (x + 0.5) / scale, py = (y + 0.5) / scale;
       if (p.k === 'ball') {
         const nx = (px - p.x) / p.rx, ny = (py - p.y) / p.ry, d2 = nx * nx + ny * ny;
         if (d2 > 1) continue;
-        put(x, y, i, p.c, toneFor(nx, ny, Math.sqrt(1 - d2)));
+        put(x, y, i, p.c, tn(nx, ny, Math.sqrt(1 - d2), x, y));
       } else if (p.k === 'limb') {
         const ax = p.x2 - p.x1, ay = p.y2 - p.y1, L2 = ax * ax + ay * ay || 1;
         const t = Math.max(0, Math.min(1, ((px - p.x1) * ax + (py - p.y1) * ay) / L2));
@@ -780,7 +824,7 @@ function paintParts(parts, size = 32) {
         const ex = px - cx, ey = py - cy, d = Math.hypot(ex, ey);
         if (d > Math.max(r, 0.55)) continue;
         const u = Math.min(1, d / Math.max(r, 0.55));
-        put(x, y, i, p.c, toneFor(ex / (d || 1) * u, ey / (d || 1) * u, Math.sqrt(1 - u * u)));
+        put(x, y, i, p.c, tn(ex / (d || 1) * u, ey / (d || 1) * u, Math.sqrt(1 - u * u), x, y));
       } else if (p.k === 'sheet') {
         if (!insidePoly(p.pts, px, py)) continue;
         let nx = 0, ny = -0.2, nz = 1;
@@ -790,7 +834,7 @@ function paintParts(parts, size = 32) {
           nx = ((px - lo) / ((hi - lo) || 1) * 2 - 1) * 0.85 * p.curve;
           nz = Math.sqrt(Math.max(0.05, 1 - nx * nx - ny * ny));
         }
-        put(x, y, i, p.c, toneFor(nx, ny, nz));
+        put(x, y, i, p.c, tn(nx, ny, nz, x, y));
       }
     }
   });
@@ -808,6 +852,16 @@ function paintParts(parts, size = 32) {
         shadeK[k] = Math.max(0, tone[k] - (base[q] === base[k] ? 1 : 2));
         break;
       }
+    }
+  }
+  // Painted finely, an edge that faces the light and has nothing beyond it
+  // catches a thin rim of light, so the silhouette reads against a dark wall.
+  if (scale > 1) {
+    for (let y = 1; y < size; y++) for (let x = 1; x < size; x++) {
+      const k = y * size + x;
+      if (tone[k] < 0 || shadeK[k] >= 5) continue;
+      const up = owner[k - size] < 0 && col[k - size] == null, left = owner[k - 1] < 0 && col[k - 1] == null;
+      if (up || left) shadeK[k] = Math.min(5, shadeK[k] + 1);
     }
   }
   for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k])[shadeK[k]];

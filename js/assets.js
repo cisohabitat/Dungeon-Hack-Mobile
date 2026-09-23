@@ -30,7 +30,7 @@ const Assets = (() => {
   // added here so every sprite reads the same way against a dark wall.
   function makeSprite(def) {
     // a creature built from parts arrives already lit; the old grids are flat
-    const painted = def.parts ? paintParts(def.parts) : null;
+    const painted = def.parts ? paintParts(def.parts, 32, def.fine ? 2 : 1) : null;
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     const w = aw + 2, h = ah + 2;               // room for the outline
     const art = canvas(aw, ah);
@@ -397,8 +397,10 @@ const Assets = (() => {
       if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a' });
     }
     // creatures built from parts replace their old grids
-    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true });
-    for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1 });
+    // creatures and props stand in the world, close enough to fill the view: they
+    // are painted twice as fine as the items in the pack
+    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
+    for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 
