@@ -34,6 +34,7 @@
       <div class="menu">
         <button id="btn-new" class="big primary"><b>New Game</b><small>Roll a hero and pick a seed</small></button>
         <button id="btn-continue" class="big"><b>Continue</b><small id="save-summary">No saved game</small></button>
+        <button id="btn-quick" class="ghost">Quick Start: a random hero, straight in</button>
         <div class="menu-row">
           <button id="btn-hall" class="ghost">Hall of Heroes</button>
           <button id="btn-help" class="ghost">How to Play</button>
@@ -167,6 +168,7 @@
         </div>
         <div class="view-wrap">
           <canvas id="view" width="320" height="200"></canvas>
+          <div id="tip" class="tip" role="status" aria-live="polite"></div>
           <div id="hud-status" class="hud-status"></div>
           <canvas id="minimap" width="90" height="90" title="Open map"></canvas>
         </div>
@@ -265,6 +267,8 @@
         <button id="m-load" class="big">Load Game</button>
         <button id="m-sound" class="big">Sound: On</button>
         <button id="m-rolls" class="big">Combat rolls: On</button>
+        <button id="m-text" class="big">Text size: Normal</button>
+        <button id="m-tips" class="big">Tips: On</button>
         <button id="m-help" class="big ghost">How to Play</button>
         <button id="m-quit" class="big danger">Quit to Title</button>
         <p class="dim small" id="m-seed"></p>

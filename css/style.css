@@ -142,12 +142,12 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud-name { flex: 0 0 auto; max-width: 32%; display: flex; flex-direction: column; line-height: 1.15; }
 .hud-name span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .hud-bars { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
-.bar { position: relative; height: 15px; background: #0a0910; border: 1px solid #2c2838; border-radius: 3px; overflow: hidden; }
+.bar { position: relative; height: calc(0.72rem + 4px); background: #0a0910; border: 1px solid #2c2838; border-radius: 3px; overflow: hidden; }
 .bar .fill { position: absolute; inset: 0; width: 100%; transition: width 0.2s; }
 .bar.hp .fill { background: linear-gradient(#e05a50, #8a2a24); }
 .bar.sp .fill { background: linear-gradient(#6a9cf0, #2c4a90); }
 .bar.food .fill { background: linear-gradient(#c8a050, #7a5a20); }
-.bar span { position: absolute; inset: 0; font-size: 11px; line-height: 13px; text-align: center; color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000; font-family: monospace; }
+.bar span { position: absolute; inset: 0; font-size: 0.72rem; line-height: calc(0.72rem + 2px); text-align: center; color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000; font-family: monospace; }
 .hud-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; font-size: 0.8rem; line-height: 1.2; }
 #hud-gold { color: var(--gold); }
 #hud-depth.escaping { color: #ffcf5a; }
@@ -221,7 +221,7 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .slot img { width: 32px; height: 32px; }
 .slot.filled { color: var(--text); }
 .slot.sel { border-color: var(--gold); background: #2a2418; }
-.slot .qty { position: absolute; right: 3px; bottom: 2px; font-size: 0.7rem; color: var(--gold); font-family: monospace; }
+.slot .qty { position: absolute; right: 4px; top: 2px; font-size: 0.7rem; color: var(--gold); font-family: monospace; }
 .slot .lbl { position: absolute; left: 4px; top: 2px; font-size: 0.6rem; color: var(--dim); letter-spacing: 0.05em; text-transform: uppercase; }
 /* gear of unknown quality, and gear known to be cursed */
 .slot .unk { position: absolute; right: 4px; top: 2px; font-size: 0.75rem; color: #9ad; font-family: monospace; font-weight: bold; }
@@ -330,3 +330,14 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* the spell the Cast button will throw */
 .spell.ready { border-color: var(--gold); }
 .spell .on-cast { display: block; font-style: normal; font-size: 0.72rem; color: var(--gold); }
+
+/* narrow phones: two stat columns, so a score and its value stay on one line */
+@media (max-width: 380px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+/* a one-time tip over the view: never in the way of a tap, gone on its own */
+.tip { position: absolute; left: 8px; top: 8px; max-width: calc(100% - 120px); padding: 8px 10px; border-radius: 8px;
+  background: rgba(14, 12, 22, 0.92); border: 1px solid var(--accent); color: #f2e6c8; font-size: 0.85rem; line-height: 1.35;
+  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 3; }
+.tip.show { opacity: 1; transform: none; }
+.tip b { color: var(--gold); }

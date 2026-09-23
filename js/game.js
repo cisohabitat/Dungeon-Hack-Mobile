@@ -14,7 +14,6 @@ const Game = (() => {
   const INV_MAX = 20;
   const SAVE_KEY = 'deepdelve.save';
   const HALL_KEY = 'deepdelve.hall';
-  const TIPS_KEY = 'deepdelve.tips';
   const MOVE_MS = 220;
   const TURN_MS = 200;
 
@@ -724,10 +723,7 @@ const Game = (() => {
     }
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
-    // the first few runs get the controls in one line: nobody reads the help first
-    let runs = 0;
-    try { runs = Number(localStorage.getItem(TIPS_KEY) || 0); localStorage.setItem(TIPS_KEY, String(runs + 1)); } catch (e) { /* private browsing */ }
-    if (runs < 3) log('Arrows or a swipe move you. \u2694 Attack strikes what is in front; \u270b Use opens, takes and talks. Tap this log to read it back.', 'info');
+
     return G;
   }
 

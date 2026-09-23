@@ -242,10 +242,22 @@ const UI = (() => {
     buildCreate();
     showScreen('screen-create');
   }
+  /** A random hero with sensible numbers, straight to the prologue. */
+  function quickStart() {
+    const classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS);
+    create.cls = classes[Math.floor(Math.random() * classes.length)];
+    create.bg = pasts[Math.floor(Math.random() * pasts.length)];
+    create.stats = Game.rollStats();
+    fitStats();
+    showPrologue({ name: '', cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
+      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } });
+  }
+  let quickPending = false;
   /** A run in progress is a real investment, so never discard one silently. */
-  function startNewGameFlow() {
+  function startNewGameFlow(quick) {
+    quickPending = !!quick;
     const saved = Game.saveSummary();
-    if (!saved) { openCreation(); return; }
+    if (!saved) { if (quick) quickStart(); else openCreation(); return; }
     $('#confirm-who').textContent =
       `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.`;
     showScreen('screen-confirm');
@@ -292,9 +304,59 @@ const UI = (() => {
     refreshLog(); refreshHud();
   }
 
+  // ---------- first-moment tips ----------
+  // One short tip the first time each thing happens, on this device: shown
+  // over the view where the eye already is, never catching a tap, and gone
+  // after a few seconds. The menu turns them off, or back on from the start.
+  const TIPS_SEEN = 'deepdelve.tipsSeen', TIPS_OFF = 'deepdelve.tipsOff';
+  const TIPS = {
+    controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
+    monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
+    take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
+    stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
+    examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
+    trade: 'A trader. Tap <b>Trade</b> to buy, sell and ask about services.',
+    unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
+    hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
+  };
+  let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
+  const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
+  function tipsOn() { return store(TIPS_OFF) !== '1'; }
+  function showTip(id) {
+    if (!tipsOn()) return false;
+    if (!tipsSeen) { try { tipsSeen = JSON.parse(store(TIPS_SEEN) || '[]'); } catch (e) { tipsSeen = []; } }
+    if (tipsSeen.includes(id)) return false;
+    const el = $('#tip');
+    if (!el || performance.now() < tipUntil) return false;      // one at a time
+    tipsSeen.push(id);
+    store(TIPS_SEEN, JSON.stringify(tipsSeen));
+    el.innerHTML = TIPS[id];
+    el.dataset.tip = id;
+    el.classList.add('show');
+    tipAt = performance.now();
+    tipUntil = tipAt + 7000;
+    return true;
+  }
+  function checkTips() {
+    const now = performance.now();
+    const el = $('#tip');
+    if (el && el.classList.contains('show') && now > tipUntil) el.classList.remove('show');
+    if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
+    tipCheckAt = now + 250;
+    const p = Game.player(), L = Game.level();
+    if (showTip('controls')) return;
+    if (L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3) && showTip('monster')) return;
+    const label = Game.useLabel();
+    const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };
+    if (byLabel[label] && showTip(byLabel[label])) return;
+    if ([...p.inv, ...Object.values(p.eq)].some(it => it && it.h) && showTip('unknown')) return;
+    if (p.hp < p.maxHp * 0.4 && showTip('hurt')) return;
+  }
+
   // ---------- HUD ----------
   function refreshHud() {
     refreshUse();
+    checkTips();
     const G = Game.state();
     if (!G) return;
     const p = G.player;
@@ -960,11 +1022,21 @@ const UI = (() => {
     $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>`;
   }
 
+  // Text size scales the whole interface from the root, so every rem follows.
+  const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 18.5 }];
+  function textSize() { const v = Number(store('deepdelve.textSize')); return v >= 0 && v < TEXT_SIZES.length && store('deepdelve.textSize') !== null ? v : 1; }
+  function setTextSize(i) {
+    store('deepdelve.textSize', String(i));
+    document.documentElement.style.fontSize = TEXT_SIZES[i].px + 'px';
+    fitView();
+  }
   function renderMenu() {
     const G = Game.state();
     $('#m-load').disabled = !Game.hasSave();
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
+    $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
+    $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-seed').textContent = `Seed "${G.seed}" · ${G.opts.levels} levels · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
@@ -1037,6 +1109,9 @@ const UI = (() => {
     $('#m-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#m-sound').addEventListener('click', () => { Sound.toggle(); renderMenu(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
+    $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
+    // turning tips back on starts them over, for a player who wants the tour again
+    $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } renderMenu(); });
     $('#m-help').addEventListener('click', () => { closeOverlay(); showScreen('screen-help'); });
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 
@@ -1096,9 +1171,11 @@ const UI = (() => {
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#end-new').addEventListener('click', () => startNewGameFlow());
     $('#confirm-keep').addEventListener('click', () => { if (Game.load()) startPlaying(); });
-    $('#confirm-replace').addEventListener('click', () => openCreation());
+    $('#confirm-replace').addEventListener('click', () => { if (quickPending) quickStart(); else openCreation(); });
+    $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(true); });
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));
     bindControls();
+    setTextSize(textSize());
     refreshTitle();
     window.addEventListener('resize', () => { fitView(); if (overlay === 'map') renderMap(); });
   }

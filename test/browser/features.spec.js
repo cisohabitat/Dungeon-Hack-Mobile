@@ -368,4 +368,57 @@ test.describe('dungeon features', () => {
     expect(after.destroyed, 'each of the three should be logged as destroyed').toBe(3);
     expect(errors).toEqual([]);
   });
+
+  test('Quick Start puts a fitting random hero in the dungeon in two taps', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-quick');
+    await expect(page.locator('#screen-prologue')).toBeVisible();
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    const hero = await page.evaluate(() => { const p = Game.player(), key = CLASSES[p.cls].primary; return { cls: p.cls, key: p.stats[key], best: Math.max(...Object.values(p.stats)) - (p.bg === 'ashborn' && key === 'con' ? 1 : 0), levels: Game.state().opts.levels }; });
+    expect(Object.keys(await page.evaluate(() => CLASSES))).toContain(hero.cls);
+    expect(hero.key, 'the class key stat should hold the best roll').toBeGreaterThanOrEqual(hero.best);
+    expect(hero.levels).toBe(8);
+    expect(errors).toEqual([]);
+  });
+
+  test('text size changes the whole interface and is remembered', async ({ page }) => {
+    await startGame(page, { seed: 'text-size' });
+    const size = () => page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize));
+    expect(await size()).toBe(16);
+    await page.click('[data-open="menu"]');
+    await page.click('#m-text');
+    await expect(page.locator('#m-text')).toHaveText('Text size: Large');
+    expect(await size()).toBeGreaterThan(16);
+    await page.reload();
+    expect(await size(), 'the choice should survive a reload').toBeGreaterThan(16);
+  });
+
+  test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
+    await startGame(page, { seed: 'tips' });
+    await expect(page.locator('#tip')).toHaveClass(/show/);
+    await expect(page.locator('#tip')).toContainText('Move with the arrows');
+    // it never catches a tap meant for the view
+    expect(await page.evaluate(() => getComputedStyle(document.getElementById('tip')).pointerEvents)).toBe('none');
+    const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
+    expect(seen).toContain('controls');
+    // a second run on this device does not repeat it. Leaving the page saves
+    // the run, so clear that save on the title screen, where New Game then
+    // goes straight to creation rather than asking to replace it.
+    await page.goto('/');
+    await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
+    await page.click('#btn-new');
+    await page.fill('#c-seed', 'tips-2');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    await page.waitForTimeout(600);
+    await expect(page.locator('#tip')).not.toContainText('Move with the arrows');
+    // turned off, nothing shows even for something new
+    await page.click('[data-open="menu"]');
+    await page.click('#m-tips');
+    await expect(page.locator('#m-tips')).toHaveText('Tips: Off');
+    expect(await page.evaluate(() => localStorage.getItem('deepdelve.tipsOff'))).toBe('1');
+  });
 });
