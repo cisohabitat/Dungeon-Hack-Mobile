@@ -11,6 +11,11 @@ const TICK = 300;   // ms of game time per bot action, roughly a brisk human pac
 const DUAL = process.env.DUAL === '1';
 const SMART = process.env.SMART !== '0';
 const ENC = process.env.ENC !== '0';
+// EXPLORE=0.8 sweeps each floor before taking the stairs: every reachable item
+// pile, and walking until that share of the floor has been in view. The plain
+// bot heads straight down, which is not how people play, and a class balance
+// tuned only against it rewards fragility that thorough play then punishes.
+const EXPLORE = parseFloat(process.env.EXPLORE || '0');
 
 function run(ctx, cls, seed, opts, bg) {
   const { Rng, Dice } = ctx;
@@ -342,6 +347,36 @@ function play(ctx, cls, seed, opts, bg) {
           p.dir = Dungeon.DIRS.findIndex(([dx, dy]) => p.x + dx === enc.x && p.y + dy === enc.y);
           Game.input('forward');
         } else stepToward(enc.x, enc.y);
+        step();
+        continue;
+      }
+    }
+
+    // --- sweep the floor first when playing thoroughly
+    if (EXPLORE && L.stairsDown && !G.escaping) {
+      const fl = (rec.floors = rec.floors || {})[G.depth] = rec.floors[G.depth] || { seen: new Uint8Array(L.w * L.h), done: new Set(), ticks: 0, open: 0 };
+      const R = 3;
+      for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+        const x = p.x + dx, y = p.y + dy;
+        if (x >= 0 && y >= 0 && x < L.w && y < L.h) fl.seen[y * L.w + x] = 1;
+      }
+      fl.done.add(`${p.x},${p.y}`);
+      const reach = field(L, p.x, p.y, false);
+      if (!fl.open) for (let i = 0; i < reach.length; i++) if (reach[i] >= 0) fl.open++;
+      let seen = 0;
+      for (let i = 0; i < reach.length; i++) if (reach[i] >= 0 && fl.seen[i]) seen++;
+      let goal = -1, gd = Infinity;
+      for (const k in L.items) {
+        if (!L.items[k].length || fl.done.has(k)) continue;
+        const [x, y] = k.split(',').map(Number), d = reach[y * L.w + x];
+        if (d > 0 && d < gd) { gd = d; goal = y * L.w + x; }
+      }
+      if (goal < 0 && seen < fl.open * EXPLORE) {
+        for (let i = 0; i < reach.length; i++) if (reach[i] > 0 && !fl.seen[i] && reach[i] < gd) { gd = reach[i]; goal = i; }
+      }
+      // a budget, so a floor that will not give up its last corner cannot hold the run
+      if (goal >= 0 && ++fl.ticks < 4000) {
+        stepToward(goal % L.w, (goal / L.w) | 0);
         step();
         continue;
       }
