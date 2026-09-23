@@ -245,11 +245,15 @@ const UI = (() => {
   /** A random hero with sensible numbers, straight to the prologue. */
   function quickStart() {
     const classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS);
-    create.cls = classes[Math.floor(Math.random() * classes.length)];
+    // someone's very first run gets a class that forgives mistakes
+    const firstRun = !Game.hall().length;
+    const pool = firstRun ? ['fighter', 'cleric'] : classes;
+    create.cls = pool[Math.floor(Math.random() * pool.length)];
     create.bg = pasts[Math.floor(Math.random() * pasts.length)];
     create.stats = Game.rollStats();
     fitStats();
-    showPrologue({ name: '', cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
+    const NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
+    showPrologue({ name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
       opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } });
   }
   let quickPending = false;
@@ -410,9 +414,12 @@ const UI = (() => {
     castSig = label;
     const btn = document.querySelector('[data-tap="cast"]');
     if (!btn) return;
-    btn.firstChild.nodeValue = label === 'Quaff' ? '\u2697' : '\u2726';
-    btn.querySelector('small').textContent = label;
-    btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : `Cast ${label}`);
+    // the spell-less quaff instead, and the button dims with nothing known to drink
+    const quaffs = label.startsWith('Quaff');
+    btn.firstChild.nodeValue = quaffs ? '\u2697' : '\u2726';
+    btn.classList.toggle('empty', label === 'Quaff (none)');
+    btn.querySelector('small').textContent = quaffs ? 'Quaff' : label;
+    btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : quaffs ? 'Quaff: no known healing draught' : `Cast ${label}`);
   }
   function refreshLog() {
     const G = Game.state();
@@ -814,7 +821,7 @@ const UI = (() => {
     const p = Game.player();
     if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') return '';
     const cur = p.eq[b.kind];
-    if (cur === it) return '';
+    if (cur === it || Game.canEquip(it)) return '';
     const fmt = n => (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
     let label, delta;
     if (b.kind === 'weapon') {
@@ -1024,7 +1031,7 @@ const UI = (() => {
   }
 
   // Text size scales the whole interface from the root, so every rem follows.
-  const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 18.5 }];
+  const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 20 }];
   function textSize() { const raw = store('deepdelve.textSize'), v = Number(raw); return raw !== null && Number.isInteger(v) && v >= 0 && v < TEXT_SIZES.length ? v : 1; }
   function setTextSize(i) {
     store('deepdelve.textSize', String(i));
@@ -1055,6 +1062,7 @@ const UI = (() => {
         : `${p.name} the ${CLASSES[p.cls].name} fell on level ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
+    rows.unshift(['Score', Game.score(p, G.depth, won)]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
     const cause = $('#end-cause');

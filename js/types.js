@@ -66,6 +66,7 @@
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {{kind: string, at: number, until: number}|null} [windup]  a blow being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
+ * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first
  * @property {boolean} [fleeing]
  * @property {number} [lostAt]    when it last lost your trail
  * @property {number} [nextRegen]

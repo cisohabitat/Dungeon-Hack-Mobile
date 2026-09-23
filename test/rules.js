@@ -1957,6 +1957,102 @@ await test('a monster made to miss presses in: its next blow is drawn back faste
   return (second < first && second >= 250) || `after a miss the wind-up went from ${first}ms to ${second}ms`;
 });
 
+// ---------- round four playtest ----------
+await test('a group draws back as one: a full warning, then every member\'s blow in a volley', async () => {
+  const ctx = await start('fighter', 'volley');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = groupAhead(ctx, 'goblin', 3, 999);
+  Game.update(G.t + 25, 25);
+  if (!m.windup) return 'the trio struck without drawing back';
+  if (m.windup.until - m.windup.at < 400) return `a trio's warning lasted only ${m.windup.until - m.windup.at}ms`;
+  const mark = markLog(G);
+  for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);
+  const blows = linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
+  return blows === 3 || `the volley landed ${blows} blows, not three`;
+});
+
+await test('stepping back from a group\'s wind-up dodges the whole volley', async () => {
+  const ctx = await start('fighter', 'volley-dodge');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const hp0 = p.hp;
+  const m = groupAhead(ctx, 'goblin', 3, 999);
+  Game.update(G.t + 25, 25);
+  if (!m.windup) return 'no wind-up to dodge';
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y - dy) * L.w + p.x - dx] = Dungeon.T.FLOOR;
+  p.x -= dx; p.y -= dy;
+  for (let i = 0; i < 24; i++) Game.update(G.t + 25, 25);
+  return p.hp === hp0 || `stepping away from three goblins still cost ${hp0 - p.hp} hit points`;
+});
+
+await test('stepping away mid-volley spares you the blows still to come', async () => {
+  const ctx = await start('fighter', 'volley-mid');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 9999;
+  const m = groupAhead(ctx, 'goblin', 3, 999);
+  const mark = markLog(G);
+  for (let i = 0; i < 40 && !m.volley; i++) Game.update(G.t + 25, 25);
+  if (!m.volley) return 'no volley followed the first blow';
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y - dy) * L.w + p.x - dx] = Dungeon.T.FLOOR;
+  p.x -= dx; p.y -= dy;
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  const said = linesSince(G, mark);
+  const blows = said.filter(l => /Goblin (hits|misses) you/.test(l)).length;
+  if (blows !== 1) return `${blows} blows landed, though the hero left after the first`;
+  return said.some(l => /rest of the Goblins swing at the air/.test(l)) || `said: ${said.join(' | ')}`;
+});
+
+await test('shallow venom burns briefly, deep venom for the full twenty seconds', async () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'js', 'game.js'), 'utf8');
+  const m = src.match(/const poisonFor = \(\) => \(\{ until: G\.t \+ Math\.min\((\d+), (\d+) \+ (\d+) \* G\.depth\)/);
+  if (!m) return 'no depth-scaled poison';
+  const [cap, base, per] = m.slice(1).map(Number);
+  const at = d => Math.min(cap, base + per * d);
+  if (src.includes('p.poison = { until: G.t + 20000')) return 'a poison source still ignores depth';
+  return (at(1) <= 10000 && at(4) === 20000) || `poison lasts ${at(1)}ms on floor one and ${at(4)}ms on floor four`;
+});
+
+await test('the death epilogue on a shallow floor does not claim to beat the fourth crew', async () => {
+  const ctx = await start('fighter', 'shallow-death');
+  const p = ctx.Game.player();
+  p.deepest = 1;
+  const lost = ctx.Game.epilogue(false).join(' ');
+  if (/further than the fourth crew/.test(lost)) return lost;
+  p.deepest = 5;
+  return /further than the fourth crew/.test(ctx.Game.epilogue(false).join(' ')) || 'a deep death no longer credits the hero';
+});
+
+await test('with no healing draught known, the Cast button says so', async () => {
+  const ctx = await start('fighter', 'dry-quaff');
+  const p = ctx.Game.player();
+  p.inv = p.inv.filter(i => i.t !== 'potion_heal' && i.t !== 'potion_xheal');
+  return ctx.Game.castLabel() === 'Quaff (none)' || `it says ${ctx.Game.castLabel()}`;
+});
+
+await test('a step tapped while the camera is still turning is kept, not dropped', async () => {
+  const ctx = await start('fighter', 'queue-move');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  const d0 = p.dir;
+  Game.input('left');
+  Game.input('left');                                 // tapped mid-turn
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  return p.dir === (d0 + 2) % 4 || `facing ${p.dir} from ${d0}: the second turn was lost`;
+});
+
+await test('a first-level mage can already cast Shield', async () => {
+  const { SPELLS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
+  const all = SPELLS.mage;
+  const shield = all.find(s => s && s.id === 'shield');
+  return (shield && shield.lvl === 1) || `Shield needs level ${shield && shield.lvl}`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

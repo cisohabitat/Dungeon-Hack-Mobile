@@ -196,13 +196,15 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .actions { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; width: 44%; max-width: 220px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }
 .actions .attack { grid-row: 1 / 3; background: #4a2020; border-color: #8a3a34; font-size: 1.6rem; }
 .ctl { font-size: 1.5rem; padding: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; touch-action: none; }
-.ctl small { font-size: 0.65rem; color: var(--dim); margin-top: 3px; letter-spacing: 0.05em; }
+.ctl small { font-size: 0.72rem; color: var(--dim); margin-top: 3px; letter-spacing: 0.05em; }
 .ctl.held { background: #3a3555; }
 /* the Attack button fills from the bottom as the next blow readies */
 .ctl.attack.cooling { background-image: linear-gradient(to top, rgba(255,120,90,0.28) calc(var(--ready, 1) * 100%), rgba(0,0,0,0.25) calc(var(--ready, 1) * 100%)); }
 .ctl.attack.cooling small { opacity: 0.6; }
+.ctl.attack small { color: #f4d2c8; }
+.ctl.empty { opacity: 0.45; }
 .bottombar { display: flex; gap: 4px; padding: 7px 6px calc(7px + var(--sab)); background: var(--panel); border-top: 1px solid var(--border); }
-.bottombar button { flex: 1; padding: 8px 1px; font-size: 0.78rem; min-height: 44px; }
+.bottombar button { flex: 1; padding: 8px 1px; font-size: 0.85rem; min-height: 44px; }
 
 /* Overlays */
 .overlay { position: absolute; inset: 0; background: #08070c; display: none; flex-direction: column; z-index: 10; padding-top: var(--sat); }
@@ -336,8 +338,10 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
 /* a one-time tip over the view: never in the way of a tap, gone on its own */
-.tip { position: absolute; left: 8px; top: 8px; max-width: calc(100% - 120px); padding: 8px 10px; border-radius: 8px;
+.tip { position: absolute; left: 8px; right: 8px; bottom: 8px; max-width: none; padding: 8px 10px; border-radius: 8px;
   background: rgba(14, 12, 22, 0.92); border: 1px solid var(--accent); color: #f2e6c8; font-size: 0.85rem; line-height: 1.35;
   pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 3; }
 .tip.show { opacity: 1; transform: none; }
 .tip b { color: var(--gold); }
+/* equipped slots carry a label in the corner: keep the picture below it */
+#equip .slot { padding-top: calc(0.6rem + 8px); }

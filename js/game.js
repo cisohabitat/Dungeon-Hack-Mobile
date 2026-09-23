@@ -739,7 +739,7 @@ const Game = (() => {
     // you arrive beside the stair you came by; that one needs no announcing
     const came = stairsBeside();
     besideKey = came ? came.key : '';
-    for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; }
+    for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; m.volley = null; }
     shop = null;
     snapCam();
     distFieldAt = -1e9;
@@ -950,7 +950,7 @@ const Game = (() => {
       const n = Math.max(1, d(...tr.dmg));
       hurtPlayer(n, `${tr.msg} You take ${n} damage.`);
     } else log(tr.msg, 'bad');
-    if (tr.poison && !p.poison && !hasPower('pure')) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
+    if (tr.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     if (tr.alarm) for (const m of L.monsters) m.awake = true;
   }
 
@@ -1005,6 +1005,7 @@ const Game = (() => {
   // is gone once it has been answered.
   let encounter = null;
   let queuedAttack = false;
+  let queuedMove = null;       // one step tapped while the camera was still moving
   let castingName = '';        // the spell whose blast is landing, so the log can name it
   function openEncounter(n) {
     const def = ENCOUNTERS[n.id];
@@ -1103,7 +1104,7 @@ const Game = (() => {
         for (const [stat, n] of e.buff.stats) p.effects[stat] = { amount: n, until: G.t + e.buff.dur };
         out.push(`Blessed: ${e.buff.stats.map(([s, n]) => `+${n} ${s === 'hit' ? 'to hit' : s === 'ac' ? 'armour' : s}`).join(', ')} for ${Math.round(e.buff.dur / 60000)} minutes`);
       }
-      if (e.poison && !p.poison && !hasPower('pure')) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; out.push('Poisoned'); }
+      if (e.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); out.push('Poisoned'); }
       if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
       if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
@@ -1274,7 +1275,7 @@ const Game = (() => {
     // wounded, non-boss monsters may break and run
     if (!mb.boss && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
-      m.windup = null;
+      m.windup = null; m.volley = null;
       log(`The ${mb.name} turns to flee!`, 'good');
     }
   }
@@ -1490,7 +1491,9 @@ const Game = (() => {
         ? 'They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.'
         : `They left ${total - read} of the earlier crews' pages down there in the dark. Someone else will have to go back for those.`);
     } else {
-      lines.push(`${p.name} got as far as level ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`);
+      lines.push(p.deepest >= 4
+        ? `${p.name} got as far as floor ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`
+        : `${p.name} fell on floor ${p.deepest} of the Deepdelve, in the shallow halls where it takes most of those who try.`);
       lines.push(bg.epi);
       lines.push(read > 0
         ? `They were carrying ${read} of the earlier crews' pages when they fell. In time someone will find those too, along with a new name for the roster.`
@@ -1602,7 +1605,7 @@ const Game = (() => {
   /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
   function castLabel() {
     const list = knownSpells();
-    if (!list.length) return 'Quaff';
+    if (!list.length) return P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t)) ? 'Quaff' : 'Quaff (none)';
     return (list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0]).name;
   }
 
@@ -1707,7 +1710,7 @@ const Game = (() => {
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.${note}`, m);
     if (G.status !== 'playing') return;
-    if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
+    if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     // a strong will holds on to itself against the drain
     if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
@@ -1718,6 +1721,9 @@ const Game = (() => {
   // monster strikes as often as it always did; it is capped at most of that
   // gap so fast things and groups keep their pace.
   const WINDUP_MS = 450;
+  /** Poison lasts longer the deeper the venom: a first-floor needle burns
+   * for about ten seconds, the deep ones for the full twenty. */
+  const poisonFor = () => ({ until: G.t + Math.min(20000, 6000 + 3500 * G.depth), next: G.t + 2000 });
   /** Draw a blow back: it lands in dur ms, if you are still there. */
   function beginWindup(m, kind, dur) {
     if (m.pressing) { dur = Math.max(250, Math.round(dur * 0.55)); m.pressing = false; }
@@ -1755,7 +1761,7 @@ const Game = (() => {
         // it has lost you; after a while it stops hunting and settles again
         if (!m.lostAt) m.lostAt = G.t;
         else if (G.t - m.lostAt > 7000 && !G.escaping) { m.awake = false; m.lostAt = 0; }
-        m.windup = null;                   // a blow drawn at you is dropped once it has lost you
+        m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
         if (Math.random() < 0.3) wander(m);
         m.nextAct = G.t + mb.speed * 1.5;
         continue;
@@ -1779,10 +1785,27 @@ const Game = (() => {
       // Blows from several attackers used to land in one frame, read as one
       // hit, and kill faster than anyone could turn. Space them so each one
       // is its own flash, sound and line of the log.
+      if (m.volley) {
+        // the rest of a group's volley, each blow a beat behind the last;
+        // step out of reach and the ones still to come hit the air
+        const inReach = m.volley.kind === 'melee' ? adjacent : shot;
+        if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
+        if (inReach) {
+          monsterAttack(m); G.blowGate = G.t + BLOW_GAP;
+          if (G.status !== 'playing') return;
+        }
+        m.volley.left--;
+        if (!inReach || m.volley.left <= 0) {
+          if (!inReach) { log(`The rest of the ${mb.name}s swing at the air where you stood.`, 'good'); m.pressing = true; }
+          m.nextAct = Math.max(G.t + 120, m.volley.next);
+          m.volley = null;
+        } else m.nextAct = G.t + BLOW_GAP;
+        continue;
+      }
       if (m.windup) {
         // the blow comes down: on you if you are still there, on the air if not
         const w = m.windup;
-        const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed / packSize(m);
+        const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
         const inReach = w.kind === 'melee' ? adjacent : shot;
         if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }   // held a beat, still coming
         m.windup = null;
@@ -1790,6 +1813,13 @@ const Game = (() => {
           if (w.kind === 'melee') monsterAttack(m); else rangedAttack(m);
           G.blowGate = G.t + BLOW_GAP;
           if (G.status !== 'playing') return;
+          // a group draws back together and swings as a volley: one warning,
+          // every member's blow, the same blows a minute as swinging in turn
+          if (w.kind === 'melee' && packSize(m) > 1) {
+            m.volley = { kind: 'melee', left: packSize(m) - 1, next: w.at + cycle };
+            m.nextAct = G.t + BLOW_GAP;
+            continue;
+          }
         } else {
           log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
           Sound.play('miss');
@@ -1801,7 +1831,7 @@ const Game = (() => {
         continue;
       }
       if (adjacent || shot) {
-        const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed / packSize(m);
+        const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed;
         beginWindup(m, adjacent ? 'melee' : 'shot', Math.round(Math.min(WINDUP_MS, cycle * 0.6)));
         continue;
       }
@@ -1840,6 +1870,7 @@ const Game = (() => {
     const p = P();
     updateCam();
     if (queuedAttack && G.t >= p.nextAttack) { queuedAttack = false; attack(); }
+    if (queuedMove && !(cam.moving && camProgress() < 0.7)) { const q = queuedMove; queuedMove = null; if (G.t - q.at < 400) input(q.act); }
     updateMonsters();
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
@@ -1875,7 +1906,10 @@ const Game = (() => {
     if (!G || G.status !== 'playing') return;
     switch (act) {
       case 'forward': case 'back': case 'strafeL': case 'strafeR': case 'left': case 'right':
-        if (cam.moving && camProgress() < 0.7) return;
+        // a step tapped while the last one is still easing in is kept, not
+        // dropped: the tap that turns you to face a flanker must not be lost
+        if (cam.moving && camProgress() < 0.7) { queuedMove = { act, at: G.t }; return; }
+        queuedMove = null;
         queuedAttack = false;              // a step or turn cancels a waiting swing
         if (act === 'forward') tryMove(0);
         else if (act === 'back') tryMove(2);
@@ -1922,7 +1956,7 @@ const Game = (() => {
         if (rel === 0 || rel === 2) rel = r2;
       }
       if (rel === 0) continue;
-      out.push({ rel, near: dist === 1, tell: !!m.windup });
+      out.push({ rel, near: dist === 1, tell: !!(m.windup || m.volley) });
     }
     return out.sort((a, b) => Number(b.tell) - Number(a.tell) || Number(b.near) - Number(a.near));
   }
@@ -1940,7 +1974,7 @@ const Game = (() => {
       const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
       const n = packSize(m);
       // how far through its wind-up it is, for the tell drawn over it
-      const tell = m.windup ? Math.min(1, Math.max(0.05, (G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
+      const tell = m.volley ? 1 : m.windup ? Math.min(1, Math.max(0.05, (G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
       if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell }); continue; }
       // a group stands abreast across your view: the front one a little
       // nearer and carrying the health bar, the rest at its shoulders
@@ -2007,7 +2041,7 @@ const Game = (() => {
       // a run from before relics finds them on the floors it has yet to see
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
-      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; }
+      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; m.volley = null; }
       lastBlocked = -1e9;
       snapCam();
       distFieldAt = -1e9;
@@ -2038,7 +2072,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, isEscaping: () => !!(G && G.escaping),
+    wasteReason, spellWasteReason, attackReady, castLabel, score, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();
