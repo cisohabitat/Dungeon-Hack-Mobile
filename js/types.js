@@ -19,6 +19,7 @@
  * @property {string} [color]    which lock a key opens
  * @property {string} [name]     the gem's own name
  * @property {number} [page]     which journal entry a torn page carries
+ * @property {string} [u]        the key into RELICS, when this is a named relic
  */
 
 /**
@@ -46,7 +47,7 @@
  * @property {number} deepest
  * @property {string[]} [boons]
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
- * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen]
+ * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  */
 
 /**
@@ -148,6 +149,7 @@
  * @property {number} [blowGate]   no monster blow may land on you before this time
  * @property {Object<string, number>} [studied]  item kind -> the level at which studying it last failed
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
+ * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  */
 
 export {};

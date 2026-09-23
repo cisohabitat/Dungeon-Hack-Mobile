@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -62,6 +62,25 @@ for (const k in CREATURES) {
 }
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
+
+// Relics ride on real gear, use only powers the rules honour, and every
+// power is carried by something.
+{
+  const used = new Set(), names = new Set();
+  for (const id in RELICS) {
+    const r = RELICS[id], b = ITEMS[r.t];
+    check(b && ['weapon', 'armor', 'shield'].includes(b.kind), `relic ${id} rides on '${r.t}', which is not gear`);
+    check(r.powers.length && r.powers.every(k => RELIC_POWERS[k]), `relic ${id} has a power the rules do not know`);
+    check(r.e >= 1 && r.e <= 2, `relic ${id} is +${r.e}`);
+    check(r.name && r.lore && r.value > 0, `relic ${id} is missing its name, story or value`);
+    check(!names.has(r.name.toLowerCase()), `two relics are called ${r.name}`);
+    check(/^(the |[A-Z])/.test(r.name), `relic ${id}'s name "${r.name}" will not read right mid-sentence`);
+    names.add(r.name.toLowerCase());
+    r.powers.forEach(k => used.add(k));
+  }
+  for (const k in RELIC_POWERS) check(used.has(k), `no relic carries the '${k}' power`);
+  check(Object.keys(CLASSES).length === 4, 'the class list changed; check every class still has relics');
+}
 for (const k in PROPS) {
   const { color } = paintParts(PROPS[k]());
   const filled = color.filter(Boolean);

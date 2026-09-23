@@ -3,6 +3,7 @@ import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
+import { RELICS, GIANTS, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
 
 // Core game state and rules.
@@ -119,7 +120,8 @@ const Game = (() => {
     const stat = p.stats[c.primary];
     // the armoured cleric holds fewer prayers; the unarmoured mage runs deep
     const mul = c.spMul || 1;
-    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0);
+    return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0)
+      + (hasPower('mind', null, p) ? 6 : 0);
   }
   // Practice tells: a veteran swings faster and puts more behind it. Without this
   // the player's damage is flat for the whole game while monster hit points grow.
@@ -132,8 +134,8 @@ const Game = (() => {
   // the roll at or above which an attack is a critical hit
   function critFloor() {
     const p = P();
-    if (p.cls !== 'thief') return 20;
-    return p.level >= 9 ? 18 : 19;
+    const base = p.cls !== 'thief' ? 20 : (p.level >= 9 ? 18 : 19);
+    return base - (hasPower('keen', 'weapon') ? 1 : 0);
   }
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
@@ -141,7 +143,8 @@ const Game = (() => {
     const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1);
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, range: 0 };
     const b = ITEMS[p.eq.weapon.t];
-    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0 };
+    const swift = hasPower('swift', 'weapon') ? 0.85 : 1;
+    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0 };
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.15;
@@ -168,6 +171,80 @@ const Game = (() => {
   function effect(name) {
     const e = P().effects[name];
     return e && e.until > G.t ? e.amount : 0;
+  }
+
+  // ---------- relics ----------
+  // Named gear (see relics.js). A striking power belongs to the blade that
+  // strikes, so it is asked of one slot; the rest work from anywhere worn.
+  const relicOf = it => (it && it.u && RELICS[it.u]) || null;
+  function hasPower(power, slot, p = P()) {
+    const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield'];
+    return slots.some(s => { const r = relicOf(p.eq[s]); return !!r && r.powers.includes(power); });
+  }
+  /** Extra damage a bane deals to the monster it was made for. */
+  function baneDamage(m, slot) {
+    let n = 0;
+    if (hasPower('undead', slot) && mstat(m).undead) n += d(1, 6);
+    if (hasPower('giant', slot) && GIANTS.includes(m.id)) n += d(1, 8);
+    return n;
+  }
+  function leech(dmg, slot) {
+    const p = P();
+    if (!hasPower('leech', slot) || p.hp >= p.maxHp) return;
+    p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.floor(dmg / 5)));
+    emit('stats');
+  }
+  /** Spell points follow what is worn: a well of power takes its six with it. */
+  function refreshSp(p) {
+    p.maxSp = spMax(p);
+    p.sp = Math.min(p.sp, p.maxSp);
+  }
+  const relicItem = id => ({ t: RELICS[id].t, q: 1, e: RELICS[id].e, u: id });
+  /** "the Long Sword", but a relic goes by its own name, article and all. */
+  function the(it) { const r = relicOf(it); return r ? r.name : `the ${itemName(it)}`; }
+  function discoverRelic(id) {
+    if (!G.relics || G.relics.found.includes(id)) return;
+    G.relics.found.push(id);
+    log(RELICS[id].lore, 'info');
+  }
+  /**
+   * Lay this floor's relic on the pile furthest from the way in, which is
+   * often a vault's reward, and let a trader here keep the next one behind
+   * the counter. Runs once, when the floor is first generated.
+   */
+  function placeRelics(L, depth) {
+    const R = G.relics;
+    if (!R) return;
+    const id = R.floor[depth];
+    if (id) {
+      const dist = new Int32Array(L.w * L.h).fill(-1);
+      const q = [L.start.y * L.w + L.start.x];
+      dist[q[0]] = 0;
+      for (let qi = 0; qi < q.length; qi++) {
+        const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
+        for (const [dx, dy] of DIRS) {
+          if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
+          const ni = (y + dy) * L.w + x + dx, t = L.tiles[ni];
+          if (dist[ni] >= 0 || t === T.WALL || t === T.SECRET || t === T.TORCH || t === T.FOUNTAIN) continue;
+          dist[ni] = dist[i] + 1; q.push(ni);
+        }
+      }
+      let best = null, bd = -1;
+      for (const k in L.items) {
+        const [x, y] = k.split(',').map(Number), dd = dist[y * L.w + x];
+        if (dd > bd && !L.items[k].some(it => it.t === 'artifact')) { bd = dd; best = k; }
+      }
+      if (!best) {
+        const held = new Set((L.npcs || []).map(n => key(n.x, n.y)));
+        for (let i = 0; i < dist.length; i++) {
+          const k = key(i % L.w, (i / L.w) | 0);
+          if (dist[i] > bd && L.tiles[i] === T.FLOOR && !L.traps[k] && !held.has(k)) { bd = dist[i]; best = k; }
+        }
+      }
+      if (best) (L.items[best] = L.items[best] || []).push(relicItem(id));
+    }
+    const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
+    if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
   }
   function toHit() {
     const p = P();
@@ -208,6 +285,8 @@ const Game = (() => {
 
   // ---------- items ----------
   function itemName(it) {
+    const r = relicOf(it);
+    if (r) return r.name[0].toUpperCase() + r.name.slice(1);
     if (it.t === 'key') return `${it.color[0].toUpperCase() + it.color.slice(1)} Key`;
     if (it.t === 'gem') return it.name || 'Gem';
     const b = ITEMS[it.t];
@@ -222,6 +301,7 @@ const Game = (() => {
   }
   function spriteFor(it) {
     if (it.t === 'key') return 'key_' + it.color;
+    if (it.u && Assets.sprites['relic_' + ITEMS[it.t].sprite]) return 'relic_' + ITEMS[it.t].sprite;
     if (!isKnown(it.t)) return G.looks[it.t].sprite;
     return ITEMS[it.t].sprite;
   }
@@ -238,7 +318,7 @@ const Game = (() => {
       if (ex) { ex.q += it.q || 1; return true; }
     }
     if (p.inv.length >= INV_MAX) return false;
-    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name });
+    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}) });
     return true;
   }
   /**
@@ -280,9 +360,9 @@ const Game = (() => {
     // the off hand, a shield and a two-handed grip all want the same hand
     const freeHand = held => {
       if (!held) return true;
-      if (p.inv.length >= INV_MAX) { log(`No room in your pack to stow the ${itemName(held)}.`, 'bad'); return false; }
+      if (p.inv.length >= INV_MAX) { log(`No room in your pack to stow ${the(held)}.`, 'bad'); return false; }
       p.inv.push(held);
-      if (!quiet) log(`You stow the ${itemName(held)}.`);
+      if (!quiet) log(`You stow ${the(held)}.`);
       return true;
     };
     if (slot === 'offhand') {
@@ -300,7 +380,8 @@ const Game = (() => {
     if (i >= 0) p.inv.splice(i, 1);
     if (p.eq[slot]) p.inv.push(p.eq[slot]);
     p.eq[slot] = it;
-    if (!quiet) log(`You equip the ${itemName(it)}.`);
+    refreshSp(p);
+    if (!quiet) log(`You equip ${the(it)}.`);
     emit('inv');
     return true;
   }
@@ -309,8 +390,9 @@ const Game = (() => {
     if (!p.eq[slot]) return;
     if (p.inv.length >= INV_MAX) { log('Your pack is full.', 'bad'); return; }
     p.inv.push(p.eq[slot]);
-    log(`You remove the ${itemName(p.eq[slot])}.`);
+    log(`You remove ${the(p.eq[slot])}.`);
     p.eq[slot] = null;
+    refreshSp(p);
     emit('inv');
   }
   /**
@@ -434,7 +516,7 @@ const Game = (() => {
     if (!one) { log('You are not carrying that.', 'bad'); return; }
     const k = key(p.x, p.y);
     (L.items[k] = L.items[k] || []).push(one);
-    log(`You drop the ${itemName(one)}.`);
+    log(`You drop ${the(one)}.`);
     emit('inv');
   }
   function floorItems() { return lvl().items[key(P().x, P().y)] || []; }
@@ -456,7 +538,7 @@ const Game = (() => {
         emit('page');
       }
     }
-    else if (giveItem(it)) { log(`You pick up the ${itemName(it)}.`); Sound.play('pickup'); list.splice(i, 1); }
+    else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); }
     else { log('Your pack is full.', 'bad'); }
     if (!list.length) delete L.items[k];
     emit('inv');
@@ -531,6 +613,7 @@ const Game = (() => {
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
+    G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
@@ -546,7 +629,7 @@ const Game = (() => {
 
   function enterLevel(depth, from) {
     const p = P();
-    if (!G.levels[depth]) G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts);
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -752,7 +835,7 @@ const Game = (() => {
       const n = Math.max(1, d(...tr.dmg));
       hurtPlayer(n, `${tr.msg} You take ${n} damage.`);
     } else log(tr.msg, 'bad');
-    if (tr.poison && !p.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
+    if (tr.poison && !p.poison && !hasPower('pure')) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
     if (tr.alarm) for (const m of L.monsters) m.awake = true;
   }
 
@@ -785,11 +868,16 @@ const Game = (() => {
   // percent off what you buy and on what you sell, within reason. It was
   // rolled for every hero and, until this, used for nothing at all.
   function charm() { return Math.max(-0.3, Math.min(0.3, mod(P().stats.cha) * 0.06)); }
+  // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
+    const r = relicOf(it);
+    if (r) return Math.round(r.value * shop.markup * (1 - charm()));
     const v = ITEMS[it.t].value || 5;
     return Math.max(2, Math.round(v * shop.markup * (1 + (it.e || 0) * 0.9) * (1 - charm())));
   }
   function sellPrice(it) {
+    const r = relicOf(it);
+    if (r) return Math.round(r.value * 0.45 * (1 + charm()));
     const v = ITEMS[it.t].value || 1;
     return Math.max(1, Math.round(v * 0.45 * (1 + (it.e || 0) * 0.8) * (1 + charm())));
   }
@@ -895,7 +983,7 @@ const Game = (() => {
         for (const [stat, n] of e.buff.stats) p.effects[stat] = { amount: n, until: G.t + e.buff.dur };
         out.push(`Blessed: ${e.buff.stats.map(([s, n]) => `+${n} ${s === 'hit' ? 'to hit' : s === 'ac' ? 'armour' : s}`).join(', ')} for ${Math.round(e.buff.dur / 60000)} minutes`);
       }
-      if (e.poison && !p.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; out.push('Poisoned'); }
+      if (e.poison && !p.poison && !hasPower('pure')) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; out.push('Poisoned'); }
       if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
       if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; out.push('Every potion and scroll identified'); }
@@ -937,7 +1025,7 @@ const Game = (() => {
     if (!shop) return false;
     const price = buyPrice(shop, it);
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
-    const one = { t: it.t, q: 1, e: it.e || 0 };
+    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}) };
     if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
@@ -946,7 +1034,8 @@ const Game = (() => {
       if (at >= 0) shop.stock.splice(at, 1);
     }
     G.known[one.t] = 1;   // the trader tells you what it is, so name it plainly
-    log(`You buy the ${itemName(one)} for ${price} gold.`, 'good');
+    log(`You buy ${the(one)} for ${price} gold.`, 'good');
+    if (one.u) discoverRelic(one.u);
     Sound.play('gold');
     emit('inv'); emit('stats');
     return true;
@@ -960,9 +1049,9 @@ const Game = (() => {
     const one = removeOne(it);
     if (!one) { log('You are not carrying that.', 'bad'); return false; }
     p.gold += price;
-    const ex = shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0));
-    if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0 });
-    log(`You sell the ${itemName(one)} for ${price} gold.`, 'good');
+    const ex = !one.u && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u);
+    if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}) });
+    log(`You sell ${the(one)} for ${price} gold.`, 'good');
     Sound.play('gold');
     emit('inv'); emit('stats');
     return true;
@@ -1009,10 +1098,11 @@ const Game = (() => {
     const finesse = p.cls === 'thief';
     const flat = (finesse ? mod(p.stats.dex) : mod(p.stats.str)) + skillDamage() + (effect('might') ? 2 : 0);
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700));
+    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + baneDamage(m, 'weapon');
     if (crit) dmg *= 2;
     if (sneak) dmg *= 2;
     dmg = Math.max(1, dmg);
+    leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
     damageMonster(m, dmg, crit ? 'crit' : (sneak ? 'sneak' : null), note);
     if (m.hp > 0) offhandStrike(m, atRange);
   }
@@ -1031,7 +1121,8 @@ const Game = (() => {
       log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
-    const dmg = Math.max(1, d(...o.dmg) + o.e);
+    const dmg = Math.max(1, d(...o.dmg) + o.e + baneDamage(m, 'offhand'));
+    leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
   function damageMonster(m, dmg, tag, note) {
@@ -1044,6 +1135,7 @@ const Game = (() => {
     buzz(12);
     if (m.hp <= 0) { killMonster(m, note); return; }
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name} for ${dmg}.${note || ''}`); }
+    else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else {
       const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
       log(`${pre}You hit the ${mb.name} for ${dmg}.${note || ''}`);
@@ -1422,9 +1514,10 @@ const Game = (() => {
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} hits you${aside} for ${dmg}.${note}`, m);
     if (G.status !== 'playing') return;
-    if (mb.poison && !p.poison && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
+    if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; log('You are poisoned!', 'bad'); }
     // a strong will holds on to itself against the drain
-    if (mb.drain && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
   }
   const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
   const BLOW_GAP = 250;    // ms between any two blows landing on you
@@ -1440,7 +1533,7 @@ const Game = (() => {
         // Thieves move quietly, so their double blow on a sleeping foe can
         // actually happen: at six squares almost nothing stayed asleep long
         // enough to be reached. Deep-born blood stacks with it.
-        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0));
+        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0));
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
@@ -1514,6 +1607,9 @@ const Game = (() => {
         p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
         emit('stats');
       } else p.nextRegen = G.t + 1200;
+    }
+    if (p.hp < p.maxHp && G.t >= (p.nextMend || 0) && hasPower('mend')) {
+      p.hp++; p.nextMend = G.t + 4000; emit('stats');
     }
     if (p.poison) {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
@@ -1600,7 +1696,9 @@ const Game = (() => {
       if (!list.length) continue;
       const [x, y] = k.split(',').map(Number);
       const it = list[list.length - 1];
-      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.5 : 0.32, yOff: it.t === 'artifact' ? 0.1 + Math.sin(now / 300) * 0.03 : 0 });
+      // the Heart floats; a relic hovers a little, so it reads as more than iron
+      const floats = it.t === 'artifact' || !!it.u;
+      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.5 : (it.u ? 0.38 : 0.32), yOff: floats ? (it.u ? 0.04 : 0.1) + Math.sin(now / 300) * 0.03 : 0 });
     }
     fx.threats = threats();
     return { level: L, cam, sprites, fx };
@@ -1640,6 +1738,8 @@ const Game = (() => {
       if (!G.pendingBoons) G.pendingBoons = [];
       if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);
+      // a run from before relics finds them on the floors it has yet to see
+      if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; }
       snapCam();
@@ -1663,14 +1763,14 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall,
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
-    itemName, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     currentShop, closeShop, buy, sell, buyPrice, sellPrice,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
-    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage,
+    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };

@@ -281,4 +281,28 @@ test.describe('dungeon features', () => {
     expect(after.known || after.blocked, 'a study should identify it or bar a retry').toBe(true);
     expect(errors).toEqual([]);
   });
+
+  test('a relic picked up from the floor shows in gold, with its powers and story', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'relic-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level();
+      L.items[p.x + ',' + p.y] = [{ t: 'battleaxe', q: 1, e: 1, u: 'ogres_toll' }];
+    });
+    await page.click('[data-open="inv"]');
+    await page.locator('#floor-box button', { hasText: 'Take' }).click();
+    const slot = page.locator('#inv-grid .slot.relic');
+    await expect(slot).toHaveCount(1);
+    await expect(slot).toContainText("The Ogre's Toll");
+    await slot.click();
+    await expect(page.locator('#item-detail h3.relic')).toHaveText("The Ogre's Toll");
+    await expect(page.locator('#item-detail')).toContainText('Battle Axe');
+    await expect(page.locator('#item-detail .relic-powers')).toContainText('Giant-feller');
+    await expect(page.locator('#item-detail .relic-lore')).toContainText('tally marks');
+    await page.locator('#item-detail button', { hasText: 'Equip' }).click();
+    const worn = await page.evaluate(() => Game.player().eq.weapon && Game.player().eq.weapon.u);
+    expect(worn).toBe('ogres_toll');
+    expect(errors).toEqual([]);
+  });
 });

@@ -5,6 +5,7 @@ import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
+import { RELIC_POWERS } from './relics.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -409,18 +410,27 @@ const UI = (() => {
     miniSig = sig;
   }
   // What an item does, in one line. Unknown potions and scrolls stay a mystery.
+  // A relic says what it is underneath and names its powers after.
   function itemBlurb(it) {
+    const r = Game.relicOf(it);
+    if (!r) return plainBlurb(it);
+    return `${ITEMS[it.t].name}. ${plainBlurb(it)}. ${r.powers.map(k => RELIC_POWERS[k].split(':')[0]).join(', ')}`;
+  }
+  function plainBlurb(it) {
     const b = ITEMS[it.t];
     if (!Game.isKnown(it.t)) return 'You do not know what this does';
     if (b.kind === 'weapon') {
       const d = b.dmg;
-      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${it.e ? ' +' + it.e : ''}, ${(b.speed / 1000).toFixed(1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
+      const sp = b.speed * (swiftOf(it) ? 0.85 : 1);
+      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${it.e ? ' +' + it.e : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
     if (b.kind === 'armor') return `Armor class +${b.ac + (it.e || 0)} (${b.weight})`;
     if (b.kind === 'shield') return `Armor class +${b.ac + (it.e || 0)}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     return b.desc || '';
   }
+
+  const swiftOf = it => { const r = Game.relicOf(it); return !!r && r.powers.includes('swift'); };
 
   function shopRow(it, price, label, enabled, onClick, note) {
     const row = document.createElement('div');
@@ -431,7 +441,7 @@ const UI = (() => {
     row.appendChild(img);
     const what = document.createElement('div');
     what.className = 'what';
-    what.innerHTML = `<b>${escapeHtml(Game.itemName(it))}</b><small>${escapeHtml(note || '')}</small>`;
+    what.innerHTML = `<b${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</b><small>${escapeHtml(note || '')}</small>`;
     row.appendChild(what);
     const btn = document.createElement('button');
     btn.textContent = `${label} ${price}g`;
@@ -592,7 +602,7 @@ const UI = (() => {
     } else if (label) {
       div.setAttribute('aria-label', `${label}: empty`);
     }
-    div.className = 'slot' + (it ? ' filled' : '');
+    div.className = 'slot' + (it ? ' filled' : '') + (it && it.u ? ' relic' : '');
     if (label) div.innerHTML = `<span class="lbl">${label}</span>`;
     if (it) {
       const img = document.createElement('img');
@@ -643,7 +653,7 @@ const UI = (() => {
       for (const it of floor) {
         const row = document.createElement('div');
         row.className = 'floor-item';
-        row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span>${escapeHtml(Game.itemName(it))}</span>`;
+        row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</span>`;
         const b = document.createElement('button');
         b.className = 'small'; b.textContent = 'Take';
         b.addEventListener('click', () => { Game.takeItem(it); renderInv(); });
@@ -664,7 +674,10 @@ const UI = (() => {
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
-    box.innerHTML = `<h3>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${compare}<div class="buttons"></div>`;
+    // a relic spells out each power in full, then tells its story
+    const r = Game.relicOf(it);
+    const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>` : '';
+    box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
     if (selectedSlot) add('Unequip', () => Game.unequip(selectedSlot));
@@ -699,7 +712,7 @@ const UI = (() => {
     if (b.kind === 'weapon') {
       const dps = item => {
         if (!item) return 0;
-        const d = ITEMS[item.t].dmg, sp = ITEMS[item.t].speed;
+        const d = ITEMS[item.t].dmg, sp = ITEMS[item.t].speed * (swiftOf(item) ? 0.85 : 1);
         // mirrors the damage rule: flat bonuses scale with swing time, except
         // for a thief's finesse, which does not
         const finesse = p.cls === 'thief';
