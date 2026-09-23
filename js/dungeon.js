@@ -1,6 +1,7 @@
 import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
 import { encounterPlan } from './encounters.js';
+import { GEAR_POWERS } from './relics.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
@@ -420,7 +421,12 @@ const Dungeon = (() => {
         const maxTier = 1 + Math.floor(depth / 2);
         const gearKind = rng.weighted([['weapon', 5], ['armor', 3], ['shield', 2]]);
         const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1);
-        if (gearIds.length) stock.push({ t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 });
+        if (gearIds.length) {
+          const piece = { t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 };
+          // an enchanted piece past the first floor sometimes has a power as well
+          if (piece.e && depth >= 2) { const pool = GEAR_POWERS[gearKind]; const f = (piece.t.length * 0.137 + depth * 0.311 + mx * 0.071 + my * 0.053) % 1; if (f < 0.5) piece.pw = pool[Math.floor(f * 2 * pool.length) % pool.length]; }
+          stock.push(piece);
+        }
         npcs.push({ id: 'merchant', x: mx, y: my, stock, markup: 1.8 + rng.next() * 0.6, greeted: false });
         break;
       }
@@ -489,7 +495,17 @@ const Dungeon = (() => {
       if (rng.chance(0.12 + depth * 0.03)) {
         const r = rng.next(), cursed = depth >= 2 ? 0.3 : 0;
         if (r >= 1 - cursed) { curse = true; e = r >= 1 - cursed / 3 ? -2 : -1; }
-        else e = r < 0.25 + depth * 0.02 ? 2 : 1;
+        else {
+          e = r < 0.25 + depth * 0.02 ? 2 : 1;
+          // From the second floor, some well-made pieces carry a power too. It is
+          // read from the roll already made (its digits past the first), so no
+          // extra roll moves anything else the level holds.
+          const f = (r * 9973) % 1;
+          if (depth >= 2 && f < 0.35 + depth * 0.04) {
+            const pool = GEAR_POWERS[k];
+            return { t: id, q: 1, e, h: 1, pw: pool[Math.floor(((f * 7919) % 1) * pool.length)] };
+          }
+        }
       }
       return curse ? { t: id, q: 1, e, h: 1, curse: 1 } : { t: id, q: 1, e, h: 1 };
     };

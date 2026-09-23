@@ -23,6 +23,20 @@ const RELIC_POWERS = {
   ward:   'Warded: your life force cannot be drained.',
   pure:   'Purifying: poison cannot take hold of you.',
   thorns: 'Barbed: whatever strikes you in melee takes 1d4 damage back.',
+  flame:  'Flaming: +1d4 fire damage, and its burns stop a troll regrowing.',
+};
+
+/** Ordinary gear found enchanted can carry one of these powers, named by it. */
+const GEAR_POWERS = {
+  weapon: ['keen', 'swift', 'undead', 'giant', 'leech', 'flame'],
+  armor: ['ward', 'pure', 'thorns', 'mend', 'quiet'],
+  shield: ['ward', 'pure', 'thorns', 'mend'],
+};
+/** How a power reads on the end of an ordinary item's name. */
+const POWER_SUFFIX = {
+  keen: 'of Keenness', swift: 'of Speed', undead: 'of the Dawn', giant: 'of Giant-felling', leech: 'of Thirst',
+  flame: 'of Flame', ward: 'of Warding', pure: 'of Purity', thorns: 'of Thorns', mend: 'of Mending', quiet: 'of Silence',
+  mind: 'of the Mind',
 };
 
 /** Monsters a giant-feller bites into. */
@@ -45,8 +59,8 @@ const RELICS = {
     lore: 'Forged by a smith whose village paid one toll too many. The haft is scored with tally marks, all of them ogres.' },
   ninth_circle: { t: 'staff', e: 1, name: 'Staff of the Ninth Circle', powers: ['mind'], value: 340,
     lore: 'Nine rings of black iron are sunk in the wood. Each one hums a different note when a spell is spoken near it.' },
-  emberwood: { t: 'staff', e: 2, name: 'Emberwood', powers: ['mend'], value: 320,
-    lore: 'Cut from a tree that grew around a forge. It is warm to hold, and wounds close faster in its warmth.' },
+  emberwood: { t: 'staff', e: 2, name: 'Emberwood', powers: ['mend', 'flame'], value: 360,
+    lore: 'Cut from a tree that grew around a forge. It is warm to hold, wounds close faster in its warmth, and what it strikes smoulders.' },
   vashti: { t: 'throwknife', e: 2, name: 'Vashti\'s Needles', powers: ['keen'], value: 280,
     lore: 'A juggler\'s knives, balanced so fine they seem to find the gap on their own. Vashti never missed. Once was enough.' },
   heartseeker: { t: 'shortbow', e: 2, name: 'Heartseeker', powers: ['keen'], value: 360,
@@ -98,4 +112,4 @@ function relicPlan(seed, cls, levels) {
   return { floor, shop: pool.slice(n) };
 }
 
-export { RELICS, RELIC_POWERS, GIANTS, relicUsableBy, relicPlan };
+export { RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, relicUsableBy, relicPlan };

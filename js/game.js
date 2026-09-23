@@ -3,7 +3,7 @@ import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
-import { RELICS, GIANTS, relicPlan } from './relics.js';
+import { RELICS, GIANTS, POWER_SUFFIX, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
 
 // Core game state and rules.
@@ -191,13 +191,15 @@ const Game = (() => {
   const relicOf = it => (it && it.u && RELICS[it.u]) || null;
   function hasPower(power, slot, p = P()) {
     const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield'];
-    return slots.some(s => { const r = relicOf(p.eq[s]); return !!r && r.powers.includes(power); });
+    // a relic's powers, or the one power an ordinary piece was made with
+    return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && it.pw === power); });
   }
   /** Extra damage a bane deals to the monster it was made for. */
   function baneDamage(m, slot) {
     let n = 0;
     if (hasPower('undead', slot) && mstat(m).undead) n += d(1, 6);
     if (hasPower('giant', slot) && GIANTS.includes(m.id)) n += d(1, 8);
+    if (hasPower('flame', slot)) n += d(1, 4);
     if (hasTalent('sanctified') && mstat(m).undead) n += d(1, 4);
     return n;
   }
@@ -368,6 +370,8 @@ const Game = (() => {
       n = b.kind === 'potion' ? `${look.adj[0].toUpperCase() + look.adj.slice(1)} Potion` : `${look.adj[0].toUpperCase() + look.adj.slice(1)} Scroll`;
     }
     if (it.e && !it.h) n += it.e > 0 ? ` +${it.e}` : ` −${-it.e}`;
+    // a power is part of what studying or wearing a piece tells you
+    if (it.pw && !it.h) n += ` ${POWER_SUFFIX[it.pw] || ''}`;
     if (it.q > 1) n += ` ×${it.q}`;
     return n;
   }
@@ -390,7 +394,7 @@ const Game = (() => {
       if (ex) { ex.q += it.q || 1; return true; }
     }
     if (p.inv.length >= INV_MAX) return false;
-    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}),
+    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}), ...(it.pw ? { pw: it.pw } : {}),
       ...(it.h ? { h: 1 } : {}), ...(it.curse ? { curse: 1 } : {}), ...(it.studied ? { studied: it.studied } : {}) });
     return true;
   }
@@ -1043,7 +1047,8 @@ const Game = (() => {
     if (r) return Math.round(r.value * shop.markup * (1 - charm()));
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
-    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * (1 - charm())));
+    const pw = it.pw && !it.h ? 1.7 : 1;
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm())));
   }
   function sellPrice(it) {
     const r = relicOf(it);
@@ -1051,7 +1056,7 @@ const Game = (() => {
     const v = ITEMS[it.t].value || 1;
     // unknown gear goes for the price of a plain one; the trader will not tell
     const e = it.h ? 0 : (it.e || 0);
-    return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
+    return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (it.pw && !it.h ? 1.7 : 1) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
   }
   // ---------- encounters ----------
   // A choice the dungeon puts to you (see encounters.js). While one is open
@@ -1201,7 +1206,7 @@ const Game = (() => {
     if (!shop) return false;
     const price = buyPrice(shop, it);
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
-    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}) };
+    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}), ...(it.pw ? { pw: it.pw } : {}) };
     if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
@@ -1228,8 +1233,8 @@ const Game = (() => {
     // flawed and cursed pieces go on the junk heap, not back on the shelf
     const junk = one.curse || (one.e || 0) < 0;
     // a relic, or a piece whose quality is still unknown, sits on the shelf apart
-    const ex = !one.u && !one.h && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h);
-    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}) });
+    const ex = !one.u && !one.h && !one.pw && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h && !s.pw);
+    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}), ...(one.pw ? { pw: one.pw } : {}) });
     log(`You sell ${the(one)} for ${price} gold.`, 'good');
     Sound.play('gold');
     emit('inv'); emit('stats');
@@ -1296,7 +1301,9 @@ const Game = (() => {
     // is settled before the blow, since a killing blow brings them forward.
     const behind = !atRange && !w.range && hasTalent('cleave') && m.pack && m.pack.length ? m.pack[0] : null;
     const packBefore = packSize(m);
-    damageMonster(m, dmg, crit ? (rip ? 'riposte-crit' : 'crit') : (sneak ? 'sneak' : (rip ? 'riposte' : null)), note);
+    // a crit that only Lucky made one says so
+    const lucky = crit && hasTalent('lucky') && roll === critFloor();
+    damageMonster(m, dmg, crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), note);
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
     if (behind && lvl().monsters.includes(m)) {
       const n = Math.max(1, Math.floor(dmg / 2));
@@ -1305,6 +1312,12 @@ const Game = (() => {
         if (behind.hp <= 0) { m.pack.splice(m.pack.indexOf(behind), 1); if (!m.pack.length) delete m.pack; memberDown(m); }
         else log(`Your swing carries into the ${mb.name} behind for ${n}.`);
       } else if (!m.collapsed) damageMonster(m, n, 'cleave');   // it has stepped up into the swing
+    }
+    // a flaming weapon burns what it strikes: no troll regrows the wound, and
+    // Kindling keeps the fire going
+    if (hasPower('flame', 'weapon') && struckSurvived) {
+      if (mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
+      if (hasTalent('kindling')) m.dot = { kind: 'burning', until: G.t + 3000, next: G.t + 1000 };
     }
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
     if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
@@ -1337,7 +1350,7 @@ const Game = (() => {
     m.hp -= dmg;
     m.awake = true;
     m.flashUntil = realNow + 130;
-    floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
+    floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     Sound.play('hit');
     buzz(12);
     if (m.hp <= 0) {
@@ -1366,7 +1379,7 @@ const Game = (() => {
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else {
-      const pre = { crit: 'A mighty blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
+      const pre = { crit: 'A mighty blow! ', lucky: 'A lucky blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     moveOnHurt(m, mb, tag);
@@ -1770,7 +1783,8 @@ const Game = (() => {
       case 'bolt': {
         const targets = boltTargets(spellRange(sp), sp.pierce);
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
-        castingName = sp.name;
+        // an Empowered or Radiant spell says so in every line it hits with
+        castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
         for (const m of targets) {
           if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
           let dmg = d(...sp.dmg(p.level));

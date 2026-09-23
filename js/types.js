@@ -23,6 +23,7 @@
  * @property {number} [h]        1 while a found piece of gear keeps its quality hidden
  * @property {number} [curse]    1 when it will not come off once worn
  * @property {number} [studied]  the level at which judging this piece last failed
+ * @property {string} [pw]       the one power an ordinary piece was made with (a RELIC_POWERS key)
  */
 
 /**

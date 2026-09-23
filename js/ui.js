@@ -537,7 +537,8 @@ const UI = (() => {
   // A relic says what it is underneath and names its powers after.
   function itemBlurb(it) {
     const r = Game.relicOf(it);
-    if (!r) return plainBlurb(it);
+    // an ordinary piece with a power names it after the numbers
+    if (!r) return plainBlurb(it) + (it.pw && !it.h && RELIC_POWERS[it.pw] ? `. ${RELIC_POWERS[it.pw].split(':')[0]}` : '');
     return `${ITEMS[it.t].name}. ${plainBlurb(it)}. ${r.powers.map(k => RELIC_POWERS[k].split(':')[0]).join(', ')}`;
   }
   function plainBlurb(it) {
@@ -558,7 +559,7 @@ const UI = (() => {
 
   // what the player knows of an enchantment: nothing, while it is hidden
   const knownE = it => (it.h ? 0 : (it.e || 0));
-  const swiftOf = it => { const r = Game.relicOf(it); return !!r && r.powers.includes('swift'); };
+  const swiftOf = it => { const r = Game.relicOf(it); return (!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h); };
 
   function shopRow(it, price, label, enabled, onClick, note) {
     const row = document.createElement('div');
@@ -911,7 +912,8 @@ const UI = (() => {
     const compare = selectedSlot ? '' : compareText(it, b);
     // a relic spells out each power in full, then tells its story
     const r = Game.relicOf(it);
-    const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>` : '';
+    const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>`
+      : (it.pw && !it.h && RELIC_POWERS[it.pw] ? `<ul class="relic-powers"><li>${escapeHtml(RELIC_POWERS[it.pw])}</li></ul>` : '');
     box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
@@ -1145,6 +1147,21 @@ const UI = (() => {
     r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
     let extra = '';
+    // every power the hero's gear gives, relic or plain, with the slot it is in
+    const worn = [];
+    for (const [slot, label] of [['weapon', 'weapon'], ['offhand', 'off hand'], ['armor', 'armour'], ['shield', 'shield']]) {
+      const it = p.eq[slot];
+      if (!it) continue;
+      const rel = Game.relicOf(it);
+      const powers = rel ? rel.powers : (it.pw && !it.h ? [it.pw] : []);
+      for (const k of powers) {
+        if (!RELIC_POWERS[k]) continue;
+        const [name, ...rest] = RELIC_POWERS[k].split(': ');
+        const what = rest.join(': ');
+        worn.push(`<li><b>${escapeHtml(name)}</b><span>${escapeHtml(what.charAt(0).toUpperCase() + what.slice(1))} (${label})</span></li>`);
+      }
+    }
+    if (worn.length) extra += '<h3 class="sheet-h">Powers of your gear</h3><ul class="talent-list">' + worn.join('') + '</ul>';
     if (p.talents && p.talents.length) {
       const own = TALENTS[p.cls] || [];
       extra += '<h3 class="sheet-h">Talents</h3><ul class="talent-list">' + p.talents.map(id => {
@@ -1156,8 +1173,10 @@ const UI = (() => {
       // the same lesson taken twice reads as "Deep Wind ×2", not twice over
       const counts = new Map();
       for (const id of p.boons) counts.set(id, (counts.get(id) || 0) + 1);
-      const names = [...counts].map(([id, n]) => { const b = BOONS.find(x => x.id === id); return (b ? b.name : id) + (n > 1 ? ` \u00d7${n}` : ''); });
-      r('Learned', escapeHtml(names.join(', ')), true);
+      extra += '<h3 class="sheet-h">Lessons</h3><ul class="talent-list">' + [...counts].map(([id, n]) => {
+        const b = BOONS.find(x => x.id === id);
+        return b ? `<li><b>${escapeHtml(b.name)}${n > 1 ? ` \u00d7${n}` : ''}</b><span>${escapeHtml(b.desc)}</span></li>` : '';
+      }).join('') + '</ul>';
     }
     $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>${extra}`;
   }

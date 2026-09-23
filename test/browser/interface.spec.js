@@ -398,3 +398,23 @@ test.describe('talents', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test.describe('gear powers', () => {
+  test('a powered piece names its power in the pack, and the Hero sheet lists what the gear gives', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'gear-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.player().inv.push({ t: 'longsword', q: 1, e: 1, pw: 'leech' }); });
+    await page.click('[data-open="inv"]');
+    await page.locator('.slot', { hasText: 'of Thirst' }).first().click();
+    await expect(page.locator('.relic-powers')).toContainText('Thirsting');
+    await page.locator('button', { hasText: /^Equip$/ }).click();
+    await page.click('#ov-inv [data-close]');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('Powers of your gear');
+    await expect(page.locator('#char-sheet')).toContainText('Thirsting');
+    expect(errors).toEqual([]);
+  });
+});
+
