@@ -391,10 +391,11 @@ const Assets = (() => {
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
     // items painted from parts replace their old grids too
-    for (const k in ITEM_ART) sprites[k] = makeSprite({ parts: ITEM_ART[k]() });
+    // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit
+    for (const k in ITEM_ART) sprites[k] = makeSprite({ parts: ITEM_ART[k](), fine: true });
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite))) {
-      if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a' });
+      if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true });
     }
     // creatures built from parts replace their old grids
     // creatures and props stand in the world, close enough to fill the view: they
