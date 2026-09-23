@@ -716,7 +716,7 @@ const Game = (() => {
       if ((k === 'weapon' || k === 'armor' || k === 'shield') && !p.eq[k]) equip(it, true);
     }
     enterLevel(1, 'down');
-    log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} levels lie below. Find the Heart of the Mountain.`, 'good');
+    log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
     return G;
   }
 
@@ -803,7 +803,9 @@ const Game = (() => {
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : (G.escaping ? 'Escape' : 'Use');
     if (t === T.FOUNTAIN) return 'Drink';
     if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
-    if (monsterAt(tx, ty)) return 'Attack';
+    // Use still strikes what is in front, but the button beside it already
+    // says Attack; two buttons with one name read as a mistake
+    if (monsterAt(tx, ty)) return 'Use';
     if (t === T.DOOR_OPEN) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
     if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
@@ -981,6 +983,7 @@ const Game = (() => {
   // the game waits, as it does for the trader, and the prop that started it
   // is gone once it has been answered.
   let encounter = null;
+  let queuedAttack = false;
   function openEncounter(n) {
     const def = ENCOUNTERS[n.id];
     if (!def) return false;
@@ -1188,7 +1191,7 @@ const Game = (() => {
     if (roll === 1 || (!crit && roll + toHit() < mb.ac)) {
       log(`You miss the ${mb.name}.${note}`);
       Sound.play('miss');
-      floatText(m, 'miss', '#bbb');
+      floatText(m, 'miss', '#e4e4ee');
       return;
     }
     // Thieves strike where it counts rather than swinging hard, so their bonus
@@ -1685,12 +1688,19 @@ const Game = (() => {
   }
 
   // ---------- main update ----------
+  /** How ready the next blow is, from 0 just swung to 1 ready: the Attack button shows it. */
+  function attackReady() {
+    if (!G) return 1;
+    const p = P(), left = p.nextAttack - G.t;
+    return left <= 0 ? 1 : Math.max(0, 1 - left / weapon().speed);
+  }
   function update(now, dt) {
     realNow = now;
     if (!G || G.status !== 'playing') return;
     G.t += dt;
     const p = P();
     updateCam();
+    if (queuedAttack && G.t >= p.nextAttack) { queuedAttack = false; attack(); }
     updateMonsters();
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
@@ -1734,7 +1744,12 @@ const Game = (() => {
         else if (act === 'left') turn(-1);
         else turn(1);
         break;
-      case 'attack': attack(); break;
+      case 'attack':
+        // a tap a moment early is kept and spent the instant the blow is ready,
+        // rather than dropped: a player cannot see the swing timer
+        if (G.t < P().nextAttack) { if (P().nextAttack - G.t <= 350) queuedAttack = true; }
+        else attack();
+        break;
       case 'use': use(); break;
       case 'cast': castLast(); break;
       case 'rest': rest(); break;
@@ -1869,7 +1884,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, isEscaping: () => !!(G && G.escaping),
+    wasteReason, spellWasteReason, attackReady, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();

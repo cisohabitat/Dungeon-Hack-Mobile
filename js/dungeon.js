@@ -240,7 +240,9 @@ const Dungeon = (() => {
       const weighted = pool.map(id => [id, 1 + Math.max(0, depth - MONSTERS[id].tier[0])]);
       const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
       // champions appear more often the deeper you go
-      if (rng.chance(Math.min(0.2, 0.02 + depth * 0.018))) makeElite(m);
+      // no champions on the first floor: a Rabid goblin swinging nearly twice
+      // as fast was the commonest way a level-one hero died there
+      if (rng.chance(depth === 1 ? 0 : Math.min(0.2, 0.02 + depth * 0.018))) makeElite(m);
       monsters.push(m);
     }
 

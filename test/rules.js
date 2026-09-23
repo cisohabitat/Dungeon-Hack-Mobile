@@ -364,7 +364,7 @@ await test('the Use button names each thing it can do', async () => {
   // a hidden door must not label differently from the wall it hides in
   const [dx, dy] = Dungeon.DIRS[p.dir];
   L.monsters.push({ uid: 5, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 3, maxHp: 3, awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
-  if (Game.useLabel() !== 'Attack') return `facing a rat, Use says "${Game.useLabel()}"`;
+  if (Game.useLabel() !== 'Use') return `facing a rat, Use says "${Game.useLabel()}" (the Attack button already says Attack)`;
   L.monsters.length = 0;
   (L.items[p.x + ',' + p.y] = []).push({ t: 'ration', q: 1 });
   if (Game.useLabel() !== 'Take') return `standing on a ration, Use says "${Game.useLabel()}"`;
@@ -1493,6 +1493,43 @@ await test('a prayer answered at the shrine breaks a curse', async () => {
   if (!r || !r.check.pass) return 'five prayers were all refused';
   if (blade.curse) return 'the answered prayer left the curse in place';
   return r.lines.includes('Curse broken') || `the prayer said: ${r.lines.join(' | ')}`;
+});
+
+
+// ---------- from the playtest ----------
+await test('an Attack tap a moment early is kept and swung the instant the blow is ready', async () => {
+  const ctx = await start('fighter', 'queued-tap');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.monsters.length = 0;
+  L.monsters.push({ uid: 9, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  G.t = p.nextAttack;
+  Game.input('attack');
+  const first = p.nextAttack;
+  if (Game.attackReady() >= 1) return 'right after a swing the button claimed the next blow was ready';
+  // tap 200ms before it is ready: nothing yet, then the blow lands on time
+  Game.update(0, first - G.t - 200);
+  Game.input('attack');
+  if (p.nextAttack !== first) return 'an early tap swung before the blow was ready';
+  Game.update(0, 250);
+  if (p.nextAttack === first) return 'the early tap was dropped';
+  // a tap far too early is still ignored, not stored up
+  const second = p.nextAttack;
+  Game.input('attack');
+  Game.update(0, second - G.t + 50);
+  return p.nextAttack === second || 'a tap long before the blow was ready was stored and swung';
+});
+
+await test('no champions wait on the first floor', async () => {
+  const { Dungeon } = await newContext();
+  for (let i = 0; i < 60; i++) {
+    const L = Dungeon.generate('champ' + i, 1, { levels: 8, size: 'medium', monsters: 'many', treasure: 'normal', lockedDoors: true, traps: true });
+    const c = L.monsters.find(m => m.elite);
+    if (c) return `seed champ${i} put a ${c.elite} ${c.id} on floor one`;
+  }
+  const deeper = Dungeon.generate('champ0', 4, { levels: 8, size: 'medium', monsters: 'many', treasure: 'normal', lockedDoors: true, traps: true });
+  return deeper.monsters.some(m => m.elite) || Array.from({ length: 20 }, (_, i) => Dungeon.generate('champ' + i, 4, { levels: 8, size: 'medium', monsters: 'many', treasure: 'normal', lockedDoors: true, traps: true })).some(L => L.monsters.some(m => m.elite)) || 'champions vanished from deeper floors too';
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

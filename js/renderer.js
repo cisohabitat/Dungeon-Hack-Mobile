@@ -231,8 +231,9 @@ const Renderer = (() => {
     }
 
     // floating texts
-    ctx.font = 'bold 12px monospace';
+    ctx.font = 'bold 13px monospace';
     ctx.textAlign = 'center';
+    ctx.lineJoin = 'round';
     for (const t of fx.texts) {
       const sx = t.x - px, sy = t.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
@@ -243,8 +244,10 @@ const Renderer = (() => {
       const age = (now - t.born) / (t.until - t.born);
       const y = H / 2 - hFull * 0.4 - age * 18;
       ctx.globalAlpha = Math.max(0, 1 - age);
-      ctx.fillStyle = '#000';
-      ctx.fillText(t.text, screenX + 1, y + 1);
+      // a full dark outline, so pale words like "miss" read on a pale ceiling
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = 'rgba(0,0,0,0.9)';
+      ctx.strokeText(t.text, screenX, y);
       ctx.fillStyle = t.color;
       ctx.fillText(t.text, screenX, y);
       ctx.globalAlpha = 1;
@@ -301,12 +304,13 @@ const Renderer = (() => {
       for (const t of fx.threats) {
         if (drawn.has(t.rel)) continue;        // one per side; nearest wins, it is sorted first
         drawn.add(t.rel);
-        const a = t.near ? 0.6 + 0.35 * Math.sin(now / 110) : 0.45;
-        const s = t.near ? 9 : 7;
+        // big and bright enough to catch the corner of the eye mid-fight
+        const a = t.near ? 0.75 + 0.25 * Math.sin(now / 110) : 0.6;
+        const s = t.near ? 14 : 11;
         let cx, cy, ang;
-        if (t.rel === 1) { cx = W - 10; cy = H / 2; ang = 0; }
-        else if (t.rel === 3) { cx = 10; cy = H / 2; ang = Math.PI; }
-        else { cx = W / 2; cy = H - 10; ang = Math.PI / 2; }
+        if (t.rel === 1) { cx = W - 14; cy = H / 2; ang = 0; }
+        else if (t.rel === 3) { cx = 14; cy = H / 2; ang = Math.PI; }
+        else { cx = W / 2; cy = H - 14; ang = Math.PI / 2; }
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(ang);
@@ -314,8 +318,8 @@ const Renderer = (() => {
         ctx.lineJoin = 'round';
         ctx.beginPath();
         ctx.moveTo(-s * 0.6, -s); ctx.lineTo(s * 0.5, 0); ctx.lineTo(-s * 0.6, s);
-        ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(0,0,0,0.8)'; ctx.stroke();
-        ctx.lineWidth = 2.5; ctx.strokeStyle = '#ff5a48'; ctx.stroke();
+        ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(0,0,0,0.85)'; ctx.stroke();
+        ctx.lineWidth = 4.5; ctx.strokeStyle = '#ff4030'; ctx.stroke();
         ctx.restore();
       }
       ctx.globalAlpha = 1;

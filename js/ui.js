@@ -200,7 +200,7 @@ const UI = (() => {
       b.className = 'class-card' + (id === create.cls ? ' sel' : '');
       b.type = 'button';
       b.setAttribute('aria-pressed', String(id === create.cls));
-      b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small>`;
+      b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
       b.addEventListener('click', () => { create.cls = id; buildCreate(); });
       grid.appendChild(b);
     }
@@ -212,7 +212,7 @@ const UI = (() => {
       el.className = 'bg-card' + (id === create.bg ? ' sel' : '');
       el.type = 'button';
       el.setAttribute('aria-pressed', String(id === create.bg));
-      el.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small>`;
+      el.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`;
       el.addEventListener('click', () => { create.bg = id; buildCreate(); });
       bgGrid.appendChild(el);
     }
@@ -224,8 +224,9 @@ const UI = (() => {
       const v = create.stats[k];
       const m = Game.mod(v);
       const div = document.createElement('div');
-      div.innerHTML = `${STAT_NAMES[k].slice(0, 3).toUpperCase()} <span>${v} (${m >= 0 ? '+' : ''}${m})</span>`;
-      if (CLASSES[create.cls].primary === k) div.style.color = '#f2e2b8';
+      const key = CLASSES[create.cls].primary === k;
+      div.innerHTML = `${STAT_NAMES[k].slice(0, 3).toUpperCase()}${key ? ' \u2605' : ''} <span>${v} (${m >= 0 ? '+' : ''}${m})</span>`;
+      if (key) { div.className = 'key-stat'; div.title = `Key stat for a ${CLASSES[create.cls].name}`; }
       st.appendChild(div);
     }
   }
@@ -239,7 +240,7 @@ const UI = (() => {
     const saved = Game.saveSummary();
     if (!saved) { openCreation(); return; }
     $('#confirm-who').textContent =
-      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on dungeon level ${saved.depth}.`;
+      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.`;
     showScreen('screen-confirm');
   }
   function showPrologue(cfg) {
@@ -305,7 +306,7 @@ const UI = (() => {
     $('#txt-sp').textContent = `SP ${p.sp}/${p.maxSp}`;
     $('#bar-food').style.width = p.food + '%';
     $('#txt-food').textContent = p.food > 30 ? 'Fed' : (p.food > 0 ? 'Hungry' : 'Starving');
-    $('#hud-depth').textContent = G.escaping ? (G.depth === 1 ? 'Find the stairs up' : `Climb: ${G.depth} to go`) : `Level ${G.depth}/${G.opts.levels}`;
+    $('#hud-depth').textContent = G.escaping ? (G.depth === 1 ? 'Find the stairs up' : `Climb: ${G.depth} to go`) : `Floor ${G.depth}/${G.opts.levels}`;
     $('#hud-depth').classList.toggle('escaping', !!G.escaping);
     $('#hud-gold').textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
@@ -553,7 +554,7 @@ const UI = (() => {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
     const p = Game.player();
-    $('#boon-title').textContent = `Level ${p.level}: what the delve taught you`;
+    $('#boon-title').textContent = `Hero level ${p.level}: what the delve taught you`;
     const el = $('#boon-list');
     el.innerHTML = '';
     for (const id of offer) {
@@ -694,7 +695,9 @@ const UI = (() => {
     if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
     if (it.h) info += ' Its quality is unknown: it could be finely made, or cursed. Wearing it will tell you, and so will studying it or a trader\'s eye.';
-    else if (it.curse) info += selectedSlot ? ' Cursed: it will not come off until the curse is broken.' : ' Cursed: once worn, it will not come off until the curse is broken.';
+    else if (it.curse) info += selectedSlot
+      ? ' Cursed: it will not come off. Read a Scroll of Remove Curse, pray at a shrine, or pay a trader to lift it.'
+      : ' Cursed: once worn, it will not come off until the curse is broken.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
     // a relic spells out each power in full, then tells its story
@@ -703,7 +706,8 @@ const UI = (() => {
     box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
-    if (selectedSlot && !it.curse) add('Unequip', () => Game.unequip(selectedSlot));
+    // a worn piece offers only taking it off, and a cursed one not even that
+    if (selectedSlot) { if (!it.curse) add('Unequip', () => Game.unequip(selectedSlot)); }
     else {
       if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
         if (!why) add(it.curse && !it.h ? 'Equip (cursed!)' : 'Equip', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary');
@@ -764,7 +768,7 @@ const UI = (() => {
     { id: 'locked', colour: '#e05050', label: 'Locked door' },
     { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
     { id: 'trader', colour: '#b57ae0', label: 'Trader' },
-    { id: 'loot', colour: '#e8d84a', label: 'Something here' },
+    { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
     { id: 'floor', colour: '#2c2a3a', label: 'Walked' },
     { id: 'wall', colour: '#5a5670', label: 'Wall' },
   ];
@@ -799,7 +803,7 @@ const UI = (() => {
     c.dataset.tile = String(size);
     c.dataset.originX = String(minX);
     c.dataset.originY = String(minY);
-    $('#map-title').textContent = `Level ${L.depth}: ${THEMES[L.theme].name}`;
+    $('#map-title').textContent = `Floor ${L.depth}: ${THEMES[L.theme].name}`;
 
     const ctx = c.getContext('2d');
     ctx.fillStyle = '#05050a';
@@ -897,7 +901,13 @@ const UI = (() => {
       b.className = 'spell' + (ok ? '' : ' locked');
       b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b><small>${sp.desc}${ok ? '' : ` Requires level ${sp.lvl * 2 - 1}.`}</small></div>`;
       b.disabled = !ok;
-      b.addEventListener('click', () => { if (Game.castSpell(sp)) closeOverlay(); else renderSpells(); });
+      b.addEventListener('click', () => {
+        if (Game.castSpell(sp)) { closeOverlay(); return; }
+        // the reason goes to the log, hidden behind this list: show it here too
+        const said = Game.state().log.slice(-1)[0];
+        renderSpells();
+        if (said) { const n = document.createElement('p'); n.className = 'spell-why'; n.textContent = said.m; $('#spell-list').prepend(n); }
+      });
       list.appendChild(b);
     }
   }
@@ -908,14 +918,14 @@ const UI = (() => {
     const rows = [];
     const r = (k, v, full) => rows.push(`<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`);
     r('Name', escapeHtml(p.name)); r('Class', c.name);
-    r('Level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
+    r('Hero level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
     r('Hit points', `${p.hp} / ${p.maxHp}`); r('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '—');
     r('Armor class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
-    r('Weapon', `${w.name} ${w.dmg[0]}d${w.dmg[1]}${w.dmg[2] ? '+' + w.dmg[2] : ''}${w.e ? ' +' + w.e : ''}`);
+    r('Weapon', `${w.name} ${w.dmg[0]}d${w.dmg[1]}${w.dmg[2] ? '+' + w.dmg[2] : ''}${w.e > 0 ? ' +' + w.e : w.e < 0 ? ' \u2212' + -w.e : ''}`, true);
     r('Gold', p.gold);
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
     r('Kills', p.kills); r('Steps', p.steps);
-    r('Deepest level', p.deepest); r('Seed', escapeHtml(G.seed));
+    r('Deepest floor', p.deepest); r('Seed', escapeHtml(G.seed));
     r('Background', BACKGROUNDS[p.bg] ? BACKGROUNDS[p.bg].name : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
     if (p.boons && p.boons.length) {
@@ -943,7 +953,7 @@ const UI = (() => {
       : (G.escaping
         ? `${p.name} the ${CLASSES[p.cls].name} died on level ${G.depth} with the Heart still in hand. ${G.opts.permadeath ? 'The save has been erased.' : ''}`
         : `${p.name} the ${CLASSES[p.cls].name} fell on level ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
-    const rows = [['Level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest', p.deepest]];
+    const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
@@ -1021,8 +1031,11 @@ const UI = (() => {
     window.addEventListener('keyup', e => { if (KEYS[e.code]) held.delete(KEYS[e.code]); });
     window.addEventListener('blur', () => held.clear());
   }
+  let attackBtn = null, atkShown = -1;
   function pumpHeld() {
     if (overlay) return;
+    const atk = attackBtn || (attackBtn = document.querySelector('.ctl.attack'));
+    if (atk) { const r = Math.round(Game.attackReady() * 20) / 20; if (r !== atkShown) { atkShown = r; atk.style.setProperty('--ready', String(r)); atk.classList.toggle('cooling', r < 1); } }
     for (const act of held) Game.input(act);
   }
 

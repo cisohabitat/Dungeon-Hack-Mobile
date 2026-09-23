@@ -327,6 +327,21 @@ test.describe('dungeon features', () => {
     await worn.click();
     await expect(page.locator('#item-detail')).toContainText('will not come off');
     await expect(page.locator('#item-detail button', { hasText: 'Unequip' })).toHaveCount(0);
+    // nor any button that cannot work on a worn piece
+    await expect(page.locator('#item-detail button', { hasText: /Drop|Equip/ })).toHaveCount(0);
+    await expect(page.locator('#item-detail')).toContainText('Remove Curse');
+    expect(errors).toEqual([]);
+  });
+
+  test('a spell that cannot be cast says why inside the spell list', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'spell-why', cls: 'Mage' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await page.click('[data-open="spells"]');
+    await page.locator('#spell-list button.spell', { hasText: 'Magic Missile' }).click();
+    await expect(page.locator('#ov-spells')).toHaveClass(/open/);
+    await expect(page.locator('#spell-list .spell-why')).toContainText(/Nothing|nothing/);
     expect(errors).toEqual([]);
   });
 });
