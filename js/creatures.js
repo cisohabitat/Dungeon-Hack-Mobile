@@ -628,7 +628,20 @@ function paintParts(parts, size = 32) {
       }
       return;
     }
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    // only the pixels the shape could cover: scanning the whole grid for every
+    // part made painting most of the time the game spent starting up
+    let x0, y0, x1, y1;
+    if (p.k === 'ball') { x0 = p.x - p.rx; x1 = p.x + p.rx; y0 = p.y - p.ry; y1 = p.y + p.ry; }
+    else if (p.k === 'limb') {
+      const r = Math.max(p.r1, p.r2, 0.55);
+      x0 = Math.min(p.x1, p.x2) - r; x1 = Math.max(p.x1, p.x2) + r; y0 = Math.min(p.y1, p.y2) - r; y1 = Math.max(p.y1, p.y2) + r;
+    } else {
+      const xs = p.pts.map(q => q[0]), ys = p.pts.map(q => q[1]);
+      x0 = Math.min(...xs); x1 = Math.max(...xs); y0 = Math.min(...ys); y1 = Math.max(...ys);
+    }
+    const bx0 = Math.max(0, Math.floor(x0) - 1), bx1 = Math.min(size - 1, Math.ceil(x1) + 1);
+    const by0 = Math.max(0, Math.floor(y0) - 1), by1 = Math.min(size - 1, Math.ceil(y1) + 1);
+    for (let y = by0; y <= by1; y++) for (let x = bx0; x <= bx1; x++) {
       const px = x + 0.5, py = y + 0.5;
       if (p.k === 'ball') {
         const nx = (px - p.x) / p.rx, ny = (py - p.y) / p.ry, d2 = nx * nx + ny * ny;

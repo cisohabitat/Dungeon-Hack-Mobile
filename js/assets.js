@@ -109,9 +109,11 @@ const Assets = (() => {
       url: base.toDataURL(),
     });
     const sprite = make();
-    // Elite variants: the base sprite washed with the champion's colour, then shaded.
+    // Elite variants: the base sprite washed with the champion's colour, then
+    // shaded. Only monsters can be champions, and building these for every
+    // item, key and prop as well was over half the time the game took to start.
     sprite.elite = {};
-    for (const e of ELITES) {
+    if (def.elites) for (const e of ELITES) {
       const washed = tintOf(e.tint, 0.4);
       const shade = a => {
         const c = canvas(w, h);
@@ -390,7 +392,7 @@ const Assets = (() => {
       if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a' });
     }
     // creatures built from parts replace their old grids
-    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1 });
+    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true });
     for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1 });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
