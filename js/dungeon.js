@@ -251,10 +251,12 @@ const Dungeon = (() => {
 
     // ---- groups ----
     // From the second floor down, pack creatures share a square: in twos,
-    // and in threes deeper. A stream of its own, so every other roll in the
-    // level falls where it did. For every extra body a lone monster is taken
-    // away, the same kind first and otherwise the weakest, so a floor holds
-    // about as many as before, gathered together.
+    // and in threes deeper. A stream of its own, so the layout, monsters and
+    // loot fall where they did (a trader or encounter may stand a square
+    // over, since the squares freed here change their choice of spot). For
+    // every extra body a lone monster is taken away, the same kind first and
+    // otherwise the weakest, so a floor holds about as many as before,
+    // gathered together.
     if (depth >= 2) {
       const grng = new Rng(`${seed}|packs|${depth}`);
       const most = depth >= 5 ? 3 : 2;

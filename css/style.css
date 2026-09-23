@@ -187,7 +187,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log div.bad { color: #f08a80; }
 .log div.good { color: #9ee08a; }
 .log div.info { color: #9ab8f0; }
-.log div:last-child { color: #fff; }
+.log div:last-child:not(.bad):not(.good):not(.info) { color: #fff; }
+/* the newest line keeps its colour, and says it is newest by weight instead */
+.log div:last-child { font-weight: bold; }
 .controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; }
 /* sized to the screen: roomier on a big phone, never cramped on a small one */
 .dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 6px; width: 52%; max-width: 250px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }
@@ -325,3 +327,6 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .stats .key-stat { color: #f2e2b8; font-weight: bold; }
 /* a spell that could not be cast says why at the top of the list */
 .spell-why { color: #f0a090; background: #2a1414; border: 1px solid #5a2a24; border-radius: 6px; padding: 6px 8px; margin: 0 0 8px; font-size: 0.85rem; }
+/* the spell the Cast button will throw */
+.spell.ready { border-color: var(--gold); }
+.spell .on-cast { display: block; font-style: normal; font-size: 0.72rem; color: var(--gold); }

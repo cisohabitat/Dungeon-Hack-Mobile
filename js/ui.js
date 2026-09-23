@@ -201,7 +201,7 @@ const UI = (() => {
       b.type = 'button';
       b.setAttribute('aria-pressed', String(id === create.cls));
       b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
-      b.addEventListener('click', () => { create.cls = id; buildCreate(); });
+      b.addEventListener('click', () => { create.cls = id; fitStats(); buildCreate(); });
       grid.appendChild(b);
     }
     const bgGrid = $('#c-backgrounds');
@@ -230,8 +230,15 @@ const UI = (() => {
       st.appendChild(div);
     }
   }
+  /** The best roll belongs in the class's key stat: a thief with 7 dexterity was a trap. */
+  function fitStats() {
+    const st = create.stats, keyStat = CLASSES[create.cls].primary;
+    const best = Object.keys(st).reduce((a, b) => (st[b] > st[a] ? b : a), keyStat);
+    [st[keyStat], st[best]] = [st[best], st[keyStat]];
+  }
   function openCreation() {
     create.stats = Game.rollStats();
+    fitStats();
     buildCreate();
     showScreen('screen-create');
   }
@@ -324,6 +331,7 @@ const UI = (() => {
   // say Descend, not leave you to guess that Use means it.
   let useSig = '';
   function refreshUse() {
+    refreshCast();
     const label = Game.useLabel();
     if (label === useSig) return;
     useSig = label;
@@ -332,6 +340,17 @@ const UI = (() => {
     btn.querySelector('small').textContent = label;
     btn.setAttribute('aria-label', label);
     btn.classList.toggle('ctx', label !== 'Use' && label !== 'Search');
+  }
+  let castSig = '';
+  function refreshCast() {
+    const label = Game.castLabel();
+    if (label === castSig) return;
+    castSig = label;
+    const btn = document.querySelector('[data-tap="cast"]');
+    if (!btn) return;
+    btn.firstChild.nodeValue = label === 'Quaff' ? '\u2697' : '\u2726';
+    btn.querySelector('small').textContent = label;
+    btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : `Cast ${label}`);
   }
   function refreshLog() {
     const G = Game.state();
@@ -467,7 +486,7 @@ const UI = (() => {
     if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
     for (const it of s.stock.slice()) {
       const price = Game.buyPrice(s, it);
-      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'The trader will tell you what it is') + (it.q > 1 ? ` · ${it.q} in stock` : '');
+      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
     }
     // what the trader will do for coin besides trade
@@ -763,15 +782,17 @@ const UI = (() => {
   const MAP_KEY = [
     { id: 'player', colour: '#ff6a50', label: 'You' },
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
-    { id: 'up', colour: '#7cc4ee', label: 'Stairs up' },
+    { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
-    { id: 'locked', colour: '#e05050', label: 'Locked door' },
+    { id: 'locked', colour: '#d0409a', label: 'Locked door' },
     { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
     { id: 'trader', colour: '#b57ae0', label: 'Trader' },
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
     { id: 'floor', colour: '#2c2a3a', label: 'Walked' },
     { id: 'wall', colour: '#5a5670', label: 'Wall' },
+    { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
+  const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
 
   function renderMap() {
     const L = Game.level(), p = Game.player();
@@ -824,19 +845,19 @@ const UI = (() => {
         const t = L.tiles[i];
         let col = '#2c2a3a', mark = null, markColour = '#000';
         switch (t) {
-          case T.WALL: case T.SECRET: col = '#5a5670'; break;
-          case T.TORCH: col = '#5a5670'; mark = '*'; markColour = '#ffb45a'; break;
-          case T.FLOOR: col = '#2c2a3a'; break;
-          case T.DOOR: col = '#c08a3e'; mark = '+'; break;
+          case T.WALL: case T.SECRET: col = MAP_COLOUR.wall; break;
+          case T.TORCH: col = MAP_COLOUR.wall; mark = '*'; markColour = MAP_COLOUR.torch; break;
+          case T.FLOOR: col = MAP_COLOUR.floor; break;
+          case T.DOOR: col = MAP_COLOUR.door; mark = '+'; break;
           case T.DOOR_OPEN: col = '#7a5a34'; mark = "'"; break;
           case T.DOOR_LOCKED:
-            col = '#e05050';
+            col = MAP_COLOUR.locked;
             mark = '\u2716';
             markColour = KEY_COLORS[L.locks[x + ',' + y]] || '#fff';
             break;
-          case T.STAIRS_DOWN: col = '#ffd24a'; mark = '\u25bc'; break;
-          case T.STAIRS_UP: col = '#7cc4ee'; mark = '\u25b2'; break;
-          case T.FOUNTAIN: col = '#49a6f0'; mark = '\u2248'; break;
+          case T.STAIRS_DOWN: col = MAP_COLOUR.down; mark = '\u25bc'; break;
+          case T.STAIRS_UP: col = MAP_COLOUR.up; mark = '\u25b2'; break;
+          case T.FOUNTAIN: col = MAP_COLOUR.fountain; mark = '\u2248'; break;
         }
         ctx.fillStyle = col;
         ctx.fillRect(x * size - ox, y * size - oy, size, size);
@@ -848,12 +869,12 @@ const UI = (() => {
     for (const k in L.items) {
       const [x, y] = k.split(',').map(Number);
       if (!L.explored[y * L.w + x] || !L.items[k].length) continue;
-      ctx.fillStyle = '#e8d84a';
+      ctx.fillStyle = MAP_COLOUR.loot;
       ctx.fillRect(x * size - ox + size * 0.28, y * size - oy + size * 0.28, size * 0.44, size * 0.44);
     }
     for (const n of (L.npcs || [])) {
       if (!L.explored[n.y * L.w + n.x]) continue;
-      ctx.fillStyle = '#b57ae0';
+      ctx.fillStyle = MAP_COLOUR.trader;
       ctx.fillRect(n.x * size - ox, n.y * size - oy, size, size);
       glyph('\u00a4', n.x, n.y, '#2a1a38');
     }
@@ -898,15 +919,19 @@ const UI = (() => {
     for (const sp of spells) {
       const ok = Game.spellAvailable(sp);
       const b = document.createElement('button');
-      b.className = 'spell' + (ok ? '' : ' locked');
-      b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b><small>${sp.desc}${ok ? '' : ` Requires level ${sp.lvl * 2 - 1}.`}</small></div>`;
+      const ready = ok && Game.castLabel() === sp.name;
+      b.className = 'spell' + (ok ? '' : ' locked') + (ready ? ' ready' : '');
+      b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${sp.lvl * 2 - 1}.`}</small></div>`;
       b.disabled = !ok;
       b.addEventListener('click', () => {
+        const seq = Game.state().logSeq;
         if (Game.castSpell(sp)) { closeOverlay(); return; }
-        // the reason goes to the log, hidden behind this list: show it here too
-        const said = Game.state().log.slice(-1)[0];
+        // the reason goes to the log, hidden behind this list: show it here
+        // too, but only if this cast wrote one (an older line is not the reason)
+        let why = Game.state().logSeq > seq ? Game.state().log.slice(-1)[0].m : 'You are still recovering from your last action.';
+        if (Game.castLabel() === sp.name) why += ` ${sp.name} is ready on the Cast button.`;
         renderSpells();
-        if (said) { const n = document.createElement('p'); n.className = 'spell-why'; n.textContent = said.m; $('#spell-list').prepend(n); }
+        const n = document.createElement('p'); n.className = 'spell-why'; n.textContent = why; $('#spell-list').prepend(n);
       });
       list.appendChild(b);
     }
@@ -926,7 +951,7 @@ const UI = (() => {
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
     r('Kills', p.kills); r('Steps', p.steps);
     r('Deepest floor', p.deepest); r('Seed', escapeHtml(G.seed));
-    r('Background', BACKGROUNDS[p.bg] ? BACKGROUNDS[p.bg].name : '—', true);
+    r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
     if (p.boons && p.boons.length) {
       const names = p.boons.map(id => { const b = BOONS.find(x => x.id === id); return b ? b.name : id; });
@@ -1063,7 +1088,7 @@ const UI = (() => {
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
-    $('#c-reroll').addEventListener('click', () => { create.stats = Game.rollStats(); buildCreate(); });
+    $('#c-reroll').addEventListener('click', () => { create.stats = Game.rollStats(); fitStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);

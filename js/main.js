@@ -24,6 +24,15 @@ function exposeForTesting() {
   });
 }
 
+// A phone may kill a backgrounded tab without warning, and the only saves
+// were on the stairs: keep the run whenever the page is put away.
+function saveOnHide() {
+  const G = Game.state();
+  if (G && G.status === 'playing' && UI.isPlaying()) Game.save(true);
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveOnHide(); });
+window.addEventListener('pagehide', saveOnHide);
+
 let last = 0;
 function loop(now) {
   const dt = last ? Math.min(100, now - last) : 0;

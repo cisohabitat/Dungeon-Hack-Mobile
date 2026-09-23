@@ -539,6 +539,115 @@ const PROPS = {
       dots([[20, 16], [22, 17], [12, 20], [14, 19]], '#c8a890'),
     ];
   },
+  // a man hanging in goblin chains, a fresh brand on his arm
+  prisoner: () => {
+    const skin = '#c89a78', rag = '#b8ac90', iron = '#7a7e88';
+    return [
+      ball(7, 6, 1.4, 1.4, iron), ball(25, 6, 1.4, 1.4, iron),
+      line(7, 7, 10, 11, '#8a8e96'), line(25, 7, 22, 11, '#8a8e96'),
+      limb(13, 24, 9, 29.5, 1.6, 1.4, '#5a4a3a'), limb(19, 24, 23, 29.5, 1.6, 1.4, '#5a4a3a'),
+      ball(8.5, 30.2, 1.8, 0.9, '#3a2e24'), ball(23.5, 30.2, 1.8, 0.9, '#3a2e24'),
+      sheet([[11, 13.5], [21, 13.5], [22, 25], [10, 25]], rag, { curve: 1 }),
+      line(14, 17, 18, 22, '#8a7e66'), line(12, 21, 15, 24, '#8a7e66'),
+      limb(11.5, 14.5, 9.8, 10.5, 1.2, 1, skin), limb(20.5, 14.5, 22.2, 10.5, 1.2, 1, skin),
+      ball(9.8, 10.8, 1.5, 1.2, iron), ball(22.2, 10.8, 1.5, 1.2, iron),
+      dots([[21, 13], [22, 13]], '#c03020'),
+      ball(16, 9.5, 3.4, 3.6, skin),
+      ball(16, 11.8, 2.6, 1.6, '#6a4a30'),
+      dots([[14, 6], [15, 6], [16, 6], [17, 6], [18, 6], [14, 7], [18, 7]], '#4a3020'),
+      dots([[14, 9], [18, 9]], '#2a1a14'),
+    ];
+  },
+  // a ring of worked stone older than the delve, a rope going down, coins on the lip
+  well: () => {
+    const stone = '#7a746a', wood = '#6a4424';
+    return [
+      limb(6, 19, 6, 6, 1, 1, wood), limb(26, 19, 26, 6, 1, 1, wood),
+      sheet([[3, 6.5], [29, 6.5], [24, 1.5], [8, 1.5]], '#5a3a20', { tilt: [0, -0.7] }),
+      limb(6, 9, 26, 9, 0.8, 0.8, wood),
+      line(16, 9, 16, 14, '#c8b088'),
+      sheet([[14, 14], [18, 14], [17.5, 17.5], [14.5, 17.5]], '#7a5030', { curve: 0.6 }),
+      sheet([[5, 19], [27, 19], [27, 30.6], [5, 30.6]], stone, { curve: 1 }),
+      line(5, 23, 27, 23, '#5a544c'), line(5, 26.5, 27, 26.5, '#5a544c'),
+      dots([[10, 20], [18, 20], [24, 21], [7, 24], [14, 24], [21, 24], [11, 27], [19, 27], [25, 28]], '#5a544c'),
+      ball(16, 19, 11, 3, '#8a847a'),
+      ball(16, 19, 8.5, 2, '#14202c'),
+      dots([[13, 19], [19, 18]], '#6a8aaa'),
+      dots([[7, 18], [9, 17], [24, 17], [26, 18]], '#e8c040'),
+    ];
+  },
+  // the archivist's shelves, bowed under books, one spine lettered in gold
+  bookcase: () => {
+    const cols = ['#7a2a2a', '#2a4a6a', '#4a6a2a', '#6a5a2a', '#5a2a5a', '#8a6a3a', '#3a5a5a'];
+    const books = [];
+    [[3, 8.6], [10, 16.6], [18, 24.6]].forEach(([top, bottom], row) => {
+      let x = 7;
+      for (let i = 0; x < 25; i++) {
+        const w = 1.6 + ((i + row) % 3) * 0.5, h = (bottom - top) - ((i * 7 + row * 3) % 4) * 0.8;
+        if ((i + row * 2) % 7 !== 5) books.push(sheet([[x, bottom - h], [x + w, bottom - h], [x + w, bottom], [x, bottom]], row === 1 && i === 3 ? '#c8a040' : cols[(i * 3 + row) % cols.length], { curve: 0.6 }));
+        x += w + 0.4;
+      }
+    });
+    return [
+      sheet([[5, 2], [27, 2], [27, 31], [5, 31]], '#3a2618', { curve: 0.3 }),
+      ...books,
+      ...[9.2, 17.2, 25.2].map(y => limb(5.5, y, 26.5, y, 0.9, 0.9, '#6a4424')),
+      sheet([[8, 26.5], [14, 26], [14.5, 29], [8.5, 29.5]], '#6a3a2a', { tilt: [-0.1, -0.8] }),
+      dots([[16, 12], [16, 13], [16, 14]], '#fff0a0'),
+    ];
+  },
+  // an ogre asleep on a bed of stolen coin, snoring like a rockfall
+  ogre_sleep: () => [
+    ...CREATURES.ogre(),
+    ball(9, 30, 4, 1.4, '#c89a28'), ball(16, 30.4, 4.5, 1.2, '#d8a830'), ball(23, 30, 4, 1.4, '#c89a28'),
+    dots([[8, 29], [15, 30], [22, 29], [18, 30]], '#fff0a0'),
+    // the snore, drawn clear of the club over its other shoulder
+    dots([[4, 2], [5, 2], [6, 2], [7, 2], [6, 3], [5, 4], [4, 5], [5, 5], [6, 5], [7, 5]], '#dde8ff'),
+    dots([[9, 6], [10, 6], [11, 6], [10, 7], [9, 8], [10, 8], [11, 8]], '#b8c8f0'),
+  ],
+  // a tall mirror in a gilt frame, where no mirror should be
+  mirror: () => [
+    limb(11, 31, 13, 25, 0.8, 0.7, '#4a3020'), limb(21, 31, 19, 25, 0.8, 0.7, '#4a3020'),
+    ball(16, 14, 9, 12.5, '#c8a040'),
+    ball(16, 14, 7, 10.5, '#7a90a8'),
+    ball(16, 11, 2.3, 2.5, '#5a6a80'),
+    sheet([[12, 15.5], [20, 15.5], [21, 23], [11, 23]], '#5a6a80', { curve: 0.8 }),
+    dots([[15, 11], [17, 11]], '#e8f0ff'),
+    line(11, 8, 13, 5, '#e8f4ff'), line(12, 10, 14, 7, '#c8dcf0'),
+    ball(16, 1.8, 2, 1.4, '#e0b848'),
+  ],
+  // a painted chest alone in the open, a wire running from its lid into the wall
+  chest: () => [
+    sheet([[6, 19], [26, 19], [27, 29.5], [5, 29.5]], '#8a2a2a', { curve: 0.9 }),
+    sheet([[6, 19.5], [26, 19.5], [25, 14], [21, 12], [11, 12], [7, 14]], '#a03838', { tilt: [0, -0.6] }),
+    line(5, 29, 27, 29, '#c8a040'), line(6, 19, 26, 19, '#c8a040'),
+    line(10, 13, 10, 29, '#c8a040'), line(22, 13, 22, 29, '#c8a040'),
+    sheet([[14.5, 18], [17.5, 18], [17.5, 22], [14.5, 22]], '#e0b848', { curve: 0.5 }),
+    dots([[16, 20]], '#2a1a10'),
+    line(24, 13, 30, 8, '#d0d4dc'),
+    ball(30.5, 7.5, 1.3, 1.3, '#1a1418'),
+    dots([[27, 10], [29, 9]], '#ffffff'),
+  ],
+  // a goblin on a crate beside a hand-painted sign, cup out for the toll
+  goblin_toll: () => [
+    limb(3.5, 31, 3.5, 13, 0.7, 0.7, '#6a4424'),
+    ...CREATURES.goblin(),
+    sheet([[0.5, 8.5], [9.5, 8.5], [9.5, 14.5], [0.5, 14.5]], '#b08a58', { tilt: [-0.1, -0.2] }),
+    dots([[2, 10], [3, 10], [4, 10], [3, 11], [3, 12], [3, 13], [6, 10], [6, 11], [6, 12], [6, 13], [7, 10], [7, 13], [8, 10], [8, 11], [8, 12], [8, 13]], '#3a2410'),
+  ],
+  // a wall of shields across the passage, and a banner still standing over them
+  barricade: () => {
+    const heater = (cx, c) => sheet([[cx - 3.6, 19], [cx + 3.6, 19], [cx + 3.6, 24.5], [cx, 30.5], [cx - 3.6, 24.5]], c, { curve: 1 });
+    return [
+      limb(16, 31, 16, 2.5, 0.7, 0.7, '#6a4424'),
+      sheet([[16.5, 3], [27.5, 3], [26.5, 11], [24.5, 9.5], [21.5, 12], [16.5, 11]], '#8a2a2a', { curve: 0.8 }),
+      dots([[21, 6], [22, 6], [21, 7], [22, 7], [20, 5], [23, 8]], '#e0b848'),
+      heater(6, '#2e4a7a'), heater(26, '#4a6a3a'), heater(12.5, '#7a2a2a'), heater(19.5, '#6e7480'),
+      ...[6, 12.5, 19.5, 26].map(x => ball(x, 23, 1.1, 1.1, '#c8ccd4')),
+      ball(9.5, 18, 3.2, 2.6, '#7a808c'), dots([[8, 18], [9, 18], [10, 18], [11, 18]], '#1a1418'),
+      ball(23.5, 29.6, 2, 1.6, '#ddd5bd'), dots([[23, 29], [24, 29]], '#140e14'),
+    ];
+  },
   // a skeleton with a cup of dice, and a pot of gold in front of it
   bones: () => {
     const bone = '#ddd5bd', worn = '#a89e84';

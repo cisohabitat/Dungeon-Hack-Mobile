@@ -140,6 +140,138 @@ const ENCOUNTERS = {
       { label: 'Leave him to his game', outcome: { text: 'He will find another player. He has time.', effects: [] } },
     ],
   },
+
+  prisoner: {
+    title: 'The Captive', sprite: 'prisoner', depth: [2, 6],
+    text: 'A man hangs in chains from rings in the wall, stripped to his shirt, a goblin brand fresh on his arm. His eyes open when your light reaches him. "They will be back," he whispers. "Please."',
+    choices: [
+      { label: 'Break the chains', check: { stat: 'str', dc: 13 },
+        pass: { text: 'The rings tear out of the stone. He is weak, but he knows this floor, and where they stack their plunder.', effects: [{ map: 1 }, { loot: 1 }] },
+        fail: { text: 'The chains hold, and the rattle carries. Something is coming to see what the noise was.', effects: [{ wake: 1 }] } },
+      { label: 'Pick the shackles', check: { stat: 'dex', dc: 13, knack: [['thief', null, 3]] },
+        pass: { text: 'Cheap goblin locks. He presses a healing draught into your hand, the one thing they did not find on him.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 30 }] },
+        fail: { text: 'A pin snaps in the lock. The tripwire his captors left does not.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Ask what he knows first', check: { stat: 'cha', dc: 12 },
+        pass: { text: 'He talks fast: which corridors are trapped, where the stairs lie, who took his sword. You free him when he is done.', effects: [{ map: 1 }, { xp: 40 }] },
+        fail: { text: 'He is too far gone to make sense. You free him anyway, and he stumbles off into the dark.', effects: [{ xp: 10 }] } },
+      { label: 'Leave him', outcome: { text: 'You leave him to his chains. His voice follows you a long way.', effects: [] } },
+    ],
+  },
+
+  well: {
+    title: 'An Old Well', sprite: 'well', depth: [1, 99],
+    text: 'A ring of worked stone, older than the delve, with a rope going down into a darkness that echoes. Coins glint on the lip, left by others who passed this way.',
+    choices: [
+      { label: 'Toss in a coin and make a wish', cost: { goldPerDepth: 4 }, check: { stat: 'wis', dc: 13 },
+        pass: { text: 'The coin rings off the stone a long way down. Something down there listens, and luck settles on your shoulders.', effects: [{ buff: { stats: [['hit', 2], ['ac', 2]], dur: 180000 } }] },
+        fail: { text: 'The coin falls without a sound. You are not sure anything is listening.', effects: [] } },
+      { label: 'Climb down the rope', check: { stat: 'dex', dc: 14 },
+        pass: { text: 'At the bottom, in a hand-span of water, a hundred years of offerings. You fill your pockets and climb back up.', effects: [{ goldPerDepth: 22 }, { loot: 0 }] },
+        fail: { text: 'The rope parts halfway down. The water breaks your fall, mostly.', effects: [{ hurtFrac: 0.2 }] } },
+      { label: 'Draw a bucket and drink', check: { stat: 'con', dc: 12 },
+        pass: { text: 'The water is cold enough to hurt, and clean. Your wounds ache, then ease.', effects: [{ heal: 'full' }] },
+        fail: { text: 'Something lives in the water, and now it lives in you.', effects: [{ poison: 1 }] } },
+      { label: 'Leave it', outcome: { text: 'You leave the coins where they lie.', effects: [] } },
+    ],
+  },
+
+  shelves: {
+    title: 'The Archivist\'s Shelves', sprite: 'bookcase', depth: [2, 99],
+    text: 'Shelves cut into the rock, still bowed under the archivist\'s books. Most have rotted to pulp. A few have not, and one spine is lettered in gold leaf.',
+    choices: [
+      { label: 'Search for anything still useful', check: { stat: 'int', dc: 12, knack: [['mage', null, 2], [null, 'tombwise', 2]] },
+        pass: { text: 'Behind a rotted ledger, a scroll case sealed with the archive\'s wax. The scroll inside is whole.', effects: [{ item: { t: 'scroll_uncurse', q: 1 } }, { xp: 25 }] },
+        fail: { text: 'The shelf you lean on gives way. Books, and then the shelf, come down on you.', effects: [{ hurtFrac: 0.12 }] } },
+      { label: 'Read the archivist\'s own journal', check: { stat: 'wis', dc: 12 },
+        pass: { text: 'Page after page on this floor: where the damp gets in, where the old crews dug, where the stairs are. You read it twice.', effects: [{ map: 1 }, { xp: 30 }] },
+        fail: { text: 'The last pages are not in the archivist\'s hand, and reading them makes your skin crawl. You put it down too late.', effects: [{ maxHp: -2 }] } },
+      { label: 'Take the gilt book to sell', outcome: { text: 'It is heavier than it looks. A trader will pay for gold leaf, and you pocket the loose leaves now.', effects: [{ goldPerDepth: 8 }] } },
+      { label: 'Leave them', outcome: { text: 'You leave the archive to its slow rot.', effects: [] } },
+    ],
+  },
+
+  sleeper: {
+    title: 'A Sleeping Ogre', sprite: 'ogre_sleep', depth: [4, 99],
+    text: 'An ogre sleeps across the passage on a bed of stolen coin, snoring like a rockfall. One hand is still wrapped around its club.',
+    choices: [
+      { label: 'Creep past and fill your purse', check: { stat: 'dex', dc: 14, knack: [['thief', null, 4]] },
+        pass: { text: 'You go through its hoard a coin at a time, between snores. It never stirs.', effects: [{ goldPerDepth: 28 }, { loot: 1 }] },
+        fail: { text: 'A coin slides. The snoring stops.', effects: [{ ambush: { id: 'ogre', n: 1 } }] } },
+      { label: 'Crack its skull while it sleeps', check: { stat: 'str', dc: 15 },
+        pass: { text: 'One blow, with everything you have behind it. It never wakes.', effects: [{ xp: 180 }, { goldPerDepth: 14 }] },
+        fail: { text: 'Its skull is thicker than your arm. It wakes up angry.', effects: [{ ambush: { id: 'ogre', n: 1 } }, { hurtFrac: 0.1 }] } },
+      { label: 'Let it sleep', outcome: { text: 'You find another way round, very quietly.', effects: [] } },
+    ],
+  },
+
+  mirror: {
+    title: 'A Mirror in the Dark', sprite: 'mirror', depth: [3, 99],
+    text: 'A tall mirror in a gilt frame stands where no mirror should be. Your reflection lowers its lantern a moment after you lower yours.',
+    choices: [
+      { label: 'Look deep into it', check: { stat: 'wis', dc: 14 },
+        pass: { text: 'It shows you as you could be, and for a moment you are. Something of it stays with you.', effects: [{ stat: ['wis', 1] }, { xp: 40 }] },
+        fail: { text: 'The reflection smiles, and you do not. You feel thinner, somehow, when you look away.', effects: [{ maxHp: -3 }] } },
+      { label: 'Talk to your reflection', check: { stat: 'cha', dc: 13 },
+        pass: { text: 'It answers, in your own voice, and tells you where the dangers on this floor are waiting.', effects: [{ map: 1 }, { xp: 30 }] },
+        fail: { text: 'It answers with something that is not a word, and something steps out of the frame after you.', effects: [{ ambush: { id: 'wraith', n: 1 } }] } },
+      { label: 'Smash it', check: { stat: 'str', dc: 11 },
+        pass: { text: 'It shatters, and something like a sigh goes out of the room. The gilt frame is worth a little.', effects: [{ goldPerDepth: 10 }, { xp: 20 }] },
+        fail: { text: 'The glass does not break. Your hand does, a little.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Turn it to the wall', outcome: { text: 'You turn it round without looking and walk on.', effects: [] } },
+    ],
+  },
+
+  wired: {
+    title: 'A Wired Chest', sprite: 'chest', depth: [1, 99],
+    text: 'A painted chest sits alone in the open, which is the first warning. The second is the wire running from its lid into a hole in the wall.',
+    choices: [
+      { label: 'Disarm the trap', check: { stat: 'dex', dc: 13, knack: [['thief', null, 4]] },
+        pass: { text: 'You find the spring, wedge it, and lift the lid on a trap that will never fire.', effects: [{ loot: 1 }, { goldPerDepth: 10 }] },
+        fail: { text: 'The wire goes taut under your fingers. The darts are quicker than you.', effects: [{ hurtFrac: 0.15 }, { poison: 1 }] } },
+      { label: 'Work out where the darts will fly', check: { stat: 'int', dc: 12 },
+        pass: { text: 'You open it from the side with your blade tip. The darts rattle off the far wall.', effects: [{ loot: 1 }] },
+        fail: { text: 'You were wrong about the side.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Wrench it open and take the darts', check: { stat: 'con', dc: 14 },
+        pass: { text: 'The darts hurt, and you do not care. Everything inside is yours.', effects: [{ loot: 2 }, { hurtFrac: 0.1 }] },
+        fail: { text: 'The darts hurt a great deal. You get the lid open, eventually.', effects: [{ loot: 1 }, { hurtFrac: 0.25 }] } },
+      { label: 'Leave it', outcome: { text: 'Whoever set that trap can keep what is in it.', effects: [] } },
+    ],
+  },
+
+  toll: {
+    title: 'The Goblin Toll', sprite: 'goblin_toll', depth: [2, 6],
+    text: 'A goblin in a dented helmet stands beside a hand-painted sign and holds out a cup. "Toll!" it says, very pleased with itself. Behind it, others watch from the dark.',
+    choices: [
+      { label: 'Pay the toll', cost: { goldPerDepth: 6 },
+        outcome: { text: 'It bites the coin, nods and whistles. The ones in the dark melt away, and it points you the quick way down.', effects: [{ map: 1 }] } },
+      { label: 'Scare it off', check: { stat: 'str', dc: 12 },
+        pass: { text: 'You loom. It squeaks, drops the cup and runs, and so do the ones in the dark.', effects: [{ goldPerDepth: 10 }, { xp: 20 }] },
+        fail: { text: 'It is braver than it looks, and so are its friends.', effects: [{ ambush: { id: 'goblin', n: 2 } }] } },
+      { label: 'Tell it you are the new toll-collector', check: { stat: 'cha', dc: 13 },
+        pass: { text: 'It hands you the cup, salutes, and marches off to tell the others. The cup is half full.', effects: [{ goldPerDepth: 16 }] },
+        fail: { text: 'It does not believe you. It whistles.', effects: [{ ambush: { id: 'goblin', n: 2 } }] } },
+      { label: 'Back away and find another road', outcome: { text: 'You back off. Its jeering follows you down the passage.', effects: [] } },
+    ],
+  },
+
+  laststand: {
+    title: 'The Third Crew\'s Last Stand', sprite: 'barricade', depth: [3, 99],
+    text: 'A wall of shields across the passage, and behind it the third crew, where they fell holding it. Their banner is still up. Whatever they held this line against, it did not come through.',
+    choices: [
+      { label: 'Search the fallen', check: { stat: 'wis', dc: 12 },
+        pass: { text: 'You go carefully, and find what they carried: a purse, and something better.', effects: [{ loot: 1 }, { goldPerDepth: 12 }] },
+        fail: { text: 'One of them was not quite finished dying. A cold hand closes on your wrist.', effects: [{ maxHp: -2 }] } },
+      { label: 'Read their captain\'s last orders', check: { stat: 'int', dc: 11 },
+        pass: { text: 'A map of the floor, marked with every place they lost someone. You will not make their mistakes.', effects: [{ map: 1 }, { xp: 30 }] },
+        fail: { text: 'The ink has run too far to read.', effects: [] } },
+      { label: 'Raise their banner and take heart', check: { stat: 'cha', dc: 12 },
+        pass: { text: 'You set the banner straight. For a while it feels as if they march with you.', effects: [{ buff: { stats: [['hit', 2]], dur: 240000 } }, { xp: 20 }] },
+        fail: { text: 'The pole snaps in your hands. It feels like a bad sign.', effects: [] } },
+      { label: 'Bury them', outcome: { text: 'It takes a long time, and you go hungry for it. It was the right thing to do.', effects: [{ food: -15 }, { xp: 50 }] } },
+      { label: 'Leave them to their watch', outcome: { text: 'You step over the shields and go on. They have held their line long enough.', effects: [] } },
+    ],
+  },
+
 };
 
 /** Difficulty grows a little every three floors. */
@@ -148,8 +280,9 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
 /**
  * Which encounters sit on which floor, for a whole run, decided by the seed:
  * the same seed always meets the same ones in the same places, none repeats,
- * and they are spread across the run rather than front-loaded. The deepest
- * floor, where the Heart is kept, has none.
+ * they are spread across the run rather than front-loaded, and a run meets
+ * about one a floor from a deck twice that size. The deepest floor, where
+ * the Heart is kept, has none.
  * @returns {string[][]} plan[depth] = encounter ids
  */
 function encounterPlan(seed, levels) {
@@ -158,19 +291,17 @@ function encounterPlan(seed, levels) {
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);
+  // About one a floor, as a run always met: a bigger deck means each run
+  // draws a different handful from it, not that it meets more of them.
+  const budget = Math.min(deck.length, Math.round(floors * 1.15));
   for (let d = 1; d <= levels; d++) {
     plan[d] = [];
     if (d === levels) continue;
-    const left = deck.length - used.size, floorsLeft = floors - d + 1;
+    const left = budget - used.size, floorsLeft = floors - d + 1;
     const share = left / floorsLeft;
-    let n = Math.min(2, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));
-    // Soonest-closing first: an encounter that only belongs on the upper
-    // floors must be placed before its window shuts, or a long run spread
-    // thin never meets it at all.
-    const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1])
-      .sort((a, b) => Math.min(ENCOUNTERS[a].depth[1], floors) - Math.min(ENCOUNTERS[b].depth[1], floors));
-    const lastChance = open.filter(e => Math.min(ENCOUNTERS[e].depth[1], floors) === d).length;
-    n = Math.min(2, Math.max(n, lastChance));
+    const n = Math.min(2, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));
+    // the deck's own shuffled order decides, among those that belong this deep
+    const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1]);
     for (const id of open.slice(0, n)) { used.add(id); plan[d].push(id); }
   }
   return plan;

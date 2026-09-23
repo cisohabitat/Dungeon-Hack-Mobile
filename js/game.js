@@ -14,6 +14,7 @@ const Game = (() => {
   const INV_MAX = 20;
   const SAVE_KEY = 'deepdelve.save';
   const HALL_KEY = 'deepdelve.hall';
+  const TIPS_KEY = 'deepdelve.tips';
   const MOVE_MS = 220;
   const TURN_MS = 200;
 
@@ -283,7 +284,8 @@ const Game = (() => {
         for (const [dx, dy] of DIRS) {
           if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
           const ni = (y + dy) * L.w + x + dx, t = L.tiles[ni];
-          if (dist[ni] >= 0 || t === T.WALL || t === T.SECRET || t === T.TORCH || t === T.FOUNTAIN) continue;
+          // a secret door counts as a way through, so a vault's reward can be chosen
+          if (dist[ni] >= 0 || t === T.WALL || t === T.TORCH || t === T.FOUNTAIN) continue;
           dist[ni] = dist[i] + 1; q.push(ni);
         }
       }
@@ -482,7 +484,7 @@ const Game = (() => {
       if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The scroll would be wasted.';
       if (b.effect === 'fire' && !boltTargets(3, false).length) return 'There is nothing ahead to burn.';
       if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this level.';
-      if (b.effect === 'uncurse' && !cursedWorn().length && !hiddenGear().length) return 'Nothing you carry is cursed or unknown.';
+      if (b.effect === 'uncurse' && !cursedWorn().length && !hiddenGear().length) return 'Nothing you wear is cursed, and you know all your gear.';
     }
     return null;
   }
@@ -519,7 +521,12 @@ const Game = (() => {
           Sound.play('spell');
           const targets = boltTargets(3, false);
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
-          for (const m of targets) hitGroup(m, d(4, 6), 'fire');
+          castingName = 'fireball';
+          for (const m of targets) {
+            if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
+            hitGroup(m, d(4, 6), 'fire');
+          }
+          castingName = '';
           break;
         }
         case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
@@ -717,11 +724,16 @@ const Game = (() => {
     }
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
+    // the first few runs get the controls in one line: nobody reads the help first
+    let runs = 0;
+    try { runs = Number(localStorage.getItem(TIPS_KEY) || 0); localStorage.setItem(TIPS_KEY, String(runs + 1)); } catch (e) { /* private browsing */ }
+    if (runs < 3) log('Arrows or a swipe move you. \u2694 Attack strikes what is in front; \u270b Use opens, takes and talks. Tap this log to read it back.', 'info');
     return G;
   }
 
   function enterLevel(depth, from) {
     const p = P();
+    queuedAttack = false;                  // a swing waiting on the last floor stays there
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
@@ -798,7 +810,7 @@ const Game = (() => {
     if (floorItems().length) return 'Take';
     const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1], t = tile(tx, ty);
     if (t === T.DOOR) return 'Open';
-    if (t === T.DOOR_LOCKED) return 'Unlock';
+    if (t === T.DOOR_LOCKED) return P().inv.some(it => it.t === 'key' && it.color === (lvl().locks[key(tx, ty)] || 'brass')) ? 'Unlock' : 'Force';
     if (t === T.STAIRS_DOWN) return 'Descend';
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : (G.escaping ? 'Escape' : 'Use');
     if (t === T.FOUNTAIN) return 'Drink';
@@ -850,7 +862,18 @@ const Game = (() => {
   let lastBlocked = -1e9;
   function blocked(message) {
     Sound.play('bump');
-    if (G.t - lastBlocked > 700) { log(message); lastBlocked = G.t; }
+    if (G.t - lastBlocked <= 700) return;
+    lastBlocked = G.t;
+    // the same bump again counts up on its own line instead of pushing
+    // everything that mattered off the top of the log
+    const last = G.log[G.log.length - 1];
+    if (last && (last.base || last.m) === message) {
+      last.base = last.base || message; last.n = (last.n || 1) + 1;
+      last.m = `${last.base} (\u00d7${last.n})`;
+      G.logSeq++;
+      return;
+    }
+    log(message);
   }
   function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
@@ -968,7 +991,8 @@ const Game = (() => {
     const r = relicOf(it);
     if (r) return Math.round(r.value * shop.markup * (1 - charm()));
     const v = ITEMS[it.t].value || 5;
-    return Math.max(2, Math.round(v * shop.markup * (1 + (it.e || 0) * 0.9) * (1 - charm())));
+    const e = it.h ? 0 : (it.e || 0);
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * (1 - charm())));
   }
   function sellPrice(it) {
     const r = relicOf(it);
@@ -984,6 +1008,7 @@ const Game = (() => {
   // is gone once it has been answered.
   let encounter = null;
   let queuedAttack = false;
+  let castingName = '';        // the spell whose blast is landing, so the log can name it
   function openEncounter(n) {
     const def = ENCOUNTERS[n.id];
     if (!def) return false;
@@ -1150,8 +1175,9 @@ const Game = (() => {
     p.gold += price;
     // flawed and cursed pieces go on the junk heap, not back on the shelf
     const junk = one.curse || (one.e || 0) < 0;
-    const ex = !one.u && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u);
-    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}) });
+    // a relic, or a piece whose quality is still unknown, sits on the shelf apart
+    const ex = !one.u && !one.h && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h);
+    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}) });
     log(`You sell ${the(one)} for ${price} gold.`, 'good');
     Sound.play('gold');
     emit('inv'); emit('stats');
@@ -1246,7 +1272,7 @@ const Game = (() => {
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else {
       const pre = tag === 'crit' ? 'A mighty blow! ' : (tag === 'sneak' ? 'You strike from the shadows! ' : '');
-      log(`${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
+      log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     // wounded, non-boss monsters may break and run
     if (!mb.boss && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
@@ -1517,7 +1543,11 @@ const Game = (() => {
   const CAST_MS = 800;
   function castSpell(sp) {
     const p = P();
+    queuedAttack = false;
     if (!spellAvailable(sp)) { log(`You are not experienced enough to cast ${sp.name}.`, 'bad'); return false; }
+    // choosing a spell readies it on the Cast button, even if it cannot fly
+    // yet: a mage picks Burning Hands before the fight, not during it
+    G.lastSpell = sp.id;
     if (p.sp < sp.cost) { log('Not enough spell points.', 'bad'); Sound.play('error'); return false; }
     const waste = spellWasteReason(sp);
     if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
@@ -1533,13 +1563,16 @@ const Game = (() => {
       case 'bolt': {
         const targets = boltTargets(sp.range, sp.pierce);
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
+        castingName = sp.name;
         for (const m of targets) {
+          if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
           let dmg = d(...sp.dmg(p.level));
           if (sp.holy && mstat(m).undead) dmg *= 2;
           // a bolt that tears through everything in its path, or a blast that
           // fills the square, takes a whole group; a dart only the front one
           if (sp.pierce || sp.area) hitGroup(m, dmg, 'fire'); else damageMonster(m, dmg, 'fire');
         }
+        castingName = '';
         break;
       }
     }
@@ -1548,9 +1581,30 @@ const Game = (() => {
   }
   function castLast() {
     const list = knownSpells();
-    if (!list.length) { log('You know no spells. Scrolls can be read from your pack.'); return false; }
+    if (!list.length) return quaff();
     const sp = list.find(s => s.id === G.lastSpell) || list[0];
     return castSpell(sp);
+  }
+
+  /**
+   * For a hero with no spells the Cast button is Quaff: drink the smallest
+   * known healing draught that will not be wasted, the one a player reaches
+   * for mid-fight without opening the pack.
+   */
+  function quaff() {
+    const p = P();
+    const draughts = p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t));
+    if (!draughts.length) { log('You have no healing draught you know by sight.', 'bad'); Sound.play('error'); return false; }
+    const missing = p.maxHp - p.hp;
+    const pick = draughts.find(i => i.t === 'potion_heal' && missing < 20) || draughts.find(i => i.t === 'potion_xheal') || draughts[0];
+    useItem(pick);
+    return true;
+  }
+  /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
+  function castLabel() {
+    const list = knownSpells();
+    if (!list.length) return 'Quaff';
+    return (list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0]).name;
   }
 
   // ---------- resting ----------
@@ -1776,6 +1830,7 @@ const Game = (() => {
     switch (act) {
       case 'forward': case 'back': case 'strafeL': case 'strafeR': case 'left': case 'right':
         if (cam.moving && camProgress() < 0.7) return;
+        queuedAttack = false;              // a step or turn cancels a waiting swing
         if (act === 'forward') tryMove(0);
         else if (act === 'back') tryMove(2);
         else if (act === 'strafeR') tryMove(1);
@@ -1860,7 +1915,7 @@ const Game = (() => {
       const it = list[list.length - 1];
       // the Heart floats; a relic hovers a little, so it reads as more than iron
       const floats = it.t === 'artifact' || !!it.u;
-      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.5 : (it.u ? 0.38 : 0.32), yOff: floats ? (it.u ? 0.04 : 0.1) + Math.sin(now / 300) * 0.03 : 0 });
+      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32), yOff: floats ? 0.04 + Math.sin(now / 300) * 0.03 : 0 });
     }
     fx.threats = threats();
     return { level: L, cam, sprites, fx };
@@ -1880,6 +1935,7 @@ const Game = (() => {
   }
   function hasSave() { try { return !!localStorage.getItem(SAVE_KEY); } catch (e) { return false; } }
   function load() {
+    queuedAttack = false;
     let s = null;
     try { s = localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
     if (!s) return false;
@@ -1933,7 +1989,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, isEscaping: () => !!(G && G.escaping),
+    wasteReason, spellWasteReason, attackReady, castLabel, isEscaping: () => !!(G && G.escaping),
     INV_MAX, T,
   };
 })();

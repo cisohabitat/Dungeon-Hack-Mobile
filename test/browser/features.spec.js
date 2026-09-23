@@ -250,8 +250,9 @@ test.describe('dungeon features', () => {
     // Escape does not dodge it
     await page.keyboard.press('Escape');
     await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
-    // answer it with the first checked choice
-    await page.locator('.enc-choice').first().click();
+    // answer it with the first checked choice this hero can take (one that
+    // costs coin a fresh hero lacks is shown, but disabled)
+    await page.locator('.enc-choice:not([disabled])', { hasText: /% chance/ }).first().click();
     await expect(page.locator('#enc-text')).toContainText(/It goes (well|badly)\./);
     await expect(page.locator('#enc-text .roll')).toContainText(/d20/);
     await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();

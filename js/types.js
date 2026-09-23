@@ -135,7 +135,7 @@
  * @property {Player} player
  * @property {Object<number, Level>} levels
  * @property {number} depth
- * @property {Array<{m: string, c: string}>} log
+ * @property {Array<{m: string, c: string, base?: string, n?: number}>} log
  * @property {number} logSeq  messages ever written; the log array itself is capped
  * @property {number} t                      elapsed game time in milliseconds
  * @property {'playing'|'dead'|'won'} status

@@ -354,12 +354,19 @@ await test('the Use button names each thing it can do', async () => {
   for (const k in L.items) delete L.items[k];
   const ahead = () => { const [dx, dy] = Dungeon.DIRS[p.dir]; return (p.y + dy) * L.w + (p.x + dx); };
   const was = L.tiles[ahead()];
-  const expect = [[T.DOOR, 'Open'], [T.DOOR_LOCKED, 'Unlock'], [T.STAIRS_DOWN, 'Descend'], [T.FOUNTAIN, 'Drink'],
+  const expect = [[T.DOOR, 'Open'], [T.DOOR_LOCKED, 'Force'], [T.STAIRS_DOWN, 'Descend'], [T.FOUNTAIN, 'Drink'],
     [T.DOOR_OPEN, 'Close'], [T.WALL, 'Search'], [T.TORCH, 'Search'], [T.SECRET, 'Search'], [T.FLOOR, 'Use']];
   for (const [t, want] of expect) {
     L.tiles[ahead()] = t;
     if (Game.useLabel() !== want) return `facing tile ${t}, Use says "${Game.useLabel()}", wanted "${want}"`;
   }
+  // with the key for that lock in hand, it says Unlock instead of Force
+  L.tiles[ahead()] = T.DOOR_LOCKED;
+  const [lx, ly] = [ahead() % L.w, (ahead() / L.w) | 0];
+  L.locks[lx + ',' + ly] = 'silver';
+  p.inv.push({ t: 'key', q: 1, color: 'silver' });
+  if (Game.useLabel() !== 'Unlock') return `holding the silver key, Use says "${Game.useLabel()}"`;
+  p.inv.pop(); delete L.locks[lx + ',' + ly];
   L.tiles[ahead()] = T.FLOOR;
   // a hidden door must not label differently from the wall it hides in
   const [dx, dy] = Dungeon.DIRS[p.dir];
@@ -690,15 +697,31 @@ await test('an encounter resolves once: the check, the effects, the prop gone, n
 });
 
 await test('the whole run meets each encounter at most once, deepest floor excepted', async () => {
-  const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const { encounterPlan, ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   for (const levels of [4, 8, 16]) for (let i = 0; i < 40; i++) {
     const plan = encounterPlan('plan' + i, levels);
     const all = plan.flat();
     if (new Set(all).size !== all.length) return `seed plan${i} over ${levels} floors repeats an encounter`;
     if (plan[levels].length) return `the deepest floor of a ${levels}-floor run has an encounter`;
-    if (levels >= 6 && all.length < 8) return `a ${levels}-floor run met only ${all.length} of 8`;
+    // about one a floor; a very long run can pass by the four that belong
+    // only on the upper floors, once it is below them
+    const want = Math.min(Object.keys(ENCOUNTERS).length, Math.round((levels - 1) * 1.15));
+    if (all.length < want - (levels >= 12 ? 4 : 1) || all.length > want) return `a ${levels}-floor run met ${all.length} encounters, about ${want} expected`;
   }
   return true;
+});
+
+await test('across runs every encounter turns up, and no two runs meet the same handful', async () => {
+  const { encounterPlan, ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const seen = new Set(), sets = new Set();
+  for (let i = 0; i < 80; i++) {
+    const all = encounterPlan('spread' + i, 8).flat();
+    all.forEach(e => seen.add(e));
+    sets.add(all.slice().sort().join(','));
+  }
+  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e));
+  if (missing.length) return `never met in 80 runs: ${missing.join(', ')}`;
+  return sets.size >= 70 || `80 runs met only ${sets.size} different handfuls`;
 });
 
 await test('using the last of a stack removes its slot', async () => {
@@ -1642,6 +1665,116 @@ await test('an area spell that does not kill wounds every member, and a piercing
   G.t += 5000; p.nextAttack = G.t;
   Game.castSpell(lightning);
   return (!L.monsters.includes(near) && !L.monsters.includes(far)) || 'a lightning bolt stopped at the first group in its path';
+});
+
+
+// ---------- second playtest and code review ----------
+await test('a waiting swing does not outlive the moment: a new game or a step cancels it', async () => {
+  const ctx = await start('fighter', 'stale-tap');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  G.t = 5000; p.nextAttack = G.t + 200;
+  Game.input('attack');                              // queued for 200ms from now
+  Game.newGame({ name: 'Again', cls: 'fighter', stats: Game.rollStats(), seed: 'stale-tap-2', opts: OPTS });
+  Game.update(0, 16);
+  if (Game.player().nextAttack > Game.state().t) return 'the last run\'s queued swing fired in the new one';
+  // queue, then turn away: the swing must not fire
+  const p2 = Game.player(), G2 = Game.state();
+  p2.nextAttack = G2.t + 200;
+  Game.input('attack');
+  Game.input('left');
+  Game.update(0, 300);
+  return p2.nextAttack <= G2.t + 200 || 'a queued swing fired after the hero turned away';
+});
+
+await test('choosing a spell readies it on the Cast button even when nothing is in reach', async () => {
+  const ctx = await start('mage', 'ready-spell');
+  const { Game } = ctx;
+  const p = Game.player();
+  p.level = 5; p.sp = p.maxSp = 50;
+  Game.level().monsters.length = 0;
+  const hands = Game.knownSpells().find(s => s.id === 'burning_hands');
+  if (Game.castSpell(hands)) return 'Burning Hands flew at nothing';
+  if (Game.castLabel() !== 'Burning Hands') return `the Cast button says ${Game.castLabel()}`;
+  // and a fighter's Cast button drinks a healing draught instead
+  const f = await start('fighter', 'quaff');
+  const fp = f.Game.player();
+  if (f.Game.castLabel() !== 'Quaff') return `a fighter's Cast button says ${f.Game.castLabel()}`;
+  fp.hp = 1;
+  const before = fp.inv.filter(i => i.t === 'potion_heal').reduce((a, i) => a + i.q, 0);
+  f.Game.input('cast');
+  const after = fp.inv.filter(i => i.t === 'potion_heal').reduce((a, i) => a + i.q, 0);
+  return (after === before - 1 && fp.hp > 1) || `Quaff left ${after} of ${before} draughts and ${fp.hp} hit points`;
+});
+
+await test('an area spell names itself and says it took the whole group', async () => {
+  const ctx = await start('mage', 'name-spell');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.level = 9; p.sp = p.maxSp = 99;
+  const m = groupAhead(ctx, 'goblin', 3, 50);
+  m.nextAct = 1e9; p.nextAttack = G.t;
+  const mark = markLog(G);
+  Game.castSpell(Game.knownSpells().find(s => s.id === 'lightning'));
+  const said = linesSince(G, mark);
+  if (!said.some(l => /Lightning Bolt engulfs all 3 of the Goblins/.test(l))) return `said: ${said.join(' | ')}`;
+  return said.some(l => /^Your Lightning Bolt hits the Goblin/.test(l)) || 'the damage line did not name the spell';
+});
+
+await test('bumping the same wall again counts up instead of filling the log', async () => {
+  const ctx = await start('fighter', 'bump-count');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.WALL;
+  L.monsters.length = 0;
+  const rows = G.log.length;
+  for (let i = 0; i < 4; i++) { G.t += 1000; Game.update(G.t, 1000); Game.input('forward'); }
+  const last = G.log[G.log.length - 1];
+  return (G.log.length - rows <= 1 && /\(×[34]\)$/.test(last.m)) || `four bumps left ${G.log.length - rows} new lines, the last "${last.m}"`;
+});
+
+await test('relics can be laid in a secret vault, and traders keep unknown gear unknown', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  let inVault = 0, tried = 0;
+  for (let i = 0; i < 30 && !inVault; i++) {
+    Game.newGame({ name: 'V', cls: 'fighter', stats: Game.rollStats(), seed: 'vault' + i, opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
+    const G = Game.state();
+    for (const d of Object.keys(G.relics.floor).map(Number)) {
+      // generate that floor the way the game would, by walking down to it
+      while (G.depth < d) {
+        const L = Game.level(), p = Game.player(), s = L.stairsDown;
+        const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(s.y - dy) * L.w + s.x - dx] === Dungeon.T.FLOOR; });
+        const [dx, dy] = Dungeon.DIRS[k];
+        p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
+        Game.input('use');
+      }
+      const L = Game.level();
+      tried++;
+      for (const k in L.items) if (L.items[k].some(it => it.u)) {
+        // a pile the hero cannot walk to without finding a secret door
+        const [x, y] = k.split(',').map(Number);
+        const seen = new Set([L.start.y * L.w + L.start.x]), q = [...seen];
+        while (q.length) { const c = q.pop(); for (const [ddx, ddy] of Dungeon.DIRS) { const n = c + ddy * L.w + ddx, t = L.tiles[n]; if (!seen.has(n) && t !== Dungeon.T.WALL && t !== Dungeon.T.SECRET && t !== Dungeon.T.TORCH && t !== Dungeon.T.FOUNTAIN) { seen.add(n); q.push(n); } } }
+        if (!seen.has(y * L.w + x)) inVault++;
+      }
+    }
+  }
+  if (!inVault) return `no relic lay in a secret vault on ${tried} relic floors`;
+  // a hidden +2 sold to a trader goes back on the shelf still hidden, at a plain price
+  const t = await start('fighter', 'hidden-shelf');
+  const tp = t.Game.player(), TL = t.Game.level();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  TL.npcs.length = 0; TL.npcs.push(shop); TL.monsters.length = 0;
+  const [sx, sy] = t.Dungeon.DIRS[tp.dir]; shop.x = tp.x + sx; shop.y = tp.y + sy;
+  t.Game.input('forward');
+  const blade = { t: 'longsword', q: 1, e: 2, h: 1 };
+  tp.inv.push(blade);
+  t.Game.sell(blade);
+  const shelved = shop.stock.find(s => s.t === 'longsword');
+  if (!shelved || !shelved.h) return 'the trader shelved a hidden piece with its quality showing';
+  return t.Game.buyPrice(shop, shelved) === t.Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 }) || 'the shelf price gave the hidden +2 away';
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
