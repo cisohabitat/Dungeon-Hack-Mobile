@@ -188,6 +188,35 @@ function play(ctx, cls, seed, opts, bg) {
       if (best && bestDps > curDps) Game.equip(best, true, 'offhand');
     }
 
+    // --- answer a monster's trick the way a watchful player does: step out
+    // of a smash or a storm of cold fire, out of the line of a charge or a
+    // web. NOREACT=1 plays as if the violet mark meant nothing.
+    if (!process.env.NOREACT) {
+      const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      if (trick) {
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web';
+        const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
+        let best = null, score = -1;
+        for (let k = 0; k < 4; k++) {
+          const [dx, dy] = Dungeon.DIRS[k];
+          const nx = p.x + dx, ny = p.y + dy;
+          const t = L.tiles[ny * L.w + nx];
+          if (t !== T.FLOOR && t !== T.DOOR_OPEN) continue;
+          if (L.monsters.some(o => o.x === nx && o.y === ny) || (L.npcs || []).some(o => o.x === nx && o.y === ny)) continue;
+          const dd = Math.abs(trick.x - nx) + Math.abs(trick.y - ny);
+          const inLine = nx === trick.x || ny === trick.y;
+          if (sideways ? inLine : dd <= d0) continue;
+          if (dd > score) { score = dd; best = k; }
+        }
+        if (best !== null) {
+          Game.input(['forward', 'strafeR', 'back', 'strafeL'][(best - p.dir + 4) % 4]);
+          rec.dodges = (rec.dodges || 0) + 1;
+          step();
+          continue;
+        }
+      }
+    }
+
     // --- shoot down the corridor before anything closes the distance
     const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && sp.kind === 'bolt');
     if (bolts.length) {

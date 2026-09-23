@@ -51,6 +51,9 @@
  * @property {string[]} [boons]
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
+ * @property {number} [webbed]  stuck in a spider's web until then
+ * @property {number} [held]    frozen by a ghoul's touch until then
+ * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
  */
 
 /**
@@ -64,13 +67,20 @@
  * @property {number} fromX @property {number} fromY
  * @property {number} moveT0 @property {number} moveT1 @property {number} flashUntil
  * @property {string} [elite]     the champion prefix, if it is one
- * @property {{kind: string, at: number, until: number}|null} [windup]  a blow being drawn back, and when it lands
+ * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first
  * @property {boolean} [fleeing]
  * @property {number} [lostAt]    when it last lost your trail
  * @property {number} [nextRegen]
  * @property {Array<{hp: number, maxHp: number}>} [pack]  the others sharing its square, behind it
+ * @property {number} [blows]      plain blows since its last trick
+ * @property {number} [moveReady]  when its trick can next be tried
+ * @property {number} [collapsed]  a skeleton in a heap of bones: when it rises again
+ * @property {boolean} [risen]     it has already risen once
+ * @property {boolean} [split]     a slime that has already split
+ * @property {number} [burnUntil]  a troll's burns: no regrowth until then
+ * @property {number} [phase]      how many times a boss has called for help
  */
 
 /**

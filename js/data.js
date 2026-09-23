@@ -122,14 +122,14 @@ const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int
 const ITEMS = {
   // weapons: dmg = [dice, sides, bonus]; speed = attack cooldown in ms
   dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief'], value: 2,  sprite: 'dagger', tier: 1 },
-  club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief'], value: 1, sprite: 'club', tier: 1 },
-  staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric'], twoHanded: true, value: 2, sprite: 'staff', tier: 1 },
+  club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief'], value: 1, sprite: 'club', tier: 1, blunt: true },
+  staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric'], twoHanded: true, value: 2, sprite: 'staff', tier: 1, blunt: true },
   shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief'], value: 8, sprite: 'shortsword', tier: 1 },
-  mace:       { kind: 'weapon', name: 'Mace',             dmg: [1, 6, 1],  speed: 700,  cls: ['fighter', 'cleric'], value: 8, sprite: 'mace', tier: 1 },
-  hammer:     { kind: 'weapon', name: 'War Hammer',       dmg: [1, 4, 2],  speed: 650,  cls: ['fighter', 'cleric'], value: 9, sprite: 'hammer', tier: 2 },
+  mace:       { kind: 'weapon', name: 'Mace',             dmg: [1, 6, 1],  speed: 700,  cls: ['fighter', 'cleric'], value: 8, sprite: 'mace', tier: 1, blunt: true },
+  hammer:     { kind: 'weapon', name: 'War Hammer',       dmg: [1, 4, 2],  speed: 650,  cls: ['fighter', 'cleric'], value: 9, sprite: 'hammer', tier: 2, blunt: true },
   spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter'], value: 6, sprite: 'spear', tier: 2 },
   longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief'], value: 15, sprite: 'longsword', tier: 2 },
-  flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'flail', tier: 3 },
+  flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'flail', tier: 3, blunt: true },
   battleaxe:  { kind: 'weapon', name: 'Battle Axe',       dmg: [1, 8, 1],  speed: 850,  cls: ['fighter'], value: 18, sprite: 'battleaxe', tier: 3 },
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'greatsword', tier: 4 },
   // thrown and missile arms. Attack reaches down the corridor when one is in hand.
@@ -185,27 +185,27 @@ const TRAP_TYPES = {
 const MONSTERS = {
   rat:      { name: 'Giant Rat',   hp: [1, 6, 1],    ac: 11, hit: 1,  dmg: [1, 3, 0], speed: 900,  xp: 8,    tier: [1, 3],   sprite: 'rat',      scale: 0.6 },
   bat:      { name: 'Cave Bat',    hp: [1, 4, 1],    ac: 13, hit: 1,  dmg: [1, 2, 0], speed: 600,  xp: 6,    tier: [1, 3],   sprite: 'bat',      scale: 0.5, fly: 0.45 },
-  slime:    { name: 'Green Slime', hp: [2, 6, 2],    ac: 9,  hit: 0,  dmg: [1, 4, 1], speed: 1500, xp: 12,   tier: [1, 4],   sprite: 'slime',    scale: 0.7 },
-  spider:   { name: 'Cave Spider', hp: [2, 6, 0],    ac: 13, hit: 2,  dmg: [1, 4, 0], speed: 800,  xp: 18,   tier: [1, 5],   sprite: 'spider',   scale: 0.7, poison: 0.3 },
+  slime:    { name: 'Green Slime', hp: [2, 6, 2],    ac: 9,  hit: 0,  dmg: [1, 4, 1], speed: 1500, xp: 12,   tier: [1, 4],   sprite: 'slime',    scale: 0.7, move: 'split' },
+  spider:   { name: 'Cave Spider', hp: [2, 6, 0],    ac: 13, hit: 2,  dmg: [1, 4, 0], speed: 800,  xp: 18,   tier: [1, 5],   sprite: 'spider',   scale: 0.7, poison: 0.3, move: 'web' },
   goblin:   { name: 'Goblin',      hp: [2, 8, 0],    ac: 13, hit: 2,  dmg: [1, 6, 0], speed: 1000, xp: 20,   tier: [1, 5],   sprite: 'goblin',   scale: 0.75 },
-  skeleton: { name: 'Skeleton',    hp: [3, 8, 0],    ac: 14, hit: 3,  dmg: [1, 6, 1], speed: 1100, xp: 35,   tier: [2, 7],   sprite: 'skeleton', scale: 0.9, undead: true },
-  zombie:   { name: 'Zombie',      hp: [4, 8, 2],    ac: 11, hit: 3,  dmg: [1, 8, 0], speed: 1600, xp: 40,   tier: [2, 7],   sprite: 'zombie',   scale: 0.9, undead: true },
-  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc',      scale: 0.95 },
-  ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul',    scale: 0.9, undead: true, poison: 0.35 },
+  skeleton: { name: 'Skeleton',    hp: [3, 8, 0],    ac: 14, hit: 3,  dmg: [1, 6, 1], speed: 1100, xp: 35,   tier: [2, 7],   sprite: 'skeleton', scale: 0.9, undead: true, move: 'rise' },
+  zombie:   { name: 'Zombie',      hp: [4, 8, 2],    ac: 11, hit: 3,  dmg: [1, 8, 0], speed: 1600, xp: 40,   tier: [2, 7],   sprite: 'zombie',   scale: 0.9, undead: true, move: 'grab' },
+  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc',      scale: 0.95, move: 'charge' },
+  ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul',    scale: 0.9, undead: true, move: 'paralyse' },
   wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith',   scale: 0.95, undead: true, fly: 0.2 },
-  ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [6, 13],  sprite: 'ogre',     scale: 1.3 },
+  ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [6, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush' },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1 },
-  minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35 },
+  minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge' },
   archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
-  acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
-  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true },
+  acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, move: 'mend', ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
+  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova' },
 };
 
 // Spells: available at character level (lvl * 2 - 1). dmg/heal are functions of caster level.
 const SPELLS = {
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
-    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you.' },
+    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you.' },
     { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute.' },
     { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 6,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
     { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
@@ -216,7 +216,7 @@ const SPELLS = {
     { id: 'smite',        name: 'Holy Smite',          lvl: 2, cost: 4,  kind: 'bolt', range: 3, dmg: L => [1, 6, Math.floor(L / 2)], holy: true, color: '#ffd', desc: 'Radiant strike. Double damage to the undead.' },
     { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, Math.floor(L / 2)], color: '#8f8', desc: 'Heals 2d8 + half your level in hit points.' },
     { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 45000, color: '#adf', desc: '+2 armour class for forty-five seconds.' },
-    { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], area: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
+    { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], area: true, fire: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
   ],
 };
 

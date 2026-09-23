@@ -316,6 +316,7 @@ const UI = (() => {
   const TIPS = {
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
     monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
+    trick: 'A <b>violet mark</b> means a trick, not a blow. Read the log for what is coming; <b>Help</b> lists every trick and its answer.',
     take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
     stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
@@ -349,6 +350,7 @@ const UI = (() => {
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
     if (showTip('controls')) return;
+    if (L.monsters.some(m => (m.windup && m.windup.move) || m.collapsed) && showTip('trick')) return;
     if (L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3) && showTip('monster')) return;
     const label = Game.useLabel();
     const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };
@@ -366,7 +368,7 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping].join('|');
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -385,6 +387,9 @@ const UI = (() => {
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push('<span class="bad">Poisoned</span>');
+    if (p.held > G.t) st.push('<span class="bad">Frozen</span>');
+    if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
+    if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (Game.effect('ac')) st.push('<span class="good">Shielded</span>');
     if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
     if (Game.effect('might')) st.push('<span class="good">Mighty</span>');

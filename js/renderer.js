@@ -232,14 +232,16 @@ const Renderer = (() => {
       // the tell: a bright mark over anything about to strike, filling as the
       // blow comes, so it can be seen and answered before it lands
       if (s.tell) {
-        const size = Math.max(7, Math.min(16, Math.round(sw * 0.28)));
+        // a monster's own trick: a bigger violet mark, unlike any plain blow
+        const size = Math.max(s.special ? 10 : 7, Math.min(s.special ? 21 : 16, Math.round(sw * (s.special ? 0.36 : 0.28))));
         const tx = Math.round(screenX), ty = Math.max(size + 2, Math.floor(top) - (s.hp != null && s.hp < s.maxHp ? 9 : 4));
         ctx.save();
         ctx.lineJoin = 'round';
         ctx.beginPath();
         ctx.moveTo(tx, ty - size); ctx.lineTo(tx + size * 0.62, ty); ctx.lineTo(tx - size * 0.62, ty); ctx.closePath();
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)'; ctx.stroke();
-        ctx.fillStyle = s.tell >= 1 ? '#ff3020' : (s.tell > 0.5 ? '#ff7a20' : '#ffc030');
+        ctx.fillStyle = s.special ? (s.tell >= 1 ? '#ff40e0' : (s.tell > 0.5 ? '#d050ff' : '#a070ff'))
+          : (s.tell >= 1 ? '#ff3020' : (s.tell > 0.5 ? '#ff7a20' : '#ffc030'));
         ctx.fill();
         ctx.fillStyle = '#1a0a08';
         ctx.fillRect(tx - 1, ty - size * 0.68, 2, size * 0.38);

@@ -345,3 +345,7 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .tip b { color: var(--gold); }
 /* equipped slots carry a label in the corner: keep the picture below it */
 #equip .slot { padding-top: calc(0.6rem + 8px); }
+
+/* the list of monster tricks in the help */
+ul.tricks { margin: 0.4em 0 0.8em; padding-left: 1.2em; }
+ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }

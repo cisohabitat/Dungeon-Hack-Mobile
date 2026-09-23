@@ -143,7 +143,7 @@ await test('no fighter build is dead: each of the three wins somewhere', async (
     const [dx, dy] = Dungeon.DIRS[p.dir];
     L.monsters.length = 0;
     const dummy = { uid: 999, id: foe, x: p.x + dx, y: p.y + dy, hp: 1e9, maxHp: 1e9,
-      awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, split: true, risen: true };
     L.monsters.push(dummy);
     let dealt = 0;
     const swings = 6000;
@@ -2051,6 +2051,298 @@ await test('a first-level mage can already cast Shield', async () => {
   const all = SPELLS.mage;
   const shield = all.find(s => s && s.id === 'shield');
   return (shield && shield.lvl === 1) || `Shield needs level ${shield && shield.lvl}`;
+});
+
+// ---------- signature moves ----------
+/** Run fn with Math.random pinned, for the few chances the game rolls outside the dice. */
+async function pinned(v, fn) {
+  const real = Math.random;
+  Math.random = () => v;
+  try { return await fn(); } finally { Math.random = real; }
+}
+/** A monster straight ahead at a distance, down a cleared corridor. */
+function ahead(ctx, id, dist, extra = {}) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), G = Game.state();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (let i = 1; i <= dist; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+  L.monsters.length = 0;
+  const m = { uid: 95, id, x: p.x + dx * dist, y: p.y + dy * dist, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra };
+  L.monsters.push(m);
+  return m;
+}
+/** Make the square behind the hero open floor. */
+function clearBehind(ctx) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[(p.dir + 2) % 4];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+}
+/** Carry the hero a square back (away from what faces them), or to the side. */
+function shift(ctx, how) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[how === 'back' ? (p.dir + 2) % 4 : (p.dir + 1) % 4];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+  p.x += dx; p.y += dy;
+}
+const run = (Game, G, ms) => { for (let t = 0; t < ms; t += 25) Game.update(G.t + 25, 25); };
+
+await test('an ogre heaves up a crushing blow every third swing: longer, violet, and twice as hard', async () => {
+  const ctx = await start('fighter', 'crush');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = beside(ctx, 'ogre', { blows: 2 });
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.move !== 'crush') return `it drew ${JSON.stringify(m.windup)}`;
+  if (m.windup.until - m.windup.at < 800) return `the crush gave only ${m.windup.until - m.windup.at}ms of warning`;
+  const mark = markLog(G);
+  run(Game, G, 1000);
+  return linesSince(G, mark).some(l => /brings its club down on you|misses you/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+await test('stepping out of the ogre\'s crush leaves it staggered and open', async () => {
+  const ctx = await start('fighter', 'crush-dodge');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  const hp0 = p.hp;
+  const m = beside(ctx, 'ogre', { blows: 2 });
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.move !== 'crush') return 'no crush began';
+  shift(ctx, 'back');
+  const mark = markLog(G);
+  run(Game, G, 950);
+  if (p.hp < hp0) return `the dodged crush still cost ${hp0 - p.hp}`;
+  if (!linesSince(G, mark).some(l => /smashes the floor/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+  return m.nextAct - G.t >= 1200 || `it recovered in ${m.nextAct - G.t}ms`;
+});
+
+await test('an orc charges down a straight corridor and slams into a hero who stays in line', async () => {
+  const ctx = await start('fighter', 'charge');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = ahead(ctx, 'orc', 3);
+  await pinned(0.1, () => Game.update(G.t + 25, 25));
+  if (!m.windup || m.windup.move !== 'charge') return `it drew ${JSON.stringify(m.windup)}`;
+  const mark = markLog(G);
+  run(Game, G, 800);
+  if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1) return 'the orc did not reach the hero';
+  return linesSince(G, mark).some(l => /slams into you|misses you/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+await test('sidestepping a charge sends the orc thundering past, stumbling', async () => {
+  const ctx = await start('fighter', 'charge-dodge');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  const hp0 = p.hp;
+  const m = ahead(ctx, 'orc', 3);
+  await pinned(0.1, () => Game.update(G.t + 25, 25));
+  if (!m.windup || m.windup.move !== 'charge') return 'no charge began';
+  shift(ctx, 'side');
+  const mark = markLog(G);
+  run(Game, G, 750);
+  if (p.hp < hp0) return `the dodged charge still cost ${hp0 - p.hp}`;
+  if (!linesSince(G, mark).some(l => /thunders past you/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+  return m.nextAct - G.t >= 1200 || `it recovered in ${m.nextAct - G.t}ms`;
+});
+
+await test('a spider\'s web holds the hero until they tear free, and misses a hero who steps aside', async () => {
+  const ctx = await start('fighter', 'web');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = ahead(ctx, 'spider', 3);
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.move !== 'web') return `it drew ${JSON.stringify(m.windup)}`;
+  run(Game, G, 700);
+  if (!(p.webbed > G.t)) return 'the web did not hold the hero';
+  m.nextAct = 1e12;
+  clearBehind(ctx);
+  const x0 = p.x, y0 = p.y;
+  Game.input('back');
+  if (p.x !== x0 || p.y !== y0) return 'the hero walked straight out of the web';
+  let pushes = 1;
+  while ((p.x === x0 && p.y === y0) && pushes < 20) { Game.update(G.t + 50, 50); Game.input('back'); pushes++; }
+  if (pushes >= 20) return 'pushing never tore the web';
+  // and a web dodged
+  const c2 = await start('fighter', 'web-dodge');
+  const m2 = ahead(c2, 'spider', 3);
+  c2.Game.update(c2.Game.state().t + 25, 25);
+  shift(c2, 'side');
+  run(c2.Game, c2.Game.state(), 700);
+  if (c2.Game.player().webbed > c2.Game.state().t) return 'a web held a hero who had stepped out of its line';
+  return pushes >= 3 || `the web tore after only ${pushes} pushes`;
+});
+
+await test('a zombie\'s grip holds a weak hero more often than a strong one, and ends when it falls', async () => {
+  const tries = async str => {
+    const ctx = await start('fighter', 'grab-' + str);
+    ctx.Dice.s = new ctx.Rng('grab-dice').s;
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.stats.str = str;
+    const z = beside(ctx, 'zombie', { nextAct: 1e12 });
+    clearBehind(ctx);                              // room to step back into
+    const home = [p.x, p.y];
+    let held = 0;
+    for (let i = 0; i < 60; i++) {
+      [p.x, p.y] = home;
+      const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+      z.x = p.x + dx; z.y = p.y + dy;
+      p.grabbed = { uid: z.uid, until: G.t + 4000, nextTry: 0 };
+      Game.update(G.t + 400, 400);
+      Game.input('back');
+      if (p.x === home[0] && p.y === home[1]) held++;
+    }
+    return { held, ctx, z };
+  };
+  const weak = await tries(3), strong = await tries(18);
+  if (!(weak.held > strong.held + 10)) return `a weak hero was held ${weak.held} of 60 times, a strong one ${strong.held}`;
+  // killing the zombie frees the hero
+  const { ctx, z } = weak, G = ctx.Game.state(), p = ctx.Game.player();
+  p.grabbed = { uid: z.uid, until: G.t + 4000, nextTry: 0 };
+  ctx.Game.level().monsters.length = 0;
+  ctx.Game.update(G.t + 25, 25);
+  return !p.grabbed || 'the grip outlived the zombie';
+});
+
+await test('a zombie\'s hit can take hold of the hero', async () => {
+  const ctx = await start('fighter', 'grab-hit');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  beside(ctx, 'zombie');
+  await pinned(0, () => { for (let i = 0; i < 400 && !p.grabbed; i++) Game.update(G.t + 25, 25); });
+  return !!p.grabbed || 'ten seconds of zombie blows and never a grip';
+});
+
+await test('a ghoul\'s touch can freeze the hero: no step, swing or spell until it passes', async () => {
+  const ctx = await start('fighter', 'paralyse');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.stats.con = 3;
+  const m = beside(ctx, 'ghoul');
+  await pinned(0, () => { for (let i = 0; i < 800 && !(p.held > G.t); i++) Game.update(G.t + 25, 25); });
+  if (!(p.held > G.t)) return 'twenty seconds of ghoul blows and never frozen';
+  m.nextAct = 1e12;
+  const x0 = p.x, next0 = p.nextAttack;
+  G.t = Math.max(G.t, p.nextAttack - 1);
+  Game.input('back'); Game.input('attack');
+  if (p.x !== x0 || p.nextAttack !== next0) return 'a frozen hero still acted';
+  Game.update(G.t + 1400, 1400);
+  return !(p.held > G.t) || 'the freeze never wore off';
+});
+
+await test('a slime struck hard splits into two in its square, once', async () => {
+  const ctx = await start('fighter', 'split');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  const m = beside(ctx, 'slime', { hp: 30, maxHp: 30, nextAct: 1e12 });
+  G.t = p.nextAttack; Game.input('attack');
+  if (!m.pack || m.pack.length !== 1) return `after one blow: ${JSON.stringify({ hp: m.hp, pack: m.pack })}`;
+  const total = m.hp + m.pack[0].hp;
+  if (total >= 30 || total < 1) return `the halves hold ${total} of what was left`;
+  // cut down the front half: the other steps up, and does not split again
+  m.hp = 1; G.t = p.nextAttack; Game.input('attack');
+  if (m.pack) return 'the front half did not fall';
+  G.t = p.nextAttack; Game.input('attack');
+  return !m.pack || 'a slime split a second time';
+});
+
+await test('a skeleton cut down by an edge rises again unless its bones are smashed; a mace keeps it down', async () => {
+  const edge = await start('fighter', 'rise');
+  const { Game } = edge;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.perkHit = 60;
+  p.eq.weapon = { t: 'longsword', q: 1, e: 0 };
+  const m = beside(edge, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
+  G.t = p.nextAttack; Game.input('attack');
+  if (!L.monsters.includes(m) || !m.collapsed) return 'a sword-felled skeleton did not fall into a heap';
+  run(Game, G, 5000);
+  if (m.collapsed || m.hp !== 10) return `after the wait: collapsed ${m.collapsed}, hp ${m.hp}`;
+  // the second time it stays down
+  m.hp = 1; m.nextAct = 1e12; G.t = p.nextAttack; Game.input('attack');
+  if (L.monsters.includes(m)) return 'it rose a second time';
+  // smashing the heap ends it
+  const heap = await start('fighter', 'rise-smash');
+  const hp2 = heap.Game.player(), G2 = heap.Game.state(), L2 = heap.Game.level();
+  hp2.perkHit = 60; hp2.eq.weapon = { t: 'longsword', q: 1, e: 0 };
+  const m2 = beside(heap, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
+  G2.t = hp2.nextAttack; heap.Game.input('attack');
+  hp2.perkHit = -100;                                 // a hero who could hit nothing still hits a heap
+  G2.t = hp2.nextAttack; heap.Game.input('attack');
+  if (L2.monsters.includes(m2)) return 'striking the heap did not scatter it';
+  // a mace crushes it outright
+  const blunt = await start('cleric', 'rise-mace');
+  const bp = blunt.Game.player(), G3 = blunt.Game.state(), L3 = blunt.Game.level();
+  bp.perkHit = 60; bp.eq.weapon = { t: 'mace', q: 1, e: 0 };
+  const m3 = beside(blunt, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
+  G3.t = bp.nextAttack; blunt.Game.input('attack');
+  return !L3.monsters.includes(m3) || 'a mace left the skeleton able to rise';
+});
+
+await test('fire stops a troll growing back; other magic does not', async () => {
+  const regrows = async spellId => {
+    const ctx = await start('mage', 'troll-' + spellId);
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.sp = p.maxSp = 99;
+    const m = beside(ctx, 'troll', { hp: 200, maxHp: 400, nextAct: 1e12 });
+    G.t = p.nextAttack;
+    Game.castSpell(Game.knownSpells().find(s => s.id === spellId));
+    const after = m.hp;
+    run(Game, G, 4000);
+    return m.hp - after;
+  };
+  const burnt = await regrows('burning_hands'), zapped = await regrows('magic_missile');
+  return (burnt === 0 && zapped >= 3) || `after fire it grew back ${burnt}, after a missile ${zapped}`;
+});
+
+await test('a dark acolyte chants to mend the wounded, and a blow breaks the chant', async () => {
+  const ctx = await start('fighter', 'mend');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.perkHit = 60;
+  const m = beside(ctx, 'acolyte', { hp: 20, maxHp: 100 });
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.move !== 'mend') return `it drew ${JSON.stringify(m.windup)}`;
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  if (m.windup) return 'the blow did not break the chant';
+  const hp1 = m.hp;
+  // left alone it finishes
+  const c2 = await start('fighter', 'mend-free');
+  const m2 = beside(c2, 'acolyte', { hp: 20, maxHp: 100 });
+  const G2 = c2.Game.state();
+  c2.Game.player().hp = 9999;
+  c2.Game.update(G2.t + 25, 25);
+  run(c2.Game, G2, 1200);
+  return (m2.hp > 20 && hp1 < 20) || `unbroken it reached ${m2.hp}; broken, ${hp1}`;
+});
+
+await test('the lich\'s cold fire breaks short of a hero who gets clear, and it calls up guards as it weakens', async () => {
+  const ctx = await start('fighter', 'nova');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const hp0 = p.hp;
+  const m = beside(ctx, 'lich', { blows: 2, hp: 300, maxHp: 300 });
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.move !== 'nova') return `it drew ${JSON.stringify(m.windup)}`;
+  shift(ctx, 'back'); shift(ctx, 'back');
+  const mark = markLog(G);
+  run(Game, G, 1350);
+  if (p.hp < hp0) return `the nova reached a hero three squares off for ${hp0 - p.hp}`;
+  if (!linesSince(G, mark).some(l => /breaks short of you/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+  // wound it past two thirds: the dead rise
+  m.nextAct = 1e12; m.hp = 150;
+  p.perkHit = 60;
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  m.x = p.x + dx; m.y = p.y + dy;
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  const guards = L.monsters.filter(o => o.id === 'skeleton');
+  return (guards.length === 1 && guards[0].pack && guards[0].pack.length === 1) || `guards: ${JSON.stringify(guards.map(g => g.pack))}`;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
