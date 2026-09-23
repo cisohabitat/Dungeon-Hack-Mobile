@@ -197,7 +197,8 @@ function play(ctx, cls, seed, opts, bg) {
     // of a smash or a storm of cold fire, out of the line of a charge or a
     // web. NOREACT=1 plays as if the violet mark meant nothing.
     if (!process.env.NOREACT) {
-      const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      // a chant or the lich's rite is answered by striking it, not by stepping away
+      const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && m.windup.move !== 'rite' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       if (trick) {
         const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);

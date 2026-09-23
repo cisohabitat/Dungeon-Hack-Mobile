@@ -35,6 +35,7 @@ const Game = (() => {
                /** @type {Array<{x: number, y: number, r: number, born: number, life: number}>} */ drops: [],
                shakeAmp: 4, shakeMs: 220, hurtAmt: 0.5,
                /** @type {any} */ status: null,
+               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
@@ -363,6 +364,8 @@ const Game = (() => {
   const NO_ELITE = { prefix: '', hp: 1, ac: 0, hit: 0, dmg: 0, xp: 1, speed: 1, tint: '#fff' };
   function mstat(m) {
     const b = MONSTERS[m.id];
+    // a boss changes as it weakens: each phase lends it new ways to fight
+    if (b.phases && m.phase) return { ...b, ...b.phases[Math.min(m.phase, b.phases.length) - 1] };
     if (!m.elite) return b;
     const e = ELITES.find(x => x.prefix === m.elite) || NO_ELITE;
     return {
@@ -1477,7 +1480,7 @@ const Game = (() => {
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
     memberDown(m, note);
-    if (mb.boss) log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good');
+    if (mb.boss) { bossFalls(m); log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
   }
 
   // ---------- groups ----------
@@ -2015,7 +2018,9 @@ const Game = (() => {
     if (opts.length) { const o = Dice.pick(opts); moveMonster(m, o[0], o[1]); }
   }
   // A straight, unobstructed line from the monster to the player within range.
-  function hasLineToPlayer(m, range) {
+  // The lich throws over the heads of anything between, so only walls stop it.
+  /** @param {{x: number, y: number}} m @param {number} range @param {boolean} [overHeads] */
+  function hasLineToPlayer(m, range, overHeads) {
     const p = P();
     if (m.x !== p.x && m.y !== p.y) return null;
     const dx = Math.sign(p.x - m.x), dy = Math.sign(p.y - m.y);
@@ -2023,7 +2028,7 @@ const Game = (() => {
     if (dist > range || dist < 2) return null;
     for (let i = 1; i < dist; i++) {
       const x = m.x + dx * i, y = m.y + dy * i;
-      if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y)) return null;
+      if (!passable(x, y) || (!overHeads && (monsterAt(x, y) || npcAt(x, y)))) return null;
     }
     return dist;
   }
@@ -2101,7 +2106,8 @@ const Game = (() => {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400 };
+  const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
@@ -2130,9 +2136,13 @@ const Game = (() => {
   }
   /** Try to begin this monster's trick; true if it did. */
   function startMove(m, mb, adjacent) {
-    const p = P(), mv = mb.move;
-    if (!mv || G.t < (m.moveReady || 0) || packSize(m) > 1) return false;
+    const p = P();
+    // in the dark, a wounded lich turns to the Heart and drinks; strike it to break the rite
+    const rite = mb.boss && (m.phase || 0) >= 2 && m.hp < m.maxHp && G.t >= (m.riteReady || 0);
+    const mv = rite ? 'rite' : mb.move;
+    if (!mv || (!rite && G.t < (m.moveReady || 0)) || packSize(m) > 1) return false;
     let say = '', extra = {};
+    if (rite) say = `The ${mb.name} lifts its hands toward the Heart and begins to drink its light! Strike it to break the rite!`;
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
     else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' ? 4 : 3) && Math.random() < 0.6) {
       say = `The ${mb.name} lowers its head and charges!`;
@@ -2237,6 +2247,16 @@ const Game = (() => {
         m.nextAct = G.t + Math.round(mb.speed * 0.6);
         break;
       }
+      case 'rite': {
+        const n = Math.min(m.maxHp - m.hp, Math.ceil(m.maxHp * RITE_MEND));
+        m.hp += n;
+        log(`The Heart's light pours into the ${mb.name}. Its wounds close (+${n}).`, 'bad');
+        floatText(m, '+' + n, '#c080ff');
+        spray(m, 'ecto', 0.6, false);
+        m.riteReady = G.t + 9000;
+        m.nextAct = G.t + Math.round(mb.speed * 0.6);
+        break;
+      }
       case 'nova':
         if (novaReaches(m)) { const n = Math.max(1, Math.ceil(d(4, 6) / (hasTalent('stand_firm') ? 2 : 1))); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
         else { log('The storm of cold fire breaks short of you.', 'good'); learn(m.id, 'answer'); }
@@ -2250,6 +2270,12 @@ const Game = (() => {
     if (m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 700;
       log(`You break the ${mb.name}'s chant!`, 'good');
+      learn(m.id, 'answer');
+    }
+    // and so is the lich's rite, though it will try again
+    if (m.windup && m.windup.move === 'rite') {
+      m.windup = null; m.riteReady = G.t + 6000; m.nextAct = G.t + 700;
+      log(`You break the ${mb.name}'s rite! The Heart's light slips back out of its hands.`, 'good');
       learn(m.id, 'answer');
     }
     // fire sears a troll's wounds shut, so they cannot grow back for a while
@@ -2267,11 +2293,83 @@ const Game = (() => {
       log(`The ${mb.name} splits in two!`, 'bad');
       learn(m.id, 'trick');
     }
-    // the lich calls up the dead as it weakens: once at two thirds, again at one third
+    // the lich's fight turns as it weakens: once at two thirds, again at one third
     if (mb.boss) {
       const phase = m.hp < m.maxHp / 3 ? 2 : (m.hp < m.maxHp * 2 / 3 ? 1 : 0);
-      while ((m.phase || 0) < phase) { m.phase = (m.phase || 0) + 1; raiseGuards(m); }
+      while ((m.phase || 0) < phase) { m.phase = (m.phase || 0) + 1; bossTurns(m); }
     }
+  }
+  // ---------- the lich ----------
+  // Three fights in one. At first it stands and drains, and gathers its storm
+  // of cold fire. At two thirds it calls up guards, comes apart into shadow
+  // and gathers itself again a few steps off, throwing grave-cold at you over
+  // their heads. At one third it calls up more, puts out every torch in its
+  // hall, quickens, and tries to drink the Heart's light to mend itself.
+  function bossTurns(m) {
+    const mb = MONSTERS[m.id];
+    raiseGuards(m);
+    m.windup = null; m.volley = null;
+    if (m.phase === 1) {
+      const to = blinkSpot(m);
+      if (to) {
+        spray(m, 'ecto', 1, false);
+        m.fromX = m.x = to[0]; m.fromY = m.y = to[1]; m.rx = m.x; m.ry = m.y; m.moveT1 = 0;
+        spray(m, 'ecto', 1, false);
+        log(`The ${mb.name} comes apart into shadow and gathers itself again across the hall. Grave-cold gathers in its hands.`, 'bad');
+      }
+      m.nextAct = G.t + 1200;
+    } else if (m.phase === 2) {
+      snuffTorches(m);
+      m.riteReady = G.t + 2500;
+      m.nextAct = G.t + 900;
+      log(`The torches gutter and die. In the dark the ${mb.name} quickens, and turns toward the Heart.`, 'bad');
+      fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
+    }
+    Sound.play('special');
+  }
+  /** Where the lich reappears: open floor three to five steps from the hero, in a straight line so it can throw at them, ahead of them where it can. */
+  function blinkSpot(m) {
+    const L = lvl();
+    ensureDist();
+    const out = [];
+    for (let y = 0; y < L.h; y++) for (let x = 0; x < L.w; x++) {
+      const dd = distField[y * L.w + x];
+      if (dd < 3 || dd > 5 || tile(x, y) !== T.FLOOR || monsterAt(x, y) || npcAt(x, y)) continue;
+      if (hasLineToPlayer({ x, y }, 5, true)) out.push([x, y]);
+    }
+    // somewhere ahead of the hero if it can: vanishing behind them reads as a cheat
+    const p = P(), [fx0, fy0] = DIRS[p.dir];
+    const ahead = out.filter(([x, y]) => (x - p.x) * fx0 + (y - p.y) * fy0 > 0);
+    return ahead.length ? Dice.pick(ahead) : out.length ? Dice.pick(out) : null;
+  }
+  /** The room a monster stands in, or a box round it where it stands in none. */
+  function roomOf(m) {
+    const L = lvl();
+    return (L.rooms || []).find(r => m.x >= r.x && m.x < r.x + r.w && m.y >= r.y && m.y < r.y + r.h) || { x: m.x - 6, y: m.y - 6, w: 13, h: 13 };
+  }
+  /** Every torch in and round the lich's hall goes out, until the lich falls. */
+  function snuffTorches(m) {
+    const L = lvl(), r = roomOf(m);
+    const near = (x, y) => x >= r.x - 1 && x <= r.x + r.w && y >= r.y - 1 && y <= r.y + r.h;
+    m.snuffed = [];
+    for (let y = r.y - 1; y <= r.y + r.h; y++) for (let x = r.x - 1; x <= r.x + r.w; x++) {
+      if (tile(x, y) === T.TORCH) { setTile(x, y, T.WALL); m.snuffed.push([x, y]); }
+    }
+    m.lights = (L.lights || []).filter(l => near(l.x, l.y));
+    L.lights = (L.lights || []).filter(l => !near(l.x, l.y));   // a new list, so the lighting is worked out afresh
+  }
+  function relightTorches(m) {
+    const L = lvl();
+    for (const [x, y] of m.snuffed || []) setTile(x, y, T.TORCH);
+    if (m.lights && m.lights.length) L.lights = (L.lights || []).concat(m.lights);
+    m.snuffed = []; m.lights = [];
+  }
+  /** The lich's end: its bones burst apart, its cold light goes up, and the torches catch again. */
+  function bossFalls(m) {
+    spray(m, 'bone', 1, false); spray(m, 'bone', 1, false); spray(m, 'ecto', 1, false);
+    relightTorches(m);
+    fx.shakeAmp = 7; fx.shakeMs = 900; fx.shakeUntil = realNow + 900;
+    log('The torches catch again, one by one.', 'good');
   }
   /** Two skeletons sharing a square beside the lich. */
   function raiseGuards(m) {
@@ -2314,6 +2412,11 @@ const Game = (() => {
     ensureDist();
     for (const m of L.monsters.slice()) {
       const mb = mstat(m);
+      if (mb.boss && m.awake && !m.spoke) {
+        m.spoke = true;
+        log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
+        fx.shakeAmp = 4; fx.shakeMs = 500; fx.shakeUntil = realNow + 500;
+      }
       if (m.collapsed) {
         if (G.t >= m.collapsed) {
           m.collapsed = 0; m.hp = Math.ceil(m.maxHp / 2); m.awake = true; m.nextAct = G.t + WAKE_BEAT;
@@ -2377,7 +2480,7 @@ const Game = (() => {
         m.fleeing = false; // cornered: fight on
       }
       const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
-      const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range);
+      const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss);
       // Blows from several attackers used to land in one frame, read as one
       // hit, and kill faster than anyone could turn. Space them so each one
       // is its own flash, sound and line of the log.
@@ -2456,7 +2559,7 @@ const Game = (() => {
         // player nothing and gives an unwatchful one nothing either.
         // the first blow of a fight gets the full warning, even from something quick
         if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', Math.max(moveSpeed, windupFor(mb.speed)));
-        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
+        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
       } else m.nextAct = G.t + mb.speed;
     }
   }
@@ -2669,6 +2772,9 @@ const Game = (() => {
     }
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;
+    // the lich's life across the top of the view, once it has woken and spoken
+    const boss = L.monsters.find(m => MONSTERS[m.id].boss && m.spoke && !m.collapsed);
+    fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!(boss.windup && boss.windup.move === 'rite') } : null;
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };

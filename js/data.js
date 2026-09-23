@@ -238,7 +238,14 @@ const MONSTERS = {
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge' },
   archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
   acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, move: 'mend', ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
-  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova' },
+  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
+    // the fight turns as it weakens: at two thirds it steps back behind its
+    // guards and throws grave-cold from afar; at one third it puts out the
+    // torches, quickens, and tries to drink the Heart's light to mend itself
+    phases: [
+      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' } },
+      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' }, speed: 850 },
+    ] },
 };
 
 // Spells: available at character level (lvl * 2 - 1). dmg/heal are functions of caster level.

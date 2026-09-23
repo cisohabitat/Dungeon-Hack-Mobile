@@ -91,6 +91,10 @@
  * @property {number} [burnUntil]  a troll's burns: no regrowth until then
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
+ * @property {boolean} [spoke]     the lich has spoken, and its fight has begun
+ * @property {number} [riteReady]  when the lich can next try its rite
+ * @property {number[][]} [snuffed]  the torches the lich put out, to light again when it falls
+ * @property {Array<{x: number, y: number}>} [lights]  their light, likewise
  * @property {{kind: string, until: number, next: number}|null} [dot]  burning or poisoned by the hero
  */
 

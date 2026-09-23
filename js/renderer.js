@@ -95,9 +95,12 @@ const Renderer = (() => {
 
   function isSolid(t) { return t !== T.FLOOR && t !== T.DOOR_OPEN; }
 
-  // A per-tile brightness field from the level's torches, built once per level.
+  // A per-tile brightness field from the level's torches, built once per
+  // level, and again whenever its list of lights is replaced: the lich puts
+  // its torches out, and they catch again when it falls.
   function ensureLights(level) {
-    const cached = lightCache.get(level);
+    const key = level.lights || level;
+    const cached = lightCache.get(key);
     if (cached) return cached;
     const lm = new Float32Array(level.w * level.h);
     for (const l of (level.lights || [])) {
@@ -112,7 +115,7 @@ const Renderer = (() => {
         }
       }
     }
-    lightCache.set(level, lm);
+    lightCache.set(key, lm);
     return lm;
   }
 
@@ -236,6 +239,28 @@ const Renderer = (() => {
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');
       put(Assets.held(null, punch && u > 0.12 && u < 0.43 ? 'punch' : 'fist', v.cls, false), p[0] + dx, p[1] + dy);
     }
+  }
+
+  /** The lich's life along the top of the view, marked where its fight turns. */
+  function drawBossBar(b, now) {
+    if (!b) return;
+    const bw = Math.round(W * 0.62), bx = Math.round((W - bw) / 2), by = 16, bh = 5;
+    ctx.save();
+    ctx.font = 'bold 9px monospace'; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+    ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)';
+    ctx.strokeText(b.name.toUpperCase(), W / 2, by - 4);
+    ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : '#d8c8ff';
+    ctx.fillText(b.name.toUpperCase(), W / 2, by - 4);
+    ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by - 1, bw + 2, bh + 2);
+    ctx.fillStyle = '#2a1030'; ctx.fillRect(bx, by, bw, bh);
+    const f = Math.max(0, b.hp / b.maxHp);
+    ctx.fillStyle = b.phase >= 2 ? '#c02040' : b.phase === 1 ? '#a03cc0' : '#7a5ad8';
+    ctx.fillRect(bx, by, Math.round(bw * f), bh);
+    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(bx, by, Math.round(bw * f), 1);
+    // notches where its fight turns
+    ctx.fillStyle = '#000';
+    for (const n of [1 / 3, 2 / 3]) ctx.fillRect(bx + Math.round(bw * n), by, 1, bh);
+    ctx.restore();
   }
 
   // ---------- what a fight leaves ----------
@@ -737,6 +762,7 @@ const Renderer = (() => {
     // effects
     // the hero's hands, over the world and under the flashes
     drawView(fx, now);
+    drawBossBar(fx.boss, now);
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;
       ctx.fillStyle = fx.castColor;

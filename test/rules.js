@@ -2633,8 +2633,9 @@ await test('the log tells what happened before what the bestiary learned from it
   if (said.filter(l => /^Bestiary/.test(l)).length !== 1) return `more than one bestiary line: ${said.join(' | ')}`;
   // and a kill: destroyed first, then one note
   const m2 = beside(ctx, 'rat', { uid: 612, hp: 1, maxHp: 1, nextAct: 1e12 });
-  const k = markLog(G);
-  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  let k = markLog(G);
+  // a natural 1 misses whatever the bonus: swing again until the blow lands
+  for (let i = 0; i < 20 && Game.level().monsters.includes(m2); i++) { k = markLog(G); G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
   const after = linesSince(G, k);
   void m; void m2;
   const dead = after.findIndex(l => /destroyed/.test(l)), n2 = after.findIndex(l => /^Bestiary, Giant Rat/.test(l));
@@ -3346,6 +3347,104 @@ await test('what ails the hero is passed to the view to tint it', async () => {
   p.poison = { until: G.t + 5000, next: G.t + 1000 }; p.held = G.t + 2000; p.effects.hit = { amount: 1, until: G.t + 9000 };
   st = Game.renderState(0).fx.status;
   return (st.poison && st.held && st.hit && !st.webbed) || JSON.stringify(st);
+});
+
+// ---------- the lich ----------
+/** A lich beside the hero, in a room with a torch on its wall. */
+function lichRoom(ctx, extra = {}) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), T = Dungeon.T;
+  const m = beside(ctx, 'lich', { hp: 120, maxHp: 120, nextAct: 1e12, spoke: true, ...extra });
+  // a torch on the nearest wall of its room, and its light
+  const r = (L.rooms || []).find(r => m.x >= r.x && m.x < r.x + r.w && m.y >= r.y && m.y < r.y + r.h) || { x: m.x - 6, y: m.y - 6, w: 13, h: 13 };
+  let torch = null;
+  for (let x = r.x; x < r.x + r.w && !torch; x++) if (L.tiles[(r.y - 1) * L.w + x] === T.WALL) torch = [x, r.y - 1];
+  if (torch) { L.tiles[torch[1] * L.w + torch[0]] = T.TORCH; L.lights = (L.lights || []).concat([{ x: torch[0], y: torch[1] }]); }
+  return { m, torch };
+}
+/** Strike the lich until its life falls under the mark. */
+function woundTo(ctx, m, below) {
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  m.hp = Math.floor(below) + 1;
+  for (let i = 0; i < 40 && m.hp >= below && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+}
+
+await test('the lich speaks when it wakes, and its life shows across the top of the view', async () => {
+  const ctx = await start('fighter', 'lich-wake');
+  const { Game } = ctx; const G = Game.state();
+  const { m } = lichRoom(ctx, { spoke: false, awake: true, nextAct: G.t + 5000 });
+  if (Game.renderState(0).fx.boss) return 'the bar showed before the lich spoke';
+  const mark = markLog(G);
+  Game.update(G.t + 25, 25);
+  if (!linesSince(G, mark).some(l => /A cold voice/.test(l))) return `it said: ${linesSince(G, mark).join(' | ')}`;
+  const b = Game.renderState(0).fx.boss;
+  return (b && b.hp === m.hp && b.maxHp === m.maxHp && b.name === 'Dread Lich') || JSON.stringify(b);
+});
+
+await test('at two thirds the lich raises guards, steps back out of reach and throws grave-cold', async () => {
+  const ctx = await start('fighter', 'lich-phase1');
+  const { Game } = ctx; const p = Game.player(), L = Game.level();
+  const { m } = lichRoom(ctx);
+  if (Game.mstat(m).ranged) return 'the lich threw from afar before it was wounded';
+  woundTo(ctx, m, m.maxHp * 2 / 3);
+  if (m.phase !== 1) return `phase ${m.phase} at ${m.hp}/${m.maxHp}`;
+  if (!L.monsters.some(o => o.id === 'skeleton')) return 'no guards rose';
+  const d = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+  if (d < 2) return `it stayed ${d} step from the hero`;
+  const r = Game.mstat(m).ranged;
+  return (r && r.range >= 4) || 'it has nothing to throw';
+});
+
+await test('at one third the lich puts out its torches and quickens; they catch again when it falls', async () => {
+  const ctx = await start('fighter', 'lich-phase2');
+  const { Game, Dungeon } = ctx; const L = Game.level(), T = Dungeon.T;
+  const { m, torch } = lichRoom(ctx, { phase: 1 });
+  if (!torch) return 'no wall for a torch in the test room';
+  const lights = L.lights.length, slow = Game.mstat(m).speed;
+  woundTo(ctx, m, m.maxHp / 3);
+  if (m.phase !== 2) return `phase ${m.phase}`;
+  if (L.tiles[torch[1] * L.w + torch[0]] === T.TORCH) return 'the torch still burns';
+  if (L.lights.length >= lights) return `${L.lights.length} lights of ${lights} still lit`;
+  if (!(Game.mstat(m).speed < slow)) return `speed ${Game.mstat(m).speed}, was ${slow}`;
+  // now finish it
+  m.hp = 1; m.windup = null;
+  const p = Game.player(), G = Game.state();
+  for (let i = 0; i < 40 && L.monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+  if (L.monsters.includes(m)) return 'the lich would not die';
+  if (L.tiles[torch[1] * L.w + torch[0]] !== T.TORCH) return 'the torch stayed dark after the lich fell';
+  return L.lights.length === lights || `${L.lights.length} lights after, ${lights} before`;
+});
+
+await test('in the dark the wounded lich drinks from the Heart unless struck; a blow breaks the rite', async () => {
+  const out = [];
+  {
+    // let the rite finish: a fifth of its life comes back
+    const ctx = await start('fighter', 'lich-rite');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const { m } = lichRoom(ctx, { phase: 2, hp: 30, riteReady: 0, nextAct: G.t, awake: true });
+    for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+    if (!(m.windup && m.windup.move === 'rite')) out.push(`it never began the rite (${JSON.stringify(m.windup)})`);
+    else {
+      const before = m.hp;
+      for (let i = 0; i < 200 && m.windup && m.windup.move === 'rite'; i++) Game.update(G.t + 25, 25);
+      if (m.hp - before !== Math.ceil(m.maxHp * 0.2)) out.push(`the rite mended ${m.hp - before}`);
+    }
+  }
+  {
+    const ctx = await start('fighter', 'lich-rite-broken');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.perkHit = 60;
+    const { m } = lichRoom(ctx, { phase: 2, hp: 60, riteReady: 0, nextAct: G.t, awake: true });
+    for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+    const mark = markLog(G);
+    for (let i = 0; i < 20 && m.windup && m.windup.move === 'rite'; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    if (m.windup && m.windup.move === 'rite') out.push('blows did not break the rite');
+    else if (!linesSince(G, mark).some(l => /break the Dread Lich's rite/.test(l))) out.push(`said: ${linesSince(G, mark).join(' | ')}`);
+    if (m.hp > 60) out.push(`it mended to ${m.hp} though the rite was broken`);
+  }
+  return out.length ? out.join('; ') : true;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
