@@ -56,7 +56,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
   They hit harder, take more killing, and always drop something worth having.
-- **Torchlit halls.** Wall brackets cast real pools of light across floors, walls and monsters.
+- **Torchlit halls.** Wall brackets cast real pools of light across floors, walls and monsters,
+  each flame flickering on its own rhythm. Every depth decorates its walls its own way: iron
+  rings and candle niches, skulls and ossuaries in the catacombs, moss and roots in the damp,
+  frost and grates in the vaults, chains in the crypts, glowing runes in the sanctum.
 - **Secrets.** Hidden doors lead to treasure vaults. Search suspicious walls, or play a Thief and
   spot them in passing. Wall fountains restore you fully, once per fountain.
 - **Ranged foes.** Goblin archers and dark acolytes attack down corridors, so cover matters.
