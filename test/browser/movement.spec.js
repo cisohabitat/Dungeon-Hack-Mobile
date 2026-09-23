@@ -84,19 +84,29 @@ test.describe('movement', () => {
     }
     expect(errors).toEqual([]);
   });
-  test('holding a turn button keeps turning', async ({ page }) => {
+  test('holding a turn button turns once and no further', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'turn-hold' });
     await clearBoons(page);
-    // count every change of facing while the button is down
-    await page.evaluate(() => { window.__turns = 0; let last = Game.player().dir; setInterval(() => { const d = Game.player().dir; if (d !== last) { window.__turns++; last = d; } }, 10); });
-    const box = await page.locator('.ctl[data-act="right"]').boundingBox();
-    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    for (const [act, step] of [['right', 1], ['left', 3]]) {
+      const d0 = await page.evaluate(() => Game.player().dir);
+      const box = await page.locator(`.ctl[data-act="${act}"]`).boundingBox();
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      await page.waitForTimeout(1500);
+      await page.mouse.up();
+      await page.waitForTimeout(300);
+      expect(await page.evaluate(() => Game.player().dir)).toBe((d0 + step) % 4);
+    }
+    // walking still repeats while held
+    const steps0 = await page.evaluate(() => Game.player().steps);
+    await page.evaluate(() => { const p = Game.player(), L = Game.level(); for (let r = 0; r < 4; r++) { for (let i = 1; i <= 6; i++) { const [dx, dy] = Dungeon.DIRS[p.dir]; const x = p.x + dx * i, y = p.y + dy * i; if (x > 0 && y > 0 && x < L.w - 1 && y < L.h - 1) L.tiles[y * L.w + x] = Dungeon.T.FLOOR; } } L.monsters.length = 0; });
+    const fwd = await page.locator('.ctl[data-act="forward"]').boundingBox();
+    await page.mouse.move(fwd.x + fwd.width / 2, fwd.y + fwd.height / 2);
     await page.mouse.down();
-    await page.waitForTimeout(1100);
+    await page.waitForTimeout(1200);
     await page.mouse.up();
-    const n = await page.evaluate(() => window.__turns);
-    expect(n).toBeGreaterThanOrEqual(3);
+    expect(await page.evaluate(() => Game.player().steps) - steps0).toBeGreaterThanOrEqual(3);
     expect(errors).toEqual([]);
   });
 });

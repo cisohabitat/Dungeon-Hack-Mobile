@@ -1204,7 +1204,9 @@ const UI = (() => {
     const atk = attackBtn || (attackBtn = document.querySelector('.ctl.attack'));
     if (atk) { const r = Math.round(Game.attackReady() * 20) / 20; if (r !== atkShown) { atkShown = r; atk.style.setProperty('--ready', String(r)); atk.classList.toggle('cooling', r < 1); } }
     const now = performance.now();
-    for (const [act, at] of held) if (now - at >= HOLD_DELAY) Game.input(act, true);
+    // turning is one quarter per press, never repeated: a held turn used to
+    // carry on round into an about-face nobody asked for
+    for (const [act, at] of held) if (act !== 'left' && act !== 'right' && now - at >= HOLD_DELAY) Game.input(act, true);
   }
 
   function handleEvents() {
