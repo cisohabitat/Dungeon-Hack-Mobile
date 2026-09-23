@@ -3279,6 +3279,75 @@ await test('a slain monster falls where it stood, and is gone once it has fallen
   return true;
 });
 
+// ---------- what a fight leaves ----------
+await test('a blow throws a spray in the colour the monster bleeds, and a kill stains the floor', async () => {
+  const out = [];
+  for (const [id, colour] of [['orc', '#b8161c'], ['slime', '#7ed052'], ['skeleton', '#e8e0cc']]) {
+    const ctx = await start('fighter', 'spray-' + id);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.perkHit = 60;
+    const m = beside(ctx, id, { hp: 3, maxHp: 30, nextAct: 1e12 });
+    const fx = Game.renderState(0).fx;
+    // a natural 1 strikes only sparks, so swing until a blow lands
+    for (let i = 0; i < 20 && !fx.bits.some(b => !b.glow); i++) { G.t = p.nextAttack; Game.input('attack'); }
+    if (!fx.bits.some(b => b.c === colour)) out.push(`${id} sprayed ${[...new Set(fx.bits.map(b => b.c))].join(',')}`);
+    for (let i = 0; i < 40 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+    const stains = fx.stains[G.depth] || [];
+    if (id === 'skeleton' ? stains.length : !stains.length) out.push(`${id} left ${stains.length} stains`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a missed blow strikes sparks; stains are capped per floor and gone in a new run', async () => {
+  const ctx = await start('fighter', 'sparks');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.perkHit = -99;
+  beside(ctx, 'orc', { hp: 999, maxHp: 999, nextAct: 1e12 });
+  const fx = Game.renderState(0).fx;
+  G.t = p.nextAttack; Game.input('attack');
+  if (!fx.bits.length || !fx.bits.every(b => b.glow)) return `a miss threw ${fx.bits.length} bits`;
+  p.perkHit = 60;
+  for (let k = 0; k < 90; k++) {
+    const m = beside(ctx, 'goblin', { hp: 1, maxHp: 1, nextAct: 1e12 });
+    for (let i = 0; i < 20 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+  }
+  const n = (fx.stains[G.depth] || []).length;
+  if (n > 60 || n < 30) return `${n} stains after 90 kills`;
+  Game.newGame({ name: 'Again', cls: 'fighter', stats: Game.rollStats(), seed: 'sparks2', opts: Game.state().opts });
+  if (Object.keys(fx.stains).length || fx.bits.length) return 'the last run\'s stains carried over';
+  return true;
+});
+
+await test('a hard blow jolts the view harder than a light one, and bloodies its edges', async () => {
+  const ctx = await start('fighter', 'jolt');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  const fx = Game.renderState(0).fx;
+  // the same ogre's blow against a long life and a short one
+  const blowAgainst = life => {
+    p.hp = p.maxHp = life; fx.drops.length = 0;
+    beside(ctx, 'ogre', { nextAct: G.t, awake: true });
+    for (let i = 0; i < 400 && p.hp === life; i++) Game.update(G.t + 25, 25);
+    return { dealt: life - p.hp, amp: fx.shakeAmp, drops: fx.drops.length };
+  };
+  // with ten hit points any blow at all is a tenth of them
+  const long = blowAgainst(1000), short = blowAgainst(10);
+  if (!long.dealt || !short.dealt) return 'the ogre never landed a blow';
+  if (!(short.amp > long.amp)) return `shake ${long.amp} against a long life, ${short.amp} against a short one`;
+  if (long.drops) return `a light blow (${long.dealt} of 1000) bloodied the view`;
+  if (!short.drops) return `a blow for ${short.dealt} of 10 left no blood on the view`;
+  return true;
+});
+
+await test('what ails the hero is passed to the view to tint it', async () => {
+  const ctx = await start('cleric', 'tint');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  let st = Game.renderState(0).fx.status;
+  if (st.poison || st.held || st.hit) return `a fresh hero is ${JSON.stringify(st)}`;
+  p.poison = { until: G.t + 5000, next: G.t + 1000 }; p.held = G.t + 2000; p.effects.hit = { amount: 1, until: G.t + 9000 };
+  st = Game.renderState(0).fx.status;
+  return (st.poison && st.held && st.hit && !st.webbed) || JSON.stringify(st);
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

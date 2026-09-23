@@ -27,7 +27,19 @@ const Game = (() => {
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9,
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
+               /** what blows throw: droplets, bone chips, sparks, flying and falling */
+               /** @type {Array<{x: number, y: number, z: number, vx: number, vy: number, vz: number, g: number, c: string, born: number, life: number, size: number, glow?: boolean}>} */ bits: [],
+               /** stains on the floor, by depth; for the look of a fight, not saved */
+               /** @type {Record<number, Array<{x: number, y: number, r: number, c: string, seed: number}>>} */ stains: {},
+               /** blood on the hero's own view, after a hard blow */
+               /** @type {Array<{x: number, y: number, r: number, born: number, life: number}>} */ drops: [],
+               shakeAmp: 4, shakeMs: 220, hurtAmt: 0.5,
+               /** @type {any} */ status: null,
                /** @type {any} */ view: null };
+  /** Forget the look of the last fight: a new run or a loaded save starts clean. */
+  function clearFx() {
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = [];
+  }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
@@ -736,6 +748,7 @@ const Game = (() => {
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
+    clearFx();
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -1247,6 +1260,58 @@ const Game = (() => {
     return true;
   }
 
+  // ---------- what a blow leaves behind ----------
+  // Each kind of monster bleeds its own colour: red, the green of a troll or
+  // a slime, the dust of old bones, the cold light a wraith is made of. A
+  // blow throws a spray away from the hero, a heavy blow or a kill leaves a
+  // stain on the floor, and a blow turned aside strikes sparks.
+  const GORE = {
+    blood: { c: ['#8a0e12', '#b8161c', '#5a0608'], g: 6, stain: true },
+    goo: { c: ['#4a9a2e', '#7ed052', '#2a5a1a'], g: 5, stain: true },
+    ichor: { c: ['#8aa01a', '#c0d040', '#4e5e0e'], g: 6, stain: true },
+    rot: { c: ['#4a2a1a', '#6e3e24', '#2a1a10'], g: 6, stain: true },
+    troll: { c: ['#2e5a22', '#4e7e34', '#1a3610'], g: 6, stain: true },
+    bone: { c: ['#e8e0cc', '#b8ae98', '#8a8070'], g: 7, stain: false },
+    ecto: { c: ['#a8d8ff', '#e0f4ff', '#6aa0d8'], g: -0.5, stain: false, glow: true },
+    spark: { c: ['#fff4c0', '#ffd060', '#ff9030'], g: 2.5, stain: false, glow: true },
+  };
+  const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone' };
+  const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
+  /**
+   * Throw a spray from a monster, away from the hero.
+   * @param {import('./types.js').Monster} m
+   * @param {string} kind  a GORE key, or null for what this monster bleeds
+   * @param {number} amount  0 to 1: how hard the blow was, against its whole life
+   * @param {boolean} [pool]  leave a stain on the floor too
+   */
+  function spray(m, kind, amount, pool) {
+    const g = GORE[kind || GORE_OF[m.id] || 'blood'];
+    const p = P(), mb = MONSTERS[m.id];
+    const cx = (m.rx == null ? m.x : m.rx) + 0.5, cy = (m.ry == null ? m.y : m.ry) + 0.5;
+    const ax = cx - (p.x + 0.5), ay = cy - (p.y + 0.5), len = Math.hypot(ax, ay) || 1, ux = ax / len, uy = ay / len;
+    const z0 = (mb.fly || 0) + mb.scale * 0.55;
+    const n = Math.round(5 + Math.min(1, amount) * 16);
+    for (let i = 0; i < n; i++) {
+      const sp = 0.6 + Math.random() * 1.6, side = (Math.random() * 2 - 1) * 1.1;
+      fx.bits.push({
+        x: cx - ux * 0.3, y: cy - uy * 0.3, z: z0 + (Math.random() - 0.5) * 0.2,
+        vx: ux * sp - uy * side, vy: uy * sp + ux * side, vz: 0.6 + Math.random() * 1.8,
+        g: g.g, c: g.c[i % g.c.length], born: realNow, life: 380 + Math.random() * 360,
+        size: Math.random() < 0.3 ? 0.024 : 0.015, glow: g.glow,
+      });
+    }
+    if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
+    if (pool && g.stain) {
+      const list = fx.stains[G.depth] || (fx.stains[G.depth] = []);
+      // it lands a little beyond the monster, on the side away from the blow
+      list.push({ x: cx + ux * (0.1 + Math.random() * 0.25) + (Math.random() - 0.5) * 0.3, y: cy + uy * (0.1 + Math.random() * 0.25) + (Math.random() - 0.5) * 0.3,
+        r: 0.06 + Math.min(1, amount) * 0.1, c: g.c[2], seed: Math.random() * 1000 });
+      if (list.length > STAINS_PER_FLOOR) list.shift();
+    }
+  }
+  /** Sparks where a blow was turned aside. */
+  function sparks(m) { spray(m, 'spark', 0.05, false); }
+
   // ---------- combat ----------
   function floatText(m, text, color) {
     fx.texts.push({ x: m.rx + 0.5, y: m.ry + 0.5, text: String(text), color, born: realNow, until: realNow + 750 });
@@ -1290,6 +1355,7 @@ const Game = (() => {
       log(`You miss the ${mb.name}.${note}`);
       Sound.play('miss');
       floatText(m, 'miss', '#e4e4ee');
+      sparks(m);
       return;
     }
     // Thieves strike where it counts rather than swinging hard, so their bonus
@@ -1358,6 +1424,11 @@ const Game = (() => {
     m.hp -= dmg;
     m.awake = true;
     m.flashUntil = realNow + 130;
+    {
+      // a spray scaled to the blow, and a stain when it was a heavy one or the last
+      const hard = dmg / Math.max(1, m.maxHp);
+      if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
+    }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     Sound.play('hit');
     buzz(12);
@@ -1553,8 +1624,14 @@ const Game = (() => {
       fx.hurtFromUntil = realNow + 900;
       G.lastAttacker = { name: mstat(from).name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
     }
+    // the harder the blow against the hero's whole life, the harder the view
+    // jolts and reddens; one that takes a tenth of it or more leaves blood on
+    // the edges of the view
+    const hard = Math.min(1, dmg / Math.max(1, p.maxHp * 0.3));
     fx.damageUntil = realNow + 260;
-    fx.shakeUntil = realNow + 220;
+    fx.hurtAmt = 0.3 + 0.4 * hard;
+    fx.shakeAmp = 2.5 + 7 * hard; fx.shakeMs = 220; fx.shakeUntil = realNow + 220;
+    if (dmg >= p.maxHp / 10) bloodOnView(hard);
     Sound.play('hurt');
     buzz(40);
     if (msg) log(msg, 'bad');
@@ -1571,6 +1648,18 @@ const Game = (() => {
     emit('stats');
     if (p.hp <= 0 && from) learn(from.id, 'death');
     if (p.hp <= 0) die();
+  }
+  /** Drops of blood on the view's edges, more of them for a harder blow; they run a little and fade. */
+  function bloodOnView(hard) {
+    const n = Math.round(2 + hard * 6);
+    for (let i = 0; i < n; i++) {
+      // along the edges, never over the middle where the enemy is
+      const edge = Math.floor(Math.random() * 4), t = Math.random();
+      const x = edge === 0 ? 0.03 + Math.random() * 0.12 : edge === 1 ? 0.85 + Math.random() * 0.12 : t;
+      const y = edge >= 2 ? (edge === 2 ? 0.02 + Math.random() * 0.12 : 0.86 + Math.random() * 0.1) : t;
+      fx.drops.push({ x, y, r: 0.008 + Math.random() * 0.012 * (0.5 + hard), born: realNow + Math.random(), life: 1300 + Math.random() * 700 });
+    }
+    if (fx.drops.length > 24) fx.drops.splice(0, fx.drops.length - 24);
   }
   function healPlayer(n) {
     const p = P();
@@ -1604,7 +1693,7 @@ const Game = (() => {
     log('The walls groan. Every dead thing in the mountain now knows where you are.', 'bad');
     log(`Climb back to level 1 and take the stairs out. You are ${G.depth} levels down.`, 'info');
     Sound.play('win');
-    fx.shakeUntil = realNow + 900;
+    fx.shakeAmp = 6; fx.shakeMs = 900; fx.shakeUntil = realNow + 900;
     emit('stats');
     emit('escape');
   }
@@ -2426,6 +2515,8 @@ const Game = (() => {
     fx.texts = fx.texts.filter(t => t.until > now);
     if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
     if (fx.corpses.length) fx.corpses = fx.corpses.filter(c => now - c.born < CORPSE_MS);
+    if (fx.bits.length) fx.bits = fx.bits.filter(b => now - b.born < b.life);
+    if (fx.drops.length) fx.drops = fx.drops.filter(d => now - d.born < d.life);
   }
   function tick(now) { realNow = now; }
 
@@ -2578,6 +2669,9 @@ const Game = (() => {
     }
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;
+    // what ails or aids the hero, tinted over the view
+    fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
+      ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };
     fx.view = {
       weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ITEMS[wIt.t].sprite === 'shortbow'),
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
@@ -2629,7 +2723,7 @@ const Game = (() => {
       lastBlocked = -1e9; queuedAttack = false; queuedMove = null;
       snapCam();
       distFieldAt = -1e9;
-      fx.texts = [];
+      clearFx();
       log('Game loaded.', 'info');
       emit('level');
       return true;

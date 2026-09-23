@@ -52,7 +52,7 @@ function loop(now) {
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
       const view = document.getElementById('view');
       if (now < rs.fx.shakeUntil) {
-        const a = (rs.fx.shakeUntil - now) / 220 * 4;
+        const a = (rs.fx.shakeUntil - now) / (rs.fx.shakeMs || 220) * (rs.fx.shakeAmp || 4);
         view.style.transform = `translate(${(Math.random() * 2 - 1) * a}px, ${(Math.random() * 2 - 1) * a}px)`;
       } else if (view.style.transform) view.style.transform = '';
       UI.refreshMinimap(now);

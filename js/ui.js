@@ -395,7 +395,10 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, !!p.poison, Game.effect('ac'), Game.effect('hit'), Game.effect('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
+    // how long a timed effect has left, in whole seconds, so the row counts down
+    const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
+    const secs = k => (Game.effect(k) && p.effects[k] ? left(p.effects[k].until) : 0);
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -413,16 +416,16 @@ const UI = (() => {
     $('#hud-gold').textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
-    if (p.poison) st.push('<span class="bad">Poisoned</span>');
+    if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
     if (p.held > G.t) st.push('<span class="bad">Frozen</span>');
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
-    if (Game.effect('ac')) st.push('<span class="good">Shielded</span>');
+    if (Game.effect('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
-    if (Game.effect('hit')) st.push('<span class="good">Blessed</span>');
-    if (Game.effect('might')) st.push('<span class="good">Mighty</span>');
+    if (Game.effect('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
+    if (Game.effect('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     if (G.escaping) st.push('<span class="escape">Carrying the Heart</span>');
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);

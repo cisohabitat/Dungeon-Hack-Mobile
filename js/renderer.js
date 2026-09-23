@@ -238,6 +238,161 @@ const Renderer = (() => {
     }
   }
 
+  // ---------- what a fight leaves ----------
+  const rgbOf = hex => {
+    const h = hex.length === 4 ? hex.slice(1).split('').map(c => c + c).join('') : hex.slice(1);
+    const n = parseInt(h, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  const dim = (hex, f, a = 1) => { const [r, g, b] = rgbOf(hex); return `rgba(${Math.round(r * f)},${Math.round(g * f)},${Math.round(b * f)},${a.toFixed(3)})`; };
+  /** A floor stain: a pool and a few splashes round it, laid flat in perspective and darkened like the floor under it. */
+  function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm) {
+    if (!list || !list.length) return;
+    const invDet = 1 / (planeX * dirY - dirX * planeY);
+    const lx = W / 2 / TAN_HALF;
+    const blob = (x, y, r, c) => {
+      const sx = x - px, sy = y - py;
+      const tY = invDet * (-planeY * sx + planeX * sy);
+      if (tY < 0.35 || tY > FOG) return;
+      const tX = invDet * (dirY * sx - dirX * sy);
+      const cx = (W / 2) * (1 + tX / tY), cy = H / 2 + (P / 2) / tY;
+      const rx = r * lx / tY, ry = r * (P / 2) / (tY * tY);
+      if (cx + rx < 0 || cx - rx > W || ry < 0.3) return;
+      const tx = x | 0, ty = y | 0;
+      const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
+      const f = Math.max(0.1, Math.min(1, 1 - tY / FOG + lit / 7));
+      ctx.fillStyle = dim(c, f * 0.8, 0.7);
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, Math.min(ry, rx), 0, 0, Math.PI * 2); ctx.fill();
+    };
+    for (const st of list) {
+      blob(st.x, st.y, st.r, st.c);
+      for (let i = 0; i < 4; i++) {
+        const a = hash(st.seed + i) * Math.PI * 2, d = st.r * (0.9 + hash(st.seed + i + 9) * 0.9);
+        blob(st.x + Math.cos(a) * d, st.y + Math.sin(a) * d, st.r * (0.18 + hash(st.seed + i + 5) * 0.2), st.c);
+      }
+    }
+  }
+  /** Droplets, bone chips and sparks in flight, falling under their own weight; each is hidden behind walls nearer than it. */
+  function drawBits(fx, now, px, py, dirX, dirY, planeX, planeY, invDet) {
+    if (!fx.bits || !fx.bits.length) return;
+    for (const b of fx.bits) {
+      const age = now - b.born;
+      if (age < 0 || age >= b.life) continue;
+      let t = age / 1000;
+      // what falls stops where it meets the floor
+      if (b.g > 0) { const land = (b.vz + Math.sqrt(b.vz * b.vz + 2 * b.g * b.z)) / b.g; if (t > land) t = land; }
+      const x = b.x + b.vx * t * 0.6, y = b.y + b.vy * t * 0.6, z = Math.max(0, b.z + b.vz * t - b.g * t * t / 2);
+      const sx = x - px, sy = y - py;
+      const tY = invDet * (-planeY * sx + planeX * sy);
+      if (tY <= 0.2 || tY > FOG) continue;
+      const tX = invDet * (dirY * sx - dirX * sy);
+      const cx = Math.round((W / 2) * (1 + tX / tY));
+      if (cx < 0 || cx >= W || tY >= zbuf[cx]) continue;
+      const hFull = P / tY, cy = Math.round(H / 2 + hFull / 2 - z * hFull);
+      const size = Math.max(1, Math.round(b.size * hFull));
+      const u = age / b.life;
+      ctx.globalAlpha = Math.max(0, 1 - u * u);
+      if (b.glow) ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = b.c;
+      ctx.fillRect(cx - (size >> 1), cy - (size >> 1), size, size);
+      if (b.glow) ctx.globalCompositeOperation = 'source-over';
+    }
+    ctx.globalAlpha = 1;
+  }
+  /** Blood on the view after a hard blow: a splash at the edge, flecks flung
+   * round it, a thin run down from it; it all fades. Pixel squares, like the rest. */
+  function drawDrops(drops, now) {
+    if (!drops || !drops.length) return;
+    for (let i = 0; i < drops.length; i++) {
+      const d = drops[i];
+      const u = (now - d.born) / d.life;
+      if (u < 0 || u >= 1) continue;
+      const x = Math.round(d.x * W), y = Math.round(d.y * H), r = Math.max(2, Math.round(d.r * H));
+      const run = Math.round(Math.min(1, u * 1.4) * r * 3);
+      ctx.globalAlpha = u < 0.6 ? 0.8 : 0.8 * (1 - (u - 0.6) / 0.4);
+      ctx.fillStyle = '#5a0306';
+      ctx.fillRect(x - r, y - (r >> 1), r * 2, r);
+      ctx.fillRect(x - (r >> 1), y - r, r, r * 2);
+      ctx.fillRect(x - 1, y, 2, r + run);
+      for (let k = 0; k < 5; k++) {
+        const a = hash(d.born + k) * Math.PI * 2, dd = r * (1.4 + hash(d.born + k + 7) * 1.6);
+        ctx.fillRect(Math.round(x + Math.cos(a) * dd), Math.round(y + Math.sin(a) * dd), 2, 2);
+      }
+      ctx.fillStyle = '#9a1418';
+      ctx.fillRect(x - (r >> 1), y - (r >> 1), Math.max(1, r >> 1), Math.max(1, r >> 1));
+    }
+    ctx.globalAlpha = 1;
+  }
+  /** An edge glow in one colour, strongest at the rim, for what ails or aids the hero. */
+  function rim(r, g, b, a, inner = 0.34) {
+    const grad = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * inner, W / 2, H / 2, Math.max(W, H) * 0.66);
+    grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
+    grad.addColorStop(1, `rgba(${r},${g},${b},${a.toFixed(3)})`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+  }
+  // A web across the corners, and frost that creeps in from them: fixed
+  // strands, placed by hash so they hold still from frame to frame.
+  function corners(color, width, n, reach, jag) {
+    ctx.save();
+    ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round';
+    for (const [cx, cy, sx, sy] of [[0, 0, 1, 1], [W, 0, -1, 1], [0, H, 1, -1], [W, H, -1, -1]]) {
+      for (let i = 0; i < n; i++) {
+        const a = (i + 0.5) / n * Math.PI / 2, len = reach * (0.6 + hash(i * 7 + cx + cy) * 0.5);
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        let x = cx, y = cy;
+        for (let k = 1; k <= 4; k++) {
+          const j = jag ? (hash(i * 13 + k + cx) - 0.5) * jag : 0;
+          x = cx + sx * Math.cos(a + j) * len * k / 4; y = cy + sy * Math.sin(a + j) * len * k / 4;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      if (!jag) {
+        // the web's rings, strung between its spokes
+        for (let ring = 1; ring <= 3; ring++) {
+          ctx.beginPath();
+          for (let i = 0; i < n; i++) {
+            const a = (i + 0.5) / n * Math.PI / 2, rr = reach * ring / 4 * (0.8 + hash(i + ring * 3) * 0.2);
+            const x = cx + sx * Math.cos(a) * rr, y = cy + sy * Math.sin(a) * rr;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.restore();
+  }
+  function drawStatus(st, now) {
+    if (!st) return;
+    const slow = 0.5 + 0.5 * Math.sin(now / 600);
+    if (st.poison) rim(70, 170, 40, 0.22 + 0.14 * slow);
+    if (st.starving) rim(20, 14, 10, 0.4, 0.3);
+    if (st.grabbed) rim(70, 50, 30, 0.35);
+    if (st.might) rim(230, 110, 40, 0.14 + 0.06 * slow, 0.42);
+    if (st.ac) {
+      // a thin shimmer running round the rim of the shield
+      rim(90, 150, 255, 0.2 + 0.08 * Math.sin(now / 250), 0.4);
+    }
+    if (st.hit) {
+      // motes of gold rising up the sides
+      rim(255, 210, 90, 0.1, 0.44);
+      ctx.fillStyle = '#ffe89a';
+      for (let i = 0; i < 14; i++) {
+        const side = i % 2, speed = 0.25 + hash(i) * 0.2, phase = (now / 1000 * speed + hash(i + 20)) % 1;
+        const x = side ? W - 6 - hash(i + 3) * 26 : 6 + hash(i + 3) * 26, y = H * (1 - phase);
+        ctx.globalAlpha = Math.sin(phase * Math.PI) * 0.9;
+        ctx.fillRect(Math.round(x), Math.round(y), 3, 3);
+      }
+      ctx.globalAlpha = 1;
+    }
+    if (st.held) {
+      rim(170, 220, 255, 0.35, 0.3);
+      corners('rgba(220,240,255,0.55)', 1, 5, Math.min(W, H) * 0.3, 0.5);
+    }
+    if (st.webbed) corners('rgba(220,220,210,0.5)', 1, 5, Math.min(W, H) * 0.34, 0);
+  }
+
   // ---------- spell effects ----------
   // Each spell draws its own effect between the hero's hand and what it
   // hits, instead of only tinting the view: darts that fly, a fan of fire,
@@ -410,6 +565,8 @@ const Renderer = (() => {
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
     const lm = ensureLights(level);
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
+    // stains lie on the floor, so the walls drawn next hide them where they should
+    drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -540,6 +697,8 @@ const Renderer = (() => {
       }
     }
 
+    drawBits(fx, now, px, py, dirX, dirY, planeX, planeY, invDet);
+
     // floating texts
     ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'center';
@@ -585,6 +744,7 @@ const Renderer = (() => {
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+    drawStatus(fx.status, now);
     // near death, the edges of the view pulse red: the heartbeat is no help
     // to someone playing with the sound off, which on a phone is most people
     if (fx.hpFrac > 0 && fx.hpFrac < 0.25) {
@@ -598,10 +758,11 @@ const Renderer = (() => {
     if (now < fx.damageUntil) {
       const a = (fx.damageUntil - now) / 260;
       ctx.fillStyle = 'rgba(200,0,0,1)';
-      ctx.globalAlpha = a * 0.5;
+      ctx.globalAlpha = a * (fx.hurtAmt || 0.5);
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+    drawDrops(fx.drops, now);
     // Which edge the blow came from. The view only shows what is ahead, so
     // without this an attacker behind you is invisible and unexplained.
     if (fx.hurtFrom >= 0 && now < fx.hurtFromUntil) {
