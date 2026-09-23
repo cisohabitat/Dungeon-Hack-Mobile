@@ -197,7 +197,8 @@ const Renderer = (() => {
     for (const { s, tX, tY } of list) {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
-      const sh = hFull * s.scale;
+      // a monster winding up a blow swells a little toward you as it draws back
+      const sh = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
       const sw = sh;
       const floorY = H / 2 + hFull / 2;
       const top = floorY - sh - (s.yOff || 0) * hFull;
@@ -227,6 +228,23 @@ const Renderer = (() => {
         ctx.fillRect(bx, by, bw, 2);
         ctx.fillStyle = '#e04030';
         ctx.fillRect(bx, by, Math.max(1, Math.round(bw * s.hp / s.maxHp)), 2);
+      }
+      // the tell: a bright mark over anything about to strike, filling as the
+      // blow comes, so it can be seen and answered before it lands
+      if (s.tell) {
+        const size = Math.max(7, Math.min(16, Math.round(sw * 0.28)));
+        const tx = Math.round(screenX), ty = Math.max(size + 2, Math.floor(top) - (s.hp != null && s.hp < s.maxHp ? 9 : 4));
+        ctx.save();
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tx, ty - size); ctx.lineTo(tx + size * 0.62, ty); ctx.lineTo(tx - size * 0.62, ty); ctx.closePath();
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)'; ctx.stroke();
+        ctx.fillStyle = s.tell >= 1 ? '#ff3020' : (s.tell > 0.5 ? '#ff7a20' : '#ffc030');
+        ctx.fill();
+        ctx.fillStyle = '#1a0a08';
+        ctx.fillRect(tx - 1, ty - size * 0.68, 2, size * 0.38);
+        ctx.fillRect(tx - 1, ty - size * 0.2, 2, 2);
+        ctx.restore();
       }
     }
 
@@ -305,8 +323,8 @@ const Renderer = (() => {
         if (drawn.has(t.rel)) continue;        // one per side; nearest wins, it is sorted first
         drawn.add(t.rel);
         // big and bright enough to catch the corner of the eye mid-fight
-        const a = t.near ? 0.75 + 0.25 * Math.sin(now / 110) : 0.6;
-        const s = t.near ? 14 : 11;
+        const a = t.tell ? 0.85 + 0.15 * Math.sin(now / 45) : (t.near ? 0.75 + 0.25 * Math.sin(now / 110) : 0.6);
+        const s = t.tell ? 17 : (t.near ? 14 : 11);
         let cx, cy, ang;
         if (t.rel === 1) { cx = W - 14; cy = H / 2; ang = 0; }
         else if (t.rel === 3) { cx = 14; cy = H / 2; ang = Math.PI; }

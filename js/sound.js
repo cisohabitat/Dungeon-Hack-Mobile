@@ -66,6 +66,8 @@ const Sound = (() => {
     bump: () => tone(80, 0.06, 'square', 0.06),
     step: () => noise(0.04, 0.035),
     growl: () => tone(70, 0.35, 'sawtooth', 0.12, -30),
+    // a blow being drawn back: short, rising, easy to learn to react to
+    windup: () => tone(240, 0.16, 'sawtooth', 0.07, 260),
     arrow: () => { noise(0.06, 0.12); tone(900, 0.08, 'triangle', 0.08, -500); },
     fountain: () => { tone(500, 0.1, 'sine', 0.1); tone(700, 0.12, 'sine', 0.1, 0, 0.1); tone(900, 0.15, 'sine', 0.1, 0, 0.2); },
     secret: () => { tone(300, 0.12, 'square', 0.08); tone(450, 0.12, 'square', 0.08, 0, 0.12); tone(600, 0.2, 'square', 0.08, 0, 0.24); },

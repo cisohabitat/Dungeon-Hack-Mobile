@@ -1277,6 +1277,7 @@ const Game = (() => {
     // wounded, non-boss monsters may break and run
     if (!mb.boss && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
+      m.windup = null;
       log(`The ${mb.name} turns to flee!`, 'good');
     }
   }
@@ -1713,6 +1714,18 @@ const Game = (() => {
     if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
   }
+  // Every blow is telegraphed: a monster winds up, and the blow lands only if
+  // you are still in reach when it comes down. Step away, or kill it first.
+  // The wind-up is taken out of the gap between blows, not added to it, so a
+  // monster strikes as often as it always did; it is capped at most of that
+  // gap so fast things and groups keep their pace.
+  const WINDUP_MS = 450;
+  /** Draw a blow back: it lands in dur ms, if you are still there. */
+  function beginWindup(m, kind, dur) {
+    m.windup = { kind, at: G.t, until: G.t + dur };
+    m.nextAct = m.windup.until;
+    Sound.play('windup');
+  }
   const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
   const BLOW_GAP = 250;    // ms between any two blows landing on you
   function updateMonsters() {
@@ -1731,7 +1744,12 @@ const Game = (() => {
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
-        if (di >= 0 && di <= notice) { m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT; continue; }
+        if (di >= 0 && di <= notice) {
+          m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT;
+          // woken right beside you, its first blow is already being drawn back
+          if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
+          continue;
+        }
         else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 12) {
@@ -1761,9 +1779,29 @@ const Game = (() => {
       // Blows from several attackers used to land in one frame, read as one
       // hit, and kill faster than anyone could turn. Space them so each one
       // is its own flash, sound and line of the log.
-      if ((adjacent || shot) && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
-      if (adjacent) { monsterAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed / packSize(m); if (G.status !== 'playing') return; continue; }
-      if (shot) { rangedAttack(m); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed * 1.3; if (G.status !== 'playing') return; continue; }
+      if (m.windup) {
+        // the blow comes down: on you if you are still there, on the air if not
+        const w = m.windup;
+        const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed / packSize(m);
+        const inReach = w.kind === 'melee' ? adjacent : shot;
+        if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }   // held a beat, still coming
+        m.windup = null;
+        if (inReach) {
+          if (w.kind === 'melee') monsterAttack(m); else rangedAttack(m);
+          G.blowGate = G.t + BLOW_GAP;
+          if (G.status !== 'playing') return;
+        } else {
+          log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
+          Sound.play('miss');
+        }
+        m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
+        continue;
+      }
+      if (adjacent || shot) {
+        const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed / packSize(m);
+        beginWindup(m, adjacent ? 'melee' : 'shot', Math.round(Math.min(WINDUP_MS, cycle * 0.6)));
+        continue;
+      }
       let best = null, bd = di;
       for (const [dx, dy] of DIRS) {
         const nx = m.x + dx, ny = m.y + dy;
@@ -1776,6 +1814,11 @@ const Game = (() => {
         if (tile(best[0], best[1]) === T.DOOR) { setTile(best[0], best[1], T.DOOR_OPEN); log('Something opens a door nearby.', 'bad'); Sound.play('door'); }
         else moveMonster(m, best[0], best[1]);
         m.nextAct = G.t + moveSpeed;
+        // Stepping up to you, it draws back as it comes, so its first blow
+        // lands exactly when it always did: the warning costs a watchful
+        // player nothing and gives an unwatchful one nothing either.
+        if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', moveSpeed);
+        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range)) beginWindup(m, 'shot', moveSpeed);
       } else m.nextAct = G.t + mb.speed;
     }
   }
@@ -1876,9 +1919,9 @@ const Game = (() => {
         if (rel === 0 || rel === 2) rel = r2;
       }
       if (rel === 0) continue;
-      out.push({ rel, near: dist === 1 });
+      out.push({ rel, near: dist === 1, tell: !!m.windup });
     }
-    return out.sort((a, b) => Number(b.near) - Number(a.near));
+    return out.sort((a, b) => Number(b.tell) - Number(a.tell) || Number(b.near) - Number(a.near));
   }
   function renderState(now) {
     const L = lvl();
@@ -1893,7 +1936,9 @@ const Game = (() => {
       const base = Assets.sprites[mb.sprite];
       const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
       const n = packSize(m);
-      if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp }); continue; }
+      // how far through its wind-up it is, for the tell drawn over it
+      const tell = m.windup ? Math.min(1, Math.max(0.05, (G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
+      if (n === 1) { sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img, scale: mb.scale, yOff: (mb.fly || 0) + bob, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell }); continue; }
       // a group stands abreast across your view: the front one a little
       // nearer and carrying the health bar, the rest at its shoulders
       const ax = Math.cos(cam.angle), ay = Math.sin(cam.angle), sx = -ay, sy = ax;
@@ -1901,7 +1946,7 @@ const Game = (() => {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         sprites.push({ x: m.rx + 0.5 + sx * side + ax * back, y: m.ry + 0.5 + sy * side + ay * back, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2,
-          flash: i === 0 ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp } : {}) });
+          flash: i === 0 ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
     for (const n of (L.npcs || [])) {

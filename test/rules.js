@@ -1777,6 +1777,111 @@ await test('relics can be laid in a secret vault, and traders keep unknown gear 
   return t.Game.buyPrice(shop, shelved) === t.Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 }) || 'the shelf price gave the hidden +2 away';
 });
 
+
+// ---------- telegraphed blows ----------
+/** A monster beside the hero, awake and ready to act now. */
+function beside(ctx, id, extra = {}) {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), G = Game.state();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.monsters.length = 0;
+  const m = { uid: 90, id, x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra };
+  L.monsters.push(m);
+  return m;
+}
+
+await test('a monster winds up before it strikes, and the blow comes a moment later', async () => {
+  const ctx = await start('fighter', 'windup');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 999;
+  const m = beside(ctx, 'goblin');
+  const mark = markLog(G), t0 = G.t;
+  let firstBlowAt = null, sawWindup = false;
+  for (let i = 0; i < 40 && firstBlowAt === null; i++) {
+    Game.update(G.t + 25, 25);
+    if (m.windup) sawWindup = true;
+    if (linesSince(G, mark).some(l => /Goblin (hits|misses) you/.test(l))) firstBlowAt = G.t - t0;
+  }
+  if (!sawWindup) return 'the goblin struck without winding up';
+  if (firstBlowAt === null) return 'the goblin never struck';
+  return (firstBlowAt >= 300 && firstBlowAt <= 500) || `the blow landed ${firstBlowAt}ms after the wind-up began`;
+});
+
+await test('stepping out of reach during the wind-up makes the blow miss', async () => {
+  const ctx = await start('fighter', 'dodge');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  const hp0 = p.hp;
+  const m = beside(ctx, 'goblin');
+  Game.update(G.t + 25, 25);
+  if (!m.windup) return 'no wind-up to dodge';
+  // step back, away from it
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y - dy) * L.w + p.x - dx] = Dungeon.T.FLOOR;
+  p.x -= dx; p.y -= dy;
+  const mark = markLog(G);
+  for (let i = 0; i < 24; i++) Game.update(G.t + 25, 25);
+  const said = linesSince(G, mark);
+  if (p.hp < hp0) return `stepping away still cost ${hp0 - p.hp} hit points`;
+  return said.some(l => /swings at the air where you stood/.test(l)) || `said: ${said.join(' | ')}`;
+});
+
+await test('telegraphing does not slow monsters down: blows land as often as before', async () => {
+  const ctx = await start('fighter', 'windup-pace');
+  ctx.Dice.s = new ctx.Rng('windup-pace').s;
+  const { Game, MONSTERS } = ctx;
+  const p = Game.player(), G = Game.state();
+  beside(ctx, 'goblin');
+  let blows = 0;
+  for (let i = 0; i < 600; i++) {
+    p.hp = p.maxHp = 9999;
+    const mark = markLog(G);
+    Game.update(G.t + 25, 25);
+    blows += linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
+  }
+  const expected = 15000 / MONSTERS.goblin.speed;
+  return Math.abs(blows - expected) <= 2 || `a goblin struck ${blows} times in 15s, about ${expected.toFixed(1)} expected`;
+});
+
+await test('an archer draws before it shoots, and stepping out of line makes it miss', async () => {
+  const ctx = await start('fighter', 'archer-dodge');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  const hp0 = p.hp;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (let i = 1; i <= 3; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = T.FLOOR;
+  L.monsters.length = 0;
+  const m = { uid: 91, id: 'archer', x: p.x + dx * 3, y: p.y + dy * 3, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+  L.monsters.push(m);
+  Game.update(G.t + 25, 25);
+  if (!m.windup || m.windup.kind !== 'shot') return 'the archer loosed without drawing';
+  // sidestep out of its line
+  const side = [0, 1, 2, 3].map(k => Dungeon.DIRS[k]).find(([sx, sy]) => sx !== dx && sx !== -dx || sy !== dy && sy !== -dy);
+  L.tiles[(p.y + side[1]) * L.w + p.x + side[0]] = T.FLOOR;
+  p.x += side[0]; p.y += side[1];
+  const mark = markLog(G);
+  for (let i = 0; i < 24; i++) Game.update(G.t + 25, 25);
+  if (p.hp < hp0) return `stepping out of line still cost ${hp0 - p.hp}`;
+  return linesSince(G, mark).some(l => /shot flies wide/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+
+await test('a monster that steps up to you is already winding up as it arrives', async () => {
+  const ctx = await start('fighter', 'windup-arrive');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+  p.hp = p.maxHp = 999;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (let i = 1; i <= 2; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = T.FLOOR;
+  L.monsters.length = 0;
+  const m = { uid: 92, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+  L.monsters.push(m);
+  for (let i = 0; i < 40 && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) > 1; i++) Game.update(G.t + 25, 25);
+  if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1) return 'the goblin never closed in';
+  return (m.windup && m.windup.kind === 'melee' && m.windup.at >= G.t - 25) || 'it arrived beside the hero without drawing back';
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

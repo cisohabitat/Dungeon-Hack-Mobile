@@ -64,6 +64,7 @@
  * @property {number} fromX @property {number} fromY
  * @property {number} moveT0 @property {number} moveT1 @property {number} flashUntil
  * @property {string} [elite]     the champion prefix, if it is one
+ * @property {{kind: string, at: number, until: number}|null} [windup]  a blow being drawn back, and when it lands
  * @property {boolean} [fleeing]
  * @property {number} [lostAt]    when it last lost your trail
  * @property {number} [nextRegen]
