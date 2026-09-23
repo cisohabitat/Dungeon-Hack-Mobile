@@ -5,10 +5,10 @@
 const { test } = require('@playwright/test');
 const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
-// A full campaign is a long real-time run; give it room. It takes three to
-// four minutes alone and longer beside the other workers, which a four minute
-// budget sometimes did not cover.
-test.describe.configure({ timeout: 360_000 });
+// A full campaign is a long real-time run with live dice; give it room. It
+// takes about three minutes alone, but beside the other workers on a busy
+// machine it has run close to six. The limit is only there to catch a hang.
+test.describe.configure({ timeout: 600_000 });
 
 /**
  * A bot that lives in the page: it explores, fights what is next to it, collects

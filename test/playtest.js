@@ -132,11 +132,17 @@ function play(ctx, cls, seed, opts, bg) {
       if (food) { Game.useItem(food); step(); continue; }
       else rec.starved++;
     }
+    // --- stuck in something cursed: read the scroll that breaks it, if known
+    if (Object.values(p.eq).some(i => i && i.curse)) {
+      rec.cursedTicks = (rec.cursedTicks || 0) + 1;
+      const sc = p.inv.find(i => i.t === 'scroll_uncurse' && Game.isKnown(i.t));
+      if (sc) { Game.useItem(sc); rec.uncursed = (rec.uncursed || 0) + 1; step(); continue; }
+    }
     // --- equip anything better that we can use
     for (const it of p.inv.slice()) {
       const b = ITEMS[it.t];
       if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') continue;
-      if (Game.canEquip(it)) continue;
+      if (Game.canEquip(it) || (it.curse && !it.h)) continue;
       const cur = p.eq[b.kind];
       const val = x => {
         if (!x) return 0;
@@ -144,9 +150,10 @@ function play(ctx, cls, seed, opts, bg) {
         // a relic's powers are worth something: about a point of armour, or a
         // sixth more damage, each (swift is counted where it acts, on the swing)
         const powers = x.u ? RELICS[x.u].powers : [];
-        if (b.kind !== 'weapon') return bx.ac + (x.e || 0) + powers.length;
+        const e = x.h ? 0 : (x.e || 0);      // no peeking at a quality still hidden
+        if (b.kind !== 'weapon') return bx.ac + e + powers.length;
         const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
-        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (x.e || 0)) / (speed / 1000);
+        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);
         return dps * (bx.range ? 1.5 : 1) * (1 + powers.filter(k => k !== 'swift').length / 6);   // reach is worth paying for
       };
       if (val(it) > val(cur)) Game.equip(it, true);
@@ -154,10 +161,11 @@ function play(ctx, cls, seed, opts, bg) {
     // --- keep room in the pack: a person drops gear they cannot use or have
     // bettered, rather than walking past everything once the pack is full
     if (p.inv.length >= Game.INV_MAX - 1) {
-      const worth = x => { const bx = ITEMS[x.t]; return bx.kind === 'weapon' ? (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + (x.e || 0)) / (bx.speed / 1000) : (bx.ac || 0) + (x.e || 0); };
+      const worth = x => { const bx = ITEMS[x.t], e = x.h ? 0 : (x.e || 0); return bx.kind === 'weapon' ? (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (bx.speed / 1000) : (bx.ac || 0) + e; };
       const junk = p.inv.find(it => {
         const b = ITEMS[it.t];
         if (it.u) return false;                           // a relic is worth more than its numbers
+        if (it.curse && !it.h) return true;               // known to be cursed: never wear it
         if (it.t === 'key') return !Object.values(L.locks || {}).includes(it.color);   // nothing left here it opens
         if (!['weapon', 'armor', 'shield'].includes(b.kind)) return false;
         if (Game.canEquip(it)) return true;
@@ -335,6 +343,9 @@ function play(ctx, cls, seed, opts, bg) {
       if (Game.currentShop()) {
         // stock up on what keeps us alive, cheapest first
         const s = Game.currentShop();
+        // free of a curse before anything else
+        const lift = Game.shopServices().find(v => v.id === 'uncurse');
+        if (lift && !lift.why && p.gold >= lift.price && Game.buyService('uncurse')) rec.uncursed = (rec.uncursed || 0) + 1;
         // a relic this hero can use comes first: it is what the gold is for
         const relic = s.stock.find(i => i.u && !Game.canEquip(i) && p.gold >= Game.buyPrice(s, i));
         if (relic && Game.buy(relic)) rec.relicsBought = (rec.relicsBought || 0) + 1;
@@ -471,6 +482,7 @@ function play(ctx, cls, seed, opts, bg) {
       }
     }
   }
+  rec.cursedAtEnd = Object.values(p.eq).some(i => i && i.curse) ? 1 : 0;
   rec.relics = [...p.inv, ...Object.values(p.eq)].filter(i => i && i.u).length;
   rec.relicsWorn = Object.values(p.eq).filter(i => i && i.u).length;
   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
@@ -508,7 +520,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 // GEAR=1 shows what each class ended its runs holding

@@ -422,14 +422,17 @@ const UI = (() => {
     if (b.kind === 'weapon') {
       const d = b.dmg;
       const sp = b.speed * (swiftOf(it) ? 0.85 : 1);
-      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${it.e ? ' +' + it.e : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
+      return `Damage ${d[0]}d${d[1]}${d[2] ? '+' + d[2] : ''}${enchText(it)}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
-    if (b.kind === 'armor') return `Armor class +${b.ac + (it.e || 0)} (${b.weight})`;
-    if (b.kind === 'shield') return `Armor class +${b.ac + (it.e || 0)}, needs a free hand`;
+    if (b.kind === 'armor') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight})`;
+    if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     return b.desc || '';
   }
 
+  // what the player knows of an enchantment: nothing, while it is hidden
+  const knownE = it => (it.h ? 0 : (it.e || 0));
+  const enchText = it => (it.h ? ' ?' : it.e > 0 ? ` +${it.e}` : it.e < 0 ? ` −${-it.e}` : '');
   const swiftOf = it => { const r = Game.relicOf(it); return !!r && r.powers.includes('swift'); };
 
   function shopRow(it, price, label, enabled, onClick, note) {
@@ -465,6 +468,22 @@ const UI = (() => {
       const price = Game.buyPrice(s, it);
       const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'The trader will tell you what it is') + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
+    }
+    // what the trader will do for coin besides trade
+    const svc = $('#shop-services');
+    svc.innerHTML = '';
+    for (const sv of Game.shopServices()) {
+      const row = document.createElement('div');
+      row.className = 'shop-row service';
+      row.innerHTML = `<div class="what"><b>${escapeHtml(sv.label)}</b><small>${escapeHtml(sv.detail)}</small></div>`;
+      const btn = document.createElement('button');
+      btn.textContent = sv.why ? '—' : `${sv.price}g`;
+      btn.disabled = !!sv.why || p.gold < sv.price;
+      if (!btn.disabled) btn.className = 'afford';
+      btn.setAttribute('aria-label', `${sv.label}${sv.why ? '' : ` for ${sv.price} gold`}`);
+      btn.addEventListener('click', () => { Game.buyService(sv.id); renderShop(); });
+      row.appendChild(btn);
+      svc.appendChild(row);
     }
     const sellBox = $('#shop-sell');
     sellBox.innerHTML = '';
@@ -602,7 +621,7 @@ const UI = (() => {
     } else if (label) {
       div.setAttribute('aria-label', `${label}: empty`);
     }
-    div.className = 'slot' + (it ? ' filled' : '') + (it && it.u ? ' relic' : '');
+    div.className = 'slot' + (it ? ' filled' : '') + (it && it.u ? ' relic' : '') + (it && it.curse && !it.h ? ' cursed' : '');
     if (label) div.innerHTML = `<span class="lbl">${label}</span>`;
     if (it) {
       const img = document.createElement('img');
@@ -613,6 +632,8 @@ const UI = (() => {
       n.textContent = Game.itemName({ ...it, q: 1 });
       div.appendChild(n);
       if (it.q > 1) { const q = document.createElement('span'); q.className = 'qty'; q.textContent = '×' + it.q; div.appendChild(q); }
+      // gear whose quality you have yet to learn
+      if (it.h) { const u = document.createElement('span'); u.className = 'unk'; u.textContent = '?'; u.title = 'Quality unknown'; div.appendChild(u); }
     } else if (label) {
       const n = document.createElement('div'); n.textContent = '—'; div.appendChild(n);
     }
@@ -672,6 +693,8 @@ const UI = (() => {
     let info = itemBlurb(it);
     if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
     if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
+    if (it.h) info += ' Its quality is unknown: it could be finely made, or cursed. Wearing it will tell you, and so will studying it or a trader\'s eye.';
+    else if (it.curse) info += selectedSlot ? ' Cursed: it will not come off until the curse is broken.' : ' Cursed: once worn, it will not come off until the curse is broken.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
     // a relic spells out each power in full, then tells its story
@@ -680,10 +703,10 @@ const UI = (() => {
     box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); selectedItem = null; selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
-    if (selectedSlot) add('Unequip', () => Game.unequip(selectedSlot));
+    if (selectedSlot && !it.curse) add('Unequip', () => Game.unequip(selectedSlot));
     else {
       if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
-        if (!why) add('Equip', () => Game.equip(it), 'primary');
+        if (!why) add(it.curse && !it.h ? 'Equip (cursed!)' : 'Equip', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary');
         // a light blade can go in either hand, so offer the second one
         if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
       }
@@ -691,7 +714,7 @@ const UI = (() => {
       else if (b.kind === 'potion') add('Drink', () => Game.useItem(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => Game.useItem(it), 'primary');
       // an unknown potion or scroll can be puzzled out instead of risked
-      if ((b.kind === 'potion' || b.kind === 'scroll') && !Game.isKnown(it.t)) {
+      if (((b.kind === 'potion' || b.kind === 'scroll') && !Game.isKnown(it.t)) || it.h) {
         const block = Game.studyReason(it);
         const odds = Math.round(Game.checkChance('int', Game.STUDY_DC, Game.player().cls === 'mage' ? 2 : 0) * 100);
         if (!block) add(`Study (${odds}%)`, () => Game.study(it));
@@ -718,14 +741,14 @@ const UI = (() => {
         const finesse = p.cls === 'thief';
         const base = Game.mod(finesse ? p.stats.dex : p.stats.str) + Game.skillDamage();
         const flat = finesse ? base : base * (sp / 700);
-        return ((d[0] * (d[1] + 1) / 2) + d[2] + (item.e || 0) + flat) / (sp / 1000);
+        return ((d[0] * (d[1] + 1) / 2) + d[2] + knownE(item) + flat) / (sp / 1000);
       };
       const now = dps(cur), next = dps(it);
       label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs bare hands';
       delta = next - now;
       return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second</p>`;
     }
-    const acOf = item => (item ? ITEMS[item.t].ac + (item.e || 0) : 0);
+    const acOf = item => (item ? ITEMS[item.t].ac + knownE(item) : 0);
     delta = acOf(it) - acOf(cur);
     label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs nothing worn';
     return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armor class</p>`;

@@ -20,6 +20,9 @@
  * @property {string} [name]     the gem's own name
  * @property {number} [page]     which journal entry a torn page carries
  * @property {string} [u]        the key into RELICS, when this is a named relic
+ * @property {number} [h]        1 while a found piece of gear keeps its quality hidden
+ * @property {number} [curse]    1 when it will not come off once worn
+ * @property {number} [studied]  the level at which judging this piece last failed
  */
 
 /**

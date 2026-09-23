@@ -305,4 +305,28 @@ test.describe('dungeon features', () => {
     expect(worn).toBe('ogres_toll');
     expect(errors).toEqual([]);
   });
+
+  test('unknown gear shows a ?, and a cursed piece put on will not come off', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'curse-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.player().inv.push({ t: 'mace', q: 1, e: -1, h: 1, curse: 1 }); });
+    await page.click('[data-open="inv"]');
+    const idx = await page.evaluate(() => Game.player().inv.findIndex(i => i.t === 'mace'));
+    const slot = page.locator('#inv-grid .slot').nth(idx);
+    await expect(slot.locator('.unk')).toHaveText('?');
+    await expect(slot).toContainText(/^Mace\?$/);
+    await slot.click();
+    await expect(page.locator('#item-detail')).toContainText('quality is unknown');
+    await expect(page.locator('#item-detail button', { hasText: /^Study \(\d+%\)$/ })).toBeVisible();
+    await page.locator('#item-detail button', { hasText: /^Equip$/ }).click();
+    await expect(page.locator('#log')).toContainText('It is cursed');
+    // the worn slot turns red, and offers no way to take it off
+    const worn = page.locator('#equip .slot.cursed');
+    await expect(worn).toContainText('Mace \u22121');
+    await worn.click();
+    await expect(page.locator('#item-detail')).toContainText('will not come off');
+    await expect(page.locator('#item-detail button', { hasText: 'Unequip' })).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
 });

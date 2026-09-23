@@ -447,16 +447,25 @@ const Dungeon = (() => {
     const gear = k => {
       const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier);
       const id = rng.weighted(cands.map(id => [id, ITEMS[id].tier]));
-      let e = 0;
-      if (rng.chance(0.12 + depth * 0.03)) e = rng.chance(0.25 + depth * 0.02) ? 2 : 1;
-      return { t: id, q: 1, e };
+      // Found gear keeps its quality to itself (h) until worn, studied or
+      // appraised. Past the first floor a share of what seems enchanted is
+      // cursed instead, and will not come off once worn. The second roll is
+      // split rather than a third one added, so every other roll in the
+      // level falls exactly where it did before curses existed.
+      let e = 0, curse = false;
+      if (rng.chance(0.12 + depth * 0.03)) {
+        const r = rng.next(), cursed = depth >= 2 ? 0.3 : 0;
+        if (r >= 1 - cursed) { curse = true; e = r >= 1 - cursed / 3 ? -2 : -1; }
+        else e = r < 0.25 + depth * 0.02 ? 2 : 1;
+      }
+      return curse ? { t: id, q: 1, e, h: 1, curse: 1 } : { t: id, q: 1, e, h: 1 };
     };
     switch (kind) {
       case 'gold': return { t: 'gold', q: rng.int(5, 20) * depth + rng.int(0, 10) };
       case 'gem': { const g = rng.pick(GEMS); return { t: 'gem', name: g[0], q: Math.round(g[1] * (1 + depth * 0.15)) }; }
       case 'potion': return { t: rng.weighted([['potion_heal', 70], ['potion_xheal', 14 + depth * 4], ['potion_cure', 12], ['potion_might', 9], ['potion_mana', 10]]), q: 1 };
       case 'food': return { t: rng.weighted([['ration', 50], ['meat', 30], ['bread', 20]]), q: 1 };
-      case 'scroll': return { t: rng.weighted([['scroll_fire', 35], ['scroll_heal', 30], ['scroll_map', 20], ['scroll_teleport', 15]]), q: 1 };
+      case 'scroll': return { t: rng.weighted([['scroll_fire', 32], ['scroll_heal', 27], ['scroll_map', 18], ['scroll_teleport', 13], ['scroll_uncurse', 14]]), q: 1 };
       case 'weapon': return gear('weapon');
       case 'armor': return gear('armor');
       case 'shield': return gear('shield');

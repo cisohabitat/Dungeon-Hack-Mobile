@@ -207,6 +207,64 @@ const Game = (() => {
     G.relics.found.push(id);
     log(RELICS[id].lore, 'info');
   }
+  // ---------- curses ----------
+  // Found gear keeps its quality to itself (h) until it is worn, studied or
+  // appraised, and a cursed piece will not come off once worn until the
+  // curse is broken. A cursed thing in the pack does no harm: it only binds.
+  const isGear = it => { const b = ITEMS[it.t]; return !!b && (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield'); };
+  const bound = it => !!(it && it.curse);
+  const cap = str => str[0].toUpperCase() + str.slice(1);
+  /** Everything carried or worn whose quality is still hidden. */
+  const hiddenGear = () => [...P().inv, ...Object.values(P().eq)].filter(it => it && it.h);
+  const cursedWorn = () => Object.values(P().eq).filter(bound);
+  /** Show the true quality of every piece carried; returns what was revealed. */
+  function revealAll() {
+    const seen = hiddenGear();
+    for (const it of seen) delete it.h;
+    return seen;
+  }
+  /** Break the curse on everything worn; returns how many let go. */
+  function breakCurses() {
+    const held = cursedWorn();
+    for (const it of held) { delete it.curse; delete it.h; }
+    return held.length;
+  }
+  /** A newly revealed piece, as you find it out by putting it on. */
+  function tellQuality(it) {
+    if (it.curse) log(`${cap(the(it))} tightens around you like a living thing. It is cursed, and will not come off.`, 'bad');
+    else if (it.e > 0) log(`It is finely made: ${itemName(it)}.`, 'good');
+    else log('It is ordinary work, neither better nor worse.');
+  }
+  /** What the trader charges to look your gear over, and to break a curse. */
+  function shopServices() {
+    if (!shop) return [];
+    const hidden = hiddenGear(), cursed = cursedWorn();
+    const deep = G.depth;
+    return [
+      { id: 'appraise', label: 'Appraise your gear', detail: hidden.length ? `${hidden.length} piece${hidden.length > 1 ? 's' : ''} of unknown quality` : 'You know the quality of everything you carry',
+        price: Math.round((8 + 4 * deep) * Math.max(1, hidden.length) * (1 - charm())), why: hidden.length ? null : 'Nothing you carry is unknown.' },
+      { id: 'uncurse', label: 'Lift a curse', detail: cursed.length ? `Free you of ${cursed.map(it => the(it)).join(' and ')}` : 'Nothing you wear is cursed',
+        price: Math.round((40 + 20 * deep) * Math.max(1, cursed.length) * (1 - charm())), why: cursed.length ? null : 'Nothing you wear is cursed.' },
+    ];
+  }
+  function buyService(id) {
+    const s = shopServices().find(x => x.id === id);
+    if (!s) return false;
+    if (s.why) { log(s.why); return false; }
+    const p = P();
+    if (p.gold < s.price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
+    p.gold -= s.price;
+    if (id === 'appraise') {
+      const seen = revealAll();
+      log(`The trader turns each piece to the lantern: ${seen.map(it => itemName(it) + (it.curse ? ' (cursed)' : '')).join(', ')}.`, 'info');
+    } else {
+      const n = breakCurses();
+      log(`The trader mutters, spits, and pulls. ${n > 1 ? 'The cursed things come' : 'The cursed thing comes'} away in your hand.`, 'good');
+    }
+    Sound.play('gold');
+    emit('inv'); emit('stats');
+    return true;
+  }
   /**
    * Lay this floor's relic on the pile furthest from the way in, which is
    * often a vault's reward, and let a trader here keep the next one behind
@@ -295,7 +353,7 @@ const Game = (() => {
       const look = G.looks[it.t];
       n = b.kind === 'potion' ? `${look.adj[0].toUpperCase() + look.adj.slice(1)} Potion` : `${look.adj[0].toUpperCase() + look.adj.slice(1)} Scroll`;
     }
-    if (it.e) n += ` +${it.e}`;
+    if (it.e && !it.h) n += it.e > 0 ? ` +${it.e}` : ` −${-it.e}`;
     if (it.q > 1) n += ` ×${it.q}`;
     return n;
   }
@@ -318,7 +376,8 @@ const Game = (() => {
       if (ex) { ex.q += it.q || 1; return true; }
     }
     if (p.inv.length >= INV_MAX) return false;
-    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}) });
+    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}),
+      ...(it.h ? { h: 1 } : {}), ...(it.curse ? { curse: 1 } : {}), ...(it.studied ? { studied: it.studied } : {}) });
     return true;
   }
   /**
@@ -357,6 +416,12 @@ const Game = (() => {
     if (p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return false; }
     const why = slot === 'offhand' ? offhandReason(it) : canEquip(it);
     if (why) { if (!quiet) log(why, 'bad'); return false; }
+    // nothing takes the place of a cursed piece, or the hand it holds
+    const inTheWay = [p.eq[slot]];
+    if (slot === 'offhand') inTheWay.push(p.eq.shield);
+    if (slot === 'weapon' && b.twoHanded) inTheWay.push(p.eq.shield, p.eq.offhand);
+    const stuck = inTheWay.find(bound);
+    if (stuck) { log(`${cap(the(stuck))} will not let go. It is cursed.`, 'bad'); Sound.play('error'); return false; }
     // the off hand, a shield and a two-handed grip all want the same hand
     const freeHand = held => {
       if (!held) return true;
@@ -382,12 +447,15 @@ const Game = (() => {
     p.eq[slot] = it;
     refreshSp(p);
     if (!quiet) log(`You equip ${the(it)}.`);
+    // putting it on is how you find out what it is
+    if (it.h) { delete it.h; tellQuality(it); }
     emit('inv');
     return true;
   }
   function unequip(slot) {
     const p = P();
     if (!p.eq[slot]) return;
+    if (bound(p.eq[slot])) { log(`${cap(the(p.eq[slot]))} will not come off. It is cursed.`, 'bad'); Sound.play('error'); return; }
     if (p.inv.length >= INV_MAX) { log('Your pack is full.', 'bad'); return; }
     p.inv.push(p.eq[slot]);
     log(`You remove ${the(p.eq[slot])}.`);
@@ -414,6 +482,7 @@ const Game = (() => {
       if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The scroll would be wasted.';
       if (b.effect === 'fire' && !boltTargets(3, false).length) return 'There is nothing ahead to burn.';
       if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this level.';
+      if (b.effect === 'uncurse' && !cursedWorn().length && !hiddenGear().length) return 'Nothing you carry is cursed or unknown.';
     }
     return null;
   }
@@ -455,6 +524,13 @@ const Game = (() => {
         }
         case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
         case 'map': { const L = lvl(); L.explored.fill(1); log('The layout of this level burns itself into your mind.', 'good'); Sound.play('spell'); break; }
+        case 'uncurse': {
+          const lifted = breakCurses(), seen = revealAll();
+          if (lifted) log(`A cold weight lifts from you. ${lifted > 1 ? 'The curses are' : 'The curse is'} broken.`, 'good');
+          if (seen.length) log(`You see your gear for what it is: ${seen.map(x => itemName(x) + (x.curse ? ' (cursed)' : '')).join(', ')}.`, 'info');
+          Sound.play('spell');
+          break;
+        }
         case 'teleport': {
           const L = lvl(); const spots = [];
           for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && !monsterAt(i % L.w, (i / L.w) | 0)) spots.push(i);
@@ -489,6 +565,12 @@ const Game = (() => {
   const STUDY_DC = 12;
   function studyReason(it) {
     const b = ITEMS[it.t];
+    // a piece of gear can be judged by eye, if you know what to look for
+    if (b && isGear(it)) {
+      if (!it.h) return 'You already know its quality.';
+      if (it.studied === P().level) return 'You cannot judge it yet. Perhaps with more experience.';
+      return null;
+    }
     if (!b || (b.kind !== 'potion' && b.kind !== 'scroll')) return 'There is nothing to puzzle out about that.';
     if (isKnown(it.t)) return 'You already know what that is.';
     if (G.studied && G.studied[it.t] === P().level) return 'It still means nothing to you. Perhaps with more experience.';
@@ -498,6 +580,17 @@ const Game = (() => {
     const why = studyReason(it);
     if (why) { log(why); return null; }
     const c = statCheck('int', STUDY_DC, P().cls === 'mage' ? 2 : 0);
+    if (isGear(it)) {
+      if (c.pass) {
+        delete it.h;
+        log(`You look ${the(it)} over closely: ${itemName(it)}${it.curse ? ', and there is a curse worked into it' : ''}.${c.note}`, it.curse ? 'bad' : 'good');
+      } else {
+        it.studied = P().level;
+        log(`You look ${the(it)} over, but cannot tell good work from bad.${c.note}`);
+      }
+      emit('inv');
+      return c;
+    }
     if (c.pass) {
       const was = itemName(it);
       G.known[it.t] = 1;
@@ -879,7 +972,9 @@ const Game = (() => {
     const r = relicOf(it);
     if (r) return Math.round(r.value * 0.45 * (1 + charm()));
     const v = ITEMS[it.t].value || 1;
-    return Math.max(1, Math.round(v * 0.45 * (1 + (it.e || 0) * 0.8) * (1 + charm())));
+    // unknown gear goes for the price of a plain one; the trader will not tell
+    const e = it.h ? 0 : (it.e || 0);
+    return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (1 + charm())));
   }
   // ---------- encounters ----------
   // A choice the dungeon puts to you (see encounters.js). While one is open
@@ -986,7 +1081,8 @@ const Game = (() => {
       if (e.poison && !p.poison && !hasPower('pure')) { p.poison = { until: G.t + 20000, next: G.t + 2000 }; out.push('Poisoned'); }
       if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
-      if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; out.push('Every potion and scroll identified'); }
+      if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
+      if (e.uncurse && breakCurses()) out.push('Curse broken');
       if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${STAT_WORD[e.stat[0]]}`); }
       if (e.ambush) {
         let placed = 0;
@@ -1049,8 +1145,10 @@ const Game = (() => {
     const one = removeOne(it);
     if (!one) { log('You are not carrying that.', 'bad'); return false; }
     p.gold += price;
+    // flawed and cursed pieces go on the junk heap, not back on the shelf
+    const junk = one.curse || (one.e || 0) < 0;
     const ex = !one.u && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u);
-    if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}) });
+    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}) });
     log(`You sell ${the(one)} for ${price} gold.`, 'good');
     Sound.play('gold');
     emit('inv'); emit('stats');
@@ -1767,7 +1865,7 @@ const Game = (() => {
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
-    currentShop, closeShop, buy, sell, buyPrice, sellPrice,
+    currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

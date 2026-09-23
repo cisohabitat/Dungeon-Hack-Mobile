@@ -638,7 +638,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // The encounter screen cannot be dismissed unanswered, which is only fair
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'wake', 'identifyAll', 'ambush', 'stat']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -1325,6 +1325,174 @@ await test('relics survive a save, and an older save still finds them', async ()
   if (!Game.load()) return 'could not load an older save';
   const R = Game.state().relics;
   return (R && Object.keys(R.floor).length > 0 && Array.isArray(R.found)) || 'an older save came back with no relics planned';
+});
+
+
+// ---------- curses ----------
+await test('found gear hides its quality, and only below the first floor can it be cursed', async () => {
+  const { Dungeon, Rng, ITEMS } = await newContext();
+  const tally = depth => {
+    const rng = new Rng('curse-loot-' + depth);
+    let gear = 0, hidden = 0, cursed = 0, badCurse = 0;
+    for (let i = 0; i < 20000; i++) {
+      const it = Dungeon.rollLoot(rng, depth);
+      if (!['weapon', 'armor', 'shield'].includes(ITEMS[it.t].kind)) continue;
+      gear++; if (it.h) hidden++;
+      if (it.curse) { cursed++; if (!(it.e < 0)) badCurse++; }
+    }
+    return { gear, hidden, cursed, badCurse };
+  };
+  const top = tally(1), deep = tally(5);
+  if (top.hidden !== top.gear || deep.hidden !== deep.gear) return 'some found gear showed its quality';
+  if (top.cursed) return `${top.cursed} cursed pieces on the first floor`;
+  if (deep.badCurse) return 'a cursed piece was not worse than plain';
+  const share = deep.cursed / deep.gear;
+  return (share > 0.04 && share < 0.15) || `floor five gear was ${(share * 100).toFixed(1)}% cursed`;
+});
+
+await test('an enchantment reads right: hidden while unknown, a true minus when negative', async () => {
+  const { Game } = await start('fighter', 'curse-name');
+  if (Game.itemName({ t: 'longsword', q: 1, e: 2, h: 1 }) !== 'Long Sword') return 'a hidden +2 gave itself away';
+  if (Game.itemName({ t: 'longsword', q: 1, e: -1 }) !== 'Long Sword −1') return `a known -1 read "${Game.itemName({ t: 'longsword', q: 1, e: -1 })}"`;
+  return Game.itemName({ t: 'longsword', q: 1, e: 2 }) === 'Long Sword +2' || 'a known +2 lost its bonus';
+});
+
+/** A fighter wearing a cursed long sword it did not know about. */
+async function cursedFighter(seed) {
+  const ctx = await start('fighter', seed);
+  const p = ctx.Game.player();
+  const blade = { t: 'longsword', q: 1, e: -1, h: 1, curse: 1 };
+  p.inv.push(blade);
+  const mark = markLog(ctx.Game.state());
+  ctx.Game.equip(blade);
+  return { ctx, p, blade, said: linesSince(ctx.Game.state(), mark) };
+}
+
+await test('putting on unknown gear reveals it, and a cursed piece will not come off', async () => {
+  const { ctx, p, blade, said } = await cursedFighter('curse-stick');
+  const { Game } = ctx;
+  if (p.eq.weapon !== blade) return 'the cursed blade was not worn';
+  if (blade.h) return 'wearing it did not reveal it';
+  if (!said.some(l => /cursed/.test(l))) return `putting it on said: ${said.join(' | ')}`;
+  Game.unequip('weapon');
+  if (p.eq.weapon !== blade) return 'a cursed blade came off';
+  const other = { t: 'mace', q: 1, e: 0 };
+  p.inv.push(other);
+  if (Game.equip(other) || p.eq.weapon !== blade) return 'another weapon replaced a cursed one';
+  const big = { t: 'greatsword', q: 1, e: 0 };
+  p.inv.push(big);
+  if (Game.equip(big)) return 'a two-handed sword pushed a cursed blade aside';
+  // a cursed shield holds the hand a two-handed grip needs
+  const c2 = await start('fighter', 'curse-shield');
+  const p2 = c2.Game.player();
+  const shield = { t: 'shield', q: 1, e: -2, h: 1, curse: 1 };
+  p2.inv.push(shield);
+  c2.Game.equip(shield);
+  const gs = { t: 'greatsword', q: 1, e: 0 };
+  p2.inv.push(gs);
+  if (c2.Game.equip(gs) || p2.eq.shield !== shield) return 'a two-handed sword stowed a cursed shield';
+  // a fine piece announces itself too
+  const fine = { t: 'chain', q: 1, e: 2, h: 1 };
+  p2.inv.push(fine);
+  const mark = markLog(c2.Game.state());
+  c2.Game.equip(fine);
+  return linesSince(c2.Game.state(), mark).some(l => /finely made: Chain Mail \+2/.test(l)) || 'a fine piece said nothing of itself';
+});
+
+await test('a Scroll of Remove Curse frees you and shows your gear for what it is', async () => {
+  const { ctx, p, blade } = await cursedFighter('curse-scroll');
+  const { Game } = ctx;
+  const G = Game.state();
+  const mystery = { t: 'scale', q: 1, e: 1, h: 1 };
+  p.inv.push(mystery);
+  G.known.scroll_uncurse = 1;
+  p.inv.push({ t: 'scroll_uncurse', q: 1, e: 0 });
+  Game.useItem(p.inv.find(i => i.t === 'scroll_uncurse'));
+  if (blade.curse) return 'the curse held';
+  if (mystery.h) return 'the scroll left gear unknown';
+  Game.unequip('weapon');
+  if (p.eq.weapon === blade) return 'the freed blade still would not come off';
+  // with nothing cursed or unknown, reading one would be a waste
+  p.inv.push({ t: 'scroll_uncurse', q: 1, e: 0 });
+  return !!Game.wasteReason(p.inv.find(i => i.t === 'scroll_uncurse')) || 'a pointless reading was allowed';
+});
+
+await test('studying gear judges its quality; a failure waits for the next level', async () => {
+  const ctx = await start('mage', 'curse-study');
+  const { Game } = ctx;
+  const p = Game.player();
+  const knife = { t: 'dagger', q: 1, e: -1, h: 1, curse: 1 };
+  p.inv.push(knife);
+  if (Game.studyReason(knife)) return `studying unknown gear was refused: ${Game.studyReason(knife)}`;
+  let c = null;
+  for (let i = 0; i < 40 && knife.h; i++) {
+    c = Game.study(knife);
+    if (knife.h) {
+      if (!Game.studyReason(knife)) return 'a failed study could be retried at once';
+      p.level++;                               // learn something, try again
+    }
+  }
+  if (knife.h) return 'forty studies never judged it';
+  if (!knife.curse) return 'studying it broke the curse';
+  return Game.studyReason(knife) === 'You already know its quality.' || 'a judged piece could be studied again';
+});
+
+await test('traders appraise gear and lift curses, for a price, and never resell a cursed piece', async () => {
+  const { ctx, p, blade } = await cursedFighter('curse-trade');
+  const { Game, Dungeon } = ctx;
+  const L = Game.level();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'ration', q: 3, e: 0 }] };
+  L.npcs.length = 0; L.npcs.push(shop);
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  shop.x = p.x + dx; shop.y = p.y + dy;
+  L.monsters.length = 0;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  const mystery = { t: 'shield', q: 1, e: 2, h: 1 }, plain = { t: 'shield', q: 1, e: 0 };
+  p.inv.push(mystery);
+  if (Game.sellPrice(mystery) !== Game.sellPrice(plain)) return 'the sale price gave an unknown +2 away';
+  p.gold = 5000;
+  const svc = id => Game.shopServices().find(s => s.id === id);
+  if (svc('appraise').why || svc('uncurse').why) return 'a service was refused when it was needed';
+  const before = p.gold, cost = svc('appraise').price;
+  Game.buyService('appraise');
+  if (mystery.h || p.gold !== before - cost) return 'appraising did not reveal, or did not charge the price shown';
+  if (!svc('appraise').why) return 'appraisal was offered with nothing left to judge';
+  const lift = svc('uncurse').price;
+  Game.buyService('uncurse');
+  if (blade.curse || p.gold !== before - cost - lift) return 'lifting the curse did not work, or did not charge the price shown';
+  // sell a cursed piece: it goes on the junk heap, not the shelf
+  const junk = { t: 'mace', q: 1, e: -2, curse: 1 };
+  p.inv.push(junk);
+  Game.sell(junk);
+  return !shop.stock.some(s => s.t === 'mace') || 'a cursed mace went back on sale';
+});
+
+
+await test('a prayer answered at the shrine breaks a curse', async () => {
+  const { ctx, p, blade } = await cursedFighter('curse-shrine');
+  const { Game, Dungeon } = ctx;
+  const L = Game.level(), T = Dungeon.T;
+  // set a shrine beside the hero and walk into it
+  const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(p.y + dy) * L.w + p.x + dx] === T.FLOOR; });
+  const [dx, dy] = Dungeon.DIRS[k];
+  p.dir = k;
+  L.monsters.length = 0; L.npcs.length = 0;
+  L.npcs.push({ id: 'shrine', kind: 'encounter', x: p.x + dx, y: p.y + dy });
+  p.stats.wis = 40;                                   // the prayer is heard (a natural 1 aside)
+  let r = null;
+  for (let tries = 0; tries < 5 && !(r && r.check.pass); tries++) {
+    if (!L.npcs.length) L.npcs.push({ id: 'shrine', kind: 'encounter', x: p.x + dx, y: p.y + dy });
+    Game.state().metEncounters = [];
+    Game.input('forward');
+    const pray = Game.encounterOptions().find(o => /Pray/.test(o.label));
+    if (!pray) return 'the shrine offered no prayer';
+    r = Game.chooseEncounter(pray.i);
+    Game.closeEncounter();
+  }
+  if (!r || !r.check.pass) return 'five prayers were all refused';
+  if (blade.curse) return 'the answered prayer left the curse in place';
+  return r.lines.includes('Curse broken') || `the prayer said: ${r.lines.join(' | ')}`;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

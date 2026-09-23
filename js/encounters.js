@@ -12,7 +12,7 @@
 // fighter as much as a mage: flat damage let the sturdy gamble for free),
 // hurt [dice], heal ('full' or n), maxHp, food, loot
 // (bonus to the loot roll), item {t, q}, buff {stats: [[stat, n]], dur},
-// poison, cure, wake, identifyAll, ambush {id, n}, stat [stat, n].
+// poison, cure, uncurse, wake, identifyAll, ambush {id, n}, stat [stat, n].
 
 import { Rng } from './rng.js';
 
@@ -44,7 +44,7 @@ const ENCOUNTERS = {
         pass: { text: 'The stone drinks, and gives something back. You feel harder to kill.', effects: [{ maxHp: 4 }] },
         fail: { text: 'The stone drinks. Nothing comes back but a chill.', effects: [] } },
       { label: 'Pray with empty hands', check: { stat: 'wis', dc: 14, knack: [['cleric', null, 3]] },
-        pass: { text: 'Warmth from nowhere. Your wounds close and your head clears.', effects: [{ heal: 'full' }, { cure: 1 }] },
+        pass: { text: 'Warmth from nowhere. Your wounds close and your head clears.', effects: [{ heal: 'full' }, { cure: 1 }, { uncurse: 1 }] },
         fail: { text: 'When you open your eyes your purse is lighter. The idol has not moved.', effects: [{ goldPerDepth: -12 }] } },
       { label: 'Leave it be', outcome: { text: 'You leave the old stone to whoever still tends it.', effects: [] } },
     ],

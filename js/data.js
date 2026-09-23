@@ -158,6 +158,7 @@ const ITEMS = {
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this level.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this level.' },
+  scroll_uncurse:  { kind: 'scroll', name: 'Scroll of Remove Curse', stack: true, value: 40, sprite: 'scroll', effect: 'uncurse', desc: 'Breaks any curse on what you wear, and shows the true quality of all your gear.' },
   // food
   ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 45 },
   meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
