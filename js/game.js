@@ -1901,7 +1901,9 @@ const Game = (() => {
   /** @param {number} [hpBefore]  what the one struck had left, so a blow past death counts only what it took */
   function noteDealt(m, dmg, tag, hpBefore = m.hp) {
     const s = runStats(), p = P();
-    s.dealt += Math.min(dmg, Math.max(0, hpBefore));
+    // a blow counts for what it took: a crushing roll on a one-point rat is one point
+    dmg = Math.min(dmg, Math.max(0, hpBefore));
+    s.dealt += dmg;
     if (s.best && dmg <= s.best.dmg) return;
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)

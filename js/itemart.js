@@ -857,7 +857,7 @@ for (const k in ITEM_DETAILS) {
 const GRIPS = {
   dagger: { at: at(7.8) }, shortsword: { at: at(7.3) }, longsword: { at: at(7) },
   greatsword: { at: at(8.6), second: at(4.4) }, throwknife: { at: at(12.5) },
-  club: { at: at(5.6) }, staff: { at: at(13.5), second: at(6.5) }, spear: { at: at(9.5) },
+  club: { at: at(5.6) }, staff: { at: at(13.5), second: at(3.5) }, spear: { at: at(9.5) },
   mace: { at: at(5.2) }, hammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
   sling: { at: [8, 6.5], fixed: true },
 };

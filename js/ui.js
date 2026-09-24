@@ -383,6 +383,9 @@ const UI = (() => {
     const now = performance.now();
     const el = $('#tip');
     if (el && el.classList.contains('show') && now > tipUntil) el.classList.remove('show');
+    // a tip about the thing in front of you goes when that thing does
+    const USE_TIPS = { take: 'Take', stairs: 'Descend', examine: 'Examine', trade: 'Trade' };
+    if (el && el.classList.contains('show') && USE_TIPS[el.dataset.tip || ''] && Game.state() && Game.useLabel() !== USE_TIPS[el.dataset.tip || '']) { el.classList.remove('show'); tipUntil = now; }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
     if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
@@ -1322,7 +1325,7 @@ const UI = (() => {
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
       ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain.`
-      : `${p.name} the ${CLASSES[p.cls].name} fell on floor ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`;
+      : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     // time spent underground, by the game's own clock
     const secs = Math.round(G.t / 1000);
@@ -1387,7 +1390,19 @@ const UI = (() => {
     view.addEventListener('pointercancel', () => { swipe = null; });
     for (const b of $$('[data-close]')) b.addEventListener('click', () => closeOverlay());
     $('#m-save').addEventListener('click', () => { Game.save(); closeOverlay(); });
-    $('#m-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
+    // Load sits under Save, and one slip rewinds the run: the first tap asks
+    let loadArmed = 0;
+    $('#m-load').addEventListener('click', () => {
+      const b = $('#m-load');
+      if (performance.now() > loadArmed) {
+        loadArmed = performance.now() + 3000;
+        b.textContent = 'Tap again to go back to your save';
+        setTimeout(() => { if (performance.now() >= loadArmed) b.textContent = 'Load Game'; }, 3050);
+        return;
+      }
+      loadArmed = 0; b.textContent = 'Load Game';
+      if (Game.load()) startPlaying();
+    });
     $('#m-sound').addEventListener('click', () => { Sound.toggle(); renderMenu(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
