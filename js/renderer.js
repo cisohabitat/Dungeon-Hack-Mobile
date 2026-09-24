@@ -198,16 +198,21 @@ const Renderer = (() => {
   // they are painted finer than anything in the world, but not drawn smaller
   // (a size that leaves the middle of the view to what is standing in it)
   const artK = () => H / 142;
+  // the hands themselves are drawn smaller than that, so loot on the floor
+  // and a monster's feet stay in sight; snapped to quarters so each art pixel
+  // lands on whole view pixels in a steady pattern rather than a ragged one
+  const handK = () => Math.max(1, Math.round(H / 142 * 0.72 * 4) / 4);
   /** Draw a painted frame with its hand (or centre) at view point (x, y). */
   function put(fr, x, y) {
     if (!fr) return;
-    const k = artK();
+    const k = handK();
     ctx.drawImage(fr.img, Math.round(x - fr.ax * k), Math.round(y - fr.ay * k), Math.round(fr.img.width * k), Math.round(fr.img.height * k));
   }
-  // where the hand is in each pose, as a fraction of the view
+  // where the hand is in each pose, as a fraction of the view: low, and out
+  // toward the corners, so the middle of the floor is left clear
   const POSE_AT = {
-    rest: [0.79, 0.84], windup: [0.8, 0.64], cut: [0.6, 0.76], through: [0.45, 0.92],
-    fist: [0.78, 0.88], punch: [0.6, 0.74], left: [0.2, 0.87], cast: [0.3, 0.86], shield: [0.16, 0.9], bow: [0.44, 0.7],
+    rest: [0.86, 0.93], windup: [0.84, 0.74], cut: [0.64, 0.84], through: [0.5, 0.98],
+    fist: [0.85, 0.95], punch: [0.64, 0.83], left: [0.13, 0.95], cast: [0.26, 0.93], shield: [0.08, 0.96], bow: [0.31, 0.8],
   };
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
   function drawView(fx, now) {
@@ -234,10 +239,10 @@ const Renderer = (() => {
       // draws the string back to the cheek and looses it
       const [x, y] = at('bow'), fr = Assets.held(v.weapon, 'rest', v.cls, false);
       const pull = swinging && u < 0.7 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.7;
-      const hx = x + dx + W * 0.11 + pull * W * 0.12, hy = y + dy + H * 0.11 + pull * H * 0.06;
+      const hx = x + dx + W * 0.08 + pull * W * 0.09, hy = y + dy + H * 0.08 + pull * H * 0.045;
       put(fr, x + dx, y + dy);
       if (fr) {
-        const k = artK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(y + dy - fr.ay * k);
+        const k = handK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(y + dy - fr.ay * k);
         const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
         const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
         // the string hangs straight until the fingers draw it back
@@ -269,9 +274,9 @@ const Renderer = (() => {
     }
     if (cast > 0) {
       const [x, y] = at('cast'), cy = y + (1 - cast) * H * 0.35 + by;
-      const g = ctx.createRadialGradient(x + bx, cy - H * 0.08, 0, x + bx, cy - H * 0.08, H * 0.2);
+      const g = ctx.createRadialGradient(x + bx, cy - H * 0.06, 0, x + bx, cy - H * 0.06, H * 0.15);
       g.addColorStop(0, (fx.castColor || '#fff').replace(/^#(.)(.)(.)$/, '#$1$1$2$2$3$3') + 'cc'); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(x + bx - H * 0.2, cy - H * 0.28, H * 0.4, H * 0.4);
+      ctx.fillStyle = g; ctx.fillRect(x + bx - H * 0.15, cy - H * 0.21, H * 0.3, H * 0.3);
       put(Assets.held(null, 'cast', v.cls, false), x + bx, cy);
     }
 
@@ -280,7 +285,7 @@ const Renderer = (() => {
       // drawn above, with the left hand
     } else if (v.weapon) {
       // a two-handed grip sits higher so the lower hand shows; a sling hangs from the hand
-      const lift = v.two ? 0.1 : /sling$/.test(v.weapon) ? 0.22 : 0;
+      const lift = v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
       let pose = 'rest', p = at('rest', lift);
       if (swinging) {
         if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
@@ -644,6 +649,12 @@ const Renderer = (() => {
     }
     ctx.restore();
   }
+  /** Where creatures stood in the last frame, as [left, top, right, bottom] in view pixels. */
+  const crowd = [];
+  /** Whether a creature, its bar or its mark was drawn in this box of the last frame. */
+  function busy(x0, y0, x1, y1) {
+    return crowd.some(r => r[0] < x1 && r[2] > x0 && r[1] < y1 && r[3] > y0);
+  }
   function render(level, cam, sprites, fx, now) {
     const tex = Assets.themes[level.theme];
     const px = cam.x, py = cam.y;
@@ -705,6 +716,7 @@ const Renderer = (() => {
     }
 
     // sprites
+    crowd.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const list = [];
     for (const s of sprites) {
@@ -733,11 +745,12 @@ const Renderer = (() => {
       const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
       if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
       const img = (s.flash && now < s.flash) ? s.img.flash : s.img.levels[shadeIdx];
-      let run = -1;
+      let run = -1, seenL = W, seenR = -1;
       const fading = s.alpha != null && s.alpha < 1;
       if (fading) ctx.globalAlpha = Math.max(0, s.alpha);
       for (let x = x0; x <= x1; x++) {
         const vis = x < x1 && tY < zbuf[x];
+        if (vis) { if (x < seenL) seenL = x; seenR = x; }
         if (vis && run < 0) run = x;
         if (!vis && run >= 0) {
           const tw = img.width, th = img.height;   // sprites are not all one size
@@ -747,6 +760,8 @@ const Renderer = (() => {
         }
       }
       if (fading) ctx.globalAlpha = 1;
+      // a creature, with room above it for its bar and warning mark
+      if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       // an ogre up close is taller than the view: its bar stays inside it
       if (s.hp != null && s.hp < s.maxHp) {
         const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.max(3, Math.floor(drawnTop) - 5);
@@ -970,7 +985,7 @@ const Renderer = (() => {
   }
 
 
-  return { init, render, setHeight, W, H_MIN, H_MAX, FOG, get H() { return H; } };
+  return { init, render, setHeight, busy, W, H_MIN, H_MAX, FOG, get H() { return H; } };
 })();
 
 export { Renderer };

@@ -182,7 +182,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* the buffer height is matched to this box in script, so the fill is exact;
    contain only matters at the extremes where the buffer hits its limits */
 #view { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0 auto; touch-action: none; }
-#minimap { position: absolute; top: 6px; right: 6px; width: 90px; height: 90px; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; background: rgba(0,0,0,0.55); image-rendering: auto; opacity: 0.9; }
+/* see-through, so what stands in the top corner still shows, and further
+   still while a creature is under it (the script sets .faded) */
+#minimap { position: absolute; top: 6px; right: 6px; width: 76px; height: 76px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); image-rendering: auto; opacity: 0.7; transition: opacity 0.25s; }
+#minimap.faded { opacity: 0.16; }
+@media (min-width: 600px) { #minimap { width: 90px; height: 90px; } }
 .log-history div { padding: 4px 0; border-bottom: 1px solid #1c1a26; }
 .log-history div.bad { color: #f08a80; }
 .log-history div.good { color: #9ee08a; }
@@ -338,8 +342,14 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* the Use button lights up when it has something specific to do */
 .ctl.ctx { border-color: var(--gold); color: var(--gold); }
 .ctl.ctx small { color: var(--gold); }
-/* Rest turned Quaff in a fight: marked like the Use button when it names a deed */
-.bottombar button.ctx { border-color: var(--gold); color: var(--gold); }
+/* Rest with foes near, or no rest left on the floor: quieter, and says why */
+.bottombar button.unavail { color: var(--dim); border-style: dashed; background: var(--panel); }
+.bottombar button small { display: block; font-size: 0.62rem; line-height: 1.1; color: var(--dim); }
+/* a caster's healing draught, a tap away beside the life bar */
+.hud-quaff { flex: 0 0 auto; position: relative; width: 44px; height: 44px; min-height: 44px; padding: 0; font-size: 1.35rem; line-height: 1;
+  color: #f8e6e0; background: #3a1c22; border-color: #a0484a; border-radius: 8px; }
+.hud-quaff:active { background: #5a2830; }
+.hud-quaff small { position: absolute; right: 2px; bottom: 1px; font-size: 0.68rem; font-family: monospace; color: #ffd8c8; }
 
 /* encounters */
 .enc-art { text-align: center; margin: 4px 0 8px; }
@@ -415,4 +425,36 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .talent-list span { color: #c8bfae; font-size: 0.9rem; }
 /* creation stats: two to a row, so a starred score never breaks its line */
 #c-stats { grid-template-columns: repeat(2, 1fr); }
+
+/* creation: difficulty as three joined buttons near the top, one line under it */
+.seg { display: flex; margin: 6px 0 4px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.seg button { flex: 1; border: 0; border-radius: 0; border-left: 1px solid var(--border); background: var(--panel); color: #b0a8bc; min-height: 44px; font-size: 1rem; }
+.seg button:first-child { border-left: 0; }
+.seg button.on { background: #4a3a1c; color: #f5e6c0; box-shadow: inset 0 -3px 0 var(--gold); }
+.seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.diff-note { color: #c8bfae; font-size: 0.86rem; margin: 2px 0 6px; min-height: 1.3em; }
+/* Back and Descend stay on screen however far down the form you are */
+#screen-create .panel { padding-bottom: 0; }
+.row.spread.create-foot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px 0; padding: 10px 16px calc(10px + var(--sab));
+  background: linear-gradient(to bottom, rgba(11,10,16,0.82), var(--bg) 40%); border-top: 1px solid var(--border); }
+.create-foot .big { width: auto; flex: 1; }
+.create-foot .ghost { flex: 0 0 auto; min-width: 88px; }
+/* checkboxes drawn to match the dark theme, with a whole-row tap target */
+.opts label.check { min-height: 44px; cursor: pointer; line-height: 1.3; }
+.opts input[type=checkbox] { -webkit-appearance: none; appearance: none; flex: 0 0 auto; width: 24px; height: 24px; margin: 0; padding: 0;
+  border: 1.5px solid #6a6288; border-radius: 6px; background: var(--panel); display: inline-grid; place-content: center; cursor: pointer; }
+.opts input[type=checkbox]::after { content: ''; width: 12px; height: 7px; border-left: 3px solid #1a1408; border-bottom: 3px solid #1a1408; transform: translateY(-2px) rotate(-45deg); opacity: 0; }
+.opts input[type=checkbox]:checked { background: var(--gold); border-color: var(--gold); }
+.opts input[type=checkbox]:checked::after { opacity: 1; }
+.opts input[type=checkbox]:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* the title's Quick Start and Daily Delve, side by side, each with a line under it */
+.menu .ghost.two { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; }
+.menu .ghost.two b { font-weight: normal; font-size: 0.98rem; }
+.menu .ghost.two small { font-size: 0.72rem; color: #b0a8bc; line-height: 1.25; }
+#btn-daily.done b { color: #c8bfae; }
+/* how a run is kept, said before the first stair */
+.pro-rules { color: #c8bfae; font-size: 0.9rem; border-left: 2px solid var(--accent); padding-left: 10px; }
+.share-line { color: #e6dfd0; font-family: monospace; font-size: 0.85rem; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0; -webkit-user-select: text; user-select: text; overflow-wrap: anywhere; }
+.hall-row .daily-mark { font-style: normal; font-size: 0.72rem; color: #1a1408; background: var(--gold); border-radius: 999px; padding: 1px 7px; margin-left: 4px; white-space: nowrap; }
+.hall-row.daily { border-color: #7a6030; }
 
