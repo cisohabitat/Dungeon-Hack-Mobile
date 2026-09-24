@@ -395,9 +395,12 @@ const Game = (() => {
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
   }
+  // A cleric's faith guides the mace as much as the arm does: whichever is the
+  // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
+  const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
   function toHit() {
     const p = P();
-    return Math.floor(p.level * cls().hitProg) + mod(p.stats.str) + effect('hit') + weapon().e
+    return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e
       + (p.perkHit || 0) + (effect('might') ? 2 : 0);
   }
   function playerAC() {
@@ -1472,7 +1475,7 @@ const Game = (() => {
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
     const finesse = p.cls === 'thief';
-    const flat = (finesse ? mod(p.stats.dex) : mod(p.stats.str)) + skillDamage() + (effect('might') ? 2 : 0);
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0);
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;

@@ -864,7 +864,7 @@ const UI = (() => {
       dex: p.cls === 'thief' ? 'to armour class and to damage' : 'to armour class',
       con: 'hit point with every level from now on',
       int: p.cls === 'mage' ? 'spell point for every hero level' : 'on every reckoning and reading in the dark',
-      wis: p.cls === 'cleric' ? 'spell point for every hero level, and a surer will against draining' : 'against draining',
+      wis: p.cls === 'cleric' ? 'spell point for every hero level, to hit and to damage, and a surer will against draining' : 'against draining',
     }[b.stat];
     return `${STAT_NAMES[b.stat]} ${s} \u2192 ${next}: +1 ${what}.`;
   }
@@ -1108,7 +1108,9 @@ const UI = (() => {
         // mirrors the damage rule: flat bonuses scale with swing time, except
         // for a thief's finesse, which does not
         const finesse = p.cls === 'thief';
-        const base = Game.mod(finesse ? p.stats.dex : p.stats.str) + Game.skillDamage();
+        // a cleric's faith guides the mace: the stronger of strength and wisdom
+        const arm = p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
+        const base = Game.mod(finesse ? p.stats.dex : arm) + Game.skillDamage();
         const flat = finesse ? base : base * (sp / 700);
         return ((d[0] * (d[1] + 1) / 2) + d[2] + knownE(item) + flat) / (sp / 1000);
       };

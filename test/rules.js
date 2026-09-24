@@ -2286,6 +2286,18 @@ await test('a charge that lands knocks the hero down for a moment', async () => 
   return linesSince(G, m2).some(l => /getting to your feet/.test(l)) || `blocked with: ${linesSince(G, m2).join(' | ')}`;
 });
 
+await test('a cleric\'s faith guides the mace: the stronger of strength and wisdom lands the blow; a fighter swings with strength alone', async () => {
+  const hitWith = async (cls, str, wis) => {
+    const ctx = await newContext();
+    ctx.Game.newGame({ name: 'W', cls, bg: 'tombwise', stats: { ...evenStats, str, wis }, seed: 'faith', opts: { ...OPTS } });
+    return ctx.Game.toHit();
+  };
+  const faithful = await hitWith('cleric', 8, 18), strong = await hitWith('cleric', 18, 8), plain = await hitWith('cleric', 8, 8);
+  if (!(faithful === strong && faithful > plain)) return `cleric to hit: wisdom 18 gives ${faithful}, strength 18 gives ${strong}, neither ${plain}`;
+  const fighterWise = await hitWith('fighter', 8, 18), fighterPlain = await hitWith('fighter', 8, 8);
+  return fighterWise === fighterPlain || `a fighter's wisdom moved its to-hit from ${fighterPlain} to ${fighterWise}`;
+});
+
 await test('a basilisk\'s gaze turns a hero looking at it to stone; one who turns away is spared and finds it open', async () => {
   const out = [];
   for (const away of [false, true]) {
