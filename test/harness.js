@@ -47,6 +47,8 @@ async function loadGame(opts = {}) {
     Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
     store,
     CREATURES: creatures.CREATURES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
+    // shared by every world: game.js imports it without the cache-buster
+    Sound: (await import(url('sound.js'))).Sound,
     ENCOUNTERS: (await import(url('encounters.js'))).ENCOUNTERS,
     ITEM_ART: (await import(url('itemart.js'))).ITEM_ART,
     ...(({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }) => ({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }))(await import(url('relics.js'))),

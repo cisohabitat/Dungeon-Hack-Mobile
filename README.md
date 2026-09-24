@@ -84,8 +84,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
   what you are already wearing, in damage per second or armour class.
-- **Sound.** A low drone under the dungeon that tightens while the lich is fighting, and your own
-  heartbeat once you are badly wounded.
+- **Sound.** Placed by ear: a blow drawn back on your left is heard on your left, and a far one
+  is quieter and duller. Blades, clubs, arrows, fists and spells each strike differently, armour
+  and shields ring, each kind of creature has its own voice and its own death, and every spell
+  its own sound. Each floor has its own drone and distant noises (drips, chains, wind), which
+  tighten while the lich is fighting, and you hear your own heartbeat once badly wounded.
 - **A living title screen.** The menu sits over a real generated dungeon with a ghost camera
   walking it, drawn by the same raycaster as the game, with drifting embers and torch flicker.
 - **Mobile first.** Big touch d-pad with hold-to-walk, swipe on the view to turn or step, tap
