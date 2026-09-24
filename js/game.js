@@ -2396,7 +2396,7 @@ const Game = (() => {
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
   const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800 };
-  const GAZE_MS = 2000;     // how long a basilisk's gaze leaves you stone
+  const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
@@ -2559,12 +2559,12 @@ const Game = (() => {
       case 'gaze': {
         // only a hero looking at it is caught: turning away is the answer
         if (hasLineToPlayer(m, 5) && facing(m)) {
-          const n = d(2, 6);
+          const n = d(1, 6);
           p.held = Math.max(p.held || 0, G.t + (hasTalent('stand_firm') ? GAZE_MS / 2 : GAZE_MS)); p.heldBy = 'stone';
           hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs turn to stone! (${n})`, m, 'a basilisk\'s gaze');
           G.blowGate = G.t + BLOW_GAP;
         } else { log(`You turn from the ${mb.name}'s gaze. It washes over your back and leaves the beast open.`, 'good'); learn(m.id, 'answer'); opening(m); }
-        m.moveReady = G.t + 7000;
+        m.moveReady = G.t + 8000;
         m.nextAct = G.t + mb.speed;
         break;
       }

@@ -228,9 +228,11 @@ const Dungeon = (() => {
     // not its bare number: the tiers are laid out over ten floors, so an
     // eight-floor delve used to end before the minotaur's tier began, and
     // met the troll only on its last floor. A shorter delve stretches over
-    // the same ladder; a longer one keeps its floors as they are.
+    // the same ladder, the stretch coming late (its first floors much as
+    // they were, its last at the ladder's foot); a longer one keeps its floors.
     const levels = opts.levels || 8;
-    const tierDepth = levels >= TIER_FLOORS || levels <= 1 ? depth : 1 + (depth - 1) * (TIER_FLOORS - 1) / (levels - 1);
+    const f = levels > 1 ? (depth - 1) / (levels - 1) : 0;
+    const tierDepth = levels >= TIER_FLOORS ? depth : depth + (TIER_FLOORS - levels) * f * f;
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     // The first floor is where the controls are learned, so a crowded setting
