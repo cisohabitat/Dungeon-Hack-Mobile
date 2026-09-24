@@ -95,6 +95,7 @@
  * @property {number} [riteReady]  when the lich can next try its rite
  * @property {number[][]} [snuffed]  the torches the lich put out, to light again when it falls
  * @property {Array<{x: number, y: number}>} [lights]  their light, likewise
+ * @property {{x: number, y: number, w: number, h: number}} [hall]  the lich's own hall, whose torches it puts out
  * @property {{kind: string, until: number, next: number}|null} [dot]  burning or poisoned by the hero
  */
 

@@ -319,8 +319,8 @@ const BESTIARY = {
     trick: 'Chants for nearly two seconds to mend a badly wounded monster nearby, itself included.',
     answer: 'Any blow, arrow or spell that hurts it breaks the chant: close in fast, or shoot. Kill the acolyte first.' },
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life, and it does not flee.',
-    trick: 'Gathers a storm of cold fire that bursts two squares around it. As it weakens it raises the dead to guard it.',
-    answer: 'When it gathers the storm, get three squares away. Deal with the risen guards, or burn them all together.' },
+    trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
+    answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite.' },
 };
 
 const ELITES = [

@@ -3359,7 +3359,8 @@ function lichRoom(ctx, extra = {}) {
   const r = (L.rooms || []).find(r => m.x >= r.x && m.x < r.x + r.w && m.y >= r.y && m.y < r.y + r.h) || { x: m.x - 6, y: m.y - 6, w: 13, h: 13 };
   let torch = null;
   for (let x = r.x; x < r.x + r.w && !torch; x++) if (L.tiles[(r.y - 1) * L.w + x] === T.WALL) torch = [x, r.y - 1];
-  if (torch) { L.tiles[torch[1] * L.w + torch[0]] = T.TORCH; L.lights = (L.lights || []).concat([{ x: torch[0], y: torch[1] }]); }
+  // its light on the floor in front of it, as the dungeon lays them
+  if (torch) { L.tiles[torch[1] * L.w + torch[0]] = T.TORCH; L.lights = (L.lights || []).concat([{ x: torch[0], y: torch[1] + 1 }]); }
   return { m, torch };
 }
 /** Strike the lich until its life falls under the mark. */
@@ -3597,6 +3598,84 @@ await test('the Heart is held fast while the lich stands, and lifting it once th
   if (G.status !== 'won') return `status ${G.status} after lifting the Heart`;
   if (G.depth !== depth || G.escaping) return 'the run asked for a climb';
   return Game.finaleLeft() > 0 || 'no light to fill the view before the victory screen';
+});
+
+// ---------- round seven: the seams of the endgame ----------
+await test('the off hand does not follow the lich into the shadow it steps away through', async () => {
+  for (let trial = 0; trial < 12; trial++) {
+    const ctx = await start('fighter', 'offhand-blink' + trial);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.eq.shield = null; p.eq.weapon = { t: 'shortsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+    const { m } = lichRoom(ctx, { hp: 81, maxHp: 120 });
+    p.perkHit = 60;
+    for (let i = 0; i < 20 && !m.phase; i++) {
+      const mark = markLog(G);
+      G.t = p.nextAttack; Game.input('attack');
+      const said = linesSince(G, mark);
+      const blink = said.findIndex(l => /comes apart into shadow/.test(l));
+      if (blink >= 0 && said.slice(blink).some(l => /Your off hand finds the Dread Lich/.test(l))) return `the off hand struck it ${Math.abs(m.x - p.x) + Math.abs(m.y - p.y)} squares away`;
+    }
+  }
+  return true;
+});
+
+await test('the lich snuffs its torches and exactly their light; a blow through both marks puts them out where it stands', async () => {
+  const out = [];
+  {
+    const ctx = await start('fighter', 'snuff-pair');
+    const { Game, Dungeon } = ctx; const L = Game.level(), T = Dungeon.T;
+    const { m, torch } = lichRoom(ctx, { phase: 1 });
+    // a torch and light far off, which must be left alone
+    L.lights = L.lights.concat([{ x: 1, y: 1 }]);
+    woundTo(ctx, m, m.maxHp / 3);
+    const gone = m.lights || [];
+    if (!gone.some(l => l.x === torch[0] && l.y === torch[1] + 1)) out.push('the snuffed torch\'s light still shines');
+    if (gone.some(l => !(m.snuffed || []).some(([x, y]) => Math.abs(x - l.x) + Math.abs(y - l.y) === 1))) out.push('a light went out whose torch still burns');
+    if (!L.lights.some(l => l.x === 1 && l.y === 1)) out.push('a far light went out with the hall');
+  }
+  {
+    const ctx = await start('fighter', 'lich-phase1');
+    const { Game, Dungeon } = ctx; const L = Game.level(), T = Dungeon.T;
+    const { m, torch } = lichRoom(ctx, {});
+    const at = [m.x, m.y];
+    woundTo(ctx, m, m.maxHp / 3);        // from full straight past both marks
+    if (m.phase !== 2) out.push(`phase ${m.phase}`);
+    else {
+      if (m.x !== at[0] || m.y !== at[1]) out.push('it stepped away though the torches were going out');
+      if (torch && L.tiles[torch[1] * L.w + torch[0]] === T.TORCH) out.push('its hall stayed lit');
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('standing on the Heart while the lich lives leaves Use free, and nothing is picked up after the win', async () => {
+  const ctx = await start('fighter', 'heart-use');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  const { m } = lichRoom(ctx, {});
+  const k = `${p.x},${p.y}`;
+  (L.items[k] = L.items[k] || []).push({ t: 'artifact', q: 1, e: 0 }, { t: 'gold', q: 50, e: 0 });
+  Game.input('use');                       // takes the gold, not the Heart
+  if (Game.useLabel() === 'Take') return 'Use still offers to take the Heart the lich holds';
+  const mark = markLog(G);
+  Game.input('use'); Game.input('use');
+  if (linesSince(G, mark).some(l => /will not come loose/.test(l))) return 'Use kept trying the Heart';
+  // the lich down, the Heart and a last coin on the floor: the Heart ends it, the coin stays
+  L.monsters.splice(L.monsters.indexOf(m), 1);
+  L.items[k].push({ t: 'gold', q: 7, e: 0 });
+  const gold = p.gold;
+  Game.input('use');
+  if (G.status !== 'won') return `status ${G.status}`;
+  return p.gold === gold || `picked up ${p.gold - gold} gold after the run was won`;
+});
+
+await test('resting, fountains and wounds closing all count in the run\'s healing', async () => {
+  const ctx = await start('fighter', 'healed');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  G.stats.healed = 0;
+  p.hp = Math.max(1, p.maxHp - 5); p.food = 100;
+  Game.level().monsters.length = 0;
+  if (!Game.rest()) return 'could not rest';
+  return G.stats.healed === 5 || `resting 5 counted ${G.stats.healed}`;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

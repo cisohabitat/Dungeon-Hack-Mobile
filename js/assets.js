@@ -776,7 +776,6 @@ const Assets = (() => {
       locked,
       stairsDown: makeStairs(theme, wall, true),
       stairsUp: makeStairs(theme, wall, false),
-      torch: torches[0],
       torchFrames: torches,
       fountain: makeFountain(theme, wall, false),
       fountainDry: makeFountain(theme, wall, true),

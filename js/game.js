@@ -226,7 +226,9 @@ const Game = (() => {
   function leech(dmg, slot) {
     const p = P();
     if (!hasPower('leech', slot) || p.hp >= p.maxHp) return;
+    const was = p.hp;
     p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.floor(dmg / 5)));
+    noteHealed(p.hp - was);
     emit('stats');
   }
   /** Spell points follow what is worn: a well of power takes its six with it. */
@@ -598,7 +600,7 @@ const Game = (() => {
       log('Use keys by walking into a locked door.');
       return;
     } else if (b.kind === 'artifact') {
-      log('The Heart pulses warmly. The way out is up.', 'info');
+      log('The Heart pulses warmly in your hands.', 'info');
       return;
     } else {
       log('You cannot use that.');
@@ -661,6 +663,15 @@ const Game = (() => {
     emit('inv');
   }
   function floorItems() { return lvl().items[key(P().x, P().y)] || []; }
+  /** The lich, while it stands: the Heart will not come loose until it falls. */
+  function keeper() { return lvl().monsters.find(m => MONSTERS[m.id].boss) || null; }
+  /** What can be picked up here: not the Heart while its keeper stands. */
+  function takeable() { const k = keeper(); return floorItems().filter(it => !(k && it.t === 'artifact')); }
+  /** Said once each time the hero steps onto the Heart while the lich still holds it. */
+  function heartHeld() {
+    const k = keeper();
+    if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
+  }
   function takeItem(it) {
     const p = P(), L = lvl(), k = key(p.x, p.y);
     const list = L.items[k] || [];
@@ -671,8 +682,7 @@ const Game = (() => {
     else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') {
       // the lich's cold holds the Heart fast: the last fight cannot be walked round
-      const keeper = L.monsters.find(m => MONSTERS[m.id].boss);
-      if (keeper) { log(`The Heart will not come loose. The ${MONSTERS[keeper.id].name}'s cold holds it fast, and will while it stands.`, 'bad'); Sound.play('error'); return; }
+      if (keeper()) { heartHeld(); Sound.play('error'); return; }
       list.splice(i, 1);
       claimHeart();
     }
@@ -692,7 +702,10 @@ const Game = (() => {
     emit('inv');
   }
   function pickupAll() {
-    for (const it of floorItems().slice()) takeItem(it);
+    for (const it of takeable().slice()) {
+      takeItem(it);
+      if (G.status !== 'playing') break;   // lifting the Heart ends the run: nothing more is picked up after
+    }
   }
 
   // ---------- camera ----------
@@ -867,7 +880,7 @@ const Game = (() => {
   function useLabel() {
     if (!G || G.status !== 'playing') return 'Use';
     const p = P();
-    if (floorItems().length) return 'Take';
+    if (takeable().length) return 'Take';
     const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1], t = tile(tx, ty);
     if (t === T.DOOR) return 'Open';
     if (t === T.DOOR_LOCKED) return P().inv.some(it => it.t === 'key' && it.color === (lvl().locks[key(tx, ty)] || 'brass')) ? 'Unlock' : 'Force';
@@ -972,6 +985,7 @@ const Game = (() => {
     const f = L.features && L.features[key(x, y)];
     if (!f || f.used) { log('The fountain is dry.'); return; }
     f.used = true;
+    noteHealed(p.maxHp - p.hp);
     p.hp = p.maxHp; p.sp = p.maxSp; p.poison = null;
     fx.healUntil = realNow + 400;
     log('You drink deeply from the fountain. Your wounds close and your mind clears.', 'good');
@@ -1020,7 +1034,7 @@ const Game = (() => {
     const L = lvl(), p = P(), k = key(p.x, p.y);
     if (L.traps[k]) triggerTrap(k);
     if (G.status !== 'playing') return;
-    if (L.items[k] && L.items[k].length) pickupAll();
+    if (L.items[k] && L.items[k].length) { pickupAll(); heartHeld(); }
   }
   function triggerTrap(k) {
     const L = lvl(), p = P();
@@ -1048,7 +1062,7 @@ const Game = (() => {
     const p = P();
     const [dx, dy] = DIRS[p.dir];
     const tx = p.x + dx, ty = p.y + dy, t = tile(tx, ty);
-    if (floorItems().length) { pickupAll(); return; }
+    if (takeable().length) { pickupAll(); return; }
     if (t === T.DOOR) return openDoor(tx, ty);
     if (t === T.DOOR_LOCKED) return tryUnlock(tx, ty);
     if (t === T.STAIRS_DOWN) return descend();
@@ -1361,6 +1375,7 @@ const Game = (() => {
     if (!m) { Sound.play('miss'); return; }
     if (atRange) Sound.play('arrow');
     const mb = mstat(m);
+    const struckX = m.x, struckY = m.y;
     if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
     // Shadow Step: a sidestep a moment ago puts the next blow in the shadows
     const stepped = !atRange && hasTalent('shadow_step') && G.t < (p.shadowUntil || 0);
@@ -1419,7 +1434,9 @@ const Game = (() => {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
-    if (m.hp > 0) offhandStrike(m, atRange);
+    // the second blade follows only if the foe is still where the first struck it:
+    // a lich that has come apart into shadow is no longer there to hit
+    if (m.hp > 0 && m.x === struckX && m.y === struckY && lvl().monsters.includes(m)) offhandStrike(m, atRange);
   }
   /**
    * The second blade follows the first. It swings wilder and carries none of
@@ -1549,7 +1566,7 @@ const Game = (() => {
     if (m.pack && m.split) learn(m.id, 'answer');     // a blast that takes both halves of a split slime
     if (m.pack) {
       for (const b of m.pack.slice()) {
-        noteDealt(m, dmg, tag);
+        noteDealt(m, dmg, tag, b.hp);
         b.hp -= dmg;
         if (b.hp <= 0) { m.pack.splice(m.pack.indexOf(b), 1); memberDown(m); }
       }
@@ -1667,6 +1684,7 @@ const Game = (() => {
     }
     if (p.hp > 0 && p.hp < p.maxHp / 4 && hasTalent('second_wind') && G.t >= (p.windReady || 0)) {
       const n = Math.ceil(p.maxHp / 4);
+      noteHealed(Math.min(n, p.maxHp - p.hp));
       p.hp = Math.min(p.maxHp, p.hp + n); p.windReady = G.t + 120000;
       log(`Second wind! (+${n})`, 'good');
       Sound.play('heal');
@@ -1781,9 +1799,10 @@ const Game = (() => {
     return G.stats;
   }
   /** A blow the hero landed, and what it was struck with. */
-  function noteDealt(m, dmg, tag) {
+  /** @param {number} [hpBefore]  what the one struck had left, so a blow past death counts only what it took */
+  function noteDealt(m, dmg, tag, hpBefore = m.hp) {
     const s = runStats(), p = P();
-    s.dealt += dmg;
+    s.dealt += Math.min(dmg, Math.max(0, hpBefore));
     if (s.best && dmg <= s.best.dmg) return;
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)
@@ -2003,6 +2022,7 @@ const Game = (() => {
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
     if (p.food < 6) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
     p.food -= 6;
+    noteHealed(p.maxHp - p.hp);
     p.hp = p.maxHp; p.sp = p.maxSp;
     G.t += 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = G.t + 300; }
@@ -2342,9 +2362,13 @@ const Game = (() => {
   // hall, quickens, and tries to drink the Heart's light to mend itself.
   function bossTurns(m) {
     const mb = MONSTERS[m.id];
+    // its own hall, remembered before it moves: the torches it puts out are these
+    if (!m.hall) m.hall = roomOf(m);
     raiseGuards(m);
     m.windup = null; m.volley = null;
-    if (m.phase === 1) {
+    // a blow that goes straight through two thirds and one third does not
+    // wait for it to step back: the torches go out where it stands
+    if (m.phase === 1 && m.hp >= m.maxHp / 3) {
       const to = blinkSpot(m);
       if (to) {
         spray(m, 'ecto', 1, false);
@@ -2384,14 +2408,16 @@ const Game = (() => {
   }
   /** Every torch in and round the lich's hall goes out, until the lich falls. */
   function snuffTorches(m) {
-    const L = lvl(), r = roomOf(m);
-    const near = (x, y) => x >= r.x - 1 && x <= r.x + r.w && y >= r.y - 1 && y <= r.y + r.h;
+    const L = lvl(), r = m.hall || roomOf(m);
     m.snuffed = [];
+    const out = new Set();
     for (let y = r.y - 1; y <= r.y + r.h; y++) for (let x = r.x - 1; x <= r.x + r.w; x++) {
-      if (tile(x, y) === T.TORCH) { setTile(x, y, T.WALL); m.snuffed.push([x, y]); }
+      if (tile(x, y) === T.TORCH) { setTile(x, y, T.WALL); m.snuffed.push([x, y]); out.add(key(x, y)); }
     }
-    m.lights = (L.lights || []).filter(l => near(l.x, l.y));
-    L.lights = (L.lights || []).filter(l => !near(l.x, l.y));   // a new list, so the lighting is worked out afresh
+    // each torch's light lies on the floor in front of it: those, and only those, go dark
+    const lit = l => !DIRS.some(([dx, dy]) => out.has(key(l.x + dx, l.y + dy)));
+    m.lights = (L.lights || []).filter(l => !lit(l));
+    L.lights = (L.lights || []).filter(lit);   // a new list, so the lighting is worked out afresh
   }
   function relightTorches(m) {
     const L = lvl();
@@ -2625,7 +2651,9 @@ const Game = (() => {
       if (!hunted) {
         // scale with the pool so recovery takes about the same time at every level
         const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
+        const was = p.hp;
         p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
+        noteHealed(p.hp - was);
         p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
         emit('stats');
       } else p.nextRegen = G.t + 1200;
@@ -2804,7 +2832,7 @@ const Game = (() => {
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;
     // the lich's life across the top of the view, once it has woken and spoken
-    const boss = L.monsters.find(m => MONSTERS[m.id].boss && m.spoke && !m.collapsed);
+    const boss = L.monsters.find(m => MONSTERS[m.id].boss && m.spoke && m.awake && !m.collapsed);
     fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!(boss.windup && boss.windup.move === 'rite') } : null;
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
@@ -2868,7 +2896,8 @@ const Game = (() => {
       clearFx();
       log('Game loaded.', 'info');
       emit('level');
-      if (wasEscaping) { fx.heartAt = realNow; win(); }
+      // the clock only runs on the game screen, and a load can come before it has
+      if (wasEscaping) { realNow = performance.now(); fx.heartAt = realNow; win(); }
       return true;
     } catch (e) { return false; }
   }
@@ -2895,7 +2924,7 @@ const Game = (() => {
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
-    bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke)),
+    bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     INV_MAX, T,
   };
 })();

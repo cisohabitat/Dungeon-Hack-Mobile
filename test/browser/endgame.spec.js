@@ -72,6 +72,49 @@ test.describe('the endgame', () => {
     expect(errors).toEqual([]);
   });
 
+  test('quitting while the light rises leaves the victory behind with its run', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-quit', levels: '4' });
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(); L.monsters.length = 0;
+      const k = p.x + ',' + p.y; (L.items[k] = L.items[k] || []).push({ t: 'artifact', q: 1, e: 0 });
+      Game.takeItem(L.items[k].find(i => i.t === 'artifact'));
+    });
+    expect(await page.evaluate(() => Game.state().status)).toBe('won');
+    // straight out to the title and into a new run, well inside the finale
+    await page.locator('[data-open="menu"]').first().click();
+    await page.click('#m-quit');
+    await expect(page.locator('#screen-title')).toBeVisible();
+    await page.click('#btn-new');
+    await page.fill('#c-seed', 'end-quit-2');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await page.waitForTimeout(3200);
+    await expect(page.locator('#screen-end'), 'the old run\'s victory must not cover the new one').toBeHidden();
+    expect(await page.evaluate(() => Game.state().status)).toBe('playing');
+    expect(errors).toEqual([]);
+  });
+
+  test('an old climbing save opened straight from the title still shows the rising light', async ({ page }) => {
+    await startGame(page, { seed: 'end-cold', levels: '4' });
+    await page.evaluate(() => Game.save());
+    // a fresh page: the game clock has not started when the save is opened. The
+    // page saves again as it is put away, so the save is edited only after
+    await page.goto('/');
+    const left = await page.evaluate(() => {
+      const s = JSON.parse(localStorage.getItem('deepdelve.save'));
+      s.escaping = true;
+      localStorage.setItem('deepdelve.save', JSON.stringify(s));
+      Game.load();
+      if (Game.state().status !== 'won') return -1;
+      // the renderer runs on the page's clock: the light must start now by that clock
+      const fx = Game.renderState(performance.now()).fx;
+      return 2600 - (performance.now() - fx.heartAt);
+    });
+    expect(left, 'the light should have its full time to rise').toBeGreaterThan(2000);
+  });
+
   test('a run saved on the old climb out loads as won', async ({ page }) => {
     await startGame(page, { seed: 'end-old', levels: '4' });
     await page.evaluate(() => {

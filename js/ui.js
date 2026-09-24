@@ -23,7 +23,9 @@ const UI = (() => {
   let selectedItem = null, selectedSlot = null;
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
 
+  let finaleTimer = 0;
   function showScreen(id) {
+    if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     // the raycaster draws into whichever canvas is on screen
     if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; refreshTitle(); }
@@ -1377,8 +1379,13 @@ const UI = (() => {
       else if (e === 'shop') openOverlay('shop');
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       else if (e === 'dead') showEnd(false);
-      // the Heart's light fills the view first, then the victory screen
-      else if (e === 'won') setTimeout(() => showEnd(true), Game.finaleLeft());
+      // the Heart's light fills the view first, then the victory screen; only
+      // for this run, and only if it is still on screen when the light is done
+      else if (e === 'won') {
+        const run = Game.state();
+        clearTimeout(finaleTimer);
+        finaleTimer = setTimeout(() => { if (Game.state() === run && run.status === 'won' && $('#screen-game').classList.contains('active')) showEnd(true); }, Game.finaleLeft());
+      }
       else if (e === 'inv') { if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
       else if (e === 'stats' && overlay === 'shop') renderShop();
     }
