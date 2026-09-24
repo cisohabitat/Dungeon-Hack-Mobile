@@ -211,7 +211,8 @@ test.describe('dungeon features', () => {
     expect(idx, 'the thief should start with a scroll of mapping').toBeGreaterThanOrEqual(0);
     await page.locator('#inv-grid .slot').nth(idx).click();
     await page.locator('#item-detail button', { hasText: 'Read' }).click();
-    await page.keyboard.press('Escape');
+    // a scroll closes the pack by itself, so its page is seen to burn
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
     await page.click('[data-open="map"]');
     // no waiting: the playtest reported a sparse first look
     const first = await page.evaluate(() => {

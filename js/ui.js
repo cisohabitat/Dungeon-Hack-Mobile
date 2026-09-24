@@ -1211,15 +1211,17 @@ const UI = (() => {
     add('Close', () => {});
   }
 
-  // Used from the pack in a fight, a draught or scroll closes the pack: the
-  // point of reading fire at a goblin is to see it land, and to be back at the
-  // controls. Out of a fight the pack stays open for the next thing.
+  // Used from the pack in a fight, a draught closes the pack: the point of
+  // drinking mid-fight is to be back at the controls. A scroll always closes
+  // it, so the page is seen to rise and burn and do its work. Out of a fight
+  // the pack stays open after a draught or a meal for the next thing.
   function useFromPack(it) {
     const p = Game.player(), count = () => p.inv.reduce((a, i) => a + (i.q || 1), 0), before = count();
+    const scroll = ITEMS[it.t].kind === 'scroll';
     Game.useItem(it);
     const L = Game.level();
     const fighting = Game.bossAwake() || L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
-    if (fighting && count() < before && overlay === 'inv') setTimeout(() => { if (overlay === 'inv') closeOverlay(); }, 0);
+    if ((fighting || scroll) && count() < before && overlay === 'inv') setTimeout(() => { if (overlay === 'inv') closeOverlay(); }, 0);
   }
 
   // How an unequipped piece of gear stacks up against the one in its slot.

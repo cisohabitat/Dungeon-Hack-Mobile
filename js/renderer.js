@@ -237,6 +237,10 @@ const Renderer = (() => {
       else if (ou < 0.5) { const e = ease((ou - 0.2) / 0.3); ox = W * (-0.03 + e * 0.27); oy = H * (0.05 - e * 0.23); os = 1 - e * 0.2; opose = 'thrust'; }
       else { const e = ease((ou - 0.5) / 0.5); ox = W * 0.24 * (1 - e); oy = -H * 0.18 * (1 - e); os = 0.8 + e * 0.2; opose = e < 0.4 ? 'thrust' : 'left'; }
     }
+    // reading: the off hand brings the scroll up, and what it held goes down
+    const ru = (now - (fx.readAt ?? -1e9)) / READ_MS;
+    const reading = ru >= 0 && ru < 1;
+    const put_down = reading ? Math.min(1, ru * 6, (1 - ru) * 6) * H * 0.45 : 0;
     // casting: the off hand rises into view, alight, and what it held dips
     const cu = (now - fx.castAt) / 520;
     const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
@@ -275,11 +279,12 @@ const Renderer = (() => {
       put(Assets.held(null, 'fist', v.cls, false), hx, hy);
     } else if (v.shield) {
       const [x, y] = at('shield');
-      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4, y + dy + cast * H * 0.4 + hurt * 6);
+      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4, y + dy + cast * H * 0.4 + put_down + hurt * 6);
     } else if (v.offhand) {
       const [x, y] = at('left');
-      put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4, os);
+      put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
     }
+    if (reading) drawReading(fx, ru, v.cls, dx, dy);
     if (cast > 0) {
       const [x, y] = at('cast'), cy = y + (1 - cast) * H * 0.35 + by;
       const g = ctx.createRadialGradient(x + bx, cy - H * 0.06, 0, x + bx, cy - H * 0.06, H * 0.15);
@@ -517,13 +522,99 @@ const Renderer = (() => {
     const n = parseInt(h, 16);
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${Math.max(0, Math.min(1, a)).toFixed(3)})`;
   }
+  // ---------- reading a scroll ----------
+  // The off hand brings the scroll up, unrolled. Its writing kindles line by
+  // line in the colour of what it does (fire orange, restoration green,
+  // mapping blue, teleport violet, remove curse gold), then the page burns
+  // away from the top in embers, with a last flourish of its own: a ring of
+  // blue light for mapping, a violet wash for teleport, rays for a curse
+  // broken. A fire scroll's fire leaves the page as a fireball (see spellFx).
+  const READ_MS = 1000;
+  function drawReading(fx, ru, cls, dx, dy) {
+    const c = fx.readColor || '#fe8';
+    const rise = ease(Math.min(1, ru / 0.22));
+    const cx = Math.round(W * 0.3 + dx * 0.6), cy = Math.round(H * 0.58 + (1 - rise) * H * 0.62 + dy * 0.6);
+    const w = 46, h = 30, left = cx - w / 2, top = cy - h / 2;
+    const burn = clamp01((ru - 0.62) / 0.38);          // how much of the page is gone, top down
+    const edge = top + h * burn;
+    // the hand under it
+    put(Assets.held(null, 'cast', cls, false), cx - 4, top + h + 10);
+    // the page, below the burn line
+    ctx.save();
+    // (the top roll shows until the fire reaches it)
+    ctx.beginPath(); ctx.rect(left - 6, burn > 0 ? edge : top - 6, w + 12, h + 12 + (burn > 0 ? 0 : 6)); ctx.clip();
+    ctx.fillStyle = '#2a1c10'; ctx.fillRect(left - 1, top - 1, w + 2, h + 2);
+    ctx.fillStyle = '#e8d8a8'; ctx.fillRect(left, top, w, h);
+    ctx.fillStyle = '#d4c090'; ctx.fillRect(left, top + h - 4, w, 4); ctx.fillRect(left + w - 3, top, 3, h);
+    // rolled ends, top and bottom
+    for (const ry of [top - 4, top + h]) {
+      ctx.fillStyle = '#2a1c10'; ctx.fillRect(left - 4, ry - 1, w + 8, 6);
+      ctx.fillStyle = '#b08850'; ctx.fillRect(left - 3, ry, w + 6, 4);
+      ctx.fillStyle = '#d8b070'; ctx.fillRect(left - 3, ry, w + 6, 1);
+    }
+    // the writing: five lines, lit one after another
+    for (let i = 0; i < 5; i++) {
+      const ly = top + 5 + i * 5, lit = clamp01((ru - 0.16 - i * 0.07) / 0.08);
+      for (let k = 0; k < 6; k++) {
+        const len = 3 + Math.floor(hash(i * 7 + k) * 4), lx = left + 4 + k * 7;
+        if (lx + len > left + w - 4) break;
+        ctx.fillStyle = lit > 0.5 ? c : '#5a4028';
+        ctx.fillRect(lx, ly, len, 2);
+      }
+    }
+    ctx.restore();
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    // the writing's glow, strongest just before the page goes up
+    const kindle = clamp01((ru - 0.2) / 0.4) * (1 - burn);
+    glow(cx, cy, 30 + kindle * 12, c, kindle * 0.55);
+    if (burn > 0 && burn < 1) {
+      // a ragged burning edge, and embers rising from it
+      for (let k = 0; k < w; k += 2) {
+        const j = Math.round((hash(k + Math.floor(ru * 40)) - 0.5) * 3);
+        ctx.fillStyle = k % 4 ? '#ffb040' : '#fff0a0';
+        ctx.fillRect(left + k, edge + j, 2, 2);
+      }
+      glow(cx, edge, 26, '#ff9030', 0.6 * (1 - burn * 0.5));
+    }
+    for (let i = 0; i < 22; i++) {
+      const born = 0.62 + hash(i) * 0.3, age = (ru - born) / 0.35;
+      if (age <= 0 || age >= 1) continue;
+      const ex = left + hash(i + 5) * w + Math.sin(age * 6 + i) * 3, ey = top + h * (born - 0.62) / 0.38 - age * H * 0.3;
+      glow(ex, ey, 3 + (1 - age) * 3, i % 2 ? c : '#ffd060', 1 - age);
+    }
+    // the flourish, as the page goes
+    const f = clamp01((ru - 0.62) / 0.38);
+    if (f > 0) {
+      if (fx.readKind === 'map') {
+        // a ring of blue light sweeping out across the view
+        ctx.strokeStyle = hexA(c, (1 - f) * 0.8); ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(cx, cy, 10 + f * W * 0.8, 0, Math.PI * 2); ctx.stroke();
+      } else if (fx.readKind === 'teleport') {
+        ctx.fillStyle = hexA(c, Math.sin(f * Math.PI) * 0.45); ctx.fillRect(0, 0, W, H);
+      } else if (fx.readKind === 'uncurse') {
+        ctx.strokeStyle = hexA(c, (1 - f) * 0.7); ctx.lineWidth = 2;
+        for (let k = 0; k < 10; k++) {
+          const a = k / 10 * Math.PI * 2 + f, r0 = 12 + f * 20, r1 = r0 + 18 + f * 40;
+          ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); ctx.lineTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1); ctx.stroke();
+        }
+      } else if (fx.readKind === 'heal') {
+        for (let k = 0; k < 12; k++) {
+          const a = hash(k + 40), up = (f + hash(k + 60) * 0.4) % 1;
+          glow(W * (0.15 + a * 0.7), H * (1 - up * 0.8), 4, c, (1 - up) * 0.8);
+        }
+      }
+    }
+    ctx.restore();
+  }
+
   function drawSpells(fx, now, proj) {
     if (!fx.spells || !fx.spells.length) return;
-    const hand = { x: W * 0.5, y: H * 0.95, r: H * 0.4 };
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     for (const s of fx.spells) {
       if (now >= s.until || now < s.born) continue;
+      const hand = s.from ? { x: W * s.from.x, y: H * s.from.y, r: H * 0.4 } : { x: W * 0.5, y: H * 0.95, r: H * 0.4 };
       const t = (now - s.born) / (s.until - s.born);
       const fade = 1 - t;
       const pts = s.pts.map(proj).filter(Boolean);

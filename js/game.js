@@ -24,8 +24,8 @@ const Game = (() => {
   let realNow = 0;
   const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
-               /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}}>} */ spells: [],
-               swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9,
+               /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
+               swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
@@ -678,13 +678,17 @@ const Game = (() => {
       const wasNewS = !isKnown(it.t);
       removeOne(it);
       if (wasNewS) { G.known[it.t] = 1; log(`You read the unknown scroll... it is a ${b.name}.`, 'info'); }
-      fx.castUntil = realNow + 260; fx.castColor = '#fe8';
+      // the scroll rises in the off hand, its writing kindles in the colour of
+      // what it does, and it burns away (see the renderer); what it does is
+      // settled now, and shown as the page goes up
+      fx.readAt = realNow; fx.readKind = b.effect; fx.readColor = SCROLL_GLOW[b.effect] || '#fe8';
       switch (b.effect) {
         case 'fire': {
           Sound.play('spell');
           burnWeb();
           const targets = boltTargets(3, false);
-          spellFx('fireball', '#ff7020', 750, targets, 3);
+          // the fireball leaves the burning page, not the hand
+          spellFx('fireball', '#ff7020', 750, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
           castingName = 'fireball';
           for (const m of targets) {
@@ -2175,9 +2179,13 @@ const Game = (() => {
     cure_serious: ['heal', 850], protection: ['buff', 600], flame_strike: ['pillar', 700],
   };
   /** Show a spell's effect: where it lands, or the square ahead if nowhere. */
-  function spellFx(style, color, dur, targets, reach) {
+  /** How long a scroll takes to read and burn away, and the colour its writing kindles. */
+  const READ_MS = 1000;
+  const SCROLL_GLOW = { fire: '#ff7020', heal: '#60e080', map: '#70b0ff', teleport: '#c080ff', uncurse: '#ffe8a0' };
+  /** A spell's picture; delay puts it off (a scroll's fire waits for the page to burn), from moves where it starts, as fractions of the view. */
+  function spellFx(style, color, dur, targets, reach, delay = 0, from = null) {
     const p = P(), [dx, dy] = DIRS[p.dir];
-    fx.spells.push({ style, color, born: realNow, until: realNow + dur,
+    fx.spells.push({ style, color, born: realNow + delay, until: realNow + delay + dur, from,
       pts: targets.map(m => ({ x: m.rx + 0.5, y: m.ry + 0.5 })),
       ahead: { x: p.x + dx * (reach || 1) + 0.5, y: p.y + dy * (reach || 1) + 0.5 } });
   }
