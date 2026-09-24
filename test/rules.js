@@ -4614,6 +4614,24 @@ async function listenTo(ctx, fn) {
   return got;
 }
 
+await test('a draught sounds its cork and swallows at once and its heal once it is down; a scroll is heard being read', async () => {
+  const ctx = await start('fighter', 'use-sounds');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  p.hp = 1;
+  const potion = { t: 'potion_heal', q: 1, e: 0 }; p.inv.push(potion); G.known.potion_heal = 1;
+  const out = [];
+  const now = await listenTo(ctx, () => Game.useItem(potion));
+  if (!now.some(s => s.name === 'drink')) out.push('no cork and swallow');
+  if (now.some(s => s.name === 'heal')) out.push('the heal was heard before the draught was down');
+  const later = await listenTo(ctx, () => new Promise(r => setTimeout(r, 500)));
+  if (!later.some(s => s.name === 'heal')) out.push('the heal was never heard');
+  const scroll = { t: 'scroll_map', q: 1, e: 0 }; p.inv.push(scroll); G.known.scroll_map = 1;
+  const read = await listenTo(ctx, () => Game.useItem(scroll));
+  if (!read.some(s => s.name === 'read' && s.kind === 'map')) out.push(`the scroll was not heard read: ${read.map(s => s.name).join(',')}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a blow drawn back on the hero\'s left is heard on the left, a far one quieter, and one out of hearing not at all', async () => {
   const ctx = await start('fighter', 'sound-left');
   const { Game, Dungeon, Sound } = ctx;

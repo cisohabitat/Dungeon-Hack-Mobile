@@ -1098,7 +1098,7 @@ const Renderer = (() => {
       }
       ctx.globalAlpha = 1;
     }
-    if (now < fx.healUntil) {
+    if (now >= (fx.healAt || 0) && now < fx.healUntil) {
       const a = (fx.healUntil - now) / 260;
       ctx.fillStyle = 'rgba(80,220,120,1)';
       ctx.globalAlpha = a * 0.35;

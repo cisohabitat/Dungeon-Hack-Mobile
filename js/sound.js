@@ -417,7 +417,29 @@ const Sound = (() => {
     die: out => { releaseAll(); tone(lp(out, 600), 300, 1.4, 'sawtooth', 0.16, -240); tone(out, 60, 1.5, 'sine', 0.2, -25); },
     win: out => { [523, 659, 784, 1046, 1318].forEach((f, i) => tone(out, f, 0.35, 'triangle', 0.1, 0, 0.3 + i * 0.15)); },
     trap: out => { noise(out, 0.15, 0.2, { f: 2000 }); tone(out, 700, 0.1, 'triangle', 0.1, -500); },
-    eat: out => { noise(out, 0.06, 0.08, { type: 'bandpass', f: 1500, q: 1 }); noise(out, 0.06, 0.08, { type: 'bandpass', f: 1300, q: 1, delay: 0.12 }); tone(out, 200, 0.1, 'triangle', 0.06, 0, 0.1); },
+    // a scroll read: the page unrolled, a hum rising as its writing kindles
+    // (pitched by what it does), then the crackle and whoosh of it burning
+    read: (out, v) => {
+      const base = { fire: 196, heal: 330, map: 262, teleport: 220, uncurse: 392 }[v.kind] || 262;
+      noise(out, 0.22, 0.09, { type: 'bandpass', f: 2600, q: 0.8, attack: 0.04 });
+      noise(out, 0.12, 0.06, { type: 'bandpass', f: 1800, q: 1, delay: 0.14 });
+      tone(out, base, 0.45, 'sine', 0.07, base, 0.18, 0.2);
+      tone(out, base * 1.5, 0.4, 'triangle', 0.03, base * 1.5, 0.25, 0.2);
+      for (let i = 0; i < 18; i++) noise(out, 0.02 + rnd() * 0.02, 0.05 * (0.6 + rnd() * 0.4), { type: 'bandpass', f: vary(2600, 0.4), q: 3, delay: 0.62 + rnd() * 0.36 });
+      noise(out, 0.35, 0.1, { f: 900, to: 300, delay: 0.6, attack: 0.05 });
+    },
+    // a draught: the cork, then three swallows
+    drink: out => {
+      noise(out, 0.03, 0.14, { type: 'bandpass', f: 1800, q: 2, delay: 0.12 });
+      tone(out, 900, 0.06, 'sine', 0.08, -500, 0.12);
+      for (let i = 0; i < 3; i++) {
+        const t = 0.3 + i * 0.11;
+        tone(lp(out, 600), vary(170, 0.1), 0.09, 'sine', 0.14, -60, t);
+        noise(out, 0.05, 0.04, { type: 'bandpass', f: 400, q: 2, delay: t });
+      }
+    },
+    // two bites, timed to the bread reaching the mouth in the view
+    eat: out => { noise(out, 0.06, 0.08, { type: 'bandpass', f: 1500, q: 1, delay: 0.36 }); noise(out, 0.06, 0.08, { type: 'bandpass', f: 1300, q: 1, delay: 0.52 }); tone(out, 200, 0.1, 'triangle', 0.06, 0, 0.46); },
     bump: out => { tone(out, 80, 0.08, 'sine', 0.12); noise(out, 0.06, 0.08, { f: 300 }); },
     step: out => noise(out, 0.05, vary(0.09, 0.25), { f: vary(900, 0.2) }),
     fountain: out => { tone(out, 500, 0.1, 'sine', 0.1); tone(out, 700, 0.12, 'sine', 0.1, 0, 0.1); tone(out, 900, 0.15, 'sine', 0.1, 0, 0.2); },

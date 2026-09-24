@@ -22,7 +22,7 @@ const Game = (() => {
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
-  const fx = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
+  const fx = { damageUntil: 0, healUntil: 0, healAt: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
@@ -675,12 +675,17 @@ const Game = (() => {
       showUse('drink', it, POTION_GLOW[b.effect] || '#e0e0ff');
       removeOne(it);
       if (wasNew) { G.known[it.t] = 1; log(`You drink the unknown potion... it is a ${b.name}.`, 'info'); }
-      switch (b.effect) {
-        case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
-        case 'cure': p.poison = null; log('The poison leaves your veins.', 'good'); Sound.play('heal'); break;
-        case 'might': p.effects.might = { amount: 2, until: G.t + 120000 }; log('You feel mighty!', 'good'); Sound.play('spell'); break;
-        case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); Sound.play('spell'); break;
-      }
+      // the cork and the swallows now; what it does is heard once it is down
+      Sound.play('drink');
+      fxDelay = 420;
+      try {
+        switch (b.effect) {
+          case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
+          case 'cure': p.poison = null; log('The poison leaves your veins.', 'good'); soon(() => Sound.play('heal')); break;
+          case 'might': p.effects.might = { amount: 2, until: G.t + 120000 }; log('You feel mighty!', 'good'); soon(() => Sound.play('spell')); break;
+          case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); soon(() => Sound.play('spell')); break;
+        }
+      } finally { fxDelay = 0; }
     } else if (b.kind === 'scroll') {
       const wasNewS = !isKnown(it.t);
       removeOne(it);
@@ -689,47 +694,50 @@ const Game = (() => {
       // what it does, and it burns away (see the renderer); what it does is
       // settled now, and shown as the page goes up
       fx.readAt = realNow; fx.readKind = b.effect; fx.readColor = SCROLL_GLOW[b.effect] || '#fe8';
-      switch (b.effect) {
-        case 'fire': {
-          Sound.play('spell');
-          burnWeb();
-          const targets = boltTargets(3, false);
-          // the fireball leaves the burning page, not the hand
-          spellFx('fireball', '#ff7020', 750, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
-          if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
-          castingName = 'fireball';
-          // what it looks like waits for the fireball to burst: it leaves the
-          // page six tenths into the reading and flies for a third of its 750ms
-          fxDelay = Math.round(READ_MS * 0.6 + 750 * 0.35);
-          try {
-            for (const m of targets) {
-              if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-              hitGroup(m, d(4, 6), 'burn');
-            }
-          } finally { castingName = ''; fxDelay = 0; }
-          break;
+      // one sound for the reading, pitched by what it does; anything else it
+      // makes a sound of (a heal) is heard as the page goes up
+      Sound.play('read', { kind: b.effect });
+      fxDelay = Math.round(READ_MS * 0.62);
+      try {
+        switch (b.effect) {
+          case 'fire': {
+            burnWeb();
+            const targets = boltTargets(3, false);
+            // the fireball leaves the burning page, not the hand
+            spellFx('fireball', '#ff7020', 750, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
+            if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
+            castingName = 'fireball';
+            // what it looks like waits for the fireball to burst: it leaves the
+            // page six tenths into the reading and flies for a third of its 750ms
+            fxDelay = Math.round(READ_MS * 0.6 + 750 * 0.35);
+            try {
+              for (const m of targets) {
+                if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
+                hitGroup(m, d(4, 6), 'burn');
+              }
+            } finally { castingName = ''; }
+            break;
+          }
+          case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
+          case 'map': { const L = lvl(); L.explored.fill(1); log('The layout of this level burns itself into your mind.', 'good'); break; }
+          case 'uncurse': {
+            const lifted = breakCurses(), seen = revealAll();
+            if (lifted) log(`A cold weight lifts from you. ${lifted > 1 ? 'The curses are' : 'The curse is'} broken.`, 'good');
+            if (seen.length) log(`You see your gear for what it is: ${seen.map(x => itemName(x) + (x.curse ? ' (cursed)' : '')).join(', ')}.`, 'info');
+            break;
+          }
+          case 'teleport': {
+            const L = lvl(); const spots = [];
+            for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && !monsterAt(i % L.w, (i / L.w) | 0)) spots.push(i);
+            const s = Dice.pick(spots);
+            p.x = s % L.w; p.y = (s / L.w) | 0;
+            snapCam(); distFieldAt = -1e9;
+            log('The world lurches and you find yourself elsewhere.', 'info');
+            checkTile();
+            break;
+          }
         }
-        case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
-        case 'map': { const L = lvl(); L.explored.fill(1); log('The layout of this level burns itself into your mind.', 'good'); Sound.play('spell'); break; }
-        case 'uncurse': {
-          const lifted = breakCurses(), seen = revealAll();
-          if (lifted) log(`A cold weight lifts from you. ${lifted > 1 ? 'The curses are' : 'The curse is'} broken.`, 'good');
-          if (seen.length) log(`You see your gear for what it is: ${seen.map(x => itemName(x) + (x.curse ? ' (cursed)' : '')).join(', ')}.`, 'info');
-          Sound.play('spell');
-          break;
-        }
-        case 'teleport': {
-          const L = lvl(); const spots = [];
-          for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && !monsterAt(i % L.w, (i / L.w) | 0)) spots.push(i);
-          const s = Dice.pick(spots);
-          p.x = s % L.w; p.y = (s / L.w) | 0;
-          snapCam(); distFieldAt = -1e9;
-          log('The world lurches and you find yourself elsewhere.', 'info');
-          Sound.play('spell');
-          checkTile();
-          break;
-        }
-      }
+      } finally { fxDelay = 0; }
     } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
       equip(it);
       return;
@@ -1964,8 +1972,9 @@ const Game = (() => {
     const p = P();
     noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp)));
     p.hp = Math.min(p.maxHp, p.hp + n);
-    fx.healUntil = realNow + 260;
-    Sound.play('heal');
+    // (a draught's or a scroll's is seen and heard once it has been taken)
+    fx.healAt = realNow + fxDelay; fx.healUntil = fx.healAt + 260;
+    soon(() => Sound.play('heal'));
     emit('stats');
   }
   function die() {
