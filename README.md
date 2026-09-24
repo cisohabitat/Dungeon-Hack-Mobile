@@ -147,15 +147,15 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 32 Playwright tests against a real browser
+npm run test:browser  # 86 Playwright tests against a real browser
 npm run test:all      # both
-npm run playtest      # 240 simulated runs, reports win rate by class
+npm run playtest      # 160 simulated runs, reports win rate by class
 ```
 
 The browser suite drives the real game in headless Chromium: the core loop, dungeon features,
 the trader, the story layer, the endgame, and an interface pass that asserts every
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
-crowded level renders inside a 60fps budget. It runs in about 25 seconds, and in CI on every
+crowded level renders inside a 60fps budget. It runs in about three minutes, and in CI on every
 push. `npm start` serves the game locally on port 4173 with no dependencies.
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
@@ -172,22 +172,22 @@ push and pull request.
 
 ## Balance
 
-Tuned against the simulator rather than by feel. Over 240 bot runs on a fixed seed set:
+Tuned against the simulator rather than by feel. Over 160 bot runs on a fixed seed set, heading
+straight down with rolled stats:
 
 | Class | Win rate | Average depth reached |
 | --- | --- | --- |
-| Fighter | 47% | 6.2 |
-| Cleric | 57% | 5.3 |
-| Mage | 30% | 5.5 |
-| Thief | 25% | 4.8 |
-| **Overall** | **40%** | **5.4** |
+| Fighter | 88% | 7.9 |
+| Cleric | 88% | 7.5 |
+| Mage | 70% | 7.7 |
+| Thief | 80% | 7.5 |
+| **Overall** | **81%** | **7.6** |
 
-Backgrounds are rotated across runs so the figures are not one perk repeated sixty times.
-Adding backgrounds and level-up choices lifted the overall rate from 26% and, more usefully,
-narrowed the spread between the strongest and weakest class from 33 points to 32 while raising
-the floor: the mage and thief gained the most, because a choice every third level is how a
-fragile character shores up the thing that keeps killing it. Pick more than eight levels at
-creation if you want the old difficulty back.
+Backgrounds are rotated across runs so the figures are not one perk repeated forty times. With
+stats placed as the creation screen places them (`FIT=1`) every class wins 86 to 94% of runs, and
+clearing each floor first (`EXPLORE=0.8`) wins more still. That is easier than it should be for
+a roguelike; a harder setting is the next piece of balance work. The bot is a steady player,
+not a great one: it does not step back from ordinary blows, so a careful human does better.
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
 mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
