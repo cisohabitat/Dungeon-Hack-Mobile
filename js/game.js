@@ -3340,7 +3340,7 @@ const Game = (() => {
   // lich at full strength, and allows only two rests on a floor.
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
-    normal: { hp: 1.3,  edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
+    normal: { hp: 1.3,  edge: 1, lich: 1.45, rests: [1, 0.5, 0.25], press: true },
     hard:   { hp: 1.45, edge: 2, lich: 2,    rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
