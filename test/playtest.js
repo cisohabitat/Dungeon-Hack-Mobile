@@ -553,7 +553,7 @@ function play(ctx, cls, seed, opts, bg) {
 }
 
 // MONSTERS=many (or few) measures a density other than the default
-const opts = { levels: 8, size: 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
+const opts = { levels: 8, size: 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: process.env.DIFF || 'normal' };
 // A fixed seed set so results are comparable between tuning passes. The dice are
 // seeded per run too, so the same command twice gives the same answer.
 // SEEDN / SEEDPFX pick a larger or different seed set (defaults: the 20 bench seeds)

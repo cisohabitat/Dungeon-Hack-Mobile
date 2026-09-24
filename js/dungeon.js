@@ -279,7 +279,8 @@ const Dungeon = (() => {
     }
 
     // ---- loot ----
-    const treasure = { scarce: 0.6, normal: 1.0, rich: 1.6 }[opts.treasure] || 1;
+    // an easy delve leaves more lying about
+    const treasure = ({ scarce: 0.6, normal: 1.0, rich: 1.6 }[opts.treasure] || 1) * (opts.difficulty === 'easy' ? 1.3 : 1);
     const nItems = Math.round(rooms.length * treasure * 0.8) + 2;
     const roomTiles = [];
     for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y)) roomTiles.push(i);

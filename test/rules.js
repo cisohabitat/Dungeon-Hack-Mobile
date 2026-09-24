@@ -4045,6 +4045,41 @@ await test('a hero ahead of the usual finds the next floor readier for them; one
   return true;
 });
 
+await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy leaves more about and never presses; old runs are Normal', async () => {
+  const floor = async (difficulty, level = 1) => {
+    const ctx = await newContext();
+    const { Game } = ctx;
+    const opts = { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' };
+    if (difficulty) opts.difficulty = difficulty;
+    Game.newGame({ name: 'D', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'diff', opts });
+    Game.player().level = level;
+    goDown(ctx);
+    const L = Game.level();
+    const items = Object.values(L.items).reduce((n, list) => n + list.length, 0);
+    return { ctx, L, hp: L.monsters.reduce((n, m) => n + m.maxHp, 0), items, hit: L.monsters.length ? Game.mstat(L.monsters[0]).hit : 0,
+      base: L.monsters.length ? ctx.MONSTERS[L.monsters[0].id].hit + (L.monsters[0].elite ? (ctx.ELITES.find(e => e.prefix === L.monsters[0].elite).hit || 0) : 0) : 0 };
+  };
+  const easy = await floor('easy'), normal = await floor('normal'), hard = await floor('hard'), old = await floor(null);
+  if (!(easy.hp < normal.hp && normal.hp < hard.hp)) return `life on the floor: easy ${easy.hp}, normal ${normal.hp}, hard ${hard.hp}`;
+  if (old.hp !== normal.hp) return `a run with no difficulty held ${old.hp} life, Normal ${normal.hp}`;
+  if (hard.hit !== hard.base + 1 || normal.hit !== normal.base) return `to hit: normal ${normal.hit} (base ${normal.base}), hard ${hard.hit} (base ${hard.base})`;
+  if (!(easy.items > normal.items)) return `items about: easy ${easy.items}, normal ${normal.items}`;
+  // two rests on a Hard floor, three on Normal
+  for (const [f, want] of [[hard, 2], [normal, 3]]) {
+    const { Game } = f.ctx; const p = Game.player(), G = Game.state();
+    p.food = 100;
+    // anything a rest wakes is cleared away, so only the floor's limit stops the next
+    for (let i = 0; i < 5; i++) { f.L.monsters.length = 0; p.hp = 1; G.t = Math.max(G.t + 60000, p.nextAttack); Game.input('rest'); }
+    const rested = f.L.rests || 0;
+    if (rested !== want) return `${want === 2 ? 'Hard' : 'Normal'} allowed ${rested} rests on a floor`;
+  }
+  // a strong hero on Easy is not pressed
+  const strongEasy = await floor('easy', 6), strongNormal = await floor('normal', 6);
+  if (strongEasy.L.press) return `Easy pressed a strong hero ${strongEasy.L.press}`;
+  if (!strongNormal.L.press) return 'Normal did not press a strong hero';
+  return true;
+});
+
 await test('on a readier floor its creatures hit surer and harder', async () => {
   const ctx = await newContext();
   const { Game, MONSTERS } = ctx;

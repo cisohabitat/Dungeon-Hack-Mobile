@@ -161,6 +161,7 @@
  * @property {string} monsters @property {string} treasure
  * @property {boolean} lockedDoors @property {boolean} traps
  * @property {boolean} [permadeath]
+ * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  */
 
 /**

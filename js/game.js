@@ -421,8 +421,9 @@ const Game = (() => {
   const NO_ELITE = { prefix: '', hp: 1, ac: 0, hit: 0, dmg: 0, xp: 1, speed: 1, tint: '#fff' };
   function mstat(m) {
     const s = mstatBase(m);
-    // a floor readier for a strong hero: its creatures hit surer and harder
-    return m.edge ? { ...s, hit: s.hit + m.edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + m.edge] } : s;
+    // a floor readier for a strong hero, or a harder delve: its creatures hit surer and harder
+    const edge = (m.edge || 0) + diff().edge;
+    return edge ? { ...s, hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : s;
   }
   function mstatBase(m) {
     const b = MONSTERS[m.id];
@@ -875,7 +876,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); hardenLevel(G.levels[depth]); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2196,11 +2197,12 @@ const Game = (() => {
   // you, and after three there is no more sleep to be had on that floor. Out of a fight, wounds close by themselves only up to half the hero's
   // life; the rest of the way is a rest, a draught or a prayer. Life becomes a
   // thing to spend, so a floor's fights add up instead of each starting fresh.
-  const REST_FOOD = 6, REST_DECAY = 0.5, RESTS_PER_FLOOR = 3;
+  const REST_FOOD = 6;
   const AMBUSH_STEP = 0.3, AMBUSH_MOST = 0.75;
   const REGEN_CAP = 0.5;
   /** How much of the hero's life the next rest on this floor gives back. */
-  function restShare() { const n = lvl().rests || 0; return n >= RESTS_PER_FLOOR ? 0 : Math.pow(REST_DECAY, n); }
+  // each rest on a floor restores less than the last: all, then half, then a quarter (on Hard, two only)
+  function restShare() { const n = lvl().rests || 0, r = diff().rests; return n >= r.length ? 0 : r[n]; }
   /** Something of this floor finds the sleeper: awake, a few steps off. */
   function ambush() {
     const L = lvl();
@@ -2699,6 +2701,28 @@ const Game = (() => {
     learn(m.id, 'trick');
     Sound.play('raise', heard({ x, y }));
   }
+  // ---------- how hard the delve is ----------
+  // Chosen when the hero is made. Normal is the delve as meant. Easy leaves
+  // more lying about and never grows the deep to meet a strong hero. Hard
+  // makes everything sturdier and surer, the lich at full strength, and
+  // allows only two rests on a floor.
+  const DIFFICULTY = {
+    easy:   { hp: 0.9,  edge: 0, lich: 0.85, rests: [1, 0.5, 0.25], press: false },
+    normal: { hp: 1.15, edge: 0, lich: 1.15, rests: [1, 0.5, 0.25], press: true },
+    hard:   { hp: 1.35, edge: 1, lich: 1.4,  rests: [1, 0.5],       press: true },
+  };
+  /** The run's difficulty settings; a run from before there was a choice is Normal. */
+  const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
+  /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
+  function hardenLevel(L) {
+    const k = diff();
+    for (const m of L.monsters) {
+      const f = MONSTERS[m.id].boss ? k.lich : k.hp;
+      m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
+      for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
+    }
+  }
+
   // ---------- the deep answers strength ----------
   // A hero who has out-grown a floor finds it waiting for them. For every
   // level above what a hero usually has on arriving there (past half a level
@@ -2711,7 +2735,7 @@ const Game = (() => {
   const expectedLevel = depth => 1 + 0.8 * (depth - 1);
   /** @param {import('./types.js').Level} L @param {number} depth */
   function pressLevel(L, depth) {
-    const over = Math.max(0, Math.min(PRESS_MOST, P().level - expectedLevel(depth) - PRESS_GRACE));
+    const over = diff().press ? Math.max(0, Math.min(PRESS_MOST, P().level - expectedLevel(depth) - PRESS_GRACE)) : 0;
     L.press = Math.round(over * 10) / 10;
     if (!L.press) return;
     const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
@@ -2730,7 +2754,7 @@ const Game = (() => {
   function newMonster(id, x, y, hp) {
     // what comes later on a floor is as ready for the hero as what was there
     const press = lvl().press || 0;
-    hp = Math.max(1, Math.round(hp * (1 + PRESS_HP * press)));
+    hp = Math.max(1, Math.round(hp * diff().hp * (1 + PRESS_HP * press)));
     const m = {
       uid: 900000 + (G.nextUid = (G.nextUid || 0) + 1), id, x, y,
       hp, maxHp: hp, awake: true, nextAct: G.t + WAKE_BEAT, rx: x, ry: y,
