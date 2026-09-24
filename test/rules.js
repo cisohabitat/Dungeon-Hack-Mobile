@@ -128,6 +128,35 @@ await test('a second blade buys damage with rhythm, not for free', async () => {
   return true;
 });
 
+await test('the off hand swings after the main hand, hit or miss, but not after a killing blow', async () => {
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx;
+  Game.newGame({ name: 'O', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'offhand-miss', opts: OPTS });
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  p.eq.shield = null; p.eq.weapon = { t: 'shortsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const put = hp => { L.monsters.length = 0; L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp, maxHp: hp,
+    awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 }); };
+  const swing = () => { G.t = p.nextAttack; const at = markLog(G); Game.input('attack'); return linesSince(G, at); };
+  const second = ls => ls.some(l => /^Your off hand finds|^Your dagger goes wide/.test(l));
+  // every blow misses: the off hand still has its go each time
+  p.perkHit = -60; put(500);
+  let missed = 0;
+  for (let i = 0; i < 20; i++) {
+    const ls = swing();
+    if (!ls.some(l => /^You miss/.test(l))) continue;      // a natural twenty still lands
+    missed++;
+    if (!second(ls)) return `a miss left the off hand still: ${ls.join(' | ')}`;
+  }
+  if (missed < 12) return `only ${missed} of twenty sure misses missed`;
+  // a killing blow leaves nothing for the second blade to strike
+  p.perkHit = 60; put(1);
+  const ls = swing();
+  if (!ls.some(l => /destroyed/.test(l))) return `the goblin lived: ${ls.join(' | ')}`;
+  if (second(ls)) return `the off hand struck a dead goblin: ${ls.join(' | ')}`;
+  return true;
+});
+
 await test('no fighter build is dead: each of the three wins somewhere', async () => {
   // Measured through the real attack code, not arithmetic on the tables: a
   // shield trades damage for armour, a two-handed sword lands fewer heavier

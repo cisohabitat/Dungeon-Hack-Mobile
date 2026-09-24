@@ -203,9 +203,9 @@ const Renderer = (() => {
   // lands on whole view pixels in a steady pattern rather than a ragged one
   const handK = () => Math.max(1, Math.round(H / 142 * 0.72 * 4) / 4);
   /** Draw a painted frame with its hand (or centre) at view point (x, y). */
-  function put(fr, x, y) {
+  function put(fr, x, y, s = 1) {
     if (!fr) return;
-    const k = handK();
+    const k = handK() * s;
     ctx.drawImage(fr.img, Math.round(x - fr.ax * k), Math.round(y - fr.ay * k), Math.round(fr.img.width * k), Math.round(fr.img.height * k));
   }
   // where the hand is in each pose, as a fraction of the view: low, and out
@@ -227,8 +227,16 @@ const Renderer = (() => {
     const dx = bx + jx, dy = by + jy;
     const u = (now - fx.swingAt) / (fx.swingMs || 300);
     const swinging = u >= 0 && u < 1;
-    const ou = (now - fx.offAt) / 260;
-    const jab = ou >= 0 && ou < 1 ? Math.sin(ou * Math.PI) : 0;
+    // the off hand's blow: it draws back a touch, drives in toward the middle
+    // (smaller as it goes, reaching into the screen), then comes home. It
+    // starts once the main cut has landed, so two blades read as a one-two.
+    const ou = (now - fx.offAt) / 380;
+    let ox = 0, oy = 0, os = 1, opose = 'left';
+    if (ou >= 0 && ou < 1) {
+      if (ou < 0.2) { const e = ease(ou / 0.2); ox = -e * W * 0.03; oy = e * H * 0.05; }
+      else if (ou < 0.5) { const e = ease((ou - 0.2) / 0.3); ox = W * (-0.03 + e * 0.27); oy = H * (0.05 - e * 0.23); os = 1 - e * 0.2; opose = 'thrust'; }
+      else { const e = ease((ou - 0.5) / 0.5); ox = W * 0.24 * (1 - e); oy = -H * 0.18 * (1 - e); os = 0.8 + e * 0.2; opose = e < 0.4 ? 'thrust' : 'left'; }
+    }
     // casting: the off hand rises into view, alight, and what it held dips
     const cu = (now - fx.castAt) / 520;
     const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
@@ -270,7 +278,7 @@ const Renderer = (() => {
       put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4, y + dy + cast * H * 0.4 + hurt * 6);
     } else if (v.offhand) {
       const [x, y] = at('left');
-      put(Assets.held(v.offhand, 'left', v.cls, false), x + dx + jab * W * 0.14, y + dy - jab * H * 0.1 + cast * H * 0.4);
+      put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4, os);
     }
     if (cast > 0) {
       const [x, y] = at('cast'), cy = y + (1 - cast) * H * 0.35 + by;

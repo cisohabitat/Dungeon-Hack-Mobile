@@ -35,6 +35,8 @@ const POSES = {
   fist:    { a: deg(-96), arm: deg(58), bare: true },
   punch:   { a: deg(-92), arm: deg(46), bare: true },
   left:    { a: deg(-78), arm: deg(130), left: true },
+  // the off hand driving its blade in toward the middle, a stab into the screen
+  thrust:  { a: deg(-42), arm: deg(150), left: true },
   cast:    { a: deg(-90), arm: deg(108), open: true, left: true },
 };
 // room around the hand; big enough for a greataxe pointing any way

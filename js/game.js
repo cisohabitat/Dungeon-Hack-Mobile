@@ -212,8 +212,10 @@ const Game = (() => {
     return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0, blunt: !!b.blunt };
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
-  const DUAL_SWING_COST = 1.15;
+  const DUAL_SWING_COST = 1.2;
   const DUAL_HIT_PENALTY = 3;
+  // a missed first blow leaves you off balance, and the second swings wilder still
+  const OFF_BALANCE = 3;
   const OFFHAND_MAX_SPEED = 550;   // dagger, club, short sword: nothing heavier
   /** Why this cannot ride in the off hand, or null if it can. */
   function offhandReason(it) {
@@ -1537,6 +1539,8 @@ const Game = (() => {
       Sound.play('glance', heard(m));
       floatText(m, 'miss', '#e4e4ee');
       sparks(m);
+      // a miss with one blade is no reason the other stays still
+      offhandStrike(m, atRange, true);
       return;
     }
     // Thieves strike where it counts rather than swinging hard, so their bonus
@@ -1578,7 +1582,7 @@ const Game = (() => {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
-    // the second blade follows only if the foe is still where the first struck it:
+    // the second blade follows, hit or miss, but only if the foe is still where the first struck it:
     // a lich that has come apart into shadow is no longer there to hit
     if (m.hp > 0 && m.x === struckX && m.y === struckY && lvl().monsters.includes(m)) offhandStrike(m, atRange);
   }
@@ -1587,14 +1591,16 @@ const Game = (() => {
    * your strength behind it, so two light weapons beat one heavy one only
    * against the sort of thing that is easy to hit in the first place.
    */
-  function offhandStrike(m, atRange) {
+  function offhandStrike(m, atRange, afterMiss = false) {
     const o = offhandWeapon();
     if (!o || atRange) return;
-    fx.offAt = realNow + 90;
+    const penalty = DUAL_HIT_PENALTY + (afterMiss ? OFF_BALANCE : 0);
+    // the second blade comes in once the first cut has landed: a one-two, not both at once
+    fx.offAt = realNow + Math.round((fx.swingMs || 300) * 0.4);
     const mb = mstat(m);
     const roll = d(1, 20);
-    const note = rollNote(roll, toHit() - DUAL_HIT_PENALTY, mb.ac, false);
-    if (roll === 1 || roll + toHit() - DUAL_HIT_PENALTY < mb.ac) {
+    const note = rollNote(roll, toHit() - penalty, mb.ac, false);
+    if (roll === 1 || roll + toHit() - penalty < mb.ac) {
       log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
