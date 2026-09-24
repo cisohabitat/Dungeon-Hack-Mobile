@@ -3638,6 +3638,8 @@ await test('the lich snuffs its torches and exactly their light; a blow through 
     const { Game, Dungeon } = ctx; const L = Game.level(), T = Dungeon.T;
     const { m, torch } = lichRoom(ctx, {});
     const at = [m.x, m.y];
+    // a blow heavy enough to go from above the first mark to below the second at once
+    Game.player().stats.str = 30;
     woundTo(ctx, m, m.maxHp / 3);        // from full straight past both marks
     if (m.phase !== 2) out.push(`phase ${m.phase}`);
     else {
