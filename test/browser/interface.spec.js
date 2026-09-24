@@ -464,6 +464,25 @@ test.describe('round five playtest', () => {
     expect(errors).toEqual([]);
   });
 
+  test('How to Play is split into pages, one shown at a time', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-help');
+    await expect(page.locator('[data-hpage="basics"]')).toBeVisible();
+    await expect(page.locator('[data-hpage="combat"]')).toBeHidden();
+    await page.click('[data-htab="combat"]');
+    await expect(page.locator('[data-hpage="combat"]')).toBeVisible();
+    await expect(page.locator('[data-hpage="basics"]')).toBeHidden();
+    await expect(page.locator('[data-htab="combat"]')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#screen-help')).toContainText('warning mark');
+    // every page has something on it
+    for (const k of ['basics', 'combat', 'hero', 'gear', 'modes']) {
+      await page.click(`[data-htab="${k}"]`);
+      expect((await page.locator(`[data-hpage="${k}"]`).innerText()).length).toBeGreaterThan(500);
+    }
+    expect(errors).toEqual([]);
+  });
+
   test('a tap on a tip puts it away, and does not act in the dungeon', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

@@ -594,6 +594,51 @@ const Assets = (() => {
     return c;
   }
 
+  // A door a beast is battering shows each blow: a plank splits, then the
+  // splits run and an iron band bends, and on the third the wood gives
+  // enough to show the dark behind it. One more and it bursts.
+  const DOOR_CRACKS = [
+    // [x, y] runs of a split, drawn dark with a pale splintered edge beside it
+    [[[20, 20], [21, 26], [19, 31], [21, 38], [20, 44]], [[37, 52], [38, 57], [36, 62]]],
+    [[[29, 6], [30, 11]], [[44, 19], [43, 25], [45, 32], [44, 40]], [[12, 22], [13, 30], [11, 36]]],
+    [[[27, 24], [33, 21], [36, 29], [34, 37], [27, 38], [24, 31], [27, 24]]],
+  ];
+  const cracked = new WeakMap();
+  /** The door texture with the damage of n blows on it (n from 1 to 3). */
+  function crackedDoor(door, n) {
+    let set = cracked.get(door);
+    if (!set) cracked.set(door, set = []);
+    if (set[n]) return set[n];
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d');
+    ctx.drawImage(door, 0, 0);
+    for (let i = 0; i < Math.min(n, DOOR_CRACKS.length); i++) {
+      for (const run of DOOR_CRACKS[i]) {
+        for (let j = 1; j < run.length; j++) {
+          const [x0, y0] = run[j - 1], [x1, y1] = run[j];
+          const steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
+          for (let k = 0; k <= steps; k++) {
+            const x = Math.round(x0 + (x1 - x0) * k / steps), y = Math.round(y0 + (y1 - y0) * k / steps);
+            ctx.fillStyle = '#140c06'; ctx.fillRect(x, y, 1, 1);
+            ctx.fillStyle = '#b08a5a'; ctx.fillRect(x + 1, y, 1, 1);
+          }
+        }
+      }
+    }
+    if (n >= 2) {
+      // the lower band is bent in where the blows land
+      ctx.fillStyle = '#3a3d44'; ctx.fillRect(24, 47, 16, 3);
+      ctx.fillStyle = '#6c7078'; ctx.fillRect(24, 50, 16, 1);
+    }
+    if (n >= 3) {
+      // a hole through the planks, dark behind, ringed with splinters
+      ctx.fillStyle = '#050302';
+      ctx.fillRect(27, 26, 7, 10); ctx.fillRect(26, 28, 9, 6); ctx.fillRect(29, 24, 3, 14);
+      ctx.fillStyle = '#c29a66';
+      for (const [x, y] of [[26, 26], [34, 27], [25, 33], [35, 34], [30, 23], [28, 38], [33, 37]]) ctx.fillRect(x, y, 1, 2);
+    }
+    return (set[n] = c);
+  }
+
   function makeStairs(theme, wallTex, down) {
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
@@ -857,7 +902,7 @@ const Assets = (() => {
     return fr;
   }
 
-  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried };
+  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried, crackedDoor };
 })();
 
 export { Assets };

@@ -323,7 +323,8 @@ const Renderer = (() => {
       } else {
         let q = r;
         if (swinging) { const e = ease((u - 0.62) / 0.38); q = [top[0] + (r[0] - top[0]) * e, top[1] + (r[1] - top[1]) * e]; }
-        put(Assets.held(v.weapon, 'rest', v.cls, false), q[0] + dx, q[1] + dy);
+        // the pouch comes down empty: the next stone is only fitted once the arm is home
+        put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + dx, q[1] + dy);
       }
     } else if (v.weapon && /throwknife$/.test(v.weapon)) {
       // a throw, not a slash: the hand cocks back up by the ear, snaps forward
@@ -1018,6 +1019,10 @@ const Renderer = (() => {
       if (!img) {
         if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
+      }
+      if (tile === T.DOOR || tile === T.DOOR_LOCKED) {
+        const blows = level.doorBlows && level.doorBlows[mapX + ',' + mapY];
+        if (blows) img = Assets.crackedDoor(img, blows);
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       let shade = dist / FOG + (side === 1 ? 0.12 : 0);

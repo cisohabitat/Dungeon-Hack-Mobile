@@ -45,7 +45,8 @@ function loop(now) {
   if (G && UI.isPlaying()) {
     if (G.status === 'playing' && !UI.paused()) {
       UI.pumpHeld();
-      Game.update(now, dt);
+      // the first warning mark is learnt with time slowed
+      Game.update(now, dt * UI.timeScale());
     } else {
       Game.tick(now);
     }

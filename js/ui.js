@@ -424,7 +424,13 @@ const UI = (() => {
   const TIPS_SEEN = 'deepdelve.tipsSeen', TIPS_OFF = 'deepdelve.tipsOff';
   const TIPS = {
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
-    monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
+    // the first fight is walked through a step at a time: face it, strike it,
+    // step back from its blow (with time slowed while that is learnt)
+    face: 'Something is coming, and not from in front. <b>Turn to face it</b>: the red chevron at the edge of the view points the way.',
+    monster: 'Something is coming. When it is in front of you, tap <b>⚔ Attack</b> to strike it.',
+    dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
+    dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
+    late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
     trick: 'A <b>violet mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
@@ -446,6 +452,13 @@ const UI = (() => {
   /** The tips that each tell the answer to one trick. */
   const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
+  let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
+  // The first fight on this device is coached. It starts with the first foe's
+  // tip and ends once a warning mark has been stepped back from, or not.
+  let coaching = false, coachNext = '';
+  /** Tips that stay up until what they ask for is done, not for a set time. */
+  const HOLD_TIPS = ['face', 'monster', 'dodge'];
+  const HOLD_MAX = 15000;
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
@@ -463,23 +476,68 @@ const UI = (() => {
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
-    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; }
+    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; tipSwing = p0.nextAttack; }
     // in a fight a tip keeps out of the way sooner
     const L = Game.level(), p = Game.player();
     const fighting = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     tipUntil = tipAt + (fighting ? 4000 : 7000);
     return true;
   }
+  function seenTip(id) {
+    if (!tipsSeen) { try { tipsSeen = JSON.parse(store(TIPS_SEEN) || '[]'); } catch (e) { tipsSeen = []; } }
+    return tipsSeen.includes(id);
+  }
+  /** The first foe awake and close, or null. */
+  function firstFoe() {
+    const p = Game.player(), L = Game.level();
+    let best = null, bd = 4;
+    for (const m of L.monsters) {
+      const dd = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+      if (m.awake && dd < bd) { best = m; bd = dd; }
+    }
+    return best;
+  }
+  /** Whether a monster stands in front of the hero, in the line they face. */
+  function inFront(m) {
+    const p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
+    const ax = m.x - p.x, ay = m.y - p.y;
+    return (dx ? ay === 0 && Math.sign(ax) === dx : ax === 0 && Math.sign(ay) === dy);
+  }
+  /** A plain blow (not a trick) being drawn back right beside the hero. */
+  const blowComing = () => {
+    const p = Game.player();
+    return Game.level().monsters.some(m => m.windup && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+  };
+  /** How fast the dungeon runs: slowed while the first warning mark is being answered. */
+  function timeScale() {
+    const el = $('#tip');
+    return coaching && el && el.classList.contains('show') && el.dataset.tip === 'dodge' && Game.state() && blowComing() ? 0.3 : 1;
+  }
   function checkTips() {
     const now = performance.now();
     const el = $('#tip');
-    if (el && el.classList.contains('show') && now > tipUntil) el.classList.remove('show');
+    // what a tip asks for, while it is still to be done
+    const G0 = Game.state();
+    const wants = el && G0 && G0.status === 'playing' ? {
+      face: () => { const m = firstFoe(); return !!m && !inFront(m); },
+      monster: () => Game.player().nextAttack === tipSwing && !!firstFoe(),
+      dodge: blowComing,
+    }[el.dataset.tip || ''] : null;
+    const held = wants && HOLD_TIPS.includes(el.dataset.tip || '') && now - tipAt < HOLD_MAX && wants();
+    if (el && el.classList.contains('show') && now > tipUntil && !held) el.classList.remove('show');
+    // a coached step done goes at once (once read), and the next can come
+    if (el && el.classList.contains('show') && wants && !wants() && now - tipAt > 900) {
+      el.classList.remove('show'); tipUntil = now;
+      if (el.dataset.tip === 'dodge') {
+        const p2 = Game.player();
+        coachNext = `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : 'late';
+      }
+    }
     // a tip about the thing in front of you goes when that thing does
     const USE_TIPS = { take: 'Take', stairs: 'Descend', examine: 'Examine', trade: 'Trade' };
     if (el && el.classList.contains('show') && USE_TIPS[el.dataset.tip || ''] && Game.state() && Game.useLabel() !== USE_TIPS[el.dataset.tip || '']) { el.classList.remove('show'); tipUntil = now; }
     // a warning goes when what it warned of does: a wind-up come down, an
     // opening taken or gone. It stays long enough to be read first.
-    const G0 = Game.state();
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
@@ -488,7 +546,7 @@ const UI = (() => {
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
-    if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
+    if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; coaching = false; }
     // the controls tip has done its work once the hero has moved or turned
     if (el && el.classList.contains('show') && el.dataset.tip === 'controls' && G0 && now - tipAt > 1500) {
       const p2 = Game.player();
@@ -513,13 +571,26 @@ const UI = (() => {
     // button's tip all wait while a trick's own answer is being read:
     // replacing it a quarter second later would teach nothing at all
     const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
+    // nor do they cut into a coached step of the first fight
+    const coachUp = coaching && $('#tip').classList.contains('show') && HOLD_TIPS.includes($('#tip').dataset.tip || '');
     // the first time a scroll is worth reading, say where its button is
-    if (!answering && !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
-    if (!answering && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
+    if (!answering && !coachUp && !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
+    if (!answering && !coachUp && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     // the first foe is taught at once, over the controls tip if it is still up:
-    // a first goblin used to die before its lesson got a turn
-    if (close && !answering && showTip('monster', true)) return;
+    // a first goblin used to die before its lesson got a turn. It is walked
+    // through: turn to it if it is not ahead, strike it, then step back from
+    // its first blow, and say how that went.
+    if (close && !answering && !seenTip('monster')) {
+      const m = firstFoe();
+      if (m && !inFront(m) && showTip('face', true)) { coaching = true; return; }
+      if (m && inFront(m) && showTip('monster', true)) { coaching = true; return; }
+    }
+    if (coaching && !answering) {
+      if (coachNext) { const next = coachNext; coachNext = ''; coaching = false; if (showTip(next, true)) return; }
+      else if (blowComing() && showTip('dodge', true)) return;
+      else if (!firstFoe() && !(el && el.classList.contains('show'))) coaching = false;
+    }
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
     // covers the view just when it matters most. Quiet means nothing awake in
     // throwing distance, no lich about, and no blow taken for five seconds
@@ -626,6 +697,11 @@ const UI = (() => {
   // Teleport when cornered and failing. It is not there the rest of the time.
   const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'] };
   let quickSig = '';
+  function helpTab(which) {
+    for (const t of $$('[data-htab]')) { const on = t.dataset.htab === which; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
+    for (const pg of $$('[data-hpage]')) pg.hidden = pg.dataset.hpage !== which;
+    $('#screen-help').scrollTop = 0;
+  }
   function refreshQuickScroll() {
     const it = Game.quickScroll();
     const sig = it ? `${it.t}|${it.q}` : '';
@@ -1786,6 +1862,8 @@ const UI = (() => {
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#hall-relics').addEventListener('click', () => { $('#relics-count').textContent = renderCodex($('#relics-list')); showScreen('screen-relics'); });
     $('#relics-back').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
+    // the help is split into pages, so a first look is a page, not a wall
+    for (const t of $$('[data-htab]')) t.addEventListener('click', () => helpTab(t.dataset.htab));
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
     $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
@@ -1827,7 +1905,7 @@ const UI = (() => {
     isPlaying: () => $('#screen-game').classList.contains('active'),
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
-    tips: () => ({ ...TIPS }) };
+    tips: () => ({ ...TIPS }), timeScale };
 })();
 
 export { UI };

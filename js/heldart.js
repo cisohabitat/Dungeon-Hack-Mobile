@@ -38,7 +38,11 @@ const POSES = {
   // the off hand driving its blade in toward the middle, a stab into the screen
   thrust:  { a: deg(-42), arm: deg(150), left: true },
   cast:    { a: deg(-90), arm: deg(108), open: true, left: true },
+  // a sling hanging as at rest, its stone just let go
+  loosed:  { a: deg(-100), arm: deg(52), empty: true },
 };
+// the stone's own colours in the sling's picture, left out once it is thrown
+const SLING_STONE = ['#8e8a84', '#d8d4cc', '#6a6660', '#ffffff'];
 // room around the hand; big enough for a greataxe pointing any way
 const GRID = 72, C = GRID / 2;
 
@@ -195,7 +199,7 @@ function heldParts(id, pose, cls, two = false) {
     const d = g.fixed ? 0 : P.a - ICON_AXIS, cos = Math.cos(d), sin = Math.sin(d);
     const [gx, gy] = g.at;
     const f = (x, y) => [C + (x - gx) * cos - (y - gy) * sin, C + (x - gx) * sin + (y - gy) * cos];
-    weapon = art().map(p => moved(p, f));
+    weapon = art().filter(p => !(P.empty && base === 'sling' && SLING_STONE.includes(p.c))).map(p => moved(p, f));
     if (two && g.second) {
       const [sx, sy] = f(...g.second);
       const h2 = hand(sx, sy, P.a, P.arm + deg(62), cls, { left: true });

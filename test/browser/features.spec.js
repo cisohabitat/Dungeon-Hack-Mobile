@@ -579,6 +579,55 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the first fight is coached: face it, strike it, step back from its blow with time slowed', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'coached' });
+    await clearBoons(page);
+    // a rat awake on the hero's right, so the first step is to turn to it
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4], [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4];
+      L.tiles[(p.y + ry) * L.w + p.x + rx] = Dungeon.T.FLOOR; L.tiles[(p.y + by) * L.w + p.x + bx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 96, id: 'rat', x: p.x + rx, y: p.y + ry, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('Turn to face it', { timeout: 2000 });
+    await page.evaluate(() => Game.input('right'));
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 3000 });
+    // the strike tip waits for the strike, past the time an ordinary tip would go
+    await page.waitForTimeout(4500);
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack');
+    await page.evaluate(() => { const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack'); });
+    await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 3000 });
+    // its first blow: the warning comes with time slowed, and a step back answers it
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
+    await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
+    expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
+    await page.evaluate(() => Game.input('back'));
+    await expect(page.locator('#tip')).toContainText('hit empty air', { timeout: 4000 });
+    expect(await page.evaluate(() => UI.timeScale())).toBe(1);
+    expect(errors).toEqual([]);
+  });
+
+  test('a first blow not stepped back from is called too slow, and time runs on after it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'coached-late' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      p.hp = p.maxHp = 500;
+      L.monsters.push({ uid: 95, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
+    await page.evaluate(() => { const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack'); });
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
+    await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
+    await expect(page.locator('#tip')).toContainText('Too slow', { timeout: 6000 });
+    expect(await page.evaluate(() => UI.timeScale())).toBe(1);
+    expect(errors).toEqual([]);
+  });
+
   test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
