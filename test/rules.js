@@ -152,7 +152,7 @@ await test('the off hand swings after the main hand, hit or miss, but not after 
   // a killing blow leaves nothing for the second blade to strike
   p.perkHit = 60; put(1);
   const ls = swing();
-  if (!ls.some(l => /destroyed/.test(l))) return `the goblin lived: ${ls.join(' | ')}`;
+  if (!ls.some(l => /destroyed|slain/.test(l))) return `the goblin lived: ${ls.join(' | ')}`;
   if (second(ls)) return `the off hand struck a dead goblin: ${ls.join(' | ')}`;
   return true;
 });
@@ -235,7 +235,7 @@ await test('the combat log shows the roll that decided the swing, and it is true
     if (!m) continue;
     const [roll, bonus, shownAc] = [Number(m[1]), Number(m[2]), Number(m[3])];
     if (shownAc !== ac) return `the log claimed AC ${shownAc}, the goblin has ${ac}`;
-    const landed = /^You hit |^Your off hand|destroyed/.test(l);
+    const landed = /^You hit |^Your off hand|destroyed|slain/.test(l);
     if (landed && roll + bonus < shownAc) return `a hit was logged as ${roll}+${bonus} against AC ${shownAc}`;
     if (!landed && roll + bonus >= shownAc) return `a miss was logged as ${roll}+${bonus} against AC ${shownAc}`;
   }
@@ -2656,7 +2656,7 @@ await test('a shut door: a goblin opens it, an ogre smashes it at once, a rat ba
     if (want === 'smash' && !/smashes a door to splinters/.test(said)) out.push(`${id} said: ${said}`);
     if (want === 'batter') {
       const speed = ctx.MONSTERS.rat.speed;
-      if (!/batters at a shut door/.test(said) || !/breaks a door to splinters/.test(said)) out.push(`${id} said: ${said}`);
+      if (!/batters at a shut door/.test(said) || !/buckles: one more blow/.test(said) || !/bursts through a door/.test(said)) out.push(`${id} said: ${said}`);
       if (broke - first < 2 * speed) out.push(`${id}: broke through ${broke - first}ms after its first blow`);
     } else if (broke - first > 100) out.push(`${id}: took ${broke - first}ms at the door`);
   }
@@ -3320,14 +3320,14 @@ await test('the log tells what happened before what the bestiary learned from it
   const trick = said.findIndex(l => /rears back to spit a web/.test(l)), note = said.findIndex(l => /^Bestiary, Cave Spider/.test(l));
   if (trick < 0 || note < 0 || note < trick) return `order: ${said.join(' | ')}`;
   if (said.filter(l => /^Bestiary/.test(l)).length !== 1) return `more than one bestiary line: ${said.join(' | ')}`;
-  // and a kill: destroyed first, then one note
+  // and a kill: slain first, then one note
   const m2 = beside(ctx, 'rat', { uid: 612, hp: 1, maxHp: 1, nextAct: 1e12 });
   let k = markLog(G);
   // a natural 1 misses whatever the bonus: swing again until the blow lands
   for (let i = 0; i < 20 && Game.level().monsters.includes(m2); i++) { k = markLog(G); G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
   const after = linesSince(G, k);
   void m; void m2;
-  const dead = after.findIndex(l => /destroyed/.test(l)), n2 = after.findIndex(l => /^Bestiary, Giant Rat/.test(l));
+  const dead = after.findIndex(l => /destroyed|slain/.test(l)), n2 = after.findIndex(l => /^Bestiary, Giant Rat/.test(l));
   return (dead >= 0 && n2 > dead && after.filter(l => /^Bestiary/.test(l)).length === 1) || `order: ${after.join(' | ')}`;
 });
 

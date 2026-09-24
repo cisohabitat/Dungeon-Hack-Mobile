@@ -214,6 +214,9 @@
         </div>
         <div class="view-wrap">
           <canvas id="view" width="320" height="200"></canvas>
+          <!-- a tip lies along the top of the view, over the ceiling: never over
+               the fight below it, nor over the log it may point to -->
+          <div id="tip" class="tip" role="status" aria-live="polite"></div>
           <div id="hud-status" class="hud-status"></div>
           <!-- a scroll worth reading this moment, in reach of the left thumb; there only while it is -->
           <button id="quick-scroll" class="quick-scroll" data-tap="read" hidden><img alt=""><small></small></button>
@@ -221,9 +224,7 @@
         </div>
         <!-- the history opens from its own button, in the corner furthest from
              the d-pad: the whole log used to be a button, right above it -->
-        <!-- a tip lies over the top of the log, never over the view: the fight
-             stays in sight, and the newest lines of the log still show below it -->
-        <div class="log-more-anchor"><div id="tip" class="tip" role="status" aria-live="polite"></div><button id="log-more" class="log-more" aria-label="Message history">≡ Log</button></div>
+        <div class="log-more-anchor"><button id="log-more" class="log-more" aria-label="Message history">≡ Log</button></div>
         <div id="log" class="log"></div>
       </div>
       <div class="ctrl-col">

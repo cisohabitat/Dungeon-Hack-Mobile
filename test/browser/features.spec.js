@@ -461,7 +461,7 @@ test.describe('dungeon features', () => {
       L.monsters.push({ uid: 9, id: 'ghoul', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
         windup: { kind: 'move', move: 'paralyse', at: G.t, until: G.t + 60000 } });
     });
-    await expect(page.locator('#tip')).toContainText('Strike it now', { timeout: 2000 });
+    await expect(page.locator('#tip')).toContainText('Step back', { timeout: 2000 });
     // the claw is gone: so is its warning, and a web is next
     await page.evaluate(() => { Game.level().monsters.length = 0; });
     await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 4000 });
@@ -511,43 +511,38 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a tip lies over the log, never over the view, and leaves the Log button and the newest line clear', async ({ page }) => {
+  test('a tip lies along the top of the view: off the log, off the fight in the middle, and off the controls', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'tip-place' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toHaveClass(/show/);
     const r = await page.evaluate(() => {
       const box = id => document.getElementById(id).getBoundingClientRect();
-      const tip = box('tip'), view = box('view'), btn = box('log-more'), log = box('log');
-      // the last line of the newest entry, which may wrap onto two
-      const last = [...document.querySelectorAll('#log div')].filter(d => d.textContent).pop();
-      let lb = null;
-      if (last) { const rg = document.createRange(); rg.selectNodeContents(last); const rs = [...rg.getClientRects()]; lb = rs[rs.length - 1]; }
-      return { overView: tip.top < view.bottom - 1, overButton: tip.right > btn.left + 1, inLog: tip.top >= log.top - 3 && tip.bottom <= log.bottom + 3,
-        newestShows: !lb || lb.bottom <= tip.top + 1 || lb.top >= tip.bottom - 1 };
+      const tip = box('tip'), view = box('view'), log = box('log');
+      return { inView: tip.top >= view.top - 1 && tip.bottom <= view.bottom + 1, overLog: tip.bottom > log.top + 1,
+        upperHalf: tip.bottom <= view.top + view.height * 0.5 + 1 };
     });
-    expect(r.overView, 'the tip covers the view').toBe(false);
-    expect(r.overButton, 'the tip covers the Log button').toBe(false);
-    expect(r.inLog, 'the tip should lie over the log').toBe(true);
-    expect(r.newestShows, 'the tip hides the newest line of the log').toBe(true);
+    expect(r.inView, 'the tip should lie on the view').toBe(true);
+    expect(r.overLog, 'the tip covers the log').toBe(false);
+    expect(r.upperHalf, 'the tip reaches down into the fight').toBe(true);
     expect(errors).toEqual([]);
   });
 
-  test('every tip fits whole over the log, on a small phone and a large one', async ({ page }) => {
+  test('every tip fits whole in the top half of the view, on a small phone and a large one', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 568 });
     await startGame(page, { seed: 'tip-fit' });
     for (const [width, height] of [[320, 568], [393, 727]]) {
       await page.setViewportSize({ width, height });
       await page.waitForTimeout(300);
       const cut = await page.evaluate(() => {
-        const el = document.getElementById('tip'), log = document.getElementById('log').getBoundingClientRect();
+        const el = document.getElementById('tip'), view = document.getElementById('view').getBoundingClientRect();
         el.classList.add('show');
         const out = [];
         for (const [k, v] of Object.entries(UI.tips())) {
           el.innerHTML = v;
           const r = el.getBoundingClientRect();
           if (el.scrollHeight > el.clientHeight + 1) out.push(`${k} is cut off (${el.scrollHeight} > ${el.clientHeight})`);
-          if (r.bottom > log.bottom + 2) out.push(`${k} runs past the log onto the controls`);
+          if (r.bottom > view.top + view.height * 0.5 + 1) out.push(`${k} reaches down into the fight (${Math.round(r.bottom - view.top)} of ${Math.round(view.height)})`);
         }
         return out;
       });
@@ -555,14 +550,69 @@ test.describe('dungeon features', () => {
     }
   });
 
+  test('the controls tip gives way once the hero moves', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'first-fight' });
+    await clearBoons(page);
+    await expect(page.locator('#tip')).toContainText('Move with the arrows');
+    await page.waitForTimeout(1600);
+    await page.evaluate(() => Game.input('right'));
+    await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('the first foe is taught at once, over the controls tip', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'first-fight-2' });
+    await clearBoons(page);
+    await expect(page.locator('#tip')).toContainText('Move with the arrows');
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy * 2) * L.w + p.x + dx * 2] = Dungeon.T.FLOOR; L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 97, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('Something is coming', { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'held-lines' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      for (let i = 1; i <= 2; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 98, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const it = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(it); G.known.scroll_fire = 1;
+      Game.useItem(it);
+    });
+    await page.waitForTimeout(200);
+    await expect(page.locator('#log')).not.toContainText('fireball hits');
+    await expect(page.locator('#log')).toContainText('fireball hits', { timeout: 2000 });
+    // a draught: the bar keeps its old life until it is down
+    const hp = await page.evaluate(() => {
+      const p = Game.player(); Game.level().monsters.length = 0;
+      p.hp = 2; p.maxHp = 40; const it = { t: 'potion_heal', q: 1, e: 0 }; p.inv.push(it); Game.state().known.potion_heal = 1;
+      Game.useItem(it); return p.hp;
+    });
+    expect(hp).toBeGreaterThan(2);
+    await page.waitForTimeout(150);
+    await expect(page.locator('#txt-hp')).toHaveText('HP 2/40');
+    await expect(page.locator('#txt-hp')).toHaveText(`HP ${hp}/40`, { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
   test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
     await startGame(page, { seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
     // a tap on it puts it away (and goes no further: see the round five tests),
-    // and it keeps to the bottom of the view, clear of the middle where taps act
-    const box = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return { tipTop: t.top, mid: v.top + v.height / 2 }; });
-    expect(box.tipTop).toBeGreaterThan(box.mid);
+    // and it keeps to the top of the view, clear of the middle where taps act
+    const box = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return { tipBottom: t.bottom, mid: v.top + v.height / 2 }; });
+    expect(box.tipBottom).toBeLessThan(box.mid);
     const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
     expect(seen).toContain('controls');
     // a second run on this device does not repeat it. Leaving the page saves

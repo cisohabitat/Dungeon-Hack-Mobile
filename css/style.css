@@ -400,12 +400,12 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 @media (max-width: 380px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
-/* a one-time tip, over the top of the log and left of its button: gone on
-   its own, or at a tap on it. It never covers the view, so the fight shows */
-/* up to the log's own height (6.4em of its 0.88rem), never over the controls below */
-.tip { position: absolute; left: 0; right: 64px; top: 0; max-height: 5.63rem; overflow: hidden; padding: 5px 30px 5px 10px; border-radius: 0 0 8px 0;
-  background: #17141f; border: 1px solid var(--accent); border-top: none; border-left: none; color: #f2e6c8; font-size: 0.85rem; line-height: 1.3;
-  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 1; }
+/* a one-time tip along the top of the view, over the ceiling: gone on its
+   own, or at a tap on it. It keeps off the fight below and off the log (which
+   it may point to), and covers the minimap only while it shows */
+.tip { position: absolute; left: 6px; right: 6px; top: 6px; max-height: 48%; overflow: hidden; padding: 6px 30px 6px 10px; border-radius: 8px;
+  background: #17141f; border: 1px solid var(--accent); color: #f2e6c8; font-size: 0.85rem; line-height: 1.3;
+  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.2s, transform 0.2s; z-index: 3; }
 .tip.show { opacity: 1; transform: none; pointer-events: auto; }
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }

@@ -25,6 +25,7 @@ const UI = (() => {
   let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal' };
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
+  let logDue = 0;              // when the next line held back for its moment is due
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
 
   let finaleTimer = 0;
@@ -427,7 +428,9 @@ const UI = (() => {
     trick: 'A <b>violet mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
-    claw: 'It reaches for you with a numbing claw. <b>Strike it now!</b> A blow that lands first knocks the claw aside, or step back out of reach.',
+    claw: 'A numbing claw reaches for you. <b>Step back</b> out of reach, or <b>strike</b>: a blow that lands knocks the claw aside.',
+    crush: 'It heaves up a crushing blow, too heavy for armour. <b>Step back</b> and it smashes the floor, wide open.',
+    webspit: 'It rears back to spit a web. <b>Step out of its line</b>, to one side.',
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
     web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
     webtear: 'You are caught in a web. <b>Push against it</b>: tap any arrow, again and again, to tear free.',
@@ -441,7 +444,8 @@ const UI = (() => {
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'charge', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'web', 'webtear', 'opening'];
+  let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
@@ -459,6 +463,7 @@ const UI = (() => {
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
+    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; }
     // in a fight a tip keeps out of the way sooner
     const L = Game.level(), p = Game.player();
     const fighting = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
@@ -478,12 +483,17 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
+    // the controls tip has done its work once the hero has moved or turned
+    if (el && el.classList.contains('show') && el.dataset.tip === 'controls' && G0 && now - tipAt > 1500) {
+      const p2 = Game.player();
+      if (`${p2.x},${p2.y},${p2.dir}` !== tipFrom) { el.classList.remove('show'); tipUntil = now; }
+    }
     if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
@@ -493,6 +503,8 @@ const UI = (() => {
     if (readying('gaze') && showTip('gaze', true)) return;
     if (readying('rust') && showTip('rust', true)) return;
     if (readying('paralyse') && showTip('claw', true)) return;
+    if (readying('crush') && showTip('crush', true)) return;
+    if (readying('web') && showTip('webspit', true)) return;
     if (readying('charge') && showTip('charge', true)) return;
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
@@ -504,7 +516,9 @@ const UI = (() => {
     const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
     if (!answering && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
-    if (close && showTip('monster')) return;
+    // the first foe is taught at once, over the controls tip if it is still up:
+    // a first goblin used to die before its lesson got a turn
+    if (close && !answering && showTip('monster', true)) return;
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
     // covers the view just when it matters most. Quiet means nothing awake in
     // throwing distance, no lich about, and no blow taken for five seconds
@@ -530,17 +544,20 @@ const UI = (() => {
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
     // a spell's own slot, or a bought blessing's ('boon_ac'), never the two summed
     const secs = k => (p.effects[k] && p.effects[k].until > G.t ? left(p.effects[k].until) : 0);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
+    // life and spell points as they should show this moment: what a draught
+    // gave is on the bars once it is down
+    const vit = Game.vitals();
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
     $('#hud-cls').textContent = `${CLASSES[p.cls].name} ${p.level}`;
-    $('#bar-hp').style.width = Math.max(0, p.hp / p.maxHp * 100) + '%';
-    $('#txt-hp').textContent = `HP ${p.hp}/${p.maxHp}`;
+    $('#bar-hp').style.width = Math.max(0, vit.hp / p.maxHp * 100) + '%';
+    $('#txt-hp').textContent = `HP ${vit.hp}/${p.maxHp}`;
     const spBar = $('.bar.sp');
     spBar.style.display = p.maxSp ? '' : 'none';
-    $('#bar-sp').style.width = (p.maxSp ? p.sp / p.maxSp * 100 : 0) + '%';
-    $('#txt-sp').textContent = `SP ${p.sp}/${p.maxSp}`;
+    $('#bar-sp').style.width = (p.maxSp ? vit.sp / p.maxSp * 100 : 0) + '%';
+    $('#txt-sp').textContent = `SP ${vit.sp}/${p.maxSp}`;
     $('#bar-food').style.width = p.food + '%';
     $('#txt-food').textContent = p.food > 30 ? 'Fed' : (p.food > 0 ? 'Hungry' : 'Starving');
     $('#hud-depth').textContent = `Floor ${G.depth}/${G.opts.levels}`;
@@ -654,10 +671,14 @@ const UI = (() => {
   function refreshLog() {
     const G = Game.state();
     // count messages ever written, not the length of a capped array
-    if (!G || G.logSeq === logCount) return;
+    // a line held back for its moment (a fireball still in the air) shows when it lands
+    const now = performance.now();
+    if (!G || (G.logSeq === logCount && !(logDue && now >= logDue))) return;
     logCount = G.logSeq;
+    const held = G.log.filter(e => e.at > now);
+    logDue = held.length ? Math.min(...held.map(e => e.at)) : 0;
     const el = $('#log');
-    el.innerHTML = G.log.filter(e => !e.gone).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    el.innerHTML = G.log.filter(e => !e.gone && !(e.at > now)).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
     // the full history is a tap on Log away. The panel stacks from the bottom, so
@@ -820,7 +841,10 @@ const UI = (() => {
     if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
     for (const it of s.stock.slice()) {
       const price = Game.buyPrice(s, it);
-      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + (it.q > 1 ? ` · ${it.q} in stock` : '');
+      // the same gear the hero already wears says so, and whether it is better or worse
+      const bk = ITEMS[it.t].kind, worn = (bk === 'weapon' || bk === 'armor' || bk === 'shield') ? p.eq[bk] : null;
+      const same = worn && worn.t === it.t ? (knownE(it) > knownE(worn) ? ' · better than the one you wear' : knownE(it) < knownE(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
+      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
     }
     // what the trader will do for coin besides trade
@@ -1200,7 +1224,7 @@ const UI = (() => {
     // rusted, or simply poorly made: the forge can put it right
     else if ((it.e || 0) < 0 && (b.kind === 'weapon' || b.kind === 'armor')) info += ' Worn or rusted: a trader\'s forge can mend it.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
-    const compare = selectedSlot ? '' : compareText(it, b);
+    const compare = selectedSlot ? '' : compareText(it, b) + offhandText(it, b);
     // a relic spells out each power in full, then tells its story
     const r = Game.relicOf(it);
     const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>`
@@ -1239,6 +1263,17 @@ const UI = (() => {
     if (count() < before && overlay === 'inv') setTimeout(() => { if (overlay === 'inv') closeOverlay(); }, 0);
   }
 
+  // A light blade that could go in the off hand says what that would mean:
+  // a second, wilder blow after each swing, a main hand a fifth slower, and
+  // (if one is carried) no shield.
+  function offhandText(it, b) {
+    const p = Game.player();
+    if (b.kind !== 'weapon' || Game.offhandReason(it) || p.eq.offhand === it) return '';
+    const d = b.dmg, e = knownE(it);
+    const blow = `${d[0]}d${d[1]}${d[2] + e > 0 ? '+' + (d[2] + e) : d[2] + e < 0 ? '\u2212' + -(d[2] + e) : ''}`;
+    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) : 0;
+    return `<p class="compare">In the off hand: a second blow of ${blow} after each swing, and the main hand a fifth slower${sh ? `; the shield comes off (\u2212${sh} armor class)` : ''}.</p>`;
+  }
   // How an unequipped piece of gear stacks up against the one in its slot.
   function compareText(it, b) {
     const p = Game.player();

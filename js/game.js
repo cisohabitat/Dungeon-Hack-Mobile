@@ -22,7 +22,7 @@ const Game = (() => {
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
-  const fx = { damageUntil: 0, healUntil: 0, healAt: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0,
+  const fx = { damageUntil: 0, healUntil: 0, healAt: 0, /** @type {{dhp: number, dsp: number, until: number}|null} */ hold: null, swingUntil: 0, castUntil: 0, shakeUntil: 0,
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
@@ -125,8 +125,8 @@ const Game = (() => {
     if (last && (last.base || last.m) === m) {
       const n = (last.n || 1) + 1;
       last.gone = true; last.m = '';
-      G.log.push({ m: `${m} (\u00d7${n})`, c: c || '', base: m, n });
-    } else G.log.push({ m, c: c || '' });
+      G.log.push({ m: `${m} (\u00d7${n})`, c: c || '', base: m, n, ...(fxDelay > 0 ? { at: realNow + fxDelay } : {}) });
+    } else G.log.push({ m, c: c || '', ...(fxDelay > 0 ? { at: realNow + fxDelay } : {}) });
     G.logSeq = (G.logSeq || 0) + 1;
     if (G.log.length > 80) {
       // place-holders are dropped first, all but the newest few, which anything
@@ -654,6 +654,18 @@ const Game = (() => {
   // A draught or a meal is seen: the bottle comes up and tips back, the bread
   // is bitten (see the renderer), in the colour of what the draught does.
   const POTION_GLOW = { heal: '#60e080', cure: '#c8f0a0', might: '#ff6040', mana: '#6090ff' };
+  // What a draught or a scroll gave (life, spell points) shows on the bars
+  // only once it is taken; a blow landing meanwhile still shows at once.
+  function holdVitals(was, ms) {
+    const p = P();
+    fx.hold = { dhp: Math.max(0, p.hp - was.hp), dsp: Math.max(0, p.sp - was.sp), until: realNow + ms };
+  }
+  /** Life and spell points as the bars should show them this moment. */
+  function vitals() {
+    const p = P(), h = fx.hold;
+    if (!h || realNow >= h.until) return { hp: p.hp, sp: p.sp };
+    return { hp: Math.max(1, p.hp - h.dhp), sp: Math.max(0, p.sp - h.dsp) };
+  }
   function showUse(kind, it, color) { fx.useAt = realNow; fx.useKind = kind; fx.useSprite = spriteFor(it); fx.useColor = color; }
   function useItem(it) {
     const p = P(), b = ITEMS[it.t];
@@ -679,6 +691,7 @@ const Game = (() => {
       // the cork and the swallows now; what it does is heard once it is down
       Sound.play('drink');
       fxDelay = 420;
+      const was = { hp: p.hp, sp: p.sp };
       try {
         switch (b.effect) {
           case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
@@ -686,6 +699,7 @@ const Game = (() => {
           case 'might': p.effects.might = { amount: 2, until: G.t + 120000 }; log('You feel mighty!', 'good'); soon(() => Sound.play('spell')); break;
           case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); soon(() => Sound.play('spell')); break;
         }
+        holdVitals(was, fxDelay);
       } finally { fxDelay = 0; }
     } else if (b.kind === 'scroll') {
       const wasNewS = !isKnown(it.t);
@@ -699,6 +713,7 @@ const Game = (() => {
       // makes a sound of (a heal) is heard as the page goes up
       Sound.play('read', { kind: b.effect });
       fxDelay = Math.round(READ_MS * 0.62);
+      const wasS = { hp: p.hp, sp: p.sp };
       try {
         switch (b.effect) {
           case 'fire': {
@@ -738,6 +753,7 @@ const Game = (() => {
             break;
           }
         }
+        holdVitals(wasS, fxDelay);
       } finally { fxDelay = 0; }
     } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
       equip(it);
@@ -835,7 +851,7 @@ const Game = (() => {
     if (i < 0) return;
     if (it.t === 'gold' || it.t === 'gem') noteGold(it.q);
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
-    else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
+    else if (it.t === 'gem') { p.gold += it.q; log(`You find ${/^[aeiou]/i.test(it.name) ? 'an' : 'a'} ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') {
       // the lich's cold holds the Heart fast: the last fight cannot be walked round
       if (keeper()) { heartHeld(); Sound.play('error'); return; }
@@ -1751,7 +1767,8 @@ const Game = (() => {
     // (a spell, cast: the fire scroll's blast names itself 'fireball' but is no spell)
     const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
     p.sp += drawn;
-    log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`, 'good');
+    // the dead are destroyed; the living are slain
+    log(`The ${mb.name} is ${mb.undead || m.id === 'slime' || mb.boss ? 'destroyed' : 'slain'}!${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`, 'good');
     meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     if (Math.random() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite) {
@@ -2808,13 +2825,16 @@ const Game = (() => {
       const n = L.doorBlows[k] = (L.doorBlows[k] || 0) + 1;
       if (n < DOOR_BLOWS) {
         if (n === 1) log(`${who} batters at a shut door${who === 'Something' ? ' nearby' : ''}.`, 'bad');
+        // each blow is seen on the door, and the last but one says so
+        if (n === DOOR_BLOWS - 1) log(`The door buckles${who === 'Something' ? ' somewhere near' : ''}: one more blow will break it.`, 'bad');
+        fx.texts.push({ x: x + 0.5, y: y + 0.5, text: n === DOOR_BLOWS - 1 ? 'CRACK' : 'thud', color: n === DOOR_BLOWS - 1 ? '#f0a060' : '#c8a070', born: realNow, until: realNow + 650 });
         Sound.play('batter', at);
         return true;
       }
       delete L.doorBlows[k];
     }
     setTile(x, y, T.FLOOR);
-    log(`${who} ${how === 'smash' ? 'smashes' : 'breaks'} a door to splinters${who === 'Something' ? ' nearby' : ''}!`, 'bad');
+    log(how === 'smash' ? `${who} smashes a door to splinters${who === 'Something' ? ' nearby' : ''}!` : `${who} bursts through a door${who === 'Something' ? ' nearby' : ''}!`, 'bad');
     Sound.play('splinter', at);
     return how === 'smash';
   }
@@ -3500,6 +3520,8 @@ const Game = (() => {
       // a run from before the end screen kept its numbers counts from here on
       G.stats = { ...freshStats(), ...G.stats };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
+      // a line held for its moment by the old page's clock would never show on this one
+      for (const e of G.log || []) delete e.at;
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) {
         m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
         // the page's clock starts again at nothing: a flash or a held life bar timed by the old one would hang on for good
@@ -3531,7 +3553,7 @@ const Game = (() => {
 
   return {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
-    update, tick, input, renderState, takeEvents, quickScroll,
+    update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
