@@ -500,7 +500,7 @@ const UI = (() => {
     el.innerHTML = G.log.filter(e => !e.gone).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
-    // the full history is a tap away. The panel stacks from the bottom, so
+    // the full history is a tap on Log away. The panel stacks from the bottom, so
     // overflow spills off the top where scrollHeight does not count it: ask
     // where the oldest line starts instead.
     const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
@@ -1372,7 +1372,7 @@ const UI = (() => {
     $('#minimap').addEventListener('click', () => openOverlay('map'));
     // a tip goes at a tap on it, and the tap goes no further
     $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); });
-    $('#log').addEventListener('click', () => openOverlay('log'));
+    $('#log-more').addEventListener('click', () => openOverlay('log'));
 
     // Tap the view to act, swipe to turn or step.
     const view = $('#view');

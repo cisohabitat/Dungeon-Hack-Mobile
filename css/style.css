@@ -216,7 +216,15 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log div:last-child:not(.bad):not(.good):not(.info) { color: #fff; }
 /* the newest line keeps its colour, and says it is newest by weight instead */
 .log div:last-child { font-weight: bold; }
-.controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; }
+.controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 10px 8px; }
+/* The log is not a button: a thumb that strays up off the d-pad used to open
+   the history. Its own small button sits in the corner furthest from the pad. */
+.log-more-anchor { position: relative; height: 0; z-index: 2; }
+.log-more { position: absolute; right: 4px; top: 4px; min-width: 56px; min-height: 44px; padding: 0 10px; font-size: 0.8rem; color: #cfc8ba; background: rgba(20, 18, 30, 0.85); border: 1px solid var(--border); border-radius: 8px; }
+/* and the top row of pads reaches a little up, so a press that lands just
+   above an arrow still counts as that arrow instead of missing */
+.ctl { position: relative; }
+.dpad .ctl:nth-child(-n+3)::before, .actions .ctl:nth-child(-n+2)::before { content: ''; position: absolute; left: -3px; right: -3px; top: -12px; height: 12px; }
 /* sized to the screen: roomier on a big phone, never cramped on a small one */
 .dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 6px; width: 52%; max-width: 250px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }
 .actions { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; width: 44%; max-width: 220px; height: clamp(130px, 21vh, 170px); height: clamp(130px, 21dvh, 170px); }

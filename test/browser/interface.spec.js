@@ -37,6 +37,34 @@ test.describe('interface', () => {
     expect(small, 'controls below the 44px touch guideline').toEqual([]);
   });
 
+  test('a thumb that strays up off the d-pad does not open the log; its own button does, and a press just above an arrow is that arrow', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'stray' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; const t = document.getElementById('tip'); if (t) t.remove(); });
+    // a tap on the bottom edge of the log, right above the pad, opens nothing
+    const log = await page.locator('#log').boundingBox();
+    await page.mouse.click(log.x + 40, log.y + log.height - 4);
+    await page.waitForTimeout(150);
+    await expect(page.locator('#ov-log')).not.toHaveClass(/open/);
+    // a press in the gap just above the forward arrow walks forward
+    const fwd = await page.locator('[data-act="forward"]').boundingBox();
+    const before = await page.evaluate(() => { const p = Game.player(); return { x: p.x, y: p.y, dir: p.dir }; });
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    });
+    await page.mouse.move(fwd.x + fwd.width / 2, fwd.y - 6);
+    await page.mouse.down(); await page.waitForTimeout(60); await page.mouse.up();
+    await page.waitForTimeout(400);
+    const after = await page.evaluate(() => { const p = Game.player(); return { x: p.x, y: p.y }; });
+    expect(after.x !== before.x || after.y !== before.y, 'a press just above ▲ should step forward').toBe(true);
+    // the Log button opens the history
+    await page.locator('#log-more').click();
+    await expect(page.locator('#ov-log')).toHaveClass(/open/);
+    expect(errors).toEqual([]);
+  });
+
   test('the text a player reads clears the 4.5:1 contrast minimum', async ({ page }) => {
     await startGame(page, { seed: 'ui-contrast' });
     await clearBoons(page);
