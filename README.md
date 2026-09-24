@@ -197,8 +197,8 @@ down, with stats placed as the creation screen places them (`FIT=1`), 200 runs p
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Easy | 96% | 98% | 92% | 93% | about 94% |
-| Normal | 69% | 75% | 65% | 69% | about 69% |
-| Hard | 45% | 40% | 38% | 46% | about 42% |
+| Normal | 72% | 68% | 71% | 68% | about 69% |
+| Hard | 46% | 45% | 47% | 46% | about 46% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
