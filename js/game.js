@@ -109,9 +109,10 @@ const Game = (() => {
     for (let r = 1; r <= 20; r++) if (r === 20 || (r !== 1 && r + m >= dc)) n++;
     return n / 20;
   }
-  function statCheck(stat, dc, bonus = 0) {
+  /** @param {{natural?: boolean}} [o]  natural: false, and a twenty is only a twenty (noticing what you have no eye for) */
+  function statCheck(stat, dc, bonus = 0, o = {}) {
     const roll = d(1, 20), m = checkBonus(stat, bonus);
-    const pass = roll === 20 || (roll !== 1 && roll + m >= dc);
+    const pass = (roll === 20 && o.natural !== false) || (roll !== 1 && roll + m >= dc);
     return { stat, dc, roll, mod: m, pass, note: checkNote(stat, roll, m, dc) };
   }
 
@@ -1103,9 +1104,11 @@ const Game = (() => {
       else {
         const who = mstat(g).name;
         if (G.t < p.grabbed.nextTry) { blocked(`The ${who} holds you fast.`); return false; }
-        if (d(1, 20) + mod(p.stats.str) < 12) { p.grabbed.nextTry = G.t + 600; blocked(`The ${who}'s grip holds you fast.`); return false; }
+        // strength tears free, or quickness slips out: whichever the hero has more of
+        const how = mod(p.stats.dex) > mod(p.stats.str) ? 'dex' : 'str', c = trickSave(how, 'grip');
+        if (!c.pass) { p.grabbed.nextTry = G.t + 600; blocked(`The ${who}'s grip holds you fast.${c.note}`); return false; }
         p.grabbed = null;
-        log(`You tear free of the ${who}'s grip!`, 'good');
+        log(`You ${how === 'dex' ? 'slip' : 'tear'} free of the ${who}'s grip!${c.note}`, 'good');
         learn(g.id, 'answer');
       }
     }
@@ -1227,6 +1230,15 @@ const Game = (() => {
   // needle and a tainted draught stronger. Returns the check, or null when
   // nothing needs saving against (poisoned already, or proof against it).
   const VENOM_DC = { bite: 7, needle: 10, draught: 11 };
+  // A trick that lands can still be weathered: a save halves what it does
+  // (stone or web for half as long, half a storm's fire) or, for a charge,
+  // keeps the hero on their feet. The trick's own answer (step aside, turn
+  // away) still escapes it whole: the save is for when that fails. All grow
+  // harder with depth, as venom does.
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18 };
+  const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
+  /** A saving throw against a monster's trick. */
+  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus);
   function venomSave(kind, whose, quiet = false) {
     const p = P();
     if (p.poison || hasPower('pure')) return null;
@@ -1241,16 +1253,17 @@ const Game = (() => {
     const L = lvl(), p = P();
     const tr = TRAP_TYPES[L.traps[k]];
     delete L.traps[k];
-    let spot = p.cls === 'thief' ? 0.5 + p.level * 0.04 : 0;
-    if (p.bg === 'tombwise') spot += 0.35;
-    // a wise hero notices the loose flagstone whatever their trade
-    spot += Math.max(0, mod(p.stats.wis)) * 0.1;
+    // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
+    // a thief knows what to look for (more with each level), and so do the
+    // tombwise. No eye for it, no lucky twenty: it is noticed or not
+    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0);
+    const seen = statCheck('wis', saveDC('spot'), eye, { natural: false });
     // each is seen as it goes off (see the renderer); a dart comes from one wall or the other
     const [tx, ty] = k.split(',').map(Number);
     fx.trapAt = realNow; fx.trapSide = (tx + ty) % 2 ? 1 : -1;
-    if (spot > 0 && Math.random() < spot) {
+    if (seen.pass) {
       fx.trapKind = 'disarm';
-      log(`You spot and disarm a ${tr.name}.`, 'good');
+      log(`You spot and disarm a ${tr.name}.${seen.note}`, 'good');
       Sound.play('locked');
       return;
     }
@@ -2607,7 +2620,11 @@ const Game = (() => {
     // every venomous bite that lands is fought off with Constitution
     if (mb.poison) venomSave('bite', `the ${mb.name}'s`);
     // a strong will holds on to itself against the drain
-    if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
+    if (mb.drain && !hasPower('ward')) {
+      const c = trickSave('wis', 'drain');
+      if (c.pass) log(`Your will holds against the ${mb.name}'s cold touch.${c.note}`, 'good');
+      else { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log(`You feel your life force drain away!${c.note}`, 'bad'); }
+    }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
     return true;
   }
@@ -2743,7 +2760,11 @@ const Game = (() => {
           if (tx !== m.x || ty !== m.y) moveMonster(m, tx, ty);
           const struck = monsterAttack(m, { hit: 2, extra: m.id === 'minotaur' ? [2, 6, 0] : [1, 6, 0], verb: 'slams into', sure: true });
           // and it leaves you sprawled, a moment from getting up
-          if (struck && G.status === 'playing' && !hasTalent('stand_firm')) { p.held = Math.max(p.held || 0, G.t + KNOCKDOWN_MS); p.heldBy = 'down'; log('You are knocked off your feet!', 'bad'); }
+          if (struck && G.status === 'playing' && !hasTalent('stand_firm')) {
+            const c = trickSave('str', 'charge');
+            if (c.pass) log(`You stagger, but keep your feet!${c.note}`, 'good');
+            else { p.held = Math.max(p.held || 0, G.t + KNOCKDOWN_MS); p.heldBy = 'down'; log(`You are knocked off your feet!${c.note}`, 'bad'); }
+          }
           G.blowGate = G.t + BLOW_GAP;
           m.nextAct = G.t + mb.speed;
         } else {
@@ -2780,8 +2801,9 @@ const Game = (() => {
       case 'paralyse':
         if (dist === 1) {
           if (monsterAttack(m, { verb: 'claws', sure: true }) && G.status === 'playing') {
-            if (d(1, 20) + mod(p.stats.con) >= 12) log(`The ${mb.name}'s claws numb you, but you shake it off.`);
-            else { p.held = G.t + HELD_MS; p.heldBy = 'frozen'; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); }
+            const c = trickSave('con', 'claw');
+            if (c.pass) log(`The ${mb.name}'s claws numb you, but you shake it off.${c.note}`, 'good');
+            else { p.held = G.t + HELD_MS; p.heldBy = 'frozen'; log(`The ${mb.name}'s touch freezes you in place!${c.note}`, 'bad'); }
           }
           G.blowGate = G.t + BLOW_GAP;
         } else { log(`The ${mb.name}'s claw closes on the air where you stood, and leaves it wide open.`, 'good'); learn(m.id, 'answer'); opening(m); }
@@ -2790,8 +2812,9 @@ const Game = (() => {
       case 'web':
         if ((dist === 1 || hasLineToPlayer(m, 4)) && hasTalent('evasion')) log('The web slides off you.', 'good');
         else if (dist === 1 || hasLineToPlayer(m, 4)) {
-          p.webbed = G.t + 3200;
-          log('Sticky web binds your legs! Keep pushing to tear free.', 'bad');
+          const c = trickSave('dex', 'web');
+          p.webbed = G.t + (c.pass ? 1600 : 3200);
+          log(c.pass ? `The web catches one leg, not both: tear free!${c.note}` : `Sticky web binds your legs! Keep pushing to tear free.${c.note}`, 'bad');
           Sound.play('web', heard(m));
         } else { log(`The ${mb.name}'s web sails past you. It is open while it spins another.`, 'good'); learn(m.id, 'answer'); opening(m); }
         m.moveReady = G.t + 7000;
@@ -2824,9 +2847,10 @@ const Game = (() => {
         // only a hero looking at it is caught: turning away is the answer
         // stepping up to it does not help: close by, it is looking straight at you
         if ((dist === 1 || hasLineToPlayer(m, 5)) && facing(m)) {
-          const n = d(1, 6);
-          p.held = Math.max(p.held || 0, G.t + (hasTalent('stand_firm') ? GAZE_MS / 2 : GAZE_MS)); p.heldBy = 'stone';
-          hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs turn to stone! (${n})`, m, 'a basilisk\'s gaze');
+          const c = trickSave('con', 'gaze');
+          const n = c.pass ? Math.ceil(d(1, 6) / 2) : d(1, 6);
+          p.held = Math.max(p.held || 0, G.t + GAZE_MS * (hasTalent('stand_firm') ? 0.5 : 1) * (c.pass ? 0.5 : 1)); p.heldBy = 'stone';
+          hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs ${c.pass ? 'stiffen, but fight the stone' : 'turn to stone'}! (${n})${c.note}`, m, 'a basilisk\'s gaze');
           G.blowGate = G.t + BLOW_GAP;
         } else { log(`You turn from the ${mb.name}'s gaze. It washes over your back and leaves the beast open.`, 'good'); learn(m.id, 'answer'); opening(m); }
         m.moveReady = G.t + 8000;
@@ -2844,8 +2868,9 @@ const Game = (() => {
         Sound.play('nova', heard(m));
         if (novaReaches(m)) {
           const shielded = effectFrom('ac', 'shield');
-          const n = Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1)));
-          hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${shielded ? ' Your Shield takes the worst of it.' : ''}`, m); G.blowGate = G.t + BLOW_GAP;
+          const c = trickSave('dex', 'nova');
+          const n = Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1)));
+          hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${c.note}`, m); G.blowGate = G.t + BLOW_GAP;
         }
         else { log('The storm of cold fire breaks short of you, and leaves the lich spent and open.', 'good'); learn(m.id, 'answer'); opening(m); }
         m.nextAct = G.t + mb.speed;

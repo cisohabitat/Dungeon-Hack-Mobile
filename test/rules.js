@@ -2448,14 +2448,14 @@ await test('a charge that lands knocks the hero down for a moment', async () => 
   const ctx = await start('fighter', 'knockdown');
   const { Game } = ctx;
   const p = Game.player(), G = Game.state();
-  p.hp = p.maxHp = 9999;
+  p.hp = p.maxHp = 9999; p.stats.str = 1;          // no footing to keep: a Strength save it can only fail but on a twenty
   const m = ahead(ctx, 'orc', 3, { edge: 40 });
   await pinned(0.1, () => Game.update(G.t + 25, 25));
   if (!m.windup || m.windup.move !== 'charge') return `it drew ${JSON.stringify(m.windup)}`;
   const mark = markLog(G);
   for (let i = 0; i < 40 && !linesSince(G, mark).some(l => /slams into you|misses you/.test(l)); i++) Game.update(G.t + 20, 20);
   const said = linesSince(G, mark);
-  if (said.some(l => /misses you/.test(l))) return true;   // a natural 1: nothing to see this time
+  if (said.some(l => /misses you|keep your feet/.test(l))) return true;   // a natural 1, or a twenty on the save: nothing to see this time
   if (!said.some(l => /knocked off your feet/.test(l))) return `said: ${said.join(' | ')}`;
   if (!(p.held > G.t)) return 'the hero was not held';
   const x0 = p.x, y0 = p.y, m2 = markLog(G);
@@ -2798,17 +2798,24 @@ await test('a trap going off is seen: each kind its own picture, and one spotted
   const out = [];
   for (const kind of ['dart', 'needle', 'pit', 'alarm', 'spotted']) {
     const ctx = await start(kind === 'spotted' ? 'thief' : 'fighter', 'trap-' + kind, { traps: true });
-    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
     Game.tick(5000);
-    p.hp = p.maxHp = 999; p.stats.wis = 8; p.bg = 'oathbroken';
-    if (kind === 'spotted') p.level = 20;                    // a thief this seasoned always sees it
+    p.hp = p.maxHp = 999; p.stats.wis = 3; p.bg = 'oathbroken';
+    if (kind === 'spotted') { p.level = 20; p.stats.wis = 18; }   // a seasoned, sharp-eyed thief: sees it but on a one
     L.monsters.length = 0;
-    const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+    const [dx, dy] = Dungeon.DIRS[p.dir], x0 = p.x, y0 = p.y, x = p.x + dx, y = p.y + dy;
     L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
-    L.traps = L.traps || {}; L.traps[`${x},${y}`] = kind === 'spotted' ? 'dart' : kind;
-    Game.input('forward');
-    const f = Game.renderState(5000).fx, want = kind === 'spotted' ? 'disarm' : kind;
-    if (f.trapKind !== want || f.trapAt !== 5000) out.push(`${kind}: shown as ${f.trapKind} at ${f.trapAt}`);
+    L.traps = L.traps || {};
+    let now = 5000;
+    for (let i = 0; i < (kind === 'spotted' ? 8 : 1); i++) {
+      now = 5000 + i * 2000;
+      p.x = x0; p.y = y0; Game.update(G.t + 600, 600); Game.tick(now);
+      L.traps[`${x},${y}`] = kind === 'spotted' ? 'dart' : kind;
+      Game.input('forward');
+      if (kind !== 'spotted' || Game.renderState(now).fx.trapKind === 'disarm') break;
+    }
+    const f = Game.renderState(now).fx, want = kind === 'spotted' ? 'disarm' : kind;
+    if (f.trapKind !== want || f.trapAt !== now) out.push(`${kind}: shown as ${f.trapKind} at ${f.trapAt}`);
   }
   return out.length ? out.join('; ') : true;
 });
@@ -2819,7 +2826,7 @@ await test('a trap is dodged with Dexterity (a pit only halved), and venom fough
   const tally = async (kind, stats, n = 80) => {
     const ctx = await start('fighter', 'saves-' + kind + stats.dex + stats.con, { traps: true });
     const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
-    Object.assign(p.stats, stats); p.bg = 'oathbroken'; p.stats.wis = 8;
+    Object.assign(p.stats, stats); p.bg = 'oathbroken'; p.stats.wis = 3;
     L.monsters.length = 0;
     const [dx, dy] = Dungeon.DIRS[p.dir], x0 = p.x, y0 = p.y, x = p.x + dx, y = p.y + dy;
     L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
@@ -2847,6 +2854,40 @@ await test('a trap is dodged with Dexterity (a pit only halved), and venom fough
   if (pit.hurt !== 80) out.push('a pit was escaped whole');
   const frail = await tally('needle', { dex: 3, con: 3 }), hale = await tally('needle', { dex: 3, con: 18 });
   if (!(frail.poisoned > hale.poisoned + 10)) out.push(`needle poison: frail ${frail.poisoned}, hale ${hale.poisoned}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('saving throws: the claw, the gaze, the web, the charge and the lich\'s drain are weathered by the right score', async () => {
+  const out = [];
+  // one trick, landed over and over on a hero with this score; what it did each time
+  const trials = async (id, move, dist, stat, value, measure) => {
+    const ctx = await start('fighter', `sv-${move}-${value}`);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.stats[stat] = value; p.hp = p.maxHp = 9999;
+    const results = [];
+    for (let i = 0; i < 40; i++) {
+      p.held = 0; p.heldBy = ''; p.webbed = 0; p.grabbed = null; p.maxHp = 9999; p.hp = 9999;
+      const m = ahead(ctx, id, dist, { hp: 999, maxHp: 999, blows: 5, spoke: true });
+      if (move === 'melee') { m.windup = { kind: 'melee', at: G.t, until: G.t }; p.perkAc = -30; }
+      else m.windup = { kind: 'move', move, at: G.t, until: G.t, dx: -ctx.Dungeon.DIRS[p.dir][0], dy: -ctx.Dungeon.DIRS[p.dir][1] };
+      m.nextAct = G.t;
+      Game.update(G.t + 25, 25);
+      results.push(measure(p, G));
+      Game.update(G.t + 6000, 6000);
+    }
+    return results;
+  };
+  const sum = a => a.reduce((x, y) => x + y, 0);
+  const heldFor = (p, G) => Math.max(0, (p.held || 0) - G.t);
+  const cmp = async (label, id, move, dist, stat, measure) => {
+    const lo = sum(await trials(id, move, dist, stat, 3, measure)), hi = sum(await trials(id, move, dist, stat, 20, measure));
+    if (!(lo > hi * 1.2)) out.push(`${label}: weak ${lo}, strong ${hi}`);
+  };
+  await cmp('claw (con)', 'ghoul', 'paralyse', 1, 'con', (p, G) => (p.held > G.t && p.heldBy === 'frozen') ? 1 : 0);
+  await cmp('gaze (con)', 'basilisk', 'gaze', 2, 'con', heldFor);
+  await cmp('web (dex)', 'spider', 'web', 2, 'dex', (p, G) => Math.max(0, (p.webbed || 0) - G.t));
+  await cmp('charge (str)', 'orc', 'charge', 3, 'str', (p, G) => (p.held > G.t && p.heldBy === 'down') ? 1 : 0);
+  await cmp('drain (wis)', 'lich', 'melee', 1, 'wis', p => 9999 - p.maxHp);
   return out.length ? out.join('; ') : true;
 });
 
@@ -2956,7 +2997,7 @@ await test('a zombie\'s grip holds a weak hero more often than a strong one, and
     ctx.Dice.s = new ctx.Rng('grab-dice').s;
     const { Game } = ctx;
     const p = Game.player(), G = Game.state();
-    p.stats.str = str;
+    p.stats.str = str; p.stats.dex = 3;              // no quickness to slip out with: strength decides
     const z = beside(ctx, 'zombie', { nextAct: 1e12 });
     clearBehind(ctx);                              // room to step back into
     const home = [p.x, p.y];
