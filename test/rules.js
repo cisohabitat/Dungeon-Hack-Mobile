@@ -2568,6 +2568,43 @@ await test('the tiers of monsters stretch over a short delve: an eight-floor del
   return longMid === 0 || `a sixteen-floor delve met a minotaur on floor 8 (${longMid} times)`;
 });
 
+await test('more ways to answer: a blow knocks a ghoul\'s claw aside, fire burns a web, a shut door stops a charge', async () => {
+  const out = [];
+  {
+    const ctx = await start('fighter', 'claw-aside');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.perkHit = 60;
+    const m = beside(ctx, 'ghoul', { hp: 999, maxHp: 999 });
+    m.windup = { kind: 'move', move: 'paralyse', at: G.t, until: G.t + 750 }; m.nextAct = m.windup.until;
+    for (let i = 0; i < 5 && m.windup; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    if (m.windup) out.push('blows did not knock the claw aside');
+    else { run(Game, G, 900); if (p.held > G.t) out.push('the hero was frozen by a claw knocked aside'); }
+  }
+  {
+    const ctx = await start('mage', 'web-burn');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    Game.level().monsters.length = 0;
+    p.webbed = G.t + 5000; p.sp = 99; G.t = p.nextAttack;
+    Game.castSpell(Game.knownSpells().find(s => s.id === 'burning_hands'));
+    if (p.webbed > G.t) out.push('Burning Hands left the web whole');
+  }
+  {
+    const ctx = await start('fighter', 'door-charge');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, 'orc', 4, { hp: 999, maxHp: 999 });
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy * 2) * L.w + p.x + dx * 2] = Dungeon.T.DOOR;
+    m.windup = { kind: 'move', move: 'charge', at: G.t, until: G.t, dx: -dx, dy: -dy }; m.nextAct = G.t;
+    const hp0 = p.hp, mark = markLog(G);
+    Game.update(G.t + 25, 25);
+    if (p.hp < hp0) out.push('the charge came through the door');
+    if (!linesSince(G, mark).some(l => /slams into the shut door/.test(l))) out.push(`said: ${linesSince(G, mark).join(' | ')}`);
+    if (!p.opening || p.opening.uid !== m.uid) out.push('the door left no opening');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a spider\'s web holds the hero until they tear free, and misses a hero who steps aside', async () => {
   const ctx = await start('fighter', 'web');
   const { Game } = ctx;

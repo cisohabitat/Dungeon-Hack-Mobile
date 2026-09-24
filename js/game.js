@@ -676,6 +676,7 @@ const Game = (() => {
       switch (b.effect) {
         case 'fire': {
           Sound.play('spell');
+          burnWeb();
           const targets = boltTargets(3, false);
           spellFx('fireball', '#ff7020', 750, targets, 3);
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
@@ -2139,7 +2140,8 @@ const Game = (() => {
   function spellWasteReason(sp) {
     const p = P();
     if (sp.kind === 'heal' && p.hp >= p.maxHp) return `You are unhurt. ${sp.name} would be wasted.`;
-    if (sp.kind === 'bolt' && !boltTargets(spellRange(sp), sp.pierce).length) {
+    // fire burns a web away, so a webbed caster's flame is never wasted
+    if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
     if (sp.kind === 'buff' && effect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
@@ -2192,6 +2194,7 @@ const Game = (() => {
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
       case 'bolt': {
+        if (sp.fire) burnWeb();
         const targets = boltTargets(spellRange(sp), sp.pierce);
         spellFx(look[0], sp.color, look[1], targets, spellRange(sp));
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
@@ -2551,7 +2554,18 @@ const Game = (() => {
         break;
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
-        if (inLine && (dist === 1 || hasLineToPlayer(m, 6))) {
+        // a door shut across its line stops it cold: it hits the door, not you
+        const door = inLine ? doorInCharge(m, w) : null;
+        if (door) {
+          let x = m.x, y = m.y;
+          while (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) { x += w.dx || 0; y += w.dy || 0; }
+          if (x !== m.x || y !== m.y) moveMonster(m, x, y);
+          log(`The ${mb.name} slams into the shut door and reels back, wide open!`, 'good');
+          Sound.play('smash', heard(m));
+          learn(m.id, 'answer');
+          opening(m);
+          m.nextAct = G.t + 1800;
+        } else if (inLine && (dist === 1 || hasLineToPlayer(m, 6))) {
           const tx = p.x - (w.dx || 0), ty = p.y - (w.dy || 0);
           if (tx !== m.x || ty !== m.y) moveMonster(m, tx, ty);
           const struck = monsterAttack(m, { hit: 2, extra: m.id === 'minotaur' ? [2, 6, 0] : [1, 6, 0], verb: 'slams into', sure: true });
@@ -2665,6 +2679,25 @@ const Game = (() => {
         break;
     }
   }
+  /** Fire loosed while webbed burns the web away. */
+  function burnWeb() {
+    const p = P();
+    if (!(p.webbed > G.t)) return;
+    p.webbed = 0;
+    log('The fire runs along the web and it shrivels away. You are free!', 'good');
+  }
+  /** A closed door stands between a charger and the hero, down its line. */
+  function doorInCharge(m, w) {
+    const p = P();
+    for (let i = 1; i <= 7; i++) {
+      const x = m.x + (w.dx || 0) * i, y = m.y + (w.dy || 0) * i;
+      if (x === p.x && y === p.y) return null;
+      const t = tile(x, y);
+      if (t === T.DOOR || t === T.DOOR_LOCKED) return { x, y };
+      if (!passable(x, y)) return null;
+    }
+    return null;
+  }
   /** Whether the hero is looking at a monster: it is ahead, within the view's width. */
   function facing(m) {
     const p = P(), [ax, ay] = DIRS[p.dir], [bx, by] = DIRS[(p.dir + 1) % 4];
@@ -2685,6 +2718,13 @@ const Game = (() => {
   }
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
+    // a numbing claw is struck aside by a blow that lands first, and leaves it open
+    if (m.windup && m.windup.move === 'paralyse') {
+      m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 900;
+      log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
+      learn(m.id, 'answer');
+      opening(m);
+    }
     // a chant is broken by any wound
     if (m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 700;
