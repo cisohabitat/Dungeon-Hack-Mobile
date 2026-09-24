@@ -2732,6 +2732,51 @@ await test('the quick scroll: fire with a foe ahead, restoration when badly hurt
   return out.length ? out.join('; ') : true;
 });
 
+await test('review fixes: a reload forgets a held life bar, a fleeing beast batters a shut door, a charge blocked short of a door hits nothing', async () => {
+  const out = [];
+  {
+    const ctx = await start('fighter', 'reload-bar');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    Game.tick(3600000);
+    const m = ahead(ctx, 'ogre', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+    const s1 = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(s1); G.known.scroll_fire = 1;
+    Game.useItem(s1);
+    if (!(m.hpShown > 0)) out.push('the fireball held no bar to test with');
+    Game.save(true); Game.load();
+    const n = Game.level().monsters.find(x => x.uid === m.uid);
+    if (n.hpShown || n.flashAt) out.push(`a reload kept flashAt ${n.flashAt}, hpShown ${n.hpShown}`);
+  }
+  {
+    const ctx = await start('fighter', 'flee-door');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+    p.hp = p.maxHp = 9999;
+    const [dx, dy] = Dungeon.DIRS[p.dir], [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    const at = (k, j = 0) => (p.y + dy * k + sy * j) * L.w + p.x + dx * k + sx * j;
+    for (let k = 1; k <= 5; k++) { L.tiles[at(k, 1)] = T.WALL; L.tiles[at(k, -1)] = T.WALL; }
+    ahead(ctx, 'rat', 1, { hp: 999, maxHp: 999, fleeing: true });
+    for (let k = 1; k <= 4; k++) L.tiles[at(k)] = T.FLOOR;
+    L.tiles[at(2)] = T.DOOR; L.tiles[at(5)] = T.WALL;
+    let inDoor = false;
+    for (let t = 0; t < 3000; t += 25) { Game.update(G.t + 25, 25); const r = Game.level().monsters[0]; if (r && L.tiles[r.y * L.w + r.x] === T.DOOR) inDoor = true; }
+    if (inDoor) out.push('a fleeing rat stood inside a shut door');
+  }
+  {
+    const ctx = await start('fighter', 'charge-blocked');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999;
+    const orc = ahead(ctx, 'orc', 5, { hp: 999, maxHp: 999 });
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy * 2) * L.w + p.x + dx * 2] = Dungeon.T.DOOR;
+    // a goblin stands between the orc and the door
+    L.monsters.push({ uid: 96, id: 'goblin', x: p.x + dx * 4, y: p.y + dy * 4, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    orc.windup = { kind: 'move', move: 'charge', at: G.t, until: G.t, dx: -dx, dy: -dy }; orc.nextAct = G.t;
+    const mark = markLog(G);
+    Game.update(G.t + 25, 25);
+    if (linesSince(G, mark).some(l => /slams into the shut door/.test(l))) out.push('a charge stopped by a goblin still slammed into the door');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

@@ -45,6 +45,7 @@ const Game = (() => {
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
+    fxGen++;
     fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1;
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
@@ -1279,7 +1280,9 @@ const Game = (() => {
   // flash, blood and any death wait until the fireball bursts on screen.
   let fxDelay = 0;
   /** Play a sound now, or when the picture it goes with lands. */
-  const soon = fn => { if (fxDelay > 0) { const d = fxDelay; setTimeout(fn, d); } else fn(); };
+  // (a new run, a load or a death puts paid to any still waiting: fxGen moves on)
+  let fxGen = 0;
+  const soon = fn => { if (fxDelay > 0) { const d = fxDelay, gen = fxGen; setTimeout(() => { if (gen === fxGen) fn(); }, d); } else fn(); };
   function openEncounter(n) {
     const def = ENCOUNTERS[n.id];
     if (!def) return false;
@@ -1642,7 +1645,7 @@ const Game = (() => {
     // act gets its moment instead of three going by in as many blows
     if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
       // a mage knows how the shadow is woven: a spell pulls it apart instead
-      if (castingName && P().cls === 'mage') {
+      if (castingName && castingName !== 'fireball' && P().cls === 'mage') {
         // it was waiting out its shadow; now it has a moment to gather itself
         m.wardUntil = G.t; m.nextAct = G.t + 400;
         Sound.stop('ward');
@@ -1771,6 +1774,8 @@ const Game = (() => {
   function promote(m) {
     const next = m.pack.shift();
     m.hp = next.hp; m.maxHp = next.maxHp;
+    // a fireball still in the air: the one stepping up shows its own life, not the fallen one's
+    if (m.hpShown > 0) m.hpShown = next.hp;
     if (!m.pack.length) delete m.pack;
     const left = packSize(m);
     log(left > 1 ? `Another ${mstat(m).name} steps up. ${left} are left.` : `The last ${mstat(m).name} steps up.`, 'bad');
@@ -1980,6 +1985,7 @@ const Game = (() => {
   function die() {
     const p = P();
     p.hp = 0;
+    fxGen++;                               // no blow still in the air is heard over the fall
     fx.hpFrac = 1;                         // no near-death pulse over the fallen
     fx.deadAt = realNow;                    // the view darkens a moment before the end screen
     G.status = 'dead';
@@ -2635,15 +2641,18 @@ const Game = (() => {
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
         // a door shut across its line stops it cold: it hits the door, not you
-        const door = inLine ? doorInCharge(m, w) : null;
+        let door = inLine ? doorInCharge(m, w) : null, x = m.x, y = m.y;
         if (door) {
-          let x = m.x, y = m.y;
-          // it thunders up to the door, but not through anything standing in the way
+          // it thunders up to the door, but not through anything standing in
+          // the way: stopped short of the door, it never hits it at all
           while (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) {
             const nx = x + (w.dx || 0), ny = y + (w.dy || 0);
             if (monsterAt(nx, ny) || npcAt(nx, ny)) break;
             x = nx; y = ny;
           }
+          if (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) door = null;
+        }
+        if (door) {
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           log(`The ${mb.name} slams into the shut door and reels back, wide open!`, 'good');
           Sound.play('smash', heard(m));
@@ -3124,8 +3133,10 @@ const Game = (() => {
           const nx = m.x + dx, ny = m.y + dy;
           if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
           const dd = distField[ny * L.w + nx];
-          if (dd > ad && !monsterAt(nx, ny)) { ad = dd; away = [nx, ny]; }
+          if (dd > ad && !monsterAt(nx, ny) && !npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
         }
+        // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
+        if (away && tile(away[0], away[1]) === T.DOOR) { const slow = meetDoor(m, mb, away[0], away[1]); m.nextAct = G.t + (slow ? mb.speed : Math.max(300, Math.round(mb.speed * 0.45))); continue; }
         if (away) { moveMonster(m, away[0], away[1]); m.nextAct = G.t + mb.speed; continue; }
         m.fleeing = false; // cornered: fight on
       }
@@ -3398,7 +3409,7 @@ const Game = (() => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
         sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy,
-          flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp, tell } : {}) });
+          flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
     for (const n of (L.npcs || [])) {
@@ -3491,6 +3502,8 @@ const Game = (() => {
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) {
         m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
+        // the page's clock starts again at nothing: a flash or a held life bar timed by the old one would hang on for good
+        m.flashAt = 0; delete m.hpShown;
         // a blow being drawn back is still coming after a reload, or quitting to the
         // title would be a way out of every warned crush: it keeps its warning, and
         // the same moment's grace as everything else

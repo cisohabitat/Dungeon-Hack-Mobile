@@ -533,6 +533,28 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('every tip fits whole over the log, on a small phone and a large one', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await startGame(page, { seed: 'tip-fit' });
+    for (const [width, height] of [[320, 568], [393, 727]]) {
+      await page.setViewportSize({ width, height });
+      await page.waitForTimeout(300);
+      const cut = await page.evaluate(() => {
+        const el = document.getElementById('tip'), log = document.getElementById('log').getBoundingClientRect();
+        el.classList.add('show');
+        const out = [];
+        for (const [k, v] of Object.entries(UI.tips())) {
+          el.innerHTML = v;
+          const r = el.getBoundingClientRect();
+          if (el.scrollHeight > el.clientHeight + 1) out.push(`${k} is cut off (${el.scrollHeight} > ${el.clientHeight})`);
+          if (r.bottom > log.bottom + 2) out.push(`${k} runs past the log onto the controls`);
+        }
+        return out;
+      });
+      expect(cut, `at ${width}px`).toEqual([]);
+    }
+  });
+
   test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
     await startGame(page, { seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);

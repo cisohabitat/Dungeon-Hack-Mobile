@@ -424,7 +424,7 @@ const UI = (() => {
   const TIPS = {
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
     monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
-    trick: 'A <b>violet mark</b> means a trick, and <b>armour will not turn it</b>: get out of the way. Read the log for what is coming; your <b>Bestiary</b>, in the Journal, writes down each trick you see.',
+    trick: 'A <b>violet mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
     claw: 'It reaches for you with a numbing claw. <b>Strike it now!</b> A blow that lands first knocks the claw aside, or step back out of reach.',
@@ -555,8 +555,9 @@ const UI = (() => {
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (secs('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
     // a blessing lasts minutes: counted in minutes, so the row does not tick every second
+    // a ward (armour) or a blessing (to hit) bought or prayed for; both at once are Warded
     const boon = Math.max(secs('boon_ac'), secs('boon_hit'));
-    if (boon) st.push(`<span class="good">Warded ${Math.ceil(boon / 60)}m</span>`);
+    if (boon) st.push(`<span class="good">${secs('boon_ac') ? 'Warded' : 'Blessed'} ${Math.ceil(boon / 60)}m</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
@@ -1788,7 +1789,9 @@ const UI = (() => {
 
   return { init, paused, fitView, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'),
-    isTitle: () => $('#screen-title').classList.contains('active') };
+    isTitle: () => $('#screen-title').classList.contains('active'),
+    /** Every tip's words, so a test can check each fits where it is shown. */
+    tips: () => ({ ...TIPS }) };
 })();
 
 export { UI };
