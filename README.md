@@ -59,6 +59,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
   They hit harder, take more killing, and always drop something worth having.
+- **The deep answers strength.** A hero who arrives on a floor well ahead of the usual level
+  finds it readier for them: its creatures take more killing, hit surer and harder, and more of
+  them are champions. A hero on pace or behind finds each floor as it was made.
 - **Torchlit halls.** Wall brackets cast real pools of light across floors, walls and monsters,
   each flame flickering on its own rhythm. Every depth decorates its walls its own way: iron
   rings and candle niches, skulls and ossuaries in the catacombs, moss and roots in the damp,

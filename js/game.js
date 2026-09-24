@@ -388,6 +388,11 @@ const Game = (() => {
   /** A champion with no matching prefix behaves exactly like its plain kind. */
   const NO_ELITE = { prefix: '', hp: 1, ac: 0, hit: 0, dmg: 0, xp: 1, speed: 1, tint: '#fff' };
   function mstat(m) {
+    const s = mstatBase(m);
+    // a floor readier for a strong hero: its creatures hit surer and harder
+    return m.edge ? { ...s, hit: s.hit + m.edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + m.edge] } : s;
+  }
+  function mstatBase(m) {
     const b = MONSTERS[m.id];
     // a boss changes as it weakens: each phase lends it new ways to fight
     if (b.phases && m.phase) return { ...b, ...b.phases[Math.min(m.phase, b.phases.length) - 1] };
@@ -822,7 +827,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2587,13 +2592,44 @@ const Game = (() => {
     learn(m.id, 'trick');
     Sound.play('growl');
   }
+  // ---------- the deep answers strength ----------
+  // A hero who has out-grown a floor finds it waiting for them. For every
+  // level above what a hero usually has on arriving there (past half a level
+  // of grace), its creatures are sturdier, hit surer and harder, and more of
+  // them are champions, the lich among them. Nothing is made easier for a hero
+  // who is behind, and the pressure is set once, when the floor is first
+  // entered, so it cannot be dodged by levelling on it.
+  const PRESS_HP = 0.15, PRESS_CHAMPION = 0.12, PRESS_MOST = 3, PRESS_GRACE = 0.5;
+  /** The level a hero usually has on arriving at a floor, measured over many runs by the bot. */
+  const expectedLevel = depth => 1 + 0.8 * (depth - 1);
+  /** @param {import('./types.js').Level} L @param {number} depth */
+  function pressLevel(L, depth) {
+    const over = Math.max(0, Math.min(PRESS_MOST, P().level - expectedLevel(depth) - PRESS_GRACE));
+    L.press = Math.round(over * 10) / 10;
+    if (!L.press) return;
+    const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
+    for (const m of L.monsters) {
+      if (!m.elite && !MONSTERS[m.id].boss && Math.random() < PRESS_CHAMPION * L.press) {
+        const e = Dice.pick(ELITES);
+        m.elite = e.prefix; m.maxHp = Math.round(m.maxHp * e.hp);
+      }
+      m.maxHp = tougher(m.maxHp); m.hp = m.maxHp;
+      m.edge = Math.round(L.press);
+      for (const b of m.pack || []) { b.maxHp = tougher(b.maxHp); b.hp = b.maxHp; }
+    }
+    if (L.press >= 1) log('The deep has heard of you. What waits on this floor is ready for you.', 'bad');
+  }
   /** A monster that appears mid-fight, awake and already hunting. */
   function newMonster(id, x, y, hp) {
+    // what comes later on a floor is as ready for the hero as what was there
+    const press = lvl().press || 0;
+    hp = Math.max(1, Math.round(hp * (1 + PRESS_HP * press)));
     const m = {
       uid: 900000 + (G.nextUid = (G.nextUid || 0) + 1), id, x, y,
       hp, maxHp: hp, awake: true, nextAct: G.t + WAKE_BEAT, rx: x, ry: y,
       fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0,
     };
+    if (Math.round(press)) m.edge = Math.round(press);
     lvl().monsters.push(m);
     return m;
   }

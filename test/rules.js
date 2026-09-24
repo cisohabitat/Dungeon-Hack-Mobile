@@ -3840,6 +3840,52 @@ await test('after three rests on a floor there is no more sleep to be had there,
   return Game.restLabel() === 'No rest' || `the button says ${Game.restLabel()}`;
 });
 
+// ---------- the deep answers strength ----------
+/** Walk down the stairs to the next floor, as the game would. */
+function goDown(ctx) {
+  const { Game, Dungeon } = ctx;
+  const L = Game.level(), p = Game.player(), s = L.stairsDown;
+  const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(s.y - dy) * L.w + s.x - dx] === Dungeon.T.FLOOR; });
+  const [dx, dy] = Dungeon.DIRS[k];
+  p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
+  L.monsters.length = 0;
+  Game.input('use');
+}
+await test('a hero ahead of the usual finds the next floor readier for them; one on pace finds it as it was', async () => {
+  const floorOf = async (level) => {
+    const ctx = await newContext();
+    const { Game } = ctx;
+    Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'press', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
+    Game.player().level = level;
+    const mark = markLog(Game.state());
+    goDown(ctx);
+    const L = Game.level();
+    return { press: L.press || 0, hp: L.monsters.reduce((n, m) => n + m.maxHp + (m.pack || []).reduce((a, b) => a + b.maxHp, 0), 0),
+      champions: L.monsters.filter(m => m.elite).length, said: linesSince(Game.state(), mark) };
+  };
+  const onPace = await floorOf(2), ahead = await floorOf(5);
+  if (onPace.press) return `a level 2 hero on floor 2 pressed ${onPace.press}`;
+  if (!(ahead.press >= 2.5)) return `a level 5 hero on floor 2 pressed only ${ahead.press}`;
+  if (!(ahead.hp > onPace.hp * 1.3)) return `its creatures held ${ahead.hp} life against ${onPace.hp}`;
+  if (!(ahead.champions > onPace.champions)) return `${ahead.champions} champions against ${onPace.champions}`;
+  if (!ahead.said.some(l => /The deep has heard of you/.test(l))) return 'the hero was not told';
+  return true;
+});
+
+await test('on a readier floor its creatures hit surer and harder', async () => {
+  const ctx = await newContext();
+  const { Game, MONSTERS } = ctx;
+  Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'press2', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
+  Game.player().level = 6;
+  goDown(ctx);
+  const L = Game.level();
+  const m = L.monsters.find(m => !m.elite);
+  if (!m) return 'no plain monster to look at';
+  const s = Game.mstat(m), b = MONSTERS[m.id];
+  if (!(s.hit > b.hit && s.dmg[2] > b.dmg[2])) return `a ${m.id} hits at +${s.hit} for +${s.dmg[2]}, as ever`;
+  return true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
