@@ -66,6 +66,8 @@
  * @property {number} [windReady]  Second Wind can come again from then
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
+ * @property {string} [path]  the class path taken at PATH_LEVEL (a PATHS id); absent until chosen, and in saves from before paths
+ * @property {number} [nextMercy]  a Healer's mending under Protection: the next hit point from then
  * @property {number} [held]    cannot act until then: frozen by a ghoul's touch, or knocked down by a charge
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
  */

@@ -154,6 +154,62 @@ const TALENTS = {
   ],
 };
 
+// Paths: at PATH_LEVEL each class chooses one of its two, once and for good,
+// in place of that level's lesson. A path is a way of fighting, not a bonus:
+// each gives up something, or asks for something, in return. game.js honours
+// each by id (see its paths block); effects are what the player is told.
+const PATH_LEVEL = 5;
+const PATHS = {
+  fighter: [
+    { id: 'knight', name: 'Knight', flavour: 'Shield up and feet set: the wall the dark breaks on.', effects: [
+      'A shield gives you 1 more armour class.',
+      'With a shield up, one ordinary blow in eight that lands is caught on it for half damage.',
+      'A warned trick that lands does a quarter less to you.',
+    ] },
+    { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
+      '+1 damage with every blow for each fifth of your life you have lost, up to +3.',
+      'Below half your life, your swing comes a tenth sooner.',
+      'You fight open: 2 less armour class, whatever you wear.',
+    ] },
+  ],
+  cleric: [
+    { id: 'templar', name: 'Templar', flavour: 'Faith with an edge on it, carried into the front line.', effects: [
+      'Your blows deal +1d4 to the undead (2d4 with Sanctified).',
+      'Bless lasts twice as long (four times with Zeal).',
+      'Holy Smite deals a fifth more.',
+    ] },
+    { id: 'healer', name: 'Healer', flavour: 'You came down to bring people back up. That includes you.', effects: [
+      'Your healing spells heal a fifth more.',
+      'While Protection is upon you, you heal a hit point every six seconds, even mid-fight.',
+      '+1 spell point for every two hero levels.',
+    ] },
+  ],
+  mage: [
+    { id: 'pyromancer', name: 'Pyromancer', flavour: 'Everything burns, given long enough. You are impatient.', effects: [
+      'Burning Hands and the Scroll of Fire deal a fifth more.',
+      'Your fire leaves what it hits burning, 1d4 a second for three seconds (six with Kindling).',
+      'You have given up the cold for the fire: Lightning Bolt costs a spell point more, Cone of Cold two.',
+    ] },
+    { id: 'frostweaver', name: 'Frostweaver', flavour: 'Cold is patience made into a weapon. Let them come to you slowly.', effects: [
+      'Lightning and Cone of Cold hold back everything they hit by most of a second (twice that with Rime).',
+      'Shield gives +5 armour class, not +4, and lasts a minute and a half.',
+      'Lightning Bolt costs 4 spell points, not 5.',
+    ] },
+  ],
+  thief: [
+    { id: 'assassin', name: 'Assassin', flavour: 'One blow, from the dark, where it counts. There should not need to be a second.', effects: [
+      'A strike from the shadows deals triple damage (four times with Assassinate).',
+      'Your critical hits land one number sooner on the die.',
+      'Sleeping monsters notice you a square later.',
+    ] },
+    { id: 'trickster', name: 'Trickster', flavour: 'Never where the blow lands, and always leaving with more than you brought.', effects: [
+      'One ordinary blow in eight that would land, you slip aside from.',
+      'A blow that swings at the air where you stood leaves its maker open, as an answered trick does.',
+      '+4 to spot and to dodge a trap, and gold and gems you find are worth a quarter more.',
+    ] },
+  ],
+};
+
 const XP_TABLE = [0, 45, 120, 265, 540, 1020, 1800, 3000, 4800, 7400, 11000, 16200, 22800];
 const MAX_LEVEL = 12;
 
@@ -487,4 +543,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, BESTIARY, TALENTS };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };

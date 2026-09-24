@@ -16,8 +16,13 @@ const ENC = process.env.ENC !== '0';
 // bot heads straight down, which is not how people play, and a class balance
 // tuned only against it rewards fragility that thorough play then punishes.
 const EXPLORE = parseFloat(process.env.EXPLORE || '0');
+// HEROPATH=knight (or berserker, templar, healer, pyromancer, frostweaver,
+// assassin, trickster) forces that path at level 5; otherwise the runs take
+// the class's two paths in turn, so each is measured over half the seeds.
+// (Not PATH: that would take the shell's own with it.)
+const HEROPATH = process.env.HEROPATH || '';
 
-function run(ctx, cls, seed, opts, bg) {
+function run(ctx, cls, seed, opts, bg, idx) {
   const { Rng, Dice } = ctx;
   // Live events roll two ways: the shared Dice, seeded from the clock when the
   // module loads, and bare Math.random. Neither is reproducible, so two
@@ -30,13 +35,13 @@ function run(ctx, cls, seed, opts, bg) {
   Dice.s = new Rng(key).s;
   Math.random = () => loose.next();
   try {
-    return play(ctx, cls, seed, opts, bg);
+    return play(ctx, cls, seed, opts, bg, idx);
   } finally {
     Math.random = realRandom;
   }
 }
 
-function play(ctx, cls, seed, opts, bg) {
+function play(ctx, cls, seed, opts, bg, idx) {
   const { Game, Dungeon, ITEMS, RELICS, MONSTERS } = ctx;
   const T = Dungeon.T;
   // FIT=1 does what the creation screen does: the best roll goes in the class's key stat
@@ -112,6 +117,14 @@ function play(ctx, cls, seed, opts, bg) {
     // experience offers a choice on every level; take the most useful one
     while (Game.pendingBoons()) {
       const offer = Game.pendingBoons();
+      // a path: the one asked for, or each in turn run by run
+      if (Game.isPathOffer(offer)) {
+        // HEROPATH=none walks past the offer, to measure what the paths add
+        if (HEROPATH === 'none') { Game.state().pendingBoons.shift(); Game.state().pendingLevels.shift(); continue; }
+        rec.path = offer.includes(HEROPATH) ? HEROPATH : offer[idx % offer.length];
+        Game.chooseBoon(rec.path);
+        continue;
+      }
       // a talent by what a sensible player of each class would reach for first
       const order = ['second_wind', 'weapon_master', 'bulwark', 'stand_firm', 'cleave', 'riposte',
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
@@ -132,12 +145,12 @@ function play(ctx, cls, seed, opts, bg) {
     // what each class is for. SMART=0 plays the old way, to compare.
     if (SMART) {
       // casting shares the swing timer, so only try when ready
-      const castable = G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && !Game.spellWasteReason(sp));
+      const castable = G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && !Game.spellWasteReason(sp));
       const healSp = castable.filter(sp => sp.kind === 'heal').pop();
       if (hpFrac < 0.5 && healSp && !process.env.NOHEAL) { Game.castSpell(healSp); rec.healsCast = (rec.healsCast || 0) + 1; step(); continue; }
       // a fight is about to start: raise defences first, keeping points in hand
       const closing = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
-      const buff = closing && !process.env.NOBUFF && castable.find(sp => sp.kind === 'buff' && p.sp >= sp.cost + 2);
+      const buff = closing && !process.env.NOBUFF && castable.find(sp => sp.kind === 'buff' && p.sp >= Game.spellCost(sp) + 2);
       if (buff) { Game.castSpell(buff); rec.buffsCast = (rec.buffsCast || 0) + 1; step(); continue; }
     }
     // --- emergency: drink a healing potion
@@ -219,7 +232,7 @@ function play(ctx, cls, seed, opts, bg) {
     if (!process.env.NOREACT) {
       // held in a web: burn it away with fire if a fire spell is to hand
       if (p.webbed > G.t && !process.env.OLDANSWERS && G.t >= p.nextAttack) {
-        const fire = Game.knownSpells().find(sp => sp.fire && Game.spellAvailable(sp) && p.sp >= sp.cost);
+        const fire = Game.knownSpells().find(sp => sp.fire && Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp));
         if (fire && Game.castSpell(fire) !== false) { rec.burned = (rec.burned || 0) + 1; step(); continue; }
       }
       // a chant, the lich's rite or a war-horn is answered by striking it, not by stepping away
@@ -273,7 +286,7 @@ function play(ctx, cls, seed, opts, bg) {
     }
 
     // --- shoot down the corridor before anything closes the distance
-    const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= sp.cost && sp.kind === 'bolt');
+    const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
     if (bolts.length) {
       let shot = null;
       for (let k = 0; k < 4 && !shot; k++) {
@@ -284,8 +297,9 @@ function play(ctx, cls, seed, opts, bg) {
           if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
           const m = L.monsters.find(mm => mm.x === x && mm.y === y);
           if (m) {
-            const sp = bolts.filter(b => b.range >= i).pop();
-            if (sp && (i > 1 || p.sp > sp.cost * 2)) shot = { dir: k, sp };
+            // a Pyromancer burns what is beside them rather than spend on the cold
+            const sp = (i === 1 && p.path === 'pyromancer' && bolts.find(b => b.id === 'burning_hands')) || bolts.filter(b => b.range >= i).pop();
+            if (sp && (i > 1 || p.sp > Game.spellCost(sp) * 2)) shot = { dir: k, sp };
             break;
           }
         }
@@ -339,9 +353,11 @@ function play(ctx, cls, seed, opts, bg) {
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
-      const spells = process.env.NOBOLT ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= s.cost && s.kind === 'bolt');
+      const spells = process.env.NOBOLT ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt');
       // points kept back for the next fight are no use against the last one
-      if (spells.length && (p.sp > p.maxSp * 0.4 || MONSTERS[adj.m.id].boss)) Game.castSpell(spells[spells.length - 1]);
+      // a Pyromancer reaches for fire first, at the same moments
+      const pick = (p.path === 'pyromancer' && spells.find(s => s.id === 'burning_hands')) || spells[spells.length - 1];
+      if (spells.length && (p.sp > p.maxSp * 0.4 || MONSTERS[adj.m.id].boss)) Game.castSpell(pick);
       else Game.input('attack');
       step();
       continue;
@@ -603,6 +619,7 @@ function play(ctx, cls, seed, opts, bg) {
   rec.cursedAtEnd = Object.values(p.eq).some(i => i && i.curse) ? 1 : 0;
   rec.relics = [...p.inv, ...Object.values(p.eq)].filter(i => i && i.u).length;
   rec.relicsWorn = Object.values(p.eq).filter(i => i && i.u).length;
+  rec.casts = { ...((G.stats && G.stats.spells) || {}) };
   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
   return rec;
 }
@@ -624,7 +641,7 @@ for (const cls of classes) {
       const ctx = await loadGame();
       // rotate backgrounds so the benchmark is not one perk repeated 60 times
       const bg = BACKGROUND_ROTATION[(SEEDS.indexOf(seed) * TRIALS + t) % BACKGROUND_ROTATION.length];
-      try { rows.push(run(ctx, cls, seed, opts, bg)); }
+      try { rows.push(run(ctx, cls, seed, opts, bg, SEEDS.indexOf(seed) * TRIALS + t)); }
       catch (e) { rows.push({ cls, died: true, cause: 'ERROR ' + e.message, deepest: 0, level: 0 }); }
     }
   }
@@ -641,6 +658,10 @@ for (const cls in results) {
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
   console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
+  // which path each run took at level 5, and how each did (runs that never got there take none)
+  const byPath = {};
+  for (const r of rows) (byPath[r.path || 'none'] = byPath[r.path || 'none'] || []).push(r);
+  console.log(`   paths ${Object.entries(byPath).map(([k, a]) => `${k} ${a.length} runs, win ${(a.filter(r => r.won).length / a.length * 100).toFixed(0)}%`).join(' | ')}`);
 }
 // GEAR=1 shows what each class ended its runs holding
 if (process.env.GEAR) {
@@ -648,6 +669,14 @@ if (process.env.GEAR) {
     const t = {};
     for (const r of results[cls]) t[r.gear] = (t[r.gear] || 0) + 1;
     console.log(`   ${cls.padEnd(8)} ${Object.entries(t).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k} ×${n}`).join(' | ')}`);
+  }
+}
+// CASTS=1 shows how often each class cast each spell, per run
+if (process.env.CASTS) {
+  for (const cls in results) {
+    const t = {};
+    for (const r of results[cls]) for (const k in (r.casts || {})) t[k] = (t[k] || 0) + r.casts[k];
+    console.log(`   ${cls.padEnd(8)} casts per run: ${Object.entries(t).map(([k, n]) => `${k} ${(n / results[cls].length).toFixed(1)}`).join(' | ')}`);
   }
 }
 // DEATHS=1 shows, per class, which floor runs died on and what killed them

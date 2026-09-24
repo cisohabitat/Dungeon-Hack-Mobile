@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS } from './data.js';
+import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS, PATHS, PATH_LEVEL } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -725,6 +725,8 @@ const UI = (() => {
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
+    // a Berserker's rage is worth seeing grow
+    if (Game.berserkerRage() > 0) st.push(`<span class="good" title="Berserker: +${Game.berserkerRage()} damage on every blow${p.hp < p.maxHp / 2 ? ', and a quicker swing' : ''}">Rage +${Game.berserkerRage()}${p.hp < p.maxHp / 2 ? ', frenzied' : ''}</span>`);
     if (secs('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
     if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
@@ -1177,6 +1179,7 @@ const UI = (() => {
   function renderBoons() {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
+    if (Game.isPathOffer(offer)) { renderPaths(offer); return; }
     const p = Game.player();
     const talents = TALENTS[p.cls] || [];
     const isTalent = offer.some(id => talents.some(t => t.id === id));
@@ -1191,6 +1194,7 @@ const UI = (() => {
     if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
     const nextTalent = level + (level % 2 === 0 ? 2 : 1);   // talents come at the even levels
     if (nextTalent <= MAX_LEVEL) bits.push(isTalent ? `next talent at level ${nextTalent}` : (nextTalent === level + 1 ? 'a talent at the next level' : `next talent at level ${nextTalent}`));
+    if (!p.path && level < PATH_LEVEL && PATHS[p.cls]) bits.push(`your path at level ${PATH_LEVEL}`);
     const head = document.createElement('p');
     head.className = 'boon-head';
     head.textContent = bits.join(' \u00b7 ');
@@ -1219,6 +1223,45 @@ const UI = (() => {
     }
   }
 
+  /** A path's card: its name, a line of flavour, and what it does, as a list. */
+  const pathCard = x => `<b>${escapeHtml(x.name)}</b><small class="path-flavour">${escapeHtml(x.flavour)}</small><ul class="path-effects">${x.effects.map(e => `<li>${escapeHtml(e)}</li>`).join('')}</ul>`;
+  // The class's two paths, once a run: set apart from lessons and talents
+  // because it is the bigger choice, and it cannot be undone.
+  function renderPaths(offer) {
+    const p = Game.player(), paths = PATHS[p.cls] || [];
+    const level = Game.pendingLevel(), got = Game.levelNote(level);
+    $('#boon-title').textContent = `Hero level ${level}: choose your path`;
+    const el = $('#boon-list');
+    el.innerHTML = '';
+    const bits = [];
+    if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
+    const head = document.createElement('p');
+    head.className = 'boon-head';
+    head.textContent = bits.join(' \u00b7 ');
+    if (bits.length) el.appendChild(head);
+    const note = document.createElement('p');
+    note.className = 'dim small';
+    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} comes to a fork. Choose one path: it is yours for the rest of the run, and it takes the place of this level's lesson.`;
+    el.appendChild(note);
+    const openedAt = performance.now();
+    for (const id of offer) {
+      const x = paths.find(q => q.id === id);
+      if (!x) continue;
+      const btn = document.createElement('button');
+      btn.className = 'boon path';
+      btn.dataset.path = x.id;
+      btn.innerHTML = pathCard(x);
+      btn.disabled = true; btn.classList.add('arming');
+      setTimeout(() => { btn.disabled = false; btn.classList.remove('arming'); }, BOON_GUARD_MS);
+      btn.addEventListener('click', () => {
+        if (performance.now() - openedAt < BOON_GUARD_MS) return;
+        Game.chooseBoon(id);
+        if (Game.pendingBoons()) renderBoons(); else closeOverlay();
+      });
+      el.appendChild(btn);
+    }
+  }
+
   function renderLogHistory() {
     const G = Game.state();
     $('#log-history').innerHTML = '<div class="log-history">' + G.log.filter(e => !e.gone).reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
@@ -1235,13 +1278,15 @@ const UI = (() => {
       + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`;
     $('#hall-relics-count').textContent = `${v.relics.length} of ${Object.keys(RELICS).length} found`;
   }
+  /** ", Knight": the path a hero in the Hall took, if they lived to take one. */
+  const hallPath = h => { const x = (PATHS[h.cls] || []).find(q => q.id === h.path); return x ? `, ${escapeHtml(x.name)}` : ''; };
   function renderHall() {
     renderTrophies();
     const list = Game.hall();
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
     // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -1438,7 +1483,7 @@ const UI = (() => {
     const blow = `${d[0]}d${d[1]}${d[2] + e > 0 ? '+' + (d[2] + e) : d[2] + e < 0 ? '\u2212' + -(d[2] + e) : ''}`;
     // the blade parries for a point, so a shield costs what it gave (Bulwark
     // and all) less that; a blade already there parried the same
-    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) + ((p.talents || []).includes('bulwark') ? 2 : 0) - 1 : 0;
+    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) + ((p.talents || []).includes('bulwark') ? 2 : 0) + (p.path === 'knight' ? 1 : 0) - 1 : 0;
     const ac = p.eq.offhand ? '' : sh > 0 ? `; the shield comes off (\u2212${sh} armor class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armor class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armor class';
     // with a blade there already, the swing is as slow as it was
     return `<p class="compare">In the off hand: a second blow of ${blow} after each swing${p.eq.offhand ? ' in place of the one you hold there' : ', and the main hand a fifth slower'}${ac}.</p>`;
@@ -1619,7 +1664,7 @@ const UI = (() => {
       const b = document.createElement('button');
       const ready = ok && Game.castLabel() === sp.name;
       b.className = 'spell' + (ok ? '' : ' locked') + (ready ? ' ready' : '');
-      b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
+      b.innerHTML = `<div class="cost">${Game.spellCost(sp)} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
       b.disabled = !ok;
       b.addEventListener('click', () => {
         const seq = Game.state().logSeq;
@@ -1641,7 +1686,8 @@ const UI = (() => {
     const w = Game.weapon();
     const rows = [];
     const r = (k, v, full) => rows.push(`<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`);
-    r('Name', escapeHtml(p.name)); r('Class', c.name);
+    const path = Game.pathOf();
+    r('Name', escapeHtml(p.name)); r('Class', path ? `${c.name}, ${escapeHtml(path.name)}` : c.name);
     r('Hero level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
     r('Hit points', `${p.hp} / ${p.maxHp}`); r('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '—');
     r('Armor class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
@@ -1653,6 +1699,10 @@ const UI = (() => {
     r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
     r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
     let extra = '';
+    // the path taken, or the two still ahead
+    const paths = PATHS[p.cls] || [];
+    if (path) extra += `<h3 class="sheet-h">Path</h3><div class="path-sheet" data-path="${path.id}">${pathCard(path)}</div>`;
+    else if (paths.length) extra += `<h3 class="sheet-h">Path</h3><p class="dim small">${p.level < PATH_LEVEL ? `At hero level ${PATH_LEVEL}` : 'At your next level'} you choose your path: ${paths.map(x => `<b>${escapeHtml(x.name)}</b>`).join(' or ')}.</p>`;
     // every power the hero's gear gives, relic or plain, with the slot it is in
     const worn = [];
     for (const [slot, label] of [['weapon', 'weapon'], ['offhand', 'off hand'], ['armor', 'armour'], ['shield', 'shield'], ['ring', 'ring'], ['ring2', 'ring'], ['amulet', 'amulet']]) {
@@ -1770,6 +1820,8 @@ const UI = (() => {
       }).join('') + '</div>');
     } else parts.push('<p class="end-none">Nothing died by your hand.</p>');
     const own = TALENTS[p.cls] || [];
+    const path = Game.pathOf(p);
+    if (path) parts.push(`<div class="end-h"><span>Path</span></div><div class="end-tags"><span class="tag path">${escapeHtml(path.name)}</span></div>`);
     const talents = (p.talents || []).map(id => own.find(t => t.id === id)).filter(Boolean);
     if (talents.length) parts.push('<div class="end-h"><span>Talents</span></div><div class="end-tags">' + talents.map(t => `<span class="tag">${escapeHtml(t.name)}</span>`).join('') + '</div>');
     const relics = ((G.relics && G.relics.found) || []).filter(id => RELICS[id]);
@@ -1783,7 +1835,7 @@ const UI = (() => {
     clearOverlays();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
-      ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain.`
+      ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the Dread Lich and lifted the Heart of the Mountain.`
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
     // a first win for this class at this difficulty, and any past it opened
     const earned = won ? Game.earned() : null, news = [];

@@ -35,6 +35,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
 - **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's six, each changing how the class fights.
   Ability gains can be taken repeatedly; the permanent perks only once.
+- **A path at level 5.** Each class chooses one of two paths, for good, in place of that level's
+  lesson: Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
+  Each changes two or three rules (a shield that catches blows, rage that grows with your wounds,
+  fire that keeps burning, a slip aside from a blow) and some give something up for it. The path
+  is on the Hero sheet, the end screen and the Hall of Heroes.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,
   experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover
@@ -189,8 +194,9 @@ push. `npm start` serves the game locally on port 4173 with no dependencies.
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
-depth per class, which is how the balance below was tuned rather than guessed at. `npm test`
-runs the headless generator checks, plus a rule suite that loads the real game logic and
+depth per class, which is how the balance below was tuned rather than guessed at. Runs take
+each class's two paths in turn and report how each did; `HEROPATH=knight` (or any path) forces
+one. `npm test` runs the headless generator checks, plus a rule suite that loads the real game logic and
 exercises the edge cases that are easy to break quietly: enchanted duplicates not merging in the
 pack, two-handed weapons stowing the shield, save surviving a JSON round trip with buffs intact,
 dropping from a full pack, poison and buffs expiring, the Heart resisting sale, and a trader

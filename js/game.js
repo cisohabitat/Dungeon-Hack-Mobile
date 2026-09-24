@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, THEMES, BESTIARY, TALENTS } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -168,7 +168,7 @@ const Game = (() => {
     // the unarmoured mage runs deep
     const mul = c.spMul || 1;
     return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0)
-      + (hasPower('mind', null, p) ? 6 : 0);
+      + (hasPower('mind', null, p) ? 6 : 0) + healerSp(p);
   }
   // Practice tells: a veteran swings faster and puts more behind it. Without this
   // the player's damage is flat for the whole game while monster hit points grow.
@@ -201,16 +201,104 @@ const Game = (() => {
   }
   /** Whether the hero has taken this class talent. */
   const hasTalent = id => !!(P().talents && P().talents.includes(id));
+
+  // ---------- paths ----------
+  // At PATH_LEVEL each class takes one of two paths for the rest of the run
+  // (PATHS in data.js says what each does). Every effect lives in one small
+  // function here, and the rule it changes asks it once, so a path touches
+  // the rest of the rules at a single point each.
+  /** Whether the hero has taken this path. */
+  const onPath = id => P().path === id;
+  /** The hero's path as PATHS describes it, or null before one is chosen. */
+  const pathOf = (p = P()) => (PATHS[p.cls] || []).find(x => x.id === p.path) || null;
+  // Knight: the shield is the point. A guard needs one up; the footing does not.
+  /** More armour from a Knight's shield. */
+  const knightShieldAC = () => (onPath('knight') ? 1 : 0);
+  /** An ordinary blow that lands on a Knight with a shield up: one in eight is caught on it, for half. */
+  function knightGuard(dmg) {
+    if (!onPath('knight') || !P().eq.shield || d(1, 8) !== 1) return dmg;
+    return Math.max(1, Math.ceil(dmg / 2));
+  }
+  /** A warned trick that lands on a Knight does a quarter less (after Stand Firm, if taken). */
+  const knightSteadfast = dmg => (onPath('knight') ? Math.max(1, Math.ceil(dmg * 0.75)) : dmg);
+  // Berserker: harder the worse it goes, and nothing held back for guarding.
+  /** A Berserker's rage: +1 on every blow for each fifth of life lost, up to +3. */
+  function berserkerRage() {
+    const p = P();
+    if (!onPath('berserker')) return 0;
+    return Math.max(0, Math.min(3, Math.floor(5 * (1 - p.hp / p.maxHp))));
+  }
+  /** Below half their life a Berserker's swing comes a tenth sooner. */
+  const berserkerFrenzy = () => (onPath('berserker') && P().hp < P().maxHp / 2 ? 0.9 : 1);
+  /** A Berserker fights open. */
+  const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
+  // Templar: the front-line priest.
+  /** A Templar's blow on the undead: 1d4 more (Sanctified's die adds to it). */
+  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 4) : 0);
+  /** Holy Smite in a Templar's hands deals a fifth more. */
+  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? Math.round(dmg * 1.2) : dmg);
+  // Healer: mending, and the points to spend on it.
+  /** A Healer's healing spell heals a fifth more (after Healing Hands, if taken). */
+  const healerHeal = n => (onPath('healer') ? Math.round(n * 1.2) : n);
+  /** A Healer's deeper well: a spell point for every two hero levels. */
+  const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 2) : 0);
+  /** While Protection is up a Healer mends a hit point every six seconds, on a clock of its own beside Warding Light's. */
+  function healerMercy() {
+    const p = P();
+    if (!onPath('healer') || p.hp >= p.maxHp || !effectFrom('ac', 'protection') || G.t < (p.nextMercy || 0)) return;
+    p.hp++; p.nextMercy = G.t + 6000; noteHealed(1); emit('stats');
+  }
+  // Pyromancer: hotter fire that keeps burning, and the cold given up for it.
+  /** The fire spells and the fire scroll in a Pyromancer's hands deal a fifth more. */
+  const pyroFire = dmg => (onPath('pyromancer') ? Math.round(dmg * 1.2) : dmg);
+  /** Whether the hero's fire leaves things burning: Kindling, or a Pyromancer's own. */
+  const kindles = () => hasTalent('kindling') || onPath('pyromancer');
+  /** Set what the hero's fire struck burning: three seconds, six when Kindling and the path both feed it. */
+  function setBurning(m) {
+    const ms = hasTalent('kindling') && onPath('pyromancer') ? 6000 : 3000;
+    m.dot = { kind: 'burning', until: G.t + ms, next: G.t + 1000 };
+  }
+  // Frostweaver: the cold holds things back, and the Shield holds longer.
+  const FROST_SPELLS = ['lightning', 'cone_cold'];
+  /** How long a spell holds back what it hits: Rime's jolt, a Frostweaver's, or both. */
+  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? 700 : 0);
+  // What a spell costs, and what a buff gives and for how long, with the paths in.
+  /** Spell points a spell costs this hero. */
+  function spellCost(sp) {
+    if (sp.id === 'lightning' && onPath('frostweaver')) return sp.cost - 1;
+    // a Pyromancer has given the cold up for the fire, and it comes harder to them
+    if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) return sp.cost + (sp.id === 'cone_cold' ? 2 : 1);
+    return sp.cost;
+  }
+  /** How much a buff gives: a Frostweaver's Shield gives one more. */
+  const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);
+  /** How long a buff lasts: Zeal and a Templar each double Bless, and a Frostweaver's Shield lasts half as long again. */
+  const buffDuration = sp => sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) * (sp.id === 'bless' && onPath('templar') ? 2 : 1) * (sp.id === 'shield' && onPath('frostweaver') ? 1.5 : 1);
+  // Assassin: the blow from the dark.
+  /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
+  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0);
+  /** Squares closer a sleeping monster lets an Assassin come. */
+  const assassinQuiet = () => (onPath('assassin') ? 1 : 0);
+  // Trickster: never where the blow lands.
+  /** One ordinary blow in eight that would land on a Trickster, they slip aside from. */
+  const tricksterSlip = () => onPath('trickster') && d(1, 8) === 1;
+  /** A Trickster's ordinary blow that swung at the air leaves its maker open, as an answered trick does. */
+  function tricksterOpening(m) { if (onPath('trickster')) opening(m); }
+  /** A Trickster's eye and feet for a trap. */
+  const tricksterTraps = () => (onPath('trickster') ? 4 : 0);
+  /** A Trickster finds a quarter more in every pile of gold and every gem. */
+  const tricksterPurse = q => (onPath('trickster') ? Math.round(q * 1.25) : q);
+
   // the roll at or above which an attack is a critical hit
   function critFloor() {
     const p = P();
     const base = p.cls !== 'thief' ? 20 : (p.level >= 9 ? 18 : 19);
-    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0);
+    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? 1 : 0);
   }
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
     const p = P();
-    const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1);
+    const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1) * berserkerFrenzy();
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
     const swift = hasPower('swift', 'weapon') ? 0.85 : 1;
@@ -513,10 +601,10 @@ const Game = (() => {
     // thieves stay alive by not being where the blow lands
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
-    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0);
+    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
     // a second blade is no shield, but it turns aside a blow now and then
     if (p.eq.offhand) ac += OFFHAND_PARRY;
-    return ac + jewelBonus('protect', p);
+    return ac + jewelBonus('protect', p) + berserkerOpen();
   }
   function knownSpells() {
     const c = cls();
@@ -783,7 +871,7 @@ const Game = (() => {
             try {
               for (const m of targets) {
                 if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-                hitGroup(m, d(4, 6), 'burn');
+                hitGroup(m, pyroFire(d(4, 6)), 'burn');
               }
             } finally { castingName = ''; }
             break;
@@ -905,7 +993,7 @@ const Game = (() => {
     const list = L.items[k] || [];
     const i = list.indexOf(it);
     if (i < 0) return;
-    if (it.t === 'gold' || it.t === 'gem') noteGold(it.q);
+    if (it.t === 'gold' || it.t === 'gem') { it.q = tricksterPurse(it.q); noteGold(it.q); }
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find ${/^[aeiou]/i.test(it.name) ? 'an' : 'a'} ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') {
@@ -1316,7 +1404,7 @@ const Game = (() => {
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
     // tombwise. No eye for it, no lucky twenty: it is noticed or not
-    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer');
+    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps();
     const seen = statCheck('wis', saveDC('spot'), eye, { natural: false });
     // each is seen as it goes off (see the renderer); a dart comes from one wall or the other
     const [tx, ty] = k.split(',').map(Number);
@@ -1332,7 +1420,7 @@ const Game = (() => {
     // set, and deeper ones are set better. A dart or a needle then misses
     // outright; a pit is only half a fall, caught at its edge. A gong cannot
     // be dodged: its harm is the noise.
-    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion')) : null;
+    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + tricksterTraps()) : null;
     const pit = tr === TRAP_TYPES.pit;
     fx.trapDodged = !!(dodge && dodge.pass && !pit);
     // a fall shakes the view longer than a blow: set once the harm (which
@@ -1738,11 +1826,12 @@ const Game = (() => {
     const finesse = p.cls === 'thief';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0) + jewelBonus('might');
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
-    const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0);
+    const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
+      + berserkerRage() + templarBlow(m);   // a path's number, likewise
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
     let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon');
     if (crit) dmg *= 2;
-    if (sneak) dmg *= hasTalent('assassinate') ? 3 : 2;
+    if (sneak) dmg *= sneakMult();
     dmg = Math.max(1, dmg);
     leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
     // Cleave: the swing carries on into the one behind the front. Who that is
@@ -1765,7 +1854,7 @@ const Game = (() => {
     // Kindling keeps the fire going
     if (hasPower('flame', 'weapon') && struckSurvived) {
       if (mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
-      if (hasTalent('kindling')) m.dot = { kind: 'burning', until: G.t + 3000, next: G.t + 1000 };
+      if (kindles()) setBurning(m);
     }
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
     if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
@@ -1870,8 +1959,8 @@ const Game = (() => {
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     moveOnHurt(m, mb, tag);
-    // Kindling: the hero's fire keeps burning
-    if (tag === 'burn' && hasTalent('kindling')) m.dot = { kind: 'burning', until: G.t + 3000, next: G.t + 1000 };
+    // Kindling, or a Pyromancer: the hero's fire keeps burning
+    if (tag === 'burn' && kindles()) setBurning(m);
     // wounded, non-boss monsters may break and run
     if (!mb.boss && !mb.named && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
@@ -1966,7 +2055,11 @@ const Game = (() => {
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');
       G.levelNotes = G.levelNotes || {};
       G.levelNotes[p.level] = { hp: gain, spells: unlocked.map(s => s.name) };
-      // a small lesson at every odd level, and at every even one a talent of the hero's class
+      // a small lesson at every odd level, and at every even one a talent of
+      // the hero's class; at PATH_LEVEL the path instead of the lesson. A hero
+      // past it without one (a save from before paths) is offered it as well
+      const path = p.level >= PATH_LEVEL && offerPath();
+      if (path && p.level === PATH_LEVEL) continue;
       if (p.level % 2 === 0) offerTalents(); else offerBoons();
     }
   }
@@ -1994,6 +2087,7 @@ const Game = (() => {
   function redrawOffers() {
     const rest = G.pendingBoons || [];
     for (let i = 0; i < rest.length; i++) {
+      if (isPathOffer(rest[i])) continue;      // the two paths stand as they are
       const talentOffer = rest[i].some(id => (TALENTS[P().cls] || []).some(t => t.id === id));
       const pool = (talentOffer ? talentPool() : boonPool()).map(b => b.id);
       const keep = rest[i].filter(id => pool.includes(id));
@@ -2024,6 +2118,17 @@ const Game = (() => {
     G.pendingLevels = (G.pendingLevels || []).concat(p.level);
     emit('boons');
   }
+  /** An offer of the class's two paths, rather than lessons or talents. */
+  function isPathOffer(offer) { return !!offer && offer.some(id => (PATHS[P().cls] || []).some(x => x.id === id)); }
+  /** The class's two paths, once, if the hero has none and is not already being offered them. */
+  function offerPath() {
+    const p = P(), paths = PATHS[p.cls] || [];
+    if (G.bossDown || p.path || !paths.length || (G.pendingBoons || []).some(isPathOffer)) return false;
+    G.pendingBoons = (G.pendingBoons || []).concat([paths.map(x => x.id)]);
+    G.pendingLevels = (G.pendingLevels || []).concat(p.level);
+    emit('boons');
+    return true;
+  }
   /** The level the offer now showing was earned at. */
   function pendingLevel() { return G.pendingLevels && G.pendingLevels.length ? G.pendingLevels[0] : P().level; }
   /** What a level brought besides the choice: hit points, and any spell learned. */
@@ -2033,6 +2138,21 @@ const Game = (() => {
     const offer = pendingBoons();
     if (!offer || !offer.includes(id)) return false;
     const p = P();
+    const path = (PATHS[p.cls] || []).find(x => x.id === id);
+    if (path) {
+      // for good: nothing offers it again, and nothing takes it back
+      p.path = id;
+      const was = p.maxSp;
+      refreshSp(p);
+      p.sp += p.maxSp - was;                 // a Healer's deeper well is there at once, and full
+      G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
+      redrawOffers();
+      log(`You walk the path of the ${path.name}. ${path.effects.join(' ')}`, 'good');
+      Sound.play('levelup');
+      emit('stats');
+      if (!pendingBoons()) emit('boonsDone');
+      return true;
+    }
     const talent = (TALENTS[p.cls] || []).find(t => t.id === id);
     if (talent) {
       p.talents = (p.talents || []).concat(id);
@@ -2232,6 +2352,7 @@ const Game = (() => {
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;
+    if (p.path) entry.path = p.path;       // "Level 9 Fighter, Knight"
     try {
       const list = hall();
       list.push(entry);
@@ -2374,7 +2495,7 @@ const Game = (() => {
     if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
-    if (sp.kind === 'buff' && ownEffect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
+    if (sp.kind === 'buff' && ownEffect(sp.stat) >= buffAmount(sp)) return `${sp.name} is already upon you.`;
     return null;
   }
   // A spell takes time, and shares the swing's timer. Casting used to cost
@@ -2412,12 +2533,12 @@ const Game = (() => {
     // choosing a spell readies it on the Cast button, even if it cannot fly
     // yet: a mage picks Burning Hands before the fight, not during it
     G.lastSpell = sp.id;
-    if (p.sp < sp.cost) { log('Not enough spell points.', 'bad'); Sound.play('error'); return false; }
+    if (p.sp < spellCost(sp)) { log('Not enough spell points.', 'bad'); Sound.play('error'); return false; }
     const waste = spellWasteReason(sp);
     if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
     if (G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
     p.nextAttack = G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
-    p.sp -= sp.cost;
+    p.sp -= spellCost(sp);
     noteSpell(sp);
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color; fx.castAt = realNow;
@@ -2425,9 +2546,9 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1)); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
       case 'buff':
-        p.effects[sp.stat] = { amount: sp.amount, until: G.t + sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1), src: sp.id };
+        p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${sp.desc}`, 'good');
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
@@ -2446,8 +2567,11 @@ const Game = (() => {
             if (sp.holy && mstat(m).undead) dmg *= 2;
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
-            // Rime: the cold and the lightning hold back whatever they touch
-            if (sp.pierce && hasTalent('rime')) { m.nextAct = Math.max(m.nextAct, G.t) + 700; if (m.windup) m.windup.until += 700; }
+            if (sp.fire) dmg = pyroFire(dmg);
+            dmg = templarSmite(sp, dmg);
+            // Rime, or a Frostweaver: the cold and the lightning hold back whatever they touch
+            const hold = spellHold(sp);
+            if (hold) { m.nextAct = Math.max(m.nextAct, G.t) + hold; if (m.windup) m.windup.until += hold; }
             // a bolt that tears through everything in its path, or a blast that
             // fills the square, takes a whole group; a dart only the front one
             const tag = sp.fire ? 'burn' : 'fire';
@@ -2691,6 +2815,8 @@ const Game = (() => {
       if (miss && miss.rel !== 0) { fx.hurtFrom = miss.rel; fx.hurtFromUntil = realNow + 700; }
       return false;
     }
+    // a Trickster slips an ordinary blow now and then; a warned trick is not so easily slipped
+    if (!heavy && tricksterSlip()) { log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', heard(m)); return false; }
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
     // a crushing blow is doubled already; and on the first two floors a lucky
     // blow is not doubled at all: a level-one hero's whole life was a goblin's
@@ -2698,9 +2824,13 @@ const Game = (() => {
     if (roll === 20 && !h.mult && G.depth >= 3) dmg *= 2;
     const firm = heavy && hasTalent('stand_firm');
     if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
+    // a Knight takes a trick on set feet, and an ordinary blow now and then on the shield
+    const was = dmg;
+    dmg = heavy ? knightSteadfast(dmg) : knightGuard(dmg);
+    const knight = dmg < was ? (heavy ? ' (your footing takes a quarter off)' : ' (caught on your shield: half)') : '';
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${note}`, m);
+    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${knight}${note}`, m);
     if (G.status !== 'playing') return true;
     // every venomous bite that lands is fought off with Constitution
     if (mb.poison) venomSave('bite', `the ${mb.name}'s`);
@@ -2960,7 +3090,7 @@ const Game = (() => {
         if (novaReaches(m)) {
           const shielded = effectFrom('ac', 'shield');
           const c = trickSave('dex', 'nova');
-          const n = Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1)));
+          const n = knightSteadfast(Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1))));
           hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${c.note}`, m); G.blowGate = G.t + BLOW_GAP;
         }
         else { log('The storm of cold fire breaks short of you, and leaves the lich spent and open.', 'good'); learn(m.id, 'answer'); opening(m); }
@@ -3445,7 +3575,7 @@ const Game = (() => {
         // Thieves move quietly, so their double blow on a sleeping foe can
         // actually happen: at six squares almost nothing stayed asleep long
         // enough to be reached. Deep-born blood stacks with it.
-        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0));
+        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet());
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
@@ -3537,7 +3667,7 @@ const Game = (() => {
           // stepping away is a save, not a loop that keeps it from ever landing
           m.pressing = true;
           m.lungeAt = realNow;               // it still swings, at nothing
-          if (w.kind === 'melee') riposte();
+          if (w.kind === 'melee') { riposte(); tricksterOpening(m); }
         }
         m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
         continue;
@@ -3606,6 +3736,7 @@ const Game = (() => {
     if (p.hp < p.maxHp && effectFrom('ac', 'protection') && hasTalent('warding_light') && G.t >= (p.nextWard || 0)) {
       p.hp++; p.nextWard = G.t + 3000; emit('stats');
     }
+    healerMercy();
     if (p.hp < p.maxHp && G.t >= (p.nextMend || 0) && hasPower('mend')) {
       p.hp++; p.nextMend = G.t + 4000; emit('stats');
     }
@@ -3897,7 +4028,7 @@ const Game = (() => {
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
-    pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, berserkerRage, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,
