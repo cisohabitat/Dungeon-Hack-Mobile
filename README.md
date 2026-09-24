@@ -80,6 +80,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
   They hit harder, take more killing, and always drop something worth having.
+- **Fire, cold and lightning.** Spells, a Scroll of Fire, a flaming blade and burns each carry an
+  element, and some kinds take half as much again from one and only half from another (slimes,
+  spiders, zombies and trolls burn well; the dead barely feel the cold; rustmaws and bats draw the
+  lightning). The first hit that finds out says so and the bestiary keeps it. The wraith's touch
+  and the lich's grave-cold are cold, and a Ring of Warmth halves them.
 - **Named champions.** About a third and two thirds of the way down, one floor each is held by
   a named foe, chosen by the seed from those that suit the depth: Grisk the Goblin King, Vessra
   the Web-Mother, Ushgar the Orc Warchief, Morrow the Ghoul Lord, Orla the Hollow Abbess and

@@ -1089,6 +1089,10 @@ const UI = (() => {
         const traits = beastTraits(id, mb);
         bits.push(`<p class="beast-stats">About ${avg(mb.hp)} HP · AC ${mb.ac} · hits for ${dice(mb.dmg)} · a blow every ${(mb.speed / 1000).toFixed(1)}s · ${mb.xp} xp${traits.length ? ' · ' + traits.join(', ') : ''}</p>`);
       } else bits.push('<p class="locked">Kill one to take its measure.</p>');
+      // what fire, cold and lightning were found to do to it (a champion takes after its kin)
+      const els = (known[mb.named ? mb.named.kin : id] || {}).el || {};
+      const elBits = Object.entries(els).map(([k, how]) => how === 'weak' ? `weak to ${k}` : `resists ${k}`);
+      if (elBits.length) bits.push(`<p class="beast-el">${escapeHtml(elBits.join(' · ').replace(/^./, c => c.toUpperCase()))}.</p>`);
       if (lore.trick) {
         bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
         bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');

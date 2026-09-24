@@ -244,6 +244,7 @@ const ITEMS = {
   ring_seer:    { kind: 'ring', name: 'Ring of the Seer',     value: 60,  sprite: 'ring_bone',   power: 'seer', bonus: 6, tier: 2, desc: '+6 to spot a trap before it springs, and the Seer sees hidden doors as you pass.' },
   ring_mend:    { kind: 'ring', name: 'Ring of Regeneration', value: 140, sprite: 'ring_garnet', power: 'mend', tier: 3, desc: 'Heals a hit point every four seconds, even mid-fight.' },
   ring_quiet:   { kind: 'ring', name: 'Ring of Stealth',      value: 70,  sprite: 'ring_iron',   power: 'quiet', tier: 2, desc: 'Sleeping monsters notice you a square later.' },
+  ring_warmth:  { kind: 'ring', name: 'Ring of Warmth',       value: 90,  sprite: 'ring_copper', power: 'warmth', tier: 3, desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   amulet_life:  { kind: 'amulet', name: 'Amulet of Life Saving', value: 260, sprite: 'amulet_amber', power: 'lifesave', tier: 4, desc: 'The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust.' },
   amulet_ward:  { kind: 'amulet', name: 'Amulet of Warding',  value: 150, sprite: 'amulet_silver', power: ['ward', 'pure'], tier: 3, desc: 'Your life force cannot be drained, and poison cannot take hold of you.' },
   amulet_mind:  { kind: 'amulet', name: 'Amulet of Wizardry', value: 150, sprite: 'amulet_obsidian', power: 'mind', tier: 3, desc: '+6 spell points for anyone who has spells to spend them on.' },
@@ -280,7 +281,7 @@ const MONSTERS = {
   zombie:   { name: 'Zombie',      hp: [4, 8, 2],    ac: 11, hit: 3,  dmg: [1, 8, 0], speed: 1600, xp: 40,   tier: [2, 7],   sprite: 'zombie',   scale: 0.9, undead: true, move: 'grab', door: 'batter' },
   orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc',      scale: 0.95, move: 'charge' },
   ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul',    scale: 0.9, undead: true, move: 'paralyse' },
-  wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith',   scale: 0.95, undead: true, fly: 0.2 },
+  wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith',   scale: 0.95, undead: true, fly: 0.2, element: 'cold' },
   ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [8, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush', door: 'smash' },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1, door: 'smash' },
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge', door: 'smash' },
@@ -293,8 +294,8 @@ const MONSTERS = {
     // guards and throws grave-cold from afar; at one third it puts out the
     // torches, quickens, and tries to drink the Heart's light to mend itself
     phases: [
-      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' } },
-      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' }, speed: 850 },
+      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' } },
+      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' }, speed: 850 },
     ] },
   // Named champions: one holds a floor about a third of the way down, another
   // two thirds (Dungeon.namedPlan). Each is one of the kinds above grown
@@ -340,8 +341,8 @@ const SPELLS = {
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
     { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you.' },
     { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute. Bolts of magic break on it, and it takes half of any storm.' },
-    { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 5,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
-    { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
+    { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 5,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, element: 'lightning', color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
+    { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, element: 'cold', color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
   ],
   cleric: [
     { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points.' },
@@ -370,6 +371,25 @@ const AMULET_LOOKS = [['amber', 'amulet_amber'], ['silver', 'amulet_silver'], ['
 const SCROLL_LOOKS = [
   'crumbling', 'crisp', 'singed', 'blood-stained', 'gilt-edged', 'water-damaged', 'tightly rolled',
 ];
+
+// What each kind takes from fire, cold and lightning: more than a blow's worth
+// where it is weak, half where it resists. A named champion takes after its
+// kin (MONSTERS[id].named.kin). The undead take holy fire double already
+// (see the spells), so holy is not here. Things of rot and web burn; things
+// already dead feel no cold; metal in the belly draws the lightning.
+const ELEMENTS_TAKEN = {
+  slime:    { fire: 1.5, lightning: 0.5 },
+  spider:   { fire: 1.5 },
+  zombie:   { fire: 1.5 },
+  troll:    { fire: 1.5 },
+  basilisk: { cold: 1.5, fire: 0.5 },
+  rustmaw:  { lightning: 1.5 },
+  bat:      { lightning: 1.5 },
+  skeleton: { cold: 0.5 },
+  ghoul:    { cold: 0.5 },
+  wraith:   { cold: 0.5 },
+  lich:     { cold: 0.5 },
+};
 
 // Elite monster prefixes: a champion is stronger, worth more, and always drops loot.
 // The bestiary: what the hero learns about each kind of monster by meeting
@@ -487,4 +507,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, BESTIARY, TALENTS };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS };

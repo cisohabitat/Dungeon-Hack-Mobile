@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, THEMES, BESTIARY, TALENTS } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -272,12 +272,42 @@ const Game = (() => {
     for (const s of JEWEL_SLOTS) { const it = p.eq[s]; if (it && jewelPowers(it).includes(power)) n += (ITEMS[it.t].bonus || 0) + (it.e || 0); }
     return n;
   }
+  // ---------- fire, cold and lightning ----------
+  // Some things burn well and some shrug off the cold (ELEMENTS_TAKEN). The
+  // first time a hero's fire, cold or lightning finds out which, it shows over
+  // the creature and in the log, and the bestiary keeps it.
+  const ELEMENT_WORDS = {
+    fire: ['burns well!', 'shrugs off much of the fire.'],
+    cold: ['stiffens in the cold!', 'barely feels the cold.'],
+    lightning: ['jerks and smokes as the lightning finds it!', 'lets the lightning run off it.'],
+  };
+  /** How much of this element a monster takes: 1.5 where it is weak, 0.5 where it resists. */
+  function elementFactor(m, el) {
+    if (!el) return 1;
+    const mb = MONSTERS[m.id], kind = mb.named ? mb.named.kin : m.id;
+    return (ELEMENTS_TAKEN[kind] && ELEMENTS_TAKEN[kind][el]) || 1;
+  }
+  /** Damage of an element against a monster, weakness and resistance counted in. */
+  function elemental(m, dmg, el) {
+    const f = elementFactor(m, el);
+    if (f === 1) return dmg;
+    m.elSeen = m.elSeen || {};
+    if (!m.elSeen[el]) {
+      m.elSeen[el] = 1;
+      const mb = MONSTERS[m.id], weak = f > 1;
+      floatText(m, weak ? 'weak!' : 'resists', weak ? '#ffb040' : '#8aa0b8');
+      log(`The ${mb.name} ${ELEMENT_WORDS[el][weak ? 0 : 1]}`, weak ? 'good' : '');
+      learn(mb.named ? mb.named.kin : m.id, `element:${el}:${weak ? 'weak' : 'resist'}`);
+    }
+    return Math.max(1, Math.round(dmg * f));
+  }
+  const spellElement = sp => sp.element || (sp.fire ? 'fire' : '');
   /** Extra damage a bane deals to the monster it was made for. */
   function baneDamage(m, slot) {
     let n = 0;
     if (hasPower('undead', slot) && mstat(m).undead) n += d(1, 6);
     if (hasPower('giant', slot) && GIANTS.includes(m.id)) n += d(1, 8);
-    if (hasPower('flame', slot)) n += d(1, 4);
+    if (hasPower('flame', slot)) n += elemental(m, d(1, 4), 'fire');
     if (hasTalent('sanctified') && mstat(m).undead) n += d(1, 4);
     return n;
   }
@@ -783,7 +813,7 @@ const Game = (() => {
             try {
               for (const m of targets) {
                 if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-                hitGroup(m, d(4, 6), 'burn');
+                hitGroup(m, elemental(m, d(4, 6), 'fire'), 'burn');
               }
             } finally { castingName = ''; }
             break;
@@ -2291,7 +2321,7 @@ const Game = (() => {
   // after a few kills), and the answer once the hero has beaten the trick.
   const BESTIARY_KEY = 'deepdelve.bestiary';
   const TRICK_KILLS = 3, ANSWER_KILLS = 5;
-  /** @returns {Record<string, {met: number, kills: number, deaths: number, trick?: number, answer?: number}>} */
+  /** @returns {Record<string, {met: number, kills: number, deaths: number, trick?: number, answer?: number, el?: Record<string, string>}>} */
   function bestiary() {
     let v = {};
     try { v = JSON.parse(localStorage.getItem(BESTIARY_KEY) || '{}'); } catch (e) { /* start afresh */ }
@@ -2302,7 +2332,10 @@ const Game = (() => {
       if (!MONSTERS[id]) continue;
       const r = v[id] && typeof v[id] === 'object' ? v[id] : {};
       const n = x => Math.max(0, Math.floor(Number(x) || 0));
-      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}) };
+      // what fire, cold and lightning were found to do to it, and nothing else
+      const el = {};
+      if (r.el && typeof r.el === 'object') for (const k of ['fire', 'cold', 'lightning']) if (r.el[k] === 'weak' || r.el[k] === 'resist') el[k] = r.el[k];
+      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
     }
     return out;
   }
@@ -2328,6 +2361,11 @@ const Game = (() => {
       if (lore.answer && !r.answer) { if (!r.trick) news.push('its trick'); r.answer = 1; r.trick = 1; news.push('how to beat it'); }
     }
     else if (what === 'death') r.deaths++;
+    else if (what.startsWith('element:')) {
+      const [, el, how] = what.split(':');
+      r.el = r.el || {};
+      if (!r.el[el]) { r.el[el] = how; news.push(how === 'weak' ? `weak to ${el}` : `resists ${el}`); }
+    }
     // a trick seen or beaten again is nothing new, and a troll regrows every second
     if ((what === 'trick' || what === 'answer') && !news.length && !met) return;
     try { localStorage.setItem(BESTIARY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
@@ -2442,7 +2480,7 @@ const Game = (() => {
         try {
           for (const m of targets) {
             if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-            let dmg = d(...sp.dmg(p.level));
+            let dmg = elemental(m, d(...sp.dmg(p.level)), spellElement(sp));
             if (sp.holy && mstat(m).undead) dmg *= 2;
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
@@ -2666,9 +2704,11 @@ const Game = (() => {
     }
     let dmg = Math.max(1, d(...r.dmg));
     if (roll === 20) dmg *= 2;
+    const warm = r.element === 'cold' && hasPower('warmth');
+    if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${note}`, m);
+    hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${warm ? ' (your ring keeps out the cold)' : ''}${note}`, m);
   }
   /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it */
   function monsterAttack(m, heavy) {
@@ -2698,9 +2738,12 @@ const Game = (() => {
     if (roll === 20 && !h.mult && G.depth >= 3) dmg *= 2;
     const firm = heavy && hasTalent('stand_firm');
     if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
+    // a cold touch: a Ring of Warmth takes half of it
+    const warm = mb.element === 'cold' && hasPower('warmth');
+    if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${note}`, m);
+    hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${warm ? ' (your ring keeps out the cold)' : ''}${note}`, m);
     if (G.status !== 'playing') return true;
     // every venomous bite that lands is fought off with Constitution
     if (mb.poison) venomSave('bite', `the ${mb.name}'s`);
@@ -2960,8 +3003,9 @@ const Game = (() => {
         if (novaReaches(m)) {
           const shielded = effectFrom('ac', 'shield');
           const c = trickSave('dex', 'nova');
-          const n = Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1)));
-          hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${c.note}`, m); G.blowGate = G.t + BLOW_GAP;
+          const warm = hasPower('warmth');
+          const n = Math.max(1, Math.ceil(d(5, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1) / (warm ? 2 : 1)));
+          hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${warm ? ' Your ring keeps out the cold.' : ''}${c.note}`, m); G.blowGate = G.t + BLOW_GAP;
         }
         else { log('The storm of cold fire breaks short of you, and leaves the lich spent and open.', 'good'); learn(m.id, 'answer'); opening(m); }
         m.nextAct = G.t + mb.speed;
@@ -3428,7 +3472,7 @@ const Game = (() => {
         if (dot.next > dot.until) m.dot = null;
         else {
           dot.next += 1000;
-          damageMonster(m, dot.kind === 'venom' ? d(1, 3) : d(1, 4), dot.kind);
+          damageMonster(m, dot.kind === 'venom' ? d(1, 3) : elemental(m, d(1, 4), 'fire'), dot.kind);
           if (!L.monsters.includes(m) || m.collapsed) continue;
         }
       }

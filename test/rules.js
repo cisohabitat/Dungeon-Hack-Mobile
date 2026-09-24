@@ -5556,6 +5556,68 @@ await test('a save keeps a named champion, its fight and its floor, and its bar 
   return (later && later.monsters.some(o => o.id === plan[Object.keys(plan)[0]])) || 'the first champion\'s floor lost it';
 });
 
+await test('fire, cold and lightning: the weak take half as much again, the resistant half, and the first time says so', async () => {
+  const out = [];
+  // the same seeded roll against a plain goblin and against each kind, so the
+  // only difference is what the kind takes from that element
+  const hit = async (spellId, target, key) => {
+    const ctx = await start('mage', 'el-' + key);
+    const { Game, SPELLS } = ctx; const p = Game.player(), G = Game.state();
+    p.level = 9; p.sp = p.maxSp = 999; p.talents = [];
+    // Burning Hands reaches only the square ahead; a slime already split splits no further
+    const m = ahead(ctx, target, spellId === 'burning_hands' ? 1 : 2, { hp: 5000, maxHp: 5000, nextAct: 1e12, spoke: true, split: true });
+    seedDice(ctx, 'el-roll-' + key.split('/')[1]);
+    const mark = markLog(G);
+    G.t = p.nextAttack;
+    Game.castSpell(SPELLS.mage.find(s => s.id === spellId));
+    return { lost: 5000 - m.hp, said: linesSince(G, mark), ctx };
+  };
+  for (const [spell, target, f] of [['lightning', 'rustmaw', 1.5], ['lightning', 'slime', 0.5], ['cone_cold', 'skeleton', 0.5], ['cone_cold', 'basilisk', 1.5], ['burning_hands', 'zombie', 1.5], ['burning_hands', 'basilisk', 0.5], ['burning_hands', 'vessra', 1.5]]) {
+    const base = await hit(spell, 'goblin', `${target}-base/${spell}`), got = await hit(spell, target, `${target}/${spell}`);
+    const want = Math.max(1, Math.round(base.lost * f));
+    if (got.lost !== want) out.push(`${spell} on a ${target}: ${got.lost}, want ${want} (a goblin took ${base.lost})`);
+    const word = f > 1 ? /burns well|stiffens in the cold|lightning finds it/ : /shrugs off|barely feels|lightning run off/;
+    if (!got.said.some(l => word.test(l))) out.push(`${spell} on a ${target} said nothing of it: ${got.said.join(' | ')}`);
+    const kin = got.ctx.MONSTERS[target].named ? got.ctx.MONSTERS[target].named.kin : target;
+    const el = { lightning: 'lightning', cone_cold: 'cold', burning_hands: 'fire' }[spell];
+    const rec = got.ctx.Game.bestiary()[kin];
+    if (!rec || !rec.el || rec.el[el] !== (f > 1 ? 'weak' : 'resist')) out.push(`the bestiary did not note what ${el} does to a ${kin}: ${JSON.stringify(rec)}`);
+  }
+  // a goblin takes lightning as a blow: nothing said
+  const plain = await hit('lightning', 'goblin', 'goblin-plain/lightning');
+  if (plain.said.some(l => /lightning finds it|lightning run off/.test(l))) out.push('a goblin was said to be weak or resistant');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a scroll of fire burns a zombie well, and a Ring of Warmth halves a wraith\'s cold touch', async () => {
+  const out = [];
+  const burn = async target => {
+    const ctx = await start('fighter', 'el-scroll');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const m = ahead(ctx, target, 2, { hp: 5000, maxHp: 5000, nextAct: 1e12, spoke: true });
+    const it = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(it); G.known.scroll_fire = 1;
+    seedDice(ctx, 'el-scroll-roll');
+    Game.useItem(it);
+    return 5000 - m.hp;
+  };
+  const g = await burn('goblin'), z = await burn('zombie');
+  if (z !== Math.max(1, Math.round(g * 1.5))) out.push(`a fireball took ${g} from a goblin and ${z} from a zombie`);
+  const touch = async warm => {
+    const ctx = await start('fighter', 'el-warm');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.effects.ac = { amount: -60, until: 1e12 };
+    if (warm) { const r = { t: 'ring_warmth', q: 1, e: 0 }; p.inv.push(r); Game.equip(r, true); }
+    seedDice(ctx, 'el-warm-roll');
+    const m = beside(ctx, 'wraith', { hp: 999, maxHp: 999, spoke: true });
+    let taken = 0;
+    for (let i = 0; i < 30; i++) { const hp = p.hp; m.windup = { kind: 'melee', at: G.t, until: G.t }; m.nextAct = G.t; Game.update(G.t + 25, 25); taken += hp - p.hp; Game.update(G.t + 3000, 3000); p.hp = 9999; }
+    return taken;
+  };
+  const cold = await touch(false), warm = await touch(true);
+  if (!(warm < cold * 0.65 && warm > cold * 0.35)) out.push(`a wraith's touch took ${cold} bare and ${warm} with the ring`);
+  return out.length ? out.join('; ') : true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
