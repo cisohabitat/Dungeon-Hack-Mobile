@@ -1485,7 +1485,9 @@ const Game = (() => {
     if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
       // a mage knows how the shadow is woven: a spell pulls it apart instead
       if (castingName && P().cls === 'mage') {
-        m.wardUntil = G.t; m.nextAct = Math.max(m.nextAct, G.t + 400);
+        // it was waiting out its shadow; now it has a moment to gather itself
+        m.wardUntil = G.t; m.nextAct = G.t + 400;
+        Sound.stop('ward');
         floatText(m, 'unravelled', '#b090ff');
         spray(m, 'ecto', 0.8, false);
         // and drinks what the shadow was made of
@@ -3087,6 +3089,8 @@ const Game = (() => {
     let s = null;
     try { s = localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
     if (!s) return false;
+    // a save that cannot be read leaves the game that was running as it was
+    const before = G;
     try {
       const data = JSON.parse(s);
       if (!data || !data.player || !data.levels) return false;
@@ -3122,7 +3126,7 @@ const Game = (() => {
       // the clock only runs on the game screen, and a load can come before it has
       if (wasEscaping) { realNow = performance.now(); fx.heartAt = realNow; win(); }
       return true;
-    } catch (e) { return false; }
+    } catch (e) { G = before; return false; }
   }
   function saveSummary() {
     try {

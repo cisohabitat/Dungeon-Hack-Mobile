@@ -3460,12 +3460,14 @@ await test('a mage\'s spell pulls the lich\'s shadow apart; a fighter\'s blow an
     const ctx = await start(cls, 'unravel');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
     p.hp = p.maxHp = 9999; p.maxSp = 99; p.sp = cls === 'mage' ? 50 : 99; p.level = 5; p.perkHit = 60;
-    const m = beside(ctx, 'lich', { hp: 120, maxHp: 120, spoke: true, phase: 1, wardUntil: G.t + 4000, nextAct: 1e12 });
+    // in play a warded lich waits out its shadow: it next acts when the shadow lifts
+    const m = beside(ctx, 'lich', { hp: 120, maxHp: 120, spoke: true, phase: 1, wardUntil: G.t + 4000, nextAct: G.t + 4000 });
     G.t = p.nextAttack;
     if (spell) { if (!Game.castSpell(Game.knownSpells().find(s => s.id === spell))) { out.push(`${cls} could not cast ${spell}`); continue; } }
     else Game.input('attack');
     const bare = !(m.wardUntil > G.t);
     if (bare !== (cls === 'mage')) out.push(`${cls}: the shadow ${bare ? 'came apart' : 'held'}`);
+    if (cls === 'mage' && bare && m.nextAct - G.t > 1000) out.push(`the bared lich still waits ${m.nextAct - G.t} ms to act`);
     if (cls === 'mage' && bare && p.sp !== 50 - 2 + 33) out.push(`the mage came away with ${p.sp} of ${p.maxSp} spell points`);
     if (m.hp !== 120) out.push(`${cls}: the lich was wounded to ${m.hp} through or by the unravelling`);
   }

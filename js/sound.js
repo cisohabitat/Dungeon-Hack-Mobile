@@ -39,8 +39,12 @@ const Sound = (() => {
   /** A value give or take a share of itself. */
   const vary = (x, amt) => x * (1 + (rnd() * 2 - 1) * amt);
 
+  let away = false;         // the page is hidden: stay quiet until it is back
   function ensure() {
-    if (!enabled || typeof window === 'undefined') return null;
+    if (!enabled || away || typeof window === 'undefined') return null;
+    try { return open(); } catch (e) { fault('audio', e); return null; }
+  }
+  function open() {
     if (!ctx) {
       // Safari shipped this prefixed for years and still answers to it
       const AC = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
@@ -51,7 +55,8 @@ const Sound = (() => {
       comp.attack.value = 0.003; comp.release.value = 0.25;
       master = ctx.createGain();
       master.gain.value = 0.85;
-      master.connect(comp).connect(ctx.destination);
+      // two calls: old Safari's connect() returned nothing to chain on
+      master.connect(comp); comp.connect(ctx.destination);
       noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
       const data = noiseBuf.getChannelData(0);
       for (let i = 0; i < data.length; i++) data[i] = rnd() * 2 - 1;
@@ -566,6 +571,12 @@ const Sound = (() => {
     },
     isEnabled() { return enabled; },
     unlock() { ensure(); },
+    /** The page was hidden or shown: a hidden page makes no sound at all. */
+    away(hidden) {
+      away = hidden;
+      if (!ctx) return;
+      try { if (hidden) ctx.suspend().catch(() => {}); else if (enabled) ctx.resume().catch(() => {}); } catch (e) { /* ignore */ }
+    },
     setAmbience, stopAmbience, heartbeat,
   };
 })();

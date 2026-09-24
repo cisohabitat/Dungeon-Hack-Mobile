@@ -18,6 +18,8 @@ const UI = (() => {
   // tap lasts 100-200ms, and repeating sooner turned one tap into two turns.
   const HOLD_DELAY = 320;
   let overlay = null;
+  /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
+  let waiting = [];
   let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null };
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
@@ -329,7 +331,7 @@ const UI = (() => {
   }
   function startPlaying() {
     logCount = -1; hudSig = '';
-    closeOverlay();
+    clearOverlays();
     showScreen('screen-game');
     // no spells, no Spells button
     const sb = /** @type {HTMLElement|null} */ (document.querySelector('[data-open="spells"]'));
@@ -823,8 +825,16 @@ const UI = (() => {
   }
 
   // ---------- overlays ----------
+  // A level-up choice or an encounter holds the screen until it is dealt
+  // with: what the game asks for meanwhile (another choice, a shop) waits its
+  // turn rather than covering it, and what the player taps for is ignored.
+  const GAME_ASKS = ['boons', 'encounter', 'shop'];
   function openOverlay(name) {
-    closeOverlay();
+    if (overlay === 'boons' || overlay === 'encounter') {
+      if (name !== overlay && GAME_ASKS.includes(name) && !waiting.includes(name)) waiting.push(name);
+      return;
+    }
+    closeOverlay(false);
     overlay = name;
     held.clear();
     $$('.ctl').forEach(b => b.classList.remove('held'));
@@ -840,7 +850,7 @@ const UI = (() => {
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
   }
-  function closeOverlay() {
+  function closeOverlay(next = true) {
     if (!overlay) return;
     if (overlay === 'boons' && Game.pendingBoons()) return;   // a choice must be made
     // an encounter must be answered: every one offers a way to leave, so
@@ -851,6 +861,17 @@ const UI = (() => {
     overlay = null;
     const focused = /** @type {HTMLElement|null} */ (document.activeElement);
     if (focused && focused.blur) focused.blur();
+    selectedItem = null; selectedSlot = null;
+    // then whatever was waiting; each one closes itself if it is no longer wanted
+    if (next && waiting.length) openOverlay(/** @type {string} */ (waiting.shift()));
+  }
+  /** Leaving the game: every overlay comes down, whatever it was holding. */
+  function clearOverlays() {
+    waiting = [];
+    if (overlay === 'encounter') Game.closeEncounter();
+    if (overlay === 'shop') Game.closeShop();
+    $$('.overlay.open').forEach(el => el.classList.remove('open'));
+    overlay = null;
     selectedItem = null; selectedSlot = null;
   }
   function paused() { return !!overlay; }
@@ -1297,7 +1318,7 @@ const UI = (() => {
 
   function showEnd(won) {
     const G = Game.state(), p = G.player;
-    closeOverlay();
+    clearOverlays();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
       ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain.`
@@ -1385,7 +1406,7 @@ const UI = (() => {
       if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }
       if (KEYS[e.code]) { e.preventDefault(); if (!e.repeat) { held.set(KEYS[e.code], performance.now()); Game.input(KEYS[e.code]); } }
-      else if (TAPS[e.code]) { e.preventDefault(); Game.input(TAPS[e.code]); }
+      else if (TAPS[e.code]) { e.preventDefault(); if (!e.repeat) Game.input(TAPS[e.code]); }   // held R is one rest, not three
       else if (OPENS[e.code]) { e.preventDefault(); openOverlay(OPENS[e.code]); }
     });
     window.addEventListener('keyup', e => { if (KEYS[e.code]) held.delete(KEYS[e.code]); });

@@ -262,6 +262,34 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a level earned in an encounter waits until its result has been read, and nothing is left stuck open', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'enc-level' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      const x = p.x + dx, y = p.y + dy;
+      L.tiles[y * L.w + x] = Dungeon.T.FLOOR; L.monsters.length = 0;
+      L.npcs = [{ id: 'mercy', kind: 'encounter', x, y }];
+      p.xp = XP_TABLE[p.level] - 1;
+      Game.input('use');
+    });
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await page.locator('#enc-choices button', { hasText: 'Finish it' }).click();
+    // the outcome stays up; the level-up choice waits behind it
+    await page.waitForTimeout(300);
+    await expect(page.locator('#enc-text')).toContainText(/It is quick/);
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
+    await page.waitForTimeout(800);   // level-up cards ignore taps for a moment
+    await clearBoons(page);
+    await expect(page.locator('.overlay.open')).toHaveCount(0);
+    expect(await page.evaluate(() => UI.paused())).toBe(false);
+    expect(errors).toEqual([]);
+  });
+
   test('an unknown potion can be studied from the pack, with the odds on the button', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'study-ui', cls: 'Mage' });

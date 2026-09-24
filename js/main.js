@@ -30,7 +30,7 @@ function saveOnHide() {
   const G = Game.state();
   if (G && G.status === 'playing' && UI.isPlaying()) Game.save(true);
 }
-document.addEventListener('visibilitychange', () => { if (document.hidden) saveOnHide(); });
+document.addEventListener('visibilitychange', () => { Sound.away(document.hidden); if (document.hidden) saveOnHide(); });
 window.addEventListener('pagehide', saveOnHide);
 
 let last = 0;
@@ -38,7 +38,9 @@ function loop(now) {
   const dt = last ? Math.min(100, now - last) : 0;
   last = now;
 
-  if (UI.isTitle()) { UI.renderTitle(now); Sound.stopAmbience(); }
+  if (UI.isTitle()) UI.renderTitle(now);
+  // the drone belongs to the dungeon: the help, the hall and the end screen are quiet
+  if (!UI.isPlaying()) Sound.stopAmbience();
   const G = Game.state();
   if (G && UI.isPlaying()) {
     if (G.status === 'playing' && !UI.paused()) {
