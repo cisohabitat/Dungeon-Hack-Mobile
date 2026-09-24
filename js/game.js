@@ -1549,7 +1549,8 @@ const Game = (() => {
   // arrives. Where it leaves from is a point on the view, as fractions.
   const MISSILE = {
     throwknife: { style: 'knife', release: 0.4, perSquare: 75, from: { x: 0.6, y: 0.74 }, color: '#dfe5ee' },
-    sling: { style: 'stone', release: 0.32, perSquare: 70, from: { x: 0.66, y: 0.78 }, color: '#9a948c' },
+    // let go at the top of the second turn of an overhead whirl
+    sling: { style: 'stone', release: 0.55, perSquare: 70, from: { x: 0.76, y: 0.17 }, color: '#9a948c' },
     shortbow: { style: 'arrow', release: 0.72, perSquare: 45, from: { x: 0.5, y: 0.66 }, color: '#b08858' },
   };
   function attack() {

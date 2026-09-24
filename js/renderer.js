@@ -301,6 +301,30 @@ const Renderer = (() => {
     // right: the weapon, through the poses of a swing, or a bare fist
     if (v.weapon && v.drawn) {
       // drawn above, with the left hand
+    } else if (v.weapon && /sling$/.test(v.weapon)) {
+      // overhead: the hand goes up, the pouch whirls round above it twice
+      // (seen from below, a tilted ring), and at the top of the second turn
+      // the stone is let go; then the arm comes down and the sling hangs again
+      const r = at('rest', 0.16), top = [W * 0.76, H * 0.36];
+      if (swinging && u < 0.62) {
+        const up = ease(Math.min(1, u / 0.12));
+        const hx = r[0] + (top[0] - r[0]) * up + dx, hy = r[1] + (top[1] - r[1]) * up + dy;
+        const a = (u / 0.55) * Math.PI * 4 - Math.PI / 2, R = W * 0.2 * up;
+        const px = hx + Math.cos(a) * R, py = hy - H * 0.06 + Math.sin(a) * R * 0.45;
+        ctx.lineCap = 'round';
+        for (const [col, lw] of [['#2a1a0e', 3.6], ['#a07848', 1.8]]) {
+          ctx.strokeStyle = col; ctx.lineWidth = lw;
+          ctx.beginPath(); ctx.moveTo(hx, hy - 2); ctx.lineTo(px, py); ctx.stroke();
+        }
+        ctx.fillStyle = '#2a1a0e'; ctx.beginPath(); ctx.ellipse(px, py, 6.8, 5, a, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#7a5230'; ctx.beginPath(); ctx.ellipse(px, py, 5.6, 3.8, a, 0, Math.PI * 2); ctx.fill();
+        if (u < 0.55) { ctx.fillStyle = '#8e8a84'; ctx.beginPath(); ctx.arc(px, py - 1.5, 2.8, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#d8d4cc'; ctx.fillRect(Math.round(px - 1.5), Math.round(py - 3), 1, 1); }
+        put(Assets.held(null, 'fist', v.cls, false), hx, hy + 6);
+      } else {
+        let q = r;
+        if (swinging) { const e = ease((u - 0.62) / 0.38); q = [top[0] + (r[0] - top[0]) * e, top[1] + (r[1] - top[1]) * e]; }
+        put(Assets.held(v.weapon, 'rest', v.cls, false), q[0] + dx, q[1] + dy);
+      }
     } else if (v.weapon && /throwknife$/.test(v.weapon)) {
       // a throw, not a slash: the hand cocks back up by the ear, snaps forward
       // toward the middle (smaller, reaching into the view) as a knife leaves
