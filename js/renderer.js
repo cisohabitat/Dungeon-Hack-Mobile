@@ -651,6 +651,80 @@ const Renderer = (() => {
     ctx.restore();
   }
 
+  // ---------- traps ----------
+  // A dart streaks out of a slot in one wall across at the hero and strikes;
+  // a needle springs up out of the flagstone underfoot, beaded with venom; the
+  // floor gives way, darkness closes in from above and below as the hero
+  // drops, dust rushing up past, then the landing jolts it open again; a gong's
+  // note rolls out in bronze rings; a trap spotted and jammed is a gold glint.
+  const TRAP_MS = { dart: 420, needle: 650, pit: 900, alarm: 1400, disarm: 700 };
+  function drawTrap(fx, now) {
+    const k = fx.trapKind;
+    if (!k) return;
+    const t = (now - fx.trapAt) / (TRAP_MS[k] || 600);
+    if (t < 0 || t >= 1) return;
+    ctx.save();
+    if (k === 'dart') {
+      const side = fx.trapSide || 1, u = Math.min(1, t / 0.35);
+      const sx = side > 0 ? W + 8 : -8, sy = H * 0.5, ex = W * 0.5 + side * W * 0.12, ey = H * 0.97;
+      if (u < 1) {
+        const x = sx + (ex - sx) * u, y = sy + (ey - sy) * u, len = Math.hypot(ex - sx, ey - sy);
+        const ux = (ex - sx) / len, uy = (ey - sy) / len, L = 10 + u * 12;
+        ctx.strokeStyle = 'rgba(255,255,240,0.3)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x - ux * L * 3, y - uy * L * 3); ctx.lineTo(x - ux * L, y - uy * L); ctx.stroke();
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(x - ux * L, y - uy * L); ctx.lineTo(x, y); ctx.stroke();
+        ctx.strokeStyle = '#9aa0a8'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x - ux * L, y - uy * L); ctx.lineTo(x, y); ctx.stroke();
+        ctx.fillStyle = '#c83a2a'; ctx.fillRect(Math.round(x - ux * L - 1.5), Math.round(y - uy * L - 1.5), 3, 3);
+      } else {
+        const f = (t - 0.35) / 0.65;
+        ctx.globalCompositeOperation = 'lighter';
+        glow(ex, ey, 6 + f * 14, '#ffd080', (1 - f) * 0.9);
+        for (let i = 0; i < 6; i++) { const a = hash(i + 3) * Math.PI * 2, r = f * 16 * (0.5 + hash(i)); ctx.fillStyle = hexA('#ffe0a0', 1 - f); ctx.fillRect(Math.round(ex + Math.cos(a) * r), Math.round(ey + Math.sin(a) * r), 1, 1); }
+      }
+    } else if (k === 'needle') {
+      const up = t < 0.2 ? ease(t / 0.2) : t < 0.55 ? 1 : 1 - ease((t - 0.55) / 0.45);
+      const bx = W * 0.5, by = H + 2, len = H * 0.3 * up;
+      ctx.fillStyle = hexA('#50c850', Math.sin(t * Math.PI) * 0.16); ctx.fillRect(0, 0, W, H);
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - len); ctx.stroke();
+      ctx.strokeStyle = '#c8ccd4'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - len); ctx.stroke();
+      if (len > 4) {
+        ctx.globalCompositeOperation = 'lighter';
+        glow(bx, by - len, 4, '#60e060', 0.9 * up);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = '#58c850'; ctx.beginPath(); ctx.arc(bx + 1.5, by - len + 5 + t * 8, 1.6, 0, Math.PI * 2); ctx.fill();
+      }
+    } else if (k === 'pit') {
+      const close = t < 0.45 ? ease(t / 0.45) : 1 - ease((t - 0.45) / 0.55);
+      const h = H * 0.5 * close * 0.94;
+      for (const [y0, dir] of [[0, 1], [H, -1]]) {
+        const g = ctx.createLinearGradient(0, y0, 0, y0 + dir * (h + 18));
+        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(Math.max(0.01, h / (h + 18)), 'rgba(0,0,0,0.97)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(0, dir > 0 ? 0 : H - h - 18, W, h + 18);
+      }
+      // dust and grit rushing up past as the hero drops
+      for (let i = 0; i < 34; i++) {
+        const y = H - ((t * 2.4 + hash(i)) % 1) * H * 1.2, x = hash(i + 50) * W;
+        ctx.fillStyle = hexA(i % 3 ? '#8a7a60' : '#b0a080', 0.8 * (1 - t));
+        ctx.fillRect(Math.round(x), Math.round(y), i % 4 ? 1 : 2, i % 4 ? 3 : 4);
+      }
+    } else if (k === 'alarm') {
+      ctx.fillStyle = hexA('#e0a040', Math.max(0, 0.14 - t * 0.2)); ctx.fillRect(0, 0, W, H);
+      for (let r = 0; r < 3; r++) {
+        const f = t * 1.35 - r * 0.18;
+        if (f <= 0 || f >= 1) continue;
+        ctx.strokeStyle = hexA('#e0a040', (1 - f) * 0.75); ctx.lineWidth = 3 - r * 0.6;
+        ctx.beginPath(); ctx.ellipse(W / 2, H * 0.42, 12 + f * W * 0.7, (12 + f * W * 0.7) * 0.55, 0, 0, Math.PI * 2); ctx.stroke();
+      }
+    } else if (k === 'disarm') {
+      ctx.globalCompositeOperation = 'lighter';
+      glow(W * 0.5, H * 0.94, 5 + 10 * (1 - t), '#ffe080', (1 - t) * 0.85);
+      for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (hash(i + 9) - 0.5) * 2, r = 4 + t * 18; ctx.fillStyle = hexA('#fff0b0', 1 - t); ctx.fillRect(Math.round(W * 0.5 + Math.cos(a) * r), Math.round(H * 0.94 + Math.sin(a) * r), 1, 1); }
+    }
+    ctx.restore();
+  }
+
   // ---------- drinking and eating ----------
   // The bottle (or the bread) the pack shows comes up in the off hand. A
   // draught is tipped back, rising and turning until it is upended over the
@@ -1101,6 +1175,7 @@ const Renderer = (() => {
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+    drawTrap(fx, now);
     drawStatus(fx.status, now);
     // near death, the edges of the view pulse red: the heartbeat is no help
     // to someone playing with the sound off, which on a phone is most people

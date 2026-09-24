@@ -27,6 +27,8 @@ const Game = (() => {
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
                useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
+               /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
+               trapAt: -1e9, trapKind: '', trapSide: 1,
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
@@ -1214,6 +1216,8 @@ const Game = (() => {
     if (G.status !== 'playing') return;
     if (L.items[k] && L.items[k].length) { pickupAll(); heartHeld(); }
   }
+  /** Which picture a trap going off gets. */
+  const trapKindOf = tr => Object.keys(TRAP_TYPES).find(id => TRAP_TYPES[id] === tr) || '';
   function triggerTrap(k) {
     const L = lvl(), p = P();
     const tr = TRAP_TYPES[L.traps[k]];
@@ -1222,10 +1226,17 @@ const Game = (() => {
     if (p.bg === 'tombwise') spot += 0.35;
     // a wise hero notices the loose flagstone whatever their trade
     spot += Math.max(0, mod(p.stats.wis)) * 0.1;
+    // each is seen as it goes off (see the renderer); a dart comes from one wall or the other
+    const [tx, ty] = k.split(',').map(Number);
+    fx.trapAt = realNow; fx.trapSide = (tx + ty) % 2 ? 1 : -1;
     if (spot > 0 && Math.random() < spot) {
+      fx.trapKind = 'disarm';
       log(`You spot and disarm a ${tr.name}.`, 'good');
+      Sound.play('locked');
       return;
     }
+    fx.trapKind = trapKindOf(tr);
+    if (tr === TRAP_TYPES.pit) { fx.shakeAmp = 6; fx.shakeMs = 700; fx.shakeUntil = realNow + 700; }
     Sound.play('trap');
     if (tr.dmg) {
       const n = Math.max(1, d(...tr.dmg));

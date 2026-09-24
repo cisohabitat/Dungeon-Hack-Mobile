@@ -2794,6 +2794,25 @@ await test('a thrown knife is seen to fly, and what it does waits until it arriv
   return true;
 });
 
+await test('a trap going off is seen: each kind its own picture, and one spotted is seen jammed', async () => {
+  const out = [];
+  for (const kind of ['dart', 'needle', 'pit', 'alarm', 'spotted']) {
+    const ctx = await start(kind === 'spotted' ? 'thief' : 'fighter', 'trap-' + kind, { traps: true });
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+    Game.tick(5000);
+    p.hp = p.maxHp = 999; p.stats.wis = 8; p.bg = 'oathbroken';
+    if (kind === 'spotted') p.level = 20;                    // a thief this seasoned always sees it
+    L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+    L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+    L.traps = L.traps || {}; L.traps[`${x},${y}`] = kind === 'spotted' ? 'dart' : kind;
+    Game.input('forward');
+    const f = Game.renderState(5000).fx, want = kind === 'spotted' ? 'disarm' : kind;
+    if (f.trapKind !== want || f.trapAt !== 5000) out.push(`${kind}: shown as ${f.trapKind} at ${f.trapAt}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

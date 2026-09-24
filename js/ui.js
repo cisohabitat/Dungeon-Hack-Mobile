@@ -509,11 +509,12 @@ const UI = (() => {
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
-    // the first time a scroll is worth reading, say where its button is
-    if (!/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
-    // the general word on tricks waits while a trick's own answer is being read:
+    // the general word on tricks, the first foe's lesson and the scroll
+    // button's tip all wait while a trick's own answer is being read:
     // replacing it a quarter second later would teach nothing at all
     const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
+    // the first time a scroll is worth reading, say where its button is
+    if (!answering && !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
     if (!answering && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     // the first foe is taught at once, over the controls tip if it is still up:

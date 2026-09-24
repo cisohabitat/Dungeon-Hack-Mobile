@@ -462,6 +462,9 @@ test.describe('dungeon features', () => {
         windup: { kind: 'move', move: 'paralyse', at: G.t, until: G.t + 60000 } });
     });
     await expect(page.locator('#tip')).toContainText('Step back', { timeout: 2000 });
+    // it stays to be read, though the mage's fire scroll now has a target (its tip waits)
+    await page.waitForTimeout(1000);
+    await expect(page.locator('#tip')).toContainText('Step back');
     // the claw is gone: so is its warning, and a web is next
     await page.evaluate(() => { Game.level().monsters.length = 0; });
     await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 4000 });
