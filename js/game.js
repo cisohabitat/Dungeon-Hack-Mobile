@@ -3,7 +3,7 @@ import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
-import { RELICS, GIANTS, POWER_SUFFIX, relicPlan } from './relics.js';
+import { RELICS, GIANTS, GEAR_POWERS, POWER_SUFFIX, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 
@@ -320,7 +320,34 @@ const Game = (() => {
         price: Math.round((40 + 20 * deep) * Math.max(1, cursed.length) * (1 - charm())), why: cursed.length ? null : 'Nothing you wear is cursed.' },
       temper('hone', 'weapon', 'Hone your weapon', 'sharper'),
       temper('reinforce', 'armor', 'Reinforce your armour', 'stouter'),
+      rune('rune_weapon', 'weapon'), rune('rune_armor', 'armor'),
+      lodging(),
     ];
+  }
+  /**
+   * Each trader knows one rune for a weapon and one for armour, and will work
+   * it into a piece that carries no power yet: the dearest thing gold buys.
+   * @param {string} id @param {'weapon'|'armor'} slot
+   */
+  function rune(id, slot) {
+    const it = P().eq[slot], pool = GEAR_POWERS[slot];
+    const pw = pool[Math.abs(shop.x * 7 + shop.y * 13 + G.depth * 3) % pool.length];
+    const what = slot === 'weapon' ? 'weapon' : 'armour';
+    const why = !it ? `You have no ${what} on.`
+      : it.u ? 'A relic carries its own powers; the trader will not touch it.'
+      : it.pw ? `${cap(the(it))} carries a power already.`
+      : it.h ? 'Have it appraised first: the trader will not work blind.'
+      : it.curse ? 'The trader will not put a rune on cursed metal.' : null;
+    return { id, pw, label: `Work a rune ${POWER_SUFFIX[pw]} into your ${what}`,
+      detail: it && !why ? `${cap(the(it))} becomes ${ITEMS[it.t].name} ${POWER_SUFFIX[pw]}` : (why || ''),
+      price: Math.round((200 + 40 * G.depth) * (1 - charm())), why };
+  }
+  /** A night by the trader's lamp: whole again, nothing finds you, and the floor's own rests are not spent. */
+  function lodging() {
+    const L = lvl(), p = P();
+    const why = L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp ? 'You are already well rested.' : null;
+    return { id: 'lodge', label: 'Sleep safe by the trader\'s lamp', detail: why || 'A whole night, and nothing finds you. Once a floor.',
+      price: Math.round((30 + 15 * G.depth) * (1 - charm())), why };
   }
   // Gold's use down here: the trader's forge. Each step up costs more than the
   // last, and nothing goes past +3, or an unknown or cursed piece at all.
@@ -342,7 +369,16 @@ const Game = (() => {
     const p = P();
     if (p.gold < s.price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
     p.gold -= s.price;
-    if (id === 'hone' || id === 'reinforce') {
+    if (id === 'rune_weapon' || id === 'rune_armor') {
+      const it = P().eq[id === 'rune_weapon' ? 'weapon' : 'armor'];
+      it.pw = /** @type {any} */ (s).pw;
+      log(`The trader cuts a rune into ${the(it)} and breathes on it: ${itemName(it)}.`, 'good');
+    } else if (id === 'lodge') {
+      const p = P();
+      healPlayer(p.maxHp - p.hp); p.sp = p.maxSp;
+      lvl().lodged = true;
+      log('You sleep by the trader\'s lamp, and nothing comes. You wake whole.', 'good');
+    } else if (id === 'hone' || id === 'reinforce') {
       const it = P().eq[id === 'hone' ? 'weapon' : 'armor'];
       it.e = (it.e || 0) + 1;
       log(`The trader works ${the(it)} at the forge and hands it back ${id === 'hone' ? 'keener' : 'stouter'}: ${itemName(it)}.`, 'good');
@@ -419,7 +455,9 @@ const Game = (() => {
     if (!c.spells) return [];
     return SPELLS[c.spells];
   }
-  function spellAvailable(sp) { return P().level >= sp.lvl * 2 - 1; }
+  /** The hero level a spell comes at: first, third and fifth for the first three circles, the fifth circle at seventh. */
+  const spellLevel = sp => sp.lvl <= 3 ? sp.lvl * 2 - 1 : sp.lvl + 2;
+  function spellAvailable(sp) { return P().level >= spellLevel(sp); }
 
   // Effective monster stats, including any champion bonuses.
   /** A champion with no matching prefix behaves exactly like its plain kind. */
@@ -856,7 +894,7 @@ const Game = (() => {
     // goblin blows could take, and a fifth of runs never left the first floor.
     // Starting a little sturdier costs nothing by the fourth floor, where
     // levels have added far more than this.
-    p.maxHp = Math.max(10, c.hitDie + 6 + mod(p.stats.con));
+    p.maxHp = Math.max(10, c.hitDie + 6 + (c.startHp || 0) + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
@@ -1699,12 +1737,12 @@ const Game = (() => {
       p.maxSp = spMax(p); p.sp = p.maxSp;
       log(`You have reached level ${p.level}! (+${gain} hit points)`, 'good');
       Sound.play('levelup');
-      const unlocked = knownSpells().filter(s => s.lvl * 2 - 1 === p.level);
+      const unlocked = knownSpells().filter(s => spellLevel(s) === p.level);
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');
       G.levelNotes = G.levelNotes || {};
       G.levelNotes[p.level] = { hp: gain, spells: unlocked.map(s => s.name) };
-      // a small lesson at every level, and every third a talent of the hero's class
-      if (p.level % 3 === 0) offerTalents(); else offerBoons();
+      // a small lesson at every odd level, and at every even one a talent of the hero's class
+      if (p.level % 2 === 0) offerTalents(); else offerBoons();
     }
   }
   /** The lessons a hero can still be offered. */
@@ -2460,6 +2498,8 @@ const Game = (() => {
     if (!mv || (!rite && G.t < (m.moveReady || 0)) || packSize(m) > 1) return false;
     let say = '', extra = {};
     if (rite) say = `The ${mb.name} lifts its hands toward the Heart and begins to drink its light! Strike it to break the rite!`;
+    // and the light it draws calls a guard to stand between you, once a rite
+    if (rite && !L0guard(m)) raiseGuards(m, 'wraith');
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
     else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' ? 4 : 3) && Math.random() < 0.6) {
       say = `The ${mb.name} lowers its head and charges!`;
@@ -2472,7 +2512,8 @@ const Game = (() => {
     }
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
     else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} reaches out with a numbing claw!`;
-    else if (mv === 'nova' && novaReaches(m) && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
+    // the storm comes every third blow at first, and later whenever you close on it
+    else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && Math.random() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     if (!say) return false;
@@ -2748,8 +2789,10 @@ const Game = (() => {
     Sound.play('lichfall', heard(m));
     log('The torches catch again, one by one.', 'good');
   }
-  /** Two skeletons sharing a square beside the lich. */
-  function raiseGuards(m) {
+  /** A wraith the lich's rite called is still standing. */
+  const L0guard = m => lvl().monsters.some(o => o.id === 'wraith' && o.riteCalled);
+  /** Two skeletons sharing a square beside the lich; or, for its rite, a wraith. */
+  function raiseGuards(m, kind = 'skeleton') {
     const p = P();
     // the nearest open squares the lich could walk to, never behind a wall
     const spots = [], seen = new Set([key(m.x, m.y)]);
@@ -2766,10 +2809,12 @@ const Game = (() => {
     }
     if (!spots.length) return;
     const [x, y] = Dice.pick(spots);
-    const b = MONSTERS.skeleton, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
-    const g = newMonster('skeleton', x, y, hp());
-    const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true;
-    log(`The ${mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`, 'bad');
+    const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
+    const g = newMonster(kind, x, y, hp());
+    if (kind !== 'skeleton') g.riteCalled = true;
+    if (kind === 'skeleton') { const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true; }
+    log(kind === 'skeleton' ? `The ${mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`
+      : `A ${b.name.toLowerCase()} rises out of the Heart's light to guard the ${mstat(m).name}'s rite!`, 'bad');
     learn(m.id, 'trick');
     Sound.play('raise', heard({ x, y }));
   }
@@ -2793,7 +2838,8 @@ const Game = (() => {
     const k = diff();
     for (const m of L.monsters) {
       // the first floor is where a hero learns: half the extra life there
-      const f = MONSTERS[m.id].boss ? k.lich : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
+      // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
+      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
@@ -2824,7 +2870,9 @@ const Game = (() => {
       m.edge = Math.round(L.press);
       for (const b of m.pack || []) { b.maxHp = tougher(b.maxHp); b.hp = b.maxHp; }
     }
-    if (L.press >= 1) { log('The deep has heard of you. What waits on this floor is ready for you.', 'bad'); Sound.play('dread'); }
+    // said on arrival, and shown while you are here, so it is never a hidden tax
+    if (L.press >= 1) { log(`The deep has heard of you. What waits on this floor is ready for you (+${L.press}).`, 'bad'); Sound.play('dread'); }
+    else if (L.press > 0) log(`You are ahead of most who come this far. The floor stirs to meet you (+${L.press}).`, 'bad');
   }
   /** A monster that appears mid-fight, awake and already hunting. */
   function newMonster(id, x, y, hp) {
@@ -3309,7 +3357,7 @@ const Game = (() => {
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
-    knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
+    knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),

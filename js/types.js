@@ -96,6 +96,7 @@
  * @property {boolean} [spoke]     the lich has spoken, and its fight has begun
  * @property {number} [wardUntil]  the lich is wrapped in shadow, and cannot be hurt, until then
  * @property {boolean} [wardSaid]  the log has said so once this time
+ * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it
  * @property {number} [edge]  how much surer and harder it hits, on a floor readier for a strong hero
  * @property {number} [riteReady]  when the lich can next try its rite
  * @property {number[][]} [snuffed]  the torches the lich put out, to light again when it falls
@@ -136,6 +137,7 @@
  * @property {number} theme
  * @property {boolean} isFinal
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
+ * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
  */

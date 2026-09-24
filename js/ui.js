@@ -531,6 +531,8 @@ const UI = (() => {
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
+    // a floor readier for a strong hero says so while you are on it
+    if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Deep +${L.press}</span>`);
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
@@ -937,7 +939,7 @@ const UI = (() => {
     const level = Game.pendingLevel(), got = Game.levelNote(level);
     const bits = [];
     if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
-    const nextTalent = Math.ceil((level + 1) / 3) * 3;
+    const nextTalent = level + (level % 2 === 0 ? 2 : 1);   // talents come at the even levels
     if (nextTalent <= MAX_LEVEL) bits.push(isTalent ? `next talent at level ${nextTalent}` : (nextTalent === level + 1 ? 'a talent at the next level' : `next talent at level ${nextTalent}`));
     const head = document.createElement('p');
     head.className = 'boon-head';
@@ -1338,7 +1340,7 @@ const UI = (() => {
       const b = document.createElement('button');
       const ready = ok && Game.castLabel() === sp.name;
       b.className = 'spell' + (ok ? '' : ' locked') + (ready ? ' ready' : '');
-      b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${sp.lvl * 2 - 1}.`}</small></div>`;
+      b.innerHTML = `<div class="cost">${sp.cost} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
       b.disabled = !ok;
       b.addEventListener('click', () => {
         const seq = Game.state().logSeq;

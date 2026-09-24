@@ -33,7 +33,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   shown as a grid at the top of the Hall of Heroes, and the victory screen says when one is new.
   Every relic any hero picks up or buys goes in the codex, readable from the Hall or the
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
-- **A choice at every level.** A small lesson at most levels, three offered at a time; on every third level a class talent instead, one of three from the class's six, each changing how the class fights.
+- **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's six, each changing how the class fights.
   Ability gains can be taken repeatedly; the permanent perks only once.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,

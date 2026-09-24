@@ -405,7 +405,9 @@ const Dungeon = (() => {
     const harmless = i => reach(-1, true) - reach(i, true) === 1 && reach(-1, false) - reach(i, false) <= 1;
 
     // ---- a merchant, so the gold you haul up is worth something ----
-    if (!isFinal && depth > 1 && rng.chance(0.45)) {
+    // two floors of every delve always have one, so the gold hauled up has somewhere to go
+    const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === Math.round((opts.levels || 8) * 0.75);
+    if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader)) {
       const cands = rooms.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {
         const spots = [];

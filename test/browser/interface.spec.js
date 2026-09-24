@@ -385,18 +385,18 @@ test.describe('round five playtest', () => {
 });
 
 test.describe('talents', () => {
-  test('a third level offers a class talent, and the Hero sheet lists it', async ({ page }) => {
+  test('an even level offers a class talent, and the Hero sheet lists it', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { seed: 'talent-ui', cls: 'Thief' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0; p.level = 2; p.xp = 119; p.perkHit = 60;
+      L.monsters.length = 0; p.level = 3; p.xp = XP_TABLE[3] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 5, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });
-    await expect(page.locator('#boon-title')).toHaveText("Hero level 3: a Thief's talent");
+    await expect(page.locator('#boon-title')).toHaveText("Hero level 4: a Thief's talent");
     await expect(page.locator('.boon.talent')).toHaveCount(3);
     const name = (await page.locator('.boon.talent b').first().innerText()).trim();
     await page.locator('.boon.talent').first().click();
@@ -424,7 +424,8 @@ test.describe('talents', () => {
     await page.evaluate(() => document.querySelector('#boon-list .boon').click());
     expect(await page.evaluate(() => !!Game.pendingBoons())).toBe(true);
     await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points/);
-    await expect(page.locator('.boon-head')).toContainText('a talent at the next level');
+    // level 2 is a talent's level: the next comes at 4
+    await expect(page.locator('.boon-head')).toContainText('next talent at level 4');
     await page.locator('#boon-list .boon').first().click();
     await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
     expect(errors).toEqual([]);

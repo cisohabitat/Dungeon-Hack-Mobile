@@ -1008,6 +1008,9 @@ await test('levelling offers a choice that must be made and changes the characte
   }
   if (L.monsters.includes(m)) return 'forty swings failed to land';
   if (p.level < 2) return `level did not rise, still ${p.level}`;
+  // the even levels bring talents; take those and come to the first lesson
+  const lessonIds = new Set(ctx.BOONS.map(b => b.id));
+  for (let i = 0; i < 10 && Game.pendingBoons() && !Game.pendingBoons().every(id => lessonIds.has(id)); i++) Game.chooseBoon(Game.pendingBoons()[0]);
   const offer = Game.pendingBoons();
   if (!offer) return 'no boon offered after levelling';
   if (offer.length !== 3) return `offered ${offer.length} boons, expected 3`;
@@ -1562,6 +1565,67 @@ await test('standing on potions the belt has no room for, Use says Belt full and
   const mark = markLog(G);
   Game.input('use');
   return linesSince(G, mark).some(l => /belt holds 5 of each draught/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
+await test('the trader works a rune into plain gear once, and lets you sleep safe by its lamp once a floor', async () => {
+  const ctx = await start('fighter', 'rune');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  p.gold = 99999; p.eq.weapon.h = 0; delete p.eq.weapon.pw;
+  const svc = id => Game.shopServices().find(v => v.id === id);
+  const r = svc('rune_weapon');
+  if (!r || r.why) return `the rune was refused: ${JSON.stringify(r)}`;
+  Game.buyService('rune_weapon');
+  if (p.eq.weapon.pw !== r.pw) return `the weapon carries ${p.eq.weapon.pw}, not ${r.pw}`;
+  if (!svc('rune_weapon').why) return 'a second rune was offered for the same blade';
+  // sleep safe: whole again, the floor's rests untouched, once only
+  p.hp = 1; const rests = L.rests || 0;
+  if (svc('lodge').why) return `lodging refused: ${svc('lodge').why}`;
+  Game.buyService('lodge');
+  if (p.hp !== p.maxHp || (L.rests || 0) !== rests || L.monsters.length) return `after the night: hp ${p.hp}/${p.maxHp}, rests ${L.rests}, ${L.monsters.length} monsters`;
+  p.hp = 1;
+  return !!svc('lodge').why || 'lodging was offered twice on one floor';
+});
+
+await test('every eight-floor delve has a trader on its third and sixth floors', async () => {
+  const ctx = await newContext();
+  for (let i = 0; i < 8; i++) for (const depth of [3, 6]) {
+    const L = ctx.Dungeon.generate(`traders-${i}`, depth, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
+    if (!(L.npcs || []).some(n => n.kind !== 'encounter' && n.stock)) return `seed traders-${i} has no trader on floor ${depth}`;
+  }
+  return true;
+});
+
+await test('the lich\'s rite calls a wraith to guard it, one at a time', async () => {
+  const ctx = await start('fighter', 'rite-wraith');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = beside(ctx, 'lich', { hp: 30, maxHp: 120, phase: 2, riteReady: 0, spoke: true, awake: true, nextAct: G.t });
+  for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+  if (!(m.windup && m.windup.move === 'rite')) return 'no rite began';
+  const wraiths = () => Game.level().monsters.filter(o => o.id === 'wraith').length;
+  if (wraiths() !== 1) return `${wraiths()} wraiths rose with the rite`;
+  m.windup = null; m.riteReady = 0; m.nextAct = G.t;
+  for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+  return wraiths() === 1 || `${wraiths()} wraiths after a second rite with the first still standing`;
+});
+
+await test('the fifth circle comes at seventh level; a mage starts with more life; ogres wait for the seventh floor of eight', async () => {
+  const ctx = await newContext();
+  const { Game, SPELLS, CLASSES } = ctx;
+  const cone = SPELLS.mage.find(s => s.id === 'cone_cold'), bolt = SPELLS.mage.find(s => s.id === 'lightning');
+  if (Game.spellLevel(cone) !== 7 || Game.spellLevel(bolt) !== 5) return `cone ${Game.spellLevel(cone)}, lightning ${Game.spellLevel(bolt)}`;
+  Game.newGame({ name: 'M', cls: 'mage', bg: 'tombwise', stats: { ...evenStats }, seed: 'mage-hp', opts: { ...OPTS } });
+  const mageHp = Game.player().maxHp;
+  if (mageHp !== Math.max(10, CLASSES.mage.hitDie + 6 + 4 + Game.mod(evenStats.con))) return `a mage starts with ${mageHp}`;
+  let early = 0;
+  for (let i = 0; i < 10; i++) for (const depth of [5, 6]) if (ctx.Dungeon.generate(`ogre-${i}`, depth, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'ogre')) early++;
+  return early === 0 || `ogres on floors 5-6 of eight, ${early} times`;
 });
 
 await test('the score counts depth, experience and a win, not gold hoarded', async () => {
@@ -2962,7 +3026,7 @@ await test('even a quick rat gives a thumb over half a second of warning as it a
 /** Give the hero a talent, as if chosen. */
 const talent = (ctx, id) => { const p = ctx.Game.player(); p.talents = (p.talents || []).concat(id); };
 
-await test('levelling offers a lesson at most levels and a class talent every third', async () => {
+await test('levelling offers a lesson at the odd levels and a class talent at the even ones', async () => {
   const ctx = await start('fighter', 'talent-offers');
   const { Game, XP_TABLE, TALENTS, BOONS } = ctx;
   const p = Game.player();
@@ -2982,8 +3046,8 @@ await test('levelling offers a lesson at most levels and a class talent every th
       if (!Game.chooseBoon(offer[0])) return `could not choose ${offer[0]}`;
     }
   }
-  if (kinds.join(' ') !== '2:L 3:T 4:L 5:L 6:T') return `offers by level: ${kinds.join(' ')}`;
-  return (p.talents.length === 2 && new Set(p.talents).size === 2) || `talents taken: ${JSON.stringify(p.talents)}`;
+  if (kinds.join(' ') !== '2:T 3:L 4:T 5:L 6:T') return `offers by level: ${kinds.join(' ')}`;
+  return (p.talents.length === 3 && new Set(p.talents).size === 3) || `talents taken: ${JSON.stringify(p.talents)}`;
 });
 
 await test('a talent is never offered twice', async () => {
@@ -2992,7 +3056,7 @@ await test('a talent is never offered twice', async () => {
   const p = Game.player(), G = Game.state();
   p.perkHit = 60;
   const taken = [];
-  for (const lvl of [3, 6, 9, 12]) {
+  for (const lvl of [2, 4, 6, 8]) {
     G.pendingBoons = [];
     p.level = lvl - 1; p.xp = XP_TABLE[lvl - 1];
     const m = beside(ctx, 'rat', { uid: 900 + lvl, hp: 1, maxHp: 1, nextAct: 1e12 });

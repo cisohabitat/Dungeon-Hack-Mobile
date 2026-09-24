@@ -116,7 +116,7 @@ const BOONS = [
   { id: 'hardy', name: 'Slow to Bleed', desc: 'Between fights, wounds close half again as fast.', unique: true, apply: p => { p.perkRegen = (p.perkRegen || 0) + 0.5; } },
 ];
 
-// Class talents: on every third level the hero picks one of three from their
+// Class talents: on every even level the hero picks one of three from their
 // class's six, each taken once. They change how a class plays rather than
 // adding a point here and there; game.js honours each by id.
 const TALENTS = {
@@ -170,7 +170,7 @@ const CLASSES = {
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.6, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.6, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them.',
     startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
@@ -267,7 +267,7 @@ const MONSTERS = {
   orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc',      scale: 0.95, move: 'charge' },
   ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul',    scale: 0.9, undead: true, move: 'paralyse' },
   wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith',   scale: 0.95, undead: true, fly: 0.2 },
-  ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [6, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush' },
+  ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [8, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush' },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1 },
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge' },
   archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
@@ -284,7 +284,7 @@ const MONSTERS = {
     ] },
 };
 
-// Spells: available at character level (lvl * 2 - 1). dmg/heal are functions of caster level.
+// Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
 const SPELLS = {
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
