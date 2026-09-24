@@ -427,6 +427,9 @@ const UI = (() => {
     trick: 'A <b>violet mark</b> means a trick, and <b>armour will not turn it</b>: get out of the way. Read the log for what is coming; your <b>Bestiary</b>, in the Journal, writes down each trick you see.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
+    claw: 'It reaches for you with a numbing claw. <b>Strike it now!</b> A blow that lands first knocks the claw aside, or step back out of reach.',
+    charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
+    web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
     opening: '<b>An opening!</b> You answered its trick: your next blow at it cannot miss and lands hard. Strike now.',
     take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
     stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
@@ -471,7 +474,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -479,7 +482,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p1 = Game.player();
       const striking = Game.level().monsters.some(m => m.windup && Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) <= 3);
-      el.classList.toggle('faint', striking && !['gaze', 'rust', 'trick', 'opening', 'monster'].includes(el.dataset.tip || ''));
+      el.classList.toggle('faint', striking && !['gaze', 'rust', 'claw', 'charge', 'web', 'trick', 'opening', 'monster'].includes(el.dataset.tip || ''));
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
@@ -491,6 +494,10 @@ const UI = (() => {
     const readying = mv => L.monsters.some(m => m.windup && m.windup.move === mv && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     if (readying('gaze') && showTip('gaze', true)) return;
     if (readying('rust') && showTip('rust', true)) return;
+    if (readying('paralyse') && showTip('claw', true)) return;
+    if (readying('charge') && showTip('charge', true)) return;
+    // only a hero with fire to hand is told to burn a web
+    if ((p.webbed || 0) > Game.state().t && Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) && showTip('web', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
     if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);

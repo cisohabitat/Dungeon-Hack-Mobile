@@ -209,6 +209,11 @@ function play(ctx, cls, seed, opts, bg) {
     // of a smash or a storm of cold fire, out of the line of a charge or a
     // web. NOREACT=1 plays as if the violet mark meant nothing.
     if (!process.env.NOREACT) {
+      // held in a web: burn it away with fire if a fire spell is to hand
+      if (p.webbed > G.t && !process.env.OLDANSWERS && G.t >= p.nextAttack) {
+        const fire = Game.knownSpells().find(sp => sp.fire && Game.spellAvailable(sp) && p.sp >= sp.cost);
+        if (fire && Game.castSpell(fire) !== false) { rec.burned = (rec.burned || 0) + 1; step(); continue; }
+      }
       // a chant or the lich's rite is answered by striking it, not by stepping away
       const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && m.windup.move !== 'rite' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
@@ -217,6 +222,23 @@ function play(ctx, cls, seed, opts, bg) {
         if (faces(p.dir)) { Game.input(!faces((p.dir + 3) % 4) ? 'left' : 'right'); rec.dodges = (rec.dodges || 0) + 1; }
         step();
         continue;
+      }
+      // the other answers a player learns from the bestiary (OLDANSWERS=1 plays
+      // without them): strike a ghoul's reaching claw aside if the swing is ready,
+      // and pull a door shut across a charge's line when one stands open beside you
+      if (trick && !process.env.OLDANSWERS) {
+        const mv = trick.windup.move, dx = Math.sign(trick.x - p.x), dy = Math.sign(trick.y - p.y);
+        const toward = Dungeon.DIRS.findIndex(([ax, ay]) => ax === dx && ay === dy);
+        const adjacent = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 1;
+        if (mv === 'paralyse' && adjacent && G.t >= p.nextAttack) {
+          p.dir = toward; Game.input('attack'); rec.struckAside = (rec.struckAside || 0) + 1; step(); continue;
+        }
+        if (mv === 'charge' && toward >= 0 && (dx === 0 || dy === 0)) {
+          const t = L.tiles[(p.y + dy) * L.w + p.x + dx];
+          if (t === T.DOOR_OPEN && !(trick.x === p.x + dx && trick.y === p.y + dy) && !(L.items[`${p.x + dx},${p.y + dy}`] || []).length) {
+            p.dir = toward; Game.input('use'); rec.shut = (rec.shut || 0) + 1; step(); continue;
+          }
+        }
       }
       if (trick) {
         const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web';
@@ -594,7 +616,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 // GEAR=1 shows what each class ended its runs holding

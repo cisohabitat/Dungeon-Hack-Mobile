@@ -445,6 +445,27 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a ghoul\'s reaching claw says to strike it, and a web says fire burns it only to a hero with fire', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { seed: 'claw-tip', cls: 'mage' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 9, id: 'ghoul', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+        windup: { kind: 'move', move: 'paralyse', at: G.t, until: G.t + 60000 } });
+    });
+    await expect(page.locator('#tip')).toContainText('Strike it now', { timeout: 2000 });
+    // the claw is gone: so is its warning, and a web is next
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 4000 });
+    await page.evaluate(() => { Game.player().webbed = Game.state().t + 60000; });
+    await expect(page.locator('#tip')).toContainText('Fire burns it away', { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
