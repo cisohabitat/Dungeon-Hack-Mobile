@@ -1,5 +1,5 @@
 import { Rng } from './rng.js';
-import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS } from './data.js';
+import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
 import { CREATURES, POSES, PROPS, FLOATING, paintParts } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -119,7 +119,8 @@ const Assets = (() => {
     // shaded. Only monsters can be champions, and building these for every
     // item, key and prop as well was over half the time the game took to start.
     sprite.elite = {};
-    if (def.elites) for (const e of ELITES) {
+    // a named champion's own wash rides on its kind's picture, keyed by its id
+    if (def.elites) for (const e of [...ELITES, ...(def.named || [])]) {
       const washed = tintOf(e.tint, 0.4);
       const shade = a => {
         const c = canvas(w, h);
@@ -842,10 +843,11 @@ const Assets = (() => {
     // creatures built from parts replace their old grids
     // creatures and props stand in the world, close enough to fill the view: they
     // are painted twice as fine as the items in the pack
-    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
+    const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
+    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
     // a creature's other poses ride on its sprite, and on each champion's
     for (const k in POSES) for (const pose of POSES[k]) {
-      const ps = makeSprite({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
+      const ps = makeSprite({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
       sprites[k][pose] = ps;
       for (const e in ps.elite) sprites[k].elite[e][pose] = ps.elite[e];
     }

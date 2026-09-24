@@ -17,6 +17,31 @@ function tierAt(depth, levels) {
   return depth + (TIER_FLOORS - levels) * f * f;
 }
 
+/**
+ * Which named champion holds which floor of a delve: one about a third of the
+ * way down and one about two thirds, never the first floor (where the
+ * controls are learned) nor the lich's. Each is chosen by the seed from those
+ * whose stretch of the ladder takes in that floor's; where none does, the
+ * nearest. The same seed and length always give the same champions.
+ * @param {string} seed @param {number} levels
+ * @returns {Record<number, string>}
+ */
+function namedPlan(seed, levels) {
+  const rng = new Rng(`${seed}|named`);
+  const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
+  /** @type {Record<number, string>} */
+  const plan = {};
+  for (const depth of new Set([Math.ceil(levels / 3), Math.ceil(levels * 2 / 3)])) {
+    if (depth <= 1 || depth >= levels) continue;
+    const t = tierAt(depth, levels);
+    const free = ids.filter(id => !Object.values(plan).includes(id));
+    const off = id => Math.max(0, MONSTERS[id].tier[0] - t, t - MONSTERS[id].tier[1]);
+    const fit = free.filter(id => off(id) === 0);
+    plan[depth] = fit.length ? rng.pick(fit) : free.sort((a, b) => off(a) - off(b))[0];
+  }
+  return plan;
+}
+
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
@@ -220,9 +245,9 @@ const Dungeon = (() => {
     const monsters = [];
     const occupied = new Set([idx(start.x, start.y)]);
     let uid = 1;
-    const makeMonster = (id, x, y) => {
+    const makeMonster = (id, x, y, dice = rng) => {
       const b = MONSTERS[id];
-      const hp = rng.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((depth - 1) / 2);
+      const hp = dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((depth - 1) / 2);
       occupied.add(idx(x, y));
       return { uid: depth * 1000 + uid++, id, x, y, hp, maxHp: hp, awake: false, nextAct: 0, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 };
     };
@@ -241,8 +266,9 @@ const Dungeon = (() => {
     // the same ladder, the stretch coming late (its first floors much as
     // they were, its last at the ladder's foot); a longer one keeps its floors.
     const tierDepth = tierAt(depth, opts.levels || 8);
-    let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
-    if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
+    // (neither the lich nor a named champion is met at random)
+    let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
+    if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     // The first floor is where the controls are learned, so a crowded setting
     // starts from the second: at full density a third to a half of runs on
     // Many ended before the stairs were found, most at character level one.
@@ -486,6 +512,47 @@ const Dungeon = (() => {
       }
     }
 
+    // ---- a named champion's lair ----
+    // Asleep in a room well away from the way in, and not the stairs' room,
+    // so it is a fight sought or stumbled into rather than a gate. Whatever
+    // already stood in the room gives way to it and the kin it keeps. A
+    // stream of its own, so nothing else on a seed's floor moves.
+    const namedId = namedPlan(seed, opts.levels || 8)[depth];
+    if (namedId && !isFinal) {
+      const nrng = new Rng(`${seed}|named-lair|${depth}`);
+      const held = new Set(npcs.map(n => idx(n.x, n.y)));
+      const inRoom = (r, i) => { const x = i % w, y = (i / w) | 0; return x >= r.x && x < r.x + r.w && y >= r.y && y < r.y + r.h; };
+      const open = r => {
+        const out = [];
+        for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+          const i = idx(x, y);
+          if (tiles[i] === T.FLOOR && dist0[i] >= 0 && !held.has(i) && !traps[x + ',' + y]) out.push(i);
+        }
+        return out;
+      };
+      const lairs = byDist.filter(r => r !== farRoom && open(r).length >= 3);
+      const lair = lairs[0] || (open(farRoom).length >= 3 ? farRoom : null);
+      if (lair) {
+        for (let i = monsters.length - 1; i >= 0; i--) if (inRoom(lair, idx(monsters[i].x, monsters[i].y))) { occupied.delete(idx(monsters[i].x, monsters[i].y)); monsters.splice(i, 1); }
+        // the champion in the middle of its room, its kin about it
+        const spots = open(lair).sort((a, b) => Math.hypot((a % w) - lair.cx, ((a / w) | 0) - lair.cy) - Math.hypot((b % w) - lair.cx, ((b / w) | 0) - lair.cy));
+        const at = spots.shift();
+        monsters.push(makeMonster(namedId, at % w, (at / w) | 0, nrng));
+        const guard = MONSTERS[namedId].named.guard;
+        if (guard && spots.length) {
+          const [kind, n] = guard;
+          const c = nrng.pick(spots.slice(0, 6));
+          const g = makeMonster(kind, c % w, (c / w) | 0, nrng);
+          // a pack kind comes as one group sharing a square, anything else alone
+          if (n > 1 && PACK_KINDS.includes(kind)) {
+            g.pack = [];
+            for (let k = 1; k < n; k++) { const b = MONSTERS[kind], hp = nrng.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((depth - 1) / 2); g.pack.push({ hp, maxHp: hp }); }
+          }
+          monsters.push(g);
+        }
+      }
+    }
+
     // ---- final level: boss and artifact ----
     if (isFinal) {
       const ax = farRoom.cx, ay = farRoom.cy;
@@ -548,7 +615,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt };
+  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan };
 })();
 
 export { Dungeon };

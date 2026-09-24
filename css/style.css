@@ -440,6 +440,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .beast img { flex: 0 0 64px; width: 64px; height: 64px; object-fit: contain; image-rendering: pixelated; }
 .beast.unmet img { filter: brightness(0) invert(1); opacity: 0.2; }
 .beast h3 { margin: 0 0 4px; font-size: 1rem; }
+.beast h3.named { color: #f0c860; }
 .beast p { margin: 4px 0 0; line-height: 1.45; color: #c8bfae; font-size: 0.9rem; }
 .beast .beast-stats { color: var(--text); font-size: 0.85rem; }
 .beast > div { flex: 1; min-width: 0; }

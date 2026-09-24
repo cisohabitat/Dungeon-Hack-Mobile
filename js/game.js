@@ -43,7 +43,7 @@ const Game = (() => {
                /** when the hero fell, for the view going dark before the end screen; -1 before */
                deadAt: -1,
                /** @type {any} */ status: null,
-               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number}|null} */ boss: null,
+               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number, named?: boolean, notches?: number[]}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
@@ -1003,6 +1003,7 @@ const Game = (() => {
       if (depth > 1) log(`You descend to level ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
       if (L.isFinal) log('A dreadful presence waits somewhere on this level.', 'bad');
+      namedArrives(L);
     } else log(`You climb back up to level ${depth}.`, 'info');
     emit('level');
     checkTile();
@@ -1238,7 +1239,7 @@ const Game = (() => {
   // keeps the hero on their feet. The trick's own answer (step aside, turn
   // away) still escapes it whole: the save is for when that fails. All grow
   // harder with depth, as venom does.
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus);
@@ -1555,6 +1556,8 @@ const Game = (() => {
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
     basilisk: 'bile', rustmaw: 'rust' };
+  // a named champion bleeds as its kind does
+  for (const id in MONSTERS) if (MONSTERS[id].named && GORE_OF[MONSTERS[id].named.kin]) GORE_OF[id] = GORE_OF[MONSTERS[id].named.kin];
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
   // What is only for the eye draws on its own numbers, never the dice's:
   // a spray of blood must not change what the next blow rolls.
@@ -1812,7 +1815,7 @@ const Game = (() => {
     // Kindling: the hero's fire keeps burning
     if (tag === 'burn' && hasTalent('kindling')) m.dot = { kind: 'burning', until: G.t + 3000, next: G.t + 1000 };
     // wounded, non-boss monsters may break and run
-    if (!mb.boss && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
+    if (!mb.boss && !mb.named && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
       m.windup = null; m.volley = null;
       log(`The ${mb.name} turns to flee!`, 'good');
@@ -1826,6 +1829,7 @@ const Game = (() => {
     if (mb.boss) G.bossDown = true;
     memberDown(m, note);
     if (mb.boss) { bossFalls(m); log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
+    if (mb.named) namedFalls(m, mb);
   }
 
   // ---------- groups ----------
@@ -1865,7 +1869,7 @@ const Game = (() => {
     const p = P(), base = MONSTERS[m.id];
     const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
     const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
-    fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite, scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
+    fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
       born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
   }
   /** The next of the group steps into the front. */
@@ -2152,8 +2156,12 @@ const Game = (() => {
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
     else if (won) G.earned = { reloadable: true };
+    /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
       difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
+    // the named champions it cut down, by name, for the Hall's line
+    const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
+    if (slain.length) entry.named = slain;
     try {
       const list = hall();
       list.push(entry);
@@ -2232,7 +2240,7 @@ const Game = (() => {
    * `met` also counts a first meeting, so a trick seen at first sight is one line. */
   function learn(id, what, met) {
     if (!MONSTERS[id]) return;
-    const all = bestiary(), name = MONSTERS[id].name, lore = BESTIARY[id] || {};
+    const all = bestiary(), mb = MONSTERS[id], name = mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name, lore = BESTIARY[id] || {};
     const r = all[id] || (all[id] = { met: 0, kills: 0, deaths: 0 });
     const news = [];
     if (met && what !== 'met') { if (!r.met) news.push('new entry'); r.met++; }
@@ -2479,7 +2487,7 @@ const Game = (() => {
     if (!cands.length) return false;
     // what finds the sleeper is what lives on this floor: the same stretched tiers
     const td = Dungeon.tierAt(G.depth, G.opts.levels || 8);
-    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
+    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
     const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
     const [x, y] = Dice.pick(cands);
     newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 1500;
@@ -2661,7 +2669,7 @@ const Game = (() => {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800, rally: 1500, drink: 800 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow'].includes(id) };
@@ -2705,21 +2713,23 @@ const Game = (() => {
     // and the light it draws calls a guard to stand between you, once a rite
     if (rite && !L0guard(m)) raiseGuards(m, 'wraith');
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
-    else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' ? 4 : 3) && Math.random() < 0.6) {
+    else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' || mb.named ? 4 : 3) && Math.random() < 0.6) {
       say = `The ${mb.name} lowers its head and charges!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
-    else if (mv === 'web' && !adjacent && hasLineToPlayer(m, 3) && !(p.webbed > G.t)) say = `The ${mb.name} rears back to spit a web!`;
+    // the Web-Mother spits from beside you as readily as down a corridor
+    else if (mv === 'web' && (adjacent ? !!mb.named : hasLineToPlayer(m, 3)) && !(p.webbed > G.t)) say = `The ${mb.name} rears back to spit a web!`;
     else if (mv === 'mend') {
       const t = mendTarget(m);
       if (t) { say = t === m ? `The ${mb.name} begins a dark chant over its own wounds!` : `The ${mb.name} begins a dark chant over the wounded ${mstat(t).name}!`; extra = { target: t.uid }; }
     }
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
-    else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} reaches out with a numbing claw!`;
+    else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= (mb.named && mb.named.often ? 1 : 2)) say = `The ${mb.name} reaches out with a numbing claw!`;
     // the storm comes every third blow at first, and later whenever you close on it
     else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && Math.random() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
+    else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: G.t, until: G.t + SPECIAL_MS[mv], ...extra };
@@ -2871,6 +2881,10 @@ const Game = (() => {
           m.nextAct = G.t + mb.speed;
         } else { log(`The ${mb.name}'s jaws snap shut on the air where you stood. It is left open.`, 'good'); learn(m.id, 'answer'); opening(m); m.nextAct = G.t + 1400; }
         break;
+      case 'rally':
+      case 'drink':
+        namedResolve(m, mb, w.move, dist);
+        break;
       case 'nova':
         Sound.play('nova', heard(m));
         if (novaReaches(m)) {
@@ -2883,6 +2897,8 @@ const Game = (() => {
         m.nextAct = G.t + mb.speed;
         break;
     }
+    // a named champion's trick comes round again sooner than its kind's
+    if (mb.named && mb.named.often && m.moveReady > G.t) m.moveReady = G.t + Math.round((m.moveReady - G.t) / mb.named.often);
   }
   /** Fire loosed while webbed burns the web away. */
   function burnWeb() {
@@ -2964,6 +2980,12 @@ const Game = (() => {
     if (m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 700;
       log(`You break the ${mb.name}'s chant!`, 'good');
+      learn(m.id, 'answer');
+    }
+    // and so is a war-horn call, and a call cut short is spent
+    if (m.windup && m.windup.move === 'rally') {
+      m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 700;
+      log(`You cut the ${mb.name}'s call short! The horn falls from his lips.`, 'good');
       learn(m.id, 'answer');
     }
     // and so is the lich's rite, though it will try again
@@ -3078,10 +3100,10 @@ const Game = (() => {
   }
   /** A wraith the lich's rite called is still standing. */
   const L0guard = m => lvl().monsters.some(o => o.id === 'wraith' && o.riteCalled);
-  /** Two skeletons sharing a square beside the lich; or, for its rite, a wraith. */
-  function raiseGuards(m, kind = 'skeleton') {
+  /** An open square near a monster (the lich, or a champion calling its kin), never behind a wall; null if none is within three steps. */
+  function spotNear(m) {
     const p = P();
-    // the nearest open squares the lich could walk to, never behind a wall
+    // the nearest open squares it could walk to, never behind a wall
     const spots = [], seen = new Set([key(m.x, m.y)]);
     let ring = [[m.x, m.y]];
     for (let r = 1; r <= 3 && !spots.length; r++) {
@@ -3094,8 +3116,13 @@ const Game = (() => {
       }
       ring = next;
     }
-    if (!spots.length) return;
-    const [x, y] = Dice.pick(spots);
+    return spots.length ? Dice.pick(spots) : null;
+  }
+  /** Two skeletons sharing a square beside the lich; or, for its rite, a wraith. */
+  function raiseGuards(m, kind = 'skeleton') {
+    const spot = spotNear(m);
+    if (!spot) return;
+    const [x, y] = spot;
     const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
     const g = newMonster(kind, x, y, hp());
     if (kind !== 'skeleton') g.riteCalled = true;
@@ -3105,6 +3132,124 @@ const Game = (() => {
     learn(m.id, 'trick');
     Sound.play('raise', heard({ x, y }));
   }
+  // ---------- named champions ----------
+  // One holds a floor about a third of the way down, another two thirds
+  // (Dungeon.namedPlan says which, and lays each asleep in its lair). Each is
+  // a kind grown great with that kind's trick sharpened, warned of and
+  // answered like any other, and it pays for the fight when it falls.
+  /** Who it is: "Grisk, the Goblin King". */
+  const namedTitle = mb => `${mb.named.called}, the ${mb.name}`;
+  /** The named champion still standing on a floor, if one is. @param {import('./types.js').Level} L */
+  const namedOn = L => L.monsters.find(m => MONSTERS[m.id].named) || null;
+  /** Coming down onto its floor: one line, so the fight is chosen, not sprung. */
+  function namedArrives(L) {
+    const m = namedOn(L);
+    if (m) log(MONSTERS[m.id].named.arrive, 'bad');
+  }
+  /** It wakes: its line, and the low sting the deep gives when it takes notice. */
+  function namedWakes(m, mb) {
+    m.spoke = true;
+    log(mb.named.wake, 'bad');
+    meet(m);
+    Sound.play('dread');
+    fx.shakeAmp = 3; fx.shakeMs = 400; fx.shakeUntil = realNow + 400;
+  }
+  /** The two tricks no plain kind has: the Goblin King's horn and the Abbess's thirst. Returns the warning, or '' when it is not the moment. */
+  function namedTrick(m, mb, mv, adjacent) {
+    // hurt past half, he calls his kin; twice at most, and a call cut short is spent
+    if (mv === 'rally' && m.hp < m.maxHp / 2 && (m.rallies || 0) < 2) {
+      m.rallies = (m.rallies || 0) + 1;
+      return `The ${mb.name} puts a war-horn to his lips to call his kin! Strike him before he sounds it!`;
+    }
+    if (mv === 'drink' && adjacent && (m.blows || 0) >= 2) return `The ${mb.name} reaches into your chest with a cold hand, to drink! Step back!`;
+    return '';
+  }
+  /** The horn sounds, or the hand closes. @param {number} dist  steps between it and the hero */
+  function namedResolve(m, mb, mv, dist) {
+    const p = P();
+    if (mv === 'rally') {
+      Sound.play('horn', heard(m));
+      const spot = spotNear(m), [kind, n] = mb.named.call;
+      if (spot) {
+        const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((G.depth - 1) / 2);
+        const g = newMonster(kind, spot[0], spot[1], hp());
+        // the ones behind it as sturdy as newMonster made the one in front
+        const f = diff().hp * (1 + PRESS_HP * (lvl().press || 0));
+        if (n > 1) g.pack = Array.from({ length: n - 1 }, () => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
+        log(`The horn blares! ${n > 1 ? `${cap(b.name.toLowerCase())}s come` : `A ${b.name.toLowerCase()} comes`} running to their king.`, 'bad');
+      } else log('The horn blares, but there is no room for anyone to come.', 'bad');
+      learn(m.id, 'trick');
+      m.moveReady = G.t + 5000;
+      m.nextAct = G.t + Math.round(mb.speed * 0.6);
+      return;
+    }
+    // her thirst: a sure blow, and what it takes she keeps
+    if (dist === 1) {
+      if (monsterAttack(m, { verb: 'drinks from', sure: true }) && G.status === 'playing') {
+        const c = hasPower('ward') ? null : trickSave('wis', 'drink');
+        if (!c) log(`Your ward holds: the ${mb.name}'s hand comes away empty.`, 'good');
+        else if (c.pass) log(`Your will holds against the ${mb.name}'s thirst.${c.note}`, 'good');
+        else {
+          const n = Math.min(3, Math.max(0, p.maxHp - 10)), back = Math.min(m.maxHp - m.hp, 3 * n);
+          p.maxHp -= n; p.hp = Math.min(p.hp, p.maxHp); m.hp += back;
+          if (back) floatText(m, '+' + back, '#c080ff');
+          log(`The ${mb.name} drinks deep: ${n} of your most health is gone for good${back ? `, and her wounds close (+${back})` : ''}.${c.note}`, 'bad');
+          emit('stats');
+        }
+      }
+      G.blowGate = G.t + BLOW_GAP;
+    } else { log(`The ${mb.name}'s hand closes on the air where you stood, and leaves her open.`, 'good'); learn(m.id, 'answer'); opening(m); }
+    m.nextAct = G.t + mb.speed;
+  }
+  /** A named troll's wounds close where you can see them, and the log says what stops them, once. */
+  function namedMends(m, mb) {
+    floatText(m, '+' + mb.regen, '#80e060');
+    if (!m.mendSaid && G.met && G.met[m.uid]) { m.mendSaid = true; log(`The ${mb.name}'s wounds close as you watch. Fire would stop them.`, 'bad'); }
+  }
+  /** It falls: its line, a shake and a fanfare, and the spoils. */
+  function namedFalls(m, mb) {
+    log(mb.named.fall, 'good');
+    fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
+    Sound.play('namedfall', heard(m));
+    learn(m.id, 'answer');     // beaten: its trick and the answer go in the bestiary
+    namedSpoils(m);
+  }
+  /**
+   * What a named champion leaves where it falls: the next relic the traders
+   * were keeping for this hero (so no trader shows it later), or, once they
+   * have none left, a +2 piece the hero can use and a purse of gold.
+   */
+  function namedSpoils(m) {
+    const L = lvl(), k = key(m.x, m.y), R = G.relics;
+    const drop = it => { (L.items[k] = L.items[k] || []).push(it); return it; };
+    if (R && R.offered < R.shop.length) {
+      const it = drop(relicItem(R.shop[R.offered++]));
+      log(`Something fine lies where it fell: ${the(it)}.`, 'good');
+      return;
+    }
+    const p = P(), c = cls(), most = 2 + Math.floor(G.depth / 2);
+    const fits = id => {
+      const b = ITEMS[id];
+      if (b.kind === 'weapon') return b.cls.includes(p.cls);
+      if (b.kind === 'armor') return c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light');
+      return b.kind === 'shield' && !!c.shield;
+    };
+    const best = Object.keys(ITEMS).filter(id => ITEMS[id].tier && ITEMS[id].tier <= most && fits(id)).sort((a, b) => ITEMS[b].tier - ITEMS[a].tier).slice(0, 4);
+    const it = drop({ t: Dice.pick(best), q: 1, e: 2 });
+    drop({ t: 'gold', q: 40 * G.depth });
+    log(`Where it fell lie ${the(it)} and a heavy purse.`, 'good');
+  }
+  /** The named champion whose life runs along the top of the view: awake, and close. */
+  function namedBar(L) {
+    const p = P();
+    let best = null, bd = 9;
+    for (const m of L.monsters) {
+      const dd = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+      if (MONSTERS[m.id].named && m.awake && m.spoke && dd < bd) { best = m; bd = dd; }
+    }
+    return best;
+  }
+
   // ---------- how hard the delve is ----------
   // Chosen when the hero is made. Normal is the delve as meant: its creatures
   // are sturdier and hit a little surer and harder than they are drawn. Easy
@@ -3149,7 +3294,7 @@ const Game = (() => {
     if (!L.press) return;
     const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
     for (const m of L.monsters) {
-      if (!m.elite && !MONSTERS[m.id].boss && Math.random() < PRESS_CHAMPION * L.press) {
+      if (!m.elite && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && Math.random() < PRESS_CHAMPION * L.press) {
         const e = Dice.pick(ELITES);
         m.elite = e.prefix; m.maxHp = Math.round(m.maxHp * e.hp);
       }
@@ -3187,7 +3332,7 @@ const Game = (() => {
         log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
         Sound.play('voice', heard(m, { who: m.id }));
         fx.shakeAmp = 4; fx.shakeMs = 500; fx.shakeUntil = realNow + 500;
-      }
+      } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);
       if (m.collapsed) {
         if (G.t >= m.collapsed) {
           m.collapsed = 0; m.hp = Math.ceil(m.maxHp / 2); m.awake = true; m.nextAct = G.t + WAKE_BEAT;
@@ -3208,6 +3353,7 @@ const Game = (() => {
       if (mb.regen && m.hp < m.maxHp && !(m.burnUntil > G.t) && G.t >= (m.nextRegen || 0)) {
         m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000;
         if (G.met && G.met[m.uid]) learn(m.id, 'trick');   // you watched its wounds close
+        if (mb.named) namedMends(m, mb);
       }
       if (G.t < m.nextAct) continue;
       // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
@@ -3222,7 +3368,9 @@ const Game = (() => {
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
         if (di >= 0 && di <= notice) {
-          m.awake = true; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT; meet(m);
+          m.awake = true; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
+          if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
+          meet(m);
           // woken right beside you, its first blow is already being drawn back
           if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
           continue;
@@ -3487,6 +3635,8 @@ const Game = (() => {
   function renderState(now) {
     const L = lvl();
     const sprites = [];
+    // a named champion awake and close carries its life along the top of the view, as the lich does
+    const topNamed = namedBar(L);
     for (const m of L.monsters) {
       if (m.moveT1 > now) {
         const t = (now - m.moveT0) / (m.moveT1 - m.moveT0);
@@ -3495,7 +3645,9 @@ const Game = (() => {
       const mb = MONSTERS[m.id];
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
       const base = Assets.sprites[mb.sprite];
-      const img = (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base;
+      // a champion wears its colour: a prefix's, or a named one's own
+      const tint = m.elite || (mb.named ? m.id : '');
+      const img = (tint && base && base.elite && base.elite[tint]) ? base.elite[tint] : base;
       const n = packSize(m);
       // how far through its wind-up it is, for the tell drawn over it
       const tell = m.volley ? 1 : m.windup ? Math.min(1, Math.max(0.05, (G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
@@ -3510,7 +3662,7 @@ const Game = (() => {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : {}) });
         continue;
@@ -3556,6 +3708,12 @@ const Game = (() => {
     const rite = boss && boss.windup && boss.windup.move === 'rite' ? boss.windup : null;
     fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!rite,
       riteDone: rite ? Math.min(1, Math.max(0, (G.t - rite.at) / Math.max(1, rite.until - rite.at))) : 0 } : null;
+    // else a named champion's, its name in full and marked where its fight turns, if it does
+    if (!boss && topNamed) {
+      const nb = MONSTERS[topNamed.id];
+      fx.boss = { name: namedTitle(nb), hp: now < (topNamed.flashAt || 0) && topNamed.hpShown > 0 ? topNamed.hpShown : topNamed.hp, maxHp: topNamed.maxHp,
+        phase: 0, rite: false, riteDone: 0, named: true, notches: nb.move === 'rally' ? [1 / 2] : [] };
+    }
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };
