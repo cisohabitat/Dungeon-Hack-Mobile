@@ -294,6 +294,36 @@ test.describe('interface', () => {
     });
   }
 
+  test('a phone held sideways puts the view beside the controls, filled and with nothing off the edge', async ({ page }) => {
+    // Sideways the view was a short 16:10 picture with black bars down both
+    // sides, and the seven buttons of the bottom bar were each under 44px wide.
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 851, height: 393 });
+    await startGame(page, { seed: 'sideways', cls: 'Mage' });
+    await clearBoons(page);
+    await page.waitForTimeout(250);
+    const v = await page.evaluate(() => {
+      const c = document.getElementById('view'), box = c.parentElement.getBoundingClientRect();
+      const buttons = [...document.querySelectorAll('#screen-game .ctl, #screen-game .bottombar button')]
+        .filter(b => getComputedStyle(b).display !== 'none')
+        .map(b => { const r = b.getBoundingClientRect(); return { name: b.getAttribute('aria-label') || b.textContent.trim(), left: r.left, top: r.top, right: r.right, bottom: r.bottom, w: r.width, h: r.height }; });
+      return { box: { left: box.left, right: box.right, width: box.width, height: box.height }, buffer: [c.width, c.height], buttons,
+        // how much of the box the picture fills once it is fitted inside it
+        fill: Math.min(1, (box.height * c.width / c.height) / box.width),
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    expect(v.overflow, 'no sideways scroll').toBeLessThanOrEqual(0);
+    expect(v.box.width / 851, 'the view should take most of the width').toBeGreaterThan(0.55);
+    expect(v.fill, 'the picture should fill its box, not sit between black bars').toBeGreaterThan(0.97);
+    expect(v.buffer[1], 'the renderer should draw a wider picture, not scale a narrow one').toBeLessThan(200);
+    expect(v.buttons.length).toBeGreaterThanOrEqual(15);
+    const beside = v.buttons.filter(b => b.left < v.box.right - 1);
+    expect(beside.map(b => b.name), 'every control should sit to the right of the view').toEqual([]);
+    const bad = v.buttons.filter(b => b.top < -1 || b.bottom > 393 + 1 || b.right > 851 + 1 || b.w < 44 || b.h < 44);
+    expect(bad.map(b => `${b.name} ${Math.round(b.w)}x${Math.round(b.h)}`), 'controls off screen or too small to press').toEqual([]);
+    expect(errors).toEqual([]);
+  });
+
   test('on a tall phone the view grows into the spare height without stretching', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.setViewportSize({ width: 393, height: 851 });
