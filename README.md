@@ -13,7 +13,14 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   gives the same dungeon. Share seeds with friends.
 - **Customisable descent.** Choose the number of levels (4 to 16), map size, monster density,
   treasure density, locked doors and keys, traps, and permadeath, just like the original's
-  dungeon-customisation screen.
+  dungeon-customisation screen. A difficulty picker at the top sets Easy, Normal or Hard.
+- **One life by default.** Permadeath is on unless you untick it. The run is still saved when
+  you change levels or put the game away, so Continue picks it up, but Load stays shut and a
+  death erases the save.
+- **The Daily Delve.** One dungeon a day, the same for everyone: the seed, the class, the
+  background and the scores all come from the date. Eight floors, normal difficulty, one life,
+  one try. The title then shows how it went, the Hall marks the run, a streak counts the days in
+  a row, and Share copies a one-line result. Nothing leaves the device.
 - **A story you descend into.** An opening sets up the valley above Karrathal and what went wrong
   beneath it. Each of the eight levels holds one page left by the guild crews who went first, and
   the Journal collects them as the account of what actually happened down there assembles itself.
@@ -51,7 +58,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   gravestone.
 - **Survival.** Hunger, poison, traps in corridors. Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
-  nearby enemies, and thins out: the first rest on a floor restores everything, the next half,
+  nearby enemies (the Rest button dims and says so; it never drinks for you), and thins out: the first rest on a floor restores everything, the next half,
   the third a quarter, and then the dark is too close to sleep. Potions are found rarely enough
   that the gold you carry has something to buy.
 - **An ending that is a fight.** The Heart of the Mountain will not come loose while the Dread
@@ -147,7 +154,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 86 Playwright tests against a real browser
+npm run test:browser  # 96 Playwright tests against a real browser
 npm run test:all      # both
 npm run playtest      # 160 simulated runs, reports win rate by class
 ```
@@ -172,21 +179,18 @@ push and pull request.
 
 ## Balance
 
-Tuned against the simulator rather than by feel. Over 160 bot runs on a fixed seed set, heading
-straight down with rolled stats:
+Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
+down, with stats placed as the creation screen places them (`FIT=1`), 120 runs per class:
 
-| Class | Win rate | Average depth reached |
-| --- | --- | --- |
-| Fighter | 88% | 7.9 |
-| Cleric | 88% | 7.5 |
-| Mage | 70% | 7.7 |
-| Thief | 80% | 7.5 |
-| **Overall** | **81%** | **7.6** |
+| Difficulty | Cleric | Fighter | Mage | Thief | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Easy | 87% | 91% | 91% | 96% | about 91% |
+| Normal | 60% | 73% | 71% | 85% | about 72% |
+| Hard | 34% | 51% | 40% | 59% | about 45% |
 
-Backgrounds are rotated across runs so the figures are not one perk repeated forty times. With
-stats placed as the creation screen places them (`FIT=1`) every class wins 86 to 94% of runs, and
-clearing each floor first (`EXPLORE=0.8`) wins more still. That is easier than it should be for
-a roguelike; a harder setting is the next piece of balance work. The bot is a steady player,
+Answering monster tricks is worth about ten points on Normal: a bot that ignores every warning
+(`NOREACT=1`) wins about 62%. Clearing each floor first (`EXPLORE=0.8`) is safer again. Backgrounds
+are rotated across runs so the figures are not one perk repeated. The bot is a steady player,
 not a great one: it does not step back from ordinary blows, so a careful human does better.
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
@@ -213,6 +217,7 @@ what finesse means.
 | Turn or step by gesture | swipe the view | |
 | Cast last spell | Cast | C |
 | Rest | Rest | R |
+| Drink a healing potion | Cast (fighter, thief) or the bottle by the life bar (mage, cleric) | X |
 | Map, Pack, Spells, Hero, Journal | bottom bar | M, I, P, H, J |
 | Menu / close | Menu | Esc |
 
@@ -232,6 +237,7 @@ js/renderer.js    canvas raycaster
 js/sound.js       WebAudio sound effects
 js/game.js        rules, state, AI, save/load
 js/ui.js          screens, overlays, touch and keyboard input
+js/daily.js       the Daily Delve: the day's hero, the one try, the streak
 js/main.js        entry point, game loop, debug surface
 js/types.js       JSDoc shapes for the type checker
 sw.js             offline cache

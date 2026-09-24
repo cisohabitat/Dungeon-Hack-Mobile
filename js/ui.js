@@ -6,6 +6,7 @@ import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
 import { RELIC_POWERS, RELICS } from './relics.js';
+import { Daily } from './daily.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -20,7 +21,7 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null };
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal' };
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
@@ -42,6 +43,58 @@ const UI = (() => {
     $('#save-summary').textContent = s
       ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
       : 'No saved game';
+    refreshDaily();
+  }
+  /** The Daily Delve button says how today stands: fresh, waiting below, or done. */
+  function refreshDaily() {
+    const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
+    const waiting = !!s && s.seed === Daily.seedFor(key);
+    const note = $('#daily-summary'), run = Daily.streak(key);
+    $('#btn-daily').classList.toggle('done', st.state !== 'fresh' && !waiting);
+    if (waiting) note.textContent = `Today's delve waits on floor ${s.depth}`;
+    else if (st.state === 'done') note.textContent = `Today: ${Daily.outcome(st.done)} \u00b7 Share`;
+    else if (st.state === 'started') note.textContent = 'Today: left unfinished';
+    else note.textContent = run ? `One try today \u00b7 streak ${run}` : "Today's dungeon, one try";
+  }
+  /** Copy a line to the clipboard, the old way if the new one is refused. */
+  async function copyText(text) {
+    try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (e) { /* try the old way */ }
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch (e) { return false; }
+  }
+  /** The title's Daily Delve button: start today's, go back to it, or share how it went. */
+  function dailyTap() {
+    const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
+    if (s && s.seed === Daily.seedFor(key)) { if (Game.load()) startPlaying(); return; }
+    if (st.state === 'done') {
+      const line = Daily.shareLine(key, st.done);
+      copyText(line).then(ok => { $('#daily-summary').textContent = ok ? 'Copied: paste it anywhere' : line; });
+      return;
+    }
+    // one try a day: a run begun and then given up is still the day's try
+    if (st.state === 'started') { $('#daily-summary').textContent = 'One try a day. Back tomorrow'; return; }
+    startNewGameFlow('daily');
+  }
+  /** Today's hero, the same for everyone, into the prologue. */
+  function dailyStart() { showPrologue(Daily.heroFor(Daily.today())); }
+  const DIFFICULTY = {
+    easy: 'Easy: more to find, monsters never grow with you',
+    normal: 'Normal: the intended delve',
+    hard: 'Hard: sturdier monsters, thinner rests, a lich at full strength',
+  };
+  /** A run's difficulty; a save from before there was a choice is normal. */
+  const diffOf = o => (o && (o.difficulty === 'easy' || o.difficulty === 'hard') ? o.difficulty : 'normal');
+  const diffName = d => d.charAt(0).toUpperCase() + d.slice(1);
+  function setDifficulty(d) {
+    create.difficulty = DIFFICULTY[d] ? d : 'normal';
+    for (const b of $$('#c-difficulty [data-diff]')) { const on = b.dataset.diff === create.difficulty; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
+    $('#c-diff-note').textContent = DIFFICULTY[create.difficulty];
   }
 
   // ---------- animated title scene ----------
@@ -276,20 +329,22 @@ const UI = (() => {
       const s = create.stats, fight = create.cls === 'thief' ? s.dex : s.str;
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
-    const NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
+    const NAMES = Daily.HERO_NAMES;
     const cfg = { name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
-      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } };
+      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal') } };
     // "straight in" means it for anyone who has been down before; a first
     // hero still hears why the Heart matters
     if (firstRun) showPrologue(cfg);
     else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); startPlaying(); }
   }
-  let quickPending = false;
-  /** A run in progress is a real investment, so never discard one silently. */
-  function startNewGameFlow(quick) {
-    quickPending = !!quick;
+  /** @type {'new'|'quick'|'daily'} what the player asked for, waiting on the replace question */
+  let pendingKind = 'new';
+  function startPending() { if (pendingKind === 'quick') quickStart(); else if (pendingKind === 'daily') dailyStart(); else openCreation(); }
+  /** A run in progress is a real investment, so never discard one silently. @param {'new'|'quick'|'daily'} [kind] */
+  function startNewGameFlow(kind = 'new') {
+    pendingKind = kind;
     const saved = Game.saveSummary();
-    if (!saved) { if (quick) quickStart(); else openCreation(); return; }
+    if (!saved) { startPending(); return; }
     $('#confirm-who').textContent =
       `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.`;
     showScreen('screen-confirm');
@@ -301,6 +356,13 @@ const UI = (() => {
     $('#pro-who').textContent = b.name;
     $('#pro-story').textContent = b.story;
     $('#pro-motive').textContent = b.motive;
+    // how this run is kept, said plainly before it starts
+    const o = cfg.opts, d = diffOf(o);
+    $('#pro-rules').textContent = o.daily
+      ? `The Daily Delve for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
+      : (o.permadeath
+        ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
+        : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffName(d)}.` : '');
     showScreen('screen-prologue');
   }
   function beginGame() {
@@ -318,12 +380,15 @@ const UI = (() => {
         lockedDoors: $('#c-locked').checked,
         traps: $('#c-traps').checked,
         permadeath: $('#c-permadeath').checked,
+        difficulty: /** @type {'easy'|'normal'|'hard'} */ (create.difficulty),
       },
     };
     showPrologue(cfg);
   }
   function commitGame() {
     if (!pendingCfg) return;
+    // the day's one try begins here, at the first stair
+    if (pendingCfg.opts.daily) Daily.start(pendingCfg.opts.daily);
     Game.newGame(pendingCfg);
     pendingCfg = null;
     Game.save(true);
@@ -437,7 +502,7 @@ const UI = (() => {
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
-    if (p.held > G.t) st.push('<span class="bad">Frozen</span>');
+    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (Game.effect('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
@@ -465,17 +530,39 @@ const UI = (() => {
     btn.setAttribute('aria-label', label);
     btn.classList.toggle('ctx', label !== 'Use' && label !== 'Search');
   }
-  // in a fight there is no resting: the Rest button is a drink instead, for every class
+  // Rest only ever rests: with something close it dims and says why, and a
+  // tap says so in the log. It used to turn into Quaff in a fight, and a
+  // player reaching for a rest drank a potion instead.
   let restSig = '';
   function refreshRest() {
+    refreshQuaff();
     const label = Game.restLabel();
     if (label === restSig) return;
     restSig = label;
     const btn = document.querySelector('[data-tap="rest"]');
     if (!btn) return;
-    btn.textContent = label;
-    btn.classList.toggle('ctx', label === 'Quaff');
-    btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : 'Rest');
+    const foes = label === 'Foes near';
+    if (foes) btn.innerHTML = 'Rest<small>foes near</small>';
+    else btn.textContent = label;
+    btn.classList.toggle('unavail', foes || label === 'No rest');
+    btn.setAttribute('aria-label', foes ? 'Rest: not with foes near' : label);
+  }
+  // A caster's Cast button casts, so their quick drink is a bottle of its own
+  // beside the life bar: always in the same place, there whenever they carry
+  // a healing draught they know, and never standing in for anything else.
+  let quaffSig = '';
+  function refreshQuaff() {
+    const p = Game.player();
+    const caster = !!CLASSES[p.cls].spells;
+    const n = caster ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
+    const sig = `${caster}|${n}`;
+    if (sig === quaffSig) return;
+    quaffSig = sig;
+    const btn = $('#hud-quaff');
+    btn.style.display = caster ? '' : 'none';
+    btn.style.visibility = n ? '' : 'hidden';
+    $('#hud-quaff-n').textContent = n > 1 ? String(n) : '';
+    btn.setAttribute('aria-label', `Quaff a healing draught (${n} carried)`);
   }
   let castSig = '';
   function refreshCast() {
@@ -524,17 +611,27 @@ const UI = (() => {
   }
 
   // Small live automap in the corner of the view, 15x15 tiles around the player.
+  let miniFaded = false;
   function refreshMinimap(now) {
     if (now - miniAt < 120) return;
     miniAt = now;
+    const c = $('#minimap');
+    // it steps back, nearly out of sight, while a creature stands under it:
+    // a health bar or a warning mark matters more than the map
+    const vr = $('#view').getBoundingClientRect(), mr = c.getBoundingClientRect();
+    if (vr.width > 0) {
+      const sx = Renderer.W / vr.width, sy = Renderer.H / vr.height;
+      const fade = Renderer.busy((mr.left - vr.left) * sx - 4, (mr.top - vr.top) * sy - 4, (mr.right - vr.left) * sx + 4, (mr.bottom - vr.top) * sy + 4);
+      if (fade !== miniFaded) { miniFaded = fade; c.classList.toggle('faded', fade); }
+    }
     const L = Game.level(), p = Game.player();
     const R = 7, size = 6;
     const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length].join(',');
     if (sig === miniSig) return;
-    const c = $('#minimap');
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
-    ctx.fillStyle = 'rgba(5,5,10,0.6)';
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.fillStyle = 'rgba(5,5,10,0.3)';
     ctx.fillRect(0, 0, c.width, c.height);
     for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
       const x = p.x + dx, y = p.y + dy;
@@ -824,7 +921,8 @@ const UI = (() => {
     const list = Game.hall();
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills · ${h.gold} gold · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+    // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -1254,7 +1352,7 @@ const UI = (() => {
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
-    $('#m-seed').textContent = `Seed "${G.seed}" · ${G.opts.levels} levels · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} levels · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   // ---------- end screens ----------
@@ -1350,6 +1448,10 @@ const UI = (() => {
     $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');
     $('#end-epilogue').innerHTML = Game.epilogue(won).map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
+    // a daily run can be told in one line
+    $('#end-share').style.display = G.opts.daily ? '' : 'none';
+    $('#end-share').textContent = 'Share today\'s result';
+    $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
   }
 
@@ -1412,7 +1514,7 @@ const UI = (() => {
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 
     const KEYS = { ArrowUp: 'forward', KeyW: 'forward', ArrowDown: 'back', KeyS: 'back', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', KeyQ: 'strafeL', KeyE: 'strafeR', Space: 'attack', KeyF: 'attack' };
-    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest' };
+    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest', KeyX: 'quaff' };
     const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal' };
     window.addEventListener('keydown', e => {
       const target = /** @type {HTMLElement} */ (e.target);
@@ -1438,6 +1540,12 @@ const UI = (() => {
     for (const [act, at] of held) if (act !== 'left' && act !== 'right' && now - at >= HOLD_DELAY) Game.input(act, true);
   }
 
+  /** A daily run's end is kept at once, before any finale, in case the phone is put away. */
+  function noteDaily(run, won) {
+    if (!run.opts.daily) return;
+    const p = run.player;
+    Daily.finish(run.opts.daily, { won, depth: run.depth, kills: p.kills, cls: p.cls, score: Game.score(p, run.depth, won) });
+  }
   function handleEvents() {
     for (const e of Game.takeEvents()) {
       if (e === 'boons') { if (overlay === 'boons') renderBoons(); else openOverlay('boons'); }
@@ -1448,6 +1556,7 @@ const UI = (() => {
       // the view goes dark a moment first, then the end screen, for this run only
       else if (e === 'dead') {
         const run = Game.state();
+        noteDaily(run, false);
         clearTimeout(finaleTimer);
         finaleTimer = setTimeout(() => { if (Game.state() === run && run.status === 'dead' && $('#screen-game').classList.contains('active')) showEnd(false); }, 1200);
       }
@@ -1455,6 +1564,7 @@ const UI = (() => {
       // for this run, and only if it is still on screen when the light is done
       else if (e === 'won') {
         const run = Game.state();
+        noteDaily(run, true);
         clearTimeout(finaleTimer);
         finaleTimer = setTimeout(() => { if (Game.state() === run && run.status === 'won' && $('#screen-game').classList.contains('active')) showEnd(true); }, Game.finaleLeft());
       }
@@ -1483,8 +1593,19 @@ const UI = (() => {
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#end-new').addEventListener('click', () => startNewGameFlow());
     $('#confirm-keep').addEventListener('click', () => { if (Game.load()) startPlaying(); });
-    $('#confirm-replace').addEventListener('click', () => { if (quickPending) quickStart(); else openCreation(); });
-    $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(true); });
+    $('#confirm-replace').addEventListener('click', startPending);
+    $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow('quick'); });
+    $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(); });
+    $('#end-share').addEventListener('click', () => {
+      const G = Game.state(), key = G && G.opts.daily, st = key ? Daily.status(key) : null;
+      if (!st || !st.done) return;
+      const line = Daily.shareLine(key, st.done), out = $('#end-share-line');
+      // the line is shown as well, to copy by hand if the clipboard says no
+      out.textContent = line; out.style.display = '';
+      copyText(line).then(ok => { $('#end-share').textContent = ok ? 'Copied: paste it anywhere' : 'Copy the line below'; });
+    });
+    for (const b of $$('#c-difficulty [data-diff]')) b.addEventListener('click', () => setDifficulty(b.dataset.diff));
+    setDifficulty('normal');
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));
     bindControls();
     setTextSize(textSize());

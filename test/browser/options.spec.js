@@ -1,0 +1,226 @@
+'use strict';
+// How a run is set up and kept: Rest that only rests, a caster's own quick
+// drink, permadeath by default, the Daily Delve and the difficulty picker.
+const { test, devices } = require('@playwright/test');
+const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+
+const healing = page => page.evaluate(() => Game.player().inv.filter(i => i.t === 'potion_heal').reduce((n, i) => n + i.q, 0));
+
+test.describe('rest and the quick drink', () => {
+  test('Rest never drinks a potion with enemies near: it dims and says why', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { cls: 'fighter', seed: 'rest-foes' });
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await page.evaluate(() => { const p = Game.player(); Game.state().known.potion_heal = 1; p.maxHp = 40; p.hp = 6; });
+    await placeMonster(page, 'orc', 1, { hp: 99, maxHp: 99, nextAct: 1e12 });
+    const rest = page.locator('[data-tap="rest"]');
+    await expect(rest).toHaveClass(/unavail/);
+    await expect(rest).toContainText(/foes near/i);
+    const before = await healing(page);
+    expect(before).toBeGreaterThan(0);
+    await rest.click();
+    await page.waitForTimeout(150);
+    expect(await healing(page), 'Rest must not drink a potion').toBe(before);
+    await expect(page.locator('#log')).toContainText(/can't rest/i);
+    expect(await page.evaluate(() => Game.player().hp)).toBe(6);
+    // the fight over, Rest is a rest again
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await expect(rest).not.toHaveClass(/unavail/);
+    await expect(rest).toHaveText(/^Rest/);
+    expect(errors).toEqual([]);
+  });
+
+  test("a caster's bottle beside the life bar drinks a healing potion; others quaff from Cast", async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { cls: 'mage', seed: 'caster-quaff' });
+    await clearBoons(page);
+    const bottle = page.locator('#hud-quaff');
+    await expect(bottle).toBeVisible();
+    const box = await bottle.boundingBox();
+    expect(box.width).toBeGreaterThanOrEqual(44);
+    expect(box.height).toBeGreaterThanOrEqual(44);
+    await page.evaluate(() => { const p = Game.player(); p.maxHp = 40; p.hp = 5; });
+    const before = await healing(page);
+    expect(before).toBeGreaterThan(0);
+    await bottle.click();
+    await expect.poll(() => healing(page)).toBe(before - 1);
+    expect(await page.evaluate(() => Game.player().hp)).toBeGreaterThan(5);
+    // the Cast button still casts
+    await expect(page.locator('[data-tap="cast"] small')).not.toHaveText('Quaff');
+    // with nothing known to drink, the bottle is gone rather than doing something else
+    await page.evaluate(() => { const p = Game.player(); p.inv = p.inv.filter(i => i.t !== 'potion_heal' && i.t !== 'potion_xheal'); });
+    await expect(bottle).toBeHidden();
+    expect(errors).toEqual([]);
+  });
+
+  test('a fighter has no bottle in the HUD: Quaff sits on the Cast button', async ({ page }) => {
+    await startGame(page, { cls: 'fighter', seed: 'fighter-quaff' });
+    await clearBoons(page);
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText('Quaff');
+    await expect(page.locator('#hud-quaff')).toBeHidden();
+  });
+});
+
+test.describe('permadeath', () => {
+  test('is on by default for a new hero and for Quick Start, and Load stays shut', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    await expect(page.locator('#c-permadeath')).toBeChecked();
+    await page.fill('#c-seed', 'perma-default');
+    await page.click('#c-begin');
+    await expect(page.locator('#pro-rules')).toContainText(/permadeath is on/i);
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().opts.permadeath)).toBe(true);
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-load')).toBeDisabled();
+    await expect(page.locator('#m-seed')).toContainText('permadeath');
+    // the run is still kept when the game is put away, for Continue
+    await page.click('#m-quit');
+    await expect(page.locator('#btn-continue')).toBeEnabled();
+    await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
+    await page.goto('/');
+    await page.click('#btn-quick');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().opts.permadeath)).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
+  test('can be unticked for a run that may be loaded again', async ({ page }) => {
+    await page.goto('/');
+    await page.click('#btn-new');
+    await page.locator('label.check', { has: page.locator('#c-permadeath') }).click();
+    await expect(page.locator('#c-permadeath')).not.toBeChecked();
+    await page.fill('#c-seed', 'perma-off');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().opts.permadeath)).toBe(false);
+  });
+});
+
+test.describe('the Daily Delve', () => {
+  const DAY = new Date('2026-09-24T10:00:00');
+  /** Tap Daily Delve on a fresh page and step into the dungeon; returns who and where. */
+  async function startDaily(page) {
+    await page.clock.setFixedTime(DAY);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.goto('/');
+    await page.click('#btn-daily');
+    await expect(page.locator('#screen-prologue')).toBeVisible();
+    await expect(page.locator('#pro-rules')).toContainText(/Daily Delve/);
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    return page.evaluate(() => { const G = Game.state(), p = G.player; return { seed: G.seed, cls: p.cls, bg: p.bg, name: p.name, stats: p.stats, opts: G.opts }; });
+  }
+
+  test('gives everyone the same dungeon and hero on the same day, and one try', async ({ page, browser }) => {
+    const errors = watchForErrors(page);
+    const first = await startDaily(page);
+    expect(first.seed).toBe('daily-2026-09-24');
+    expect(first.opts).toMatchObject({ levels: 8, permadeath: true, difficulty: 'normal', daily: '2026-09-24', monsters: 'normal', treasure: 'normal', size: 'medium' });
+    // another phone, the same day
+    const other = await browser.newContext({ ...devices['Pixel 5'] });
+    const page2 = await other.newPage();
+    const second = await startDaily(page2);
+    expect(second).toEqual(first);
+    await other.close();
+
+    // fall, and the day is over
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#screen-end')).toBeVisible();
+    await page.click('#end-share');
+    await expect(page.locator('#end-share-line')).toContainText(/^Deepdelve daily 2026-09-24: \w+, fell on floor 1, \d+ kills?, streak 1$/);
+
+    await page.goto('/');
+    await expect(page.locator('#daily-summary')).toContainText('Today: fell on floor 1');
+    await page.click('#btn-daily');
+    await page.waitForTimeout(300);
+    await expect(page.locator('#screen-title'), 'a second try the same day is refused').toBeVisible();
+    expect(await page.evaluate(() => !!Game.state())).toBe(false);
+    // the Hall marks it as the day's run
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-row.daily .daily-mark')).toHaveText('Daily 2026-09-24');
+    expect(errors).toEqual([]);
+  });
+
+  test('a run left in progress is waiting on the button, and a new day is a new dungeon with the streak', async ({ page }) => {
+    const first = await startDaily(page);
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-seed')).toContainText('Daily Delve 2026-09-24');
+    await page.click('#m-quit');
+    await expect(page.locator('#daily-summary')).toContainText("Today's delve waits");
+    await page.click('#btn-daily');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => Game.state().seed)).toBe(first.seed);
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.daily')).streak)).toBe(1);
+
+    // the next day: a different dungeon, and the streak grows. Yesterday's
+    // run is still saved (leaving the page keeps it), so it asks first
+    await page.clock.setFixedTime(new Date('2026-09-25T09:00:00'));
+    await page.goto('/');
+    await expect(page.locator('#daily-summary')).toContainText('streak 1');
+    await page.click('#btn-daily');
+    await expect(page.locator('#screen-confirm')).toBeVisible();
+    await page.click('#confirm-replace');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().seed)).toBe('daily-2026-09-25');
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.daily')).streak)).toBe(2);
+  });
+});
+
+test.describe('difficulty', () => {
+  test('the picker writes the choice into the run, and the menu says it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    await expect(page.locator('[data-diff="normal"]')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('#c-diff-note')).toContainText(/Normal/);
+    await page.click('[data-diff="hard"]');
+    await expect(page.locator('[data-diff="hard"]')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('[data-diff="normal"]')).toHaveAttribute('aria-checked', 'false');
+    await expect(page.locator('#c-diff-note')).toContainText(/Hard/);
+    // Descend is in reach without scrolling
+    const begin = await page.locator('#c-begin').boundingBox();
+    expect(begin.y + begin.height).toBeLessThanOrEqual(page.viewportSize().height + 1);
+    await page.fill('#c-seed', 'diff-hard');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().opts.difficulty)).toBe('hard');
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-seed')).toContainText('Hard');
+    expect(errors).toEqual([]);
+  });
+
+  test('Quick Start is normal, and a save from before the choice reads as normal', async ({ page }) => {
+    await page.goto('/');
+    await page.click('#btn-quick');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.state().opts.difficulty)).toBe('normal');
+    await page.evaluate(() => {
+      Game.save();
+      const s = JSON.parse(localStorage.getItem('deepdelve.save'));
+      delete s.opts.difficulty;
+      localStorage.setItem('deepdelve.save', JSON.stringify(s));
+      Game.load();
+    });
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-seed')).toContainText('Normal');
+  });
+});

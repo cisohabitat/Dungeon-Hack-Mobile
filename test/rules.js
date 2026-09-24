@@ -3916,7 +3916,7 @@ await test('a line said again straight after itself is counted on one line, and 
   return true;
 });
 
-await test('every potion in a run has its own bottle, kept once known; in a fight Rest becomes a drink', async () => {
+await test('every potion in a run has its own bottle, kept once known; in a fight Rest never drinks, the quaff does', async () => {
   const ctx = await start('mage', 'bottles');
   const { Game, ITEMS } = ctx; const p = Game.player(), G = Game.state();
   const potions = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'potion');
@@ -3924,17 +3924,21 @@ await test('every potion in a run has its own bottle, kept once known; in a figh
   if (new Set(looks).size !== potions.length) return `bottles shared: ${looks.join(',')}`;
   G.known.potion_heal = 1;
   if (Game.spriteFor({ t: 'potion_heal', q: 1 }) !== looks[potions.indexOf('potion_heal')]) return 'the bottle changed once the draught was known';
-  // a fight, a known draught: Rest offers it, and drinks it
+  // a fight, a known draught: Rest says it cannot and leaves the draught be;
+  // the quaff, a button of its own, drinks it
   p.inv.push({ t: 'potion_heal', q: 1, e: 0 });
   p.maxHp = 40; p.hp = 5;                  // hurt enough that the draught is not wasted
   beside(ctx, 'orc', { hp: 99, maxHp: 99, nextAct: 1e12, awake: true });
-  if (Game.restLabel() !== 'Quaff') return `with an orc beside, Rest says ${Game.restLabel()}`;
+  if (Game.restLabel() !== 'Foes near') return `with an orc beside, Rest says ${Game.restLabel()}`;
   const count = () => p.inv.filter(i => i.t === 'potion_heal').reduce((n, i) => n + i.q, 0);
   const before = count();
   Game.input('rest');
-  if (count() !== before - 1) return 'Rest in a fight did not drink the draught';
+  if (count() !== before) return 'Rest in a fight drank a draught';
+  if (!/can't rest/.test(G.log[G.log.length - 1].m)) return `Rest in a fight said: ${G.log[G.log.length - 1].m}`;
+  Game.input('quaff');
+  if (count() !== before - 1) return 'the quaff did not drink the draught';
   Game.level().monsters.length = 0;
-  return Game.restLabel() === 'Rest' || 'with the fight over, Rest still offers a drink';
+  return Game.restLabel() === 'Rest' || `with the fight over, Rest says ${Game.restLabel()}`;
 });
 
 await test('when its fight turns the lich is wrapped in shadow a few seconds, and blows pass through it', async () => {

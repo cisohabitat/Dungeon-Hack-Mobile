@@ -1930,7 +1930,8 @@ const Game = (() => {
   }
   function recordHero(won) {
     const p = P();
-    const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won) };
+    const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
+      difficulty: G.opts.difficulty || 'normal', ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     try {
       const list = hall();
       list.push(entry);
@@ -2157,7 +2158,8 @@ const Game = (() => {
   /**
    * For a hero with no spells the Cast button is Quaff: drink the smallest
    * known healing draught that will not be wasted, the one a player reaches
-   * for mid-fight without opening the pack.
+   * for mid-fight without opening the pack. A caster's bottle beside the
+   * life bar does the same.
    */
   function quaff() {
     const p = P();
@@ -2169,17 +2171,20 @@ const Game = (() => {
     useItem(pick);
     return true;
   }
-  /** Something awake within five steps: no resting, and the Rest button offers a drink instead. */
+  /** Something awake within five steps: no resting. */
   function enemiesNear() {
     const L = lvl();
     ensureDist();
     return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
   }
-  /** What the Rest button will do: rest (saying how well, once rests here grow thin), or in a fight, when there is one to drink, quaff. */
+  /**
+   * What the Rest button will do: rest, saying how well once rests here grow
+   * thin, or with something close, nothing (Foes near). It never drinks: a
+   * button that turned into Quaff in a fight spent potions nobody meant to.
+   */
   function restLabel() {
     if (!G || G.status !== 'playing') return 'Rest';
-    const drink = P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t));
-    if (drink && enemiesNear()) return 'Quaff';
+    if (enemiesNear()) return 'Foes near';
     const share = restShare();
     return share >= 1 ? 'Rest' : share >= 0.5 ? 'Rest \u00bd' : share > 0 ? 'Rest \u00bc' : 'No rest';
   }
@@ -3008,9 +3013,9 @@ const Game = (() => {
         else if (act === 'left') turn(-1);
         else turn(1);
         break;
-      case 'attack': case 'cast': case 'use': case 'rest':
+      case 'attack': case 'cast': case 'use': case 'rest': case 'quaff':
         if (P().held > G.t) { blocked(heldWhy()); return; }
-        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (restLabel() === 'Quaff') quaff(); else rest(); return; }
+        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (act === 'quaff') quaff(); else rest(); return; }
         // a tap a moment early is kept and spent the instant the blow is ready,
         // rather than dropped: a player cannot see the swing timer
         if (G.t < P().nextAttack) { if (P().nextAttack - G.t <= 350) queuedAttack = true; }

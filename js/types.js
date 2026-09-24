@@ -162,6 +162,7 @@
  * @property {boolean} lockedDoors @property {boolean} traps
  * @property {boolean} [permadeath]
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
+ * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
  */
 
 /**
