@@ -77,6 +77,8 @@
  * @property {number} rx @property {number} ry
  * @property {number} fromX @property {number} fromY
  * @property {number} moveT0 @property {number} moveT1 @property {number} flashUntil
+ * @property {number} [flashAt]  when its hit flash starts: later than the blow for a fireball still in the air
+ * @property {number} [hpShown]  the life its bar shows until then
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker

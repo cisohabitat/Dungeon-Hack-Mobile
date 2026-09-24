@@ -2663,6 +2663,38 @@ await test('a shut door: a goblin opens it, an ogre smashes it at once, a rat ba
   return out.length ? out.join('; ') : true;
 });
 
+await test('a fire scroll\'s number, flash and a death wait for the fireball to burst; the blow itself does not', async () => {
+  const ctx = await start('fighter', 'scroll-delay');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.tick(10000);
+  const fxOf = () => Game.renderState(10000).fx;
+  const m = ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  const scroll = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(scroll); G.known.scroll_fire = 1;
+  Game.useItem(scroll);
+  const out = [];
+  if (!(m.hp < 500)) out.push('the fireball did no harm at once');
+  const text = fxOf().texts.slice(-1)[0];
+  if (!text || !(text.born >= 10000 + 800)) out.push(`the number shows at ${text && text.born}, before the burst`);
+  if (!(m.flashAt >= 10000 + 800)) out.push(`the flash starts at ${m.flashAt}`);
+  // the bar keeps the goblin's full life until then, and shows the wound after
+  const bar = now => Game.renderState(now).sprites.find(s => s.hp != null && s.maxHp === 500);
+  if (!bar(10100) || bar(10100).hp !== 500) out.push(`the bar dropped early: ${bar(10100) && bar(10100).hp}`);
+  if (!bar(11000) || bar(11000).hp !== m.hp) out.push('the bar never showed the wound');
+  // a killing fireball: the goblin still stands, whole, until it lands
+  const k = ahead(ctx, 'goblin', 2, { hp: 1, maxHp: 1, nextAct: 1e12 });
+  const s2 = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(s2);
+  Game.useItem(s2);
+  if (Game.level().monsters.includes(k)) out.push('the goblin lived');
+  const corpse = fxOf().corpses.slice(-1)[0];
+  if (!corpse || !(corpse.born >= 10000 + 800)) out.push(`the goblin fell at ${corpse && corpse.born}, before the burst`);
+  // and a blow straight after is shown at once: the delay is the fireball's alone
+  const g = ahead(ctx, 'goblin', 1, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  p.perkHit = 60; G.t = p.nextAttack; Game.input('attack');
+  const t2 = fxOf().texts.slice(-1)[0];
+  if (!t2 || t2.born > 10000) out.push(`a sword blow's number waited too: ${t2 && t2.born}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

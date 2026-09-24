@@ -31,7 +31,7 @@ const Game = (() => {
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
                /** @type {Array<{x: number, y: number, z: number, vx: number, vy: number, vz: number, g: number, c: string, born: number, life: number, size: number, glow?: boolean}>} */ bits: [],
                /** stains on the floor, by depth; for the look of a fight, not saved */
-               /** @type {Record<number, Array<{x: number, y: number, r: number, c: string, seed: number}>>} */ stains: {},
+               /** @type {Record<number, Array<{x: number, y: number, r: number, c: string, seed: number, at?: number}>>} */ stains: {},
                /** blood on the hero's own view, after a hard blow */
                /** @type {Array<{x: number, y: number, r: number, born: number, life: number}>} */ drops: [],
                shakeAmp: 4, shakeMs: 220, hurtAmt: 0.5,
@@ -691,11 +691,15 @@ const Game = (() => {
           spellFx('fireball', '#ff7020', 750, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
           if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
           castingName = 'fireball';
-          for (const m of targets) {
-            if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-            hitGroup(m, d(4, 6), 'burn');
-          }
-          castingName = '';
+          // what it looks like waits for the fireball to burst: it leaves the
+          // page six tenths into the reading and flies for a third of its 750ms
+          fxDelay = Math.round(READ_MS * 0.6 + 750 * 0.35);
+          try {
+            for (const m of targets) {
+              if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
+              hitGroup(m, d(4, 6), 'burn');
+            }
+          } finally { castingName = ''; fxDelay = 0; }
           break;
         }
         case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
@@ -1255,6 +1259,12 @@ const Game = (() => {
   let queuedAttack = false;
   let queuedMove = null;       // one step tapped while the camera was still moving
   let castingName = '';        // the spell whose blast is landing, so the log can name it
+  // How long what a blow looks and sounds like waits behind the blow itself: a
+  // scroll's fireball is settled the moment the scroll is read, but its number,
+  // flash, blood and any death wait until the fireball bursts on screen.
+  let fxDelay = 0;
+  /** Play a sound now, or when the picture it goes with lands. */
+  const soon = fn => { if (fxDelay > 0) { const d = fxDelay; setTimeout(fn, d); } else fn(); };
   function openEncounter(n) {
     const def = ENCOUNTERS[n.id];
     if (!def) return false;
@@ -1479,7 +1489,7 @@ const Game = (() => {
       fx.bits.push({
         x: cx - ux * 0.3, y: cy - uy * 0.3, z: z0 + (look() - 0.5) * 0.2,
         vx: ux * sp - uy * side, vy: uy * sp + ux * side, vz: 0.6 + look() * 1.8,
-        g: g.g, c: g.c[i % g.c.length], born: realNow, life: 380 + look() * 360,
+        g: g.g, c: g.c[i % g.c.length], born: realNow + fxDelay, life: 380 + look() * 360,
         size: look() < 0.3 ? 0.024 : 0.015, glow: g.glow,
       });
     }
@@ -1488,7 +1498,7 @@ const Game = (() => {
       const list = fx.stains[G.depth] || (fx.stains[G.depth] = []);
       // it lands a little beyond the monster, on the side away from the blow
       list.push({ x: cx + ux * (0.1 + look() * 0.25) + (look() - 0.5) * 0.3, y: cy + uy * (0.1 + look() * 0.25) + (look() - 0.5) * 0.3,
-        r: 0.06 + Math.min(1, amount) * 0.1, c: g.c[2], seed: look() * 1000 });
+        r: 0.06 + Math.min(1, amount) * 0.1, c: g.c[2], seed: look() * 1000, at: realNow + fxDelay });
       if (list.length > STAINS_PER_FLOOR) list.shift();
     }
   }
@@ -1497,7 +1507,7 @@ const Game = (() => {
 
   // ---------- combat ----------
   function floatText(m, text, color) {
-    fx.texts.push({ x: m.rx + 0.5, y: m.ry + 0.5, text: String(text), color, born: realNow, until: realNow + 750 });
+    fx.texts.push({ x: m.rx + 0.5, y: m.ry + 0.5, text: String(text), color, born: realNow + fxDelay, until: realNow + fxDelay + 750 });
   }
   function attack() {
     const p = P();
@@ -1641,14 +1651,17 @@ const Game = (() => {
     const mb = mstat(m);
     m.hp -= dmg;
     m.awake = true;
-    m.flashUntil = realNow + 130;
+    const pending = realNow < (m.flashAt || 0);
+    m.flashAt = realNow + fxDelay; m.flashUntil = m.flashAt + 130;
+    // and its life bar keeps what it had until then
+    if (fxDelay > 0) m.hpShown = pending && m.hpShown > 0 ? m.hpShown : m.hp + dmg;
     {
       // a spray scaled to the blow, and a stain when it was a heavy one or the last
       const hard = dmg / Math.max(1, m.maxHp);
       if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
-    Sound.play('hit', heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }));
+    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {
       // in a group the front one falls and the next steps up; the square
@@ -1709,7 +1722,7 @@ const Game = (() => {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
-    Sound.play('death', heard(m, { gore: GORE_OF[m.id] || 'blood', who: m.id }));
+    { const o = heard(m, { gore: GORE_OF[m.id] || 'blood', who: m.id }); soon(() => Sound.play('death', o)); }
     p.kills++;
     noteKill(m);
     // the two halves of a split slime are worth one slime between them
@@ -1737,7 +1750,7 @@ const Game = (() => {
     const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
     const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
     fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite, scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
-      born: realNow, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
+      born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
   }
   /** The next of the group steps into the front. */
   function promote(m) {
@@ -3298,7 +3311,7 @@ const Game = (() => {
     if (tell > 0 && tell < 1) push -= 0.07 * tell;          // drawing back
     const lu = (now - (m.lungeAt || -1e9)) / 220;
     if (lu >= 0 && lu < 1) { push += Math.sin(lu * Math.PI) * 0.28; sqy *= 1 + 0.06 * Math.sin(lu * Math.PI); }
-    const hu = (m.flashUntil - now) / 130;
+    const hu = now >= (m.flashAt || 0) ? (m.flashUntil - now) / 130 : 0;
     if (hu > 0) { push -= 0.1 * hu; sqx *= 1 + 0.12 * hu; sqy *= 1 - 0.1 * hu; }
     return { dx: tx * push, dy: ty * push, lift, sqx, sqy };
   }
@@ -3322,13 +3335,13 @@ const Game = (() => {
       if (m.collapsed) {
         // a heap of bones on the floor, a ring round it filling as it pulls itself together
         const rising = Math.min(1, Math.max(0.02, 1 - (m.collapsed - G.t) / RISE_MS));
-        sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites.bone_heap || img, scale: mb.scale * 0.95, yOff: 0, flash: m.flashUntil, heap: rising });
+        sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites.bone_heap || img, scale: mb.scale * 0.95, yOff: 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, heap: rising });
         continue;
       }
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: mb.boss ? null : m.hp, maxHp: m.maxHp, tell, special, boss: !!mb.boss,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss,
           // wrapped in shadow, it shows faint and flickering
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : {}) });
         continue;
@@ -3341,7 +3354,7 @@ const Game = (() => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
         sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy,
-          flash: i === 0 ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp, tell } : {}) });
+          flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
     for (const n of (L.npcs || [])) {
@@ -3361,10 +3374,11 @@ const Game = (() => {
     for (const c of fx.corpses) {
       const art = Assets.sprites[c.sprite];
       if (!art) continue;
-      const u = Math.min(1, (now - c.born) / CORPSE_MS);
+      // one killed by a fireball still in the air stands until it lands
+      const u = Math.max(0, Math.min(1, (now - c.born) / CORPSE_MS));
       const back = Math.sin(Math.min(1, u * 1.6) * Math.PI / 2) * 0.18;
       sprites.push({ x: c.x + c.dx * back, y: c.y + c.dy * back, img: (c.elite && art.elite && art.elite[c.elite]) || art, scale: c.scale, yOff: c.fly * (1 - u),
-        sqx: 1 + 0.3 * u, sqy: Math.max(0.12, 1 - 0.85 * u * u), alpha: 1 - u * u, flash: u < 0.15 ? now + 1 : 0 });
+        sqx: 1 + 0.3 * u, sqy: Math.max(0.12, 1 - 0.85 * u * u), alpha: 1 - u * u, flash: now >= c.born && u < 0.15 ? now + 1 : 0 });
     }
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;

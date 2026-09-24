@@ -354,8 +354,10 @@ const Renderer = (() => {
   };
   const dim = (hex, f, a = 1) => { const [r, g, b] = rgbOf(hex); return `rgba(${Math.round(r * f)},${Math.round(g * f)},${Math.round(b * f)},${a.toFixed(3)})`; };
   /** A floor stain: a pool and a few splashes round it, laid flat in perspective and darkened like the floor under it. */
-  function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm) {
+  function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm, now) {
     if (!list || !list.length) return;
+    // a stain from a blow still in the air waits for it
+    if (list.some(s => s.at > now)) list = list.filter(s => !(s.at > now));
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const lx = W / 2 / TAN_HALF;
     const blob = (x, y, r, c) => {
@@ -768,7 +770,7 @@ const Renderer = (() => {
     flameTick = Math.floor(now / FLAME_MS);
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
     // stains lie on the floor, so the walls drawn next hide them where they should
-    drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm);
+    drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -915,6 +917,7 @@ const Renderer = (() => {
     ctx.textAlign = 'center';
     ctx.lineJoin = 'round';
     for (const t of fx.texts) {
+      if (now < t.born) continue;          // a number from a fireball still in the air
       const sx = t.x - px, sy = t.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
       if (tY <= 0.15) continue;
