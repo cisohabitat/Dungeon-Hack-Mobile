@@ -2585,6 +2585,8 @@ const Game = (() => {
         if (G.met && G.met[m.uid]) learn(m.id, 'trick');   // you watched its wounds close
       }
       if (G.t < m.nextAct) continue;
+      // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
+      if (m.wardUntil > G.t && mb.boss) { m.nextAct = m.wardUntil; continue; }
       const di = distField[m.y * L.w + m.x];
       if (!m.awake) {
         // Thieves move quietly, so their double blow on a sleeping foe can

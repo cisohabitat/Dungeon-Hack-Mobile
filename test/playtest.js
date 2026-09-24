@@ -278,13 +278,15 @@ function play(ctx, cls, seed, opts, bg) {
       }
     }
 
-    // --- fight what is adjacent, in front if possible
-    let adj = null;
+    // --- fight what is adjacent, in front if possible; a lich wrapped in
+    // shadow cannot be hurt, so its guards come first, as the game says
+    const near = [];
     for (let k = 0; k < 4; k++) {
       const [dx, dy] = Dungeon.DIRS[k];
       const m = L.monsters.find(mm => mm.x === p.x + dx && mm.y === p.y + dy);
-      if (m) { adj = { m, dir: k }; break; }
+      if (m) near.push({ m, dir: k });
     }
+    const adj = near.find(a => !(a.m.wardUntil > G.t)) || near[0] || null;
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
