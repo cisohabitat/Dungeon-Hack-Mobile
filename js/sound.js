@@ -78,7 +78,7 @@ const Sound = (() => {
 
   // ---- ambience: a low drone under the dungeon, and a heartbeat when hurt ----
   let amb = null;          // { osc, sub, gain, filter }
-  let ambLevel = 0;        // 0 quiet exploration, 1 the escape
+  let ambLevel = 0;        // 0 quiet exploration, 1 the lich's fight
   let beatAt = 0, beatRate = 0;
 
   function startAmbience() {

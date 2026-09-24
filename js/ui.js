@@ -398,7 +398,7 @@ const UI = (() => {
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
     const secs = k => (Game.effect(k) && p.effects[k] ? left(p.effects[k].until) : 0);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), p.x, p.y, champ ? champ.uid : 0, !!G.escaping, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -411,8 +411,7 @@ const UI = (() => {
     $('#txt-sp').textContent = `SP ${p.sp}/${p.maxSp}`;
     $('#bar-food').style.width = p.food + '%';
     $('#txt-food').textContent = p.food > 30 ? 'Fed' : (p.food > 0 ? 'Hungry' : 'Starving');
-    $('#hud-depth').textContent = G.escaping ? (G.depth === 1 ? 'Find the stairs up' : `Climb: ${G.depth} to go`) : `Floor ${G.depth}/${G.opts.levels}`;
-    $('#hud-depth').classList.toggle('escaping', !!G.escaping);
+    $('#hud-depth').textContent = `Floor ${G.depth}/${G.opts.levels}`;
     $('#hud-gold').textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
@@ -426,7 +425,6 @@ const UI = (() => {
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
     if (Game.effect('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
     if (Game.effect('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
-    if (G.escaping) st.push('<span class="escape">Carrying the Heart</span>');
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     $('#hud-status').innerHTML = st.join('');
@@ -1271,12 +1269,12 @@ const UI = (() => {
     closeOverlay();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
-      ? `${p.name} the ${CLASSES[p.cls].name} climbed out of the deep with the Heart of the Mountain.`
-      : (G.escaping
-        ? `${p.name} the ${CLASSES[p.cls].name} died on level ${G.depth} with the Heart still in hand. ${G.opts.permadeath ? 'The save has been erased.' : ''}`
-        : `${p.name} the ${CLASSES[p.cls].name} fell on floor ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`);
+      ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain, and its light carried them out of the deep.`
+      : `${p.name} the ${CLASSES[p.cls].name} fell on floor ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`;
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
-    if (won && G.escapeMs) rows.push(['Escape', `${Math.round(G.escapeMs / 1000)}s`]);
+    // time spent underground, by the game's own clock
+    const secs = Math.round(G.t / 1000);
+    rows.push(['Time', `${Math.floor(secs / 60)}m ${String(secs % 60).padStart(2, '0')}s`]);
     rows.unshift(['Score', Game.score(p, G.depth, won)]);
     rows.push(['Seed', G.seed]);
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
@@ -1378,9 +1376,9 @@ const UI = (() => {
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
-      else if (e === 'escape') { hudSig = ''; refreshHud(); }
       else if (e === 'dead') showEnd(false);
-      else if (e === 'won') showEnd(true);
+      // the Heart's light fills the view first, then the victory screen
+      else if (e === 'won') setTimeout(() => showEnd(true), Game.finaleLeft());
       else if (e === 'inv') { if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
       else if (e === 'stats' && overlay === 'shop') renderShop();
     }

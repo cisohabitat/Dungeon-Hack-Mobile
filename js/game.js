@@ -34,12 +34,14 @@ const Game = (() => {
                /** blood on the hero's own view, after a hard blow */
                /** @type {Array<{x: number, y: number, r: number, born: number, life: number}>} */ drops: [],
                shakeAmp: 4, shakeMs: 220, hurtAmt: 0.5,
+               /** when the Heart was lifted, for the light that ends the run; -1 before */
+               heartAt: -1,
                /** @type {any} */ status: null,
                /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
-    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = [];
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1;
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
@@ -667,7 +669,13 @@ const Game = (() => {
     if (it.t === 'gold' || it.t === 'gem') noteGold(it.q);
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find a ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
-    else if (it.t === 'artifact') { list.splice(i, 1); startEscape(); }
+    else if (it.t === 'artifact') {
+      // the lich's cold holds the Heart fast: the last fight cannot be walked round
+      const keeper = L.monsters.find(m => MONSTERS[m.id].boss);
+      if (keeper) { log(`The Heart will not come loose. The ${MONSTERS[keeper.id].name}'s cold holds it fast, and will while it stands.`, 'bad'); Sound.play('error'); return; }
+      list.splice(i, 1);
+      claimHeart();
+    }
     else if (it.t === 'page') {
       list.splice(i, 1);
       const entry = JOURNAL[it.page];
@@ -754,7 +762,7 @@ const Game = (() => {
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
     clearFx();
-    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, escaping: false, escapeStart: 0, nextHunt: 0, hunts: 0, journal: [], pendingBoons: null };
+    G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -815,7 +823,6 @@ const Game = (() => {
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return; }
     if (G.depth === 1) {
-      if (G.escaping) { win(); return; }
       log('The way out is sealed behind you. Only the depths remain.', 'info');
       return;
     }
@@ -837,8 +844,8 @@ const Game = (() => {
     for (let k = 0; k < 4; k++) {
       const sx = p.x + DIRS[k][0], sy = p.y + DIRS[k][1], t = tile(sx, sy);
       if (t !== T.STAIRS_DOWN && t !== T.STAIRS_UP) continue;
-      // the entrance stays sealed until you carry the Heart, so it is no way on
-      if (t === T.STAIRS_UP && G.depth === 1 && !G.escaping) continue;
+      // the entrance is sealed behind you, so it is no way on
+      if (t === T.STAIRS_UP && G.depth === 1) continue;
       const rel = (k - p.dir + 4) % 4;
       if (rel === 0) continue;
       return { down: t === T.STAIRS_DOWN, rel, word: SIDE_WORDS[rel], key: `${G.depth}:${sx},${sy}` };
@@ -865,7 +872,7 @@ const Game = (() => {
     if (t === T.DOOR) return 'Open';
     if (t === T.DOOR_LOCKED) return P().inv.some(it => it.t === 'key' && it.color === (lvl().locks[key(tx, ty)] || 'brass')) ? 'Unlock' : 'Force';
     if (t === T.STAIRS_DOWN) return 'Descend';
-    if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : (G.escaping ? 'Escape' : 'Use');
+    if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : 'Use';
     if (t === T.FOUNTAIN) return 'Drink';
     if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
     // Use still strikes what is in front, but the button beside it already
@@ -1700,60 +1707,28 @@ const Game = (() => {
     recordHero(false);
     emit('dead');
   }
-  // Lifting the Heart wakes the whole mountain. Now carry it back to the surface.
-  function startEscape() {
-    const p = P();
-    p.inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
-    G.escaping = true;
-    G.escapeStart = G.t;
-    G.nextHunt = G.t + 16000;
-    G.hunts = 0;
-    for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) m.awake = true;
-    log('You lift the Heart of the Mountain. Its light is warm in your hands.', 'good');
-    log('The walls groan. Every dead thing in the mountain now knows where you are.', 'bad');
-    log(`Climb back to level 1 and take the stairs out. You are ${G.depth} levels down.`, 'info');
-    Sound.play('win');
-    fx.shakeAmp = 6; fx.shakeMs = 900; fx.shakeUntil = realNow + 900;
-    emit('stats');
-    emit('escape');
+  // ---------- the end ----------
+  // Lifting the Heart ends the run. Its light pours out over the walls, runs up
+  // through the stone and carries the hero out with it: the view floods gold
+  // for a moment before the victory screen, so the ending is seen, not just read.
+  const FINALE_MS = 2600;
+  function claimHeart() {
+    P().inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
+    log('You lift the Heart of the Mountain. Its light pours out between your fingers, over the walls, up through the stone.', 'good');
+    fx.heartAt = realNow;
+    fx.shakeAmp = 3; fx.shakeMs = 1600; fx.shakeUntil = realNow + 1600;
+    win();
   }
-  // While escaping, the dark keeps producing pursuers.
-  function spawnHunter() {
-    const L = lvl();
-    if (L.monsters.length > 40) return;
-    ensureDist();
-    const cands = [];
-    for (let i = 0; i < L.w * L.h; i++) {
-      if (L.tiles[i] !== T.FLOOR) continue;
-      const dd = distField[i];
-      if (dd < 6 || dd > 15) continue;
-      if (monsterAt(i % L.w, (i / L.w) | 0) || npcAt(i % L.w, (i / L.w) | 0)) continue;
-      cands.push(i);
-    }
-    if (!cands.length) return;
-    const i = Dice.pick(cands);
-    const pool = ['skeleton', 'ghoul', 'zombie', 'wraith'];
-    const id = pool[Math.min(pool.length - 1, Math.floor(G.hunts / 2))];
-    const b = MONSTERS[id];
-    newMonster(id, i % L.w, (i / L.w) | 0, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 500;
-    G.hunts++;
-    log(Dice.pick([
-      'Something claws its way out of the dark behind you.',
-      'Bone scrapes on stone. It is closer than before.',
-      'The air turns cold. You are not alone in this corridor.',
-    ]), 'bad');
-    Sound.play('growl');
-  }
-
   function win() {
     G.status = 'won';
-    G.escapeMs = G.escaping ? G.t - G.escapeStart : 0;
-    log('You climb into daylight with the Heart of the Mountain. You have escaped!', 'good');
+    log('The light carries you up out of the mountain and into the day. The Heart is yours.', 'good');
     Sound.play('win');
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
     recordHero(true);
     emit('won');
   }
+  /** How long the Heart's light has left to fill the view before the victory screen. */
+  function finaleLeft() { return fx.heartAt >= 0 ? Math.max(0, fx.heartAt + FINALE_MS - realNow) : 0; }
   function score(p, depth, won) { return p.gold + p.xp * 2 + p.deepest * 100 + (won ? 2000 : 0); }
   // Only one page is buried per floor, so a short dungeon holds fewer than the
   // archive knows about. Count what this delve can actually yield, not the lot.
@@ -2519,7 +2494,7 @@ const Game = (() => {
       if (di < 0 || di > 12) {
         // it has lost you; after a while it stops hunting and settles again
         if (!m.lostAt) m.lostAt = G.t;
-        else if (G.t - m.lostAt > 7000 && !G.escaping) { m.awake = false; m.lostAt = 0; }
+        else if (G.t - m.lostAt > 7000) { m.awake = false; m.lostAt = 0; }
         m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
         if (Math.random() < 0.3) wander(m);
         m.nextAct = G.t + mb.speed * 1.5;
@@ -2669,10 +2644,6 @@ const Game = (() => {
     if (p.poison) {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
       else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.'); }
-    }
-    if (G.escaping && G.t >= G.nextHunt) {
-      spawnHunter();
-      G.nextHunt = G.t + Math.max(9000, 22000 - G.hunts * 900);
     }
     for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
@@ -2875,7 +2846,10 @@ const Game = (() => {
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
       }
-      if (!G.escaping) { G.escaping = false; G.escapeStart = 0; G.nextHunt = G.t + 16000; G.hunts = G.hunts || 0; }
+      // a run saved on the climb out, from when the Heart had to be carried to
+      // the surface, is won: the Heart was already in hand
+      const wasEscaping = !!G.escaping;
+      for (const k of ['escaping', 'escapeStart', 'nextHunt', 'hunts', 'escapeMs']) delete G[k];
       if (!G.journal) G.journal = [];
       if (G.logSeq == null) G.logSeq = G.log ? G.log.length : 0;
       if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
@@ -2894,6 +2868,7 @@ const Game = (() => {
       clearFx();
       log('Game loaded.', 'info');
       emit('level');
+      if (wasEscaping) { fx.heartAt = realNow; win(); }
       return true;
     } catch (e) { return false; }
   }
@@ -2918,7 +2893,9 @@ const Game = (() => {
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, score, isEscaping: () => !!(G && G.escaping),
+    wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft,
+    /** The lich is awake and fighting: the drone under the dungeon tightens. */
+    bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke)),
     INV_MAX, T,
   };
 })();

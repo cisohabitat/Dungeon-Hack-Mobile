@@ -3580,6 +3580,25 @@ await test('a save from before the run was counted loads, plays, and counts from
   return (s.dealt === 40 && s.kills.rat === 2 && s.taken === 0 && typeof s.hurtOn === 'object') || `half a record came back as ${JSON.stringify(s)}`;
 });
 
+// ---------- the end ----------
+await test('the Heart is held fast while the lich stands, and lifting it once the lich is down wins on the spot', async () => {
+  const ctx = await start('fighter', 'heart');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  const lich = beside(ctx, 'lich', { hp: 50, maxHp: 50, nextAct: 1e12 });
+  const k = `${p.x},${p.y}`;
+  (L.items[k] = L.items[k] || []).push({ t: 'artifact', q: 1, e: 0 });
+  const mark = markLog(G);
+  Game.takeItem(L.items[k].find(i => i.t === 'artifact'));
+  if (G.status !== 'playing' || p.inv.some(i => i.t === 'artifact')) return 'the Heart came loose with the lich still standing';
+  if (!linesSince(G, mark).some(l => /will not come loose/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+  L.monsters.splice(L.monsters.indexOf(lich), 1);
+  const depth = G.depth;
+  Game.takeItem(L.items[k].find(i => i.t === 'artifact'));
+  if (G.status !== 'won') return `status ${G.status} after lifting the Heart`;
+  if (G.depth !== depth || G.escaping) return 'the run asked for a climb';
+  return Game.finaleLeft() > 0 || 'no light to fill the view before the victory screen';
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

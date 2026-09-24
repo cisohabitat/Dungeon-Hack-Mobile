@@ -49,9 +49,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   gravestone.
 - **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
   nearby enemies.
-- **A real endgame.** Taking the Heart of the Mountain does not end the run. Every dead thing in
-  the mountain wakes, the dark starts producing pursuers, and you must climb all the way back to
-  level 1 and out. Your escape time is recorded.
+- **An ending that is a fight.** The Heart of the Mountain will not come loose while the Dread
+  Lich stands. Bring it down, lift the Heart, and its light floods the view and carries you out:
+  the run is won there and then, with no long walk back.
 - **Unknown potions and scrolls.** Every dungeon shuffles appearances, so a "cloudy potion" is
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
@@ -78,7 +78,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
   what you are already wearing, in damage per second or armour class.
-- **Sound.** A low drone under the dungeon that tightens during the escape, and your own
+- **Sound.** A low drone under the dungeon that tightens while the lich is fighting, and your own
   heartbeat once you are badly wounded.
 - **A living title screen.** The menu sits over a real generated dungeon with a ghost camera
   walking it, drawn by the same raycaster as the game, with drifting embers and torch flicker.
@@ -142,7 +142,7 @@ npm run playtest      # 240 simulated runs, reports win rate by class
 ```
 
 The browser suite drives the real game in headless Chromium: the core loop, dungeon features,
-the trader, the story layer, the escape endgame, and an interface pass that asserts every
+the trader, the story layer, the endgame, and an interface pass that asserts every
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
 crowded level renders inside a 60fps budget. It runs in about 25 seconds, and in CI on every
 push. `npm start` serves the game locally on port 4173 with no dependencies.

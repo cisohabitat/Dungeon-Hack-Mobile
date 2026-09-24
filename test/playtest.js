@@ -426,7 +426,7 @@ function play(ctx, cls, seed, opts, bg) {
     }
 
     // --- sweep the floor first when playing thoroughly
-    if (EXPLORE && L.stairsDown && !G.escaping) {
+    if (EXPLORE && L.stairsDown) {
       const fl = (rec.floors = rec.floors || {})[G.depth] = rec.floors[G.depth] || { seen: new Uint8Array(L.w * L.h), done: new Set(), ticks: 0, open: 0 };
       const R = 3;
       for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
@@ -460,13 +460,13 @@ function play(ctx, cls, seed, opts, bg) {
     // --- otherwise head for the down stairs, picking up what we pass
     const target = L.stairsDown;
     if (!target) {
-      // final level: head for the artifact, then climb back out
-      let goal = null;
-      for (const k in L.items) if (L.items[k].some(i => i.t === 'artifact')) goal = k.split(',').map(Number);
-      if (!goal) goal = [L.stairsUp.x, L.stairsUp.y];
-      stepToward(goal[0], goal[1]);
-    } else if (G.escaping) {
-      stepToward(L.stairsUp.x, L.stairsUp.y);
+      // final level: the Heart will not come loose while the lich stands, so
+      // bring it down first, then take the Heart and the run is won
+      const lich = L.monsters.find(m => m.id === 'lich');
+      let goal = lich ? [lich.x, lich.y] : null;
+      for (const k in L.items) if (!goal && L.items[k].some(i => i.t === 'artifact')) goal = k.split(',').map(Number);
+      if (goal && !lich && p.x === goal[0] && p.y === goal[1]) Game.input('use');
+      else if (goal) stepToward(goal[0], goal[1]);
     } else {
       stepToward(target.x, target.y);
     }

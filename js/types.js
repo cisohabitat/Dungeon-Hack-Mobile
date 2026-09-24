@@ -186,9 +186,8 @@
  * @property {number} created @property {number} version
  * @property {Object<string, {adj: string, sprite: string}>} looks
  * @property {Object<string, number>} known
- * @property {boolean} escaping
- * @property {number} escapeStart @property {number} nextHunt @property {number} hunts
- * @property {number} [escapeMs]
+ * @property {boolean} [escaping]  a save from when the Heart had to be carried out: loaded, it is won
+ * @property {number} [escapeStart] @property {number} [nextHunt] @property {number} [hunts] @property {number} [escapeMs]
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
  * @property {number[]} [pendingLevels]  the level each queued offer was earned at

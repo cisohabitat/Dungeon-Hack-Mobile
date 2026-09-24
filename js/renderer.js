@@ -819,8 +819,9 @@ const Renderer = (() => {
     });
 
     // effects
-    // the hero's hands, over the world and under the flashes
-    drawView(fx, now);
+    // the hero's hands, over the world and under the flashes; once the Heart
+    // is lifted they put down what they held and take it up instead
+    if (!(fx.heartAt >= 0)) drawView(fx, now);
     drawBossBar(fx.boss, now);
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;
@@ -903,7 +904,54 @@ const Renderer = (() => {
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+    if (fx.heartAt >= 0 && now >= fx.heartAt) drawFinale(now - fx.heartAt, fx.view && fx.view.cls);
   }
+  /** The Heart lifted: it rises in the hero's hands and its light swells from
+   * it, motes streaming up, until the light is all there is. */
+  function drawFinale(t, cls) {
+    const u = Math.min(1, t / 2400), e = ease(u);
+    const cx = W / 2, cy = H * (0.95 - 0.4 * e);
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const r = Math.max(W, H) * (0.18 + 1.2 * u * u);
+    const g = ctx.createRadialGradient(cx, cy - H * 0.05, 0, cx, cy - H * 0.05, r);
+    g.addColorStop(0, `rgba(255,244,215,${(0.5 + 0.4 * u).toFixed(3)})`);
+    g.addColorStop(0.35, `rgba(255,190,110,${(0.2 + 0.5 * u).toFixed(3)})`);
+    g.addColorStop(1, 'rgba(255,150,60,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+    // motes streaming up out of it, faster as the light grows
+    ctx.fillStyle = '#fff0c0';
+    for (let i = 0; i < 40; i++) {
+      const sp = 0.35 + hash(i) * 0.6, ph = (t / 1000 * sp * (1 + u) + hash(i + 50)) % 1;
+      const x = cx + (hash(i + 7) - 0.5) * W * (0.3 + ph * 0.9), y = cy - ph * H * 1.1;
+      ctx.globalAlpha = Math.sin(ph * Math.PI) * 0.9;
+      ctx.fillRect(Math.round(x), Math.round(y), 2, 2);
+    }
+    ctx.restore();
+    // two open hands raise it, over its own light so they stay seen: the
+    // casting hand, and the same turned about
+    const palm = cls ? Assets.held(null, 'cast', cls, false) : null;
+    if (palm) {
+      const k = artK(), w = palm.img.width * k, h = palm.img.height * k;
+      const hy = Math.round(cy + H * 0.2 - palm.ay * k);
+      ctx.drawImage(palm.img, Math.round(cx - W * 0.1 - palm.ax * k), hy, Math.round(w), Math.round(h));
+      ctx.save(); ctx.translate(Math.round(cx + W * 0.1), 0); ctx.scale(-1, 1);
+      ctx.drawImage(palm.img, Math.round(-palm.ax * k), hy, Math.round(w), Math.round(h));
+      ctx.restore();
+    }
+    const art = Assets.sprites.artifact;
+    if (art) {
+      const size = H * (0.3 + 0.12 * e);
+      ctx.drawImage(art.levels[0], Math.round(cx - size / 2), Math.round(cy - size * 0.6), Math.round(size), Math.round(size));
+    }
+    // and at the last it is all light
+    if (u > 0.62) {
+      ctx.fillStyle = `rgba(255,246,226,${Math.min(1, (u - 0.62) / 0.33).toFixed(3)})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+  }
+
 
   return { init, render, setHeight, W, H_MIN, H_MAX, FOG, get H() { return H; } };
 })();

@@ -1,7 +1,7 @@
 'use strict';
-// A whole run, start to finish: four floors down, the Heart, and the climb back
-// out. Everything happens through the game's own inputs, so the stairs, keys,
-// traders, boss and escape are all exercised as a player would meet them.
+// A whole run, start to finish: four floors down, the lich, and the Heart.
+// Everything happens through the game's own inputs, so the stairs, keys,
+// traders and the boss are all exercised as a player would meet them.
 const { test } = require('@playwright/test');
 const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
@@ -153,6 +153,11 @@ async function play(page, opts) {
       let target = null;
       if (goal === 'down') target = L.stairsDown;
       else if (goal === 'up') target = L.stairsUp;
+      // the Heart will not come loose while the lich stands: go for the lich first
+      else if (goal === 'artifact' && L.monsters.some(m => m.id === 'lich')) {
+        const lich = L.monsters.find(m => m.id === 'lich');
+        target = { x: lich.x, y: lich.y };
+      }
       else if (goal === 'artifact' || goal === 'page') {
         const want = goal === 'artifact' ? 'artifact' : 'page';
         for (const k in L.items) if (L.items[k].some(i => i.t === want)) {
@@ -186,7 +191,7 @@ async function play(page, opts) {
   return { timeout: true };
 }
 
-test('a four floor campaign: down to the Heart and back out alive', async ({ page }) => {
+test('a four floor campaign: down to the lich, and the Heart', async ({ page }) => {
   const errors = watchForErrors(page);
   await startGame(page, { seed: 'campaign-4', levels: '4', name: 'Vessa', bg: 'The Ashborn' });
   await clearBoons(page);
@@ -252,7 +257,7 @@ test('a four floor campaign: down to the Heart and back out alive', async ({ pag
   seen.boss = true;
 
   // the last page belongs to the deepest floor, and it has to be in hand before
-  // the Heart is lifted: nobody goes back down once the mountain is awake
+  // the Heart is lifted: the run ends the moment it is
   const lastPage = await play(page, {
     goal: 'page',
     doneFn: 'Game.journal().length >= 4',
@@ -262,61 +267,26 @@ test('a four floor campaign: down to the Heart and back out alive', async ({ pag
   expect(lastPage.timeout, 'never reached the page on floor four').toBeFalsy();
   await page.evaluate(() => { const p = Game.player(); p.hp = p.maxHp; });
 
+  // ---- the lich, then the Heart ----
   const grab = await play(page, {
     goal: 'artifact',
-    doneFn: 'Game.state().escaping === true',
-    budget: 900,
-  });
-  expect(grab.timeout, 'never reached the Heart').toBeFalsy();
-  expect(grab.status, 'died before taking the Heart').toBeUndefined();
-
-  const taken = await page.evaluate(() => ({
-    escaping: Game.state().escaping,
-    carrying: Game.player().inv.some(i => i.t === 'artifact'),
-    status: Game.state().status,
-    awake: Game.level().monsters.every(m => m.awake),
-    hunts: Game.state().hunts,
-  }));
-  expect(taken.escaping, 'taking the Heart should start the escape').toBe(true);
-  expect(taken.carrying).toBe(true);
-  expect(taken.status, 'the run must not end at the Heart').toBe('playing');
-  expect(taken.awake, 'the mountain should wake').toBe(true);
-  journey.push('took the Heart on floor 4');
-
-  // ---- the climb ----
-  for (let floor = 4; floor >= 2; floor--) {
-    await page.evaluate(() => { const p = Game.player(); p.hp = p.maxHp; });
-    const r = await play(page, {
-      goal: 'up',
-      doneFn: `Game.state().depth === ${floor - 1}`,
-      budget: 900,
-    });
-    expect(r.timeout, `stuck climbing from floor ${floor}`).toBeFalsy();
-    expect(r.status, `died climbing from floor ${floor}`).toBeUndefined();
-    const now = await page.evaluate(() => ({ depth: Game.state().depth, hunts: Game.state().hunts }));
-    expect(now.depth).toBe(floor - 1);
-    journey.push(`climbed ${floor} -> ${now.depth}, ${now.hunts} hunters raised`);
-  }
-
-  // ---- out ----
-  await page.evaluate(() => { const p = Game.player(); p.hp = p.maxHp; });
-  const out = await play(page, {
-    goal: 'up',
     doneFn: "Game.state().status === 'won'",
-    budget: 900,
+    budget: 1500,
   });
-  expect(out.timeout, 'never found the way out of floor one').toBeFalsy();
+  expect(grab.timeout, 'never brought down the lich and took the Heart').toBeFalsy();
 
   const ending = await page.evaluate(() => ({
     status: Game.state().status,
-    escapeMs: Game.state().escapeMs,
+    depth: Game.state().depth,
+    lich: Game.level().monsters.some(m => m.id === 'lich'),
     pages: Game.journal().length,
-    hunts: Game.state().hunts,
     level: Game.player().level,
     gold: Game.player().gold,
   }));
-  expect(ending.status, 'the surface stairs should win the game').toBe('won');
-  expect(ending.escapeMs, 'the escape should be timed').toBeGreaterThan(0);
+  expect(ending.status, 'lifting the Heart should win the game').toBe('won');
+  expect(ending.lich, 'the lich should be down').toBe(false);
+  expect(ending.depth, 'won on the deepest floor, with no climb back').toBe(4);
+  journey.push('brought down the lich and took the Heart on floor 4');
   // one page per floor, four floors: this run read the delve's whole story
   expect(ending.pages, 'every page on the way down should have been found').toBe(4);
   expect(await page.evaluate(() => Game.pagesInDungeon()),

@@ -61,7 +61,7 @@ function loop(now) {
     UI.refreshLog();
     UI.handleEvents();
     if (G.status === 'playing') {
-      Sound.setAmbience(G.escaping ? 1 : 0);
+      Sound.setAmbience(Game.bossAwake() ? 1 : 0);
       Sound.heartbeat(G.player.hp / G.player.maxHp, now);
     } else Sound.stopAmbience();
   }
