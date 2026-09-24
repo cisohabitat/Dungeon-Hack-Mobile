@@ -431,6 +431,7 @@ const UI = (() => {
     face: 'Something is coming, and not from in front. <b>Turn to face it</b>: the red chevron at the edge of the view points the way.',
     monster: 'Something is coming. When it is in front of you, tap <b>⚔ Attack</b> to strike it.',
     dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
+    dodgeside: '<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
     trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
@@ -461,7 +462,10 @@ const UI = (() => {
   // tip and ends once a warning mark has been stepped back from, or not.
   let coaching = false, coachNext = '';
   /** Tips that stay up until what they ask for is done, not for a set time. */
-  const HOLD_TIPS = ['face', 'monster', 'dodge'];
+  const HOLD_TIPS = ['face', 'monster', 'dodge', 'dodgeside'];
+  /** The first fight's steps and their verdicts: no other tip cuts in on them. */
+  const COACH_TIPS = [...HOLD_TIPS, 'dodged', 'late'];
+  const isDodge = id => id === 'dodge' || id === 'dodgeside';
   const HOLD_MAX = 15000;
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
@@ -491,6 +495,19 @@ const UI = (() => {
     const el = $('#tip');
     if (el) el.classList.remove('show');
     tipUntil = 0; coaching = false; coachNext = ''; tipFrom = ''; tipSwing = 0;
+  }
+  function markSeen(id) {
+    if (seenTip(id)) return;
+    tipsSeen.push(id);
+    store(TIPS_SEEN, JSON.stringify(tipsSeen));
+  }
+  /** Whether the hero could step that way (0 ahead, 1 right, 2 behind, 3 left): open floor, nothing standing on it. */
+  function canStep(turn) {
+    const p = Game.player(), L = Game.level(), T = Dungeon.T, [dx, dy] = Dungeon.DIRS[(p.dir + turn) % 4];
+    const x = p.x + dx, y = p.y + dy;
+    if (x < 0 || y < 0 || x >= L.w || y >= L.h) return false;
+    const t = L.tiles[y * L.w + x];
+    return (t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(m => m.x === x && m.y === y);
   }
   function seenTip(id) {
     if (!tipsSeen) { try { tipsSeen = JSON.parse(store(TIPS_SEEN) || '[]'); } catch (e) { tipsSeen = []; } }
@@ -525,7 +542,7 @@ const UI = (() => {
     const el = $('#tip');
     if (!el || !el.classList.contains('show') || !Game.state() || Game.state().status !== 'playing') return 1;
     const tip = el.dataset.tip || '';
-    if (coaching && tip === 'dodge' && !dodgeSettled && blowComing()) return 0.3;
+    if (coaching && isDodge(tip) && !dodgeSettled && blowComing()) return 0.3;
     const mv = TRICK_TIPS[tip];
     if (mv) {
       const p = Game.player();
@@ -554,24 +571,26 @@ const UI = (() => {
       face: () => { const m = firstFoe(); return !!m && !inFront(m); },
       monster: () => Game.player().nextAttack === tipSwing && !!firstFoe(),
       dodge: blowComing,
+      dodgeside: blowComing,
     }[el.dataset.tip || ''] : null;
     // How the step back went is settled the moment that first blow is done
     // with: stung by it, or moved out from under it. A foe killed, fled or
     // turned by armour mid-swing teaches neither. (Waiting until the tip goes
     // would let the next blow, a second later, answer for the first.)
-    if (el && el.classList.contains('show') && el.dataset.tip === 'dodge' && coaching && !dodgeSettled && wants && !wants()) {
+    if (el && el.classList.contains('show') && isDodge(el.dataset.tip || '') && coaching && !dodgeSettled && wants && !wants()) {
       const p2 = Game.player();
       coachNext = (p2.lastHurt || 0) > tipHurt ? 'late' : `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : '';
       if (!coachNext) coaching = false;
       dodgeSettled = true;
     }
     // a coached step done goes at once (once read), and the next can come
-    if (el && el.classList.contains('show') && wants && (!wants() || (el.dataset.tip === 'dodge' && dodgeSettled)) && now - tipAt > 900) {
+    // (a warning over a foe that has just died goes at once: there is nothing left to read it about)
+    if (el && el.classList.contains('show') && wants && (!wants() || (isDodge(el.dataset.tip || '') && dodgeSettled)) && (now - tipAt > 900 || (isDodge(el.dataset.tip || '') && !firstFoe()))) {
       el.classList.remove('show'); tipUntil = now;
     }
     // (a step done is seen to first: the timer below must not take the tip
     // before the lesson has said how it went)
-    const held = wants && HOLD_TIPS.includes(el.dataset.tip || '') && now - tipAt < HOLD_MAX && wants() && !(el.dataset.tip === 'dodge' && dodgeSettled);
+    const held = wants && HOLD_TIPS.includes(el.dataset.tip || '') && now - tipAt < HOLD_MAX && wants() && !(isDodge(el.dataset.tip || '') && dodgeSettled);
     if (el && el.classList.contains('show') && now > tipUntil && !held) el.classList.remove('show');
     // a tip about the thing in front of you goes when that thing does
     const USE_TIPS = { take: 'Take', stairs: 'Descend', examine: 'Examine', trade: 'Trade' };
@@ -612,7 +631,7 @@ const UI = (() => {
     // replacing it a quarter second later would teach nothing at all
     const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
     // nor do they cut into a coached step of the first fight
-    const coachUp = coaching && $('#tip').classList.contains('show') && HOLD_TIPS.includes($('#tip').dataset.tip || '');
+    const coachUp = !!$('#tip') && $('#tip').classList.contains('show') && COACH_TIPS.includes($('#tip').dataset.tip || '');
     // the first time a scroll is worth reading, say where its button is
     if (!answering && !coachUp && !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
     if (!answering && !coachUp && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
@@ -624,13 +643,24 @@ const UI = (() => {
     if (close && !answering && !seenTip('monster')) {
       const m = firstFoe();
       // the chevron the tip points to shows only within two squares
-      if (m && !inFront(m) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2 && showTip('face', true)) { coaching = true; return; }
-      if (m && inFront(m) && showTip('monster', true)) { coaching = true; return; }
+      // once begun, the step-back lesson is owed until it is given: a first
+      // rat killed before it ever swung leaves it for the next blow to come
+      if (m && !inFront(m) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2 && showTip('face', true)) { markSeen('lesson:dodge'); return; }
+      if (m && inFront(m) && showTip('monster', true)) { markSeen('lesson:dodge'); return; }
     }
-    if (coaching && !answering) {
+    if (!answering) {
       if (coachNext) { const next = coachNext; coachNext = ''; coaching = false; if (showTip(next, true)) return; }
-      else if (blowComing() && showTip('dodge', true)) return;
-      else if (!firstFoe() && !(el && el.classList.contains('show'))) coaching = false;
+      else if (seenTip('lesson:dodge') && !seenTip('dodge') && !seenTip('dodgeside') && blowComing()) {
+        // a wall behind: say to step aside, if there is room to either side
+        const id = !canStep(2) && (canStep(1) || canStep(3)) ? 'dodgeside' : 'dodge';
+        if (showTip(id, true)) {
+          coaching = true;
+          // a fast foe's first blow can come before the strike was taught:
+          // the lesson goes on from here rather than back to it
+          markSeen('dodge'); markSeen('dodgeside'); markSeen('monster'); markSeen('face');
+          return;
+        }
+      }
     }
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
     // covers the view just when it matters most. Quiet means nothing awake in

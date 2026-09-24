@@ -633,7 +633,7 @@ test.describe('dungeon features', () => {
     // the lesson is settled by that first blow: once the warning tip goes,
     // a blow that landed has been called too slow; one that missed (a
     // natural one always does) teaches nothing, and says nothing
-    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || t.dataset.tip !== 'dodge'; }), { timeout: 10000 }).toBe(true);
+    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || !['dodge', 'dodgeside'].includes(t.dataset.tip); }), { timeout: 10000 }).toBe(true);
     const shown = await page.evaluate(() => { const t = document.getElementById('tip'); return t.classList.contains('show') ? t.dataset.tip : ''; });
     if (shown === 'late') expect(await page.evaluate(h => (Game.player().lastHurt || 0) > h, hurt0)).toBe(true);
     else expect(shown).not.toBe('dodged');
@@ -656,6 +656,36 @@ test.describe('dungeon features', () => {
     expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
     // once the blow has come down, time runs on
     await expect.poll(() => page.evaluate(() => UI.timeScale()), { timeout: 10000 }).toBe(1);
+    expect(errors).toEqual([]);
+  });
+
+  test('the step-back lesson waits for the next blow if the first foe dies first, and says to step aside with a wall behind', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'coached-owed' });
+    await clearBoons(page);
+    const rat = hp => page.evaluate(hp => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0; p.hp = p.maxHp = 500; p.perkHit = 60;
+      L.monsters.push({ uid: 90 + hp, id: 'rat', x: p.x + dx, y: p.y + dy, hp, maxHp: hp, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    }, hp);
+    // the first rat dies to the first blow, before it ever swings
+    await rat(1);
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
+    await page.evaluate(() => { const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack'); });
+    await expect.poll(() => page.evaluate(() => Game.level().monsters.length)).toBe(0);
+    await page.waitForTimeout(1500);
+    // the next, with a wall at the hero's back and room to one side
+    await rat(999);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T, [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4], [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4];
+      L.tiles[(p.y + by) * L.w + p.x + bx] = T.WALL; L.tiles[(p.y + ry) * L.w + p.x + rx] = T.FLOOR;
+      const m = Game.level().monsters[0]; m.nextAct = Game.state().t;
+    });
+    await expect(page.locator('#tip.show')).toContainText('wall behind you', { timeout: 3000 });
+    expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
+    await page.evaluate(() => Game.input('strafeR'));
+    await expect(page.locator('#tip.show')).toContainText('hit empty air', { timeout: 4000 });
     expect(errors).toEqual([]);
   });
 
