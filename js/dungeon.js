@@ -405,8 +405,9 @@ const Dungeon = (() => {
     const harmless = i => reach(-1, true) - reach(i, true) === 1 && reach(-1, false) - reach(i, false) <= 1;
 
     // ---- a merchant, so the gold you haul up is worth something ----
-    // two floors of every delve always have one, so the gold hauled up has somewhere to go
-    const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === Math.round((opts.levels || 8) * 0.75);
+    // two floors of every delve always have one, so the gold hauled up has somewhere to go:
+    // two fifths of the way down, and the floor before the last
+    const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === (opts.levels || 8) - 1;
     if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader)) {
       const cands = rooms.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {
@@ -460,11 +461,13 @@ const Dungeon = (() => {
     const erng = new Rng(`${seed}|encounter-spots|${depth}`);
     for (const encId of (encounterPlan(seed, opts.levels || 8)[depth] || [])) {
       let placed = false;
-      for (const r of erng.shuffle(rooms.filter(rr => rr !== startRoom))) {
+      // the last floor's vigil lamp stands where you come in, never in the lich's hall
+      const roomsFor = encId === 'vigil' ? [startRoom].concat(rooms.filter(rr => rr !== startRoom && rr !== farRoom)) : erng.shuffle(rooms.filter(rr => rr !== startRoom));
+      for (const r of roomsFor) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
           const i = idx(x, y);
-          if (tiles[i] !== T.FLOOR || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y]) continue;
+          if (tiles[i] !== T.FLOOR || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y] || (x === start.x && y === start.y)) continue;
           // not in a doorway's mouth, where it would read as a wall across the way in
           if (DIRS.some(([dx, dy]) => { const t = get(x + dx, y + dy); return t === T.DOOR || t === T.DOOR_LOCKED || t === T.DOOR_OPEN; })) continue;
           spots.push([x, y]);

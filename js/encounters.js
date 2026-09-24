@@ -50,6 +50,25 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Not in the deck: every delve's last floor holds one, a little way in from
+  // the stairs, so the gold carried down past the last trader buys something.
+  vigil: {
+    title: 'A Vigil Lamp', sprite: 'shrine', depth: [99, 99], final: true,
+    text: 'Someone kept a lamp burning here, at the edge of the lich\'s halls, and left a bowl beneath it. Coins shine in the bowl. Whatever keeps the lamp lit still answers what is left there.',
+    choices: [
+      { label: 'Leave gold for a ward against the cold', cost: { goldPerDepth: 45 },
+        outcome: { text: 'The flame leans toward you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },
+      { label: 'Leave gold for a sure hand', cost: { goldPerDepth: 35 },
+        outcome: { text: 'The flame steadies, and so does your grip.', effects: [{ buff: { stats: [['hit', 3]], dur: 300000 } }] } },
+      { label: 'Empty your purse into the bowl', cost: { goldPerDepth: 75 },
+        outcome: { text: 'The lamp flares white. You go on warded and sure, and lighter by a fortune.', effects: [{ buff: { stats: [['ac', 3], ['hit', 3]], dur: 300000 } }, { heal: 'full' }] } },
+      { label: 'Pray by the light with empty hands', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 3]] },
+        pass: { text: 'The light settles on you like a hand. Your wounds close.', effects: [{ heal: 'full' }] },
+        fail: { text: 'The lamp gutters and says nothing.', effects: [] } },
+      { label: 'Go on without it', outcome: { text: 'You leave the lamp to whoever still tends it.', effects: [] } },
+    ],
+  },
+
   runes: {
     title: 'Words Cut in the Wall', sprite: 'runestone', depth: [2, 99],
     text: 'A slab of dark stone stands out from the wall, cut deep with the archivist\'s cramped hand. The letters seem to crawl when you are not looking at them straight.',
@@ -287,7 +306,8 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
  */
 function encounterPlan(seed, levels) {
   const rng = new Rng(String(seed) + '|encounters');
-  const deck = rng.shuffle(Object.keys(ENCOUNTERS));
+  // the last floor's own is kept out of the deck, so the deck deals as it always has
+  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final));
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);
@@ -296,7 +316,7 @@ function encounterPlan(seed, levels) {
   const budget = Math.min(deck.length, Math.round(floors * 1.15));
   for (let d = 1; d <= levels; d++) {
     plan[d] = [];
-    if (d === levels) continue;
+    if (d === levels) { if (levels > 1) plan[d].push('vigil'); continue; }
     const left = budget - used.size, floorsLeft = floors - d + 1;
     const share = left / floorsLeft;
     const n = Math.min(2, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));

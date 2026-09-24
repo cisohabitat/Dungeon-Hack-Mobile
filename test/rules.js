@@ -702,12 +702,13 @@ await test('the whole run meets each encounter at most once, deepest floor excep
   const { encounterPlan, ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   for (const levels of [4, 8, 16]) for (let i = 0; i < 40; i++) {
     const plan = encounterPlan('plan' + i, levels);
-    const all = plan.flat();
+    // the deepest floor holds only its vigil lamp, which is not dealt from the deck
+    if (plan[levels].join() !== 'vigil') return `the deepest floor of a ${levels}-floor run holds ${plan[levels].join(', ') || 'nothing'}`;
+    const all = plan.slice(0, levels).flat();
     if (new Set(all).size !== all.length) return `seed plan${i} over ${levels} floors repeats an encounter`;
-    if (plan[levels].length) return `the deepest floor of a ${levels}-floor run has an encounter`;
     // about one a floor; a very long run can pass by the four that belong
     // only on the upper floors, once it is below them
-    const want = Math.min(Object.keys(ENCOUNTERS).length, Math.round((levels - 1) * 1.15));
+    const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final).length, Math.round((levels - 1) * 1.15));
     if (all.length < want - (levels >= 12 ? 4 : 1) || all.length > want) return `a ${levels}-floor run met ${all.length} encounters, about ${want} expected`;
   }
   return true;
@@ -1592,9 +1593,28 @@ await test('the trader works a rune into plain gear once, and lets you sleep saf
   return !!svc('lodge').why || 'lodging was offered twice on one floor';
 });
 
-await test('every eight-floor delve has a trader on its third and sixth floors', async () => {
+await test('the vigil lamp on the last floor sells a ward for gold', async () => {
+  const ctx = await start('fighter', 'vigil');
+  const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR; L.monsters.length = 0;
+  L.npcs = [{ id: 'vigil', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+  p.gold = 5000; p.effects = {};
+  Game.input('use');
+  if (!Game.currentEncounter()) return 'the lamp did not open';
+  const before = p.gold;
+  Game.chooseEncounter(0);
+  if (!(p.gold < before)) return 'the ward cost nothing';
+  return (p.effects.ac && p.effects.ac.amount === 3 && p.effects.ac.until > G.t) || `effects: ${JSON.stringify(p.effects)}`;
+});
+
+await test('every eight-floor delve has a trader on its third and seventh floors, and a vigil lamp on its last', async () => {
   const ctx = await newContext();
-  for (let i = 0; i < 8; i++) for (const depth of [3, 6]) {
+  for (let i = 0; i < 8; i++) {
+    const last = ctx.Dungeon.generate(`traders-${i}`, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
+    if (!(last.npcs || []).some(n => n.kind === 'encounter' && n.id === 'vigil')) return `seed traders-${i} has no vigil lamp on its last floor`;
+  }
+  for (let i = 0; i < 8; i++) for (const depth of [3, 7]) {
     const L = ctx.Dungeon.generate(`traders-${i}`, depth, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
     if (!(L.npcs || []).some(n => n.kind !== 'encounter' && n.stock)) return `seed traders-${i} has no trader on floor ${depth}`;
   }
