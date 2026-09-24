@@ -7,3 +7,4 @@ playwright-report/
 
 # throwaway specs for screenshots and measurements while working
 test/browser/zz-*.spec.js
+test/browser/tmp/
