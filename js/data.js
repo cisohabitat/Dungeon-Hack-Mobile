@@ -141,7 +141,7 @@ const CLASSES = {
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, castMs: 1000, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 3 / 4, armor: 'heavy', shield: true, castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],

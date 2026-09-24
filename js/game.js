@@ -876,7 +876,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); hardenLevel(G.levels[depth]); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2717,10 +2717,11 @@ const Game = (() => {
   // the first floor is where a hero learns: its creatures hit a step softer
   const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 ? 1 : 0));
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
-  function hardenLevel(L) {
+  function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
-      const f = MONSTERS[m.id].boss ? k.lich : k.hp;
+      // the first floor is where a hero learns: half the extra life there
+      const f = MONSTERS[m.id].boss ? k.lich : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
