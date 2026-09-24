@@ -431,7 +431,7 @@ const UI = (() => {
     dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
-    trick: 'A <b>violet mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
+    trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
     claw: 'A numbing claw reaches for you. <b>Step back</b> out of reach, or <b>strike</b>: a blow that lands knocks the claw aside.',
@@ -508,12 +508,35 @@ const UI = (() => {
     const p = Game.player();
     return Game.level().monsters.some(m => m.windup && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
   };
-  /** How fast the dungeon runs: slowed while the first warning mark is being answered. */
+  // The first time each trick comes, time slows while its answer is read,
+  // as it does for the first plain blow: the tip names the trick's own move.
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge' };
+  /** How fast the dungeon runs: slowed while the first warning mark, or a trick's first coming, is being answered. */
   function timeScale() {
     const el = $('#tip');
-    return coaching && el && el.classList.contains('show') && el.dataset.tip === 'dodge' && Game.state() && blowComing() ? 0.3 : 1;
+    if (!el || !el.classList.contains('show') || !Game.state() || Game.state().status !== 'playing') return 1;
+    const tip = el.dataset.tip || '';
+    if (coaching && tip === 'dodge' && blowComing()) return 0.3;
+    const mv = TRICK_TIPS[tip];
+    if (mv) {
+      const p = Game.player();
+      if (Game.level().monsters.some(m => m.windup && m.windup.move === mv && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6)) return 0.3;
+    }
+    return 1;
   }
   function checkTips() {
+    checkTipsNow();
+    // what a tip covers of the view, in the picture's own rows, so the
+    // renderer keeps bars and warning marks out from under it
+    const el = $('#tip'), view = $('#view');
+    let rows = 0;
+    if (el && view && el.classList.contains('show')) {
+      const t = el.getBoundingClientRect(), v = view.getBoundingClientRect();
+      if (v.height > 0) rows = (t.bottom - v.top + 3) / v.height * Renderer.H;
+    }
+    Renderer.keepTopClear(rows);
+  }
+  function checkTipsNow() {
     const now = performance.now();
     const el = $('#tip');
     // what a tip asks for, while it is still to be done

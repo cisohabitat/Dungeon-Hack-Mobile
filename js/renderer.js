@@ -16,6 +16,10 @@ const Renderer = (() => {
   // the shape the view was first drawn for, and the one the title art keeps
   const H_BASE = 200;
   let H = H_BASE;
+  // How many rows at the top a tip is covering just now: a bar or a warning
+  // mark that would sit under it is drawn below it instead, over the
+  // creature's face if need be, never hidden behind the words about it.
+  let keepClear = 0;
   const FOV = Math.PI / 3;
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
@@ -1091,9 +1095,18 @@ const Renderer = (() => {
       if (fading) ctx.globalAlpha = 1;
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
-      // an ogre up close is taller than the view: its bar stays inside it
-      if (s.hp != null && s.hp < s.maxHp) {
-        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2), by = Math.max(3, Math.floor(drawnTop) - 5);
+      // where the warning mark goes: over the drawing, half as big again as it
+      // was, a trick's bigger still; the lich's bar runs along the top of the
+      // view and a tip may cover more of it, and the mark keeps below both
+      const barred = s.hp != null && s.hp < s.maxHp;
+      const markSize = s.tell ? Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4)))) : 0;
+      const markLow = markSize + (s.boss ? 34 : barred ? 10 : 3) + keepClear, markAt = Math.floor(drawnTop) - (barred ? 9 : 4);
+      const markY = Math.min(H - 4, Math.max(markLow, markAt));
+      // an ogre up close is taller than the view: its bar stays inside it,
+      // and under the mark when a tip has pushed the mark down
+      if (barred) {
+        const bw = Math.max(10, Math.floor(sw * 0.5)), bx = Math.floor(screenX - bw / 2);
+        const by = Math.max(3 + keepClear, Math.floor(drawnTop) - 5, s.tell && markLow > markAt ? markY + 3 : 0);
         ctx.fillStyle = '#000';
         ctx.fillRect(bx - 1, by - 1, bw + 2, 4);
         ctx.fillStyle = '#5a1a1a';
@@ -1116,23 +1129,43 @@ const Renderer = (() => {
       // the tell: a bright mark over anything about to strike, filling as the
       // blow comes, so it can be seen and answered before it lands
       if (s.tell) {
-        // a monster's own trick: a bigger violet mark, unlike any plain blow
-        // half as big again as it was, and sat on the drawing, not its frame
-        const size = Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4))));
-        // the lich's bar runs along the top of the view: its mark keeps below it
-        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + (s.boss ? 34 : s.hp != null && s.hp < s.maxHp ? 10 : 3), Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
+        const size = markSize, tx = Math.round(screenX), ty = markY;
+        // Shape says which, not only colour: a plain blow is a triangle, a
+        // trick a spiked burst. Each fills from the bottom as the blow comes,
+        // so how long is left reads without telling yellow from red.
+        const cy = ty - size * 0.45;
+        const outline = () => {
+          ctx.beginPath();
+          if (s.special) {
+            for (let i = 0; i < 16; i++) {
+              const a = -Math.PI / 2 + i * Math.PI / 8, r = i % 2 ? size * 0.3 : size * 0.58;
+              const x = tx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+              if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+            }
+          } else { ctx.moveTo(tx, ty - size); ctx.lineTo(tx + size * 0.62, ty); ctx.lineTo(tx - size * 0.62, ty); }
+          ctx.closePath();
+        };
+        const top = s.special ? cy - size * 0.58 : ty - size, bottom = s.special ? cy + size * 0.58 : ty;
+        const full = Math.max(0, Math.min(1, s.tell));
         ctx.save();
         ctx.lineJoin = 'round';
-        ctx.beginPath();
-        ctx.moveTo(tx, ty - size); ctx.lineTo(tx + size * 0.62, ty); ctx.lineTo(tx - size * 0.62, ty); ctx.closePath();
-        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)'; ctx.stroke();
+        outline();
+        ctx.lineWidth = 3; ctx.strokeStyle = full >= 1 ? '#ffffff' : 'rgba(0,0,0,0.9)'; ctx.stroke();
+        // what is still to fill, dim; what has filled, bright
+        ctx.fillStyle = s.special ? '#3a1a48' : '#4a3010';
+        ctx.fill();
+        ctx.clip();
         ctx.fillStyle = s.special ? (s.tell >= 1 ? '#ff40e0' : (s.tell > 0.5 ? '#d050ff' : '#a070ff'))
           : (s.tell >= 1 ? '#ff3020' : (s.tell > 0.5 ? '#ff7a20' : '#ffc030'));
-        ctx.fill();
-        ctx.fillStyle = '#1a0a08';
-        ctx.fillRect(tx - 1, ty - size * 0.68, 2, size * 0.38);
-        ctx.fillRect(tx - 1, ty - size * 0.2, 2, 2);
+        // by area, not height: the wide foot of a triangle would look full at half way
+        const f = Math.max(0.12, full), rise = s.special ? f : 1 - Math.sqrt(1 - f);
+        const fillTop = bottom - (bottom - top) * rise;
+        ctx.fillRect(tx - size, fillTop, size * 2, bottom - fillTop + 1);
         ctx.restore();
+        ctx.fillStyle = '#1a0a08';
+        const mx = s.special ? cy - size * 0.3 : ty - size * 0.68, mh = s.special ? size * 0.34 : size * 0.38;
+        ctx.fillRect(tx - 1, mx, 2, mh);
+        ctx.fillRect(tx - 1, mx + mh + 2, 2, 2);
       }
     }
 
@@ -1316,7 +1349,9 @@ const Renderer = (() => {
   }
 
 
-  return { init, render, setHeight, busy, W, H_MIN, H_MAX, FOG, get H() { return H; } };
+  /** @param {number} rows  rows at the top of the picture a tip is covering */
+  function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, get H() { return H; }, get keptClear() { return keepClear; } };
 })();
 
 export { Renderer };

@@ -534,7 +534,8 @@ test.describe('dungeon features', () => {
   test('every tip fits whole in the top half of the view, on a small phone and a large one', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 568 });
     await startGame(page, { seed: 'tip-fit' });
-    for (const [width, height] of [[320, 568], [393, 727]]) {
+    // and sideways, where the view is short and a tip smaller
+    for (const [width, height] of [[320, 568], [393, 727], [851, 393], [667, 375], [568, 320]]) {
       await page.setViewportSize({ width, height });
       await page.waitForTimeout(300);
       const cut = await page.evaluate(() => {
@@ -602,9 +603,13 @@ test.describe('dungeon features', () => {
     await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
     await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
     expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
+    // the mark it speaks of is drawn below the tip, not under it
+    expect(await page.evaluate(() => Renderer.keptClear)).toBeGreaterThan(10);
     await page.evaluate(() => Game.input('back'));
     await expect(page.locator('#tip')).toContainText('hit empty air', { timeout: 4000 });
     expect(await page.evaluate(() => UI.timeScale())).toBe(1);
+    await page.evaluate(() => document.getElementById('tip').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })));
+    await expect.poll(() => page.evaluate(() => Renderer.keptClear)).toBe(0);
     expect(errors).toEqual([]);
   });
 
@@ -625,6 +630,24 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
     await expect(page.locator('#tip')).toContainText('Too slow', { timeout: 6000 });
     expect(await page.evaluate(() => UI.timeScale())).toBe(1);
+    expect(errors).toEqual([]);
+  });
+
+  test('a trick\'s first coming slows time while its answer is read, and only while it is coming', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { seed: 'trick-slow' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR; L.monsters.length = 0; p.hp = p.maxHp = 500;
+      L.monsters.push({ uid: 94, id: 'ogre', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+        windup: { kind: 'move', move: 'crush', at: G.t, until: G.t + 1500 } });
+    });
+    await expect(page.locator('#tip.show')).toContainText('crushing blow', { timeout: 2000 });
+    expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
+    // once the blow has come down, time runs on
+    await expect.poll(() => page.evaluate(() => UI.timeScale()), { timeout: 10000 }).toBe(1);
     expect(errors).toEqual([]);
   });
 
