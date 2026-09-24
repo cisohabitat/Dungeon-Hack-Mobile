@@ -730,6 +730,8 @@ const Renderer = (() => {
     for (const { s, tX, tY } of list) {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
+      // a monster with poses (see creatures.js) shows the one for its wind-up
+      const art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : s.img;
       // a monster winding up a blow swells a little toward you as it draws back
       const size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
       // a monster's body squashes and stretches as it breathes, lunges and falls
@@ -737,14 +739,14 @@ const Renderer = (() => {
       const floorY = H / 2 + hFull / 2;
       const top = floorY - sh - (s.yOff || 0) * hFull;
       // where the drawing itself begins: bars and marks sit on it, not on the empty frame
-      const drawnTop = top + (s.img.top || 0) * sh;
+      const drawnTop = top + (art.top || 0) * sh;
       const left = screenX - sw / 2;
       const x0 = Math.max(0, Math.floor(left)), x1 = Math.min(W, Math.ceil(left + sw));
       if (x1 <= x0) continue;
       let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / FOG * Assets.SHADES.length));
       const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
       if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
-      const img = (s.flash && now < s.flash) ? s.img.flash : s.img.levels[shadeIdx];
+      const img = (s.flash && now < s.flash) ? art.flash : art.levels[shadeIdx];
       let run = -1, seenL = W, seenR = -1;
       const fading = s.alpha != null && s.alpha < 1;
       if (fading) ctx.globalAlpha = Math.max(0, s.alpha);

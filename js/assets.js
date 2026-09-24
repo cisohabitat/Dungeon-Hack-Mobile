@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS } from './data.js';
-import { CREATURES, PROPS, FLOATING, paintParts } from './creatures.js';
+import { CREATURES, POSES, PROPS, FLOATING, paintParts } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { heldParts, carriedParts } from './heldart.js';
 
@@ -798,6 +798,12 @@ const Assets = (() => {
     // creatures and props stand in the world, close enough to fill the view: they
     // are painted twice as fine as the items in the pack
     for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
+    // a creature's other poses ride on its sprite, and on each champion's
+    for (const k in POSES) for (const pose of POSES[k]) {
+      const ps = makeSprite({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, fine: true });
+      sprites[k][pose] = ps;
+      for (const e in ps.elite) sprites[k].elite[e][pose] = ps.elite[e];
+    }
     for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }

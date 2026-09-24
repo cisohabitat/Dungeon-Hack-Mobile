@@ -225,19 +225,26 @@ const Sound = (() => {
     goo(out) { const l = lp(out, 650); tone(l, 220, 0.22, 'sine', 0.22, -150); tone(l, 140, 0.25, 'sine', 0.2, 140, 0.15); noise(out, 0.3, 0.1, { f: 400, delay: 0.1 }); },
     ichor(out) { noise(out, 0.12, 0.16, { type: 'bandpass', f: 2200, q: 1.5 }); clicks(out, 5, 0.3, 3000, 0.07); tone(lp(out, 500), 180, 0.12, 'sine', 0.1, -90, 0.05); },
     troll(out, s) { DEATH.blood(out, s); },
+    // a basilisk's thick dark blood, and the dry crackle of a rustmaw's shell giving way
+    bile(out, s) { noise(out, 0.32, 0.22, { f: 500, to: 120 }); tone(lp(out, 380), 110 / s, 0.55, 'sawtooth', 0.1, -50 / s, 0.03, 0.03); },
+    rust(out) { clicks(out, 14, 0.45, 1500, 0.1); noise(out, 0.35, 0.12, { type: 'bandpass', f: 900, q: 1.2, to: 300 }); tone(lp(out, 500), 160, 0.15, 'sine', 0.1, -80, 0.1); },
     ecto(out) { tone(out, 880, 1.1, 'sine', 0.07, -600, 0, 0.02); tone(out, 1320, 0.9, 'sine', 0.03, -900, 0.05); noise(out, 1, 0.04, { type: 'highpass', f: 2500, to: 800 }); },
   };
 
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },
     hiss(out) { noise(out, 0.4, 0.09, { type: 'highpass', f: 3500, attack: 0.06 }); clicks(out, 4, 0.3, 2500, 0.06); },
     squelch(out) { const l = lp(out, 700); tone(l, 160, 0.18, 'sine', 0.22, -80); tone(l, 110, 0.16, 'sine', 0.18, 150, 0.12); noise(out, 0.2, 0.08, { f: 500, delay: 0.05 }); },
     rattle(out) { clicks(out, 9, 0.45, 2200, 0.09); tone(lp(out, 300), 90, 0.1, 'triangle', 0.08, -30); },
+    // a low hiss with a rattle of scales in it
+    rasp(out, s) { noise(out, 0.7, 0.1, { type: 'bandpass', f: 1300 / s, q: 0.9, to: 700 / s, attack: 0.15 }); clicks(out, 10, 0.55, 800, 0.06); tone(lp(out, 300), 70 / s, 0.6, 'sawtooth', 0.05, -12, 0, 0.12); },
+    // mouthparts clicking against each other, quick and dry
+    chitter(out) { clicks(out, 16, 0.5, 3200, 0.07); for (let i = 0; i < 3; i++) noise(out, 0.05, 0.05, { type: 'bandpass', f: vary(1800, 0.2), q: 4, delay: 0.1 + i * 0.13 }); },
     moan(out, s) { const f = 120 / s, l = lp(out, 520); tone(l, f, 1, 'sawtooth', 0.09, -f * 0.25, 0, 0.25); tone(l, f * 1.06, 1, 'sawtooth', 0.06, -f * 0.28, 0.05, 0.25); },
     wail(out) { tone(out, 460, 0.55, 'sine', 0.06, 320, 0, 0.15); tone(out, 780, 0.7, 'sine', 0.06, -400, 0.45, 0.05); noise(out, 1, 0.03, { type: 'bandpass', f: 1200, q: 2, to: 700, attack: 0.3 }); },
     grunt(out, s) { const f = 170 / s, l = lp(out, 750); tone(l, f, 0.16, 'sawtooth', 0.13, -f * 0.35, 0, 0.015); tone(l, f * 0.9, 0.14, 'sawtooth', 0.1, -f * 0.3, 0.2, 0.015); noise(out, 0.12, 0.05, { f: 700 }); },
