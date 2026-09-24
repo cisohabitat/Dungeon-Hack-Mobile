@@ -240,7 +240,11 @@ const Renderer = (() => {
     // reading: the off hand brings the scroll up, and what it held goes down
     const ru = (now - (fx.readAt ?? -1e9)) / READ_MS;
     const reading = ru >= 0 && ru < 1;
-    const put_down = reading ? Math.min(1, ru * 6, (1 - ru) * 6) * H * 0.45 : 0;
+    // drinking or eating: the same off hand brings up the bottle or the bread
+    const uu = (now - (fx.useAt ?? -1e9)) / USE_MS;
+    const using = uu >= 0 && uu < 1 && !reading;
+    const put_down = reading ? Math.min(1, ru * 6, (1 - ru) * 6) * H * 0.45
+      : using ? Math.min(1, uu * 6, (1 - uu) * 6) * H * 0.45 : 0;
     // casting: the off hand rises into view, alight, and what it held dips
     const cu = (now - fx.castAt) / 520;
     const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
@@ -285,6 +289,7 @@ const Renderer = (() => {
       put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
     }
     if (reading) drawReading(fx, ru, v.cls, dx, dy);
+    if (using) drawUse(fx, uu, v.cls, dx, dy);
     if (cast > 0) {
       const [x, y] = at('cast'), cy = y + (1 - cast) * H * 0.35 + by;
       const g = ctx.createRadialGradient(x + bx, cy - H * 0.06, 0, x + bx, cy - H * 0.06, H * 0.15);
@@ -605,6 +610,72 @@ const Renderer = (() => {
           const a = hash(k + 40), up = (f + hash(k + 60) * 0.4) % 1;
           glow(W * (0.15 + a * 0.7), H * (1 - up * 0.8), 4, c, (1 - up) * 0.8);
         }
+      }
+    }
+    ctx.restore();
+  }
+
+  // ---------- drinking and eating ----------
+  // The bottle (or the bread) the pack shows comes up in the off hand. A
+  // draught is tipped back, rising and turning until it is upended over the
+  // view, then lowered, and the view takes on the colour of what it does with
+  // motes rising through it. Food goes to the mouth for two bites, and crumbs
+  // fall.
+  const USE_MS = 850;
+  function drawUse(fx, uu, cls, dx, dy) {
+    const spr = Assets.sprites[fx.useSprite];
+    const img = spr && spr.levels && spr.levels[0];
+    if (!img) return;
+    const c = fx.useColor || '#fff';
+    const base = 42 / img.height;                           // about a fifth of the view tall
+    const rest = [W * 0.3 + dx * 0.6, H * 0.64 + dy * 0.6];
+    let x = rest[0], y = rest[1], s = base, rot = 0, hand = true;
+    const rise = ease(Math.min(1, uu / 0.22)), low = ease(clamp01((uu - 0.72) / 0.28));
+    if (fx.useKind === 'drink') {
+      // to the lips, below the bottom of the view: it comes in close (bigger)
+      // and turns over until its neck points down at the mouth
+      const tip = ease(clamp01((uu - 0.22) / 0.3)) * (1 - low);
+      x = rest[0] + (W * 0.47 - rest[0]) * tip;
+      y = rest[1] + (1 - rise) * H * 0.6 + (H * 0.8 - rest[1]) * tip + low * H * 0.6;
+      s = base * (1 + tip * 1.3);
+      rot = tip * 2.7;
+    } else {
+      // to the mouth, low in the middle of the view, and two bites
+      const lift = ease(clamp01((uu - 0.2) / 0.2)) * (1 - low);
+      const bite = uu > 0.4 && uu < 0.72 ? Math.abs(Math.sin((uu - 0.4) / 0.32 * Math.PI * 2)) : 0;
+      x = rest[0] + (W * 0.5 - rest[0]) * lift;
+      y = rest[1] + (1 - rise) * H * 0.6 + (H * 0.9 - rest[1]) * lift + bite * 6 + low * H * 0.6;
+      s = base * (1 + lift * 0.9);
+      hand = lift < 0.35;
+    }
+    // the hand stays on it: under the bottle as it comes up, then round its
+    // belly, low and to the left, as it is tipped back
+    if (hand) put(Assets.held(null, 'cast', cls, false), x - 3 - (s / base - 1) * 14, y + img.height * s * (0.45 - (s / base - 1) * 0.2));
+    ctx.save();
+    ctx.translate(Math.round(x), Math.round(y));
+    ctx.rotate(rot);
+    ctx.drawImage(img, Math.round(-img.width * s / 2), Math.round(-img.height * s / 2), Math.round(img.width * s), Math.round(img.height * s));
+    ctx.restore();
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    if (fx.useKind === 'drink') {
+      // it takes: the view washes the draught's colour, and motes rise
+      const f = clamp01((uu - 0.45) / 0.55);
+      if (f > 0) {
+        ctx.fillStyle = hexA(c, Math.sin(f * Math.PI) * 0.22); ctx.fillRect(0, 0, W, H);
+        for (let k = 0; k < 14; k++) {
+          const up = (f * 1.2 + hash(k + 70) * 0.5) % 1;
+          glow(W * (0.1 + hash(k + 90) * 0.8), H * (1 - up * 0.85), 3 + hash(k) * 3, c, (1 - up) * (1 - f * 0.6));
+        }
+      }
+    } else if (uu > 0.4 && uu < 0.9) {
+      // crumbs, falling from each bite
+      ctx.globalCompositeOperation = 'source-over';
+      for (let k = 0; k < 10; k++) {
+        const born = 0.4 + hash(k + 20) * 0.3, age = (uu - born) / 0.25;
+        if (age <= 0 || age >= 1) continue;
+        ctx.fillStyle = k % 2 ? '#c89858' : '#e8c890';
+        ctx.fillRect(Math.round(W * 0.5 + (hash(k + 3) - 0.5) * 30), Math.round(H * 0.85 + age * age * H * 0.3), 2, 2);
       }
     }
     ctx.restore();

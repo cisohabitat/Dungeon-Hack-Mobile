@@ -2695,6 +2695,24 @@ await test('a fire scroll\'s number, flash and a death wait for the fireball to 
   return out.length ? out.join('; ') : true;
 });
 
+await test('a spell\'s number waits for the spell to reach its target: darts fly, lightning is there at once', async () => {
+  const out = [];
+  for (const [id, lo, hi] of [['magic_missile', 300, 350], ['lightning', 0, 0]]) {
+    const ctx = await start('mage', 'spell-delay-' + id);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    Game.tick(10000);
+    ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+    p.level = 9; p.sp = 99; G.t = p.nextAttack;
+    const sp = Game.knownSpells().find(s => s.id === id);
+    if (!sp) { out.push(`no ${id}`); continue; }
+    Game.castSpell(sp);
+    const t = Game.renderState(10000).fx.texts.slice(-1)[0];
+    const wait = t ? t.born - 10000 : null;
+    if (wait === null || wait < lo || wait > hi) out.push(`${id}: its number waits ${wait}ms, wanted ${lo}-${hi}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

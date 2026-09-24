@@ -92,7 +92,7 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a scroll read from the pack, even out of a fight, closes it and is seen to rise and burn', async ({ page }) => {
+  test('a scroll or a draught used from the pack, even out of a fight, closes it and is seen to be read or drunk', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { seed: 'scroll-read' });
@@ -118,6 +118,16 @@ test.describe('interface', () => {
       return n;
     });
     expect(blue, 'no blue writing on the view').toBeGreaterThan(20);
+    // a draught is the same: the pack closes and the bottle comes up
+    await page.waitForTimeout(800);
+    await page.evaluate(() => { const p = Game.player(); p.hp = 1; p.inv.push({ t: 'potion_heal', q: 1, e: 0 }); Game.state().known.potion_heal = 1; });
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: 'Potion of Healing' }).first().click();
+    await page.locator('#item-detail button', { hasText: /^Drink$/ }).click();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    const use = await page.evaluate(() => { const now = performance.now(), f = Game.renderState(now).fx; return { ago: now - f.useAt, kind: f.useKind }; });
+    expect(use.kind).toBe('drink');
+    expect(use.ago).toBeLessThan(850);
     expect(errors).toEqual([]);
   });
 

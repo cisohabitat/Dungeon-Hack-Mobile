@@ -26,6 +26,7 @@ const Game = (() => {
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
+               useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
@@ -649,6 +650,10 @@ const Game = (() => {
     }
     return null;
   }
+  // A draught or a meal is seen: the bottle comes up and tips back, the bread
+  // is bitten (see the renderer), in the colour of what the draught does.
+  const POTION_GLOW = { heal: '#60e080', cure: '#c8f0a0', might: '#ff6040', mana: '#6090ff' };
+  function showUse(kind, it, color) { fx.useAt = realNow; fx.useKind = kind; fx.useSprite = spriteFor(it); fx.useColor = color; }
   function useItem(it) {
     const p = P(), b = ITEMS[it.t];
     if (p.held > G.t) { blocked(heldWhy()); return; }
@@ -660,12 +665,14 @@ const Game = (() => {
       noteUsed(b.kind);
     }
     if (b.kind === 'food') {
+      showUse('eat', it, '#e0c080');
       removeOne(it);
       p.food = Math.min(100, p.food + b.food);
       log(`You eat the ${b.name.toLowerCase()}. ${p.food >= 90 ? 'You are full.' : 'That was good.'}`, 'good');
       Sound.play('eat');
     } else if (b.kind === 'potion') {
       const wasNew = !isKnown(it.t);
+      showUse('drink', it, POTION_GLOW[b.effect] || '#e0e0ff');
       removeOne(it);
       if (wasNew) { G.known[it.t] = 1; log(`You drink the unknown potion... it is a ${b.name}.`, 'info'); }
       switch (b.effect) {
@@ -2186,6 +2193,10 @@ const Game = (() => {
   // than this: a mage's words are quick, a cleric's prayers are not.
   const CAST_MS = 800;
   /** How each spell looks, and how long its effect plays. */
+  // How far into each picture the spell reaches its target: the darts fly for
+  // half of theirs, the fan of flame a little less; lightning and a shaft of
+  // light are there at once. What the blow looks like waits for that moment.
+  const SPELL_IMPACT = { missile: 0.5, hands: 0.45, cone: 0.3, pillar: 0.15, smite: 0.08, lightning: 0 };
   const SPELL_FX = {
     magic_missile: ['missile', 650], burning_hands: ['hands', 450], shield: ['buff', 600], lightning: ['lightning', 380],
     cone_cold: ['cone', 520], cure_light: ['heal', 800], bless: ['buff', 600], smite: ['smite', 560],
@@ -2236,20 +2247,22 @@ const Game = (() => {
         if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
         // an Empowered or Radiant spell says so in every line it hits with
         castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
-        for (const m of targets) {
-          if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-          let dmg = d(...sp.dmg(p.level));
-          if (sp.holy && mstat(m).undead) dmg *= 2;
-          if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
-          if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
-          // Rime: the cold and the lightning hold back whatever they touch
-          if (sp.pierce && hasTalent('rime')) { m.nextAct = Math.max(m.nextAct, G.t) + 700; if (m.windup) m.windup.until += 700; }
-          // a bolt that tears through everything in its path, or a blast that
-          // fills the square, takes a whole group; a dart only the front one
-          const tag = sp.fire ? 'burn' : 'fire';
-          if (sp.pierce || sp.area) hitGroup(m, dmg, tag); else damageMonster(m, dmg, tag);
-        }
-        castingName = '';
+        fxDelay = Math.round(look[1] * (SPELL_IMPACT[look[0]] || 0));
+        try {
+          for (const m of targets) {
+            if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
+            let dmg = d(...sp.dmg(p.level));
+            if (sp.holy && mstat(m).undead) dmg *= 2;
+            if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
+            if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
+            // Rime: the cold and the lightning hold back whatever they touch
+            if (sp.pierce && hasTalent('rime')) { m.nextAct = Math.max(m.nextAct, G.t) + 700; if (m.windup) m.windup.until += 700; }
+            // a bolt that tears through everything in its path, or a blast that
+            // fills the square, takes a whole group; a dart only the front one
+            const tag = sp.fire ? 'burn' : 'fire';
+            if (sp.pierce || sp.area) hitGroup(m, dmg, tag); else damageMonster(m, dmg, tag);
+          }
+        } finally { castingName = ''; fxDelay = 0; }
         break;
       }
     }
