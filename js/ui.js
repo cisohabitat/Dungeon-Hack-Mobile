@@ -407,6 +407,8 @@ const UI = (() => {
   }
   function startPlaying() {
     logCount = -1; hudSig = '';
+    // a tip, and a lesson half given, belong to the run they were given in
+    resetTips();
     clearOverlays();
     showScreen('screen-game');
     // no spells, no Spells button
@@ -453,6 +455,8 @@ const UI = (() => {
   const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
+  let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
+  let dodgeSettled = false;        // the first blow's outcome is known
   // The first fight on this device is coached. It starts with the first foe's
   // tip and ends once a warning mark has been stepped back from, or not.
   let coaching = false, coachNext = '';
@@ -476,12 +480,17 @@ const UI = (() => {
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
-    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; tipSwing = p0.nextAttack; }
+    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; tipSwing = p0.nextAttack; tipHurt = p0.lastHurt || 0; dodgeSettled = false; }
     // in a fight a tip keeps out of the way sooner
     const L = Game.level(), p = Game.player();
     const fighting = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     tipUntil = tipAt + (fighting ? 4000 : 7000);
     return true;
+  }
+  function resetTips() {
+    const el = $('#tip');
+    if (el) el.classList.remove('show');
+    tipUntil = 0; coaching = false; coachNext = ''; tipFrom = ''; tipSwing = 0;
   }
   function seenTip(id) {
     if (!tipsSeen) { try { tipsSeen = JSON.parse(store(TIPS_SEEN) || '[]'); } catch (e) { tipsSeen = []; } }
@@ -497,11 +506,11 @@ const UI = (() => {
     }
     return best;
   }
-  /** Whether a monster stands in front of the hero, in the line they face. */
+  /** Whether a monster is ahead of the hero, in the view: turning cannot do better for one on a diagonal. */
   function inFront(m) {
-    const p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
-    const ax = m.x - p.x, ay = m.y - p.y;
-    return (dx ? ay === 0 && Math.sign(ax) === dx : ax === 0 && Math.sign(ay) === dy);
+    const p = Game.player(), [ax, ay] = Dungeon.DIRS[p.dir], [bx, by] = Dungeon.DIRS[(p.dir + 1) % 4];
+    const dx = m.x - p.x, dy = m.y - p.y, ahead = dx * ax + dy * ay;
+    return ahead > 0 && Math.abs(dx * bx + dy * by) <= ahead;
   }
   /** A plain blow (not a trick) being drawn back right beside the hero. */
   const blowComing = () => {
@@ -516,7 +525,7 @@ const UI = (() => {
     const el = $('#tip');
     if (!el || !el.classList.contains('show') || !Game.state() || Game.state().status !== 'playing') return 1;
     const tip = el.dataset.tip || '';
-    if (coaching && tip === 'dodge' && blowComing()) return 0.3;
+    if (coaching && tip === 'dodge' && !dodgeSettled && blowComing()) return 0.3;
     const mv = TRICK_TIPS[tip];
     if (mv) {
       const p = Game.player();
@@ -546,16 +555,24 @@ const UI = (() => {
       monster: () => Game.player().nextAttack === tipSwing && !!firstFoe(),
       dodge: blowComing,
     }[el.dataset.tip || ''] : null;
-    const held = wants && HOLD_TIPS.includes(el.dataset.tip || '') && now - tipAt < HOLD_MAX && wants();
-    if (el && el.classList.contains('show') && now > tipUntil && !held) el.classList.remove('show');
-    // a coached step done goes at once (once read), and the next can come
-    if (el && el.classList.contains('show') && wants && !wants() && now - tipAt > 900) {
-      el.classList.remove('show'); tipUntil = now;
-      if (el.dataset.tip === 'dodge') {
-        const p2 = Game.player();
-        coachNext = `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : 'late';
-      }
+    // How the step back went is settled the moment that first blow is done
+    // with: stung by it, or moved out from under it. A foe killed, fled or
+    // turned by armour mid-swing teaches neither. (Waiting until the tip goes
+    // would let the next blow, a second later, answer for the first.)
+    if (el && el.classList.contains('show') && el.dataset.tip === 'dodge' && coaching && !dodgeSettled && wants && !wants()) {
+      const p2 = Game.player();
+      coachNext = (p2.lastHurt || 0) > tipHurt ? 'late' : `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : '';
+      if (!coachNext) coaching = false;
+      dodgeSettled = true;
     }
+    // a coached step done goes at once (once read), and the next can come
+    if (el && el.classList.contains('show') && wants && (!wants() || (el.dataset.tip === 'dodge' && dodgeSettled)) && now - tipAt > 900) {
+      el.classList.remove('show'); tipUntil = now;
+    }
+    // (a step done is seen to first: the timer below must not take the tip
+    // before the lesson has said how it went)
+    const held = wants && HOLD_TIPS.includes(el.dataset.tip || '') && now - tipAt < HOLD_MAX && wants() && !(el.dataset.tip === 'dodge' && dodgeSettled);
+    if (el && el.classList.contains('show') && now > tipUntil && !held) el.classList.remove('show');
     // a tip about the thing in front of you goes when that thing does
     const USE_TIPS = { take: 'Take', stairs: 'Descend', examine: 'Examine', trade: 'Trade' };
     if (el && el.classList.contains('show') && USE_TIPS[el.dataset.tip || ''] && Game.state() && Game.useLabel() !== USE_TIPS[el.dataset.tip || '']) { el.classList.remove('show'); tipUntil = now; }
@@ -569,7 +586,7 @@ const UI = (() => {
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
-    if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; coaching = false; }
+    if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; coaching = false; coachNext = ''; }
     // the controls tip has done its work once the hero has moved or turned
     if (el && el.classList.contains('show') && el.dataset.tip === 'controls' && G0 && now - tipAt > 1500) {
       const p2 = Game.player();
@@ -606,7 +623,8 @@ const UI = (() => {
     // its first blow, and say how that went.
     if (close && !answering && !seenTip('monster')) {
       const m = firstFoe();
-      if (m && !inFront(m) && showTip('face', true)) { coaching = true; return; }
+      // the chevron the tip points to shows only within two squares
+      if (m && !inFront(m) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2 && showTip('face', true)) { coaching = true; return; }
       if (m && inFront(m) && showTip('monster', true)) { coaching = true; return; }
     }
     if (coaching && !answering) {
@@ -1371,10 +1389,12 @@ const UI = (() => {
     if (b.kind !== 'weapon' || Game.offhandReason(it) || p.eq.offhand === it) return '';
     const d = b.dmg, e = knownE(it);
     const blow = `${d[0]}d${d[1]}${d[2] + e > 0 ? '+' + (d[2] + e) : d[2] + e < 0 ? '\u2212' + -(d[2] + e) : ''}`;
-    // the blade parries for a point, so a shield costs what it gave less that
-    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) - 1 : 0;
-    const ac = sh > 0 ? `; the shield comes off (\u2212${sh} armor class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armor class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armor class';
-    return `<p class="compare">In the off hand: a second blow of ${blow} after each swing, and the main hand a fifth slower${ac}.</p>`;
+    // the blade parries for a point, so a shield costs what it gave (Bulwark
+    // and all) less that; a blade already there parried the same
+    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) + ((p.talents || []).includes('bulwark') ? 2 : 0) - 1 : 0;
+    const ac = p.eq.offhand ? '' : sh > 0 ? `; the shield comes off (\u2212${sh} armor class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armor class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armor class';
+    // with a blade there already, the swing is as slow as it was
+    return `<p class="compare">In the off hand: a second blow of ${blow} after each swing${p.eq.offhand ? ' in place of the one you hold there' : ', and the main hand a fifth slower'}${ac}.</p>`;
   }
   // How an unequipped piece of gear stacks up against the one in its slot.
   function compareText(it, b) {
@@ -1810,7 +1830,7 @@ const UI = (() => {
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
-    $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } renderMenu(); });
+    $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     $('#m-help').addEventListener('click', () => { closeOverlay(); showScreen('screen-help'); });
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 

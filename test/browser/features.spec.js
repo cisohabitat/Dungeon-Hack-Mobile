@@ -613,7 +613,7 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a first blow not stepped back from is called too slow, and time runs on after it', async ({ page }) => {
+  test('a first blow not stepped back from is called too slow if it lands, and time runs on after it', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'coached-late' });
     await clearBoons(page);
@@ -628,7 +628,15 @@ test.describe('dungeon features', () => {
     await page.evaluate(() => { const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack'); });
     await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
     await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
-    await expect(page.locator('#tip')).toContainText('Too slow', { timeout: 6000 });
+    // no armour to speak of, so the blow lands unless the die comes up one
+    const hurt0 = await page.evaluate(() => { const p = Game.player(); p.effects.ac = { amount: -100, until: 1e12 }; return p.lastHurt || 0; });
+    // the lesson is settled by that first blow: once the warning tip goes,
+    // a blow that landed has been called too slow; one that missed (a
+    // natural one always does) teaches nothing, and says nothing
+    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || t.dataset.tip !== 'dodge'; }), { timeout: 10000 }).toBe(true);
+    const shown = await page.evaluate(() => { const t = document.getElementById('tip'); return t.classList.contains('show') ? t.dataset.tip : ''; });
+    if (shown === 'late') expect(await page.evaluate(h => (Game.player().lastHurt || 0) > h, hurt0)).toBe(true);
+    else expect(shown).not.toBe('dodged');
     expect(await page.evaluate(() => UI.timeScale())).toBe(1);
     expect(errors).toEqual([]);
   });

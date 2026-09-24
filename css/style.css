@@ -430,7 +430,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .tabs .tab { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); color: var(--dim); font: inherit; }
 .tabs .tab.on { color: var(--gold); border-color: var(--gold); }
 /* the help's tabs stay in reach while a page scrolls under them */
-.help-tabs { position: sticky; top: 0; z-index: 1; background: var(--bg); padding: 6px 0; margin: 0 0 6px; }
+.help-tabs { position: sticky; top: var(--sat, 0px); z-index: 1; background: var(--bg); padding: 6px 0; margin: 0 0 6px; }
 .help-tabs .tab { padding: 8px 2px; min-height: 44px; }
 
 /* the bestiary */

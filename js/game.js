@@ -1278,7 +1278,10 @@ const Game = (() => {
     const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2)) : null;
     const pit = tr === TRAP_TYPES.pit;
     fx.trapDodged = !!(dodge && dodge.pass && !pit);
-    if (pit) { fx.shakeAmp = dodge && dodge.pass ? 3 : 6; fx.shakeMs = 700; fx.shakeUntil = realNow + 700; }
+    // a fall shakes the view longer than a blow: set once the harm (which
+    // shakes it for a blow) has been done
+    const fallShake = () => { if (pit) { fx.shakeAmp = dodge && dodge.pass ? 3 : 6; fx.shakeMs = 700; fx.shakeUntil = realNow + 700; } };
+    fallShake();
     Sound.play('trap');
     if (tr.dmg && dodge.pass && !pit) {
       log(`${TRAP_DODGED[trapKindOf(tr)] || 'You spring clear of a trap!'}${dodge.note}`, 'good');
@@ -1286,6 +1289,7 @@ const Game = (() => {
       let n = Math.max(1, d(...tr.dmg));
       if (dodge.pass) n = Math.max(1, Math.ceil(n / 2));
       hurtPlayer(n, `${tr.msg}${dodge.pass ? ' You catch the edge as you fall.' : ''} You take ${n} damage.${dodge.note}`, null, `a ${tr.name}`);
+      fallShake();
       // a needle that finds you: its venom is fought off, or not
       if (tr.poison && G.status === 'playing') venomSave('needle', 'the needle\'s');
     } else log(tr.msg, 'bad');
@@ -3110,7 +3114,7 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.3,  edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.45, edge: 2, lich: 1.6,  rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.45, edge: 2, lich: 2,    rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;

@@ -2817,6 +2817,8 @@ await test('a trap going off is seen: each kind its own picture, and one spotted
     }
     const f = Game.renderState(now).fx, want = kind === 'spotted' ? 'disarm' : kind;
     if (f.trapKind !== want || f.trapAt !== now) out.push(`${kind}: shown as ${f.trapKind} at ${f.trapAt}`);
+    // a fall shakes the view longer than a blow does, harm and all
+    if (kind === 'pit' && !(f.shakeMs === 700 && f.shakeUntil === now + 700)) out.push(`the pit shook for ${f.shakeMs}ms, not a fall's 700`);
   }
   return out.length ? out.join('; ') : true;
 });
