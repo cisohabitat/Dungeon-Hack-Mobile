@@ -174,14 +174,14 @@ const PATHS = {
   ],
   cleric: [
     { id: 'templar', name: 'Templar', flavour: 'Faith with an edge on it, carried into the front line.', effects: [
-      'Your blows deal +1d4 to the undead (2d4 with Sanctified).',
+      'Your blows deal +1d3 to the undead (more with Sanctified).',
       'Bless lasts twice as long (four times with Zeal).',
-      'Holy Smite deals a fifth more.',
+      'Holy Smite deals a tenth more.',
     ] },
     { id: 'healer', name: 'Healer', flavour: 'You came down to bring people back up. That includes you.', effects: [
-      'Your healing spells heal a fifth more.',
+      'Your healing spells heal a tenth more.',
       'While Protection is upon you, you heal a hit point every six seconds, even mid-fight.',
-      '+1 spell point for every two hero levels.',
+      '+1 spell point for every three hero levels.',
     ] },
   ],
   mage: [

@@ -5795,7 +5795,7 @@ await test('Berserker: blows grow with the wounds, the swing quickens below half
   return out.length ? out.join('; ') : true;
 });
 
-await test('Templar: blows bite the undead, Bless lasts twice as long, and Holy Smite hits a fifth harder', async () => {
+await test('Templar: blows bite the undead, Bless lasts twice as long, and Holy Smite hits a tenth harder', async () => {
   const out = [];
   const swings = async (path, id) => {
     const ctx = await start('cleric', 'templar-' + id);
@@ -5823,13 +5823,13 @@ await test('Templar: blows bite the undead, Bless lasts twice as long, and Holy 
   };
   const plain = await cast(undefined, 'smite', 30), templar = await cast('templar', 'smite', 30);
   const r = templar.dealt / plain.dealt;
-  if (!(r > 1.15 && r < 1.25)) out.push(`smite: ${plain.dealt} -> ${templar.dealt}`);
+  if (!(r > 1.05 && r < 1.15)) out.push(`smite: ${plain.dealt} -> ${templar.dealt}`);
   const b0 = await cast(undefined, 'bless', 1), b1 = await cast('templar', 'bless', 1);
   if (b0.bless !== 60000 || b1.bless !== 120000 || b0.toHit !== 2 || b1.toHit !== 2) out.push(`bless: +${b0.toHit} for ${b0.bless}ms -> +${b1.toHit} for ${b1.bless}ms`);
   return out.length ? out.join('; ') : true;
 });
 
-await test('Healer: heals a fifth more, mends under Protection, and has more spell points', async () => {
+await test('Healer: heals a tenth more, mends under Protection, and has more spell points', async () => {
   const out = [];
   const heal = async path => {
     const ctx = await start('cleric', 'healer-cure');
@@ -5840,7 +5840,7 @@ await test('Healer: heals a fifth more, mends under Protection, and has more spe
     return p.hp - 1;
   };
   const a = await heal(undefined), b = await heal('healer');
-  if (b !== Math.round(a * 1.2)) out.push(`cure light: ${a} -> ${b}`);
+  if (b !== Math.round(a * 1.1)) out.push(`cure light: ${a} -> ${b}`);
   const mend = async (path, warding) => {
     const ctx = await start('cleric', 'healer-mend');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
@@ -5861,7 +5861,8 @@ await test('Healer: heals a fifth more, mends under Protection, and has more spe
   levelByKill(ctx, 4, 5);
   const was = p.maxSp;
   Game.chooseBoon('healer');
-  if (p.maxSp !== was + 2 || p.sp !== p.maxSp) out.push(`at level 5 the well went ${was} -> ${p.maxSp}, holding ${p.sp}`);
+  // a point for every three levels: one at level 5
+  if (p.maxSp !== was + 1 || p.sp !== p.maxSp) out.push(`at level 5 the well went ${was} -> ${p.maxSp}, holding ${p.sp}`);
   return out.length ? out.join('; ') : true;
 });
 

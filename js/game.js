@@ -234,14 +234,14 @@ const Game = (() => {
   const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
   // Templar: the front-line priest.
   /** A Templar's blow on the undead: 1d4 more (Sanctified's die adds to it). */
-  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 4) : 0);
+  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
   /** Holy Smite in a Templar's hands deals a fifth more. */
-  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? Math.round(dmg * 1.2) : dmg);
+  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? Math.round(dmg * 1.1) : dmg);
   // Healer: mending, and the points to spend on it.
   /** A Healer's healing spell heals a fifth more (after Healing Hands, if taken). */
-  const healerHeal = n => (onPath('healer') ? Math.round(n * 1.2) : n);
+  const healerHeal = n => (onPath('healer') ? Math.round(n * 1.1) : n);
   /** A Healer's deeper well: a spell point for every two hero levels. */
-  const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 2) : 0);
+  const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 3) : 0);
   /** While Protection is up a Healer mends a hit point every six seconds, on a clock of its own beside Warding Light's. */
   function healerMercy() {
     const p = P();
