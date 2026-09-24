@@ -794,7 +794,11 @@ const UI = (() => {
       const mb = MONSTERS[id], r = known[id] || { met: 0, kills: 0, deaths: 0 }, lore = BESTIARY[id] || {};
       const art = Assets.sprites[mb.sprite];
       const img = `<img src="${art ? art.url : ''}" alt="">`;
-      const where = mb.boss ? 'Guards the Heart of the Mountain' : `From floor ${mb.tier[0]} down`;
+      // the first floor of this delve (or an eight-floor one, from the title) it can be met on
+      const levels = (Game.state() && Game.state().opts.levels) || 8;
+      let first = 1;
+      while (first <= levels && Dungeon.tierAt(first, levels) < mb.tier[0]) first++;
+      const where = mb.boss ? 'Guards the Heart of the Mountain' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
       if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
       const bits = [`<h3>${escapeHtml(mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
       if (r.kills) {

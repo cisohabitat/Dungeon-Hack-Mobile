@@ -16,7 +16,7 @@ test.describe('bestiary', () => {
     await page.evaluate(() => localStorage.removeItem('deepdelve.bestiary'));
     await page.click('#btn-beasts');
     await expect(page.locator('#beasts-count')).toHaveText(`0 of ${await kinds(page)} met`);
-    await expect(page.locator('#beasts-list .beast.unmet')).toHaveCount(16);
+    await expect(page.locator('#beasts-list .beast.unmet')).toHaveCount(await kinds(page));
     await expect(page.locator('#beasts-list .beast').first()).toContainText('Not yet met. From floor 1 down.');
     await page.click('#beasts-back');
     await expect(page.locator('#screen-title')).toHaveClass(/active/);

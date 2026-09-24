@@ -6,6 +6,16 @@ import { GEAR_POWERS } from './relics.js';
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
 const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
+/**
+ * Where on the ladder of monster tiers a floor of a delve sits: a delve
+ * shorter than the ladder is stretched over it, the stretch coming late.
+ * @param {number} depth @param {number} levels
+ */
+function tierAt(depth, levels) {
+  if (levels >= TIER_FLOORS) return depth;
+  const f = levels > 1 ? (depth - 1) / (levels - 1) : 0;
+  return depth + (TIER_FLOORS - levels) * f * f;
+}
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
@@ -230,9 +240,7 @@ const Dungeon = (() => {
     // met the troll only on its last floor. A shorter delve stretches over
     // the same ladder, the stretch coming late (its first floors much as
     // they were, its last at the ladder's foot); a longer one keeps its floors.
-    const levels = opts.levels || 8;
-    const f = levels > 1 ? (depth - 1) / (levels - 1) : 0;
-    const tierDepth = levels >= TIER_FLOORS ? depth : depth + (TIER_FLOORS - levels) * f * f;
+    const tierDepth = tierAt(depth, opts.levels || 8);
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     // The first floor is where the controls are learned, so a crowded setting
@@ -535,7 +543,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS };
+  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt };
 })();
 
 export { Dungeon };

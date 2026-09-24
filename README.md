@@ -187,14 +187,15 @@ down, with stats placed as the creation screen places them (`FIT=1`), 120 runs p
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Easy | 87% | 91% | 91% | 96% | about 91% |
-| Normal | 60% | 73% | 71% | 85% | about 72% |
-| Hard | 34% | 51% | 40% | 59% | about 45% |
+| Easy | 96% | 95% | 90% | 95% | about 94% |
+| Normal | 57% | 68% | 58% | 68% | about 63% |
+| Hard | 33% | 39% | 29% | 47% | about 37% |
 
-Answering monster tricks is worth about ten points on Normal: a bot that ignores every warning
-(`NOREACT=1`) wins about 62%. Clearing each floor first (`EXPLORE=0.8`) is safer again. Backgrounds
-are rotated across runs so the figures are not one perk repeated. The bot is a steady player,
-not a great one: it does not step back from ordinary blows, so a careful human does better.
+Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
+ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
+Clearing each floor first (`EXPLORE=0.8`) is a trade rather than a sure thing. Backgrounds are
+rotated across runs so the figures are not one perk repeated. The bot is a steady player, not a
+great one: it does not step back from ordinary blows, so a careful human does better.
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
 mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
