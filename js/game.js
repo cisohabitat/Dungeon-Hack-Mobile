@@ -340,7 +340,7 @@ const Game = (() => {
       : it.curse ? 'The trader will not put a rune on cursed metal.' : null;
     return { id, pw, label: `Work a rune ${POWER_SUFFIX[pw]} into your ${what}`,
       detail: it && !why ? `${cap(the(it))} becomes ${ITEMS[it.t].name} ${POWER_SUFFIX[pw]}` : (why || ''),
-      price: Math.round((200 + 40 * G.depth) * (1 - charm())), why };
+      price: Math.round((120 + 25 * G.depth) * (1 - charm())), why };
   }
   /** A night by the trader's lamp: whole again, nothing finds you, and the floor's own rests are not spent. */
   function lodging() {

@@ -475,6 +475,12 @@ const UI = (() => {
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
+    // a tip that is not itself the warning grows faint while a blow is being drawn back close by
+    if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
+      const p1 = Game.player();
+      const striking = Game.level().monsters.some(m => m.windup && Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) <= 3);
+      el.classList.toggle('faint', striking && !['gaze', 'rust', 'trick', 'opening', 'monster'].includes(el.dataset.tip || ''));
+    }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
     if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
@@ -780,7 +786,8 @@ const UI = (() => {
     if (!sellable.length) sellBox.innerHTML = '<div class="shop-empty">Nothing in your pack the trader wants.</div>';
     for (const it of sellable) {
       const price = Game.sellPrice(it);
-      sellBox.appendChild(shopRow(it, price, 'Sell', true, () => Game.sell(it), it.q > 1 ? `You carry ${it.q}` : itemBlurb(it)));
+      // a stack sells one at a time: say so, and that the price is each
+      sellBox.appendChild(shopRow(it, price, it.q > 1 ? 'Sell one' : 'Sell', true, () => Game.sell(it), it.q > 1 ? `You carry ${it.q}; ${price}g each` : itemBlurb(it)));
     }
   }
 

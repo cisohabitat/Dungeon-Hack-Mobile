@@ -404,7 +404,9 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#screen-prologue')).toBeVisible();
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
-    const hero = await page.evaluate(() => { const p = Game.player(), key = CLASSES[p.cls].primary; return { cls: p.cls, key: p.stats[key], best: Math.max(...Object.values(p.stats)) - (p.bg === 'ashborn' && key === 'con' ? 1 : 0), levels: Game.state().opts.levels }; });
+    // the roll as dealt, before a background's gift: the Ashborn's +1 constitution
+    // could otherwise top a key stat that tied it (a failure now and then, by chance)
+    const hero = await page.evaluate(() => { const p = Game.player(), key = CLASSES[p.cls].primary, rolled = { ...p.stats }; if (p.bg === 'ashborn') rolled.con -= 1; return { cls: p.cls, key: rolled[key], best: Math.max(...Object.values(rolled)), levels: Game.state().opts.levels }; });
     expect(Object.keys(await page.evaluate(() => CLASSES))).toContain(hero.cls);
     expect(hero.key, 'the class key stat should hold the best roll').toBeGreaterThanOrEqual(hero.best);
     expect(hero.levels).toBe(8);
@@ -470,6 +472,25 @@ test.describe('dungeon features', () => {
       });
     });
     expect(clash, 'log text runs under the Log button').toBe(false);
+    expect(errors).toEqual([]);
+  });
+
+  test('a tip that is not about the fight grows faint while a blow is drawn back beside you', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'faint-tip' });
+    await clearBoons(page);
+    // the controls tip is up from the start; a goblin beside you draws back
+    await expect(page.locator('#tip')).toHaveClass(/show/);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 9, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+        windup: { kind: 'melee', at: G.t, until: G.t + 60000 } });
+    });
+    await expect(page.locator('#tip')).toHaveClass(/faint/, { timeout: 2000 });
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await expect(page.locator('#tip')).not.toHaveClass(/faint/, { timeout: 2000 });
     expect(errors).toEqual([]);
   });
 

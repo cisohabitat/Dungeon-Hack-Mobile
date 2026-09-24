@@ -51,6 +51,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 #screen-title { overflow: hidden; }
 /* the end screen shares the title's inner block but has no art to sit under */
 #screen-end .title-inner { margin-top: auto; margin-bottom: auto; padding-top: calc(16px + var(--sat)); }
+/* a question, not a title: it sits in the middle of the screen */
+#screen-confirm .title-inner { margin-top: auto; margin-bottom: auto; padding-top: calc(16px + var(--sat)); }
 #screen-end .end-stats { margin-top: 18px; }
 /* The art occupies a band at the top so the 16:10 scene is not cropped to a
    sliver on tall phones; the fade blends it into the menu below. */
@@ -395,6 +397,8 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
   background: rgba(14, 12, 22, 0.92); border: 1px solid var(--accent); color: #f2e6c8; font-size: 0.85rem; line-height: 1.35;
   pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 3; }
 .tip.show { opacity: 1; transform: none; pointer-events: auto; padding-right: 30px; }
+/* while something close is drawing back to strike, a tip that is not about it lets the fight show through */
+.tip.show.faint { opacity: 0.35; }
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }
 /* equipped slots carry a label in the corner: keep the picture below it */
