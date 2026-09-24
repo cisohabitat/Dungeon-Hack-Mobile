@@ -193,7 +193,9 @@ down, with stats placed as the creation screen places them (`FIT=1`), 120 runs p
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
-Clearing each floor first (`EXPLORE=0.8`) is a trade rather than a sure thing. Backgrounds are
+Clearing each floor first (`EXPLORE=0.8`) is the slower, safer road: on Normal it wins about
+82% as a cleric, 94% as a fighter, 92% as a thief, and 61% as a mage, whose spell points, not its
+level, are what run short. Backgrounds are
 rotated across runs so the figures are not one perk repeated. The bot is a steady player, not a
 great one: it does not step back from ordinary blows, so a careful human does better.
 
