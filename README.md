@@ -36,8 +36,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you, open doors, and attack on their own
-  clocks. Sixteen monster types including undead, poisoners, a regenerating troll and a
-  life-draining boss guarding the artifact on the deepest level.
+  clocks. Eighteen monster types including undead, poisoners, a regenerating troll, a
+  basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
+  enchantment, and a life-draining boss guarding the artifact on the deepest level. Which of
+  them a floor holds goes by how far through the delve it is, so a short delve meets them all.
+  Every trick is warned of, armour does not turn a warned blow, and answering one leaves an opening.
 - **A boss fight in three acts.** The Dread Lich speaks when it wakes, and its life runs across
   the top of the view. At two thirds it raises skeleton guards and steps back behind them to
   throw grave-cold over their heads; at one third it puts out every torch in its hall,

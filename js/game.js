@@ -184,7 +184,7 @@ const Game = (() => {
   // if it comes soon, cannot miss and lands as a telling blow. This is what
   // reading the violet mark buys, beyond the blow it spared you.
   /** Why the hero cannot act: knocked down by a charge, or frozen by a touch. */
-  const heldWhy = () => P().heldBy === 'down' ? 'You are still getting to your feet!' : 'You are frozen in place!';
+  const heldWhy = () => ({ down: 'You are still getting to your feet!', stone: 'Your limbs are stone!' }[P().heldBy || ''] || 'You are frozen in place!');
   const OPENING_MS = 2500;
   /** @param {import('./types.js').Monster} m */
   function opening(m) {
@@ -325,13 +325,13 @@ const Game = (() => {
   const TEMPER_MOST = 3;
   /** @param {string} id @param {'weapon'|'armor'} slot @param {string} label @param {string} word */
   function temper(id, slot, label, word) {
-    const it = P().eq[slot], e = it ? it.e || 0 : 0;
+    const it = P().eq[slot], e = it ? it.e || 0 : 0, step = Math.max(1, e + 1);
     const why = !it ? `You have no ${slot === 'weapon' ? 'weapon' : 'armour'} on.`
       : it.h ? 'Have it appraised first: the trader will not work blind.'
       : it.curse ? 'The trader will not put a hammer to cursed metal.'
       : e >= TEMPER_MOST ? `${cap(the(it))} is as ${word.replace(/er$/, '')} as it will ever be.` : null;
     return { id, label, detail: it && !why ? `${cap(the(it))} becomes +${e + 1}` : (why || ''),
-      price: Math.round((50 + 25 * G.depth) * (e + 1) * (e + 1) * (1 - charm())), why };
+      price: Math.round((30 + 15 * G.depth) * step * step * (1 - charm())), why };
   }
   function buyService(id) {
     const s = shopServices().find(x => x.id === id);
@@ -2331,7 +2331,7 @@ const Game = (() => {
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${note}`, m);
   }
-  /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string}} [heavy]  a trick's blow: surer and harder */
+  /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it */
   function monsterAttack(m, heavy) {
     const p = P(), mb = mstat(m), h = heavy || {};
     m.lungeAt = realNow;
@@ -2341,8 +2341,8 @@ const Game = (() => {
     const hit = mb.hit + (h.hit || 0);
     // Mirror Image: the blow falls on an image instead
     if (p.mirrors > 0) { p.mirrors--; log(`The ${mb.name} strikes one of your images, and it vanishes.`, 'good'); riposte(); return false; }
-    const note = rollNote(roll, hit, ac, roll === 20);
-    if (roll === 1 || (roll !== 20 && roll + hit < ac)) {
+    const note = h.sure ? (showRolls ? ` (d20 ${roll}, warned of: armour does not turn it)` : '') : rollNote(roll, hit, ac, roll === 20);
+    if (roll === 1 || (!h.sure && roll !== 20 && roll + hit < ac)) {
       riposte();
       // a blow the shield turned (it would have landed without one) rings on it
       const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (p.eq.shield.e || 0);
@@ -2395,7 +2395,10 @@ const Game = (() => {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800 };
+  const GAZE_MS = 2000;     // how long a basilisk's gaze leaves you stone
+  // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
+  const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
   const WARD_MS = 4000;     // how long the lich stays wrapped in shadow when its fight turns
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
@@ -2446,6 +2449,8 @@ const Game = (() => {
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
     else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} reaches out with a numbing claw!`;
     else if (mv === 'nova' && novaReaches(m) && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
+    else if (mv === 'gaze' && hasLineToPlayer(m, 4) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
+    else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: G.t, until: G.t + SPECIAL_MS[mv], ...extra };
@@ -2464,7 +2469,7 @@ const Game = (() => {
     if (G.t < (G.blowGate || 0)) { m.windup = w; m.nextAct = G.blowGate; return; }
     switch (w.move) {
       case 'crush':
-        if (dist === 1) { monsterAttack(m, { hit: 2, mult: 3, verb: 'brings its club down on' }); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; }
+        if (dist === 1) { monsterAttack(m, { hit: 2, mult: 3, verb: 'brings its club down on', sure: true }); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; }
         else { log(`The ${mb.name}'s club smashes the floor where you stood. It staggers, wide open!`, 'good'); Sound.play('smash', heard(m)); m.nextAct = G.t + 1600; learn(m.id, 'answer'); riposte(); opening(m); }
         break;
       case 'charge': {
@@ -2472,7 +2477,7 @@ const Game = (() => {
         if (inLine && (dist === 1 || hasLineToPlayer(m, 6))) {
           const tx = p.x - (w.dx || 0), ty = p.y - (w.dy || 0);
           if (tx !== m.x || ty !== m.y) moveMonster(m, tx, ty);
-          const struck = monsterAttack(m, { hit: 2, extra: m.id === 'minotaur' ? [2, 6, 0] : [1, 6, 0], verb: 'slams into' });
+          const struck = monsterAttack(m, { hit: 2, extra: m.id === 'minotaur' ? [2, 6, 0] : [1, 6, 0], verb: 'slams into', sure: true });
           // and it leaves you sprawled, a moment from getting up
           if (struck && G.status === 'playing' && !hasTalent('stand_firm')) { p.held = Math.max(p.held || 0, G.t + KNOCKDOWN_MS); p.heldBy = 'down'; log('You are knocked off your feet!', 'bad'); }
           G.blowGate = G.t + BLOW_GAP;
@@ -2497,7 +2502,7 @@ const Game = (() => {
       }
       case 'grab':
         if (dist === 1) {
-          if (monsterAttack(m, { verb: 'seizes' }) && G.status === 'playing' && !p.grabbed) {
+          if (monsterAttack(m, { verb: 'seizes', sure: true }) && G.status === 'playing' && !p.grabbed) {
             if (hasTalent('stand_firm')) log(`You tear out of the ${mb.name}'s grasp before it closes.`, 'good');
             else {
               p.grabbed = { uid: m.uid, until: G.t + 4000, nextTry: 0 };
@@ -2510,7 +2515,7 @@ const Game = (() => {
         break;
       case 'paralyse':
         if (dist === 1) {
-          if (monsterAttack(m, { verb: 'claws' }) && G.status === 'playing') {
+          if (monsterAttack(m, { verb: 'claws', sure: true }) && G.status === 'playing') {
             if (d(1, 20) + mod(p.stats.con) >= 12) log(`The ${mb.name}'s claws numb you, but you shake it off.`);
             else { p.held = G.t + HELD_MS; p.heldBy = 'frozen'; log(`The ${mb.name}'s touch freezes you in place!`, 'bad'); }
           }
@@ -2551,6 +2556,25 @@ const Game = (() => {
         m.nextAct = G.t + Math.round(mb.speed * 0.6);
         break;
       }
+      case 'gaze': {
+        // only a hero looking at it is caught: turning away is the answer
+        if (hasLineToPlayer(m, 5) && facing(m)) {
+          const n = d(2, 6);
+          p.held = Math.max(p.held || 0, G.t + (hasTalent('stand_firm') ? GAZE_MS / 2 : GAZE_MS)); p.heldBy = 'stone';
+          hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs turn to stone! (${n})`, m, 'a basilisk\'s gaze');
+          G.blowGate = G.t + BLOW_GAP;
+        } else { log(`You turn from the ${mb.name}'s gaze. It washes over your back and leaves the beast open.`, 'good'); learn(m.id, 'answer'); opening(m); }
+        m.moveReady = G.t + 7000;
+        m.nextAct = G.t + mb.speed;
+        break;
+      }
+      case 'rust':
+        if (dist === 1) {
+          if (monsterAttack(m, { hit: 1, verb: 'bites', sure: true }) && G.status === 'playing') corrode();
+          G.blowGate = G.t + BLOW_GAP;
+          m.nextAct = G.t + mb.speed;
+        } else { log(`The ${mb.name}'s jaws snap shut on the air where you stood. It is left open.`, 'good'); learn(m.id, 'answer'); opening(m); m.nextAct = G.t + 1400; }
+        break;
       case 'nova':
         Sound.play('nova', heard(m));
         if (novaReaches(m)) {
@@ -2562,6 +2586,22 @@ const Game = (() => {
         m.nextAct = G.t + mb.speed;
         break;
     }
+  }
+  /** Whether the hero is looking at a monster: it is ahead, within the view's width. */
+  function facing(m) {
+    const p = P(), [ax, ay] = DIRS[p.dir], [bx, by] = DIRS[(p.dir + 1) % 4];
+    const dx = m.x - p.x, dy = m.y - p.y, ahead = dx * ax + dy * ay;
+    return ahead > 0 && Math.abs(dx * bx + dy * by) <= ahead;
+  }
+  /** A rustmaw's bite eats a point from the first metal it finds: armour, then shield, then blade. */
+  function corrode() {
+    const p = P();
+    const it = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, p.eq.shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].find(Boolean);
+    if (!it) { log('Its jaws find no metal on you to eat.'); return; }
+    if ((it.e || 0) <= -3) { log(`${cap(the(it))} is as rusted as it can be.`); return; }
+    it.e = (it.e || 0) - 1;
+    log(`Rust blooms where it bit${it.h ? `: ${the(it)} is the worse for it` : `. ${cap(the(it))} is eaten away`}.`, 'bad');
+    emit('inv'); emit('stats');
   }
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {

@@ -211,6 +211,13 @@ function play(ctx, cls, seed, opts, bg) {
     if (!process.env.NOREACT) {
       // a chant or the lich's rite is answered by striking it, not by stepping away
       const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && m.windup.move !== 'rite' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      // a gaze is answered by looking away, and then by not looking back until it has passed
+      if (trick && trick.windup.move === 'gaze') {
+        const faces = dir => { const [ax, ay] = Dungeon.DIRS[dir], [bx, by] = Dungeon.DIRS[(dir + 1) % 4]; const dx = trick.x - p.x, dy = trick.y - p.y, f = dx * ax + dy * ay; return f > 0 && Math.abs(dx * bx + dy * by) <= f; };
+        if (faces(p.dir)) { Game.input(!faces((p.dir + 3) % 4) ? 'left' : 'right'); rec.dodges = (rec.dodges || 0) + 1; }
+        step();
+        continue;
+      }
       if (trick) {
         const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);

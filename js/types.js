@@ -57,7 +57,7 @@
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
- * @property {'down'|'frozen'} [heldBy]  what is holding the hero still while `held` lasts
+ * @property {'down'|'frozen'|'stone'} [heldBy]  what is holding the hero still while `held` lasts
  * @property {{uid: number, until: number}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then

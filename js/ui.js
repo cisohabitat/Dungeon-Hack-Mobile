@@ -502,7 +502,7 @@ const UI = (() => {
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
-    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : 'Frozen'}</span>`);
+    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     if (Game.effect('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);

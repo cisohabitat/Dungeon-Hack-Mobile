@@ -2,6 +2,9 @@
 // The bestiary: kept from one delve to the next, filled in by play, and
 // readable from both the title screen and the Journal.
 const { test } = require('@playwright/test');
+
+/** How many kinds of creature the bestiary can hold, from the game's own table. */
+const kinds = page => page.evaluate(() => Object.keys(MONSTERS).length);
 const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
 const LEARNED = { rat: { met: 9, kills: 7, deaths: 0 }, spider: { met: 2, kills: 1, deaths: 0, trick: 1 }, slime: { met: 3, kills: 5, deaths: 0, trick: 1, answer: 1 }, goblin: { met: 1, kills: 0, deaths: 2 } };
@@ -12,7 +15,7 @@ test.describe('bestiary', () => {
     await page.goto('/');
     await page.evaluate(() => localStorage.removeItem('deepdelve.bestiary'));
     await page.click('#btn-beasts');
-    await expect(page.locator('#beasts-count')).toHaveText('0 of 16 met');
+    await expect(page.locator('#beasts-count')).toHaveText(`0 of ${await kinds(page)} met`);
     await expect(page.locator('#beasts-list .beast.unmet')).toHaveCount(16);
     await expect(page.locator('#beasts-list .beast').first()).toContainText('Not yet met. From floor 1 down.');
     await page.click('#beasts-back');
@@ -25,7 +28,7 @@ test.describe('bestiary', () => {
     await page.addInitScript(k => localStorage.setItem('deepdelve.bestiary', JSON.stringify(k)), LEARNED);
     await page.goto('/');
     await page.click('#btn-beasts');
-    await expect(page.locator('#beasts-count')).toHaveText('4 of 16 met');
+    await expect(page.locator('#beasts-count')).toHaveText(`4 of ${await kinds(page)} met`);
     // met, never killed: lore but no numbers, and the record says who killed whom
     const gob = page.locator('[data-beast="goblin"]');
     await expect(gob).toContainText('Goblin');
@@ -65,7 +68,7 @@ test.describe('bestiary', () => {
     });
     await page.click('[data-open="journal"]');
     await page.click('[data-jtab="beasts"]');
-    await expect(page.locator('#journal-count')).toHaveText('1 of 16 met');
+    await expect(page.locator('#journal-count')).toHaveText(`1 of ${await kinds(page)} met`);
     await expect(page.locator('#journal-list [data-beast="goblin"] .beast-stats')).toContainText('AC 13');
     await page.click('[data-jtab="pages"]');
     await expect(page.locator('#journal-list .beast')).toHaveCount(0);

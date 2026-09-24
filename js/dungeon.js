@@ -5,6 +5,7 @@ import { GEAR_POWERS } from './relics.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
+const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
@@ -223,7 +224,14 @@ const Dungeon = (() => {
       m.hp = m.maxHp;
       return m;
     };
-    let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && depth >= MONSTERS[id].tier[0] && depth <= MONSTERS[id].tier[1]);
+    // Which creatures a floor holds goes by how far through the delve it is,
+    // not its bare number: the tiers are laid out over ten floors, so an
+    // eight-floor delve used to end before the minotaur's tier began, and
+    // met the troll only on its last floor. A shorter delve stretches over
+    // the same ladder; a longer one keeps its floors as they are.
+    const levels = opts.levels || 8;
+    const tierDepth = levels >= TIER_FLOORS || levels <= 1 ? depth : 1 + (depth - 1) * (TIER_FLOORS - 1) / (levels - 1);
+    let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     // The first floor is where the controls are learned, so a crowded setting
     // starts from the second: at full density a third to a half of runs on
@@ -241,7 +249,7 @@ const Dungeon = (() => {
       const c = mCands[i];
       if (occupied.has(c)) continue;
       // deeper levels favour the tougher end of the pool
-      const weighted = pool.map(id => [id, 1 + Math.max(0, depth - MONSTERS[id].tier[0])]);
+      const weighted = pool.map(id => [id, 1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])]);
       const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
       // champions appear more often the deeper you go
       // no champions on the first floor: a Rabid goblin swinging nearly twice

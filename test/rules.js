@@ -2286,6 +2286,98 @@ await test('a charge that lands knocks the hero down for a moment', async () => 
   return linesSince(G, m2).some(l => /getting to your feet/.test(l)) || `blocked with: ${linesSince(G, m2).join(' | ')}`;
 });
 
+await test('a basilisk\'s gaze turns a hero looking at it to stone; one who turns away is spared and finds it open', async () => {
+  const out = [];
+  for (const away of [false, true]) {
+    const ctx = await start('fighter', 'gaze');
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, 'basilisk', 3, { hp: 999, maxHp: 999 });
+    m.windup = { kind: 'move', move: 'gaze', at: G.t, until: G.t + 1100 }; m.nextAct = m.windup.until;
+    if (away) Game.input('left');
+    const hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 1200);
+    const said = linesSince(G, mark);
+    if (away) {
+      if (p.hp < hp0 || p.held > G.t) { out.push(`turned away and still caught: ${said.join(' | ')}`); continue; }
+      if (!p.opening || p.opening.uid !== m.uid) out.push('turning away left no opening');
+    } else {
+      if (!(p.held > G.t) || p.heldBy !== 'stone' || p.hp >= hp0) { out.push(`looked and was not caught: ${said.join(' | ')}`); continue; }
+      const x0 = p.x, y0 = p.y, m2 = markLog(G);
+      Game.input('back');
+      if (p.x !== x0 || p.y !== y0) out.push('a hero turned to stone walked away');
+      if (!linesSince(G, m2).some(l => /limbs are stone/.test(l))) out.push(`blocked with: ${linesSince(G, m2).join(' | ')}`);
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a rustmaw\'s bite rusts the armour of a hero who stays; one who steps back keeps it, and the forge mends it', async () => {
+  const out = [];
+  for (const dodge of [false, true]) {
+    const ctx = await start('fighter', 'rust');
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.eq.armor.e = 0; p.eq.armor.h = 0;
+    const m = beside(ctx, 'rustmaw', { blows: 2, hp: 999, maxHp: 999 });
+    Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move !== 'rust') { out.push(`it drew ${JSON.stringify(m.windup)}`); continue; }
+    if (dodge) shift(ctx, 'back');
+    const mark = markLog(G);
+    run(Game, G, 900);
+    const said = linesSince(G, mark);
+    if (said.some(l => /misses you/.test(l))) continue;     // a natural 1 this time
+    if (dodge ? p.eq.armor.e !== 0 : p.eq.armor.e !== -1) out.push(`${dodge ? 'stepped back' : 'stayed'}: armour now ${p.eq.armor.e} (${said.join(' | ')})`);
+    if (!dodge) {
+      // the trader's forge mends it, at the price of a first step
+      const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+      Game.level().monsters.length = 0; Game.level().npcs.length = 0; Game.level().npcs.push(shop);
+      const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+      ctx.Dungeon.T && (Game.level().tiles[shop.y * Game.level().w + shop.x] = ctx.Dungeon.T.FLOOR);
+      Game.input('forward');
+      p.gold = 9999;
+      const svc = Game.shopServices().find(v => v.id === 'reinforce');
+      if (!Game.currentShop() || !svc || svc.why || !(svc.price > 0)) out.push(`the forge would not mend rust: ${JSON.stringify(svc)}`);
+      else { Game.buyService('reinforce'); if (p.eq.armor.e !== 0) out.push(`mended to ${p.eq.armor.e}`); }
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a warned blow is not turned by armour: an ogre\'s crush lands on a hero in plate unless it rolls a 1', async () => {
+  const ctx = await start('fighter', 'sure');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 99999; p.effects = { ac: { amount: 60, until: G.t + 1e9 } };
+  let landed = 0, tries = 0;
+  for (let i = 0; i < 12; i++) {
+    const m = beside(ctx, 'ogre', { blows: 2, hp: 999, maxHp: 999 });
+    Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move !== 'crush') continue;
+    const hp0 = p.hp; tries++;
+    run(Game, G, 1000);
+    if (p.hp < hp0) landed++;
+    G.t += 3000;
+  }
+  return (tries >= 8 && landed >= tries - 3) || `${landed} of ${tries} crushes landed on a hero with sixty armour`;
+});
+
+await test('the tiers of monsters stretch over a short delve: an eight-floor delve meets the minotaur on its last floor, a long one keeps it deep', async () => {
+  const ctx = await newContext();
+  const { Dungeon } = ctx;
+  let lastFloor = 0, early = 0, longMid = 0;
+  for (let i = 0; i < 12; i++) {
+    const seed = `tiers-${i}`;
+    if (Dungeon.generate(seed, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'minotaur' || m.id === 'troll')) lastFloor++;
+    if (Dungeon.generate(seed, 1, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => ctx.MONSTERS[m.id].tier[0] > 1)) early++;
+    if (Dungeon.generate(seed, 8, { ...OPTS, levels: 16, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'minotaur')) longMid++;
+  }
+  if (lastFloor < 8) return `only ${lastFloor} of 12 eight-floor delves met a troll or minotaur on the last floor`;
+  if (early) return `${early} first floors held creatures from deeper tiers`;
+  return longMid === 0 || `a sixteen-floor delve met a minotaur on floor 8 (${longMid} times)`;
+});
+
 await test('a spider\'s web holds the hero until they tear free, and misses a hero who steps aside', async () => {
   const ctx = await start('fighter', 'web');
   const { Game } = ctx;
