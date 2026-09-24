@@ -159,7 +159,7 @@ const Game = (() => {
     const c = CLASSES[p.cls];
     if (!c.spells) return 0;
     const stat = p.stats[c.primary];
-    // the armoured cleric holds fewer prayers; the unarmoured mage runs deep
+    // the unarmoured mage runs deep
     const mul = c.spMul || 1;
     return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0)
       + (hasPower('mind', null, p) ? 6 : 0);

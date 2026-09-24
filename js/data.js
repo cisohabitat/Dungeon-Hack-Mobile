@@ -141,7 +141,7 @@ const CLASSES = {
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, castMs: 1000, spMul: 0.8, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 2 / 3, armor: 'heavy', shield: true, castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
@@ -259,11 +259,11 @@ const SPELLS = {
     { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
   ],
   cleric: [
-    { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, Math.floor(L / 2)], color: '#8f8', desc: 'Heals 1d8 + half your level in hit points.' },
-    { id: 'bless',        name: 'Bless',               lvl: 1, cost: 2,  kind: 'buff', stat: 'hit', amount: 2, dur: 30000, color: '#ff8', desc: '+2 to hit for thirty seconds.' },
+    { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points.' },
+    { id: 'bless',        name: 'Bless',               lvl: 1, cost: 2,  kind: 'buff', stat: 'hit', amount: 2, dur: 60000, color: '#ff8', desc: '+2 to hit for a minute.' },
     { id: 'smite',        name: 'Holy Smite',          lvl: 2, cost: 4,  kind: 'bolt', range: 3, dmg: L => [1, 6, Math.floor(L / 2)], holy: true, color: '#ffd', desc: 'Radiant strike. Double damage to the undead.' },
-    { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, Math.floor(L / 2)], color: '#8f8', desc: 'Heals 2d8 + half your level in hit points.' },
-    { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 45000, color: '#adf', desc: '+2 armour class for forty-five seconds.' },
+    { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, L], color: '#8f8', desc: 'Heals 2d8 + your level in hit points.' },
+    { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 90000, color: '#adf', desc: '+2 armour class for a minute and a half.' },
     { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], area: true, fire: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
   ],
 };
