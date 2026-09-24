@@ -113,17 +113,18 @@ await test('a second blade buys damage with rhythm, not for free', async () => {
   const o = Game.offhandWeapon();
   if (!o || o.name !== 'Short Sword') return 'the off hand reports no weapon';
 
-  // the shield is the armour choice: a second blade adds none. (It once added
-  // one point, tuned against a benchmark that rounded every swing up to 300ms
-  // and so never charged the two-blade build its slower swing. Timed exactly,
-  // the builds are level without it.)
+  // the shield is the armour choice: a second blade parries for one point, no
+  // more than a buckler. (It once added one against a benchmark that rounded
+  // every swing up to 300ms, and was taken out; timed exactly, two blades then
+  // won about 59% on Normal to the shield's 68%, and the point brings them level.)
   p.eq.offhand = null; p.eq.shield = null;
   const bare = Game.playerAC();
   p.eq.offhand = blade;
   const twoBlades = Game.playerAC();
   p.eq.offhand = null; p.eq.shield = { t: 'towershield', q: 1, e: 0 };
   const shielded = Game.playerAC();
-  if (twoBlades !== bare) return `a second blade changed armour class from ${bare} to ${twoBlades}`;
+  if (twoBlades !== bare + 1) return `a second blade changed armour class from ${bare} to ${twoBlades}, expected one point`;
+  if (!(shielded > twoBlades)) return 'a second blade parried as well as a tower shield';
   if (!(shielded > bare)) return 'a tower shield added no armour';
   return true;
 });

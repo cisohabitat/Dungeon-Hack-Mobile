@@ -1348,8 +1348,10 @@ const UI = (() => {
     if (b.kind !== 'weapon' || Game.offhandReason(it) || p.eq.offhand === it) return '';
     const d = b.dmg, e = knownE(it);
     const blow = `${d[0]}d${d[1]}${d[2] + e > 0 ? '+' + (d[2] + e) : d[2] + e < 0 ? '\u2212' + -(d[2] + e) : ''}`;
-    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) : 0;
-    return `<p class="compare">In the off hand: a second blow of ${blow} after each swing, and the main hand a fifth slower${sh ? `; the shield comes off (\u2212${sh} armor class)` : ''}.</p>`;
+    // the blade parries for a point, so a shield costs what it gave less that
+    const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) - 1 : 0;
+    const ac = sh > 0 ? `; the shield comes off (\u2212${sh} armor class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armor class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armor class';
+    return `<p class="compare">In the off hand: a second blow of ${blow} after each swing, and the main hand a fifth slower${ac}.</p>`;
   }
   // How an unequipped piece of gear stacks up against the one in its slot.
   function compareText(it, b) {

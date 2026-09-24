@@ -218,9 +218,10 @@ const Game = (() => {
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.2;
-  const DUAL_HIT_PENALTY = 3;
+  const DUAL_HIT_PENALTY = 2;
   // a missed first blow leaves you off balance, and the second swings wilder still
-  const OFF_BALANCE = 3;
+  const OFF_BALANCE = 1;
+  const OFFHAND_PARRY = 1;
   const OFFHAND_MAX_SPEED = 550;   // dagger, club, short sword: nothing heavier
   /** Why this cannot ride in the off hand, or null if it can. */
   function offhandReason(it) {
@@ -471,6 +472,8 @@ const Game = (() => {
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0);
+    // a second blade is no shield, but it turns aside a blow now and then
+    if (p.eq.offhand) ac += OFFHAND_PARRY;
     return ac;
   }
   function knownSpells() {
