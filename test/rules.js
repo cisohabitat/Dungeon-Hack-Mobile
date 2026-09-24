@@ -2568,6 +2568,41 @@ await test('the tiers of monsters stretch over a short delve: an eight-floor del
   return longMid === 0 || `a sixteen-floor delve met a minotaur on floor 8 (${longMid} times)`;
 });
 
+await test('a shut door: a goblin opens it, an ogre smashes it at once, a rat batters for several blows before it gives', async () => {
+  const out = [];
+  for (const [id, want] of [['goblin', 'open'], ['ogre', 'smash'], ['rat', 'batter']]) {
+    const ctx = await start('fighter', 'door-' + id);
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+    p.hp = p.maxHp = 9999;
+    // a walled corridor ahead: the hero, a floor square, the door, a floor square, the creature
+    const [dx, dy] = Dungeon.DIRS[p.dir], [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    const at = (k, j = 0) => (p.y + dy * k + sy * j) * L.w + p.x + dx * k + sx * j;
+    for (let k = 1; k <= 6; k++) { L.tiles[at(k, 1)] = T.WALL; L.tiles[at(k, -1)] = T.WALL; }
+    for (let k = 1; k <= 4; k++) L.tiles[at(k)] = T.FLOOR;
+    ahead(ctx, id, 4, { hp: 999, maxHp: 999 });
+    L.tiles[at(5)] = T.WALL; L.tiles[at(2)] = T.DOOR;
+    const mark = markLog(G);
+    let first = null, broke = null;
+    for (let t = 0; t < 12000 && broke === null; t += 25) {
+      Game.update(G.t + 25, 25);
+      if (first === null && (L.tiles[at(2)] !== T.DOOR || Object.keys(L.doorBlows || {}).length)) first = G.t;
+      if (L.tiles[at(2)] !== T.DOOR) broke = G.t;
+    }
+    const said = linesSince(G, mark).join(' | ');
+    if (broke === null) { out.push(`${id}: the door held for twelve seconds`); continue; }
+    const now = L.tiles[at(2)];
+    if (want === 'open' && now !== T.DOOR_OPEN) out.push(`${id}: the door is ${now}, not open`);
+    if (want !== 'open' && now !== T.FLOOR) out.push(`${id}: the door is ${now}, not splintered`);
+    if (want === 'smash' && !/smashes a door to splinters/.test(said)) out.push(`${id} said: ${said}`);
+    if (want === 'batter') {
+      const speed = ctx.MONSTERS.rat.speed;
+      if (!/batters at a shut door/.test(said) || !/breaks a door to splinters/.test(said)) out.push(`${id} said: ${said}`);
+      if (broke - first < 2 * speed) out.push(`${id}: broke through ${broke - first}ms after its first blow`);
+    } else if (broke - first > 100) out.push(`${id}: took ${broke - first}ms at the door`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');
@@ -2575,14 +2610,15 @@ await test('a mage draws a spell point back from each foe a spell destroys, but 
   p.hp = p.maxHp = 9999; p.perkHit = 60;
   const missile = Game.knownSpells().find(s => s.id === 'magic_missile');
   beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
-  p.sp = 10; G.t = p.nextAttack; Game.castSpell(missile);
+  // below the most the mage can hold, whatever its rolled Intelligence
+  const sp0 = p.sp = p.maxSp - 3; G.t = p.nextAttack; Game.castSpell(missile);
   if (Game.level().monsters.length) out.push('the missile did not kill');
-  else if (p.sp !== 10 - missile.cost + 1) out.push(`a spell kill left ${p.sp} points, wanted ${10 - missile.cost + 1}`);
+  else if (p.sp !== sp0 - missile.cost + 1) out.push(`a spell kill left ${p.sp} points, wanted ${sp0 - missile.cost + 1}`);
   beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
-  p.sp = 10;
+  p.sp = sp0;
   for (let i = 0; i < 10 && Game.level().monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
   if (Game.level().monsters.length) out.push('the staff did not kill');
-  else if (p.sp !== 10) out.push(`a staff kill gave points: ${p.sp}`);
+  else if (p.sp !== sp0) out.push(`a staff kill gave points: ${p.sp}`);
   // never past the most a mage can hold
   beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
   p.sp = p.maxSp; G.t = p.nextAttack; Game.castSpell(missile);

@@ -138,6 +138,7 @@
  * @property {boolean} isFinal
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
+ * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
  */

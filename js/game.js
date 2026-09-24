@@ -2702,6 +2702,32 @@ const Game = (() => {
     }
     return null;
   }
+  // A shut door is a choice now. What has hands opens it; a brute smashes it
+  // to splinters in one blow, and it cannot be shut again; a beast batters at
+  // it, each blow a full action, until on the fourth it gives way. A door
+  // pulled shut on a pack of rats buys a few seconds, never a hiding place.
+  const DOOR_BLOWS = 4;
+  /** A creature meets a shut door. Returns true when the try cost it a full action. */
+  function meetDoor(m, mb, x, y) {
+    const how = mb.door || 'open', at = heard({ x, y });
+    const who = at.dist <= 4 ? `The ${mb.name}` : 'Something';
+    if (how === 'open') { setTile(x, y, T.DOOR_OPEN); log(at.dist <= 4 ? `The ${mb.name} pushes the door open.` : 'Something opens a door nearby.', 'bad'); Sound.play('door', at); return false; }
+    const L = lvl(), k = key(x, y);
+    if (how === 'batter') {
+      L.doorBlows = L.doorBlows || {};
+      const n = L.doorBlows[k] = (L.doorBlows[k] || 0) + 1;
+      if (n < DOOR_BLOWS) {
+        if (n === 1) log(`${who} batters at a shut door${who === 'Something' ? ' nearby' : ''}.`, 'bad');
+        Sound.play('batter', at);
+        return true;
+      }
+      delete L.doorBlows[k];
+    }
+    setTile(x, y, T.FLOOR);
+    log(`${who} ${how === 'smash' ? 'smashes' : 'breaks'} a door to splinters${who === 'Something' ? ' nearby' : ''}!`, 'bad');
+    Sound.play('splinter', at);
+    return how === 'smash';
+  }
   /** Whether the hero is looking at a monster: it is ahead, within the view's width. */
   function facing(m) {
     const p = P(), [ax, ay] = DIRS[p.dir], [bx, by] = DIRS[(p.dir + 1) % 4];
@@ -2883,7 +2909,7 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.3,  edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.4,  edge: 2, lich: 1.4,  rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.5,  edge: 2, lich: 1.7,  rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
@@ -3093,9 +3119,8 @@ const Game = (() => {
       }
       const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
       if (best) {
-        if (tile(best[0], best[1]) === T.DOOR) { setTile(best[0], best[1], T.DOOR_OPEN); log('Something opens a door nearby.', 'bad'); Sound.play('door', heard({ x: best[0], y: best[1] })); }
-        else moveMonster(m, best[0], best[1]);
-        m.nextAct = G.t + moveSpeed;
+        const slow = tile(best[0], best[1]) === T.DOOR ? meetDoor(m, mb, best[0], best[1]) : (moveMonster(m, best[0], best[1]), false);
+        m.nextAct = G.t + (slow ? mb.speed : moveSpeed);
         // Stepping up to you, it draws back as it comes, so its first blow
         // lands exactly when it always did: the warning costs a watchful
         // player nothing and gives an unwatchful one nothing either.

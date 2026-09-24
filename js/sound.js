@@ -405,6 +405,10 @@ const Sound = (() => {
     pickup: out => { tone(out, 660, 0.08, 'triangle', 0.1); tone(out, 990, 0.1, 'triangle', 0.1, 0, 0.08); },
     gold: out => { tone(out, 1200, 0.06, 'triangle', 0.1); tone(out, 1600, 0.08, 'triangle', 0.1, 0, 0.06); },
     door: out => { tone(lp(out, 900), vary(180, 0.1), 0.28, 'sawtooth', 0.05, 90, 0, 0.05); noise(out, 0.12, 0.12, { f: 500, delay: 0.22 }); tone(out, 80, 0.14, 'sine', 0.12, -30, 0.22); },
+    // a shut door taking a blow from the far side: a dull thud and a creak of planks
+    batter: out => { tone(out, 70, 0.2, 'sine', 0.28, -25); noise(out, 0.16, 0.2, { f: 380, to: 140 }); tone(lp(out, 600), vary(110, 0.15), 0.3, 'sawtooth', 0.04, -30, 0.08); },
+    // and giving way: the thud, then planks cracking apart
+    splinter: out => { tone(out, 60, 0.35, 'sine', 0.3, -25); noise(out, 0.3, 0.3, { f: 600, to: 120 }); clicks(out, 12, 0.45, 2400, 0.09); noise(out, 0.25, 0.14, { type: 'highpass', f: 1800, delay: 0.06 }); },
     locked: out => { tone(out, 200, 0.07, 'triangle', 0.1); tone(out, 160, 0.1, 'triangle', 0.1, 0, 0.09); clicks(out, 3, 0.15, 1800, 0.05); },
     stairs: out => { for (let i = 0; i < 4; i++) { tone(out, 500 - i * 90, 0.12, 'triangle', 0.08, 0, i * 0.1); noise(out, 0.05, 0.05, { f: 800, delay: i * 0.1 }); } },
     spell: out => tone(out, 300, 0.3, 'sine', 0.15, 700),

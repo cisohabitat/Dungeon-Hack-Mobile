@@ -42,8 +42,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
-- **Real-time combat.** Monsters wake, path toward you, open doors, and attack on their own
-  clocks. Eighteen monster types including undead, poisoners, a regenerating troll, a
+- **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
+  pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Eighteen monster types including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
   enchantment, and a life-draining boss guarding the artifact on the deepest level. Which of
   them a floor holds goes by how far through the delve it is, so a short delve meets them all.
