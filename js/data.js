@@ -296,6 +296,42 @@ const MONSTERS = {
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' } },
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at' }, speed: 850 },
     ] },
+  // Named champions: one holds a floor about a third of the way down, another
+  // two thirds (Dungeon.namedPlan). Each is one of the kinds above grown
+  // great, wearing that kind's picture washed in its own colour, with that
+  // kind's trick sharpened. `name` is what the log calls it ("the Goblin
+  // King swings"); `named.called` is who it is. tier is the stretch of the
+  // monster ladder where it can hold a floor; it is never met at random.
+  grisk:    { name: 'Goblin King',   hp: [4, 8, 4],    ac: 14, hit: 3,  dmg: [1, 6, 2], speed: 1000, xp: 90,   tier: [2, 5],   sprite: 'goblin',   scale: 1.0,  move: 'rally',
+    named: { called: 'Grisk', kin: 'goblin', tint: '#ffc030', guard: ['goblin', 1], call: ['goblin', 2],
+      arrive: 'Somewhere on this floor, Grisk the Goblin King holds court.',
+      wake: 'A goblin in a crown of bent spoons climbs off his heap of plunder. "Who comes before Grisk?"',
+      fall: 'Grisk the Goblin King is dead, and his crown rolls away across the floor!' } },
+  vessra:   { name: 'Web-Mother',    hp: [4, 8, 2],    ac: 14, hit: 3,  dmg: [1, 6, 1], speed: 850,  xp: 90,   tier: [2, 6],   sprite: 'spider',   scale: 1.0,  poison: 0.3, move: 'web', door: 'batter',
+    named: { called: 'Vessra', kin: 'spider', tint: '#40e0c0', often: 2,
+      arrive: 'Somewhere on this floor, Vessra the Web-Mother waits at the heart of her web.',
+      wake: 'Something vast unfolds its legs in the dark. The Web-Mother has felt you on her threads.',
+      fall: 'Vessra the Web-Mother is dead! She curls up, and her threads go slack all through the floor.' } },
+  ushgar:   { name: 'Orc Warchief',  hp: [5, 8, 4],    ac: 15, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 130,  tier: [3, 7],   sprite: 'orc',      scale: 1.2,  move: 'charge',
+    named: { called: 'Ushgar', kin: 'orc', tint: '#ff4838', guard: ['goblin', 1], often: 2,
+      arrive: 'War drums, somewhere on this floor: Ushgar the Orc Warchief is mustering.',
+      wake: 'Ushgar the Orc Warchief bellows a challenge and paws the ground.',
+      fall: 'Ushgar the Orc Warchief is dead, and the war drums fall silent!' } },
+  morrow:   { name: 'Ghoul Lord',    hp: [10, 8, 8],   ac: 15, hit: 7,  dmg: [1, 8, 3], speed: 900,  xp: 240,  tier: [5, 11],  sprite: 'ghoul',    scale: 1.15, undead: true, move: 'paralyse',
+    named: { called: 'Morrow', kin: 'ghoul', tint: '#a0ff50', guard: ['zombie', 1], often: 2,
+      arrive: 'The stink of an old feast drifts up the stair. Morrow the Ghoul Lord is at table somewhere on this floor.',
+      wake: 'Morrow the Ghoul Lord lifts its head from its meal and smiles, with far too many teeth.',
+      fall: 'Morrow the Ghoul Lord is destroyed, and its long feast is over!' } },
+  orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith',   scale: 1.2,  undead: true, fly: 0.2, move: 'drink',
+    named: { called: 'Orla', kin: 'wraith', tint: '#8fb0ff', guard: ['skeleton', 2],
+      arrive: 'A cold hymn carries through the stone. Orla the Hollow Abbess keeps her vigil somewhere on this floor.',
+      wake: 'The hymn stops. Orla the Hollow Abbess turns her empty hood toward you.',
+      fall: 'Orla the Hollow Abbess is destroyed! She comes apart like mist in the sun, and the hymn ends.' } },
+  gorrum:   { name: 'Troll-Father',  hp: [10, 10, 10], ac: 16, hit: 9,  dmg: [2, 8, 2], speed: 1200, xp: 500,  tier: [8, 30],  sprite: 'troll',    scale: 1.6,  regen: 2, door: 'smash',
+    named: { called: 'Gorrum', kin: 'troll', tint: '#d0a060',
+      arrive: 'The floor shakes with slow footsteps. Gorrum the Troll-Father walks this floor.',
+      wake: 'Gorrum the Troll-Father smells you, and lumbers toward the scent.',
+      fall: 'Gorrum the Troll-Father is dead! He topples like a felled oak, and this time nothing grows back.' } },
 };
 
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
@@ -384,6 +420,26 @@ const BESTIARY = {
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life, and it does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
     answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite. A mage\'s spell pulls its shadow apart, and its grave-cold breaks on a mage\'s Shield.' },
+  // the named champions: each is met once a run at most, so its trick is
+  // written down when seen and its answer when it is beaten or dies
+  grisk:    { lore: 'Grisk crowned himself with bent spoons and a bucket, and no goblin on his floor has dared to laugh. He fights like one of them, only bigger, and he never fights alone for long.',
+    trick: 'Hurt past half, he puts a war-horn to his lips to call his kin. He tries twice.',
+    answer: 'Strike him while he fills his lungs: any wound cuts the call short, and a call cut short is spent.' },
+  vessra:   { lore: 'The mother of every spider in the upper halls, as broad as a cart. Her whole floor is her web, and she feels every step taken on it.',
+    trick: 'Spits her web twice as often as her brood, and from right beside you as well as down a corridor.',
+    answer: 'Step out of her line while she rears back, every time. Caught, keep pushing, or burn the web away.' },
+  ushgar:   { lore: 'Ushgar holds the middle floors by the simple rule of running over anyone who argues. Goblin runners carry his drums.',
+    trick: 'Charges twice as often as any orc, and from four squares off.',
+    answer: 'Step out of his line while he lowers his head, and he thunders past, wide open. A door shut across his line stops him cold.' },
+  morrow:   { lore: 'The oldest ghoul in the delve, and the fattest. It has been eating the fourth crew for three winters. Undead: holy magic burns it twice as badly.',
+    trick: 'Reaches out with its numbing claw every other blow, not every third.',
+    answer: 'Step back while it reaches, or land a blow first and knock the claw aside. Mind it closely: the next reach comes quickly.' },
+  orla:     { lore: 'She led the valley\'s prayers in the Hollow Chapel before the Heart went out, and she is praying still. Undead: holy magic burns it twice as badly.',
+    trick: 'Every third blow she reaches into your chest to drink. If her hand closes, a weak will loses 3 of its most health for good, and she is mended by what she takes.',
+    answer: 'Step back while she reaches and her hand closes on air, leaving her open. A strong will, or a ward against the grave, keeps what she would take.' },
+  gorrum:   { lore: 'Father, grandfather and great-grandfather to every troll on the lower floors, and hungrier than all of them together.',
+    trick: 'His wounds close twice as fast as any troll\'s: two hit points a second.',
+    answer: 'Fire. His burns do not close either: Burning Hands, Flame Strike or a Scroll of Fire stops him regrowing for a while.' },
 };
 
 const ELITES = [

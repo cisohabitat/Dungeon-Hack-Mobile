@@ -366,7 +366,7 @@ const Renderer = (() => {
     }
   }
 
-  /** The lich's life along the top of the view, marked where its fight turns. */
+  /** The lich's life along the top of the view, marked where its fight turns; or a named champion's, in gold. */
   function drawBossBar(b, now) {
     if (!b) return;
     // in its third act the torches are out: the hall goes dark round the edges
@@ -378,7 +378,7 @@ const Renderer = (() => {
     ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)';
     const label = b.rite ? `${b.name.toUpperCase()}: THE RITE` : b.name.toUpperCase();
     ctx.strokeText(label, bx, by - 4);
-    ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : '#d8c8ff';
+    ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : b.named ? '#ffe0a0' : '#d8c8ff';
     ctx.fillText(label, bx, by - 4);
     // how far its rite has gone: strike it before this fills
     if (b.rite) {
@@ -386,14 +386,14 @@ const Renderer = (() => {
       ctx.fillStyle = '#ff60f0'; ctx.fillRect(bx, by + bh + 3, Math.round(bw * b.riteDone), 2);
     }
     ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by - 1, bw + 2, bh + 2);
-    ctx.fillStyle = '#2a1030'; ctx.fillRect(bx, by, bw, bh);
+    ctx.fillStyle = b.named ? '#30200c' : '#2a1030'; ctx.fillRect(bx, by, bw, bh);
     const f = Math.max(0, b.hp / b.maxHp);
-    ctx.fillStyle = b.phase >= 2 ? '#c02040' : b.phase === 1 ? '#a03cc0' : '#7a5ad8';
+    ctx.fillStyle = b.named ? '#d89a30' : b.phase >= 2 ? '#c02040' : b.phase === 1 ? '#a03cc0' : '#7a5ad8';
     ctx.fillRect(bx, by, Math.round(bw * f), bh);
     ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(bx, by, Math.round(bw * f), 1);
     // notches where its fight turns
     ctx.fillStyle = '#000';
-    for (const n of [1 / 3, 2 / 3]) ctx.fillRect(bx + Math.round(bw * n), by, 1, bh);
+    for (const n of b.notches || [1 / 3, 2 / 3]) ctx.fillRect(bx + Math.round(bw * n), by, 1, bh);
     ctx.restore();
   }
 

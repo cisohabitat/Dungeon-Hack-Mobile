@@ -98,7 +98,9 @@
  * @property {number} [burnUntil]  a troll's burns: no regrowth until then
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
- * @property {boolean} [spoke]     the lich has spoken, and its fight has begun
+ * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
+ * @property {number} [rallies]    how many times a named champion has tried to call its kin
+ * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close
  * @property {number} [wardUntil]  the lich is wrapped in shadow, and cannot be hurt, until then
  * @property {boolean} [wardSaid]  the log has said so once this time
  * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it

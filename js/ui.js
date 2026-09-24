@@ -441,6 +441,8 @@ const UI = (() => {
     crush: 'It heaves up a crushing blow, too heavy for armour. <b>Step back</b> and it smashes the floor, wide open.',
     webspit: 'It rears back to spit a web. <b>Step out of its line</b>, to one side.',
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
+    horn: 'He means to sound a horn and call his kin. <b>Strike him</b> before he does: any wound cuts the call short.',
+    drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes of your most health is gone for good.',
     web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
     webtear: 'You are caught in a web. <b>Push against it</b>: tap any arrow, again and again, to tear free.',
     opening: '<b>An opening!</b> You answered its trick: your next blow at it cannot miss and lands hard. Strike now.',
@@ -453,7 +455,7 @@ const UI = (() => {
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drink', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -536,7 +538,7 @@ const UI = (() => {
   };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
-  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge' };
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink' };
   /** How fast the dungeon runs: slowed while the first warning mark, or a trick's first coming, is being answered. */
   function timeScale() {
     const el = $('#tip');
@@ -600,7 +602,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drink: () => near('drink'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -623,6 +625,8 @@ const UI = (() => {
     if (readying('crush') && showTip('crush', true)) return;
     if (readying('web') && showTip('webspit', true)) return;
     if (readying('charge') && showTip('charge', true)) return;
+    if (readying('rally') && showTip('horn', true)) return;
+    if (readying('drink') && showTip('drink', true)) return;
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
@@ -1066,19 +1070,21 @@ const UI = (() => {
     const known = Game.bestiary();
     // what has been met comes first, then what has not, each shallowest first
     const seen = id => known[id] && known[id].met ? 0 : 1;
-    const ids = Object.keys(MONSTERS).sort((a, b) => seen(a) - seen(b) || MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
+    // the named champions come after the common kinds, and the lich last of all
+    const rank = id => (MONSTERS[id].boss ? 2 : MONSTERS[id].named ? 1 : 0);
+    const ids = Object.keys(MONSTERS).sort((a, b) => seen(a) - seen(b) || rank(a) - rank(b) || MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
     const met = ids.filter(id => known[id] && known[id].met).length;
     el.innerHTML = '<div class="beasts">' + ids.map(id => {
       const mb = MONSTERS[id], r = known[id] || { met: 0, kills: 0, deaths: 0 }, lore = BESTIARY[id] || {};
-      const art = Assets.sprites[mb.sprite];
-      const img = `<img src="${art ? art.url : ''}" alt="">`;
+      const art = Assets.sprites[mb.sprite], own = mb.named && art && art.elite && art.elite[id];
+      const img = `<img src="${own ? own.url : art ? art.url : ''}" alt="">`;
       // the first floor of this delve (or an eight-floor one, from the title) it can be met on
       const levels = (Game.state() && Game.state().opts.levels) || 8;
       let first = 1;
       while (first <= levels && Dungeon.tierAt(first, levels) < mb.tier[0]) first++;
-      const where = mb.boss ? 'Guards the Heart of the Mountain' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
+      const where = mb.boss ? 'Guards the Heart of the Mountain' : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
       if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
-      const bits = [`<h3>${escapeHtml(mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
+      const bits = [`<h3${mb.named ? ' class="named"' : ''}>${escapeHtml(mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
       if (r.kills) {
         const traits = beastTraits(id, mb);
         bits.push(`<p class="beast-stats">About ${avg(mb.hp)} HP · AC ${mb.ac} · hits for ${dice(mb.dmg)} · a blow every ${(mb.speed / 1000).toFixed(1)}s · ${mb.xp} xp${traits.length ? ' · ' + traits.join(', ') : ''}</p>`);
@@ -1087,7 +1093,7 @@ const UI = (() => {
         bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
         bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');
       }
-      const rec = [`${where}`, r.kills ? `killed ${r.kills}` : 'none killed yet'];
+      const rec = [`${where}`, mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
       if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
       bits.push(`<p class="where">${rec.join(' · ')}</p>`);
       return `<div class="beast" data-beast="${id}">${img}<div>${bits.join('')}</div></div>`;
@@ -1235,7 +1241,7 @@ const UI = (() => {
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
     // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -1707,7 +1713,9 @@ const UI = (() => {
 
   // ---------- end screens ----------
   // The run told back: a few lines in the log's voice, then pictures and names, numbers last.
-  const aName = (id, name) => MONSTERS[id] && MONSTERS[id].boss ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+  const aName = (id, name) => MONSTERS[id] && (MONSTERS[id].boss || MONSTERS[id].named) ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+  /** "Grisk, the Goblin King": a named champion by its own name. */
+  const namedTitle = id => `${MONSTERS[id].named.called}, the ${MONSTERS[id].name}`;
   const upFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
   /** A few lines about the run, the notable parts only, in the log's voice. */
   function runHighlights(G, won) {
@@ -1718,6 +1726,9 @@ const UI = (() => {
     const w = s.worst;
     if (w) out.push(w.from ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : `The hardest hit you took: <b>${w.dmg}</b>, and no monster dealt it.`);
     else out.push('Nothing so much as scratched you.');
+    // the named champions cut down are told by name
+    const named = Object.keys(s.kills).filter(id => MONSTERS[id] && MONSTERS[id].named);
+    if (named.length) out.push(`You cut down <b>${named.map(id => escapeHtml(namedTitle(id))).join('</b> and <b>')}</b>.`);
     // the pictures below carry no names, so the kind that fell most often gets one here
     const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((x, y) => y[1] - x[1]);
     if (kills.length && kills[0][1] >= 3) out.push(`The ${escapeHtml(MONSTERS[kills[0][0]].name)}s came off worst: <b>${kills[0][1]}</b> never got up.`);
@@ -1753,8 +1764,8 @@ const UI = (() => {
     const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((a, b) => b[1] - a[1] || MONSTERS[b[0]].xp - MONSTERS[a[0]].xp);
     if (kills.length) {
       parts.push('<div class="end-h"><span>Slain</span></div><div class="end-kills">' + kills.map(([id, n]) => {
-        const mb = MONSTERS[id], art = Assets.sprites[mb.sprite];
-        const label = `${mb.name} \u00d7${n}`;
+        const mb = MONSTERS[id], base = Assets.sprites[mb.sprite], art = (mb.named && base && base.elite && base.elite[id]) || base;
+        const label = `${mb.named ? namedTitle(id) : mb.name} \u00d7${n}`;
         return `<div class="kill" data-kill="${id}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}"><img src="${art ? art.url : ''}" alt=""><span>\u00d7${n}</span></div>`;
       }).join('') + '</div>');
     } else parts.push('<p class="end-none">Nothing died by your hand.</p>');

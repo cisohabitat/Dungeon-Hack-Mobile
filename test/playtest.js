@@ -222,8 +222,8 @@ function play(ctx, cls, seed, opts, bg) {
         const fire = Game.knownSpells().find(sp => sp.fire && Game.spellAvailable(sp) && p.sp >= sp.cost);
         if (fire && Game.castSpell(fire) !== false) { rec.burned = (rec.burned || 0) + 1; step(); continue; }
       }
-      // a chant or the lich's rite is answered by striking it, not by stepping away
-      const trick = L.monsters.find(m => m.windup && m.windup.move && m.windup.move !== 'mend' && m.windup.move !== 'rite' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      // a chant, the lich's rite or a war-horn is answered by striking it, not by stepping away
+      const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
       if (trick && trick.windup.move === 'gaze') {
         const faces = dir => { const [ax, ay] = Dungeon.DIRS[dir], [bx, by] = Dungeon.DIRS[(dir + 1) % 4]; const dx = trick.x - p.x, dy = trick.y - p.y, f = dx * ax + dy * ay; return f > 0 && Math.abs(dx * bx + dy * by) <= f; };
@@ -584,6 +584,10 @@ function play(ctx, cls, seed, opts, bg) {
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
   rec.dual = !!p.eq.offhand;
+  // the named champions this run held, and which of them fell (NAMED=1 prints it)
+  rec.namedHeld = Object.values(Dungeon.namedPlan(seed, opts.levels));
+  rec.namedSlain = Object.keys(Game.runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named);
+  rec.namedKiller = rec.died ? rec.namedHeld.find(id => MONSTERS[id].name === rec.cause) || '' : '';
   if (process.env.RELICLOG) {
     // why a relic was left behind: out of reach without a key, or a full pack
     rec.relicLeft = rec.relicLeft || { reach: 0, locked: 0, full: p.inv.length >= Game.INV_MAX ? 1 : 0 };
@@ -707,6 +711,18 @@ if (process.env.RELICLOG) {
     for (const r of results[cls]) for (const k in (r.relicLeft || {})) t[k] += r.relicLeft[k];
     console.log(`   ${cls.padEnd(8)} relics left per run: reachable ${(t.reach / results[cls].length).toFixed(2)}, behind locks ${(t.locked / results[cls].length).toFixed(2)}; runs ending with a full pack ${t.full}`);
   }
+}
+// NAMED=1: for each named champion, how many runs reached its floor, how many
+// slew it, and how many it killed
+if (process.env.NAMED) {
+  const t = {};
+  for (const cls in results) for (const r of results[cls]) {
+    const plan = r.namedHeld || [];
+    for (const id of plan) (t[id] = t[id] || { held: 0, slain: 0, killed: 0 }).held++;
+    for (const id of r.namedSlain || []) t[id].slain++;
+    if (r.namedKiller) t[r.namedKiller].killed++;
+  }
+  for (const id in t) console.log(`   ${id.padEnd(8)} held in ${t[id].held} runs, slain in ${t[id].slain}, killed the hero in ${t[id].killed}`);
 }
 // CAUSES=1 lists what ended the runs that never left the first floor
 if (process.env.CAUSES) {

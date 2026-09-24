@@ -44,7 +44,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
   pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
-  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Eighteen monster types including undead, poisoners, a regenerating troll, a
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Eighteen monster types, and six named champions, including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
   enchantment, and a life-draining boss guarding the artifact on the deepest level. Which of
   them a floor holds goes by how far through the delve it is, so a short delve meets them all.
@@ -80,6 +80,16 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
   They hit harder, take more killing, and always drop something worth having.
+- **Named champions.** About a third and two thirds of the way down, one floor each is held by
+  a named foe, chosen by the seed from those that suit the depth: Grisk the Goblin King, Vessra
+  the Web-Mother, Ushgar the Orc Warchief, Morrow the Ghoul Lord, Orla the Hollow Abbess and
+  Gorrum the Troll-Father. Each is its kind grown great and washed in its own colour, asleep in
+  a lair away from the stairs with some of its kin, named in the log when you arrive, and given
+  a life bar across the top of the view once awake. Each sharpens its kind's trick (a horn that
+  calls kin at half health, webs or a claw twice as often, a hand that drinks your life), warned
+  of and answered like every other. It falls for a relic the traders were keeping for your
+  class, or a +2 piece and gold once they have none left, and the bestiary, end screen and Hall
+  of Heroes remember it.
 - **The deep answers strength.** A hero who arrives on a floor well ahead of the usual level
   finds it readier for them: its creatures take more killing, hit surer and harder, and more of
   them are champions. A hero on pace or behind finds each floor as it was made.

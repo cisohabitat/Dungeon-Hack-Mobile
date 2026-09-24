@@ -325,7 +325,8 @@ const Sound = (() => {
     smash: out => { noise(out, 0.3, 0.3, { f: 500, to: 120 }); tone(out, 60, 0.35, 'sine', 0.3, -25); clicks(out, 5, 0.3, 1500, 0.05); },
     web: out => { noise(out, 0.25, 0.12, { type: 'bandpass', f: 1800, q: 2, to: 900 }); tone(lp(out, 800), 300, 0.2, 'sine', 0.06, -150); },
     nova: out => { noise(out, 0.6, 0.2, { type: 'bandpass', f: 400, to: 2500, q: 0.8, attack: 0.1 }); tone(out, 1500, 0.5, 'sine', 0.04, -900, 0.1); tone(out, 60, 0.5, 'sine', 0.2, -20, 0.1); },
-    voice: (out, o) => (VOICE[VOICE_OF[o.who]] || VOICE.growl)(out, sizeOf(o)),
+    // a named champion speaks with its kind's voice, deepened by its size
+    voice: (out, o) => (VOICE[VOICE_OF[o.who] || VOICE_OF[MONSTERS[o.who] && MONSTERS[o.who].named ? MONSTERS[o.who].named.kin : '']] || VOICE.growl)(out, sizeOf(o)),
     growl: out => VOICE.growl(out, 1),
     death: (out, o) => (DEATH[o.gore] || DEATH.blood)(out, sizeOf(o)),
     raise: out => { noise(out, 0.9, 0.14, { f: 250, attack: 0.3 }); clicks(out, 10, 0.8, 1800, 0.07); tone(lp(out, 300), 50, 0.9, 'sawtooth', 0.08, 0, 0, 0.3); },
@@ -392,6 +393,18 @@ const Sound = (() => {
       const l = lp(out, 300);
       tone(l, 55, 2, 'sawtooth', 0.14, -5, 0, 0.6); tone(l, 58.3, 2, 'sawtooth', 0.12, -5, 0, 0.6);
       tone(out, 41, 2, 'sine', 0.15, 0, 0, 0.8); noise(out, 1.6, 0.06, { f: 200, attack: 0.6 });
+    },
+    // a war-horn sounded in the dark: two long brassy blasts
+    horn: out => {
+      const l = lp(out, 900);
+      tone(l, 147, 0.7, 'sawtooth', 0.12, 8, 0, 0.12); tone(l, 220, 0.7, 'sawtooth', 0.06, 12, 0.02, 0.12);
+      tone(l, 147, 1.1, 'sawtooth', 0.13, -10, 0.85, 0.15); tone(l, 196, 1.1, 'sawtooth', 0.07, -12, 0.87, 0.15);
+    },
+    // a named champion falls: a low blow, then a rising brass figure
+    namedfall: out => {
+      tone(out, 55, 1.2, 'sine', 0.25, -20, 0, 0.02);
+      noise(out, 0.8, 0.12, { f: 400, to: 80 });
+      [262, 330, 392, 523].forEach((f, i) => tone(lp(out, 1600), f, 0.5, 'sawtooth', 0.05, 0, 0.5 + i * 0.14, 0.04));
     },
     ambush: out => {
       noise(out, 0.08, 0.3, { f: 2500 });
