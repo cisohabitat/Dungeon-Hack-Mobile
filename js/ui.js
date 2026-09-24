@@ -49,7 +49,8 @@ const UI = (() => {
   /** The Daily Delve button says how today stands: fresh, waiting below, or done. */
   function refreshDaily() {
     const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
-    const waiting = !!s && s.seed === Daily.seedFor(key);
+    // the day's own run, not a custom one that borrowed its seed
+    const waiting = !!s && s.daily === key;
     const note = $('#daily-summary'), run = Daily.streak(key);
     $('#btn-daily').classList.toggle('done', st.state !== 'fresh' && !waiting);
     if (waiting) note.textContent = `Today's delve waits on floor ${s.depth}`;
@@ -72,7 +73,7 @@ const UI = (() => {
   /** The title's Daily Delve button: start today's, go back to it, or share how it went. */
   function dailyTap() {
     const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
-    if (s && s.seed === Daily.seedFor(key)) { if (Game.load()) startPlaying(); return; }
+    if (s && s.daily === key) { if (Game.load()) startPlaying(); return; }
     if (st.state === 'done') {
       const line = Daily.shareLine(key, st.done);
       copyText(line).then(ok => { $('#daily-summary').textContent = ok ? 'Copied: paste it anywhere' : line; });
@@ -379,7 +380,8 @@ const UI = (() => {
       cls: create.cls,
       bg: create.bg,
       stats: create.stats,
-      seed: ($('#c-seed').value || '').trim() || randomSeedWord(),
+      // a custom seed cannot borrow a Daily Delve's, or the day's one try could be practised first
+      seed: ((($('#c-seed').value || '').trim() || randomSeedWord())).replace(/^daily-/i, 'my-daily-'),
       opts: {
         levels: parseInt($('#c-levels').value, 10),
         size: $('#c-size').value,
@@ -1482,6 +1484,7 @@ const UI = (() => {
     const earned = won ? Game.earned() : null, news = [];
     if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!`);
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
+    if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     $('#end-trophy').textContent = news.join(' ');
     $('#end-trophy').style.display = news.length ? '' : 'none';
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];

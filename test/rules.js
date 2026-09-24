@@ -2325,6 +2325,65 @@ await test('a basilisk\'s gaze turns a hero looking at it to stone; one who turn
   return out.length ? out.join('; ') : true;
 });
 
+await test('stepping up to a basilisk does not beat its gaze, and one beside you gazes too; stone, you cannot turn', async () => {
+  const out = [];
+  {
+    // it rears at three squares; the hero steps up beside it, still looking
+    const ctx = await start('fighter', 'gaze-close');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, 'basilisk', 2, { hp: 999, maxHp: 999 });
+    m.windup = { kind: 'move', move: 'gaze', at: G.t, until: G.t + 1100 }; m.nextAct = m.windup.until;
+    { const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; p.x += dx; p.y += dy; }
+    run(Game, G, 1200);
+    if (!(p.held > G.t) || p.heldBy !== 'stone') out.push('stepping up to it and staring was spared');
+    else {
+      const d0 = p.dir; Game.input('left');
+      if (p.dir !== d0) out.push('a hero of stone turned');
+    }
+  }
+  {
+    // right beside it, it still starts a gaze
+    const ctx = await start('fighter', 'gaze-beside');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, 'basilisk', { hp: 999, maxHp: 999, blows: 1 });
+    let gazed = false;
+    for (let i = 0; i < 400 && !gazed; i++) { Game.update(G.t + 25, 25); if (m.windup && m.windup.move === 'gaze') gazed = true; p.hp = 9999; p.held = 0; }
+    if (!gazed) out.push('a basilisk beside the hero never gazed');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
+  const ctx = await start('fighter', 'rust-on');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.eq.armor.e = -3; p.eq.armor.h = 0;
+  const shieldBefore = p.eq.shield.e || 0;
+  const m = beside(ctx, 'rustmaw', { hp: 999, maxHp: 999, edge: 40 });
+  m.windup = { kind: 'move', move: 'rust', at: G.t, until: G.t }; m.nextAct = G.t;
+  Game.update(G.t + 25, 25);
+  const said = Game.state().log.slice(-4).map(e => e.m).join(' | ');
+  if (!/misses you/.test(said) && (p.eq.shield.e || 0) !== shieldBefore - 1) return `the shield stayed at ${p.eq.shield.e} (${said})`;
+  // the last floor of a four-floor delve sits at the foot of the tiers: its ambushes are deep things
+  const c2 = await newContext();
+  c2.Game.newGame({ name: 'A', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'ambush-tier', opts: { ...OPTS, levels: 4 } });
+  const G2 = c2.Game.state(), p2 = c2.Game.player();
+  goDown(c2); goDown(c2); goDown(c2);
+  if (G2.depth !== 4) return `reached floor ${G2.depth}, not 4`;
+  const kinds = new Set();
+  for (let i = 0; i < 30; i++) {
+    c2.Game.level().monsters.length = 0; c2.Game.level().rests = 1; p2.hp = 1; p2.food = 100;   // ambushes come from the second rest on
+    G2.t += 60000;
+    const before = c2.Game.level().monsters.length;
+    c2.Game.input('rest');
+    for (const mm of c2.Game.level().monsters.slice(before)) kinds.add(mm.id);
+  }
+  const shallow = [...kinds].filter(id => c2.MONSTERS[id].tier[1] < 8);
+  if (!kinds.size) return 'thirty rests on the deepest floor and nothing came';
+  return !shallow.length || `ambushes on the deepest floor brought ${shallow.join(', ')}`;
+});
+
 await test('a rustmaw\'s bite rusts the armour of a hero who stays; one who steps back keeps it, and the forge mends it', async () => {
   const out = [];
   for (const dodge of [false, true]) {
@@ -2372,7 +2431,8 @@ await test('a warned blow is not turned by armour: an ogre\'s crush lands on a h
     if (p.hp < hp0) landed++;
     G.t += 3000;
   }
-  return (tries >= 8 && landed >= tries - 3) || `${landed} of ${tries} crushes landed on a hero with sixty armour`;
+  // only a natural 1 turns one, so all but a few land (four 1s in twelve is a chance in five hundred)
+  return (tries >= 8 && landed >= tries - 5) || `${landed} of ${tries} crushes landed on a hero with sixty armour`;
 });
 
 await test('the tiers of monsters stretch over a short delve: an eight-floor delve meets the minotaur on its last floor, a long one keeps it deep', async () => {
@@ -4312,7 +4372,8 @@ const progressOf = ctx => JSON.parse(ctx.store.get('deepdelve.progress') || 'nul
 await test('a win earns its class a trophy at its difficulty, told the first time only; a death earns none', async () => {
   const ctx = await newContext();
   const { Game, Progress } = ctx;
-  const run = (cls, difficulty) => Game.newGame({ name: 'W', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-' + cls, opts: { ...OPTS, difficulty } });
+  // trophies are for a win on one life
+  const run = (cls, difficulty, permadeath = true) => Game.newGame({ name: 'W', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-' + cls, opts: { ...OPTS, permadeath, difficulty } });
   run('mage', 'hard');
   if (!winHere(Game)) return 'lifting the Heart did not win';
   const v = progressOf(ctx);
@@ -4325,7 +4386,7 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   if (Game.earned().first) return 'a second hard win as a mage was told as the first';
   if (progressOf(ctx).won.mage.hard !== 2) return 'the second win was not counted';
   // a run from before there was a choice is Normal
-  Game.newGame({ name: 'W', cls: 'thief', bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-old', opts: { ...OPTS } });
+  Game.newGame({ name: 'W', cls: 'thief', bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-old', opts: { ...OPTS, permadeath: true } });
   winHere(Game);
   if (!Game.earned().first || !Progress.hasWon('thief', 'normal')) return `an unmarked run: ${JSON.stringify(progressOf(ctx).won)}`;
   // the Daily Delve counts like any other run
@@ -4333,6 +4394,10 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   Game.newGame(daily);
   winHere(Game);
   if (!Progress.hasWon(daily.cls, 'normal')) return `a daily ${daily.cls} win did not count`;
+  // a win that could have been reloaded earns nothing, and says why
+  const kept = JSON.stringify(progressOf(ctx));
+  run('cleric', 'hard', false); winHere(Game);
+  if (JSON.stringify(progressOf(ctx)) !== kept || !Game.earned() || !Game.earned().reloadable) return `a reloadable win counted: ${JSON.stringify(Game.earned())}`;
   const before = JSON.stringify(progressOf(ctx));
   // a death is no trophy
   run('fighter', 'easy');
@@ -4403,7 +4468,7 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
 await test('the earned backgrounds are refused until won, then open with their perks', async () => {
   const ctx = await newContext();
   const { Game } = ctx;
-  const make = (bg, difficulty = 'normal') => { Game.newGame({ name: 'B', cls: 'fighter', bg, stats: { ...evenStats }, seed: 'bg-lock', opts: { ...OPTS, difficulty } }); return Game.player(); };
+  const make = (bg, difficulty = 'normal') => { Game.newGame({ name: 'B', cls: 'fighter', bg, stats: { ...evenStats }, seed: 'bg-lock', opts: { ...OPTS, permadeath: true, difficulty } }); return Game.player(); };
   if (make('returned').bg !== 'oathbroken') return `the Returned was taken while locked: ${Game.player().bg}`;
   if (Game.player().inv.some(it => it.t === 'potion_xheal')) return 'the locked perk came anyway';
   if (make('heartsworn').bg !== 'oathbroken') return 'the Heartsworn was taken while locked';

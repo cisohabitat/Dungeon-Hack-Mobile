@@ -774,8 +774,8 @@ const Game = (() => {
     else if (beltRoom(it.t) <= 0) { log(`Your belt holds ${BELT} of those already.`); }
     else if (beltRoom(it.t) < (it.q || 1)) {
       const room = beltRoom(it.t);
-      giveItem({ ...it, q: room }); it.q -= room;
-      log(`You take ${room} of them. Your belt holds no more.`); Sound.play('pickup');
+      if (giveItem({ ...it, q: room })) { it.q -= room; log(`You take ${room} of them. Your belt holds no more.`); Sound.play('pickup'); }
+      else log('Your pack is full.', 'bad');
     }
     else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); }
     else { log('Your pack is full.', 'bad'); }
@@ -1299,9 +1299,9 @@ const Game = (() => {
             if (Math.abs(dx) + Math.abs(dy) !== r) continue;
             const x = p.x + dx, y = p.y + dy;
             if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y)) continue;
-            const b = MONSTERS[e.ambush.id], hp = Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
-            L.monsters.push({ uid: 800000 + Math.floor(Dice.next() * 99999), id: e.ambush.id, x, y, hp, maxHp: hp, awake: true,
-              nextAct: G.t + 800, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+            const b = MONSTERS[e.ambush.id];
+            // as sturdy as the rest of the floor: the difficulty and the deep's pressure apply
+            newMonster(e.ambush.id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 800;
             placed++;
           }
         }
@@ -1941,7 +1941,9 @@ const Game = (() => {
   function recordHero(won) {
     const p = P();
     // trophies first, so a first win is told on the victory screen
-    if (won) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
+    // only a win on one life counts: a run that could be reloaded proves less
+    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
+    else if (won) G.earned = { reloadable: true };
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
       difficulty: G.opts.difficulty || 'normal', ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     try {
@@ -2233,7 +2235,9 @@ const Game = (() => {
       if (!monsterAt(x, y) && !npcAt(x, y)) cands.push([x, y]);
     }
     if (!cands.length) return false;
-    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && G.depth >= MONSTERS[id].tier[0] && G.depth <= MONSTERS[id].tier[1]);
+    // what finds the sleeper is what lives on this floor: the same stretched tiers
+    const td = Dungeon.tierAt(G.depth, G.opts.levels || 8);
+    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
     const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
     const [x, y] = Dice.pick(cands);
     newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 1500;
@@ -2464,7 +2468,7 @@ const Game = (() => {
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
     else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} reaches out with a numbing claw!`;
     else if (mv === 'nova' && novaReaches(m) && (m.blows || 0) >= 2) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
-    else if (mv === 'gaze' && hasLineToPlayer(m, 4) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
+    else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     if (!say) return false;
     m.blows = 0;
@@ -2573,7 +2577,8 @@ const Game = (() => {
       }
       case 'gaze': {
         // only a hero looking at it is caught: turning away is the answer
-        if (hasLineToPlayer(m, 5) && facing(m)) {
+        // stepping up to it does not help: close by, it is looking straight at you
+        if ((dist === 1 || hasLineToPlayer(m, 5)) && facing(m)) {
           const n = d(1, 6);
           p.held = Math.max(p.held || 0, G.t + (hasTalent('stand_firm') ? GAZE_MS / 2 : GAZE_MS)); p.heldBy = 'stone';
           hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs turn to stone! (${n})`, m, 'a basilisk\'s gaze');
@@ -2611,9 +2616,11 @@ const Game = (() => {
   /** A rustmaw's bite eats a point from the first metal it finds: armour, then shield, then blade. */
   function corrode() {
     const p = P();
-    const it = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, p.eq.shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].find(Boolean);
-    if (!it) { log('Its jaws find no metal on you to eat.'); return; }
-    if ((it.e || 0) <= -3) { log(`${cap(the(it))} is as rusted as it can be.`); return; }
+    const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, p.eq.shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
+    if (!metal.length) { log('Its jaws find no metal on you to eat.'); return; }
+    // what is rusted through already, it passes over for the next
+    const it = metal.find(x => (x.e || 0) > -3);
+    if (!it) { log('There is nothing left on you for the rust to take.'); return; }
     it.e = (it.e || 0) - 1;
     log(`Rust blooms where it bit${it.h ? `: ${the(it)} is the worse for it` : `. ${cap(the(it))} is eaten away`}.`, 'bad');
     emit('inv'); emit('stats');
@@ -3065,6 +3072,7 @@ const Game = (() => {
         else if (act === 'back') tryMove(2);
         else if (act === 'strafeR') tryMove(1);
         else if (act === 'strafeL') tryMove(3);
+        else if (P().held > G.t) blocked(heldWhy());   // stone or sprawled, you cannot turn either
         else if (act === 'left') turn(-1);
         else turn(1);
         break;
@@ -3281,7 +3289,7 @@ const Game = (() => {
       const s = localStorage.getItem(SAVE_KEY);
       if (!s) return null;
       const g = JSON.parse(s);
-      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed };
+      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed, daily: (g.opts && g.opts.daily) || '' };
     } catch (e) { return null; }
   }
 

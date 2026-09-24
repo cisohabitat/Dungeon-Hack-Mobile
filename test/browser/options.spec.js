@@ -120,6 +120,25 @@ test.describe('the Daily Delve', () => {
     return page.evaluate(() => { const G = Game.state(), p = G.player; return { seed: G.seed, cls: p.cls, bg: p.bg, name: p.name, stats: p.stats, opts: G.opts }; });
   }
 
+  test('a custom game cannot borrow the day\'s seed to practise it, nor pass itself off as the day\'s run', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.clock.setFixedTime(DAY);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.goto('/');
+    await page.click('#btn-new');
+    await page.fill('#c-seed', 'daily-2026-09-24');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    const seed = await page.evaluate(() => Game.state().seed);
+    expect(seed).not.toBe('daily-2026-09-24');
+    // back on the title, with that run saved, today's one try is still today's
+    await page.evaluate(() => Game.save(true));
+    await page.goto('/');
+    await expect(page.locator('#daily-summary')).not.toContainText('waits');
+    expect(errors).toEqual([]);
+  });
+
   test('gives everyone the same dungeon and hero on the same day, and one try', async ({ page, browser }) => {
     const errors = watchForErrors(page);
     const first = await startDaily(page);
