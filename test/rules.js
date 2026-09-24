@@ -1550,6 +1550,20 @@ await test('a belt holds five of each draught: the rest stays on the floor, and 
   return true;
 });
 
+await test('standing on potions the belt has no room for, Use says Belt full and why', async () => {
+  const ctx = await start('fighter', 'belt-label');
+  const { Game } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
+  L.monsters.length = 0;
+  p.inv = p.inv.filter(i => i.t !== 'potion_heal'); p.inv.push({ t: 'potion_heal', q: 5, e: 0 });
+  // face open floor, so nothing ahead takes the button
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR;
+  L.items[`${p.x},${p.y}`] = [{ t: 'potion_heal', q: 2, e: 0 }];
+  if (Game.useLabel() !== 'Belt full') return `Use says ${Game.useLabel()}`;
+  const mark = markLog(G);
+  Game.input('use');
+  return linesSince(G, mark).some(l => /belt holds 5 of each draught/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+});
+
 await test('the score counts depth, experience and a win, not gold hoarded', async () => {
   const ctx = await start('fighter', 'score');
   const { Game } = ctx;

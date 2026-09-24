@@ -208,7 +208,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud-status .good { color: #8f8; }
 /* the oldest line fades out at the top rather than being sliced through */
 .log { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1.3em); mask-image: linear-gradient(to bottom, transparent 0, #000 1.3em); }
-.log { flex: 1 1 auto; height: 6.4em; min-height: 5.6em; overflow: hidden; padding: 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
+.log { flex: 1 1 auto; height: 6.4em; min-height: 5.6em; overflow: hidden; padding: 4px 68px 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
 /* lines wrap rather than truncate: on a phone the ellipsis was eating the
    damage and the dice, which were the parts worth reading. They must not
    shrink either, or the flex column squashes a wrapped line back to one row
@@ -225,7 +225,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log div:last-child { font-weight: bold; }
 .controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 10px 8px; }
 /* The log is not a button: a thumb that strays up off the d-pad used to open
-   the history. Its own small button sits in the corner furthest from the pad. */
+   the history. Its own small button sits in the corner furthest from the pad,
+   and the log keeps a margin clear for it so no line runs under it. */
 .log-more-anchor { position: relative; height: 0; z-index: 2; }
 .log-more { position: absolute; right: 4px; top: 4px; min-width: 56px; min-height: 44px; padding: 0 10px; font-size: 0.8rem; color: #cfc8ba; background: rgba(20, 18, 30, 0.85); border: 1px solid var(--border); border-radius: 8px; }
 /* and the top row of pads reaches a little up, so a press that lands just

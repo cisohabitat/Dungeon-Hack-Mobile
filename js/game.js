@@ -981,8 +981,12 @@ const Game = (() => {
     if (t === T.DOOR_OPEN) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
     if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
+    // draughts underfoot the belt has no room for: say why they stay there
+    if (beltFull()) return 'Belt full';
     return 'Use';
   }
+  /** Potions lie underfoot, and the belt holds all it can of every one of them. */
+  const beltFull = () => floorItems().some(it => it.t in ITEMS && ITEMS[it.t].kind === 'potion' && beltRoom(it.t) <= 0);
   function tryMove(rel) {
     const p = P();
     if (p.held > G.t) { blocked(heldWhy()); return false; }
@@ -1155,6 +1159,7 @@ const Game = (() => {
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
     if ((lvl().items[key(tx, ty)] || []).length) { logMerged('Step forward onto it to pick it up.'); return; }
+    if (beltFull()) { logMerged(`Your belt holds ${BELT} of each draught. Drink one to make room, or leave these.`); return; }
     logMerged('There is nothing to use here.');
   }
 
@@ -2622,7 +2627,7 @@ const Game = (() => {
     const it = metal.find(x => (x.e || 0) > -3);
     if (!it) { log('There is nothing left on you for the rust to take.'); return; }
     it.e = (it.e || 0) - 1;
-    log(`Rust blooms where it bit${it.h ? `: ${the(it)} is the worse for it` : `. ${cap(the(it))} is eaten away`}.`, 'bad');
+    log(it.h ? `Rust blooms where it bit: ${the(it)} is the worse for it.` : `Rust blooms where it bit: your ${ITEMS[it.t].name} rusts (now ${it.e >= 0 ? '+' : '\u2212'}${Math.abs(it.e)}). A trader's forge can mend it.`, 'bad');
     emit('inv'); emit('stats');
   }
   /** What a monster's trick does when it is hurt and still standing. */

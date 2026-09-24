@@ -443,6 +443,36 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { seed: 'stale-tip' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 8, id: 'basilisk', x: p.x + dx * 3, y: p.y + dy * 3, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+        windup: { kind: 'move', move: 'gaze', at: G.t, until: G.t + 60000 } });
+    });
+    await expect(page.locator('#tip')).toContainText('turn away', { timeout: 2000 });
+    // the gaze is over (the creature is gone): the warning follows it
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 4000 });
+    // long lines in the log keep clear of the Log button in its corner
+    await page.evaluate(() => { for (let i = 0; i < 4; i++) Game.log('The Basilisk rears its head, and its eyes begin to blaze! Look away! Look away now!'); });
+    await page.waitForTimeout(200);
+    const clash = await page.evaluate(() => {
+      const b = document.getElementById('log-more').getBoundingClientRect();
+      return [...document.querySelectorAll('#log div')].some(d => {
+        const r = d.getBoundingClientRect(), range = document.createRange(); range.selectNodeContents(d);
+        return [...range.getClientRects()].some(t => t.bottom > b.top && t.top < b.bottom && t.right > b.left + 1);
+      });
+    });
+    expect(clash, 'log text runs under the Log button').toBe(false);
+    expect(errors).toEqual([]);
+  });
+
   test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
     await startGame(page, { seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);

@@ -465,6 +465,16 @@ const UI = (() => {
     // a tip about the thing in front of you goes when that thing does
     const USE_TIPS = { take: 'Take', stairs: 'Descend', examine: 'Examine', trade: 'Trade' };
     if (el && el.classList.contains('show') && USE_TIPS[el.dataset.tip || ''] && Game.state() && Game.useLabel() !== USE_TIPS[el.dataset.tip || '']) { el.classList.remove('show'); tipUntil = now; }
+    // a warning goes when what it warned of does: a wind-up come down, an
+    // opening taken or gone. It stays long enough to be read first.
+    const G0 = Game.state();
+    if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
+      const p0 = Game.player(), L0 = Game.level();
+      const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const read = el.dataset.tip === 'trick' ? 2500 : 1200;
+      if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
+    }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
     if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
@@ -476,7 +486,7 @@ const UI = (() => {
     if (readying('gaze') && showTip('gaze', true)) return;
     if (readying('rust') && showTip('rust', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
-    if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick')) return;
+    if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     if (close && showTip('monster')) return;
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
@@ -808,7 +818,9 @@ const UI = (() => {
   /** Fill el with the bestiary; returns the count line. */
   function renderBestiary(el) {
     const known = Game.bestiary();
-    const ids = Object.keys(MONSTERS).sort((a, b) => MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
+    // what has been met comes first, then what has not, each shallowest first
+    const seen = id => known[id] && known[id].met ? 0 : 1;
+    const ids = Object.keys(MONSTERS).sort((a, b) => seen(a) - seen(b) || MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
     const met = ids.filter(id => known[id] && known[id].met).length;
     el.innerHTML = '<div class="beasts">' + ids.map(id => {
       const mb = MONSTERS[id], r = known[id] || { met: 0, kills: 0, deaths: 0 }, lore = BESTIARY[id] || {};
@@ -841,11 +853,12 @@ const UI = (() => {
   const KIND_NAMES = { weapon: 'Weapon', armor: 'Armour', shield: 'Shield' };
   /** Fill el with every relic, found or not; returns the count line. */
   function renderCodex(el) {
-    const found = Progress.load().relics, ids = Object.keys(RELICS);
+    // found ones first; one still to find says what sort of thing to look for
+    const found = Progress.load().relics, ids = Object.keys(RELICS).sort((a, b) => Number(!found.includes(a)) - Number(!found.includes(b)));
     el.innerHTML = '<div class="codex">' + ids.map(id => {
       const r = RELICS[id], b = ITEMS[r.t], kind = KIND_NAMES[b.kind] || b.kind;
       // one not yet found shows only what sort of thing it is
-      if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}</p></div></div>`;
+      if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind} · a ${escapeHtml(b.name)}</p></div></div>`;
       const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
       return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
         + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}</p>`
@@ -1116,6 +1129,8 @@ const UI = (() => {
     else if (it.curse) info += selectedSlot
       ? ' Cursed: it will not come off. Read a Scroll of Remove Curse, pray at a shrine, or pay a trader to lift it.'
       : ' Cursed: once worn, it will not come off until the curse is broken.';
+    // rusted, or simply poorly made: the forge can put it right
+    else if ((it.e || 0) < 0 && (b.kind === 'weapon' || b.kind === 'armor')) info += ' Worn or rusted: a trader\'s forge can mend it.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
     const compare = selectedSlot ? '' : compareText(it, b);
     // a relic spells out each power in full, then tells its story
@@ -1485,6 +1500,11 @@ const UI = (() => {
     if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!`);
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
     if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
+    // and the next thing to aim for, while a past is still locked
+    else if (won) {
+      const next = Object.keys(BACKGROUNDS).find(id => BACKGROUNDS[id].unlock && !Progress.bgOpen(id));
+      if (next) news.push(`Win on ${BACKGROUNDS[next].unlock === 'hard' ? 'Hard' : 'Normal or Hard'} to open ${BACKGROUNDS[next].name}.`);
+    }
     $('#end-trophy').textContent = news.join(' ');
     $('#end-trophy').style.display = news.length ? '' : 'none';
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
