@@ -39,7 +39,14 @@ function run(ctx, cls, seed, opts, bg) {
 function play(ctx, cls, seed, opts, bg) {
   const { Game, Dungeon, ITEMS, RELICS } = ctx;
   const T = Dungeon.T;
-  Game.newGame({ name: 'Bot', cls, bg, stats: Game.rollStats(), seed, opts });
+  // FIT=1 does what the creation screen does: the best roll goes in the class's key stat
+  const stats = Game.rollStats();
+  if (process.env.FIT) {
+    const key = ctx.CLASSES[cls].primary;
+    const best = Object.keys(stats).reduce((a, b) => (stats[b] > stats[a] ? b : a), key);
+    [stats[key], stats[best]] = [stats[best], stats[key]];
+  }
+  Game.newGame({ name: 'Bot', cls, bg, stats, seed, opts });
   // Measuring the build, not the drop rate: without this only about a third of
   // runs happen to find a light blade, and the comparison mostly reports how
   // often loot obliged.
@@ -95,6 +102,11 @@ function play(ctx, cls, seed, opts, bg) {
   };
   while (rec.ticks < 80000 && G.status === 'playing') {
     rec.ticks++;
+    // DETAIL=1: note the hero's state on arriving at each floor (read-only, no dice)
+    if (rec._lastDepth !== G.depth) {
+      rec._lastDepth = G.depth;
+      (rec.arrive = rec.arrive || {})[G.depth] = { lvl: p.level, maxHp: p.maxHp, hp: p.hp, pots: p.inv.filter(i => i.t === 'potion_heal' || i.t === 'potion_xheal').reduce((a, i) => a + (i.q || 1), 0), gold: p.gold, t: G.t };
+    }
     if (p.hp <= p.maxHp * 0.5) { const s2 = snap(); rec.lastAdj = s2.adj; rec.lastNear = s2.near; rec.lastAwake = s2.awake; rec.lastTotal = s2.total; }
     now += TICK;
     // experience offers a choice on every level; take the most useful one
@@ -159,7 +171,7 @@ function play(ctx, cls, seed, opts, bg) {
         if (b.kind !== 'weapon') return bx.ac + e + powers.length;
         const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
         const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);
-        return dps * (bx.range ? 1.5 : 1) * (1 + powers.filter(k => k !== 'swift').length / 6);   // reach is worth paying for
+        return dps * (bx.range ? (process.env.MELEE && p.cls === process.env.MELEE ? 0.5 : 1.5) : 1) * (1 + powers.filter(k => k !== 'swift').length / 6);   // reach is worth paying for
       };
       if (val(it) > val(cur)) Game.equip(it, true);
     }
@@ -496,6 +508,7 @@ function play(ctx, cls, seed, opts, bg) {
   }
   const fin = snap();
   rec.adjAtEnd = fin.adj; rec.nearAtEnd = fin.near; rec.awakeAtEnd = fin.awake; rec.totalAtEnd = fin.total;
+  if (process.env.DUMP) rec.tail = G.log.slice(-parseInt(process.env.DUMP, 10)).map(l => l.m);
   rec.killerLog = G.log.slice(-6).map(l => l.m).filter(m => /hits you|shoots|poison|starv|trap|dart|needle|pit/i.test(m)).slice(-3);
   rec.goldSpent = rec.goldSpent || 0;
   rec.depth = G.depth;
@@ -519,6 +532,7 @@ function play(ctx, cls, seed, opts, bg) {
       }
     }
   }
+  rec.potsAtEnd = p.inv.filter(i => i.t === 'potion_heal' || i.t === 'potion_xheal').reduce((a, i) => a + (i.q || 1), 0);
   rec.cursedAtEnd = Object.values(p.eq).some(i => i && i.curse) ? 1 : 0;
   rec.relics = [...p.inv, ...Object.values(p.eq)].filter(i => i && i.u).length;
   rec.relicsWorn = Object.values(p.eq).filter(i => i && i.u).length;
@@ -530,7 +544,8 @@ function play(ctx, cls, seed, opts, bg) {
 const opts = { levels: 8, size: 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
 // A fixed seed set so results are comparable between tuning passes. The dice are
 // seeded per run too, so the same command twice gives the same answer.
-const SEEDS = Array.from({ length: 20 }, (_, i) => 'bench' + i);
+// SEEDN / SEEDPFX pick a larger or different seed set (defaults: the 20 bench seeds)
+const SEEDS = Array.from({ length: parseInt(process.env.SEEDN || '20', 10) }, (_, i) => (process.env.SEEDPFX || 'bench') + i);
 const TRIALS = parseInt(process.argv[3] || '2', 10);
 const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief'];
 async function main() {
@@ -578,6 +593,36 @@ if (process.env.DEATHS) {
     for (const r of dead) killers[r.cause] = (killers[r.cause] || 0) + 1;
     const top = Object.entries(killers).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k} ${n}`).join(', ');
     console.log(`   ${cls.padEnd(8)} died on floor: ${Object.entries(byFloor).map(([f, n]) => `${f}:${n}`).join(' ')}  | killers: ${top}`);
+  }
+}
+// DETAIL=1: killers per floor, level at death, and the hero's state arriving on each floor
+if (process.env.DETAIL) {
+  for (const cls in results) {
+    const rows = results[cls], dead = rows.filter(r => r.died);
+    const byF = {};
+    for (const r of dead) { const f = r.deepest; (byF[f] = byF[f] || {}); byF[f][r.cause] = (byF[f][r.cause] || 0) + 1; }
+    for (const f of Object.keys(byF).sort((a, b) => a - b)) console.log(`   ${cls} F${f}: ${Object.entries(byF[f]).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(', ')}`);
+    const lv = {}; for (const r of dead) { const k = `F${r.deepest}`; (lv[k] = lv[k] || []).push(r.level); }
+    console.log(`   ${cls} heal potions carried at death: ${dead.map(r => `F${r.deepest}:${r.potsAtEnd}`).join(' ')}`);
+    console.log(`   ${cls} level at death: ${Object.entries(lv).map(([k, a]) => `${k}:[${a.sort((x, y) => x - y).join(',')}]`).join(' ')}`);
+    const line = [];
+    for (let f = 1; f <= 8; f++) {
+      const a = rows.filter(r => r.arrive && r.arrive[f]).map(r => r.arrive[f]);
+      if (!a.length) continue;
+      const av = k => (a.reduce((s, x) => s + x[k], 0) / a.length);
+      line.push(`F${f} n${a.length} L${av('lvl').toFixed(1)} hp${av('hp').toFixed(0)}/${av('maxHp').toFixed(0)} pot${av('pots').toFixed(1)} g${av('gold').toFixed(0)} t${(av('t') / 60000).toFixed(1)}m`);
+    }
+    console.log(`   ${cls} arrive: ${line.join(' | ')}`);
+    const wins = rows.filter(r => r.won);
+    if (wins.length) console.log(`   ${cls} winners end: level ${(wins.reduce((s, r) => s + r.level, 0) / wins.length).toFixed(1)}, gold ${(wins.reduce((s, r) => s + r.goldFound, 0) / wins.length).toFixed(0)}, potions drunk ${(wins.reduce((s, r) => s + r.potionsDrunk, 0) / wins.length).toFixed(1)}, hpLow ticks ${(wins.reduce((s, r) => s + r.hpLow, 0) / wins.length).toFixed(0)}, runs that dipped <30% hp ${wins.filter(r => r.hpLow > 0).length}/${wins.length}`);
+  }
+}
+// DUMP=n (with DUMPF=floor): the last n log lines of each death on that floor
+if (process.env.DUMP) {
+  for (const cls in results) for (const r of results[cls]) {
+    if (!r.died || (process.env.DUMPF && String(r.deepest) !== process.env.DUMPF)) continue;
+    console.log(`--- ${cls} ${r.seed} ${r.bg} F${r.deepest} L${r.level} killed by ${r.cause}`);
+    for (const m of r.tail || []) console.log('    ' + m);
   }
 }
 // ENCLOG=1: what encounters handed each class per run, and its commonest choices

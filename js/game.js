@@ -2205,7 +2205,10 @@ const Game = (() => {
       return false;
     }
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
-    if (roll === 20 && !h.mult) dmg *= 2;          // a crushing blow is doubled already
+    // a crushing blow is doubled already; and on the first two floors a lucky
+    // blow is not doubled at all: a level-one hero's whole life was a goblin's
+    // one roll of 20, and those deaths taught nothing
+    if (roll === 20 && !h.mult && G.depth >= 3) dmg *= 2;
     const firm = heavy && hasTalent('stand_firm');
     if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = relativeBearing(m);
