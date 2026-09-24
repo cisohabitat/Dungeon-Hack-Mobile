@@ -158,6 +158,16 @@ const CLASSES = {
   },
 };
 
+// Names for a hero who would rather not choose: valley names, short enough
+// for the HUD, none of them famous.
+const HERO_NAMES = [
+  'Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine',
+  'Ysolde', 'Garrow', 'Emeric', 'Nell', 'Doran', 'Ilse', 'Cadoc', 'Mirren', 'Tobin', 'Ashe', 'Veyra', 'Holt',
+  'Brisa', 'Anselm', 'Quill', 'Marta', 'Evander', 'Lark', 'Osric', 'Juniper', 'Talan', 'Petra', 'Caspian', 'Rhiannon',
+  'Halvard', 'Senna', 'Bram', 'Odile', 'Kestrel', 'Morwen', 'Ulric', 'Tessaly', 'Garnet', 'Faelan', 'Isolde', 'Dunstan',
+  'Elowen', 'Cormac', 'Linnet', 'Ragna', 'Silas', 'Thessaly', 'Aric', 'Bryony', 'Gideon', 'Maud', 'Torvin', 'Ottilie',
+];
+
 const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
 
 const ITEMS = {
@@ -369,4 +379,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY, TALENTS };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY, TALENTS };

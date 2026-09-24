@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS } from './data.js';
+import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -1587,6 +1587,14 @@ const UI = (() => {
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
     $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
+    // a name for a hero who would rather not choose; never the same one twice running
+    $('#c-name-rand').addEventListener('click', e => {
+      e.preventDefault();
+      const was = $('#c-name').value;
+      let name = was;
+      while (name === was) name = HERO_NAMES[Math.floor(Math.random() * HERO_NAMES.length)];
+      $('#c-name').value = name;
+    });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);
     $('#pro-begin').addEventListener('click', commitGame);

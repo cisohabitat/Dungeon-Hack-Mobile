@@ -42,6 +42,9 @@ input { width: 100%; }
 label.field { display: block; margin: 10px 0; }
 label.field input { margin-top: 4px; }
 label.field .row { margin-top: 4px; }
+/* the dice beside the name and the seed: a thumb's width, not a fingertip's */
+label.field .row input { flex: 1 1 auto; min-width: 0; }
+label.field .row button.small { flex: 0 0 auto; min-width: 44px; min-height: 44px; font-size: 1.1rem; }
 canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 /* Title */

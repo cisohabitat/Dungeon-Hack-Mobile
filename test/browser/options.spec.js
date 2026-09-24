@@ -224,3 +224,29 @@ test.describe('difficulty', () => {
     await expect(page.locator('#m-seed')).toContainText('Normal');
   });
 });
+
+test.describe('the hero\'s name', () => {
+  test('the button beside the name gives a random name, a new one each press, and the hero takes it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    const btn = page.locator('#c-name-rand');
+    await expect(btn).toBeVisible();
+    const box = await btn.boundingBox();
+    expect(box.width >= 44 && box.height >= 44, `button is ${box.width}x${box.height}`).toBe(true);
+    await btn.click();
+    const first = await page.inputValue('#c-name');
+    const names = await page.evaluate(() => window.HERO_NAMES || null);
+    expect(first.length > 0, 'no name was given').toBe(true);
+    if (names) expect(names).toContain(first);
+    await btn.click();
+    const second = await page.inputValue('#c-name');
+    expect(second).not.toBe(first);
+    await page.fill('#c-seed', 'named');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.player().name)).toBe(second);
+    expect(errors).toEqual([]);
+  });
+});
