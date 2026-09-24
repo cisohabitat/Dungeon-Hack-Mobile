@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, POSES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -67,6 +67,23 @@ for (const k in CREATURES) {
   color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / aw)); });
   if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats: its lowest pixel is row ${lowest}, the floor is 31`);
   masks[k] = color.map(Boolean);
+}
+// A creature's other poses (a blow drawn back, a trick readied) paint from
+// the same parts, stand on the same floor, and are a different picture
+for (const k in POSES) {
+  check(CREATURES[k], `poses are given for '${k}', which is not a creature`);
+  if (!CREATURES[k]) continue;
+  const rest = paintParts(CREATURES[k]()).color;
+  for (const pose of POSES[k]) {
+    check(['windup', 'special'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
+    const { color } = paintParts(CREATURES[k](pose));
+    const filled = color.filter(Boolean);
+    check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
+    let lowest = -1, moved = 0;
+    color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); if (c !== rest[i]) moved++; });
+    if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats in its ${pose} pose`);
+    check(moved > 60, `${k}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
+  }
 }
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);

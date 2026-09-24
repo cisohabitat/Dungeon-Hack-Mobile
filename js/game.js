@@ -1375,8 +1375,11 @@ const Game = (() => {
     bone: { c: ['#e8e0cc', '#b8ae98', '#8a8070'], g: 7, stain: false },
     ecto: { c: ['#a8d8ff', '#e0f4ff', '#6aa0d8'], g: -0.5, stain: false, glow: true },
     spark: { c: ['#fff4c0', '#ffd060', '#ff9030'], g: 2.5, stain: false, glow: true },
+    bile: { c: ['#3e4832', '#5c6848', '#262c1e'], g: 6, stain: true },
+    rust: { c: ['#8a4a1e', '#b86a2e', '#5a2c12'], g: 6, stain: true },
   };
-  const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone' };
+  const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
+    basilisk: 'bile', rustmaw: 'rust' };
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
   // What is only for the eye draws on its own numbers, never the dice's:
   // a spray of blood must not change what the next blow rolls.
