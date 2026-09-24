@@ -1197,9 +1197,9 @@ const UI = (() => {
         // a light blade can go in either hand, so offer the second one
         if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
       }
-      else if (b.kind === 'food') add('Eat', () => Game.useItem(it), 'primary');
-      else if (b.kind === 'potion') add('Drink', () => Game.useItem(it), 'primary');
-      else if (b.kind === 'scroll') add('Read', () => Game.useItem(it), 'primary');
+      else if (b.kind === 'food') add('Eat', () => useFromPack(it), 'primary');
+      else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
+      else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');
       // an unknown potion or scroll can be puzzled out instead of risked
       if (((b.kind === 'potion' || b.kind === 'scroll') && !Game.isKnown(it.t)) || it.h) {
         const block = Game.studyReason(it);
@@ -1209,6 +1209,17 @@ const UI = (() => {
       add('Drop', () => Game.dropItem(it), 'danger');
     }
     add('Close', () => {});
+  }
+
+  // Used from the pack in a fight, a draught or scroll closes the pack: the
+  // point of reading fire at a goblin is to see it land, and to be back at the
+  // controls. Out of a fight the pack stays open for the next thing.
+  function useFromPack(it) {
+    const p = Game.player(), count = () => p.inv.reduce((a, i) => a + (i.q || 1), 0), before = count();
+    Game.useItem(it);
+    const L = Game.level();
+    const fighting = Game.bossAwake() || L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
+    if (fighting && count() < before && overlay === 'inv') setTimeout(() => { if (overlay === 'inv') closeOverlay(); }, 0);
   }
 
   // How an unequipped piece of gear stacks up against the one in its slot.

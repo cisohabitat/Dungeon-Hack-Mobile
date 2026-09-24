@@ -65,6 +65,33 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a scroll can be read in a fight on a small phone with a full pack, and the pack gets out of the way', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'scroll-fight' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.hp = p.maxHp = 999;
+      for (const t of ['potion_heal', 'scroll_map', 'ration', 'dagger', 'club', 'leather', 'potion_cure', 'scroll_uncurse', 'shortsword', 'sling', 'potion_mana', 'buckler', 'potion_might', 'scroll_heal', 'mace', 'spear'])
+        if (p.inv.length < Game.INV_MAX - 1) p.inv.push({ t, q: 1, e: 0 });
+      p.inv.push({ t: 'scroll_fire', q: 1, e: 0 }); G.known.scroll_fire = 1;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 91, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx, ry: p.y + dy, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: 'Scroll of Fire' }).click();
+    const read = page.locator('#item-detail button', { hasText: /^Read$/ });
+    const box = await read.boundingBox();
+    expect(box && box.y + box.height <= 568, `Read is off the bottom of the screen at ${box && box.y}`).toBe(true);
+    await read.click();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.level().monsters[0].hp)).toBeLessThan(500);
+    expect(errors).toEqual([]);
+  });
+
   test('the text a player reads clears the 4.5:1 contrast minimum', async ({ page }) => {
     await startGame(page, { seed: 'ui-contrast' });
     await clearBoons(page);
