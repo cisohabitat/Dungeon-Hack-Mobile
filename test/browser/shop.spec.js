@@ -78,6 +78,40 @@ test.describe('the trader', () => {
     expect(trade.known, 'the trader tells you what it is').toBe(true);
   });
 
+  test('a dear purchase asks twice, a cheap one and a sale do not, and the whole row answers a tap', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'shop-buy', levels: '8' });
+    const found = await findTrader(page);
+    test.skip(!found || found.noApproach, 'no reachable trader in the first seven levels');
+    await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.gold = 100000;
+      // one dear thing and one cheap one, set out before the shop opens
+      const n = (L.npcs || []).find(q => q.x === p.x + dx && q.y === p.y + dy);
+      n.stock = [{ t: 'plate', q: 1, e: 2 }, { t: 'ration', q: 3, e: 0 }];
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 120));
+    });
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    const gold = () => page.evaluate(() => Game.player().gold);
+    const rows = page.locator('#shop-stock .shop-row');
+    const g0 = await gold();
+    await rows.nth(0).locator('button').click();
+    expect(await gold(), 'the first tap on a dear thing only arms it').toBe(g0);
+    await expect(rows.nth(0).locator('button')).toContainText('Tap again');
+    await rows.nth(0).locator('button').click();
+    expect(await gold(), 'the second tap pays').toBeLessThan(g0);
+    // a cheap thing: one tap on the row's text buys it
+    const g1 = await gold();
+    await page.locator('#shop-stock .shop-row', { hasText: /ration/i }).locator('.what').click();
+    expect(await gold()).toBeLessThan(g1);
+    // selling the plate back never asks: it gives gold
+    const g2 = await gold();
+    await page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button').click();
+    expect(await gold()).toBeGreaterThan(g2);
+    expect(errors).toEqual([]);
+  });
+
   test('the trader refuses the Heart and will not sell on credit', async ({ page }) => {
     await startGame(page, { seed: 'shop-guard', levels: '8' });
     const found = await findTrader(page);

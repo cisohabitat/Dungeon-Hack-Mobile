@@ -235,7 +235,11 @@ const Game = (() => {
   }
   /** Whether an effect is on, and was put there by this spell (not a shrine's blessing). */
   function effectFrom(name, spell) { const e = P().effects[name]; return !!(e && e.until > G.t && e.src === spell); }
-  function effect(name) {
+  // A blessing bought or prayed for (the vigil lamp, a shrine) keeps its own
+  // slot beside a spell's, and the two add: casting Shield must not wipe out
+  // minutes of a ward paid for in gold, nor the ward Shield's own powers.
+  function effect(name) { return ownEffect(name) + ownEffect('boon_' + name); }
+  function ownEffect(name) {
     const e = P().effects[name];
     return e && e.until > G.t ? e.amount : 0;
   }
@@ -1339,7 +1343,7 @@ const Game = (() => {
       if (e.loot != null) out.push(`Found: ${pickUp(Dungeon.rollLoot(Dice, G.depth + e.loot))}`);
       if (e.item) out.push(`Found: ${pickUp({ t: e.item.t, q: e.item.q || 1, e: 0 })}`);
       if (e.buff) {
-        for (const [stat, n] of e.buff.stats) p.effects[stat] = { amount: n, until: G.t + e.buff.dur };
+        for (const [stat, n] of e.buff.stats) p.effects['boon_' + stat] = { amount: n, until: G.t + e.buff.dur };
         out.push(`Blessed: ${e.buff.stats.map(([s, n]) => `+${n} ${s === 'hit' ? 'to hit' : s === 'ac' ? 'armour' : s}`).join(', ')} for ${Math.round(e.buff.dur / 60000)} minutes`);
       }
       if (e.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); out.push('Poisoned'); }
@@ -1703,7 +1707,8 @@ const Game = (() => {
     p.xp += xp;
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
-    const drawn = castingName && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
+    // (a spell, cast: the fire scroll's blast names itself 'fireball' but is no spell)
+    const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
     p.sp += drawn;
     log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`, 'good');
     meet(m, 'kill');
@@ -2005,7 +2010,7 @@ const Game = (() => {
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
     else if (won) G.earned = { reloadable: true };
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
-      difficulty: G.opts.difficulty || 'normal', ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
+      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     try {
       const list = hall();
       list.push(entry);
@@ -2148,7 +2153,7 @@ const Game = (() => {
     if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
-    if (sp.kind === 'buff' && effect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
+    if (sp.kind === 'buff' && ownEffect(sp.stat) >= sp.amount) return `${sp.name} is already upon you.`;
     return null;
   }
   // A spell takes time, and shares the swing's timer. Casting used to cost
@@ -2562,7 +2567,12 @@ const Game = (() => {
         const door = inLine ? doorInCharge(m, w) : null;
         if (door) {
           let x = m.x, y = m.y;
-          while (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) { x += w.dx || 0; y += w.dy || 0; }
+          // it thunders up to the door, but not through anything standing in the way
+          while (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) {
+            const nx = x + (w.dx || 0), ny = y + (w.dy || 0);
+            if (monsterAt(nx, ny) || npcAt(nx, ny)) break;
+            x = nx; y = ny;
+          }
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           log(`The ${mb.name} slams into the shut door and reels back, wide open!`, 'good');
           Sound.play('smash', heard(m));
@@ -2748,8 +2758,9 @@ const Game = (() => {
   }
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
-    // a numbing claw is struck aside by a blow that lands first, and leaves it open
-    if (m.windup && m.windup.move === 'paralyse') {
+    // a numbing claw is struck aside by a blow that lands first, and leaves it
+    // open: a blow or a spell, not poison or fire already eating at it
+    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns'].includes(tag)) {
       m.windup = null; m.moveReady = G.t + 3000; m.nextAct = G.t + 900;
       log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
       learn(m.id, 'answer');
@@ -3181,7 +3192,7 @@ const Game = (() => {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
       else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.', null, 'poison'); }
     }
-    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
+    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k.startsWith('boon_') ? 'A blessing you were given fades.' : k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
     if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
     if (fx.corpses.length) fx.corpses = fx.corpses.filter(c => now - c.born < CORPSE_MS);
@@ -3406,7 +3417,13 @@ const Game = (() => {
       // a run from before the end screen kept its numbers counts from here on
       G.stats = { ...freshStats(), ...G.stats };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
-      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) { m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.windup = null; m.volley = null; }
+      for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) {
+        m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
+        // a blow being drawn back is still coming after a reload, or quitting to the
+        // title would be a way out of every warned crush: it keeps its warning, and
+        // the same moment's grace as everything else
+        if (m.windup) { m.windup.at += 800; m.windup.until += 800; m.nextAct = m.windup.until; }
+      }
       lastBlocked = -1e9; queuedAttack = false; queuedMove = null;
       snapCam();
       distFieldAt = -1e9;

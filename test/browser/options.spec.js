@@ -78,7 +78,8 @@ test.describe('permadeath', () => {
     expect(await page.evaluate(() => Game.state().opts.permadeath)).toBe(true);
     await clearBoons(page);
     await page.click('[data-open="menu"]');
-    await expect(page.locator('#m-load')).toBeDisabled();
+    await expect(page.locator('#m-load')).toBeHidden();
+    await expect(page.locator('#m-save')).toHaveText('Save for Continue');
     await expect(page.locator('#m-seed')).toContainText('permadeath');
     // the run is still kept when the game is put away, for Continue
     await page.click('#m-quit');

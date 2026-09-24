@@ -812,6 +812,20 @@ await test('a save survives the JSON round trip, effects included', async () => 
     && q.effects.ac && q.effects.ac.amount === 4;
 });
 
+await test('a blow being drawn back is still coming after a reload, with a moment\'s grace', async () => {
+  const ctx = await start('fighter', 'reload-windup');
+  const { Game } = ctx; const G = Game.state();
+  const m = beside(ctx, 'ogre', { blows: 2 });
+  m.windup = { kind: 'move', move: 'crush', at: G.t, until: G.t + 900 }; m.nextAct = m.windup.until;
+  const until = m.windup.until;
+  Game.save(true);
+  if (!Game.load()) return 'load returned false';
+  const n = Game.level().monsters.find(x => x.uid === m.uid);
+  if (!n || !n.windup || n.windup.move !== 'crush') return `the crush was forgotten: ${JSON.stringify(n && n.windup)}`;
+  if (n.windup.until !== until + 800 || n.nextAct !== n.windup.until) return `until ${n.windup.until}, next ${n.nextAct}, wanted ${until + 800}`;
+  return true;
+});
+
 await test('dropping from a full pack frees a slot', async () => {
   const { Game } = await start('fighter', 'r5');
   const p = Game.player();
@@ -1605,7 +1619,24 @@ await test('the vigil lamp on the last floor sells a ward for gold', async () =>
   const before = p.gold;
   Game.chooseEncounter(0);
   if (!(p.gold < before)) return 'the ward cost nothing';
-  return (p.effects.ac && p.effects.ac.amount === 3 && p.effects.ac.until > G.t) || `effects: ${JSON.stringify(p.effects)}`;
+  const ward = p.effects.boon_ac;
+  if (!(ward && ward.amount === 3 && ward.until > G.t)) return `effects: ${JSON.stringify(p.effects)}`;
+  return true;
+});
+
+await test('a bought ward and the Shield spell add, and neither wipes the other out', async () => {
+  const ctx = await start('mage', 'ward-shield');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  const ac0 = Game.playerAC();
+  p.effects.boon_ac = { amount: 3, until: G.t + 300000 };
+  const shield = Game.knownSpells().find(s => s.id === 'shield');
+  p.sp = 99; G.t = p.nextAttack; Game.castSpell(shield);
+  const out = [];
+  if (!(p.effects.boon_ac && p.effects.boon_ac.until > G.t + 200000)) out.push('Shield wiped out the ward');
+  if (!(p.effects.ac && p.effects.ac.src === 'shield')) out.push('the ward hid Shield\'s own mark');
+  if (Game.playerAC() !== ac0 + 3 + shield.amount) out.push(`armour ${Game.playerAC()}, wanted ${ac0 + 3 + shield.amount}`);
+  return out.length ? out.join('; ') : true;
 });
 
 await test('a caster can study a trader\'s books once for three spell points for good; a fighter cannot', async () => {
@@ -2639,6 +2670,18 @@ await test('more ways to answer: a blow knocks a ghoul\'s claw aside, fire burns
     else { run(Game, G, 900); if (p.held > G.t) out.push('the hero was frozen by a claw knocked aside'); }
   }
   {
+    // poison already in it is not a blow: the claw still closes
+    const ctx = await start('thief', 'claw-venom');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, 'ghoul', { hp: 999, maxHp: 999 });
+    m.windup = { kind: 'move', move: 'paralyse', at: G.t, until: G.t + 750 }; m.nextAct = m.windup.until;
+    m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 100 };
+    run(Game, G, 300);
+    if (m.dot && m.dot.next <= G.t) out.push('the venom did not tick');
+    if (!m.windup) out.push('a tick of venom knocked the claw aside');
+  }
+  {
     const ctx = await start('mage', 'web-burn');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
     Game.level().monsters.length = 0;
@@ -3451,7 +3494,7 @@ await test('Warding Light and Zeal answer the hero\'s own spells, not a shrine\'
   talent(ctx, 'warding_light');
   Game.level().monsters.length = 0;
   p.maxHp = 100; p.hp = 50; p.lastHurt = G.t; p.food = 0;   // no ordinary mending
-  p.effects.ac = { amount: 2, until: G.t + 20000 };           // a blessing from a shrine
+  p.effects.boon_ac = { amount: 2, until: G.t + 20000 };      // a blessing from a shrine
   run(Game, G, 6500);
   return p.hp === 50 || `a shrine's blessing warded the hero back to ${p.hp}`;
 });
@@ -4673,8 +4716,10 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   } finally { globalThis.localStorage = real; }
   // a player from before progress was kept: the Hall's wins count
   ctx.store.delete('deepdelve.progress');
-  ctx.store.set('deepdelve.hall', JSON.stringify([{ name: 'Old', cls: 'cleric', won: true, difficulty: 'hard', score: 3000 }, { name: 'Older', cls: 'thief', won: true, score: 2500 }, { name: 'Lost', cls: 'mage', won: false, difficulty: 'hard', score: 100 }]));
-  if (!Progress.hasWon('cleric', 'hard') || !Progress.hasWon('thief', 'normal') || Progress.hasWon('mage', 'hard')) return `from the Hall: ${JSON.stringify(Progress.load().won)}`;
+  ctx.store.set('deepdelve.hall', JSON.stringify([{ name: 'Old', cls: 'cleric', won: true, difficulty: 'hard', score: 3000 }, { name: 'Older', cls: 'thief', won: true, score: 2500 }, { name: 'Lost', cls: 'mage', won: false, difficulty: 'hard', score: 100 },
+    { name: 'Reloaded', cls: 'fighter', won: true, difficulty: 'normal', permadeath: false, score: 2000 }]));
+  // a win that could have been reloaded is no trophy, from the Hall or anywhere
+  if (!Progress.hasWon('cleric', 'hard') || !Progress.hasWon('thief', 'normal') || Progress.hasWon('mage', 'hard') || Progress.hasWon('fighter', 'normal')) return `from the Hall: ${JSON.stringify(Progress.load().won)}`;
   return Progress.bgOpen('heartsworn') || 'a hard win in the Hall did not open the Heartsworn';
 });
 

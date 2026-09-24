@@ -32,11 +32,13 @@ b { color: var(--gold); font-weight: normal; }
 button { font-family: inherit; font-size: 1rem; color: var(--text); background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; min-height: 44px; cursor: pointer; }
 button:active { background: #2b2740; }
 button:disabled { opacity: 0.4; }
+/* hidden means hidden, whatever a layout rule says about display */
+[hidden] { display: none !important; }
 button.big { font-size: 1.15rem; padding: 14px 18px; width: 100%; }
 button.primary { background: #4a3a1c; border-color: var(--accent); color: #f5e6c0; }
 button.ghost { background: transparent; }
 button.danger { border-color: #7a3030; color: #f0b0a8; }
-button.small { padding: 6px 10px; min-height: 36px; font-size: 0.9rem; }
+button.small { padding: 6px 10px; min-height: 44px; font-size: 0.9rem; }
 input, select { font-family: inherit; font-size: 1rem; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; min-height: 40px; }
 input { width: 100%; }
 label.field { display: block; margin: 10px 0; }
@@ -301,7 +303,10 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .shop-row .what { flex: 1; min-width: 0; }
 .shop-row .what b { display: block; font-weight: normal; }
 .shop-row .what small { color: var(--dim); }
-.shop-row button { min-width: 86px; min-height: 40px; padding: 6px 8px; }
+.shop-row button { min-width: 86px; min-height: 44px; padding: 6px 8px; }
+.shop-row { cursor: pointer; }
+/* a dear purchase asks twice: the first tap turns the button to a warning */
+.shop-row button.armed { background: #6a3a12; border-color: #ffb040; color: #fff2d8; font-weight: bold; }
 .shop-row button.afford { border-color: var(--accent); color: #f5e6c0; }
 .shop-row button:disabled { opacity: 0.45; }
 .shop-empty { color: var(--dim); font-size: 0.9rem; padding: 6px 2px; }

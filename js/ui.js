@@ -430,6 +430,7 @@ const UI = (() => {
     claw: 'It reaches for you with a numbing claw. <b>Strike it now!</b> A blow that lands first knocks the claw aside, or step back out of reach.',
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
     web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
+    webtear: 'You are caught in a web. <b>Push against it</b>: tap any arrow, again and again, to tear free.',
     opening: '<b>An opening!</b> You answered its trick: your next blow at it cannot miss and lands hard. Strike now.',
     take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
     stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
@@ -438,6 +439,8 @@ const UI = (() => {
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
+  /** The tips that each tell the answer to one trick. */
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'charge', 'web', 'webtear', 'opening'];
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
@@ -474,7 +477,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -482,7 +485,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p1 = Game.player();
       const striking = Game.level().monsters.some(m => m.windup && Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) <= 3);
-      el.classList.toggle('faint', striking && !['gaze', 'rust', 'claw', 'charge', 'web', 'trick', 'opening', 'monster'].includes(el.dataset.tip || ''));
+      el.classList.toggle('faint', striking && ![...ANSWER_TIPS, 'trick', 'monster'].includes(el.dataset.tip || ''));
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
@@ -497,9 +500,12 @@ const UI = (() => {
     if (readying('paralyse') && showTip('claw', true)) return;
     if (readying('charge') && showTip('charge', true)) return;
     // only a hero with fire to hand is told to burn a web
-    if ((p.webbed || 0) > Game.state().t && Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) && showTip('web', true)) return;
+    if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
-    if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
+    // the general word on tricks waits while a trick's own answer is being read:
+    // replacing it a quarter second later would teach nothing at all
+    const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
+    if (!answering && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     if (close && showTip('monster')) return;
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
@@ -525,8 +531,9 @@ const UI = (() => {
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
-    const secs = k => (Game.effect(k) && p.effects[k] ? left(p.effects[k].until) : 0);
-    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
+    // a spell's own slot, or a bought blessing's ('boon_ac'), never the two summed
+    const secs = k => (p.effects[k] && p.effects[k].until > G.t ? left(p.effects[k].until) : 0);
+    const sig = [p.hp, p.maxHp, p.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -549,12 +556,15 @@ const UI = (() => {
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
-    if (Game.effect('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
+    if (secs('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
+    // a blessing lasts minutes: counted in minutes, so the row does not tick every second
+    const boon = Math.max(secs('boon_ac'), secs('boon_hit'));
+    if (boon) st.push(`<span class="good">Warded ${Math.ceil(boon / 60)}m</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
-    if (Game.effect('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
-    if (Game.effect('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
+    if (secs('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
+    if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     $('#hud-status').innerHTML = st.join('');
@@ -752,9 +762,32 @@ const UI = (() => {
     btn.textContent = `${label} ${price}g`;
     btn.disabled = !enabled;
     if (enabled) btn.className = 'afford';
-    btn.addEventListener('click', () => { onClick(); renderShop(); });
+    payButton(btn, row, price, label, onClick);
     row.appendChild(btn);
     return row;
+  }
+  // A dear thing asks twice. A mis-tap while scrolling the trader's list
+  // should not spend a fortune: anything from 100 gold, or a quarter of the
+  // purse, arms on the first tap and pays on the second, within a few seconds.
+  // Selling never asks: it gives gold, it does not take it. The whole row
+  // answers a tap, not only its button.
+  function payButton(btn, row, price, label, onClick) {
+    const dear = label !== 'Sell' && label !== 'Sell one' && price >= Math.min(100, Math.max(1, Game.player().gold * 0.25));
+    const plain = btn.textContent;
+    let armedUntil = 0;
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (dear && performance.now() > armedUntil) {
+        armedUntil = performance.now() + 3000;
+        for (const b of $$('#ov-shop .shop-row button.armed')) if (b !== btn) b.dispatchEvent(new Event('disarm'));
+        btn.classList.add('armed'); btn.textContent = `Tap again: ${price}g`;
+        setTimeout(() => { if (btn.isConnected && performance.now() >= armedUntil) btn.dispatchEvent(new Event('disarm')); }, 3050);
+        return;
+      }
+      onClick(); renderShop();
+    });
+    btn.addEventListener('disarm', () => { armedUntil = 0; btn.classList.remove('armed'); btn.textContent = plain; });
+    row.addEventListener('click', () => { if (!btn.disabled) btn.click(); });
   }
   function renderShop() {
     const s = Game.currentShop();
@@ -779,11 +812,11 @@ const UI = (() => {
       row.className = 'shop-row service';
       row.innerHTML = `<div class="what"><b>${escapeHtml(sv.label)}</b><small>${escapeHtml(sv.detail)}</small></div>`;
       const btn = document.createElement('button');
-      btn.textContent = sv.why ? '—' : `${sv.price}g`;
+      btn.textContent = sv.why ? '—' : `Pay ${sv.price}g`;
       btn.disabled = !!sv.why || p.gold < sv.price;
       if (!btn.disabled) btn.className = 'afford';
       btn.setAttribute('aria-label', `${sv.label}${sv.why ? '' : ` for ${sv.price} gold`}`);
-      btn.addEventListener('click', () => { Game.buyService(sv.id); renderShop(); });
+      if (!sv.why) payButton(btn, row, sv.price, 'Pay', () => Game.buyService(sv.id));
       row.appendChild(btn);
       svc.appendChild(row);
     }
@@ -1435,6 +1468,10 @@ const UI = (() => {
     // under permadeath there is no going back, and a save made when the app
     // was put away must not become a checkpoint to reload before a gamble
     $('#m-load').disabled = !Game.hasSave() || !!G.opts.permadeath;
+    // so under permadeath there is no Load to grey out beside Save: Save only
+    // keeps the run for Continue, and says so
+    $('#m-load').hidden = !!G.opts.permadeath;
+    $('#m-save').textContent = G.opts.permadeath ? 'Save for Continue' : 'Save Game';
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;

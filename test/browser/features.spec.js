@@ -439,6 +439,9 @@ test.describe('dungeon features', () => {
         windup: { kind: 'move', move: 'gaze', at: G.t, until: G.t + 60000 } });
     });
     await expect(page.locator('#tip')).toContainText('turn away', { timeout: 2000 });
+    // and it stays to be read: the general word on tricks does not push it aside
+    await page.waitForTimeout(1000);
+    await expect(page.locator('#tip')).toContainText('turn away');
     // an opening, the first time, is named as one
     await page.evaluate(() => { const L = Game.level(), m = L.monsters[0]; m.windup = null; Game.player().opening = { uid: m.uid, until: Game.state().t + 60000 }; });
     await expect(page.locator('#tip')).toContainText('An opening', { timeout: 2000 });
@@ -463,6 +466,17 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 4000 });
     await page.evaluate(() => { Game.player().webbed = Game.state().t + 60000; });
     await expect(page.locator('#tip')).toContainText('Fire burns it away', { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('a hero with no fire is told to tear free of a web', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { seed: 'web-tear', cls: 'fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; Game.player().webbed = Game.state().t + 60000; });
+    await expect(page.locator('#tip')).toContainText('tear free', { timeout: 2000 });
+    await expect(page.locator('#tip')).not.toContainText('Fire');
     expect(errors).toEqual([]);
   });
 

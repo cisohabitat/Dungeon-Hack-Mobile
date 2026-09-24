@@ -60,7 +60,7 @@ const ENCOUNTERS = {
         outcome: { text: 'The flame leans toward you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },
       { label: 'Leave gold for a sure hand', cost: { goldPerDepth: 35 },
         outcome: { text: 'The flame steadies, and so does your grip.', effects: [{ buff: { stats: [['hit', 3]], dur: 300000 } }] } },
-      { label: 'Empty your purse into the bowl', cost: { goldPerDepth: 75 },
+      { label: 'Leave a fortune for both, and the flame\'s warmth', cost: { goldPerDepth: 75 },
         outcome: { text: 'The lamp flares white. You go on warded and sure, and lighter by a fortune.', effects: [{ buff: { stats: [['ac', 3], ['hit', 3]], dur: 300000 } }, { heal: 'full' }] } },
       { label: 'Pray by the light with empty hands', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 3]] },
         pass: { text: 'The light settles on you like a hand. Your wounds close.', effects: [{ heal: 'full' }] },

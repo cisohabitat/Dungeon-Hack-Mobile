@@ -28,13 +28,15 @@ function clean(v) {
   if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
   return out;
 }
-/** A Hall from before progress was kept still counts its wins. */
+/** A Hall from before progress was kept still counts its wins: those on one
+ * life. An entry from before the Hall said so counts; one that says it could
+ * be reloaded does not, as recordWin would not have counted it either. */
 function fromHall() {
   let list = [];
   try { list = JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { /* nothing to count */ }
   const won = {};
   if (Array.isArray(list)) for (const h of list) {
-    if (!h || !h.won || !CLASSES[h.cls]) continue;
+    if (!h || !h.won || !CLASSES[h.cls] || h.permadeath === false) continue;
     const d = DIFFS.includes(h.difficulty) ? h.difficulty : 'normal';
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
