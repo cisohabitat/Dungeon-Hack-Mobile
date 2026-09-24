@@ -1393,8 +1393,8 @@ const Game = (() => {
     p.nextAttack = G.t + w.speed;
     fx.swingUntil = realNow + 160;
     fx.swingAt = realNow; fx.swingMs = Math.max(200, Math.min(380, Math.round(w.speed * 0.55)));
-    if (!m) { Sound.play('miss'); return; }
-    if (atRange) Sound.play('arrow');
+    if (w.range) Sound.play('shoot', { w: p.eq.weapon.t });
+    if (!m) { if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t }); return; }
     const mb = mstat(m);
     const struckX = m.x, struckY = m.y;
     if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
@@ -1411,7 +1411,7 @@ const Game = (() => {
     const note = rollNote(roll, toHit() + rip, mb.ac, crit);
     if (roll === 1 || (!crit && roll + toHit() + rip < mb.ac)) {
       log(`You miss the ${mb.name}.${note}`);
-      Sound.play('miss');
+      Sound.play('glance', heard(m));
       floatText(m, 'miss', '#e4e4ee');
       sparks(m);
       return;
@@ -1486,6 +1486,7 @@ const Game = (() => {
       floatText(m, 'shadow', '#b090ff');
       if (!m.wardSaid) { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts.`, 'bad'); }
       sparks(m);
+      Sound.play('wardhit', heard(m));
       return;
     }
     noteDealt(m, dmg, tag);
@@ -1499,7 +1500,7 @@ const Game = (() => {
       if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
-    Sound.play('hit');
+    Sound.play('hit', heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }));
     buzz(12);
     if (m.hp <= 0) {
       // in a group the front one falls and the next steps up; the square
@@ -1512,6 +1513,7 @@ const Game = (() => {
         m.risen = true; m.collapsed = G.t + RISE_MS; m.hp = 0;
         m.windup = null; m.volley = null; m.fleeing = false;
         log(`The ${mb.name} clatters into a heap of bones... and the bones begin to twitch. Smash them before it rises!`, 'bad');
+        Sound.play('death', heard(m, { gore: 'bone', who: m.id }));
         meet(m, 'trick');
         return;
       }
@@ -1559,6 +1561,7 @@ const Game = (() => {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
+    Sound.play('death', heard(m, { gore: GORE_OF[m.id] || 'blood', who: m.id }));
     p.kills++;
     noteKill(m);
     // the two halves of a split slime are worth one slime between them
@@ -1720,6 +1723,17 @@ const Game = (() => {
     return { rel, word: ['from ahead', 'from your right', 'from behind', 'from your left'][rel] };
   }
   /**
+   * Where a sound comes from, for the ear: how many squares off, how far to
+   * the left (-1) or right (1) of the way the hero faces, and whether behind.
+   * @param {{x: number, y: number}} at  a monster or a square
+   * @param {Record<string, any>} [extra]  what else shapes the sound
+   */
+  function heard(at, extra) {
+    const p = P(), [ax, ay] = DIRS[p.dir], [bx, by] = DIRS[(p.dir + 1) % 4];
+    const dx = at.x - p.x, dy = at.y - p.y, dist = Math.hypot(dx, dy);
+    return { dist, pan: dist ? (dx * bx + dy * by) / dist : 0, behind: dx * ax + dy * ay < 0, ...extra };
+  }
+  /**
    * @param {number} dmg @param {string|null} msg
    * @param {import('./types.js').Monster|null} [from]  the monster that struck, if one did
    * @param {string} [cause]  what hurt, when no monster did: a trap, poison, hunger
@@ -1743,7 +1757,7 @@ const Game = (() => {
     fx.hurtAmt = 0.3 + 0.4 * hard;
     fx.shakeAmp = 2.5 + 7 * hard; fx.shakeMs = 220; fx.shakeUntil = realNow + 220;
     if (dmg >= p.maxHp / 10) bloodOnView(hard);
-    Sound.play('hurt');
+    Sound.play('hurt', from ? heard(from) : undefined);
     buzz(40);
     if (msg) log(msg, 'bad');
     if (p.hp <= 0 && hasTalent('last_rites') && !p.ritesUsed) {
@@ -1804,6 +1818,7 @@ const Game = (() => {
     log('You lift the Heart of the Mountain. Its light pours out between your fingers, over the walls, up through the stone.', 'good');
     fx.heartAt = realNow;
     fx.shakeAmp = 3; fx.shakeMs = 1600; fx.shakeUntil = realNow + 1600;
+    Sound.play('heart');
     win();
   }
   function win() {
@@ -2025,7 +2040,7 @@ const Game = (() => {
     noteSpell(sp);
     G.lastSpell = sp.id;
     fx.castUntil = realNow + 260; fx.castColor = sp.color; fx.castAt = realNow;
-    Sound.play('spell');
+    Sound.play('cast', { spell: sp.id });
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
@@ -2157,7 +2172,7 @@ const Game = (() => {
     if (woke) log(`You wake to something moving in the dark! (+${hp})`, 'bad');
     else if (share >= 1) log('You rest for a while and wake refreshed.', 'good');
     else log(`You rest, but sleep comes thinly here (+${hp}). The dark is stirring.`, 'info');
-    Sound.play('heal');
+    Sound.play(woke ? 'ambush' : 'rest');
     emit('stats');
     return true;
   }
@@ -2224,7 +2239,7 @@ const Game = (() => {
     const roll = d(1, 20);
     const ac = playerAC();
     const note = rollNote(roll, mb.hit, ac, roll === 20);
-    Sound.play('arrow');
+    Sound.play(m.id === 'archer' ? 'arrow' : 'darkbolt', heard(m));
     if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
     if (hasTalent('evasion') && Math.random() < 1 / 3) { log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
     let dmg = Math.max(1, d(...r.dmg));
@@ -2246,6 +2261,9 @@ const Game = (() => {
     const note = rollNote(roll, hit, ac, roll === 20);
     if (roll === 1 || (roll !== 20 && roll + hit < ac)) {
       riposte();
+      // a blow the shield turned (it would have landed without one) rings on it
+      const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (p.eq.shield.e || 0);
+      Sound.play(onShield ? 'block' : 'whiff', heard(m));
       const miss = relativeBearing(m);
       log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
       if (miss && miss.rel !== 0) { fx.hurtFrom = miss.rel; fx.hurtFromUntil = realNow + 700; }
@@ -2285,7 +2303,7 @@ const Game = (() => {
     if (m.pressing) { dur = Math.max(350, Math.round(dur * 0.6)); m.pressing = false; }
     m.windup = { kind, at: G.t, until: G.t + dur };
     m.nextAct = m.windup.until;
-    Sound.play('windup');
+    Sound.play('windup', heard(m, { kind }));
   }
   const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
 
@@ -2351,7 +2369,7 @@ const Game = (() => {
     m.nextAct = m.windup.until;
     log(say, 'bad');
     meet(m, 'trick');
-    Sound.play('special');
+    Sound.play(mv === 'rite' ? 'rite' : 'special', heard(m, { ms: SPECIAL_MS[mv] }));
     return true;
   }
   /** The trick comes off, or fails against a player who answered it. */
@@ -2364,7 +2382,7 @@ const Game = (() => {
     switch (w.move) {
       case 'crush':
         if (dist === 1) { monsterAttack(m, { hit: 2, mult: 2, verb: 'brings its club down on' }); G.blowGate = G.t + BLOW_GAP; m.nextAct = G.t + mb.speed; }
-        else { log(`The ${mb.name}'s club smashes the floor where you stood. It staggers, wide open!`, 'good'); Sound.play('bump'); m.nextAct = G.t + 1600; learn(m.id, 'answer'); riposte(); }
+        else { log(`The ${mb.name}'s club smashes the floor where you stood. It staggers, wide open!`, 'good'); Sound.play('smash', heard(m)); m.nextAct = G.t + 1600; learn(m.id, 'answer'); riposte(); }
         break;
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
@@ -2385,7 +2403,7 @@ const Game = (() => {
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           log(`The ${mb.name} thunders past you and stumbles, wide open!`, 'good');
           learn(m.id, 'answer');
-          Sound.play('bump');
+          Sound.play('bump', heard(m));
           m.nextAct = G.t + 1600;
         }
         m.moveReady = G.t + 8000;
@@ -2419,7 +2437,7 @@ const Game = (() => {
         else if (dist === 1 || hasLineToPlayer(m, 4)) {
           p.webbed = G.t + 2500;
           log('Sticky web binds your legs! Keep pushing to tear free.', 'bad');
-          Sound.play('hurt');
+          Sound.play('web', heard(m));
         } else { log(`The ${mb.name}'s web sails past you.`, 'good'); learn(m.id, 'answer'); }
         m.moveReady = G.t + 7000;
         m.nextAct = G.t + Math.round(mb.speed * 0.6);
@@ -2442,11 +2460,13 @@ const Game = (() => {
         log(`The Heart's light pours into the ${mb.name}. Its wounds close (+${n}).`, 'bad');
         floatText(m, '+' + n, '#c080ff');
         spray(m, 'ecto', 0.6, false);
+        Sound.play('riteDone', heard(m));
         m.riteReady = G.t + 9000;
         m.nextAct = G.t + Math.round(mb.speed * 0.6);
         break;
       }
       case 'nova':
+        Sound.play('nova', heard(m));
         if (novaReaches(m)) { const n = Math.max(1, Math.ceil(d(4, 6) / (hasTalent('stand_firm') ? 2 : 1))); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
         else { log('The storm of cold fire breaks short of you.', 'good'); learn(m.id, 'answer'); }
         m.nextAct = G.t + mb.speed;
@@ -2465,6 +2485,7 @@ const Game = (() => {
     if (m.windup && m.windup.move === 'rite') {
       m.windup = null; m.riteReady = G.t + 6000; m.nextAct = G.t + 700;
       log(`You break the ${mb.name}'s rite! The Heart's light slips back out of its hands.`, 'good');
+      Sound.play('riteBroken', heard(m));
       learn(m.id, 'answer');
     }
     // fire sears a troll's wounds shut, so they cannot grow back for a while
@@ -2509,17 +2530,19 @@ const Game = (() => {
         spray(m, 'ecto', 1, false);
         m.fromX = m.x = to[0]; m.fromY = m.y = to[1]; m.rx = m.x; m.ry = m.y; m.moveT1 = 0;
         spray(m, 'ecto', 1, false);
+        Sound.play('blink', heard(m));
         log(`The ${mb.name} comes apart into shadow and gathers itself again across the hall. Grave-cold gathers in its hands.`, 'bad');
       }
       m.nextAct = G.t + 1200;
     } else if (m.phase === 2) {
       snuffTorches(m);
+      Sound.play('snuff', heard(m));
       m.riteReady = m.wardUntil;             // the rite begins the moment the shadow lifts
       m.nextAct = G.t + 900;
       log(`The torches gutter and die. In the dark the ${mb.name} quickens, and turns toward the Heart.`, 'bad');
       fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
     }
-    Sound.play('special');
+    Sound.play('ward', heard(m, { ms: WARD_MS }));
   }
   /** Where the lich reappears: open floor three to five steps from the hero, in a straight line so it can throw at them, ahead of them where it can. */
   function blinkSpot(m) {
@@ -2565,6 +2588,7 @@ const Game = (() => {
     spray(m, 'bone', 1, false); spray(m, 'bone', 1, false); spray(m, 'ecto', 1, false);
     relightTorches(m);
     fx.shakeAmp = 7; fx.shakeMs = 900; fx.shakeUntil = realNow + 900;
+    Sound.play('lichfall', heard(m));
     log('The torches catch again, one by one.', 'good');
   }
   /** Two skeletons sharing a square beside the lich. */
@@ -2590,7 +2614,7 @@ const Game = (() => {
     const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true;
     log(`The ${mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`, 'bad');
     learn(m.id, 'trick');
-    Sound.play('growl');
+    Sound.play('raise', heard({ x, y }));
   }
   // ---------- the deep answers strength ----------
   // A hero who has out-grown a floor finds it waiting for them. For every
@@ -2617,7 +2641,7 @@ const Game = (() => {
       m.edge = Math.round(L.press);
       for (const b of m.pack || []) { b.maxHp = tougher(b.maxHp); b.hp = b.maxHp; }
     }
-    if (L.press >= 1) log('The deep has heard of you. What waits on this floor is ready for you.', 'bad');
+    if (L.press >= 1) { log('The deep has heard of you. What waits on this floor is ready for you.', 'bad'); Sound.play('dread'); }
   }
   /** A monster that appears mid-fight, awake and already hunting. */
   function newMonster(id, x, y, hp) {
@@ -2642,13 +2666,14 @@ const Game = (() => {
       if (mb.boss && m.awake && !m.spoke) {
         m.spoke = true;
         log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
+        Sound.play('voice', heard(m, { who: m.id }));
         fx.shakeAmp = 4; fx.shakeMs = 500; fx.shakeUntil = realNow + 500;
       }
       if (m.collapsed) {
         if (G.t >= m.collapsed) {
           m.collapsed = 0; m.hp = Math.ceil(m.maxHp / 2); m.awake = true; m.nextAct = G.t + WAKE_BEAT;
           log(`The bones knit together: the ${mb.name} rises again!`, 'bad');
-          Sound.play('growl');
+          Sound.play('voice', heard(m, { who: m.id }));
         }
         continue;
       }
@@ -2678,7 +2703,7 @@ const Game = (() => {
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
         if (di >= 0 && di <= notice) {
-          m.awake = true; Sound.play('growl'); m.nextAct = G.t + WAKE_BEAT; meet(m);
+          m.awake = true; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT; meet(m);
           // woken right beside you, its first blow is already being drawn back
           if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
           continue;
@@ -2756,7 +2781,7 @@ const Game = (() => {
           }
         } else {
           log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
-          Sound.play('miss');
+          Sound.play('whiff', heard(m));
           // made to miss, it presses in: the next blow is drawn back faster, so
           // stepping away is a save, not a loop that keeps it from ever landing
           m.pressing = true;
@@ -2780,7 +2805,7 @@ const Game = (() => {
       }
       const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
       if (best) {
-        if (tile(best[0], best[1]) === T.DOOR) { setTile(best[0], best[1], T.DOOR_OPEN); log('Something opens a door nearby.', 'bad'); Sound.play('door'); }
+        if (tile(best[0], best[1]) === T.DOOR) { setTile(best[0], best[1], T.DOOR_OPEN); log('Something opens a door nearby.', 'bad'); Sound.play('door', heard({ x: best[0], y: best[1] })); }
         else moveMonster(m, best[0], best[1]);
         m.nextAct = G.t + moveSpeed;
         // Stepping up to you, it draws back as it comes, so its first blow
