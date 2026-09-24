@@ -5070,6 +5070,126 @@ await test('the Daily Delve deals only the six original backgrounds, whatever ha
   return seen.size === 6 || `only ${seen.size} backgrounds came up in 400 days`;
 });
 
+await test('rings and amulets: two rings and an amulet on any hero, each doing what it was made for', async () => {
+  const out = [];
+  const ctx = await start('mage', 'jewels-worn');
+  const { Game, ITEMS } = ctx; const p = Game.player(), G = Game.state();
+  const give = (t, extra = {}) => { const it = { t, q: 1, e: 0, ...extra }; p.inv.push(it); return it; };
+  const ac0 = Game.playerAC(), hit0 = Game.toHit(), sp0 = p.maxSp;
+  // a mage wears no armour, but a ring anyone may
+  const prot = give('ring_protect', { e: 1 }), might = give('ring_might'), wiz = give('amulet_mind');
+  for (const it of [prot, might, wiz]) if (!Game.equip(it, true)) out.push(`${it.t} would not go on`);
+  if (p.eq.ring !== prot || p.eq.ring2 !== might || p.eq.amulet !== wiz) out.push(`worn: ${JSON.stringify([p.eq.ring, p.eq.ring2, p.eq.amulet].map(i => i && i.t))}`);
+  if (Game.playerAC() !== ac0 + 2) out.push(`a +1 Ring of Protection made armour class ${ac0} into ${Game.playerAC()}, not ${ac0 + 2}`);
+  if (Game.toHit() !== hit0 + 1) out.push(`a Ring of Might made to-hit ${hit0} into ${Game.toHit()}`);
+  if (p.maxSp !== sp0 + 6) out.push(`an Amulet of Wizardry made spell points ${sp0} into ${p.maxSp}`);
+  // a third ring takes the place of the first, which goes back in the pack
+  const third = give('ring_quiet');
+  Game.equip(third, true);
+  if (p.eq.ring !== third || !p.inv.includes(prot)) out.push('a third ring did not take the first one\'s place');
+  // a cursed ring binds its finger, and the next ring goes on the other
+  Game.unequip('ring'); Game.unequip('ring2');
+  const bad = give('ring_protect', { e: -2, curse: 1 });
+  Game.equip(bad, true);
+  if (Game.playerAC() !== ac0 - 1) out.push(`a cursed -2 Ring of Protection left armour class at ${Game.playerAC()}, not ${ac0 - 1}`);
+  Game.unequip(p.eq.ring === bad ? 'ring' : 'ring2');
+  if (!Object.values(p.eq).includes(bad)) out.push('a cursed ring came off');
+  const next = give('ring_might'); Game.equip(next, true);
+  if (!Object.values(p.eq).includes(bad) || !Object.values(p.eq).includes(next)) out.push('the next ring displaced the cursed one');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a ring is known only by its look until it is worn or studied, and sells as a trinket till then', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'jewels-known');
+  const { Game, ITEMS } = ctx; const p = Game.player();
+  const it = { t: 'ring_evasion', q: 1, e: 0 }; p.inv.push(it);
+  const shown = Game.itemName(it);
+  if (!/^[A-Z][a-z]+ Ring$/.test(shown) || shown.includes('Evasion')) out.push(`an unknown ring is called "${shown}"`);
+  if (Game.sellPrice(it) >= ITEMS.ring_evasion.value * 0.45) out.push(`an unknown ring sells for ${Game.sellPrice(it)}, as much as a known one`);
+  Game.equip(it, true);
+  if (Game.itemName(it) !== 'Ring of Evasion') out.push(`worn, it is called "${Game.itemName(it)}"`);
+  // another of the same kind is known on sight after that
+  const two = { t: 'ring_evasion', q: 1, e: 0 };
+  if (Game.itemName(two) !== 'Ring of Evasion') out.push('a second one of a known kind was not named');
+  // an amulet can be puzzled out instead: study until it gives up its name
+  const am = { t: 'amulet_ward', q: 1, e: 0 }; p.inv.push(am);
+  p.stats.int = 18;
+  for (let i = 0; i < 20 && !Game.isKnown(am.t); i++) { p.level = 2 + i; Game.study(am); }
+  if (!Game.isKnown(am.t)) out.push('studying an amulet never told what it was');
+  // the looks are dealt out afresh each run, but always the same for a seed
+  const again = await start('fighter', 'jewels-known');
+  if (again.Game.itemName({ t: 'ring_evasion', q: 1 }) !== shown) out.push('the same seed dealt a different look');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('an Amulet of Life Saving takes the killing blow once, and crumbles', async () => {
+  const ctx = await start('fighter', 'jewels-life');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  const am = { t: 'amulet_life', q: 1, e: 0 }; p.inv.push(am); Game.equip(am, true);
+  p.hp = 3; p.effects.ac = { amount: -60, until: 1e12 };
+  const m = beside(ctx, 'ogre', { hp: 999, maxHp: 999 });
+  for (let i = 0; i < 40 && p.hp > 0 && p.hp <= 3; i++) { m.nextAct = G.t; run(Game, G, 1200); }
+  if (G.status !== 'playing') return `the hero died wearing it (${G.status})`;
+  if (p.eq.amulet) return 'the amulet is still worn';
+  if (p.hp < Math.ceil(p.maxHp / 2) - 40) return `left at ${p.hp} of ${p.maxHp}`;
+  if (!/crumbles to dust/.test(G.log.map(l => l.m).join('\n'))) return 'nothing said it saved you';
+  // and only once
+  p.hp = 1; m.nextAct = G.t;
+  for (let i = 0; i < 40 && G.status === 'playing'; i++) { m.nextAct = G.t; run(Game, G, 1200); }
+  return G.status === 'dead' || 'a second killing blow was turned too';
+});
+
+await test('a Ring of Evasion softens what lands: a web binds the nimble-fingered for less time', async () => {
+  const time = async rings => {
+    const ctx = await start('fighter', 'jewels-evade-' + rings);
+    seedDice(ctx, 'jewels-evade-' + rings);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.stats.dex = 3; p.hp = p.maxHp = 9999;
+    for (let i = 0; i < rings; i++) { const r = { t: 'ring_evasion', q: 1, e: 2 }; p.inv.push(r); Game.equip(r, true); }
+    let total = 0;
+    for (let i = 0; i < 120; i++) {
+      p.webbed = 0; p.held = 0; p.hp = 9999;
+      const m = ahead(ctx, 'spider', 2, { hp: 999, maxHp: 999, spoke: true });
+      m.windup = { kind: 'move', move: 'web', at: G.t, until: G.t };
+      m.nextAct = G.t;
+      Game.update(G.t + 25, 25);
+      total += Math.max(0, (p.webbed || 0) - G.t);
+      Game.update(G.t + 6000, 6000);
+    }
+    return total;
+  };
+  const bare = await time(0), ringed = await time(2);
+  return bare > ringed * 1.15 || `webbed ${bare}ms bare, ${ringed}ms with two rings`;
+});
+
+await test('rings and amulets turn up from the second floor, from their own stream, and survive a reload', async () => {
+  const out = [];
+  let found = 0, floors = 0, onFirst = 0;
+  for (let i = 0; i < 12; i++) {
+    const ctx = await start('thief', 'jewels-place-' + i);
+    const { Game, ITEMS } = ctx; const G = Game.state();
+    for (let d = 1; d <= 6; d++) {
+      if (d > 1) { Game.level().monsters.length = 0; Game.descend(); }
+      const L = G.levels[d] || null;
+      if (!L || G.depth !== d) continue;
+      const n = Object.values(L.items).flat().filter(it => ['ring', 'amulet'].includes(ITEMS[it.t].kind)).length;
+      if (d === 1) onFirst += n; else { found += n; floors++; }
+    }
+  }
+  if (onFirst) out.push(`${onFirst} pieces on first floors`);
+  if (floors && (found / floors < 0.2 || found / floors > 0.8)) out.push(`${found} pieces over ${floors} floors`);
+  if (!floors) out.push('no floors were generated to look at');
+  // the slots and the looks come back from a save
+  const ctx = await start('cleric', 'jewels-save');
+  const { Game } = ctx; const p = Game.player();
+  const r = { t: 'ring_protect', q: 1, e: 1 }; p.inv.push(r); Game.equip(r, true);
+  Game.save(true);
+  if (!Game.load()) out.push('load failed');
+  else if (!Game.player().eq.ring || Game.player().eq.ring.t !== 'ring_protect' || Game.itemName(Game.player().eq.ring) !== 'Ring of Protection +1') out.push('the ring did not come back from the save');
+  return out.length ? out.join('; ') : true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

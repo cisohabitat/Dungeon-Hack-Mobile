@@ -75,7 +75,57 @@ function bottle(bodyParts, liquidParts, neck, glints) {
   ];
 }
 
+/**
+ * A ring lying at a slant: a band seen as an ellipse, thick and bright at the
+ * front, thinner and in shadow at the back, and a stone in a setting on top
+ * where it has one. Without a stone the band itself is the thing to see.
+ */
+function jewelRing(band, dark, stone, hi, plainMark) {
+  const out = [], cx = 16, cy = 20, rx = 11.5, ry = 7.2, n = 22;
+  for (let i = 0; i < n; i++) {
+    const a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2, mid = (a0 + a1) / 2;
+    const front = Math.sin(mid) > 0, w = stone ? (front ? 2 : 1.4) : (front ? 2.6 : 1.8);
+    out.push(limb(cx + Math.cos(a0) * rx, cy + Math.sin(a0) * ry, cx + Math.cos(a1) * rx, cy + Math.sin(a1) * ry, w, w, front ? band : dark));
+  }
+  // the light along the band's front edge
+  for (let i = 3; i < 8; i++) { const a = i / 10 * Math.PI; out.push(dots([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry + 1.2]], hi || '#ffffff')); }
+  if (stone) {
+    out.push(ball(cx, cy - ry - 0.5, 5, 3, dark));
+    out.push(ball(cx, cy - ry - 3.5, 4.4, 4.1, stone));
+    out.push(dots([[cx - 1.6, cy - ry - 5.2], [cx - 0.6, cy - ry - 6]], hi));
+  } else if (plainMark) out.push(...plainMark(cx, cy, rx, ry));
+  return out;
+}
+/** An amulet: a chain hung in a curve from the top corners, and a pendant in its frame. */
+function jewelAmulet(chain, frame, stone, hi, cord) {
+  const out = [];
+  const pts = [];
+  for (let i = 0; i <= 12; i++) { const t = i / 12, x = 4 + t * 24, y = 2 + Math.sin(t * Math.PI) * 13; pts.push([x, y]); }
+  for (let i = 0; i < pts.length - 1; i++) {
+    if (cord) out.push(limb(...pts[i], ...pts[i + 1], 0.7, 0.7, chain));
+    else out.push(ball((pts[i][0] + pts[i + 1][0]) / 2, (pts[i][1] + pts[i + 1][1]) / 2, 1.1, 0.8, i % 2 ? frame : chain));
+  }
+  out.push(ball(16, 17.5, 1.6, 1.6, frame));
+  out.push(ball(16, 24, 6.6, 7.2, frame));
+  out.push(ball(16, 24, 4.9, 5.5, stone));
+  out.push(dots([[13.8, 21], [14.5, 20.3]], hi));
+  return out;
+}
+
 const ITEM_ART = {
+  // ---- rings and amulets: each look its own metal and stone ----
+  ring_silver: () => jewelRing('#c8ccd4', '#80868f', '#3a6ad8', '#a8c8ff'),
+  ring_gold: () => jewelRing('#e8b830', '#9a7418', '#d02a3a', '#ff9aa4'),
+  ring_garnet: () => jewelRing('#b4bcc8', '#6e727c', '#8a1a3a', '#e06080'),
+  ring_onyx: () => jewelRing('#c8ccd4', '#80868f', '#1a1a22', '#8a8a9a'),
+  ring_copper: () => jewelRing('#c87a40', '#7a4420', '#e8a030', '#ffe0a0'),
+  ring_jade: () => jewelRing('#4aa070', '#2a6a48', null, '#9ae0b8', (cx, cy, rx, ry) => [dots([[cx - 4, cy + ry - 0.5], [cx - 3, cy + ry], [cx + 2, cy + ry + 0.2]], '#bff0d0')]),
+  ring_bone: () => jewelRing('#e8dcc0', '#a89c80', null, '#ffffff', (cx, cy, rx, ry) => [0.2, 0.35, 0.5, 0.65, 0.8].map(t => { const a = t * Math.PI; return dots([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]], '#6a5c44'); })),
+  ring_iron: () => jewelRing('#6e727c', '#3a3e46', null, '#b4bcc8', (cx, cy, rx, ry) => [0.25, 0.5, 0.75].map(t => { const a = t * Math.PI; return ball(cx + Math.cos(a) * rx, cy + Math.sin(a) * ry, 0.9, 0.9, '#9aa0a8'); })),
+  amulet_amber: () => jewelAmulet('#e8b830', '#9a7418', '#e8a030', '#ffe0a0'),
+  amulet_silver: () => jewelAmulet('#c8ccd4', '#80868f', '#d8e8f8', '#ffffff'),
+  amulet_obsidian: () => jewelAmulet('#6e727c', '#3a3e46', '#1a1622', '#8a7aa8'),
+  amulet_bone: () => jewelAmulet('#8a5a32', '#a89c80', '#e8dcc0', '#ffffff', true),
   // ---- blades ----
   dagger: () => [
     axis(5.5, 10, 1.1, 1.1, WRAP), ball(...at(4.8), 1.6, 1.6, BRASS),

@@ -233,6 +233,20 @@ const ITEMS = {
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this level.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this level.' },
   scroll_uncurse:  { kind: 'scroll', name: 'Scroll of Remove Curse', stack: true, value: 40, sprite: 'scroll', effect: 'uncurse', desc: 'Breaks any curse on what you wear, and shows the true quality of all your gear.' },
+  // Rings and amulets: anyone may wear two rings and an amulet. Found ones
+  // are known only by their look until worn or studied (see RING_LOOKS), and
+  // keep their quality to themselves like any found gear. power is the
+  // RELIC_POWERS entry each one gives; bonus, where it has one, is how much
+  // (the piece's enchantment adds to it, and a cursed one takes from it).
+  ring_protect: { kind: 'ring', name: 'Ring of Protection',   value: 90,  sprite: 'ring_silver', power: 'protect', bonus: 1, tier: 2, desc: 'Armour class +1, more if finely made.' },
+  ring_might:   { kind: 'ring', name: 'Ring of Might',        value: 110, sprite: 'ring_gold',   power: 'might', bonus: 1, tier: 3, desc: '+1 to hit and to damage with every blow, more if finely made.' },
+  ring_evasion: { kind: 'ring', name: 'Ring of Evasion',      value: 90,  sprite: 'ring_jade',   power: 'evasion', bonus: 2, tier: 2, desc: '+2 to every saving throw: venom, traps, and the tricks that land.' },
+  ring_seer:    { kind: 'ring', name: 'Ring of the Seer',     value: 60,  sprite: 'ring_bone',   power: 'seer', bonus: 6, tier: 2, desc: '+6 to spot a trap before it springs, and the Seer sees hidden doors as you pass.' },
+  ring_mend:    { kind: 'ring', name: 'Ring of Regeneration', value: 140, sprite: 'ring_garnet', power: 'mend', tier: 3, desc: 'Heals a hit point every four seconds, even mid-fight.' },
+  ring_quiet:   { kind: 'ring', name: 'Ring of Stealth',      value: 70,  sprite: 'ring_iron',   power: 'quiet', tier: 2, desc: 'Sleeping monsters notice you a square later.' },
+  amulet_life:  { kind: 'amulet', name: 'Amulet of Life Saving', value: 260, sprite: 'amulet_amber', power: 'lifesave', tier: 4, desc: 'The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust.' },
+  amulet_ward:  { kind: 'amulet', name: 'Amulet of Warding',  value: 150, sprite: 'amulet_silver', power: ['ward', 'pure'], tier: 3, desc: 'Your life force cannot be drained, and poison cannot take hold of you.' },
+  amulet_mind:  { kind: 'amulet', name: 'Amulet of Wizardry', value: 150, sprite: 'amulet_obsidian', power: 'mind', tier: 3, desc: '+6 spell points for anyone who has spells to spend them on.' },
   // food
   ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 45 },
   meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
@@ -310,6 +324,13 @@ const POTION_LOOKS = [
   ['golden', 'potion_orange'], ['silvery', 'potion_blue'], ['oily', 'potion_red'],
   ['glowing', 'potion_pink'], ['dark', 'potion_green'],
 ];
+// What an unknown ring or amulet looks like: [adjective, sprite]. Each run
+// deals them out afresh, so a jade ring is not always the same ring.
+const RING_LOOKS = [
+  ['silver', 'ring_silver'], ['gold', 'ring_gold'], ['jade', 'ring_jade'], ['bone', 'ring_bone'],
+  ['garnet', 'ring_garnet'], ['iron', 'ring_iron'], ['onyx', 'ring_onyx'], ['copper', 'ring_copper'],
+];
+const AMULET_LOOKS = [['amber', 'amulet_amber'], ['silver', 'amulet_silver'], ['obsidian', 'amulet_obsidian'], ['bone', 'amulet_bone']];
 const SCROLL_LOOKS = [
   'crumbling', 'crisp', 'singed', 'blood-stained', 'gilt-edged', 'water-damaged', 'tightly rolled',
 ];
@@ -410,4 +431,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, ELITES, BESTIARY, TALENTS };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, BESTIARY, TALENTS };

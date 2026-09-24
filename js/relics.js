@@ -24,6 +24,12 @@ const RELIC_POWERS = {
   pure:   'Purifying: poison cannot take hold of you.',
   thorns: 'Barbed: whatever strikes you in melee takes 1d4 damage back.',
   flame:  'Flaming: +1d4 fire damage, and its burns stop a troll regrowing.',
+  // worn on a finger or at the throat (see the rings and amulets in data.js)
+  protect: 'Protection: armour class +1, more if finely made.',
+  might:  'Might: +1 to hit and to damage, more if finely made.',
+  evasion: 'Evasion: +2 to every saving throw.',
+  seer:   'The Seer: +6 to spot traps, and hidden doors show as you pass.',
+  lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
 };
 
 /** Ordinary gear found enchanted can carry one of these powers, named by it. */

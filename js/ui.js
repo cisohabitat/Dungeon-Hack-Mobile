@@ -928,6 +928,12 @@ const UI = (() => {
     if (b.kind === 'armor') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight})`;
     if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
+    // a ring that comes in amounts says how much, enchantment and all
+    if (b.bonus) {
+      const n = b.bonus + knownE(it), q = it.h ? '?' : '', sign = n < 0 ? '\u2212' + -n : '+' + n;
+      return { protect: `Armour class ${sign}${q}`, might: `${sign}${q} to hit and to damage`, evasion: `${sign}${q} to every saving throw`,
+        seer: `${sign}${q} to spot traps, and hidden doors show as you pass` }[[].concat(b.power)[0]] || b.desc || '';
+    }
     return b.desc || '';
   }
 
@@ -1318,13 +1324,15 @@ const UI = (() => {
     // the off hand only earns a slot for a class that can use it
     const slots = Game.canDualWield() || p.eq.offhand
       ? ['weapon', 'offhand', 'armor', 'shield'] : ['weapon', 'armor', 'shield'];
-    for (const slot of slots) {
+    const jewels = $('#equip-jewels');
+    jewels.innerHTML = '';
+    for (const slot of [...slots, 'ring', 'ring2', 'amulet']) {
       const it = p.eq[slot];
-      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot);
+      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot);
       if (it) el.addEventListener('click', () => { selectedItem = it; selectedSlot = slot; renderInv(); });
       if (selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
-      eq.appendChild(el);
+      (slots.includes(slot) ? eq : jewels).appendChild(el);
     }
     const grid = $('#inv-grid');
     grid.innerHTML = '';
@@ -1364,7 +1372,9 @@ const UI = (() => {
     box.classList.add('open');
     let info = itemBlurb(it);
     if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
-    if (!Game.isKnown(it.t)) info = 'You do not know what this does. Using it will reveal its nature.';
+    if (!Game.isKnown(it.t)) info = b.kind === 'ring' || b.kind === 'amulet'
+      ? 'You do not know what it was made for. Putting it on will tell you, and so will studying it.'
+      : 'You do not know what this does. Using it will reveal its nature.';
     if (it.h) info += ' Its quality is unknown: it could be finely made, or cursed. Wearing it will tell you, and so will studying it or a trader\'s eye.';
     else if (it.curse) info += selectedSlot
       ? ' Cursed: it will not come off. Read a Scroll of Remove Curse, pray at a shrine, or pay a trader to lift it.'
@@ -1388,11 +1398,12 @@ const UI = (() => {
         // a light blade can go in either hand, so offer the second one
         if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
       }
+      else if (b.kind === 'ring' || b.kind === 'amulet') add(it.curse && !it.h ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary');
       else if (b.kind === 'food') add('Eat', () => useFromPack(it), 'primary');
       else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');
       // an unknown potion or scroll can be puzzled out instead of risked
-      if (((b.kind === 'potion' || b.kind === 'scroll') && !Game.isKnown(it.t)) || it.h) {
+      if ((['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) && !Game.isKnown(it.t)) || it.h) {
         const block = Game.studyReason(it);
         const odds = Math.round(Game.checkChance('int', Game.STUDY_DC, Game.player().cls === 'mage' ? 2 : 0) * 100);
         if (!block) add(`Study (${odds}%)`, () => Game.study(it));
@@ -1638,11 +1649,11 @@ const UI = (() => {
     let extra = '';
     // every power the hero's gear gives, relic or plain, with the slot it is in
     const worn = [];
-    for (const [slot, label] of [['weapon', 'weapon'], ['offhand', 'off hand'], ['armor', 'armour'], ['shield', 'shield']]) {
+    for (const [slot, label] of [['weapon', 'weapon'], ['offhand', 'off hand'], ['armor', 'armour'], ['shield', 'shield'], ['ring', 'ring'], ['ring2', 'ring'], ['amulet', 'amulet']]) {
       const it = p.eq[slot];
       if (!it) continue;
-      const rel = Game.relicOf(it);
-      const powers = rel ? rel.powers : (it.pw && !it.h ? [it.pw] : []);
+      const rel = Game.relicOf(it), made = ITEMS[it.t].power;
+      const powers = rel ? rel.powers : made ? [].concat(made) : (it.pw && !it.h ? [it.pw] : []);
       for (const k of powers) {
         if (!RELIC_POWERS[k]) continue;
         const [name, ...rest] = RELIC_POWERS[k].split(': ');

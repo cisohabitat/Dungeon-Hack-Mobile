@@ -421,7 +421,9 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .quick-scroll small { font-size: 0.68rem; line-height: 1; color: #f2e6c8; }
 .quick-scroll:active { transform: scale(0.94); }
 /* equipped slots carry a label in the corner: keep the picture below it */
-#equip .slot { padding-top: calc(0.6rem + 8px); }
+#equip .slot, #equip-jewels .slot { padding-top: calc(0.6rem + 8px); }
+/* two rings and an amulet: a row of their own, under what is held and worn */
+.equip.jewels { margin-top: -4px; }
 
 /* the list of monster tricks in the help */
 ul.tricks { margin: 0.4em 0 0.8em; padding-left: 1.2em; }

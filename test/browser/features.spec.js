@@ -689,6 +689,22 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the pack has two ring fingers and a throat, and an unknown ring is put on and named', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'jewel-ui', cls: 'Mage' });
+    await clearBoons(page);
+    const look = await page.evaluate(() => { const it = { t: 'ring_protect', q: 1, e: 0 }; Game.player().inv.push(it); return Game.itemName(it); });
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#equip-jewels .slot')).toHaveCount(3);
+    await page.locator('#inv-grid .slot.filled', { hasText: look }).click();
+    await expect(page.locator('#item-detail')).toContainText('Putting it on will tell you');
+    await page.locator('#item-detail button', { hasText: 'Put on' }).click();
+    await expect(page.locator('#equip-jewels .slot').first()).toContainText('Ring of Protection');
+    await expect(page.locator('#log')).toContainText('It is a Ring of Protection');
+    expect(errors).toEqual([]);
+  });
+
   test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

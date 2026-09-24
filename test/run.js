@@ -103,7 +103,16 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
     names.add(r.name.toLowerCase());
     r.powers.forEach(k => used.add(k));
   }
-  for (const k in RELIC_POWERS) check(used.has(k), `no relic carries the '${k}' power`);
+  // a ring or an amulet carries a power too, and must carry one the rules know
+  for (const id in ITEMS) {
+    const b = ITEMS[id];
+    if (b.kind !== 'ring' && b.kind !== 'amulet') continue;
+    const ps = [].concat(b.power || []);
+    check(ps.length && ps.every(k => RELIC_POWERS[k]), `${id} has no power, or one the rules do not know`);
+    check(b.desc && b.value > 0 && b.tier >= 1, `${id} is missing its description, value or tier`);
+    ps.forEach(k => used.add(k));
+  }
+  for (const k in RELIC_POWERS) check(used.has(k), `no relic, ring or amulet carries the '${k}' power`);
   check(Object.keys(CLASSES).length === 4, 'the class list changed; check every class still has relics');
 }
 for (const k in PROPS) {

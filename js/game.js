@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, ELITES, THEMES, BESTIARY, TALENTS } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELITES, THEMES, BESTIARY, TALENTS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -256,10 +256,21 @@ const Game = (() => {
   // Named gear (see relics.js). A striking power belongs to the blade that
   // strikes, so it is asked of one slot; the rest work from anywhere worn.
   const relicOf = it => (it && it.u && RELICS[it.u]) || null;
+  // two rings and an amulet, worn by anyone, each with the power it was made for
+  const JEWEL_SLOTS = ['ring', 'ring2', 'amulet'];
+  const isJewel = it => { const b = it && ITEMS[it.t]; return !!b && (b.kind === 'ring' || b.kind === 'amulet'); };
+  /** @returns {string[]} */
+  const jewelPowers = it => { const b = it && ITEMS[it.t]; return b && b.power ? [].concat(b.power) : []; };
   function hasPower(power, slot, p = P()) {
-    const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield'];
-    // a relic's powers, or the one power an ordinary piece was made with
-    return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && it.pw === power); });
+    const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS];
+    // a relic's powers, the one power an ordinary piece was made with, or a ring's
+    return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
+  }
+  /** How much the rings and amulet worn add to a power that comes in amounts: its bonus, with the piece's enchantment (a curse takes from it). */
+  function jewelBonus(power, p = P()) {
+    let n = 0;
+    for (const s of JEWEL_SLOTS) { const it = p.eq[s]; if (it && jewelPowers(it).includes(power)) n += (ITEMS[it.t].bonus || 0) + (it.e || 0); }
+    return n;
   }
   /** Extra damage a bane deals to the monster it was made for. */
   function baneDamage(m, slot) {
@@ -296,7 +307,7 @@ const Game = (() => {
   // Found gear keeps its quality to itself (h) until it is worn, studied or
   // appraised, and a cursed piece will not come off once worn until the
   // curse is broken. A cursed thing in the pack does no harm: it only binds.
-  const isGear = it => { const b = ITEMS[it.t]; return !!b && (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield'); };
+  const isGear = it => { const b = ITEMS[it.t]; return !!b && (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield' || b.kind === 'ring' || b.kind === 'amulet'); };
   const bound = it => !!(it && it.curse);
   const cap = str => str[0].toUpperCase() + str.slice(1);
   /** Everything carried or worn whose quality is still hidden. */
@@ -457,13 +468,44 @@ const Game = (() => {
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
   }
+  /**
+   * Rings and amulets, from the second floor down: now and then one lies on
+   * a pile, and a trader may keep one. They come from a stream of their own,
+   * so a seed's floors hold everything they held before there were rings.
+   * A ring that comes in amounts may be finely made, or cursed; the kind is
+   * known only by its look until it is worn or studied.
+   */
+  const JEWEL_FIND = 0.45, JEWEL_SHOP = 0.4;
+  function placeJewellery(L, depth) {
+    if (depth < 2) return;
+    const rng = new Rng(`${G.seed}|jewels|${depth}`);
+    const maxTier = 1 + Math.floor(depth / 2);
+    const pool = Object.keys(ITEMS).filter(id => isJewel({ t: id }) && ITEMS[id].tier <= maxTier);
+    if (!pool.length) return;
+    const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
+    if (piles.length && rng.chance(JEWEL_FIND)) {
+      const id = rng.pick(pool), b = ITEMS[id], it = { t: id, q: 1, e: 0 };
+      if (b.bonus) {
+        const r = rng.next();
+        if (r < 0.2) { it.e = r < 0.07 ? -2 : -1; it.curse = 1; }
+        else if (r > 0.65) it.e = r > 0.92 ? 2 : 1;
+        it.h = 1;
+      }
+      L.items[rng.pick(piles)].push(it);
+    }
+    const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
+    if (trader && rng.chance(JEWEL_SHOP)) {
+      const id = rng.pick(pool);
+      trader.stock.push({ t: id, q: 1, e: ITEMS[id].bonus && rng.chance(0.3) ? 1 : 0 });
+    }
+  }
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
   const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
   function toHit() {
     const p = P();
     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e
-      + (p.perkHit || 0) + (effect('might') ? 2 : 0);
+      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might');
   }
   function playerAC() {
     const p = P();
@@ -474,7 +516,7 @@ const Game = (() => {
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0);
     // a second blade is no shield, but it turns aside a blow now and then
     if (p.eq.offhand) ac += OFFHAND_PARRY;
-    return ac;
+    return ac + jewelBonus('protect', p);
   }
   function knownSpells() {
     const c = cls();
@@ -519,7 +561,7 @@ const Game = (() => {
     let n = b.name;
     if (!isKnown(it.t)) {
       const look = G.looks[it.t];
-      n = b.kind === 'potion' ? `${look.adj[0].toUpperCase() + look.adj.slice(1)} Potion` : `${look.adj[0].toUpperCase() + look.adj.slice(1)} Scroll`;
+      n = `${look.adj[0].toUpperCase() + look.adj.slice(1)} ${{ potion: 'Potion', scroll: 'Scroll', ring: 'Ring', amulet: 'Amulet' }[b.kind]}`;
     }
     if (it.e && !it.h) n += it.e > 0 ? ` +${it.e}` : ` −${-it.e}`;
     // a power is part of what studying or wearing a piece tells you
@@ -531,7 +573,8 @@ const Game = (() => {
     if (it.t === 'key') return 'key_' + it.color;
     if (it.u && Assets.sprites['relic_' + ITEMS[it.t].sprite]) return 'relic_' + ITEMS[it.t].sprite;
     // a potion keeps its bottle once it is known: the same draught, now named
-    if (!isKnown(it.t) || (ITEMS[it.t].kind === 'potion' && G.looks[it.t])) return G.looks[it.t].sprite;
+    // (and a ring its stone)
+    if (!isKnown(it.t) || (['potion', 'ring', 'amulet'].includes(ITEMS[it.t].kind) && G.looks[it.t])) return G.looks[it.t].sprite;
     return ITEMS[it.t].sprite;
   }
   /**
@@ -566,6 +609,7 @@ const Game = (() => {
   }
   function canEquip(it) {
     const p = P(), b = ITEMS[it.t], c = cls();
+    if (b.kind === 'ring' || b.kind === 'amulet') return null;     // anyone can wear one
     if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield a ${b.name.toLowerCase()}.`;
     if (b.kind === 'armor') {
       if (c.armor === 'none') return `${c.plural} cannot wear armor.`;
@@ -582,7 +626,9 @@ const Game = (() => {
   }
   function equip(it, quiet, toSlot) {
     const p = P(), b = ITEMS[it.t];
-    const slot = toSlot === 'offhand' ? 'offhand' : b.kind;
+    let slot = toSlot === 'offhand' ? 'offhand' : b.kind;
+    // two fingers to choose from: an empty one first, then whichever is not held by a curse
+    if (b.kind === 'ring') slot = toSlot === 'ring' || toSlot === 'ring2' ? toSlot : !p.eq.ring ? 'ring' : !p.eq.ring2 ? 'ring2' : bound(p.eq.ring) ? 'ring2' : 'ring';
     if (p.eq[slot] === it) return true;                      // already worn
     if (p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return false; }
     const why = slot === 'offhand' ? offhandReason(it) : canEquip(it);
@@ -618,7 +664,9 @@ const Game = (() => {
     p.eq[slot] = it;
     refreshSp(p);
     if (!quiet) log(`You equip ${the(it)}.`);
-    // putting it on is how you find out what it is
+    // putting it on is how you find out what it is: a ring or an amulet says
+    // what it was made for as it goes on, then how well
+    if (isJewel(it) && !isKnown(it.t)) { G.known[it.t] = 1; log(`It is ${ITEMS[it.t].kind === 'amulet' ? 'an' : 'a'} ${ITEMS[it.t].name}.`, 'info'); }
     if (it.h) { delete it.h; tellQuality(it); }
     emit('inv');
     return true;
@@ -761,7 +809,7 @@ const Game = (() => {
         }
         holdVitals(wasS, fxDelay);
       } finally { fxDelay = 0; }
-    } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
+    } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield' || b.kind === 'ring' || b.kind === 'amulet') {
       equip(it);
       return;
     } else if (b.kind === 'key') {
@@ -785,7 +833,7 @@ const Game = (() => {
     const b = ITEMS[it.t];
     // a piece of gear can be judged by eye, if you know what to look for
     if (b && isGear(it)) {
-      if (!it.h) return 'You already know its quality.';
+      if (!it.h && isKnown(it.t)) return 'You already know its quality.';
       if (it.studied === P().level) return 'You cannot judge it yet. Perhaps with more experience.';
       return null;
     }
@@ -800,7 +848,9 @@ const Game = (() => {
     const c = statCheck('int', STUDY_DC, P().cls === 'mage' ? 2 : 0);
     if (isGear(it)) {
       if (c.pass) {
-        delete it.h;
+        const was = itemName(it);
+        delete it.h; G.known[it.t] = 1;
+        if (isJewel(it) && was !== ITEMS[it.t].name) log(`You turn the ${was} to the light and know it: ${ITEMS[it.t].name}.`, 'info');
         log(`You look ${the(it)} over closely: ${itemName(it)}${it.curse ? ', and there is a curse worked into it' : ''}.${c.note}`, it.curse ? 'bad' : 'good');
       } else {
         it.studied = P().level;
@@ -935,11 +985,16 @@ const Game = (() => {
     const looks = {};
     potions.forEach((id, i) => { looks[id] = { adj: pl[i % pl.length][0], sprite: pl[i % pl.length][1] }; });
     scrolls.forEach((id, i) => { looks[id] = { adj: sl[i % sl.length], sprite: 'scroll' }; });
+    // rings and amulets after, so the potions and scrolls of a seed look as they always did
+    for (const [kind, all] of [['ring', RING_LOOKS], ['amulet', AMULET_LOOKS]]) {
+      const pool = rng.shuffle(all.slice());
+      Object.keys(ITEMS).filter(id => ITEMS[id].kind === kind).forEach((id, i) => { looks[id] = { adj: pool[i % pool.length][0], sprite: pool[i % pool.length][1] }; });
+    }
     return looks;
   }
   function isKnown(t) {
     const b = ITEMS[t];
-    return !!(!b || (b.kind !== 'potion' && b.kind !== 'scroll') || !G.looks[t] || G.known[t]);
+    return !!(!b || !['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) || !G.looks[t] || G.known[t]);
   }
   function newGame(cfg) {
     const c = CLASSES[cfg.cls];
@@ -948,7 +1003,7 @@ const Game = (() => {
     const p = {
       name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
-      inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null }, effects: {}, poison: null,
+      inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null, ring: null, ring2: null, amulet: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
     };
     // the background is who you were before the first stair, and it shows
@@ -986,7 +1041,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1137,7 +1192,7 @@ const Game = (() => {
     Sound.play('step');
     distFieldAt = -1e9;
     onStep();
-    const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0);
+    const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0) + (hasPower('seer') ? 0.35 : 0);
     if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < eye) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
     if (G.status === 'playing') noticeStairs();
@@ -1241,11 +1296,12 @@ const Game = (() => {
   const SAVE_DC = { claw: 10, grip: 10, drain: 4, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
-  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus);
+  // a Ring of Evasion counts toward every save: the tricks, venom and traps
+  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus + jewelBonus('evasion'));
   function venomSave(kind, whose, quiet = false) {
     const p = P();
     if (p.poison || hasPower('pure')) return null;
-    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2));
+    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion'));
     if (!c.pass) p.poison = poisonFor();
     if (!quiet) log(c.pass ? `You shake off ${whose} venom.${c.note}` : `${cap(whose)} venom takes hold: you are poisoned!${c.note}`, c.pass ? 'good' : 'bad');
     return c;
@@ -1259,7 +1315,7 @@ const Game = (() => {
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
     // tombwise. No eye for it, no lucky twenty: it is noticed or not
-    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0);
+    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer');
     const seen = statCheck('wis', saveDC('spot'), eye, { natural: false });
     // each is seen as it goes off (see the renderer); a dart comes from one wall or the other
     const [tx, ty] = k.split(',').map(Number);
@@ -1275,7 +1331,7 @@ const Game = (() => {
     // set, and deeper ones are set better. A dart or a needle then misses
     // outright; a pit is only half a fall, caught at its edge. A gong cannot
     // be dodged: its harm is the noise.
-    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2)) : null;
+    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion')) : null;
     const pit = tr === TRAP_TYPES.pit;
     fx.trapDodged = !!(dodge && dodge.pass && !pit);
     // a fall shakes the view longer than a blow: set once the harm (which
@@ -1339,6 +1395,8 @@ const Game = (() => {
   function sellPrice(it) {
     const r = relicOf(it);
     if (r) return Math.round(r.value * 0.45 * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1));
+    // a ring you cannot name goes for a trinket's price: the trader will not tell you what it is
+    if (isJewel(it) && !isKnown(it.t)) return Math.max(1, Math.round(15 * (1 + charm())));
     const v = ITEMS[it.t].value || 1;
     // unknown gear goes for the price of a plain one; the trader will not tell
     const e = it.h ? 0 : (it.e || 0);
@@ -1675,7 +1733,7 @@ const Game = (() => {
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
     const finesse = p.cls === 'thief';
-    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0) + jewelBonus('might');
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0);
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
@@ -2044,6 +2102,18 @@ const Game = (() => {
     Sound.play('hurt', from ? heard(from) : undefined);
     buzz(40);
     if (msg) log(msg, 'bad');
+    // an Amulet of Life Saving takes the killing blow, once, and is spent
+    const saver = p.hp <= 0 && JEWEL_SLOTS.find(s => jewelPowers(p.eq[s]).includes('lifesave'));
+    if (saver) {
+      const it = p.eq[saver];
+      p.eq[saver] = null; G.known[it.t] = 1;
+      noteHealed(Math.ceil(p.maxHp / 2) - p.hp);
+      p.hp = Math.ceil(p.maxHp / 2);
+      log(`The blow should have killed you. ${cap(the(it))} flares white at your throat, and crumbles to dust.`, 'good');
+      fx.healAt = realNow;
+      Sound.play('heal');
+      emit('inv');
+    }
     if (p.hp <= 0 && hasTalent('last_rites') && !p.ritesUsed) {
       p.hp = 1; p.ritesUsed = true; p.sp = 0;
       log('Last rites: a light holds you up when you should have fallen, and takes every prayer you had left. It will not come again.', 'good');
@@ -3605,6 +3675,9 @@ const Game = (() => {
       if (!G.journal) G.journal = [];
       if (G.logSeq == null) G.logSeq = G.log ? G.log.length : 0;
       if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
+      // a run from before rings and amulets: the slots, and a look for each
+      for (const s of JEWEL_SLOTS) if (G.player.eq[s] === undefined) G.player.eq[s] = null;
+      if (G.looks) { const all = buildLooks(G.seed); for (const id in all) if (!G.looks[id]) G.looks[id] = all[id]; }
       if (!G.pendingBoons) G.pendingBoons = [];
       if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);
@@ -3649,7 +3722,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

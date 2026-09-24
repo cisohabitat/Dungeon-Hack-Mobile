@@ -32,6 +32,9 @@
  * @property {Item|null} armor
  * @property {Item|null} shield
  * @property {Item|null} offhand   a second light weapon, where the class allows it
+ * @property {Item|null} [ring]
+ * @property {Item|null} [ring2]
+ * @property {Item|null} [amulet]
  */
 
 /**

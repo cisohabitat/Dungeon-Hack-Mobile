@@ -175,6 +175,14 @@ function play(ctx, cls, seed, opts, bg) {
       };
       if (val(it) > val(cur)) Game.equip(it, true);
     }
+    // --- a ring or an amulet goes on while there is a finger or a throat free
+    // for it, known or not, as a person would try one: unless it is known to be cursed
+    if (!process.env.NOJEWELS) for (const it of p.inv.slice()) {
+      const b = ITEMS[it.t];
+      if ((b.kind !== 'ring' && b.kind !== 'amulet') || (it.curse && !it.h)) continue;
+      const free = b.kind === 'ring' ? !p.eq.ring || !p.eq.ring2 : !p.eq.amulet;
+      if (free && Game.equip(it, true)) rec.jewels = (rec.jewels || 0) + 1;
+    }
     // --- keep room in the pack: a person drops gear they cannot use or have
     // bettered, rather than walking past everything once the pack is full
     if (p.inv.length >= Game.INV_MAX - 1) {
@@ -428,6 +436,12 @@ function play(ctx, cls, seed, opts, bg) {
         // a relic this hero can use comes first: it is what the gold is for
         const relic = s.stock.find(i => i.u && !Game.canEquip(i) && p.gold >= Game.buyPrice(s, i));
         if (relic && Game.buy(relic)) rec.relicsBought = (rec.relicsBought || 0) + 1;
+        // and a ring or an amulet, if there is room to wear it and gold to
+        // spare: bought with the potion money it cost the bot more lives than
+        // it saved (found-only matched no rings at all; buying lost 3-4 points)
+        const jewel = !process.env.NOJEWELS && !process.env.NOJEWELBUY && s.stock.find(i => ['ring', 'amulet'].includes(ITEMS[i.t].kind)
+          && (ITEMS[i.t].kind === 'ring' ? !p.eq.ring || !p.eq.ring2 : !p.eq.amulet) && p.gold >= Game.buyPrice(s, i) * 2 + 150);
+        if (jewel && Game.buy(jewel)) rec.jewelsBought = (rec.jewelsBought || 0) + 1;
         const want = s.stock
           .filter(i => ['potion_heal', 'potion_xheal', 'ration', 'meat', 'potion_cure'].includes(i.t))
           .sort((a, b) => Game.buyPrice(s, a) - Game.buyPrice(s, b));
@@ -621,7 +635,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
 }
 // GEAR=1 shows what each class ended its runs holding
