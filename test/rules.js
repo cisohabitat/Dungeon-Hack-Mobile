@@ -23,6 +23,11 @@ async function start(cls, seed, opts) {
   return ctx;
 }
 
+// A test that counts what the dice did over many tries passes or fails by
+// luck unless the dice are the same every run: seed the live combat dice from
+// a name, as the benchmark does.
+const seedDice = (ctx, key) => { ctx.Dice.s = new ctx.Rng('rules|' + key).s; };
+
 // Lines logged since a mark, read by count rather than position. The log is
 // capped at eighty, so once full its length stops moving and a slice from the
 // old length returns nothing at all: the same fault the message box had.
@@ -168,6 +173,9 @@ await test('no fighter build is dead: each of the three wins somewhere', async (
     const { Game, Dungeon } = ctx;
     Game.newGame({ name: 'B', cls: 'fighter', bg: 'oathbroken',
       stats: { str: 16, dex: 12, con: 14, int: 10, wis: 10, cha: 10 }, seed: 'dual-dps', opts: OPTS });
+    // two blades and the greatsword are within a few percent of each other
+    // against armour: unseeded, the dice alone could order them either way
+    seedDice(ctx, `dps-${Object.values(build).join('+')}-${foe}`);
     const p = Game.player(), G = Game.state(), L = Game.level();
     p.level = 5;
     p.eq.weapon = null; p.eq.shield = null; p.eq.offhand = null;
@@ -178,7 +186,7 @@ await test('no fighter build is dead: each of the three wins somewhere', async (
       awake: true, nextAct: 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, split: true, risen: true };
     L.monsters.push(dummy);
     let dealt = 0;
-    const swings = 6000;
+    const swings = 30000;   // the greatsword's edge over two blades against armour is a few percent
     for (let i = 0; i < swings; i++) {
       G.t = p.nextAttack;
       dummy.hp = 1e9; dummy.awake = true;
@@ -2865,13 +2873,16 @@ await test('saving throws: the claw, the gaze, the web, the charge and the lich\
   // one trick, landed over and over on a hero with this score; what it did each time
   const trials = async (id, move, dist, stat, value, measure) => {
     const ctx = await start('fighter', `sv-${move}-${value}`);
+    seedDice(ctx, `sv-${move}-${value}`);
     const { Game } = ctx; const p = Game.player(), G = Game.state();
     p.stats[stat] = value; p.hp = p.maxHp = 9999;
     const results = [];
-    for (let i = 0; i < 40; i++) {
+    // enough tries that a save's halving shows through the dice: forty let a
+    // weak and a strong gaze come out within a fifth of each other one run in ten
+    for (let i = 0; i < 120; i++) {
       p.held = 0; p.heldBy = ''; p.webbed = 0; p.grabbed = null; p.maxHp = 9999; p.hp = 9999;
       const m = ahead(ctx, id, dist, { hp: 999, maxHp: 999, blows: 5, spoke: true });
-      if (move === 'melee') { m.windup = { kind: 'melee', at: G.t, until: G.t }; p.perkAc = -30; }
+      if (move === 'melee') { m.windup = { kind: 'melee', at: G.t, until: G.t }; p.effects.ac = { amount: -30, until: 1e12 }; }
       else m.windup = { kind: 'move', move, at: G.t, until: G.t, dx: -ctx.Dungeon.DIRS[p.dir][0], dy: -ctx.Dungeon.DIRS[p.dir][1] };
       m.nextAct = G.t;
       Game.update(G.t + 25, 25);
@@ -4331,12 +4342,14 @@ await test('damage dealt and taken add up, blasts into a group and the floor it 
     const { Game } = ctx;
     const p = Game.player(), G = Game.state();
     p.perkHit = 60;
+    seedDice(ctx, 'stats-dealt');
     const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
     for (let i = 0; i < 12; i++) { G.t = p.nextAttack; Game.input('attack'); }
     const s = Game.runStats();
     if (!(s.dealt > 0) || s.dealt !== 5000 - m.hp) out.push(`dealt ${s.dealt}, the orc lost ${5000 - m.hp}`);
-    // and the orc hits back
-    p.hp = p.maxHp = 9999;
+    // and the orc hits back: against no armour to speak of, so it lands
+    // whatever the hero's rolled scores and kit
+    p.hp = p.maxHp = 9999; p.effects.ac = { amount: -30, until: 1e12 };
     m.nextAct = G.t;
     const mark = markLog(G);
     run(Game, G, 8000);
