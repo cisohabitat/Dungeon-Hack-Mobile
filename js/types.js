@@ -92,6 +92,8 @@
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
  * @property {boolean} [spoke]     the lich has spoken, and its fight has begun
+ * @property {number} [wardUntil]  the lich is wrapped in shadow, and cannot be hurt, until then
+ * @property {boolean} [wardSaid]  the log has said so once this time
  * @property {number} [riteReady]  when the lich can next try its rite
  * @property {number[][]} [snuffed]  the torches the lich put out, to light again when it falls
  * @property {Array<{x: number, y: number}>} [lights]  their light, likewise

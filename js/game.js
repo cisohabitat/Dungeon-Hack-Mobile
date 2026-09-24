@@ -423,7 +423,8 @@ const Game = (() => {
   function spriteFor(it) {
     if (it.t === 'key') return 'key_' + it.color;
     if (it.u && Assets.sprites['relic_' + ITEMS[it.t].sprite]) return 'relic_' + ITEMS[it.t].sprite;
-    if (!isKnown(it.t)) return G.looks[it.t].sprite;
+    // a potion keeps its bottle once it is known: the same draught, now named
+    if (!isKnown(it.t) || (ITEMS[it.t].kind === 'potion' && G.looks[it.t])) return G.looks[it.t].sprite;
     return ITEMS[it.t].sprite;
   }
   /**
@@ -763,7 +764,11 @@ const Game = (() => {
     const rng = new Rng('looks#' + seed);
     const potions = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'potion');
     const scrolls = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'scroll');
-    const pl = rng.shuffle(POTION_LOOKS.slice());
+    // every kind of potion in a run gets a bottle of its own colour, so two
+    // unknown draughts are never the same picture in the pack
+    const shuffled = rng.shuffle(POTION_LOOKS.slice()), seen = new Set(), pl = [];
+    for (const look of shuffled) if (!seen.has(look[1])) { seen.add(look[1]); pl.push(look); }
+    for (const look of shuffled) if (!pl.includes(look)) pl.push(look);
     const sl = rng.shuffle(SCROLL_LOOKS.slice());
     const looks = {};
     potions.forEach((id, i) => { looks[id] = { adj: pl[i % pl.length][0], sprite: pl[i % pl.length][1] }; });
@@ -1470,6 +1475,14 @@ const Game = (() => {
     damageMonster(m, dmg, 'offhand', note);
   }
   function damageMonster(m, dmg, tag, note) {
+    // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
+    // act gets its moment instead of three going by in as many blows
+    if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
+      floatText(m, 'shadow', '#b090ff');
+      if (!m.wardSaid) { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts.`, 'bad'); }
+      sparks(m);
+      return;
+    }
     noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;
@@ -2065,6 +2078,18 @@ const Game = (() => {
     useItem(pick);
     return true;
   }
+  /** Something awake within five steps: no resting, and the Rest button offers a drink instead. */
+  function enemiesNear() {
+    const L = lvl();
+    ensureDist();
+    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
+  }
+  /** What the Rest button will do: rest, or in a fight, when there is one to drink, quaff. */
+  function restLabel() {
+    if (!G || G.status !== 'playing') return 'Rest';
+    const drink = P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t));
+    return drink && enemiesNear() ? 'Quaff' : 'Rest';
+  }
   /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
   function castLabel() {
     const list = knownSpells();
@@ -2076,8 +2101,7 @@ const Game = (() => {
   function rest() {
     const p = P(), L = lvl();
     ensureDist();
-    const near = L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
-    if (near) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
+    if (enemiesNear()) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
     if (p.food < 6) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
     p.food -= 6;
@@ -2222,6 +2246,7 @@ const Game = (() => {
   // acolyte, crush the skeleton's bones, burn the troll.
   const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400 };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
+  const WARD_MS = 4000;     // how long the lich stays wrapped in shadow when its fight turns
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
@@ -2425,6 +2450,7 @@ const Game = (() => {
     if (!m.hall) m.hall = roomOf(m);
     raiseGuards(m);
     m.windup = null; m.volley = null;
+    m.wardUntil = G.t + WARD_MS; m.wardSaid = false;
     // a blow that goes straight through two thirds and one third does not
     // wait for it to step back: the torches go out where it stands
     if (m.phase === 1 && m.hp >= m.maxHp / 3) {
@@ -2438,7 +2464,7 @@ const Game = (() => {
       m.nextAct = G.t + 1200;
     } else if (m.phase === 2) {
       snuffTorches(m);
-      m.riteReady = G.t + 2500;
+      m.riteReady = m.wardUntil;             // the rite begins the moment the shadow lifts
       m.nextAct = G.t + 900;
       log(`The torches gutter and die. In the dark the ${mb.name} quickens, and turns toward the Heart.`, 'bad');
       fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
@@ -2762,7 +2788,7 @@ const Game = (() => {
         break;
       case 'attack': case 'cast': case 'use': case 'rest':
         if (P().held > G.t) { blocked('You are frozen in place!'); return; }
-        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else rest(); return; }
+        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (restLabel() === 'Quaff') quaff(); else rest(); return; }
         // a tap a moment early is kept and spent the instant the blow is ready,
         // rather than dropped: a player cannot see the swing timer
         if (G.t < P().nextAttack) { if (P().nextAttack - G.t <= 350) queuedAttack = true; }
@@ -2853,7 +2879,9 @@ const Game = (() => {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: mb.boss ? null : m.hp, maxHp: m.maxHp, tell, special, boss: !!mb.boss });
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: mb.boss ? null : m.hp, maxHp: m.maxHp, tell, special, boss: !!mb.boss,
+          // wrapped in shadow, it shows faint and flickering
+          ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : {}) });
         continue;
       }
       // a group stands abreast across your view: the front one a little
@@ -2984,7 +3012,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft,
+    wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     INV_MAX, T,

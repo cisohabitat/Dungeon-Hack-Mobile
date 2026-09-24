@@ -338,6 +338,8 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* the Use button lights up when it has something specific to do */
 .ctl.ctx { border-color: var(--gold); color: var(--gold); }
 .ctl.ctx small { color: var(--gold); }
+/* Rest turned Quaff in a fight: marked like the Use button when it names a deed */
+.bottombar button.ctx { border-color: var(--gold); color: var(--gold); }
 
 /* encounters */
 .enc-art { text-align: center; margin: 4px 0 8px; }

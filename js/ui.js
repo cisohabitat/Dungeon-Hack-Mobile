@@ -450,6 +450,7 @@ const UI = (() => {
   let useSig = '';
   function refreshUse() {
     refreshCast();
+    refreshRest();
     const label = Game.useLabel();
     if (label === useSig) return;
     useSig = label;
@@ -458,6 +459,18 @@ const UI = (() => {
     btn.querySelector('small').textContent = label;
     btn.setAttribute('aria-label', label);
     btn.classList.toggle('ctx', label !== 'Use' && label !== 'Search');
+  }
+  // in a fight there is no resting: the Rest button is a drink instead, for every class
+  let restSig = '';
+  function refreshRest() {
+    const label = Game.restLabel();
+    if (label === restSig) return;
+    restSig = label;
+    const btn = document.querySelector('[data-tap="rest"]');
+    if (!btn) return;
+    btn.textContent = label;
+    btn.classList.toggle('ctx', label === 'Quaff');
+    btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : 'Rest');
   }
   let castSig = '';
   function refreshCast() {

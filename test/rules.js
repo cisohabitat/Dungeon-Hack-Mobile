@@ -3746,6 +3746,46 @@ await test('a line said again straight after itself is counted on one line, and 
   return true;
 });
 
+await test('every potion in a run has its own bottle, kept once known; in a fight Rest becomes a drink', async () => {
+  const ctx = await start('mage', 'bottles');
+  const { Game, ITEMS } = ctx; const p = Game.player(), G = Game.state();
+  const potions = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'potion');
+  const looks = potions.map(id => Game.spriteFor({ t: id, q: 1 }));
+  if (new Set(looks).size !== potions.length) return `bottles shared: ${looks.join(',')}`;
+  G.known.potion_heal = 1;
+  if (Game.spriteFor({ t: 'potion_heal', q: 1 }) !== looks[potions.indexOf('potion_heal')]) return 'the bottle changed once the draught was known';
+  // a fight, a known draught: Rest offers it, and drinks it
+  p.inv.push({ t: 'potion_heal', q: 1, e: 0 });
+  p.maxHp = 40; p.hp = 5;                  // hurt enough that the draught is not wasted
+  beside(ctx, 'orc', { hp: 99, maxHp: 99, nextAct: 1e12, awake: true });
+  if (Game.restLabel() !== 'Quaff') return `with an orc beside, Rest says ${Game.restLabel()}`;
+  const count = () => p.inv.filter(i => i.t === 'potion_heal').reduce((n, i) => n + i.q, 0);
+  const before = count();
+  Game.input('rest');
+  if (count() !== before - 1) return 'Rest in a fight did not drink the draught';
+  Game.level().monsters.length = 0;
+  return Game.restLabel() === 'Rest' || 'with the fight over, Rest still offers a drink';
+});
+
+await test('when its fight turns the lich is wrapped in shadow a few seconds, and blows pass through it', async () => {
+  const ctx = await start('fighter', 'lich-phase1');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.stats.str = 30;
+  const { m } = lichRoom(ctx, {});
+  woundTo(ctx, m, m.maxHp * 2 / 3);
+  if (m.phase !== 1) return `phase ${m.phase}`;
+  if (!(m.wardUntil > G.t)) return 'no shadow when its fight turned';
+  // bring it back beside the hero and strike while the shadow lasts
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  m.x = p.x + dx; m.y = p.y + dy; m.nextAct = 1e12;
+  const hp = m.hp;
+  for (let i = 0; i < 5 && G.t < m.wardUntil - 1500; i++) { G.t = Math.max(p.nextAttack, G.t); Game.input('attack'); }
+  if (m.hp !== hp) return `a blow landed through the shadow (${hp} to ${m.hp})`;
+  G.t = m.wardUntil + 1; p.nextAttack = G.t;
+  for (let i = 0; i < 10 && m.hp === hp; i++) { G.t = Math.max(p.nextAttack, G.t); Game.input('attack'); }
+  return m.hp < hp || 'blows still passed through after the shadow lifted';
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
