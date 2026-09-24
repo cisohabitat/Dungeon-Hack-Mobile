@@ -423,7 +423,7 @@ function play(ctx, cls, seed, opts, bg) {
           const lodge = svc('lodge');
           if (lodge && !lodge.why && p.hp < p.maxHp * 0.7 && p.gold >= lodge.price + 20 && Game.buyService('lodge')) rec.lodged = (rec.lodged || 0) + 1;
           for (let n = 0; n < 8; n++) {
-            const next = ['hone', 'reinforce', 'rune_weapon', 'rune_armor'].map(svc).filter(v => v && !v.why && p.gold >= v.price + 20).sort((a, b) => a.price - b.price)[0];
+            const next = ['hone', 'reinforce', 'rune_weapon', 'rune_armor', 'study'].map(svc).filter(v => v && !v.why && p.gold >= v.price + 20).sort((a, b) => a.price - b.price)[0];
             if (!next || !Game.buyService(next.id)) break;
             if (next.id.startsWith('rune')) rec.runes = (rec.runes || 0) + 1; else rec.forged = (rec.forged || 0) + 1;
           }

@@ -1608,6 +1608,26 @@ await test('the vigil lamp on the last floor sells a ward for gold', async () =>
   return (p.effects.ac && p.effects.ac.amount === 3 && p.effects.ac.until > G.t) || `effects: ${JSON.stringify(p.effects)}`;
 });
 
+await test('a caster can study a trader\'s books once for three spell points for good; a fighter cannot', async () => {
+  const out = [];
+  for (const cls of ['mage', 'fighter']) {
+    const ctx = await start(cls, 'study');
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+    const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+    L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+    Game.input('forward');
+    p.gold = 9999;
+    const sv = () => Game.shopServices().find(v => v.id === 'study');
+    if (cls === 'fighter') { if (!sv().why) out.push('a fighter was offered the books'); continue; }
+    const before = p.maxSp;
+    Game.buyService('study');
+    if (p.maxSp !== before + 3) out.push(`spell points ${before} -> ${p.maxSp}`);
+    if (!sv().why) out.push('the books were offered twice');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('every eight-floor delve has a trader on its third and seventh floors, and a vigil lamp on its last', async () => {
   const ctx = await newContext();
   for (let i = 0; i < 8; i++) {

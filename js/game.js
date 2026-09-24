@@ -321,8 +321,15 @@ const Game = (() => {
       temper('hone', 'weapon', 'Hone your weapon', 'sharper'),
       temper('reinforce', 'armor', 'Reinforce your armour', 'stouter'),
       rune('rune_weapon', 'weapon'), rune('rune_armor', 'armor'),
-      lodging(),
+      lodging(), books(),
     ];
+  }
+  /** A caster reads the trader's books: three spell points more, for good. One reading a trader. */
+  function books() {
+    const p = P();
+    const why = !CLASSES[p.cls].spells ? 'Only a caster can make anything of these books.' : shop.studied ? 'You have read all this trader has.' : null;
+    return { id: 'study', label: 'Study the trader\'s books', detail: why || 'Three more spell points, for good.',
+      price: Math.round((150 + 30 * G.depth) * (1 - charm())), why };
   }
   /**
    * Each trader knows one rune for a weapon and one for armour, and will work
@@ -373,6 +380,11 @@ const Game = (() => {
       const it = P().eq[id === 'rune_weapon' ? 'weapon' : 'armor'];
       it.pw = /** @type {any} */ (s).pw;
       log(`The trader cuts a rune into ${the(it)} and breathes on it: ${itemName(it)}.`, 'good');
+    } else if (id === 'study') {
+      const p = P();
+      p.bonusSp = (p.bonusSp || 0) + 3; p.maxSp = spMax(p); p.sp = Math.min(p.maxSp, p.sp + 3);
+      shop.studied = true;
+      log('You read late by the trader\'s lamp, and something in the margins stays with you (+3 spell points).', 'good');
     } else if (id === 'lodge') {
       const p = P();
       healPlayer(p.maxHp - p.hp); p.sp = p.maxSp;
@@ -2826,7 +2838,7 @@ const Game = (() => {
   // lich at full strength, and allows only two rests on a floor.
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
-    normal: { hp: 1.25, edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
+    normal: { hp: 1.3,  edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
     hard:   { hp: 1.4,  edge: 2, lich: 1.4,  rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
