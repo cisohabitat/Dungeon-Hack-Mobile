@@ -395,7 +395,7 @@ function play(ctx, cls, seed, opts, bg) {
     // every trader once, as a person would (SHOPONCE=1: only the first, the old way)
     const shopKey = process.env.SHOPONCE ? 'any' : G.depth;
     rec.shopped = rec.shopped || {}; rec.shopTries = rec.shopTries || {};
-    if (npc && !rec.shopped[shopKey] && p.gold >= 50 && p.inv.length < 16 && (rec.shopTries[shopKey] = (rec.shopTries[shopKey] || 0) + 1) < 140) {
+    if (npc && !rec.shopped[shopKey] && p.gold >= 50 && (rec.shopTries[shopKey] = (rec.shopTries[shopKey] || 0) + 1) < 140) {
       const beside = Math.abs(npc.x - p.x) + Math.abs(npc.y - p.y) === 1;
       if (Game.currentShop()) {
         // stock up on what keeps us alive, cheapest first
