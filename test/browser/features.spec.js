@@ -423,6 +423,26 @@ test.describe('dungeon features', () => {
     expect(await size(), 'the choice should survive a reload').toBeGreaterThan(16);
   });
 
+  test('a basilisk readying its gaze says to turn away, over a tip already showing; an answered trick says there is an opening', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'gaze-tip' });
+    await clearBoons(page);
+    // the controls tip is up from the start: the warning must not wait behind it
+    await expect(page.locator('#tip')).toContainText('Move with the arrows');
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 7, id: 'basilisk', x: p.x + dx * 3, y: p.y + dy * 3, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
+        windup: { kind: 'move', move: 'gaze', at: G.t, until: G.t + 60000 } });
+    });
+    await expect(page.locator('#tip')).toContainText('turn away', { timeout: 2000 });
+    // an opening, the first time, is named as one
+    await page.evaluate(() => { const L = Game.level(), m = L.monsters[0]; m.windup = null; Game.player().opening = { uid: m.uid, until: Game.state().t + 60000 }; });
+    await expect(page.locator('#tip')).toContainText('An opening', { timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
   test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
     await startGame(page, { seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);

@@ -414,23 +414,27 @@ const UI = (() => {
   const TIPS = {
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
     monster: 'Something is coming. Face it and tap <b>⚔ Attack</b>. When a <b>warning mark</b> appears over it, step back and the blow misses.',
-    trick: 'A <b>violet mark</b> means a trick, not a blow. Read the log for what is coming. Your <b>Bestiary</b>, in the Journal, writes down each trick you see.',
+    trick: 'A <b>violet mark</b> means a trick, and <b>armour will not turn it</b>: get out of the way. Read the log for what is coming; your <b>Bestiary</b>, in the Journal, writes down each trick you see.',
+    gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
+    rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
+    opening: '<b>An opening!</b> You answered its trick: your next blow at it cannot miss and lands hard. Strike now.',
     take: 'Something lies here. Tap <b>✋ Take</b> to pick it up.',
     stairs: 'Stairs down. Tap <b>Descend</b> when you are ready. The Heart waits at the bottom.',
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
-    trade: 'A trader. Tap <b>Trade</b> to buy, sell and ask about services.',
+    trade: 'A trader. Tap <b>Trade</b> to buy, sell, and use the forge: it sharpens a weapon or strengthens armour, and mends rust.',
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
-  function showTip(id) {
+  /** @param {string} id @param {boolean} [urgent]  a warning that cannot wait: it replaces a tip already showing */
+  function showTip(id, urgent) {
     if (!tipsOn()) return false;
     if (!tipsSeen) { try { tipsSeen = JSON.parse(store(TIPS_SEEN) || '[]'); } catch (e) { tipsSeen = []; } }
     if (tipsSeen.includes(id)) return false;
     const el = $('#tip');
-    if (!el || performance.now() < tipUntil) return false;      // one at a time
+    if (!el || (!urgent && performance.now() < tipUntil)) return false;      // one at a time
     tipsSeen.push(id);
     store(TIPS_SEEN, JSON.stringify(tipsSeen));
     el.innerHTML = TIPS[id];
@@ -457,6 +461,11 @@ const UI = (() => {
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
     if (showTip('controls')) return;
+    // the first time each new trick comes, say how to answer it: these cannot wait
+    const readying = mv => L.monsters.some(m => m.windup && m.windup.move === mv && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
+    if (readying('gaze') && showTip('gaze', true)) return;
+    if (readying('rust') && showTip('rust', true)) return;
+    if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
     if (L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick')) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     if (close && showTip('monster')) return;
