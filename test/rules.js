@@ -2568,6 +2568,28 @@ await test('the tiers of monsters stretch over a short delve: an eight-floor del
   return longMid === 0 || `a sixteen-floor delve met a minotaur on floor 8 (${longMid} times)`;
 });
 
+await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
+  const out = [];
+  const ctx = await start('mage', 'draw-back');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.perkHit = 60;
+  const missile = Game.knownSpells().find(s => s.id === 'magic_missile');
+  beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
+  p.sp = 10; G.t = p.nextAttack; Game.castSpell(missile);
+  if (Game.level().monsters.length) out.push('the missile did not kill');
+  else if (p.sp !== 10 - missile.cost + 1) out.push(`a spell kill left ${p.sp} points, wanted ${10 - missile.cost + 1}`);
+  beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
+  p.sp = 10;
+  for (let i = 0; i < 10 && Game.level().monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+  if (Game.level().monsters.length) out.push('the staff did not kill');
+  else if (p.sp !== 10) out.push(`a staff kill gave points: ${p.sp}`);
+  // never past the most a mage can hold
+  beside(ctx, 'goblin', { hp: 1, maxHp: 1 });
+  p.sp = p.maxSp; G.t = p.nextAttack; Game.castSpell(missile);
+  if (p.sp > p.maxSp) out.push('a spell kill overfilled the points');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('more ways to answer: a blow knocks a ghoul\'s claw aside, fire burns a web, a shut door stops a charge', async () => {
   const out = [];
   {

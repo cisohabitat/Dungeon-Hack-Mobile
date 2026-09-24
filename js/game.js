@@ -1701,7 +1701,11 @@ const Game = (() => {
     // the two halves of a split slime are worth one slime between them
     const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
     p.xp += xp;
-    log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp)`, 'good');
+    // a mage draws back a little of the power their spell has unmade: fire in
+    // the deep floors, where a mage's points ran dry before the fighting did
+    const drawn = castingName && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
+    p.sp += drawn;
+    log(`The ${mb.name} is destroyed!${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`, 'good');
     meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     if (Math.random() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite) {
