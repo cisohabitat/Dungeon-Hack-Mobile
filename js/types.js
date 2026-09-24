@@ -132,6 +132,7 @@
  * @property {{x: number, y: number}|null} stairsDown
  * @property {number} theme
  * @property {boolean} isFinal
+ * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
  */
 

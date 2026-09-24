@@ -481,7 +481,9 @@ const Dungeon = (() => {
   }
 
   function rollLoot(rng, depth) {
-    const kind = rng.weighted([['gold', 24], ['potion', 23], ['food', 18], ['scroll', 8], ['weapon', 10], ['armor', 8], ['shield', 4], ['gem', 5]]);
+    // potions are found less than they were, so a hoard of forty never builds:
+    // the gold that comes instead is what a trader's shelf of draughts is for
+    const kind = rng.weighted([['gold', 30], ['potion', 13], ['food', 18], ['scroll', 10], ['weapon', 10], ['armor', 8], ['shield', 4], ['gem', 7]]);
     const maxTier = 1 + Math.floor(depth / 2);
     const gear = k => {
       const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier);

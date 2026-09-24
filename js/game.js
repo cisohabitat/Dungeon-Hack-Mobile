@@ -2084,11 +2084,13 @@ const Game = (() => {
     ensureDist();
     return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
   }
-  /** What the Rest button will do: rest, or in a fight, when there is one to drink, quaff. */
+  /** What the Rest button will do: rest (saying how well, once rests here grow thin), or in a fight, when there is one to drink, quaff. */
   function restLabel() {
     if (!G || G.status !== 'playing') return 'Rest';
     const drink = P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t));
-    return drink && enemiesNear() ? 'Quaff' : 'Rest';
+    if (drink && enemiesNear()) return 'Quaff';
+    const share = restShare();
+    return share >= 1 ? 'Rest' : share >= 0.5 ? 'Rest \u00bd' : share > 0 ? 'Rest \u00bc' : 'No rest';
   }
   /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
   function castLabel() {
@@ -2098,18 +2100,58 @@ const Game = (() => {
   }
 
   // ---------- resting ----------
+  // A rest is not free. The first on a floor restores everything; each after
+  // it on the same floor does half as much as the one before, and the dark
+  // grows restless: a later rest may be cut short by something that has found
+  // you, and after three there is no more sleep to be had on that floor. Out of a fight, wounds close by themselves only up to half the hero's
+  // life; the rest of the way is a rest, a draught or a prayer. Life becomes a
+  // thing to spend, so a floor's fights add up instead of each starting fresh.
+  const REST_FOOD = 6, REST_DECAY = 0.5, RESTS_PER_FLOOR = 3;
+  const AMBUSH_STEP = 0.3, AMBUSH_MOST = 0.75;
+  const REGEN_CAP = 0.5;
+  /** How much of the hero's life the next rest on this floor gives back. */
+  function restShare() { const n = lvl().rests || 0; return n >= RESTS_PER_FLOOR ? 0 : Math.pow(REST_DECAY, n); }
+  /** Something of this floor finds the sleeper: awake, a few steps off. */
+  function ambush() {
+    const L = lvl();
+    ensureDist();
+    const cands = [];
+    for (let i = 0; i < L.w * L.h; i++) {
+      const dd = distField[i];
+      if (L.tiles[i] !== T.FLOOR || dd < 3 || dd > 7) continue;
+      const x = i % L.w, y = (i / L.w) | 0;
+      if (!monsterAt(x, y) && !npcAt(x, y)) cands.push([x, y]);
+    }
+    if (!cands.length) return false;
+    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && G.depth >= MONSTERS[id].tier[0] && G.depth <= MONSTERS[id].tier[1]);
+    const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
+    const [x, y] = Dice.pick(cands);
+    newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 1500;
+    return true;
+  }
   function rest() {
     const p = P(), L = lvl();
     ensureDist();
     if (enemiesNear()) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
-    if (p.food < 6) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
-    p.food -= 6;
-    noteHealed(p.maxHp - p.hp);
-    p.hp = p.maxHp; p.sp = p.maxSp;
-    G.t += 60000;
+    if (p.food < REST_FOOD) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
+    if (!restShare()) { log('The dark is too close here to sleep again. Find the stairs.', 'bad'); Sound.play('error'); return false; }
+    p.food -= REST_FOOD;
+    const before = L.rests || 0;
+    let share = restShare();
+    L.rests = before + 1;
+    // the first rest on a floor is quiet; after it, each is more likely to be found
+    const found = before > 0 && Math.random() < Math.min(AMBUSH_MOST, before * AMBUSH_STEP);
+    if (found) share /= 2;
+    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
+    noteHealed(hp);
+    p.hp += hp; p.sp += sp;
+    G.t += found ? 20000 : 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = G.t + 300; }
-    log('You rest for a while and wake refreshed.', 'good');
+    const woke = found && ambush();
+    if (woke) log(`You wake to something moving in the dark! (+${hp})`, 'bad');
+    else if (share >= 1) log('You rest for a while and wake refreshed.', 'good');
+    else log(`You rest, but sleep comes thinly here (+${hp}). The dark is stirring.`, 'info');
     Sound.play('heal');
     emit('stats');
     return true;
@@ -2734,7 +2776,9 @@ const Game = (() => {
     updateMonsters();
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
-    if (p.hp < p.maxHp && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0)) {
+    // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
+    const regenTo = Math.ceil(p.maxHp * REGEN_CAP);
+    if (p.hp < regenTo && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0)) {
       ensureDist();
       const L = lvl();
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
@@ -2742,7 +2786,7 @@ const Game = (() => {
         // scale with the pool so recovery takes about the same time at every level
         const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
         const was = p.hp;
-        p.hp = Math.min(p.maxHp, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
+        p.hp = Math.min(regenTo, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
         noteHealed(p.hp - was);
         p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
         emit('stats');

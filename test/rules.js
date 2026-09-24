@@ -3786,6 +3786,60 @@ await test('when its fight turns the lich is wrapped in shadow a few seconds, an
   return m.hp < hp || 'blows still passed through after the shadow lifted';
 });
 
+// ---------- the price of rest ----------
+await test('the first rest on a floor restores all; each after it half as much, and the button says so', async () => {
+  const ctx = await start('fighter', 'rest-decay');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  p.maxHp = 100; p.hp = 10; p.food = 100;
+  if (Game.restLabel() !== 'Rest') return `before any rest the button says ${Game.restLabel()}`;
+  if (!Game.rest()) return 'could not rest';
+  if (p.hp !== 100) return `the first rest left ${p.hp} of 100`;
+  if (Game.restLabel() !== 'Rest \u00bd') return `after one rest the button says ${Game.restLabel()}`;
+  L.monsters.length = 0; p.hp = 10;
+  Game.rest();
+  const second = p.hp - 10;
+  // half, or a quarter if something found the sleeper
+  if (second !== 50 && second !== 25) return `the second rest gave ${second}`;
+  return true;
+});
+
+await test('out of a fight, wounds close on their own only up to half the hero\'s life', async () => {
+  const ctx = await start('fighter', 'regen-cap');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  p.maxHp = 100; p.hp = 10; p.food = 100; p.lastHurt = -1e9;
+  for (let i = 0; i < 4000; i++) Game.update(G.t + 50, 50);
+  return p.hp === 50 || `walking healed to ${p.hp} of 100`;
+});
+
+await test('a floor rested on again and again grows restless: something finds the sleeper', async () => {
+  const ctx = await start('fighter', 'rest-ambush');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  let found = 0;
+  for (let i = 0; i < 20; i++) {
+    L.monsters.length = 0; p.hp = 1; p.food = 100;
+    L.rests = 1 + (i % 2);                 // a second or third rest on the floor, where the dark stirs
+    const mark = markLog(G);
+    Game.rest();
+    if (linesSince(G, mark).some(l => /something moving in the dark/.test(l))) {
+      found++;
+      if (!L.monsters.some(m => m.awake)) return 'the sleeper was found by nothing';
+    }
+  }
+  if (!found) return 'twenty rests on one floor and nothing ever came';
+  return found < 20 || 'every later rest was found';
+});
+
+await test('after three rests on a floor there is no more sleep to be had there, until the next floor', async () => {
+  const ctx = await start('fighter', 'rest-cap');
+  const { Game } = ctx; const p = Game.player(), L = Game.level();
+  for (let i = 0; i < 3; i++) { L.monsters.length = 0; p.hp = 1; p.food = 100; if (!Game.rest()) return `rest ${i + 1} was refused`; }
+  L.monsters.length = 0; p.hp = 1;
+  if (Game.rest()) return 'a fourth rest was allowed';
+  return Game.restLabel() === 'No rest' || `the button says ${Game.restLabel()}`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

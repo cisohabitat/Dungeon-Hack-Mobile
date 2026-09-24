@@ -47,8 +47,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
   its worth. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
-- **Survival.** Hunger, poison, traps in corridors, resting that costs food and is blocked by
-  nearby enemies.
+- **Survival.** Hunger, poison, traps in corridors. Wounds close on their own only up to half
+  your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
+  nearby enemies, and thins out: the first rest on a floor restores everything, the next half,
+  the third a quarter, and then the dark is too close to sleep. Potions are found rarely enough
+  that the gold you carry has something to buy.
 - **An ending that is a fight.** The Heart of the Mountain will not come loose while the Dread
   Lich stands. Bring it down, lift the Heart, and its light floods the view and carries you out:
   the run is won there and then, with no long walk back.
