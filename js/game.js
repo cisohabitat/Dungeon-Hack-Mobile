@@ -2920,7 +2920,7 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.3,  edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.5,  edge: 2, lich: 1.7,  rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.45, edge: 2, lich: 1.6,  rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;

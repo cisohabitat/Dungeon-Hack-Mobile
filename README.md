@@ -195,14 +195,14 @@ down, with stats placed as the creation screen places them (`FIT=1`), 200 runs p
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Easy | 96% | 94% | 94% | 90% | about 94% |
-| Normal | 69% | 73% | 72% | 72% | about 71% |
-| Hard | 50% | 42% | 50% | 50% | about 48% |
+| Easy | 96% | 98% | 92% | 93% | about 94% |
+| Normal | 69% | 75% | 65% | 69% | about 69% |
+| Hard | 45% | 40% | 38% | 46% | about 42% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
 Clearing each floor first (`EXPLORE=0.8`) is the slower, safer road: on Normal it wins about
-90% as a cleric, 88% as a fighter, 84% as a thief, and 74% as a mage. About one hero in six
+84% as a cleric, 90% as a fighter, 86% as a thief, and 70% as a mage. About one hero in six
 who reaches the last floor on Normal dies there. Gold carried past the last trader buys a ward or
 a blessing at the vigil lamp on the lich's floor. Backgrounds are
 rotated across runs so the figures are not one perk repeated. The bot is a steady player, not a

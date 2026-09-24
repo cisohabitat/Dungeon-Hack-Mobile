@@ -547,6 +547,11 @@ function play(ctx, cls, seed, opts, bg) {
       }
       if (best === null) { p.dir = (p.dir + 1) % 4; return; }
       p.dir = best;
+      // something battering at the door ahead: a player hears it and does not
+      // open the door into it, but waits facing it for it to come through
+      const [bx, by] = Dungeon.DIRS[best], doorX = p.x + bx, doorY = p.y + by;
+      if (!process.env.OLDANSWERS && L2.tiles[doorY * L2.w + doorX] === T.DOOR && (L2.doorBlows || {})[`${doorX},${doorY}`]
+        && L2.monsters.some(m => m.awake && Math.abs(m.x - doorX) + Math.abs(m.y - doorY) === 1)) { rec.waitedAtDoor = (rec.waitedAtDoor || 0) + 1; return; }
       Game.input('forward');
     }
   }
