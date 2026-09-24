@@ -8,9 +8,14 @@ const Renderer = (() => {
   // the view is given, so a tall phone gets a tall view instead of empty
   // screen. P is the projection scale, the height a wall one tile away fills.
   // It stays fixed, so walls keep their proportions and a taller view simply
-  // shows more floor and ceiling, as a lens held upright would.
-  const W = 320, P = 200, H_MIN = 200, H_MAX = 300;
-  let H = H_MIN;
+  // shows more floor and ceiling, as a lens held upright would. A phone held
+  // sideways gives a wide, short box: down to 2:1 the view fills it, at the
+  // cost of a little floor close in and the feet of whatever stands next to
+  // you. Past that it is letterboxed rather than lose any more of them.
+  const W = 320, P = 200, H_MIN = 160, H_MAX = 300;
+  // the shape the view was first drawn for, and the one the title art keeps
+  const H_BASE = 200;
+  let H = H_BASE;
   const FOV = Math.PI / 3;
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
@@ -35,7 +40,7 @@ const Renderer = (() => {
 
   function init(c, height) {
     canvas = c;
-    setHeight(height || H_MIN);
+    setHeight(height || H_BASE);
   }
   /** Match the buffer to the view's shape. Returns the height it settled on. */
   function setHeight(h) {
