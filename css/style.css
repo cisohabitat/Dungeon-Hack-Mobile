@@ -469,3 +469,30 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .hall-row .daily-mark { font-style: normal; font-size: 0.72rem; color: #1a1408; background: var(--gold); border-radius: 999px; padding: 1px 7px; margin-left: 4px; white-space: nowrap; }
 .hall-row.daily { border-color: #7a6030; }
 
+
+/* trophies at the top of the Hall: a class to a row, a difficulty to a column */
+.trophies { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px 10px; margin: 4px 0 8px; }
+.trophy-head { display: flex; justify-content: space-between; align-items: baseline; color: var(--gold); font-size: 0.95rem; margin-bottom: 6px; }
+.trophy-head #trophy-count { color: var(--dim); font-size: 0.8rem; }
+.trophy-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr)); gap: 4px; align-items: center; }
+.trophy-grid .th { color: var(--dim); font-size: 0.72rem; text-align: center; letter-spacing: 0.04em; }
+.trophy-grid .tcls { font-size: 0.88rem; color: #c8bfae; }
+.trophy-grid .cell { height: 28px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: 1rem; }
+.trophy-grid .cell.won { border-color: #7a6030; background: #33291a; box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.25); }
+.codex-btn { width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.codex-btn b { font-weight: normal; }
+.codex-btn small { color: var(--dim); font-size: 0.8rem; }
+/* the relic codex: found relics in full, the rest as dim rows */
+.relic-row { display: flex; gap: 12px; align-items: flex-start; background: var(--panel); border: 1px solid #7a6030; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.relic-row img { flex: 0 0 48px; width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; }
+.relic-row > div { flex: 1; min-width: 0; }
+.relic-row h3 { margin: 0 0 2px; font-size: 1rem; }
+.relic-row .codex-kind { margin: 0; color: var(--dim); font-size: 0.8rem; }
+.relic-row.unfound { border-color: var(--border); background: #111018; padding: 6px 12px; align-items: center; }
+.relic-row.unfound h3 { color: var(--dim); font-style: italic; font-size: 0.92rem; }
+.relic-q { flex: 0 0 48px; height: 32px; display: grid; place-content: center; color: var(--dim); border: 1px dashed var(--border); border-radius: 6px; }
+/* a background still to be earned: dim, and says how */
+.bg-card.locked, .bg-card.locked:disabled { opacity: 1; border-style: dashed; background: #111018; cursor: not-allowed; }
+.bg-card.locked b { color: #b39a5c; }
+.bg-card .key.lock { color: #c8bfae; }
+.trophy-line { color: var(--gold); font-size: 1rem; margin: 4px 0 8px; }

@@ -24,8 +24,15 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **A story you descend into.** An opening sets up the valley above Karrathal and what went wrong
   beneath it. Each of the eight levels holds one page left by the guild crews who went first, and
   the Journal collects them as the account of what actually happened down there assembles itself.
-- **Six backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
-  gives a lasting advantage, a paragraph of the opening, and the line your run closes on.
+- **Eight backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
+  gives a lasting advantage, a paragraph of the opening, and the line your run closes on. Two more
+  are earned: The Returned opens after any win on Normal or Hard, The Heartsworn after a win on
+  Hard. The Daily Delve only ever deals the first six.
+- **Trophies and a relic codex.** Progress that outlasts a run, kept on the device under one key.
+  Each class earns a trophy for each difficulty it wins (twelve in all, daily runs included),
+  shown as a grid at the top of the Hall of Heroes, and the victory screen says when one is new.
+  Every relic any hero picks up or buys goes in the codex, readable from the Hall or the
+  Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
 - **A choice at every level.** A small lesson at most levels, three offered at a time; on every third level a class talent instead, one of three from the class's six, each changing how the class fights.
   Ability gains can be taken repeatedly; the permanent perks only once.
 - **Four classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief. Six ability scores
@@ -157,7 +164,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 96 Playwright tests against a real browser
+npm run test:browser  # 100 Playwright tests against a real browser
 npm run test:all      # both
 npm run playtest      # 160 simulated runs, reports win rate by class
 ```

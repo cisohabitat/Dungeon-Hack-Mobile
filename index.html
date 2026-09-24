@@ -114,9 +114,21 @@
   <section id="screen-hall" class="screen scroll">
     <div class="panel">
       <h2>Hall of Heroes</h2>
+      <div id="hall-trophies" class="trophies"></div>
+      <button id="hall-relics" class="ghost codex-btn"><b>Relic codex</b><small id="hall-relics-count"></small></button>
       <p class="dim small">Score rewards depth above all: gold, plus twice your experience, plus 100 for every level reached, plus 2000 for taking the Heart.</p>
       <div id="hall-list"></div>
       <div class="row"><button id="hall-back" class="big primary">Back</button></div>
+    </div>
+  </section>
+
+  <section id="screen-relics" class="screen scroll">
+    <div class="panel">
+      <h2>Relic Codex</h2>
+      <p class="dim small">Every named relic your heroes have picked up or bought, kept from one delve to the next.</p>
+      <p id="relics-count" class="dim small"></p>
+      <div id="relics-list"></div>
+      <div class="row"><button id="relics-back" class="big primary">Back</button></div>
     </div>
   </section>
 
@@ -145,6 +157,7 @@
       <p>Every score matters, fighting or not. <b>Strength</b> lands harder blows and forces doors. <b>Dexterity</b> keeps you out of reach and your fingers quick. <b>Constitution</b> is your hit points and your stomach. <b>Intelligence</b> powers a mage's spells and lets anyone work out an unknown potion or scroll &mdash; choose <b>Study</b> in your pack rather than finding out by drinking it. <b>Wisdom</b> powers a cleric's prayers, spots traps before you step on them and holds your life together against the drain of the dead. <b>Charisma</b> changes what traders charge you and pay you, and talks you through many encounters. Your class and background give a knack for some things: a thief picks locks well, a cleric's prayers are heard, the tombwise read old writing.</p>
       <h3>Relics</h3>
       <p>A few pieces of gear down here have names: <i>Grimtooth</i>, <i>Rustwarden Mail</i>, <i>the Ogre's Toll</i>. Each is a weapon, armour or shield you could use anyway, better made and with a power of its own &mdash; striking the undead harder, drinking back health, keeping poison out of your blood. Their names show in gold, and they hover where they lie. A handful wait on the floors of every run, always ones your class can use, usually on the pile furthest from the stairs. The traders keep the rest behind the counter for anyone with the coin. Look at one in your pack to read its powers and its story.</p>
+      <p>Every relic any of your heroes picks up or buys goes in the <b>codex</b>, kept from one delve to the next: open it from the Hall of Heroes or the Journal's <b>Relics</b> tab. The ones still missing show only whether they are a weapon, armour or a shield.</p>
       <p>Ordinary gear can carry a power too. From the second floor down, some well-made pieces are <i>of Keenness</i>, <i>of Thirst</i>, <i>of Flame</i>, <i>of Warding</i> and the like, each with one power a relic might have. Like any found gear its quality is hidden until you wear it, study it or have a trader look, and a powered piece is worth far more to sell. Everything your gear gives is listed under <b>Hero</b>.</p>
       <h3>Curses</h3>
       <p>Gear you find keeps its quality to itself: the pack marks it with a <b>?</b>. It might be finely made, it might be ordinary, and from the second floor down it might be cursed. Put it on and you find out at once, but a cursed piece will not come off again until the curse is broken. Safer ways to know: <b>Study</b> it from your pack (an Intelligence check), or pay a trader to <b>appraise</b> it. To break a curse, read a <b>Scroll of Remove Curse</b>, pray at a shrine, or pay a trader to lift it. Gear bought from a trader is always what it says.</p>
@@ -177,6 +190,8 @@
       <p>Permadeath is on unless you untick it when you make your hero. The run is still saved whenever you change levels or put the game away, so you can close it and pick up where you were with <b>Continue</b>. What you cannot do is go back: Load Game stays shut, and when you die the save is erased. Untick permadeath for a gentler run where you can save from the menu and load it again after a death.</p>
       <h3>Difficulty</h3>
       <p>Choose it when you make your hero. <b>Easy</b> leaves more to find, and the monsters never grow with you. <b>Normal</b> is the delve as it was meant. <b>Hard</b> has sturdier monsters, thinner rests, and a lich at full strength.</p>
+      <h3>Trophies</h3>
+      <p>Claim the Heart and your class earns a <b>trophy</b> for that difficulty: four classes, three difficulties, twelve in all, shown at the top of the Hall of Heroes. Daily runs count too. Two backgrounds are earned this way. <b>The Returned</b> opens after any win on Normal or Hard, and <b>The Heartsworn</b> after a win on Hard; until then they show on the New Game screen as locked, with how to earn them.</p>
       <h3>The Daily Delve</h3>
       <p>Everyone gets the same dungeon each day, with the same hero: class, background and scores all come from the date. Eight floors, normal difficulty, one life, and one try. When it is over the title screen shows how you did, and <b>Share</b> copies a one-line result to paste wherever you like. Play on consecutive days to build a streak.</p>
       <div class="row"><button id="help-back" class="big primary">Back</button></div>
@@ -280,6 +295,7 @@
         <div class="tabs" role="tablist">
           <button class="tab on" data-jtab="pages" role="tab" aria-selected="true">Pages</button>
           <button class="tab" data-jtab="beasts" role="tab" aria-selected="false">Bestiary</button>
+          <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
         </div>
         <div id="journal-list"></div>
       </div>
@@ -321,6 +337,7 @@
     <div class="title-inner">
       <h1 id="end-title" class="logo"></h1>
       <p id="end-text" class="tagline"></p>
+      <p id="end-trophy" class="trophy-line" style="display:none"></p>
       <div id="end-epilogue" class="epilogue"></div>
       <div id="end-cause" class="cause"></div>
       <div id="end-summary" class="end-summary"></div>
