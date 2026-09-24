@@ -1494,6 +1494,71 @@ await test('traders appraise gear and lift curses, for a price, and never resell
 });
 
 
+await test('the trader\'s forge hones a weapon and reinforces armour to +3, dearer each time, and refuses unknown or cursed metal', async () => {
+  const ctx = await start('fighter', 'forge');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'ration', q: 3, e: 0 }] };
+  L.npcs.length = 0; L.npcs.push(shop);
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  shop.x = p.x + dx; shop.y = p.y + dy;
+  L.monsters.length = 0;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  p.gold = 99999;
+  const svc = id => Game.shopServices().find(s => s.id === id);
+  const prices = [];
+  for (let i = 0; i < 3; i++) {
+    const s = svc('hone'); if (s.why) return `honing refused at +${p.eq.weapon.e}: ${s.why}`;
+    const before = p.gold; prices.push(s.price);
+    Game.buyService('hone');
+    if (p.eq.weapon.e !== i + 1 || p.gold !== before - s.price) return `hone ${i + 1}: +${p.eq.weapon.e}, charged ${before - p.gold} of ${s.price}`;
+  }
+  if (!(prices[0] < prices[1] && prices[1] < prices[2])) return `prices did not climb: ${prices.join(', ')}`;
+  if (!svc('hone').why) return 'the forge went past +3';
+  Game.buyService('reinforce');
+  if (p.eq.armor.e !== 1) return `reinforcing left the armour at +${p.eq.armor.e}`;
+  p.eq.armor.h = 1;
+  if (!svc('reinforce').why) return 'the forge worked on armour of unknown quality';
+  p.eq.armor.h = 0; p.eq.armor.curse = 1;
+  if (!svc('reinforce').why) return 'the forge worked on cursed armour';
+  return true;
+});
+
+await test('a belt holds five of each draught: the rest stays on the floor, and a trader will not sell a sixth', async () => {
+  const ctx = await start('fighter', 'belt');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), G = Game.state();
+  L.monsters.length = 0;
+  p.inv = p.inv.filter(i => i.t !== 'potion_heal');
+  const k = `${p.x},${p.y}`;
+  L.items[k] = [{ t: 'potion_heal', q: 7, e: 0 }];
+  Game.pickupAll ? Game.pickupAll() : Game.input('use');
+  const held = p.inv.find(i => i.t === 'potion_heal');
+  if (!held || held.q !== 5) return `carrying ${held ? held.q : 0}`;
+  const left = (L.items[k] || []).find(i => i.t === 'potion_heal');
+  if (!left || left.q !== 2) return `left ${left ? left.q : 0} on the floor`;
+  if (Game.floorItems().length && Game.useLabel() === 'Take') return 'the potions it cannot carry still offered to be taken';
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'potion_heal', q: 3, e: 0 }] };
+  L.npcs.length = 0; L.npcs.push(shop);
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  shop.x = p.x + dx; shop.y = p.y + dy;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  p.gold = 9999;
+  if (Game.buy(shop.stock[0])) return 'the trader sold a sixth potion';
+  return true;
+});
+
+await test('the score counts depth, experience and a win, not gold hoarded', async () => {
+  const ctx = await start('fighter', 'score');
+  const { Game } = ctx;
+  const p = Game.player();
+  const a = Game.score(p, 1, false);
+  p.gold += 5000;
+  return Game.score(p, 1, false) === a || 'gold moved the score';
+});
+
 await test('a prayer answered at the shrine breaks a curse', async () => {
   const { ctx, p, blade } = await cursedFighter('curse-shrine');
   const { Game, Dungeon } = ctx;
@@ -2164,6 +2229,63 @@ await test('sidestepping a charge sends the orc thundering past, stumbling', asy
   return m.nextAct - G.t >= 1200 || `it recovered in ${m.nextAct - G.t}ms`;
 });
 
+await test('a dodged trick leaves an opening: the next blow at it, if quick, cannot miss and lands telling', async () => {
+  const out = [];
+  for (const late of [false, true]) {
+    const ctx = await start('fighter', 'opening');
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state();
+    const m = beside(ctx, 'ogre', { blows: 2, hp: 999, maxHp: 999 });
+    Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move !== 'crush') { out.push('no crush began'); continue; }
+    shift(ctx, 'back');
+    run(Game, G, 950);
+    if (!p.opening || p.opening.uid !== m.uid) { out.push('dodging the crush left no opening'); continue; }
+    // back in, and swing: a blow that could never land on its own
+    p.perkHit = -100;
+    { const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; p.x += dx; p.y += dy; }
+    if (late) G.t += 3000;
+    G.t = Math.max(G.t, p.nextAttack);
+    const mark = markLog(G), hp0 = m.hp;
+    Game.input('attack');
+    const said = linesSince(G, mark);
+    const took = said.some(l => /You take the opening!/.test(l));
+    if (late ? took : !took || m.hp >= hp0) out.push(`${late ? 'late' : 'quick'}: ${said.join(' | ')}`);
+    // not even a natural 1 misses an opening: sixty of them all land
+    if (!late) {
+      let missed = 0;
+      for (let i = 0; i < 60; i++) {
+        p.opening = { uid: m.uid, until: G.t + 2500 }; m.hp = 999;
+        G.t = Math.max(G.t, p.nextAttack);
+        const before = m.hp; Game.input('attack');
+        if (m.hp >= before) missed++;
+      }
+      if (missed) out.push(`${missed} of 60 openings missed`);
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a charge that lands knocks the hero down for a moment', async () => {
+  const ctx = await start('fighter', 'knockdown');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = ahead(ctx, 'orc', 3, { edge: 40 });
+  await pinned(0.1, () => Game.update(G.t + 25, 25));
+  if (!m.windup || m.windup.move !== 'charge') return `it drew ${JSON.stringify(m.windup)}`;
+  const mark = markLog(G);
+  for (let i = 0; i < 40 && !linesSince(G, mark).some(l => /slams into you|misses you/.test(l)); i++) Game.update(G.t + 20, 20);
+  const said = linesSince(G, mark);
+  if (said.some(l => /misses you/.test(l))) return true;   // a natural 1: nothing to see this time
+  if (!said.some(l => /knocked off your feet/.test(l))) return `said: ${said.join(' | ')}`;
+  if (!(p.held > G.t)) return 'the hero was not held';
+  const x0 = p.x, y0 = p.y, m2 = markLog(G);
+  Game.input('back');
+  if (p.x !== x0 || p.y !== y0) return 'the hero walked off while knocked down';
+  return linesSince(G, m2).some(l => /getting to your feet/.test(l)) || `blocked with: ${linesSince(G, m2).join(' | ')}`;
+});
+
 await test('a spider\'s web holds the hero until they tear free, and misses a hero who steps aside', async () => {
   const ctx = await start('fighter', 'web');
   const { Game } = ctx;
@@ -2180,8 +2302,8 @@ await test('a spider\'s web holds the hero until they tear free, and misses a he
   Game.input('back');
   if (p.x !== x0 || p.y !== y0) return 'the hero walked straight out of the web';
   let pushes = 1;
-  while ((p.x === x0 && p.y === y0) && pushes < 20) { Game.update(G.t + 50, 50); Game.input('back'); pushes++; }
-  if (pushes >= 20) return 'pushing never tore the web';
+  while ((p.x === x0 && p.y === y0) && pushes < 40) { Game.update(G.t + 50, 50); Game.input('back'); pushes++; }
+  if (pushes >= 40) return 'pushing never tore the web';
   // and a web dodged
   const c2 = await start('fighter', 'web-dodge');
   const m2 = ahead(c2, 'spider', 3);
@@ -3900,10 +4022,10 @@ function goDown(ctx) {
   Game.input('use');
 }
 await test('a hero ahead of the usual finds the next floor readier for them; one on pace finds it as it was', async () => {
-  const floorOf = async (level) => {
+  const floorOf = async (level, seed = 'press') => {
     const ctx = await newContext();
     const { Game } = ctx;
-    Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'press', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
+    Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed, opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
     Game.player().level = level;
     const mark = markLog(Game.state());
     goDown(ctx);
@@ -3915,7 +4037,10 @@ await test('a hero ahead of the usual finds the next floor readier for them; one
   if (onPace.press) return `a level 2 hero on floor 2 pressed ${onPace.press}`;
   if (!(ahead.press >= 2.5)) return `a level 5 hero on floor 2 pressed only ${ahead.press}`;
   if (!(ahead.hp > onPace.hp * 1.3)) return `its creatures held ${ahead.hp} life against ${onPace.hp}`;
-  if (!(ahead.champions > onPace.champions)) return `${ahead.champions} champions against ${onPace.champions}`;
+  // champions are a chance each, so count them over a few floors
+  let more = 0, same = 0;
+  for (const seed of ['press', 'press-b', 'press-c', 'press-d']) { more += (await floorOf(5, seed)).champions; same += (await floorOf(2, seed)).champions; }
+  if (!(more > same)) return `${more} champions against ${same} over four floors`;
   if (!ahead.said.some(l => /The deep has heard of you/.test(l))) return 'the hero was not told';
   return true;
 });

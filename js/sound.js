@@ -215,7 +215,7 @@ const Sound = (() => {
     burning(out) { noise(out, 0.06, 0.06, { type: 'highpass', f: 3000 }); noise(out, 0.05, 0.05, { type: 'highpass', f: 2600, delay: 0.07 }); },
     venom(out) { noise(out, 0.12, 0.05, { type: 'highpass', f: 2500, attack: 0.03 }); },
   };
-  const CRIT = { crit: 1, 'riposte-crit': 1, lucky: 1, sneak: 1 };
+  const CRIT = { crit: 1, 'riposte-crit': 1, lucky: 1, sneak: 1, opening: 1 };
 
   // ---- how each kind of creature dies, matching what it bleeds ----
   const DEATH = {

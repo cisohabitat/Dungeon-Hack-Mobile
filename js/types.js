@@ -57,11 +57,13 @@
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
+ * @property {'down'|'frozen'} [heldBy]  what is holding the hero still while `held` lasts
+ * @property {{uid: number, until: number}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
- * @property {number} [held]    frozen by a ghoul's touch until then
+ * @property {number} [held]    cannot act until then: frozen by a ghoul's touch, or knocked down by a charge
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
  */
 
