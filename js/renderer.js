@@ -665,9 +665,10 @@ const Renderer = (() => {
     if (t < 0 || t >= 1) return;
     ctx.save();
     if (k === 'dart') {
-      const side = fx.trapSide || 1, u = Math.min(1, t / 0.35);
-      const sx = side > 0 ? W + 8 : -8, sy = H * 0.5, ex = W * 0.5 + side * W * 0.12, ey = H * 0.97;
-      if (u < 1) {
+      // dodged, it flies on across the view and out the other side
+      const side = fx.trapSide || 1, dodged = !!fx.trapDodged, u = Math.min(1, t / (dodged ? 0.6 : 0.35));
+      const sx = side > 0 ? W + 8 : -8, sy = H * 0.5, ex = dodged ? (side > 0 ? -12 : W + 12) : W * 0.5 + side * W * 0.12, ey = dodged ? H * 0.72 : H * 0.97;
+      if (u < 1 || dodged) {
         const x = sx + (ex - sx) * u, y = sy + (ey - sy) * u, len = Math.hypot(ex - sx, ey - sy);
         const ux = (ex - sx) / len, uy = (ey - sy) / len, L = 10 + u * 12;
         ctx.strokeStyle = 'rgba(255,255,240,0.3)'; ctx.lineWidth = 1;
@@ -685,7 +686,7 @@ const Renderer = (() => {
     } else if (k === 'needle') {
       const up = t < 0.2 ? ease(t / 0.2) : t < 0.55 ? 1 : 1 - ease((t - 0.55) / 0.45);
       const bx = W * 0.5, by = H + 2, len = H * 0.3 * up;
-      ctx.fillStyle = hexA('#50c850', Math.sin(t * Math.PI) * 0.16); ctx.fillRect(0, 0, W, H);
+      if (!fx.trapDodged) { ctx.fillStyle = hexA('#50c850', Math.sin(t * Math.PI) * 0.16); ctx.fillRect(0, 0, W, H); }
       ctx.lineCap = 'round';
       ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - len); ctx.stroke();
       ctx.strokeStyle = '#c8ccd4'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - len); ctx.stroke();

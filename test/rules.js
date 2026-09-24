@@ -2813,6 +2813,43 @@ await test('a trap going off is seen: each kind its own picture, and one spotted
   return out.length ? out.join('; ') : true;
 });
 
+await test('a trap is dodged with Dexterity (a pit only halved), and venom fought off with Constitution', async () => {
+  const out = [];
+  // walk onto a trap of this kind over and over; count what happened
+  const tally = async (kind, stats, n = 80) => {
+    const ctx = await start('fighter', 'saves-' + kind + stats.dex + stats.con, { traps: true });
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    Object.assign(p.stats, stats); p.bg = 'oathbroken'; p.stats.wis = 8;
+    L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir], x0 = p.x, y0 = p.y, x = p.x + dx, y = p.y + dy;
+    L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+    const r = { dodged: 0, poisoned: 0, hurt: 0, worst: 0, halved: 0 };
+    for (let i = 0; i < n; i++) {
+      p.x = x0; p.y = y0; p.hp = p.maxHp = 999; p.poison = null;
+      Game.update(G.t + 600, 600);
+      L.traps[`${x},${y}`] = kind;
+      const mark = markLog(G);
+      Game.input('forward');
+      const said = linesSince(G, mark).join(' | ');
+      if (/twist aside|snatch your foot/.test(said)) r.dodged++;
+      if (/catch the edge/.test(said)) { r.halved++; r.worst = Math.max(r.worst, 999 - p.hp); }
+      if (p.hp < 999) r.hurt++;
+      if (/twist aside|snatch your foot/.test(said) && p.hp < 999) out.push(`${kind}: dodged, yet hurt`);
+      if (p.poison) r.poisoned++;
+    }
+    return r;
+  };
+  const clumsy = await tally('dart', { dex: 3, con: 10 }), nimble = await tally('dart', { dex: 20, con: 10 });
+  if (!(nimble.dodged > clumsy.dodged + 15)) out.push(`darts dodged: nimble ${nimble.dodged}, clumsy ${clumsy.dodged}`);
+  const pit = await tally('pit', { dex: 20, con: 10 });
+  if (!pit.halved) out.push('no pit was ever caught at its edge');
+  if (pit.worst > 6) out.push(`a pit caught at the edge still did ${pit.worst}`);
+  if (pit.hurt !== 80) out.push('a pit was escaped whole');
+  const frail = await tally('needle', { dex: 3, con: 3 }), hale = await tally('needle', { dex: 3, con: 18 });
+  if (!(frail.poisoned > hale.poisoned + 10)) out.push(`needle poison: frail ${frail.poisoned}, hale ${hale.poisoned}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

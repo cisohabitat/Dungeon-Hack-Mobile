@@ -67,7 +67,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
   its worth. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
-- **Survival.** Hunger, poison, traps in corridors. Wounds close on their own only up to half
+- **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
+  with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
   nearby enemies (the Rest button dims and says so; it never drinks for you), and thins out: the first rest on a floor restores everything, the next half,
   the third a quarter, and then the dark is too close to sleep. Potions are found rarely enough

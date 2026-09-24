@@ -28,7 +28,7 @@ const Game = (() => {
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
                useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
                /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
-               trapAt: -1e9, trapKind: '', trapSide: 1,
+               trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
@@ -1216,6 +1216,25 @@ const Game = (() => {
     if (G.status !== 'playing') return;
     if (L.items[k] && L.items[k].length) { pickupAll(); heartHeld(); }
   }
+  /** How well a trap is set, before the depth adds to it: what a Dexterity save must beat. */
+  const TRAP_DC = 12;
+  const TRAP_DODGED = {
+    dart: 'A dart shoots from the wall, but you twist aside and it clatters past!',
+    needle: 'A needle springs from the floor, but you snatch your foot back in time!',
+  };
+  // Venom is fought off with Constitution: one d20 against how strong it is
+  // and how deep the hero has come. A spider's bite is the mildest, a trap's
+  // needle and a tainted draught stronger. Returns the check, or null when
+  // nothing needs saving against (poisoned already, or proof against it).
+  const VENOM_DC = { bite: 7, needle: 10, draught: 11 };
+  function venomSave(kind, whose, quiet = false) {
+    const p = P();
+    if (p.poison || hasPower('pure')) return null;
+    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2));
+    if (!c.pass) p.poison = poisonFor();
+    if (!quiet) log(c.pass ? `You shake off ${whose} venom.${c.note}` : `${cap(whose)} venom takes hold: you are poisoned!${c.note}`, c.pass ? 'good' : 'bad');
+    return c;
+  }
   /** Which picture a trap going off gets. */
   const trapKindOf = tr => Object.keys(TRAP_TYPES).find(id => TRAP_TYPES[id] === tr) || '';
   function triggerTrap(k) {
@@ -1236,13 +1255,24 @@ const Game = (() => {
       return;
     }
     fx.trapKind = trapKindOf(tr);
-    if (tr === TRAP_TYPES.pit) { fx.shakeAmp = 6; fx.shakeMs = 700; fx.shakeUntil = realNow + 700; }
+    // a sprung trap can still be dodged: Dexterity, against how well it was
+    // set, and deeper ones are set better. A dart or a needle then misses
+    // outright; a pit is only half a fall, caught at its edge. A gong cannot
+    // be dodged: its harm is the noise.
+    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2)) : null;
+    const pit = tr === TRAP_TYPES.pit;
+    fx.trapDodged = !!(dodge && dodge.pass && !pit);
+    if (pit) { fx.shakeAmp = dodge && dodge.pass ? 3 : 6; fx.shakeMs = 700; fx.shakeUntil = realNow + 700; }
     Sound.play('trap');
-    if (tr.dmg) {
-      const n = Math.max(1, d(...tr.dmg));
-      hurtPlayer(n, `${tr.msg} You take ${n} damage.`, null, `a ${tr.name}`);
+    if (tr.dmg && dodge.pass && !pit) {
+      log(`${TRAP_DODGED[trapKindOf(tr)] || 'You spring clear of a trap!'}${dodge.note}`, 'good');
+    } else if (tr.dmg) {
+      let n = Math.max(1, d(...tr.dmg));
+      if (dodge.pass) n = Math.max(1, Math.ceil(n / 2));
+      hurtPlayer(n, `${tr.msg}${dodge.pass ? ' You catch the edge as you fall.' : ''} You take ${n} damage.${dodge.note}`, null, `a ${tr.name}`);
+      // a needle that finds you: its venom is fought off, or not
+      if (tr.poison && G.status === 'playing') venomSave('needle', 'the needle\'s');
     } else log(tr.msg, 'bad');
-    if (tr.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     if (tr.alarm) for (const m of L.monsters) m.awake = true;
   }
 
@@ -1407,7 +1437,7 @@ const Game = (() => {
         for (const [stat, n] of e.buff.stats) p.effects['boon_' + stat] = { amount: n, until: G.t + e.buff.dur };
         out.push(`Blessed: ${e.buff.stats.map(([s, n]) => `+${n} ${s === 'hit' ? 'to hit' : s === 'ac' ? 'armour' : s}`).join(', ')} for ${Math.round(e.buff.dur / 60000)} minutes`);
       }
-      if (e.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); out.push('Poisoned'); }
+      if (e.poison) { const c = venomSave('draught', 'the', true); if (c) out.push(c.pass ? `Poison fought off${c.note}` : `Poisoned${c.note}`); }
       if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
       if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
@@ -2574,7 +2604,8 @@ const Game = (() => {
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${note}`, m);
     if (G.status !== 'playing') return true;
-    if (mb.poison && !p.poison && !hasPower('pure') && Math.random() < mb.poison) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
+    // every venomous bite that lands is fought off with Constitution
+    if (mb.poison) venomSave('bite', `the ${mb.name}'s`);
     // a strong will holds on to itself against the drain
     if (mb.drain && !hasPower('ward') && Math.random() < Math.max(0.05, 0.25 - 0.05 * mod(p.stats.wis))) { p.maxHp = Math.max(10, p.maxHp - 2); p.hp = Math.min(p.hp, p.maxHp); log('You feel your life force drain away!', 'bad'); }
     if (hasPower('thorns')) damageMonster(m, d(1, 4), 'thorns');
