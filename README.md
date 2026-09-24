@@ -164,7 +164,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 100 Playwright tests against a real browser
+npm run test:browser  # 101 Playwright tests against a real browser
 npm run test:all      # both
 npm run playtest      # 160 simulated runs, reports win rate by class
 ```
