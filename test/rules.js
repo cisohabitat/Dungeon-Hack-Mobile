@@ -4062,7 +4062,8 @@ await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy 
   const easy = await floor('easy'), normal = await floor('normal'), hard = await floor('hard'), old = await floor(null);
   if (!(easy.hp < normal.hp && normal.hp < hard.hp)) return `life on the floor: easy ${easy.hp}, normal ${normal.hp}, hard ${hard.hp}`;
   if (old.hp !== normal.hp) return `a run with no difficulty held ${old.hp} life, Normal ${normal.hp}`;
-  if (hard.hit !== hard.base + 1 || normal.hit !== normal.base) return `to hit: normal ${normal.hit} (base ${normal.base}), hard ${hard.hit} (base ${hard.base})`;
+  // on the second floor: Easy as drawn, Normal a step surer, Hard two
+  if (easy.hit !== easy.base || normal.hit !== normal.base + 1 || hard.hit !== hard.base + 2) return `to hit: easy ${easy.hit} (base ${easy.base}), normal ${normal.hit} (base ${normal.base}), hard ${hard.hit} (base ${hard.base})`;
   if (!(easy.items > normal.items)) return `items about: easy ${easy.items}, normal ${normal.items}`;
   // two rests on a Hard floor, three on Normal
   for (const [f, want] of [[hard, 2], [normal, 3]]) {
@@ -4073,6 +4074,11 @@ await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy 
     const rested = f.L.rests || 0;
     if (rested !== want) return `${want === 2 ? 'Hard' : 'Normal'} allowed ${rested} rests on a floor`;
   }
+  // and on the first floor a step softer: Normal as drawn
+  { const ctx = await newContext(); const { Game } = ctx;
+    Game.newGame({ name: 'D', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'diff', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal', difficulty: 'normal' } });
+    const m = Game.level().monsters.find(x => !x.elite);
+    if (m && Game.mstat(m).hit !== ctx.MONSTERS[m.id].hit) return `a ${m.id} on the first floor hits at +${Game.mstat(m).hit} on Normal`; }
   // a strong hero on Easy is not pressed
   const strongEasy = await floor('easy', 6), strongNormal = await floor('normal', 6);
   if (strongEasy.L.press) return `Easy pressed a strong hero ${strongEasy.L.press}`;

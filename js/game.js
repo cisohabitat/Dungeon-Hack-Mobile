@@ -422,7 +422,7 @@ const Game = (() => {
   function mstat(m) {
     const s = mstatBase(m);
     // a floor readier for a strong hero, or a harder delve: its creatures hit surer and harder
-    const edge = (m.edge || 0) + diff().edge;
+    const edge = (m.edge || 0) + diffEdge();
     return edge ? { ...s, hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : s;
   }
   function mstatBase(m) {
@@ -2702,17 +2702,20 @@ const Game = (() => {
     Sound.play('raise', heard({ x, y }));
   }
   // ---------- how hard the delve is ----------
-  // Chosen when the hero is made. Normal is the delve as meant. Easy leaves
-  // more lying about and never grows the deep to meet a strong hero. Hard
-  // makes everything sturdier and surer, the lich at full strength, and
-  // allows only two rests on a floor.
+  // Chosen when the hero is made. Normal is the delve as meant: its creatures
+  // are sturdier and hit a little surer and harder than they are drawn. Easy
+  // is the delve as drawn, with more lying about, and never grows the deep to
+  // meet a strong hero. Hard makes everything sturdier and surer still, the
+  // lich at full strength, and allows only two rests on a floor.
   const DIFFICULTY = {
-    easy:   { hp: 0.9,  edge: 0, lich: 0.85, rests: [1, 0.5, 0.25], press: false },
-    normal: { hp: 1.15, edge: 0, lich: 1.15, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.35, edge: 1, lich: 1.4,  rests: [1, 0.5],       press: true },
+    easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
+    normal: { hp: 1.25, edge: 1, lich: 1.2,  rests: [1, 0.5, 0.25], press: true },
+    hard:   { hp: 1.4,  edge: 2, lich: 1.4,  rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
+  // the first floor is where a hero learns: its creatures hit a step softer
+  const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 ? 1 : 0));
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   function hardenLevel(L) {
     const k = diff();
