@@ -232,7 +232,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
    the history. Its own small button sits in the corner furthest from the pad,
    and the log keeps a margin clear for it so no line runs under it. */
 .log-more-anchor { position: relative; height: 0; z-index: 2; }
-.log-more { position: absolute; right: 4px; top: 4px; min-width: 56px; min-height: 44px; padding: 0 10px; font-size: 0.8rem; color: #cfc8ba; background: rgba(20, 18, 30, 0.85); border: 1px solid var(--border); border-radius: 8px; }
+.log-more { z-index: 2; position: absolute; right: 4px; top: 4px; min-width: 56px; min-height: 44px; padding: 0 10px; font-size: 0.8rem; color: #cfc8ba; background: rgba(20, 18, 30, 0.85); border: 1px solid var(--border); border-radius: 8px; }
 /* and the top row of pads reaches a little up, so a press that lands just
    above an arrow still counts as that arrow instead of missing */
 .ctl { position: relative; }
@@ -400,15 +400,21 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 @media (max-width: 380px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
-/* a one-time tip over the view: gone on its own, or at a tap on it */
-.tip { position: absolute; left: 8px; right: 8px; bottom: 8px; max-width: none; padding: 8px 10px; border-radius: 8px;
-  background: rgba(14, 12, 22, 0.92); border: 1px solid var(--accent); color: #f2e6c8; font-size: 0.85rem; line-height: 1.35;
-  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 3; }
-.tip.show { opacity: 1; transform: none; pointer-events: auto; padding-right: 30px; }
-/* while something close is drawing back to strike, a tip that is not about it lets the fight show through */
-.tip.show.faint { opacity: 0.35; }
+/* a one-time tip, over the top of the log and left of its button: gone on
+   its own, or at a tap on it. It never covers the view, so the fight shows */
+.tip { position: absolute; left: 0; right: 64px; top: 0; max-height: 4.4em; overflow: hidden; padding: 5px 30px 5px 10px; border-radius: 0 0 8px 0;
+  background: #17141f; border: 1px solid var(--accent); border-top: none; border-left: none; color: #f2e6c8; font-size: 0.85rem; line-height: 1.3;
+  pointer-events: none; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; z-index: 1; }
+.tip.show { opacity: 1; transform: none; pointer-events: auto; }
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }
+/* the scroll worth reading now, low in the view's left corner */
+.quick-scroll { position: absolute; left: 6px; bottom: 6px; width: 56px; height: 56px; min-height: 56px; padding: 2px 0 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  background: rgba(20, 16, 28, 0.82); border: 2px solid var(--qs, var(--gold)); border-radius: 12px; box-shadow: 0 0 10px var(--qs, var(--gold)); }
+.quick-scroll img { width: 30px; height: 30px; image-rendering: pixelated; }
+.quick-scroll small { font-size: 0.68rem; line-height: 1; color: #f2e6c8; }
+.quick-scroll:active { transform: scale(0.94); }
 /* equipped slots carry a label in the corner: keep the picture below it */
 #equip .slot { padding-top: calc(0.6rem + 8px); }
 

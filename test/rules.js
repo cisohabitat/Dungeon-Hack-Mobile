@@ -2713,6 +2713,25 @@ await test('a spell\'s number waits for the spell to reach its target: darts fly
   return out.length ? out.join('; ') : true;
 });
 
+await test('the quick scroll: fire with a foe ahead, restoration when badly hurt, nothing otherwise, and only one known by sight', async () => {
+  const ctx = await start('fighter', 'quick-scroll');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.level().monsters.length = 0;
+  p.inv.push({ t: 'scroll_fire', q: 2, e: 0 }, { t: 'scroll_heal', q: 1, e: 0 });
+  const out = [];
+  if (Game.quickScroll()) out.push('a scroll not known by sight was offered');
+  G.known.scroll_fire = 1; G.known.scroll_heal = 1;
+  if (Game.quickScroll()) out.push(`offered ${Game.quickScroll().t} with nothing to do`);
+  ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  if ((Game.quickScroll() || {}).t !== 'scroll_fire') out.push('no fire with a goblin ahead');
+  const before = p.inv.find(i => i.t === 'scroll_fire').q;
+  Game.input('read');
+  if (p.inv.find(i => i.t === 'scroll_fire').q !== before - 1) out.push('one tap did not read the fire');
+  Game.level().monsters.length = 0; p.hp = 1;
+  if ((Game.quickScroll() || {}).t !== 'scroll_heal') out.push('no restoration when badly hurt');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

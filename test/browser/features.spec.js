@@ -511,22 +511,25 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a tip that is not about the fight grows faint while a blow is drawn back beside you', async ({ page }) => {
+  test('a tip lies over the log, never over the view, and leaves the Log button and the newest line clear', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'faint-tip' });
+    await startGame(page, { seed: 'tip-place' });
     await clearBoons(page);
-    // the controls tip is up from the start; a goblin beside you draws back
     await expect(page.locator('#tip')).toHaveClass(/show/);
-    await page.evaluate(() => {
-      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0;
-      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
-      L.monsters.push({ uid: 9, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, nextAct: G.t + 60000, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0,
-        windup: { kind: 'melee', at: G.t, until: G.t + 60000 } });
+    const r = await page.evaluate(() => {
+      const box = id => document.getElementById(id).getBoundingClientRect();
+      const tip = box('tip'), view = box('view'), btn = box('log-more'), log = box('log');
+      // the last line of the newest entry, which may wrap onto two
+      const last = [...document.querySelectorAll('#log div')].filter(d => d.textContent).pop();
+      let lb = null;
+      if (last) { const rg = document.createRange(); rg.selectNodeContents(last); const rs = [...rg.getClientRects()]; lb = rs[rs.length - 1]; }
+      return { overView: tip.top < view.bottom - 1, overButton: tip.right > btn.left + 1, inLog: tip.top >= log.top - 3 && tip.bottom <= log.bottom + 3,
+        newestShows: !lb || lb.bottom <= tip.top + 1 || lb.top >= tip.bottom - 1 };
     });
-    await expect(page.locator('#tip')).toHaveClass(/faint/, { timeout: 2000 });
-    await page.evaluate(() => { Game.level().monsters.length = 0; });
-    await expect(page.locator('#tip')).not.toHaveClass(/faint/, { timeout: 2000 });
+    expect(r.overView, 'the tip covers the view').toBe(false);
+    expect(r.overButton, 'the tip covers the Log button').toBe(false);
+    expect(r.inLog, 'the tip should lie over the log').toBe(true);
+    expect(r.newestShows, 'the tip hides the newest line of the log').toBe(true);
     expect(errors).toEqual([]);
   });
 

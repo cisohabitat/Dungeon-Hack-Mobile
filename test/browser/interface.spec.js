@@ -131,6 +131,36 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a scroll worth reading now is one tap away in the corner of the view, and gone when it is not', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { seed: 'quick-scroll' });
+    await clearBoons(page);
+    const btn = page.locator('#quick-scroll');
+    await page.evaluate(() => {
+      const p = Game.player(), G = Game.state();
+      Game.level().monsters.length = 0;
+      p.inv.push({ t: 'scroll_fire', q: 1, e: 0 }); G.known.scroll_fire = 1;
+    });
+    await expect(btn).toBeHidden();
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      for (let i = 1; i <= 2; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 93, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(btn).toBeVisible({ timeout: 2000 });
+    await expect(btn).toContainText('Fire');
+    // the first time, a tip says where it is
+    await expect(page.locator('#tip')).toContainText('one tap', { timeout: 2000 });
+    const b = await btn.boundingBox();
+    expect(b.width >= 44 && b.height >= 44, 'the button is big enough for a thumb').toBe(true);
+    await btn.click();
+    expect(await page.evaluate(() => Game.player().inv.some(i => i.t === 'scroll_fire'))).toBe(false);
+    // none left: the button goes
+    await expect(btn).toBeHidden({ timeout: 2000 });
+    expect(errors).toEqual([]);
+  });
+
   test('the text a player reads clears the 4.5:1 contrast minimum', async ({ page }) => {
     await startGame(page, { seed: 'ui-contrast' });
     await clearBoons(page);

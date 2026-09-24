@@ -2301,6 +2301,28 @@ const Game = (() => {
     useItem(pick);
     return true;
   }
+  // A scroll worth reading this moment, read in one tap: fire when a foe is
+  // ahead for it, restoration when badly hurt, teleport when cornered and
+  // failing. Only a scroll known by sight: an unknown one is a gamble to take
+  // from the pack. Nothing worth reading, and the button is not there.
+  function quickScroll() {
+    if (!G || G.status !== 'playing') return null;
+    const p = P(), has = t => p.inv.find(i => i.t === t && isKnown(i.t));
+    const fire = has('scroll_fire');
+    if (fire && boltTargets(3, false).length) return fire;
+    const heal = has('scroll_heal');
+    if (heal && p.hp <= p.maxHp * 0.5) return heal;
+    const away = has('scroll_teleport');
+    if (away && p.hp <= p.maxHp * 0.3 && lvl().monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 1)) return away;
+    return null;
+  }
+  function readQuick() {
+    queuedAttack = false;
+    const s = quickScroll();
+    if (!s) { log('No scroll you carry would help just now.', 'bad'); Sound.play('error'); return false; }
+    useItem(s);
+    return true;
+  }
   /** Something awake within five steps: no resting. */
   function enemiesNear() {
     const L = lvl();
@@ -3270,9 +3292,9 @@ const Game = (() => {
         else if (act === 'left') turn(-1);
         else turn(1);
         break;
-      case 'attack': case 'cast': case 'use': case 'rest': case 'quaff':
+      case 'attack': case 'cast': case 'use': case 'rest': case 'quaff': case 'read':
         if (P().held > G.t) { blocked(heldWhy()); return; }
-        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (act === 'quaff') quaff(); else rest(); return; }
+        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (act === 'quaff') quaff(); else if (act === 'read') readQuick(); else rest(); return; }
         // a tap a moment early is kept and spent the instant the blow is ready,
         // rather than dropped: a player cannot see the swing timer
         if (G.t < P().nextAttack) { if (P().nextAttack - G.t <= 350) queuedAttack = true; }
@@ -3496,7 +3518,7 @@ const Game = (() => {
 
   return {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
-    update, tick, input, renderState, takeEvents,
+    update, tick, input, renderState, takeEvents, quickScroll,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,

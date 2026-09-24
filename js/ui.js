@@ -437,6 +437,7 @@ const UI = (() => {
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
     trade: 'A trader. Tap <b>Trade</b> to buy, sell, and use the forge: it sharpens a weapon or strengthens armour, and mends rust.',
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
+    quickscroll: 'A scroll worth reading <b>now</b> is in the corner of the view: <b>one tap</b> reads it.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
   /** The tips that each tell the answer to one trick. */
@@ -477,15 +478,9 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), charge: () => near('charge'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
-    }
-    // a tip that is not itself the warning grows faint while a blow is being drawn back close by
-    if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
-      const p1 = Game.player();
-      const striking = Game.level().monsters.some(m => m.windup && Math.abs(m.x - p1.x) + Math.abs(m.y - p1.y) <= 3);
-      el.classList.toggle('faint', striking && ![...ANSWER_TIPS, 'trick', 'monster'].includes(el.dataset.tip || ''));
     }
     // a tip never outlives the run: not over the fall, nor over the Heart's light
     if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
@@ -502,6 +497,8 @@ const UI = (() => {
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
+    // the first time a scroll is worth reading, say where its button is
+    if (!/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
     // the general word on tricks waits while a trick's own answer is being read:
     // replacing it a quarter second later would teach nothing at all
     const answering = $('#tip') && $('#tip').classList.contains('show') && ANSWER_TIPS.includes($('#tip').dataset.tip || '');
@@ -590,6 +587,7 @@ const UI = (() => {
   let restSig = '';
   function refreshRest() {
     refreshQuaff();
+    refreshQuickScroll();
     const label = Game.restLabel();
     if (label === restSig) return;
     restSig = label;
@@ -604,6 +602,26 @@ const UI = (() => {
   // A caster's Cast button casts, so their quick drink is a bottle of its own
   // beside the life bar: always in the same place, there whenever they carry
   // a healing draught they know, and never standing in for anything else.
+  // The scroll worth reading this moment, one tap away, low in the view's left
+  // corner: Fire when a foe is ahead for it, Restoration when badly hurt,
+  // Teleport when cornered and failing. It is not there the rest of the time.
+  const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'] };
+  let quickSig = '';
+  function refreshQuickScroll() {
+    const it = Game.quickScroll();
+    const sig = it ? `${it.t}|${it.q}` : '';
+    if (sig === quickSig) return;
+    quickSig = sig;
+    const btn = /** @type {HTMLButtonElement} */ ($('#quick-scroll'));
+    btn.hidden = !it;
+    if (!it) return;
+    const [label, color] = QUICK_SCROLL[it.t] || ['Read', '#e0b84a'];
+    const art = Assets.sprites[Game.spriteFor(it)];
+    /** @type {HTMLImageElement} */ (btn.querySelector('img')).src = art ? art.url : '';
+    btn.querySelector('small').textContent = label;
+    btn.style.setProperty('--qs', color);
+    btn.setAttribute('aria-label', `Read the ${Game.itemName({ ...it, q: 1 })}`);
+  }
   let quaffSig = '';
   function refreshQuaff() {
     const p = Game.player();
@@ -1659,7 +1677,7 @@ const UI = (() => {
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 
     const KEYS = { ArrowUp: 'forward', KeyW: 'forward', ArrowDown: 'back', KeyS: 'back', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', KeyQ: 'strafeL', KeyE: 'strafeR', Space: 'attack', KeyF: 'attack' };
-    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest', KeyX: 'quaff' };
+    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest', KeyX: 'quaff', KeyZ: 'read' };
     const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal' };
     window.addEventListener('keydown', e => {
       const target = /** @type {HTMLElement} */ (e.target);
