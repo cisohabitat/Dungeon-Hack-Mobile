@@ -62,6 +62,29 @@ const BACKGROUNDS = {
     motive: 'You came down here owing a debt you intend to close in person.',
     epi: 'They went down owing a debt they meant to close in person.',
   },
+  // These two are earned, not given: each stays locked until a run is won at
+  // its unlock difficulty or harder (see js/progress.js). The Daily Delve
+  // never picks them.
+  returned: {
+    name: 'The Returned',
+    blurb: 'You have been down before, and you came back up.',
+    perk: 'A Potion of Extra Healing to start, and the first rest on each floor costs no food.',
+    story: 'You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and you sleep the first chance you get.',
+    motive: 'You came down here again because the mountain is not finished with you.',
+    epi: 'They went down again because the mountain was not finished with them.',
+    unlock: 'normal',
+    how: 'Win a run on Normal or Hard to unlock.',
+  },
+  heartsworn: {
+    name: 'The Heartsworn',
+    blurb: 'You held the Heart once. It has not let go of you.',
+    perk: 'Wounds close on their own up to 60% of your life, not half.',
+    story: 'You carried the Heart of the Mountain up out of the dark once, on the hardest road there is, and felt it beat against your ribs the whole way. Since then a second pulse has kept time under your own, slow and warm, and your wounds close faster than they should. Lately it has begun to pull downward.',
+    motive: 'You came down here because the Heart is calling you back, and you mean to learn why.',
+    epi: 'They went down because the Heart was calling them back, and they meant to learn why.',
+    unlock: 'hard',
+    how: 'Win a run on Hard to unlock.',
+  },
 };
 
 // Pages left behind by the crews who went first. One per level, in order, so the

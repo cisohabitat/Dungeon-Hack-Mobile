@@ -8,6 +8,14 @@ import { CLASSES, BACKGROUNDS } from './data.js';
 // only, like the Hall of Heroes; nothing is sent anywhere.
 
 const DAILY_KEY = 'deepdelve.daily';
+/**
+ * The pasts the day's hero is drawn from: the six there have always been, in
+ * the order they were first written. Not Object.keys(BACKGROUNDS): the
+ * backgrounds earned by winning (The Returned, The Heartsworn) must never be
+ * dealt to anyone, and a new one added to the table must not change who a
+ * given date's hero is.
+ */
+const DAILY_BACKGROUNDS = ['oathbroken', 'tombwise', 'ashborn', 'cloistered', 'deepborn', 'debtor'];
 /** Names for a hero nobody named. */
 const HERO_NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
 
@@ -27,7 +35,7 @@ function longDate(key) {
 function heroFor(key) {
   const rng = new Rng(seedFor(key));
   const cls = rng.pick(Object.keys(CLASSES));
-  const bg = rng.pick(Object.keys(BACKGROUNDS));
+  const bg = rng.pick(DAILY_BACKGROUNDS.filter(id => BACKGROUNDS[id]));
   const name = rng.pick(HERO_NAMES);
   const keyStat = CLASSES[cls].primary;
   // rolled the way the game rolls, four dice keeping three, with the best
@@ -98,5 +106,5 @@ function shareLine(key, done) {
   return `Deepdelve daily ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key))}`;
 }
 
-const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES };
+const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS };
 export { Daily };

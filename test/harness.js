@@ -51,6 +51,9 @@ async function loadGame(opts = {}) {
     Sound: (await import(url('sound.js'))).Sound,
     ENCOUNTERS: (await import(url('encounters.js'))).ENCOUNTERS,
     ITEM_ART: (await import(url('itemart.js'))).ITEM_ART,
+    // stateless: each call reads the storage installed above
+    Progress: (await import(url('progress.js'))).Progress,
+    Daily: (await import(url('daily.js'))).Daily,
     ...(({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }) => ({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy }))(await import(url('relics.js'))),
     ...data,
   };

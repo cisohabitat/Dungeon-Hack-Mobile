@@ -5,6 +5,7 @@ import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
 import { RELICS, GIANTS, POWER_SUFFIX, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
+import { Progress } from './progress.js';
 
 // Core game state and rules.
 
@@ -276,6 +277,7 @@ const Game = (() => {
   function discoverRelic(id) {
     if (!G.relics || G.relics.found.includes(id)) return;
     G.relics.found.push(id);
+    Progress.noteRelic(id);   // the codex remembers it after the run
     log(RELICS[id].lore, 'info');
   }
   // ---------- curses ----------
@@ -838,7 +840,8 @@ const Game = (() => {
   }
   function newGame(cfg) {
     const c = CLASSES[cfg.cls];
-    const bg = BACKGROUNDS[cfg.bg] ? cfg.bg : 'oathbroken';
+    // a background still locked (or a stale choice) falls back to the first
+    const bg = BACKGROUNDS[cfg.bg] && Progress.bgOpen(cfg.bg) ? cfg.bg : 'oathbroken';
     const p = {
       name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
@@ -865,6 +868,7 @@ const Game = (() => {
     // the starting kit is familiar to its owner
     for (const id of c.startKit) G.known[id] = 1;
     for (const id of c.startKit) giveItem({ t: id, q: 1, e: 0 });
+    if (bg === 'returned') { G.known.potion_xheal = 1; giveItem({ t: 'potion_xheal', q: 1, e: 0 }); }   // one good draught kept back
     for (const it of p.inv.slice()) {
       const k = ITEMS[it.t].kind;
       if ((k === 'weapon' || k === 'armor' || k === 'shield') && !p.eq[k]) equip(it, true);
@@ -1936,6 +1940,8 @@ const Game = (() => {
   }
   function recordHero(won) {
     const p = P();
+    // trophies first, so a first win is told on the victory screen
+    if (won) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
       difficulty: G.opts.difficulty || 'normal', ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     try {
@@ -2211,6 +2217,7 @@ const Game = (() => {
   const REST_FOOD = 6;
   const AMBUSH_STEP = 0.3, AMBUSH_MOST = 0.75;
   const REGEN_CAP = 0.5;
+  const HEARTSWORN_CAP = 0.6;   // the Heartsworn mend a little further on their own
   /** How much of the hero's life the next rest on this floor gives back. */
   // each rest on a floor restores less than the last: all, then half, then a quarter (on Hard, two only)
   function restShare() { const n = lvl().rests || 0, r = diff().rests; return n >= r.length ? 0 : r[n]; }
@@ -2237,9 +2244,11 @@ const Game = (() => {
     ensureDist();
     if (enemiesNear()) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
-    if (p.food < REST_FOOD) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
+    // the Returned sleep their first rest on a floor on nothing
+    const food = p.bg === 'returned' && !(L.rests || 0) ? 0 : REST_FOOD;
+    if (p.food < food) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
     if (!restShare()) { log('The dark is too close here to sleep again. Find the stairs.', 'bad'); Sound.play('error'); return false; }
-    p.food -= REST_FOOD;
+    p.food -= food;
     const before = L.rests || 0;
     let share = restShare();
     L.rests = before + 1;
@@ -3001,7 +3010,7 @@ const Game = (() => {
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
     // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
-    const regenTo = Math.ceil(p.maxHp * REGEN_CAP);
+    const regenTo = Math.ceil(p.maxHp * (p.bg === 'heartsworn' ? HEARTSWORN_CAP : REGEN_CAP));
     if (p.hp < regenTo && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0)) {
       ensureDist();
       const L = lvl();
@@ -3251,6 +3260,7 @@ const Game = (() => {
       if (!G.looks) G.looks = buildLooks(G.seed);
       // a run from before relics finds them on the floors it has yet to see
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
+      for (const id of G.relics.found) Progress.noteRelic(id);   // a run from before the codex adds what it found
       // a run from before the end screen kept its numbers counts from here on
       G.stats = { ...freshStats(), ...G.stats };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
@@ -3276,7 +3286,7 @@ const Game = (() => {
   }
 
   return {
-    newGame, load, save, hasSave, saveSummary, rollStats, hall,
+    newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents,
     state: () => G, player: P, level: lvl, log, mod,
     itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,

@@ -7,6 +7,7 @@ import { Sound } from './sound.js';
 import { Game } from './game.js';
 import { RELIC_POWERS, RELICS } from './relics.js';
 import { Daily } from './daily.js';
+import { Progress } from './progress.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -270,14 +271,21 @@ const UI = (() => {
     }
     const bgGrid = $('#c-backgrounds');
     bgGrid.innerHTML = '';
+    // a past still to be earned cannot stay chosen
+    const progress = Progress.load();
+    if (!Progress.bgOpen(create.bg, progress)) create.bg = 'oathbroken';
     for (const id in BACKGROUNDS) {
-      const b = BACKGROUNDS[id];
+      const b = BACKGROUNDS[id], open = Progress.bgOpen(id, progress);
       const el = document.createElement('button');
-      el.className = 'bg-card' + (id === create.bg ? ' sel' : '');
+      el.className = 'bg-card' + (id === create.bg ? ' sel' : '') + (open ? '' : ' locked');
       el.type = 'button';
+      el.dataset.bg = id;
       el.setAttribute('aria-pressed', String(id === create.bg));
-      el.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`;
-      el.addEventListener('click', () => { create.bg = id; buildCreate(); });
+      // a locked card says what it is and how to earn it, and cannot be chosen
+      el.innerHTML = open ? `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`
+        : `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key lock">Locked. ${escapeHtml(b.how)}</em>`;
+      el.disabled = !open;
+      if (open) el.addEventListener('click', () => { create.bg = id; buildCreate(); });
       bgGrid.appendChild(el);
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
@@ -315,7 +323,7 @@ const UI = (() => {
   }
   /** A random hero with sensible numbers, straight to the prologue. */
   function quickStart() {
-    const classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS);
+    const classes = Object.keys(CLASSES), progress = Progress.load(), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
     // someone's very first run gets a class that forgives mistakes
     const firstRun = !Game.hall().length;
     const pool = firstRun ? ['fighter', 'cleric'] : classes;
@@ -766,6 +774,7 @@ const UI = (() => {
   function renderJournal() {
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
+    if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
     const got = Game.journal();
     $('#journal-count').textContent = `${got.length} of ${Game.pagesInDungeon()}`;
     const el = $('#journal-list');
@@ -824,6 +833,23 @@ const UI = (() => {
       return `<div class="beast" data-beast="${id}">${img}<div>${bits.join('')}</div></div>`;
     }).join('') + '</div>';
     return `${met} of ${ids.length} met`;
+  }
+
+  // ---------- relic codex ----------
+  const KIND_NAMES = { weapon: 'Weapon', armor: 'Armour', shield: 'Shield' };
+  /** Fill el with every relic, found or not; returns the count line. */
+  function renderCodex(el) {
+    const found = Progress.load().relics, ids = Object.keys(RELICS);
+    el.innerHTML = '<div class="codex">' + ids.map(id => {
+      const r = RELICS[id], b = ITEMS[r.t], kind = KIND_NAMES[b.kind] || b.kind;
+      // one not yet found shows only what sort of thing it is
+      if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}</p></div></div>`;
+      const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
+      return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
+        + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}</p>`
+        + `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
+    }).join('') + '</div>';
+    return `${ids.filter(id => found.includes(id)).length} of ${ids.length} found`;
   }
 
   // An encounter: the prose, then each choice with what it tests and how
@@ -930,7 +956,20 @@ const UI = (() => {
     const G = Game.state();
     $('#log-history').innerHTML = '<div class="log-history">' + G.log.filter(e => !e.gone).reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
   }
+  /** Four classes by three difficulties, each lit once that class has won there. */
+  function renderTrophies() {
+    const v = Progress.load(), { won, total } = Progress.trophyCount(v);
+    const head = ['<span></span>', ...Progress.DIFFS.map(d => `<span class="th">${diffName(d)}</span>`)];
+    const rows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...Progress.DIFFS.map(d => {
+      const n = (v.won[cls] && v.won[cls][d]) || 0, what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
+      return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="img" aria-label="${what}" title="${what}">${n ? '✦' : ''}</span>`;
+    })].join(''));
+    $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
+      + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`;
+    $('#hall-relics-count').textContent = `${v.relics.length} of ${Object.keys(RELICS).length} found`;
+  }
   function renderHall() {
+    renderTrophies();
     const list = Game.hall();
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
@@ -1439,6 +1478,12 @@ const UI = (() => {
     $('#end-text').textContent = won
       ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain.`
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
+    // a first win for this class at this difficulty, and any past it opened
+    const earned = won ? Game.earned() : null, news = [];
+    if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!`);
+    for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
+    $('#end-trophy').textContent = news.join(' ');
+    $('#end-trophy').style.display = news.length ? '' : 'none';
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     // time spent underground, by the game's own clock
     const secs = Math.round(G.t / 1000);
@@ -1599,6 +1644,8 @@ const UI = (() => {
     $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
     for (const t of $$('[data-jtab]')) t.addEventListener('click', () => { journalTab = t.dataset.jtab; renderJournal(); });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
+    $('#hall-relics').addEventListener('click', () => { $('#relics-count').textContent = renderCodex($('#relics-list')); showScreen('screen-relics'); });
+    $('#relics-back').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
     $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });

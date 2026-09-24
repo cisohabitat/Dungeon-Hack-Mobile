@@ -4298,6 +4298,164 @@ await test('a sound never moves the dice or calls Math.random', async () => {
   return (Dice.s === s0 && !called) || `dice ${s0} -> ${Dice.s}, Math.random called ${called} times`;
 });
 
+// ---------- progress kept between runs ----------
+/** Lift the Heart where the hero stands: the run is won on the spot. */
+function winHere(Game) {
+  const p = Game.player(), L = Game.level(), k = `${p.x},${p.y}`;
+  const heart = { t: 'artifact', q: 1, e: 0 };
+  (L.items[k] = L.items[k] || []).push(heart);
+  Game.takeItem(heart);
+  return Game.state().status === 'won';
+}
+const progressOf = ctx => JSON.parse(ctx.store.get('deepdelve.progress') || 'null');
+
+await test('a win earns its class a trophy at its difficulty, told the first time only; a death earns none', async () => {
+  const ctx = await newContext();
+  const { Game, Progress } = ctx;
+  const run = (cls, difficulty) => Game.newGame({ name: 'W', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-' + cls, opts: { ...OPTS, difficulty } });
+  run('mage', 'hard');
+  if (!winHere(Game)) return 'lifting the Heart did not win';
+  const v = progressOf(ctx);
+  if (!v || !v.won || !v.won.mage || v.won.mage.hard !== 1) return `after a mage's hard win: ${JSON.stringify(v)}`;
+  if (v.won.mage.normal || v.won.fighter) return `a hard win counted elsewhere too: ${JSON.stringify(v.won)}`;
+  const e = Game.earned();
+  if (!e || !e.first || e.cls !== 'mage' || e.difficulty !== 'hard') return `earned: ${JSON.stringify(e)}`;
+  if (!Progress.hasWon('mage', 'hard') || Progress.highest('mage') !== 'hard' || Progress.highest('fighter') !== '') return 'the trophy is not read back';
+  run('mage', 'hard'); winHere(Game);
+  if (Game.earned().first) return 'a second hard win as a mage was told as the first';
+  if (progressOf(ctx).won.mage.hard !== 2) return 'the second win was not counted';
+  // a run from before there was a choice is Normal
+  Game.newGame({ name: 'W', cls: 'thief', bg: 'oathbroken', stats: { ...evenStats }, seed: 'trophy-old', opts: { ...OPTS } });
+  winHere(Game);
+  if (!Game.earned().first || !Progress.hasWon('thief', 'normal')) return `an unmarked run: ${JSON.stringify(progressOf(ctx).won)}`;
+  // the Daily Delve counts like any other run
+  const daily = ctx.Daily.heroFor('2026-09-24');
+  Game.newGame(daily);
+  winHere(Game);
+  if (!Progress.hasWon(daily.cls, 'normal')) return `a daily ${daily.cls} win did not count`;
+  const before = JSON.stringify(progressOf(ctx));
+  // a death is no trophy
+  run('fighter', 'easy');
+  const p = Game.player(), G = Game.state();
+  p.hp = 1; p.eq.armor = null; p.eq.shield = null;
+  beside(ctx, 'goblin');
+  for (let i = 0; i < 2000 && G.status === 'playing'; i++) Game.update(G.t + 25, 25);
+  if (G.status !== 'dead') return 'the goblin never killed the hero';
+  if (JSON.stringify(progressOf(ctx)) !== before || Game.earned()) return `a death changed the trophies: ${JSON.stringify(progressOf(ctx).won)}`;
+  const n = Progress.trophyCount();
+  return (n.total === 12 && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
+});
+
+await test('a relic picked up or bought goes in the codex, once, and the codex outlasts the run', async () => {
+  const ctx = await start('fighter', 'codex');
+  const { Game, Progress } = ctx;
+  const p = Game.player(), L = Game.level(), k = `${p.x},${p.y}`;
+  if (Progress.load().relics.length) return 'a fresh device already knows relics';
+  const tooth = { t: 'dagger', q: 1, e: 2, u: 'grimtooth' };
+  (L.items[k] = L.items[k] || []).push(tooth);
+  Game.takeItem(tooth);
+  if (!p.inv.some(it => it.u === 'grimtooth')) return 'Grimtooth was not picked up';
+  if (JSON.stringify(progressOf(ctx).relics) !== '["grimtooth"]') return `after picking up Grimtooth: ${JSON.stringify(progressOf(ctx))}`;
+  // bought from a trader
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'shield', q: 1, e: 2, u: 'kests_bulwark' }] };
+  L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  shop.x = p.x + dx; shop.y = p.y + dy;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  p.gold = 99999;
+  if (!Game.buy(shop.stock[0])) return 'could not buy the Bulwark';
+  if (JSON.stringify(progressOf(ctx).relics) !== '["grimtooth","kests_bulwark"]') return `after buying the Bulwark: ${JSON.stringify(progressOf(ctx))}`;
+  if (Progress.noteRelic('grimtooth')) return 'Grimtooth went in twice';
+  // seen by the next hero, on a new run
+  Game.newGame({ name: 'N', cls: 'mage', bg: 'oathbroken', stats: { ...evenStats }, seed: 'codex-next', opts: OPTS });
+  const r = Progress.load().relics;
+  return (r.length === 2 && r.includes('grimtooth') && r.includes('kests_bulwark')) || `the next hero's codex: ${JSON.stringify(r)}`;
+});
+
+await test('progress that is missing or corrupt is shrugged off, and an old Hall still counts its wins', async () => {
+  const ctx = await newContext();
+  const { Progress } = ctx;
+  for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
+    ctx.store.set('deepdelve.progress', bad);
+    const v = Progress.load();
+    if (JSON.stringify(v) !== '{"won":{},"relics":[]}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
+  }
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'] }));
+  const v = Progress.load();
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"]}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
+  // storage that throws is no crash, and no unlock
+  const real = globalThis.localStorage;
+  globalThis.localStorage = { getItem() { throw new Error('denied'); }, setItem() { throw new Error('denied'); }, removeItem() {}, clear() {} };
+  try {
+    if (Progress.load().relics.length || Progress.bgOpen('heartsworn')) return 'blocked storage still read';
+    Progress.noteRelic('whisper'); Progress.recordWin('fighter', 'hard');
+  } finally { globalThis.localStorage = real; }
+  // a player from before progress was kept: the Hall's wins count
+  ctx.store.delete('deepdelve.progress');
+  ctx.store.set('deepdelve.hall', JSON.stringify([{ name: 'Old', cls: 'cleric', won: true, difficulty: 'hard', score: 3000 }, { name: 'Older', cls: 'thief', won: true, score: 2500 }, { name: 'Lost', cls: 'mage', won: false, difficulty: 'hard', score: 100 }]));
+  if (!Progress.hasWon('cleric', 'hard') || !Progress.hasWon('thief', 'normal') || Progress.hasWon('mage', 'hard')) return `from the Hall: ${JSON.stringify(Progress.load().won)}`;
+  return Progress.bgOpen('heartsworn') || 'a hard win in the Hall did not open the Heartsworn';
+});
+
+await test('the earned backgrounds are refused until won, then open with their perks', async () => {
+  const ctx = await newContext();
+  const { Game } = ctx;
+  const make = (bg, difficulty = 'normal') => { Game.newGame({ name: 'B', cls: 'fighter', bg, stats: { ...evenStats }, seed: 'bg-lock', opts: { ...OPTS, difficulty } }); return Game.player(); };
+  if (make('returned').bg !== 'oathbroken') return `the Returned was taken while locked: ${Game.player().bg}`;
+  if (Game.player().inv.some(it => it.t === 'potion_xheal')) return 'the locked perk came anyway';
+  if (make('heartsworn').bg !== 'oathbroken') return 'the Heartsworn was taken while locked';
+  // an easy win opens nothing
+  make('oathbroken', 'easy'); winHere(Game);
+  if (Game.earned().unlocked.length || make('returned').bg !== 'oathbroken') return 'an easy win opened the Returned';
+  // a normal win opens the Returned, not the Heartsworn
+  make('oathbroken', 'normal'); winHere(Game);
+  if (JSON.stringify(Game.earned().unlocked) !== '["returned"]') return `a normal win opened ${JSON.stringify(Game.earned().unlocked)}`;
+  const p = make('returned');
+  if (p.bg !== 'returned') return 'the Returned is still refused after a normal win';
+  const draught = p.inv.find(it => it.t === 'potion_xheal');
+  if (!draught || draught.q !== 1 || !Game.isKnown('potion_xheal')) return 'the Returned did not start with a known Potion of Extra Healing';
+  // the first rest on a floor costs no food, the next the usual
+  const L = Game.level();
+  L.monsters.length = 0; p.hp = 1; p.food = 50;
+  if (!Game.rest() || p.food !== 50) return `the first rest cost ${50 - p.food} food`;
+  L.monsters.length = 0; p.hp = 1;
+  if (!Game.rest() || p.food !== 44) return `the second rest cost ${50 - p.food} food`;
+  if (make('heartsworn').bg !== 'oathbroken') return 'a normal win opened the Heartsworn';
+  // a hard win opens the Heartsworn
+  make('oathbroken', 'hard'); winHere(Game);
+  if (JSON.stringify(Game.earned().unlocked) !== '["heartsworn"]') return `a hard win opened ${JSON.stringify(Game.earned().unlocked)}`;
+  // wounds close on their own to 60% for the Heartsworn, half for anyone else
+  const healTo = bg => {
+    const h = make(bg), G = Game.state();
+    Game.level().monsters.length = 0;
+    h.maxHp = 100; h.hp = 10; h.food = 100; h.lastHurt = -1e9;
+    for (let i = 0; i < 4000; i++) Game.update(G.t + 50, 50);
+    return h.hp;
+  };
+  const heart = healTo('heartsworn');
+  if (Game.player().bg !== 'heartsworn') return 'the Heartsworn is still refused after a hard win';
+  const plain = healTo('oathbroken');
+  return (heart === 60 && plain === 50) || `healed on their own to ${heart} (Heartsworn) and ${plain} (Oathbroken)`;
+});
+
+await test('the Daily Delve deals only the six original backgrounds, whatever has been unlocked', async () => {
+  const ctx = await newContext();
+  const { Daily, Progress, BACKGROUNDS } = ctx;
+  if (Daily.DAILY_BACKGROUNDS.join() !== 'oathbroken,tombwise,ashborn,cloistered,deepborn,debtor') return `the daily list is ${Daily.DAILY_BACKGROUNDS.join()}`;
+  if (!Object.keys(BACKGROUNDS).some(id => BACKGROUNDS[id].unlock)) return 'there is no earned background to leave out';
+  Progress.recordWin('fighter', 'hard');
+  const seen = new Set();
+  for (let i = 0; i < 400; i++) {
+    const key = Daily.today(new Date(2026, 0, 1 + i)), hero = Daily.heroFor(key);
+    if (BACKGROUNDS[hero.bg].unlock || !Daily.DAILY_BACKGROUNDS.includes(hero.bg)) return `${key} dealt ${hero.bg}`;
+    seen.add(hero.bg);
+  }
+  return seen.size === 6 || `only ${seen.size} backgrounds came up in 400 days`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
