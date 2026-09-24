@@ -34,6 +34,9 @@ const UI = (() => {
   function refreshTitle() {
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
+    // a run waiting to be picked up is the likelier wish
+    $('#btn-continue').classList.toggle('primary', !!s);
+    $('#btn-new').classList.toggle('primary', !s);
     $('#save-summary').textContent = s
       ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
       : 'No saved game';
@@ -272,8 +275,12 @@ const UI = (() => {
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
     const NAMES = ['Wren', 'Tamsin', 'Oren', 'Brannoc', 'Idris', 'Maelis', 'Corvin', 'Hesk', 'Aldra', 'Fenn', 'Rook', 'Sabine'];
-    showPrologue({ name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
-      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } });
+    const cfg = { name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
+      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false } };
+    // "straight in" means it for anyone who has been down before; a first
+    // hero still hears why the Heart matters
+    if (firstRun) showPrologue(cfg);
+    else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); startPlaying(); }
   }
   let quickPending = false;
   /** A run in progress is a real investment, so never discard one silently. */
@@ -324,6 +331,9 @@ const UI = (() => {
     logCount = -1; hudSig = '';
     closeOverlay();
     showScreen('screen-game');
+    // no spells, no Spells button
+    const sb = /** @type {HTMLElement|null} */ (document.querySelector('[data-open="spells"]'));
+    if (sb) sb.style.display = CLASSES[Game.player().cls].spells ? '' : 'none';
     refreshLog(); refreshHud();
     // a choice left waiting when the game was put away is waiting still
     if (Game.pendingBoons()) openOverlay('boons');
@@ -371,6 +381,8 @@ const UI = (() => {
     const now = performance.now();
     const el = $('#tip');
     if (el && el.classList.contains('show') && now > tipUntil) el.classList.remove('show');
+    // a tip never outlives the run: not over the fall, nor over the Heart's light
+    if (el && Game.state() && Game.state().status !== 'playing') { el.classList.remove('show'); tipUntil = now; }
     if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
@@ -379,8 +391,10 @@ const UI = (() => {
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     if (close && showTip('monster')) return;
     // the rest can wait for a quiet moment: a tip about your pack, mid-fight,
-    // covers the view just when it matters most
-    if (close) return;
+    // covers the view just when it matters most. Quiet means nothing awake in
+    // throwing distance, no lich about, and no blow taken for five seconds
+    const G = Game.state();
+    if (close || Game.bossAwake() || G.t - (p.lastHurt || -1e9) < 5000 || L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6)) return;
     const label = Game.useLabel();
     const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };
     if (byLabel[label] && showTip(byLabel[label])) return;
@@ -465,7 +479,7 @@ const UI = (() => {
     if (!G || G.logSeq === logCount) return;
     logCount = G.logSeq;
     const el = $('#log');
-    el.innerHTML = G.log.slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    el.innerHTML = G.log.filter(e => !e.gone).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
     // the full history is a tap away. The panel stacks from the bottom, so
@@ -773,8 +787,8 @@ const UI = (() => {
       const btn = document.createElement('button');
       btn.className = 'boon' + (isTalent ? ' talent' : '');
       btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(isTalent ? b.desc : lessonText(b, p))}</small>`;
-      btn.disabled = true;
-      setTimeout(() => { btn.disabled = false; }, BOON_GUARD_MS);
+      btn.disabled = true; btn.classList.add('arming');
+      setTimeout(() => { btn.disabled = false; btn.classList.remove('arming'); }, BOON_GUARD_MS);
       btn.addEventListener('click', () => {
         if (performance.now() - openedAt < BOON_GUARD_MS) return;
         Game.chooseBoon(id);
@@ -786,7 +800,7 @@ const UI = (() => {
 
   function renderLogHistory() {
     const G = Game.state();
-    $('#log-history').innerHTML = '<div class="log-history">' + G.log.slice().reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
+    $('#log-history').innerHTML = '<div class="log-history">' + G.log.filter(e => !e.gone).reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
   }
   function renderHall() {
     const list = Game.hall();
@@ -822,6 +836,8 @@ const UI = (() => {
     if (overlay === 'shop') Game.closeShop();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
+    const focused = /** @type {HTMLElement|null} */ (document.activeElement);
+    if (focused && focused.blur) focused.blur();
     selectedItem = null; selectedSlot = null;
   }
   function paused() { return !!overlay; }
@@ -1271,7 +1287,7 @@ const UI = (() => {
     closeOverlay();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
     $('#end-text').textContent = won
-      ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain, and its light carried them out of the deep.`
+      ? `${p.name} the ${CLASSES[p.cls].name} brought down the Dread Lich and lifted the Heart of the Mountain.`
       : `${p.name} the ${CLASSES[p.cls].name} fell on floor ${G.depth}. ${G.opts.permadeath ? 'The save has been erased.' : ''}`;
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     // time spent underground, by the game's own clock
@@ -1285,6 +1301,8 @@ const UI = (() => {
     const killer = Game.lastAttacker();
     if (!won && killer && killer.encounter) {
       cause.innerHTML = `Died at <b>${escapeHtml(killer.name)}</b>, when a choice went wrong (${killer.dmg} damage).`;
+    } else if (!won && killer && killer.cause) {
+      cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b> (${killer.dmg} damage).`;
     } else if (!won && killer) {
       cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
     } else if (!won) {
@@ -1378,7 +1396,12 @@ const UI = (() => {
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
-      else if (e === 'dead') showEnd(false);
+      // the view goes dark a moment first, then the end screen, for this run only
+      else if (e === 'dead') {
+        const run = Game.state();
+        clearTimeout(finaleTimer);
+        finaleTimer = setTimeout(() => { if (Game.state() === run && run.status === 'dead' && $('#screen-game').classList.contains('active')) showEnd(false); }, 1200);
+      }
       // the Heart's light fills the view first, then the victory screen; only
       // for this run, and only if it is still on screen when the light is done
       else if (e === 'won') {

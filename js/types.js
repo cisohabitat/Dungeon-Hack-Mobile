@@ -179,7 +179,7 @@
  * @property {Player} player
  * @property {Object<number, Level>} levels
  * @property {number} depth
- * @property {Array<{m: string, c: string, base?: string, n?: number}>} log
+ * @property {Array<{m: string, c: string, base?: string, n?: number, notes?: Record<string, string[]>, gone?: boolean}>} log
  * @property {number} logSeq  messages ever written; the log array itself is capped
  * @property {number} t                      elapsed game time in milliseconds
  * @property {'playing'|'dead'|'won'} status
@@ -191,9 +191,10 @@
  * @property {number} [escapeStart] @property {number} [nextHunt] @property {number} [hunts] @property {number} [escapeMs]
  * @property {Array<{i: number, depth: number}>} journal
  * @property {string[][]} pendingBoons
+ * @property {boolean} [bossDown]  the lich has fallen: no more choices stand between the hero and the Heart
  * @property {number[]} [pendingLevels]  the level each queued offer was earned at
  * @property {Record<number, {hp: number, spells: string[]}>} [levelNotes]  what each level-up brought
- * @property {{name: string, dmg: number, bearing: string, encounter?: boolean}} [lastAttacker]
+ * @property {{name: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]

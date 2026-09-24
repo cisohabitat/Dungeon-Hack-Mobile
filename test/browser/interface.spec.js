@@ -161,6 +161,8 @@ test.describe('interface', () => {
       await clearBoons(page);
       await page.waitForTimeout(250);
       const out = await page.evaluate(() => [...document.querySelectorAll('#screen-game .ctl, #screen-game .bottombar button')]
+        // a button this hero has no use for (Spells, for a fighter) is not shown at all
+        .filter(b => getComputedStyle(b).display !== 'none')
         .filter(b => { const r = b.getBoundingClientRect(); return r.bottom > innerHeight + 1 || r.right > innerWidth + 1 || r.top < -1 || r.height < 30; })
         .map(b => b.getAttribute('aria-label') || b.textContent.trim()));
       expect(out, 'controls off screen or too small to press').toEqual([]);

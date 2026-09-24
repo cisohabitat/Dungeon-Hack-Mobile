@@ -363,7 +363,7 @@ test.describe('dungeon features', () => {
     await page.click('[data-open="spells"]');
     await page.locator('#spell-list button.spell', { hasText: 'Lightning Bolt' }).click();
     await expect(page.locator('#ov-spells')).not.toHaveClass(/open/);
-    const after = await page.evaluate(() => ({ left: Game.level().monsters.length, destroyed: Game.state().log.slice(-8).filter(l => /Skeleton is destroyed/.test(l.m)).length }));
+    const after = await page.evaluate(() => ({ left: Game.level().monsters.length, destroyed: Game.state().log.slice(-8).filter(l => /Skeleton is destroyed/.test(l.m)).reduce((n, l) => n + (l.n || 1), 0) }));
     expect(after.left, 'the whole group should be gone').toBe(0);
     expect(after.destroyed, 'each of the three should be logged as destroyed').toBe(3);
     expect(errors).toEqual([]);

@@ -36,12 +36,14 @@ const Game = (() => {
                shakeAmp: 4, shakeMs: 220, hurtAmt: 0.5,
                /** when the Heart was lifted, for the light that ends the run; -1 before */
                heartAt: -1,
+               /** when the hero fell, for the view going dark before the end screen; -1 before */
+               deadAt: -1,
                /** @type {any} */ status: null,
-               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean}|null} */ boss: null,
+               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
-    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1;
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1;
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
@@ -112,9 +114,28 @@ const Game = (() => {
   // The log is capped, so once it is full its length stops changing. Anything
   // watching for new messages has to count them, not measure the array.
   function log(m, c) {
-    G.log.push({ m, c: c || '' });
+    // the same line again straight after itself (poison, every two seconds) is
+    // counted on the one line rather than filling the box. The old line is left
+    // as an empty place-holder and the count written as a new line, so the log
+    // still grows by one line for every line said, as anything counting it expects
+    const last = liveLine();
+    if (last && (last.base || last.m) === m) {
+      const n = (last.n || 1) + 1;
+      last.gone = true; last.m = '';
+      G.log.push({ m: `${m} (\u00d7${n})`, c: c || '', base: m, n });
+    } else G.log.push({ m, c: c || '' });
     G.logSeq = (G.logSeq || 0) + 1;
-    if (G.log.length > 80) G.log.splice(0, G.log.length - 80);
+    if (G.log.length > 80) {
+      // place-holders are dropped first, all but the newest few, which anything
+      // counting back from the end may still be counting
+      if (G.log.some(e => e.gone)) G.log = G.log.filter((e, i, all) => !e.gone || i >= all.length - 20);
+      if (G.log.length > 80) G.log.splice(0, G.log.length - 80);
+    }
+  }
+  /** The newest line still showing: folded lines leave empty place-holders behind. */
+  function liveLine() {
+    for (let i = G.log.length - 1; i >= 0; i--) if (!G.log[i].gone) return G.log[i];
+    return null;
   }
   function emit(e) { events.push(e); }
   function takeEvents() { return events.splice(0); }
@@ -962,18 +983,8 @@ const Game = (() => {
     logMerged(message);
   }
   /** Log a line, or count it up if it just said the same thing. */
-  function logMerged(message) {
-    // the same line again counts up on its own line instead of pushing
-    // everything that mattered off the top of the log
-    const last = G.log[G.log.length - 1];
-    if (last && (last.base || last.m) === message) {
-      last.base = last.base || message; last.n = (last.n || 1) + 1;
-      last.m = `${last.base} (\u00d7${last.n})`;
-      G.logSeq++;
-      return;
-    }
-    log(message);
-  }
+  // the same line again counts up on its own line: log() folds any repeat now
+  function logMerged(message) { log(message); }
   function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); logMerged('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
     setTile(x, y, T.DOOR_OPEN);
@@ -1027,7 +1038,7 @@ const Game = (() => {
       if (p.food === 30) log('You are getting hungry.', 'bad');
       if (p.food === 10) log('You are very hungry!', 'bad');
     }
-    if (p.food === 0 && p.steps % 6 === 0) hurtPlayer(1, 'You are starving!');
+    if (p.food === 0 && p.steps % 6 === 0) hurtPlayer(1, 'You are starving!', null, 'hunger');
     if (p.maxSp && p.sp < p.maxSp && p.steps % (hasTalent('arcane_flow') ? 4 : 9) === 0) p.sp++;
   }
   function checkTile() {
@@ -1051,7 +1062,7 @@ const Game = (() => {
     Sound.play('trap');
     if (tr.dmg) {
       const n = Math.max(1, d(...tr.dmg));
-      hurtPlayer(n, `${tr.msg} You take ${n} damage.`);
+      hurtPlayer(n, `${tr.msg} You take ${n} damage.`, null, `a ${tr.name}`);
     } else log(tr.msg, 'bad');
     if (tr.poison && !p.poison && !hasPower('pure')) { p.poison = poisonFor(); log('You are poisoned!', 'bad'); }
     if (tr.alarm) for (const m of L.monsters) m.awake = true;
@@ -1516,6 +1527,7 @@ const Game = (() => {
     const at = L.monsters.indexOf(m);
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
+    if (mb.boss) G.bossDown = true;
     memberDown(m, note);
     if (mb.boss) { bossFalls(m); log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
   }
@@ -1591,14 +1603,46 @@ const Game = (() => {
       if (p.level % 3 === 0) offerTalents(); else offerBoons();
     }
   }
-  // Three things experience could have taught you. You keep one.
-  function offerBoons() {
+  /** The lessons a hero can still be offered. */
+  function boonPool() {
     const p = P();
     const taken = p.boons || [];
     // a stat lesson twice at most: stacking one every level was the whole of a build
     const times = id => taken.filter(t => t === id).length;
-    const pool = BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
-    const picked = Dice.shuffle(pool.slice()).slice(0, 3).map(b => b.id);
+    return BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
+  }
+  /** The class talents a hero can still be offered. */
+  function talentPool() {
+    const p = P();
+    // a talent for a spell not yet learned would sit useless for levels: it waits
+    const knows = id => knownSpells().some(s => s.id === id && spellAvailable(s));
+    return (TALENTS[p.cls] || []).filter(t => !(p.talents || []).includes(t.id) && (!t.needs || knows(t.needs)));
+  }
+  /**
+   * Offers wait in a queue when several levels come at once, and each was
+   * drawn before the others were chosen: without a second look, the talent
+   * taken from the first could be offered again by the next. After every
+   * choice the waiting offers are drawn over from what is still to be had.
+   */
+  function redrawOffers() {
+    const rest = G.pendingBoons || [];
+    for (let i = 0; i < rest.length; i++) {
+      const talentOffer = rest[i].some(id => (TALENTS[P().cls] || []).some(t => t.id === id));
+      const pool = (talentOffer ? talentPool() : boonPool()).map(b => b.id);
+      const keep = rest[i].filter(id => pool.includes(id));
+      const more = Dice.shuffle(pool.filter(id => !keep.includes(id))).slice(0, Math.max(0, 3 - keep.length));
+      rest[i] = keep.concat(more);
+      // every talent taken: the offer becomes a lesson
+      if (!rest[i].length && talentOffer) rest[i] = Dice.shuffle(boonPool().map(b => b.id)).slice(0, 3);
+    }
+  }
+  // Three things experience could have taught you. You keep one.
+  function offerBoons() {
+    const p = P();
+    // with the lich down the run is all but over: a choice would only stand
+    // between the hero and the Heart. The levels still come, and their hit points
+    if (G.bossDown) return;
+    const picked = Dice.shuffle(boonPool().slice()).slice(0, 3).map(b => b.id);
     G.pendingBoons = (G.pendingBoons || []).concat([picked]);
     G.pendingLevels = (G.pendingLevels || []).concat(p.level);
     emit('boons');
@@ -1606,9 +1650,8 @@ const Game = (() => {
   /** Three of the class's talents not yet taken; a lesson instead once all are. */
   function offerTalents() {
     const p = P();
-    // a talent for a spell not yet learned would sit useless for levels: it waits
-    const knows = id => knownSpells().some(s => s.id === id && spellAvailable(s));
-    const pool = (TALENTS[p.cls] || []).filter(t => !(p.talents || []).includes(t.id) && (!t.needs || knows(t.needs)));
+    if (G.bossDown) return;
+    const pool = talentPool();
     if (!pool.length) { offerBoons(); return; }
     G.pendingBoons = (G.pendingBoons || []).concat([Dice.shuffle(pool.slice()).slice(0, 3).map(t => t.id)]);
     G.pendingLevels = (G.pendingLevels || []).concat(p.level);
@@ -1627,6 +1670,7 @@ const Game = (() => {
     if (talent) {
       p.talents = (p.talents || []).concat(id);
       G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
+      redrawOffers();
       log(`Talent: ${talent.name}. ${talent.desc}`, 'good');
       Sound.play('levelup');
       emit('stats');
@@ -1640,6 +1684,7 @@ const Game = (() => {
     p.sp = Math.min(p.maxSp, p.sp);
     p.boons = (p.boons || []).concat(id);
     G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
+    redrawOffers();
     log(`${boon.name}. ${boon.desc}`, 'good');
     Sound.play('levelup');
     emit('stats');
@@ -1656,7 +1701,12 @@ const Game = (() => {
     const rel = (dir - p.dir + 4) % 4;
     return { rel, word: ['from ahead', 'from your right', 'from behind', 'from your left'][rel] };
   }
-  function hurtPlayer(dmg, msg, from) {
+  /**
+   * @param {number} dmg @param {string|null} msg
+   * @param {import('./types.js').Monster|null} [from]  the monster that struck, if one did
+   * @param {string} [cause]  what hurt, when no monster did: a trap, poison, hunger
+   */
+  function hurtPlayer(dmg, msg, from, cause) {
     noteTaken(dmg, from);
     const p = P();
     p.hp -= dmg;
@@ -1666,7 +1716,7 @@ const Game = (() => {
       fx.hurtFrom = bearing ? bearing.rel : 0;
       fx.hurtFromUntil = realNow + 900;
       G.lastAttacker = { name: mstat(from).name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
-    }
+    } else if (cause) G.lastAttacker = { name: cause, dmg, bearing: '', cause: true };
     // the harder the blow against the hero's whole life, the harder the view
     // jolts and reddens; one that takes a tenth of it or more leaves blood on
     // the edges of the view
@@ -1717,8 +1767,9 @@ const Game = (() => {
     const p = P();
     p.hp = 0;
     fx.hpFrac = 1;                         // no near-death pulse over the fallen
+    fx.deadAt = realNow;                    // the view darkens a moment before the end screen
     G.status = 'dead';
-    G.deathLog = G.log.slice(-6).map(e => e.m);
+    G.deathLog = G.log.filter(e => !e.gone).slice(-6).map(e => e.m);
     log(`${p.name} has died on floor ${G.depth}.`, 'bad');
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
@@ -1875,7 +1926,15 @@ const Game = (() => {
     // a trick seen or beaten again is nothing new, and a troll regrows every second
     if ((what === 'trick' || what === 'answer') && !news.length && !met) return;
     try { localStorage.setItem(BESTIARY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
-    if (news.length && G && G.status === 'playing') log(`Bestiary, ${name}: ${news.join(', ')}.`, 'info');
+    if (news.length && G && G.status === 'playing') {
+      // notes that follow one another share one quiet line instead of three loud ones
+      const last = liveLine();
+      const notes = last && last.notes ? { ...last.notes } : {};
+      notes[name] = [...new Set([...(notes[name] || []), ...news])];
+      if (last && last.notes) { last.gone = true; last.m = ''; }
+      G.log.push({ m: 'Bestiary, ' + Object.entries(notes).map(([n, l]) => `${n}: ${l.join(', ')}`).join('; ') + '.', c: 'note', notes });
+      G.logSeq = (G.logSeq || 0) + 1;
+    }
   }
   /** The first meeting with this particular monster, this run. */
   function meet(m, also) {
@@ -2671,7 +2730,7 @@ const Game = (() => {
     }
     if (p.poison) {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
-      else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.'); }
+      else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.', null, 'poison'); }
     }
     for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
@@ -2793,7 +2852,8 @@ const Game = (() => {
       }
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: m.hp, maxHp: m.maxHp, tell, special });
+        // the lich's life runs along the top of the view, so it carries no bar of its own
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, flash: m.flashUntil, hp: mb.boss ? null : m.hp, maxHp: m.maxHp, tell, special, boss: !!mb.boss });
         continue;
       }
       // a group stands abreast across your view: the front one a little
@@ -2833,7 +2893,9 @@ const Game = (() => {
     const p = P(), wIt = p.eq.weapon;
     // the lich's life across the top of the view, once it has woken and spoken
     const boss = L.monsters.find(m => MONSTERS[m.id].boss && m.spoke && m.awake && !m.collapsed);
-    fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!(boss.windup && boss.windup.move === 'rite') } : null;
+    const rite = boss && boss.windup && boss.windup.move === 'rite' ? boss.windup : null;
+    fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!rite,
+      riteDone: rite ? Math.min(1, Math.max(0, (G.t - rite.at) / Math.max(1, rite.until - rite.at))) : 0 } : null;
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };

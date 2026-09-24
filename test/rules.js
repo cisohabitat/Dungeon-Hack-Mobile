@@ -27,6 +27,8 @@ async function start(cls, seed, opts) {
 // capped at eighty, so once full its length stops moving and a slice from the
 // old length returns nothing at all: the same fault the message box had.
 const markLog = G => G.logSeq;
+// A line said again straight after itself is folded into one, "(×3)": count it as said three times
+const countSaid = (lines, re) => lines.filter(l => re.test(l)).reduce((n, l) => n + (Number((l.match(/\(\u00d7(\d+)\)$/) || [])[1]) || 1), 0);
 const linesSince = (G, mark) => {
   const n = G.logSeq - mark;
   return n > 0 ? G.log.slice(-Math.min(n, G.log.length)).map(e => e.m) : [];
@@ -1728,10 +1730,12 @@ await test('bumping the same wall again counts up instead of filling the log', a
   const [dx, dy] = Dungeon.DIRS[p.dir];
   L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.WALL;
   L.monsters.length = 0;
-  const rows = G.log.length;
+  // lines still showing: a folded repeat leaves an empty place-holder behind
+  const live = () => G.log.filter(e => !e.gone).length;
+  const rows = live();
   for (let i = 0; i < 4; i++) { G.t += 1000; Game.update(G.t, 1000); Game.input('forward'); }
   const last = G.log[G.log.length - 1];
-  return (G.log.length - rows <= 1 && /\(×[34]\)$/.test(last.m)) || `four bumps left ${G.log.length - rows} new lines, the last "${last.m}"`;
+  return (live() - rows <= 1 && /\(×[34]\)$/.test(last.m)) || `four bumps left ${live() - rows} new lines, the last "${last.m}"`;
 });
 
 await test('relics can be laid in a secret vault, and traders keep unknown gear unknown', async () => {
@@ -2805,7 +2809,7 @@ await test('Mirror Image: Shield conjures two images that take the next two blow
   beside(ctx, 'goblin');
   const hp0 = p.hp, mark = markLog(G);
   let n = 0;
-  for (let i = 0; i < 400 && n < 2; i++) { Game.update(G.t + 25, 25); n = linesSince(G, mark).filter(l => /strikes one of your images/.test(l)).length; }
+  for (let i = 0; i < 400 && n < 2; i++) { Game.update(G.t + 25, 25); n = countSaid(linesSince(G, mark), /strikes one of your images/); }
   return (n === 2 && p.hp === hp0 && p.mirrors === 0) || `images struck ${n}, hp lost ${hp0 - p.hp}`;
 });
 
@@ -2891,7 +2895,7 @@ await test('a burn and a poison tick their full count at a phone\'s frame rate',
     if (!m.dot) return -1;
     const mark = markLog(G);
     for (let i = 0; i < 400; i++) Game.update(G.t + 1000 / 60, 1000 / 60);
-    return linesSince(G, mark).filter(l => /burns for|poison eats/.test(l)).length;
+    return countSaid(linesSince(G, mark), /burns for|poison eats/);
   };
   const burn = await ticks('mage', 'kindling', 'burning_hands'), venom = await ticks('thief', 'venom');
   return (burn === 3 && venom === 4) || `at 60fps a burn ticked ${burn} of 3, poison ${venom} of 4`;
@@ -3019,7 +3023,7 @@ await test('a riposte lands with a bonus, and the log says so', async () => {
 
 await test('Shadow Step still holds a moment after the sidestep: a goblin takes a second to come back into reach', async () => {
   // a natural 20 is told as a mighty blow instead of a strike from the
-  // shadows, so a run that rolls one is tried again
+  // shadows, and a natural 1 misses outright, so a run that rolls either is tried again
   let said = '';
   for (let tries = 0; tries < 4; tries++) {
     const ctx = await start('thief', 'shadow-late' + tries);
@@ -3038,7 +3042,7 @@ await test('Shadow Step still holds a moment after the sidestep: a goblin takes 
     p.nextAttack = G.t; Game.input('attack');
     if (linesSince(G, mark).some(l => /from the shadows/.test(l))) return true;
     said = linesSince(G, mark).join(' | ');
-    if (!/mighty blow/.test(said)) break;
+    if (!/mighty blow|a fumble/.test(said)) break;
   }
   return `said: ${said}`;
 });
@@ -3305,7 +3309,12 @@ await test('a missed blow strikes sparks; stains are capped per floor and gone i
   p.perkHit = -99;
   beside(ctx, 'orc', { hp: 999, maxHp: 999, nextAct: 1e12 });
   const fx = Game.renderState(0).fx;
-  G.t = p.nextAttack; Game.input('attack');
+  // a natural 20 lands whatever the odds: swing until one misses
+  for (let i = 0; i < 10; i++) {
+    fx.bits.length = 0;
+    G.t = p.nextAttack; Game.input('attack');
+    if (fx.bits.length && fx.bits.every(b => b.glow)) break;
+  }
   if (!fx.bits.length || !fx.bits.every(b => b.glow)) return `a miss threw ${fx.bits.length} bits`;
   p.perkHit = 60;
   for (let k = 0; k < 90; k++) {
@@ -3678,6 +3687,63 @@ await test('resting, fountains and wounds closing all count in the run\'s healin
   Game.level().monsters.length = 0;
   if (!Game.rest()) return 'could not rest';
   return G.stats.healed === 5 || `resting 5 counted ${G.stats.healed}`;
+});
+
+// ---------- round seven: from the playtest ----------
+await test('a talent taken from one waiting offer is not offered again by the next', async () => {
+  const ctx = await start('fighter', 'dup-talent');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  // two talent offers waiting at once, both holding the same talent
+  p.xp = 0; p.level = 1;
+  G.pendingBoons = [['cleave', 'riposte', 'stand_firm'], ['cleave', 'second_wind', 'bulwark']];
+  G.pendingLevels = [3, 6];
+  if (!Game.chooseBoon('cleave')) return 'could not take Cleave';
+  const next = Game.pendingBoons();
+  if (!next || next.includes('cleave')) return `the next offer still holds Cleave: ${JSON.stringify(next)}`;
+  if (next.length !== 3) return `the next offer shrank to ${next.length}`;
+  return true;
+});
+
+await test('the levels the lich\'s death brings come without a choice standing between the hero and the Heart', async () => {
+  const ctx = await start('fighter', 'lich-xp');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  G.pendingBoons = []; p.perkHit = 60;
+  const { m } = lichRoom(ctx, { hp: 1, maxHp: 120 });
+  const level = p.level;
+  for (let i = 0; i < 20 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+  if (Game.level().monsters.includes(m)) return 'the lich would not die';
+  if (p.level <= level) return 'killing the lich brought no level';
+  return !Game.pendingBoons() || `a choice waits: ${JSON.stringify(Game.pendingBoons())}`;
+});
+
+await test('a trap, poison or hunger is named as the killer, not the last monster that struck', async () => {
+  // a fighter with no eye for traps, so it is walked into, not spotted
+  const ctx = await start('fighter', 'trap-death');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  G.lastAttacker = { name: 'Rabid Skeleton', dmg: 7, bearing: 'from ahead' };
+  p.hp = 1; p.perkHit = 0; p.stats.wis = 3; p.bg = 'ashborn';
+  // a pit trap in the square ahead
+  const [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  const k = `${p.x + dx},${p.y + dy}`;
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR;
+  L.monsters.length = 0;
+  L.traps[k] = 'pit';
+  for (let i = 0; i < 20 && G.status === 'playing' && L.traps[k]; i++) { Game.input('forward'); Game.update(G.t + 400, 400); }
+  if (G.status === 'playing') return 'the trap did not kill (spotted, or none)';
+  const killer = Game.lastAttacker();
+  return (killer && killer.cause && /pit/i.test(killer.name)) || `killer: ${JSON.stringify(killer)}`;
+});
+
+await test('a line said again straight after itself is counted on one line, and bestiary notes share one', async () => {
+  const ctx = await start('fighter', 'fold');
+  const { Game } = ctx; const G = Game.state(), p = Game.player();
+  p.poison = { until: G.t + 20000, next: G.t };
+  p.hp = p.maxHp = 999;
+  Game.level().monsters.length = 0;
+  for (let i = 0; i < 300; i++) Game.update(G.t + 25, 25);
+  const burns = G.log.filter(e => /poison burns/.test(e.m));
+  if (burns.length !== 1 || !/\(\u00d7\d+\)$/.test(burns[0].m)) return `poison said as ${burns.length} lines: ${burns.map(e => e.m).join(' | ')}`;
+  return true;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

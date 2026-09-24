@@ -209,6 +209,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log div { flex-shrink: 0; overflow-wrap: anywhere; color: #cfc8ba; }
 .log .roll, .log-history .roll { color: #948da3; font-size: 0.86em; white-space: nowrap; }
 .log div.bad { color: #f08a80; }
+/* what the bestiary learned: said, but quieter than the fight */
+.log div.note { color: #8f879e; font-size: 0.9em; }
 .log div.good { color: #9ee08a; }
 .log div.info { color: #9ab8f0; }
 .log div:last-child:not(.bad):not(.good):not(.info) { color: #fff; }
@@ -398,7 +400,11 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 
 /* the level-up screen: what the level gave, then the choice */
 .boon-head { color: var(--gold); margin: 4px 0 2px; font-size: 0.95rem; }
-.boon:disabled { opacity: 0.55; }
+.boon:disabled { opacity: 1; }
+/* a line fills along the card while it arms, so the pause reads as on purpose */
+.boon { position: relative; overflow: hidden; }
+.boon.arming::after { content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--gold); transform-origin: left; animation: boon-arm 0.7s linear forwards; }
+@keyframes boon-arm { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 /* talents on the Hero sheet: one to a line, name then what it does */
 .sheet-h { margin: 14px 0 6px; font-size: 1rem; color: var(--gold); }
 .talent-list { list-style: none; margin: 0; padding: 0; }

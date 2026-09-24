@@ -196,7 +196,8 @@ const Renderer = (() => {
   const lerp = (a, b, u) => [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u];
   // art pixels to view pixels: the hands are the nearest thing in sight, so
   // they are painted finer than anything in the world, but not drawn smaller
-  const artK = () => H / 122;
+  // (a size that leaves the middle of the view to what is standing in it)
+  const artK = () => H / 142;
   /** Draw a painted frame with its hand (or centre) at view point (x, y). */
   function put(fr, x, y) {
     if (!fr) return;
@@ -205,8 +206,8 @@ const Renderer = (() => {
   }
   // where the hand is in each pose, as a fraction of the view
   const POSE_AT = {
-    rest: [0.75, 0.8], windup: [0.78, 0.6], cut: [0.58, 0.74], through: [0.44, 0.9],
-    fist: [0.76, 0.86], punch: [0.58, 0.72], left: [0.24, 0.84], cast: [0.3, 0.86], shield: [0.22, 0.84], bow: [0.44, 0.68],
+    rest: [0.79, 0.84], windup: [0.8, 0.64], cut: [0.6, 0.76], through: [0.45, 0.92],
+    fist: [0.78, 0.88], punch: [0.6, 0.74], left: [0.2, 0.87], cast: [0.3, 0.86], shield: [0.16, 0.9], bow: [0.44, 0.7],
   };
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
   function drawView(fx, now) {
@@ -299,13 +300,22 @@ const Renderer = (() => {
   /** The lich's life along the top of the view, marked where its fight turns. */
   function drawBossBar(b, now) {
     if (!b) return;
-    const bw = Math.round(W * 0.62), bx = Math.round((W - bw) / 2), by = 16, bh = 5;
+    // in its third act the torches are out: the hall goes dark round the edges
+    if (b.phase >= 2) rim(4, 2, 10, 0.72, 0.12);
+    // along the top left, clear of the minimap in the corner
+    const bx = 8, bw = Math.round(W * 0.6), by = 16, bh = 5;
     ctx.save();
-    ctx.font = 'bold 9px monospace'; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+    ctx.font = 'bold 9px monospace'; ctx.textAlign = 'left'; ctx.lineJoin = 'round';
     ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)';
-    ctx.strokeText(b.name.toUpperCase(), W / 2, by - 4);
+    const label = b.rite ? `${b.name.toUpperCase()}: THE RITE` : b.name.toUpperCase();
+    ctx.strokeText(label, bx, by - 4);
     ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : '#d8c8ff';
-    ctx.fillText(b.name.toUpperCase(), W / 2, by - 4);
+    ctx.fillText(label, bx, by - 4);
+    // how far its rite has gone: strike it before this fills
+    if (b.rite) {
+      ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by + bh + 2, bw + 2, 4);
+      ctx.fillStyle = '#ff60f0'; ctx.fillRect(bx, by + bh + 3, Math.round(bw * b.riteDone), 2);
+    }
     ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by - 1, bw + 2, bh + 2);
     ctx.fillStyle = '#2a1030'; ctx.fillRect(bx, by, bw, bh);
     const f = Math.max(0, b.hp / b.maxHp);
@@ -765,7 +775,8 @@ const Renderer = (() => {
         // a monster's own trick: a bigger violet mark, unlike any plain blow
         // half as big again as it was, and sat on the drawing, not its frame
         const size = Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4))));
-        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + (s.hp != null && s.hp < s.maxHp ? 10 : 3), Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
+        // the lich's bar runs along the top of the view: its mark keeps below it
+        const tx = Math.round(screenX), ty = Math.min(H - 4, Math.max(size + (s.boss ? 34 : s.hp != null && s.hp < s.maxHp ? 10 : 3), Math.floor(drawnTop) - (s.hp != null && s.hp < s.maxHp ? 9 : 4)));
         ctx.save();
         ctx.lineJoin = 'round';
         ctx.beginPath();
@@ -905,6 +916,12 @@ const Renderer = (() => {
       ctx.globalAlpha = 1;
     }
     if (fx.heartAt >= 0 && now >= fx.heartAt) drawFinale(now - fx.heartAt, fx.view && fx.view.cls);
+    // fallen: the view tips down and goes dark red to black before the end screen
+    if (fx.deadAt >= 0 && now >= fx.deadAt) {
+      const u = Math.min(1, (now - fx.deadAt) / 1100);
+      ctx.fillStyle = `rgba(40,0,0,${(0.35 + 0.4 * u).toFixed(3)})`; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = `rgba(0,0,0,${(u * u).toFixed(3)})`; ctx.fillRect(0, 0, W, H);
+    }
   }
   /** The Heart lifted: it rises in the hero's hands and its light swells from
    * it, motes streaming up, until the light is all there is. */
