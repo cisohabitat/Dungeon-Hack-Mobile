@@ -37,7 +37,7 @@ function run(ctx, cls, seed, opts, bg) {
 }
 
 function play(ctx, cls, seed, opts, bg) {
-  const { Game, Dungeon, ITEMS, RELICS } = ctx;
+  const { Game, Dungeon, ITEMS, RELICS, MONSTERS } = ctx;
   const T = Dungeon.T;
   // FIT=1 does what the creation screen does: the best roll goes in the class's key stat
   const stats = Game.rollStats();
@@ -303,7 +303,8 @@ function play(ctx, cls, seed, opts, bg) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
       const spells = process.env.NOBOLT ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= s.cost && s.kind === 'bolt');
-      if (spells.length && p.sp > p.maxSp * 0.4) Game.castSpell(spells[spells.length - 1]);
+      // points kept back for the next fight are no use against the last one
+      if (spells.length && (p.sp > p.maxSp * 0.4 || MONSTERS[adj.m.id].boss)) Game.castSpell(spells[spells.length - 1]);
       else Game.input('attack');
       step();
       continue;

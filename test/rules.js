@@ -3426,6 +3426,52 @@ await test('at one third the lich puts out its torches and quickens; they catch 
   return L.lights.length === lights || `${L.lights.length} lights after, ${lights} before`;
 });
 
+await test('grave-cold breaks on a mage\'s own Shield; a cleric\'s Protection and bare skin take it', async () => {
+  const out = [];
+  for (const [cls, src] of [['mage', null], ['mage', 'shield'], ['cleric', 'protection']]) {
+    const ctx = await start(cls, 'shield-cold');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+    p.hp = p.maxHp = 9999;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = T.FLOOR; L.tiles[(p.y + 2 * dy) * L.w + p.x + 2 * dx] = T.FLOOR;
+    L.monsters.length = 0;
+    // it cannot miss but on a 1, so three bolts are sure to land at least once
+    const m = { uid: 91, id: 'lich', x: p.x + 2 * dx, y: p.y + 2 * dy, hp: 999, maxHp: 999, awake: true, spoke: true, phase: 1, edge: 40, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(m);
+    let hurt = 0, broke = 0;
+    for (let i = 0; i < 3; i++) {
+      p.effects = src ? { ac: { amount: 4, until: G.t + 60000, src } } : {};
+      const before = p.hp, mark = markLog(G);
+      m.windup = { kind: 'shot', at: G.t, until: G.t }; m.nextAct = G.t;
+      Game.update(G.t + 25, 25);
+      if (m.windup) { out.push(`${cls}/${src}: the bolt never flew`); break; }
+      if (p.hp < before) hurt++;
+      if (linesSince(G, mark).some(l => /breaks on your Shield/.test(l))) broke++;
+      G.t += 2000; m.nextAct = 1e12;
+    }
+    if (src === 'shield' ? hurt || !broke : !hurt || broke) out.push(`${cls} with ${src || 'nothing'}: wounded ${hurt} times, broke on the Shield ${broke} times`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a mage\'s spell pulls the lich\'s shadow apart; a fighter\'s blow and a cleric\'s prayer do not', async () => {
+  const out = [];
+  for (const [cls, spell] of [['mage', 'magic_missile'], ['fighter', null], ['cleric', 'smite']]) {
+    const ctx = await start(cls, 'unravel');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.maxSp = 99; p.sp = cls === 'mage' ? 50 : 99; p.level = 5; p.perkHit = 60;
+    const m = beside(ctx, 'lich', { hp: 120, maxHp: 120, spoke: true, phase: 1, wardUntil: G.t + 4000, nextAct: 1e12 });
+    G.t = p.nextAttack;
+    if (spell) { if (!Game.castSpell(Game.knownSpells().find(s => s.id === spell))) { out.push(`${cls} could not cast ${spell}`); continue; } }
+    else Game.input('attack');
+    const bare = !(m.wardUntil > G.t);
+    if (bare !== (cls === 'mage')) out.push(`${cls}: the shadow ${bare ? 'came apart' : 'held'}`);
+    if (cls === 'mage' && bare && p.sp !== 50 - 2 + 33) out.push(`the mage came away with ${p.sp} of ${p.maxSp} spell points`);
+    if (m.hp !== 120) out.push(`${cls}: the lich was wounded to ${m.hp} through or by the unravelling`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('in the dark the wounded lich drinks from the Heart unless struck; a blow breaks the rite', async () => {
   const out = [];
   {

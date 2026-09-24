@@ -1483,8 +1483,21 @@ const Game = (() => {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
     if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
+      // a mage knows how the shadow is woven: a spell pulls it apart instead
+      if (castingName && P().cls === 'mage') {
+        m.wardUntil = G.t; m.nextAct = Math.max(m.nextAct, G.t + 400);
+        floatText(m, 'unravelled', '#b090ff');
+        spray(m, 'ecto', 0.8, false);
+        // and drinks what the shadow was made of
+        const p = P(), back = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp / 3));
+        p.sp += back;
+        log(`Your ${castingName} catches the shadow round the ${MONSTERS[m.id].name} and pulls it apart. It stands bare!${back ? ` You drink what it was made of (+${back} spell points).` : ''}`, 'good');
+        Sound.play('riteBroken', heard(m));
+        learn(m.id, 'answer');
+        return;
+      }
       floatText(m, 'shadow', '#b090ff');
-      if (!m.wardSaid) { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts.`, 'bad'); }
+      if (!m.wardSaid) { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts${P().cls === 'mage' ? ', or unpick it with a spell' : ''}.`, 'bad'); }
       sparks(m);
       Sound.play('wardhit', heard(m));
       return;
@@ -2242,6 +2255,12 @@ const Game = (() => {
     Sound.play(m.id === 'archer' ? 'arrow' : 'darkbolt', heard(m));
     if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
     if (hasTalent('evasion') && Math.random() < 1 / 3) { log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
+    // a mage's Shield is woven against exactly this: bolts of magic break on it
+    if (m.id !== 'archer' && effectFrom('ac', 'shield')) {
+      log(`The ${mb.name} ${r.verb} you, and it breaks on your Shield.`, 'good');
+      Sound.play('block', heard(m));
+      return;
+    }
     let dmg = Math.max(1, d(...r.dmg));
     if (roll === 20) dmg *= 2;
     const where = relativeBearing(m);
@@ -2467,7 +2486,11 @@ const Game = (() => {
       }
       case 'nova':
         Sound.play('nova', heard(m));
-        if (novaReaches(m)) { const n = Math.max(1, Math.ceil(d(4, 6) / (hasTalent('stand_firm') ? 2 : 1))); hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!`, m); G.blowGate = G.t + BLOW_GAP; }
+        if (novaReaches(m)) {
+          const shielded = effectFrom('ac', 'shield');
+          const n = Math.max(1, Math.ceil(d(4, 6) / (hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1)));
+          hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${shielded ? ' Your Shield takes the worst of it.' : ''}`, m); G.blowGate = G.t + BLOW_GAP;
+        }
         else { log('The storm of cold fire breaks short of you.', 'good'); learn(m.id, 'answer'); }
         m.nextAct = G.t + mb.speed;
         break;

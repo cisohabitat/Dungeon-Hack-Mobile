@@ -35,6 +35,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   the top of the view. At two thirds it raises skeleton guards and steps back behind them to
   throw grave-cold over their heads; at one third it puts out every torch in its hall,
   quickens, and tries to drink the Heart's light to mend itself, a rite any wound breaks.
+  A mage has answers of their own: a spell pulls the lich's shadow ward apart and gives back a
+  third of their spell points, and grave-cold breaks on a mage's Shield.
 - **Blows that leave a mark.** Every monster bleeds its own colour, from red to a slime's
   green to a wraith's cold light; heavy blows and kills stain the floor, misses strike sparks,
   and a hard hit on you jolts the view and leaves blood on its edges. Poison, frost, webs and

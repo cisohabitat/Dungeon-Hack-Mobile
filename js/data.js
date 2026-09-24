@@ -254,7 +254,7 @@ const SPELLS = {
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
     { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you.' },
-    { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute.' },
+    { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute. Bolts of magic break on it, and it takes half of any storm.' },
     { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 6,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
     { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
   ],
@@ -321,7 +321,7 @@ const BESTIARY = {
     answer: 'Any blow, arrow or spell that hurts it breaks the chant: close in fast, or shoot. Kill the acolyte first.' },
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life, and it does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
-    answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite.' },
+    answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite. A mage\'s spell pulls its shadow apart, and its grave-cold breaks on a mage\'s Shield.' },
 };
 
 const ELITES = [
