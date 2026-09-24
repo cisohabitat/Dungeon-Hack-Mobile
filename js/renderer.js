@@ -301,6 +301,18 @@ const Renderer = (() => {
     // right: the weapon, through the poses of a swing, or a bare fist
     if (v.weapon && v.drawn) {
       // drawn above, with the left hand
+    } else if (v.weapon && /throwknife$/.test(v.weapon)) {
+      // a throw, not a slash: the hand cocks back up by the ear, snaps forward
+      // toward the middle (smaller, reaching into the view) as a knife leaves
+      // it, follows through, and comes home
+      const r = at('rest');
+      let x = r[0], y = r[1], s = 1;
+      if (swinging) {
+        if (u < 0.3) { const e = ease(u / 0.3); x += W * 0.04 * e; y -= H * 0.22 * e; }
+        else if (u < 0.45) { const e = ease((u - 0.3) / 0.15); x += W * (0.04 - 0.3 * e); y -= H * (0.22 - 0.1 * e); s = 1 - 0.18 * e; }
+        else { const e = ease((u - 0.45) / 0.55); x -= W * 0.26 * (1 - e); y -= H * 0.12 * (1 - e); s = 0.82 + 0.18 * e; }
+      }
+      put(Assets.held(v.weapon, 'rest', v.cls, false), x + dx, y + dy, s);
     } else if (v.weapon) {
       // a two-handed grip sits higher so the lower hand shows; a sling hangs from the hand
       const lift = v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
@@ -732,6 +744,40 @@ const Renderer = (() => {
             const x = first.x + (hash(i + 11) - 0.5) * first.r * 0.55, y = first.y + first.r * 0.35 - u * first.r * 1.4;
             glow(x, y, 5 + (1 - u) * first.r * 0.12, u < 0.35 ? '#fff0a0' : '#ff8030', Math.min(1, fade * 1.3) * (1 - u * 0.8));
           }
+          break;
+        }
+        case 'knife': case 'stone': case 'arrow': {
+          // a missile in flight, hand to target: solid, not a glow, and
+          // smaller as it goes; a knife spins, a stone arcs, an arrow flies true
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          const arc = s.style === 'arrow' ? 2 : s.style === 'stone' ? 16 : 9;
+          const px = (v2 => hand.x + (first.x - hand.x) * v2), py = (v2 => hand.y + (first.y - hand.y) * v2 - Math.sin(v2 * Math.PI) * arc);
+          const x = px(t), y = py(t);
+          const size = 11 * (1 - t) + Math.max(2.5, first.r * 0.1) * t;
+          if (s.style === 'knife') {
+            const a = t * 16;
+            const ux = Math.cos(a) * size, uy = Math.sin(a) * size;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(x - ux * 0.6, y - uy * 0.6); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+            ctx.strokeStyle = '#3a2618'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - ux * 0.6, y - uy * 0.6); ctx.lineTo(x - ux * 0.1, y - uy * 0.1); ctx.stroke();
+            ctx.strokeStyle = c; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x - ux * 0.05, y - uy * 0.05); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+          } else if (s.style === 'stone') {
+            ctx.fillStyle = '#0a0810'; ctx.beginPath(); ctx.arc(x, y, size * 0.42 + 1, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, size * 0.42, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#d8d2c8'; ctx.fillRect(Math.round(x - size * 0.2), Math.round(y - size * 0.2), 1, 1);
+          } else {
+            // the arrow points the way it flies, with a streak behind it
+            const bx = px(Math.max(0, t - 0.08)), by = py(Math.max(0, t - 0.08)), dl = Math.hypot(x - bx, y - by) || 1;
+            const ux = (x - bx) / dl * size * 1.6, uy = (y - by) / dl * size * 1.6;
+            ctx.strokeStyle = 'rgba(255,255,240,0.25)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x - ux * 2.2, y - uy * 2.2); ctx.lineTo(x - ux, y - uy); ctx.stroke();
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x - ux, y - uy); ctx.lineTo(x, y); ctx.stroke();
+            ctx.strokeStyle = c; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x - ux, y - uy); ctx.lineTo(x, y); ctx.stroke();
+            ctx.fillStyle = '#e04838'; ctx.fillRect(Math.round(x - ux - 1), Math.round(y - uy - 1), 2, 2);
+            ctx.fillStyle = '#d8dce4'; ctx.fillRect(Math.round(x - 1), Math.round(y - 1), 2, 2);
+          }
+          ctx.restore();
           break;
         }
         case 'fireball': {

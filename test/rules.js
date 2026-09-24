@@ -2777,6 +2777,23 @@ await test('review fixes: a reload forgets a held life bar, a fleeing beast batt
   return out.length ? out.join('; ') : true;
 });
 
+await test('a thrown knife is seen to fly, and what it does waits until it arrives', async () => {
+  const ctx = await start('thief', 'knife-flight');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.tick(10000);
+  p.eq.weapon = { t: 'throwknife', q: 1, e: 0 }; p.perkHit = 60;
+  ahead(ctx, 'goblin', 3, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  G.t = p.nextAttack; Game.input('attack');
+  const f = Game.renderState(10000).fx;
+  const knife = f.spells.find(s => s.style === 'knife');
+  if (!knife) return 'no knife in flight';
+  const text = f.texts.slice(-1)[0];
+  if (!text) return 'the knife did nothing';
+  // it leaves the hand part way through the throw and crosses three squares
+  if (!(knife.born > 10000 && text.born >= knife.until - 1)) return `the knife flies ${knife.born}-${knife.until}, its number shows at ${text.born}`;
+  return true;
+});
+
 await test('a mage draws a spell point back from each foe a spell destroys, but not from a blow', async () => {
   const out = [];
   const ctx = await start('mage', 'draw-back');

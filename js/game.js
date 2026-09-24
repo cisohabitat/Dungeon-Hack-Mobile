@@ -1543,7 +1543,19 @@ const Game = (() => {
   function floatText(m, text, color) {
     fx.texts.push({ x: m.rx + 0.5, y: m.ry + 0.5, text: String(text), color, born: realNow + fxDelay, until: realNow + fxDelay + 750 });
   }
+  // A missile is seen to fly: a knife spun, a stone slung, an arrow loosed,
+  // leaving the hand at its moment in the throw (a fraction of the swing) and
+  // crossing a square in so many milliseconds. What it does is shown when it
+  // arrives. Where it leaves from is a point on the view, as fractions.
+  const MISSILE = {
+    throwknife: { style: 'knife', release: 0.4, perSquare: 75, from: { x: 0.6, y: 0.74 }, color: '#dfe5ee' },
+    sling: { style: 'stone', release: 0.32, perSquare: 70, from: { x: 0.66, y: 0.78 }, color: '#9a948c' },
+    shortbow: { style: 'arrow', release: 0.72, perSquare: 45, from: { x: 0.5, y: 0.66 }, color: '#b08858' },
+  };
   function attack() {
+    try { strike(); } finally { fxDelay = 0; }
+  }
+  function strike() {
     const p = P();
     if (G.t < p.nextAttack) return;
     if (p.held > G.t) { blocked(heldWhy()); return; }
@@ -1564,6 +1576,13 @@ const Game = (() => {
     fx.swingUntil = realNow + 160;
     fx.swingAt = realNow; fx.swingMs = Math.max(200, Math.min(380, Math.round(w.speed * 0.55)));
     if (w.range) Sound.play('shoot', { w: p.eq.weapon.t });
+    const mis = w.range && MISSILE[p.eq.weapon.t];
+    if (mis) {
+      const squares = m ? Math.max(1, Math.abs(m.x - p.x) + Math.abs(m.y - p.y)) : w.range;
+      const release = Math.round(fx.swingMs * mis.release), flight = mis.perSquare * squares;
+      spellFx(mis.style, mis.color, flight, m ? [m] : [], squares, release, mis.from);
+      if (m) fxDelay = release + flight;
+    }
     if (!m) { if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t }); return; }
     const mb = mstat(m);
     const struckX = m.x, struckY = m.y;
@@ -1584,7 +1603,7 @@ const Game = (() => {
     const note = rollNote(roll, toHit() + rip, mb.ac, crit);
     if (!open && (roll === 1 || (!crit && roll + toHit() + rip < mb.ac))) {
       log(`You miss the ${mb.name}.${note}`);
-      Sound.play('glance', heard(m));
+      { const o = heard(m); soon(() => Sound.play('glance', o)); }
       floatText(m, 'miss', '#e4e4ee');
       sparks(m);
       // a miss with one blade is no reason the other stays still
