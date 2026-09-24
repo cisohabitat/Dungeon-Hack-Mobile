@@ -224,8 +224,10 @@ test.describe('interface', () => {
     await page.setViewportSize({ width: 360, height: 780 });
     await startGame(page, { seed: 'log-wrap' });
     await clearBoons(page);
-    // the longest lines the game writes, each ending in the part worth reading
+    // the longest lines the game writes, each ending in the part worth reading;
+    // with the floor emptied first, so nothing that wakes can write after them
     await page.evaluate(() => {
+      Game.level().monsters.length = 0;
       Game.log('You hit the Goblin for 7. (d20 14+5 vs AC 13)');
       Game.log('The Goblin Archer shoots an arrow at you for 5. (d20 18+3 vs AC 18)');
       Game.log('A mighty blow! You hit the Skeleton for 18. (d20 20, a telling blow)');

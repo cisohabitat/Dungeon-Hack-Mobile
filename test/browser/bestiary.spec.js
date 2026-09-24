@@ -60,8 +60,8 @@ test.describe('bestiary', () => {
       L.monsters.length = 0;
       L.monsters.push({ uid: 1, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       p.perkHit = 60;
-      G.t = Math.max(G.t, p.nextAttack);
-      Game.input('attack');
+      // a natural 1 misses whatever the bonus: swing until the goblin is down
+      for (let i = 0; i < 10 && L.monsters.length; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
     });
     await page.click('[data-open="journal"]');
     await page.click('[data-jtab="beasts"]');
