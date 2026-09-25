@@ -3972,6 +3972,16 @@ const Game = (() => {
   }
 
   // ---------- render state ----------
+  // Where each of up to five things on one square lies, in fractions of the
+  // square from its middle, turned a different way on each square so a room
+  // of finds does not look laid out on a grid.
+  const SCATTER = [
+    [[0, 0]],
+    [[-0.17, -0.08], [0.17, 0.09]],
+    [[-0.2, 0.11], [0.2, 0.09], [0.01, -0.18]],
+    [[-0.2, -0.15], [0.19, -0.13], [-0.17, 0.17], [0.2, 0.16]],
+    [[-0.22, -0.16], [0.21, -0.14], [-0.2, 0.18], [0.22, 0.17], [0.01, 0.01]],
+  ];
   /**
    * What is about to hit you from somewhere you are not looking. The damage
    * flash only says where a blow came from after it lands; this says where
@@ -4081,10 +4091,17 @@ const Game = (() => {
       const list = L.items[k];
       if (!list.length) continue;
       const [x, y] = k.split(',').map(Number);
-      const it = list[list.length - 1];
-      // the Heart floats; a relic hovers a little, so it reads as more than iron
-      const floats = it.t === 'artifact' || !!it.u;
-      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32), yOff: floats ? 0.04 + Math.sin(now / 300) * 0.03 : 0, onFloor: true });
+      // what lies on a square is scattered across it, each thing where it fell,
+      // rather than one picture standing for the lot: the newest five show
+      const shown = list.slice(-SCATTER.length), spots = SCATTER[shown.length - 1];
+      const turn = ((x * 73856093) ^ (y * 19349663)) % 628 / 100, c = Math.cos(turn), sn = Math.sin(turn);
+      shown.forEach((it, i) => {
+        const [ox, oy] = spots[i];
+        // the Heart floats; a relic hovers a little, so it reads as more than iron
+        const floats = it.t === 'artifact' || !!it.u;
+        const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true });
+      });
     }
     // the fallen: knocked back, sinking into a heap and fading
     for (const c of fx.corpses) {

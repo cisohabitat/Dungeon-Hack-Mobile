@@ -6275,6 +6275,21 @@ await test('robes turn up only in a mage\'s dungeon, and every other floor is as
   return mageRobes > 0 || 'four mage dungeons held no robe at all';
 });
 
+await test('what lies on one square is scattered across it, each thing seen where it lies', async () => {
+  const ctx = await start('fighter', 'scatter');
+  const { Game } = ctx; const L = Game.level();
+  for (const k in L.items) delete L.items[k];
+  L.items['5,5'] = [{ t: 'dagger', q: 1, e: 0 }, { t: 'potion_heal', q: 1, e: 0 }, { t: 'ration', q: 1, e: 0 }];
+  L.items['9,9'] = Array.from({ length: 8 }, () => ({ t: 'gold', q: 5 }));
+  const floor = Game.renderState(0).sprites.filter(sp => sp.onFloor);
+  const here = floor.filter(sp => Math.floor(sp.x) === 5 && Math.floor(sp.y) === 5);
+  if (here.length !== 3) return `three things on a square drew ${here.length} pictures`;
+  if (new Set(here.map(sp => sp.x.toFixed(3) + ',' + sp.y.toFixed(3))).size !== 3) return 'two of them lie on the same spot';
+  if (here.some(sp => Math.abs(sp.x - 5.5) > 0.3 || Math.abs(sp.y - 5.5) > 0.3)) return 'one lies outside its square';
+  const heap = floor.filter(sp => Math.floor(sp.x) === 9 && Math.floor(sp.y) === 9);
+  return heap.length === 5 || `eight things on a square drew ${heap.length} pictures, not the five that fit`;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
