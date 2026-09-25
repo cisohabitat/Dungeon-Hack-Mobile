@@ -32,6 +32,19 @@ test.describe('paths', () => {
     await expect(cards.nth(1).locator('.path-flavour')).not.toBeEmpty();
     await expect(cards.nth(1).locator('.path-effects li')).toHaveCount(3);
     await expect(cards.nth(1)).toContainText('armour class');
+    // it is for good, so one tap only marks the card and asks for a second
+    await cards.nth(1).click();
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(cards.nth(1)).toHaveClass(/armed/);
+    await expect(cards.nth(1).locator('.path-confirm')).toHaveText('Tap again to take the Berserker\'s path');
+    expect(await page.evaluate(() => Game.player().path || null)).toBeNull();
+    // a tap on the other card moves the question there rather than choosing
+    await cards.nth(0).click();
+    await expect(cards.nth(0)).toHaveClass(/armed/);
+    await expect(cards.nth(1)).not.toHaveClass(/armed/);
+    await expect(page.locator('.path-confirm')).toHaveCount(1);
+    expect(await page.evaluate(() => Game.player().path || null)).toBeNull();
+    await cards.nth(1).click();
     await cards.nth(1).click();
     await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
     expect(await page.evaluate(() => Game.player().path)).toBe('berserker');

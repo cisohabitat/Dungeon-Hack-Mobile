@@ -1322,11 +1322,20 @@ const UI = (() => {
       btn.innerHTML = pathCard(x);
       btn.disabled = true; btn.classList.add('arming');
       setTimeout(() => { btn.disabled = false; btn.classList.remove('arming'); }, BOON_GUARD_MS);
+      // it cannot be undone, so it asks twice, as a dear buy at the trader does:
+      // the first tap marks the card, a second on the same card takes the path
       btn.addEventListener('click', () => {
         if (performance.now() - openedAt < BOON_GUARD_MS) return;
+        if (!btn.classList.contains('armed')) {
+          for (const b of $$('#boon-list .boon.path.armed')) b.dispatchEvent(new Event('disarm'));
+          btn.classList.add('armed');
+          btn.insertAdjacentHTML('beforeend', `<span class="path-confirm">Tap again to take the ${escapeHtml(x.name)}'s path</span>`);
+          return;
+        }
         Game.chooseBoon(id);
         if (Game.pendingBoons()) renderBoons(); else closeOverlay();
       });
+      btn.addEventListener('disarm', () => { btn.classList.remove('armed'); btn.querySelector('.path-confirm')?.remove(); });
       el.appendChild(btn);
     }
   }
