@@ -6260,8 +6260,9 @@ await test('robes turn up only in a mage\'s dungeon, and every other floor is as
       if (d > 1) { Game.level().monsters.length = 0; Game.descend(); }
       const L = Game.level();
       // relics are chosen for the class already (relicPlan), so they are left out
-      for (const k in L.items) for (const it of L.items[k]) if (!it.u) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:${k}:${it.t}`);
-      for (const n of L.npcs || []) for (const it of n.stock || []) if (!it.u) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:shop:${it.t}`);
+      // a caster's focus is placed for the class too, so it is left out with the relics
+      for (const k in L.items) for (const it of L.items[k]) if (!it.u && !ITEMS[it.t].focus) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:${k}:${it.t}`);
+      for (const n of L.npcs || []) for (const it of n.stock || []) if (!it.u && !ITEMS[it.t].focus) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:shop:${it.t}`);
     }
     return { found, rest: rest.sort().join('|') };
   };
@@ -6307,6 +6308,111 @@ await test('a thief carries a buckler for one more point of armour, and nothing 
   }
   const mage = await start('mage', 'thief-buckler');
   return !!mage.Game.canEquip({ t: 'buckler', q: 1, e: 0 }) || 'a mage could carry a buckler';
+});
+
+await test('a caster\'s free hand: a mage holds a focus only with a one-handed weapon, a cleric a holy symbol, nobody else either', async () => {
+  const out = [];
+  const ctx = await start('mage', 'focus-hand');
+  const { Game } = ctx; const p = Game.player();
+  const orb = { t: 'crystal_orb', q: 1, e: 0 }; p.inv.push(orb);
+  if (!/free hand/.test(Game.canEquip(orb) || '')) out.push(`with the staff in both hands the orb said: ${Game.canEquip(orb)}`);
+  Game.equip(p.inv.find(i => i.t === 'dagger'), true);
+  if (!Game.equip(orb, true) || p.eq.shield !== orb) out.push(`with a dagger the mage could not hold the orb: ${Game.canEquip(orb)}`);
+  if (!Game.canEquip({ t: 'holy_symbol', q: 1, e: 0 })) out.push('a mage could hold a holy symbol');
+  const cl = await start('cleric', 'focus-hand');
+  if (cl.Game.canEquip({ t: 'silver_symbol', q: 1, e: 0 })) out.push(`a cleric could not hold a symbol: ${cl.Game.canEquip({ t: 'silver_symbol', q: 1, e: 0 })}`);
+  if (!cl.Game.canEquip({ t: 'crystal_orb', q: 1, e: 0 })) out.push('a cleric could hold an orb');
+  for (const c of ['fighter', 'thief']) {
+    const o = await start(c, 'focus-hand');
+    if (!o.Game.canEquip({ t: 'spellbook', q: 1, e: 0 }) || !o.Game.canEquip({ t: 'reliquary', q: 1, e: 0 })) out.push(`a ${c} could hold a focus`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a Spellbook brings spell points back half again as fast, and a Crystal Orb adds one to every die', async () => {
+  const out = [];
+  const regained = async book => {
+    const ctx = await start('mage', 'focus-regen');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    Game.equip(p.inv.find(i => i.t === 'dagger'), true);
+    if (book) { const b = { t: 'spellbook', q: 1, e: 0 }; p.inv.push(b); Game.equip(b, true); }
+    L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    p.maxSp = 999; p.sp = 0; p.steps = 0;
+    for (let i = 0; i < 36; i++) { Game.input(i % 2 ? 'back' : 'forward'); run(Game, G, 320); }
+    return { sp: p.sp, steps: p.steps };
+  };
+  const a = await regained(false), b = await regained(true);
+  if (a.steps !== 36 || b.steps !== 36) out.push(`walked ${a.steps} and ${b.steps} steps, not 36`);
+  if (a.sp !== 4 || b.sp !== 6) out.push(`over 36 steps spell points came back ${a.sp}, and ${b.sp} with the book`);
+  // the orb: the same seeded dice, one more per die on every missile
+  const hurt = async orb => {
+    const ctx = await start('mage', 'focus-die');
+    seedDice(ctx, 'focus-die');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    Game.equip(p.inv.find(i => i.t === 'dagger'), true);
+    if (orb) { const o = { t: 'crystal_orb', q: 1, e: 0 }; p.inv.push(o); Game.equip(o, true); }
+    const m = ahead(ctx, 'orc', 2, { hp: 1e9, maxHp: 1e9, nextAct: 1e12 });
+    const sp = Game.knownSpells().find(s => s.id === 'magic_missile'), dice = sp.dmg(p.level)[0];
+    for (let i = 0; i < 20; i++) { p.sp = 99; G.t = p.nextAttack; Game.castSpell(sp); run(Game, G, 700); }
+    return { lost: 1e9 - m.hp, dice };
+  };
+  const o0 = await hurt(false), o1 = await hurt(true);
+  if (o1.lost - o0.lost !== 20 * o0.dice) out.push(`twenty missiles did ${o0.lost}, and ${o1.lost} with the orb (${o0.dice} dice each)`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a Holy Symbol heals a quarter more, a Silver Sunburst smites a quarter harder, and a cleric pays in armour', async () => {
+  const out = [];
+  const heal = async sym => {
+    const ctx = await start('cleric', 'symbol-heal');
+    seedDice(ctx, 'symbol-heal');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const ac0 = Game.playerAC();
+    if (sym) { const s = { t: sym, q: 1, e: 0 }; p.inv.push(s); Game.equip(s, true); }
+    const dAc = Game.playerAC() - ac0;
+    p.maxHp = 99999; let total = 0;
+    for (let i = 0; i < 200; i++) { p.hp = 1; p.sp = 99; G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === 'cure_light')); total += p.hp - 1; }
+    return { total, dAc };
+  };
+  const h0 = await heal(null), h1 = await heal('holy_symbol');
+  if (!(h1.total / h0.total > 1.2 && h1.total / h0.total < 1.3)) out.push(`healing ${h0.total} -> ${h1.total} with the symbol`);
+  if (h1.dAc !== -2) out.push(`trading the shield for the symbol moved armour class by ${h1.dAc}, not -2`);
+  const smite = async sym => {
+    const ctx = await start('cleric', 'symbol-smite');
+    seedDice(ctx, 'symbol-smite');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.level = 5;
+    if (sym) { const s = { t: sym, q: 1, e: 0 }; p.inv.push(s); Game.equip(s, true); }
+    const m = ahead(ctx, 'orc', 2, { hp: 1e9, maxHp: 1e9, nextAct: 1e12 });
+    for (let i = 0; i < 40; i++) { p.sp = 99; G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === 'smite')); run(Game, G, 700); }
+    return 1e9 - m.hp;
+  };
+  const s0 = await smite(null), s1 = await smite('silver_symbol');
+  if (!(s1 / s0 > 1.18 && s1 / s0 < 1.32)) out.push(`smiting ${s0} -> ${s1} with the sunburst`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('foci turn up only in a caster\'s dungeon, and never for the other caster', async () => {
+  const count = async (cls, seed) => {
+    const ctx = await start(cls, seed);
+    const { Game, ITEMS } = ctx; const found = {};
+    for (let d = 1; d <= 7; d++) {
+      if (d > 1) { Game.level().monsters.length = 0; Game.descend(); }
+      const L = Game.level();
+      const all = [...Object.values(L.items).flat(), ...(L.npcs || []).flatMap(n => n.stock || [])];
+      for (const it of all) if (ITEMS[it.t].focus) found[ITEMS[it.t].focus] = (found[ITEMS[it.t].focus] || 0) + 1;
+    }
+    return found;
+  };
+  let mage = 0, cleric = 0;
+  for (let i = 0; i < 4; i++) {
+    const m = await count('mage', 'focus-place' + i), c = await count('cleric', 'focus-place' + i), f = await count('fighter', 'focus-place' + i);
+    if (m.cleric || c.mage || f.mage || f.cleric) return `the wrong caster's focus turned up: mage ${JSON.stringify(m)}, cleric ${JSON.stringify(c)}, fighter ${JSON.stringify(f)}`;
+    mage += m.mage || 0; cleric += c.cleric || 0;
+  }
+  return (mage > 0 && cleric > 0) || `four dungeons each held ${mage} mage foci and ${cleric} holy symbols`;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {

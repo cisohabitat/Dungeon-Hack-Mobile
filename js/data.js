@@ -210,8 +210,8 @@ const PATHS = {
   ],
 };
 
-/** Whether a class can carry a shield: a thief takes a buckler, strapped to the forearm, and nothing bigger. */
-const shieldFits = (c, b) => c.shield === true || (c.shield === 'light' && !!b.light);
+/** Whether a class can carry this in the shield hand: a thief takes a buckler and nothing bigger, and a caster's focus is for that caster's class alone. */
+const shieldFits = (c, b) => (b.focus ? c.focus === b.focus : c.shield === true || (c.shield === 'light' && !!b.light));
 /** Whether a class can wear a body armour: robes are a mage's alone, and a mage wears nothing else. */
 const armorFits = (c, b) => (b.weight === 'cloth' ? c.armor === 'cloth' : c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light'));
 
@@ -225,13 +225,13 @@ const CLASSES = {
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 3 / 4, armor: 'heavy', shield: true, castMs: 1000, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
@@ -287,6 +287,19 @@ const ITEMS = {
   buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1, light: true },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
   towershield: { kind: 'shield', name: 'Tower Shield', ac: 3, value: 40, sprite: 'towershield', tier: 4 },
+  // what a caster holds in the free hand instead of a shield (see shieldFits)
+  spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
+    desc: 'Spell points come back half again as fast as you walk.' },
+  crystal_orb:   { kind: 'shield', name: 'Crystal Orb',     ac: 0, value: 90,  sprite: 'crystal_orb', tier: 3, focus: 'mage', die: 1,
+    desc: 'Every die of a spell\'s damage does one more.' },
+  orb_storms:    { kind: 'shield', name: 'Orb of Storms',   ac: 0, value: 260, sprite: 'orb_storms', tier: 5, focus: 'mage', storm: 1,
+    desc: 'Lightning Bolt and Cone of Cold strike a fifth harder and hold what they hit back a moment longer.' },
+  holy_symbol:   { kind: 'shield', name: 'Holy Symbol',     ac: 0, value: 40,  sprite: 'holy_symbol', tier: 2, focus: 'cleric', mercy: 1,
+    desc: 'Your healing spells heal a quarter more.' },
+  silver_symbol: { kind: 'shield', name: 'Silver Sunburst', ac: 0, value: 90,  sprite: 'silver_symbol', tier: 3, focus: 'cleric', wrath: 1,
+    desc: 'Holy Smite strikes a quarter harder.' },
+  reliquary:     { kind: 'shield', name: 'Reliquary',       ac: 0, value: 260, sprite: 'reliquary', tier: 5, focus: 'cleric', mercy: 1, wrath: 1,
+    desc: 'Your healing spells heal a quarter more, and Holy Smite strikes a quarter harder.' },
   // potions
   potion_heal:  { kind: 'potion', name: 'Potion of Healing',       stack: true, value: 25, sprite: 'potion_red',    effect: 'heal', heal: [2, 8, 2], desc: 'Restores 2d8+2 hit points.' },
   potion_xheal: { kind: 'potion', name: 'Potion of Extra Healing', stack: true, value: 60, sprite: 'potion_pink',   effect: 'heal', heal: [4, 8, 4], desc: 'Restores 4d8+4 hit points.' },

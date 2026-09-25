@@ -168,11 +168,19 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const sc = p.inv.find(i => i.t === 'scroll_uncurse' && Game.isKnown(i.t));
       if (sc) { Game.useItem(sc); rec.uncursed = (rec.uncursed || 0) + 1; step(); continue; }
     }
+    // --- a mage with a focus to hold puts the staff away for a one-handed weapon, as a person would
+    if (p.cls === 'mage' && !p.eq.shield && p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) {
+      const focus = p.inv.find(i => ITEMS[i.t].focus === 'mage' && !(i.curse && !i.h));
+      const blade = focus && p.inv.filter(i => ITEMS[i.t].kind === 'weapon' && !ITEMS[i.t].twoHanded && !Game.canEquip(i) && !ITEMS[i.t].range)[0];
+      if (blade && Game.equip(blade, true)) Game.equip(focus, true);
+    }
     // --- equip anything better that we can use
     for (const it of p.inv.slice()) {
       const b = ITEMS[it.t];
       if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') continue;
       if (Game.canEquip(it) || (it.curse && !it.h)) continue;
+      // a focus in hand is worth more to a mage than the staff's swing
+      if (b.twoHanded && p.eq.shield && ITEMS[p.eq.shield.t].focus) continue;
       const cur = p.eq[b.kind];
       const val = x => {
         if (!x) return 0;
@@ -182,6 +190,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const powers = x.u ? RELICS[x.u].powers : [];
         const e = x.h ? 0 : (x.e || 0);      // no peeking at a quality still hidden
         // a robe's spell points are worth something to a mage too: two of them about a point of armour
+        // a focus is worth about its tier: a Spellbook or a Holy Symbol no more than a shield, a Reliquary more
+        if (bx.focus) return 1 + bx.tier * 0.5;
         if (b.kind !== 'weapon') return bx.ac + e + powers.length + (bx.sp || 0) / 2 + (bx.cheap ? 1 : 0);
         const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
         const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);

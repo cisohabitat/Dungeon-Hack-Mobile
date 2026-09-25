@@ -402,6 +402,67 @@ const ITEM_ART = {
     ];
   },
 
+  // ---- what a caster holds in the free hand ----
+  spellbook: () => [
+    // the page block showing below and beside the cover, then the cover over it
+    sheet([[8, 7], [26, 6], [27, 26], [9, 28]], '#e8dcc0'),
+    ...[9, 12, 15, 18, 21, 24].map(y => hair(26, y, 27, y + 1, '#b8a888')),
+    sheet([[5, 5], [24, 4], [25, 25], [6, 27]], '#6a2a2a', { curve: 0.3 }),
+    limb(5.5, 5.5, 6.5, 26.5, 1.4, 1.4, '#4a1c1c'),                  // the spine
+    // a sigil tooled in gold, brass corners and a clasp
+    ...ring(15.5, 15.5, 4.5, 0.55, GOLD, 12),
+    limb(15.5, 11, 15.5, 20, 0.5, 0.5, GOLD), limb(11, 15.5, 20, 15.5, 0.5, 0.5, GOLD),
+    ball(24, 5, 1.4, 1.4, BRASS), ball(24.5, 24.5, 1.4, 1.4, BRASS),
+    limb(23, 14, 27.5, 14, 1, 1, BRASS), ball(27.5, 14, 1.1, 1.1, GOLD),
+    hair(7, 6.5, 22, 5.8, '#8a4040'),
+  ],
+  crystal_orb: () => [
+    // a brass claw stand, then the glass with light held inside it
+    sheet([[10, 26], [22, 26], [20, 29], [12, 29]], BRASS, { curve: 0.3 }),
+    limb(11, 25, 13, 21, 0.8, 0.6, '#a07828'), limb(21, 25, 19, 21, 0.8, 0.6, '#a07828'),
+    ball(16, 14, 9.5, 9.5, '#8ec8e0'),
+    ball(15, 15, 6, 6, '#b8e4f4'),
+    ball(17, 16, 2.6, 2.6, '#e8faff'),
+    ball(12, 10, 2, 1.6, '#ffffff'),
+    hair(9, 16, 10.5, 20, '#5a90b0'), hair(20, 21.5, 23, 18, '#5a90b0'),
+  ],
+  orb_storms: () => [
+    // a silver stand, a storm-dark glass and lightning caught inside it
+    sheet([[10, 26], [22, 26], [20, 29], [12, 29]], STEEL, { curve: 0.3 }),
+    limb(11, 25, 13, 21, 0.8, 0.6, DARK_STEEL), limb(21, 25, 19, 21, 0.8, 0.6, DARK_STEEL),
+    ball(16, 14, 9.5, 9.5, '#243a6a'),
+    ball(15, 13, 6.5, 6.5, '#34508a'),
+    ...[[11, 9, 15, 13], [15, 13, 13, 16], [13, 16, 18, 20], [18, 11, 16, 14], [16, 14, 21, 16]].map(([a, b, c, d]) => limb(a, b, c, d, 0.5, 0.4, '#fff4a0')),
+    ball(12, 9, 1.6, 1.3, '#d8e8ff'),
+  ],
+  holy_symbol: () => [
+    // a carved wooden sun on a cord
+    limb(16, 2, 11, 8, 0.5, 0.5, '#c8b080'), limb(16, 2, 21, 8, 0.5, 0.5, '#c8b080'),
+    ...Array.from({ length: 12 }, (_, i) => { const a = i / 12 * Math.PI * 2; return limb(16 + Math.cos(a) * 6, 17 + Math.sin(a) * 6, 16 + Math.cos(a) * 11, 17 + Math.sin(a) * 11, 1.3, 0.6, '#8a5a32'); }),
+    ball(16, 17, 7, 7, '#9a6a3a'),
+    ball(16, 17, 4.5, 4.5, '#b8844a'),
+    ...ring(16, 17, 5.8, 0.45, '#6a4224', 12),
+    hair(13, 14, 14.5, 13, '#d8a868'),
+  ],
+  silver_symbol: () => [
+    // a silver sunburst on a fine chain, the rays alternately long and short
+    limb(16, 2, 11, 7, 0.4, 0.4, '#d8dce4'), limb(16, 2, 21, 7, 0.4, 0.4, '#d8dce4'),
+    ...Array.from({ length: 16 }, (_, i) => { const a = i / 16 * Math.PI * 2, r = i % 2 ? 9 : 12.5; return limb(16 + Math.cos(a) * 5, 17 + Math.sin(a) * 5, 16 + Math.cos(a) * r, 17 + Math.sin(a) * r, 1.1, 0.4, i % 2 ? '#a8b0bc' : '#dfe5ee'); }),
+    ball(16, 17, 6, 6, '#c8ced8'),
+    ball(16, 17, 3.2, 3.2, '#f4f8ff'),
+    ball(14.5, 15.5, 1.2, 1.2, '#ffffff'),
+  ],
+  reliquary: () => [
+    // a little gilt house for a saint's bone: a peaked roof, a window, gems
+    sheet([[8, 13], [24, 13], [24, 28], [8, 28]], '#c89a30'),
+    sheet([[6, 13], [16, 5], [26, 13]], '#e8b830'),
+    ball(16, 4.5, 1.4, 1.4, '#e84848'),
+    sheet([[12, 16], [20, 16], [20, 25], [12, 25]], '#3a2a1a'),
+    limb(14, 20.5, 18, 20.5, 1.2, 1, '#efe6d0'), ball(13.8, 20.5, 1, 1, '#efe6d0'), ball(18.2, 20.5, 1, 1, '#efe6d0'),
+    line(8, 28, 24, 28, '#8a6a20'), line(8, 13, 24, 13, '#fff0a0'),
+    dots([[10, 15], [22, 15], [10, 26], [22, 26]], '#58c0ff'),
+  ],
+
   // ---- draughts: one bottle shape per colour ----
   potion_red: () => bottle(
     [ball(16, 21.5, 8, 8, '#d8323c')],

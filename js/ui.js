@@ -946,6 +946,7 @@ const UI = (() => {
       return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
     if (b.kind === 'armor') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}`;
+    if (b.kind === 'shield' && b.focus) return `${b.desc.replace(/\.$/, '')}; held in the free hand`;
     if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     // a ring that comes in amounts says how much, enchantment and all
@@ -1410,7 +1411,9 @@ const UI = (() => {
     jewels.innerHTML = '';
     for (const slot of [...slots, 'ring', 'ring2', 'amulet']) {
       const it = p.eq[slot];
-      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot);
+      // a mage's shield hand holds a focus; a cleric's, a shield or a holy symbol
+      const shieldLabel = p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
+      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot === 'shield' ? shieldLabel : slot);
       if (it) el.addEventListener('click', () => { selectedItem = it; selectedSlot = slot; renderInv(); });
       if (selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
@@ -1540,6 +1543,8 @@ const UI = (() => {
       delta = next - now;
       return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second</p>`;
     }
+    // a focus is not measured in armour: its own words say what it does
+    if (b.focus || (cur && ITEMS[cur.t].focus)) return '';
     const acOf = item => (item ? ITEMS[item.t].ac + knownE(item) : 0);
     delta = acOf(it) - acOf(cur);
     label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs nothing worn';

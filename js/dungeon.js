@@ -471,7 +471,7 @@ const Dungeon = (() => {
         // one piece of gear, sometimes enchanted, priced accordingly
         const maxTier = 1 + Math.floor(depth / 2);
         const gearKind = rng.weighted([['weapon', 5], ['armor', 3], ['shield', 2]]);
-        const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1 && ITEMS[id].weight !== 'cloth');
+        const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1 && ITEMS[id].weight !== 'cloth' && !ITEMS[id].focus);
         if (gearIds.length) {
           const piece = { t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 };
           // an enchanted piece past the first floor sometimes has a power as well
@@ -615,7 +615,7 @@ const Dungeon = (() => {
     const maxTier = 1 + Math.floor(depth / 2);
     const gear = k => {
       // robes are placed for a mage alone (game.js), so every other hero's floors are as they were
-      const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier && ITEMS[id].weight !== 'cloth');
+      const cands = Object.keys(ITEMS).filter(id => ITEMS[id].kind === k && ITEMS[id].tier <= maxTier && ITEMS[id].weight !== 'cloth' && !ITEMS[id].focus);
       const id = rng.weighted(cands.map(id => [id, ITEMS[id].tier]));
       // Found gear keeps its quality to itself (h) until worn, studied or
       // appraised. Past the first floor a share of what seems enchanted is

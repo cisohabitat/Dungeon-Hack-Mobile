@@ -174,6 +174,9 @@ const Game = (() => {
     const roll = () => { const r = [d(1, 6), d(1, 6), d(1, 6), d(1, 6)].sort((a, b) => b - a); return r[0] + r[1] + r[2]; };
     return { str: roll(), dex: roll(), con: roll(), int: roll(), wis: roll(), cha: roll() };
   }
+  /** What the caster holds in the shield hand, if it is a focus: its flags (regen, die, storm, mercy, wrath). */
+  const focusOf = (p = P()) => { const it = p.eq.shield, b = it && ITEMS[it.t]; return b && b.focus ? b : null; };
+  const focusHas = (flag, p = P()) => { const f = focusOf(p); return !!(f && f[flag]); };
   /** What a robe worn adds to spell points: a Silk Robe two, the Robe of the Magi four. */
   const robeSp = p => (p.eq.armor && ITEMS[p.eq.armor.t].sp) || 0;
   function spMax(p) {
@@ -282,7 +285,8 @@ const Game = (() => {
   // Frostweaver: the cold holds things back, and the Shield holds longer.
   const FROST_SPELLS = ['lightning', 'cone_cold'];
   /** How long a spell holds back what it hits: Rime's jolt, a Frostweaver's, or both. */
-  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? 700 : 0);
+  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? 700 : 0)
+    + (FROST_SPELLS.includes(sp.id) && focusHas('storm') ? 400 : 0);
   // What a spell costs, and what a buff gives and for how long, with the paths in.
   /** Spell points a spell costs this hero. */
   function spellCost(sp) {
@@ -714,6 +718,28 @@ const Game = (() => {
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && rng.chance(ROBE_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: rng.chance(0.3) ? 1 : 0 });
   }
+  /**
+   * A caster's focus (a mage's book or orb, a cleric's holy symbol) turns up
+   * only in that caster's dungeon, on a stream of its own. A found one may be
+   * cursed, which binds it to the hand and costs a point of armour.
+   */
+  const FOCUS_FIND = 0.25, FOCUS_SHOP = 0.3;
+  function placeFoci(L, depth) {
+    const c = cls();
+    if (depth < 2 || !c.focus) return;
+    const rng = new Rng(`${G.seed}|focus|${depth}`);
+    const maxTier = 1 + Math.floor(depth / 2);
+    const pool = Object.keys(ITEMS).filter(id => ITEMS[id].focus === c.focus && ITEMS[id].tier <= maxTier);
+    if (!pool.length) return;
+    const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
+    if (piles.length && rng.chance(FOCUS_FIND)) {
+      const it = { t: rng.weighted(pool.map(id => [id, ITEMS[id].tier])), q: 1, e: 0, h: 1 };
+      if (rng.chance(0.15)) { it.e = -1; it.curse = 1; }
+      L.items[rng.pick(piles)].push(it);
+    }
+    const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
+    if (trader && rng.chance(FOCUS_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: 0 });
+  }
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
   const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
@@ -839,9 +865,12 @@ const Game = (() => {
       return `${c.plural} can only wear light armor.`;
     }
     if (b.kind === 'shield') {
-      if (!c.shield) return `${c.plural} cannot use shields.`;
-      if (!shieldFits(c, b)) return `${c.plural} carry only a buckler: anything bigger slows the hands.`;
-      if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) return 'You need a free hand for a shield.';
+      if (!shieldFits(c, b)) {
+        if (b.focus) return b.focus === 'mage' ? 'Only a mage can draw on that.' : 'Only a cleric can call on that.';
+        if (!c.shield) return `${c.plural} cannot use shields.`;
+        return `${c.plural} carry only a buckler: anything bigger slows the hands.`;
+      }
+      if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) return b.focus ? 'You need a free hand for that: take up a one-handed weapon first.' : 'You need a free hand for a shield.';
       if (p.eq.offhand) return 'Your off hand is holding a weapon.';
       return null;
     }
@@ -1270,7 +1299,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1499,7 +1528,8 @@ const Game = (() => {
       if (p.food === 10) log('You are very hungry!', 'bad');
     }
     if (p.food === 0 && p.steps % 6 === 0) hurtPlayer(1, 'You are starving!', null, 'hunger');
-    if (p.maxSp && p.sp < p.maxSp && p.steps % (hasTalent('arcane_flow') ? 4 : 9) === 0) p.sp++;
+    // a Spellbook in hand brings them back half again as fast
+    if (p.maxSp && p.sp < p.maxSp && p.steps % (hasTalent('arcane_flow') ? (focusHas('regen') ? 3 : 4) : (focusHas('regen') ? 6 : 9)) === 0) p.sp++;
   }
   function checkTile() {
     const L = lvl(), p = P(), k = key(p.x, p.y);
@@ -2716,7 +2746,7 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -2733,8 +2763,13 @@ const Game = (() => {
         try {
           for (const m of targets) {
             if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-            let dmg = elemental(m, d(...sp.dmg(p.level)), spellElement(sp));
+            // a Crystal Orb adds one to every die the spell rolls
+            const dice = sp.dmg(p.level);
+            let dmg = elemental(m, d(...dice) + (focusHas('die') ? dice[0] : 0), spellElement(sp));
             if (sp.holy && mstat(m).undead) dmg *= 2;
+            // an Orb of Storms drives the cold and the lightning harder; a Sunburst, the Smite
+            if (focusHas('storm') && FROST_SPELLS.includes(sp.id)) dmg = Math.round(dmg * 1.2);
+            if (focusHas('wrath') && sp.holy) dmg = Math.round(dmg * 1.25);
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
             if (sp.fire) dmg = pyroFire(dmg);
@@ -4228,7 +4263,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, pressSturdier, qualityHidden, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

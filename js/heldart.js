@@ -214,8 +214,20 @@ function heldParts(id, pose, cls, two = false) {
 /** The back of a shield, by its sprite. */
 function carriedParts(id, cls) {
   const base = id.replace(/^relic_/, '');
+  if (FOCI.includes(base)) return focusParts(base, cls);
   if (!['buckler', 'shield', 'towershield'].includes(base)) return null;
   return shieldParts(base, cls);
+}
+
+/** A caster's focus, held up in the left hand: the item's own picture, resting on the palm. */
+const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
+function focusParts(base, cls) {
+  const art = ITEM_ART[base];
+  if (!art) return null;
+  const size = 0.62, lift = 5;
+  const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));
+  const h = hand(C, C + 4, deg(-90), deg(128), cls, { left: true, open: true });
+  return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...item, ...h.front] };
 }
 
 export { heldParts, carriedParts, POSES, HAND_COLORS };
