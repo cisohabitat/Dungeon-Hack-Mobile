@@ -289,9 +289,9 @@ const ITEMS = {
   towershield: { kind: 'shield', name: 'Tower Shield', ac: 3, value: 40, sprite: 'towershield', tier: 4 },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
   spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
-    desc: 'Spell points come back half again as fast as you walk.' },
+    desc: 'Spell points come back a quarter faster as you walk.' },
   crystal_orb:   { kind: 'shield', name: 'Crystal Orb',     ac: 0, value: 90,  sprite: 'crystal_orb', tier: 3, focus: 'mage', die: 1,
-    desc: 'Every die of a spell\'s damage does one more.' },
+    desc: 'One more damage on each of a spell\'s dice, up to two.' },
   orb_storms:    { kind: 'shield', name: 'Orb of Storms',   ac: 0, value: 260, sprite: 'orb_storms', tier: 5, focus: 'mage', storm: 1,
     desc: 'Lightning Bolt and Cone of Cold strike a fifth harder and hold what they hit back a moment longer.' },
   holy_symbol:   { kind: 'shield', name: 'Holy Symbol',     ac: 0, value: 40,  sprite: 'holy_symbol', tier: 2, focus: 'cleric', mercy: 1,

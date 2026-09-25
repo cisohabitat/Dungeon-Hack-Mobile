@@ -6329,7 +6329,7 @@ await test('a caster\'s free hand: a mage holds a focus only with a one-handed w
   return out.length ? out.join('; ') : true;
 });
 
-await test('a Spellbook brings spell points back half again as fast, and a Crystal Orb adds one to every die', async () => {
+await test('a Spellbook brings spell points back a quarter faster, and a Crystal Orb adds one to each die, up to two', async () => {
   const out = [];
   const regained = async book => {
     const ctx = await start('mage', 'focus-regen');
@@ -6345,7 +6345,7 @@ await test('a Spellbook brings spell points back half again as fast, and a Cryst
   };
   const a = await regained(false), b = await regained(true);
   if (a.steps !== 36 || b.steps !== 36) out.push(`walked ${a.steps} and ${b.steps} steps, not 36`);
-  if (a.sp !== 4 || b.sp !== 6) out.push(`over 36 steps spell points came back ${a.sp}, and ${b.sp} with the book`);
+  if (a.sp !== 4 || b.sp !== 5) out.push(`over 36 steps spell points came back ${a.sp}, and ${b.sp} with the book`);
   // the orb: the same seeded dice, one more per die on every missile
   const hurt = async orb => {
     const ctx = await start('mage', 'focus-die');
@@ -6359,7 +6359,7 @@ await test('a Spellbook brings spell points back half again as fast, and a Cryst
     return { lost: 1e9 - m.hp, dice };
   };
   const o0 = await hurt(false), o1 = await hurt(true);
-  if (o1.lost - o0.lost !== 20 * o0.dice) out.push(`twenty missiles did ${o0.lost}, and ${o1.lost} with the orb (${o0.dice} dice each)`);
+  if (o1.lost - o0.lost !== 20 * Math.min(2, o0.dice)) out.push(`twenty missiles did ${o0.lost}, and ${o1.lost} with the orb (${o0.dice} dice each)`);
   return out.length ? out.join('; ') : true;
 });
 

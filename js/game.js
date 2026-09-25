@@ -1528,8 +1528,8 @@ const Game = (() => {
       if (p.food === 10) log('You are very hungry!', 'bad');
     }
     if (p.food === 0 && p.steps % 6 === 0) hurtPlayer(1, 'You are starving!', null, 'hunger');
-    // a Spellbook in hand brings them back half again as fast
-    if (p.maxSp && p.sp < p.maxSp && p.steps % (hasTalent('arcane_flow') ? (focusHas('regen') ? 3 : 4) : (focusHas('regen') ? 6 : 9)) === 0) p.sp++;
+    // a Spellbook in hand brings them back a quarter faster
+    if (p.maxSp && p.sp < p.maxSp && p.steps % (hasTalent('arcane_flow') ? (focusHas('regen') ? 3 : 4) : (focusHas('regen') ? 7 : 9)) === 0) p.sp++;
   }
   function checkTile() {
     const L = lvl(), p = P(), k = key(p.x, p.y);
@@ -2763,9 +2763,9 @@ const Game = (() => {
         try {
           for (const m of targets) {
             if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-            // a Crystal Orb adds one to every die the spell rolls
+            // a Crystal Orb adds one to each of the spell's dice, up to two
             const dice = sp.dmg(p.level);
-            let dmg = elemental(m, d(...dice) + (focusHas('die') ? dice[0] : 0), spellElement(sp));
+            let dmg = elemental(m, d(...dice) + (focusHas('die') ? Math.min(2, dice[0]) : 0), spellElement(sp));
             if (sp.holy && mstat(m).undead) dmg *= 2;
             // an Orb of Storms drives the cold and the lightning harder; a Sunburst, the Smite
             if (focusHas('storm') && FROST_SPELLS.includes(sp.id)) dmg = Math.round(dmg * 1.2);
