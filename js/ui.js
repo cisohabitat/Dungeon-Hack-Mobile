@@ -679,8 +679,25 @@ const UI = (() => {
   }
 
   // ---------- HUD ----------
+  // What lies under the hero, at the foot of the view: standing on a square
+  // hides it, and a dropped handful was nowhere to be seen until you stepped off.
+  let feetSig = '';
+  function refreshFeet() {
+    const here = Game.state() ? Game.floorItems() : [];
+    const sig = here.map(it => `${it.t}:${it.q || 1}`).join(',');
+    if (sig === feetSig) return;
+    feetSig = sig;
+    const btn = /** @type {HTMLButtonElement} */ ($('#feet'));
+    btn.hidden = !here.length;
+    if (!here.length) return;
+    const shown = here.slice(-5);
+    btn.querySelector('.feet-icons').innerHTML = shown.map(it => { const a = Assets.sprites[Game.spriteFor(it)]; return a ? `<img src="${a.url}" alt="">` : ''; }).join('')
+      + (here.length > shown.length ? `<em>+${here.length - shown.length}</em>` : '');
+    btn.setAttribute('aria-label', `Take what lies here: ${here.map(it => Game.itemName(it)).join(', ')}`);
+  }
   function refreshHud() {
     refreshUse();
+    refreshFeet();
     checkTips();
     const G = Game.state();
     if (!G) return;

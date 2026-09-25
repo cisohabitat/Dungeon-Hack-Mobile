@@ -750,6 +750,26 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('what lies underfoot shows at the foot of the view, and a tap there takes it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'feet', cls: 'Fighter' });
+    await clearBoons(page);
+    await expect(page.locator('#feet')).toBeHidden();
+    await page.evaluate(() => {
+      const p = Game.player(); Game.level().monsters.length = 0;
+      for (const t of ['potion_heal', 'ration']) { const it = p.inv.find(i => i.t === t); if (it) Game.dropItem(it); }
+    });
+    await expect(page.locator('#feet')).toBeVisible();
+    await expect(page.locator('#feet .feet-icons img')).toHaveCount(2);
+    const box = await page.locator('#feet').boundingBox();
+    expect(box.height).toBeGreaterThanOrEqual(44);
+    await page.click('#feet');
+    await expect(page.locator('#feet')).toBeHidden();
+    expect(await page.evaluate(() => Game.floorItems().length)).toBe(0);
+    expect(errors).toEqual([]);
+  });
+
   test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

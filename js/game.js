@@ -1193,6 +1193,14 @@ const Game = (() => {
     if (!list.length) delete L.items[k];
     emit('inv');
   }
+  /** What lies under the hero, picked up from the row at the foot of the view. */
+  function takeHere() {
+    if (takeable().length) { pickupAll(); return; }
+    // only the Heart, held by its keeper, or draughts the belt has no room for
+    const k = keeper();
+    if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
+    else if (floorItems().length) log('Your belt holds five of any one draught: there is no room for these.', 'bad');
+  }
   function pickupAll() {
     for (const it of takeable().slice()) {
       takeItem(it);
@@ -3996,9 +4004,9 @@ const Game = (() => {
         else if (act === 'left') turn(-1);
         else turn(1);
         break;
-      case 'attack': case 'cast': case 'use': case 'rest': case 'quaff': case 'read':
+      case 'attack': case 'cast': case 'use': case 'rest': case 'quaff': case 'read': case 'take':
         if (P().held > G.t) { blocked(heldWhy()); return; }
-        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'cast') castLast(); else if (act === 'quaff') quaff(); else if (act === 'read') readQuick(); else rest(); return; }
+        if (act !== 'attack') { if (act === 'use') use(); else if (act === 'take') takeHere(); else if (act === 'cast') castLast(); else if (act === 'quaff') quaff(); else if (act === 'read') readQuick(); else rest(); return; }
         // a tap a moment early is kept and spent the instant the blow is ready,
         // rather than dropped: a player cannot see the swing timer
         if (G.t < P().nextAttack) { if (P().nextAttack - G.t <= 350) queuedAttack = true; }

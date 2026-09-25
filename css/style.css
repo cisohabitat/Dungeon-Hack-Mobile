@@ -428,6 +428,14 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }
 /* the scroll worth reading now, low in the view's left corner */
+/* what lies underfoot, at the foot of the view */
+.feet { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 4px 10px; background: rgba(12, 10, 18, 0.72); border: 1px solid var(--border); border-radius: 10px; }
+.feet[hidden] { display: none; }
+.feet-icons { display: flex; gap: 2px; align-items: center; }
+.feet-icons img { width: 28px; height: 28px; image-rendering: pixelated; }
+.feet-icons em { font-style: normal; font-size: 0.75rem; color: var(--dim); margin-left: 2px; }
+.feet small { font-size: 0.8rem; color: #f2e6c8; }
 .quick-scroll { position: absolute; left: 6px; bottom: 6px; width: 56px; height: 56px; min-height: 56px; padding: 2px 0 0; z-index: 2;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
   background: rgba(20, 16, 28, 0.82); border: 2px solid var(--qs, var(--gold)); border-radius: 12px; box-shadow: 0 0 10px var(--qs, var(--gold)); }
