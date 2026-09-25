@@ -158,6 +158,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .boon.path b, .path-sheet b { font-size: 1.2rem; color: var(--gold); display: block; }
 .path-flavour { display: block; font-style: italic; margin: 2px 0 6px; color: var(--dim); }
 .path-effects { margin: 0; padding-left: 1.1em; color: #d8cfbd; font-size: 0.92rem; line-height: 1.4; }
+.path-warn { display: block; color: #f0a860; margin-top: 4px; }
 .path-effects li { margin: 3px 0; }
 .path-sheet { padding: 4px 0 8px; border-bottom: 1px solid var(--border); }
 .stats-box { display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px; }

@@ -44,6 +44,28 @@ test.describe('paths', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a fighter with a blade in the off hand is told the Knight\'s first two powers need a shield', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'path-warn', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      p.eq.shield = null; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+      L.monsters.length = 0; p.xp = XP_TABLE[4] - 1; p.perkHit = 60;
+      L.monsters.push({ uid: 8, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    });
+    for (let i = 0; i < 3; i++) {
+      await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
+      await page.locator('#boon-list .boon').first().click();
+    }
+    await expect(page.locator('.boon.path')).toHaveCount(2, { timeout: 3000 });
+    await expect(page.locator('.boon.path').nth(0).locator('.path-warn')).toHaveText('Your off hand holds a blade: the first two need a shield.');
+    await expect(page.locator('.boon.path').nth(1).locator('.path-warn')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+
   test('before level 5 the Hero sheet says which paths are ahead', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

@@ -161,7 +161,7 @@ const TALENTS = {
 const PATH_LEVEL = 5;
 const PATHS = {
   fighter: [
-    { id: 'knight', name: 'Knight', flavour: 'Shield up and feet set: the wall the dark breaks on.', effects: [
+    { id: 'knight', name: 'Knight', flavour: 'Shield up and feet set: the wall the dark breaks on.', wants: 'shield', effects: [
       'A shield gives you 1 more armour class.',
       'With a shield up, one ordinary blow in eight that lands is caught on it for half damage.',
       'A warned trick that lands does a quarter less to you.',

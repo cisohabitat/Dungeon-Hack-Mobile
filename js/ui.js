@@ -1244,7 +1244,15 @@ const UI = (() => {
   }
 
   /** A path's card: its name, a line of flavour, and what it does, as a list. */
-  const pathCard = x => `<b>${escapeHtml(x.name)}</b><small class="path-flavour">${escapeHtml(x.flavour)}</small><ul class="path-effects">${x.effects.map(e => `<li>${escapeHtml(e)}</li>`).join('')}</ul>`;
+  const pathCard = x => `<b>${escapeHtml(x.name)}</b><small class="path-flavour">${escapeHtml(x.flavour)}</small><ul class="path-effects">${x.effects.map(e => `<li>${escapeHtml(e)}</li>`).join('')}</ul>${pathWarning(x)}`;
+  // a Knight's first two powers are a shield's: one fighting with two blades,
+  // or a two-handed sword, is told so before choosing, not after
+  function pathWarning(x) {
+    const eq = Game.player().eq;
+    if (x.wants !== 'shield' || eq.shield) return '';
+    const why = eq.offhand ? 'Your off hand holds a blade' : eq.weapon && ITEMS[eq.weapon.t].twoHanded ? 'Your weapon takes both hands' : 'You carry no shield';
+    return `<small class="path-warn">${why}: the first two need a shield.</small>`;
+  }
   // The class's two paths, once a run: set apart from lessons and talents
   // because it is the bigger choice, and it cannot be undone.
   function renderPaths(offer) {
