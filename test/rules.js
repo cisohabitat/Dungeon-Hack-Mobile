@@ -5168,8 +5168,9 @@ await test('a Ring of Evasion softens what lands: a web binds the nimble-fingere
     }
     return total;
   };
-  const bare = await time(0), ringed = await time(2);
-  return bare > ringed * 1.15 || `webbed ${bare}ms bare, ${ringed}ms with two rings`;
+  // one ring: a second of the same kind adds nothing (see the test below)
+  const bare = await time(0), ringed = await time(1);
+  return bare > ringed * 1.08 || `webbed ${bare}ms bare, ${ringed}ms with the ring`;
 });
 
 await test('rings and amulets turn up from the second floor, from their own stream, and survive a reload', async () => {
@@ -6112,6 +6113,17 @@ await test('keys of one colour share a pack slot, and each still opens one door'
   Game.input('forward');
   if (L.tiles[y * L.w + x] !== Dungeon.T.DOOR_OPEN) return 'the door did not open';
   return silver[0].q === 2 || `left with ${silver[0].q} silver keys`;
+});
+
+await test('two rings of one kind do not add up: the better counts', async () => {
+  const ctx = await start('fighter', 'rings-no-stack');
+  const { Game } = ctx; const p = Game.player();
+  const ac0 = Game.playerAC();
+  const a = { t: 'ring_protect', q: 1, e: 2 }, b = { t: 'ring_protect', q: 1, e: 1 };
+  p.inv.push(a, b); Game.equip(a, true); Game.equip(b, true);
+  if (p.eq.ring !== a || p.eq.ring2 !== b) return 'both rings did not go on';
+  if (Game.playerAC() !== ac0 + 3) return `two Rings of Protection (+2, +1) made armour ${ac0} into ${Game.playerAC()}, want ${ac0 + 3} (the better one)`;
+  return true;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

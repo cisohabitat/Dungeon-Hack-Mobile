@@ -367,11 +367,19 @@ const Game = (() => {
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
     return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
-  /** How much the rings and amulet worn add to a power that comes in amounts: its bonus, with the piece's enchantment (a curse takes from it). */
+  /**
+   * How much the rings and amulet worn add to a power that comes in amounts:
+   * its bonus, with the piece's enchantment (a curse takes from it). Two of
+   * one kind do not add up: the better counts, and a cursed one only if it is
+   * all there is. Two +2 Rings of Protection were six points of armour.
+   */
   function jewelBonus(power, p = P()) {
-    let n = 0;
-    for (const s of JEWEL_SLOTS) { const it = p.eq[s]; if (it && jewelPowers(it).includes(power)) n += (ITEMS[it.t].bonus || 0) + (it.e || 0); }
-    return n;
+    let n = null;
+    for (const s of JEWEL_SLOTS) {
+      const it = p.eq[s];
+      if (it && jewelPowers(it).includes(power)) { const v = (ITEMS[it.t].bonus || 0) + (it.e || 0); if (n === null || v > n) n = v; }
+    }
+    return n || 0;
   }
   // ---------- fire, cold and lightning ----------
   // Some things burn well and some shrug off the cold (ELEMENTS_TAKEN). The
