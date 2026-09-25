@@ -288,6 +288,14 @@ const Game = (() => {
   const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);
   /** How long a buff lasts: Zeal and a Templar each double Bless, and a Frostweaver's Shield lasts half as long again. */
   const buffDuration = sp => sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) * (sp.id === 'bless' && onPath('templar') ? 2 : 1) * (sp.id === 'shield' && onPath('frostweaver') ? 1.5 : 1);
+  const SPAN_WORDS = { 60000: 'a minute', 90000: 'a minute and a half', 120000: 'two minutes', 180000: 'three minutes', 240000: 'four minutes' };
+  /** A spell's description as it works for this hero: a buff's amount and time with the paths and talents in. */
+  function spellDesc(sp) {
+    if (sp.kind !== 'buff') return sp.desc;
+    const dur = buffDuration(sp);
+    return sp.desc.replace(/^\+\d+/, '+' + buffAmount(sp))
+      .replace(/for (a minute and a half|a minute)/, 'for ' + (SPAN_WORDS[dur] || `${Math.round(dur / 1000)} seconds`));
+  }
   // Assassin: the blow from the dark.
   /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
   const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0);
@@ -340,7 +348,7 @@ const Game = (() => {
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might');
     let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (finesse ? flat : flat * (base / 700)) + knack);
-    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand));
+    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + jewelBonus('might') + berserkerRage());
     return blow / (speed / 1000);
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
@@ -475,8 +483,15 @@ const Game = (() => {
   const isGear = it => { const b = ITEMS[it.t]; return !!b && (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield' || b.kind === 'ring' || b.kind === 'amulet'); };
   const bound = it => !!(it && it.curse);
   const cap = str => str[0].toUpperCase() + str.slice(1);
+  /**
+   * Whether a piece's quality is hidden, as far as the player can tell. Only
+   * rings that come in amounts can be finely made or cursed, so while a ring
+   * or amulet's kind is unknown its quality is part of that mystery: a "?"
+   * on one Jade Ring and not another would say which kind each is.
+   */
+  const qualityHidden = it => !!(it && it.h) && !(isJewel(it) && !isKnown(it.t));
   /** Everything carried or worn whose quality is still hidden. */
-  const hiddenGear = () => [...P().inv, ...Object.values(P().eq)].filter(it => it && it.h);
+  const hiddenGear = () => [...P().inv, ...Object.values(P().eq)].filter(qualityHidden);
   const cursedWorn = () => Object.values(P().eq).filter(bound);
   /** Show the true quality of every piece carried; returns what was revealed. */
   function revealAll() {
@@ -1574,7 +1589,7 @@ const Game = (() => {
     const r = relicOf(it);
     if (r) return Math.round(r.value * 0.45 * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1));
     // a ring you cannot name goes for a trinket's price: the trader will not tell you what it is
-    if (isJewel(it) && !isKnown(it.t)) return Math.max(1, Math.round(15 * (1 + charm())));
+    if (isJewel(it) && !isKnown(it.t)) return Math.max(1, Math.round(15 * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
     const v = ITEMS[it.t].value || 1;
     // unknown gear goes for the price of a plain one; the trader will not tell
     const e = it.h ? 0 : (it.e || 0);
@@ -1977,7 +1992,8 @@ const Game = (() => {
       log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
-    const dmg = Math.max(1, d(...o.dmg) + o.e + baneDamage(m, 'offhand'));
+    // a Ring of Might and a Berserker's rage promise every blow, and this is one
+    const dmg = Math.max(1, d(...o.dmg) + o.e + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand'));
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
@@ -2094,7 +2110,10 @@ const Game = (() => {
     const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
     p.sp += drawn;
     // the dead are destroyed; the living are slain
-    log(`The ${mb.name} is ${mb.undead || m.id === 'slime' || mb.boss ? 'destroyed' : 'slain'}!${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`, 'good');
+    const reward = `${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`;
+    // a champion's fall is its own line, said once, with what it was worth
+    if (mb.named) log(`${mb.named.fall}${reward}`, 'good');
+    else log(`The ${mb.name} is ${mb.undead || m.id === 'slime' || mb.boss ? 'destroyed' : 'slain'}!${reward}`, 'good');
     meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     if (Math.random() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite) {
@@ -2307,7 +2326,9 @@ const Game = (() => {
       const bearing = relativeBearing(from);
       fx.hurtFrom = bearing ? bearing.rel : 0;
       fx.hurtFromUntil = realNow + 900;
-      G.lastAttacker = { name: mstat(from).name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
+      // a champion is remembered by its name: "Grisk, the Goblin King", not "Goblin King"
+      const fb = mstat(from);
+      G.lastAttacker = { name: fb.named ? `${fb.named.called}, the ${fb.name}` : fb.name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
     } else if (cause) G.lastAttacker = { name: cause, dmg, bearing: '', cause: true };
     // the harder the blow against the hero's whole life, the harder the view
     // jolts and reddens; one that takes a tenth of it or more leaves blood on
@@ -2325,7 +2346,7 @@ const Game = (() => {
     if (saver) {
       const it = p.eq[saver];
       p.eq[saver] = null; G.known[it.t] = 1;
-      noteHealed(Math.ceil(p.maxHp / 2) - p.hp);
+      noteHealed(Math.ceil(p.maxHp / 2) - Math.max(0, p.hp));   // from nothing, not from the overkill
       p.hp = Math.ceil(p.maxHp / 2);
       log(`That should have killed you. ${cap(the(it))} flares white at your throat, and crumbles to dust.`, 'good');
       fx.healAt = realNow;
@@ -2661,7 +2682,7 @@ const Game = (() => {
       case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
-        log(`You cast ${sp.name}. ${sp.desc}`, 'good');
+        log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
       case 'bolt': {
@@ -3182,7 +3203,7 @@ const Game = (() => {
         // stepping up to it does not help: close by, it is looking straight at you
         if ((dist === 1 || hasLineToPlayer(m, 5)) && facing(m)) {
           const c = trickSave('con', 'gaze');
-          const n = c.pass ? Math.ceil(d(1, 6) / 2) : d(1, 6);
+          const n = knightSteadfast(c.pass ? Math.ceil(d(1, 6) / 2) : d(1, 6));   // a warned trick, as any other
           p.held = Math.max(p.held || 0, G.t + GAZE_MS * (hasTalent('stand_firm') ? 0.5 : 1) * (c.pass ? 0.5 : 1)); p.heldBy = 'stone';
           hurtPlayer(n, `The ${mb.name}'s gaze meets yours, and your limbs ${c.pass ? 'stiffen, but fight the stone' : 'turn to stone'}! (${n})${c.note}`, m, 'a basilisk\'s gaze');
           G.blowGate = G.t + BLOW_GAP;
@@ -3527,7 +3548,7 @@ const Game = (() => {
   }
   /** It falls: its line, a shake and a fanfare, and the spoils. */
   function namedFalls(m, mb) {
-    log(mb.named.fall, 'good');
+    // its fall was said with the kill (memberDown)
     fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
     Sound.play('namedfall', heard(m));
     learn(m.id, 'answer');     // beaten: its trick and the answer go in the bestiary
@@ -3697,8 +3718,10 @@ const Game = (() => {
       if (!m.awake) {
         // Thieves move quietly, so their double blow on a sleeping foe can
         // actually happen: at six squares almost nothing stayed asleep long
-        // enough to be reached. Deep-born blood stacks with it.
-        const notice = Math.max(2, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet());
+        // enough to be reached. Deep-born blood stacks with it, and so do a
+        // Ring of Stealth and an Assassin's step, down to the square beside you:
+        // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
+        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet());
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
@@ -4149,12 +4172,12 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, pressSturdier, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, pressSturdier, qualityHidden, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
-    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,

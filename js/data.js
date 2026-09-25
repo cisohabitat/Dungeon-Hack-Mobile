@@ -473,7 +473,7 @@ const BESTIARY = {
   ghoul:    { lore: 'It eats the dead and would like you to be one. Undead: holy magic burns it twice as badly.',
     trick: 'Every third blow it reaches out with a numbing claw. If it lands, you are frozen for a moment: no step, swing or spell.',
     answer: 'Step back while it reaches and the claw closes on air, or land a blow first and knock the claw aside. If it catches you, a hardy constitution may shake the numbness off.' },
-  wraith:   { lore: 'A cold shape that drifts above the floor. Its touch drains your life force, lowering your maximum health for good. Undead: holy magic burns it twice as badly; a strong will resists the drain.' },
+  wraith:   { lore: 'A cold shape that drifts above the floor, hard to land a blow on. Its touch is the grave\'s own cold, and a Ring of Warmth takes half of it. Undead: holy magic burns it twice as badly.' },
   ogre:     { lore: 'Huge, slow and very strong. Its club hits like a falling wall.',
     trick: 'Every third swing it heaves its club high for a crushing blow at three times the damage, and armour will not turn it.',
     answer: 'Step back while it heaves. The club smashes the floor and it staggers, wide open.' },

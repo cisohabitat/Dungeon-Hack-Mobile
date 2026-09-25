@@ -674,7 +674,7 @@ const UI = (() => {
     const label = Game.useLabel();
     const byLabel = { Take: 'take', Descend: 'stairs', Examine: 'examine', Trade: 'trade' };
     if (byLabel[label] && showTip(byLabel[label])) return;
-    if ([...p.inv, ...Object.values(p.eq)].some(it => it && it.h) && showTip('unknown')) return;
+    if ([...p.inv, ...Object.values(p.eq)].some(it => Game.qualityHidden(it)) && showTip('unknown')) return;
     if (p.hp < p.maxHp * 0.4 && showTip('hurt')) return;
   }
 
@@ -1380,7 +1380,7 @@ const UI = (() => {
       div.appendChild(n);
       if (it.q > 1) { const q = document.createElement('span'); q.className = 'qty'; q.textContent = '×' + it.q; div.appendChild(q); }
       // gear whose quality you have yet to learn
-      if (it.h) { const u = document.createElement('span'); u.className = 'unk'; u.textContent = '?'; u.title = 'Quality unknown'; div.appendChild(u); }
+      if (Game.qualityHidden(it)) { const u = document.createElement('span'); u.className = 'unk'; u.textContent = '?'; u.title = 'Quality unknown'; div.appendChild(u); }
     } else if (label) {
       const n = document.createElement('div'); n.textContent = '—'; div.appendChild(n);
     }
@@ -1442,9 +1442,9 @@ const UI = (() => {
     let info = itemBlurb(it);
     if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
     if (!Game.isKnown(it.t)) info = b.kind === 'ring' || b.kind === 'amulet'
-      ? 'You do not know what it was made for. Putting it on will tell you, and so will studying it.'
+      ? 'You do not know what it was made for, nor whether it is cursed. Putting it on will tell you, and so will studying it.'
       : 'You do not know what this does. Using it will reveal its nature.';
-    if (it.h) info += ' Its quality is unknown: it could be finely made, or cursed. Wearing it will tell you, and so will studying it or a trader\'s eye.';
+    if (Game.qualityHidden(it)) info += ' Its quality is unknown: it could be finely made, or cursed. Wearing it will tell you, and so will studying it or a trader\'s eye.';
     else if (it.curse) info += selectedSlot
       ? ' Cursed: it will not come off. Read a Scroll of Remove Curse, pray at a shrine, or pay a trader to lift it.'
       : ' Cursed: once worn, it will not come off until the curse is broken.';
@@ -1677,7 +1677,7 @@ const UI = (() => {
       const b = document.createElement('button');
       const ready = ok && Game.castLabel() === sp.name;
       b.className = 'spell' + (ok ? '' : ' locked') + (ready ? ' ready' : '');
-      b.innerHTML = `<div class="cost">${Game.spellCost(sp)} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${sp.desc}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
+      b.innerHTML = `<div class="cost">${Game.spellCost(sp)} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${Game.spellDesc(sp)}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
       b.disabled = !ok;
       b.addEventListener('click', () => {
         const seq = Game.state().logSeq;

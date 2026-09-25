@@ -5499,7 +5499,10 @@ await test('a named champion slain: its line and fanfare, its xp, a relic from t
   const heard = await listenTo(ctx, () => { for (let i = 0; i < 20 && L.monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); } });
   if (L.monsters.includes(m)) return 'the Goblin King would not die';
   const said = linesSince(G, mark);
-  if (!said.includes(MONSTERS.grisk.named.fall)) return `his fall said: ${said.join(' | ')}`;
+  // said once: his own line, with the reward, and no plain kill line besides
+  const falls = said.filter(l => l.startsWith(MONSTERS.grisk.named.fall));
+  if (falls.length !== 1 || !/\(\+\d+ xp/.test(falls[0])) return `his fall said: ${said.join(' | ')}`;
+  if (said.some(l => / is (slain|destroyed)!/.test(l))) return `his death told twice: ${said.join(' | ')}`;
   if (!heard.some(h => h.name === 'namedfall')) return 'no fanfare';
   if (p.xp - xp < MONSTERS.grisk.xp) return `only ${p.xp - xp} xp`;
   const pile = L.items[m.x + ',' + m.y] || [];
@@ -6124,6 +6127,8 @@ await test('the damage per second the pack and trader quote is what the weapon a
     { cls: 'thief', weapon: 'longsword', level: 7 },
     { cls: 'fighter', weapon: 'greatsword', talents: ['weapon_master'], level: 5 },
     { cls: 'fighter', weapon: 'longsword', path: 'berserker', level: 5, hurt: true },
+    // the second blade's blow is one of every blow a Ring of Might and a rage promise
+    { cls: 'fighter', weapon: 'shortsword', offhand: 'dagger', ring: true, path: 'berserker', level: 5, hurt: true },
   ];
   for (const c of cases) {
     const ctx = await start(c.cls, 'blow-rate-' + c.weapon);
@@ -6134,7 +6139,7 @@ await test('the damage per second the pack and trader quote is what the weapon a
     if (c.path) p.path = c.path;
     if (c.hurt) p.hp = Math.ceil(p.maxHp * 0.3);
     p.perkHit = 60;
-    p.eq.shield = null; p.eq.offhand = null;
+    p.eq.shield = null; p.eq.offhand = c.offhand ? { t: c.offhand, q: 1, e: 0 } : null;
     p.eq.weapon = { t: c.weapon, q: 1, e: 0 };
     if (c.ring) { const r = { t: 'ring_might', q: 1, e: 0 }; p.inv.push(r); Game.equip(r, true); }
     const quoted = Game.blowRate(p.eq.weapon);
@@ -6156,6 +6161,57 @@ await test('the damage per second the pack and trader quote is what the weapon a
   // and a hidden enchantment is not given away
   if (Game.blowRate({ t: 'greatsword', q: 1, e: 3, h: 1 }) !== Game.blowRate(great)) out.push('a hidden +3 showed in the quote');
   return out.length ? out.join('; ') : true;
+});
+
+await test('an unknown ring shows no sign of its quality, whatever kind it is, so the "?" gives nothing away', async () => {
+  const ctx = await start('fighter', 'jewel-hidden');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  const plus = { t: 'ring_protect', q: 1, e: 1, h: 1 }, plain = { t: 'ring_mend', q: 1, e: 0 };
+  p.inv.push(plus, plain);
+  if (Game.qualityHidden(plus) || Game.qualityHidden(plain)) return 'an unknown ring shows its quality as hidden';
+  G.known.ring_protect = 1;
+  if (!Game.qualityHidden(plus)) return 'a Ring of Protection, known, hides nothing about its make';
+  // gear is unchanged: a found sword still hides its quality
+  return Game.qualityHidden({ t: 'longsword', q: 1, e: 1, h: 1 }) || 'a found sword shows its quality';
+});
+
+await test('a buff says what it gives this hero: a Frostweaver\'s Shield, a Templar\'s Bless', async () => {
+  const out = [];
+  const say = async (cls, path, id) => {
+    const ctx = await start(cls, 'buff-words-' + id);
+    const { Game } = ctx; walk(ctx, path);
+    return Game.spellDesc(Game.knownSpells().find(s => s.id === id));
+  };
+  const s0 = await say('mage', undefined, 'shield'), s1 = await say('mage', 'frostweaver', 'shield');
+  if (!/^\+4 armour class for a minute\./.test(s0)) out.push(`plain Shield says "${s0}"`);
+  if (!/^\+5 armour class for a minute and a half\./.test(s1)) out.push(`a Frostweaver's Shield says "${s1}"`);
+  const b1 = await say('cleric', 'templar', 'bless');
+  if (!/^\+2 to hit for two minutes\./.test(b1)) out.push(`a Templar's Bless says "${b1}"`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a Deep-born thief on the Assassin\'s path is noticed a square later than one who is not', async () => {
+  const asleep = async path => {
+    const ctx = await start('thief', 'notice-floor');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.bg = 'deepborn'; walk(ctx, path);
+    const m = ahead(ctx, 'goblin', 2, { awake: false, hp: 9, maxHp: 9 });
+    for (let i = 0; i < 30 && !m.awake; i++) Game.update(G.t + 100, 100);
+    return !m.awake;
+  };
+  // a floor of two squares used to swallow the Assassin's step for a Deep-born thief
+  if (await asleep('trickster')) return 'two squares off, it slept on without the Assassin\'s step';
+  return (await asleep('assassin')) || 'the Assassin\'s step did nothing for a Deep-born thief';
+});
+
+await test('a champion who kills the hero is named on the death screen', async () => {
+  const ctx = await start('fighter', 'named-killer');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = 1; p.effects.ac = { amount: -100, until: 1e12 };
+  const m = beside(ctx, 'grisk', { spoke: true, nextAct: G.t });
+  for (let i = 0; i < 80 && G.status === 'playing'; i++) Game.update(G.t + 100, 100);
+  const k = Game.lastAttacker();
+  return (k && /^Grisk, the /.test(k.name)) || `killed by ${JSON.stringify(k)}`;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
