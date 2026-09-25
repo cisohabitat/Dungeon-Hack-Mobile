@@ -229,7 +229,7 @@ const CLASSES = {
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, castMs: 500, spMul: 1.8, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
