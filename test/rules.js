@@ -5828,7 +5828,7 @@ await test('Berserker: blows grow with the wounds, the swing quickens below half
   const ac = Game.playerAC(), full = Game.weapon().speed;
   walk(ctx, 'berserker');
   if (Game.weapon().speed !== full) out.push('an unhurt berserker swung faster');
-  if (Game.playerAC() !== ac - 2) out.push(`a berserker's armour class ${ac} -> ${Game.playerAC()}`);
+  if (Game.playerAC() !== ac - 1) out.push(`a berserker's armour class ${ac} -> ${Game.playerAC()}`);
   p.hp = 40;
   const quick = Game.weapon().speed / full;
   if (!(quick > 0.88 && quick < 0.92)) out.push(`below half the swing is ${quick.toFixed(2)} of what it was`);
@@ -5944,7 +5944,7 @@ await test('Pyromancer: fire hits a fifth harder and keeps burning, and the cold
   return out.length ? out.join('; ') : true;
 });
 
-await test('Frostweaver: cold and lightning hold their mark back, Shield is stronger and longer, Lightning is cheaper', async () => {
+await test('Frostweaver: cold and lightning hold their mark back, Shield is stronger and longer, Lightning and Cone of Cold are cheaper', async () => {
   const out = [];
   const bolt = async (path, rime) => {
     const ctx = await start('mage', 'frost-hold');
@@ -5970,6 +5970,11 @@ await test('Frostweaver: cold and lightning hold their mark back, Shield is stro
   };
   const s0 = await shield(undefined), s1 = await shield('frostweaver');
   if (s0.ac !== 4 || s1.ac !== 5 || s0.lasts !== 60000 || s1.lasts !== 90000) out.push(`shield: +${s0.ac} for ${s0.lasts}ms -> +${s1.ac} for ${s1.lasts}ms`);
+  // and the cone comes two points cheaper
+  const ctx = await start('mage', 'frost-cost');
+  const { Game } = ctx; walk(ctx, 'frostweaver');
+  const cone = Game.spellCost(Game.knownSpells().find(s => s.id === 'cone_cold'));
+  if (cone !== 8) out.push(`a Frostweaver pays ${cone} for Cone of Cold`);
   return out.length ? out.join('; ') : true;
 });
 

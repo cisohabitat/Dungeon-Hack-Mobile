@@ -244,7 +244,7 @@ const Game = (() => {
   /** Below half their life a Berserker's swing comes a tenth sooner. */
   const berserkerFrenzy = () => (onPath('berserker') && P().hp < P().maxHp / 2 ? 0.9 : 1);
   /** A Berserker fights open. */
-  const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
+  const berserkerOpen = () => (onPath('berserker') ? -1 : 0);
   // Templar: the front-line priest.
   /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
   const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
@@ -279,6 +279,7 @@ const Game = (() => {
   /** Spell points a spell costs this hero. */
   function spellCost(sp) {
     if (sp.id === 'lightning' && onPath('frostweaver')) return sp.cost - 1;
+    if (sp.id === 'cone_cold' && onPath('frostweaver')) return sp.cost - 2;
     // a Pyromancer has given the cold up for the fire, and it comes harder to them
     if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) return sp.cost + (sp.id === 'cone_cold' ? 2 : 1);
     return sp.cost;

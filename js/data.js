@@ -169,7 +169,7 @@ const PATHS = {
     { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
       '+1 damage with every blow for each fifth of your life you have lost, up to +3.',
       'Below half your life, your swing comes a tenth sooner.',
-      'You fight open: 2 less armour class, whatever you wear.',
+      'You fight open: 1 less armour class, whatever you wear.',
     ] },
   ],
   cleric: [
@@ -193,7 +193,7 @@ const PATHS = {
     { id: 'frostweaver', name: 'Frostweaver', flavour: 'Cold is patience made into a weapon. Let them come to you slowly.', effects: [
       'Lightning and Cone of Cold hold back everything they hit by most of a second (twice that with Rime).',
       'Shield gives +5 armour class, not +4, and lasts a minute and a half.',
-      'Lightning Bolt costs 4 spell points, not 5.',
+      'Lightning Bolt costs 4 spell points, not 5, and Cone of Cold 8, not 10.',
     ] },
   ],
   thief: [
