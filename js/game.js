@@ -2604,8 +2604,13 @@ const Game = (() => {
     if (slain.length) entry.named = slain;
     if (p.path) entry.path = p.path;       // "Level 9 Fighter, Knight"
     if (Array.isArray(G.opts.vows) && G.opts.vows.length) entry.vows = G.opts.vows.slice();
+    // One run, one line: a hero who falls, loads the last save and falls again
+    // was written in once per death. The run is known by when it began (a save
+    // from before that was kept goes by its seed and hero), and its last end
+    // replaces the one before.
+    entry.run = G.created ? String(G.created) : `${G.seed}|${p.name}|${p.cls}`;
     try {
-      const list = hall();
+      const list = hall().filter(h => h.run !== entry.run);
       list.push(entry);
       list.sort((a, b) => b.score - a.score);
       localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));

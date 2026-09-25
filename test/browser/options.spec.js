@@ -104,6 +104,53 @@ test.describe('permadeath', () => {
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
     expect(await page.evaluate(() => Game.state().opts.permadeath)).toBe(false);
   });
+
+  test('a run that dies, loads its save and dies again is in the Hall once, as it last ended', async ({ page }) => {
+    // it was written in once per death: the same hero twice, or ten times
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.goto('/');
+    await page.click('#btn-new');
+    await page.locator('label.check', { has: page.locator('#c-permadeath') }).click();
+    await page.fill('#c-name', 'Twice');
+    await page.fill('#c-seed', 'hall-once');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    await clearBoons(page);
+    // an earlier hero's line stays where it is
+    await page.evaluate(() => {
+      const old = { name: 'Elder', cls: 'fighter', level: 3, depth: 2, gold: 5, xp: 90, kills: 4, won: false, seed: 'old', date: 1, score: 380, difficulty: 'normal', permadeath: true };
+      localStorage.setItem('deepdelve.hall', JSON.stringify([old]));
+      Game.save(true);
+    });
+    const dieOnce = async (gold) => {
+      await page.evaluate((gold) => {
+        const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+        p.gold = gold; p.hp = 1;
+        L.monsters.length = 0;
+        const x = p.x + dx, y = p.y + dy;
+        // whatever is in front, an ogre stands there now and swings at once
+        L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+        L.monsters.push({ uid: 4242, id: 'ogre', x, y, hp: 400, maxHp: 400, awake: true, nextAct: 0, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      }, gold);
+      await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+      await expect(page.locator('#screen-end')).toBeVisible();
+    };
+    await dieOnce(11);
+    await page.click('#end-load');
+    await page.waitForFunction(() => Game.state() && Game.state().status === 'playing');
+    await clearBoons(page);
+    await dieOnce(22);
+    const hall = await page.evaluate(() => Game.hall());
+    expect(hall.filter(h => h.name === 'Twice'), 'one line for the run').toHaveLength(1);
+    expect(hall.find(h => h.name === 'Twice').gold, 'the line is how it last ended').toBe(22);
+    expect(hall.filter(h => h.name === 'Elder'), 'another run keeps its own line').toHaveLength(1);
+    await page.click('#end-title-btn');
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-row')).toHaveCount(2);
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('the Daily Delve', () => {
