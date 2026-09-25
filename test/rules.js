@@ -5713,7 +5713,13 @@ await test('a path survives a save, and a save from before paths is offered one 
   Game.chooseBoon('berserker');
   const next = Game.pendingBoons();
   if (!next || !next.every(id => ctx.TALENTS.fighter.some(t => t.id === id))) return `level 8's own offer was ${next && next.join(', ')}`;
-  return p.path === 'berserker' || `chose berserker, walks ${p.path}`;
+  if (p.path !== 'berserker') return `chose berserker, walks ${p.path}`;
+  // one already at the top level has no next level: it is offered on loading
+  delete raw.player.path;
+  raw.player.level = ctx.MAX_LEVEL; raw.player.xp = ctx.XP_TABLE[ctx.MAX_LEVEL - 1]; raw.pendingBoons = []; delete raw.pendingLevels;
+  ctx.store.set('deepdelve.save', JSON.stringify(raw));
+  if (!Game.load()) return 'the top-level save would not load';
+  return Game.isPathOffer(Game.pendingBoons() || []) || `a top-level hero came back offered ${Game.pendingBoons()}`;
 });
 
 await test('Knight: a shield gives a point more, catches one ordinary blow in eight for half, and a trick lands a quarter lighter', async () => {

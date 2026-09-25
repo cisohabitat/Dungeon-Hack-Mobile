@@ -4044,6 +4044,9 @@ const Game = (() => {
       if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
       // a run from before rings and amulets: the slots, and a look for each
       for (const s of JEWEL_SLOTS) if (G.player.eq[s] === undefined) G.player.eq[s] = null;
+      // a hero from before paths is offered one at their next level; one who
+      // has no next level to reach is offered it now
+      if (G.player.level >= MAX_LEVEL && G.player.level >= PATH_LEVEL && !G.player.path) offerPath();
       if (G.looks) { const all = buildLooks(G.seed); for (const id in all) if (!G.looks[id]) G.looks[id] = all[id]; }
       if (!G.pendingBoons) G.pendingBoons = [];
       if (!G.player.bg) G.player.bg = 'oathbroken';
