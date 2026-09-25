@@ -1819,8 +1819,10 @@ const UI = (() => {
           : `You cast <b>${total}</b> spells, ${escapeHtml(nameOf(topId))} more than any other.`));
     }
     // dying with the cure in your pack is worth a word
-    const healing = !won ? p.inv.filter(it => ITEMS[it.t] && ITEMS[it.t].kind === 'potion' && ITEMS[it.t].effect === 'heal').reduce((n, it) => n + it.q, 0) : 0;
-    if (healing) out.push(`You died with ${healing === 1 ? 'a healing potion' : `<b>${healing}</b> healing potions`} still in your pack.`);
+    const heals = !won ? p.inv.filter(it => ITEMS[it.t] && ITEMS[it.t].kind === 'potion' && ITEMS[it.t].effect === 'heal') : [];
+    const healing = heals.reduce((n, it) => n + it.q, 0), unknown = heals.filter(it => !Game.isKnown(it.t)).reduce((n, it) => n + it.q, 0);
+    // and the ones it never knew for healing get that said, now it no longer matters
+    if (healing) out.push(`You died with ${healing === 1 ? 'a healing potion' : `<b>${healing}</b> healing potions`} still in your pack${unknown ? (unknown === healing ? `, not knowing ${healing === 1 ? 'it' : 'them'} for what ${healing === 1 ? 'it was' : 'they were'}` : `, ${unknown} of them never known for what they were`) : ''}.`);
     else if (s.potions) out.push(`You drank ${s.potions === 1 ? 'one potion' : `<b>${s.potions}</b> potions`}${s.scrolls ? ` and read ${s.scrolls === 1 ? 'one scroll' : `<b>${s.scrolls}</b> scrolls`}` : ''}.`);
     return out;
   }
