@@ -2366,7 +2366,9 @@ const Game = (() => {
   /** How long the Heart's light has left to fill the view before the victory screen. */
   function finaleLeft() { return fx.heartAt >= 0 ? Math.max(0, fx.heartAt + FINALE_MS - realNow) : 0; }
   // Gold spent well shows in everything else; gold hoarded counts for nothing.
-  function score(p, depth, won) { return p.xp * 2 + p.deepest * 100 + (won ? 2000 : 0); }
+  // claiming the Heart is worth half the run again: a flat bonus alone left a
+  // win barely ahead of a death on the last floor (22,146 against 20,562)
+  function score(p, depth, won) { const run = p.xp * 2 + p.deepest * 100; return won ? Math.round(run * 1.5) + 2000 : run; }
   // Only one page is buried per floor, so a short dungeon holds fewer than the
   // archive knows about. Count what this delve can actually yield, not the lot.
   function pagesInDungeon() { return Math.min(G && G.opts ? G.opts.levels : JOURNAL.length, JOURNAL.length); }

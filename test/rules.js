@@ -1743,7 +1743,12 @@ await test('the score counts depth, experience and a win, not gold hoarded', asy
   const p = Game.player();
   const a = Game.score(p, 1, false);
   p.gold += 5000;
-  return Game.score(p, 1, false) === a || 'gold moved the score';
+  if (Game.score(p, 1, false) !== a) return 'gold moved the score';
+  // a win over the same run is worth well over the run: a death on the last
+  // floor must not come within a few percent of claiming the Heart
+  p.xp = 10000; p.deepest = 8;
+  const died = Game.score(p, 8, false), won = Game.score(p, 8, true);
+  return won >= died * 1.4 || `a win scored ${won}, a death on the same floor ${died}`;
 });
 
 await test('a prayer answered at the shrine breaks a curse', async () => {
