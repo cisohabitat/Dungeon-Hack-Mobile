@@ -219,8 +219,8 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | about 96% |
-| Normal | 69% | 66% | 73% | 67% | about 69% |
-| Hard | 41% | 43% | 49% | 47% | about 45% |
+| Normal | 75% | 70% | 75% | 68% | about 72% |
+| Hard | 44% | 45% | 48% | 48% | about 46% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
@@ -273,7 +273,8 @@ js/assets.js      procedural textures and sprite rasterisation
 js/dungeon.js     level generator
 js/renderer.js    canvas raycaster
 js/sound.js       WebAudio sound effects
-js/game.js        rules, state, AI, save/load
+js/game.js        rules, state, save/load
+js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input
 js/daily.js       the Daily Delve: the day's hero, the one try, the streak
 js/main.js        entry point, game loop, debug surface

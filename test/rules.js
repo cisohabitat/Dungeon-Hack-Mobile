@@ -2269,12 +2269,14 @@ await test('stepping away mid-volley spares you the blows still to come', async 
 });
 
 await test('shallow venom burns briefly, deep venom for the full twenty seconds', async () => {
-  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'js', 'game.js'), 'utf8');
-  const m = src.match(/const poisonFor = \(\) => \(\{ until: G\.t \+ Math\.min\((\d+), (\d+) \+ (\d+) \* G\.depth\)/);
+  // the monsters live in foes.js, which reads the game's state through K
+  const read = f => require('fs').readFileSync(require('path').join(__dirname, '..', 'js', f), 'utf8');
+  const src = read('game.js') + read('foes.js');
+  const m = src.match(/const poisonFor = \(\) => \(\{ until: (?:K\.)?G\.t \+ Math\.min\((\d+), (\d+) \+ (\d+) \* (?:K\.)?G\.depth\)/);
   if (!m) return 'no depth-scaled poison';
   const [cap, base, per] = m.slice(1).map(Number);
   const at = d => Math.min(cap, base + per * d);
-  if (src.includes('p.poison = { until: G.t + 20000')) return 'a poison source still ignores depth';
+  if (/p\.poison = \{ until: (K\.)?G\.t \+ 20000/.test(src)) return 'a poison source still ignores depth';
   return (at(1) <= 10000 && at(4) === 20000) || `poison lasts ${at(1)}ms on floor one and ${at(4)}ms on floor four`;
 });
 
