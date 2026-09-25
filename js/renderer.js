@@ -1186,7 +1186,7 @@ const Renderer = (() => {
       const age = (now - t.born) / (t.until - t.born);
       // rise from the monster's middle, not the ceiling: close up, the old
       // spot was the top edge of the view, dark and easy to miss
-      const y = Math.max(18, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22));
+      const y = Math.max(18, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - (t.lift || 0) * 15));
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
       ctx.lineWidth = 4;

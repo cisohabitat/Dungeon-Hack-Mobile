@@ -1783,7 +1783,11 @@ const Game = (() => {
 
   // ---------- combat ----------
   function floatText(m, text, color) {
-    fx.texts.push({ x: m.rx + 0.5, y: m.ry + 0.5, text: String(text), color, born: realNow + fxDelay, until: realNow + fxDelay + 750 });
+    // words over the same creature at nearly the same moment stack a line apart
+    // ('weak!' over its number, an off-hand blow over the main one), not on top
+    const x = m.rx + 0.5, y = m.ry + 0.5, born = realNow + fxDelay;
+    const lift = fx.texts.filter(t => t.x === x && t.y === y && Math.abs(t.born - born) < 300).length;
+    fx.texts.push({ x, y, text: String(text), color, born, until: born + 750, lift });
   }
   // A missile is seen to fly: a knife spun, a stone slung, an arrow loosed,
   // leaving the hand at its moment in the throw (a fraction of the swing) and
