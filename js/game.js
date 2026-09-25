@@ -418,6 +418,12 @@ const Game = (() => {
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
     return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
+  /** What keeps out the cold, for the log: "your cloak", or "Your ring" to open a sentence. */
+  function warmthFrom(cap = false) {
+    const WORD = { weapon: 'weapon', offhand: 'blade', armor: 'armour', shield: 'shield', ring: 'ring', ring2: 'ring', amulet: 'amulet', cloak: 'cloak' };
+    const s = Object.keys(WORD).find(k => hasPower('warmth', k)) || 'cloak';
+    return `${cap ? 'Your' : 'your'} ${WORD[s]}`;
+  }
   /**
    * How much the rings and amulet worn add to a power that comes in amounts:
    * its bonus, with the piece's enchantment (a curse takes from it). Two of
@@ -719,11 +725,6 @@ const Game = (() => {
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && rng.chance(ROBE_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: rng.chance(0.3) ? 1 : 0 });
   }
-  /**
-   * A caster's focus (a mage's book or orb, a cleric's holy symbol) turns up
-   * only in that caster's dungeon, on a stream of its own. A found one may be
-   * cursed, which binds it to the hand and costs a point of armour.
-   */
   /** A cloak, for anyone: now and then on a pile or a trader's shelf, on a stream of its own. */
   const CLOAK_FIND = 0.2, CLOAK_SHOP = 0.25;
   function placeCloaks(L, depth) {
@@ -735,6 +736,11 @@ const Game = (() => {
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && rng.chance(CLOAK_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: 0 });
   }
+  /**
+   * A caster's focus (a mage's book or orb, a cleric's holy symbol) turns up
+   * only in that caster's dungeon, on a stream of its own. A found one may be
+   * cursed, which binds it to the hand until the curse is lifted.
+   */
   const FOCUS_FIND = 0.25, FOCUS_SHOP = 0.3;
   function placeFoci(L, depth) {
     const c = cls();
@@ -3486,6 +3492,8 @@ const Game = (() => {
       if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
       // a run from before rings and amulets: the slots, and a look for each
       for (const s of [...JEWEL_SLOTS, 'cloak']) if (G.player.eq[s] === undefined) G.player.eq[s] = null;
+      // A focus's make never counted for armour; older saves may still carry one.
+      for (const it of [...G.player.inv, G.player.eq.shield]) if (it && ITEMS[it.t]?.focus) it.e = 0;
       refreshSp(G.player);   // spell points by today's rules, robes and all, not the rules it was saved under
       // a hero from before paths is offered one at their next level; one who
       // has no next level to reach is offered it now
@@ -3535,6 +3543,7 @@ const Game = (() => {
   // What that module borrows from here goes through these getters (and setters
   // for the state it changes), so it always sees the game as it is now.
   const foesK = {
+    warmthFrom,
     get BLOW_GAP() { return BLOW_GAP; },
     get DIRS() { return DIRS; },
     get G() { return G; },

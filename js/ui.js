@@ -684,7 +684,7 @@ const UI = (() => {
   let feetSig = '';
   function refreshFeet() {
     const here = Game.state() ? Game.floorItems() : [];
-    const sig = here.map(it => `${it.t}:${it.q || 1}`).join(',');
+    const sig = here.map(it => `${Game.spriteFor(it)}|${Game.itemName(it)}`).join(',');
     if (sig === feetSig) return;
     feetSig = sig;
     const btn = /** @type {HTMLButtonElement} */ ($('#feet'));

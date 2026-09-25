@@ -6478,6 +6478,36 @@ await test('a focus turns no blows and rusts not: its make and a curse never tou
   return out.length ? out.join('; ') : true;
 });
 
+await test('the log names what keeps out the cold: a cloak is not called a ring', async () => {
+  const out = [];
+  for (const [id, word] of [['cloak_warmth', 'cloak'], ['ring_warmth', 'ring']]) {
+    const ctx = await start('fighter', 'warm-' + word);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const it = { t: id, q: 1, e: 0 }; p.inv.push(it); G.known[id] = 1; Game.equip(it, true);
+    beside(ctx, 'wraith');
+    const mark = markLog(G);
+    let line = null;
+    for (let i = 0; i < 400 && !line; i++) { Game.update(G.t + 25, 25); line = linesSince(G, mark).find(l => /keeps out the cold/.test(l)); }
+    if (!line) out.push(`a wraith never hit through a ${word}`);
+    else if (!line.includes(`your ${word} keeps out the cold`)) out.push(`with a ${word}: "${line}"`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('an old save\'s enchanted focus comes back plain, as a focus never counted for armour', async () => {
+  const ctx = await start('mage', 'focus-old-save');
+  const { Game } = ctx; const G = Game.state(), p = Game.player();
+  const orb = { t: 'crystal_orb', q: 1, e: 2 }, book = { t: 'spellbook', q: 1, e: -1 };
+  p.inv.push(book);
+  const staff = p.eq.weapon; if (staff && ctx.ITEMS[staff.t].hands === 2) Game.unequip('weapon');
+  p.eq.shield = orb;
+  Game.save(true);
+  if (!Game.load()) return 'the save would not load';
+  const q = Game.player();
+  return (q.eq.shield?.e === 0 && q.inv.find(it => it.t === 'spellbook')?.e === 0) || `the orb came back ${q.eq.shield?.e}, the book ${q.inv.find(it => it.t === 'spellbook')?.e}`;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

@@ -87,7 +87,7 @@ export function makeFoes(K) {
     if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = K.relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    K.hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${warm ? ' (your ring keeps out the cold)' : ''}${note}`, m);
+    K.hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
   }
   /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it */
   function monsterAttack(m, heavy) {
@@ -103,7 +103,7 @@ export function makeFoes(K) {
     if (roll === 1 || (!h.sure && roll !== 20 && roll + hit < ac)) {
       K.riposte();
       // a blow the shield turned (it would have landed without one) rings on it
-      const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (p.eq.shield.e || 0);
+      const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (ITEMS[p.eq.shield.t].focus ? 0 : p.eq.shield.e || 0);
       Sound.play(onShield ? 'block' : 'whiff', K.heard(m));
       const miss = K.relativeBearing(m);
       K.log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
@@ -128,7 +128,7 @@ export function makeFoes(K) {
     if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = K.relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    K.hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${knight}${warm ? ' (your ring keeps out the cold)' : ''}${note}`, m);
+    K.hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${knight}${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
     if (K.G.status !== 'playing') return true;
     // every venomous bite that lands is fought off with Constitution
     if (mb.poison) K.venomSave('bite', `the ${mb.name}'s`);
@@ -390,7 +390,7 @@ export function makeFoes(K) {
           const c = K.trickSave('dex', 'nova');
           const warm = K.hasPower('warmth');
           const n = K.knightSteadfast(Math.max(1, Math.ceil(d(5, 6) / (K.hasTalent('stand_firm') ? 2 : 1) / (shielded ? 2 : 1) / (c.pass ? 2 : 1) / (warm ? 2 : 1))));
-          K.hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${warm ? ' Your ring keeps out the cold.' : ''}${c.note}`, m); K.G.blowGate = K.G.t + K.BLOW_GAP;
+          K.hurtPlayer(n, `The storm of cold fire bursts over you for ${n}!${c.pass ? ' You turn a shoulder to the worst of it.' : ''}${shielded ? ' Your Shield takes the worst of it.' : ''}${warm ? ` ${K.warmthFrom(true)} keeps out the cold.` : ''}${c.note}`, m); K.G.blowGate = K.G.t + K.BLOW_GAP;
         }
         else { K.log('The storm of cold fire breaks short of you, and leaves the lich spent and open.', 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.nextAct = K.G.t + mb.speed;
