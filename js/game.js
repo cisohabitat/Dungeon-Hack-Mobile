@@ -720,9 +720,11 @@ const Game = (() => {
   function giveItem(it) {
     const p = P();
     const b = ITEMS[it.t];
-    if (b.stack) {
-      const ex = p.inv.find(x => x.t === it.t);
-      if (ex) { ex.q += it.q || 1; return true; }
+    // keys of one colour share a slot: a door forced open leaves its key
+    // spare, and three spare silver keys took three of the pack's squares
+    if (b.stack || it.t === 'key') {
+      const ex = p.inv.find(x => x.t === it.t && (it.t !== 'key' || x.color === it.color));
+      if (ex) { ex.q = (ex.q || 1) + (it.q || 1); return true; }
     }
     if (p.inv.length >= INV_MAX) return false;
     p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}), ...(it.pw ? { pw: it.pw } : {}),
@@ -4092,7 +4094,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

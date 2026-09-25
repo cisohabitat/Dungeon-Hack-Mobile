@@ -6092,6 +6092,23 @@ await test('the log calls a named champion by its name, not its title, except wh
   return said.some(l => /Ushgar/.test(l)) || `never named: ${said.join(' | ')}`;
 });
 
+await test('keys of one colour share a pack slot, and each still opens one door', async () => {
+  const ctx = await start('fighter', 'keys-stack');
+  const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+  const before = p.inv.length;
+  for (const c of ['silver', 'silver', 'silver', 'gold']) Game.giveItem ? Game.giveItem({ t: 'key', q: 1, color: c }) : null;
+  if (!Game.giveItem) return 'giveItem is not exposed';
+  const silver = p.inv.filter(i => i.t === 'key' && i.color === 'silver');
+  if (silver.length !== 1 || silver[0].q !== 3) return `silver keys: ${JSON.stringify(silver)}`;
+  if (p.inv.length !== before + 2) return `four keys took ${p.inv.length - before} slots`;
+  // one of the three opens a silver door, and two are left
+  const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+  L.tiles[y * L.w + x] = Dungeon.T.DOOR_LOCKED; L.locks[x + ',' + y] = 'silver'; L.monsters.length = 0;
+  Game.input('forward');
+  if (L.tiles[y * L.w + x] !== Dungeon.T.DOOR_OPEN) return 'the door did not open';
+  return silver[0].q === 2 || `left with ${silver[0].q} silver keys`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
