@@ -12,17 +12,49 @@ test.describe('progress between runs', () => {
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
     await page.click('#btn-hall');
-    await expect(page.locator('#trophy-count')).toHaveText('0 of 12 won');
-    await expect(page.locator('#hall-trophies .cell')).toHaveCount(12);
+    await expect(page.locator('#trophy-count')).toHaveText('0 of 23 won');
+    await expect(page.locator('#hall-trophies .cell')).toHaveCount(12 + 8 + 3);
     await expect(page.locator('#hall-trophies .cell.won')).toHaveCount(0);
     await page.click('#hall-back');
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 2, normal: 1 }, mage: { hard: 1 } }, relics: [] })));
     await page.click('#btn-hall');
-    await expect(page.locator('#trophy-count')).toHaveText('3 of 12 won');
+    await expect(page.locator('#trophy-count')).toHaveText('3 of 23 won');
     await expect(page.locator('#hall-trophies .cell.won')).toHaveCount(3);
     for (const lit of ['fighter-easy', 'fighter-normal', 'mage-hard']) await expect(page.locator(`[data-trophy="${lit}"]`)).toHaveClass(/won/);
     for (const dark of ['fighter-hard', 'mage-easy', 'cleric-normal', 'thief-hard']) await expect(page.locator(`[data-trophy="${dark}"]`)).not.toHaveClass(/won/);
     await expect(page.locator('[data-trophy="fighter-easy"]')).toHaveAttribute('aria-label', 'Fighter on Easy: won 2 times');
+    // vows are shut until a Hard win: this one has one
+    await expect(page.locator('[data-trophy="vow-iron"]')).not.toHaveClass(/shut/);
+    // a path won and a vow kept light their own cells
+    await page.click('#hall-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 } }, relics: [], paths: { knight: 1 }, vows: { pauper: 2 } })));
+    await page.click('#btn-hall');
+    await expect(page.locator('#trophy-count')).toHaveText('3 of 23 won');
+    await expect(page.locator('[data-trophy="path-knight"]')).toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="path-berserker"]')).not.toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="vow-pauper"]')).toHaveAttribute('aria-label', "Pauper's Vow: kept 2 times");
+    await expect(page.locator('[data-trophy="vow-iron"]')).toHaveClass(/shut/);
+    expect(errors).toEqual([]);
+  });
+
+  test('after a Hard win, a new hero can swear vows, and a vow binds the run', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.tipsOff', '1'); });
+    await page.click('#btn-new');
+    await expect(page.locator('#c-vows')).toBeHidden();
+    await page.click('#c-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { cleric: { hard: 1 } }, relics: [] })));
+    await page.click('#btn-new');
+    await expect(page.locator('#c-vows')).toBeVisible();
+    await page.check('[data-vow="iron"]');
+    await page.fill('#c-seed', 'vow-run');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => Game.state().opts.vows)).toEqual(['iron']);
+    const said = await page.evaluate(() => { Game.level().monsters.length = 0; Game.player().hp = 1; Game.rest(); return Game.state().log.slice(-1)[0].m; });
+    expect(said).toContain('Iron Vow');
     expect(errors).toEqual([]);
   });
 
@@ -106,7 +138,7 @@ test.describe('progress between runs', () => {
     await page.click('#end-title-btn');
     await page.click('#btn-hall');
     await expect(page.locator('[data-trophy="fighter-normal"]')).toHaveClass(/won/);
-    await expect(page.locator('#trophy-count')).toHaveText('1 of 12 won');
+    await expect(page.locator('#trophy-count')).toHaveText('1 of 23 won');
     await page.click('#hall-back');
 
     // and the Returned can be chosen; the Heartsworn still waits on a Hard win

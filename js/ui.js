@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS, PATHS, PATH_LEVEL } from './data.js';
+import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -22,7 +22,8 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal' };
+  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[]}} */
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [] };
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
@@ -275,6 +276,15 @@ const UI = (() => {
     bgGrid.innerHTML = '';
     // a past still to be earned cannot stay chosen
     const progress = Progress.load();
+    // vows, once a hero has won on Hard: each one a harder run and a trophy of its own
+    const vowsOpen = Progress.vowsOpen(progress);
+    /** @type {HTMLElement} */ ($('#c-vows')).hidden = !vowsOpen;
+    if (!vowsOpen) create.vows = [];
+    $('#c-vow-list').innerHTML = Object.keys(VOWS).map(id => `<label class="check"><input type="checkbox" data-vow="${id}"${create.vows.includes(id) ? ' checked' : ''}> <span><b>${escapeHtml(VOWS[id].name)}</b>: ${escapeHtml(VOWS[id].desc)}</span></label>`).join('');
+    for (const box of $$('#c-vow-list [data-vow]')) box.addEventListener('change', () => {
+      const id = /** @type {HTMLInputElement} */ (box).dataset.vow || '';
+      create.vows = /** @type {HTMLInputElement} */ (box).checked ? [...new Set([...create.vows, id])] : create.vows.filter(v => v !== id);
+    });
     if (!Progress.bgOpen(create.bg, progress)) create.bg = 'oathbroken';
     for (const id in BACKGROUNDS) {
       const b = BACKGROUNDS[id], open = Progress.bgOpen(id, progress);
@@ -392,6 +402,7 @@ const UI = (() => {
         traps: $('#c-traps').checked,
         permadeath: $('#c-permadeath').checked,
         difficulty: /** @type {'easy'|'normal'|'hard'} */ (create.difficulty),
+        ...(create.vows.length ? { vows: create.vows.slice() } : {}),
       },
     };
     showPrologue(cfg);
@@ -1352,8 +1363,21 @@ const UI = (() => {
       const n = (v.won[cls] && v.won[cls][d]) || 0, what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
       return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="img" aria-label="${what}" title="${what}">${n ? '✦' : ''}</span>`;
     })].join(''));
+    // a win with each path, two to a class
+    const pathRows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...(PATHS[cls] || []).map(x => {
+      const n = v.paths[x.id] || 0, what = `${x.name}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
+      return `<span class="cell named${n ? ' won' : ''}" data-trophy="path-${x.id}" role="img" aria-label="${what}" title="${what}">${escapeHtml(x.name)}</span>`;
+    })].join(''));
+    // and each vow kept, dim until a Hard win opens them
+    const open = Progress.vowsOpen(v);
+    const vowCells = Object.keys(VOWS).map(id => {
+      const n = v.vows[id] || 0, what = `${VOWS[id].name}: ${n ? (n === 1 ? 'kept once' : `kept ${n} times`) : open ? 'not yet kept' : 'opens after a win on Hard'}`;
+      return `<span class="cell named${n ? ' won' : ''}${open ? '' : ' shut'}" data-trophy="vow-${id}" role="img" aria-label="${what}" title="${what}">${escapeHtml(VOWS[id].name)}</span>`;
+    });
     $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
-      + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`;
+      + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
+      + `<div class="trophy-sub">Paths</div><div class="trophy-grid paths">${pathRows.join('')}</div>`
+      + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`;
     $('#hall-relics-count').textContent = `${v.relics.length} of ${Object.keys(RELICS).length} found`;
   }
   /** ", Knight": the path a hero in the Hall took, if they lived to take one. */
@@ -1364,7 +1388,7 @@ const UI = (() => {
     const el = $('#hall-list');
     if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
     // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+    el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
   }
 
   // ---------- overlays ----------
@@ -1944,6 +1968,9 @@ const UI = (() => {
     const earned = won ? Game.earned() : null, news = [];
     if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!`);
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
+    if (earned && earned.firstPath) { const x = Object.values(PATHS).flat().find(q => q.id === earned.firstPath); if (x) news.push(`First win on the ${x.name}'s path!`); }
+    for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
+    if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
     if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     // and the next thing to aim for, while a past is still locked
     else if (won) {
