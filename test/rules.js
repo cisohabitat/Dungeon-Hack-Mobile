@@ -6042,6 +6042,16 @@ await test('a champion keeps everything its kind has that its prefix does not ch
   return out.length ? out.slice(0, 6).join('; ') : true;
 });
 
+await test('a named champion deals what its kin deals: the Hollow Abbess\'s touch is as cold as a wraith\'s', async () => {
+  const { MONSTERS } = await start('fighter', 'named-element');
+  const out = [];
+  for (const id of Object.keys(MONSTERS).filter(k => MONSTERS[k].named)) {
+    const kin = MONSTERS[MONSTERS[id].named.kin];
+    if ((MONSTERS[id].element || '') !== (kin.element || '')) out.push(`${id} deals ${MONSTERS[id].element || 'nothing'}, its kin ${kin.element || 'nothing'}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

@@ -379,7 +379,7 @@ const MONSTERS = {
       arrive: 'The stink of an old feast drifts up the stair. Morrow the Ghoul Lord is at table somewhere on this floor.',
       wake: 'Morrow the Ghoul Lord lifts its head from its meal and smiles, with far too many teeth.',
       fall: 'Morrow the Ghoul Lord is destroyed, and its long feast is over!' } },
-  orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith',   scale: 1.2,  undead: true, fly: 0.2, move: 'drink',
+  orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith',   scale: 1.2,  undead: true, fly: 0.2, element: 'cold', move: 'drink',
     named: { called: 'Orla', kin: 'wraith', tint: '#8fb0ff', guard: ['skeleton', 2],
       arrive: 'A cold hymn carries through the stone. Orla the Hollow Abbess keeps her vigil somewhere on this floor.',
       wake: 'The hymn stops. Orla the Hollow Abbess turns her empty hood toward you.',
