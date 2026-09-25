@@ -774,6 +774,20 @@ const UI = (() => {
   // Teleport when cornered and failing. It is not there the rest of the time.
   const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'] };
   let quickSig = '';
+  // The boss's bar takes the top rows of the picture (see drawBossBar): while
+  // it shows, the status chips and any tip sit just below it rather than on
+  // its name. How far down that is depends on the picture's height on screen.
+  let barUp = null, barPx = -1;
+  const BAR_ROWS = 24;
+  function bossBar(on) {
+    const wrap = $('.view-wrap'), view = $('#view');
+    if (!wrap || !view) return;
+    const px = on ? Math.ceil(BAR_ROWS / Renderer.H * view.clientHeight) : 0;
+    if (on === barUp && px === barPx) return;
+    barUp = on; barPx = px;
+    wrap.classList.toggle('boss-up', on);
+    wrap.style.setProperty('--bar-bottom', px + 'px');
+  }
   function helpTab(which) {
     for (const t of $$('[data-htab]')) { const on = t.dataset.htab === which; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
     for (const pg of $$('[data-hpage]')) pg.hidden = pg.dataset.hpage !== which;
@@ -2058,7 +2072,7 @@ const UI = (() => {
     isPlaying: () => $('#screen-game').classList.contains('active'),
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
-    tips: () => ({ ...TIPS }), timeScale };
+    tips: () => ({ ...TIPS }), timeScale, bossBar };
 })();
 
 export { UI };

@@ -35,6 +35,15 @@ test.describe('named champions', () => {
     const full = await page.evaluate(() => Math.round(document.getElementById('view').width * 0.6) * 5);
     expect(gold, 'the gold bar along the top').toBeGreaterThan(full * 0.4);
     expect(gold, 'the bar shows the life he has lost').toBeLessThan(full * 0.8);
+    // the status chips make way for it: they sit below the bar, not on its name
+    await page.evaluate(() => { Game.player().riposteUntil = Game.state().t + 1e9; });
+    await page.waitForTimeout(300);
+    const lanes = await page.evaluate(() => {
+      const v = document.getElementById('view').getBoundingClientRect(), s = document.getElementById('hud-status').getBoundingClientRect();
+      return { chipsTop: s.top - v.top, barBottom: 24 / Renderer.H * v.height, chips: document.getElementById('hud-status').children.length };
+    });
+    expect(lanes.chips, 'a chip to show').toBeGreaterThan(0);
+    expect(lanes.chipsTop, 'the chips below the bar').toBeGreaterThanOrEqual(lanes.barBottom);
     // and it goes when he does
     await page.evaluate(() => { Game.level().monsters.length = 0; });
     await page.waitForTimeout(300);

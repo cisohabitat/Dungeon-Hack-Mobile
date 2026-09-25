@@ -53,6 +53,8 @@ function loop(now) {
     if (G.status === 'playing' || G.status === 'dead' || G.status === 'won') {
       const rs = Game.renderState(now);
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
+      // a boss's bar along the top of the view: the chips and tips make way for it
+      UI.bossBar(!!rs.fx.boss);
       const view = document.getElementById('view');
       if (now < rs.fx.shakeUntil) {
         const a = (rs.fx.shakeUntil - now) / (rs.fx.shakeMs || 220) * (rs.fx.shakeAmp || 4);

@@ -217,6 +217,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hall-row .score { color: var(--gold); font-family: monospace; font-size: 1.05rem; }
 .hall-row.won { border-color: var(--gold); }
 .hud-status { position: absolute; top: 6px; left: 8px; display: flex; gap: 6px; pointer-events: none; }
+/* a boss's bar runs along the top of the view: the chips and tips go under it */
+.view-wrap.boss-up .hud-status { top: calc(var(--bar-bottom, 0px) + 4px); }
+.view-wrap.boss-up .tip { top: calc(var(--bar-bottom, 0px) + 4px); }
 .hud-status span { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); }
 .hud-status .bad { color: #f88; }
 .hud-status .good { color: #8f8; }
