@@ -12,7 +12,8 @@
 // fighter as much as a mage: flat damage let the sturdy gamble for free),
 // hurt [dice], heal ('full' or n), maxHp, food, loot
 // (bonus to the loot roll), item {t, q}, buff {stats: [[stat, n]], dur},
-// poison, cure, uncurse, wake, identifyAll, ambush {id, n}, stat [stat, n].
+// poison, cure, uncurse, wake, identifyAll, ambush {id, n}, stat [stat, n],
+// thread (a choice that follows the hero down: see threads in game.js).
 
 import { Rng } from './rng.js';
 
@@ -22,13 +23,13 @@ const ENCOUNTERS = {
     text: 'A fall of stone has half buried a man in a guild tabard. One hand still moves. "Please," he says. "I know this floor. I can show you the way down."',
     choices: [
       { label: 'Heave the stones off him', check: { stat: 'str', dc: 12 },
-        pass: { text: 'The stones grind aside. He sits up coughing, presses a chalk map of the floor into your hands, and limps off toward the stairs.', effects: [{ map: 1 }, { xp: 25 }] },
+        pass: { text: 'The stones grind aside. He sits up coughing, presses a chalk map of the floor into your hands, and limps off toward the stairs.', effects: [{ map: 1 }, { xp: 25 }, { thread: 'guide' }] },
         fail: { text: 'The pile shifts the wrong way and comes down on both of you. He does not move again.', effects: [{ hurtFrac: 0.2 }] } },
       { label: 'Keep him talking while you dig', check: { stat: 'cha', dc: 12 },
-        pass: { text: 'He talks you through where each stone will slide. When he is free he tells you where the last crew hid their stores, and draws you the floor.', effects: [{ map: 1 }, { loot: 1 }] },
+        pass: { text: 'He talks you through where each stone will slide. When he is free he tells you where the last crew hid their stores, and draws you the floor.', effects: [{ map: 1 }, { loot: 1 }, { thread: 'guide' }] },
         fail: { text: 'He panics and thrashes and the pile settles on him for good. Getting clear of it takes a long time.', effects: [{ food: -15 }] } },
       { label: 'Work out how the pile will fall', check: { stat: 'int', dc: 12 },
-        pass: { text: 'You read the stones, pull the one that matters, and the rest slide away from him instead of onto him. He draws you the floor in chalk before he goes.', effects: [{ map: 1 }, { xp: 25 }] },
+        pass: { text: 'You read the stones, pull the one that matters, and the rest slide away from him instead of onto him. He draws you the floor in chalk before he goes.', effects: [{ map: 1 }, { xp: 25 }, { thread: 'guide' }] },
         fail: { text: 'You pull the wrong stone. It is not only him the pile lands on.', effects: [{ hurtFrac: 0.15 }] } },
       { label: 'Leave him', outcome: { text: 'You step past. After a while he stops asking.', effects: [] } },
     ],
@@ -165,14 +166,14 @@ const ENCOUNTERS = {
     text: 'A man hangs in chains from rings in the wall, stripped to his shirt, a goblin brand fresh on his arm. His eyes open when your light reaches him. "They will be back," he whispers. "Please."',
     choices: [
       { label: 'Break the chains', check: { stat: 'str', dc: 13 },
-        pass: { text: 'The rings tear out of the stone. He is weak, but he knows this floor, and where they stack their plunder.', effects: [{ map: 1 }, { loot: 1 }] },
+        pass: { text: 'The rings tear out of the stone. He is weak, but he knows this floor, and where they stack their plunder.', effects: [{ map: 1 }, { loot: 1 }, { thread: 'captive' }] },
         fail: { text: 'The chains hold, and the rattle carries. Something is coming to see what the noise was.', effects: [{ wake: 1 }] } },
       { label: 'Pick the shackles', check: { stat: 'dex', dc: 13, knack: [['thief', null, 3]] },
-        pass: { text: 'Cheap goblin locks. He presses a healing draught into your hand, the one thing they did not find on him.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 30 }] },
+        pass: { text: 'Cheap goblin locks. He presses a healing draught into your hand, the one thing they did not find on him.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 30 }, { thread: 'captive' }] },
         fail: { text: 'A pin snaps in the lock. The tripwire his captors left does not.', effects: [{ hurtFrac: 0.15 }] } },
       { label: 'Ask what he knows first', check: { stat: 'cha', dc: 12 },
-        pass: { text: 'He talks fast: which corridors are trapped, where the stairs lie, who took his sword. You free him when he is done.', effects: [{ map: 1 }, { xp: 40 }] },
-        fail: { text: 'He is too far gone to make sense. You free him anyway, and he stumbles off into the dark.', effects: [{ xp: 10 }] } },
+        pass: { text: 'He talks fast: which corridors are trapped, where the stairs lie, who took his sword. You free him when he is done.', effects: [{ map: 1 }, { xp: 40 }, { thread: 'captive' }] },
+        fail: { text: 'He is too far gone to make sense. You free him anyway, and he stumbles off into the dark.', effects: [{ xp: 10 }, { thread: 'captive' }] } },
       { label: 'Leave him', outcome: { text: 'You leave him to his chains. His voice follows you a long way.', effects: [] } },
     ],
   },
@@ -273,6 +274,20 @@ const ENCOUNTERS = {
     ],
   },
 
+  // a bargain that follows you all the way down: strength now, and the lich
+  // the stronger for it when you meet
+  bargain: {
+    title: 'The Pale One', sprite: 'wisp', depth: [3, 12],
+    text: 'Something made of candle-smoke waits where the passage narrows. It has no face, but you know it is smiling. "Strength," it says, "for a little of what you will owe the one below. Everyone who goes down owes it something."',
+    choices: [
+      { label: 'Take its strength', outcome: { text: 'Cold runs down your arms and settles in your hands. Far below, something stirs, and is pleased.', effects: [{ thread: 'bargain' }] } },
+      { label: 'Tell it no, and mean it', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 2]] },
+        pass: { text: 'It comes apart like smoke in a draught, and you feel clearer for having refused it.', effects: [{ xp: 40 }] },
+        fail: { text: 'It laughs, and the cold of it gets into you anyway.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Walk past it', outcome: { text: 'It watches you go. It has all the time in the world.', effects: [] } },
+    ],
+  },
+
   laststand: {
     title: 'The Third Crew\'s Last Stand', sprite: 'barricade', depth: [3, 99],
     text: 'A wall of shields across the passage, and behind it the third crew, where they fell holding it. Their banner is still up. Whatever they held this line against, it did not come through.',
@@ -286,7 +301,7 @@ const ENCOUNTERS = {
       { label: 'Raise their banner and take heart', check: { stat: 'cha', dc: 12 },
         pass: { text: 'You set the banner straight. For a while it feels as if they march with you.', effects: [{ buff: { stats: [['hit', 2]], dur: 240000 } }, { xp: 20 }] },
         fail: { text: 'The pole snaps in your hands. It feels like a bad sign.', effects: [] } },
-      { label: 'Bury them', outcome: { text: 'It takes a long time, and you go hungry for it. It was the right thing to do.', effects: [{ food: -15 }, { xp: 50 }] } },
+      { label: 'Bury them', outcome: { text: 'It takes a long time, and you go hungry for it. It was the right thing to do.', effects: [{ food: -15 }, { xp: 50 }, { thread: 'crew' }] } },
       { label: 'Leave them to their watch', outcome: { text: 'You step over the shields and go on. They have held their line long enough.', effects: [] } },
     ],
   },

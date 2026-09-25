@@ -1866,6 +1866,9 @@ const UI = (() => {
     const cloak = p.eq.cloak && ITEMS[p.eq.cloak.t];
     if (cloak) line(cloak, cloak.desc, 'cloak');
     if (worn.length) extra += '<h3 class="sheet-h">Powers of your gear</h3><ul class="talent-list">' + worn.join('') + '</ul>';
+    // choices made on the way down that are still following the hero
+    const notes = Game.threadNotes();
+    if (notes.length) extra += '<h3 class="sheet-h">What follows you</h3><ul class="talent-list">' + notes.map(n => `<li><span>${escapeHtml(n)}</span></li>`).join('') + '</ul>';
     if (p.talents && p.talents.length) {
       const own = TALENTS[p.cls] || [];
       extra += '<h3 class="sheet-h">Talents</h3><ul class="talent-list">' + p.talents.map(id => {

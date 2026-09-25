@@ -217,7 +217,7 @@ const PATHS = {
       'One ordinary blow in eight that would land, you slip aside from.',
       'A blow that swings at the air where you stood leaves its maker open, as an answered trick does.',
       '+4 to spot and to dodge a trap, and gold and gems you find are worth a quarter more.',
-      'Your Smoke comes back in 11 seconds, not 16.',
+      'Your Smoke comes back in 16 seconds, not 24.',
     ] },
   ],
 };
@@ -233,7 +233,7 @@ const MAX_LEVEL = 12;
 const CLASSES = {
   fighter: {
     name: 'Fighter', plural: 'Fighters', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
-    desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks a foe\'s blow and leaves it open.',
+    desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {

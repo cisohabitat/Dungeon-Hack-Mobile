@@ -685,7 +685,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // The encounter screen cannot be dismissed unanswered, which is only fair
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -709,6 +709,7 @@ await test('an encounter resolves once: the check, the effects, the prop gone, n
   Game.newGame({ name: 'E', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, str: 18 }, seed: 'tour', opts: { ...OPTS, levels: 8 } });
   ctx.Dice.s = new Rng('enc').s;
   const p = Game.player(), L = Game.level();
+  p.gold = 5000;   // a choice that asks a stake can be paid
   const prop = L.npcs.find(n => n.kind === 'encounter');
   if (!prop) return 'floor one of this seed has no encounter';
   // stand beside it and walk in
@@ -6735,7 +6736,7 @@ await test('a cunning fighter never draws back the same way twice; a plain one k
   return zom.length <= 2 || `a zombie drew back ${zom.join(', ')}ms`;
 });
 
-await test('a fighter\'s Bash breaks the blow being drawn back, staggers the foe and leaves it open; it comes back after a while', async () => {
+await test('a fighter\'s Bash breaks the blow being drawn back and staggers the foe; it comes back after a while', async () => {
   const out = [];
   const bashOnce = async path => {
     const ctx = await start('fighter', 'bash-' + (path || 'plain'));
@@ -6751,8 +6752,7 @@ await test('a fighter\'s Bash breaks the blow being drawn back, staggers the foe
   const plain = await bashOnce(null);
   if (plain.err) return plain.err;
   if (!plain.ok || !plain.broke) out.push('Bash did not break the wind-up');
-  if (plain.stagger < 1400) out.push(`a shield bash staggered only ${plain.stagger}ms`);
-  if (!plain.open) out.push('Bash left no opening');
+  if (plain.stagger < 750) out.push(`a shield bash staggered only ${plain.stagger}ms`);
   if (plain.hurt) out.push('a plain Bash did damage');
   if (!/^Bash \d+s$/.test(plain.label)) out.push(`after a Bash the button says ${plain.label}`);
   if (plain.again !== false) out.push('Bash could be used again at once');
@@ -6772,11 +6772,15 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   const ctx = await start('thief', 'smoke');
   const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
   p.hp = p.maxHp = 999;
-  const m = beside(ctx, 'goblin', { nextAct: G.t });
-  for (let i = 0; i < 40 && !m.windup; i++) Game.update(G.t + 25, 25);
+  const m = beside(ctx, 'goblin', { nextAct: G.t + 1e9 });
+  // one already drawing back is committed: its blow still comes
+  const swinging = { ...m, uid: 92, x: m.x, y: m.y, windup: { kind: 'melee', at: G.t, until: G.t + 500 } };
   const far = { ...m, uid: 91, x: -99, y: -99, awake: true };
   L.monsters.push(far);
+  L.monsters.push(swinging);
   if (!Game.useAbility()) return 'Smoke was refused';
+  if (!swinging.awake || !swinging.windup) out.push('a blow already drawn back was stopped by the smoke');
+  L.monsters.splice(L.monsters.indexOf(swinging), 1);
   if (m.awake || m.windup) out.push('the goblin beside the thief still saw them');
   if (!far.awake) out.push('a monster far off lost the thief too');
   run(Game, G, 2500);
@@ -6848,6 +6852,64 @@ await test('a relic pair worn together does more: the Stairwarden\'s Arms add ar
   if (t.Game.sneakMult() !== before) out.push('half the Nightwalk added to the strike from the shadows');
   wearRelic(t, 'whisper');
   if (t.Game.sneakMult() !== before + 1) out.push(`the Nightwalk made the strike ${t.Game.sneakMult()}, not ${before + 1}`);
+  return out.length ? out.join('; ') : true;
+});
+
+/** Meet this encounter in front of the hero and take choice i. */
+function meetAndChoose(ctx, id, i) {
+  const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR; L.monsters.length = 0;
+  L.npcs = [{ id, kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+  Game.input('use');
+  if (!Game.currentEncounter()) throw new Error(`${id} did not open`);
+  return Game.chooseEncounter(i);
+}
+
+await test('the Pale One\'s strength lasts the run, and the lich is the stronger for it; the epilogue remembers', async () => {
+  const out = [];
+  const lichHp = async take => {
+    const ctx = await start('fighter', 'bargain', { levels: 4 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const hit0 = Game.toHit();
+    if (take) {
+      meetAndChoose(ctx, 'bargain', 0);
+      if (Game.toHit() !== hit0 + 1) out.push('the bargain did not add to hit');
+    }
+    for (let d = 2; d <= 4; d++) { Game.level().monsters.length = 0; Game.descend(); }
+    const lich = Game.level().monsters.find(m => ctx.MONSTERS[m.id].boss);
+    const said = G.log.slice(-8).map(e => e.m).join(' ');
+    if (take && !/Pale One/.test(said)) out.push('the last floor said nothing of the bargain');
+    if (take && !Game.epilogue(false).some(l => /narrow passage/.test(l))) out.push('the epilogue forgot the bargain');
+    return lich ? lich.maxHp : 0;
+  };
+  const plain = await lichHp(false), dealt = await lichHp(true);
+  if (!(dealt > plain * 1.2)) out.push(`the lich had ${dealt} life after the bargain, ${plain} without`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the guildsman you dug out marks the next floor; the captive you freed puts in a word with traders below; the crew you buried sings you onto the last floor', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'threads', { levels: 4 });
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.stats.str = 30; p.stats.cha = 30;
+  meetAndChoose(ctx, 'buried', 0);
+  if (!G.threads || !G.threads.guide) out.push(`digging him out left no thread: ${JSON.stringify(G.threads)}`);
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  const before = Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 });
+  meetAndChoose(ctx, 'prisoner', 2);
+  if (Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 }) !== before) out.push('a trader on the captive\'s own floor had already heard');
+  G.threads.crew = 1;
+  Game.level().monsters.length = 0; Game.descend();
+  if (!Game.level().explored.every(v => v)) out.push('the next floor was not marked');
+  if (!(Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 }) < before)) out.push('a trader below did not ask less');
+  Game.level().monsters.length = 0; Game.descend();
+  if (!Game.level().explored.some(v => !v)) out.push('the guildsman marked a second floor too');
+  Game.level().monsters.length = 0; Game.descend();
+  if (!(p.effects.boon_hit && p.effects.boon_hit.amount === 2)) out.push('the buried crew did not sing on the last floor');
+  const epi = Game.epilogue(true).join(' ');
+  for (const w of ['goblin chains', 'rubble', 'third crew']) if (!epi.includes(w)) out.push(`the epilogue forgot ${w}`);
+  if (!Game.threadNotes().length) out.push('the hero sheet has nothing to say');
   return out.length ? out.join('; ') : true;
 });
 

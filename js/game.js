@@ -62,6 +62,43 @@ const Game = (() => {
   /** @returns {import('./types.js').Player} */
   const P = () => G.player;
   const cls = () => CLASSES[G.player.cls];
+  // ---------- threads ----------
+  // A few choices follow the hero down. Each is kept with the floor it was
+  // made on, pays off (or comes due) further down, and the epilogue remembers it.
+  /** @returns {Record<string, number>} */
+  const threads = () => (G.threads = G.threads || {});
+  const THREAD_SAID = {
+    guide: 'He means to go on ahead and mark the way for you.',
+    captive: 'He swears he will put in a word with the traders below.',
+    crew: 'The third crew is at rest.',
+    bargain: '+1 to hit and damage for the rest of the delve. Something far below will be the stronger for it.',
+  };
+  /** The Pale One's strength, for the rest of the run. */
+  const bargained = () => (G && G.threads && G.threads.bargain ? 1 : 0);
+  /** A trader below the captive you freed has heard of you: a sixth off. */
+  const vouched = () => (G && G.threads && G.threads.captive && G.depth > G.threads.captive ? 0.15 : 0);
+  /** Arriving on a floor for the first time: whatever a thread has waiting here. */
+  function threadArrivals(L, depth) {
+    const t = threads();
+    if (t.guide && depth > t.guide && !t.guided) {
+      t.guided = depth; L.explored.fill(1);
+      log('Chalk arrows on the stair wall: the guildsman you dug out came this way, and marked the whole floor for you.', 'good');
+    }
+    if (L.isFinal && t.crew) {
+      const p = P(); p.effects.boon_hit = { amount: 2, until: G.t + 600000 };
+      log('On the last stair you hear, faint as breath, a crew\'s marching song. The dead you buried have not forgotten you (+2 to hit).', 'good');
+    }
+    if (L.isFinal && t.bargain) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: the lich is the stronger for your bargain.', 'bad');
+  }
+  /** What the hero carries from their choices, for the hero sheet. */
+  function threadNotes() {
+    const t = G.threads || {}, out = [];
+    if (t.guide) out.push(t.guided ? `The guildsman you dug out marked floor ${t.guided} for you.` : 'The guildsman you dug out has gone ahead to mark the way.');
+    if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less.');
+    if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
+    if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. The lich will be the stronger for it.');
+    return out;
+  }
   /** Whether the hero swore this vow at the start of the run. */
   const vowed = v => !!(G && G.opts && Array.isArray(G.opts.vows) && G.opts.vows.includes(v));
 
@@ -372,7 +409,7 @@ const Game = (() => {
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might');
-    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + (finesse ? flat : flat * (base / 700)) + knack);
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack);
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + jewelBonus('might') + berserkerRage());
     return blow / (speed / 1000);
   }
@@ -774,7 +811,7 @@ const Game = (() => {
   const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
   function toHit() {
     const p = P();
-    return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0)
+    return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
       + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might');
   }
   function playerAC() {
@@ -1359,6 +1396,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
+    const fresh = !G.levels[depth];
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
@@ -1377,6 +1415,7 @@ const Game = (() => {
       else log(THEMES[L.theme].flavor, 'info');
       if (L.isFinal) log('A dreadful presence waits somewhere on this level.', 'bad');
       namedArrives(L);
+      if (fresh) threadArrivals(L, depth);
     } else log(`You climb back up to level ${depth}.`, 'info');
     emit('level');
     checkTile();
@@ -1715,7 +1754,7 @@ const Game = (() => {
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
-    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm())));
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched())));
   }
   function sellPrice(it) {
     const r = relicOf(it);
@@ -1816,6 +1855,7 @@ const Game = (() => {
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
+      if (e.thread && !threads()[e.thread]) { threads()[e.thread] = G.depth; if (THREAD_SAID[e.thread]) out.push(THREAD_SAID[e.thread]); }
       if (e.goldPerDepth) {
         const n = e.goldPerDepth * G.depth;
         if (n > 0) { p.gold += n; out.push(`+${n} gold`); }
@@ -1872,6 +1912,7 @@ const Game = (() => {
     if (!n.greeted) {
       n.greeted = true;
       log('A hooded trader looks up from a lantern-lit pack. "Coin for goods, friend."', 'info');
+      if (vouched()) log('"You\'re the one who cut that fellow loose, aren\'t you? He said you\'d be by. A sixth off, for you."', 'good');
     }
     Sound.play('gold');
     emit('shop');
@@ -2081,7 +2122,7 @@ const Game = (() => {
       + berserkerRage() + templarBlow(m)   // a path's number, likewise
       + jewelBonus('might');               // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m);
+    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m) + bargained();
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
     dmg = Math.max(1, dmg);
@@ -2589,7 +2630,15 @@ const Game = (() => {
       lines.push(read >= total
         ? 'They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.'
         : `They left ${total - read} of the earlier crews' pages down there in the dark. Someone else will have to go back for those.`);
-    } else {
+    }
+    // the choices that followed them down
+    const t = G.threads || {};
+    const told = [];
+    if (t.captive) told.push('a man they cut out of goblin chains tells the story in the valley taverns, and gets the details wrong in their favour');
+    if (t.guide) told.push('a guildsman they dug out of the rubble keeps their chalk map on his wall');
+    if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
+    if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
+    if (!won) {
       lines.push(p.deepest >= 4
         ? `${p.name} got as far as floor ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`
         : `${p.name} fell on floor ${p.deepest} of the Deepdelve, in the shallow halls where it takes most of those who try.`);
@@ -2598,6 +2647,7 @@ const Game = (() => {
         ? `They were carrying ${read} of the earlier crews' pages when they fell. In time someone will find those too, along with a new name for the roster.`
         : 'They carried nothing out and left nothing behind but another name for the roster.');
     }
+    if (told.length) lines.push(cap(told.join('; ')) + '.');
     return lines;
   }
   function recordHero(won) {
@@ -2874,15 +2924,16 @@ const Game = (() => {
   // ---------- class abilities ----------
   // A fighter and a thief have no spells, so each has a move of their own on
   // the Cast button. The fighter's Bash breaks the blow or trick being drawn
-  // back in front of them and leaves the foe reeling open. The thief's Smoke
+  // back in front of them and sets the foe reeling back. (It once left the foe
+  // open as well, and was worth fourteen wins in a hundred: too much.) The thief's Smoke
   // makes everything close by lose them, as good as asleep to them for a few
   // seconds: time to slip away, or to land the double blow on a sleeping foe.
   // Each path gives its class's move a twist.
-  const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 9000 }, thief: { id: 'smoke', name: 'Smoke', cool: 16000 } };
+  const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 15000 }, thief: { id: 'smoke', name: 'Smoke', cool: 24000 } };
   const SMOKE_MS = 3000, SMOKE_REACH = 3;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 11000 : a.cool);
+  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
@@ -2901,15 +2952,14 @@ const Game = (() => {
     if (!rite) { m.windup = null; m.volley = null; }
     m.pressing = false;
     // a shield rings a foe harder than a pommel; a Knight's sets it back further still
-    const stagger = (shield ? 1500 : 900) + (onPath('knight') ? 700 : 0);
+    const stagger = (shield ? 800 : 500) + (onPath('knight') ? 700 : 0);
     m.nextAct = Math.max(m.nextAct, G.t + (mb.boss ? stagger / 2 : stagger));
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
     Sound.play('block', heard(m));
-    log(`You bash the ${mb.name} with your ${shield ? 'shield' : 'pommel'}${broke ? ' and break off its blow' : ''}. It reels, wide open!`, 'good');
+    log(`You bash the ${mb.name} with your ${shield ? 'shield' : 'pommel'}${broke ? ' and break off its blow' : ''}. It reels back!`, 'good');
     // a Berserker puts weight behind it: the bash is a blow of its own
     if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
-    if (lvl().monsters.includes(m) && !m.collapsed) opening(m);
     return true;
   }
   function smoke(a, p) {
@@ -2918,8 +2968,9 @@ const Game = (() => {
     let lost = 0;
     for (const m of L.monsters) {
       const di = distField[m.y * L.w + m.x];
-      if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
-      m.windup = null; m.volley = null; m.pressing = false;
+      // a blow already on its way still comes: smoke is for getting clear, not for being saved
+      if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed || m.windup || m.volley) continue;
+      m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
       m.awake = false; m.fleeing = false; m.nextAct = G.t + 400; lost++;
@@ -3089,7 +3140,8 @@ const Game = (() => {
     for (const m of L.monsters) {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
-      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
+      // and the Pale One's bargain comes due on it: a third more
+      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
@@ -3747,7 +3799,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, sneakMult, setWorn, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
