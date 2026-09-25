@@ -26,24 +26,46 @@ const Assets = (() => {
     return `rgb(${r},${g},${b})`;
   }
 
+  // A colour as the four bytes a canvas would store for it, read back from one
+  // pixel painted with it the first time, so any colour a style takes works.
+  const rgbaCache = new Map();
+  let probe = null;
+  function rgba32(c) {
+    let v = rgbaCache.get(c);
+    if (v !== undefined) return v;
+    if (!probe) probe = canvas(1, 1).getContext('2d', { willReadFrequently: true });
+    probe.clearRect(0, 0, 1, 1);
+    probe.fillStyle = c;
+    probe.fillRect(0, 0, 1, 1);
+    v = new Uint32Array(probe.getImageData(0, 0, 1, 1).data.buffer)[0];
+    rgbaCache.set(c, v);
+    return v;
+  }
+
   // ---- sprites ----
   // Art is drawn as flat tones; the outline, contact shadow and top light are
   // added here so every sprite reads the same way against a dark wall.
-  function makeSprite(def) {
+  /** @param {number} [scale]  pixels to the grid unit, if not the usual for its kind */
+  function makeSprite(def, scale) {
     // a creature built from parts arrives already lit; the old grids are flat
-    const painted = def.parts ? paintParts(def.parts, 32, def.fine ? 2 : 1) : null;
+    const sc = scale || (def.fine ? 2 : 1);
+    const painted = def.parts ? paintParts(def.parts, 32, sc) : null;
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
-    const w = aw + 2, h = ah + 2;               // room for the outline
-    const art = canvas(aw, ah);
-    const actx = art.getContext('2d');
+    // the outline keeps its weight in a finer painting: two of its pixels wide
+    const ow = sc >= 4 ? 2 : 1;
+    const w = aw + ow * 2, h = ah + ow * 2;     // room for the outline
+    // the drawing and its outline are set pixel by pixel into one layer, which
+    // then goes over the shadow: a canvas call per pixel was most of the time
+    // a finer painting took
+    const layer = canvas(w, h), lctx = layer.getContext('2d');
+    const img = lctx.createImageData(w, h), px32 = new Uint32Array(img.data.buffer);
     const solid = new Uint8Array(aw * ah);
     for (let y = 0; y < ah; y++) {
       for (let x = 0; x < aw; x++) {
         const c = painted ? painted.color[y * aw + x] : (def.rows[y][x] === '.' ? null : (def.pal[def.rows[y][x]] || '#ff00ff'));
         if (!c) continue;
         solid[y * aw + x] = 1;
-        actx.fillStyle = c;
-        actx.fillRect(x, y, 1, 1);
+        px32[(y + ow) * w + x + ow] = rgba32(c);
       }
     }
     const base = canvas(w, h);
@@ -51,9 +73,9 @@ const Assets = (() => {
     // a soft contact shadow so creatures sit on the floor instead of hovering
     if (def.shadow) {
       let minX = aw, maxX = -1;
-      for (let x = 0; x < aw; x++) for (let y = ah - 4; y < ah; y++) if (solid[y * aw + x]) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
+      for (let x = 0; x < aw; x++) for (let y = ah - sc * 2; y < ah; y++) if (solid[y * aw + x]) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
       if (maxX >= minX) {
-        const cx = (minX + maxX) / 2 + 1, rx = Math.max(3, (maxX - minX) / 2 + 1.5);
+        const cx = (minX + maxX) / 2 + ow, rx = Math.max(3, (maxX - minX) / 2 + 1.5);
         const g = ctx.createRadialGradient(cx, h - 1.5, 0, cx, h - 1.5, rx);
         g.addColorStop(0, 'rgba(0,0,0,0.55)');
         g.addColorStop(1, 'rgba(0,0,0,0)');
@@ -69,21 +91,23 @@ const Assets = (() => {
       }
     }
     // outline every edge pixel
-    const outline = def.outline || '#0a0810';
-    ctx.fillStyle = outline;
-    for (let y = -1; y <= ah; y++) {
-      for (let x = -1; x <= aw; x++) {
+    const outline = rgba32(def.outline || '#0a0810');
+    const reach = ow === 1 ? [[1, 0], [-1, 0], [0, 1], [0, -1]]
+      : [[1, 0], [-1, 0], [0, 1], [0, -1], [2, 0], [-2, 0], [0, 2], [0, -2], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+    for (let y = -ow; y < ah + ow; y++) {
+      for (let x = -ow; x < aw + ow; x++) {
         if (x >= 0 && y >= 0 && x < aw && y < ah && solid[y * aw + x]) continue;
         let touches = false;
-        for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        for (const [ox, oy] of reach) {
           const nx = x + ox, ny = y + oy;
           if (nx < 0 || ny < 0 || nx >= aw || ny >= ah) continue;
           if (solid[ny * aw + nx]) { touches = true; break; }
         }
-        if (touches) ctx.fillRect(x + 1, y + 1, 1, 1);
+        if (touches) px32[(y + ow) * w + x + ow] = outline;
       }
     }
-    ctx.drawImage(art, 1, 1);
+    lctx.putImageData(img, 0, 0);
+    ctx.drawImage(layer, 0, 0);
     // light from above, shadow pooling at the feet
     const lg = ctx.createLinearGradient(0, 0, 0, h);
     lg.addColorStop(0, `rgba(255,245,215,${painted ? 0.05 : 0.16})`);
@@ -112,7 +136,10 @@ const Assets = (() => {
       w, h, top,
       levels: SHADES.map(a => (a === 0 ? base : tintOf('#000', a))),
       flash: tintOf('#fff', 0.85),
-      url: base.toDataURL(),
+      // the finer painting is only ever drawn in the view, never shown as a picture
+      url: scale ? '' : base.toDataURL(),
+      /** @type {null | (() => any)} the finer painting for up close, once it is ready (see nearFor) */
+      near: null,
     });
     const sprite = make();
     // Elite variants: the base sprite washed with the champion's colour, then
@@ -121,15 +148,20 @@ const Assets = (() => {
     sprite.elite = {};
     // a named champion's own wash rides on its kind's picture, keyed by its id
     if (def.elites) for (const e of [...ELITES, ...(def.named || [])]) {
-      const washed = tintOf(e.tint, 0.4);
-      const shade = a => {
-        const c = canvas(w, h);
-        const cx = c.getContext('2d');
-        cx.drawImage(washed, 0, 0);
-        if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
-        return c;
+      const wash = () => {
+        const washed = tintOf(e.tint, 0.4);
+        const shade = a => {
+          const c = canvas(w, h);
+          const cx = c.getContext('2d');
+          cx.drawImage(washed, 0, 0);
+          if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
+          return c;
+        };
+        return { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, url: scale ? '' : washed.toDataURL(), near: /** @type {null | (() => any)} */ (null) };
       };
-      sprite.elite[e.prefix] = { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, url: washed.toDataURL() };
+      // the finer painting washes a champion's colour on only when one comes near
+      if (scale) { let made = null; Object.defineProperty(sprite.elite, e.prefix, { get: () => made || (made = wash()), enumerable: true }); }
+      else sprite.elite[e.prefix] = wash();
     }
     return sprite;
   }
@@ -904,6 +936,42 @@ const Assets = (() => {
     };
   }
 
+  const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
+  /** A creature's sprite, its champions' and its other poses, which ride on it. */
+  function creature(k, scale) {
+    const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
+    const s = makeSprite(def(), scale);
+    for (const pose of POSES[k] || []) {
+      const ps = makeSprite(def(pose), scale);
+      s[pose] = ps;
+      // (the finer painting's champions are found through the pose: see nearFor)
+      if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];
+    }
+    return s;
+  }
+  // Right in front of the hero a creature fills the view, and painted at two
+  // pixels to the unit each of its pixels came out a block. So each kind is
+  // painted again twice as fine, the first time the renderer asks (as one
+  // comes near), off the frame being drawn; until then it keeps its usual
+  // picture. Every pose and champion of it asks through near().
+  const NEAR_SCALE = 4;
+  function nearFor(k) {
+    const lo = sprites[k];
+    let hi = null, asked = false;
+    /** @param {(s: any) => any} pick */
+    const via = pick => () => {
+      if (hi) return pick(hi);
+      if (!asked) { asked = true; setTimeout(() => { hi = creature(k, NEAR_SCALE); }, 0); }
+      return null;
+    };
+    lo.near = via(s => s);
+    for (const e in lo.elite) lo.elite[e].near = via(s => s.elite[e]);
+    for (const pose of POSES[k] || []) {
+      lo[pose].near = via(s => s[pose]);
+      for (const e in lo[pose].elite) lo[pose].elite[e].near = via(s => s[pose].elite[e]);
+    }
+  }
+
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
     // items painted from parts replace their old grids too
@@ -916,14 +984,7 @@ const Assets = (() => {
     // creatures built from parts replace their old grids
     // creatures and props stand in the world, close enough to fill the view: they
     // are painted twice as fine as the items in the pack
-    const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
-    for (const k in CREATURES) sprites[k] = makeSprite({ parts: CREATURES[k](), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
-    // a creature's other poses ride on its sprite, and on each champion's
-    for (const k in POSES) for (const pose of POSES[k]) {
-      const ps = makeSprite({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
-      sprites[k][pose] = ps;
-      for (const e in ps.elite) sprites[k].elite[e][pose] = ps.elite[e];
-    }
+    for (const k in CREATURES) { sprites[k] = creature(k); nearFor(k); }
     for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }

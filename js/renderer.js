@@ -23,6 +23,11 @@ const Renderer = (() => {
   const FOV = Math.PI / 3;
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
+  // how near a creature is (in tiles) before its finer painting is asked for,
+  // and how many of the view's pixels one of its usual ones must cover to use it
+  const NEAR_ASK = 3.5, NEAR_BLOCK = 2.3;
+  // rows at the top of the view a boss's bar takes, with its rite beneath it
+  const BOSS_TOP = 30;
   const T = Dungeon.T;
   const LIGHT_R = 4.5;        // torch radius in tiles
   const LIGHT_MAX = 3.2;       // strongest brightening, in shade levels
@@ -993,6 +998,10 @@ const Renderer = (() => {
   }
   /** Where creatures stood in the last frame, as [left, top, right, bottom] in view pixels. */
   const crowd = [];
+  // each creature drawn in the last frame: where its drawing starts, how far
+  // off it is, and how many of the view's pixels each of its own covers
+  /** @type {{top: number, dist: number, texel: number}[]} */
+  const shown = [];
   /** Whether a creature, its bar or its mark was drawn in this box of the last frame. */
   function busy(x0, y0, x1, y1) {
     return crowd.some(r => r[0] < x1 && r[2] > x0 && r[1] < y1 && r[3] > y0);
@@ -1063,6 +1072,7 @@ const Renderer = (() => {
 
     // sprites
     crowd.length = 0;
+    shown.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const list = [];
     for (const s of sprites) {
@@ -1079,12 +1089,24 @@ const Renderer = (() => {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
-      const art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : s.img;
+      let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : s.img;
       // a monster winding up a blow swells a little toward you as it draws back
-      const size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
+      let size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
+      const floorY = H / 2 + hFull / 2;
+      // Right in front of you a big one (the lich above all) grew past the top
+      // of the view and lost its head: it is drawn no taller than fits, from
+      // where its feet stand up to the top edge, or to the boss's bar, even
+      // at the top of a breath.
+      if (s.maxHp != null) {
+        const room = floorY - (s.yOff || 0) * hFull - (s.boss ? BOSS_TOP : 3), drawn = (1 - (art.top || 0)) * Math.max(1, s.sqy || 1);
+        if (size * drawn > room && room > 0) size = room / drawn;
+      }
+      // close in, where each of its pixels would be drawn as a block, the finer
+      // painting of it once there is one: asked for a few steps off, so it is
+      // usually ready by the time the creature is in your face
+      if (tY < NEAR_ASK && art.near) { const fine = art.near(); if (fine && size / art.h > NEAR_BLOCK) art = fine; }
       // a monster's body squashes and stretches as it breathes, lunges and falls
       const sh = size * (s.sqy || 1), sw = size * (s.sqx || 1);
-      const floorY = H / 2 + hFull / 2;
       const top = floorY - sh - (s.yOff || 0) * hFull;
       // where the drawing itself begins: bars and marks sit on it, not on the empty frame
       const drawnTop = top + (art.top || 0) * sh;
@@ -1112,6 +1134,7 @@ const Renderer = (() => {
       if (fading) ctx.globalAlpha = 1;
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
+      if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, dist: tY, texel: sh / img.height });
       // where the warning mark goes: over the drawing, half as big again as it
       // was, a trick's bigger still; the lich's bar runs along the top of the
       // view and a tip may cover more of it, and the mark keeps below both
@@ -1368,7 +1391,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, get H() { return H; }, get keptClear() { return keepClear; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
 })();
 
 export { Renderer };

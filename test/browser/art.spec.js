@@ -2,7 +2,7 @@
 // What the view draws: walls that match what the floor says of them, the
 // weapon in the hero's hands, and a monster right in front of them.
 const { test } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, expect } = require('./helpers');
+const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, expect } = require('./helpers');
 
 test.describe('art', () => {
   test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
@@ -50,4 +50,25 @@ test.describe('art', () => {
     expect(two && two.two, 'the view is told it takes both hands').toBe(true);
     expect(errors).toEqual([]);
   });
+
+  for (const [label, vp] of Object.entries({ sideways: { width: 851, height: 393 }, upright: { width: 393, height: 851 } })) {
+    test(`the lich right in front fits under its bar and is drawn finely, held ${label}`, async ({ page }) => {
+      // point-blank it grew past the top of the view, head cut off, each of
+      // its pixels a block four of the view's wide
+      const errors = watchForErrors(page);
+      await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+      await page.setViewportSize(vp);
+      await startGame(page, { seed: 'lich-near', cls: 'Fighter' });
+      await clearBoons(page);
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(1);
+      expect(await placeMonster(page, 'lich', 1, { hp: 300, maxHp: 300 })).not.toBeNull();
+      await page.waitForTimeout(600);
+      const seen = await page.evaluate(() => Renderer.shown.filter(c => c.dist < 1.5));
+      expect(seen.length, 'the lich is drawn').toBe(1);
+      expect(seen[0].top, 'its crown below the top edge, and below the bar').toBeGreaterThanOrEqual(26);
+      expect(seen[0].texel, 'drawn from the finer painting, not blown up').toBeLessThan(2);
+      expect(errors).toEqual([]);
+    });
+  }
 });
