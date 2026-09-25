@@ -506,7 +506,7 @@ test.describe('round five playtest', () => {
     await expect(page.locator('[data-htab="combat"]')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#screen-help')).toContainText('warning mark');
     // every page has something on it
-    for (const k of ['basics', 'combat', 'hero', 'gear', 'modes']) {
+    for (const k of ['basics', 'combat', 'foes', 'hero', 'gear', 'modes']) {
       await page.click(`[data-htab="${k}"]`);
       expect((await page.locator(`[data-hpage="${k}"]`).innerText()).length).toBeGreaterThan(500);
     }

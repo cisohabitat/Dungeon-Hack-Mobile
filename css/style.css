@@ -446,8 +446,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .tabs .tab.on { color: var(--gold); border-color: var(--gold); }
 .beast-el { color: #ffb040; font-size: 0.9em; }
 /* the help's tabs stay in reach while a page scrolls under them */
-.help-tabs { position: sticky; top: var(--sat, 0px); z-index: 1; background: var(--bg); padding: 6px 0; margin: 0 0 6px; }
-.help-tabs .tab { padding: 8px 2px; min-height: 44px; }
+.help-tabs { position: sticky; top: var(--sat, 0px); z-index: 1; background: var(--bg); padding: 6px 0; margin: 0 0 6px; gap: 4px; }
+.help-tabs .tab { padding: 8px 1px; min-height: 44px; min-width: 0; font-size: clamp(0.78rem, 3.6vw, 1rem); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* the bestiary */
 .beast { display: flex; gap: 12px; align-items: flex-start; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
