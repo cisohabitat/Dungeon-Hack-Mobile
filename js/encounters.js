@@ -50,17 +50,17 @@ const ENCOUNTERS = {
     ],
   },
 
-  // Not in the deck: every delve's last floor holds one, a little way in from
-  // the stairs, so the gold carried down past the last trader buys something.
+  // Not in the deck: every delve's last floor holds one, in the room nearest
+  // the lich's hall, so the gold carried down and found on the way buys something.
   vigil: {
     title: 'A Vigil Lamp', sprite: 'shrine', depth: [99, 99], final: true,
     text: 'Someone kept a lamp burning here, at the edge of the lich\'s halls, and left a bowl beneath it. Coins shine in the bowl. Whatever keeps the lamp lit still answers what is left there.',
     choices: [
-      { label: 'Leave gold for a ward against the cold', cost: { goldPerDepth: 45 },
+      { label: 'Leave gold for a ward against the cold', cost: { goldPerDepth: 25 },
         outcome: { text: 'The flame leans toward you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },
-      { label: 'Leave gold for a sure hand', cost: { goldPerDepth: 35 },
+      { label: 'Leave gold for a sure hand', cost: { goldPerDepth: 20 },
         outcome: { text: 'The flame steadies, and so does your grip.', effects: [{ buff: { stats: [['hit', 3]], dur: 300000 } }] } },
-      { label: 'Leave a fortune for both, and the flame\'s warmth', cost: { goldPerDepth: 75 },
+      { label: 'Leave a fortune for both, and the flame\'s warmth', cost: { goldPerDepth: 45 },
         outcome: { text: 'The lamp flares white. You go on warded and sure, and lighter by a fortune.', effects: [{ buff: { stats: [['ac', 3], ['hit', 3]], dur: 300000 } }, { heal: 'full' }] } },
       { label: 'Pray by the light with empty hands', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 3]] },
         pass: { text: 'The light settles on you like a hand. Your wounds close.', effects: [{ heal: 'full' }] },

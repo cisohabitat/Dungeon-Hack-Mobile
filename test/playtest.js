@@ -419,7 +419,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const o = Game.encounterOptions()[i];
           if (o.blocked) return;
           let v = ch.check ? o.chance * worth(ch.pass.effects) + (1 - o.chance) * worth(ch.fail.effects) : worth(ch.outcome.effects);
-          if (ch.cost && ch.cost.goldPerDepth) v -= ch.cost.goldPerDepth / 12;
+          // gold has nothing left to buy at the last floor's lamp: only what it gives counts
+          if (ch.cost && ch.cost.goldPerDepth && !cur.def.final) v -= ch.cost.goldPerDepth / 12;
           if (ch.cost && ch.cost.hurtFrac) v -= ch.cost.hurtFrac * 12;
           if (v > bestValue) { bestValue = v; best = o; }
         });
@@ -428,6 +429,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         if (!best || process.env.ENCLEAVE) best = Game.encounterOptions()[cur.def.choices.length - 1];
         const r = Game.chooseEncounter(best.i);
         rec.encounters = (rec.encounters || 0) + 1;
+        if (cur.def.final) rec.lamp = cur.def.choices[best.i] && cur.def.choices[best.i].cost ? best.label : 'nothing bought';
         // tally what the encounter actually handed over, for ENCLOG=1
         rec.encGot = rec.encGot || {};
         rec.encChose = rec.encChose || {};
@@ -770,6 +772,18 @@ if (process.env.NAMED) {
     if (r.namedKiller) t[r.namedKiller].killed++;
   }
   for (const id in t) console.log(`   ${id.padEnd(8)} held in ${t[id].held} runs, slain in ${t[id].slain}, killed the hero in ${t[id].killed}`);
+}
+// LICH=1: of the heroes who reached the last floor, how many died there and
+// how many the lich itself killed, and what they bought at the vigil lamp
+if (process.env.LICH) {
+  for (const cls in results) {
+    const last = results[cls].filter(r => r.deepest >= opts.levels);
+    const died = last.filter(r => r.died), byLich = died.filter(r => /Lich/.test(r.cause || ''));
+    const lamp = {};
+    for (const r of last) lamp[r.lamp || 'never reached'] = (lamp[r.lamp || 'never reached'] || 0) + 1;
+    console.log(`   ${cls}: ${last.length} reached the last floor; ${died.length} died there (${(died.length / Math.max(1, last.length) * 100).toFixed(1)}%), ${byLich.length} to the lich (${(byLich.length / Math.max(1, last.length) * 100).toFixed(1)}%)`);
+    console.log(`     lamp: ${Object.entries(lamp).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(' | ')}`);
+  }
 }
 // CAUSES=1 lists what ended the runs that never left the first floor
 if (process.env.CAUSES) {

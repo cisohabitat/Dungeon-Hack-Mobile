@@ -1697,6 +1697,22 @@ await test('a caster can study a trader\'s books once for three spell points for
   return out.length ? out.join('; ') : true;
 });
 
+await test('the vigil lamp stands near the lich\'s hall, not at the way in and not in the hall itself', async () => {
+  const ctx = await newContext();
+  let nearer = 0; const out = [];
+  for (let i = 0; i < 12; i++) {
+    const L = ctx.Dungeon.generate(`lamp-${i}`, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
+    const lamp = (L.npcs || []).find(n => n.id === 'vigil');
+    const heart = Object.keys(L.items).find(k => L.items[k].some(it => it.t === 'artifact')).split(',').map(Number);
+    if (!lamp) { out.push(`lamp-${i} has no lamp`); continue; }
+    const d = (a, b) => Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+    if (d([lamp.x, lamp.y], heart) <= 2) out.push(`lamp-${i}'s lamp stands beside the Heart`);
+    if (d([lamp.x, lamp.y], heart) < d([L.start.x, L.start.y], heart)) nearer++;
+  }
+  if (nearer < 10) out.push(`only ${nearer} of 12 lamps stood nearer the Heart than the way in`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('every eight-floor delve has a trader on its third and seventh floors, and a vigil lamp on its last', async () => {
   const ctx = await newContext();
   for (let i = 0; i < 8; i++) {

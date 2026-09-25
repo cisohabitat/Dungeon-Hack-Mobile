@@ -490,8 +490,15 @@ const Dungeon = (() => {
     const erng = new Rng(`${seed}|encounter-spots|${depth}`);
     for (const encId of (encounterPlan(seed, opts.levels || 8)[depth] || [])) {
       let placed = false;
-      // the last floor's vigil lamp stands where you come in, never in the lich's hall
-      const roomsFor = encId === 'vigil' ? [startRoom].concat(rooms.filter(rr => rr !== startRoom && rr !== farRoom)) : erng.shuffle(rooms.filter(rr => rr !== startRoom));
+      // the last floor's vigil lamp stands at the edge of the lich's hall, in
+      // the nearest room to it but never in it, so the gold found on the way
+      // there still counts; the room you come in by only if nothing else will do
+      let roomsFor;
+      if (encId === 'vigil') {
+        const toHall = bfs(farRoom.cx, farRoom.cy, false);
+        const far = r => { const v = toHall[idx(r.cx, r.cy)]; return v < 0 ? Infinity : v; };
+        roomsFor = rooms.filter(rr => rr !== startRoom && rr !== farRoom).sort((a, b) => far(a) - far(b)).concat([startRoom]);
+      } else roomsFor = erng.shuffle(rooms.filter(rr => rr !== startRoom));
       for (const r of roomsFor) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
