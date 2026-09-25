@@ -213,14 +213,14 @@ push and pull request.
 ## Balance
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
-down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class
-(400 on Hard, where the classes sit close enough that 200 cannot tell them apart):
+down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart:
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Easy | 96% | 98% | 92% | 93% | about 94% |
-| Normal | 76% | 70% | 79% | 72% | about 74% |
-| Hard | 45% | 46% | 46% | 47% | about 46% |
+| Easy | 98% | 96% | 96% | 96% | about 96% |
+| Normal | 72% | 64% | 77% | 70% | about 71% |
+| Hard | 42% | 45% | 46% | 45% | about 44% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
