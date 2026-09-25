@@ -5821,17 +5821,17 @@ await test('Berserker: blows grow with the wounds, the swing quickens below half
   const plainLow = await total(undefined, 0.1), rageLow = await total('berserker', 0.1);
   const plainFull = await total(undefined, 1), rageFull = await total('berserker', 1);
   const plainHalf = await total(undefined, 0.5), rageHalf = await total('berserker', 0.5);
-  // the same dice: four fifths lost is +3 (the most) on each of forty-odd blows that landed
-  if (!(rageLow - plainLow >= 3 * 40)) out.push(`at a tenth of life, +${rageLow - plainLow} over 50 swings`);
+  // the same dice: nine tenths lost is +4 (the most) on each of forty-odd blows that landed
+  if (!(rageLow - plainLow >= 4 * 40)) out.push(`at a tenth of life, +${rageLow - plainLow} over 50 swings`);
   if (rageFull !== plainFull) out.push(`unhurt, a berserker dealt ${rageFull} to ${plainFull}`);
-  if (!(rageHalf - plainHalf >= 2 * 40 && rageHalf - plainHalf < 3 * 50)) out.push(`at half life, +${rageHalf - plainHalf}`);
+  if (!(rageHalf - plainHalf >= 3 * 40 && rageHalf - plainHalf < 4 * 50)) out.push(`at half life, +${rageHalf - plainHalf}`);
   const ctx = await start('fighter', 'rage-speed');
   const { Game } = ctx; const p = Game.player();
   walk(ctx, undefined); p.maxHp = 100; p.hp = 100;
   const ac = Game.playerAC(), full = Game.weapon().speed;
   walk(ctx, 'berserker');
   if (Game.weapon().speed !== full) out.push('an unhurt berserker swung faster');
-  if (Game.playerAC() !== ac - 1) out.push(`a berserker's armour class ${ac} -> ${Game.playerAC()}`);
+  if (Game.playerAC() !== ac - 2) out.push(`a berserker's armour class ${ac} -> ${Game.playerAC()}`);
   p.hp = 40;
   const quick = Game.weapon().speed / full;
   if (!(quick > 0.88 && quick < 0.92)) out.push(`below half the swing is ${quick.toFixed(2)} of what it was`);

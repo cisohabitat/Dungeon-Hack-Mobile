@@ -235,16 +235,16 @@ const Game = (() => {
   /** A warned trick that lands on a Knight does a quarter less (after Stand Firm, if taken). */
   const knightSteadfast = dmg => (onPath('knight') ? Math.max(1, Math.ceil(dmg * 0.75)) : dmg);
   // Berserker: harder the worse it goes, and nothing held back for guarding.
-  /** A Berserker's rage: +1 on every blow for each fifth of life lost, up to +3. */
+  /** A Berserker's rage: +1 on every blow for each sixth of life lost, up to +4. */
   function berserkerRage() {
     const p = P();
     if (!onPath('berserker')) return 0;
-    return Math.max(0, Math.min(3, Math.floor(5 * (1 - p.hp / p.maxHp))));
+    return Math.max(0, Math.min(4, Math.floor(6 * (1 - p.hp / p.maxHp))));
   }
   /** Below half their life a Berserker's swing comes a tenth sooner. */
   const berserkerFrenzy = () => (onPath('berserker') && P().hp < P().maxHp / 2 ? 0.9 : 1);
   /** A Berserker fights open. */
-  const berserkerOpen = () => (onPath('berserker') ? -1 : 0);
+  const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
   // Templar: the front-line priest.
   /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
   const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
@@ -3617,7 +3617,7 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.3,  edge: 1, lich: 1.45, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.45, edge: 2, lich: 2,    rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.45, edge: 2, lich: 2.3,    rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;

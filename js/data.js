@@ -167,9 +167,9 @@ const PATHS = {
       'A warned trick that lands does a quarter less to you.',
     ] },
     { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
-      '+1 damage with every blow for each fifth of your life you have lost, up to +3.',
+      '+1 damage with every blow for each sixth of your life you have lost, up to +4.',
       'Below half your life, your swing comes a tenth sooner.',
-      'You fight open: 1 less armour class, whatever you wear.',
+      'You fight open: 2 less armour class, whatever you wear.',
     ] },
   ],
   cleric: [
