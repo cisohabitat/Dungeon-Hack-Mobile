@@ -210,6 +210,8 @@ const PATHS = {
   ],
 };
 
+/** Whether a class can carry a shield: a thief takes a buckler, strapped to the forearm, and nothing bigger. */
+const shieldFits = (c, b) => c.shield === true || (c.shield === 'light' && !!b.light);
 /** Whether a class can wear a body armour: robes are a mage's alone, and a mage wears nothing else. */
 const armorFits = (c, b) => (b.weight === 'cloth' ? c.armor === 'cloth' : c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light'));
 
@@ -234,8 +236,8 @@ const CLASSES = {
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: false, spells: null, primary: 'dex',
-    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow.',
+    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
+    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow. Light armour and a buckler.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
@@ -282,7 +284,7 @@ const ITEMS = {
   robe_warded:     { kind: 'armor', name: 'Warded Robe',       ac: 2, weight: 'cloth', value: 90,  sprite: 'robe_warded', tier: 3 },
   robe_magi:       { kind: 'armor', name: 'Robe of the Magi',  ac: 2, weight: 'cloth', value: 250, sprite: 'robe_magi', tier: 5, sp: 4, cheap: 1 },
   // shields
-  buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1 },
+  buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1, light: true },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
   towershield: { kind: 'shield', name: 'Tower Shield', ac: 3, value: 40, sprite: 'towershield', tier: 4 },
   // potions
@@ -571,4 +573,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };

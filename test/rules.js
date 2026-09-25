@@ -6294,6 +6294,21 @@ await test('what lies on one square is scattered across it, each thing seen wher
   return heap.length === 5 || `eight things on a square drew ${heap.length} pictures, not the five that fit`;
 });
 
+await test('a thief carries a buckler for one more point of armour, and nothing bigger', async () => {
+  const ctx = await start('thief', 'thief-buckler');
+  const { Game } = ctx; const p = Game.player();
+  const ac = Game.playerAC();
+  const b = { t: 'buckler', q: 1, e: 0 }; p.inv.push(b);
+  if (!Game.equip(b, true)) return `a thief could not take up a buckler: ${Game.canEquip(b)}`;
+  if (Game.playerAC() !== ac + 1) return `a buckler moved armour class ${ac} -> ${Game.playerAC()}`;
+  for (const t of ['shield', 'towershield']) {
+    const why = Game.canEquip({ t, q: 1, e: 0 });
+    if (!why || !/buckler/.test(why)) return `a thief could carry a ${t} (${why})`;
+  }
+  const mage = await start('mage', 'thief-buckler');
+  return !!mage.Game.canEquip({ t: 'buckler', q: 1, e: 0 }) || 'a mage could carry a buckler';
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

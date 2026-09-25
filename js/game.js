@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, armorFits } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -840,6 +840,7 @@ const Game = (() => {
     }
     if (b.kind === 'shield') {
       if (!c.shield) return `${c.plural} cannot use shields.`;
+      if (!shieldFits(c, b)) return `${c.plural} carry only a buckler: anything bigger slows the hands.`;
       if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded) return 'You need a free hand for a shield.';
       if (p.eq.offhand) return 'Your off hand is holding a weapon.';
       return null;
@@ -3619,7 +3620,7 @@ const Game = (() => {
       const b = ITEMS[id];
       if (b.kind === 'weapon') return b.cls.includes(p.cls);
       if (b.kind === 'armor') return armorFits(c, b);
-      return b.kind === 'shield' && !!c.shield;
+      return b.kind === 'shield' && shieldFits(c, b);
     };
     const best = Object.keys(ITEMS).filter(id => ITEMS[id].tier && ITEMS[id].tier <= most && fits(id)).sort((a, b) => ITEMS[b].tier - ITEMS[a].tier).slice(0, 4);
     const it = drop({ t: Dice.pick(best), q: 1, e: 2 });
