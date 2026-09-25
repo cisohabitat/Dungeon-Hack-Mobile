@@ -603,7 +603,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
   // the named champions this run held, and which of them fell (NAMED=1 prints it)
   rec.namedHeld = Object.values(Dungeon.namedPlan(seed, opts.levels));
   rec.namedSlain = Object.keys(Game.runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named);
-  rec.namedKiller = rec.died ? rec.namedHeld.find(id => MONSTERS[id].name === rec.cause) || '' : '';
+  // a champion is remembered as "Grisk, the Goblin King", not by its kind's name alone
+  rec.namedKiller = rec.died ? rec.namedHeld.find(id => rec.cause === MONSTERS[id].name || rec.cause.endsWith(', the ' + MONSTERS[id].name)) || '' : '';
   if (process.env.RELICLOG) {
     // why a relic was left behind: out of reach without a key, or a full pack
     rec.relicLeft = rec.relicLeft || { reach: 0, locked: 0, full: p.inv.length >= Game.INV_MAX ? 1 : 0 };
@@ -762,6 +763,16 @@ if (process.env.CAUSES) {
     tally[k] = (tally[k] || 0) + 1;
   }
   Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 14).forEach(([k, n]) => console.log(`   ${String(n).padStart(3)}  ${k}`));
+}
+// EARLY=1 lists what killed the heroes who died before their path (level 5),
+// and on which floor: where a class's early game is weakest
+if (process.env.EARLY) {
+  for (const cls in results) {
+    const tally = {}, early = results[cls].filter(r => r.died && (r.level || 0) < 5);
+    for (const r of early) { const k = `${r.cause || '?'} (floor ${r.deepest})`; tally[k] = (tally[k] || 0) + 1; }
+    console.log(`   ${cls}: ${early.length} of ${results[cls].length} died before level 5`);
+    Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 12).forEach(([k, n]) => console.log(`     ${String(n).padStart(3)}  ${k}`));
+  }
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);
 }
