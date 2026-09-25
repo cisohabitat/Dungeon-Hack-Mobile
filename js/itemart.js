@@ -84,6 +84,20 @@ function robe(cloth, light, trim, extra) {
   ];
 }
 
+// A cloak: a hood fallen behind the neck, a mantle hung from a clasp and
+// falling wide to the hem in folds, lit down one side.
+const CLOAK = [[11, 6], [21, 6], [24, 10], [27, 29], [5, 29], [8, 10]];
+function cloak(cloth, light, clasp, extra) {
+  return [
+    ball(16, 6, 6, 3, shade(cloth, -0.35)),                 // the hood, behind
+    sheet(CLOAK, cloth, { curve: 0.6 }),
+    // folds: lit down the left, in shadow down the right
+    limb(11, 11, 8.5, 28, 0.9, 1.6, light), limb(16, 12, 16, 28, 0.7, 1.2, shade(cloth, -0.3)), limb(21, 11, 23.5, 28, 0.9, 1.5, shade(cloth, -0.4)),
+    ball(16, 8, 1.8, 1.8, clasp),                            // the clasp at the throat
+    ...extra,
+  ];
+}
+
 /** A glass bottle: glass above the liquid line, the draught below, a cork. */
 function bottle(bodyParts, liquidParts, neck, glints) {
   return [
@@ -401,6 +415,22 @@ const ITEM_ART = {
       dots([[7, 8], [25, 8], [7, 22], [25, 22], [7, 3], [25, 3]], '#d8dce4'),
     ];
   },
+
+  // ---- cloaks: a mantle hung from a clasp, falling in folds ----
+  cloak_protect: () => cloak('#2c3a6a', '#44568e', '#d8dce4', [
+    // a silver ward stitched on the back, silver at the hem
+    ...ring(16, 19, 3.2, 0.5, '#c8ced8', 10), line(6, 29, 26, 29, '#a8b0bc'),
+  ]),
+  cloak_elven: () => cloak('#3e5a3a', '#5e7e52', '#c8d890', [
+    // a leaf for a clasp, and the cloth shifting grey-green like leaf-shadow
+    sheet([[14, 7.5], [16, 5.5], [18, 7.5], [16, 10]], '#9ac070'),
+    hair(9, 16, 11, 26, '#4e6a48'), hair(21, 14, 23, 25, '#6e8e62'),
+  ]),
+  cloak_warmth: () => cloak('#7a3424', '#9a4a30', '#efe6d0', [
+    // a thick fur collar and fur at the hem
+    ball(16, 8.5, 7, 2.6, '#e8dcc4'), ...[9, 12, 15, 18, 21, 24].map(x => ball(x, 29, 1.6, 1.1, '#e8dcc4')),
+    specks([[12, 8], [15, 9], [19, 8], [21, 9]], '#b8a88c'),
+  ]),
 
   // ---- what a caster holds in the free hand ----
   spellbook: () => [

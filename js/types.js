@@ -35,6 +35,7 @@
  * @property {Item|null} [ring]
  * @property {Item|null} [ring2]
  * @property {Item|null} [amulet]
+ * @property {Item|null} [cloak]   worn over everything, by anyone
  */
 
 /**

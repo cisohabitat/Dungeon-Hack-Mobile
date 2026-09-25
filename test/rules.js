@@ -5537,7 +5537,8 @@ await test('with no relic left for the traders, a champion leaves a +2 piece its
     for (let i = 0; i < 20 && L.monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
     if (L.monsters.includes(m)) return `${cls}: the Web-Mother would not die`;
     const pile = L.items[m.x + ',' + m.y] || [];
-    const gear = pile.find(it => ['weapon', 'armor', 'shield'].includes(ITEMS[it.t].kind) && it.e === 2 && !it.h && !it.curse && !it.u);
+    // a caster's focus comes plain: its make is in what it does, not a number
+    const gear = pile.find(it => ['weapon', 'armor', 'shield'].includes(ITEMS[it.t].kind) && it.e === (ITEMS[it.t].focus ? 0 : 2) && !it.h && !it.curse && !it.u);
     if (!gear) return `${cls}: she left [${pile.map(it => it.t + (it.e ? '+' + it.e : ''))}]`;
     // a shield wants a free hand, which a staff does not leave: that is a matter of what is held, not who
     const why = Game.canEquip(gear);
@@ -6413,6 +6414,66 @@ await test('foci turn up only in a caster\'s dungeon, and never for the other ca
     mage += m.mage || 0; cleric += c.cleric || 0;
   }
   return (mage > 0 && cleric > 0) || `four dungeons each held ${mage} mage foci and ${cleric} holy symbols`;
+});
+
+await test('anyone can wear a cloak: Protection adds to a ring, the Elven cloak is quiet, Warmth keeps out the cold', async () => {
+  const out = [];
+  for (const cls of ['fighter', 'cleric', 'mage', 'thief']) {
+    const ctx = await start(cls, 'cloak-' + cls);
+    const { Game } = ctx; const p = Game.player();
+    const ac = Game.playerAC();
+    const c = { t: 'cloak_protect', q: 1, e: 0 }; p.inv.push(c);
+    if (!Game.equip(c, true) || p.eq.cloak !== c) { out.push(`a ${cls} could not wear a cloak: ${Game.canEquip(c)}`); continue; }
+    if (Game.playerAC() !== ac + 1) out.push(`a ${cls}'s cloak moved armour class ${ac} -> ${Game.playerAC()}`);
+    if (cls === 'mage') {
+      const r = { t: 'ring_protect', q: 1, e: 0 }; p.inv.push(r); Game.state().known.ring_protect = 1; Game.equip(r, true);
+      if (Game.playerAC() !== ac + 2) out.push(`a cloak and a ring made armour class ${ac} -> ${Game.playerAC()}, not +2`);
+      Game.unequip('cloak');
+      const el = { t: 'cloak_elven', q: 1, e: 0 }; p.inv.push(el); Game.equip(el, true);
+      if (!Game.hasPower('quiet')) out.push('an Elven Cloak did not make its wearer quiet');
+      Game.unequip('cloak');
+      const w = { t: 'cloak_warmth', q: 1, e: 0 }; p.inv.push(w); Game.equip(w, true);
+      if (!Game.hasPower('warmth')) out.push('a Cloak of Warmth did not keep out the cold');
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a save from before cloaks loads with an empty cloak slot, and cloaks turn up for every class', async () => {
+  const ctx = await start('thief', 'cloak-save');
+  const { Game } = ctx; const G = Game.state();
+  delete G.player.eq.cloak;
+  Game.save(true);
+  if (!Game.load()) return 'the old save would not load';
+  if (Game.player().eq.cloak !== null) return `the cloak slot came back as ${JSON.stringify(Game.player().eq.cloak)}`;
+  let found = 0;
+  for (let i = 0; i < 3; i++) {
+    const c2 = await start(['fighter', 'mage', 'thief'][i], 'cloak-place' + i);
+    for (let d = 1; d <= 7; d++) {
+      if (d > 1) { c2.Game.level().monsters.length = 0; c2.Game.descend(); }
+      const L = c2.Game.level();
+      found += [...Object.values(L.items).flat(), ...(L.npcs || []).flatMap(n => n.stock || [])].filter(it => c2.ITEMS[it.t].kind === 'cloak').length;
+    }
+  }
+  return found > 0 || 'three dungeons held no cloak at all';
+});
+
+await test('a focus turns no blows and rusts not: its make and a curse never touch armour class', async () => {
+  const out = [];
+  const ctx = await start('mage', 'focus-ac');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  Game.equip(p.inv.find(i => i.t === 'dagger'), true);
+  const ac = Game.playerAC();
+  const orb = { t: 'crystal_orb', q: 1, e: 2 }; p.inv.push(orb); Game.equip(orb, true);
+  if (Game.playerAC() !== ac) out.push(`a +2 orb moved armour class ${ac} -> ${Game.playerAC()}`);
+  // a rustmaw bites a mage in a robe with an orb in hand: nothing of metal to eat
+  p.hp = p.maxHp = 9999;
+  const m = beside(ctx, 'rustmaw', { blows: 2, hp: 999, maxHp: 999, edge: 40 });
+  const mark = markLog(G);
+  for (let i = 0; i < 4 && (orb.e === 2); i++) { m.moveReady = 0; run(Game, G, 1200); }
+  if (orb.e !== 2) out.push(`the rust ate the orb: now ${orb.e} (${linesSince(G, mark).join(' | ')})`);
+  if (linesSince(G, mark).some(l => /forge can mend/.test(l) && /Orb/.test(l))) out.push('the log promised the forge would mend an orb');
+  return out.length ? out.join('; ') : true;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {

@@ -225,7 +225,7 @@ const CLASSES = {
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 8, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
@@ -287,6 +287,13 @@ const ITEMS = {
   buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1, light: true },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
   towershield: { kind: 'shield', name: 'Tower Shield', ac: 3, value: 40, sprite: 'towershield', tier: 4 },
+  // a cloak over whatever else is worn, for anyone: known at a glance, as a ring is not
+  cloak_protect: { kind: 'cloak', name: 'Cloak of Protection', ac: 1, value: 80,  sprite: 'cloak_protect', tier: 2,
+    desc: 'Armour class +1, over whatever else you wear.' },
+  cloak_elven:   { kind: 'cloak', name: 'Elven Cloak',          power: 'quiet',  value: 90,  sprite: 'cloak_elven', tier: 2,
+    desc: 'Sleeping things notice you a square later.' },
+  cloak_warmth:  { kind: 'cloak', name: 'Cloak of Warmth',      power: 'warmth', value: 70,  sprite: 'cloak_warmth', tier: 2,
+    desc: 'Cold does half as much to you.' },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
   spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
     desc: 'Spell points come back a quarter faster as you walk.' },

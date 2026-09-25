@@ -207,6 +207,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const free = b.kind === 'ring' ? !p.eq.ring || !p.eq.ring2 : !p.eq.amulet;
       if (free && Game.equip(it, true)) rec.jewels = (rec.jewels || 0) + 1;
     }
+    // --- a cloak goes on over everything: Protection for choice, any other over none
+    {
+      const rank = x => (x ? (x.t === 'cloak_protect' ? 2 : 1) : 0);
+      const best = p.inv.filter(i => ITEMS[i.t].kind === 'cloak').sort((a, b) => rank(b) - rank(a))[0];
+      if (best && rank(best) > rank(p.eq.cloak)) Game.equip(best, true);
+    }
     // --- keep room in the pack: a person drops gear they cannot use or have
     // bettered, rather than walking past everything once the pack is full
     if (p.inv.length >= Game.INV_MAX - 1) {

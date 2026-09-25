@@ -413,7 +413,7 @@ const Game = (() => {
   /** @returns {string[]} */
   const jewelPowers = it => { const b = it && ITEMS[it.t]; return b && b.power ? [].concat(b.power) : []; };
   function hasPower(power, slot, p = P()) {
-    const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS];
+    const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS, 'cloak'];
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
     return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
@@ -723,6 +723,17 @@ const Game = (() => {
    * only in that caster's dungeon, on a stream of its own. A found one may be
    * cursed, which binds it to the hand and costs a point of armour.
    */
+  /** A cloak, for anyone: now and then on a pile or a trader's shelf, on a stream of its own. */
+  const CLOAK_FIND = 0.2, CLOAK_SHOP = 0.25;
+  function placeCloaks(L, depth) {
+    if (depth < 2) return;
+    const rng = new Rng(`${G.seed}|cloaks|${depth}`);
+    const pool = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'cloak');
+    const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
+    if (piles.length && rng.chance(CLOAK_FIND)) L.items[rng.pick(piles)].push({ t: rng.pick(pool), q: 1, e: 0 });
+    const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
+    if (trader && rng.chance(CLOAK_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: 0 });
+  }
   const FOCUS_FIND = 0.25, FOCUS_SHOP = 0.3;
   function placeFoci(L, depth) {
     const c = cls();
@@ -734,7 +745,7 @@ const Game = (() => {
     const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
     if (piles.length && rng.chance(FOCUS_FIND)) {
       const it = { t: rng.weighted(pool.map(id => [id, ITEMS[id].tier])), q: 1, e: 0, h: 1 };
-      if (rng.chance(0.15)) { it.e = -1; it.curse = 1; }
+      if (rng.chance(0.15)) it.curse = 1;     // it binds to the hand: the staff and the shield wait until it is lifted
       L.items[rng.pick(piles)].push(it);
     }
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
@@ -754,9 +765,12 @@ const Game = (() => {
     // thieves stay alive by not being where the blow lands
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
-    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
+    // a focus turns no blows, however well made: its make is in what it does
+    if (p.eq.shield && !ITEMS[p.eq.shield.t].focus) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
     // a second blade is no shield, but it turns aside a blow now and then
     if (p.eq.offhand) ac += OFFHAND_PARRY;
+    // a cloak goes over everything, and adds to a ring rather than vying with it
+    if (p.eq.cloak) ac += (ITEMS[p.eq.cloak.t].ac || 0) + (p.eq.cloak.e || 0);
     return ac + jewelBonus('protect', p) + berserkerOpen();
   }
   function knownSpells() {
@@ -856,7 +870,7 @@ const Game = (() => {
   }
   function canEquip(it) {
     const p = P(), b = ITEMS[it.t], c = cls();
-    if (b.kind === 'ring' || b.kind === 'amulet') return null;     // anyone can wear one
+    if (b.kind === 'ring' || b.kind === 'amulet' || b.kind === 'cloak') return null;     // anyone can wear one
     if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield a ${b.name.toLowerCase()}.`;
     if (b.kind === 'armor') {
       if (armorFits(c, b)) return null;
@@ -1061,7 +1075,7 @@ const Game = (() => {
         }
         holdVitals(wasS, fxDelay);
       } finally { fxDelay = 0; }
-    } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield' || b.kind === 'ring' || b.kind === 'amulet') {
+    } else if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield' || b.kind === 'ring' || b.kind === 'amulet' || b.kind === 'cloak') {
       equip(it);
       return;
     } else if (b.kind === 'key') {
@@ -1269,7 +1283,7 @@ const Game = (() => {
     const p = {
       name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
-      inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null, ring: null, ring2: null, amulet: null }, effects: {}, poison: null,
+      inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null, ring: null, ring2: null, amulet: null, cloak: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
     };
     // the background is who you were before the first stair, and it shows
@@ -1307,7 +1321,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2754,7 +2768,7 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -3376,13 +3390,17 @@ const Game = (() => {
   /** A rustmaw's bite eats a point from the first metal it finds: armour, then shield, then blade. */
   function corrode() {
     const p = P();
-    const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, p.eq.shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
+    // a book, an orb or a holy symbol is no metal for it to eat
+    const shield = p.eq.shield && !ITEMS[p.eq.shield.t].focus ? p.eq.shield : null;
+    const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
     if (!metal.length) { log('Its jaws find no metal on you to eat.'); return; }
     // what is rusted through already, it passes over for the next
     const it = metal.find(x => (x.e || 0) > -3);
     if (!it) { log('There is nothing left on you for the rust to take.'); return; }
     it.e = (it.e || 0) - 1;
-    log(it.h ? `Rust blooms where it bit: ${the(it)} is the worse for it.` : `Rust blooms where it bit: your ${ITEMS[it.t].name} rusts (now ${it.e >= 0 ? '+' : '\u2212'}${Math.abs(it.e)}). A trader's forge can mend it.`, 'bad');
+    // the forge hones blades and reinforces armour; a shield it cannot mend
+    const mend = ITEMS[it.t].kind === 'shield' ? '' : ' A trader\'s forge can mend it.';
+    log(it.h ? `Rust blooms where it bit: ${the(it)} is the worse for it.` : `Rust blooms where it bit: your ${ITEMS[it.t].name} rusts (now ${it.e >= 0 ? '+' : '\u2212'}${Math.abs(it.e)}).${mend}`, 'bad');
     emit('inv'); emit('stats');
   }
   /** What a monster's trick does when it is hurt and still standing. */
@@ -3665,8 +3683,11 @@ const Game = (() => {
       if (b.kind === 'armor') return armorFits(c, b);
       return b.kind === 'shield' && shieldFits(c, b);
     };
-    const best = Object.keys(ITEMS).filter(id => ITEMS[id].tier && ITEMS[id].tier <= most && fits(id)).sort((a, b) => ITEMS[b].tier - ITEMS[a].tier).slice(0, 4);
-    const it = drop({ t: Dice.pick(best), q: 1, e: 2 });
+    // the rarest robe and focus stay a find of the deepest floors, not a champion's gift
+    const rare = id => ITEMS[id].tier >= 5 && (!!ITEMS[id].focus || ITEMS[id].weight === 'cloth');
+    const best = Object.keys(ITEMS).filter(id => ITEMS[id].tier && ITEMS[id].tier <= most && fits(id) && !rare(id)).sort((a, b) => ITEMS[b].tier - ITEMS[a].tier).slice(0, 4);
+    const pick = Dice.pick(best);
+    const it = drop({ t: pick, q: 1, e: ITEMS[pick].focus ? 0 : 2 });   // a focus's make is in what it does, not a number
     drop({ t: 'gold', q: 40 * G.depth });
     log(`Where it fell lie ${the(it)} and a heavy purse.`, 'good');
     jewel();
@@ -4222,7 +4243,8 @@ const Game = (() => {
       if (G.logSeq == null) G.logSeq = G.log ? G.log.length : 0;
       if (G.player.eq.offhand === undefined) G.player.eq.offhand = null;
       // a run from before rings and amulets: the slots, and a look for each
-      for (const s of JEWEL_SLOTS) if (G.player.eq[s] === undefined) G.player.eq[s] = null;
+      for (const s of [...JEWEL_SLOTS, 'cloak']) if (G.player.eq[s] === undefined) G.player.eq[s] = null;
+      refreshSp(G.player);   // spell points by today's rules, robes and all, not the rules it was saved under
       // a hero from before paths is offered one at their next level; one who
       // has no next level to reach is offered it now
       if (G.player.level >= MAX_LEVEL && G.player.level >= PATH_LEVEL && !G.player.path) offerPath();

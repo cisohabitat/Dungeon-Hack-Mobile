@@ -1426,7 +1426,7 @@ const UI = (() => {
       ? ['weapon', 'offhand', 'armor', 'shield'] : ['weapon', 'armor', 'shield'];
     const jewels = $('#equip-jewels');
     jewels.innerHTML = '';
-    for (const slot of [...slots, 'ring', 'ring2', 'amulet']) {
+    for (const slot of [...slots, 'ring', 'ring2', 'amulet', 'cloak']) {
       const it = p.eq[slot];
       // a mage's shield hand holds a focus; a cleric's, a shield or a holy symbol
       const shieldLabel = p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
@@ -1507,6 +1507,7 @@ const UI = (() => {
           for (const s of ['ring', 'ring2']) add(`Replace ${Game.itemName(eq[s]).replace(/^Ring of /, '')}${warn ? ' (cursed!)' : ''}`, () => Game.equip(it, false, s), cls);
         } else add(warn ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it), cls);
       }
+      else if (b.kind === 'cloak') add('Put on', () => Game.equip(it), 'primary');
       else if (b.kind === 'food') add('Eat', () => useFromPack(it), 'primary');
       else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');
@@ -1779,6 +1780,14 @@ const UI = (() => {
         worn.push(`<li><b>${escapeHtml(name)}</b><span>${escapeHtml(what.charAt(0).toUpperCase() + what.slice(1))} (${label})</span></li>`);
       }
     }
+    // what the hand, the robe and the cloak do, in their own words
+    const line = (b, what, where) => worn.push(`<li><b>${escapeHtml(b.name)}</b><span>${escapeHtml(what)} (${where})</span></li>`);
+    const held = p.eq.shield && ITEMS[p.eq.shield.t];
+    if (held && held.focus) line(held, held.desc, p.cls === 'mage' ? 'focus' : 'symbol');
+    const robe = p.eq.armor && ITEMS[p.eq.armor.t];
+    if (robe && (robe.sp || robe.cheap)) line(robe, [robe.sp ? `+${robe.sp} spell points` : '', robe.cheap ? 'spells of 5 points or more cost 1 less' : ''].filter(Boolean).join('; '), 'robe');
+    const cloak = p.eq.cloak && ITEMS[p.eq.cloak.t];
+    if (cloak) line(cloak, cloak.desc, 'cloak');
     if (worn.length) extra += '<h3 class="sheet-h">Powers of your gear</h3><ul class="talent-list">' + worn.join('') + '</ul>';
     if (p.talents && p.talents.length) {
       const own = TALENTS[p.cls] || [];
