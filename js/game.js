@@ -119,7 +119,20 @@ const Game = (() => {
   // ---------- messages ----------
   // The log is capped, so once it is full its length stops changing. Anything
   // watching for new messages has to count them, not measure the array.
+  // A named champion goes by its title in every line written for its kind
+  // ('The Orc Warchief swings at you'); the log calls it by its name instead,
+  // except where the name is already given ('Grisk, the Goblin King').
+  let namings = null;
+  function byName(m) {
+    if (!namings) namings = Object.values(MONSTERS).filter(b => b.named).map(b => {
+      const who = b.named.called.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), title = b.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return [new RegExp(`(?<!${who},? )\\b[Tt]he ${title}\\b`, 'g'), b.named.called];
+    });
+    for (const [re, name] of namings) if (re.test(m)) { re.lastIndex = 0; m = m.replace(re, name); }
+    return m;
+  }
   function log(m, c) {
+    m = byName(m);
     // the same line again straight after itself (poison, every two seconds) is
     // counted on the one line rather than filling the box. The old line is left
     // as an empty place-holder and the count written as a new line, so the log

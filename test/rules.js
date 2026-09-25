@@ -5366,7 +5366,7 @@ await test('the Web-Mother spits from beside you and twice as often; the Ghoul L
   const mark = markLog(G);
   Game.update(G.t + 25, 25);
   if (!(v.windup && v.windup.move === 'web')) return 'the Web-Mother did not spit from beside the hero';
-  if (!linesSince(G, mark).some(l => /Web-Mother rears back to spit a web/.test(l))) return `the warning said: ${linesSince(G, mark).join(' | ')}`;
+  if (!linesSince(G, mark).some(l => /^Vessra rears back to spit a web/.test(l))) return `the warning said: ${linesSince(G, mark).join(' | ')}`;
   run(Game, G, 700);
   if (v.windup && v.windup.move === 'web') return 'the web never flew';
   if (!(p.webbed > G.t) && !linesSince(G, mark).some(l => /web/i.test(l))) return 'the web caught nothing and said nothing';
@@ -6072,6 +6072,18 @@ await test('a Ring of Might adds its whole +1 to every blow, even with a quick d
   const bare = await total(false), ringed = await total(true);
   // the same seeded rolls both times: the ring's +1 on every blow that landed, and crits double it
   return (ringed.lost - bare.lost >= ringed.blows) || `bare ${bare.lost} over ${bare.blows} blows, ringed ${ringed.lost} over ${ringed.blows}`;
+});
+
+await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
+  const ctx = await start('fighter', 'named-names');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.perkHit = 60;
+  const m = beside(ctx, 'ushgar', { hp: 999, maxHp: 999, spoke: true, nextAct: 1e12 });
+  const mark = markLog(G);
+  for (let i = 0; i < 4; i++) { G.t = p.nextAttack; Game.input('attack'); }
+  const said = linesSince(G, mark);
+  if (said.some(l => /the Orc Warchief/i.test(l) && !/Ushgar,? the Orc Warchief/.test(l))) return `still called by title: ${said.join(' | ')}`;
+  return said.some(l => /Ushgar/.test(l)) || `never named: ${said.join(' | ')}`;
 });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
