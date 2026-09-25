@@ -130,9 +130,11 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
         'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
         'lucky', 'assassinate', 'venom', 'evasion', 'light_fingers', 'shadow_step',
-        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'hardy', 'focus', 'int', 'wis'];
+        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
       const pick = order.find(id => offer.includes(id)) || offer[0];
-      Game.chooseBoon(pick);
+      // Self-Taught: both points in the class's key score
+      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex' }[cls];
+      Game.chooseBoon(pick, pick === 'spread' ? [key, key] : undefined);
       rec.boons = (rec.boons || 0) + 1;
     }
     const L = Game.level();

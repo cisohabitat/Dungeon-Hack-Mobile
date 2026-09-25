@@ -2431,7 +2431,8 @@ const Game = (() => {
   /** What a level brought besides the choice: hit points, and any spell learned. */
   function levelNote(level) { return (G.levelNotes && G.levelNotes[level]) || null; }
   function pendingBoons() { return G.pendingBoons && G.pendingBoons.length ? G.pendingBoons[0] : null; }
-  function chooseBoon(id) {
+  /** @param {string[]} [picks]  for Self-Taught, the scores its points go to */
+  function chooseBoon(id, picks) {
     const offer = pendingBoons();
     if (!offer || !offer.includes(id)) return false;
     const p = P();
@@ -2463,13 +2464,22 @@ const Game = (() => {
     }
     const boon = BOONS.find(b => b.id === id);
     if (!boon) return false;
+    let told = boon.desc;
+    if (boon.spread) {
+      // the points go where the player puts them, and nowhere until they do
+      if (!Array.isArray(picks) || picks.length !== boon.spread || !picks.every(k => k in p.stats)) return false;
+      for (const k of picks) p.stats[k]++;
+      const counts = {};
+      for (const k of picks) counts[k] = (counts[k] || 0) + 1;
+      told = Object.entries(counts).map(([k, n]) => `+${n} ${STAT_WORD[k]}`).join(', ') + '.';
+    }
     boon.apply(p);
     p.maxSp = spMax(p);
     p.sp = Math.min(p.maxSp, p.sp);
     p.boons = (p.boons || []).concat(id);
     G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
     redrawOffers();
-    log(`${boon.name}. ${boon.desc}`, 'good');
+    log(`${boon.name}. ${told}`, 'good');
     Sound.play('levelup');
     emit('stats');
     if (!pendingBoons()) emit('boonsDone');

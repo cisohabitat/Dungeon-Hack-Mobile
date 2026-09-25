@@ -56,6 +56,8 @@ test.describe('story and progression', () => {
 
     const before = await page.evaluate(() => JSON.stringify(Game.player().stats) + Game.player().maxHp);
     await page.locator('#boon-list .boon').first().click();
+    // Self-Taught asks where its two points go first
+    if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat').first().click(); await page.locator('.spread-stat').first().click(); }
     await page.waitForTimeout(120);
 
     const after = await page.evaluate(() => ({
@@ -67,6 +69,30 @@ test.describe('story and progression', () => {
     expect(after.boons).toHaveLength(1);
     expect(after.sig !== before || after.perks > 0, 'the choice must do something').toBe(true);
     expect(after.open, 'the overlay closes once the choice is made').toBe(false);
+  });
+
+  test('Self-Taught asks for a score for each of its two points, and can be taken back before the second', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'story-spread' });
+    await faceOpenGround(page, 2);
+    const placed = await placeMonster(page, 'goblin', 1, { hp: 1, maxHp: 1 });
+    // every other lesson already learned as often as it can be: Self-Taught and Old Scars are left
+    await page.evaluate(() => { const p = Game.player(); p.level = 2; p.xp = XP_TABLE[2] - 1; p.boons = ['str', 'str', 'dex', 'dex', 'con', 'con', 'keen', 'swift', 'hardy']; });
+    expect(await killMonster(page, placed.uid)).toBe(true);
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await page.waitForTimeout(700);   // the guard against a tap already on its way
+    await page.locator('#boon-list .boon', { hasText: 'Self-Taught' }).click();
+    await expect(page.locator('.spread-stat')).toHaveCount(6);
+    const str0 = await page.evaluate(() => Game.player().stats.str);
+    await page.click('.spread-stat[data-stat="str"]');
+    await expect(page.locator('#boon-list .boon-head')).toContainText('1 point to place');
+    await page.click('#boon-list button.ghost');            // start again
+    await expect(page.locator('#boon-list .boon-head')).toContainText('2 points to place');
+    await page.click('.spread-stat[data-stat="str"]');
+    await page.click('.spread-stat[data-stat="str"]');
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.player().stats.str)).toBe(str0 + 2);
+    expect(errors).toEqual([]);
   });
 
   test('a journal page is recorded once and shown in the journal', async ({ page }) => {

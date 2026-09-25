@@ -6913,6 +6913,20 @@ await test('the guildsman you dug out marks the next floor; the captive you free
   return out.length ? out.join('; ') : true;
 });
 
+await test('Self-Taught puts its two points where the player says, and nowhere until they do', async () => {
+  const ctx = await start('fighter', 'spread');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [3];
+  const str = p.stats.str, con = p.stats.con;
+  if (Game.chooseBoon('spread') !== false) return 'Self-Taught was taken with nowhere to put its points';
+  if (Game.chooseBoon('spread', ['str', 'luck']) !== false) return 'Self-Taught took a score that does not exist';
+  if (!Game.chooseBoon('spread', ['str', 'con'])) return 'Self-Taught was refused two good scores';
+  if (p.stats.str !== str + 1 || p.stats.con !== con + 1) return `scores went ${str}->${p.stats.str}, ${con}->${p.stats.con}`;
+  G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [5];
+  Game.chooseBoon('spread', ['str', 'str']);
+  return p.stats.str === str + 3 || `both points on Strength made it ${p.stats.str}, not ${str + 3}`;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

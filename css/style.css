@@ -660,3 +660,16 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   #ov-inv .detail.open { grid-column: 2; grid-row: 1 / span 3; align-self: start; top: 0; bottom: auto; margin-top: 0; box-shadow: none;
     max-height: calc(100vh - 72px - var(--sat) - var(--sab)); max-height: calc(100dvh - 72px - var(--sat) - var(--sab)); }
 }
+
+/* Self-Taught: a score for each point */
+.spread-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+.spread-grid .boon { text-align: center; }
+.spread-grid .boon.key b { color: var(--gold); }
+
+/* point buy: a score's own steps beneath it */
+.stat-mode { margin: 8px 0 6px; }
+.stats.buying > div { display: flex; flex-direction: column; gap: 4px; }
+.stats.buying span { float: none; }
+.buy-row { display: flex; gap: 4px; }
+.buy-step { min-width: 44px; min-height: 36px; padding: 0; font-size: 1.1rem; }
+.points-left { margin: 4px 0 0; }

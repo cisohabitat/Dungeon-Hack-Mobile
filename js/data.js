@@ -109,6 +109,8 @@ const BOONS = [
   { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
   { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
   { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' },
+  // two points placed where the player likes, both in one score if they want: a build planned, not dealt
+  { id: 'spread', name: 'Self-Taught', desc: 'Two points to add to any scores you choose, both to one if you like.', spread: 2, max: 2, apply: () => {} },
   { id: 'vigor', name: 'Old Scars', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
   { id: 'focus', name: 'Quiet Mind', desc: '+4 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; }, when: p => !!CLASSES[p.cls].spells },
   { id: 'keen', name: 'Killing Eye', desc: '+1 to hit with every blow, for good.', unique: true, apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },
