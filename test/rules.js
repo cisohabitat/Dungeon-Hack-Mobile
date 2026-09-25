@@ -6028,6 +6028,20 @@ await test('Trickster: slips an ordinary blow now and then, a blow on the air le
   return out.length ? out.join('; ') : true;
 });
 
+await test('a champion keeps everything its kind has that its prefix does not change', async () => {
+  const ctx = await start('fighter', 'elite-fields');
+  const { Game, MONSTERS, ELITES } = ctx;
+  const out = [];
+  const changed = new Set(['name', 'ac', 'hit', 'dmg', 'speed', 'xp']);
+  for (const id of Object.keys(MONSTERS).filter(k => !MONSTERS[k].boss && !MONSTERS[k].named)) {
+    for (const e of ELITES) {
+      const st = Game.mstat({ id, elite: e.prefix, x: 0, y: 0 });
+      for (const k of Object.keys(MONSTERS[id])) if (!changed.has(k) && st[k] !== MONSTERS[id][k]) out.push(`${e.prefix} ${id} lost '${k}'`);
+    }
+  }
+  return out.length ? out.slice(0, 6).join('; ') : true;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

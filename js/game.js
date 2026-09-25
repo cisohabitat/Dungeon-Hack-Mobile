@@ -660,12 +660,14 @@ const Game = (() => {
     if (b.phases && m.phase) return { ...b, ...b.phases[Math.min(m.phase, b.phases.length) - 1] };
     if (!m.elite) return b;
     const e = ELITES.find(x => x.prefix === m.elite) || NO_ELITE;
+    // everything its kind has, with only what the prefix changes changed: a
+    // list of fields to copy lost each new one (a wraith's cold, a beast's way
+    // with doors) until someone remembered to add it
     return {
+      ...b,
       name: `${m.elite} ${b.name}`, ac: b.ac + (e.ac || 0), hit: b.hit + (e.hit || 0),
       dmg: [b.dmg[0], b.dmg[1], b.dmg[2] + (e.dmg || 0)],
       speed: Math.round(b.speed * (e.speed || 1)), xp: Math.round(b.xp * (e.xp || 1)),
-      sprite: b.sprite, scale: b.scale, undead: b.undead, poison: b.poison, fly: b.fly,
-      regen: b.regen, boss: b.boss, drain: b.drain, ranged: b.ranged, move: b.move,
     };
   }
 
