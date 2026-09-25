@@ -136,6 +136,7 @@ const Assets = (() => {
 
   // ---- textures ----
   function makeWall(theme, seed, cracked) {
+    if (theme.face === 'glass') return makeGlass(theme, seed, cracked);
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
     const rng = new Rng(seed);
@@ -165,6 +166,78 @@ const Assets = (() => {
       ctx.fillStyle = 'rgba(0,0,0,0.6)';
       let x = rng.int(10, 50), y = 0;
       while (y < TEX) { ctx.fillRect(x, y, 1, 2); y += 2; x += rng.int(-1, 1); }
+    }
+    return c;
+  }
+  // Black glass: the Sanctum's walls are not laid in courses of brick but cut
+  // in great polished slabs, dark as a well, that catch the light from above
+  // in a sheen and a streak or two. Their joints fall on brick lines, so a
+  // recess or a crack painted over them still sits on a seam.
+  function makeGlass(theme, seed, cracked) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    const [ar, ag, ab] = hexToRgb(theme.accent);
+    const glow = a => `rgba(${ar},${ag},${ab},${a})`;
+    ctx.fillStyle = theme.mortar;
+    ctx.fillRect(0, 0, TEX, TEX);
+    // three courses of slabs, each set over the one above: [top, height, offset]
+    for (const [y0, sh, off] of [[0, 24, 0], [24, 16, 20], [40, 24, 8]]) {
+      for (let k = -1; k <= 1; k++) {
+        const x0 = off + k * 32, sw = 32, tone = rng.int(-5, 5);
+        ctx.save();
+        ctx.beginPath(); ctx.rect(x0 + 1, y0 + 1, sw - 2, sh - 2); ctx.clip();
+        // polished: the ceiling's light sits in the top of each slab, and it
+        // falls away to near black below
+        for (let y = 1; y < sh - 1; y++) {
+          const t = (y - 1) / (sh - 3);
+          ctx.fillStyle = adjust(theme.wall, tone - 26 + Math.round(20 * (1 - t) * (1 - t) * (1 - t)) - Math.round(t * 12));
+          ctx.fillRect(x0 + 1, y0 + y, sw - 2, 1);
+        }
+        // a streak of reflected light across it, and a fainter one beside
+        const sx = x0 + rng.int(4, sw - 6);
+        for (const [dx, a, w] of [[0, 0.24, 2], [rng.int(4, 7), 0.1, 1]]) {
+          ctx.fillStyle = `rgba(214,200,255,${a})`;
+          for (let y = 1; y < sh - 1; y++) ctx.fillRect(sx + dx + Math.round((sh - y) * 0.6), y0 + y, w, 1);
+        }
+        ctx.fillStyle = 'rgba(236,228,255,0.3)';
+        for (let y = 2; y < Math.min(sh - 2, 7); y++) ctx.fillRect(sx + Math.round((sh - y) * 0.6), y0 + y, 1, 1);
+        // a glint where the light meets an edge, deep in the glass
+        ctx.fillStyle = glow(0.5);
+        ctx.fillRect(x0 + rng.int(3, sw - 4), y0 + rng.int(3, sh - 4), 1, 1);
+        ctx.restore();
+        // cut edges: lit along the top and left, in shadow along the bottom and right
+        ctx.fillStyle = adjust(theme.wall, tone + 30);
+        ctx.fillRect(x0 + 1, y0 + 1, sw - 2, 1);
+        ctx.fillStyle = adjust(theme.wall, tone + 6);
+        ctx.fillRect(x0 + 1, y0 + 2, 1, sh - 3);
+        ctx.fillStyle = adjust(theme.wall, tone - 34);
+        ctx.fillRect(x0 + 1, y0 + sh - 2, sw - 2, 1);
+        ctx.fillRect(x0 + sw - 2, y0 + 2, 1, sh - 3);
+      }
+    }
+    // the power the walls hum with shows faintly in the joints
+    ctx.fillStyle = glow(0.45);
+    for (let i = 0; i < 18; i++) {
+      const [y0, off] = rng.pick([[0, 0], [24, 20], [40, 8]]);
+      if (rng.chance(0.5)) ctx.fillRect(rng.int(0, TEX - 1), y0, rng.int(1, 3), 1);
+      else ctx.fillRect((off + rng.int(0, 1) * 32) % TEX, y0 + rng.int(1, 14), 1, rng.int(1, 3));
+    }
+    if (cracked) {
+      // struck glass: a star of bright cracks from one point, dark beside each
+      const cx = rng.int(20, 44), cy = rng.int(18, 44);
+      for (let r = 0; r < 6; r++) {
+        let a = r / 6 * Math.PI * 2 + rng.next() * 0.6, x = cx, y = cy;
+        const len = rng.int(9, 22);
+        for (let s = 0; s < len; s++) {
+          a += (rng.next() - 0.5) * 0.5;
+          x += Math.cos(a); y += Math.sin(a);
+          ctx.fillStyle = 'rgba(0,0,0,0.7)'; ctx.fillRect(Math.round(x) + 1, Math.round(y) + 1, 1, 1);
+          ctx.fillStyle = s < len * 0.6 ? '#d8ccff' : glow(0.8); ctx.fillRect(Math.round(x), Math.round(y), 1, 1);
+        }
+      }
+      ctx.fillStyle = '#f4f0ff';
+      ctx.fillRect(cx - 1, cy, 3, 1); ctx.fillRect(cx, cy - 1, 1, 3);
     }
     return c;
   }

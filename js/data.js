@@ -573,7 +573,8 @@ const THEMES = [
   { name: 'Mossy Depths',     wall: '#5a7050', mortar: '#26321f', floor: '#2c3a28', ceil: '#182218', accent: '#7fbf5f', flavor: 'Water drips and moss clings to every stone.', decor: ['moss', 'roots', 'seep', 'moss'] },
   { name: 'Blue Vaults',      wall: '#55627a', mortar: '#242a3a', floor: '#262c36', ceil: '#141824', accent: '#7fa0d0', flavor: 'A chill wind moans through these vaults.', decor: ['rime', 'grate', 'ring'] },
   { name: 'Crimson Crypts',   wall: '#7a4a4a', mortar: '#3a1e1e', floor: '#36262a', ceil: '#221416', accent: '#c05050', flavor: 'The walls here are stained a rusty red.', decor: ['stain', 'skulls', 'chains'] },
-  { name: 'Obsidian Sanctum', wall: '#3c3448', mortar: '#12101a', floor: '#1e1a26', ceil: '#0c0a12', accent: '#8060c0', flavor: 'Black glass walls hum with a terrible power.', decor: ['runes', 'vein', 'shrine'] },
+  // face: how its walls are built, where they are not brick (see makeGlass)
+  { name: 'Obsidian Sanctum', face: 'glass', wall: '#3c3448', mortar: '#12101a', floor: '#1e1a26', ceil: '#0c0a12', accent: '#8060c0', flavor: 'Black glass walls hum with a terrible power.', decor: ['runes', 'vein', 'shrine'] },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.
