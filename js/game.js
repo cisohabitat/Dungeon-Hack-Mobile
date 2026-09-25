@@ -1862,10 +1862,11 @@ const Game = (() => {
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
     const finesse = p.cls === 'thief';
-    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0) + jewelBonus('might');
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
-      + berserkerRage() + templarBlow(m);   // a path's number, likewise
+      + berserkerRage() + templarBlow(m)   // a path's number, likewise
+      + jewelBonus('might');               // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
     let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon');
     if (crit) dmg *= 2;

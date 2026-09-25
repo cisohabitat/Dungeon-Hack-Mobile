@@ -6055,6 +6055,25 @@ await test('a named champion deals what its kin deals: the Hollow Abbess\'s touc
   return out.length ? out.join('; ') : true;
 });
 
+await test('a Ring of Might adds its whole +1 to every blow, even with a quick dagger', async () => {
+  const total = async ring => {
+    const ctx = await start('mage', 'might-dagger');
+    seedDice(ctx, 'might-dagger');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    Object.assign(p.stats, { str: 12, dex: 10, con: 10, int: 16, wis: 10, cha: 10 });
+    p.perkHit = 60;
+    p.eq.weapon = { t: 'dagger', q: 1, e: 0 };
+    if (ring) { const r = { t: 'ring_might', q: 1, e: 0 }; p.inv.push(r); Game.equip(r, true); }
+    const m = beside(ctx, 'ogre', { hp: 1e9, maxHp: 1e9, nextAct: 1e12 });
+    let blows = 0;
+    for (let i = 0; i < 60; i++) { G.t = p.nextAttack; const hp = m.hp; Game.input('attack'); if (m.hp < hp) blows++; }
+    return { lost: 1e9 - m.hp, blows };
+  };
+  const bare = await total(false), ringed = await total(true);
+  // the same seeded rolls both times: the ring's +1 on every blow that landed, and crits double it
+  return (ringed.lost - bare.lost >= ringed.blows) || `bare ${bare.lost} over ${bare.blows} blows, ringed ${ringed.lost} over ${ringed.blows}`;
+});
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
