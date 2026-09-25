@@ -530,8 +530,14 @@ const Dungeon = (() => {
         }
         return out;
       };
-      const lairs = byDist.filter(r => r !== farRoom && open(r).length >= 3);
-      const lair = lairs[0] || (open(farRoom).length >= 3 ? farRoom : null);
+      // not in a room someone keeps, nor a few steps from the trader's, whose
+      // shop would be a door to duck through mid-fight
+      const shop = npcs.find(n => n.id === 'merchant'), M = 5;
+      const kept = r => npcs.some(n => inRoom(r, idx(n.x, n.y)));
+      const byShop = r => !!shop && shop.x >= r.x - M && shop.x < r.x + r.w + M && shop.y >= r.y - M && shop.y < r.y + r.h + M;
+      const fits = r => open(r).length >= 3;
+      const pickLair = ok => byDist.find(r => r !== farRoom && fits(r) && ok(r)) || (fits(farRoom) && ok(farRoom) ? farRoom : null);
+      const lair = pickLair(r => !kept(r) && !byShop(r)) || pickLair(r => !kept(r)) || pickLair(() => true);
       if (lair) {
         for (let i = monsters.length - 1; i >= 0; i--) if (inRoom(lair, idx(monsters[i].x, monsters[i].y))) { occupied.delete(idx(monsters[i].x, monsters[i].y)); monsters.splice(i, 1); }
         // the champion in the middle of its room, its kin about it

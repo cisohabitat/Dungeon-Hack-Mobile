@@ -283,7 +283,7 @@ check(traders > 0, 'no traders generated at all');
 // a level off. The suite above uses a handful of fixed seeds, which is not enough
 // to catch a fault that shows up in well under one percent of levels.
 {
-  let sweptTraders = 0, sweptEncounters = 0, sealed = 0, onLoot = 0, onKey = 0;
+  let sweptTraders = 0, sweptEncounters = 0, sealed = 0, onLoot = 0, onKey = 0, lairByShop = 0;
   for (let s = 0; s < 150; s++) {
     for (const size of ['small', 'medium', 'large']) {
       for (let depth = 1; depth <= 8; depth++) {
@@ -295,6 +295,9 @@ check(traders > 0, 'no traders generated at all');
           if (under.some(i => i.t === 'key')) onKey++;
         }
         if ((L.npcs || []).length && !solvable(L, true)) sealed++;
+        // a named champion's lair is not a few steps from the trader's shop
+        const champ = L.monsters.find(m => MONSTERS[m.id].named), shop = (L.npcs || []).find(n => n.id === 'merchant');
+        if (champ && shop && Math.abs(champ.x - shop.x) + Math.abs(champ.y - shop.y) <= 4) lairByShop++;
       }
     }
   }
@@ -303,6 +306,7 @@ check(traders > 0, 'no traders generated at all');
   check(sealed === 0, `${sealed} levels sealed off by a trader or encounter`);
   check(onLoot === 0, `${onLoot} traders or encounters stand on loot that can never be picked up`);
   check(onKey === 0, `${onKey} traders or encounters stand on a key`);
+  check(lairByShop === 0, `${lairByShop} champions' lairs sit beside a trader`);
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot`);
 }
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
