@@ -452,7 +452,7 @@ const UI = (() => {
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
     trade: 'A trader. Tap <b>Trade</b> to buy, sell, and use the forge: it sharpens a weapon or strengthens armour, and mends rust.',
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
-    quickscroll: 'A scroll worth reading <b>now</b> is in the corner of the view: <b>one tap</b> reads it.',
+    quickscroll: 'A scroll worth reading <b>now</b> waits at the left end of the log, under the view: <b>one tap</b> reads it.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
   };
   /** The tips that each tell the answer to one trick. */

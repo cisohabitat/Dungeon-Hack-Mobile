@@ -131,7 +131,7 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a scroll worth reading now is one tap away in the corner of the view, and gone when it is not', async ({ page }) => {
+  test('a scroll worth reading now is one tap away at the end of the log, and gone when it is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
     await startGame(page, { seed: 'quick-scroll' });
@@ -322,6 +322,72 @@ test.describe('interface', () => {
     const bad = v.buttons.filter(b => b.top < -1 || b.bottom > 393 + 1 || b.right > 851 + 1 || b.w < 44 || b.h < 44);
     expect(bad.map(b => `${b.name} ${Math.round(b.w)}x${Math.round(b.h)}`), 'controls off screen or too small to press').toEqual([]);
     expect(errors).toEqual([]);
+  });
+
+  test('sideways the view is big, the log shows three lines, a tip is small print, and nothing sits over the fight or the hands', async ({ page }) => {
+    // A playtest on an 851 by 393 phone: the view was 525 by 265, a first tip
+    // covered a quarter of it, the log showed two lines, what lay underfoot
+    // covered the monster in front and the quick scroll covered the shield.
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 851, height: 393 });
+    await startGame(page, { seed: 'sideways-2', cls: 'Mage' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      for (let i = 1; i <= 2; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 94, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      p.inv.push({ t: 'scroll_fire', q: 1, e: 0 }); G.known.scroll_fire = 1;
+      L.items[p.x + ',' + p.y] = [{ t: 'potion_heal', q: 1, e: 0 }, { t: 'ration', q: 1, e: 0 }];
+      for (let i = 1; i <= 6; i++) Game.log(`Line ${i} of the log.`);
+    });
+    await expect(page.locator('#quick-scroll')).toBeVisible({ timeout: 2000 });
+    await expect(page.locator('#feet')).toBeVisible({ timeout: 2000 });
+    const v = await page.evaluate(() => {
+      const box = el => { const r = (typeof el === 'string' ? document.querySelector(el) : el).getBoundingClientRect(); return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, w: r.width, h: r.height }; };
+      const tip = document.getElementById('tip');
+      tip.innerHTML = UI.tips().trick; tip.classList.add('show');
+      const log = box('#log');
+      return { view: box('#view'), log, tip: box(tip), feet: box('#feet'), scroll: box('#quick-scroll'), more: box('#log-more'),
+        lines: [...document.querySelectorAll('#log div')].filter(d => { const r = d.getBoundingClientRect(); return r.top >= log.top - 0.5 && r.bottom <= log.bottom + 0.5; }).length };
+    });
+    const overlaps = (a, b) => a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+    expect(v.view.w, 'the view is wider than it was (525)').toBeGreaterThanOrEqual(600);
+    expect(v.view.h, 'and taller (265)').toBeGreaterThanOrEqual(300);
+    expect(v.lines, 'three lines of the log or more').toBeGreaterThanOrEqual(3);
+    expect(v.tip.h / v.view.h, 'even the longest tip takes little of the view').toBeLessThan(0.16);
+    expect(overlaps(v.feet, v.view), 'what lies underfoot sits outside the view').toBe(false);
+    expect(overlaps(v.scroll, v.view), 'the quick scroll sits outside the view').toBe(false);
+    expect(overlaps(v.feet, v.more) || overlaps(v.scroll, v.more) || overlaps(v.feet, v.scroll), 'nothing on top of the Log button, or of each other').toBe(false);
+    for (const b of [v.feet, v.scroll]) {
+      expect(b.w >= 44 && b.h >= 44, 'big enough for a thumb').toBe(true);
+      expect(b.bottom, 'inside the screen').toBeLessThanOrEqual(393);
+    }
+    expect(errors).toEqual([]);
+  });
+
+  test('upright, the quick scroll is out of the view, off the shield or focus held low in its corner', async ({ page }) => {
+    for (const vp of [{ width: 393, height: 851 }, { width: 393, height: 727 }, { width: 360, height: 640 }]) {
+      await page.setViewportSize(vp);
+      if (vp.height === 851) {
+        await startGame(page, { seed: 'upright-scroll', cls: 'Cleric' });
+        await clearBoons(page);
+        await page.evaluate(() => {
+          const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+          L.monsters.length = 0;
+          for (let i = 1; i <= 2; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+          L.monsters.push({ uid: 95, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+          p.inv.push({ t: 'scroll_fire', q: 1, e: 0 }); G.known.scroll_fire = 1;
+        });
+        await expect(page.locator('#quick-scroll')).toBeVisible({ timeout: 2000 });
+      }
+      await page.waitForTimeout(200);
+      const r = await page.evaluate(() => {
+        const s = document.getElementById('quick-scroll').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(), l = document.getElementById('log').getBoundingClientRect();
+        return { below: s.top >= v.bottom - 1, inLog: s.bottom <= l.bottom + 1, left: s.left < v.left + v.width / 3 };
+      });
+      expect(r, `at ${vp.width}x${vp.height}`).toEqual({ below: true, inLog: true, left: true });
+    }
   });
 
   test('on a tall phone the view grows into the spare height without stretching', async ({ page }) => {

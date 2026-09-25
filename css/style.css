@@ -430,7 +430,6 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .tip.show { opacity: 1; transform: none; pointer-events: auto; }
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }
-/* the scroll worth reading now, low in the view's left corner */
 /* what lies underfoot, at the foot of the view */
 .feet { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 6px;
   min-height: 44px; padding: 4px 10px; background: rgba(12, 10, 18, 0.72); border: 1px solid var(--border); border-radius: 10px; }
@@ -439,12 +438,16 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .feet-icons img { width: 28px; height: 28px; image-rendering: pixelated; }
 .feet-icons em { font-style: normal; font-size: 0.75rem; color: var(--dim); margin-left: 2px; }
 .feet small { font-size: 0.8rem; color: #f2e6c8; }
-.quick-scroll { position: absolute; left: 6px; bottom: 6px; width: 56px; height: 56px; min-height: 56px; padding: 2px 0 0; z-index: 2;
+/* the scroll worth reading now, at the left end of the log under the view,
+   in reach of the left thumb: in the view's corner it sat over the shield or
+   the focus held there. The log's lines keep clear of it while it shows. */
+.quick-scroll { position: absolute; left: 6px; top: calc(100% + 8px); width: 56px; height: 56px; min-height: 56px; padding: 2px 0 0; z-index: 2;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
   background: rgba(20, 16, 28, 0.82); border: 2px solid var(--qs, var(--gold)); border-radius: 12px; box-shadow: 0 0 10px var(--qs, var(--gold)); }
 .quick-scroll img { width: 30px; height: 30px; image-rendering: pixelated; }
 .quick-scroll small { font-size: 0.68rem; line-height: 1; color: #f2e6c8; }
 .quick-scroll:active { transform: scale(0.94); }
+.view-col:has(#quick-scroll:not([hidden])) .log { padding-left: 70px; }
 /* equipped slots carry a label in the corner: keep the picture below it */
 #equip .slot, #equip-jewels .slot { padding-top: calc(0.6rem + 8px); }
 /* two rings and an amulet: a row of their own, under what is held and worn */
@@ -561,28 +564,54 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 @media (orientation: landscape) and (max-height: 500px) {
   /* a notch or a rounded corner sits on one side or the other now */
   #screen-game { padding-left: var(--sal); padding-right: var(--sar); }
-  .game-layout { flex-direction: row; }
-  .view-col { flex: 1 1 auto; min-width: 0; justify-content: flex-start; }
-  /* the renderer draws down to 2:1, so the view fills what is left of the height */
-  .view-wrap { flex: 1 1 auto; min-height: 0; max-height: none; }
-  /* three whole lines are enough: sideways a line seldom wraps */
-  .log { flex: 0 0 auto; height: calc(3 * 1.38em + 10px); min-height: 0; }
-  /* wide enough for four of the bar's buttons to a row, and wider on a long
-     phone, where the view would otherwise go past 2:1 and be letterboxed */
-  .ctrl-col { flex: 0 0 clamp(228px, 38vw, 330px); min-width: 0; border-left: 1px solid var(--border); justify-content: flex-end; }
-  .controls { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: 2fr 1fr; place-content: stretch; gap: 6px; padding: 8px 8px 6px; }
+  /* The view had the bars above it and the log below, and a control column a
+     third of the screen wide beside it: 525 by 265 on an 851 by 393 phone.
+     Now the bars go to the top of a narrower control column, and the view
+     takes the whole height above the log: the view's column dissolves into
+     the grid, and the controls' column sits in its right-hand cell. */
+  .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(212px, 27vw, 252px); grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "view hud" "view ctrl" "log ctrl"; }
+  .view-col { display: contents; }
+  .view-wrap { grid-area: view; min-height: 0; max-height: none; }
+  /* four lines, the oldest fading: sideways a line seldom wraps */
+  .log { grid-area: log; flex: none; height: calc(4 * 1.3em + 8px); min-height: 0; font-size: 0.8rem; line-height: 1.3; }
+  .log-more-anchor { grid-area: log; align-self: start; }
+  .ctrl-col { grid-area: ctrl; min-width: 0; min-height: 0; border-left: 1px solid var(--border); justify-content: flex-end; }
+  /* the bars on one line with the quick drink, name and floor above them */
+  .hud { grid-area: hud; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name right" "bars quaff";
+    gap: 2px 6px; padding: 3px 6px 4px; border-left: 1px solid var(--border); font-size: 0.78rem; }
+  .hud-name { grid-area: name; max-width: none; min-width: 0; flex-direction: row; gap: 5px; align-items: baseline; overflow: hidden; }
+  .hud-name span { min-width: 0; }
+  .hud-bars { grid-area: bars; align-self: center; }
+  .bar { height: calc(0.66rem + 3px); }
+  .bar span { font-size: 0.66rem; line-height: calc(0.66rem + 1px); }
+  .hud-quaff { grid-area: quaff; }
+  .hud-right { grid-area: right; flex-direction: row; gap: 6px; font-size: 0.72rem; align-self: baseline; white-space: nowrap; }
+  .controls { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr; grid-template-rows: 2fr 1fr; place-content: stretch; gap: 6px; padding: 6px 6px 4px; }
   .dpad, .actions { width: auto; max-width: none; height: auto; aspect-ratio: auto; margin: 0; align-self: stretch; }
   .actions { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
   .actions .attack { grid-row: auto; font-size: 1.5rem; }
   /* the pad's top row reaching up would land on the d-pad's bottom row here */
   .actions .ctl::before { content: none; }
   .bottombar { flex-wrap: wrap; padding: 6px 6px calc(6px + var(--sab)); }
-  .bottombar button { flex: 1 1 22%; min-width: 44px; padding: 6px 1px; }
+  .bottombar { gap: 4px; padding: 4px 6px calc(4px + var(--sab)); }
+  .bottombar button { flex: 1 1 22%; min-width: 44px; padding: 4px 1px; font-size: 0.76rem; }
 
-  /* the view is short sideways: a tip takes fewer lines of it, and the
-     bars and marks it would cover are drawn below it (see keepTopClear) */
-  .tip { font-size: 0.78rem; line-height: 1.25; padding: 4px 28px 4px 8px; top: 4px; left: 4px; right: 4px; max-height: 42%; }
-  .tip.show::after { top: 4px; right: 8px; }
+  /* The view is short sideways: a tip is a line or two of small print along
+     its top, a tenth of it rather than a quarter, and the bars and marks it
+     would cover are drawn below it (see keepTopClear) */
+  .tip { font-size: 0.72rem; line-height: 1.22; padding: 3px 26px 3px 7px; top: 3px; left: 3px; right: 3px; max-height: 30%; border-radius: 6px; background: rgba(23, 20, 31, 0.92); }
+  .tip.show::after { top: 3px; right: 8px; }
+  /* what lies underfoot sits in the log's corner, beside its button, rather
+     than over the feet of whatever stands in front of you; the log's lines
+     keep clear of it while it is there */
+  .feet { left: auto; right: 66px; bottom: auto; top: calc(100% + 6px); transform: none; flex-direction: column; gap: 1px; min-height: 44px; min-width: 56px; padding: 3px 8px 2px; }
+  .feet-icons img { width: 24px; height: 24px; }
+  .feet small { font-size: 0.72rem; line-height: 1; }
+  .view-col:has(#feet:not([hidden])) .log { padding-right: 172px; }
+  .quick-scroll { width: 52px; height: 52px; min-height: 52px; top: calc(100% + 10px); }
+  .quick-scroll img { width: 26px; height: 26px; }
+  .view-col:has(#quick-scroll:not([hidden])) .log { padding-left: 64px; }
 
   /* overlays: a slimmer head, and what was stacked put side by side */
   .overlay { padding-left: var(--sal); padding-right: var(--sar); }
