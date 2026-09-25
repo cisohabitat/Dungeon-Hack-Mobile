@@ -6558,6 +6558,40 @@ await test('what you drop stays down when you walk back over it, and the Take ro
   return held.left === undefined || 'the club kept its dropped mark in the pack';
 });
 
+await test('walking over gear your class cannot use leaves it for the Take row, and the trader buys it all in one go', async () => {
+  const ctx = await start('mage', 'junk-walk');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  for (let i = 0; i < 4; i++) { const [dx, dy] = Dungeon.DIRS[p.dir]; if (L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.FLOOR) break; Game.input('right'); run(Game, G, 300); }
+  const [dx, dy] = Dungeon.DIRS[p.dir], tx = p.x + dx, ty = p.y + dy;
+  L.items[`${tx},${ty}`] = [{ t: 'scale', q: 1, e: 0 }, { t: 'dagger', q: 1, e: 0 }, { t: 'shield', q: 1, e: 0 }];
+  const mark = markLog(G);
+  Game.input('forward'); run(Game, G, 400);
+  if (p.x !== tx || p.y !== ty) return 'could not step onto the pile';
+  const out = [];
+  if (!p.inv.some(it => it.t === 'dagger')) out.push('the dagger a mage can use was not picked up');
+  if (p.inv.some(it => it.t === 'scale' || it.t === 'shield')) out.push('gear a mage cannot use was picked up by walking over it');
+  const said = linesSince(G, mark).filter(l => /no use to a mage/.test(l));
+  if (said.length !== 1) out.push(`the log said ${said.length} times what was left`);
+  Game.input('back'); run(Game, G, 400); Game.input('forward'); run(Game, G, 400);
+  if (linesSince(G, mark).filter(l => /no use to a mage/.test(l)).length !== 1) out.push('stepping back on said it again');
+  Game.input('take'); run(Game, G, 100);
+  if (!p.inv.some(it => it.t === 'scale') || !p.inv.some(it => it.t === 'shield')) out.push('the Take row did not lift what was left');
+  if (Game.junkInPack().length !== 2) out.push(`the pack held ${Game.junkInPack().length} pieces of junk, not 2`);
+  // now a trader, and one tap for the lot
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'ration', q: 3, e: 0 }] };
+  L.npcs.length = 0; L.npcs.push(shop);
+  const [ex, ey] = Dungeon.DIRS[p.dir]; shop.x = p.x + ex; shop.y = p.y + ey;
+  if (L.tiles[shop.y * L.w + shop.x] !== Dungeon.T.FLOOR) { L.tiles[shop.y * L.w + shop.x] = Dungeon.T.FLOOR; }
+  Game.input('forward');
+  if (!Game.currentShop()) return out.concat('could not open the shop').join('; ');
+  const want = Game.junkInPack().reduce((n, it) => n + Game.sellPrice(it), 0), g0 = p.gold;
+  const got = Game.sellJunk();
+  if (got !== want || p.gold !== g0 + want) out.push(`selling the junk paid ${p.gold - g0} (said ${got}), wanted ${want}`);
+  if (Game.junkInPack().length || !p.inv.some(it => it.t === 'dagger')) out.push('selling the junk left junk, or sold the dagger');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

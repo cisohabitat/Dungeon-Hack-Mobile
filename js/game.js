@@ -1165,6 +1165,15 @@ const Game = (() => {
     emit('inv');
   }
   function floorItems() { return lvl().items[key(P().x, P().y)] || []; }
+  /** Gear this hero's class can never use: walking over it leaves it where it lies, for the Take row. */
+  function uselessToClass(it, p = P()) {
+    const b = ITEMS[it.t], c = CLASSES[p.cls];
+    if (!b || !c) return false;
+    if (b.kind === 'weapon') return !b.cls.includes(p.cls);
+    if (b.kind === 'armor') return !armorFits(c, b);
+    if (b.kind === 'shield') return !shieldFits(c, b);
+    return false;
+  }
   /** The lich, while it stands: the Heart will not come loose until it falls. */
   function keeper() { return lvl().monsters.find(m => MONSTERS[m.id].boss) || null; }
   /** What can be picked up here: not the Heart while its keeper stands. */
@@ -1228,9 +1237,9 @@ const Game = (() => {
     if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
     else if (floorItems().length) log('Your belt holds five of any one draught: there is no room for these.', 'bad');
   }
-  /** Everything here that can be taken; walking on, not what the hero put down. */
+  /** Everything here that can be taken; walking on, not what the hero put down nor gear the class cannot use. */
   function pickupAll(walking = false) {
-    for (const it of takeable().filter(it => !(walking && it.left))) {
+    for (const it of takeable().filter(it => !(walking && (it.left || uselessToClass(it))))) {
       takeItem(it);
       if (G.status !== 'playing') break;   // lifting the Heart ends the run: nothing more is picked up after
     }
@@ -1571,7 +1580,12 @@ const Game = (() => {
     const L = lvl(), p = P(), k = key(p.x, p.y);
     if (L.traps[k]) triggerTrap(k);
     if (G.status !== 'playing') return;
-    if (L.items[k] && L.items[k].length) { pickupAll(true); heartHeld(); }
+    if (L.items[k] && L.items[k].length) {
+      pickupAll(true); heartHeld();
+      const left = (L.items[k] || []).filter(it => !it.left && uselessToClass(it));
+      for (const it of left) it.left = 1;   // said once: after this it is simply lying there
+      if (left.length) log(`You leave ${left.length === 1 ? the(left[0]) : left.map(it => the(it)).join(', ').replace(/, ([^,]*)$/, ' and $1')} ${left.length === 1 ? 'where it lies' : 'where they lie'}: no use to a ${CLASSES[p.cls].name.toLowerCase()}. Take lifts ${left.length === 1 ? 'it' : 'them'}, for the trader.`);
+    }
   }
   /** How well a trap is set, before the depth adds to it: what a Dexterity save must beat. */
   const TRAP_DC = 12;
@@ -1870,7 +1884,7 @@ const Game = (() => {
     emit('inv'); emit('stats');
     return true;
   }
-  function sell(it) {
+  function sell(it, quiet = false) {
     const p = P();
     if (!shop) return false;
     if (it.t === 'artifact') { log('The trader pales and refuses to touch it.', 'bad'); return false; }
@@ -1884,10 +1898,20 @@ const Game = (() => {
     // a relic, or a piece whose quality is still unknown, sits on the shelf apart
     const ex = !one.u && !one.h && !one.pw && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h && !s.pw);
     if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}), ...(one.pw ? { pw: one.pw } : {}) });
-    log(`You sell ${the(one)} for ${price} gold.`, 'good');
-    Sound.play('gold');
+    if (!quiet) { log(`You sell ${the(one)} for ${price} gold.`, 'good'); Sound.play('gold'); }
     emit('inv'); emit('stats');
     return true;
+  }
+  /** What in the pack this hero's class can never use: the trader takes it all in one go. */
+  const junkInPack = () => P().inv.filter(it => uselessToClass(it));
+  function sellJunk() {
+    const junk = junkInPack();
+    if (!shop || !junk.length) return 0;
+    let gold = 0;
+    for (const it of junk) { const price = sellPrice(it); if (sell(it, true)) gold += price; }
+    log(`You sell ${junk.length === 1 ? the(junk[0]) : `${junk.length} pieces you had no use for`} for ${gold} gold.`, 'good');
+    Sound.play('gold');
+    return gold;
   }
 
   // ---------- what a blow leaves behind ----------
@@ -3611,7 +3635,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

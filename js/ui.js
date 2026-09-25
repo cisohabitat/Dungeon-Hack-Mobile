@@ -1063,6 +1063,19 @@ const UI = (() => {
     sellBox.innerHTML = '';
     const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key');
     if (!sellable.length) sellBox.innerHTML = '<div class="shop-empty">Nothing in your pack the trader wants.</div>';
+    // everything the class can never use, in one go: the pack was a chore to empty a row at a time
+    const junk = Game.junkInPack();
+    if (junk.length > 1) {
+      const total = junk.reduce((n, it) => n + Game.sellPrice(it), 0);
+      const row = document.createElement('div');
+      row.className = 'shop-row junk-row';
+      row.innerHTML = `<div class="what"><b>Everything you cannot use</b><small>${escapeHtml(junk.map(it => Game.itemName(it)).join(', '))}</small></div>`;
+      const btn = document.createElement('button');
+      btn.textContent = `Sell all ${total}g`; btn.className = 'afford';
+      payButton(btn, row, total, 'Sell', () => Game.sellJunk(), junk.some(it => it.u));
+      row.appendChild(btn);
+      sellBox.appendChild(row);
+    }
     for (const it of sellable) {
       const price = Game.sellPrice(it);
       // a stack sells one at a time: say so, and that the price is each
