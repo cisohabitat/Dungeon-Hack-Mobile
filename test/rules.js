@@ -6086,6 +6086,48 @@ await test('a Ring of Might adds its whole +1 to every blow, even with a quick d
   return (ringed.lost - bare.lost >= ringed.blows) || `bare ${bare.lost} over ${bare.blows} blows, ringed ${ringed.lost} over ${ringed.blows}`;
 });
 
+await test('the damage per second the pack and trader quote is what the weapon actually does', async () => {
+  const out = [];
+  // the ring, a talent, a path and finesse: each a part of the rule a copy of it lost
+  const cases = [
+    { cls: 'mage', weapon: 'dagger', ring: true },
+    { cls: 'thief', weapon: 'longsword', level: 7 },
+    { cls: 'fighter', weapon: 'greatsword', talents: ['weapon_master'], level: 5 },
+    { cls: 'fighter', weapon: 'longsword', path: 'berserker', level: 5, hurt: true },
+  ];
+  for (const c of cases) {
+    const ctx = await start(c.cls, 'blow-rate-' + c.weapon);
+    seedDice(ctx, 'blow-rate-' + c.cls);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    if (c.level) p.level = c.level;
+    if (c.talents) p.talents = c.talents;
+    if (c.path) p.path = c.path;
+    if (c.hurt) p.hp = Math.ceil(p.maxHp * 0.3);
+    p.perkHit = 60;
+    p.eq.shield = null; p.eq.offhand = null;
+    p.eq.weapon = { t: c.weapon, q: 1, e: 0 };
+    if (c.ring) { const r = { t: 'ring_might', q: 1, e: 0 }; p.inv.push(r); Game.equip(r, true); }
+    const quoted = Game.blowRate(p.eq.weapon);
+    const m = beside(ctx, 'ogre', { hp: 1e9, maxHp: 1e9, nextAct: 1e12 });
+    G.t = p.nextAttack; const t0 = G.t;
+    for (let i = 0; i < 3000; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    // a natural 1 misses as often as a crit doubles, so the two all but cancel
+    const measured = (1e9 - m.hp) / ((p.nextAttack - t0) / 1000);
+    if (Math.abs(measured - quoted) / measured > 0.06) out.push(`${c.cls} with a ${c.weapon}: quoted ${quoted.toFixed(1)}, measured ${measured.toFixed(1)}`);
+  }
+  // a two-hander stows the second blade, so its quote does not count the second blade's blows
+  const ctx = await start('fighter', 'blow-rate-dual');
+  const { Game } = ctx; const p = Game.player();
+  p.eq.shield = null; p.eq.weapon = { t: 'longsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+  const great = { t: 'greatsword', q: 1, e: 0 };
+  const alone = Game.blowRate(great);
+  p.eq.offhand = null;
+  if (Math.abs(Game.blowRate(great) - alone) > 1e-9) out.push('a two-hander\'s quote changed with a dagger in the other hand');
+  // and a hidden enchantment is not given away
+  if (Game.blowRate({ t: 'greatsword', q: 1, e: 3, h: 1 }) !== Game.blowRate(great)) out.push('a hidden +3 showed in the quote');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

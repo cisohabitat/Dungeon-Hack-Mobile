@@ -317,6 +317,31 @@ const Game = (() => {
     const swift = hasPower('swift', 'weapon') ? 0.85 : 1;
     return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0, blunt: !!b.blunt };
   }
+  /**
+   * Damage per second a main-hand weapon would give you, as far as you know
+   * it: the melee rule's own numbers (strength or finesse, practice, talents,
+   * a path, a Ring of Might, a blade kept in the other hand) against a foe with
+   * nothing special about it. A hidden enchantment counts as nothing. The
+   * trader and the pack compare weapons with this, so they cannot drift from
+   * the rule the way a copy of it did.
+   */
+  function blowRate(it) {
+    const p = P(), b = it ? ITEMS[it.t] : null;
+    const known = x => (x && !x.h ? x.e || 0 : 0);
+    const r = relicOf(it), swift = !!it && ((!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h));
+    // a two-hander stows the second blade, and a blade moved to the main hand leaves it empty
+    const dual = !!p.eq.offhand && p.eq.offhand !== it && !(b && b.twoHanded);
+    const base = b ? b.speed : 450;
+    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
+    const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
+    const finesse = p.cls === 'thief';
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
+    const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
+      + berserkerRage() + jewelBonus('might');
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (finesse ? flat : flat * (base / 700)) + knack);
+    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand));
+    return blow / (speed / 1000);
+  }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.2;
   const DUAL_HIT_PENALTY = 2;
@@ -4122,7 +4147,7 @@ const Game = (() => {
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
-    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, berserkerRage, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,

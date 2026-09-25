@@ -1515,19 +1515,8 @@ const UI = (() => {
     const fmt = n => (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
     let label, delta;
     if (b.kind === 'weapon') {
-      const dps = item => {
-        if (!item) return 0;
-        const d = ITEMS[item.t].dmg, sp = ITEMS[item.t].speed * (swiftOf(item) ? 0.85 : 1);
-        // mirrors the damage rule: flat bonuses scale with swing time, except
-        // for a thief's finesse, which does not
-        const finesse = p.cls === 'thief';
-        // a cleric's faith guides the mace: the stronger of strength and wisdom
-        const arm = p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
-        const base = Game.mod(finesse ? p.stats.dex : arm) + Game.skillDamage();
-        const flat = finesse ? base : base * (sp / 700);
-        return ((d[0] * (d[1] + 1) / 2) + d[2] + knownE(item) + flat) / (sp / 1000);
-      };
-      const now = dps(cur), next = dps(it);
+      // the game's own damage rule, Ring of Might, path and all
+      const now = Game.blowRate(cur), next = Game.blowRate(it);
       label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs bare hands';
       delta = next - now;
       return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second</p>`;
