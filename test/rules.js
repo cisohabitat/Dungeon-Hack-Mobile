@@ -5107,6 +5107,9 @@ await test('a ring is known only by its look until it is worn or studied, and se
   const it = { t: 'ring_evasion', q: 1, e: 0 }; p.inv.push(it);
   const shown = Game.itemName(it);
   if (!/^[A-Z][a-z]+ Ring$/.test(shown) || shown.includes('Evasion')) out.push(`an unknown ring is called "${shown}"`);
+  // nor does a finely made one say so before its kind is known
+  const fine = { t: 'ring_protect', q: 1, e: 2 };
+  if (/\+2/.test(Game.itemName(fine))) out.push(`an unknown ring gives away its make: "${Game.itemName(fine)}"`);
   if (Game.sellPrice(it) >= ITEMS.ring_evasion.value * 0.45) out.push(`an unknown ring sells for ${Game.sellPrice(it)}, as much as a known one`);
   Game.equip(it, true);
   if (Game.itemName(it) !== 'Ring of Evasion') out.push(`worn, it is called "${Game.itemName(it)}"`);

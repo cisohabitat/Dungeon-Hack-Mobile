@@ -683,7 +683,9 @@ const Game = (() => {
       const look = G.looks[it.t];
       n = `${look.adj[0].toUpperCase() + look.adj.slice(1)} ${{ potion: 'Potion', scroll: 'Scroll', ring: 'Ring', amulet: 'Amulet' }[b.kind]}`;
     }
-    if (it.e && !it.h) n += it.e > 0 ? ` +${it.e}` : ` −${-it.e}`;
+    // a ring you cannot name keeps its make to itself too: '+2' would say it is
+    // one of the kinds that come in amounts, and not cursed
+    if (it.e && !it.h && !(isJewel(it) && !isKnown(it.t))) n += it.e > 0 ? ` +${it.e}` : ` −${-it.e}`;
     // a power is part of what studying or wearing a piece tells you
     if (it.pw && !it.h) n += ` ${POWER_SUFFIX[it.pw] || ''}`;
     if (it.q > 1) n += ` ×${it.q}`;
