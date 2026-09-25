@@ -672,8 +672,11 @@ test.describe('dungeon features', () => {
     // the first rat dies to the first blow, before it ever swings
     await rat(1);
     await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
-    await page.evaluate(() => { const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack'); });
-    await expect.poll(() => page.evaluate(() => Game.level().monsters.length)).toBe(0);
+    // a natural 1 misses whatever the bonus, so swing until it falls
+    await expect.poll(() => page.evaluate(() => {
+      const p = Game.player(); Game.state().t = Math.max(Game.state().t, p.nextAttack); Game.input('attack');
+      return Game.level().monsters.length;
+    })).toBe(0);
     await page.waitForTimeout(1500);
     // the next, with a wall at the hero's back and room to one side
     await rat(999);
