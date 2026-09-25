@@ -3973,14 +3973,16 @@ const Game = (() => {
 
   // ---------- render state ----------
   // Where each of up to five things on one square lies, in fractions of the
-  // square from its middle, turned a different way on each square so a room
-  // of finds does not look laid out on a grid.
+  // square from its middle. No two share a row or a column, so from whichever
+  // side the square is seen they stand apart across the view: turned at an
+  // angle, one could stand straight behind another and be hidden by it. Each
+  // square gets its own quarter turn, which keeps that true.
   const SCATTER = [
     [[0, 0]],
-    [[-0.17, -0.08], [0.17, 0.09]],
-    [[-0.2, 0.11], [0.2, 0.09], [0.01, -0.18]],
-    [[-0.2, -0.15], [0.19, -0.13], [-0.17, 0.17], [0.2, 0.16]],
-    [[-0.22, -0.16], [0.21, -0.14], [-0.2, 0.18], [0.22, 0.17], [0.01, 0.01]],
+    [[-0.18, -0.18], [0.18, 0.18]],
+    [[-0.2, 0.05], [0.02, -0.2], [0.2, 0.2]],
+    [[-0.22, -0.07], [-0.07, 0.22], [0.07, -0.22], [0.22, 0.07]],
+    [[-0.24, 0], [-0.12, 0.24], [0, -0.24], [0.12, 0.12], [0.24, -0.12]],
   ];
   /**
    * What is about to hit you from somewhere you are not looking. The damage
@@ -4094,7 +4096,7 @@ const Game = (() => {
       // what lies on a square is scattered across it, each thing where it fell,
       // rather than one picture standing for the lot: the newest five show
       const shown = list.slice(-SCATTER.length), spots = SCATTER[shown.length - 1];
-      const turn = ((x * 73856093) ^ (y * 19349663)) % 628 / 100, c = Math.cos(turn), sn = Math.sin(turn);
+      const turn = (((x * 73856093) ^ (y * 19349663)) >>> 0) % 4 * Math.PI / 2, c = Math.round(Math.cos(turn)), sn = Math.round(Math.sin(turn));
       shown.forEach((it, i) => {
         const [ox, oy] = spots[i];
         // the Heart floats; a relic hovers a little, so it reads as more than iron

@@ -6286,6 +6286,10 @@ await test('what lies on one square is scattered across it, each thing seen wher
   if (here.length !== 3) return `three things on a square drew ${here.length} pictures`;
   if (new Set(here.map(sp => sp.x.toFixed(3) + ',' + sp.y.toFixed(3))).size !== 3) return 'two of them lie on the same spot';
   if (here.some(sp => Math.abs(sp.x - 5.5) > 0.3 || Math.abs(sp.y - 5.5) > 0.3)) return 'one lies outside its square';
+  // from any side, none stands straight behind another: no two share a row or a column
+  for (let i = 0; i < here.length; i++) for (let j = i + 1; j < here.length; j++) {
+    if (Math.abs(here[i].x - here[j].x) < 0.1 || Math.abs(here[i].y - here[j].y) < 0.1) return 'two lie in line, so one hides the other from some side';
+  }
   const heap = floor.filter(sp => Math.floor(sp.x) === 9 && Math.floor(sp.y) === 9);
   return heap.length === 5 || `eight things on a square drew ${heap.length} pictures, not the five that fit`;
 });
