@@ -108,7 +108,7 @@ async function play(page, opts) {
       const p = Game.player(), L = Game.level();
 
       // a level-up choice blocks everything until it is made
-      if (Game.pendingBoons()) { Game.chooseBoon(Game.pendingBoons()[0]); return { acted: 'boon' }; }
+      if (Game.pendingBoons()) { const id = Game.pendingBoons()[0]; Game.chooseBoon(id, id === 'spread' ? ['con', 'con'] : undefined); return { acted: 'boon' }; }
 
       // an encounter walked into by accident: this run is checking the route,
       // not the encounters, so it takes the way out and moves on

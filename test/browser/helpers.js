@@ -50,6 +50,8 @@ async function clearBoons(page) {
   for (let i = 0; i < 20; i++) {
     if (!(await page.locator('#ov-boons.open').isVisible())) return;
     await page.locator('#boon-list .boon').first().click();
+    // Self-Taught asks where its two points go
+    if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat').first().click(); await page.locator('.spread-stat').first().click(); }
     await page.waitForTimeout(60);
   }
 }

@@ -1064,12 +1064,12 @@ await test('levelling offers a choice that must be made and changes the characte
   if (p.level < 2) return `level did not rise, still ${p.level}`;
   // the even levels bring talents; take those and come to the first lesson
   const lessonIds = new Set(ctx.BOONS.map(b => b.id));
-  for (let i = 0; i < 10 && Game.pendingBoons() && !Game.pendingBoons().every(id => lessonIds.has(id)); i++) Game.chooseBoon(Game.pendingBoons()[0]);
+  for (let i = 0; i < 10 && Game.pendingBoons() && !Game.pendingBoons().every(id => lessonIds.has(id)); i++) Game.chooseBoon(Game.pendingBoons()[0], Game.pendingBoons()[0] === 'spread' ? ['con', 'con'] : undefined);
   const offer = Game.pendingBoons();
   if (!offer) return 'no boon offered after levelling';
   if (offer.length !== 3) return `offered ${offer.length} boons, expected 3`;
   if (Game.chooseBoon('not-a-real-boon')) return 'an unknown boon id was accepted';
-  if (!Game.chooseBoon(offer[0])) return 'a valid boon was rejected';
+  if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return 'a valid boon was rejected';
   const after = JSON.stringify(p.stats) + p.maxHp;
   if (before === after && !p.perkHit && !p.perkSpeed && !p.perkRegen && !p.bonusSp) return 'the boon changed nothing';
   return p.boons && p.boons.length === 1;
@@ -3534,7 +3534,7 @@ await test('levelling offers a lesson at the odd levels, a class talent at the e
       const isTalent = offer.every(id => TALENTS.fighter.some(t => t.id === id));
       const isLesson = offer.every(id => BOONS.some(b => b.id === id));
       kinds.push(`${p.level}:${isTalent ? 'T' : isLesson ? 'L' : Game.isPathOffer(offer) ? 'P' : '?'}`);
-      if (!Game.chooseBoon(offer[0])) return `could not choose ${offer[0]}`;
+      if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return `could not choose ${offer[0]}`;
     }
   }
   if (kinds.join(' ') !== '2:T 3:L 4:T 5:P 6:T') return `offers by level: ${kinds.join(' ')}`;
@@ -3559,7 +3559,7 @@ await test('a talent is never offered twice', async () => {
     const again = offer.find(id => taken.includes(id));
     if (again) return `${again} was offered again at level ${lvl}`;
     taken.push(offer[0]);
-    Game.chooseBoon(offer[0]);
+    Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined);
   }
   return (p.talents.length === 4 && new Set(p.talents).size === 4) || `talents: ${p.talents.join(', ')}`;
 });
@@ -5639,7 +5639,7 @@ await test('a named champion is as much sturdier as the difficulty says, and the
     return Game.level().monsters.find(o => MONSTERS[o.id].named);
   };
   const easy = await on('easy'), normal = await on('normal'), hard = await on('hard');
-  if (Math.abs(normal.maxHp / easy.maxHp - 1.3) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.45) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
+  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.7) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
   // a hero far ahead of the floor: every creature there is readier, and many become champions, but not this one
   for (let i = 0; i < 6; i++) {
     const pressed = await pinned(i / 6, () => on('normal', 12));
@@ -5799,7 +5799,7 @@ await test('several levels at once still offer the path, between the talents, an
   while (Game.pendingBoons()) {
     const offer = Game.pendingBoons();
     kinds.push(`${Game.pendingLevel()}:${Game.isPathOffer(offer) ? offer.join('/') : 'T'}`);
-    if (!Game.chooseBoon(Game.isPathOffer(offer) ? 'healer' : offer[0])) return `could not choose from ${offer.join(', ')}`;
+    if (!Game.chooseBoon(Game.isPathOffer(offer) ? 'healer' : offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return `could not choose from ${offer.join(', ')}`;
   }
   if (kinds.join(' ') !== '4:T 5:templar/healer 6:T') return `offers: ${kinds.join(' ')}`;
   return (p.path === 'healer' && p.talents.length === 2) || `path ${p.path}, talents ${p.talents}`;
