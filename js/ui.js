@@ -962,9 +962,9 @@ const UI = (() => {
       const add = d[2] + knownE(it);
       return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
-    if (b.kind === 'armor') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}`;
-    if (b.kind === 'shield' && b.focus) return `${b.desc.replace(/\.$/, '')}; held in the free hand`;
-    if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
+    if (b.kind === 'armor') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}`;
+    if (b.kind === 'shield' && b.focus) return `${b.desc.replace(/\.$/, '')}; held in the free hand${b.ac ? `, armour class +${b.ac}` : ''}`;
+    if (b.kind === 'shield') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     // a ring that comes in amounts says how much, enchantment and all
     if (b.bonus) return amountWords([].concat(b.power)[0], b.bonus + knownE(it), it.h ? '?' : '') || b.desc || '';
@@ -996,17 +996,19 @@ const UI = (() => {
     btn.textContent = `${label} ${price}g`;
     btn.disabled = !enabled;
     if (enabled) btn.className = 'afford';
-    payButton(btn, row, price, label, onClick);
+    payButton(btn, row, price, label, onClick, !!it.u);
     row.appendChild(btn);
     return row;
   }
   // A dear thing asks twice. A mis-tap while scrolling the trader's list
   // should not spend a fortune: anything from 100 gold, or a quarter of the
   // purse, arms on the first tap and pays on the second, within a few seconds.
-  // Selling never asks: it gives gold, it does not take it. The whole row
-  // answers a tap, not only its button.
-  function payButton(btn, row, price, label, onClick) {
-    const dear = label !== 'Sell' && label !== 'Sell one' && price >= Math.min(100, Math.max(1, Game.player().gold * 0.25));
+  // Selling asks only for a relic or anything fetching 100 gold: the trader
+  // wants several times as much to sell it back. The whole row answers a tap,
+  // not only its button.
+  function payButton(btn, row, price, label, onClick, relic = false) {
+    const selling = label === 'Sell' || label === 'Sell one';
+    const dear = selling ? relic || price >= 100 : price >= Math.min(100, Math.max(1, Game.player().gold * 0.25));
     const plain = btn.textContent;
     let armedUntil = 0;
     btn.addEventListener('click', e => {
@@ -1014,7 +1016,7 @@ const UI = (() => {
       if (dear && performance.now() > armedUntil) {
         armedUntil = performance.now() + 3000;
         for (const b of $$('#ov-shop .shop-row button.armed')) if (b !== btn) b.dispatchEvent(new Event('disarm'));
-        btn.classList.add('armed'); btn.textContent = `Tap again: ${price}g`;
+        btn.classList.add('armed'); btn.textContent = selling ? `Tap again to sell: ${price}g` : `Tap again: ${price}g`;
         setTimeout(() => { if (btn.isConnected && performance.now() >= armedUntil) btn.dispatchEvent(new Event('disarm')); }, 3050);
         return;
       }
@@ -1474,6 +1476,7 @@ const UI = (() => {
     box.classList.add('open');
     let info = itemBlurb(it);
     if (b.kind === 'weapon') info += `. Usable by ${b.cls.map(c => CLASSES[c].plural).join(', ')}.`;
+    else if (info && !/[.!?]$/.test(info)) info += '.';   // what follows starts a sentence of its own
     if (!Game.isKnown(it.t)) info = b.kind === 'ring' || b.kind === 'amulet'
       ? 'You do not know what it was made for, nor whether it is cursed. Putting it on will tell you, and so will studying it.'
       : 'You do not know what this does. Using it will reveal its nature.';
@@ -1739,7 +1742,7 @@ const UI = (() => {
     r('Name', escapeHtml(p.name)); r('Class', path ? `${c.name}, ${escapeHtml(path.name)}` : c.name);
     r('Hero level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
     r('Hit points', `${p.hp} / ${p.maxHp}`); r('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '—');
-    r('Armor class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
+    r('Armour class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
     r('Weapon', `${w.name} ${w.dmg[0]}d${w.dmg[1]}${w.dmg[2] ? '+' + w.dmg[2] : ''}${w.e > 0 ? ' +' + w.e : w.e < 0 ? ' \u2212' + -w.e : ''}`, true);
     r('Gold', p.gold);
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
@@ -1951,6 +1954,7 @@ const UI = (() => {
     $('#end-share').textContent = 'Share today\'s result';
     $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
+    $('#screen-end').scrollTop = 0;   // a second death, or the win, opens at its title, not where the last was left
   }
 
   // ---------- input ----------

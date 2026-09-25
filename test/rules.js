@@ -6538,6 +6538,26 @@ await test('an old save\'s enchanted focus comes back plain, as a focus never co
   return (q.eq.shield?.e === 0 && q.inv.find(it => it.t === 'spellbook')?.e === 0) || `the orb came back ${q.eq.shield?.e}, the book ${q.inv.find(it => it.t === 'spellbook')?.e}`;
 });
 
+await test('what you drop stays down when you walk back over it, and the Take row lifts it', async () => {
+  const ctx = await start('fighter', 'drop-stays');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  const club = { t: 'club', q: 1, e: 0 }; p.inv.push(club);
+  Game.dropItem(club);
+  const x0 = p.x, y0 = p.y;
+  // step off to any open side and back
+  for (let turn = 0; turn < 4 && p.x === x0 && p.y === y0; turn++) { Game.input('forward'); run(Game, G, 400); if (p.x === x0 && p.y === y0) { Game.input('right'); run(Game, G, 300); } }
+  if (p.x === x0 && p.y === y0) return 'could not step off the square';
+  Game.input('back'); run(Game, G, 400);
+  if (p.x !== x0 || p.y !== y0) return 'could not step back onto the square';
+  if (p.inv.some(it => it.t === 'club')) return 'walking back over the dropped club picked it up';
+  if (!Game.floorItems().includes(club)) return 'the club was not on the floor';
+  Game.input('take'); run(Game, G, 100);
+  const held = p.inv.find(it => it.t === 'club');
+  if (!held || Game.floorItems().length) return 'the Take row did not lift the club';
+  return held.left === undefined || 'the club kept its dropped mark in the pack';
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

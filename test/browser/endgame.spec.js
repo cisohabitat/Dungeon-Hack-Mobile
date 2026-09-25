@@ -130,3 +130,32 @@ test.describe('the endgame', () => {
     await expect(page.locator('#end-title')).toHaveText(/VICTORY/i, { timeout: 6000 });
   });
 });
+
+test('a second death opens the end screen at its title, not where the last one was scrolled to', async ({ page }) => {
+  const { clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+  const errors = watchForErrors(page);
+  await page.setViewportSize({ width: 851, height: 393 });
+  const fall = async (seed, again) => {
+    if (!again) await startGame(page, { seed });
+    else {
+      // straight on from the end screen, in the same page, as a player would
+      await page.click('#end-new');
+      await page.fill('#c-seed', seed);
+      await page.click('#c-begin');
+      await page.click('#pro-begin');
+      await expect(page.locator('#screen-game')).toBeVisible();
+    }
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#screen-end')).toBeVisible();
+  };
+  await fall('end-scroll-1');
+  await page.evaluate(() => { document.querySelector('#screen-end').scrollTop = 9999; });
+  expect(await page.evaluate(() => document.querySelector('#screen-end').scrollTop), 'the end screen should be long enough to scroll sideways').toBeGreaterThan(0);
+  await fall('end-scroll-2', true);
+  expect(await page.evaluate(() => document.querySelector('#screen-end').scrollTop)).toBe(0);
+  expect(errors).toEqual([]);
+});

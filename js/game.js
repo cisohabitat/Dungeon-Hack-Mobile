@@ -1158,6 +1158,8 @@ const Game = (() => {
     const one = removeOne(it);
     if (!one) { log('You are not carrying that.', 'bad'); return; }
     const k = key(p.x, p.y);
+    // what you put down stays down when you walk back over it: the Take row lifts it again
+    one.left = 1;
     (L.items[k] = L.items[k] || []).push(one);
     log(`You drop ${the(one)}.`);
     emit('inv');
@@ -1187,6 +1189,7 @@ const Game = (() => {
     const list = L.items[k] || [];
     const i = list.indexOf(it);
     if (i < 0) return;
+    delete it.left;
     if (it.t === 'gold' || it.t === 'gem') { it.q = tricksterPurse(it.q); noteGold(it.q); }
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'gem') { p.gold += it.q; log(`You find ${/^[aeiou]/i.test(it.name) ? 'an' : 'a'} ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
@@ -1225,8 +1228,9 @@ const Game = (() => {
     if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
     else if (floorItems().length) log('Your belt holds five of any one draught: there is no room for these.', 'bad');
   }
-  function pickupAll() {
-    for (const it of takeable().slice()) {
+  /** Everything here that can be taken; walking on, not what the hero put down. */
+  function pickupAll(walking = false) {
+    for (const it of takeable().filter(it => !(walking && it.left))) {
       takeItem(it);
       if (G.status !== 'playing') break;   // lifting the Heart ends the run: nothing more is picked up after
     }
@@ -1567,7 +1571,7 @@ const Game = (() => {
     const L = lvl(), p = P(), k = key(p.x, p.y);
     if (L.traps[k]) triggerTrap(k);
     if (G.status !== 'playing') return;
-    if (L.items[k] && L.items[k].length) { pickupAll(); heartHeld(); }
+    if (L.items[k] && L.items[k].length) { pickupAll(true); heartHeld(); }
   }
   /** How well a trap is set, before the depth adds to it: what a Dexterity save must beat. */
   const TRAP_DC = 12;
@@ -1614,7 +1618,7 @@ const Game = (() => {
     fx.trapAt = realNow; fx.trapSide = (tx + ty) % 2 ? 1 : -1;
     if (seen.pass) {
       fx.trapKind = 'disarm';
-      log(`You spot and disarm a ${tr.name}.${seen.note}`, 'good');
+      log(`You spot and disarm ${/^[aeiou]/i.test(tr.name) ? 'an' : 'a'} ${tr.name}.${seen.note}`, 'good');
       Sound.play('locked');
       return;
     }

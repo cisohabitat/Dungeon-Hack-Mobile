@@ -78,7 +78,7 @@ test.describe('the trader', () => {
     expect(trade.known, 'the trader tells you what it is').toBe(true);
   });
 
-  test('a dear purchase asks twice, a cheap one and a sale do not, and the whole row answers a tap', async ({ page }) => {
+  test('a dear purchase or sale asks twice, a cheap one does not, and the whole row answers a tap', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'shop-buy', levels: '8' });
     const found = await findTrader(page);
@@ -105,10 +105,18 @@ test.describe('the trader', () => {
     const g1 = await gold();
     await page.locator('#shop-stock .shop-row', { hasText: /ration/i }).locator('.what').click();
     expect(await gold()).toBeLessThan(g1);
-    // selling the plate back never asks: it gives gold
+    // selling the plate back asks too, as the trader wants far more to sell it again
     const g2 = await gold();
-    await page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button').click();
+    const sell = page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button');
+    await sell.click();
+    expect(await gold(), 'the first tap on a dear sale only arms it').toBe(g2);
+    await expect(sell).toContainText('Tap again to sell');
+    await sell.click();
     expect(await gold()).toBeGreaterThan(g2);
+    // a cheap sale takes one tap
+    const g3 = await gold();
+    await page.locator('#shop-sell .shop-row', { hasText: /ration/i }).locator('button').click();
+    expect(await gold()).toBeGreaterThan(g3);
     expect(errors).toEqual([]);
   });
 

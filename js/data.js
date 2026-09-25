@@ -272,7 +272,7 @@ const ITEMS = {
   sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric'], value: 10, sprite: 'sling', tier: 2 },
   shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3 },
   // armor
-  leather: { kind: 'armor', name: 'Leather Armor',   ac: 2, weight: 'light', value: 10,  sprite: 'leather', tier: 1 },
+  leather: { kind: 'armor', name: 'Leather Armour',  ac: 2, weight: 'light', value: 10,  sprite: 'leather', tier: 1 },
   studded: { kind: 'armor', name: 'Studded Leather', ac: 3, weight: 'light', value: 20,  sprite: 'studded', tier: 2 },
   scale:   { kind: 'armor', name: 'Scale Mail',      ac: 4, weight: 'heavy', value: 45,  sprite: 'scale', tier: 2 },
   chain:   { kind: 'armor', name: 'Chain Mail',      ac: 5, weight: 'heavy', value: 75,  sprite: 'chain', tier: 3 },
