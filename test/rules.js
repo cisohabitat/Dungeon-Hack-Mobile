@@ -6216,6 +6216,65 @@ await test('a champion who kills the hero is named on the death screen', async (
   return (k && /^Grisk, the /.test(k.name)) || `killed by ${JSON.stringify(k)}`;
 });
 
+await test('a mage starts in an Apprentice\'s Robe, wears only robes, and nobody else can', async () => {
+  const out = [];
+  const ctx = await start('mage', 'robe-start');
+  const { Game } = ctx; const p = Game.player();
+  if (!p.eq.armor || p.eq.armor.t !== 'robe_apprentice') out.push(`a new mage wears ${JSON.stringify(p.eq.armor)}`);
+  const ac = Game.playerAC(); Game.unequip('armor');
+  if (Game.playerAC() !== ac - 1) out.push(`taking off the robe moved armour class ${ac} -> ${Game.playerAC()}`);
+  if (!/robes/.test(Game.canEquip({ t: 'leather', q: 1, e: 0 }) || '')) out.push(`a mage could wear leather: ${Game.canEquip({ t: 'leather', q: 1, e: 0 })}`);
+  for (const cls of ['fighter', 'cleric', 'thief']) {
+    const c2 = await start(cls, 'robe-other');
+    const why = c2.Game.canEquip({ t: 'robe_silk', q: 1, e: 0 });
+    if (!why || !/mage/.test(why)) out.push(`a ${cls} could wear a Silk Robe (${why})`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a Silk Robe adds two spell points while worn, and the Robe of the Magi eases the great workings', async () => {
+  const out = [];
+  const ctx = await start('mage', 'robe-sp');
+  const { Game } = ctx; const p = Game.player();
+  p.level = 7;
+  Game.unequip('armor');
+  const sp0 = Game.player().maxSp;
+  const silk = { t: 'robe_silk', q: 1, e: 0 }; p.inv.push(silk); Game.equip(silk, true);
+  if (p.maxSp !== sp0 + 2) out.push(`a Silk Robe made spell points ${sp0} into ${p.maxSp}`);
+  Game.unequip('armor');
+  if (p.maxSp !== sp0) out.push(`off again, spell points are ${p.maxSp}, not ${sp0}`);
+  const cost = id => Game.spellCost(Game.knownSpells().find(s => s.id === id));
+  const bolt0 = cost('lightning'), dart0 = cost('magic_missile');
+  const magi = { t: 'robe_magi', q: 1, e: 0 }; p.inv.push(magi); Game.equip(magi, true);
+  if (p.maxSp !== sp0 + 4) out.push(`the Robe of the Magi made spell points ${sp0} into ${p.maxSp}`);
+  if (cost('lightning') !== bolt0 - 1) out.push(`in the Magi's robe lightning costs ${cost('lightning')}, not ${bolt0 - 1}`);
+  if (cost('magic_missile') !== dart0) out.push(`a small spell changed cost: ${dart0} -> ${cost('magic_missile')}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('robes turn up only in a mage\'s dungeon, and every other floor is as it was', async () => {
+  const robesIn = async (cls, seed) => {
+    const ctx = await start(cls, seed);
+    const { Game, ITEMS } = ctx; const found = [], rest = [];
+    for (let d = 1; d <= 7; d++) {
+      if (d > 1) { Game.level().monsters.length = 0; Game.descend(); }
+      const L = Game.level();
+      // relics are chosen for the class already (relicPlan), so they are left out
+      for (const k in L.items) for (const it of L.items[k]) if (!it.u) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:${k}:${it.t}`);
+      for (const n of L.npcs || []) for (const it of n.stock || []) if (!it.u) (ITEMS[it.t].weight === 'cloth' ? found : rest).push(`${d}:shop:${it.t}`);
+    }
+    return { found, rest: rest.sort().join('|') };
+  };
+  let mageRobes = 0;
+  for (let i = 0; i < 4; i++) {
+    const m = await robesIn('mage', 'robe-place' + i), f = await robesIn('fighter', 'robe-place' + i);
+    if (f.found.length) return `a fighter's dungeon held robes: ${f.found.join(', ')}`;
+    if (m.rest !== f.rest) return `on seed robe-place${i} the mage's floors hold other things than the fighter's`;
+    mageRobes += m.found.length;
+  }
+  return mageRobes > 0 || 'four mage dungeons held no robe at all';
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

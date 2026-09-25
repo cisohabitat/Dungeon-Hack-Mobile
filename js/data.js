@@ -210,6 +210,9 @@ const PATHS = {
   ],
 };
 
+/** Whether a class can wear a body armour: robes are a mage's alone, and a mage wears nothing else. */
+const armorFits = (c, b) => (b.weight === 'cloth' ? c.armor === 'cloth' : c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light'));
+
 const XP_TABLE = [0, 45, 120, 265, 540, 1020, 1800, 3000, 4800, 7400, 11000, 16200, 22800];
 const MAX_LEVEL = 12;
 
@@ -226,9 +229,9 @@ const CLASSES = {
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'none', shield: false, castMs: 500, spMul: 1.8, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, castMs: 500, spMul: 1.8, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
-    startKit: ['staff', 'dagger', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
+    startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
     name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: false, spells: null, primary: 'dex',
@@ -273,6 +276,11 @@ const ITEMS = {
   chain:   { kind: 'armor', name: 'Chain Mail',      ac: 5, weight: 'heavy', value: 75,  sprite: 'chain', tier: 3 },
   splint:  { kind: 'armor', name: 'Splint Mail',     ac: 6, weight: 'heavy', value: 120, sprite: 'splint', tier: 4 },
   plate:   { kind: 'armor', name: 'Plate Mail',      ac: 7, weight: 'heavy', value: 300, sprite: 'plate', tier: 5 },
+  // a mage's cloth: little armour, woven for spellwork (see armorFits)
+  robe_apprentice: { kind: 'armor', name: "Apprentice's Robe", ac: 1, weight: 'cloth', value: 8,   sprite: 'robe_apprentice', tier: 1 },
+  robe_silk:       { kind: 'armor', name: 'Silk Robe',         ac: 1, weight: 'cloth', value: 60,  sprite: 'robe_silk', tier: 2, sp: 2 },
+  robe_warded:     { kind: 'armor', name: 'Warded Robe',       ac: 2, weight: 'cloth', value: 90,  sprite: 'robe_warded', tier: 3 },
+  robe_magi:       { kind: 'armor', name: 'Robe of the Magi',  ac: 2, weight: 'cloth', value: 250, sprite: 'robe_magi', tier: 5, sp: 4, cheap: 1 },
   // shields
   buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1 },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
@@ -563,4 +571,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };

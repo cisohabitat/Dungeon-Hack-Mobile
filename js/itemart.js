@@ -65,6 +65,25 @@ function inside(pts, test) {
 const TORSO = [[5, 8], [11, 5], [13, 7.5], [19, 7.5], [21, 5], [27, 8], [27, 13], [24, 15], [23.5, 27], [8.5, 27], [8, 15], [5, 13]];
 const NECK = [[13, 7.5], [19, 7.5], [17.5, 11], [14.5, 11]];
 
+// A robe: a gown that flares to the floor, bell sleeves, a hood fallen behind
+// the neck, a sash at the waist and a trimmed hem and opening.
+const ROBE = [[7, 8], [11, 5], [13, 7.5], [19, 7.5], [21, 5], [25, 8], [29.5, 16.5], [26, 18], [23, 18.5], [28.5, 30], [3.5, 30], [9, 18.5], [6, 18], [2.5, 16.5]];
+function robe(cloth, light, trim, extra) {
+  return [
+    ball(16, 6.5, 5.5, 3, shade(cloth, -0.35)),          // the hood, behind
+    sheet(ROBE, cloth, { curve: 1 }),
+    sheet(NECK, shade(cloth, -0.55)),
+    // the lit fold down the left, a shadowed one down the right
+    limb(11, 10, 11, 17, 1, 1, light), limb(11.5, 20, 7.5, 29, 1, 1.8, light), limb(20.5, 20, 24.5, 29, 1, 1.6, shade(cloth, -0.25)),
+    // trim down the opening and round the hem and the cuffs
+    line(16, 11, 16, 29.5, trim), line(4.5, 29.5, 27.5, 29.5, trim),
+    line(3, 16.5, 6.5, 17.8, trim), line(25.5, 17.8, 29, 16.5, trim),
+    // the sash
+    limb(9.5, 18.5, 22.5, 18.5, 1, 1, shade(cloth, -0.45)),
+    ...extra,
+  ];
+}
+
 /** A glass bottle: glass above the liquid line, the draught below, a cork. */
 function bottle(bodyParts, liquidParts, neck, glints) {
   return [
@@ -328,6 +347,30 @@ const ITEM_ART = {
     ball(7.5, 9.5, 4.2, 3.4, '#b8c2d0'), ball(24.5, 9.5, 4.2, 3.4, '#b8c2d0'),
     line(4, 11, 11, 11, GOLD), line(21, 11, 28, 11, GOLD),
   ],
+  // ---- robes: a mage's cloth, long to the floor, sleeves wide at the wrist ----
+  robe_apprentice: () => robe('#6e6252', '#8a7c68', '#b8a070', [
+    // a rope belt knotted at the hip, its ends hanging
+    limb(19, 19, 19.5, 23.5, 0.5, 0.4, '#c8b080'), limb(20, 19, 21.5, 23, 0.5, 0.4, '#c8b080'),
+    // a darned patch low on the skirt
+    sheet([[10, 24], [13, 24], [13, 27], [10, 27]], '#5e5446'),
+    specks([[10.5, 24.5], [12.5, 24.5], [10.5, 26.5], [12.5, 26.5]], '#b8a070'),
+  ]),
+  robe_silk: () => robe('#34448e', '#4c5eb0', '#d8dcec', [
+    // the sheen of silk down the lit side, and a silver clasp at the throat
+    hair(12, 11, 12, 17, '#7a8ad8'), hair(13.5, 20, 12, 29, '#6a7ac8'),
+    ball(16, 11.5, 1.2, 1.1, '#e8ecf6'),
+  ]),
+  robe_warded: () => robe('#6e2230', '#8e3040', GOLD, [
+    // a band of warding runes round the hem, and a sigil on the breast
+    dots([[6, 28], [8.5, 27.5], [11, 28], [13.5, 27.5], [18.5, 27.5], [21, 28], [23.5, 27.5], [26, 28]], '#ffd870'),
+    ...ring(16, 15, 2, 0.45, '#ffd870', 10),
+  ]),
+  robe_magi: () => robe('#4a2478', '#6a38a4', GOLD, [
+    // stars scattered on the cloth, a bright sigil, gold at the cuffs
+    dots([[10, 13], [22, 12], [12, 22], [20, 21], [9, 27], [23, 27], [14, 26]], '#fff0a0'),
+    ball(16, 15, 1.6, 1.6, '#c8f0ff'), ball(16, 15, 0.7, 0.7, '#ffffff'),
+    line(3, 17, 6.5, 18.2, GOLD), line(25.5, 18.2, 29, 17, GOLD),
+  ]),
 
   // ---- shields ----
   buckler: () => [

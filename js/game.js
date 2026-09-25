@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, armorFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -174,6 +174,8 @@ const Game = (() => {
     const roll = () => { const r = [d(1, 6), d(1, 6), d(1, 6), d(1, 6)].sort((a, b) => b - a); return r[0] + r[1] + r[2]; };
     return { str: roll(), dex: roll(), con: roll(), int: roll(), wis: roll(), cha: roll() };
   }
+  /** What a robe worn adds to spell points: a Silk Robe two, the Robe of the Magi four. */
+  const robeSp = p => (p.eq.armor && ITEMS[p.eq.armor.t].sp) || 0;
   function spMax(p) {
     const c = CLASSES[p.cls];
     if (!c.spells) return 0;
@@ -181,7 +183,7 @@ const Game = (() => {
     // the unarmoured mage runs deep
     const mul = c.spMul || 1;
     return Math.max(4, Math.round(p.level * (2.4 + mod(stat)) * mul)) + 3 + (p.bonusSp || 0)
-      + (hasPower('mind', null, p) ? 6 : 0) + healerSp(p);
+      + (hasPower('mind', null, p) ? 6 : 0) + healerSp(p) + robeSp(p);
   }
   // Practice tells: a veteran swings faster and puts more behind it. Without this
   // the player's damage is flat for the whole game while monster hit points grow.
@@ -284,11 +286,15 @@ const Game = (() => {
   // What a spell costs, and what a buff gives and for how long, with the paths in.
   /** Spell points a spell costs this hero. */
   function spellCost(sp) {
-    if (sp.id === 'lightning' && onPath('frostweaver')) return sp.cost - 1;
-    if (sp.id === 'cone_cold' && onPath('frostweaver')) return sp.cost - 2;
+    let cost = sp.cost;
+    if (sp.id === 'lightning' && onPath('frostweaver')) cost -= 1;
+    else if (sp.id === 'cone_cold' && onPath('frostweaver')) cost -= 2;
     // a Pyromancer has given the cold up for the fire, and it comes harder to them
-    if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) return sp.cost + (sp.id === 'cone_cold' ? 2 : 1);
-    return sp.cost;
+    else if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) cost += sp.id === 'cone_cold' ? 2 : 1;
+    // the Robe of the Magi eases the great workings: five points or more cost one less
+    const robe = P().eq.armor;
+    if (robe && ITEMS[robe.t].cheap && cost >= 5) cost -= 1;
+    return cost;
   }
   /** How much a buff gives: a Frostweaver's Shield gives one more. */
   const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);
@@ -685,6 +691,29 @@ const Game = (() => {
       trader.stock.push({ t: id, q: 1, e: ITEMS[id].bonus && rng.chance(0.3) ? 1 : 0 });
     }
   }
+  /**
+   * Robes turn up only in a mage's dungeon: a pile now and then, or on a
+   * trader's shelf. A stream of their own, so no other hero's floors change.
+   * Found ones keep their make to themselves, as any found armour does.
+   */
+  const ROBE_FIND = 0.3, ROBE_SHOP = 0.35;
+  function placeRobes(L, depth) {
+    if (depth < 2 || P().cls !== 'mage') return;
+    const rng = new Rng(`${G.seed}|robes|${depth}`);
+    const maxTier = 1 + Math.floor(depth / 2);
+    const pool = Object.keys(ITEMS).filter(id => ITEMS[id].weight === 'cloth' && ITEMS[id].tier > 1 && ITEMS[id].tier <= maxTier);
+    if (!pool.length) return;
+    const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
+    if (piles.length && rng.chance(ROBE_FIND)) {
+      const it = { t: rng.weighted(pool.map(id => [id, ITEMS[id].tier])), q: 1, e: 0, h: 1 };
+      const r = rng.next();
+      if (r < 0.15) { it.e = -1; it.curse = 1; }
+      else if (r > 0.7) it.e = r > 0.93 ? 2 : 1;
+      L.items[rng.pick(piles)].push(it);
+    }
+    const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
+    if (trader && rng.chance(ROBE_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: rng.chance(0.3) ? 1 : 0 });
+  }
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
   const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
@@ -804,9 +833,10 @@ const Game = (() => {
     if (b.kind === 'ring' || b.kind === 'amulet') return null;     // anyone can wear one
     if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield a ${b.name.toLowerCase()}.`;
     if (b.kind === 'armor') {
-      if (c.armor === 'none') return `${c.plural} cannot wear armor.`;
-      if (c.armor === 'light' && b.weight !== 'light') return `${c.plural} can only wear light armor.`;
-      return null;
+      if (armorFits(c, b)) return null;
+      if (b.weight === 'cloth') return 'Only a mage wears robes: they are woven for spellwork, not for blows.';
+      if (c.armor === 'cloth') return `${c.plural} wear robes, not armour: it would bind a caster's hands.`;
+      return `${c.plural} can only wear light armor.`;
     }
     if (b.kind === 'shield') {
       if (!c.shield) return `${c.plural} cannot use shields.`;
@@ -1239,7 +1269,7 @@ const Game = (() => {
     const p = P();
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -3588,7 +3618,7 @@ const Game = (() => {
     const fits = id => {
       const b = ITEMS[id];
       if (b.kind === 'weapon') return b.cls.includes(p.cls);
-      if (b.kind === 'armor') return c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light');
+      if (b.kind === 'armor') return armorFits(c, b);
       return b.kind === 'shield' && !!c.shield;
     };
     const best = Object.keys(ITEMS).filter(id => ITEMS[id].tier && ITEMS[id].tier <= most && fits(id)).sort((a, b) => ITEMS[b].tier - ITEMS[a].tier).slice(0, 4);

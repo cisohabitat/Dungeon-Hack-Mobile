@@ -8,7 +8,7 @@
 // the counter for anyone with the coin.
 
 import { Rng } from './rng.js';
-import { ITEMS, CLASSES } from './data.js';
+import { ITEMS, CLASSES, armorFits } from './data.js';
 
 /** What each power does, in the words the pack shows. */
 const RELIC_POWERS = {
@@ -88,7 +88,7 @@ const RELICS = {
 function relicUsableBy(id, cls) {
   const r = RELICS[id], b = ITEMS[r.t], c = CLASSES[cls];
   if (b.kind === 'weapon') return b.cls.includes(cls);
-  if (b.kind === 'armor') return c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light');
+  if (b.kind === 'armor') return armorFits(c, b);
   if (b.kind === 'shield') return !!c.shield;
   return false;
 }
