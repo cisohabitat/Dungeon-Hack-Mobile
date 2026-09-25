@@ -3194,7 +3194,17 @@ await test('the lich\'s cold fire breaks short of a hero who gets clear, and it 
   m.x = p.x + dx; m.y = p.y + dy;
   G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
   const guards = L.monsters.filter(o => o.id === 'skeleton');
-  return (guards.length === 1 && guards[0].pack && guards[0].pack.length === 1) || `guards: ${JSON.stringify(guards.map(g => g.pack))}`;
+  if (!(guards.length === 1 && guards[0].pack && guards[0].pack.length === 1)) return `guards: ${JSON.stringify(guards.map(g => g.pack))}`;
+  if (L.monsters.some(o => o.id === 'wraith')) return 'a wraith rose at two thirds, before the last act';
+  // and past one third: more dead, and a wraith with them
+  // (it came apart into shadow at two thirds: bring it back in reach, its ward spent)
+  for (let i = 0; i < 8 && m.phase !== 2; i++) {
+    m.x = m.rx = m.fromX = p.x + dx; m.y = m.ry = m.fromY = p.y + dy; m.wardUntil = 0; m.hp = Math.min(m.hp, 60); m.nextAct = 1e12;
+    G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  }
+  if (m.phase !== 2) return 'the lich never reached its last act';
+  const w = L.monsters.filter(o => o.id === 'wraith').length;
+  return w === 1 || `${w} wraiths rose with the last act, not one`;
 });
 
 // ---------- bestiary ----------
@@ -3385,6 +3395,8 @@ await test('one great blow past both thresholds raises both of the lich\'s guard
   for (let i = 0; i < 6 && m.hp === 90; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }   // a natural 1 still misses
   const guards = L.monsters.filter(o => o.id === 'skeleton');
   if (guards.length !== 2) return `${guards.length} guard groups rose from one blow past both thresholds`;
+  // a wraith follows them only where there is still room for it
+  guards.push(...L.monsters.filter(o => o.id === 'wraith'));
   // every guard can walk to the lich
   const reach = new Set([m.y * L.w + m.x]), q = [[m.x, m.y]];
   while (q.length) { const [x, y] = q.shift(); for (const [dx, dy] of Dungeon.DIRS) { const nx = x + dx, ny = y + dy, i = ny * L.w + nx; if (reach.has(i)) continue; const t = L.tiles[i]; if (t === T.WALL || t === T.TORCH || t === T.SECRET) continue; reach.add(i); if (reach.size < 400) q.push([nx, ny]); } }
@@ -6314,11 +6326,9 @@ await test('what lies on one square is scattered across it, each thing seen wher
   return heap.length === 5 || `eight things on a square drew ${heap.length} pictures, not the five that fit`;
 });
 
-await test('a thief sets out with a buckler for one more point of armour, and carries nothing bigger', async () => {
+await test('a thief carries a buckler for one more point of armour, and nothing bigger', async () => {
   const ctx = await start('thief', 'thief-buckler');
   const { Game } = ctx; const p = Game.player();
-  if (p.eq.shield?.t !== 'buckler') return `a thief set out holding ${p.eq.shield ? p.eq.shield.t : 'no buckler'}`;
-  Game.unequip('shield'); p.inv = p.inv.filter(it => it.t !== 'buckler');
   const ac = Game.playerAC();
   const b = { t: 'buckler', q: 1, e: 0 }; p.inv.push(b);
   if (!Game.equip(b, true)) return `a thief could not take up a buckler: ${Game.canEquip(b)}`;

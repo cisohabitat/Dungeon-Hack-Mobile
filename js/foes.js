@@ -523,13 +523,15 @@ export function makeFoes(K) {
   // Three fights in one. At first it stands and drains, and gathers its storm
   // of cold fire. At two thirds it calls up guards, comes apart into shadow
   // and gathers itself again a few steps off, throwing grave-cold at you over
-  // their heads. At one third it calls up more, puts out every torch in its
-  // hall, quickens, and tries to drink the Heart's light to mend itself.
+  // their heads. At one third it calls up more, and a wraith with them, puts
+  // out every torch in its hall, quickens, and tries to drink the Heart's light to mend itself.
   function bossTurns(m) {
     const mb = MONSTERS[m.id];
     // its own hall, remembered before it moves: the torches it puts out are these
     if (!m.hall) m.hall = roomOf(m);
     raiseGuards(m);
+    // the last act calls the rite's own guard at once: a wraith, cold as its master
+    if (m.phase === 2) raiseGuards(m, 'wraith');
     m.windup = null; m.volley = null;
     m.wardUntil = K.G.t + WARD_MS; m.wardSaid = false;
     // a blow that goes straight through two thirds and one third does not

@@ -237,8 +237,8 @@ const CLASSES = {
   },
   thief: {
     name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
-    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow. Light armour and a buckler.',
-    startKit: ['shortsword', 'throwknife', 'leather', 'buckler', 'ration', 'ration', 'potion_heal', 'scroll_map'],
+    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow. Light armour, and a buckler at most.',
+    startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
 
