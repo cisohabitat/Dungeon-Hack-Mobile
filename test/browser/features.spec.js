@@ -730,6 +730,26 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the Hero sheet gives a ring its real amount, a curse\'s minus included, and two of a kind once', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'jewel-sheet', cls: 'Mage' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), G = Game.state(); G.known.ring_protect = 1;
+      const bad = { t: 'ring_protect', q: 1, e: -2, curse: 1 };
+      p.inv.push(bad); Game.equip(bad, true);
+    });
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('Armour class \u22121 (ring)');
+    await page.click('#ov-char [data-close]');
+    await page.evaluate(() => { const p = Game.player(), good = { t: 'ring_protect', q: 1, e: 1 }; p.inv.push(good); Game.equip(good, true); });
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('Armour class +2 (the better of your two rings)');
+    await expect(page.locator('#char-sheet li', { hasText: 'Protection' })).toHaveCount(1);
+    expect(errors).toEqual([]);
+  });
+
   test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

@@ -536,8 +536,9 @@ const Dungeon = (() => {
       const kept = r => npcs.some(n => inRoom(r, idx(n.x, n.y)));
       const byShop = r => !!shop && shop.x >= r.x - M && shop.x < r.x + r.w + M && shop.y >= r.y - M && shop.y < r.y + r.h + M;
       const fits = r => open(r).length >= 3;
-      const pickLair = ok => byDist.find(r => r !== farRoom && fits(r) && ok(r)) || (fits(farRoom) && ok(farRoom) ? farRoom : null);
-      const lair = pickLair(r => !kept(r) && !byShop(r)) || pickLair(r => !kept(r)) || pickLair(() => true);
+      // the stairs' room only when no other room will hold it at all
+      const pickLair = ok => byDist.find(r => r !== farRoom && fits(r) && ok(r));
+      const lair = pickLair(r => !kept(r) && !byShop(r)) || pickLair(r => !kept(r)) || pickLair(() => true) || (fits(farRoom) ? farRoom : null);
       if (lair) {
         for (let i = monsters.length - 1; i >= 0; i--) if (inRoom(lair, idx(monsters[i].x, monsters[i].y))) { occupied.delete(idx(monsters[i].x, monsters[i].y)); monsters.splice(i, 1); }
         // the champion in the middle of its room, its kin about it

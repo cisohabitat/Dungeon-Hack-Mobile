@@ -5874,16 +5874,18 @@ await test('Templar: blows bite the undead, Bless lasts twice as long, and Holy 
 
 await test('Healer: heals a tenth more, mends under Protection, and has more spell points', async () => {
   const out = [];
+  // a tenth more on average, small heals included: rounded, a heal of 4 stayed 4
   const heal = async path => {
     const ctx = await start('cleric', 'healer-cure');
     seedDice(ctx, 'healer-cure');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
-    walk(ctx, path); p.maxHp = 999; p.hp = 1; p.sp = 99; G.t = p.nextAttack;
-    Game.castSpell(Game.knownSpells().find(s => s.id === 'cure_light'));
-    return p.hp - 1;
+    walk(ctx, path); p.maxHp = 99999;
+    let total = 0;
+    for (let i = 0; i < 300; i++) { p.hp = 1; p.sp = 99; G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === 'cure_light')); total += p.hp - 1; }
+    return total;
   };
   const a = await heal(undefined), b = await heal('healer');
-  if (b !== Math.round(a * 1.1)) out.push(`cure light: ${a} -> ${b}`);
+  if (!(b / a > 1.06 && b / a < 1.14)) out.push(`cure light over 300 casts: ${a} -> ${b}`);
   const mend = async (path, warding) => {
     const ctx = await start('cleric', 'healer-mend');
     const { Game } = ctx; const p = Game.player(), G = Game.state();

@@ -249,10 +249,16 @@ const Game = (() => {
   /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
   const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
   /** Holy Smite in a Templar's hands deals a tenth more. */
-  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? Math.round(dmg * 1.1) : dmg);
+  /**
+   * A tenth more, true on every cast rather than only on big numbers: what
+   * rounding would lose is a chance of one more. Rounded, a Smite of 4
+   * stayed 4, and most early Smites and heals were that small.
+   */
+  const aTenthMore = n => { const x = n * 1.1, whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
+  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? aTenthMore(dmg) : dmg);
   // Healer: mending, and the points to spend on it.
   /** A Healer's healing spell heals a tenth more (after Healing Hands, if taken). */
-  const healerHeal = n => (onPath('healer') ? Math.round(n * 1.1) : n);
+  const healerHeal = n => (onPath('healer') ? aTenthMore(n) : n);
   /** A Healer's deeper well: a spell point for every three hero levels. */
   const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 3) : 0);
   /** While Protection is up a Healer mends a hit point every six seconds, on a clock of its own beside Warding Light's. */

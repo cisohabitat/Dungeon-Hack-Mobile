@@ -949,14 +949,16 @@ const UI = (() => {
     if (b.kind === 'shield') return `Armor class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     // a ring that comes in amounts says how much, enchantment and all
-    if (b.bonus) {
-      const n = b.bonus + knownE(it), q = it.h ? '?' : '', sign = n < 0 ? '\u2212' + -n : '+' + n;
-      return { protect: `Armour class ${sign}${q}`, might: `${sign}${q} to hit and to damage`, evasion: `${sign}${q} to every saving throw`,
-        seer: `${sign}${q} to spot traps, and hidden doors show as you pass` }[[].concat(b.power)[0]] || b.desc || '';
-    }
+    if (b.bonus) return amountWords([].concat(b.power)[0], b.bonus + knownE(it), it.h ? '?' : '') || b.desc || '';
     return b.desc || '';
   }
 
+  /** A ring that comes in amounts, said with its amount: "Armour class +2", "−1 to every saving throw". */
+  function amountWords(power, n, q = '') {
+    const sign = n < 0 ? '\u2212' + -n : '+' + n;
+    return { protect: `Armour class ${sign}${q}`, might: `${sign}${q} to hit and to damage`, evasion: `${sign}${q} to every saving throw`,
+      seer: `${sign}${q} to spot traps, and hidden doors show as you pass` }[power] || '';
+  }
   // what the player knows of an enchantment: nothing, while it is hidden
   const knownE = it => (it.h ? 0 : (it.e || 0));
   const swiftOf = it => { const r = Game.relicOf(it); return (!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h); };
@@ -1259,7 +1261,10 @@ const UI = (() => {
     if (bits.length) el.appendChild(head);
     const note = document.createElement('p');
     note.className = 'dim small';
-    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} comes to a fork. Choose one path: it is yours for the rest of the run, and it takes the place of this level's lesson.`;
+    // at the path's own level it is instead of the lesson; a hero who came past
+    // that level before there were paths gets it on top of what the level gives
+    const inPlace = Game.pendingLevel() === PATH_LEVEL;
+    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} comes to a fork. Choose one path: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
     el.appendChild(note);
     const openedAt = performance.now();
     for (const id of offer) {
@@ -1718,9 +1723,23 @@ const UI = (() => {
     else if (paths.length) extra += `<h3 class="sheet-h">Path</h3><p class="dim small">${p.level < PATH_LEVEL ? `At hero level ${PATH_LEVEL}` : 'At your next level'} you choose your path: ${paths.map(x => `<b>${escapeHtml(x.name)}</b>`).join(' or ')}.</p>`;
     // every power the hero's gear gives, relic or plain, with the slot it is in
     const worn = [];
+    // a ring that comes in amounts says its own amount, a curse's minus and
+    // all, and two of one kind show once: only the better of them counts
+    const amounts = new Map();
+    for (const slot of ['ring', 'ring2', 'amulet']) {
+      const it = p.eq[slot], b = it && ITEMS[it.t];
+      if (!b || !b.bonus) continue;
+      const k = [].concat(b.power)[0], v = b.bonus + (it.e || 0), had = amounts.get(k);
+      amounts.set(k, { v: had ? Math.max(had.v, v) : v, n: had ? had.n + 1 : 1 });
+    }
+    for (const [k, { v, n }] of amounts) {
+      const name = RELIC_POWERS[k] ? RELIC_POWERS[k].split(': ')[0] : k;
+      worn.push(`<li><b>${escapeHtml(name)}</b><span>${escapeHtml(amountWords(k, v))} (${n > 1 ? 'the better of your two rings' : 'ring'})</span></li>`);
+    }
     for (const [slot, label] of [['weapon', 'weapon'], ['offhand', 'off hand'], ['armor', 'armour'], ['shield', 'shield'], ['ring', 'ring'], ['ring2', 'ring'], ['amulet', 'amulet']]) {
       const it = p.eq[slot];
       if (!it) continue;
+      if ((slot === 'ring' || slot === 'ring2' || slot === 'amulet') && ITEMS[it.t].bonus) continue;   // said above, with its amount
       const rel = Game.relicOf(it), made = ITEMS[it.t].power;
       const powers = rel ? rel.powers : made ? [].concat(made) : (it.pw && !it.h ? [it.pw] : []);
       for (const k of powers) {
