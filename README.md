@@ -219,8 +219,8 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | about 96% |
-| Normal | 76% | 69% | 76% | 69% | about 72% |
-| Hard | 47% | 47% | 51% | 54% | about 50% |
+| Normal | 77% | 70% | 76% | 72% | about 74% |
+| Hard | 56% | 50% | 52% | 59% | about 54% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
@@ -228,7 +228,9 @@ Clearing each floor first (`EXPLORE=0.8`) is the slower, safer road: on Normal i
 84% as a cleric, 90% as a fighter, 86% as a thief, and 70% as a mage. About one hero in twelve
 who reaches the last floor on Normal dies there (`LICH=1` breaks it down). Gold carried past the last trader, and found on the
 last floor, buys a ward or a blessing at the vigil lamp beside the lich's hall. Backgrounds are
-rotated across runs so the figures are not one perk repeated. The bot is a steady player, not a
+rotated across runs so the figures are not one perk repeated. `DODGE=1` has the bot step back from
+every ordinary blow, as a twitchy player does, and `DODGE=2` steps aside from the monsters that lunge;
+stepping back still pays, but no longer beats everything. The bot is a steady player, not a
 great one: it does not step back from ordinary blows, so a careful human does better.
 
 The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
