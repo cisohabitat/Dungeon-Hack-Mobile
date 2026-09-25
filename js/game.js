@@ -246,14 +246,14 @@ const Game = (() => {
   /** A Berserker fights open. */
   const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
   // Templar: the front-line priest.
-  /** A Templar's blow on the undead: 1d4 more (Sanctified's die adds to it). */
+  /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
   const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
-  /** Holy Smite in a Templar's hands deals a fifth more. */
+  /** Holy Smite in a Templar's hands deals a tenth more. */
   const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? Math.round(dmg * 1.1) : dmg);
   // Healer: mending, and the points to spend on it.
-  /** A Healer's healing spell heals a fifth more (after Healing Hands, if taken). */
+  /** A Healer's healing spell heals a tenth more (after Healing Hands, if taken). */
   const healerHeal = n => (onPath('healer') ? Math.round(n * 1.1) : n);
-  /** A Healer's deeper well: a spell point for every two hero levels. */
+  /** A Healer's deeper well: a spell point for every three hero levels. */
   const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 3) : 0);
   /** While Protection is up a Healer mends a hit point every six seconds, on a clock of its own beside Warding Light's. */
   function healerMercy() {
@@ -2295,7 +2295,7 @@ const Game = (() => {
       p.eq[saver] = null; G.known[it.t] = 1;
       noteHealed(Math.ceil(p.maxHp / 2) - p.hp);
       p.hp = Math.ceil(p.maxHp / 2);
-      log(`The blow should have killed you. ${cap(the(it))} flares white at your throat, and crumbles to dust.`, 'good');
+      log(`That should have killed you. ${cap(the(it))} flares white at your throat, and crumbles to dust.`, 'good');
       fx.healAt = realNow;
       Sound.play('heal');
       emit('inv');
@@ -2477,9 +2477,16 @@ const Game = (() => {
   const BESTIARY_KEY = 'deepdelve.bestiary';
   const TRICK_KILLS = 3, ANSWER_KILLS = 5;
   /** @returns {Record<string, {met: number, kills: number, deaths: number, trick?: number, answer?: number, el?: Record<string, string>}>} */
+  // read back only when what is stored has changed: a regrowing troll notes
+  // itself every second, and parsing and checking the whole book each time
+  // was work for nothing
+  let beastRaw = null, beastBook = null;
   function bestiary() {
+    let raw = null;
+    try { raw = localStorage.getItem(BESTIARY_KEY); } catch (e) { /* private browsing */ }
+    if (beastBook && raw === beastRaw) return beastBook;
     let v = {};
-    try { v = JSON.parse(localStorage.getItem(BESTIARY_KEY) || '{}'); } catch (e) { /* start afresh */ }
+    try { v = JSON.parse(raw || '{}'); } catch (e) { /* start afresh */ }
     if (!v || typeof v !== 'object' || Array.isArray(v)) v = {};
     // whatever was stored, each record comes back as numbers, never a crash
     const out = {};
@@ -2492,6 +2499,7 @@ const Game = (() => {
       if (r.el && typeof r.el === 'object') for (const k of ['fire', 'cold', 'lightning']) if (r.el[k] === 'weak' || r.el[k] === 'resist') el[k] = r.el[k];
       out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
     }
+    beastRaw = raw; beastBook = out;
     return out;
   }
   /** Note something learned about a kind of monster, and say so when it is new.
@@ -2523,7 +2531,7 @@ const Game = (() => {
     }
     // a trick seen or beaten again is nothing new, and a troll regrows every second
     if ((what === 'trick' || what === 'answer') && !news.length && !met) return;
-    try { localStorage.setItem(BESTIARY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
+    try { const raw = JSON.stringify(all); localStorage.setItem(BESTIARY_KEY, raw); beastRaw = raw; beastBook = all; } catch (e) { /* ignore */ }
     if (news.length && G && G.status === 'playing') {
       // notes that follow one another share one quiet line instead of three loud ones
       const last = liveLine();
@@ -3422,7 +3430,8 @@ const Game = (() => {
   /** Coming down onto its floor: one line, so the fight is chosen, not sprung. */
   function namedArrives(L) {
     const m = namedOn(L);
-    if (m) log(MONSTERS[m.id].named.arrive, 'bad');
+    // said the first time down to its floor, not on every trip back
+    if (m && !L.namedSaid) { L.namedSaid = true; log(MONSTERS[m.id].named.arrive, 'bad'); }
   }
   /** It wakes: its line, and the low sting the deep gives when it takes notice. */
   function namedWakes(m, mb) {
