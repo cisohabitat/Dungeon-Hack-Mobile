@@ -432,6 +432,7 @@ const UI = (() => {
     monster: 'Something is coming. When it is in front of you, tap <b>⚔ Attack</b> to strike it.',
     dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
     dodgeside: '<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
+    dodgelunge: '<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
     trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
@@ -464,10 +465,10 @@ const UI = (() => {
   // tip and ends once a warning mark has been stepped back from, or not.
   let coaching = false, coachNext = '';
   /** Tips that stay up until what they ask for is done, not for a set time. */
-  const HOLD_TIPS = ['face', 'monster', 'dodge', 'dodgeside'];
+  const HOLD_TIPS = ['face', 'monster', 'dodge', 'dodgeside', 'dodgelunge'];
   /** The first fight's steps and their verdicts: no other tip cuts in on them. */
   const COACH_TIPS = [...HOLD_TIPS, 'dodged', 'late'];
-  const isDodge = id => id === 'dodge' || id === 'dodgeside';
+  const isDodge = id => id === 'dodge' || id === 'dodgeside' || id === 'dodgelunge';
   const HOLD_MAX = 15000;
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
@@ -574,6 +575,7 @@ const UI = (() => {
       monster: () => Game.player().nextAttack === tipSwing && !!firstFoe(),
       dodge: blowComing,
       dodgeside: blowComing,
+      dodgelunge: blowComing,
     }[el.dataset.tip || ''] : null;
     // How the step back went is settled the moment that first blow is done
     // with: stung by it, or moved out from under it. A foe killed, fled or
@@ -655,13 +657,16 @@ const UI = (() => {
     if (!answering) {
       if (coachNext) { const next = coachNext; coachNext = ''; coaching = false; if (showTip(next, true)) return; }
       else if (seenTip('lesson:dodge') && !seenTip('dodge') && !seenTip('dodgeside') && blowComing()) {
-        // a wall behind: say to step aside, if there is room to either side
-        const id = !canStep(2) && (canStep(1) || canStep(3)) ? 'dodgeside' : 'dodge';
+        // a wall behind, or a rat that pounces after a step back: say to step
+        // aside, if there is room to either side
+        const lunger = Game.level().monsters.some(m => m.windup && !m.windup.move && MONSTERS[m.id].lunge && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+        const aside = canStep(1) || canStep(3);
+        const id = lunger && aside ? 'dodgelunge' : !canStep(2) && aside ? 'dodgeside' : 'dodge';
         if (showTip(id, true)) {
           coaching = true;
           // a fast foe's first blow can come before the strike was taught:
           // the lesson goes on from here rather than back to it
-          markSeen('dodge'); markSeen('dodgeside'); markSeen('monster'); markSeen('face');
+          markSeen('dodge'); markSeen('dodgeside'); markSeen('dodgelunge'); markSeen('monster'); markSeen('face');
           return;
         }
       }

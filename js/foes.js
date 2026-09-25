@@ -89,8 +89,9 @@ export function makeFoes(K) {
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
     K.hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
   }
-  /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it */
-  function monsterAttack(m, heavy) {
+  /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it
+   * @param {string} [verb]  how a plain blow lands, when it is not a plain hit (a lunge, a reach) */
+  function monsterAttack(m, heavy, verb) {
     const p = K.P(), mb = K.mstat(m), h = heavy || {};
     m.lungeAt = K.realNow;
     K.meet(m);
@@ -128,7 +129,7 @@ export function makeFoes(K) {
     if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));
     const where = K.relativeBearing(m);
     const aside = where && where.rel !== 0 ? ` ${where.word}` : '';
-    K.hurtPlayer(dmg, `The ${mb.name} ${h.verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${knight}${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
+    K.hurtPlayer(dmg, `The ${mb.name} ${h.verb || verb || 'hits'} you${aside} for ${dmg}.${firm ? ' (Stand Firm halves it)' : ''}${knight}${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
     if (K.G.status !== 'playing') return true;
     // every venomous bite that lands is fought off with Constitution
     if (mb.poison) K.venomSave('bite', `the ${mb.name}'s`);
@@ -156,7 +157,11 @@ export function makeFoes(K) {
   /** Draw a blow back: it lands in dur ms, if you are still there. */
   function beginWindup(m, kind, dur) {
     if (m.pressing) { dur = Math.max(350, Math.round(dur * 0.6)); m.pressing = false; }
-    m.windup = { kind, at: K.G.t, until: K.G.t + dur };
+    // a cunning fighter never draws back the same way twice: the beat cannot be learned, only the blow watched
+    if (K.mstat(m).cunning) dur = Math.max(300, Math.round(dur * (0.7 + Math.random() * 0.6)));
+    // where you stood when it drew back: a lunge follows you from there
+    const p = K.P();
+    m.windup = { kind, at: K.G.t, until: K.G.t + dur, px: p.x, py: p.y };
     m.nextAct = m.windup.until;
     Sound.play('windup', K.heard(m, { kind }));
   }

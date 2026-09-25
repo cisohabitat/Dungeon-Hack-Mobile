@@ -358,16 +358,16 @@ const TRAP_TYPES = {
 
 // Monsters: hp = [dice, sides, bonus]; tier = [minDepth, maxDepth]; speed = ms per action
 const MONSTERS = {
-  rat:      { name: 'Giant Rat',   hp: [1, 6, 1],    ac: 11, hit: 1,  dmg: [1, 3, 0], speed: 900,  xp: 8,    tier: [1, 3],   sprite: 'rat',      scale: 0.6, door: 'batter' },
+  rat:      { name: 'Giant Rat',   hp: [1, 6, 1],    ac: 11, hit: 1,  dmg: [1, 3, 0], speed: 900,  xp: 8,    tier: [1, 3],   sprite: 'rat', lunge: 1,      scale: 0.6, door: 'batter' },
   bat:      { name: 'Cave Bat',    hp: [1, 4, 1],    ac: 13, hit: 1,  dmg: [1, 2, 0], speed: 600,  xp: 6,    tier: [1, 3],   sprite: 'bat',      scale: 0.5, fly: 0.45, door: 'batter' },
   slime:    { name: 'Green Slime', hp: [2, 6, 2],    ac: 9,  hit: 0,  dmg: [1, 4, 1], speed: 1500, xp: 12,   tier: [1, 4],   sprite: 'slime',    scale: 0.7, move: 'split', door: 'batter' },
   spider:   { name: 'Cave Spider', hp: [2, 6, 0],    ac: 13, hit: 2,  dmg: [1, 4, 0], speed: 800,  xp: 18,   tier: [1, 5],   sprite: 'spider',   scale: 0.7, poison: 0.3, move: 'web', door: 'batter' },
-  goblin:   { name: 'Goblin',      hp: [2, 8, 0],    ac: 13, hit: 2,  dmg: [1, 6, 0], speed: 1000, xp: 20,   tier: [1, 5],   sprite: 'goblin',   scale: 0.75 },
+  goblin:   { name: 'Goblin',      hp: [2, 8, 0],    ac: 13, hit: 2,  dmg: [1, 6, 0], speed: 1000, xp: 20,   tier: [1, 5],   sprite: 'goblin', cunning: 1,   scale: 0.75 },
   skeleton: { name: 'Skeleton',    hp: [3, 8, 0],    ac: 14, hit: 3,  dmg: [1, 6, 1], speed: 1100, xp: 35,   tier: [3, 7],   sprite: 'skeleton', scale: 0.9, undead: true, move: 'rise' },
   zombie:   { name: 'Zombie',      hp: [4, 8, 2],    ac: 11, hit: 3,  dmg: [1, 8, 0], speed: 1600, xp: 40,   tier: [2, 7],   sprite: 'zombie',   scale: 0.9, undead: true, move: 'grab', door: 'batter' },
-  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc',      scale: 0.95, move: 'charge' },
-  ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul',    scale: 0.9, undead: true, move: 'paralyse' },
-  wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith',   scale: 0.95, undead: true, fly: 0.2, element: 'cold' },
+  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc', cunning: 1,      scale: 0.95, move: 'charge' },
+  ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul', lunge: 1,    scale: 0.9, undead: true, move: 'paralyse' },
+  wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith', lunge: 1,   scale: 0.95, undead: true, fly: 0.2, element: 'cold' },
   ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [8, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush', door: 'smash' },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1, door: 'smash' },
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge', door: 'smash' },
@@ -375,7 +375,7 @@ const MONSTERS = {
   basilisk: { name: 'Basilisk',    hp: [6, 10, 0],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1100, xp: 150,  tier: [5, 12],  sprite: 'basilisk', scale: 1.15, move: 'gaze', door: 'batter' },
   rustmaw:  { name: 'Rustmaw',     hp: [4, 10, 2],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1000, xp: 120,  tier: [4, 11],  sprite: 'rustmaw',  scale: 1.08, move: 'rust', door: 'batter' },
   acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, move: 'mend', ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
-  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich',     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
+  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
     // guards and throws grave-cold from afar; at one third it puts out the
     // torches, quickens, and tries to drink the Heart's light to mend itself
@@ -389,7 +389,7 @@ const MONSTERS = {
   // kind's trick sharpened. `name` is what the log calls it ("the Goblin
   // King swings"); `named.called` is who it is. tier is the stretch of the
   // monster ladder where it can hold a floor; it is never met at random.
-  grisk:    { name: 'Goblin King',   hp: [4, 8, 4],    ac: 14, hit: 3,  dmg: [1, 6, 2], speed: 1000, xp: 90,   tier: [2, 5],   sprite: 'goblin',   scale: 1.0,  move: 'rally',
+  grisk:    { name: 'Goblin King',   hp: [4, 8, 4],    ac: 14, hit: 3,  dmg: [1, 6, 2], speed: 1000, xp: 90,   tier: [2, 5],   sprite: 'goblin', cunning: 1,   scale: 1.0,  move: 'rally',
     named: { called: 'Grisk', kin: 'goblin', tint: '#ffc030', guard: ['goblin', 1], call: ['goblin', 2],
       arrive: 'Somewhere on this floor, Grisk the Goblin King holds court.',
       wake: 'A goblin in a crown of bent spoons climbs off his heap of plunder. "Who comes before Grisk?"',
@@ -399,17 +399,17 @@ const MONSTERS = {
       arrive: 'Somewhere on this floor, Vessra the Web-Mother waits at the heart of her web.',
       wake: 'Something vast unfolds its legs in the dark. The Web-Mother has felt you on her threads.',
       fall: 'Vessra the Web-Mother is dead! She curls up, and her threads go slack all through the floor.' } },
-  ushgar:   { name: 'Orc Warchief',  hp: [5, 8, 4],    ac: 15, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 130,  tier: [3, 7],   sprite: 'orc',      scale: 1.2,  move: 'charge',
+  ushgar:   { name: 'Orc Warchief',  hp: [5, 8, 4],    ac: 15, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 130,  tier: [3, 7],   sprite: 'orc', cunning: 1,      scale: 1.2,  move: 'charge',
     named: { called: 'Ushgar', kin: 'orc', tint: '#ff4838', guard: ['goblin', 1], often: 2,
       arrive: 'War drums, somewhere on this floor: Ushgar the Orc Warchief is mustering.',
       wake: 'Ushgar the Orc Warchief bellows a challenge and paws the ground.',
       fall: 'Ushgar the Orc Warchief is dead, and the war drums fall silent!' } },
-  morrow:   { name: 'Ghoul Lord',    hp: [10, 8, 8],   ac: 15, hit: 7,  dmg: [1, 8, 3], speed: 900,  xp: 240,  tier: [5, 11],  sprite: 'ghoul',    scale: 1.15, undead: true, move: 'paralyse',
+  morrow:   { name: 'Ghoul Lord',    hp: [10, 8, 8],   ac: 15, hit: 7,  dmg: [1, 8, 3], speed: 900,  xp: 240,  tier: [5, 11],  sprite: 'ghoul', lunge: 1,    scale: 1.15, undead: true, move: 'paralyse',
     named: { called: 'Morrow', kin: 'ghoul', tint: '#a0ff50', guard: ['zombie', 1], often: 2,
       arrive: 'The stink of an old feast drifts up the stair. Morrow the Ghoul Lord is at table somewhere on this floor.',
       wake: 'Morrow the Ghoul Lord lifts its head from its meal and smiles, with far too many teeth.',
       fall: 'Morrow the Ghoul Lord is destroyed, and its long feast is over!' } },
-  orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith',   scale: 1.2,  undead: true, fly: 0.2, element: 'cold', move: 'drink',
+  orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith', lunge: 1,   scale: 1.2,  undead: true, fly: 0.2, element: 'cold', move: 'drink',
     named: { called: 'Orla', kin: 'wraith', tint: '#8fb0ff', guard: ['skeleton', 2],
       arrive: 'A cold hymn carries through the stone. Orla the Hollow Abbess keeps her vigil somewhere on this floor.',
       wake: 'The hymn stops. Orla the Hollow Abbess turns her empty hood toward you.',
@@ -482,7 +482,7 @@ const ELEMENTS_TAKEN = {
 // it. The lore is there from the first meeting; the trick once it has been
 // seen (or after a few kills), and the answer once the hero has beaten it.
 const BESTIARY = {
-  rat:      { lore: 'Big as a dog and never alone for long. They come in twos and threes from the second floor down, and the square is clear only when the last one drops.' },
+  rat:      { lore: 'Big as a dog and never alone for long. They come in twos and threes from the second floor down, and the square is clear only when the last one drops. A rat pounces after whoever backs away from its bite: step aside, not back.' },
   bat:      { lore: 'Quick, weak and hard to hit, it flutters above your blade. It bites fast, so its warning is short: watch for the mark and step back early.' },
   slime:    { lore: 'A slow heap of green that eats whatever it rolls over, bones included.',
     trick: 'Struck hard, it splits into two smaller slimes sharing its square.',
@@ -490,20 +490,20 @@ const BESTIARY = {
   spider:   { lore: 'Its bite is venomous. It prefers to hang back in a corridor and let its web do the work.',
     trick: 'Spits a web down a straight line from a few squares off. Webbed, you cannot step away, though you can still fight and turn.',
     answer: 'Step out of its line while it rears back. Caught, keep pushing: every push tears at the web, and fire burns it away at once.' },
-  goblin:   { lore: 'Small, mean and brave in numbers. Goblins go about in groups and swing together in a quick volley.' },
+  goblin:   { lore: 'Small, mean and brave in numbers. Goblins go about in groups and swing together in a quick volley, and never draw back the same way twice: one blow comes quick, the next slow.' },
   skeleton: { lore: 'Bones held together by something that will not let them rest. Undead: holy magic burns it twice as badly.',
     trick: 'Cut down by an edge, it falls into a heap of bones and pulls itself back together a few seconds later.',
     answer: 'Smash the heap before it rises: any blow shatters it. A mace, hammer, flail, club, staff or spell breaks the bones for good the first time.' },
   zombie:   { lore: 'Slow and stupid, and stronger than it looks. Undead: holy magic burns it twice as badly.',
     trick: 'Every other blow it lurches forward to seize you. Held, you cannot step away from it.',
     answer: 'Step back while it lurches and it grabs the air. Caught, keep stepping away: strength tears you free, and killing it lets go at once.' },
-  orc:      { lore: 'A trained soldier, heavier and surer than a goblin. It likes a long straight corridor.',
+  orc:      { lore: 'A trained soldier, heavier and surer than a goblin. It likes a long straight corridor, and it varies its swing: watch the blow, not the beat.',
     trick: 'Lowers its head and charges down a straight line, slamming into you harder than any blow.',
     answer: 'Sidestep out of the line while it lowers its head: it thunders past and stumbles, wide open. Or shut a door across its line, and it slams into the door instead.' },
-  ghoul:    { lore: 'It eats the dead and would like you to be one. Undead: holy magic burns it twice as badly.',
+  ghoul:    { lore: 'It eats the dead and would like you to be one. Its plain blows lunge after a hero who backs away; a step to the side leaves it biting air. Undead: holy magic burns it twice as badly.',
     trick: 'Every third blow it reaches out with a numbing claw. If it lands, you are frozen for a moment: no step, swing or spell.',
     answer: 'Step back while it reaches and the claw closes on air, or land a blow first and knock the claw aside. If it catches you, a hardy constitution may shake the numbness off.' },
-  wraith:   { lore: 'A cold shape that drifts above the floor, hard to land a blow on. Its touch is the grave\'s own cold, and a Ring of Warmth takes half of it. Undead: holy magic burns it twice as badly.' },
+  wraith:   { lore: 'A cold shape that drifts above the floor, hard to land a blow on. Its touch is the grave\'s own cold, and a Ring of Warmth takes half of it. It drifts after a hero who backs away and strikes anyway: slip aside instead. Undead: holy magic burns it twice as badly.' },
   ogre:     { lore: 'Huge, slow and very strong. Its club hits like a falling wall.',
     trick: 'Every third swing it heaves its club high for a crushing blow at three times the damage, and armour will not turn it.',
     answer: 'Step back while it heaves. The club smashes the floor and it staggers, wide open.' },
@@ -523,7 +523,7 @@ const BESTIARY = {
   acolyte:  { lore: 'A servant of the dark who hurls bolts of shadow from five squares off.',
     trick: 'Chants for nearly two seconds to mend a badly wounded monster nearby, itself included.',
     answer: 'Any blow, arrow or spell that hurts it breaks the chant: close in fast, or shoot. Kill the acolyte first.' },
-  lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life, and it does not flee.',
+  lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life and reaches two squares down a straight line, so one step back is not enough: step aside. It does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
     answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite. A mage\'s spell pulls its shadow apart, and its grave-cold breaks on a mage\'s Shield.' },
   // the named champions: each is met once a run at most, so its trick is

@@ -302,6 +302,26 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // --- DODGE=1 steps straight back from every plain blow drawn back beside
+    // it, as a twitchy human does; DODGE=2 has read the bestiary and steps
+    // aside from a lunger or the lich's reach instead
+    if (process.env.DODGE) {
+      const foe = L.monsters.find(m => m.windup && m.windup.kind === 'melee' && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1 && m.windup.until - G.t < 400);
+      if (foe) {
+        const mb = MONSTERS[foe.id], ax = p.x - foe.x, ay = p.y - foe.y;
+        const open = (x, y) => { const t = L.tiles[y * L.w + x]; return (t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y); };
+        const aside = process.env.DODGE === '2' && (mb.lunge || mb.reach) ? [[ay, ax], [-ay, -ax]].map(([dx, dy]) => [p.x + dx, p.y + dy]).filter(([x, y]) => open(x, y)) : [];
+        const to = aside[0] || (open(p.x + ax, p.y + ay) ? [p.x + ax, p.y + ay] : null);
+        if (to) {
+          const k = Dungeon.DIRS.findIndex(([dx, dy]) => dx === to[0] - p.x && dy === to[1] - p.y);
+          Game.input(['forward', 'strafeR', 'back', 'strafeL'][(k - p.dir + 4) % 4]);
+          rec.blowDodges = (rec.blowDodges || 0) + 1;
+          step();
+          continue;
+        }
+      }
+    }
+
     // --- shoot down the corridor before anything closes the distance
     const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
     if (bolts.length) {

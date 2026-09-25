@@ -633,7 +633,7 @@ test.describe('dungeon features', () => {
     // the lesson is settled by that first blow: once the warning tip goes,
     // a blow that landed has been called too slow; one that missed (a
     // natural one always does) teaches nothing, and says nothing
-    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || !['dodge', 'dodgeside'].includes(t.dataset.tip); }), { timeout: 10000 }).toBe(true);
+    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || !['dodge', 'dodgeside', 'dodgelunge'].includes(t.dataset.tip); }), { timeout: 10000 }).toBe(true);
     const shown = await page.evaluate(() => { const t = document.getElementById('tip'); return t.classList.contains('show') ? t.dataset.tip : ''; });
     if (shown === 'late') expect(await page.evaluate(h => (Game.player().lastHurt || 0) > h, hurt0)).toBe(true);
     else expect(shown).not.toBe('dodged');
@@ -663,12 +663,12 @@ test.describe('dungeon features', () => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'coached-owed' });
     await clearBoons(page);
-    const rat = hp => page.evaluate(hp => {
+    const rat = (hp, id = 'rat') => page.evaluate(([hp, id]) => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
       L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
       L.monsters.length = 0; p.hp = p.maxHp = 500; p.perkHit = 60;
-      L.monsters.push({ uid: 90 + hp, id: 'rat', x: p.x + dx, y: p.y + dy, hp, maxHp: hp, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
-    }, hp);
+      L.monsters.push({ uid: 90 + hp, id, x: p.x + dx, y: p.y + dy, hp, maxHp: hp, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    }, [hp, id]);
     // the first rat dies to the first blow, before it ever swings
     await rat(1);
     await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
@@ -678,8 +678,8 @@ test.describe('dungeon features', () => {
       return Game.level().monsters.length;
     })).toBe(0);
     await page.waitForTimeout(1500);
-    // the next, with a wall at the hero's back and room to one side
-    await rat(999);
+    // the next (a goblin: a rat pounces after a step back, and has a lesson of its own), with a wall at the hero's back and room to one side
+    await rat(999, 'goblin');
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), T = Dungeon.T, [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4], [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4];
       L.tiles[(p.y + by) * L.w + p.x + bx] = T.WALL; L.tiles[(p.y + ry) * L.w + p.x + rx] = T.FLOOR;
@@ -687,6 +687,25 @@ test.describe('dungeon features', () => {
     });
     await expect(page.locator('#tip.show')).toContainText('wall behind you', { timeout: 3000 });
     expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
+    await page.evaluate(() => Game.input('strafeR'));
+    await expect(page.locator('#tip.show')).toContainText('hit empty air', { timeout: 4000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('a first rat is taught with a step aside, as it pounces after a step back', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'coached-rat' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), T = Dungeon.T, D = Dungeon.DIRS;
+      const [dx, dy] = D[p.dir], [bx, by] = D[(p.dir + 2) % 4], [rx, ry] = D[(p.dir + 1) % 4];
+      for (const [x, y] of [[p.x + dx, p.y + dy], [p.x + bx, p.y + by], [p.x + rx, p.y + ry]]) L.tiles[y * L.w + x] = T.FLOOR;
+      L.monsters.length = 0; p.hp = p.maxHp = 500;
+      L.monsters.push({ uid: 91, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
+    await expect(page.locator('#tip.show')).toContainText('lunges after a step back', { timeout: 3000 });
     await page.evaluate(() => Game.input('strafeR'));
     await expect(page.locator('#tip.show')).toContainText('hit empty air', { timeout: 4000 });
     expect(errors).toEqual([]);

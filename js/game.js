@@ -3171,12 +3171,15 @@ const Game = (() => {
         // the blow comes down: on you if you are still there, on the air if not
         const w = m.windup;
         const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
-        const inReach = w.kind === 'melee' ? adjacent : shot;
+        // a step back is not always out of reach: a lunger follows you, and the lich's touch reaches
+        const follow = w.kind === 'melee' && !adjacent ? followBlow(m, mb, w) : null;
+        const inReach = w.kind === 'melee' ? adjacent || !!follow : shot;
         if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }   // held a beat, still coming
         m.windup = null;
         if (w.kind === 'melee') m.blows = (m.blows || 0) + 1;
         if (inReach) {
-          if (w.kind === 'melee') monsterAttack(m); else rangedAttack(m);
+          if (follow && follow.lunge) moveMonster(m, follow.x, follow.y);
+          if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined); else rangedAttack(m);
           G.blowGate = G.t + BLOW_GAP;
           if (G.status !== 'playing') return;
           // a group draws back together and swings as a volley: one warning,
@@ -3222,6 +3225,27 @@ const Game = (() => {
         else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
       } else m.nextAct = G.t + mb.speed;
     }
+  }
+
+  /**
+   * Whether a blow drawn at the hero still lands after they stepped away.
+   * A lunger (a rat, a ghoul, a wraith) follows one step straight back into
+   * the square you left; a step to the side leaves it biting air. The lich's
+   * touch reaches two squares down a clear straight line.
+   * @returns {{lunge?: boolean, x?: number, y?: number, verb: string}|null}
+   */
+  function followBlow(m, mb, w) {
+    const p = P();
+    if (mb.lunge && w.px != null) {
+      const dx = w.px - m.x, dy = w.py - m.y;
+      const back = Math.abs(dx) + Math.abs(dy) === 1 && p.x === w.px + dx && p.y === w.py + dy;
+      if (back && passable(w.px, w.py) && !monsterAt(w.px, w.py) && !npcAt(w.px, w.py)) return { lunge: true, x: w.px, y: w.py, verb: 'lunges after' };
+    }
+    if ((mb.reach || 1) >= 2 && (p.x === m.x || p.y === m.y) && Math.abs(p.x - m.x) + Math.abs(p.y - m.y) === 2) {
+      const mx = (p.x + m.x) / 2, my = (p.y + m.y) / 2;
+      if (passable(mx, my) && !monsterAt(mx, my)) return { verb: 'reaches across and touches' };
+    }
+    return null;
   }
 
   // ---------- main update ----------

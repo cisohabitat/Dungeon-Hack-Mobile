@@ -1853,13 +1853,13 @@ await test('a group falls one at a time: each pays its experience, the next step
   m.nextAct = 1e9;
   const xp0 = p.xp, kills0 = p.kills;
   const mark = markLog(G);
-  G.t = p.nextAttack; Game.input('attack');
+  for (let i = 0; i < 6 && m.pack; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }   // a natural 1 still misses
   if (!L.monsters.includes(m)) return 'killing the front goblin emptied the square';
   if (m.pack) return 'the second goblin did not step up';
   if (p.kills !== kills0 + 1 || p.xp <= xp0) return 'the fallen goblin paid nothing';
   if (!linesSince(G, mark).some(l => /last Goblin steps up/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
   const xp1 = p.xp;
-  G.t = p.nextAttack; Game.input('attack');
+  for (let i = 0; i < 6 && L.monsters.includes(m); i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
   if (L.monsters.includes(m)) return 'the last goblin would not die';
   return (p.kills === kills0 + 2 && p.xp - xp1 === xp1 - xp0) || 'the second goblin paid differently from the first';
 });
@@ -2072,13 +2072,13 @@ await test('a monster winds up before it strikes, and the blow comes a moment la
   const { Game } = ctx;
   const p = Game.player(), G = Game.state();
   p.hp = p.maxHp = 999;
-  const m = beside(ctx, 'goblin');
+  const m = beside(ctx, 'skeleton');
   const mark = markLog(G), t0 = G.t;
   let firstBlowAt = null, sawWindup = false;
   for (let i = 0; i < 40 && firstBlowAt === null; i++) {
     Game.update(G.t + 25, 25);
     if (m.windup) sawWindup = true;
-    if (linesSince(G, mark).some(l => /Goblin (hits|misses) you/.test(l))) firstBlowAt = G.t - t0;
+    if (linesSince(G, mark).some(l => /Skeleton (hits|misses) you/.test(l))) firstBlowAt = G.t - t0;
   }
   if (!sawWindup) return 'the goblin struck without winding up';
   if (firstBlowAt === null) return 'the goblin never struck';
@@ -2098,7 +2098,8 @@ await test('stepping out of reach during the wind-up makes the blow miss', async
   L.tiles[(p.y - dy) * L.w + p.x - dx] = Dungeon.T.FLOOR;
   p.x -= dx; p.y -= dy;
   const mark = markLog(G);
-  for (let i = 0; i < 24; i++) Game.update(G.t + 25, 25);
+  // (a goblin's beat varies: its longest draw is most of a second)
+  for (let i = 0; i < 40 && !linesSince(G, mark).length; i++) Game.update(G.t + 25, 25);
   const said = linesSince(G, mark);
   if (p.hp < hp0) return `stepping away still cost ${hp0 - p.hp} hit points`;
   return said.some(l => /swings at the air where you stood/.test(l)) || `said: ${said.join(' | ')}`;
@@ -3575,7 +3576,7 @@ await test('Riposte: a blow that misses readies the next swing at once', async (
   const { Game, Dungeon } = ctx;
   const p = Game.player(), G = Game.state(), L = Game.level();
   talent(ctx, 'riposte');
-  const m = beside(ctx, 'goblin');
+  const m = beside(ctx, 'skeleton');
   Game.update(G.t + 25, 25);
   if (!m.windup) return 'no wind-up';
   p.nextAttack = G.t + 5000;
@@ -6616,6 +6617,73 @@ await test('walking over gear your class cannot use leaves it for the Take row, 
   if (got !== want || p.gold !== g0 + want) out.push(`selling the junk paid ${p.gold - g0} (said ${got}), wanted ${want}`);
   if (Game.junkInPack().length || !p.inv.some(it => it.t === 'dagger')) out.push('selling the junk left junk, or sold the dagger');
   return out.length ? out.join('; ') : true;
+});
+
+await test('a lunger follows a step straight back, but a step aside leaves it biting air; others swing at the air', async () => {
+  const out = [];
+  const trial = async (id, how) => {
+    const ctx = await start('fighter', `lunge-${id}-${how}`);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, id, { nextAct: G.t });
+    for (let i = 0; i < 40 && !m.windup; i++) Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move) return { err: `the ${id} drew back ${JSON.stringify(m.windup)}` };
+    const at = [m.x, m.y], was = [p.x, p.y];
+    shift(ctx, how);
+    const mark = markLog(G);
+    // until the blow comes down, whatever the monster's beat
+    for (let i = 0; i < 60 && !linesSince(G, mark).some(l => l.includes(ctx.MONSTERS[id].name)); i++) Game.update(G.t + 25, 25);
+    const said = linesSince(G, mark).join(' | ');
+    return { moved: m.x !== at[0] || m.y !== at[1], into: m.x === was[0] && m.y === was[1], said };
+  };
+  const back = await trial('ghoul', 'back');
+  if (back.err) return back.err;
+  if (!back.into) out.push(`a ghoul did not lunge into the square left (${back.said})`);
+  if (!/Ghoul (lunges after you|misses you)/.test(back.said)) out.push(`a ghoul's lunge said: ${back.said}`);
+  const side = await trial('ghoul', 'side');
+  if (side.moved || !/swings at the air/.test(side.said)) out.push(`a ghoul followed a step aside: ${side.said}`);
+  const gob = await trial('goblin', 'back');
+  if (gob.err) return gob.err;
+  if (gob.moved || !/swings at the air/.test(gob.said)) out.push(`a goblin followed a step back: ${gob.said}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the lich\'s touch reaches two squares down a straight line, not round a step aside', async () => {
+  const out = [];
+  for (const how of ['back', 'side']) {
+    const ctx = await start('fighter', `reach-${how}`);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.dex = 3;
+    const m = beside(ctx, 'lich', { nextAct: G.t, blows: 0, spoke: true });
+    for (let i = 0; i < 40 && !(m.windup && !m.windup.move); i++) { m.blows = 0; Game.update(G.t + 25, 25); }
+    if (!m.windup || m.windup.move) return `the lich drew back ${JSON.stringify(m.windup)}`;
+    shift(ctx, how);
+    const mark = markLog(G);
+    for (let i = 0; i < 60 && !linesSince(G, mark).some(l => /Lich/.test(l)); i++) Game.update(G.t + 25, 25);
+    const said = linesSince(G, mark).join(' | ');
+    if (how === 'back' && !/Lich (reaches across and touches you|misses you)/.test(said)) out.push(`a step back escaped the lich: ${said}`);
+    if (how === 'side' && !/swings at the air/.test(said)) out.push(`the lich reached round a step aside: ${said}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a cunning fighter never draws back the same way twice; a plain one keeps its beat', async () => {
+  const lengths = async id => {
+    const ctx = await start('fighter', `beat-${id}`);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 99999;
+    const m = beside(ctx, id, { nextAct: G.t });
+    const seen = new Set(); let last = null;
+    for (let i = 0; i < 2000 && seen.size < 12; i++) {
+      Game.update(G.t + 25, 25);
+      if (m.windup && !m.windup.move && m.windup !== last) { last = m.windup; seen.add(m.windup.until - m.windup.at); }
+      if (!m.windup) last = null;
+    }
+    return [...seen];
+  };
+  const gob = await lengths('goblin'), zom = await lengths('zombie');
+  if (gob.length < 3) return `a goblin drew back only ${gob.join(', ')}ms`;
+  return zom.length <= 2 || `a zombie drew back ${zom.join(', ')}ms`;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
