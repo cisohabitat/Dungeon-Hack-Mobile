@@ -22,6 +22,8 @@ test.describe('paths', () => {
     for (let i = 0; i < 3; i++) {
       await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
       await page.locator('#boon-list .boon').first().click();
+      // Self-Taught asks where its two points go first
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat').first().click(); await page.locator('.spread-stat').first().click(); }
     }
     await expect(page.locator('#boon-title')).toHaveText('Hero level 5: choose your path');
     const cards = page.locator('.boon.path');
@@ -30,7 +32,7 @@ test.describe('paths', () => {
     await expect(cards.nth(1).locator('b')).toHaveText('Berserker');
     // each says what it does: a line of flavour and its effects as a list
     await expect(cards.nth(1).locator('.path-flavour')).not.toBeEmpty();
-    await expect(cards.nth(1).locator('.path-effects li')).toHaveCount(3);
+    await expect(cards.nth(1).locator('.path-effects li')).toHaveCount(4);
     await expect(cards.nth(1)).toContainText('armour class');
     // it is for good, so one tap only marks the card and asks for a second
     await cards.nth(1).click();
@@ -52,7 +54,7 @@ test.describe('paths', () => {
     const sheet = page.locator('#char-sheet');
     await expect(sheet.locator('.sheet-h', { hasText: /^Path$/ })).toBeVisible();
     await expect(sheet.locator('.path-sheet b')).toHaveText('Berserker');
-    await expect(sheet.locator('.path-sheet .path-effects li')).toHaveCount(3);
+    await expect(sheet.locator('.path-sheet .path-effects li')).toHaveCount(4);
     await expect(sheet).toContainText('Fighter, Berserker');
     expect(errors).toEqual([]);
   });
