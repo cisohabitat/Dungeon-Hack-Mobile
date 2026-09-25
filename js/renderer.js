@@ -863,14 +863,27 @@ const Renderer = (() => {
           const arc = s.style === 'arrow' ? 2 : s.style === 'stone' ? 16 : 9;
           const px = (v2 => hand.x + (first.x - hand.x) * v2), py = (v2 => hand.y + (first.y - hand.y) * v2 - Math.sin(v2 * Math.PI) * arc);
           const x = px(t), y = py(t);
-          const size = 11 * (1 - t) + Math.max(2.5, first.r * 0.1) * t;
+          // it stays big enough to follow the whole way, and a knife or stone
+          // draws a faint trail behind it: a speck with no wake was lost
+          // against the thing it flew at
+          const size = 13 * (1 - t) + Math.max(4, first.r * 0.15) * t;
+          if (s.style !== 'arrow' && t > 0.02) {
+            ctx.lineCap = 'round';
+            for (let k = 1; k <= 4; k++) {
+              const a0 = Math.max(0, t - k * 0.035), a1 = Math.max(0, t - (k - 1) * 0.035);
+              ctx.strokeStyle = `rgba(255,250,235,${0.34 - k * 0.07})`; ctx.lineWidth = Math.max(1, size * 0.28 * (1 - k * 0.18));
+              ctx.beginPath(); ctx.moveTo(px(a0), py(a0)); ctx.lineTo(px(a1), py(a1)); ctx.stroke();
+            }
+          }
           if (s.style === 'knife') {
             const a = t * 16;
             const ux = Math.cos(a) * size, uy = Math.sin(a) * size;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(x - ux * 0.6, y - uy * 0.6); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+            ctx.strokeStyle = '#0a0810'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x - ux * 0.6, y - uy * 0.6); ctx.lineTo(x + ux, y + uy); ctx.stroke();
             ctx.strokeStyle = '#3a2618'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - ux * 0.6, y - uy * 0.6); ctx.lineTo(x - ux * 0.1, y - uy * 0.1); ctx.stroke();
-            ctx.strokeStyle = c; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x - ux * 0.05, y - uy * 0.05); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+            ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - ux * 0.05, y - uy * 0.05); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+            // a glint on the edge as it turns
+            if (Math.cos(a * 2) > 0.6) { ctx.fillStyle = '#ffffff'; ctx.fillRect(Math.round(x + ux * 0.6), Math.round(y + uy * 0.6), 1, 1); }
           } else if (s.style === 'stone') {
             ctx.fillStyle = '#0a0810'; ctx.beginPath(); ctx.arc(x, y, size * 0.42 + 1, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, size * 0.42, 0, Math.PI * 2); ctx.fill();
