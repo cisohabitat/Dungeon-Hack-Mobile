@@ -26,6 +26,9 @@ function tierAt(depth, levels) {
  * @param {string} seed @param {number} levels
  * @returns {Record<number, string>}
  */
+// How often a room's finds are gathered onto one square, and how many at most
+const TOGETHER = 0.4, TOGETHER_MOST = 3;
+
 function namedPlan(seed, levels) {
   const rng = new Rng(`${seed}|named`);
   const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
@@ -568,6 +571,33 @@ const Dungeon = (() => {
       for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
       if (spots.length) { const s = spots[0]; monsters.push(makeMonster('lich', s[0], s[1])); }
       // no escort: the level already crawls with the deep tier's own horrors
+    }
+
+    // ---- finds left together ----
+    // Now and then a room's scattered finds lie in one place, as if someone
+    // set them down and never came back for them. Only a square that already
+    // holds something takes more, and the draw has a stream of its own, so
+    // nothing else on the floor moves and the loot is the same loot. Keys,
+    // pages and the Heart stay where they were put.
+    {
+      const crng = new Rng(`${seed}|together|${depth}`);
+      const movable = it => it.t !== 'key' && it.t !== 'page' && it.t !== 'artifact';
+      const byRoom = new Map();
+      for (const k in items) {
+        const [x, y] = k.split(',').map(Number), r = roomId[idx(x, y)];
+        if (r < 0 || !items[k].every(movable)) continue;
+        if (!byRoom.has(r)) byRoom.set(r, []);
+        byRoom.get(r).push(k);
+      }
+      for (const piles of byRoom.values()) {
+        if (piles.length < 2 || !crng.chance(TOGETHER)) continue;
+        const to = crng.pick(piles);
+        for (const k of crng.shuffle(piles.filter(p => p !== to))) {
+          if (items[to].length + items[k].length > TOGETHER_MOST) continue;
+          items[to].push(...items[k]);
+          delete items[k];
+        }
+      }
     }
 
     const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
