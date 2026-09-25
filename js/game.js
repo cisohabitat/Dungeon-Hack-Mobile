@@ -820,7 +820,7 @@ const Game = (() => {
     const p = P();
     if (!p.eq[slot]) return;
     if (bound(p.eq[slot])) { log(`${cap(the(p.eq[slot]))} will not come off. It is cursed.`, 'bad'); Sound.play('error'); return; }
-    if (p.inv.length >= INV_MAX) { log('Your pack is full.', 'bad'); return; }
+    if (p.inv.length >= INV_MAX) { log('Your pack is full: drop something first.', 'bad'); return; }
     p.inv.push(p.eq[slot]);
     log(`You remove ${the(p.eq[slot])}.`);
     p.eq[slot] = null;
@@ -1073,10 +1073,10 @@ const Game = (() => {
     else if (beltRoom(it.t) < (it.q || 1)) {
       const room = beltRoom(it.t);
       if (giveItem({ ...it, q: room })) { it.q -= room; log(`You take ${room} of them. Your belt holds no more.`); Sound.play('pickup'); }
-      else log('Your pack is full.', 'bad');
+      else log('Your pack is full: drop something first.', 'bad');
     }
     else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); }
-    else { log('Your pack is full.', 'bad'); }
+    else { log('Your pack is full: drop something first.', 'bad'); }
     if (!list.length) delete L.items[k];
     emit('inv');
   }
@@ -1706,7 +1706,7 @@ const Game = (() => {
     if (beltRoom(it.t) <= 0) { log(`Your belt holds ${BELT} of those already.`, 'bad'); Sound.play('error'); return false; }
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
     const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}), ...(it.pw ? { pw: it.pw } : {}) };
-    if (!giveItem(one)) { log('Your pack is full.', 'bad'); Sound.play('error'); return false; }
+    if (!giveItem(one)) { log('Your pack is full: drop something first.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
     if (it.q <= 0) {
@@ -3575,6 +3575,8 @@ const Game = (() => {
   // who is behind, and the pressure is set once, when the floor is first
   // entered, so it cannot be dodged by levelling on it.
   const PRESS_HP = 0.15, PRESS_CHAMPION = 0.12, PRESS_MOST = 3, PRESS_GRACE = 0.5;
+  /** How much sturdier a floor's creatures are for a hero ahead of the depth, in percent. */
+  const pressSturdier = L => Math.round(PRESS_HP * (L.press || 0) * 100);
   /** The level a hero usually has on arriving at a floor, measured over many runs by the bot. */
   const expectedLevel = depth => 1 + 0.8 * (depth - 1);
   /** @param {import('./types.js').Level} L @param {number} depth */
@@ -3593,8 +3595,10 @@ const Game = (() => {
       for (const b of m.pack || []) { b.maxHp = tougher(b.maxHp); b.hp = b.maxHp; }
     }
     // said on arrival, and shown while you are here, so it is never a hidden tax
-    if (L.press >= 1) { log(`The deep has heard of you. What waits on this floor is ready for you (+${L.press}).`, 'bad'); Sound.play('dread'); }
-    else if (L.press > 0) log(`You are ahead of most who come this far. The floor stirs to meet you (+${L.press}).`, 'bad');
+    // said in what it means, not as a bare number
+    const pct = pressSturdier(L);
+    if (L.press >= 1) { log(`The deep has heard of you. What waits on this floor is ${pct}% sturdier, and more often a champion.`, 'bad'); Sound.play('dread'); }
+    else if (L.press > 0) log(`You are ahead of most who come this far. The floor stirs to meet you: its creatures are ${pct}% sturdier.`, 'bad');
   }
   /** A monster that appears mid-fight, awake and already hunting. */
   function newMonster(id, x, y, hp) {
@@ -4104,7 +4108,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, pressSturdier, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
