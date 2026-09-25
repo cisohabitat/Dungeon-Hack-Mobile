@@ -1038,13 +1038,37 @@ for (const k in ITEM_DETAILS) {
 // other hand of a two-handed grip. A sling hangs from its loop and does not
 // turn with the swing as a blade does. A bow is drawn from behind instead
 // (see heldart.js), so it has no grip here.
+// The two-handed sword is the exception: squeezed into a pack square its
+// picture is a long sword's length, and held up like one it passed for one.
+// In the hand it is drawn from its own picture (HELD_ART), with a grip long
+// enough for both fists and a blade as long as a man's leg, on a bigger grid.
+const HELD_ART = {
+  greatsword: () => [
+    ball(...at(-0.9), 2.3, 2.3, BRASS),                                           // the pommel
+    axis(-0.2, 12.4, 1.35, 1.35, '#4a2e1a'),                                      // a grip for two fists
+    ...[0.8, 2.8, 4.8, 6.8, 8.8, 10.8].map(s => guard(s, 2.7, '#7a5230', 0.5)),   // its leather wraps
+    // long swept quillons with a ruby at the cross
+    limb(...at(12.6, -9.5), ...at(13.8, -3.2), 1.25, 1.1, BRASS), limb(...at(12.6, 9.5), ...at(13.8, 3.2), 1.25, 1.1, BRASS),
+    guard(13.5, 7.2, BRASS, 1.35),
+    ball(...at(13.5), 1.05, 1.05, '#c02838'), specks([at(13.2, -0.4)], '#ff9aa0'),
+    // a broad blade with a leather-wrapped ricasso and parrying lugs above it
+    ...blade(14.2, 44, 4.8),
+    ...bevels(14.2, 44, 4.8),
+    axis(14.4, 18.2, 1.8, 1.8, WRAP), ...cord(14.6, 18, 1.8, '#2e1c10', 0.8),
+    ball(...at(19.2, -3.2), 1, 1, STEEL), ball(...at(19.2, 3.2), 1, 1, STEEL),
+    // a nick or two in the edge, old blood near the point
+    specksAt([[27, -2.2], [27.4, -2.2], [34, 2.2]], '#3a3e48'), specksAt([[38.5, 0.6]], '#6a2020'),
+  ],
+};
+
 const GRIPS = {
   dagger: { at: at(7.8) }, shortsword: { at: at(7.3) }, longsword: { at: at(7) },
-  greatsword: { at: at(8.6), second: at(4.4) }, throwknife: { at: at(12.5) },
+  // in its HELD_ART picture: the right fist under the guard, the left at the pommel
+  greatsword: { at: at(9.9), second: at(3.4), grid: 100 }, throwknife: { at: at(12.5) },
   club: { at: at(5.6) }, staff: { at: at(13.5), second: at(3.5) }, spear: { at: at(9.5) },
   mace: { at: at(5.2) }, hammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
   sling: { at: [8, 6.5], fixed: true },
 };
 const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
 
-export { ITEM_ART, GRIPS, ICON_AXIS };
+export { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS };

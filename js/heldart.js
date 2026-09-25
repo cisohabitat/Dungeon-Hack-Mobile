@@ -9,7 +9,7 @@
 // A shield and a bow are painted from behind, as the hero sees them, since
 // their pack pictures show the side the enemy sees.
 
-import { ITEM_ART, GRIPS, ICON_AXIS } from './itemart.js';
+import { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS } from './itemart.js';
 import { ball, limb, sheet, hair, specks } from './creatures.js';
 
 /** glove, cuff and sleeve, by class */
@@ -193,12 +193,14 @@ function heldParts(id, pose, cls, two = false) {
   if (base === 'shortbow') return bowParts(cls);
   const behind = [], front = [];
   let weapon = [];
+  // a weapon too long for the usual room gets more of it
+  const grid = (base && GRIPS[base] && GRIPS[base].grid) || GRID, c = grid / 2;
   if (base) {
-    const g = GRIPS[base], art = ITEM_ART[base];
+    const g = GRIPS[base], art = HELD_ART[base] || ITEM_ART[base];
     if (!g || !art) return null;
     const d = g.fixed ? 0 : P.a - ICON_AXIS, cos = Math.cos(d), sin = Math.sin(d);
     const [gx, gy] = g.at;
-    const f = (x, y) => [C + (x - gx) * cos - (y - gy) * sin, C + (x - gx) * sin + (y - gy) * cos];
+    const f = (x, y) => [c + (x - gx) * cos - (y - gy) * sin, c + (x - gx) * sin + (y - gy) * cos];
     weapon = art().filter(p => !(P.empty && base === 'sling' && SLING_STONE.includes(p.c))).map(p => moved(p, f));
     if (two && g.second) {
       const [sx, sy] = f(...g.second);
@@ -207,8 +209,8 @@ function heldParts(id, pose, cls, two = false) {
     }
   }
   const a = base && GRIPS[base].fixed ? -Math.PI / 2 : P.a;
-  const h = hand(C, C, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left });
-  return { grid: GRID, anchor: [C, C], parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
+  const h = hand(c, c, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left });
+  return { grid, anchor: [c, c], parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
 }
 
 /** The back of a shield, by its sprite. */

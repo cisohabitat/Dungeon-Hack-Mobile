@@ -348,8 +348,9 @@ const Renderer = (() => {
       }
       put(Assets.held(v.weapon, 'rest', v.cls, false), x + dx, y + dy, s);
     } else if (v.weapon) {
-      // a two-handed grip sits higher so the lower hand shows; a sling hangs from the hand
-      const lift = v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
+      // a two-handed grip sits higher so the lower hand shows, the long grip of
+      // a two-handed sword higher still; a sling hangs from the hand
+      const lift = /greatsword$/.test(v.weapon) ? 0.15 : v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
       let pose = 'rest', p = at('rest', lift);
       if (swinging) {
         if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
