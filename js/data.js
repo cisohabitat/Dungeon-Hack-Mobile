@@ -365,7 +365,7 @@ const MONSTERS = {
   goblin:   { name: 'Goblin',      hp: [2, 8, 0],    ac: 13, hit: 2,  dmg: [1, 6, 0], speed: 1000, xp: 20,   tier: [1, 5],   sprite: 'goblin', cunning: 1,   scale: 0.75 },
   skeleton: { name: 'Skeleton',    hp: [3, 8, 0],    ac: 14, hit: 3,  dmg: [1, 6, 1], speed: 1100, xp: 35,   tier: [3, 7],   sprite: 'skeleton', scale: 0.9, undead: true, move: 'rise' },
   zombie:   { name: 'Zombie',      hp: [4, 8, 2],    ac: 11, hit: 3,  dmg: [1, 8, 0], speed: 1600, xp: 40,   tier: [2, 7],   sprite: 'zombie',   scale: 0.9, undead: true, move: 'grab', door: 'batter' },
-  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [3, 8],   sprite: 'orc', cunning: 1,      scale: 0.95, move: 'charge' },
+  orc:      { name: 'Orc',         hp: [4, 8, 0],    ac: 14, hit: 4,  dmg: [1, 8, 1], speed: 1000, xp: 55,   tier: [4, 8],   sprite: 'orc', cunning: 1,      scale: 0.95, move: 'charge' },
   ghoul:    { name: 'Ghoul',       hp: [5, 8, 0],    ac: 14, hit: 5,  dmg: [1, 6, 2], speed: 900,  xp: 80,   tier: [4, 10],  sprite: 'ghoul', lunge: 1,    scale: 0.9, undead: true, move: 'paralyse' },
   wraith:   { name: 'Wraith',      hp: [6, 8, 0],    ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 900,  xp: 130,  tier: [6, 12],  sprite: 'wraith', lunge: 1,   scale: 0.95, undead: true, fly: 0.2, element: 'cold' },
   ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [8, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush', door: 'smash' },
