@@ -1057,7 +1057,9 @@ const Renderer = (() => {
       const tX = invDet * (dirY * sx - dirX * sy);
       list.push({ s, tX, tY });
     }
-    list.sort((a, b) => b.tY - a.tY);
+    // what lies on the floor is drawn before whatever stands on that square,
+    // so a potion under a goblin (or the Heart at the lich's feet) is behind it
+    list.sort((a, b) => b.tY - a.tY || (b.s.onFloor ? 1 : 0) - (a.s.onFloor ? 1 : 0));
     for (const { s, tX, tY } of list) {
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;

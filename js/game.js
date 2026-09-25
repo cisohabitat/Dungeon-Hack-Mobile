@@ -3968,7 +3968,7 @@ const Game = (() => {
       const it = list[list.length - 1];
       // the Heart floats; a relic hovers a little, so it reads as more than iron
       const floats = it.t === 'artifact' || !!it.u;
-      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32), yOff: floats ? 0.04 + Math.sin(now / 300) * 0.03 : 0 });
+      sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[spriteFor(it)], scale: it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32), yOff: floats ? 0.04 + Math.sin(now / 300) * 0.03 : 0, onFloor: true });
     }
     // the fallen: knocked back, sinking into a heap and fading
     for (const c of fx.corpses) {
