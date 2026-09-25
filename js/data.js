@@ -159,6 +159,14 @@ const TALENTS = {
 // each gives up something, or asks for something, in return. game.js honours
 // each by id (see its paths block); effects are what the player is told.
 const PATH_LEVEL = 5;
+
+// Vows: a harder run chosen at the start, open once any hero has won on Hard.
+// Each one kept to a win (on Normal or Hard, on one life) is a trophy of its own.
+const VOWS = {
+  iron:    { name: 'Iron Vow',     desc: 'No rest until the Heart is won: the Rest button and the trader\'s lamp are closed to you.' },
+  pauper:  { name: 'Pauper\'s Vow', desc: 'No trader will deal with you: no buying, selling or forge work.' },
+  unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer and scrolls alone.' },
+};
 const PATHS = {
   fighter: [
     { id: 'knight', name: 'Knight', flavour: 'Shield up and feet set: the wall the dark breaks on.', wants: 'shield', effects: [
@@ -593,4 +601,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL };
+export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };

@@ -3428,8 +3428,11 @@ await test('a corrupt bestiary in storage is shrugged off, not a crash', async (
   for (const bad of ['{"goblin":5}', '{"goblin":null}', '[]', 'not json', '{"goblin":{"met":"lots","kills":null}}']) {
     localStorage.setItem('deepdelve.bestiary', bad);
     const m = beside(ctx, 'goblin', { uid: 300 + bad.length, hp: 1, maxHp: 1, nextAct: 1e12 });
-    G.t = p.nextAttack;
-    try { Game.input('attack'); } catch (e) { return `stored ${bad}: ${e.message}`; }
+    // a natural 1 still misses: swing until it falls
+    for (let i = 0; i < 6 && Game.level().monsters.includes(m); i++) {
+      G.t = Math.max(G.t, p.nextAttack);
+      try { Game.input('attack'); } catch (e) { return `stored ${bad}: ${e.message}`; }
+    }
     if (Game.level().monsters.includes(m)) return `stored ${bad}: the goblin did not die`;
     const r = Game.bestiary().goblin;
     if (!r || r.kills < 1 || !Number.isFinite(r.met)) return `stored ${bad}: the record came back ${JSON.stringify(r)}`;
@@ -4992,7 +4995,51 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   if (G.status !== 'dead') return 'the goblin never killed the hero';
   if (JSON.stringify(progressOf(ctx)) !== before || Game.earned()) return `a death changed the trophies: ${JSON.stringify(progressOf(ctx).won)}`;
   const n = Progress.trophyCount();
-  return (n.total === 12 && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
+  return (n.total === 12 + 8 + 3 && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
+});
+
+await test('a win with a path, and a vow kept, are trophies of their own; vows open after a Hard win', async () => {
+  const ctx = await newContext();
+  const { Game, Progress } = ctx;
+  const run = (cls, difficulty, opts = {}) => Game.newGame({ name: 'V', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'vow-' + cls, opts: { ...OPTS, permadeath: true, difficulty, ...opts } });
+  if (Progress.vowsOpen()) return 'vows were open before any Hard win';
+  run('fighter', 'hard'); Game.player().path = 'knight';
+  winHere(Game);
+  const e = Game.earned();
+  if (!e.vowsOpened || e.firstPath !== 'knight') return `a first Hard win as a Knight earned ${JSON.stringify(e)}`;
+  if (!Progress.vowsOpen()) return 'a Hard win did not open the vows';
+  run('cleric', 'normal', { vows: ['iron', 'unaided', 'iron', 'nonsense'] });
+  if (JSON.stringify(Game.state().opts.vows) !== '["iron","unaided"]') return `vows kept as ${JSON.stringify(Game.state().opts.vows)}`;
+  winHere(Game);
+  if (JSON.stringify(Game.earned().firstVows) !== '["iron","unaided"]') return `vows kept to a win earned ${JSON.stringify(Game.earned())}`;
+  run('thief', 'easy', { vows: ['pauper'] }); winHere(Game);
+  if (progressOf(ctx).vows.pauper) return 'a vow kept on Easy counted';
+  const n = Progress.trophyCount();
+  return n.won === 3 + 1 + 2 || `trophies ${JSON.stringify(n)} from ${JSON.stringify(progressOf(ctx))}`;
+});
+
+await test('a vow binds: no rest under the Iron Vow, no trader under the Pauper\'s, no draught unaided; the Daily takes none', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'vows', { vows: ['iron', 'pauper', 'unaided'] });
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0; p.hp = 1;
+  const mark = markLog(G);
+  if (Game.rest() !== false || p.hp !== 1) out.push('the Iron Vow let the hero rest');
+  const draught = { t: 'potion_heal', q: 1 }; p.inv.push(draught); G.known.potion_heal = 1;
+  Game.useItem(draught);
+  if (p.hp !== 1 || !p.inv.includes(draught)) out.push('an unaided hero drank a draught');
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [{ t: 'ration', q: 3, e: 0 }] };
+  L.npcs.length = 0; L.npcs.push(shop);
+  const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+  L.tiles[shop.y * L.w + shop.x] = Dungeon.T.FLOOR;
+  Game.input('forward');
+  if (Game.currentShop()) out.push('a trader dealt with a pauper');
+  const said = linesSince(G, mark).join(' | ');
+  for (const w of ['Iron Vow', 'unaided', 'pauper']) if (!said.includes(w)) out.push(`nothing said of the ${w}: ${said}`);
+  const daily = ctx.Daily.heroFor('2026-09-24');
+  Game.newGame({ ...daily, opts: { ...daily.opts, vows: ['iron'] } });
+  if ((Game.state().opts.vows || []).length) out.push('the Daily Delve took a vow');
+  return out.length ? out.join('; ') : true;
 });
 
 await test('a relic picked up or bought goes in the codex, once, and the codex outlasts the run', async () => {
@@ -5028,12 +5075,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[]}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{}}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
-  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'] }));
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 } }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"]}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;

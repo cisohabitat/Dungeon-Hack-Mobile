@@ -177,6 +177,7 @@
  * @property {boolean} [permadeath]
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
+ * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
  */
 
 /**

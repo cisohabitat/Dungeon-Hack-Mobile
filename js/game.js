@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, armorFits, shieldFits } from './data.js';
+import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -62,6 +62,8 @@ const Game = (() => {
   /** @returns {import('./types.js').Player} */
   const P = () => G.player;
   const cls = () => CLASSES[G.player.cls];
+  /** Whether the hero swore this vow at the start of the run. */
+  const vowed = v => !!(G && G.opts && Array.isArray(G.opts.vows) && G.opts.vows.includes(v));
 
   // ---------- the dice, in the open ----------
   // On unless turned off: the classic crawlers showed their arithmetic, and
@@ -578,7 +580,7 @@ const Game = (() => {
   /** A night by the trader's lamp: whole again, nothing finds you, and the floor's own rests are not spent. */
   function lodging() {
     const L = lvl(), p = P();
-    const why = L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp ? 'You are already well rested.' : null;
+    const why = vowed('iron') ? 'You swore the Iron Vow: no rest until the Heart is won.' : L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp ? 'You are already well rested.' : null;
     return { id: 'lodge', label: 'Sleep safe by the trader\'s lamp', detail: why || 'A whole night, and nothing finds you. Once a floor.',
       price: Math.round((30 + 15 * G.depth) * (1 - charm())), why };
   }
@@ -1002,6 +1004,7 @@ const Game = (() => {
     if (p.held > G.t) { blocked(heldWhy()); return; }
     const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
     if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
+    if (b.kind === 'potion' && vowed('unaided')) { log('You swore to go unaided: no draught passes your lips.', 'bad'); Sound.play('error'); return; }
     if (consumable) {
       const why = wasteReason(it);
       if (why) { log(why, 'bad'); Sound.play('error'); emit('waste'); return; }
@@ -1323,6 +1326,8 @@ const Game = (() => {
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
     clearFx();
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: Date.now(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
+    // only vows that exist, once each; the Daily Delve is the same run for everyone, so it takes none
+    if (G.opts.vows) G.opts.vows = G.opts.daily ? [] : [...new Set(G.opts.vows)].filter(v => VOWS[v]);
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -1852,6 +1857,7 @@ const Game = (() => {
 
   let shop = null;
   function openShop(n) {
+    if (vowed('pauper')) { log('The trader sees the vow on you, and shakes their head. "Not to one sworn a pauper."', 'bad'); Sound.play('error'); return false; }
     shop = n;
     if (!n.greeted) {
       n.greeted = true;
@@ -2588,7 +2594,7 @@ const Game = (() => {
     const p = P();
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
-    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal');
+    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
@@ -2597,6 +2603,7 @@ const Game = (() => {
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;
     if (p.path) entry.path = p.path;       // "Level 9 Fighter, Knight"
+    if (Array.isArray(G.opts.vows) && G.opts.vows.length) entry.vows = G.opts.vows.slice();
     try {
       const list = hall();
       list.push(entry);
@@ -2954,6 +2961,7 @@ const Game = (() => {
   }
   function rest() {
     const p = P(), L = lvl();
+    if (vowed('iron')) { log('You swore the Iron Vow: no rest until the Heart is won.', 'bad'); Sound.play('error'); return false; }
     ensureDist();
     if (enemiesNear()) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
