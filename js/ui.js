@@ -1467,7 +1467,13 @@ const UI = (() => {
         // a light blade can go in either hand, so offer the second one
         if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
       }
-      else if (b.kind === 'ring' || b.kind === 'amulet') add(it.curse && !it.h ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary');
+      else if (b.kind === 'ring' || b.kind === 'amulet') {
+        const eq = Game.player().eq, warn = it.curse && !it.h, cls = warn ? 'danger' : 'primary';
+        // both fingers taken, and neither held by a curse: you say which ring comes off
+        if (b.kind === 'ring' && eq.ring && eq.ring2 && !eq.ring.curse && !eq.ring2.curse) {
+          for (const s of ['ring', 'ring2']) add(`Replace ${Game.itemName(eq[s]).replace(/^Ring of /, '')}${warn ? ' (cursed!)' : ''}`, () => Game.equip(it, false, s), cls);
+        } else add(warn ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it), cls);
+      }
       else if (b.kind === 'food') add('Eat', () => useFromPack(it), 'primary');
       else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');

@@ -705,6 +705,28 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('with both fingers taken, a third ring asks which one comes off', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'jewel-finger', cls: 'Mage' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), G = Game.state();
+      for (const t of ['ring_protect', 'ring_might', 'ring_evasion']) G.known[t] = 1;
+      const a = { t: 'ring_protect', q: 1, e: 0 }, b = { t: 'ring_might', q: 1, e: 0 };
+      p.inv.push(a, b); Game.equip(a, true); Game.equip(b, true);
+      p.inv.push({ t: 'ring_evasion', q: 1, e: 0 });
+    });
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot.filled', { hasText: 'Ring of Evasion' }).click();
+    await expect(page.locator('#item-detail button', { hasText: 'Put on' })).toHaveCount(0);
+    await page.locator('#item-detail button', { hasText: 'Replace Might' }).click();
+    const worn = await page.evaluate(() => { const eq = Game.player().eq; return [eq.ring && eq.ring.t, eq.ring2 && eq.ring2.t]; });
+    expect(worn.sort()).toEqual(['ring_evasion', 'ring_protect']);
+    expect(await page.evaluate(() => Game.player().inv.some(i => i.t === 'ring_might'))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('a fire scroll\'s log line and a draught\'s healing show when they land, not before', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
