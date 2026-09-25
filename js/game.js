@@ -23,7 +23,7 @@ const Game = (() => {
   let G = null;
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
-  const fx = { damageUntil: 0, healUntil: 0, healAt: 0, /** @type {{dhp: number, dsp: number, until: number}|null} */ hold: null, swingUntil: 0, castUntil: 0, shakeUntil: 0,
+  const fx = { damageUntil: 0, healUntil: 0, healAt: 0, smokeUntil: 0, /** @type {{dhp: number, dsp: number, until: number}|null} */ hold: null, swingUntil: 0, castUntil: 0, shakeUntil: 0,
                hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
@@ -2861,9 +2861,70 @@ const Game = (() => {
     emit('stats');
     return true;
   }
+  // ---------- class abilities ----------
+  // A fighter and a thief have no spells, so each has a move of their own on
+  // the Cast button. The fighter's Bash breaks the blow or trick being drawn
+  // back in front of them and leaves the foe reeling open. The thief's Smoke
+  // makes everything close by lose them, as good as asleep to them for a few
+  // seconds: time to slip away, or to land the double blow on a sleeping foe.
+  // Each path gives its class's move a twist.
+  const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 9000 }, thief: { id: 'smoke', name: 'Smoke', cool: 16000 } };
+  const SMOKE_MS = 3000, SMOKE_REACH = 3;
+  /** This hero's move, if their class has one. */
+  const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
+  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 11000 : a.cool);
+  /** Seconds until the move is ready again, 0 when it is. */
+  const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
+  function useAbility() {
+    const p = P(), a = abilityOf();
+    if (!a) return false;
+    if (abilityLeft()) { log(`${a.name} is not ready yet: ${abilityLeft()}s.`, 'bad'); Sound.play('error'); return false; }
+    return a.id === 'bash' ? bash(a, p) : smoke(a, p);
+  }
+  function bash(a, p) {
+    const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
+    if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
+    const mb = mstat(m), shield = !!(p.eq.shield && !ITEMS[p.eq.shield.t].focus);
+    // any blow or trick it was drawing back is broken off; the lich's rite goes on through it
+    const rite = !!(m.windup && m.windup.move === 'rite');
+    const broke = !rite && !!(m.windup || m.volley);
+    if (!rite) { m.windup = null; m.volley = null; }
+    m.pressing = false;
+    // a shield rings a foe harder than a pommel; a Knight's sets it back further still
+    const stagger = (shield ? 1500 : 900) + (onPath('knight') ? 700 : 0);
+    m.nextAct = Math.max(m.nextAct, G.t + (mb.boss ? stagger / 2 : stagger));
+    p.abilityReady = G.t + abilityCool(a);
+    meet(m);
+    Sound.play('block', heard(m));
+    log(`You bash the ${mb.name} with your ${shield ? 'shield' : 'pommel'}${broke ? ' and break off its blow' : ''}. It reels, wide open!`, 'good');
+    // a Berserker puts weight behind it: the bash is a blow of its own
+    if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
+    if (lvl().monsters.includes(m) && !m.collapsed) opening(m);
+    return true;
+  }
+  function smoke(a, p) {
+    const L = lvl();
+    ensureDist();
+    let lost = 0;
+    for (const m of L.monsters) {
+      const di = distField[m.y * L.w + m.x];
+      if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
+      m.windup = null; m.volley = null; m.pressing = false;
+      // the lich sees through smoke, though it spoils its aim for a moment
+      if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
+      m.awake = false; m.fleeing = false; m.nextAct = G.t + 400; lost++;
+    }
+    p.smokeUntil = G.t + (onPath('assassin') ? 4500 : SMOKE_MS);
+    p.abilityReady = G.t + abilityCool(a);
+    fx.smokeUntil = realNow + (p.smokeUntil - G.t);
+    Sound.play('snuff');
+    log(lost ? `You crush a smoke pellet underfoot. In the choking grey, ${lost === 1 ? 'your foe loses' : `${lost} foes lose`} you.` : 'You crush a smoke pellet underfoot, but nothing is close enough to lose you in it.', lost ? 'good' : '');
+    return true;
+  }
+
   function castLast() {
     const list = knownSpells();
-    if (!list.length) return quaff();
+    if (!list.length) return abilityOf() ? useAbility() : quaff();
     const sp = list.find(s => s.id === G.lastSpell) || list[0];
     return castSpell(sp);
   }
@@ -2926,6 +2987,8 @@ const Game = (() => {
   /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
   function castLabel() {
     const list = knownSpells();
+    const a = abilityOf();
+    if (!list.length && a) return abilityLeft() ? `${a.name} ${abilityLeft()}s` : a.name;
     if (!list.length) return P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t)) ? 'Quaff' : 'Quaff (none)';
     return (list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0]).name;
   }
@@ -3118,7 +3181,8 @@ const Game = (() => {
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
-        if (di >= 0 && di <= notice) {
+        // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
+        if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
           m.awake = true; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
           if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
           meet(m);
@@ -3126,7 +3190,8 @@ const Game = (() => {
           if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
           continue;
         }
-        else { if (Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
+        // lost in a thief's smoke, it stands and peers about rather than wandering off
+        else { if (!(P().smokeUntil > G.t) && Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
       }
       if (di < 0 || di > 12) {
         // it has lost you; after a while it stops hunting and settles again
@@ -3680,7 +3745,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, attackReady, castLabel, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     INV_MAX, T,

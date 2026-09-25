@@ -844,13 +844,14 @@ const UI = (() => {
   let quaffSig = '';
   function refreshQuaff() {
     const p = Game.player();
-    const caster = !!CLASSES[p.cls].spells;
-    const n = caster ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
-    const sig = `${caster}|${n}`;
+    // a caster's Cast button casts and a fighter's or thief's is their own move, so the bottle is here for everyone
+    const drinks = !!CLASSES[p.cls].spells || !!Game.abilityOf();
+    const n = drinks ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
+    const sig = `${drinks}|${n}`;
     if (sig === quaffSig) return;
     quaffSig = sig;
     const btn = $('#hud-quaff');
-    btn.style.display = caster ? '' : 'none';
+    btn.style.display = drinks ? '' : 'none';
     btn.style.visibility = n ? '' : 'hidden';
     $('#hud-quaff-n').textContent = n > 1 ? String(n) : '';
     btn.setAttribute('aria-label', `Quaff a healing draught (${n} carried)`);
@@ -862,6 +863,16 @@ const UI = (() => {
     castSig = label;
     const btn = document.querySelector('[data-tap="cast"]');
     if (!btn) return;
+    // a fighter's Bash or a thief's Smoke, dim while it comes back, with the seconds left
+    const a = Game.abilityOf();
+    if (a) {
+      const cooling = label !== a.name;
+      btn.firstChild.nodeValue = a.id === 'bash' ? '\u26E8' : '\u2601';
+      btn.classList.toggle('empty', cooling);
+      btn.querySelector('small').textContent = label;
+      btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and leave it open' : 'Smoke: everything close loses you for a few seconds');
+      return;
+    }
     // the spell-less quaff instead, and the button dims with nothing known to drink
     const quaffs = label.startsWith('Quaff');
     btn.firstChild.nodeValue = quaffs ? '\u2697' : '\u2726';

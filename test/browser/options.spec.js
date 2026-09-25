@@ -56,11 +56,30 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a fighter has no bottle in the HUD: Quaff sits on the Cast button', async ({ page }) => {
+  test('a fighter has Bash on the Cast button and the bottle beside the life bar', async ({ page }) => {
+    const errors = watchForErrors(page);
     await startGame(page, { cls: 'fighter', seed: 'fighter-quaff' });
     await clearBoons(page);
-    await expect(page.locator('[data-tap="cast"] small')).toHaveText('Quaff');
-    await expect(page.locator('#hud-quaff')).toBeHidden();
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText('Bash');
+    await expect(page.locator('#hud-quaff')).toBeVisible();
+    // bashed at a foe in front, it comes back after a few seconds and says so
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 77, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 99, maxHp: 99, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await page.click('[data-tap="cast"]');
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText(/^Bash \d+s$/);
+    await expect(page.locator('[data-tap="cast"]')).toHaveClass(/empty/);
+    expect(await page.evaluate(() => Game.state().log.slice(-3).map(e => e.m).join(' '))).toContain('You bash the Goblin');
+    expect(errors).toEqual([]);
+  });
+
+  test('a thief has Smoke on the Cast button', async ({ page }) => {
+    await startGame(page, { cls: 'thief', seed: 'thief-smoke' });
+    await clearBoons(page);
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText('Smoke');
   });
 });
 

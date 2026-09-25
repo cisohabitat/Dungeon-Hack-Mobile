@@ -1327,6 +1327,13 @@ const Renderer = (() => {
       }
       ctx.globalAlpha = 1;
     }
+    // a thief's smoke: a grey haze, thickest at the edges, thinning as it clears
+    if (now < (fx.smokeUntil || 0)) {
+      const a = Math.min(1, (fx.smokeUntil - now) / 800);
+      const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.15, W / 2, H / 2, W * 0.7);
+      g.addColorStop(0, 'rgba(150,150,150,0.12)'); g.addColorStop(1, 'rgba(120,120,125,0.7)');
+      ctx.globalAlpha = a; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+    }
     if (now >= (fx.healAt || 0) && now < fx.healUntil) {
       const a = (fx.healUntil - now) / 260;
       ctx.fillStyle = 'rgba(80,220,120,1)';

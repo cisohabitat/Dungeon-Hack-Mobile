@@ -252,6 +252,20 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const fire = Game.knownSpells().find(sp => sp.fire && Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp));
         if (fire && Game.castSpell(fire) !== false) { rec.burned = (rec.burned || 0) + 1; step(); continue; }
       }
+      // a fighter bashes the trick (or, when hurt, the blow) being drawn back
+      // beside it; a hurt thief throws smoke and strikes from it. NOABIL=1 plays without either.
+      if (!process.env.NOABIL && Game.abilityOf() && !Game.abilityLeft()) {
+        const near = L.monsters.filter(m => m.awake && !m.collapsed && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+        if (p.cls === 'fighter') {
+          const foe = near.find(m => m.windup && ((m.windup.move && m.windup.move !== 'rite') || hpFrac < 0.5));
+          if (foe) {
+            p.dir = Dungeon.DIRS.findIndex(([dx, dy]) => dx === foe.x - p.x && dy === foe.y - p.y);
+            if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; }
+          }
+        } else if (p.cls === 'thief' && near.length && (hpFrac < 0.45 || near.length >= 2) && !near.some(m => MONSTERS[m.id].boss)) {
+          if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; }
+        }
+      }
       // a chant, the lich's rite or a war-horn is answered by striking it, not by stepping away
       const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
@@ -696,7 +710,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)
   const byPath = {};

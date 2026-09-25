@@ -1971,13 +1971,13 @@ await test('choosing a spell readies it on the Cast button even when nothing is 
   const hands = Game.knownSpells().find(s => s.id === 'burning_hands');
   if (Game.castSpell(hands)) return 'Burning Hands flew at nothing';
   if (Game.castLabel() !== 'Burning Hands') return `the Cast button says ${Game.castLabel()}`;
-  // and a fighter's Cast button drinks a healing draught instead
+  // a fighter's Cast button is Bash, and the bottle drinks a healing draught
   const f = await start('fighter', 'quaff');
   const fp = f.Game.player();
-  if (f.Game.castLabel() !== 'Quaff') return `a fighter's Cast button says ${f.Game.castLabel()}`;
+  if (f.Game.castLabel() !== 'Bash') return `a fighter's Cast button says ${f.Game.castLabel()}`;
   fp.hp = 1;
   const before = fp.inv.filter(i => i.t === 'potion_heal').reduce((a, i) => a + i.q, 0);
-  f.Game.input('cast');
+  f.Game.input('quaff');
   const after = fp.inv.filter(i => i.t === 'potion_heal').reduce((a, i) => a + i.q, 0);
   return (after === before - 1 && fp.hp > 1) || `Quaff left ${after} of ${before} draughts and ${fp.hp} hit points`;
 });
@@ -2307,11 +2307,13 @@ await test('the death epilogue on a shallow floor does not claim to beat the fou
   return /further than the fourth crew/.test(ctx.Game.epilogue(false).join(' ')) || 'a deep death no longer credits the hero';
 });
 
-await test('with no healing draught known, the Cast button says so', async () => {
+await test('with no healing draught known, a quaff says so', async () => {
   const ctx = await start('fighter', 'dry-quaff');
-  const p = ctx.Game.player();
+  const p = ctx.Game.player(), G = ctx.Game.state();
   p.inv = p.inv.filter(i => i.t !== 'potion_heal' && i.t !== 'potion_xheal');
-  return ctx.Game.castLabel() === 'Quaff (none)' || `it says ${ctx.Game.castLabel()}`;
+  const mark = markLog(G);
+  ctx.Game.input('quaff');
+  return linesSince(G, mark).some(l => /no healing draught/.test(l)) || `it said ${linesSince(G, mark).join(' | ')}`;
 });
 
 await test('a step tapped while the camera is still turning is kept, not dropped', async () => {
@@ -6731,6 +6733,66 @@ await test('a cunning fighter never draws back the same way twice; a plain one k
   const gob = await lengths('goblin'), zom = await lengths('zombie');
   if (gob.length < 3) return `a goblin drew back only ${gob.join(', ')}ms`;
   return zom.length <= 2 || `a zombie drew back ${zom.join(', ')}ms`;
+});
+
+await test('a fighter\'s Bash breaks the blow being drawn back, staggers the foe and leaves it open; it comes back after a while', async () => {
+  const out = [];
+  const bashOnce = async path => {
+    const ctx = await start('fighter', 'bash-' + (path || 'plain'));
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 999; if (path) p.path = path;
+    const m = beside(ctx, 'goblin', { nextAct: G.t });
+    for (let i = 0; i < 40 && !m.windup; i++) Game.update(G.t + 25, 25);
+    if (!m.windup) return { err: 'no wind-up to break' };
+    const hp0 = m.hp, t0 = G.t;
+    const ok = Game.useAbility();
+    return { ok, broke: !m.windup, stagger: m.nextAct - t0, open: !!(p.opening && p.opening.uid === m.uid), hurt: hp0 - m.hp, label: Game.castLabel(), again: Game.useAbility(), Game };
+  };
+  const plain = await bashOnce(null);
+  if (plain.err) return plain.err;
+  if (!plain.ok || !plain.broke) out.push('Bash did not break the wind-up');
+  if (plain.stagger < 1400) out.push(`a shield bash staggered only ${plain.stagger}ms`);
+  if (!plain.open) out.push('Bash left no opening');
+  if (plain.hurt) out.push('a plain Bash did damage');
+  if (!/^Bash \d+s$/.test(plain.label)) out.push(`after a Bash the button says ${plain.label}`);
+  if (plain.again !== false) out.push('Bash could be used again at once');
+  const knight = await bashOnce('knight');
+  if (knight.stagger < plain.stagger + 600) out.push(`a Knight's bash staggered ${knight.stagger}ms against ${plain.stagger}`);
+  const zerk = await bashOnce('berserker');
+  if (!(zerk.hurt > 0)) out.push('a Berserker\'s bash did no damage');
+  // nothing in front: refused, and not spent
+  const ctx = await start('fighter', 'bash-air');
+  ctx.Game.level().monsters.length = 0;
+  if (ctx.Game.useAbility() !== false || ctx.Game.castLabel() !== 'Bash') out.push('a bash at nothing was spent');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a thief\'s Smoke makes everything close lose them, asleep to them until it clears; the lich sees through it', async () => {
+  const out = [];
+  const ctx = await start('thief', 'smoke');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 999;
+  const m = beside(ctx, 'goblin', { nextAct: G.t });
+  for (let i = 0; i < 40 && !m.windup; i++) Game.update(G.t + 25, 25);
+  const far = { ...m, uid: 91, x: -99, y: -99, awake: true };
+  L.monsters.push(far);
+  if (!Game.useAbility()) return 'Smoke was refused';
+  if (m.awake || m.windup) out.push('the goblin beside the thief still saw them');
+  if (!far.awake) out.push('a monster far off lost the thief too');
+  run(Game, G, 2500);
+  if (m.awake) out.push('the goblin woke inside the smoke');
+  // a blow on it now is a strike from the shadows
+  const mark = markLog(G);
+  p.perkHit = 60;   // the blow lands: a miss would wake it, as it should
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  if (!linesSince(G, mark).some(l => /from the shadows/.test(l))) out.push(`no strike from the shadows: ${linesSince(G, mark).join(' | ')}`);
+  if (Game.castLabel() === 'Smoke') out.push('Smoke came back at once');
+  // and the lich is not fooled
+  const c2 = await start('thief', 'smoke-lich');
+  const lich = beside(c2, 'lich', { spoke: true });
+  c2.Game.useAbility();
+  if (!lich.awake) out.push('the lich lost the thief in smoke');
+  return out.length ? out.join('; ') : true;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {

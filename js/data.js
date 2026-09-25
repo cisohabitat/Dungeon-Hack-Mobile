@@ -173,11 +173,13 @@ const PATHS = {
       'A shield gives you 1 more armour class.',
       'With a shield up, one ordinary blow in eight that lands is caught on it for half damage.',
       'A warned trick that lands does a quarter less to you.',
+      'Your Bash sets a foe back most of a second longer.',
     ] },
     { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
       '+1 damage with every blow for each sixth of your life you have lost, up to +4.',
       'Below half your life, your swing comes a tenth sooner.',
       'You fight open: 2 less armour class, whatever you wear.',
+      'Your Bash is a blow of its own, rage and all.',
     ] },
   ],
   cleric: [
@@ -209,11 +211,13 @@ const PATHS = {
       'A strike from the shadows deals triple damage (four times with Assassinate).',
       'Your critical hits land one number sooner on the die.',
       'Sleeping monsters notice you a square later.',
+      'Your Smoke hangs half as long again.',
     ] },
     { id: 'trickster', name: 'Trickster', flavour: 'Never where the blow lands, and always leaving with more than you brought.', effects: [
       'One ordinary blow in eight that would land, you slip aside from.',
       'A blow that swings at the air where you stood leaves its maker open, as an answered trick does.',
       '+4 to spot and to dodge a trap, and gold and gems you find are worth a quarter more.',
+      'Your Smoke comes back in 11 seconds, not 16.',
     ] },
   ],
 };
@@ -229,7 +233,7 @@ const MAX_LEVEL = 12;
 const CLASSES = {
   fighter: {
     name: 'Fighter', plural: 'Fighters', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
-    desc: 'Master of arms. Most hit points, any weapon or armor, and the only one trained to fight with a blade in each hand.',
+    desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks a foe\'s blow and leaves it open.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
@@ -245,7 +249,7 @@ const CLASSES = {
   },
   thief: {
     name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
-    desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow. Light armour, and a buckler at most.',
+    desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
