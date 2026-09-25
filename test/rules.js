@@ -6235,7 +6235,7 @@ await test('a mage starts in an Apprentice\'s Robe, wears only robes, and nobody
   return out.length ? out.join('; ') : true;
 });
 
-await test('a Silk Robe adds two spell points while worn, and the Robe of the Magi eases the great workings', async () => {
+await test('a Silk Robe adds four spell points while worn, and the Robe of the Magi eases the great workings', async () => {
   const out = [];
   const ctx = await start('mage', 'robe-sp');
   const { Game } = ctx; const p = Game.player();
@@ -6243,13 +6243,13 @@ await test('a Silk Robe adds two spell points while worn, and the Robe of the Ma
   Game.unequip('armor');
   const sp0 = Game.player().maxSp;
   const silk = { t: 'robe_silk', q: 1, e: 0 }; p.inv.push(silk); Game.equip(silk, true);
-  if (p.maxSp !== sp0 + 2) out.push(`a Silk Robe made spell points ${sp0} into ${p.maxSp}`);
+  if (p.maxSp !== sp0 + 4) out.push(`a Silk Robe made spell points ${sp0} into ${p.maxSp}`);
   Game.unequip('armor');
   if (p.maxSp !== sp0) out.push(`off again, spell points are ${p.maxSp}, not ${sp0}`);
   const cost = id => Game.spellCost(Game.knownSpells().find(s => s.id === id));
   const bolt0 = cost('lightning'), dart0 = cost('magic_missile');
   const magi = { t: 'robe_magi', q: 1, e: 0 }; p.inv.push(magi); Game.equip(magi, true);
-  if (p.maxSp !== sp0 + 4) out.push(`the Robe of the Magi made spell points ${sp0} into ${p.maxSp}`);
+  if (p.maxSp !== sp0 + 6) out.push(`the Robe of the Magi made spell points ${sp0} into ${p.maxSp}`);
   if (cost('lightning') !== bolt0 - 1) out.push(`in the Magi's robe lightning costs ${cost('lightning')}, not ${bolt0 - 1}`);
   if (cost('magic_missile') !== dart0) out.push(`a small spell changed cost: ${dart0} -> ${cost('magic_missile')}`);
   return out.length ? out.join('; ') : true;
@@ -6298,9 +6298,11 @@ await test('what lies on one square is scattered across it, each thing seen wher
   return heap.length === 5 || `eight things on a square drew ${heap.length} pictures, not the five that fit`;
 });
 
-await test('a thief carries a buckler for one more point of armour, and nothing bigger', async () => {
+await test('a thief sets out with a buckler for one more point of armour, and carries nothing bigger', async () => {
   const ctx = await start('thief', 'thief-buckler');
   const { Game } = ctx; const p = Game.player();
+  if (p.eq.shield?.t !== 'buckler') return `a thief set out holding ${p.eq.shield ? p.eq.shield.t : 'no buckler'}`;
+  Game.unequip('shield'); p.inv = p.inv.filter(it => it.t !== 'buckler');
   const ac = Game.playerAC();
   const b = { t: 'buckler', q: 1, e: 0 }; p.inv.push(b);
   if (!Game.equip(b, true)) return `a thief could not take up a buckler: ${Game.canEquip(b)}`;
@@ -6366,7 +6368,7 @@ await test('a Spellbook brings spell points back a quarter faster, and a Crystal
   return out.length ? out.join('; ') : true;
 });
 
-await test('a Holy Symbol heals a quarter more, a Silver Sunburst smites a quarter harder, and a cleric pays in armour', async () => {
+await test('a Holy Symbol heals a quarter more, a Silver Sunburst smites and strikes a quarter harder, and a cleric pays in armour', async () => {
   const out = [];
   const heal = async sym => {
     const ctx = await start('cleric', 'symbol-heal');
@@ -6381,19 +6383,47 @@ await test('a Holy Symbol heals a quarter more, a Silver Sunburst smites a quart
   };
   const h0 = await heal(null), h1 = await heal('holy_symbol');
   if (!(h1.total / h0.total > 1.2 && h1.total / h0.total < 1.3)) out.push(`healing ${h0.total} -> ${h1.total} with the symbol`);
-  if (h1.dAc !== -2) out.push(`trading the shield for the symbol moved armour class by ${h1.dAc}, not -2`);
-  const smite = async sym => {
+  if (h1.dAc !== -1) out.push(`trading the shield for the symbol moved armour class by ${h1.dAc}, not -1`);
+  const smite = async (sym, spell = 'smite') => {
     const ctx = await start('cleric', 'symbol-smite');
     seedDice(ctx, 'symbol-smite');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
-    p.level = 5;
+    p.level = spell === 'smite' ? 5 : 9;
     if (sym) { const s = { t: sym, q: 1, e: 0 }; p.inv.push(s); Game.equip(s, true); }
     const m = ahead(ctx, 'orc', 2, { hp: 1e9, maxHp: 1e9, nextAct: 1e12 });
-    for (let i = 0; i < 40; i++) { p.sp = 99; G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === 'smite')); run(Game, G, 700); }
+    for (let i = 0; i < 40; i++) { p.sp = 99; G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === spell)); run(Game, G, 700); }
     return 1e9 - m.hp;
   };
   const s0 = await smite(null), s1 = await smite('silver_symbol');
   if (!(s1 / s0 > 1.18 && s1 / s0 < 1.32)) out.push(`smiting ${s0} -> ${s1} with the sunburst`);
+  const f0 = await smite(null, 'flame_strike'), f1 = await smite('silver_symbol', 'flame_strike');
+  if (!f0) out.push('Flame Strike did no harm at all');
+  else if (!(f1 / f0 > 1.18 && f1 / f0 < 1.32)) out.push(`Flame Strike ${f0} -> ${f1} with the sunburst`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a trader may shelve caster gear a tier finer than the floor, but never two', async () => {
+  let deeper = 0; const out = [];
+  for (let i = 0; i < 12; i++) {
+    const cls = i % 2 ? 'cleric' : 'mage';
+    const ctx = await start(cls, 'shelf-tier' + i);
+    const { Game, ITEMS } = ctx;
+    for (let d = 1; d <= 7; d++) {
+      if (d > 1) { Game.level().monsters.length = 0; Game.descend(); }
+      const maxTier = 1 + Math.floor(d / 2);
+      for (const it of (Game.level().npcs || []).flatMap(n => n.stock || [])) {
+        const b = ITEMS[it.t];
+        if (!(b.focus || b.weight === 'cloth')) continue;
+        if (b.tier > maxTier + 1) out.push(`${it.t} (tier ${b.tier}) on a floor-${d} shelf`);
+        else if (b.tier === maxTier + 1) deeper++;
+      }
+      for (const it of Object.values(Game.level().items).flat()) {
+        const b = ITEMS[it.t];
+        if ((b.focus || b.weight === 'cloth') && b.tier > maxTier) out.push(`${it.t} (tier ${b.tier}) on a floor-${d} pile`);
+      }
+    }
+  }
+  if (!deeper) out.push('no trader ever shelved a finer piece');
   return out.length ? out.join('; ') : true;
 });
 

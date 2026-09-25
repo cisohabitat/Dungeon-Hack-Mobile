@@ -714,6 +714,8 @@ const Game = (() => {
     const maxTier = 1 + Math.floor(depth / 2);
     const pool = Object.keys(ITEMS).filter(id => ITEMS[id].weight === 'cloth' && ITEMS[id].tier > 1 && ITEMS[id].tier <= maxTier);
     if (!pool.length) return;
+    // a trader's shelf reaches a tier deeper than the piles, as it does for other gear
+    const shelf = Object.keys(ITEMS).filter(id => ITEMS[id].weight === 'cloth' && ITEMS[id].tier > 1 && ITEMS[id].tier <= maxTier + 1);
     const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
     if (piles.length && rng.chance(ROBE_FIND)) {
       const it = { t: rng.weighted(pool.map(id => [id, ITEMS[id].tier])), q: 1, e: 0, h: 1 };
@@ -723,7 +725,7 @@ const Game = (() => {
       L.items[rng.pick(piles)].push(it);
     }
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
-    if (trader && rng.chance(ROBE_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: rng.chance(0.3) ? 1 : 0 });
+    if (trader && rng.chance(ROBE_SHOP)) trader.stock.push({ t: rng.pick(shelf), q: 1, e: rng.chance(0.3) ? 1 : 0 });
   }
   /** A cloak, for anyone: now and then on a pile or a trader's shelf, on a stream of its own. */
   const CLOAK_FIND = 0.2, CLOAK_SHOP = 0.25;
@@ -749,6 +751,7 @@ const Game = (() => {
     const maxTier = 1 + Math.floor(depth / 2);
     const pool = Object.keys(ITEMS).filter(id => ITEMS[id].focus === c.focus && ITEMS[id].tier <= maxTier);
     if (!pool.length) return;
+    const shelf = Object.keys(ITEMS).filter(id => ITEMS[id].focus === c.focus && ITEMS[id].tier <= maxTier + 1);
     const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
     if (piles.length && rng.chance(FOCUS_FIND)) {
       const it = { t: rng.weighted(pool.map(id => [id, ITEMS[id].tier])), q: 1, e: 0, h: 1 };
@@ -756,7 +759,7 @@ const Game = (() => {
       L.items[rng.pick(piles)].push(it);
     }
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
-    if (trader && rng.chance(FOCUS_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: 0 });
+    if (trader && rng.chance(FOCUS_SHOP)) trader.stock.push({ t: rng.pick(shelf), q: 1, e: 0 });
   }
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
@@ -772,8 +775,8 @@ const Game = (() => {
     // thieves stay alive by not being where the blow lands
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
-    // a focus turns no blows, however well made: its make is in what it does
-    if (p.eq.shield && !ITEMS[p.eq.shield.t].focus) ac += ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
+    // a focus turns no more blows for being well made: its make is in what it does
+    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
     // a second blade is no shield, but it turns aside a blow now and then
     if (p.eq.offhand) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
@@ -2798,7 +2801,7 @@ const Game = (() => {
             if (sp.holy && mstat(m).undead) dmg *= 2;
             // an Orb of Storms drives the cold and the lightning harder; a Sunburst, the Smite
             if (focusHas('storm') && FROST_SPELLS.includes(sp.id)) dmg = Math.round(dmg * 1.2);
-            if (focusHas('wrath') && sp.holy) dmg = Math.round(dmg * 1.25);
+            if (focusHas('wrath') && (sp.holy || sp.id === 'flame_strike')) dmg = Math.round(dmg * 1.25);
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
             if (sp.fire) dmg = pyroFire(dmg);

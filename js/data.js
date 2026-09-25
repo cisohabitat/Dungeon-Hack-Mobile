@@ -238,7 +238,7 @@ const CLASSES = {
   thief: {
     name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, and a sleeping foe takes a double blow. Light armour and a buckler.',
-    startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
+    startKit: ['shortsword', 'throwknife', 'leather', 'buckler', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
 };
 
@@ -280,9 +280,9 @@ const ITEMS = {
   plate:   { kind: 'armor', name: 'Plate Mail',      ac: 7, weight: 'heavy', value: 300, sprite: 'plate', tier: 5 },
   // a mage's cloth: little armour, woven for spellwork (see armorFits)
   robe_apprentice: { kind: 'armor', name: "Apprentice's Robe", ac: 1, weight: 'cloth', value: 8,   sprite: 'robe_apprentice', tier: 1 },
-  robe_silk:       { kind: 'armor', name: 'Silk Robe',         ac: 1, weight: 'cloth', value: 60,  sprite: 'robe_silk', tier: 2, sp: 2 },
+  robe_silk:       { kind: 'armor', name: 'Silk Robe',         ac: 1, weight: 'cloth', value: 60,  sprite: 'robe_silk', tier: 2, sp: 4 },
   robe_warded:     { kind: 'armor', name: 'Warded Robe',       ac: 2, weight: 'cloth', value: 90,  sprite: 'robe_warded', tier: 3 },
-  robe_magi:       { kind: 'armor', name: 'Robe of the Magi',  ac: 2, weight: 'cloth', value: 250, sprite: 'robe_magi', tier: 5, sp: 4, cheap: 1 },
+  robe_magi:       { kind: 'armor', name: 'Robe of the Magi',  ac: 2, weight: 'cloth', value: 250, sprite: 'robe_magi', tier: 5, sp: 6, cheap: 1 },
   // shields
   buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1, light: true },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
@@ -293,7 +293,7 @@ const ITEMS = {
   cloak_elven:   { kind: 'cloak', name: 'Elven Cloak',          power: 'quiet',  value: 90,  sprite: 'cloak_elven', tier: 2,
     desc: 'Sleeping things notice you a square later.' },
   cloak_warmth:  { kind: 'cloak', name: 'Cloak of Warmth',      power: 'warmth', value: 70,  sprite: 'cloak_warmth', tier: 2,
-    desc: 'Cold does half as much to you.' },
+    desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
   spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
     desc: 'Spell points come back a quarter faster as you walk.' },
@@ -301,12 +301,12 @@ const ITEMS = {
     desc: 'One more damage on each of a spell\'s dice, up to two.' },
   orb_storms:    { kind: 'shield', name: 'Orb of Storms',   ac: 0, value: 260, sprite: 'orb_storms', tier: 5, focus: 'mage', storm: 1,
     desc: 'Lightning Bolt and Cone of Cold strike a fifth harder and hold what they hit back a moment longer.' },
-  holy_symbol:   { kind: 'shield', name: 'Holy Symbol',     ac: 0, value: 40,  sprite: 'holy_symbol', tier: 2, focus: 'cleric', mercy: 1,
+  holy_symbol:   { kind: 'shield', name: 'Holy Symbol',     ac: 1, value: 40,  sprite: 'holy_symbol', tier: 2, focus: 'cleric', mercy: 1,
     desc: 'Your healing spells heal a quarter more.' },
-  silver_symbol: { kind: 'shield', name: 'Silver Sunburst', ac: 0, value: 90,  sprite: 'silver_symbol', tier: 3, focus: 'cleric', wrath: 1,
-    desc: 'Holy Smite strikes a quarter harder.' },
-  reliquary:     { kind: 'shield', name: 'Reliquary',       ac: 0, value: 260, sprite: 'reliquary', tier: 5, focus: 'cleric', mercy: 1, wrath: 1,
-    desc: 'Your healing spells heal a quarter more, and Holy Smite strikes a quarter harder.' },
+  silver_symbol: { kind: 'shield', name: 'Silver Sunburst', ac: 1, value: 90,  sprite: 'silver_symbol', tier: 3, focus: 'cleric', wrath: 1,
+    desc: 'Holy Smite and Flame Strike strike a quarter harder.' },
+  reliquary:     { kind: 'shield', name: 'Reliquary',       ac: 1, value: 260, sprite: 'reliquary', tier: 5, focus: 'cleric', mercy: 1, wrath: 1,
+    desc: 'Your healing spells heal a quarter more, and Holy Smite and Flame Strike strike a quarter harder.' },
   // potions
   potion_heal:  { kind: 'potion', name: 'Potion of Healing',       stack: true, value: 25, sprite: 'potion_red',    effect: 'heal', heal: [2, 8, 2], desc: 'Restores 2d8+2 hit points.' },
   potion_xheal: { kind: 'potion', name: 'Potion of Extra Healing', stack: true, value: 60, sprite: 'potion_pink',   effect: 'heal', heal: [4, 8, 4], desc: 'Restores 4d8+4 hit points.' },
