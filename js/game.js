@@ -1005,6 +1005,9 @@ const Game = (() => {
     if (b && isGear(it)) {
       if (!it.h && isKnown(it.t)) return 'You already know its quality.';
       if (it.studied === P().level) return 'You cannot judge it yet. Perhaps with more experience.';
+      // what a ring was made for is one question for every ring of that look,
+      // as a potion's colour is: a second Jade Ring is no fresh try
+      if (isJewel(it) && !isKnown(it.t) && G.studied && G.studied[it.t] === P().level) return 'It still means nothing to you. Perhaps with more experience.';
       return null;
     }
     if (!b || (b.kind !== 'potion' && b.kind !== 'scroll')) return 'There is nothing to puzzle out about that.';
@@ -1024,7 +1027,10 @@ const Game = (() => {
         log(`You look ${the(it)} over closely: ${itemName(it)}${it.curse ? ', and there is a curse worked into it' : ''}.${c.note}`, it.curse ? 'bad' : 'good');
       } else {
         it.studied = P().level;
-        log(`You look ${the(it)} over, but cannot tell good work from bad.${c.note}`);
+        if (isJewel(it) && !isKnown(it.t)) {
+          (G.studied = G.studied || {})[it.t] = P().level;
+          log(`You turn ${the(it)} to the light, but cannot tell what it was made for.${c.note}`);
+        } else log(`You look ${the(it)} over, but cannot tell good work from bad.${c.note}`);
       }
       emit('inv');
       return c;

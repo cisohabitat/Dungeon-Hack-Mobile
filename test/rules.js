@@ -5105,6 +5105,31 @@ await test('rings and amulets: two rings and an amulet on any hero, each doing w
   return out.length ? out.join('; ') : true;
 });
 
+await test('a failed study of an unknown ring holds for every ring of that look until the next level', async () => {
+  const ctx = await start('fighter', 'ring-study');
+  seedDice(ctx, 'ring-study');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.stats.int = 3;
+  const first = { t: 'ring_evasion', q: 1, e: 0 };
+  p.inv.push(first);
+  // a low mind fails soon enough; a lucky pass is forgotten and tried again
+  let failed = false;
+  for (let i = 0; i < 40 && !failed; i++) {
+    delete first.studied; if (G.studied) delete G.studied.ring_evasion; delete G.known.ring_evasion;
+    const c = Game.study(first);
+    failed = !!c && !c.pass;
+  }
+  if (!failed) return 'never failed a study with 3 intelligence';
+  const second = { t: 'ring_evasion', q: 1, e: 0 };
+  p.inv.push(second);
+  if (!Game.studyReason(second)) return 'a second ring of the same look could be studied straight after the first failed';
+  const other = { t: 'ring_protect', q: 1, e: 0 };
+  p.inv.push(other);
+  if (Game.studyReason(other)) return `a ring of another look was refused: ${Game.studyReason(other)}`;
+  p.level++;
+  return Game.studyReason(second) === null || `a level later it is still refused: ${Game.studyReason(second)}`;
+});
+
 await test('a ring is known only by its look until it is worn or studied, and sells as a trinket till then', async () => {
   const out = [];
   const ctx = await start('fighter', 'jewels-known');
