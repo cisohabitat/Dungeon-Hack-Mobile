@@ -357,8 +357,9 @@ const Renderer = (() => {
         else if (u < 0.52) { pose = 'through'; p = lerp(at('cut', lift), at('through', lift), ease((u - 0.32) / 0.2)); }
         else p = [p[0], p[1] + (1 - ease((u - 0.52) / 0.48)) * H * 0.5];
       }
-      // the lower hand of a two-handed grip is the one that casts
-      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast), p[0] + dx, p[1] + dy);
+      // the lower hand of a two-handed grip is the one that casts, reads, drinks
+      // and eats: it lets go of the grip, or a third hand would bring the bottle up
+      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using), p[0] + dx, p[1] + dy);
     } else {
       const punch = swinging && u < 0.55;
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');
