@@ -46,6 +46,27 @@ const POWER_SUFFIX = {
   mind: 'of the Mind',
 };
 
+/**
+ * A well-made piece can carry a quality of its make as well, named in front:
+ * a Heavy Mace, a Sturdy Chain Mail of Warding. Found hidden, like the rest
+ * of its make, until worn, studied or appraised.
+ */
+const GEAR_PREFIXES = { weapon: ['heavy', 'true'], armor: ['sturdy', 'blessed'], shield: ['sturdy', 'blessed'] };
+const PREFIX_NAME = { heavy: 'Heavy', true: 'True', sturdy: 'Sturdy', blessed: 'Blessed' };
+const PREFIX_DESC = { heavy: '+1 damage with every blow', true: '+1 to hit', sturdy: '+1 armour class', blessed: '+1 to every saving throw' };
+
+/**
+ * Three pairs of relics were made to go together. Each pair does more worn
+ * at once, over what either does alone.
+ */
+const RELIC_SETS = {
+  stair: { name: 'the Stairwarden\'s Arms', pieces: ['kests_bulwark', 'rustwarden'], text: 'Worn together: +2 armour class.' },
+  night: { name: 'the Nightwalk', pieces: ['whisper', 'shadowskin'], text: 'Worn together: a strike from the shadows deals one more times its damage.' },
+  dawn: { name: 'the Order of the Dawn', pieces: ['dawnbringer', 'sisters_buckler'], text: 'Worn together: healing spells heal a quarter more, and your blows deal +1d4 to the undead.' },
+};
+/** The set a relic belongs to, if any. */
+const setOf = id => Object.keys(RELIC_SETS).find(k => RELIC_SETS[k].pieces.includes(id)) || '';
+
 /** Monsters a giant-feller bites into. */
 const GIANTS = ['ogre', 'troll', 'minotaur'];
 
@@ -119,4 +140,4 @@ function relicPlan(seed, cls, levels) {
   return { floor, shop: pool.slice(n) };
 }
 
-export { RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, relicUsableBy, relicPlan };
+export { RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };

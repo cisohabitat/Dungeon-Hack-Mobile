@@ -298,6 +298,8 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .relic { color: var(--gold); }
 .relic-powers { margin: 6px 0; padding-left: 18px; font-size: 0.82rem; color: var(--text); }
 .relic-powers li { margin: 2px 0; }
+.relic-set { font-size: 0.8rem; color: #c8b890; margin: 4px 0; }
+.relic-set b { color: var(--gold); font-weight: normal; }
 .relic-lore { font-style: italic; font-size: 0.8rem; color: var(--dim); margin: 6px 0; }
 .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .grid .slot { min-height: 54px; }

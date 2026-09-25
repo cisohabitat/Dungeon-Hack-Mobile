@@ -25,6 +25,7 @@
  * @property {number} [left]     1 when the hero put it down: walking over it does not pick it up again
  * @property {number} [studied]  the level at which judging this piece last failed
  * @property {string} [pw]       the one power an ordinary piece was made with (a RELIC_POWERS key)
+ * @property {string} [px]       a quality of its make, named in front: heavy, true, sturdy or blessed (GEAR_PREFIXES)
  */
 
 /**

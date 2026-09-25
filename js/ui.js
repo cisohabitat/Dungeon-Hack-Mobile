@@ -5,7 +5,7 @@ import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
-import { RELIC_POWERS, RELICS } from './relics.js';
+import { RELIC_POWERS, RELICS, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf } from './relics.js';
 import { Daily } from './daily.js';
 import { Progress } from './progress.js';
 
@@ -976,7 +976,7 @@ const UI = (() => {
   function itemBlurb(it) {
     const r = Game.relicOf(it);
     // an ordinary piece with a power names it after the numbers
-    if (!r) return plainBlurb(it) + (it.pw && !it.h && RELIC_POWERS[it.pw] ? `. ${RELIC_POWERS[it.pw].split(':')[0]}` : '');
+    if (!r) return plainBlurb(it) + (it.px && !it.h && PREFIX_NAME[it.px] ? `. ${PREFIX_NAME[it.px]}: ${PREFIX_DESC[it.px]}` : '') + (it.pw && !it.h && RELIC_POWERS[it.pw] ? `. ${RELIC_POWERS[it.pw].split(':')[0]}` : '');
     return `${ITEMS[it.t].name}. ${plainBlurb(it)}. ${r.powers.map(k => RELIC_POWERS[k].split(':')[0]).join(', ')}`;
   }
   function plainBlurb(it) {
@@ -1196,7 +1196,9 @@ const UI = (() => {
       const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
       return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
         + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}</p>`
-        + `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
+        + `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
+        + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
+        + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
     }).join('') + '</div>';
     return `${ids.filter(id => found.includes(id)).length} of ${ids.length} found`;
   }
@@ -1552,7 +1554,10 @@ const UI = (() => {
     const compare = selectedSlot ? '' : compareText(it, b) + offhandText(it, b);
     // a relic spells out each power in full, then tells its story
     const r = Game.relicOf(it);
-    const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>`
+    // one of a pair: name the other, and say whether both are on
+    const set = r && setOf(it.u) ? RELIC_SETS[setOf(it.u)] : null, mate = set ? set.pieces.find(u => u !== it.u) : '';
+    const setLine = set ? `<p class="relic-set"><b>${escapeHtml(upFirst(set.name))}</b>, with ${escapeHtml(RELICS[mate].name)}. ${escapeHtml(set.text)}${Object.values(Game.player().eq).some(x => x && x.u === mate) && Object.values(Game.player().eq).some(x => x === it) ? ' (both worn)' : ''}</p>` : '';
+    const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>${setLine}<p class="relic-lore">${escapeHtml(r.lore)}</p>`
       : (it.pw && !it.h && RELIC_POWERS[it.pw] ? `<ul class="relic-powers"><li>${escapeHtml(RELIC_POWERS[it.pw])}</li></ul>` : '');
     box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
@@ -1844,6 +1849,13 @@ const UI = (() => {
         const what = rest.join(': ');
         worn.push(`<li><b>${escapeHtml(name)}</b><span>${escapeHtml(what.charAt(0).toUpperCase() + what.slice(1))} (${label})</span></li>`);
       }
+      // a quality of its make, once known
+      if (it.px && !it.h && PREFIX_NAME[it.px]) worn.push(`<li><b>${PREFIX_NAME[it.px]}</b><span>${escapeHtml(upFirst(PREFIX_DESC[it.px]))} (${label})</span></li>`);
+    }
+    // a relic set worn whole
+    for (const id in RELIC_SETS) {
+      const set = RELIC_SETS[id];
+      if (set.pieces.every(u => Object.values(p.eq).some(it => it && it.u === u))) worn.push(`<li><b>${escapeHtml(upFirst(set.name))}</b><span>${escapeHtml(set.text)}</span></li>`);
     }
     // what the hand, the robe and the cloak do, in their own words
     const line = (b, what, where) => worn.push(`<li><b>${escapeHtml(b.name)}</b><span>${escapeHtml(what)} (${where})</span></li>`);

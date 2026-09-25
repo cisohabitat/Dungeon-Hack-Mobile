@@ -6795,6 +6795,62 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   return out.length ? out.join('; ') : true;
 });
 
+await test('a quality of make goes in front of the name once known, and does what it says', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'prefix');
+  const { Game } = ctx; const p = Game.player();
+  const hidden = { t: 'mace', q: 1, e: 1, h: 1, px: 'heavy' };
+  if (/Heavy/.test(Game.itemName(hidden))) out.push('a hidden quality showed in the name');
+  const known = { ...hidden, h: 0 };
+  if (Game.itemName(known) !== 'Heavy Mace +1') out.push(`named ${Game.itemName(known)}`);
+  // sturdy armour: one more armour class; true weapon: one more to hit
+  Game.unequip('armor');
+  const ac0 = Game.playerAC();
+  const plain = { t: 'chain', q: 1, e: 0 }; p.inv.push(plain); Game.equip(plain, true);
+  const acPlain = Game.playerAC();
+  Game.unequip('armor');
+  const sturdy = { t: 'chain', q: 1, e: 0, px: 'sturdy' }; p.inv.push(sturdy); Game.equip(sturdy, true);
+  if (Game.playerAC() !== acPlain + 1) out.push(`sturdy chain gave ${Game.playerAC() - ac0} armour, plain ${acPlain - ac0}`);
+  const hit0 = Game.toHit();
+  const w = p.eq.weapon; w.px = 'true';
+  if (Game.toHit() !== hit0 + 1) out.push('a True weapon did not add to hit');
+  w.px = 'heavy';
+  const rateHeavy = Game.blowRate(w); w.px = ''; const ratePlain = Game.blowRate(w);
+  if (!(rateHeavy > ratePlain)) out.push('a Heavy weapon did not raise the damage estimate');
+  // found ones turn up from the third floor, never shown before they are known
+  let found = 0;
+  for (let i = 0; i < 6; i++) {
+    const c2 = await start('fighter', 'prefix-find' + i);
+    for (let d = 1; d <= 7; d++) {
+      if (d > 1) { c2.Game.level().monsters.length = 0; c2.Game.descend(); }
+      for (const it of Object.values(c2.Game.level().items).flat()) if (it.px) { found++; if (d < 3) out.push(`a ${it.px} piece on floor ${d}`); if (!it.h) out.push('a found quality was not hidden'); }
+    }
+  }
+  if (!found) out.push('no quality of make turned up in six dungeons');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a relic pair worn together does more: the Stairwarden\'s Arms add armour, the Nightwalk a strike from the shadows', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'relic-set');
+  const { Game } = ctx;
+  Game.unequip('armor'); Game.unequip('shield');
+  wearRelic(ctx, 'rustwarden');
+  const one = Game.playerAC();
+  const bulwark = wearRelic(ctx, 'kests_bulwark');
+  const both = Game.playerAC();
+  const shieldAc = ctx.ITEMS[bulwark.t].ac + bulwark.e;
+  if (both !== one + shieldAc + 2) out.push(`both pieces gave ${both - one}, the shield alone is worth ${shieldAc}`);
+  const t = await start('thief', 'relic-set-t');
+  const before = t.Game.sneakMult();
+  t.Game.unequip('armor');
+  wearRelic(t, 'shadowskin');
+  if (t.Game.sneakMult() !== before) out.push('half the Nightwalk added to the strike from the shadows');
+  wearRelic(t, 'whisper');
+  if (t.Game.sneakMult() !== before + 1) out.push(`the Nightwalk made the strike ${t.Game.sneakMult()}, not ${before + 1}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {
   const ctx = await start('fighter', 'named-names');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

@@ -3,7 +3,7 @@ import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
-import { RELICS, GIANTS, GEAR_POWERS, POWER_SUFFIX, relicPlan } from './relics.js';
+import { RELICS, GIANTS, GEAR_POWERS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
@@ -317,7 +317,13 @@ const Game = (() => {
   }
   // Assassin: the blow from the dark.
   /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
-  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0);
+  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (setWorn('night') ? 1 : 0);
+  /** Whether every piece of a relic set is worn at once. */
+  const setWorn = (id, p = P()) => RELIC_SETS[id].pieces.every(u => Object.values(p.eq).some(it => it && it.u === u));
+  /** The Order of the Dawn's pair: +1d4 on the undead. */
+  const dawnBlow = m => (setWorn('dawn') && mstat(m).undead ? d(1, 4) : 0);
+  /** A Blessed make on armour or shield: +1 to every save, each. */
+  const blessedSaves = (p = P()) => ['armor', 'shield'].filter(s => p.eq[s] && p.eq[s].px === 'blessed').length;
   /** Squares closer a sleeping monster lets an Assassin come. */
   const assassinQuiet = () => (onPath('assassin') ? 1 : 0);
   // Trickster: never where the blow lands.
@@ -340,10 +346,10 @@ const Game = (() => {
   function weapon() {
     const p = P();
     const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1) * berserkerFrenzy();
-    if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, range: 0, blunt: true };
+    if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, px: '', range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
     const swift = hasPower('swift', 'weapon') ? 0.85 : 1;
-    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, twoHanded: !!b.twoHanded, range: b.range || 0, blunt: !!b.blunt };
+    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: b.range || 0, blunt: !!b.blunt };
   }
   /**
    * Damage per second a main-hand weapon would give you, as far as you know
@@ -366,7 +372,7 @@ const Game = (() => {
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might');
-    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (finesse ? flat : flat * (base / 700)) + knack);
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + (finesse ? flat : flat * (base / 700)) + knack);
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + jewelBonus('might') + berserkerRage());
     return blow / (speed / 1000);
   }
@@ -768,7 +774,7 @@ const Game = (() => {
   const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
   function toHit() {
     const p = P();
-    return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e
+    return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0)
       + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might');
   }
   function playerAC() {
@@ -776,9 +782,11 @@ const Game = (() => {
     let ac = 10 + mod(p.stats.dex) + effect('ac');
     // thieves stay alive by not being where the blow lands
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
-    if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0);
+    if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
-    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
+    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
+    // the Stairwarden's Arms, both worn
+    if (setWorn('stair', p)) ac += 2;
     // a second blade is no shield, but it turns aside a blow now and then
     if (p.eq.offhand) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
@@ -828,6 +836,8 @@ const Game = (() => {
     if (it.t === 'gem') return it.name || 'Gem';
     const b = ITEMS[it.t];
     let n = b.name;
+    // a quality of its make goes in front, once its make is known
+    if (it.px && !it.h && PREFIX_NAME[it.px]) n = `${PREFIX_NAME[it.px]} ${n}`;
     if (!isKnown(it.t)) {
       const look = G.looks[it.t];
       n = `${look.adj[0].toUpperCase() + look.adj.slice(1)} ${{ potion: 'Potion', scroll: 'Scroll', ring: 'Ring', amulet: 'Amulet' }[b.kind]}`;
@@ -863,7 +873,7 @@ const Game = (() => {
       if (ex) { ex.q = (ex.q || 1) + (it.q || 1); return true; }
     }
     if (p.inv.length >= INV_MAX) return false;
-    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}), ...(it.pw ? { pw: it.pw } : {}),
+    p.inv.push({ t: it.t, q: it.q || 1, e: it.e || 0, color: it.color, name: it.name, ...(it.u ? { u: it.u } : {}), ...(it.pw ? { pw: it.pw } : {}), ...(it.px ? { px: it.px } : {}),
       ...(it.h ? { h: 1 } : {}), ...(it.curse ? { curse: 1 } : {}), ...(it.studied ? { studied: it.studied } : {}) });
     return true;
   }
@@ -1612,11 +1622,11 @@ const Game = (() => {
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
-  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus + jewelBonus('evasion'));
+  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus + jewelBonus('evasion') + blessedSaves());
   function venomSave(kind, whose, quiet = false) {
     const p = P();
     if (p.poison || hasPower('pure')) return null;
-    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion'));
+    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves());
     if (!c.pass) p.poison = poisonFor();
     if (!quiet) log(c.pass ? `You shake off ${whose} venom.${c.note}` : `${cap(whose)} venom takes hold: you are poisoned!${c.note}`, c.pass ? 'good' : 'bad');
     return c;
@@ -1646,7 +1656,7 @@ const Game = (() => {
     // set, and deeper ones are set better. A dart or a needle then misses
     // outright; a pit is only half a fall, caught at its edge. A gong cannot
     // be dodged: its harm is the noise.
-    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + tricksterTraps()) : null;
+    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves() + tricksterTraps()) : null;
     const pit = tr === TRAP_TYPES.pit;
     fx.trapDodged = !!(dodge && dodge.pass && !pit);
     // a fall shakes the view longer than a blow: set once the harm (which
@@ -1704,7 +1714,7 @@ const Game = (() => {
     if (r) return Math.round(r.value * shop.markup * (1 - charm()));
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
-    const pw = it.pw && !it.h ? 1.7 : 1;
+    const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
     return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm())));
   }
   function sellPrice(it) {
@@ -1715,7 +1725,7 @@ const Game = (() => {
     const v = ITEMS[it.t].value || 1;
     // unknown gear goes for the price of a plain one; the trader will not tell
     const e = it.h ? 0 : (it.e || 0);
-    return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (it.pw && !it.h ? 1.7 : 1) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
+    return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
   }
   // ---------- encounters ----------
   // A choice the dungeon puts to you (see encounters.js). While one is open
@@ -1875,7 +1885,7 @@ const Game = (() => {
     const price = buyPrice(shop, it);
     if (beltRoom(it.t) <= 0) { log(`Your belt holds ${BELT} of those already.`, 'bad'); Sound.play('error'); return false; }
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
-    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}), ...(it.pw ? { pw: it.pw } : {}) };
+    const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}), ...(it.pw ? { pw: it.pw } : {}), ...(it.px ? { px: it.px } : {}) };
     if (!giveItem(one)) { log('Your pack is full: drop something first.', 'bad'); Sound.play('error'); return false; }
     p.gold -= price;
     it.q--;
@@ -1902,8 +1912,8 @@ const Game = (() => {
     // flawed and cursed pieces go on the junk heap, not back on the shelf
     const junk = one.curse || (one.e || 0) < 0;
     // a relic, or a piece whose quality is still unknown, sits on the shelf apart
-    const ex = !one.u && !one.h && !one.pw && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h && !s.pw);
-    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}), ...(one.pw ? { pw: one.pw } : {}) });
+    const ex = !one.u && !one.h && !one.pw && !one.px && shop.stock.find(s => s.t === one.t && (s.e || 0) === (one.e || 0) && !s.u && !s.h && !s.pw && !s.px);
+    if (junk) { /* gone */ } else if (ex) ex.q++; else shop.stock.push({ t: one.t, q: 1, e: one.e || 0, ...(one.u ? { u: one.u } : {}), ...(one.h ? { h: 1 } : {}), ...(one.pw ? { pw: one.pw } : {}), ...(one.px ? { px: one.px } : {}) });
     if (!quiet) { log(`You sell ${the(one)} for ${price} gold.`, 'good'); Sound.play('gold'); }
     emit('inv'); emit('stats');
     return true;
@@ -2071,7 +2081,7 @@ const Game = (() => {
       + berserkerRage() + templarBlow(m)   // a path's number, likewise
       + jewelBonus('might');               // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon');
+    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m);
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
     dmg = Math.max(1, dmg);
@@ -2818,7 +2828,7 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -3737,7 +3747,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, giveItem, sneakMult, setWorn, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

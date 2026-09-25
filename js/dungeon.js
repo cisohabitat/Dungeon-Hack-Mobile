@@ -1,7 +1,7 @@
 import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
 import { encounterPlan } from './encounters.js';
-import { GEAR_POWERS } from './relics.js';
+import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
@@ -639,10 +639,13 @@ const Dungeon = (() => {
           // read from the roll already made (its digits past the first), so no
           // extra roll moves anything else the level holds.
           const f = (r * 9973) % 1;
+          // and from the third, a quality of its make too, read from further digits still
+          const g = (r * 7331) % 1, px = depth >= 3 && g < 0.35 ? GEAR_PREFIXES[k][Math.floor(((g * 104729) % 1) * GEAR_PREFIXES[k].length)] : '';
           if (depth >= 2 && f < 0.35 + depth * 0.04) {
             const pool = GEAR_POWERS[k];
-            return { t: id, q: 1, e, h: 1, pw: pool[Math.floor(((f * 7919) % 1) * pool.length)] };
+            return { t: id, q: 1, e, h: 1, pw: pool[Math.floor(((f * 7919) % 1) * pool.length)], ...(px ? { px } : {}) };
           }
+          if (px) return { t: id, q: 1, e, h: 1, px };
         }
       }
       return curse ? { t: id, q: 1, e, h: 1, curse: 1 } : { t: id, q: 1, e, h: 1 };
