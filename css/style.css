@@ -582,6 +582,22 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   .enc-art img { width: 84px; height: 84px; }
   .enc-text { max-width: none; }
   #enc-choices { clear: both; }
+  /* the trader's wares two to a row: one wide column showed four at a time */
+  .shop-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; }
+
+  /* the create form uses the width it has: four classes and four backgrounds
+     to a row, the dungeon's settings side by side, so it is two screens
+     tall instead of four */
+  #screen-create { padding-left: var(--sal); padding-right: var(--sar); }
+  #screen-create .panel { max-width: 900px; padding-top: calc(6px + var(--sat)); }
+  #screen-create h2 { margin: 4px 0 6px; }
+  #screen-create h3 { margin: 10px 0 2px; }
+  #screen-create .class-grid, #screen-create .bg-grid { grid-template-columns: repeat(4, 1fr); }
+  #screen-create .class-card, #screen-create .bg-card { padding: 7px 9px; }
+  #screen-create .stats { grid-template-columns: repeat(6, 1fr); }
+  #screen-create .opts { grid-template-columns: repeat(4, 1fr); }
+  #screen-create .opts label.check { grid-column: span 2; }
+  #screen-create .opts label.check:last-child { grid-column: 1 / -1; }
   /* the chosen item's panel beside the pack rather than over half of it */
   #ov-inv .ov-body:has(> .detail.open) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); column-gap: 12px; align-content: start; }
   #ov-inv .ov-body:has(> .detail.open) > :not(.detail) { grid-column: 1; }
