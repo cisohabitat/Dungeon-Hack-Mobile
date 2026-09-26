@@ -1800,6 +1800,7 @@ const UI = (() => {
   ];
   const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
 
+  const MAP_TILE_MAX = 28;
   function renderMap() {
     const L = Game.level(), p = Game.player();
     const c = $('#map-canvas');
@@ -1822,8 +1823,15 @@ const UI = (() => {
     minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
     maxX = Math.min(L.w - 1, maxX + pad); maxY = Math.min(L.h - 1, maxY + pad);
     const cols = maxX - minX + 1, rows = maxY - minY + 1;
-    const availW = window.innerWidth - 24, availH = window.innerHeight - 230;
-    const size = Math.max(8, Math.floor(Math.min(availW / cols, availH / rows)));
+    // the height left once the heading, key and note have taken theirs; a short
+    // landscape screen has little to spare, so it is measured, not guessed
+    renderMapLegend();
+    const ov = $('#ov-map'), taken = [ov.querySelector('.ov-head'), $('#map-legend'), $('#map-legend').nextElementSibling]
+      .reduce((h, e) => h + (e ? /** @type {HTMLElement} */ (e).offsetHeight : 0), 0);
+    const availW = window.innerWidth - 24, availH = taken ? window.innerHeight - taken - 48 : window.innerHeight - 230;
+    // ...but not so large that the first few squares of a floor read as a close-up
+    // rather than the start of a map
+    const size = Math.max(8, Math.min(MAP_TILE_MAX, Math.floor(Math.min(availW / cols, availH / rows))));
     c.width = cols * size; c.height = rows * size;
     c.style.width = c.width + 'px';
     const ox = minX * size, oy = minY * size;
@@ -1904,8 +1912,6 @@ const UI = (() => {
     ctx.closePath();
     ctx.fill();
     ctx.restore();
-
-    renderMapLegend();
   }
 
   function renderMapLegend() {

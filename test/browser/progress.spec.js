@@ -45,6 +45,30 @@ test.describe('progress between runs', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a Hall line counts a single kill as one kill, not one kills', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    const line = (name, kills) => ({ name, cls: 'fighter', level: 2, depth: 1, kills, gold: 0, score: 10 + kills, seed: 'k' + kills, diff: 'normal' });
+    await page.evaluate(h => localStorage.setItem('deepdelve.hall', JSON.stringify(h)), [line('Once', 1), line('Twice', 2)]);
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-row', { hasText: 'Once' })).toContainText(' · 1 kill · ');
+    await expect(page.locator('.hall-row', { hasText: 'Twice' })).toContainText(' · 2 kills · ');
+    expect(errors).toEqual([]);
+  });
+
+  test('the Hall says which fallen hero is still below, until their shade is laid to rest', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-fallen')).toHaveCount(0);
+    await page.click('#hall-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.fallen', JSON.stringify({ name: 'Brand', cls: 'fighter', level: 4, depth: 3, run: 'r1', gear: [], killer: 'a troll' })));
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-fallen')).toHaveText('Still below: Brand the Fighter, killed by a troll on floor 3. Their shade keeps watch over their bones until a later delve lays it to rest.');
+    expect(errors).toEqual([]);
+  });
+
   test('after a Hard win, a new hero can swear vows, and a vow binds the run', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

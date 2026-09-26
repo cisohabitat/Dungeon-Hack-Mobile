@@ -215,6 +215,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .log-history div.info { color: #9ab8f0; }
 .hall { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 #beasts-list { margin-bottom: 16px; }
+.hall-fallen { margin: 0 0 10px; padding: 8px 10px; border-left: 3px solid var(--border); color: var(--dim); }
+.hall-fallen b { color: var(--text); }
 .hall-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
 .hall-row .rank { color: var(--gold); font-size: 1.2rem; min-width: 28px; }
 .hall-row .who { flex: 1; }

@@ -46,6 +46,8 @@ test.describe('knowing where you are', () => {
     expect(before.square, 'the marker must be on the player').toEqual(before.player);
     // and it must be big enough to notice a single step
     expect(before.tile, 'map squares should be legible').toBeGreaterThanOrEqual(8);
+    // a fresh floor has little explored: its squares stay map-sized, not a close-up
+    expect(before.tile, 'map squares should not balloon on a fresh floor').toBeLessThanOrEqual(28);
     expect(before.pixels, 'the marker should fill its square').toBeGreaterThan(before.tile * before.tile * 0.4);
 
     await page.evaluate(async () => {
@@ -62,6 +64,22 @@ test.describe('knowing where you are', () => {
     const moved = Math.abs(after.player.x - before.player.x) + Math.abs(after.player.y - before.player.y);
     expect(moved, 'the player should have moved').toBeGreaterThan(0);
     expect(after.square, 'the marker must follow the player').toEqual(after.player);
+  });
+
+  test('on a short landscape screen the map uses the height it has, and the key still fits', async ({ page }) => {
+    await page.setViewportSize({ width: 740, height: 360 });
+    // a seed that starts in a small room: a few squares, all of them seen
+    await startGame(page, { seed: 'maps1' });
+    await clearBoons(page);
+    await page.click('[data-open="map"]');
+    await page.waitForTimeout(150);
+    const m = await page.evaluate(() => ({
+      tile: Number(document.querySelector('#map-canvas').dataset.tile),
+      note: document.querySelector('#map-legend').nextElementSibling.getBoundingClientRect().bottom,
+    }));
+    // a guessed allowance left a fresh floor's squares at 16px in the middle of an empty screen
+    expect(m.tile, 'the squares should use the free height').toBeGreaterThanOrEqual(20);
+    expect(m.note, 'the note under the key should still be on the screen').toBeLessThanOrEqual(360);
   });
 
   test('the map has a legend naming what the colours mean', async ({ page }) => {
