@@ -74,6 +74,8 @@ test.describe('paths', () => {
     for (let i = 0; i < 3; i++) {
       await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
       await page.locator('#boon-list .boon').first().click();
+      // Self-Taught asks where its two points go first
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat').first().click(); await page.locator('.spread-stat').first().click(); }
     }
     await expect(page.locator('.boon.path')).toHaveCount(2, { timeout: 3000 });
     await expect(page.locator('.boon.path').nth(0).locator('.path-warn')).toHaveText('Your off hand holds a blade: the first two need a shield.');

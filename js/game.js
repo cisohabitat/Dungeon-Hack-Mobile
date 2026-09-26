@@ -411,7 +411,7 @@ const Game = (() => {
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might');
     let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack);
-    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + jewelBonus('might') + berserkerRage());
+    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained());
     return blow / (speed / 1000);
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
@@ -595,7 +595,7 @@ const Game = (() => {
       temper('reinforce', 'armor', 'Reinforce your armour', 'stouter'),
       rune('rune_weapon', 'weapon'), rune('rune_armor', 'armor'),
       make('make_weapon', 'weapon'), make('make_armor', 'armor'),
-      lodging(), books(),
+      lodging(), books(), tonic(),
     ];
   }
   /** A caster reads the trader's books: three spell points more, for good. One reading a trader. */
@@ -604,6 +604,17 @@ const Game = (() => {
     const why = !CLASSES[p.cls].spells ? 'Only a caster can make anything of these books.' : shop.studied ? 'You have read all this trader has.' : null;
     return { id: 'study', label: 'Study the trader\'s books', detail: why || 'Three more spell points, for good.',
       price: Math.round((150 + 30 * G.depth) * (1 - charm())), why };
+  }
+  /**
+   * The deep traders' tonic: bitter, and four more hit points for good. One
+   * draught a trader, from the fourth floor down, where the gold piles up:
+   * heroes were reaching the lich with two or three hundred they had no use for.
+   */
+  const TONIC_HP = 4;
+  function tonic() {
+    const why = G.depth < 4 ? 'The trader keeps the deep tonic for deeper floors than this.' : shop.tonic ? 'You have drunk all the tonic this trader will sell you.' : null;
+    return { id: 'tonic', label: 'Drink the trader\'s bitter tonic', detail: why || `${TONIC_HP} more maximum hit points, for good.`,
+      price: Math.round((150 + 25 * G.depth) * (1 - charm())), why };
   }
   /**
    * Each trader knows one rune for a weapon and one for armour, and will work
@@ -683,6 +694,11 @@ const Game = (() => {
       p.bonusSp = (p.bonusSp || 0) + 3; p.maxSp = spMax(p); p.sp = Math.min(p.maxSp, p.sp + 3);
       shop.studied = true;
       log('You read late by the trader\'s lamp, and something in the margins stays with you (+3 spell points).', 'good');
+    } else if (id === 'tonic') {
+      const p = P();
+      p.maxHp += TONIC_HP; healPlayer(TONIC_HP);
+      shop.tonic = true;
+      log(`The tonic is black and bitter, and it settles in you like iron (+${TONIC_HP} maximum hit points).`, 'good');
     } else if (id === 'lodge') {
       const p = P();
       healPlayer(p.maxHp - p.hp); p.sp = p.maxSp;
@@ -2213,7 +2229,7 @@ const Game = (() => {
       return;
     }
     // a Ring of Might and a Berserker's rage promise every blow, and this is one
-    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand'));
+    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand') + bargained());
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
@@ -2503,7 +2519,7 @@ const Game = (() => {
     let told = boon.desc;
     if (boon.spread) {
       // the points go where the player puts them, and nowhere until they do
-      if (!Array.isArray(picks) || picks.length !== boon.spread || !picks.every(k => k in p.stats)) return false;
+      if (!Array.isArray(picks) || picks.length !== boon.spread || !picks.every(k => Object.prototype.hasOwnProperty.call(STAT_WORD, k))) return false;
       for (const k of picks) p.stats[k]++;
       const counts = {};
       for (const k of picks) counts[k] = (counts[k] || 0) + 1;
@@ -2977,6 +2993,8 @@ const Game = (() => {
   // Each path gives its class's move a twist.
   const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 15000 }, thief: { id: 'smoke', name: 'Smoke', cool: 24000 } };
   const SMOKE_MS = 3000, SMOKE_REACH = 3;
+  // how long a foe that lost you in smoke stays near and wary after it clears: no resting beside it
+  const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
   const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.cool);
@@ -3017,16 +3035,19 @@ const Game = (() => {
   function smoke(a, p) {
     const L = lvl();
     ensureDist();
-    let lost = 0;
+    let lost = 0, committed = 0;
     for (const m of L.monsters) {
       const di = distField[m.y * L.w + m.x];
       // a blow already on its way still comes: smoke is for getting clear, not for being saved
-      if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed || m.windup || m.volley) continue;
+      if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
+      if (m.windup || m.volley) { committed++; continue; }
       m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
-      if (m.awake) { lost++; floatText(m, 'lost you', '#b8b8c8'); }
-      m.awake = false; m.smoked = true; m.fleeing = false; m.nextAct = G.t + 400;
+      // a foe that had you is hunting for you in the grey, and stays near for a while after:
+      // no resting beside it. A sleeper never knew you were there, and stays as it was.
+      if (m.awake) { lost++; floatText(m, 'lost you', '#b8b8c8'); m.smoked = G.t + SMOKE_ALERT_MS + (onPath('assassin') ? 4500 : SMOKE_MS); }
+      m.awake = false; m.fleeing = false; m.nextAct = G.t + 400;
       // and a zombie's grip loosens as it loses you
       if (p.grabbed && p.grabbed.uid === m.uid) p.grabbed = null;
     }
@@ -3034,7 +3055,10 @@ const Game = (() => {
     p.abilityReady = G.t + abilityCool(a);
     fx.smokeUntil = realNow + (p.smokeUntil - G.t);
     Sound.play('snuff');
-    log(lost ? `You crush a smoke pellet underfoot. In the choking grey, ${lost === 1 ? 'your foe loses' : `${lost} foes lose`} you.` : 'You crush a smoke pellet underfoot, but nothing is close enough to lose you in it.', lost ? 'good' : '');
+    const coming = committed ? ` ${committed === 1 ? 'A blow already drawn back is' : 'Blows already drawn back are'} still coming.` : '';
+    log(lost ? `You crush a smoke pellet underfoot. In the choking grey, ${lost === 1 ? 'your foe loses' : `${lost} foes lose`} you.${coming}`
+      : committed ? `You crush a smoke pellet underfoot, but it is too late to hide from a blow already drawn back.`
+      : 'You crush a smoke pellet underfoot. Nothing awake is close enough to lose you in it.', lost ? 'good' : '');
     return true;
   }
 
@@ -3088,7 +3112,7 @@ const Game = (() => {
     const L = lvl();
     ensureDist();
     // one lost in a thief's smoke is still there, and no one sleeps beside it
-    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return (m.awake || m.smoked) && dd >= 0 && dd <= 5; });
+    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return (m.awake || (m.smoked || 0) > G.t) && dd >= 0 && dd <= 5; });
   }
   /**
    * What the Rest button will do: rest, saying how well once rests here grow
@@ -3185,12 +3209,15 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.5,  edge: 1, lich: 1.45, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.7,  edge: 2, lich: 2.3,    rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.8,  edge: 2, lich: 2.3,    rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
-  // the first floor is where a hero learns: its creatures hit a step softer
-  const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 ? 1 : 0));
+  // the first floor is where a hero learns: its creatures hit a step softer. On Hard
+  // the second and third keep that step too: a quarter of Hard's fighters and clerics
+  // died there before they had a path, so it comes from the fourth floor, paid for
+  // with sturdier creatures (1.8, not 1.7) all the way down.
+  const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 || (diff().edge > 1 && G.depth <= 3) ? 1 : 0));
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   function hardenLevel(L, depth) {
     const k = diff();
@@ -3303,8 +3330,8 @@ const Game = (() => {
         // the damage. Give the growl a beat to be heard and turned toward.
         // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
         if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
-          const coughing = m.smoked && hasTalent('choking_cloud');
-          m.awake = true; m.smoked = false; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
+          const coughing = (m.smoked || 0) > G.t && hasTalent('choking_cloud');
+          m.awake = true; m.smoked = 0; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
           if (coughing) floatText(m, 'coughing', '#b8b8c8');
           if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
           meet(m);
@@ -3500,7 +3527,7 @@ const Game = (() => {
       if (G.t >= p.poison.until) { p.poison = null; log('The poison wears off.', 'good'); }
       else if (G.t >= p.poison.next) { p.poison.next = G.t + 2000; hurtPlayer(1, 'The poison burns in your veins.', null, 'poison'); }
     }
-    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k.startsWith('boon_') ? 'A blessing you were given fades.' : k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
+    for (const k in p.effects) if (p.effects[k].until <= G.t) { delete p.effects[k]; if (k === 'ac' && p.mirrors) { p.mirrors = 0; log('Your images fade with the shield.'); } log(k.startsWith('boon_') ? 'A blessing you were given fades.' : k.startsWith('crew_') ? 'The crew\'s song fades.' : k === 'ac' ? 'Your magical protection fades.' : (k === 'hit' ? 'The blessing fades.' : 'You feel less mighty.')); }
     fx.texts = fx.texts.filter(t => t.until > now);
     if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
     if (fx.corpses.length) fx.corpses = fx.corpses.filter(c => now - c.born < CORPSE_MS);

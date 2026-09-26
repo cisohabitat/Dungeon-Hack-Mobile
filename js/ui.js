@@ -22,8 +22,8 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], mode: string, buy: Record<string, number>|null}} */
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], mode: 'roll', buy: null };
+  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], mode: 'roll', buy: null, buyTouched: false };
   // Point buy: every score starts at 8 and 27 points raise them, dearer near
   // the top, to 17 at most (a background's bonus goes on after). About what
   // an average roll gives, but placed where the player wants it; 16 and 17
@@ -282,7 +282,7 @@ const UI = (() => {
       b.type = 'button';
       b.setAttribute('aria-pressed', String(id === create.cls));
       b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
-      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy') create.buy = buyStart(id); buildCreate(); });
+      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
     const bgGrid = $('#c-backgrounds');
@@ -336,7 +336,7 @@ const UI = (() => {
       if (key) { div.className = 'key-stat'; div.title = `Key stat for a ${CLASSES[create.cls].name}`; }
       if (boost) { div.classList.add('bg-boost'); div.title = `Includes +${boost} from your background, ${BACKGROUNDS[create.bg].name}`; }
       if (buying) {
-        const b = create.buy, step = (dv) => { b[k] += dv; create.stats = b; buildCreate(); };
+        const b = create.buy, step = (dv) => { b[k] += dv; create.stats = b; create.buyTouched = true; buildCreate(); };
         const less = document.createElement('button'), more = document.createElement('button');
         less.type = more.type = 'button'; less.className = more.className = 'buy-step';
         less.textContent = '\u2212'; more.textContent = '+';
@@ -363,7 +363,7 @@ const UI = (() => {
     create.stats = st;
   }
   function openCreation() {
-    create.buy = null;   // a new hero's points are its own, not the last one's
+    create.buy = null; create.buyTouched = false;   // a new hero's points are its own, not the last one's
     create.rolled = Game.rollStats();
     fitStats();
     buildCreate();
@@ -808,6 +808,7 @@ const UI = (() => {
     // a ward (armour) or a blessing (to hit) bought or prayed for; both at once are Warded
     const boon = Math.max(secs('boon_ac'), secs('boon_hit'));
     if (boon) st.push(`<span class="good">${secs('boon_ac') ? 'Warded' : 'Blessed'} ${Math.ceil(boon / 60)}m</span>`);
+    if (secs('crew_hit')) st.push(`<span class="good" title="The crew you buried march with you: +2 to hit">Crew's song ${Math.ceil(secs('crew_hit') / 60)}m</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
     if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
@@ -1119,7 +1120,9 @@ const UI = (() => {
       const price = Game.buyPrice(s, it);
       // the same gear the hero already wears says so, and whether it is better or worse
       const bk = ITEMS[it.t].kind, worn = (bk === 'weapon' || bk === 'armor' || bk === 'shield') ? p.eq[bk] : null;
-      const same = worn && worn.t === it.t ? (knownE(it) > knownE(worn) ? ' · better than the one you wear' : knownE(it) < knownE(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
+      // a known quality of make counts as much as a step of enchantment
+      const worth = x => knownE(x) + (x.px && !x.h ? 1 : 0);
+      const same = worn && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
       const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
     }
@@ -1297,7 +1300,7 @@ const UI = (() => {
     done.addEventListener('click', () => closeOverlay());
     el.appendChild(done);
   }
-  const BOON_GUARD_MS = 700;
+  const BOON_GUARD_MS = 700, SPREAD_GUARD_MS = 350;
   /** A lesson's card: for a stat, what it will be and what it buys this hero. */
   function lessonText(b, p) {
     if (!b.stat) return b.desc;
@@ -1314,6 +1317,8 @@ const UI = (() => {
   /** Self-Taught: tap a score for each point; both on one is fine. */
   function renderSpread(b) {
     const p = Game.player(), el = $('#boon-list'), picks = [];
+    // the tap that chose Self-Taught must not land on a score as well: the scores wait a moment
+    const armedAt = performance.now() + SPREAD_GUARD_MS;
     const draw = () => {
       el.innerHTML = `<p class="boon-head">${escapeHtml(b.name)}: ${b.spread - picks.length} point${b.spread - picks.length === 1 ? '' : 's'} to place</p>`;
       const grid = document.createElement('div');
@@ -1327,10 +1332,14 @@ const UI = (() => {
         const up = Game.mod(v + 1) > m;
         btn.innerHTML = `<b>${escapeHtml(STAT_NAMES[k])}</b><small>${v} (${m >= 0 ? '+' : ''}${m})${up ? ` \u2192 ${m + 1 >= 0 ? '+' : ''}${m + 1}` : ''}</small>`;
         if (up) btn.classList.add('raises');
+        const wait = armedAt - performance.now();
+        if (wait > 0) { btn.disabled = true; setTimeout(() => { btn.disabled = false; }, wait); }
         btn.addEventListener('click', () => {
+          if (performance.now() < armedAt) return;
           picks.push(k);
           if (picks.length < b.spread) { draw(); return; }
-          Game.chooseBoon(b.id, picks);
+          // refused (the offer changed under it): start the placing again rather than piling up taps
+          if (!Game.chooseBoon(b.id, picks)) { picks.length = 0; draw(); return; }
           if (Game.pendingBoons()) renderBoons(); else closeOverlay();
         });
         grid.appendChild(btn);
@@ -2263,7 +2272,8 @@ const UI = (() => {
     $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     for (const b of $$('#c-statmode [data-mode]')) b.addEventListener('click', () => {
       create.mode = b.dataset.mode || 'roll';
-      if (create.mode === 'roll') fitStats(); else create.buy = buyStart(create.cls);
+      // points the player placed are kept across a look at the rolled scores
+      if (create.mode === 'roll') fitStats(); else if (!create.buy || !create.buyTouched) create.buy = buyStart(create.cls);
       buildCreate();
     });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });

@@ -119,7 +119,7 @@ const BOONS = [
 ];
 
 // Class talents: on every even level the hero picks one of three from their
-// class's six, each taken once. They change how a class plays rather than
+// class's own, each taken once. They change how a class plays rather than
 // adding a point here and there; game.js honours each by id.
 const TALENTS = {
   fighter: [

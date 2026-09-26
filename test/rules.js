@@ -1647,6 +1647,33 @@ await test('the trader works a rune into plain gear once, and lets you sleep saf
   return !!svc('lodge').why || 'lodging was offered twice on one floor';
 });
 
+await test('a deep trader sells a bitter tonic: four hit points for good, once a trader, from the fourth floor', async () => {
+  const ctx = await start('fighter', 'tonic');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  const openShop = () => {
+    const L = Game.level(); L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+    L.tiles[shop.y * L.w + shop.x] = Dungeon.T.FLOOR; Game.input('forward');
+    return !!Game.currentShop();
+  };
+  const svc = () => Game.shopServices().find(v => v.id === 'tonic');
+  if (!openShop()) return 'could not open the shop';
+  if (!svc() || !svc().why) return 'the tonic was sold on the first floor';
+  Game.closeShop();
+  for (let d = 1; d < 4; d++) { Game.level().monsters.length = 0; Game.descend(); }
+  if (G.depth !== 4) return `descended to depth ${G.depth}`;
+  if (!openShop()) return 'could not open the shop on the fourth floor';
+  p.gold = 99999; p.hp = 5;
+  const s = svc(); if (!s || s.why) return `the tonic was refused: ${s && s.why}`;
+  const max0 = p.maxHp, gold = p.gold;
+  Game.buyService('tonic');
+  if (p.maxHp !== max0 + 4 || p.hp !== 9) return `after the tonic: ${p.hp}/${p.maxHp}, was 5/${max0}`;
+  if (gold - p.gold !== s.price) return `paid ${gold - p.gold}, asked ${s.price}`;
+  return !!svc().why || 'the same trader sold a second tonic';
+});
+
 await test('the vigil lamp on the last floor sells a ward for gold', async () => {
   const ctx = await start('fighter', 'vigil');
   const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
@@ -4811,8 +4838,8 @@ await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy 
   const easy = await floor('easy'), normal = await floor('normal'), hard = await floor('hard'), old = await floor(null);
   if (!(easy.hp < normal.hp && normal.hp < hard.hp)) return `life on the floor: easy ${easy.hp}, normal ${normal.hp}, hard ${hard.hp}`;
   if (old.hp !== normal.hp) return `a run with no difficulty held ${old.hp} life, Normal ${normal.hp}`;
-  // on the second floor: Easy as drawn, Normal a step surer, Hard two
-  if (easy.hit !== easy.base || normal.hit !== normal.base + 1 || hard.hit !== hard.base + 2) return `to hit: easy ${easy.hit} (base ${easy.base}), normal ${normal.hit} (base ${normal.base}), hard ${hard.hit} (base ${hard.base})`;
+  // on the second floor: Easy as drawn, Normal a step surer, and Hard too (its second step waits for the fourth)
+  if (easy.hit !== easy.base || normal.hit !== normal.base + 1 || hard.hit !== hard.base + 1) return `to hit: easy ${easy.hit} (base ${easy.base}), normal ${normal.hit} (base ${normal.base}), hard ${hard.hit} (base ${hard.base})`;
   if (!(easy.items > normal.items)) return `items about: easy ${easy.items}, normal ${normal.items}`;
   // two rests on a Hard floor, three on Normal
   for (const [f, want] of [[hard, 2], [normal, 3]]) {
@@ -4828,6 +4855,13 @@ await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy 
     Game.newGame({ name: 'D', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'diff', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal', difficulty: 'normal' } });
     const m = Game.level().monsters.find(x => !x.elite);
     if (m && Game.mstat(m).hit !== ctx.MONSTERS[m.id].hit) return `a ${m.id} on the first floor hits at +${Game.mstat(m).hit} on Normal`; }
+  // and from the fourth floor Hard's creatures are two steps surer
+  { const ctx = await newContext(); const { Game } = ctx;
+    Game.newGame({ name: 'D', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'diff', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal', difficulty: 'hard' } });
+    for (let i = 0; i < 3; i++) { Game.level().monsters.length = 0; goDown(ctx); }
+    const m = Game.level().monsters.find(x => !x.elite);
+    if (Game.state().depth !== 4) return `went down to ${Game.state().depth}`;
+    if (m && Game.mstat(m).hit !== ctx.MONSTERS[m.id].hit + 2) return `a ${m.id} on Hard's fourth floor hits at +${Game.mstat(m).hit}, drawn at +${ctx.MONSTERS[m.id].hit}`; }
   // a strong hero on Easy is not pressed
   const strongEasy = await floor('easy', 7, true), strongNormal = await floor('normal', 7, true);
   if (strongEasy.L.press) return `Easy pressed a strong hero ${strongEasy.L.press}`;
@@ -5648,7 +5682,7 @@ await test('a named champion is as much sturdier as the difficulty says, and the
     return Game.level().monsters.find(o => MONSTERS[o.id].named);
   };
   const easy = await on('easy'), normal = await on('normal'), hard = await on('hard');
-  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.7) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
+  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.8) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
   // a hero far ahead of the floor: every creature there is readier, and many become champions, but not this one
   for (let i = 0; i < 6; i++) {
     const pressed = await pinned(i / 6, () => on('normal', 12));
@@ -6884,6 +6918,40 @@ await test('the trader\'s forge adds a quality of make to plain known gear, from
   return out.length ? out.join('; ') : true;
 });
 
+await test('smoke leaves no stale mark: a sleeper it never woke, and a foe that lost the thief, do not bar rest once it has cleared', async () => {
+  const out = [];
+  const ctx = await start('thief', 'smoke-stale');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = 3; p.maxHp = 999; p.bg = 'deepborn';
+  // a sleeper three squares off, which never knew the thief was there
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+  const m = beside(ctx, 'goblin', { awake: false, nextAct: G.t + 1e9 });
+  m.x = p.x + dx * 3; m.y = p.y + dy * 3;
+  if (Game.restLabel() === 'Foes near') out.push('the sleeper barred rest before any smoke');
+  Game.useAbility();
+  if (m.smoked) out.push('a sleeper the smoke never woke was marked as lost in it');
+  // an awake foe that loses the thief bars rest now, and not half a minute later
+  const c2 = await start('thief', 'smoke-stale2');
+  const q = c2.Game.player(), s2 = c2.Game.state(); q.hp = 3; q.maxHp = 999;
+  const f = beside(c2, 'goblin', { nextAct: s2.t + 1e9 });
+  c2.Game.useAbility();
+  if (c2.Game.restLabel() !== 'Foes near') out.push(`beside a foe lost in the smoke the Rest button said ${c2.Game.restLabel()}`);
+  // struck awake later, it settles again: half a minute on, asleep beside the thief, it is no more a bar than any sleeper
+  f.awake = true; s2.t += 30000; f.awake = false;
+  if (c2.Game.restLabel() === 'Foes near') out.push('half a minute after the smoke, a sleeping foe it once hid from still barred rest');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Self-Taught takes only real scores', async () => {
+  const ctx = await start('fighter', 'spread-guard');
+  const { Game } = ctx; const G = Game.state(), p = Game.player();
+  G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [3];
+  if (Game.chooseBoon('spread', ['toString', 'str']) !== false) return 'a point went to toString';
+  if (Object.prototype.hasOwnProperty.call(p.stats, 'toString')) return 'the hero has a toString score';
+  return Game.chooseBoon('spread', ['str', 'str']) === true || 'two points on Strength were refused';
+});
+
 await test('a quality of make goes in front of the name once known, and does what it says', async () => {
   const out = [];
   const ctx = await start('fighter', 'prefix');
@@ -6977,12 +7045,13 @@ await test('the guildsman you dug out marks the next floor; the captive you free
   const out = [];
   const ctx = await start('fighter', 'threads', { levels: 4 });
   const { Game } = ctx; const p = Game.player(), G = Game.state();
-  p.stats.str = 30; p.stats.cha = 30;
-  meetAndChoose(ctx, 'buried', 0);
+  p.stats.str = 30; p.stats.cha = 30; p.hp = p.maxHp = 999;
+  // a natural one fails any check, however strong: meet him again until the dice allow it
+  for (let i = 0; i < 6 && !(G.threads && G.threads.guide); i++) meetAndChoose(ctx, 'buried', 0);
   if (!G.threads || !G.threads.guide) out.push(`digging him out left no thread: ${JSON.stringify(G.threads)}`);
   const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
   const before = Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 });
-  meetAndChoose(ctx, 'prisoner', 2);
+  for (let i = 0; i < 6 && !G.threads.captive; i++) meetAndChoose(ctx, 'prisoner', 2);
   if (Game.buyPrice(shop, { t: 'longsword', q: 1, e: 0 }) !== before) out.push('a trader on the captive\'s own floor had already heard');
   G.threads.crew = 1;
   Game.level().monsters.length = 0; Game.descend();

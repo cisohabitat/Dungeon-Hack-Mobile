@@ -306,6 +306,42 @@ const ENCOUNTERS = {
     ],
   },
 
+  // The middle floors, where a run sees most of its encounters, had the fewest
+  // of their own: these two belong there and nowhere else.
+  duelist: {
+    title: 'The Duelist\'s Ghost', sprite: 'wisp', depth: [3, 7],
+    text: 'A pale swordsman stands in the middle of the passage, a blade of mist held low. He salutes you with it. "One pass," he says, in a voice like wind through a keyhole. "Only one. It has been so long."',
+    choices: [
+      { label: 'Cross blades with him', check: { stat: 'str', dc: 13 },
+        pass: { text: 'Mist rings on steel. He gives ground, laughing without a sound, and you come away knowing something about your own arm.', effects: [{ xp: 50 }, { buff: { stats: [['hit', 2]], dur: 240000 } }] },
+        fail: { text: 'His blade passes through your guard and through you. It is cold for a long time after.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Match his footwork', check: { stat: 'dex', dc: 13 },
+        pass: { text: 'Step for step, and his blade never finds you. He lowers it and bows, and you find your feet are lighter.', effects: [{ xp: 50 }, { buff: { stats: [['ac', 2]], dur: 240000 } }] },
+        fail: { text: 'You step where he wanted you to. The flat of the mist-blade takes you across the ribs.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Bow, and ask his name', check: { stat: 'cha', dc: 12 },
+        pass: { text: 'He tells you, and how he died, and what he was carrying. It is still where he fell, a little further on.', effects: [{ xp: 30 }, { loot: 1 }] },
+        fail: { text: 'He has forgotten it. He fades, looking puzzled, before you can say you are sorry.', effects: [] } },
+      { label: 'Walk around him', outcome: { text: 'He lets you pass, blade still raised, waiting for someone else.', effects: [] } },
+    ],
+  },
+
+  larder: {
+    title: 'The Spider\'s Larder', sprite: 'bones', depth: [3, 7],
+    text: 'Bundles of grey silk hang from the ceiling like fruit, turning slowly. Most are still. One has a sword hilt poking out of it. One, near the back, is moving.',
+    choices: [
+      { label: 'Cut down the one with the sword', check: { stat: 'dex', dc: 13 },
+        pass: { text: 'One clean stroke and it drops into your arms. The owner has no more use for their things.', effects: [{ loot: 1 }] },
+        fail: { text: 'The whole web shivers when you cut. Its keepers come down to see.', effects: [{ ambush: { id: 'spider', n: 2 } }] } },
+      { label: 'Free the one that moves', check: { stat: 'str', dc: 12 },
+        pass: { text: 'You tear the silk apart and a half-drowned delver of the fifth crew falls out, gasping. She presses her last draught on you and runs for the stairs.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 60 }] },
+        fail: { text: 'The silk will not tear. Something large comes down its thread to find out why the larder is shaking.', effects: [{ ambush: { id: 'spider', n: 1 } }] } },
+      { label: 'Burn the webs down', check: { stat: 'int', dc: 12, knack: [['mage', null, 3]] },
+        pass: { text: 'The silk goes up like paper. When the smoke clears, what the spiders kept is lying on the floor.', effects: [{ xp: 40 }, { goldPerDepth: 12 }, { loot: 0 }] },
+        fail: { text: 'The fire takes, and so does the smoke. You stagger out coughing, singed.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Back away quietly', outcome: { text: 'You leave the larder to its keepers. Something up there turns to watch you go.', effects: [] } },
+    ],
+  },
+
 };
 
 /** Difficulty grows a little every three floors. */
