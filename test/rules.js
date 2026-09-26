@@ -7702,6 +7702,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (!(L.items[bx + ',' + by] || []).some(it => it.t === 'staff')) return 'their gear went with them';
     Game.save(true);
     if (Game.state().rested !== 'Wren the Mage') return `the run says it laid ${Game.state().rested} to rest`;
+    if (!/found Wren the Mage, who had gone before them, and laid them to rest/.test(Game.epilogue(true).join(' '))) return 'the end of the run does not tell of the shade laid to rest';
     // the next run meets nobody
     Game.newGame({ name: 'After', cls: 'fighter', stats: Game.rollStats(), seed: 'bones-rest', opts: OPTS });
     downTo(ctx, 3);

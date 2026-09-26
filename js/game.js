@@ -2805,6 +2805,8 @@ const Game = (() => {
         : 'They carried nothing out and left nothing behind but another name for the roster.');
     }
     if (told.length) lines.push(cap(told.join('; ')) + '.');
+    // a shade laid to rest on the way down
+    if (G.rested) lines.push(`On the way down they found ${G.rested}, who had gone before them, and laid them to rest.`);
     // the fallen are remembered (Progress.fallen), and the next delve will say so
     if (!won && !G.opts.daily) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
     return lines;

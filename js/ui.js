@@ -1107,7 +1107,8 @@ const UI = (() => {
   const knownE = it => (it.h ? 0 : (it.e || 0));
   const swiftOf = it => { const r = Game.relicOf(it); return (!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h); };
 
-  function shopRow(it, price, label, enabled, onClick, note) {
+  /** @param {{one?: boolean}} [o]  one: named as a single piece (the price is for one; the note says how many are in stock) */
+  function shopRow(it, price, label, enabled, onClick, note, o = {}) {
     const row = document.createElement('div');
     row.className = 'shop-row';
     const img = document.createElement('img');
@@ -1116,7 +1117,7 @@ const UI = (() => {
     row.appendChild(img);
     const what = document.createElement('div');
     what.className = 'what';
-    what.innerHTML = `<b${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</b><small>${escapeHtml(note || '')}</small>`;
+    what.innerHTML = `<b${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(o.one ? { ...it, q: 1 } : it))}</b><small>${escapeHtml(note || '')}</small>`;
     row.appendChild(what);
     const btn = document.createElement('button');
     btn.textContent = `${label} ${price}g`;
@@ -1169,7 +1170,7 @@ const UI = (() => {
       const worth = x => knownE(x) + (x.px && !x.h ? 1 : 0);
       const same = worn && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
       const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (it.q > 1 ? ` · ${it.q} in stock` : '');
-      stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note));
+      stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note, { one: true }));
     }
     // what the trader will do for coin besides trade
     const svc = $('#shop-services');
@@ -1255,7 +1256,8 @@ const UI = (() => {
         const btn = document.createElement('button');
         btn.className = 'boon enc-choice';
         const bits = [];
-        if (o.stat) bits.push(`${o.statName}: d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ${Math.round(o.chance * 100)}% chance${o.knack ? ' (your training helps)' : ''}`);
+        // the odds always; the dice behind them only for a player who has asked to see the rolls
+        if (o.stat) bits.push(`${o.statName}: ${Game.rollsShown() ? `d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ` : ''}${Math.round(o.chance * 100)}% chance${o.knack ? ' (your training helps)' : ''}`);
         if (o.cost) bits.push(`costs ${o.cost}`);
         if (o.blocked) bits.push(o.blocked);
         btn.innerHTML = `<b>${escapeHtml(o.label)}</b>${bits.length ? `<small>${escapeHtml(bits.join(' · '))}</small>` : ''}`;

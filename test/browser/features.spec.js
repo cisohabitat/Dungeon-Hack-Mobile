@@ -227,6 +227,30 @@ test.describe('dungeon features', () => {
     expect(first.fits, 'the whole map should be on screen').toBe(true);
     expect(errors).toEqual([]);
   });
+  test('with the rolls hidden, an encounter shows its odds without the dice behind them', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'tour' });
+    await clearBoons(page);
+    const placed = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), T = Dungeon.T;
+      const e = L.npcs.find(n => n.kind === 'encounter');
+      if (!e) return null;
+      L.monsters.length = 0;
+      for (let k = 0; k < 4; k++) {
+        const [dx, dy] = Dungeon.DIRS[k];
+        if (L.tiles[(e.y - dy) * L.w + (e.x - dx)] === T.FLOOR) { p.x = e.x - dx; p.y = e.y - dy; p.dir = k; return e.id; }
+      }
+      return null;
+    });
+    expect(placed, 'floor one of this seed should hold an encounter').not.toBeNull();
+    await page.locator('[data-tap="use"]').click();
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    const smalls = await page.locator('.enc-choice small').allInnerTexts();
+    expect(smalls.some(t => /^[A-Z][a-z]+: \d+% chance/.test(t)), `no plain odds: ${smalls.join(' | ')}`).toBe(true);
+    expect(smalls.some(t => /d20/.test(t)), `dice shown with the rolls hidden: ${smalls.join(' | ')}`).toBe(false);
+    expect(errors).toEqual([]);
+  });
+
   test('an encounter asks, shows the odds, cannot be dodged, and reports what it did', async ({ page }) => {
     const errors = watchForErrors(page);
     // the roll behind the outcome is shown once the rolls are turned on
