@@ -1149,6 +1149,8 @@ const Renderer = (() => {
   // off it is, and how many of the view's pixels each of its own covers
   /** @type {{top: number, dist: number, texel: number}[]} */
   const shown = [];
+  const FLOOR_BEHIND = 0.45;
+  const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
   /** Whether a creature, its bar or its mark was drawn in this box of the last frame. */
   function busy(x0, y0, x1, y1) {
     return crowd.some(r => r[0] < x1 && r[2] > x0 && r[1] < y1 && r[3] > y0);
@@ -1252,9 +1254,15 @@ const Renderer = (() => {
       list.push({ s, tX, tY });
     }
     // what lies on the floor is drawn before whatever stands on that square,
-    // so a potion under a goblin (or the Heart at the lich's feet) is behind it
-    list.sort((a, b) => b.tY - a.tY || (b.s.onFloor ? 1 : 0) - (a.s.onFloor ? 1 : 0));
+    // so a potion under a goblin (or the Heart at the lich's feet) is behind
+    // it: sorted as if it lay nearly half a square further off, since a pile
+    // is spread about its square and the nearest of it used to come out in
+    // front of the creature standing on it
+    const depth = x => x.tY + (x.s.onFloor ? FLOOR_BEHIND : 0);
+    list.sort((a, b) => depth(b) - depth(a));
+    drawOrder.length = 0;
     for (const { s, tX, tY } of list) {
+      drawOrder.push(s.onFloor ? 'floor' : 'stand');
       const screenX = (W / 2) * (1 + tX / tY);
       const hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
@@ -1571,7 +1579,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); } };
 })();
 
 export { Renderer };

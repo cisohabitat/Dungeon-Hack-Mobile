@@ -166,4 +166,23 @@ test.describe('art', () => {
     expect(lit.torchFar, 'and reaches further').toBeGreaterThan(0);
     expect(errors).toEqual([]);
   });
+  test('a creature standing on a pile of things is drawn in front of all of it', async ({ page }) => {
+    // a gem scattered to the near side of its square came out over the orc standing on it
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'pile-under' });
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(1);
+    const order = await page.evaluate(async () => {
+      const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+      L.monsters.length = 0; L.dressing = []; L.items = {};
+      L.items[x + ',' + y] = ['gem', 'potion_heal', 'dagger', 'ration', 'gold'].map(t => (t === 'gem' ? { t, q: 50, name: 'Garnet' } : { t, q: t === 'gold' ? 10 : 1 }));
+      L.monsters.push({ uid: 5, id: 'orc', x, y, hp: 99, maxHp: 99, awake: true, nextAct: 1e12, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      await new Promise(r => setTimeout(r, 300));
+      return Renderer.order;
+    });
+    expect(order.filter(k => k === 'floor').length, 'the pile is drawn').toBeGreaterThanOrEqual(5);
+    expect(order[order.length - 1], 'the orc last, over everything under it').toBe('stand');
+    expect(errors).toEqual([]);
+  });
 });

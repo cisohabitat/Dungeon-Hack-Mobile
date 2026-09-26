@@ -91,4 +91,23 @@ test.describe('named champions', () => {
     expect(await page.evaluate(() => localStorage.getItem('deepdelve.fallen')), 'forgotten once laid to rest').toBeNull();
     expect(errors).toEqual([]);
   });
+  test('the first shade met is explained in a tip', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => {
+      localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'face', 'dodge', 'dodgeside', 'dodgelunge', 'dodgelungeflank', 'lesson:dodge', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice']));
+      localStorage.setItem('deepdelve.fallen', JSON.stringify({ name: 'Wren', cls: 'fighter', level: 2, depth: 2, run: 'an earlier run', gear: [] }));
+    });
+    await startGame(page, { seed: 'shade-tip' });
+    await clearBoons(page);
+    expect(await descendTo(page, 2)).toBe(2);
+    await faceOpenGround(page, 2);
+    await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir], sh = L.monsters.find(m => m.shade);
+      p.maxHp = p.hp = 999;
+      L.monsters = [sh];
+      Object.assign(sh, { x: p.x + dx * 2, y: p.y + dy * 2, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: p.x + dx * 2, fromY: p.y + dy * 2, awake: true, nextAct: 1e12 });
+    });
+    await expect(page.locator('#tip')).toContainText('one of your own heroes', { timeout: 3000 });
+    expect(errors).toEqual([]);
+  });
 });

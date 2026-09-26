@@ -529,6 +529,7 @@ const UI = (() => {
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
     quickscroll: 'A scroll worth reading <b>now</b> waits at the left end of the log, under the view: <b>one tap</b> reads it.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
+    shade: 'A <b>shade</b>: one of your own heroes, risen where they fell, and it fights as they did. Lay it to rest and what they wore is yours.',
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
@@ -737,6 +738,8 @@ const UI = (() => {
     // the first time a scroll is worth reading, say where its button is
     if (!answering && !coachUp && !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden && showTip('quickscroll', true)) return;
     if (!answering && !coachUp && L.monsters.some(m => ((m.windup && m.windup.move) || m.collapsed) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5) && showTip('trick', true)) return;
+    // the first shade met: who it is, and what laying it to rest is worth
+    if (!answering && !coachUp && L.monsters.some(m => m.shade && m.awake && m.spoke && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6) && showTip('shade', true)) return;
     const close = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
     // the first foe is taught at once, over the controls tip if it is still up:
     // a first goblin used to die before its lesson got a turn. It is walked

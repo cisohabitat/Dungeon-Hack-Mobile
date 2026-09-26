@@ -2787,6 +2787,8 @@ const Game = (() => {
         : 'They carried nothing out and left nothing behind but another name for the roster.');
     }
     if (told.length) lines.push(cap(told.join('; ')) + '.');
+    // the fallen are remembered (Progress.fallen), and the next delve will say so
+    if (!won && !G.opts.daily) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
     return lines;
   }
   function recordHero(won) {

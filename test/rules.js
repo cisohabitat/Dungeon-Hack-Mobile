@@ -7642,6 +7642,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     p.eq.offhand = { t: 'dagger', q: 1, e: 1, u: 'grimtooth' };       // a relic: one of a kind, so it goes plain
     p.eq.ring = { t: 'ring_protect', q: 1, e: 1, curse: 1 };
     if (!fallTo(ctx)) return 'the goblin never killed the hero';
+    if (!/Test will not lie quiet/.test(Game.epilogue(false).join(' '))) return 'the end screen does not say the hero will be found';
     const rec = JSON.parse(ctx.store.get(FALLEN) || 'null');
     if (!rec) return 'nobody was remembered';
     if (rec.name !== 'Test' || rec.cls !== 'fighter' || rec.depth !== 3) return `remembered ${JSON.stringify(rec)}`;
@@ -7726,6 +7727,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     b.store.set(FALLEN, JSON.stringify({ name: 'Ada', cls: 'thief', level: 3, depth: 2, run: 'x', gear: [] }));
     downTo(b, 3);
     for (const d of [2, 3]) if (b.Game.state().levels[d].monsters.some(m => m.shade)) out.push('a daily delve met a shade');
+    if (/will not lie quiet/.test(b.Game.epilogue(false).join(' '))) out.push('a daily delve promises its dead will be found');
     // someone who fell deeper than this delve goes waits on the last floor before the lich's
     const c = await start('fighter', 'bones-deep');
     c.store.set(FALLEN, JSON.stringify({ name: 'Bo', cls: 'ranger', level: 9, depth: 9, run: 'x', gear: [] }));
