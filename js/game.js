@@ -3883,7 +3883,9 @@ const Game = (() => {
     }
     for (const n of (L.npcs || [])) {
       const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;
-      sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[look ? look.sprite : 'merchant'] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
+      // the trader is one of the Lampfolk, or at a goblin market a goblin pedlar
+      const who = look ? look.sprite : traderKind() === 'pedlar' ? 'pedlar' : 'merchant';
+      sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[who] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
     }
     for (const k in L.items) {
       const list = L.items[k];
@@ -4110,7 +4112,7 @@ const Game = (() => {
     P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn,
     revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack,
   };
-  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk } = makeTrader(traderK);
+  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor } = makeFoes(foesK);
 
   return {
@@ -4121,7 +4123,7 @@ const Game = (() => {
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
-    pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService,
+    pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName,
     pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

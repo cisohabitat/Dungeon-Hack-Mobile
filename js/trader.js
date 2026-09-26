@@ -2,7 +2,7 @@ import { ITEMS, CLASSES } from './data.js';
 import { Sound } from './sound.js';
 import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } from './relics.js';
 
-// The hooded traders: what they charge and pay, their shelves, and the work
+// The traders (the Lampfolk, and a goblin pedlar at a goblin market): what they charge and pay, their shelves, and the work
 // they do for gold (appraising, curse-lifting, the forge, runes, a quality of
 // make, a safe night, books and the tonic). Split out of game.js; everything
 // it needs from the game comes through K.
@@ -185,13 +185,28 @@ export function makeTrader(K) {
     return true;
   }
 
+  // Who keeps the shop: at a goblin market, a goblin, and everywhere else one
+  // of the Lampfolk, the small grey people who have traded in the deep since
+  // before the Heart was lit. They deal with anything that pays, and nothing
+  // down here will harm the ones it buys from; that is how they are still here.
+  const traderKind = () => (lvl().twist === 'market' ? 'pedlar' : 'lampfolk');
+  const TRADER_NAMES = { lampfolk: 'Lampfolk trader', pedlar: 'Goblin pedlar' };
+  const traderName = () => TRADER_NAMES[traderKind()];
+  function greet() {
+    const G = K.G;
+    if (traderKind() === 'pedlar') log('A goblin pedlar squats under a heap of pots, blades and trinkets, and grins with every tooth. "Cheap! Cheaper than lamp-eyes. Cheap!"', 'info');
+    else if (!G.metLampfolk) log('One of the Lampfolk looks up from a pack taller than itself, its eyes round and pale as lanterns. They have always been down here: they trade with whatever pays, and nothing in the deep will harm the ones it buys from. "Coin for goods, sun-walker."', 'info');
+    else log('A Lampfolk trader blinks its great pale eyes at you over its pack. "Coin for goods."', 'info');
+    if (traderKind() === 'lampfolk') G.metLampfolk = true;
+  }
+
   let shop = null;
   function openShop(n) {
     if (vowed('pauper')) { log('The trader sees the vow on you, and shakes their head. "Not to one sworn a pauper."', 'bad'); Sound.play('error'); return false; }
     shop = n;
     if (!n.greeted) {
       n.greeted = true;
-      log('A hooded trader looks up from a lantern-lit pack. "Coin for goods, friend."', 'info');
+      greet();
       if (vouched()) log('"You\'re the one who cut that fellow loose, aren\'t you? He said you\'d be by. A sixth off, for you."', 'good');
     }
     Sound.play('gold');
@@ -248,5 +263,5 @@ export function makeTrader(K) {
     Sound.play('gold');
     return gold;
   }
-  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk };
+  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName };
 }

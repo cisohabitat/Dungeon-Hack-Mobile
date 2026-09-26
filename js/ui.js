@@ -1235,6 +1235,7 @@ const UI = (() => {
     const s = Game.currentShop();
     if (!s) { closeOverlay(); return; }
     shopTapsFrom = performance.now() + SHOP_GUARD_MS;
+    $('#shop-title').textContent = Game.traderName();
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);

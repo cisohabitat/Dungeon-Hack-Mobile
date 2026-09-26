@@ -52,6 +52,29 @@ test.describe('the trader', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the shop names who keeps it: one of the Lampfolk, or at a goblin market a goblin pedlar, drawn as such', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'shop-open', levels: '8' });
+    const found = await findTrader(page);
+    test.skip(!found || found.noApproach, 'no reachable trader in the first seven levels');
+    /** walk in, read the heading and which picture the trader is drawn with, and walk away */
+    const visit = () => page.evaluate(async () => {
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 450));
+      const L = Game.level(), n = L.npcs.find(q => q.kind !== 'encounter');
+      const drawn = Game.renderState(performance.now()).sprites.find(s => s.x === n.x + 0.5 && s.y === n.y + 0.5);
+      const which = Object.keys(Assets.sprites).find(k => Assets.sprites[k] === (drawn && drawn.img));
+      const title = document.querySelector('#shop-title').textContent;
+      document.querySelector('#ov-shop [data-close]').click();
+      await new Promise(r => setTimeout(r, 150));
+      return { title, which };
+    });
+    expect(await visit()).toEqual({ title: 'Lampfolk trader', which: 'merchant' });
+    await page.evaluate(() => { Game.level().twist = 'market'; });
+    expect(await visit()).toEqual({ title: 'Goblin pedlar', which: 'pedlar' });
+    expect(errors).toEqual([]);
+  });
+
   test('buying costs gold, fills the pack and names what was bought', async ({ page }) => {
     await startGame(page, { seed: 'shop-buy', levels: '8' });
     const found = await findTrader(page);

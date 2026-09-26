@@ -259,6 +259,7 @@
  * @property {{name: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]
  * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
+ * @property {boolean} [metLampfolk]  a Lampfolk trader has been met this run (the first says who they are)
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time

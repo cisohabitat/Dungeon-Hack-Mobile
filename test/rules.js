@@ -3445,6 +3445,36 @@ await test('a frozen hero cannot cast, drink or swing from any screen', async ()
   return p.sp === sp0 || 'spell points were spent while frozen';
 });
 
+await test('the trader is one of the Lampfolk, said in full the first time; at a goblin market it is a goblin pedlar', async () => {
+  const ctx = await start('fighter', 'trader-kind');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const x = p.x + dx, y = p.y + dy;
+  L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+  /** walk into a fresh trader ahead and return what was said */
+  const meet = () => {
+    L.npcs.length = 0;
+    L.npcs.push({ id: 'merchant', x, y, markup: 2, stock: [], greeted: false });
+    const mark = markLog(G);
+    Game.update(G.t + 400, 400);
+    Game.input('forward');
+    const said = linesSince(G, mark).join(' | ');
+    Game.closeShop();
+    return said;
+  };
+  const first = meet();
+  if (!/One of the Lampfolk looks up/.test(first)) return `the first trader said: ${first}`;
+  if (Game.traderName() !== 'Lampfolk trader') return `the shop is headed ${Game.traderName()}`;
+  const again = meet();
+  if (!/A Lampfolk trader blinks/.test(again) || /always been down here/.test(again)) return `the second trader said: ${again}`;
+  L.twist = 'market';
+  const market = meet();
+  if (!/A goblin pedlar squats/.test(market)) return `the market trader said: ${market}`;
+  return Game.traderName() === 'Goblin pedlar' || `the market shop is headed ${Game.traderName()}`;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;

@@ -492,26 +492,73 @@ const CREATURES = {
     ];
   },
 
-  // A trader who came down willingly: a pack as big as they are, a lantern,
-  // and a face that is pleased to see a customer.
+  // One of the Lampfolk, who have traded in the deep for as long as there has
+  // been a deep: small, grey and patient, eyes wide and pale as lanterns from
+  // a life without the sun, a pack taller than itself and a lamp on a staff.
+  // Nothing about it says fight: no blade, no teeth, and the light held out.
   merchant: () => {
-    const cloak = '#6b4a2e', tunic = '#6b4a8a', skin = '#d4a47a';
+    const skin = '#98a0ae', dark = '#6c7482', robe = '#6a5a48', patch = '#7c6a3e', pack = '#5e4a36';
     return [
-      ball(16, 14, 8.5, 7, '#7a5a3a'),
-      limb(8.5, 8.5, 23.5, 8.5, 1.8, 1.8, '#a07850'),
-      ...both(limb(13.5, 22, 13, 30, 2, 1.8, '#3a2e36')),
-      ...both(ball(12.5, 30.4, 2.4, 1.1, '#2a2020')),
-      sheet([[10.5, 13], [21.5, 13], [22.5, 24], [9.5, 24]], tunic, { curve: 1 }),
-      line(10, 19, 22, 19, '#3a2418'), ball(19.5, 20.5, 1.6, 1.5, '#c9a24a'),
-      sheet([[9, 13], [11, 25], [8, 26]], cloak, { tilt: [-0.4, 0] }), sheet([[23, 13], [21, 25], [24, 26]], cloak, { tilt: [0.4, 0] }),
-      limb(10, 14, 7, 20, 1.6, 1.4, cloak), ball(6.8, 20.8, 1.5, 1.4, skin),
-      line(6, 21, 6, 23, '#4a4040'), ball(6, 25, 1.8, 2, '#ffd060'), ball(5.6, 24.5, 0.8, 0.8, '#fff6d0'),
-      limb(22, 14, 24, 19.5, 1.6, 1.4, cloak), ball(24, 20.3, 1.5, 1.4, skin),
-      ball(16, 8.5, 4.3, 4.2, skin),
-      sheet([[12.5, 10], [19.5, 10], [18.5, 13.5], [16, 14.5], [13.5, 13.5]], '#e8e0d0', { curve: 0.8 }),
-      sheet([[10.5, 9], [12, 2.5], [16, 1], [20, 2.5], [21.5, 9], [19.5, 5.5], [12.5, 5.5]], cloak, { curve: 0.8 }),
-      dots([[14, 8], [18, 8]], '#1a1010'), dots([[13, 7], [14, 7], [18, 7], [19, 7]], '#7a5a40'),
-      dots([[15, 11], [16, 11], [17, 11]], '#8a4a3a'),
+      // the pack, the rolled blanket on top of it and a pan swinging off one side
+      ball(16, 11, 9, 9.5, pack),
+      limb(9.5, 3, 22.5, 3, 2.3, 2.3, '#8a4a3a'),
+      ball(25.5, 13, 2.4, 2.2, '#6a6e76'), line(24.5, 10, 25.5, 11, '#4a4a50'),
+      // short legs under a long robe, and bare grey feet
+      ...both(limb(14, 25, 13.5, 29.5, 1.7, 1.5, dark)),
+      ...both(ball(12.8, 30.4, 2.4, 1.1, skin)),
+      sheet([[10.5, 17], [21.5, 17], [23.5, 29.5], [8.5, 29.5]], robe, { curve: 1 }),
+      sheet([[16.5, 21], [21, 21], [22, 27], [17, 27]], patch, { curve: 0.6 }),
+      line(10.5, 18, 21.5, 18, '#4a3e30'),
+      // the staff and its lamp, held out on the left
+      line(5.5, 5, 5.5, 30, '#6a5238'),
+      line(5.5, 5, 8.5, 5, '#6a5238'), line(8.5, 5, 8.5, 6.5, '#4a4040'),
+      ball(8.5, 9, 2.2, 2.6, '#ffd060'), ball(8.4, 8.5, 1, 1, '#fff6d0'),
+      limb(10.5, 18, 7, 21.5, 1.4, 1.1, robe), ball(6.4, 22, 1.4, 1.3, skin),
+      // the other hand held up, a coin between long fingers
+      limb(21.5, 18, 24, 21.5, 1.4, 1.1, robe), ball(24.4, 22, 1.4, 1.3, skin),
+      dots([[25, 20]], '#e8c050'),
+      // broad ears that droop, a round head, and the eyes
+      sheet([[11.5, 12], [4.5, 14.5], [5.5, 16.5], [11.5, 15]], skin, { tilt: [-0.5, 0.2] }),
+      sheet([[20.5, 12], [27.5, 14.5], [26.5, 16.5], [20.5, 15]], skin, { tilt: [0.5, 0.2] }),
+      ball(16, 13.5, 5.6, 5, skin),
+      ...both(ball(13.6, 13, 2, 2.1, '#f4e6a8')),
+      dots([[14, 13], [18, 13]], '#1a1620'), dots([[13, 12], [17, 12]], '#ffffff'),
+      ball(16, 15.8, 0.8, 0.6, dark),
+      dots([[15, 17], [16, 17], [17, 17]], '#5a5462'),
+    ];
+  },
+
+  // A goblin who would rather sell you a blade than stick you with one: no
+  // weapon in its hands, a floppy cap, and a heap of other people's things on
+  // its back, pots and a sword hilt and a string of trinkets.
+  pedlar: () => {
+    const skin = '#6aa84a', dark = '#3f6e2c', tunic = '#8a6a3a', heap = '#6e5236';
+    return [
+      // the heap on its back: a sack, a pot, a pan, a hilt standing out of it
+      ball(16, 13, 9.5, 7.5, heap),
+      ball(8, 9, 2.8, 2.4, '#7a7e86'), ball(24.5, 8.5, 2.6, 2.2, '#9a6a3a'),
+      line(21, 3, 23, 8, '#b8bcc4', { lit: 1 }), line(19.5, 4.5, 22.5, 3.5, '#c9a24a'),
+      ...both(limb(13.5, 23, 12.5, 29.5, 1.9, 1.5, dark)),
+      ...both(ball(11.5, 30.3, 2.4, 1.2, '#4a3a2a')),
+      ball(16, 21, 5.2, 4.8, skin),
+      sheet([[10.5, 18], [21.5, 18], [22.5, 25], [9.5, 25]], tunic, { curve: 1 }),
+      line(10.5, 18.5, 21.5, 18.5, '#5a3a20'),
+      // one hand holds a string of charms out to you, the other beckons
+      limb(10.5, 18, 6.5, 22, 1.7, 1.3, skin), ball(6.3, 22.8, 1.6, 1.5, skin),
+      line(6, 24, 6, 28, '#8a7050'), dots([[6, 25], [6, 27]], '#e8c050'), dots([[6, 26]], '#60c0e0'),
+      limb(21.5, 18, 24.5, 15.5, 1.7, 1.3, skin), ball(25, 14.8, 1.6, 1.5, skin),
+      // ears, a head, a floppy cap
+      sheet([[10.5, 11], [3, 8], [4.5, 10.5], [10.5, 14]], skin, { tilt: [-0.5, -0.2] }),
+      sheet([[21.5, 11], [29, 8], [27.5, 10.5], [21.5, 14]], skin, { tilt: [0.5, -0.2] }),
+      ball(16, 12, 5.8, 5, skin),
+      sheet([[10, 9.5], [12, 5], [16, 4], [20.5, 5], [22, 9.5], [16, 8.5]], '#a03a30', { curve: 0.8 }),
+      ball(21.5, 5.5, 1.2, 1.2, '#e8d8b0'),
+      // an open, hopeful look and a grin that wants your coin
+      ...both(ball(13.3, 11.8, 1.5, 1.3, '#f0e8c0')),
+      dots([[13, 12], [19, 12]], '#1a1010'),
+      limb(16, 11, 16, 14, 0.6, 1, skin),
+      sheet([[12.5, 14.8], [16, 15.8], [19.5, 14.8], [18, 16.6], [14, 16.6]], '#2a1010'),
+      dots([[14, 15], [17, 15]], '#f0e6c8'),
     ];
   },
 
@@ -1010,18 +1057,26 @@ const DETAILS = {
   ],
 
   merchant: () => [
-    // buckles and straps on the pack, and a pot and a ladle hanging off it
-    specks([[11, 12], [21, 12], [11, 12.5], [21, 12.5]], '#c9a24a'),
-    hair(10, 9.5, 10, 14, '#5a3e24'), hair(22, 9.5, 22, 14, '#5a3e24'),
-    hair(9.5, 8, 23, 8, '#c8a878'),
-    // stitching on the tunic, a coin purse's drawstring, the lantern's cage
-    specks([[12, 15], [12, 17], [20, 15], [20, 17], [12, 22], [20, 22]], '#8a6aa8'),
-    specks([[19, 19.5], [20, 19.5], [19.5, 19]], '#8a6a2a'),
-    hair(5, 23.5, 5, 26.5, '#4a4040'), hair(7, 23.5, 7, 26.5, '#4a4040'),
-    // laugh lines, a braided beard, a twinkle
-    hair(13, 9.5, 13.5, 10.5, '#b07a58'), hair(19, 9.5, 18.5, 10.5, '#b07a58'),
-    specks([[15, 12.5], [16, 13], [17, 12.5], [16, 14]], '#c8c0b0'),
-    specks([[18.5, 7.5]], '#ffffff'),
+    // straps across the pack and the knot of the blanket roll
+    hair(9, 7, 23, 7, '#3e3024'), hair(12.5, 4.5, 12.5, 1.5, '#5a2e24'), hair(19.5, 4.5, 19.5, 1.5, '#5a2e24'),
+    specks([[11, 7], [21, 7]], '#c9a24a'),
+    // stitching round the patch, a knotted cord belt, the lamp's cage
+    specks([[16.5, 21.5], [18, 21.5], [19.5, 21.5], [21, 21.5], [16.5, 26.5], [18.5, 26.5], [21, 26.5]], '#a88a58'),
+    specks([[15.5, 18.5], [16, 19], [16.5, 19.5]], '#8a7050'),
+    hair(7.5, 7, 7.5, 10.5, '#4a4040'), hair(9.5, 7, 9.5, 10.5, '#4a4040'),
+    // folds in the grey skin, the droop of the ears, long fingers
+    hair(12, 10.5, 14.5, 10.5, '#6c7482'), hair(17.5, 10.5, 20, 10.5, '#6c7482'),
+    hair(6, 15, 10, 14.5, '#7a8290'), hair(26, 15, 22, 14.5, '#7a8290'),
+    specks([[5.5, 23.5], [6.5, 23.5], [24, 20.5], [25, 20.5]], '#b0b8c4'),
+  ],
+
+  pedlar: () => [
+    // stitches on the sack, a patch on the cap, a buckle and toes
+    specks([[10, 15], [11.5, 16], [21, 16], [22.5, 15]], '#a88258'),
+    specks([[14, 6], [15, 6], [14, 7], [15, 7]], '#c86a50'),
+    specks([[15.5, 18.5], [16.5, 18.5], [15.5, 19], [16.5, 19]], '#c9a24a'),
+    hair(14.5, 9.5, 15.5, 10, '#4a8034'), hair(17.5, 9.5, 16.5, 10, '#4a8034'),
+    ...both(specks([[10, 30.5], [11, 30.5], [12, 30.5]], '#2a2018')),
   ],
 };
 for (const k in DETAILS) {
