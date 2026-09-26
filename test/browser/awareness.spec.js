@@ -221,7 +221,7 @@ test.describe('being readable by assistive technology', () => {
     await page.click('#btn-new');
     const chosen = page.locator('.class-card[aria-pressed="true"]');
     await expect(chosen).toHaveCount(1);
-    await page.locator('.class-card', { hasText: 'Thief' }).click();
+    await page.locator('.class-card[data-cls="thief"]').click();
     await expect(page.locator('.class-card[aria-pressed="true"]')).toContainText('Thief');
     await expect(page.locator('.bg-card[aria-pressed="true"]')).toHaveCount(1);
 

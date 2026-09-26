@@ -4813,6 +4813,34 @@ await test('after three rests on a floor there is no more sleep to be had there,
   return Game.restLabel() === 'No rest' || `the button says ${Game.restLabel()}`;
 });
 
+await test('on the Long Delve on Hard, from the seventh floor, spells and a cleric\'s blows strike harder; nowhere else', async () => {
+  const out = [];
+  // the same darts, the same dice, cast on floor 9 of three kinds of run
+  const dart = async (cls, levels, difficulty, depth = 9) => {
+    const ctx = await newContext();
+    const { Game } = ctx;
+    Game.newGame({ name: 'D', cls, bg: 'oathbroken', stats: { ...evenStats, int: 16, wis: 16 }, seed: 'deep-magic', opts: { ...OPTS, levels, difficulty } });
+    const p = Game.player(), G = Game.state();
+    while (G.depth < Math.min(depth, levels)) { Game.level().monsters.length = 0; Game.descend(); }
+    p.level = 9; p.sp = p.maxSp = 99; p.hp = p.maxHp = 999;
+    const m = beside(ctx, 'ogre', { hp: 9999, maxHp: 9999 });
+    seedDice(ctx, 'deep-magic');
+    if (cls === 'mage') { if (!Game.castSpell(Game.knownSpells().find(s => s.id === 'magic_missile'))) return -1; }
+    else for (let i = 0; i < 6; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }   // six swings, the same dice each run: a miss or two cannot hide it
+    return 9999 - m.hp;
+  };
+  const deep = await dart('mage', 12, 'hard'), normal = await dart('mage', 12, 'normal'), short = await dart('mage', 8, 'hard'), shallow = await dart('mage', 12, 'hard', 6);
+  if (!(normal > 0) || Math.abs(deep - Math.round(normal * 1.18)) > 1) out.push(`darts on floor 9: ${deep} on Hard against ${normal} on Normal (wanted about ${Math.round(normal * 1.18)})`);
+  if (short !== normal) out.push(`an eight-floor Hard run's darts did ${short}, not ${normal}`);
+  if (shallow !== normal) out.push(`floor 6 of the Long Delve on Hard did ${shallow}, not ${normal}`);
+  // a cleric's blow too, and a fighter's not
+  const cHard = await dart('cleric', 12, 'hard'), cNormal = await dart('cleric', 12, 'normal');
+  if (!(cNormal > 0) || cHard <= cNormal) out.push(`a cleric's blow on floor 9: ${cHard} on Hard, ${cNormal} on Normal`);
+  const fHard = await dart('fighter', 12, 'hard'), fNormal = await dart('fighter', 12, 'normal');
+  if (fHard !== fNormal) out.push(`a fighter's blow changed with the deep: ${fHard} against ${fNormal}`);
+  return out.length ? out.join('; ') : true;
+});
+
 // ---------- the deep answers strength ----------
 /** Walk down the stairs to the next floor, as the game would. */
 function goDown(ctx) {

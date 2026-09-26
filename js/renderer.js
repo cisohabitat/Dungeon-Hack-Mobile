@@ -23,6 +23,9 @@ const Renderer = (() => {
   const FOV = Math.PI / 3;
   const TAN_HALF = Math.tan(FOV / 2);
   const FOG = 9;
+  // how far the view reaches before it is black: less on a dark floor, whose torches have burnt out
+  const DARK_FOG = 4.5;
+  let fog = FOG;
   // how near a creature is (in tiles) before its finer painting is asked for,
   // and how many of the view's pixels one of its usual ones must cover to use it
   const NEAR_ASK = 3.5, NEAR_BLOCK = 2.3;
@@ -40,7 +43,7 @@ const Renderer = (() => {
     for (let y = H / 2 + 1; y < H; y++) {
       const dist = (P / 2) / (y - H / 2);
       rowDist[y] = dist;
-      rowLevel[y] = Math.min(7, Math.round(dist / FOG * 7));
+      rowLevel[y] = Math.min(7, Math.round(dist / fog * 7));
     }
   }
   buildRows();
@@ -77,7 +80,7 @@ const Renderer = (() => {
       const level = rowLevel[y];
       const dist = rowDist[y];
       const fl = floorT[level], ce = ceilT[level];
-      if (level >= 7 && dist > FOG) {
+      if (level >= 7 && dist > fog) {
         const o0 = y * W, oc0 = (H - 1 - y) * W;
         for (let x = 0; x < W; x++) { fb32[o0 + x] = 0xff000000; fb32[oc0 + x] = 0xff000000; }
         continue;
@@ -107,6 +110,36 @@ const Renderer = (() => {
     // horizon rows
     for (let x = 0; x < W; x++) { fb32[half * W + x] = 0xff000000; fb32[(half - 1) * W + x] = 0xff000000; }
     ctx.putImageData(fb, 0, 0);
+  }
+
+  // Black water standing on a flooded floor: the floor under it darkened and
+  // cold, and a slow shimmer running across it, brighter near where you stand.
+  function floodFloor(now) {
+    const half = H / 2;
+    ctx.fillStyle = 'rgba(10,34,58,0.42)';
+    ctx.fillRect(0, half + 1, W, half - 1);
+    ctx.globalCompositeOperation = 'lighter';
+    for (let y = half + 2; y < H; y++) {
+      const near = (y - half) / half;
+      // soft bands, not lines: every row, its brightness rising and falling smoothly down the floor
+      const a = 0.02 + 0.07 * near * (0.5 + 0.5 * Math.sin(y * 0.22 + now / 600));
+      ctx.fillStyle = `rgba(90,140,170,${a.toFixed(3)})`;
+      ctx.fillRect(0, y, W, 1);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  let darkGrad = null, darkFor = 0;
+  function darkEdges() {
+    if (!darkGrad || darkFor !== H) {
+      darkGrad = ctx.createRadialGradient(W / 2, H * 0.55, H * 0.12, W / 2, H * 0.55, Math.max(W, H) * 0.62);
+      darkGrad.addColorStop(0, 'rgba(0,0,0,0)');
+      darkGrad.addColorStop(0.55, 'rgba(0,0,0,0.45)');
+      darkGrad.addColorStop(1, 'rgba(0,0,0,0.92)');
+      darkFor = H;
+    }
+    ctx.fillStyle = darkGrad;
+    ctx.fillRect(0, 0, W, H);
   }
 
   function isSolid(t) { return t !== T.FLOOR && t !== T.DOOR_OPEN; }
@@ -421,14 +454,14 @@ const Renderer = (() => {
     const blob = (x, y, r, c) => {
       const sx = x - px, sy = y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
-      if (tY < 0.35 || tY > FOG) return;
+      if (tY < 0.35 || tY > fog) return;
       const tX = invDet * (dirY * sx - dirX * sy);
       const cx = (W / 2) * (1 + tX / tY), cy = H / 2 + (P / 2) / tY;
       const rx = r * lx / tY, ry = r * (P / 2) / (tY * tY);
       if (cx + rx < 0 || cx - rx > W || ry < 0.3) return;
       const tx = x | 0, ty = y | 0;
       const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
-      const f = Math.max(0.1, Math.min(1, 1 - tY / FOG + lit / 7));
+      const f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
       ctx.fillStyle = dim(c, f * 0.8, 0.7);
       ctx.beginPath(); ctx.ellipse(cx, cy, rx, Math.min(ry, rx), 0, 0, Math.PI * 2); ctx.fill();
     };
@@ -452,7 +485,7 @@ const Renderer = (() => {
       const x = b.x + b.vx * t * 0.6, y = b.y + b.vy * t * 0.6, z = Math.max(0, b.z + b.vz * t - b.g * t * t / 2);
       const sx = x - px, sy = y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
-      if (tY <= 0.2 || tY > FOG) continue;
+      if (tY <= 0.2 || tY > fog) continue;
       const tX = invDet * (dirY * sx - dirX * sy);
       const cx = Math.round((W / 2) * (1 + tX / tY));
       if (cx < 0 || cx >= W || tY >= zbuf[cx]) continue;
@@ -1018,7 +1051,10 @@ const Renderer = (() => {
     const lights = ensureLights(level);
     const lm = flickerLights(lights, now);
     flameTick = Math.floor(now / FLAME_MS);
+    const reach = level.twist === 'dark' ? DARK_FOG : FOG;
+    if (reach !== fog) { fog = reach; buildRows(); }
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
+    if (level.twist === 'flooded') floodFloor(now);
     // stains lie on the floor, so the walls drawn next hide them where they should
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
@@ -1041,7 +1077,7 @@ const Renderer = (() => {
       }
       const dist = side === 0 ? (sdx - ddx) : (sdy - ddy);
       zbuf[col] = dist;
-      if (dist > FOG + 1) continue;
+      if (dist > fog + 1) continue;
       const lineH = Math.floor(P / dist);
       const top = ((H - lineH) / 2) | 0;
       let wallX = side === 0 ? py + dist * rdy : px + dist * rdx;
@@ -1058,7 +1094,7 @@ const Renderer = (() => {
         if (blows) img = Assets.crackedDoor(img, blows);
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
-      let shade = dist / FOG + (side === 1 ? 0.12 : 0);
+      let shade = dist / fog + (side === 1 ? 0.12 : 0);
       // torchlight falling on this wall face brightens it; a torch's own wall
       // is lit fully, rising and falling with its flame
       const lightHere = lm[mapY * w + mapX];
@@ -1070,6 +1106,9 @@ const Renderer = (() => {
       }
     }
 
+    // a dark floor: only what your own light reaches, the edges of the view lost
+    if (level.twist === 'dark') darkEdges();
+
     // sprites
     crowd.length = 0;
     shown.length = 0;
@@ -1078,7 +1117,7 @@ const Renderer = (() => {
     for (const s of sprites) {
       const sx = s.x - px, sy = s.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
-      if (tY <= 0.15 || tY > FOG + 0.5) continue;
+      if (tY <= 0.15 || tY > fog + 0.5) continue;
       const tX = invDet * (dirY * sx - dirX * sy);
       list.push({ s, tX, tY });
     }
@@ -1113,7 +1152,7 @@ const Renderer = (() => {
       const left = screenX - sw / 2;
       const x0 = Math.max(0, Math.floor(left)), x1 = Math.min(W, Math.ceil(left + sw));
       if (x1 <= x0) continue;
-      let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / FOG * Assets.SHADES.length));
+      let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / fog * Assets.SHADES.length));
       const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
       if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
       const img = (s.flash && now < s.flash) ? art.flash : art.levels[shadeIdx];
@@ -1226,7 +1265,10 @@ const Renderer = (() => {
       const age = (now - t.born) / (t.until - t.born);
       // rise from the monster's middle, not the ceiling: close up, the old
       // spot was the top edge of the view, dark and easy to miss
-      const y = Math.max(18, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - (t.lift || 0) * 15));
+      // a stacked word sits a full line from the one before it, and still does
+      // when both are pressed against the top of the view (they used to meet there)
+      const line = (t.lift || 0) * 17;
+      const y = Math.max(18 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - line));
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
       ctx.lineWidth = 4;

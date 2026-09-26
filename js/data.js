@@ -104,13 +104,14 @@ const JOURNAL = [
 const BOONS = [
   // A stat lesson lifts the score to the next even number, so its bonus always
   // rises by one: +1 to an even score used to change nothing at all.
-  { id: 'str', stat: 'str', max: 2, name: 'Hard Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; } },
+  // (not for a ranger, who hits and wounds with Dexterity: Strength would buy nothing in a fight)
+  { id: 'str', stat: 'str', max: 2, name: 'Hard Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; }, when: p => p.cls !== 'ranger' },
   { id: 'dex', stat: 'dex', max: 2, name: 'Sure Footing', desc: 'Your Dexterity bonus rises by one.', apply: p => { p.stats.dex += p.stats.dex % 2 ? 1 : 2; } },
   { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
   { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
   { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' },
   // two points placed where the player likes, both in one score if they want: a build planned, not dealt
-  { id: 'spread', name: 'Self-Taught', desc: 'Two points to add to any scores you choose, both to one if you like.', spread: 2, max: 2, apply: () => {} },
+  { id: 'spread', name: 'Self-Taught', desc: 'Two points to add to any scores you choose, both to one if it has room.', spread: 2, max: 2, apply: () => {} },
   { id: 'vigor', name: 'Old Scars', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
   { id: 'focus', name: 'Quiet Mind', desc: '+4 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; }, when: p => !!CLASSES[p.cls].spells },
   { id: 'keen', name: 'Killing Eye', desc: '+1 to hit with every blow, for good.', unique: true, apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },
@@ -157,7 +158,7 @@ const TALENTS = {
     { id: 'choking_cloud', name: 'Choking Cloud', desc: 'What loses you in your Smoke comes out of it coughing: its first move a second and a half late.' },
   ],
   ranger: [
-    { id: 'eagle_eye', name: 'Eagle Eye', desc: 'Your bows reach two squares further, and your arrows hit one more often.' },
+    { id: 'eagle_eye', name: 'Eagle Eye', desc: 'Your bows, slings and throwing knives reach two squares further, and hit one more often.' },
     { id: 'volley', name: 'Volley', desc: 'Every third arrow that lands looses a second after it, for half the damage.' },
     { id: 'hunters_mark', name: 'Hunter\'s Mark', desc: 'An arrow at a foe that has not yet seen you does double damage.' },
     { id: 'swift_quiver', name: 'Swift Quiver', desc: 'Your bow shots come a sixth sooner.' },
@@ -187,9 +188,11 @@ const VOWS = {
 // nowhere else, and a relic on its last floor (see routeRelic in relics.js).
 const ROUTES = {
   crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.',
-    theme: 4, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary' },
+    theme: 4, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary',
+    epi: 'They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.' },
   warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.',
-    theme: 2, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp' },
+    theme: 2, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp',
+    epi: 'They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.' },
 };
 
 // Feats: wins of a particular kind, each a trophy of its own in the Hall.
@@ -255,7 +258,7 @@ const PATHS = {
   ranger: [
     { id: 'sharpshooter', name: 'Sharpshooter', flavour: 'The arrow was on its way before the thing knew it was seen.', effects: [
       'An arrow at a foe three squares off or more deals 3 more damage.',
-      'With a bow, your critical hits land one number sooner on the die.',
+      'With a bow, a sling or throwing knives, your critical hits land one number sooner on the die.',
       'Your first arrow at a foe that has not seen you never misses.',
       'Snare reaches two squares further.',
     ] },
@@ -299,7 +302,7 @@ const CLASSES = {
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once on one life with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },

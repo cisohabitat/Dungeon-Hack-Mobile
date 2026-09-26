@@ -46,7 +46,7 @@ test.describe('dungeon features', () => {
     await startGame(page, { seed: 'feat-ranged', cls: 4 });  // the thief starts with knives
     await faceOpenGround(page, 4);
 
-    const placed = await placeMonster(page, 'goblin', 3, { hp: 60, maxHp: 60 });
+    const placed = await placeMonster(page, 'goblin', 3, { hp: 400, maxHp: 400 });   // ten sure throws, crits and all, must not kill it: the champion check needs it after
     test.skip(!placed, 'no straight corridor on this seed');
 
     const shot = await page.evaluate(async (uid) => {
@@ -873,5 +873,28 @@ test.describe('dungeon features', () => {
     await page.click('#m-tips');
     await expect(page.locator('#m-tips')).toHaveText('Tips: Off');
     expect(await page.evaluate(() => localStorage.getItem('deepdelve.tipsOff'))).toBe('1');
+  });
+  test('a dark floor is seen darker, and a flooded one shows its water', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'feat-twists' });
+    await clearBoons(page);
+    // the same square, the same view: only the floor's twist changes
+    const look = async twist => {
+      await page.evaluate(t => { const L = Game.level(); L.monsters.length = 0; L.twist = t; }, twist);
+      await page.waitForTimeout(250);
+      return page.evaluate(() => {
+        const c = document.getElementById('view'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+        let all = 0, blue = 0, n = 0, low = 0;
+        for (let i = 0; i < d.length; i += 4) {
+          all += d[i] + d[i + 1] + d[i + 2]; n++;
+          if (i / 4 / c.width > c.height * 0.6) { blue += d[i + 2] - d[i]; low++; }
+        }
+        return { bright: all / n / 3, blue: blue / low };
+      });
+    };
+    const plain = await look(null), dark = await look('dark'), wet = await look('flooded');
+    expect(dark.bright).toBeLessThan(plain.bright * 0.8);
+    expect(wet.blue).toBeGreaterThan(plain.blue + 3);
+    expect(errors).toEqual([]);
   });
 });

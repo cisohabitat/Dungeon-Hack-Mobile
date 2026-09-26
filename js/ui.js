@@ -30,9 +30,14 @@ const UI = (() => {
   // cost dearly, so a planned hero can match a lucky roll's best score.
   const BUY_COST = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9, 16: 12, 17: 15 }, BUY_POINTS = 27, BUY_TOP = 17;
   const buyLeft = b => BUY_POINTS - Object.values(b).reduce((n, v) => n + BUY_COST[v], 0);
+  /** For a locked class's card: which of the open classes have yet to win. */
+  function stillToWin(known) {
+    const left = Object.keys(CLASSES).filter(k => !CLASSES[k].locked && !Progress.highest(k, known)).map(k => CLASSES[k].name);
+    return left.length ? ` Still to win: ${left.join(', ')}.` : '';
+  }
   /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
   function buyStart(cls) {
-    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' ? 'dex' : 'str';
+    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' ? 'dex' : 'str';
     const b = { str: 10, dex: 10, con: 14, int: 10, wis: 10, cha: 8 };
     b[key] = 15; if (fight !== key) b[fight] = 13;
     return b;
@@ -105,6 +110,14 @@ const UI = (() => {
     normal: 'Normal: the intended delve',
     hard: 'Hard: sturdier monsters, thinner rests, a lich at full strength',
   };
+  /** What a delve of this many floors holds, under the options. */
+  function levelsNote() {
+    const n = parseInt($('#c-levels').value, 10);
+    $('#c-levels-note').textContent = n >= 12
+      ? `The Long Delve: ${n} floors. From the seventh the dark bites harder and its creatures are sturdier, three champions hold it, and a third of the way down the stair divides. A win is a feat of its own.`
+      : Dungeon.routeSpan(n) ? 'A third of the way down, the stair divides: the Crypts or the Warrens, your choice.'
+      : 'A short delve: the stair runs straight down, with no road to choose.';
+  }
   /** A run's difficulty; a save from before there was a choice is normal. */
   function setDifficulty(d) {
     create.difficulty = DIFFICULTY[d] ? d : 'normal';
@@ -286,7 +299,7 @@ const UI = (() => {
       // a Hard win earns the class's title, shown on its card from then on
       const titled = open && Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
       b.innerHTML = open ? `<b>${c.name}</b>${titled}<small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`
-        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}</em>`;
+        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${stillToWin(known)}</em>`;
       b.disabled = !open;
       if (open) b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
@@ -395,7 +408,7 @@ const UI = (() => {
     for (let i = 0; i < 40; i++) {
       create.rolled = Game.rollStats();
       fitStats();
-      const s = create.stats, fight = create.cls === 'thief' ? s.dex : s.str;
+      const s = create.stats, fight = create.cls === 'thief' || create.cls === 'ranger' ? s.dex : s.str;
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
     const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
@@ -1149,7 +1162,7 @@ const UI = (() => {
     if (notNow.length && notNow.length < services.length) {
       fold = document.createElement('details');
       fold.className = 'svc-fold';
-      fold.innerHTML = `<summary>Not now (${notNow.length})</summary>`;
+      fold.innerHTML = `<summary>Services out of reach for now (${notNow.length})</summary>`;
     }
     for (const sv of [...services.filter(sv => !sv.why), ...notNow]) {
       const row = document.createElement('div');
@@ -1256,7 +1269,8 @@ const UI = (() => {
     const s = p.stats[b.stat], next = s + (s % 2 ? 1 : 2);
     const what = {
       str: p.cls === 'thief' ? 'to hit' : 'to hit and to damage',
-      dex: p.cls === 'thief' ? 'to armour class and to damage' : 'to armour class',
+      // a ranger lands and weights every blow with Dexterity, as a fighter does with Strength
+      dex: p.cls === 'thief' ? 'to armour class and to damage' : p.cls === 'ranger' ? 'to hit, to damage and to armour class' : 'to armour class',
       con: 'hit point with every level from now on',
       int: p.cls === 'mage' ? 'spell point for every hero level' : 'on every reckoning and reading in the dark',
       wis: p.cls === 'cleric' ? 'spell point for every hero level, to hit and to damage, and a surer will against draining' : 'against draining',
@@ -1385,7 +1399,7 @@ const UI = (() => {
     // at the path's own level it is instead of the lesson; a hero who came past
     // that level before there were paths gets it on top of what the level gives
     const inPlace = Game.pendingLevel() === PATH_LEVEL;
-    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} comes to a fork. Choose one path: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
+    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} chooses a path here. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
     el.appendChild(note);
     const openedAt = performance.now();
     for (const id of offer) {
@@ -1531,7 +1545,7 @@ const UI = (() => {
       const it = p.eq[slot];
       // a mage's shield hand holds a focus; a cleric's, a shield or a holy symbol
       const shieldLabel = p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
-      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot === 'shield' ? shieldLabel : slot);
+      const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot === 'shield' ? shieldLabel : slot === 'armor' ? 'armour' : slot);
       if (it) el.addEventListener('click', () => { selectedItem = it; selectedSlot = slot; renderInv(); });
       if (selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
@@ -2058,7 +2072,9 @@ const UI = (() => {
     } else if (!won && killer && killer.cause) {
       cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b> (${killer.dmg} damage).`;
     } else if (!won && killer) {
-      cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
+      // "an ogre", as the lines below it say; a champion keeps its own name
+      const who = killer.name.includes(',') ? killer.name : `${/^[aeiou]/i.test(killer.name) ? 'an' : 'a'} ${killer.name.toLowerCase()}`;
+      cause.innerHTML = `Killed by <b>${escapeHtml(who)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
     } else if (!won) {
       cause.textContent = 'Killed by the dungeon itself.';
     } else cause.textContent = '';
@@ -2172,7 +2188,7 @@ const UI = (() => {
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
-      else if (e === 'fork') { if (Game.forkPending()) openOverlay('fork'); }
+      else if (e === 'fork') { if (Game.forkPending() && Game.state().status === 'playing') openOverlay('fork'); }
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       // the view goes dark a moment first, then the end screen, for this run only
       else if (e === 'dead') {
@@ -2221,6 +2237,8 @@ const UI = (() => {
       if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
     });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
+    $('#c-levels').addEventListener('change', levelsNote);
+    levelsNote();
     // anything typed in the name box is the player's own, even a name the game might have drawn
     $('#c-name').addEventListener('input', () => { autoName = ''; });
     // a name for a hero who would rather not choose; never the same one twice running

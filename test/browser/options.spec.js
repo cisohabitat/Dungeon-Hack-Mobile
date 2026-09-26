@@ -82,6 +82,18 @@ test.describe('rest and the quick drink', () => {
     await expect(page.locator('[data-tap="cast"] small')).toHaveText('Smoke');
   });
 
+  test('the floors picked are explained under the options: a short delve, the divided stair, the Long Delve', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    await expect(page.locator('#c-levels-note')).toContainText('the stair divides');
+    await page.selectOption('#c-levels', '4');
+    await expect(page.locator('#c-levels-note')).toContainText('no road to choose');
+    await page.selectOption('#c-levels', '12');
+    await expect(page.locator('#c-levels-note')).toContainText('The Long Delve: 12 floors');
+    expect(errors).toEqual([]);
+  });
+
   test('the Ranger is locked until the other four classes have each won; then it starts with a bow and has Snare on the Cast button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
@@ -93,6 +105,8 @@ test.describe('rest and the quick drink', () => {
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 } }, relics: [] })));
     await page.click('#c-back'); await page.click('#btn-new');
     await expect(page.locator('.class-card[data-cls="ranger"]')).toBeDisabled();
+    // the card says which class is still to win
+    await expect(page.locator('.class-card[data-cls="ranger"]')).toContainText('Still to win: Thief.');
     // and the mage's Hard win shows as its title
     await expect(page.locator('.class-card[data-cls="mage"] .class-title')).toHaveText('Archmage');
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 }, thief: { easy: 1 } }, relics: [] })));

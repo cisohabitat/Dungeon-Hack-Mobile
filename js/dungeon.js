@@ -79,7 +79,7 @@ function namedPlan(seed, levels, route) {
  * out, black water standing in it, its dead restless, or goblins holding a
  * market there. Decided by the seed for the whole run: never the first floor
  * or the last two, never a champion's floor, never two floors running, and
- * about one run in eight has none.
+ * about one eight-floor run in seven has none.
  * @returns {Record<number, string>} plan[depth] = twist id
  */
 const TWIST_IDS = ['dark', 'flooded', 'restless', 'market'];
@@ -91,9 +91,17 @@ function twistPlan(seed, levels) {
   /** @type {Record<number, string>} */
   const plan = {};
   let n = 0;
-  for (let d = 2; d <= levels - 2 && n < most; d++) {
-    if (named[d] || plan[d - 1]) continue;
-    if (rng.next() < 0.5) plan[d] = ids[n++ % ids.length];
+  // the floors are tried in a shuffled order, not top down: taken in order the
+  // second floor was twisted in half of all runs and nearly every run with two.
+  // A goblin market wants a purse to spend, so it is never on the second floor.
+  const floors = rng.shuffle(Array.from({ length: Math.max(0, levels - 3) }, (_, i) => i + 2));
+  for (const d of floors) {
+    if (n >= most) break;
+    if (named[d] || plan[d - 1] || plan[d + 1]) continue;
+    if (rng.next() >= 0.5) continue;
+    const id = ids[n % ids.length];
+    if (id === 'market' && d < 3) continue;
+    plan[d] = id; n++;
   }
   return plan;
 }

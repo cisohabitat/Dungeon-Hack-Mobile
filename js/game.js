@@ -1376,7 +1376,8 @@ const Game = (() => {
   }
   /** @param {string} id */
   function chooseRoute(id) {
-    if (!ROUTES[id] || !forkHere()) return false;
+    // the overlay can open in the same moment a blow kills: the dead take no road
+    if (!ROUTES[id] || !forkHere() || G.status !== 'playing') return false;
     G.route = id; G.forkPending = false;
     log(`The stair divides. You take the way down into ${ROUTES[id].name}.`, 'info');
     descend();
@@ -1413,6 +1414,7 @@ const Game = (() => {
     }
   }
   function descend() {
+    if (G.status !== 'playing') return;
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return; }
     if (forkHere()) { G.route = new Rng(`${G.seed}|road`).next() < 0.5 ? 'crypts' : 'warrens'; G.forkPending = false; }
@@ -2036,6 +2038,7 @@ const Game = (() => {
     if (sneak) dmg *= sneakMult();
     if (marked) dmg *= 2;
     dmg = Math.max(1, dmg);
+    if (p.cls === 'cleric') dmg = Math.round(dmg * deepMagic());
     leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
     // Cleave: the swing carries on into the one behind the front. Who that is
     // is settled before the blow, since a killing blow brings them forward.
@@ -2558,6 +2561,7 @@ const Game = (() => {
     if (won) {
       lines.push(`${p.name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.`);
       lines.push(bg.epi);
+      if (G.route && ROUTES[G.route]) lines.push(ROUTES[G.route].epi);   // the road taken at the divided stair
       const total = pagesInDungeon();
       lines.push(read >= total
         ? 'They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.'
@@ -2810,7 +2814,7 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1))); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -2836,6 +2840,7 @@ const Game = (() => {
             if (focusHas('wrath') && (sp.holy || sp.id === 'flame_strike')) dmg = Math.round(dmg * 1.25);
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
+            dmg = Math.round(dmg * deepMagic());
             if (sp.fire) dmg = pyroFire(dmg);
             dmg = templarSmite(sp, dmg);
             // Rime, or a Frostweaver: the cold and the lightning hold back whatever they touch
@@ -3141,6 +3146,12 @@ const Game = (() => {
   const isLong = () => (G.opts.levels || 8) >= 12;
   const longEdge = () => (isLong() && G.depth >= 7 ? 1 : 0);
   const longSturdier = depth => (isLong() ? 1 + 0.04 * Math.max(0, depth - 6) : 1);
+  // On Hard the Long Delve's deep floors hold creatures nearly twice as sturdy,
+  // and a spell's dice do not grow with gear as a blow does: the casters fell
+  // to them half again as often as anyone (28% and 34% wins, the rest 47% to
+  // 57%). So there, from the seventh floor, spells strike and heal 6% harder a
+  // floor, and a cleric's blows with them, the god's answer as deep as the prayer.
+  const deepMagic = () => (isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + 0.06 * (G.depth - 6) : 1);
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**
    * What a floor's twist changes when it is first made (dungeon.js deals the
@@ -3707,6 +3718,7 @@ const Game = (() => {
       if (!data || !data.player || !data.levels) return false;
       G = data;
       G.status = 'playing';
+      G.forkPending = false;   // saved with the divided stair's question open: it is asked again at the stair
       for (const dpt in G.levels) {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];

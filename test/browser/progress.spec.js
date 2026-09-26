@@ -26,6 +26,11 @@ test.describe('progress between runs', () => {
     for (const lit of ['fighter-easy', 'fighter-normal', 'mage-hard']) await expect(page.locator(`[data-trophy="${lit}"]`)).toHaveClass(/won/);
     for (const dark of ['fighter-hard', 'mage-easy', 'cleric-normal', 'thief-hard']) await expect(page.locator(`[data-trophy="${dark}"]`)).not.toHaveClass(/won/);
     await expect(page.locator('[data-trophy="fighter-easy"]')).toHaveAttribute('aria-label', 'Fighter on Easy: won 2 times');
+    // a phone has no hover: a tap says what the trophy is
+    await page.click('[data-trophy="feat-collector"]');
+    await expect(page.locator('#trophy-note')).toContainText('Find every relic');
+    await page.click('[data-trophy="fighter-easy"]');
+    await expect(page.locator('#trophy-note')).toHaveText('Fighter on Easy: won 2 times');
     // vows are shut until a Hard win: this one has one
     await expect(page.locator('[data-trophy="vow-iron"]')).not.toHaveClass(/shut/);
     // a path won and a vow kept light their own cells
