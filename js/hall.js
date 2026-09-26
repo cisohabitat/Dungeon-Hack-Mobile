@@ -85,11 +85,13 @@ function renderCodex(el) {
   return `${ids.filter(id => found.includes(id)).length} of ${ids.length} found`;
 }
 
-/** Four classes by three difficulties, each lit once that class has won there. */
+/** Every class by three difficulties, each lit once that class has won there. */
 function renderTrophies() {
   const v = Progress.load(), { won, total } = Progress.trophyCount(v);
+  const hasHard = cls => !!(v.won[cls] && v.won[cls].hard);
   const head = ['<span></span>', ...Progress.DIFFS.map(d => `<span class="th">${diffName(d)}</span>`)];
-  const rows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...Progress.DIFFS.map(d => {
+  // a class won on Hard is named by its title
+  const rows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}${hasHard(cls) ? ` <em class="class-title">${escapeHtml(CLASSES[cls].title)}</em>` : ''}</span>`, ...Progress.DIFFS.map(d => {
     const n = (v.won[cls] && v.won[cls][d]) || 0, what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
     return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="img" aria-label="${what}" title="${what}">${n ? '✦' : ''}</span>`;
   })].join(''));

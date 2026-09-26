@@ -273,14 +273,22 @@ const UI = (() => {
   function buildCreate() {
     const grid = $('#c-classes');
     grid.innerHTML = '';
+    const known = Progress.load();
+    // a class still to be earned cannot stay chosen
+    if (!Progress.classOpen(create.cls, known)) create.cls = 'fighter';
     for (const id in CLASSES) {
-      const c = CLASSES[id];
+      const c = CLASSES[id], open = Progress.classOpen(id, known);
       const b = document.createElement('button');
-      b.className = 'class-card' + (id === create.cls ? ' sel' : '');
+      b.className = 'class-card' + (id === create.cls ? ' sel' : '') + (open ? '' : ' locked');
       b.type = 'button';
+      b.dataset.cls = id;
       b.setAttribute('aria-pressed', String(id === create.cls));
-      b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
-      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
+      // a Hard win earns the class's title, shown on its card from then on
+      const titled = open && Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
+      b.innerHTML = open ? `<b>${c.name}</b>${titled}<small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`
+        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}</em>`;
+      b.disabled = !open;
+      if (open) b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
     const bgGrid = $('#c-backgrounds');
@@ -376,7 +384,7 @@ const UI = (() => {
   }
   /** A random hero with sensible numbers, straight to the prologue. */
   function quickStart() {
-    const classes = Object.keys(CLASSES), progress = Progress.load(), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
+    const progress = Progress.load(), classes = Object.keys(CLASSES).filter(k => Progress.classOpen(k, progress)), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
     // someone's very first run gets a class that forgives mistakes
     const firstRun = !Game.hall().length;
     const pool = firstRun ? ['fighter', 'cleric'] : classes;
@@ -924,14 +932,14 @@ const UI = (() => {
     castSig = label;
     const btn = document.querySelector('[data-tap="cast"]');
     if (!btn) return;
-    // a fighter's Bash or a thief's Smoke, dim while it comes back, with the seconds left
+    // a fighter's Bash, a thief's Smoke or a ranger's Snare, dim while it comes back, with the seconds left
     const a = Game.abilityOf();
     if (a) {
       const cooling = label !== a.name;
-      btn.firstChild.nodeValue = a.id === 'bash' ? '\u26E8' : '\u2601';
+      btn.firstChild.nodeValue = a.id === 'bash' ? '\u26E8' : a.id === 'snare' ? '\u27B0' : '\u2601';
       btn.classList.toggle('empty', cooling);
       btn.querySelector('small').textContent = label;
-      btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and set it reeling' : 'Smoke: everything close loses you for a few seconds');
+      btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and set it reeling' : a.id === 'snare' ? 'Snare: catch the first foe down the corridor ahead' : 'Smoke: everything close loses you for a few seconds');
       return;
     }
     // the spell-less quaff instead, and the button dims with nothing known to drink
@@ -2020,7 +2028,8 @@ const UI = (() => {
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
     // a first win for this class at this difficulty, and any past it opened
     const earned = won ? Game.earned() : null, news = [];
-    if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!`);
+    if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!${earned.difficulty === 'hard' ? ` The ${CLASSES[earned.cls].plural} will call you ${CLASSES[earned.cls].title}.` : ''}`);
+    for (const k of (earned && earned.classesOpened) || []) if (CLASSES[k]) news.push(`A ${CLASSES[k].name} will come to your fire now: a new class on the New Game screen.`);
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
     if (earned && earned.firstPath) { const x = Object.values(PATHS).flat().find(q => q.id === earned.firstPath); if (x) news.push(`First win on the ${x.name}'s path!`); }
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);

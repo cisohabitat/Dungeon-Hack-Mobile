@@ -156,6 +156,15 @@ const TALENTS = {
     { id: 'light_fingers', name: 'Light Fingers', desc: 'Monsters drop loot half as often again, and traders pay you a quarter more.' },
     { id: 'choking_cloud', name: 'Choking Cloud', desc: 'What loses you in your Smoke comes out of it coughing: its first move a second and a half late.' },
   ],
+  ranger: [
+    { id: 'eagle_eye', name: 'Eagle Eye', desc: 'Your bows reach two squares further, and your arrows hit one more often.' },
+    { id: 'volley', name: 'Volley', desc: 'Every third arrow that lands looses a second after it, for half the damage.' },
+    { id: 'hunters_mark', name: 'Hunter\'s Mark', desc: 'An arrow at a foe that has not yet seen you does double damage.' },
+    { id: 'swift_quiver', name: 'Swift Quiver', desc: 'Your bow shots come a sixth sooner.' },
+    { id: 'long_snare', name: 'Long Snare', desc: 'Snare holds a second and a half longer, and comes back in twelve seconds, not sixteen.' },
+    { id: 'camouflage', name: 'Camouflage', desc: 'Sleeping monsters notice you a square later.' },
+    { id: 'field_craft', name: 'Field Craft', desc: 'A rest gives back a third more of your life.' },
+  ],
 };
 
 // Paths: at PATH_LEVEL each class chooses one of its two, once and for good,
@@ -188,6 +197,7 @@ const FEATS = {
   long: { name: 'The Long Delve', desc: 'Win a delve of twelve floors or more, on Normal or Hard.' },
   crypts: { name: 'By the Crypts', desc: 'Win a delve that went down through the Crypts, on Normal or Hard.' },
   warrens: { name: 'By the Warrens', desc: 'Win a delve that went down through the Warrens, on Normal or Hard.' },
+  collector: { name: 'The Collector', desc: 'Find every relic at least once, over as many runs as it takes.' },
 };
 const PATHS = {
   fighter: [
@@ -242,6 +252,20 @@ const PATHS = {
       'Your Smoke comes back in 16 seconds, not 24.',
     ] },
   ],
+  ranger: [
+    { id: 'sharpshooter', name: 'Sharpshooter', flavour: 'The arrow was on its way before the thing knew it was seen.', effects: [
+      'An arrow at a foe three squares off or more deals 2 more damage.',
+      'With a bow, your critical hits land one number sooner on the die.',
+      'Your first arrow at a foe that has not seen you never misses.',
+      'Snare reaches two squares further.',
+    ] },
+    { id: 'warden', name: 'Warden', flavour: 'Holds the line where the dark comes through, and lets nothing past.', effects: [
+      'Your armour class is 1 better.',
+      'Snare\'s cord bites (1d6 and your Dexterity) and holds a second longer.',
+      'A snared foe takes 2 more damage from every blow and arrow of yours.',
+      'You mend between fights half again as fast.',
+    ] },
+  ],
 };
 
 /** Whether a class can carry this in the shield hand: a thief takes a buckler and nothing bigger, and a caster's focus is for that caster's class alone. */
@@ -254,25 +278,30 @@ const MAX_LEVEL = 12;
 
 const CLASSES = {
   fighter: {
-    name: 'Fighter', plural: 'Fighters', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
+    name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
-    name: 'Cleric', plural: 'Clerics', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', title: 'Archmage', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', plural: 'Thieves', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
+    name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
+  },
+  ranger: {
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 8, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot at a foe two squares off or more bites harder, and Snare catches the first foe down the corridor.',
+    startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
 };
 
@@ -330,21 +359,22 @@ const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int
 
 const ITEMS = {
   // weapons: dmg = [dice, sides, bonus]; speed = attack cooldown in ms
-  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief'], value: 2,  sprite: 'dagger', tier: 1 },
+  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief', 'ranger'], value: 2,  sprite: 'dagger', tier: 1 },
   club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief'], value: 1, sprite: 'club', tier: 1, blunt: true },
   staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric'], twoHanded: true, value: 2, sprite: 'staff', tier: 1, blunt: true },
-  shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief'], value: 8, sprite: 'shortsword', tier: 1 },
+  shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief', 'ranger'], value: 8, sprite: 'shortsword', tier: 1 },
   mace:       { kind: 'weapon', name: 'Mace',             dmg: [1, 6, 1],  speed: 700,  cls: ['fighter', 'cleric'], value: 8, sprite: 'mace', tier: 1, blunt: true },
   hammer:     { kind: 'weapon', name: 'War Hammer',       dmg: [1, 4, 2],  speed: 650,  cls: ['fighter', 'cleric'], value: 9, sprite: 'hammer', tier: 2, blunt: true },
-  spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter'], value: 6, sprite: 'spear', tier: 2 },
-  longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief'], value: 15, sprite: 'longsword', tier: 2 },
+  spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'ranger'], value: 6, sprite: 'spear', tier: 2 },
+  longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief', 'ranger'], value: 15, sprite: 'longsword', tier: 2 },
   flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'flail', tier: 3, blunt: true },
   battleaxe:  { kind: 'weapon', name: 'Battle Axe',       dmg: [1, 8, 1],  speed: 850,  cls: ['fighter'], value: 18, sprite: 'battleaxe', tier: 3 },
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'greatsword', tier: 4 },
   // thrown and missile arms. Attack reaches down the corridor when one is in hand.
-  throwknife: { kind: 'weapon', name: 'Throwing Knives', dmg: [1, 4, 0], speed: 520, range: 4, cls: ['fighter', 'thief', 'mage'], value: 12, sprite: 'throwknife', tier: 1 },
-  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric'], value: 10, sprite: 'sling', tier: 2 },
-  shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3 },
+  throwknife: { kind: 'weapon', name: 'Throwing Knives', dmg: [1, 4, 0], speed: 520, range: 4, cls: ['fighter', 'thief', 'mage', 'ranger'], value: 12, sprite: 'throwknife', tier: 1 },
+  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric', 'ranger'], value: 10, sprite: 'sling', tier: 2 },
+  shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief', 'ranger'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3 },
+  longbow:    { kind: 'weapon', name: 'Long Bow',        dmg: [1, 8, 0],  speed: 950, range: 7, cls: ['fighter', 'ranger'], twoHanded: true, value: 70, sprite: 'longbow', tier: 5 },
   // armor
   leather: { kind: 'armor', name: 'Leather Armour',  ac: 2, weight: 'light', value: 10,  sprite: 'leather', tier: 1 },
   studded: { kind: 'armor', name: 'Studded Leather', ac: 3, weight: 'light', value: 20,  sprite: 'studded', tier: 2 },

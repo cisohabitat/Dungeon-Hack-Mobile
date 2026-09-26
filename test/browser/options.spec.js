@@ -81,6 +81,38 @@ test.describe('rest and the quick drink', () => {
     await clearBoons(page);
     await expect(page.locator('[data-tap="cast"] small')).toHaveText('Smoke');
   });
+
+  test('the Ranger is locked until the other four classes have each won; then it starts with a bow and has Snare on the Cast button', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-new');
+    await expect(page.locator('.class-card[data-cls="ranger"]')).toBeDisabled();
+    await expect(page.locator('.class-card[data-cls="ranger"]')).toContainText('Locked');
+    // three of four is not enough
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 } }, relics: [] })));
+    await page.click('#c-back'); await page.click('#btn-new');
+    await expect(page.locator('.class-card[data-cls="ranger"]')).toBeDisabled();
+    // and the mage's Hard win shows as its title
+    await expect(page.locator('.class-card[data-cls="mage"] .class-title')).toHaveText('Archmage');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 }, thief: { easy: 1 } }, relics: [] })));
+    await startGame(page, { cls: 'ranger', seed: 'ranger-snare' });
+    await clearBoons(page);
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText('Snare');
+    expect(await page.evaluate(() => Game.player().eq.weapon.t)).toBe('shortbow');
+    const caught = await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      const m = { uid: 77, id: 'goblin', x: p.x + dx * 3, y: p.y + dy * 3, hp: 50, maxHp: 50, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.push(m);
+      return { ok: Game.useAbility(), held: m.nextAct - G.t };
+    });
+    expect(caught.ok).toBe(true);
+    expect(caught.held).toBeGreaterThanOrEqual(2500);
+    await expect(page.locator('[data-tap="cast"] small')).toHaveText(/^Snare \d+s$/);
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('point buy', () => {

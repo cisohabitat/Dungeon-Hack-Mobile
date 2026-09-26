@@ -31,10 +31,12 @@ function longDate(key) {
   return new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
 }
 
+const DAILY_CLASSES = ['fighter', 'cleric', 'mage', 'thief'];
 /** The day's hero and dungeon: the same for everyone who plays on that date. */
 function heroFor(key) {
   const rng = new Rng(seedFor(key));
-  const cls = rng.pick(Object.keys(CLASSES));
+  // the four classes every player has from the start: a later one (the Ranger) is earned, and the days already dealt stay as they were
+  const cls = rng.pick(DAILY_CLASSES);
   const bg = rng.pick(DAILY_BACKGROUNDS.filter(id => BACKGROUNDS[id]));
   const name = rng.pick(HERO_NAMES);
   const keyStat = CLASSES[cls].primary;

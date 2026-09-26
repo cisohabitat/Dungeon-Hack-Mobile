@@ -5093,6 +5093,42 @@ await test('a win on a long delve, on Normal or Hard, is the Long Delve feat; th
   return lens === '8,12,12,16' || `the Hall kept levels ${lens}`;
 });
 
+await test('the Long Delve\'s back half is surer and sturdier: a step surer from the seventh floor, four percent sturdier a floor past the sixth', async () => {
+  const at = async (levels, depth) => {
+    const ctx = await start('fighter', 'long-edge', { levels, difficulty: 'normal' });
+    const { Game, MONSTERS } = ctx; Game.player().hp = Game.player().maxHp = 9999;
+    downTo(ctx, depth);
+    const m = Game.level().monsters.find(x => !x.elite && !MONSTERS[x.id].named && !MONSTERS[x.id].boss);
+    return { hit: Game.mstat(m).hit - MONSTERS[m.id].hit, id: m.id };
+  };
+  const short7 = await at(8, 7), long7 = await at(12, 7), long6 = await at(12, 6);
+  if (long7.hit !== short7.hit + 1) return `a ${long7.id} on floor 7 of 12 hits +${long7.hit} over its drawing; on floor 7 of 8, +${short7.hit}`;
+  return long6.hit === short7.hit || `on floor 6 of 12 creatures are already ${long6.hit} surer`;
+});
+
+await test('mastery: the Ranger opens when the other four have each won; every relic found is the Collector; the Daily keeps to the first four classes', async () => {
+  const out = [];
+  const ctx = await newContext();
+  const { Game, Progress, RELICS, Daily } = ctx;
+  if (Progress.classOpen('ranger')) out.push('the Ranger was open from the start');
+  if (!Progress.classOpen('thief')) out.push('the thief was locked');
+  const win = (cls, difficulty) => { Game.newGame({ name: 'M', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mastery-' + cls, opts: { ...OPTS, permadeath: true, difficulty } }); winHere(Game); return Game.earned(); };
+  win('fighter', 'easy'); win('cleric', 'normal'); win('mage', 'hard');
+  if (Progress.classOpen('ranger')) out.push('three classes won opened the Ranger');
+  const e = win('thief', 'easy');
+  if (JSON.stringify(e.classesOpened) !== '["ranger"]' || !Progress.classOpen('ranger')) out.push(`the fourth class's win opened ${JSON.stringify(e.classesOpened)}`);
+  if (win('fighter', 'normal').classesOpened.length) out.push('the Ranger was opened twice');
+  // the Collector
+  const ids = Object.keys(RELICS);
+  for (const id of ids.slice(0, -1)) Progress.noteRelic(id);
+  if (progressOf(ctx).feats.collector) out.push('the Collector came before the last relic');
+  Progress.noteRelic(ids[ids.length - 1]);
+  if (progressOf(ctx).feats.collector !== 1) out.push('every relic found was not the Collector');
+  // the Daily never deals a class it has not always dealt
+  for (let i = 0; i < 200; i++) { const d = new Date(2026, 0, 1 + i); const key = d.toISOString().slice(0, 10); if (Daily.heroFor(key).cls === 'ranger') { out.push(`the Daily of ${key} dealt a Ranger`); break; } }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a vow binds: no rest under the Iron Vow, no trader under the Pauper\'s, no draught unaided; the Daily takes none', async () => {
   const out = [];
   const ctx = await start('fighter', 'vows', { vows: ['iron', 'pauper', 'unaided'] });
@@ -7305,6 +7341,70 @@ await test('a win by a road is a feat of that road; the Hall line names it', asy
   winHere(Game);
   if (JSON.stringify(Game.earned().firstFeats) !== JSON.stringify([road])) return `a win by the ${road} earned ${JSON.stringify(Game.earned())}`;
   return Game.hall()[0].route === road || `the Hall kept ${Game.hall()[0].route}`;
+});
+
+await test('a ranger: a bow and Dexterity, Steady Aim at two squares or more, and the bow talents', async () => {
+  const out = [];
+  const ctx = await start('ranger', 'ranger-kit');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  if (!p.eq.weapon || p.eq.weapon.t !== 'shortbow') out.push(`a ranger starts with ${p.eq.weapon && p.eq.weapon.t}`);
+  // Dexterity lands the blow, not Strength
+  p.stats.str = 3; p.stats.dex = 18;
+  const hitHigh = Game.toHit(); p.stats.dex = 10; const hitLow = Game.toHit(); p.stats.dex = 18;
+  if (hitHigh - hitLow !== 4) out.push(`Dexterity 18 against 10 moved a ranger's to-hit by ${hitHigh - hitLow}`);
+  // Steady Aim: the same arrows, adjacent and three squares off
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+  const volleyOf = dist => {
+    seedDice(ctx, 'aim');
+    const m = beside(ctx, 'ogre', { hp: 99999, maxHp: 99999, nextAct: G.t + 1e12 });
+    m.x = p.x + dx * dist; m.y = p.y + dy * dist; p.perkHit = 60;
+    let dealt = 0;
+    for (let i = 0; i < 30; i++) { const hp = m.hp; G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); dealt += hp - m.hp; }
+    return dealt / 30;
+  };
+  const near = volleyOf(1), far = volleyOf(3);
+  if (Math.abs(far - near - 2) > 0.01) out.push(`arrows from three squares did ${far.toFixed(2)} a shot, from beside it ${near.toFixed(2)}`);
+  // talents: two squares further and a sixth quicker
+  p.perkHit = 0;
+  const hitAfter = Game.toHit();
+  const range0 = Game.weapon().range, speed0 = Game.weapon().speed;
+  talent(ctx, 'eagle_eye'); talent(ctx, 'swift_quiver');
+  if (Game.weapon().range !== range0 + 2) out.push(`Eagle Eye took the bow from ${range0} to ${Game.weapon().range}`);
+  if (Math.abs(Game.weapon().speed - speed0 * 5 / 6) > 1) out.push(`Swift Quiver took a shot from ${speed0}ms to ${Game.weapon().speed}`);
+  p.perkHit = 0;
+  // (the practice took long enough to make the hero hungry: compare with to-hit after it)
+  if (Game.toHit() !== hitAfter + 1) out.push(`Eagle Eye took to-hit from ${hitAfter} to ${Game.toHit()}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Snare catches the first foe down the corridor and breaks its blow; a Warden\'s bites; nothing ahead costs nothing', async () => {
+  const out = [];
+  const ctx = await start('ranger', 'snare');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 999;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (const k of [1, 2, 3, 4]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+  L.monsters.length = 0;
+  if (Game.useAbility() !== false || Game.castLabel() !== 'Snare') out.push(`a snare at nothing was ${Game.castLabel()}`);
+  const m = beside(ctx, 'orc', { nextAct: G.t, windup: { kind: 'melee', at: G.t, until: G.t + 500 } });
+  m.x = p.x + dx * 3; m.y = p.y + dy * 3;
+  const t0 = G.t;
+  if (!Game.useAbility()) return 'Snare was refused with an orc three squares off';
+  if (m.windup) out.push('the snared orc kept its blow drawn back');
+  if (m.nextAct - t0 < 2500) out.push(`the snared orc moves again in ${m.nextAct - t0}ms`);
+  if (!/^Snare \d+s$/.test(Game.castLabel())) out.push(`after a Snare the button says ${Game.castLabel()}`);
+  // a Warden's cord bites
+  const c2 = await start('ranger', 'snare-warden');
+  const q = c2.Game.player(), L2 = c2.Game.level(); q.path = 'warden';
+  const [ex, ey] = c2.Dungeon.DIRS[q.dir];
+  for (const k of [1, 2]) L2.tiles[(q.y + ey * k) * L2.w + q.x + ex * k] = c2.Dungeon.T.FLOOR;
+  const w = beside(c2, 'orc', { hp: 500, maxHp: 500, nextAct: c2.Game.state().t + 1e9 });
+  const ac0 = c2.Game.playerAC(); q.path = null; const acNo = c2.Game.playerAC(); q.path = 'warden';
+  if (ac0 !== acNo + 1) out.push(`a Warden's armour class is ${ac0}, without the path ${acNo}`);
+  c2.Game.useAbility();
+  if (!(w.hp < 500)) out.push('a Warden\'s snare did not bite');
+  return out.length ? out.join('; ') : true;
 });
 
 await test('two rings of one kind do not add up: the better counts', async () => {

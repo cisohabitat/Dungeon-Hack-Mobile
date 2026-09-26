@@ -119,27 +119,48 @@ function hand(x, y, a, arm, cls, o = {}) {
   };
 }
 
-/** A bow from behind: the stave upright, the left hand round its grip. The string and arrow are drawn live, between its tips and the drawing hand. */
-function bowParts(cls) {
+/**
+ * A bow from behind: the stave upright, the left hand round its grip. The
+ * string and arrow are drawn live, between its tips and the drawing hand.
+ * The long bow is a head taller, a darker yew with no recurve at the tips,
+ * a longer leather wrap and pale horn nocks.
+ */
+const BOWS = {
+  shortbow: { seg: 4.8, r: 1.35, taper: 0.17, flare: -0.8, wood: '#9a6a3a', nock: '#6a4424', wrap: 3.4, nockLen: 0 },
+  longbow: { seg: 6.3, r: 1.3, taper: 0.13, flare: 0, wood: '#5a3218', nock: '#e2d4b0', wrap: 4.4, nockLen: 2.6, sap: '#b88a54' },
+};
+function bowParts(cls, base) {
+  const B = BOWS[base];
   const a = deg(-94);
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
   const P = (u, v = 0) => [C + ux * u + vx * v, C + uy * u + vy * v];
   const stave = [];
   for (let i = -4; i < 4; i++) {
-    const r0 = 1.35 - Math.abs(i + 0.5) * 0.17, r1 = 1.35 - Math.abs(i + 1.5) * 0.17;
+    const r0 = B.r - Math.abs(i + 0.5) * B.taper, r1 = B.r - Math.abs(i + 1.5) * B.taper;
     // the tips flare a little toward the far side, where a recurve bends
-    const b0 = Math.abs(i + 0.5) > 3 ? -0.8 : 0, b1 = Math.abs(i + 1.5) > 3 ? -0.8 : 0;
-    stave.push(limb(...P(i * 4.8, b0), ...P((i + 1) * 4.8, b1), Math.max(0.6, r0), Math.max(0.6, r1), '#9a6a3a'));
+    const b0 = Math.abs(i + 0.5) > 3 ? B.flare : 0, b1 = Math.abs(i + 1.5) > 3 ? B.flare : 0;
+    stave.push(limb(...P(i * B.seg, b0), ...P((i + 1) * B.seg, b1), Math.max(0.6, r0), Math.max(0.6, r1), B.wood));
   }
+  const tip = B.seg * 4, end = B.flare;
+  const nocks = B.nockLen
+    ? [-1, 1].flatMap(s => [
+      limb(...P(s * (tip - B.nockLen), end), ...P(s * tip, end), 0.95, 0.7, B.nock),
+      hair(...P(s * (tip - B.nockLen + 0.4), end - 0.5), ...P(s * (tip - 0.4), end - 0.5), '#fff8e4'),
+    ])
+    : [-1, 1].map(s => ball(...P(s * tip, end), 0.9, 0.9, B.nock));
+  // the long bow's pale sapwood, down the side of the stave toward the light
+  const sap = B.sap ? [[-22, -7], [7, 22]].map(([u0, u1]) => hair(...P(u0, -0.7), ...P(u1, -0.7), B.sap)) : [];
+  const bands = B.wrap > 4 ? [-3.3, -1.65, 0, 1.65, 3.3] : [-2.4, -0.8, 0.8, 2.4];
   const h = hand(C, C, a, deg(150), cls, { left: true });
   return {
-    grid: GRID, anchor: [C, C], marks: { top: P(-19.2, -0.8), bot: P(19.2, -0.8) },
+    grid: GRID, anchor: [C, C], marks: { top: P(-tip, end), bot: P(tip, end) },
     parts: [
       ...h.behind,
       ...stave,
-      ...[-19.2, 19.2].map(u => ball(...P(u, -0.8), 0.9, 0.9, '#6a4424')),
-      limb(...P(-3.4), ...P(3.4), 1.6, 1.6, '#5a3a22'),
-      ...[-2.4, -0.8, 0.8, 2.4].map(u => hair(...P(u, -1.6), ...P(u, 1.6), '#3a2414')),
+      ...sap,
+      ...nocks,
+      limb(...P(-B.wrap), ...P(B.wrap), 1.6, 1.6, '#5a3a22'),
+      ...bands.map(u => hair(...P(u, -1.6), ...P(u, 1.6), '#3a2414')),
       ...h.front,
     ],
   };
@@ -190,7 +211,7 @@ function shieldParts(base, cls) {
 function heldParts(id, pose, cls, two = false) {
   const P = POSES[pose];
   const base = id && id.replace(/^relic_/, '');
-  if (base === 'shortbow') return bowParts(cls);
+  if (base && BOWS[base]) return bowParts(cls, base);
   const behind = [], front = [];
   let weapon = [];
   // a weapon too long for the usual room gets more of it

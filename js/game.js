@@ -381,7 +381,7 @@ const Game = (() => {
   function critFloor() {
     const p = P();
     const base = p.cls !== 'thief' ? 20 : (p.level >= 9 ? 18 : 19);
-    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? 1 : 0);
+    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? 1 : 0) - (onPath('sharpshooter') && weapon().range ? 1 : 0);
   }
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
@@ -389,8 +389,10 @@ const Game = (() => {
     const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1) * berserkerFrenzy();
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, px: '', range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
-    const swift = hasPower('swift', 'weapon') ? 0.85 : 1;
-    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: b.range || 0, blunt: !!b.blunt };
+    // a ranger's talents for the bow: a sixth quicker, and two squares further
+    const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1);
+    const reach = (b.range || 0) + (b.range && hasTalent('eagle_eye') ? 2 : 0);
+    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: reach, blunt: !!b.blunt };
   }
   /**
    * Damage per second a main-hand weapon would give you, as far as you know
@@ -409,7 +411,7 @@ const Game = (() => {
     const base = b ? b.speed : 450;
     const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
     const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
-    const finesse = p.cls === 'thief';
+    const finesse = p.cls === 'thief' || p.cls === 'ranger';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might');
@@ -546,8 +548,10 @@ const Game = (() => {
   function discoverRelic(id) {
     if (!G.relics || G.relics.found.includes(id)) return;
     G.relics.found.push(id);
+    const had = Progress.load().feats.collector;
     Progress.noteRelic(id);   // the codex remembers it after the run
     log(RELICS[id].lore, 'info');
+    if (!had && Progress.load().feats.collector) log('That is every relic in the deep found, over all your runs: the Collector\'s feat, a trophy of its own.', 'good');
   }
   // ---------- curses ----------
   // Found gear keeps its quality to itself (h) until it is worn, studied or
@@ -716,17 +720,19 @@ const Game = (() => {
   }
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
-  const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.stats.str;
+  // a ranger looses every arrow and lands every blow by Dexterity
+  const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.stats.str;
   function toHit() {
     const p = P();
     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
-      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might');
+      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0);
   }
   function playerAC() {
     const p = P();
     let ac = 10 + mod(p.stats.dex) + effect('ac');
     // thieves stay alive by not being where the blow lands
     if (p.cls === 'thief') ac += Math.floor((p.level + 2) / 3);
+    if (onPath('warden')) ac += 1;
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
@@ -1915,6 +1921,8 @@ const Game = (() => {
     // let go at the top of the second turn of an overhead whirl
     sling: { style: 'stone', release: 0.55, perSquare: 70, from: { x: 0.76, y: 0.17 }, color: '#9a948c' },
     shortbow: { style: 'arrow', release: 0.72, perSquare: 45, from: { x: 0.5, y: 0.66 }, color: '#b08858' },
+    // the long bow's heavier draw sends its arrow a little quicker down the hall
+    longbow: { style: 'arrow', release: 0.72, perSquare: 38, from: { x: 0.5, y: 0.66 }, color: '#a88050' },
   };
   function attack() {
     try { strike(); } finally { fxDelay = 0; }
@@ -1955,6 +1963,10 @@ const Game = (() => {
     const stepped = !atRange && hasTalent('shadow_step') && G.t < (p.shadowUntil || 0);
     const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped);
     if (stepped) p.shadowUntil = 0;
+    // an arrow at a foe that has not yet seen who loosed it
+    const unseen = atRange && !m.awake;
+    const marked = unseen && hasTalent('hunters_mark');
+    const sure = unseen && onPath('sharpshooter');   // a Sharpshooter's first arrow at it never misses
     m.awake = true;
     const roll = d(1, 20);
     // an answered trick's opening, taken in time, on the one that left it
@@ -1965,7 +1977,7 @@ const Game = (() => {
     const rip = !atRange && p.riposteUntil > G.t ? 4 : 0;
     if (rip) p.riposteUntil = 0;
     const note = rollNote(roll, toHit() + rip, mb.ac, crit);
-    if (!open && (roll === 1 || (!crit && roll + toHit() + rip < mb.ac))) {
+    if (!open && !sure && (roll === 1 || (!crit && roll + toHit() + rip < mb.ac))) {
       log(`You miss the ${mb.name}.${note}`);
       { const o = heard(m); soon(() => Sound.play('glance', o)); }
       floatText(m, 'miss', '#e4e4ee');
@@ -1976,16 +1988,17 @@ const Game = (() => {
     }
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
-    const finesse = p.cls === 'thief';
+    const finesse = p.cls === 'thief' || p.cls === 'ranger';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + templarBlow(m)   // a path's number, likewise
       + jewelBonus('might');               // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m) + bargained();
+    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m) + bargained() + rangerAim(m, atRange) + wardenHold(m);
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
+    if (marked) dmg *= 2;
     dmg = Math.max(1, dmg);
     leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
     // Cleave: the swing carries on into the one behind the front. Who that is
@@ -1996,6 +2009,11 @@ const Game = (() => {
     const lucky = crit && hasTalent('lucky') && roll === critFloor();
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
+    // Volley: every third arrow that lands looses a second after it
+    if (hasTalent('volley') && atRange && w.range) {
+      p.volleyN = (p.volleyN || 0) + 1;
+      if (p.volleyN % 3 === 0 && lvl().monsters.includes(m) && !m.collapsed) damageMonster(m, Math.max(1, Math.floor(dmg / 2)), 'volley');
+    }
     if (behind && lvl().monsters.includes(m)) {
       const n = Math.max(1, Math.floor(dmg / 2));
       if (m.pack && m.pack.includes(behind)) {
@@ -2110,6 +2128,8 @@ const Game = (() => {
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
+    else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
     else {
       const pre = { crit: 'A mighty blow! ', opening: 'You take the opening! ', lucky: 'A lucky blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
@@ -2576,7 +2596,7 @@ const Game = (() => {
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)
       : tag === 'offhand' ? (p.eq.offhand ? the(p.eq.offhand) : 'your off hand')
-      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison'
+      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare'
       : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
     s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
   }
@@ -2805,21 +2825,66 @@ const Game = (() => {
   // makes everything close by lose them, as good as asleep to them for a few
   // seconds: time to slip away, or to land the double blow on a sleeping foe.
   // Each path gives its class's move a twist.
-  const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 15000 }, thief: { id: 'smoke', name: 'Smoke', cool: 24000 } };
+  const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 15000 }, thief: { id: 'smoke', name: 'Smoke', cool: 24000 }, ranger: { id: 'snare', name: 'Snare', cool: 16000 } };
+  const SNARE_REACH = 5, SNARE_MS = 2500;
   const SMOKE_MS = 3000, SMOKE_REACH = 3;
   // how long a foe that lost you in smoke stays near and wary after it clears: no resting beside it
   const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.cool);
+  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' && hasTalent('long_snare') ? 12000 : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
     const p = P(), a = abilityOf();
     if (!a) return false;
     if (abilityLeft()) { log(`${a.name} is not ready yet: ${abilityLeft()}s.`, 'bad'); Sound.play('error'); return false; }
-    return a.id === 'bash' ? bash(a, p) : smoke(a, p);
+    return a.id === 'bash' ? bash(a, p) : a.id === 'snare' ? snare(a, p) : smoke(a, p);
   }
+  /**
+   * A ranger's Snare: a weighted cord thrown at the first foe down the
+   * corridor ahead, five squares at most. It stands caught a moment, the blow
+   * it was drawing back broken off (the lich's rite goes on, and the lich
+   * shrugs free in half the time). A Warden's bites and holds longer.
+   */
+  function snare(a, p) {
+    const [dx, dy] = DIRS[p.dir];
+    const reach = SNARE_REACH + (onPath('sharpshooter') ? 2 : 0);
+    let m = null;
+    for (let i = 1; i <= reach && !m; i++) {
+      const x = p.x + dx * i, y = p.y + dy * i;
+      if (i > 1 && !passable(x, y)) break;
+      const t = monsterAt(x, y);
+      if (t && !t.collapsed) m = t;
+      else if (!passable(x, y)) break;
+    }
+    if (!m) { log('There is nothing down the corridor ahead to snare.', 'bad'); Sound.play('error'); return false; }
+    const mb = mstat(m);
+    const rite = !!(m.windup && m.windup.move === 'rite');
+    const broke = !rite && !!(m.windup || m.volley);
+    if (!rite) { m.windup = null; m.volley = null; }
+    m.pressing = false;
+    const hold = (SNARE_MS + (hasTalent('long_snare') ? 1500 : 0) + (onPath('warden') ? 1000 : 0)) / (mb.boss ? 2 : 1);
+    if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
+    m.snaredUntil = G.t + hold;
+    m.awake = true;
+    p.abilityReady = G.t + abilityCool(a);
+    meet(m);
+    Sound.play('shoot', { w: 'sling' });
+    floatText(m, 'snared', '#e8d8a0');
+    log(`Your cord wraps the ${mb.name}${broke ? ' and breaks off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It stands caught!'}`, 'good');
+    if (onPath('warden')) damageMonster(m, Math.max(1, d(1, 6) + mod(p.stats.dex)), 'snare');
+    return true;
+  }
+  /** Steady Aim, a ranger's: a bow shot at a foe two squares off or more, +2; a Sharpshooter's at three or more, +2 again. */
+  function rangerAim(m, atRange) {
+    const p = P();
+    if (!atRange || p.cls !== 'ranger') return 0;
+    const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+    return 2 + (onPath('sharpshooter') && far >= 3 ? 2 : 0);
+  }
+  /** A Warden's snared foe takes 2 more from every blow and arrow. */
+  const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? 2 : 0);
   function bash(a, p) {
     const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
     if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
@@ -3000,7 +3065,8 @@ const Game = (() => {
     // the first rest on a floor is quiet; after it, each is more likely to be found
     const found = before > 0 && Math.random() < Math.min(AMBUSH_MOST, before * AMBUSH_STEP);
     if (found) share /= 2;
-    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
+    // Field Craft: a ranger makes a better camp, and wakes a third more whole
+    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share * (hasTalent('field_craft') ? 4 / 3 : 1))), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
     noteHealed(hp);
     p.hp += hp; p.sp += sp;
     G.t += found ? 20000 : 60000;
@@ -3031,7 +3097,14 @@ const Game = (() => {
   // the second and third keep that step too: a quarter of Hard's fighters and clerics
   // died there before they had a path, so it comes from the fourth floor, paid for
   // with sturdier creatures (1.8, not 1.7) all the way down.
-  const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 || (diff().edge > 1 && G.depth <= 3) ? 1 : 0));
+  const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 || (diff().edge > 1 && G.depth <= 3) ? 1 : 0)) + longEdge();
+  // The Long Delve's back half: its creatures a step surer from the seventh
+  // floor, and a little sturdier with every floor past the sixth. Without it
+  // twelve floors were easier than eight (82% on Normal, 60% on Hard): the
+  // extra floors gave more levels and gear than the deep took back.
+  const isLong = () => (G.opts.levels || 8) >= 12;
+  const longEdge = () => (isLong() && G.depth >= 7 ? 1 : 0);
+  const longSturdier = depth => (isLong() ? 1 + 0.04 * Math.max(0, depth - 6) : 1);
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**
    * What a floor's twist changes when it is first made (dungeon.js deals the
@@ -3062,7 +3135,7 @@ const Game = (() => {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp;
+      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth);
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
@@ -3161,7 +3234,7 @@ const Game = (() => {
         // enough to be reached. Deep-born blood stacks with it, and so do a
         // Ring of Stealth and an Assassin's step, down to the square beside you:
         // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
-        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet() - (L.twist === 'dark' ? 1 : 0));
+        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (hasTalent('camouflage') ? 1 : 0));
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
@@ -3340,7 +3413,7 @@ const Game = (() => {
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
       if (!hunted) {
         // scale with the pool so recovery takes about the same time at every level
-        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
+        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0) + (onPath('warden') ? 0.5 : 0);
         const was = p.hp;
         p.hp = Math.min(regenTo, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
         noteHealed(p.hp - was);
@@ -3565,7 +3638,7 @@ const Game = (() => {
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };
     fx.view = {
-      weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ITEMS[wIt.t].sprite === 'shortbow'),
+      weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ['shortbow', 'longbow'].includes(ITEMS[wIt.t].sprite)),
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
     };

@@ -176,7 +176,7 @@ export function makeFoes(K) {
   const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800, rally: 1500, drink: 800 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
-  const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow'].includes(id) };
+  const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
   const WARD_MS = 4000;     // how long the lich stays wrapped in shadow when its fight turns
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises

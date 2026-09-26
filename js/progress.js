@@ -82,6 +82,12 @@ function trophyCount(v = load()) {
   n += PATH_IDS.filter(id => v.paths[id]).length + Object.keys(VOWS).filter(id => v.vows[id]).length + Object.keys(FEATS).filter(id => v.feats[id]).length;
   return { won: n, total: Object.keys(CLASSES).length * DIFFS.length + PATH_IDS.length + Object.keys(VOWS).length + Object.keys(FEATS).length };
 }
+/** A class with a lock (the Ranger) opens once every class without one has won, at any difficulty. */
+function classOpen(cls, v = load()) {
+  const c = CLASSES[cls];
+  if (!c) return false;
+  return !c.locked || Object.keys(CLASSES).filter(k => !CLASSES[k].locked).every(k => highest(k, v));
+}
 /** Vows are open once any hero has won on Hard. */
 function vowsOpen(v = load()) { return wonAtLeast('hard', v); }
 
@@ -96,12 +102,12 @@ function bgOpen(id, v = load()) {
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
  * @param {{path?: string, vows?: string[], levels?: number, route?: string}} [how]
- * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
+ * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], classesOpened: string[], firstPath: string, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
  */
 function recordWin(cls, difficulty, how = {}) {
   const d = DIFFS.includes(difficulty) ? difficulty : 'normal';
   const v = load();
-  const wasOpen = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v)), vowsWere = vowsOpen(v);
+  const wasOpen = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v)), vowsWere = vowsOpen(v), classesWere = Object.keys(CLASSES).filter(k => classOpen(k, v));
   const first = !hasWon(cls, d, v);
   if (CLASSES[cls]) {
     v.won[cls] = v.won[cls] || {};
@@ -119,7 +125,8 @@ function recordWin(cls, difficulty, how = {}) {
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
-  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v) };
+  const classesOpened = Object.keys(CLASSES).filter(k => classOpen(k, v) && !classesWere.includes(k));
+  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, classesOpened, firstPath, firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v) };
 }
 /** A relic picked up or bought goes in the codex; true the first time. */
 function noteRelic(id) {
@@ -127,9 +134,11 @@ function noteRelic(id) {
   const v = load();
   if (v.relics.includes(id)) return false;
   v.relics.push(id);
+  // every relic found: the Collector's feat, once
+  if (!v.feats.collector && Object.keys(RELICS).every(r => v.relics.includes(r))) v.feats.collector = 1;
   store(v);
   return true;
 }
 
-const Progress = { load, hasWon, highest, trophyCount, bgOpen, vowsOpen, recordWin, noteRelic, DIFFS, PATH_IDS, KEY: PROGRESS_KEY };
+const Progress = { load, hasWon, highest, trophyCount, bgOpen, classOpen, vowsOpen, recordWin, noteRelic, DIFFS, PATH_IDS, KEY: PROGRESS_KEY };
 export { Progress };

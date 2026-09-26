@@ -568,9 +568,12 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .relic-row.unfound h3 { color: var(--dim); font-style: italic; font-size: 0.92rem; }
 .relic-q { flex: 0 0 48px; height: 32px; display: grid; place-content: center; color: var(--dim); border: 1px dashed var(--border); border-radius: 6px; }
 /* a background still to be earned: dim, and says how */
-.bg-card.locked, .bg-card.locked:disabled { opacity: 1; border-style: dashed; background: #111018; cursor: not-allowed; }
-.bg-card.locked b { color: #b39a5c; }
-.bg-card .key.lock { color: #c8bfae; }
+.bg-card.locked, .bg-card.locked:disabled, .class-card.locked, .class-card.locked:disabled { opacity: 1; border-style: dashed; background: #111018; cursor: not-allowed; }
+.bg-card.locked b, .class-card.locked b { color: #b39a5c; }
+.bg-card .key.lock, .class-card .key.lock { color: #c8bfae; }
+/* a class won on Hard wears its title */
+.class-title { display: block; font-style: normal; color: var(--gold); font-size: 0.82rem; letter-spacing: 0.04em; }
+.tcls .class-title { display: inline; font-size: 0.75rem; }
 .trophy-line { color: var(--gold); font-size: 1rem; margin: 4px 0 8px; }
 
 /* Phones held sideways. Height is what runs short, so the view, its bars and

@@ -57,6 +57,7 @@
  * @property {number} deepest
  * @property {string[]} [boons]
  * @property {Record<string, number>} [taught]   points Self-Taught has put into each score this run (two at most)
+ * @property {number} [volleyN]   arrows landed this run, for a Volley's every third
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
@@ -107,6 +108,7 @@
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
  * @property {number} [smoked]   lost in a thief's smoke until this time: asleep to them, but still near
+ * @property {number} [snaredUntil]   caught in a ranger's Snare until this time
  * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
  * @property {number} [rallies]    how many times a named champion has tried to call its kin
  * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close
@@ -239,7 +241,7 @@
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
- * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
+ * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, firstVows?: string[], firstFeats?: string[], classesOpened?: string[], vowsOpened?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
  */
 
 export {};

@@ -130,10 +130,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
         'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
+        'eagle_eye', 'hunters_mark', 'swift_quiver', 'volley', 'long_snare', 'field_craft', 'camouflage',
         'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
-      const pick = order.find(id => offer.includes(id)) || offer[0];
+      // a ranger's blows go by Dexterity: Strength lessons are nothing to one
+      const pick = order.find(id => offer.includes(id) && !(cls === 'ranger' && id === 'str')) || offer[0];
       // Self-Taught: both points in the class's key score, then (its two given) in Constitution
-      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex' }[cls];
+      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex', ranger: 'dex' }[cls];
       const room = k => ((Game.player().taught || {})[k] || 0) === 0;
       const to = room(key) ? key : room('con') ? 'con' : 'dex';
       Game.chooseBoon(pick, pick === 'spread' ? [to, to] : undefined);
@@ -268,6 +270,21 @@ function play(ctx, cls, seed, opts, bg, idx) {
           }
         } else if (p.cls === 'thief' && near.length && (hpFrac < 0.45 || near.length >= 2) && !near.some(m => MONSTERS[m.id].boss)) {
           if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; }
+        } else if (p.cls === 'ranger') {
+          // a ranger snares what is drawing back beside them, or what comes at them down a corridor
+          let dir = -1;
+          const adjWind = near.find(m => m.windup && m.windup.move !== 'rite');
+          if (adjWind) dir = Dungeon.DIRS.findIndex(([dx, dy]) => dx === adjWind.x - p.x && dy === adjWind.y - p.y);
+          else for (let k = 0; k < 4 && dir < 0 && !near.length; k++) {
+            const [dx, dy] = Dungeon.DIRS[k];
+            for (let i = 2; i <= 5; i++) {
+              const x = p.x + dx * i, y = p.y + dy * i, t = L.tiles[y * L.w + x];
+              if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
+              const mm = L.monsters.find(o => o.x === x && o.y === y);
+              if (mm) { if (mm.awake && !(mm.snaredUntil > G.t) && i <= 3) dir = k; break; }
+            }
+          }
+          if (dir >= 0) { p.dir = dir; if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; } }
         }
       }
       // a chant, the lich's rite or a war-horn is answered by striking it, not by stepping away

@@ -145,6 +145,19 @@ function jewelAmulet(chain, frame, stone, hi, cord) {
   return out;
 }
 
+// A long bow's stave, top nock to bottom: a tall yew D the full height of the
+// square, bowed less deeply than the short bow and with no recurve at the
+// tips, so beside it in the pack it reads as the longer, plainer weapon.
+const YEW = '#5a3218', YEW_SAP = '#d0a468', HORN = '#e2d4b0';
+function longStave() {
+  const pts = [];
+  for (let i = 0; i <= 10; i++) {
+    const t = i / 10;
+    pts.push([7 + Math.sin(t * Math.PI) * 8.5, 1 + t * 30]);
+  }
+  return pts;
+}
+
 const ITEM_ART = {
   // ---- rings and amulets: each look its own metal and stone ----
   ring_silver: () => jewelRing('#c8ccd4', '#80868f', '#3a6ad8', '#a8c8ff'),
@@ -300,6 +313,24 @@ const ITEM_ART = {
       dots([[5, 15], [6, 15], [5, 17], [6, 17], [4, 14], [4, 18]], '#e04838'),
       ...stave,
       ball(pts[0][0], pts[0][1], 0.9, 0.9, '#6a4424'), ball(pts[8][0], pts[8][1], 0.9, 0.9, '#6a4424'),
+    ];
+  },
+  longbow: () => {
+    const pts = longStave(), r = i => 1.25 - Math.abs(i - 5) * 0.1;
+    const stave = [];
+    for (let i = 0; i < 10; i++) stave.push(limb(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], r(i), r(i + 1), YEW));
+    return [
+      line(pts[0][0], pts[0][1] + 0.5, pts[10][0], pts[10][1] - 0.5, '#e8e0cc'),
+      // a long arrow, nocked across the grip, its head well past the belly
+      line(3, 16, 27.5, 16, '#a88050'),
+      sheet([[27, 14.2], [31, 16], [27, 17.8]], STEEL, { tilt: [-0.3, -0.4] }),
+      dots([[3, 15], [4, 15], [5, 15], [3, 17], [4, 17], [5, 17], [2, 14], [2, 18]], '#e4e0d4'),
+      ...stave,
+      // a leather wrap round the grip, longer than the short bow's cord
+      limb(pts[4][0] + 0.2, 12.8, pts[6][0] + 0.2, 19.2, 1.55, 1.55, '#4a2c18'),
+      // horn nocks capping both tips
+      limb(pts[0][0] + 0.8, pts[0][1] + 2.6, pts[0][0], pts[0][1], 0.95, 0.7, HORN),
+      limb(pts[10][0] + 0.8, pts[10][1] - 2.6, pts[10][0], pts[10][1], 0.95, 0.7, HORN),
     ];
   },
 
@@ -799,6 +830,25 @@ const ITEM_DETAILS = {
     hair(26.5, 14.5, 29.5, 15.8, '#f6faff'), hair(26.5, 17.5, 29, 16.4, '#6e7682'),
     // the fletching's vanes
     hair(4, 14.5, 7, 15.5, '#ff9078'), hair(4, 17.5, 7, 16.5, '#a02820'),
+  ],
+  longbow: () => [
+    // pale sapwood down the back of the stave, darker heartwood grain on the belly
+    hair(9.5, 3.5, 13, 8, YEW_SAP), hair(14.5, 10, 15.9, 12.5, YEW_SAP),
+    hair(15.9, 19.5, 14.5, 22, YEW_SAP), hair(13, 24, 9.5, 28.5, YEW_SAP),
+    hair(10.7, 6.3, 12.8, 9.6, '#3a200e'), hair(12.8, 22.4, 10.7, 25.7, '#3a200e'),
+    // the wrap wound on the slant, and its edges
+    ...[13.6, 15.1, 16.6, 18.1].map(y => hair(14.4, y, 16.8, y + 0.9, '#2a180c')),
+    hair(14.3, 12.6, 16.9, 12.6, '#7a5234'), hair(14.3, 19.4, 16.9, 19.4, '#2a180c'),
+    // the horn catching the light, a dark notch where the string sits
+    specks([[7.5, 1.5], [8, 2.5], [7.5, 29.5], [8, 28.5]], '#fff8e4'),
+    specks([[7, 1], [7, 31]], '#3a2c1c'),
+    // a serving on the string, the shaft's shadow, a bright edge on the head
+    specks([[7, 13.5], [7.5, 14], [7, 14.5], [7.5, 15], [7, 17.5], [7.5, 18], [7, 18.5], [7.5, 19]], '#9a8a68'),
+    hair(8, 16.5, 26.5, 16.5, '#6e4e30'),
+    hair(27.5, 14.5, 30.5, 15.8, '#f6faff'), hair(27.5, 17.5, 30, 16.4, '#6e7682'),
+    // grey goose fletching, a barred vane each side
+    hair(2, 14.5, 5.5, 15.5, '#ffffff'), hair(2, 17.5, 5.5, 16.5, '#9a968c'),
+    specks([[3.5, 15], [3.5, 17]], '#6a665e'),
   ],
 
   // ---- body armour ----

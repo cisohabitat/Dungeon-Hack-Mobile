@@ -113,7 +113,7 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
     ps.forEach(k => used.add(k));
   }
   for (const k in RELIC_POWERS) check(used.has(k), `no relic, ring or amulet carries the '${k}' power`);
-  check(Object.keys(CLASSES).length === 4, 'the class list changed; check every class still has relics');
+  check(Object.keys(CLASSES).length === 5, 'the class list changed; check every class still has relics (the ranger has seven)');
 }
 for (const k in PROPS) {
   const { color } = paintParts(PROPS[k]());
