@@ -7446,6 +7446,17 @@ await test('a floor is dressed the same whether made now or dressed on loading a
   Game.save(true);
   if (!Game.load()) return 'load returned false';
   if (JSON.stringify(Game.level().dressing) !== made) out.push('an old save was dressed differently on loading');
+  // but nothing is dressed under the hero's feet, wherever they stood when it was saved
+  {
+    const L2 = Game.level(), p = Game.player(), spot = L2.dressing.find(d => d.k !== 'puddle');
+    if (spot) {
+      p.x = spot.x; p.y = spot.y;
+      delete L2.dressing;
+      Game.save(true); Game.load();
+      const q = Game.player();
+      if (Game.level().dressing.some(d => d.x === q.x && d.y === q.y)) out.push('an old save was dressed under the hero');
+    }
+  }
   // the ordinary themes take turns; the roads and the last floor have their own
   const FINAL = THEMES.findIndex(t => t.final);
   for (let d = 1; d <= 8; d++) {

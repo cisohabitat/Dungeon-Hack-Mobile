@@ -3968,7 +3968,11 @@ const Game = (() => {
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
         // a floor saved before there was dressing gets some now (what was already
         // taken or dropped there is kept clear, so it may differ from a new floor's)
-        if (!G.levels[dpt].dressing) G.levels[dpt].dressing = Dungeon.dress(G.levels[dpt], G.seed);
+        // (and never under the hero's feet, wherever they stood when it was saved)
+        if (!G.levels[dpt].dressing) {
+          const hereNow = Number(dpt) === G.depth ? G.player : null;
+          G.levels[dpt].dressing = Dungeon.dress(G.levels[dpt], G.seed).filter(d => !(hereNow && d.x === hereNow.x && d.y === hereNow.y));
+        }
         stepAside(G.levels[dpt]);
       }
       // a run saved on the climb out, from when the Heart had to be carried to

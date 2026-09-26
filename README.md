@@ -277,13 +277,14 @@ what finesse means.
 | Turn left / right | ↶ / ↷ | A / D |
 | Sidestep | ◀ / ▶ | Q / E |
 | Attack the square ahead | Attack | Space or F |
-| Use (doors, stairs, pick up, search wall, drink) | Use or tap the view | U |
+| Use (doors, stairs, pick up, search wall, drink, break a barrel) | Use or tap the view | U |
 | Turn or step by gesture | swipe the view | |
-| Cast last spell | Cast | C |
+| Cast the last spell, or the class's own move (Bash, Smoke, Snare) | the button under Use | C |
 | Rest | Rest | R |
-| Drink a healing potion | Cast (fighter, thief) or the bottle by the life bar (mage, cleric) | X |
+| Drink a healing potion | the bottle by the life bar | X |
+| Read a scroll worth reading now | the scroll at the end of the log | Z |
 | Map, Pack, Spells, Hero, Journal | bottom bar | M, I, P, H, J |
-| Menu / close | Menu | Esc |
+| Menu / close | Menu, or the phone's back gesture | Esc |
 
 Walking into doors opens them, walking into locked doors uses a matching key, and walking into
 a staircase takes it.
