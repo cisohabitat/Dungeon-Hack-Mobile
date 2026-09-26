@@ -1336,7 +1336,9 @@ const UI = (() => {
     const done = document.createElement('button');
     done.className = 'primary';
     done.textContent = 'Continue';
-    done.addEventListener('click', () => closeOverlay());
+    // the second tap of a double tap on a choice lands here: the outcome is read first
+    const readFrom = performance.now() + SHOP_GUARD_MS;
+    done.addEventListener('click', () => { if (performance.now() >= readFrom) closeOverlay(); });
     el.appendChild(done);
   }
   const BOON_GUARD_MS = 700, SPREAD_GUARD_MS = 350;

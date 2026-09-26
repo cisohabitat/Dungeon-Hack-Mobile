@@ -275,10 +275,16 @@ test.describe('dungeon features', () => {
     expect(r, 'floor one of this seed should hold an encounter').not.toBeNull();
     expect(r.open && r.clicked).toBe(true);
     expect(r.answered, 'the early tap answered the encounter').toBe(false);
-    // a moment later the choices are live
+    // a moment later the choices are live; a double tap answers, and its second tap does not also dismiss the outcome
     await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
-    await page.locator('#enc-choices .enc-choice:not([disabled])').first().click();
-    await expect.poll(() => page.evaluate(() => !!(Game.currentEncounter() && Game.currentEncounter().result))).toBe(true);
+    const after = await page.evaluate(() => {
+      document.querySelector('#enc-choices .enc-choice:not([disabled])').click();
+      const done = [...document.querySelectorAll('#enc-choices .primary')].find(b => /Continue/.test(b.textContent));
+      if (done) done.click();
+      return { answered: !!(Game.currentEncounter() && Game.currentEncounter().result), open: document.querySelector('#ov-encounter').classList.contains('open') };
+    });
+    expect(after.answered, 'the first tap answered').toBe(true);
+    expect(after.open, 'the second tap left the outcome up to be read').toBe(true);
     expect(errors).toEqual([]);
   });
 
@@ -315,6 +321,7 @@ test.describe('dungeon features', () => {
     await page.locator('.enc-choice:not([disabled])', { hasText: /% chance/ }).first().click();
     await expect(page.locator('#enc-text')).toContainText(/It goes (well|badly)\./);
     await expect(page.locator('#enc-text .roll')).toContainText(/d20/);
+    await page.waitForTimeout(450);   // the outcome is read before Continue answers
     await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
     await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
     const left = await page.evaluate(id => Game.level().npcs.filter(n => n.id === id).length, placed);
@@ -341,6 +348,7 @@ test.describe('dungeon features', () => {
     await page.waitForTimeout(300);
     await expect(page.locator('#enc-text')).toContainText(/It is quick/);
     await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    await page.waitForTimeout(450);   // the outcome is read before Continue answers
     await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
     await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
