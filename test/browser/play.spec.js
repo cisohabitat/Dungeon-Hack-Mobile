@@ -92,6 +92,8 @@ test.describe('core play', () => {
     await expect(page.locator('#ov-fork')).not.toHaveClass(/open/);
     expect(await page.evaluate(() => [Game.state().depth, Game.route()])).toEqual([3, null]);
     await toStair();
+    // the roads arm a moment after the stair is reached, so a tap already on its way chooses nothing
+    await expect(page.locator('#ov-fork .fork-choice.arming')).toHaveCount(0);
     await page.locator('#ov-fork [data-route="crypts"]').click();
     await expect.poll(() => page.evaluate(() => Game.state().depth)).toBe(4);
     expect(await page.evaluate(() => [Game.route(), Game.level().route])).toEqual(['crypts', 'crypts']);

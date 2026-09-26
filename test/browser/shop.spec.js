@@ -94,27 +94,47 @@ test.describe('the trader', () => {
     });
     await expect(page.locator('#ov-shop')).toHaveClass(/open/);
     const gold = () => page.evaluate(() => Game.player().gold);
+    // a second tap on the step that opened the shop lands on nothing: the rows arm a moment later
+    const early = await page.evaluate(async () => {
+      document.querySelector('#ov-shop [data-close]').click();
+      const p = Game.player(), g = p.gold;
+      Game.input('forward');
+      for (let i = 0; i < 3; i++) await new Promise(r => requestAnimationFrame(r));
+      const row = [...document.querySelectorAll('#shop-stock .shop-row')].find(r => /ration/i.test(r.textContent));
+      if (row) row.querySelector('.what').click();
+      return { open: document.querySelector('#ov-shop').classList.contains('open'), spent: g - p.gold, row: !!row };
+    });
+    expect(early.open && early.row, 'the shop opened again for the early tap').toBe(true);
+    expect(early.spent, 'a tap the moment the shop opened bought nothing').toBe(0);
+    // taps a person makes, a beat apart
+    const settle = () => page.waitForTimeout(450);
     const rows = page.locator('#shop-stock .shop-row');
     const g0 = await gold();
+    await settle();
     await rows.nth(0).locator('button').click();
     expect(await gold(), 'the first tap on a dear thing only arms it').toBe(g0);
     await expect(rows.nth(0).locator('button')).toContainText('Tap again');
+    await settle();
     await rows.nth(0).locator('button').click();
     expect(await gold(), 'the second tap pays').toBeLessThan(g0);
     // a cheap thing: one tap on the row's text buys it
     const g1 = await gold();
+    await settle();
     await page.locator('#shop-stock .shop-row', { hasText: /ration/i }).locator('.what').click();
     expect(await gold()).toBeLessThan(g1);
     // selling the plate back asks too, as the trader wants far more to sell it again
     const g2 = await gold();
     const sell = page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button');
+    await settle();
     await sell.click();
     expect(await gold(), 'the first tap on a dear sale only arms it').toBe(g2);
     await expect(sell).toContainText('Tap again to sell');
+    await settle();
     await sell.click();
     expect(await gold()).toBeGreaterThan(g2);
     // a cheap sale takes one tap
     const g3 = await gold();
+    await settle();
     await page.locator('#shop-sell .shop-row', { hasText: /ration/i }).locator('button').click();
     expect(await gold()).toBeGreaterThan(g3);
     expect(errors).toEqual([]);

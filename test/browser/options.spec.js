@@ -7,6 +7,30 @@ const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMons
 const healing = page => page.evaluate(() => Game.player().inv.filter(i => i.t === 'potion_heal').reduce((n, i) => n + i.q, 0));
 
 test.describe('rest and the quick drink', () => {
+  test('How to Play from the Menu mid-run keeps the run, and Back (or Escape) returns to the Menu, still paused', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'help-mid-run' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.player().steps = 7; localStorage.removeItem('deepdelve.save'); });
+    await page.click('[data-open="menu"]');
+    await page.click('#m-help');
+    await expect(page.locator('#screen-help')).toBeVisible();
+    // kept before the help opened: a phone may close a page it cannot see
+    expect(await page.evaluate(() => { try { return JSON.parse(localStorage.getItem('deepdelve.save')).player.steps; } catch (e) { return null; } })).toBe(7);
+    await page.click('#help-back');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+    expect(await page.evaluate(() => UI.paused())).toBe(true);
+    // and Escape does as Back does
+    await page.click('#m-help');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+    await page.click('#ov-menu [data-close]');
+    expect(await page.evaluate(() => UI.paused())).toBe(false);
+    expect(errors).toEqual([]);
+  });
+
   test('Rest never drinks a potion with enemies near: it dims and says why', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

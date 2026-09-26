@@ -660,5 +660,52 @@ test.describe('gear powers', () => {
     await expect(page.locator('#char-sheet')).toContainText('Thirsting');
     expect(errors).toEqual([]);
   });
+  test('overlays are named dialogs with labelled close buttons, and the game behind one is out of reach', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'a11y' });
+    await clearBoons(page);
+    const info = await page.evaluate(() => ({
+      unnamed: [...document.querySelectorAll('.overlay')].filter(o => o.getAttribute('role') !== 'dialog' || !document.getElementById(o.getAttribute('aria-labelledby') || '')).map(o => o.id),
+      bareClose: [...document.querySelectorAll('.overlay [data-close]')].filter(b => !b.getAttribute('aria-label') && !b.textContent.trim().match(/[a-z]/i)).length,
+    }));
+    expect(info.unnamed, 'every overlay a dialog named by its heading').toEqual([]);
+    expect(info.bareClose, 'every close button has a name').toBe(0);
+    const inert = () => page.evaluate(() => document.querySelector('#screen-game .game-layout').inert);
+    expect(await inert()).toBe(false);
+    await page.click('[data-open="inv"]');
+    expect(await inert(), 'the game behind the Pack is inert').toBe(true);
+    await page.click('#ov-inv [data-close]');
+    expect(await inert(), 'and live again once it closes').toBe(false);
+    expect(errors).toEqual([]);
+  });
+  test('the phone\'s back gesture closes what is open, and in the dungeon opens the Menu rather than leaving the game', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'back-gesture' });
+    await clearBoons(page);
+    const url = page.url();
+    await page.waitForTimeout(100);
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#ov-inv')).toHaveClass(/open/);
+    await page.goBack();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    await expect(page.locator('#screen-game')).toBeVisible();
+    // back again in the dungeon: the Menu, paused, not the page before
+    await page.goBack();
+    await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+    expect(await page.evaluate(() => UI.paused())).toBe(true);
+    await page.goBack();
+    await expect(page.locator('#ov-menu')).not.toHaveClass(/open/);
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(page.url()).toBe(url);
+    // closing with the button tidies up after itself: Back afterwards opens the Menu, it does not reopen the Pack
+    await page.click('[data-open="inv"]');
+    await page.click('#ov-inv [data-close]');
+    await page.waitForTimeout(100);
+    await page.goBack();
+    await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    expect(errors).toEqual([]);
+  });
 });
 

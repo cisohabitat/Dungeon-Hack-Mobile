@@ -55,6 +55,41 @@ const UI = (() => {
     // the raycaster draws into whichever canvas is on screen
     if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; refreshTitle(); }
     else if (id === 'screen-game') { Renderer.init($('#view')); fitView(); }
+    syncHistory();
+  }
+
+  // ---------- the phone's back gesture ----------
+  // Back (Android's gesture, or the browser's button) closes what is open
+  // rather than leaving the game: an overlay closes, and in the dungeon it
+  // opens the Menu, pausing, instead of shutting the page mid-fight. Two
+  // entries of the page's own history stand for this: 'game' while in the
+  // dungeon, and 'overlay' above it while something is open. They are put
+  // right a moment after each change, once any switching (one overlay
+  // closing as the next opens) has settled.
+  let popsToSkip = 0, histQueued = false;
+  const histState = () => (history.state && history.state.dd) || null;
+  function syncHistory() {
+    if (histQueued || typeof history === 'undefined' || !history.pushState) return;
+    histQueued = true;
+    Promise.resolve().then(() => {
+      histQueued = false;
+      try {
+        const inGame = $('#screen-game').classList.contains('active'), st = histState();
+        if (inGame) {
+          if (!st) history.pushState({ dd: 'game' }, '');
+          if (overlay && histState() !== 'overlay') history.pushState({ dd: 'overlay' }, '');
+          else if (!overlay && histState() === 'overlay') { popsToSkip++; history.back(); }
+        } else if (st) { popsToSkip++; history.go(st === 'overlay' ? -2 : -1); }
+      } catch (e) { /* a browser without history: back does what it always did */ }
+    });
+  }
+  function onBack() {
+    if (popsToSkip > 0) { popsToSkip--; syncHistory(); return; }
+    if ($('#screen-game').classList.contains('active')) {
+      // (a choice the game is waiting on stays open: closeOverlay knows which)
+      if (overlay) closeOverlay(); else openOverlay('menu');
+    }
+    syncHistory();
   }
   function refreshTitle() {
     const s = Game.saveSummary();
@@ -1140,6 +1175,7 @@ const UI = (() => {
     let armedUntil = 0;
     btn.addEventListener('click', e => {
       e.stopPropagation();
+      if (performance.now() < shopTapsFrom) return;
       if (dear && performance.now() > armedUntil) {
         armedUntil = performance.now() + 3000;
         for (const b of $$('#ov-shop .shop-row button.armed')) if (b !== btn) b.dispatchEvent(new Event('disarm'));
@@ -1152,9 +1188,17 @@ const UI = (() => {
     btn.addEventListener('disarm', () => { armedUntil = 0; btn.classList.remove('armed'); btn.textContent = plain; });
     row.addEventListener('click', () => { if (!btn.disabled) btn.click(); });
   }
+  // The step that walked into the trader opens the shop, and a second tap
+  // on it landed on whatever row lay under the thumb and bought it; a row
+  // sold slides the next one up under the finger the same way. So for a
+  // moment after the shop opens, and after each change to its rows, a tap
+  // does nothing.
+  const SHOP_GUARD_MS = 400;
+  let shopTapsFrom = 0;
   function renderShop() {
     const s = Game.currentShop();
     if (!s) { closeOverlay(); return; }
+    shopTapsFrom = performance.now() + SHOP_GUARD_MS;
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
@@ -1252,6 +1296,9 @@ const UI = (() => {
     el.innerHTML = '';
     if (!e.result) {
       $('#enc-text').textContent = e.def.text;
+      // the tap that opened it (twice on the view, twice on Use) must not
+      // answer it unread: the choices arm a moment later, as the level-up offers do
+      const armedAt = performance.now() + BOON_GUARD_MS;
       for (const o of Game.encounterOptions()) {
         const btn = document.createElement('button');
         btn.className = 'boon enc-choice';
@@ -1262,7 +1309,8 @@ const UI = (() => {
         if (o.blocked) bits.push(o.blocked);
         btn.innerHTML = `<b>${escapeHtml(o.label)}</b>${bits.length ? `<small>${escapeHtml(bits.join(' · '))}</small>` : ''}`;
         btn.disabled = !!o.blocked;
-        btn.addEventListener('click', () => { Game.chooseEncounter(o.i); renderEncounter(); });
+        if (!o.blocked) { btn.classList.add('arming'); setTimeout(() => btn.classList.remove('arming'), BOON_GUARD_MS); }
+        btn.addEventListener('click', () => { if (performance.now() < armedAt) return; Game.chooseEncounter(o.i); renderEncounter(); });
         el.appendChild(btn);
       }
       return;
@@ -1468,6 +1516,8 @@ const UI = (() => {
     held.clear();
     $$('.ctl').forEach(b => b.classList.remove('held'));
     $('#ov-' + name).classList.add('open');
+    setBehind(true);
+    syncHistory();
     if (name === 'inv') renderInv();
     if (name === 'map') renderMap();
     if (name === 'spells') renderSpells();
@@ -1484,12 +1534,15 @@ const UI = (() => {
   function renderFork() {
     const el = $('#fork-choices');
     el.innerHTML = '';
+    // held off a moment: held sideways, Descend lies over a road's card, and a second tap took that road unread
+    const armedAt = performance.now() + BOON_GUARD_MS;
     for (const id of Object.keys(ROUTES)) {
       const r = ROUTES[id], btn = document.createElement('button');
       btn.className = 'boon fork-choice';
       btn.dataset.route = id;
       btn.innerHTML = `<b>${escapeHtml(r.choice)}</b><small>${escapeHtml(r.desc)}</small>`;
-      btn.addEventListener('click', () => { closeOverlay(false); Game.chooseRoute(id); });
+      btn.classList.add('arming'); setTimeout(() => btn.classList.remove('arming'), BOON_GUARD_MS);
+      btn.addEventListener('click', () => { if (performance.now() < armedAt) return; closeOverlay(false); Game.chooseRoute(id); });
       el.appendChild(btn);
     }
     const stay = document.createElement('button');
@@ -1508,6 +1561,8 @@ const UI = (() => {
     if (overlay === 'fork') Game.leaveFork();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
+    setBehind(false);
+    syncHistory();
     const focused = /** @type {HTMLElement|null} */ (document.activeElement);
     if (focused && focused.blur) focused.blur();
     selectedItem = null; selectedSlot = null;
@@ -1521,9 +1576,13 @@ const UI = (() => {
     if (overlay === 'shop') Game.closeShop();
     $$('.overlay.open').forEach(el => el.classList.remove('open'));
     overlay = null;
+    setBehind(false);
     selectedItem = null; selectedSlot = null;
   }
   function paused() { return !!overlay; }
+  /** While an overlay is open the game behind it is inert: a screen reader or a Tab reaches only the overlay. */
+  function setBehind(on) { const g = /** @type {HTMLElement|null} */ (document.querySelector('#screen-game .game-layout')); if (g) g.inert = on; }
+  let helpFromMenu = false;   // the help was opened from the Menu mid-run: Back returns to it
 
   function slotEl(it, label) {
     const div = document.createElement(it ? 'button' : 'div');
@@ -2171,7 +2230,13 @@ const UI = (() => {
     // turning tips back on starts them over, for a player who wants the tour again
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
-    $('#m-help').addEventListener('click', () => { closeOverlay(); showScreen('screen-help'); });
+    // How to Play in the middle of a run: the run is kept first (a phone may
+    // close a page it cannot see), and Back returns to the Menu, still paused,
+    // rather than straight into a blow that was already falling
+    $('#m-help').addEventListener('click', () => {
+      if (Game.state() && Game.state().status === 'playing') Game.save(true);
+      closeOverlay(); helpFromMenu = true; showScreen('screen-help');
+    });
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 
     const KEYS = { ArrowUp: 'forward', KeyW: 'forward', ArrowDown: 'back', KeyS: 'back', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', KeyQ: 'strafeL', KeyE: 'strafeR', Space: 'attack', KeyF: 'attack' };
@@ -2180,6 +2245,8 @@ const UI = (() => {
     window.addEventListener('keydown', e => {
       const target = /** @type {HTMLElement} */ (e.target);
       if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT')) return;
+      // Escape leaves the help as Back does
+      if (e.code === 'Escape' && $('#screen-help').classList.contains('active')) { $('#help-back').click(); e.preventDefault(); return; }
       if (!$('#screen-game').classList.contains('active')) return;
       if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }
@@ -2236,6 +2303,13 @@ const UI = (() => {
   }
 
   function init() {
+    window.addEventListener('popstate', onBack);
+    // each overlay is a dialog, named by its heading, for a screen reader
+    for (const ov of $$('.overlay')) {
+      ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+      const h = ov.querySelector('h2');
+      if (h) { if (!h.id) h.id = ov.id + '-title'; ov.setAttribute('aria-labelledby', h.id); }
+    }
     Renderer.setCalm(calmOn());
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }
@@ -2243,7 +2317,7 @@ const UI = (() => {
     $('#c-seed').value = randomSeedWord();
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
-    $('#btn-help').addEventListener('click', () => showScreen('screen-help'));
+    $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     $('#btn-beasts').addEventListener('click', () => { $('#beasts-count').textContent = renderBestiary($('#beasts-list')); showScreen('screen-beasts'); });
     $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
@@ -2253,7 +2327,12 @@ const UI = (() => {
     $('#relics-back').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     // the help is split into pages, so a first look is a page, not a wall
     for (const t of $$('[data-htab]')) t.addEventListener('click', () => helpTab(t.dataset.htab));
-    $('#help-back').addEventListener('click', () => showScreen(Game.state() && Game.state().status === 'playing' ? 'screen-game' : 'screen-title'));
+    $('#help-back').addEventListener('click', () => {
+      const playing = !!(Game.state() && Game.state().status === 'playing');
+      showScreen(playing ? 'screen-game' : 'screen-title');
+      if (playing && helpFromMenu) openOverlay('menu');
+      helpFromMenu = false;
+    });
     $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
     for (const b of $$('#c-statmode [data-mode]')) b.addEventListener('click', () => {
       create.mode = b.dataset.mode || 'roll';

@@ -251,6 +251,37 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a tap already on its way when an encounter opens does not answer it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'tour' });
+    await clearBoons(page);
+    const r = await page.evaluate(async () => {
+      const L = Game.level(), p = Game.player(), T = Dungeon.T;
+      const e = L.npcs.find(n => n.kind === 'encounter');
+      if (!e) return null;
+      L.monsters.length = 0;
+      for (let k = 0; k < 4; k++) {
+        const [dx, dy] = Dungeon.DIRS[k];
+        if (L.tiles[(e.y - dy) * L.w + (e.x - dx)] === T.FLOOR) { p.x = e.x - dx; p.y = e.y - dy; p.dir = k; break; }
+      }
+      Game.input('use');
+      for (let i = 0; i < 3; i++) await new Promise(res => requestAnimationFrame(res));
+      const btn = document.querySelector('#enc-choices .enc-choice:not([disabled])');
+      if (btn) btn.click();
+      const cur = Game.currentEncounter();
+      return { open: document.querySelector('#ov-encounter').classList.contains('open'), clicked: !!btn, answered: !!(cur && cur.result) };
+    });
+    expect(r, 'floor one of this seed should hold an encounter').not.toBeNull();
+    expect(r.open && r.clicked).toBe(true);
+    expect(r.answered, 'the early tap answered the encounter').toBe(false);
+    // a moment later the choices are live
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice:not([disabled])').first().click();
+    await expect.poll(() => page.evaluate(() => !!(Game.currentEncounter() && Game.currentEncounter().result))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('an encounter asks, shows the odds, cannot be dodged, and reports what it did', async ({ page }) => {
     const errors = watchForErrors(page);
     // the roll behind the outcome is shown once the rolls are turned on
@@ -280,6 +311,7 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
     // answer it with the first checked choice this hero can take (one that
     // costs coin a fresh hero lacks is shown, but disabled)
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
     await page.locator('.enc-choice:not([disabled])', { hasText: /% chance/ }).first().click();
     await expect(page.locator('#enc-text')).toContainText(/It goes (well|badly)\./);
     await expect(page.locator('#enc-text .roll')).toContainText(/d20/);
@@ -303,6 +335,7 @@ test.describe('dungeon features', () => {
       Game.input('use');
     });
     await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
     await page.locator('#enc-choices button', { hasText: 'Finish it' }).click();
     // the outcome stays up; the level-up choice waits behind it
     await page.waitForTimeout(300);
