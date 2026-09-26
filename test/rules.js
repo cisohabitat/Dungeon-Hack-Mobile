@@ -7684,6 +7684,22 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   };
   const FALLEN = 'deepdelve.fallen';
 
+  await test('a hero who dies and is loaded again is not left below, but another hero who fell still is', async () => {
+    const ctx = await start('fighter', 'bones-reload');
+    const { Game } = ctx;
+    downTo(ctx, 2);
+    Game.save(true);
+    if (!fallTo(ctx)) return 'the goblin never killed the hero';
+    if (!ctx.store.get(FALLEN)) return 'the death was not remembered';
+    if (!Game.load()) return 'the save did not load';
+    if (ctx.store.get(FALLEN)) return 'the hero was loaded alive and is still remembered as fallen';
+    // someone else's death is theirs to keep
+    const other = JSON.stringify({ name: 'Brand', cls: 'thief', level: 3, depth: 2, run: 'another-run', gear: [] });
+    ctx.store.set(FALLEN, other);
+    if (!Game.load()) return 'the save did not load a second time';
+    return ctx.store.get(FALLEN) === other || 'loading forgot a different hero\'s death';
+  });
+
   await test('a hero who dies is remembered, and a later run finds their bones, their gear and their shade on that floor', async () => {
     const ctx = await start('fighter', 'bones-fall');
     const { Game } = ctx;

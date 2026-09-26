@@ -1847,10 +1847,15 @@ const UI = (() => {
     const cols = maxX - minX + 1, rows = maxY - minY + 1;
     // the height left once the heading, key and note have taken theirs; a short
     // landscape screen has little to spare, so it is measured, not guessed
+    // (the body already stands clear of the heading and a phone's notch; its own
+    // padding keeps it clear of the home bar)
     renderMapLegend();
-    const ov = $('#ov-map'), taken = [ov.querySelector('.ov-head'), $('#map-legend'), $('#map-legend').nextElementSibling]
-      .reduce((h, e) => h + (e ? /** @type {HTMLElement} */ (e).offsetHeight : 0), 0);
-    const availW = window.innerWidth - 24, availH = taken ? window.innerHeight - taken - 48 : window.innerHeight - 230;
+    const body = /** @type {HTMLElement} */ ($('#ov-map .ov-body'));
+    const outer = e => { if (!e) return 0; const st = getComputedStyle(e); return e.offsetHeight + parseFloat(st.marginTop) + parseFloat(st.marginBottom); };
+    const bs = getComputedStyle(body), room = body.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom);
+    const keyH = outer($('#map-legend')) + outer(/** @type {HTMLElement} */ ($('#map-legend').nextElementSibling));
+    // (less the canvas's border, and the gap a canvas leaves under itself as a line of text would)
+    const availW = window.innerWidth - 24, availH = room > 0 ? room - keyH - 8 : window.innerHeight - 230;
     // ...but not so large that the first few squares of a floor read as a close-up
     // rather than the start of a map
     const size = Math.max(8, Math.min(MAP_TILE_MAX, Math.floor(Math.min(availW / cols, availH / rows))));
@@ -2086,7 +2091,7 @@ const UI = (() => {
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
-    $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} levels${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   // ---------- end screens ----------

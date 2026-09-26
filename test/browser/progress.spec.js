@@ -66,6 +66,11 @@ test.describe('progress between runs', () => {
     await page.evaluate(() => localStorage.setItem('deepdelve.fallen', JSON.stringify({ name: 'Brand', cls: 'fighter', level: 4, depth: 3, run: 'r1', gear: [], killer: 'a troll' })));
     await page.click('#btn-hall');
     await expect(page.locator('.hall-fallen')).toHaveText('Still below: Brand the Fighter, killed by a troll on floor 3. Their shade keeps watch over their bones until a later delve lays it to rest.');
+    // a killer with a title keeps its comma on both sides
+    await page.click('#hall-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.fallen', JSON.stringify({ name: 'Brand', cls: 'fighter', level: 4, depth: 3, run: 'r1', gear: [], killer: 'Grisk, the Goblin King' })));
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-fallen')).toContainText('killed by Grisk, the Goblin King, on floor 3.');
     expect(errors).toEqual([]);
   });
 

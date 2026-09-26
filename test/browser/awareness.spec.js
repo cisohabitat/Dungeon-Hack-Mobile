@@ -82,6 +82,20 @@ test.describe('knowing where you are', () => {
     expect(m.note, 'the note under the key should still be on the screen').toBeLessThanOrEqual(360);
   });
 
+  test('on a phone with a notch and a home bar, a tall map and its key still fit without scrolling', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await startGame(page, { seed: 'maps1' });
+    await clearBoons(page);
+    // as a Home Screen app shows it: the insets are real, and the body keeps clear of them
+    await page.addStyleTag({ content: ':root { --sat: 47px !important; --sab: 34px !important; }' });
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); for (let y = 0; y < L.h; y++) for (let x = Math.max(0, p.x - 3); x <= Math.min(L.w - 1, p.x + 3); x++) L.explored[y * L.w + x] = 1; });
+    await page.click('[data-open="map"]');
+    await page.waitForTimeout(150);
+    const m = await page.evaluate(() => { const b = document.querySelector('#ov-map .ov-body'); return { over: b.scrollHeight - b.clientHeight, note: document.querySelector('#map-legend').nextElementSibling.getBoundingClientRect().bottom }; });
+    expect(m.over, 'the map body should not need scrolling').toBeLessThanOrEqual(0);
+    expect(m.note, 'the note should end above the home bar').toBeLessThanOrEqual(844 - 34);
+  });
+
   test('the map has a legend naming what the colours mean', async ({ page }) => {
     await startGame(page, { seed: 'aware-legend' });
     await clearBoons(page);

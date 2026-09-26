@@ -4025,6 +4025,10 @@ const Game = (() => {
       distFieldAt = -1e9;
       clearFx();
       log('Game loaded.', 'info');
+      // a hero who died and was loaded again lives: they are no longer below to be
+      // met (a second death remembers them afresh)
+      const fell = Progress.fallen();
+      if (fell && fell.run === runKey()) Progress.layToRest(fell.run);
       emit('level');
       // the clock only runs on the game screen, and a load can come before it has
       if (wasEscaping) { realNow = performance.now(); fx.heartAt = realNow; win(); }
