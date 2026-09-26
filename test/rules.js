@@ -7135,6 +7135,13 @@ await test('keys of one colour share a pack slot, and each still opens one door'
   return silver[0].q === 2 || `left with ${silver[0].q} silver keys`;
 });
 
+await test('a hero made with no name is given one from the list, not "Adventurer"', async () => {
+  const { Game, HERO_NAMES } = await start('fighter', 'no-name');
+  Game.newGame({ name: '   ', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'no-name', opts: { ...OPTS } });
+  const name = Game.player().name;
+  return (HERO_NAMES || []).includes(name) || `the nameless hero was called ${name}`;
+});
+
 await test('two rings of one kind do not add up: the better counts', async () => {
   const ctx = await start('fighter', 'rings-no-stack');
   const { Game } = ctx; const p = Game.player();

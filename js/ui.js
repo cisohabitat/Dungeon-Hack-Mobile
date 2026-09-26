@@ -362,7 +362,15 @@ const UI = (() => {
     [st[keyStat], st[best]] = [st[best], st[keyStat]];
     create.stats = st;
   }
+  /** A name from the list, never the one given just before. */
+  function randomHeroName(avoid = '') {
+    let name = avoid;
+    while (name === avoid) name = HERO_NAMES[Math.floor(Math.random() * HERO_NAMES.length)];
+    return name;
+  }
   function openCreation() {
+    // every new hero arrives with a name of their own, to keep or type over
+    $('#c-name').value = randomHeroName($('#c-name').value);
     create.buy = null; create.buyTouched = false;   // a new hero's points are its own, not the last one's
     create.rolled = Game.rollStats();
     fitStats();
@@ -2280,10 +2288,7 @@ const UI = (() => {
     // a name for a hero who would rather not choose; never the same one twice running
     $('#c-name-rand').addEventListener('click', e => {
       e.preventDefault();
-      const was = $('#c-name').value;
-      let name = was;
-      while (name === was) name = HERO_NAMES[Math.floor(Math.random() * HERO_NAMES.length)];
-      $('#c-name').value = name;
+      $('#c-name').value = randomHeroName($('#c-name').value);
     });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);

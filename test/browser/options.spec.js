@@ -362,4 +362,25 @@ test.describe('the hero\'s name', () => {
     expect(await page.evaluate(() => Game.player().name)).toBe(second);
     expect(errors).toEqual([]);
   });
+
+  test('a new hero arrives already named, a different name each time, and a name typed over it is kept', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    const names = await page.evaluate(() => window.HERO_NAMES);
+    const first = await page.inputValue('#c-name');
+    expect(names).toContain(first);
+    await page.click('#c-back');
+    await page.click('#btn-new');
+    const again = await page.inputValue('#c-name');
+    expect(names).toContain(again);
+    expect(again).not.toBe(first);
+    await page.fill('#c-name', 'Gwendolyn');
+    await page.fill('#c-seed', 'typed-name');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    expect(await page.evaluate(() => Game.player().name)).toBe('Gwendolyn');
+    expect(errors).toEqual([]);
+  });
 });
