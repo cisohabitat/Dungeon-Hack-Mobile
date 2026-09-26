@@ -2298,7 +2298,9 @@ await test('a monster made to miss presses in: its next blow is drawn back faste
   const { Game, Dungeon } = ctx;
   const p = Game.player(), G = Game.state(), L = Game.level();
   p.hp = p.maxHp = 999;
-  const m = beside(ctx, 'goblin');
+  // not a goblin: a cunning fighter draws back a different length each time,
+  // which could hide the quickening this is here to see (it failed in CI so)
+  const m = beside(ctx, 'skeleton');
   Game.update(G.t + 25, 25);
   const first = m.windup.until - m.windup.at;
   const [dx, dy] = Dungeon.DIRS[p.dir];
