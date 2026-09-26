@@ -214,13 +214,15 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart:
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`):
 
-| Difficulty | Cleric | Fighter | Mage | Thief | Overall |
-| --- | --- | --- | --- | --- | --- |
-| Easy | 98% | 96% | 96% | 96% | about 96% |
-| Normal | 76% | 75% | 78% | 73% | about 75% |
-| Hard | 46% | 50% | 44% | 48% | about 47% |
+| Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
+| --- | --- | --- | --- | --- | --- | --- |
+| Easy | 98% | 96% | 96% | 96% | not measured | about 96% |
+| Normal | 78% | 76% | 72% | 73% | 71% | about 74% |
+| Hard | 50% | 51% | 48% | 52% | 52% | about 51% |
+| Long Delve (12 floors), Normal | 66% | 69% | 63% | 75% | 71% | about 69% |
+| Long Delve (12 floors), Hard | 33% | 47% | 34% | 57% | 48% | about 44% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
