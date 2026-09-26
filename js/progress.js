@@ -95,7 +95,7 @@ function bgOpen(id, v = load()) {
 /**
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
- * @param {{path?: string, vows?: string[], levels?: number}} [how]
+ * @param {{path?: string, vows?: string[], levels?: number, route?: string}} [how]
  * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
  */
 function recordWin(cls, difficulty, how = {}) {
@@ -114,7 +114,7 @@ function recordWin(cls, difficulty, how = {}) {
   const firstVows = kept.filter(id => !v.vows[id]);
   for (const id of kept) v.vows[id] = (v.vows[id] || 0) + 1;
   // feats: what kind of win this was
-  const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : [])];
+  const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : []), ...(how.route && FEATS[how.route] ? [how.route] : [])];
   const firstFeats = feats.filter(id => !v.feats[id]);
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
   store(v);

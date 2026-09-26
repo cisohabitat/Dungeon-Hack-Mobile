@@ -171,9 +171,23 @@ const VOWS = {
   pauper:  { name: 'Pauper\'s Vow', desc: 'No trader will deal with you: no buying, selling or forge work.' },
   unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer, scrolls and the fountains alone.' },
 };
+// The fork: a third of the way down the stair divides, and the floors
+// between there and the last two lean one way or the other. Each keeps its
+// own colours, its own creatures (kin come three times as often, the other
+// road's a third as often), the champions that suit it, and an encounter met
+// nowhere else.
+const ROUTES = {
+  crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison.',
+    theme: 4, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary' },
+  warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms.',
+    theme: 2, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp' },
+};
+
 // Feats: wins of a particular kind, each a trophy of its own in the Hall.
 const FEATS = {
   long: { name: 'The Long Delve', desc: 'Win a delve of twelve floors or more, on Normal or Hard.' },
+  crypts: { name: 'By the Crypts', desc: 'Win a delve that went down through the Crypts, on Normal or Hard.' },
+  warrens: { name: 'By the Warrens', desc: 'Win a delve that went down through the Warrens, on Normal or Hard.' },
 };
 const PATHS = {
   fighter: [
@@ -654,4 +668,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };
+export { ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };

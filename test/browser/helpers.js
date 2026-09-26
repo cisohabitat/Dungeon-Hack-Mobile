@@ -120,6 +120,8 @@ async function descendTo(page, depth) {
       if (!L.downStart) break;
       p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
       Game.input('forward');
+      // at the divided stair, the Warrens
+      if (Game.forkPending()) Game.chooseRoute('warrens');
       await new Promise(r => setTimeout(r, 280));
     }
     return G.depth;

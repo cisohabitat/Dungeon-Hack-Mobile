@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
+import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -1311,7 +1311,7 @@ const Game = (() => {
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1343,9 +1343,37 @@ const Game = (() => {
     if (p.grabbed) return 'You are held fast. Pull free first.';
     return '';
   }
+  /**
+   * The stair divides a third of the way down: the first time down it from
+   * that floor, the hero chooses a road (see ROUTES). Stepping onto it asks;
+   * descend() on its own (the bot, the tests) takes the road the seed leans to.
+   */
+  function forkHere() {
+    const span = Dungeon.routeSpan(G.opts.levels || 8);
+    return !!span && G.depth === span.fork && !G.route;
+  }
+  function takeStairsDown() {
+    if (!forkHere()) return descend();
+    const pinned = pinnedReason();
+    if (pinned) { blocked(pinned); return false; }
+    G.forkPending = true;
+    emit('fork');
+    return true;
+  }
+  /** @param {string} id */
+  function chooseRoute(id) {
+    if (!ROUTES[id] || !forkHere()) return false;
+    G.route = id; G.forkPending = false;
+    log(`The stair divides. You take the way down into ${ROUTES[id].name}.`, 'info');
+    descend();
+    return true;
+  }
+  /** Standing back from the divided stair, undecided. */
+  function leaveFork() { G.forkPending = false; }
   function descend() {
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return; }
+    if (forkHere()) { G.route = new Rng(`${G.seed}|road`).next() < 0.5 ? 'crypts' : 'warrens'; G.forkPending = false; }
     Sound.play('stairs');
     enterLevel(G.depth + 1, 'down');
     save(true);
@@ -1449,7 +1477,7 @@ const Game = (() => {
     if (t === T.WALL || t === T.TORCH) { blocked('A wall blocks your path.' + stairHint()); return false; }
     if (t === T.DOOR) { openDoor(nx, ny); return true; }
     if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny); return true; }
-    if (t === T.STAIRS_DOWN) { descend(); return true; }
+    if (t === T.STAIRS_DOWN) { takeStairsDown(); return true; }
     if (t === T.STAIRS_UP) { ascend(); return true; }
     if (t === T.SECRET) { revealSecret(nx, ny, false); return true; }
     if (t === T.FOUNTAIN) { drinkFountain(nx, ny); return true; }
@@ -1639,7 +1667,7 @@ const Game = (() => {
     if (takeable().length) { pickupAll(); return; }
     if (t === T.DOOR) return openDoor(tx, ty);
     if (t === T.DOOR_LOCKED) return tryUnlock(tx, ty);
-    if (t === T.STAIRS_DOWN) return descend();
+    if (t === T.STAIRS_DOWN) return takeStairsDown();
     if (t === T.STAIRS_UP) return ascend();
     if (t === T.SECRET) return revealSecret(tx, ty, false);
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
@@ -2502,11 +2530,11 @@ const Game = (() => {
     const p = P();
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
-    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels });
+    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
-      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
+      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.route ? { route: G.route } : {}), ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;
@@ -3704,7 +3732,7 @@ const Game = (() => {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,

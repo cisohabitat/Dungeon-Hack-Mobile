@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
+import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -1415,7 +1415,7 @@ const UI = (() => {
   // A level-up choice or an encounter holds the screen until it is dealt
   // with: what the game asks for meanwhile (another choice, a shop) waits its
   // turn rather than covering it, and what the player taps for is ignored.
-  const GAME_ASKS = ['boons', 'encounter', 'shop'];
+  const GAME_ASKS = ['boons', 'encounter', 'shop', 'fork'];
   function openOverlay(name) {
     if (overlay === 'boons' || overlay === 'encounter') {
       if (name !== overlay && GAME_ASKS.includes(name) && !waiting.includes(name)) waiting.push(name);
@@ -1436,6 +1436,25 @@ const UI = (() => {
     if (name === 'journal') renderJournal();
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
+    if (name === 'fork') renderFork();
+  }
+  /** The divided stair: each road, what it holds, and a way to stay put. */
+  function renderFork() {
+    const el = $('#fork-choices');
+    el.innerHTML = '';
+    for (const id of Object.keys(ROUTES)) {
+      const r = ROUTES[id], btn = document.createElement('button');
+      btn.className = 'boon fork-choice';
+      btn.dataset.route = id;
+      btn.innerHTML = `<b>${escapeHtml(r.choice)}</b><small>${escapeHtml(r.desc)}</small>`;
+      btn.addEventListener('click', () => { closeOverlay(false); Game.chooseRoute(id); });
+      el.appendChild(btn);
+    }
+    const stay = document.createElement('button');
+    stay.className = 'ghost small';
+    stay.textContent = 'Not yet: stay on this floor';
+    stay.addEventListener('click', () => closeOverlay());
+    el.appendChild(stay);
   }
   function closeOverlay(next = true) {
     if (!overlay) return;
@@ -1444,6 +1463,7 @@ const UI = (() => {
     // backing out would only be a free look at the odds
     if (overlay === 'encounter') { const e = Game.currentEncounter(); if (e && !e.result) return; Game.closeEncounter(); }
     if (overlay === 'shop') Game.closeShop();
+    if (overlay === 'fork') Game.leaveFork();
     $('#ov-' + overlay).classList.remove('open');
     overlay = null;
     const focused = /** @type {HTMLElement|null} */ (document.activeElement);
@@ -1918,7 +1938,7 @@ const UI = (() => {
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
-    $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} levels · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} levels${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   // ---------- end screens ----------
@@ -2143,6 +2163,7 @@ const UI = (() => {
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
+      else if (e === 'fork') { if (Game.forkPending()) openOverlay('fork'); }
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       // the view goes dark a moment first, then the end screen, for this run only
       else if (e === 'dead') {

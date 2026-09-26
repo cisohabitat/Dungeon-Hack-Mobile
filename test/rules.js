@@ -755,7 +755,7 @@ await test('the whole run meets each encounter at most once, deepest floor excep
     if (new Set(all).size !== all.length) return `seed plan${i} over ${levels} floors repeats an encounter`;
     // about one a floor; a very long run can pass by the four that belong
     // only on the upper floors, once it is below them
-    const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final).length, Math.round((levels - 1) * 1.15));
+    const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route).length, Math.round((levels - 1) * 1.15));
     if (all.length < want - (levels >= 12 ? 4 : 1) || all.length > want) return `a ${levels}-floor run met ${all.length} encounters, about ${want} expected`;
   }
   return true;
@@ -769,7 +769,8 @@ await test('across runs every encounter turns up, and no two runs meet the same 
     all.forEach(e => seen.add(e));
     sets.add(all.slice().sort().join(','));
   }
-  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e));
+  // (a road's own encounter is placed by the road, not dealt)
+  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route);
   if (missing.length) return `never met in 80 runs: ${missing.join(', ')}`;
   return sets.size >= 70 || `80 runs met only ${sets.size} different handfuls`;
 });
@@ -1216,6 +1217,7 @@ await test('each floor holds exactly the relic planned for it, and traders keep 
       if (L.tiles[y * L.w + x] !== T.FLOOR) continue;
       p.x = x; p.y = y; p.dir = k; delete L.items[x + ',' + y];
       Game.input('use'); went = true;
+      if (Game.forkPending()) Game.chooseRoute('crypts');
     }
   }
   if (shelved.some(([d]) => d < 2)) return 'a first floor trader sold a relic';
@@ -2062,6 +2064,7 @@ await test('relics can be laid in a secret vault, and traders keep unknown gear 
         const [dx, dy] = Dungeon.DIRS[k];
         p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
         Game.input('use');
+        if (Game.forkPending()) Game.chooseRoute('crypts');
       }
       const L = Game.level();
       tried++;
@@ -4795,6 +4798,8 @@ function goDown(ctx) {
   p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
   L.monsters.length = 0;
   Game.input('use');
+  // at the divided stair, a road (the Crypts unless the test says)
+  if (Game.forkPending()) Game.chooseRoute(ctx.road || 'crypts');
 }
 await test('a hero ahead of the usual finds the next floor readier for them; one on pace finds it as it was', async () => {
   const floorOf = async (level, seed = 'press') => {
@@ -5384,6 +5389,7 @@ function downTo(ctx, depth) {
     const [dx, dy] = Dungeon.DIRS[k];
     p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
     Game.input('use');
+    if (Game.forkPending()) Game.chooseRoute(ctx.road || 'crypts');
   }
 }
 /** An open square beside a monster with another beyond it, in the same line: [dx, dy] from it, or null. */
@@ -7242,6 +7248,63 @@ await test('each floor twist does what it says, and is told on arriving', async 
     }
   }
   return out.length ? out.join('; ') : true;
+});
+
+await test('the stair divides a third of the way down: stepping onto it asks, and the road taken shapes the floors until the last two', async () => {
+  const out = [];
+  const { Dungeon, MONSTERS, ROUTES } = await newContext();
+  const spans = [4, 6, 8, 12].map(n => JSON.stringify(Dungeon.routeSpan(n))).join(' ');
+  if (spans !== 'null {"fork":2,"from":3,"to":4} {"fork":3,"from":4,"to":6} {"fork":4,"from":5,"to":10}') out.push(`route spans ${spans}`);
+  // stepping onto the stair at the fork asks rather than going down
+  const ctx = await start('fighter', 'fork', { levels: 8 });
+  const { Game } = ctx; const G = Game.state();
+  Game.player().hp = Game.player().maxHp = 9999;
+  downTo(ctx, 2); goDown(Object.assign(ctx, { road: 'none' }));
+  if (G.depth !== 3) return `walked to ${G.depth}`;
+  const L3 = Game.level(), p = Game.player(), s = L3.stairsDown;
+  const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L3.tiles[(s.y - dy) * L3.w + s.x - dx] === Dungeon.T.FLOOR; });
+  const [dx, dy] = Dungeon.DIRS[k];
+  p.x = s.x - dx; p.y = s.y - dy; p.dir = k; L3.monsters.length = 0;
+  Game.input('use');
+  if (G.depth !== 3 || !Game.forkPending()) out.push(`stepping onto the divided stair went to ${G.depth}, pending ${Game.forkPending()}`);
+  Game.leaveFork();
+  if (Game.forkPending() || Game.route()) out.push('staying put still left a choice pending or a road taken');
+  Game.input('use');
+  if (!Game.chooseRoute('warrens') || G.depth !== 4 || Game.route() !== 'warrens') out.push(`choosing the Warrens went to ${G.depth} by ${Game.route()}`);
+  const L4 = Game.level();
+  if (L4.route !== 'warrens' || L4.theme !== ROUTES.warrens.theme) out.push(`floor 4 is ${L4.route}, theme ${L4.theme}`);
+  if (!L4.npcs.some(n => n.id === ROUTES.warrens.encounter)) out.push('the Warrens\' own encounter was not on its first floor');
+  if (Game.chooseRoute('crypts')) out.push('a second road was taken');
+  // the last two floors follow no road
+  const gen = (d, route) => Dungeon.generate('fork-lean', d, { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route });
+  if (gen(7, 'crypts').route || gen(3, 'crypts').route) out.push('a floor outside the road\'s span followed it');
+  // the creatures lean the road's way
+  const share = (route, kin) => { let n = 0, of = 0; for (let i = 0; i < 12; i++) for (const d of [4, 5, 6]) for (const m of Dungeon.generate('lean' + i, d, { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route }).monsters) { if (MONSTERS[m.id].named) continue; of++; if (kin.includes(m.id)) n++; } return n / of; };
+  const ck = ROUTES.crypts.kin;
+  if (!(share('crypts', ck) > share('warrens', ck) + 0.2)) out.push(`crypt-kin: ${share('crypts', ck).toFixed(2)} in the Crypts, ${share('warrens', ck).toFixed(2)} in the Warrens`);
+  // a champion on a road's floor is one of its own, where one suits
+  for (let i = 0; i < 20; i++) {
+    for (const road of ['crypts', 'warrens']) {
+      const plan = Dungeon.namedPlan('champ' + i, 8, road);
+      for (const d of Object.keys(plan).map(Number)) if (d >= 4 && d <= 6 && !ROUTES[road].champions.includes(plan[d])) out.push(`${plan[d]} held floor ${d} of the ${road}`);
+    }
+  }
+  // descend() on its own takes the road the seed leans to, the same each time
+  const a = await start('fighter', 'fork-default', { levels: 8 }), b = await start('fighter', 'fork-default', { levels: 8 });
+  for (const c of [a, b]) { for (let d = 1; d < 4; d++) { c.Game.level().monsters.length = 0; c.Game.descend(); } }
+  if (!a.Game.route() || a.Game.route() !== b.Game.route()) out.push(`descend() took ${a.Game.route()} and ${b.Game.route()}`);
+  return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
+});
+
+await test('a win by a road is a feat of that road; the Hall line names it', async () => {
+  const ctx = await newContext();
+  const { Game } = ctx;
+  Game.newGame({ name: 'R', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'road-win', opts: { ...OPTS, permadeath: true, difficulty: 'normal', levels: 8 } });
+  for (let d = 1; d < 4; d++) { Game.level().monsters.length = 0; Game.descend(); }
+  const road = Game.route();
+  winHere(Game);
+  if (JSON.stringify(Game.earned().firstFeats) !== JSON.stringify([road])) return `a win by the ${road} earned ${JSON.stringify(Game.earned())}`;
+  return Game.hall()[0].route === road || `the Hall kept ${Game.hall()[0].route}`;
 });
 
 await test('two rings of one kind do not add up: the better counts', async () => {

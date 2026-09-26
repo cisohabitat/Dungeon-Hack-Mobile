@@ -74,6 +74,30 @@ test.describe('core play', () => {
     expect(errors).toEqual([]);
   });
 
+  test('at the divided stair the player chooses a road, or stays; the road they take is the next floor', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'play-fork' });
+    await page.evaluate(() => { for (let d = 1; d < 3; d++) { Game.level().monsters.length = 0; Game.descend(); } });
+    const toStair = () => page.evaluate(() => {
+      const L = Game.level(), p = Game.player();
+      L.monsters.length = 0;
+      p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
+      Game.input('forward');
+    });
+    await toStair();
+    await expect(page.locator('#ov-fork')).toHaveClass(/open/);
+    await expect(page.locator('#ov-fork .fork-choice')).toHaveCount(2);
+    // staying put: still on the third floor, nothing chosen
+    await page.locator('#ov-fork .ghost').click();
+    await expect(page.locator('#ov-fork')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => [Game.state().depth, Game.route()])).toEqual([3, null]);
+    await toStair();
+    await page.locator('#ov-fork [data-route="crypts"]').click();
+    await expect.poll(() => page.evaluate(() => Game.state().depth)).toBe(4);
+    expect(await page.evaluate(() => [Game.route(), Game.level().route])).toEqual(['crypts', 'crypts']);
+    expect(errors).toEqual([]);
+  });
+
   test('a save reloads to exactly the same position and pack', async ({ page }) => {
     await startGame(page, { seed: 'play-save' });
     const same = await page.evaluate(() => {

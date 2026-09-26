@@ -1,5 +1,5 @@
 import { Rng } from './rng.js';
-import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES } from './data.js';
+import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES } from './data.js';
 import { encounterPlan } from './encounters.js';
 import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
 
@@ -29,12 +29,25 @@ function tierAt(depth, levels) {
 // How often a room's finds are gathered onto one square, and how many at most
 const TOGETHER = 0.4, TOGETHER_MOST = 3;
 
-function namedPlan(seed, levels) {
+/**
+ * Where the stair divides, and which floors follow the road taken: the fork
+ * about a third of the way down, and every floor after it but the last two
+ * (the one before the lich's, and the lich's own). None in a delve shorter
+ * than six floors.
+ * @returns {{fork: number, from: number, to: number}|null}
+ */
+function routeSpan(levels) {
+  if (levels < 6) return null;
+  const fork = Math.max(2, Math.round(levels * 0.35));
+  return { fork, from: fork + 1, to: levels - 2 };
+}
+/** @param {string} seed @param {number} levels @param {string} [route] */
+function namedPlan(seed, levels, route) {
   const rng = new Rng(`${seed}|named`);
   const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
   /** @type {Record<number, string>} */
   const plan = {};
-  // a long delve (twelve floors or more) has a third, a quarter, half and three quarters of the way down
+  // a long delve (twelve floors or more) has three: a quarter, half and three quarters of the way down
   const depths = levels >= 12 ? [Math.ceil(levels / 4), Math.ceil(levels / 2), Math.ceil(levels * 3 / 4)] : [Math.ceil(levels / 3), Math.ceil(levels * 2 / 3)];
   for (const depth of new Set(depths)) {
     if (depth <= 1 || depth >= levels) continue;
@@ -43,6 +56,20 @@ function namedPlan(seed, levels) {
     const off = id => Math.max(0, MONSTERS[id].tier[0] - t, t - MONSTERS[id].tier[1]);
     const fit = free.filter(id => off(id) === 0);
     plan[depth] = fit.length ? rng.pick(fit) : free.sort((a, b) => off(a) - off(b))[0];
+  }
+  // down one road, a champion on its floors is one of that road's own (its own dice, so the rest is unmoved)
+  const span = routeSpan(levels), R = route && ROUTES[route];
+  if (span && R) {
+    const rrng = new Rng(`${seed}|named|${route}`);
+    for (const d of Object.keys(plan).map(Number)) {
+      if (d < span.from || d > span.to || R.champions.includes(plan[d])) continue;
+      const t = tierAt(d, levels);
+      const free = R.champions.filter(id => !Object.values(plan).includes(id));
+      if (!free.length) continue;
+      const off = id => Math.max(0, MONSTERS[id].tier[0] - t, t - MONSTERS[id].tier[1]);
+      const fit = free.filter(id => off(id) === 0);
+      plan[d] = fit.length ? rrng.pick(fit) : free.sort((a, b) => off(a) - off(b))[0];
+    }
   }
   return plan;
 }
@@ -96,6 +123,11 @@ const Dungeon = (() => {
     const isFinal = depth >= opts.levels;
     // a twist is dealt from its own seed, so a floor without one is exactly as it always was
     const twist = twistPlan(seed, opts.levels || 8)[depth] || null;
+    // past the fork, the floors follow the road the hero took
+    const span = routeSpan(opts.levels || 8);
+    const route = span && opts.route && ROUTES[opts.route] && depth >= span.from && depth <= span.to ? opts.route : null;
+    const otherRoad = route && Object.keys(ROUTES).find(k => k !== route);
+    const lean = id => !route ? 1 : ROUTES[route].kin.includes(id) ? 3 : ROUTES[otherRoad].kin.includes(id) ? 1 / 3 : 1;
 
     // ---- rooms ----
     const rooms = [];
@@ -316,7 +348,7 @@ const Dungeon = (() => {
       const c = mCands[i];
       if (occupied.has(c)) continue;
       // deeper levels favour the tougher end of the pool
-      const weighted = pool.map(id => [id, 1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])]);
+      const weighted = pool.map(id => [id, (1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])) * lean(id)]);
       const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
       // champions appear more often the deeper you go
       // no champions on the first floor: a Rabid goblin swinging nearly twice
@@ -490,6 +522,8 @@ const Dungeon = (() => {
           ['potion_heal', 40], ['potion_xheal', 12 + depth * 2], ['potion_cure', 14], ['potion_might', 10],
           ['potion_mana', 12], ['scroll_heal', 12], ['scroll_fire', 10], ['scroll_map', 12], ['scroll_teleport', 8],
           ['ration', 26], ['meat', 14],
+          // a Crypts trader keeps more for curses and venom
+          ...(route === 'crypts' ? [['potion_cure', 20], ['scroll_uncurse', 16]] : []),
         ];
         const n = rng.int(4, 6);
         for (let i = 0; i < n; i++) {
@@ -497,15 +531,17 @@ const Dungeon = (() => {
           const ex = stock.find(s => s.t === t);
           if (ex) ex.q++; else stock.push({ t, q: 1, e: 0 });
         }
-        // one piece of gear, sometimes enchanted, priced accordingly
+        // one piece of gear, sometimes enchanted, priced accordingly (a Warrens trader deals in arms: two)
         const maxTier = 1 + Math.floor(depth / 2);
-        const gearKind = rng.weighted([['weapon', 5], ['armor', 3], ['shield', 2]]);
-        const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1 && ITEMS[id].weight !== 'cloth' && !ITEMS[id].focus);
-        if (gearIds.length) {
-          const piece = { t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 };
-          // an enchanted piece past the first floor sometimes has a power as well
-          if (piece.e && depth >= 2) { const pool = GEAR_POWERS[gearKind]; const f = (piece.t.length * 0.137 + depth * 0.311 + mx * 0.071 + my * 0.053) % 1; if (f < 0.5) piece.pw = pool[Math.floor(f * 2 * pool.length) % pool.length]; }
-          stock.push(piece);
+        for (let g = 0; g < (route === 'warrens' ? 2 : 1); g++) {
+          const gearKind = rng.weighted([['weapon', 5], ['armor', 3], ['shield', 2]]);
+          const gearIds = Object.keys(ITEMS).filter(id => ITEMS[id].kind === gearKind && ITEMS[id].tier <= maxTier + 1 && ITEMS[id].weight !== 'cloth' && !ITEMS[id].focus);
+          if (gearIds.length) {
+            const piece = { t: rng.weighted(gearIds.map(id => [id, ITEMS[id].tier])), q: 1, e: rng.chance(0.3) ? 1 : 0 };
+            // an enchanted piece past the first floor sometimes has a power as well
+            if (piece.e && depth >= 2) { const pool = GEAR_POWERS[gearKind]; const f = (piece.t.length * 0.137 + depth * 0.311 + mx * 0.071 + my * 0.053) % 1; if (f < 0.5) piece.pw = pool[Math.floor(f * 2 * pool.length) % pool.length]; }
+            stock.push(piece);
+          }
         }
         // a goblin market undersells: there is competition
         const markup = (twist === 'market' ? 1.35 : 1.8) + rng.next() * (twist === 'market' ? 0.3 : 0.6);
@@ -519,7 +555,9 @@ const Dungeon = (() => {
     // (see encounters.js). Where they stand uses a stream of its own, so
     // adding them does not move anything else on a seed's level.
     const erng = new Rng(`${seed}|encounter-spots|${depth}`);
-    for (const encId of (encounterPlan(seed, opts.levels || 8)[depth] || [])) {
+    // the road's own encounter waits on its first floor
+    const encHere = [...(encounterPlan(seed, opts.levels || 8)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : [])];
+    for (const encId of encHere) {
       let placed = false;
       // the last floor's vigil lamp stands at the edge of the lich's hall, in
       // the nearest room to it but never in it, so the gold found on the way
@@ -558,7 +596,7 @@ const Dungeon = (() => {
     // so it is a fight sought or stumbled into rather than a gate. Whatever
     // already stood in the room gives way to it and the kin it keeps. A
     // stream of its own, so nothing else on a seed's floor moves.
-    const namedId = namedPlan(seed, opts.levels || 8)[depth];
+    const namedId = namedPlan(seed, opts.levels || 8, opts.route)[depth];
     if (namedId && !isFinal) {
       const nrng = new Rng(`${seed}|named-lair|${depth}`);
       const held = new Set(npcs.map(n => idx(n.x, n.y)));
@@ -638,11 +676,11 @@ const Dungeon = (() => {
       }
     }
 
-    const theme = isFinal ? THEMES.length - 1 : (depth - 1) % (THEMES.length - 1);
+    const theme = isFinal ? THEMES.length - 1 : route ? ROUTES[route].theme : (depth - 1) % (THEMES.length - 1);
     return {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
-      theme, isFinal, twist, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
+      theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
   }
 
@@ -694,7 +732,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS };
+  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS, routeSpan };
 })();
 
 export { Dungeon };

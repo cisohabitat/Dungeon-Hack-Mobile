@@ -306,6 +306,42 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Met only down one road past the fork, on its first floor (dungeon.js
+  // places them): kept out of the deck the rest are dealt from.
+  ossuary: {
+    title: 'The Ossuary', sprite: 'bones', depth: [99, 99], route: 'crypts',
+    text: 'The walls of this chamber are built of skulls, thousands of them, set in patient rows. In the middle stands a reliquary of green bronze, and every empty eye in the room seems turned toward it.',
+    choices: [
+      { label: 'Pray for the dead', check: { stat: 'wis', dc: 12, knack: [['cleric', null, 3]] },
+        pass: { text: 'You say the old words for them, and the room grows easier to stand in. Something of their long quiet goes with you.', effects: [{ xp: 40 }, { buff: { stats: [['ac', 2]], dur: 240000 } }] },
+        fail: { text: 'The words come out wrong. Two of the walls\' builders climb down to correct you.', effects: [{ ambush: { id: 'skeleton', n: 2 } }] } },
+      { label: 'Open the reliquary', check: { stat: 'dex', dc: 13 },
+        pass: { text: 'The catch gives without a sound. Inside, on rotten velvet, the saint\'s things, and the offerings of those who came to them.', effects: [{ loot: 1 }, { goldPerDepth: 10 }] },
+        fail: { text: 'A needle in the catch, and something green on it.', effects: [{ hurtFrac: 0.1 }, { poison: 1 }] } },
+      { label: 'Read the names on the wall', check: { stat: 'int', dc: 12 },
+        pass: { text: 'Under the skulls, the names, and under the names, where each was found. It reads like a map of the floor, and it is one.', effects: [{ map: 1 }, { xp: 40 }] },
+        fail: { text: 'The script is older than any you know.', effects: [] } },
+      { label: 'Walk softly through', outcome: { text: 'You keep your eyes down and your steps quiet, and the dead let you go.', effects: [] } },
+    ],
+  },
+
+  warcamp: {
+    title: 'The War-Camp', sprite: 'barricade', depth: [99, 99], route: 'warrens',
+    text: 'Cookfires, a rack of spears, a spit with something turning on it. The Warrens\' war-camp is almost empty: only an orc sentry, dozing on an upturned drum with a cleaver across his knees.',
+    choices: [
+      { label: 'Rob the weapon rack', check: { stat: 'dex', dc: 13, knack: [['thief', null, 3]] },
+        pass: { text: 'You take the best of the rack and are gone before the sentry stops snoring.', effects: [{ loot: 1 }] },
+        fail: { text: 'A spear topples, and the whole rack goes with it. The sentry wakes up furious.', effects: [{ ambush: { id: 'orc', n: 1 } }] } },
+      { label: 'Kick the drum out from under him', check: { stat: 'str', dc: 13 },
+        pass: { text: 'He goes down hard and does not get up, and the camp\'s stew is yours. You feel equal to anything down here.', effects: [{ xp: 60 }, { food: 40 }, { buff: { stats: [['hit', 2]], dur: 240000 } }] },
+        fail: { text: 'He is quicker than he looked. The cleaver finds you on its way past.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Wake him, and say you bring orders', check: { stat: 'cha', dc: 13 },
+        pass: { text: 'He is too sleepy to argue. He tells you which tunnels the patrols use, and pays the messenger\'s fee.', effects: [{ map: 1 }, { goldPerDepth: 12 }] },
+        fail: { text: 'He does not believe a word. He beats on his drum instead.', effects: [{ ambush: { id: 'goblin', n: 2 } }] } },
+      { label: 'Slip past the camp', outcome: { text: 'You go round by the back tunnels. The stew smelled good.', effects: [] } },
+    ],
+  },
+
   // The middle floors, where a run sees most of its encounters, had the fewest
   // of their own: these two belong there and nowhere else.
   duelist: {
@@ -358,7 +394,7 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
 function encounterPlan(seed, levels) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
-  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final));
+  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route));
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);

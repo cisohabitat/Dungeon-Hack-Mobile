@@ -58,6 +58,9 @@ README balance table current.
   run: tests and the bot choose it through `spreadPicks` / a score with room.
 - Level-up offers are shuffled: a test that clicks the first card must handle
   Self-Taught's score picker (`.spread-stat:not(.full)`).
+- The stair divides about a third of the way down (`Dungeon.routeSpan`): a
+  test or bot that walks onto the stairs must answer `Game.forkPending()` with
+  `Game.chooseRoute(...)`; `Game.descend()` on its own takes the seed's road.
 - `pkill -f <pattern>` inside a shell command matches that shell itself and
   kills it; find the PID another way.
 - Timing-sensitive browser tests flake under heavy CPU load (a bench running):

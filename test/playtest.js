@@ -429,6 +429,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // much this hero can afford to lose, and walk away unless it is worth it.
     // (The first version took any check better than even and ignored the
     // stakes, which made fragile heroes take gambles a person would refuse.)
+    // at the divided stair: ROUTE=crypts|warrens, or each seed its own way
+    if (Game.forkPending()) {
+      const road = process.env.ROUTE || (seed.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 2 ? 'crypts' : 'warrens');
+      Game.chooseRoute(road); rec.route = road;
+      continue;
+    }
     if (Game.currentEncounter()) {
       const cur = Game.currentEncounter();
       if (!cur.result) {

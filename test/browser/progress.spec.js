@@ -16,7 +16,7 @@ test.describe('progress between runs', () => {
     // a cell for every class at every difficulty, every path, every vow and every feat
     const cells = await page.evaluate(() => Object.keys(CLASSES).length * 3 + document.querySelectorAll('[data-trophy^="path-"]').length + document.querySelectorAll('[data-trophy^="vow-"]').length + document.querySelectorAll('[data-trophy^="feat-"]').length);
     await expect(page.locator('#hall-trophies .cell')).toHaveCount(cells);
-    await expect(page.locator('[data-trophy^="feat-"]')).toHaveCount(1);
+    await expect(page.locator('[data-trophy^="feat-"]')).toHaveCount(3);
     await expect(page.locator('#hall-trophies .cell.won')).toHaveCount(0);
     await page.click('#hall-back');
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 2, normal: 1 }, mage: { hard: 1 } }, relics: [] })));

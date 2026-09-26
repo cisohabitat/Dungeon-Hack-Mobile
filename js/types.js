@@ -152,6 +152,7 @@
  * @property {{x: number, y: number}|null} stairsDown
  * @property {number} theme
  * @property {boolean} isFinal
+ * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
@@ -184,6 +185,7 @@
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
+ * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it
  */
 
 /**
@@ -209,6 +211,8 @@
  * @property {Player} player
  * @property {Object<number, Level>} levels
  * @property {number} depth
+ * @property {string} [route]  the road taken at the fork: crypts or warrens; absent until chosen
+ * @property {boolean} [forkPending]  the hero stands at the divided stair and has not yet chosen
  * @property {number} [lunges]  how many lunges have followed the hero this run: the first-fight lesson reads it
  * @property {Record<string, number>} [threads]  choices that follow the hero down: each kept with the floor it was made on (see threads in game.js)
  * @property {Array<{m: string, c: string, base?: string, n?: number, notes?: Record<string, string[]>, gone?: boolean, at?: number}>} log

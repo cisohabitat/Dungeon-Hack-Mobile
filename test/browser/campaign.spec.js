@@ -110,6 +110,9 @@ async function play(page, opts) {
       // a level-up choice blocks everything until it is made
       if (Game.pendingBoons()) { const id = Game.pendingBoons()[0]; const t = Game.player().taught || {}; const k = ['con', 'str', 'dex', 'wis', 'int', 'cha'].find(s => !t[s]); Game.chooseBoon(id, id === 'spread' ? [k, k] : undefined); return { acted: 'boon' }; }
 
+      // at the divided stair, a road
+      if (Game.forkPending()) { Game.chooseRoute('crypts'); return { acted: 'fork' }; }
+
       // an encounter walked into by accident: this run is checking the route,
       // not the encounters, so it takes the way out and moves on
       if (Game.currentEncounter()) {
