@@ -35,6 +35,9 @@ const mirror = p => {
 };
 const both = p => [p, mirror(p)];
 
+/** The points of an oval, for a flat sheet in that shape. */
+const oval = (cx, cy, rx, ry, n = 14) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * rx, cy + Math.sin(i / n * Math.PI * 2) * ry]);
+
 const CREATURES = {
   // A hunched little thing: head too big for it, ears like knives, a grin
   // full of bad teeth and a rusty blade in one fist.
@@ -657,10 +660,15 @@ const CREATURES = {
     const mr = rear ? [3.8, 3.4] : [3.2, 2.8];    // how wide the maw gapes
     out.push(
       ball(16, hy, 6.2, 4.4, bronze),
-      // the maw, round and wet, lipped in raw red
+      // the maw, round and wet, lipped in raw red. The hole itself is laid
+      // flat and turned from the light: painted as a ball, the painter lit
+      // its crown, and the dark of the throat came out a grey dome
       ball(16, hy + 1, mr[0] + 0.6, mr[1] + 0.5, '#8a3424'),
-      ball(16, hy + 1, mr[0], mr[1], '#4a0e0c'),
-      ball(16, hy + 1.3, mr[0] * 0.55, mr[1] * 0.55, '#140404'),
+      sheet(oval(16, hy + 1, mr[0], mr[1]), '#3a0a0a', { tilt: [0.55, 0.6] }),
+      sheet(oval(16, hy + 1.4, mr[0] * 0.6, mr[1] * 0.6), '#0a0204', { tilt: [0.7, 0.7] }),
+      // a ring of teeth round the rim, and one wet glint deep in it
+      specks(Array.from({ length: 12 }, (_, i) => [Math.round((16 + Math.cos(i / 12 * Math.PI * 2) * mr[0] * 0.9) * 2) / 2, Math.round((hy + 1 + Math.sin(i / 12 * Math.PI * 2) * mr[1] * 0.9) * 2) / 2]), '#e8dcc0'),
+      specks([[15, hy + 0.5], [15.5, hy + 0.5]], '#d07a60'),
     );
     if (rear) {
       // mandibles spread wide, ready to close
