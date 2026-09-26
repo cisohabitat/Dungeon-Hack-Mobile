@@ -219,8 +219,8 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | about 96% |
-| Normal | 74% | 75% | 70% | 70% | about 72% |
-| Hard | 41% | 46% | 39% | 50% | about 44% |
+| Normal | 74% | 73% | 73% | 70% | about 72% |
+| Hard | 40% | 47% | 48% | 48% | about 46% |
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
