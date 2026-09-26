@@ -37,6 +37,8 @@ const Music = (() => {
   const LEVEL = { quiet: 0, wary: 1, fight: 2, champion: 3, boss: 4 };
   /** How loud the music sits under the game's own sounds and the floor's drone. */
   const LEVEL_ALL = 0.6;
+  /** How far the music draws back while the game is paused (the Pack, the Map, the Menu). */
+  const DUCK = 0.4;
   /** How long the quiet after a fight lasts, in seconds, before the bells come back. */
   const HUSH_S = 9;
 
@@ -138,6 +140,7 @@ const Music = (() => {
   let playing = false;
   let onAudio = false;       // which clock nextAt is on: the audio's, or (with no audio, as in the tests) the page's
   let busUp = false;         // the bus has been faded up for this stretch of play
+  let ducked = false;        // drawn back while the game is paused
   /** @type {GainNode|null} */ let bus = null;
   /** @type {any} */ let busCtx = null;
   /** @type {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} told of every note, even with no audio: for tests */
@@ -238,7 +241,7 @@ const Music = (() => {
     const now = a ? a.ctx.currentTime : nowMs / 1000;
     if (!playing || onAudio !== !!a) { nextAt = now + 0.3; onAudio = !!a; }
     if (!playing) { playing = true; comp = composer(String(theme)); }
-    if (a && !busUp) { fadeTo(LEVEL_ALL, 1.5); busUp = true; }
+    if (a && !busUp) { fadeTo(LEVEL_ALL * (ducked ? DUCK : 1), 1.5); busUp = true; }
     heard.mood = mood;
     // behind (a slow frame, a new floor being made): what was missed is let go, not played in a heap
     if (nextAt < now) nextAt = now + 0.02;
@@ -253,6 +256,13 @@ const Music = (() => {
       }
       nextAt += s.dur;
     }
+  }
+  /** The game paused, or not: a fight's beat carries on over a frozen scene, so it draws back while paused. */
+  function duck(on) {
+    on = !!on;
+    if (on === ducked) return;
+    ducked = on;
+    if (playing && busUp) { try { fadeTo(LEVEL_ALL * (on ? DUCK : 1), 0.4); } catch (e) { fault('duck', e); } }
   }
   /** The floor is left behind (the end screen, the title, the Hall): fade out. */
   function stop() {
@@ -269,7 +279,7 @@ const Music = (() => {
   }
 
   return {
-    update, stop, toggle, plan, note, SCALES, MOODS, HUSH_S,
+    update, stop, toggle, duck, plan, note, SCALES, MOODS, HUSH_S,
     isEnabled: () => enabled,
     /** @param {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} fn */
     listen(fn) { listener = fn; },
@@ -285,7 +295,7 @@ const Music = (() => {
       return n;
     },
     /** What it last heard of the fight, and how many notes it has written: for the tests. */
-    state: () => ({ ...heard, playing }),
+    state: () => ({ ...heard, playing, ducked }),
   };
 })();
 

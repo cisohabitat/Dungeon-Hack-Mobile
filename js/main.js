@@ -70,6 +70,7 @@ function loop(now) {
       Sound.setAmbience(Game.bossAwake() ? 1 : 0, G.levels[G.depth].theme);
       Sound.heartbeat(G.player.hp / G.player.maxHp, now);
       Music.update(Game.mood(), G.levels[G.depth].theme, now);
+      Music.duck(UI.paused());
     } else { Sound.stopAmbience(); Music.stop(); }
   }
   requestAnimationFrame(loop);

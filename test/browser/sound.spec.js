@@ -67,8 +67,9 @@ test.describe('sound', () => {
     expect(heard.mood).toBe('fight');
     expect(heard.kinds).toContain('pulse');
     expect(heard.kinds).toContain('thud');
-    // the menu turns it off, and it stays off after a reload
+    // the menu turns it off, and it stays off after a reload; while the menu is open the music draws back
     await page.click('[data-open="menu"]');
+    await expect.poll(() => page.evaluate(() => Music.state().ducked)).toBe(true);
     await expect(page.locator('#m-music')).toHaveText('Music: On');
     await page.click('#m-music');
     await expect(page.locator('#m-music')).toHaveText('Music: Off');
