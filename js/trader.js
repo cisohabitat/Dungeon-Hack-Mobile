@@ -71,7 +71,7 @@ export function makeTrader(K) {
   function tonic() {
     const why = K.G.depth < 4 ? 'The trader keeps the deep tonic for deeper floors than this.' : shop.tonic ? 'You have drunk all the tonic this trader will sell you.' : null;
     return { id: 'tonic', label: 'Drink the trader\'s bitter tonic', detail: why || `${TONIC_HP} more maximum hit points, for good.`,
-      price: Math.round((150 + 25 * K.G.depth) * (1 - charm())), why };
+      price: Math.round((60 + 20 * K.G.depth) * (1 - charm())), why };
   }
   /**
    * Each trader knows one rune for a weapon and one for armour, and will work
