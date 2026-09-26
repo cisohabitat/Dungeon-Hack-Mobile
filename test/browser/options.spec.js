@@ -318,6 +318,30 @@ test.describe('sharing a run', () => {
     await expect(page.locator('#end-share-line')).toHaveText(/^Deepdelve seed share-me \(Normal, 6 floors, large halls, no traps\): Fighter, fell on floor 1, \d+ kills?, score \d+$/);
     expect(errors).toEqual([]);
   });
+
+  test("a phone with a share sheet shares through it, and closing the sheet is not a failure", async ({ page }) => {
+    const errors = watchForErrors(page);
+    // a stand-in for the phone's sheet: the first time it is closed unchosen, then something is picked
+    await page.addInitScript(() => {
+      window.__sheet = [];
+      navigator.share = async d => { window.__sheet.push(d.text); if (window.__sheet.length === 1) throw new DOMException('closed', 'AbortError'); };
+    });
+    await startGame(page, { seed: 'share-sheet', cls: 'Fighter' });
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await page.click('#end-share');
+    await expect.poll(() => page.evaluate(() => window.__sheet.length)).toBe(1);
+    await expect(page.locator('#end-share'), 'closing the sheet leaves the button as it was').toHaveText('Share this run');
+    await page.click('#end-share');
+    await expect(page.locator('#end-share')).toHaveText('Shared');
+    const sent = await page.evaluate(() => window.__sheet[1]);
+    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal\): Fighter, fell on floor 1, /);
+    await expect(page.locator('#end-share-line')).toHaveText(sent);
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('the Daily Delve', () => {

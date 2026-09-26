@@ -144,13 +144,26 @@ const UI = (() => {
       return ok;
     } catch (e) { return false; }
   }
+  /**
+   * Pass a line on: through the phone's own share sheet where there is one
+   * (a message, a chat, a note), else onto the clipboard. Closing the sheet
+   * without choosing is not a failure, and copies nothing behind the player's back.
+   * @returns {Promise<'shared'|'closed'|'copied'|'failed'>}
+   */
+  async function shareText(text) {
+    if (navigator.share) {
+      try { await navigator.share({ text }); return 'shared'; } catch (e) { if (e && e.name === 'AbortError') return 'closed'; }
+    }
+    return (await copyText(text)) ? 'copied' : 'failed';
+  }
+  const SHARED = { shared: 'Shared', copied: 'Copied: paste it anywhere' };
   /** The title's Daily Delve button: start today's, go back to it, or share how it went. */
   function dailyTap() {
     const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
     if (s && s.daily === key) { if (Game.load()) startPlaying(); return; }
     if (st.state === 'done') {
       const line = Daily.shareLine(key, st.done);
-      copyText(line).then(ok => { $('#daily-summary').textContent = ok ? 'Copied: paste it anywhere' : line; });
+      shareText(line).then(how => { $('#daily-summary').textContent = SHARED[how] || line; });
       return;
     }
     // one try a day: a run begun and then given up is still the day's try
@@ -2418,7 +2431,7 @@ const UI = (() => {
       const line = key ? Daily.shareLine(key, st.done) : runShareLine(G.status === 'won'), out = $('#end-share-line');
       // the line is shown as well, to copy by hand if the clipboard says no
       out.textContent = line; out.style.display = '';
-      copyText(line).then(ok => { $('#end-share').textContent = ok ? 'Copied: paste it anywhere' : 'Copy the line below'; });
+      shareText(line).then(how => { $('#end-share').textContent = SHARED[how] || (how === 'closed' ? $('#end-share').textContent : 'Copy the line below'); });
     });
     for (const b of $$('#c-difficulty [data-diff]')) b.addEventListener('click', () => setDifficulty(b.dataset.diff));
     setDifficulty('normal');

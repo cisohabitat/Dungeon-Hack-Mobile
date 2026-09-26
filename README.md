@@ -197,7 +197,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 172 Playwright tests against a real browser, at phone size
+npm run test:browser  # 173 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
 ```
@@ -231,12 +231,12 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
 | Normal | 76% | 73% | 76% | 82% | 75% | about 76% |
-| Hard | 47% | 48% | 46% | 58% | 48% | about 49% |
+| Hard | 50% | 50% | 45% | 55% | 54% | about 51% |
 | Long Delve (12 floors), Normal | 66% | 69% | 63% | 75% | 71% | about 69% |
 | Long Delve (12 floors), Hard | 52% | 41% | 44% | 60% | 44% | about 48% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class but the thief lands within two points of it. (It was once tuned
+Delve on Hard, and every class lands within five points of it: the mage lowest, the thief highest. (It was once tuned
 to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
@@ -257,8 +257,8 @@ every ordinary blow, as a twitchy player does, and `DODGE=2` steps aside from th
 stepping back still pays, but no longer beats everything. The bot is a steady player, not a
 great one: it does not step back from ordinary blows, so a careful human does better.
 
-The bot is a mediocre player, so a human should do considerably better; the mage and thief lag
-mostly because the bot kites and sneaks badly, which is exactly what those classes live on. The
+The bot is a mediocre player, so a human should do considerably better; the mage trails on Hard
+mostly because the bot kites badly, which is exactly what a mage lives on. The
 test suite guards the arithmetic that matters: the boss fight must be winnable by a level 8
 fighter in chain mail with a plain long sword, with a 25% margin, and every class must have a
 weapon that reaches at range.
