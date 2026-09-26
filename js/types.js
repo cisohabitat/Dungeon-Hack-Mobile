@@ -56,6 +56,7 @@
  * @property {number} nextAttack @property {number} kills @property {number} steps
  * @property {number} deepest
  * @property {string[]} [boons]
+ * @property {Record<string, number>} [taught]   points Self-Taught has put into each score this run (two at most)
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
@@ -151,6 +152,7 @@
  * @property {{x: number, y: number}|null} stairsDown
  * @property {number} theme
  * @property {boolean} isFinal
+ * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square

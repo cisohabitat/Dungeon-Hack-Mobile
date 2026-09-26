@@ -363,6 +363,29 @@ test.describe('the hero\'s name', () => {
     expect(errors).toEqual([]);
   });
 
+  test('choosing another background draws a name to suit it, but never over one the player typed', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    const open = page.locator('.bg-card:not(.locked)');
+    expect(await open.count()).toBeGreaterThan(1);
+    const before = await page.inputValue('#c-name');
+    await open.nth(1).click();
+    const after = await page.inputValue('#c-name');
+    expect(after).not.toBe(before);
+    expect(await page.evaluate(() => window.HERO_NAMES)).toContain(after);
+    await page.fill('#c-name', 'Mine');
+    await open.nth(0).click();
+    expect(await page.inputValue('#c-name')).toBe('Mine');
+    // even typed to match the name the game drew, it is the player's now
+    await page.click('#c-name-rand');
+    const drawn = await page.inputValue('#c-name');
+    await page.fill('#c-name', drawn);
+    await open.nth(1).click();
+    expect(await page.inputValue('#c-name')).toBe(drawn);
+    expect(errors).toEqual([]);
+  });
+
   test('a new hero arrives already named, a different name each time, and a name typed over it is kept', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

@@ -45,6 +45,30 @@ function namedPlan(seed, levels) {
   return plan;
 }
 
+/**
+ * Now and then a middle floor is not quite as the others: its torches burnt
+ * out, black water standing in it, its dead restless, or goblins holding a
+ * market there. Decided by the seed for the whole run: never the first floor
+ * or the last two, never a champion's floor, never two floors running, and
+ * about one run in eight has none.
+ * @returns {Record<number, string>} plan[depth] = twist id
+ */
+const TWIST_IDS = ['dark', 'flooded', 'restless', 'market'];
+function twistPlan(seed, levels) {
+  const rng = new Rng(`${seed}|twists`);
+  const named = namedPlan(seed, levels);
+  const ids = rng.shuffle(TWIST_IDS.slice());
+  const most = Math.max(1, Math.floor(levels / 4));
+  /** @type {Record<number, string>} */
+  const plan = {};
+  let n = 0;
+  for (let d = 2; d <= levels - 2 && n < most; d++) {
+    if (named[d] || plan[d - 1]) continue;
+    if (rng.next() < 0.5) plan[d] = ids[n++ % ids.length];
+  }
+  return plan;
+}
+
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
 const Dungeon = (() => {
@@ -68,6 +92,8 @@ const Dungeon = (() => {
     const idx = (x, y) => y * w + x;
     const get = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[idx(x, y)];
     const isFinal = depth >= opts.levels;
+    // a twist is dealt from its own seed, so a floor without one is exactly as it always was
+    const twist = twistPlan(seed, opts.levels || 8)[depth] || null;
 
     // ---- rooms ----
     const rooms = [];
@@ -353,7 +379,8 @@ const Dungeon = (() => {
         if (openSides === 1) cands.push({ x, y, dir });
       }
       rng.shuffle(cands);
-      const want = Math.round(rooms.length * 0.9) + 4;
+      // a dark floor keeps a torch in four
+      const want = Math.round((Math.round(rooms.length * 0.9) + 4) * (twist === 'dark' ? 0.25 : 1));
       const minGap = 5;
       for (const c of cands) {
         if (lights.length >= want) break;
@@ -437,7 +464,7 @@ const Dungeon = (() => {
     // two floors of every delve always have one, so the gold hauled up has somewhere to go:
     // two fifths of the way down, and the floor before the last
     const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === (opts.levels || 8) - 1;
-    if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader)) {
+    if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader || twist === 'market')) {
       const cands = rooms.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {
         const spots = [];
@@ -478,7 +505,9 @@ const Dungeon = (() => {
           if (piece.e && depth >= 2) { const pool = GEAR_POWERS[gearKind]; const f = (piece.t.length * 0.137 + depth * 0.311 + mx * 0.071 + my * 0.053) % 1; if (f < 0.5) piece.pw = pool[Math.floor(f * 2 * pool.length) % pool.length]; }
           stock.push(piece);
         }
-        npcs.push({ id: 'merchant', x: mx, y: my, stock, markup: 1.8 + rng.next() * 0.6, greeted: false });
+        // a goblin market undersells: there is competition
+        const markup = (twist === 'market' ? 1.35 : 1.8) + rng.next() * (twist === 'market' ? 0.3 : 0.6);
+        npcs.push({ id: 'merchant', x: mx, y: my, stock, markup, greeted: false });
         break;
       }
     }
@@ -611,7 +640,7 @@ const Dungeon = (() => {
     return {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
-      theme, isFinal, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
+      theme, isFinal, twist, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
   }
 
@@ -663,7 +692,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan };
+  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS };
 })();
 
 export { Dungeon };

@@ -132,9 +132,11 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
         'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
       const pick = order.find(id => offer.includes(id)) || offer[0];
-      // Self-Taught: both points in the class's key score
+      // Self-Taught: both points in the class's key score, then (its two given) in Constitution
       const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex' }[cls];
-      Game.chooseBoon(pick, pick === 'spread' ? [key, key] : undefined);
+      const room = k => ((Game.player().taught || {})[k] || 0) === 0;
+      const to = room(key) ? key : room('con') ? 'con' : 'dex';
+      Game.chooseBoon(pick, pick === 'spread' ? [to, to] : undefined);
       rec.boons = (rec.boons || 0) + 1;
     }
     const L = Game.level();

@@ -97,7 +97,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* Panels */
 .panel { width: 100%; max-width: 520px; margin: 0 auto; padding: calc(12px + var(--sat)) 16px calc(24px + var(--sab)); }
 .class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
-.class-card { text-align: left; padding: 10px 12px; min-height: 64px; }
+.class-card { text-align: left; padding: 10px 12px; min-height: 64px; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; }
+/* titles in a row line up: the cards used to centre their words, so a two-line blurb sat its title higher */
 .class-card.sel { border-color: var(--gold); background: #33291a; }
 .class-card b { display: block; font-size: 1.05rem; }
 .class-card small { color: var(--dim); line-height: 1.3; display: block; }
@@ -220,11 +221,13 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hall-row .who small { display: block; color: var(--dim); }
 .hall-row .score { color: var(--gold); font-family: monospace; font-size: 1.05rem; }
 .hall-row.won { border-color: var(--gold); }
-.hud-status { position: absolute; top: 6px; left: 8px; display: flex; gap: 6px; pointer-events: none; }
+.hud-status { position: absolute; top: 6px; left: 8px; right: calc(76px + 14px); display: flex; flex-wrap: wrap; gap: 4px 6px; pointer-events: none; }
+/* the chips wrap in rows left of the map rather than running under it and off the screen */
+@media (min-width: 600px) { .hud-status { right: calc(90px + 14px); } }
 /* a boss's bar runs along the top of the view: the chips and tips go under it */
 .view-wrap.boss-up .hud-status { top: calc(var(--bar-bottom, 0px) + 4px); }
 .view-wrap.boss-up .tip { top: calc(var(--bar-bottom, 0px) + 4px); }
-.hud-status span { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); }
+.hud-status span { white-space: nowrap; flex: none; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); }
 .hud-status .bad { color: #f88; }
 .hud-status .good { color: #8f8; }
 /* the oldest line fades out at the top rather than being sliced through */
@@ -397,6 +400,9 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .hud-quaff small { position: absolute; right: 2px; bottom: 1px; font-size: 0.68rem; font-family: monospace; color: #ffd8c8; }
 
 /* encounters */
+.svc-fold { margin-top: 6px; grid-column: 1 / -1; }
+.svc-fold summary { cursor: pointer; color: var(--dim); padding: 8px 4px; min-height: 36px; }
+.svc-fold .shop-row { margin-top: 6px; }
 .enc-art { text-align: center; margin: 4px 0 8px; }
 .enc-art img { width: 112px; height: 112px; image-rendering: pixelated; }
 .enc-text { max-width: 520px; margin: 0 auto 14px; line-height: 1.5; color: #d8cfbe; }
@@ -508,9 +514,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 /* Back and Descend stay on screen however far down the form you are */
 #screen-create .panel { padding-bottom: 0; }
 .row.spread.create-foot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px 0; padding: 10px 16px calc(10px + var(--sab));
-  background: linear-gradient(to bottom, rgba(11,10,16,0.82), var(--bg) 40%); border-top: 1px solid var(--border); }
+  background: var(--bg); border-top: 1px solid var(--border); }
 .create-foot .big { width: auto; flex: 1; }
-.create-foot .ghost { flex: 0 0 auto; min-width: 88px; }
+/* opaque: the form scrolling under a see-through Back read through it */
+.create-foot .ghost { flex: 0 0 auto; min-width: 88px; background: var(--bg); }
 /* checkboxes drawn to match the dark theme, with a whole-row tap target */
 .opts label.check { min-height: 44px; cursor: pointer; line-height: 1.3; }
 .opts input[type=checkbox] { -webkit-appearance: none; appearance: none; flex: 0 0 auto; width: 24px; height: 24px; margin: 0; padding: 0;
@@ -634,7 +641,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   .enc-art { float: left; margin: 0 14px 6px 0; }
   .enc-art img { width: 84px; height: 84px; }
   .enc-text { max-width: none; }
-  #enc-choices { clear: both; }
+  /* two choices to a row, so the last one is not cut off below the fold */
+  #enc-choices { clear: both; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; max-width: none; }
+  #enc-choices > * { margin: 0; }
+  #enc-choices > .primary, #enc-choices > .enc-lines, #enc-choices > p { grid-column: 1 / -1; }
   /* the trader's wares two to a row: one wide column showed four at a time */
   .shop-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; }
 
@@ -665,6 +675,12 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .spread-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
 .spread-grid .boon { text-align: center; }
 .spread-grid .boon.key b { color: var(--gold); }
+.spread-grid .boon { position: relative; }
+/* where the points have gone so far, and scores Self-Taught has given all it may */
+.spread-grid .boon.picked { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+.spread-grid .boon .picked { position: absolute; top: 3px; right: 5px; font-style: normal; font-size: 0.8rem; color: var(--gold); }
+.spread-grid .boon.full { opacity: 0.45; }
+.spread-hint { margin: 0 0 4px; }
 
 /* point buy: a score's own steps beneath it */
 .stat-mode { margin: 8px 0 6px; }

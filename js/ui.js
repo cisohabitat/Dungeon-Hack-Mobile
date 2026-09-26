@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
+import { TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, BESTIARY, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -310,7 +310,7 @@ const UI = (() => {
       el.innerHTML = open ? `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`
         : `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key lock">Locked. ${escapeHtml(b.how)}</em>`;
       el.disabled = !open;
-      if (open) el.addEventListener('click', () => { create.bg = id; buildCreate(); });
+      if (open) el.addEventListener('click', () => { const was = create.bg; create.bg = id; if (id !== was && $('#c-name').value === autoName) drawHeroName(); buildCreate(); });
       bgGrid.appendChild(el);
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
@@ -362,15 +362,14 @@ const UI = (() => {
     [st[keyStat], st[best]] = [st[best], st[keyStat]];
     create.stats = st;
   }
-  /** A name from the list, never the one given just before. */
-  function randomHeroName(avoid = '') {
-    let name = avoid;
-    while (name === avoid) name = HERO_NAMES[Math.floor(Math.random() * HERO_NAMES.length)];
-    return name;
-  }
+  /** The name the game last put in the box: a background chosen after it may redraw it, a typed one it leaves alone. */
+  let autoName = '';
+  /** A name that often sounds like the hero's background, never the one given just before. */
+  function drawHeroName() { autoName = heroName(create.bg, $('#c-name').value); $('#c-name').value = autoName; }
   function openCreation() {
     // every new hero arrives with a name of their own, to keep or type over
-    $('#c-name').value = randomHeroName($('#c-name').value);
+    if (!Progress.bgOpen(create.bg, Progress.load())) create.bg = 'oathbroken';
+    drawHeroName();
     create.buy = null; create.buyTouched = false;   // a new hero's points are its own, not the last one's
     create.rolled = Game.rollStats();
     fitStats();
@@ -393,8 +392,7 @@ const UI = (() => {
       const s = create.stats, fight = create.cls === 'thief' ? s.dex : s.str;
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
-    const NAMES = Daily.HERO_NAMES;
-    const cfg = { name: NAMES[Math.floor(Math.random() * NAMES.length)], cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
+    const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
       opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal') } };
     // "straight in" means it for anyone who has been down before; a first
     // hero still hears why the Heart matters
@@ -788,7 +786,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -807,6 +805,7 @@ const UI = (() => {
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
     // a floor readier for a strong hero says so while you are on it
+    if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
     if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Foes +${Game.pressSturdier(L)}%</span>`);
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
@@ -815,7 +814,9 @@ const UI = (() => {
     // a blessing lasts minutes: counted in minutes, so the row does not tick every second
     // a ward (armour) or a blessing (to hit) bought or prayed for; both at once are Warded
     const boon = Math.max(secs('boon_ac'), secs('boon_hit'));
-    if (boon) st.push(`<span class="good">${secs('boon_ac') ? 'Warded' : 'Blessed'} ${Math.ceil(boon / 60)}m</span>`);
+    // (a prayer, not "Blessed": that is the spell's own chip, and both at once read as one twice)
+    if (boon) st.push(`<span class="good">${secs('boon_ac') ? 'Warded' : 'Prayer'} ${Math.ceil(boon / 60)}m</span>`);
+    if (p.smokeUntil > G.t) st.push(`<span class="good" title="Lost in your smoke: what was near has lost you">In smoke ${left(p.smokeUntil)}s</span>`);
     if (secs('crew_hit')) st.push(`<span class="good" title="The crew you buried march with you: +2 to hit">Crew's song ${Math.ceil(secs('crew_hit') / 60)}m</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
     if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
@@ -1137,7 +1138,15 @@ const UI = (() => {
     // what the trader will do for coin besides trade
     const svc = $('#shop-services');
     svc.innerHTML = '';
-    for (const sv of Game.shopServices()) {
+    // what cannot be had just now folds away at the foot, so what can is not two screens from the selling
+    const services = Game.shopServices(), notNow = services.filter(sv => sv.why);
+    let fold = null;
+    if (notNow.length && notNow.length < services.length) {
+      fold = document.createElement('details');
+      fold.className = 'svc-fold';
+      fold.innerHTML = `<summary>Not now (${notNow.length})</summary>`;
+    }
+    for (const sv of [...services.filter(sv => !sv.why), ...notNow]) {
       const row = document.createElement('div');
       row.className = 'shop-row service';
       row.innerHTML = `<div class="what"><b>${escapeHtml(sv.label)}</b><small>${escapeHtml(sv.detail)}</small></div>`;
@@ -1148,8 +1157,9 @@ const UI = (() => {
       btn.setAttribute('aria-label', `${sv.label}${sv.why ? '' : ` for ${sv.price} gold`}`);
       if (!sv.why) payButton(btn, row, sv.price, 'Pay', () => Game.buyService(sv.id));
       row.appendChild(btn);
-      svc.appendChild(row);
+      (sv.why && fold ? fold : svc).appendChild(row);
     }
+    if (fold) svc.appendChild(fold);
     const sellBox = $('#shop-sell');
     sellBox.innerHTML = '';
     const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key');
@@ -1328,20 +1338,26 @@ const UI = (() => {
     // the tap that chose Self-Taught must not land on a score as well: the scores wait a moment
     const armedAt = performance.now() + SPREAD_GUARD_MS;
     const draw = () => {
-      el.innerHTML = `<p class="boon-head">${escapeHtml(b.name)}: ${b.spread - picks.length} point${b.spread - picks.length === 1 ? '' : 's'} to place</p>`;
+      el.innerHTML = `<p class="boon-head">${escapeHtml(b.name)}: ${b.spread - picks.length} point${b.spread - picks.length === 1 ? '' : 's'} to place</p>`
+        + '<p class="dim small spread-hint">A point on a score shown in green raises its bonus. ★ marks your class\'s key score.</p>';
       const grid = document.createElement('div');
       grid.className = 'spread-grid';
       for (const k in STAT_NAMES) {
         const v = p.stats[k] + picks.filter(x => x === k).length, m = Game.mod(v);
+        // Self-Taught gives a score two points over the whole run, no more
+        const full = ((p.taught || {})[k] || 0) + picks.filter(x => x === k).length >= 2;
         const btn = document.createElement('button');
         btn.className = 'boon spread-stat' + (CLASSES[p.cls].primary === k ? ' key' : '');
         btn.dataset.stat = k;
         // which taps move a bonus: a point onto an odd score raises it
         const up = Game.mod(v + 1) > m;
-        btn.innerHTML = `<b>${escapeHtml(STAT_NAMES[k])}</b><small>${v} (${m >= 0 ? '+' : ''}${m})${up ? ` \u2192 ${m + 1 >= 0 ? '+' : ''}${m + 1}` : ''}</small>`;
+        const put = picks.filter(x => x === k).length, key = CLASSES[p.cls].primary === k;
+        btn.innerHTML = `<b>${key ? '\u2605 ' : ''}${escapeHtml(STAT_NAMES[k])}</b><small>${v} (${m >= 0 ? '+' : ''}${m})${up ? ` \u2192 ${m + 1 >= 0 ? '+' : ''}${m + 1}` : ''}</small>${put ? `<em class="picked">+${put}</em>` : ''}`;
+        if (put) btn.classList.add('picked');
         if (up) btn.classList.add('raises');
         const wait = armedAt - performance.now();
-        if (wait > 0) { btn.disabled = true; setTimeout(() => { btn.disabled = false; }, wait); }
+        if (full) { btn.disabled = true; btn.classList.add('full'); btn.title = 'Self-Taught has given this score its two points'; }
+        else if (wait > 0) { btn.disabled = true; setTimeout(() => { btn.disabled = false; }, wait); }
         btn.addEventListener('click', () => {
           if (performance.now() < armedAt) return;
           picks.push(k);
@@ -2283,12 +2299,17 @@ const UI = (() => {
       // points the player placed are kept across a look at the rolled scores
       if (create.mode === 'roll') fitStats(); else if (!create.buy || !create.buyTouched) create.buy = buyStart(create.cls);
       buildCreate();
+      // the scores (and the points left) are what just changed: keep them clear of the sticky footer
+      const el = create.mode === 'buy' ? $('#c-points') : $('#c-stats');
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
     });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
+    // anything typed in the name box is the player's own, even a name the game might have drawn
+    $('#c-name').addEventListener('input', () => { autoName = ''; });
     // a name for a hero who would rather not choose; never the same one twice running
     $('#c-name-rand').addEventListener('click', e => {
       e.preventDefault();
-      $('#c-name').value = randomHeroName($('#c-name').value);
+      drawHeroName();
     });
     $('#c-back').addEventListener('click', () => showScreen('screen-title'));
     $('#c-begin').addEventListener('click', beginGame);

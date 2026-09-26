@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { HERO_NAMES, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
+import { TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -18,6 +18,7 @@ const Game = (() => {
   const SAVE_KEY = 'deepdelve.save';
   const HALL_KEY = 'deepdelve.hall';
   const MOVE_MS = 220;
+  const FLOOD_SLOW = 1.25;   // how much slower everything goes through a flooded floor's water
   const TURN_MS = 200;
 
   /** @type {import('./types.js').GameState|null} */
@@ -134,6 +135,7 @@ const Game = (() => {
   // down to one roll: a d20 plus the stat's modifier against a difficulty. As
   // in combat a natural twenty always succeeds and a natural one always
   // fails, and the log shows the working the same way.
+  const SELF_TAUGHT_MOST = 2;
   const STAT_WORD = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
   function checkNote(stat, roll, m, dc) {
     if (!showRolls) return '';
@@ -752,7 +754,10 @@ const Game = (() => {
     const s = mstatBase(m);
     // a floor readier for a strong hero, or a harder delve: its creatures hit surer and harder
     const edge = (m.edge || 0) + diffEdge();
-    return edge ? { ...s, hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : s;
+    // on a flooded floor everything wades: a quarter slower, the lich aside
+    const wade = !s.boss && G && G.levels && lvl() && lvl().twist === 'flooded';
+    if (!edge && !wade) return s;
+    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), ...(wade ? { speed: Math.round(s.speed * FLOOD_SLOW) } : {}) };
   }
   function mstatBase(m) {
     const b = MONSTERS[m.id];
@@ -1263,7 +1268,7 @@ const Game = (() => {
     // a background still locked (or a stale choice) falls back to the first
     const bg = BACKGROUNDS[cfg.bg] && Progress.bgOpen(cfg.bg) ? cfg.bg : 'oathbroken';
     const p = {
-      name: (cfg.name || '').trim() || HERO_NAMES[Math.floor(Math.random() * HERO_NAMES.length)], cls: cfg.cls, bg, stats: { ...cfg.stats }, level: 1, xp: 0,
+      name: (cfg.name || '').trim() || heroName(bg), cls: cfg.cls, bg, stats: { ...cfg.stats }, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
       inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null, ring: null, ring2: null, amulet: null, cloak: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
@@ -1306,7 +1311,7 @@ const Game = (() => {
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1323,6 +1328,7 @@ const Game = (() => {
       if (depth > 1) log(`You descend to level ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
       if (L.isFinal) log('A dreadful presence waits somewhere on this level.', 'bad');
+      if (L.twist && TWISTS[L.twist]) log(TWISTS[L.twist].arrive, L.twist === 'market' ? 'good' : 'info');
       namedArrives(L);
       threadArrivals(L, depth, fresh);
     } else log(`You climb back up to level ${depth}.`, 'info');
@@ -1455,7 +1461,7 @@ const Game = (() => {
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
     p.x = nx; p.y = ny; p.steps++;
     if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
-    startCam(MOVE_MS);
+    startCam(lvl().twist === 'flooded' ? Math.round(MOVE_MS * FLOOD_SLOW) : MOVE_MS);
     Sound.play('step');
     distFieldAt = -1e9;
     onStep();
@@ -2296,9 +2302,13 @@ const Game = (() => {
     if (boon.spread) {
       // the points go where the player puts them, and nowhere until they do
       if (!Array.isArray(picks) || picks.length !== boon.spread || !picks.every(k => Object.prototype.hasOwnProperty.call(STAT_WORD, k))) return false;
-      for (const k of picks) p.stats[k]++;
       const counts = {};
       for (const k of picks) counts[k] = (counts[k] || 0) + 1;
+      // two points to a score over the whole run, as a score's own lesson comes twice at most:
+      // Self-Taught twice into one score was the stat lesson's cap walked round
+      const taught = p.taught || (p.taught = {});
+      if (Object.keys(counts).some(k => (taught[k] || 0) + counts[k] > SELF_TAUGHT_MOST)) return false;
+      for (const k of picks) { p.stats[k]++; taught[k] = (taught[k] || 0) + 1; }
       told = Object.entries(counts).map(([k, n]) => `+${n} ${STAT_WORD[k]}`).join(', ') + '.';
     }
     boon.apply(p);
@@ -2822,7 +2832,7 @@ const Game = (() => {
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
       // a foe that had you is hunting for you in the grey, and stays near for a while after:
       // no resting beside it. A sleeper never knew you were there, and stays as it was.
-      if (m.awake) { lost++; floatText(m, 'lost you', '#b8b8c8'); m.smoked = G.t + SMOKE_ALERT_MS + (onPath('assassin') ? 4500 : SMOKE_MS); }
+      if (m.awake) { lost++; floatText(m, 'lost you', '#eef0ff'); m.smoked = G.t + SMOKE_ALERT_MS + (onPath('assassin') ? 4500 : SMOKE_MS); }
       m.awake = false; m.fleeing = false; m.nextAct = G.t + 400;
       // and a zombie's grip loosens as it loses you
       if (p.grabbed && p.grabbed.uid === m.uid) p.grabbed = null;
@@ -2995,6 +3005,29 @@ const Game = (() => {
   // with sturdier creatures (1.8, not 1.7) all the way down.
   const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 || (diff().edge > 1 && G.depth <= 3) ? 1 : 0));
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
+  /**
+   * What a floor's twist changes when it is first made (dungeon.js deals the
+   * twists, and does the torches and the market itself): on a floor of the
+   * restless dead, over half its ordinary creatures have risen as undead of
+   * the depth, rolled afresh.
+   * @param {import('./types.js').Level} L
+   */
+  function twistLevel(L, depth) {
+    if (L.twist !== 'restless') return;
+    const rng = new Rng(`${G.seed}|restless|${depth}`);
+    const t = Dungeon.tierAt(depth, G.opts.levels || 8);
+    const undead = Object.keys(MONSTERS).filter(id => MONSTERS[id].undead && !MONSTERS[id].boss && !MONSTERS[id].named);
+    const off = id => Math.max(0, MONSTERS[id].tier[0] - t, t - MONSTERS[id].tier[1]);
+    const fit = undead.filter(id => off(id) === 0);
+    const pool = fit.length ? fit : [undead.sort((a, b) => off(a) - off(b))[0]];
+    for (const m of L.monsters) {
+      const b = MONSTERS[m.id];
+      if (b.undead || b.boss || b.named || m.pack || rng.next() >= 0.55) continue;
+      m.id = rng.pick(pool);
+      const nb = MONSTERS[m.id];
+      m.maxHp = m.hp = rng.dice(nb.hp[0], nb.hp[1], nb.hp[2]) + Math.floor((depth - 1) / 2);
+    }
+  }
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
@@ -3100,7 +3133,7 @@ const Game = (() => {
         // enough to be reached. Deep-born blood stacks with it, and so do a
         // Ring of Stealth and an Assassin's step, down to the square beside you:
         // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
-        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet());
+        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet() - (L.twist === 'dark' ? 1 : 0));
         // Waking is not acting. The growl used to land in the same frame as the
         // first blow from anything that woke beside you, so the only warning was
         // the damage. Give the growl a beat to be heard and turned toward.
@@ -3108,7 +3141,7 @@ const Game = (() => {
         if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
           const coughing = (m.smoked || 0) > G.t && hasTalent('choking_cloud');
           m.awake = true; m.smoked = 0; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
-          if (coughing) floatText(m, 'coughing', '#b8b8c8');
+          if (coughing) floatText(m, 'coughing', '#eef0ff');
           if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
           meet(m);
           // woken right beside you, its first blow is already being drawn back

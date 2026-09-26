@@ -309,7 +309,7 @@ const ENCOUNTERS = {
   // The middle floors, where a run sees most of its encounters, had the fewest
   // of their own: these two belong there and nowhere else.
   duelist: {
-    title: 'The Duelist\'s Ghost', sprite: 'wisp', depth: [3, 7],
+    title: 'The Duelist\'s Ghost', sprite: 'duelist_ghost', depth: [3, 7],
     text: 'A pale swordsman stands in the middle of the passage, a blade of mist held low. He salutes you with it. "One pass," he says, in a voice like wind through a keyhole. "Only one. It has been so long."',
     choices: [
       { label: 'Cross blades with him', check: { stat: 'str', dc: 13 },
@@ -326,7 +326,7 @@ const ENCOUNTERS = {
   },
 
   larder: {
-    title: 'The Spider\'s Larder', sprite: 'bones', depth: [3, 7],
+    title: 'The Spider\'s Larder', sprite: 'silk_larder', depth: [3, 7],
     text: 'Bundles of grey silk hang from the ceiling like fruit, turning slowly. Most are still. One has a sword hilt poking out of it. One, near the back, is moving.',
     choices: [
       { label: 'Cut down the one with the sword', check: { stat: 'dex', dc: 13 },

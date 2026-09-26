@@ -266,7 +266,47 @@ const HERO_NAMES = [
   'Brisa', 'Anselm', 'Quill', 'Marta', 'Evander', 'Lark', 'Osric', 'Juniper', 'Talan', 'Petra', 'Caspian', 'Rhiannon',
   'Halvard', 'Senna', 'Bram', 'Odile', 'Kestrel', 'Morwen', 'Ulric', 'Tessaly', 'Garnet', 'Faelan', 'Isolde', 'Dunstan',
   'Elowen', 'Cormac', 'Linnet', 'Ragna', 'Silas', 'Thessaly', 'Aric', 'Bryony', 'Gideon', 'Maud', 'Torvin', 'Ottilie',
+  'Arden', 'Blythe', 'Calla', 'Darrow', 'Eira', 'Fitch', 'Greer', 'Harlow', 'Ione', 'Jarrah', 'Kit', 'Leofric',
+  'Mabyn', 'Nesta', 'Perrin', 'Rosalind', 'Stellan', 'Tamsyn', 'Ulla', 'Wystan', 'Yarrow', 'Zillah', 'Hawise', 'Emrys',
 ];
+
+// And names that sound like where a hero comes from: a random name is drawn
+// from these half the time, so a Tombwise delver is often called like one.
+const BG_NAMES = {
+  oathbroken: ['Garrick', 'Hollis', 'Brand', 'Aldous', 'Merrick', 'Tamar', 'Roslyn', 'Edda', 'Corwin', 'Sigrun', 'Hale', 'Brennan'],
+  tombwise: ['Vesper', 'Sexton', 'Ambrose', 'Crane', 'Ebon', 'Thistle', 'Wick', 'Nightjar', 'Barrow', 'Maudlin', 'Obed', 'Sable'],
+  ashborn: ['Cinder', 'Emberly', 'Flint', 'Kindra', 'Brenna', 'Scoria', 'Pyrrha', 'Tarn', 'Sorrel', 'Hearth', 'Branwen', 'Coalby'],
+  cloistered: ['Benedikt', 'Clement', 'Hildegard', 'Anselma', 'Jerome', 'Vellum', 'Placid', 'Scholastica', 'Tobias', 'Agnes', 'Ansgar', 'Lucia'],
+  deepborn: ['Nym', 'Grue', 'Moss', 'Umber', 'Drift', 'Sil', 'Hollow', 'Echo', 'Murk', 'Vane', 'Gloam', 'Pell'],
+  debtor: ['Penny', 'Marlow', 'Tuck', 'Jory', 'Nettle', 'Dunning', 'Hob', 'Farthing', 'Bess', 'Ludo', 'Grisel', 'Owain'],
+  returned: ['Lazar', 'Wendell', 'Hesper', 'Galen', 'Sorrow', 'Mercer', 'Oriel', 'Rue', 'Absalom', 'Winter', 'Tristan', 'Ysolt'],
+  heartsworn: ['Aurelian', 'Solenne', 'Oriane', 'Lucan', 'Cordelia', 'Radegund', 'Evangeline', 'Tiberius', 'Heloise', 'Castor', 'Liora', 'Ignatius'],
+};
+/** Every name a hero may be given. */
+const ALL_HERO_NAMES = [...new Set([...HERO_NAMES, ...Object.values(BG_NAMES).flat()])];
+/**
+ * A name for a hero who would rather not choose, often one that sounds like
+ * their background, and never the one given just before.
+ * @param {string} [bg] @param {string} [avoid] @param {() => number} [rnd]
+ */
+function heroName(bg, avoid = '', rnd = Math.random) {
+  const own = (bg && BG_NAMES[bg]) || [];
+  let name = avoid;
+  for (let i = 0; i < 20 && name === avoid; i++) {
+    const pool = own.length && rnd() < 0.5 ? own : HERO_NAMES;
+    name = pool[Math.floor(rnd() * pool.length)];
+  }
+  return name;
+}
+
+// What sets a middle floor apart now and then (dungeon.js deals them out):
+// the line on arriving, and the chip that stays up while you are there.
+const TWISTS = {
+  dark: { name: 'Dark', arrive: 'The torches on this floor have burnt out. It is hard to see, and hard to be seen.', chip: 'Most torches here are out: less to see by, but sleeping things notice you a square later' },
+  flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too.', chip: 'Black water: you and everything here move a quarter slower' },
+  restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
+  market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
+};
 
 const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
 
@@ -610,4 +650,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { HERO_NAMES, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };
+export { TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };

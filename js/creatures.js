@@ -1129,6 +1129,55 @@ const PROPS = {
       ball(23.5, 29.6, 2, 1.6, '#ddd5bd'), dots([[23, 29], [24, 29]], '#140e14'),
     ];
   },
+  // a swordsman who died mid-duel: a pale coat over a trail of mist, a
+  // feathered hat, the free hand raised behind him and a long blade held low
+  duelist_ghost: () => {
+    const coat = '#8aa6d6', cloak = '#46587e', mist = '#5e7298', face = '#cfe2f8', hat = '#3c4c70';
+    return [
+      sheet([[11, 10.5], [21, 10.5], [24, 20], [22, 23.5], [19.5, 21], [16, 24.5], [12.5, 21], [10, 23.5], [8, 20]], cloak, { curve: 0.8 }),
+      limb(16, 21, 16, 29.5, 4.2, 0.6, '#3a4868'),
+      limb(16, 20, 15.5, 28.5, 3.2, 0.4, mist), limb(14, 21, 10.5, 26.5, 1.4, 0.3, mist), limb(18, 21, 21.5, 26, 1.3, 0.3, mist),
+      sheet([[12.5, 10.5], [19.5, 10.5], [20.5, 16.5], [19.5, 21], [12.5, 21], [11.5, 16.5]], coat, { curve: 1 }),
+      line(12, 17, 20, 17, '#4e6490'),
+      limb(19.5, 11.5, 23.5, 11.5, 1.2, 1, coat), limb(23.5, 11.5, 24.5, 7.5, 1, 0.8, coat), ball(24.6, 7, 1.1, 1, face),
+      limb(12.5, 11.5, 10.5, 16, 1.3, 1.1, coat), limb(10.5, 16, 9, 19.5, 1.1, 0.9, coat),
+      line(9, 21, 2, 30, '#e4eeff', { lit: 1 }),
+      line(7, 19, 10, 22, '#8a9cc0', { lit: 1 }),
+      ball(8.7, 20.2, 1.3, 1.2, face),
+      ball(16, 10.6, 3.2, 1.2, '#e6eefa'),
+      ball(16, 7.6, 2.7, 3, face),
+      ball(16, 3.9, 2.9, 1.9, hat),
+      limb(14, 3, 9.5, 1.5, 1, 0.5, '#e8f4ff'), limb(9.5, 1.5, 7.5, 3, 0.6, 0.3, '#e8f4ff'),
+      ball(16, 5.2, 5, 1.1, hat),
+      dots([[15, 7], [17, 7]], '#1a2440'),
+      dots([[6, 12], [26, 16], [5, 24], [24, 25], [9, 28], [27, 21]], '#c8dcff'),
+    ];
+  },
+  // bundles of grey silk hung from the roof like fruit, one with a sword hilt
+  // out of it and one at the back that moves, and what fell out of them below
+  silk_larder: () => {
+    const silk = '#c8c4bc', bone = '#ddd5bd', worn = '#a89e84';
+    const cocoon = (x, y, rx, ry, c) => [limb(x, y - ry - 1, x, y - ry * 0.5, 0.4, rx * 0.5, c), ball(x, y, rx, ry, c), limb(x, y + ry * 0.5, x + 0.3, y + ry + 1.8, rx * 0.6, 0.3, c)];
+    return [
+      // the threads go up into the dark, not to the top of the picture
+      ...[7, 13, 19, 24.5].map(x => hair(x, 0, x, 2.5, '#4a4a58')),
+      hair(7, 3, 7, 4.5, '#9a9aa6'), hair(13, 3, 13, 8.5, '#9a9aa6'), hair(19, 3, 19, 5.5, '#8a8a96'), hair(24.5, 3, 24.5, 10.5, '#9a9aa6'),
+      hair(7, 14.5, 6, 17, '#9a9aa6'),
+      // each bundle a spindle: tied off at the top, drawn to a point below
+      ...cocoon(19, 10, 2.2, 3.4, '#8e8a84'), ball(20.6, 10.8, 1, 1.3, '#8e8a84'),
+      ...cocoon(7, 9.5, 2.6, 4.2, silk),
+      ...cocoon(6, 20.5, 1.7, 2.6, '#bcb8b0'),
+      ...cocoon(24.5, 16.5, 3.2, 5, silk),
+      limb(26.6, 12.5, 28.8, 7.8, 0.55, 0.5, '#6a4424'),
+      line(25, 12, 28, 14, '#a8acb4', { lit: 1 }),
+      ball(29, 7.2, 1, 1, '#c8a040'),
+      ...cocoon(13, 15.5, 3.8, 5.8, silk),
+      ball(9.5, 29.4, 2.3, 1.9, bone), ball(10, 31, 1.5, 0.7, worn),
+      dots([[8, 29], [10, 29]], '#140e14'),
+      limb(15, 30.3, 23, 29.3, 0.6, 0.55, bone), ball(14.8, 30.4, 1, 0.8, bone), ball(23.3, 29.2, 1, 0.8, bone),
+      limb(25, 31, 28, 30, 0.5, 0.45, worn),
+    ];
+  },
   // a skeleton with a cup of dice, and a pot of gold in front of it
   bones: () => {
     const bone = '#ddd5bd', worn = '#a89e84';
@@ -1274,6 +1323,28 @@ const PROP_DETAILS = {
     hair(13, 16, 19, 16, '#b8ae94'), hair(13, 18, 19, 18, '#b8ae94'),
     specks([[18, 30], [18.5, 29.5], [21.5, 30.5]], '#8a826c'),
   ],
+  duelist_ghost: () => [
+    hair(13.5, 12, 13, 20, '#6a84b4'), hair(18.5, 12, 19, 20, '#6a84b4'),
+    specks([[16, 12.5], [16, 14], [16, 15.5]], '#e8f4ff'),
+    specks([[8, 22.5], [6.5, 24.5], [5, 26.5]], '#ffffff'),
+    hair(15, 18, 14.5, 25, '#8aa0c4'), hair(17, 18, 18, 24, '#8aa0c4'),
+    specks([[15, 9], [15.5, 9], [16.5, 9], [17, 9], [14.5, 9.5], [17.5, 9.5]], '#7088b4'),
+    specks([[7, 13], [25, 17.5], [4, 20], [23, 27], [12, 29.5], [28, 12]], '#e8f4ff'),
+  ],
+  silk_larder: () => [
+    // the wrapping: a few turns of thread across each bundle
+    hair(10, 11.5, 16, 13.5, '#9a968e'), hair(9.5, 15, 16.5, 17.5, '#9a968e'), hair(10.5, 18.5, 15.5, 20.5, '#9a968e'),
+    hair(5, 7.5, 9, 9, '#9a968e'), hair(5, 10.5, 9, 12, '#9a968e'),
+    hair(22, 15, 27, 16.5, '#9a968e'), hair(22, 18.5, 27, 20, '#9a968e'),
+    hair(17.5, 9, 21, 10.5, '#6a6660'),
+    // web strung between them
+    hair(9, 7, 13, 11, '#a8a8b4'), hair(16.5, 13, 22, 14, '#a8a8b4'), hair(20, 7, 24, 12, '#a8a8b4'),
+    // the one at the back is moving
+    hair(15.5, 8, 15, 10, '#c8c4bc'), hair(22.5, 9, 23, 11, '#c8c4bc'),
+    specks([[26.5, 11.5], [27.5, 9.5]], '#8a5a30'), specks([[28.5, 6.5]], '#fff0a0'),
+    specks([[11.5, 12], [23.5, 13], [6, 7]], '#f0ece4'),
+    specks([[16.5, 30], [20, 29.5]], '#f6f0de'), specks([[11, 30.5], [12.5, 31]], '#8a826c'),
+  ],
   bone_heap: () => [
     hair(12, 22, 13, 23.5, '#8a826c'),
     specks([[12.5, 26], [13.5, 26], [14.5, 26]], '#6a6252'),
@@ -1289,7 +1360,7 @@ for (const k in PROP_DETAILS) {
 // on a sleeve, gloved as each class goes armed. It holds the weapon drawn
 // over it, and rises into view to cast.
 // Creatures that hover, and so cast no shadow on the floor.
-const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp']);
+const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp', 'duelist_ghost']);
 
 function hexToRgb(hex) {
   const n = parseInt(hex.slice(1), 16);

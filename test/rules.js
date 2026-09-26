@@ -39,6 +39,13 @@ const linesSince = (G, mark) => {
   return n > 0 ? G.log.slice(-Math.min(n, G.log.length)).map(e => e.m) : [];
 };
 
+/** Self-Taught's two points, both on a score it has not yet given any to (two a score, a run). */
+function spreadPicks(Game) {
+  const t = Game.player().taught || {};
+  const k = ['con', 'str', 'dex', 'wis', 'int', 'cha'].find(x => !t[x]);
+  return [k, k];
+}
+
 let failures = 0;
 async function test(name, fn) {
   if (process.env.ONLY && !name.includes(process.env.ONLY)) return;
@@ -1065,12 +1072,12 @@ await test('levelling offers a choice that must be made and changes the characte
   if (p.level < 2) return `level did not rise, still ${p.level}`;
   // the even levels bring talents; take those and come to the first lesson
   const lessonIds = new Set(ctx.BOONS.map(b => b.id));
-  for (let i = 0; i < 10 && Game.pendingBoons() && !Game.pendingBoons().every(id => lessonIds.has(id)); i++) Game.chooseBoon(Game.pendingBoons()[0], Game.pendingBoons()[0] === 'spread' ? ['con', 'con'] : undefined);
+  for (let i = 0; i < 10 && Game.pendingBoons() && !Game.pendingBoons().every(id => lessonIds.has(id)); i++) Game.chooseBoon(Game.pendingBoons()[0], Game.pendingBoons()[0] === 'spread' ? spreadPicks(Game) : undefined);
   const offer = Game.pendingBoons();
   if (!offer) return 'no boon offered after levelling';
   if (offer.length !== 3) return `offered ${offer.length} boons, expected 3`;
   if (Game.chooseBoon('not-a-real-boon')) return 'an unknown boon id was accepted';
-  if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return 'a valid boon was rejected';
+  if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined)) return 'a valid boon was rejected';
   const after = JSON.stringify(p.stats) + p.maxHp;
   if (before === after && !p.perkHit && !p.perkSpeed && !p.perkRegen && !p.bonusSp) return 'the boon changed nothing';
   return p.boons && p.boons.length === 1;
@@ -3562,7 +3569,7 @@ await test('levelling offers a lesson at the odd levels, a class talent at the e
       const isTalent = offer.every(id => TALENTS.fighter.some(t => t.id === id));
       const isLesson = offer.every(id => BOONS.some(b => b.id === id));
       kinds.push(`${p.level}:${isTalent ? 'T' : isLesson ? 'L' : Game.isPathOffer(offer) ? 'P' : '?'}`);
-      if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return `could not choose ${offer[0]}`;
+      if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined)) return `could not choose ${offer[0]}`;
     }
   }
   if (kinds.join(' ') !== '2:T 3:L 4:T 5:P 6:T') return `offers by level: ${kinds.join(' ')}`;
@@ -3587,7 +3594,7 @@ await test('a talent is never offered twice', async () => {
     const again = offer.find(id => taken.includes(id));
     if (again) return `${again} was offered again at level ${lvl}`;
     taken.push(offer[0]);
-    Game.chooseBoon(offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined);
+    Game.chooseBoon(offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined);
   }
   return (p.talents.length === 4 && new Set(p.talents).size === 4) || `talents: ${p.talents.join(', ')}`;
 });
@@ -5842,7 +5849,7 @@ await test('several levels at once still offer the path, between the talents, an
   while (Game.pendingBoons()) {
     const offer = Game.pendingBoons();
     kinds.push(`${Game.pendingLevel()}:${Game.isPathOffer(offer) ? offer.join('/') : 'T'}`);
-    if (!Game.chooseBoon(Game.isPathOffer(offer) ? 'healer' : offer[0], offer[0] === 'spread' ? ['con', 'con'] : undefined)) return `could not choose from ${offer.join(', ')}`;
+    if (!Game.chooseBoon(Game.isPathOffer(offer) ? 'healer' : offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined)) return `could not choose from ${offer.join(', ')}`;
   }
   if (kinds.join(' ') !== '4:T 5:templar/healer 6:T') return `offers: ${kinds.join(' ')}`;
   return (p.path === 'healer' && p.talents.length === 2) || `path ${p.path}, talents ${p.talents}`;
@@ -6943,6 +6950,17 @@ await test('smoke leaves no stale mark: a sleeper it never woke, and a foe that 
   return out.length ? out.join('; ') : true;
 });
 
+await test('Self-Taught gives any one score two points at most over the run', async () => {
+  const ctx = await start('fighter', 'spread-cap');
+  const { Game } = ctx; const G = Game.state(), p = Game.player();
+  const str = p.stats.str;
+  G.pendingBoons = [['spread', 'vigor', 'keen'], ['spread', 'vigor', 'keen']]; G.pendingLevels = [3, 5];
+  if (!Game.chooseBoon('spread', ['str', 'str'])) return 'the first Self-Taught was refused';
+  if (Game.chooseBoon('spread', ['str', 'dex']) !== false) return 'a third point went to Strength';
+  if (p.stats.str !== str + 2) return `Strength went from ${str} to ${p.stats.str}`;
+  return Game.chooseBoon('spread', ['dex', 'con']) === true || 'the second Self-Taught was refused elsewhere';
+});
+
 await test('Self-Taught takes only real scores', async () => {
   const ctx = await start('fighter', 'spread-guard');
   const { Game } = ctx; const G = Game.state(), p = Game.player();
@@ -7071,14 +7089,14 @@ await test('Self-Taught puts its two points where the player says, and nowhere u
   const ctx = await start('fighter', 'spread');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
   G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [3];
-  const str = p.stats.str, con = p.stats.con;
+  const str = p.stats.str, con = p.stats.con, dex = p.stats.dex;
   if (Game.chooseBoon('spread') !== false) return 'Self-Taught was taken with nowhere to put its points';
   if (Game.chooseBoon('spread', ['str', 'luck']) !== false) return 'Self-Taught took a score that does not exist';
   if (!Game.chooseBoon('spread', ['str', 'con'])) return 'Self-Taught was refused two good scores';
   if (p.stats.str !== str + 1 || p.stats.con !== con + 1) return `scores went ${str}->${p.stats.str}, ${con}->${p.stats.con}`;
   G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [5];
-  Game.chooseBoon('spread', ['str', 'str']);
-  return p.stats.str === str + 3 || `both points on Strength made it ${p.stats.str}, not ${str + 3}`;
+  Game.chooseBoon('spread', ['dex', 'dex']);
+  return p.stats.dex === dex + 2 || `both points on Dexterity made it ${p.stats.dex}, not ${dex + 2}`;
 });
 
 await test('review fixes: no rest beside a smoked foe; a hero\'s scores are their own; the crew\'s song outlasts the lamp', async () => {
@@ -7135,11 +7153,78 @@ await test('keys of one colour share a pack slot, and each still opens one door'
   return silver[0].q === 2 || `left with ${silver[0].q} silver keys`;
 });
 
+await test('a random name often suits the background, and never repeats the one before', async () => {
+  const { heroName, BG_NAMES } = await start('fighter', 'names');
+  let own = 0;
+  for (let i = 0; i < 400; i++) {
+    const n = heroName('tombwise', 'Vesper');
+    if (n === 'Vesper') return 'the name just given came again';
+    if (BG_NAMES.tombwise.includes(n)) own++;
+  }
+  return (own > 120 && own < 280) || `${own} of 400 names were the Tombwise's own`;
+});
+
 await test('a hero made with no name is given one from the list, not "Adventurer"', async () => {
-  const { Game, HERO_NAMES } = await start('fighter', 'no-name');
+  const { Game, ALL_HERO_NAMES: HERO_NAMES } = await start('fighter', 'no-name');
   Game.newGame({ name: '   ', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'no-name', opts: { ...OPTS } });
   const name = Game.player().name;
   return (HERO_NAMES || []).includes(name) || `the nameless hero was called ${name}`;
+});
+
+await test('floor twists: dealt by the seed to middle floors only, never two running nor on a champion\'s floor', async () => {
+  const { Dungeon } = await start('fighter', 'twist-plan');
+  const seen = new Set();
+  for (let i = 0; i < 300; i++) {
+    const seed = 'tw' + i, plan = Dungeon.twistPlan(seed, 8), named = Dungeon.namedPlan(seed, 8);
+    if (JSON.stringify(plan) !== JSON.stringify(Dungeon.twistPlan(seed, 8))) return `seed ${seed} dealt two plans`;
+    for (const d of Object.keys(plan).map(Number)) {
+      seen.add(plan[d]);
+      if (d < 2 || d > 6) return `seed ${seed} put ${plan[d]} on floor ${d}`;
+      if (named[d]) return `seed ${seed} put ${plan[d]} on ${named[d]}'s floor`;
+      if (plan[d + 1]) return `seed ${seed} twisted floors ${d} and ${d + 1}`;
+    }
+  }
+  return seen.size === 4 || `only ${[...seen].join(', ')} were ever dealt`;
+});
+
+await test('each floor twist does what it says, and is told on arriving', async () => {
+  const out = [];
+  const find = async kind => {
+    const { Dungeon } = await start('fighter', 'twist-find');
+    for (let i = 0; i < 400; i++) { const plan = Dungeon.twistPlan('twist' + i, 8); const d = Object.keys(plan).find(k => plan[k] === kind); if (d) return { seed: 'twist' + i, d: Number(d) }; }
+    return null;
+  };
+  for (const kind of ['dark', 'flooded', 'restless', 'market']) {
+    const at = await find(kind);
+    if (!at) { out.push(`no seed dealt ${kind}`); continue; }
+    const ctx = await start('fighter', at.seed, { levels: 8 });
+    const { Game, MONSTERS } = ctx; const G = Game.state();
+    Game.player().hp = Game.player().maxHp = 9999;
+    const mark = markLog(G);
+    downTo(ctx, at.d);
+    const L = Game.level();
+    if (L.twist !== kind) { out.push(`floor ${at.d} of ${at.seed} is ${L.twist}, not ${kind}`); continue; }
+    if (!linesSince(G, mark).some(l => l.includes(ctx.TWISTS[kind].arrive))) out.push(`arriving on a ${kind} floor said nothing of it`);
+    if (kind === 'dark') {
+      const full = Math.round(L.rooms.length * 0.9) + 4;
+      if (L.lights.length > Math.round(full * 0.25)) out.push(`a dark floor kept ${L.lights.length} torches of ${full}`);
+    }
+    if (kind === 'flooded') {
+      const m = L.monsters.find(x => !MONSTERS[x.id].boss && !x.elite);
+      if (m && Game.mstat(m).speed !== Math.round(MONSTERS[m.id].speed * 1.25)) out.push(`a ${m.id} in the water acts every ${Game.mstat(m).speed}ms, drawn at ${MONSTERS[m.id].speed}`);
+    }
+    if (kind === 'restless') {
+      const plain = L.monsters.filter(x => !MONSTERS[x.id].named && !x.pack);
+      const dead = plain.filter(x => MONSTERS[x.id].undead).length;
+      if (plain.length >= 4 && dead < plain.length * 0.4) out.push(`only ${dead} of ${plain.length} creatures on a restless floor are undead`);
+    }
+    if (kind === 'market') {
+      const shop = L.npcs.find(n => n.id === 'merchant');
+      if (!shop) out.push('a goblin market had no trader');
+      else if (shop.markup > 1.66) out.push(`the market trader marks up ${shop.markup.toFixed(2)}`);
+    }
+  }
+  return out.length ? out.join('; ') : true;
 });
 
 await test('two rings of one kind do not add up: the better counts', async () => {
