@@ -218,11 +218,17 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
-| Easy | 98% | 96% | 96% | 96% | not measured | about 96% |
+| Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
 | Normal | 78% | 76% | 72% | 73% | 71% | about 74% |
 | Hard | 50% | 51% | 48% | 52% | 52% | about 51% |
 | Long Delve (12 floors), Normal | 66% | 69% | 63% | 75% | 71% | about 69% |
 | Long Delve (12 floors), Hard | 33% | 47% | 34% | 57% | 48% | about 44% |
+
+On a second seed set (`SEEDPFX=alt`) Hard reads 43%, 49%, 45%, 59% and 50%: about 50% over both.
+The Long Delve on Hard is the one place the classes spread wide. The casters die on its deep
+floors (8 to 12) to trolls, ogres, wraiths and minotaurs; the thief keeps its lead there
+however the back half is made harder (tried: the lich's growth, when the deep floors turn
+surer, how much sturdier they get, capping the thief's dodge).
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.

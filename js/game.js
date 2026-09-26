@@ -2833,7 +2833,7 @@ const Game = (() => {
   const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' && hasTalent('long_snare') ? 12000 : a.cool);
+  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
@@ -3414,7 +3414,7 @@ const Game = (() => {
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
       if (!hunted) {
         // scale with the pool so recovery takes about the same time at every level
-        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0) + (onPath('warden') ? 0.5 : 0);
+        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
         const was = p.hp;
         p.hp = Math.min(regenTo, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
         noteHealed(p.hp - was);

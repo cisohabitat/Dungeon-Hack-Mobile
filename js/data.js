@@ -263,7 +263,7 @@ const PATHS = {
       'Your armour class is 1 better.',
       'Snare\'s cord bites (1d6 and your Dexterity) and holds a second longer.',
       'A snared foe takes 2 more damage from every blow and arrow of yours.',
-      'You mend between fights half again as fast.',
+      'Snare comes back three seconds sooner.',
     ] },
   ],
 };
