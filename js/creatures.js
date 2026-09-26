@@ -363,6 +363,31 @@ const CREATURES = {
     ];
   },
 
+  // What is left of a hero who fell down here before: helm, mail and sword
+  // still keeping their shape, and nothing below the belt but mist. Pale
+  // where the wraith is dark, and it stands straight: it remembers being a person.
+  shade: () => {
+    const mail = '#7e98b0', deep = '#4a5e78', steel = '#a8bccc', glow = '#e0fcff';
+    return [
+      // the mist it trails away into
+      sheet([[10, 19], [22, 19], [23.5, 24], [21, 28], [19, 25], [17, 30], [15, 25.5], [12.5, 29], [11, 24.5], [8.5, 26]], deep, { curve: 1 }),
+      // mail from the shoulders to the belt
+      sheet([[10, 12.5], [22, 12.5], [22.5, 21], [16, 22.5], [9.5, 21]], mail, { curve: 1 }),
+      line(10, 20, 22, 20, '#3a4a60'), ball(16, 20.2, 1.3, 1, steel),
+      // the shield arm hangs, the sword arm lifts the blade it died with
+      limb(10.5, 13.5, 7.5, 20, 1.6, 1.3, mail), ball(7.3, 20.6, 1.4, 1.3, steel),
+      limb(21.5, 13.5, 24.5, 17.5, 1.6, 1.3, mail), ball(24.8, 18.2, 1.4, 1.3, steel),
+      line(25.5, 17.5, 28, 4, '#d8f0ff'), line(26, 17.8, 28.5, 4.4, '#8aa4bc'),
+      line(23, 17.6, 27.6, 19, steel),
+      ...both(ball(10.5, 13, 2.6, 2.2, steel)),
+      // the helm, and nothing in it but two cold lights
+      ball(16, 8.2, 4, 4.3, steel),
+      limb(12, 8.5, 20, 8.5, 0.9, 0.9, '#0a0e16'),
+      line(16, 4.5, 16, 10.5, '#8aa4bc'),
+      dots([[14, 8], [18, 8]], glow), dots([[13, 8], [19, 8]], '#6ab0d0'),
+    ];
+  },
+
   // Mostly belly, a little head on top, and a club the size of a man.
   ogre: () => {
     const skin = '#b08a5a', dark = '#7a5a36';
@@ -912,6 +937,18 @@ const DETAILS = {
     specks([[15.5, 11], [16.5, 11.5], [16, 12]], '#a0c8e0'),
   ],
 
+  shade: () => [
+    // rivets on the pauldrons, rings of mail catching the light
+    specks([[9.5, 12], [10.5, 11.5], [11.5, 12], [20.5, 12], [21.5, 11.5], [22.5, 12]], '#e8f4ff'),
+    hair(11, 15, 21, 15, '#9ab4cc'), hair(11, 17, 21, 17, '#9ab4cc'), hair(11, 19, 21, 19, '#6a84a0'),
+    // a notch in the blade, a dent in the helm
+    specks([[27, 9], [27.5, 9.5]], '#4a5e78'), specks([[14, 5.5], [14.5, 6]], '#6a84a0'),
+    // the mist coming off it
+    hair(12.5, 29, 12, 31, '#8aa4c0'), hair(17, 30, 17.5, 31.5, '#8aa4c0'), hair(21, 28, 22, 30, '#8aa4c0'), hair(8.5, 26, 7.5, 27.5, '#8aa4c0'),
+    // breath of frost from the visor
+    specks([[15.5, 10], [16.5, 10.5], [16, 11.5]], '#c0e8f8'),
+  ],
+
   ogre: () => [
     // grain and nails in the club
     hair(26.5, 20, 27.5, 6, '#5a3e22'), specks([[26.5, 10], [28, 8], [27, 14]], '#3a2a18'),
@@ -1441,7 +1478,7 @@ for (const k in PROP_DETAILS) {
 // on a sleeve, gloved as each class goes armed. It holds the weapon drawn
 // over it, and rises into view to cast.
 // Creatures that hover, and so cast no shadow on the floor.
-const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp', 'duelist_ghost']);
+const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp', 'duelist_ghost', 'shade']);
 
 function hexToRgb(hex) {
   const n = parseInt(hex.slice(1), 16);

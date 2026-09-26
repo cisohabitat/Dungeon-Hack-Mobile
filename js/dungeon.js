@@ -339,7 +339,7 @@ const Dungeon = (() => {
     const tierDepth = tierAt(depth, opts.levels || 8);
     // (neither the lich nor a named champion is met at random)
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
-    if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
+    if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
     // The first floor is where the controls are learned, so a crowded setting
     // starts from the second: at full density a third to a half of runs on
     // Many ended before the stairs were found, most at character level one.

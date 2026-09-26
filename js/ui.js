@@ -2088,7 +2088,7 @@ const UI = (() => {
       cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b> (${killer.dmg} damage).`;
     } else if (!won && killer) {
       // "an ogre", as the lines below it say; a champion keeps its own name
-      const who = killer.name.includes(',') ? killer.name : `${/^[aeiou]/i.test(killer.name) ? 'an' : 'a'} ${killer.name.toLowerCase()}`;
+      const who = killer.name.includes(',') || /^the /i.test(killer.name) ? killer.name : `${/^[aeiou]/i.test(killer.name) ? 'an' : 'a'} ${killer.name.toLowerCase()}`;
       cause.innerHTML = `Killed by <b>${escapeHtml(who)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
     } else if (!won) {
       cause.textContent = 'Killed by the dungeon itself.';

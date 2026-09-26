@@ -7620,6 +7620,136 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   return true;
 });
 
+
+  // ---------- the fallen ----------
+  /** Let a goblin beside the hero kill them. */
+  const fallTo = (ctx, id = 'goblin') => {
+    const { Game } = ctx, G = Game.state(), p = Game.player();
+    p.hp = 1; p.eq.armor = null;
+    beside(ctx, id);
+    for (let i = 0; i < 4000 && G.status === 'playing'; i++) Game.update(G.t + 25, 25);
+    return G.status === 'dead';
+  };
+  const FALLEN = 'deepdelve.fallen';
+
+  await test('a hero who dies is remembered, and a later run finds their bones, their gear and their shade on that floor', async () => {
+    const ctx = await start('fighter', 'bones-fall');
+    const { Game } = ctx;
+    downTo(ctx, 3);
+    const p = Game.player();
+    p.eq.weapon = { t: 'longsword', q: 1, e: 2 };
+    p.eq.shield = null;
+    p.eq.offhand = { t: 'dagger', q: 1, e: 1, u: 'grimtooth' };       // a relic: one of a kind, so it goes plain
+    p.eq.ring = { t: 'ring_protect', q: 1, e: 1, curse: 1 };
+    if (!fallTo(ctx)) return 'the goblin never killed the hero';
+    const rec = JSON.parse(ctx.store.get(FALLEN) || 'null');
+    if (!rec) return 'nobody was remembered';
+    if (rec.name !== 'Test' || rec.cls !== 'fighter' || rec.depth !== 3) return `remembered ${JSON.stringify(rec)}`;
+    if (rec.killer !== 'a goblin') return `killed by "${rec.killer}"`;
+    const kinds = rec.gear.map(it => it.t).join(',');
+    if (kinds !== 'longsword,dagger,ring_protect') return `kept ${kinds}`;
+    if (rec.gear.some(it => it.u)) return 'a relic was kept as a relic';
+    if (!rec.gear.every(it => it.h === 1)) return 'the gear\'s quality was not hidden again';
+    if (rec.gear[0].e !== 2 || !rec.gear[2].curse) return `the gear lost its make: ${JSON.stringify(rec.gear)}`;
+
+    // the next run, the same device: floor 3 holds them
+    Game.newGame({ name: 'Heir', cls: 'thief', stats: Game.rollStats(), seed: 'bones-next', opts: OPTS });
+    downTo(ctx, 2);
+    if (Game.level().monsters.some(m => m.shade)) return 'a shade on floor 2, not where the hero fell';
+    const mark = markLog(Game.state());
+    downTo(ctx, 3);
+    const L = Game.level(), sh = L.monsters.find(m => m.shade);
+    if (!sh) return 'no shade on the floor where the hero fell';
+    if (sh.awake) return 'the shade was awake before it was found';
+    const said = linesSince(Game.state(), mark);
+    if (!said.some(l => /Test the Fighter fell on this floor, to a goblin,/.test(l))) return `arriving said: ${said.join(' | ')}`;
+    const pile = (L.items[sh.x + ',' + sh.y] || []).map(it => it.t).join(',');
+    if (pile !== 'longsword,dagger,ring_protect') return `the bones hold ${pile}`;
+    if (!(L.dressing || []).some(d => d.x === sh.x && d.y === sh.y && d.k === 'remains_bones')) return 'no bones where the shade stands';
+    const st = Game.mstat(sh);
+    if (st.name !== 'Shade of Test' || st.move !== 'charge') return `the shade is ${st.name}, moving ${st.move}`;
+    // and the map itself is the seed's own: a device with nobody remembered draws the same floor
+    const plain = await start('thief', 'bones-next');
+    downTo(plain, 3);
+    if (plain.Game.level().monsters.some(m => m.shade)) return 'a shade with nobody remembered';
+    if (plain.Game.level().tiles.join('') !== L.tiles.join('')) return 'remembering someone changed the map';
+    return true;
+  });
+
+  await test('laying a shade to rest forgets its hero, says so, and leaves their gear; the Hall remembers who did it', async () => {
+    const ctx = await start('cleric', 'bones-rest');
+    const { Game, Dungeon } = ctx;
+    ctx.store.set(FALLEN, JSON.stringify({ name: 'Wren', cls: 'mage', level: 4, depth: 3, run: 'earlier', gear: [{ t: 'staff', q: 1, e: 1 }] }));
+    downTo(ctx, 3);
+    const L = Game.level(), G = Game.state(), p = Game.player();
+    const sh = L.monsters.find(m => m.shade);
+    if (!sh) return 'no shade';
+    const st = Game.mstat(sh);
+    if (!st.ranged || st.ranged.element !== 'cold') return 'a mage\'s shade should throw cold fire';
+    const bx = sh.x, by = sh.y;
+    // bring it in front of the hero, one blow from gone
+    L.monsters = [sh];
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    Object.assign(sh, { x: p.x + dx, y: p.y + dy, rx: p.x + dx, ry: p.y + dy, hp: 1, awake: true, spoke: true, nextAct: G.t + 1e9 });
+    const mark = markLog(G);
+    // a natural 1 misses: swing until it lands
+    for (let i = 0; i < 40 && L.monsters.includes(sh); i++) { G.t = p.nextAttack; Game.input('attack'); }
+    if (L.monsters.includes(sh)) return 'the shade would not fall';
+    if (!linesSince(G, mark).some(l => /Wren the Mage is laid to rest at last/.test(l))) return `said: ${linesSince(G, mark).join(' | ')}`;
+    if (ctx.store.has(FALLEN)) return 'the hero was still remembered after being laid to rest';
+    if (!(L.items[bx + ',' + by] || []).some(it => it.t === 'staff')) return 'their gear went with them';
+    Game.save(true);
+    if (Game.state().rested !== 'Wren the Mage') return `the run says it laid ${Game.state().rested} to rest`;
+    // the next run meets nobody
+    Game.newGame({ name: 'After', cls: 'fighter', stats: Game.rollStats(), seed: 'bones-rest', opts: OPTS });
+    downTo(ctx, 3);
+    return !Game.level().monsters.some(m => m.shade) || 'a shade laid to rest came back';
+  });
+
+  await test('a shade is never met by the run that died, in a daily delve, or on the lich\'s floor; a newer death takes the older one\'s place', async () => {
+    const out = [];
+    // the run that died, loaded again, does not meet itself
+    const a = await start('fighter', 'bones-self');
+    downTo(a, 2);
+    const G = a.Game.state();
+    a.Game.save(true);
+    if (!fallTo(a)) return 'the hero would not die';
+    const own = JSON.parse(a.store.get(FALLEN) || 'null');
+    if (!own || own.run !== String(G.created)) out.push('the death was not remembered as this run');
+    // put the floors back as they were before the death, and go on down
+    a.Game.load();
+    downTo(a, 3);
+    for (const d of [2, 3]) if (a.Game.state().levels[d] && a.Game.state().levels[d].monsters.some(m => m.shade)) out.push(`the run met its own shade on floor ${d}`);
+    // a daily delve is the same for everyone, and meets nobody's dead
+    const b = await start('fighter', 'bones-daily', { daily: '2026-09-26' });
+    b.store.set(FALLEN, JSON.stringify({ name: 'Ada', cls: 'thief', level: 3, depth: 2, run: 'x', gear: [] }));
+    downTo(b, 3);
+    for (const d of [2, 3]) if (b.Game.state().levels[d].monsters.some(m => m.shade)) out.push('a daily delve met a shade');
+    // someone who fell deeper than this delve goes waits on the last floor before the lich's
+    const c = await start('fighter', 'bones-deep');
+    c.store.set(FALLEN, JSON.stringify({ name: 'Bo', cls: 'ranger', level: 9, depth: 9, run: 'x', gear: [] }));
+    downTo(c, 4);
+    const lv = c.Game.state().levels;
+    if (!lv[3].monsters.some(m => m.shade)) out.push('someone who fell on floor 9 was not waiting on floor 3 of four');
+    if (lv[4].monsters.some(m => m.shade)) out.push('a shade on the lich\'s floor');
+    // a thief's shade is quick and follows a step back
+    const t = c.Game.mstat({ id: 'shade', shade: { name: 'Ada', cls: 'thief', level: 3, run: 'x', depth: 3 }, x: 0, y: 0 });
+    if (!(t.speed < 1000) || !t.lunge) out.push(`a thief's shade moves every ${t.speed} and lunges ${t.lunge}`);
+    // a newer death takes the older one's place
+    const d = await start('mage', 'bones-newer');
+    d.store.set(FALLEN, JSON.stringify({ name: 'Old', cls: 'thief', level: 3, depth: 2, run: 'x', gear: [] }));
+    if (!fallTo(d)) return 'the mage would not die';
+    const now = JSON.parse(d.store.get(FALLEN) || 'null');
+    if (!now || now.name !== 'Test' || now.cls !== 'mage') out.push(`after a newer death, remembered ${JSON.stringify(now)}`);
+    // and a stored record that makes no sense is nobody at all
+    const e = await start('fighter', 'bones-junk');
+    e.store.set(FALLEN, '{"name": 5, "cls": "wizard"}');
+    downTo(e, 3);
+    if (e.Game.level().monsters.some(m => m.shade)) out.push('a shade from a record that made no sense');
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

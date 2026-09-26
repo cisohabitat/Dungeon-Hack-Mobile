@@ -29,6 +29,16 @@
  */
 
 /**
+ * The last hero to die on this device, until a later run lays their shade to rest (Progress.fallen).
+ * @typedef {Object} Fallen
+ * @property {string} name @property {string} cls @property {number} level
+ * @property {number} depth   the floor they fell on
+ * @property {string} run     which run it was (G.created), so that run never meets its own shade
+ * @property {Item[]} gear    what the body still wears: no relics, quality hidden again
+ * @property {string} [killer] what killed them
+ */
+
+/**
  * @typedef {Object} Equipment
  * @property {Item|null} weapon
  * @property {Item|null} armor
@@ -112,6 +122,7 @@
  * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
  * @property {number} [rallies]    how many times a named champion has tried to call its kin
  * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close
+ * @property {{name: string, cls: string, level: number, run: string, depth: number}} [shade]  the shade of a hero who died in an earlier run: who they were, and the floor it was made for
  * @property {number} [wardUntil]  the lich is wrapped in shadow, and cannot be hurt, until then
  * @property {boolean} [wardSaid]  the log has said so once this time
  * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it
@@ -163,6 +174,8 @@
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
  * @property {Dressing[]} [dressing]  what lies about the rooms for looks alone (see Dungeon.dress)
  * @property {Array<{x: number, y: number, k: string, at: number, until: number}>} [remains]  what the fallen left behind, when it fell, and until when (game time)
+ * @property {{name: string, cls: string, x: number, y: number, killer?: string}} [bones]  where an earlier hero's bones lie on this floor, if they do
+ * @property {boolean} [bonesSaid]  the log has told of them, on the first time down
  */
 
 /**
@@ -244,6 +257,7 @@
  * @property {number[]} [pendingLevels]  the level each queued offer was earned at
  * @property {Record<number, {hp: number, spells: string[]}>} [levelNotes]  what each level-up brought
  * @property {{name: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]
+ * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]

@@ -30,8 +30,8 @@ function renderBestiary(el) {
   const known = Game.bestiary();
   // what has been met comes first, then what has not, each shallowest first
   const seen = id => known[id] && known[id].met ? 0 : 1;
-  // the named champions come after the common kinds, and the lich last of all
-  const rank = id => (MONSTERS[id].boss ? 2 : MONSTERS[id].named ? 1 : 0);
+  // the named champions come after the common kinds, then your own shades, and the lich last of all
+  const rank = id => (MONSTERS[id].boss ? 3 : MONSTERS[id].shade ? 2 : MONSTERS[id].named ? 1 : 0);
   const ids = Object.keys(MONSTERS).sort((a, b) => seen(a) - seen(b) || rank(a) - rank(b) || MONSTERS[a].tier[0] - MONSTERS[b].tier[0] || MONSTERS[a].xp - MONSTERS[b].xp);
   const met = ids.filter(id => known[id] && known[id].met).length;
   el.innerHTML = '<div class="beasts">' + ids.map(id => {
@@ -42,10 +42,12 @@ function renderBestiary(el) {
     const levels = (Game.state() && Game.state().opts.levels) || 8;
     let first = 1;
     while (first <= levels && Dungeon.tierAt(first, levels) < mb.tier[0]) first++;
-    const where = mb.boss ? 'Guards the Heart of the Mountain' : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
+    const where = mb.boss ? 'Guards the Heart of the Mountain' : mb.shade ? 'Keeps the floor where a hero of yours fell' : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
     if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
     const bits = [`<h3${mb.named ? ' class="named"' : ''}>${escapeHtml(mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
-    if (r.kills) {
+    // each shade is made to the floor it keeps: there is no one measure of them
+    if (mb.shade) bits.push('<p class="beast-stats">As strong as the floor it keeps, and it fights as its hero did.</p>');
+    else if (r.kills) {
       const traits = beastTraits(id, mb);
       bits.push(`<p class="beast-stats">About ${avg(mb.hp)} HP · AC ${mb.ac} · hits for ${dice(mb.dmg)} · a blow every ${(mb.speed / 1000).toFixed(1)}s · ${mb.xp} xp${traits.length ? ' · ' + traits.join(', ') : ''}</p>`);
     } else bits.push('<p class="locked">Kill one to take its measure.</p>');
@@ -57,7 +59,7 @@ function renderBestiary(el) {
       bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
       bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');
     }
-    const rec = [`${where}`, mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
+    const rec = [`${where}`, mb.shade ? (r.kills ? `laid to rest ${times(r.kills)}` : 'none laid to rest yet') : mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
     if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
     bits.push(`<p class="where">${rec.join(' · ')}</p>`);
     return `<div class="beast" data-beast="${id}">${img}<div>${bits.join('')}</div></div>`;
@@ -136,7 +138,7 @@ function renderHall() {
   const el = $('#hall-list');
   if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
 export { renderBestiary, renderCodex, renderTrophies, renderHall };

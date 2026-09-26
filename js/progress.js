@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS } from './data.js';
 import { RELICS } from './relics.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
@@ -142,5 +142,59 @@ function noteRelic(id) {
   return fresh;
 }
 
-const Progress = { load, hasWon, highest, trophyCount, bgOpen, classOpen, vowsOpen, recordWin, noteRelic, DIFFS, PATH_IDS, KEY: PROGRESS_KEY };
+// ---------- the fallen ----------
+// The last hero to die on this device is remembered: who they were, the
+// floor they fell on and what they wore. A later run finds their bones
+// there with that gear on them, and their shade risen to guard it. Laying
+// the shade to rest forgets them; a newer death takes their place.
+const FALLEN_KEY = 'deepdelve.fallen';
+/** What a body keeps of the gear worn: no relic (each is one of a kind in a run), and nothing its new finder has judged. */
+const GEAR_SLOTS = ['weapon', 'armor', 'shield', 'offhand', 'cloak', 'ring', 'amulet'];
+const GEAR_MOST = 3;
+/** @param {any} it @returns {import('./types.js').Item|null} */
+function keptItem(it) {
+  if (!it || typeof it !== 'object' || typeof it.t !== 'string' || !ITEMS[it.t] || it.t === 'artifact') return null;
+  const kind = ITEMS[it.t].kind;
+  if (!['weapon', 'armor', 'shield', 'ring', 'amulet', 'cloak'].includes(kind)) return null;
+  /** @type {import('./types.js').Item} */
+  const out = { t: it.t, q: 1, e: Math.max(-3, Math.min(5, Math.round(Number(it.e) || 0))), h: 1 };
+  if (it.curse) out.curse = 1;
+  if (typeof it.px === 'string') out.px = it.px;
+  if (typeof it.pw === 'string' && !it.u) out.pw = it.pw;
+  return out;
+}
+/** Whatever was stored comes back as a record, or null: never a crash. @returns {import('./types.js').Fallen|null} */
+function cleanFallen(v) {
+  if (!v || typeof v !== 'object' || !CLASSES[v.cls] || typeof v.name !== 'string' || !v.name.trim()) return null;
+  const depth = Math.floor(Number(v.depth));
+  if (!(depth >= 1 && depth <= 16)) return null;
+  const gear = (Array.isArray(v.gear) ? v.gear : []).map(keptItem).filter(Boolean).slice(0, GEAR_MOST);
+  return {
+    name: v.name.trim().slice(0, 24), cls: v.cls, depth, level: Math.max(1, Math.min(12, Math.floor(Number(v.level)) || 1)),
+    run: String(v.run || ''), gear: /** @type {import('./types.js').Item[]} */ (gear),
+    ...(typeof v.killer === 'string' && v.killer ? { killer: v.killer.slice(0, 40) } : {}),
+  };
+}
+/** The hero this device last lost, if they are not yet laid to rest. */
+function fallen() {
+  try { return cleanFallen(JSON.parse(localStorage.getItem(FALLEN_KEY) || 'null')); } catch (e) { return null; }
+}
+/**
+ * A hero has died: remember them in place of whoever was remembered before.
+ * @param {{name: string, cls: string, level: number, depth: number, run: string, eq: Record<string, any>, killer?: string}} h
+ */
+function recordFallen(h) {
+  const gear = GEAR_SLOTS.map(k => keptItem(h.eq && h.eq[k])).filter(Boolean).slice(0, GEAR_MOST);
+  const rec = cleanFallen({ ...h, gear });
+  if (!rec) return;
+  try { localStorage.setItem(FALLEN_KEY, JSON.stringify(rec)); } catch (e) { /* private browsing */ }
+}
+/** Their shade is laid to rest: forget them. Only the one laid to rest, so a newer death is kept. */
+function layToRest(run) {
+  const f = fallen();
+  if (!f || f.run !== run) return;
+  try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
+}
+
+const Progress = { load, hasWon, highest, trophyCount, bgOpen, classOpen, vowsOpen, recordWin, noteRelic, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

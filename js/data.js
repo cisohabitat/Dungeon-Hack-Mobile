@@ -490,6 +490,10 @@ const MONSTERS = {
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' } },
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' }, speed: 850 },
     ] },
+  // A hero who died on this device in an earlier run, risen over their bones
+  // (Progress.fallen). Its numbers here are only a floor: each one is made to
+  // the floor it haunts and fights as its class did (mstat in game.js).
+  shade:    { name: 'Shade',       hp: [1, 1, 0],    ac: 13, hit: 2,  dmg: [1, 6, 1], speed: 1000, xp: 60,   tier: [99, 99], sprite: 'shade', scale: 1.0, undead: true, fly: 0.12, shade: true },
   // Named champions: one holds a floor about a third of the way down, another
   // two thirds (Dungeon.namedPlan). Each is one of the kinds above grown
   // great, wearing that kind's picture washed in its own colour, with that
@@ -630,6 +634,7 @@ const BESTIARY = {
   acolyte:  { lore: 'A servant of the dark who hurls bolts of shadow from five squares off.',
     trick: 'Chants for nearly two seconds to mend a badly wounded monster nearby, itself included.',
     answer: 'Any blow, arrow or spell that hurts it breaks the chant: close in fast, or shoot. Kill the acolyte first.' },
+  shade:    { lore: 'One of your own, who fell in an earlier delve and did not stay down. It keeps the floor where it died, over the bones and the gear it died in, and it fights the way it did in life: a fighter\'s shade charges, a mage\'s throws cold fire, a cleric\'s mends itself, a thief\'s is quick and follows a step back, a ranger\'s shoots. Undead: holy magic burns it twice as badly. Lay it to rest and its gear is yours.' },
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life and reaches two squares down a straight line, so one step back is not enough: step aside. It does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
     answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite. A mage\'s spell pulls its shadow apart, and its grave-cold breaks on a mage\'s Shield.' },

@@ -772,7 +772,7 @@ export function makeFoes(K) {
     let best = null, bd = 9;
     for (const m of L.monsters) {
       const dd = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-      if (MONSTERS[m.id].named && m.awake && m.spoke && dd < bd) { best = m; bd = dd; }
+      if ((MONSTERS[m.id].named || m.shade) && m.awake && m.spoke && dd < bd) { best = m; bd = dd; }
     }
     return best;
   }

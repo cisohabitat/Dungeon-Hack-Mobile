@@ -100,6 +100,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   of and answered like every other. It falls for a relic the traders were keeping for your
   class, or a +2 piece and gold once they have none left, and the bestiary, end screen and Hall
   of Heroes remember it.
+- **Your dead come back.** The last hero lost on a device is remembered there. A later run
+  (never a daily one) finds their bones on the floor where they fell, still wearing their gear,
+  with their shade risen over them: made to that floor, fighting as its class did, and warned of
+  in the log on arrival. Laying it to rest wins the gear (quality hidden again, curses and all,
+  relics left behind) and forgets them; the Hall records who was laid to rest. The map is the
+  seed's own either way: the bones are placed afterwards, from a stream of their own.
 - **The deep answers strength.** A hero who arrives on a floor well ahead of the usual level
   finds it readier for them: its creatures take more killing, hit surer and harder, and more of
   them are champions. A hero on pace or behind finds each floor as it was made.
