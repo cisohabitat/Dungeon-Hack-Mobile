@@ -51,6 +51,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
     const best = Object.keys(stats).reduce((a, b) => (stats[b] > stats[a] ? b : a), key);
     [stats[key], stats[best]] = [stats[best], stats[key]];
   }
+  // SHADE=n: a hero fell on floor n of an earlier run, so this one finds
+  // their shade there; the classes of the fallen take turns
+  if (process.env.SHADE) {
+    const fell = ['fighter', 'cleric', 'mage', 'thief', 'ranger'][idx % 5];
+    ctx.store.set('deepdelve.fallen', JSON.stringify({ name: 'Old', cls: fell, level: 5, depth: Number(process.env.SHADE), run: 'bench', gear: [{ t: 'longsword', q: 1, e: 1 }] }));
+  }
   Game.newGame({ name: 'Bot', cls, bg, stats, seed, opts });
   // Measuring the build, not the drop rate: without this only about a third of
   // runs happen to find a light blade, and the comparison mostly reports how
@@ -684,6 +690,13 @@ function play(ctx, cls, seed, opts, bg, idx) {
   // the named champions this run held, and which of them fell (NAMED=1 prints it)
   rec.namedHeld = Object.values(Dungeon.namedPlan(seed, opts.levels));
   rec.namedSlain = Object.keys(Game.runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named);
+  // with SHADE=n: whether the shade's floor was reached, it was laid to rest, or it killed the hero
+  if (process.env.SHADE) {
+    const at = Object.keys(G.levels).map(Number).find(d => G.levels[d].bones);
+    rec.shadeMet = !!at && p.deepest >= at;
+    rec.shadeRested = !!G.rested;
+    rec.shadeKilled = rec.died && /^the Shade of/.test(rec.cause || '');
+  }
   // a champion is remembered as "Grisk, the Goblin King", not by its kind's name alone
   rec.namedKiller = rec.died ? rec.namedHeld.find(id => rec.cause === MONSTERS[id].name || rec.cause.endsWith(', the ' + MONSTERS[id].name)) || '' : '';
   if (process.env.RELICLOG) {
@@ -821,6 +834,13 @@ if (process.env.RELICLOG) {
     const t = { reach: 0, locked: 0, full: 0 };
     for (const r of results[cls]) for (const k in (r.relicLeft || {})) t[k] += r.relicLeft[k];
     console.log(`   ${cls.padEnd(8)} relics left per run: reachable ${(t.reach / results[cls].length).toFixed(2)}, behind locks ${(t.locked / results[cls].length).toFixed(2)}; runs ending with a full pack ${t.full}`);
+  }
+}
+// SHADE=n: how each class fared against the shade waiting on floor n
+if (process.env.SHADE) {
+  for (const cls in results) {
+    const rows = results[cls], met = rows.filter(r => r.shadeMet);
+    console.log(`   ${cls.padEnd(8)} met the shade in ${met.length} runs, laid it to rest in ${rows.filter(r => r.shadeRested).length}, killed by it in ${rows.filter(r => r.shadeKilled).length}`);
   }
 }
 // NAMED=1: for each named champion, how many runs reached its floor, how many

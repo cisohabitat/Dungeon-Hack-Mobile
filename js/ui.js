@@ -478,7 +478,10 @@ const UI = (() => {
   function showPrologue(cfg) {
     pendingCfg = cfg;
     const b = BACKGROUNDS[cfg.bg];
-    $('#pro-world').innerHTML = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
+    // the valley's story in full the first time; after that it waits folded
+    // away, so the hero's own paragraph and the stair fit on the screen
+    const world = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
+    $('#pro-world').innerHTML = store(STORY_READ) === '1' ? `<details class="pro-again"><summary>The story so far</summary>${world}</details>` : world;
     $('#pro-who').textContent = b.name;
     $('#pro-story').textContent = b.story;
     $('#pro-motive').textContent = b.motive;
@@ -513,7 +516,9 @@ const UI = (() => {
     };
     showPrologue(cfg);
   }
+  const STORY_READ = 'deepdelve.storyRead';
   function commitGame() {
+    store(STORY_READ, '1');
     if (!pendingCfg) return;
     // the day's one try begins here, at the first stair
     if (pendingCfg.opts.daily) Daily.start(pendingCfg.opts.daily);

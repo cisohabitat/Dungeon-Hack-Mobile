@@ -537,6 +537,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .menu .ghost.two small { font-size: 0.72rem; color: #b0a8bc; line-height: 1.25; }
 #btn-daily.done b { color: #c8bfae; }
 /* how a run is kept, said before the first stair */
+.pro-again { margin: 0 0 12px; }
+.pro-again summary { color: var(--gold); cursor: pointer; padding: 8px 0; min-height: 28px; }
 .pro-rules { color: #c8bfae; font-size: 0.9rem; border-left: 2px solid var(--accent); padding-left: 10px; }
 .share-line { color: #e6dfd0; font-family: monospace; font-size: 0.85rem; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0; -webkit-user-select: text; user-select: text; overflow-wrap: anywhere; }
 .hall-row .daily-mark { font-style: normal; font-size: 0.72rem; color: #1a1408; background: var(--gold); border-radius: 999px; padding: 1px 7px; margin-left: 4px; white-space: nowrap; }

@@ -159,4 +159,30 @@ test.describe('choices kept', () => {
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
     await expect(page.locator('#boon-title')).toContainText('Hero level 2');
   });
+  test('the valley\'s story is told in full the first time, then waits folded so the stair is on the screen', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 360, height: 740 });
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-new');
+    await page.fill('#c-seed', 'story-fold');
+    await page.click('#c-begin');
+    await expect(page.locator('#pro-world > p')).toHaveCount(4);
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    // a second hero: the story folded away, the stair in view without scrolling
+    await page.goto('/');
+    await page.click('#btn-new');
+    if (await page.locator('#screen-confirm').isVisible()) await page.click('#confirm-replace');
+    await page.fill('#c-seed', 'story-fold-2');
+    await page.click('#c-begin');
+    await expect(page.locator('#pro-world details.pro-again')).toHaveCount(1);
+    expect(await page.locator('#pro-world details').evaluate(d => d.open)).toBe(false);
+    const inView = await page.locator('#pro-begin').evaluate(b => { const r = b.getBoundingClientRect(); return r.bottom <= innerHeight && r.top >= 0; });
+    expect(inView, 'the stair button is on the screen').toBe(true);
+    // and the story is still there to read
+    await page.locator('#pro-world summary').click();
+    await expect(page.locator('#pro-world details p').first()).toBeVisible();
+    expect(errors).toEqual([]);
+  });
 });
