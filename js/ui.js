@@ -980,7 +980,10 @@ const UI = (() => {
     const held = G.log.filter(e => e.at > now);
     logDue = held.length ? Math.min(...held.map(e => e.at)) : 0;
     const el = $('#log');
-    el.innerHTML = G.log.filter(e => !e.gone && !(e.at > now)).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    // a Bestiary note shows while it is the newest line, then gives way to the
+    // fight: in the short box it was pushing the blows out (it stays in the history)
+    const live = G.log.filter(e => !e.gone && !(e.at > now));
+    el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
     // the full history is a tap on Log away. The panel stacks from the bottom, so

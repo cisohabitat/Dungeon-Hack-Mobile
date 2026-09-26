@@ -72,6 +72,15 @@ const DRESSING = {
     ball(13, 30.2, 2.4, 1.6, '#e2d8bc'), dots([[12, 30], [14, 30]], '#1a120c'),
     dots([[19, 28], [21, 31], [7, 31]], BONE),
   ],
+  // what is left of a barrel or crate once broken, and of an urn
+  remains_staves: () => [
+    limb(7, 30.5, 15, 29, 0.7, 0.7, WOOD), limb(13, 31, 22, 30.5, 0.7, 0.7, WOOD_DARK), limb(18, 29.5, 26, 31, 0.7, 0.7, WOOD_LIGHT),
+    line(9, 31, 14, 31, IRON), ball(21, 30.4, 3, 0.8, '#5a3e22'),
+  ],
+  remains_shards: () => [
+    sheet([[8, 31], [12, 28.5], [14, 31]], '#9a5a3a', { tilt: [-0.3, -0.6] }), sheet([[16, 31], [19, 27.5], [22, 31]], '#8a4e32', { tilt: [0.3, -0.6] }),
+    sheet([[23, 31], [25, 29.5], [27, 31]], '#a8664a', { tilt: [0, -0.7] }), dots([[11, 30], [20, 29]], '#c9a24a'),
+  ],
   remains_husk: () => [
     ball(16, 29.5, 7.5, 2.4, '#3a2a26'), ball(13, 28.5, 3.5, 1.8, '#4a3630'),
     sheet([[18, 27.5], [24, 28.5], [22, 31], [17, 30.5]], '#5a4a3a', { tilt: [0.3, -0.5] }),
@@ -80,7 +89,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5 };
+const SIZE = { barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

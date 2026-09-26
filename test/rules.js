@@ -400,6 +400,7 @@ await test('the Use button names each thing it can do', async () => {
   const p = Game.player(), L = Game.level();
   L.monsters.length = 0;
   for (const k in L.items) delete L.items[k];
+  L.dressing = [];
   const ahead = () => { const [dx, dy] = Dungeon.DIRS[p.dir]; return (p.y + dy) * L.w + (p.x + dx); };
   const was = L.tiles[ahead()];
   const expect = [[T.DOOR, 'Open'], [T.DOOR_LOCKED, 'Force'], [T.STAIRS_DOWN, 'Descend'], [T.FOUNTAIN, 'Drink'],
@@ -408,6 +409,10 @@ await test('the Use button names each thing it can do', async () => {
     L.tiles[ahead()] = t;
     if (Game.useLabel() !== want) return `facing tile ${t}, Use says "${Game.useLabel()}", wanted "${want}"`;
   }
+  // a crate on the floor ahead is broken with it
+  L.dressing.push({ x: ahead() % L.w, y: (ahead() / L.w) | 0, k: 'crate', ox: 0, oy: 0 });
+  if (Game.useLabel() !== 'Break') return `facing a crate, Use says "${Game.useLabel()}"`;
+  L.dressing = [];
   // with the key for that lock in hand, it says Unlock instead of Force
   L.tiles[ahead()] = T.DOOR_LOCKED;
   const [lx, ly] = [ahead() % L.w, (ahead() / L.w) | 0];
@@ -7495,6 +7500,27 @@ await test('a barrel, crate or urn breaks to a blow with nothing to fight in fro
   G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
   if (m.hp === 999) out.push('the goblin in front was not struck');
   if (!L.dressing.some(d => d.k === 'barrel' && d.x === p.x + dx)) out.push('the barrel under the goblin broke instead');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('walking into a barrel kicks it over, and the Use button breaks one ahead, saying Break', async () => {
+  const out = [];
+  for (const how of ['walk', 'use']) {
+    const ctx = await start('fighter', 'kick-it');
+    const { Game, Dungeon } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+    L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+    if (L.tiles[y * L.w + x] !== Dungeon.T.FLOOR) return 'no floor in front of the hero on this seed';
+    delete L.items[x + ',' + y];
+    L.dressing.push({ x, y, k: 'barrel', ox: 0, oy: 0 });
+    if (how === 'use' && Game.useLabel() !== 'Break') out.push(`facing a barrel the button said ${Game.useLabel()}`);
+    const from = [p.x, p.y];
+    G.t = Math.max(G.t, p.nextAttack);
+    Game.input(how === 'walk' ? 'forward' : 'use');
+    if (L.dressing.some(d => d.x === x && d.y === y && d.k === 'barrel')) out.push(`${how}ing did not break the barrel`);
+    if (p.x !== from[0] || p.y !== from[1]) out.push(`${how}ing into the barrel moved the hero onto its square`);
+    if (!(L.remains || []).some(r => r.k === 'remains_staves')) out.push(`${how}ing left no staves behind`);
+  }
   return out.length ? out.join('; ') : true;
 });
 

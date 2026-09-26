@@ -148,7 +148,7 @@ const Renderer = (() => {
     for (let y = half + 2; y < H; y++) {
       const near = (y - half) / half;
       // soft bands, not lines: every row, its brightness rising and falling smoothly down the floor
-      const a = 0.02 + 0.07 * near * (0.5 + 0.5 * Math.sin(y * 0.22 + now / 600));
+      const a = 0.02 + 0.07 * near * (0.5 + 0.5 * Math.sin(y * 0.22 + (calm ? 0 : now / 600)));
       ctx.fillStyle = `rgba(90,140,170,${a.toFixed(3)})`;
       ctx.fillRect(0, y, W, 1);
     }
@@ -335,11 +335,11 @@ const Renderer = (() => {
   function drawView(fx, now) {
     const v = fx.view;
     if (!v) return;
-    // a step's bob and a slow sway at rest
-    const step = Math.sin((v.walk || 0) * Math.PI);
-    const bx = Math.sin(now / 900) * 1.5 + (v.steps % 2 ? 1 : -1) * step * 3, by = Math.abs(step) * 7 + Math.sin(now / 700) * 1.2;
-    // a blow landing jolts the hands down
-    const hurt = now < fx.damageUntil ? (fx.damageUntil - now) / 260 : 0;
+    // a step's bob and a slow sway at rest (held still in a calm view)
+    const step = calm ? 0 : Math.sin((v.walk || 0) * Math.PI);
+    const bx = calm ? 0 : Math.sin(now / 900) * 1.5 + (v.steps % 2 ? 1 : -1) * step * 3, by = calm ? 0 : Math.abs(step) * 7 + Math.sin(now / 700) * 1.2;
+    // a blow landing jolts the hands down (not in a calm view)
+    const hurt = !calm && now < fx.damageUntil ? (fx.damageUntil - now) / 260 : 0;
     const jx = hurt ? Math.sin(now / 17) * 4 * hurt : 0, jy = hurt * 9;
     const dx = bx + jx, dy = by + jy;
     const u = (now - fx.swingAt) / (fx.swingMs || 300);
@@ -515,6 +515,12 @@ const Renderer = (() => {
   };
   const dim = (hex, f, a = 1) => { const [r, g, b] = rgbOf(hex); return `rgba(${Math.round(r * f)},${Math.round(g * f)},${Math.round(b * f)},${a.toFixed(3)})`; };
   /** A floor stain: a pool and a few splashes round it, laid flat in perspective and darkened like the floor under it. */
+  /** The light field at a point, blended between the four nearest square centres. */
+  function lightAt(lm, w, h, x, y) {
+    const gx = x - 0.5, gy = y - 0.5, x0 = Math.floor(gx), y0 = Math.floor(gy), fx = gx - x0, fy = gy - y0;
+    const at = (i, j) => (i < 0 || j < 0 || i >= w || j >= h ? 0 : lm[j * w + i]);
+    return (at(x0, y0) * (1 - fx) + at(x0 + 1, y0) * fx) * (1 - fy) + (at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx) * fy;
+  }
   // A floor's puddles, as stains of dark water (see Dungeon.dress), made once a level.
   const puddleCache = new WeakMap();
   function puddlesOf(level) {
@@ -1180,17 +1186,19 @@ const Renderer = (() => {
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       let shade = dist / fog + (side === 1 ? 0.12 : 0);
-      // torchlight falling on this wall face brightens it; a torch's own wall
-      // is lit fully, rising and falling with its flame
-      const lightHere = lm[mapY * w + mapX];
-      if (tile === T.TORCH) { const k = lights.src[mapY * w + mapX]; shade -= LIGHT_MAX * (k >= 0 ? lights.gain[k] : 1) / 7; }
-      else if (lightHere > 0) shade -= lightHere / 7;
+      // torchlight falling on this wall face brightens it, read smoothly at the
+      // very spot the ray struck, not square by square: taken whole from the
+      // square, each torch lit its own wall as a flat bright block with hard
+      // edges. A torch's own wall is lit fully, rising and falling with its flame.
+      let lightHere = lightAt(lm, w, h, px + dist * rdx, py + dist * rdy);
+      if (tile === T.TORCH) { const k = lights.src[mapY * w + mapX]; lightHere = Math.max(lightHere, LIGHT_MAX * 0.8 * (k >= 0 ? lights.gain[k] : 1)); }
+      if (lightHere > 0) shade -= lightHere / 7;
       if (shade > 0.03) {
         ctx.fillStyle = shadeStyles[Math.min(20, Math.round(shade * 20))];
         ctx.fillRect(col, top, 1, lineH);
       }
       // and where a torch's light falls, or the hero's own, the stone warms
-      const heat = Math.max(tile === T.TORCH ? 1 : Math.min(1, lightHere / LIGHT_MAX), dist < OWN_R ? (1 - dist / OWN_R) * 0.5 : 0);
+      const heat = Math.max(Math.min(1, lightHere / LIGHT_MAX), dist < OWN_R ? (1 - dist / OWN_R) * 0.5 : 0);
       if (heat > 0.08) {
         ctx.fillStyle = WARM[Math.min(10, Math.round(heat * 10))];
         ctx.fillRect(col, top, 1, lineH);

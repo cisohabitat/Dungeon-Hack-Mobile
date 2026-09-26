@@ -1482,6 +1482,7 @@ const Game = (() => {
     // Use still strikes what is in front, but the button beside it already
     // says Attack; two buttons with one name read as a mistake
     if (monsterAt(tx, ty)) return 'Use';
+    if (propAt(tx, ty)) return 'Break';
     if (t === T.DOOR_OPEN) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
     if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
@@ -1528,6 +1529,10 @@ const Game = (() => {
     if (t === T.FOUNTAIN) { drinkFountain(nx, ny); return true; }
     const trader = npcAt(nx, ny);
     if (trader) { if (trader.kind === 'encounter') openEncounter(trader); else openShop(trader); return true; }
+    // walking into a barrel, crate or urn kicks it over: it is not walked through
+    // like air, nor left in the way (the step is spent on it)
+    const prop = propAt(nx, ny);
+    if (prop && !monsterAt(nx, ny)) { smash(lvl(), prop, true); return true; }
     const m = monsterAt(nx, ny);
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
@@ -1719,6 +1724,7 @@ const Game = (() => {
     const ahead = npcAt(tx, ty);
     if (ahead) return ahead.kind === 'encounter' ? openEncounter(ahead) : openShop(ahead);
     if (monsterAt(tx, ty)) return attack();
+    if (propAt(tx, ty)) return attack();   // a barrel, crate or urn ahead: break it
     if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
@@ -1946,15 +1952,23 @@ const Game = (() => {
   // draught very rarely, most often nothing at all.
   const SMASHABLE = ['barrel', 'crate', 'urn'];
   const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters' };
-  /** @param {import('./types.js').Level} L @param {import('./types.js').Dressing} d */
-  function smash(L, d) {
+  const KICK_WORDS = { barrel: 'You kick the barrel over and its staves give way', crate: 'You kick the crate over and it splinters', urn: 'You knock the urn over and it shatters' };
+  /** A barrel, crate or urn on this square, if one stands there. */
+  const propAt = (x, y) => (tile(x, y) === T.FLOOR && (lvl().dressing || []).find(q => q.x === x && q.y === y && SMASHABLE.includes(q.k))) || null;
+  /** @param {import('./types.js').Level} L @param {import('./types.js').Dressing} d @param {boolean} [kicked] */
+  function smash(L, d, kicked) {
     L.dressing.splice(L.dressing.indexOf(d), 1);
     const cx = d.x + 0.5 + d.ox, cy = d.y + 0.5 + d.oy;
     const cols = d.k === 'urn' ? ['#9a5a3a', '#6a3a24', '#c9a24a'] : ['#7a5230', '#4e3320', '#a8844e'];
-    for (let i = 0; i < 16; i++) {
-      fx.bits.push({ x: cx, y: cy, z: 0.15 + look() * 0.25, vx: (look() - 0.5) * 2.2, vy: (look() - 0.5) * 2.2, vz: 0.8 + look() * 1.6,
-        g: 7, c: cols[i % cols.length], born: realNow + fxDelay, life: 420 + look() * 320, size: look() < 0.4 ? 0.03 : 0.018 });
+    // a burst of staves or shards, big enough to see past the swing
+    for (let i = 0; i < 28; i++) {
+      fx.bits.push({ x: cx, y: cy, z: 0.1 + look() * 0.35, vx: (look() - 0.5) * 2.6, vy: (look() - 0.5) * 2.6, vz: 0.9 + look() * 1.8,
+        g: 7, c: cols[i % cols.length], born: realNow + fxDelay, life: 480 + look() * 380, size: look() < 0.5 ? 0.045 : 0.025 });
     }
+    // and what is left of it lies there a good while
+    L.remains = (L.remains || []).filter(r => r.until > G.t).slice(-(REMAINS_MAX - 1));
+    L.remains.push({ x: Math.round(cx * 100) / 100, y: Math.round(cy * 100) / 100, k: d.k === 'urn' ? 'remains_shards' : 'remains_staves', at: G.t - 1000, until: G.t + REMAINS_MS * 2 });
+    if (realNow >= fx.shakeUntil) { fx.shakeAmp = 2; fx.shakeMs = 120; fx.shakeUntil = realNow + fxDelay + 120; }
     if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
     Sound.play('blunt', heard(d));
     const rng = new Rng(`${G.seed}|smash|${G.depth}|${d.x},${d.y}`), r = rng.next();
@@ -1964,7 +1978,8 @@ const Game = (() => {
     else if (r < 0.36) found = { t: rng.chance(0.5) ? 'bread' : 'ration', q: 1 };
     else if (r < 0.4) found = { t: 'potion_heal', q: 1 };
     if (found) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(found);
-    log(`${SMASH_WORDS[d.k]}${!found ? ': nothing inside.' : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
+    if (found && found.t === 'gold') floatText({ rx: cx - 0.5, ry: cy - 0.5 }, `+${found.q}`, '#ffd24a');
+    log(`${(kicked ? KICK_WORDS : SMASH_WORDS)[d.k]}${!found ? ': nothing inside.' : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
   }
   /** Sparks where a blow was turned aside. */
   function sparks(m) { spray(m, 'spark', 0.05, false); }
@@ -2023,8 +2038,8 @@ const Game = (() => {
     if (!m) {
       if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t });
       // nothing to fight in front: a barrel, crate or urn there takes the blow
-      const L = lvl(), d = (L.dressing || []).find(q => q.x === p.x + dx && q.y === p.y + dy && SMASHABLE.includes(q.k));
-      if (d) smash(L, d);
+      const d = propAt(p.x + dx, p.y + dy);
+      if (d) smash(lvl(), d);
       return;
     }
     const mb = mstat(m);

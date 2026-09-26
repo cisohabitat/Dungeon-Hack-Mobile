@@ -308,20 +308,32 @@ const Assets = (() => {
       const y0 = band * 16;
       shelf(y0);
       if (band % 2 === 0) {
-        // a course of skulls, each turned a little differently, one or two gone
-        for (let x = rng.int(-3, 0); x < TEX; x += 8) {
-          if (cracked ? rng.chance(0.3) : rng.chance(0.06)) continue;
-          const tone = rng.int(-18, 8), pal = { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone), d: BONE.d };
-          stamp(ctx, SKULL, pal, x, y0 + 6);
-          if (rng.chance(0.3)) px(ctx, BONE.d, x + 3, y0 + 7, 1, 1);   // a hole knocked in the crown
+        // a course of skulls, packed by hand: not quite evenly spaced, some
+        // sunk lower, some yellower, a jaw lost here, a pair of crossed bones
+        // pushed into a gap there. Laid in a strict row they read, from a few
+        // paces off, as one chain of links repeating along the whole wall.
+        for (let x = rng.int(-3, 0); x < TEX; x += rng.int(7, 10)) {
+          if (cracked ? rng.chance(0.3) : rng.chance(0.08)) continue;
+          const tone = rng.int(-30, 10), pal = { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone), d: BONE.d };
+          const y = y0 + 5 + rng.int(0, 2);
+          if (rng.chance(0.14)) {
+            // crossed long bones in the place of a skull
+            line(ctx, pal.m, x, y, x + 6, y + 5); line(ctx, pal.s, x + 6, y, x, y + 5);
+            px(ctx, pal.h, x, y, 1, 1); px(ctx, pal.h, x + 6, y, 1, 1);
+            continue;
+          }
+          stamp(ctx, rng.chance(0.25) ? SKULL.slice(0, 5) : SKULL, pal, x, y);
+          if (rng.chance(0.3)) px(ctx, BONE.d, x + rng.int(2, 4), y + 1, 1, 1);   // a hole knocked in the crown
         }
       } else {
-        // long bones laid end-on in rows: only their knuckled ends show
+        // long bones laid end-on in rows: only their knuckled ends show, a few
+        // sticking out further than the rest, and here and there one laid lengthwise
         for (let row = 0; row < 3; row++) {
-          for (let x = (row % 2) * 3 - 2; x < TEX; x += 6) {
-            if (rng.chance(cracked ? 0.2 : 0.05)) continue;
-            const tone = rng.int(-20, 6);
-            stamp(ctx, ['.hm.', 'hmms', '.ms.'], { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone) }, x, y0 + 4 + row * 4);
+          for (let x = (row % 2) * 3 - 2 + rng.int(0, 1); x < TEX; x += rng.int(5, 7)) {
+            if (rng.chance(cracked ? 0.2 : 0.07)) continue;
+            const tone = rng.int(-28, 8), pal = { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone) };
+            if (rng.chance(0.08)) { stamp(ctx, LONG_BONE, pal, x, y0 + 4 + row * 4); x += 7; continue; }
+            stamp(ctx, ['.hm.', 'hmms', '.ms.'], pal, x, y0 + 4 + row * 4 + (rng.chance(0.2) ? 1 : 0));
           }
         }
       }
@@ -980,6 +992,21 @@ const Assets = (() => {
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
     const rng = new Rng(seed);
+    if (theme.face === 'earth') {
+      // a dug tunnel has no flagstones: trodden earth, a worn path down the
+      // middle, stones and grit, the odd root breaking the surface
+      for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+        const worn = Math.abs(x - TEX / 2) < 14 ? 6 : 0;
+        px(ctx, adjust(theme.floor, rng.int(-8, 8) + worn), x, y);
+      }
+      for (let i = 0; i < 26; i++) {
+        const x = rng.int(0, TEX - 3), y = rng.int(0, TEX - 3), t = rng.int(-6, 22);
+        px(ctx, adjust('#6a6660', t), x, y, rng.int(1, 3), rng.int(1, 2));
+        px(ctx, 'rgba(0,0,0,0.3)', x, y + 1, 2, 1);
+      }
+      for (let i = 0; i < 2; i++) { let x = rng.int(0, TEX), y = rng.int(0, TEX); for (let k = 0; k < 14; k++) { px(ctx, '#4a3420', x & (TEX - 1), y & (TEX - 1)); x += 1; if (rng.chance(0.4)) y += rng.int(-1, 1); } }
+      return c;
+    }
     ctx.fillStyle = adjust(theme.floor, -18);
     ctx.fillRect(0, 0, TEX, TEX);
     const n = 4, s = TEX / n;
