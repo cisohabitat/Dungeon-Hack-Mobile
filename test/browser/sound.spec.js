@@ -38,15 +38,17 @@ test.describe('sound', () => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'music-fight' });
     await clearBoons(page);
-    // every floor's scale in every mood, through real WebAudio
-    await page.evaluate(async () => {
+    // every instrument, through real WebAudio, and every floor in every mood
+    const tried = await page.evaluate(async () => {
       if (!Sound.isEnabled()) Sound.toggle();
       Sound.unlock();
-      let t = performance.now() + 1e6;
-      for (let theme = 0; theme < THEMES.length; theme++) for (const mood of Music.MOODS) { for (let i = 0; i < 12; i++) { Music.update(mood, theme, t); t += 120; } }
+      const n = Music.tryEach();
+      for (let theme = 0; theme < THEMES.length; theme++) for (const mood of Music.MOODS) { Music.update(mood, theme, performance.now()); await new Promise(r => setTimeout(r, 20)); }
       Music.stop();
       await new Promise(r => setTimeout(r, 300));
+      return n;
     });
+    expect(tried, 'every instrument sounded').toBe(5);
     // in play: a goblin awake beside the hero brings in the beat
     const heard = await page.evaluate(async () => {
       const got = [];

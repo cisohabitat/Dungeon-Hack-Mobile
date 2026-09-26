@@ -7648,10 +7648,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (rec.name !== 'Test' || rec.cls !== 'fighter' || rec.depth !== 3) return `remembered ${JSON.stringify(rec)}`;
     if (rec.killer !== 'a goblin') return `killed by "${rec.killer}"`;
     const kinds = rec.gear.map(it => it.t).join(',');
-    if (kinds !== 'longsword,dagger,ring_protect') return `kept ${kinds}`;
+    if (kinds !== 'longsword,ring_protect,dagger') return `kept ${kinds}`;
     if (rec.gear.some(it => it.u)) return 'a relic was kept as a relic';
     if (!rec.gear.every(it => it.h === 1)) return 'the gear\'s quality was not hidden again';
-    if (rec.gear[0].e !== 2 || !rec.gear[2].curse) return `the gear lost its make: ${JSON.stringify(rec.gear)}`;
+    if (rec.gear[0].e !== 2 || !rec.gear[1].curse) return `the gear lost its make: ${JSON.stringify(rec.gear)}`;
 
     // the next run, the same device: floor 3 holds them
     Game.newGame({ name: 'Heir', cls: 'thief', stats: Game.rollStats(), seed: 'bones-next', opts: OPTS });
@@ -7663,9 +7663,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (!sh) return 'no shade on the floor where the hero fell';
     if (sh.awake) return 'the shade was awake before it was found';
     const said = linesSince(Game.state(), mark);
-    if (!said.some(l => /Test the Fighter fell on this floor, to a goblin,/.test(l))) return `arriving said: ${said.join(' | ')}`;
+    if (!said.some(l => /Test the Fighter fell on this floor, killed by a goblin,/.test(l))) return `arriving said: ${said.join(' | ')}`;
     const pile = (L.items[sh.x + ',' + sh.y] || []).map(it => it.t).join(',');
-    if (pile !== 'longsword,dagger,ring_protect') return `the bones hold ${pile}`;
+    if (pile !== 'longsword,ring_protect,dagger') return `the bones hold ${pile}`;
     if (!(L.dressing || []).some(d => d.x === sh.x && d.y === sh.y && d.k === 'remains_bones')) return 'no bones where the shade stands';
     const st = Game.mstat(sh);
     if (st.name !== 'Shade of Test' || st.move !== 'charge') return `the shade is ${st.name}, moving ${st.move}`;
@@ -7728,6 +7728,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     downTo(b, 3);
     for (const d of [2, 3]) if (b.Game.state().levels[d].monsters.some(m => m.shade)) out.push('a daily delve met a shade');
     if (/will not lie quiet/.test(b.Game.epilogue(false).join(' '))) out.push('a daily delve promises its dead will be found');
+    // and a daily death is not remembered: whoever was stays
+    if (!fallTo(b)) out.push('the daily hero would not die');
+    else if ((JSON.parse(b.store.get(FALLEN) || 'null') || {}).name !== 'Ada') out.push('a daily death replaced the hero remembered');
     // someone who fell deeper than this delve goes waits on the last floor before the lich's
     const c = await start('fighter', 'bones-deep');
     c.store.set(FALLEN, JSON.stringify({ name: 'Bo', cls: 'ranger', level: 9, depth: 9, run: 'x', gear: [] }));
@@ -7753,6 +7756,38 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   });
 
 
+  await test('a shade never clears away a floor\'s champion, and is made sturdier on Hard as the floor\'s own creatures are', async () => {
+    const out = [];
+    let tried = 0;
+    // seeds where the shade's bones used to land beside the champion and clear it away
+    const busyFloor = { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true };
+    for (const seed of ['nm126', 'nm147', 'nm154', 'nm159']) {
+      const ctx = await start('fighter', seed, busyFloor);
+      const plan = ctx.Dungeon.namedPlan(seed, 8);
+      for (const d of Object.keys(plan).map(Number)) {
+      if (ctx.Game.state().depth > d) continue;
+      tried++;
+      ctx.store.set(FALLEN, JSON.stringify({ name: 'Kit', cls: 'fighter', level: 3, depth: d, run: 'x', gear: [] }));
+      downTo(ctx, d);
+      const L = ctx.Game.level(), champ = L.monsters.find(m => m.id === plan[d]), sh = L.monsters.find(m => m.shade);
+      if (!champ) out.push(`${seed}: the champion of floor ${d} was cleared away`);
+      else if (sh && Math.abs(sh.x - champ.x) + Math.abs(sh.y - champ.y) <= 3) out.push(`${seed}: the shade lies in the champion's lair`);
+      }
+    }
+    if (tried < 4) out.push(`only ${tried} champion floors tried`);
+    // the same shade on the same floor, Easy against Hard
+    const hp = async difficulty => {
+      const c = await start('fighter', 'bones-hard', { difficulty });
+      c.store.set(FALLEN, JSON.stringify({ name: 'Kit', cls: 'fighter', level: 3, depth: 3, run: 'x', gear: [] }));
+      downTo(c, 3);
+      const sh = c.Game.level().monsters.find(m => m.shade);
+      return sh ? sh.maxHp : 0;
+    };
+    const easy = await hp('easy'), hard = await hp('hard');
+    if (!easy || !(hard > easy)) out.push(`a shade has ${easy} life on Easy and ${hard} on Hard`);
+    return out.length ? out.join('; ') : true;
+  });
+
   // ---------- the music ----------
   await test('the music hears how the fight stands: quiet, wary, fight, a champion, the lich', async () => {
     const ctx = await start('fighter', 'mood');
@@ -7760,9 +7795,13 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const out = [], p = Game.player(), L = Game.level(), G = Game.state();
     L.monsters.length = 0;
     if (Game.mood() !== 'quiet') out.push(`with nothing about: ${Game.mood()}`);
+    // a straight open run east of the hero, walled either side, so steps and squares agree
+    for (let k = 1; k <= 10; k++) { L.tiles[p.y * L.w + p.x + k] = Dungeon.T.FLOOR; L.tiles[(p.y - 1) * L.w + p.x + k] = Dungeon.T.WALL; L.tiles[(p.y + 1) * L.w + p.x + k] = Dungeon.T.WALL; }
+    const later = () => { G.t += 300; };     // the walking distances are worked out afresh every quarter second
     const put = (id, d, extra = {}) => {
       L.monsters.length = 0;
       L.monsters.push({ uid: 5, id, x: p.x + d, y: p.y, hp: 50, maxHp: 50, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra });
+      later();
     };
     put('goblin', 8, { awake: false });
     if (Game.mood() !== 'quiet') out.push(`a goblin asleep: ${Game.mood()}`);
@@ -7770,6 +7809,17 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Game.mood() !== 'wary') out.push(`a goblin awake eight squares off: ${Game.mood()}`);
     put('goblin', 2);
     if (Game.mood() !== 'fight') out.push(`a goblin awake two squares off: ${Game.mood()}`);
+    // it steps back out of reach: the fight holds a moment, then eases
+    put('goblin', 8);
+    if (Game.mood() !== 'fight') out.push(`a goblin stepping out of reach ended the fight at once: ${Game.mood()}`);
+    G.t += 3000;
+    if (Game.mood() !== 'wary') out.push(`three seconds later, still ${Game.mood()}`);
+    // awake two squares off through a wall, with no way round: no fight
+    L.tiles[p.y * L.w + p.x + 1] = Dungeon.T.WALL;
+    put('goblin', 2);
+    G.t += 3000;
+    if (Game.mood() !== 'quiet') out.push(`a goblin behind a wall it cannot pass: ${Game.mood()}`);
+    L.tiles[p.y * L.w + p.x + 1] = Dungeon.T.FLOOR;
     put('grisk', 6, { spoke: true });
     if (Game.mood() !== 'champion') out.push(`Grisk awake and spoken: ${Game.mood()}`);
     put('shade', 3, { spoke: true, shade: { name: 'Wren', cls: 'mage', level: 3, run: 'x', depth: 2 } });

@@ -59,7 +59,7 @@ test.describe('named champions', () => {
     await startGame(page, { seed: 'shade-look' });
     await clearBoons(page);
     expect(await descendTo(page, 2)).toBe(2);
-    await expect(page.locator('#log')).toContainText('Wren the Mage fell on this floor, to an orc,', { timeout: 3000 });
+    await expect(page.locator('#log')).toContainText('Wren the Mage fell on this floor, killed by an orc,', { timeout: 3000 });
     const found = await page.evaluate(() => {
       const sh = Game.level().monsters.find(m => m.shade);
       return sh ? { uid: sh.uid, pile: (Game.level().items[sh.x + ',' + sh.y] || []).map(it => it.t) } : null;

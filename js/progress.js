@@ -148,8 +148,9 @@ function noteRelic(id) {
 // there with that gear on them, and their shade risen to guard it. Laying
 // the shade to rest forgets them; a newer death takes their place.
 const FALLEN_KEY = 'deepdelve.fallen';
-/** What a body keeps of the gear worn: no relic (each is one of a kind in a run), and nothing its new finder has judged. */
-const GEAR_SLOTS = ['weapon', 'armor', 'shield', 'offhand', 'cloak', 'ring', 'amulet'];
+/** What a body keeps of the gear worn, three pieces at most, in this order: the weapon and armour, then a ring or an amulet (the
+ * worth of a find), then the rest. No relic (each is one of a kind in a run), and nothing its new finder has judged. */
+const GEAR_SLOTS = ['weapon', 'armor', 'ring', 'ring2', 'amulet', 'shield', 'offhand', 'cloak'];
 const GEAR_MOST = 3;
 /** @param {any} it @returns {import('./types.js').Item|null} */
 function keptItem(it) {

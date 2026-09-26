@@ -134,8 +134,10 @@ const Music = (() => {
 
   // ---- the player ----
   let comp = composer();
-  let nextAt = 0;            // when the next step falls, in seconds on the page's clock
+  let nextAt = 0;            // when the next step falls, in seconds on the clock it is played by
   let playing = false;
+  let onAudio = false;       // which clock nextAt is on: the audio's, or (with no audio, as in the tests) the page's
+  let busUp = false;         // the bus has been faded up for this stretch of play
   /** @type {GainNode|null} */ let bus = null;
   /** @type {any} */ let busCtx = null;
   /** @type {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} told of every note, even with no audio: for tests */
@@ -156,6 +158,7 @@ const Music = (() => {
     if (!a) return null;
     if (bus && busCtx === a.ctx) return a;
     const c = a.ctx;
+    busUp = false;
     bus = c.createGain();
     bus.gain.value = 0;
     bus.connect(a.master);
@@ -224,19 +227,29 @@ const Music = (() => {
    */
   function update(mood, theme, nowMs) {
     if (!enabled || !Sound.isEnabled()) { if (playing) stop(); return; }
-    const now = nowMs / 1000;
-    const a = ensureBus();
-    if (!playing) { playing = true; nextAt = now + 0.3; comp = composer(String(theme)); if (a) fadeTo(LEVEL_ALL, 1.5); }
+    let a = null;
+    // (a failure here must not throw into the game's frame: the loop would stop)
+    try { a = ensureBus(); } catch (e) { fault('bus', e); a = null; }
+    // Notes are placed on the audio clock itself, which on a phone moves in
+    // steps of its own. While it is stopped (the page put away, a phone
+    // waiting for a tap) nothing is written, so nothing piles up to sound
+    // all at once when it starts again.
+    if (a && a.ctx.state !== 'running') return;
+    const now = a ? a.ctx.currentTime : nowMs / 1000;
+    if (!playing || onAudio !== !!a) { nextAt = now + 0.3; onAudio = !!a; }
+    if (!playing) { playing = true; comp = composer(String(theme)); }
+    if (a && !busUp) { fadeTo(LEVEL_ALL, 1.5); busUp = true; }
     heard.mood = mood;
-    // write up to a fifth of a second ahead; after a stall, pick up from now rather than rushing to catch up
-    if (nextAt < now - 0.5) nextAt = now;
+    // behind (a slow frame, a new floor being made): what was missed is let go, not played in a heap
+    if (nextAt < now) nextAt = now + 0.02;
+    // write up to a fifth of a second ahead
     let guard = 0;
     while (nextAt < now + 0.2 && guard++ < 8) {
-      const s = step(comp, mood, theme, nextAt);
+      const s = step(comp, mood, theme, onAudio ? nowMs / 1000 + (nextAt - now) : nextAt);
       for (const n of s.notes) {
         heard.notes++;
         if (listener) { try { listener(n, mood); } catch (e) { /* ignore */ } }
-        if (a) { try { sound(a.ctx, n, a.ctx.currentTime + Math.max(0, nextAt - now)); } catch (e) { fault(n.k, e); } }
+        if (a) { try { sound(a.ctx, n, nextAt); } catch (e) { fault(n.k, e); } }
       }
       nextAt += s.dur;
     }
@@ -245,7 +258,8 @@ const Music = (() => {
   function stop() {
     if (!playing) return;
     playing = false;
-    fadeTo(0, 0.8);
+    busUp = false;
+    try { fadeTo(0, 0.8); } catch (e) { fault('fade', e); }
   }
   function toggle() {
     enabled = !enabled;
@@ -259,6 +273,17 @@ const Music = (() => {
     isEnabled: () => enabled,
     /** @param {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} fn */
     listen(fn) { listener = fn; },
+    /** Sound one note of every instrument now, through the real audio: for the tests. Returns how many played. */
+    tryEach() {
+      let a = null;
+      try { a = ensureBus(); } catch (e) { fault('bus', e); }
+      if (!a) return 0;
+      let n = 0;
+      for (const k of ['bell', 'pulse', 'thud', 'pad', 'horn']) {
+        try { sound(a.ctx, { k, midi: 57, vel: 0.2, len: k === 'pad' ? 5 : 0.6 }, a.ctx.currentTime + 0.05); n++; } catch (e) { fault(k, e); }
+      }
+      return n;
+    },
     /** What it last heard of the fight, and how many notes it has written: for the tests. */
     state: () => ({ ...heard, playing }),
   };

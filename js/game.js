@@ -733,9 +733,14 @@ const Game = (() => {
   const shadeFloor = f => Math.max(2, Math.min(f.depth, (G.opts.levels || 8) - 1));
   /** A hero's name with their class: "Brand the Fighter". */
   const heroTitle = (name, c) => `${name} the ${CLASSES[c] ? CLASSES[c].name : c}`;
-  /** @param {any} b  its kind, from MONSTERS @param {{name: string, cls: string, depth: number}} sh */
+  /**
+   * Made to the floor it keeps, by where that floor stands on the monster
+   * ladder (as the rest of its creatures are), not by its bare number: a
+   * shade fifteen floors down a long delve was out-hitting the minotaur.
+   * @param {any} b  its kind, from MONSTERS @param {{name: string, cls: string, depth: number, tier?: number}} sh
+   */
   function shadeStats(b, sh) {
-    const d = Math.max(1, Math.min(16, sh.depth || 1)), w = SHADE_WAYS[sh.cls] || {};
+    const d = Math.max(1, Math.min(12, sh.tier || sh.depth || 1)), w = SHADE_WAYS[sh.cls] || {};
     return {
       ...b, name: `Shade of ${sh.name}`, ac: Math.min(19, 12 + Math.floor(d / 2) + (w.ac || 0)), hit: 1 + d,
       dmg: [1, w.dmg || 8, 1 + Math.floor(d / 2)], speed: w.speed || b.speed, xp: 40 + 30 * d,
@@ -761,7 +766,9 @@ const Game = (() => {
       }
     }
     // a square in a room, clear of everything else and of doorways, with nobody keeping it
-    const busy = (x, y) => (L.items[key(x, y)] || []).length || L.traps[key(x, y)] || L.monsters.some(m => m.x === x && m.y === y)
+    // (nor within a few steps of the floor's champion: its lair is its own, and a shade must never clear it away)
+    const keeper = m => MONSTERS[m.id].named || MONSTERS[m.id].boss;
+    const busy = (x, y) => (L.items[key(x, y)] || []).length || L.traps[key(x, y)] || L.monsters.some(m => (m.x === x && m.y === y) || (keeper(m) && Math.abs(m.x - x) + Math.abs(m.y - y) <= 3))
       || (L.npcs || []).some(n => Math.abs(n.x - x) + Math.abs(n.y - y) <= 2)
       || Dungeon.DIRS.some(([dx, dy]) => [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.STAIRS_DOWN, T.STAIRS_UP].includes(at(x + dx, y + dy)));
     const spots = [];
@@ -774,14 +781,14 @@ const Game = (() => {
     const pool = far.length ? far : spots.sort((a, b) => dist[b] - dist[a]).slice(0, 10);
     const i = new Rng(`${G.seed}|fallen|${depth}`).pick(pool), x = i % w, y = (i / w) | 0;
     // whatever stood beside it gives way
-    L.monsters = L.monsters.filter(m => Math.abs(m.x - x) + Math.abs(m.y - y) > 1);
+    L.monsters = L.monsters.filter(m => MONSTERS[m.id].named || MONSTERS[m.id].boss || Math.abs(m.x - x) + Math.abs(m.y - y) > 1);
     L.dressing = [...(L.dressing || []).filter(d => d.x !== x || d.y !== y), { x, y, k: 'remains_bones', ox: 0, oy: 0.12 }];
     if (f.gear.length) L.items[key(x, y)] = f.gear.map(it => ({ ...it }));
-    const d = depth, hp = Math.round((6 + 6 * d) * (SHADE_HP[f.cls] || 1));
+    const tier = Dungeon.tierAt(depth, G.opts.levels || 8), d = Math.min(12, tier), hp = Math.round((6 + 6 * d) * (SHADE_HP[f.cls] || 1));
     const uid = L.monsters.reduce((u, m) => Math.max(u, m.uid), depth * 1000) + 1;
     L.monsters.push({ uid, id: 'shade', x, y, hp, maxHp: hp, awake: false, nextAct: 0, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0,
-      shade: { name: f.name, cls: f.cls, level: f.level, run: f.run, depth } });
-    L.bones = { name: f.name, cls: f.cls, x, y, ...(f.killer ? { killer: f.killer } : {}) };
+      shade: { name: f.name, cls: f.cls, level: f.level, run: f.run, depth, tier } });
+    L.bones = { name: f.name, cls: f.cls, x, y, fell: f.depth, ...(f.killer ? { killer: f.killer } : {}) };
   }
   // ---------- the music's cue ----------
   /**
@@ -792,26 +799,37 @@ const Game = (() => {
    */
   function mood() {
     if (!G || G.status !== 'playing') return 'quiet';
-    const L = lvl(), p = P();
+    const L = lvl();
+    // steps it would take to reach you, not a line through the wall: a goblin
+    // awake in the next corridor over is no fight yet (unreachable, no fight at all)
+    ensureDist();
+    const steps = m => { const d = distField ? distField[m.y * L.w + m.x] : -1; return d >= 0 ? d : Infinity; };
     /** @type {'quiet'|'wary'|'fight'|'champion'} */
     let best = 'quiet';
     for (const m of L.monsters) {
       if (!m.awake || m.collapsed) continue;
-      const b = MONSTERS[m.id], d = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+      const b = MONSTERS[m.id], d = steps(m);
       if (b.boss && m.spoke) return 'boss';
-      if ((b.named || m.shade) && m.spoke && d <= 10) best = 'champion';
+      if ((b.named || m.shade) && m.spoke && d <= MOOD_WARY) best = 'champion';
       else if (d <= MOOD_FIGHT && best !== 'champion') best = 'fight';
       else if (d <= MOOD_WARY && best === 'quiet') best = 'wary';
     }
+    // a fight holds a moment after the last foe steps out of reach: one
+    // stepping in and out of it used to end the music's fight and begin it again
+    if (best === 'fight' || best === 'champion') moodFightAt = G.t;
+    else if (G.t >= moodFightAt && G.t - moodFightAt < MOOD_HOLD) return 'fight';
     return best;
   }
-  const MOOD_FIGHT = 5, MOOD_WARY = 10;
+  const MOOD_FIGHT = 5, MOOD_WARY = 10, MOOD_HOLD = 2500;
+  let moodFightAt = -1e9;
   /** Coming down onto the floor: one line, the first time, so the fight is chosen. @param {import('./types.js').Level} L */
   function bonesArrive(L) {
     if (!L.bones || L.bonesSaid || !L.monsters.some(m => m.shade)) return;
     L.bonesSaid = true;
     const b = L.bones;
-    log(`A cold you know settles on you. ${heroTitle(b.name, b.cls)} fell on this floor${b.killer ? `, to ${b.killer},` : ''} and did not stay down: somewhere here their shade keeps watch over their bones.`, 'bad');
+    // a death on the first floor waits on the second, and one deeper than this delve goes on its last floor before the lich's: say so
+    const where = !b.fell || b.fell === L.depth ? 'fell on this floor' : `fell on floor ${b.fell} of another delve, and their bones have found their way here`;
+    log(`A cold you know settles on you. ${heroTitle(b.name, b.cls)} ${where}${b.killer ? `, killed by ${b.killer},` : ''} and did not stay down: somewhere on this floor their shade keeps watch over their bones.`, 'bad');
   }
   function shadeWakes(m) {
     m.spoke = true;
@@ -1458,7 +1476,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2034,7 +2052,7 @@ const Game = (() => {
     rust: { c: ['#8a4a1e', '#b86a2e', '#5a2c12'], g: 6, stain: true },
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
-    basilisk: 'bile', rustmaw: 'rust' };
+    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto' };
   // a named champion bleeds as its kind does
   for (const id in MONSTERS) if (MONSTERS[id].named && GORE_OF[MONSTERS[id].named.kin]) GORE_OF[id] = GORE_OF[MONSTERS[id].named.kin];
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
@@ -2424,7 +2442,7 @@ const Game = (() => {
       born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
     // once the body has sunk away something stays a while: bones from the dead
     // and the bony, a husk from the rest; a wraith, a slime or the lich leave nothing
-    if (!['wraith', 'slime', 'lich'].includes(base.sprite)) {
+    if (!['wraith', 'slime', 'lich', 'shade'].includes(base.sprite)) {
       const L = lvl(), k = base.undead || base.sprite === 'skeleton' || base.sprite === 'bat' ? 'remains_bones' : 'remains_husk';
       L.remains = (L.remains || []).filter(r => r.until > G.t).slice(-(REMAINS_MAX - 1));
       L.remains.push({ x: Math.round((rx + 0.5) * 100) / 100, y: Math.round((ry + 0.5) * 100) / 100, k, at: G.t, until: G.t + REMAINS_MS });
@@ -2721,7 +2739,7 @@ const Game = (() => {
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
     // remembered, for a later run to find where they fell
-    Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
+    if (!G.opts.daily) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
     recordHero(false);
     emit('dead');
   }

@@ -513,6 +513,8 @@ const Renderer = (() => {
     ctx.font = 'bold 9px monospace'; ctx.textAlign = 'left'; ctx.lineJoin = 'round';
     ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)';
     const label = b.rite ? `${b.name.toUpperCase()}: THE RITE` : b.name.toUpperCase();
+    // a long name (a shade's, say) drawn smaller rather than into the minimap
+    if (ctx.measureText(label).width > bw) ctx.font = 'bold 7px monospace';
     ctx.strokeText(label, bx, by - 4);
     ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : b.named ? '#ffe0a0' : '#d8c8ff';
     ctx.fillText(label, bx, by - 4);

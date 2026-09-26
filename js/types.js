@@ -122,7 +122,7 @@
  * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
  * @property {number} [rallies]    how many times a named champion has tried to call its kin
  * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close
- * @property {{name: string, cls: string, level: number, run: string, depth: number}} [shade]  the shade of a hero who died in an earlier run: who they were, and the floor it was made for
+ * @property {{name: string, cls: string, level: number, run: string, depth: number, tier?: number}} [shade]  the shade of a hero who died in an earlier run: who they were, and the floor (and its place on the monster ladder) it was made for
  * @property {number} [wardUntil]  the lich is wrapped in shadow, and cannot be hurt, until then
  * @property {boolean} [wardSaid]  the log has said so once this time
  * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it
@@ -174,7 +174,7 @@
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
  * @property {Dressing[]} [dressing]  what lies about the rooms for looks alone (see Dungeon.dress)
  * @property {Array<{x: number, y: number, k: string, at: number, until: number}>} [remains]  what the fallen left behind, when it fell, and until when (game time)
- * @property {{name: string, cls: string, x: number, y: number, killer?: string}} [bones]  where an earlier hero's bones lie on this floor, if they do
+ * @property {{name: string, cls: string, x: number, y: number, fell?: number, killer?: string}} [bones]  where an earlier hero's bones lie on this floor, if they do, and the floor they fell on
  * @property {boolean} [bonesSaid]  the log has told of them, on the first time down
  */
 

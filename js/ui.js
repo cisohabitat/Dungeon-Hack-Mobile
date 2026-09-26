@@ -758,7 +758,7 @@ const UI = (() => {
       else if (seenTip('lesson:dodge') && !seenTip('dodge') && !seenTip('dodgeside') && blowComing()) {
         // a wall behind, or a rat that pounces after a step back: say to step
         // aside, if there is room to either side
-        const lunger = Game.level().monsters.find(m => m.windup && !m.windup.move && MONSTERS[m.id].lunge && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+        const lunger = Game.level().monsters.find(m => m.windup && !m.windup.move && Game.mstat(m).lunge && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
         const aside = canStep(1) || canStep(3);
         // out of a lunger's line is sideways to it: a strafe if it is ahead, a step forward or back if it is at your side
         const [fx, fy] = Dungeon.DIRS[p.dir];
