@@ -214,21 +214,26 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`):
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Hard and the Long Delve on Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more:
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 78% | 76% | 72% | 73% | 71% | about 74% |
-| Hard | 50% | 51% | 48% | 52% | 52% | about 51% |
+| Normal | 75% | 75% | 74% | 76% | 70% | about 74% |
+| Hard | 47% | 48% | 46% | 58% | 48% | about 49% |
 | Long Delve (12 floors), Normal | 66% | 69% | 63% | 75% | 71% | about 69% |
-| Long Delve (12 floors), Hard | 33% | 47% | 34% | 57% | 48% | about 44% |
+| Long Delve (12 floors), Hard | 52% | 41% | 44% | 60% | 44% | about 48% |
 
-On a second seed set (`SEEDPFX=alt`) Hard reads 43%, 49%, 45%, 59% and 50%: about 50% over both.
-The Long Delve on Hard is the one place the classes spread wide. The casters die on its deep
-floors (8 to 12) to trolls, ogres, wraiths and minotaurs; the thief keeps its lead there
-however the back half is made harder (tried: the lich's growth, when the deep floors turn
-surer, how much sturdier they get, capping the thief's dodge).
+Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
+Delve on Hard, and every class but the thief lands within two points of it. (It was once tuned
+to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
+
+The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
+floors (8 to 12), winning 33% and 34%; since spells strike and heal harder there, floor by floor,
+and a cleric's blows with them, they sit with the rest. The thief keeps its lead however the
+back half is made harder (tried: the lich's growth, when the deep floors turn surer, how much
+sturdier they get, capping the thief's dodge). The ranger's figure is the noisiest: three seed
+sets gave 41%, 37% and 54%, so 44% is its mean over all three.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
