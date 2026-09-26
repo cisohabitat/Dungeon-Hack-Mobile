@@ -2222,6 +2222,8 @@ const UI = (() => {
 
   function init() {
     Renderer.setCalm(calmOn());
+    // until Calm view is chosen in the menu, it follows the phone's setting as that changes
+    try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });

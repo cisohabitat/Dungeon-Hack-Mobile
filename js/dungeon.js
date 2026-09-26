@@ -729,7 +729,14 @@ const Dungeon = (() => {
     const w = L.w, at = (x, y) => (x < 0 || y < 0 || x >= w || y >= L.h ? T.WALL : L.tiles[y * w + x]);
     const wallsBy = (x, y) => DIRS.filter(([dx, dy]) => { const t = at(x + dx, y + dy); return t === T.WALL || t === T.TORCH; });
     // not where something already stands or lies, nor where the hero arrives
+    // by either stair, nor in front of a stair or a fountain, nor in a doorway
     const taken = new Set([...Object.keys(L.items), ...(L.npcs || []).map(n => n.x + ',' + n.y), L.start.x + ',' + L.start.y]);
+    if (L.downStart) taken.add(L.downStart.x + ',' + L.downStart.y);
+    const KEEP_CLEAR = [T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN, T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET];
+    for (let i = 0; i < w * L.h; i++) {
+      const x = i % w, y = (i / w) | 0;
+      if (L.tiles[i] === T.FLOOR && DIRS.some(([dx, dy]) => KEEP_CLEAR.includes(at(x + dx, y + dy)))) taken.add(x + ',' + y);
+    }
     /** @type {Map<number, number[]>} */
     const byRoom = new Map();
     for (let i = 0; i < w * L.h; i++) {

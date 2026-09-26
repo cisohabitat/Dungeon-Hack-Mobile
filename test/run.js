@@ -341,11 +341,13 @@ check(traders > 0, 'no traders generated at all');
         dressed++;
         const k = d.x + ',' + d.y, i = d.y * L.w + d.x;
         const byWall = ['barrel', 'crate', 'urn'].includes(d.k) && !Dungeon.DIRS.some(([dx, dy]) => [T.WALL, T.TORCH].includes(L.tiles[(d.y + dy) * L.w + d.x + dx]));
-        if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || (L.items[k] || []).length || npcAt.has(k) || (d.x === L.start.x && d.y === L.start.y) || byWall) badDress++;
+        const byUsed = Dungeon.DIRS.some(([dx, dy]) => [T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN, T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET].includes(L.tiles[(d.y + dy) * L.w + d.x + dx]));
+        const onArrival = L.downStart && d.x === L.downStart.x && d.y === L.downStart.y;
+        if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || (L.items[k] || []).length || npcAt.has(k) || (d.x === L.start.x && d.y === L.start.y) || byWall || byUsed || onArrival) badDress++;
       }
     }
     check(dressed > 300, `only ${dressed} pieces of dressing over 320 floors`);
-    check(badDress === 0, `${badDress} pieces of dressing on a find, a trader, the way in, outside a room, or a wall-side kind out in the open`);
+    check(badDress === 0, `${badDress} pieces of dressing on a find, a trader, the way in, outside a room, in front of a stair, fountain or door, or a wall-side kind out in the open`);
     check(driftDress === 0, `${driftDress} floors dressed differently from one making to the next`);
   }
   check(together > 1000, `only ${together} squares over 3600 levels hold finds left together`);

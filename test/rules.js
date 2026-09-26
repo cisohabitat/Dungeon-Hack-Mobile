@@ -7456,7 +7456,8 @@ await test('the fallen leave remains a while: bones from the bony, a husk from t
     const left = (Game.level().remains || []).filter(r => r.until > G.t);
     if (want ? left.length !== 1 || left[0].k !== want : left.length) out.push(`a ${id} left ${JSON.stringify(left.map(r => r.k))}`);
     // and they are gone in time
-    if (want) { G.t += 300000; if ((Game.level().remains || []).some(r => r.until > G.t)) out.push(`a ${id}'s remains never went`); }
+    // and they are gone in time, from the save too
+    if (want) { G.t += 300000; Game.save(true); if ((Game.level().remains || []).length) out.push(`a ${id}'s remains were still kept after their time`); }
   }
   return out.length ? out.join('; ') : true;
 });
@@ -7466,7 +7467,10 @@ await test('a barrel, crate or urn breaks to a blow with nothing to fight in fro
   const found = [];
   for (const k of ['crate', 'crate', 'urn']) {
     const ctx = await start('fighter', 'smash-it');
-    const { Game, Dungeon } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+    const { Game, Dungeon } = ctx;
+    // the second crate is the first again, after a save and a reload of the same run
+    if (found.length === 1) { Game.save(true); Game.load(); }
+    const G = Game.state(), p = Game.player(), L = Game.level();
     L.monsters.length = 0;
     const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
     if (L.tiles[y * L.w + x] !== Dungeon.T.FLOOR) return 'no floor in front of the hero on this seed';
@@ -7479,7 +7483,7 @@ await test('a barrel, crate or urn breaks to a blow with nothing to fight in fro
     if (!/splinters|shatters|give way/.test(said)) out.push(`breaking the ${k} said "${said}"`);
     found.push(k + ':' + JSON.stringify(L.items[x + ',' + y] || []));
   }
-  // the same square on the same seed holds the same, crate or urn
+  // the same square on the same seed holds the same, crate or urn, reloaded or not
   if (found[0] !== found[1]) out.push(`a crate held ${found[0]} once and ${found[1]} the next time`);
   // a monster in front takes the blow, and the crate behind it stands
   const ctx = await start('fighter', 'smash-it');

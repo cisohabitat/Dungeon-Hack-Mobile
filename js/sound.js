@@ -473,6 +473,9 @@ const Sound = (() => {
     { hz: 48, sub: 32, cut: 260, bed: 0.12, bedF: 500, wind: 1, hum: 0, far: ['wind', 'wind', 'chain'], gap: [6, 14] },            // Blue Vaults
     { hz: 40, sub: 26.5, cut: 210, bed: 0.03, bedF: 300, wind: 0, hum: 0, far: ['chain', 'moan', 'drip'], gap: [7, 16] },         // Crimson Crypts
     { hz: 55, sub: 27.5, cut: 300, bed: 0.02, bedF: 200, wind: 0, hum: 0.012, far: ['pulse', 'rumble'], gap: [6, 14] },          // Obsidian Sanctum
+    // the roads at the divided stair (THEMES 6 and 7)
+    { hz: 37, sub: 24.5, cut: 180, bed: 0.03, bedF: 260, wind: 0, hum: 0, far: ['bones', 'moan', 'bones', 'drip'], gap: [7, 15] },  // The Ossuary
+    { hz: 44, sub: 29, cut: 230, bed: 0.035, bedF: 420, wind: 0, hum: 0, far: ['clatter', 'drip', 'creak', 'clatter'], gap: [5, 12] }, // The Warrens
   ];
   const FAR = {
     drip(out) { const f = vary(1500, 0.25); tone(out, f, 0.06, 'sine', 0.05, -f * 0.5); tone(out, f * 0.9, 0.05, 'sine', 0.016, -f * 0.45, 0.14); },
@@ -484,6 +487,8 @@ const Sound = (() => {
     bones(out) { clicks(out, 6, 0.6, 1600, 0.1); },
     moan(out) { tone(lp(out, 450), vary(150, 0.15), 1.6, 'sawtooth', 0.03, -30, 0, 0.5); },
     pulse(out) { tone(out, 55, 1.2, 'sine', 0.1, 0, 0, 0.3); tone(out, 55, 1.2, 'sine', 0.07, 0, 1.4, 0.3); },
+    // goblins somewhere down the tunnels: a clatter of pots and a thrown stone
+    clatter(out) { clicks(out, 8, 0.7, 900, 0.1); noise(out, 0.15, 0.05, { f: 700, delay: 0.35 }); },
   };
   /** @type {any} the running drone's nodes */
   let amb = null;

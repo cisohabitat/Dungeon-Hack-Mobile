@@ -901,20 +901,23 @@ test.describe('dungeon features', () => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'calm-view' });
     await clearBoons(page);
+    const shakeNow = () => page.evaluate(async () => {
+      const fx = Game.renderState(performance.now()).fx;
+      fx.shakeAmp = 8; fx.shakeMs = 600; fx.shakeUntil = performance.now() + 600;
+      await new Promise(r => setTimeout(r, 120));
+      return document.getElementById('view').style.transform;
+    });
+    // without it, a blow shakes the view
+    expect(await shakeNow()).toContain('translate');
     await page.click('[data-open="menu"]');
     await expect(page.locator('#m-calm')).toHaveText('Calm view: Off');
     await page.click('#m-calm');
     await expect(page.locator('#m-calm')).toHaveText('Calm view: On');
     expect(await page.evaluate(() => [localStorage.getItem('deepdelve.calm'), Renderer.calm])).toEqual(['1', true]);
     await page.click('#ov-menu [data-close]');
-    // a blow that would shake the view leaves it still
-    const moved = await page.evaluate(async () => {
-      const fx = Game.renderState(performance.now()).fx;
-      fx.shakeAmp = 8; fx.shakeMs = 600; fx.shakeUntil = performance.now() + 600;
-      await new Promise(r => setTimeout(r, 120));
-      return document.getElementById('view').style.transform;
-    });
-    expect(moved).toBe('');
+    // with it, the same blow leaves the view still
+    await page.waitForTimeout(700);
+    expect(await shakeNow()).toBe('');
     // and it holds after a reload
     await page.reload();
     await page.waitForFunction(() => typeof Renderer !== 'undefined');

@@ -1325,7 +1325,7 @@ const Game = (() => {
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
-    if (!fresh) stepAside(G.levels[depth]);
+    if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
@@ -2281,6 +2281,12 @@ const Game = (() => {
   }
   // how long the fallen's remains lie (game time), and how many a floor keeps at once
   const REMAINS_MS = 240000, REMAINS_MAX = 16;
+  /** Let go of remains that have had their time, so a floor left behind does not carry them in the save. @param {import('./types.js').Level} L */
+  function pruneRemains(L) {
+    if (!L.remains) return;
+    L.remains = L.remains.filter(r => r.until > G.t);
+    if (!L.remains.length) delete L.remains;
+  }
   /** The next of the group steps into the front. */
   function promote(m) {
     const next = m.pack.shift();
@@ -3748,6 +3754,7 @@ const Game = (() => {
   // ---------- save / load ----------
   function save(auto) {
     if (!G || G.status !== 'playing') return false;
+    for (const d in G.levels) pruneRemains(G.levels[d]);
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(G));
       if (!auto) log('Game saved.', 'info');
@@ -3775,7 +3782,8 @@ const Game = (() => {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
-        // a floor saved before there was dressing gets its own now, the same it would have had
+        // a floor saved before there was dressing gets some now (what was already
+        // taken or dropped there is kept clear, so it may differ from a new floor's)
         if (!G.levels[dpt].dressing) G.levels[dpt].dressing = Dungeon.dress(G.levels[dpt], G.seed);
         stepAside(G.levels[dpt]);
       }

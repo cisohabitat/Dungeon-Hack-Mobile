@@ -160,6 +160,7 @@ const Renderer = (() => {
   // far. They show faintly in the dark and brighter where a torch's light
   // falls, so a lit room has air in it. Walls nearer than a mote hide it.
   const MOTES = 40, MOTE_R = 3.6;
+  const MOTE_STYLES = Array.from({ length: 20 }, (_, i) => `rgba(255,232,196,${(i / 20).toFixed(2)})`);
   const motes = [];
   let moteAt = 0;
   function placeMote(m, px, py) {
@@ -188,7 +189,7 @@ const Renderer = (() => {
       const lit = lm[ty * level.w + tx] / LIGHT_MAX;
       const a = (0.1 + 0.45 * Math.min(1, lit)) * (1 - tY / fog) * (0.7 + 0.3 * Math.sin(now / 700 + m.ph));
       if (a < 0.03) continue;
-      ctx.fillStyle = `rgba(255,232,196,${a.toFixed(2)})`;
+      ctx.fillStyle = MOTE_STYLES[Math.min(19, Math.round(a * 20))];
       const s = tY < 1.2 ? 2 : 1;
       ctx.fillRect(col, row, s, s);
     }
@@ -1131,7 +1132,7 @@ const Renderer = (() => {
     const planeX = -dirY * TAN_HALF, planeY = dirX * TAN_HALF;
     const lights = ensureLights(level);
     const lm = flickerLights(lights, now);
-    flameTick = Math.floor(now / FLAME_MS);
+    if (!calm) flameTick = Math.floor(now / FLAME_MS);   // a calm view holds every flame still
     setFog(level.theme);
     const reach = level.twist === 'dark' ? DARK_FOG : FOG;
     if (reach !== fog) { fog = reach; buildRows(); }
@@ -1211,6 +1212,8 @@ const Renderer = (() => {
       const sx = s.x - px, sy = s.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
       if (tY <= 0.15 || tY > fog + 0.5) continue;
+      // a barrel on the hero's own square, pushed to the wall they face, would fill the view: underfoot, it is not drawn
+      if (s.dress && tY < 0.5) continue;
       const tX = invDet * (dirY * sx - dirX * sy);
       list.push({ s, tX, tY });
     }
