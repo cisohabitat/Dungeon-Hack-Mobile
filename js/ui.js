@@ -528,6 +528,7 @@ const UI = (() => {
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
     quickscroll: 'A scroll worth reading <b>now</b> waits at the left end of the log, under the view: <b>one tap</b> reads it.',
     hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
+    dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
   const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drink', 'web', 'webtear', 'opening'];
@@ -778,6 +779,8 @@ const UI = (() => {
     if (byLabel[label] && showTip(byLabel[label])) return;
     if ([...p.inv, ...Object.values(p.eq)].some(it => Game.qualityHidden(it)) && showTip('unknown')) return;
     if (p.hp < p.maxHp * 0.4 && showTip('hurt')) return;
+    // the rolls start hidden: once a few fights have been won, say they can be had
+    if (!Game.rollsShown() && p.kills >= 3 && showTip('dice')) return;
   }
 
   // ---------- HUD ----------

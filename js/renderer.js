@@ -39,11 +39,23 @@ const Renderer = (() => {
     for (let i = 0; i <= 20; i++) shadeStyles[i] = `rgba(${fogRgb[0]},${fogRgb[1]},${fogRgb[2]},${(i / 20).toFixed(2)})`;
   }
   // Torchlight is warm: a lit texel is pushed toward amber as well as
-  // brightened. k runs 0 to 1; red rises most, blue sinks a little.
-  const warm = (v, k) => {
-    const r = Math.min(255, (v & 255) * (1 + 0.62 * k) + 6 * k), g = Math.min(255, ((v >> 8) & 255) * (1 + 0.24 * k) + 2 * k), b = ((v >> 16) & 255) * (1 - 0.18 * k);
-    return (0xff000000 | (b | 0) << 16 | (g | 0) << 8 | (r | 0)) >>> 0;
-  };
+  // brightened. k runs 0 to 1; red rises most, blue sinks a little. The floor
+  // asks for this on most of its pixels every frame, and working it out each
+  // time was a good share of a slow phone's frame: so each channel's answer is
+  // looked up, for the warmth in WARM_STEPS steps, finer than the eye can tell
+  // apart under the shade levels' own dither.
+  const WARM_STEPS = 32;
+  const WARM_R = new Uint32Array(WARM_STEPS * 256), WARM_G = new Uint32Array(WARM_STEPS * 256), WARM_B = new Uint32Array(WARM_STEPS * 256);
+  for (let q = 0; q < WARM_STEPS; q++) {
+    const k = q / (WARM_STEPS - 1);
+    for (let c = 0; c < 256; c++) {
+      WARM_R[q * 256 + c] = Math.min(255, c * (1 + 0.62 * k) + 6 * k) | 0;
+      WARM_G[q * 256 + c] = (Math.min(255, c * (1 + 0.24 * k) + 2 * k) | 0) << 8;
+      WARM_B[q * 256 + c] = ((c * (1 - 0.18 * k)) | 0) << 16;
+    }
+  }
+  /** A texel warmed by k, given as a step: (k * (WARM_STEPS - 1) + 0.5) | 0. */
+  const warmQ = (v, q) => { const o = q << 8; return 0xff000000 | WARM_B[o + ((v >> 16) & 255)] | WARM_G[o + ((v >> 8) & 255)] | WARM_R[o + (v & 255)]; };
   // how near a creature is (in tiles) before its finer painting is asked for,
   // and how many of the view's pixels one of its usual ones must cover to use it
   const NEAR_ASK = 3.5, NEAR_BLOCK = 2.3;
@@ -130,7 +142,7 @@ const Renderer = (() => {
         const src = lv === level ? fl : floorT[lv];
         const csrc = ceilT[lv];
         const ti = ty * TX + tx;
-        if (glow > 0.05) { fb32[o + x] = warm(src[ti], glow); fb32[oc + x] = warm(csrc[ti], glow * 0.7); }
+        if (glow > 0.05) { fb32[o + x] = warmQ(src[ti], (glow * (WARM_STEPS - 1) + 0.5) | 0); fb32[oc + x] = warmQ(csrc[ti], (glow * 0.7 * (WARM_STEPS - 1) + 0.5) | 0); }
         else { fb32[o + x] = src[ti]; fb32[oc + x] = csrc[ti]; }
         fx += stepX; fy += stepY;
       }

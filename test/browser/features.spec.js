@@ -487,6 +487,28 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('once three foes are down, a quiet moment says where the hidden combat rolls are turned on', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt'])));
+    await startGame(page, { seed: 'dice-tip' });
+    await clearBoons(page);
+    await page.evaluate(() => { const p = Game.player(); Game.level().monsters.length = 0; p.hp = p.maxHp; p.kills = 2; });
+    // two is too soon
+    await page.waitForTimeout(900);
+    await expect(page.locator('#tip')).not.toHaveClass(/show/);
+    // a hero who already shows the rolls is not told
+    await page.evaluate(() => { Game.toggleRolls(); Game.player().kills = 3; });
+    await page.waitForTimeout(900);
+    await expect(page.locator('#tip')).not.toHaveClass(/show/);
+    // with them hidden, the tip comes, naming the menu's switch
+    await page.evaluate(() => Game.toggleRolls());
+    await expect(page.locator('#tip')).toHaveClass(/show/, { timeout: 2000 });
+    await expect(page.locator('#tip')).toContainText('Combat rolls');
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-rolls')).toHaveText(/Combat rolls: Off/);
+    expect(errors).toEqual([]);
+  });
+
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
