@@ -27,7 +27,15 @@ export function makeTrader(K) {
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
     return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched())));
   }
+  // Never more than the trader in front of you would ask for it: at a goblin
+  // market's lowest markup, a charming thief with Light Fingers and a
+  // captive to vouch for them could buy a potion and sell it straight back
+  // at a profit.
   function sellPrice(it) {
+    const raw = sellValue(it);
+    return shop ? Math.min(raw, Math.max(1, Math.floor(buyPrice(shop, it) * 0.9))) : raw;
+  }
+  function sellValue(it) {
     const r = relicOf(it);
     if (r) return Math.round(r.value * 0.45 * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1));
     // a ring you cannot name goes for a trinket's price: the trader will not tell you what it is

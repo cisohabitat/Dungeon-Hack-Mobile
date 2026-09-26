@@ -7789,6 +7789,68 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a trader never buys a thing back for more than they would sell it for, however charming and light-fingered the hero', async () => {
+    const ctx = await start('thief', 'market-loop');
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), G = Game.state();
+    p.stats.cha = 20; p.talents = (p.talents || []).concat('light_fingers');
+    // a captive freed on the floor above: the market vouches for them
+    Game.level().monsters.length = 0; Game.descend();
+    G.threads = { ...(G.threads || {}), captive: 1 };
+    const shop = { id: 'merchant', x: 0, y: 0, markup: 1.35, stock: [{ t: 'potion_xheal', q: 3, e: 0 }, { t: 'longsword', q: 1, e: 1 }] };
+    const L = Game.level(); L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+    L.tiles[shop.y * L.w + shop.x] = Dungeon.T.FLOOR; Game.input('forward');
+    if (!Game.currentShop()) return 'could not open the shop';
+    const out = [];
+    for (const it of shop.stock) {
+      const buy = Game.buyPrice(shop, it), sell = Game.sellPrice({ ...it, q: 1 });
+      if (sell >= buy) out.push(`${it.t}: bought for ${buy}, sold back for ${sell}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a scroll of teleport never sets the hero down on a trader, an encounter or a barrel', async () => {
+    const ctx = await start('fighter', 'teleport-clear');
+    const { Game, Dungeon } = ctx;
+    const out = [];
+    for (let i = 0; i < 60; i++) {
+      const L = Game.level(), p = Game.player();
+      // a floor crowded with things to land on: every other open square holds a trader, a stone or a barrel
+      L.monsters.length = 0; L.npcs = []; L.dressing = [];
+      let n = 0;
+      for (let y = 1; y < L.h - 1; y++) for (let x = 1; x < L.w - 1; x++) {
+        if (L.tiles[y * L.w + x] !== Dungeon.T.FLOOR || (x === p.x && y === p.y) || n++ % 2) continue;
+        if (n % 6 === 1) L.npcs.push({ id: 'merchant', x, y, markup: 2, stock: [] });
+        else if (n % 6 === 3) L.npcs.push({ id: 'mercy', kind: 'encounter', x, y });
+        else L.dressing.push({ x, y, k: 'barrel', ox: 0, oy: 0 });
+      }
+      const it = { t: 'scroll_teleport', q: 1, e: 0 };
+      p.inv.push(it);
+      Game.useItem(it);
+      const on = L.npcs.find(q => q.x === p.x && q.y === p.y) || L.dressing.find(q => q.x === p.x && q.y === p.y);
+      if (on) { out.push(`landed on ${on.id || on.k} at ${p.x},${p.y}`); break; }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a floor readier for a strong hero never makes a whole pack into champions', async () => {
+    const out = [];
+    let packs = 0;
+    for (let i = 0; i < 40; i++) {
+      const ctx = await start('fighter', `press-pack-${i}`, { levels: 8, monsters: 'normal' });
+      const { Game } = ctx;
+      // a hero far ahead of the depth: the third floor (the first a floor is ever pressed on) is pressed hard
+      const p = Game.player(), G = Game.state(); p.level = 12;
+      while (G.depth < 3) { Game.level().monsters.length = 0; if (Game.forkPending()) Game.chooseRoute('crypts'); Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+      if (!(Game.level().press > 0)) { out.push(`floor 3 was not pressed (press ${Game.level().press})`); break; }
+      for (const m of Game.level().monsters) if (m.pack) { packs++; if (m.elite) out.push(`${m.elite} ${m.id} pack on press-pack-${i}`); }
+      if (out.length) break;
+    }
+    if (!packs) out.push('no packs met to try');
+    return out.length ? out.join('; ') : true;
+  });
+
   // ---------- the music ----------
   await test('the music hears how the fight stands: quiet, wary, fight, a champion, the lich', async () => {
     const ctx = await start('fighter', 'mood');

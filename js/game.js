@@ -1203,7 +1203,8 @@ const Game = (() => {
           }
           case 'teleport': {
             const L = lvl(); const spots = [];
-            for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && !monsterAt(i % L.w, (i / L.w) | 0)) spots.push(i);
+            // somewhere clear: not on a creature, nor a trader or an encounter's stone, nor a barrel
+            for (let i = 0; i < L.w * L.h; i++) { const x = i % L.w, y = (i / L.w) | 0; if (L.tiles[i] === T.FLOOR && !monsterAt(x, y) && !npcAt(x, y) && !propAt(x, y)) spots.push(i); }
             const s = Dice.pick(spots);
             p.x = s % L.w; p.y = (s / L.w) | 0;
             snapCam(); distFieldAt = -1e9;
@@ -3438,7 +3439,8 @@ const Game = (() => {
     if (!L.press) return;
     const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
     for (const m of L.monsters) {
-      if (!m.elite && !m.shade && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && Math.random() < PRESS_CHAMPION * L.press) {
+      // (never a pack, as the floor's own champions never are: every member would carry the prefix and its spoils)
+      if (!m.elite && !m.shade && !m.pack && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && Math.random() < PRESS_CHAMPION * L.press) {
         const e = Dice.pick(ELITES);
         m.elite = e.prefix; m.maxHp = Math.round(m.maxHp * e.hp);
       }
