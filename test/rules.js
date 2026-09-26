@@ -2315,6 +2315,45 @@ await test('a monster made to miss presses in: its next blow is drawn back faste
   return (second < first && second >= 250) || `after a miss the wind-up went from ${first}ms to ${second}ms`;
 });
 
+await test('a save without the late-monster count picks it up past the highest number on any floor', async () => {
+  const ctx = await start('fighter', 'uid-count');
+  const { Game } = ctx;
+  const L = Game.level();
+  const late = uid => ({ uid, id: 'zombie', x: 1, y: 1, hp: 20, maxHp: 20, awake: false, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  L.monsters.push(late(900007), late(900003));
+  Game.state().nextUid = 7;
+  Game.save(true);
+  const d = JSON.parse(ctx.store.get('deepdelve.save'));
+  delete d.nextUid;
+  ctx.store.set('deepdelve.save', JSON.stringify(d));
+  if (!Game.load()) return 'the save did not load';
+  const n = Game.state().nextUid;
+  // started again at 0, the next one to arrive would be 900001, then 900003 twice over
+  return n === 7 || `the count came back as ${n}, not 7`;
+});
+
+await test('a fleeing monster never runs onto the hero, even when its map of the way is stale', async () => {
+  const ctx = await start('fighter', 'flee-onto');
+  const { Game, Dungeon } = ctx; const T = Dungeon.T;
+  const G = Game.state(), L = Game.level(), p = Game.player();
+  L.monsters.length = 0;
+  // a straight corridor five squares long
+  let row = null;
+  const shut = (x, y) => L.tiles[y * L.w + x] !== T.FLOOR && L.tiles[y * L.w + x] !== T.DOOR_OPEN;
+  for (let y = 1; y < L.h - 1 && !row; y++) for (let x = 1; x < L.w - 5 && !row; x++) if ([0, 1, 2, 3, 4].every(k => L.tiles[y * L.w + x + k] === T.FLOOR && shut(x + k, y - 1) && shut(x + k, y + 1))) row = [x, y];
+  if (!row) return 'no straight corridor on this floor';
+  const [x0, y0] = row;
+  p.x = x0; p.y = y0; p.dir = 1;
+  Game.update(G.t + 16, 16);
+  const z = { uid: 77, id: 'zombie', x: x0 + 2, y: y0, hp: 2, maxHp: 20, awake: true, fleeing: true, nextAct: G.t + 150, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+  L.monsters.push(z);
+  Game.update(G.t + 16, 16);
+  // the hero is set down beyond it without a step, so the way it measures is out of date
+  p.x = x0 + 3;
+  for (let i = 0; i < 10; i++) Game.update(G.t + 50, 50);
+  return !(z.x === p.x && z.y === p.y) || 'the fleeing zombie ran onto the hero';
+});
+
 // ---------- round four playtest ----------
 await test('a group draws back as one: a full warning, then every member\'s blow in a volley', async () => {
   const ctx = await start('fighter', 'volley');

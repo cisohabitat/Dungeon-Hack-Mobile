@@ -3552,7 +3552,8 @@ const Game = (() => {
           const nx = m.x + dx, ny = m.y + dy;
           if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
           const dd = distField[ny * L.w + nx];
-          if (dd > ad && !monsterAt(nx, ny) && !npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
+          // never onto the hero: a chase or a wander would not, and a stale map must not tempt one
+          if (dd > ad && !(nx === p.x && ny === p.y) && !monsterAt(nx, ny) && !npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
         }
         // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
         if (away && tile(away[0], away[1]) === T.DOOR) { const slow = meetDoor(m, mb, away[0], away[1]); m.nextAct = G.t + (slow ? mb.speed : Math.max(300, Math.round(mb.speed * 0.45))); continue; }
@@ -3992,6 +3993,14 @@ const Game = (() => {
       if (G.player.level >= MAX_LEVEL && G.player.level >= PATH_LEVEL && !G.player.path) offerPath();
       if (G.looks) { const all = buildLooks(G.seed); for (const id in all) if (!G.looks[id]) G.looks[id] = all[id]; }
       if (!G.pendingBoons) G.pendingBoons = [];
+      // a save without the counter for monsters that arrive mid-run would start it
+      // again and hand a newcomer the number of one already here: grips, openings
+      // and mends find a monster by its number, so two alike take each other's
+      if (G.nextUid == null) {
+        let most = 0;
+        for (const dpt in G.levels) for (const m of G.levels[dpt].monsters || []) if (m.uid >= 900000) most = Math.max(most, m.uid - 900000);
+        G.nextUid = most;
+      }
       if (!G.player.bg) G.player.bg = 'oathbroken';
       if (!G.looks) G.looks = buildLooks(G.seed);
       // a run from before relics finds them on the floors it has yet to see
