@@ -6816,10 +6816,11 @@ await test('Shield Slam brings Bash back in ten seconds and knocks the foe a squ
   const [dx, dy] = Dungeon.DIRS[p.dir];
   // clear the two squares ahead so there is room to be knocked into
   for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
-  const m = beside(ctx, 'goblin', { nextAct: G.t + 1e9 });
+  const m = beside(ctx, 'goblin', { nextAct: G.t });
   const x0 = m.x, y0 = m.y;
   if (!Game.useAbility()) return 'Bash was refused';
   if (m.x !== x0 + dx || m.y !== y0 + dy) out.push(`the goblin stayed at ${m.x},${m.y}, not knocked to ${x0 + dx},${y0 + dy}`);
+  if (m.nextAct - G.t < 1700) out.push(`a slammed goblin moves again in ${m.nextAct - G.t}ms`);
   const secs = +(Game.castLabel().match(/\d+/) || [0])[0];
   if (!(secs > 0 && secs <= 10)) out.push(`after a Shield Slam the button says ${Game.castLabel()}`);
   // against a wall it still bashes, and stays put

@@ -129,7 +129,7 @@ const TALENTS = {
     { id: 'second_wind', name: 'Second Wind', desc: 'Falling below a quarter of your health heals another quarter at once. Once every two minutes.' },
     { id: 'weapon_master', name: 'Weapon Master', desc: '+2 damage with every blow of a two-handed weapon, +1 with any other.' },
     { id: 'bulwark', name: 'Bulwark', desc: 'A shield gives you 2 more armour class.' },
-    { id: 'shield_slam', name: 'Shield Slam', desc: 'Bash comes back in ten seconds, not fifteen, and knocks what it strikes a square back when there is room.' },
+    { id: 'shield_slam', name: 'Shield Slam', desc: 'Bash comes back in ten seconds, not fifteen, and knocks what it strikes a square back, dazed a second longer, when there is room.' },
   ],
   cleric: [
     { id: 'healing_hands', name: 'Healing Hands', desc: 'Your healing spells heal a third as much again.' },

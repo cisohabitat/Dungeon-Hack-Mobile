@@ -126,7 +126,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         continue;
       }
       // a talent by what a sensible player of each class would reach for first
-      const order = ['second_wind', 'weapon_master', 'bulwark', 'shield_slam', 'stand_firm', 'cleave', 'riposte',
+      const order = ['second_wind', 'weapon_master', 'bulwark', 'stand_firm', 'cleave', 'riposte', 'shield_slam',
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
         'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',

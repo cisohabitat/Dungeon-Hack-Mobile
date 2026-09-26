@@ -3006,10 +3006,11 @@ const Game = (() => {
     log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
     // a Berserker puts weight behind it: the bash is a blow of its own
     if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
-    // Shield Slam: it goes back a square, if the square behind it is open
+    // Shield Slam: it goes back a square, if the square behind it is open, and is dazed a second
+    // longer: without that it walked straight back in with the first move, and the slam cost tempo
     if (hasTalent('shield_slam') && lvl().monsters.includes(m) && !m.collapsed && !mb.boss) {
       const bx = m.x + dx, by = m.y + dy;
-      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by)) { moveMonster(m, bx, by); log(`The ${mb.name} is knocked back a square.`, 'good'); }
+      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by)) { moveMonster(m, bx, by); m.nextAct = Math.max(m.nextAct, G.t + stagger + 1000); log(`The ${mb.name} is knocked back a square, dazed.`, 'good'); }
     }
     return true;
   }
