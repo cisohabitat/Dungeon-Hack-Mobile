@@ -328,6 +328,26 @@ check(traders > 0, 'no traders generated at all');
   check(lairByShop === 0, `${lairByShop} champions' lairs sit beside a trader`);
   check(inTheWay === 0, `${inTheWay} traders or encounters stand in a doorway, a room's mouth, or in front of a stair or fountain`);
   check(onUsed === 0, `${onUsed} monsters, finds or traps start on a door, a stair or a fountain, or a trap beside a trader`);
+  // dressing: the same every time for a seed, off anything that lies or stands there, and a wall-side kind by a wall
+  {
+    const T = Dungeon.T;
+    let dressed = 0, badDress = 0, driftDress = 0;
+    for (let s = 0; s < 40; s++) for (let depth = 1; depth <= 8; depth++) {
+      const opts = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+      const L = Dungeon.generate('dress' + s, depth, opts), again = Dungeon.generate('dress' + s, depth, opts);
+      if (JSON.stringify(L.dressing) !== JSON.stringify(again.dressing) || JSON.stringify(Dungeon.dress(L, 'dress' + s)) !== JSON.stringify(L.dressing)) driftDress++;
+      const npcAt = new Set((L.npcs || []).map(n => n.x + ',' + n.y));
+      for (const d of L.dressing) {
+        dressed++;
+        const k = d.x + ',' + d.y, i = d.y * L.w + d.x;
+        const byWall = ['barrel', 'crate', 'urn'].includes(d.k) && !Dungeon.DIRS.some(([dx, dy]) => [T.WALL, T.TORCH].includes(L.tiles[(d.y + dy) * L.w + d.x + dx]));
+        if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || (L.items[k] || []).length || npcAt.has(k) || (d.x === L.start.x && d.y === L.start.y) || byWall) badDress++;
+      }
+    }
+    check(dressed > 300, `only ${dressed} pieces of dressing over 320 floors`);
+    check(badDress === 0, `${badDress} pieces of dressing on a find, a trader, the way in, outside a room, or a wall-side kind out in the open`);
+    check(driftDress === 0, `${driftDress} floors dressed differently from one making to the next`);
+  }
   check(together > 1000, `only ${together} squares over 3600 levels hold finds left together`);
   check(heaped === 0, `${heaped} squares were made with more than three things on them`);
   // the Long Delve's floors past the eighth, down either road, keep the same rule

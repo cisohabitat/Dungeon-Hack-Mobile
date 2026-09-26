@@ -1,5 +1,5 @@
 import { Rng } from './rng.js';
-import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES } from './data.js';
+import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES, WALL_PROPS } from './data.js';
 import { encounterPlan } from './encounters.js';
 import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
 
@@ -698,12 +698,63 @@ const Dungeon = (() => {
       }
     }
 
-    const theme = isFinal ? THEMES.length - 1 : route ? ROUTES[route].theme : (depth - 1) % (THEMES.length - 1);
-    return {
+    // the ordinary themes take turns down the stair; the last floor and the
+    // two roads have their own (the roads' come after the last floor's in THEMES)
+    const FINAL = THEMES.findIndex(t => t.final);
+    const theme = isFinal ? FINAL : route ? ROUTES[route].theme : (depth - 1) % FINAL;
+    const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
       theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
     };
+    L.dressing = dress(L, seed);
+    return L;
+  }
+
+  /**
+   * What lies about a floor's rooms that nobody fights or picks up: a barrel
+   * against a wall, bones underfoot, a puddle (see dressing.js for the
+   * pictures, and each theme's props in data.js for which kinds it keeps).
+   * Dealt from a stream of its own, after everything else, so a seed's floors
+   * hold what they always held; and from the finished level alone, so a
+   * floor saved before there was dressing can be dressed when it is loaded.
+   * @param {import('./types.js').Level} L
+   * @param {string} seed
+   * @returns {import('./types.js').Dressing[]}
+   */
+  function dress(L, seed) {
+    const kinds = (THEMES[L.theme] && THEMES[L.theme].props) || [];
+    if (!kinds.length || !L.roomId) return [];
+    const rng = new Rng(`${seed}|dress|${L.depth}`);
+    const w = L.w, at = (x, y) => (x < 0 || y < 0 || x >= w || y >= L.h ? T.WALL : L.tiles[y * w + x]);
+    const wallsBy = (x, y) => DIRS.filter(([dx, dy]) => { const t = at(x + dx, y + dy); return t === T.WALL || t === T.TORCH; });
+    // not where something already stands or lies, nor where the hero arrives
+    const taken = new Set([...Object.keys(L.items), ...(L.npcs || []).map(n => n.x + ',' + n.y), L.start.x + ',' + L.start.y]);
+    /** @type {Map<number, number[]>} */
+    const byRoom = new Map();
+    for (let i = 0; i < w * L.h; i++) {
+      if (L.roomId[i] < 0 || L.tiles[i] !== T.FLOOR) continue;
+      if (!byRoom.has(L.roomId[i])) byRoom.set(L.roomId[i], []);
+      byRoom.get(L.roomId[i]).push(i);
+    }
+    const out = [];
+    for (const cells of byRoom.values()) {
+      // a small room one or two things, a great hall up to four
+      const n = Math.min(4, Math.round(cells.length / 16) + rng.int(0, 1));
+      for (let k = 0; k < n; k++) {
+        const kind = rng.pick(kinds), byWall = WALL_PROPS.includes(kind);
+        const pool = cells.filter(i => !taken.has((i % w) + ',' + ((i / w) | 0)) && (!byWall || wallsBy(i % w, (i / w) | 0).length));
+        if (!pool.length) continue;
+        const i = rng.pick(pool), x = i % w, y = (i / w) | 0;
+        taken.add(x + ',' + y);
+        let ox = (rng.next() - 0.5) * 0.4, oy = (rng.next() - 0.5) * 0.4;
+        // against the wall it stands by, not out in the middle of its square
+        if (byWall) for (const [dx, dy] of wallsBy(x, y)) { ox += dx * 0.3; oy += dy * 0.3; }
+        const clamp = v => Math.round(Math.max(-0.34, Math.min(0.34, v)) * 100) / 100;
+        out.push(kind === 'puddle' ? { x, y, k: kind, ox: clamp(ox), oy: clamp(oy), r: Math.round((0.18 + rng.next() * 0.16) * 100) / 100 } : { x, y, k: kind, ox: clamp(ox), oy: clamp(oy) });
+      }
+    }
+    return out;
   }
 
   function rollLoot(rng, depth) {
@@ -754,7 +805,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS, routeSpan };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS, routeSpan };
 })();
 
 export { Dungeon };

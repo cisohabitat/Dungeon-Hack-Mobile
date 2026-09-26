@@ -188,10 +188,10 @@ const VOWS = {
 // nowhere else, and a relic on its last floor (see routeRelic in relics.js).
 const ROUTES = {
   crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.',
-    theme: 4, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary',
+    theme: 6, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary',
     epi: 'They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.' },
   warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.',
-    theme: 2, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp',
+    theme: 7, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp',
     epi: 'They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.' },
 };
 
@@ -667,13 +667,16 @@ const ELITES = [
 // the catacombs, moss in the damp, frost where the wind is cold. A name given
 // twice is drawn twice, differently, and turns up twice as often.
 const THEMES = [
-  { name: 'Grey Halls',       wall: '#6e6e78', mortar: '#34343e', floor: '#3a3630', ceil: '#24222a', accent: '#8a8a70', flavor: 'Cold stone halls stretch into darkness.', decor: ['ring', 'niche', 'lichen', 'seep'] },
-  { name: 'Brown Catacombs',  wall: '#7a5a3a', mortar: '#3a2a1a', floor: '#3a2e22', ceil: '#241c14', accent: '#a08050', flavor: 'The air is thick with dust and old bones.', decor: ['skulls', 'ossuary', 'burial', 'roots'] },
-  { name: 'Mossy Depths',     wall: '#5a7050', mortar: '#26321f', floor: '#2c3a28', ceil: '#182218', accent: '#7fbf5f', flavor: 'Water drips and moss clings to every stone.', decor: ['moss', 'roots', 'seep', 'moss'] },
-  { name: 'Blue Vaults',      wall: '#55627a', mortar: '#242a3a', floor: '#262c36', ceil: '#141824', accent: '#7fa0d0', flavor: 'A chill wind moans through these vaults.', decor: ['rime', 'grate', 'ring'] },
-  { name: 'Crimson Crypts',   wall: '#7a4a4a', mortar: '#3a1e1e', floor: '#36262a', ceil: '#221416', accent: '#c05050', flavor: 'The walls here are stained a rusty red.', decor: ['stain', 'skulls', 'chains'] },
+  { name: 'Grey Halls',       wall: '#6e6e78', mortar: '#34343e', floor: '#3a3630', ceil: '#24222a', accent: '#8a8a70', flavor: 'Cold stone halls stretch into darkness.', decor: ['ring', 'niche', 'lichen', 'seep', 'banner', 'cobweb', 'sconce', 'cobweb'], props: ['barrel', 'crate', 'rubble', 'bones', 'candles'], fog: '#0e0e14' },
+  { name: 'Brown Catacombs',  wall: '#7a5a3a', mortar: '#3a2a1a', floor: '#3a2e22', ceil: '#241c14', accent: '#a08050', flavor: 'The air is thick with dust and old bones.', decor: ['skulls', 'ossuary', 'burial', 'roots', 'cobweb', 'sconce', 'cobweb'], props: ['bones', 'urn', 'candles', 'rubble'], fog: '#140e0a' },
+  { name: 'Mossy Depths',     wall: '#5a7050', mortar: '#26321f', floor: '#2c3a28', ceil: '#182218', accent: '#7fbf5f', flavor: 'Water drips and moss clings to every stone.', decor: ['moss', 'roots', 'seep', 'moss', 'banner', 'cobweb'], props: ['mushrooms', 'rubble', 'barrel', 'puddle', 'puddle'], fog: '#0a120c' },
+  { name: 'Blue Vaults',      wall: '#55627a', mortar: '#242a3a', floor: '#262c36', ceil: '#141824', accent: '#7fa0d0', flavor: 'A chill wind moans through these vaults.', decor: ['rime', 'grate', 'ring', 'banner', 'cobweb', 'sconce'], props: ['crate', 'barrel', 'puddle', 'rubble'], fog: '#0a0e18' },
+  { name: 'Crimson Crypts',   wall: '#7a4a4a', mortar: '#3a1e1e', floor: '#36262a', ceil: '#221416', accent: '#c05050', flavor: 'The walls here are stained a rusty red.', decor: ['stain', 'skulls', 'chains', 'banner', 'cobweb', 'sconce'], props: ['bones', 'candles', 'urn'], fog: '#150a0c' },
   // face: how its walls are built, where they are not brick (see makeGlass)
-  { name: 'Obsidian Sanctum', face: 'glass', wall: '#3c3448', mortar: '#12101a', floor: '#1e1a26', ceil: '#0c0a12', accent: '#8060c0', flavor: 'Black glass walls hum with a terrible power.', decor: ['runes', 'vein', 'shrine'] },
+  { name: 'Obsidian Sanctum', final: true, face: 'glass', wall: '#3c3448', mortar: '#12101a', floor: '#1e1a26', ceil: '#0c0a12', accent: '#8060c0', flavor: 'Black glass walls hum with a terrible power.', decor: ['runes', 'vein', 'shrine'], props: ['candles', 'bones'], fog: '#0e0a18' },
+  // the roads at the divided stair each have walls of their own (see ROUTES)
+  { name: 'The Ossuary', road: 'crypts', face: 'bones', wall: '#8a8272', mortar: '#16120e', floor: '#302c26', ceil: '#14110e', accent: '#7ac0b0', flavor: 'The dead are stacked to the roof here, skull upon skull.', decor: ['niche', 'cobweb', 'sconce', 'cobweb'], props: ['bones', 'candles', 'urn', 'candles'], fog: '#0a1614' },
+  { name: 'The Warrens', road: 'warrens', face: 'earth', wall: '#6a5238', mortar: '#2a2016', floor: '#382c20', ceil: '#1c1610', accent: '#d08a40', flavor: 'Rough tunnels, dug by many small hands and propped with timber.', decor: ['roots', 'cobweb', 'sconce', 'banner'], props: ['crate', 'barrel', 'rubble', 'mushrooms', 'bones'], fog: '#161008' },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.
@@ -701,4 +704,7 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };
+/** Floor dressing that stands against a wall rather than out in a room (see dressing.js). */
+const WALL_PROPS = ['barrel', 'crate', 'urn'];
+
+export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };

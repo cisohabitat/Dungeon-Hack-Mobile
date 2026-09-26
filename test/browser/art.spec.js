@@ -19,11 +19,13 @@ test.describe('art', () => {
         for (let x = 0; x < c.width; x++) if (Math.abs(d[x * 4] - m[0]) + Math.abs(d[x * 4 + 1] - m[1]) + Math.abs(d[x * 4 + 2] - m[2]) < 6) k++;
         return k / c.width;
       };
-      return THEMES.map((th, i) => ({ name: th.name, glass: /glass/i.test(th.flavor), bricks: mortarShare(i, 8) }));
+      return THEMES.map((th, i) => ({ name: th.name, glass: /glass/i.test(th.flavor), face: th.face || 'brick', bricks: mortarShare(i, 8) }));
     });
     expect(out.filter(t => t.glass).length, 'a floor speaks of black glass').toBeGreaterThan(0);
     for (const t of out) {
       if (t.glass) expect(t.bricks, `${t.name} should not be laid in brick courses`).toBeLessThan(0.3);
+      // the roads' walls (bone, dug earth) are not brick either
+      else if (t.face !== 'brick') expect(t.bricks, `${t.name} should not be laid in brick courses`).toBeLessThan(0.8);
       else expect(t.bricks, `${t.name} is brick, with a course of mortar`).toBeGreaterThan(0.8);
     }
     expect(errors).toEqual([]);
@@ -71,4 +73,34 @@ test.describe('art', () => {
       expect(errors).toEqual([]);
     });
   }
+  test('on a portrait phone the view stands taller than it is wide, and a room\'s dressing is drawn in it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.setViewportSize({ width: 390, height: 844 });   // a tall phone, where the log used to take the room
+    await startGame(page, { seed: 'art-dress' });
+    await clearBoons(page);
+    const box = await page.locator('#view').boundingBox();
+    expect(box.height / box.width, 'the view takes the room the log gave up').toBeGreaterThan(1.05);
+    // stand facing a piece of dressing from two squares off, and it is among what the view draws
+    const found = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), D = Dungeon.DIRS;
+      for (const d of L.dressing || []) {
+        if (d.k === 'puddle') continue;
+        for (let k = 0; k < 4; k++) {
+          const [dx, dy] = D[k], x = d.x - dx * 2, y = d.y - dy * 2;
+          if ([1, 2].every(i => L.tiles[(d.y - dy * i) * L.w + d.x - dx * i] === Dungeon.T.FLOOR)) {
+            p.x = x; p.y = y; p.dir = k; L.monsters.length = 0;
+            Game.save(true); Game.load();
+            return d.k;
+          }
+        }
+      }
+      return null;
+    });
+    expect(found, 'floor 1 has dressing to face').not.toBeNull();
+    await page.waitForTimeout(300);
+    // the drawn view has the dressing's own colours somewhere in its lower half
+    const drawn = await page.evaluate(() => Renderer.drawnDressing());
+    expect(drawn).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
 });

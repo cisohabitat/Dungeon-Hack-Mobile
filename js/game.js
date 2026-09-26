@@ -8,6 +8,7 @@ import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
+import { SIZE as DRESS_SIZE } from './dressing.js';
 
 // Core game state and rules.
 
@@ -2047,6 +2048,8 @@ const Game = (() => {
     // a crit that only Lucky made one says so
     const lucky = crit && hasTalent('lucky') && roll === critFloor();
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
+    // a critical blow in close is felt: the view jolts a little, less than a blow taken
+    if (crit && !atRange && realNow >= fx.shakeUntil) { fx.shakeAmp = Math.min(3.5, 1.5 + dmg / 12); fx.shakeMs = 140; fx.shakeUntil = realNow + fxDelay + 140; }
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
     // Volley: every third arrow that lands looses a second after it
     if (hasTalent('volley') && atRange && w.range) {
@@ -2236,7 +2239,16 @@ const Game = (() => {
     const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
     fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
       born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
+    // once the body has sunk away something stays a while: bones from the dead
+    // and the bony, a husk from the rest; a wraith, a slime or the lich leave nothing
+    if (!['wraith', 'slime', 'lich'].includes(base.sprite)) {
+      const L = lvl(), k = base.undead || base.sprite === 'skeleton' || base.sprite === 'bat' ? 'remains_bones' : 'remains_husk';
+      L.remains = (L.remains || []).filter(r => r.until > G.t).slice(-(REMAINS_MAX - 1));
+      L.remains.push({ x: Math.round((rx + 0.5) * 100) / 100, y: Math.round((ry + 0.5) * 100) / 100, k, at: G.t, until: G.t + REMAINS_MS });
+    }
   }
+  // how long the fallen's remains lie (game time), and how many a floor keeps at once
+  const REMAINS_MS = 240000, REMAINS_MAX = 16;
   /** The next of the group steps into the front. */
   function promote(m) {
     const next = m.pack.shift();
@@ -3638,6 +3650,14 @@ const Game = (() => {
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
+    // what lies about the room for looks, and what the fallen left (puddles are drawn flat by the renderer)
+    for (const d of (L.dressing || [])) {
+      if (d.k !== 'puddle' && Assets.sprites['dress_' + d.k]) sprites.push({ x: d.x + 0.5 + d.ox, y: d.y + 0.5 + d.oy, img: Assets.sprites['dress_' + d.k], scale: DRESS_SIZE[d.k] || 0.34, yOff: 0, onFloor: true, dress: true });
+    }
+    for (const r of (L.remains || [])) {
+      // shown once the body has sunk out of sight over it
+      if (r.until > G.t && G.t - (r.at || 0) > 450 && Assets.sprites['dress_' + r.k]) sprites.push({ x: r.x, y: r.y, img: Assets.sprites['dress_' + r.k], scale: DRESS_SIZE[r.k] || 0.3, yOff: 0, onFloor: true });
+    }
     for (const n of (L.npcs || [])) {
       const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;
       sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[look ? look.sprite : 'merchant'] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
@@ -3723,6 +3743,8 @@ const Game = (() => {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
+        // a floor saved before there was dressing gets its own now, the same it would have had
+        if (!G.levels[dpt].dressing) G.levels[dpt].dressing = Dungeon.dress(G.levels[dpt], G.seed);
         stepAside(G.levels[dpt]);
       }
       // a run saved on the climb out, from when the Heart had to be carried to

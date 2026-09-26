@@ -1,5 +1,6 @@
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
+import { THEMES } from './data.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -12,7 +13,7 @@ const Renderer = (() => {
   // sideways gives a wide, short box: down to 2:1 the view fills it, at the
   // cost of a little floor close in and the feet of whatever stands next to
   // you. Past that it is letterboxed rather than lose any more of them.
-  const W = 320, P = 200, H_MIN = 160, H_MAX = 300;
+  const W = 320, P = 200, H_MIN = 160, H_MAX = 360;
   // the shape the view was first drawn for, and the one the title art keeps
   const H_BASE = 200;
   let H = H_BASE;
@@ -26,6 +27,23 @@ const Renderer = (() => {
   // how far the view reaches before it is black: less on a dark floor, whose torches have burnt out
   const DARK_FOG = 4.5;
   let fog = FOG;
+  // what the dark fades into: each theme's own near-black (THEMES[i].fog),
+  // not pure black, so a far corridor still reads as that place
+  let fogPx = 0xff000000, fogRgb = [0, 0, 0], fogFor = -1;
+  function setFog(theme) {
+    if (theme === fogFor) return;
+    fogFor = theme;
+    const hex = (THEMES[theme] && THEMES[theme].fog) || '#000000', n = parseInt(hex.slice(1), 16);
+    fogRgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    fogPx = (0xff000000 | fogRgb[2] << 16 | fogRgb[1] << 8 | fogRgb[0]) >>> 0;
+    for (let i = 0; i <= 20; i++) shadeStyles[i] = `rgba(${fogRgb[0]},${fogRgb[1]},${fogRgb[2]},${(i / 20).toFixed(2)})`;
+  }
+  // Torchlight is warm: a lit texel is pushed toward amber as well as
+  // brightened. k runs 0 to 1; red rises most, blue sinks a little.
+  const warm = (v, k) => {
+    const r = Math.min(255, (v & 255) * (1 + 0.62 * k) + 6 * k), g = Math.min(255, ((v >> 8) & 255) * (1 + 0.24 * k) + 2 * k), b = ((v >> 16) & 255) * (1 - 0.18 * k);
+    return (0xff000000 | (b | 0) << 16 | (g | 0) << 8 | (r | 0)) >>> 0;
+  };
   // how near a creature is (in tiles) before its finer painting is asked for,
   // and how many of the view's pixels one of its usual ones must cover to use it
   const NEAR_ASK = 3.5, NEAR_BLOCK = 2.3;
@@ -34,6 +52,7 @@ const Renderer = (() => {
   const T = Dungeon.T;
   const LIGHT_R = 4.5;        // torch radius in tiles
   const LIGHT_MAX = 3.2;       // strongest brightening, in shade levels
+  const OWN_R = 2.4;           // how far the hero's own light reaches along the floor, in tiles
   const lightCache = new WeakMap();
   let canvas, ctx, fb, fb32;
   const zbuf = new Float32Array(W);
@@ -47,6 +66,7 @@ const Renderer = (() => {
     }
   }
   buildRows();
+  const WARM = Array.from({ length: 11 }, (_, i) => `rgba(255,150,60,${(i * 0.026).toFixed(3)})`);
   const shadeStyles = [];
   for (let i = 0; i <= 20; i++) shadeStyles.push(`rgba(0,0,0,${(i / 20).toFixed(2)})`);
 
@@ -79,36 +99,42 @@ const Renderer = (() => {
     for (let y = half + 1; y < H; y++) {
       const level = rowLevel[y];
       const dist = rowDist[y];
-      const fl = floorT[level], ce = ceilT[level];
+      const fl = floorT[level];
       if (level >= 7 && dist > fog) {
         const o0 = y * W, oc0 = (H - 1 - y) * W;
-        for (let x = 0; x < W; x++) { fb32[o0 + x] = 0xff000000; fb32[oc0 + x] = 0xff000000; }
+        for (let x = 0; x < W; x++) { fb32[o0 + x] = fogPx; fb32[oc0 + x] = fogPx; }
         continue;
       }
       const stepX = dist * (rdx1 - rdx0) / W, stepY = dist * (rdy1 - rdy0) / W;
       let fx = px + dist * rdx0, fy = py + dist * rdy0;
       let o = y * W, oc = (H - 1 - y) * W;
+      // the hero's own light: a faint warm pool on the floor at their feet
+      const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
       for (let x = 0; x < W; x++) {
         const mx = fx | 0, my = fy | 0;
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
-        let lv = level;
+        // (a shade brighter right at the hero's feet, where their own light falls)
+        let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;
         if (mx >= 0 && my >= 0 && mx < lw && my < lh) {
           const boost = lm[my * lw + mx];
           // rounded to a shade level, with a pattern fixed to the texture
           // deciding the texels of a tile that sits between two
-          if (boost > 0) lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
+          if (boost > 0) {
+            lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
+            glow = Math.max(glow, Math.min(1, boost / LIGHT_MAX));
+          }
         }
-        if (lv >= 7) { fb32[o + x] = 0xff000000; fb32[oc + x] = 0xff000000; fx += stepX; fy += stepY; continue; }
+        if (lv >= 7) { fb32[o + x] = fogPx; fb32[oc + x] = fogPx; fx += stepX; fy += stepY; continue; }
         const src = lv === level ? fl : floorT[lv];
-        const csrc = lv === level ? ce : ceilT[lv];
+        const csrc = ceilT[lv];
         const ti = ty * TX + tx;
-        fb32[o + x] = src[ti];
-        fb32[oc + x] = csrc[ti];
+        if (glow > 0.05) { fb32[o + x] = warm(src[ti], glow); fb32[oc + x] = warm(csrc[ti], glow * 0.7); }
+        else { fb32[o + x] = src[ti]; fb32[oc + x] = csrc[ti]; }
         fx += stepX; fy += stepY;
       }
     }
     // horizon rows
-    for (let x = 0; x < W; x++) { fb32[half * W + x] = 0xff000000; fb32[(half - 1) * W + x] = 0xff000000; }
+    for (let x = 0; x < W; x++) { fb32[half * W + x] = fogPx; fb32[(half - 1) * W + x] = fogPx; }
     ctx.putImageData(fb, 0, 0);
   }
 
@@ -129,7 +155,46 @@ const Renderer = (() => {
     ctx.globalCompositeOperation = 'source-over';
   }
 
+  // Dust: a few dozen motes kept in the air around the hero, drifting slowly
+  // and sinking, each one gone and put back somewhere near when it strays too
+  // far. They show faintly in the dark and brighter where a torch's light
+  // falls, so a lit room has air in it. Walls nearer than a mote hide it.
+  const MOTES = 40, MOTE_R = 3.6;
+  const motes = [];
+  let moteAt = 0;
+  function placeMote(m, px, py) {
+    const a = Math.random() * Math.PI * 2, d = 0.4 + Math.random() * MOTE_R;
+    m.x = px + Math.cos(a) * d; m.y = py + Math.sin(a) * d; m.z = Math.random() - 0.5;
+    m.vx = (Math.random() - 0.5) * 0.08; m.vy = (Math.random() - 0.5) * 0.08; m.vz = -0.01 - Math.random() * 0.02;
+    m.ph = Math.random() * 6.28;
+  }
+  function drawMotes(level, lm, px, py, dirX, dirY, planeX, planeY, now) {
+    const dt = Math.min(0.1, Math.max(0, (now - (moteAt || now)) / 1000));
+    moteAt = now;
+    while (motes.length < MOTES) { const m = {}; placeMote(m, px, py); motes.push(m); }
+    const invDet = 1 / (planeX * dirY - dirX * planeY);
+    for (const m of motes) {
+      m.x += m.vx * dt; m.y += m.vy * dt; m.z += m.vz * dt;
+      if (Math.hypot(m.x - px, m.y - py) > MOTE_R || m.z < -0.5) placeMote(m, px, py);
+      const tx = m.x | 0, ty = m.y | 0;
+      if (tx < 0 || ty < 0 || tx >= level.w || ty >= level.h || isSolid(level.tiles[ty * level.w + tx])) continue;
+      const sx = m.x - px, sy = m.y - py;
+      const tY = invDet * (-planeY * sx + planeX * sy);
+      if (tY < 0.3 || tY > fog) continue;
+      const col = Math.round((W / 2) * (1 + invDet * (dirY * sx - dirX * sy) / tY));
+      if (col < 0 || col >= W || zbuf[col] < tY) continue;
+      const row = Math.round(H / 2 - m.z * P / tY);
+      if (row < 0 || row >= H) continue;
+      const lit = lm[ty * level.w + tx] / LIGHT_MAX;
+      const a = (0.1 + 0.45 * Math.min(1, lit)) * (1 - tY / fog) * (0.7 + 0.3 * Math.sin(now / 700 + m.ph));
+      if (a < 0.03) continue;
+      ctx.fillStyle = `rgba(255,232,196,${a.toFixed(2)})`;
+      const s = tY < 1.2 ? 2 : 1;
+      ctx.fillRect(col, row, s, s);
+    }
+  }
   let darkGrad = null, darkFor = 0;
+  let dressedN = 0;   // how many pieces of dressing the last frame drew, for the tests
   function darkEdges() {
     if (!darkGrad || darkFor !== H) {
       darkGrad = ctx.createRadialGradient(W / 2, H * 0.55, H * 0.12, W / 2, H * 0.55, Math.max(W, H) * 0.62);
@@ -228,7 +293,9 @@ const Renderer = (() => {
       default: {
         if ((x * 7 + y * 13) % 6 === 0) return tex.wallCracked;
         const h = decorAt(x, y);
-        return h % 12 === 0 && tex.decor.length ? tex.decor[(h >>> 8) % tex.decor.length] : tex.wall;
+        // about one wall in seven wears something: often enough that a room
+        // looks lived in once, not so often the dressing becomes wallpaper
+        return h % 7 === 0 && tex.decor.length ? tex.decor[(h >>> 8) % tex.decor.length] : tex.wall;
       }
     }
   }
@@ -445,6 +512,18 @@ const Renderer = (() => {
   };
   const dim = (hex, f, a = 1) => { const [r, g, b] = rgbOf(hex); return `rgba(${Math.round(r * f)},${Math.round(g * f)},${Math.round(b * f)},${a.toFixed(3)})`; };
   /** A floor stain: a pool and a few splashes round it, laid flat in perspective and darkened like the floor under it. */
+  // A floor's puddles, as stains of dark water (see Dungeon.dress), made once a level.
+  const puddleCache = new WeakMap();
+  function puddlesOf(level) {
+    const d = level.dressing;
+    if (!d) return null;
+    let list = puddleCache.get(d);
+    if (!list) {
+      list = d.filter(p => p.k === 'puddle').map((p, i) => ({ x: p.x + 0.5 + p.ox, y: p.y + 0.5 + p.oy, r: p.r || 0.25, c: '#2c3c4c', seed: p.x * 31 + p.y * 17 + i }));
+      puddleCache.set(d, list);
+    }
+    return list;
+  }
   function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm, now) {
     if (!list || !list.length) return;
     // a stain from a blow still in the air waits for it
@@ -1051,11 +1130,14 @@ const Renderer = (() => {
     const lights = ensureLights(level);
     const lm = flickerLights(lights, now);
     flameTick = Math.floor(now / FLAME_MS);
+    setFog(level.theme);
     const reach = level.twist === 'dark' ? DARK_FOG : FOG;
     if (reach !== fog) { fog = reach; buildRows(); }
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
     if (level.twist === 'flooded') floodFloor(now);
-    // stains lie on the floor, so the walls drawn next hide them where they should
+    // stains lie on the floor, so the walls drawn next hide them where they should;
+    // standing water first, blood over it
+    drawStains(puddlesOf(level), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
@@ -1104,13 +1186,22 @@ const Renderer = (() => {
         ctx.fillStyle = shadeStyles[Math.min(20, Math.round(shade * 20))];
         ctx.fillRect(col, top, 1, lineH);
       }
+      // and where a torch's light falls, or the hero's own, the stone warms
+      const heat = Math.max(tile === T.TORCH ? 1 : Math.min(1, lightHere / LIGHT_MAX), dist < OWN_R ? (1 - dist / OWN_R) * 0.5 : 0);
+      if (heat > 0.08) {
+        ctx.fillStyle = WARM[Math.min(10, Math.round(heat * 10))];
+        ctx.fillRect(col, top, 1, lineH);
+      }
     }
 
+    // dust hanging in the air, catching whatever light there is
+    drawMotes(level, lm, px, py, dirX, dirY, planeX, planeY, now);
     // a dark floor: only what your own light reaches, the edges of the view lost
     if (level.twist === 'dark') darkEdges();
 
     // sprites
     crowd.length = 0;
+    dressedN = 0;
     shown.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const list = [];
@@ -1174,6 +1265,7 @@ const Renderer = (() => {
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, dist: tY, texel: sh / img.height });
+      if (s.dress && seenR >= 0) dressedN++;
       // where the warning mark goes: over the drawing, half as big again as it
       // was, a trick's bigger still; the lich's bar runs along the top of the
       // view and a tip may cover more of it, and the mark keeps below both
@@ -1440,7 +1532,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
 })();
 
 export { Renderer };

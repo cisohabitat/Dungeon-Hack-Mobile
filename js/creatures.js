@@ -58,12 +58,18 @@ const CREATURES = {
       sheet([[9.5, 10], [5, 7], [9.5, 12]], '#c07860'),
       sheet([[22.5, 10], [27, 7], [22.5, 12]], '#c07860'),
       ball(16, 10.5, 6.2, 5.4, skin),
-      ball(16, 12.2, 1.4, 2, '#5f9a40'),
+      // eyes sunk in shadow under a brow that dips to a scowl over the nose
+      ball(12.8, 9.4, 1.9, 1.2, '#4a7c34'), ball(19.2, 9.4, 1.9, 1.2, '#4a7c34'),
+      limb(11.8, 7.6, 14.6, 8.4, 0.8, 0.7, skin), limb(20.2, 7.6, 17.4, 8.4, 0.8, 0.7, skin),
       dots([[12, 9], [13, 9], [19, 9], [20, 9]], '#ffe040'),
       dots([[13, 9], [19, 9]], '#1a1010'),
-      dots([[12, 8], [13, 8], [14, 8], [18, 8], [19, 8], [20, 8]], '#2e5020'),
-      dots([[13, 14], [14, 15], [15, 15], [16, 15], [17, 15], [18, 15], [19, 14]], '#2a1010'),
-      dots([[14, 14], [16, 14], [18, 14]], '#f0e6c8'),
+      // cheeks bunched up by the grin, and a long hooked nose hanging over it
+      ball(12.2, 12.4, 1.7, 1.2, skin), ball(19.8, 12.4, 1.7, 1.2, skin),
+      limb(16, 9, 16, 12, 0.6, 1, skin), ball(16, 12.5, 1.4, 1.1, skin),
+      // a wide grin, lifted at the corners, with a fang at either side
+      sheet([[12, 13.2], [16, 14.2], [20, 13.2], [18.7, 15.4], [16, 16], [13.3, 15.4]], '#2a1010'),
+      ball(16, 15.4, 1.4, 0.6, '#6a2424'),
+      dots([[14, 14], [18, 14]], '#f0e6c8'),
     ];
   },
 
@@ -115,18 +121,23 @@ const CREATURES = {
       legs.push(...both(limb(knees[i][0], knees[i][1], feet[i][0], feet[i][1], 0.7, 0.5, leg)));
       legs.push(...both(ball(knees[i][0], knees[i][1], 0.95, 0.95, '#6e5c8a')));
     }
-    return [
+    const out = [
       ...legs.slice(0, 6 * 2),
       ball(16, 19.5, 7.8, 6.6, shell),
-      dots([[16, 16], [15, 17], [16, 17], [17, 17], [16, 18], [15, 20], [16, 20], [17, 20], [14, 21], [15, 21], [16, 21], [17, 21], [18, 21]], '#c02828'),
-      dots([[16, 17], [16, 21]], '#ff5a4a'),
+      // the warning mark, an hourglass: two lit triangles rather than red
+      // pixels, which the painter took for eyes and glinted every one of
+      sheet([[13.6, 15.5], [18.4, 15.5], [16, 18.4]], '#c02828', { tilt: [-0.2, -0.3] }),
+      sheet([[16, 17.6], [18.4, 20.7], [13.6, 20.7]], '#c02828', { tilt: [-0.2, 0.1] }),
       ...legs.slice(6 * 2),
       ball(16, 25.5, 4.4, 3.4, '#4e4264'),
-      dots([[14, 24], [18, 24], [15, 23], [17, 23]], '#ff3030'),
-      dots([[13, 25], [19, 25], [16, 23]], '#b01818'),
-      dots([[14, 24], [18, 24]], '#ffd0c0'),
+      // a big pair of eyes in front, smaller ones stepping out round them
+      dots([[15, 24], [17, 24]], '#ff3030'),
+      dots([[14, 23], [18, 23], [13, 25], [19, 25]], '#b01818'),
       dots([[15, 28], [17, 28], [15, 29], [17, 29]], '#e8e0d0'),
     ];
+    // a hard, glossy shell: the painter's grain on it read as dust, not chitin
+    for (const q of out) Object.assign(q, { smooth: 1 });
+    return out;
   },
 
   // Side on, so it reads as a rat and not a box with ears: long body, pointed
@@ -227,10 +238,21 @@ const CREATURES = {
       limb(21.5, 15, 27.5, 13.5, 1.8, 1.5, skin), ball(28.5, 13.3, 1.8, 1.7, skin),
       dots([[30, 12], [30, 13], [30, 14]], '#e8e0c8'),
       ball(14, 9.5, 5, 4.8, skin),
-      ball(12.5, 12.5, 2.5, 1.6, rot),
-      dots([[11, 8], [12, 8], [11, 9], [12, 9]], '#141014'), dots([[16, 8], [17, 8]], '#e8e4a0'), dots([[17, 8]], '#1a1010'),
-      dots([[11, 12], [12, 13], [13, 13], [14, 12]], '#2a1418'),
-      dots([[12, 12], [13, 12]], '#6a2020'),
+      // the jaw hangs slack and askew, dropped below the line of the skull
+      ball(13.4, 13.9, 2.9, 1.3, skin),
+      sheet([[11.6, 11.6], [15.2, 12], [14.8, 14], [12.8, 14.6], [11.4, 13.4]], '#2a1418'),
+      dots([[14, 12], [12, 14]], '#cfc6aa'),
+      // the cheek torn through, the back teeth showing in the hole
+      sheet([[9.6, 10.8], [11.9, 11.6], [11.6, 13], [9.9, 12.8]], '#3a1c1c'),
+      dots([[10, 12]], '#b8ae90'),
+      // a brow gone slack over each eye
+      limb(9.9, 7, 12.9, 7.2, 0.7, 0.6, skin), limb(15.2, 6.9, 17.8, 6.6, 0.7, 0.6, skin),
+      // one socket empty: the hollow is shadowed on its upper side, lit below
+      ball(11.5, 8.8, 1.6, 1.2, rot), ball(11.3, 8.5, 1.1, 0.8, '#1e161c'),
+      // the other eye filmed over, milky and blind
+      dots([[16, 8], [17, 8]], '#d4d8c4'), dots([[17, 8]], '#8a8e80'),
+      // what is left of the nose
+      ball(14.2, 10.4, 1, 0.9, rot),
       dots([[15, 5], [16, 6], [12, 5]], '#4a5a3a'),
     ];
   },
@@ -253,13 +275,21 @@ const CREATURES = {
       limb(8.5, 14, 6.5, 22, 2.3, 2, skin), ball(6.3, 23, 2.1, 2, skin),
       limb(23.5, 14, 26, 20, 2.3, 2, skin), ball(26.8, 20.5, 2.2, 2, skin),
       ...both(ball(8.5, 13.5, 3.2, 2.6, iron)),
+      // a scalp lock, greased flat
+      sheet([[12.3, 4.6], [13.5, 3], [17.5, 3], [18.7, 4.6], [15.5, 5.2]], '#1e1a14', { tilt: [0.3, 0.8] }),
       ball(16, 8.5, 5.4, 5, skin),
-      ball(16, 11.5, 3.4, 2, '#4f6e2e'),
-      line(11.5, 7, 20.5, 7, '#3a5020'),
+      // a jaw thrust forward, broader than the skull above it
+      ball(16, 11.8, 3.9, 2.1, '#56752f'),
+      // eyes deep under a brow like a shelf
+      ball(13.6, 8.4, 1.8, 1.1, '#3a5020'), ball(18.4, 8.4, 1.8, 1.1, '#3a5020'),
+      limb(11.9, 6.7, 15, 7.5, 0.9, 0.8, skin), limb(20.1, 6.7, 17, 7.5, 0.9, 0.8, skin),
       dots([[13, 8], [14, 8], [18, 8], [19, 8]], '#ff4a30'), dots([[14, 8], [18, 8]], '#1a0808'),
-      dots([[13, 11], [13, 10], [19, 11], [19, 10]], '#f4ecd6'),
-      dots([[14, 12], [15, 12], [16, 12], [17, 12], [18, 12]], '#2a1410'),
-      dots([[12, 4], [13, 3], [14, 3], [15, 3], [16, 3], [17, 4]], '#1e1a14'),
+      // a broad, flattened nose, broken more than once
+      ball(16, 9.9, 1.8, 1.2, skin),
+      // a grim mouth, the lower lip pushed up by the tusks, one snapped short
+      sheet([[13.2, 11.2], [18.8, 11.2], [18, 12.3], [14, 12.3]], '#2a1410'),
+      ball(16, 12.8, 2.7, 0.8, '#56752f'),
+      limb(13.6, 12.6, 13.1, 10.2, 0.6, 0.35, '#f4ecd6'), limb(18.4, 12.6, 18.8, 10.6, 0.6, 0.45, '#f4ecd6'),
     ];
   },
 
@@ -555,14 +585,15 @@ const CREATURES = {
       ball(17.5, 25 - up * 0.5, 1.8, 1.7, hide),
     ];
     // the fine detail: ridges on the plates, scales in staggered rows over
-    // the back, rings round the tail and claws on the feet
-    const onBack = (x, y) => y < 19.5 - up && (((x - 19.5) / 6) ** 2 + ((y - 17.5 + up) / 4.4) ** 2 < 1 || ((x - 24.5) / 4.3) ** 2 + ((y - 16.5 + up * 0.5) / 3.3) ** 2 < 1);
+    // the back and shoulders, rings round the tail and claws on the feet
+    const onBack = (x, y) => y < 19.5 - up && (((x - 19.5) / 6) ** 2 + ((y - 17.5 + up) / 4.4) ** 2 < 1 || ((x - 24.5) / 4.3) ** 2 + ((y - 16.5 + up * 0.5) / 3.3) ** 2 < 1
+      || ((x - 14.5) / 5.8) ** 2 + ((y - 19.5 + up) / 4.6) ** 2 < 1);
     const scales = [];
-    for (let r = 0; r < 5; r++) for (let x = 17 + (r % 2); x < 29; x += 2) { const y = 13.5 + r * 1.5; if (onBack(x - 0.5, y) && onBack(x + 0.5, y + 0.5)) scales.push([x, y]); }
+    for (let r = 0; r < 5; r++) for (let x = 9 + (r % 2); x < 29; x += 2) { const y = 13.5 + r * 1.5; if (onBack(x - 0.5, y) && onBack(x + 0.5, y + 0.5)) scales.push([x, y]); }
     out.push(
       ...plates.map(([x, y, h, l]) => hair(x, y + 0.5, x + l * 1.5, y - h + 1, '#7a6844')),
-      specks(scales.flatMap(([x, y]) => [[x - 0.5, y], [x, y + 0.5], [x + 0.5, y]]), '#46502e'),
-      specks(scales.map(([x, y]) => [x, y - 0.5]), '#8a9860'),
+      // each scale's lower edge as a little arc, so they lie in rows like tiles
+      ...scales.flatMap(([x, y]) => [hair(x - 0.75, y, x, y + 0.5, '#48532e'), hair(x, y + 0.5, x + 0.75, y, '#48532e')]),
       hair(27, 14.5, 29.5, 13.5, '#46502e'), hair(28.5, 10.5, 31, 11, '#46502e'), hair(28.5, 7, 31, 6.5, '#46502e'), hair(27.5, 4.5, 28.5, 2.5, '#46502e'),
       ...[[16.3, 30.4], [21.3, 30.2], [27, 27.6], [4.8, 26.2], [10.8, 20.2]].map(([x, y]) => specks([[x - 1.5, y + 0.5], [x - 0.5, y + 1], [x + 0.5, y + 1], [x + 1.5, y + 0.5]], '#e0d8b8')),
       // a pale scaled belly along the near side
@@ -573,6 +604,9 @@ const CREATURES = {
       out.push(limb(15, 20.5, 12.5, 13.5, 4, 3.3, hide), limb(12.5, 13.5, 11.5, 10, 3.3, 3, hide),
         ...[13, 14.5, 16, 17.5, 19].map((y, i) => hair(10.5 + i * 0.5, y, 14 + i * 0.6, y - 0.5, '#8e9a62')), ...head(11, 8.5));
     } else out.push(...head(11, bite ? 21.8 : 22.5));
+    // the hide is smooth between its scales: the painter's grain on top of the
+    // rows of scales only read as dirt
+    for (const q of out) Object.assign(q, { smooth: 1 });
     return out;
   },
 
@@ -649,18 +683,28 @@ const CREATURES = {
     // pits and flakes of rust, spines on the legs
     const teeth = [];
     for (let a = 0; a < 16; a++) { const t = a / 16 * Math.PI * 2; teeth.push([16 + Math.cos(t) * (mr[0] - 0.3), hy + 1 + Math.sin(t) * (mr[1] - 0.3)]); }
+    const pits = [];
+    for (const f of [0.3, 0.62]) for (let y = 9; y <= 16.5; y += 1) {
+      const w = 10.8 * Math.sqrt(1 - ((y - 15.5) / 8.4) ** 2) * f;
+      pits.push([16 - w, y], [16 + w, y]);
+    }
     out.push(
       specks(teeth, '#f0e6cc'),
       hair(15, hy + 1 + mr[1], 14.5, rear ? 31 : 31, '#c89048'), hair(17.5, hy + 1 + mr[1], 18, hy + 3 + mr[1], '#c89048'), specks([[14.5, 31.5], [18, hy + 4 + mr[1]]], '#e0b060'),
       hair(16, 7.5 - sy, 16, 17.5 - sy, '#4a1c0c'),
-      specks([[9, 9], [12.5, 13], [19, 12], [21.5, 15.5], [13, 16.5], [18.5, 16], [11, 8], [24.5, 11.5], [7, 14.5], [20, 18.5]].map(([x, y]) => [x, y - sy]), '#4a1e0c'),
-      specks([[8.5, 11.5], [9, 14.5], [22, 9], [25, 15], [13.5, 17.5]].map(([x, y]) => [x, y - sy]), '#9ad0b8'),
+      // pits in rows down each wing case, following its curve, as a beetle's
+      // are, rather than scattered like dirt
+      ...pits.map(([x, y]) => specks([[x, y - sy]], '#6a2a10')),
+      // a bright edge on each crust of copper
+      specks([[8.5, 11], [22, 8.5], [25, 13.5]].map(([x, y]) => [x, y - sy]), '#9ad0b8'),
       // flakes of rust coming away
-      specks([[4.5, 24.5], [27, 25.5], [26, 28], [8, 29.5], [22.5, 30.5], [23, 31], [9, 31], [3.5, 30]], '#c06a30'),
-      specks([[5.5, 26], [27.5, 27], [24.5, 30.5]], '#7a3a18'),
+      specks([[4.5, 24.5], [27, 25.5], [8, 29.5], [23, 31]], '#c06a30'),
       ...both(specks([[1.5, 24], [1, 26], [2, 19]], '#8a5a30')),
       ...both(specks(rear ? [[4, 13], [3, 11], [5, 14.5]] : [[5.5, 24.5], [5, 26], [6.5, 23]], gold)),
     );
+    // the shell is worn smooth: the painter's grain on it read as a second,
+    // noisier coat of rust over the pits
+    for (const q of out) Object.assign(q, { smooth: 1 });
     return out;
   },
 };
@@ -671,13 +715,18 @@ const CREATURES = {
 // onto whole pixels and change little.
 const DETAILS = {
   goblin: () => [
-    // brow creases and a nicked ear
-    hair(12.5, 6.5, 14.5, 7, '#4a8034'), hair(17.5, 7, 19.5, 6.5, '#4a8034'), hair(14.5, 5.5, 17.5, 5.5, '#57913d'),
+    // a furrowed forehead and a nicked ear
+    hair(14.5, 6.5, 15.5, 7.5, '#4a8034'), hair(17.5, 6.5, 16.5, 7.5, '#4a8034'), hair(14.5, 6, 17.5, 6, '#57913d'),
     specks([[4.5, 6.5], [5, 6.5]], '#1c1a22'),
-    // nostrils, a scar down one cheek, and a snaggle tooth
-    specks([[15.5, 12.5], [16.5, 12.5]], '#2e5020'),
-    hair(19, 10.5, 20.5, 12.5, '#3f6e2c'), specks([[19.5, 11], [20, 12]], '#8ac06a'),
-    specks([[17.5, 14.5], [17.5, 15]], '#f0e6c8'),
+    // bags under the eyes, the light along the nose, flared nostrils
+    hair(11.5, 10.5, 13.5, 10.5, '#4a8034'), hair(18.5, 10.5, 20.5, 10.5, '#4a8034'),
+    hair(15.5, 9.5, 15.5, 11.5, '#8ac06a'),
+    specks([[15, 13], [17, 13]], '#1e3a14'),
+    // creases from the nose to the corners of the grin, a scar down one cheek
+    hair(14, 12.5, 12.5, 13.5, '#3f6e2c'), hair(18, 12.5, 19.5, 13.5, '#3f6e2c'),
+    hair(20.5, 10, 21, 12, '#3f6e2c'), specks([[20.5, 10.5], [21, 11.5]], '#8ac06a'),
+    // a lower lip hanging slack under the grin, and the wet of the tongue
+    hair(14, 16, 18, 16, '#4f8a36'), hair(15.5, 15, 16.5, 15, '#9a4040'),
     // a crude buckle, stitching round the tunic and a patch
     specks([[15.5, 17], [16, 17], [16.5, 17], [15.5, 17.5], [16.5, 17.5], [15.5, 18], [16, 18], [16.5, 18]], '#c9a24a'),
     specks([[12, 19.5], [13.5, 19.5], [15, 19.5], [17, 19.5], [18.5, 19.5], [20, 19.5]], '#a88258'),
@@ -717,8 +766,6 @@ const DETAILS = {
     ...both(specks([[6.5, 15.5], [4, 19.5], [4, 24], [6.5, 27]], '#8a7aa6')),
     // fangs wet with venom
     specks([[15, 30], [17, 30]], '#ffffff'), specks([[15, 30.5], [17, 31]], '#9af060'),
-    // the smaller eyes round the big ones
-    specks([[13.5, 23.5], [18.5, 23.5], [14.5, 22.5], [17.5, 22.5]], '#ff7050'),
   ],
 
   rat: () => [
@@ -775,10 +822,15 @@ const DETAILS = {
     // stitches across the scalp and a flap of skin
     hair(12.5, 6, 16.5, 5.5, '#3a2a2a'), specks([[13, 5.5], [13.5, 6.5], [14.5, 5], [15, 6], [16, 5], [16.5, 6]], '#3a2a2a'),
     // rot and bruising on the face and reaching arm
-    specks([[15.5, 11], [16, 11.5], [10, 10.5], [23.5, 13], [25.5, 14.5], [26, 13]], '#6a7a52'),
+    specks([[16.5, 10.5], [17, 11], [23.5, 13], [25.5, 14.5], [26, 13]], '#6a7a52'),
     specks([[24.5, 14], [25, 14]], '#e8e0c8'),
-    // a drool of something dark from the mouth
-    specks([[12, 14], [12, 14.5], [12.5, 15.5]], '#4a1818'),
+    // the ragged rims of the hollow socket and the torn cheek, bare nostrils
+    hair(10, 9.5, 12.5, 9.5, '#b0c098'), hair(9.5, 13, 11.5, 13.5, '#5f6e4e'),
+    specks([[13.5, 11], [14.5, 11]], '#2a1418'),
+    // a pale film over the blind eye, and the sag beneath it
+    specks([[16, 8], [16.5, 8]], '#f0f2e8'), hair(15.5, 9.5, 17.5, 9.5, '#6f805c'),
+    // something dark drooling from the slack lip
+    specks([[14.5, 15], [14.5, 15.5], [15, 16.5]], '#4a1818'),
     // holes and a dangling thread in the shirt
     specks([[11.5, 17], [12, 17.5], [20.5, 23], [13, 21]], '#2a2430'),
     hair(19, 25, 19.5, 27, '#4e5a78'),
@@ -795,7 +847,13 @@ const DETAILS = {
     // a scar through one brow, a ring in the ear, broken tusk tip
     hair(12.5, 5.5, 14.5, 9.5, '#3f5a24'), specks([[13, 6.5], [14, 8.5]], '#8aa860'),
     specks([[10.5, 9.5], [10.5, 10]], '#c9a24a'),
-    specks([[19, 9.5]], '#1a1810'),
+    // grease shining on the scalp lock
+    hair(14, 3.5, 17, 3.5, '#4a4232'),
+    // flared nostrils, and deep creases from them down past the tusks
+    specks([[15, 10.5], [17, 10.5]], '#1e2a10'),
+    hair(14, 10, 12.5, 12, '#3f5a24'), hair(18, 10, 19.5, 12, '#3f5a24'),
+    // the snapped end of the tusk, and the light down the other
+    specks([[18.5, 10.5], [19, 10.5]], '#b8ae94'), hair(13, 10.5, 13.5, 12, '#fffaf0'),
     // stitching on the leather skirt and the belt's tongue
     specks([[11, 21.5], [13, 21.5], [19, 21.5], [21, 21.5]], '#8a6040'),
     specks([[17.5, 23], [17.5, 23.5]], '#2a1a10'),

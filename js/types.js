@@ -161,6 +161,17 @@
  * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms
+ * @property {Dressing[]} [dressing]  what lies about the rooms for looks alone (see Dungeon.dress)
+ * @property {Array<{x: number, y: number, k: string, at: number, until: number}>} [remains]  what the fallen left behind, when it fell, and until when (game time)
+ */
+
+/**
+ * A thing lying about a room for looks: a barrel, bones, a puddle.
+ * @typedef {Object} Dressing
+ * @property {number} x @property {number} y
+ * @property {string} k    its kind, a key into DRESSING (dressing.js), or 'puddle'
+ * @property {number} ox @property {number} oy   where on its square, from the middle
+ * @property {number} [r]  a puddle's size
  */
 
 /**

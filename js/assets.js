@@ -2,6 +2,7 @@ import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
 import { CREATURES, POSES, PROPS, FLOATING, paintParts } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
+import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
@@ -181,6 +182,8 @@ const Assets = (() => {
   // ---- textures ----
   function makeWall(theme, seed, cracked) {
     if (theme.face === 'glass') return makeGlass(theme, seed, cracked);
+    if (theme.face === 'bones') return makeOssuary(theme, seed, cracked);
+    if (theme.face === 'earth') return makeEarth(theme, seed, cracked);
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
     const rng = new Rng(seed);
@@ -282,6 +285,111 @@ const Assets = (() => {
       }
       ctx.fillStyle = '#f4f0ff';
       ctx.fillRect(cx - 1, cy, 3, 1); ctx.fillRect(cx, cy - 1, 1, 3);
+    }
+    return c;
+  }
+
+  // The Crypts' deep road: no brick at all, but the dead themselves, stacked
+  // floor to roof between stone shelves. A course of skulls, then long bones
+  // laid end-on in three layers, then skulls again, as the old sextons packed
+  // an ossuary; the shelves are the theme's stone, the gaps its dark.
+  function makeOssuary(theme, seed, cracked) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    ctx.fillStyle = theme.mortar;
+    ctx.fillRect(0, 0, TEX, TEX);
+    const shelf = y => {
+      px(ctx, adjust(theme.wall, -30), 0, y, TEX, 3);
+      px(ctx, adjust(theme.wall, -8), 0, y, TEX, 1);
+      px(ctx, adjust(theme.wall, -52), 0, y + 2, TEX, 1);
+    };
+    for (let band = 0; band < 4; band++) {
+      const y0 = band * 16;
+      shelf(y0);
+      if (band % 2 === 0) {
+        // a course of skulls, each turned a little differently, one or two gone
+        for (let x = rng.int(-3, 0); x < TEX; x += 8) {
+          if (cracked ? rng.chance(0.3) : rng.chance(0.06)) continue;
+          const tone = rng.int(-18, 8), pal = { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone), d: BONE.d };
+          stamp(ctx, SKULL, pal, x, y0 + 6);
+          if (rng.chance(0.3)) px(ctx, BONE.d, x + 3, y0 + 7, 1, 1);   // a hole knocked in the crown
+        }
+      } else {
+        // long bones laid end-on in rows: only their knuckled ends show
+        for (let row = 0; row < 3; row++) {
+          for (let x = (row % 2) * 3 - 2; x < TEX; x += 6) {
+            if (rng.chance(cracked ? 0.2 : 0.05)) continue;
+            const tone = rng.int(-20, 6);
+            stamp(ctx, ['.hm.', 'hmms', '.ms.'], { h: adjust(BONE.h, tone), m: adjust(BONE.m, tone), s: adjust(BONE.s, tone) }, x, y0 + 4 + row * 4);
+          }
+        }
+      }
+    }
+    // dust gathered on everything
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    for (let i = 0; i < 40; i++) ctx.fillRect(rng.int(0, TEX - 1), rng.int(0, TEX - 1), 1, 1);
+    if (cracked) {
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      let x = rng.int(12, 50), y = 0;
+      while (y < TEX) { ctx.fillRect(x, y, 2, 2); y += 2; x += rng.int(-1, 1); }
+    }
+    return c;
+  }
+  // The Warrens' deep road: tunnels dug, not built. Packed earth full of
+  // stones, roots hanging through, and every few paces a timber frame, a post
+  // up either side and a beam across, that the diggers put in to keep the
+  // roof off them. The posts sit at the edges so two walls side by side meet
+  // in one stout prop.
+  function makeEarth(theme, seed, cracked) {
+    const c = canvas(TEX, TEX);
+    const ctx = c.getContext('2d');
+    const rng = new Rng(seed);
+    const img = ctx.createImageData(TEX, TEX), d = new Uint32Array(img.data.buffer);
+    const [r0, g0, b0] = hexToRgb(theme.wall);
+    // soil: grainy, in clods a shade apart
+    const clod = [];
+    for (let i = 0; i < 18; i++) clod.push([rng.int(0, TEX), rng.int(0, TEX), rng.int(5, 12), rng.int(-16, 12)]);
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      let t = rng.int(-9, 9);
+      for (const [cx, cy, r, s] of clod) if ((x - cx) ** 2 + (y - cy) ** 2 < r * r) { t += s; break; }
+      const v = (k, base) => Math.max(0, Math.min(255, base + k));
+      d[y * TEX + x] = (255 << 24 | v(t * 0.8, b0) << 16 | v(t * 0.9, g0) << 8 | v(t, r0)) >>> 0;
+    }
+    ctx.putImageData(img, 0, 0);
+    // stones bedded in it, lit from the upper left
+    for (let i = 0; i < 9; i++) {
+      const cx = rng.int(8, 56), cy = rng.int(10, 58), rx = rng.int(2, 4), ry = rng.int(2, 3), tone = rng.int(-10, 20);
+      for (let y = -ry; y <= ry; y++) for (let x = -rx; x <= rx; x++) {
+        const q = (x / rx) ** 2 + (y / ry) ** 2;
+        if (q > 1) continue;
+        px(ctx, adjust('#6e6a64', tone + (x + y < -1 ? 18 : x + y > 1 ? -22 : 0)), cx + x, cy + y);
+      }
+    }
+    // roots hanging through from above
+    for (let i = 0; i < 3; i++) {
+      let x = rng.int(12, 52), y = 6;
+      const len = rng.int(8, 22);
+      for (let k = 0; k < len; k++) { px(ctx, k < len - 4 ? '#4a3420' : '#5e4630', x, y + k); if (rng.chance(0.3)) x += rng.int(-1, 1); }
+    }
+    // the timber frame: a beam across the top, a post down each edge
+    const wood = (x, y, w, h, vertical) => {
+      for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+        const along = vertical ? i : j, grain = ((vertical ? j : i) * 7 + along * 13) % 11 === 0 ? -14 : 0;
+        const edge = along === 0 ? 16 : along === (vertical ? w : h) - 1 ? -26 : 0;
+        px(ctx, adjust('#6a4a2c', edge + grain), x + i, y + j);
+      }
+    };
+    wood(0, 6, 4, TEX - 6, true); wood(TEX - 4, 6, 4, TEX - 6, true);
+    wood(0, 0, TEX, 6, false);
+    px(ctx, 'rgba(0,0,0,0.35)', 4, 6, TEX - 8, 2);   // the beam's shadow on the earth
+    for (const x of [2, TEX - 3]) px(ctx, '#2a2a30', x, 2, 1, 1);   // pegs
+    if (cracked) {
+      // the earth has slumped: a dark fissure and a spill of loose soil at its foot
+      ctx.fillStyle = 'rgba(0,0,0,0.6)';
+      let x = rng.int(16, 48), y = 8;
+      while (y < TEX) { ctx.fillRect(x, y, 2, 2); y += 2; x += rng.int(-1, 1); }
+      for (let i = 0; i < 30; i++) px(ctx, adjust(theme.wall, rng.int(-30, 10)), rng.int(10, 54), rng.int(56, 63));
     }
     return c;
   }
@@ -488,6 +596,63 @@ const Assets = (() => {
   }
   // The dressings named in each theme's decor list.
   const DECOR = {
+    banner(ctx, t, rng) {
+      // a hanging banner in the theme's colour, faded and torn at the foot,
+      // hung from an iron rod: someone once claimed these halls
+      const x0 = rng.pick([18, 22, 26]), w = 18, top = 9, len = rng.int(34, 42);
+      const [r, g, b] = hexToRgb(t.accent);
+      const cloth = k => `rgb(${Math.round(r * k)},${Math.round(g * k)},${Math.round(b * k)})`;
+      raised(ctx, c => {
+        for (let y = 0; y < len; y++) {
+          // the foot is cut in a swallowtail and frayed
+          const cut = y > len - 7 ? Math.abs(y - len + 7) : 0;
+          for (let x = 0; x < w; x++) {
+            if (cut && x > w / 2 - cut * 1.2 && x < w / 2 + cut * 1.2) continue;
+            // folds: light down the left of each, shade down the right
+            const fold = Math.sin((x + 1) * 0.9) * 0.14, edge = x === 0 || x === w - 1 ? -0.12 : 0;
+            const k = 0.62 + fold + edge - y * 0.004 + (rng.chance(0.06) ? -0.08 : 0);
+            px(c, cloth(Math.max(0.25, k)), x0 + x, top + y);
+          }
+        }
+        // a pale device sewn on: a ring and a bar, worn half away
+        const cx = x0 + w / 2, cy = top + 13;
+        for (let a = 0; a < 24; a++) { const q = a / 24 * Math.PI * 2; if (rng.chance(0.8)) px(c, 'rgba(236,222,190,0.8)', Math.round(cx + Math.cos(q) * 4.5), Math.round(cy + Math.sin(q) * 4.5)); }
+        px(c, 'rgba(236,222,190,0.8)', cx - 1, cy - 7, 2, 15);
+        // the rod and its two brackets
+        px(c, IRON.m, x0 - 3, top - 2, w + 6, 2); px(c, IRON.h, x0 - 3, top - 2, w + 6, 1);
+        px(c, IRON.s, x0 - 3, top - 4, 2, 4); px(c, IRON.s, x0 + w + 1, top - 4, 2, 4);
+      }, { outline: 'rgba(10,8,14,0.9)' });
+    },
+    cobweb(ctx, t, rng, n) {
+      // an old web strung across a top corner: spokes from the corner and
+      // sagging threads between them, grey with dust
+      const left = n % 2 === 0 ? rng.chance(0.5) : n % 2 === 1, sx = left ? 0 : TEX - 1, dir = left ? 1 : -1;
+      const spokes = [0.08, 0.35, 0.62, 0.9].map(f => f * Math.PI / 2);
+      const reach = rng.int(26, 34);
+      for (const a of spokes) line(ctx, 'rgba(220,220,228,0.55)', sx, 0, sx + dir * Math.cos(a) * reach, Math.sin(a) * reach);
+      for (let ring = 6; ring < reach; ring += rng.int(5, 7)) {
+        for (let k = 0; k < spokes.length - 1; k++) {
+          const a0 = spokes[k], a1 = spokes[k + 1];
+          for (let s = 0; s <= 8; s++) {
+            const a = a0 + (a1 - a0) * s / 8, sag = Math.sin(s / 8 * Math.PI) * 1.6;
+            px(ctx, 'rgba(210,210,220,0.42)', Math.round(sx + dir * Math.cos(a) * (ring - sag)), Math.round(Math.sin(a) * (ring - sag)));
+          }
+        }
+      }
+      // a dead fly, and dust caught in the strands
+      px(ctx, '#1a1418', sx + dir * rng.int(8, 14), rng.int(8, 14), 2, 2);
+    },
+    sconce(ctx, t, rng) {
+      // an iron sconce with a candle burnt to a stub, long cold, and wax run down the wall
+      const x = rng.pick([28, 32, 36]);
+      raised(ctx, c => {
+        stamp(c, ['.hhm.', 'hmmms', '.mms.', '..s..', '..s..', '.hms.', 'hmmss'], IRON, x - 2, 26);
+        stamp(c, ['.hm.', 'hhms', 'hhms', 'hmms'], { h: '#efe6cc', m: '#cfc2a0', s: '#9a8c6a' }, x - 1, 21);
+        px(c, '#2a2018', x, 20);
+      }, { outline: IRON.o });
+      px(ctx, 'rgba(230,222,196,0.7)', x - 1, 33, 1, rng.int(4, 9));
+      px(ctx, 'rgba(0,0,0,0.3)', x - 6, 14, 12, 8);
+    },
     ring(ctx, t, rng) {
       // a heavy iron ring on a plate, for tethering something long gone
       const x = rng.pick([28, 32, 36]);
@@ -998,6 +1163,8 @@ const Assets = (() => {
     // are painted twice as fine as the items in the pack
     for (const k in CREATURES) { sprites[k] = creature(k); nearFor(k); }
     for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
+    // what lies about a room, and what the fallen leave behind (see dressing.js)
+    for (const k in DRESSING) sprites['dress_' + k] = makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true });
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
   }
 

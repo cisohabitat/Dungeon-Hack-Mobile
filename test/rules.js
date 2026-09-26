@@ -7420,6 +7420,47 @@ await test('each road\'s last floor holds a relic found nowhere else, which anyo
   return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
 });
 
+await test('a floor is dressed the same whether made now or dressed on loading an old save; the roads and the last floor wear their own walls', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'dress-save', { levels: 8 });
+  const { Game, Dungeon, THEMES, ROUTES } = ctx;
+  const L = Game.level(), made = JSON.stringify(L.dressing);
+  if (!L.dressing || !L.dressing.length) out.push('floor 1 has no dressing');
+  // a save from before there was dressing: the same comes back on loading
+  delete L.dressing;
+  Game.save(true);
+  if (!Game.load()) return 'load returned false';
+  if (JSON.stringify(Game.level().dressing) !== made) out.push('an old save was dressed differently on loading');
+  // the ordinary themes take turns; the roads and the last floor have their own
+  const FINAL = THEMES.findIndex(t => t.final);
+  for (let d = 1; d <= 8; d++) {
+    const t = Dungeon.generate('themes', d, { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true }).theme;
+    if (d === 8 ? t !== FINAL : (t >= FINAL || THEMES[t].road)) out.push(`floor ${d} of a road-less run wore ${THEMES[t].name}`);
+  }
+  for (const road of ['crypts', 'warrens']) {
+    const t = Dungeon.generate('themes', 5, { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: road }).theme;
+    if (THEMES[t].road !== road || t !== ROUTES[road].theme) out.push(`floor 5 down the ${road} wore ${THEMES[t].name}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the fallen leave remains a while: bones from the bony, a husk from the rest, nothing from a wraith', async () => {
+  const out = [];
+  for (const [id, want] of [['goblin', 'remains_husk'], ['skeleton', 'remains_bones'], ['wraith', null]]) {
+    const ctx = await start('fighter', 'remains-' + id);
+    const { Game } = ctx; const G = Game.state(), p = Game.player();
+    p.perkHit = 60;
+    const m = beside(ctx, id, { hp: 1, maxHp: 1 });
+    for (let i = 0; i < 6 && Game.level().monsters.includes(m); i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+    if (Game.level().monsters.includes(m)) { out.push(`the ${id} would not die`); continue; }
+    const left = (Game.level().remains || []).filter(r => r.until > G.t);
+    if (want ? left.length !== 1 || left[0].k !== want : left.length) out.push(`a ${id} left ${JSON.stringify(left.map(r => r.k))}`);
+    // and they are gone in time
+    if (want) { G.t += 300000; if ((Game.level().remains || []).some(r => r.until > G.t)) out.push(`a ${id}'s remains never went`); }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a win by a road is a feat of that road; the Hall line names it', async () => {
   const ctx = await newContext();
   const { Game } = ctx;

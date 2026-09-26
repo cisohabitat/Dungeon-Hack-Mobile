@@ -200,7 +200,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .compare.down { color: #e08a80; }
 #hud-compass { color: var(--dim); font-family: monospace; }
 .view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border);
-  flex: 1000 1 auto; min-height: calc(100vw * 0.625); max-height: calc(100vw * 0.9375); }
+  flex: 1000 1 auto; min-height: calc(100vw * 0.625); max-height: calc(100vw * 1.125); }
 /* the buffer height is matched to this box in script, so the fill is exact;
    contain only matters at the extremes where the buffer hits its limits */
 #view { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0 auto; touch-action: none; }
@@ -232,7 +232,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .hud-status .good { color: #8f8; }
 /* the oldest line fades out at the top rather than being sliced through */
 .log { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 1.3em); mask-image: linear-gradient(to bottom, transparent 0, #000 1.3em); }
-.log { flex: 1 1 auto; height: 6.4em; min-height: 5.6em; overflow: hidden; padding: 4px 68px 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
+.log { flex: 1 1 auto; height: 5.2em; min-height: 5.2em; overflow: hidden; padding: 4px 68px 4px 8px; font-size: 0.88rem; line-height: 1.38; background: #0e0d14; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; justify-content: flex-end; }
+/* on a narrow phone a long line wraps to three, and the newest two must still fit */
+@media (max-width: 379px) { .log { height: 6.4em; min-height: 6.4em; } }
 /* lines wrap rather than truncate: on a phone the ellipsis was eating the
    damage and the dice, which were the parts worth reading. They must not
    shrink either, or the flex column squashes a wrapped line back to one row
