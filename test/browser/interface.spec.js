@@ -707,5 +707,26 @@ test.describe('gear powers', () => {
     await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
     expect(errors).toEqual([]);
   });
+  for (const [label, vp] of Object.entries({ 'a small phone held sideways': { width: 667, height: 375 }, 'the smallest upright phone': { width: 320, height: 568 } })) {
+    test(`every tip fits its box on ${label}`, async ({ page }) => {
+      // the box is cut to a share of the view; a tip that runs past it loses its end, which is usually the answer
+      const errors = watchForErrors(page);
+      await page.setViewportSize(vp);
+      await startGame(page, { seed: 'tips-fit' });
+      await clearBoons(page);
+      const cut = await page.evaluate(async () => {
+        const el = document.getElementById('tip'), out = [];
+        for (const [id, html] of Object.entries(UI.tips())) {
+          el.innerHTML = html; el.classList.add('show');
+          await new Promise(r => requestAnimationFrame(r));
+          if (el.scrollHeight > el.clientHeight + 1) out.push(id);
+        }
+        el.classList.remove('show');
+        return out;
+      });
+      expect(cut, 'tips cut short').toEqual([]);
+      expect(errors).toEqual([]);
+    });
+  }
 });
 

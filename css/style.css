@@ -339,7 +339,7 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* a dear purchase asks twice: the first tap turns the button to a warning */
 .shop-row button.armed { background: #6a3a12; border-color: #ffb040; color: #fff2d8; font-weight: bold; }
 .shop-row button.afford { border-color: var(--accent); color: #f5e6c0; }
-.shop-row button:disabled { opacity: 0.45; }
+.shop-row button:disabled { opacity: 0.6; }   /* dimmed, but the price still easy to read */
 .shop-empty { color: var(--dim); font-size: 0.9rem; padding: 6px 2px; }
 .spell { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; background: var(--panel); width: 100%; text-align: left; }
 .spell.locked { opacity: 0.45; }
@@ -550,11 +550,12 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .trophy-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr)); gap: 4px; align-items: center; }
 .trophy-grid .th { color: var(--dim); font-size: 0.72rem; text-align: center; letter-spacing: 0.04em; }
 .trophy-grid .tcls { font-size: 0.88rem; color: #c8bfae; }
-.trophy-grid .cell { height: 32px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: 1rem; }
+.trophy-grid .cell { min-height: 36px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: 1rem; }
 .trophy-grid .cell.won { border-color: #7a6030; background: #33291a; box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.25); }
 .trophy-grid.paths { grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1.5fr)); }
 .trophy-grid.vows { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.trophy-grid .cell.named { font-size: 0.8rem; color: #b8b0c4; padding: 0 4px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* a long name wraps onto a second line on the narrowest phones rather than losing its end */
+.trophy-grid .cell.named { font-size: 0.8rem; line-height: 1.15; color: #b8b0c4; padding: 2px 4px; text-align: center; overflow-wrap: anywhere; }
 .trophy-grid .cell.named.won { color: var(--gold); }
 .trophy-grid .cell.shut { opacity: 0.6; }
 .trophy-grid .cell { cursor: pointer; }

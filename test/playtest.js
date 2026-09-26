@@ -713,7 +713,7 @@ const opts = { levels: parseInt(process.env.LEVELS || '8', 10), size: 'medium', 
 // SEEDN / SEEDPFX pick a larger or different seed set (defaults: the 20 bench seeds)
 const SEEDS = Array.from({ length: parseInt(process.env.SEEDN || '20', 10) }, (_, i) => (process.env.SEEDPFX || 'bench') + i);
 const TRIALS = parseInt(process.argv[3] || '2', 10);
-const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief'];
+const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief', 'ranger'];
 async function main() {
 const results = {};
 for (const cls of classes) {
