@@ -37,7 +37,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 `FIT=1 DIFF=normal|hard SEEDN=40 node test/playtest.js <cls> 10` plays 400 runs
 with a bot. Seed-to-seed noise is about ±5 points, so compare variants on two
 seed sets (`SEEDPFX=alt` for the second). Other switches: `EARLY=1` (deaths
-before level 5), `CAUSES=1`, `LICH=1`, `NAMED=1`, `NOFORGE=1`. Run variants in
+before level 5), `CAUSES=1`, `LICH=1`, `NAMED=1`, `NOFORGE=1`, `SHADE=4` (a fallen
+hero's shade on floor 4). Run variants in
 git worktrees under the scratchpad, not in the main checkout, and keep the
 README balance table current.
 

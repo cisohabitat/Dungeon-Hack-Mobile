@@ -2166,7 +2166,7 @@ const UI = (() => {
 
   /**
    * One line to paste anywhere: the seed and every choice left off its usual
-   * setting, since the same seed with other choices is another dungeon.
+   * setting, since the same seed with other choices is another dungeon, and any vow sworn.
    */
   function runShareLine(won) {
     const G = Game.state(), p = G.player, o = G.opts;
@@ -2177,6 +2177,8 @@ const UI = (() => {
     if (o.treasure && o.treasure !== 'normal') ways.push(`${o.treasure} treasure`);
     if (o.lockedDoors === false) ways.push('no locked doors');
     if (o.traps === false) ways.push('no traps');
+    // a vow leaves the dungeon as it is, but it is half of what the run was
+    for (const v of o.vows || []) if (VOWS[v]) ways.push(VOWS[v].name);
     const cls = CLASSES[p.cls] ? CLASSES[p.cls].name : p.cls;
     return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
   }

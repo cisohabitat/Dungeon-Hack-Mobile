@@ -250,7 +250,9 @@ Answering monster tricks decides runs: a warned blow lands whatever your armour,
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
 Clearing each floor first (`EXPLORE=0.8`) is the slower, safer road: on Normal it wins about
 84% as a cleric, 90% as a fighter, 86% as a thief, and 70% as a mage. About one hero in twelve
-who reaches the last floor on Normal dies there (`LICH=1` breaks it down). Gold carried past the last trader, and found on the
+who reaches the last floor on Normal dies there (`LICH=1` breaks it down). A fallen hero's shade
+(`SHADE=4` plants one on floor 4) kills about one in a hundred of the heroes who meet it, and win
+rates barely move: it is a hard fight for gear worth having, not a trap. Gold carried past the last trader, and found on the
 last floor, buys a ward or a blessing at the vigil lamp beside the lich's hall. Backgrounds are
 rotated across runs so the figures are not one perk repeated. `DODGE=1` has the bot step back from
 every ordinary blow, as a twitchy player does, and `DODGE=2` steps aside from the monsters that lunge;

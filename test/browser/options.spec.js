@@ -328,6 +328,8 @@ test.describe('sharing a run', () => {
     });
     await startGame(page, { seed: 'share-sheet', cls: 'Fighter' });
     await clearBoons(page);
+    // sworn as a Hard winner could swear it: the vow goes in the line too
+    await page.evaluate(() => { Game.state().opts.vows = ['iron']; });
     await faceOpenGround(page, 2);
     await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
     await page.evaluate(() => { Game.player().hp = 1; });
@@ -338,7 +340,7 @@ test.describe('sharing a run', () => {
     await page.click('#end-share');
     await expect(page.locator('#end-share')).toHaveText('Shared');
     const sent = await page.evaluate(() => window.__sheet[1]);
-    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal\): Fighter, fell on floor 1, /);
+    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal, Iron Vow\): Fighter, fell on floor 1, /);
     await expect(page.locator('#end-share-line')).toHaveText(sent);
     expect(errors).toEqual([]);
   });
