@@ -254,7 +254,7 @@ const PATHS = {
   ],
   ranger: [
     { id: 'sharpshooter', name: 'Sharpshooter', flavour: 'The arrow was on its way before the thing knew it was seen.', effects: [
-      'An arrow at a foe three squares off or more deals 2 more damage.',
+      'An arrow at a foe three squares off or more deals 3 more damage.',
       'With a bow, your critical hits land one number sooner on the die.',
       'Your first arrow at a foe that has not seen you never misses.',
       'Snare reaches two squares further.',
@@ -299,8 +299,8 @@ const CLASSES = {
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 8, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
-    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot at a foe two squares off or more bites harder, and Snare catches the first foe down the corridor.',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
 };

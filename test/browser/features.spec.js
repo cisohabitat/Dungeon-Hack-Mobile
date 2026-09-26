@@ -53,6 +53,7 @@ test.describe('dungeon features', () => {
       const p = Game.player(), L = Game.level();
       const knives = p.inv.find(i => i.t === 'throwknife');
       if (knives) Game.equip(knives);
+      p.perkHit = 60;   // every throw lands: the test is about reach, not the dice
       const w = Game.weapon();
       const m = L.monsters.find(x => x.uid === uid);
       const before = m.hp;
