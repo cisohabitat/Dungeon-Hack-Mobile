@@ -129,6 +129,7 @@ const TALENTS = {
     { id: 'second_wind', name: 'Second Wind', desc: 'Falling below a quarter of your health heals another quarter at once. Once every two minutes.' },
     { id: 'weapon_master', name: 'Weapon Master', desc: '+2 damage with every blow of a two-handed weapon, +1 with any other.' },
     { id: 'bulwark', name: 'Bulwark', desc: 'A shield gives you 2 more armour class.' },
+    { id: 'shield_slam', name: 'Shield Slam', desc: 'Bash comes back in ten seconds, not fifteen, and knocks what it strikes a square back when there is room.' },
   ],
   cleric: [
     { id: 'healing_hands', name: 'Healing Hands', desc: 'Your healing spells heal a third as much again.' },
@@ -153,6 +154,7 @@ const TALENTS = {
     { id: 'lucky', name: 'Lucky', desc: 'Your critical hits land one number sooner on the die.' },
     { id: 'shadow_step', name: 'Shadow Step', desc: 'Sidestep, and your next blow within two and a half seconds strikes from the shadows.' },
     { id: 'light_fingers', name: 'Light Fingers', desc: 'Monsters drop loot half as often again, and traders pay you a quarter more.' },
+    { id: 'choking_cloud', name: 'Choking Cloud', desc: 'What loses you in your Smoke comes out of it coughing: its first move a second and a half late.' },
   ],
 };
 

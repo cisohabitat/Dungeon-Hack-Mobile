@@ -3,7 +3,7 @@ import { BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
-import { RELICS, GIANTS, GEAR_POWERS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan } from './relics.js';
+import { RELICS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, relicPlan } from './relics.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
@@ -594,6 +594,7 @@ const Game = (() => {
       temper('hone', 'weapon', 'Hone your weapon', 'sharper'),
       temper('reinforce', 'armor', 'Reinforce your armour', 'stouter'),
       rune('rune_weapon', 'weapon'), rune('rune_armor', 'armor'),
+      make('make_weapon', 'weapon'), make('make_armor', 'armor'),
       lodging(), books(),
     ];
   }
@@ -619,8 +620,28 @@ const Game = (() => {
       : it.h ? 'Have it appraised first: the trader will not work blind.'
       : it.curse ? 'The trader will not put a rune on cursed metal.' : null;
     return { id, pw, label: `Work a rune ${POWER_SUFFIX[pw]} into your ${what}`,
-      detail: it && !why ? `${cap(the(it))} becomes ${ITEMS[it.t].name} ${POWER_SUFFIX[pw]}` : (why || ''),
+      detail: it && !why ? `${cap(the(it))} becomes ${itemName({ ...it, pw, q: 1 })}` : (why || ''),
       price: Math.round((120 + 25 * G.depth) * (1 - charm())), why };
+  }
+  /**
+   * The deep traders' best work, and where late gold goes: a quality of make
+   * (Heavy, True, Sturdy or Blessed) put into a piece that has none. Each
+   * trader has one for weapons and one for armour, from the second floor down.
+   * @param {string} id @param {'weapon'|'armor'} slot
+   */
+  function make(id, slot) {
+    const it = P().eq[slot], pool = GEAR_PREFIXES[slot];
+    const px = pool[Math.abs(shop.x * 11 + shop.y * 5 + G.depth * 7) % pool.length];
+    const what = slot === 'weapon' ? 'weapon' : 'armour';
+    const why = G.depth < 2 ? 'The trader\'s forge up here is not hot enough for that work.'
+      : !it ? `You have no ${what} on.`
+      : it.u ? 'A relic carries its own make; the trader will not touch it.'
+      : it.px ? `${cap(the(it))} is ${PREFIX_NAME[it.px]} already.`
+      : it.h ? 'Have it appraised first: the trader will not work blind.'
+      : it.curse ? 'The trader will not work cursed metal.' : null;
+    return { id, px, label: `Make your ${what} ${PREFIX_NAME[px]}`,
+      detail: it && !why ? `${PREFIX_DESC[px].charAt(0).toUpperCase() + PREFIX_DESC[px].slice(1)}: ${itemName({ ...it, px, q: 1 })}` : (why || ''),
+      price: Math.round((80 + 25 * G.depth) * (1 - charm())), why };
   }
   /** A night by the trader's lamp: whole again, nothing finds you, and the floor's own rests are not spent. */
   function lodging() {
@@ -653,6 +674,10 @@ const Game = (() => {
       const it = P().eq[id === 'rune_weapon' ? 'weapon' : 'armor'];
       it.pw = /** @type {any} */ (s).pw;
       log(`The trader cuts a rune into ${the(it)} and breathes on it: ${itemName(it)}.`, 'good');
+    } else if (id === 'make_weapon' || id === 'make_armor') {
+      const it = P().eq[id === 'make_weapon' ? 'weapon' : 'armor'];
+      it.px = /** @type {any} */ (s).px;
+      log(`The trader takes ${the(it)} to the forge for a long while, and brings it back ${PREFIX_NAME[it.px]}: ${itemName(it)}.`, 'good');
     } else if (id === 'study') {
       const p = P();
       p.bonusSp = (p.bonusSp || 0) + 3; p.maxSp = spMax(p); p.sp = Math.min(p.maxSp, p.sp + 3);
@@ -2954,7 +2979,7 @@ const Game = (() => {
   const SMOKE_MS = 3000, SMOKE_REACH = 3;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.cool);
+  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
@@ -2981,6 +3006,11 @@ const Game = (() => {
     log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
     // a Berserker puts weight behind it: the bash is a blow of its own
     if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
+    // Shield Slam: it goes back a square, if the square behind it is open
+    if (hasTalent('shield_slam') && lvl().monsters.includes(m) && !m.collapsed && !mb.boss) {
+      const bx = m.x + dx, by = m.y + dy;
+      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by)) { moveMonster(m, bx, by); log(`The ${mb.name} is knocked back a square.`, 'good'); }
+    }
     return true;
   }
   function smoke(a, p) {
@@ -3272,11 +3302,14 @@ const Game = (() => {
         // the damage. Give the growl a beat to be heard and turned toward.
         // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
         if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
-          m.awake = true; m.smoked = false; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
+          const coughing = m.smoked && hasTalent('choking_cloud');
+          m.awake = true; m.smoked = false; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
+          if (coughing) floatText(m, 'coughing', '#b8b8c8');
           if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
           meet(m);
           // woken right beside you, its first blow is already being drawn back
-          if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
+          // (unless it comes out of the smoke coughing: then its first move waits)
+          if (!coughing && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
           continue;
         }
         // lost in a thief's smoke, it stands and peers about rather than wandering off

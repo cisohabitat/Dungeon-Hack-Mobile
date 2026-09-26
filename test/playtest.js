@@ -126,10 +126,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
         continue;
       }
       // a talent by what a sensible player of each class would reach for first
-      const order = ['second_wind', 'weapon_master', 'bulwark', 'stand_firm', 'cleave', 'riposte',
+      const order = ['second_wind', 'weapon_master', 'bulwark', 'shield_slam', 'stand_firm', 'cleave', 'riposte',
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',
         'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
-        'lucky', 'assassinate', 'venom', 'evasion', 'light_fingers', 'shadow_step',
+        'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
         'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
       const pick = order.find(id => offer.includes(id)) || offer[0];
       // Self-Taught: both points in the class's key score
@@ -531,9 +531,9 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const lodge = svc('lodge');
           if (lodge && !lodge.why && p.hp < p.maxHp * 0.7 && p.gold >= lodge.price + 20 && Game.buyService('lodge')) rec.lodged = (rec.lodged || 0) + 1;
           for (let n = 0; n < 8; n++) {
-            const next = ['hone', 'reinforce', 'rune_weapon', 'rune_armor', 'study'].map(svc).filter(v => v && !v.why && p.gold >= v.price + 20).sort((a, b) => a.price - b.price)[0];
+            const next = ['hone', 'reinforce', 'rune_weapon', 'rune_armor', 'make_weapon', 'make_armor', 'study'].map(svc).filter(v => v && !v.why && p.gold >= v.price + 20).sort((a, b) => a.price - b.price)[0];
             if (!next || !Game.buyService(next.id)) break;
-            if (next.id.startsWith('rune')) rec.runes = (rec.runes || 0) + 1; else rec.forged = (rec.forged || 0) + 1;
+            if (next.id.startsWith('rune')) rec.runes = (rec.runes || 0) + 1; else if (next.id.startsWith('make')) rec.made = (rec.made || 0) + 1; else rec.forged = (rec.forged || 0) + 1;
           }
         }
         rec.shopped[shopKey] = true;
@@ -713,7 +713,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)
   const byPath = {};

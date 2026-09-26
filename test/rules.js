@@ -41,6 +41,7 @@ const linesSince = (G, mark) => {
 
 let failures = 0;
 async function test(name, fn) {
+  if (process.env.ONLY && !name.includes(process.env.ONLY)) return;
   try {
     const r = await fn();
     if (r === true) return;
@@ -6804,6 +6805,81 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   const lich = beside(c2, 'lich', { spoke: true });
   c2.Game.useAbility();
   if (!lich.awake) out.push('the lich lost the thief in smoke');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Shield Slam brings Bash back in ten seconds and knocks the foe a square back; Choking Cloud leaves what loses a thief coughing', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'shield-slam');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 999; talent(ctx, 'shield_slam');
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  // clear the two squares ahead so there is room to be knocked into
+  for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+  const m = beside(ctx, 'goblin', { nextAct: G.t + 1e9 });
+  const x0 = m.x, y0 = m.y;
+  if (!Game.useAbility()) return 'Bash was refused';
+  if (m.x !== x0 + dx || m.y !== y0 + dy) out.push(`the goblin stayed at ${m.x},${m.y}, not knocked to ${x0 + dx},${y0 + dy}`);
+  const secs = +(Game.castLabel().match(/\d+/) || [0])[0];
+  if (!(secs > 0 && secs <= 10)) out.push(`after a Shield Slam the button says ${Game.castLabel()}`);
+  // against a wall it still bashes, and stays put
+  const c2 = await start('fighter', 'shield-slam-wall');
+  const p2 = c2.Game.player(), L2 = c2.Game.level(); talent(c2, 'shield_slam');
+  const [ex, ey] = c2.Dungeon.DIRS[p2.dir];
+  L2.tiles[(p2.y + ey) * L2.w + p2.x + ex] = c2.Dungeon.T.FLOOR;
+  L2.tiles[(p2.y + ey * 2) * L2.w + p2.x + ex * 2] = c2.Dungeon.T.WALL;
+  const w = beside(c2, 'goblin', { nextAct: c2.Game.state().t + 1e9 });
+  const wx = w.x;
+  if (!c2.Game.useAbility() || w.x !== wx) out.push('a slam into a wall moved the goblin or was refused');
+  // Choking Cloud: the first move after the smoke clears comes late
+  const wakeDelay = async cough => {
+    const c = await start('thief', 'cough-' + cough);
+    const { Game: g } = c; const q = g.player(), s = g.state();
+    q.hp = q.maxHp = 999; if (cough) talent(c, 'choking_cloud');
+    const f = beside(c, 'skeleton', { nextAct: s.t + 1e9 });
+    g.useAbility();
+    for (let i = 0; i < 400 && !f.awake; i++) g.update(s.t + 25, 25);
+    return f.awake ? f.nextAct - s.t : null;
+  };
+  const plain = await wakeDelay(false), coughing = await wakeDelay(true);
+  if (plain == null || coughing == null) out.push(`the goblin never woke after the smoke (${plain}, ${coughing})`);
+  else if (coughing < plain + 1200) out.push(`a coughing goblin moved ${coughing}ms after waking against ${plain}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the trader\'s forge adds a quality of make to plain known gear, from the second floor down, for gold', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'make');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level(), G = Game.state();
+  const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+  L.npcs.length = 0; L.npcs.push(shop); L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+  Game.input('forward');
+  if (!Game.currentShop()) return 'could not open the shop';
+  const svc = id => Game.shopServices().find(v => v.id === id);
+  const w = p.eq.weapon; w.h = 0; delete w.px; delete w.u; delete w.curse;
+  p.gold = 99999;
+  if (!svc('make_weapon') || !svc('make_weapon').why) out.push('the forge worked on the first floor');
+  Game.closeShop ? Game.closeShop() : null;
+  Game.level().monsters.length = 0; Game.descend();
+  if (G.depth !== 2) return `descended to depth ${G.depth}`;
+  { const L2 = Game.level(); L2.npcs.length = 0; L2.npcs.push(shop); L2.monsters.length = 0;
+    const [ex, ey] = Dungeon.DIRS[p.dir]; shop.x = p.x + ex; shop.y = p.y + ey;
+    L2.tiles[shop.y * L2.w + shop.x] = Dungeon.T.FLOOR; Game.input('forward');
+    if (!Game.currentShop()) return 'could not open the shop on the second floor'; }
+  const s = svc('make_weapon');
+  if (!s || s.why) return `the make was refused: ${JSON.stringify(s)}`;
+  if (s.price < 100) out.push(`a make on the second floor cost only ${s.price}`);
+  w.h = 1; if (!svc('make_weapon').why) out.push('the forge worked an unknown blade'); w.h = 0;
+  w.curse = 1; if (!svc('make_weapon').why) out.push('the forge worked cursed metal'); delete w.curse;
+  w.u = 'x'; if (!svc('make_weapon').why) out.push('the forge worked a relic'); delete w.u;
+  const gold = p.gold;
+  Game.buyService('make_weapon');
+  if (w.px !== s.px) out.push(`the weapon is ${w.px}, not ${s.px}`);
+  if (gold - p.gold !== s.price) out.push(`paid ${gold - p.gold}, asked ${s.price}`);
+  if (!svc('make_weapon').why) out.push('a second make was offered on the same blade');
+  if (p.eq.armor) { p.eq.armor.h = 0; delete p.eq.armor.px; const a = svc('make_armor'); if (!a || a.why) out.push(`armour make refused: ${a && a.why}`); }
   return out.length ? out.join('; ') : true;
 });
 
