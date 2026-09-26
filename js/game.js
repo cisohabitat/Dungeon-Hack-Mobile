@@ -2994,7 +2994,7 @@ const Game = (() => {
       m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
-      if (m.awake) lost++;
+      if (m.awake) { lost++; floatText(m, 'lost you', '#b8b8c8'); }
       m.awake = false; m.smoked = true; m.fleeing = false; m.nextAct = G.t + 400;
       // and a zombie's grip loosens as it loses you
       if (p.grabbed && p.grabbed.uid === m.uid) p.grabbed = null;
@@ -3187,7 +3187,8 @@ const Game = (() => {
   const expectedLevel = depth => 1 + 0.8 * (depth - 1);
   /** @param {import('./types.js').Level} L @param {number} depth */
   function pressLevel(L, depth) {
-    const over = diff().press ? Math.max(0, Math.min(PRESS_MOST, P().level - expectedLevel(depth) - PRESS_GRACE)) : 0;
+    // not before the third floor: a quick start on the first two is no reason for the deep to stir
+    const over = diff().press && depth >= 3 ? Math.max(0, Math.min(PRESS_MOST, P().level - expectedLevel(depth) - PRESS_GRACE)) : 0;
     L.press = Math.round(over * 10) / 10;
     if (!L.press) return;
     const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
@@ -3344,8 +3345,8 @@ const Game = (() => {
         m.windup = null;
         if (w.kind === 'melee') m.blows = (m.blows || 0) + 1;
         if (inReach) {
-          if (follow && follow.lunge) moveMonster(m, follow.x, follow.y);
-          if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined); else rangedAttack(m);
+          if (follow && follow.lunge) { moveMonster(m, follow.x, follow.y); G.lunges = (G.lunges || 0) + 1; }
+          if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined, follow ? follow.miss : undefined); else rangedAttack(m);
           G.blowGate = G.t + BLOW_GAP;
           if (G.status !== 'playing') return;
           // a group draws back together and swings as a volley: one warning,
@@ -3398,18 +3399,18 @@ const Game = (() => {
    * A lunger (a rat, a ghoul, a wraith) follows one step straight back into
    * the square you left; a step to the side leaves it biting air. The lich's
    * touch reaches two squares down a clear straight line.
-   * @returns {{lunge?: boolean, x?: number, y?: number, verb: string}|null}
+   * @returns {{lunge?: boolean, x?: number, y?: number, verb: string, miss: string}|null}
    */
   function followBlow(m, mb, w) {
     const p = P();
     if (mb.lunge && w.px != null) {
       const dx = w.px - m.x, dy = w.py - m.y;
       const back = Math.abs(dx) + Math.abs(dy) === 1 && p.x === w.px + dx && p.y === w.py + dy;
-      if (back && passable(w.px, w.py) && !monsterAt(w.px, w.py) && !npcAt(w.px, w.py)) return { lunge: true, x: w.px, y: w.py, verb: 'lunges after' };
+      if (back && passable(w.px, w.py) && !monsterAt(w.px, w.py) && !npcAt(w.px, w.py)) return { lunge: true, x: w.px, y: w.py, verb: 'lunges after', miss: 'lunges after you and misses' };
     }
     if ((mb.reach || 1) >= 2 && (p.x === m.x || p.y === m.y) && Math.abs(p.x - m.x) + Math.abs(p.y - m.y) === 2) {
       const mx = (p.x + m.x) / 2, my = (p.y + m.y) / 2;
-      if (passable(mx, my) && !monsterAt(mx, my)) return { verb: 'reaches across and touches' };
+      if (passable(mx, my) && !monsterAt(mx, my)) return { verb: 'reaches across and touches', miss: 'reaches across for you and misses' };
     }
     return null;
   }

@@ -25,9 +25,10 @@ const UI = (() => {
   /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], mode: string, buy: Record<string, number>|null}} */
   let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], mode: 'roll', buy: null };
   // Point buy: every score starts at 8 and 27 points raise them, dearer near
-  // the top, to 15 at most (a background's bonus goes on after). About what
-  // an average roll gives, but placed where the player wants it.
-  const BUY_COST = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9 }, BUY_POINTS = 27;
+  // the top, to 17 at most (a background's bonus goes on after). About what
+  // an average roll gives, but placed where the player wants it; 16 and 17
+  // cost dearly, so a planned hero can match a lucky roll's best score.
+  const BUY_COST = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9, 16: 12, 17: 15 }, BUY_POINTS = 27, BUY_TOP = 17;
   const buyLeft = b => BUY_POINTS - Object.values(b).reduce((n, v) => n + BUY_COST[v], 0);
   /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
   function buyStart(cls) {
@@ -320,7 +321,7 @@ const UI = (() => {
     /** @type {HTMLElement} */ ($('#c-reroll')).hidden = buying;
     const pts = /** @type {HTMLElement} */ ($('#c-points'));
     pts.hidden = !buying;
-    if (buying) pts.textContent = `${buyLeft(create.buy)} of ${BUY_POINTS} points left. Scores run from 8 to 15, dearer near the top.`;
+    if (buying) pts.textContent = `${buyLeft(create.buy)} of ${BUY_POINTS} points left. Scores run from 8 to ${BUY_TOP}, dearer near the top.`;
     const st = $('#c-stats');
     st.innerHTML = '';
     st.classList.toggle('buying', buying);
@@ -342,7 +343,7 @@ const UI = (() => {
         less.dataset.stat = more.dataset.stat = k; less.dataset.step = '-1'; more.dataset.step = '1';
         less.setAttribute('aria-label', `Lower ${STAT_NAMES[k]}`); more.setAttribute('aria-label', `Raise ${STAT_NAMES[k]}`);
         less.disabled = b[k] <= 8;
-        more.disabled = b[k] >= 15 || BUY_COST[b[k] + 1] - BUY_COST[b[k]] > buyLeft(b);
+        more.disabled = b[k] >= BUY_TOP || BUY_COST[b[k] + 1] - BUY_COST[b[k]] > buyLeft(b);
         less.addEventListener('click', () => step(-1)); more.addEventListener('click', () => step(1));
         const row = document.createElement('span'); row.className = 'buy-row';
         row.append(less, more);
@@ -479,6 +480,8 @@ const UI = (() => {
     dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
     dodgeside: '<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
     dodgelunge: '<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
+    dodgelungeflank: '<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>forward or back</b> (▲ or ▼), out of its line, and it hits empty air.',
+    lunged: 'It <b>lunged after you</b>: a rat, a ghoul or a wraith follows a step straight away from it. Step <b>out of its line</b> instead, to the side of it, and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
     trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
@@ -506,15 +509,16 @@ const UI = (() => {
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
+  let tipLunges = 0;               // how many lunges had followed the hero, as the tip came up
   let dodgeSettled = false;        // the first blow's outcome is known
   // The first fight on this device is coached. It starts with the first foe's
   // tip and ends once a warning mark has been stepped back from, or not.
   let coaching = false, coachNext = '';
   /** Tips that stay up until what they ask for is done, not for a set time. */
-  const HOLD_TIPS = ['face', 'monster', 'dodge', 'dodgeside', 'dodgelunge'];
+  const HOLD_TIPS = ['face', 'monster', 'dodge', 'dodgeside', 'dodgelunge', 'dodgelungeflank'];
   /** The first fight's steps and their verdicts: no other tip cuts in on them. */
-  const COACH_TIPS = [...HOLD_TIPS, 'dodged', 'late'];
-  const isDodge = id => id === 'dodge' || id === 'dodgeside' || id === 'dodgelunge';
+  const COACH_TIPS = [...HOLD_TIPS, 'dodged', 'late', 'lunged'];
+  const isDodge = id => id === 'dodge' || id === 'dodgeside' || id === 'dodgelunge' || id === 'dodgelungeflank';
   const HOLD_MAX = 15000;
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
@@ -533,7 +537,7 @@ const UI = (() => {
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
     tipAt = performance.now();
-    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; tipSwing = p0.nextAttack; tipHurt = p0.lastHurt || 0; dodgeSettled = false; }
+    { const p0 = Game.player(); tipFrom = `${p0.x},${p0.y},${p0.dir}`; tipSwing = p0.nextAttack; tipHurt = p0.lastHurt || 0; tipLunges = Game.state().lunges || 0; dodgeSettled = false; }
     // in a fight a tip keeps out of the way sooner
     const L = Game.level(), p = Game.player();
     const fighting = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
@@ -583,6 +587,12 @@ const UI = (() => {
     const p = Game.player();
     return Game.level().monsters.some(m => m.windup && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
   };
+  // a blow still to come down, even at a step's remove: a lunger follows, so
+  // the lesson waits for the blow itself before it says how the step went
+  const blowPending = () => {
+    const p = Game.player();
+    return Game.level().monsters.some(m => m.windup && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2);
+  };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
   const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink' };
@@ -603,11 +613,14 @@ const UI = (() => {
     checkTipsNow();
     // what a tip covers of the view, in the picture's own rows, so the
     // renderer keeps bars and warning marks out from under it
-    const el = $('#tip'), view = $('#view');
+    const el = $('#tip'), view = $('#view'), chips = $('#hud-status');
     let rows = 0;
-    if (el && view && el.classList.contains('show')) {
-      const t = el.getBoundingClientRect(), v = view.getBoundingClientRect();
-      if (v.height > 0) rows = (t.bottom - v.top + 3) / v.height * Renderer.H;
+    const v = view ? view.getBoundingClientRect() : null;
+    if (el && v && v.height > 0 && el.classList.contains('show')) rows = (el.getBoundingClientRect().bottom - v.top + 3) / v.height * Renderer.H;
+    // the status chips along the top of the view hide a mark as surely as a tip does
+    if (chips && v && v.height > 0 && chips.children.length) {
+      const c = chips.getBoundingClientRect();
+      if (c.bottom > v.top && c.top < v.top + v.height * 0.5) rows = Math.max(rows, (c.bottom - v.top + 2) / v.height * Renderer.H);
     }
     Renderer.keepTopClear(rows);
   }
@@ -619,9 +632,10 @@ const UI = (() => {
     const wants = el && G0 && G0.status === 'playing' ? {
       face: () => { const m = firstFoe(); return !!m && !inFront(m); },
       monster: () => Game.player().nextAttack === tipSwing && !!firstFoe(),
-      dodge: blowComing,
-      dodgeside: blowComing,
-      dodgelunge: blowComing,
+      dodge: blowPending,
+      dodgeside: blowPending,
+      dodgelunge: blowPending,
+      dodgelungeflank: blowPending,
     }[el.dataset.tip || ''] : null;
     // How the step back went is settled the moment that first blow is done
     // with: stung by it, or moved out from under it. A foe killed, fled or
@@ -629,7 +643,8 @@ const UI = (() => {
     // would let the next blow, a second later, answer for the first.)
     if (el && el.classList.contains('show') && isDodge(el.dataset.tip || '') && coaching && !dodgeSettled && wants && !wants()) {
       const p2 = Game.player();
-      coachNext = (p2.lastHurt || 0) > tipHurt ? 'late' : `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : '';
+      // a lunge that followed the step is no dodge, even when its roll missed
+      coachNext = (Game.state().lunges || 0) > tipLunges ? 'lunged' : (p2.lastHurt || 0) > tipHurt ? 'late' : `${p2.x},${p2.y}` !== tipFrom.split(',').slice(0, 2).join(',') ? 'dodged' : '';
       if (!coachNext) coaching = false;
       dodgeSettled = true;
     }
@@ -705,14 +720,17 @@ const UI = (() => {
       else if (seenTip('lesson:dodge') && !seenTip('dodge') && !seenTip('dodgeside') && blowComing()) {
         // a wall behind, or a rat that pounces after a step back: say to step
         // aside, if there is room to either side
-        const lunger = Game.level().monsters.some(m => m.windup && !m.windup.move && MONSTERS[m.id].lunge && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+        const lunger = Game.level().monsters.find(m => m.windup && !m.windup.move && MONSTERS[m.id].lunge && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
         const aside = canStep(1) || canStep(3);
-        const id = lunger && aside ? 'dodgelunge' : !canStep(2) && aside ? 'dodgeside' : 'dodge';
+        // out of a lunger's line is sideways to it: a strafe if it is ahead, a step forward or back if it is at your side
+        const [fx, fy] = Dungeon.DIRS[p.dir];
+        const flank = !!lunger && (lunger.x - p.x) * fx + (lunger.y - p.y) * fy === 0;
+        const id = lunger && flank && (canStep(0) || canStep(2)) ? 'dodgelungeflank' : lunger && !flank && aside ? 'dodgelunge' : !canStep(2) && aside ? 'dodgeside' : 'dodge';
         if (showTip(id, true)) {
           coaching = true;
           // a fast foe's first blow can come before the strike was taught:
           // the lesson goes on from here rather than back to it
-          markSeen('dodge'); markSeen('dodgeside'); markSeen('dodgelunge'); markSeen('monster'); markSeen('face');
+          markSeen('dodge'); markSeen('dodgeside'); markSeen('dodgelunge'); markSeen('dodgelungeflank'); markSeen('monster'); markSeen('face');
           return;
         }
       }
@@ -1305,7 +1323,10 @@ const UI = (() => {
         const btn = document.createElement('button');
         btn.className = 'boon spread-stat' + (CLASSES[p.cls].primary === k ? ' key' : '');
         btn.dataset.stat = k;
-        btn.innerHTML = `<b>${escapeHtml(STAT_NAMES[k])}</b><small>${v} (${m >= 0 ? '+' : ''}${m})</small>`;
+        // which taps move a bonus: a point onto an odd score raises it
+        const up = Game.mod(v + 1) > m;
+        btn.innerHTML = `<b>${escapeHtml(STAT_NAMES[k])}</b><small>${v} (${m >= 0 ? '+' : ''}${m})${up ? ` \u2192 ${m + 1 >= 0 ? '+' : ''}${m + 1}` : ''}</small>`;
+        if (up) btn.classList.add('raises');
         btn.addEventListener('click', () => {
           picks.push(k);
           if (picks.length < b.spread) { draw(); return; }
@@ -1876,7 +1897,9 @@ const UI = (() => {
     r('Hero level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
     r('Hit points', `${p.hp} / ${p.maxHp}`); r('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '—');
     r('Armour class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
-    r('Weapon', `${w.name} ${w.dmg[0]}d${w.dmg[1]}${w.dmg[2] ? '+' + w.dmg[2] : ''}${w.e > 0 ? ' +' + w.e : w.e < 0 ? ' \u2212' + -w.e : ''}`, true);
+    // named as the pack names it, and the damage one figure with the make folded in, as the pack shows it
+    const wAdd = w.dmg[2] + w.e + (w.px === 'heavy' ? 1 : 0), wIt = Game.player().eq.weapon;
+    r('Weapon', `${wIt ? Game.itemName(wIt).replace(/ [+\u2212−]\d+$/, '') : 'Fists'} ${w.dmg[0]}d${w.dmg[1]}${wAdd > 0 ? '+' + wAdd : wAdd < 0 ? '\u2212' + -wAdd : ''}`, true);
     r('Gold', p.gold);
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
     r('Kills', p.kills); r('Steps', p.steps);

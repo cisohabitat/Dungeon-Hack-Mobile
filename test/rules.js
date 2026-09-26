@@ -4767,32 +4767,40 @@ await test('a hero ahead of the usual finds the next floor readier for them; one
     const { Game } = ctx;
     Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed, opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
     Game.player().level = level;
+    // the deep stirs from the third floor down, not before
+    Game.level().monsters.length = 0; goDown(ctx);
+    Game.player().level = level;
     const mark = markLog(Game.state());
-    goDown(ctx);
+    Game.level().monsters.length = 0; goDown(ctx);
     const L = Game.level();
     return { press: L.press || 0, hp: L.monsters.reduce((n, m) => n + m.maxHp + (m.pack || []).reduce((a, b) => a + b.maxHp, 0), 0),
       champions: L.monsters.filter(m => m.elite).length, said: linesSince(Game.state(), mark) };
   };
-  const onPace = await floorOf(2), ahead = await floorOf(5);
-  if (onPace.press) return `a level 2 hero on floor 2 pressed ${onPace.press}`;
-  if (!(ahead.press >= 2.5)) return `a level 5 hero on floor 2 pressed only ${ahead.press}`;
+  const onPace = await floorOf(3), ahead = await floorOf(6);
+  if (onPace.press) return `a level 3 hero on floor 3 pressed ${onPace.press}`;
+  if (!(ahead.press >= 2.5)) return `a level 6 hero on floor 3 pressed only ${ahead.press}`;
+  // and never on the second floor, however quick the start
+  { const c2 = await newContext(); c2.Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'press', opts: { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' } });
+    c2.Game.player().level = 6; goDown(c2);
+    if (c2.Game.level().press) return `a level 6 hero on floor 2 was pressed ${c2.Game.level().press}`; }
   if (!(ahead.hp > onPace.hp * 1.3)) return `its creatures held ${ahead.hp} life against ${onPace.hp}`;
   // champions are a chance each, so count them over a few floors
   let more = 0, same = 0;
-  for (const seed of ['press', 'press-b', 'press-c', 'press-d']) { more += (await floorOf(5, seed)).champions; same += (await floorOf(2, seed)).champions; }
+  for (const seed of ['press', 'press-b', 'press-c', 'press-d']) { more += (await floorOf(6, seed)).champions; same += (await floorOf(3, seed)).champions; }
   if (!(more > same)) return `${more} champions against ${same} over four floors`;
   if (!ahead.said.some(l => /The deep has heard of you/.test(l))) return 'the hero was not told';
   return true;
 });
 
 await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy leaves more about and never presses; old runs are Normal', async () => {
-  const floor = async (difficulty, level = 1) => {
+  const floor = async (difficulty, level = 1, deeper = false) => {
     const ctx = await newContext();
     const { Game } = ctx;
     const opts = { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' };
     if (difficulty) opts.difficulty = difficulty;
     Game.newGame({ name: 'D', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'diff', opts });
     Game.player().level = level;
+    if (deeper) { Game.level().monsters.length = 0; goDown(ctx); Game.player().level = level; Game.level().monsters.length = 0; }
     goDown(ctx);
     const L = Game.level();
     const items = Object.values(L.items).reduce((n, list) => n + list.length, 0);
@@ -4820,7 +4828,7 @@ await test('difficulty: Hard is sturdier and surer with two rests a floor; Easy 
     const m = Game.level().monsters.find(x => !x.elite);
     if (m && Game.mstat(m).hit !== ctx.MONSTERS[m.id].hit) return `a ${m.id} on the first floor hits at +${Game.mstat(m).hit} on Normal`; }
   // a strong hero on Easy is not pressed
-  const strongEasy = await floor('easy', 6), strongNormal = await floor('normal', 6);
+  const strongEasy = await floor('easy', 7, true), strongNormal = await floor('normal', 7, true);
   if (strongEasy.L.press) return `Easy pressed a strong hero ${strongEasy.L.press}`;
   if (!strongNormal.L.press) return 'Normal did not press a strong hero';
   return true;
@@ -6689,7 +6697,7 @@ await test('a lunger follows a step straight back, but a step aside leaves it bi
   const back = await trial('ghoul', 'back');
   if (back.err) return back.err;
   if (!back.into) out.push(`a ghoul did not lunge into the square left (${back.said})`);
-  if (!/Ghoul (lunges after you|misses you)/.test(back.said)) out.push(`a ghoul's lunge said: ${back.said}`);
+  if (!/Ghoul lunges after you/.test(back.said)) out.push(`a ghoul's lunge said: ${back.said}`);
   const side = await trial('ghoul', 'side');
   if (side.moved || !/swings at the air/.test(side.said)) out.push(`a ghoul followed a step aside: ${side.said}`);
   const gob = await trial('goblin', 'back');
@@ -6711,7 +6719,7 @@ await test('the lich\'s touch reaches two squares down a straight line, not roun
     const mark = markLog(G);
     for (let i = 0; i < 60 && !linesSince(G, mark).some(l => /Lich/.test(l)); i++) Game.update(G.t + 25, 25);
     const said = linesSince(G, mark).join(' | ');
-    if (how === 'back' && !/Lich (reaches across and touches you|misses you)/.test(said)) out.push(`a step back escaped the lich: ${said}`);
+    if (how === 'back' && !/Lich reaches across (and touches you|for you and misses)/.test(said)) out.push(`a step back escaped the lich: ${said}`);
     if (how === 'side' && !/swings at the air/.test(said)) out.push(`the lich reached round a step aside: ${said}`);
   }
   return out.length ? out.join('; ') : true;

@@ -584,12 +584,13 @@ test.describe('dungeon features', () => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'coached' });
     await clearBoons(page);
-    // a rat awake on the hero's right, so the first step is to turn to it
+    // a goblin awake on the hero's right, so the first step is to turn to it (a rat would
+    // pounce after the step back; it has a lesson of its own)
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4], [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4];
       L.tiles[(p.y + ry) * L.w + p.x + rx] = Dungeon.T.FLOOR; L.tiles[(p.y + by) * L.w + p.x + bx] = Dungeon.T.FLOOR;
       L.monsters.length = 0;
-      L.monsters.push({ uid: 96, id: 'rat', x: p.x + rx, y: p.y + ry, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      L.monsters.push({ uid: 96, id: 'goblin', x: p.x + rx, y: p.y + ry, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
     });
     await expect(page.locator('#tip')).toContainText('Turn to face it', { timeout: 2000 });
     await page.evaluate(() => Game.input('right'));
@@ -633,7 +634,7 @@ test.describe('dungeon features', () => {
     // the lesson is settled by that first blow: once the warning tip goes,
     // a blow that landed has been called too slow; one that missed (a
     // natural one always does) teaches nothing, and says nothing
-    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || !['dodge', 'dodgeside', 'dodgelunge'].includes(t.dataset.tip); }), { timeout: 10000 }).toBe(true);
+    await expect.poll(() => page.evaluate(() => { const t = document.getElementById('tip'); return !t.classList.contains('show') || !['dodge', 'dodgeside', 'dodgelunge', 'dodgelungeflank'].includes(t.dataset.tip); }), { timeout: 10000 }).toBe(true);
     const shown = await page.evaluate(() => { const t = document.getElementById('tip'); return t.classList.contains('show') ? t.dataset.tip : ''; });
     if (shown === 'late') expect(await page.evaluate(h => (Game.player().lastHurt || 0) > h, hurt0)).toBe(true);
     else expect(shown).not.toBe('dodged');
@@ -708,6 +709,32 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#tip.show')).toContainText('lunges after a step back', { timeout: 3000 });
     await page.evaluate(() => Game.input('strafeR'));
     await expect(page.locator('#tip.show')).toContainText('hit empty air', { timeout: 4000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('a rat at your side is taught with a step forward or back, and a lunge that follows a step away is called a lunge', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'coached-flank' });
+    await clearBoons(page);
+    // first the strike lesson, with the rat ahead, so the step lesson is owed
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), T = Dungeon.T, D = Dungeon.DIRS;
+      const [dx, dy] = D[p.dir], [rx, ry] = D[(p.dir + 1) % 4], [lx, ly] = D[(p.dir + 3) % 4];
+      for (const [x, y] of [[p.x + dx, p.y + dy], [p.x - dx, p.y - dy], [p.x + rx, p.y + ry], [p.x + lx, p.y + ly]]) L.tiles[y * L.w + x] = T.FLOOR;
+      L.monsters.length = 0; p.hp = p.maxHp = 500;
+      L.monsters.push({ uid: 93, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, spoke: true, nextAct: G.t + 1e9, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('tap ⚔ Attack', { timeout: 2000 });
+    // now it is at the hero's right, winding up
+    await page.evaluate(() => {
+      const p = Game.player(), m = Game.level().monsters[0], [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4];
+      m.x = m.rx = m.fromX = p.x + rx; m.y = m.ry = m.fromY = p.y + ry; m.nextAct = Game.state().t;
+    });
+    await expect(page.locator('#tip.show')).toContainText('forward or back', { timeout: 3000 });
+    // stepping straight away from it (to the left) is followed, and the lesson says so
+    await page.evaluate(() => Game.input('strafeL'));
+    await expect(page.locator('#tip.show')).toContainText('lunged after you', { timeout: 4000 });
+    expect(await page.evaluate(() => Game.state().log.map(e => e.m).join(' '))).toMatch(/Giant Rat lunges after you/);
     expect(errors).toEqual([]);
   });
 

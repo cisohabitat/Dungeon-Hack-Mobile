@@ -673,3 +673,4 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .buy-row { display: flex; gap: 4px; }
 .buy-step { min-width: 44px; min-height: 36px; padding: 0; font-size: 1.1rem; }
 .points-left { margin: 4px 0 0; }
+.spread-grid .boon.raises small { color: #9ee08a; }

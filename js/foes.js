@@ -90,8 +90,9 @@ export function makeFoes(K) {
     K.hurtPlayer(dmg, `The ${mb.name} ${r.verb} you${aside} for ${dmg}.${warm ? ` (${K.warmthFrom()} keeps out the cold)` : ''}${note}`, m);
   }
   /** @param {{hit?: number, mult?: number, extra?: number[], verb?: string, sure?: boolean}} [heavy]  a trick's blow: surer and harder; a sure one was warned of, and armour does not turn it
-   * @param {string} [verb]  how a plain blow lands, when it is not a plain hit (a lunge, a reach) */
-  function monsterAttack(m, heavy, verb) {
+   * @param {string} [verb]  how a plain blow lands, when it is not a plain hit (a lunge, a reach)
+   * @param {string} [missed]  and how it misses: a lunge that misses is still a lunge */
+  function monsterAttack(m, heavy, verb, missed) {
     const p = K.P(), mb = K.mstat(m), h = heavy || {};
     m.lungeAt = K.realNow;
     K.meet(m);
@@ -107,7 +108,7 @@ export function makeFoes(K) {
       const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (ITEMS[p.eq.shield.t].focus ? 0 : p.eq.shield.e || 0);
       Sound.play(onShield ? 'block' : 'whiff', K.heard(m));
       const miss = K.relativeBearing(m);
-      K.log(`The ${mb.name} misses you${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
+      K.log(`The ${mb.name} ${missed || 'misses you'}${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
       if (miss && miss.rel !== 0) { K.fx.hurtFrom = miss.rel; K.fx.hurtFromUntil = K.realNow + 700; }
       return false;
     }

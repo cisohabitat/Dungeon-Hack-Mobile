@@ -207,6 +207,7 @@
  * @property {Player} player
  * @property {Object<number, Level>} levels
  * @property {number} depth
+ * @property {number} [lunges]  how many lunges have followed the hero this run: the first-fight lesson reads it
  * @property {Record<string, number>} [threads]  choices that follow the hero down: each kept with the floor it was made on (see threads in game.js)
  * @property {Array<{m: string, c: string, base?: string, n?: number, notes?: Record<string, string[]>, gone?: boolean, at?: number}>} log
  * @property {number} logSeq  messages ever written; the log array itself is capped

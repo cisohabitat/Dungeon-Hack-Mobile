@@ -84,7 +84,7 @@ test.describe('rest and the quick drink', () => {
 });
 
 test.describe('point buy', () => {
-  test('scores can be bought from 27 points instead of rolled, and the hero starts with them', async ({ page }) => {
+  test('scores can be bought from 27 points instead of rolled, up to 17, and the hero starts with them', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.click('#btn-new');
@@ -94,15 +94,18 @@ test.describe('point buy', () => {
     await expect(page.locator('#c-points')).toContainText('5 of 27 points left');
     await page.click('.buy-step[data-stat="dex"][data-step="1"]');
     await expect(page.locator('#c-points')).toContainText('4 of 27 points left');
-    // nothing past 15, and nothing below 8
+    // 16 and 17 cost three points each: one fits, the next does not
+    await page.click('.buy-step[data-stat="str"][data-step="1"]');
+    await expect(page.locator('#c-points')).toContainText('1 of 27 points left');
     await expect(page.locator('.buy-step[data-stat="str"][data-step="1"]')).toBeDisabled();
+    // and nothing below 8
     await expect(page.locator('.buy-step[data-stat="cha"][data-step="-1"]')).toBeDisabled();
     await page.fill('#c-seed', 'bought');
     await page.click('#c-begin');
     await page.click('#pro-begin');
     await expect(page.locator('#screen-game')).toBeVisible();
     const s = await page.evaluate(() => Game.player().stats);
-    expect(s.str).toBe(15); expect(s.dex).toBe(11); expect(s.cha).toBe(8);
+    expect(s.str).toBe(16); expect(s.dex).toBe(11); expect(s.cha).toBe(8);
     expect(errors).toEqual([]);
   });
 });
