@@ -1748,7 +1748,7 @@ await test('the fifth circle comes at seventh level; a mage starts with more lif
   if (Game.spellLevel(cone) !== 7 || Game.spellLevel(bolt) !== 5) return `cone ${Game.spellLevel(cone)}, lightning ${Game.spellLevel(bolt)}`;
   Game.newGame({ name: 'M', cls: 'mage', bg: 'tombwise', stats: { ...evenStats }, seed: 'mage-hp', opts: { ...OPTS } });
   const mageHp = Game.player().maxHp;
-  if (mageHp !== Math.max(10, CLASSES.mage.hitDie + 6 + 4 + Game.mod(evenStats.con))) return `a mage starts with ${mageHp}`;
+  if (mageHp !== Math.max(10, CLASSES.mage.hitDie + 6 + CLASSES.mage.startHp + Game.mod(evenStats.con))) return `a mage starts with ${mageHp}`;
   let early = 0;
   for (let i = 0; i < 10; i++) for (const depth of [5, 6]) if (ctx.Dungeon.generate(`ogre-${i}`, depth, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'ogre')) early++;
   return early === 0 || `ogres on floors 5-6 of eight, ${early} times`;
@@ -6906,7 +6906,7 @@ await test('the guildsman you dug out marks the next floor; the captive you free
   Game.level().monsters.length = 0; Game.descend();
   if (!Game.level().explored.some(v => !v)) out.push('the guildsman marked a second floor too');
   Game.level().monsters.length = 0; Game.descend();
-  if (!(p.effects.boon_hit && p.effects.boon_hit.amount === 2)) out.push('the buried crew did not sing on the last floor');
+  if (!(p.effects.crew_hit && p.effects.crew_hit.amount === 2)) out.push('the buried crew did not sing on the last floor');
   const epi = Game.epilogue(true).join(' ');
   for (const w of ['goblin chains', 'rubble', 'third crew']) if (!epi.includes(w)) out.push(`the epilogue forgot ${w}`);
   if (!Game.threadNotes().length) out.push('the hero sheet has nothing to say');
@@ -6925,6 +6925,31 @@ await test('Self-Taught puts its two points where the player says, and nowhere u
   G.pendingBoons = [['spread', 'vigor', 'keen']]; G.pendingLevels = [5];
   Game.chooseBoon('spread', ['str', 'str']);
   return p.stats.str === str + 3 || `both points on Strength made it ${p.stats.str}, not ${str + 3}`;
+});
+
+await test('review fixes: no rest beside a smoked foe; a hero\'s scores are their own; the crew\'s song outlasts the lamp', async () => {
+  const out = [];
+  // Smoke, then Rest: the foe is still there
+  const t = await start('thief', 'smoke-rest');
+  { const { Game } = t; const p = Game.player(); p.hp = 3;
+    beside(t, 'goblin', { nextAct: Game.state().t + 1e9 });
+    Game.useAbility();
+    if (Game.rest() !== false || p.hp !== 3) out.push('a thief rested beside a foe lost in smoke');
+    if (Game.restLabel() !== 'Foes near') out.push(`the Rest button said ${Game.restLabel()} beside a smoked foe`); }
+  // the hero's scores are a copy of what was chosen
+  const c = await newContext();
+  { const stats = { str: 15, dex: 10, con: 14, int: 10, wis: 10, cha: 8 };
+    c.Game.newGame({ name: 'S', cls: 'fighter', bg: 'ashborn', stats, seed: 'copy', opts: { ...OPTS } });
+    if (c.Game.player().stats === stats || stats.con !== 14) out.push('the hero shares its scores with the create screen'); }
+  // the crew's +2 and the lamp's +3 together
+  const f = await start('fighter', 'crew-lamp', { levels: 3 });
+  { const { Game } = f; const G = Game.state(); G.threads = { crew: 1 };
+    Game.level().monsters.length = 0; Game.descend(); Game.level().monsters.length = 0; Game.descend();
+    const before = Game.effect('hit');
+    Game.player().gold = 5000;
+    meetAndChoose(f, 'vigil', 1);
+    if (Game.effect('hit') !== before + 3) out.push(`with the crew's song and the lamp, +${Game.effect('hit')} to hit, not ${before + 3}`); }
+  return out.length ? out.join('; ') : true;
 });
 
 await test('the log calls a named champion by its name, not its title, except where the name is given', async () => {

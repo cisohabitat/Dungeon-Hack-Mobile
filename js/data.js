@@ -167,7 +167,7 @@ const PATH_LEVEL = 5;
 const VOWS = {
   iron:    { name: 'Iron Vow',     desc: 'No rest until the Heart is won: the Rest button and the trader\'s lamp are closed to you.' },
   pauper:  { name: 'Pauper\'s Vow', desc: 'No trader will deal with you: no buying, selling or forge work.' },
-  unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer and scrolls alone.' },
+  unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer, scrolls and the fountains alone.' },
 };
 const PATHS = {
   fighter: [
@@ -245,7 +245,7 @@ const CLASSES = {
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
-    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 4, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
+    name: 'Mage', plural: 'Mages', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },

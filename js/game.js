@@ -49,7 +49,7 @@ const Game = (() => {
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
     fxGen++;
-    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1;
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0;
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
@@ -76,25 +76,26 @@ const Game = (() => {
   /** The Pale One's strength, for the rest of the run. */
   const bargained = () => (G && G.threads && G.threads.bargain ? 1 : 0);
   /** A trader below the captive you freed has heard of you: a sixth off. */
-  const vouched = () => (G && G.threads && G.threads.captive && G.depth > G.threads.captive ? 0.15 : 0);
+  const vouched = () => (G && G.threads && G.threads.captive && G.depth > G.threads.captive ? 1 / 6 : 0);
   /** Arriving on a floor for the first time: whatever a thread has waiting here. */
-  function threadArrivals(L, depth) {
+  function threadArrivals(L, depth, fresh = true) {
     const t = threads();
     if (t.guide && depth > t.guide && !t.guided) {
       t.guided = depth; L.explored.fill(1);
       log('Chalk arrows on the stair wall: the guildsman you dug out came this way, and marked the whole floor for you.', 'good');
     }
-    if (L.isFinal && t.crew) {
-      const p = P(); p.effects.boon_hit = { amount: 2, until: G.t + 600000 };
+    if (L.isFinal && t.crew && !t.sung) {
+      t.sung = 1;
+      const p = P(); p.effects.crew_hit = { amount: 2, until: G.t + 600000 };
       log('On the last stair you hear, faint as breath, a crew\'s marching song. The dead you buried have not forgotten you (+2 to hit).', 'good');
     }
-    if (L.isFinal && t.bargain) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: the lich is the stronger for your bargain.', 'bad');
+    if (L.isFinal && t.bargain && fresh) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: the lich is the stronger for your bargain.', 'bad');
   }
   /** What the hero carries from their choices, for the hero sheet. */
   function threadNotes() {
     const t = G.threads || {}, out = [];
     if (t.guide) out.push(t.guided ? `The guildsman you dug out marked floor ${t.guided} for you.` : 'The guildsman you dug out has gone ahead to mark the way.');
-    if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less.');
+    if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less for their wares.');
     if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
     if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. The lich will be the stronger for it.');
     return out;
@@ -436,14 +437,15 @@ const Game = (() => {
     const p = P();
     if (!p.eq.offhand) return null;
     const b = ITEMS[p.eq.offhand.t];
-    return { name: b.name, dmg: b.dmg, e: p.eq.offhand.e || 0, blunt: !!b.blunt };
+    return { name: b.name, dmg: b.dmg, e: p.eq.offhand.e || 0, px: p.eq.offhand.px || '', blunt: !!b.blunt };
   }
   /** Whether an effect is on, and was put there by this spell (not a shrine's blessing). */
   function effectFrom(name, spell) { const e = P().effects[name]; return !!(e && e.until > G.t && e.src === spell); }
   // A blessing bought or prayed for (the vigil lamp, a shrine) keeps its own
   // slot beside a spell's, and the two add: casting Shield must not wipe out
   // minutes of a ward paid for in gold, nor the ward Shield's own powers.
-  function effect(name) { return ownEffect(name) + ownEffect('boon_' + name); }
+  // the buried crew's song is its own blessing, and a lamp's or a shrine's does not drown it
+  function effect(name) { return ownEffect(name) + ownEffect('boon_' + name) + ownEffect('crew_' + name); }
   function ownEffect(name) {
     const e = P().effects[name];
     return e && e.until > G.t ? e.amount : 0;
@@ -1248,6 +1250,7 @@ const Game = (() => {
     const list = L.items[k] || [];
     const i = list.indexOf(it);
     if (i < 0) return;
+    const was = it.left;
     delete it.left;
     if (it.t === 'gold' || it.t === 'gem') { it.q = tricksterPurse(it.q); noteGold(it.q); }
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
@@ -1276,6 +1279,8 @@ const Game = (() => {
     }
     else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); }
     else { log('Your pack is full: drop something first.', 'bad'); }
+    // still lying there (a full pack, a full belt): still the hero's own, left where it was put
+    if (was && list.includes(it)) it.left = was;
     if (!list.length) delete L.items[k];
     emit('inv');
   }
@@ -1354,7 +1359,7 @@ const Game = (() => {
     // a background still locked (or a stale choice) falls back to the first
     const bg = BACKGROUNDS[cfg.bg] && Progress.bgOpen(cfg.bg) ? cfg.bg : 'oathbroken';
     const p = {
-      name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: cfg.stats, level: 1, xp: 0,
+      name: (cfg.name || '').trim() || 'Adventurer', cls: cfg.cls, bg, stats: { ...cfg.stats }, level: 1, xp: 0,
       maxHp: 0, hp: 0, maxSp: 0, sp: 0, food: 100, gold: 0,
       inv: [], eq: { weapon: null, armor: null, shield: null, offhand: null, ring: null, ring2: null, amulet: null, cloak: null }, effects: {}, poison: null,
       x: 0, y: 0, dir: 0, nextAttack: 0, kills: 0, steps: 0, deepest: 1,
@@ -1415,7 +1420,7 @@ const Game = (() => {
       else log(THEMES[L.theme].flavor, 'info');
       if (L.isFinal) log('A dreadful presence waits somewhere on this level.', 'bad');
       namedArrives(L);
-      if (fresh) threadArrivals(L, depth);
+      threadArrivals(L, depth, fresh);
     } else log(`You climb back up to level ${depth}.`, 'info');
     emit('level');
     checkTile();
@@ -1750,7 +1755,7 @@ const Game = (() => {
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
-    if (r) return Math.round(r.value * shop.markup * (1 - charm()));
+    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()));
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
@@ -1855,7 +1860,12 @@ const Game = (() => {
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
-      if (e.thread && !threads()[e.thread]) { threads()[e.thread] = G.depth; if (THREAD_SAID[e.thread]) out.push(THREAD_SAID[e.thread]); }
+      if (e.thread && !threads()[e.thread]) {
+        threads()[e.thread] = G.depth;
+        if (THREAD_SAID[e.thread]) out.push(THREAD_SAID[e.thread]);
+        // a bargain struck after the last floor was already seen still comes due there
+        if (e.thread === 'bargain') for (const lv of Object.values(G.levels)) if (lv.isFinal) for (const m of lv.monsters) if (MONSTERS[m.id].boss) { m.maxHp = Math.round(m.maxHp * 1.3); m.hp = Math.round(m.hp * 1.3); }
+      }
       if (e.goldPerDepth) {
         const n = e.goldPerDepth * G.depth;
         if (n > 0) { p.gold += n; out.push(`+${n} gold`); }
@@ -2171,13 +2181,14 @@ const Game = (() => {
     fx.offAt = realNow + Math.round((fx.swingMs || 300) * 0.4);
     const mb = mstat(m);
     const roll = d(1, 20);
-    const note = rollNote(roll, toHit() - penalty, mb.ac, false);
-    if (roll === 1 || roll + toHit() - penalty < mb.ac) {
+    const hit = toHit() - penalty + (o.px === 'true' ? 1 : 0);
+    const note = rollNote(roll, hit, mb.ac, false);
+    if (roll === 1 || roll + hit < mb.ac) {
       log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
     // a Ring of Might and a Berserker's rage promise every blow, and this is one
-    const dmg = Math.max(1, d(...o.dmg) + o.e + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand'));
+    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand'));
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
@@ -2955,7 +2966,7 @@ const Game = (() => {
   function bash(a, p) {
     const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
     if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
-    const mb = mstat(m), shield = !!(p.eq.shield && !ITEMS[p.eq.shield.t].focus);
+    const mb = mstat(m), shield = !!(p.eq.shield && !ITEMS[p.eq.shield.t].focus), what = shield ? 'shield' : p.eq.weapon ? 'pommel' : 'fist';
     // any blow or trick it was drawing back is broken off; the lich's rite goes on through it
     const rite = !!(m.windup && m.windup.move === 'rite');
     const broke = !rite && !!(m.windup || m.volley);
@@ -2963,11 +2974,11 @@ const Game = (() => {
     m.pressing = false;
     // a shield rings a foe harder than a pommel; a Knight's sets it back further still
     const stagger = (shield ? 800 : 500) + (onPath('knight') ? 700 : 0);
-    m.nextAct = Math.max(m.nextAct, G.t + (mb.boss ? stagger / 2 : stagger));
+    if (!rite) m.nextAct = Math.max(m.nextAct, G.t + (mb.boss ? stagger / 2 : stagger));
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
     Sound.play('block', heard(m));
-    log(`You bash the ${mb.name} with your ${shield ? 'shield' : 'pommel'}${broke ? ' and break off its blow' : ''}. It reels back!`, 'good');
+    log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
     // a Berserker puts weight behind it: the bash is a blow of its own
     if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
     return true;
@@ -2983,7 +2994,10 @@ const Game = (() => {
       m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
-      m.awake = false; m.fleeing = false; m.nextAct = G.t + 400; lost++;
+      if (m.awake) lost++;
+      m.awake = false; m.smoked = true; m.fleeing = false; m.nextAct = G.t + 400;
+      // and a zombie's grip loosens as it loses you
+      if (p.grabbed && p.grabbed.uid === m.uid) p.grabbed = null;
     }
     p.smokeUntil = G.t + (onPath('assassin') ? 4500 : SMOKE_MS);
     p.abilityReady = G.t + abilityCool(a);
@@ -3042,7 +3056,8 @@ const Game = (() => {
   function enemiesNear() {
     const L = lvl();
     ensureDist();
-    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return m.awake && dd >= 0 && dd <= 5; });
+    // one lost in a thief's smoke is still there, and no one sleeps beside it
+    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return (m.awake || m.smoked) && dd >= 0 && dd <= 5; });
   }
   /**
    * What the Rest button will do: rest, saying how well once rests here grow
@@ -3051,6 +3066,7 @@ const Game = (() => {
    */
   function restLabel() {
     if (!G || G.status !== 'playing') return 'Rest';
+    if (vowed('iron')) return 'Vowed';
     if (enemiesNear()) return 'Foes near';
     const share = restShare();
     return share >= 1 ? 'Rest' : share >= 0.5 ? 'Rest \u00bd' : share > 0 ? 'Rest \u00bc' : 'No rest';
@@ -3255,7 +3271,7 @@ const Game = (() => {
         // the damage. Give the growl a beat to be heard and turned toward.
         // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
         if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
-          m.awake = true; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
+          m.awake = true; m.smoked = false; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
           if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
           meet(m);
           // woken right beside you, its first blow is already being drawn back
@@ -3817,7 +3833,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     INV_MAX, T,

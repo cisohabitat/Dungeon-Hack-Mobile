@@ -281,7 +281,7 @@ const UI = (() => {
       b.type = 'button';
       b.setAttribute('aria-pressed', String(id === create.cls));
       b.innerHTML = `<b>${c.name}</b><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
-      b.addEventListener('click', () => { create.cls = id; fitStats(); buildCreate(); });
+      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy') create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
     const bgGrid = $('#c-backgrounds');
@@ -362,6 +362,7 @@ const UI = (() => {
     create.stats = st;
   }
   function openCreation() {
+    create.buy = null;   // a new hero's points are its own, not the last one's
     create.rolled = Game.rollStats();
     fitStats();
     buildCreate();
@@ -879,7 +880,7 @@ const UI = (() => {
   function refreshQuaff() {
     const p = Game.player();
     // a caster's Cast button casts and a fighter's or thief's is their own move, so the bottle is here for everyone
-    const drinks = !!CLASSES[p.cls].spells || !!Game.abilityOf();
+    const drinks = (!!CLASSES[p.cls].spells || !!Game.abilityOf()) && !Game.vowed('unaided');
     const n = drinks ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
     const sig = `${drinks}|${n}`;
     if (sig === quaffSig) return;
@@ -904,7 +905,7 @@ const UI = (() => {
       btn.firstChild.nodeValue = a.id === 'bash' ? '\u26E8' : '\u2601';
       btn.classList.toggle('empty', cooling);
       btn.querySelector('small').textContent = label;
-      btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and leave it open' : 'Smoke: everything close loses you for a few seconds');
+      btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and set it reeling' : 'Smoke: everything close loses you for a few seconds');
       return;
     }
     // the spell-less quaff instead, and the button dims with nothing known to drink
@@ -1698,10 +1699,10 @@ const UI = (() => {
     }
     // a focus is not measured in armour: its own words say what it does
     if (b.focus || (cur && ITEMS[cur.t].focus)) return '';
-    const acOf = item => (item ? ITEMS[item.t].ac + knownE(item) : 0);
+    const acOf = item => (item ? ITEMS[item.t].ac + knownE(item) + (item.px === 'sturdy' && !item.h ? 1 : 0) : 0);
     delta = acOf(it) - acOf(cur);
     label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs nothing worn';
-    return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armor class</p>`;
+    return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armour class</p>`;
   }
 
   // Colours and shapes the legend below the map also uses, so the two cannot

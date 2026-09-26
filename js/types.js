@@ -105,6 +105,7 @@
  * @property {number} [burnUntil]  a troll's burns: no regrowth until then
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
+ * @property {boolean} [smoked]   lost in a thief's smoke: asleep to them, but still there
  * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
  * @property {number} [rallies]    how many times a named champion has tried to call its kin
  * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close

@@ -514,7 +514,7 @@ test.describe('interface', () => {
     await page.locator('#inv-grid .slot.filled', { hasText: 'Two-handed Sword' }).first().click();
     await expect(page.locator('.compare')).toContainText(/damage per second/);
     await page.locator('#inv-grid .slot.filled', { hasText: 'Plate Mail' }).first().click();
-    await expect(page.locator('.compare')).toContainText(/armor class/);
+    await expect(page.locator('.compare')).toContainText(/armour class/);
   });
 });
 
