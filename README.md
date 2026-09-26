@@ -293,4 +293,4 @@ test/server.js    dependency-free static server
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
