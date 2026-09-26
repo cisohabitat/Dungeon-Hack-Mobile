@@ -3,7 +3,7 @@ import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LE
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
-import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan } from './relics.js';
+import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan, routeRelic } from './relics.js';
 import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
@@ -548,6 +548,7 @@ const Game = (() => {
   function discoverRelic(id) {
     if (!G.relics || G.relics.found.includes(id)) return;
     G.relics.found.push(id);
+    G.known[RELICS[id].t] = 1;   // a named ring or amulet says what it was made for
     const had = Progress.load().feats.collector;
     Progress.noteRelic(id);   // the codex remembers it after the run
     log(RELICS[id].lore, 'info');
@@ -591,42 +592,47 @@ const Game = (() => {
   /**
    * Lay this floor's relic on the pile furthest from the way in, which is
    * often a vault's reward, and let a trader here keep the next one behind
-   * the counter. Runs once, when the floor is first generated.
+   * the counter. The last floor down a road at the fork holds that road's
+   * own relic as well, on the next furthest pile. Runs once, when the floor
+   * is first generated.
    */
   function placeRelics(L, depth) {
     const R = G.relics;
     if (!R) return;
-    const id = R.floor[depth];
-    if (id) {
-      const dist = new Int32Array(L.w * L.h).fill(-1);
-      const q = [L.start.y * L.w + L.start.x];
-      dist[q[0]] = 0;
-      for (let qi = 0; qi < q.length; qi++) {
-        const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
-        for (const [dx, dy] of DIRS) {
-          if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
-          const ni = (y + dy) * L.w + x + dx, t = L.tiles[ni];
-          // a secret door counts as a way through, so a vault's reward can be chosen
-          if (dist[ni] >= 0 || t === T.WALL || t === T.TORCH || t === T.FOUNTAIN) continue;
-          dist[ni] = dist[i] + 1; q.push(ni);
-        }
-      }
-      let best = null, bd = -1;
-      for (const k in L.items) {
-        const [x, y] = k.split(',').map(Number), dd = dist[y * L.w + x];
-        if (dd > bd && !L.items[k].some(it => it.t === 'artifact')) { bd = dd; best = k; }
-      }
-      if (!best) {
-        const held = new Set((L.npcs || []).map(n => key(n.x, n.y)));
-        for (let i = 0; i < dist.length; i++) {
-          const k = key(i % L.w, (i / L.w) | 0);
-          if (dist[i] > bd && L.tiles[i] === T.FLOOR && !L.traps[k] && !held.has(k)) { bd = dist[i]; best = k; }
-        }
-      }
-      if (best) (L.items[best] = L.items[best] || []).push(relicItem(id));
-    }
+    const span = G.route && Dungeon.routeSpan(G.opts.levels || 8);
+    const road = span && depth === span.to ? routeRelic(G.route) : '';
+    for (const id of [R.floor[depth], road]) if (id) layRelic(L, id);
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
+  }
+  /** Lay a relic on the pile furthest from the way in that holds none yet, or on bare floor if there is no such pile. */
+  function layRelic(L, id) {
+    const dist = new Int32Array(L.w * L.h).fill(-1);
+    const q = [L.start.y * L.w + L.start.x];
+    dist[q[0]] = 0;
+    for (let qi = 0; qi < q.length; qi++) {
+      const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
+      for (const [dx, dy] of DIRS) {
+        if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
+        const ni = (y + dy) * L.w + x + dx, t = L.tiles[ni];
+        // a secret door counts as a way through, so a vault's reward can be chosen
+        if (dist[ni] >= 0 || t === T.WALL || t === T.TORCH || t === T.FOUNTAIN) continue;
+        dist[ni] = dist[i] + 1; q.push(ni);
+      }
+    }
+    let best = null, bd = -1;
+    for (const k in L.items) {
+      const [x, y] = k.split(',').map(Number), dd = dist[y * L.w + x];
+      if (dd > bd && !L.items[k].some(it => it.t === 'artifact' || it.u)) { bd = dd; best = k; }
+    }
+    if (!best) {
+      const held = new Set((L.npcs || []).map(n => key(n.x, n.y)));
+      for (let i = 0; i < dist.length; i++) {
+        const k = key(i % L.w, (i / L.w) | 0);
+        if (dist[i] > bd && L.tiles[i] === T.FLOOR && !L.traps[k] && !held.has(k)) { bd = dist[i]; best = k; }
+      }
+    }
+    if (best) (L.items[best] = L.items[best] || []).push(relicItem(id));
   }
   /**
    * Rings and amulets, from the second floor down: now and then one lies on
@@ -1400,6 +1406,7 @@ const Game = (() => {
         const x = i % L.w, y = (i / L.w) | 0, dd = Math.abs(x - n.x) + Math.abs(y - n.y);
         if (dd >= bd || !open(x, y, room) || (L.items[x + ',' + y] || []).length || (L.traps && L.traps[x + ',' + y])) continue;
         if (L.npcs.some(o => o !== n && o.x === x && o.y === y) || L.monsters.some(m => m.x === x && m.y === y)) continue;
+        if (L === G.levels[G.depth] && G.player && G.player.x === x && G.player.y === y) continue;   // not onto the hero
         best = [x, y]; bd = dd;
       }
       if (best) { n.x = best[0]; n.y = best[1]; }

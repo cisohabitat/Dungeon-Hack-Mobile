@@ -66,7 +66,7 @@ function renderBestiary(el) {
 }
 
 // ---------- relic codex ----------
-const KIND_NAMES = { weapon: 'Weapon', armor: 'Armour', shield: 'Shield' };
+const KIND_NAMES = { weapon: 'Weapon', armor: 'Armour', shield: 'Shield', ring: 'Ring', amulet: 'Amulet' };
 /** Fill el with every relic, found or not; returns the count line. */
 function renderCodex(el) {
   // found ones first; one still to find says what sort of thing to look for
@@ -74,11 +74,14 @@ function renderCodex(el) {
   el.innerHTML = '<div class="codex">' + ids.map(id => {
     const r = RELICS[id], b = ITEMS[r.t], kind = KIND_NAMES[b.kind] || b.kind;
     // one not yet found shows only what sort of thing it is
-    if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind} · a ${escapeHtml(b.name)}</p></div></div>`;
+    // (a ring's or an amulet's make would give it away, so those say only where to look)
+    const jewel = b.kind === 'ring' || b.kind === 'amulet';
+    const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : '';
+    if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · a ${escapeHtml(b.name)}`}${where}</p></div></div>`;
     const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
     return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
-      + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}</p>`
-      + `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
+      + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}${where}</p>`
+      + `<ul class="relic-powers">${jewel ? `<li>${escapeHtml(b.desc)}</li>` : ''}${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
       + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';

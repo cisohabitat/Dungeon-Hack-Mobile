@@ -183,12 +183,12 @@ const VOWS = {
 // The fork: a third of the way down the stair divides, and the floors
 // between there and the last two lean one way or the other. Each keeps its
 // own colours, its own creatures (kin come three times as often, the other
-// road's a third as often), the champions that suit it, and an encounter met
-// nowhere else.
+// road's a third as often), the champions that suit it, an encounter met
+// nowhere else, and a relic on its last floor (see routeRelic in relics.js).
 const ROUTES = {
-  crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison.',
+  crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.',
     theme: 4, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary' },
-  warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms.',
+  warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.',
     theme: 2, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp' },
 };
 

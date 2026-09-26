@@ -103,11 +103,18 @@ const RELICS = {
     lore: 'Sergeant Kest held a stair with it for a night and a day. The shield remembers standing, and lends it to you.' },
   sisters_buckler: { t: 'buckler', e: 2, name: 'the Sisters\' Buckler', powers: ['pure'], value: 260,
     lore: 'Silvered by a convent of healers. Venom beads on its face like water on wax.' },
+  // one for each road at the fork, lying on its last floor and nowhere else:
+  // worn at the throat or on a finger, so whoever takes the road can use it
+  sextons_locket: { t: 'amulet_ward', e: 1, name: 'the Sexton\'s Locket', powers: ['warmth'], value: 320, route: 'crypts',
+    lore: 'The gravedigger who kept these halls wore it to his last shift. Inside, a lock of hair gone white, and the cold cannot find you through it.' },
+  warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
+    lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };
 
 /** Whether this class could ever wear or wield the relic. */
 function relicUsableBy(id, cls) {
   const r = RELICS[id], b = ITEMS[r.t], c = CLASSES[cls];
+  if (b.kind === 'ring' || b.kind === 'amulet') return true;
   if (b.kind === 'weapon') return b.cls.includes(cls);
   if (b.kind === 'armor') return armorFits(c, b);
   if (b.kind === 'shield') return shieldFits(c, b);
@@ -123,7 +130,8 @@ function relicUsableBy(id, cls) {
  */
 function relicPlan(seed, cls, levels) {
   const rng = new Rng(`${seed}|relics|${cls}`);
-  const pool = rng.shuffle(Object.keys(RELICS).filter(id => relicUsableBy(id, cls)));
+  // a road's own relic waits down that road (see routeRelic), never on a trader's shelf
+  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && relicUsableBy(id, cls)));
   // keep at least one back for the traders, whenever there are two to share
   const n = Math.min(Math.max(1, Math.round((levels - 1) * 0.4)), Math.max(1, pool.length - 1));
   const chosen = pool.slice(0, n).sort((a, b) => RELICS[a].value - RELICS[b].value);
@@ -140,4 +148,7 @@ function relicPlan(seed, cls, levels) {
   return { floor, shop: pool.slice(n) };
 }
 
-export { RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };
+/** The relic found only down this road, on its last floor. */
+const routeRelic = route => Object.keys(RELICS).find(id => RELICS[id].route === route) || '';
+
+export { routeRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };

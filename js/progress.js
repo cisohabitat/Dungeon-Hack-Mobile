@@ -132,12 +132,14 @@ function recordWin(cls, difficulty, how = {}) {
 function noteRelic(id) {
   if (!RELICS[id]) return false;
   const v = load();
-  if (v.relics.includes(id)) return false;
-  v.relics.push(id);
-  // every relic found: the Collector's feat, once
-  if (!v.feats.collector && Object.keys(RELICS).every(r => v.relics.includes(r))) v.feats.collector = 1;
-  store(v);
-  return true;
+  const fresh = !v.relics.includes(id);
+  if (fresh) v.relics.push(id);
+  // every relic found: the Collector's feat, once (asked even of one already
+  // known, so a codex filled before the feat existed still earns it)
+  const done = !v.feats.collector && Object.keys(RELICS).every(r => v.relics.includes(r));
+  if (done) v.feats.collector = 1;
+  if (fresh || done) store(v);
+  return fresh;
 }
 
 const Progress = { load, hasWon, highest, trophyCount, bgOpen, classOpen, vowsOpen, recordWin, noteRelic, DIFFS, PATH_IDS, KEY: PROGRESS_KEY };

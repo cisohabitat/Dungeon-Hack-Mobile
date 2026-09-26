@@ -94,7 +94,8 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
   const used = new Set(), names = new Set();
   for (const id in RELICS) {
     const r = RELICS[id], b = ITEMS[r.t];
-    check(b && ['weapon', 'armor', 'shield'].includes(b.kind), `relic ${id} rides on '${r.t}', which is not gear`);
+    // a road's own relic is a ring or an amulet, for whoever takes the road
+    check(b && (['weapon', 'armor', 'shield'].includes(b.kind) || (r.route && ['ring', 'amulet'].includes(b.kind))), `relic ${id} rides on '${r.t}', which is not gear`);
     check(r.powers.length && r.powers.every(k => RELIC_POWERS[k]), `relic ${id} has a power the rules do not know`);
     check(r.e >= 1 && r.e <= 2, `relic ${id} is +${r.e}`);
     check(r.name && r.lore && r.value > 0, `relic ${id} is missing its name, story or value`);
@@ -283,7 +284,7 @@ check(traders > 0, 'no traders generated at all');
 // a level off. The suite above uses a handful of fixed seeds, which is not enough
 // to catch a fault that shows up in well under one percent of levels.
 {
-  let sweptTraders = 0, sweptEncounters = 0, sealed = 0, onLoot = 0, onKey = 0, lairByShop = 0, together = 0, heaped = 0, inTheWay = 0;
+  let sweptTraders = 0, sweptEncounters = 0, sealed = 0, onLoot = 0, onKey = 0, lairByShop = 0, together = 0, heaped = 0, inTheWay = 0, onUsed = 0;
   for (let s = 0; s < 150; s++) {
     for (const size of ['small', 'medium', 'large']) {
       for (let depth = 1; depth <= 8; depth++) {
@@ -299,6 +300,16 @@ check(traders > 0, 'no traders generated at all');
             const i = (n.y + dy) * L.w + n.x + dx, t = L.tiles[i];
             return [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN].includes(t) || (t === T.FLOOR && L.roomId[i] !== here);
           })) inTheWay++;
+        }
+        // nor does anything else start on a door, a stair or a fountain, or a trap lie beside a trader
+        {
+          const T = Dungeon.T, USED = [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN];
+          const used = k => { const [x, y] = k.split(',').map(Number); return USED.includes(L.tiles[y * L.w + x]); };
+          onUsed += L.monsters.filter(m => used(m.x + ',' + m.y)).length;
+          onUsed += Object.keys(L.items).filter(k => L.items[k].length && used(k)).length;
+          onUsed += Object.keys(L.traps || {}).filter(k => used(k) || (L.npcs || []).some(n => {
+            const [x, y] = k.split(',').map(Number); return Math.abs(n.x - x) + Math.abs(n.y - y) <= 1;
+          })).length;
         }
         if ((L.npcs || []).length && !solvable(L, true)) sealed++;
         // finds left together: two or three on a square, never a heap
@@ -316,8 +327,29 @@ check(traders > 0, 'no traders generated at all');
   check(onKey === 0, `${onKey} traders or encounters stand on a key`);
   check(lairByShop === 0, `${lairByShop} champions' lairs sit beside a trader`);
   check(inTheWay === 0, `${inTheWay} traders or encounters stand in a doorway, a room's mouth, or in front of a stair or fountain`);
+  check(onUsed === 0, `${onUsed} monsters, finds or traps start on a door, a stair or a fountain, or a trap beside a trader`);
   check(together > 1000, `only ${together} squares over 3600 levels hold finds left together`);
   check(heaped === 0, `${heaped} squares were made with more than three things on them`);
+  // the Long Delve's floors past the eighth, down either road, keep the same rule
+  let longWay = 0, longNpcs = 0;
+  for (let s = 0; s < 40; s++) {
+    for (const route of ['crypts', 'warrens']) {
+      for (let depth = 5; depth <= 12; depth++) {
+        const L = Dungeon.generate('longsweep' + s, depth, { levels: 12, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route });
+        const T = Dungeon.T;
+        for (const n of (L.npcs || [])) {
+          longNpcs++;
+          const here = L.roomId[n.y * L.w + n.x];
+          if (Dungeon.DIRS.some(([dx, dy]) => {
+            const i = (n.y + dy) * L.w + n.x + dx, t = L.tiles[i];
+            return [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN].includes(t) || (t === T.FLOOR && L.roomId[i] !== here);
+          })) longWay++;
+        }
+      }
+    }
+  }
+  check(longNpcs > 200, `the long sweep found only ${longNpcs} traders and encounters`);
+  check(longWay === 0, `${longWay} traders or encounters on a Long Delve's floors stand in the way`);
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot, ${together} squares with finds together`);
 }
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);

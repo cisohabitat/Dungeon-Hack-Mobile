@@ -1222,7 +1222,8 @@ await test('each floor holds exactly the relic planned for it, and traders keep 
     const L = Game.level();
     if (G.depth !== depth) return `could not reach floor ${depth}`;
     const lying = [];
-    for (const k in L.items) for (const it of L.items[k]) if (it.u) {
+    // (the road's own relic lies on its last floor as well: see the road relic test)
+    for (const k in L.items) for (const it of L.items[k]) if (it.u && !ctx.RELICS[it.u].route) {
       lying.push(it.u);
       if (L.items[k].some(x => x.t === 'artifact')) return 'a relic was laid on the Heart';
       const [x, y] = k.split(',').map(Number);
@@ -5148,6 +5149,10 @@ await test('mastery: the Ranger opens when the other four have each won; every r
   if (progressOf(ctx).feats.collector) out.push('the Collector came before the last relic');
   Progress.noteRelic(ids[ids.length - 1]);
   if (progressOf(ctx).feats.collector !== 1) out.push('every relic found was not the Collector');
+  // a codex filled before the feat existed earns it with the next relic picked up, known or not
+  const v = progressOf(ctx); delete v.feats.collector; ctx.store.set(Progress.KEY, JSON.stringify(v));
+  Progress.noteRelic(ids[0]);
+  if (progressOf(ctx).feats.collector !== 1) out.push('a full codex from before the feat never earned it');
   // the Daily never deals a class it has not always dealt
   for (let i = 0; i < 200; i++) { const d = new Date(2026, 0, 1 + i); const key = d.toISOString().slice(0, 10); if (Daily.heroFor(key).cls === 'ranger') { out.push(`the Daily of ${key} dealt a Ranger`); break; } }
   return out.length ? out.join('; ') : true;
@@ -7353,6 +7358,37 @@ await test('the stair divides a third of the way down: stepping onto it asks, an
   const a = await start('fighter', 'fork-default', { levels: 8 }), b = await start('fighter', 'fork-default', { levels: 8 });
   for (const c of [a, b]) { for (let d = 1; d < 4; d++) { c.Game.level().monsters.length = 0; c.Game.descend(); } }
   if (!a.Game.route() || a.Game.route() !== b.Game.route()) out.push(`descend() took ${a.Game.route()} and ${b.Game.route()}`);
+  return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
+});
+
+await test('each road\'s last floor holds a relic found nowhere else, which anyone can wear', async () => {
+  const out = [];
+  for (const road of ['crypts', 'warrens']) {
+    const ctx = await newContext();
+    const { Game, RELICS, routeRelic, relicPlan } = ctx;
+    Game.newGame({ name: 'R', cls: 'mage', bg: 'oathbroken', stats: { ...evenStats }, seed: 'road-relic', opts: { ...OPTS, levels: 8 } });
+    const G = Game.state(), id = routeRelic(road);
+    if (!id || RELICS[id].route !== road) { out.push(`no relic for the ${road}`); continue; }
+    const holds = () => Object.values(Game.level().items).flat().filter(it => it.u === id).length;
+    for (let d = 1; d < 3; d++) { if (holds()) out.push(`floor ${G.depth} held ${id} before the road`); Game.level().monsters.length = 0; Game.descend(); }
+    if (!Game.chooseRoute(road)) { out.push(`could not take the ${road}`); continue; }
+    while (G.depth < 6) { if (holds()) out.push(`floor ${G.depth} of the ${road} held its relic early`); Game.level().monsters.length = 0; Game.descend(); }
+    if (holds() !== 1) { out.push(`the ${road}'s last floor held ${holds()} of ${id}`); continue; }
+    // a mage picks it up and wears it: its make is known, and its own power counts
+    const L = Game.level(), k = Object.keys(L.items).find(k => L.items[k].some(it => it.u === id)), it = L.items[k].find(x => x.u === id);
+    const p = Game.player(); [p.x, p.y] = k.split(',').map(Number);
+    Game.takeItem(it);
+    if (!Game.equip(p.inv.find(x => x.u === id))) out.push(`a mage could not wear ${id}`);
+    if (!Game.isKnown(RELICS[id].t)) out.push(`${id} left its make unknown`);
+    if (!RELICS[id].powers.every(k => Game.hasPower(k))) out.push(`${id} worn gave none of ${RELICS[id].powers}`);
+    Game.level().monsters.length = 0; Game.descend();
+    if (holds()) out.push('the floor past the road held it too');
+    // never in the relics a run hands out on its floors or at its traders
+    for (let i = 0; i < 30; i++) for (const cls of ['fighter', 'mage', 'thief']) {
+      const plan = relicPlan('rp' + i, cls, 12);
+      if ([...Object.values(plan.floor), ...plan.shop].includes(id)) out.push(`${id} was planned for seed rp${i}`);
+    }
+  }
   return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
 });
 
