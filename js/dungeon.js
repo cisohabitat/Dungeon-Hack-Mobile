@@ -494,6 +494,20 @@ const Dungeon = (() => {
     // standing there may remove its own square from reach, and nothing more
     const harmless = i => reach(-1, true) - reach(i, true) === 1 && reach(-1, false) - reach(i, false) <= 1;
 
+    // Where nothing that stands still may stand: beside a door or a secret
+    // door, in a room's open mouth, or in front of a stair or a fountain. The
+    // floor stays whole without it (harmless() sees to that), but a trader in
+    // a doorway still blocked that way through, and one before the stairs
+    // could stand between the hero and them.
+    const USED = [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN];
+    const inTheWay = (x, y) => {
+      const here = roomId[idx(x, y)];
+      return DIRS.some(([dx, dy]) => {
+        const t = get(x + dx, y + dy);
+        return USED.includes(t) || (t === T.FLOOR && roomId[idx(x + dx, y + dy)] !== here);
+      });
+    };
+
     // ---- a merchant, so the gold you haul up is worth something ----
     // two floors of every delve always have one, so the gold hauled up has somewhere to go:
     // two fifths of the way down, and the floor before the last
@@ -503,7 +517,7 @@ const Dungeon = (() => {
       for (const r of rng.shuffle(cands.slice())) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
-          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y]) spots.push([x, y]);
+          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y] && !inTheWay(x, y)) spots.push([x, y]);
         }
         if (!spots.length) continue;
         let chosen = null;
@@ -573,8 +587,8 @@ const Dungeon = (() => {
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
           const i = idx(x, y);
           if (tiles[i] !== T.FLOOR || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y] || (x === start.x && y === start.y)) continue;
-          // not in a doorway's mouth, where it would read as a wall across the way in
-          if (DIRS.some(([dx, dy]) => { const t = get(x + dx, y + dy); return t === T.DOOR || t === T.DOOR_LOCKED || t === T.DOOR_OPEN; })) continue;
+          // not in a doorway's mouth, where it would read as a wall across the way in, nor before a stair or fountain
+          if (inTheWay(x, y)) continue;
           spots.push([x, y]);
         }
         for (const [sx, sy] of erng.shuffle(spots)) {

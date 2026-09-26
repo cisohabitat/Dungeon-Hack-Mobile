@@ -860,6 +860,30 @@ await test('a save survives the JSON round trip, effects included', async () => 
     && q.effects.ac && q.effects.ac.amount === 4;
 });
 
+await test('a trader saved standing in a doorway steps aside into its room on reload', async () => {
+  const { Game } = await start('fighter', 'aside');
+  const L = Game.level(), T = Game.T, w = L.w;
+  const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  const DOORS = [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET];
+  // A square of room floor with a door beside it: just where a trader should not stand.
+  let spot = null;
+  for (let i = 0; i < w * L.h && !spot; i++) {
+    const x = i % w, y = (i / w) | 0;
+    if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || L.monsters.some(m => m.x === x && m.y === y)) continue;
+    if (DIRS.some(([dx, dy]) => DOORS.includes(L.tiles[(y + dy) * w + x + dx]))) spot = [x, y];
+  }
+  if (!spot) return 'no square by a door on this floor';
+  const room = L.roomId[spot[1] * w + spot[0]];
+  L.npcs.push({ id: 'merchant', x: spot[0], y: spot[1], stock: [], markup: 1, greeted: false });
+  Game.save(true);
+  if (!Game.load()) return 'load returned false';
+  const M = Game.level(), n = M.npcs[M.npcs.length - 1];
+  if (n.x === spot[0] && n.y === spot[1]) return 'the trader is still in the doorway';
+  if (M.roomId[n.y * w + n.x] !== room) return 'the trader left its room';
+  const clear = DIRS.every(([dx, dy]) => M.tiles[(n.y + dy) * w + n.x + dx] === T.FLOOR && M.roomId[(n.y + dy) * w + n.x + dx] === room);
+  return clear || `the trader moved to ${n.x},${n.y}, which is still by the room's edge`;
+});
+
 await test('a blow being drawn back is still coming after a reload, with a moment\'s grace', async () => {
   const ctx = await start('fighter', 'reload-windup');
   const { Game } = ctx; const G = Game.state();

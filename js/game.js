@@ -1318,6 +1318,7 @@ const Game = (() => {
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
+    if (!fresh) stepAside(G.levels[depth]);
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
@@ -1377,6 +1378,33 @@ const Game = (() => {
   }
   /** Standing back from the divided stair, undecided. */
   function leaveFork() { G.forkPending = false; }
+  /**
+   * A floor made before traders and encounters kept out of the way (see
+   * inTheWay in dungeon.js) may have one standing in a doorway or before a
+   * stair: it steps aside to an open square of the same room, one with room
+   * floor on all four sides, so it can stand in nobody's way.
+   * @param {import('./types.js').Level} L
+   */
+  function stepAside(L) {
+    if (!L.roomId || !L.npcs) return;
+    const at = (x, y) => (x < 0 || y < 0 || x >= L.w || y >= L.h ? T.WALL : L.tiles[y * L.w + x]);
+    const USED = [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN];
+    const blocks = (x, y, room) => DIRS.some(([dx, dy]) => USED.includes(at(x + dx, y + dy)) || (at(x + dx, y + dy) === T.FLOOR && L.roomId[(y + dy) * L.w + x + dx] !== room));
+    const open = (x, y, room) => DIRS.every(([dx, dy]) => at(x + dx, y + dy) === T.FLOOR && L.roomId[(y + dy) * L.w + x + dx] === room);
+    for (const n of L.npcs) {
+      const room = L.roomId[n.y * L.w + n.x];
+      if (room < 0 || !blocks(n.x, n.y, room)) continue;
+      let best = null, bd = Infinity;
+      for (let i = 0; i < L.w * L.h; i++) {
+        if (L.roomId[i] !== room || L.tiles[i] !== T.FLOOR) continue;
+        const x = i % L.w, y = (i / L.w) | 0, dd = Math.abs(x - n.x) + Math.abs(y - n.y);
+        if (dd >= bd || !open(x, y, room) || (L.items[x + ',' + y] || []).length || (L.traps && L.traps[x + ',' + y])) continue;
+        if (L.npcs.some(o => o !== n && o.x === x && o.y === y) || L.monsters.some(m => m.x === x && m.y === y)) continue;
+        best = [x, y]; bd = dd;
+      }
+      if (best) { n.x = best[0]; n.y = best[1]; }
+    }
+  }
   function descend() {
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return; }
@@ -3676,6 +3704,7 @@ const Game = (() => {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
+        stepAside(G.levels[dpt]);
       }
       // a run saved on the climb out, from when the Heart had to be carried to
       // the surface, is won: the Heart was already in hand
