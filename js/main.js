@@ -56,7 +56,7 @@ function loop(now) {
       // a boss's bar along the top of the view: the chips and tips make way for it
       UI.bossBar(!!rs.fx.boss);
       const view = document.getElementById('view');
-      if (now < rs.fx.shakeUntil) {
+      if (now < rs.fx.shakeUntil && !Renderer.calm) {
         const a = (rs.fx.shakeUntil - now) / (rs.fx.shakeMs || 220) * (rs.fx.shakeAmp || 4);
         view.style.transform = `translate(${(Math.random() * 2 - 1) * a}px, ${(Math.random() * 2 - 1) * a}px)`;
       } else if (view.style.transform) view.style.transform = '';

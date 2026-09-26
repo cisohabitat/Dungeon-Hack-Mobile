@@ -195,6 +195,7 @@ const Renderer = (() => {
   }
   let darkGrad = null, darkFor = 0;
   let dressedN = 0;   // how many pieces of dressing the last frame drew, for the tests
+  let calm = false;   // a calm view: no dust, no flicker (and main.js no shake); see the menu
   function darkEdges() {
     if (!darkGrad || darkFor !== H) {
       darkGrad = ctx.createRadialGradient(W / 2, H * 0.55, H * 0.12, W / 2, H * 0.55, Math.max(W, H) * 0.62);
@@ -257,7 +258,8 @@ const Renderer = (() => {
     const t = now / 1000, { gain, phase, rate, lm, live, lit, src } = L;
     for (let k = 0; k < gain.length; k++) {
       const p = phase[k], r = rate[k];
-      gain[k] = 1 + 0.09 * Math.sin(t * 2.1 * r + p) + 0.06 * Math.sin(t * 5.3 * r + p * 1.7) + 0.035 * Math.sin(t * 11.3 + p * 2.3);
+      // (a calm view keeps every flame steady)
+      gain[k] = calm ? 1 : 1 + 0.09 * Math.sin(t * 2.1 * r + p) + 0.06 * Math.sin(t * 5.3 * r + p * 1.7) + 0.035 * Math.sin(t * 11.3 + p * 2.3);
     }
     for (let j = 0; j < lit.length; j++) { const i = lit[j]; live[i] = lm[i] * gain[src[i]]; }
     return live;
@@ -1194,8 +1196,8 @@ const Renderer = (() => {
       }
     }
 
-    // dust hanging in the air, catching whatever light there is
-    drawMotes(level, lm, px, py, dirX, dirY, planeX, planeY, now);
+    // dust hanging in the air, catching whatever light there is (not in a calm view)
+    if (!calm) drawMotes(level, lm, px, py, dirX, dirY, planeX, planeY, now);
     // a dark floor: only what your own light reaches, the edges of the view lost
     if (level.twist === 'dark') darkEdges();
 
@@ -1532,7 +1534,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
 })();
 
 export { Renderer };

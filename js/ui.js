@@ -548,6 +548,14 @@ const UI = (() => {
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
+  // Calm view: no shake, no drifting dust, torches that burn steady. Chosen
+  // in the menu; until it is, it follows the phone's own ask for less motion.
+  const CALM = 'deepdelve.calm';
+  function calmOn() {
+    const v = store(CALM);
+    if (v === '1' || v === '0') return v === '1';
+    try { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) { return false; }
+  }
   /** @param {string} id @param {boolean} [urgent]  a warning that cannot wait: it replaces a tip already showing */
   function showTip(id, urgent) {
     if (!tipsOn()) return false;
@@ -1960,6 +1968,7 @@ const UI = (() => {
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
+    $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
     $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} levels${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
@@ -2145,6 +2154,7 @@ const UI = (() => {
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
+    $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     $('#m-help').addEventListener('click', () => { closeOverlay(); showScreen('screen-help'); });
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
@@ -2211,6 +2221,7 @@ const UI = (() => {
   }
 
   function init() {
+    Renderer.setCalm(calmOn());
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });

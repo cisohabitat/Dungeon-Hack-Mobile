@@ -7461,6 +7461,39 @@ await test('the fallen leave remains a while: bones from the bony, a husk from t
   return out.length ? out.join('; ') : true;
 });
 
+await test('a barrel, crate or urn breaks to a blow with nothing to fight in front, and holds the same whatever reloads', async () => {
+  const out = [];
+  const found = [];
+  for (const k of ['crate', 'crate', 'urn']) {
+    const ctx = await start('fighter', 'smash-it');
+    const { Game, Dungeon } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+    L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir], x = p.x + dx, y = p.y + dy;
+    if (L.tiles[y * L.w + x] !== Dungeon.T.FLOOR) return 'no floor in front of the hero on this seed';
+    delete L.items[x + ',' + y];
+    L.dressing.push({ x, y, k, ox: 0, oy: 0 });
+    const at = markLog(G);
+    G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+    if (L.dressing.some(d => d.x === x && d.y === y && d.k === k)) { out.push(`the ${k} did not break`); continue; }
+    const said = linesSince(G, at).join(' ');
+    if (!/splinters|shatters|give way/.test(said)) out.push(`breaking the ${k} said "${said}"`);
+    found.push(k + ':' + JSON.stringify(L.items[x + ',' + y] || []));
+  }
+  // the same square on the same seed holds the same, crate or urn
+  if (found[0] !== found[1]) out.push(`a crate held ${found[0]} once and ${found[1]} the next time`);
+  // a monster in front takes the blow, and the crate behind it stands
+  const ctx = await start('fighter', 'smash-it');
+  const { Game, Dungeon } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.dressing.push({ x: p.x + dx, y: p.y + dy, k: 'barrel', ox: 0, oy: 0 });
+  const m = beside(ctx, 'goblin', { hp: 999, maxHp: 999 });
+  p.perkHit = 60;
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  if (m.hp === 999) out.push('the goblin in front was not struck');
+  if (!L.dressing.some(d => d.k === 'barrel' && d.x === p.x + dx)) out.push('the barrel under the goblin broke instead');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a win by a road is a feat of that road; the Hall line names it', async () => {
   const ctx = await newContext();
   const { Game } = ctx;

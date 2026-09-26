@@ -897,4 +897,28 @@ test.describe('dungeon features', () => {
     expect(wet.blue).toBeGreaterThan(plain.blue + 3);
     expect(errors).toEqual([]);
   });
+  test('Calm view in the menu stops the shake and the dust, and is remembered', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'calm-view' });
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-calm')).toHaveText('Calm view: Off');
+    await page.click('#m-calm');
+    await expect(page.locator('#m-calm')).toHaveText('Calm view: On');
+    expect(await page.evaluate(() => [localStorage.getItem('deepdelve.calm'), Renderer.calm])).toEqual(['1', true]);
+    await page.click('#ov-menu [data-close]');
+    // a blow that would shake the view leaves it still
+    const moved = await page.evaluate(async () => {
+      const fx = Game.renderState(performance.now()).fx;
+      fx.shakeAmp = 8; fx.shakeMs = 600; fx.shakeUntil = performance.now() + 600;
+      await new Promise(r => setTimeout(r, 120));
+      return document.getElementById('view').style.transform;
+    });
+    expect(moved).toBe('');
+    // and it holds after a reload
+    await page.reload();
+    await page.waitForFunction(() => typeof Renderer !== 'undefined');
+    expect(await page.evaluate(() => Renderer.calm)).toBe(true);
+    expect(errors).toEqual([]);
+  });
 });

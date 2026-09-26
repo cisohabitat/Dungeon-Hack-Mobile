@@ -1940,6 +1940,32 @@ const Game = (() => {
       if (list.length > STAINS_PER_FLOOR) list.shift();
     }
   }
+  // Barrels, crates and urns (see dressing.js) break to a blow. What each
+  // holds is its own, dealt from the seed and where it stands, so breaking
+  // it after a reload finds the same: a little gold, a meal now and then, a
+  // draught very rarely, most often nothing at all.
+  const SMASHABLE = ['barrel', 'crate', 'urn'];
+  const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters' };
+  /** @param {import('./types.js').Level} L @param {import('./types.js').Dressing} d */
+  function smash(L, d) {
+    L.dressing.splice(L.dressing.indexOf(d), 1);
+    const cx = d.x + 0.5 + d.ox, cy = d.y + 0.5 + d.oy;
+    const cols = d.k === 'urn' ? ['#9a5a3a', '#6a3a24', '#c9a24a'] : ['#7a5230', '#4e3320', '#a8844e'];
+    for (let i = 0; i < 16; i++) {
+      fx.bits.push({ x: cx, y: cy, z: 0.15 + look() * 0.25, vx: (look() - 0.5) * 2.2, vy: (look() - 0.5) * 2.2, vz: 0.8 + look() * 1.6,
+        g: 7, c: cols[i % cols.length], born: realNow + fxDelay, life: 420 + look() * 320, size: look() < 0.4 ? 0.03 : 0.018 });
+    }
+    if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
+    Sound.play('blunt', heard(d));
+    const rng = new Rng(`${G.seed}|smash|${G.depth}|${d.x},${d.y}`), r = rng.next();
+    /** @type {import('./types.js').Item|null} */
+    let found = null;
+    if (r < 0.26) found = { t: 'gold', q: rng.int(3, 8) * G.depth + rng.int(0, 5) };
+    else if (r < 0.36) found = { t: rng.chance(0.5) ? 'bread' : 'ration', q: 1 };
+    else if (r < 0.4) found = { t: 'potion_heal', q: 1 };
+    if (found) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(found);
+    log(`${SMASH_WORDS[d.k]}${!found ? ': nothing inside.' : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
+  }
   /** Sparks where a blow was turned aside. */
   function sparks(m) { spray(m, 'spark', 0.05, false); }
 
@@ -1994,7 +2020,13 @@ const Game = (() => {
       spellFx(mis.style, mis.color, flight, m ? [m] : [], squares, release, mis.from);
       if (m) fxDelay = release + flight;
     }
-    if (!m) { if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t }); return; }
+    if (!m) {
+      if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t });
+      // nothing to fight in front: a barrel, crate or urn there takes the blow
+      const L = lvl(), d = (L.dressing || []).find(q => q.x === p.x + dx && q.y === p.y + dy && SMASHABLE.includes(q.k));
+      if (d) smash(L, d);
+      return;
+    }
     const mb = mstat(m);
     const struckX = m.x, struckY = m.y;
     if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
