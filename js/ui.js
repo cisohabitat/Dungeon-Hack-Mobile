@@ -66,7 +66,10 @@ const UI = (() => {
   // dungeon, and 'overlay' above it while something is open. They are put
   // right a moment after each change, once any switching (one overlay
   // closing as the next opens) has settled.
-  let popsToSkip = 0, histQueued = false;
+  // Only entries pushed since the page loaded are ever taken back: a page
+  // reloaded keeps its history state, and going back by that would have
+  // left the site. A state left over from before a reload is cleared instead.
+  let popsToSkip = 0, histQueued = false, pushed = 0;
   const histState = () => (history.state && history.state.dd) || null;
   function syncHistory() {
     if (histQueued || typeof history === 'undefined' || !history.pushState) return;
@@ -74,23 +77,29 @@ const UI = (() => {
     Promise.resolve().then(() => {
       histQueued = false;
       try {
-        const inGame = $('#screen-game').classList.contains('active'), st = histState();
+        const inGame = $('#screen-game').classList.contains('active');
         if (inGame) {
-          if (!st) history.pushState({ dd: 'game' }, '');
-          if (overlay && histState() !== 'overlay') history.pushState({ dd: 'overlay' }, '');
-          else if (!overlay && histState() === 'overlay') { popsToSkip++; history.back(); }
-        } else if (st) { popsToSkip++; history.go(st === 'overlay' ? -2 : -1); }
+          if (!histState()) { history.pushState({ dd: 'game' }, ''); pushed++; }
+          if (overlay && histState() !== 'overlay') { history.pushState({ dd: 'overlay' }, ''); pushed++; }
+          else if (!overlay && histState() === 'overlay') {
+            if (pushed > 0) { popsToSkip++; pushed--; history.back(); } else history.replaceState({ dd: 'game' }, '');
+          }
+        } else if (histState()) {
+          if (pushed > 0) { popsToSkip++; history.go(-pushed); pushed = 0; } else history.replaceState(null, '');
+        }
       } catch (e) { /* a browser without history: back does what it always did */ }
     });
   }
   function onBack() {
     if (popsToSkip > 0) { popsToSkip--; syncHistory(); return; }
+    if (pushed > 0) pushed--;
     if ($('#screen-game').classList.contains('active')) {
       // (a choice the game is waiting on stays open: closeOverlay knows which)
       if (overlay) closeOverlay(); else openOverlay('menu');
     }
     syncHistory();
   }
+
   function refreshTitle() {
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
@@ -2303,6 +2312,8 @@ const UI = (() => {
   }
 
   function init() {
+    // a state left from before a reload stands for nothing now
+    try { if (histState()) history.replaceState(null, ''); } catch (e) { /* ignore */ }
     window.addEventListener('popstate', onBack);
     // each overlay is a dialog, named by its heading, for a screen reader
     for (const ov of $$('.overlay')) {

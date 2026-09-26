@@ -728,5 +728,23 @@ test.describe('gear powers', () => {
       expect(errors).toEqual([]);
     });
   }
+  test('a reload with the Pack open stays on the game, rather than going back a page', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    // a page before the game in the history, which a wrong step back would land on
+    await page.goto('/?before=1');
+    await startGame(page, { seed: 'back-reload' });
+    await clearBoons(page);
+    await page.click('[data-open="inv"]');
+    await page.waitForTimeout(100);
+    const url = page.url();
+    await page.reload();
+    await page.waitForTimeout(400);
+    expect(page.url(), 'still on the game after the reload').toBe(url);
+    expect(page.url()).not.toContain('before=1');
+    await expect(page.locator('#screen-title')).toBeVisible();
+    expect(await page.evaluate(() => history.state)).toBeNull();
+    expect(errors).toEqual([]);
+  });
 });
 
