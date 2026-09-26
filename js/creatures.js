@@ -265,25 +265,30 @@ const CREATURES = {
 
   // Crouched and leaning in, all ribs and claws, grinning with too many teeth.
   ghoul: () => {
-    const skin = '#9c9682', dark = '#6a6454';
+    const skin = '#8f9a84', dark = '#5c6656';
     return [
       limb(13, 22, 10, 26, 2, 1.7, dark), limb(10, 26, 12, 30, 1.7, 1.4, dark),
       limb(19, 22, 22, 26, 2, 1.7, dark), limb(22, 26, 20, 30, 1.7, 1.4, dark),
       ball(11.5, 30.4, 2.4, 1, dark), ball(20.5, 30.4, 2.4, 1, dark),
       ball(16, 18.5, 5.8, 5.4, skin),
-      ...[15, 17, 19].map(y => line(12, y, 20, y, '#7a7462')),
+      // ribs curving round the wasted chest from the breastbone
+      ...[15, 17, 19].flatMap(y => [line(11, y + 1, 15, y, dark), line(21, y + 1, 17, y, dark)]),
       limb(16, 13.5, 16, 22, 0.5, 0.5, '#b0aa94'),
       limb(10.5, 15, 6, 21, 1.4, 1.1, skin), limb(6, 21, 5, 27, 1.1, 1, skin),
       limb(21.5, 15, 26, 21, 1.4, 1.1, skin), limb(26, 21, 27, 27, 1.1, 1, skin),
       ball(5, 27.3, 1.5, 1.3, skin), ball(27, 27.3, 1.5, 1.3, skin),
       dots([[3, 28], [3, 29], [4, 29], [5, 30], [6, 29]], '#f2eee0'), dots([[29, 28], [29, 29], [28, 29], [27, 30], [26, 29]], '#f2eee0'),
-      ball(16, 12, 5, 4.4, skin),
-      ball(16, 14.5, 3.4, 1.8, dark),
-      dots([[13, 11], [14, 11], [18, 11], [19, 11]], '#ffe040'), dots([[14, 11], [18, 11]], '#fff8c0'),
-      dots([[12, 10], [13, 10], [19, 10], [20, 10]], '#4a4638'),
-      dots([[13, 14], [19, 14]], '#2a1818'),
-      dots([[14, 14], [15, 15], [16, 14], [17, 15], [18, 14]], '#f2eee0'),
-      dots([[14, 15], [16, 15], [18, 15]], '#5a1c1c'),
+      // long pointed ears, a narrow skull, eyes deep in their sockets
+      sheet([[11.5, 10], [7.5, 6.5], [11.5, 12.5]], skin, { tilt: [-0.5, -0.2] }),
+      sheet([[20.5, 10], [24.5, 6.5], [20.5, 12.5]], skin, { tilt: [0.5, -0.2] }),
+      ball(16, 11.2, 4.4, 4.6, skin),
+      ball(13.8, 10.6, 1.5, 1.2, '#2e3228'), ball(18.2, 10.6, 1.5, 1.2, '#2e3228'),
+      dots([[14, 11], [18, 11]], '#ffe040'), dots([[14, 10], [18, 10]], '#fff8c0'),
+      ball(16, 12.6, 0.9, 0.8, '#3a4034'),
+      // the jaw hangs open, a mouthful of needles
+      ball(16, 15, 3.2, 2.1, '#2a1414'),
+      dots([[14, 14], [16, 14], [18, 14], [15, 16], [17, 16]], '#f2eee0'),
+      dots([[16, 15]], '#8a2424'),
     ];
   },
 
@@ -339,11 +344,17 @@ const CREATURES = {
       sheet([[8, 24], [24, 24], [23, 29], [18, 27], [16, 29.5], [13, 27], [9, 29]], '#5a4a30', { curve: 1 }),
       limb(8, 14, 5, 23, 2.8, 2.4, skin), ball(5, 24, 2.5, 2.4, skin),
       limb(24, 14, 26, 21, 2.8, 2.4, skin), ball(26.3, 21.8, 2.6, 2.4, skin),
-      ball(16, 9, 4.2, 3.8, skin),
-      ball(16, 11.5, 3, 1.6, dark),
-      dots([[14, 8], [18, 8]], '#ff9040'), dots([[13, 7], [14, 7], [18, 7], [19, 7]], '#5a3e20'),
-      dots([[14, 11], [18, 11]], '#f0ead6'), dots([[15, 12], [16, 12], [17, 12]], '#2a1410'),
-      dots([[16, 9], [16, 10]], '#8a6a44'),
+      // shoulders hunched up round a head sunk between them
+      ball(11, 13.5, 4.2, 3, skin), ball(21, 13.5, 4.2, 3, skin),
+      ball(10.8, 10, 1.3, 1.8, dark), ball(21.2, 10, 1.3, 1.8, dark),
+      ball(16, 10, 5, 4.6, skin),
+      // a heavy brow over small eyes, a flat nose, an underbite with tusks
+      ball(16, 7.8, 4.4, 1.5, '#9a7648'),
+      dots([[14, 9], [18, 9]], '#ff9040'), dots([[13, 9], [19, 9]], '#3a2410'),
+      ball(16, 10.8, 1.5, 1.2, '#9c7648'),
+      ball(16, 13, 3.4, 1.6, dark),
+      dots([[14, 13], [15, 13], [16, 13], [17, 13], [18, 13]], '#2a1410'),
+      dots([[14, 12], [18, 12]], '#f0ead6'), dots([[14, 11], [18, 11]], '#f8f2e0'),
     ];
   },
 
@@ -387,8 +398,10 @@ const CREATURES = {
       limb(23, 13, 24.5, 19, 2.3, 2, hide), ball(25, 19.8, 2.2, 2, hide),
       ...both(limb(11.5, 6, 6, 4, 1.4, 0.9, horn)), ...both(limb(6, 4, 4.5, 0.5, 0.9, 0.5, horn)),
       ball(16, 7.5, 5.2, 4.4, hide),
-      ball(16, 11, 3.8, 2.8, '#c8a088'),
-      dots([[14, 11], [18, 11], [14, 12], [18, 12]], '#2a1410'),
+      sheet([[14.5, 3], [16, 2.3], [17.5, 3], [17, 5], [16, 4.4], [15, 5]], dark, { curve: 0.8 }),
+      ball(16, 11.2, 4, 2.6, '#9a7050'),
+      ball(16, 10.3, 3, 1.2, '#b08868'),
+      dots([[14, 12], [18, 12]], '#1a0c08'),
       dots([[15, 13], [16, 13.5], [17, 13]], '#d8b040'),
       dots([[13, 6], [19, 6]], '#ff4030'), dots([[12, 5], [13, 5], [19, 5], [20, 5]], '#2a1a10'),
       ...both(sheet([[11.5, 7.5], [9, 6.5], [11.5, 9.5]], hide, { tilt: [-0.4, 0] })),
@@ -799,9 +812,9 @@ const DETAILS = {
     specks([[16, 14.5], [16, 16.5], [16, 18.5], [16, 20.5]], '#c8c2ac'),
     // warts, and drool hanging from the jaw
     specks([[12.5, 12], [19.5, 12.5], [14, 20], [19, 21]], '#7a7462'),
-    specks([[15, 15.5], [15, 16.5], [17.5, 16], [17.5, 17]], '#c8e0c0'),
+    specks([[15, 17.5], [15, 18.5], [17.5, 17.5], [17.5, 18]], '#c8e0c0'),
     // a split lip, and grave dirt under the claws
-    specks([[16.5, 14.5]], '#8a2020'),
+    specks([[16.5, 13.5]], '#8a2020'),
     specks([[4, 28.5], [5.5, 29], [27.5, 28.5], [26, 29]], '#4a4030'),
     // hollow cheeks
     hair(12.5, 12.5, 13.5, 14, '#7a7462'), hair(19.5, 12.5, 18.5, 14, '#7a7462'),
@@ -1288,7 +1301,9 @@ const PROP_DETAILS = {
   ],
   ogre_sleep: () => [
     specks([[12, 29.5], [19, 30], [26, 29.5], [6.5, 30]], '#fff8c0'),
-    specks([[14, 7.5], [18, 7.5]], '#5a3e20'),
+    // eyes shut: lids over both, a dark line where they meet
+    specks([[14, 9], [14.5, 9], [18, 9], [18.5, 9]], '#9a7648'),
+    specks([[14, 9.5], [14.5, 9.5], [18, 9.5], [18.5, 9.5]], '#3a2410'),
   ],
   mirror: () => [
     specks([[9, 7], [23, 7], [8, 14], [24, 14], [9, 21], [23, 21], [16, 25.5]], '#fff0a0'),
@@ -1395,7 +1410,10 @@ const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v
 /** The ramp step for a surface normal; with a pixel given, blended across band edges. */
 function toneFor(nx, ny, nz, px, py) {
   const n = Math.hypot(nx, ny, nz) || 1;
-  const v = 0.3 + 0.7 * Math.max(0, (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / n);
+  const dot = (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / n;
+  // the side turned from the light is not one flat dark: light thrown back
+  // off the floor lifts its far edge a step, so a limb reads round
+  const v = 0.3 + 0.7 * Math.max(0, dot) + (dot < -0.3 ? 0.2 * Math.min(1, (-dot - 0.3) / 0.45) : 0);
   let i = 0;
   while (i < BANDS.length && v >= BANDS[i]) i++;
   if (px == null || i >= BANDS.length) return i;

@@ -92,18 +92,30 @@ const Assets = (() => {
     }
     // outline every edge pixel
     const outline = rgba32(def.outline || '#0a0810');
+    // a colour mixed most of the way to the outline's ink (pixels are ABGR in memory)
+    const inked = v => {
+      const r = v & 255, g = (v >> 8) & 255, b = (v >> 16) & 255, k = 0.68;
+      return (0xff << 24 | Math.round(b + (30 - b) * k) << 16 | Math.round(g + (18 - g) * k) << 8 | Math.round(r + (22 - r) * k)) >>> 0;
+    };
     const reach = ow === 1 ? [[1, 0], [-1, 0], [0, 1], [0, -1]]
       : [[1, 0], [-1, 0], [0, 1], [0, -1], [2, 0], [-2, 0], [0, 2], [0, -2], [1, 1], [1, -1], [-1, 1], [-1, -1]];
     for (let y = -ow; y < ah + ow; y++) {
       for (let x = -ow; x < aw + ow; x++) {
         if (x >= 0 && y >= 0 && x < aw && y < ah && solid[y * aw + x]) continue;
-        let touches = false;
+        let touch = -1;
         for (const [ox, oy] of reach) {
           const nx = x + ox, ny = y + oy;
           if (nx < 0 || ny < 0 || nx >= aw || ny >= ah) continue;
-          if (solid[ny * aw + nx]) { touches = true; break; }
+          if (solid[ny * aw + nx]) {
+            // on the side the light comes from (the drawing lies below or to
+            // the right of this edge) the outline is a deep shade of what it
+            // wraps, as a pixel artist inks it; on the shadow side it stays
+            // near black, so the shape still stands off a dark wall
+            touch = def.outline || !(ox > 0 || oy > 0) ? 0 : px32[(ny + ow) * w + nx + ow];
+            break;
+          }
         }
-        if (touches) px32[(y + ow) * w + x + ow] = outline;
+        if (touch >= 0) px32[(y + ow) * w + x + ow] = touch ? inked(touch) : outline;
       }
     }
     lctx.putImageData(img, 0, 0);
