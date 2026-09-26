@@ -173,9 +173,11 @@ const Game = (() => {
   function byName(m) {
     if (!namings) namings = Object.values(MONSTERS).filter(b => b.named).map(b => {
       const who = b.named.called.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), title = b.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      return [new RegExp(`(?<!${who},? )\\b[Tt]he ${title}\\b`, 'g'), b.named.called];
+      // the name before it, if given, is matched and kept, rather than looked
+      // behind for: Safari before 16.4 cannot read a lookbehind at all
+      return [new RegExp(`(${who},? )?\\b[Tt]he ${title}\\b`, 'g'), b.named.called];
     });
-    for (const [re, name] of namings) if (re.test(m)) { re.lastIndex = 0; m = m.replace(re, name); }
+    for (const [re, name] of namings) if (re.test(m)) { re.lastIndex = 0; m = m.replace(re, (all, named) => (named ? all : name)); }
     return m;
   }
   function log(m, c) {

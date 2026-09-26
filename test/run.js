@@ -35,6 +35,10 @@ for (const k in SPRITES) {
   for (const f of fs.readdirSync(path.join(root, 'js'))) {
     if (!f.endsWith('.js') || f === 'types.js') continue;   // types.js is read by the checker only
     check(listed.has('js/' + f), `js/${f} is not in the offline cache in sw.js`);
+    // Safari before 16.4 cannot read a lookbehind: a regex with one throws the
+    // moment it is made, and the log made one on the first line of every run
+    const src = fs.readFileSync(path.join(root, 'js', f), 'utf8');
+    check(!/\(\?<[!=]/.test(src), `js/${f} uses a lookbehind, which older Safari cannot read`);
   }
 }
 

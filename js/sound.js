@@ -234,7 +234,7 @@ const Sound = (() => {
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },
@@ -246,6 +246,8 @@ const Sound = (() => {
     // mouthparts clicking against each other, quick and dry
     chitter(out) { clicks(out, 16, 0.5, 3200, 0.07); for (let i = 0; i < 3; i++) noise(out, 0.05, 0.05, { type: 'bandpass', f: vary(1800, 0.2), q: 4, delay: 0.1 + i * 0.13 }); },
     moan(out, s) { const f = 120 / s, l = lp(out, 520); tone(l, f, 1, 'sawtooth', 0.09, -f * 0.25, 0, 0.25); tone(l, f * 1.06, 1, 'sawtooth', 0.06, -f * 0.28, 0.05, 0.25); },
+    // a shade still has a voice like a person's: a long low sigh falling away, and a whisper under it
+    lament(out) { const l = lp(out, 900); tone(l, 220, 1.3, 'triangle', 0.08, -70, 0, 0.35); tone(l, 330, 1.1, 'sine', 0.04, -110, 0.12, 0.35); noise(out, 1.2, 0.03, { type: 'bandpass', f: 1800, q: 3, to: 900, attack: 0.4 }); },
     wail(out) { tone(out, 460, 0.55, 'sine', 0.06, 320, 0, 0.15); tone(out, 780, 0.7, 'sine', 0.06, -400, 0.45, 0.05); noise(out, 1, 0.03, { type: 'bandpass', f: 1200, q: 2, to: 700, attack: 0.3 }); },
     grunt(out, s) { const f = 170 / s, l = lp(out, 750); tone(l, f, 0.16, 'sawtooth', 0.13, -f * 0.35, 0, 0.015); tone(l, f * 0.9, 0.14, 'sawtooth', 0.1, -f * 0.3, 0.2, 0.015); noise(out, 0.12, 0.05, { f: 700 }); },
     roar(out, s) { const f = 120 / s, l = lp(out, 600); tone(l, f, 0.7, 'sawtooth', 0.16, -f * 0.4, 0, 0.06); tone(l, f * 1.5, 0.6, 'sawtooth', 0.07, -f * 0.6, 0, 0.06); noise(out, 0.6, 0.12, { type: 'bandpass', f: 380 / s, q: 1.2, attack: 0.08 }); },

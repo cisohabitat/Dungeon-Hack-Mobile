@@ -24,6 +24,8 @@ test.describe('sound', () => {
       let n = 0;
       for (const name of fx) for (const o of shapes) { Sound.play(name, o); n++; }
       for (const what of far) { Sound.play('far', { what }); n++; }
+      // every creature's own voice and death, the shade's among them
+      for (const who of Object.keys(MONSTERS)) { Sound.play('voice', { who, dist: 2 }); Sound.play('death', { who, dist: 2 }); n += 2; await new Promise(r => setTimeout(r, 5)); }
       for (let theme = 0; theme < 6; theme++) { Sound.setAmbience(theme % 2, theme); await new Promise(r => setTimeout(r, 30)); }
       Sound.stop('rite');
       Sound.heartbeat(0.1, performance.now() + 1e6);
