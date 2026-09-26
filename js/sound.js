@@ -621,6 +621,8 @@ const Sound = (() => {
       return enabled;
     },
     isEnabled() { return enabled; },
+    /** The audio clock and the master the music plays into, or null while sound is off or cannot be had. */
+    audio() { const c = ensure(); return c && master ? { ctx: c, master } : null; },
     unlock() { ensure(); },
     /** The page was hidden or shown: a hidden page makes no sound at all. */
     away(hidden) {

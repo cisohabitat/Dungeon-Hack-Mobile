@@ -4,6 +4,7 @@ import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
+import { Music } from './music.js';
 import { Game } from './game.js';
 import { RELIC_POWERS, RELICS, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf } from './relics.js';
 import { Daily } from './daily.js';
@@ -1971,6 +1972,8 @@ const UI = (() => {
     $('#m-load').hidden = !!G.opts.permadeath;
     $('#m-save').textContent = G.opts.permadeath ? 'Save for Continue' : 'Save Game';
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
+    // the music plays through the sound: with the sound off it is silent whatever it says
+    $('#m-music').textContent = 'Music: ' + (Music.isEnabled() ? (Sound.isEnabled() ? 'On' : 'On (sound is off)') : 'Off');
     $('#m-rolls').textContent = 'Combat rolls: ' + (Game.rollsShown() ? 'On' : 'Off');
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
@@ -2157,6 +2160,7 @@ const UI = (() => {
       if (Game.load()) startPlaying();
     });
     $('#m-sound').addEventListener('click', () => { Sound.toggle(); renderMenu(); });
+    $('#m-music').addEventListener('click', () => { Music.toggle(); renderMenu(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again

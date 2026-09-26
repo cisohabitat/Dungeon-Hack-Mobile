@@ -49,6 +49,7 @@ async function loadGame(opts = {}) {
     CREATURES: creatures.CREATURES, POSES: creatures.POSES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, paintParts: creatures.paintParts,
     // shared by every world: game.js imports it without the cache-buster
     Sound: (await import(url('sound.js'))).Sound,
+    Music: (await import(url('music.js'))).Music,
     ENCOUNTERS: (await import(url('encounters.js'))).ENCOUNTERS,
     ITEM_ART: (await import(url('itemart.js'))).ITEM_ART,
     // stateless: each call reads the storage installed above

@@ -136,6 +136,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and shields ring, each kind of creature has its own voice and its own death, and every spell
   its own sound. Each floor has its own drone and distant noises (drips, chains, wind), which
   tighten while the lich is fighting, and you hear your own heartbeat once badly wounded.
+- **Music that follows the fight.** Written as it plays, in each floor's own scale: a few bell
+  notes and long silences while nothing is near, a low pulse when something awake is close, a
+  quicker beat and a repeating figure once it comes to blows, and a horn beneath for a named
+  champion, a shade or the lich. When the fight ends it comes home to the floor's own note and
+  then hushes a while. It has its own switch in the Menu.
 - **A living title screen.** The menu sits over a real generated dungeon with a ghost camera
   walking it, drawn by the same raycaster as the game, with drifting embers and torch flicker.
 - **Mobile first.** Big touch d-pad with hold-to-walk, swipe on the view to turn or step, tap
@@ -294,6 +299,7 @@ js/assets.js      procedural textures and sprite rasterisation
 js/dungeon.js     level generator
 js/renderer.js    canvas raycaster
 js/sound.js       WebAudio sound effects
+js/music.js       music composed as it plays, following the fight
 js/game.js        rules, state, save/load
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input

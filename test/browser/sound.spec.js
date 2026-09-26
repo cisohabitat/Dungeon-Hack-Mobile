@@ -34,4 +34,51 @@ test.describe('sound', () => {
     expect(played).toBeGreaterThan(100);
     expect(errors).toEqual([]);
   });
+  test('music follows the fight, every instrument plays without an error, and the menu turns it off for good', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'music-fight' });
+    await clearBoons(page);
+    // every floor's scale in every mood, through real WebAudio
+    await page.evaluate(async () => {
+      if (!Sound.isEnabled()) Sound.toggle();
+      Sound.unlock();
+      let t = performance.now() + 1e6;
+      for (let theme = 0; theme < THEMES.length; theme++) for (const mood of Music.MOODS) { for (let i = 0; i < 12; i++) { Music.update(mood, theme, t); t += 120; } }
+      Music.stop();
+      await new Promise(r => setTimeout(r, 300));
+    });
+    // in play: a goblin awake beside the hero brings in the beat
+    const heard = await page.evaluate(async () => {
+      const got = [];
+      Music.listen(n => got.push(n.k));
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.hp = p.maxHp = 999;
+      L.monsters.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 7, id: 'goblin', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: p.x + dx, ry: p.y + dy, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      await new Promise(r => setTimeout(r, 1500));
+      Music.listen(null);
+      return { mood: Music.state().mood, kinds: [...new Set(got)] };
+    });
+    expect(heard.mood).toBe('fight');
+    expect(heard.kinds).toContain('pulse');
+    expect(heard.kinds).toContain('thud');
+    // the menu turns it off, and it stays off after a reload
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-music')).toHaveText('Music: On');
+    await page.click('#m-music');
+    await expect(page.locator('#m-music')).toHaveText('Music: Off');
+    await page.click('#ov-menu [data-close]');
+    const quiet = await page.evaluate(async () => {
+      let n = 0;
+      Music.listen(() => n++);
+      await new Promise(r => setTimeout(r, 1200));
+      Music.listen(null);
+      return n;
+    });
+    expect(quiet, 'notes played with the music off').toBe(0);
+    await page.reload();
+    expect(await page.evaluate(() => Music.isEnabled())).toBe(false);
+    expect(errors).toEqual([]);
+  });
 });

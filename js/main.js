@@ -4,6 +4,7 @@
 import { Assets } from './assets.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
+import { Music } from './music.js';
 import { Game } from './game.js';
 import { UI } from './ui.js';
 import * as Data from './data.js';
@@ -15,7 +16,7 @@ import { Dungeon } from './dungeon.js';
 // drive the game, and how you poke at a dungeon while working on one.
 function exposeForTesting() {
   Object.assign(window, {
-    Game, Dungeon, Renderer, Assets, Sound, UI,
+    Game, Dungeon, Renderer, Assets, Sound, Music, UI,
     ITEMS: Data.ITEMS, MONSTERS: Data.MONSTERS, CLASSES: Data.CLASSES,
     SPELLS: Data.SPELLS, THEMES: Data.THEMES, SPRITES: Data.SPRITES,
     XP_TABLE: Data.XP_TABLE, MAX_LEVEL: Data.MAX_LEVEL, STAT_NAMES: Data.STAT_NAMES,
@@ -40,7 +41,7 @@ function loop(now) {
 
   if (UI.isTitle()) UI.renderTitle(now);
   // the drone belongs to the dungeon: the help, the hall and the end screen are quiet
-  if (!UI.isPlaying()) Sound.stopAmbience();
+  if (!UI.isPlaying()) { Sound.stopAmbience(); Music.stop(); }
   const G = Game.state();
   if (G && UI.isPlaying()) {
     if (G.status === 'playing' && !UI.paused()) {
@@ -68,7 +69,8 @@ function loop(now) {
     if (G.status === 'playing') {
       Sound.setAmbience(Game.bossAwake() ? 1 : 0, G.levels[G.depth].theme);
       Sound.heartbeat(G.player.hp / G.player.maxHp, now);
-    } else Sound.stopAmbience();
+      Music.update(Game.mood(), G.levels[G.depth].theme, now);
+    } else { Sound.stopAmbience(); Music.stop(); }
   }
   requestAnimationFrame(loop);
 }

@@ -783,6 +783,29 @@ const Game = (() => {
       shade: { name: f.name, cls: f.cls, level: f.level, run: f.run, depth } });
     L.bones = { name: f.name, cls: f.cls, x, y, ...(f.killer ? { killer: f.killer } : {}) };
   }
+  // ---------- the music's cue ----------
+  /**
+   * How the fight stands, for the music: the lich awake; a named champion or
+   * a shade awake and close; something awake close enough to come to blows;
+   * something awake further off; or nothing at all.
+   * @returns {'quiet'|'wary'|'fight'|'champion'|'boss'}
+   */
+  function mood() {
+    if (!G || G.status !== 'playing') return 'quiet';
+    const L = lvl(), p = P();
+    /** @type {'quiet'|'wary'|'fight'|'champion'} */
+    let best = 'quiet';
+    for (const m of L.monsters) {
+      if (!m.awake || m.collapsed) continue;
+      const b = MONSTERS[m.id], d = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+      if (b.boss && m.spoke) return 'boss';
+      if ((b.named || m.shade) && m.spoke && d <= 10) best = 'champion';
+      else if (d <= MOOD_FIGHT && best !== 'champion') best = 'fight';
+      else if (d <= MOOD_WARY && best === 'quiet') best = 'wary';
+    }
+    return best;
+  }
+  const MOOD_FIGHT = 5, MOOD_WARY = 10;
   /** Coming down onto the floor: one line, the first time, so the fight is chosen. @param {import('./types.js').Level} L */
   function bonesArrive(L) {
     if (!L.bones || L.bonesSaid || !L.monsters.some(m => m.shade)) return;
@@ -4060,6 +4083,7 @@ const Game = (() => {
     wasteReason, spellWasteReason, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
+    mood,
     INV_MAX, T,
   };
 })();
