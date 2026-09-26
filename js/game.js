@@ -107,12 +107,14 @@ const Game = (() => {
   const vowed = v => !!(G && G.opts && Array.isArray(G.opts.vows) && G.opts.vows.includes(v));
 
   // ---------- the dice, in the open ----------
-  // On unless turned off: the classic crawlers showed their arithmetic, and
+  // Off until asked for: the classic crawlers showed their arithmetic, and
   // it is how you learn that the thing in front of you is armoured, or that
-  // your own armour has stopped keeping up with what hits you. Kept out of the
-  // save file: it is a preference, not a run.
-  let showRolls = true;
-  try { showRolls = localStorage.getItem('deepdelve.rolls') !== 'off'; } catch (e) { /* ignore */ }
+  // your own armour has stopped keeping up with what hits you. But on a first
+  // run "(d20 14+5 vs AC 13)" after every blow is noise in a language nobody
+  // has been taught yet, so it waits in the Menu. Kept out of the save file:
+  // it is a preference, not a run.
+  let showRolls = false;
+  try { showRolls = localStorage.getItem('deepdelve.rolls') === 'on'; } catch (e) { /* ignore */ }
   function rollsShown() { return showRolls; }
   function toggleRolls() {
     showRolls = !showRolls;

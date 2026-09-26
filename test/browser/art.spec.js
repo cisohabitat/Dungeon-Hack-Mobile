@@ -103,4 +103,67 @@ test.describe('art', () => {
     expect(drawn).toBeGreaterThan(0);
     expect(errors).toEqual([]);
   });
+  for (const [label, vp] of Object.entries({ sideways: { width: 844, height: 390 }, narrow: { width: 360, height: 740 } })) {
+    test(`a ranger's bow and drawing hand leave an item one square ahead in plain sight, held ${label}`, async ({ page }) => {
+      // the drawing hand used to rest over the middle of the floor, right on a
+      // ring or a coin lying one square ahead
+      const errors = watchForErrors(page);
+      await page.addInitScript(() => {
+        localStorage.setItem('deepdelve.tipsOff', '1');
+        localStorage.setItem('deepdelve.calm', '1');   // no sway, bob or flicker: frames can be compared
+        localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 }, thief: { easy: 1 } }, relics: [] }));
+      });
+      await page.setViewportSize(vp);
+      await startGame(page, { seed: 'bow-clear', cls: 'Ranger' });
+      await clearBoons(page);
+      // the pixels of the item that show, found as what changes when it is taken away
+      const itemPixels = async () => page.evaluate(async () => {
+        const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
+        const key = (p.x + dx) + ',' + (p.y + dy), c = /** @type {HTMLCanvasElement} */ (document.getElementById('view'));
+        const frame = async () => { await new Promise(r => setTimeout(r, 250)); return c.getContext('2d').getImageData(0, 0, c.width, c.height).data; };
+        L.items[key] = [{ t: 'ring_protect' }];
+        const withIt = await frame();
+        delete L.items[key];
+        const without = await frame();
+        let n = 0;
+        for (let i = 0; i < withIt.length; i += 4) if (Math.abs(withIt[i] - without[i]) + Math.abs(withIt[i + 1] - without[i + 1]) + Math.abs(withIt[i + 2] - without[i + 2]) > 24) n++;
+        return n;
+      });
+      await page.evaluate(() => {
+        const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
+        for (const k of [1, 2, 3]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+        L.monsters.length = 0; L.dressing = []; L.npcs = [];
+      });
+      expect(await page.evaluate(() => Game.player().eq.weapon.t)).toBe('shortbow');
+      const behindBow = await itemPixels();
+      // and the same ring with the bow put away, a bare fist low on the right
+      await page.evaluate(() => { Game.player().eq.weapon = null; });
+      const clear = await itemPixels();
+      expect(clear, 'the ring is drawn at all').toBeGreaterThan(40);
+      expect(behindBow / clear, `the bow hid ${clear - behindBow} of the ring's ${clear} pixels`).toBeGreaterThan(0.95);
+      expect(errors).toEqual([]);
+    });
+  }
+  test('candles left burning light the floor around them, a smaller pool than a torch\'s', async ({ page }) => {
+    // they were drawn alight but gave no light at all
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'candle-light' });
+    const lit = await page.evaluate(() => {
+      const room = (lights, dressing) => ({ w: 20, h: 20, lights, dressing });
+      const candles = room([], [{ x: 10, y: 10, k: 'candles', ox: 0, oy: 0 }, { x: 4, y: 4, k: 'bones', ox: 0, oy: 0 }]);
+      const torch = room([{ x: 10, y: 10 }], []);
+      const dark = room([], [{ x: 10, y: 10, k: 'bones', ox: 0, oy: 0 }]);
+      const at = (lv, x, y) => Renderer.lightOf(lv, x, y);
+      return { on: at(candles, 10, 10), near: at(candles, 12, 10), far: at(candles, 14, 10), bones: at(candles, 4, 4), torch: at(torch, 10, 10), torchFar: at(torch, 14, 10), dark: at(dark, 10, 10) };
+    });
+    expect(lit.dark, 'bones give no light').toBe(0);
+    expect(lit.bones).toBe(0);
+    expect(lit.on, 'the candles\' own square is lit').toBeGreaterThan(0.5);
+    expect(lit.near, 'and the squares beside them, less').toBeGreaterThan(0);
+    expect(lit.near).toBeLessThan(lit.on);
+    expect(lit.far, 'four squares off is dark again').toBe(0);
+    expect(lit.torch, 'a torch is the brighter').toBeGreaterThan(lit.on);
+    expect(lit.torchFar, 'and reaches further').toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
 });

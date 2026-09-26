@@ -229,6 +229,8 @@ test.describe('dungeon features', () => {
   });
   test('an encounter asks, shows the odds, cannot be dodged, and reports what it did', async ({ page }) => {
     const errors = watchForErrors(page);
+    // the roll behind the outcome is shown once the rolls are turned on
+    await page.addInitScript(() => localStorage.setItem('deepdelve.rolls', 'on'));
     await startGame(page, { seed: 'tour' });
     await clearBoons(page);
     const placed = await page.evaluate(() => {

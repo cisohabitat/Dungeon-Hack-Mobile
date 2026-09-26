@@ -33,7 +33,10 @@ const seedDice = (ctx, key) => { ctx.Dice.s = new ctx.Rng('rules|' + key).s; };
 // old length returns nothing at all: the same fault the message box had.
 const markLog = G => G.logSeq;
 // A line said again straight after itself is folded into one, "(×3)": count it as said three times
-const countSaid = (lines, re) => lines.filter(l => re.test(l)).reduce((n, l) => n + (Number((l.match(/\(\u00d7(\d+)\)$/) || [])[1]) || 1), 0);
+const timesSaid = l => Number((l.match(/\(\u00d7(\d+)\)$/) || [])[1]) || 1;
+const countSaid = (lines, re) => lines.filter(l => re.test(l)).reduce((n, l) => n + timesSaid(l), 0);
+// The combat rolls are hidden until a player asks for them: a test that reads them turns them on
+const rollsOn = Game => { if (!Game.rollsShown()) Game.toggleRolls(); };
 const linesSince = (G, mark) => {
   const n = G.logSeq - mark;
   return n > 0 ? G.log.slice(-Math.min(n, G.log.length)).map(e => e.m) : [];
@@ -228,6 +231,7 @@ await test('the combat log shows the roll that decided the swing, and it is true
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
   Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rolls', opts: OPTS });
+  rollsOn(Game);
   const p = Game.player(), G = Game.state(), L = Game.level();
   const [dx, dy] = Dungeon.DIRS[p.dir];
   const lines = [];
@@ -266,6 +270,7 @@ await test('blows that land on you show their roll too, and it is true', async (
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
   Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'incoming', opts: OPTS });
+  rollsOn(Game);
   // The live dice are seeded from the clock. This test needs a natural one and
   // a natural twenty to turn up, which forty-odd unseeded rolls missed about one
   // run in five: seed them, and roll enough that neither can plausibly hide.
@@ -313,13 +318,16 @@ await test('blows that land on you show their roll too, and it is true', async (
   return true;
 });
 
-await test('turning the rolls off silences them and survives a reload', async () => {
+await test('the rolls start hidden, and turning them off again silences them and survives a reload', async () => {
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
   Game.newGame({ name: 'V', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rolls2', opts: OPTS });
   const p = Game.player(), G = Game.state(), L = Game.level();
   const [dx, dy] = Dungeon.DIRS[p.dir];
-  if (!Game.rollsShown()) return 'the rolls should be on to begin with';
+  // off for a first run, with nothing stored
+  if (Game.rollsShown()) return 'the rolls should be off to begin with';
+  if (Game.toggleRolls() !== true) return 'toggling did not turn them on';
+  if (ctx.store.get('deepdelve.rolls') !== 'on') return 'turning them on was not remembered';
   if (Game.toggleRolls() !== false) return 'toggling did not turn them off';
 
   const before = markLog(G);
@@ -637,6 +645,7 @@ await test('a stat check is a d20 plus the modifier, and it reports itself truth
   const ctx = await newContext();
   const { Game, Rng } = ctx;
   Game.newGame({ name: 'S', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, str: 16 }, seed: 'checks', opts: OPTS });
+  rollsOn(Game);
   ctx.Dice.s = new Rng('checks').s;
   let passes = 0, nat1 = 0, nat20 = 0;
   for (let i = 0; i < 2000; i++) {
@@ -2316,7 +2325,7 @@ await test('a group draws back as one: a full warning, then every member\'s blow
   if (m.windup.until - m.windup.at < 400) return `a trio's warning lasted only ${m.windup.until - m.windup.at}ms`;
   const mark = markLog(G);
   for (let i = 0; i < 56; i++) Game.update(G.t + 25, 25);
-  const blows = linesSince(G, mark).filter(l => /Goblin (hits|misses) you/.test(l)).length;
+  const blows = countSaid(linesSince(G, mark), /Goblin (hits|misses) you/);
   return blows === 3 || `the volley landed ${blows} blows, not three`;
 });
 
@@ -4464,7 +4473,8 @@ await test('damage dealt and taken add up, blasts into a group and the floor it 
     m.nextAct = G.t;
     const mark = markLog(G);
     run(Game, G, 8000);
-    const hits = linesSince(G, mark).map(l => /Orc \w+ you.* for (\d+)/.exec(l)).filter(Boolean).map(r => Number(r[1]));
+    // (with the rolls hidden the same blow twice folds into one line, "(×2)")
+    const hits = linesSince(G, mark).flatMap(l => { const r = /Orc \w+ you.* for (\d+)/.exec(l); return r ? Array(timesSaid(l)).fill(Number(r[1])) : []; });
     const sum = hits.reduce((a, b) => a + b, 0);
     if (!hits.length) out.push('the orc never landed a blow');
     if (s.taken !== sum) out.push(`taken ${s.taken}, the log says ${sum}`);

@@ -52,6 +52,8 @@ const Renderer = (() => {
   const T = Dungeon.T;
   const LIGHT_R = 4.5;        // torch radius in tiles
   const LIGHT_MAX = 3.2;       // strongest brightening, in shade levels
+  const CANDLE_R = 2.4;        // a candle cluster's pool, in tiles
+  const CANDLE_MAX = 1.8;      // and its strongest brightening
   const OWN_R = 2.4;           // how far the hero's own light reaches along the floor, in tiles
   const lightCache = new WeakMap();
   let canvas, ctx, fb, fb32;
@@ -222,14 +224,20 @@ const Renderer = (() => {
     if (cached) return cached;
     const lm = new Float32Array(level.w * level.h);
     const src = new Int16Array(level.w * level.h).fill(-1);
-    const lights = level.lights || [];
+    // the torches, and after them every cluster of candles left burning on
+    // the floor: a smaller pool, but a room that shows lit candles should not
+    // stay as dark as one without
+    const lights = [
+      ...(level.lights || []).map(l => ({ x: l.x, y: l.y, r: LIGHT_R, max: LIGHT_MAX })),
+      ...(level.dressing || []).filter(d => d.k === 'candles').map(d => ({ x: d.x, y: d.y, r: CANDLE_R, max: CANDLE_MAX })),
+    ];
     lights.forEach((l, k) => {
-      const r = Math.ceil(LIGHT_R);
+      const r = Math.ceil(l.r);
       for (let y = Math.max(0, l.y - r); y <= Math.min(level.h - 1, l.y + r); y++) {
         for (let x = Math.max(0, l.x - r); x <= Math.min(level.w - 1, l.x + r); x++) {
           const dist = Math.hypot(x - l.x, y - l.y);
-          if (dist > LIGHT_R) continue;
-          const v = LIGHT_MAX * (1 - dist / LIGHT_R) * (1 - dist / LIGHT_R);
+          if (dist > l.r) continue;
+          const v = l.max * (1 - dist / l.r) * (1 - dist / l.r);
           const i = y * level.w + x;
           if (v > lm[i]) { lm[i] = v; src[i] = k; }
         }
@@ -323,16 +331,22 @@ const Renderer = (() => {
   function put(fr, x, y, s = 1) {
     if (!fr) return;
     const k = handK() * s;
-    ctx.drawImage(fr.img, Math.round(x - fr.ax * k), Math.round(y - fr.ay * k), Math.round(fr.img.width * k), Math.round(fr.img.height * k));
+    const box = [Math.round(x - fr.ax * k), Math.round(y - fr.ay * k), Math.round(fr.img.width * k), Math.round(fr.img.height * k)];
+    ctx.drawImage(fr.img, box[0], box[1], box[2], box[3]);
+    handBoxes.push(box);
   }
+  // where the hands were drawn this frame, so a test can see they keep clear
+  // of the square ahead
+  const handBoxes = [];
   // where the hand is in each pose, as a fraction of the view: low, and out
   // toward the corners, so the middle of the floor is left clear
   const POSE_AT = {
     rest: [0.86, 0.93], windup: [0.84, 0.74], cut: [0.64, 0.84], through: [0.5, 0.98],
-    fist: [0.85, 0.95], punch: [0.64, 0.83], left: [0.13, 0.95], cast: [0.26, 0.93], shield: [0.08, 0.96], bow: [0.31, 0.8],
+    fist: [0.85, 0.95], punch: [0.64, 0.83], left: [0.13, 0.95], cast: [0.26, 0.93], shield: [0.08, 0.96], bow: [0.2, 0.86],
   };
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
   function drawView(fx, now) {
+    handBoxes.length = 0;
     const v = fx.view;
     if (!v) return;
     // a step's bob and a slow sway at rest (held still in a calm view)
@@ -1545,7 +1559,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); } };
 })();
 
 export { Renderer };

@@ -241,7 +241,7 @@ test.describe('being readable by assistive technology', () => {
 });
 
 test.describe('seeing the dice behind a swing', () => {
-  test('the message box shows the roll behind a swing, and the menu can silence it', async ({ page }) => {
+  test('the roll behind a swing is hidden on a first run, and the menu shows it in the message box and hides it again', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'roll-ui' });
     await clearBoons(page);
@@ -259,14 +259,26 @@ test.describe('seeing the dice behind a swing', () => {
       return G.log.slice(-Math.min(n, G.log.length)).map(e => e.m);
     });
 
+    // a first run shows the blow, not the arithmetic
+    const first = await swing();
+    expect(first.some(l => /^You (hit|miss) /.test(l)), 'the swing itself should be logged').toBe(true);
+    expect(first.some(l => /d20/.test(l)), `a roll was shown on a first run: ${first.join(' | ')}`).toBe(false);
+
+    // the menu turns it on
+    await page.click('[data-open="menu"]');
+    const btn = page.locator('#m-rolls');
+    await expect(btn).toHaveText(/Combat rolls: Off/);
+    await btn.click();
+    await expect(btn).toHaveText(/Combat rolls: On/);
+    await page.click('#ov-menu [data-close]');
+
     const loud = await swing();
     expect(loud.some(l => /\(d20 /.test(l)), `no roll in: ${loud.join(' | ')}`).toBe(true);
     // and it reaches the panel the player actually reads
     await expect(page.locator('#log')).toContainText(/d20/);
 
-    // the menu turns it off
+    // and off again
     await page.click('[data-open="menu"]');
-    const btn = page.locator('#m-rolls');
     await expect(btn).toHaveText(/Combat rolls: On/);
     await btn.click();
     await expect(btn).toHaveText(/Combat rolls: Off/);
