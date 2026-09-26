@@ -2502,11 +2502,11 @@ const Game = (() => {
     const p = P();
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
-    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows });
+    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
-      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
+      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;

@@ -1,4 +1,4 @@
-import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS } from './data.js';
+import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
@@ -104,10 +104,16 @@ function renderTrophies() {
     const n = v.vows[id] || 0, what = `${VOWS[id].name}: ${n ? (n === 1 ? 'kept once' : `kept ${n} times`) : open ? 'not yet kept' : 'opens after a win on Hard'}`;
     return `<span class="cell named${n ? ' won' : ''}${open ? '' : ' shut'}" data-trophy="vow-${id}" role="img" aria-label="${what}" title="${what}">${escapeHtml(VOWS[id].name)}</span>`;
   });
+  // and the feats: wins of a particular kind
+  const featCells = Object.keys(FEATS).map(id => {
+    const n = v.feats[id] || 0, what = `${FEATS[id].name}: ${FEATS[id].desc} ${n ? (n === 1 ? 'Done once.' : `Done ${n} times.`) : 'Not yet done.'}`;
+    return `<span class="cell named${n ? ' won' : ''}" data-trophy="feat-${id}" role="img" aria-label="${what}" title="${what}">${escapeHtml(FEATS[id].name)}</span>`;
+  });
   $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
     + `<div class="trophy-sub">Paths</div><div class="trophy-grid paths">${pathRows.join('')}</div>`
-    + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`;
+    + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`
+    + `<div class="trophy-sub">Feats</div><div class="trophy-grid vows">${featCells.join('')}</div>`;
   $('#hall-relics-count').textContent = `${v.relics.length} of ${Object.keys(RELICS).length} found`;
 }
 /** ", Knight": the path a hero in the Hall took, if they lived to take one. */
@@ -118,7 +124,7 @@ function renderHall() {
   const el = $('#hall-list');
   if (!list.length) { el.innerHTML = '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${h.kills} kills${Array.isArray(h.named) && h.named.length ? ` · slew ${h.named.map(n => escapeHtml(String(n))).join(' and ')}` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
 export { renderBestiary, renderCodex, renderTrophies, renderHall };

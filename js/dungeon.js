@@ -34,7 +34,9 @@ function namedPlan(seed, levels) {
   const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
   /** @type {Record<number, string>} */
   const plan = {};
-  for (const depth of new Set([Math.ceil(levels / 3), Math.ceil(levels * 2 / 3)])) {
+  // a long delve (twelve floors or more) has a third, a quarter, half and three quarters of the way down
+  const depths = levels >= 12 ? [Math.ceil(levels / 4), Math.ceil(levels / 2), Math.ceil(levels * 3 / 4)] : [Math.ceil(levels / 3), Math.ceil(levels * 2 / 3)];
+  for (const depth of new Set(depths)) {
     if (depth <= 1 || depth >= levels) continue;
     const t = tierAt(depth, levels);
     const free = ids.filter(id => !Object.values(plan).includes(id));

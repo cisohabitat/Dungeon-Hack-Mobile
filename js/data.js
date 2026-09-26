@@ -171,6 +171,10 @@ const VOWS = {
   pauper:  { name: 'Pauper\'s Vow', desc: 'No trader will deal with you: no buying, selling or forge work.' },
   unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer, scrolls and the fountains alone.' },
 };
+// Feats: wins of a particular kind, each a trophy of its own in the Hall.
+const FEATS = {
+  long: { name: 'The Long Delve', desc: 'Win a delve of twelve floors or more, on Normal or Hard.' },
+};
 const PATHS = {
   fighter: [
     { id: 'knight', name: 'Knight', flavour: 'Shield up and feet set: the wall the dark breaks on.', wants: 'shield', effects: [
@@ -650,4 +654,4 @@ const SPRITES = {
 
 // Items are painted from parts in itemart.js; only the fountain's hint is a grid.
 
-export { TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };
+export { FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };

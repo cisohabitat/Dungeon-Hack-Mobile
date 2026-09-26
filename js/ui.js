@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
+import { FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -2004,6 +2004,7 @@ const UI = (() => {
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
     if (earned && earned.firstPath) { const x = Object.values(PATHS).flat().find(q => q.id === earned.firstPath); if (x) news.push(`First win on the ${x.name}'s path!`); }
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
+    for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
     if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     // and the next thing to aim for, while a past is still locked

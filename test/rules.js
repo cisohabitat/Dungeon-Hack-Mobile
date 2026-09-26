@@ -5048,7 +5048,8 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   if (G.status !== 'dead') return 'the goblin never killed the hero';
   if (JSON.stringify(progressOf(ctx)) !== before || Game.earned()) return `a death changed the trophies: ${JSON.stringify(progressOf(ctx).won)}`;
   const n = Progress.trophyCount();
-  return (n.total === 12 + 8 + 3 && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
+  const { CLASSES, PATHS, VOWS, FEATS } = ctx, total = Object.keys(CLASSES).length * 3 + Object.values(PATHS).flat().length + Object.keys(VOWS).length + Object.keys(FEATS).length;
+  return (n.total === total && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
 });
 
 await test('a win with a path, and a vow kept, are trophies of their own; vows open after a Hard win', async () => {
@@ -5069,6 +5070,22 @@ await test('a win with a path, and a vow kept, are trophies of their own; vows o
   if (progressOf(ctx).vows.pauper) return 'a vow kept on Easy counted';
   const n = Progress.trophyCount();
   return n.won === 3 + 1 + 2 || `trophies ${JSON.stringify(n)} from ${JSON.stringify(progressOf(ctx))}`;
+});
+
+await test('a win on a long delve, on Normal or Hard, is the Long Delve feat; the Hall line says how long it was', async () => {
+  const ctx = await newContext();
+  const { Game, Progress } = ctx;
+  const run = (difficulty, levels) => Game.newGame({ name: 'L', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'long-' + levels, opts: { ...OPTS, permadeath: true, difficulty, levels } });
+  run('normal', 8); winHere(Game);
+  if (progressOf(ctx).feats.long) return 'an eight-floor win counted as a long delve';
+  run('easy', 12); winHere(Game);
+  if (progressOf(ctx).feats.long) return 'a long delve on Easy counted';
+  run('hard', 12); winHere(Game);
+  if (JSON.stringify(Game.earned().firstFeats) !== '["long"]' || progressOf(ctx).feats.long !== 1) return `a long Hard win earned ${JSON.stringify(Game.earned())}`;
+  run('normal', 16); winHere(Game);
+  if (Game.earned().firstFeats.length || progressOf(ctx).feats.long !== 2) return 'a second long win was told as a first, or not counted';
+  const lens = Game.hall().map(h => h.levels).sort((a, b) => a - b).join();
+  return lens === '8,12,12,16' || `the Hall kept levels ${lens}`;
 });
 
 await test('a vow binds: no rest under the Iron Vow, no trader under the Pauper\'s, no draught unaided; the Daily takes none', async () => {
@@ -5128,12 +5145,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{}}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{},"feats":{}}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
-  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 } }));
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 } }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;
@@ -5375,12 +5392,12 @@ function roomBeside(ctx, m) {
   return Dungeon.DIRS.find(([dx, dy]) => L.tiles[(m.y + dy) * L.w + m.x + dx] === T.FLOOR && L.tiles[(m.y + 2 * dy) * L.w + m.x + 2 * dx] === T.FLOOR) || null;
 }
 
-await test('named champions hold a floor a third and two thirds down, chosen to suit it, never the first nor the lich\'s', async () => {
+await test('named champions hold a floor a third and two thirds down (a long delve: a quarter, half and three quarters), chosen to suit it, never the first nor the lich\'s', async () => {
   const { Dungeon, MONSTERS } = await newContext();
   const named = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
   if (named.length < 4 || named.length > 6) return `${named.length} named champions`;
   for (const id of named) if (MONSTERS[id].boss) return `${id} is marked as the Heart's keeper`;
-  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [4, 8], 16: [6, 11] };
+  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9], 16: [4, 8, 12] };
   for (const levels of [2, 3, 4, 6, 8, 12, 16]) {
     for (let s = 0; s < 12; s++) {
       const seed = `named-floors-${s}`, plan = Dungeon.namedPlan(seed, levels);

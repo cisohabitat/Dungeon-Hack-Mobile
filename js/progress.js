@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS } from './data.js';
 import { RELICS } from './relics.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
@@ -11,18 +11,18 @@ const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], paths: Record<string, number>, vows: Record<string, number>}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], paths: {}, vows: {} };
+  const out = { won: {}, relics: [], paths: {}, vows: {}, feats: {} };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   // wins with each path, and with each vow kept: counts, nothing else
-  /** @type {[('paths'|'vows'), string[]][]} */
-  const counted = [['paths', PATH_IDS], ['vows', Object.keys(VOWS)]];
+  /** @type {[('paths'|'vows'|'feats'), string[]][]} */
+  const counted = [['paths', PATH_IDS], ['vows', Object.keys(VOWS)], ['feats', Object.keys(FEATS)]];
   for (const [key, ids] of counted) {
     const src = v[key] && typeof v[key] === 'object' ? v[key] : {};
     for (const id of ids) { const n = Math.max(0, Math.floor(Number(src[id]) || 0)); if (n) out[key][id] = n; }
@@ -51,7 +51,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], paths: {}, vows: {} };
+  return { won, relics: [], paths: {}, vows: {}, feats: {} };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -75,12 +75,12 @@ function wonAtLeast(d, v = load()) {
 }
 /** The hardest difficulty this class has won, or '' for none yet. */
 function highest(cls, v = load()) { return DIFFS.slice().reverse().find(d => hasWon(cls, d, v)) || ''; }
-/** Trophies won: one for every class at every difficulty, every path won with, and every vow kept to a win. */
+/** Trophies won: one for every class at every difficulty, every path won with, every vow kept to a win, and every feat. */
 function trophyCount(v = load()) {
   let n = 0;
   for (const cls in CLASSES) for (const d of DIFFS) if (hasWon(cls, d, v)) n++;
-  n += PATH_IDS.filter(id => v.paths[id]).length + Object.keys(VOWS).filter(id => v.vows[id]).length;
-  return { won: n, total: Object.keys(CLASSES).length * DIFFS.length + PATH_IDS.length + Object.keys(VOWS).length };
+  n += PATH_IDS.filter(id => v.paths[id]).length + Object.keys(VOWS).filter(id => v.vows[id]).length + Object.keys(FEATS).filter(id => v.feats[id]).length;
+  return { won: n, total: Object.keys(CLASSES).length * DIFFS.length + PATH_IDS.length + Object.keys(VOWS).length + Object.keys(FEATS).length };
 }
 /** Vows are open once any hero has won on Hard. */
 function vowsOpen(v = load()) { return wonAtLeast('hard', v); }
@@ -94,9 +94,9 @@ function bgOpen(id, v = load()) {
 
 /**
  * A run won: count it, and say what is new. Daily runs count like any other.
- * A path won with counts at any difficulty; a vow kept counts on Normal or Hard.
- * @param {{path?: string, vows?: string[]}} [how]
- * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, firstVows: string[], vowsOpened: boolean}}
+ * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
+ * @param {{path?: string, vows?: string[], levels?: number}} [how]
+ * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
  */
 function recordWin(cls, difficulty, how = {}) {
   const d = DIFFS.includes(difficulty) ? difficulty : 'normal';
@@ -113,9 +113,13 @@ function recordWin(cls, difficulty, how = {}) {
   const kept = d === 'easy' ? [] : (how.vows || []).filter(id => VOWS[id]);
   const firstVows = kept.filter(id => !v.vows[id]);
   for (const id of kept) v.vows[id] = (v.vows[id] || 0) + 1;
+  // feats: what kind of win this was
+  const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : [])];
+  const firstFeats = feats.filter(id => !v.feats[id]);
+  for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
-  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, firstVows, vowsOpened: !vowsWere && vowsOpen(v) };
+  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v) };
 }
 /** A relic picked up or bought goes in the codex; true the first time. */
 function noteRelic(id) {
