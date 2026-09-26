@@ -197,7 +197,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 170 Playwright tests against a real browser, at phone size
+npm run test:browser  # 172 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
 ```
@@ -225,12 +225,12 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Hard and the Long Delve on Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more:
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal, Hard and the Long Delve on Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more:
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 75% | 75% | 74% | 76% | 70% | about 74% |
+| Normal | 76% | 73% | 76% | 82% | 75% | about 76% |
 | Hard | 47% | 48% | 46% | 58% | 48% | about 49% |
 | Long Delve (12 floors), Normal | 66% | 69% | 63% | 75% | 71% | about 69% |
 | Long Delve (12 floors), Hard | 52% | 41% | 44% | 60% | 44% | about 48% |

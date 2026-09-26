@@ -90,6 +90,15 @@ const UI = (() => {
       } catch (e) { /* a browser without history: back does what it always did */ }
     });
   }
+  /**
+   * The page is put away mid-fight (a call, a notification): the world stops
+   * with it, but would start again the instant it came back, before the player
+   * has found the buttons. Come back to the Menu instead.
+   */
+  function pauseIfThreatened() {
+    if (overlay || !$('#screen-game').classList.contains('active') || Game.mood() === 'quiet') return;
+    openOverlay('menu');
+  }
   function onBack() {
     if (popsToSkip > 0) { popsToSkip--; syncHistory(); return; }
     if (pushed > 0) pushed--;
@@ -1293,7 +1302,7 @@ const UI = (() => {
     }
     el.innerHTML = got.slice().sort((a, b) => a.i - b.i).map(j => {
       const e = JOURNAL[j.i];
-      return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on level ${j.depth}</p></div>`;
+      return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on floor ${j.depth}</p></div>`;
     }).join('');
   }
   // ---------- the Hall, the bestiary and the relic codex: see hall.js ----------
@@ -2137,6 +2146,22 @@ const UI = (() => {
     $('#end-summary').innerHTML = parts.join('');
   }
 
+  /**
+   * One line to paste anywhere: the seed and every choice left off its usual
+   * setting, since the same seed with other choices is another dungeon.
+   */
+  function runShareLine(won) {
+    const G = Game.state(), p = G.player, o = G.opts;
+    const ways = [diffName(diffOf(o))];
+    if (o.levels && o.levels !== 8) ways.push(`${o.levels} floors`);
+    if (o.size && o.size !== 'medium') ways.push(`${o.size} halls`);
+    if (o.monsters && o.monsters !== 'normal') ways.push(`${o.monsters} monsters`);
+    if (o.treasure && o.treasure !== 'normal') ways.push(`${o.treasure} treasure`);
+    if (o.lockedDoors === false) ways.push('no locked doors');
+    if (o.traps === false) ways.push('no traps');
+    const cls = CLASSES[p.cls] ? CLASSES[p.cls].name : p.cls;
+    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
+  }
   function showEnd(won) {
     const G = Game.state(), p = G.player;
     clearOverlays();
@@ -2187,9 +2212,10 @@ const UI = (() => {
     $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');
     $('#end-epilogue').innerHTML = Game.epilogue(won).map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
-    // a daily run can be told in one line
-    $('#end-share').style.display = G.opts.daily ? '' : 'none';
-    $('#end-share').textContent = 'Share today\'s result';
+    // any run can be told in one line: a daily one with its streak, another with
+    // its seed, so a friend can walk the same halls
+    $('#end-share').style.display = '';
+    $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : 'Share this run';
     $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
     $('#screen-end').scrollTop = 0;   // a second death, or the win, opens at its title, not where the last was left
@@ -2388,8 +2414,8 @@ const UI = (() => {
     $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(); });
     $('#end-share').addEventListener('click', () => {
       const G = Game.state(), key = G && G.opts.daily, st = key ? Daily.status(key) : null;
-      if (!st || !st.done) return;
-      const line = Daily.shareLine(key, st.done), out = $('#end-share-line');
+      if (!G || (key && (!st || !st.done))) return;
+      const line = key ? Daily.shareLine(key, st.done) : runShareLine(G.status === 'won'), out = $('#end-share-line');
       // the line is shown as well, to copy by hand if the clipboard says no
       out.textContent = line; out.style.display = '';
       copyText(line).then(ok => { $('#end-share').textContent = ok ? 'Copied: paste it anywhere' : 'Copy the line below'; });
@@ -2404,7 +2430,7 @@ const UI = (() => {
   }
 
   return { init, paused, fitView, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
-    isPlaying: () => $('#screen-game').classList.contains('active'),
+    isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
     tips: () => ({ ...TIPS }), timeScale, bossBar };

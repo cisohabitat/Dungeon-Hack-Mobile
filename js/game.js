@@ -1104,7 +1104,7 @@ const Game = (() => {
     if (b.kind === 'scroll') {
       if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The scroll would be wasted.';
       if (b.effect === 'fire' && !boltTargets(3, false).length) return 'There is nothing ahead to burn.';
-      if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this level.';
+      if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this floor.';
       if (b.effect === 'uncurse' && !cursedWorn().length && !hiddenGear().length) return 'Nothing you wear is cursed, and you know all your gear.';
     }
     return null;
@@ -1194,7 +1194,7 @@ const Game = (() => {
             break;
           }
           case 'heal': { const n = d(...b.heal); healPlayer(n); log(`Warmth flows through you. You heal ${n}.`, 'good'); break; }
-          case 'map': { const L = lvl(); L.explored.fill(1); log('The layout of this level burns itself into your mind.', 'good'); break; }
+          case 'map': { const L = lvl(); L.explored.fill(1); log('The layout of this floor burns itself into your mind.', 'good'); break; }
           case 'uncurse': {
             const lifted = breakCurses(), seen = revealAll();
             if (lifted) log(`A cold weight lifts from you. ${lifted > 1 ? 'The curses are' : 'The curse is'} broken.`, 'good');
@@ -1495,14 +1495,14 @@ const Game = (() => {
     distFieldAt = -1e9;
     p.deepest = Math.max(p.deepest, depth);
     if (from === 'down') {
-      if (depth > 1) log(`You descend to level ${depth}. ${THEMES[L.theme].flavor}`, 'info');
+      if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
-      if (L.isFinal) log('A dreadful presence waits somewhere on this level.', 'bad');
+      if (L.isFinal) log('A dreadful presence waits somewhere on this floor.', 'bad');
       if (L.twist && TWISTS[L.twist]) log(TWISTS[L.twist].arrive, L.twist === 'market' ? 'good' : 'info');
       namedArrives(L);
       bonesArrive(L);
       threadArrivals(L, depth, fresh);
-    } else log(`You climb back up to level ${depth}.`, 'info');
+    } else log(`You climb back up to floor ${depth}.`, 'info');
     emit('level');
     checkTile();
   }

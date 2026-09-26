@@ -269,6 +269,57 @@ test.describe('permadeath', () => {
   });
 });
 
+test.describe('putting the phone down', () => {
+  test('a page put away with a foe close comes back paused on the Menu; on a quiet floor it does not', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'put-away' });
+    await clearBoons(page);
+    const hide = () => page.evaluate(() => {
+      Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+      document.dispatchEvent(new Event('visibilitychange'));
+      Object.defineProperty(document, 'hidden', { configurable: true, get: () => false });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    // nothing awake near: the run is saved and left as it was
+    await page.evaluate(() => { for (const m of Game.level().monsters) m.awake = false; });
+    await hide();
+    await expect(page.locator('#ov-menu')).not.toHaveClass(/open/);
+    // a foe two steps off: the Menu is waiting, and the world with it
+    await faceOpenGround(page, 3);
+    expect(await placeMonster(page, 'orc', 2)).not.toBeNull();
+    await hide();
+    await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+    expect(await page.evaluate(() => UI.paused())).toBe(true);
+    expect(errors).toEqual([]);
+  });
+});
+
+test.describe('sharing a run', () => {
+  test('any run that ends can be shared in a line with its seed and whatever was changed from the usual', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    await page.locator('.class-card', { has: page.locator('b', { hasText: /^Fighter$/ }) }).click();
+    await page.fill('#c-seed', 'share-me');
+    await page.selectOption('#c-levels', '6');
+    await page.selectOption('#c-size', 'large');
+    await page.uncheck('#c-traps');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    await clearBoons(page);
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#end-share')).toHaveText('Share this run');
+    await page.click('#end-share');
+    await expect(page.locator('#end-share-line')).toHaveText(/^Deepdelve seed share-me \(Normal, 6 floors, large halls, no traps\): Fighter, fell on floor 1, \d+ kills?, score \d+$/);
+    expect(errors).toEqual([]);
+  });
+});
+
 test.describe('the Daily Delve', () => {
   const DAY = new Date('2026-09-24T10:00:00');
   /** Tap Daily Delve on a fresh page and step into the dungeon; returns who and where. */

@@ -423,8 +423,8 @@ const ITEMS = {
   // scrolls (usable by anyone)
   scroll_fire:     { kind: 'scroll', name: 'Scroll of Fire',        stack: true, value: 30, sprite: 'scroll', effect: 'fire', desc: 'Hurls a ball of fire (4d6) at the foe ahead.' },
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
-  scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this level.' },
-  scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this level.' },
+  scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this floor.' },
+  scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },
   scroll_uncurse:  { kind: 'scroll', name: 'Scroll of Remove Curse', stack: true, value: 40, sprite: 'scroll', effect: 'uncurse', desc: 'Breaks any curse on what you wear, and shows the true quality of all your gear.' },
   // Rings and amulets: anyone may wear two rings and an amulet. Found ones
   // are known only by their look until worn or studied (see RING_LOOKS), and
@@ -446,7 +446,7 @@ const ITEMS = {
   meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
   bread:  { kind: 'food', name: 'Stale Bread', stack: true, value: 1, sprite: 'bread',  food: 18 },
   // special
-  key:      { kind: 'key', name: 'Key', sprite: 'key', value: 0, desc: 'Opens one locked door of matching colour on this level.' },
+  key:      { kind: 'key', name: 'Key', sprite: 'key', value: 0, desc: 'Opens one locked door of matching colour on this floor.' },
   page:     { kind: 'page', name: 'Torn Page', sprite: 'page', value: 0, desc: 'Something one of the earlier crews left behind.' },
   gold:     { kind: 'gold', name: 'Gold', sprite: 'gold' },
   gem:      { kind: 'gem', name: 'Gem', sprite: 'gem' },

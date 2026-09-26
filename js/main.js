@@ -31,7 +31,7 @@ function saveOnHide() {
   const G = Game.state();
   if (G && G.status === 'playing' && UI.isPlaying()) Game.save(true);
 }
-document.addEventListener('visibilitychange', () => { Sound.away(document.hidden); if (document.hidden) saveOnHide(); });
+document.addEventListener('visibilitychange', () => { Sound.away(document.hidden); if (document.hidden) { UI.pauseIfThreatened(); saveOnHide(); } });
 window.addEventListener('pagehide', saveOnHide);
 
 let last = 0;
