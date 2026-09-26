@@ -345,7 +345,7 @@ const ENCOUNTERS = {
   // The middle floors, where a run sees most of its encounters, had the fewest
   // of their own: these two belong there and nowhere else.
   duelist: {
-    title: 'The Duelist\'s Ghost', sprite: 'duelist_ghost', depth: [3, 7],
+    title: 'The Duellist\'s Ghost', sprite: 'duelist_ghost', depth: [3, 7],
     text: 'A pale swordsman stands in the middle of the passage, a blade of mist held low. He salutes you with it. "One pass," he says, in a voice like wind through a keyhole. "Only one. It has been so long."',
     choices: [
       { label: 'Cross blades with him', check: { stat: 'str', dc: 13 },
@@ -369,7 +369,7 @@ const ENCOUNTERS = {
         pass: { text: 'One clean stroke and it drops into your arms. The owner has no more use for their things.', effects: [{ loot: 1 }] },
         fail: { text: 'The whole web shivers when you cut. Its keepers come down to see.', effects: [{ ambush: { id: 'spider', n: 2 } }] } },
       { label: 'Free the one that moves', check: { stat: 'str', dc: 12 },
-        pass: { text: 'You tear the silk apart and a half-drowned delver of the fifth crew falls out, gasping. She presses her last draught on you and runs for the stairs.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 60 }] },
+        pass: { text: 'You tear the silk apart and a half-smothered delver of the fourth crew falls out, gasping. She presses her last draught on you and runs for the stairs.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 60 }] },
         fail: { text: 'The silk will not tear. Something large comes down its thread to find out why the larder is shaking.', effects: [{ ambush: { id: 'spider', n: 1 } }] } },
       { label: 'Burn the webs down', check: { stat: 'int', dc: 12, knack: [['mage', null, 3]] },
         pass: { text: 'The silk goes up like paper. When the smoke clears, what the spiders kept is lying on the floor.', effects: [{ xp: 40 }, { goldPerDepth: 12 }, { loot: 0 }] },

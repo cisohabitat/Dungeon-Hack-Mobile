@@ -23,7 +23,7 @@ test.describe('rest and the quick drink', () => {
     await rest.click();
     await page.waitForTimeout(150);
     expect(await healing(page), 'Rest must not drink a potion').toBe(before);
-    await expect(page.locator('#log')).toContainText(/can't rest/i);
+    await expect(page.locator('#log')).toContainText(/cannot rest/i);
     expect(await page.evaluate(() => Game.player().hp)).toBe(6);
     // the fight over, Rest is a rest again
     await page.evaluate(() => { Game.level().monsters.length = 0; });

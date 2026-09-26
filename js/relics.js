@@ -22,7 +22,7 @@ const RELIC_POWERS = {
   mend:   'Mending: heals a hit point every four seconds, even mid-fight.',
   ward:   'Warded: your life force cannot be drained.',
   pure:   'Purifying: poison cannot take hold of you.',
-  thorns: 'Barbed: whatever strikes you in melee takes 1d4 damage back.',
+  thorns: 'Barbed: whatever strikes you in close combat takes 1d4 damage back.',
   flame:  'Flaming: +1d4 fire damage, and its burns stop a troll regrowing.',
   // worn on a finger or at the throat (see the rings and amulets in data.js)
   protect: 'Protection: armour class +1, more if finely made.',
@@ -61,7 +61,7 @@ const PREFIX_DESC = { heavy: '+1 damage with every blow', true: '+1 to hit', stu
  */
 const RELIC_SETS = {
   stair: { name: 'the Stairwarden\'s Arms', pieces: ['kests_bulwark', 'rustwarden'], text: 'Worn together: +2 armour class.' },
-  night: { name: 'the Nightwalk', pieces: ['whisper', 'shadowskin'], text: 'Worn together: a strike from the shadows deals one more times its damage.' },
+  night: { name: 'the Nightwalk', pieces: ['whisper', 'shadowskin'], text: 'Worn together: a strike from the shadows hits a step harder, double damage becoming triple.' },
   dawn: { name: 'the Order of the Dawn', pieces: ['dawnbringer', 'sisters_buckler'], text: 'Worn together: healing spells heal a quarter more, and your blows deal +1d4 to the undead.' },
 };
 /** The set a relic belongs to, if any. */

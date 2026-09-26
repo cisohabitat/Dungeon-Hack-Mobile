@@ -434,7 +434,7 @@ const Game = (() => {
     const p = P(), b = ITEMS[it.t];
     if (!b || b.kind !== 'weapon') return 'That is not a weapon.';
     if (!CLASSES[p.cls].dualWield) return `${CLASSES[p.cls].plural} fight with one blade.`;
-    if (!b.cls.includes(p.cls)) return `${CLASSES[p.cls].plural} cannot wield a ${b.name.toLowerCase()}.`;
+    if (!b.cls.includes(p.cls)) return `${CLASSES[p.cls].plural} cannot wield ${aThing(b.name.toLowerCase())}.`;
     if (b.twoHanded) return 'A two-handed weapon needs both hands.';
     if (b.range) return 'You cannot fence with a missile weapon.';
     if (b.speed > OFFHAND_MAX_SPEED) return `A ${b.name.toLowerCase()} is too heavy for the off hand.`;
@@ -941,6 +941,8 @@ const Game = (() => {
   }
 
   // ---------- items ----------
+  /** "a sling", "an antidote", and a thing that comes as several ("throwing knives") with no article at all. */
+  const aThing = n => (/s$/i.test(n) ? n : `${/^[aeiou]/i.test(n) ? 'an' : 'a'} ${n}`);
   function itemName(it) {
     const r = relicOf(it);
     if (r) return r.name[0].toUpperCase() + r.name.slice(1);
@@ -1005,12 +1007,12 @@ const Game = (() => {
   function canEquip(it) {
     const p = P(), b = ITEMS[it.t], c = cls();
     if (b.kind === 'ring' || b.kind === 'amulet' || b.kind === 'cloak') return null;     // anyone can wear one
-    if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield a ${b.name.toLowerCase()}.`;
+    if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield ${aThing(b.name.toLowerCase())}.`;
     if (b.kind === 'armor') {
       if (armorFits(c, b)) return null;
       if (b.weight === 'cloth') return 'Only a mage wears robes: they are woven for spellwork, not for blows.';
       if (c.armor === 'cloth') return `${c.plural} wear robes, not armour: it would bind a caster's hands.`;
-      return `${c.plural} can only wear light armor.`;
+      return `${c.plural} can only wear light armour.`;
     }
     if (b.kind === 'shield') {
       if (!shieldFits(c, b)) {
@@ -1142,7 +1144,7 @@ const Game = (() => {
       const wasNew = !isKnown(it.t);
       showUse('drink', it, POTION_GLOW[b.effect] || '#e0e0ff');
       removeOne(it);
-      if (wasNew) { G.known[it.t] = 1; log(`You drink the unknown potion... it is a ${b.name}.`, 'info'); }
+      if (wasNew) { G.known[it.t] = 1; log(`You drink the unknown potion... it is ${aThing(b.name)}.`, 'info'); }
       // the cork and the swallows now; what it does is heard once it is down
       Sound.play('drink');
       fxDelay = 420;
@@ -1159,7 +1161,7 @@ const Game = (() => {
     } else if (b.kind === 'scroll') {
       const wasNewS = !isKnown(it.t);
       removeOne(it);
-      if (wasNewS) { G.known[it.t] = 1; log(`You read the unknown scroll... it is a ${b.name}.`, 'info'); }
+      if (wasNewS) { G.known[it.t] = 1; log(`You read the unknown scroll... it is ${aThing(b.name)}.`, 'info'); }
       // the scroll rises in the off hand, its writing kindles in the colour of
       // what it does, and it burns away (see the renderer); what it does is
       // settled now, and shown as the page goes up
@@ -3319,7 +3321,7 @@ const Game = (() => {
     const p = P(), L = lvl();
     if (vowed('iron')) { log('You swore the Iron Vow: no rest until the Heart is won.', 'bad'); Sound.play('error'); return false; }
     ensureDist();
-    if (enemiesNear()) { log("You can't rest with enemies nearby.", 'bad'); Sound.play('error'); return false; }
+    if (enemiesNear()) { log('You cannot rest with enemies close by.', 'bad'); Sound.play('error'); return false; }
     if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
     // the Returned sleep their first rest on a floor on nothing
     const food = p.bg === 'returned' && !(L.rests || 0) ? 0 : REST_FOOD;

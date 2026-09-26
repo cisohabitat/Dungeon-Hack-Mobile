@@ -77,11 +77,12 @@ function renderCodex(el) {
   const found = Progress.load().relics, ids = Object.keys(RELICS).sort((a, b) => Number(!found.includes(a)) - Number(!found.includes(b)));
   el.innerHTML = '<div class="codex">' + ids.map(id => {
     const r = RELICS[id], b = ITEMS[r.t], kind = KIND_NAMES[b.kind] || b.kind;
-    // one not yet found shows only what sort of thing it is
+    // one not yet found shows only what sort of thing it is ("a Mace"; armour
+    // takes no article: "Chain Mail")
     // (a ring's or an amulet's make would give it away, so those say only where to look)
     const jewel = b.kind === 'ring' || b.kind === 'amulet';
     const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : '';
-    if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · a ${escapeHtml(b.name)}`}${where}</p></div></div>`;
+    if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
     const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
     return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
       + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}${where}</p>`

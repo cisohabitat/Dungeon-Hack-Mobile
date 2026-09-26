@@ -518,7 +518,7 @@ const UI = (() => {
     webspit: 'It rears back to spit a web. <b>Step out of its line</b>, to one side.',
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
     horn: 'He means to sound a horn and call his kin. <b>Strike him</b> before he does: any wound cuts the call short.',
-    drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes of your most health is gone for good.',
+    drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes from your maximum hit points is gone for good.',
     web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
     webtear: 'You are caught in a web. <b>Push against it</b>: tap any arrow, again and again, to tear free.',
     opening: '<b>An opening!</b> You answered its trick: your next blow at it cannot miss and lands hard. Strike now.',
@@ -1292,7 +1292,7 @@ const UI = (() => {
       // a ranger lands and weights every blow with Dexterity, as a fighter does with Strength
       dex: p.cls === 'thief' ? 'to armour class and to damage' : p.cls === 'ranger' ? 'to hit, to damage and to armour class' : 'to armour class',
       con: 'hit point with every level from now on',
-      int: p.cls === 'mage' ? 'spell point for every hero level' : 'on every reckoning and reading in the dark',
+      int: p.cls === 'mage' ? 'spell point for every hero level' : 'to Study and to every Intelligence check',
       wis: p.cls === 'cleric' ? 'spell point for every hero level, to hit and to damage, and a surer will against draining' : 'against draining',
     }[b.stat];
     return `${STAT_NAMES[b.stat]} ${s} \u2192 ${next}: +1 ${what}.`;
@@ -1681,7 +1681,7 @@ const UI = (() => {
     // the blade parries for a point, so a shield costs what it gave (Bulwark
     // and all) less that; a blade already there parried the same
     const sh = p.eq.shield ? ITEMS[p.eq.shield.t].ac + knownE(p.eq.shield) + ((p.talents || []).includes('bulwark') ? 2 : 0) + (p.path === 'knight' ? 1 : 0) - 1 : 0;
-    const ac = p.eq.offhand ? '' : sh > 0 ? `; the shield comes off (\u2212${sh} armor class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armor class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armor class';
+    const ac = p.eq.offhand ? '' : sh > 0 ? `; the shield comes off (\u2212${sh} armour class, the blade parrying for one)` : sh < 0 ? `; it parries better than the shield it replaces (+${-sh} armour class)` : p.eq.shield ? '; it parries as well as the shield it replaces' : '; it parries, for +1 armour class';
     // with a blade there already, the swing is as slow as it was
     return `<p class="compare">In the off hand: a second blow of ${blow} after each swing${p.eq.offhand ? ' in place of the one you hold there' : ', and the main hand a fifth slower'}${ac}.</p>`;
   }

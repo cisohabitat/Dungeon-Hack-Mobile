@@ -4748,7 +4748,7 @@ await test('every potion in a run has its own bottle, kept once known; in a figh
   const before = count();
   Game.input('rest');
   if (count() !== before) return 'Rest in a fight drank a draught';
-  if (!/can't rest/.test(G.log[G.log.length - 1].m)) return `Rest in a fight said: ${G.log[G.log.length - 1].m}`;
+  if (!/cannot rest/.test(G.log[G.log.length - 1].m)) return `Rest in a fight said: ${G.log[G.log.length - 1].m}`;
   Game.input('quaff');
   if (count() !== before - 1) return 'the quaff did not drink the draught';
   Game.level().monsters.length = 0;

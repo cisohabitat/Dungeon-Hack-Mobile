@@ -323,7 +323,7 @@ export function makeFoes(K) {
         if (dist === 1) {
           if (monsterAttack(m, { verb: 'claws', sure: true }) && K.G.status === 'playing') {
             const c = K.trickSave('con', 'claw');
-            if (c.pass) K.log(`The ${mb.name}'s claws numb you, but you shake it off.${c.note}`, 'good');
+            if (c.pass) K.log(`The ${mb.name}'s claw numbs you, but you shake it off.${c.note}`, 'good');
             else { p.held = K.G.t + HELD_MS; p.heldBy = 'frozen'; K.log(`The ${mb.name}'s touch freezes you in place!${c.note}`, 'bad'); }
           }
           K.G.blowGate = K.G.t + K.BLOW_GAP;
@@ -705,7 +705,7 @@ export function makeFoes(K) {
           const n = Math.min(3, Math.max(0, p.maxHp - 10)), back = Math.min(m.maxHp - m.hp, 3 * n);
           p.maxHp -= n; p.hp = Math.min(p.hp, p.maxHp); m.hp += back;
           if (back) K.floatText(m, '+' + back, '#c080ff');
-          K.log(`The ${mb.name} drinks deep: ${n} of your most health is gone for good${back ? `, and her wounds close (+${back})` : ''}.${c.note}`, 'bad');
+          K.log(`The ${mb.name} drinks deep: ${n} of your maximum hit points ${n === 1 ? 'is' : 'are'} gone for good${back ? `, and her wounds close (+${back})` : ''}.${c.note}`, 'bad');
           K.emit('stats');
         }
       }

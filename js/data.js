@@ -653,7 +653,7 @@ const BESTIARY = {
     trick: 'Reaches out with its numbing claw every other blow, not every third.',
     answer: 'Step back while it reaches, or land a blow first and knock the claw aside. Mind it closely: the next reach comes quickly.' },
   orla:     { lore: 'She led the valley\'s prayers in the Hollow Chapel before the Heart went out, and she is praying still. Undead: holy magic burns it twice as badly.',
-    trick: 'Every third blow she reaches into your chest to drink. If her hand closes, a weak will loses 3 of its most health for good, and she is mended by what she takes.',
+    trick: 'Every third blow she reaches into your chest to drink. If her hand closes, a weak will loses 3 maximum hit points for good, and she is mended by what she takes.',
     answer: 'Step back while she reaches and her hand closes on air, leaving her open. A strong will, or a ward against the grave, keeps what she would take.' },
   gorrum:   { lore: 'Father, grandfather and great-grandfather to every troll on the lower floors, and hungrier than all of them together.',
     trick: 'His wounds close twice as fast as any troll\'s: two hit points a second.',
