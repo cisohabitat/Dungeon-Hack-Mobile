@@ -257,7 +257,7 @@
  * @property {boolean} [bossDown]  the lich has fallen: no more choices stand between the hero and the Heart
  * @property {number[]} [pendingLevels]  the level each queued offer was earned at
  * @property {Record<number, {hp: number, spells: string[]}>} [levelNotes]  what each level-up brought
- * @property {{name: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]
+ * @property {{name: string, id?: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]  who struck last, and what kind it was (for the share card's picture)
  * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {number} [saveSeq]  how many times this run has been saved: a save code knows how far along it was taken

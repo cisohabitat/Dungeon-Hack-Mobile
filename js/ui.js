@@ -11,6 +11,7 @@ import { Daily } from './daily.js';
 import { Progress } from './progress.js';
 import { $, $$, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
 import { renderBestiary, renderCodex, renderHall } from './hall.js';
+import { drawShareCard } from './sharecard.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -2244,6 +2245,32 @@ const UI = (() => {
     const where = location.protocol === 'https:' ? ` ${location.origin}${location.pathname}` : '';
     return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}${where}`;
   }
+  /** What the share card says of this run, and the picture it shows. */
+  function cardInfo(won) {
+    const G = Game.state(), p = G.player, o = G.opts;
+    const k = Game.lastAttacker(), mb = k && k.id ? MONSTERS[k.id] : null;
+    const pic = s => (s && s.levels ? s.levels[0] : s) || null;
+    let art = null, killer = '';
+    if (won) { art = pic(Assets.sprites.artifact); killer = 'and brought down the Dread Lich'; }
+    else if (mb) {
+      const s = Assets.sprites[mb.sprite];
+      art = pic(mb.named && s && s.elite && s.elite[k.id] ? s.elite[k.id] : s);
+      killer = `to ${mb.named || /^the /i.test(k.name) ? k.name : `${/^[aeiou]/i.test(k.name) ? 'an' : 'a'} ${k.name.toLowerCase()}`}`;
+    } else {
+      art = pic(Assets.sprites.bone_heap);
+      if (k) killer = `to ${k.name.replace(/^[A-Z](?=[a-z])/, c => (k.encounter ? c : c.toLowerCase()))}`;
+    }
+    const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
+    return {
+      won, art, killer,
+      hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
+      outcome: won ? 'Claimed the Heart' : `Fell on floor ${G.depth}`,
+      stats: `Level ${p.level} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
+      mode: mode.join(' \u00b7 '),
+      seed: String(G.seed),
+      date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+    };
+  }
   function showEnd(won) {
     const G = Game.state(), p = G.player;
     clearOverlays();
@@ -2297,6 +2324,8 @@ const UI = (() => {
     // any run can be told in one line: a daily one with its streak, another with
     // its seed, so a friend can walk the same halls
     $('#end-share').style.display = '';
+    $('#end-card').style.display = '';
+    $('#end-card').textContent = 'Share a picture';
     $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : 'Share this run';
     $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
@@ -2537,6 +2566,23 @@ const UI = (() => {
     $('#confirm-replace').addEventListener('click', startPending);
     $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow('quick'); });
     $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(); });
+    // the run as a picture: to the phone's share sheet where it takes files, else saved
+    $('#end-card').addEventListener('click', async () => {
+      const b = $('#end-card'), G = Game.state();
+      if (!G) return;
+      const won = G.status === 'won';
+      const blob = await new Promise(r => drawShareCard(cardInfo(won)).toBlob(r, 'image/png'));
+      if (!blob) { b.textContent = 'Could not draw the picture'; return; }
+      const file = new File([blob], `deepdelve-${String(G.seed).toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`, { type: 'image/png' });
+      try {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text: runShareLine(won) }); b.textContent = 'Shared'; return; }
+      } catch (e) { if (e && e.name === 'AbortError') return; }
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = file.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      b.textContent = 'Picture saved';
+    });
     $('#end-share').addEventListener('click', () => {
       const G = Game.state(), key = G && G.opts.daily, st = key ? Daily.status(key) : null;
       if (!G || (key && (!st || !st.done))) return;

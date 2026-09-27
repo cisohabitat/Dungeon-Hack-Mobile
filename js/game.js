@@ -2700,7 +2700,7 @@ const Game = (() => {
       fx.hurtFromUntil = realNow + (fx.hurtFrom ? 1500 : 900);
       // a champion is remembered by its name: "Grisk, the Goblin King", not "Goblin King"
       const fb = mstat(from);
-      G.lastAttacker = { name: fb.named ? `${fb.named.called}, the ${fb.name}` : from.shade ? `the ${fb.name}` : fb.name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
+      G.lastAttacker = { name: fb.named ? `${fb.named.called}, the ${fb.name}` : from.shade ? `the ${fb.name}` : fb.name, id: from.id, dmg, bearing: bearing ? bearing.word : 'from nearby' };
     } else if (cause) G.lastAttacker = { name: cause, dmg, bearing: '', cause: true };
     // the harder the blow against the hero's whole life, the harder the view
     // jolts and reddens; one that takes a tenth of it or more leaves blood on

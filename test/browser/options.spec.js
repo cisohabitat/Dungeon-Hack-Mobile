@@ -319,6 +319,46 @@ test.describe('sharing a run', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a run can be shared as a picture: saved where the browser cannot share files, sent to the sheet where it can', async ({ page, browser }) => {
+    const die = async pg => {
+      await clearBoons(pg);
+      await faceOpenGround(pg, 2);
+      await placeMonster(pg, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+      await pg.evaluate(() => { Game.player().hp = 1; });
+      await expect.poll(() => pg.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    };
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'card-me', cls: 'Fighter' });
+    await die(page);
+    await expect(page.locator('#end-card')).toBeVisible();
+    const [download] = await Promise.all([page.waitForEvent('download'), page.click('#end-card')]);
+    expect(download.suggestedFilename()).toBe('deepdelve-card-me.png');
+    const png = require('fs').readFileSync(await download.path());
+    // a real PNG, 800 by 420
+    expect(png.slice(1, 4).toString()).toBe('PNG');
+    expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([800, 420]);
+    await expect(page.locator('#end-card')).toHaveText('Picture saved');
+    expect(errors).toEqual([]);
+    // a phone whose sheet takes files gets the picture, with the line beside it
+    const phone = await browser.newContext({ viewport: page.viewportSize() });
+    const p2 = await phone.newPage();
+    await p2.addInitScript(() => {
+      window.__sent = null;
+      navigator.canShare = d => !!(d && d.files && d.files.length);
+      navigator.share = async d => { window.__sent = { name: d.files[0].name, type: d.files[0].type, size: d.files[0].size, text: d.text }; };
+    });
+    await startGame(p2, { seed: 'card-sheet', cls: 'Fighter' });
+    await die(p2);
+    await p2.click('#end-card');
+    await expect(p2.locator('#end-card')).toHaveText('Shared');
+    const sent = await p2.evaluate(() => window.__sent);
+    expect(sent.name).toBe('deepdelve-card-sheet.png');
+    expect(sent.type).toBe('image/png');
+    expect(sent.size).toBeGreaterThan(5000);
+    expect(sent.text).toMatch(/^Deepdelve seed card-sheet/);
+    await phone.close();
+  });
+
   test("a phone with a share sheet shares through it, and closing the sheet is not a failure", async ({ page }) => {
     const errors = watchForErrors(page);
     // a stand-in for the phone's sheet: the first time it is closed unchosen, then something is picked
