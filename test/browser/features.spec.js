@@ -1077,6 +1077,48 @@ test.describe('dungeon features', () => {
     await back.close();
     expect(errors).toEqual([]);
   });
+  test('a starving hound fed on the way follows the hero, shows in the view, and stays or comes when told', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'hound-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    // the hound's corner, straight ahead
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'stray', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices')).toContainText('Share your food with it');
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Share your food' }).click();
+    await page.waitForTimeout(450);   // the outcome is read before Continue answers
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
+    await expect.poll(() => page.evaluate(() => !!Game.companion())).toBe(true);
+    const name = await page.evaluate(() => Game.companion().name);
+    // turn to face it (it came in beside the hero)
+    await page.evaluate(() => {
+      const p = Game.player(), c = Game.companion(), want = Dungeon.DIRS.findIndex(([dx, dy]) => dx === c.x - p.x && dy === c.y - p.y);
+      const turns = (want - p.dir + 4) % 4;
+      for (let i = 0; i < (turns === 3 ? 1 : turns); i++) Game.input(turns === 3 ? 'left' : 'right');
+    });
+    await expect(page.locator('[data-tap="use"]')).toContainText('Stay');
+    // it is drawn: the view holds the hound's picture
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.dog))).toBe(true);
+    await page.click('[data-tap="use"]');
+    await expect(page.locator('#hud-status')).toContainText(`${name}`);
+    await expect(page.locator('#hud-status')).toContainText('staying');
+    await expect(page.locator('[data-tap="use"]')).toContainText('Come');
+    await page.click('[data-tap="use"]');
+    await expect(page.locator('#hud-status')).not.toContainText('staying');
+    // the Hero sheet knows it
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText(name);
+    expect(errors).toEqual([]);
+  });
+
   test('left-handed controls in the menu swap the pad and the buttons, and are remembered', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'left-hand' });

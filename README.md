@@ -74,6 +74,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
   its worth. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
+- **A hound at your heel.** On floor 2 of most delves a starving hound watches from the dark.
+  Share your food, or win it over with a word, and it follows you down: it bites whatever
+  stands beside it (the thing at your side first), draws the blows of anything that reaches it
+  before you, heals when you rest and grows with you. Walk into it to swap places; face it and
+  press Use to tell it to stay or call it to heel. It is no help to a quiet step: sleepers hear a hero
+  with a hound at heel a square sooner. A hound told to stay is left behind on the
+  stair. If it falls it is gone for the run, and the epilogue remembers it.
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
@@ -199,7 +206,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 185 Playwright tests against a real browser, at phone size
+npm run test:browser  # 186 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
 ```
@@ -232,8 +239,8 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 73% | 73% | 75% | 78% | 73% | about 74% |
-| Hard | 48% | 51% | 49% | 57% | 51% | about 51% |
+| Normal | 77% | 74% | 73% | 81% | 77% | about 76% |
+| Hard | 54% | 53% | 48% | 60% | 55% | about 54% |
 | Long Delve (12 floors), Normal | 67% | 74% | 71% | 80% | 78% | about 74% |
 | Long Delve (12 floors), Hard | 50% | 51% | 53% | 60% | 51% | about 53% |
 
@@ -250,6 +257,11 @@ have given it anything from 37% to 62%. It trailed at about 43% until the deep f
 monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
 answers well; over three seed sets it now wins about 49% with no help, and giving its blows
 the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
+
+The hound (floor 2, on about two seeds in three) is worth two or three points on Normal and three
+or four on Hard: without it the same build wins about 74% and 51%. Most of that is the early
+floors, where it takes blows meant for the hero; a thinner hound that fell in most runs still
+gave nearly as much, so it is kept worth having. The Long Delve rows were measured before it.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.

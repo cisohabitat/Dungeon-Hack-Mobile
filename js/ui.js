@@ -48,6 +48,8 @@ const UI = (() => {
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
+  /** What of the hound the status row shows, so the row redraws when it changes. */
+  const houndSig = () => { const h = Game.companion(); return h ? `${h.hp}/${h.maxHp}/${h.mode}/${h.depth}/${h.fallen || 0}` : ''; };
 
   let finaleTimer = 0;
   function showScreen(id) {
@@ -126,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-27', text: 'deep-floor monsters and an elder wyrm, gear made from them, seven encounters, save codes, left-handed controls, a Bestiary gallery, and a picture of each run to share.' };
+  const NEWS = { id: '2026-09-27b', text: 'a starving hound on floor 2 that may follow you down, deep-floor monsters and an elder wyrm, gear made from them, seven encounters, save codes, left-handed controls, a Bestiary gallery, and a picture of each run to share.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -918,7 +920,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig()].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -959,6 +961,13 @@ const UI = (() => {
     if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
+    // the hound, when there is something to say: hurt, told to stay, or waiting on another floor
+    const hound = Game.companion();
+    if (hound && !hound.fallen) {
+      const who = escapeHtml(hound.name);
+      if (hound.depth !== G.depth) st.push(`<span title="Your hound waits where you told it to stay">${who} on floor ${Number(hound.depth)}</span>`);
+      else if (hound.hp < hound.maxHp || hound.mode === 'stay') st.push(`<span class="${hound.hp < hound.maxHp / 3 ? 'bad' : 'good'}" title="Your hound">${who} ${Number(hound.hp)}/${Number(hound.maxHp)}${hound.mode === 'stay' ? ', staying' : ''}</span>`);
+    }
     $('#hud-status').innerHTML = st.join('');
   }
   // The Use button names what it will do: a staircase you are facing should

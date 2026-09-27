@@ -820,6 +820,46 @@ const CREATURES = {
     return out;
   },
 
+  // The hero's hound: brown and scruffy, ears that flop, a frayed red collar
+  // with a tag, and a tail that will not keep still. Nothing like the grey
+  // things of the deep: shorter in the leg, warmer, and on your side.
+  dog: (pose = 'idle') => {
+    const coat = '#8a5a32', dark = '#5e3a1e', pale = '#c8a070', muzzle = '#a8784a', nose = '#1a1210';
+    const bite = pose === 'windup';
+    const hy = bite ? 15.5 : 13;
+    return [
+      // the tail up and waving behind
+      limb(19, 18, 23, 13, 1.2, 0.8, dark), limb(23, 13, 24.5, 9.5, 0.8, 0.5, coat),
+      // hind legs, short and sturdy
+      ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
+      ...both(ball(10, 30.4, 1.7, 0.9, dark)),
+      // a deep body with a saddle of darker coat
+      ball(15.5, 20.5, 6.8, 4.6, coat),
+      sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
+      // forelegs, braced for the spring if it means to bite
+      ...both(limb(12.5, 21.5, bite ? 10.5 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : 12, 26.5, bite ? 11 : 12.3, 30, 1.1, 1, coat)),
+      ...both(ball(bite ? 11 : 12.3, 30.4, 1.7, 0.9, coat)),
+      // a pale chest, and the collar with its tag
+      ball(15.5, 22.5, 3, 3.2, pale),
+      sheet([[12.6, hy + 3.4], [18.4, hy + 3.4], [18, hy + 4.6], [13, hy + 4.6]], '#a02828', { curve: 0.6 }),
+      ball(15.5, hy + 5.6, 0.9, 1, '#d8b848'),
+      // floppy ears hanging down beside a broad head
+      ...both(sheet([[12.6, hy - 2.5], [9.5, hy - 1], [10.2, hy + 4], [12.4, hy + 2]], dark, { curve: 0.8, tilt: [-0.3, 0.2] })),
+      ball(15.5, hy, 3.9, 3.4, coat),
+      ...both(ball(13.9, hy - 0.8, 1.3, 0.9, '#3a2412')),
+      // the muzzle, and the eyes, warm and brown with a catch of light
+      bite ? sheet([[13.3, hy + 1.5], [17.7, hy + 1.5], [17.2, hy + 5.5], [13.8, hy + 5.5]], '#4a1818', { curve: 0.5 }) : limb(15.5, hy + 1, 15.5, hy + 3.6, 2.2, 1.7, muzzle),
+      bite ? ball(15.5, hy + 5.4, 2, 1, muzzle) : ball(15.5, hy + 3.5, 1.4, 0.9, nose),
+      dots([[14, Math.round(hy) - 1], [17, Math.round(hy) - 1]], '#2a1808'), dots([[14, Math.round(hy) - 2], [17, Math.round(hy) - 2]], '#f0d8a0'),
+      ...(bite ? [dots([[14, Math.round(hy) + 2], [17, Math.round(hy) + 2], [14, Math.round(hy) + 4], [17, Math.round(hy) + 4]], '#f4ecdc')] : []),
+      // fine work: a tuft on the head, whiskers, the tag's glint, claws, the coat's grain
+      hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
+      specks([[15.5, hy + 5.5]], '#fff4c0'),
+      ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
+      hair(13, 19, 14.5, 21, '#6e4424'), hair(17.5, 19, 16.5, 21.5, '#6e4424'), hair(11.5, 22, 12, 24, '#a87848'),
+    ];
+  },
+
   // A long grey hound of the deep, all rib and sinew on legs too long for it,
   // with pale eyes that stay lit in the dark. It steps out of the world and
   // back in somewhere else, and its edges never quite settle. Going, it thins
@@ -1447,7 +1487,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'] };
+const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -1725,6 +1765,23 @@ const PROPS = {
       ball(10, 29, 3.4, 2, '#a07830'), ball(10, 28, 2.6, 1.4, '#e8c040'), dots([[9, 27], [11, 27], [10, 26]], '#fff0a0'),
       dots([[17, 29], [18, 29], [17, 30], [18, 30], [21, 30], [22, 30], [21, 31], [22, 31]], '#f4ecd8'),
       dots([[17, 29], [22, 31], [18, 30]], '#1a1418'),
+    ];
+  },
+  // a thin brown hound curled in a corner, a frayed collar, one ear up
+  stray: () => {
+    const coat = '#7a5030', dark = '#523218', pale = '#b8905e';
+    return [
+      ball(16, 26.5, 10, 4.5, coat),
+      ball(16, 25, 8, 2.4, dark),
+      limb(7, 27.5, 4, 25, 1.2, 0.7, dark),
+      ...[12, 15, 18].map(x => line(x, 25, x + 1, 28, '#5a3a1e')),
+      ball(22.5, 25, 4, 3.4, coat),
+      sheet([[20, 22.5], [18.5, 18.5], [21.5, 22]], dark, { curve: 0.6 }),
+      sheet([[24.5, 22.5], [26, 25.5], [25, 27]], dark, { curve: 0.6 }),
+      limb(22, 27, 27.5, 27.5, 1.6, 1.2, '#96683e'), ball(27.8, 27.4, 1.1, 0.8, '#1a1210'),
+      limb(19.5, 27.5, 24, 28.5, 0.9, 0.9, '#a02828'), ball(22, 29.2, 0.8, 0.8, '#d8b848'),
+      dots([[22, 24], [24, 24]], '#2a1808'), dots([[22, 23], [24, 23]], '#f0d8a0'),
+      ...[10, 14, 18].map(x => ball(x, 29.5, 1.6, 0.8, pale)),
     ];
   },
   // one of the Lampfolk, hunched in the dark with its lamp gone cold in its

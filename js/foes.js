@@ -46,7 +46,7 @@ export function makeFoes(K) {
     const opts = [];
     for (const [dx, dy] of K.DIRS) {
       const nx = m.x + dx, ny = m.y + dy;
-      if (K.passable(nx, ny) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !(nx === p.x && ny === p.y)) opts.push([nx, ny]);
+      if (K.passable(nx, ny) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny) && !(nx === p.x && ny === p.y)) opts.push([nx, ny]);
     }
     if (opts.length) { const o = Dice.pick(opts); moveMonster(m, o[0], o[1]); }
   }
@@ -61,7 +61,7 @@ export function makeFoes(K) {
     if (dist > range || dist < 2) return null;
     for (let i = 1; i < dist; i++) {
       const x = m.x + dx * i, y = m.y + dy * i;
-      if (!K.passable(x, y) || (!overHeads && (K.monsterAt(x, y) || K.npcAt(x, y)))) return null;
+      if (!K.passable(x, y) || (!overHeads && (K.monsterAt(x, y) || K.npcAt(x, y) || K.companionAt(x, y)))) return null;
     }
     return dist;
   }
@@ -283,7 +283,7 @@ export function makeFoes(K) {
           // the way: stopped short of the door, it never hits it at all
           while (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) {
             const nx = x + (w.dx || 0), ny = y + (w.dy || 0);
-            if (K.monsterAt(nx, ny) || K.npcAt(nx, ny)) break;
+            if (K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny)) break;
             x = nx; y = ny;
           }
           if (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) door = null;
@@ -312,7 +312,7 @@ export function makeFoes(K) {
           let x = m.x, y = m.y;
           for (let i = 0; i < 3; i++) {
             const nx = x + (w.dx || 0), ny = y + (w.dy || 0);
-            if (!K.passable(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || (nx === p.x && ny === p.y)) break;
+            if (!K.passable(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || (nx === p.x && ny === p.y)) break;
             x = nx; y = ny;
           }
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
@@ -534,7 +534,7 @@ export function makeFoes(K) {
     const p = K.P();
     for (const turn of [2, 1, 3]) {
       const [dx, dy] = K.DIRS[(p.dir + turn) % 4], x = p.x + dx, y = p.y + dy;
-      if ((x === m.x && y === m.y) || (K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y))) return { x, y, side: turn !== 2 };
+      if ((x === m.x && y === m.y) || (K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y) && !K.companionAt(x, y))) return { x, y, side: turn !== 2 };
     }
     return null;
   }
@@ -542,6 +542,8 @@ export function makeFoes(K) {
   const HAND_BLOW = new Set([null, undefined, '', 'opening', 'crit', 'riposte', 'riposte-crit', 'lucky', 'sneak', 'offhand', 'cleave', 'bash']);
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
+    // the quills bite a hound's bite as well as a hand
+    if (m.windup && m.windup.move === 'bristle' && tag === 'companion') K.companionHurt(d(1, 6) + Math.floor(K.G.depth / 2), 'The raised quills stab');
     // a quillback's raised quills bite back at a hand that strikes it
     if (m.windup && m.windup.move === 'bristle' && HAND_BLOW.has(tag) && !K.castingName && K.G.status === 'playing') {
       const p = K.P();
@@ -553,7 +555,7 @@ export function makeFoes(K) {
     }
     // a numbing claw is struck aside by a blow that lands first, and leaves it
     // open: a blow or a spell, not poison or fire already eating at it
-    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns'].includes(tag)) {
+    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns', 'companion'].includes(tag)) {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 900;
       K.log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
       K.learn(m.id, 'answer');
@@ -895,6 +897,8 @@ export function makeFoes(K) {
       beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
       return;
     }
+    // the hero's hound in its way: it goes through the hound
+    if (besideHound(m)) { beginWindup(m, 'pet', windupFor(mb.speed)); return; }
     closesIn(m, mb, L, p, di);
   }
   /** Its first words on waking: the lich's, a champion's, a shade's. */
@@ -941,7 +945,7 @@ export function makeFoes(K) {
     // enough to be reached. Deep-born blood stacks with it, and so do a
     // Ring of Stealth and an Assassin's step, down to the square beside you:
     // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
-    const notice = Math.max(1, 6 - (p.bg === 'deepborn' ? 2 : 0) - (p.cls === 'thief' ? 2 : 0) - (K.hasPower('quiet') ? 1 : 0) - K.assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (K.hasTalent('camouflage') ? 1 : 0));
+    const notice = Math.max(1, 6 - (p.bg === 'deepborn' ? 2 : 0) - (p.cls === 'thief' ? 2 : 0) - (K.hasPower('quiet') ? 1 : 0) - K.assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (K.hasTalent('camouflage') ? 1 : 0) + (K.houndNoisy() ? 1 : 0));
     // Waking is not acting. The growl used to land in the same frame as the
     // first blow from anything that woke beside you, so the only warning was
     // the damage. Give the growl a beat to be heard and turned toward.
@@ -981,7 +985,7 @@ export function makeFoes(K) {
       if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
       const dd = K.distField[ny * L.w + nx];
       // never onto the hero: a chase or a wander would not, and a stale map must not tempt one
-      if (dd > ad && !(nx === p.x && ny === p.y) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
+      if (dd > ad && !(nx === p.x && ny === p.y) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny)) { ad = dd; away = [nx, ny]; }
     }
     // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
     if (away && K.tile(away[0], away[1]) === K.T.DOOR) { const slow = meetDoor(m, mb, away[0], away[1]); m.nextAct = G.t + (slow ? mb.speed : Math.max(300, Math.round(mb.speed * 0.45))); return true; }
@@ -1012,6 +1016,8 @@ export function makeFoes(K) {
   /** A warned blow comes down: on you if you are still there, on the air if not. @returns {undefined|'stop'} */
   function strikes(m, mb, adjacent, shot) {
     const G = K.G, w = m.windup;
+    // a blow at the hound, not the hero: it lands if the hound is still there
+    if (w.kind === 'pet') { m.windup = null; K.companionStruck(m, mb); m.nextAct = G.t + Math.max(120, mb.speed - (w.until - w.at)); return; }
     const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
     // a step back is not always out of reach: a lunger follows you, and the lich's touch reaches
     const follow = w.kind === 'melee' && !adjacent ? K.followBlow(m, mb, w) : null;
@@ -1042,6 +1048,8 @@ export function makeFoes(K) {
     }
     m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
   }
+  /** The hero's hound is beside it (on this floor, standing). */
+  const besideHound = m => K.DIRS.some(([dx, dy]) => K.companionAt(m.x + dx, m.y + dy));
   /** One step nearer along the trail, drawing back as it arrives. */
   function closesIn(m, mb, L, p, di) {
     const G = K.G;
@@ -1050,7 +1058,7 @@ export function makeFoes(K) {
       const nx = m.x + dx, ny = m.y + dy;
       if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
       const dd = K.distField[ny * L.w + nx];
-      if (dd >= 0 && dd < bd && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
+      if (dd >= 0 && dd < bd && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
     }
     const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
     if (!best) { m.nextAct = G.t + mb.speed; return; }
