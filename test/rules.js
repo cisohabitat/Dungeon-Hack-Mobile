@@ -2833,6 +2833,59 @@ await test('Skarrow the Elder Wyrm holds a deep floor of the Long Delve, never a
   return out.length ? out.join('; ') : true;
 });
 
+await test('a fallen cave wyrm or quillback leaves its scales or quills now and then, Skarrow always; wyrm-scale wards off fire, a quill shield pricks', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'trophies', { levels: 12 });
+  const { Game, Dungeon, ITEMS, CLASSES, armorFits } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.stats.str = 30;
+  const kills = (id, n, want) => {
+    let got = 0;
+    for (let i = 0; i < n; i++) {
+      const m = beside(ctx, id, { hp: 1, maxHp: 1, nextAct: 1e12 });
+      for (let t = 0; t < 40 && Game.level().monsters.includes(m); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+      const k = `${m.x},${m.y}`, here = Game.level().items[k] || [];
+      if (here.some(it => it.t === want)) got++;
+      delete Game.level().items[k];
+    }
+    return got;
+  };
+  const w = kills('wyrm', 60, 'wyrmscale'), q = kills('quillback', 60, 'quillshield'), sk = kills('skarrow', 3, 'wyrmscale');
+  if (!(w > 3 && w < 35)) out.push(`60 wyrms left ${w} coats of scale`);
+  if (!(q > 2 && q < 30)) out.push(`60 quillbacks left ${q} quill shields`);
+  if (sk !== 3) out.push(`Skarrow left her scales ${sk} times in 3`);
+  if (kills('hound', 30, 'wyrmscale') + kills('ogre', 30, 'quillshield')) out.push('another kind left a wyrm\'s or a quillback\'s trophy');
+  // neither is found lying about or sold
+  if (ITEMS.wyrmscale.tier < 50 || ITEMS.quillshield.tier < 50) out.push('a trophy can turn up as ordinary loot');
+  if (!armorFits(CLASSES.thief, ITEMS.wyrmscale) || armorFits(CLASSES.mage, ITEMS.wyrmscale)) out.push('wyrm-scale is not light armour');
+  // the quills prick whatever strikes you
+  {
+    p.eq.shield = { t: 'quillshield', q: 1, e: 0 };
+    const m = beside(ctx, 'skeleton', { hp: 999, maxHp: 999 });
+    const mark = markLog(G);
+    for (let i = 0; i < 400 && m.hp === 999; i++) { Game.update(G.t + 25, 25); p.hp = p.maxHp; }
+    if (m.hp === 999) out.push('a blow that landed was not pricked back');
+    else if (!linesSince(G, mark).some(l => /barbs/.test(l))) out.push('the prick was not told');
+    p.eq.shield = null;
+  }
+  // the scale halves a wyrm's fire
+  const burn = warded => {
+    p.eq.armor = warded ? { t: 'wyrmscale', q: 1, e: 0 } : null;
+    let total = 0;
+    for (let i = 0; i < 30; i++) {
+      p.hp = p.maxHp = 9999;
+      const m = ahead(ctx, 'wyrm', 3, { hp: 999, maxHp: 999 });
+      const [fx, fy] = Dungeon.DIRS[p.dir];
+      m.windup = { kind: 'move', move: 'breath', at: G.t, until: G.t + 1000, dx: -fx, dy: -fy }; m.nextAct = m.windup.until;
+      run(Game, G, 1050);
+      total += 9999 - p.hp;
+    }
+    return total;
+  };
+  const bare = burn(false), scaled = burn(true);
+  if (!(scaled < bare * 0.7)) out.push(`wyrm-scale took the fire from ${bare} to ${scaled}, not about half`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
   const ctx = await start('fighter', 'rust-on');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

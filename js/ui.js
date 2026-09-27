@@ -1175,9 +1175,11 @@ const UI = (() => {
       const add = d[2] + knownE(it);
       return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
-    if (b.kind === 'armor') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}`;
+    // a piece made with a power of its own (a wyrm's scales, a quillback's quills) says so
+    const own = b.power && (b.kind === 'armor' || b.kind === 'shield') && RELIC_POWERS[b.power] ? `. ${RELIC_POWERS[b.power]}` : '';
+    if (b.kind === 'armor') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}${own}`;
     if (b.kind === 'shield' && b.focus) return `${b.desc.replace(/\.$/, '')}; held in the free hand${b.ac ? `, armour class +${b.ac}` : ''}`;
-    if (b.kind === 'shield') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand`;
+    if (b.kind === 'shield') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand${own}`;
     if (b.kind === 'food') return `Restores ${b.food} nourishment`;
     // a ring that comes in amounts says how much, enchantment and all
     if (b.bonus) return amountWords([].concat(b.power)[0], b.bonus + knownE(it), it.h ? '?' : '') || b.desc || '';

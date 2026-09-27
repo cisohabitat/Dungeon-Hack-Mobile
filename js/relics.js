@@ -30,6 +30,7 @@ const RELIC_POWERS = {
   evasion: 'Evasion: +2 to every saving throw.',
   seer:   'The Seer: +6 to spot traps, and hidden doors show as you pass.',
   warmth: 'Warmth: cold does half as much to you.',
+  fireward: 'Fire-warded: fire does half as much to you.',
   lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
 };
 

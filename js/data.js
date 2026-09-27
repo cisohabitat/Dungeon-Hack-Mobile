@@ -394,6 +394,10 @@ const ITEMS = {
   buckler:     { kind: 'shield', name: 'Buckler',      ac: 1, value: 5,  sprite: 'buckler', tier: 1, light: true },
   shield:      { kind: 'shield', name: 'Shield',       ac: 2, value: 12, sprite: 'shield', tier: 2 },
   towershield: { kind: 'shield', name: 'Tower Shield', ac: 3, value: 40, sprite: 'towershield', tier: 4 },
+  // What the deep's own beasts leave: never found lying about or on a
+  // shelf (tier 99), only taken from a cave wyrm or a quillback that falls.
+  wyrmscale:   { kind: 'armor', name: 'Wyrm-Scale Mail', ac: 4, weight: 'light', power: 'fireward', value: 260, sprite: 'wyrmscale', tier: 99 },
+  quillshield: { kind: 'shield', name: 'Quill Shield', ac: 2, power: 'thorns', value: 110, sprite: 'quillshield', tier: 99 },
   // a cloak over whatever else is worn, for anyone: known at a glance, as a ring is not
   cloak_protect: { kind: 'cloak', name: 'Cloak of Protection', ac: 1, value: 80,  sprite: 'cloak_protect', tier: 2,
     desc: 'Armour class +1, over whatever else you wear.' },

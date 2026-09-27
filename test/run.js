@@ -111,6 +111,8 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
   // a ring or an amulet carries a power too, and must carry one the rules know
   for (const id in ITEMS) {
     const b = ITEMS[id];
+    // a piece made with a power of its own (a wyrm's scales) carries it too, and it must be one the rules know
+    if (b.power && b.kind !== 'ring' && b.kind !== 'amulet') { [].concat(b.power).forEach(k => { check(RELIC_POWERS[k], `${id} carries '${k}', a power the rules do not know`); used.add(k); }); continue; }
     if (b.kind !== 'ring' && b.kind !== 'amulet') continue;
     const ps = [].concat(b.power || []);
     check(ps.length && ps.every(k => RELIC_POWERS[k]), `${id} has no power, or one the rules do not know`);

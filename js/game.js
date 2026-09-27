@@ -2423,6 +2423,8 @@ const Game = (() => {
   // (m.pack, each {hp, maxHp}). They move as one, the front one takes your
   // blows, each of them swings, and a blast that fills the square hits all.
   const packSize = m => 1 + (m.pack ? m.pack.length : 0);
+  // what a wyrm's scales and a quillback's quills are made into, and how often one is whole enough (Skarrow always)
+  const TROPHIES = { wyrm: ['wyrmscale', 0.25], skarrow: ['wyrmscale', 1], quillback: ['quillshield', 0.2] };
   /** One of them falls: the reward, the log line and the chance of loot. */
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
@@ -2451,6 +2453,13 @@ const Game = (() => {
       const k = key(m.x, m.y);
       const loot = Dungeon.rollLoot(Dice, G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
+    }
+    // and the deep's own beasts leave something of themselves now and then
+    const trophy = TROPHIES[m.id];
+    if (trophy && Math.random() < trophy[1]) {
+      const k = key(m.x, m.y);
+      (L.items[k] = L.items[k] || []).push({ t: trophy[0], q: 1, e: 0 });
+      log(`Something of the ${mb.name} is worth taking: ${ITEMS[trophy[0]].name.replace(/^./, c => c.toLowerCase())}.`, 'good');
     }
     checkLevelUp();
     emit('stats');

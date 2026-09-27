@@ -428,8 +428,10 @@ export function makeFoes(K) {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
         if (inLine && dist >= 2 && dist <= 5 && hasLineToPlayer(m, 5)) {
           const c = K.trickSave('dex', 'breath');
-          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(3, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1))));
-          K.hurtPlayer(n, `A gout of fire roars down the passage over you for ${n}!${c.pass ? ' You throw yourself flat under the worst of it.' : ''}${c.note}`, m, 'a cave wyrm\'s fire');
+          // wyrm's scale turns wyrm's fire
+          const warded = K.hasPower('fireward');
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(3, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1) / (warded ? 2 : 1))));
+          K.hurtPlayer(n, `A gout of fire roars down the passage over you for ${n}!${c.pass ? ' You throw yourself flat under the worst of it.' : ''}${warded ? ' Your wyrm-scale takes the worst of it.' : ''}${c.note}`, m, 'a cave wyrm\'s fire');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
         } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: its fire roars out over your head, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }

@@ -364,6 +364,21 @@ const ITEM_ART = {
       ball(8, 9, 3.4, 2.5, '#b0985c'), ball(24, 9, 3.4, 2.5, '#b0985c'),
     ];
   },
+  // scales off a cave wyrm, rust-red and still warm-looking, laced onto hide
+  wyrmscale: () => {
+    const body = TORSO;
+    return [
+      sheet(body, '#8a3a24', { curve: 1 }),
+      sheet(NECK, '#2a1410'),
+      // rounded scales in rows, each with a dark lower lip and an ember crown
+      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 0) && ((x + (y % 6 ? 0 : 1)) % 2 === 0)), '#4a1a12'),
+      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 1) && ((x + (y % 6 === 1 ? 1 : 0)) % 2 === 0)), '#e08a4a'),
+      ball(8, 9, 3.6, 2.6, '#a44a2c'), ball(24, 9, 3.6, 2.6, '#a44a2c'),
+      // a pale plate down the chest, as on the beast's own belly
+      sheet([[13, 12], [19, 12], [18.5, 24], [13.5, 24]], '#c8a878', { curve: 0.8 }),
+      ...[14.5, 17.5, 20.5].map(y => line(13.8, y, 18.2, y, '#8a6a44')),
+    ];
+  },
   chain: () => [
     // short mail sleeves hang below the shoulders
     limb(7, 10, 5.5, 17, 2.6, 2.2, '#8e949e'), limb(25, 10, 26.5, 17, 2.6, 2.2, '#8e949e'),
@@ -435,6 +450,21 @@ const ITEM_ART = {
       dots([[7, 5], [16, 5], [25, 5], [6, 14], [26, 14]], '#e6ebf2'),
     ];
   },
+  // a round shield faced with a quillback's quills, points outward
+  quillshield: () => [
+    ball(16, 16, 10.5, 10.5, '#4a3020'),
+    ball(16, 16, 9, 9, '#6a4428'),
+    // quills lashed to the face, thick at the root and fine at the tip, overlapping the rim
+    ...Array.from({ length: 22 }, (_, i) => {
+      const a = (i + 0.5) / 22 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a), r = i % 2 ? 14.8 : 13;
+      return limb(16 + c * 3.5, 16 + sn * 3.5, 16 + c * r, 16 + sn * r, 0.95, 0.3, i % 3 ? '#2a2420' : '#3e342a');
+    }),
+    ...Array.from({ length: 22 }, (_, i) => {
+      const a = (i + 0.5) / 22 * Math.PI * 2, r = i % 2 ? 14.8 : 13;
+      return dots([[Math.round(16 + Math.cos(a) * r), Math.round(16 + Math.sin(a) * r)]], '#eee4cc');
+    }),
+    ball(16, 16, 3.4, 3.4, IRON), ball(15.3, 15.3, 1.3, 1.3, '#c8ccd4'),
+  ],
   towershield: () => {
     const outer = [[6, 2], [26, 2], [26, 27], [16, 31], [6, 27]];
     return [
@@ -923,6 +953,19 @@ const ITEM_DETAILS = {
     hair(8, 12, 10.5, 9.5, '#b8bec8'),
     // a cut across the face
     hair(19.5, 21.5, 22, 20, '#3a2414'), hair(19.5, 22, 22, 20.5, '#b88a58'),
+  ],
+  wyrmscale: () => [
+    // a few scales catching the light like embers, and the lacing at the sides
+    specks([[12, 11.5], [14, 14.5], [11, 17.5], [21, 11.5], [20, 17.5], [22, 20.5]], '#ffd08a'),
+    specks([[9, 14], [9, 17], [9, 20], [23, 14], [23, 17], [23, 20]], '#2a1410'),
+    hair(9, 26.5, 23, 26.5, '#4a1a12'),
+    hair(14, 13, 18, 13, '#f0dcb4'), hair(13.8, 22.5, 18.2, 22.5, '#6a4a2c'),
+  ],
+  quillshield: () => [
+    // the rim's lashing, and a tip or two broken off
+    specks([[5, 16], [27, 16], [16, 5], [16, 27], [8, 8], [24, 24], [24, 8], [8, 24]], '#3a2616'),
+    specks([[11, 6], [21, 26], [6, 20]], '#fff8e8'),
+    hair(12.5, 13, 14, 11.5, '#e0e4ec'),
   ],
   shield: () => [
     // the bend's edges, and a silver star in each empty quarter
