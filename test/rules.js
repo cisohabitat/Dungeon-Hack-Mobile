@@ -708,7 +708,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -777,8 +777,10 @@ await test('the whole run meets each encounter at most once, deepest floor excep
     if (new Set(all).size !== all.length) return `seed plan${i} over ${levels} floors repeats an encounter`;
     // about one a floor; a very long run can pass by the four that belong
     // only on the upper floors, once it is below them
-    const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route).length, Math.round((levels - 1) * 1.15));
-    if (all.length < want - (levels >= 12 ? 4 : 1) || all.length > want) return `a ${levels}-floor run met ${all.length} encounters, about ${want} expected`;
+    // (the starving hound is placed on the second floor besides, not dealt)
+    const dealt = all.filter(e => !ENCOUNTERS[e].early);
+    const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early).length, Math.round((levels - 1) * 1.15));
+    if (dealt.length < want - (levels >= 12 ? 4 : 1) || dealt.length > want) return `a ${levels}-floor run met ${dealt.length} encounters, about ${want} expected`;
   }
   return true;
 });
@@ -8749,6 +8751,134 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     L.monsters.push(m);
     for (let i = 0; i < 400; i++) { Game.update(G.t + 25, 25); if (m.windup && m.windup.move === 'blink') return 'it blinked through the wall'; }
     return true;
+  });
+
+  // ---------- the hero's hound ----------
+  /** Win the starving hound over (sharing food never fails). */
+  const withHound = async (seed, opts = {}) => {
+    const ctx = await start('fighter', seed, { levels: 6, ...opts });
+    const { Game } = ctx; const p = Game.player();
+    p.hp = p.maxHp = 9999; p.food = 100;
+    meetAndChoose(ctx, 'stray', 0); Game.closeEncounter();
+    return ctx;
+  };
+  /** Open floor all round the hero, a few squares each way, and nothing else on the floor. */
+  const clearAround = (ctx, r = 4) => {
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+    for (let y = p.y - r; y <= p.y + r; y++) for (let x = p.x - r; x <= p.x + r; x++) if (x > 0 && y > 0 && x < L.w - 1 && y < L.h - 1) L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+    L.monsters.length = 0; L.npcs = []; L.items = {};
+  };
+
+  await test('the starving hound follows a hero who feeds it: it keeps up, and swaps places rather than blocking the way', async () => {
+    const ctx = await withHound('hound-join');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const c = Game.companion();
+    if (!c || c.fallen || c.mode !== 'follow' || !c.name) return `no hound followed: ${JSON.stringify(c)}`;
+    if (p.food !== 75) return `feeding it cost ${100 - p.food} nourishment, not 25`;
+    if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) !== 1) return 'it did not start beside the hero';
+    clearAround(ctx, 6);
+    // walk four squares; it keeps up
+    for (let i = 0; i < 4; i++) { Game.input('forward'); run(Game, G, 400); }
+    run(Game, G, 1500);
+    if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) > 1) return `the hound lagged ${Math.abs(c.x - p.x) + Math.abs(c.y - p.y)} squares behind`;
+    // face it and walk into it: it takes the hero's square
+    const k = ctx.Dungeon.DIRS.findIndex(([dx, dy]) => dx === c.x - p.x && dy === c.y - p.y);
+    p.dir = k; const was = [p.x, p.y], at = [c.x, c.y];
+    Game.input('forward');
+    if (p.x !== at[0] || p.y !== at[1] || c.x !== was[0] || c.y !== was[1]) return 'walking into the hound did not swap places';
+    return Game.threadNotes().some(n => n.includes(c.name)) || 'the hero sheet does not mention the hound';
+  });
+
+  await test('the hound bites an awake foe beside it, takes the blows of a foe that reaches it first, and can fall for good', async () => {
+    const out = [];
+    const ctx = await withHound('hound-fight');
+    const { Game } = ctx; const G = Game.state(); const c = Game.companion();
+    clearAround(ctx);
+    // a goblin beside the hound, not the hero
+    const put = (id, extra) => {
+      const L = Game.level(), p = Game.player();
+      const spot = ctx.Dungeon.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) > 1 && !(x === p.x && y === p.y));
+      const m = { uid: 97, id, x: spot[0], y: spot[1], hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra };
+      L.monsters.length = 0; L.monsters.push(m); return m;
+    };
+    const g = put('goblin', { nextAct: 1e12 });
+    const mark = markLog(G);
+    run(Game, G, 6000);
+    if (!(g.hp < 999)) out.push('the hound never bit the goblin beside it');
+    if (!linesSince(G, mark).some(l => l.includes(`${c.name} bites`))) out.push('its bite was not told');
+    // an ogre beside it swings at it, and in time it falls
+    put('ogre');
+    const hp0 = c.hp;
+    for (let i = 0; i < 1200 && !c.fallen; i++) { Game.update(G.t + 25, 25); Game.player().hp = 9999; }
+    if (!(c.hp < hp0) && !c.fallen) out.push('an ogre beside the hound never struck it');
+    if (!c.fallen) out.push('the hound never fell');
+    if (Game.state().status !== 'playing') out.push('the hero died instead');
+    if (c.fallen && !Game.threadNotes().some(n => /fell/.test(n))) out.push('the hero sheet does not say it fell');
+    if (c.fallen && !Game.epilogue(false).join(' ').includes(c.name)) out.push('the epilogue forgot it');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('told to stay, the hound stays, even down the stair; at heel it comes too; resting heals it; a reload keeps it', async () => {
+    const out = [];
+    const ctx = await withHound('hound-stay');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(); const c = Game.companion();
+    clearAround(ctx);
+    const k = ctx.Dungeon.DIRS.findIndex(([dx, dy]) => dx === c.x - p.x && dy === c.y - p.y);
+    p.dir = k;
+    if (Game.useLabel() !== 'Stay') out.push(`facing the hound, Use says ${Game.useLabel()}`);
+    Game.input('use');
+    if (c.mode !== 'stay') out.push('Use did not tell it to stay');
+    if (Game.useLabel() !== 'Come') out.push(`told to stay, Use says ${Game.useLabel()}`);
+    Game.input('use');
+    if (c.mode !== 'follow') out.push('Use did not call it back');
+    Game.input('use');
+    const d0 = G.depth;
+    Game.level().monsters.length = 0; Game.descend();
+    if (c.depth !== d0) out.push('a hound told to stay came down the stair');
+    // another hero keeps theirs at heel, and it comes down with them
+    {
+      const b2 = await withHound('hound-heel');
+      const G2 = b2.Game.state(), p2 = b2.Game.player(), c2 = b2.Game.companion();
+      b2.Game.level().monsters.length = 0; b2.Game.descend();
+      if (c2.depth !== G2.depth) out.push('a hound at heel did not come down the stair');
+      else if (Math.abs(c2.x - p2.x) + Math.abs(c2.y - p2.y) !== 1) out.push('it did not arrive beside the hero');
+    }
+    {
+      const b3 = await withHound('hound-rest');
+      const c3 = b3.Game.companion();
+      c3.hp = 1; b3.Game.player().hp = 1;
+      clearAround(b3);
+      b3.Game.rest();
+      if (!(c3.hp > 1)) out.push('resting did not heal the hound');
+      b3.Game.save(true);
+      const name = c3.name, hp = c3.hp;
+      if (!b3.Game.load()) return 'the game would not load';
+      const c4 = b3.Game.companion();
+      if (!c4 || c4.name !== name || c4.hp !== hp) out.push(`after a reload the hound was ${JSON.stringify(c4)}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('raised quills stab the hound that bites into them, not the hero; the starving hound waits on the second floor of about two runs in three', async () => {
+    const out = [];
+    const ctx = await withHound('hound-quills');
+    const { Game } = ctx; const G = Game.state(); const c = Game.companion(); const p = Game.player();
+    clearAround(ctx);
+    const spot = ctx.Dungeon.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) > 1 && !(x === p.x && y === p.y));
+    const q = { uid: 98, id: 'quillback', x: spot[0], y: spot[1], hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    q.windup = { kind: 'move', move: 'bristle', at: G.t, until: G.t + 1e9 };
+    Game.level().monsters.push(q);
+    const hp0 = c.hp, php = p.hp;
+    for (let i = 0; i < 400 && q.hp === 999; i++) Game.update(G.t + 25, 25);
+    if (q.hp === 999) out.push('the hound never bit the quillback');
+    else if (!(c.hp < hp0)) out.push('the quills did not stab the hound');
+    if (p.hp < php) out.push('the quills stabbed the hero for the hound\'s bite');
+    const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+    let n = 0;
+    for (let i = 0; i < 300; i++) if (encounterPlan('stray' + i, 8)[2].includes('stray')) n++;
+    if (n < 170 || n > 230) out.push(`the hound waited on floor 2 in ${n} of 300 runs`);
+    if (encounterPlan('stray-short', 2).flat().includes('stray')) out.push('a two-floor delve met the hound');
+    return out.length ? out.join('; ') : true;
   });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

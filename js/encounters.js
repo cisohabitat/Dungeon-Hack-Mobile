@@ -480,6 +480,20 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Not in the deck: two runs in three find it on the second floor (see
+  // encounterPlan), where a hound that follows you does the most good.
+  stray: {
+    title: 'A Starving Hound', sprite: 'stray', depth: [2, 2], early: true,
+    text: 'A brown hound lies curled in a corner, all ribs, a frayed collar round its neck and a name scratched on the tag. It lifts its head as you come near, and its tail moves once against the stone.',
+    choices: [
+      { label: 'Share your food with it', outcome: { text: 'It eats from your hand, slowly, as if it cannot believe it. When you move on, it gets up and follows.', effects: [{ food: -25 }, { companion: 'hound' }] } },
+      { label: 'Call it to you', check: { stat: 'cha', dc: 11, knack: [['ranger', null, 3], [null, 'deepborn', 2]] },
+        pass: { text: 'It comes, low and wary, and pushes its nose into your hand. It is yours now, or you are its.', effects: [{ companion: 'hound' }] },
+        fail: { text: 'It shies from your hand and slinks off into the dark, and does not come back.', effects: [] } },
+      { label: 'Leave it be', outcome: { text: 'You leave it curled in its corner. It watches you go.', effects: [] } },
+    ],
+  },
+
   mapmaker: {
     title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
     text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',
@@ -511,7 +525,7 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
 function encounterPlan(seed, levels) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
-  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route));
+  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early));
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);
@@ -528,6 +542,8 @@ function encounterPlan(seed, levels) {
     const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1]);
     for (const id of open.slice(0, n)) { used.add(id); plan[d].push(id); }
   }
+  // the starving hound, on the second floor of two runs in three, on dice of its own
+  if (levels >= 3 && new Rng(String(seed) + '|stray').next() < 2 / 3) plan[2].push('stray');
   return plan;
 }
 

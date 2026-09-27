@@ -10,6 +10,7 @@ import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
 import { SIZE as DRESS_SIZE } from './dressing.js';
 import { encodeSave, decodeSave } from './savecode.js';
+import { makeCompanion } from './companion.js';
 
 // Core game state and rules.
 
@@ -106,6 +107,7 @@ const Game = (() => {
     if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. The lich will be the stronger for it.');
     if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
     if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
+    { const n = companion.note(); if (n) out.push(n); }
     return out;
   }
   /** Whether the hero swore this vow at the start of the run. */
@@ -1485,7 +1487,7 @@ const Game = (() => {
   }
 
   function enterLevel(depth, from) {
-    const p = P();
+    const p = P(), cameFrom = G.depth;
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
@@ -1503,6 +1505,7 @@ const Game = (() => {
     snapCam();
     distFieldAt = -1e9;
     p.deepest = Math.max(p.deepest, depth);
+    companion.arrive(cameFrom);
     if (from === 'down') {
       if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
@@ -1644,6 +1647,7 @@ const Game = (() => {
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : 'Use';
     if (t === T.FOUNTAIN) return 'Drink';
     if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
+    if (companion.at(tx, ty)) return companion.here().mode === 'stay' ? 'Come' : 'Stay';
     // Use still strikes what is in front, but the button beside it already
     // says Attack; two buttons with one name read as a mistake
     if (monsterAt(tx, ty)) return 'Use';
@@ -1702,6 +1706,8 @@ const Game = (() => {
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
+    // the hound steps into your square as you step into its own
+    if (companion.at(nx, ny)) companion.swap(p.x, p.y);
     p.x = nx; p.y = ny; p.steps++;
     if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
     startCam(lvl().twist === 'flooded' ? Math.round(MOVE_MS * FLOOD_SLOW) : MOVE_MS);
@@ -1888,6 +1894,7 @@ const Game = (() => {
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
     const ahead = npcAt(tx, ty);
     if (ahead) return ahead.kind === 'encounter' ? openEncounter(ahead) : openShop(ahead);
+    if (companion.at(tx, ty)) return companion.toggle();
     if (monsterAt(tx, ty)) return attack();
     if (propAt(tx, ty)) return attack();   // a barrel, crate or urn ahead: break it
     if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
@@ -1991,6 +1998,7 @@ const Game = (() => {
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
+      if (e.companion) { const said = companion.join(); if (said) out.push(said); }
       if (e.thread && !threads()[e.thread]) {
         threads()[e.thread] = G.depth;
         if (THREAD_SAID[e.thread]) out.push(THREAD_SAID[e.thread]);
@@ -2387,6 +2395,7 @@ const Game = (() => {
     const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your hound'} bites the ${mb.name}${of} for ${dmg}.`); }
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
@@ -2835,6 +2844,7 @@ const Game = (() => {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
+    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4
@@ -3377,6 +3387,7 @@ const Game = (() => {
     const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share * (hasTalent('field_craft') ? 4 / 3 : 1))), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
     noteHealed(hp);
     p.hp += hp; p.sp += sp;
+    companion.rested(share);
     G.t += found ? 20000 : 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = G.t + 300; }
     const woke = found && ambush();
@@ -3564,6 +3575,7 @@ const Game = (() => {
     if (queuedMove && !(cam.moving && camProgress() < 0.7)) { const q = queuedMove; queuedMove = null; if (q.at <= G.t && G.t - q.at < 400) input(q.act); }
     updateMonsters();
     if (G.status !== 'playing') return;
+    companion.turn();
     // out of combat and unpursued, wounds close slowly on their own
     // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
     const regenTo = Math.ceil(p.maxHp * (p.bg === 'heartsworn' ? HEARTSWORN_CAP : REGEN_CAP));
@@ -3764,6 +3776,7 @@ const Game = (() => {
       // shown once the body has sunk out of sight over it
       if (r.until > G.t && G.t - (r.at || 0) > 450 && Assets.sprites['dress_' + r.k]) sprites.push({ x: r.x, y: r.y, img: Assets.sprites['dress_' + r.k], scale: DRESS_SIZE[r.k] || 0.3, yOff: 0, onFloor: true });
     }
+    { const hs = companion.sprite(Assets, now); if (hs) sprites.push(hs); }
     for (const n of (L.npcs || [])) {
       const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;
       // the trader is one of the Lampfolk, or at a goblin market a goblin pedlar
@@ -3913,6 +3926,7 @@ const Game = (() => {
         if (m.windup) { m.windup.at += 800; m.windup.until += 800; m.nextAct = m.windup.until; }
       }
       lastBlocked = -1e9; queuedAttack = false; queuedMove = null;
+      companion.loaded();
       snapCam();
       distFieldAt = -1e9;
       clearFx();
@@ -4007,6 +4021,8 @@ const Game = (() => {
     get tricksterOpening() { return tricksterOpening; },
     get diff() { return diff; },
     get distField() { return distField; }, set distField(v) { distField = v; },
+    // the hero's hound: where it stands, and what a blow at it or the quills do
+    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionHurt() { return companion.hurt; },
     get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
     get effectFrom() { return effectFrom; },
     get emit() { return emit; },
@@ -4058,9 +4074,17 @@ const Game = (() => {
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
+  // ---------- the hero's hound: see companion.js ----------
+  const companion = makeCompanion({
+    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
+    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get mstat() { return mstat; },
+    get damageMonster() { return damageMonster; }, get ensureDist() { return ensureDist; }, get distField() { return distField; },
+    get heard() { return heard; }, get realNow() { return realNow; },
+  });
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
+    companion: () => (G && G.companion) || null, companionNote: () => companion.note(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
