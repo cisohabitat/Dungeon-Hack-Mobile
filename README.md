@@ -233,9 +233,9 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
 | Normal | 73% | 73% | 75% | 78% | 73% | about 74% |
-| Hard | 47% | 51% | 49% | 57% | 54% | about 52% |
-| Long Delve (12 floors), Normal | 65% | 73% | 71% | 83% | 74% | about 73% |
-| Long Delve (12 floors), Hard | 52% | 52% | 53% | 59% | 51% | about 53% |
+| Hard | 48% | 51% | 49% | 57% | 51% | about 51% |
+| Long Delve (12 floors), Normal | 67% | 74% | 71% | 80% | 78% | about 74% |
+| Long Delve (12 floors), Hard | 50% | 51% | 53% | 60% | 51% | about 53% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
 Delve on Hard, and every class lands within about six points of it: the mage lowest, the thief highest. (It was once tuned
