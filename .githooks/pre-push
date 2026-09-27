@@ -1,0 +1,29 @@
+#!/bin/sh
+# Before anything reaches main (which Vercel deploys as it is), run the
+# typecheck, the generator checks and the rule checks against exactly the
+# commit being pushed, in a scratch checkout of it, so an uncommitted edit
+# in the working tree can neither hide a failure nor cause one. The browser
+# tests are left to CI: they take several minutes more.
+# Turned on per clone with: git config core.hooksPath .githooks
+set -e
+root=$(git rev-parse --show-toplevel)
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = "refs/heads/main" ] || continue
+  case "$local_sha" in 0000000000000000000000000000000000000000) continue ;; esac
+  dir=$(mktemp -d)
+  git -C "$root" worktree add --detach -q "$dir" "$local_sha"
+  ln -s "$root/node_modules" "$dir/node_modules"
+  echo "pre-push: checking $local_sha before it goes to main..."
+  if (cd "$dir" && npm test --silent > "$dir.log" 2>&1); then
+    tail -n 1 "$dir.log"
+    status=0
+  else
+    tail -n 30 "$dir.log"
+    echo "pre-push: the checks failed; nothing was pushed to main."
+    status=1
+  fi
+  git -C "$root" worktree remove --force "$dir"
+  rm -f "$dir.log"
+  [ "$status" = 0 ] || exit 1
+done
+exit 0

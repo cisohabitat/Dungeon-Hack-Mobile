@@ -31,6 +31,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Chromium is preinstalled; do not run `playwright install` locally.
 - CI (`.github/workflows/test.yml`) runs `npm test` and the browser tests in
   three shards on every push to `main`.
+- `.githooks/pre-push` runs `npm test` on the exact commit being pushed to
+  `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
+  in each fresh clone: `git config core.hooksPath .githooks`.
 
 ## Balance bench
 
