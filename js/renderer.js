@@ -1266,12 +1266,16 @@ const Renderer = (() => {
     for (const { s, tX, tY } of list) {
       drawOrder.push(s.onFloor ? 'floor' : 'stand');
       const screenX = (W / 2) * (1 + tX / tY);
-      const hFull = P / tY;
+      let hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
       let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : s.img;
       // a monster winding up a blow swells a little toward you as it draws back
+      let floorY = H / 2 + hFull / 2;
+      // Held sideways the view is short, and a creature right in front of you
+      // stood with its feet below the bottom edge: it is drawn a little smaller,
+      // feet on the bottom row, rather than cut off at the knees
+      if (!s.onFloor && floorY > H - 2) { hFull *= (H - 2 - H / 2) / (floorY - H / 2); floorY = H - 2; }
       let size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
-      const floorY = H / 2 + hFull / 2;
       // Right in front of you a big one (the lich above all) grew past the top
       // of the view and lost its head: it is drawn no taller than fits, from
       // where its feet stand up to the top edge, or to the boss's bar, even
@@ -1313,7 +1317,7 @@ const Renderer = (() => {
       if (fading) ctx.globalAlpha = 1;
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
-      if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, dist: tY, texel: sh / img.height });
+      if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, bottom: floorY, dist: tY, texel: sh / img.height });
       if (s.dress && seenR >= 0) dressedN++;
       // where the warning mark goes: over the drawing, half as big again as it
       // was, a trick's bigger still; the lich's bar runs along the top of the

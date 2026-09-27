@@ -91,6 +91,24 @@ test.describe('art', () => {
       expect(errors).toEqual([]);
     });
   }
+  for (const [label, vp] of Object.entries({ sideways: { width: 844, height: 390 }, upright: { width: 390, height: 844 } })) {
+    test(`a creature right in front stands with its feet in the view, held ${label}`, async ({ page }) => {
+      // sideways the view is short, and one a square off stood with its feet below the bottom edge
+      const errors = watchForErrors(page);
+      await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+      await page.setViewportSize(vp);
+      await startGame(page, { seed: 'feet-in-view', cls: 'Fighter' });
+      await clearBoons(page);
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(1);
+      expect(await placeMonster(page, 'goblin', 1, { hp: 300, maxHp: 300, nextAct: 1e12 })).not.toBeNull();
+      await page.waitForTimeout(600);
+      const seen = await page.evaluate(() => Renderer.shown.filter(c => c.dist < 1.5));
+      expect(seen.length, 'the goblin is drawn').toBe(1);
+      expect(seen[0].bottom, 'its feet inside the view').toBeLessThanOrEqual(await page.evaluate(() => Renderer.H));
+      expect(errors).toEqual([]);
+    });
+  }
   test('on a portrait phone the view stands taller than it is wide, and a room\'s dressing is drawn in it', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.setViewportSize({ width: 390, height: 844 });   // a tall phone, where the log used to take the room
