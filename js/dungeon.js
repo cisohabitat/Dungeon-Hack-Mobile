@@ -356,7 +356,7 @@ const Dungeon = (() => {
       const c = mCands[i];
       if (occupied.has(c)) continue;
       // deeper levels favour the tougher end of the pool
-      const weighted = pool.map(id => [id, (1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])) * lean(id)]);
+      const weighted = pool.map(id => [id, (1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])) * lean(id) * (tierDepth < (MONSTERS[id].shy || 0) ? 1 / 3 : 1)]);
       const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
       // champions appear more often the deeper you go
       // no champions on the first floor: a Rabid goblin swinging nearly twice

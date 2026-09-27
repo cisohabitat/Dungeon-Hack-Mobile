@@ -488,7 +488,10 @@ const MONSTERS = {
   // a wyrm whose fire runs down a passage but not under its jaws (close in).
   hound:    { name: 'Blink Hound', hp: [5, 8, 2],    ac: 15, hit: 6,  dmg: [1, 8, 1], speed: 850,  xp: 140,  tier: [6, 12],  sprite: 'hound',    scale: 0.9, move: 'blink', door: 'batter' },
   quillback: { name: 'Quillback',  hp: [7, 10, 2],   ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 1200, xp: 170,  tier: [7, 13],  sprite: 'quillback', scale: 1.05, move: 'bristle', door: 'batter' },
-  wyrm:     { name: 'Cave Wyrm',   hp: [9, 10, 6],   ac: 16, hit: 8,  dmg: [2, 6, 3], speed: 1150, xp: 300,  tier: [9, 30],  sprite: 'wyrm',     scale: 1.3, move: 'breath', door: 'smash' },
+  // (its tier starts just short of an eight-floor delve's seventh floor, 8.47 on
+  // the ladder, so that floor now and then holds one: `shy` thins it to a third
+  // of its weight above the ladder's ninth rung, where the Long Delve meets it)
+  wyrm:     { name: 'Cave Wyrm',   hp: [9, 10, 6],   ac: 16, hit: 8,  dmg: [2, 6, 3], speed: 1150, xp: 300,  tier: [8.4, 30],  sprite: 'wyrm',     scale: 1.3, move: 'breath', door: 'smash', shy: 9 },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
     // guards and throws grave-cold from afar; at one third it puts out the

@@ -2789,6 +2789,26 @@ await test('a cave wyrm\'s fire runs down its line: under its jaws or out of the
   return out.length ? out.join('; ') : true;
 });
 
+await test('a cave wyrm turns up now and then on the seventh floor of an ordinary delve, never higher, and from the ninth of the Long Delve', async () => {
+  const { Dungeon, Rng } = await newContext();
+  const count = (levels, depth, n) => {
+    let wyrms = 0, floors = 0;
+    for (let i = 0; i < n; i++) {
+      const L = Dungeon.generate(`wyrm-${levels}-${depth}-${i}`, depth, { levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
+      floors++; if (L.monsters.some(m => m.id === 'wyrm')) wyrms++;
+    }
+    return wyrms / floors;
+  };
+  const out = [];
+  const seventh = count(8, 7, 120);
+  if (!(seventh > 0.05 && seventh < 0.6)) out.push(`an ordinary delve's seventh floor held a wyrm ${Math.round(seventh * 100)}% of the time`);
+  if (count(8, 6, 60) > 0) out.push('an ordinary delve\'s sixth floor held a wyrm');
+  if (count(6, 5, 60) > 0) out.push('a six-floor delve held a wyrm');
+  if (count(12, 8, 60) > 0) out.push('the Long Delve\'s eighth floor held a wyrm');
+  if (!(count(12, 10, 60) > 0)) out.push('the Long Delve\'s tenth floor never held a wyrm');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
   const ctx = await start('fighter', 'rust-on');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
