@@ -1455,6 +1455,7 @@ const Game = (() => {
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
     clearFx();
+    encounter = null;   // nor does one carry over into a new run
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: newRunStamp(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
     // only vows that exist, once each; the Daily Delve is the same run for everyone, so it takes none
     if (G.opts.vows) G.opts.vows = G.opts.daily ? [] : [...new Set(G.opts.vows)].filter(v => VOWS[v]);
@@ -2001,9 +2002,12 @@ const Game = (() => {
       }
       if (e.heal) { const n = e.heal === 'full' ? p.maxHp - p.hp : e.heal; healPlayer(n); out.push(e.heal === 'full' ? 'Fully healed' : `+${n} hit points`); }
       if (e.maxHp) {
+        const was = p.maxHp;
         p.maxHp = Math.max(10, p.maxHp + e.maxHp);
         p.hp = Math.min(p.maxHp, p.hp + Math.max(0, e.maxHp));
-        out.push(`${e.maxHp > 0 ? '+' : '−'}${Math.abs(e.maxHp)} maximum hit points`);
+        // said as it came out: a loss that stops at the floor of ten is not the whole loss
+        const got = p.maxHp - was;
+        if (got) out.push(`${got > 0 ? '+' : '−'}${Math.abs(got)} maximum hit points`);
       }
       if (e.food) { p.food = Math.max(0, Math.min(100, p.food + e.food)); out.push(`${e.food > 0 ? '+' : '−'}${Math.abs(e.food)} nourishment`); }
       if (e.loot != null) out.push(`Found: ${pickUp(Dungeon.rollLoot(Dice, G.depth + e.loot))}`);
@@ -3970,6 +3974,8 @@ const Game = (() => {
       const data = JSON.parse(s);
       if (!data || !data.player || !data.levels) return false;
       G = data;
+      // an encounter left open belonged to the game that was running, not the one loaded
+      encounter = null;
       G.status = 'playing';
       G.forkPending = false;   // saved with the divided stair's question open: it is asked again at the stair
       for (const dpt in G.levels) {

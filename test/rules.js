@@ -3573,6 +3573,46 @@ await test('a champion risen on a restless floor keeps a champion\'s life', asyn
   return !weak.length || `an Ancient ${weak[0].id} rose with ${weak[0].maxHp} life, no more than a plain one`;
 });
 
+/** Walk into an encounter's stone set just ahead. */
+const encounterAhead = (ctx, id) => {
+  const { Game, Dungeon } = ctx, p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+  L.npcs.length = 0; L.monsters.length = 0;
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+  L.npcs.push({ kind: 'encounter', id, x: p.x + dx, y: p.y + dy });
+  Game.input('forward');
+  return !!Game.currentEncounter();
+};
+
+await test('a loss of maximum hit points stopped by the floor of ten is said as the loss it was', async () => {
+  for (let t = 0; t < 40; t++) {
+    const ctx = await start('fighter', 'mirror-floor' + t);
+    const { Game } = ctx;
+    const p = Game.player();
+    p.maxHp = 11; p.hp = 11;
+    for (const k in p.stats) p.stats[k] = 3;
+    if (!encounterAhead(ctx, 'mirror')) return 'the mirror did not open';
+    const r = Game.chooseEncounter(0);
+    // a natural twenty passes whatever the score: another hero tries
+    if (!r || !r.check || r.check.pass) continue;
+    if (p.maxHp !== 10) return `maximum hit points came to ${p.maxHp}, not 10`;
+    const said = r.lines.join(' | ');
+    return (/−1 maximum hit points/.test(said) && !/−3 maximum/.test(said)) || `the card said: ${said}`;
+  }
+  return 'nobody failed at the mirror in forty tries';
+});
+
+await test('an encounter left open does not carry into a loaded game or a new run', async () => {
+  const ctx = await start('fighter', 'enc-stale');
+  const { Game } = ctx;
+  Game.save(true);
+  if (!encounterAhead(ctx, 'mirror')) return 'the mirror did not open';
+  if (!Game.load()) return 'the save did not load';
+  if (Game.currentEncounter()) return 'the encounter was still open in the loaded game';
+  if (!encounterAhead(ctx, 'mirror')) return 'the mirror did not open a second time';
+  Game.newGame({ name: 'Next', cls: 'thief', stats: Game.rollStats(), seed: 'enc-stale-2', opts: OPTS });
+  return !Game.currentEncounter() || 'the encounter was still open in a new run';
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;
