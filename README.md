@@ -232,10 +232,10 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 74% | 77% | 77% | 82% | 71% | about 76% |
+| Normal | 79% | 76% | 78% | 84% | 76% | about 78% |
 | Hard | 50% | 50% | 45% | 55% | 54% | about 51% |
 | Long Delve (12 floors), Normal | 66% | 71% | 66% | 82% | 67% | about 70% |
-| Long Delve (12 floors), Hard | 50% | 47% | 50% | 59% | 40% | about 49% |
+| Long Delve (12 floors), Hard | 52% | 52% | 46% | 59% | 51% | about 52% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
 Delve on Hard, and every class lands within five points of it: the mage lowest, the thief highest. (It was once tuned
@@ -246,7 +246,10 @@ floors (8 to 12), winning 33% and 34%; since spells strike and heal harder there
 and a cleric's blows with them, they sit with the rest. The thief keeps its lead however the
 back half is made harder (tried: the lich's growth, when the deep floors turn surer, how much
 sturdier they get, capping the thief's dodge). The ranger's figure is the noisiest: seed sets
-have given it anything from 37% to 54%. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
+have given it anything from 37% to 62%. It trailed at about 43% until the deep floors got
+monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
+answers well; over three seed sets it now wins about 49% with no help, and giving its blows
+the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
