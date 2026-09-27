@@ -8,16 +8,16 @@
 import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-const HOUND = { sprite: 'dog', ac: 13, speed: 850, stepMs: 330 };
+const HOUND = { sprite: 'dog', ac: 13, speed: 1000, stepMs: 330 };
 const NAMES = ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'];
 
 /** @param {any} K */
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
-  const maxHpFor = level => 12 + 5 * level;
-  const hitFor = level => 3 + Math.floor(level / 2);
-  const biteFor = level => [1, 6, Math.floor(level / 2)];
+  const maxHpFor = level => 8 + 4 * level;
+  const hitFor = level => 2 + Math.floor(level / 3);
+  const biteFor = level => [1, 4, Math.floor(level / 3)];
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
   const free = (x, y) => K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y) && !(x === K.P().x && y === K.P().y);
   /** An open square beside the hero, the one behind them first. */
