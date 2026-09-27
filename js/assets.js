@@ -1159,8 +1159,7 @@ const Assets = (() => {
   // comes near), off the frame being drawn; until then it keeps its usual
   // picture. Every pose and champion of it asks through near().
   const NEAR_SCALE = 4;
-  function nearFor(k) {
-    const lo = sprites[k];
+  function nearFor(k, lo = sprites[k]) {
     let hi = null, asked = false;
     /** @param {(s: any) => any} pick */
     const via = pick => () => {
@@ -1176,23 +1175,53 @@ const Assets = (() => {
     }
   }
 
+  // Painting every picture before the title could answer a tap took three
+  // seconds on a slow phone, and the title needs none of the items, props or
+  // room dressing. Those are painted the first time anything asks for one, and
+  // the rest a few at a time once the title is up, so they are all ready long
+  // before the first floor.
+  const unpainted = [];
+  function later(key, make) {
+    const keep = v => Object.defineProperty(sprites, key, { value: v, writable: true, configurable: true, enumerable: true });
+    Object.defineProperty(sprites, key, {
+      configurable: true, enumerable: true,
+      get() { const v = make(); keep(v); return v; },
+      set: keep,
+    });
+    unpainted.push(key);
+  }
+  /**
+   * Paint what is still waiting in the time the browser has spare between
+   * frames (a few milliseconds a slice where it cannot say), so the title and
+   * the first floor keep their frame rate while it happens.
+   * @param {{ timeRemaining(): number }} [idle]
+   */
+  function paintAhead(idle) {
+    const until = performance.now() + (idle ? Math.max(1, idle.timeRemaining() - 1) : 5);
+    do { const k = unpainted.shift(); if (k) void sprites[k]; } while (unpainted.length && performance.now() < until);
+    if (unpainted.length) paintSoon();
+  }
+  const paintSoon = () => (typeof requestIdleCallback === 'function' ? requestIdleCallback(paintAhead, { timeout: 500 }) : setTimeout(paintAhead, 40));
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
+    // creatures built from parts replace their old grids: they are painted first
+    // of what waits, as the first floor wants them before anything else. They
+    // stand in the world, close enough to fill the view, so they are painted
+    // twice as fine as the items in the pack
+    for (const k in CREATURES) later(k, () => { const s = creature(k); nearFor(k, s); return s; });
     // items painted from parts replace their old grids too
     // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit
-    for (const k in ITEM_ART) sprites[k] = makeSprite({ parts: ITEM_ART[k](), fine: true });
+    for (const k in ITEM_ART) later(k, () => makeSprite({ parts: ITEM_ART[k](), fine: true }));
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite))) {
-      if (ITEM_ART[k]) sprites['relic_' + k] = makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true });
+      if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true }));
     }
-    // creatures built from parts replace their old grids
-    // creatures and props stand in the world, close enough to fill the view: they
-    // are painted twice as fine as the items in the pack
-    for (const k in CREATURES) { sprites[k] = creature(k); nearFor(k); }
-    for (const k in PROPS) sprites[k] = makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true });
+    // props stand in the world too, painted as finely
+    for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
-    for (const k in DRESSING) sprites['dress_' + k] = makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true });
+    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true }));
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
+    setTimeout(paintSoon, 200);
   }
 
   // ---- what the hero holds ----

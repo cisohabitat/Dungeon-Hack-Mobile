@@ -5,6 +5,24 @@ const { test } = require('@playwright/test');
 const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, expect } = require('./helpers');
 
 test.describe('art', () => {
+  test('pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.waitForSelector('#btn-new', { state: 'visible' });
+    const waiting = () => page.evaluate(() => Object.keys(Assets.sprites).filter(k => typeof Object.getOwnPropertyDescriptor(Assets.sprites, k).get === 'function'));
+    // the title keeps its start quick: the pack's pictures are not among what it painted
+    const first = await waiting();
+    expect(first.length, 'some pictures should still be waiting at the title').toBeGreaterThan(20);
+    // one asked for early is painted there and then, whole
+    const one = first.find(k => /sword/.test(k)) || first[0];
+    const got = await page.evaluate(k => { const s = Assets.sprites[k]; return { w: s.w, h: s.h, url: typeof s.url === 'string' && s.url.length > 30, painted: typeof Object.getOwnPropertyDescriptor(Assets.sprites, k).get !== 'function' }; }, one);
+    expect(got.w).toBeGreaterThan(0);
+    expect(got).toMatchObject({ url: true, painted: true });
+    // and the rest are painted in the time to spare, well before a first floor
+    await expect.poll(async () => (await waiting()).length, { timeout: 15_000 }).toBe(0);
+    expect(errors).toEqual([]);
+  });
+
   test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
     // floor 8 said "black glass walls" over the same grey courses as floor 1
     const errors = watchForErrors(page);
