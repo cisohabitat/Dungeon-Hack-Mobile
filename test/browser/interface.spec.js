@@ -579,14 +579,14 @@ test.describe('round five playtest', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the minimap steps down below a tip while one is up, and back after', async ({ page }) => {
+  test('the minimap and the status chips step down below a tip while one is up, and back after', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
     await startGame(page, { seed: 'tip-map' });
     await clearBoons(page);
     await expect(page.locator('#tip.show')).toBeVisible();
-    const clear = () => page.evaluate(() => { const t = document.querySelector('#tip').getBoundingClientRect(), m = document.querySelector('#minimap').getBoundingClientRect(); return { tipUp: document.querySelector('#tip').classList.contains('show'), gap: m.top - t.bottom, top: m.top - document.querySelector('#view').getBoundingClientRect().top }; });
+    const clear = () => page.evaluate(() => { const t = document.querySelector('#tip').getBoundingClientRect(), m = document.querySelector('#minimap').getBoundingClientRect(), s = document.querySelector('#hud-status').getBoundingClientRect(); return { tipUp: document.querySelector('#tip').classList.contains('show'), gap: Math.min(m.top, s.top) - t.bottom, top: Math.max(m.top, s.top) - document.querySelector('#view').getBoundingClientRect().top }; });
     await expect.poll(async () => (await clear()).gap, { timeout: 3000 }).toBeGreaterThanOrEqual(0);
     await page.locator('#tip.show').click();
     await expect.poll(async () => (await clear()).top, { timeout: 3000 }).toBeLessThan(20);

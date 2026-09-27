@@ -1130,9 +1130,10 @@ const UI = (() => {
     miniAt = now;
     const c = $('#minimap');
     // a tip across the top of the view would cover it: it steps down below the
-    // tip while one is up, and back when it goes
+    // tip while one is up, and back when it goes; so do the status chips, which
+    // share the top edge (the hound's among them)
     const tip = $('#tip'), below = tip && tip.classList.contains('show') ? tip.offsetTop + tip.offsetHeight + 4 : 0;
-    if (below !== miniBelow) { miniBelow = below; c.style.top = below ? below + 'px' : ''; }
+    if (below !== miniBelow) { miniBelow = below; c.style.top = below ? below + 'px' : ''; $('#hud-status').style.top = below ? below + 'px' : ''; }
     // it steps back, nearly out of sight, while a creature stands under it:
     // a health bar or a warning mark matters more than the map
     const vr = $('#view').getBoundingClientRect(), mr = c.getBoundingClientRect();
