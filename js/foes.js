@@ -234,13 +234,15 @@ export function makeFoes(K) {
     else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     // a blink hound steps out of the world and back in at your back
-    else if (mv === 'blink' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4 && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) {
+    // (only to a hero it could reach in a few steps: it does not pass through walls)
+    else if (mv === 'blink' && K.distField && K.distField[m.y * K.lvl().w + m.x] > 0 && K.distField[m.y * K.lvl().w + m.x] <= 4 && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) {
       const spot = hindSpot(m);
       if (spot) {
         moveMonster(m, spot.x, spot.y);
         m.fromX = spot.x; m.fromY = spot.y; m.moveT1 = 0;   // gone and back, not a walk
-        say = `The ${mb.name} flickers out of the air, and steps back into it at your back! Turn and face it!`;
-        extra = { behind: 1 };
+        say = spot.side ? `The ${mb.name} flickers out of the air, and steps back into it at your side! Turn and face it!`
+          : `The ${mb.name} flickers out of the air, and steps back into it at your back! Turn and face it!`;
+        extra = { behind: spot.side ? 0 : 1 };
       }
     }
     else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
@@ -409,7 +411,7 @@ export function makeFoes(K) {
         // faced, it steps out of the air onto a raised blade; at your back, it bites deep
         if (dist === 1 && facing(m)) { K.log(`You turn to meet the ${mb.name} as it steps out of the air. It is caught off balance!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         else if (dist === 1) {
-          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: 'sinks its teeth into your back', sure: true });
+          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: w.behind ? 'sinks its teeth into your back' : 'sinks its teeth into your side', sure: true });
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
         } else { K.log(`The ${mb.name} snaps at the air where you stood.`, 'good'); m.nextAct = K.G.t + mb.speed; }
@@ -426,7 +428,7 @@ export function makeFoes(K) {
         Sound.play('nova', K.heard(m));
         // the fire runs down its line from two squares out, and passes over one under its jaws
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
-        if (inLine && dist >= 2 && dist <= 5 && hasLineToPlayer(m, 5)) {
+        if (inLine && dist >= 2 && dist <= 5 && hasLineToPlayer(m, 5, true)) {
           const c = K.trickSave('dex', 'breath');
           // wyrm's scale turns wyrm's fire
           const warded = K.hasPower('fireward');
@@ -513,7 +515,8 @@ export function makeFoes(K) {
   function corrode() {
     const p = K.P();
     // a book, an orb or a holy symbol is no metal for it to eat
-    const shield = p.eq.shield && !ITEMS[p.eq.shield.t].focus ? p.eq.shield : null;
+    // (nor is a quillback's quills on their frame)
+    const shield = p.eq.shield && !ITEMS[p.eq.shield.t].focus && p.eq.shield.t !== 'quillshield' ? p.eq.shield : null;
     const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
     if (!metal.length) { K.log('Its jaws find no metal on you to eat.'); return; }
     // what is rusted through already, it passes over for the next
@@ -530,7 +533,7 @@ export function makeFoes(K) {
     const p = K.P();
     for (const turn of [2, 1, 3]) {
       const [dx, dy] = K.DIRS[(p.dir + turn) % 4], x = p.x + dx, y = p.y + dy;
-      if ((x === m.x && y === m.y) || (K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y))) return { x, y };
+      if ((x === m.x && y === m.y) || (K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y))) return { x, y, side: turn !== 2 };
     }
     return null;
   }
@@ -539,7 +542,7 @@ export function makeFoes(K) {
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
     // a quillback's raised quills bite back at a hand that strikes it
-    if (m.windup && m.windup.move === 'bristle' && HAND_BLOW.has(tag) && !K.castingName) {
+    if (m.windup && m.windup.move === 'bristle' && HAND_BLOW.has(tag) && !K.castingName && K.G.status === 'playing') {
       const p = K.P();
       if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) {
         m.windup.struck = true;

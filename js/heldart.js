@@ -237,7 +237,8 @@ function heldParts(id, pose, cls, two = false) {
 /** The back of a shield, by its sprite. */
 function carriedParts(id, cls) {
   const base = id.replace(/^relic_/, '');
-  if (FOCI.includes(base)) return focusParts(base, cls);
+  // the quill shield is held up as its own picture is drawn, round and bristling
+  if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls);
   if (!['buckler', 'shield', 'towershield'].includes(base)) return null;
   return shieldParts(base, cls);
 }

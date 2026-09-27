@@ -260,7 +260,6 @@
  * @property {{name: string, id?: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]  who struck last, and what kind it was (for the share card's picture)
  * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
- * @property {number} [saveSeq]  how many times this run has been saved: a save code knows how far along it was taken
  * @property {boolean} [metLampfolk]  a Lampfolk trader has been met this run (the first says who they are)
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]

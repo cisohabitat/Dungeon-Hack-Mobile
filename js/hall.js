@@ -39,7 +39,7 @@ function renderBestiary(el) {
     const art = Assets.sprites[mb.sprite], own = mb.named && art && art.elite && art.elite[id];
     const img = `<img src="${own ? own.url : art ? art.url : ''}" alt="">`;
     // met, its picture can be looked at close: a tap enlarges it
-    const bigImg = `<img class="beast-art" src="${own ? own.url : art ? art.url : ''}" alt="${escapeHtml(mb.name)}" role="button" tabindex="0" aria-label="Look closer at the ${escapeHtml(mb.name)}">`;
+    const bigImg = `<img class="beast-art" src="${own ? own.url : art ? art.url : ''}" alt="${escapeHtml(mb.name)}" role="button" tabindex="0" aria-pressed="false" aria-label="Look closer at the ${escapeHtml(mb.name)}">`;
     // the first floor of this delve (or an eight-floor one, from the title) it can be met on
     const levels = (Game.state() && Game.state().opts.levels) || 8;
     let first = 1;
@@ -64,7 +64,7 @@ function renderBestiary(el) {
     // a kind drawn in more than one pose shows them all: readying once met, its trick once seen
     const poseUrl = pose => { const ps = art && art[pose], sp = ps && (mb.named ? ps.elite && ps.elite[id] : ps); return sp ? sp.url : null; };
     const poses = [['At rest', own ? own.url : art && art.url], ['Readying', poseUrl('windup')], ['Its trick', r.trick ? poseUrl('special') : null]].filter(([, u]) => u);
-    if (poses.length > 1) bits.push(`<div class="beast-poses">${poses.map(([l, u]) => `<figure><img src="${u}" alt="${escapeHtml(`${mb.name}: ${l.toLowerCase()}`)}" role="button" tabindex="0"><figcaption>${l}</figcaption></figure>`).join('')}</div>`);
+    if (poses.length > 1) bits.push(`<div class="beast-poses">${poses.map(([l, u]) => `<figure><img src="${u}" alt="${escapeHtml(`${mb.name}: ${l.toLowerCase()}`)}" role="button" tabindex="0" aria-pressed="false"><figcaption>${l}</figcaption></figure>`).join('')}</div>`);
     const rec = [`${where}`, mb.shade ? (r.kills ? `laid to rest ${times(r.kills)}` : 'none laid to rest yet') : mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
     if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
     bits.push(`<p class="where">${rec.join(' · ')}</p>`);
@@ -73,7 +73,10 @@ function renderBestiary(el) {
   // a tap (or Enter) on a met creature's picture, or one of its poses, looks at it close
   const zoom = /** @param {Event} e */ e => {
     const t = /** @type {HTMLElement} */ (e.target);
-    if (t && t.tagName === 'IMG' && t.getAttribute('role') === 'button' && (e.type === 'click' || /** @type {KeyboardEvent} */ (e).key === 'Enter')) t.classList.toggle('zoom');
+    const key = /** @type {KeyboardEvent} */ (e).key;
+    if (!t || t.tagName !== 'IMG' || t.getAttribute('role') !== 'button' || (e.type !== 'click' && key !== 'Enter' && key !== ' ')) return;
+    if (key === ' ') e.preventDefault();
+    t.setAttribute('aria-pressed', String(t.classList.toggle('zoom')));
   };
   el.onclick = zoom; el.onkeydown = zoom;
   return `${met} of ${ids.length} met`;
@@ -154,7 +157,7 @@ function renderHall() {
   const still = f ? `<p class="hall-fallen">Still below: <b>${escapeHtml(f.name)} the ${escapeHtml(CLASSES[f.cls] ? CLASSES[f.cls].name : f.cls)}</b>, ${f.killer ? `killed by ${escapeHtml(f.killer)}${f.killer.includes(',') ? ',' : ''} ` : ''}on floor ${Number(f.depth) || 1}. Their shade keeps watch over their bones until a later delve lays it to rest.</p>` : '';
   if (!list.length) { el.innerHTML = still + '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + h.depth}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${h.kills} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${h.gold} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${h.score}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">Daily ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
 export { renderBestiary, renderCodex, renderTrophies, renderHall };

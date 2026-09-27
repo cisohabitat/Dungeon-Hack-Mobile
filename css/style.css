@@ -727,6 +727,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 /* Left-handed controls: the pad and the blows change sides, Attack keeps to the
    inside edge where the thumb rests, and sideways the whole panel moves left. */
 .lefty .controls { flex-direction: row-reverse; }
+.lefty .log-more { right: auto; left: 4px; }   /* kept clear of the pad, which has moved right */
 .lefty .actions { direction: rtl; }   /* mirrors the grid in every layout */
 .lefty .actions > * { direction: ltr; }
 @media (min-aspect-ratio: 5/4) and (min-width: 640px) {

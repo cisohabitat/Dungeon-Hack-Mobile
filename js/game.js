@@ -77,7 +77,7 @@ const Game = (() => {
     crew: 'The third crew is at rest.',
     bargain: '+1 to hit and damage for the rest of the delve. Something far below will be the stronger for it.',
     lamp: 'The Lampfolk will hear of it.',
-    robbed: 'The Lampfolk will hear of this too.',
+    robbed: 'The Lampfolk will hear of this.',
   };
   /** The Pale One's strength, for the rest of the run. */
   const bargained = () => (G && G.threads && G.threads.bargain ? 1 : 0);
@@ -2297,7 +2297,7 @@ const Game = (() => {
     }
     // the second blade follows, hit or miss, but only if the foe is still where the first struck it:
     // a lich that has come apart into shadow is no longer there to hit
-    if (m.hp > 0 && m.x === struckX && m.y === struckY && lvl().monsters.includes(m)) offhandStrike(m, atRange);
+    if (G.status === 'playing' && m.hp > 0 && m.x === struckX && m.y === struckY && lvl().monsters.includes(m)) offhandStrike(m, atRange);
   }
   /**
    * The second blade follows the first. It swings wilder and carries none of
@@ -2460,7 +2460,7 @@ const Game = (() => {
     if (trophy && Math.random() < trophy[1]) {
       const k = key(m.x, m.y);
       (L.items[k] = L.items[k] || []).push({ t: trophy[0], q: 1, e: 0 });
-      log(`Something of the ${mb.name} is worth taking: ${ITEMS[trophy[0]].name.replace(/^./, c => c.toLowerCase())}.`, 'good');
+      log(`Something of the ${mb.name} is worth taking: a ${ITEMS[trophy[0]].name}.`, 'good');
     }
     checkLevelUp();
     emit('stats');
@@ -2688,6 +2688,9 @@ const Game = (() => {
    * @param {string} [cause]  what hurt, when no monster did: a trap, poison, hunger
    */
   function hurtPlayer(dmg, msg, from, cause) {
+    // the dead are past hurting: a second blow in the same swing (quills bite
+    // the off hand's blow too) would tell the death twice
+    if (G.status !== 'playing') return;
     noteTaken(dmg, from);
     const p = P();
     p.hp -= dmg;
@@ -3822,9 +3825,9 @@ const Game = (() => {
   function save(auto) {
     if (!G || G.status !== 'playing') return false;
     for (const d in G.levels) pruneRemains(G.levels[d]);
-    // each save counts on, so a save code knows how far along its run it was taken
-    G.saveSeq = (G.saveSeq || 0) + 1;
-    if (G.opts.permadeath) noteRun(runKey(), G.saveSeq);
+    // how far along its run this is, by the game's own clock, which stands
+    // still while the page is put away: a save made switching apps is no further
+    if (G.opts.permadeath) noteRun(runKey(), G.t);
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(G));
       if (!auto) log('Game saved.', 'info');
@@ -3953,10 +3956,15 @@ const Game = (() => {
     let data;
     try { data = JSON.parse(await decodeSave(text)); } catch (e) { return { ok: false, why: e instanceof SyntaxError ? 'That code is not whole: it may have been cut short when it was copied.' : e.message }; }
     if (!data || !data.player || !data.levels || !CLASSES[data.player.cls]) return { ok: false, why: 'That code does not hold a hero.' };
+    // a code comes from somewhere else: what the page writes out as markup is
+    // made safe first (a log line's class, the numbers the Hall shows)
+    for (const e of Array.isArray(data.log) ? data.log : []) if (e && !['good', 'bad', 'info'].includes(e.c)) e.c = '';
+    for (const k of ['hp', 'maxHp', 'sp', 'maxSp', 'level', 'xp', 'gold', 'kills', 'deepest']) if (k in data.player) data.player[k] = Number(data.player[k]) || 0;
+    data.depth = Number(data.depth) || 1; data.t = Number(data.t) || 0;
     const key = runKeyOf(data), seen = runsSeen()[key];
     if (data.opts && data.opts.permadeath) {
       if (seen === 'ended') return { ok: false, why: `${data.player.name}'s delve has already ended on this device, and a permadeath run cannot be taken back.` };
-      if (typeof seen === 'number' && (data.saveSeq || 0) < seen) return { ok: false, why: `This device has already played ${data.player.name} further than this code, and a permadeath run cannot be taken back.` };
+      if (typeof seen === 'number' && (Number(data.t) || 0) < seen) return { ok: false, why: `This device has already played ${data.player.name} further than this code, and a permadeath run cannot be taken back.` };
     }
     let before = null;
     try { before = localStorage.getItem(SAVE_KEY); localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) { return { ok: false, why: 'This browser will not keep a saved game.' }; }
@@ -3964,7 +3972,7 @@ const Game = (() => {
       try { if (before) localStorage.setItem(SAVE_KEY, before); else localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
       return { ok: false, why: 'That code would not load.' };
     }
-    if (G.opts.permadeath) noteRun(key, G.saveSeq || 0);
+    if (G.opts.permadeath) noteRun(key, G.t);
     return { ok: true };
   }
   function saveSummary() {

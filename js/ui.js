@@ -1607,15 +1607,18 @@ const UI = (() => {
     if (name === 'code') renderCode();
   }
   /** The hero as a save code, written fresh each time it is asked for. */
+  let codeAsk = 0;
   function renderCode() {
     const out = /** @type {HTMLTextAreaElement} */ ($('#code-out'));
     out.value = '';
     $('#code-note').textContent = 'Writing the code…';
+    // only the latest asking fills the box, if the menu is opened twice quickly
+    const ask = ++codeAsk;
     Game.saveCode().then(code => {
-      if (overlay !== 'code') return;
+      if (overlay !== 'code' || ask !== codeAsk) return;
       out.value = code || '';
       $('#code-note').textContent = code ? `${Math.round(code.length / 1000)} thousand letters long: copy all of it.` : 'This hero cannot be saved just now.';
-    });
+    }).catch(() => { if (ask === codeAsk) $('#code-note').textContent = 'The code could not be written on this browser.'; });
   }
   /** The divided stair: each road, what it holds, and a way to stay put. */
   function renderFork() {

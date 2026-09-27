@@ -8658,7 +8658,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const ctx = await start('fighter', 'code-perma', { levels: 6, permadeath: true });
     const { Game } = ctx;
     const old = await Game.saveCode();
-    Game.level().monsters.length = 0; Game.descend();
+    Game.level().monsters.length = 0; run(Game, Game.state(), 2000); Game.descend();
     Game.save(true);
     const late = await Game.saveCode();
     const r1 = await Game.loadCode(old);
@@ -8679,6 +8679,72 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const r5 = await soft.Game.loadCode(early);
     if (!r5.ok || soft.Game.state().depth !== 1) out.push(`a gentler run would not go back to an older code: ${r5.why}`);
     return out.length ? out.join('; ') : true;
+  });
+
+  await test('saves made while the game stands still (switching apps) do not make a device refuse a code played further elsewhere', async () => {
+    const a = await start('fighter', 'code-switch', { levels: 6, permadeath: true });
+    const code = await a.Game.saveCode();
+    // the page is put away twice to paste it into a message: two saves, no play
+    a.Game.save(true); a.Game.save(true);
+    const keep = new Map(a.store);
+    // another device plays on from the code a little, and sends it back
+    const b = await newContext();
+    if (!(await b.Game.loadCode(code)).ok) return 'the other device would not take the code';
+    b.Game.level().monsters.length = 0; run(b.Game, b.Game.state(), 5000);
+    const back = await b.Game.saveCode();
+    // the first device again, with its own storage as it was
+    const a2 = await newContext();
+    for (const [k, v] of keep) a2.store.set(k, v);
+    const r = await a2.Game.loadCode(back);
+    return r.ok || `a code played further was refused: ${r.why}`;
+  });
+
+  await test('a code from elsewhere is made safe before the page writes it out', async () => {
+    const a = await start('fighter', 'code-clean', { levels: 6 });
+    a.Game.state().log.push({ m: 'x', c: '"><img src=x onerror=alert(1)>' });
+    a.Game.player().gold = '<b>1</b>';
+    const code = await a.Game.saveCode();
+    const b = await newContext();
+    if (!(await b.Game.loadCode(code)).ok) return 'the code would not load';
+    const bad = b.Game.state().log.find(e => /onerror/.test(e.c || ''));
+    if (bad) return 'a log line kept a class with markup in it';
+    return b.Game.player().gold === 0 || `gold came in as ${JSON.stringify(b.Game.player().gold)}`;
+  });
+
+  await test('a hero dies once, however many blows land in the swing that kills them', async () => {
+    for (let tries = 0; tries < 30; tries++) {
+      const ctx = await start('fighter', 'die-once' + tries);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
+      p.stats.str = 30; p.stats.dex = 30;
+      const m = beside(ctx, 'quillback', { hp: 999, maxHp: 999, nextAct: 1e12 });
+      m.windup = { kind: 'move', move: 'bristle', at: G.t, until: G.t + 1e9 };
+      p.hp = 1;
+      const mark = markLog(G);
+      G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+      if (G.status !== 'dead') continue;                  // the blow missed: again
+      const said = linesSince(G, mark);
+      const deaths = said.filter(l => /has died/.test(l)).length;
+      if (!said.some(l => /off hand/i.test(l)) && tries < 29) continue;   // wanted: a swing whose off hand would have followed
+      return deaths === 1 || `the death was told ${deaths} times: ${said.join(' | ')}`;
+    }
+    return 'no swing killed the hero';
+  });
+
+  await test('a blink hound does not blink through a wall to a hero it could not walk to', async () => {
+    const ctx = await start('fighter', 'blink-wall');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level(), T = Dungeon.T;
+    p.hp = p.maxHp = 9999;
+    // a hound two squares ahead with a wall between, and no way round near
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    for (let yy = -6; yy <= 6; yy++) for (let xx = -6; xx <= 6; xx++) { const x = p.x + xx, y = p.y + yy; if (x > 0 && y > 0 && x < L.w - 1 && y < L.h - 1) L.tiles[y * L.w + x] = T.WALL; }
+    L.tiles[p.y * L.w + p.x] = T.FLOOR; L.tiles[(p.y - dy) * L.w + p.x - dx] = T.FLOOR;
+    L.tiles[(p.y + 2 * dy) * L.w + p.x + 2 * dx] = T.FLOOR;
+    L.monsters.length = 0;
+    const m = { uid: 91, id: 'hound', x: p.x + 2 * dx, y: p.y + 2 * dy, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, blows: 1 };
+    L.monsters.push(m);
+    for (let i = 0; i < 400; i++) { Game.update(G.t + 25, 25); if (m.windup && m.windup.move === 'blink') return 'it blinked through the wall'; }
+    return true;
   });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
