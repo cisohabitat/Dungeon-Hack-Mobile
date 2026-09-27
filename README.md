@@ -74,6 +74,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
   its worth. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
+- **A hound at your heel.** On floor 2 of most delves a starving hound watches from the dark.
+  Share your food, or win it over with a word, and it follows you down: it bites whatever
+  stands beside it (the thing at your side first), draws the blows of anything that reaches it
+  before you, heals when you rest and grows with you. Walk into it to swap places; face it and
+  press Use to tell it to stay or call it to heel. A hound told to stay is left behind on the
+  stair. If it falls it is gone for the run, and the epilogue remembers it.
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
