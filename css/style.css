@@ -242,6 +242,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
    shrink either, or the flex column squashes a wrapped line back to one row
    and clips its second half inside its own box. */
 .log div { flex-shrink: 0; overflow-wrap: anywhere; color: #cfc8ba; }
+.log.long { justify-content: flex-start; -webkit-mask-image: linear-gradient(to top, transparent 0, #000 1.3em); mask-image: linear-gradient(to top, transparent 0, #000 1.3em); }
 .log .roll, .log-history .roll { color: #948da3; font-size: 0.86em; white-space: nowrap; }
 .log div.bad { color: #f08a80; }
 /* what the bestiary learned: said, but quieter than the fight */

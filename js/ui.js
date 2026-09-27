@@ -1108,8 +1108,13 @@ const UI = (() => {
     // the full history is a tap on Log away. The panel stacks from the bottom, so
     // overflow spills off the top where scrollHeight does not count it: ask
     // where the oldest line starts instead.
+    el.classList.remove('long');
     const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
     while (el.children.length > 1 && el.firstElementChild.getBoundingClientRect().top < top) el.removeChild(el.firstElementChild);
+    // one message taller than the panel (a shade's arrival runs to five lines)
+    // shows from its start, fading at the foot, rather than losing its opening
+    // under the view: the rest is in the Log
+    if (el.firstElementChild && el.firstElementChild.getBoundingClientRect().top < top) el.classList.add('long');
   }
   // Render exactly as many rows as the box the view was given has room for,
   // so its pixels stay square however tall the phone is.

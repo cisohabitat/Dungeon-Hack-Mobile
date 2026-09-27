@@ -265,6 +265,12 @@ test.describe('interface', () => {
     // and the capped array itself is still doing its job
     const size = await page.evaluate(() => Game.state().log.length);
     expect(size, 'the log should stay capped').toBeLessThanOrEqual(80);
+    // one message taller than the panel shows from its start, not its middle
+    await page.evaluate(() => Game.log('BEGINNING of a very long message. ' + 'It goes on and on, far longer than the panel is tall, as a shade\'s arrival does. '.repeat(6) + 'END'));
+    await expect.poll(() => page.evaluate(() => {
+      const el = document.querySelector('#log'), first = el.firstElementChild;
+      return first && first.textContent.startsWith('BEGINNING') && first.getBoundingClientRect().top >= el.getBoundingClientRect().top;
+    })).toBe(true);
     expect(errors).toEqual([]);
   });
 
