@@ -4022,7 +4022,7 @@ const Game = (() => {
     get diff() { return diff; },
     get distField() { return distField; }, set distField(v) { distField = v; },
     // the hero's hound: where it stands, and what a blow at it or the quills do
-    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionHurt() { return companion.hurt; },
+    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
     get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
     get effectFrom() { return effectFrom; },
     get emit() { return emit; },

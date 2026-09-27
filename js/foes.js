@@ -945,7 +945,7 @@ export function makeFoes(K) {
     // enough to be reached. Deep-born blood stacks with it, and so do a
     // Ring of Stealth and an Assassin's step, down to the square beside you:
     // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
-    const notice = Math.max(1, 6 - (p.bg === 'deepborn' ? 2 : 0) - (p.cls === 'thief' ? 2 : 0) - (K.hasPower('quiet') ? 1 : 0) - K.assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (K.hasTalent('camouflage') ? 1 : 0));
+    const notice = Math.max(1, 6 - (p.bg === 'deepborn' ? 2 : 0) - (p.cls === 'thief' ? 2 : 0) - (K.hasPower('quiet') ? 1 : 0) - K.assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (K.hasTalent('camouflage') ? 1 : 0) + (K.houndNoisy() ? 1 : 0));
     // Waking is not acting. The growl used to land in the same frame as the
     // first blow from anything that woke beside you, so the only warning was
     // the damage. Give the growl a beat to be heard and turned toward.

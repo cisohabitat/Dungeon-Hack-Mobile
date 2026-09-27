@@ -8,16 +8,18 @@
 import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-const HOUND = { sprite: 'dog', ac: 13, speed: 1000, stepMs: 330 };
+const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330 };
 const NAMES = ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'];
 
 /** @param {any} K */
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
-  const maxHpFor = level => 8 + 4 * level;
-  const hitFor = level => 2 + Math.floor(level / 3);
-  const biteFor = level => [1, 4, Math.floor(level / 3)];
+  const maxHpFor = level => 10 + 4 * level;
+  const hitFor = level => 3 + Math.floor(level / 3);
+  const biteFor = level => [1, 6, Math.floor(level / 3)];
+  /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. */
+  const noisy = () => { const c = here(); return !!c && c.mode === 'follow'; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
   const free = (x, y) => K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y) && !(x === K.P().x && y === K.P().y);
   /** An open square beside the hero, the one behind them first. */
@@ -152,5 +154,5 @@ export function makeCompanion(K) {
     if (c.fallen) return `${c.name}, the hound who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
     return `${c.name}, your hound: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}.`;
   }
-  return { here, at, join, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note };
+  return { here, noisy, at, join, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note };
 }
