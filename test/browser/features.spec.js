@@ -1044,6 +1044,39 @@ test.describe('dungeon features', () => {
     await other.close();
     expect(errors).toEqual([]);
   });
+  test('a returning player is told once what is new; a new player is not; dismissing or starting a run puts it away', async ({ page, browser }) => {
+    const errors = watchForErrors(page);
+    // a new player: nothing to compare with, so no note, now or later
+    await page.goto('/');
+    await expect(page.locator('#news')).toBeHidden();
+    await page.reload();
+    await expect(page.locator('#news')).toBeHidden();
+    // a returning one (a Hall of Heroes on this device) sees it until dismissed
+    const back = await browser.newContext({ viewport: page.viewportSize() });
+    const p2 = await back.newPage();
+    await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
+    await p2.goto('/');
+    await expect(p2.locator('#news')).toBeVisible();
+    await expect(p2.locator('#news-text')).toContainText('save codes');
+    // clear of the menu
+    const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
+    expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);
+    await p2.click('#news-close');
+    await expect(p2.locator('#news')).toBeHidden();
+    await p2.reload();
+    await expect(p2.locator('#news')).toBeHidden();
+    // and starting a run puts it away too
+    await p2.evaluate(() => localStorage.removeItem('deepdelve.news'));
+    await p2.reload();
+    await expect(p2.locator('#news')).toBeVisible();
+    await p2.click('#btn-quick');
+    await expect(p2.locator('#screen-prologue')).toBeVisible();
+    await p2.click('#pro-begin');
+    await expect(p2.locator('#screen-game')).toBeVisible();
+    expect(await p2.evaluate(() => localStorage.getItem('deepdelve.news'))).not.toBeNull();
+    await back.close();
+    expect(errors).toEqual([]);
+  });
   test('left-handed controls in the menu swap the pad and the buttons, and are remembered', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'left-hand' });

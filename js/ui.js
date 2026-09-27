@@ -119,7 +119,21 @@ const UI = (() => {
       ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
       : 'No saved game';
     refreshDaily();
+    refreshNews();
   }
+  // ---------- what's new ----------
+  // A returning player hears once, on the title, what has changed since they
+  // last played; it goes when dismissed or when a run starts. A new player,
+  // with nothing to compare it with, is not told. Change `id` with the text.
+  const NEWS = { id: '2026-09-27', text: 'three deep-floor monsters and an elder wyrm, gear made from them, seven encounters, save codes to move a hero between devices, left-handed controls, and a Bestiary gallery.' };
+  const NEWS_SEEN = 'deepdelve.news';
+  const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
+  function refreshNews() {
+    if (store(NEWS_SEEN) !== NEWS.id && !returning()) store(NEWS_SEEN, NEWS.id);
+    $('#news-text').textContent = NEWS.text;
+    $('#news').hidden = store(NEWS_SEEN) === NEWS.id;
+  }
+  function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; }
   /** The Daily Delve button says how today stands: fresh, waiting below, or done. */
   function refreshDaily() {
     const key = Daily.today(), st = Daily.status(key), s = Game.saveSummary();
@@ -550,6 +564,7 @@ const UI = (() => {
     startPlaying();
   }
   function startPlaying() {
+    newsSeen();
     logCount = -1; hudSig = '';
     // a tip, and a lesson half given, belong to the run they were given in
     resetTips();
@@ -2454,6 +2469,7 @@ const UI = (() => {
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });
+    $('#news-close').addEventListener('click', newsSeen);
     // a hero carried over from another device, in place of any waiting here
     $('#btn-code').addEventListener('click', () => {
       /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = '';

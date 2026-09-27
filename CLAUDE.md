@@ -48,6 +48,8 @@ README balance table current.
   Player-facing text is the same register: short, concrete, no jargon.
 - Every new rule gets a rules test; every new screen or control a browser test.
 - Help text lives in `index.html` (How to Play); keep it true when rules change.
+- A batch of player-visible changes updates `NEWS` in `js/ui.js` (a new `id` and a
+  one-line `text`): returning players see it once on the title screen.
 - New state on the player, a monster or a level is saved automatically (the
   whole of `G` is written as JSON), but give it a JSDoc property in `types.js`.
 
