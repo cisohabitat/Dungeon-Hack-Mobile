@@ -77,7 +77,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **A hound at your heel.** On floor 2 of most delves a starving hound watches from the dark.
   Share your food, or win it over with a word, and it follows you down: it bites whatever
   stands beside it (the thing at your side first), draws the blows of anything that reaches it
-  before you, heals when you rest and grows with you. Walk into it to swap places; face it and
+  before you, heals when you rest and grows with you, and leaves a fight to follow you if you
+  walk on. It finds its own way round doors and crowds, shows on both maps, and stands beside
+  you on the picture of a won run. Walk into it to swap places; face it and
   press Use to tell it to stay or call it to heel. It is no help to a quiet step: sleepers hear a hero
   with a hound at heel a square sooner. A hound told to stay is left behind on the
   stair. If it falls it is gone for the run, and the epilogue remembers it.
