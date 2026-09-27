@@ -482,6 +482,13 @@ const MONSTERS = {
   basilisk: { name: 'Basilisk',    hp: [6, 10, 0],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1100, xp: 150,  tier: [5, 12],  sprite: 'basilisk', scale: 1.15, move: 'gaze', door: 'batter' },
   rustmaw:  { name: 'Rustmaw',     hp: [4, 10, 2],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1000, xp: 120,  tier: [4, 11],  sprite: 'rustmaw',  scale: 1.08, move: 'rust', door: 'batter' },
   acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, move: 'mend', ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
+  // The deep floors' own: each asks for something other than a step back.
+  // A hound that comes back into the world behind you (turn and face it), a
+  // beast whose quills punish the blow struck while they stand (hold it), and
+  // a wyrm whose fire runs down a passage but not under its jaws (close in).
+  hound:    { name: 'Blink Hound', hp: [5, 8, 2],    ac: 15, hit: 6,  dmg: [1, 8, 1], speed: 850,  xp: 140,  tier: [6, 12],  sprite: 'hound',    scale: 0.9, move: 'blink', door: 'batter' },
+  quillback: { name: 'Quillback',  hp: [7, 10, 2],   ac: 16, hit: 6,  dmg: [1, 8, 2], speed: 1200, xp: 170,  tier: [7, 13],  sprite: 'quillback', scale: 1.05, move: 'bristle', door: 'batter' },
+  wyrm:     { name: 'Cave Wyrm',   hp: [9, 10, 6],   ac: 16, hit: 8,  dmg: [2, 6, 3], speed: 1150, xp: 300,  tier: [9, 30],  sprite: 'wyrm',     scale: 1.3, move: 'breath', door: 'smash' },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
     // guards and throws grave-cold from afar; at one third it puts out the
@@ -581,6 +588,8 @@ const ELEMENTS_TAKEN = {
   troll:    { fire: 1.5 },
   basilisk: { cold: 1.5, fire: 0.5 },
   rustmaw:  { lightning: 1.5 },
+  quillback: { fire: 1.5 },
+  wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
   skeleton: { cold: 0.5 },
   ghoul:    { cold: 0.5 },
@@ -634,6 +643,15 @@ const BESTIARY = {
   acolyte:  { lore: 'A servant of the dark who hurls bolts of shadow from five squares off.',
     trick: 'Chants for nearly two seconds to mend a badly wounded monster nearby, itself included.',
     answer: 'Any blow, arrow or spell that hurts it breaks the chant: close in fast, or shoot. Kill the acolyte first.' },
+  hound:    { lore: 'A lean grey hound of the deep, all ribs and pale eyes. It hunts by stepping out of the world and back into it wherever its prey is not looking.',
+    trick: 'It flickers out of the air and steps back in at your back, and bites deep from behind.',
+    answer: 'Turn round to face it as it comes back: it steps out onto your blade, caught off balance and open.' },
+  quillback: { lore: 'A squat, heavy beast with a mantle of long dark quills and a temper to match. Its quills burn.',
+    trick: 'Its quills rattle up on end, and any blow struck at it from beside it drives into them and bites back.',
+    answer: 'Hold your blow while the quills stand. When they sink flat it is left open. An arrow or a spell from further off does not touch them.' },
+  wyrm:     { lore: 'A young drake of the deepest halls, wingless and heavy, scaled like rusted iron. Fire does little to it; cold bites.',
+    trick: 'It rears back and breathes a gout of fire down the passage, from two squares out to five.',
+    answer: 'Close in under its jaws: the fire roars out over your head. Or step out of its line. Stepping back only keeps you in it.' },
   shade:    { lore: 'One of your own, who fell in an earlier delve and did not stay down. It keeps the floor where it died, over the bones and the gear it died in, and it fights the way it did in life: a fighter\'s shade charges, a mage\'s throws cold fire, a cleric\'s mends itself, a thief\'s is quick and follows a step back, a ranger\'s shoots. Undead: holy magic burns it twice as badly. Lay it to rest and its gear is yours.' },
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life and reaches two squares down a straight line, so one step back is not enough: step aside. It does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',

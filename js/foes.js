@@ -173,7 +173,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800, rally: 1500, drink: 800 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -233,6 +233,22 @@ export function makeFoes(K) {
     else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && Math.random() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
+    // a blink hound steps out of the world and back in at your back
+    else if (mv === 'blink' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4 && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) {
+      const spot = hindSpot(m);
+      if (spot) {
+        moveMonster(m, spot.x, spot.y);
+        m.fromX = spot.x; m.fromY = spot.y; m.moveT1 = 0;   // gone and back, not a walk
+        say = `The ${mb.name} flickers out of the air, and steps back into it at your back! Turn and face it!`;
+        extra = { behind: 1 };
+      }
+    }
+    else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
+    // a wyrm breathes down a passage at one who keeps their distance; under its jaws it only bites
+    else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && Math.random() < 0.6) {
+      say = `The ${mb.name} rears back, and fire kindles in its throat! Get in under its jaws, or out of its line!`;
+      extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     if (!say) return false;
     m.blows = 0;
@@ -389,6 +405,38 @@ export function makeFoes(K) {
       case 'drink':
         namedResolve(m, mb, w.move, dist);
         break;
+      case 'blink':
+        // faced, it steps out of the air onto a raised blade; at your back, it bites deep
+        if (dist === 1 && facing(m)) { K.log(`You turn to meet the ${mb.name} as it steps out of the air. It is caught off balance!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        else if (dist === 1) {
+          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: 'sinks its teeth into your back', sure: true });
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else { K.log(`The ${mb.name} snaps at the air where you stood.`, 'good'); m.nextAct = K.G.t + mb.speed; }
+        m.moveReady = K.G.t + 7000;
+        break;
+      case 'bristle':
+        // the quills lie down again; one who held their blow finds it open
+        if (w.struck) K.log(`The ${mb.name}'s quills settle, red with your blood.`);
+        else { K.log(`The ${mb.name}'s quills sink flat, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
+        m.moveReady = K.G.t + 6000;
+        m.nextAct = K.G.t + (w.struck ? Math.round(mb.speed * 0.6) : 1400);
+        break;
+      case 'breath': {
+        Sound.play('nova', K.heard(m));
+        // the fire runs down its line from two squares out, and passes over one under its jaws
+        const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
+        if (inLine && dist >= 2 && dist <= 5 && hasLineToPlayer(m, 5)) {
+          const c = K.trickSave('dex', 'breath');
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(3, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1))));
+          K.hurtPlayer(n, `A gout of fire roars down the passage over you for ${n}!${c.pass ? ' You throw yourself flat under the worst of it.' : ''}${c.note}`, m, 'a cave wyrm\'s fire');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: its fire roars out over your head, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        else { K.log(`The ${mb.name}'s fire roars down an empty passage, and leaves it spent and open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        m.moveReady = K.G.t + 7000;
+        break;
+      }
       case 'nova':
         Sound.play('nova', K.heard(m));
         if (novaReaches(m)) {
@@ -475,8 +523,28 @@ export function makeFoes(K) {
     K.log(it.h ? `Rust blooms where it bit: ${K.the(it)} is the worse for it.` : `Rust blooms where it bit: your ${ITEMS[it.t].name} rusts (now ${it.e >= 0 ? '+' : '\u2212'}${Math.abs(it.e)}).${mend}`, 'bad');
     K.emit('inv'); K.emit('stats');
   }
+  /** Where a blink hound comes back into the world: the square at the hero's back, or else at a side. */
+  function hindSpot(m) {
+    const p = K.P();
+    for (const turn of [2, 1, 3]) {
+      const [dx, dy] = K.DIRS[(p.dir + turn) % 4], x = p.x + dx, y = p.y + dy;
+      if ((x === m.x && y === m.y) || (K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y))) return { x, y };
+    }
+    return null;
+  }
+  // a blow struck from beside it; not a spell, an arrow loosed from further off, or fire and poison already at work
+  const HAND_BLOW = new Set([null, undefined, '', 'opening', 'crit', 'riposte', 'riposte-crit', 'lucky', 'sneak', 'offhand', 'cleave', 'bash']);
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
+    // a quillback's raised quills bite back at a hand that strikes it
+    if (m.windup && m.windup.move === 'bristle' && HAND_BLOW.has(tag) && !K.castingName) {
+      const p = K.P();
+      if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) {
+        m.windup.struck = true;
+        const n = K.knightSteadfast(d(1, 6) + Math.floor(K.G.depth / 2));
+        K.hurtPlayer(n, `You strike into its raised quills, and they bite deep! (${n})`, m, 'a quillback\'s quills');
+      }
+    }
     // a numbing claw is struck aside by a blow that lands first, and leaves it
     // open: a blow or a spell, not poison or fire already eating at it
     if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns'].includes(tag)) {

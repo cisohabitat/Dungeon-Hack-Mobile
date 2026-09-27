@@ -589,6 +589,9 @@ const UI = (() => {
     webspit: 'It rears back to spit a web. <b>Step out of its line</b>, to one side.',
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
     horn: 'He means to sound a horn and call his kin. <b>Strike him</b> before he does: any wound cuts the call short.',
+    blink: 'It has stepped back into the world <b>at your back</b>. <b>Turn round</b> to face it before it bites, and it is caught open.',
+    quills: 'Its quills are up. <b>Hold your blow</b> until they sink: every blow struck into them bites you back. An arrow or a spell from further off is safe.',
+    breath: 'Fire kindles in its throat. <b>Step in close</b>, under its jaws, or <b>out of its line</b>. Stepping back keeps you in the fire.',
     drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes from your maximum hit points is gone for good.',
     web: 'You are caught in a web. <b>Fire burns it away</b>: cast a fire spell to be free at once, or push against it to tear free.',
     webtear: 'You are caught in a web. <b>Push against it</b>: tap any arrow, again and again, to tear free.',
@@ -604,7 +607,7 @@ const UI = (() => {
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drink', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drink', 'blink', 'quills', 'breath', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -707,7 +710,7 @@ const UI = (() => {
   };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
-  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink' };
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath' };
   /** How fast the dungeon runs: slowed while the first warning mark, or a trick's first coming, is being answered. */
   function timeScale() {
     const el = $('#tip');
@@ -777,7 +780,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drink: () => near('drink'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), breath: () => near('breath'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -802,6 +805,9 @@ const UI = (() => {
     if (readying('charge') && showTip('charge', true)) return;
     if (readying('rally') && showTip('horn', true)) return;
     if (readying('drink') && showTip('drink', true)) return;
+    if (readying('blink') && showTip('blink', true)) return;
+    if (readying('bristle') && showTip('quills', true)) return;
+    if (readying('breath') && showTip('breath', true)) return;
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;

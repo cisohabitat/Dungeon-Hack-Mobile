@@ -309,6 +309,19 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const mv = trick.windup.move, dx = Math.sign(trick.x - p.x), dy = Math.sign(trick.y - p.y);
         const toward = Dungeon.DIRS.findIndex(([ax, ay]) => ax === dx && ay === dy);
         const adjacent = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 1;
+        // a blink hound at your back is met face on; raised quills are waited out;
+        // a wyrm's fire is dodged by closing in under its jaws when one step does it
+        if (mv === 'blink' && adjacent) {
+          if (toward !== p.dir) { Game.input(toward === (p.dir + 1) % 4 ? 'right' : 'left'); rec.dodges = (rec.dodges || 0) + 1; }
+          step(); continue;
+        }
+        if (mv === 'bristle' && adjacent) { step(); continue; }
+        if (mv === 'breath' && toward >= 0 && (dx === 0 || dy === 0) && Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 2) {
+          const t = L.tiles[(p.y + dy) * L.w + p.x + dx];
+          if ((t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === p.x + dx && o.y === p.y + dy)) {
+            Game.input(['forward', 'strafeR', 'back', 'strafeL'][(toward - p.dir + 4) % 4]); rec.dodges = (rec.dodges || 0) + 1; step(); continue;
+          }
+        }
         if (mv === 'paralyse' && adjacent && G.t >= p.nextAttack) {
           p.dir = toward; Game.input('attack'); rec.struckAside = (rec.struckAside || 0) + 1; step(); continue;
         }
@@ -320,7 +333,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         }
       }
       if (trick) {
-        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web';
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
         let best = null, score = -1;
         for (let k = 0; k < 4; k++) {

@@ -49,9 +49,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
   pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
-  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Eighteen monster types, and six named champions, including undead, poisoners, a regenerating troll, a
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Twenty-one monster types, and six named champions, including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
-  enchantment, and a life-draining boss guarding the artifact on the deepest level. Which of
+  enchantment, a hound that steps out of the air at your back, a quillback whose raised quills
+  punish the blow struck into them, a wyrm whose fire runs down the passage but not under its
+  jaws, and a life-draining boss guarding the artifact on the deepest level. Which of
   them a floor holds goes by how far through the delve it is, so a short delve meets them all.
   Every trick is warned of, armour does not turn a warned blow, and answering one leaves an opening.
 - **A boss fight in three acts.** The Dread Lich speaks when it wakes, and its life runs across
@@ -87,8 +89,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   They hit harder, take more killing, and always drop something worth having.
 - **Fire, cold and lightning.** Spells, a Scroll of Fire, a flaming blade and burns each carry an
   element, and some kinds take half as much again from one and only half from another (slimes,
-  spiders, zombies and trolls burn well; the dead barely feel the cold; rustmaws and bats draw the
-  lightning). The first hit that finds out says so and the bestiary keeps it. The wraith's touch
+  spiders, zombies, trolls and quillbacks burn well; the dead barely feel the cold; rustmaws and
+  bats draw the lightning; a cave wyrm shrugs off fire and fears the cold). The first hit that finds out says so and the bestiary keeps it. The wraith's touch
   and the lich's grave-cold are cold, and a Ring of Warmth halves them.
 - **Named champions.** About a third and two thirds of the way down, one floor each is held by
   a named foe, chosen by the seed from those that suit the depth: Grisk the Goblin King, Vessra
