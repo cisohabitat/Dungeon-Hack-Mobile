@@ -649,6 +649,15 @@ test.describe('talents', () => {
     expect(Number(await page.evaluate(() => getComputedStyle(document.querySelector('#boon-list .boon')).opacity))).toBeLessThan(1);
     await page.evaluate(() => document.querySelector('#boon-list .boon').click());
     expect(await page.evaluate(() => !!Game.pendingBoons())).toBe(true);
+    // held upright, the cards sit at the foot of the screen, where the thumb is
+    // (on a tall phone, where three cards leave room above them)
+    const vp = page.viewportSize();
+    await page.setViewportSize({ width: 393, height: 1100 });
+    await page.waitForTimeout(100);
+    const at = await page.evaluate(() => { const b = [...document.querySelectorAll('#boon-list .boon')]; return { first: b[0].getBoundingClientRect().top, last: b[b.length - 1].getBoundingClientRect().bottom, h: innerHeight }; });
+    expect(at.last, 'the last card should end near the foot of the screen').toBeGreaterThan(at.h - 90);
+    expect(at.first, 'the cards should not start at the top').toBeGreaterThan(at.h * 0.3);
+    await page.setViewportSize(vp);
     await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points/);
     // level 2 is a talent's level: the next comes at 4
     await expect(page.locator('.boon-head')).toContainText('next talent at level 4');

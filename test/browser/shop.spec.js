@@ -75,6 +75,25 @@ test.describe('the trader', () => {
     expect(errors).toEqual([]);
   });
 
+  test('gear of another make on the shelf is measured against what you wear', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'shop-open', levels: '8', cls: 'Fighter' });
+    const found = await findTrader(page);
+    test.skip(!found || found.noApproach, 'no reachable trader in the first seven levels');
+    await page.evaluate(() => {
+      const n = Game.level().npcs.find(q => q.kind !== 'encounter');
+      Game.state().known.dagger = 1; Game.state().known.leather = 1;
+      n.stock = [{ t: 'dagger', q: 1, e: 0 }, { t: 'leather', q: 1, e: 0 }];
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    const worn = await page.evaluate(() => ({ w: Game.itemName({ ...Game.player().eq.weapon, q: 1 }), a: Game.player().eq.armor ? Game.itemName({ ...Game.player().eq.armor, q: 1 }) : null }));
+    const rows = page.locator('#shop-stock .shop-row');
+    await expect(rows.filter({ hasText: 'Dagger' })).toContainText(new RegExp(`vs ${worn.w}: [+-]?\\d+(\\.\\d)? damage per second`));
+    if (worn.a) await expect(rows.filter({ hasText: 'Leather' })).toContainText(new RegExp(`vs ${worn.a}: [+-]?\\d+ armour class`));
+    expect(errors).toEqual([]);
+  });
+
   test('buying costs gold, fills the pack and names what was bought', async ({ page }) => {
     await startGame(page, { seed: 'shop-buy', levels: '8' });
     const found = await findTrader(page);

@@ -1118,11 +1118,11 @@ const UI = (() => {
       const x = p.x + dx, y = p.y + dy;
       if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
       const t = L.tiles[y * L.w + x];
-      let col = '#4c4860';
+      let col = '#46425a';
       // a torch is a bracket set into a wall, so it reads as wall here: picking
       // it out in its own colour made the corner map busy and told you nothing
       // you could act on
-      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#1e1c28';
+      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#2a2736';
       else if (t === T.DOOR) col = '#a0783c';
       else if (t === T.DOOR_OPEN) col = '#6a5030';
       else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
@@ -1255,7 +1255,9 @@ const UI = (() => {
       // a known quality of make counts as much as a step of enchantment
       const worth = x => knownE(x) + (x.px && !x.h ? 1 : 0);
       const same = worn && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
-      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (it.q > 1 ? ` · ${it.q} in stock` : '');
+      // other gear of the same kind is measured against what is worn, by the Pack's own sums
+      const vs = worn && worn.t === it.t ? '' : bk === 'weapon' || bk === 'armor' || bk === 'shield' ? compareText(it, ITEMS[it.t]).replace(/<[^>]+>/g, '') : '';
+      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (vs ? ` · ${vs}` : '') + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note, { one: true }));
     }
     // what the trader will do for coin besides trade
@@ -1824,8 +1826,8 @@ const UI = (() => {
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
     // the ground walked is the lighter, as paths are on any map: walls picked out
     // brighter than the floor read as the corridors at a glance
-    { id: 'floor', colour: '#57536c', label: 'Walked' },
-    { id: 'wall', colour: '#26232f', label: 'Wall' },
+    { id: 'floor', colour: '#4a465e', label: 'Walked' },
+    { id: 'wall', colour: '#2e2a3a', label: 'Wall' },
     { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
   const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
@@ -1879,6 +1881,13 @@ const UI = (() => {
     ctx.fillStyle = '#05050a';
     ctx.fillRect(0, 0, c.width, c.height);
 
+    // a mark is set in a dark edge, so it stands out from walked ground and
+    // wall alike however alike their tones (a third of the contrast it needs, otherwise)
+    const edge = Math.max(1, Math.round(size / 10));
+    const edged = (x, y, w, h, colour) => {
+      ctx.fillStyle = '#0b0a10'; ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = colour; ctx.fillRect(x + edge, y + edge, w - edge * 2, h - edge * 2);
+    };
     const glyph = (ch, x, y, colour) => {
       ctx.fillStyle = colour;
       ctx.font = `bold ${Math.round(size * 0.82)}px monospace`;
@@ -1908,8 +1917,8 @@ const UI = (() => {
           case T.STAIRS_UP: col = MAP_COLOUR.up; mark = '\u25b2'; break;
           case T.FOUNTAIN: col = MAP_COLOUR.fountain; mark = '\u2248'; break;
         }
-        ctx.fillStyle = col;
-        ctx.fillRect(x * size - ox, y * size - oy, size, size);
+        if (col === MAP_COLOUR.floor || col === MAP_COLOUR.wall) { ctx.fillStyle = col; ctx.fillRect(x * size - ox, y * size - oy, size, size); }
+        else edged(x * size - ox, y * size - oy, size, size, col);
         if (mark) glyph(mark, x, y, markColour);
       }
     }
@@ -1918,13 +1927,11 @@ const UI = (() => {
     for (const k in L.items) {
       const [x, y] = k.split(',').map(Number);
       if (!L.explored[y * L.w + x] || !L.items[k].length) continue;
-      ctx.fillStyle = MAP_COLOUR.loot;
-      ctx.fillRect(x * size - ox + size * 0.28, y * size - oy + size * 0.28, size * 0.44, size * 0.44);
+      edged(x * size - ox + size * 0.25, y * size - oy + size * 0.25, size * 0.5, size * 0.5, MAP_COLOUR.loot);
     }
     for (const n of (L.npcs || [])) {
       if (!L.explored[n.y * L.w + n.x]) continue;
-      ctx.fillStyle = MAP_COLOUR.trader;
-      ctx.fillRect(n.x * size - ox, n.y * size - oy, size, size);
+      edged(n.x * size - ox, n.y * size - oy, size, size, MAP_COLOUR.trader);
       glyph('\u00a4', n.x, n.y, '#2a1a38');
     }
 

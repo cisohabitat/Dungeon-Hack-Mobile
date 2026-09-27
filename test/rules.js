@@ -3687,6 +3687,57 @@ await test('Slow to Bleed closes wounds half again as fast, even on a small pool
   return (r > 1.4 && r < 1.6) || `with Slow to Bleed a 20-life hero healed ${hardy} to ${plain}, ${r.toFixed(2)} times`;
 });
 
+await test('Practised Hands makes a swing 8% sooner at every level, no more', async () => {
+  const ctx = await start('fighter', 'swift-exact');
+  const { Game } = ctx;
+  const p = Game.player();
+  const out = [];
+  for (const level of [1, 5, 10]) {
+    p.level = level;
+    p.perkSpeed = 0; const now = Game.blowRate(p.eq.weapon);
+    p.perkSpeed = 0.08; const next = Game.blowRate(p.eq.weapon);
+    // the same blow, sooner: a rate higher by exactly 1/0.92
+    const r = next / now;
+    if (Math.abs(r - 1 / 0.92) > 0.002) out.push(`level ${level}: ${((1 - 1 / r) * 100).toFixed(1)}% sooner`);
+  }
+  p.perkSpeed = 0;
+  return !out.length || out.join('; ');
+});
+
+await test('a trickster\'s gold from an encounter is a quarter more, as gold found anywhere is', async () => {
+  const ctx = await start('thief', 'trick-shelves');
+  const { Game } = ctx;
+  const p = Game.player();
+  p.path = 'trickster';
+  if (!encounterAhead(ctx, 'shelves')) return 'the shelves did not open';
+  const g0 = p.gold;
+  const r = Game.chooseEncounter(2);
+  const want = Math.round(8 * Game.state().depth * 1.25);
+  if (p.gold - g0 !== want) return `the gilt book gave ${p.gold - g0} gold, not ${want}`;
+  return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
+});
+
+await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors', async () => {
+  const hurt = async depth => {
+    const ctx = await start('fighter', 'deep-steel', { levels: 12, difficulty: 'hard' });
+    const { Game } = ctx;
+    const G = Game.state(), p = Game.player();
+    G.levels[depth] = G.levels[1]; G.depth = depth;
+    // the same hero both times: scores are rolled afresh for each new game
+    for (const k in p.stats) p.stats[k] = 14;
+    const m = beside(ctx, 'ogre', { hp: 99999, maxHp: 99999, nextAct: 1e12 });
+    seedDice(ctx, 'deep-steel-swings');
+    let dealt = 0;
+    for (let i = 0; i < 20; i++) { const hp = m.hp; G.t = Math.max(G.t, p.nextAttack || 0); Game.input('attack'); dealt += hp - m.hp; }
+    return dealt;
+  };
+  const shallow = await hurt(6), deep = await hurt(11);
+  if (!shallow) return 'no blow landed';
+  const r = deep / shallow;
+  // five floors past the sixth, 4% a floor
+  return (r > 1.12 && r < 1.28) || `blows on floor 11 were ${r.toFixed(2)} times those on floor 6`;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;
@@ -5111,7 +5162,7 @@ await test('after three rests on a floor there is no more sleep to be had there,
   return Game.restLabel() === 'No rest' || `the button says ${Game.restLabel()}`;
 });
 
-await test('on the Long Delve on Hard, from the seventh floor, spells and a cleric\'s blows strike harder; nowhere else', async () => {
+await test('on the Long Delve on Hard, from the seventh floor, spells, a cleric\'s blows and a fighter\'s strike harder; nowhere else', async () => {
   const out = [];
   // the same darts, the same dice, cast on floor 9 of three kinds of run
   const dart = async (cls, levels, difficulty, depth = 9) => {
@@ -5131,11 +5182,13 @@ await test('on the Long Delve on Hard, from the seventh floor, spells and a cler
   if (!(normal > 0) || Math.abs(deep - Math.round(normal * 1.18)) > 1) out.push(`darts on floor 9: ${deep} on Hard against ${normal} on Normal (wanted about ${Math.round(normal * 1.18)})`);
   if (short !== normal) out.push(`an eight-floor Hard run's darts did ${short}, not ${normal}`);
   if (shallow !== normal) out.push(`floor 6 of the Long Delve on Hard did ${shallow}, not ${normal}`);
-  // a cleric's blow too, and a fighter's not
+  // a cleric's blow too, and a fighter's (a little less), but not a thief's
   const cHard = await dart('cleric', 12, 'hard'), cNormal = await dart('cleric', 12, 'normal');
   if (!(cNormal > 0) || cHard <= cNormal) out.push(`a cleric's blow on floor 9: ${cHard} on Hard, ${cNormal} on Normal`);
   const fHard = await dart('fighter', 12, 'hard'), fNormal = await dart('fighter', 12, 'normal');
-  if (fHard !== fNormal) out.push(`a fighter's blow changed with the deep: ${fHard} against ${fNormal}`);
+  if (!(fNormal > 0) || fHard <= fNormal) out.push(`a fighter's blow on floor 9: ${fHard} on Hard, ${fNormal} on Normal`);
+  const tHard = await dart('thief', 12, 'hard'), tNormal = await dart('thief', 12, 'normal');
+  if (tHard !== tNormal) out.push(`a thief's blow changed with the deep: ${tHard} against ${tNormal}`);
   return out.length ? out.join('; ') : true;
 });
 

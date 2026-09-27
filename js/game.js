@@ -242,8 +242,10 @@ const Game = (() => {
   function skillSpeed() {
     const p = P();
     const rate = p.cls === 'thief' ? 0.062 : 0.045;   // thieves gain speed fastest
-    const cap = (p.cls === 'thief' ? 0.55 : 0.42) + (p.perkSpeed || 0);
-    return 1 - Math.min(cap, (p.level - 1) * rate + (p.perkSpeed || 0));
+    const cap = p.cls === 'thief' ? 0.55 : 0.42;
+    // Practised Hands takes its 8% off the swing as it is at every level: taken
+    // off the part a level had already shortened, it grew to a seventh by the tenth
+    return (1 - Math.min(cap, (p.level - 1) * rate)) * (1 - (p.perkSpeed || 0));
   }
   /** Riposte: a blow that misses you readies your next swing at once. */
   function riposte() {
@@ -1991,7 +1993,8 @@ const Game = (() => {
       }
       if (e.goldPerDepth) {
         const n = e.goldPerDepth * G.depth;
-        if (n > 0) { p.gold += n; out.push(`+${n} gold`); }
+        // gold an encounter gives is gold found: a trickster's is a quarter more, as any is
+        if (n > 0) { const got = tricksterPurse(n); p.gold += got; out.push(`+${got} gold`); }
         else { const took = Math.min(p.gold, -n); p.gold -= took; if (took) out.push(`−${took} gold`); }
       }
       if (e.hurt || e.hurtFrac) {
@@ -2250,6 +2253,7 @@ const Game = (() => {
     if (marked) dmg *= 2;
     dmg = Math.max(1, dmg);
     if (p.cls === 'cleric') dmg = Math.round(dmg * deepMagic());
+    dmg = Math.round(dmg * deepSteel());
     leech(Math.min(dmg, m.hp), 'weapon');   // only what it actually drew
     // Cleave: the swing carries on into the one behind the front. Who that is
     // is settled before the blow, since a killing blow brings them forward.
@@ -2309,7 +2313,7 @@ const Game = (() => {
       return;
     }
     // a Ring of Might, a Berserker's rage and Weapon Master's +1 promise every blow, and this is one
-    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + (hasTalent('weapon_master') ? 1 : 0) + baneDamage(m, 'offhand') + bargained());
+    const dmg = Math.max(1, Math.round((d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + (hasTalent('weapon_master') ? 1 : 0) + baneDamage(m, 'offhand') + bargained()) * deepSteel()));
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
@@ -3390,6 +3394,11 @@ const Game = (() => {
   // 57%). So there, from the seventh floor, spells strike and heal 6% harder a
   // floor, and a cleric's blows with them, the god's answer as deep as the prayer.
   const deepMagic = () => (isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + 0.06 * (G.depth - 6) : 1);
+  // And the fighter, whose one answer is the blow, fell behind there once the
+  // casters were lifted (37% wins, the rest 40% to 59%): a fighter's blows grow
+  // with the deep floors of a Hard Long Delve too, a little less than a spell.
+  const DEEP_STEEL = 0.04;
+  const deepSteel = () => (P().cls === 'fighter' && isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + DEEP_STEEL * (G.depth - 6) : 1);
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**
    * What a floor's twist changes when it is first made (dungeon.js deals the

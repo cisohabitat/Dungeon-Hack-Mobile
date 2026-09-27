@@ -197,7 +197,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 177 Playwright tests against a real browser, at phone size
+npm run test:browser  # 178 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
 ```
@@ -233,7 +233,7 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Normal | 76% | 73% | 76% | 82% | 75% | about 76% |
 | Hard | 50% | 50% | 45% | 55% | 54% | about 51% |
 | Long Delve (12 floors), Normal | 66% | 71% | 66% | 82% | 67% | about 70% |
-| Long Delve (12 floors), Hard | 50% | 37% | 50% | 59% | 40% | about 47% |
+| Long Delve (12 floors), Hard | 50% | 47% | 50% | 59% | 40% | about 49% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
 Delve on Hard, and every class lands within five points of it: the mage lowest, the thief highest. (It was once tuned
@@ -244,7 +244,7 @@ floors (8 to 12), winning 33% and 34%; since spells strike and heal harder there
 and a cleric's blows with them, they sit with the rest. The thief keeps its lead however the
 back half is made harder (tried: the lich's growth, when the deep floors turn surer, how much
 sturdier they get, capping the thief's dodge). The ranger's figure is the noisiest: seed sets
-have given it anything from 37% to 54%. The fighter trails here, with no spells to grow with the floors.
+have given it anything from 37% to 54%. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.

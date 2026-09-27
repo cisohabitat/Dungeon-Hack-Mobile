@@ -712,3 +712,14 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .buy-step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.1rem; }
 .points-left { margin: 4px 0 0; }
 .spread-grid .boon.raises small { color: #9ee08a; }
+
+/* On a phone held upright a choice's cards sit at the foot of the screen, where
+   the thumb already is; what it is about stays at the top. (An automatic top
+   margin rather than justify-content, so a list too long for the screen still
+   scrolls from its start.) */
+@media (orientation: portrait) and (max-width: 600px) {
+  #boon-list, #ov-encounter .ov-body, #ov-fork .ov-body { display: flex; flex-direction: column; }
+  #boon-list > .boon:first-of-type, #enc-choices, #fork-choices { margin-top: auto; }
+  #enc-choices, #fork-choices { width: 100%; }
+  #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
+}
