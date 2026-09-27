@@ -49,7 +49,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
   pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
-  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Twenty-one monster types, and six named champions, including undead, poisoners, a regenerating troll, a
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Twenty-one monster types, and seven named champions, including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
   enchantment, a hound that steps out of the air at your back, a quillback whose raised quills
   punish the blow struck into them, a wyrm whose fire runs down the passage but not under its

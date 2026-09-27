@@ -540,6 +540,11 @@ const MONSTERS = {
       arrive: 'The floor shakes with slow footsteps. Gorrum the Troll-Father walks this floor.',
       wake: 'Gorrum the Troll-Father smells you, and lumbers toward the scent.',
       fall: 'Gorrum the Troll-Father is dead! He topples like a felled oak, and this time nothing grows back.' } },
+  skarrow:  { name: 'Elder Wyrm',    hp: [12, 10, 12], ac: 17, hit: 9,  dmg: [2, 8, 3], speed: 1100, xp: 600,  tier: [9, 30],  sprite: 'wyrm',     scale: 1.55, move: 'breath', door: 'smash',
+    named: { called: 'Skarrow', kin: 'wyrm', tint: '#ffb040', guard: ['hound', 1], often: 2,
+      arrive: 'The air on the stair is hot and smells of cinders. Skarrow the Elder Wyrm lairs somewhere on this floor.',
+      wake: 'Coals stir in the dark, and open, and are eyes. Skarrow the Elder Wyrm uncoils from her hoard.',
+      fall: 'Skarrow the Elder Wyrm is dead! The fire in her throat gutters out, and her hoard goes dark.' } },
 };
 
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
@@ -676,6 +681,9 @@ const BESTIARY = {
   orla:     { lore: 'She led the valley\'s prayers in the Hollow Chapel before the Heart went out, and she is praying still. Undead: holy magic burns it twice as badly.',
     trick: 'Every third blow she reaches into your chest to drink. If her hand closes, a weak will loses 3 maximum hit points for good, and she is mended by what she takes.',
     answer: 'Step back while she reaches and her hand closes on air, leaving her open. A strong will, or a ward against the grave, keeps what she would take.' },
+  skarrow:  { lore: 'The oldest of the deep\'s wyrms, grown too big for the passages she made, sleeping on a hoard of the fourth crew\'s steel. Fire does little to her; cold bites.',
+    trick: 'Breathes fire down the passage twice as often as her young, from two squares out to five.',
+    answer: 'Close in under her jaws, or step out of her line, every time. Stay close: at a distance she has the better of you.' },
   gorrum:   { lore: 'Father, grandfather and great-grandfather to every troll on the lower floors, and hungrier than all of them together.',
     trick: 'His wounds close twice as fast as any troll\'s: two hit points a second.',
     answer: 'Fire. His burns do not close either: Burning Hands, Flame Strike or a Scroll of Fire stops him regrowing for a while.' },

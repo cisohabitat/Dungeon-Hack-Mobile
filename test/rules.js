@@ -2809,6 +2809,30 @@ await test('a cave wyrm turns up now and then on the seventh floor of an ordinar
   return out.length ? out.join('; ') : true;
 });
 
+await test('Skarrow the Elder Wyrm holds a deep floor of the Long Delve, never an ordinary delve, and breathes twice as often as her young', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'skarrow', { levels: 12 });
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+  let long = 0, short = 0;
+  for (let i = 0; i < 200; i++) {
+    if (Object.values(Dungeon.namedPlan('sk' + i, 12)).includes('skarrow')) long++;
+    if (Object.values(Dungeon.namedPlan('sk' + i, 8)).includes('skarrow')) short++;
+  }
+  if (!long) out.push('no Long Delve in 200 held Skarrow');
+  if (short) out.push(`${short} ordinary delves held Skarrow`);
+  const again = async id => {
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, id, 3, { hp: 999, maxHp: 999 });
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    m.windup = { kind: 'move', move: 'breath', at: G.t, until: G.t + 1000, dx: -fx, dy: -fy }; m.nextAct = m.windup.until;
+    run(Game, G, 1050);
+    return m.moveReady - G.t;
+  };
+  const young = await again('wyrm'), elder = await again('skarrow');
+  if (!(elder < young * 0.6)) out.push(`her breath came round in ${elder}ms, her young's in ${young}ms`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
   const ctx = await start('fighter', 'rust-on');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
@@ -5967,7 +5991,7 @@ function roomBeside(ctx, m) {
 await test('named champions hold a floor a third and two thirds down (a long delve: a quarter, half and three quarters), chosen to suit it, never the first nor the lich\'s', async () => {
   const { Dungeon, MONSTERS } = await newContext();
   const named = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
-  if (named.length < 4 || named.length > 6) return `${named.length} named champions`;
+  if (named.length < 4 || named.length > 8) return `${named.length} named champions`;
   for (const id of named) if (MONSTERS[id].boss) return `${id} is marked as the Heart's keeper`;
   const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9], 16: [4, 8, 12] };
   for (const levels of [2, 3, 4, 6, 8, 12, 16]) {
