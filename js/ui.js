@@ -1118,11 +1118,11 @@ const UI = (() => {
       const x = p.x + dx, y = p.y + dy;
       if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
       const t = L.tiles[y * L.w + x];
-      let col = '#1c1a26';
+      let col = '#4c4860';
       // a torch is a bracket set into a wall, so it reads as wall here: picking
       // it out in its own colour made the corner map busy and told you nothing
       // you could act on
-      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#5a5670';
+      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#1e1c28';
       else if (t === T.DOOR) col = '#a0783c';
       else if (t === T.DOOR_OPEN) col = '#6a5030';
       else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
@@ -1822,8 +1822,10 @@ const UI = (() => {
     { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
     { id: 'trader', colour: '#b57ae0', label: 'Trader' },
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
-    { id: 'floor', colour: '#2c2a3a', label: 'Walked' },
-    { id: 'wall', colour: '#5a5670', label: 'Wall' },
+    // the ground walked is the lighter, as paths are on any map: walls picked out
+    // brighter than the floor read as the corridors at a glance
+    { id: 'floor', colour: '#57536c', label: 'Walked' },
+    { id: 'wall', colour: '#26232f', label: 'Wall' },
     { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
   const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
@@ -1890,7 +1892,7 @@ const UI = (() => {
         const i = y * L.w + x;
         if (!L.explored[i]) continue;
         const t = L.tiles[i];
-        let col = '#2c2a3a', mark = null, markColour = '#000';
+        let col = MAP_COLOUR.floor, mark = null, markColour = '#000';
         switch (t) {
           case T.WALL: case T.SECRET: col = MAP_COLOUR.wall; break;
           case T.TORCH: col = MAP_COLOUR.wall; mark = '*'; markColour = MAP_COLOUR.torch; break;
