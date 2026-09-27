@@ -14,7 +14,8 @@ function fitText(g, text, x, y, maxW, size, weight, colour) {
 
 /**
  * @param {{ won: boolean, hero: string, outcome: string, killer?: string, stats: string, mode: string,
- *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null }} info
+ *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null,
+ *   hound?: { name: string, art: HTMLCanvasElement | HTMLImageElement | null } | null }} info
  * @returns {HTMLCanvasElement}
  */
 function drawShareCard(info) {
@@ -39,6 +40,14 @@ function drawShareCard(info) {
     const s = Math.min(300 / info.art.width, 300 / info.art.height), w = info.art.width * s, h = info.art.height * s;
     g.drawImage(info.art, 205 - w / 2, 368 - h, w, h);
   }
+  // the hound at the hero's side, smaller, in front and to the left
+  if (info.hound && info.hound.art && info.hound.art.width) {
+    g.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    g.beginPath(); g.ellipse(92, 372, 46, 8, 0, 0, Math.PI * 2); g.fill();
+    const s = Math.min(120 / info.hound.art.width, 120 / info.hound.art.height), w = info.hound.art.width * s, h = info.hound.art.height * s;
+    g.imageSmoothingEnabled = false;
+    g.drawImage(info.hound.art, 92 - w / 2, 378 - h, w, h);
+  }
   // the words, on the right
   const x = 400, maxW = W - x - 40;
   g.textBaseline = 'alphabetic';
@@ -49,6 +58,7 @@ function drawShareCard(info) {
   if (info.killer) fitText(g, info.killer, x, 234, maxW, 24, 'italic', '#d8c8b0');
   fitText(g, info.stats, x, 284, maxW, 22, 'normal', '#e0d6c2');
   fitText(g, info.mode, x, 318, maxW, 20, 'normal', '#b8ad98');
+  if (info.hound) fitText(g, `With ${info.hound.name}, the hound`, x, 346, maxW, 17, 'italic', '#d8b888');
   fitText(g, `Seed "${info.seed}" · ${info.date}`, x, 370, maxW, 17, 'normal', '#8a8070');
   return c;
 }

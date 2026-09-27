@@ -328,7 +328,15 @@ test.describe('sharing a run', () => {
       await expect.poll(() => pg.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
     };
     const errors = watchForErrors(page);
+    // what the card writes, so the hound's line can be looked for
+    await page.addInitScript(() => {
+      window.__cardText = [];
+      const fill = CanvasRenderingContext2D.prototype.fillText;
+      CanvasRenderingContext2D.prototype.fillText = function (t, ...rest) { window.__cardText.push(String(t)); return fill.call(this, t, ...rest); };
+    });
     await startGame(page, { seed: 'card-me', cls: 'Fighter' });
+    // a hound that followed this hero (waiting on another floor, out of the fight)
+    await page.evaluate(() => { const G = Game.state(); G.companion = { kind: 'hound', name: 'Pip', x: 1, y: 1, depth: 99, hp: 17, maxHp: 17, mode: 'stay', nextAct: 0, kills: 0, joined: 1 }; });
     await die(page);
     await expect(page.locator('#end-card')).toBeVisible();
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('#end-card')]);
@@ -338,6 +346,7 @@ test.describe('sharing a run', () => {
     expect(png.slice(1, 4).toString()).toBe('PNG');
     expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([800, 420]);
     await expect(page.locator('#end-card')).toHaveText('Picture saved');
+    expect(await page.evaluate(() => window.__cardText)).toContain('With Pip, the hound');
     expect(errors).toEqual([]);
     // a phone whose sheet takes files gets the picture, with the line beside it
     const phone = await browser.newContext({ viewport: page.viewportSize() });

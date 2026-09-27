@@ -2291,9 +2291,11 @@ const UI = (() => {
       art = pic(Assets.sprites.bone_heap);
       if (k) killer = `to ${k.name.replace(/^[A-Z](?=[a-z])/, c => (k.encounter ? c : c.toLowerCase()))}`;
     }
+    // a hound still at the hero's side at the end stands in the picture with them
+    const c = G.companion, hound = c && !c.fallen ? { name: c.name, art: pic(Assets.sprites.dog) } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
-      won, art, killer,
+      won, art, killer, hound,
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
       outcome: won ? 'Claimed the Heart' : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
