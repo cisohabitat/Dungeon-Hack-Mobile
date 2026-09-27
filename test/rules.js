@@ -2891,6 +2891,37 @@ await test('a fallen cave wyrm or quillback leaves its scales or quills now and 
   return out.length ? out.join('; ') : true;
 });
 
+await test('a mage draws back two spell points a spell-kill on Hard and in the Long Delve, one on an ordinary Normal delve; an ordinary Normal delve\'s creatures are a touch sturdier', async () => {
+  const out = [];
+  const drawn = async (difficulty, levels) => {
+    for (let tries = 0; tries < 12; tries++) {
+      const ctx = await start('mage', `draw-${difficulty}-${levels}-${tries}`, { levels, difficulty });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      const m = beside(ctx, 'goblin', { hp: 1, maxHp: 1, nextAct: 1e12 });
+      p.sp = p.maxSp - 3;                                 // room to draw back, after the cast
+      const mark = markLog(G);
+      if (!Game.castSpell(Game.knownSpells().find(x => x.id === 'magic_missile'))) return 'Magic Missile would not cast';
+      run(Game, G, 1500);
+      if (Game.level().monsters.includes(m)) continue;    // it missed: try again
+      const said = linesSince(G, mark).join(' ');
+      return Number((said.match(/\+(\d+) spell points?/) || [])[1] || 0);
+    }
+    return 'never killed it';
+  };
+  const n = await drawn('normal', 8), h = await drawn('hard', 8), l = await drawn('normal', 12);
+  if (n !== 1) out.push(`an ordinary Normal delve drew back ${n}`);
+  if (h !== 2) out.push(`Hard drew back ${h}`);
+  if (l !== 2) out.push(`the Long Delve drew back ${l}`);
+  // the same floor, Normal: an ordinary delve's creatures carry a little more life than the Long Delve's
+  const life = async levels => {
+    const ctx = await start('fighter', 'sturdy', { levels, size: 'medium', monsters: 'normal', difficulty: 'normal' });
+    return ctx.Game.level().monsters.reduce((a, m) => a + m.maxHp, 0);
+  };
+  const short = await life(8), long = await life(12);
+  if (!(short > long)) out.push(`an ordinary delve's first floor held ${short} life, the Long Delve's ${long}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
   const ctx = await start('fighter', 'rust-on');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
