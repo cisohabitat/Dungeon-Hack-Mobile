@@ -3638,6 +3638,55 @@ await test('a snared foe stays snared through a save and a load', async () => {
   return true;
 });
 
+await test('a Potion of Might adds its +2 whole to a dagger\'s blow, not scaled down by the blade\'s weight', async () => {
+  const ctx = await start('fighter', 'might-whole');
+  const { Game } = ctx;
+  const p = Game.player(), G = Game.state();
+  const gain = t => {
+    p.eq.weapon = { t, q: 1, e: 0 }; p.eq.shield = null; p.eq.offhand = null;
+    delete p.effects.might; const off = Game.blowRate(p.eq.weapon);
+    p.effects.might = { amount: 2, until: G.t + 120000 }; const on = Game.blowRate(p.eq.weapon);
+    delete p.effects.might;
+    return on - off;
+  };
+  // the same +2 a blow is worth more a second on a quick blade; scaled by weight, it was worth the same on every one
+  const dagger = gain('dagger'), great = gain('greatsword');
+  return dagger > great * 1.5 || `+2 a blow came to ${dagger.toFixed(2)} a second on a dagger and ${great.toFixed(2)} on a greatsword`;
+});
+
+await test('Weapon Master\'s +1 lands on the second blade too', async () => {
+  const ctx = await start('fighter', 'wm-offhand');
+  const { Game } = ctx;
+  const p = Game.player();
+  const gain = two => {
+    p.eq.weapon = { t: 'dagger', q: 1, e: 0 }; p.eq.shield = null; p.eq.offhand = two ? { t: 'dagger', q: 1, e: 0 } : null;
+    p.talents = []; const off = Game.blowRate(p.eq.weapon);
+    p.talents = ['weapon_master']; const on = Game.blowRate(p.eq.weapon);
+    p.talents = [];
+    return on - off;
+  };
+  const one = gain(false), two = gain(true);
+  // two blades swing a little slower, but two +1s a round outweigh it; one +1 did not
+  return two > one || `the talent added ${one.toFixed(2)} a second with one dagger and ${two.toFixed(2)} with two`;
+});
+
+await test('Slow to Bleed closes wounds half again as fast, even on a small pool of life', async () => {
+  const healed = async perk => {
+    const ctx = await start('mage', 'hardy-heal');
+    const { Game } = ctx;
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    L.monsters.length = 0;
+    p.maxHp = 20; p.hp = 5; p.perkRegen = perk ? 0.5 : 0; p.regenCarry = 0; p.nextRegen = G.t;
+    let total = 0;
+    for (let i = 0; i < 400; i++) { const was = p.hp; p.hp = Math.min(p.hp, 9); Game.update(G.t + 100, 100); total += Math.max(0, p.hp - Math.min(was, 9)); p.hp = 5; }
+    return total;
+  };
+  const plain = await healed(false), hardy = await healed(true);
+  if (!plain) return 'no natural healing happened at all';
+  const r = hardy / plain;
+  return (r > 1.4 && r < 1.6) || `with Slow to Bleed a 20-life hero healed ${hardy} to ${plain}, ${r.toFixed(2)} times`;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;

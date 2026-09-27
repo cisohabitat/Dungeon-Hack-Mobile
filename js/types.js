@@ -69,6 +69,7 @@
  * @property {Record<string, number>} [taught]   points Self-Taught has put into each score this run (two at most)
  * @property {number} [volleyN]   arrows landed this run, for a Volley's every third
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
+ * @property {number} [regenCarry]  the part of a point of natural healing still owed (Slow to Bleed's half again)
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
  * @property {number} [lastTear]  when the hero last tore at a web

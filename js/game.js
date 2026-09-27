@@ -417,11 +417,11 @@ const Game = (() => {
     const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
     const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
     const finesse = p.cls === 'thief' || p.cls === 'ranger';
-    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
-      + berserkerRage() + jewelBonus('might');
+      + berserkerRage() + jewelBonus('might') + (effect('might') ? 2 : 0);
     let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack);
-    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained());
+    if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained() + (hasTalent('weapon_master') ? 1 : 0));
     return blow / (speed / 1000);
   }
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
@@ -2237,11 +2237,12 @@ const Game = (() => {
     // Thieves strike where it counts rather than swinging hard, so their bonus
     // comes from dexterity and does not scale with the weight of the weapon.
     const finesse = p.cls === 'thief' || p.cls === 'ranger';
-    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage() + (effect('might') ? 2 : 0);
+    const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
     // talents promise a number, so it is added whole, not scaled by the weapon's weight
     const knack = (hasTalent('weapon_master') ? (w.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + templarBlow(m)   // a path's number, likewise
-      + jewelBonus('might');               // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
+      + jewelBonus('might')                // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
+      + (effect('might') ? 2 : 0);         // and a Potion of Might's, which says +2 and means it
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
     let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m) + bargained() + rangerAim(m, atRange) + wardenHold(m);
     if (crit) dmg *= 2;
@@ -2307,8 +2308,8 @@ const Game = (() => {
       log(`Your ${o.name.toLowerCase()} goes wide.${note}`);
       return;
     }
-    // a Ring of Might and a Berserker's rage promise every blow, and this is one
-    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + baneDamage(m, 'offhand') + bargained());
+    // a Ring of Might, a Berserker's rage and Weapon Master's +1 promise every blow, and this is one
+    const dmg = Math.max(1, d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + (hasTalent('weapon_master') ? 1 : 0) + baneDamage(m, 'offhand') + bargained());
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
@@ -3706,9 +3707,14 @@ const Game = (() => {
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);
       if (!hunted) {
         // scale with the pool so recovery takes about the same time at every level
-        const hardy = (p.cls === 'fighter' ? 1.6 : 1) + (p.perkRegen || 0);
+        const hardy = p.cls === 'fighter' ? 1.6 : 1;
         const was = p.hp;
-        p.hp = Math.min(regenTo, p.hp + Math.max(1, Math.round(p.maxHp / 35 * hardy)));
+        // Slow to Bleed is half again what this hero heals, carried over in parts
+        // so that it still counts on a small pool, where one point a beat is all
+        const step = Math.max(1, Math.round(p.maxHp / 35 * hardy)) * (1 + (p.perkRegen || 0)) + (p.regenCarry || 0);
+        const heal = Math.floor(step);
+        p.regenCarry = step - heal;
+        p.hp = Math.min(regenTo, p.hp + heal);
         noteHealed(p.hp - was);
         p.nextRegen = G.t + (p.cls === 'fighter' ? 1900 : 2200);
         emit('stats');
