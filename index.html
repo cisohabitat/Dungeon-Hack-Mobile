@@ -43,6 +43,9 @@
           <button id="btn-beasts" class="ghost">Bestiary</button>
           <button id="btn-help" class="ghost">How to Play</button>
         </div>
+        <div class="menu-row">
+          <button id="btn-code" class="ghost">Load from code</button>
+        </div>
       </div>
     </div>
   </section>
@@ -104,6 +107,23 @@
       <div class="menu">
         <button id="confirm-keep" class="big primary">Keep playing that hero</button>
         <button id="confirm-replace" class="big danger">Replace with a new hero</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- A hero carried over from another device -->
+  <section id="screen-code" class="screen scroll">
+    <div class="title-inner">
+      <h2>Load a hero from a code</h2>
+      <p>Paste the save code from another phone or browser (Menu &rsaquo; Save code there), or open the file it was saved to.</p>
+      <p id="code-warn" class="tagline"></p>
+      <textarea id="code-in" class="code-box" rows="6" aria-label="Save code" placeholder="DD1.&hellip;" spellcheck="false" autocomplete="off"></textarea>
+      <p id="code-why" class="code-why" role="alert"></p>
+      <div class="menu">
+        <button id="code-load" class="big primary">Load this hero</button>
+        <button id="code-open" class="big ghost">Open a file</button>
+        <input id="code-pick" type="file" accept=".txt,text/plain" hidden>
+        <button id="code-back" class="big ghost">Back</button>
       </div>
     </div>
   </section>
@@ -254,6 +274,7 @@
       <div class="help-page" data-hpage="modes" hidden>
         <h3>One life</h3>
         <p>Permadeath is on unless you untick it when you make your hero. The run is still saved whenever you change floors or put the game away, so you can close it and pick up where you were with <b>Continue</b>. What you cannot do is go back: Load Game stays shut, and when you die the save is erased. Untick permadeath for a gentler run where you can save from the menu and load it again after a death.</p>
+        <p>To carry a hero to another phone or browser, open <b>Menu &rsaquo; Save code</b> and copy the code (or save it as a file), then choose <b>Load from code</b> on the other one's title screen. It replaces any hero waiting there. A code cannot take back a permadeath run: this device will not load one for a hero who has already died here, or one older than how far you have played them here.</p>
         <h3>Difficulty</h3>
         <p>Choose it when you make your hero. <b>Easy</b> leaves more to find, and the monsters never grow with you. <b>Normal</b> is the delve as it was meant. <b>Hard</b> has sturdier monsters, thinner rests, and a lich at full strength; from the fourth floor down its creatures hit surer still.</p>
         <h3>Trophies</h3>
@@ -399,11 +420,24 @@
       <div class="ov-head"><h2>Messages</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body" id="log-history"></div>
     </div>
+    <div id="ov-code" class="overlay">
+      <div class="ov-head"><h2>Save code</h2><button class="close" data-close aria-label="Close">✕</button></div>
+      <div class="ov-body">
+        <p>This code is your hero as they are now. On another phone or browser, choose <b>Load from code</b> on the title screen and paste it in.</p>
+        <textarea id="code-out" class="code-box" rows="6" readonly aria-label="Save code" spellcheck="false"></textarea>
+        <div class="menu-row">
+          <button id="code-copy" class="big">Copy</button>
+          <button id="code-file" class="big ghost">Save as a file</button>
+        </div>
+        <p id="code-note" class="dim small"></p>
+      </div>
+    </div>
     <div id="ov-menu" class="overlay">
       <div class="ov-head"><h2>Menu</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body menu">
         <button id="m-save" class="big">Save Game</button>
         <button id="m-load" class="big">Load Game</button>
+        <button id="m-code" class="big">Save code</button>
         <button id="m-sound" class="big">Sound: On</button>
         <button id="m-music" class="big">Music: On</button>
         <button id="m-rolls" class="big">Combat rolls: Off</button>

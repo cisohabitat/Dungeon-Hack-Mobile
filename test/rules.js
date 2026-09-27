@@ -8397,6 +8397,62 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  // ---------- save codes ----------
+  await test('a save code carries a hero to another device, and a bad one says why and harms nothing', async () => {
+    const out = [];
+    const a = await start('mage', 'code-carry', { levels: 6 });
+    { const { Game } = a; const p = Game.player();
+      Game.level().monsters.length = 0; Game.descend();
+      p.gold = 321; p.hp = Math.max(1, p.hp - 2); }
+    const code = await a.Game.saveCode();
+    const want = { name: a.Game.player().name, depth: a.Game.state().depth, gold: a.Game.player().gold, hp: a.Game.player().hp, inv: a.Game.player().inv.length };
+    if (!code || !/^DD1\./.test(code)) return `the code came out as ${String(code).slice(0, 20)}`;
+    // another device: a fresh world with its own storage and a hero of its own waiting
+    const b = await start('fighter', 'code-other');
+    b.Game.save(true);
+    const before = b.store.get('deepdelve.save');
+    for (const [bad, why] of [['hello there', /not a Deepdelve save code/], [code.slice(0, Math.floor(code.length / 2)), /not whole/], ['DD1.' + 'A'.repeat(40), /not whole/]]) {
+      const r = await b.Game.loadCode(bad);
+      if (r.ok || !why.test(r.why || '')) out.push(`a bad code (${bad.slice(0, 12)}…) said: ${r.why}`);
+    }
+    if (b.store.get('deepdelve.save') !== before) out.push('a bad code touched the hero already saved here');
+    // a code pasted from a message, broken over lines and spaced out
+    const r = await b.Game.loadCode('  ' + code.replace(/(.{60})/g, '$1\n ') + '\n');
+    if (!r.ok) return `the code would not load: ${r.why}`;
+    const got = { name: b.Game.player().name, depth: b.Game.state().depth, gold: b.Game.player().gold, hp: b.Game.player().hp, inv: b.Game.player().inv.length };
+    if (JSON.stringify(got) !== JSON.stringify(want)) out.push(`the hero came over as ${JSON.stringify(got)}, not ${JSON.stringify(want)}`);
+    if (!b.Game.hasSave()) out.push('the hero from the code was not kept as the save here');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a save code cannot take back a permadeath run on the device that played it; a gentler run loads any code', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'code-perma', { levels: 6, permadeath: true });
+    const { Game } = ctx;
+    const old = await Game.saveCode();
+    Game.level().monsters.length = 0; Game.descend();
+    Game.save(true);
+    const late = await Game.saveCode();
+    const r1 = await Game.loadCode(old);
+    if (r1.ok || !/further/.test(r1.why || '')) out.push(`an older code for a permadeath run loaded: ${r1.why}`);
+    const r2 = await Game.loadCode(late);
+    if (!r2.ok) out.push(`the latest code for a living permadeath hero was refused: ${r2.why}`);
+    if (!fallTo(ctx)) return 'the hero would not die';
+    const r3 = await Game.loadCode(late);
+    if (r3.ok || !/already ended/.test(r3.why || '')) out.push(`a code for a permadeath hero who died here loaded: ${r3.why}`);
+    // on a device that never saw the run, the same code loads (the guard is each device's own)
+    const other = await newContext();
+    const r4 = await other.Game.loadCode(late);
+    if (!r4.ok) out.push(`a device that never saw the run refused its code: ${r4.why}`);
+    // a run without permadeath goes back to any code, as its own Load Game does
+    const soft = await start('fighter', 'code-soft', { levels: 6, permadeath: false });
+    const early = await soft.Game.saveCode();
+    soft.Game.level().monsters.length = 0; soft.Game.descend(); soft.Game.save(true);
+    const r5 = await soft.Game.loadCode(early);
+    if (!r5.ok || soft.Game.state().depth !== 1) out.push(`a gentler run would not go back to an older code: ${r5.why}`);
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

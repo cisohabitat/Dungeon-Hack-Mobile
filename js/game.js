@@ -9,6 +9,7 @@ import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
 import { SIZE as DRESS_SIZE } from './dressing.js';
+import { encodeSave, decodeSave } from './savecode.js';
 
 // Core game state and rules.
 
@@ -736,7 +737,8 @@ const Game = (() => {
   let lastStamp = 0;
   const newRunStamp = () => (lastStamp = Math.max(Date.now(), lastStamp + 1));
   /** Which run this is, as the Hall and the fallen know it. */
-  const runKey = () => (G.created ? String(G.created) : `${G.seed}|${P().name}|${P().cls}`);
+  const runKeyOf = g => (g.created ? String(g.created) : `${g.seed}|${g.player.name}|${g.player.cls}`);
+  const runKey = () => runKeyOf(G);
   /** The floor a shade keeps in this delve: where its hero fell, but never the first floor, nor the lich's. */
   const shadeFloor = f => Math.max(2, Math.min(f.depth, (G.opts.levels || 8) - 1));
   /** A hero's name with their class: "Brand the Fighter". */
@@ -2760,7 +2762,7 @@ const Game = (() => {
     G.deathLog = G.log.filter(e => !e.gone).slice(-6).map(e => e.m);
     log(`${p.name} has died on floor ${G.depth}.`, 'bad');
     Sound.play('die');
-    if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
+    if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } noteRun(runKey(), 'ended'); }
     // remembered, for a later run to find where they fell
     if (!G.opts.daily) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
     recordHero(false);
@@ -2784,6 +2786,7 @@ const Game = (() => {
     log('The light carries you up out of the mountain and into the day. The Heart is yours.', 'good');
     Sound.play('win');
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+    if (G.opts.permadeath) noteRun(runKey(), 'ended');
     recordHero(true);
     emit('won');
   }
@@ -3801,6 +3804,9 @@ const Game = (() => {
   function save(auto) {
     if (!G || G.status !== 'playing') return false;
     for (const d in G.levels) pruneRemains(G.levels[d]);
+    // each save counts on, so a save code knows how far along its run it was taken
+    G.saveSeq = (G.saveSeq || 0) + 1;
+    if (G.opts.permadeath) noteRun(runKey(), G.saveSeq);
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(G));
       if (!auto) log('Game saved.', 'info');
@@ -3900,6 +3906,49 @@ const Game = (() => {
       return true;
     } catch (e) { G = before; return false; }
   }
+  // ---------- save codes ----------
+  // A permadeath run cannot be taken back with a code: this device remembers
+  // how far along each such run it has saved, and which have ended, and will
+  // not load a code for one that is over or older than what it has played.
+  // (Another device knows nothing of it: the guard is this device's own.)
+  const RUNS_KEY = 'deepdelve.runs';
+  /** @returns {Record<string, number|'ended'>} */
+  function runsSeen() { try { return JSON.parse(localStorage.getItem(RUNS_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function noteRun(key, v) {
+    try {
+      const all = runsSeen();
+      if (all[key] === 'ended' || (typeof all[key] === 'number' && typeof v === 'number' && v < all[key])) return;
+      delete all[key]; all[key] = v;
+      // the oldest runs are let go: only the last few dozen can still be in anyone's hands
+      const keys = Object.keys(all);
+      for (const k of keys.slice(0, Math.max(0, keys.length - 60))) delete all[k];
+      localStorage.setItem(RUNS_KEY, JSON.stringify(all));
+    } catch (e) { /* private browsing */ }
+  }
+  /** The running hero as a code to carry to another device (saved first, so it is now). */
+  async function saveCode() {
+    if (!save(true)) return null;
+    return encodeSave(JSON.stringify(G));
+  }
+  /** Take up the hero a code holds, in place of any saved here. @returns {Promise<{ok: boolean, why?: string}>} */
+  async function loadCode(text) {
+    let data;
+    try { data = JSON.parse(await decodeSave(text)); } catch (e) { return { ok: false, why: e instanceof SyntaxError ? 'That code is not whole: it may have been cut short when it was copied.' : e.message }; }
+    if (!data || !data.player || !data.levels || !CLASSES[data.player.cls]) return { ok: false, why: 'That code does not hold a hero.' };
+    const key = runKeyOf(data), seen = runsSeen()[key];
+    if (data.opts && data.opts.permadeath) {
+      if (seen === 'ended') return { ok: false, why: `${data.player.name}'s delve has already ended on this device, and a permadeath run cannot be taken back.` };
+      if (typeof seen === 'number' && (data.saveSeq || 0) < seen) return { ok: false, why: `This device has already played ${data.player.name} further than this code, and a permadeath run cannot be taken back.` };
+    }
+    let before = null;
+    try { before = localStorage.getItem(SAVE_KEY); localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) { return { ok: false, why: 'This browser will not keep a saved game.' }; }
+    if (!load()) {
+      try { if (before) localStorage.setItem(SAVE_KEY, before); else localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+      return { ok: false, why: 'That code would not load.' };
+    }
+    if (G.opts.permadeath) noteRun(key, G.saveSeq || 0);
+    return { ok: true };
+  }
   function saveSummary() {
     try {
       const s = localStorage.getItem(SAVE_KEY);
@@ -3984,7 +4033,7 @@ const Game = (() => {
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
 
   return {
-    newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,
+    newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,

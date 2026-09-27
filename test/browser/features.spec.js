@@ -1013,6 +1013,37 @@ test.describe('dungeon features', () => {
     expect(await page.evaluate(() => Renderer.calm)).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('a save code from the menu carries the hero to a fresh browser; a bad code says why', async ({ page, browser }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'save-code', name: 'Wendeline' });
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await page.click('#m-code');
+    await expect(page.locator('#ov-code')).toHaveClass(/open/);
+    await expect(page.locator('#code-out')).toHaveValue(/^DD1\./);
+    const code = await page.locator('#code-out').inputValue();
+    await expect(page.locator('#code-note')).toContainText('copy all of it');
+    // another phone: a browser with nothing saved
+    const other = await browser.newContext({ viewport: page.viewportSize() });
+    const p2 = await other.newPage();
+    const errors2 = watchForErrors(p2);
+    await p2.goto('/');
+    await p2.click('#btn-code');
+    await expect(p2.locator('#screen-code')).toBeVisible();
+    await p2.fill('#code-in', 'not a code at all');
+    await p2.click('#code-load');
+    await expect(p2.locator('#code-why')).toContainText('not a Deepdelve save code');
+    await p2.fill('#code-in', code);
+    await p2.click('#code-load');
+    await expect(p2.locator('#screen-game')).toBeVisible();
+    expect(await p2.evaluate(() => Game.player().name)).toBe('Wendeline');
+    // and it is kept there, to Continue from
+    await p2.goto('/');
+    await expect(p2.locator('#save-summary')).toContainText('Wendeline');
+    expect(errors2).toEqual([]);
+    await other.close();
+    expect(errors).toEqual([]);
+  });
   test('left-handed controls in the menu swap the pad and the buttons, and are remembered', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'left-hand' });

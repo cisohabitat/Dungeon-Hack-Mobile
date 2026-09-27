@@ -1580,6 +1580,18 @@ const UI = (() => {
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
     if (name === 'fork') renderFork();
+    if (name === 'code') renderCode();
+  }
+  /** The hero as a save code, written fresh each time it is asked for. */
+  function renderCode() {
+    const out = /** @type {HTMLTextAreaElement} */ ($('#code-out'));
+    out.value = '';
+    $('#code-note').textContent = 'Writing the code…';
+    Game.saveCode().then(code => {
+      if (overlay !== 'code') return;
+      out.value = code || '';
+      $('#code-note').textContent = code ? `${Math.round(code.length / 1000)} thousand letters long: copy all of it.` : 'This hero cannot be saved just now.';
+    });
   }
   /** The divided stair: each road, what it holds, and a way to stay put. */
   function renderFork() {
@@ -2305,6 +2317,23 @@ const UI = (() => {
     view.addEventListener('pointercancel', () => { swipe = null; });
     for (const b of $$('[data-close]')) b.addEventListener('click', () => closeOverlay());
     $('#m-save').addEventListener('click', () => { Game.save(); closeOverlay(); });
+    // a save code: the hero as text, to carry to another phone or browser
+    $('#m-code').addEventListener('click', () => openOverlay('code'));
+    $('#code-copy').addEventListener('click', async () => {
+      const code = /** @type {HTMLTextAreaElement} */ ($('#code-out')).value;
+      if (!code) return;
+      $('#code-note').textContent = (await copyText(code)) ? 'Copied: paste it on the other phone or browser.' : 'Could not copy it: select the code and copy it by hand.';
+    });
+    $('#code-file').addEventListener('click', () => {
+      const code = /** @type {HTMLTextAreaElement} */ ($('#code-out')).value;
+      if (!code) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([code], { type: 'text/plain' }));
+      a.download = `deepdelve-${Game.player().name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-floor-${Game.state().depth}.txt`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      $('#code-note').textContent = 'Saved as a file: open it on the other phone or browser.';
+    });
     // Load sits under Save, and one slip rewinds the run: the first tap asks
     let loadArmed = 0;
     $('#m-load').addEventListener('click', () => {
@@ -2417,6 +2446,29 @@ const UI = (() => {
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });
+    // a hero carried over from another device, in place of any waiting here
+    $('#btn-code').addEventListener('click', () => {
+      /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = '';
+      $('#code-why').textContent = '';
+      const s = Game.saveSummary();
+      $('#code-warn').textContent = s ? `This replaces ${s.name} the ${s.cls}, waiting for you on floor ${s.depth}.` : '';
+      showScreen('screen-code');
+    });
+    $('#code-back').addEventListener('click', () => showScreen('screen-title'));
+    $('#code-open').addEventListener('click', () => $('#code-pick').click());
+    $('#code-pick').addEventListener('change', async () => {
+      const pick = /** @type {HTMLInputElement} */ ($('#code-pick')), f = pick.files && pick.files[0];
+      if (f) /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = await f.text();
+      pick.value = '';
+    });
+    $('#code-load').addEventListener('click', async () => {
+      Sound.unlock();
+      const b = /** @type {HTMLButtonElement} */ ($('#code-load'));
+      b.disabled = true;
+      const r = await Game.loadCode(/** @type {HTMLTextAreaElement} */ ($('#code-in')).value);
+      b.disabled = false;
+      if (r.ok) startPlaying(); else $('#code-why').textContent = r.why || 'That code would not load.';
+    });
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     $('#btn-beasts').addEventListener('click', () => { $('#beasts-count').textContent = renderBestiary($('#beasts-list')); showScreen('screen-beasts'); });
     $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
