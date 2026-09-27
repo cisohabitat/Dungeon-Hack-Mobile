@@ -241,10 +241,10 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 77% | 74% | 73% | 81% | 77% | about 76% |
-| Hard | 54% | 53% | 48% | 60% | 55% | about 54% |
-| Long Delve (12 floors), Normal | 67% | 74% | 71% | 80% | 78% | about 74% |
-| Long Delve (12 floors), Hard | 50% | 51% | 53% | 60% | 51% | about 53% |
+| Normal | 80% | 77% | 76% | 80% | 77% | about 78% |
+| Hard | 57% | 54% | 49% | 58% | 55% | about 55% |
+| Long Delve (12 floors), Normal | 78% | 75% | 71% | 82% | 81% | about 77% |
+| Long Delve (12 floors), Hard | 58% | 57% | 59% | 61% | 49% | about 57% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
 Delve on Hard, and every class lands within about six points of it: the mage lowest, the thief highest. (It was once tuned
@@ -260,10 +260,11 @@ monsters of their own (the blink hound, the quillback and the cave wyrm), whose 
 answers well; over three seed sets it now wins about 49% with no help, and giving its blows
 the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
 
-The hound (floor 2, on about two seeds in three) is worth two or three points on Normal and three
-or four on Hard: without it the same build wins about 74% and 51%. Most of that is the early
-floors, where it takes blows meant for the hero; a thinner hound that fell in most runs still
-gave nearly as much, so it is kept worth having. The Long Delve rows were measured before it.
+The hound (floor 2, on about two seeds in three; the bot always takes it) is worth three or four
+points everywhere: without it the same build wins about 74% on Normal, 51% on Hard, 74% and 53%
+on the Long Delve. Most of that is the early floors, where it takes blows meant for the hero; a
+thinner hound that fell in most runs gave nearly as much, so it is kept worth having rather than
+worn down to nothing.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
