@@ -115,20 +115,22 @@ export function makeCompanion(K) {
     // it grows with the hero
     const want = maxHpFor(p.level);
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
-    // it fights beside the hero, not alone: once they have gone on, it goes after them
-    const away = Math.abs(c.x - p.x) + Math.abs(c.y - p.y);
-    if ((c.mode === 'stay' || away <= 3) && bite(c)) { c.nextAct = G.t + HOUND.speed; return; }
-    // something came to stand where it stands (a lunge, a summoning): it gives way
+    // something came to stand where it stands (a lunge, a summoning): it gives way first
     if (K.monsterAt(c.x, c.y)) {
       const out = K.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => free(x, y));
       if (out) moveTo(c, out[0], out[1], HOUND.stepMs);
       c.nextAct = G.t + HOUND.stepMs; return;
     }
+    // it fights beside the hero, not alone: once they have gone on, it goes after them
+    const away = Math.abs(c.x - p.x) + Math.abs(c.y - p.y);
+    if ((c.mode === 'stay' || away <= 3) && bite(c)) { c.nextAct = G.t + HOUND.speed; c.stuckSince = 0; return; }
     if (c.mode === 'stay') { c.nextAct = G.t + 300; c.stuckSince = 0; return; }
     const dist = trail(), di = dist[c.y * L.w + c.x];
     const step = di > 2 || di < 0 ? HOUND.trotMs : HOUND.stepMs;
     c.nextAct = G.t + step;
     if (di >= 0 && di <= 1) { c.stuckSince = 0; return; }
+    // close by, it is not lost, only waiting for a way through
+    if (di >= 0 && di <= 3) c.stuckSince = 0;
     // the square that brings it nearest; failing that, one as near that it did
     // not just come from, to get round whatever stands in the way
     let best = null, bd = di < 0 ? Infinity : di, side = null;
@@ -142,12 +144,30 @@ export function makeCompanion(K) {
     const to = best || side;
     if (to) { moveTo(c, to[0], to[1], step); if (best) { c.stuckSince = 0; return; } }
     // no way through for a while, or none at all (a door pulled shut behind the
-    // hero): it finds its own way round, out of sight, and turns up at their side
+    // hero): it finds its own way round and turns up at their back or side. Never
+    // where the hero is looking: a hound that blinked out of sight and into the
+    // square in front of them read as magic
+    if (di >= 0 && di <= 3) return;
     if (!c.stuckSince) c.stuckSince = G.t;
-    else if (G.t - c.stuckSince >= HOUND.lostMs && (di < 0 || di > 3)) {
-      const spot = besideHero();
+    else if (G.t - c.stuckSince >= HOUND.lostMs && !inView(c.x, c.y)) {
+      const spot = [2, 1, 3].map(t => K.DIRS[(p.dir + t) % 4]).map(([dx, dy]) => ({ x: p.x + dx, y: p.y + dy })).find(q => free(q.x, q.y));
       if (spot) { Object.assign(c, spot); c.moveT1 = 0; c.stuckSince = 0; }
     }
+  }
+  /**
+   * Whether the hero can see a square: ahead of them, near enough to be lit,
+   * and nothing solid on the straight line between.
+   */
+  function inView(x, y) {
+    const p = K.P(), [fx, fy] = K.DIRS[p.dir];
+    const rx = x - p.x, ry = y - p.y;
+    if (rx * fx + ry * fy <= 0 || Math.abs(rx) + Math.abs(ry) > 12) return false;
+    const n = Math.ceil(Math.max(Math.abs(rx), Math.abs(ry)) * 4);
+    for (let i = 1; i < n; i++) {
+      const tx = Math.floor(p.x + 0.5 + rx * i / n), ty = Math.floor(p.y + 0.5 + ry * i / n);
+      if ((tx !== p.x || ty !== p.y) && (tx !== x || ty !== y) && !K.passable(tx, ty)) return false;
+    }
+    return true;
   }
   function moveTo(c, x, y, ms = HOUND.stepMs) {
     c.fromX = c.x; c.fromY = c.y; c.x = x; c.y = y;
@@ -180,7 +200,7 @@ export function makeCompanion(K) {
     const spot = besideHero(), p = K.P();
     c.depth = K.G.depth;
     Object.assign(c, spot || { x: p.x, y: p.y });
-    c.moveT1 = 0; c.nextAct = K.G.t + 700;
+    c.moveT1 = 0; c.nextAct = K.G.t + 700; c.stuckSince = 0;
   }
   /** After a load: its clock starts again with the game's. */
   function loaded() {

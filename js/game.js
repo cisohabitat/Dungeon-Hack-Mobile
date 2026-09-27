@@ -1955,7 +1955,8 @@ const Game = (() => {
       let blocked = null;
       if (cost && cost.gold && p.gold < cost.gold) blocked = `You need ${cost.gold} gold.`;
       if (cost && cost.hp && p.hp <= cost.hp) blocked = 'You are too weak to spare the blood.';
-      if (cost && cost.food && p.food < cost.food) blocked = 'You have too little food to share.';
+      // (and not the last of it: sharing it all left the hero starving)
+      if (cost && cost.food && p.food <= cost.food) blocked = 'You have too little food to share.';
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, G.depth), bonus = knack(ch.check);
@@ -2847,7 +2848,7 @@ const Game = (() => {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
-    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : G.companion.depth === G.depth ? `a brown hound called ${G.companion.name} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
+    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : G.companion.depth === G.depth && G.companion.mode === 'follow' ? `a brown hound called ${G.companion.name} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4
@@ -3396,9 +3397,11 @@ const Game = (() => {
     G.t += found ? 20000 : 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = G.t + 300; }
     const woke = found && ambush();
-    if (woke) log(`You wake to something moving in the dark! (+${hp})`, 'bad');
+    // (a hero already whole, resting for the hound's sake, gained nothing to count)
+    const gained = hp ? ` (+${hp})` : '';
+    if (woke) log(`You wake to something moving in the dark!${gained}`, 'bad');
     else if (share >= 1) log('You rest for a while and wake refreshed.', 'good');
-    else log(`You rest, but sleep comes thinly here (+${hp}). The dark is stirring.`, 'info');
+    else log(`You rest, but sleep comes thinly here${gained}. The dark is stirring.`, 'info');
     Sound.play(woke ? 'ambush' : 'rest');
     emit('stats');
     return true;

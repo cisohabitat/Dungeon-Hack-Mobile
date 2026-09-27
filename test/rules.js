@@ -8959,6 +8959,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const was = c.mode;
     Game.input('use');
     if (c.mode !== was) out.push('Use told the hound to stay instead of striking the rat');
+    // and with a goblin beside it to bite, it still gives way first
+    Game.level().monsters.push({ uid: 93, id: 'goblin', x: 9, y: 5, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
     run(Game, G, 1500);
     if (c.x === rat.x && c.y === rat.y) out.push('the hound stayed on the rat\'s square');
     // and a rat that lunges after a hero stepping back does not land on the hound behind them
@@ -8996,8 +8998,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       m.windup = { kind: 'move', move, at: G.t, until: G.t + 1e9 };
       Game.level().monsters.push(m);
       const mark = markLog(G);
-      run(Game, G, 8000);
-      const bit = linesSince(G, mark).some(l => l.includes(`${c.name} bites`));
+      // until its first bite lands (a level-one hound misses a lich more often than not)
+      let bit = false;
+      for (let t = 0; t < 40000 && !bit; t += 25) { Game.update(G.t + 25, 25); bit = linesSince(G, mark).some(l => l.includes(`${c.name} bites`)); }
+      run(Game, G, 500);
       if (!bit) out.push(`the hound never bit the ${id}`);
       else if (!m.windup) out.push(`the hound's bite broke the ${id}'s ${move}`);
     }
@@ -9014,6 +9018,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (!Game.load()) return 'the game would not load';
     const c2 = Game.companion();
     if (c2.lungeAt) out.push(`after a reload its lunge clock read ${c2.lungeAt}`);
+    if (c2.stuckSince) out.push('after a reload it still counted itself stuck');
     // told to stay floors above, then the Heart won: it is not by the fire that night
     c2.mode = 'stay'; c2.depth = Game.state().depth + 3;
     const won = Game.epilogue(true).join(' ');
@@ -9031,6 +9036,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (o.cost !== '25 nourishment') out.push(`the cost read ${o.cost}`);
       b.Game.chooseEncounter(0);
       if (b.Game.companion()) out.push('a hero with nothing to share won the hound by sharing');
+      // nor the last of it
+      p.food = 25;
+      if (!b.Game.encounterOptions()[0].blocked) out.push('a hero with exactly 25 food could share it all and starve');
     }
     return out.length ? out.join('; ') : true;
   });
@@ -9063,7 +9071,26 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const { Game } = ctx; const c = Game.companion();
       const lost = Game.epilogue(false).join(' ');
       if (!lost.includes(`${c.name} stood over them to the last`)) out.push(`a death with the hound at their side was told as: ${lost}`);
+      c.mode = 'stay';
+      if (Game.epilogue(false).join(' ').includes('stood over them')) out.push('a hound told to stay across the floor still stood over them');
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a lost hound turns up at the hero\'s back or side, never in plain sight in front of them', async () => {
+    const out = [];
+    const ctx = await withHound('hound-sight');
+    const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+    const L = bareFloor(ctx); dig(ctx, 3, 6, 18, 6);
+    // the hero near the corridor's end (room at their back), looking back down it at the hound; a sleeper between
+    p.x = 16; p.y = 6; p.dir = 3; c.x = 4; c.y = 6;
+    L.monsters.push({ uid: 92, id: 'goblin', x: 10, y: 6, hp: 999, maxHp: 999, awake: false, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    run(Game, G, 6000);
+    if (c.x > 10) out.push(`it blinked past the sleeper into plain sight, to ${c.x},${c.y}`);
+    // the hero turns away: now it finds its way round, and comes up behind them
+    Game.input('right'); Game.input('right');
+    run(Game, G, 5000);
+    if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) !== 1) out.push(`with the hero looking away it was still at ${c.x},${c.y}`);
     return out.length ? out.join('; ') : true;
   });
 
