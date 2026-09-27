@@ -1039,6 +1039,7 @@ const Game = (() => {
     return 'That cannot be equipped.';
   }
   function equip(it, quiet, toSlot) {
+    if (G.status === 'dead' || G.status === 'won') return false;
     const p = P(), b = ITEMS[it.t];
     let slot = toSlot === 'offhand' ? 'offhand' : b.kind;
     // two fingers to choose from: an empty one first, then whichever is not held by a curse
@@ -1086,6 +1087,7 @@ const Game = (() => {
     return true;
   }
   function unequip(slot) {
+    if (G.status === 'dead' || G.status === 'won') return;
     const p = P();
     if (!p.eq[slot]) return;
     if (bound(p.eq[slot])) { log(`${cap(the(p.eq[slot]))} will not come off. It is cursed.`, 'bad'); Sound.play('error'); return; }
@@ -1136,6 +1138,7 @@ const Game = (() => {
   }
   function showUse(kind, it, color) { fx.useAt = realNow; fx.useKind = kind; fx.useSprite = spriteFor(it); fx.useColor = color; }
   function useItem(it) {
+    if (G.status !== 'playing') return;
     const p = P(), b = ITEMS[it.t];
     if (p.held > G.t) { blocked(heldWhy()); return; }
     const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
@@ -1293,6 +1296,7 @@ const Game = (() => {
     return c;
   }
   function dropItem(it) {
+    if (G.status !== 'playing') return;
     const p = P(), L = lvl();
     if (it.t === 'artifact') { log('You could not bear to part with it.', 'bad'); return; }
     const one = removeOne(it);
@@ -1334,6 +1338,8 @@ const Game = (() => {
     if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
   }
   function takeItem(it) {
+    // nothing is picked up by the dead (the Heart once was, from the pack, during the fall)
+    if (G.status !== 'playing') return false;
     const p = P(), L = lvl(), k = key(p.x, p.y);
     const list = L.items[k] || [];
     const i = list.indexOf(it);
@@ -1497,6 +1503,7 @@ const Game = (() => {
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
+    clearLanding(L);
     // you arrive beside the stair you came by; that one needs no announcing
     const came = stairsBeside();
     besideKey = came ? came.key : '';
@@ -1517,6 +1524,25 @@ const Game = (() => {
     } else log(`You climb back up to floor ${depth}.`, 'info');
     emit('level');
     checkTile();
+  }
+  /**
+   * Whatever wandered onto the square the hero arrives on steps aside: coming
+   * back up a stair put a hero on top of a monster that could then neither be
+   * struck nor strike, and was drawn nowhere. A companion left there too.
+   */
+  function clearLanding(L) {
+    const p = P();
+    const open = (x, y) => passable(x, y) && !monsterAt(x, y) && !npcAt(x, y) && !propAt(x, y) && !companion.at(x, y) && !(x === p.x && y === p.y);
+    const spot = () => {
+      for (let r = 1; r <= 4; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+        if (Math.abs(dx) + Math.abs(dy) !== r) continue;
+        if (open(p.x + dx, p.y + dy)) return [p.x + dx, p.y + dy];
+      }
+      return null;
+    };
+    for (const m of L.monsters) if (m.x === p.x && m.y === p.y) { const q = spot(); if (q) moveMonster(m, q[0], q[1]); }
+    const c = G.companion;
+    if (c && !c.fallen && c.depth === G.depth && c.x === p.x && c.y === p.y) { const q = spot(); if (q) { c.x = q[0]; c.y = q[1]; c.moveT1 = 0; } }
   }
   /** Why the hero cannot leave by the stairs right now, if they cannot. */
   function pinnedReason() {
@@ -3098,6 +3124,7 @@ const Game = (() => {
       ahead: { x: p.x + dx * (reach || 1) + 0.5, y: p.y + dy * (reach || 1) + 0.5 } });
   }
   function castSpell(sp) {
+    if (G.status !== 'playing') return false;
     const p = P();
     queuedAttack = false;
     if (p.held > G.t) { blocked(heldWhy()); return false; }

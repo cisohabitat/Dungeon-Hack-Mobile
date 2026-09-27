@@ -9167,6 +9167,46 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a hero coming back up a stair never lands on a monster: it steps aside; and the dead lift nothing, not even the Heart', async () => {
+    const out = [];
+    {
+      const ctx = await start('fighter', 'landing', { levels: 6 });
+      const { Game } = ctx; const G = Game.state(), p = Game.player();
+      p.hp = p.maxHp = 9999;
+      Game.level().monsters.length = 0;
+      Game.descend();
+      const L1 = G.levels[1], land = L1.downStart || L1.start;
+      // something wanders onto the square beside the down stair while the hero is below
+      L1.monsters.length = 0;
+      L1.monsters.push({ uid: 88, id: 'goblin', x: land.x, y: land.y, hp: 9, maxHp: 9, awake: true, nextAct: G.t, rx: land.x, ry: land.y, fromX: land.x, fromY: land.y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const d0 = G.depth;
+      Game.level().monsters.length = 0;
+      // back up (the up stair beside the hero on arrival)
+      const up = ctx.Dungeon.DIRS.map(([dx, dy]) => [p.x + dx, p.y + dy]).find(([x, y]) => Game.level().tiles[y * Game.level().w + x] === ctx.Dungeon.T.STAIRS_UP);
+      if (!up) return 'no up stair beside the arrival';
+      p.dir = ctx.Dungeon.DIRS.findIndex(([dx, dy]) => dx === up[0] - p.x && dy === up[1] - p.y);
+      Game.input('use');
+      if (G.depth !== d0 - 1) return `the climb did not happen (floor ${G.depth})`;
+      const m = L1.monsters[0];
+      if (m.x === p.x && m.y === p.y) out.push('the hero landed on the goblin');
+      else if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) > 4) out.push('the goblin was flung far off');
+    }
+    {
+      const ctx = await start('fighter', 'dead-heart', { levels: 4, permadeath: true });
+      const { Game } = ctx; const G = Game.state(), p = G.player, L = Game.level(), k = `${p.x},${p.y}`;
+      const heart = { t: 'artifact', q: 1, e: 0 };
+      (L.items[k] = L.items[k] || []).push(heart);
+      L.monsters.length = 0;
+      p.hp = 1; p.lastHurt = G.t; p.poison = { until: G.t + 10000, next: G.t };
+      for (let i = 0; i < 40 && G.status === 'playing'; i++) Game.update(G.t + 100, 100);
+      if (G.status !== 'dead') return `the hero did not die (${G.status})`;
+      Game.takeItem(heart);
+      if (G.status !== 'dead') out.push(`a dead hero took the Heart and the run became ${G.status}`);
+      if (Game.hall().some(h => h.won)) out.push('the Hall recorded a win');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
