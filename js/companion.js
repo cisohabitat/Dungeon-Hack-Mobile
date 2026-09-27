@@ -69,6 +69,7 @@ export function makeCompanion(K) {
     const name = new Rng(`${G.seed}|hound`).pick(NAMES);
     const spot = besideHero() || { x: p.x, y: p.y };
     G.companion = { kind: 'hound', name, x: spot.x, y: spot.y, depth: G.depth, hp: maxHpFor(p.level), maxHp: maxHpFor(p.level), mode: 'follow', nextAct: G.t + 600, kills: 0, joined: G.depth };
+    Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: 'dog' }));
     return `${name} follows you now.`;
   }
   /** It takes a blow, or the quills, or anything else: it may fall. */
@@ -158,7 +159,7 @@ export function makeCompanion(K) {
     if (!c) return false;
     c.mode = c.mode === 'stay' ? 'follow' : 'stay';
     K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} waits.` : `You call ${c.name} to heel.`, 'info');
-    Sound.play('step');
+    if (c.mode === 'stay') Sound.play('step'); else Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: 'dog' }));
     return true;
   }
   /** The hero steps into its square: it steps into theirs, and nobody is stuck in a corridor. */
