@@ -154,6 +154,39 @@ test.describe('knowing what is hitting you', () => {
     expect(result.line, 'the message must say where it struck from').toMatch(/from behind/i);
   });
 
+  test('a blow from out of sight lights a broad red glow on its side, held a while, and buzzes twice', async ({ page }) => {
+    await page.addInitScript(() => { window.__buzz = []; navigator.vibrate = p => { window.__buzz.push(p); return true; }; });
+    await startGame(page, { seed: 'aware-side' });
+    await clearBoons(page);
+    const r = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T;
+      p.maxHp = 500; p.hp = 500;
+      // an orc on the left, awake and swinging
+      const left = Dungeon.DIRS[(p.dir + 3) % 4];
+      const lx = p.x + left[0], ly = p.y + left[1];
+      L.tiles[ly * L.w + lx] = T.FLOOR;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 4343, id: 'orc', x: lx, y: ly, hp: 50, maxHp: 50, awake: true, nextAct: 0, rx: lx, ry: ly, fromX: lx, fromY: ly, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const hp = p.hp;
+      for (let i = 0; i < 200 && p.hp === hp; i++) await new Promise(res => setTimeout(res, 30));
+      if (p.hp === hp) return null;
+      const fx = Game.renderState(performance.now()).fx;
+      return { from: fx.hurtFrom, held: fx.hurtFromUntil - performance.now(), buzz: window.__buzz.slice(-1)[0] };
+    });
+    expect(r, 'the orc should have landed a blow').not.toBeNull();
+    expect(r.from, 'the glow should be on the left').toBe(3);
+    expect(r.held, 'the glow should be held well over a second').toBeGreaterThan(1100);
+    expect(r.buzz, 'a blow from out of sight buzzes twice').toEqual([40, 70, 40]);
+    // and the glow reaches well into the view, not a hairline at its edge
+    const red = await page.evaluate(() => {
+      const c = document.querySelector('#view'), g = c.getContext('2d');
+      const px = (x, y) => g.getImageData(Math.round(c.width * x), Math.round(c.height * y), 1, 1).data;
+      const a = px(0.1, 0.5), b = px(0.5, 0.5);
+      return { edge: a[0] - (a[1] + a[2]) / 2, mid: b[0] - (b[1] + b[2]) / 2 };
+    });
+    expect(red.edge, 'a tenth of the way in should still be reddened').toBeGreaterThan(red.mid + 15);
+  });
+
   test('the death screen names the killer and shows the last moments', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'aware-death' });

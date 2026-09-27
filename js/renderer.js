@@ -1466,7 +1466,9 @@ const Renderer = (() => {
     // without this an attacker behind you is invisible and unexplained.
     if (fx.hurtFrom >= 0 && now < fx.hurtFromUntil) {
       const a = Math.min(1, (fx.hurtFromUntil - now) / 900);
-      const band = 16;
+      // ahead, the attacker is in view and a thin edge will do; from the side or
+      // behind it is the only sign, so it is a broad glow, a sixth of the view
+      const band = fx.hurtFrom === 0 ? 16 : Math.round(Math.min(W, H) / 5);
       const grads = [
         [0, 0, 0, band, 0, band],                 // ahead: down from the top
         [W, 0, W - band, 0, band, H],             // right

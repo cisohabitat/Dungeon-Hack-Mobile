@@ -2679,7 +2679,9 @@ const Game = (() => {
     if (from) {
       const bearing = relativeBearing(from);
       fx.hurtFrom = bearing ? bearing.rel : 0;
-      fx.hurtFromUntil = realNow + 900;
+      // a blow from out of sight is held on its edge longer: a player watching
+      // the view ahead lost most of a life to an archer on the left, unnoticed
+      fx.hurtFromUntil = realNow + (fx.hurtFrom ? 1500 : 900);
       // a champion is remembered by its name: "Grisk, the Goblin King", not "Goblin King"
       const fb = mstat(from);
       G.lastAttacker = { name: fb.named ? `${fb.named.called}, the ${fb.name}` : from.shade ? `the ${fb.name}` : fb.name, dmg, bearing: bearing ? bearing.word : 'from nearby' };
@@ -2693,7 +2695,8 @@ const Game = (() => {
     fx.shakeAmp = 2.5 + 7 * hard; fx.shakeMs = 220; fx.shakeUntil = realNow + 220;
     if (dmg >= p.maxHp / 10) bloodOnView(hard);
     Sound.play('hurt', from ? heard(from) : undefined);
-    buzz(40);
+    // and it is felt differently in the hand: twice, not once
+    buzz(from && fx.hurtFrom ? [40, 70, 40] : 40);
     if (msg) log(msg, 'bad');
     // an Amulet of Life Saving takes the killing blow, once, and is spent
     const saver = p.hp <= 0 && JEWEL_SLOTS.find(s => jewelPowers(p.eq[s]).includes('lifesave'));

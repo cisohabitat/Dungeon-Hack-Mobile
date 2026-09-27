@@ -161,3 +161,19 @@ test('a second death opens the end screen at its title, not where the last one w
   expect(await page.evaluate(() => document.querySelector('#screen-end').scrollTop)).toBe(0);
   expect(errors).toEqual([]);
 });
+
+test('the end screen lists the lessons learnt at each level, with a count for one learnt twice', async ({ page }) => {
+  const { clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+  const errors = watchForErrors(page);
+  await startGame(page, { seed: 'end-lessons' });
+  await clearBoons(page);
+  await page.evaluate(() => { const p = Game.player(); p.boons = ['swift', 'str', 'str']; p.hp = 1; });
+  await faceOpenGround(page, 2);
+  await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+  await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+  const lessons = page.locator('#end-summary .end-h', { hasText: 'Lessons' });
+  await expect(lessons).toBeVisible();
+  await expect(page.locator('#end-summary')).toContainText('Practised Hands');
+  await expect(page.locator('#end-summary')).toContainText('Hard Won Strength ×2');
+  expect(errors).toEqual([]);
+});

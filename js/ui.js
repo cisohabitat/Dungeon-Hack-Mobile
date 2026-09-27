@@ -2173,6 +2173,10 @@ const UI = (() => {
     if (path) parts.push(`<div class="end-h"><span>Path</span></div><div class="end-tags"><span class="tag path">${escapeHtml(path.name)}</span></div>`);
     const talents = (p.talents || []).map(id => own.find(t => t.id === id)).filter(Boolean);
     if (talents.length) parts.push('<div class="end-h"><span>Talents</span></div><div class="end-tags">' + talents.map(t => `<span class="tag">${escapeHtml(t.name)}</span>`).join('') + '</div>');
+    // and the smaller lessons of each level, a count where one was learnt more than once
+    const learnt = new Map();
+    for (const id of p.boons || []) { const b = BOONS.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
+    if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
     const relics = ((G.relics && G.relics.found) || []).filter(id => RELICS[id]);
     if (relics.length) parts.push('<div class="end-h"><span>Relics found</span></div><div class="end-tags">' + relics.map(id => `<span class="tag relic">${escapeHtml(upFirst(RELICS[id].name))}</span>`).join('') + '</div>');
     parts.push(`<div class="end-totals"><div><b>${s.dealt}</b><small>damage dealt</small></div><div><b>${s.taken}</b><small>damage taken</small></div><div><b>${s.healed}</b><small>healed</small></div></div>`);
