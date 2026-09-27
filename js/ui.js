@@ -512,7 +512,7 @@ const UI = (() => {
     if (!saved) { startPending(); return; }
     // today's Daily is one try: replacing that hero spends it, so say so
     $('#confirm-who').textContent =
-      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily ? ' This is today\'s Daily Delve, your one try at it: a new hero ends it unfinished.' : ''}`;
+      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily && saved.daily === Daily.today() ? ' This is today\'s Daily Delve, your one try at it: a new hero ends it unfinished.' : ''}`;
     showScreen('screen-confirm');
   }
   function showPrologue(cfg) {

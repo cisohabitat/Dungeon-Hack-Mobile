@@ -1149,7 +1149,7 @@ const Renderer = (() => {
   const crowd = [];
   // each creature drawn in the last frame: where its drawing starts, how far
   // off it is, and how many of the view's pixels each of its own covers
-  /** @type {{top: number, dist: number, texel: number}[]} */
+  /** @type {{top: number, bottom: number, dist: number, texel: number}[]} */
   const shown = [];
   const FLOOR_BEHIND = 0.45;
   const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
@@ -1274,7 +1274,8 @@ const Renderer = (() => {
       // Held sideways the view is short, and a creature right in front of you
       // stood with its feet below the bottom edge: it is drawn a little smaller,
       // feet on the bottom row, rather than cut off at the knees
-      if (!s.onFloor && floorY > H - 2) { hFull *= (H - 2 - H / 2) / (floorY - H / 2); floorY = H - 2; }
+      let lift = 1;
+      if (!s.onFloor && floorY > H - 2) { lift = (H - 2 - H / 2) / (floorY - H / 2); hFull *= lift; floorY = H - 2; }
       let size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
       // Right in front of you a big one (the lich above all) grew past the top
       // of the view and lost its head: it is drawn no taller than fits, from
@@ -1286,8 +1287,10 @@ const Renderer = (() => {
       }
       // close in, where each of its pixels would be drawn as a block, the finer
       // painting of it once there is one: asked for a few steps off, so it is
-      // usually ready by the time the creature is in your face
-      if (tY < NEAR_ASK && art.near) { const fine = art.near(); if (fine && size / art.h > NEAR_BLOCK) art = fine; }
+      // usually ready by the time the creature is in your face; judged on its
+      // size before it was drawn smaller to keep its feet in view, so that
+      // shrinking never hands back the blockier painting
+      if (tY < NEAR_ASK && art.near) { const fine = art.near(); if (fine && size / lift / art.h > NEAR_BLOCK) art = fine; }
       // a monster's body squashes and stretches as it breathes, lunges and falls
       const sh = size * (s.sqy || 1), sw = size * (s.sqx || 1);
       const top = floorY - sh - (s.yOff || 0) * hFull;

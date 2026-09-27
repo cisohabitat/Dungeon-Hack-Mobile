@@ -470,6 +470,10 @@ test.describe('the Daily Delve', () => {
     await expect(page.locator('#m-seed')).toContainText('Daily Delve 2026-09-24');
     await page.click('#m-quit');
     await expect(page.locator('#daily-summary')).toContainText("Today's delve waits");
+    // a new hero would spend today's one try: the question says so
+    await page.click('#btn-new');
+    await expect(page.locator('#confirm-who')).toContainText("today's Daily Delve, your one try");
+    await page.goto('/');
     await page.click('#btn-daily');
     await expect(page.locator('#screen-game')).toBeVisible();
     expect(await page.evaluate(() => Game.state().seed)).toBe(first.seed);
@@ -482,6 +486,8 @@ test.describe('the Daily Delve', () => {
     await expect(page.locator('#daily-summary')).toContainText('streak 1');
     await page.click('#btn-daily');
     await expect(page.locator('#screen-confirm')).toBeVisible();
+    // yesterday's try is spent either way: no warning about it
+    await expect(page.locator('#confirm-who')).not.toContainText('one try');
     await page.click('#confirm-replace');
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());

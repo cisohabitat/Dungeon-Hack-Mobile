@@ -52,6 +52,25 @@ test.describe('the trader', () => {
     expect(errors).toEqual([]);
   });
 
+  test('gear the hero\'s class can never use says so in the trader\'s list', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'shop-open', levels: '8', cls: 'Mage' });
+    const found = await findTrader(page);
+    test.skip(!found || found.noApproach, 'no reachable trader in the first seven levels');
+    // a mage is offered studded leather, which no mage may wear, and a robe, which one may
+    await page.evaluate(() => {
+      const n = Game.level().npcs.find(q => q.kind !== 'encounter');
+      n.stock.unshift({ t: 'studded', q: 1, e: 1, id: 1 });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    const row = page.locator('#shop-stock .shop-row, #shop-stock > *', { hasText: 'Studded Leather' }).first();
+    const why = await page.evaluate(() => Game.canEquip({ t: 'studded', q: 1, e: 1 }));
+    expect(why, 'a mage cannot wear it').toBeTruthy();
+    await expect(row).toContainText(why);
+    expect(errors).toEqual([]);
+  });
+
   test('the shop names who keeps it: one of the Lampfolk, or at a goblin market a goblin pedlar, drawn as such', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'shop-open', levels: '8' });
