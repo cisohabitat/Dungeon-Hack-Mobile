@@ -1013,4 +1013,40 @@ test.describe('dungeon features', () => {
     expect(await page.evaluate(() => Renderer.calm)).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('left-handed controls in the menu swap the pad and the buttons, and are remembered', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'left-hand' });
+    await clearBoons(page);
+    const sides = () => page.evaluate(() => {
+      const mid = r => r.left + r.width / 2, box = s => document.querySelector(s).getBoundingClientRect();
+      return { pad: mid(box('.dpad')), attack: mid(box('.ctl.attack')), use: mid(box('.ctl[data-tap="use"]')),
+        view: mid(box('#view')), ctrl: mid(box('.ctrl-col')), half: innerWidth / 2 };
+    });
+    // by default the pad is under the left thumb and Attack under the right
+    let s = await sides();
+    expect(s.pad).toBeLessThan(s.half);
+    expect(s.attack).toBeGreaterThan(s.half);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-hand')).toHaveText('Controls: right-handed');
+    await page.click('#m-hand');
+    await expect(page.locator('#m-hand')).toHaveText('Controls: left-handed');
+    await page.click('#ov-menu [data-close]');
+    s = await sides();
+    expect(s.pad).toBeGreaterThan(s.half);
+    expect(s.attack).toBeLessThan(s.half);
+    // Attack keeps to the inside edge, next to the pad
+    expect(s.attack).toBeGreaterThan(s.use);
+    // it holds after a reload, and sideways the whole panel moves to the left
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.reload();
+    await page.waitForFunction(() => typeof Renderer !== 'undefined');
+    expect(await page.evaluate(() => document.body.classList.contains('lefty'))).toBe(true);
+    await page.click('#btn-continue');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await page.waitForTimeout(200);
+    s = await sides();
+    expect(s.ctrl).toBeLessThan(s.view);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect(errors).toEqual([]);
+  });
 });

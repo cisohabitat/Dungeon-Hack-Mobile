@@ -378,6 +378,123 @@ const ENCOUNTERS = {
     ],
   },
 
+  // One of the Lampfolk with its lamp gone out: they do not see without it.
+  // What you do here, the Lampfolk traders below will have heard.
+  lampfolk: {
+    title: 'A Lamp Gone Out', sprite: 'lampfolk_dark', depth: [2, 99],
+    text: 'One of the Lampfolk sits hunched against the wall, its pack beside it and its lamp cold in its lap. Its great eyes are dim as ash. "Sun-walker?" it says, turning its head the wrong way. "The flame went out. We do not see without it."',
+    choices: [
+      { label: 'Coax the wick alight', check: { stat: 'dex', dc: 12 },
+        pass: { text: 'A spark, a breath, and the flame stands up. Its eyes brighten with it. It touches your hand, very lightly, and says it will tell the others.', effects: [{ xp: 30 }, { thread: 'lamp' }] },
+        fail: { text: 'The oil catches all at once and flares across your hands. It goes out again, and the Lampfolk sighs.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Talk it back to the light', check: { stat: 'cha', dc: 12, knack: [[null, 'deepborn', 3]] },
+        pass: { text: 'You talk it along the wall, step by step, to a torch still burning. It lights the lamp from it, and draws you the way it came in the dust.', effects: [{ map: 1 }, { thread: 'lamp' }] },
+        fail: { text: 'It does not trust a voice in the dark. It gathers up its pack and shuffles away from you, and you spend a long while getting your bearings again.', effects: [{ food: -10 }] } },
+      { label: 'Give it oil from your own flask', cost: { goldPerDepth: 6 },
+        outcome: { text: 'It fills the lamp from your flask, lights it, and bows until its pack nearly tips it over.', effects: [{ xp: 20 }, { thread: 'lamp' }] } },
+      { label: 'Take its pack while it cannot see', check: { stat: 'dex', dc: 11, knack: [['thief', null, 3]] },
+        pass: { text: 'You lift the pack and go. Behind you it calls out, again and again, and then goes quiet.', effects: [{ loot: 1 }, { goldPerDepth: 10 }, { thread: 'robbed' }] },
+        fail: { text: 'It knows the weight of its own pack. The lamp-staff cracks across your knuckles, and it runs, shrieking, into the dark.', effects: [{ hurtFrac: 0.1 }, { thread: 'robbed' }] } },
+      { label: 'Leave it in the dark', outcome: { text: 'You go on. Its dim eyes follow the sound of your feet.', effects: [] } },
+    ],
+  },
+
+  forge: {
+    title: 'The Cold Forge', sprite: 'anvil', depth: [2, 99],
+    text: 'A dwarf-built forge, long cold, with a half-made blade still lying on the anvil. The bellows are cracked but whole. Someone meant to come back and finish it.',
+    choices: [
+      { label: 'Work the bellows and finish the blade', check: { stat: 'str', dc: 13, knack: [['fighter', null, 2], [null, 'ashborn', 3]] },
+        pass: { text: 'The coals take, the iron glows, and the old work comes true under your hammer. It is a better blade than you had any right to make.', effects: [{ loot: 2 }, { xp: 30 }] },
+        fail: { text: 'The bellows give out in a gout of sparks. You beat out the burning in your sleeve, and the blade cracks as it cools.', effects: [{ hurtFrac: 0.12 }] } },
+      { label: 'Read the maker\'s marks', check: { stat: 'int', dc: 12 },
+        pass: { text: 'A ward-rune, cut in the anvil\'s face to draw bad magic out of the iron. It still works: you feel something let go of you as you trace it.', effects: [{ xp: 40 }, { uncurse: 1 }] },
+        fail: { text: 'The marks are in a smith\'s cant you do not know. You learn only that the maker was proud of them.', effects: [] } },
+      { label: 'Pry the gold wire off the hilt', outcome: { text: 'It comes away in a bright tangle. Whoever made the blade would not thank you.', effects: [{ goldPerDepth: 8 }] } },
+      { label: 'Leave it for its maker', outcome: { text: 'You leave the blade where it lies, in case they do come back.', effects: [] } },
+    ],
+  },
+
+  pool: {
+    title: 'A Still Black Pool', sprite: 'pool', depth: [1, 99],
+    text: 'Water has found its way down here and stopped, black and perfectly still, in a basin of worn stone. Something pale glints on the bottom. Your reflection looks back at you a moment longer than it should.',
+    choices: [
+      { label: 'Drink', check: { stat: 'con', dc: 12 },
+        pass: { text: 'It is cold enough to hurt, and clean. You feel it all the way down, and your wounds close behind it.', effects: [{ heal: 'full' }, { cure: 1 }] },
+        fail: { text: 'It tastes of iron and old things. Your stomach turns over.', effects: [{ poison: 1 }] } },
+      { label: 'Dive for what glints', check: { stat: 'str', dc: 13 },
+        pass: { text: 'It is deeper than it looks. You come up gasping with something in your fist that the water kept for a long time.', effects: [{ loot: 1 }] },
+        fail: { text: 'The cold takes the breath out of you. You come up empty-handed, half drowned and shaking.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Hold your reflection\'s gaze', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 2]] },
+        pass: { text: 'It blinks first. You come away steadier, as if you had been shown where you are weakest.', effects: [{ xp: 40 }, { buff: { stats: [['ac', 2]], dur: 240000 } }] },
+        fail: { text: 'You look away first. For a long while after, you feel that something is still looking.', effects: [{ food: -10 }] } },
+      { label: 'Leave the water be', outcome: { text: 'You leave the pool as you found it. Its surface does not so much as tremble.', effects: [] } },
+    ],
+  },
+
+  cookpot: {
+    title: 'An Unwatched Pot', sprite: 'cookpot', depth: [1, 6],
+    text: 'A goblin cook-pot hangs over a low fire, bubbling, and there is no goblin anywhere. A ladle sticks out of it. Something in the stew has a lot of legs.',
+    choices: [
+      { label: 'Eat your fill', check: { stat: 'con', dc: 12 },
+        pass: { text: 'It is better than it looks, which is not saying much. You feel you could walk for a day.', effects: [{ food: 60 }, { heal: 8 }] },
+        fail: { text: 'The legs were a warning. You bring most of it back up.', effects: [{ poison: 1 }, { food: 15 }] } },
+      { label: 'Wait for the cook, out of sight', check: { stat: 'dex', dc: 13, knack: [['thief', null, 3], ['ranger', null, 2]] },
+        pass: { text: 'The cook comes back humming, and never sees you. Its purse is heavier than its stew.', effects: [{ xp: 40 }, { goldPerDepth: 10 }] },
+        fail: { text: 'The cook comes back with friends, and they smell you before they see you.', effects: [{ ambush: { id: 'goblin', n: 2 } }] } },
+      { label: 'Tip it over and search the dregs', outcome: { text: 'The fire hisses out in a cloud of stinking steam. At the bottom, among the bones, something that was not food. The noise carries.', effects: [{ loot: 0 }, { wake: 1 }] } },
+      { label: 'Leave the goblins their supper', outcome: { text: 'You leave the pot bubbling. Somebody will be glad of it.', effects: [] } },
+    ],
+  },
+
+  statue: {
+    title: 'The Weeping Knight', sprite: 'statue', depth: [3, 99],
+    text: 'A stone knight kneels on a plinth, head bowed, water running from its eyes in two thin lines down the moss. The sword across its knees is not stone. It is real steel, and bright.',
+    choices: [
+      { label: 'Pry the sword out of its hands', check: { stat: 'str', dc: 14 },
+        pass: { text: 'Stone fingers crack, one by one, and the sword is yours. The weeping stops.', effects: [{ loot: 2 }] },
+        fail: { text: 'The grip does not give, and your hands slip down the edge.', effects: [{ hurtFrac: 0.12 }] } },
+      { label: 'Kneel beside it and swear to finish its task', check: { stat: 'wis', dc: 12, knack: [['cleric', null, 3]] },
+        pass: { text: 'You do not know what the task was. It seems not to matter. You rise feeling that someone old and patient is at your back.', effects: [{ buff: { stats: [['hit', 2], ['ac', 2]], dur: 300000 } }] },
+        fail: { text: 'You kneel a long time. The stone does not answer.', effects: [] } },
+      { label: 'Read the plinth', check: { stat: 'int', dc: 11 },
+        pass: { text: 'A name, a vow, and a plan of this floor cut underneath, from the days when the knights still kept it.', effects: [{ xp: 30 }, { map: 1 }] },
+        fail: { text: 'The moss has eaten most of it. You make out the word "never", and nothing else.', effects: [] } },
+      { label: 'Leave it to its grief', outcome: { text: 'You walk on. Behind you, the water keeps running.', effects: [] } },
+    ],
+  },
+
+  idol: {
+    title: 'The Idol\'s Eyes', sprite: 'idol', depth: [2, 99],
+    text: 'A grinning idol of green stone sits cross-legged in an alcove, its eyes two cut rubies as big as your thumb. The floor in front of it is scorched in a neat circle.',
+    choices: [
+      { label: 'Pry out the rubies', check: { stat: 'dex', dc: 14, knack: [['thief', null, 4]] },
+        pass: { text: 'One, then the other, and nothing happens. You do not wait around to find out why.', effects: [{ goldPerDepth: 22 }] },
+        fail: { text: 'The scorched circle was a warning. Fire leaps from the idol\'s mouth.', effects: [{ hurtFrac: 0.2 }] } },
+      { label: 'Find the trap before you touch it', check: { stat: 'int', dc: 13, knack: [['mage', null, 2]] },
+        pass: { text: 'A pressure plate under the idol\'s knee. You wedge it with a dagger and take the rubies at your leisure.', effects: [{ goldPerDepth: 16 }, { xp: 30 }] },
+        fail: { text: 'You find it by leaning on it. The fire only catches the edge of you.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Smash it open', check: { stat: 'str', dc: 12 },
+        pass: { text: 'The idol splits down the middle with a crack that carries a long way. Coins spill out of its belly.', effects: [{ goldPerDepth: 12 }, { wake: 1 }] },
+        fail: { text: 'Your blow glances off, and the idol breathes fire at you for the insult.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Leave it grinning', outcome: { text: 'You leave the idol its eyes. They follow you down the passage.', effects: [] } },
+    ],
+  },
+
+  mapmaker: {
+    title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
+    text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',
+    choices: [
+      { label: 'Take the map of this floor', outcome: { text: 'It is the right floor, and most of it is true.', effects: [{ map: 1 }] } },
+      { label: 'Follow where the finger points', check: { stat: 'wis', dc: 12, knack: [['ranger', null, 3]] },
+        pass: { text: 'Scratched marks on the wall, then a loose stone, and behind it the mapmaker\'s own cache.', effects: [{ loot: 1 }, { xp: 20 }] },
+        fail: { text: 'Wherever it was pointing, you do not find it. The walk costs you.', effects: [{ food: -10 }] } },
+      { label: 'Bury the mapmaker with its maps', check: { stat: 'con', dc: 11 },
+        pass: { text: 'It is hard work in this rock, but you do it. You feel lighter for it.', effects: [{ xp: 50 }] },
+        fail: { text: 'The ground is stone. You give up with raw hands, and leave the mapmaker as you found it.', effects: [{ food: -10 }] } },
+      { label: 'Leave it pointing', outcome: { text: 'You leave the mapmaker to watch the passage for the next one.', effects: [] } },
+    ],
+  },
+
 };
 
 /** Difficulty grows a little every three floors. */

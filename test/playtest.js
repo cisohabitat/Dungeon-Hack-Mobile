@@ -478,7 +478,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (e.cure) v += p.poison ? 2 : 0;
           if (e.wake) v -= p.cls === 'thief' ? 5 : 3;
           if (e.identifyAll) v += 2;
-          if (e.thread) v += e.thread === 'bargain' ? 3 : 0.5;
+          // (robbing the Lampfolk makes every trader of theirs below a sixth dearer)
+          if (e.thread) v += e.thread === 'bargain' ? 3 : e.thread === 'robbed' ? -1.5 : 0.5;
           if (e.ambush) v -= (e.ambush.id === 'wraith' ? 5 : 3) * e.ambush.n * frail;
           return v;
         }, 0);

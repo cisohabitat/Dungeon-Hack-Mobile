@@ -75,6 +75,8 @@ const Game = (() => {
     captive: 'He swears he will put in a word with the traders below.',
     crew: 'The third crew is at rest.',
     bargain: '+1 to hit and damage for the rest of the delve. Something far below will be the stronger for it.',
+    lamp: 'The Lampfolk will hear of it.',
+    robbed: 'The Lampfolk will hear of this too.',
   };
   /** The Pale One's strength, for the rest of the run. */
   const bargained = () => (G && G.threads && G.threads.bargain ? 1 : 0);
@@ -101,6 +103,8 @@ const Game = (() => {
     if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less for their wares.');
     if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
     if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. The lich will be the stronger for it.');
+    if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
+    if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
     return out;
   }
   /** Whether the hero swore this vow at the start of the run. */
@@ -2813,6 +2817,8 @@ const Game = (() => {
     if (t.captive) told.push('a man they cut out of goblin chains tells the story in the valley taverns, and gets the details wrong in their favour');
     if (t.guide) told.push('a guildsman they dug out of the rubble keeps their chalk map on his wall');
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
+    if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
+    if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4

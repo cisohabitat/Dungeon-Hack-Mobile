@@ -1368,6 +1368,117 @@ const PROPS = {
       dots([[17, 29], [22, 31], [18, 30]], '#1a1418'),
     ];
   },
+  // one of the Lampfolk, hunched in the dark with its lamp gone cold in its
+  // lap: the same grey skin and drooping ears as the traders, the eyes dim
+  lampfolk_dark: () => {
+    const skin = '#7e8694', dark = '#5a6270', robe = '#5a4c3e', pack = '#4e3e2e';
+    return [
+      ball(24, 20, 6, 7, pack), limb(19.5, 13.5, 28.5, 13.5, 1.8, 1.8, '#6e3e32'),
+      ...both(ball(11.5, 30, 3, 1.3, skin)),
+      sheet([[8, 20], [21, 20], [23, 30], [6, 30]], robe, { curve: 1 }),
+      line(4, 18, 13, 30, '#5a4630'),
+      ball(14.5, 25.5, 3, 2.4, '#4a4a50'), ball(14.5, 24.5, 1.6, 1.2, '#2a2a30'),
+      line(14.5, 22, 14.5, 23, '#3a3a40'),
+      ...both(limb(9.5, 21, 12.5, 25.5, 1.3, 1.1, robe)),
+      ...both(ball(12.8, 25.8, 1.3, 1.2, skin)),
+      sheet([[10.5, 13.5], [4, 17.5], [5, 19], [10.5, 16.5]], skin, { tilt: [-0.5, 0.2] }),
+      sheet([[19.5, 13.5], [26, 17.5], [25, 19], [19.5, 16.5]], skin, { tilt: [0.5, 0.2] }),
+      ball(15, 15.5, 5.4, 4.8, skin),
+      ...both(ball(12.7, 15.5, 1.8, 1.6, '#8a8468')),
+      dots([[13, 16], [17, 16]], '#2a2630'),
+      ball(15, 18, 0.7, 0.5, dark),
+      dots([[14, 19], [15, 19.5], [16, 19]], '#4a4452'),
+    ];
+  },
+  // a dwarf-built anvil by a cold hearth, a half-made blade across it
+  anvil: () => {
+    const iron = '#5a5e66', hi = '#7a7e88';
+    return [
+      sheet([[3, 10], [11, 10], [12, 30], [2, 30]], '#4a3e38', { curve: 0.5 }),
+      sheet([[4, 18], [10, 18], [10.5, 24], [3.5, 24]], '#1e1614', { curve: 0.6 }),
+      dots([[5, 22], [7, 23], [8, 22], [6, 23]], '#6a3a24'),
+      sheet([[16, 25], [26, 25], [28, 30.5], [14, 30.5]], iron, { curve: 0.6 }),
+      sheet([[18, 20], [24, 20], [23.5, 25.5], [18.5, 25.5]], '#4a4e56', { curve: 0.5 }),
+      sheet([[12, 16], [28, 16], [30, 18], [28, 20.5], [14, 20.5]], hi, { curve: 0.7 }),
+      line(12, 16, 28, 16, '#9a9ea8', { lit: 1 }),
+      line(13, 15, 27, 14, '#b8bcc4', { lit: 1 }), line(13, 14.5, 26.5, 13.5, '#8a8e96'),
+      line(26.5, 14, 29.5, 13, '#6a4a2a'), line(26, 12.5, 26.8, 15.5, '#8a7a4a'),
+      limb(4, 30, 9, 27, 0.8, 0.6, '#6a4a2a'), ball(10, 26.5, 1.6, 1.4, '#6a6e76'),
+    ];
+  },
+  // black water in a stone basin, perfectly still, something pale on the bottom
+  pool: () => [
+    ball(16, 26, 13, 5, '#5a564e'),
+    ball(16, 26, 11, 3.8, '#0e1218'),
+    ball(13, 25, 5, 1.4, '#1c2430'),
+    dots([[19, 27], [20, 27]], '#c8c4a8'), dots([[21, 26]], '#8a8670'),
+    line(8, 25, 12, 24.5, '#3a4a5e'), line(18, 24, 23, 24.5, '#2a3444'),
+    dots([[5, 24], [27, 24], [4, 27], [28, 27]], '#7a766c'),
+    ball(6, 21, 2, 1.6, '#6a665e'), ball(26.5, 21.5, 2.4, 1.8, '#6a665e'),
+  ],
+  // a goblin cook-pot on its tripod over a low fire, bubbling, a ladle in it
+  cookpot: () => [
+    limb(7, 30, 13, 8, 0.6, 0.5, '#5a4030'), limb(25, 30, 19, 8, 0.6, 0.5, '#5a4030'),
+    ...[[11, 30], [16, 31], [21, 30]].map(([x, y]) => limb(x - 3, y, x + 3, y - 1, 0.8, 0.8, '#4a3020')),
+    ball(16, 28.5, 5, 2.2, '#c84a1a'), ball(16, 28, 3, 1.4, '#ffb040'), dots([[15, 27], [17, 28]], '#fff0a0'),
+    line(16, 8, 16, 14, '#3a3a40'),
+    ball(16, 20, 8, 6.5, '#3a3a42'),
+    ball(16, 15, 7.5, 2, '#5a4a2a'),
+    ball(13, 15, 1.4, 1, '#7a6a3a'), ball(19, 14.6, 1.2, 0.9, '#7a6a3a'),
+    line(18, 15, 23, 6, '#8a6a3a'), ball(18, 15, 1.6, 0.8, '#6a5a3a'),
+    dots([[12, 14], [11, 15], [12, 16], [13, 16]], '#2a1a10'),
+    specks([[14, 11], [17, 9], [15, 7], [18, 12]], '#b8b4a8'),
+  ],
+  // a stone knight kneeling on its plinth, head bowed, a real sword on its knees
+  statue: () => {
+    const stone = '#8a867c', dark = '#6a665e', moss = '#4a6a3a';
+    return [
+      sheet([[4, 25], [28, 25], [28, 31], [4, 31]], dark, { curve: 0.5 }),
+      line(4, 25, 28, 25, '#9a968c'),
+      limb(12, 22, 7, 24.5, 2, 1.6, stone), ball(6.5, 24.5, 2.2, 1, stone),
+      limb(20, 20, 24, 24.5, 2, 1.8, stone),
+      sheet([[10, 11], [22, 11], [23, 22], [9, 22]], stone, { curve: 0.8 }),
+      ball(16, 8, 3.8, 4, '#9a968c'), line(13, 8.5, 19, 8.5, '#4a4640'),
+      ...both(limb(10.5, 12, 11.5, 19, 1.5, 1.3, stone)),
+      line(5, 19.5, 27, 19.5, '#c8ccd4', { lit: 1 }), line(5, 20.2, 27, 20.2, '#8e929a', { lit: 1 }),
+      line(7.5, 18, 7.5, 21.5, '#9a7a3a'),
+      line(14.5, 10, 14.5, 14, '#8ab0d8'), line(17.5, 10, 17.5, 15, '#8ab0d8'),
+      dots([[5, 26], [6, 26], [7, 27], [24, 26], [26, 27], [11, 21], [21, 13]], moss),
+      specks([[9, 28], [15, 29], [22, 28]], '#5a564e'),
+    ];
+  },
+  // a grinning idol of green stone, ruby eyes, a scorched ring before it
+  idol: () => {
+    const jade = '#3e7a5a', dark = '#2a5a42';
+    return [
+      ball(16, 29.5, 11, 2, '#2a2220'), ball(16, 29.5, 8, 1.3, '#1a1412'),
+      ...both(limb(13, 26, 8, 27.5, 2.2, 1.8, dark)),
+      ball(16, 21.5, 6, 5.5, jade),
+      ...both(limb(11, 18, 9.5, 24, 1.4, 1.2, dark)),
+      ball(16, 11, 6, 5.5, '#4a8a68'),
+      sheet([[10, 8], [16, 3], [22, 8]], dark, { curve: 0.5 }),
+      ...both(ball(13.5, 10, 1.5, 1.3, '#d02030')), ...both(dots([[13, 9]], '#ff8090')),
+      line(12, 14, 20, 14, '#1a3a2a'), dots([[13, 13], [19, 13]], '#1a3a2a'),
+      dots([[14, 14], [16, 14], [18, 14]], '#d8e0c0'),
+      specks([[10, 28], [22, 29], [14, 30], [19, 28]], '#4a3a30'),
+    ];
+  },
+  // a surveyor's bones against the wall, a satchel of maps, a finger pointing on
+  mapmaker: () => {
+    const bone = '#ddd5bd', worn = '#a89e84';
+    return [
+      limb(13, 25, 7, 29, 1, 0.9, worn), limb(19, 25, 25, 29, 1, 0.9, worn),
+      ball(6, 29.8, 1.8, 1, bone), ball(26, 29.8, 1.8, 1, bone),
+      sheet([[10, 13], [22, 13], [23, 25], [9, 25]], '#4a5a3a', { curve: 0.9 }),
+      line(16, 13, 16, 25, '#2e3a24'),
+      ball(15.5, 10, 4.2, 4, bone), ball(15.5, 13.6, 2.6, 1.3, worn),
+      dots([[13, 9], [14, 9], [13, 10], [17, 9], [18, 9], [17, 10]], '#140e14'),
+      sheet([[10, 21], [19, 21], [19.5, 27], [9.5, 27]], '#7a5030', { curve: 0.6 }),
+      ...[[11, 20], [13.5, 19.5], [16, 20]].map(([x, y]) => limb(x, y, x + 1, y - 4, 0.9, 0.9, '#e8dcb8')),
+      limb(21, 16, 27, 19, 0.8, 0.7, bone), line(27, 19, 30, 19.5, bone),
+      dots([[24, 17], [25, 18], [26, 18.5], [23, 16.5]], '#a8aeb4'),
+    ];
+  },
 };
 
 // A cut-down skeleton: a low, scattered heap on the floor, not a figure, so it

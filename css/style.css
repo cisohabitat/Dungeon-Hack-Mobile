@@ -723,3 +723,18 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   #enc-choices, #fork-choices { width: 100%; }
   #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
 }
+
+/* Left-handed controls: the pad and the blows change sides, Attack keeps to the
+   inside edge where the thumb rests, and sideways the whole panel moves left. */
+.lefty .controls { flex-direction: row-reverse; }
+.lefty .actions { direction: rtl; }   /* mirrors the grid in every layout */
+.lefty .actions > * { direction: ltr; }
+@media (min-aspect-ratio: 5/4) and (min-width: 640px) {
+  .lefty .game-layout { flex-direction: row-reverse; }
+  .lefty .ctrl-col { border-left: 0; border-right: 1px solid var(--border); }
+  .lefty .controls { flex-direction: column; }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .lefty .game-layout { grid-template-columns: clamp(212px, 27vw, 252px) minmax(0, 1fr); grid-template-areas: "hud view" "ctrl view" "ctrl log"; }
+  .lefty .ctrl-col, .lefty .hud { border-left: 0; border-right: 1px solid var(--border); }
+}

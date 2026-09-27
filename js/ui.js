@@ -622,6 +622,11 @@ const UI = (() => {
   let tipsSeen = null, tipAt = 0, tipUntil = 0, tipCheckAt = 0;
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private browsing */ } return null; };
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
+  // Movement under the left thumb and blows under the right suits most; a
+  // left-handed player can swap the halves (and, sideways, the whole panel)
+  const HAND = 'deepdelve.hand';
+  const lefty = () => store(HAND) === 'left';
+  const setHand = () => document.body.classList.toggle('lefty', lefty());
   // Calm view: no shake, no drifting dust, torches that burn steady. Chosen
   // in the menu; until it is, it follows the phone's own ask for less motion.
   const CALM = 'deepdelve.calm';
@@ -2106,6 +2111,7 @@ const UI = (() => {
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
+    $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
     $('#m-seed').textContent = `${G.opts.daily ? `Daily Delve ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
@@ -2318,6 +2324,7 @@ const UI = (() => {
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
+    $('#m-hand').addEventListener('click', () => { store(HAND, lefty() ? 'right' : 'left'); setHand(); renderMenu(); fitView(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     // How to Play in the middle of a run: the run is kept first (a phone may
     // close a page it cannot see), and Back returns to the Menu, still paused,
@@ -2402,6 +2409,7 @@ const UI = (() => {
       if (h) { if (!h.id) h.id = ov.id + '-title'; ov.setAttribute('aria-labelledby', h.id); }
     }
     Renderer.setCalm(calmOn());
+    setHand();
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }
     buildCreate();

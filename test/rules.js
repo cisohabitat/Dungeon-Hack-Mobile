@@ -707,6 +707,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // The encounter screen cannot be dismissed unanswered, which is only fair
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
   const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
@@ -719,6 +720,13 @@ await test('every encounter offers a free, safe way out, and every effect is one
       for (const o of [ch.outcome, ch.pass, ch.fail].filter(Boolean)) {
         if (!o.text) return `${id}: "${ch.label}" has an outcome with no words`;
         for (const eff of o.effects) for (const k of Object.keys(eff)) if (!known.has(k)) return `${id}: unknown effect "${k}"`;
+        // and every name an effect gives is one the game has
+        for (const eff of o.effects) {
+          if (eff.ambush && !MONSTERS[eff.ambush.id]) return `${id}: ambush by unknown monster ${eff.ambush.id}`;
+          if (eff.item && !ITEMS[eff.item.t]) return `${id}: gives unknown item ${eff.item.t}`;
+          if (eff.stat && !stats.has(eff.stat[0])) return `${id}: raises unknown score ${eff.stat[0]}`;
+          if (eff.buff && eff.buff.stats.some(([st]) => !['hit', 'ac'].includes(st))) return `${id}: blesses an unknown stat`;
+        }
       }
     }
   }
@@ -7549,6 +7557,91 @@ await test('the guildsman you dug out marks the next floor; the captive you free
   const epi = Game.epilogue(true).join(' ');
   for (const w of ['goblin chains', 'rubble', 'third crew']) if (!epi.includes(w)) out.push(`the epilogue forgot ${w}`);
   if (!Game.threadNotes().length) out.push('the hero sheet has nothing to say');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('every choice of every encounter can be taken, passed and failed, and says what it did', async () => {
+  const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const ctx = await start('fighter', 'every-choice', { levels: 8 });
+  const { Game } = ctx; const p = Game.player();
+  const seen = new Set();
+  for (const [id, e] of Object.entries(ENCOUNTERS)) {
+    for (let i = 0; i < e.choices.length; i++) {
+      // a strong hero and a hopeless one by turns, until both sides of a check
+      // have come up (a hopeless hero still passes one time in four or five)
+      for (let t = 0; t < 40; t++) {
+        if (t >= 2 && (!e.choices[i].check || (seen.has(`${id}/${i}/true`) && seen.has(`${id}/${i}/false`)))) break;
+        for (const k in p.stats) p.stats[k] = t % 2 ? 3 : 30;
+        p.hp = p.maxHp = 999; p.gold = 99999; p.inv.length = 0;
+        let r;
+        try { r = meetAndChoose(ctx, id, i); } catch (err) { return `${id} choice ${i}: ${err.message}`; }
+        Game.closeEncounter();
+        if (!r || typeof r.text !== 'string' || !r.lines.every(l => typeof l === 'string' && l.length)) return `${id} choice ${i} gave no clear result`;
+        if (r.check) seen.add(`${id}/${i}/${r.check.pass}`);
+      }
+    }
+  }
+  // every checked choice was seen to pass and to fail
+  for (const [id, e] of Object.entries(ENCOUNTERS)) e.choices.forEach((ch, i) => {
+    if (ch.check && !(seen.has(`${id}/${i}/true`) && seen.has(`${id}/${i}/false`))) seen.add('missing ' + id + '/' + i);
+  });
+  const missing = [...seen].filter(k => k.startsWith('missing'));
+  return !missing.length || missing.join(', ');
+});
+
+await test('a Lampfolk\'s lamp relit is thanked by the next Lampfolk trader below, once; one robbed in the dark makes their traders dearer', async () => {
+  const out = [];
+  const kind = { t: 'longsword', q: 1, e: 0 };
+  // the kindness
+  {
+    const ctx = await start('fighter', 'lamp-kind', { levels: 5 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.stats.dex = 30; p.hp = p.maxHp = 999;
+    for (let i = 0; i < 6 && !(G.threads && G.threads.lamp); i++) { meetAndChoose(ctx, 'lampfolk', 0); Game.closeEncounter(); }
+    if (!G.threads || !G.threads.lamp) return 'relighting the lamp left no thread';
+    const draughts = () => (p.inv.find(it => it.t === 'potion_heal') || { q: 0 }).q;
+    const had = draughts();
+    shopAhead(ctx); Game.closeShop();
+    if (draughts() !== had) out.push('a trader on the same floor already thanked you');
+    Game.level().monsters.length = 0; Game.descend();
+    shopAhead(ctx); Game.closeShop();
+    if (draughts() !== had + 1) out.push(`the trader below gave ${draughts() - had} draughts, not one`);
+    shopAhead(ctx); Game.closeShop();
+    if (draughts() !== had + 1) out.push('a second trader thanked you again');
+    if (!Game.threadNotes().some(n => /Lampfolk/.test(n))) out.push('the hero sheet forgot the lamp');
+    if (!Game.epilogue(true).join(' ').includes('light a lamp')) out.push('the epilogue forgot the lamp');
+  }
+  // one sworn to no draughts is thanked with a scroll
+  {
+    const ctx = await start('fighter', 'lamp-vow', { levels: 5 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    G.opts.vows = ['unaided'];
+    G.threads = { lamp: 1 };
+    Game.level().monsters.length = 0; Game.descend();
+    const had = p.inv.filter(it => it.t === 'potion_heal').length;
+    shopAhead(ctx); Game.closeShop();
+    if (!p.inv.some(it => it.t === 'scroll_heal')) out.push('one sworn unaided was not given the scroll');
+    if (p.inv.filter(it => it.t === 'potion_heal').length !== had) out.push('one sworn unaided was given a draught');
+  }
+  // the theft
+  {
+    const ctx = await start('thief', 'lamp-rob', { levels: 5 });
+    const { Game } = ctx; const G = Game.state();
+    Game.player().hp = Game.player().maxHp = 999;
+    const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+    const before = Game.buyPrice(shop, kind);
+    // caught or not, the Lampfolk hear of it
+    meetAndChoose(ctx, 'lampfolk', 3); Game.closeEncounter();
+    if (!G.threads || !G.threads.robbed) return 'robbing the Lampfolk left no thread';
+    if (Game.buyPrice(shop, kind) !== before) out.push('a trader on the same floor already knew');
+    Game.level().monsters.length = 0; Game.descend();
+    const dear = Game.buyPrice(shop, kind);
+    if (!(dear > before)) out.push(`a Lampfolk trader below asked ${dear}, not more than ${before}`);
+    Game.level().twist = 'market';
+    if (Game.buyPrice(shop, kind) !== before) out.push('a goblin pedlar cared about the Lampfolk');
+    Game.level().twist = null;
+    if (!Game.threadNotes().some(n => /robbed/.test(n))) out.push('the hero sheet forgot the theft');
+  }
   return out.length ? out.join('; ') : true;
 });
 

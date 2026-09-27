@@ -18,14 +18,18 @@ export function makeTrader(K) {
   // percent off what you buy and on what you sell, within reason. It was
   // rolled for every hero and, until this, used for nothing at all.
   function charm() { return Math.max(-0.3, Math.min(0.3, mod(P().stats.cha) * 0.06)); }
+  // Rob one of the Lampfolk in the dark and the rest hear of it: their
+  // traders below ask a sixth more of you (a goblin pedlar does not care).
+  const lampThread = k => { const G = K.G, t = G.threads || {}; return t[k] && G.depth > t[k] && traderKind() === 'lampfolk'; };
+  const grudge = () => (lampThread('robbed') ? 1 / 6 : 0);
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
-    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()));
+    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()) * (1 + grudge()));
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
-    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched())));
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched()) * (1 + grudge())));
   }
   // Never more than the trader in front of you would ask for it: at a goblin
   // market's lowest markup, a charming thief with Light Fingers and a
@@ -211,6 +215,19 @@ export function makeTrader(K) {
       n.greeted = true;
       greet();
       if (vouched()) log('"You\'re the one who cut that fellow loose, aren\'t you? He said you\'d be by. A sixth off, for you."', 'good');
+      if (grudge()) log('Its pale eyes narrow. "We know you, sun-walker. We know what you took in the dark." Its prices are a sixth higher for you.', 'bad');
+      // the lamp you relit is thanked once, by the first of its kin you meet below
+      const t = K.G.threads || {};
+      if (lampThread('lamp') && !t.lampGift) {
+        // one sworn to no draughts is given the scroll instead; with no room,
+        // the thanks waits for the next of them
+        const gift = { t: vowed('unaided') ? 'scroll_heal' : 'potion_heal', q: 1, e: 0 };
+        const what = gift.t === 'scroll_heal' ? 'a scroll of healing' : 'a healing draught';
+        if (beltRoom(gift.t) > 0 && giveItem(gift)) {
+          t.lampGift = K.G.depth;
+          log(`"You lit a lamp for one of us, in the dark." It presses ${what} into your hand, and will not take coin for it.`, 'good');
+        } else log(`"You lit a lamp for one of us, in the dark." It would give you ${what}, but you have no room to carry it.`, 'info');
+      }
     }
     Sound.play('gold');
     emit('shop');
