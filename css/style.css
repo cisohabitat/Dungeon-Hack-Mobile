@@ -742,3 +742,12 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 /* A save code: long, unbroken, and meant to be copied whole, not read. */
 .code-box { width: 100%; font: 0.75rem/1.3 ui-monospace, Menlo, Consolas, monospace; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 8px; resize: vertical; word-break: break-all; margin: 8px 0; }
 .code-why { color: #f08a80; min-height: 1.4em; }
+
+/* The Bestiary as a gallery: a met creature's picture and its poses enlarge on a tap. */
+.beast img.beast-art { cursor: zoom-in; transition: width 0.15s, height 0.15s, flex-basis 0.15s; }
+.beast img.beast-art.zoom { flex-basis: 160px; width: 160px; height: 160px; cursor: zoom-out; }
+.beast-poses { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 2px; }
+.beast-poses figure { margin: 0; text-align: center; }
+.beast-poses img { display: block; width: 72px; height: 72px; object-fit: contain; image-rendering: pixelated; background: rgba(0, 0, 0, 0.25); border-radius: 6px; cursor: zoom-in; transition: width 0.15s, height 0.15s; }
+.beast-poses img.zoom { width: 160px; height: 160px; cursor: zoom-out; }
+.beast-poses figcaption { font-size: 0.75rem; color: var(--dim); margin-top: 2px; }

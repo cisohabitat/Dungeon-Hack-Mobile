@@ -23,6 +23,37 @@ test.describe('bestiary', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a met creature can be looked at close, and one drawn in poses shows them as they are learned', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(k => localStorage.setItem('deepdelve.bestiary', JSON.stringify(k)), { basilisk: { met: 2, kills: 1, deaths: 0, trick: 1 }, hound: { met: 1, kills: 0, deaths: 0 }, rat: { met: 1, kills: 1, deaths: 0 } });
+    await page.goto('/');
+    await page.click('#btn-beasts');
+    // its trick seen: at rest, readying and the trick itself
+    const bas = page.locator('[data-beast="basilisk"]');
+    await expect(bas.locator('.beast-poses figure')).toHaveCount(3);
+    await expect(bas.locator('.beast-poses figcaption')).toHaveText(['At rest', 'Readying', 'Its trick']);
+    // not yet seen, its trick stays hidden
+    await expect(page.locator('[data-beast="hound"] .beast-poses figcaption')).toHaveText(['At rest', 'Readying']);
+    // one drawn in a single pose has no row, and the unmet cannot be looked at
+    await expect(page.locator('[data-beast="rat"] .beast-poses')).toHaveCount(0);
+    await expect(page.locator('[data-beast="ogre"] img[role="button"]')).toHaveCount(0);
+    // a tap looks closer, and another steps back
+    const art = page.locator('[data-beast="rat"] img.beast-art');
+    const w0 = (await art.boundingBox()).width;
+    await art.click();
+    await expect(art).toHaveClass(/zoom/);
+    await expect.poll(async () => (await art.boundingBox()).width).toBeGreaterThan(w0 * 2);
+    await art.click();
+    await expect(art).not.toHaveClass(/zoom/);
+    // and a pose, from the keyboard
+    const trick = bas.locator('.beast-poses img').nth(2);
+    await trick.focus(); await page.keyboard.press('Enter');
+    await expect(trick).toHaveClass(/zoom/);
+    // every picture is a real one
+    expect(await page.evaluate(() => [...document.querySelectorAll('#beasts-list img')].every(i => i.complete && i.naturalWidth > 0))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('each stage of knowledge shows only what has been learned', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(k => localStorage.setItem('deepdelve.bestiary', JSON.stringify(k)), LEARNED);

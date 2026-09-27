@@ -38,6 +38,8 @@ function renderBestiary(el) {
     const mb = MONSTERS[id], r = known[id] || { met: 0, kills: 0, deaths: 0 }, lore = BESTIARY[id] || {};
     const art = Assets.sprites[mb.sprite], own = mb.named && art && art.elite && art.elite[id];
     const img = `<img src="${own ? own.url : art ? art.url : ''}" alt="">`;
+    // met, its picture can be looked at close: a tap enlarges it
+    const bigImg = `<img class="beast-art" src="${own ? own.url : art ? art.url : ''}" alt="${escapeHtml(mb.name)}" role="button" tabindex="0" aria-label="Look closer at the ${escapeHtml(mb.name)}">`;
     // the first floor of this delve (or an eight-floor one, from the title) it can be met on
     const levels = (Game.state() && Game.state().opts.levels) || 8;
     let first = 1;
@@ -59,11 +61,21 @@ function renderBestiary(el) {
       bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
       bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');
     }
+    // a kind drawn in more than one pose shows them all: readying once met, its trick once seen
+    const poseUrl = pose => { const ps = art && art[pose], sp = ps && (mb.named ? ps.elite && ps.elite[id] : ps); return sp ? sp.url : null; };
+    const poses = [['At rest', own ? own.url : art && art.url], ['Readying', poseUrl('windup')], ['Its trick', r.trick ? poseUrl('special') : null]].filter(([, u]) => u);
+    if (poses.length > 1) bits.push(`<div class="beast-poses">${poses.map(([l, u]) => `<figure><img src="${u}" alt="${escapeHtml(`${mb.name}: ${l.toLowerCase()}`)}" role="button" tabindex="0"><figcaption>${l}</figcaption></figure>`).join('')}</div>`);
     const rec = [`${where}`, mb.shade ? (r.kills ? `laid to rest ${times(r.kills)}` : 'none laid to rest yet') : mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
     if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
     bits.push(`<p class="where">${rec.join(' · ')}</p>`);
-    return `<div class="beast" data-beast="${id}">${img}<div>${bits.join('')}</div></div>`;
+    return `<div class="beast" data-beast="${id}">${bigImg}<div>${bits.join('')}</div></div>`;
   }).join('') + '</div>';
+  // a tap (or Enter) on a met creature's picture, or one of its poses, looks at it close
+  const zoom = /** @param {Event} e */ e => {
+    const t = /** @type {HTMLElement} */ (e.target);
+    if (t && t.tagName === 'IMG' && t.getAttribute('role') === 'button' && (e.type === 'click' || /** @type {KeyboardEvent} */ (e).key === 'Enter')) t.classList.toggle('zoom');
+  };
+  el.onclick = zoom; el.onkeydown = zoom;
   return `${met} of ${ids.length} met`;
 }
 
