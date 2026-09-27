@@ -1136,6 +1136,53 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a goblin let out of its cage follows, and the Use button picks a locked door there is no key for', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'goblin-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    // the cage straight ahead, through the real overlay
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.stats.str = 18;
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'caged', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices')).toContainText('Pick the padlock');
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Wrench the bars' }).click();
+    await page.waitForTimeout(450);   // the outcome is read before Continue answers
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    // the bars may hold: wrench again until they give (a check can fail)
+    await page.evaluate(() => {
+      for (let i = 0; i < 30 && !Game.companion(); i++) {
+        const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+        L.npcs = [{ kind: 'encounter', id: 'caged', x: p.x + dx, y: p.y + dy }];
+        Game.input('use'); Game.chooseEncounter(0); Game.closeEncounter();
+      }
+    });
+    await expect.poll(() => page.evaluate(() => Game.companion() && Game.companion().kind)).toBe('goblin');
+    // a locked door ahead with no key, the goblin beside the hero
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), c = Game.companion(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.DOOR_LOCKED;
+      L.locks[`${p.x + dx},${p.y + dy}`] = 'iron';
+      p.inv = p.inv.filter(it => it.t !== 'key');
+      const [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4];
+      L.tiles[(p.y + by) * L.w + p.x + bx] = Dungeon.T.FLOOR;
+      c.x = p.x + bx; c.y = p.y + by;
+    });
+    await expect(page.locator('[data-tap="use"]')).toContainText('Pick');
+    await page.click('[data-tap="use"]');
+    await expect.poll(() => page.evaluate(() => { const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir]; return L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.DOOR_OPEN; })).toBe(true);
+    // it is drawn as itself, not as the hound
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.scrag || s.img === Assets.sprites.scrag.windup))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('left-handed controls in the menu swap the pad and the buttons, and are remembered', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'left-hand' });

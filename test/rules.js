@@ -9094,6 +9094,79 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  // ---------- the goblin, the other companion ----------
+  /** Let the caged goblin out (the bars are wrenched until they give: a check, retried). */
+  const withGoblin = async (seed, opts = {}) => {
+    const ctx = await start('fighter', seed, { levels: 8, ...opts });
+    const { Game } = ctx; const p = Game.player();
+    p.hp = p.maxHp = 9999; p.stats.str = 18;
+    for (let i = 0; i < 30 && !Game.companion(); i++) { meetAndChoose(ctx, 'caged', 0); Game.closeEncounter(); }
+    return ctx;
+  };
+
+  await test('the caged goblin, let out, follows; it picks a locked door there is no key for, and makes safe a trap it passes', async () => {
+    const out = [];
+    const ctx = await withGoblin('goblin-join');
+    const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+    if (!c || c.kind !== 'goblin' || !c.name) return `no goblin followed: ${JSON.stringify(c)}`;
+    if (c.maxHp >= 10 + 4 * p.level) out.push('the goblin is as sturdy as a hound');
+    // a locked door ahead, no key: with the goblin near, Use picks it
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1; c.x = 5; c.y = 6;
+    const T = ctx.Dungeon.T;
+    L.tiles[6 * L.w + 7] = T.DOOR_LOCKED; L.locks = { '7,6': 'iron' };
+    if (Game.useLabel() !== 'Pick') out.push(`facing a locked door with the goblin near, Use says ${Game.useLabel()}`);
+    const mark = markLog(G);
+    Game.input('use');
+    if (L.tiles[6 * L.w + 7] !== T.DOOR_OPEN) out.push('the goblin did not pick the lock');
+    else if (!linesSince(G, mark).some(l => l.includes(c.name))) out.push('the picking was not told');
+    // far off, it cannot help: the hero must force it
+    L.tiles[6 * L.w + 7] = T.DOOR_LOCKED; L.locks = { '7,6': 'iron' };
+    c.x = 3; c.y = 3; c.mode = 'stay';
+    if (Game.useLabel() !== 'Force') out.push(`with the goblin across the room, Use says ${Game.useLabel()}`);
+    c.mode = 'follow';
+    // a trap two squares from it is made safe, one further off is not
+    L.traps = { '5,8': 'dart', '10,3': 'dart' };
+    c.x = 5; c.y = 6;
+    run(Game, G, 1000);
+    if (L.traps['5,8']) out.push('a trap two squares from the goblin was left');
+    if (!Game.threadNotes().some(n => n.includes(c.name) && /trap/.test(n))) out.push('the hero sheet does not count its traps');
+    // it stabs rather than bites, and it is quiet on its feet
+    L.monsters.push({ uid: 90, id: 'goblin', x: 5, y: 5, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const m2 = markLog(G);
+    run(Game, G, 6000);
+    if (!linesSince(G, m2).some(l => l.includes(`${c.name} stabs`))) out.push('it never stabbed the foe beside it');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the goblin is quiet where the hound is heard; the caged goblin waits halfway down the delves with no hound, never alongside one', async () => {
+    const out = [];
+    {
+      const ctx = await withGoblin('goblin-quiet');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion(), L = Game.level();
+      p.bg = 'debtor'; L.twist = null;
+      clearAround(ctx, 8);
+      const dir = ctx.Dungeon.DIRS.find(([dx, dy]) => p.x + 7 * dx > 0 && p.x + 7 * dx < L.w - 1 && p.y + 7 * dy > 0 && p.y + 7 * dy < L.h - 1);
+      const m = { uid: 89, id: 'goblin', x: p.x + 7 * dir[0], y: p.y + 7 * dir[1], hp: 999, maxHp: 999, awake: false, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.length = 0; L.monsters.push(m);
+      Game.update(G.t + 25, 25);
+      if (m.awake) out.push('a sleeper seven squares off woke for a goblin at heel');
+      if (!c) out.push('no goblin');
+    }
+    const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+    let caged = 0, both = 0;
+    for (let i = 0; i < 300; i++) {
+      const plan = encounterPlan('cage' + i, 8), flat = plan.flat();
+      if (flat.includes('caged')) { caged++; if (!plan[4].includes('caged')) out.push(`seed cage${i} put the goblin on another floor`); }
+      if (flat.includes('caged') && flat.includes('stray')) both++;
+    }
+    if (caged < 70 || caged > 130) out.push(`the caged goblin waited in ${caged} of 300 delves`);
+    if (both) out.push(`${both} delves held both the hound and the goblin`);
+    if (encounterPlan('cage-short', 4).flat().includes('caged')) out.push('a four-floor delve met the goblin');
+    if (!encounterPlan('cage-long', 12).flat().includes('caged') && !encounterPlan('cage-long', 12).flat().includes('stray')) out.push('a long delve had neither companion');
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

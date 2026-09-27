@@ -495,6 +495,21 @@ const ENCOUNTERS = {
     ],
   },
 
+  // in the delves with no hound, a companion of another kind, further down
+  caged: {
+    title: 'A Caged Goblin', sprite: 'cage', depth: [3, 12], early: true,
+    text: 'An iron cage stands against the wall, and a scrawny goblin with a broken chain on one wrist is pressed to its bars. "Let me out," it hisses, "and I open every lock down here for you. Every one. I find the traps too. Nobody finds traps like me."',
+    choices: [
+      { label: 'Wrench the bars apart', check: { stat: 'str', dc: 12 },
+        pass: { text: 'The bars bend with a shriek of iron. The goblin squeezes out, bows far too low, and falls in behind you.', effects: [{ companion: 'goblin' }] },
+        fail: { text: 'The bars hold, and your shoulder does not thank you for trying. The goblin sighs at you.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Pick the padlock', check: { stat: 'dex', dc: 12, knack: [['thief', null, 3]] },
+        pass: { text: 'The padlock falls open. "Not bad," says the goblin, stepping out, "for a big one." It falls in behind you.', effects: [{ companion: 'goblin' }] },
+        fail: { text: 'The lock beats you. The goblin tuts, loudly, and turns its back.', effects: [] } },
+      { label: 'Leave it caged', outcome: { text: 'It curses you in three languages as you go, one of them its own.', effects: [] } },
+    ],
+  },
+
   mapmaker: {
     title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
     text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',
@@ -543,8 +558,10 @@ function encounterPlan(seed, levels) {
     const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1]);
     for (const id of open.slice(0, n)) { used.add(id); plan[d].push(id); }
   }
-  // the starving hound, on the second floor of two runs in three, on dice of its own
+  // the starving hound, on the second floor of two runs in three, on dice of its own;
+  // the runs without it keep a caged goblin halfway down instead (one companion a run)
   if (levels >= 3 && new Rng(String(seed) + '|stray').next() < 2 / 3) plan[2].push('stray');
+  else if (levels >= 5) plan[Math.min(levels - 1, Math.max(3, Math.round(levels / 2)))].push('caged');
   return plan;
 }
 

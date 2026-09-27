@@ -961,12 +961,12 @@ const UI = (() => {
     if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
-    // the hound, when there is something to say: hurt, told to stay, or waiting on another floor
-    const hound = Game.companion();
+    // the companion, when there is something to say: hurt, told to stay, or waiting on another floor
+    const hound = Game.companion(), kindWord = hound && hound.kind === 'goblin' ? 'goblin' : 'hound';
     if (hound && !hound.fallen) {
       const who = escapeHtml(hound.name);
-      if (hound.depth !== G.depth) st.push(`<span title="Your hound waits where you told it to stay">${who} on floor ${Number(hound.depth)}</span>`);
-      else if (hound.hp < hound.maxHp || hound.mode === 'stay') st.push(`<span class="${hound.hp < hound.maxHp / 3 ? 'bad' : 'good'}" title="Your hound">${who} ${Number(hound.hp)}/${Number(hound.maxHp)}${hound.mode === 'stay' ? ', staying' : ''}</span>`);
+      if (hound.depth !== G.depth) st.push(`<span title="Your ${kindWord} waits where you told it to stay">${who} on floor ${Number(hound.depth)}</span>`);
+      else if (hound.hp < hound.maxHp || hound.mode === 'stay') st.push(`<span class="${hound.hp < hound.maxHp / 3 ? 'bad' : 'good'}" title="Your ${kindWord}">${who} ${Number(hound.hp)}/${Number(hound.maxHp)}${hound.mode === 'stay' ? ', staying' : ''}</span>`);
     }
     $('#hud-status').innerHTML = st.join('');
   }
@@ -1879,7 +1879,7 @@ const UI = (() => {
   const MAP_KEY = [
     { id: 'player', colour: '#ff6a50', label: 'You' },
     // shown only while a hound is with you on the floor
-    { id: 'hound', colour: '#f2ecdc', label: 'Your hound' },
+    { id: 'hound', colour: '#f2ecdc', label: 'Your companion' },
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
     { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
@@ -2300,7 +2300,7 @@ const UI = (() => {
     // a hound still at the hero's side at the end stands in the picture with them
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, art: won ? pic(Assets.sprites.dog) : null } : null;
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: c.kind === 'goblin' ? 'goblin' : 'hound', art: won ? pic(Assets.sprites[c.kind === 'goblin' ? 'scrag' : 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,

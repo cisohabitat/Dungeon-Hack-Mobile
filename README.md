@@ -83,6 +83,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   press Use to tell it to stay or call it to heel. It is no help to a quiet step: sleepers hear a hero
   with a hound at heel a square sooner. A hound told to stay is left behind on the
   stair. If it falls it is gone for the run, and the epilogue remembers it.
+- **Or a goblin with clever fingers.** A delve with no hound keeps a caged goblin about halfway
+  down. Let it out and it follows as the hound does, but it is a poor fighter and a quiet one:
+  it picks the locks you have no key for and makes safe the traps it passes. One companion a run.
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
@@ -208,7 +211,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm test              # typecheck, then generator, sprite, balance and rule checks
-npm run test:browser  # 186 Playwright tests against a real browser, at phone size
+npm run test:browser  # 187 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
 ```

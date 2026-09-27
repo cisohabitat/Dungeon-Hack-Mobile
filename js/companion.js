@@ -1,26 +1,38 @@
-// The hero's companion: a hound won over on the way down (the Starving Hound,
-// in encounters.js). It follows, bites whatever awake thing stands beside it
-// (the one at the hero's side first), draws the blows of anything that
-// reaches it first, heals when the hero rests, and grows with the hero. If it
+// The hero's companion: a hound won over on the way down (the Starving Hound),
+// or, in the delves that have no hound, a goblin let out of a cage further
+// down (A Caged Goblin; both in encounters.js). One at a time. It follows,
+// strikes whatever awake thing stands beside it (the one at the hero's side
+// first), draws the blows of anything that reaches it first, heals when the
+// hero rests, and grows with the hero; the goblin picks locks and makes safe
+// the traps it passes, where the hound is the stronger in a fight. If it
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
 // the getters in K, as the monsters' and the traders' do.
 import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-// it trots when it has fallen behind, and walks once it is back at heel
-const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 140, lostMs: 3000 };
-const NAMES = ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'];
+// Each kind: its picture and voice, its armour, how often it strikes and how
+// fast it walks (it trots when it has fallen behind), its hit points and blow
+// as the hero's level grows, and the words for it.
+const KINDS = {
+  hound: { sprite: 'dog', voice: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 140, hp: [10, 4], hit: 3, dmg: [1, 6], verb: 'bites', sits: 'sits', word: 'hound',
+    names: ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'] },
+  goblin: { sprite: 'scrag', voice: 'goblin', ac: 14, speed: 800, stepMs: 300, trotMs: 130, hp: [6, 3], hit: 2, dmg: [1, 4], verb: 'stabs', sits: 'squats on its heels', word: 'goblin',
+    names: ['Snik', 'Grub', 'Nib', 'Skaz', 'Twitch', 'Mog', 'Rattle', 'Fenn', 'Scrag', 'Wort'] },
+};
+const LOST_MS = 3000;
+/** @param {{kind?: string}|null} c */
+const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
 
 /** @param {any} K */
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
-  const maxHpFor = level => 10 + 4 * level;
-  const hitFor = level => 3 + Math.floor(level / 3);
-  const biteFor = level => [1, 6, Math.floor(level / 3)];
-  /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. */
-  const noisy = () => { const c = here(), p = K.P(); return !!c && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
+  const maxHpFor = (c, level) => kindOf(c).hp[0] + kindOf(c).hp[1] * level;
+  const hitFor = (c, level) => kindOf(c).hit + Math.floor(level / 3);
+  const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3)];
+  /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. (A goblin goes quiet as a thief.) */
+  const noisy = () => { const c = here(), p = K.P(); return !!c && c.kind !== 'goblin' && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
   /** Ground it can stand on: open floor, no trader, stone or barrel in the way. */
   const ground = (x, y) => K.passable(x, y) && !K.npcAt(x, y) && !K.propAt(x, y);
@@ -62,15 +74,37 @@ export function makeCompanion(K) {
     }
     return best;
   }
-  /** A hound joins the hero. */
-  function join() {
+  /** A companion of this kind joins the hero (while none stands with them already). */
+  function join(kind = 'hound') {
     const G = K.G, p = K.P();
     if (G.companion && !G.companion.fallen) return '';
-    const name = new Rng(`${G.seed}|hound`).pick(NAMES);
+    const k = KINDS[kind] ? kind : 'hound', def = KINDS[k];
+    const name = new Rng(`${G.seed}|${k}`).pick(def.names);
     const spot = besideHero() || { x: p.x, y: p.y };
-    G.companion = { kind: 'hound', name, x: spot.x, y: spot.y, depth: G.depth, hp: maxHpFor(p.level), maxHp: maxHpFor(p.level), mode: 'follow', nextAct: G.t + 600, kills: 0, joined: G.depth };
-    Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: 'dog' }));
+    const c = { kind: k, name, x: spot.x, y: spot.y, depth: G.depth, hp: 0, maxHp: 0, mode: /** @type {'follow'} */ ('follow'), nextAct: G.t + 600, kills: 0, joined: G.depth };
+    c.hp = c.maxHp = maxHpFor(c, p.level);
+    G.companion = c;
+    Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: def.voice }));
     return `${name} follows you now.`;
+  }
+  /** Its blow, for the log: the hound bites, the goblin stabs. */
+  const verb = () => kindOf(K.G && K.G.companion).verb;
+  /** The goblin, if it is close enough to a locked door at (x, y) to pick it. */
+  function picker(x, y) {
+    const c = here();
+    return c && c.kind === 'goblin' && Math.abs(c.x - x) + Math.abs(c.y - y) <= 3 ? c : null;
+  }
+  /** The goblin's eye for a loose flagstone: traps within two squares of it are made safe. */
+  function sniffTraps(c) {
+    const L = K.lvl();
+    if (c.kind !== 'goblin' || !L.traps) return;
+    for (const k of Object.keys(L.traps)) {
+      const [x, y] = k.split(',').map(Number);
+      if (Math.abs(x - c.x) + Math.abs(y - c.y) > 2) continue;
+      delete L.traps[k];
+      c.traps = (c.traps || 0) + 1;
+      K.log(`${c.name} finds a trap under a loose flagstone, and jams it with a sliver of iron.`, 'good');
+    }
   }
   /** It takes a blow, or the quills, or anything else: it may fall. */
   function hurt(n, what) {
@@ -88,7 +122,7 @@ export function makeCompanion(K) {
     const c = here(), p = K.P();
     if (!c || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1) return;
     const roll = d(1, 20);
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < HOUND.ac + Math.floor(p.level / 3))) return;
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < kindOf(c).ac + Math.floor(p.level / 3))) return;
     hurt(Math.max(1, d(...mb.dmg)), `The ${mb.name} hits`);
   }
   /** Its bite: an awake thing beside it, the one at the hero's side first. */
@@ -99,10 +133,10 @@ export function makeCompanion(K) {
     const m = foes.find(o => Math.abs(o.x - p.x) + Math.abs(o.y - p.y) === 1) || foes[0];
     c.lungeAt = K.realNow;
     const roll = d(1, 20), mb = K.mstat(m);
-    if (roll !== 1 && (roll === 20 || roll + hitFor(p.level) >= mb.ac)) {
+    if (roll !== 1 && (roll === 20 || roll + hitFor(c, p.level) >= mb.ac)) {
       // in a group the front one falls and the next steps up into the same place
       const many = m.pack ? m.pack.length : 0;
-      K.damageMonster(m, Math.max(1, d(...biteFor(p.level))), 'companion');
+      K.damageMonster(m, Math.max(1, d(...biteFor(c, p.level))), 'companion');
       if (!L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many) c.kills++;
     }
     return true;
@@ -111,22 +145,23 @@ export function makeCompanion(K) {
   function turn() {
     const c = here(), G = K.G;
     if (!c || G.status !== 'playing' || G.t < c.nextAct) return;
-    const p = K.P(), L = K.lvl();
+    const p = K.P(), L = K.lvl(), def = kindOf(c);
     // it grows with the hero
-    const want = maxHpFor(p.level);
+    const want = maxHpFor(c, p.level);
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
+    sniffTraps(c);
     // something came to stand where it stands (a lunge, a summoning): it gives way first
     if (K.monsterAt(c.x, c.y)) {
       const out = K.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => free(x, y));
-      if (out) moveTo(c, out[0], out[1], HOUND.stepMs);
-      c.nextAct = G.t + HOUND.stepMs; return;
+      if (out) moveTo(c, out[0], out[1], def.stepMs);
+      c.nextAct = G.t + def.stepMs; return;
     }
     // it fights beside the hero, not alone: once they have gone on, it goes after them
     const away = Math.abs(c.x - p.x) + Math.abs(c.y - p.y);
-    if ((c.mode === 'stay' || away <= 3) && bite(c)) { c.nextAct = G.t + HOUND.speed; c.stuckSince = 0; return; }
+    if ((c.mode === 'stay' || away <= 3) && bite(c)) { c.nextAct = G.t + def.speed; c.stuckSince = 0; return; }
     if (c.mode === 'stay') { c.nextAct = G.t + 300; c.stuckSince = 0; return; }
     const dist = trail(), di = dist[c.y * L.w + c.x];
-    const step = di > 2 || di < 0 ? HOUND.trotMs : HOUND.stepMs;
+    const step = di > 2 || di < 0 ? def.trotMs : def.stepMs;
     c.nextAct = G.t + step;
     if (di >= 0 && di <= 1) { c.stuckSince = 0; return; }
     // close by, it is not lost, only waiting for a way through
@@ -149,7 +184,7 @@ export function makeCompanion(K) {
     // square in front of them read as magic
     if (di >= 0 && di <= 3) return;
     if (!c.stuckSince) c.stuckSince = G.t;
-    else if (G.t - c.stuckSince >= HOUND.lostMs && !inView(c.x, c.y)) {
+    else if (G.t - c.stuckSince >= LOST_MS && !inView(c.x, c.y)) {
       const spot = [2, 1, 3].map(t => K.DIRS[(p.dir + t) % 4]).map(([dx, dy]) => ({ x: p.x + dx, y: p.y + dy })).find(q => free(q.x, q.y));
       if (spot) { Object.assign(c, spot); c.moveT1 = 0; c.stuckSince = 0; }
     }
@@ -169,7 +204,7 @@ export function makeCompanion(K) {
     }
     return true;
   }
-  function moveTo(c, x, y, ms = HOUND.stepMs) {
+  function moveTo(c, x, y, ms = kindOf(c).stepMs) {
     c.fromX = c.x; c.fromY = c.y; c.x = x; c.y = y;
     c.moveT0 = K.realNow; c.moveT1 = K.realNow + ms;
   }
@@ -178,8 +213,8 @@ export function makeCompanion(K) {
     const c = here();
     if (!c) return false;
     c.mode = c.mode === 'stay' ? 'follow' : 'stay';
-    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} sits.` : `You call ${c.name} to heel.`, 'info');
-    if (c.mode === 'stay') Sound.play('step'); else Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: 'dog' }));
+    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} ${kindOf(c).sits}.` : `You call ${c.name} to heel.`, 'info');
+    if (c.mode === 'stay') Sound.play('step'); else Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
     return true;
   }
   /** The hero steps into its square: it steps into theirs, and nobody is stuck in a corridor. */
@@ -193,7 +228,7 @@ export function makeCompanion(K) {
     const c = here();
     if (c) c.hp = Math.min(c.maxHp, c.hp + Math.ceil(c.maxHp * share));
   }
-  /** Down or up the stair: a hound at heel comes too; one told to stay, stays. */
+  /** Down or up the stair: a companion at heel comes too; one told to stay, stays. */
   function arrive(fromDepth) {
     const c = K.G.companion;
     if (!c || c.fallen || c.depth !== fromDepth || c.mode === 'stay') return;
@@ -217,7 +252,7 @@ export function makeCompanion(K) {
       const t = Math.max(0, Math.min(1, (now - c.moveT0) / (c.moveT1 - c.moveT0)));
       x = c.fromX + (c.x - c.fromX) * t; y = c.fromY + (c.y - c.fromY) * t;
     }
-    const s = Assets.sprites[HOUND.sprite];
+    const s = Assets.sprites[kindOf(c).sprite] || Assets.sprites.dog;
     const lunging = now - (c.lungeAt || 0) < 220;
     // told to stay (and not moving or biting), it sits
     const img = lunging && s.windup ? s.windup : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
@@ -227,8 +262,12 @@ export function makeCompanion(K) {
   function note() {
     const c = K.G && K.G.companion;
     if (!c) return '';
-    if (c.fallen) return `${c.name}, the hound who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
-    return `${c.name}, your hound: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}.`;
+    const w = kindOf(c).word;
+    if (c.fallen) return `${c.name}, the ${w} who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
+    const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}` : '';
+    return `${c.name}, your ${w}: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}${tricks}.`;
   }
-  return { here, noisy, at, join, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note };
+  /** The word for it (hound, goblin), for the screens. */
+  const word = () => kindOf(K.G && K.G.companion).word;
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note };
 }

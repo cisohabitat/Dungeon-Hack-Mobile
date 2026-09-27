@@ -260,7 +260,7 @@
  * @property {{name: string, id?: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]  who struck last, and what kind it was (for the share card's picture)
  * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
- * @property {{kind: string, name: string, x: number, y: number, depth: number, hp: number, maxHp: number, mode: 'follow'|'stay', nextAct: number, kills: number, joined: number, fallen?: number, fromX?: number, fromY?: number, moveT0?: number, moveT1?: number, flashUntil?: number, lungeAt?: number, stuckSince?: number}} [companion]  the hero's hound, if one follows them (see companion.js)
+ * @property {{kind: string, name: string, x: number, y: number, depth: number, hp: number, maxHp: number, mode: 'follow'|'stay', nextAct: number, kills: number, joined: number, fallen?: number, fromX?: number, fromY?: number, moveT0?: number, moveT1?: number, flashUntil?: number, lungeAt?: number, stuckSince?: number, locks?: number, traps?: number}} [companion]  the hero's companion (a hound, or a goblin), if one follows them (see companion.js)
  * @property {boolean} [metLampfolk]  a Lampfolk trader has been met this run (the first says who they are)
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]

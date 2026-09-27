@@ -1642,7 +1642,7 @@ const Game = (() => {
     if (takeable().length) return 'Take';
     const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1], t = tile(tx, ty);
     if (t === T.DOOR) return 'Open';
-    if (t === T.DOOR_LOCKED) return P().inv.some(it => it.t === 'key' && it.color === (lvl().locks[key(tx, ty)] || 'brass')) ? 'Unlock' : 'Force';
+    if (t === T.DOOR_LOCKED) return P().inv.some(it => it.t === 'key' && it.color === (lvl().locks[key(tx, ty)] || 'brass')) ? 'Unlock' : companion.picker(tx, ty) ? 'Pick' : 'Force';
     if (t === T.STAIRS_DOWN) return 'Descend';
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : 'Use';
     if (t === T.FOUNTAIN) return 'Drink';
@@ -1759,6 +1759,17 @@ const Game = (() => {
     const L = lvl(), p = P();
     const color = L.locks[key(x, y)] || 'brass';
     const k = p.inv.find(it => it.t === 'key' && it.color === color);
+    // the goblin opens it with a bent wire, quietly, where there is no key
+    const pick = !k && companion.picker(x, y);
+    if (pick) {
+      setTile(x, y, T.DOOR_OPEN);
+      delete L.locks[key(x, y)];
+      pick.locks = (pick.locks || 0) + 1;
+      log(`${pick.name} kneels at the lock, fiddles a bent wire about in it, and it clicks open.`, 'good');
+      Sound.play('door');
+      p.nextAttack = G.t + 1200;
+      return true;
+    }
     if (!k) {
       // a strong character can force a locked door, slowly and loudly
       const chance = 0.08 + mod(p.stats.str) * 0.05 + (p.cls === 'fighter' ? 0.1 : 0);
@@ -2002,7 +2013,7 @@ const Game = (() => {
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
-      if (e.companion) { const said = companion.join(); if (said) out.push(said); }
+      if (e.companion) { const said = companion.join(e.companion); if (said) out.push(said); }
       if (e.thread && !threads()[e.thread]) {
         threads()[e.thread] = G.depth;
         if (THREAD_SAID[e.thread]) out.push(THREAD_SAID[e.thread]);
@@ -2399,7 +2410,7 @@ const Game = (() => {
     const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
-    else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your hound'} bites the ${mb.name}${of} for ${dmg}.`); }
+    else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your hound'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
@@ -2826,6 +2837,18 @@ const Game = (() => {
   // archive knows about. Count what this delve can actually yield, not the lot.
   function pagesInDungeon() { return Math.min(G && G.opts ? G.opts.levels : JOURNAL.length, JOURNAL.length); }
   // How the story closes, in the voice of the life that brought you here.
+  /** What became of the companion, for the epilogue's list of what the valley tells. */
+  function companionFate(c, won) {
+    const here = c.depth === G.depth, n = c.name;
+    if (c.kind === 'goblin') {
+      if (c.fallen) return `a goblin called ${n} is buried on floor ${c.fallen} of the Deepdelve, with a bent wire in its fist`;
+      if (won) return here ? `a goblin called ${n} came out into the daylight with them, blinked at it, and has been opening the valley's locks ever since` : `a goblin called ${n} was seen at the mouth of the Deepdelve a month later, with a sack that clinked`;
+      return here && c.mode === 'follow' ? `a goblin called ${n} slipped away into the dark with their purse, which is only what goblins do` : `a goblin called ${n} is still down there somewhere, picking locks for nobody`;
+    }
+    if (c.fallen) return `a hound called ${n} lies buried on floor ${c.fallen} of the Deepdelve, and they do not talk about it`;
+    if (won) return here ? `a brown hound called ${n} sleeps by their fire, and will not be parted from them` : `a brown hound called ${n} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again`;
+    return here && c.mode === 'follow' ? `a brown hound called ${n} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${n} was found at the foot of the stair, waiting`;
+  }
   function epilogue(won) {
     const p = P();
     const bg = BACKGROUNDS[p.bg] || BACKGROUNDS.oathbroken;
@@ -2848,7 +2871,7 @@ const Game = (() => {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
-    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : G.companion.depth === G.depth && G.companion.mode === 'follow' ? `a brown hound called ${G.companion.name} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
+    if (G.companion) told.push(companionFate(G.companion, won));
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4

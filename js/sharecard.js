@@ -15,7 +15,7 @@ function fitText(g, text, x, y, maxW, size, weight, colour) {
 /**
  * @param {{ won: boolean, hero: string, outcome: string, killer?: string, stats: string, mode: string,
  *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null,
- *   hound?: { name: string, art: HTMLCanvasElement | HTMLImageElement | null } | null }} info
+ *   hound?: { name: string, word?: string, art: HTMLCanvasElement | HTMLImageElement | null } | null }} info
  * @returns {HTMLCanvasElement}
  */
 function drawShareCard(info) {
@@ -58,7 +58,7 @@ function drawShareCard(info) {
   if (info.killer) fitText(g, info.killer, x, 234, maxW, 24, 'italic', '#d8c8b0');
   fitText(g, info.stats, x, 284, maxW, 22, 'normal', '#e0d6c2');
   fitText(g, info.mode, x, 318, maxW, 20, 'normal', '#b8ad98');
-  if (info.hound) fitText(g, `With ${info.hound.name}, the hound`, x, 346, maxW, 17, 'italic', '#d8b888');
+  if (info.hound) fitText(g, `With ${info.hound.name}, the ${info.hound.word || 'hound'}`, x, 346, maxW, 17, 'italic', '#d8b888');
   fitText(g, `Seed "${info.seed}" · ${info.date}`, x, 370, maxW, 17, 'normal', '#8a8070');
   return c;
 }
