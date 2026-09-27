@@ -1143,7 +1143,8 @@ const UI = (() => {
     }
     const L = Game.level(), p = Game.player();
     const R = 7, size = 6;
-    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length].join(',');
+    const hound = houndHere();
+    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, hound ? `${hound.x},${hound.y}` : ''].join(',');
     if (sig === miniSig) return;
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
@@ -1173,6 +1174,10 @@ const UI = (() => {
       if (Math.abs(dx) > R || Math.abs(dy) > R || !L.explored[m.y * L.w + m.x] || !m.awake) continue;
       ctx.fillStyle = '#e04030';
       ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
+    }
+    if (hound && Math.abs(hound.x - p.x) <= R && Math.abs(hound.y - p.y) <= R) {
+      ctx.fillStyle = MAP_COLOUR.hound;
+      ctx.fillRect((hound.x - p.x + R) * size + 1, (hound.y - p.y + R) * size + 1, size - 2, size - 2);
     }
     ctx.save();
     ctx.translate(R * size + size / 2, R * size + size / 2);
@@ -1871,6 +1876,8 @@ const UI = (() => {
   // drift apart.
   const MAP_KEY = [
     { id: 'player', colour: '#ff6a50', label: 'You' },
+    // shown only while a hound is with you on the floor
+    { id: 'hound', colour: '#d8a868', label: 'Your hound' },
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
     { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
@@ -1989,6 +1996,12 @@ const UI = (() => {
       glyph('\u00a4', n.x, n.y, '#2a1a38');
     }
 
+    // the hound, where it waits or walks at your heel
+    const hound = houndHere();
+    if (hound) edged(hound.x * size - ox + size * 0.15, hound.y * size - oy + size * 0.15, size * 0.7, size * 0.7, MAP_COLOUR.hound);
+    const hk = /** @type {HTMLElement|null} */ ($('#map-legend [data-key="hound"]'));
+    if (hk) hk.hidden = !hound;
+
     // The player owns one whole square, ringed so the eye finds it at a glance,
     // with the arrow inside it showing which way they face.
     const cx = p.x * size - ox + size / 2, cy = p.y * size - oy + size / 2;
@@ -2010,11 +2023,16 @@ const UI = (() => {
     ctx.restore();
   }
 
+  /** The hound, if it is on this floor and standing. */
+  function houndHere() {
+    const c = Game.companion(), L = Game.level();
+    return c && !c.fallen && c.depth === L.depth ? c : null;
+  }
   function renderMapLegend() {
     const el = $('#map-legend');
     if (!el || el.childElementCount) return;      // built once
     el.innerHTML = MAP_KEY.map(k =>
-      `<span class="key"><i style="background:${k.colour}"></i>${escapeHtml(k.label)}</span>`).join('');
+      `<span class="key" data-key="${k.id}"><i style="background:${k.colour}"></i>${escapeHtml(k.label)}</span>`).join('');
   }
 
   function renderSpells() {

@@ -1081,6 +1081,11 @@ test.describe('dungeon features', () => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'hound-ui', cls: 'Fighter' });
     await clearBoons(page);
+    // with no hound, the map's key does not mention one
+    await page.click('[data-open="map"]');
+    await expect(page.locator('#map-legend [data-key="hound"]')).toBeHidden();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#ov-map')).not.toHaveClass(/open/);
     // the hound's corner, straight ahead
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -1113,6 +1118,16 @@ test.describe('dungeon features', () => {
     await expect(page.locator('[data-tap="use"]')).toContainText('Come');
     await page.click('[data-tap="use"]');
     await expect(page.locator('#hud-status')).not.toContainText('staying');
+    // the map marks it, and its key says what the mark is
+    await page.click('[data-open="map"]');
+    await expect(page.locator('#map-legend [data-key="hound"]')).toBeVisible();
+    const px = await page.evaluate(() => {
+      const c = /** @type {HTMLCanvasElement} */ (document.querySelector('#map-canvas')), h = Game.companion(), t = +c.dataset.tile;
+      const x = (h.x - +c.dataset.originX) * t + t / 2, y = (h.y - +c.dataset.originY) * t + t / 2;
+      return [...c.getContext('2d').getImageData(Math.floor(x), Math.floor(y), 1, 1).data].slice(0, 3);
+    });
+    expect(px).toEqual([0xd8, 0xa8, 0x68]);
+    await page.keyboard.press('Escape');
     // the Hero sheet knows it
     await page.click('[data-open="char"]');
     await expect(page.locator('#char-sheet')).toContainText(name);
