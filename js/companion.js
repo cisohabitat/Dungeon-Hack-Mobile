@@ -9,7 +9,7 @@ import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
 // it trots when it has fallen behind, and walks once it is back at heel
-const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 180, lostMs: 3000 };
+const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 140, lostMs: 3000 };
 const NAMES = ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'];
 
 /** @param {any} K */
@@ -46,14 +46,21 @@ export function makeCompanion(K) {
     }
     return dist;
   }
-  /** An open square beside the hero, the one behind them first. */
+  /** An open square beside the hero, the one behind them first; failing that, the nearest open one. */
   function besideHero() {
     const p = K.P();
     for (const turn of [2, 1, 3, 0]) {
       const [dx, dy] = K.DIRS[(p.dir + turn) % 4], x = p.x + dx, y = p.y + dy;
       if (free(x, y)) return { x, y };
     }
-    return null;
+    const L = K.lvl(), dist = trail();
+    let best = null, bd = Infinity;
+    for (let i = 0; i < dist.length; i++) {
+      if (dist[i] < 2 || dist[i] >= bd) continue;
+      const x = i % L.w, y = (i / L.w) | 0;
+      if (free(x, y)) { bd = dist[i]; best = { x, y }; }
+    }
+    return best;
   }
   /** A hound joins the hero. */
   function join() {
@@ -70,7 +77,7 @@ export function makeCompanion(K) {
     if (!c || n <= 0) return;
     c.hp -= n;
     c.flashUntil = K.realNow + 130;
-    if (c.hp > 0) { K.log(`${what} ${c.name} (${n}).`, 'bad'); return; }
+    if (c.hp > 0) { K.log(`${what} ${c.name} for ${n}.`, 'bad'); return; }
     c.hp = 0; c.fallen = G.depth;
     K.log(`${what} ${c.name}, and ${c.name} falls, and does not get up.`, 'bad');
     Sound.play('death', K.heard({ x: c.x, y: c.y }, { gore: 'blood' }));
@@ -81,7 +88,7 @@ export function makeCompanion(K) {
     if (!c || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1) return;
     const roll = d(1, 20);
     if (roll === 1 || (roll !== 20 && roll + mb.hit < HOUND.ac + Math.floor(p.level / 3))) return;
-    hurt(Math.max(1, d(...mb.dmg)), `The ${mb.name} savages`);
+    hurt(Math.max(1, d(...mb.dmg)), `The ${mb.name} hits`);
   }
   /** Its bite: an awake thing beside it, the one at the hero's side first. */
   function bite(c) {
@@ -107,7 +114,9 @@ export function makeCompanion(K) {
     // it grows with the hero
     const want = maxHpFor(p.level);
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
-    if (bite(c)) { c.nextAct = G.t + HOUND.speed; return; }
+    // it fights beside the hero, not alone: once they have gone on, it goes after them
+    const away = Math.abs(c.x - p.x) + Math.abs(c.y - p.y);
+    if ((c.mode === 'stay' || away <= 3) && bite(c)) { c.nextAct = G.t + HOUND.speed; return; }
     // something came to stand where it stands (a lunge, a summoning): it gives way
     if (K.monsterAt(c.x, c.y)) {
       const out = K.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => free(x, y));
@@ -148,7 +157,7 @@ export function makeCompanion(K) {
     const c = here();
     if (!c) return false;
     c.mode = c.mode === 'stay' ? 'follow' : 'stay';
-    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} sits.` : `You call ${c.name} to heel.`, 'info');
+    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} waits.` : `You call ${c.name} to heel.`, 'info');
     Sound.play('step');
     return true;
   }

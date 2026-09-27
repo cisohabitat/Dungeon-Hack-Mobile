@@ -2847,7 +2847,7 @@ const Game = (() => {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
-    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
+    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : G.companion.depth === G.depth ? `a brown hound called ${G.companion.name} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4
@@ -3374,7 +3374,9 @@ const Game = (() => {
     if (vowed('iron')) { log('You swore the Iron Vow: no rest until the Heart is won.', 'bad'); Sound.play('error'); return false; }
     ensureDist();
     if (enemiesNear()) { log('You cannot rest with enemies close by.', 'bad'); Sound.play('error'); return false; }
-    if (p.hp >= p.maxHp && p.sp >= p.maxSp) { log('You are already well rested.'); return false; }
+    // a hurt hound is reason enough to stop: it heals by the same rest
+    const hound = companion.here();
+    if (p.hp >= p.maxHp && p.sp >= p.maxSp && !(hound && hound.hp < hound.maxHp)) { log('You are already well rested.'); return false; }
     // the Returned sleep their first rest on a floor on nothing
     const food = p.bg === 'returned' && !(L.rests || 0) ? 0 : REST_FOOD;
     if (p.food < food) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }

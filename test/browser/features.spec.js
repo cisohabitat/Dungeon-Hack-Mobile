@@ -1126,7 +1126,7 @@ test.describe('dungeon features', () => {
       const x = (h.x - +c.dataset.originX) * t + t / 2, y = (h.y - +c.dataset.originY) * t + t / 2;
       return [...c.getContext('2d').getImageData(Math.floor(x), Math.floor(y), 1, 1).data].slice(0, 3);
     });
-    expect(px).toEqual([0xd8, 0xa8, 0x68]);
+    expect(px).toEqual([0xf2, 0xec, 0xdc]);
     await page.keyboard.press('Escape');
     // the Hero sheet knows it
     await page.click('[data-open="char"]');

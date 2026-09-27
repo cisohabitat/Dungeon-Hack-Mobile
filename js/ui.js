@@ -1175,9 +1175,10 @@ const UI = (() => {
       ctx.fillStyle = '#e04030';
       ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
     }
+    // a pale round mark, nothing like a door or a torch
     if (hound && Math.abs(hound.x - p.x) <= R && Math.abs(hound.y - p.y) <= R) {
       ctx.fillStyle = MAP_COLOUR.hound;
-      ctx.fillRect((hound.x - p.x + R) * size + 1, (hound.y - p.y + R) * size + 1, size - 2, size - 2);
+      ctx.beginPath(); ctx.arc((hound.x - p.x + R) * size + size / 2, (hound.y - p.y + R) * size + size / 2, size / 2 - 0.5, 0, Math.PI * 2); ctx.fill();
     }
     ctx.save();
     ctx.translate(R * size + size / 2, R * size + size / 2);
@@ -1877,7 +1878,7 @@ const UI = (() => {
   const MAP_KEY = [
     { id: 'player', colour: '#ff6a50', label: 'You' },
     // shown only while a hound is with you on the floor
-    { id: 'hound', colour: '#d8a868', label: 'Your hound' },
+    { id: 'hound', colour: '#f2ecdc', label: 'Your hound' },
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
     { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
@@ -1998,7 +1999,11 @@ const UI = (() => {
 
     // the hound, where it waits or walks at your heel
     const hound = houndHere();
-    if (hound) edged(hound.x * size - ox + size * 0.15, hound.y * size - oy + size * 0.15, size * 0.7, size * 0.7, MAP_COLOUR.hound);
+    if (hound) {
+      const hx = hound.x * size - ox + size / 2, hy = hound.y * size - oy + size / 2;
+      ctx.fillStyle = '#0b0a10'; ctx.beginPath(); ctx.arc(hx, hy, size * 0.42, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = MAP_COLOUR.hound; ctx.beginPath(); ctx.arc(hx, hy, size * 0.42 - edge, 0, Math.PI * 2); ctx.fill();
+    }
     const hk = /** @type {HTMLElement|null} */ ($('#map-legend [data-key="hound"]'));
     if (hk) hk.hidden = !hound;
 
@@ -2292,8 +2297,9 @@ const UI = (() => {
       if (k) killer = `to ${k.name.replace(/^[A-Z](?=[a-z])/, c => (k.encounter ? c : c.toLowerCase()))}`;
     }
     // a hound still at the hero's side at the end stands in the picture with them
-    // (not one told to stay floors above)
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, art: pic(Assets.sprites.dog) } : null;
+    // (not one told to stay floors above). Beside a killer it read as the killer's
+    // dog, so on a death it is named, not drawn
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, art: won ? pic(Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,

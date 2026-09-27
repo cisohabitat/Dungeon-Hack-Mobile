@@ -9035,6 +9035,38 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a hurt hound is a reason to rest; it follows a hero who walks on rather than fight alone; its end is told as it was', async () => {
+    const out = [];
+    {
+      const ctx = await withHound('hound-rest-whole');
+      const { Game } = ctx; const p = Game.player(), c = Game.companion();
+      clearAround(ctx);
+      p.hp = p.maxHp; p.sp = p.maxSp; c.hp = 2;
+      if (!Game.rest()) out.push('an unhurt hero would not rest for a hurt hound');
+      else if (!(c.hp > 2)) out.push('the rest did not heal the hound');
+      c.hp = c.maxHp;
+      if (Game.rest()) out.push('a hero and hound both whole could still rest');
+    }
+    {
+      const ctx = await withHound('hound-walks-on');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      bareFloor(ctx); dig(ctx, 3, 3, 20, 9);
+      p.x = 18; p.y = 6; c.x = 5; c.y = 6; c.hp = c.maxHp = 9999;
+      const g = { uid: 94, id: 'goblin', x: 4, y: 6, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      Game.level().monsters.push(g);
+      run(Game, G, 4000);
+      if (g.hp < 999) out.push('it stayed to bite a goblin while the hero was thirteen squares off');
+      if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) > 1) out.push(`it did not come after the hero (it is at ${c.x},${c.y})`);
+    }
+    {
+      const ctx = await withHound('hound-end');
+      const { Game } = ctx; const c = Game.companion();
+      const lost = Game.epilogue(false).join(' ');
+      if (!lost.includes(`${c.name} stood over them to the last`)) out.push(`a death with the hound at their side was told as: ${lost}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
