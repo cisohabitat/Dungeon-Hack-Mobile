@@ -70,6 +70,48 @@ const slats = (p, keep, shift = 0) => {
   return out;
 };
 
+// The freed goblin's head, the same in the cage and at your heel: a ragged
+// hood with its peak flopped over, knife ears poking out from under it, big
+// bright eyes that never stop looking about, and a grin up one side.
+// `look` sends the eyes left (-1), right (1) or straight at you (0);
+// `mouth` is 'grin', or 'teeth' when it means business.
+const scragHead = (x, y, { look = 1, mouth = 'grin' } = {}) => {
+  const skin = '#72ac4c', dark = '#46742f', rag = '#80705c', ex = Math.round(x), ey = Math.round(y);
+  const eye = '#ffd84a', pupil = '#1a1010';
+  const pupils = look > 0 ? [[ex - 2, ey], [ex + 2, ey]] : look < 0 ? [[ex - 3, ey], [ex + 1, ey]] : [[ex - 2, ey], [ex + 1, ey]];
+  return [
+    // the hood behind the head, close about it, its peak gone limp and
+    // fallen over to one side
+    sheet([[x - 5.4, y + 3.2], [x - 5.8, y - 1], [x - 5.2, y - 4], [x - 5.6, y - 6.6], [x - 7.6, y - 8.6], [x - 8.4, y - 7.2], [x - 6.4, y - 8.8],
+      [x - 3.4, y - 7.6], [x - 1, y - 6.2], [x + 2, y - 6], [x + 4.4, y - 5], [x + 5.8, y - 2.6], [x + 5.4, y + 3.2]], rag, { curve: 1 }),
+    // the dark inside of the hood, round the face
+    ball(x, y - 0.4, 5.3, 4.9, '#3a302a'),
+    // long ears out through the rag, pink inside, the left one nicked
+    sheet([[x - 4, y - 1.4], [x - 11.2, y - 3.8], [x - 9.6, y - 1.6], [x - 10.4, y - 1.2], [x - 9, y - 0.4], [x - 4, y + 1.8]], skin, { tilt: [-0.5, -0.2] }),
+    sheet([[x + 4, y - 1.4], [x + 11.2, y - 3.8], [x + 9.4, y - 1.2], [x + 4, y + 1.8]], skin, { tilt: [0.5, -0.2] }),
+    sheet([[x - 4.6, y - 0.6], [x - 9, y - 2.6], [x - 4.6, y + 1]], '#c07860'),
+    sheet([[x + 4.6, y - 0.6], [x + 9, y - 2.6], [x + 4.6, y + 1]], '#c07860'),
+    ball(x, y, 4.6, 4.1, skin),
+    // the hood's brim pulled low over the brow
+    sheet([[x - 5.3, y - 0.6], [x - 4.2, y - 4], [x - 1, y - 5.1], [x + 2, y - 5], [x + 4.5, y - 3.8], [x + 5.3, y - 0.6],
+      [x + 3.6, y - 2.4], [x, y - 3], [x - 3.6, y - 2.4]], rag, { curve: 1 }),
+    // brows up, one higher than the other: curious, and up to something
+    hair(x - 3.5, y - 1.5, x - 1.5, y - 2, dark), hair(x + 1, y - 1.5, x + 3, y - 1.5, dark),
+    // a small sharp nose, and the cheek the grin pushes up
+    ball(x + 2.6, y + 1.5, 1.3, 0.9, skin),
+    limb(x, y - 0.4, x + 0.3, y + 1.2, 0.5, 0.8, skin),
+    // big eyes, lit, the pupils off to one side
+    dots([[ex - 3, ey - 1], [ex - 2, ey - 1], [ex - 3, ey], [ex - 2, ey], [ex + 1, ey - 1], [ex + 2, ey - 1], [ex + 1, ey], [ex + 2, ey]], eye),
+    dots(pupils, pupil),
+    mouth === 'teeth'
+      ? sheet([[x - 2.8, y + 1.8], [x, y + 2.3], [x + 3, y + 1.4], [x + 2.4, y + 3.4], [x, y + 3.9], [x - 2.3, y + 3.3]], '#2a1010')
+      : sheet([[x - 2.2, y + 2.3], [x, y + 2.6], [x + 2.4, y + 1.8], [x + 3.3, y + 1], [x + 2.9, y + 2.6], [x + 0.4, y + 3.4], [x - 1.8, y + 3]], '#2a1010'),
+    mouth === 'teeth'
+      ? dots([[ex - 2, ey + 2], [ex, ey + 2], [ex + 2, ey + 2], [ex - 1, ey + 3], [ex + 1, ey + 3]], '#f0e6c8')
+      : dots([[ex + 1, ey + 2]], '#f0e6c8'),
+  ];
+};
+
 const CREATURES = {
   // A hunched little thing: head too big for it, ears like knives, a grin
   // full of bad teeth and a rusty blade in one fist.
@@ -870,6 +912,104 @@ const CREATURES = {
     ];
   },
 
+  // The goblin you let out of its cage: smaller than the ones that hunt the
+  // halls, all knees and elbows under a grey hooded rag, a broken manacle
+  // still on one wrist and a ring of picks at its belt. It holds its bent
+  // little knife low and grins as if it knows where the good stuff is.
+  // Lunging, it drops low and drives the knife up at you; told to wait, it
+  // squats on its heels with its hands on its knees and the knife put away.
+  scrag: (pose = 'idle') => {
+    const skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', cloth = '#6a5c4a', cord = '#4a3a28';
+    const iron = '#6e727c', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
+    const stab = pose === 'windup', sit = pose === 'sit';
+    const hx = stab ? 16.5 : 16, hy = stab ? 17 : sit ? 17.2 : 14.8;
+    // how far the body has dropped: a long way for the lunge, a little to squat
+    const dy = stab ? 2.2 : sit ? 2.4 : 0, belt = 23.6 + dy;
+    // the rag: a hooded mantle over the shoulders, chewed ragged at the hem
+    const mantle = sheet([[12, 18 + dy], [20, 18 + dy], [22.4, 19.2 + dy], [23.2, 21.8 + dy], [21.8, 21.2 + dy], [20.8, 22.6 + dy], [19.4, 21.4 + dy], [18, 22.8 + dy],
+      [16.4, 21.6 + dy], [14.8, 22.8 + dy], [13.2, 21.4 + dy], [11.6, 22.6 + dy], [10.2, 21.2 + dy], [8.8, 21.8 + dy], [9.6, 19.2 + dy]], rag, { curve: 1 });
+    // the ring of picks and a key, hung at the belt
+    const kx = sit ? 15.5 : 18.5, ky = Math.round(belt) + 1.5;
+    const picks = [
+      hair(kx - 0.8, ky + 0.6, kx - 1.6, ky + 3, '#9aa0aa'), hair(kx - 0.2, ky + 0.8, kx - 0.4, ky + 3.4, '#9aa0aa'),
+      line(kx + 1, ky + 1, kx + 1.4, ky + 3, brass), specks([[kx + 1.5, ky + 2.5], [kx + 2, ky + 2.5], [kx + 2, ky + 3]], brass),
+      ball(kx, ky, 1.2, 1.2, brass), dots([[Math.floor(kx), Math.floor(ky)]], '#2a1e14'),
+    ];
+    // an iron cuff across the wrist (u, v: half the band, the way it runs),
+    // and what is left of its chain: links alternately face on and edge on,
+    // the last one sprung open where it broke
+    const cuff = (x, y, u, v, links) => [
+      ...links.map(([lx, ly], i) => i % 2 ? limb(lx, ly - 0.6, lx, ly + 0.6, 0.4, 0.4, '#585c66') : ball(lx, ly, 0.8, 0.85, iron)),
+      ...links.map(([lx, ly], i) => i % 2 ? hair(lx, ly - 0.5, lx, ly, '#a8acb4') : specks([[lx, ly]], '#1c1a22')),
+      hair(links[links.length - 1][0] - 0.5, links[links.length - 1][1] + 0.5, links[links.length - 1][0] - 1, links[links.length - 1][1] + 1, iron),
+      limb(x - u, y - v, x + u, y + v, 0.9, 0.9, iron),
+      hair(x - u, y - v - 0.5, x + u * 0.6, y + v * 0.6 - 0.5, '#c8ccd4'),
+    ];
+    // a short knife with a kink in the blade, from the fist at (x, y) along (u, v)
+    const knife = (x, y, u, v) => [
+      limb(x + u * 0.9, y + v * 0.9, x + u * 3.2, y + v * 3.2, 0.65, 0.55, steel, { smooth: 1 }),
+      limb(x + u * 3.2, y + v * 3.2, x + u * 4.4 + v * 0.6, y + v * 4.4 - u * 0.6, 0.55, 0.3, steel, { smooth: 1 }),
+      hair(x + u * 1.2 - v * 0.3, y + v * 1.2 + u * 0.3, x + u * 3.2 - v * 0.3, y + v * 3.2 + u * 0.3, '#f4f6fa'),
+    ];
+    const body = [
+      ball(16, 22.6 + dy, 3.2, 3.6, skin),
+      sheet([[12.8, belt], [19.2, belt], [18.8, belt + 3], [17.6, belt + 2.2], [16.4, belt + 3.4], [15, belt + 2.2], [13.4, belt + 2.8]], cloth, { curve: 0.8 }),
+      line(12, belt, 20, belt, cord),
+      ...picks,
+    ];
+    let parts;
+    if (stab) {
+      parts = [
+        limb(14.6, 26.4, 10.6, 27.8, 1.1, 0.9, dark), limb(10.6, 27.8, 9.8, 30.2, 0.9, 0.75, dark), ball(9.6, 30.4, 1.9, 0.8, foot),
+        limb(17.6, 26.4, 21.6, 27.6, 1.1, 0.9, dark), limb(21.6, 27.6, 22.4, 30.2, 0.9, 0.75, dark), ball(22.6, 30.4, 1.9, 0.8, foot),
+        ball(10.6, 27.8, 1.1, 1, dark), ball(21.6, 27.6, 1.1, 1, dark),
+        ...body,
+        // the chained arm flung back for balance, the knife driven up at you
+        limb(12.2, 21.4, 7, 23.8, 0.95, 0.85, skin), limb(19.8, 21.4, 25.2, 19.4, 0.95, 0.85, skin),
+        mantle,
+        ...cuff(8, 23.3, 0.45, 1.05, [[6.8, 25.2], [6, 26.5], [5.2, 27.8]]),
+        ball(6.3, 24.2, 1.3, 1.2, skin),
+        ...knife(26, 18.8, 0.6, -0.8),
+        ball(26, 18.8, 1.3, 1.2, skin),
+      ];
+    } else if (sit) {
+      parts = [
+        // on its heels, knees out wide and feet together under it
+        ...both(limb(9, 26.2, 12.6, 30, 1, 0.85, dark)), ...both(ball(12.8, 30.4, 1.9, 0.9, foot)),
+        ...body,
+        ...both(limb(14, 27.6, 9.2, 26, 1.2, 1.1, dark)), ...both(ball(9, 25.8, 1.4, 1.3, dark)),
+        // the knife pushed through the belt, only the grip showing
+        limb(18.2, belt - 1.6, 19, belt + 0.6, 0.55, 0.55, grip), dots([[18, belt - 2]], brass),
+        ...both(limb(12, 21.4, 9.2, 24.6, 0.95, 0.85, skin)),
+        mantle,
+        ...cuff(9.8, 23.9, 0.9, 0.7, [[7.6, 24.8], [7.1, 26.2], [6.8, 27.6]]),
+        ...both(ball(9, 24.9, 1.4, 1.1, skin)),
+      ];
+    } else {
+      parts = [
+        ...both(limb(14.4, 25, 12.2, 27.6, 1.1, 0.9, dark)), ...both(limb(12.2, 27.6, 12.8, 30.2, 0.9, 0.75, dark)),
+        ...both(ball(12.2, 27.6, 1.1, 1, dark)), ...both(ball(12.4, 30.4, 1.9, 0.8, foot)),
+        ...body,
+        ...both(limb(12.2, 19.8, 10.6, 23.4, 0.95, 0.85, skin)),
+        mantle,
+        ...cuff(10.8, 22.6, 1.05, -0.15, [[8.6, 23.8], [8.4, 25.2], [8.3, 26.6]]),
+        ball(10.4, 24.2, 1.3, 1.2, skin),
+        // the knife held low, point down and out
+        ...knife(21.6, 24.2, 0.45, 0.9),
+        ball(21.6, 24.2, 1.3, 1.2, skin),
+      ];
+    }
+    return [
+      ...parts,
+      ...scragHead(hx, hy, { look: stab ? 0 : sit ? -1 : 1, mouth: stab ? 'teeth' : 'grin' }),
+      // fine work: ribs, frayed threads at the hem, a darn in the rag, toes
+      hair(14.5, 21.6 + dy, 14, 22.6 + dy, '#4c7e34'), hair(17.5, 21.6 + dy, 18, 22.6 + dy, '#4c7e34'),
+      hair(11.8, 22.4 + dy, 11.6, 23.4 + dy, rag), hair(18, 22.6 + dy, 18.2, 23.6 + dy, rag),
+      specks([[13, 19.5 + dy], [13.5, 20 + dy], [14, 19.5 + dy], [14.5, 20 + dy]], '#a89a82'),
+      ...(stab ? [] : both(specks([[sit ? 12 : 11, 30.5], [sit ? 13 : 12, 30.5]], '#e8e0c0'))),
+    ];
+  },
+
   // A long grey hound of the deep, all rib and sinew on legs too long for it,
   // with pale eyes that stay lit in the dark. It steps out of the world and
   // back in somewhere else, and its edges never quite settle. Going, it thins
@@ -1497,7 +1637,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'] };
+const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], scrag: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -1794,6 +1934,58 @@ const PROPS = {
       ...[10, 14, 18].map(x => ball(x, 29.5, 1.6, 0.8, pale)),
     ];
   },
+  // a squat iron cage, banded top and bottom and its door shut with a heavy
+  // padlock, and a goblin crouched inside with its fingers round the bars,
+  // peering out between them to see what you will do
+  cage: () => {
+    const iron = '#555a64', far = '#2e3038', skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c';
+    // the bars stand either side of the middle (x = 16), with a wider gap at
+    // the door so the face shows whole through it
+    const bars = [5.5, 9, 12.5, 19.5, 23, 26.5];
+    return [
+      // the cage's floor, dark and strewn with straw, and its far bars
+      sheet([[4.5, 25.5], [27.5, 25.5], [27.5, 29], [4.5, 29]], '#3a3630', { tilt: [0, -0.9] }),
+      ...[7.2, 10.8, 14.4, 17.6, 21.2, 24.8].map(x => limb(x, 10, x, 26, 0.45, 0.45, far)),
+      // the goblin, squatting on its heels, knees out, reaching for the bars
+      limb(10.6, 25, 13.2, 27.6, 1, 0.85, dark), limb(21.4, 25, 18.8, 27.6, 1, 0.85, dark),
+      ball(13.2, 27.8, 1.8, 0.8, foot), ball(18.8, 27.8, 1.8, 0.8, foot),
+      ball(16, 24.6, 3.2, 3, skin),
+      limb(12.6, 22.4, 10.6, 24, 0.95, 0.9, skin), limb(19.4, 22.4, 21.4, 24, 0.95, 0.9, skin),
+      sheet([[12, 21.2], [20, 21.2], [22.4, 22.4], [23, 25], [21.6, 24.4], [20.6, 25.8], [19.2, 24.6], [17.6, 26], [16, 24.8],
+        [14.4, 26], [12.8, 24.6], [11.4, 25.8], [10.4, 24.4], [9, 25], [9.6, 22.4]], rag, { curve: 1 }),
+      limb(14.4, 26.4, 10.6, 25, 1.2, 1.1, dark), limb(17.6, 26.4, 21.4, 25, 1.2, 1.1, dark),
+      ball(10.4, 24.8, 1.4, 1.3, dark), ball(21.6, 24.8, 1.4, 1.3, dark),
+      // elbows out over its knees, hands up to the door bars under its chin
+      limb(10.6, 24, 12.2, 21.8, 0.9, 0.85, skin), limb(21.4, 24, 19.8, 21.8, 0.9, 0.85, skin),
+      // the manacle it came in with, still on, a link of chain hanging
+      ball(10.6, 24.4, 0.75, 0.8, iron), specks([[10.6, 24.4]], '#1c1a22'),
+      limb(10.6, 22.4, 12.2, 23.4, 0.85, 0.85, iron),
+      ball(12.5, 21.2, 1.25, 1.15, skin), ball(19.5, 21.2, 1.25, 1.15, skin),
+      ...scragHead(16, 17.4, { look: 0 }),
+      // the near bars, in front of it all
+      ...bars.map(x => limb(x, 9, x, 28.6, 0.6, 0.6, iron)),
+      // fingers curled round them
+      limb(11.6, 20.9, 13.4, 20.9, 0.55, 0.55, skin), limb(18.6, 20.9, 20.4, 20.9, 0.55, 0.55, skin),
+      specks([[12, 21.5], [13, 21.5], [19, 21.5], [20, 21.5]], '#e8e0c0'),
+      // the door's rails and hinges
+      limb(12.5, 12, 19.5, 12, 0.55, 0.55, iron), limb(12.5, 24, 19.5, 24, 0.55, 0.55, iron),
+      ball(12.5, 13, 0.9, 1.1, '#484c56'), ball(12.5, 23, 0.9, 1.1, '#484c56'),
+      // the bands top and bottom, and a ring on top to hang it by
+      limb(14.2, 7.6, 15, 5.4, 0.55, 0.55, iron), limb(17.8, 7.6, 17, 5.4, 0.55, 0.55, iron), limb(15, 5.2, 17, 5.2, 0.55, 0.55, iron),
+      sheet([[3.8, 7.4], [28.2, 7.4], [28.2, 10], [3.8, 10]], iron, { curve: 0.8 }),
+      sheet([[3.8, 28.4], [28.2, 28.4], [28.4, 31], [3.6, 31]], iron, { curve: 0.8 }),
+      // the padlock, big as a fist, through a hasp on the door's edge
+      limb(18.9, 24.6, 18.9, 22.6, 0.5, 0.5, '#8a8e96'), limb(21.1, 24.6, 21.1, 22.6, 0.5, 0.5, '#8a8e96'), limb(18.9, 22.2, 21.1, 22.2, 0.5, 0.5, '#8a8e96'),
+      sheet([[17.8, 24.2], [22.2, 24.2], [22.6, 27.8], [17.4, 27.8]], '#6e6248', { curve: 0.9 }),
+      dots([[20, 25], [20, 26]], '#140e10'),
+      // fine work: rivets along the bands, rust, straw, the lock's shine
+      specks([[5.5, 8.5], [9, 8.5], [12.5, 8.5], [19.5, 8.5], [23, 8.5], [26.5, 8.5], [5.5, 29.5], [9, 29.5], [12.5, 29.5], [19.5, 29.5], [23, 29.5], [26.5, 29.5]], '#9aa0aa'),
+      hair(5.5, 13, 5.5, 15, '#7a4a2a'), hair(26.5, 22, 26.5, 24.5, '#7a4a2a'), specks([[9, 25.5], [23, 12]], '#7a4a2a'),
+      hair(6, 27.5, 8, 27, '#a8904a'), hair(24, 27.5, 26.5, 28, '#a8904a'), hair(15, 28, 17, 27.5, '#a8904a'),
+      hair(18.5, 24.5, 18.5, 27, '#b8a878'), specks([[20.5, 22], [21, 22.5]], '#c8ccd4'),
+    ];
+  },
+
   // one of the Lampfolk, hunched in the dark with its lamp gone cold in its
   // lap: the same grey skin and drooping ears as the traders, the eyes dim
   lampfolk_dark: () => {

@@ -79,7 +79,8 @@ for (const k in POSES) {
   if (!CREATURES[k]) continue;
   const rest = paintParts(CREATURES[k]()).color;
   for (const pose of POSES[k]) {
-    check(['windup', 'special'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
+    // (a companion also sits, when told to stay)
+    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'scrag'].includes(k)), `${k} has a pose '${pose}' the view never shows`);
     const { color } = paintParts(CREATURES[k](pose));
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
