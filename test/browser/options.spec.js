@@ -335,8 +335,8 @@ test.describe('sharing a run', () => {
       CanvasRenderingContext2D.prototype.fillText = function (t, ...rest) { window.__cardText.push(String(t)); return fill.call(this, t, ...rest); };
     });
     await startGame(page, { seed: 'card-me', cls: 'Fighter' });
-    // a hound that followed this hero (waiting on another floor, out of the fight)
-    await page.evaluate(() => { const G = Game.state(); G.companion = { kind: 'hound', name: 'Pip', x: 1, y: 1, depth: 99, hp: 17, maxHp: 17, mode: 'stay', nextAct: 0, kills: 0, joined: 1 }; });
+    // a hound that followed this hero down to this floor (told to stay in a far corner, out of the fight)
+    await page.evaluate(() => { const G = Game.state(); G.companion = { kind: 'hound', name: 'Pip', x: 1, y: 1, depth: G.depth, hp: 17, maxHp: 17, mode: 'stay', nextAct: 0, kills: 0, joined: 1 }; });
     await die(page);
     await expect(page.locator('#end-card')).toBeVisible();
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('#end-card')]);
