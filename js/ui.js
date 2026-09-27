@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-27b', text: 'a starving hound on floor 2 that may follow you down, deep-floor monsters and an elder wyrm, gear made from them, seven encounters, save codes, left-handed controls, a Bestiary gallery, and a picture of each run to share.' };
+  const NEWS = { id: '2026-09-27b', text: 'a starving hound on floor 2 that may follow you down, deep-floor monsters and an elder wyrm, gear made from them, seven encounters, save codes, left-handed controls, Bestiary pictures that enlarge on a tap, and a picture of each run to share.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -6,9 +6,6 @@ import { RELIC_POWERS, RELICS, RELIC_SETS, setOf } from './relics.js';
 import { Progress } from './progress.js';
 import { $, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
 
-/** Kinds whose poses are drawn for the fight but not shown in the Bestiary. */
-const NO_POSE_ROW = new Set(['rustmaw', 'basilisk']);
-
 // The pages that outlast a run: the Hall of Heroes and its trophies, the
 // bestiary, and the codex of relics. Split out of ui.js.
 
@@ -64,18 +61,12 @@ function renderBestiary(el) {
       bits.push(r.trick ? `<p class="trick"><b>Trick:</b> ${escapeHtml(lore.trick)}</p>` : '<p class="locked">Trick: not yet seen.</p>');
       bits.push(r.answer ? `<p class="answer"><b>Answer:</b> ${escapeHtml(lore.answer)}</p>` : '<p class="locked">Answer: not yet learned.</p>');
     }
-    // a kind drawn in more than one pose shows them all: readying once met, its trick once seen.
-    // The rustmaw and the basilisk keep their poses for the fight alone: the row is for the
-    // deep floors' kinds, and those two show only as they rest, as the older kinds do.
-    const poseUrl = pose => { const ps = art && art[pose], sp = ps && (mb.named ? ps.elite && ps.elite[id] : ps); return sp ? sp.url : null; };
-    const poses = [['At rest', own ? own.url : art && art.url], ['Readying', poseUrl('windup')], ['Its trick', r.trick ? poseUrl('special') : null]].filter(([, u]) => u);
-    if (poses.length > 1 && !NO_POSE_ROW.has(mb.named ? mb.named.kin : id)) bits.push(`<div class="beast-poses">${poses.map(([l, u]) => `<figure><img src="${u}" alt="${escapeHtml(`${mb.name}: ${l.toLowerCase()}`)}" role="button" tabindex="0" aria-pressed="false"><figcaption>${l}</figcaption></figure>`).join('')}</div>`);
     const rec = [`${where}`, mb.shade ? (r.kills ? `laid to rest ${times(r.kills)}` : 'none laid to rest yet') : mb.named ? (r.kills ? `beaten ${times(r.kills)}` : 'not yet beaten') : r.kills ? `killed ${r.kills}` : 'none killed yet'];
     if (r.deaths) rec.push(`killed you ${times(r.deaths)}`);
     bits.push(`<p class="where">${rec.join(' · ')}</p>`);
     return `<div class="beast" data-beast="${id}">${bigImg}<div>${bits.join('')}</div></div>`;
   }).join('') + '</div>';
-  // a tap (or Enter) on a met creature's picture, or one of its poses, looks at it close
+  // a tap (or Enter) on a met creature's picture looks at it close
   const zoom = /** @param {Event} e */ e => {
     const t = /** @type {HTMLElement} */ (e.target);
     const key = /** @type {KeyboardEvent} */ (e).key;
