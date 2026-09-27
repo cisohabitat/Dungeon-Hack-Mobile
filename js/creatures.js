@@ -608,7 +608,7 @@ const CREATURES = {
     /** the head, square on to you: a crown of plates, a wedge of a snout, eyes on top */
     const head = (cx, cy) => {
       // the crown stands up off the skull; rearing, it spreads into a frill
-      const crown = (gaze ? [[-178, 6.5], [-148, 8], [-120, 8.5], [-90, 9], [-60, 8.5], [-32, 8], [-2, 6.5]] : [[-160, 3.5], [-128, 4.5], [-90, 4], [-52, 4.5], [-20, 3.5]])
+      const crown = (gaze ? [[-178, 6.5], [-148, 8], [-120, 8.5], [-90, 9], [-60, 8.5], [-32, 8], [-2, 6.5]] : [[-150, 2.2], [-115, 2.8], [-65, 2.8], [-30, 2.2]])
         .map(([a, r]) => {
           const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), w = gaze ? 1.7 : 1.5;
           const bx = cx + dx * 4, by = cy - 0.5 + dy * 2.4;
@@ -625,8 +625,9 @@ const CREATURES = {
           sheet([[cx - 4.5, cy + 0.5], [cx + 4.5, cy + 0.5], [cx + 3, cy + 7], [cx - 3, cy + 7]], '#5a1c1e', { curve: 0.6 }),
           ball(cx, cy + 7.3, 3.4, 1.3, jaw),
           limb(cx, cy + 0.5, cx, cy + 3, 3.6, 2.6, skin),
-          dots([[cx - 3, cy + 3.5], [cx + 3, cy + 3.5], [cx - 2, cy + 4.5], [cx + 2, cy + 4.5], [cx - 3, cy + 5.5], [cx + 3, cy + 5.5], [cx - 2, cy + 6.5], [cx, cy + 6.5], [cx + 2, cy + 6.5]], '#f0e8cc'),
-          dots([[cx - 1, cy + 5.5], [cx, cy + 5.5], [cx + 1, cy + 5.5]], '#a04a40'),
+          ball(cx, cy + 5.6, 2, 1, '#a04a40'),
+          specks([[cx - 2.5, cy + 3.5], [cx - 1, cy + 4], [cx + 1, cy + 4], [cx + 2.5, cy + 3.5]], '#f0e8cc'),
+          specks([[cx - 2, cy + 6.5], [cx - 0.5, cy + 6.5], [cx + 1, cy + 6.5], [cx + 2.5, cy + 6.5]], '#e0d8b8'),
         );
       } else {
         p.push(
@@ -638,22 +639,22 @@ const CREATURES = {
       }
       // the eyes sit in dark rims under a heavy brow
       const ey = Math.floor(cy) - 1;
-      p.push(ball(cx - 3.5, ey + 1, 2.1, gaze ? 2.1 : 1.6, '#262a18'), ball(cx + 3.5, ey + 1, 2.1, gaze ? 2.1 : 1.6, '#262a18'));
-      const L = [cx - 5, cx - 4, cx - 3], R = [cx + 2, cx + 3, cx + 4];
+      p.push(ball(cx - 3, ey + 1, 1.9, gaze ? 2.1 : 1.5, '#262a18'), ball(cx + 3, ey + 1, 1.9, gaze ? 2.1 : 1.5, '#262a18'));
+      const L = [cx - 4, cx - 3, cx - 2], R = [cx + 1, cx + 2, cx + 3];
       const eye = rows => rows.flatMap(y => [...L, ...R].map(x => [x, y]));
       if (gaze) {
         // wide and burning, the pupils shrunk to a line
-        p.push(dots(eye([ey - 1, ey, ey + 1]), '#e8ff70'), dots([ey - 1, ey, ey + 1].flatMap(y => [[cx - 4, y], [cx + 3, y]]), '#fcffd0'));
+        p.push(dots(eye([ey - 1, ey, ey + 1]), '#e8ff70'), dots([ey - 1, ey, ey + 1].flatMap(y => [[cx - 3, y], [cx + 2, y]]), '#fcffd0'));
       } else if (bite) {
         // narrowed to slits under the brow
-        p.push(dots(eye([ey + 1]), '#d8f040'), dots([[cx - 4, ey + 1], [cx + 3, ey + 1]], '#1a2008'));
+        p.push(dots(eye([ey + 1]), '#d8f040'), dots([[cx - 3, ey + 1], [cx + 2, ey + 1]], '#1a2008'));
       } else {
-        p.push(dots(eye([ey, ey + 1]), '#d8f040'), dots([[cx - 4, ey], [cx - 4, ey + 1], [cx + 3, ey], [cx + 3, ey + 1]], '#1a2008'));
+        p.push(dots(eye([ey, ey + 1]), '#d8f040'), dots([[cx - 3, ey], [cx - 3, ey + 1], [cx + 2, ey], [cx + 2, ey + 1]], '#1a2008'));
       }
       p.push(specks([[cx - 1, cy + 3.5], [cx + 1, cy + 3.5]], '#1e2414'));
       if (gaze) {
         // light spilling out of them, over the frill and down the snout
-        for (const [ex, dir] of [[cx - 3.5, -1], [cx + 3.5, 1]]) {
+        for (const [ex, dir] of [[cx - 3, -1], [cx + 3, 1]]) {
           p.push(hair(ex + dir * 2.5, ey + 0.5, ex + dir * 5, ey + 0.5, '#d8ff60'), hair(ex + dir * 2, ey - 1.5, ex + dir * 4, ey - 3.5, '#c0f050'),
             hair(ex + dir * 2, ey + 2.5, ex + dir * 4, ey + 4.5, '#c0f050'), hair(ex, ey - 2, ex, ey - 4, '#c0f050'));
           p.push(specks([[ex + dir * 4, ey - 1], [ex - dir, ey + 3]], '#f0ffa0'));
@@ -661,7 +662,7 @@ const CREATURES = {
       }
       if (bite) p.push(hair(cx + 2, cy + 7.5, cx + 2, cy + 9, '#c8d0a0'), specks([[cx - 2.5, cy + 8]], '#c8d0a0'));
       const b = gaze ? -1.2 : bite ? 0.4 : 0;    // the brow, raised or drawn down
-      p.push(limb(cx - 6, ey - 1.2 + b, cx - 1.5, ey + 0.2 + b, 0.9, 0.6, horn), limb(cx + 6, ey - 1.2 + b, cx + 1.5, ey + 0.2 + b, 0.9, 0.6, horn));
+      p.push(limb(cx - 5, ey - 1 + b, cx - 1.5, ey + 0.2 + b, 0.8, 0.5, horn), limb(cx + 5, ey - 1 + b, cx + 1.5, ey + 0.2 + b, 0.8, 0.5, horn));
       return p;
     };
     /** @type {object[]} */
@@ -731,7 +732,7 @@ const CREATURES = {
     /** @type {object[]} */
     const out = [
       // hind legs, far back: out, up at the knee and down to the floor
-      ...both(limb(10.5, 16 - up * 0.4, 5, 9.5 - up * 0.5, 1.1, 0.8, leg)), ...both(limb(5, 9.5 - up * 0.5, 2.5, 20.5, 0.75, 0.5, leg)),
+      ...both(limb(10.5, 16 - up * 0.4, 5, 9.5 - up * 0.5, 1.4, 1.1, leg)), ...both(limb(5, 9.5 - up * 0.5, 3, 20.5, 1.05, 0.8, leg)),
       ...both(ball(5, 9.5 - up * 0.5, 1.1, 1.1, knee)),
       // the shell, crusted green where the copper has gone over
       ball(16, 15.5 - sy, 10.8, 8.4, rust),
@@ -740,8 +741,9 @@ const CREATURES = {
       sheet([[23, 14], [25.5, 13], [26.8, 16], [26, 19], [24, 18], [24.5, 16]].map(([x, y]) => [x, y - sy]), verd, { tilt: [0.6, 0] }),
       sheet([[12.5, 17.5], [14.5, 16.5], [15, 19], [13, 19.5]].map(([x, y]) => [x, y - sy]), verd, { tilt: [-0.2, 0] }),
       // middle legs, braced wide
-      ...both(limb(8, 21 - up * 0.6, 2.5, 15.5 - up * 0.8, 1.3, 1, leg)), ...both(limb(2.5, 15.5 - up * 0.8, 0.8, 27.5, 0.9, 0.55, leg)),
+      ...both(limb(8, 21 - up * 0.6, 2.5, 15.5 - up * 0.8, 1.6, 1.3, leg)), ...both(limb(2.5, 15.5 - up * 0.8, 1.2, 27.5, 1.25, 0.9, leg)),
       ...both(ball(2.5, 15.5 - up * 0.8, 1.3, 1.2, knee)),
+      ...both(ball(1.8, 28, 1.4, 0.8, leg)), ...both(limb(1.8, 28.2, 0.5, 29.5, 0.5, 0.3, knee)), ...both(limb(2.2, 28.4, 3.4, 29.6, 0.5, 0.3, knee)),
       // the shield behind the head, with a rolled front edge
       ball(16, 20.5 - up, 8.6, 4.4, shield),
       limb(8.5, 22.3 - up, 23.5, 22.3 - up, 0.7, 0.7, '#b8602c'),
@@ -770,8 +772,7 @@ const CREATURES = {
       ball(16, hy + 1, mr[0] + 0.6, mr[1] + 0.5, '#8a3424'),
       sheet(oval(16, hy + 1, mr[0], mr[1]), '#3a0a0a', { tilt: [0.55, 0.6] }),
       sheet(oval(16, hy + 1.4, mr[0] * 0.6, mr[1] * 0.6), '#0a0204', { tilt: [0.7, 0.7] }),
-      // a ring of teeth round the rim, and one wet glint deep in it
-      specks(Array.from({ length: 12 }, (_, i) => [Math.round((16 + Math.cos(i / 12 * Math.PI * 2) * mr[0] * 0.9) * 2) / 2, Math.round((hy + 1 + Math.sin(i / 12 * Math.PI * 2) * mr[1] * 0.9) * 2) / 2]), '#e8dcc0'),
+      // one wet glint deep in it
       specks([[15, hy + 0.5], [15.5, hy + 0.5]], '#d07a60'),
     );
     if (rear) {
@@ -794,23 +795,26 @@ const CREATURES = {
     // the fine detail: a ring of small teeth, the drool, the seam of the shell,
     // pits and flakes of rust, spines on the legs
     const teeth = [];
-    for (let a = 0; a < 16; a++) { const t = a / 16 * Math.PI * 2; teeth.push([16 + Math.cos(t) * (mr[0] - 0.3), hy + 1 + Math.sin(t) * (mr[1] - 0.3)]); }
+    // along the top and bottom of the rim only: a full ring of pale points
+    // read as a gun-sight, not a mouth
+    for (let a = 0; a < 16; a++) { if (a % 8 === 0 || a % 8 === 1 || a % 8 === 7) continue; const t = a / 16 * Math.PI * 2; teeth.push([16 + Math.cos(t) * (mr[0] - 0.6), hy + 1 + Math.sin(t) * (mr[1] - 0.5)]); }
     const pits = [];
     for (const f of [0.3, 0.62]) for (let y = 9; y <= 16.5; y += 1) {
       const w = 10.8 * Math.sqrt(1 - ((y - 15.5) / 8.4) ** 2) * f;
       pits.push([16 - w, y], [16 + w, y]);
     }
     out.push(
-      specks(teeth, '#f0e6cc'),
-      hair(15, hy + 1 + mr[1], 14.5, rear ? 31 : 31, '#c89048'), hair(17.5, hy + 1 + mr[1], 18, hy + 3 + mr[1], '#c89048'), specks([[14.5, 31.5], [18, hy + 4 + mr[1]]], '#e0b060'),
+      specks(teeth, '#d8c8a4'),
+      // drool hanging from the lip, not a rope down to the floor
+      hair(15, hy + 1.5 + mr[1], 14.5, hy + 4 + mr[1], '#c89048'), hair(17.5, hy + 1.5 + mr[1], 18, hy + 3 + mr[1], '#c89048'), specks([[14.5, hy + 5 + mr[1]], [18, hy + 4 + mr[1]]], '#e0b060'),
       hair(16, 7.5 - sy, 16, 17.5 - sy, '#4a1c0c'),
       // pits in rows down each wing case, following its curve, as a beetle's
       // are, rather than scattered like dirt
       ...pits.map(([x, y]) => specks([[x, y - sy]], '#6a2a10')),
       // a bright edge on each crust of copper
       specks([[8.5, 11], [22, 8.5], [25, 13.5]].map(([x, y]) => [x, y - sy]), '#9ad0b8'),
-      // flakes of rust coming away
-      specks([[4.5, 24.5], [27, 25.5], [8, 29.5], [23, 31]], '#c06a30'),
+      // flakes of rust coming away, on the floor beneath it
+      specks([[8, 31.5], [23, 31.5]], '#c06a30'),
       ...both(specks([[1.5, 24], [1, 26], [2, 19]], '#8a5a30')),
       ...both(specks(rear ? [[4, 13], [3, 11], [5, 14.5]] : [[5.5, 24.5], [5, 26], [6.5, 23]], gold)),
     );
