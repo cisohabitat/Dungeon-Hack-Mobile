@@ -49,9 +49,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
   pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
-  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Eighteen monster types, and six named champions, including undead, poisoners, a regenerating troll, a
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Twenty-one monster types, and six named champions, including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
-  enchantment, and a life-draining boss guarding the artifact on the deepest level. Which of
+  enchantment, a hound that steps out of the air at your back, a quillback whose raised quills
+  punish the blow struck into them, a wyrm whose fire runs down the passage but not under its
+  jaws, and a life-draining boss guarding the artifact on the deepest level. Which of
   them a floor holds goes by how far through the delve it is, so a short delve meets them all.
   Every trick is warned of, armour does not turn a warned blow, and answering one leaves an opening.
 - **A boss fight in three acts.** The Dread Lich speaks when it wakes, and its life runs across
@@ -87,8 +89,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   They hit harder, take more killing, and always drop something worth having.
 - **Fire, cold and lightning.** Spells, a Scroll of Fire, a flaming blade and burns each carry an
   element, and some kinds take half as much again from one and only half from another (slimes,
-  spiders, zombies and trolls burn well; the dead barely feel the cold; rustmaws and bats draw the
-  lightning). The first hit that finds out says so and the bestiary keeps it. The wraith's touch
+  spiders, zombies, trolls and quillbacks burn well; the dead barely feel the cold; rustmaws and
+  bats draw the lightning; a cave wyrm shrugs off fire and fears the cold). The first hit that finds out says so and the bestiary keeps it. The wraith's touch
   and the lich's grave-cold are cold, and a Ring of Warmth halves them.
 - **Named champions.** About a third and two thirds of the way down, one floor each is held by
   a named foe, chosen by the seed from those that suit the depth: Grisk the Goblin King, Vessra
@@ -230,13 +232,13 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 74% | 77% | 77% | 82% | 71% | about 76% |
-| Hard | 50% | 50% | 45% | 55% | 54% | about 51% |
-| Long Delve (12 floors), Normal | 66% | 71% | 66% | 82% | 67% | about 70% |
-| Long Delve (12 floors), Hard | 50% | 47% | 50% | 59% | 40% | about 49% |
+| Normal | 79% | 76% | 78% | 84% | 76% | about 78% |
+| Hard | 47% | 51% | 46% | 57% | 54% | about 51% |
+| Long Delve (12 floors), Normal | 65% | 73% | 62% | 83% | 74% | about 71% |
+| Long Delve (12 floors), Hard | 52% | 52% | 46% | 59% | 51% | about 52% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class lands within five points of it: the mage lowest, the thief highest. (It was once tuned
+Delve on Hard, and every class lands within about six points of it: the mage lowest, the thief highest. (It was once tuned
 to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
@@ -244,7 +246,10 @@ floors (8 to 12), winning 33% and 34%; since spells strike and heal harder there
 and a cleric's blows with them, they sit with the rest. The thief keeps its lead however the
 back half is made harder (tried: the lich's growth, when the deep floors turn surer, how much
 sturdier they get, capping the thief's dodge). The ranger's figure is the noisiest: seed sets
-have given it anything from 37% to 54%. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
+have given it anything from 37% to 62%. It trailed at about 43% until the deep floors got
+monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
+answers well; over three seed sets it now wins about 49% with no help, and giving its blows
+the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
 
 Answering monster tricks decides runs: a warned blow lands whatever your armour, so a bot that
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.

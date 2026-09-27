@@ -38,6 +38,38 @@ const both = p => [p, mirror(p)];
 /** The points of an oval, for a flat sheet in that shape. */
 const oval = (cx, cy, rx, ry, n = 14) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * rx, cy + Math.sin(i / n * Math.PI * 2) * ry]);
 
+/**
+ * A part cut into the rows of the grid, only the rows `keep` allows left
+ * standing: what remains of a thing half gone out of the world. Each run of
+ * a kept row becomes a thin rod of the part's colour, so the gaps fall true
+ * to the pixel at either painting.
+ * @param {any} p  a ball, limb or sheet
+ * @param {(row: number) => boolean} keep
+ * @param {number | ((row: number) => number)} [shift]  how far each kept row slides:
+ *   alternate rows either way by this much, or by row as a function says
+ */
+const slats = (p, keep, shift = 0) => {
+  const inside = (x, y) => {
+    if (p.k === 'ball') return ((x - p.x) / p.rx) ** 2 + ((y - p.y) / p.ry) ** 2 <= 1;
+    if (p.k === 'sheet') return insidePoly(p.pts, x, y);
+    const ax = p.x2 - p.x1, ay = p.y2 - p.y1, L2 = ax * ax + ay * ay || 1;
+    const t = Math.max(0, Math.min(1, ((x - p.x1) * ax + (y - p.y1) * ay) / L2));
+    return Math.hypot(x - p.x1 - ax * t, y - p.y1 - ay * t) <= Math.max(p.r1 + (p.r2 - p.r1) * t, 0.55);
+  };
+  const out = [];
+  for (let r = 0; r < 32; r++) {
+    if (!keep(r)) continue;
+    const y = r + 0.5, dx = typeof shift === 'function' ? shift(r) : r % 2 ? shift : -shift;
+    let a = -1;
+    for (let c = 0; c <= 32; c++) {
+      const on = c < 32 && inside(c + 0.5, y);
+      if (on && a < 0) a = c;
+      if (!on && a >= 0) { out.push(limb(a + 0.5 + dx, y, c - 0.5 + dx, y, 0.55, 0.55, p.c, { smooth: 1 })); a = -1; }
+    }
+  }
+  return out;
+};
+
 const CREATURES = {
   // A hunched little thing: head too big for it, ears like knives, a grin
   // full of bad teeth and a rusty blade in one fist.
@@ -787,6 +819,256 @@ const CREATURES = {
     for (const q of out) Object.assign(q, { smooth: 1 });
     return out;
   },
+
+  // A long grey hound of the deep, all rib and sinew on legs too long for it,
+  // with pale eyes that stay lit in the dark. It steps out of the world and
+  // back in somewhere else, and its edges never quite settle. Going, it thins
+  // to slats of itself and only the eyes stay whole; about to bite, its
+  // hackles stand and its head drops, jaws open.
+  hound: (pose = 'idle') => {
+    const coat = '#767a86', dark = '#4c505c', pale = '#94989f', muzzle = '#8c909a', nose = '#16161e';
+    const fade = pose === 'special', bite = pose === 'windup';
+    const hy = bite ? 15 : 11.5;    // the head
+    const sh = bite ? 1 : 0;        // the shoulders, hunched for the spring
+    /** @type {any[]} its own parts are read back below, to cut into slats */
+    const out = [
+      // the tail, a thin whip up behind it
+      limb(20, 15, 24, 11, 0.9, 0.6, dark), limb(24, 11, 25.5, 6, 0.6, 0.45, dark),
+      // the hind legs, well back behind the ribs: a high hock, a thin shank
+      ...both(limb(10.5, 17.5, 8.3, 24, 1.8, 0.9, dark)), ...both(limb(8.3, 24, 9, 30, 0.9, 0.7, dark)),
+      ...both(ball(8.8, 30.4, 1.4, 0.7, dark)),
+      // the barrel of the ribs, and the shoulder blades standing up out of it
+      ball(15.5, 16.5 + sh, 6.4, 4.2, coat),
+      ball(15.5, 20 + sh, 4.5, 1.6, dark),
+      ...both(ball(11.2, 14 + sh, 2.3, 2, '#686c78')),
+    ];
+    if (bite) {
+      // hackles up along the neck and shoulders, a ragged ruff behind the head
+      for (const a of [-170, -150, -130, -110, -90, -70, -50, -30, -10]) {
+        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), h = 2.6 + (a % 20 ? 1 : 0);
+        const bx = 15.5 + dx * 6, by = 14.5 + dy * 3.2;
+        out.push(sheet([[bx - dy * 1.1, by + dx * 1.1], [bx + dx * h, by + dy * h], [bx + dy * 1.1, by - dx * 1.1]], dark, { tilt: [dx * 0.5, dy * 0.5] }));
+      }
+      // forelegs braced wide and bent, for the spring
+      out.push(...both(limb(12, 18.5, 10, 24.5, 1.6, 0.9, coat)), ...both(limb(10, 24.5, 10.8, 30, 0.9, 0.8, coat)),
+        ...both(ball(10.6, 30.4, 1.6, 0.8, coat)));
+    } else {
+      out.push(...both(limb(12.2, 17.5, 11.9, 25, 1.5, 0.8, coat)), ...both(limb(11.9, 25, 12.3, 30, 0.8, 0.7, coat)),
+        ...both(ball(12.2, 30.4, 1.5, 0.8, coat)));
+    }
+    out.push(
+      // a narrow keel of a chest under the head
+      ball(15.5, 19.2, 2.4, 3.2, pale),
+      // tall ears, pricked, or laid back flat for the bite
+      ...both(sheet(bite ? [[13, hy - 1.5], [8.5, hy - 4.5], [14.2, hy - 3]] : [[13, hy - 1.5], [11.3, hy - 8.5], [14.8, hy - 3]], coat, { tilt: [-0.4, -0.3] })),
+      ...both(sheet(bite ? [[13, hy - 2], [10, hy - 4], [13.8, hy - 3]] : [[13.2, hy - 2.2], [12, hy - 7], [14.3, hy - 3.2]], '#3a2e3e', { tilt: [-0.2, -0.2] })),
+      // a wedge of a head: broad at the skull, down to a long muzzle
+      ball(15.5, hy, 3.8, 3, coat),
+      ...both(ball(13.4, hy + 1.8, 1.7, 1.5, coat)),
+      // a heavy brow over deep sockets
+      ...both(ball(13.9, hy - 0.4, 1.5, 1.1, '#24262e')),
+    );
+    const ey = Math.round(hy) - 1;
+    if (bite) {
+      // the jaws open: a dark mouth, teeth top and bottom, the lower jaw dropped
+      out.push(
+        sheet([[12.8, hy + 1.5], [18.2, hy + 1.5], [17.5, hy + 7], [13.5, hy + 7]], '#3a1418', { curve: 0.5 }),
+        ball(15.5, hy + 7, 2.3, 1.1, muzzle),
+        limb(15.5, hy + 0.5, 15.5, hy + 2.6, 2.3, 1.9, muzzle),
+        ...both(specks([[13.5, hy + 2.5], [13.5, hy + 3], [13.5, hy + 3.5], [14, hy + 6.5], [14, hy + 6], [14, hy + 5.5]], '#f0ead8')),
+        dots([[15, Math.round(hy) + 5], [16, Math.round(hy) + 5]], '#b04a50'),
+        dots([[15, Math.round(hy) + 2], [16, Math.round(hy) + 2]], nose),
+        dots([[13, ey + 1], [14, ey + 1], [17, ey + 1], [18, ey + 1]], '#c8ecff'), dots([[14, ey + 1], [17, ey + 1]], '#f8feff'),
+      );
+    } else {
+      out.push(
+        limb(15.5, hy + 1, 15.5, hy + 4.4, 2.1, 1.5, muzzle),
+        ball(15.5, hy + 4.3, 1.4, 0.9, nose),
+        dots([[15, Math.round(hy) + 3]], '#9a9ca8'),
+        dots(fade ? [[12, ey], [13, ey], [14, ey], [17, ey], [18, ey], [19, ey], [13, ey + 1], [14, ey + 1], [17, ey + 1], [18, ey + 1]]
+          : [[13, ey], [14, ey], [17, ey], [18, ey]], '#c8ecff'),
+        dots([[14, ey], [17, ey]], '#f8feff'),
+      );
+    }
+    // the flanks tear where it slips half out of the world: stray pixels of it
+    // left a step off its outline
+    out.push(dots(bite ? [[5, 17], [26, 19], [6, 25]] : [[7, 15], [24, 19], [6, 23]], '#6a6e7a'));
+    if (!fade) return out;
+    // going: all of it but the eyes cut into slats, each row slid a little
+    // off the next, and a violet light where the world closes over it
+    const gaps = [2, 5, 8, 11, 13, 16, 19, 21, 24, 27];
+    const keep = r => !gaps.includes(r);
+    const tear = r => [0, 0.5, -0.5, 1, 0, -1, 0.5, 0, -0.5][r % 9];
+    /** @type {object[]} */
+    const gone = [];
+    for (const p of out) {
+      if (p.k === 'dots') continue;
+      const c = p.c === dark ? '#5a5a78' : p.c === pale ? '#b8b0d4' : p.c === '#24262e' ? '#24262e' : '#8a88a4';
+      // some rows catch the light of the tear more than others
+      gone.push(...slats({ ...p, c }, keep, tear).map(q => (q.y1 % 7 === 3.5 && c !== '#24262e' ? { ...q, c: '#c4b8f0' } : q)));
+    }
+    gone.push(...out.filter(p => p.k === 'dots' && p.c !== '#6a6e7a'),
+      dots([[11, ey], [20, ey]], '#a890ff'), dots([[15, ey - 1], [16, ey - 1]], '#d8ccff'));
+    return gone;
+  },
+
+  // A squat, heavy beast like a boar, under a mantle of long dark quills with
+  // pale points. Small mean eyes, tusks, legs hardly longer than hooves.
+  // Roused, the quills stand straight out all round it in a bristling crown;
+  // about to gore, its head goes down and the tusks come up and forward.
+  quillback: (pose = 'idle') => {
+    const hide = '#5e4a3a', dark = '#3a2c24', quill = '#2c2630', mantle = '#2e2830', tip = '#e2d8ba', snout = '#9a7466', tusk = '#f0e8d0';
+    const bristle = pose === 'special', gore = pose === 'windup';
+    const hy = gore ? 24 : 21.5;    // the head
+    const my = gore ? 16.5 : 18;    // the crown of the mantle
+    // the quills, from the mantle outward: [angle, length]. At rest they lie
+    // back along it and show short; raised, they stand out their full length
+    const rake = bristle
+      ? [[-200, 10], [-188, 13], [-176, 11], [-164, 14], [-152, 12], [-140, 15], [-128, 13], [-116, 15], [-104, 14], [-92, 16], [-80, 14], [-68, 15], [-56, 13], [-44, 15], [-32, 12], [-20, 14], [-8, 11], [4, 13], [16, 10]]
+      : gore ? [[-160, 5], [-145, 6.5], [-130, 7], [-115, 7.5], [-100, 8], [-85, 8], [-70, 7.5], [-55, 7], [-40, 6.5], [-25, 5]]
+        : [[-172, 5], [-158, 6.5], [-144, 6], [-130, 7], [-116, 6.5], [-102, 7.5], [-88, 7], [-74, 7.5], [-60, 6.5], [-46, 7], [-32, 6], [-18, 6.5], [-6, 5]];
+    /** @param {number[]} q  [angle, length] @param {number} i @param {boolean} back */
+    const quillAt = (q, i, back) => {
+      const [a, len] = q, t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t);
+      const bx = 16 + dx * 8.5, by = my + 1 + dy * 4.5;
+      const l = back ? len : len * 0.72, sway = back ? 0 : (i % 2 ? 0.1 : -0.1);
+      const ex = bx + (dx + sway) * l, ey = by + dy * l, f = bristle ? 0.8 : 0.84, mx = bx + (dx + sway) * l * f, mY = by + dy * l * f;
+      return [limb(bx, by, mx, mY, back ? 1 : 0.9, 0.5, back ? quill : '#3e3440'), limb(mx, mY, ex, ey, 0.5, 0.3, tip)];
+    };
+    /** @type {object[]} */
+    const out = [
+      // the long quills behind, the shorter row in front of them
+      ...rake.flatMap((q, i) => quillAt(q, i, true)),
+      ...rake.filter((_, i) => i % 2).map(([a, l]) => [a + (bristle ? 6 : 7), l]).flatMap((q, i) => quillAt(q, i, false)),
+      // the hind legs, stubby and set wide
+      ...both(limb(8, 24, 7, 29.5, 2.1, 1.9, dark)), ...both(ball(7, 30.3, 2.3, 1, '#221a18')),
+      // the body under its mantle
+      ball(16, 22, 10.5, 6.8, hide),
+      ball(16, my + 1.5, 10.8, 5.6, mantle),
+      // quills laid over the mantle in rows, pointing back and up
+      ...[0, 1, 2].flatMap(row => Array.from({ length: 9 - row }, (_, i) => {
+        const x = 7.5 + i * 2 + row + ((i * 7 + row * 3) % 5 - 2) * 0.25, y = my + 5.5 - row * 2 + (i % 3) * 0.4, lean = (x - 16) * 0.3;
+        const up = (bristle ? 4.5 : 3.2) + (i + row) % 3 * 0.6;
+        return limb(x, y, x + lean, y - up, 0.7, 0.35, (i + row) % 2 ? '#241e28' : '#3e3642');
+      })),
+      // forelegs, short and thick, braced out when it lowers its head
+      ...(gore
+        ? [...both(limb(11.5, 25, 10, 29.8, 2.3, 2, hide)), ...both(ball(9.8, 30.4, 2.4, 1, '#221a18'))]
+        : [...both(limb(12, 25, 11.5, 29.8, 2.2, 2, hide)), ...both(ball(11.3, 30.4, 2.3, 1, '#221a18'))]),
+      // small ears poking out of the quills
+      ...both(sheet([[11.5, hy - 2.5], [9, hy - 5.5], [13.5, hy - 3.8]], hide, { tilt: [-0.4, -0.2] })),
+      // the head, square on: a broad skull, a snout like a stopper
+      ball(16, hy, 5.4, 4, hide),
+      ball(16, hy - 2, 4.8, 1.4, '#4a3a2e'),
+      ball(16, hy + 3.2, 3, 2.1, snout),
+      ball(16, hy + 3, 2.2, 1.4, '#b08878'),
+      dots([[15, Math.round(hy) + 3], [17, Math.round(hy) + 3]], '#2a1614'),
+      // small, mean, red, sunk under the brow
+      dots([[13, Math.round(hy) - 1], [19, Math.round(hy) - 1]], '#ff3a1c'),
+      dots([[12, Math.round(hy) - 1], [20, Math.round(hy) - 1]], '#1c1010'),
+      // the mouth
+      hair(12.5, hy + 4.5, 19.5, hy + 4.5, '#2a1614'),
+    ];
+    // tusks up out of the corners of the mouth; brought forward to gore, they
+    // curve out wide and long
+    const tk = gore ? [[12.5, hy + 4.5, 8.5, hy + 1.5, 7.5, hy - 2.5]] : [[12.8, hy + 4.2, 10.8, hy + 2.5, 10.5, hy + 0.2]];
+    for (const [x1, y1, x2, y2, x3, y3] of tk) {
+      out.push(...both(limb(x1, y1, x2, y2, gore ? 1.1 : 0.9, gore ? 0.8 : 0.7, tusk)), ...both(limb(x2, y2, x3, y3, gore ? 0.8 : 0.7, 0.4, tusk)));
+    }
+    return out;
+  },
+
+  // A young drake of the deep, wingless and heavy, low on splayed forelegs:
+  // rust-red scales, a paler belly, a horned head on a thick neck. Rearing
+  // up to breathe, its jaws gape and fire gathers in the throat; drawing
+  // back to bite, the neck coils and the jaws part.
+  wyrm: (pose = 'idle') => {
+    const hide = '#8a3622', dark = '#5a2016', scale = '#a44428', belly = '#c8966a', horn = '#dccaa0', claw = '#efe4c8';
+    const rear = pose === 'special', coil = pose === 'windup';
+    const hx = coil ? 15 : 16, hy = rear ? 6.5 : coil ? 13.5 : 11.5;    // the head
+    const cy = rear ? -1.5 : coil ? -1 : 0;                                // how high the shoulders ride
+    /** @type {object[]} */
+    const out = [
+      // the tail, round the front of it on the floor
+      limb(22, 25, 27.5, 28, 3, 2.3, dark), limb(27.5, 28, 30, 25, 2.3, 1.3, dark), limb(30, 25, 29.5, 22, 1.3, 0.6, dark),
+      // the hind feet, planted behind
+      ...both(limb(9.5, 24, 9, 29.5, 2.4, 2, dark)), ...both(ball(9, 30.2, 2.6, 1.1, dark)),
+      // a ridge of spines down the back, over the shoulders behind the neck
+      ...[[-155, 2.8], [-135, 3.6], [-115, 4.2], [-65, 4.2], [-45, 3.6], [-25, 2.8]].map(([a, h]) => {
+        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), bx = 16 + dx * 8.5, by = 20 + cy + dy * 4.5;
+        return sheet([[bx - dy * 1.3, by + dx * 1.3], [bx + dx * h, by + dy * h], [bx + dy * 1.3, by - dx * 1.3]], horn, { tilt: [dx * 0.5, dy * 0.5] });
+      }),
+      // the great barrel of the body, low to the floor
+      ball(16, 22 + cy * 0.5, 11, 6.3, hide),
+    ];
+    // the forelegs, splayed wide like a lizard's, or lifted, claws out, as it rears
+    if (rear) {
+      out.push(
+        ...both(ball(7, 19.5 + cy, 3.6, 3.3, scale)),
+        ...both(limb(7, 19.5 + cy, 3, 15.5, 3, 2.3, scale)), ...both(limb(3, 15.5, 4.5, 11, 2.3, 1.8, scale)),
+        ...both(ball(4.5, 10.5, 2.2, 1.8, dark)),
+        ...both(limb(3.6, 9.6, 2.6, 8, 0.7, 0.3, claw)), ...both(limb(4.8, 9.2, 4.9, 7.6, 0.7, 0.3, claw)), ...both(limb(5.9, 9.6, 6.9, 8.3, 0.7, 0.3, claw)),
+      );
+    } else {
+      const w = coil ? 0.8 : 0;    // braced wider for the bite
+      out.push(
+        ...both(ball(7 - w * 0.5, 20.5 + cy, 3.8, 3.4, scale)),
+        ...both(limb(7 - w * 0.5, 20.5 + cy, 3 - w, 24.5, 3, 2.4, scale)), ...both(limb(3 - w, 24.5, 4.8 - w, 29, 2.4, 2, scale)),
+        ...both(ball(4.8 - w, 29.8, 2.9, 1.4, dark)),
+        ...both(limb(3.3 - w, 30, 1.8 - w, 31.2, 0.6, 0.35, claw)), ...both(limb(4.8 - w, 30.3, 4.8 - w, 31.5, 0.6, 0.35, claw)), ...both(limb(6.3 - w, 30, 7.6 - w, 31.2, 0.6, 0.35, claw)),
+      );
+    }
+    // the pale chest, and the neck up out of it: coiled back on itself to strike
+    out.push(ball(16, 24.5 + cy * 0.5, 5.6, 4, belly));
+    if (coil) {
+      out.push(limb(16, 21, 18.5, 17.5, 4.6, 4, hide), limb(18.5, 17.5, hx, hy + 2, 4, 3.6, hide));
+    } else {
+      out.push(limb(16, 21 + cy, hx, hy + 2, 4.6, 3.8, hide));
+      if (rear) out.push(limb(16, 22 + cy, hx, hy + 5, 1.9, 1.5, '#e8904a'));
+    }
+    // the horns, swept back and up, and a spur at each hinge of the jaw
+    out.push(
+      ...[1, -1].flatMap(s => [
+        limb(hx - s * 3.8, hy - 1.8, hx - s * 7.5, hy - 4.8, 1.3, 0.9, horn), limb(hx - s * 7.5, hy - 4.8, hx - s * 10, hy - 5.8, 0.9, 0.4, horn),
+        limb(hx - s * 1.8, hy - 2.6, hx - s * 3.2, hy - 6.2, 0.9, 0.4, horn),
+        limb(hx - s * 4.5, hy + 1, hx - s * 8, hy + (rear ? -0.5 : 0.8), 0.9, 0.4, horn),
+      ]),
+      ball(hx, hy, 5.2, 3.4, hide),
+    );
+    const ex = Math.round(hx), ey = Math.round(hy) - 1;
+    if (rear) {
+      // the jaws wide, the throat a furnace
+      out.push(
+        ball(hx, hy + 5, 4.2, 3.8, '#5a1a10'),
+        sheet(oval(hx, hy + 5, 3.3, 3), '#e8641a', { tilt: [-0.4, -0.6] }),
+        // the fire itself is not lit by anything: it is the light
+        dots([[ex - 2, ey + 5], [ex - 1, ey + 5], [ex, ey + 5], [ex + 1, ey + 5], [ex + 2, ey + 5], [ex - 2, ey + 6], [ex - 1, ey + 6], [ex, ey + 6], [ex + 1, ey + 6], [ex + 2, ey + 6],
+          [ex - 1, ey + 4], [ex, ey + 4], [ex + 1, ey + 4], [ex - 1, ey + 7], [ex, ey + 7], [ex + 1, ey + 7]], '#ffb030'),
+        dots([[ex - 1, ey + 5], [ex, ey + 5], [ex + 1, ey + 5], [ex - 1, ey + 6], [ex, ey + 6], [ex + 1, ey + 6]], '#ffe070'),
+        dots([[ex, ey + 5], [ex, ey + 6]], '#fff8d8'),
+        limb(hx, hy + 0.5, hx, hy + 1.8, 3.8, 3.4, scale),
+        ...[-1, 1].map(s => ball(hx + s * 1.6, hy + 1.8, 1.1, 0.9, scale)),
+        ball(hx, hy + 9.2, 3.4, 1.2, scale),
+        dots([[ex - 3, ey + 5], [ex + 3, ey + 5], [ex - 3, ey + 7], [ex + 3, ey + 7], [ex - 2, ey + 9], [ex + 2, ey + 9]], '#f4ecd4'),
+        dots([[ex - 3, ey], [ex - 2, ey], [ex + 2, ey], [ex + 3, ey]], '#ffd040'), dots([[ex - 2, ey], [ex + 2, ey]], '#fff8c0'),
+      );
+    } else {
+      const o = coil ? 1.4 : 0;    // how far the jaws part
+      out.push(
+        ball(hx, hy + 5.4 + o, 3.8, 1.3, dark),
+        ...(coil ? [sheet([[hx - 3.2, hy + 4], [hx + 3.2, hy + 4], [hx + 2.6, hy + 6.4], [hx - 2.6, hy + 6.4]], '#3a0e0a')] : []),
+        limb(hx, hy + 0.5, hx, hy + 4.4, 3.8, 2.6, scale),
+        ...[-1, 1].map(s => ball(hx + s * 1.3, hy + 4.4, 1, 0.8, scale)),
+        dots([[ex - 1, ey + 5], [ex + 1, ey + 5]], '#1a0806'),
+        dots(coil ? [[ex - 3, ey + 6], [ex + 3, ey + 6], [ex - 2, ey + 8], [ex + 2, ey + 8]] : [[ex - 3, ey + 5], [ex + 3, ey + 5], [ex - 2, ey + 6], [ex + 2, ey + 6]], '#f4ecd4'),
+        dots([[ex - 3, ey], [ex - 2, ey], [ex + 2, ey], [ex + 3, ey]], '#ffb020'), dots([[ex - 2, ey], [ex + 2, ey]], '#2a0c04'),
+      );
+    }
+    // the brow ridges over the eyes, drawn down in anger
+    out.push(limb(hx - 5.2, ey - 1.5, hx - 1.2, ey - 0.2 + (coil ? 0.6 : 0), 0.9, 0.6, dark), limb(hx + 5.2, ey - 1.5, hx + 1.2, ey - 0.2 + (coil ? 0.6 : 0), 0.9, 0.6, dark));
+    for (const q of out) Object.assign(q, { smooth: 1 });
+    return out;
+  },
 };
 
 // Hand-drawn detail laid over each monster on the fine grid, half a unit to
@@ -1078,6 +1360,83 @@ const DETAILS = {
     hair(14.5, 9.5, 15.5, 10, '#4a8034'), hair(17.5, 9.5, 16.5, 10, '#4a8034'),
     ...both(specks([[10, 30.5], [11, 30.5], [12, 30.5]], '#2a2018')),
   ],
+
+  hound: (pose = 'idle') => {
+    const hy = pose === 'windup' ? 15 : 11.5, px = pose === 'windup' ? 10.6 : 12.2;
+    // going, it is only light at the edges where the world closes over it
+    if (pose === 'special') {
+      return [
+        hair(4.5, 12, 4.5, 16, '#e8e0ff'), hair(26.5, 18, 26.5, 23, '#e8e0ff'), hair(6, 26, 6, 29, '#c8b8ff'), hair(25, 8, 25, 11, '#c8b8ff'),
+        specks([[3.5, 18], [5, 21.5], [27.5, 15], [26, 26], [15, 2.5], [9.5, 4.5], [22, 5]], '#f4f0ff'),
+        specks([[14.5, hy - 1.5], [17, hy - 1.5]], '#ffffff'),
+      ];
+    }
+    return [
+      // ribs showing down each side of the barrel
+      ...both(hair(9.5, 16.5, 11, 17, '#4a4e5a')), ...both(hair(9.5, 18, 11, 18.5, '#4a4e5a')), ...both(hair(10, 19.5, 11, 20, '#4a4e5a')),
+      ...both(hair(9.5, 17, 10.5, 17.5, '#9a9eaa')), ...both(hair(9.5, 18.5, 10.5, 19, '#9a9eaa')),
+      // rough fur down the chest, and the breastbone
+      hair(15.5, 17, 15.5, 21, '#7c808a'), hair(14.5, 18, 14, 20, '#a4a8b2'), hair(16.5, 18, 17, 20, '#a4a8b2'),
+      // claws
+      ...both(specks([[px - 1, 31], [px, 31], [px + 1, 31]], '#d8d4c8')),
+      // the tear at its flanks: a flicker of violet-white where it slips
+      hair(8, 14, 8, 16.5, '#e4dcff'), hair(23.5, 18, 23.5, 20, '#e4dcff'), hair(6.5, 22, 6.5, 23.5, '#b8a0ff'),
+      specks([[5.5, 15], [26, 17.5], [25.5, 12]], '#a88cff'),
+      // a torn ear, whiskers, and a wet glint on the nose
+      specks([[12, hy - 6], [12.5, hy - 5.5]], '#1c1c24'),
+      specks([[14, hy + 3.5], [17.5, hy + 3.5]], '#b8bcc4'),
+      specks([[15.5, hy + 4]], '#8a8e9a'),
+    ];
+  },
+
+  quillback: (pose = 'idle') => {
+    const hy = pose === 'windup' ? 24 : 21.5, my = pose === 'windup' ? 16.5 : 18;
+    return [
+      // the laid quills of the mantle, and the bands on them
+      hair(9, my + 2, 11, my - 1.5, '#4e4450'), hair(13, my + 1, 14, my - 2.5, '#4e4450'), hair(18, my + 1, 17, my - 2.5, '#4e4450'),
+      hair(22.5, my + 2, 20.5, my - 1.5, '#4e4450'), hair(6.5, my + 4, 8, my + 1, '#4e4450'), hair(25, my + 4, 23.5, my + 1, '#4e4450'),
+      specks([[11, my - 1], [15, my - 2.5], [16.5, my - 2], [20.5, my - 1.5], [8, my + 1.5], [23.5, my + 1.5]], '#8a7e6a'),
+      // bristles on the snout, a scar across the brow, split hooves
+      specks([[14.5, hy + 2], [17.5, hy + 2], [16, hy + 1.5]], '#6a5040'),
+      hair(13.5, hy - 2.5, 15.5, hy - 1, '#7a6250'),
+      ...both(specks([[7, 30.5], [7, 31]], '#5a4838')),
+      ...both(specks([[11.5, 30.5], [11.5, 31]], '#5a4838')),
+      // spit at the tusks
+      specks([[12.5, hy + 5.5], [19.5, hy + 5]], '#c8d0d8'),
+    ];
+  },
+
+  wyrm: (pose = 'idle') => {
+    const rear = pose === 'special', coil = pose === 'windup';
+    const hx = coil ? 15 : 16, hy = rear ? 6.5 : coil ? 13.5 : 11.5, cy = rear ? -1.5 : coil ? -1 : 0;
+    /** @type {object[]} */
+    const out = [
+      // scales over the shoulders in rows, each a small arc
+      ...[[6, 18.5], [8, 18.5], [7, 20], [5, 20], [9, 21.5], [11.5, 18], [25, 18.5], [23, 18.5], [24, 20], [26, 20], [22, 21.5], [20.5, 18]]
+        .flatMap(([x, y]) => [hair(x - 0.75, y + cy, x, y + 0.5 + cy, '#5a2016'), hair(x, y + 0.5 + cy, x + 0.75, y + cy, '#5a2016')]),
+      // plates across the chest
+      hair(12.5, 23 + cy * 0.5, 19.5, 23 + cy * 0.5, '#a8784c'), hair(11.5, 25 + cy * 0.5, 20.5, 25 + cy * 0.5, '#a8784c'), hair(12.5, 27 + cy * 0.5, 19.5, 27 + cy * 0.5, '#a8784c'),
+      // rings on the horns, scales on the brow
+      specks([[hx - 5.5, hy - 3.5], [hx - 8.5, hy - 5.5], [hx + 6, hy - 3.5], [hx + 9, hy - 5.5]], '#a8987a'),
+      specks([[hx - 1.5, hy - 2.5], [hx, hy - 3], [hx + 1.5, hy - 2.5]], '#c05a36'),
+      // rings down the tail
+      hair(25, 25.5, 24, 28.5, '#3a140c'), hair(28, 26, 26.5, 29, '#3a140c'),
+    ];
+    if (rear) {
+      // embers rising off the jaws, the throat glowing through its plates
+      out.push(specks([[hx - 4, hy - 1], [hx + 4.5, hy - 2], [hx - 2, hy - 4], [hx + 2.5, hy - 5], [hx - 5.5, hy + 3], [hx + 6, hy + 2.5]], '#ffd060'),
+        specks([[hx - 1, hy - 6.5], [hx + 3.5, hy - 8]], '#ff8a20'),
+        hair(14.5, 13, 17.5, 13, '#ffd070'), hair(14.5, 15, 17.5, 15, '#ffb040'), hair(14.5, 17, 17.5, 17, '#ff9030'));
+    } else {
+      // scales in rows down the front of the neck
+      const nk = coil ? [[17.5, 18.5], [17.5, 20]] : [[16, 17], [16, 18.5], [16, 20]];
+      out.push(...nk.flatMap(([x, y]) => [hair(x - 2.5, y, x, y + 0.5, '#5a2016'), hair(x, y + 0.5, x + 2.5, y, '#5a2016')]),
+        // a curl of smoke from each nostril, and an old claw scar across the snout
+        specks([[hx - 3, hy + 4.5], [hx - 3.5, hy + 4], [hx + 3.5, hy + 4.5], [hx + 4, hy + 4]], '#8a8078'),
+        hair(hx + 1, hy + 0.5, hx + 2.5, hy + 3, '#c86a44'));
+    }
+    return out;
+  },
 };
 for (const k in DETAILS) {
   const base = CREATURES[k];
@@ -1088,7 +1447,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'] };
+const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.

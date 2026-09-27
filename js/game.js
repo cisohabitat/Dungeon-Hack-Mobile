@@ -1815,7 +1815,7 @@ const Game = (() => {
   // keeps the hero on their feet. The trick's own answer (step aside, turn
   // away) still escapes it whole: the save is for when that fails. All grow
   // harder with depth, as venom does.
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
@@ -3973,6 +3973,7 @@ const Game = (() => {
     get cap() { return cap; },
     get cls() { return cls; },
     get damageMonster() { return damageMonster; },
+    get castingName() { return castingName; },
     get assassinQuiet() { return assassinQuiet; },
     get elemental() { return elemental; },
     get followBlow() { return followBlow; },

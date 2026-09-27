@@ -2695,6 +2695,100 @@ await test('stepping up to a basilisk does not beat its gaze, and one beside you
   return out.length ? out.join('; ') : true;
 });
 
+// ---------- the deep floors' own ----------
+/** Let a monster beside the hero act until it begins the named trick. */
+function untilTrick(ctx, m, mv) {
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  for (let i = 0; i < 800; i++) {
+    Game.update(G.t + 25, 25);
+    if (m.windup && m.windup.move === mv) return true;
+    p.hp = p.maxHp; p.held = 0;
+  }
+  return false;
+}
+
+await test('a blink hound steps back into the world at your back: turned to face it, it is caught open; not, it bites deep', async () => {
+  const out = [];
+  for (const turn of [false, true]) {
+    const ctx = await start('fighter', 'blink' + turn);
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    clearBehind(ctx);
+    const m = beside(ctx, 'hound', { blows: 1 });
+    if (!untilTrick(ctx, m, 'blink')) return 'the hound never blinked';
+    const [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4];
+    if (m.x !== p.x + bx || m.y !== p.y + by) { out.push(`it came back at ${m.x},${m.y}, not at the hero's back`); continue; }
+    if (turn) { Game.input('left'); Game.update(G.t + 250, 250); Game.input('left'); }
+    const hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 950);
+    const said = linesSince(G, mark).join(' | ');
+    if (turn) {
+      if (p.hp < hp0) out.push(`faced it and was still bitten: ${said}`);
+      if (!p.opening || p.opening.uid !== m.uid) out.push(`facing it left no opening: ${said}`);
+    } else if (!(p.hp < hp0) || !/into your back/.test(said)) out.push(`left at its back, it did not bite: ${said}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a quillback\'s raised quills bite a hand that strikes it; one who holds their blow finds it open', async () => {
+  const out = [];
+  // strike into the quills (a blow can miss: try the whole thing again)
+  let struck = false;
+  for (let tries = 0; tries < 8 && !struck; tries++) {
+    const ctx = await start('fighter', 'quills' + tries);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.str = 30;
+    const m = beside(ctx, 'quillback', { blows: 1 });
+    if (!untilTrick(ctx, m, 'bristle')) return 'the quillback never raised its quills';
+    const hp0 = p.hp, mark = markLog(G);
+    p.nextAttack = 0; Game.input('attack');
+    const said = linesSince(G, mark).join(' | ');
+    if (!/You hit|mighty blow/.test(said)) continue;
+    struck = true;
+    if (!(p.hp < hp0) || !/quills/.test(said)) out.push(`a blow into the raised quills cost nothing: ${said}`);
+    run(Game, G, 1500);
+    if (p.opening && p.opening.uid === m.uid) out.push('striking into the quills still left it open');
+  }
+  if (!struck) out.push('no blow landed in eight tries');
+  {
+    const ctx = await start('fighter', 'quills-hold');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, 'quillback', { blows: 1 });
+    if (!untilTrick(ctx, m, 'bristle')) return 'the quillback never raised its quills';
+    const hp0 = p.hp;
+    run(Game, G, 1500);
+    if (p.hp < hp0) out.push('holding the blow still cost hit points');
+    if (!p.opening || p.opening.uid !== m.uid) out.push('holding the blow left no opening');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a cave wyrm\'s fire runs down its line: under its jaws or out of the line it misses and leaves it open; a step back does not', async () => {
+  const out = [];
+  for (const how of ['stay', 'back', 'close', 'aside']) {
+    const ctx = await start('fighter', 'breath-' + how);
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, 'wyrm', 2, { hp: 999, maxHp: 999 });
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    m.windup = { kind: 'move', move: 'breath', at: G.t, until: G.t + 1000, dx: -fx, dy: -fy }; m.nextAct = m.windup.until;
+    if (how === 'back') shift(ctx, 'back');
+    if (how === 'aside') shift(ctx, 'aside');
+    if (how === 'close') { p.x += fx; p.y += fy; }
+    const hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 1100);
+    const said = linesSince(G, mark).join(' | ');
+    const burned = p.hp < hp0;
+    if (how === 'stay' || how === 'back') { if (!burned) out.push(`${how === 'back' ? 'a step back' : 'standing in its line'} escaped the fire: ${said}`); }
+    else {
+      if (burned) out.push(`${how === 'close' ? 'under its jaws' : 'out of its line'}, still burned: ${said}`);
+      if (!p.opening || p.opening.uid !== m.uid) out.push(`${how}: no opening`);
+    }
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('rust passes over armour already rusted through to the shield; a rest\'s ambush comes from the floor\'s own stretched tiers', async () => {
   const ctx = await start('fighter', 'rust-on');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
