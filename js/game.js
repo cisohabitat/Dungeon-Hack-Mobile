@@ -754,8 +754,8 @@ const Game = (() => {
   function shadeStats(b, sh) {
     const d = Math.max(1, Math.min(12, sh.tier || sh.depth || 1)), w = SHADE_WAYS[sh.cls] || {};
     return {
-      ...b, name: `Shade of ${sh.name}`, ac: Math.min(19, 12 + Math.floor(d / 2) + (w.ac || 0)), hit: 1 + d,
-      dmg: [1, w.dmg || 8, 1 + Math.floor(d / 2)], speed: w.speed || b.speed, xp: 40 + 30 * d,
+      ...b, name: `Shade of ${sh.name}`, ac: Math.min(19, 12 + Math.floor(d / 2) + (w.ac || 0)), hit: 1 + Math.round(d),
+      dmg: [1, w.dmg || 8, 1 + Math.floor(d / 2)], speed: w.speed || b.speed, xp: Math.round(40 + 30 * d),
       ...(w.move ? { move: w.move } : {}), ...(w.lunge ? { lunge: w.lunge } : {}),
       ...(w.ranged ? { ranged: { range: 5, dmg: [2, 6, Math.floor(d / 2)], verb: w.ranged, ...(w.element ? { element: w.element } : {}) } } : {}),
     };
@@ -1980,7 +1980,8 @@ const Game = (() => {
     if (!c) return null;
     if (c.goldPerDepth) return { gold: c.goldPerDepth * G.depth, text: `${c.goldPerDepth * G.depth} gold` };
     if (c.hurtFrac) { const n = Math.ceil(P().maxHp * c.hurtFrac); return { hp: n, text: `${n} hit points` }; }
-    if (c.food) return { food: c.food, text: `${c.food} nourishment` };
+    // a meal from the pack if there is one (a hero carrying rations is not too poor to share)
+    if (c.food) { const meal = P().inv.find(it => ITEMS[it.t].kind === 'food'); return meal ? { meal, text: `a ${ITEMS[meal.t].name.toLowerCase()} from your pack` } : { food: c.food, text: `${c.food} nourishment` }; }
     return null;
   }
   /** What each choice will ask of you, and how likely it is to go well. */
@@ -2015,6 +2016,7 @@ const Game = (() => {
     if (cost && cost.gold) { p.gold -= cost.gold; lines.push(`−${cost.gold} gold`); }
     if (cost && cost.hp) { p.hp -= cost.hp; fx.damageUntil = realNow + 260; lines.push(`−${cost.hp} hit points`); }
     if (cost && cost.food) { p.food -= cost.food; lines.push(`−${cost.food} nourishment`); }
+    if (cost && cost.meal) { removeOne(cost.meal); emit('inv'); lines.push(`−1 ${ITEMS[cost.meal.t].name.toLowerCase()}`); }
     let c = null, outcome = ch.outcome;
     if (ch.check) {
       c = statCheck(ch.check.stat, encounterDc(ch.check, G.depth), knack(ch.check));
@@ -2483,8 +2485,10 @@ const Game = (() => {
     p.kills++;
     noteKill(m);
     // the two halves of a split slime are worth one slime between them
-    const xp = m.split ? Math.ceil(mb.xp / 2) : mb.xp;
-    p.xp += xp;
+    // (whole numbers: a shade's tier can be a fraction on a short delve, and its
+    // experience once ran to fourteen places, and the score after it)
+    const xp = Math.round(m.split ? Math.ceil(mb.xp / 2) : mb.xp);
+    p.xp = Math.round(p.xp + xp);
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
     // (a spell, cast: the fire scroll's blast names itself 'fireball' but is no spell)
@@ -2741,7 +2745,7 @@ const Game = (() => {
     // the dead are past hurting: a second blow in the same swing (quills bite
     // the off hand's blow too) would tell the death twice
     if (G.status !== 'playing') return;
-    noteTaken(dmg, from);
+    noteTaken(dmg, from, cause);
     const p = P();
     p.hp -= dmg;
     p.lastHurt = G.t;
@@ -2971,11 +2975,11 @@ const Game = (() => {
     s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
   }
   /** Damage the hero took, from a monster or from anything else. */
-  function noteTaken(dmg, from) {
+  function noteTaken(dmg, from, cause) {
     const s = runStats();
     s.taken += dmg;
     s.hurtOn[G.depth] = (s.hurtOn[G.depth] || 0) + dmg;
-    if (!s.worst || dmg > s.worst.dmg) s.worst = { dmg, from: from ? mstat(from).name : '', id: from ? from.id : '', depth: G.depth };
+    if (!s.worst || dmg > s.worst.dmg) s.worst = { dmg, from: from ? mstat(from).name : '', id: from ? from.id : '', cause: from ? '' : cause || '', depth: G.depth };
   }
   function noteKill(m) { const k = runStats().kills; k[m.id] = (k[m.id] || 0) + 1; }
   function noteSpell(sp) { const c = runStats().spells; c[sp.id] = (c[sp.id] || 0) + 1; }
@@ -3926,6 +3930,7 @@ const Game = (() => {
       encounter = null;
       G.status = 'playing';
       G.forkPending = false;   // saved with the divided stair's question open: it is asked again at the stair
+      G.player.xp = Math.round(G.player.xp || 0);   // a shade's fraction of a point, from before it was rounded
       for (const dpt in G.levels) {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];

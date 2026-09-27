@@ -510,8 +510,9 @@ const UI = (() => {
     pendingKind = kind;
     const saved = Game.saveSummary();
     if (!saved) { startPending(); return; }
+    // today's Daily is one try: replacing that hero spends it, so say so
     $('#confirm-who').textContent =
-      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.`;
+      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily ? ' This is today\'s Daily Delve, your one try at it: a new hero ends it unfinished.' : ''}`;
     showScreen('screen-confirm');
   }
   function showPrologue(cfg) {
@@ -1303,7 +1304,9 @@ const UI = (() => {
       const same = worn && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
       // other gear of the same kind is measured against what is worn, by the Pack's own sums
       const vs = worn && worn.t === it.t ? '' : bk === 'weapon' || bk === 'armor' || bk === 'shield' ? compareText(it, ITEMS[it.t]).replace(/<[^>]+>/g, '') : '';
-      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (vs ? ` · ${vs}` : '') + (it.q > 1 ? ` · ${it.q} in stock` : '');
+      // gear the hero's class can never use says so, where the comparison would be
+      const cant = bk === 'weapon' || bk === 'armor' || bk === 'shield' ? Game.canEquip(it) : '';
+      const note = (Game.isKnown(it.t) ? itemBlurb(it) : 'Unknown until bought: the trader names it when you pay') + same + (vs ? ` · ${vs}` : '') + (cant ? ` · ${cant}` : '') + (it.q > 1 ? ` · ${it.q} in stock` : '');
       stock.appendChild(shopRow(it, price, 'Buy', p.gold >= price, () => Game.buy(it), note, { one: true }));
     }
     // what the trader will do for coin besides trade
@@ -2190,7 +2193,8 @@ const UI = (() => {
 
   // ---------- end screens ----------
   // The run told back: a few lines in the log's voice, then pictures and names, numbers last.
-  const aName = (id, name) => MONSTERS[id] && (MONSTERS[id].boss || MONSTERS[id].named) ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+  // (a common kind in lower case, as the line about what killed you has it: "a green slime")
+  const aName = (id, name) => MONSTERS[id] && (MONSTERS[id].boss || MONSTERS[id].named || MONSTERS[id].shade) ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name.toLowerCase()}`;
   /** "Grisk, the Goblin King": a named champion by its own name. */
   const namedTitle = id => `${MONSTERS[id].named.called}, the ${MONSTERS[id].name}`;
   /** A few lines about the run, the notable parts only, in the log's voice. */
@@ -2200,7 +2204,7 @@ const UI = (() => {
     if (b) out.push(`Your best blow: <b>${b.dmg}</b> to ${escapeHtml(aName(b.id, b.to))}, with ${escapeHtml(b.how)}.`);
     else out.push('You never landed a blow.');
     const w = s.worst;
-    if (w) out.push(w.from ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : `The hardest hit you took: <b>${w.dmg}</b>, and no monster dealt it.`);
+    if (w) out.push(w.from ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : (w.cause ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(w.cause)}.` : `The hardest hit you took: <b>${w.dmg}</b>, and no monster dealt it.`));
     else out.push('Nothing so much as scratched you.');
     // the named champions cut down are told by name
     const named = Object.keys(s.kills).filter(id => MONSTERS[id] && MONSTERS[id].named);

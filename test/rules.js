@@ -8759,6 +8759,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const ctx = await start('fighter', seed, { levels: 6, ...opts });
     const { Game } = ctx; const p = Game.player();
     p.hp = p.maxHp = 9999; p.food = 100;
+    ctx.mealsBefore = p.inv.filter(it => it.t === 'ration' || it.t === 'bread' || it.t === 'meat').reduce((a, it) => a + (it.q || 1), 0);
     meetAndChoose(ctx, 'stray', 0); Game.closeEncounter();
     return ctx;
   };
@@ -8774,7 +8775,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const { Game } = ctx; const p = Game.player(), G = Game.state();
     const c = Game.companion();
     if (!c || c.fallen || c.mode !== 'follow' || !c.name) return `no hound followed: ${JSON.stringify(c)}`;
-    if (p.food !== 75) return `feeding it cost ${100 - p.food} nourishment, not 25`;
+    // a meal from the pack pays for it (a fighter sets out with rations)
+    const meals = p.inv.filter(it => it.t === 'ration' || it.t === 'bread' || it.t === 'meat').reduce((a, it) => a + (it.q || 1), 0);
+    if (ctx.mealsBefore && meals !== ctx.mealsBefore - 1) return `feeding it took ${ctx.mealsBefore - meals} meals from the pack, not one`;
+    if (!ctx.mealsBefore && p.food !== 75) return `feeding it cost ${100 - p.food} nourishment, not 25`;
     if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) !== 1) return 'it did not start beside the hero';
     clearAround(ctx, 6);
     // walk four squares; it keeps up
@@ -9028,6 +9032,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const b = await start('fighter', 'hound-hungry', { levels: 6 });
       const p = b.Game.player(), L = b.Game.level(), [dx, dy] = b.Dungeon.DIRS[p.dir];
       p.food = 10;
+      // nothing in the pack to give, either
+      const packed = p.inv.filter(it => ['ration', 'bread', 'meat'].includes(it.t));
+      p.inv = p.inv.filter(it => !['ration', 'bread', 'meat'].includes(it.t));
       L.tiles[(p.y + dy) * L.w + p.x + dx] = b.Dungeon.T.FLOOR; L.monsters.length = 0;
       L.npcs = [{ id: 'stray', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
       b.Game.input('use');
@@ -9039,6 +9046,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       // nor the last of it
       p.food = 25;
       if (!b.Game.encounterOptions()[0].blocked) out.push('a hero with exactly 25 food could share it all and starve');
+      // but a ration in the pack will do
+      p.inv.push(...packed.slice(0, 1));
+      if (packed.length && b.Game.encounterOptions()[0].blocked) out.push('a hero with a ration in the pack was too poor to share');
     }
     return out.length ? out.join('; ') : true;
   });
@@ -9204,6 +9214,30 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (G.status !== 'dead') out.push(`a dead hero took the Heart and the run became ${G.status}`);
       if (Game.hall().some(h => h.won)) out.push('the Hall recorded a win');
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a shade is worth a whole number of experience, and the hardest hit a trap dealt names the trap', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'whole-xp', { levels: 8 });
+    const { Game } = ctx; const G = Game.state(), p = Game.player();
+    p.hp = p.maxHp = 9999;
+    // a trap underfoot, stepped on until one bites (some can be dodged)
+    const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+    L.monsters.length = 0;
+    for (let i = 0; i < 40 && !(Game.runStats().worst); i++) {
+      const x0 = p.x, y0 = p.y;
+      L.tiles[(y0 + dy) * L.w + x0 + dx] = ctx.Dungeon.T.FLOOR;
+      L.traps[`${x0 + dx},${y0 + dy}`] = 'pit';
+      Game.input('forward'); run(Game, G, 400);
+      p.x = x0; p.y = y0;
+    }
+    const w = Game.runStats().worst;
+    if (!w) out.push('no trap ever hurt the hero');
+    else if (w.from || !/^a /.test(w.cause || '')) out.push(`the hardest hit was told as ${JSON.stringify(w)}`);
+    // an eight-floor delve's tiers are fractions; a shade's worth, and its aim, are not
+    const sh = Game.mstat({ id: 'shade', shade: { name: 'Old', cls: 'fighter', tier: 2.04, depth: 2 } });
+    if (!Number.isInteger(sh.xp) || !Number.isInteger(sh.hit)) out.push(`a shade was worth ${sh.xp} experience and hit at +${sh.hit}`);
     return out.length ? out.join('; ') : true;
   });
 

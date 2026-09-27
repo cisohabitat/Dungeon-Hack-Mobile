@@ -222,7 +222,7 @@
  * @property {number} taken    damage the hero took, from anything
  * @property {number} healed   hit points actually restored, not counting what overflowed
  * @property {{dmg: number, to: string, id: string, how: string, depth: number}|null} best  the hardest blow landed: on whom (to, a name; id, a MONSTERS key) and with what
- * @property {{dmg: number, from: string, id: string, depth: number}|null} worst  the hardest blow taken; from and id are '' when no monster struck it
+ * @property {{dmg: number, from: string, id: string, cause?: string, depth: number}|null} worst  the hardest blow taken; from and id are '' when no monster struck it, and cause says what did (a trap, poison, hunger)
  * @property {Object<string, number>} kills   by MONSTERS key
  * @property {Object<string, number>} spells  casts, by spell id
  * @property {Object<number, number>} hurtOn  damage taken, by floor

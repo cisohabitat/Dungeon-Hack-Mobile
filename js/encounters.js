@@ -249,7 +249,7 @@ const ENCOUNTERS = {
         pass: { text: 'You find the spring, wedge it, and lift the lid on a trap that will never fire.', effects: [{ loot: 1 }, { goldPerDepth: 10 }] },
         fail: { text: 'The wire goes taut under your fingers. The darts are quicker than you.', effects: [{ hurtFrac: 0.15 }, { poison: 1 }] } },
       { label: 'Work out where the darts will fly', check: { stat: 'int', dc: 12 },
-        pass: { text: 'You open it from the side with your blade tip. The darts rattle off the far wall.', effects: [{ loot: 1 }] },
+        pass: { text: 'You open it from the side, at arm\'s length. The darts rattle off the far wall.', effects: [{ loot: 1 }] },
         fail: { text: 'You were wrong about the side.', effects: [{ hurtFrac: 0.15 }] } },
       { label: 'Wrench it open and take the darts', check: { stat: 'con', dc: 14 },
         pass: { text: 'The darts hurt, and you do not care. Everything inside is yours.', effects: [{ loot: 2 }, { hurtFrac: 0.1 }] },

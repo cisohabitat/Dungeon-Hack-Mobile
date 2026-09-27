@@ -730,6 +730,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
    inside edge where the thumb rests, and sideways the whole panel moves left. */
 .lefty .controls { flex-direction: row-reverse; }
 .lefty .log-more { right: auto; left: 4px; }   /* kept clear of the pad, which has moved right */
+.lefty .log { padding-left: 68px; padding-right: 8px; }   /* the text keeps clear of the Log button, which moved with it */
 .lefty .actions { direction: rtl; }   /* mirrors the grid in every layout */
 .lefty .actions > * { direction: ltr; }
 @media (min-aspect-ratio: 5/4) and (min-width: 640px) {

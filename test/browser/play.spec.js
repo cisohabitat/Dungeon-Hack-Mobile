@@ -159,8 +159,8 @@ test.describe('core play', () => {
 
     const summary = page.locator('#end-summary');
     await expect(summary).toBeVisible();
-    await expect(summary).toContainText(new RegExp(`Your best blow: ${best.dmg} to an? ${best.to}, with the Long Sword`));
-    await expect(summary).toContainText(/hardest hit you took: \d+, from an Ogre/);
+    await expect(summary).toContainText(new RegExp(`Your best blow: ${best.dmg} to an? ${best.to.toLowerCase()}, with the Long Sword`));
+    await expect(summary).toContainText(/hardest hit you took: \d+, from an ogre/);
     // most killed first, each a picture with its count
     const kills = summary.locator('.end-kills .kill');
     await expect(kills).toHaveCount(2);

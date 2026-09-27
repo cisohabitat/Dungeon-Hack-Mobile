@@ -1206,6 +1206,9 @@ test.describe('dungeon features', () => {
     expect(s.attack).toBeLessThan(s.half);
     // Attack keeps to the inside edge, next to the pad
     expect(s.attack).toBeGreaterThan(s.use);
+    // the log's words keep clear of its button, which has moved to the left with it
+    const clear = await page.evaluate(() => { const b = document.querySelector('.log-more').getBoundingClientRect(), l = document.querySelector('#log'); return parseFloat(getComputedStyle(l).paddingLeft) + l.getBoundingClientRect().left - b.right; });
+    expect(clear).toBeGreaterThanOrEqual(0);
     // it holds after a reload, and sideways the whole panel moves to the left
     await page.setViewportSize({ width: 844, height: 390 });
     await page.reload();
