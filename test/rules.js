@@ -3475,6 +3475,104 @@ await test('the trader is one of the Lampfolk, said in full the first time; at a
   return Game.traderName() === 'Goblin pedlar' || `the market shop is headed ${Game.traderName()}`;
 });
 
+/** Stand in front of a fresh, empty-shelved trader and walk into it. */
+const shopAhead = ctx => {
+  const { Game, Dungeon } = ctx, p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+  L.monsters.length = 0; L.npcs.length = 0;
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+  L.npcs.push({ id: 'merchant', x: p.x + dx, y: p.y + dy, markup: 2, stock: [], greeted: false });
+  Game.update(Game.state().t + 400, 400);
+  Game.input('forward');
+  return !!Game.currentShop();
+};
+
+await test('one sworn to go unaided cannot drink the trader\'s tonic', async () => {
+  const ctx = await start('fighter', 'unaided-tonic');
+  const { Game } = ctx;
+  Game.state().opts.vows = ['unaided'];
+  if (!shopAhead(ctx)) return 'the shop did not open';
+  const t = Game.shopServices().find(x => x.id === 'tonic');
+  if (!t || !/unaided/.test(t.why || '')) return `the tonic is offered: ${t && (t.why || t.detail)}`;
+  const hp = Game.player().maxHp;
+  Game.player().gold = 9999;
+  Game.buyService('tonic');
+  return Game.player().maxHp === hp || 'the tonic was drunk anyway';
+});
+
+await test('the forge says a piece that kept its minus as a minus, never "+-1"', async () => {
+  const ctx = await start('fighter', 'temper-minus');
+  const { Game } = ctx;
+  if (!shopAhead(ctx)) return 'the shop did not open';
+  const p = Game.player();
+  p.eq.weapon = { t: 'longsword', q: 1, e: -2 };
+  const hone = Game.shopServices().find(x => x.id === 'hone');
+  if (!hone || /\+-|\+−/.test(hone.detail) || !/becomes −1/.test(hone.detail)) return `from −2 the forge offers: ${hone && hone.detail}`;
+  p.eq.weapon.e = -1;
+  const again = Game.shopServices().find(x => x.id === 'hone');
+  return /loses its −1/.test(again.detail) || `from −1 the forge offers: ${again.detail}`;
+});
+
+await test('a score raised by an encounter moves a caster\'s spell points at once, and a reload keeps them', async () => {
+  for (let t = 0; t < 30; t++) {
+    const ctx = await start('cleric', 'mirror-sp' + t);
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), L = Game.level();
+    p.stats.wis = 13; p.level = 4;
+    Game.save(true); Game.load();
+    const q = Game.player(), M = Game.level();
+    M.npcs.length = 0; M.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[q.dir];
+    M.tiles[(q.y + dy) * M.w + q.x + dx] = Dungeon.T.FLOOR;
+    M.npcs.push({ kind: 'encounter', id: 'mirror', x: q.x + dx, y: q.y + dy });
+    Game.input('forward');
+    const before = q.maxSp;
+    const r = Game.chooseEncounter(0);
+    // a d20 check fails on a one whatever the score: another hero tries
+    if (!r || !r.check || !r.check.pass || q.stats.wis !== 14) continue;
+    const now = q.maxSp;
+    if (now <= before) return `wisdom rose to 14 and the spell points stayed at ${now}`;
+    Game.closeEncounter(); Game.save(true); Game.load();
+    return Game.player().maxSp === now || `the spell points were ${now}, and ${Game.player().maxSp} after a reload`;
+  }
+  return 'no hero passed the mirror in thirty tries';
+});
+
+await test('a trickster finding gold in an encounter is told the sum the purse really gained', async () => {
+  for (let t = 0; t < 40; t++) {
+    const ctx = await start('thief', 'trick-gold' + t);
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), L = Game.level();
+    p.path = 'trickster'; for (const k in p.stats) p.stats[k] = 40;
+    L.npcs.length = 0; L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    L.npcs.push({ kind: 'encounter', id: 'wired', x: p.x + dx, y: p.y + dy });
+    Game.input('forward');
+    const g0 = p.gold;
+    const r = Game.chooseEncounter(1);
+    const line = r && r.check && r.check.pass && r.lines.find(l => /Gold ×\d+/.test(l));
+    if (!line) continue;
+    const said = Number(/Gold ×(\d+)/.exec(line)[1]);
+    return said === p.gold - g0 || `the card said ${said} gold and the purse gained ${p.gold - g0}`;
+  }
+  return 'no trickster found gold behind the wire in forty tries';
+});
+
+await test('a champion risen on a restless floor keeps a champion\'s life', async () => {
+  // seed rs4's second floor is restless, and an Ancient slime there rises as an
+  // Ancient zombie: it had the life of a plain zombie, within one roll of 4d8+2
+  const ctx = await start('fighter', 'rs4', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
+  const { Game, MONSTERS } = ctx;
+  while (Game.state().depth < 2) { Game.level().monsters.length = 0; Game.descend(); }
+  const L = Game.level();
+  if (L.twist !== 'restless') return `floor 2 of rs4 is ${L.twist || 'plain'} now: pick another seed`;
+  const risen = L.monsters.filter(m => m.elite && MONSTERS[m.id].undead && m.elite === 'Ancient');
+  if (!risen.length) return 'no Ancient rose on that floor: pick another seed';
+  const plainMost = b => b.hp[0] * b.hp[1] + b.hp[2] + 1;
+  const weak = risen.filter(m => m.maxHp <= plainMost(MONSTERS[m.id]));
+  return !weak.length || `an Ancient ${weak[0].id} rose with ${weak[0].maxHp} life, no more than a plain one`;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;

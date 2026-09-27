@@ -77,7 +77,8 @@ export function makeTrader(K) {
    */
   const TONIC_HP = 4;
   function tonic() {
-    const why = K.G.depth < 4 ? 'The trader keeps the deep tonic for deeper floors than this.' : shop.tonic ? 'You have drunk all the tonic this trader will sell you.' : null;
+    const why = vowed('unaided') ? 'You swore to go unaided: no draught passes your lips.'
+      : K.G.depth < 4 ? 'The trader keeps the deep tonic for deeper floors than this.' : shop.tonic ? 'You have drunk all the tonic this trader will sell you.' : null;
     return { id: 'tonic', label: 'Drink the trader\'s bitter tonic', detail: why || `${TONIC_HP} more maximum hit points, for good.`,
       price: Math.round((60 + 20 * K.G.depth) * (1 - charm())), why };
   }
@@ -136,7 +137,9 @@ export function makeTrader(K) {
       : it.h ? 'Have it appraised first: the trader will not work blind.'
       : it.curse ? 'The trader will not put a hammer to cursed metal.'
       : e >= TEMPER_MOST ? `${cap(the(it))} is as ${word.replace(/er$/, '')} as it will ever be.` : null;
-    return { id, label, detail: it && !why ? `${cap(the(it))} becomes +${e + 1}` : (why || ''),
+    // a piece that was cursed keeps its minus once the curse is off: said as a minus, not "+-1"
+    const n = e + 1, becomes = n > 0 ? `becomes +${n}` : n < 0 ? `becomes −${-n}` : 'loses its −1';
+    return { id, label, detail: it && !why ? `${cap(the(it))} ${becomes}` : (why || ''),
       price: Math.round((30 + 15 * K.G.depth) * step * step * (1 - charm())), why };
   }
   function buyService(id) {

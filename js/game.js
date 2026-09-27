@@ -1977,7 +1977,8 @@ const Game = (() => {
   // Carry out what an outcome says, and say back what happened, line by line.
   function applyEffects(effects, def) {
     const p = P(), L = lvl(), out = [];
-    const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); const name = itemName(it); pickupAll(); return name; };
+    // named after it is taken, so gold says what the purse really gained (a trickster's is a quarter more)
+    const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); pickupAll(); return itemName(it); };
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
@@ -2016,7 +2017,8 @@ const Game = (() => {
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
       if (e.identifyAll) { for (const id in ITEMS) G.known[id] = 1; revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
       if (e.uncurse && breakCurses()) out.push('Curse broken');
-      if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${STAT_WORD[e.stat[0]]}`); }
+      // (a caster's spell points follow the score at once, not only at the next load)
+      if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; refreshSp(p); out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${STAT_WORD[e.stat[0]]}`); }
       if (e.ambush) {
         let placed = 0;
         for (let r = 2; r <= 4 && placed < e.ambush.n; r++) {
@@ -3405,6 +3407,11 @@ const Game = (() => {
       m.id = rng.pick(pool);
       const nb = MONSTERS[m.id];
       m.maxHp = m.hp = rng.dice(nb.hp[0], nb.hp[1], nb.hp[2]) + Math.floor((depth - 1) / 2);
+      // a champion risen keeps what made it one: its life was multiplied once
+      // already, and rolling it again as a plain one left a weak champion that
+      // still paid out as a strong one
+      const el = m.elite && ELITES.find(x => x.prefix === m.elite);
+      if (el) m.maxHp = m.hp = Math.round(m.hp * el.hp);
     }
   }
   function hardenLevel(L, depth) {

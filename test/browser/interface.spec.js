@@ -579,6 +579,20 @@ test.describe('round five playtest', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the minimap steps down below a tip while one is up, and back after', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
+    await startGame(page, { seed: 'tip-map' });
+    await clearBoons(page);
+    await expect(page.locator('#tip.show')).toBeVisible();
+    const clear = () => page.evaluate(() => { const t = document.querySelector('#tip').getBoundingClientRect(), m = document.querySelector('#minimap').getBoundingClientRect(); return { tipUp: document.querySelector('#tip').classList.contains('show'), gap: m.top - t.bottom, top: m.top - document.querySelector('#view').getBoundingClientRect().top }; });
+    await expect.poll(async () => (await clear()).gap, { timeout: 3000 }).toBeGreaterThanOrEqual(0);
+    await page.locator('#tip.show').click();
+    await expect.poll(async () => (await clear()).top, { timeout: 3000 }).toBeLessThan(20);
+    expect(errors).toEqual([]);
+  });
+
   test('a tap on a tip puts it away, and does not act in the dungeon', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
@@ -631,7 +645,8 @@ test.describe('talents', () => {
     });
     expect(early).toBe(true);
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
-    // a mashed tap in the first moment
+    // a mashed tap in the first moment, on a card that is dimmed to show it is not ready
+    expect(Number(await page.evaluate(() => getComputedStyle(document.querySelector('#boon-list .boon')).opacity))).toBeLessThan(1);
     await page.evaluate(() => document.querySelector('#boon-list .boon').click());
     expect(await page.evaluate(() => !!Game.pendingBoons())).toBe(true);
     await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points/);

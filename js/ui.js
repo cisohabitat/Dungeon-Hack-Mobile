@@ -599,7 +599,7 @@ const UI = (() => {
     trade: 'A trader. Tap <b>Trade</b> to buy, sell, and use the forge: it sharpens a weapon or strengthens armour, and mends rust.',
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
     quickscroll: 'A scroll worth reading <b>now</b> waits at the left end of the log, under the view: <b>one tap</b> reads it.',
-    hurt: 'You are badly hurt. Drink a healing potion from the <b>Pack</b>, or <b>Rest</b> when nothing is near.',
+    hurt: 'You are badly hurt. Tap the <b>bottle</b> beside your life bar to drink a healing potion, or <b>Rest</b> when nothing is near.',
     shade: 'A <b>shade</b>: one of your own heroes, risen where they fell, and it fights as they did. Lay it to rest and what they wore is yours.',
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
@@ -1088,10 +1088,15 @@ const UI = (() => {
 
   // Small live automap in the corner of the view, 15x15 tiles around the player.
   let miniFaded = false;
+  let miniBelow = 0;
   function refreshMinimap(now) {
     if (now - miniAt < 120) return;
     miniAt = now;
     const c = $('#minimap');
+    // a tip across the top of the view would cover it: it steps down below the
+    // tip while one is up, and back when it goes
+    const tip = $('#tip'), below = tip && tip.classList.contains('show') ? tip.offsetTop + tip.offsetHeight + 4 : 0;
+    if (below !== miniBelow) { miniBelow = below; c.style.top = below ? below + 'px' : ''; }
     // it steps back, nearly out of sight, while a creature stands under it:
     // a health bar or a warning mark matters more than the map
     const vr = $('#view').getBoundingClientRect(), mr = c.getBoundingClientRect();
@@ -2181,7 +2186,9 @@ const UI = (() => {
     // a vow leaves the dungeon as it is, but it is half of what the run was
     for (const v of o.vows || []) if (VOWS[v]) ways.push(VOWS[v].name);
     const cls = CLASSES[p.cls] ? CLASSES[p.cls].name : p.cls;
-    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
+    // and where to play it, when it is being played somewhere a friend can reach
+    const where = location.protocol === 'https:' ? ` ${location.origin}${location.pathname}` : '';
+    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}${where}`;
   }
   function showEnd(won) {
     const G = Game.state(), p = G.player;

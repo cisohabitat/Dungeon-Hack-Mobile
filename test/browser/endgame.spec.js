@@ -153,6 +153,8 @@ test('a second death opens the end screen at its title, not where the last one w
     await expect(page.locator('#screen-end')).toBeVisible();
   };
   await fall('end-scroll-1');
+  // on a short screen the title is a heading, not two fifths of the view
+  expect(await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('#end-title')).fontSize)), 'the title should leave room for the rest').toBeLessThan(36);
   await page.evaluate(() => { document.querySelector('#screen-end').scrollTop = 9999; });
   expect(await page.evaluate(() => document.querySelector('#screen-end').scrollTop), 'the end screen should be long enough to scroll sideways').toBeGreaterThan(0);
   await fall('end-scroll-2', true);

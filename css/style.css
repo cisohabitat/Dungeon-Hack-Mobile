@@ -206,7 +206,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 #view { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0 auto; touch-action: none; }
 /* see-through, so what stands in the top corner still shows, and further
    still while a creature is under it (the script sets .faded) */
-#minimap { position: absolute; top: 6px; right: 6px; width: 76px; height: 76px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); image-rendering: auto; opacity: 0.7; transition: opacity 0.25s; }
+#minimap { position: absolute; top: 6px; right: 6px; width: 76px; height: 76px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); image-rendering: auto; opacity: 0.7; transition: opacity 0.25s, top 0.2s; }
 #minimap.faded { opacity: 0.16; }
 @media (min-width: 600px) { #minimap { width: 90px; height: 90px; } }
 .log-history div { padding: 4px 0; border-bottom: 1px solid #1c1a26; }
@@ -500,6 +500,9 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .boon:disabled { opacity: 1; }
 /* a line fills along the card while it arms, so the pause reads as on purpose */
 .boon { position: relative; overflow: hidden; }
+/* a choice just offered is dimmed until it will take a tap, so a first tap that
+   does nothing is seen to be early rather than lost */
+.boon.arming { opacity: 0.6; }
 .boon.arming::after { content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--gold); transform-origin: left; animation: boon-arm 0.7s linear forwards; }
 @keyframes boon-arm { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 /* talents on the Hero sheet: one to a line, name then what it does */
@@ -595,6 +598,9 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
    pad, the bar below it in two rows. Tablets and desktops keep the layout
    above; this only asks for a short screen. */
 @media (orientation: landscape) and (max-height: 500px) {
+  /* the end's title took two fifths of a short screen, and the cause and the
+     buttons were below the fold */
+  #screen-end .logo { font-size: 1.9rem; }
   /* a notch or a rounded corner sits on one side or the other now */
   #screen-game { padding-left: var(--sal); padding-right: var(--sar); }
   /* The view had the bars above it and the log below, and a control column a
