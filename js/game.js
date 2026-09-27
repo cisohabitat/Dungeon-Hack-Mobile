@@ -2438,10 +2438,11 @@ const Game = (() => {
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
     // (a spell, cast: the fire scroll's blast names itself 'fireball' but is no spell)
-    const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
+    // (twice as much on Hard and in the Long Delve, where the mage trailed the rest)
+    const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? Math.min(p.maxSp - p.sp, mageDraw()) : 0;
     p.sp += drawn;
     // the dead are destroyed; the living are slain
-    const reward = `${note || ''} (+${xp} xp${drawn ? ', +1 spell point' : ''})`;
+    const reward = `${note || ''} (+${xp} xp${drawn ? `, +${drawn} spell point${drawn > 1 ? 's' : ''}` : ''})`;
     // a champion's fall is its own line, said once, with what it was worth
     if (mb.named) log(`${mb.named.fall}${reward}`, 'good');
     else if (m.shade) log(`${heroTitle(m.shade.name, m.shade.cls)} is laid to rest at last, and the cold goes out of the air. What they wore is yours to take.${reward}`, 'good');
@@ -3409,6 +3410,14 @@ const Game = (() => {
   const isLong = () => (G.opts.levels || 8) >= 12;
   const longEdge = () => (isLong() && G.depth >= 7 ? 1 : 0);
   const longSturdier = depth => (isLong() ? 1 + 0.04 * Math.max(0, depth - 6) : 1);
+  // The deep floors' own monsters answer so well to a player who reads the
+  // bestiary that an ordinary Normal delve grew kinder (78% wins, tuned to
+  // about three in four): its creatures are a touch sturdier to make up for
+  // it. Not the Long Delve's, whose figure did not move.
+  const NORMAL_SHORT = 1.04;
+  const MAGE_DRAW = 2;
+  const mageDraw = () => (G.opts.difficulty === 'hard' || isLong() ? MAGE_DRAW : 1);
+  const shortNormal = () => ((G.opts.difficulty || 'normal') === 'normal' && !isLong() ? NORMAL_SHORT : 1);
   // On Hard the Long Delve's deep floors hold creatures nearly twice as sturdy,
   // and a spell's dice do not grow with gear as a blow does: the casters fell
   // to them half again as often as anyone (28% and 34% wins, the rest 47% to
@@ -3455,7 +3464,7 @@ const Game = (() => {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth);
+      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal();
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
@@ -3500,7 +3509,7 @@ const Game = (() => {
   function newMonster(id, x, y, hp) {
     // what comes later on a floor is as ready for the hero as what was there
     const press = lvl().press || 0;
-    hp = Math.max(1, Math.round(hp * diff().hp * (1 + PRESS_HP * press)));
+    hp = Math.max(1, Math.round(hp * diff().hp * shortNormal() * (1 + PRESS_HP * press)));
     const m = {
       uid: 900000 + (G.nextUid = (G.nextUid || 0) + 1), id, x, y,
       hp, maxHp: hp, awake: true, nextAct: G.t + WAKE_BEAT, rx: x, ry: y,

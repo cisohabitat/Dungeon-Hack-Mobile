@@ -232,10 +232,10 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 79% | 76% | 78% | 84% | 76% | about 78% |
-| Hard | 47% | 51% | 46% | 57% | 54% | about 51% |
-| Long Delve (12 floors), Normal | 65% | 73% | 62% | 83% | 74% | about 71% |
-| Long Delve (12 floors), Hard | 52% | 52% | 46% | 59% | 51% | about 52% |
+| Normal | 73% | 73% | 75% | 78% | 73% | about 74% |
+| Hard | 47% | 51% | 49% | 57% | 54% | about 52% |
+| Long Delve (12 floors), Normal | 65% | 73% | 71% | 83% | 74% | about 73% |
+| Long Delve (12 floors), Hard | 52% | 52% | 53% | 59% | 51% | about 53% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
 Delve on Hard, and every class lands within about six points of it: the mage lowest, the thief highest. (It was once tuned
