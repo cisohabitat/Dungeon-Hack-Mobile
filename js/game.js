@@ -4027,7 +4027,9 @@ const Game = (() => {
       // a line held for its moment by the old page's clock would never show on this one
       for (const e of G.log || []) delete e.at;
       for (const dpt in G.levels) for (const m of G.levels[dpt].monsters) {
-        m.nextAct = G.t + 800; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
+        // a moment's grace for anything about to act, but a foe held longer (snared,
+        // staggered by a bash, frozen, coughing) stays held as long as it was
+        m.nextAct = Math.max(m.nextAct || 0, G.t + 800); m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
         // the page's clock starts again at nothing: a flash or a held life bar timed by the old one would hang on for good
         m.flashAt = 0; delete m.hpShown;
         // a blow being drawn back is still coming after a reload, or quitting to the

@@ -3613,6 +3613,31 @@ await test('an encounter left open does not carry into a loaded game or a new ru
   return !Game.currentEncounter() || 'the encounter was still open in a new run';
 });
 
+await test('a snared foe stays snared through a save and a load', async () => {
+  const ctx = await start('ranger', 'snare-load');
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), G0 = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 9999;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  for (let i = 1; i <= 3; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+  L.monsters.length = 0;
+  L.monsters.push({ uid: 95, id: 'orc', x: p.x + dx * 3, y: p.y + dy * 3, hp: 999, maxHp: 999, awake: true, nextAct: G0.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  if (!Game.useAbility()) return 'the snare was not thrown';
+  const held = Game.level().monsters[0];
+  if (!(held.snaredUntil > G0.t + 1500)) return 'the orc was not snared';
+  const x0 = held.x, y0 = held.y, until = held.snaredUntil;
+  Game.save(true);
+  if (!Game.load()) return 'the save did not load';
+  const G = Game.state();
+  for (let i = 0; i < 80; i++) {
+    Game.update(G.t + 25, 25);
+    const m = Game.level().monsters[0];
+    if (G.t >= until - 50) break;
+    if (m.x !== x0 || m.y !== y0 || m.windup) return `the orc moved ${Math.round(until - G.t)}ms before the snare let go`;
+  }
+  return true;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;
