@@ -735,6 +735,10 @@ const UI = (() => {
     const el = $('#tip');
     if (!el || !el.classList.contains('show') || !Game.state() || Game.state().status !== 'playing') return 1;
     const tip = el.dataset.tip || '';
+    // the dungeon waits while the very first tip is read: a new hero reading it
+    // was once walked up to and killed before taking a step. It goes the moment
+    // they move, turn or tap it (or a real warning takes its place)
+    if (tip === 'controls') return 0;
     if (coaching && isDodge(tip) && !dodgeSettled && blowComing()) return 0.3;
     const mv = TRICK_TIPS[tip];
     if (mv) {

@@ -644,14 +644,19 @@ test.describe('dungeon features', () => {
     }
   });
 
-  test('the controls tip gives way once the hero moves', async ({ page }) => {
+  test('the controls tip gives way once the hero moves, and the dungeon waits while it is read', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'first-fight' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
+    // while it is up, nothing moves: the game's clock stands still
+    const t0 = await page.evaluate(() => Game.state().t);
     await page.waitForTimeout(1600);
+    expect(await page.evaluate(() => Game.state().t)).toBe(t0);
     await page.evaluate(() => Game.input('right'));
     await expect(page.locator('#tip')).not.toHaveClass(/show/, { timeout: 2000 });
+    // and once it has gone, the dungeon goes on
+    await expect.poll(() => page.evaluate(() => Game.state().t)).toBeGreaterThan(t0 + 200);
     expect(errors).toEqual([]);
   });
 
