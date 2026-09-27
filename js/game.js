@@ -3494,182 +3494,6 @@ const Game = (() => {
   }
   const KNOCKDOWN_MS = 900;   // how long a charge that lands leaves you on the floor
   const BLOW_GAP = 250;    // ms between any two blows landing on you
-  function updateMonsters() {
-    const L = lvl(), p = P();
-    ensureDist();
-    for (const m of L.monsters.slice()) {
-      const mb = mstat(m);
-      if (mb.boss && m.awake && !m.spoke) {
-        m.spoke = true;
-        log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
-        Sound.play('voice', heard(m, { who: m.id }));
-        fx.shakeAmp = 4; fx.shakeMs = 500; fx.shakeUntil = realNow + 500;
-      } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);
-      else if (m.shade && m.awake && !m.spoke) shadeWakes(m);
-      if (m.collapsed) {
-        if (G.t >= m.collapsed) {
-          m.collapsed = 0; m.hp = Math.ceil(m.maxHp / 2); m.awake = true; m.nextAct = G.t + WAKE_BEAT;
-          log(`The bones knit together: the ${mb.name} rises again!`, 'bad');
-          Sound.play('voice', heard(m, { who: m.id }));
-        }
-        continue;
-      }
-      if (m.dot && G.t >= m.dot.next) {
-        const dot = m.dot;
-        if (dot.next > dot.until) m.dot = null;
-        else {
-          dot.next += 1000;
-          damageMonster(m, dot.kind === 'venom' ? d(1, 3) : elemental(m, d(1, 4), 'fire'), dot.kind);
-          if (!L.monsters.includes(m) || m.collapsed) continue;
-        }
-      }
-      if (mb.regen && m.hp < m.maxHp && !(m.burnUntil > G.t) && G.t >= (m.nextRegen || 0)) {
-        m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000;
-        if (G.met && G.met[m.uid]) learn(m.id, 'trick');   // you watched its wounds close
-        if (mb.named) namedMends(m, mb);
-      }
-      if (G.t < m.nextAct) continue;
-      // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
-      if (m.wardUntil > G.t && mb.boss) { m.nextAct = m.wardUntil; continue; }
-      const di = distField[m.y * L.w + m.x];
-      if (!m.awake) {
-        // Thieves move quietly, so their double blow on a sleeping foe can
-        // actually happen: at six squares almost nothing stayed asleep long
-        // enough to be reached. Deep-born blood stacks with it, and so do a
-        // Ring of Stealth and an Assassin's step, down to the square beside you:
-        // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
-        const notice = Math.max(1, 6 - (P().bg === 'deepborn' ? 2 : 0) - (P().cls === 'thief' ? 2 : 0) - (hasPower('quiet') ? 1 : 0) - assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (hasTalent('camouflage') ? 1 : 0));
-        // Waking is not acting. The growl used to land in the same frame as the
-        // first blow from anything that woke beside you, so the only warning was
-        // the damage. Give the growl a beat to be heard and turned toward.
-        // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
-        if (di >= 0 && di <= notice && !(P().smokeUntil > G.t)) {
-          const coughing = (m.smoked || 0) > G.t && hasTalent('choking_cloud');
-          m.awake = true; m.smoked = 0; Sound.play('voice', heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
-          if (coughing) floatText(m, 'coughing', '#eef0ff');
-          if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
-          if (m.shade && !m.spoke) shadeWakes(m);
-          meet(m);
-          // woken right beside you, its first blow is already being drawn back
-          // (unless it comes out of the smoke coughing: then its first move waits)
-          if (!coughing && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
-          continue;
-        }
-        // lost in a thief's smoke, it stands and peers about rather than wandering off
-        else { if (!(P().smokeUntil > G.t) && Math.random() < 0.25) wander(m); m.nextAct = G.t + mb.speed * 1.5; continue; }
-      }
-      if (di < 0 || di > 12) {
-        // it has lost you; after a while it stops hunting and settles again
-        if (!m.lostAt) m.lostAt = G.t;
-        else if (G.t - m.lostAt > 7000) { m.awake = false; m.lostAt = 0; }
-        m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
-        if (Math.random() < 0.3) wander(m);
-        m.nextAct = G.t + mb.speed * 1.5;
-        continue;
-      }
-      m.lostAt = 0;
-      if (m.fleeing) {
-        // run for the darkness; recover nerve once far enough away
-        if (di > 8) { m.fleeing = false; m.nextAct = G.t + mb.speed; continue; }
-        let away = null, ad = di;
-        for (const [dx, dy] of DIRS) {
-          const nx = m.x + dx, ny = m.y + dy;
-          if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
-          const dd = distField[ny * L.w + nx];
-          // never onto the hero: a chase or a wander would not, and a stale map must not tempt one
-          if (dd > ad && !(nx === p.x && ny === p.y) && !monsterAt(nx, ny) && !npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
-        }
-        // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
-        if (away && tile(away[0], away[1]) === T.DOOR) { const slow = meetDoor(m, mb, away[0], away[1]); m.nextAct = G.t + (slow ? mb.speed : Math.max(300, Math.round(mb.speed * 0.45))); continue; }
-        if (away) { moveMonster(m, away[0], away[1]); m.nextAct = G.t + mb.speed; continue; }
-        m.fleeing = false; // cornered: fight on
-      }
-      const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
-      const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss);
-      // Blows from several attackers used to land in one frame, read as one
-      // hit, and kill faster than anyone could turn. Space them so each one
-      // is its own flash, sound and line of the log.
-      if (m.volley) {
-        // the rest of a group's volley, each blow a beat behind the last;
-        // step out of reach and the ones still to come hit the air
-        const inReach = m.volley.kind === 'melee' ? adjacent : shot;
-        // the ones cut down mid-volley have no blow left to land
-        m.volley.left = Math.min(m.volley.left, packSize(m) - 1);
-        if (m.volley.left <= 0) { m.nextAct = Math.max(G.t + 120, m.volley.next); m.volley = null; continue; }
-        if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }
-        if (inReach) {
-          monsterAttack(m); G.blowGate = G.t + BLOW_GAP;
-          if (G.status !== 'playing') return;
-        }
-        m.volley.left--;
-        if (!inReach || m.volley.left <= 0) {
-          if (!inReach) { log(`The rest of the ${mb.name}s swing at the air where you stood.`, 'good'); m.pressing = true; }
-          m.nextAct = Math.max(G.t + 120, m.volley.next);
-          m.volley = null;
-        } else m.nextAct = G.t + BLOW_GAP;
-        continue;
-      }
-      if (m.windup && m.windup.move) { resolveMove(m, mb, m.windup); if (G.status !== 'playing') return; continue; }
-      if (!m.windup && startMove(m, mb, adjacent)) continue;
-      if (m.windup) {
-        // the blow comes down: on you if you are still there, on the air if not
-        const w = m.windup;
-        const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
-        // a step back is not always out of reach: a lunger follows you, and the lich's touch reaches
-        const follow = w.kind === 'melee' && !adjacent ? followBlow(m, mb, w) : null;
-        const inReach = w.kind === 'melee' ? adjacent || !!follow : shot;
-        if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; continue; }   // held a beat, still coming
-        m.windup = null;
-        if (w.kind === 'melee') m.blows = (m.blows || 0) + 1;
-        if (inReach) {
-          if (follow && follow.lunge) { moveMonster(m, follow.x, follow.y); G.lunges = (G.lunges || 0) + 1; }
-          if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined, follow ? follow.miss : undefined); else rangedAttack(m);
-          G.blowGate = G.t + BLOW_GAP;
-          if (G.status !== 'playing') return;
-          // a group draws back together and swings as a volley: one warning,
-          // every member's blow, the same blows a minute as swinging in turn
-          if (w.kind === 'melee' && packSize(m) > 1) {
-            m.volley = { kind: 'melee', left: packSize(m) - 1, next: w.at + cycle };
-            m.nextAct = G.t + BLOW_GAP;
-            continue;
-          }
-        } else {
-          log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
-          Sound.play('whiff', heard(m));
-          // made to miss, it presses in: the next blow is drawn back faster, so
-          // stepping away is a save, not a loop that keeps it from ever landing
-          m.pressing = true;
-          m.lungeAt = realNow;               // it still swings, at nothing
-          if (w.kind === 'melee') { riposte(); tricksterOpening(m); }
-        }
-        m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
-        continue;
-      }
-      if (adjacent || shot) {
-        const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed;
-        beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
-        continue;
-      }
-      let best = null, bd = di;
-      for (const [dx, dy] of DIRS) {
-        const nx = m.x + dx, ny = m.y + dy;
-        if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
-        const dd = distField[ny * L.w + nx];
-        if (dd >= 0 && dd < bd && !monsterAt(nx, ny) && !npcAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
-      }
-      const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
-      if (best) {
-        const slow = tile(best[0], best[1]) === T.DOOR ? meetDoor(m, mb, best[0], best[1]) : (moveMonster(m, best[0], best[1]), false);
-        m.nextAct = G.t + (slow ? mb.speed : moveSpeed);
-        // Stepping up to you, it draws back as it comes, so its first blow
-        // lands exactly when it always did: the warning costs a watchful
-        // player nothing and gives an unwatchful one nothing either.
-        // the first blow of a fight gets the full warning, even from something quick
-        if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', Math.max(moveSpeed, windupFor(mb.speed)));
-        else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
-      } else m.nextAct = G.t + mb.speed;
-    }
-  }
 
   /**
    * Whether a blow drawn at the hero still lands after they stepped away.
@@ -4094,6 +3918,11 @@ const Game = (() => {
     get cap() { return cap; },
     get cls() { return cls; },
     get damageMonster() { return damageMonster; },
+    get assassinQuiet() { return assassinQuiet; },
+    get elemental() { return elemental; },
+    get followBlow() { return followBlow; },
+    get shadeWakes() { return shadeWakes; },
+    get tricksterOpening() { return tricksterOpening; },
     get diff() { return diff; },
     get distField() { return distField; }, set distField(v) { distField = v; },
     get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
@@ -4146,7 +3975,7 @@ const Game = (() => {
     revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack,
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor } = makeFoes(foesK);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
 
   return {
     newGame, load, save, hasSave, saveSummary, rollStats, hall, earned: () => (G && G.earned) || null,

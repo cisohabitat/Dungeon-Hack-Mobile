@@ -779,5 +779,216 @@ export function makeFoes(K) {
 
 
 
-  return { RISE_MS, WAKE_BEAT, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
+
+  // ---------- a monster's turn ----------
+  // Every creature on the floor, every tick, in the order its turn goes: it
+  // speaks as it wakes, rises again if its bones knit, burns or mends, and
+  // then, when its moment comes, stirs or sleeps on, loses you, flees, finishes
+  // a volley or a warned blow, draws a new one back, or steps closer. Each step
+  // settles the creature for this tick; STOP means the hero has fallen and the
+  // rest wait. (Split out of one long loop in game.js; the order is the rules.)
+  const STOP = 'stop';
+  function updateMonsters() {
+    const L = K.lvl(), p = K.P();
+    ensureDist();
+    for (const m of L.monsters.slice()) if (monsterTurn(m, L, p) === STOP) return;
+  }
+  /** @returns {undefined|'stop'} */
+  function monsterTurn(m, L, p) {
+    const G = K.G, mb = K.mstat(m);
+    speaks(m, mb);
+    if (m.collapsed) { rises(m, mb); return; }
+    if (!burnsAndMends(m, mb, L)) return;
+    if (G.t < m.nextAct) return;
+    // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
+    if (m.wardUntil > G.t && mb.boss) { m.nextAct = m.wardUntil; return; }
+    const di = K.distField[m.y * L.w + m.x];
+    if (!m.awake) { stirs(m, mb, L, p, di); return; }
+    if (di < 0 || di > 12) { losesYou(m, mb); return; }
+    m.lostAt = 0;
+    if (m.fleeing && flees(m, mb, L, p, di)) return;
+    const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+    const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss);
+    // Blows from several attackers used to land in one frame, read as one
+    // hit, and kill faster than anyone could turn. Space them so each one
+    // is its own flash, sound and line of the log.
+    if (m.volley) return volleys(m, mb, adjacent, shot);
+    if (m.windup && m.windup.move) { resolveMove(m, mb, m.windup); return G.status !== 'playing' ? STOP : undefined; }
+    if (!m.windup && startMove(m, mb, adjacent)) return;
+    if (m.windup) return strikes(m, mb, adjacent, shot);
+    if (adjacent || shot) {
+      const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed;
+      beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
+      return;
+    }
+    closesIn(m, mb, L, p, di);
+  }
+  /** Its first words on waking: the lich's, a champion's, a shade's. */
+  function speaks(m, mb) {
+    if (mb.boss && m.awake && !m.spoke) {
+      m.spoke = true;
+      K.log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
+      Sound.play('voice', K.heard(m, { who: m.id }));
+      K.fx.shakeAmp = 4; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
+    } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);
+    else if (m.shade && m.awake && !m.spoke) K.shadeWakes(m);
+  }
+  /** Collapsed bones knit together when their time comes. */
+  function rises(m, mb) {
+    if (K.G.t < m.collapsed) return;
+    m.collapsed = 0; m.hp = Math.ceil(m.maxHp / 2); m.awake = true; m.nextAct = K.G.t + WAKE_BEAT;
+    K.log(`The bones knit together: the ${mb.name} rises again!`, 'bad');
+    Sound.play('voice', K.heard(m, { who: m.id }));
+  }
+  /** Burning and venom tick; a regenerating creature mends. @returns {boolean} whether it is still up to act */
+  function burnsAndMends(m, mb, L) {
+    const G = K.G;
+    if (m.dot && G.t >= m.dot.next) {
+      const dot = m.dot;
+      if (dot.next > dot.until) m.dot = null;
+      else {
+        dot.next += 1000;
+        K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : K.elemental(m, d(1, 4), 'fire'), dot.kind);
+        if (!L.monsters.includes(m) || m.collapsed) return false;
+      }
+    }
+    if (mb.regen && m.hp < m.maxHp && !(m.burnUntil > G.t) && G.t >= (m.nextRegen || 0)) {
+      m.hp = Math.min(m.maxHp, m.hp + mb.regen); m.nextRegen = G.t + 1000;
+      if (G.met && G.met[m.uid]) K.learn(m.id, 'trick');   // you watched its wounds close
+      if (mb.named) namedMends(m, mb);
+    }
+    return true;
+  }
+  /** Asleep: it wakes if the hero comes close enough to be noticed, else dozes or drifts. */
+  function stirs(m, mb, L, p, di) {
+    const G = K.G;
+    // Thieves move quietly, so their double blow on a sleeping foe can
+    // actually happen: at six squares almost nothing stayed asleep long
+    // enough to be reached. Deep-born blood stacks with it, and so do a
+    // Ring of Stealth and an Assassin's step, down to the square beside you:
+    // a floor of two left the Assassin's step doing nothing for a Deep-born thief.
+    const notice = Math.max(1, 6 - (p.bg === 'deepborn' ? 2 : 0) - (p.cls === 'thief' ? 2 : 0) - (K.hasPower('quiet') ? 1 : 0) - K.assassinQuiet() - (L.twist === 'dark' ? 1 : 0) - (K.hasTalent('camouflage') ? 1 : 0));
+    // Waking is not acting. The growl used to land in the same frame as the
+    // first blow from anything that woke beside you, so the only warning was
+    // the damage. Give the growl a beat to be heard and turned toward.
+    // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
+    if (di >= 0 && di <= notice && !(p.smokeUntil > G.t)) {
+      const coughing = (m.smoked || 0) > G.t && K.hasTalent('choking_cloud');
+      m.awake = true; m.smoked = 0; Sound.play('voice', K.heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
+      if (coughing) K.floatText(m, 'coughing', '#eef0ff');
+      if (mb.named && !m.spoke) namedWakes(m, mb);   // its line before the bestiary's
+      if (m.shade && !m.spoke) K.shadeWakes(m);
+      K.meet(m);
+      // woken right beside you, its first blow is already being drawn back
+      // (unless it comes out of the smoke coughing: then its first move waits)
+      if (!coughing && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', WAKE_BEAT);
+      return;
+    }
+    // lost in a thief's smoke, it stands and peers about rather than wandering off
+    if (!(p.smokeUntil > G.t) && Math.random() < 0.25) wander(m);
+    m.nextAct = G.t + mb.speed * 1.5;
+  }
+  /** Out of reach of the trail: after a while it stops hunting and settles again. */
+  function losesYou(m, mb) {
+    const G = K.G;
+    if (!m.lostAt) m.lostAt = G.t;
+    else if (G.t - m.lostAt > 7000) { m.awake = false; m.lostAt = 0; }
+    m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
+    if (Math.random() < 0.3) wander(m);
+    m.nextAct = G.t + mb.speed * 1.5;
+  }
+  /** Run for the darkness; recover nerve once far enough away. @returns {boolean} whether it fled (false: cornered, it fights on) */
+  function flees(m, mb, L, p, di) {
+    const G = K.G;
+    if (di > 8) { m.fleeing = false; m.nextAct = G.t + mb.speed; return true; }
+    let away = null, ad = di;
+    for (const [dx, dy] of K.DIRS) {
+      const nx = m.x + dx, ny = m.y + dy;
+      if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
+      const dd = K.distField[ny * L.w + nx];
+      // never onto the hero: a chase or a wander would not, and a stale map must not tempt one
+      if (dd > ad && !(nx === p.x && ny === p.y) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny)) { ad = dd; away = [nx, ny]; }
+    }
+    // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
+    if (away && K.tile(away[0], away[1]) === K.T.DOOR) { const slow = meetDoor(m, mb, away[0], away[1]); m.nextAct = G.t + (slow ? mb.speed : Math.max(300, Math.round(mb.speed * 0.45))); return true; }
+    if (away) { moveMonster(m, away[0], away[1]); m.nextAct = G.t + mb.speed; return true; }
+    m.fleeing = false; // cornered: fight on
+    return false;
+  }
+  /** The rest of a group's volley, each blow a beat behind the last. @returns {undefined|'stop'} */
+  function volleys(m, mb, adjacent, shot) {
+    const G = K.G;
+    // step out of reach and the ones still to come hit the air
+    const inReach = m.volley.kind === 'melee' ? adjacent : shot;
+    // the ones cut down mid-volley have no blow left to land
+    m.volley.left = Math.min(m.volley.left, K.packSize(m) - 1);
+    if (m.volley.left <= 0) { m.nextAct = Math.max(G.t + 120, m.volley.next); m.volley = null; return; }
+    if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; return; }
+    if (inReach) {
+      monsterAttack(m); G.blowGate = G.t + K.BLOW_GAP;
+      if (G.status !== 'playing') return STOP;
+    }
+    m.volley.left--;
+    if (!inReach || m.volley.left <= 0) {
+      if (!inReach) { K.log(`The rest of the ${mb.name}s swing at the air where you stood.`, 'good'); m.pressing = true; }
+      m.nextAct = Math.max(G.t + 120, m.volley.next);
+      m.volley = null;
+    } else m.nextAct = G.t + K.BLOW_GAP;
+  }
+  /** A warned blow comes down: on you if you are still there, on the air if not. @returns {undefined|'stop'} */
+  function strikes(m, mb, adjacent, shot) {
+    const G = K.G, w = m.windup;
+    const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
+    // a step back is not always out of reach: a lunger follows you, and the lich's touch reaches
+    const follow = w.kind === 'melee' && !adjacent ? K.followBlow(m, mb, w) : null;
+    const inReach = w.kind === 'melee' ? adjacent || !!follow : shot;
+    if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; return; }   // held a beat, still coming
+    m.windup = null;
+    if (w.kind === 'melee') m.blows = (m.blows || 0) + 1;
+    if (inReach) {
+      if (follow && follow.lunge) { moveMonster(m, follow.x, follow.y); G.lunges = (G.lunges || 0) + 1; }
+      if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined, follow ? follow.miss : undefined); else rangedAttack(m);
+      G.blowGate = G.t + K.BLOW_GAP;
+      if (G.status !== 'playing') return STOP;
+      // a group draws back together and swings as a volley: one warning,
+      // every member's blow, the same blows a minute as swinging in turn
+      if (w.kind === 'melee' && K.packSize(m) > 1) {
+        m.volley = { kind: 'melee', left: K.packSize(m) - 1, next: w.at + cycle };
+        m.nextAct = G.t + K.BLOW_GAP;
+        return;
+      }
+    } else {
+      K.log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
+      Sound.play('whiff', K.heard(m));
+      // made to miss, it presses in: the next blow is drawn back faster, so
+      // stepping away is a save, not a loop that keeps it from ever landing
+      m.pressing = true;
+      m.lungeAt = K.realNow;               // it still swings, at nothing
+      if (w.kind === 'melee') { K.riposte(); K.tricksterOpening(m); }
+    }
+    m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
+  }
+  /** One step nearer along the trail, drawing back as it arrives. */
+  function closesIn(m, mb, L, p, di) {
+    const G = K.G;
+    let best = null, bd = di;
+    for (const [dx, dy] of K.DIRS) {
+      const nx = m.x + dx, ny = m.y + dy;
+      if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
+      const dd = K.distField[ny * L.w + nx];
+      if (dd >= 0 && dd < bd && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
+    }
+    const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
+    if (!best) { m.nextAct = G.t + mb.speed; return; }
+    const slow = K.tile(best[0], best[1]) === K.T.DOOR ? meetDoor(m, mb, best[0], best[1]) : (moveMonster(m, best[0], best[1]), false);
+    m.nextAct = G.t + (slow ? mb.speed : moveSpeed);
+    // Stepping up to you, it draws back as it comes, so its first blow
+    // lands exactly when it always did: the warning costs a watchful
+    // player nothing and gives an unwatchful one nothing either.
+    // the first blow of a fight gets the full warning, even from something quick
+    if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) beginWindup(m, 'melee', Math.max(moveSpeed, windupFor(mb.speed)));
+    else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
+  }
+
+  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
 }
