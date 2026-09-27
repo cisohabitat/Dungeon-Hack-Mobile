@@ -829,22 +829,28 @@ const CREATURES = {
   // things of the deep: shorter in the leg, warmer, and on your side.
   dog: (pose = 'idle') => {
     const coat = '#8a5a32', dark = '#5e3a1e', pale = '#c8a070', muzzle = '#a8784a', nose = '#1a1210';
-    const bite = pose === 'windup';
-    const hy = bite ? 15.5 : 13;
+    const bite = pose === 'windup', sit = pose === 'sit';
+    const hy = bite ? 15.5 : sit ? 11.5 : 13;
+    // told to stay, it sits: haunches down on the stone, forelegs straight, the
+    // tail laid round its feet, and the head up, watching the way you went
+    const hind = sit
+      ? [...both(ball(10.6, 27.2, 3.2, 2.7, dark)), ...both(ball(9.6, 30.4, 1.9, 0.9, dark)),
+        limb(20.5, 29.5, 24.5, 30.2, 1.1, 0.8, dark), limb(24.5, 30.2, 26.5, 28.8, 0.8, 0.5, coat)]
+      : [limb(19, 18, 23, 13, 1.2, 0.8, dark), limb(23, 13, 24.5, 9.5, 0.8, 0.5, coat),
+        ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
+        ...both(ball(10, 30.4, 1.7, 0.9, dark))];
+    const by = sit ? 22 : 20.5;
     return [
-      // the tail up and waving behind
-      limb(19, 18, 23, 13, 1.2, 0.8, dark), limb(23, 13, 24.5, 9.5, 0.8, 0.5, coat),
-      // hind legs, short and sturdy
-      ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
-      ...both(ball(10, 30.4, 1.7, 0.9, dark)),
-      // a deep body with a saddle of darker coat
-      ball(15.5, 20.5, 6.8, 4.6, coat),
-      sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
-      // forelegs, braced for the spring if it means to bite
-      ...both(limb(12.5, 21.5, bite ? 10.5 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : 12, 26.5, bite ? 11 : 12.3, 30, 1.1, 1, coat)),
-      ...both(ball(bite ? 11 : 12.3, 30.4, 1.7, 0.9, coat)),
+      // the tail up and waving behind, and the hind legs, short and sturdy
+      ...hind,
+      // a deep body with a saddle of darker coat (upright when it sits)
+      sit ? ball(15.5, by, 5.6, 5.8, coat) : ball(15.5, by, 6.8, 4.6, coat),
+      sit ? sheet([[11.5, 18.5], [19.5, 18.5], [19, 21], [12, 21]], dark, { curve: 1 }) : sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
+      // forelegs, braced for the spring if it means to bite, straight when it sits
+      ...both(limb(12.5, by + 1, bite ? 10.5 : sit ? 12.8 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : sit ? 12.8 : 12, 26.5, bite ? 11 : sit ? 12.9 : 12.3, 30, 1.1, 1, coat)),
+      ...both(ball(bite ? 11 : sit ? 12.9 : 12.3, 30.4, 1.7, 0.9, coat)),
       // a pale chest, and the collar with its tag
-      ball(15.5, 22.5, 3, 3.2, pale),
+      ball(15.5, by + 2, 3, sit ? 3.6 : 3.2, pale),
       sheet([[12.6, hy + 3.4], [18.4, hy + 3.4], [18, hy + 4.6], [13, hy + 4.6]], '#a02828', { curve: 0.6 }),
       ball(15.5, hy + 5.6, 0.9, 1, '#d8b848'),
       // floppy ears hanging down beside a broad head
@@ -860,7 +866,7 @@ const CREATURES = {
       hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
       specks([[15.5, hy + 5.5]], '#fff4c0'),
       ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
-      hair(13, 19, 14.5, 21, '#6e4424'), hair(17.5, 19, 16.5, 21.5, '#6e4424'), hair(11.5, 22, 12, 24, '#a87848'),
+      hair(13, by - 1.5, 14.5, by + 0.5, '#6e4424'), hair(17.5, by - 1.5, 16.5, by + 1, '#6e4424'), hair(11.5, by + 1.5, 12, by + 3.5, '#a87848'),
     ];
   },
 
@@ -1491,7 +1497,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup'] };
+const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.

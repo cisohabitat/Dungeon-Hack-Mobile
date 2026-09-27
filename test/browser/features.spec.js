@@ -1115,6 +1115,8 @@ test.describe('dungeon features', () => {
     await page.click('[data-tap="use"]');
     await expect(page.locator('#hud-status')).toContainText(`${name}`);
     await expect(page.locator('#hud-status')).toContainText('staying');
+    // told to stay, it sits
+    await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.dog.sit))).toBe(true);
     await expect(page.locator('[data-tap="use"]')).toContainText('Come');
     await page.click('[data-tap="use"]');
     await expect(page.locator('#hud-status')).not.toContainText('staying');

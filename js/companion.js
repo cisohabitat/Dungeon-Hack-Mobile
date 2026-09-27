@@ -178,7 +178,7 @@ export function makeCompanion(K) {
     const c = here();
     if (!c) return false;
     c.mode = c.mode === 'stay' ? 'follow' : 'stay';
-    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} waits.` : `You call ${c.name} to heel.`, 'info');
+    K.log(c.mode === 'stay' ? `You tell ${c.name} to stay. ${c.name} sits.` : `You call ${c.name} to heel.`, 'info');
     if (c.mode === 'stay') Sound.play('step'); else Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: 'dog' }));
     return true;
   }
@@ -219,7 +219,9 @@ export function makeCompanion(K) {
     }
     const s = Assets.sprites[HOUND.sprite];
     const lunging = now - (c.lungeAt || 0) < 220;
-    return { x: x + 0.5, y: y + 0.5, img: lunging && s.windup ? s.windup : s, scale: 0.62, yOff: 0, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
+    // told to stay (and not moving or biting), it sits
+    const img = lunging && s.windup ? s.windup : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
+    return { x: x + 0.5, y: y + 0.5, img, scale: 0.62, yOff: 0, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
   }
   /** For the hero sheet and the epilogue. */
   function note() {
