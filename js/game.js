@@ -1514,6 +1514,7 @@ const Game = (() => {
       namedArrives(L);
       bonesArrive(L);
       threadArrivals(L, depth, fresh);
+      if (fresh && companion.here()) houndHeard();
     } else log(`You climb back up to floor ${depth}.`, 'info');
     emit('level');
     checkTile();
@@ -3368,6 +3369,30 @@ const Game = (() => {
     const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
     const [x, y] = Dice.pick(cands);
     newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 1500;
+    return true;
+  }
+  /**
+   * A hound's bark carries: on each new floor it comes down to, one more of the
+   * floor's creatures has heard it and comes looking. The price of the company.
+   */
+  function houndHeard() {
+    const L = lvl();
+    ensureDist();
+    const cands = [];
+    for (let i = 0; i < L.w * L.h; i++) {
+      const dd = distField[i];
+      if (L.tiles[i] !== T.FLOOR || dd < 10) continue;
+      const x = i % L.w, y = (i / L.w) | 0;
+      if (!monsterAt(x, y) && !npcAt(x, y) && !companion.at(x, y) && !propAt(x, y)) cands.push([x, y]);
+    }
+    if (!cands.length) return false;
+    const td = Dungeon.tierAt(G.depth, G.opts.levels || 8);
+    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
+    const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
+    const [x, y] = Dice.pick(cands);
+    const m = newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2]));
+    m.awake = true; m.nextAct = G.t + 2500;
+    log(`${G.companion.name} barks once at the dark, and somewhere on this floor, something hears it.`, 'bad');
     return true;
   }
   function rest() {
