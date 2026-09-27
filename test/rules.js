@@ -2708,9 +2708,12 @@ function untilTrick(ctx, m, mv) {
 }
 
 await test('a blink hound steps back into the world at your back: turned to face it, it is caught open; not, it bites deep', async () => {
-  const out = [];
-  for (const turn of [false, true]) {
-    const ctx = await start('fighter', 'blink' + turn);
+  const out = [], missed = [];
+  let bitten = false;
+  for (const turn of [false, false, false, true]) {
+    // (unanswered, it is tried up to three times: even a warned blow misses on a natural 1)
+    if (!turn && out.length === 0 && bitten) continue;
+    const ctx = await start('fighter', 'blink' + turn + out.length);
     const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
     p.hp = p.maxHp = 9999;
     clearBehind(ctx);
@@ -2725,8 +2728,10 @@ await test('a blink hound steps back into the world at your back: turned to face
     if (turn) {
       if (p.hp < hp0) out.push(`faced it and was still bitten: ${said}`);
       if (!p.opening || p.opening.uid !== m.uid) out.push(`facing it left no opening: ${said}`);
-    } else if (!(p.hp < hp0) || !/into your back/.test(said)) out.push(`left at its back, it did not bite: ${said}`);
+    } else if (p.hp < hp0 && /into your back/.test(said)) bitten = true;
+    else missed.push(said);
   }
+  if (!bitten) out.push(`left at its back three times, it never bit: ${missed.join(' || ')}`);
   return out.length ? out.join('; ') : true;
 });
 
@@ -2972,11 +2977,12 @@ await test('the tiers of monsters stretch over a short delve: an eight-floor del
   let lastFloor = 0, early = 0, longMid = 0;
   for (let i = 0; i < 12; i++) {
     const seed = `tiers-${i}`;
-    if (Dungeon.generate(seed, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'minotaur' || m.id === 'troll')) lastFloor++;
+    // the ladder's deepest kinds: the troll, the minotaur and the cave wyrm
+    if (Dungeon.generate(seed, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => ['minotaur', 'troll', 'wyrm'].includes(m.id))) lastFloor++;
     if (Dungeon.generate(seed, 1, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' }).monsters.some(m => ctx.MONSTERS[m.id].tier[0] > 1)) early++;
     if (Dungeon.generate(seed, 8, { ...OPTS, levels: 16, size: 'medium', monsters: 'normal' }).monsters.some(m => m.id === 'minotaur')) longMid++;
   }
-  if (lastFloor < 8) return `only ${lastFloor} of 12 eight-floor delves met a troll or minotaur on the last floor`;
+  if (lastFloor < 8) return `only ${lastFloor} of 12 eight-floor delves met a troll, minotaur or wyrm on the last floor`;
   if (early) return `${early} first floors held creatures from deeper tiers`;
   return longMid === 0 || `a sixteen-floor delve met a minotaur on floor 8 (${longMid} times)`;
 });
