@@ -191,7 +191,7 @@ export function makeFoes(K) {
   /** Crushing and magic keep a skeleton down; an edge only takes it apart. */
   function breaksBones(tag) {
     if (tag === 'fire' || tag === 'burn' || tag === 'burning') return true;
-    if (tag === 'thorns') return false;
+    if (tag === 'thorns' || tag === 'companion') return false;
     const w = tag === 'offhand' ? K.offhandWeapon() : K.weapon();
     return !!(w && w.blunt);
   }
@@ -561,20 +561,23 @@ export function makeFoes(K) {
       K.learn(m.id, 'answer');
       K.opening(m);
     }
+    // a chant, a war-horn call and the lich's rite are the hero's to break:
+    // the hound's teeth do not count, or it quietly won the lich fight for them
+    const byHero = tag !== 'companion';
     // a chant is broken by any wound
-    if (m.windup && m.windup.move === 'mend') {
+    if (byHero && m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
       K.log(`You break the ${mb.name}'s chant!`, 'good');
       K.learn(m.id, 'answer');
     }
     // and so is a war-horn call, and a call cut short is spent
-    if (m.windup && m.windup.move === 'rally') {
+    if (byHero && m.windup && m.windup.move === 'rally') {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
       K.log(`You cut the ${mb.name}'s call short! The horn falls from his lips.`, 'good');
       K.learn(m.id, 'answer');
     }
     // and so is the lich's rite, though it will try again
-    if (m.windup && m.windup.move === 'rite') {
+    if (byHero && m.windup && m.windup.move === 'rite') {
       m.windup = null; m.riteReady = K.G.t + 6000; m.nextAct = K.G.t + 700;
       K.log(`You break the ${mb.name}'s rite! The Heart's light slips back out of its hands.`, 'good');
       Sound.play('riteBroken', K.heard(m));
@@ -645,7 +648,7 @@ export function makeFoes(K) {
     const out = [];
     for (let y = 0; y < L.h; y++) for (let x = 0; x < L.w; x++) {
       const dd = K.distField[y * L.w + x];
-      if (dd < 3 || dd > 5 || K.tile(x, y) !== K.T.FLOOR || K.monsterAt(x, y) || K.npcAt(x, y)) continue;
+      if (dd < 3 || dd > 5 || K.tile(x, y) !== K.T.FLOOR || K.monsterAt(x, y) || K.npcAt(x, y) || K.companionAt(x, y)) continue;
       if (hasLineToPlayer({ x, y }, 5, true)) out.push([x, y]);
     }
     // somewhere ahead of the hero if it can: vanishing behind them reads as a cheat
@@ -699,7 +702,7 @@ export function makeFoes(K) {
         const x = cx + dx, y = cy + dy, k = K.key(x, y);
         if (seen.has(k) || !K.passable(x, y)) continue;
         seen.add(k); next.push([x, y]);
-        if (K.tile(x, y) === K.T.FLOOR && !K.monsterAt(x, y) && !K.npcAt(x, y) && !(x === p.x && y === p.y)) spots.push([x, y]);
+        if (K.tile(x, y) === K.T.FLOOR && !K.monsterAt(x, y) && !K.npcAt(x, y) && !K.companionAt(x, y) && !(x === p.x && y === p.y)) spots.push([x, y]);
       }
       ring = next;
     }

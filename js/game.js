@@ -1214,7 +1214,7 @@ const Game = (() => {
           case 'teleport': {
             const L = lvl(); const spots = [];
             // somewhere clear: not on a creature, nor a trader or an encounter's stone, nor a barrel
-            for (let i = 0; i < L.w * L.h; i++) { const x = i % L.w, y = (i / L.w) | 0; if (L.tiles[i] === T.FLOOR && !monsterAt(x, y) && !npcAt(x, y) && !propAt(x, y)) spots.push(i); }
+            for (let i = 0; i < L.w * L.h; i++) { const x = i % L.w, y = (i / L.w) | 0; if (L.tiles[i] === T.FLOOR && !monsterAt(x, y) && !npcAt(x, y) && !propAt(x, y) && !companion.at(x, y)) spots.push(i); }
             const s = Dice.pick(spots);
             p.x = s % L.w; p.y = (s / L.w) | 0;
             snapCam(); distFieldAt = -1e9;
@@ -1647,7 +1647,7 @@ const Game = (() => {
     if (t === T.STAIRS_UP) return G.depth > 1 ? 'Climb' : 'Use';
     if (t === T.FOUNTAIN) return 'Drink';
     if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
-    if (companion.at(tx, ty)) return companion.here().mode === 'stay' ? 'Come' : 'Stay';
+    if (companion.at(tx, ty) && !monsterAt(tx, ty)) return companion.here().mode === 'stay' ? 'Come' : 'Stay';
     // Use still strikes what is in front, but the button beside it already
     // says Attack; two buttons with one name read as a mistake
     if (monsterAt(tx, ty)) return 'Use';
@@ -1894,8 +1894,8 @@ const Game = (() => {
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
     const ahead = npcAt(tx, ty);
     if (ahead) return ahead.kind === 'encounter' ? openEncounter(ahead) : openShop(ahead);
-    if (companion.at(tx, ty)) return companion.toggle();
     if (monsterAt(tx, ty)) return attack();
+    if (companion.at(tx, ty)) return companion.toggle();
     if (propAt(tx, ty)) return attack();   // a barrel, crate or urn ahead: break it
     if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
     if (t === T.DOOR_OPEN) {
@@ -1943,6 +1943,7 @@ const Game = (() => {
     if (!c) return null;
     if (c.goldPerDepth) return { gold: c.goldPerDepth * G.depth, text: `${c.goldPerDepth * G.depth} gold` };
     if (c.hurtFrac) { const n = Math.ceil(P().maxHp * c.hurtFrac); return { hp: n, text: `${n} hit points` }; }
+    if (c.food) return { food: c.food, text: `${c.food} nourishment` };
     return null;
   }
   /** What each choice will ask of you, and how likely it is to go well. */
@@ -1954,6 +1955,7 @@ const Game = (() => {
       let blocked = null;
       if (cost && cost.gold && p.gold < cost.gold) blocked = `You need ${cost.gold} gold.`;
       if (cost && cost.hp && p.hp <= cost.hp) blocked = 'You are too weak to spare the blood.';
+      if (cost && cost.food && p.food < cost.food) blocked = 'You have too little food to share.';
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, G.depth), bonus = knack(ch.check);
@@ -1974,6 +1976,7 @@ const Game = (() => {
     const lines = [];
     if (cost && cost.gold) { p.gold -= cost.gold; lines.push(`−${cost.gold} gold`); }
     if (cost && cost.hp) { p.hp -= cost.hp; fx.damageUntil = realNow + 260; lines.push(`−${cost.hp} hit points`); }
+    if (cost && cost.food) { p.food -= cost.food; lines.push(`−${cost.food} nourishment`); }
     let c = null, outcome = ch.outcome;
     if (ch.check) {
       c = statCheck(ch.check.stat, encounterDc(ch.check, G.depth), knack(ch.check));
@@ -2046,7 +2049,7 @@ const Game = (() => {
           for (let dy = -r; dy <= r && placed < e.ambush.n; dy++) for (let dx = -r; dx <= r && placed < e.ambush.n; dx++) {
             if (Math.abs(dx) + Math.abs(dy) !== r) continue;
             const x = p.x + dx, y = p.y + dy;
-            if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y)) continue;
+            if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y) || companion.at(x, y)) continue;
             const b = MONSTERS[e.ambush.id];
             // as sturdy as the rest of the floor: the difficulty and the deep's pressure apply
             newMonster(e.ambush.id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 800;
@@ -2351,7 +2354,7 @@ const Game = (() => {
         return;
       }
       floatText(m, 'shadow', '#b090ff');
-      if (!m.wardSaid) { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts${P().cls === 'mage' ? ', or unpick it with a spell' : ''}.`, 'bad'); }
+      if (!m.wardSaid && tag !== 'companion') { m.wardSaid = true; log(`Your blow passes through the shadow wrapped round the ${MONSTERS[m.id].name}. Deal with its guards while it lasts${P().cls === 'mage' ? ', or unpick it with a spell' : ''}.`, 'bad'); }
       sparks(m);
       Sound.play('wardhit', heard(m));
       return;
@@ -2370,7 +2373,7 @@ const Game = (() => {
       if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
-    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
+    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {
       // in a group the front one falls and the next steps up; the square
@@ -2844,7 +2847,7 @@ const Game = (() => {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
-    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
+    if (G.companion) told.push(G.companion.fallen ? `a hound called ${G.companion.name} lies buried on floor ${G.companion.fallen} of the Deepdelve, and they do not talk about it` : won && G.companion.depth !== G.depth ? `a brown hound called ${G.companion.name} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again` : won ? `a brown hound called ${G.companion.name} sleeps by their fire, and will not be parted from them` : `a brown hound called ${G.companion.name} was found at the foot of the stair, waiting`);
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {
       lines.push(p.deepest >= 4
@@ -3225,7 +3228,7 @@ const Game = (() => {
     // longer: without that it walked straight back in with the first move, and the slam cost tempo
     if (hasTalent('shield_slam') && lvl().monsters.includes(m) && !m.collapsed && !mb.boss) {
       const bx = m.x + dx, by = m.y + dy;
-      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by)) { moveMonster(m, bx, by); m.nextAct = Math.max(m.nextAct, G.t + stagger + 1000); log(`The ${mb.name} is knocked back a square, dazed.`, 'good'); }
+      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by) && !companion.at(bx, by)) { moveMonster(m, bx, by); m.nextAct = Math.max(m.nextAct, G.t + stagger + 1000); log(`The ${mb.name} is knocked back a square, dazed.`, 'good'); }
     }
     return true;
   }
@@ -3355,7 +3358,7 @@ const Game = (() => {
       const dd = distField[i];
       if (L.tiles[i] !== T.FLOOR || dd < 3 || dd > 7) continue;
       const x = i % L.w, y = (i / L.w) | 0;
-      if (!monsterAt(x, y) && !npcAt(x, y)) cands.push([x, y]);
+      if (!monsterAt(x, y) && !npcAt(x, y) && !companion.at(x, y)) cands.push([x, y]);
     }
     if (!cands.length) return false;
     // what finds the sleeper is what lives on this floor: the same stretched tiers
@@ -3548,7 +3551,7 @@ const Game = (() => {
     if (mb.lunge && w.px != null) {
       const dx = w.px - m.x, dy = w.py - m.y;
       const back = Math.abs(dx) + Math.abs(dy) === 1 && p.x === w.px + dx && p.y === w.py + dy;
-      if (back && passable(w.px, w.py) && !monsterAt(w.px, w.py) && !npcAt(w.px, w.py)) return { lunge: true, x: w.px, y: w.py, verb: 'lunges after', miss: 'lunges after you and misses' };
+      if (back && passable(w.px, w.py) && !monsterAt(w.px, w.py) && !npcAt(w.px, w.py) && !companion.at(w.px, w.py)) return { lunge: true, x: w.px, y: w.py, verb: 'lunges after', miss: 'lunges after you and misses' };
     }
     if ((mb.reach || 1) >= 2 && (p.x === m.x || p.y === m.y) && Math.abs(p.x - m.x) + Math.abs(p.y - m.y) === 2) {
       const mx = (p.x + m.x) / 2, my = (p.y + m.y) / 2;
@@ -3692,7 +3695,9 @@ const Game = (() => {
         if (rel === 0 || rel === 2) rel = r2;
       }
       if (rel === 0) continue;
-      out.push({ rel, near: dist === 1, tell: !!(m.windup || m.volley), special: !!(m.windup && m.windup.move) });
+      // a blow drawn back at the hound is no warning of one at the hero
+      const w = m.windup && m.windup.kind !== 'pet' ? m.windup : null;
+      out.push({ rel, near: dist === 1, tell: !!(w || m.volley), special: !!(w && w.move) });
     }
     return out.sort((a, b) => Number(b.tell) - Number(a.tell) || Number(b.near) - Number(a.near));
   }
@@ -4077,7 +4082,7 @@ const Game = (() => {
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
-    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get mstat() { return mstat; },
+    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
     get damageMonster() { return damageMonster; }, get ensureDist() { return ensureDist; }, get distField() { return distField; },
     get heard() { return heard; }, get realNow() { return realNow; },
   });

@@ -8,7 +8,8 @@
 import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330 };
+// it trots when it has fallen behind, and walks once it is back at heel
+const HOUND = { sprite: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 180, lostMs: 3000 };
 const NAMES = ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'];
 
 /** @param {any} K */
@@ -19,9 +20,32 @@ export function makeCompanion(K) {
   const hitFor = level => 3 + Math.floor(level / 3);
   const biteFor = level => [1, 6, Math.floor(level / 3)];
   /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. */
-  const noisy = () => { const c = here(); return !!c && c.mode === 'follow'; };
+  const noisy = () => { const c = here(), p = K.P(); return !!c && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
-  const free = (x, y) => K.passable(x, y) && !K.monsterAt(x, y) && !K.npcAt(x, y) && !(x === K.P().x && y === K.P().y);
+  /** Ground it can stand on: open floor, no trader, stone or barrel in the way. */
+  const ground = (x, y) => K.passable(x, y) && !K.npcAt(x, y) && !K.propAt(x, y);
+  const free = (x, y) => ground(x, y) && !K.monsterAt(x, y) && !(x === K.P().x && y === K.P().y);
+  /**
+   * Its own way to the hero, walked out from them over ground it can stand on.
+   * The monsters' map stops at a score of squares and treats a shut door as
+   * open, and a hound that trusted it sat down in front of a door, or lost the
+   * hero in a long corridor, and never moved again.
+   */
+  function trail() {
+    const L = K.lvl(), p = K.P(), n = L.w * L.h;
+    const dist = new Int16Array(n).fill(-1), q = new Int32Array(n);
+    let head = 0, tail = 0;
+    dist[p.y * L.w + p.x] = 0; q[tail++] = p.y * L.w + p.x;
+    while (head < tail) {
+      const i = q[head++], x = i % L.w, y = (i / L.w) | 0;
+      for (const [dx, dy] of K.DIRS) {
+        const nx = x + dx, ny = y + dy, j = ny * L.w + nx;
+        if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h || dist[j] >= 0 || !ground(nx, ny)) continue;
+        dist[j] = dist[i] + 1; q[tail++] = j;
+      }
+    }
+    return dist;
+  }
   /** An open square beside the hero, the one behind them first. */
   function besideHero() {
     const p = K.P();
@@ -68,8 +92,10 @@ export function makeCompanion(K) {
     c.lungeAt = K.realNow;
     const roll = d(1, 20), mb = K.mstat(m);
     if (roll !== 1 && (roll === 20 || roll + hitFor(p.level) >= mb.ac)) {
+      // in a group the front one falls and the next steps up into the same place
+      const many = m.pack ? m.pack.length : 0;
       K.damageMonster(m, Math.max(1, d(...biteFor(p.level))), 'companion');
-      if (!L.monsters.includes(m)) c.kills++;
+      if (!L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many) c.kills++;
     }
     return true;
   }
@@ -82,23 +108,40 @@ export function makeCompanion(K) {
     const want = maxHpFor(p.level);
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
     if (bite(c)) { c.nextAct = G.t + HOUND.speed; return; }
-    if (c.mode === 'stay') { c.nextAct = G.t + 300; return; }
-    K.ensureDist();
-    const di = K.distField[c.y * L.w + c.x];
-    c.nextAct = G.t + HOUND.stepMs;
-    if (di >= 0 && di <= 1) return;
-    let best = null, bd = di < 0 ? Infinity : di;
+    // something came to stand where it stands (a lunge, a summoning): it gives way
+    if (K.monsterAt(c.x, c.y)) {
+      const out = K.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => free(x, y));
+      if (out) moveTo(c, out[0], out[1], HOUND.stepMs);
+      c.nextAct = G.t + HOUND.stepMs; return;
+    }
+    if (c.mode === 'stay') { c.nextAct = G.t + 300; c.stuckSince = 0; return; }
+    const dist = trail(), di = dist[c.y * L.w + c.x];
+    const step = di > 2 || di < 0 ? HOUND.trotMs : HOUND.stepMs;
+    c.nextAct = G.t + step;
+    if (di >= 0 && di <= 1) { c.stuckSince = 0; return; }
+    // the square that brings it nearest; failing that, one as near that it did
+    // not just come from, to get round whatever stands in the way
+    let best = null, bd = di < 0 ? Infinity : di, side = null;
     for (const [dx, dy] of K.DIRS) {
       const x = c.x + dx, y = c.y + dy;
-      if (x < 0 || y < 0 || x >= L.w || y >= L.h) continue;
-      const dd = K.distField[y * L.w + x];
-      if (dd >= 0 && dd < bd && free(x, y)) { bd = dd; best = [x, y]; }
+      if (x < 0 || y < 0 || x >= L.w || y >= L.h || !free(x, y)) continue;
+      const dd = dist[y * L.w + x];
+      if (dd < 0) continue;
+      if (dd < bd) { bd = dd; best = [x, y]; } else if (dd === di && !side && !(x === c.fromX && y === c.fromY)) side = [x, y];
     }
-    if (best) moveTo(c, best[0], best[1]);
+    const to = best || side;
+    if (to) { moveTo(c, to[0], to[1], step); if (best) { c.stuckSince = 0; return; } }
+    // no way through for a while, or none at all (a door pulled shut behind the
+    // hero): it finds its own way round, out of sight, and turns up at their side
+    if (!c.stuckSince) c.stuckSince = G.t;
+    else if (G.t - c.stuckSince >= HOUND.lostMs && (di < 0 || di > 3)) {
+      const spot = besideHero();
+      if (spot) { Object.assign(c, spot); c.moveT1 = 0; c.stuckSince = 0; }
+    }
   }
-  function moveTo(c, x, y) {
+  function moveTo(c, x, y, ms = HOUND.stepMs) {
     c.fromX = c.x; c.fromY = c.y; c.x = x; c.y = y;
-    c.moveT0 = K.realNow; c.moveT1 = K.realNow + HOUND.stepMs;
+    c.moveT0 = K.realNow; c.moveT1 = K.realNow + ms;
   }
   /** Stay where you are, or come: the hero's word, facing it. */
   function toggle() {
@@ -132,7 +175,8 @@ export function makeCompanion(K) {
   /** After a load: its clock starts again with the game's. */
   function loaded() {
     const c = K.G.companion;
-    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; }
+    // (its picture's clocks run on the page's time, which starts again from nothing)
+    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.stuckSince = 0; }
   }
   /** Where to draw it, smoothly between squares. */
   function sprite(Assets, now) {

@@ -8901,6 +8901,140 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return !m.awake || 'a sleeper seven squares off woke though the hound was told to stay';
   });
 
+  /** The hound's floor made plain: walls everywhere but what the test lays down. */
+  const bareFloor = ctx => {
+    const L = ctx.Game.level();
+    L.monsters.length = 0; L.npcs = []; L.items = {}; L.traps = {}; L.dressing = [];
+    L.tiles.fill(ctx.Dungeon.T.WALL);
+    return L;
+  };
+  const dig = (ctx, x0, y0, x1, y1) => { const L = ctx.Game.level(); for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) L.tiles[y * L.w + x] = ctx.Dungeon.T.FLOOR; };
+
+  await test('the hound finds its own way: round a stone in the way, past a door pulled shut, and back from far behind', async () => {
+    const out = [];
+    const near = (c, p) => Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 1;
+    {
+      // an encounter's stone square between it and the hero, in an open room
+      const ctx = await withHound('hound-way-stone');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      const L = bareFloor(ctx); dig(ctx, 3, 3, 15, 9);
+      p.x = 12; p.y = 6; c.x = 4; c.y = 6; L.npcs = [{ id: 'mapmaker', kind: 'encounter', x: 5, y: 6 }];
+      run(Game, G, 8000);
+      if (!near(c, p)) out.push(`a stone in the way kept it at ${c.x},${c.y}`);
+    }
+    {
+      // the only way through is a shut door: it turns up at the hero's side all the same
+      const ctx = await withHound('hound-way-door');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      const L = bareFloor(ctx); dig(ctx, 3, 3, 7, 9); dig(ctx, 11, 3, 15, 9); dig(ctx, 9, 4, 10, 4);
+      L.tiles[4 * L.w + 8] = ctx.Dungeon.T.DOOR;
+      p.x = 12; p.y = 4; c.x = 6; c.y = 4;
+      run(Game, G, 8000);
+      if (!near(c, p)) out.push(`a shut door kept it at ${c.x},${c.y}`);
+      if (L.tiles[4 * L.w + 8] !== ctx.Dungeon.T.DOOR) out.push('it opened the door');
+    }
+    {
+      // far behind, down a long corridor turning back on itself: it trots, and catches up
+      const ctx = await withHound('hound-way-far');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      const L = bareFloor(ctx), e = L.w - 3;
+      dig(ctx, 2, 3, e, 3); dig(ctx, e, 3, e, 7); dig(ctx, 2, 7, e, 7);
+      p.x = 3; p.y = 7; c.x = 3; c.y = 3;
+      run(Game, G, 16000);
+      if (!near(c, p)) out.push(`from ${2 * (e - 3) + 4} squares back it only reached ${c.x},${c.y}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('nothing lands on the hound\'s square to stay; Use strikes a foe in front before it talks to the hound', async () => {
+    const out = [];
+    const ctx = await withHound('hound-stack');
+    const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+    bareFloor(ctx); dig(ctx, 3, 3, 15, 9);
+    p.x = 8; p.y = 6; p.dir = 1; c.x = 9; c.y = 6;
+    // a rat come to stand where the hound stands (as a lunge or a summoning once put one)
+    const rat = { uid: 95, id: 'rat', x: 9, y: 6, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    Game.level().monsters.push(rat);
+    if (Game.useLabel() === 'Stay' || Game.useLabel() === 'Come') out.push(`with a rat in front, Use says ${Game.useLabel()}`);
+    const was = c.mode;
+    Game.input('use');
+    if (c.mode !== was) out.push('Use told the hound to stay instead of striking the rat');
+    run(Game, G, 1500);
+    if (c.x === rat.x && c.y === rat.y) out.push('the hound stayed on the rat\'s square');
+    // and a rat that lunges after a hero stepping back does not land on the hound behind them
+    {
+      const b = await withHound('hound-lunge');
+      const G2 = b.Game.state(), p2 = b.Game.player(), c2 = b.Game.companion();
+      bareFloor(b); dig(b, 3, 3, 15, 9);
+      p2.x = 8; p2.y = 6; p2.dir = 1; c2.x = 7; c2.y = 6; c2.mode = 'stay';
+      let stacked = 0;
+      for (let i = 0; i < 12; i++) {
+        p2.x = 8; p2.y = 6; c2.x = 7; c2.y = 6; c2.hp = c2.maxHp = 9999;
+        const m = { uid: 96, id: 'rat', x: 9, y: 6, hp: 999, maxHp: 999, awake: true, nextAct: G2.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+        b.Game.level().monsters.length = 0; b.Game.level().monsters.push(m);
+        for (let t = 0; t < 3000 && !m.windup; t += 25) b.Game.update(G2.t + 25, 25);
+        if (!m.windup) continue;
+        // the hero steps back into the hound, and they swap: the hound now stands where the rat will lunge
+        b.Game.input('back');
+        let on = false;
+        for (let t = 0; t < 2000; t += 25) { b.Game.update(G2.t + 25, 25); if (m.x === c2.x && m.y === c2.y) on = true; }
+        if (on) stacked++;
+      }
+      if (stacked) out.push(`a lunging rat landed on the hound ${stacked} times`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the hound\'s bite breaks no rite, horn call or chant: those are the hero\'s to break', async () => {
+    const out = [];
+    for (const [id, move, extra] of [['lich', 'rite', { phase: 2 }], ['grisk', 'rally', {}], ['acolyte', 'mend', {}]]) {
+      const ctx = await withHound('hound-rite-' + id);
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      bareFloor(ctx); dig(ctx, 3, 3, 16, 12);
+      p.x = 10; p.y = 7; c.x = 11; c.y = 7; c.maxHp = c.hp = 9999;
+      const m = { uid: 91, id, x: 12, y: 7, hp: 500, maxHp: 999, awake: true, nextAct: 1e12, rx: 12, ry: 7, fromX: 12, fromY: 7, moveT0: 0, moveT1: 0, flashUntil: 0, spoke: true, ...extra };
+      m.windup = { kind: 'move', move, at: G.t, until: G.t + 1e9 };
+      Game.level().monsters.push(m);
+      const mark = markLog(G);
+      run(Game, G, 8000);
+      const bit = linesSince(G, mark).some(l => l.includes(`${c.name} bites`));
+      if (!bit) out.push(`the hound never bit the ${id}`);
+      else if (!m.windup) out.push(`the hound's bite broke the ${id}'s ${move}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the hound after a reload is not caught mid-lunge; one left floors above is not at the hero\'s side at the end; sharing needs food to share', async () => {
+    const out = [];
+    const ctx = await withHound('hound-odds');
+    const { Game } = ctx; const G = Game.state(), c = Game.companion();
+    c.lungeAt = 1e12; c.stuckSince = G.t;
+    clearAround(ctx);
+    Game.save(true);
+    if (!Game.load()) return 'the game would not load';
+    const c2 = Game.companion();
+    if (c2.lungeAt) out.push(`after a reload its lunge clock read ${c2.lungeAt}`);
+    // told to stay floors above, then the Heart won: it is not by the fire that night
+    c2.mode = 'stay'; c2.depth = Game.state().depth + 3;
+    const won = Game.epilogue(true).join(' ');
+    if (!won.includes(c2.name) || /sleeps by their fire/.test(won)) out.push(`the epilogue had the hound left behind at the hero's side: ${won}`);
+    // a hero with too little food cannot share it
+    {
+      const b = await start('fighter', 'hound-hungry', { levels: 6 });
+      const p = b.Game.player(), L = b.Game.level(), [dx, dy] = b.Dungeon.DIRS[p.dir];
+      p.food = 10;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = b.Dungeon.T.FLOOR; L.monsters.length = 0;
+      L.npcs = [{ id: 'stray', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+      b.Game.input('use');
+      const o = b.Game.encounterOptions()[0];
+      if (!o.blocked) out.push('sharing food was open to a hero with 10 food');
+      if (o.cost !== '25 nourishment') out.push(`the cost read ${o.cost}`);
+      b.Game.chooseEncounter(0);
+      if (b.Game.companion()) out.push('a hero with nothing to share won the hound by sharing');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }

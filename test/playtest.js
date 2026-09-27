@@ -505,6 +505,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           // gold has nothing left to buy at the last floor's lamp: only what it gives counts
           if (ch.cost && ch.cost.goldPerDepth && !cur.def.final) v -= ch.cost.goldPerDepth / 12;
           if (ch.cost && ch.cost.hurtFrac) v -= ch.cost.hurtFrac * 12;
+          if (ch.cost && ch.cost.food) v -= ch.cost.food / 30;   // as a food effect is valued
           if (v > bestValue) { bestValue = v; best = o; }
         });
         // nothing worth the risk: take the way out, which is always last

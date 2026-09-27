@@ -2292,7 +2292,8 @@ const UI = (() => {
       if (k) killer = `to ${k.name.replace(/^[A-Z](?=[a-z])/, c => (k.encounter ? c : c.toLowerCase()))}`;
     }
     // a hound still at the hero's side at the end stands in the picture with them
-    const c = G.companion, hound = c && !c.fallen ? { name: c.name, art: pic(Assets.sprites.dog) } : null;
+    // (not one told to stay floors above)
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, art: pic(Assets.sprites.dog) } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,
