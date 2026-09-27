@@ -8881,6 +8881,26 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a hound at heel is heard a square sooner: a sleeper seven squares off wakes, and does not while the hound is told to stay', async () => {
+    const ctx = await withHound('hound-noise');
+    const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion(), L = Game.level();
+    // a plain fighter: no quiet blood, no quiet ring, no dark floor
+    p.bg = 'debtor'; L.twist = null;
+    clearAround(ctx, 8);
+    const dir = ctx.Dungeon.DIRS.find(([dx, dy]) => p.x + 7 * dx > 0 && p.x + 7 * dx < L.w - 1 && p.y + 7 * dy > 0 && p.y + 7 * dy < L.h - 1);
+    const sleeper = () => {
+      const m = { uid: 99, id: 'goblin', x: p.x + 7 * dir[0], y: p.y + 7 * dir[1], hp: 999, maxHp: 999, awake: false, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.length = 0; L.monsters.push(m); return m;
+    };
+    let m = sleeper();
+    Game.update(G.t + 25, 25);
+    if (!m.awake) return 'a sleeper seven squares off slept on through a hound at heel';
+    c.mode = 'stay';
+    m = sleeper();
+    Game.update(G.t + 25, 25);
+    return !m.awake || 'a sleeper seven squares off woke though the hound was told to stay';
+  });
+
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);
 }
