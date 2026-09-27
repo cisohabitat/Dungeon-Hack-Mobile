@@ -188,10 +188,10 @@ const VOWS = {
 // nowhere else, and a relic on its last floor (see routeRelic in relics.js).
 const ROUTES = {
   crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.',
-    theme: 6, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla'], encounter: 'ossuary',
+    theme: 6, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla', 'skarrow'], encounter: 'ossuary',
     epi: 'They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.' },
   warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.',
-    theme: 7, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum'], encounter: 'warcamp',
+    theme: 7, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum', 'skarrow'], encounter: 'warcamp',
     epi: 'They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.' },
 };
 
@@ -545,7 +545,8 @@ const MONSTERS = {
       wake: 'Gorrum the Troll-Father smells you, and lumbers toward the scent.',
       fall: 'Gorrum the Troll-Father is dead! He topples like a felled oak, and this time nothing grows back.' } },
   skarrow:  { name: 'Elder Wyrm',    hp: [12, 10, 12], ac: 17, hit: 9,  dmg: [2, 8, 3], speed: 1100, xp: 600,  tier: [9, 30],  sprite: 'wyrm',     scale: 1.55, move: 'breath', door: 'smash',
-    named: { called: 'Skarrow', kin: 'wyrm', tint: '#ffb040', guard: ['hound', 1], often: 2,
+    // (the Elder Wyrm lairs beneath both roads: each lists her among its champions)
+    named: { called: 'Skarrow', kin: 'wyrm', tint: '#ffb040', guard: ['hound', 1], often: 2, pron: 'her',
       arrive: 'The air on the stair is hot and smells of cinders. Skarrow the Elder Wyrm lairs somewhere on this floor.',
       wake: 'Coals stir in the dark, and open, and are eyes. Skarrow the Elder Wyrm uncoils from her hoard.',
       fall: 'Skarrow the Elder Wyrm is dead! The fire in her throat gutters out, and her hoard goes dark.' } },

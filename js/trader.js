@@ -283,5 +283,7 @@ export function makeTrader(K) {
     Sound.play('gold');
     return gold;
   }
-  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName };
+  /** What besides charm moves this trader's prices, for the shop's header. */
+  const priceNotes = () => [vouched() ? 'the captive\'s word: a sixth off' : '', grudge() ? 'the Lampfolk remember: a sixth dearer' : ''].filter(Boolean);
+  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes };
 }

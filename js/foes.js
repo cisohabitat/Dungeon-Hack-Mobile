@@ -248,7 +248,8 @@ export function makeFoes(K) {
     else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
     // a wyrm breathes down a passage at one who keeps their distance; under its jaws it only bites
     else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && Math.random() < 0.6) {
-      say = `The ${mb.name} rears back, and fire kindles in its throat! Get in under its jaws, or out of its line!`;
+      const its = (mb.named && mb.named.pron) || 'its';
+      say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
@@ -411,7 +412,7 @@ export function makeFoes(K) {
         // faced, it steps out of the air onto a raised blade; at your back, it bites deep
         if (dist === 1 && facing(m)) { K.log(`You turn to meet the ${mb.name} as it steps out of the air. It is caught off balance!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         else if (dist === 1) {
-          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: w.behind ? 'sinks its teeth into your back' : 'sinks its teeth into your side', sure: true });
+          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: 'sinks its teeth into', sure: true });
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
         } else { K.log(`The ${mb.name} snaps at the air where you stood.`, 'good'); m.nextAct = K.G.t + mb.speed; }
@@ -436,8 +437,8 @@ export function makeFoes(K) {
           K.hurtPlayer(n, `A gout of fire roars down the passage over you for ${n}!${c.pass ? ' You throw yourself flat under the worst of it.' : ''}${warded ? ' Your wyrm-scale takes the worst of it.' : ''}${c.note}`, m, 'a cave wyrm\'s fire');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
-        } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: its fire roars out over your head, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
-        else { K.log(`The ${mb.name}'s fire roars down an empty passage, and leaves it spent and open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: ${(mb.named && mb.named.pron) || 'its'} fire roars out over your head, and ${mb.named && mb.named.pron ? 'she is' : 'it is'} left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        else { K.log(`The ${mb.name}'s fire roars down an empty passage, and leaves ${mb.named && mb.named.pron ? 'her' : 'it'} spent and open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         m.moveReady = K.G.t + 7000;
         break;
       }

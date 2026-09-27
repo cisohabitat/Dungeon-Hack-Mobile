@@ -2728,7 +2728,7 @@ await test('a blink hound steps back into the world at your back: turned to face
     if (turn) {
       if (p.hp < hp0) out.push(`faced it and was still bitten: ${said}`);
       if (!p.opening || p.opening.uid !== m.uid) out.push(`facing it left no opening: ${said}`);
-    } else if (p.hp < hp0 && /into your back/.test(said)) bitten = true;
+    } else if (p.hp < hp0 && /sinks its teeth into you from behind/.test(said)) bitten = true;
     else missed.push(said);
   }
   if (!bitten) out.push(`left at its back three times, it never bit: ${missed.join(' || ')}`);
@@ -2819,11 +2819,15 @@ await test('Skarrow the Elder Wyrm holds a deep floor of the Long Delve, never a
   const ctx = await start('fighter', 'skarrow', { levels: 12 });
   const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
   let long = 0, short = 0;
+  const road = { crypts: 0, warrens: 0 };
   for (let i = 0; i < 200; i++) {
     if (Object.values(Dungeon.namedPlan('sk' + i, 12)).includes('skarrow')) long++;
     if (Object.values(Dungeon.namedPlan('sk' + i, 8)).includes('skarrow')) short++;
+    // a real run has chosen its road by her floor: she lairs beneath both
+    for (const r of ['crypts', 'warrens']) if (Object.values(Dungeon.namedPlan('sk' + i, 12, r)).includes('skarrow')) road[r]++;
   }
   if (!long) out.push('no Long Delve in 200 held Skarrow');
+  for (const r in road) if (road[r] < 20) out.push(`down the ${r}, only ${road[r]} Long Delves in 200 held Skarrow`);
   if (short) out.push(`${short} ordinary delves held Skarrow`);
   const again = async id => {
     p.hp = p.maxHp = 9999;

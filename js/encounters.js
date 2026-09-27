@@ -382,7 +382,7 @@ const ENCOUNTERS = {
   // What you do here, the Lampfolk traders below will have heard.
   lampfolk: {
     title: 'A Lamp Gone Out', sprite: 'lampfolk_dark', depth: [2, 99],
-    text: 'One of the Lampfolk sits hunched against the wall, its pack beside it and its lamp cold in its lap. Its great eyes are dim as ash. "Sun-walker?" it says, turning its head the wrong way. "The flame went out. We do not see without it."',
+    text: 'One of the Lampfolk sits hunched against the wall, its lamp cold in its lap and its great eyes dim as ash. "Sun-walker?" it says, turning the wrong way. "The flame went out. We do not see without it."',
     choices: [
       { label: 'Coax the wick alight', check: { stat: 'dex', dc: 12 },
         pass: { text: 'A spark, a breath, and the flame stands up. Its eyes brighten with it. It touches your hand, very lightly, and says it will tell the others.', effects: [{ xp: 30 }, { thread: 'lamp' }] },

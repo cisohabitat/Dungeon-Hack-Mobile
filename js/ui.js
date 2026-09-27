@@ -1273,7 +1273,8 @@ const UI = (() => {
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
-    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your charm: ${charm}% off</small>` : charm < 0 ? `<br><small>your manner: ${-charm}% dearer</small>` : '');
+    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your charm: ${charm}% off</small>` : charm < 0 ? `<br><small>your manner: ${-charm}% dearer</small>` : '')
+      + Game.priceNotes().map(n => `<br><small>${escapeHtml(n)}</small>`).join('');
     const stock = $('#shop-stock');
     stock.innerHTML = '';
     if (!s.stock.length) stock.innerHTML = '<div class="shop-empty">The trader has nothing left to sell.</div>';
@@ -2384,7 +2385,8 @@ const UI = (() => {
       if (!code) return;
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([code], { type: 'text/plain' }));
-      a.download = `deepdelve-${Game.player().name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-floor-${Game.state().depth}.txt`;
+      const plain = Game.player().name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/æ/gi, 'ae').replace(/ø/gi, 'o').toLowerCase();
+      a.download = `deepdelve-${plain.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'hero'}-floor-${Game.state().depth}.txt`;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 2000);
       $('#code-note').textContent = 'Saved as a file: open it on the other phone or browser.';

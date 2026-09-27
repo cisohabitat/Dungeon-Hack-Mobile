@@ -758,3 +758,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .news p { margin: 0; flex: 1; line-height: 1.35; padding-top: 3px; }
 .news .close { background: transparent; border: 0; padding: 0; min-height: 36px; min-width: 40px; }
 @media (max-height: 560px) and (min-aspect-ratio: 6/5) { .news { right: auto; max-width: 44%; } }
+/* On a narrow screen a picture looked at close takes the card's whole width, above the words */
+@media (max-width: 480px) {
+  .beast { flex-wrap: wrap; }
+  .beast img.beast-art.zoom { flex-basis: 100%; width: 100%; height: 200px; }
+  .beast-poses img.zoom { width: min(160px, 100%); height: min(160px, 60vw); }
+  .beast-poses figure { max-width: 100%; }
+}

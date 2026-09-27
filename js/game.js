@@ -2839,7 +2839,7 @@ const Game = (() => {
     if (!won) {
       lines.push(p.deepest >= 4
         ? `${p.name} got as far as floor ${p.deepest} of the Deepdelve, which is further than the fourth crew managed.`
-        : `${p.name} fell on floor ${p.deepest} of the Deepdelve, in the shallow halls where it takes most of those who try.`);
+        : `${p.name} fell on floor ${G.depth} of the Deepdelve, in the shallow halls where it takes most of those who try.`);
       lines.push(bg.epi);
       lines.push(read > 0
         ? `They were carrying ${read} of the earlier crews' pages when they fell. In time someone will find those too, along with a new name for the roster.`
@@ -4056,7 +4056,7 @@ const Game = (() => {
     P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn,
     revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack,
   };
-  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName } = makeTrader(traderK);
+  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
 
   return {
@@ -4067,7 +4067,7 @@ const Game = (() => {
     offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
-    pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName,
+    pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
