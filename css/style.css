@@ -726,7 +726,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   #enc-choices, #fork-choices { width: 100%; }
   #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
   /* the choices sit low, so the picture above them takes some of the room a tall phone leaves */
-  .enc-art img { width: clamp(112px, 20vh, 176px); height: clamp(112px, 20vh, 176px); }
+  .enc-art img { width: clamp(112px, 26vh, 232px); height: clamp(112px, 26vh, 232px); }
 }
 
 /* Left-handed controls: the pad and the blows change sides, Attack keeps to the
@@ -775,3 +775,6 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 /* The victory's news, a line each. */
 #end-trophy .end-news { display: block; }
 #end-trophy .end-news + .end-news { margin-top: 4px; }
+
+/* a figure and its word kept together: "prices 18%" / "higher" read as two things */
+.nowrap { white-space: nowrap; }

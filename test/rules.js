@@ -5188,6 +5188,37 @@ await test('a save from before the run was counted loads, plays, and counts from
 });
 
 // ---------- the end ----------
+await test('no trap lies in the lich\'s hall or at its mouth', async () => {
+  const { Dungeon } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'dungeon.js')).href);
+  const o = { levels: 8, size: 'normal', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+  for (let i = 0; i < 30; i++) {
+    const L = Dungeon.generate('hall-traps' + i, 8, o), lich = L.monsters.find(m => m.id === 'lich');
+    if (!lich) continue;
+    for (const k of Object.keys(L.traps)) {
+      const [x, y] = k.split(',').map(Number);
+      if (Math.abs(x - lich.x) + Math.abs(y - lich.y) <= 4) return `seed hall-traps${i}: a ${L.traps[k]} ${Math.abs(x - lich.x) + Math.abs(y - lich.y)} squares from the lich`;
+    }
+  }
+  return true;
+});
+
+await test('stepping onto the Heart while the lich holds it says so once, not at every sidestep of the fight', async () => {
+  const ctx = await start('fighter', 'heart-once');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  L.monsters.length = 0;
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+  const k = `${p.x + dx},${p.y + dy}`;
+  (L.items[k] = L.items[k] || []).push({ t: 'artifact', q: 1, e: 0 });
+  // the lich stands off to one side, holding it
+  const lich = beside(ctx, 'lich', { hp: 50, maxHp: 50, nextAct: 1e12 });
+  lich.x = lich.rx = p.x - dx * 3; lich.y = lich.ry = p.y - dy * 3;
+  const mark = markLog(G);
+  for (let i = 0; i < 3; i++) { Game.input('forward'); run(Game, G, 300); Game.input('back'); run(Game, G, 300); }
+  const n = linesSince(G, mark).filter(l => /will not come loose/.test(l)).length;
+  return n === 1 || `stepping onto the Heart three times said it ${n} times`;
+});
+
 await test('the Heart is held fast while the lich stands, and lifting it once the lich is down wins on the spot', async () => {
   const ctx = await start('fighter', 'heart');
   const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();

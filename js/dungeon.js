@@ -670,6 +670,14 @@ const Dungeon = (() => {
       for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
       if (spots.length) { const s = spots[0]; monsters.push(makeMonster('lich', s[0], s[1])); }
       // no escort: the level already crawls with the deep tier's own horrors
+      // and no trap in the hall or at its mouth: a pit across the only way in
+      // dropped every hero into it just as the lich spoke, the view dark for
+      // its first blow. (Taken away after the dice, so the floor is otherwise as it was.)
+      const near = 3;
+      for (const k of Object.keys(traps)) {
+        const [x, y] = k.split(',').map(Number);
+        if (x >= farRoom.x - near && x < farRoom.x + farRoom.w + near && y >= farRoom.y - near && y < farRoom.y + farRoom.h + near) delete traps[k];
+      }
     }
 
     // ---- finds left together ----

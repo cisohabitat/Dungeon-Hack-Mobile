@@ -179,8 +179,10 @@ export function makeTrader(K) {
       log('You sleep by the trader\'s lamp, and nothing comes. You wake whole.', 'good');
     } else if (id === 'hone' || id === 'reinforce') {
       const it = P().eq[id === 'hone' ? 'weapon' : 'armor'];
+      // named as it went in, and as it came out: named after, it went in already better
+      const was = the(it);
       it.e = (it.e || 0) + 1;
-      log(`The trader works ${the(it)} at the forge and hands it back ${id === 'hone' ? 'keener' : 'stouter'}: ${itemName(it)}.`, 'good');
+      log(`The trader works ${was} at the forge and hands it back ${id === 'hone' ? 'keener' : 'stouter'}: ${itemName(it)}.`, 'good');
     } else if (id === 'appraise') {
       const seen = revealAll();
       log(`The trader turns each piece to the lantern: ${seen.map(it => itemName(it) + (it.curse ? ' (cursed)' : '')).join(', ')}.`, 'info');

@@ -109,7 +109,7 @@ test.describe('knowing where you are', () => {
     // the ground walked is the lighter, as paths are on any map, and the walls darker
     const light = await page.evaluate(() => {
       const lum = label => { const k = [...document.querySelectorAll('#map-legend .key')].find(e => e.textContent.trim() === label); const [r, g, b] = getComputedStyle(k.querySelector('i')).backgroundColor.match(/\d+/g).map(Number); return 0.3 * r + 0.59 * g + 0.11 * b; };
-      return { walked: lum('Walked'), wall: lum('Wall') };
+      return { walked: lum('Explored'), wall: lum('Wall') };
     });
     expect(light.walked, 'walked ground should be lighter than wall').toBeGreaterThan(light.wall + 20);
   });

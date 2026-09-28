@@ -1340,10 +1340,17 @@ const Game = (() => {
     return BELT - (ex ? ex.q : 0);
   }
   function takeable() { const k = keeper(); return floorItems().filter(it => !(k && it.t === 'artifact') && !(it.t in ITEMS && beltRoom(it.t) <= 0)); }
-  /** Said once each time the hero steps onto the Heart while the lich still holds it. */
+  /**
+   * Said the first time the hero steps onto the Heart while the lich still
+   * holds it; after that only when they try to take it. The Heart lies by
+   * the lich, so every sidestep in the fight repeated it and filled the log.
+   */
   function heartHeld() {
-    const k = keeper();
-    if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
+    const k = keeper(), L = lvl();
+    if (L.heartSaid) return;
+    if (!k || !floorItems().some(it => it.t === 'artifact')) return;
+    L.heartSaid = true;
+    log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
   }
   function takeItem(it) {
     // nothing is picked up by the dead (the Heart once was, from the pack, during the fall)

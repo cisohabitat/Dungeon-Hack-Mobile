@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-28b', text: 'the Dread Lich is now the real last fight, a ranger\'s Steady Aim is for bows and slings (+1), the forge asks less for its last steps, Healers heal more, and a freed goblin helps with quick-fingered encounters.' };
+  const NEWS = { id: '2026-09-28b', text: 'a caged goblin waits on some delves, the Dread Lich is now the real last fight, a ranger\'s Steady Aim is for bows and slings (+1), the forge asks less for its last steps, Healers heal more, and a freed goblin helps with quick-fingered encounters.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1005,7 +1005,7 @@ const UI = (() => {
     if (!btn) return;
     const foes = label === 'Foes near';
     // a thinner rest says so in words: "Rest ½" alone told a new player nothing
-    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half a rest', 'Rest \u00bc': 'a quarter rest', 'No rest': 'find the stairs' }[label];
+    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half a rest', 'Rest \u00bc': 'quarter rest', 'No rest': 'find the stairs' }[label];
     if (sub) btn.innerHTML = `${label === 'No rest' ? 'No rest' : 'Rest'}<small>${sub}</small>`;
     else btn.textContent = label;
     btn.classList.toggle('unavail', foes || label === 'No rest');
@@ -1302,7 +1302,7 @@ const UI = (() => {
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
-    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your Charisma: prices ${charm}% lower</small>` : charm < 0 ? `<br><small>your low Charisma: prices ${-charm}% higher</small>` : '')
+    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your Charisma: <span class="nowrap">prices ${charm}% lower</span></small>` : charm < 0 ? `<br><small>your low Charisma: <span class="nowrap">prices ${-charm}% higher</span></small>` : '')
       + Game.priceNotes().map(n => `<br><small>${escapeHtml(n)}</small>`).join('');
     const stock = $('#shop-stock');
     stock.innerHTML = '';
@@ -1409,7 +1409,7 @@ const UI = (() => {
         btn.className = 'boon enc-choice';
         const bits = [];
         // the odds always; the dice behind them only for a player who has asked to see the rolls
-        if (o.stat) bits.push(`${o.statName}: ${Game.rollsShown() ? `d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ` : ''}${Math.round(o.chance * 100)}% chance${o.trained ? ' (your training helps)' : ''}${o.helper ? ` (${o.helper}'s fingers help)` : ''}`);
+        if (o.stat) bits.push(`${o.statName}: ${Game.rollsShown() ? `d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ` : ''}${Math.round(o.chance * 100)}% chance${o.trained && o.helper ? ` (your training and ${o.helper} help)` : o.trained ? ' (your training helps)' : o.helper ? ` (${o.helper} helps)` : ''}`);
         if (o.cost) bits.push(`costs ${o.cost}`);
         if (o.blocked) bits.push(o.blocked);
         btn.innerHTML = `<b>${escapeHtml(o.label)}</b>${bits.length ? `<small>${escapeHtml(bits.join(' · '))}</small>` : ''}`;
@@ -1876,7 +1876,8 @@ const UI = (() => {
     if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') return '';
     const cur = p.eq[b.kind];
     if (cur === it || Game.canEquip(it)) return '';
-    const fmt = n => (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
+    // (a difference that rounds away is "no change", not a bare 0)
+    const fmt = n => (Math.round(n * 10) / 10 === 0 ? 'no change in' : (n > 0 ? '+' : '') + (Math.round(n * 10) / 10));
     let label, delta;
     if (b.kind === 'weapon') {
       // the game's own damage rule, Ring of Might, path and all
@@ -1908,7 +1909,7 @@ const UI = (() => {
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
     // the ground walked is the lighter, as paths are on any map: walls picked out
     // brighter than the floor read as the corridors at a glance
-    { id: 'floor', colour: '#6c6688', label: 'Walked' },
+    { id: 'floor', colour: '#6c6688', label: 'Explored' },
     { id: 'wall', colour: '#2e2a3a', label: 'Wall' },
     { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
