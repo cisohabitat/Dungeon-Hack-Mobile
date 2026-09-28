@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-28b', text: 'a caged goblin waits on some delves, the Dread Lich is now the real last fight, a ranger\'s Steady Aim is for bows and slings (+1), the forge asks less for its last steps, Healers heal more, and a freed goblin helps with quick-fingered encounters.' };
+  const NEWS = { id: '2026-09-29', text: 'the Dread Lich is now the real last fight, some who know a floor will tell you where its traps lie (a red \u00d7 on your map), the pack says how far a bow reaches, the forge asks less for its last steps, and a caged goblin waits on some delves.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1225,7 +1225,8 @@ const UI = (() => {
     if (b.kind === 'armor') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''} (${b.weight === 'cloth' ? 'a robe, for mages' : b.weight})${b.sp ? `, +${b.sp} spell points` : ''}${b.cheap ? ', spells of 5 points or more cost 1 less' : ''}${own}`;
     if (b.kind === 'shield' && b.focus) return `${b.desc.replace(/\.$/, '')}; held in the free hand${b.ac ? `, armour class +${b.ac}` : ''}`;
     if (b.kind === 'shield') return `Armour class +${b.ac + knownE(it)}${it.h ? '?' : ''}, needs a free hand${own}`;
-    if (b.kind === 'food') return `Restores ${b.food} nourishment`;
+    // (the food bar runs to 100: "45 nourishment" gave no sense of how much a meal was)
+    if (b.kind === 'food') return `Fills ${b.food} of your food bar's 100`;
     // a ring that comes in amounts says how much, enchantment and all
     if (b.bonus) return amountWords([].concat(b.power)[0], b.bonus + knownE(it), it.h ? '?' : '') || b.desc || '';
     return b.desc || '';
@@ -1912,6 +1913,7 @@ const UI = (() => {
     { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
     { id: 'trader', colour: '#b57ae0', label: 'Trader' },
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
+    { id: 'trap', colour: '#e05050', label: 'Trap you know of (\u00d7)' },
     // the ground walked is the lighter, as paths are on any map: walls picked out
     // brighter than the floor read as the corridors at a glance
     { id: 'floor', colour: '#6c6688', label: 'Explored' },
@@ -2017,6 +2019,8 @@ const UI = (() => {
       if (!L.explored[y * L.w + x] || !L.items[k].length) continue;
       edged(x * size - ox + size * 0.25, y * size - oy + size * 0.25, size * 0.5, size * 0.5, MAP_COLOUR.loot);
     }
+    // traps an encounter told of, so the hero can go round them
+    if (L.trapsKnown) for (const k in L.traps) { const [x, y] = k.split(',').map(Number); glyph('\u00d7', x, y, MAP_COLOUR.trap); }
     for (const n of (L.npcs || [])) {
       if (!L.explored[n.y * L.w + n.x]) continue;
       edged(n.x * size - ox, n.y * size - oy, size, size, MAP_COLOUR.trader);

@@ -708,7 +708,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -9113,7 +9113,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       b.Game.input('use');
       const o = b.Game.encounterOptions()[0];
       if (!o.blocked) out.push('sharing food was open to a hero with 10 food');
-      if (o.cost !== '25 nourishment') out.push(`the cost read ${o.cost}`);
+      if (o.cost !== '25 food') out.push(`the cost read ${o.cost}`);
       b.Game.chooseEncounter(0);
       if (b.Game.companion()) out.push('a hero with nothing to share won the hound by sharing');
       // nor the last of it
@@ -9401,6 +9401,31 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       got[depth] = p.xp - before;
     }
     return (got[1] === 15 && got[4] === 30) || `finishing the wounded goblin paid ${got[1]} on the first floor and ${got[4]} on the fourth`;
+  });
+
+  await test('an encounter can tell where a floor\'s traps lie: the hero then steps round them', async () => {
+    for (let t = 0; t < 30; t++) {
+      const ctx = await start('fighter', 'traps-told' + t, { levels: 8, traps: true });
+      const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
+      p.hp = p.maxHp = 999; p.stats.cha = 18;
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.traps = { '1,1': 'dart' };
+      L.npcs.push({ kind: 'encounter', id: 'mirror', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+      const r = Game.chooseEncounter(1);   // talk to the reflection: a Charisma check
+      if (!r || !r.check || !r.check.pass) continue;
+      if (!L.trapsKnown) return 'the reflection told of the dangers, and the traps stayed unknown';
+      // a dart laid in the hero's path is stepped round, not sprung
+      Game.closeEncounter();
+      L.traps[`${p.x + dx},${p.y + dy}`] = 'dart';
+      const hp = p.hp, mark = markLog(G);
+      Game.input('forward'); run(Game, G, 400);
+      if (p.hp !== hp) return `a trap the hero knew of still hurt them (${hp} -> ${p.hp})`;
+      return linesSince(G, mark).some(l => /step round the dart trap/.test(l)) || `stepping onto it said: ${linesSince(G, mark).join(' | ')}`;
+    }
+    return 'the reflection never answered in thirty tries';
   });
 
   await test('Field Craft makes the second rest on a floor as good as the first; a freed goblin close by lends its fingers to a Dexterity check', async () => {

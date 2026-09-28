@@ -1774,12 +1774,9 @@ const Game = (() => {
     Sound.play('bump');
     if (G.t - lastBlocked <= 700) return;
     lastBlocked = G.t;
-    logMerged(message);
+    log(message);
   }
-  /** Log a line, or count it up if it just said the same thing. */
-  // the same line again counts up on its own line: log() folds any repeat now
-  function logMerged(message) { log(message); }
-  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); logMerged('You push the door open.'); Sound.play('door'); }
+  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
     setTile(x, y, T.DOOR_OPEN);
     log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
@@ -1893,6 +1890,7 @@ const Game = (() => {
     const L = lvl(), p = P();
     const tr = TRAP_TYPES[L.traps[k]];
     delete L.traps[k];
+    if (L.trapsKnown) { log(`You step round the ${tr.name} you were told of.`, 'good'); return; }
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
     // tombwise. No eye for it, no lucky twenty: it is noticed or not
@@ -1955,9 +1953,9 @@ const Game = (() => {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
-    if ((lvl().items[key(tx, ty)] || []).length) { logMerged('Step forward onto it to pick it up.'); return; }
-    if (beltFull()) { logMerged(`Your belt holds ${BELT} of each draught. Drink one to make room, or leave these.`); return; }
-    logMerged('There is nothing to use here.');
+    if ((lvl().items[key(tx, ty)] || []).length) { log('Step forward onto it to pick it up.'); return; }
+    if (beltFull()) { log(`Your belt holds ${BELT} of each draught. Drink one to make room, or leave these.`); return; }
+    log('There is nothing to use here.');
   }
 
   // ---------- trading ---------- see trader.js ----------
@@ -2003,7 +2001,7 @@ const Game = (() => {
     if (c.goldPerDepth) return { gold: c.goldPerDepth * G.depth, text: `${c.goldPerDepth * G.depth} gold` };
     if (c.hurtFrac) { const n = Math.ceil(P().maxHp * c.hurtFrac); return { hp: n, text: `${n} hit points` }; }
     // a meal from the pack if there is one (a hero carrying rations is not too poor to share)
-    if (c.food) { const meal = P().inv.find(it => ITEMS[it.t].kind === 'food'); return meal ? { meal, text: `${/^[aeiou]/i.test(ITEMS[meal.t].name) ? 'an' : 'a'} ${ITEMS[meal.t].name.toLowerCase()} from your pack` } : { food: c.food, text: `${c.food} nourishment` }; }
+    if (c.food) { const meal = P().inv.find(it => ITEMS[it.t].kind === 'food'); return meal ? { meal, text: `${/^[aeiou]/i.test(ITEMS[meal.t].name) ? 'an' : 'a'} ${ITEMS[meal.t].name.toLowerCase()} from your pack` } : { food: c.food, text: `${c.food} food` }; }
     return null;
   }
   /** What each choice will ask of you, and how likely it is to go well. */
@@ -2039,7 +2037,7 @@ const Game = (() => {
     const lines = [];
     if (cost && cost.gold) { p.gold -= cost.gold; lines.push(`−${cost.gold} gold`); }
     if (cost && cost.hp) { p.hp -= cost.hp; fx.damageUntil = realNow + 260; lines.push(`−${cost.hp} hit points`); }
-    if (cost && cost.food) { p.food -= cost.food; lines.push(`−${cost.food} nourishment`); }
+    if (cost && cost.food) { p.food -= cost.food; lines.push(`−${cost.food} food`); }
     if (cost && cost.meal) { removeOne(cost.meal); emit('inv'); lines.push(`−1 ${ITEMS[cost.meal.t].name.toLowerCase()}`); }
     let c = null, outcome = ch.outcome;
     if (ch.check) {
@@ -2064,6 +2062,8 @@ const Game = (() => {
     const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); pickupAll(); return itemName(it); };
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
+      // told where the floor's traps are: they show on the map, and a hero who knows steps round them
+      if (e.traps && Object.keys(L.traps || {}).length) { L.trapsKnown = true; out.push('You know where this floor\'s traps are.'); }
       // worth more the deeper it is met: a flat fifty was a fair lesson on
       // the second floor and nothing on the seventh
       if (e.xp) { const xp = Math.round(e.xp * (1 + (G.depth - 1) / 3)); p.xp += xp; out.push(`+${xp} experience`); }
@@ -2095,7 +2095,7 @@ const Game = (() => {
         const got = p.maxHp - was;
         if (got) out.push(`${got > 0 ? '+' : '−'}${Math.abs(got)} maximum hit points`);
       }
-      if (e.food) { p.food = Math.max(0, Math.min(100, p.food + e.food)); out.push(`${e.food > 0 ? '+' : '−'}${Math.abs(e.food)} nourishment`); }
+      if (e.food) { p.food = Math.max(0, Math.min(100, p.food + e.food)); out.push(`${e.food > 0 ? '+' : '−'}${Math.abs(e.food)} food`); }
       if (e.loot != null) out.push(`Found: ${pickUp(Dungeon.rollLoot(Dice, G.depth + e.loot))}`);
       if (e.item) out.push(`Found: ${pickUp({ t: e.item.t, q: e.item.q || 1, e: 0 })}`);
       if (e.buff) {

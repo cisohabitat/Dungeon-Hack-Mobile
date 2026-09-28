@@ -105,6 +105,7 @@ test.describe('knowing where you are', () => {
     expect(await keys.count()).toBeGreaterThan(6);
     await expect(page.locator('#map-legend')).toContainText('Stairs down');
     await expect(page.locator('#map-legend')).toContainText('Locked door');
+    await expect(page.locator('#map-legend')).toContainText('Trap you know of');
     await expect(page.locator('#map-legend')).toContainText('You');
     // the ground walked is the lighter, as paths are on any map, and the walls darker
     const light = await page.evaluate(() => {

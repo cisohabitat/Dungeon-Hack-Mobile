@@ -12,7 +12,7 @@
 // fighter as much as a mage: flat damage let the sturdy gamble for free),
 // hurt [dice], heal ('full' or n), maxHp, food, loot
 // (bonus to the loot roll), item {t, q}, buff {stats: [[stat, n]], dur},
-// poison, cure, uncurse, wake, identifyAll, ambush {id, n, early?}, stat [stat, n],
+// poison, cure, uncurse, wake, identifyAll, ambush {id, n, early?}, stat [stat, n], traps (where they lie),
 // thread (a choice that follows the hero down: see threads in game.js).
 
 import { Rng } from './rng.js';
@@ -172,7 +172,7 @@ const ENCOUNTERS = {
         pass: { text: 'Cheap goblin locks. He presses a healing draught into your hand, the one thing they did not find on him.', effects: [{ item: { t: 'potion_heal', q: 1 } }, { xp: 30 }, { thread: 'captive' }] },
         fail: { text: 'A pin snaps in the lock. The tripwire his captors left does not.', effects: [{ hurtFrac: 0.15 }] } },
       { label: 'Ask what he knows first', check: { stat: 'cha', dc: 12 },
-        pass: { text: 'He talks fast: which corridors are trapped, where the stairs lie, who took his sword. You free him when he is done.', effects: [{ map: 1 }, { xp: 40 }, { thread: 'captive' }] },
+        pass: { text: 'He talks fast: which corridors are trapped, where the stairs lie, who took his sword. You free him when he is done.', effects: [{ map: 1 }, { traps: 1 }, { xp: 40 }, { thread: 'captive' }] },
         fail: { text: 'He is too far gone to make sense. You free him anyway, and he stumbles off into the dark.', effects: [{ xp: 10 }, { thread: 'captive' }] } },
       { label: 'Leave him', outcome: { text: 'You leave him to his chains. His voice follows you a long way.', effects: [] } },
     ],
@@ -232,7 +232,7 @@ const ENCOUNTERS = {
         pass: { text: 'It shows you as you could be, and for a moment you are. Something of it stays with you.', effects: [{ stat: ['wis', 1] }, { xp: 40 }] },
         fail: { text: 'The reflection smiles, and you do not. You feel thinner, somehow, when you look away.', effects: [{ maxHp: -3 }] } },
       { label: 'Talk to your reflection', check: { stat: 'cha', dc: 13 },
-        pass: { text: 'It answers, in your own voice, and tells you where the dangers on this floor are waiting.', effects: [{ map: 1 }, { xp: 30 }] },
+        pass: { text: 'It answers, in your own voice, and tells you where the dangers on this floor are waiting.', effects: [{ map: 1 }, { traps: 1 }, { xp: 30 }] },
         fail: { text: 'It answers with something that is not a word, and something steps out of the frame after you.', effects: [{ ambush: { id: 'wraith', n: 1, early: ['ghoul', 'skeleton'] } }] } },
       { label: 'Smash it', check: { stat: 'str', dc: 11 },
         pass: { text: 'It shatters, and something like a sigh goes out of the room. The gilt frame is worth a little.', effects: [{ goldPerDepth: 10 }, { xp: 20 }] },
@@ -296,7 +296,7 @@ const ENCOUNTERS = {
         pass: { text: 'You go carefully, and find what they carried: a purse, and something better.', effects: [{ loot: 1 }, { goldPerDepth: 12 }] },
         fail: { text: 'One of them was not quite finished dying. A cold hand closes on your wrist.', effects: [{ maxHp: -2 }] } },
       { label: 'Read their captain\'s last orders', check: { stat: 'int', dc: 11 },
-        pass: { text: 'A map of the floor, marked with every place they lost someone. You will not make their mistakes.', effects: [{ map: 1 }, { xp: 30 }] },
+        pass: { text: 'A map of the floor, marked with every place they lost someone. You will not make their mistakes.', effects: [{ map: 1 }, { traps: 1 }, { xp: 30 }] },
         fail: { text: 'The ink has run too far to read.', effects: [] } },
       { label: 'Raise their banner and take heart', check: { stat: 'cha', dc: 12 },
         pass: { text: 'You set the banner straight. For a while it feels as if they march with you.', effects: [{ buff: { stats: [['hit', 2]], dur: 240000 } }, { xp: 20 }] },

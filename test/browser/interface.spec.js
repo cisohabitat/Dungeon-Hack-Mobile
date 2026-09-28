@@ -523,6 +523,12 @@ test.describe('interface', () => {
     // a bow's reach is said beside the figure, which cannot count the blows it buys
     await page.locator('#inv-grid .slot.filled', { hasText: 'Long Bow' }).first().click();
     await expect(page.locator('.compare')).toContainText('reaches 7 squares');
+    // and food says how much of the bar a meal fills, not a bare "nourishment"
+    await page.evaluate(() => { Game.player().inv.push({ t: 'ration', q: 1, e: 0 }); });
+    await page.click('[data-close]').catch(() => {});
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot.filled', { hasText: 'Ration' }).first().click();
+    await expect(page.locator('#ov-inv')).toContainText("of your food bar's 100");
     await page.locator('#inv-grid .slot.filled', { hasText: 'Plate Mail' }).first().click();
     await expect(page.locator('.compare')).toContainText(/armour class/);
   });
