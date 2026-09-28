@@ -9333,8 +9333,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const mark = markLog(G);
       const m = beside(ctx, 'goblin', { awake: true }); m.hp = 1;
       for (let i = 0; i < 40 && Game.level().monsters.includes(m); i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); Game.update(G.t + 25, 25); }
-      const said = linesSince(G, mark).find(l => /^Bestiary/.test(l)) || '';
-      if (said !== 'Bestiary: Goblin added, and you learned how tough it is.') out.push(`the bestiary said "${said}"`);
+      // one line when the notes follow each other; two when a blow's line falls between
+      const said = linesSince(G, mark).filter(l => /^Bestiary/.test(l)).join(' | ');
+      if (Game.level().monsters.includes(m)) out.push('the goblin never fell');
+      else if (said !== 'Bestiary: Goblin added, and you learned how tough it is.' && said !== 'Bestiary: Goblin added. | Bestiary: Goblin, you learned how tough it is.') out.push(`the bestiary said "${said}"`);
     }
     return out.length ? out.join('; ') : true;
   });
