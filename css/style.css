@@ -746,6 +746,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 @media (orientation: landscape) and (max-height: 500px) {
   #boon-list.paths { display: grid; grid-template-columns: 1fr 1fr; gap: 0 9px; align-items: start; }
   #boon-list.paths > :not(.boon) { grid-column: 1 / -1; }
+  /* the confirm bar has its room kept at the foot of every card, so arming
+     one does not grow it and move both under the thumb before the second tap */
+  #boon-list.paths .boon.path { padding-bottom: 52px; }
+  #boon-list.paths .path-confirm { position: absolute; left: 14px; right: 14px; bottom: 10px; margin: 0; }
 }
 
 @media (orientation: landscape) and (max-height: 500px) {

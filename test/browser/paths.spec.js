@@ -10,7 +10,7 @@ test.describe('paths', () => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await page.setViewportSize({ width: 851, height: 393 });
-    await startGame(page, { seed: 'path-side', cls: 'Thief' });
+    await startGame(page, { seed: 'path-side', cls: 'Mage' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
@@ -28,9 +28,12 @@ test.describe('paths', () => {
     const cards = page.locator('.boon.path');
     await expect(cards).toHaveCount(2);
     await page.waitForTimeout(800);
+    const before = await cards.nth(1).boundingBox();
     await cards.nth(0).click();
     await expect(cards.nth(0)).toHaveClass(/armed/);
     const [a, b] = [await cards.nth(0).boundingBox(), await cards.nth(1).boundingBox()];
+    // arming the first moves nothing: the second tap lands where the first did
+    expect(Math.abs(b.y - before.y), 'the cards stay put when one is armed').toBeLessThan(2);
     expect(Math.abs(a.y - b.y), 'the two cards start level').toBeLessThan(4);
     expect(b.x, 'the second beside the first').toBeGreaterThan(a.x + a.width - 4);
     expect(b.y + 60, 'the second card\'s name and first lines in view').toBeLessThan(393);
