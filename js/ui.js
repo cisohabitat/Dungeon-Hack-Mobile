@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-28', text: 'a caged goblin waits on some delves: free it and it picks locks and finds traps for you. The game now pauses while you read the first tip, and held sideways, monsters up close are no longer cut off at the feet.' };
+  const NEWS = { id: '2026-09-28b', text: 'the Dread Lich is now the real last fight, a ranger\'s Steady Aim is for bows and slings (+1), the forge asks less for its last steps, Healers heal more, and a freed goblin helps with quick-fingered encounters.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1407,7 +1407,7 @@ const UI = (() => {
         btn.className = 'boon enc-choice';
         const bits = [];
         // the odds always; the dice behind them only for a player who has asked to see the rolls
-        if (o.stat) bits.push(`${o.statName}: ${Game.rollsShown() ? `d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ` : ''}${Math.round(o.chance * 100)}% chance${o.knack ? ' (your training helps)' : ''}`);
+        if (o.stat) bits.push(`${o.statName}: ${Game.rollsShown() ? `d20${o.bonus < 0 ? '' : '+'}${o.bonus} vs ${o.dc}, ` : ''}${Math.round(o.chance * 100)}% chance${o.trained ? ' (your training helps)' : ''}${o.helper ? ` (${o.helper}'s fingers help)` : ''}`);
         if (o.cost) bits.push(`costs ${o.cost}`);
         if (o.blocked) bits.push(o.blocked);
         btn.innerHTML = `<b>${escapeHtml(o.label)}</b>${bits.length ? `<small>${escapeHtml(bits.join(' · '))}</small>` : ''}`;
@@ -1906,7 +1906,7 @@ const UI = (() => {
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
     // the ground walked is the lighter, as paths are on any map: walls picked out
     // brighter than the floor read as the corridors at a glance
-    { id: 'floor', colour: '#4a465e', label: 'Walked' },
+    { id: 'floor', colour: '#6c6688', label: 'Walked' },
     { id: 'wall', colour: '#2e2a3a', label: 'Wall' },
     { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
@@ -2352,7 +2352,8 @@ const UI = (() => {
       const next = Object.keys(BACKGROUNDS).find(id => BACKGROUNDS[id].unlock && !Progress.bgOpen(id));
       if (next) news.push(`Win on ${BACKGROUNDS[next].unlock === 'hard' ? 'Hard' : 'Normal or Hard'} to open ${BACKGROUNDS[next].name}.`);
     }
-    $('#end-trophy').textContent = news.join(' ');
+    // one line each: run together in one centred block, four of them read as one long sentence
+    $('#end-trophy').innerHTML = news.map(n => `<span class="end-news">${escapeHtml(n)}</span>`).join('');
     $('#end-trophy').style.display = news.length ? '' : 'none';
     const rows = [['Hero level', p.level], ['Experience', p.xp], ['Gold', p.gold], ['Kills', p.kills], ['Steps', p.steps], ['Deepest floor', p.deepest]];
     // time spent underground, by the game's own clock

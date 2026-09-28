@@ -85,7 +85,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   stair. If it falls it is gone for the run, and the epilogue remembers it.
 - **Or a goblin with clever fingers.** A delve with no hound keeps a caged goblin about halfway
   down. Let it out and it follows as the hound does, but it is a poor fighter and a quiet one:
-  it picks the locks you have no key for and makes safe the traps it passes. One companion a run.
+  it picks the locks you have no key for, makes safe the traps it passes, and lends its fingers
+  to an encounter's Dexterity test (+2). One companion a run.
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
@@ -239,18 +240,18 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal, Hard and both Long Delve rows are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more:
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely:
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 80% | 77% | 76% | 80% | 77% | about 78% |
-| Hard | 57% | 54% | 49% | 58% | 55% | about 55% |
-| Long Delve (12 floors), Normal | 78% | 75% | 71% | 82% | 81% | about 77% |
-| Long Delve (12 floors), Hard | 58% | 57% | 59% | 61% | 49% | about 57% |
+| Normal | 82% | 79% | 77% | 76% | 80% | about 79% |
+| Hard | 56% | 56% | 60% | 58% | 58% | about 58% |
+| Long Delve (12 floors), Normal | 78% | 78% | 80% | 84% | 81% | about 80% |
+| Long Delve (12 floors), Hard | 55% | 61% | 64% | 65% | 59% | about 60% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class lands within about six points of it: the mage lowest, the thief highest. (It was once tuned
+Delve on Hard, and every class lands within about six points of it: the fighter and the cleric lowest, the mage highest. (It was once tuned
 to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
@@ -273,7 +274,10 @@ Answering monster tricks decides runs: a warned blow lands whatever your armour,
 ignores every warning (`NOREACT=1`) wins roughly twenty to thirty points less on Normal.
 Clearing each floor first (`EXPLORE=0.8`) is the slower, safer road: on Normal it wins about
 84% as a cleric, 90% as a fighter, 86% as a thief, and 70% as a mage. About one hero in twelve
-who reaches the last floor on Normal dies there (`LICH=1` breaks it down). A fallen hero's shade
+who reaches the last floor on Normal dies there, about half of them to the lich itself (`LICH=1`
+breaks it down). It used to be fewer than one in thirty to the lich, the rest to the floor's
+ordinary creatures on the way; now the lich hits surer and harder than its floor, and its floor
+holds a quarter fewer of the rest, so the last fight is the lich and the win rates held. A fallen hero's shade
 (`SHADE=4` plants one on floor 4) kills about one in a hundred of the heroes who meet it, and win
 rates barely move: it is a hard fight for gear worth having, not a trap. Gold carried past the last trader, and found on the
 last floor, buys a ward or a blessing at the vigil lamp beside the lich's hall. Backgrounds are
@@ -292,7 +296,10 @@ Flat damage bonuses from strength and experience scale with how long a weapon ta
 melee arms land within a couple of points of each other on damage per second rather than the
 fastest weapon always winning. Missile weapons sit deliberately below them, paying for reach.
 Thieves are the exception: their bonus comes from dexterity and ignores swing weight, which is
-what finesse means.
+what finesse means. A ranger's Steady Aim (+1 two squares off) is for bows and slings only, and
+the pack's figure counts it: it used to come with throwing knives too, so the bot (and the pack's
+comparison) chose knives, and a ranger that really held a bow on its long reach with the old +2
+won about 64% on Hard against the others' 57 to 59.
 
 ## Controls
 

@@ -1665,6 +1665,9 @@ await test('the trader\'s forge hones a weapon and reinforces armour to +3, dear
     if (p.eq.weapon.e !== i + 1 || p.gold !== before - s.price) return `hone ${i + 1}: +${p.eq.weapon.e}, charged ${before - p.gold} of ${s.price}`;
   }
   if (!(prices[0] < prices[1] && prices[1] < prices[2])) return `prices did not climb: ${prices.join(', ')}`;
+  // one, three and six times the first step: squared (one, four, nine), +3 was out of reach of anyone's purse
+  // (to within the rounding of the trader's manner)
+  if (Math.abs(prices[1] - prices[0] * 3) > 3 || Math.abs(prices[2] - prices[0] * 6) > 6) return `the steps cost ${prices.join(', ')}, not 1, 3 and 6 times the first`;
   if (!svc('hone').why) return 'the forge went past +3';
   Game.buyService('reinforce');
   if (p.eq.armor.e !== 1) return `reinforcing left the armour at +${p.eq.armor.e}`;
@@ -6747,9 +6750,9 @@ await test('Templar: blows bite the undead, Bless lasts twice as long, and Holy 
   return out.length ? out.join('; ') : true;
 });
 
-await test('Healer: heals a tenth more, mends under Protection, and has more spell points', async () => {
+await test('Healer: heals a quarter more, mends under Protection, and has more spell points', async () => {
   const out = [];
-  // a tenth more on average, small heals included: rounded, a heal of 4 stayed 4
+  // a quarter more on average, small heals included: rounded, a heal of 4 stayed 4
   const heal = async path => {
     const ctx = await start('cleric', 'healer-cure');
     seedDice(ctx, 'healer-cure');
@@ -6760,7 +6763,7 @@ await test('Healer: heals a tenth more, mends under Protection, and has more spe
     return total;
   };
   const a = await heal(undefined), b = await heal('healer');
-  if (!(b / a > 1.06 && b / a < 1.14)) out.push(`cure light over 300 casts: ${a} -> ${b}`);
+  if (!(b / a > 1.2 && b / a < 1.3)) out.push(`cure light over 300 casts: ${a} -> ${b}`);
   const mend = async (path, warding) => {
     const ctx = await start('cleric', 'healer-mend');
     const { Game } = ctx; const p = Game.player(), G = Game.state();
@@ -6774,7 +6777,7 @@ await test('Healer: heals a tenth more, mends under Protection, and has more spe
   };
   const none = await mend(undefined), healer = await mend('healer'), ward = await mend(undefined, true), both = await mend('healer', true);
   if (none !== 0) out.push(`with no path, Protection mended ${none}`);
-  if (!(healer >= 3 && healer <= 4)) out.push(`a healer mended ${healer} in twenty seconds`);
+  if (!(healer >= 4 && healer <= 5)) out.push(`a healer mended ${healer} in twenty seconds`);
   if (both !== ward + healer) out.push(`with Warding Light too, ${both} (${ward} + ${healer} apart)`);
   const ctx = await start('cleric', 'healer-sp');
   const { Game } = ctx; const p = Game.player();
@@ -8274,7 +8277,7 @@ await test('a ranger: a bow and Dexterity, Steady Aim at two squares or more, an
     return dealt / 30;
   };
   const near = volleyOf(1), far = volleyOf(3);
-  if (Math.abs(far - near - 2) > 0.01) out.push(`arrows from three squares did ${far.toFixed(2)} a shot, from beside it ${near.toFixed(2)}`);
+  if (Math.abs(far - near - 1) > 0.01) out.push(`arrows from three squares did ${far.toFixed(2)} a shot, from beside it ${near.toFixed(2)}`);
   // talents: two squares further and a sixth quicker
   p.perkHit = 0;
   const hitAfter = Game.toHit();
@@ -9272,6 +9275,119 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     // an eight-floor delve's tiers are fractions; a shade's worth, and its aim, are not
     const sh = Game.mstat({ id: 'shade', shade: { name: 'Old', cls: 'fighter', tier: 2.04, depth: 2 } });
     if (!Number.isInteger(sh.xp) || !Number.isInteger(sh.hit)) out.push(`a shade was worth ${sh.xp} experience and hit at +${sh.hit}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the lich is the last fight: surer and harder than its floor on Normal and Hard, on a floor with fewer of the rest', async () => {
+    const out = [];
+    const hitOf = async difficulty => {
+      const ctx = await start('fighter', 'lich-edge', { levels: 4, difficulty });
+      const { Game } = ctx;
+      const lich = { id: 'lich', uid: 1, x: 0, y: 0, hp: 100, maxHp: 100 };
+      const orc = { id: 'orc', uid: 2, x: 0, y: 0, hp: 10, maxHp: 10 };
+      return { lich: Game.mstat(lich), orc: Game.mstat(orc) };
+    };
+    const easy = await hitOf('easy'), normal = await hitOf('normal'), hard = await hitOf('hard');
+    // the orc's edge from the difficulty, and the lich's that much and more
+    const lift = (a, b, k) => b[k].hit - a[k].hit;
+    if (lift(easy, normal, 'lich') !== lift(easy, normal, 'orc') + 4) out.push(`on Normal the lich hit +${lift(easy, normal, 'lich')} over Easy, an orc +${lift(easy, normal, 'orc')}`);
+    if (lift(easy, hard, 'lich') !== lift(easy, hard, 'orc') + 3) out.push(`on Hard the lich hit +${lift(easy, hard, 'lich')} over Easy, an orc +${lift(easy, hard, 'orc')}`);
+    if (normal.lich.dmg[2] - easy.lich.dmg[2] !== lift(easy, normal, 'lich')) out.push('the lich\'s blows did not grow with its aim');
+    // and Hard's lich is never the gentler one
+    if (hard.lich.hit < normal.lich.hit) out.push(`Hard's lich hit at +${hard.lich.hit}, Normal's at +${normal.lich.hit}`);
+    // its floor holds fewer of the rest than a floor just above it would
+    const { Dungeon } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'dungeon.js')).href);
+    let last = 0, before = 0;
+    for (let i = 0; i < 20; i++) {
+      const o = { levels: 8, size: 'normal', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+      last += Dungeon.generate('thin' + i, 8, o).monsters.filter(m => m.id !== 'lich').length;
+      before += Dungeon.generate('thin' + i, 7, o).monsters.length;
+    }
+    if (!(last < before * 0.85)) out.push(`over twenty delves the lich's floor held ${last} others, the floor above ${before}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('Steady Aim is for bows and slings, not throwing knives, and the pack counts it when it weighs a bow', async () => {
+    const out = [];
+    const ITEMS_SPEED = { longbow: 950, shortbow: 850, throwknife: 520 };
+    const ctx = await start('ranger', 'aimed', { levels: 8 });
+    const { Game } = ctx; const p = Game.player();
+    p.stats.dex = 18; p.level = 7;
+    // the pack's figure for a ranger's bow carries Steady Aim; for knives, nothing. Per blow
+    // (the rate times the draw), the long bow is 2 over the knives by its dice and the short
+    // bow 1, and Steady Aim adds 1 to each: 3 against 2, where without it it would be 2 against 1
+    const blow = t => Game.blowRate({ t, q: 1, e: 0 }) * ITEMS_SPEED[t];
+    const ratio = (blow('longbow') - blow('throwknife')) / (blow('shortbow') - blow('throwknife'));
+    if (Math.abs(ratio - 1.5) > 0.01) out.push(`the pack weighed the bows over the knives at ${ratio.toFixed(2)} to one, not 1.5`);
+    // a shot two squares off: a sling's carries Steady Aim, a throwing knife's does not
+    const shot = weapon => {
+      const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+      p.eq.weapon = { t: weapon, q: 1, e: 0, id: 99 }; delete p.eq.shield;
+      for (let k = 1; k <= 2; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = ctx.Dungeon.T.FLOOR;
+      let total = 0, n = 0;
+      for (let i = 0; i < 400; i++) {
+        const m = { id: 'orc', uid: 500 + i, x: p.x + dx * 2, y: p.y + dy * 2, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, flashUntil: 0 };
+        L.monsters.length = 0; L.monsters.push(m);
+        const G = Game.state(); G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+        if (m.hp < 999) { total += 999 - m.hp; n++; }
+      }
+      return total / Math.max(1, n);
+    };
+    const sling = shot('sling'), knives = shot('throwknife');
+    // both roll 1d4, the sling +1: another point between them is Steady Aim
+    if (!(sling - knives > 1.5 && sling - knives < 2.6)) out.push(`a sling shot averaged ${sling.toFixed(2)}, a throwing knife ${knives.toFixed(2)}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('an encounter\'s experience grows with the depth it is met at: twice as much on the fourth floor as the first', async () => {
+    const got = {};
+    for (const depth of [1, 4]) {
+      const ctx = await start('fighter', 'enc-xp-' + depth, { levels: 8 });
+      const { Game, Dungeon } = ctx;
+      while (Game.state().depth < depth) { Game.level().monsters.length = 0; Game.descend(); }
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0; L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'mercy', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+      const before = p.xp;
+      Game.chooseEncounter(2);   // finish it: no check, fifteen on the first floor
+      got[depth] = p.xp - before;
+    }
+    return (got[1] === 15 && got[4] === 30) || `finishing the wounded goblin paid ${got[1]} on the first floor and ${got[4]} on the fourth`;
+  });
+
+  await test('Field Craft makes the second rest on a floor as good as the first; a freed goblin close by lends its fingers to a Dexterity check', async () => {
+    const out = [];
+    for (const craft of [false, true]) {
+      const ctx = await start('ranger', 'field-craft' + craft, { levels: 8 });
+      const { Game } = ctx; const p = Game.player(), L = Game.level();
+      if (craft) talent(ctx, 'field_craft');
+      L.monsters.length = 0; p.food = 1000;
+      // what each rest will give, as the Rest button says it (an ambush halving one is the dice, not the camp)
+      const said = [], healed = [];
+      for (let i = 0; i < 4; i++) { p.hp = 1; said.push(Game.restLabel()); Game.rest(); healed.push(p.hp); L.monsters.length = 0; }
+      // the second, as good and as quiet as the first: no ambush halves it
+      if (craft && healed[1] !== p.maxHp) out.push(`with Field Craft the second rest mended to ${healed[1]} of ${p.maxHp}`);
+      const want = craft ? 'Rest,Rest,Rest \u00bd,Rest \u00bc' : 'Rest,Rest \u00bd,Rest \u00bc,No rest';
+      if (said.join() !== want) out.push(`${craft ? 'with' : 'without'} Field Craft the rests read ${said.join(', ')}`);
+    }
+    // the goblin's fingers: +2 on a Dexterity check with it near, nothing on another score or when it is far off
+    const ctx = await start('fighter', 'goblin-fingers', { levels: 8 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    G.companion = { kind: 'goblin', name: 'Nib', x: p.x + 1, y: p.y, rx: p.x + 1, ry: p.y, hp: 8, maxHp: 8, depth: G.depth, mode: 'follow', joined: G.depth };
+    const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR; L.monsters.length = 0; L.npcs.length = 0;
+    L.npcs.push({ kind: 'encounter', id: 'cookpot', x: p.x + dx, y: p.y + dy });
+    Game.input('forward');
+    const opts = Game.encounterOptions();
+    const dex = opts.find(o => o.stat === 'dex'), con = opts.find(o => o.stat === 'con');
+    if (!dex || dex.knack !== 2) out.push(`with the goblin beside the hero a Dexterity check had a knack of ${dex && dex.knack}`);
+    // and the choice says whose help it is: the goblin's, not the fighter's own training
+    else if (dex.helper !== 'Nib' || dex.trained) out.push(`the help was put down to ${dex.helper || 'nobody'}${dex.trained ? ' and the hero\'s training' : ''}`);
+    if (!con || con.knack) out.push(`a Constitution check had a knack of ${con && con.knack}`);
+    G.companion.x = G.companion.rx = p.x + 9;
+    const far = Game.encounterOptions().find(o => o.stat === 'dex');
+    if (far.knack) out.push(`with the goblin nine squares off the knack was ${far.knack}`);
     return out.length ? out.join('; ') : true;
   });
 

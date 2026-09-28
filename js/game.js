@@ -320,15 +320,19 @@ const Game = (() => {
   const aTenthMore = n => { const x = n * 1.1, whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
   const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? aTenthMore(dmg) : dmg);
   // Healer: mending, and the points to spend on it.
-  /** A Healer's healing spell heals a tenth more (after Healing Hands, if taken). */
-  const healerHeal = n => (onPath('healer') ? aTenthMore(n) : n);
+  /**
+   * A Healer's healing spell heals a quarter more (after Healing Hands, if
+   * taken). A tenth was a rounding error: Healer trailed Templar on both
+   * difficulties, and its mending was half of what a talent gives.
+   */
+  const healerHeal = n => { if (!onPath('healer')) return n; const x = n * 1.25, whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
   /** A Healer's deeper well: a spell point for every three hero levels. */
   const healerSp = p => (p.path === 'healer' ? Math.floor(p.level / 3) : 0);
-  /** While Protection is up a Healer mends a hit point every six seconds, on a clock of its own beside Warding Light's. */
+  /** While Protection is up a Healer mends a hit point every four seconds, on a clock of its own beside Warding Light's. */
   function healerMercy() {
     const p = P();
     if (!onPath('healer') || p.hp >= p.maxHp || !effectFrom('ac', 'protection') || G.t < (p.nextMercy || 0)) return;
-    p.hp++; p.nextMercy = G.t + 6000; noteHealed(1); emit('stats');
+    p.hp++; p.nextMercy = G.t + 4000; noteHealed(1); emit('stats');
   }
   // Pyromancer: hotter fire that keeps burning, and the cold given up for it.
   /** The fire spells and the fire scroll in a Pyromancer's hands deal a fifth more. */
@@ -429,10 +433,13 @@ const Game = (() => {
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might') + (effect('might') ? 2 : 0);
-    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack);
+    // (a ranger's bow is reckoned as it is used, from a distance, with Steady Aim)
+    const steady = b && b.aimed && p.cls === 'ranger' ? STEADY_AIM : 0;
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady);
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained() + (hasTalent('weapon_master') ? 1 : 0));
     return blow / (speed / 1000);
   }
+  const STEADY_AIM = 1;
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.2;
   const DUAL_HIT_PENALTY = 2;
@@ -928,7 +935,8 @@ const Game = (() => {
   function mstat(m) {
     const s = mstatBase(m);
     // a floor readier for a strong hero, or a harder delve: its creatures hit surer and harder
-    const edge = (m.edge || 0) + diffEdge();
+    // (and the lich, the last fight, more than the floor: see DIFFICULTY)
+    const edge = (m.edge || 0) + diffEdge() + (s.boss ? diff().lichEdge || 0 : 0);
     // on a flooded floor everything wades: a quarter slower, the lich aside
     const wade = !s.boss && G && G.levels && lvl() && lvl().twist === 'flooded';
     if (!edge && !wade) return s;
@@ -1969,11 +1977,17 @@ const Game = (() => {
     emit('encounter');
     return true;
   }
+  const GOBLIN_FINGERS = 2;
   function knack(check) {
     const p = P();
     let n = 0;
     for (const [c, bg, v] of (check.knack || [])) if ((c && p.cls === c) || (bg && p.bg === bg)) n += v;
-    return n;
+    return n + goblinFingers(check);
+  }
+  /** A freed goblin at your side has clever fingers for anything quick and fiddly at an encounter: +2 on its Dexterity checks. */
+  function goblinFingers(check) {
+    const p = P(), c = companion.here();
+    return check.stat === 'dex' && c && c.kind === 'goblin' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3 ? GOBLIN_FINGERS : 0;
   }
   function costOf(choice) {
     const c = choice.cost;
@@ -1998,8 +2012,10 @@ const Game = (() => {
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, G.depth), bonus = knack(ch.check);
+        // (whose help it is, so the choice can say: your own training, or the goblin's fingers)
+        const fingers = goblinFingers(ch.check);
         Object.assign(o, { stat: ch.check.stat, statName: STAT_WORD[ch.check.stat], dc, bonus: checkBonus(ch.check.stat, bonus),
-          chance: checkChance(ch.check.stat, dc, bonus), knack: bonus });
+          chance: checkChance(ch.check.stat, dc, bonus), knack: bonus, helper: fingers ? G.companion.name : null, trained: bonus - fingers > 0 });
       }
       return o;
     });
@@ -2040,7 +2056,9 @@ const Game = (() => {
     const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); pickupAll(); return itemName(it); };
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
-      if (e.xp) { p.xp += e.xp; out.push(`+${e.xp} experience`); }
+      // worth more the deeper it is met, as the creatures there are: a flat
+      // fifty was a fair lesson on the second floor and nothing on the seventh
+      if (e.xp) { const xp = Math.round(e.xp * (1 + (G.depth - 1) / 3)); p.xp += xp; out.push(`+${xp} experience`); }
       if (e.companion) { const said = companion.join(e.companion); if (said) out.push(said); }
       if (e.thread && !threads()[e.thread]) {
         threads()[e.thread] = G.depth;
@@ -3270,12 +3288,18 @@ const Game = (() => {
     if (onPath('warden')) damageMonster(m, Math.max(1, d(1, 6) + mod(p.stats.dex)), 'snare');
     return true;
   }
-  /** Steady Aim, a ranger's: a bow shot at a foe two squares off or more, +2; a Sharpshooter's at three or more, +3 more. */
+  /**
+   * Steady Aim, a ranger's: a shot from a bow or sling (drawn and aimed, not
+   * thrown) at a foe two squares off or more, +1; a Sharpshooter's at three
+   * or more, +3 more. It was +2 and came with throwing knives too, so the
+   * knives, cheap and quick, were what a ranger held, never the Long Bow;
+   * once rangers held their bows the +2 on its long reach was too much.
+   */
   function rangerAim(m, atRange) {
     const p = P();
-    if (!atRange || p.cls !== 'ranger') return 0;
+    if (!atRange || p.cls !== 'ranger' || !(p.eq.weapon && ITEMS[p.eq.weapon.t].aimed)) return 0;
     const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-    return 2 + (onPath('sharpshooter') && far >= 3 ? 3 : 0);
+    return STEADY_AIM + (onPath('sharpshooter') && far >= 3 ? 3 : 0);
   }
   /** A Warden's snared foe takes 2 more from every blow and arrow. */
   const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? 2 : 0);
@@ -3431,9 +3455,14 @@ const Game = (() => {
   const AMBUSH_STEP = 0.3, AMBUSH_MOST = 0.75;
   const REGEN_CAP = 0.5;
   const HEARTSWORN_CAP = 0.6;   // the Heartsworn mend a little further on their own
-  /** How much of the hero's life the next rest on this floor gives back. */
-  // each rest on a floor restores less than the last: all, then half, then a quarter (on Hard, two only)
-  function restShare() { const n = lvl().rests || 0, r = diff().rests; return n >= r.length ? 0 : r[n]; }
+  /**
+   * What the next rest on this floor gives back: each restores less than the
+   * last, all, then half, then a quarter (on Hard, two only). Field Craft, a
+   * ranger's: the second rest on a floor is as good and as quiet as the first,
+   * and the thinning comes a rest later. (It used to add a third to a rest, but the first on a floor
+   * already heals everything, and most heroes rest about once a floor.)
+   */
+  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = diff().rests; return n >= r.length ? 0 : r[n]; }
   /** Something of this floor finds the sleeper: awake, a few steps off. */
   function ambush() {
     const L = lvl();
@@ -3470,11 +3499,11 @@ const Game = (() => {
     const before = L.rests || 0;
     let share = restShare();
     L.rests = before + 1;
-    // the first rest on a floor is quiet; after it, each is more likely to be found
-    const found = before > 0 && Math.random() < Math.min(AMBUSH_MOST, before * AMBUSH_STEP);
+    // the first rest on a floor is quiet (the first two, with Field Craft); after it, each is more likely to be found
+    const quiet = hasTalent('field_craft') ? 1 : 0;
+    const found = before > quiet && Math.random() < Math.min(AMBUSH_MOST, (before - quiet) * AMBUSH_STEP);
     if (found) share /= 2;
-    // Field Craft: a ranger makes a better camp, and wakes a third more whole
-    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share * (hasTalent('field_craft') ? 4 / 3 : 1))), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
+    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
     noteHealed(hp);
     p.hp += hp; p.sp += sp;
     companion.rested(share);
@@ -3497,10 +3526,15 @@ const Game = (() => {
   // is the delve as drawn, with more lying about, and never grows the deep to
   // meet a strong hero. Hard makes everything sturdier and surer still, the
   // lich at full strength, and allows only two rests on a floor.
+  // The lich is the delve's last fight and should feel it: it killed fewer
+  // than one hero in thirty who reached it, the last floor's deaths coming
+  // from its ordinary creatures on the way. So on Normal and Hard it hits
+  // surer and harder than the floor's edge alone (lichEdge), and its floor
+  // holds a quarter fewer of the rest (dungeon.js).
   const DIFFICULTY = {
-    easy:   { hp: 1,    edge: 0, lich: 1,    rests: [1, 0.5, 0.25], press: false },
-    normal: { hp: 1.5,  edge: 1, lich: 1.45, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.8,  edge: 2, lich: 2.3,    rests: [1, 0.5],       press: true },
+    easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25], press: false },
+    normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [1, 0.5, 0.25], press: true },
+    hard:   { hp: 1.8,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;

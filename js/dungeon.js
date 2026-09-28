@@ -344,7 +344,8 @@ const Dungeon = (() => {
     // starts from the second: at full density a third to a half of runs on
     // Many ended before the stairs were found, most at character level one.
     const density = Math.min({ few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1, depth === 1 ? 1.0 : Infinity);
-    const count = Math.round(rooms.length * density * 0.85) + Math.floor(depth / 3);
+    // (the lich's floor holds a quarter fewer: the danger there is meant to be the lich)
+    const count = Math.round((Math.round(rooms.length * density * 0.85) + Math.floor(depth / 3)) * (isFinal ? 0.75 : 1));
     const mCands = [];
     for (let i = 0; i < w * h; i++) {
       if (tiles[i] !== T.FLOOR || dist0[i] < 5) continue;

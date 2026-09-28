@@ -144,7 +144,7 @@ export function makeTrader(K) {
     // a piece that was cursed keeps its minus once the curse is off: said as a minus, not "+-1"
     const n = e + 1, becomes = n > 0 ? `becomes +${n}` : n < 0 ? `becomes −${-n}` : 'loses its −1';
     return { id, label, detail: it && !why ? `${cap(the(it))} ${becomes}` : (why || ''),
-      price: Math.round((30 + 15 * K.G.depth) * step * step * (1 - charm())), why };
+      price: Math.round((30 + 15 * K.G.depth) * step * (step + 1) / 2 * (1 - charm())), why };
   }
   function buyService(id) {
     const s = shopServices().find(x => x.id === id);

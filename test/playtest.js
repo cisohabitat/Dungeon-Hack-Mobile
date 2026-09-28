@@ -206,7 +206,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
         if (bx.focus) return 1 + bx.tier * 0.5;
         if (b.kind !== 'weapon') return bx.ac + e + powers.length + (bx.sp || 0) / 2 + (bx.cheap ? 1 : 0);
         const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
-        const dps = (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);
+        // a ranger reads the pack's own figure, as a player would: it counts the bow's aim
+        const dps = p.cls === 'ranger' ? Game.blowRate(x) : (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);
         return dps * (bx.range ? (process.env.MELEE && p.cls === process.env.MELEE ? 0.5 : 1.5) : 1) * (1 + powers.filter(k => k !== 'swift').length / 6);   // reach is worth paying for
       };
       if (val(it) > val(cur)) Game.equip(it, true);

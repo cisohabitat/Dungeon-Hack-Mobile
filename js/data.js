@@ -164,7 +164,7 @@ const TALENTS = {
     { id: 'swift_quiver', name: 'Swift Quiver', desc: 'Your bow shots come a sixth sooner.' },
     { id: 'long_snare', name: 'Long Snare', desc: 'Snare holds a second and a half longer, and comes back in twelve seconds, not sixteen.' },
     { id: 'camouflage', name: 'Camouflage', desc: 'Sleeping monsters notice you a square later.' },
-    { id: 'field_craft', name: 'Field Craft', desc: 'A rest gives back a third more of your life.' },
+    { id: 'field_craft', name: 'Field Craft', desc: 'You make a good camp: the second rest on a floor is as good and as quiet as the first, and rests thin out one later.' },
   ],
 };
 
@@ -224,8 +224,8 @@ const PATHS = {
       'Holy Smite deals a tenth more.',
     ] },
     { id: 'healer', name: 'Healer', flavour: 'You came down to bring people back up. That includes you.', effects: [
-      'Your healing spells heal a tenth more.',
-      'While Protection is upon you, you heal a hit point every six seconds, even mid-fight.',
+      'Your healing spells heal a quarter more.',
+      'While Protection is upon you, you heal a hit point every four seconds, even mid-fight.',
       '+1 spell point for every three hero levels.',
     ] },
   ],
@@ -303,7 +303,7 @@ const CLASSES = {
   },
   ranger: {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once on one life with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
-    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
+    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a bow or sling shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
 };
@@ -375,9 +375,9 @@ const ITEMS = {
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'greatsword', tier: 4 },
   // thrown and missile arms. Attack reaches down the corridor when one is in hand.
   throwknife: { kind: 'weapon', name: 'Throwing Knives', dmg: [1, 4, 0], speed: 520, range: 4, cls: ['fighter', 'thief', 'mage', 'ranger'], value: 12, sprite: 'throwknife', tier: 1 },
-  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric', 'ranger'], value: 10, sprite: 'sling', tier: 2 },
-  shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief', 'ranger'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3 },
-  longbow:    { kind: 'weapon', name: 'Long Bow',        dmg: [1, 8, 0],  speed: 950, range: 7, cls: ['fighter', 'ranger'], twoHanded: true, value: 70, sprite: 'longbow', tier: 5 },
+  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric', 'ranger'], value: 10, sprite: 'sling', tier: 2, aimed: true },
+  shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief', 'ranger'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3, aimed: true },
+  longbow:    { kind: 'weapon', name: 'Long Bow',        dmg: [1, 8, 0],  speed: 950, range: 7, cls: ['fighter', 'ranger'], twoHanded: true, value: 70, sprite: 'longbow', tier: 5, aimed: true },
   // armor
   leather: { kind: 'armor', name: 'Leather Armour',  ac: 2, weight: 'light', value: 10,  sprite: 'leather', tier: 1 },
   studded: { kind: 'armor', name: 'Studded Leather', ac: 3, weight: 'light', value: 20,  sprite: 'studded', tier: 2 },

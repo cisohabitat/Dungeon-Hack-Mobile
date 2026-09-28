@@ -156,6 +156,8 @@ test.describe('knowing what is hitting you', () => {
 
   test('a blow from out of sight lights a broad red glow on its side, held a while, and buzzes twice', async ({ page }) => {
     await page.addInitScript(() => { window.__buzz = []; navigator.vibrate = p => { window.__buzz.push(p); return true; }; });
+    // (no tips: the first one holds the dungeon still, and the orc with it)
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { seed: 'aware-side' });
     await clearBoons(page);
     const r = await page.evaluate(async () => {

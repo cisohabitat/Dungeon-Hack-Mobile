@@ -170,6 +170,10 @@ test.describe('progress between runs', () => {
     await expect(page.locator('#end-trophy')).toBeVisible();
     await expect(page.locator('#end-trophy')).toContainText('First win as a Fighter on Normal!');
     await expect(page.locator('#end-trophy')).toContainText('The Returned can now be chosen');
+    // a line each, not one run-on block
+    expect(await page.locator('#end-trophy .end-news').count()).toBeGreaterThanOrEqual(2);
+    const [n1, n2] = [await page.locator('#end-trophy .end-news').nth(0).boundingBox(), await page.locator('#end-trophy .end-news').nth(1).boundingBox()];
+    expect(n2.y, 'the second note starts below the first').toBeGreaterThanOrEqual(n1.y + n1.height - 1);
 
     // the Hall lights the trophy
     await page.click('#end-title-btn');

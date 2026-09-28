@@ -769,3 +769,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   .beast { flex-wrap: wrap; }
   .beast img.beast-art.zoom { flex-basis: 100%; width: 100%; height: 200px; }
     }
+
+/* The victory's news, a line each. */
+#end-trophy .end-news { display: block; }
+#end-trophy .end-news + .end-news { margin-top: 4px; }

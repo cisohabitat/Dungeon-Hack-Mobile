@@ -197,6 +197,7 @@
  * @property {boolean} [stack]
  * @property {[number, number, number]} [dmg] @property {number} [speed]
  * @property {number} [range] @property {boolean} [twoHanded] @property {string[]} [cls]
+ * @property {boolean} [aimed] a bow or sling: drawn and aimed, so a ranger's Steady Aim applies
  * @property {number} [ac] @property {string} [weight] @property {number} [tier]
  * @property {string} [effect] @property {[number, number, number]} [heal]
  * @property {number} [food]
