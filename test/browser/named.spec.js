@@ -97,7 +97,7 @@ test.describe('named champions', () => {
       localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'face', 'dodge', 'dodgeside', 'dodgelunge', 'dodgelungeflank', 'lesson:dodge', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice']));
       localStorage.setItem('deepdelve.fallen', JSON.stringify({ name: 'Wren', cls: 'fighter', level: 2, depth: 2, run: 'an earlier run', gear: [] }));
     });
-    await startGame(page, { seed: 'shade-tip' });
+    await startGame(page, { tips: true, seed: 'shade-tip' });
     await clearBoons(page);
     expect(await descendTo(page, 2)).toBe(2);
     await faceOpenGround(page, 2);

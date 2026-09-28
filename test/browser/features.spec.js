@@ -499,7 +499,7 @@ test.describe('dungeon features', () => {
 
   test('a basilisk readying its gaze says to turn away, over a tip already showing; an answered trick says there is an opening', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'gaze-tip' });
+    await startGame(page, { tips: true, seed: 'gaze-tip' });
     await clearBoons(page);
     // the controls tip is up from the start: the warning must not wait behind it
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
@@ -523,7 +523,7 @@ test.describe('dungeon features', () => {
   test('a ghoul\'s reaching claw says to strike it, and a web says fire burns it only to a hero with fire', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
-    await startGame(page, { seed: 'claw-tip', cls: 'mage' });
+    await startGame(page, { tips: true, seed: 'claw-tip', cls: 'mage' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -547,7 +547,7 @@ test.describe('dungeon features', () => {
   test('a hero with no fire is told to tear free of a web', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
-    await startGame(page, { seed: 'web-tear', cls: 'fighter' });
+    await startGame(page, { tips: true, seed: 'web-tear', cls: 'fighter' });
     await clearBoons(page);
     await page.evaluate(() => { Game.level().monsters.length = 0; Game.player().webbed = Game.state().t + 60000; });
     await expect(page.locator('#tip')).toContainText('tear free', { timeout: 2000 });
@@ -558,7 +558,7 @@ test.describe('dungeon features', () => {
   test('once three foes are down, a quiet moment says where the hidden combat rolls are turned on', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt'])));
-    await startGame(page, { seed: 'dice-tip' });
+    await startGame(page, { tips: true, seed: 'dice-tip' });
     await clearBoons(page);
     await page.evaluate(() => { const p = Game.player(); Game.level().monsters.length = 0; p.hp = p.maxHp; p.kills = 2; });
     // two is too soon
@@ -580,7 +580,7 @@ test.describe('dungeon features', () => {
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
-    await startGame(page, { seed: 'stale-tip' });
+    await startGame(page, { tips: true, seed: 'stale-tip' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -609,7 +609,7 @@ test.describe('dungeon features', () => {
 
   test('a tip lies along the top of the view: off the log, off the fight in the middle, and off the controls', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'tip-place' });
+    await startGame(page, { tips: true, seed: 'tip-place' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toHaveClass(/show/);
     const r = await page.evaluate(() => {
@@ -649,7 +649,7 @@ test.describe('dungeon features', () => {
 
   test('the controls tip gives way once the hero moves, and the dungeon waits while it is read', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'first-fight' });
+    await startGame(page, { tips: true, seed: 'first-fight' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
     // while it is up, nothing moves: the game's clock stands still
@@ -665,7 +665,7 @@ test.describe('dungeon features', () => {
 
   test('the first foe is taught at once, over the controls tip', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'first-fight-2' });
+    await startGame(page, { tips: true, seed: 'first-fight-2' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
     await page.evaluate(() => {
@@ -680,7 +680,7 @@ test.describe('dungeon features', () => {
 
   test('the first fight is coached: face it, strike it, step back from its blow with time slowed', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'coached' });
+    await startGame(page, { tips: true, seed: 'coached' });
     await clearBoons(page);
     // a goblin awake on the hero's right, so the first step is to turn to it (a rat would
     // pounce after the step back; it has a lesson of its own)
@@ -714,7 +714,7 @@ test.describe('dungeon features', () => {
 
   test('a first blow not stepped back from is called too slow if it lands, and time runs on after it', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'coached-late' });
+    await startGame(page, { tips: true, seed: 'coached-late' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -743,7 +743,7 @@ test.describe('dungeon features', () => {
   test('a trick\'s first coming slows time while its answer is read, and only while it is coming', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
-    await startGame(page, { seed: 'trick-slow' });
+    await startGame(page, { tips: true, seed: 'trick-slow' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -760,7 +760,7 @@ test.describe('dungeon features', () => {
 
   test('the step-back lesson waits for the next blow if the first foe dies first, and says to step aside with a wall behind', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'coached-owed' });
+    await startGame(page, { tips: true, seed: 'coached-owed' });
     await clearBoons(page);
     const rat = (hp, id = 'rat') => page.evaluate(([hp, id]) => {
       const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
@@ -793,7 +793,7 @@ test.describe('dungeon features', () => {
 
   test('a first rat is taught with a step aside, as it pounces after a step back', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'coached-rat' });
+    await startGame(page, { tips: true, seed: 'coached-rat' });
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(), T = Dungeon.T, D = Dungeon.DIRS;
@@ -812,7 +812,7 @@ test.describe('dungeon features', () => {
 
   test('a rat at your side is taught with a step forward or back, and a lunge that follows a step away is called a lunge', async ({ page }) => {
     const errors = watchForErrors(page);
-    await startGame(page, { seed: 'coached-flank' });
+    await startGame(page, { tips: true, seed: 'coached-flank' });
     await clearBoons(page);
     // first the strike lesson, with the rat ahead, so the step lesson is owed
     await page.evaluate(() => {
@@ -944,7 +944,7 @@ test.describe('dungeon features', () => {
   });
 
   test('a tip shows the first time, only once, and the menu can turn tips off', async ({ page }) => {
-    await startGame(page, { seed: 'tips' });
+    await startGame(page, { tips: true, seed: 'tips' });
     await expect(page.locator('#tip')).toHaveClass(/show/);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
     // a tap on it puts it away (and goes no further: see the round five tests),

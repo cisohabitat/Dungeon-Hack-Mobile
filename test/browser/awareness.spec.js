@@ -163,6 +163,8 @@ test.describe('knowing what is hitting you', () => {
     const r = await page.evaluate(async () => {
       const p = Game.player(), L = Game.level(), T = Dungeon.T;
       p.maxHp = 500; p.hp = 500;
+      // nothing to turn its blows: five swings could all miss plated armour, now and then
+      p.eq.armor = null; p.eq.shield = null;
       // an orc on the left, awake and swinging
       const left = Dungeon.DIRS[(p.dir + 3) % 4];
       const lx = p.x + left[0], ly = p.y + left[1];
@@ -170,7 +172,7 @@ test.describe('knowing what is hitting you', () => {
       L.monsters.length = 0;
       L.monsters.push({ uid: 4343, id: 'orc', x: lx, y: ly, hp: 50, maxHp: 50, awake: true, nextAct: 0, rx: lx, ry: ly, fromX: lx, fromY: ly, moveT0: 0, moveT1: 0, flashUntil: 0 });
       const hp = p.hp;
-      for (let i = 0; i < 200 && p.hp === hp; i++) await new Promise(res => setTimeout(res, 30));
+      for (let i = 0; i < 400 && p.hp === hp; i++) await new Promise(res => setTimeout(res, 30));
       if (p.hp === hp) return null;
       const fx = Game.renderState(performance.now()).fx;
       return { from: fx.hurtFrom, held: fx.hurtFromUntil - performance.now(), buzz: window.__buzz.slice(-1)[0] };

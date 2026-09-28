@@ -134,7 +134,7 @@ test.describe('interface', () => {
   test('a scroll worth reading now is one tap away at the end of the log, and gone when it is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
-    await startGame(page, { seed: 'quick-scroll' });
+    await startGame(page, { tips: true, seed: 'quick-scroll' });
     await clearBoons(page);
     const btn = page.locator('#quick-scroll');
     await page.evaluate(() => {
@@ -515,10 +515,14 @@ test.describe('interface', () => {
       const p = Game.player();
       p.inv.push({ t: 'greatsword', q: 1, e: 1 });
       p.inv.push({ t: 'plate', q: 1, e: 0 });
+      p.inv.push({ t: 'longbow', q: 1, e: 0 });
     });
     await page.click('[data-open="inv"]');
     await page.locator('#inv-grid .slot.filled', { hasText: 'Two-handed Sword' }).first().click();
     await expect(page.locator('.compare')).toContainText(/damage per second/);
+    // a bow's reach is said beside the figure, which cannot count the blows it buys
+    await page.locator('#inv-grid .slot.filled', { hasText: 'Long Bow' }).first().click();
+    await expect(page.locator('.compare')).toContainText('reaches 7 squares');
     await page.locator('#inv-grid .slot.filled', { hasText: 'Plate Mail' }).first().click();
     await expect(page.locator('.compare')).toContainText(/armour class/);
   });
@@ -589,7 +593,7 @@ test.describe('round five playtest', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
-    await startGame(page, { seed: 'tip-map' });
+    await startGame(page, { tips: true, seed: 'tip-map' });
     await clearBoons(page);
     await expect(page.locator('#tip.show')).toBeVisible();
     const clear = () => page.evaluate(() => { const t = document.querySelector('#tip').getBoundingClientRect(), m = document.querySelector('#minimap').getBoundingClientRect(), s = document.querySelector('#hud-status').getBoundingClientRect(); return { tipUp: document.querySelector('#tip').classList.contains('show'), gap: Math.min(m.top, s.top) - t.bottom, top: Math.max(m.top, s.top) - document.querySelector('#view').getBoundingClientRect().top }; });
@@ -603,7 +607,7 @@ test.describe('round five playtest', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
-    await startGame(page, { seed: 'tip-tap' });
+    await startGame(page, { tips: true, seed: 'tip-tap' });
     await clearBoons(page);
     const tip = page.locator('#tip.show');
     await expect(tip).toBeVisible();

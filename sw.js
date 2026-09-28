@@ -15,9 +15,12 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
     fetch(e.request).then(res => {
-      // only a good answer is kept: a server's error page saved over the game would be all there was offline
-      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {}); }
+      // only a good answer is kept: a server's error page saved over the game
+      // would be all there was offline, and a redirected one (the host sends
+      // /index.html on to /) is refused by the browser as a page
+      if (res.ok && !res.redirected) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {}); }
       return res;
-    }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
+    // offline, a page asked for by any address (a query, /index.html) is the game's own root
+    }).catch(() => caches.match(e.request).then(r => (r && !r.redirected ? r : e.request.mode === 'navigate' ? caches.match('./') : r)))
   );
 });

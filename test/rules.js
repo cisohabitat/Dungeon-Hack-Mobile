@@ -5216,7 +5216,12 @@ await test('stepping onto the Heart while the lich holds it says so once, not at
   const mark = markLog(G);
   for (let i = 0; i < 3; i++) { Game.input('forward'); run(Game, G, 300); Game.input('back'); run(Game, G, 300); }
   const n = linesSince(G, mark).filter(l => /will not come loose/.test(l)).length;
-  return n === 1 || `stepping onto the Heart three times said it ${n} times`;
+  if (n !== 1) return `stepping onto the Heart three times said it ${n} times`;
+  // but reaching for it (Take in the pack) always says why it will not come
+  Game.input('forward'); run(Game, G, 300);
+  const m2 = markLog(G);
+  Game.takeItem(L.items[k].find(i => i.t === 'artifact'));
+  return linesSince(G, m2).some(l => /will not come loose/.test(l)) || 'reaching for the Heart said nothing';
 });
 
 await test('the Heart is held fast while the lich stands, and lifting it once the lich is down wins on the spot', async () => {
@@ -9335,6 +9340,17 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       before += Dungeon.generate('thin' + i, 7, o).monsters.length;
     }
     if (!(last < before * 0.85)) out.push(`over twenty delves the lich's floor held ${last} others, the floor above ${before}`);
+    // out of rests on the lich's floor, there is no stair to send the hero to
+    {
+      const ctx = await start('fighter', 'last-rest', { levels: 3 });
+      const { Game } = ctx; const G = Game.state(), p = Game.player();
+      while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); }
+      const L = Game.level(); L.monsters.length = 0; L.rests = 9; p.hp = 1;
+      const mark = markLog(G);
+      Game.rest();
+      const said = linesSince(G, mark).join(' | ');
+      if (!/Finish what you came for/.test(said) || /Find the stairs/.test(said)) out.push(`out of rests on the last floor: "${said}"`);
+    }
     return out.length ? out.join('; ') : true;
   });
 
@@ -9447,6 +9463,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       m.windup = { at: Game.state().t, until: Game.state().t + 900, kind: 'pet' };
       Game.useAbility();
       if (m.awake) out.push('a foe swinging at the hound stayed on the thief through the smoke');
+      // and its blow is lost in the smoke, not left hanging to fall on the hound unwarned later
+      if (m.windup) out.push('a blow drawn back at the hound was left hanging through the smoke');
     }
     // sleep by the lamp for a hurt hound's sake, and it wakes whole
     {

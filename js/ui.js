@@ -1005,7 +1005,7 @@ const UI = (() => {
     if (!btn) return;
     const foes = label === 'Foes near';
     // a thinner rest says so in words: "Rest ½" alone told a new player nothing
-    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half a rest', 'Rest \u00bc': 'quarter rest', 'No rest': 'find the stairs' }[label];
+    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half rest', 'Rest \u00bc': 'quarter rest', 'No rest': Game.level().isFinal ? 'none left here' : 'find the stairs' }[label];
     if (sub) btn.innerHTML = `${label === 'No rest' ? 'No rest' : 'Rest'}<small>${sub}</small>`;
     else btn.textContent = label;
     btn.classList.toggle('unavail', foes || label === 'No rest');
@@ -1884,7 +1884,12 @@ const UI = (() => {
       const now = Game.blowRate(cur), next = Game.blowRate(it);
       label = cur ? `vs ${Game.itemName({ ...cur, q: 1 })}` : 'vs bare hands';
       delta = next - now;
-      return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second</p>`;
+      // Reach is worth blows the figure cannot count: a bow's shots as a foe
+      // closes. Without saying so, the pack steered every ranger to a dagger.
+      const reach = x => (x && ITEMS[x.t].range) || 1, r0 = reach(cur), r1 = reach(it);
+      const far = r1 > r0 ? `, and it reaches ${r1} squares: more blows before a foe arrives`
+        : r1 < r0 ? `, but ${r1 > 1 ? `it reaches only ${r1} squares` : 'only at arm\'s length'}, not ${r0}` : '';
+      return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second${far}</p>`;
     }
     // a focus is not measured in armour: its own words say what it does
     if (b.focus || (cur && ITEMS[cur.t].focus)) return '';

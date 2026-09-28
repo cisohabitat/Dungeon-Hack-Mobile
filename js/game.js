@@ -1344,10 +1344,11 @@ const Game = (() => {
    * Said the first time the hero steps onto the Heart while the lich still
    * holds it; after that only when they try to take it. The Heart lies by
    * the lich, so every sidestep in the fight repeated it and filled the log.
+   * @param {boolean} [trying] the hero reached for it: always said
    */
-  function heartHeld() {
+  function heartHeld(trying = false) {
     const k = keeper(), L = lvl();
-    if (L.heartSaid) return;
+    if (L.heartSaid && !trying) return;
     if (!k || !floorItems().some(it => it.t === 'artifact')) return;
     L.heartSaid = true;
     log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
@@ -1366,7 +1367,7 @@ const Game = (() => {
     else if (it.t === 'gem') { p.gold += it.q; log(`You find ${/^[aeiou]/i.test(it.name) ? 'an' : 'a'} ${it.name} worth ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
     else if (it.t === 'artifact') {
       // the lich's cold holds the Heart fast: the last fight cannot be walked round
-      if (keeper()) { heartHeld(); Sound.play('error'); return; }
+      if (keeper()) { heartHeld(true); Sound.play('error'); return; }
       list.splice(i, 1);
       claimHeart();
     }
@@ -2063,8 +2064,8 @@ const Game = (() => {
     const pickUp = it => { (L.items[key(p.x, p.y)] = L.items[key(p.x, p.y)] || []).push(it); pickupAll(); return itemName(it); };
     for (const e of effects) {
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
-      // worth more the deeper it is met, as the creatures there are: a flat
-      // fifty was a fair lesson on the second floor and nothing on the seventh
+      // worth more the deeper it is met: a flat fifty was a fair lesson on
+      // the second floor and nothing on the seventh
       if (e.xp) { const xp = Math.round(e.xp * (1 + (G.depth - 1) / 3)); p.xp += xp; out.push(`+${xp} experience`); }
       if (e.companion) { const said = companion.join(e.companion); if (said) out.push(said); }
       if (e.thread && !threads()[e.thread]) {
@@ -3344,8 +3345,10 @@ const Game = (() => {
       const di = distField[m.y * L.w + m.x];
       // a blow already on its way still comes: smoke is for getting clear, not for being saved
       if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
-      // (one drawn back at the hound is the hound's to take: the smoke still hides the hero)
+      // (one drawn back at the hound is the hound's to take: the smoke still hides the hero,
+      // and the blow is lost with it, or it waited frozen and fell on the hound unwarned)
       if ((m.windup && m.windup.kind !== 'pet') || m.volley) { committed++; continue; }
+      if (m.windup) m.windup = null;
       m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
@@ -3501,7 +3504,7 @@ const Game = (() => {
     // the Returned sleep their first rest on a floor on nothing
     const food = p.bg === 'returned' && !(L.rests || 0) ? 0 : REST_FOOD;
     if (p.food < food) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
-    if (!restShare()) { log('The dark is too close here to sleep again. Find the stairs.', 'bad'); Sound.play('error'); return false; }
+    if (!restShare()) { log(`The dark is too close here to sleep again. ${lvl().isFinal ? 'Finish what you came for.' : 'Find the stairs.'}`, 'bad'); Sound.play('error'); return false; }
     p.food -= food;
     const before = L.rests || 0;
     let share = restShare();

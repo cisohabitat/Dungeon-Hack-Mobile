@@ -29,6 +29,11 @@ function watchForErrors(page) {
  * @param {{seed?: string, cls?: number, bg?: string, levels?: string, name?: string}} [opts]
  */
 async function startGame(page, opts = {}) {
+  // Tips off unless a test is about them: the first tip holds the dungeon
+  // still while it is read, and a test waiting on a monster's blow waited
+  // behind it (only when the tip happened to be up: a flake). A test that
+  // has set the key itself keeps what it set.
+  if (!opts.tips) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.tipsOff') === null) localStorage.setItem('deepdelve.tipsOff', '1'); });
   await page.goto('/');
   await page.click('#btn-new');
   if (opts.name) await page.fill('#c-name', opts.name);
