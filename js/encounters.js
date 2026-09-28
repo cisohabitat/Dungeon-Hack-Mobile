@@ -12,7 +12,7 @@
 // fighter as much as a mage: flat damage let the sturdy gamble for free),
 // hurt [dice], heal ('full' or n), maxHp, food, loot
 // (bonus to the loot roll), item {t, q}, buff {stats: [[stat, n]], dur},
-// poison, cure, uncurse, wake, identifyAll, ambush {id, n}, stat [stat, n],
+// poison, cure, uncurse, wake, identifyAll, ambush {id, n, early?}, stat [stat, n],
 // thread (a choice that follows the hero down: see threads in game.js).
 
 import { Rng } from './rng.js';
@@ -122,7 +122,7 @@ const ENCOUNTERS = {
         fail: { text: 'You answer. Something is taken, and you do not get it back.', effects: [{ maxHp: -3 }] } },
       { label: 'Give it a false name', check: { stat: 'cha', dc: 13 },
         pass: { text: 'It repeats the name you gave it, pleased, and follows the wrong scent into the dark.', effects: [{ xp: 80 }, { maxHp: 2 }] },
-        fail: { text: 'It knows. Something cold comes out of the dark for you.', effects: [{ ambush: { id: 'wraith', n: 1 } }] } },
+        fail: { text: 'It knows. Something cold comes out of the dark for you.', effects: [{ ambush: { id: 'wraith', n: 1, early: ['ghoul', 'skeleton'] } }] } },
       { label: 'Name the thing that is calling', check: { stat: 'int', dc: 14, knack: [['mage', null, 2], [null, 'tombwise', 2]] },
         pass: { text: 'You know these from the crews\' pages. You say what it is, plainly, and it comes apart like smoke.', effects: [{ xp: 100 }] },
         fail: { text: 'You name the wrong thing. It laughs, in your voice, and something cold brushes past you in the dark.', effects: [{ hurtFrac: 0.2 }] } },
@@ -211,7 +211,7 @@ const ENCOUNTERS = {
   },
 
   sleeper: {
-    title: 'A Sleeping Ogre', sprite: 'ogre_sleep', depth: [4, 99],
+    title: 'A Sleeping Ogre', sprite: 'ogre_sleep', depth: [4, 99], tier: 7.5,
     text: 'An ogre sleeps across the passage on a bed of stolen coin, snoring like a rockfall. One hand is still wrapped around its club.',
     choices: [
       { label: 'Creep past and fill your purse', check: { stat: 'dex', dc: 14, knack: [['thief', null, 4]] },
@@ -233,7 +233,7 @@ const ENCOUNTERS = {
         fail: { text: 'The reflection smiles, and you do not. You feel thinner, somehow, when you look away.', effects: [{ maxHp: -3 }] } },
       { label: 'Talk to your reflection', check: { stat: 'cha', dc: 13 },
         pass: { text: 'It answers, in your own voice, and tells you where the dangers on this floor are waiting.', effects: [{ map: 1 }, { xp: 30 }] },
-        fail: { text: 'It answers with something that is not a word, and something steps out of the frame after you.', effects: [{ ambush: { id: 'wraith', n: 1 } }] } },
+        fail: { text: 'It answers with something that is not a word, and something steps out of the frame after you.', effects: [{ ambush: { id: 'wraith', n: 1, early: ['ghoul', 'skeleton'] } }] } },
       { label: 'Smash it', check: { stat: 'str', dc: 11 },
         pass: { text: 'It shatters, and something like a sigh goes out of the room. The gilt frame is worth a little.', effects: [{ goldPerDepth: 10 }, { xp: 20 }] },
         fail: { text: 'The glass does not break. Your hand does, a little.', effects: [{ hurtFrac: 0.1 }] } },
@@ -536,9 +536,11 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
  * they are spread across the run rather than front-loaded, and a run meets
  * about one a floor from a deck twice that size. The deepest floor, where
  * the Heart is kept, has none.
+ * @param {string} seed @param {number} levels
+ * @param {(depth: number, levels: number) => number} [tierAt] where a floor sits on the ladder of monster tiers
  * @returns {string[][]} plan[depth] = encounter ids
  */
-function encounterPlan(seed, levels) {
+function encounterPlan(seed, levels, tierAt = d => d) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
   const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early));
@@ -555,7 +557,9 @@ function encounterPlan(seed, levels) {
     const share = left / floorsLeft;
     const n = Math.min(2, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));
     // the deck's own shuffled order decides, among those that belong this deep
-    const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1]);
+    // and never one whose creature belongs deeper than this floor's monsters:
+    // a sleeping ogre two floors before any ogre walks was a death with no warning
+    const open = deck.filter(e => !used.has(e) && d >= ENCOUNTERS[e].depth[0] && d <= ENCOUNTERS[e].depth[1] && tierAt(d, levels) >= (ENCOUNTERS[e].tier || 0));
     for (const id of open.slice(0, n)) { used.add(id); plan[d].push(id); }
   }
   // the starving hound, on the second floor of two runs in three, on dice of its own;

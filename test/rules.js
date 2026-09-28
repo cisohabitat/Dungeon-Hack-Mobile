@@ -785,11 +785,45 @@ await test('the whole run meets each encounter at most once, deepest floor excep
   return true;
 });
 
+await test('an encounter never calls up a creature from floors far below: the sleeping ogre waits for the ogres, the voice sends a lesser dead thing', async () => {
+  const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const { Dungeon } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'dungeon.js')).href);
+  // the ogre walks from tier 8: on eight floors that is the sixth, on twelve the eighth
+  for (const levels of [8, 12]) for (let i = 0; i < 300; i++) {
+    const plan = encounterPlan('ogre' + i, levels, Dungeon.tierAt);
+    const d = plan.findIndex(f => f && f.includes('sleeper'));
+    if (d > 0 && Dungeon.tierAt(d, levels) < 7.5) return `a ${levels}-floor delve met the sleeping ogre on floor ${d}`;
+  }
+  // a failed word with the mirror: a skeleton on the third floor, a ghoul on the fourth, a wraith from the fifth
+  const want = { 3: 'skeleton', 4: 'ghoul', 6: 'wraith' };
+  for (const depth of [3, 4, 6]) {
+    let got = null;
+    for (let t = 0; t < 30 && !got; t++) {
+      const ctx = await start('fighter', `mirror-deep-${depth}-${t}`, { levels: 8 });
+      const { Game, Dungeon: D } = ctx;
+      while (Game.state().depth < depth) { Game.level().monsters.length = 0; Game.descend(); }
+      const q = Game.player(), M = Game.level();
+      q.stats.cha = 3; M.npcs.length = 0; M.monsters.length = 0;
+      const [dx, dy] = D.DIRS[q.dir];
+      M.tiles[(q.y + dy) * M.w + q.x + dx] = D.T.FLOOR;
+      M.npcs.push({ kind: 'encounter', id: 'mirror', x: q.x + dx, y: q.y + dy });
+      Game.input('forward');
+      const r = Game.chooseEncounter(1);
+      if (!r || !r.check || r.check.pass) continue;
+      got = M.monsters.map(m => m.id).join(',');
+    }
+    if (got !== want[depth]) return `a failed word with the mirror on floor ${depth} brought ${got || 'nothing'}, not a ${want[depth]}`;
+  }
+  return true;
+});
+
 await test('across runs every encounter turns up, and no two runs meet the same handful', async () => {
   const { encounterPlan, ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+  const { Dungeon } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'dungeon.js')).href);
   const seen = new Set(), sets = new Set();
+  // dealt as the game deals them, on the ladder of monster tiers
   for (let i = 0; i < 80; i++) {
-    const all = encounterPlan('spread' + i, 8).flat();
+    const all = encounterPlan('spread' + i, 8, Dungeon.tierAt).flat();
     all.forEach(e => seen.add(e));
     sets.add(all.slice().sort().join(','));
   }

@@ -578,7 +578,7 @@ const Dungeon = (() => {
     // adding them does not move anything else on a seed's level.
     const erng = new Rng(`${seed}|encounter-spots|${depth}`);
     // the road's own encounter waits on its first floor
-    const encHere = [...(encounterPlan(seed, opts.levels || 8)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : [])];
+    const encHere = [...(encounterPlan(seed, opts.levels || 8, tierAt)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : [])];
     for (const encId of encHere) {
       let placed = false;
       // the last floor's vigil lamp stands at the edge of the lich's hall, in

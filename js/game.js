@@ -2084,19 +2084,23 @@ const Game = (() => {
       // (a caster's spell points follow the score at once, not only at the next load)
       if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; refreshSp(p); out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${STAT_WORD[e.stat[0]]}`); }
       if (e.ambush) {
+        // what answers is the floor's own kind of danger: above where wraiths
+        // walk, the thing that comes out of the dark is a lesser dead one
+        const td = Dungeon.tierAt(G.depth, G.opts.levels || 8), ladder = [e.ambush.id, ...(e.ambush.early || [])];
+        const kind = ladder.find(id => MONSTERS[id].tier[0] <= td + 0.5) || ladder[ladder.length - 1];
         let placed = 0;
         for (let r = 2; r <= 4 && placed < e.ambush.n; r++) {
           for (let dy = -r; dy <= r && placed < e.ambush.n; dy++) for (let dx = -r; dx <= r && placed < e.ambush.n; dx++) {
             if (Math.abs(dx) + Math.abs(dy) !== r) continue;
             const x = p.x + dx, y = p.y + dy;
             if (!passable(x, y) || monsterAt(x, y) || npcAt(x, y) || companion.at(x, y)) continue;
-            const b = MONSTERS[e.ambush.id];
+            const b = MONSTERS[kind];
             // as sturdy as the rest of the floor: the difficulty and the deep's pressure apply
-            newMonster(e.ambush.id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 800;
+            newMonster(kind, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 800;
             placed++;
           }
         }
-        if (placed) { distFieldAt = -1e9; out.push(`${placed > 1 ? placed + ' ' : 'A '}${MONSTERS[e.ambush.id].name.toLowerCase()}${placed > 1 ? 's' : ''} attack${placed > 1 ? '' : 's'}!`); }
+        if (placed) { distFieldAt = -1e9; out.push(`${placed > 1 ? placed + ' ' : 'A '}${MONSTERS[kind].name.toLowerCase()}${placed > 1 ? 's' : ''} attack${placed > 1 ? '' : 's'}!`); }
       }
     }
     return out;

@@ -29,11 +29,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   are earned: The Returned opens after any win on Normal or Hard, The Heartsworn after a win on
   Hard. The Daily Delve only ever deals the first six.
 - **Trophies and a relic codex.** Progress that outlasts a run, kept on the device under one key.
-  Each class earns a trophy for each difficulty it wins (twelve in all, daily runs included),
+  Each class earns a trophy for each difficulty it wins (fifteen in all, daily runs included),
   shown as a grid at the top of the Hall of Heroes, and the victory screen says when one is new.
   Every relic any hero picks up or buys goes in the codex, readable from the Hall or the
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
-- **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's six, each changing how the class fights.
+- **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's own six or seven, each changing how the class fights.
   Ability gains can be taken repeatedly; the permanent perks only once.
 - **A path at level 5.** Each class chooses one of two paths, for good, in place of that level's
   lesson: Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
@@ -71,8 +71,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Items.** Weapons, armour and shields with enchantments, potions, scrolls, food, gems, gold,
   and colour-coded keys for locked doors.
 - **A trader in the dark.** One of the Lampfolk (on a goblin market floor, a goblin pedlar) sets up shop on about two floors in five, selling
-  potions, scrolls, food and the odd weapon, and buying whatever you do not want at about half
-  its worth. Buying something identifies it. Gold you never spend is just a number on your
+  potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
+  of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
 - **A hound at your heel.** On floor 2 of most delves a starving hound watches from the dark.
   Share your food, or win it over with a word, and it follows you down: it bites whatever
