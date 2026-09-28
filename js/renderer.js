@@ -1149,7 +1149,7 @@ const Renderer = (() => {
   const crowd = [];
   // each creature drawn in the last frame: where its drawing starts, how far
   // off it is, and how many of the view's pixels each of its own covers
-  /** @type {{top: number, bottom: number, dist: number, texel: number}[]} */
+  /** @type {{top: number, bottom: number, dist: number, texel: number, markX?: number, markY?: number, markSize?: number, midX?: number, width?: number}[]} */
   const shown = [];
   const FLOOR_BEHIND = 0.45;
   const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
@@ -1329,6 +1329,12 @@ const Renderer = (() => {
       const markSize = s.tell ? Math.max(s.special ? 14 : 11, Math.min(s.special ? 30 : 24, Math.round(sw * (s.special ? 0.5 : 0.4)))) : 0;
       const markLow = markSize + (s.boss ? 34 : barred ? 10 : 3) + keepClear, markAt = Math.floor(drawnTop) - (barred ? 9 : 4);
       const markY = Math.min(H - 4, Math.max(markLow, markAt));
+      // Pushed down onto the drawing (a big one close in a short, sideways
+      // view), the mark sat on its face, with the misses written over it: it
+      // moves out beside the head instead, where both can be seen.
+      const pushed = s.tell && markLow > markAt + markSize * 0.5;
+      const markX = pushed ? Math.min(W - markSize, Math.round(screenX + sw * 0.3 + markSize * 0.7)) : Math.round(screenX);
+      if (s.maxHp != null && seenR >= 0 && s.tell) Object.assign(shown[shown.length - 1], { markX, markY, markSize, midX: screenX, width: sw });
       // an ogre up close is taller than the view: its bar stays inside it,
       // and under the mark when a tip has pushed the mark down
       if (barred) {
@@ -1356,7 +1362,7 @@ const Renderer = (() => {
       // the tell: a bright mark over anything about to strike, filling as the
       // blow comes, so it can be seen and answered before it lands
       if (s.tell) {
-        const size = markSize, tx = Math.round(screenX), ty = markY;
+        const size = markSize, tx = markX, ty = markY;
         // Shape says which, not only colour: a plain blow is a triangle, a
         // trick a spiked burst. Each fills from the bottom as the blow comes,
         // so how long is left reads without telling yellow from red.

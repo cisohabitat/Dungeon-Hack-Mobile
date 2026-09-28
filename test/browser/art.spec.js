@@ -91,6 +91,27 @@ test.describe('art', () => {
       expect(errors).toEqual([]);
     });
   }
+  test('held sideways, the warning mark over a big one close in stands beside its head, not on its face', async ({ page }) => {
+    // pushed down under the lich's bar, the mark sat on its skull with the misses written over it
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.setViewportSize({ width: 851, height: 393 });
+    await startGame(page, { seed: 'lich-mark', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(2);
+    expect(await placeMonster(page, 'lich', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
+    await page.evaluate(() => { const m = Game.level().monsters[0], G = Game.state(); m.nextAct = 1e12; m.windup = { at: G.t, until: G.t + 60000 }; });
+    await page.waitForTimeout(600);
+    const seen = await page.evaluate(() => Renderer.shown.filter(c => c.dist < 2.5 && c.markX != null));
+    expect(seen.length, 'the lich is drawn with its mark').toBe(1);
+    const c = seen[0];
+    // the mark clear of the middle of the drawing, where the face is, or above the drawing altogether
+    const clear = Math.abs(c.markX - c.midX) - c.markSize * 0.62 >= c.width * 0.18 || c.markY <= c.top;
+    expect(clear, `mark at ${Math.round(c.markX)},${Math.round(c.markY)}; the lich's middle ${Math.round(c.midX)}, top ${Math.round(c.top)}, width ${Math.round(c.width)}`).toBe(true);
+    expect(c.markX + c.markSize * 0.62, 'the mark stays in the view').toBeLessThanOrEqual(await page.evaluate(() => Renderer.W));
+    expect(errors).toEqual([]);
+  });
   for (const [label, vp] of Object.entries({ sideways: { width: 844, height: 390 }, upright: { width: 390, height: 844 } })) {
     test(`a creature right in front stands with its feet in the view, held ${label}`, async ({ page }) => {
       // sideways the view is short, and one a square off stood with its feet below the bottom edge

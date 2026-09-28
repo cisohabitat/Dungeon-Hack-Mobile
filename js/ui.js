@@ -1453,6 +1453,7 @@ const UI = (() => {
   /** Self-Taught: tap a score for each point; both on one is fine. */
   function renderSpread(b) {
     const p = Game.player(), el = $('#boon-list'), picks = [];
+    el.classList.remove('paths');
     // the tap that chose Self-Taught must not land on a score as well: the scores wait a moment
     const armedAt = performance.now() + SPREAD_GUARD_MS;
     const draw = () => {
@@ -1507,6 +1508,7 @@ const UI = (() => {
       : `Hero level ${Game.pendingLevel()}: what the delve taught you`;
     const el = $('#boon-list');
     el.innerHTML = '';
+    el.classList.remove('paths');
     // what the level brought, and what comes next
     const level = Game.pendingLevel(), got = Game.levelNote(level);
     const bits = [];
@@ -1561,6 +1563,8 @@ const UI = (() => {
     $('#boon-title').textContent = `Hero level ${level}: choose your path`;
     const el = $('#boon-list');
     el.innerHTML = '';
+    // held sideways, the paths sit side by side: one under the other, the second was below the fold
+    el.classList.add('paths');
     const bits = [];
     if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
     const head = document.createElement('p');

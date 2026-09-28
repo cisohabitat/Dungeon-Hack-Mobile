@@ -5,6 +5,38 @@ const { test } = require('@playwright/test');
 const { watchForErrors, startGame, clearBoons, expect } = require('./helpers');
 
 test.describe('paths', () => {
+  test('held sideways, the two paths stand side by side, both in view', async ({ page }) => {
+    // one under the other, the second path was below the fold, and further when the first was armed
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.setViewportSize({ width: 851, height: 393 });
+    await startGame(page, { seed: 'path-side', cls: 'Thief' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.xp = XP_TABLE[4] - 1; p.perkHit = 60;
+      L.monsters.push({ uid: 7, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    });
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    for (let i = 0; i < 3; i++) {
+      await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
+      await page.locator('#boon-list .boon').first().click();
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
+    }
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 5: choose your path');
+    const cards = page.locator('.boon.path');
+    await expect(cards).toHaveCount(2);
+    await page.waitForTimeout(800);
+    await cards.nth(0).click();
+    await expect(cards.nth(0)).toHaveClass(/armed/);
+    const [a, b] = [await cards.nth(0).boundingBox(), await cards.nth(1).boundingBox()];
+    expect(Math.abs(a.y - b.y), 'the two cards start level').toBeLessThan(4);
+    expect(b.x, 'the second beside the first').toBeGreaterThan(a.x + a.width - 4);
+    expect(b.y + 60, 'the second card\'s name and first lines in view').toBeLessThan(393);
+    expect(errors).toEqual([]);
+  });
+
   test('level 5 offers the two paths of the class, and the one taken is on the Hero sheet', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

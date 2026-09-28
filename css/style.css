@@ -739,6 +739,13 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   .lefty .ctrl-col { border-left: 0; border-right: 1px solid var(--border); }
   .lefty .controls { flex-direction: column; }
 }
+/* Held sideways, the two paths stand side by side: one under the other, the
+   second was below the fold, and pushed further down when the first was armed. */
+@media (orientation: landscape) and (max-height: 500px) {
+  #boon-list.paths { display: grid; grid-template-columns: 1fr 1fr; gap: 0 9px; align-items: start; }
+  #boon-list.paths > :not(.boon) { grid-column: 1 / -1; }
+}
+
 @media (orientation: landscape) and (max-height: 500px) {
   .lefty .game-layout { grid-template-columns: clamp(212px, 27vw, 252px) minmax(0, 1fr); grid-template-areas: "hud view" "ctrl view" "ctrl log"; }
   .lefty .ctrl-col, .lefty .hud { border-left: 0; border-right: 1px solid var(--border); }
