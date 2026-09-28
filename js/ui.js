@@ -1004,10 +1004,12 @@ const UI = (() => {
     const btn = document.querySelector('[data-tap="rest"]');
     if (!btn) return;
     const foes = label === 'Foes near';
-    if (foes) btn.innerHTML = 'Rest<small>foes near</small>';
+    // a thinner rest says so in words: "Rest ½" alone told a new player nothing
+    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half a rest', 'Rest \u00bc': 'a quarter rest', 'No rest': 'find the stairs' }[label];
+    if (sub) btn.innerHTML = `${label === 'No rest' ? 'No rest' : 'Rest'}<small>${sub}</small>`;
     else btn.textContent = label;
     btn.classList.toggle('unavail', foes || label === 'No rest');
-    btn.setAttribute('aria-label', foes ? 'Rest: not with foes near' : label);
+    btn.setAttribute('aria-label', foes ? 'Rest: not with foes near' : sub ? `${label === 'No rest' ? 'No rest' : 'Rest'}: ${sub}` : label);
   }
   // A caster's Cast button casts, so their quick drink is a bottle of its own
   // beside the life bar: always in the same place, there whenever they carry
@@ -1300,7 +1302,7 @@ const UI = (() => {
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
-    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your charm: ${charm}% off</small>` : charm < 0 ? `<br><small>your manner: ${-charm}% dearer</small>` : '')
+    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your Charisma: prices ${charm}% lower</small>` : charm < 0 ? `<br><small>your low Charisma: prices ${-charm}% higher</small>` : '')
       + Game.priceNotes().map(n => `<br><small>${escapeHtml(n)}</small>`).join('');
     const stock = $('#shop-stock');
     stock.innerHTML = '';

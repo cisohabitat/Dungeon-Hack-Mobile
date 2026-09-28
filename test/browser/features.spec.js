@@ -245,6 +245,9 @@ test.describe('dungeon features', () => {
     expect(placed, 'floor one of this seed should hold an encounter').not.toBeNull();
     await page.locator('[data-tap="use"]').click();
     await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    // on a tall phone the picture takes some of the room above the choices
+    const art = await page.locator('.enc-art img').boundingBox();
+    expect(art.width, 'the encounter picture on a tall phone').toBeGreaterThanOrEqual(140);
     const smalls = await page.locator('.enc-choice small').allInnerTexts();
     expect(smalls.some(t => /^[A-Z][a-z]+: \d+% chance/.test(t)), `no plain odds: ${smalls.join(' | ')}`).toBe(true);
     expect(smalls.some(t => /d20/.test(t)), `dice shown with the rolls hidden: ${smalls.join(' | ')}`).toBe(false);

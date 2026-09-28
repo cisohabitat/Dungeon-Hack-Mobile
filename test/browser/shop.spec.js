@@ -61,9 +61,11 @@ test.describe('the trader', () => {
     await page.evaluate(() => {
       const n = Game.level().npcs.find(q => q.kind !== 'encounter');
       n.stock.unshift({ t: 'studded', q: 1, e: 1, id: 1 });
+      Game.player().stats.cha = 4;   // and a manner that puts prices up, said plainly
       Game.input('forward');
     });
     await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    await expect(page.locator('#shop-gold')).toContainText(/your low Charisma: prices \d+% higher/);
     const row = page.locator('#shop-stock .shop-row, #shop-stock > *', { hasText: 'Studded Leather' }).first();
     const why = await page.evaluate(() => Game.canEquip({ t: 'studded', q: 1, e: 1 }));
     expect(why, 'a mage cannot wear it').toBeTruthy();

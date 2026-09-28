@@ -53,6 +53,14 @@ test.describe('rest and the quick drink', () => {
     await page.evaluate(() => { Game.level().monsters.length = 0; });
     await expect(rest).not.toHaveClass(/unavail/);
     await expect(rest).toHaveText(/^Rest/);
+    // a thinner rest says so in words, and the last says where to go instead
+    await page.evaluate(() => { Game.level().rests = 1; });
+    await expect(rest).toContainText('half a rest');
+    await page.evaluate(() => { Game.level().rests = 2; });
+    await expect(rest).toContainText('a quarter rest');
+    await page.evaluate(() => { Game.level().rests = 3; });
+    await expect(rest).toContainText('find the stairs');
+    await expect(rest).toHaveClass(/unavail/);
     expect(errors).toEqual([]);
   });
 

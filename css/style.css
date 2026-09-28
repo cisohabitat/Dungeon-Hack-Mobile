@@ -725,6 +725,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   #boon-list > .boon:first-of-type, #enc-choices, #fork-choices { margin-top: auto; }
   #enc-choices, #fork-choices { width: 100%; }
   #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
+  /* the choices sit low, so the picture above them takes some of the room a tall phone leaves */
+  .enc-art img { width: clamp(112px, 20vh, 176px); height: clamp(112px, 20vh, 176px); }
 }
 
 /* Left-handed controls: the pad and the blows change sides, Attack keeps to the
