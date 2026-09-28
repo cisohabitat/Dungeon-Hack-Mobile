@@ -174,6 +174,6 @@ test('the end screen lists the lessons learnt at each level, with a count for on
   const lessons = page.locator('#end-summary .end-h', { hasText: 'Lessons' });
   await expect(lessons).toBeVisible();
   await expect(page.locator('#end-summary')).toContainText('Practised Hands');
-  await expect(page.locator('#end-summary')).toContainText('Hard Won Strength ×2');
+  await expect(page.locator('#end-summary')).toContainText('Hard-Won Strength ×2');
   expect(errors).toEqual([]);
 });

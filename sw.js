@@ -15,8 +15,8 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
     fetch(e.request).then(res => {
-      const copy = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+      // only a good answer is kept: a server's error page saved over the game would be all there was offline
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {}); }
       return res;
     }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
   );

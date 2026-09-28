@@ -105,7 +105,7 @@ const BOONS = [
   // A stat lesson lifts the score to the next even number, so its bonus always
   // rises by one: +1 to an even score used to change nothing at all.
   // (not for a ranger, who hits and wounds with Dexterity: Strength would buy nothing in a fight)
-  { id: 'str', stat: 'str', max: 2, name: 'Hard Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; }, when: p => p.cls !== 'ranger' },
+  { id: 'str', stat: 'str', max: 2, name: 'Hard-Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; }, when: p => p.cls !== 'ranger' },
   { id: 'dex', stat: 'dex', max: 2, name: 'Sure Footing', desc: 'Your Dexterity bonus rises by one.', apply: p => { p.stats.dex += p.stats.dex % 2 ? 1 : 2; } },
   { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
   { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
@@ -615,7 +615,7 @@ const ELEMENTS_TAKEN = {
 // it. The lore is there from the first meeting; the trick once it has been
 // seen (or after a few kills), and the answer once the hero has beaten it.
 const BESTIARY = {
-  rat:      { lore: 'Big as a dog and never alone for long. They come in twos and threes from the second floor down, and the square is clear only when the last one drops. A rat pounces after whoever backs away from its bite: step aside, not back.' },
+  rat:      { lore: 'Big as a dog and never alone for long. From the second floor down they come in twos and threes, and the square is clear only when the last one drops. A rat pounces after whoever backs away from its bite: step aside, not back.' },
   bat:      { lore: 'Quick, weak and hard to hit, it flutters above your blade. It bites fast, so its warning is short: watch for the mark and step back early.' },
   slime:    { lore: 'A slow heap of green that eats whatever it rolls over, bones included.',
     trick: 'Struck hard, it splits into two smaller slimes sharing its square.',

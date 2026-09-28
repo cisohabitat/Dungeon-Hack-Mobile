@@ -3616,7 +3616,7 @@ await test('the bestiary counts each monster once when met, and says so the firs
   for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);
   if (!m.awake) return 'the goblin never woke';
   const said = linesSince(G, mark);
-  if (!said.some(l => /Bestiary, Goblin: new entry/.test(l))) return `said: ${said.join(' | ')}`;
+  if (!said.some(l => /Bestiary: Goblin added/.test(l))) return `said: ${said.join(' | ')}`;
   if (Game.bestiary().goblin.met !== 1) return `met counted ${Game.bestiary().goblin.met} for one goblin`;
   // the same goblin again, asleep and woken, is not a new meeting; another is
   m.awake = false;
@@ -3660,7 +3660,7 @@ await test('seeing a trick writes it down, and beating it writes the answer', as
   const r2 = Game.bestiary().ogre;
   if (!r2.answer) return `after dodging it: ${JSON.stringify(r2)}`;
   void p;
-  return linesSince(G, mark).some(l => /Bestiary, Ogre: how to beat it/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
+  return linesSince(G, mark).some(l => /Bestiary: .*Ogre, you learned .*how to beat it/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
 });
 
 await test('the bestiary remembers what killed you, and outlasts the run', async () => {
@@ -4174,7 +4174,7 @@ await test('the log tells what happened before what the bestiary learned from it
   const mark = markLog(G);
   Game.update(G.t + 25, 25);
   const said = linesSince(G, mark);
-  const trick = said.findIndex(l => /rears back to spit a web/.test(l)), note = said.findIndex(l => /^Bestiary, Cave Spider/.test(l));
+  const trick = said.findIndex(l => /rears back to spit a web/.test(l)), note = said.findIndex(l => /^Bestiary: Cave Spider/.test(l));
   if (trick < 0 || note < 0 || note < trick) return `order: ${said.join(' | ')}`;
   if (said.filter(l => /^Bestiary/.test(l)).length !== 1) return `more than one bestiary line: ${said.join(' | ')}`;
   // and a kill: slain first, then one note
@@ -4184,7 +4184,7 @@ await test('the log tells what happened before what the bestiary learned from it
   for (let i = 0; i < 20 && Game.level().monsters.includes(m2); i++) { k = markLog(G); G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
   const after = linesSince(G, k);
   void m; void m2;
-  const dead = after.findIndex(l => /destroyed|slain/.test(l)), n2 = after.findIndex(l => /^Bestiary, Giant Rat/.test(l));
+  const dead = after.findIndex(l => /destroyed|slain/.test(l)), n2 = after.findIndex(l => /^Bestiary: Giant Rat/.test(l));
   return (dead >= 0 && n2 > dead && after.filter(l => /^Bestiary/.test(l)).length === 1) || `order: ${after.join(' | ')}`;
 });
 
@@ -9272,6 +9272,70 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     // an eight-floor delve's tiers are fractions; a shade's worth, and its aim, are not
     const sh = Game.mstat({ id: 'shade', shade: { name: 'Old', cls: 'fighter', tier: 2.04, depth: 2 } });
     if (!Number.isInteger(sh.xp) || !Number.isInteger(sh.hit)) out.push(`a shade was worth ${sh.xp} experience and hit at +${sh.hit}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('review fixes: the hound is not the hero, for smoke, the best blow or the trader\'s lamp; a cleric unhurt readies a spell that does something', async () => {
+    const out = [];
+    // the hound's bites are its own: not the hero's best blow, nor the hero's tally
+    {
+      const ctx = await withHound('own-bite');
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), c = Game.companion();
+      clearAround(ctx, 5);
+      const dealt = Game.runStats().dealt, best = Game.runStats().best;
+      const [dx, dy] = ctx.Dungeon.DIRS[(p.dir + 2) % 4];
+      c.x = c.rx = p.x + dx; c.y = c.ry = p.y + dy; c.mode = 'stay';
+      const m = beside(ctx, 'goblin', { awake: true }); m.x = m.rx = m.fromX = c.x + dx; m.y = m.ry = m.fromY = c.y + dy; m.hp = m.maxHp = 500; m.nextAct = 1e12;
+      for (let i = 0; i < 400 && m.hp === 500; i++) Game.update(G.t + 25, 25);
+      if (m.hp === 500) out.push('the hound never bit');
+      else if (Game.runStats().dealt !== dealt || Game.runStats().best !== best) out.push(`the hound's bite counted as the hero's: ${JSON.stringify(Game.runStats().best)}`);
+    }
+    // a blow drawn back at the hound does not stop the hero's smoke hiding them
+    {
+      const ctx = await start('thief', 'smoke-pet', { levels: 6 });
+      const { Game } = ctx; const p = Game.player();
+      p.hp = p.maxHp = 9999; p.level = 5;
+      Game.level().monsters.length = 0;
+      const m = beside(ctx, 'orc', { awake: true });
+      m.windup = { at: Game.state().t, until: Game.state().t + 900, kind: 'pet' };
+      Game.useAbility();
+      if (m.awake) out.push('a foe swinging at the hound stayed on the thief through the smoke');
+    }
+    // sleep by the lamp for a hurt hound's sake, and it wakes whole
+    {
+      const ctx = await withHound('lamp-hound');
+      const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), c = Game.companion();
+      clearAround(ctx, 4);
+      const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+      const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy; L.npcs.push(shop);
+      c.x = c.rx = p.x - dx; c.y = c.ry = p.y - dy;
+      Game.input('forward');
+      p.gold = 9999; p.hp = p.maxHp; p.sp = p.maxSp; c.hp = 1;
+      const lodge = Game.shopServices().find(v => v.id === 'lodge');
+      if (!lodge || lodge.why) out.push(`a hurt hound was no reason to sleep by the lamp: ${lodge && lodge.why}`);
+      else { Game.buyService('lodge'); if (c.hp !== c.maxHp) out.push(`the hound woke with ${c.hp} of ${c.maxHp}`); }
+    }
+    // unhurt, a new cleric's Cast button is Bless, not a heal that would be wasted; hurt, the heal again
+    {
+      const ctx = await start('cleric', 'cleric-ready');
+      const { Game } = ctx; const p = Game.player();
+      p.hp = p.maxHp;
+      const whole = Game.castLabel();
+      p.hp = 1;
+      const hurt = Game.castLabel();
+      if (/Cure/.test(whole) || !/Cure/.test(hurt)) out.push(`the Cast button read ${whole} unhurt and ${hurt} hurt`);
+    }
+    // the bestiary tells what it learned in words, not labels
+    {
+      const ctx = await start('fighter', 'beast-words');
+      const { Game } = ctx; const G = Game.state(), p = Game.player();
+      p.hp = p.maxHp = 9999;
+      const mark = markLog(G);
+      const m = beside(ctx, 'goblin', { awake: true }); m.hp = 1;
+      for (let i = 0; i < 40 && Game.level().monsters.includes(m); i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); Game.update(G.t + 25, 25); }
+      const said = linesSince(G, mark).find(l => /^Bestiary/.test(l)) || '';
+      if (said !== 'Bestiary: Goblin added, and you learned how tough it is.') out.push(`the bestiary said "${said}"`);
+    }
     return out.length ? out.join('; ') : true;
   });
 

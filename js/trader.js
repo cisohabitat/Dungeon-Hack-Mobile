@@ -127,7 +127,7 @@ export function makeTrader(K) {
   /** A night by the trader's lamp: whole again, nothing finds you, and the floor's own rests are not spent. */
   function lodging() {
     const L = lvl(), p = P();
-    const why = vowed('iron') ? 'You swore the Iron Vow: no rest until the Heart is won.' : L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp ? 'You are already well rested.' : null;
+    const why = vowed('iron') ? 'You swore the Iron Vow: no rest until the Heart is won.' : L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp && !K.houndHurt() ? 'You are already well rested.' : null;
     return { id: 'lodge', label: 'Sleep safe by the trader\'s lamp', detail: why || 'A whole night, and nothing finds you. Once a floor.',
       price: Math.round((30 + 15 * K.G.depth) * (1 - charm())), why };
   }
@@ -174,6 +174,7 @@ export function makeTrader(K) {
     } else if (id === 'lodge') {
       const p = P();
       healPlayer(p.maxHp - p.hp); p.sp = p.maxSp;
+      K.houndRests();
       lvl().lodged = true;
       log('You sleep by the trader\'s lamp, and nothing comes. You wake whole.', 'good');
     } else if (id === 'hone' || id === 'reinforce') {

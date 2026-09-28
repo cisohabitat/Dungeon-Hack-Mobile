@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-28', text: 'a caged goblin waits on some delves: free it and it picks locks and finds traps for you. The first tip now holds the dungeon still, and held sideways a monster up close keeps its feet in view.' };
+  const NEWS = { id: '2026-09-28', text: 'a caged goblin waits on some delves: free it and it picks locks and finds traps for you. The game now pauses while you read the first tip, and held sideways, monsters up close are no longer cut off at the feet.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -719,7 +719,8 @@ const UI = (() => {
   /** A plain blow (not a trick) being drawn back right beside the hero. */
   const blowComing = () => {
     const p = Game.player();
-    return Game.level().monsters.some(m => m.windup && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+    // (a blow at the hound is not the hero's to dodge)
+    return Game.level().monsters.some(m => m.windup && !m.windup.move && m.windup.kind !== 'pet' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
   };
   // a blow still to come down, even at a step's remove: a lunger follows, so
   // the lesson waits for the blow itself before it says how the step went
@@ -967,7 +968,7 @@ const UI = (() => {
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
     if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
     // the companion, when there is something to say: hurt, told to stay, or waiting on another floor
-    const hound = Game.companion(), kindWord = hound && hound.kind === 'goblin' ? 'goblin' : 'hound';
+    const hound = Game.companion(), kindWord = Game.companionWord();
     if (hound && !hound.fallen) {
       const who = escapeHtml(hound.name);
       if (hound.depth !== G.depth) st.push(`<span title="Your ${kindWord} waits where you told it to stay">${who} on floor ${Number(hound.depth)}</span>`);
@@ -2313,7 +2314,7 @@ const UI = (() => {
     // a hound still at the hero's side at the end stands in the picture with them
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: c.kind === 'goblin' ? 'goblin' : 'hound', art: won ? pic(Assets.sprites[c.kind === 'goblin' ? 'scrag' : 'dog'] || Assets.sprites.dog) : null } : null;
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[c.kind === 'goblin' ? 'scrag' : 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,
@@ -2559,7 +2560,8 @@ const UI = (() => {
       /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = '';
       $('#code-why').textContent = '';
       const s = Game.saveSummary();
-      $('#code-warn').textContent = s ? `This replaces ${s.name} the ${s.cls}, waiting for you on floor ${s.depth}.` : '';
+      // (as the New Game button warns: a Daily hero replaced is the day's one try spent)
+      $('#code-warn').textContent = s ? `This replaces ${s.name} the ${s.cls}, waiting for you on floor ${s.depth}.${s.daily && s.daily === Daily.today() ? ' This is today\'s Daily Delve, your one try at it: loading another hero ends it unfinished.' : ''}` : '';
       showScreen('screen-code');
     });
     $('#code-back').addEventListener('click', () => showScreen('screen-title'));

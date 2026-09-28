@@ -473,6 +473,10 @@ test.describe('the Daily Delve', () => {
     // a new hero would spend today's one try: the question says so
     await page.click('#btn-new');
     await expect(page.locator('#confirm-who')).toContainText("today's Daily Delve, your one try");
+    // and so would a hero loaded from a save code
+    await page.goto('/');
+    await page.click('#btn-code');
+    await expect(page.locator('#code-warn')).toContainText("today's Daily Delve, your one try");
     await page.goto('/');
     await page.click('#btn-daily');
     await expect(page.locator('#screen-game')).toBeVisible();

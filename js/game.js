@@ -1981,7 +1981,7 @@ const Game = (() => {
     if (c.goldPerDepth) return { gold: c.goldPerDepth * G.depth, text: `${c.goldPerDepth * G.depth} gold` };
     if (c.hurtFrac) { const n = Math.ceil(P().maxHp * c.hurtFrac); return { hp: n, text: `${n} hit points` }; }
     // a meal from the pack if there is one (a hero carrying rations is not too poor to share)
-    if (c.food) { const meal = P().inv.find(it => ITEMS[it.t].kind === 'food'); return meal ? { meal, text: `a ${ITEMS[meal.t].name.toLowerCase()} from your pack` } : { food: c.food, text: `${c.food} nourishment` }; }
+    if (c.food) { const meal = P().inv.find(it => ITEMS[it.t].kind === 'food'); return meal ? { meal, text: `${/^[aeiou]/i.test(ITEMS[meal.t].name) ? 'an' : 'a'} ${ITEMS[meal.t].name.toLowerCase()} from your pack` } : { food: c.food, text: `${c.food} nourishment` }; }
     return null;
   }
   /** What each choice will ask of you, and how likely it is to go well. */
@@ -2442,7 +2442,7 @@ const Game = (() => {
     const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
-    else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your hound'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
+    else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your companion'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
@@ -2966,6 +2966,8 @@ const Game = (() => {
   /** A blow the hero landed, and what it was struck with. */
   /** @param {number} [hpBefore]  what the one struck had left, so a blow past death counts only what it took */
   function noteDealt(m, dmg, tag, hpBefore = m.hp) {
+    // the hound's bite is the hound's: it made neither the hero's best blow nor their tally
+    if (tag === 'companion') return;
     const s = runStats(), p = P();
     // a blow counts for what it took: a crushing roll on a one-point rat is one point
     dmg = Math.min(dmg, Math.max(0, hpBefore));
@@ -3028,6 +3030,18 @@ const Game = (() => {
     beastRaw = raw; beastBook = out;
     return out;
   }
+  /**
+   * One creature's line in a bestiary note, in words: "Goblin added, and you
+   * learned how tough it is". Read as a list of labels ("Goblin: new entry,
+   * its strength") it looked like a scrap of the game's own bookkeeping.
+   * @param {string} name @param {string[]} list
+   */
+  function beastNote(name, list) {
+    const said = { 'new entry': '', 'its strength': 'how tough it is' };
+    const learned = list.filter(x => x !== 'new entry').map(x => x in said ? said[x] : /^(weak|resists)/.test(x) ? `it ${x.startsWith('weak') ? 'is ' : ''}${x}` : x);
+    const and = learned.length > 1 ? `${learned.slice(0, -1).join(', ')} and ${learned[learned.length - 1]}` : learned[0];
+    return list.includes('new entry') ? `${name} added${and ? `, and you learned ${and}` : ''}` : `${name}, you learned ${and}`;
+  }
   /** Note something learned about a kind of monster, and say so when it is new.
    * `met` also counts a first meeting, so a trick seen at first sight is one line. */
   function learn(id, what, met) {
@@ -3064,7 +3078,7 @@ const Game = (() => {
       const notes = last && last.notes ? { ...last.notes } : {};
       notes[name] = [...new Set([...(notes[name] || []), ...news])];
       if (last && last.notes) { last.gone = true; last.m = ''; }
-      G.log.push({ m: 'Bestiary, ' + Object.entries(notes).map(([n, l]) => `${n}: ${l.join(', ')}`).join('; ') + '.', c: 'note', notes });
+      G.log.push({ m: 'Bestiary: ' + Object.entries(notes).map(([n, l]) => beastNote(n, l)).join('; ') + '.', c: 'note', notes });
       G.logSeq = (G.logSeq || 0) + 1;
     }
   }
@@ -3299,7 +3313,8 @@ const Game = (() => {
       const di = distField[m.y * L.w + m.x];
       // a blow already on its way still comes: smoke is for getting clear, not for being saved
       if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
-      if (m.windup || m.volley) { committed++; continue; }
+      // (one drawn back at the hound is the hound's to take: the smoke still hides the hero)
+      if ((m.windup && m.windup.kind !== 'pet') || m.volley) { committed++; continue; }
       m.pressing = false;
       // the lich sees through smoke, though it spoils its aim for a moment
       if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
@@ -3324,8 +3339,7 @@ const Game = (() => {
   function castLast() {
     const list = knownSpells();
     if (!list.length) return abilityOf() ? useAbility() : quaff();
-    const sp = list.find(s => s.id === G.lastSpell) || list[0];
-    return castSpell(sp);
+    return castSpell(readiedSpell(list));
   }
 
   /**
@@ -3391,7 +3405,19 @@ const Game = (() => {
     const a = abilityOf();
     if (!list.length && a) return abilityLeft() ? `${a.name} ${abilityLeft()}s` : a.name;
     if (!list.length) return P().inv.some(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && isKnown(i.t)) ? 'Quaff' : 'Quaff (none)';
-    return (list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0]).name;
+    return readiedSpell(list).name;
+  }
+  /**
+   * The spell on the Cast button: the last one cast, while it can be. Unhurt,
+   * a healing spell there only said it would be wasted (a new cleric facing
+   * a skeleton at full health met Cure Light Wounds), so the button offers
+   * the next spell that would do something instead.
+   * @param {ReturnType<typeof knownSpells>} list
+   */
+  function readiedSpell(list) {
+    const p = P(), sp = list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0];
+    if (sp.kind === 'heal' && p.hp >= p.maxHp) return list.find(s => s.kind !== 'heal' && spellAvailable(s)) || sp;
+    return sp;
   }
 
   // ---------- resting ----------
@@ -4140,6 +4166,9 @@ const Game = (() => {
     get G() { return G; },
     P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn,
     revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack,
+    // the hound sleeps by the lamp too, and a hurt one is reason enough to stop there
+    houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },
+    houndRests: () => companion.rested(1),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
@@ -4147,13 +4176,13 @@ const Game = (() => {
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
-    get damageMonster() { return damageMonster; }, get ensureDist() { return ensureDist; }, get distField() { return distField; },
+    get damageMonster() { return damageMonster; },
     get heard() { return heard; }, get realNow() { return realNow; },
   });
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
-    companion: () => (G && G.companion) || null, companionNote: () => companion.note(),
+    companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
