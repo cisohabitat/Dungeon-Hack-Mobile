@@ -546,6 +546,17 @@ const MONSTERS = {
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' } },
       { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of grave-cold at', element: 'cold' }, speed: 850 },
     ] },
+  // The Warrens' own last fight, down that road in place of the lich: the
+  // warlord of every goblin in the deep, who has dragged the Heart into his
+  // hall. He beats a war-drum for his warband; at two thirds he takes to his
+  // throne of plunder behind two shield-bearers and throws spears from it; at
+  // one third he kicks open his war-chest and fights in a frenzy. (The same
+  // count of hit dice as the lich: the floor's other dice fall as they did.)
+  warlord:  { name: 'Goblin Warlord', hp: [12, 9, 22], ac: 17, hit: 9, dmg: [2, 8, 1], speed: 1050, xp: 1500, tier: [99, 99], sprite: 'warlord', scale: 1.3, boss: true, move: 'drum', cunning: 1,
+    phases: [
+      { ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a spear from his throne at' } },
+      { speed: 760 },
+    ] },
   // A hero who died on this device in an earlier run, risen over their bones
   // (Progress.fallen). Its numbers here are only a floor: each one is made to
   // the floor it haunts and fights as its class did (mstat in game.js).
@@ -708,6 +719,9 @@ const BESTIARY = {
     trick: 'It rears back and breathes a gout of fire down the passage, from two squares out to five.',
     answer: 'Close in under its jaws: the fire roars out over your head. Or step out of its line. Stepping back only keeps you in it.' },
   shade:    { lore: 'One of your own, who fell in an earlier delve and did not stay down. It keeps the floor where it died, over the bones and the gear it died in, and it fights the way it did in life: a fighter\'s shade charges, a mage\'s throws cold fire, a cleric\'s mends itself, a thief\'s is quick and follows a step back, a ranger\'s shoots. Undead: holy magic burns it twice as badly. Lay it to rest and its gear is yours.' },
+  warlord:  { lore: 'Grisk was only his sister\'s boy. The Warlord of the Warrens wears a crown of hammered gold, beats a war-drum that every goblin in the deep comes running to, and has dragged the Heart into his own hall. Break the beat by striking him; cut down his shield-bearers and he must leave his throne; and when he kicks open his war-chest, keep your head.',
+    trick: 'He raises his war-drum to call a warband; strike him before the beat. At two thirds he takes to his throne behind two shield-bearers, who turn every blow meant for him, and throws spears; at one third he fights in a frenzy.',
+    answer: 'Strike him while the drumstick is raised and the call dies. Kill the shield-bearers and he must come down from his throne.' },
   lich:     { lore: 'The dread thing that keeps the Heart of the Mountain. Its touch drains life and reaches two squares down a straight line, so one step back is not enough: step aside. It does not flee.',
     trick: 'Gathers a storm of cold fire that bursts two squares around it. At two thirds it raises guards and steps back behind them to throw grave-cold; at one third it puts out its torches and tries to drink the Heart\'s light to mend itself.',
     answer: 'When it gathers the storm, get three squares away. Close on it through its guards, and when it begins its rite, strike it: any wound breaks the rite. A mage\'s spell pulls its shadow apart, and its grave-cold breaks on a mage\'s Shield.' },

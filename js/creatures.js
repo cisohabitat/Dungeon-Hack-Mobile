@@ -150,6 +150,54 @@ const CREATURES = {
     ];
   },
 
+  // The Warlord of the Warrens: a goblin grown broad and heavy on plunder, in a
+  // coat of gilded scales and a crown of hammered gold, a red cloak at his back,
+  // a war-drum slung at his hip and a butcher's cleaver in his fist.
+  warlord: () => {
+    const skin = '#5f9a42', dark = '#3a6428', gold = '#d8a830', deep = '#8a6418';
+    return [
+      // the cloak, falling wide behind him
+      sheet([[8, 12], [24, 12], [28, 30], [4, 30]], '#8a1c1c', { curve: 1 }),
+      sheet([[9, 13], [12, 13], [8, 30], [5, 30]], '#b02828', { curve: 0.6 }),
+      ...both(limb(13, 23, 12, 29.5, 2.4, 2, dark)),
+      ...both(ball(11.5, 30.3, 3, 1.3, '#3a2a1a')),
+      ball(16, 19.5, 7.2, 6.4, skin),
+      // a coat of gilded scales, a broad belt with a skull for a buckle
+      sheet([[9.5, 14.5], [22.5, 14.5], [23.5, 24.5], [8.5, 24.5]], deep, { curve: 1 }),
+      ...[16, 18.5, 21].flatMap(y => [10.5, 13, 15.5, 18, 20.5].map(x => ball(x + (y === 18.5 ? 1.2 : 0), y, 1.3, 1, gold))),
+      line(8.5, 23.5, 23.5, 23.5, '#3a2210'), ball(16, 23.5, 1.5, 1.3, '#e8e0c8'),
+      // the war-drum at his hip, its skin pale, lashed with cord
+      ball(22.5, 25.5, 3.4, 2.6, '#6a3a1c'), ball(22.5, 24.2, 3.2, 1.2, '#e0cc98'),
+      limb(20, 24.5, 21.5, 27.5, 0.4, 0.4, '#c8a878'), limb(25, 24.5, 23.5, 27.5, 0.4, 0.4, '#c8a878'),
+      // arms thick as a man's leg; the cleaver raised in the right
+      limb(9.5, 15.5, 6, 22, 2.3, 1.9, skin), ball(5.8, 23, 2.1, 2, skin),
+      limb(22.5, 15.5, 26, 18.5, 2.3, 1.9, skin),
+      limb(26.5, 19, 28, 8, 0.9, 0.9, '#5a3a20'),
+      sheet([[27, 3], [31.5, 3.5], [31, 10], [27.5, 9]], '#aab0bc', { tilt: [0.5, -0.1] }),
+      line(31.2, 4, 31, 9.5, '#e8eef6'),
+      ball(26.8, 19.2, 2.2, 2, skin),
+      // shoulder plates
+      ...both(ball(9.5, 14.5, 3.4, 2.6, gold)),
+      // great ears, notched with age and fighting
+      sheet([[10.5, 9], [1.5, 4], [3, 7.5], [10.5, 12.5]], skin, { tilt: [-0.5, -0.2] }),
+      sheet([[21.5, 9], [30.5, 4], [29, 7.5], [21.5, 12.5]], skin, { tilt: [0.5, -0.2] }),
+      sheet([[9.5, 9.5], [4.5, 6.5], [9.5, 11.5]], '#b87058'),
+      sheet([[22.5, 9.5], [27.5, 6.5], [22.5, 11.5]], '#b87058'),
+      ball(16, 10, 6.6, 5.8, skin),
+      // the crown: a band of hammered gold, five points, a red stone
+      sheet([[10, 5.5], [22, 5.5], [22, 3.2], [10, 3.2]], gold, { curve: 0.5 }),
+      ...[10.6, 13.3, 16, 18.7, 21.4].map(x => sheet([[x - 1.1, 3.4], [x, 0.4], [x + 1.1, 3.4]], gold)),
+      ball(16, 4.4, 1.1, 0.9, '#c02030'), dots([[15.6, 4]], '#ff9aa0'),
+      // a heavy brow, small cruel eyes, a hooked nose and a gap-toothed grin
+      ball(12.8, 9, 2, 1.3, '#3f6e2c'), ball(19.2, 9, 2, 1.3, '#3f6e2c'),
+      limb(11.2, 7, 14.8, 8.2, 1, 0.8, skin), limb(20.8, 7, 17.2, 8.2, 1, 0.8, skin),
+      dots([[12, 9], [13, 9], [19, 9], [20, 9]], '#ff8a20'), dots([[13, 9], [19, 9]], '#1a0808'),
+      limb(16, 8.5, 16, 12, 0.7, 1.2, skin), ball(16, 12.2, 1.6, 1.2, skin),
+      sheet([[11.5, 13], [16, 14], [20.5, 13], [19, 15.6], [16, 16.3], [13, 15.6]], '#2a1010'),
+      dots([[13.5, 14], [15, 14.5], [17.5, 14.5], [19, 14]], '#f0e6c8'),
+    ];
+  },
+
   // Bone and gaps: the corridor shows between the ribs, which is most of what
   // makes a skeleton read as one at a distance.
   skeleton: () => {
@@ -1266,6 +1314,24 @@ const CREATURES = {
 // only suggest. Painted coarsely (the art checks, scale 1) they fold back
 // onto whole pixels and change little.
 const DETAILS = {
+  warlord: () => [
+    // hammer marks on the crown, a scar across the brow, rings in the ears
+    specks([[11.5, 4], [14, 4.5], [18, 4], [20.5, 4.5]], '#8a6418'),
+    hair(12, 6.5, 14.5, 9, '#2f5220'), specks([[12.5, 7], [13.8, 8.4]], '#8ac06a'),
+    specks([[3.5, 6], [4, 6.5], [28, 6], [28.5, 6.5]], '#e8c050'),
+    // the light along the nose, creases down to the grin, stubble of warts
+    hair(15.5, 9, 15.5, 11.5, '#86be62'), hair(13.5, 12.5, 12, 13.5, '#3a6428'), hair(18.5, 12.5, 20, 13.5, '#3a6428'),
+    specks([[19.5, 11], [12.5, 11.5]], '#4a7c34'),
+    // the scales catch the light, one missing, and the belt's stitching
+    specks([[10.5, 15.5], [15.5, 15.5], [20.5, 15.5], [12, 18], [17, 18], [13, 20.5], [18, 20.5]], '#fff0a0'),
+    specks([[19.5, 18.5], [20, 18.5]], '#3a2210'),
+    specks([[10, 24], [12, 24], [20, 24]], '#a07848'),
+    // the cleaver's edge, nicked, and old blood near its heel
+    specks([[31, 5.5], [31, 8]], '#6a7280'), specks([[28, 8.5], [28.5, 9]], '#6a1818'),
+    // the drum's rim tacks, and the cloak's worn hem
+    specks([[20, 25.5], [22.5, 27.8], [25, 25.5]], '#d8b060'),
+    specks([[6, 29.5], [9, 29.8], [23, 29.8], [26, 29.5]], '#5a1010'),
+  ],
   goblin: () => [
     // a furrowed forehead and a nicked ear
     hair(14.5, 6.5, 15.5, 7.5, '#4a8034'), hair(17.5, 6.5, 16.5, 7.5, '#4a8034'), hair(14.5, 6, 17.5, 6, '#57913d'),

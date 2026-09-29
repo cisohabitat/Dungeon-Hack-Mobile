@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29b', text: 'a hero on a path now masters it at level 9, one of two capstones in place of that level\'s lesson; oils (fire, silver, venom) coat your weapon for twenty blows that land; and a companion that comes down floors at your side grows, and learns tricks.' };
+  const NEWS = { id: '2026-09-29c', text: 'down the Warrens the Goblin Warlord now keeps the Heart; traders offer jobs for the floor below; your companion can wear a charm; and an oil waits on the quick button when a fight starts.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -192,7 +192,7 @@ const UI = (() => {
   const DIFFICULTY = {
     easy: 'Easy: more to find, monsters never grow with you',
     normal: 'Normal: the intended delve',
-    hard: 'Hard: sturdier monsters, thinner rests, a lich at full strength',
+    hard: 'Hard: sturdier monsters, thinner rests, the last foe at full strength',
   };
   /** What a delve of this many floors holds, under the options. */
   function levelsNote() {
@@ -1790,7 +1790,7 @@ const UI = (() => {
         row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</span>`;
         // the Heart, held fast while the lich stands, says so here: its Take did nothing to see
         if (it.t === 'artifact' && Game.heartHeldFast()) {
-          row.insertAdjacentHTML('beforeend', '<small class="dim">held fast while the lich stands</small>');
+          row.insertAdjacentHTML('beforeend', `<small class="dim">held fast while the ${Game.heartKeeper() === 'warlord' ? 'Warlord' : 'lich'} stands</small>`);
           fb.appendChild(row);
           continue;
         }

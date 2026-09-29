@@ -79,6 +79,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
   of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
+- **Two last fights.** The Crypts end at the Dread Lich; the Warrens at the Goblin Warlord, who
+  beats a war-drum for his warband, takes to his throne behind two shield-bearers at two thirds,
+  and fights in a frenzy at one third.
 - **Jobs from the traders.** A trader may offer a job for the floor below: slay its champion,
   cull its creatures, or find a lost satchel. Free to take, for that floor only, and paid in gold
   and a flask or scroll by the next trader you meet.

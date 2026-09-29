@@ -670,7 +670,8 @@ const Dungeon = (() => {
       addItem(ax, ay, { t: 'artifact', q: 1 });
       const spots = [];
       for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
-      if (spots.length) { const s = spots[0]; monsters.push(makeMonster('lich', s[0], s[1])); }
+      // down the Warrens the Warlord has dragged the Heart into his own hall; every other way, the lich keeps it
+      if (spots.length) { const s = spots[0]; monsters.push(makeMonster(opts.route === 'warrens' ? 'warlord' : 'lich', s[0], s[1])); }
       // no escort: the level already crawls with the deep tier's own horrors
       // and no trap in the hall or at its mouth: a pit across the only way in
       // dropped every hero into it just as the lich spoke, the view dark for

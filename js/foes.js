@@ -173,7 +173,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -182,6 +182,8 @@ export function makeFoes(K) {
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
+  const THRONE_MS = 25000;  // the longest the Warlord sits his throne, shield-bearers or none
+  const WARBAND = ['goblin', 'orc', 'archer'];   // who comes running to the Warlord's drum
   /** The cold fire spreads over open floor: two steps' walk, so a wall or a corner is cover. */
   function novaReaches(m) {
     ensureDist();
@@ -209,7 +211,7 @@ export function makeFoes(K) {
   function startMove(m, mb, adjacent) {
     const p = K.P();
     // in the dark, a wounded lich turns to the Heart and drinks; strike it to break the rite
-    const rite = mb.boss && (m.phase || 0) >= 2 && m.hp < m.maxHp && K.G.t >= (m.riteReady || 0);
+    const rite = mb.boss && m.id === 'lich' && (m.phase || 0) >= 2 && m.hp < m.maxHp && K.G.t >= (m.riteReady || 0);
     const mv = rite ? 'rite' : mb.move;
     if (!mv || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
     let say = '', extra = {};
@@ -253,6 +255,8 @@ export function makeFoes(K) {
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
+    // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
+    else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
     if (!say) return false;
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: K.G.t, until: K.G.t + SPECIAL_MS[mv], ...extra };
@@ -407,6 +411,11 @@ export function makeFoes(K) {
       case 'rally':
       case 'drink':
         namedResolve(m, mb, w.move, dist);
+        break;
+      case 'drum':
+        warband(m, mb);
+        m.moveReady = K.G.t + 9000;
+        m.nextAct = K.G.t + mb.speed;
         break;
       case 'blink':
         // faced, it steps out of the air onto a raised blade; at your back, it bites deep
@@ -576,6 +585,12 @@ export function makeFoes(K) {
       K.log(`You cut the ${mb.name}'s call short! The horn falls from his lips.`, 'good');
       K.learn(m.id, 'answer');
     }
+    // and the Warlord's drum: a blow while the stick is raised and the beat dies
+    if (byHero && m.windup && m.windup.move === 'drum') {
+      m.windup = null; m.moveReady = K.G.t + 4000; m.nextAct = K.G.t + 700;
+      K.log(`You strike the drumstick from the ${mb.name}'s fist! The beat dies before it starts.`, 'good');
+      K.learn(m.id, 'answer');
+    }
     // and so is the lich's rite, though it will try again
     if (byHero && m.windup && m.windup.move === 'rite') {
       m.windup = null; m.riteReady = K.G.t + 6000; m.nextAct = K.G.t + 700;
@@ -611,6 +626,7 @@ export function makeFoes(K) {
   // their heads. At one third it calls up more, and a wraith with them, puts
   // out every torch in its hall, quickens, and tries to drink the Heart's light to mend itself.
   function bossTurns(m) {
+    if (m.id === 'warlord') { warlordTurns(m); return; }
     const mb = MONSTERS[m.id];
     // its own hall, remembered before it moves: the torches it puts out are these
     if (!m.hall) m.hall = roomOf(m);
@@ -680,8 +696,100 @@ export function makeFoes(K) {
     if (m.lights && m.lights.length) L.lights = (L.lights || []).concat(m.lights);
     m.snuffed = []; m.lights = [];
   }
+  // ---------- the Warlord ----------
+  // The Warrens' last fight, in place of the lich. At first he fights with his
+  // cleaver and beats his war-drum for a warband. At two thirds he leaps onto
+  // his throne of plunder behind two shield-bearers, who turn every blow meant
+  // for him, and throws spears from it; cut them down (or outlast him) and he
+  // comes down. At one third he kicks open his war-chest and fights in a frenzy.
+  function warlordTurns(m) {
+    const mb = MONSTERS[m.id];
+    m.windup = null; m.volley = null;
+    if (m.phase === 1) {
+      const n = raiseBearers(m);
+      if (n) {
+        m.wardUntil = K.G.t + THRONE_MS; m.throne = true; m.wardSaid = false;
+        K.log(`The ${mb.name} bellows and leaps up onto his throne of plunder. ${n > 1 ? 'Two shield-bearers close' : 'A shield-bearer closes'} ranks before him: while they stand, no blow reaches him.`, 'bad');
+        K.learn(m.id, 'trick');
+      }
+      m.nextAct = K.G.t + 900;
+    } else if (m.phase === 2) {
+      if (m.throne) leaveThrone(m, false);
+      spillChest(m);
+      m.frenzy = true; m.blows = 2; m.moveReady = 0;
+      K.log(`The ${mb.name} kicks open his war-chest. Gold spills across the floor, and he comes at you in a frenzy!`, 'bad');
+      K.fx.shakeAmp = 5; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
+      m.nextAct = K.G.t + 700;
+    }
+    Sound.play('roar', K.heard(m));
+  }
+  /** Few of his warband awake about him: room for the drum to call more. */
+  function warbandThin(m) {
+    if ((m.drums || 0) >= 5) return false;
+    return K.lvl().monsters.filter(o => o !== m && o.awake && WARBAND.includes(o.id) && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= 7).length < 3;
+  }
+  /** The beat: three goblins come running, sharing a square beside him. */
+  function warband(m, mb) {
+    m.drums = (m.drums || 0) + 1;
+    Sound.play('batter', K.heard(m));
+    const spot = spotNear(m);
+    if (!spot) { K.log('The drum booms through the Warrens, but there is no room for anyone to come.', 'bad'); return; }
+    const b = MONSTERS.goblin, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((K.G.depth - 1) / 2);
+    const g = K.newMonster('goblin', spot[0], spot[1], hp());
+    const f = K.diff().hp * (1 + K.PRESS_HP * (K.lvl().press || 0));
+    g.pack = [0, 1].map(() => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
+    g.awake = true;
+    K.log(`BOOM. BOOM. The ${mb.name}'s drum rolls through the Warrens, and a warband comes running!`, 'bad');
+    K.learn(m.id, 'trick');
+  }
+  /** Two orcs with great shields, beside the throne: the blows meant for him fall on them. */
+  function raiseBearers(m) {
+    let n = 0;
+    for (let i = 0; i < 2; i++) {
+      const spot = spotNear(m);
+      if (!spot) break;
+      const b = MONSTERS.orc;
+      const g = K.newMonster('orc', spot[0], spot[1], Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + K.G.depth);
+      g.bearer = m.uid; g.awake = true;
+      n++;
+    }
+    return n;
+  }
+  /** He comes down from the throne, his shield-bearers dead (or his patience gone). */
+  function leaveThrone(m, say = true) {
+    m.throne = false; m.wardUntil = K.G.t; m.nextAct = Math.max(m.nextAct, K.G.t + 600);
+    if (say) {
+      const alone = !K.lvl().monsters.some(o => o.bearer === m.uid);
+      K.log(alone ? `With no one left to hold his throne, the ${MONSTERS[m.id].name} leaps down to fight you himself!` : `The ${MONSTERS[m.id].name} tires of his throne and leaps down, roaring.`, 'bad');
+      if (alone) K.learn(m.id, 'answer');
+      Sound.play('roar', K.heard(m));
+    }
+  }
+  /** The war-chest spills: a few piles of gold about him, for whoever is left to pick them up. */
+  function spillChest(m) {
+    const L = K.lvl();
+    for (let i = 0; i < 3; i++) {
+      const spot = spotNear(m);
+      if (!spot) break;
+      const k = K.key(spot[0], spot[1]);
+      (L.items[k] = L.items[k] || []).push({ t: 'gold', q: Dice.int(8, 16) * K.G.depth });
+    }
+  }
+  /** The Warlord falls among his plunder, and his warband breaks and runs. */
+  function warlordFalls(m) {
+    K.spray(m, 'blood', 1, true); K.spray(m, 'blood', 1, false);
+    K.fx.shakeAmp = 7; K.fx.shakeMs = 900; K.fx.shakeUntil = K.realNow + 900;
+    Sound.play('namedfall', K.heard(m));
+    const L = K.lvl();
+    let ran = 0;
+    for (const o of L.monsters) if (WARBAND.includes(o.id)) { o.fleeing = true; o.awake = true; ran++; }
+    const k = K.key(m.x, m.y);
+    (L.items[k] = L.items[k] || []).push({ t: 'gold', q: Dice.int(20, 30) * K.G.depth });
+    K.log(`The ${MONSTERS[m.id].name} crashes down among his plunder${ran ? ', and his warband breaks and scatters into the Warrens' : ''}.`, 'good');
+  }
   /** The lich's end: its bones burst apart, its cold light goes up, and the torches catch again. */
   function bossFalls(m) {
+    if (m.id === 'warlord') { warlordFalls(m); return; }
     K.spray(m, 'bone', 1, false); K.spray(m, 'bone', 1, false); K.spray(m, 'ecto', 1, false);
     relightTorches(m);
     K.fx.shakeAmp = 7; K.fx.shakeMs = 900; K.fx.shakeUntil = K.realNow + 900;
@@ -878,9 +986,12 @@ export function makeFoes(K) {
     speaks(m, mb);
     if (m.collapsed) { rises(m, mb); return; }
     if (!burnsAndMends(m, mb, L)) return;
+    // the Warlord comes down from his throne once no one holds it for him
+    if (m.throne && (G.t >= m.wardUntil || !L.monsters.some(o => o.bearer === m.uid))) leaveThrone(m);
     if (G.t < m.nextAct) return;
     // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
-    if (m.wardUntil > G.t && mb.boss) { m.nextAct = m.wardUntil; return; }
+    // (the Warlord on his throne fights on from it, but does not leave it)
+    if (m.wardUntil > G.t && mb.boss && !m.throne) { m.nextAct = m.wardUntil; return; }
     const di = K.distField[m.y * L.w + m.x];
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
     if (di < 0 || di > 12) { losesYou(m, mb); return; }
@@ -902,14 +1013,16 @@ export function makeFoes(K) {
     }
     // the hero's hound in its way: it goes through the hound
     if (besideHound(m)) { beginWindup(m, 'pet', windupFor(mb.speed)); return; }
+    if (m.throne) { m.nextAct = G.t + 400; return; }
     closesIn(m, mb, L, p, di);
   }
   /** Its first words on waking: the lich's, a champion's, a shade's. */
   function speaks(m, mb) {
     if (mb.boss && m.awake && !m.spoke) {
       m.spoke = true;
-      K.log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
-      Sound.play('voice', K.heard(m, { who: m.id }));
+      if (m.id === 'warlord') K.log('A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. "Grisk was my sister\'s boy. You will make me a fine footstool."', 'bad');
+      else K.log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
+      Sound.play('voice', K.heard(m, { who: m.id === 'warlord' ? 'orc' : m.id }));
       K.fx.shakeAmp = 4; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
     } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);
     else if (m.shade && m.awake && !m.spoke) K.shadeWakes(m);

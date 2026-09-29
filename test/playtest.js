@@ -315,8 +315,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (dir >= 0) { p.dir = dir; if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; } }
         }
       }
-      // a chant, the lich's rite or a war-horn is answered by striking it, not by stepping away
-      const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      // a chant, the lich's rite, a war-horn or the Warlord's drum is answered by striking it, not by stepping away
+      const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally', 'drum'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
       if (trick && trick.windup.move === 'gaze') {
         const faces = dir => { const [ax, ay] = Dungeon.DIRS[dir], [bx, by] = Dungeon.DIRS[(dir + 1) % 4]; const dx = trick.x - p.x, dy = trick.y - p.y, f = dx * ax + dy * ay; return f > 0 && Math.abs(dx * bx + dy * by) <= f; };
@@ -691,7 +691,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     if (!target) {
       // final level: the Heart will not come loose while the lich stands, so
       // bring it down first, then take the Heart and the run is won
-      const lich = L.monsters.find(m => m.id === 'lich');
+      const lich = L.monsters.find(m => MONSTERS[m.id].boss);
       let goal = lich ? [lich.x, lich.y] : null;
       for (const k in L.items) if (!goal && L.items[k].some(i => i.t === 'artifact')) goal = k.split(',').map(Number);
       if (goal && !lich && p.x === goal[0] && p.y === goal[1]) Game.input('use');
@@ -920,7 +920,7 @@ if (process.env.NAMED) {
 if (process.env.LICH) {
   for (const cls in results) {
     const last = results[cls].filter(r => r.deepest >= opts.levels);
-    const died = last.filter(r => r.died), byLich = died.filter(r => /Lich/.test(r.cause || ''));
+    const died = last.filter(r => r.died), byLich = died.filter(r => /Lich|Warlord/.test(r.cause || ''));
     const lamp = {};
     for (const r of last) lamp[r.lamp || 'never reached'] = (lamp[r.lamp || 'never reached'] || 0) + 1;
     console.log(`   ${cls}: ${last.length} reached the last floor; ${died.length} died there (${(died.length / Math.max(1, last.length) * 100).toFixed(1)}%), ${byLich.length} to the lich (${(byLich.length / Math.max(1, last.length) * 100).toFixed(1)}%)`);

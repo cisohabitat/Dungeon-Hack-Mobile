@@ -22,6 +22,30 @@ const takeHeart = () => {
 };
 
 test.describe('the endgame', () => {
+  test('down the Warrens the Warlord keeps the Heart: he is drawn, speaks, and his life runs across the top of the view', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-warlord', levels: '8' });
+    await page.evaluate(() => { Game.player().maxHp = 900; Game.player().hp = 900; });
+    expect(await descendTo(page, 8)).toBe(8);
+    expect(await page.evaluate(() => Game.route())).toBe('warrens');
+    const boss = await page.evaluate(() => Game.level().monsters.filter(m => MONSTERS[m.id].boss).map(m => m.id));
+    expect(boss).toEqual(['warlord']);
+    expect(await page.evaluate(() => Game.state().log.some(e => /war-drum booms/.test(e.m)))).toBe(true);
+    // bring him round to face the hero, awake
+    await page.evaluate(() => {
+      const L = Game.level(), m = L.monsters.find(o => o.id === 'warlord'), p = Game.player();
+      L.monsters.length = 0; L.monsters.push(m);
+      for (let k = 0; k < 4; k++) {
+        const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx * 2, y = p.y + dy * 2;
+        if (L.tiles[y * L.w + x] === Dungeon.T.FLOOR && L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.FLOOR) { p.dir = k; Object.assign(m, { x, y, rx: x, ry: y, fromX: x, fromY: y, awake: true, nextAct: Game.state().t + 1e9, moveT1: 0 }); break; }
+      }
+    });
+    await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Goblin Warlord');
+    expect(await page.evaluate(() => Game.state().log.some(e => /fine footstool/.test(e.m)))).toBe(true);
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.warlord))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('the Heart will not come loose while the lich stands', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'end-held', levels: '4' });

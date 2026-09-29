@@ -55,7 +55,7 @@ const ENCOUNTERS = {
   // the lich's hall, so the gold carried down and found on the way buys something.
   vigil: {
     title: 'A Vigil Lamp', sprite: 'shrine', depth: [99, 99], final: true,
-    text: 'Someone kept a lamp burning here, at the edge of the lich\'s halls, and left a bowl beneath it. Coins shine in the bowl. Whatever keeps the lamp lit still answers what is left there.',
+    text: 'Someone kept a lamp burning here, at the edge of the last halls, and left a bowl beneath it. Coins shine in the bowl. Whatever keeps the lamp lit still answers what is left there.',
     choices: [
       { label: 'Leave gold for a ward against the cold', cost: { goldPerDepth: 25 },
         outcome: { text: 'The flame leans toward you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },

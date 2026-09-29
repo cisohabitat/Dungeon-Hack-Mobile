@@ -97,7 +97,7 @@ const Game = (() => {
       const p = P(); p.effects.crew_hit = { amount: 2, until: G.t + 600000 };
       log('On the last stair you hear, faint as breath, a crew\'s marching song. The dead you buried have not forgotten you (+2 to hit).', 'good');
     }
-    if (L.isFinal && t.bargain && fresh) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: the lich is the stronger for your bargain.', 'bad');
+    if (L.isFinal && t.bargain && fresh) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: whatever keeps the Heart is the stronger for your bargain.', 'bad');
   }
   /** What the hero carries from their choices, for the hero sheet. */
   function threadNotes() {
@@ -106,7 +106,7 @@ const Game = (() => {
     if (t.guide) out.push(t.guided ? `The guildsman you dug out marked floor ${t.guided} for you.` : 'The guildsman you dug out has gone ahead to mark the way.');
     if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less for their wares.');
     if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
-    if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. The lich will be the stronger for it.');
+    if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. Whatever keeps the Heart will be the stronger for it.');
     if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
     if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
     { const n = companion.note(); if (n) out.push(n); }
@@ -1422,12 +1422,14 @@ const Game = (() => {
    * the lich, so every sidestep in the fight repeated it and filled the log.
    * @param {boolean} [trying] the hero reached for it: always said
    */
+  /** What holds the Heart while its keeper stands: the lich's cold, or the chain the Warlord has it on. */
+  const heldBy = k => (k.id === 'warlord' ? `The ${MONSTERS[k.id].name} has it chained to his hoard, and the chain will hold while he stands` : `The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands`);
   function heartHeld(trying = false) {
     const k = keeper(), L = lvl();
     if (L.heartSaid && !trying) return;
     if (!k || !floorItems().some(it => it.t === 'artifact')) return;
     L.heartSaid = true;
-    log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
+    log(`The Heart will not come loose. ${heldBy(k)}.`, 'bad');
   }
   function takeItem(it) {
     // nothing is picked up by the dead (the Heart once was, from the pack, during the fall)
@@ -1475,7 +1477,7 @@ const Game = (() => {
     if (takeable().length) { pickupAll(); return; }
     // only the Heart, held by its keeper, or draughts the belt has no room for
     const k = keeper();
-    if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands.`, 'bad');
+    if (k && floorItems().some(it => it.t === 'artifact')) log(`The Heart will not come loose. ${heldBy(k)}.`, 'bad');
     else if (floorItems().length) log('Your belt holds five of any one draught: there is no room for these.', 'bad');
   }
   /** Everything here that can be taken; walking on, not what the hero put down nor gear the class cannot use. */
@@ -1608,7 +1610,7 @@ const Game = (() => {
     if (from === 'down') {
       if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
-      if (L.isFinal) log('A dreadful presence waits somewhere on this floor.', 'bad');
+      if (L.isFinal) log(L.monsters.some(m => m.id === 'warlord') ? 'Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart\'s own hall.' : 'A dreadful presence waits somewhere on this floor.', 'bad');
       if (L.twist && TWISTS[L.twist]) log(TWISTS[L.twist].arrive, L.twist === 'market' ? 'good' : 'info');
       namedArrives(L);
       bonesArrive(L);
@@ -2488,6 +2490,14 @@ const Game = (() => {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
     if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
+      // the Warlord on his throne: his shield-bearers take what was meant for him
+      if (m.throne) {
+        floatText(m, 'shielded', '#d8a830');
+        if (!m.wardSaid && tag !== 'companion') { m.wardSaid = true; log(`His shield-bearers turn the blow aside. Cut them down, and the ${MONSTERS[m.id].name} must come down from his throne.`, 'bad'); }
+        sparks(m);
+        Sound.play('block', heard(m));
+        return;
+      }
       // a mage knows how the shadow is woven: a spell pulls it apart instead
       if (castingName && castingName !== 'fireball' && P().cls === 'mage') {
         // it was waiting out its shadow; now it has a moment to gather itself
@@ -2578,7 +2588,7 @@ const Game = (() => {
     if (mb.boss) G.bossDown = true;
     bounty.killed(m);
     memberDown(m, note);
-    if (mb.boss) { bossFalls(m); log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
+    if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
     if (m.shade) shadeFalls(m);
   }
@@ -4371,7 +4381,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), rollsShown, toggleRolls, useLabel, stairsBeside,
+    offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,

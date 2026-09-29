@@ -4277,6 +4277,99 @@ await test('a corrupt bestiary in storage is shrugged off, not a crash', async (
   return true;
 });
 
+await test('down the Warrens the last floor is the Warlord\'s, not the lich\'s; the rest of the floor is the same', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'warlord-floor');
+  for (let i = 0; i < 6; i++) {
+    const seed = `warlord-${i}`, opts = { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' };
+    const W = ctx.Dungeon.generate(seed, 8, { ...opts, route: 'warrens' }), C = ctx.Dungeon.generate(seed, 8, { ...opts, route: 'crypts' }), N = ctx.Dungeon.generate(seed, 8, opts);
+    const boss = L => L.monsters.filter(m => ctx.MONSTERS[m.id].boss).map(m => m.id).join();
+    if (boss(W) !== 'warlord' || boss(C) !== 'lich' || boss(N) !== 'lich') out.push(`${seed}: warrens ${boss(W)}, crypts ${boss(C)}, none ${boss(N)}`);
+    const rest = L => L.monsters.filter(m => !ctx.MONSTERS[m.id].boss).map(m => `${m.id}@${m.x},${m.y}`).join(' ');
+    if (N.tiles.join() !== W.tiles.join() || rest(N) !== rest(W)) out.push(`${seed}: the Warlord's floor differs from the lich's beyond the boss`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the Warlord beats his drum for a warband, and a blow while the stick is raised breaks the beat', async () => {
+  const out = [];
+  const drum = async (strike) => {
+    const ctx = await start('fighter', 'warlord-drum-' + strike);
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999; p.perkHit = 60; p.stats.str = 18;
+    const m = beside(ctx, 'warlord', { blows: 2, hp: 400, maxHp: 400 });
+    Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move !== 'drum') return { err: `it drew ${JSON.stringify(m.windup)}` };
+    const mark = markLog(G);
+    if (strike) for (let i = 0; i < 10 && m.windup; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+    run(Game, G, 1800);
+    const band = L.monsters.filter(o => o.id === 'goblin');
+    return { band, said: linesSince(G, mark), m };
+  };
+  const a = await drum(false), b = await drum(true);
+  if (a.err || b.err) return a.err || b.err;
+  if (!(a.band.length === 1 && a.band[0].pack && a.band[0].pack.length === 2 && a.band[0].awake)) out.push(`the beat brought ${JSON.stringify(a.band.map(g => g.pack))}`);
+  if (!a.said.some(l => /warband comes running/.test(l))) out.push('the warband came unsaid');
+  if (b.band.length) out.push('a struck drum still called a warband');
+  if (!b.said.some(l => /strike the drumstick from/.test(l))) out.push(`breaking the beat said: ${b.said.join(' / ')}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('at two thirds the Warlord takes his throne behind shield-bearers; cut them down and he comes down; at one third a frenzy', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'warlord-throne');
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 9999; p.perkHit = 60; p.stats.str = 18;
+  const m = beside(ctx, 'warlord', { hp: 300, maxHp: 300, nextAct: 1e12 });
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const hit = () => { m.x = m.rx = m.fromX = p.x + dx; m.y = m.ry = m.fromY = p.y + dy; m.nextAct = 1e12; G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); };
+  m.hp = 201;
+  for (let i = 0; i < 20 && m.phase !== 1; i++) hit();
+  if (m.phase !== 1) return 'he never reached two thirds';
+  const bearers = L.monsters.filter(o => o.bearer === m.uid);
+  if (bearers.length !== 2 || bearers.some(b => b.id !== 'orc') || !m.throne) return `at two thirds: ${bearers.length} bearers, throne ${m.throne}`;
+  const hp1 = m.hp, told = markLog(G);
+  for (let i = 0; i < 6; i++) hit();
+  if (m.hp !== hp1) out.push(`on his throne he took ${hp1 - m.hp}`);
+  if (!linesSince(G, told).some(l => /shield-bearers turn the blow aside/.test(l))) out.push(`a blow at him on his throne said: ${linesSince(G, told).join(' / ')}`);
+  if (Game.mstat(m).ranged == null) out.push('on his throne he has no spear to throw');
+  // his shield-bearers fall: he comes down
+  for (const b of bearers) L.monsters.splice(L.monsters.indexOf(b), 1);
+  const mark = markLog(G);
+  Game.update(G.t + 25, 25);
+  if (m.throne || m.wardUntil > G.t) out.push('with his shield-bearers dead he stayed on his throne');
+  if (!linesSince(G, mark).some(l => /leaps down to fight you himself/.test(l))) out.push('coming down was not told');
+  for (let i = 0; i < 6 && m.hp === hp1; i++) hit();
+  if (m.hp === hp1) out.push('off his throne, still no blow reached him');
+  // one third: the war-chest and the frenzy
+  const golds = () => Object.values(L.items).reduce((n, list) => n + list.filter(i => i.t === 'gold').length, 0), g0 = golds();
+  m.hp = Math.min(m.hp, 101);
+  for (let i = 0; i < 20 && m.phase !== 2; i++) hit();
+  if (m.phase !== 2 || !m.frenzy) out.push(`phase ${m.phase}, frenzy ${m.frenzy}`);
+  if (!(Game.mstat(m).speed < ctx.MONSTERS.warlord.speed)) out.push(`in his frenzy he strikes every ${Game.mstat(m).speed}ms`);
+  if (golds() < g0 + 2) out.push(`the war-chest spilled ${golds() - g0} piles of gold`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the Warlord falls: his warband runs, his hoard is left, and the Heart comes loose', async () => {
+  const ctx = await start('fighter', 'warlord-fall');
+  const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 9999; p.perkHit = 60; p.stats.str = 18;
+  const m = beside(ctx, 'warlord', { hp: 1, maxHp: 300, nextAct: 1e12, phase: 2 });
+  const gob = { ...m, uid: 91, id: 'goblin', x: -50, y: -50, hp: 10, maxHp: 10, phase: 0, awake: false };
+  L.monsters.push(gob);
+  const mark = markLog(G);
+  for (let i = 0; i < 20 && L.monsters.includes(m); i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+  if (L.monsters.includes(m)) return 'he would not fall';
+  const out = [];
+  if (!gob.fleeing) out.push('his warband did not run');
+  if (!G.bossDown) out.push('the boss is not down');
+  if (!Object.values(L.items).some(list => list.some(i => i.t === 'gold' && i.q >= 20))) out.push('no hoard was left');
+  if (!linesSince(G, mark).some(l => /crashes down among his plunder/.test(l))) out.push(`said: ${linesSince(G, mark).join(' / ')}`);
+  if (Game.heartKeeper()) out.push('the Heart is still held');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('the lich\'s cold fire does not reach round a wall', async () => {
   const ctx = await start('fighter', 'nova-wall');
   const { Game, Dungeon } = ctx;
