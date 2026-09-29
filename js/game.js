@@ -576,7 +576,7 @@ const Game = (() => {
   /** What the coating on the weapon adds to a blow on this foe. */
   function coatDamage(m) {
     const c = P().coating;
-    if (!c || !(c.left > 0)) return 0;
+    if (!c || !(c.left > 0) || !P().eq.weapon) return 0;
     if (c.t === 'fire') return elemental(m, d(1, 4), 'fire');
     if (c.t === 'silver' && mstat(m).undead) return d(1, 6);
     return 0;
@@ -584,7 +584,7 @@ const Game = (() => {
   /** A blow with a coated weapon has landed: fire stops the mending, venom may take, and the coat wears. */
   function coatLanded(m, survived) {
     const p = P(), c = p.coating;
-    if (!c || !(c.left > 0)) return;
+    if (!c || !(c.left > 0) || !p.eq.weapon) return;
     const mb = mstat(m);
     if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
     if (survived && c.t === 'venom' && !mb.undead && Dice.chance(1 / 3)) {
@@ -680,7 +680,9 @@ const Game = (() => {
       for (const [dx, dy] of DIRS) {
         if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
         const ni = (y + dy) * L.w + x + dx;
-        if (dist[ni] >= 0 || L.tiles[ni] === T.WALL || L.tiles[ni] === T.TORCH || L.tiles[ni] === T.FOUNTAIN) continue;
+        // (never behind a secret door or a lock: a job is for the one floor, and this must be findable on it)
+        const t = L.tiles[ni];
+        if (dist[ni] >= 0 || t === T.WALL || t === T.TORCH || t === T.FOUNTAIN || t === T.SECRET || t === T.DOOR_LOCKED) continue;
         dist[ni] = dist[i] + 1; q.push(ni);
       }
     }
@@ -1150,6 +1152,7 @@ const Game = (() => {
     const i = p.inv.indexOf(it);
     if (i >= 0) p.inv.splice(i, 1);
     if (p.eq[slot]) p.inv.push(p.eq[slot]);
+    if (slot === 'weapon') coatingGoes(p);
     p.eq[slot] = it;
     refreshSp(p);
     if (!quiet) log(`You equip ${the(it)}.`);
@@ -1160,6 +1163,12 @@ const Game = (() => {
     emit('inv');
     return true;
   }
+  /** An oil is worked into the blade it was put on: another weapon in hand does not have it. */
+  function coatingGoes(p) {
+    if (!p.coating) return;
+    log(`The ${COATINGS[p.coating.t].name} stays on the weapon you put away.`, 'info');
+    p.coating = null;
+  }
   function unequip(slot) {
     if (G.status === 'dead' || G.status === 'won') return;
     const p = P();
@@ -1168,6 +1177,7 @@ const Game = (() => {
     if (p.inv.length >= INV_MAX) { log('Your pack is full: drop something first.', 'bad'); return; }
     p.inv.push(p.eq[slot]);
     log(`You remove ${the(p.eq[slot])}.`);
+    if (slot === 'weapon') coatingGoes(p);
     p.eq[slot] = null;
     refreshSp(p);
     emit('inv');
@@ -2429,7 +2439,10 @@ const Game = (() => {
     const packBefore = packSize(m);
     // a crit that only Lucky made one says so
     const lucky = crit && hasTalent('lucky') && roll === critFloor();
+    const hpWas = m.hp;
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
+    // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
+    const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
     // a critical blow in close is felt: the view jolts a little, less than a blow taken
     if (crit && !atRange && realNow >= fx.shakeUntil) { fx.shakeAmp = Math.min(3.5, 1.5 + dmg / 12); fx.shakeMs = 140; fx.shakeUntil = realNow + fxDelay + 140; }
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
@@ -2452,7 +2465,7 @@ const Game = (() => {
       if (mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
       if (kindles()) setBurning(m);
     }
-    coatLanded(m, struckSurvived);
+    if (bladeLanded) coatLanded(m, struckSurvived);
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
     if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
@@ -2589,7 +2602,6 @@ const Game = (() => {
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
     if (mb.boss) G.bossDown = true;
-    bounty.killed(m);
     memberDown(m, note);
     if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
@@ -2607,6 +2619,7 @@ const Game = (() => {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
+    bounty.killed(m);                      // each one of a group counts toward a trader's cull
     { const o = heard(m, { gore: GORE_OF[m.id] || 'blood', who: m.id }); soon(() => Sound.play('death', o)); }
     p.kills++;
     noteKill(m);

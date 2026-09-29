@@ -159,7 +159,8 @@ export function makeCompanion(K) {
       const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
       if (down) c.kills++;
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
-      else if (knows(c, 'hamstring') && d(1, 3) === 1) m.nextAct = Math.max(m.nextAct, K.G.t) + 500;
+      // (not a boss wrapped in its shadow or up on its throne, where the bite never landed, nor through a rite)
+      else if (knows(c, 'hamstring') && !(m.wardUntil > K.G.t && K.mstat(m).boss) && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) m.nextAct = Math.max(m.nextAct, K.G.t) + (K.mstat(m).boss ? 250 : 500);
     }
     return true;
   }

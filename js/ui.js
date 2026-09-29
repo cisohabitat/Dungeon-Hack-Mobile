@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29c', text: 'down the Warrens the Goblin Warlord now keeps the Heart; traders offer jobs for the floor below; your companion can wear a charm; and an oil waits on the quick button when a fight starts.' };
+  const NEWS = { id: '2026-09-29d', text: 'two new feats in the Hall of Heroes (Friend of the Lampfolk, Old Campaigners); the Warlord\'s drum is heard, and his bar says when he sits his throne; and traders\' jobs are fairer: a lost satchel always lies where you can walk to it, and each goblin of a group counts.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

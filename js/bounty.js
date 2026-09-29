@@ -47,7 +47,7 @@ export function makeBounty(K) {
   /** The trader's row among its services: the job, or why there is none. */
   function service() {
     const G = K.G, b = G.bounty;
-    if (b && !b.done) return { id: 'bounty', label: 'A job for the floor below', detail: `You have one already: ${words(b).toLowerCase()}.`, price: 0, why: 'You have a job already.' };
+    if (b) return { id: 'bounty', label: 'A job for the floor below', detail: b.done ? `You have one done already, to be paid for by a trader below: ${words(b).toLowerCase()}.` : `You have one already: ${words(b).toLowerCase()}.`, price: 0, why: 'You have a job already.' };
     const offer = plan(G.depth);
     if (!offer) return null;
     if (G.bountyTaken && G.bountyTaken[G.depth]) return null;
@@ -56,7 +56,7 @@ export function makeBounty(K) {
   /** Take the job this floor's trader offers. */
   function take() {
     const G = K.G, offer = plan(G.depth);
-    if (!offer || (G.bounty && !G.bounty.done)) return false;
+    if (!offer || G.bounty) return false;
     G.bounty = offer;
     G.bountyTaken = { ...(G.bountyTaken || {}), [G.depth]: 1 };
     K.log(`"${words(offer)}, and come to one of us after. We pay what we promise."`, 'info');
@@ -68,12 +68,12 @@ export function makeBounty(K) {
     if (!b || !b.done || G.depth <= b.from) return;
     const p = K.P();
     p.gold += b.reward.gold;
+    // the satchel goes back to its own people first, so its room in the pack is free for the pay
+    p.inv = p.inv.filter(i => i.t !== 'satchel');
     const it = { t: b.reward.t, q: 1, e: 0 };
     G.known[it.t] = 1;
     const kept = K.giveItem(it);
     if (!kept) (K.lvl().items[K.key(p.x, p.y)] = K.lvl().items[K.key(p.x, p.y)] || []).push(it);
-    // the satchel goes back to its own people
-    p.inv = p.inv.filter(i => i.t !== 'satchel');
     G.bounty = null;
     G.stats.bounties = (G.stats.bounties || 0) + 1;
     K.log(`"The job is done, and word came down ahead of you." The trader pays ${payWords(b)}${kept ? '' : ', set down at your feet: your pack is full'}.`, 'good');
@@ -83,13 +83,19 @@ export function makeBounty(K) {
   function arrive(L) {
     const G = K.G, b = G.bounty;
     if (!b || b.done) return;
-    if (G.depth !== b.depth) { lost(); return; }
+    // (going back up before reaching its floor loses nothing: only leaving it, or going past it, does)
+    if (G.depth !== b.depth) { if (b.started || G.depth > b.depth) lost(); return; }
     if (b.started) return;
     b.started = true;
     if (b.kind === 'slay') {
       const champ = L.monsters.find(m => MONSTERS[m.id].named);
       if (champ) { b.target = champ.id; b.name = MONSTERS[champ.id].name; }
       else { b.kind = 'cull'; b.need = 6 + Math.floor(b.depth / 2); }
+    }
+    // a cull asks no more than most of what the floor holds, each one of a group counted
+    if (b.kind === 'cull') {
+      const here = L.monsters.reduce((n, m) => n + 1 + (m.pack ? m.pack.length : 0), 0);
+      b.need = Math.max(2, Math.min(b.need, Math.floor(here * 0.6)));
     }
     if (b.kind === 'fetch') placeSatchel(L);
     K.log(`The job the trader gave you is here: ${words(b).toLowerCase()}.`, 'info');
