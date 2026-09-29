@@ -50,6 +50,7 @@ export function makeWild(K) {
     if (!p.shape) return;
     delete p.shape;
     K.log(why === 'torn' ? 'The blow tears through the bear\'s hide, and you are yourself again, and hurt.'
+      : why === 'worn' ? 'The bear\'s hide takes the last of it and is worn through, and the shape falls away from you.'
       : why === 'cast' ? 'You let the bear go, and find the words again.'
         : 'The bear\'s shape slips from you, and you stand up on two feet.', why === 'torn' ? 'bad' : 'info');
     K.emit('stats');
@@ -66,10 +67,10 @@ export function makeWild(K) {
     p.shape.hide -= took;
     return dmg - took;
   }
-  /** The hide is torn through: the bear is gone. */
-  function torn() {
+  /** The hide is used up: the bear is gone, torn through if the blow went on into the druid. */
+  function torn(through = 0) {
     const p = K.P();
-    if (p.shape && p.shape.hide <= 0) end('torn');
+    if (p.shape && p.shape.hide <= 0) end(through > 0 ? 'torn' : 'worn');
   }
   /** Time runs out on the shape (or a hide torn through was not yet let go). */
   function tick() {
@@ -93,9 +94,9 @@ export function makeWild(K) {
     return `Bear: ${Math.max(0, Math.ceil((p.shape.until - K.G.t) / 1000))}s, hide ${p.shape.hide}`;
   }
 
-  /** Entangle: roots hold the first foe ahead (every one in reach, with Old Growth). @returns {number} how many are held */
-  function entangle(range) {
-    const p = K.P(), G = K.G, [dx, dy] = K.DIRS[p.dir];
+  /** What Entangle would hold: the first foe standing ahead (past fallen bones), or every one in reach with Old Growth. */
+  function rootTargets(range) {
+    const p = K.P(), [dx, dy] = K.DIRS[p.dir];
     const all = K.capped('old_growth');
     const held = [];
     for (let i = 1; i <= range; i++) {
@@ -104,6 +105,12 @@ export function makeWild(K) {
       const m = K.monsterAt(x, y);
       if (m && !m.collapsed) { held.push(m); if (!all) break; }
     }
+    return held;
+  }
+  /** Entangle: roots hold what rootTargets finds. @returns {number} how many are held */
+  function entangle(range) {
+    const G = K.G;
+    const held = rootTargets(range);
     for (const m of held) {
       const mb = K.mstat(m);
       // the lich's rite is not broken by roots, and a boss tears free in half the time
@@ -130,5 +137,5 @@ export function makeWild(K) {
   /** It comes to a druid already a floor further on in what it knows. */
   const kinFloors = () => (K.P() && K.P().cls === 'druid' ? 1 : 0);
 
-  return { shaped, begin, end, soak, torn, tick, claws, rend, chip, hideFor, duration, entangle, kinHp, kinBite, kinFloors, SHAPE_AC };
+  return { shaped, begin, end, soak, torn, tick, claws, rend, chip, hideFor, duration, rootTargets, entangle, kinHp, kinBite, kinFloors, SHAPE_AC };
 }

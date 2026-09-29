@@ -10663,6 +10663,44 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('review fixes, the Druid: a staff\'s points stay, the Cast button moves on, a hide used up exactly, roots past bones, moss says what it healed', async () => {
+    const out = [];
+    const ctx = await druid('druid-review', 5);
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    const shape = druidSpell(ctx, 'wild_shape');
+    // the Staff of the Ninth Circle's well of power is not left behind by the bear
+    p.eq.weapon = { t: 'staff', q: 1, e: 1, u: 'ninth_circle' };
+    const sp0 = Game.spMax(p);
+    Game.castSpell(shape);
+    if (Game.spMax(p) !== sp0) out.push(`the bear took the staff's points: ${sp0} -> ${Game.spMax(p)}`);
+    // the Cast button offers a spell that would cast
+    if (Game.castLabel() === 'Wild Shape') out.push('in bear shape the Cast button still offers Wild Shape');
+    // a blow the hide takes exactly: nothing reached the druid, so it is worn through, not torn
+    p.shape.hide = 6; const hp0 = p.hp, taken0 = G.stats.taken || 0, mark = markLog(G);
+    Game.hurtPlayer(6, 'The orc hits you for 6.');
+    const said = linesSince(G, mark).join(' / ');
+    if (p.hp !== hp0 || Game.shaped()) out.push(`six on a hide of six: hp ${hp0}->${p.hp}, shaped ${Game.shaped()}`);
+    if (/tears through|and hurt/.test(said) || !/worn through/.test(said)) out.push(`said: ${said}`);
+    if ((G.stats.taken || 0) !== taken0) out.push(`damage the hide took was counted as taken: ${taken0} -> ${G.stats.taken}`);
+    // roots reach past fallen bones to the foe behind
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+    L.monsters.length = 0;
+    const bones = { uid: 60, id: 'skeleton', x: p.x + dx, y: p.y + dy, hp: 5, maxHp: 5, awake: true, collapsed: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    const orc = { uid: 61, id: 'orc', x: p.x + dx * 2, y: p.y + dy * 2, hp: 50, maxHp: 50, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(bones, orc);
+    ready(ctx);
+    if (Game.castSpell(druidSpell(ctx, 'entangle')) !== true || !(orc.snaredUntil > G.t)) out.push('Entangle did not reach past the bones to the orc');
+    // Mending Moss on a full druid for a hurt companion says it healed the druid nothing
+    L.monsters.length = 0; p.hp = p.maxHp;
+    G.companion = { kind: 'hound', name: 'Ash', x: p.x - dx, y: p.y - dy, depth: G.depth, hp: 1, maxHp: 30, mode: 'follow', joined: G.depth };
+    const m2 = markLog(G); ready(ctx);
+    Game.castSpell(druidSpell(ctx, 'mending_moss'));
+    const said2 = linesSince(G, m2).join(' / ');
+    if (!/and heal 0\./.test(said2) || !/Ash is mended/.test(said2)) out.push(`Mending Moss said: ${said2}`);
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
     const out = [];
     const ctx = await newContext();
@@ -10676,6 +10714,11 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     };
     win('fighter', 'fallen');
     if (Progress.classOpen('druid')) out.push('a win whose companion had fallen opened the Druid');
+    // one told to stay on a floor above is not at the hero's side
+    Game.newGame({ name: 'K', cls: 'mage', bg: 'oathbroken', stats: { ...evenStats }, seed: 'kin-stay', opts: { ...OPTS, permadeath: true, difficulty: 'easy' } });
+    Game.state().companion = { kind: 'hound', name: 'Ash', x: 0, y: 0, depth: Game.state().depth + 1, hp: 5, maxHp: 5, mode: 'stay', joined: 1 };
+    winHere(Game);
+    if (Progress.classOpen('druid')) out.push('a hound left on another floor opened the Druid');
     const e = win('cleric', 'yes');
     if (!e.classesOpened.includes('druid') || !Progress.classOpen('druid')) out.push(`a win with the hound at heel opened ${JSON.stringify(e.classesOpened)}`);
     // the Ranger still wants the first four, and only them

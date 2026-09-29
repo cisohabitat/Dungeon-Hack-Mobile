@@ -838,7 +838,8 @@ const UI = (() => {
     if (readying('rally') && showTip('horn', true)) return;
     if (readying('drum') && showTip('drum', true)) return;
     if (L.monsters.some(m => m.throne && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 8) && showTip('throne', true)) return;
-    if (Game.shaped() && showTip('bear', true)) return;
+    // (not urgent: it waits for a warning already up to have been read)
+    if (Game.shaped() && showTip('bear')) return;
     if (readying('drink') && showTip('drink', true)) return;
     if (readying('blink') && showTip('blink', true)) return;
     if (readying('bristle') && showTip('quills', true)) return;
@@ -2152,7 +2153,7 @@ const UI = (() => {
     r('Armour class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
     // named as the pack names it, and the damage one figure with the make folded in, as the pack shows it
     const wAdd = w.dmg[2] + w.e + (w.px === 'heavy' ? 1 : 0), wIt = Game.player().eq.weapon;
-    r('Weapon', `${wIt ? Game.itemName(wIt).replace(/ [+\u2212−]\d+$/, '') : 'Fists'} ${w.dmg[0]}d${w.dmg[1]}${wAdd > 0 ? '+' + wAdd : wAdd < 0 ? '\u2212' + -wAdd : ''}`, true);
+    r('Weapon', `${Game.shaped() ? 'A bear\'s claws' : wIt ? Game.itemName(wIt).replace(/ [+\u2212−]\d+$/, '') : 'Fists'} ${w.dmg[0]}d${w.dmg[1]}${wAdd > 0 ? '+' + wAdd : wAdd < 0 ? '\u2212' + -wAdd : ''}`, true);
     r('Gold', p.gold);
     for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
     r('Kills', p.kills); r('Steps', p.steps);

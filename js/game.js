@@ -387,6 +387,7 @@ const Game = (() => {
   const SPAN_WORDS = { 60000: 'a minute', 90000: 'a minute and a half', 120000: 'two minutes', 180000: 'three minutes', 240000: 'four minutes' };
   /** A spell's description as it works for this hero: a buff's amount and time with the paths and talents in. */
   function spellDesc(sp) {
+    if (sp.kind === 'shape') return sp.desc.replace('forty seconds', `${Math.round(wild.duration() / 1000)} seconds`);
     if (sp.kind !== 'buff') return sp.desc;
     const dur = buffDuration(sp);
     return sp.desc.replace(/^\+\d+/, '+' + buffAmount(sp))
@@ -508,11 +509,13 @@ const Game = (() => {
   const isJewel = it => { const b = it && ITEMS[it.t]; return !!b && (b.kind === 'ring' || b.kind === 'amulet'); };
   /** @returns {string[]} */
   const jewelPowers = it => { const b = it && ITEMS[it.t]; return b && b.power ? [].concat(b.power) : []; };
+  const BLADE_POWERS = ['keen', 'swift', 'undead', 'giant', 'leech', 'flame'];
   function hasPower(power, slot, p = P()) {
     const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS, 'cloak'];
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
-    // a bear holds nothing: what rides on a blade stays behind with it
-    const bear = !!(G && wild.shaped(p));
+    // a bear holds nothing: what a blade does in a fight stays behind with it (a
+    // staff's well of power does not: taking it away shrank the druid's points for good)
+    const bear = !!(G && wild.shaped(p)) && BLADE_POWERS.includes(power);
     return slots.some(s => { if (bear && (s === 'weapon' || s === 'offhand')) return false; const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
   /** What keeps out the cold, for the log: "your cloak", or "Your ring" to open a sentence. */
@@ -2187,8 +2190,10 @@ const Game = (() => {
       if (e.hurt || e.hurtFrac) {
         const n = e.hurtFrac ? Math.max(1, Math.ceil(p.maxHp * e.hurtFrac)) : Math.max(1, d(...e.hurt));
         G.lastAttacker = { name: def.title, dmg: n, bearing: '', encounter: true };
-        out.push(`−${n} hit points`);
+        const was = p.hp;
         hurtPlayer(n, null);
+        // (a bear's hide may have taken some or all of it)
+        out.push(was - p.hp > 0 ? `−${was - p.hp} hit points` : 'Your hide took it all');
       }
       if (e.heal) { const n = e.heal === 'full' ? p.maxHp - p.hp : e.heal; healPlayer(n); out.push(e.heal === 'full' ? 'Fully healed' : `+${n} hit points`); }
       if (e.maxHp) {
@@ -2565,7 +2570,7 @@ const Game = (() => {
       if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
-    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
+    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' || wild.shaped() ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {
       // Bloodlust: every foe the hero fells gives a little back
@@ -2928,12 +2933,13 @@ const Game = (() => {
     // the dead are past hurting: a second blow in the same swing (quills bite
     // the off hand's blow too) would tell the death twice
     if (G.status !== 'playing') return;
-    noteTaken(dmg, from, cause);
     const p = P();
-    // a bear's hide takes the blow before the druid inside it does
+    // a bear's hide takes the blow before the druid inside it does (and what
+    // it takes is not counted as taken)
     const hide = wild.shaped(p) ? p.shape.hide : 0;
     const through = wild.soak(dmg);
-    if (hide && through < dmg) { if (msg) msg += ` (Your hide takes ${dmg - through}.)`; dmg = through; }
+    if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }
+    noteTaken(dmg, from, cause);
     p.hp -= dmg;
     p.lastHurt = G.t;
     if (from) {
@@ -2958,7 +2964,7 @@ const Game = (() => {
     // and it is felt differently in the hand: twice, not once
     buzz(from && fx.hurtFrom ? [40, 70, 40] : 40);
     if (msg) log(msg, 'bad');
-    wild.torn();
+    wild.torn(dmg);
     // an Amulet of Life Saving takes the killing blow, once, and is spent
     const saver = p.hp <= 0 && JEWEL_SLOTS.find(s => jewelPowers(p.eq[s]).includes('lifesave'));
     if (saver) {
@@ -3119,7 +3125,7 @@ const Game = (() => {
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
-      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2), kin: !!(G.companion && !G.companion.fallen), shapes: (G.stats && G.stats.shapes) || 0 });
+      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), kin: !!companion.here(), shapes: (G.stats && G.stats.shapes) || 0 });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
@@ -3311,7 +3317,7 @@ const Game = (() => {
     }
     if (sp.kind === 'buff' && ownEffect(sp.stat) >= buffAmount(sp)) return `${sp.name} is already upon you.`;
     if (sp.kind === 'shape' && wild.shaped(p)) return 'You are a bear already.';
-    if (sp.kind === 'root' && !boltTargets(spellRange(sp), false).filter(m => !m.collapsed).length) return `Nothing within reach for ${sp.name} to hold.`;
+    if (sp.kind === 'root' && !wild.rootTargets(spellRange(sp)).length) return `Nothing within reach for ${sp.name} to hold.`;
     return null;
   }
   // A spell takes time, and shares the swing's timer. Casting used to cost
@@ -3365,9 +3371,9 @@ const Game = (() => {
     fx.castUntil = realNow + 260; fx.castColor = sp.color; fx.castAt = realNow;
     Sound.play('cast', { spell: sp.id });
     const look = SPELL_FX[sp.id] || ['buff', 500];
-    if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
+    if (sp.kind !== 'bolt' && sp.kind !== 'root') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${G.companion.name} is mended ${kin} with you.`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); const hpWas = p.hp; healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; log(`You cast ${sp.name} and heal ${p.hp - hpWas}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${G.companion.name} is mended ${kin} with you.`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -3375,8 +3381,7 @@ const Game = (() => {
         break;
       case 'shape': wild.begin(); break;
       case 'root': {
-        const held = boltTargets(spellRange(sp), false);
-        spellFx(look[0], sp.color, look[1], held, spellRange(sp));
+        spellFx(look[0], sp.color, look[1], wild.rootTargets(spellRange(sp)), spellRange(sp));
         wild.entangle(spellRange(sp));
         break;
       }
@@ -3644,7 +3649,10 @@ const Game = (() => {
    */
   function readiedSpell(list) {
     const p = P(), sp = list.find(s => s.id === G.lastSpell && spellAvailable(s)) || list[0];
-    if (sp.kind === 'heal' && p.hp >= p.maxHp) return list.find(s => s.kind !== 'heal' && spellAvailable(s)) || sp;
+    // (a heal that would help a hurt companion is not passed over)
+    if (sp.kind === 'heal' && spellWasteReason(sp)) return list.find(s => s.kind !== 'heal' && spellAvailable(s)) || sp;
+    // a bear already: the button offers what the druid would let it go for
+    if (sp.kind === 'shape' && wild.shaped(p)) return list.find(s => s.kind !== 'shape' && spellAvailable(s)) || sp;
     return sp;
   }
 
@@ -4451,7 +4459,7 @@ const Game = (() => {
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     /** A druid in Wild Shape: whether, and the status line's words for it. */
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
-    hurtPlayer,
+    hurtPlayer, spMax,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
