@@ -607,6 +607,35 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a puffcap coming close is told once: its spores, and how to answer them; not to a druid, who breathes them', async ({ page, browser }) => {
+    const errors = watchForErrors(page);
+    const seenFirst = JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice', 'quickscroll']);
+    await page.addInitScript(s => localStorage.setItem('deepdelve.tipsSeen', s), seenFirst);
+    await startGame(page, { tips: true, seed: 'spore-tip' });
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    await page.evaluate(() => { Game.level().monsters.length = 0; document.getElementById('tip').classList.remove('show'); });
+    await placeMonster(page, 'puffcap', 2, { hp: 30, maxHp: 30 });
+    await expect(page.locator('#tip')).toHaveClass(/show/, { timeout: 3000 });
+    await expect(page.locator('#tip')).toContainText('spores');
+    await expect(page.locator('#tip')).toContainText('fire oil');
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')))).toContain('spores');
+    expect(errors).toEqual([]);
+    // a druid is not told
+    const ctx = await browser.newContext({ viewport: page.viewportSize() });
+    const p2 = await ctx.newPage();
+    const errors2 = watchForErrors(p2);
+    await p2.addInitScript(s => localStorage.setItem('deepdelve.tipsSeen', s), seenFirst);
+    await startGame(p2, { tips: true, seed: 'spore-tip', cls: 'druid' });
+    await clearBoons(p2);
+    await faceOpenGround(p2, 3);
+    await p2.evaluate(() => { Game.level().monsters.length = 0; document.getElementById('tip').classList.remove('show'); });
+    await placeMonster(p2, 'puffcap', 2, { hp: 30, maxHp: 30 });
+    await p2.waitForTimeout(1500);
+    expect(await p2.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')))).not.toContain('spores');
+    expect(errors2).toEqual([]);
+    await ctx.close();
+  });
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));

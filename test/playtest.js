@@ -193,6 +193,13 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const ch = p.inv.find(i => i.t === 'charm_fang') || p.inv.find(i => ITEMS[i.t].kind === 'charm');
       if (ch && !Game.giveCharm(ch)) rec.charms = (rec.charms || 0) + 1;
     }
+    // --- a puffcap close by: fire on the blade sears its spores, so a coat of
+    // anything else is wiped for fire oil if there is some (NOPUFF=1 plays without)
+    const puffNear = !process.env.NOPUFF && p.cls !== 'druid' && L.monsters.some(m => m.id === 'puffcap' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4);
+    if (puffNear && p.eq.weapon && !Game.shaped() && !process.env.NOOIL && !(p.coating && p.coating.t === 'fire')) {
+      const fire = p.inv.find(i => ITEMS[i.t].kind === 'oil' && ITEMS[i.t].coat === 'fire');
+      if (fire) { Game.useItem(fire); rec.oils = (rec.oils || 0) + 1; rec.puffAnswers = (rec.puffAnswers || 0) + 1; step(); continue; }
+    }
     // --- a fight is starting: coat the weapon (silver for the dead), unless NOOIL=1
     if (!p.coating && p.eq.weapon && !process.env.NOOIL) {
       const near = L.monsters.filter(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4);
@@ -484,6 +491,18 @@ function play(ctx, cls, seed, opts, bg, idx) {
       if (m) near.push({ m, dir: k });
     }
     const adj = near.find(a => !(a.m.wardUntil > G.t)) || near[0] || null;
+    // a puffcap beside it, with no fire on the blade and not yet poisoned: a
+    // spell looses no spores, and one with a bow steps back (a puffcap is slow) to shoot
+    if (adj && adj.m.id === 'puffcap' && puffNear && !p.poison && !(p.coating && p.coating.t === 'fire') && !Game.hasPower('flame', 'weapon')) {
+      const bolt = Game.shaped() ? null : Game.knownSpells().filter(s => s.kind === 'bolt' && Game.spellAvailable(s) && p.sp >= Game.spellCost(s)).pop();
+      if (bolt && G.t >= p.nextAttack) { p.dir = adj.dir; Game.castSpell(bolt); rec.puffAnswers = (rec.puffAnswers || 0) + 1; step(); continue; }
+      if (Game.weapon().range) {
+        const bx = p.x - Dungeon.DIRS[adj.dir][0], by = p.y - Dungeon.DIRS[adj.dir][1], t = L.tiles[by * L.w + bx];
+        if ((t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === bx && o.y === by) && !(L.npcs || []).some(o => o.x === bx && o.y === by)) {
+          p.dir = adj.dir; Game.input('back'); rec.puffAnswers = (rec.puffAnswers || 0) + 1; step(); continue;
+        }
+      }
+    }
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
@@ -829,7 +848,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)
   const byPath = {};
