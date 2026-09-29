@@ -1085,6 +1085,41 @@ test.describe('dungeon features', () => {
     await back.close();
     expect(errors).toEqual([]);
   });
+  test('a charm in the pack is given to the hound from its card, and the Hero sheet says it wears it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'charm-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.player().inv.push({ t: 'charm_collar', q: 1, e: 0 }); });
+    // with no companion the card offers nothing to do with it
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: 'Iron-Studded Collar' }).click();
+    await expect(page.locator('#item-detail')).toContainText('For your companion to wear');
+    await expect(page.locator('#item-detail button', { hasText: /^Give to/ })).toHaveCount(0);
+    await page.click('#ov-inv [data-close]');
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'stray', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Share your food' }).click();
+    await page.waitForTimeout(450);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect.poll(() => page.evaluate(() => !!Game.companion())).toBe(true);
+    const name = await page.evaluate(() => Game.companion().name);
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: 'Iron-Studded Collar' }).click();
+    await page.locator('#item-detail button', { hasText: `Give to ${name}` }).click();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.companion().charm)).toBe('charm_collar');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('wearing the iron-studded collar');
+    expect(errors).toEqual([]);
+  });
+
   test('a hound that has come down two floors at the hero\'s side is blooded, and the Hero sheet says what it has learned', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'hound-grow-ui', cls: 'Fighter' });

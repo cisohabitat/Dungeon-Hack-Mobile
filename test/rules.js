@@ -3166,6 +3166,17 @@ await test('the quick scroll: fire with a foe ahead, restoration when badly hurt
   if (p.inv.find(i => i.t === 'scroll_fire').q !== before - 1) out.push('one tap did not read the fire');
   Game.level().monsters.length = 0; p.hp = 1;
   if ((Game.quickScroll() || {}).t !== 'scroll_heal') out.push('no restoration when badly hurt');
+  // an oil, when a fight comes on and the blade is bare: silver for the dead
+  p.hp = p.maxHp; p.inv = p.inv.filter(i => i.kind !== 'scroll' && !/^scroll/.test(i.t));
+  p.inv.push({ t: 'oil_fire', q: 1, e: 0 }, { t: 'oil_silver', q: 1, e: 0 });
+  if (Game.quickScroll()) out.push(`offered ${Game.quickScroll().t} with nothing awake`);
+  const gob = ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  if ((Game.quickScroll() || {}).t !== 'oil_fire') out.push(`with a goblin coming, offered ${(Game.quickScroll() || {}).t}`);
+  gob.id = 'skeleton';
+  if ((Game.quickScroll() || {}).t !== 'oil_silver') out.push(`with a skeleton coming, offered ${(Game.quickScroll() || {}).t}`);
+  Game.input('read');
+  if (!p.coating || p.coating.t !== 'silver') out.push('one tap did not coat the blade');
+  if (Game.quickScroll()) out.push('a coated blade was offered another oil');
   return out.length ? out.join('; ') : true;
 });
 
@@ -9810,6 +9821,63 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     c.deepest = G.depth + 1;
     Game.level().monsters.length = 0; Game.descend();
     if (count() !== again) out.push('it found something on a floor it had been down to');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a charm given from the pack is worn by the companion: a collar turns blows, a fang bites harder, a rowan knot mends', async () => {
+    const out = [];
+    // no companion, nothing to give it to
+    {
+      const ctx = await start('fighter', 'charm-none');
+      const p = ctx.Game.player(), it = { t: 'charm_fang', q: 1, e: 0 };
+      p.inv.push(it);
+      if (!ctx.Game.giveCharm(it) || !p.inv.includes(it)) out.push('a charm was given with no companion');
+    }
+    const ctx = await withHound('charm-give');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    const fang = { t: 'charm_fang', q: 1, e: 0 }, knot = { t: 'charm_rowan', q: 1, e: 0 };
+    p.inv.push(fang, knot);
+    const mark = markLog(G);
+    if (Game.giveCharm(fang) || c.charm !== 'charm_fang' || p.inv.includes(fang)) out.push(`giving the fang: wears ${c.charm}`);
+    if (!linesSince(G, mark).some(l => l.includes(`fang charm on ${c.name}`))) out.push(`said: ${linesSince(G, mark).join(' / ')}`);
+    Game.giveCharm(knot);
+    if (c.charm !== 'charm_rowan' || !p.inv.some(i => i.t === 'charm_fang')) out.push('a second charm did not hand back the first');
+    if (!Game.threadNotes().some(n => n.includes('wearing the rowan knot'))) out.push('the hero sheet does not say what it wears');
+    // the knot mends it, slowly, with no rest
+    clearAround(ctx);
+    c.hp = 1; c.mode = 'stay';
+    run(Game, G, 20000);
+    if (!(c.hp >= 4 && c.hp <= 7)) out.push(`in twenty seconds the knot mended it to ${c.hp}`);
+    // the fang: the same bites, two more each
+    const bites = async charm => {
+      const b = await withHound('charm-fang-' + (charm || 'none'));
+      const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
+      clearAround(b); seedDice(b, 'charm-fang');
+      h.charm = charm; h.mode = 'stay';
+      const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
+      const m = { uid: 95, id: 'ogre', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      b.Game.level().monsters.push(m);
+      let total = 0, n = 0;
+      for (let i = 0; i < 16000 && n < 150; i++) { const hp = m.hp; b.Game.update(G2.t + 25, 25); m.nextAct = 1e12; if (m.hp < hp) { total += hp - m.hp; n++; } }
+      return total / Math.max(1, n);
+    };
+    const plain = await bites(undefined), sharp = await bites('charm_fang');
+    if (!(sharp - plain > 1.5 && sharp - plain < 2.5)) out.push(`the fang: ${plain.toFixed(2)} -> ${sharp.toFixed(2)} a bite`);
+    // the collar: an orc beside it lands fewer blows
+    const landed = async charm => {
+      const b = await withHound('charm-collar-' + (charm || 'none'));
+      const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
+      clearAround(b); seedDice(b, 'charm-collar');
+      h.charm = charm; h.mode = 'stay';
+      const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
+      const m = { uid: 94, id: 'orc', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: G2.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      b.Game.level().monsters.push(m);
+      let hits = 0;
+      for (let i = 0; i < 12000; i++) { const hp = h.hp; b.Game.update(G2.t + 25, 25); if (h.hp < hp) hits++; h.hp = h.maxHp; h.fallen = 0; }
+      return hits;
+    };
+    const bare = await landed(undefined), collared = await landed('charm_collar');
+    if (!(bare > 60 && collared < bare * 0.85)) out.push(`an orc landed ${bare} blows on a bare hound, ${collared} on a collared one`);
     return out.length ? out.join('; ') : true;
   });
 

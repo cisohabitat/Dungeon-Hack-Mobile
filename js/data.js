@@ -461,6 +461,10 @@ const ITEMS = {
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this floor.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },
+  // Charms for a companion to wear, one at a time: given from the pack, they go with it.
+  charm_collar: { kind: 'charm', name: 'Iron-Studded Collar', value: 40, sprite: 'charm_collar', charm: 'collar', desc: 'For your companion to wear: blows find it harder to land (+3 armour).' },
+  charm_fang:   { kind: 'charm', name: 'Fang Charm',          value: 40, sprite: 'charm_fang',   charm: 'fang',   desc: 'For your companion to wear: its every blow deals 2 more.' },
+  charm_rowan:  { kind: 'charm', name: 'Rowan Knot',          value: 40, sprite: 'charm_rowan',  charm: 'rowan',  desc: 'For your companion to wear: its wounds close by themselves, a hit point every four seconds.' },
   // Oils and coatings: worked into the weapon, they ride on its next blows that land.
   oil_fire:   { kind: 'oil', name: 'Fire Oil',     stack: true, value: 30, sprite: 'oil_fire',   coat: 'fire',   desc: 'Coats your weapon: its next 20 blows that land burn for 1d4 more, and no troll mends the wound.' },
   oil_silver: { kind: 'oil', name: 'Silver Wash',  stack: true, value: 30, sprite: 'oil_silver', coat: 'silver', desc: 'Coats your weapon: its next 20 blows that land deal 1d6 more to the undead.' },

@@ -43,6 +43,8 @@ const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
+  /** Its armour: its kind's, and more under an iron-studded collar. */
+  const acOf = c => kindOf(c).ac + (c && c.charm === 'charm_collar' ? 3 : 0);
   const maxHpFor = (c, level) => kindOf(c).hp[0] + kindOf(c).hp[1] * level + 4 * rankOf(c);
   const hitFor = (c, level) => kindOf(c).hit + Math.floor(level / 3);
   const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3)];
@@ -137,7 +139,7 @@ export function makeCompanion(K) {
     const c = here(), p = K.P();
     if (!c || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1) return;
     const roll = d(1, 20);
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < kindOf(c).ac + Math.floor(p.level / 3))) return;
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < acOf(c) + Math.floor(p.level / 3))) return;
     hurt(Math.max(1, d(...mb.dmg)), `The ${mb.name} hits`);
   }
   /** Its bite: an awake thing beside it, the one at the hero's side first. */
@@ -153,7 +155,7 @@ export function makeCompanion(K) {
       const many = m.pack ? m.pack.length : 0;
       // a goblin that has learned to backstab goes for what the hero is fighting
       const atSide = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
-      K.damageMonster(m, Math.max(1, d(...biteFor(c, p.level))) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
+      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + (c.charm === 'charm_fang' ? 2 : 0)) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
       const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
       if (down) c.kills++;
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
@@ -169,6 +171,8 @@ export function makeCompanion(K) {
     // it grows with the hero
     const want = maxHpFor(c, p.level);
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
+    // a rowan knot closes its wounds, slowly
+    if (c.charm === 'charm_rowan' && c.hp < c.maxHp && G.t >= (c.mendAt || 0)) { if (c.mendAt) c.hp++; c.mendAt = G.t + 4000; }
     sniffTraps(c);
     // something came to stand where it stands (a lunge, a summoning): it gives way first
     if (K.monsterAt(c.x, c.y)) {
@@ -282,6 +286,23 @@ export function makeCompanion(K) {
       K.log(`${c.name} slips ${K.aThing(K.itemName({ t, q: 1, e: 0 }))} into your pack: found on the way down.`, 'good');
     }
   }
+  /**
+   * A charm from the pack for it to wear, on this floor: the one it wore goes
+   * back into the pack. @returns {string|null} why not, or null when it is worn
+   */
+  function wear(it) {
+    const c = here(), p = K.P();
+    if (!c) return K.G.companion && !K.G.companion.fallen ? `${K.G.companion.name} is not on this floor.` : 'You have no companion to wear it.';
+    const i = p.inv.indexOf(it);
+    if (i < 0) return 'You are not carrying that.';
+    p.inv.splice(i, 1);
+    const old = c.charm;
+    c.charm = it.t;
+    if (old) K.giveItem({ t: old, q: 1, e: 0 });
+    K.log(`You fasten the ${K.itemName(it).toLowerCase()} on ${c.name}${old ? `, and take back the ${K.itemName({ t: old, q: 1, e: 0 }).toLowerCase()}` : ''}.`, 'good');
+    Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
+    return null;
+  }
   /** It helps the hero land a blow on what it stands beside, once it has learned to hunt as a pack. */
   function flanks(m) {
     const c = here();
@@ -317,9 +338,10 @@ export function makeCompanion(K) {
     const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}` : '';
     const r = rankOf(c), learned = kindOf(c).tricks.slice(0, r);
     const next = r < RANKS.length ? ` ${RANKS[r].floors - (c.floors || 0)} more floor${RANKS[r].floors - (c.floors || 0) > 1 ? 's' : ''} down at your side and it learns ${kindOf(c).tricks[r].name}.` : '';
-    return `${c.name}, your ${w}${r ? `, ${RANKS[r - 1].name}` : ''}: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}${tricks}.${learned.map(t => ` ${t.name}: ${t.says}.`).join('')}${next}`;
+    const worn = c.charm ? `, wearing the ${K.itemName({ t: c.charm, q: 1, e: 0 }).toLowerCase()}` : '';
+    return `${c.name}, your ${w}${r ? `, ${RANKS[r - 1].name}` : ''}: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${worn}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}${tricks}.${learned.map(t => ` ${t.name}: ${t.says}.`).join('')}${next}`;
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note, flanks, rank: () => rankOf(K.G && K.G.companion) };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
 }

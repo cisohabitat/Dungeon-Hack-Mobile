@@ -94,7 +94,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   to an encounter's Dexterity test (+2). One companion a run.
 - **Companions that grow.** Every new floor a companion comes down at your side counts: blooded
   after two, a veteran after four, tougher each time and with a trick of its kind (a hound's
-  hamstring and pack hunting; a goblin's backstab and scrounging).
+  hamstring and pack hunting; a goblin's backstab and scrounging). A charm from a trader (a studded
+  collar, a fang, a rowan knot) makes it tougher, fiercer or slowly self-mending.
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by

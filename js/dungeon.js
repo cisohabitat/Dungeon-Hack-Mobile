@@ -545,6 +545,7 @@ const Dungeon = (() => {
           ['potion_heal', 40], ['potion_xheal', 12 + depth * 2], ['potion_cure', 14], ['potion_might', 10],
           ['potion_mana', 12], ['scroll_heal', 12], ['scroll_fire', 10], ['scroll_map', 12], ['scroll_teleport', 8],
           ['ration', 26], ['meat', 14], ['oil_fire', 6], ['oil_silver', depth >= 3 ? 6 : 2], ['oil_venom', 5],
+          ['charm_collar', 2], ['charm_fang', 2], ['charm_rowan', 2],
           // a Crypts trader keeps more for curses, venom and the dead; a Warrens one for blades
           ...(route === 'crypts' ? [['potion_cure', 20], ['scroll_uncurse', 16], ['oil_silver', 10]] : []),
           ...(route === 'warrens' ? [['oil_fire', 8], ['oil_venom', 8]] : []),

@@ -620,7 +620,7 @@ const UI = (() => {
     examine: 'Something to deal with. Tap <b>Examine</b>: every choice shows its odds before you commit.',
     trade: 'A trader. Tap <b>Trade</b> to buy, sell, and use the forge: it sharpens a weapon or strengthens armour, and mends rust.',
     unknown: 'A <b>?</b> in your pack means you do not know how good that gear is. <b>Study</b> it, or have a trader appraise it: cursed gear will not come off once worn.',
-    quickscroll: 'A scroll worth reading <b>now</b> waits at the left end of the log, under the view: <b>one tap</b> reads it.',
+    quickscroll: 'A scroll worth reading <b>now</b>, or an oil for a bare blade as a fight starts, waits at the left end of the log, under the view: <b>one tap</b> uses it.',
     hurt: 'You are badly hurt. Tap the <b>bottle</b> beside your life bar to drink a healing potion, or <b>Rest</b> when nothing is near.',
     shade: 'A <b>shade</b>: one of your own heroes, risen where they fell, and it fights as they did. Lay it to rest and what they wore is yours.',
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
@@ -1019,7 +1019,8 @@ const UI = (() => {
   // The scroll worth reading this moment, one tap away, low in the view's left
   // corner: Fire when a foe is ahead for it, Restoration when badly hurt,
   // Teleport when cornered and failing. It is not there the rest of the time.
-  const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'] };
+  const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'],
+    oil_fire: ['Coat', '#ff9030'], oil_silver: ['Coat', '#d0dcec'], oil_venom: ['Coat', '#80d050'] };
   let quickSig = '';
   // The boss's bar takes the top rows of the picture (see drawBossBar): while
   // it shows, the status chips and any tip sit just below it rather than on
@@ -1053,7 +1054,7 @@ const UI = (() => {
     /** @type {HTMLImageElement} */ (btn.querySelector('img')).src = art ? art.url : '';
     btn.querySelector('small').textContent = label;
     btn.style.setProperty('--qs', color);
-    btn.setAttribute('aria-label', `Read the ${Game.itemName({ ...it, q: 1 })}`);
+    btn.setAttribute('aria-label', `${ITEMS[it.t].kind === 'oil' ? 'Coat your weapon with the' : 'Read the'} ${Game.itemName({ ...it, q: 1 })}`);
   }
   let quaffSig = '';
   function refreshQuaff() {
@@ -1849,6 +1850,7 @@ const UI = (() => {
       else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');
       else if (b.kind === 'oil') add('Coat weapon', () => useFromPack(it), 'primary');
+      else if (b.kind === 'charm' && Game.companionHere()) add(`Give to ${Game.companion().name}`, () => { Game.giveCharm(it); if (overlay === 'inv') closeOverlay(); }, 'primary');
       // an unknown potion or scroll can be puzzled out instead of risked
       if ((['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) && !Game.isKnown(it.t)) || it.h) {
         const block = Game.studyReason(it);

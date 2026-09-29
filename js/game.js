@@ -3498,12 +3498,21 @@ const Game = (() => {
     if (heal && p.hp <= p.maxHp * 0.5) return heal;
     const away = has('scroll_teleport');
     if (away && p.hp <= p.maxHp * 0.3 && lvl().monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 1)) return away;
+    // a fight coming on and a bare blade: the oil for it (silver when the dead are coming)
+    if (!p.coating && p.eq.weapon) {
+      const near = lvl().monsters.filter(m => m.awake && !m.collapsed && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
+      const oils = p.inv.filter(i => ITEMS[i.t].kind === 'oil');
+      if (near.length && oils.length) {
+        const undead = near.some(m => mstat(m).undead);
+        return oils.find(i => ITEMS[i.t].coat === 'silver' && undead) || oils.find(i => ITEMS[i.t].coat !== 'silver') || oils[0];
+      }
+    }
     return null;
   }
   function readQuick() {
     queuedAttack = false;
     const s = quickScroll();
-    if (!s) { log('No scroll you carry would help just now.', 'bad'); Sound.play('error'); return false; }
+    if (!s) { log('Nothing you carry would help just now.', 'bad'); Sound.play('error'); return false; }
     useItem(s);
     return true;
   }
@@ -4323,6 +4332,9 @@ const Game = (() => {
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
     companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
+    /** Give a charm from the pack to the companion: why not, or null when it is worn. */
+    giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
+    companionHere: () => !!companion.here(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
