@@ -8,6 +8,13 @@ import { CLASSES, BACKGROUNDS } from './data.js';
 // only, like the Hall of Heroes; nothing is sent anywhere.
 
 const DAILY_KEY = 'deepdelve.daily';
+// A second daily for the classes that are earned, kept apart from the first:
+// its own seed, its own record and its own streak, so the Daily Delve every
+// player shares is dealt exactly as it always was. (kind 'earned'; 'main' is the first)
+const EARNED_KEY = 'deepdelve.daily.earned';
+/** The earned classes it deals, fixed in this order so a later one does not change who a date's hero is. */
+const EARNED_CLASSES = ['ranger', 'druid'];
+const storeKey = kind => (kind === 'earned' ? EARNED_KEY : DAILY_KEY);
 /**
  * The pasts the day's hero is drawn from: the six there have always been, in
  * the order they were first written. Not Object.keys(BACKGROUNDS): the
@@ -24,7 +31,7 @@ const pad = n => String(n).padStart(2, '0');
 function today(d = new Date()) { return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
 /** Whole days since 1970 for a YYYY-MM-DD date, so two can be compared. */
 function dayNumber(key) { const [y, m, d] = key.split('-').map(Number); return Math.round(Date.UTC(y, m - 1, d) / 86400000); }
-function seedFor(key) { return 'daily-' + key; }
+function seedFor(key, kind = 'main') { return kind === 'earned' ? 'daily-earned-' + key : 'daily-' + key; }
 /** "24 September", for saying which day it is. */
 function longDate(key) {
   const [y, m, d] = key.split('-').map(Number);
@@ -33,10 +40,11 @@ function longDate(key) {
 
 const DAILY_CLASSES = ['fighter', 'cleric', 'mage', 'thief'];
 /** The day's hero and dungeon: the same for everyone who plays on that date. */
-function heroFor(key) {
-  const rng = new Rng(seedFor(key));
-  // the four classes every player has from the start: a later one (the Ranger) is earned, and the days already dealt stay as they were
-  const cls = rng.pick(DAILY_CLASSES);
+function heroFor(key, kind = 'main') {
+  const rng = new Rng(seedFor(key, kind));
+  // the four classes every player has from the start: a later one (the Ranger) is earned, and the days already dealt stay as they were;
+  // the earned daily deals only the earned ones
+  const cls = rng.pick(kind === 'earned' ? EARNED_CLASSES : DAILY_CLASSES);
   const bg = rng.pick(DAILY_BACKGROUNDS.filter(id => BACKGROUNDS[id]));
   const name = rng.pick(HERO_NAMES);
   const keyStat = CLASSES[cls].primary;
@@ -50,52 +58,52 @@ function heroFor(key) {
     const best = Object.keys(st).reduce((a, b) => (st[b] > st[a] ? b : a), keyStat);
     [st[keyStat], st[best]] = [st[best], st[keyStat]];
     stats = st;
-    const fight = cls === 'thief' ? st.dex : st.str;
+    const fight = cls === 'thief' || cls === 'ranger' || cls === 'druid' ? st.dex : st.str;
     if (st[keyStat] >= 14 && fight >= 12 && st.con >= 10) break;
   }
   return {
-    name, cls, bg, stats, seed: seedFor(key),
-    opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal'), daily: key },
+    name, cls, bg, stats, seed: seedFor(key, kind),
+    opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal'), daily: key, ...(kind === 'earned' ? { dailyKind: 'earned' } : {}) },
   };
 }
 
 /** @returns {{streak: number, last: string, days: Object<string, {started?: boolean, done?: {won: boolean, depth: number, kills: number, cls: string, score: number}}>}} */
-function load() {
+function load(kind = 'main') {
   let v = null;
-  try { v = JSON.parse(localStorage.getItem(DAILY_KEY) || 'null'); } catch (e) { /* start afresh */ }
+  try { v = JSON.parse(localStorage.getItem(storeKey(kind)) || 'null'); } catch (e) { /* start afresh */ }
   if (!v || typeof v !== 'object') v = {};
   return { streak: Number(v.streak) || 0, last: typeof v.last === 'string' ? v.last : '', days: v.days && typeof v.days === 'object' ? v.days : {} };
 }
-function store(v) {
+function store(v, kind = 'main') {
   // a fortnight is plenty to remember
   const keys = Object.keys(v.days).sort();
   for (const k of keys.slice(0, Math.max(0, keys.length - 14))) delete v.days[k];
-  try { localStorage.setItem(DAILY_KEY, JSON.stringify(v)); } catch (e) { /* private browsing */ }
+  try { localStorage.setItem(storeKey(kind), JSON.stringify(v)); } catch (e) { /* private browsing */ }
 }
 /** The day's run has begun: that is the day's one try, and it counts toward the streak. */
-function start(key) {
-  const v = load();
+function start(key, kind = 'main') {
+  const v = load(kind);
   if (v.days[key] && v.days[key].started) return;
   v.streak = v.last && dayNumber(key) - dayNumber(v.last) === 1 ? v.streak + 1 : (v.last === key ? v.streak : 1);
   v.last = key;
   v.days[key] = { started: true };
-  store(v);
+  store(v, kind);
 }
 /** The day's run is over, won or lost. */
-function finish(key, done) {
-  const v = load();
+function finish(key, done, kind = 'main') {
+  const v = load(kind);
   v.days[key] = { ...(v.days[key] || {}), started: true, done };
-  store(v);
+  store(v, kind);
 }
 /** How today stands: not yet tried, begun, or over (with how it went). */
-function status(key) {
-  const day = load().days[key];
+function status(key, kind = 'main') {
+  const day = load(kind).days[key];
   if (day && day.done) return { state: 'done', done: day.done };
   return { state: day && day.started ? 'started' : 'fresh', done: null };
 }
 /** Consecutive days played, still alive if the last one was today or yesterday. */
-function streak(key) {
-  const v = load();
+function streak(key, kind = 'main') {
+  const v = load(kind);
   if (!v.last) return 0;
   const gap = dayNumber(key) - dayNumber(v.last);
   return gap === 0 || gap === 1 ? v.streak : 0;
@@ -103,10 +111,10 @@ function streak(key) {
 /** How the day went, in a few words: "fell on floor 5", "claimed the Heart". */
 function outcome(done) { return done.won ? 'claimed the Heart' : `fell on floor ${done.depth}`; }
 /** One line to paste anywhere. */
-function shareLine(key, done) {
+function shareLine(key, done, kind = 'main') {
   const who = CLASSES[done.cls] ? CLASSES[done.cls].name : done.cls;
-  return `Deepdelve daily ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key))}`;
+  return `Deepdelve ${kind === 'earned' ? 'earned daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
 }
 
-const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS };
+const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };
 export { Daily };

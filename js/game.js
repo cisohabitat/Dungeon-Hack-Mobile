@@ -3153,7 +3153,7 @@ const Game = (() => {
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
-      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.route ? { route: G.route } : {}), ...(G.opts.daily ? { daily: G.opts.daily } : {}) };
+      difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.route ? { route: G.route } : {}), ...(G.opts.daily ? { daily: G.opts.daily, ...(G.opts.dailyKind ? { dailyKind: G.opts.dailyKind } : {}) } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;
@@ -4371,7 +4371,7 @@ const Game = (() => {
       const s = localStorage.getItem(SAVE_KEY);
       if (!s) return null;
       const g = JSON.parse(s);
-      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed, daily: (g.opts && g.opts.daily) || '' };
+      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed, daily: (g.opts && g.opts.daily) || '', dailyKind: (g.opts && g.opts.dailyKind) || 'main' };
     } catch (e) { return null; }
   }
 

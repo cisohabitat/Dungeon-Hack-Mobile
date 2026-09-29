@@ -472,6 +472,38 @@ test.describe('the Daily Delve', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the Earned Daily shows once a class is earned, waits on a day whose class is not, and keeps apart from the first Daily', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.clock.setFixedTime(DAY);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await page.goto('/');
+    await expect(page.locator('#btn-daily-earned')).toBeHidden();
+    // only the Druid earned: the day's hero decides whether it can be played
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: {}, relics: [], kin: 1 })));
+    await page.goto('/');
+    await expect(page.locator('#btn-daily-earned')).toBeVisible();
+    const cls = await page.evaluate(async () => (await import('./js/daily.js')).Daily.heroFor('2026-09-24', 'earned').cls);
+    if (cls === 'ranger') {
+      await expect(page.locator('#btn-daily-earned')).toBeDisabled();
+      await expect(page.locator('#daily-earned-summary')).toContainText('not yet earned');
+    }
+    // both earned: it plays, as its own run
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { easy: 1 }, mage: { easy: 1 }, thief: { easy: 1 } }, relics: [], kin: 1 })));
+    await page.goto('/');
+    await expect(page.locator('#btn-daily-earned')).toBeEnabled();
+    await page.click('#btn-daily-earned');
+    await expect(page.locator('#pro-rules')).toContainText('earned classes');
+    await page.click('#pro-begin');
+    await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+    const run = await page.evaluate(() => ({ seed: Game.state().seed, cls: Game.player().cls, kind: Game.state().opts.dailyKind }));
+    expect(run).toEqual({ seed: 'daily-earned-2026-09-24', cls, kind: 'earned' });
+    await page.evaluate(() => Game.save(true));
+    await page.goto('/');
+    await expect(page.locator('#daily-earned-summary')).toContainText('waits on floor 1');
+    await expect(page.locator('#daily-summary')).not.toContainText('waits');
+    expect(errors).toEqual([]);
+  });
+
   test('gives everyone the same dungeon and hero on the same day, and one try', async ({ page, browser }) => {
     const errors = watchForErrors(page);
     const first = await startDaily(page);

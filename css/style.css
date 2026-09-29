@@ -544,7 +544,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .menu .ghost.two { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; }
 .menu .ghost.two b { font-weight: normal; font-size: 0.98rem; }
 .menu .ghost.two small { font-size: 0.72rem; color: #b0a8bc; line-height: 1.25; }
-#btn-daily.done b { color: #c8bfae; }
+#btn-daily.done b, #btn-daily-earned.done b { color: #c8bfae; }
+/* (a class's display would otherwise override the hidden attribute) */
+#btn-daily-earned[hidden] { display: none; }
+#btn-daily-earned:disabled { opacity: 0.6; }
 /* how a run is kept, said before the first stair */
 .pro-again { margin: 0 0 12px; }
 .pro-again summary { color: var(--gold); cursor: pointer; padding: 8px 0; min-height: 28px; }

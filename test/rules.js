@@ -3982,13 +3982,14 @@ await test('a trickster finding gold in an encounter is told the sum the purse r
 });
 
 await test('a champion risen on a restless floor keeps a champion\'s life', async () => {
-  // seed rs4's second floor is restless, and an Ancient slime there rises as an
-  // Ancient zombie: it had the life of a plain zombie, within one roll of 4d8+2
-  const ctx = await start('fighter', 'rs4', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
+  // seed rs59's second floor is restless, and an Ancient there rises as an
+  // Ancient zombie: one once had the life of a plain zombie, within one roll of 4d8+2
+  // (rs4 was the seed until the overgrown floors took its second floor)
+  const ctx = await start('fighter', 'rs59', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
   const { Game, MONSTERS } = ctx;
   while (Game.state().depth < 2) { Game.level().monsters.length = 0; Game.descend(); }
   const L = Game.level();
-  if (L.twist !== 'restless') return `floor 2 of rs4 is ${L.twist || 'plain'} now: pick another seed`;
+  if (L.twist !== 'restless') return `floor 2 of rs59 is ${L.twist || 'plain'} now: pick another seed`;
   const risen = L.monsters.filter(m => m.elite && MONSTERS[m.id].undead && m.elite === 'Ancient');
   if (!risen.length) return 'no Ancient rose on that floor: pick another seed';
   const plainMost = b => b.hp[0] * b.hp[1] + b.hp[2] + 1;
@@ -8705,7 +8706,7 @@ await test('floor twists: dealt by the seed to middle floors only, never two run
       if (plan[d + 1]) return `seed ${seed} twisted floors ${d} and ${d + 1}`;
     }
   }
-  return seen.size === 4 || `only ${[...seen].join(', ')} were ever dealt`;
+  return seen.size === 5 || `only ${[...seen].join(', ')} were ever dealt`;
 });
 
 await test('each floor twist does what it says, and is told on arriving', async () => {
@@ -10822,6 +10823,32 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     p.cls = 'thief';
     const eyeThief = Game.trapEye(); lv.twist = null;
     if (Game.trapEye() - eyeThief !== 4) out.push(`the moss took ${Game.trapEye() - eyeThief} from a thief's eye, want 4`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the earned Daily deals a Ranger or a Druid from its own seed, keeps its own record, and leaves the first Daily as it was', async () => {
+    const out = [];
+    const ctx = await newContext();
+    const { Daily } = ctx;
+    const seen = new Set();
+    for (let i = 0; i < 120; i++) {
+      const d = new Date(2026, 0, 1 + i), key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const main = Daily.heroFor(key), earned = Daily.heroFor(key, 'earned');
+      if (!['ranger', 'druid'].includes(earned.cls)) { out.push(`the earned Daily of ${key} dealt a ${earned.cls}`); break; }
+      if (['ranger', 'druid'].includes(main.cls) || main.opts.dailyKind || main.seed !== 'daily-' + key) { out.push(`the first Daily of ${key} changed: ${main.cls} ${main.seed}`); break; }
+      if (earned.seed !== 'daily-earned-' + key || earned.opts.dailyKind !== 'earned' || earned.opts.daily !== key) { out.push(`the earned Daily of ${key}: ${earned.seed} ${JSON.stringify(earned.opts)}`); break; }
+      seen.add(earned.cls);
+    }
+    if (seen.size !== 2) out.push(`in 120 days the earned Daily dealt only ${[...seen]}`);
+    // a record of its own
+    const key = '2026-03-01';
+    Daily.start(key, 'earned');
+    if (Daily.status(key).state !== 'fresh') out.push('starting the earned Daily used up the first');
+    if (Daily.status(key, 'earned').state !== 'started') out.push('the earned Daily did not record its start');
+    Daily.finish(key, { won: true, depth: 8, kills: 30, cls: 'druid', score: 1000 }, 'earned');
+    if (Daily.status(key, 'earned').state !== 'done' || Daily.status(key).state !== 'fresh') out.push('finishing the earned Daily touched the first');
+    if (!/^Deepdelve earned daily 2026-03-01: Druid, claimed the Heart/.test(Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned'))) out.push(`its line: ${Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned')}`);
+    if (Daily.streak(key) !== 0 || Daily.streak(key, 'earned') !== 1) out.push(`streaks: first ${Daily.streak(key)}, earned ${Daily.streak(key, 'earned')}`);
     return out.length ? out.join('; ') : true;
   });
 
