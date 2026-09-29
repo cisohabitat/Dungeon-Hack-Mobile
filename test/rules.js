@@ -6674,6 +6674,142 @@ await test('a path survives a save, and a save from before paths is offered one 
   return Game.isPathOffer(Game.pendingBoons() || []) || `a top-level hero came back offered ${Game.pendingBoons()}`;
 });
 
+await test('at level 9 a hero on a path is offered its two capstones, in place of the lesson, and only once', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'capstone-offer');
+  const { Game, PATHS, CAPSTONE_LEVEL, BOONS } = ctx;
+  const p = Game.player(), G = Game.state();
+  walk(ctx, 'knight');
+  levelByKill(ctx, CAPSTONE_LEVEL - 1, CAPSTONE_LEVEL);
+  const offer = Game.pendingBoons();
+  const want = PATHS.fighter[0].capstones.map(c => c.id);
+  if (!offer || offer.join() !== want.join() || !Game.isCapstoneOffer(offer)) return `a knight at level 9 was offered ${offer && offer.join(', ')}`;
+  if (Game.isPathOffer(offer)) out.push('the capstones were taken for a path offer');
+  if (Game.pendingLevel() !== CAPSTONE_LEVEL) out.push(`the offer says level ${Game.pendingLevel()}`);
+  if (Game.chooseBoon('undying')) out.push('a knight took the berserker\'s capstone');
+  const mark = markLog(G);
+  if (!Game.chooseBoon('rally')) return 'could not take Rallying Bash';
+  if (p.capstone !== 'rally' || !Game.capstoneOf() || Game.capstoneOf().id !== 'rally') out.push(`chose rally, holds ${p.capstone}`);
+  if (Game.pendingBoons()) out.push(`offered ${Game.pendingBoons().join(', ')} as well`);
+  if (!linesSince(G, mark).some(l => l.includes('Rallying Bash'))) out.push('the log never named the capstone');
+  levelByKill(ctx, CAPSTONE_LEVEL + 1, CAPSTONE_LEVEL + 2);
+  const next = Game.pendingBoons();
+  if (!next || !next.every(id => BOONS.some(b => b.id === id))) out.push(`at level 11 it was offered ${next && next.join(', ')}`);
+  // one who reaches level 9 with the path still to choose has the capstones after it, and the lesson
+  const late = await start('mage', 'capstone-late');
+  levelByKill(late, CAPSTONE_LEVEL - 1, CAPSTONE_LEVEL);
+  const kinds = [];
+  while (late.Game.pendingBoons()) {
+    const o = late.Game.pendingBoons();
+    kinds.push(late.Game.isPathOffer(o) ? 'P' : late.Game.isCapstoneOffer(o) ? 'C' : 'L');
+    if (!late.Game.chooseBoon(late.Game.isPathOffer(o) ? 'pyromancer' : o[0], o[0] === 'spread' ? spreadPicks(late.Game) : undefined)) { out.push(`could not choose from ${o.join(', ')}`); break; }
+  }
+  if (kinds.join('') !== 'PLC') out.push(`a mage without a path at level 9 was offered ${kinds.join('')}`);
+  if (late.Game.player().capstone !== 'inferno') out.push(`the late mage mastered ${late.Game.player().capstone}`);
+  // and no hero without a path is offered one
+  const none = await start('thief', 'capstone-none');
+  none.Game.player().path = undefined;
+  none.Game.state().pendingBoons = [];
+  if (none.Game.state().pendingBoons.some(none.Game.isCapstoneOffer)) out.push('a thief with no path was offered capstones');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('capstones: each makes its path\'s own gift stronger', async () => {
+  const out = [];
+  const hero = async (cls, path, cap) => { const ctx = await start(cls, 'cap-' + (cap || path)); walk(ctx, path); ctx.Game.player().capstone = cap; return ctx; };
+  // the spell costs: a Crusader's Smite and a Healer's Wellspring are a point cheaper
+  for (const [path, cap, sid] of [['templar', 'crusade', 'smite'], ['healer', 'wellspring', 'cure_light']]) {
+    const a = await hero('cleric', path, undefined), b = await hero('cleric', path, cap);
+    const sp = a.SPELLS.cleric.find(s => s.id === sid);
+    if (b.Game.spellCost(sp) !== a.Game.spellCost(sp) - 1) out.push(`${cap}: ${sid} costs ${a.Game.spellCost(sp)} -> ${b.Game.spellCost(sp)}`);
+  }
+  // Swift Draw: a bow looses a fifth faster, a sword no faster
+  {
+    const a = await hero('ranger', 'sharpshooter', undefined), b = await hero('ranger', 'sharpshooter', 'swift_draw');
+    for (const c of [a, b]) { const p = c.Game.player(); p.eq.weapon = { t: 'shortbow', q: 1, e: 0 }; p.eq.offhand = null; }
+    const r = b.Game.blowRate(b.Game.player().eq.weapon) / a.Game.blowRate(a.Game.player().eq.weapon);
+    if (Math.abs(r - 1.25) > 0.01) out.push(`swift_draw: a bow's rate grew by ${r.toFixed(3)}`);
+    for (const c of [a, b]) c.Game.player().eq.weapon = { t: 'longsword', q: 1, e: 0 };
+    if (b.Game.blowRate(b.Game.player().eq.weapon) !== a.Game.blowRate(a.Game.player().eq.weapon)) out.push('swift_draw quickened a sword');
+  }
+  // Bloodlust: at half life the rage is +4, not +3
+  {
+    const a = await hero('fighter', 'berserker', undefined), b = await hero('fighter', 'berserker', 'bloodlust');
+    for (const c of [a, b]) { const p = c.Game.player(); p.maxHp = 100; p.hp = 50; }
+    if (a.Game.berserkerRage() !== 3 || b.Game.berserkerRage() !== 4) out.push(`bloodlust: rage at half life ${a.Game.berserkerRage()} -> ${b.Game.berserkerRage()}`);
+    for (const c of [a, b]) c.Game.player().hp = 1;
+    if (a.Game.berserkerRage() !== 4 || b.Game.berserkerRage() !== 6) out.push(`bloodlust: rage near death ${a.Game.berserkerRage()} -> ${b.Game.berserkerRage()}`);
+  }
+  // Shadow's Edge, Death Mark, Wild Bulwark: a number each
+  {
+    const a = await hero('thief', 'assassin', undefined), b = await hero('thief', 'assassin', 'shadows_edge'), c = await hero('thief', 'assassin', 'death_mark');
+    if (b.Game.critFloor() !== a.Game.critFloor() - 1) out.push(`shadows_edge: crits from ${a.Game.critFloor()} -> ${b.Game.critFloor()}`);
+    if (c.Game.sneakMult() !== a.Game.sneakMult() + 1) out.push(`death_mark: strike ${a.Game.sneakMult()} -> ${c.Game.sneakMult()}`);
+    const w = await hero('ranger', 'warden', undefined), v = await hero('ranger', 'warden', 'wild_bulwark');
+    if (v.Game.playerAC() !== w.Game.playerAC() + 2) out.push(`wild_bulwark: armour class ${w.Game.playerAC()} -> ${v.Game.playerAC()}`);
+  }
+  // Rallying Bash comes back in half the time and mends; Quick Smoke in 10 seconds
+  {
+    const left = async (cls, path, cap) => {
+      const ctx = await hero(cls, path, cap);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.maxHp = 999; p.hp = 500;
+      const m = beside(ctx, 'goblin', { nextAct: G.t });
+      for (let i = 0; i < 40 && cls === 'fighter' && !m.windup; i++) Game.update(G.t + 25, 25);
+      const hp0 = p.hp;
+      if (!Game.useAbility()) return { err: `${cls} could not use the ability` };
+      return { left: Game.abilityLeft(), mended: p.hp - hp0 };
+    };
+    const a = await left('fighter', 'knight', undefined), b = await left('fighter', 'knight', 'rally');
+    if (a.err || b.err) out.push(a.err || b.err);
+    else {
+      if (Math.abs(b.left * 2 - a.left) > 1) out.push(`rally: bash back in ${a.left}s -> ${b.left}s`);
+      if (!(b.mended >= 1) || a.mended > 0) out.push(`rally: a bash mended ${a.mended} -> ${b.mended}`);
+    }
+    const s = await left('thief', 'trickster', undefined), q = await left('thief', 'trickster', 'quick_smoke');
+    if (s.err || q.err) out.push(s.err || q.err);
+    else if (s.left !== 16 || q.left !== 10) out.push(`quick_smoke: smoke back in ${s.left}s -> ${q.left}s`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('Undying and Miracle turn one killing blow on each floor, and only one', async () => {
+  const out = [];
+  /** Let an ogre beat on the hero until it turns a killing blow, or the hero dies. */
+  const standing = ctx => {
+    const { Game } = ctx; const G = Game.state();
+    for (let i = 0; i < 800 && !Game.level().stoodFast && G.status === 'playing'; i++) Game.update(G.t + 25, 25);
+  };
+  const beaten = (ctx, cap, path) => {
+    const { Game } = ctx; const p = Game.player();
+    walk(ctx, path); p.capstone = cap; p.maxHp = 40; p.hp = 1;
+    p.eq.armor = null; p.eq.shield = null; p.stats.dex = 3;
+    beside(ctx, 'ogre');
+    standing(ctx);
+  };
+  for (const [cls, path, cap] of [['fighter', 'berserker', 'undying'], ['cleric', 'healer', 'miracle']]) {
+    const ctx = await start(cls, 'stand-' + cap);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    beaten(ctx, cap, path);
+    if (G.status !== 'playing' || !Game.level().stoodFast || !(cap === 'undying' ? p.hp === 1 : p.hp >= 15)) { out.push(`${cap}: after the first killing blow, ${G.status} on ${p.hp}`); continue; }
+    for (let i = 0; i < 2000 && G.status === 'playing'; i++) Game.update(G.t + 25, 25);
+    if (G.status === 'playing') out.push(`${cap}: turned a second killing blow on the same floor`);
+    // without the capstone the first blow kills
+    const plain = await start(cls, 'stand-' + cap);
+    beaten(plain, undefined, path);
+    if (plain.Game.state().status === 'playing') out.push(`${path} without ${cap} lived through the blow`);
+  }
+  // a new floor brings it back
+  const ctx = await start('fighter', 'stand-floor');
+  const { Game } = ctx; const p = Game.player();
+  Game.level().stoodFast = true;
+  Game.level().monsters.length = 0; Game.descend();
+  if (Game.level().stoodFast) out.push('the new floor came already spent');
+  beaten(ctx, 'undying', 'berserker');
+  if (Game.state().status !== 'playing' || p.hp !== 1) out.push(`on the next floor Undying left ${Game.state().status} on ${p.hp}`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('Knight: a shield gives a point more, catches one ordinary blow in eight for half, and a trick lands a quarter lighter', async () => {
   const out = [];
   {

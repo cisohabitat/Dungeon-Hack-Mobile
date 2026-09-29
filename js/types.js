@@ -85,6 +85,7 @@
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
  * @property {string} [path]  the class path taken at PATH_LEVEL (a PATHS id); absent until chosen, and in saves from before paths
+ * @property {string} [capstone]  the path's capstone taken at CAPSTONE_LEVEL (an id from the path's capstones); absent until chosen
  * @property {number} [nextMercy]  a Healer's mending under Protection: the next hit point from then
  * @property {number} [held]    cannot act until then: frozen by a ghoul's touch, or knocked down by a charge
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
@@ -172,6 +173,7 @@
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast
  * @property {boolean} [trapsKnown]  an encounter told the hero where this floor's traps are
+ * @property {boolean} [stoodFast]  Undying or Miracle has already turned a killing blow on this floor
  * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
  * @property {Array<{x: number, y: number, w: number, h: number}>} rooms

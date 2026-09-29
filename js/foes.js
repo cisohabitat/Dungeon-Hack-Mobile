@@ -929,7 +929,7 @@ export function makeFoes(K) {
       if (dot.next > dot.until) m.dot = null;
       else {
         dot.next += 1000;
-        K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : K.elemental(m, d(1, 4), 'fire'), dot.kind);
+        K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : K.elemental(m, d(1, dot.die || 4), 'fire'), dot.kind);
         if (!L.monsters.includes(m) || m.collapsed) return false;
       }
     }

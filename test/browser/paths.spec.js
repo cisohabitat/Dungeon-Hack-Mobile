@@ -118,6 +118,42 @@ test.describe('paths', () => {
     expect(errors).toEqual([]);
   });
 
+  test('at level 9 a hero on a path masters it: two capstones, a second tap, and the one taken on the Hero sheet', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'capstone-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { const p = Game.player(); p.path = 'berserker'; p.level = 8; p.xp = XP_TABLE[7]; });
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('At hero level 9 you master your path: Undying or Bloodlust.');
+    await page.click('#ov-char [data-close]');
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.xp = XP_TABLE[8] - 1; p.perkHit = 60;
+      L.monsters.push({ uid: 9, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    });
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 9: master your path');
+    await expect(page.locator('#boon-list')).toContainText('takes the place of this level\'s lesson');
+    const cards = page.locator('.boon.path');
+    await expect(cards).toHaveCount(2);
+    await expect(cards.nth(0).locator('b')).toHaveText('Undying');
+    await expect(cards.nth(1).locator('b')).toHaveText('Bloodlust');
+    await expect(cards.nth(0).locator('.path-effects li')).toContainText('1 hit point');
+    await cards.nth(0).click();
+    await expect(cards.nth(0).locator('.path-confirm')).toHaveText('Tap again to master Undying');
+    expect(await page.evaluate(() => Game.player().capstone || null)).toBeNull();
+    await cards.nth(0).click();
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.player().capstone)).toBe('undying');
+    await page.click('[data-open="char"]');
+    const sheet = page.locator('#char-sheet');
+    await expect(sheet.locator('.path-sheet').first().locator('b')).toHaveText('Berserker');
+    await expect(sheet.locator('.path-sheet.capstone b')).toHaveText('Undying');
+    await expect(sheet).not.toContainText('you master your path');
+    expect(errors).toEqual([]);
+  });
+
   test('before level 5 the Hero sheet says which paths are ahead', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

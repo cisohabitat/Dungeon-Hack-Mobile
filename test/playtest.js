@@ -131,6 +131,14 @@ function play(ctx, cls, seed, opts, bg, idx) {
         Game.chooseBoon(rec.path);
         continue;
       }
+      // a capstone: each of the two in turn, by pairs of runs so that it does not follow the path's turn;
+      // HEROCAP=none walks past it, to measure what the capstones add
+      if (Game.isCapstoneOffer(offer)) {
+        if (process.env.HEROCAP === 'none') { Game.state().pendingBoons.shift(); Game.state().pendingLevels.shift(); continue; }
+        rec.capstone = offer.includes(process.env.HEROCAP) ? process.env.HEROCAP : offer[Math.floor(idx / 2) % offer.length];
+        Game.chooseBoon(rec.capstone);
+        continue;
+      }
       // a talent by what a sensible player of each class would reach for first
       const order = ['second_wind', 'weapon_master', 'bulwark', 'stand_firm', 'cleave', 'riposte', 'shield_slam',
         'last_rites', 'healing_hands', 'sanctified', 'warding_light', 'zeal', 'radiance',

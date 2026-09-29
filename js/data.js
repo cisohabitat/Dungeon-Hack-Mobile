@@ -173,6 +173,8 @@ const TALENTS = {
 // each gives up something, or asks for something, in return. game.js honours
 // each by id (see its paths block); effects are what the player is told.
 const PATH_LEVEL = 5;
+/** At this level a hero on a path masters it: one of the path's two capstones, in place of that level's lesson. */
+const CAPSTONE_LEVEL = 9;
 
 // Vows: a harder run chosen at the start, open once any hero has won on Hard.
 // Each one kept to a win (on Normal or Hard, on one life) is a trophy of its own.
@@ -209,12 +211,18 @@ const PATHS = {
       'With a shield up, one ordinary blow in eight that lands is caught on it for half damage.',
       'A warned trick that lands does a quarter less to you.',
       'Your Bash sets a foe back most of a second longer.',
+    ], capstones: [
+      { id: 'unbreakable', name: 'Unbreakable', flavour: 'The shield is not held any more. It is where you are.', effects: ['With a shield up, one ordinary blow in four that lands is caught on it for half, not one in eight.'] },
+      { id: 'rally', name: 'Rallying Bash', flavour: 'Every blow you turn aside puts heart back into you.', effects: ['Your Bash comes back twice as fast, and each one that lands heals you 1d6.'] },
     ] },
     { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
       '+1 damage with every blow for each sixth of your life you have lost, up to +4.',
       'Below half your life, your swing comes a tenth sooner.',
       'You fight open: 2 less armour class, whatever you wear.',
       'Your Bash is a blow of its own, rage and all.',
+    ], capstones: [
+      { id: 'undying', name: 'Undying', flavour: 'Not yet. Not while there is anything left to hit.', effects: ['Once on each floor, a blow that would kill you leaves you standing on 1 hit point.'] },
+      { id: 'bloodlust', name: 'Bloodlust', flavour: 'It is not the wounds that feed you now. It is the kills.', effects: ['Your rage grows to +6, not +4, and every foe you fell heals you 1d4.'] },
     ] },
   ],
   cleric: [
@@ -222,11 +230,17 @@ const PATHS = {
       'Your blows deal +1d3 to the undead (more with Sanctified).',
       'Bless lasts twice as long (four times with Zeal).',
       'Holy Smite deals a tenth more.',
+    ], capstones: [
+      { id: 'dawnbringer', name: 'Dawnbringer', flavour: 'Where you walk, the dead remember they are dead.', effects: ['Your blows deal +1d6 to the undead, not +1d3.'] },
+      { id: 'crusade', name: 'Crusader\'s Smite', flavour: 'The Smite is not a prayer any more. It is a verdict.', effects: ['Holy Smite deals a quarter more, not a tenth, and costs a spell point less.'] },
     ] },
     { id: 'healer', name: 'Healer', flavour: 'You came down to bring people back up. That includes you.', effects: [
       'Your healing spells heal a quarter more.',
       'While Protection is upon you, you heal a hit point every four seconds, even mid-fight.',
       '+1 spell point for every three hero levels.',
+    ], capstones: [
+      { id: 'wellspring', name: 'Wellspring', flavour: 'The well does not run dry. You have stopped asking it to.', effects: ['Your healing spells cost a spell point less.'] },
+      { id: 'miracle', name: 'Miracle', flavour: 'Something answers when you fall, and it has always answered.', effects: ['Once on each floor, a blow that would kill you heals you to half your life instead.'] },
     ] },
   ],
   mage: [
@@ -234,11 +248,17 @@ const PATHS = {
       'Burning Hands and the Scroll of Fire deal a fifth more.',
       'Your fire leaves what it hits burning, 1d4 a second for three seconds (six with Kindling).',
       'You have given up the cold for the fire: Lightning Bolt costs a spell point more, Cone of Cold two.',
+    ], capstones: [
+      { id: 'inferno', name: 'Inferno', flavour: 'It was never enough to burn. It has to consume.', effects: ['Your fire spells and the Scroll of Fire deal a third more, not a fifth.'] },
+      { id: 'wildfire', name: 'Wildfire', flavour: 'What you set alight stays alight.', effects: ['What your fire leaves burning takes 1d6 a second, not 1d4, for twice as long.'] },
     ] },
     { id: 'frostweaver', name: 'Frostweaver', flavour: 'Cold is patience made into a weapon. Let them come to you slowly.', effects: [
       'Lightning and Cone of Cold hold back everything they hit by most of a second (twice that with Rime).',
       'Shield gives +5 armour class, not +4, and lasts a minute and a half.',
       'Lightning Bolt costs 4 spell points, not 5, and Cone of Cold 8, not 10.',
+    ], capstones: [
+      { id: 'deep_winter', name: 'Deep Winter', flavour: 'The cold settles in the joints, and stays.', effects: ['Your lightning and cold hold back what they hit twice as long.'] },
+      { id: 'ice_armour', name: 'Ice Armour', flavour: 'The shield grows thick with rime, and does not melt.', effects: ['Shield gives +7 armour class, not +5.'] },
     ] },
   ],
   thief: [
@@ -247,12 +267,18 @@ const PATHS = {
       'Your critical hits land one number sooner on the die.',
       'Sleeping monsters notice you a square later.',
       'Your Smoke hangs half as long again.',
+    ], capstones: [
+      { id: 'death_mark', name: 'Death Mark', flavour: 'They were dead the moment you chose them.', effects: ['A strike from the shadows deals one more time its damage: four times (five with Assassinate).'] },
+      { id: 'shadows_edge', name: 'Shadow\'s Edge', flavour: 'You no longer look for the gap. You make it.', effects: ['Your critical hits land two numbers sooner on the die, not one.'] },
     ] },
     { id: 'trickster', name: 'Trickster', flavour: 'Never where the blow lands, and always leaving with more than you brought.', effects: [
       'One ordinary blow in eight that would land, you slip aside from.',
       'A blow that swings at the air where you stood leaves its maker open, as an answered trick does.',
       '+4 to spot and to dodge a trap, and gold and gems you find are worth a quarter more.',
       'Your Smoke comes back in 16 seconds, not 24.',
+    ], capstones: [
+      { id: 'vanish', name: 'Vanish', flavour: 'Where you were is a trick of the light.', effects: ['One ordinary blow in five that would land, you slip aside from, not one in eight.'] },
+      { id: 'quick_smoke', name: 'Quick Smoke', flavour: 'There is always another pellet, somehow.', effects: ['Your Smoke comes back in 10 seconds, not 16.'] },
     ] },
   ],
   ranger: [
@@ -261,12 +287,18 @@ const PATHS = {
       'With a bow, a sling or throwing knives, your critical hits land one number sooner on the die.',
       'Your first arrow at a foe that has not seen you never misses.',
       'Snare reaches two squares further.',
+    ], capstones: [
+      { id: 'deadeye', name: 'Deadeye', flavour: 'Farther is easier. You have stopped explaining it.', effects: ['An arrow at a foe three squares off or more deals 5 more damage, not 3.'] },
+      { id: 'swift_draw', name: 'Swift Draw', flavour: 'Nock, draw, loose: one movement, and then another.', effects: ['A bow or a sling draws a fifth faster.'] },
     ] },
     { id: 'warden', name: 'Warden', flavour: 'Holds the line where the dark comes through, and lets nothing past.', effects: [
       'Your armour class is 1 better.',
       'Snare\'s cord bites (1d6 and your Dexterity) and holds a second longer.',
       'A snared foe takes 2 more damage from every blow and arrow of yours.',
       'Snare comes back three seconds sooner.',
+    ], capstones: [
+      { id: 'iron_snare', name: 'Iron Snare', flavour: 'What you catch does not get free to fight you whole.', effects: ['A snared foe takes 4 more damage from every blow and arrow of yours, not 2.'] },
+      { id: 'wild_bulwark', name: 'Wild Bulwark', flavour: 'The line holds because you are the line.', effects: ['Your armour class is 3 better, not 1.'] },
     ] },
   ],
 };
@@ -746,4 +778,4 @@ const SPRITES = {
 /** Floor dressing that stands against a wall rather than out in a room (see dressing.js). */
 const WALL_PROPS = ['barrel', 'crate', 'urn'];
 
-export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS };
+export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS };

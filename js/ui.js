@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, VOWS } from './data.js';
+import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29', text: 'the Dread Lich is now the real last fight, some who know a floor will tell you where its traps lie (a red \u00d7 on your map), the pack says how far a bow reaches, the forge asks less for its last steps, and a caged goblin waits on some delves.' };
+  const NEWS = { id: '2026-09-29b', text: 'a hero on a path now masters it at level 9: one of two capstones, in place of that level\'s lesson.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1502,7 +1502,7 @@ const UI = (() => {
   function renderBoons() {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
-    if (Game.isPathOffer(offer)) { renderPaths(offer); return; }
+    if (Game.isPathOffer(offer) || Game.isCapstoneOffer(offer)) { renderPaths(offer); return; }
     const p = Game.player();
     const talents = TALENTS[p.cls] || [];
     const isTalent = offer.some(id => talents.some(t => t.id === id));
@@ -1519,6 +1519,7 @@ const UI = (() => {
     const nextTalent = level + (level % 2 === 0 ? 2 : 1);   // talents come at the even levels
     if (nextTalent <= MAX_LEVEL) bits.push(isTalent ? `next talent at level ${nextTalent}` : (nextTalent === level + 1 ? 'a talent at the next level' : `next talent at level ${nextTalent}`));
     if (!p.path && level < PATH_LEVEL && PATHS[p.cls]) bits.push(`your path at level ${PATH_LEVEL}`);
+    else if (p.path && !p.capstone && level < CAPSTONE_LEVEL) bits.push(`you master your path at level ${CAPSTONE_LEVEL}`);
     const head = document.createElement('p');
     head.className = 'boon-head';
     head.textContent = bits.join(' \u00b7 ');
@@ -1559,11 +1560,13 @@ const UI = (() => {
     return `<small class="path-warn">${why}: the first two need a shield.</small>`;
   }
   // The class's two paths, once a run: set apart from lessons and talents
-  // because it is the bigger choice, and it cannot be undone.
+  // because it is the bigger choice, and it cannot be undone. The path's two
+  // capstones later are the same kind of choice, and shown the same way.
   function renderPaths(offer) {
-    const p = Game.player(), paths = PATHS[p.cls] || [];
+    const p = Game.player(), mastery = Game.isCapstoneOffer(offer);
+    const paths = mastery ? (Game.pathOf() || { capstones: [] }).capstones : PATHS[p.cls] || [];
     const level = Game.pendingLevel(), got = Game.levelNote(level);
-    $('#boon-title').textContent = `Hero level ${level}: choose your path`;
+    $('#boon-title').textContent = mastery ? `Hero level ${level}: master your path` : `Hero level ${level}: choose your path`;
     const el = $('#boon-list');
     el.innerHTML = '';
     // held sideways, the paths sit side by side: one under the other, the second was below the fold
@@ -1578,8 +1581,9 @@ const UI = (() => {
     note.className = 'dim small';
     // at the path's own level it is instead of the lesson; a hero who came past
     // that level before there were paths gets it on top of what the level gives
-    const inPlace = Game.pendingLevel() === PATH_LEVEL;
-    note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} chooses a path here. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
+    const inPlace = Game.pendingLevel() === (mastery ? CAPSTONE_LEVEL : PATH_LEVEL);
+    if (mastery) note.textContent = `The ${Game.pathOf().name}'s path ends in one of two masteries. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
+    else note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} chooses a path here. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
     el.appendChild(note);
     const openedAt = performance.now();
     for (const id of offer) {
@@ -1598,7 +1602,7 @@ const UI = (() => {
         if (!btn.classList.contains('armed')) {
           for (const b of $$('#boon-list .boon.path.armed')) b.dispatchEvent(new Event('disarm'));
           btn.classList.add('armed');
-          btn.insertAdjacentHTML('beforeend', `<span class="path-confirm">Tap again to take the ${escapeHtml(x.name)}'s path</span>`);
+          btn.insertAdjacentHTML('beforeend', `<span class="path-confirm">${mastery ? `Tap again to master ${escapeHtml(x.name)}` : `Tap again to take the ${escapeHtml(x.name)}'s path`}</span>`);
           return;
         }
         Game.chooseBoon(id);
@@ -2133,7 +2137,12 @@ const UI = (() => {
     let extra = '';
     // the path taken, or the two still ahead
     const paths = PATHS[p.cls] || [];
-    if (path) extra += `<h3 class="sheet-h">Path</h3><div class="path-sheet" data-path="${path.id}">${pathCard(path)}</div>`;
+    if (path) {
+      const cap = Game.capstoneOf();
+      extra += `<h3 class="sheet-h">Path</h3><div class="path-sheet" data-path="${path.id}">${pathCard(path)}</div>`;
+      if (cap) extra += `<div class="path-sheet capstone" data-capstone="${cap.id}">${pathCard(cap)}</div>`;
+      else if (path.capstones) extra += `<p class="dim small">${p.level < CAPSTONE_LEVEL ? `At hero level ${CAPSTONE_LEVEL}` : 'At your next level'} you master your path: ${path.capstones.map(x => `<b>${escapeHtml(x.name)}</b>`).join(' or ')}.</p>`;
+    }
     else if (paths.length) extra += `<h3 class="sheet-h">Path</h3><p class="dim small">${p.level < PATH_LEVEL ? `At hero level ${PATH_LEVEL}` : 'At your next level'} you choose your path: ${paths.map(x => `<b>${escapeHtml(x.name)}</b>`).join(' or ')}.</p>`;
     // every power the hero's gear gives, relic or plain, with the slot it is in
     const worn = [];

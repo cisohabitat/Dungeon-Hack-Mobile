@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
+import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
@@ -287,12 +287,21 @@ const Game = (() => {
   const onPath = id => P().path === id;
   /** The hero's path as PATHS describes it, or null before one is chosen. */
   const pathOf = (p = P()) => (PATHS[p.cls] || []).find(x => x.id === p.path) || null;
+  // At CAPSTONE_LEVEL a hero on a path masters it: one of its two capstones,
+  // each a harder edge on something the path already does, so a run's last
+  // floors have something new in them where before the path was the end of it.
+  /** Whether the hero has taken this capstone. */
+  const capped = id => P().capstone === id;
+  /** The hero's capstone as PATHS describes it, or null. */
+  const capstoneOf = (p = P()) => { const x = pathOf(p); return (x && (x.capstones || []).find(c => c.id === p.capstone)) || null; };
+  /** A share more, true on every roll rather than only on big numbers (see aTenthMore). */
+  const moreBy = (n, f) => { const x = n * (1 + f), whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
   // Knight: the shield is the point. A guard needs one up; the footing does not.
   /** More armour from a Knight's shield. */
   const knightShieldAC = () => (onPath('knight') ? 1 : 0);
   /** An ordinary blow that lands on a Knight with a shield up: one in eight is caught on it, for half. */
   function knightGuard(dmg) {
-    if (!onPath('knight') || !P().eq.shield || d(1, 8) !== 1) return dmg;
+    if (!onPath('knight') || !P().eq.shield || d(1, capped('unbreakable') ? 4 : 8) !== 1) return dmg;
     return Math.max(1, Math.ceil(dmg / 2));
   }
   /** A warned trick that lands on a Knight does a quarter less (after Stand Firm, if taken). */
@@ -302,7 +311,9 @@ const Game = (() => {
   function berserkerRage() {
     const p = P();
     if (!onPath('berserker')) return 0;
-    return Math.max(0, Math.min(4, Math.floor(6 * (1 - p.hp / p.maxHp))));
+    // Bloodlust's rage climbs faster as well as higher, or its +6 would only come at no life at all
+    const deep = capped('bloodlust');
+    return Math.max(0, Math.min(deep ? 6 : 4, Math.floor((deep ? 8 : 6) * (1 - p.hp / p.maxHp))));
   }
   /** Below half their life a Berserker's swing comes a tenth sooner. */
   const berserkerFrenzy = () => (onPath('berserker') && P().hp < P().maxHp / 2 ? 0.9 : 1);
@@ -310,7 +321,7 @@ const Game = (() => {
   const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
   // Templar: the front-line priest.
   /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
-  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
+  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, capped('dawnbringer') ? 6 : 3) : 0);
   /** Holy Smite in a Templar's hands deals a tenth more. */
   /**
    * A tenth more, true on every cast rather than only on big numbers: what
@@ -318,7 +329,7 @@ const Game = (() => {
    * stayed 4, and most early Smites and heals were that small.
    */
   const aTenthMore = n => { const x = n * 1.1, whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
-  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? aTenthMore(dmg) : dmg);
+  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? (capped('crusade') ? moreBy(dmg, 0.25) : aTenthMore(dmg)) : dmg);
   // Healer: mending, and the points to spend on it.
   /**
    * A Healer's healing spell heals a quarter more (after Healing Hands, if
@@ -336,18 +347,18 @@ const Game = (() => {
   }
   // Pyromancer: hotter fire that keeps burning, and the cold given up for it.
   /** The fire spells and the fire scroll in a Pyromancer's hands deal a fifth more. */
-  const pyroFire = dmg => (onPath('pyromancer') ? Math.round(dmg * 1.2) : dmg);
+  const pyroFire = dmg => (onPath('pyromancer') ? Math.round(dmg * (capped('inferno') ? 4 / 3 : 1.2)) : dmg);
   /** Whether the hero's fire leaves things burning: Kindling, or a Pyromancer's own. */
   const kindles = () => hasTalent('kindling') || onPath('pyromancer');
   /** Set what the hero's fire struck burning: three seconds, six when Kindling and the path both feed it. */
   function setBurning(m) {
-    const ms = hasTalent('kindling') && onPath('pyromancer') ? 6000 : 3000;
-    m.dot = { kind: 'burning', until: G.t + ms, next: G.t + 1000 };
+    const ms = (hasTalent('kindling') && onPath('pyromancer') ? 6000 : 3000) * (capped('wildfire') ? 2 : 1);
+    m.dot = { kind: 'burning', until: G.t + ms, next: G.t + 1000, die: capped('wildfire') ? 6 : 4 };
   }
   // Frostweaver: the cold holds things back, and the Shield holds longer.
   const FROST_SPELLS = ['lightning', 'cone_cold'];
   /** How long a spell holds back what it hits: Rime's jolt, a Frostweaver's, or both. */
-  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? 700 : 0)
+  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? (capped('deep_winter') ? 1400 : 700) : 0)
     + (FROST_SPELLS.includes(sp.id) && focusHas('storm') ? 400 : 0);
   // What a spell costs, and what a buff gives and for how long, with the paths in.
   /** Spell points a spell costs this hero. */
@@ -357,13 +368,14 @@ const Game = (() => {
     else if (sp.id === 'cone_cold' && onPath('frostweaver')) cost -= 2;
     // a Pyromancer has given the cold up for the fire, and it comes harder to them
     else if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) cost += sp.id === 'cone_cold' ? 2 : 1;
+    if ((sp.id === 'smite' && capped('crusade')) || (sp.kind === 'heal' && capped('wellspring'))) cost = Math.max(1, cost - 1);
     // the Robe of the Magi eases the great workings: five points or more cost one less
     const robe = P().eq.armor;
     if (robe && ITEMS[robe.t].cheap && cost >= 5) cost -= 1;
     return cost;
   }
   /** How much a buff gives: a Frostweaver's Shield gives one more. */
-  const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);
+  const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? (capped('ice_armour') ? 3 : 1) : 0);
   /** How long a buff lasts: Zeal and a Templar each double Bless, and a Frostweaver's Shield lasts half as long again. */
   const buffDuration = sp => sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) * (sp.id === 'bless' && onPath('templar') ? 2 : 1) * (sp.id === 'shield' && onPath('frostweaver') ? 1.5 : 1);
   const SPAN_WORDS = { 60000: 'a minute', 90000: 'a minute and a half', 120000: 'two minutes', 180000: 'three minutes', 240000: 'four minutes' };
@@ -376,7 +388,7 @@ const Game = (() => {
   }
   // Assassin: the blow from the dark.
   /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
-  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (setWorn('night') ? 1 : 0);
+  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (capped('death_mark') ? 1 : 0) + (setWorn('night') ? 1 : 0);
   /** Whether every piece of a relic set is worn at once. */
   const setWorn = (id, p = P()) => RELIC_SETS[id].pieces.every(u => Object.values(p.eq).some(it => it && it.u === u));
   /** The Order of the Dawn's pair: +1d4 on the undead. */
@@ -387,7 +399,7 @@ const Game = (() => {
   const assassinQuiet = () => (onPath('assassin') ? 1 : 0);
   // Trickster: never where the blow lands.
   /** One ordinary blow in eight that would land on a Trickster, they slip aside from. */
-  const tricksterSlip = () => onPath('trickster') && d(1, 8) === 1;
+  const tricksterSlip = () => onPath('trickster') && d(1, capped('vanish') ? 5 : 8) === 1;
   /** A Trickster's ordinary blow that swung at the air leaves its maker open, as an answered trick does. */
   function tricksterOpening(m) { if (onPath('trickster')) opening(m); }
   /** A Trickster's eye and feet for a trap. */
@@ -399,7 +411,7 @@ const Game = (() => {
   function critFloor() {
     const p = P();
     const base = p.cls !== 'thief' ? 20 : (p.level >= 9 ? 18 : 19);
-    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? 1 : 0) - (onPath('sharpshooter') && weapon().range ? 1 : 0);
+    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? (capped('shadows_edge') ? 2 : 1) : 0) - (onPath('sharpshooter') && weapon().range ? 1 : 0);
   }
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
@@ -408,7 +420,7 @@ const Game = (() => {
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, px: '', range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
     // a ranger's talents for the bow: a sixth quicker, and two squares further
-    const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1);
+    const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1) * (b.aimed && capped('swift_draw') ? 0.8 : 1);
     const reach = (b.range || 0) + (b.range && hasTalent('eagle_eye') ? 2 : 0);
     return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: reach, blunt: !!b.blunt };
   }
@@ -427,7 +439,7 @@ const Game = (() => {
     // a two-hander stows the second blade, and a blade moved to the main hand leaves it empty
     const dual = !!p.eq.offhand && p.eq.offhand !== it && !(b && b.twoHanded);
     const base = b ? b.speed : 450;
-    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
+    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1) * (b && b.aimed && capped('swift_draw') ? 0.8 : 1);
     const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
     const finesse = p.cls === 'thief' || p.cls === 'ranger';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
@@ -910,7 +922,7 @@ const Game = (() => {
     // thieves and rangers stay alive by not being where the blow lands (a ranger
     // without it won 59% on Normal and 33% on Hard, well below the others)
     if (p.cls === 'thief' || p.cls === 'ranger') ac += Math.floor((p.level + 2) / 3);
-    if (onPath('warden')) ac += 1;
+    if (onPath('warden')) ac += capped('wild_bulwark') ? 3 : 1;
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
@@ -2448,6 +2460,8 @@ const Game = (() => {
     { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {
+      // Bloodlust: every foe the hero fells gives a little back
+      if (capped('bloodlust') && tag !== 'companion') healPlayer(d(1, 4));
       // in a group the front one falls and the next steps up; the square
       // empties only when the last of them is down
       if (m.pack && m.pack.length) { m.dot = null; memberDown(m, note); promote(m); return; }
@@ -2615,6 +2629,9 @@ const Game = (() => {
       // past it without one (a save from before paths) is offered it as well
       const path = p.level >= PATH_LEVEL && offerPath();
       if (path && p.level === PATH_LEVEL) continue;
+      // and at CAPSTONE_LEVEL, a hero on a path masters it, again in place of the lesson
+      const capstone = p.level >= CAPSTONE_LEVEL && offerCapstone();
+      if (capstone && p.level === CAPSTONE_LEVEL) continue;
       if (p.level % 2 === 0) offerTalents(); else offerBoons();
     }
   }
@@ -2642,7 +2659,7 @@ const Game = (() => {
   function redrawOffers() {
     const rest = G.pendingBoons || [];
     for (let i = 0; i < rest.length; i++) {
-      if (isPathOffer(rest[i])) continue;      // the two paths stand as they are
+      if (isPathOffer(rest[i]) || isCapstoneOffer(rest[i])) continue;      // the two paths, or capstones, stand as they are
       const talentOffer = rest[i].some(id => (TALENTS[P().cls] || []).some(t => t.id === id));
       const pool = (talentOffer ? talentPool() : boonPool()).map(b => b.id);
       const keep = rest[i].filter(id => pool.includes(id));
@@ -2684,6 +2701,17 @@ const Game = (() => {
     emit('boons');
     return true;
   }
+  /** An offer of the path's two capstones. */
+  function isCapstoneOffer(offer) { const x = pathOf(); return !!offer && !!x && offer.some(id => (x.capstones || []).some(c => c.id === id)); }
+  /** The path's two capstones, once, for a hero on a path without one and not already being offered them. */
+  function offerCapstone() {
+    const p = P(), x = pathOf(p);
+    if (G.bossDown || !x || !(x.capstones || []).length || p.capstone || (G.pendingBoons || []).some(isCapstoneOffer)) return false;
+    G.pendingBoons = (G.pendingBoons || []).concat([x.capstones.map(c => c.id)]);
+    G.pendingLevels = (G.pendingLevels || []).concat(p.level);
+    emit('boons');
+    return true;
+  }
   /** The level the offer now showing was earned at. */
   function pendingLevel() { return G.pendingLevels && G.pendingLevels.length ? G.pendingLevels[0] : P().level; }
   /** What a level brought besides the choice: hit points, and any spell learned. */
@@ -2704,6 +2732,19 @@ const Game = (() => {
       G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
       redrawOffers();
       log(`You walk the path of the ${path.name}. ${path.effects.join(' ')}`, 'good');
+      // a hero who came to the path past the capstone's level (an old save) has it offered next
+      if (p.level >= CAPSTONE_LEVEL) offerCapstone();
+      Sound.play('levelup');
+      emit('stats');
+      if (!pendingBoons()) emit('boonsDone');
+      return true;
+    }
+    const capstone = isCapstoneOffer(offer) && (pathOf(p).capstones || []).find(c => c.id === id);
+    if (capstone) {
+      p.capstone = id;
+      G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
+      redrawOffers();
+      log(`You master the ${pathOf(p).name}'s path: ${capstone.name}. ${capstone.effects.join(' ')}`, 'good');
       Sound.play('levelup');
       emit('stats');
       if (!pendingBoons()) emit('boonsDone');
@@ -2814,6 +2855,13 @@ const Game = (() => {
       fx.healAt = realNow;
       Sound.play('heal');
       emit('inv');
+    }
+    // a capstone's stand, once on each floor: Undying stays up on 1, a Miracle mends half
+    const L = lvl();
+    if (p.hp <= 0 && (capped('undying') || capped('miracle')) && L.stoodFast !== true) {
+      L.stoodFast = true;
+      if (capped('undying')) { p.hp = 1; log('Not yet. You should have fallen, and you are still standing. It will not hold twice on this floor.', 'good'); }
+      else { noteHealed(Math.ceil(p.maxHp / 2)); p.hp = Math.ceil(p.maxHp / 2); fx.healAt = realNow; Sound.play('heal'); log('A miracle: something answers as you fall, and you rise half mended. It will not come twice on this floor.', 'good'); }
     }
     if (p.hp <= 0 && hasTalent('last_rites') && !p.ritesUsed) {
       p.hp = 1; p.ritesUsed = true; p.sp = 0;
@@ -3254,7 +3302,7 @@ const Game = (() => {
   const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
+  const abilityCool = a => (a.id === 'bash' && capped('rally') ? 0.5 : 1) * (a.id === 'smoke' && onPath('trickster') ? (capped('quick_smoke') ? 10000 : 16000) : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
@@ -3309,10 +3357,10 @@ const Game = (() => {
     const p = P();
     if (!atRange || p.cls !== 'ranger' || !(p.eq.weapon && ITEMS[p.eq.weapon.t].aimed)) return 0;
     const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-    return STEADY_AIM + (onPath('sharpshooter') && far >= 3 ? 3 : 0);
+    return STEADY_AIM + (onPath('sharpshooter') && far >= 3 ? (capped('deadeye') ? 5 : 3) : 0);
   }
   /** A Warden's snared foe takes 2 more from every blow and arrow. */
-  const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? 2 : 0);
+  const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? (capped('iron_snare') ? 4 : 2) : 0);
   function bash(a, p) {
     const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
     if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
@@ -3329,6 +3377,8 @@ const Game = (() => {
     meet(m);
     Sound.play('block', heard(m));
     log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
+    // a Rallying Bash puts heart back into the one who swings it
+    if (capped('rally')) healPlayer(d(1, 6));
     // a Berserker puts weight behind it: the bash is a blow of its own
     if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
     // Shield Slam: it goes back a square, if the square behind it is open, and is dazed a second
@@ -4236,7 +4286,7 @@ const Game = (() => {
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
-    pendingBoons, chooseBoon, isPathOffer, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
