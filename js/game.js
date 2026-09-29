@@ -375,6 +375,8 @@ const Game = (() => {
     // a Shapeshifter reaches the bear more easily, and the words less so
     if (onPath('shapeshifter')) cost += sp.id === 'wild_shape' ? -1 : 1;
     if (sp.id === 'mending_moss' && capped('heartwood')) cost = Math.max(1, cost - 1);
+    // an overgrown floor is a druid's own ground
+    if (P().cls === 'druid' && G && G.levels && lvl() && lvl().twist === 'overgrown') cost = Math.max(1, cost - 1);
     // the Robe of the Magi eases the great workings: five points or more cost one less
     const robe = P().eq.armor;
     if (robe && ITEMS[robe.t].cheap && cost >= 5) cost -= 1;
@@ -1985,6 +1987,14 @@ const Game = (() => {
   // keeps the hero on their feet. The trick's own answer (step aside, turn
   // away) still escapes it whole: the save is for when that fails. All grow
   // harder with depth, as venom does.
+  const MOSS_HIDES = 4;
+  /** What the hero adds to the Wisdom check that spots a trap underfoot. */
+  function trapEye() {
+    const p = P();
+    // (moss over an overgrown floor hides the flagstone, from all but a druid, who reads it)
+    const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
+    return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
+  }
   const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
@@ -2001,14 +2011,14 @@ const Game = (() => {
   /** Which picture a trap going off gets. */
   const trapKindOf = tr => Object.keys(TRAP_TYPES).find(id => TRAP_TYPES[id] === tr) || '';
   function triggerTrap(k) {
-    const L = lvl(), p = P();
+    const L = lvl();
     const tr = TRAP_TYPES[L.traps[k]];
     delete L.traps[k];
     if (L.trapsKnown) { log(`You step round the ${tr.name} you were told of.`, 'good'); return; }
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
     // tombwise. No eye for it, no lucky twenty: it is noticed or not
-    const eye = (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps();
+    const eye = trapEye();
     const seen = statCheck('wis', saveDC('spot'), eye, { natural: false });
     // each is seen as it goes off (see the renderer); a dart comes from one wall or the other
     const [tx, ty] = k.split(',').map(Number);
@@ -4474,7 +4484,7 @@ const Game = (() => {
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     /** A druid in Wild Shape: whether, and the status line's words for it. */
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
-    hurtPlayer, spMax,
+    hurtPlayer, spMax, trapEye,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,

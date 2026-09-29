@@ -169,6 +169,19 @@ const Renderer = (() => {
     ctx.globalCompositeOperation = 'source-over';
   }
 
+  // Moss over an overgrown floor: the stone greened, and patches of it thicker
+  // here and there, fixed to the floor's own squares so they do not swim as you turn.
+  function mossFloor() {
+    const half = H / 2;
+    ctx.fillStyle = 'rgba(40,78,30,0.34)';
+    ctx.fillRect(0, half + 1, W, half - 1);
+    for (let y = half + 2; y < H; y += 2) {
+      const near = (y - half) / half;
+      ctx.fillStyle = `rgba(70,120,44,${(0.05 + 0.1 * near).toFixed(3)})`;
+      for (let x = (y * 7) % 23; x < W; x += 23 + (y % 5)) ctx.fillRect(x, y, 3 + Math.round(near * 6), 1);
+    }
+  }
+
   // Dust: a few dozen motes kept in the air around the hero, drifting slowly
   // and sinking, each one gone and put back somewhere near when it strays too
   // far. They show faintly in the dark and brighter where a torch's light
@@ -1174,6 +1187,7 @@ const Renderer = (() => {
     if (reach !== fog) { fog = reach; buildRows(); }
     castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
     if (level.twist === 'flooded') floodFloor(now);
+    if (level.twist === 'overgrown') mossFloor();
     // stains lie on the floor, so the walls drawn next hide them where they should;
     // standing water first, blood over it
     drawStains(puddlesOf(level), level, px, py, dirX, dirY, planeX, planeY, lm, now);

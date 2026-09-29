@@ -962,7 +962,7 @@ const UI = (() => {
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
     // a floor readier for a strong hero says so while you are on it
-    if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
+    if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' || (L.twist === 'overgrown' && p.cls === 'druid') ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
     if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Foes +${Game.pressSturdier(L)}%</span>`);
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');

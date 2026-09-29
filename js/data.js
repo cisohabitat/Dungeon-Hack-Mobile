@@ -426,6 +426,7 @@ const TWISTS = {
   flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too.', chip: 'Black water: you and everything here move a quarter slower' },
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
+  overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow in the corners.', chip: 'Moss hides the traps: harder to spot. Pale caps to eat grow here. A druid is at home: their spells cost a point less' },
 };
 
 const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
@@ -529,6 +530,8 @@ const ITEMS = {
   ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 45 },
   meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
   bread:  { kind: 'food', name: 'Stale Bread', stack: true, value: 1, sprite: 'bread',  food: 18 },
+  // grown only on an overgrown floor, never dealt as loot
+  caps:   { kind: 'food', name: 'Pale Caps',   stack: true, value: 1, sprite: 'caps',   food: 22 },
   // special
   key:      { kind: 'key', name: 'Key', sprite: 'key', value: 0, desc: 'Opens one locked door of matching colour on this floor.' },
   page:     { kind: 'page', name: 'Torn Page', sprite: 'page', value: 0, desc: 'Something one of the earlier crews left behind.' },

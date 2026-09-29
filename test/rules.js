@@ -10795,6 +10795,36 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('an overgrown floor: dealt over floors already twisted, caps to eat, traps hidden in the moss, a druid at home', async () => {
+    const out = [];
+    const ctx = await druid('overgrown', 5, { levels: 8 });
+    const { Game, Dungeon, SPELLS } = ctx;
+    // it takes some floors already twisted and changes nothing else in the plan
+    let seen = 0;
+    for (let i = 0; i < 200; i++) {
+      const seed = 'og-' + i, a = Dungeon.twistPlan(seed, 8), b = Dungeon.twistPlan(seed, 8, false);
+      if (Object.keys(a).join() !== Object.keys(b).join()) { out.push(`${seed}: twisted floors ${Object.keys(a)} against ${Object.keys(b)}`); break; }
+      for (const d in a) { if (a[d] === 'overgrown') { seen++; if (b[d] === 'market') out.push(`${seed}: a goblin market overgrown`); } else if (a[d] !== b[d]) out.push(`${seed}: floor ${d} ${b[d]} became ${a[d]}`); }
+    }
+    if (seen < 20) out.push(`only ${seen} overgrown floors in 200 runs`);
+    // caps grow on its floor
+    const og = (() => { for (let i = 0; i < 200; i++) { const p = Dungeon.twistPlan('og-' + i, 8); for (const d in p) if (p[d] === 'overgrown') return ['og-' + i, +d]; } return null; })();
+    const L = Dungeon.generate(og[0], og[1], { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+    const caps = Object.values(L.items).flat().filter(i => i.t === 'caps');
+    if (L.twist !== 'overgrown' || caps.length !== 3) out.push(`an overgrown floor grew ${caps.length} caps (twist ${L.twist})`);
+    // traps hide under the moss from all but a druid; a druid's spells cost a point less
+    const lv = Game.level(), p = Game.player();
+    const eyeDruid = Game.trapEye(), lash = SPELLS.druid.find(s => s.id === 'thorn_lash'), shape = SPELLS.druid.find(s => s.id === 'wild_shape');
+    const c0 = [Game.spellCost(lash), Game.spellCost(shape)];
+    lv.twist = 'overgrown';
+    if (Game.trapEye() !== eyeDruid) out.push(`the moss hid a trap from a druid: ${eyeDruid} -> ${Game.trapEye()}`);
+    if (Game.spellCost(lash) !== Math.max(1, c0[0] - 1) || Game.spellCost(shape) !== c0[1] - 1) out.push(`on an overgrown floor a druid's spells cost ${Game.spellCost(lash)}/${Game.spellCost(shape)}, elsewhere ${c0}`);
+    p.cls = 'thief';
+    const eyeThief = Game.trapEye(); lv.twist = null;
+    if (Game.trapEye() - eyeThief !== 4) out.push(`the moss took ${Game.trapEye() - eyeThief} from a thief's eye, want 4`);
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
     const out = [];
     const ctx = await newContext();

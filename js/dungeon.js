@@ -83,7 +83,8 @@ function namedPlan(seed, levels, route) {
  * @returns {Record<number, string>} plan[depth] = twist id
  */
 const TWIST_IDS = ['dark', 'flooded', 'restless', 'market'];
-function twistPlan(seed, levels) {
+/** @param {string} seed @param {number} levels @param {boolean} [grow] false leaves out the overgrown floors (for the rules' own checks) */
+function twistPlan(seed, levels, grow = true) {
   const rng = new Rng(`${seed}|twists`);
   const named = namedPlan(seed, levels);
   const ids = rng.shuffle(TWIST_IDS.slice());
@@ -103,8 +104,13 @@ function twistPlan(seed, levels) {
     if (id === 'market' && d < 3) continue;
     plan[d] = id; n++;
   }
+  // a fifth, overgrown, is dealt from dice of its own over the floors already
+  // twisted, so which floors those are, and all the rest, fall as they always did
+  const moss = new Rng(`${seed}|overgrown`);
+  if (grow) for (const d of Object.keys(plan).map(Number).sort((a, b) => a - b)) if (plan[d] !== 'market' && moss.next() < OVERGROWN_SHARE) plan[d] = 'overgrown';
   return plan;
 }
+const OVERGROWN_SHARE = 0.25;
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 
@@ -708,6 +714,18 @@ const Dungeon = (() => {
           delete items[k];
         }
       }
+    }
+
+    // an overgrown floor grows pale caps in its rooms, from dice of its own
+    if (twist === 'overgrown') {
+      const crng = new Rng(`${seed}|caps|${depth}`);
+      const spots = [];
+      for (const r of rooms) for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+        const k = `${x},${y}`;
+        if (tiles[idx(x, y)] !== T.FLOOR || items[k] || traps[k] || npcs.some(n => n.x === x && n.y === y) || (x === start.x && y === start.y)) continue;
+        spots.push(k);
+      }
+      for (const k of crng.shuffle(spots).slice(0, 3)) items[k] = [{ t: 'caps', q: 1 + crng.int(0, 1) }];
     }
 
     // the ordinary themes take turns down the stair; the last floor and the
