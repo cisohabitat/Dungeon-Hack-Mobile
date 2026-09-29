@@ -1983,7 +1983,7 @@ const Game = (() => {
   // and how deep the hero has come. A spider's bite is the mildest, a trap's
   // needle and a tainted draught stronger. Returns the check, or null when
   // nothing needs saving against (poisoned already, or proof against it).
-  const VENOM_DC = { bite: 7, needle: 10, draught: 11 };
+  const VENOM_DC = { bite: 7, needle: 10, draught: 11, spores: 9 };
   // A trick that lands can still be weathered: a save halves what it does
   // (stone or web for half as long, half a storm's fire) or, for a charge,
   // keeps the hero on their feet. The trick's own answer (step aside, turn
@@ -2116,9 +2116,11 @@ const Game = (() => {
     spark: { c: ['#fff4c0', '#ffd060', '#ff9030'], g: 2.5, stain: false, glow: true },
     bile: { c: ['#3e4832', '#5c6848', '#262c1e'], g: 6, stain: true },
     rust: { c: ['#8a4a1e', '#b86a2e', '#5a2c12'], g: 6, stain: true },
+    // a puffcap's spores hang in the air a moment before they settle
+    spore: { c: ['#d8d0a0', '#b8b070', '#e8e4c8'], g: 0.6, stain: false },
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
-    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto' };
+    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto', puffcap: 'spore' };
   // a named champion bleeds as its kind does
   for (const id in MONSTERS) if (MONSTERS[id].named && GORE_OF[MONSTERS[id].named.kin]) GORE_OF[id] = GORE_OF[MONSTERS[id].named.kin];
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
@@ -2445,6 +2447,8 @@ const Game = (() => {
         meet(m, 'trick');
         return;
       }
+      // a puffcap bursts at the last blow as at any other
+      sporesOn(m, mb, tag);
       killMonster(m, note);
       if (crushed) learn(m.id, 'answer');    // told after its death, not before
       return;
@@ -2465,10 +2469,11 @@ const Game = (() => {
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
     }
     moveOnHurt(m, mb, tag);
+    sporesOn(m, mb, tag);
     // Kindling, or a Pyromancer: the hero's fire keeps burning
     if (tag === 'burn' && kindles()) setBurning(m);
-    // wounded, non-boss monsters may break and run
-    if (!mb.boss && !mb.named && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
+    // wounded, non-boss monsters may break and run (a fungus has nowhere it would rather be)
+    if (!mb.boss && !mb.named && !mb.spores && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
       m.fleeing = true;
       m.windup = null; m.volley = null;
       log(`The ${mb.name} turns to flee!`, 'good');
@@ -2504,7 +2509,8 @@ const Game = (() => {
     // the two halves of a split slime are worth one slime between them
     // (whole numbers: a shade's tier can be a fraction on a short delve, and its
     // experience once ran to fourteen places, and the score after it)
-    const xp = Math.round(m.split ? Math.ceil(mb.xp / 2) : mb.xp);
+    // (a puffcap is worth what it grew over)
+    const worth = m.worth || mb.xp, xp = Math.round(m.split ? Math.ceil(worth / 2) : worth);
     p.xp = Math.round(p.xp + xp);
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
@@ -3650,10 +3656,23 @@ const Game = (() => {
    * What a floor's twist changes when it is first made (dungeon.js deals the
    * twists, and does the torches and the market itself): on a floor of the
    * restless dead, over half its ordinary creatures have risen as undead of
-   * the depth, rolled afresh.
+   * the depth, rolled afresh; on an overgrown one, puffcaps have grown up over
+   * some of them (each worth what it grew over, so the floor pays as it would).
    * @param {import('./types.js').Level} L
    */
   function twistLevel(L, depth) {
+    if (L.twist === 'overgrown') {
+      const rng = new Rng(`${G.seed}|puffcaps|${depth}`), nb = MONSTERS.puffcap;
+      for (const m of L.monsters) {
+        const b = MONSTERS[m.id];
+        if (b.boss || b.named || m.elite || m.pack || rng.next() >= PUFFCAP_SHARE) continue;
+        m.worth = b.xp;
+        m.id = 'puffcap';
+        // a die more of life for every two floors down, from its own two at the top
+        m.maxHp = m.hp = rng.dice(nb.hp[0] + Math.floor(depth / 2), nb.hp[1], nb.hp[2]);
+      }
+      return;
+    }
     if (L.twist !== 'restless') return;
     const rng = new Rng(`${G.seed}|restless|${depth}`);
     const t = Dungeon.tierAt(depth, G.opts.levels || 8);
@@ -3674,6 +3693,7 @@ const Game = (() => {
       if (el) m.maxHp = m.hp = Math.round(m.hp * el.hp);
     }
   }
+  const PUFFCAP_SHARE = 0.35;
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
@@ -4293,7 +4313,7 @@ const Game = (() => {
     houndRests: () => companion.rested(1),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },

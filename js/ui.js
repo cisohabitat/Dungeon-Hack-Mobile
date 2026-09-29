@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29j', text: 'each class card now says how it plays, and a class won with both its paths is mastered, a trophy of its own; the Ranger and the Druid (and a Druid\'s wolf) are open from the start, with a Ranger & Druid Daily; and a new floor twist, Overgrown' };
+  const NEWS = { id: '2026-09-29k', text: 'something grows on overgrown floors now: the Puffcap, a slow fungus that bursts in spores when struck from beside it (burn it, or shoot it); and each class card says how it plays, and a class won with both its paths is mastered' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -319,6 +319,32 @@ const CREATURES = {
     ];
   },
 
+  // A puffcap: a squat fungus on stubby roots, its cap swollen with spores,
+  // pale speckles on the dome, dark gills beneath, two small black eyes low on
+  // the stalk, and a haze of spores leaking from the rim.
+  puffcap: () => {
+    const cap = '#9a6a3a', capHi = '#b8844a', gill = '#5a3a2a', stalk = '#d8ccb0', shade = '#aa9c80', root = '#6a5a40';
+    return [
+      // roots splayed on the stone, the stalk thick and a little bowed
+      ...both(limb(12.5, 28, 8.5, 30.5, 1.6, 0.9, root)), limb(16, 29, 16.5, 31, 1.4, 0.8, root),
+      ball(16, 24, 5.6, 6.2, stalk), ball(14.3, 23, 2.6, 4.2, '#e8dec6'), ball(19, 25.5, 1.8, 3.2, shade),
+      // the gills, and the cap over them, wide and domed
+      ball(16, 15.8, 11.5, 2.6, gill),
+      ball(16, 12.2, 12.2, 6.4, cap), ball(13.5, 10, 7, 3.4, capHi),
+      // pale speckles on the dome
+      ball(10, 11, 1.5, 1.1, '#efe4c4'), ball(17, 8.2, 1.7, 1.2, '#efe4c4'), ball(22.5, 11.5, 1.3, 1, '#efe4c4'), ball(14, 13.6, 1, 0.8, '#efe4c4'),
+      // eyes, low on the stalk, and a slit of a mouth
+      dots([[13, 22], [14, 22], [13, 23], [14, 23], [18, 22], [19, 22], [18, 23], [19, 23]], '#140e0a'), dots([[13, 22], [18, 22]], '#fff4d8'),
+      dots([[15, 26], [16, 26.4], [17, 26]], '#6a5a40'),
+      // fine work: the rim's edge, gill lines, grain on the stalk, and the spores leaking out
+      hair(5, 15, 27, 15, '#3e2618'), hair(9, 16.2, 12, 17, '#3e2618'), hair(20, 17, 23, 16.2, '#3e2618'),
+      hair(13, 25, 13.5, 29, '#bcae90'), hair(18.5, 21, 18, 28, '#bcae90'),
+      specks([[4, 13.5], [3, 11], [28, 13], [29.5, 10.5], [6, 8.5], [26.5, 7.5], [16, 3.5], [11, 4.5], [21, 4]], '#e0dcb0'),
+      specks([[9.5, 10.5], [16.5, 7.8], [22, 11]], '#fffae8'),
+      specks([[12, 30.5], [20, 30.5], [16, 31.2]], '#4a3e2a'),
+    ];
+  },
+
   // The goblin again, hooded, with a bow drawn and an arrow on the string.
   archer: () => {
     const skin = '#6aa84a', dark = '#3f6e2c', hood = '#5a4a30', wood = '#8a6030';

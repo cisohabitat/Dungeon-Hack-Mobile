@@ -552,6 +552,27 @@ export function makeFoes(K) {
   }
   // a blow struck from beside it; not a spell, an arrow loosed from further off, or fire and poison already at work
   const HAND_BLOW = new Set([null, undefined, '', 'opening', 'crit', 'riposte', 'riposte-crit', 'lucky', 'sneak', 'offhand', 'cleave', 'bash']);
+  /**
+   * A puffcap struck by a hand from beside it bursts in spores, standing or
+   * falling: a Constitution save, or poisoned. Fire on the blade sears them
+   * first (a flaming weapon, or fire oil), and a druid breathes them as the
+   * moss does. A second blade in the same breath looses no second cloud.
+   */
+  function sporesOn(m, mb, tag) {
+    const p = K.P(), G = K.G;
+    if (!mb.spores || !HAND_BLOW.has(tag) || K.castingName || G.status !== 'playing') return;
+    if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1 || (m.sporedAt || 0) > G.t - 600) return;
+    m.sporedAt = G.t;
+    const seared = !K.shaped() && (K.hasPower('flame', 'weapon') || (p.coating && p.coating.t === 'fire' && tag !== 'offhand'));
+    if (seared) { K.log(`Fire on your blade sears the ${mb.name}'s spores before they can fly.`, 'good'); K.learn(m.id, 'answer'); return; }
+    K.spray(m, 'spore', 1.2, false);
+    Sound.play('death', K.heard(m, { gore: 'spore' }));
+    K.meet(m, 'trick');
+    if (p.cls === 'druid') { K.log(`The ${mb.name} bursts in a cloud of spores. You breathe them as the moss does, and take no harm.`, 'good'); return; }
+    const c = K.venomSave('spores', `the ${mb.name}'s`, true);
+    K.log(!c ? `The ${mb.name} bursts in a cloud of spores${p.poison ? ', but you are poisoned already' : ', and they do you no harm'}.`
+      : c.pass ? `The ${mb.name} bursts in a cloud of spores. You hold your breath through it.${c.note}` : `The ${mb.name} bursts in a cloud of spores, and you breathe them: you are poisoned!${c.note}`, c && !c.pass ? 'bad' : '');
+  }
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
     // the quills bite a hound's bite as well as a hand
@@ -1198,5 +1219,5 @@ export function makeFoes(K) {
     else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
   }
 
-  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
+  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, sporesOn, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
 }

@@ -228,6 +228,8 @@ const Sound = (() => {
     // a basilisk's thick dark blood, and the dry crackle of a rustmaw's shell giving way
     bile(out, s) { noise(out, 0.32, 0.22, { f: 500, to: 120 }); tone(lp(out, 380), 110 / s, 0.55, 'sawtooth', 0.1, -50 / s, 0.03, 0.03); },
     rust(out) { clicks(out, 14, 0.45, 1500, 0.1); noise(out, 0.35, 0.12, { type: 'bandpass', f: 900, q: 1.2, to: 300 }); tone(lp(out, 500), 160, 0.15, 'sine', 0.1, -80, 0.1); },
+    // a puffcap's cap bursting: a soft dry whump, and the spores hissing out
+    spore(out) { noise(out, 0.5, 0.16, { f: 900, to: 250, attack: 0.02 }); tone(lp(out, 400), 120, 0.25, 'sine', 0.14, -60); noise(out, 0.8, 0.05, { type: 'highpass', f: 3000, delay: 0.1 }); },
     ecto(out) { tone(out, 880, 1.1, 'sine', 0.07, -600, 0, 0.02); tone(out, 1320, 0.9, 'sine', 0.03, -900, 0.05); noise(out, 1, 0.04, { type: 'highpass', f: 2500, to: 800 }); },
   };
 

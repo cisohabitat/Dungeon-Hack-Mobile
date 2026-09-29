@@ -1024,6 +1024,28 @@ test.describe('dungeon features', () => {
     expect(wet.blue).toBeGreaterThan(plain.blue + 3);
     expect(errors).toEqual([]);
   });
+  test('a puffcap is drawn in front of you, and a blow from beside it bursts it in spores', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'feat-puffcap' });
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    const view = () => page.evaluate(() => { const c = document.getElementById('view'); return Array.from(c.getContext('2d').getImageData(0, 0, c.width, c.height).data.filter((_, i) => i % 16 === 0)); });
+    await page.evaluate(() => { Game.level().monsters.length = 0; Game.level().twist = 'overgrown'; });
+    await page.waitForTimeout(250);
+    const bare = await view();
+    const m = await placeMonster(page, 'puffcap', 2, { hp: 500, maxHp: 500 });
+    expect(m && m.name).toBe('Puffcap');
+    await page.waitForTimeout(250);
+    const withCap = await view();
+    expect(withCap.filter((v, i) => Math.abs(v - bare[i]) > 20).length).toBeGreaterThan(200);
+    // step up beside it and strike until a blow lands
+    await page.evaluate(() => { const p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir]; p.x += dx; p.y += dy; p.hp = p.maxHp = 500; p.stats.str = 30; });
+    await expect.poll(async () => {
+      await page.evaluate(() => { const p = Game.player(); p.nextAttack = 0; Game.input('attack'); });
+      return page.locator('#log').innerText();
+    }, { timeout: 8000 }).toContain('bursts in a cloud of spores');
+    expect(errors).toEqual([]);
+  });
   test('Calm view in the menu stops the shake and the dust, and is remembered', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'calm-view' });
@@ -1095,7 +1117,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('Druid');
+    await expect(p2.locator('#news-text')).toContainText('Puffcap');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

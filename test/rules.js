@@ -10842,6 +10842,87 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('an overgrown floor grows puffcaps over some of its creatures, each worth what it grew over; nowhere else', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'puff-place');
+    const { Game, Dungeon, MONSTERS } = ctx;
+    const og = (() => { for (let i = 0; i < 300; i++) { const p = Dungeon.twistPlan('pf-' + i, 8); for (const d in p) if (p[d] === 'overgrown' && +d === 2) return ['pf-' + i, +d]; } return null; })();
+    if (!og) return 'no early overgrown floor in 300 seeds';
+    Game.newGame({ name: 'P', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: og[0], opts: { ...OPTS, levels: 8 } });
+    for (let i = 0; i < 5 && Game.state().depth < og[1]; i++) Game.descend();
+    const L = Game.level();
+    if (L.twist !== 'overgrown') return `floor ${og[1]} of ${og[0]} is ${L.twist}`;
+    const raw = Dungeon.generate(og[0], og[1], { ...OPTS, levels: 8 });
+    const caps = L.monsters.filter(m => m.id === 'puffcap');
+    if (!caps.length) out.push(`no puffcaps among ${L.monsters.length} creatures`);
+    for (const m of caps) {
+      const was = raw.monsters.find(r => r.x === m.x && r.y === m.y);
+      if (!was) { out.push(`a puffcap at ${m.x},${m.y} grew over nothing`); continue; }
+      const b = MONSTERS[was.id];
+      if (b.boss || b.named || was.elite || was.pack) out.push(`a puffcap grew over a ${was.elite || ''} ${was.id}`);
+      if (m.worth !== b.xp) out.push(`a puffcap over a ${was.id} is worth ${m.worth}, want ${b.xp}`);
+    }
+    // none on an ordinary floor, and the depth never deals one
+    for (let d = 1; d <= 8; d++) for (const s of ['pf-plain-a', 'pf-plain-b']) {
+      const G2 = Dungeon.generate(s, d, { ...OPTS, levels: 8 });
+      if (G2.monsters.some(m => m.id === 'puffcap')) out.push(`${s} floor ${d} dealt a puffcap by depth`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a puffcap bursts in spores at a hand\'s blow from beside it: a save or poisoned; not at a spell, nor through fire on the blade; a druid breathes them; fire burns it well, and it never flees', async () => {
+    const out = [];
+    /** Strike a puffcap beside the hero until a blow lands. @returns {string} what was said, or '' */
+    const strike = (ctx, setup) => {
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      for (let i = 0; i < 12; i++) {
+        const m = beside(ctx, 'puffcap', { hp: 999, maxHp: 999, nextAct: 1e12 });
+        p.poison = null; setup && setup(p, m);
+        const mark = markLog(G);
+        G.t = Math.max(G.t, p.nextAttack) + 700; Game.input('attack');
+        const said = linesSince(G, mark).join(' | ');
+        if (/You hit|mighty blow/.test(said)) return said;
+      }
+      return '';
+    };
+    {
+      // a weak chest fails the save at least once in a few blows (a natural 20 still passes)
+      const ctx = await start('fighter', 'puff-fighter');
+      const p = ctx.Game.player(); p.hp = p.maxHp = 9999; p.stats.str = 30; p.stats.con = 1;
+      let poisoned = false, said = '';
+      for (let i = 0; i < 4 && !poisoned; i++) { said = strike(ctx); poisoned = !!p.poison; }
+      if (!/bursts in a cloud of spores/.test(said) || !poisoned) out.push(`a blow on a puffcap: ${said} (poisoned ${poisoned})`);
+      // fire on the blade sears them
+      p.eq.weapon = { t: 'longsword', q: 1, e: 0, pw: 'flame' };
+      const hot = strike(ctx);
+      if (!/sears/.test(hot) || p.poison) out.push(`a flaming blade: ${hot} (poisoned ${!!p.poison})`);
+    }
+    {
+      const ctx = await druid('puff-druid', 3);
+      const p = ctx.Game.player(); p.stats.str = 30;
+      const said = strike(ctx);
+      if (!/breathe them as the moss does/.test(said) || p.poison) out.push(`a druid's blow: ${said} (poisoned ${!!p.poison})`);
+    }
+    {
+      // a spell looses no spores, and fire burns it well
+      const ctx = await start('mage', 'puff-mage');
+      const { Game, SPELLS } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; p.sp = p.maxSp = 99; p.stats.con = 1;
+      const m = beside(ctx, 'puffcap', { hp: 999, maxHp: 999, nextAct: 1e12 });
+      const mark = markLog(G);
+      Game.castSpell(SPELLS.mage.find(sp => sp.id === 'magic_missile'));
+      const said = linesSince(G, mark).join(' | ');
+      if (!/Magic Missile|missile/i.test(said) || /spores/.test(said) || p.poison) out.push(`a spell at a puffcap beside the hero: ${said}`);
+      const f = Game.elementFactor ? Game.elementFactor(m, 'fire') : ctx.ELEMENTS_TAKEN.puffcap.fire;
+      if (f !== 1.5) out.push(`a puffcap takes ${f} of fire`);
+      // cut low, it stands its ground (a blow at a quarter of its life or less puts three in ten others to flight)
+      m.hp = 200; m.maxHp = 999;
+      for (let i = 0; i < 20; i++) { G.t = Math.max(G.t, p.nextAttack) + 700; Game.input('attack'); if (m.hp <= 0 || m.fleeing) break; }
+      if (m.fleeing) out.push('a puffcap turned to flee');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the earned Daily deals a Ranger or a Druid from its own seed, keeps its own record, and leaves the first Daily as it was', async () => {
     const out = [];
     const ctx = await newContext();

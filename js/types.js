@@ -108,6 +108,8 @@
  * @property {number} [flashAt]  when its hit flash starts: later than the blow for a fireball still in the air
  * @property {number} [hpShown]  the life its bar shows until then
  * @property {string} [elite]     the champion prefix, if it is one
+ * @property {number} [worth]     what it pays in experience, when not its kind's own: a puffcap is worth the creature it grew over
+ * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first

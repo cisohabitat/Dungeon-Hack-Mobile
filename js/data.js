@@ -432,7 +432,7 @@ const TWISTS = {
   flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too.', chip: 'Black water: you and everything here move a quarter slower' },
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
-  overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here. A druid is at home: their spells cost a point less' },
+  overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones, and something larger and fungal shuffles in the dark.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here, and puffcaps that burst in spores at a blow from beside them. A druid is at home: their spells cost a point less' },
 };
 
 const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
@@ -585,6 +585,10 @@ const MONSTERS = {
   // the ladder, so that floor now and then holds one: `shy` thins it to a third
   // of its weight above the ladder's ninth rung, where the Long Delve meets it)
   wyrm:     { name: 'Cave Wyrm',   hp: [9, 10, 6],   ac: 16, hit: 8,  dmg: [2, 6, 3], speed: 1150, xp: 300,  tier: [8.4, 30],  sprite: 'wyrm',     scale: 1.3, move: 'breath', door: 'smash', shy: 9 },
+  // An overgrown floor's own (game.js grows them over some of its creatures;
+  // never dealt by depth): a slow fungus that bursts into spores when a blow
+  // lands on it from beside it. Burn it, shoot it, or breathe its spores.
+  puffcap:  { name: 'Puffcap',     hp: [2, 8, 0],    ac: 10, hit: 3,  dmg: [1, 6, 0], speed: 1600, xp: 45,   tier: [99, 99], sprite: 'puffcap',  scale: 0.85, spores: true, door: 'batter' },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
     // guards and throws grave-cold from afar; at one third it puts out the
@@ -711,6 +715,7 @@ const ELEMENTS_TAKEN = {
   basilisk: { cold: 1.5, fire: 0.5 },
   rustmaw:  { lightning: 1.5 },
   quillback: { fire: 1.5 },
+  puffcap:  { fire: 1.5 },
   wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
   skeleton: { cold: 0.5 },
@@ -771,6 +776,9 @@ const BESTIARY = {
   quillback: { lore: 'A squat, heavy beast with a mantle of long dark quills and a temper to match. Its quills burn.',
     trick: 'Its quills rattle up on end, and any blow struck at it from beside it drives into them and bites back.',
     answer: 'Hold your blow while the quills stand. When they sink flat it is left open. An arrow or a spell from further off does not touch them.' },
+  puffcap:  { lore: 'A fungus the size of a crouching man, grown up out of the moss on stubby roots. It shuffles after warm things, slowly.',
+    trick: 'A blow struck at it from beside it bursts its cap in a cloud of spores, and a lungful poisons you.',
+    answer: 'Burn it, or strike from further off: an arrow or a spell looses no spores, and fire sears them before they fly. A druid breathes them as the moss does.' },
   wyrm:     { lore: 'A young drake of the deepest halls, wingless and heavy, scaled like rusted iron. Fire does little to it; cold bites.',
     trick: 'It rears back and breathes a gout of fire down the passage, from two squares out to five.',
     answer: 'Close in under its jaws: the fire roars out over your head. Or step out of its line. Stepping back only keeps you in it.' },
