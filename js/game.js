@@ -3083,7 +3083,8 @@ const Game = (() => {
     const p = P();
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
-    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route });
+    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
+      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2) });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),

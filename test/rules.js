@@ -4300,16 +4300,20 @@ await test('the Warlord beats his drum for a warband, and a blow while the stick
     const m = beside(ctx, 'warlord', { blows: 2, hp: 400, maxHp: 400 });
     Game.update(G.t + 25, 25);
     if (!m.windup || m.windup.move !== 'drum') return { err: `it drew ${JSON.stringify(m.windup)}` };
-    const mark = markLog(G);
-    if (strike) for (let i = 0; i < 10 && m.windup; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
-    run(Game, G, 1800);
+    const mark = markLog(G), sounds = [];
+    ctx.Sound.listen(name => sounds.push(name));
+    try {
+      if (strike) for (let i = 0; i < 10 && m.windup; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+      run(Game, G, 1800);
+    } finally { ctx.Sound.listen(null); }
     const band = L.monsters.filter(o => o.id === 'goblin');
-    return { band, said: linesSince(G, mark), m };
+    return { band, said: linesSince(G, mark), m, drummed: sounds.includes('drum') };
   };
   const a = await drum(false), b = await drum(true);
   if (a.err || b.err) return a.err || b.err;
   if (!(a.band.length === 1 && a.band[0].pack && a.band[0].pack.length === 1 && a.band[0].awake)) out.push(`the beat brought ${JSON.stringify(a.band.map(g => g.pack))}`);
   if (!a.said.some(l => /warband comes running/.test(l))) out.push('the warband came unsaid');
+  if (!a.drummed || b.drummed) out.push(`the drum was heard ${a.drummed ? '' : 'not '}when beaten and ${b.drummed ? '' : 'not '}when broken`);
   if (b.band.length) out.push('a struck drum still called a warband');
   if (!b.said.some(l => /strike the drumstick from/.test(l))) out.push(`breaking the beat said: ${b.said.join(' / ')}`);
   return out.length ? out.join('; ') : true;
@@ -6062,6 +6066,27 @@ await test('a win with a path, and a vow kept, are trophies of their own; vows o
   if (progressOf(ctx).vows.pauper) return 'a vow kept on Easy counted';
   const n = Progress.trophyCount();
   return n.won === 3 + 1 + 2 || `trophies ${JSON.stringify(n)} from ${JSON.stringify(progressOf(ctx))}`;
+});
+
+await test('a win with three traders\' jobs done is Friend of the Lampfolk; with a veteran companion at your side, Old Campaigners', async () => {
+  const ctx = await newContext();
+  const { Game, Progress } = ctx;
+  const run = difficulty => Game.newGame({ name: 'F', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'feat-new', opts: { ...OPTS, permadeath: true, difficulty } });
+  const out = [];
+  const companion = floors => ({ kind: 'hound', name: 'Brindle', x: 0, y: 0, depth: Game.state().depth, hp: 10, maxHp: 10, mode: 'follow', nextAct: 0, kills: 0, joined: 1, floors });
+  run('normal'); Game.state().stats.bounties = 2; Game.state().companion = companion(3); winHere(Game);
+  if (Game.earned().firstFeats.length) out.push(`two jobs and a blooded hound earned ${Game.earned().firstFeats}`);
+  run('normal'); Game.state().stats.bounties = 3; Game.state().companion = companion(4); winHere(Game);
+  if (Game.earned().firstFeats.sort().join() !== 'friend,veteran') out.push(`three jobs and a veteran hound earned ${Game.earned().firstFeats}`);
+  // a veteran that fell does not count, nor anything on Easy
+  const ctx2 = await newContext();
+  const run2 = difficulty => ctx2.Game.newGame({ name: 'F', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'feat-new', opts: { ...OPTS, permadeath: true, difficulty } });
+  run2('hard'); ctx2.Game.state().companion = { ...companion(5), fallen: 7 }; winHere(ctx2.Game);
+  if (ctx2.Game.earned().firstFeats.includes('veteran')) out.push('a fallen veteran counted');
+  run2('easy'); ctx2.Game.state().stats.bounties = 5; winHere(ctx2.Game);
+  if (progressOf(ctx2).feats.friend) out.push('jobs on Easy counted');
+  void Progress;
+  return out.length ? out.join('; ') : true;
 });
 
 await test('a win on a long delve, on Normal or Hard, is the Long Delve feat; the Hall line says how long it was', async () => {

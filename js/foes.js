@@ -734,7 +734,7 @@ export function makeFoes(K) {
   /** The beat: two goblins come running, sharing a square beside him. */
   function warband(m, mb) {
     m.drums = (m.drums || 0) + 1;
-    Sound.play('batter', K.heard(m));
+    Sound.play('drum', K.heard(m));
     const spot = spotNear(m);
     if (!spot) { K.log('The drum booms through the Warrens, but there is no room for anyone to come.', 'bad'); return; }
     const b = MONSTERS.goblin, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((K.G.depth - 1) / 2);

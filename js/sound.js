@@ -404,6 +404,14 @@ const Sound = (() => {
       tone(l, 147, 0.7, 'sawtooth', 0.12, 8, 0, 0.12); tone(l, 220, 0.7, 'sawtooth', 0.06, 12, 0.02, 0.12);
       tone(l, 147, 1.1, 'sawtooth', 0.13, -10, 0.85, 0.15); tone(l, 196, 1.1, 'sawtooth', 0.07, -12, 0.87, 0.15);
     },
+    // the Warlord's war-drum: BOOM. BOOM. and two quicker, a hide drum's skin rattling under each
+    drum: out => {
+      [0, 0.55, 1.0, 1.25].forEach((at, i) => {
+        tone(out, vary(62, 0.05), 0.45, 'sine', i < 2 ? 0.34 : 0.26, -24, at, 0.004);
+        noise(out, 0.12, i < 2 ? 0.2 : 0.15, { f: 260, to: 90, delay: at });
+        noise(out, 0.2, 0.04, { type: 'bandpass', f: 1400, q: 2, delay: at + 0.02 });
+      });
+    },
     // a named champion falls: a low blow, then a rising brass figure
     namedfall: out => {
       tone(out, 55, 1.2, 'sine', 0.25, -20, 0, 0.02);

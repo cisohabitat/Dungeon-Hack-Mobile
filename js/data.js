@@ -201,8 +201,10 @@ const ROUTES = {
 const FEATS = {
   long: { name: 'The Long Delve', desc: 'Win a delve of twelve floors or more, on Normal or Hard.' },
   crypts: { name: 'By the Crypts', desc: 'Win a delve that went down through the Crypts, on Normal or Hard.' },
-  warrens: { name: 'By the Warrens', desc: 'Win a delve that went down through the Warrens, on Normal or Hard.' },
+  warrens: { name: 'By the Warrens', desc: 'Win a delve that went down through the Warrens, past the Goblin Warlord, on Normal or Hard.' },
   collector: { name: 'The Collector', desc: 'Find every relic at least once, over as many runs as it takes.' },
+  friend: { name: 'Friend of the Lampfolk', desc: 'Win having done three traders\' jobs in the one run, on Normal or Hard.' },
+  veteran: { name: 'Old Campaigners', desc: 'Win with a companion at your side that is a veteran, on Normal or Hard.' },
 };
 const PATHS = {
   fighter: [
