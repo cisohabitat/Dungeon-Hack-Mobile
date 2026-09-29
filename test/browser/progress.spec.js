@@ -14,7 +14,7 @@ test.describe('progress between runs', () => {
     await page.click('#btn-hall');
     await expect(page.locator('#trophy-count')).toHaveText(new RegExp('^0 of \\d+ won$'));
     // a cell for every class at every difficulty, every path, every vow and every feat
-    const cells = await page.evaluate(() => Object.keys(CLASSES).length * 3 + document.querySelectorAll('[data-trophy^="path-"]').length + document.querySelectorAll('[data-trophy^="vow-"]').length + document.querySelectorAll('[data-trophy^="feat-"]').length);
+    const cells = await page.evaluate(() => Object.keys(CLASSES).length * 3 + document.querySelectorAll('[data-trophy^="path-"]').length + document.querySelectorAll('[data-trophy^="mastery-"]').length + document.querySelectorAll('[data-trophy^="vow-"]').length + document.querySelectorAll('[data-trophy^="feat-"]').length);
     await expect(page.locator('#hall-trophies .cell')).toHaveCount(cells);
     await expect(page.locator('[data-trophy^="feat-"]')).toHaveCount(7);
     await expect(page.locator('#hall-trophies .cell.won')).toHaveCount(0);
@@ -42,6 +42,22 @@ test.describe('progress between runs', () => {
     await expect(page.locator('[data-trophy="path-berserker"]')).not.toHaveClass(/won/);
     await expect(page.locator('[data-trophy="vow-pauper"]')).toHaveAttribute('aria-label', "Pauper's Vow: kept 2 times");
     await expect(page.locator('[data-trophy="vow-iron"]')).toHaveClass(/shut/);
+    await expect(page.locator('[data-trophy^="mastery-"]')).toHaveCount(6);
+    await expect(page.locator('[data-trophy="mastery-fighter"]')).not.toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="mastery-fighter"]')).toHaveAttribute('aria-label', 'Fighter mastered: win with both its paths (1 of 2 so far)');
+    // both of a class's paths won: the class mastered, a trophy of its own, and its card says so
+    await page.click('#hall-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 2 }, mage: { normal: 1 } }, relics: [], paths: { knight: 1, berserker: 1, pyromancer: 1 } })));
+    await page.click('#btn-hall');
+    await expect(page.locator('[data-trophy="mastery-fighter"]')).toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="mastery-mage"]')).not.toHaveClass(/won/);
+    await expect(page.locator('#trophy-count')).toHaveText(new RegExp('^6 of \\d+ won$'));
+    await page.click('#hall-back');
+    await page.click('#btn-new');
+    await expect(page.locator('.class-card[data-cls="fighter"] .key.mastery')).toHaveText('Mastered: both paths won');
+    await expect(page.locator('.class-card[data-cls="mage"] .key.goal')).toHaveText('Won as Pyromancer; to master: win as Frostweaver');
+    // a class with no win yet sets no goal on its card
+    await expect(page.locator('.class-card[data-cls="thief"] .key.goal, .class-card[data-cls="thief"] .key.mastery')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 

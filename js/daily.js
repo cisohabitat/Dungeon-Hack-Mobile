@@ -12,7 +12,7 @@ const DAILY_KEY = 'deepdelve.daily';
 // its own seed, its own record and its own streak, so the Daily Delve every
 // player shares is dealt exactly as it always was. (kind 'earned'; 'main' is the first)
 const EARNED_KEY = 'deepdelve.daily.earned';
-/** The earned classes it deals, fixed in this order so a later one does not change who a date's hero is. */
+/** The classes the second daily deals (once earned, now open to all), fixed in this order so a later class does not change who a date's hero is. */
 const EARNED_CLASSES = ['ranger', 'druid'];
 const storeKey = kind => (kind === 'earned' ? EARNED_KEY : DAILY_KEY);
 /**
@@ -42,8 +42,8 @@ const DAILY_CLASSES = ['fighter', 'cleric', 'mage', 'thief'];
 /** The day's hero and dungeon: the same for everyone who plays on that date. */
 function heroFor(key, kind = 'main') {
   const rng = new Rng(seedFor(key, kind));
-  // the four classes every player has from the start: a later one (the Ranger) is earned, and the days already dealt stay as they were;
-  // the earned daily deals only the earned ones
+  // the first daily deals the four classes it always has, so the days already dealt stay as they were;
+  // the second deals only the Ranger and the Druid, which came later
   const cls = rng.pick(kind === 'earned' ? EARNED_CLASSES : DAILY_CLASSES);
   const bg = rng.pick(DAILY_BACKGROUNDS.filter(id => BACKGROUNDS[id]));
   const name = rng.pick(HERO_NAMES);
@@ -58,7 +58,8 @@ function heroFor(key, kind = 'main') {
     const best = Object.keys(st).reduce((a, b) => (st[b] > st[a] ? b : a), keyStat);
     [st[keyStat], st[best]] = [st[best], st[keyStat]];
     stats = st;
-    const fight = cls === 'thief' || cls === 'ranger' || cls === 'druid' ? st.dex : st.str;
+    // (a druid's blows answer Strength or Wisdom, whichever is higher)
+    const fight = cls === 'druid' ? Math.max(st.str, st.wis) : cls === 'thief' || cls === 'ranger' ? st.dex : st.str;
     if (st[keyStat] >= 14 && fight >= 12 && st.con >= 10) break;
   }
   return {
@@ -113,7 +114,7 @@ function outcome(done) { return done.won ? 'claimed the Heart' : `fell on floor 
 /** One line to paste anywhere. */
 function shareLine(key, done, kind = 'main') {
   const who = CLASSES[done.cls] ? CLASSES[done.cls].name : done.cls;
-  return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
+  return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid Daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
 }
 
 const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };

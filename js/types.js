@@ -225,7 +225,7 @@
  * @property {boolean} [permadeath]
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
- * @property {'earned'} [dailyKind]  'earned' for the earned classes' daily; absent on the first
+ * @property {'earned'} [dailyKind]  'earned' for the Ranger & Druid Daily (once the earned classes'); absent on the first
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
  * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it
  */
@@ -303,7 +303,7 @@
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
- * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, firstVows?: string[], firstFeats?: string[], classesOpened?: string[], vowsOpened?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
+ * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
  */
 
 export {};

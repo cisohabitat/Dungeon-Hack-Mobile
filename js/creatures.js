@@ -977,7 +977,7 @@ const CREATURES = {
         ...both(ball(10, 30.4, 1.7, 0.9, dark))];
     const by = sit ? 22 : 20.5;
     return [
-      // the tail up and waving behind, and the hind legs, short and sturdy
+      // the tail carried low behind, and the hind legs, long and lean
       ...hind,
       // a deep body with a saddle of darker coat (upright when it sits)
       sit ? ball(15.5, by, 5.6, 5.8, coat) : ball(15.5, by, 6.8, 4.6, coat),
@@ -993,12 +993,12 @@ const CREATURES = {
       ...both(sheet([[12.6, hy - 2.2], [12, hy - 5], [13.6, hy - 2.8]], '#8e7a6e', { curve: 0.3 })),
       ball(15.5, hy, 3.9, 3.4, coat),
       ...both(ball(13.9, hy - 0.8, 1.3, 0.9, '#3a2412')),
-      // the muzzle, and the eyes, warm and brown with a catch of light
+      // the muzzle, and the eyes, amber with a catch of light
       bite ? sheet([[13.3, hy + 1.5], [17.7, hy + 1.5], [17.2, hy + 5.5], [13.8, hy + 5.5]], '#4a1818', { curve: 0.5 }) : limb(15.5, hy + 1, 15.5, hy + 4.4, 2, 1.4, muzzle),
       bite ? ball(15.5, hy + 5.4, 2, 1, muzzle) : ball(15.5, hy + 4.3, 1.3, 0.9, nose),
       dots([[14, Math.round(hy) - 1], [17, Math.round(hy) - 1]], '#c07818'), dots([[14, Math.round(hy) - 2], [17, Math.round(hy) - 2]], '#f0b030'),
       ...(bite ? [dots([[14, Math.round(hy) + 2], [17, Math.round(hy) + 2], [14, Math.round(hy) + 4], [17, Math.round(hy) + 4]], '#f4ecdc')] : []),
-      // fine work: a tuft on the head, whiskers, the tag's glint, claws, the coat's grain
+      // fine work: a tuft on the head, whiskers, claws, the coat's grain
       hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
       ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
       hair(13, by - 1.5, 14.5, by + 0.5, '#34363e'), hair(17.5, by - 1.5, 16.5, by + 1, '#34363e'), hair(11.5, by + 1.5, 12, by + 3.5, '#b4b4b0'),

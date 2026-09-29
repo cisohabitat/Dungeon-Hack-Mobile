@@ -347,32 +347,39 @@ const CLASSES = {
   fighter: {
     name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
+    // how the class plays for someone choosing it, on its card
+    ease: 'Forgiving: takes a beating and hits back.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   cleric: {
     name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 1000, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
+    ease: 'Forgiving: mends its own wounds.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
   },
   mage: {
     name: 'Mage', plural: 'Mages', title: 'Archmage', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
+    ease: 'Fragile: rewards care, and foes kept at a distance.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
     name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
+    ease: 'Daring: strikes first, and must not be struck back.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
   ranger: {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
-    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a bow or sling shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
+    desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
+    ease: 'Steady: wins the fight before it reaches you.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
   druid: {
     name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 0.85, spells: 'druid', primary: 'wis',
-    desc: 'Keeper of the old ways, at home in the dark as the beasts are. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher and sooner wise.',
+    desc: 'Keeper of the old ways. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher.',
+    ease: 'Versatile: a bear or a caster, never both at once.',
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
 };
@@ -425,7 +432,7 @@ const TWISTS = {
   flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too.', chip: 'Black water: you and everything here move a quarter slower' },
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
-  overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow in the corners.', chip: 'Moss hides the traps: harder to spot. Pale caps to eat grow here. A druid is at home: their spells cost a point less' },
+  overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here. A druid is at home: their spells cost a point less' },
 };
 
 const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };

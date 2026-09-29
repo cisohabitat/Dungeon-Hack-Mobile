@@ -114,11 +114,14 @@ function renderTrophies() {
     const n = (v.won[cls] && v.won[cls][d]) || 0, what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
     return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="button" tabindex="0" aria-label="${what}" title="${what}">${n ? '✦' : ''}</span>`;
   })].join(''));
-  // a win with each path, two to a class
+  // a win with each path, two to a class, and the class mastered once both are won
   const pathRows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...(PATHS[cls] || []).map(x => {
     const n = v.paths[x.id] || 0, what = `${x.name}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
     return `<span class="cell named${n ? ' won' : ''}" data-trophy="path-${x.id}" role="button" tabindex="0" aria-label="${what}" title="${what}">${escapeHtml(x.name)}</span>`;
-  })].join(''));
+  }), (() => {
+    const done = Progress.mastered(cls, v), what = `${CLASSES[cls].name} mastered: ${done ? 'won with both its paths' : `win with both its paths (${Progress.pathsWon(cls, v)} of 2 so far)`}`;
+    return `<span class="cell mastery${done ? ' won' : ''}" data-trophy="mastery-${cls}" role="button" tabindex="0" aria-label="${what}" title="${what}">${done ? '✦' : ''}</span>`;
+  })()].join(''));
   // and each vow kept, dim until a Hard win opens them
   const open = Progress.vowsOpen(v);
   const vowCells = Object.keys(VOWS).map(id => {
@@ -132,7 +135,7 @@ function renderTrophies() {
   });
   $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
-    + `<div class="trophy-sub">Paths</div><div class="trophy-grid paths">${pathRows.join('')}</div>`
+    + `<div class="trophy-sub">Paths <small>(both won: the class mastered)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
     + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`
     + `<div class="trophy-sub">Feats</div><div class="trophy-grid vows">${featCells.join('')}</div>`
     + '<p id="trophy-note" class="trophy-note" aria-live="polite">Tap a trophy to see what it asks and how often it is won.</p>';
@@ -153,7 +156,7 @@ function renderHall() {
   const still = f ? `<p class="hall-fallen">Still below: <b>${escapeHtml(f.name)} the ${escapeHtml(CLASSES[f.cls] ? CLASSES[f.cls].name : f.cls)}</b>, ${f.killer ? `killed by ${escapeHtml(f.killer)}${f.killer.includes(',') ? ',' : ''} ` : ''}on floor ${Number(f.depth) || 1}. Their shade keeps watch over their bones until a later delve lays it to rest.</p>` : '';
   if (!list.length) { el.innerHTML = still + '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
 export { renderBestiary, renderCodex, renderTrophies, renderHall };

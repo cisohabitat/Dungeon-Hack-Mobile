@@ -6045,7 +6045,7 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   if (G.status !== 'dead') return 'the goblin never killed the hero';
   if (JSON.stringify(progressOf(ctx)) !== before || Game.earned()) return `a death changed the trophies: ${JSON.stringify(progressOf(ctx).won)}`;
   const n = Progress.trophyCount();
-  const { CLASSES, PATHS, VOWS, FEATS } = ctx, total = Object.keys(CLASSES).length * 3 + Object.values(PATHS).flat().length + Object.keys(VOWS).length + Object.keys(FEATS).length;
+  const { CLASSES, PATHS, VOWS, FEATS } = ctx, total = Object.keys(CLASSES).length * 4 + Object.values(PATHS).flat().length + Object.keys(VOWS).length + Object.keys(FEATS).length;
   return (n.total === total && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
 });
 
@@ -6119,13 +6119,10 @@ await test('the Long Delve\'s back half is surer and sturdier: a step surer from
   return long6.hit === short7.hit || `on floor 6 of 12 creatures are already ${long6.hit} surer`;
 });
 
-await test('mastery: every class is open from the start, and no win opens one; every relic found is the Collector; the Daily keeps to the first four classes', async () => {
+await test('mastery: every relic found is the Collector; the Daily keeps to the first four classes', async () => {
   const out = [];
   const ctx = await newContext();
-  const { Game, Progress, RELICS, Daily, CLASSES } = ctx;
-  for (const cls of Object.keys(CLASSES)) if (!Progress.classOpen(cls)) out.push(`the ${cls} was locked at the start`);
-  const win = (cls, difficulty) => { Game.newGame({ name: 'M', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mastery-' + cls, opts: { ...OPTS, permadeath: true, difficulty } }); winHere(Game); return Game.earned(); };
-  for (const cls of ['fighter', 'ranger', 'druid']) if (win(cls, 'easy').classesOpened.length) out.push(`a ${cls}'s win opened a class`);
+  const { Progress, RELICS, Daily } = ctx;
   // the Collector
   const ids = Object.keys(RELICS);
   for (const id of ids.slice(0, -1)) Progress.noteRelic(id);
@@ -6139,6 +6136,24 @@ await test('mastery: every class is open from the start, and no win opens one; e
   // the Daily never deals a class it has not always dealt
   for (let i = 0; i < 200; i++) { const d = new Date(2026, 0, 1 + i); const key = d.toISOString().slice(0, 10); if (Daily.heroFor(key).cls === 'ranger') { out.push(`the Daily of ${key} dealt a Ranger`); break; } }
   return out.length ? out.join('; ') : true;
+});
+
+await test('a class is mastered by a win with each of its paths: once, on the win that completes it, and a trophy', async () => {
+  const ctx = await newContext();
+  const { Progress, PATHS, CLASSES } = ctx;
+  const [a, b] = PATHS.fighter.map(x => x.id);
+  const total0 = Progress.trophyCount().total;
+  const w1 = Progress.recordWin('fighter', 'easy', { path: a });
+  if (w1.mastered || Progress.mastered('fighter') || Progress.pathsWon('fighter') !== 1) return `one path won: mastered ${w1.mastered}, ${Progress.pathsWon('fighter')} won`;
+  const before = Progress.trophyCount().won;
+  const w2 = Progress.recordWin('fighter', 'easy', { path: b });
+  if (!w2.mastered || !Progress.mastered('fighter')) return 'both paths won and the fighter was not mastered';
+  // two trophies from that win: the path, and the mastery
+  if (Progress.trophyCount().won !== before + 2) return `the second path's win lit ${Progress.trophyCount().won - before} trophies, want 2`;
+  if (Progress.recordWin('fighter', 'hard', { path: a }).mastered) return 'mastery was told a second time';
+  if (Progress.recordWin('cleric', 'hard', { path: PATHS.cleric[0].id }).mastered || Progress.mastered('cleric')) return 'one cleric path mastered the cleric';
+  if (total0 !== Object.keys(CLASSES).length * 4 + Progress.PATH_IDS.length + Object.keys(ctx.VOWS).length + Object.keys(ctx.FEATS).length) return `trophies in all: ${total0}`;
+  return true;
 });
 
 await test('a vow binds: no rest under the Iron Vow, no trader under the Pauper\'s, no draught unaided; the Daily takes none', async () => {
@@ -10769,6 +10784,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const withShield = Game.playerAC(); p.eq.shield = null; const bare = Game.playerAC(); p.eq.shield = { t: 'buckler', q: 1, e: 0 };
     Game.castSpell(druidSpell(ctx, 'wild_shape'));
     if (Game.playerAC() !== bare + 2) out.push(`a bear with a buckler: armour class ${Game.playerAC()}, want the bare druid's ${bare} + 2 (with the buckler, ${withShield})`);
+    // and what the buckler was made with stays behind with it, though armour's powers go into the bear
+    p.eq.shield = { t: 'buckler', q: 1, e: 0, pw: 'pure' }; p.eq.armor = { t: 'leather', q: 1, e: 0, pw: 'mend' };
+    if (Game.hasPower('pure') || !Game.hasPower('mend')) out.push(`a bear: the buckler's Pure ${Game.hasPower('pure')}, the armour's Mend ${Game.hasPower('mend')}`);
+    const shapeWas = p.shape; delete p.shape;
+    if (!Game.hasPower('pure')) out.push('the buckler\'s Pure was lost with the bear gone');
+    p.shape = shapeWas; p.eq.shield = { t: 'buckler', q: 1, e: 0 }; p.eq.armor = { t: 'leather', q: 1, e: 0 };
     // the rust: armour of leather has no metal, and the bear holds neither the buckler nor the spear
     p.eq.weapon = { t: 'longsword', q: 1, e: 0 };
     const hide1 = p.shape.hide, until1 = p.shape.until;
@@ -10842,7 +10863,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Daily.status(key, 'earned').state !== 'started') out.push('the earned Daily did not record its start');
     Daily.finish(key, { won: true, depth: 8, kills: 30, cls: 'druid', score: 1000 }, 'earned');
     if (Daily.status(key, 'earned').state !== 'done' || Daily.status(key).state !== 'fresh') out.push('finishing the earned Daily touched the first');
-    if (!/^Deepdelve Ranger & Druid daily 2026-03-01: Druid, claimed the Heart/.test(Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned'))) out.push(`its line: ${Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned')}`);
+    if (!/^Deepdelve Ranger & Druid Daily 2026-03-01: Druid, claimed the Heart/.test(Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned'))) out.push(`its line: ${Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned')}`);
     if (Daily.streak(key) !== 0 || Daily.streak(key, 'earned') !== 1) out.push(`streaks: first ${Daily.streak(key)}, earned ${Daily.streak(key, 'earned')}`);
     return out.length ? out.join('; ') : true;
   });

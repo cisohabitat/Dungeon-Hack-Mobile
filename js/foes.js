@@ -105,7 +105,8 @@ export function makeFoes(K) {
     if (roll === 1 || (!h.sure && roll !== 20 && roll + hit < ac)) {
       K.riposte();
       // a blow the shield turned (it would have landed without one) rings on it
-      const onShield = p.eq.shield && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (ITEMS[p.eq.shield.t].focus ? 0 : p.eq.shield.e || 0);
+      // (a bear's shield stays behind, and turns nothing)
+      const onShield = p.eq.shield && !K.shaped() && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (ITEMS[p.eq.shield.t].focus ? 0 : p.eq.shield.e || 0);
       Sound.play(onShield ? 'block' : 'whiff', K.heard(m));
       const miss = K.relativeBearing(m);
       K.log(`The ${mb.name} ${missed || 'misses you'}${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');

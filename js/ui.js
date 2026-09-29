@@ -32,11 +32,6 @@ const UI = (() => {
   // cost dearly, so a planned hero can match a lucky roll's best score.
   const BUY_COST = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9, 16: 12, 17: 15 }, BUY_POINTS = 27, BUY_TOP = 17;
   const buyLeft = b => BUY_POINTS - Object.values(b).reduce((n, v) => n + BUY_COST[v], 0);
-  /** For a locked class's card: which of the open classes have yet to win. */
-  function stillToWin(known) {
-    const left = Object.keys(CLASSES).filter(k => !CLASSES[k].locked && !Progress.highest(k, known)).map(k => CLASSES[k].name);
-    return left.length ? ` Still to win: ${left.join(', ')}.` : '';
-  }
   /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
   function buyStart(cls) {
     // (a druid's Wisdom lands the blows, so Dexterity for light armour comes next)
@@ -129,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29i', text: 'the Ranger and the Druid can be chosen from the start, and the Ranger & Druid Daily is there for everyone; also a new floor twist, Overgrown (moss over the traps, pale caps to eat, a druid at home)' };
+  const NEWS = { id: '2026-09-29j', text: 'each class card now says how it plays, and a class won with both its paths is mastered, a trophy of its own; the Ranger and the Druid (and a Druid\'s wolf) are open from the start, with a Ranger & Druid Daily; and a new floor twist, Overgrown' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -374,25 +369,32 @@ const UI = (() => {
   }
 
   // ---------- character creation ----------
+  /** What a class card says of its paths, won and still to win. @param {{name: string}[]} won @param {{name: string}[]} left */
+  const pathGoal = (won, left) => `${won.length ? `Won as ${won.map(x => escapeHtml(x.name)).join(' and ')}; to` : 'To'} master: win as ${left.map(x => escapeHtml(x.name)).join(' and ')}`;
+  /** The classes that forgive a new player's mistakes: marked on the cards, and a first Quick Start's. */
+  const FIRST_HEROES = ['fighter', 'cleric'];
   function buildCreate() {
     const grid = $('#c-classes');
     grid.innerHTML = '';
     const known = Progress.load();
-    // a class still to be earned cannot stay chosen
-    if (!Progress.classOpen(create.cls, known)) create.cls = 'fighter';
     for (const id in CLASSES) {
-      const c = CLASSES[id], open = Progress.classOpen(id, known);
+      const c = CLASSES[id];
       const b = document.createElement('button');
-      b.className = 'class-card' + (id === create.cls ? ' sel' : '') + (open ? '' : ' locked');
+      b.className = 'class-card' + (id === create.cls ? ' sel' : '');
       b.type = 'button';
       b.dataset.cls = id;
       b.setAttribute('aria-pressed', String(id === create.cls));
       // a Hard win earns the class's title, shown on its card from then on
-      const titled = open && Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
-      b.innerHTML = open ? `<b>${c.name}</b>${titled}<small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`
-        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${stillToWin(known)}</em>`;
-      b.disabled = !open;
-      if (open) b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
+      const titled = Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
+      // someone new to the delve is pointed at the classes that forgive mistakes
+      const first = FIRST_HEROES.includes(id) && Game.hall().length < 3 ? '<em class="first-hero">Good first hero</em>' : '';
+      // and once a class has a win, the next thing to aim for with it: both its paths
+      const paths = PATHS[id] || [];
+      const goal = !Progress.highest(id, known) || !paths.length ? ''
+        : Progress.mastered(id, known) ? '<em class="key mastery">Mastered: both paths won</em>'
+          : `<em class="key goal">${pathGoal(paths.filter(x => known.paths[x.id]), paths.filter(x => !known.paths[x.id]))}</em>`;
+      b.innerHTML = `<b>${c.name}</b>${first}${titled}<em class="ease">${escapeHtml(c.ease || '')}</em><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${goal}`;
+      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
     const bgGrid = $('#c-backgrounds');
@@ -488,10 +490,10 @@ const UI = (() => {
   }
   /** A random hero with sensible numbers, straight to the prologue. */
   function quickStart() {
-    const progress = Progress.load(), classes = Object.keys(CLASSES).filter(k => Progress.classOpen(k, progress)), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
+    const progress = Progress.load(), classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
     // someone's very first run gets a class that forgives mistakes
     const firstRun = !Game.hall().length;
-    const pool = firstRun ? ['fighter', 'cleric'] : classes;
+    const pool = firstRun ? FIRST_HEROES : classes;
     create.cls = pool[Math.floor(Math.random() * pool.length)];
     create.bg = pasts[Math.floor(Math.random() * pasts.length)];
     // "straight in" should not mean a hero who cannot hit a rat: roll again
@@ -499,7 +501,8 @@ const UI = (() => {
     for (let i = 0; i < 40; i++) {
       create.rolled = Game.rollStats();
       fitStats();
-      const s = create.stats, fight = create.cls === 'thief' || create.cls === 'ranger' || create.cls === 'druid' ? s.dex : s.str;
+      // (a druid's blows answer Strength or Wisdom, whichever is higher)
+      const s = create.stats, fight = create.cls === 'druid' ? Math.max(s.str, s.wis) : create.cls === 'thief' || create.cls === 'ranger' ? s.dex : s.str;
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
     const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
@@ -511,6 +514,8 @@ const UI = (() => {
   }
   /** @type {'new'|'quick'|'daily'|'earned'} what the player asked for, waiting on the replace question */
   let pendingKind = 'new';
+  /** Which daily a run is, by name. @param {string} [kind] */
+  const dailyLabel = kind => (kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve');
   function startPending() { if (pendingKind === 'quick') quickStart(); else if (pendingKind === 'daily') dailyStart(); else if (pendingKind === 'earned') dailyStart('earned'); else openCreation(); }
   /** A run in progress is a real investment, so never discard one silently. @param {'new'|'quick'|'daily'|'earned'} [kind] */
   function startNewGameFlow(kind = 'new') {
@@ -519,7 +524,7 @@ const UI = (() => {
     if (!saved) { startPending(); return; }
     // today's Daily is one try: replacing that hero spends it, so say so
     $('#confirm-who').textContent =
-      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily && saved.daily === Daily.today() ? ' This is today\'s Daily Delve, your one try at it: a new hero ends it unfinished.' : ''}`;
+      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily && saved.daily === Daily.today() ? ` This is today\'s ${dailyLabel(saved.dailyKind)}, your one try at it: a new hero ends it unfinished.` : ''}`;
     showScreen('screen-confirm');
   }
   function showPrologue(cfg) {
@@ -535,7 +540,7 @@ const UI = (() => {
     // how this run is kept, said plainly before it starts
     const o = cfg.opts, d = diffOf(o);
     $('#pro-rules').textContent = o.daily
-      ? `The ${o.dailyKind === 'earned' ? 'Ranger and Druid Daily' : 'Daily Delve'} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
+      ? `The ${dailyLabel(o.dailyKind)} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffName(d)}.` : '');
@@ -2267,7 +2272,7 @@ const UI = (() => {
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
     $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
-    $('#m-seed').textContent = `${G.opts.daily ? `${G.opts.dailyKind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve'} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   // ---------- end screens ----------
@@ -2405,9 +2410,9 @@ const UI = (() => {
     // a first win for this class at this difficulty, and any past it opened
     const earned = won ? Game.earned() : null, news = [];
     if (earned && earned.first && CLASSES[earned.cls]) news.push(`First win as a ${CLASSES[earned.cls].name} on ${diffName(earned.difficulty)}!${earned.difficulty === 'hard' ? ` The ${CLASSES[earned.cls].plural} will call you ${CLASSES[earned.cls].title}.` : ''}`);
-    for (const k of (earned && earned.classesOpened) || []) if (CLASSES[k]) news.push(`A ${CLASSES[k].name} will come to your fire now: a new class on the New Game screen.`);
     for (const id of (earned && earned.unlocked) || []) if (BACKGROUNDS[id]) news.push(`${BACKGROUNDS[id].name} can now be chosen for a new hero.`);
     if (earned && earned.firstPath) { const x = Object.values(PATHS).flat().find(q => q.id === earned.firstPath); if (x) news.push(`First win on the ${x.name}'s path!`); }
+    if (earned && earned.mastered && CLASSES[earned.cls]) news.push(`The ${CLASSES[earned.cls].name} mastered: a win on both its paths, and a trophy of its own.`);
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
@@ -2631,7 +2636,7 @@ const UI = (() => {
       $('#code-why').textContent = '';
       const s = Game.saveSummary();
       // (as the New Game button warns: a Daily hero replaced is the day's one try spent)
-      $('#code-warn').textContent = s ? `This replaces ${s.name} the ${s.cls}, waiting for you on floor ${s.depth}.${s.daily && s.daily === Daily.today() ? ' This is today\'s Daily Delve, your one try at it: loading another hero ends it unfinished.' : ''}` : '';
+      $('#code-warn').textContent = s ? `This replaces ${s.name} the ${s.cls}, waiting for you on floor ${s.depth}.${s.daily && s.daily === Daily.today() ? ` This is today's ${dailyLabel(s.dailyKind)}, your one try at it: loading another hero ends it unfinished.` : ''}` : '';
       showScreen('screen-code');
     });
     $('#code-back').addEventListener('click', () => showScreen('screen-title'));

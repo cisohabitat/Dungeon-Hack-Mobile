@@ -126,6 +126,23 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
+  test('each class card says how it plays, and a new player is pointed at the Fighter and the Cleric', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-new');
+    for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid']) await expect(page.locator(`.class-card[data-cls="${cls}"] .ease`)).toHaveText(/^\w+: .+\.$/);
+    await expect(page.locator('.class-card[data-cls="mage"] .ease')).toContainText('Fragile');
+    await expect(page.locator('.class-card .first-hero')).toHaveCount(2);
+    await expect(page.locator('.class-card[data-cls="fighter"] .first-hero')).toHaveText('Good first hero');
+    await expect(page.locator('.class-card[data-cls="cleric"] .first-hero')).toBeVisible();
+    // three runs down, and the pointer is no longer needed
+    await page.evaluate(() => localStorage.setItem('deepdelve.hall', JSON.stringify([1, 2, 3].map(i => ({ name: 'Old ' + i, cls: 'mage', level: 1, depth: 1, won: false, score: 1, date: '2026-01-01' })))));
+    await page.click('#c-back'); await page.click('#btn-new');
+    await expect(page.locator('.class-card .first-hero')).toHaveCount(0);
+    await expect(page.locator('.class-card[data-cls="fighter"] .ease')).toBeVisible();
+    expect(errors).toEqual([]);
+  });
   test('the Ranger and the Druid can be chosen from the start; a Ranger starts with a bow and has Snare on the Cast button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
@@ -467,7 +484,7 @@ test.describe('the Daily Delve', () => {
     const cls = await page.evaluate(async () => (await import('./js/daily.js')).Daily.heroFor('2026-09-24', 'earned').cls);
     expect(['ranger', 'druid']).toContain(cls);
     await page.click('#btn-daily-earned');
-    await expect(page.locator('#pro-rules')).toContainText('Ranger and Druid Daily');
+    await expect(page.locator('#pro-rules')).toContainText('Ranger & Druid Daily');
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
     const run = await page.evaluate(() => ({ seed: Game.state().seed, cls: Game.player().cls, kind: Game.state().opts.dailyKind }));

@@ -517,9 +517,10 @@ const Game = (() => {
     const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS, 'cloak'];
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
     // a bear holds nothing: what a blade does in a fight stays behind with it (a
-    // staff's well of power does not: taking it away shrank the druid's points for good)
-    const bear = !!(G && wild.shaped(p)) && BLADE_POWERS.includes(power);
-    return slots.some(s => { if (bear && (s === 'weapon' || s === 'offhand')) return false; const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
+    // staff's well of power does not: taking it away shrank the druid's points for good),
+    // and a shield left on the floor keeps its powers to itself
+    const shaped = !!(G && wild.shaped(p)), bear = shaped && BLADE_POWERS.includes(power);
+    return slots.some(s => { if ((bear && (s === 'weapon' || s === 'offhand')) || (shaped && s === 'shield')) return false; const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
   /** What keeps out the cold, for the log: "your cloak", or "Your ring" to open a sentence. */
   function warmthFrom(cap = false) {

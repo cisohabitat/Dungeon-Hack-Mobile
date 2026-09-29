@@ -169,8 +169,9 @@ const Renderer = (() => {
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  // Moss over an overgrown floor: the stone greened, and patches of it thicker
-  // here and there, fixed to the floor's own squares so they do not swim as you turn.
+  // Moss over an overgrown floor: the stone greened, and streaks of it thicker
+  // here and there, laid by the screen's rows (thicker towards the feet) so a
+  // floor seen in passing does not crawl as you walk.
   function mossFloor() {
     const half = H / 2;
     ctx.fillStyle = 'rgba(40,78,30,0.34)';
