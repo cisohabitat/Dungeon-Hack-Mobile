@@ -2489,7 +2489,10 @@ const Game = (() => {
   function damageMonster(m, dmg, tag, note) {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
-    if (m.wardUntil > G.t && MONSTERS[m.id].boss) {
+    // a spell flies over the Warlord's shield-bearers: on his throne it is the one thing that reaches him
+    const overShields = m.throne && !!castingName;
+    if (overShields && !m.overSaid) { m.overSaid = true; log(`Your ${castingName} flies over the shield-bearers' heads and finds the ${MONSTERS[m.id].name} on his throne!`, 'good'); learn(m.id, 'answer'); }
+    if (m.wardUntil > G.t && MONSTERS[m.id].boss && !overShields) {
       // the Warlord on his throne: his shield-bearers take what was meant for him
       if (m.throne) {
         floatText(m, 'shielded', '#d8a830');

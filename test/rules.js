@@ -4308,7 +4308,7 @@ await test('the Warlord beats his drum for a warband, and a blow while the stick
   };
   const a = await drum(false), b = await drum(true);
   if (a.err || b.err) return a.err || b.err;
-  if (!(a.band.length === 1 && a.band[0].pack && a.band[0].pack.length === 2 && a.band[0].awake)) out.push(`the beat brought ${JSON.stringify(a.band.map(g => g.pack))}`);
+  if (!(a.band.length === 1 && a.band[0].pack && a.band[0].pack.length === 1 && a.band[0].awake)) out.push(`the beat brought ${JSON.stringify(a.band.map(g => g.pack))}`);
   if (!a.said.some(l => /warband comes running/.test(l))) out.push('the warband came unsaid');
   if (b.band.length) out.push('a struck drum still called a warband');
   if (!b.said.some(l => /strike the drumstick from/.test(l))) out.push(`breaking the beat said: ${b.said.join(' / ')}`);
@@ -4333,6 +4333,13 @@ await test('at two thirds the Warlord takes his throne behind shield-bearers; cu
   if (m.hp !== hp1) out.push(`on his throne he took ${hp1 - m.hp}`);
   if (!linesSince(G, told).some(l => /shield-bearers turn the blow aside/.test(l))) out.push(`a blow at him on his throne said: ${linesSince(G, told).join(' / ')}`);
   if (Game.mstat(m).ranged == null) out.push('on his throne he has no spear to throw');
+  // beside him on his throne, he strikes no blow of his own: that is the shield-bearers' work
+  {
+    m.x = m.rx = m.fromX = p.x + dx; m.y = m.ry = m.fromY = p.y + dy; m.nextAct = G.t; m.windup = null;
+    const seen = markLog(G);
+    for (let i = 0; i < 120 && m.throne; i++) Game.update(G.t + 25, 25);
+    if (linesSince(G, seen).some(l => /Goblin Warlord (hits|misses) you/.test(l))) out.push('he struck from his throne');
+  }
   // his shield-bearers fall: he comes down
   for (const b of bearers) L.monsters.splice(L.monsters.indexOf(b), 1);
   const mark = markLog(G);
@@ -4348,6 +4355,26 @@ await test('at two thirds the Warlord takes his throne behind shield-bearers; cu
   if (m.phase !== 2 || !m.frenzy) out.push(`phase ${m.phase}, frenzy ${m.frenzy}`);
   if (!(Game.mstat(m).speed < ctx.MONSTERS.warlord.speed)) out.push(`in his frenzy he strikes every ${Game.mstat(m).speed}ms`);
   if (golds() < g0 + 2) out.push(`the war-chest spilled ${golds() - g0} piles of gold`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a spell flies over the Warlord\'s shield-bearers and finds him on his throne', async () => {
+  const ctx = await start('mage', 'warlord-spell');
+  const { Game, SPELLS } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999; p.sp = p.maxSp = 99;
+  const m = beside(ctx, 'warlord', { hp: 300, maxHp: 300, nextAct: 1e12, phase: 1, throne: true, wardUntil: G.t + 1e6 });
+  const bolt = SPELLS.mage.find(s => s.kind === 'bolt' && Game.spellAvailable(s));
+  if (!bolt) return 'no bolt spell to cast';
+  const mark = markLog(G);
+  G.t = Math.max(G.t, p.nextAttack);
+  Game.castSpell(bolt);
+  const out = [];
+  if (!(m.hp < 300)) out.push(`the ${bolt.name} did not reach him (${linesSince(G, mark).join(' / ')})`);
+  if (!linesSince(G, mark).some(l => /flies over the shield-bearers/.test(l))) out.push('it was not told');
+  // a blade still does not
+  const hp = m.hp;
+  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  if (m.hp !== hp) out.push('a blade reached him on his throne');
   return out.length ? out.join('; ') : true;
 });
 

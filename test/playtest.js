@@ -454,6 +454,15 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // --- the Warlord on his throne: a bolt flies over his shield-bearers, so a caster turns and throws one
+    {
+      const wl = L.monsters.find(m => m.id === 'warlord' && m.throne);
+      const bolt = wl && G.t >= p.nextAttack && Game.knownSpells().filter(s => s.kind === 'bolt' && Game.spellAvailable(s) && p.sp >= Game.spellCost(s)).pop();
+      if (bolt && (wl.x === p.x || wl.y === p.y) && Math.abs(wl.x - p.x) + Math.abs(wl.y - p.y) <= (bolt.range || 5)) {
+        const dir = Dungeon.DIRS.findIndex(([dx, dy]) => dx === Math.sign(wl.x - p.x) && dy === Math.sign(wl.y - p.y));
+        if (dir >= 0) { p.dir = dir; if (!Game.spellWasteReason(bolt)) { Game.castSpell(bolt); rec.overShields = (rec.overShields || 0) + 1; step(); continue; } }
+      }
+    }
     // --- fight what is adjacent, in front if possible; a lich wrapped in
     // shadow cannot be hurt, so its guards come first, as the game says
     const near = [];

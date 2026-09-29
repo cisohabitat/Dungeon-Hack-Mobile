@@ -182,7 +182,7 @@ export function makeFoes(K) {
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
-  const THRONE_MS = 25000;  // the longest the Warlord sits his throne, shield-bearers or none
+  const THRONE_MS = 15000;  // the longest the Warlord sits his throne, shield-bearers or none
   const WARBAND = ['goblin', 'orc', 'archer'];   // who comes running to the Warlord's drum
   /** The cold fire spreads over open floor: two steps' walk, so a wall or a corner is cover. */
   function novaReaches(m) {
@@ -706,6 +706,9 @@ export function makeFoes(K) {
     const mb = MONSTERS[m.id];
     m.windup = null; m.volley = null;
     if (m.phase === 1) {
+      // the throne stands across the hall: he leaps to it, a few strides from the hero, as the lich steps away into shadow
+      const to = blinkSpot(m);
+      if (to) { m.fromX = m.x = to[0]; m.fromY = m.y = to[1]; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; }
       const n = raiseBearers(m);
       if (n) {
         m.wardUntil = K.G.t + THRONE_MS; m.throne = true; m.wardSaid = false;
@@ -725,10 +728,10 @@ export function makeFoes(K) {
   }
   /** Few of his warband awake about him: room for the drum to call more. */
   function warbandThin(m) {
-    if ((m.drums || 0) >= 5) return false;
+    if ((m.drums || 0) >= 2) return false;
     return K.lvl().monsters.filter(o => o !== m && o.awake && WARBAND.includes(o.id) && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= 7).length < 3;
   }
-  /** The beat: three goblins come running, sharing a square beside him. */
+  /** The beat: two goblins come running, sharing a square beside him. */
   function warband(m, mb) {
     m.drums = (m.drums || 0) + 1;
     Sound.play('batter', K.heard(m));
@@ -737,7 +740,7 @@ export function makeFoes(K) {
     const b = MONSTERS.goblin, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((K.G.depth - 1) / 2);
     const g = K.newMonster('goblin', spot[0], spot[1], hp());
     const f = K.diff().hp * (1 + K.PRESS_HP * (K.lvl().press || 0));
-    g.pack = [0, 1].map(() => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
+    g.pack = [0].map(() => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
     g.awake = true;
     K.log(`BOOM. BOOM. The ${mb.name}'s drum rolls through the Warrens, and a warband comes running!`, 'bad');
     K.learn(m.id, 'trick');
@@ -749,7 +752,7 @@ export function makeFoes(K) {
       const spot = spotNear(m);
       if (!spot) break;
       const b = MONSTERS.orc;
-      const g = K.newMonster('orc', spot[0], spot[1], Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + K.G.depth);
+      const g = K.newMonster('orc', spot[0], spot[1], Dice.dice(b.hp[0], b.hp[1], b.hp[2]));
       g.bearer = m.uid; g.awake = true;
       n++;
     }
@@ -1004,10 +1007,14 @@ export function makeFoes(K) {
     // is its own flash, sound and line of the log.
     if (m.volley) return volleys(m, mb, adjacent, shot);
     if (m.windup && m.windup.move) { resolveMove(m, mb, m.windup); return G.status !== 'playing' ? STOP : undefined; }
+    // on his throne the Warlord only throws: his shield-bearers do the close work
+    if (m.throne && adjacent) { m.windup = null; m.nextAct = G.t + 400; return; }
     if (!m.windup && startMove(m, mb, adjacent)) return;
     if (m.windup) return strikes(m, mb, adjacent, shot);
     if (adjacent || shot) {
-      const cycle = shot && !adjacent ? mb.speed * 1.3 : mb.speed;
+      // (the Warlord throws from his throne only now and then: he cannot be hurt up there, and a
+      // spear every blow's worth of time from where no blade reaches was most of the fight)
+      const cycle = shot && !adjacent ? mb.speed * (m.throne ? 2.6 : 1.3) : mb.speed;
       beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
       return;
     }
