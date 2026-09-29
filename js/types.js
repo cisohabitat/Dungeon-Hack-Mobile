@@ -68,6 +68,9 @@
  * @property {string[]} [boons]
  * @property {Record<string, number>} [taught]   points Self-Taught has put into each score this run (two at most)
  * @property {number} [volleyN]   arrows landed this run, for a Volley's every third
+ * @property {{until: number, hide: number, full: number}} [shape]  a druid in Wild Shape: until when, and the bear's hide left of its full thickness
+ * @property {number} [rendN]     claw blows landed in bear shape, for Rending Claws' every third
+ * @property {number} [nextKin]   when Beast Bond next mends the companion
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
  * @property {number} [regenCarry]  the part of a point of natural healing still owed (Slow to Bleed's half again)
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]

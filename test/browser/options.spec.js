@@ -159,6 +159,29 @@ test.describe('rest and the quick drink', () => {
     await expect(page.locator('[data-tap="cast"] small')).toHaveText(/^Snare \d+s$/);
     expect(errors).toEqual([]);
   });
+
+  test('the Druid is locked until a win with a companion at your side; then Wild Shape from the spell list makes a bear, shown on the status line', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-new');
+    const card = page.locator('.class-card[data-cls="druid"]');
+    await expect(card).toBeDisabled();
+    await expect(card).toContainText('companion still at your side');
+    // (its lock is its own: the card does not list the classes still to win, as the Ranger's does)
+    await expect(card).not.toContainText('Still to win');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 } }, relics: [], kin: 1 })));
+    await page.click('#c-back'); await page.click('#btn-new');
+    await expect(card).toBeEnabled();
+    await startGame(page, { cls: 'druid', seed: 'druid-bear' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await page.click('[data-open="spells"]');
+    await page.locator('#spell-list button.spell', { hasText: 'Wild Shape' }).click();
+    await expect(page.locator('#hud-status')).toContainText(/Bear: \d+s, hide \d+/);
+    expect(await page.evaluate(() => [Game.shaped(), Game.renderState().fx.view.cls, Game.weapon().name])).toEqual([true, 'bear', 'claws']);
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('point buy', () => {

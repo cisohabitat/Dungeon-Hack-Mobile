@@ -287,6 +287,13 @@ const Sound = (() => {
     smite(out) { tone(out, 1046, 0.22, 'sine', 0.1, -523); noise(out, 0.12, 0.12, { type: 'bandpass', f: 2000, q: 1.5 }); tone(out, 80, 0.25, 'sine', 0.2, -30, 0.05); },
     protection(out) { tone(out, 262, 0.7, 'sine', 0.08, 0, 0, 0.2); tone(out, 392, 0.7, 'sine', 0.06, 0, 0.05, 0.2); },
     flame_strike(out) { noise(out, 0.6, 0.3, { f: 300, to: 2400, attack: 0.1 }); tone(out, 80, 0.6, 'sine', 0.25, -40, 0.1); },
+    // a druid's: the lash's crack, a bear's roar, water over moss, creaking roots, the storm, a swarm
+    thorn_lash(out) { noise(out, 0.18, 0.2, { type: 'bandpass', f: 900, to: 2600, q: 1.4, attack: 0.08 }); noise(out, 0.04, 0.2, { type: 'highpass', f: 2500, delay: 0.16 }); },
+    wild_shape(out) { const l = lp(out, 700); tone(l, 90, 0.8, 'sawtooth', 0.16, 60, 0, 0.1); tone(l, 135, 0.7, 'sawtooth', 0.08, 40, 0.05, 0.1); noise(out, 0.6, 0.12, { f: 400, attack: 0.1 }); },
+    mending_moss(out) { tone(out, 440, 0.4, 'sine', 0.08); tone(out, 587, 0.5, 'sine', 0.07, 0, 0.1); noise(out, 0.5, 0.05, { type: 'bandpass', f: 1600, q: 1, attack: 0.1 }); },
+    entangle(out) { const l = lp(out, 900); for (let i = 0; i < 4; i++) tone(l, vary(160, 0.2), 0.18, 'sawtooth', 0.06, -40, i * 0.09); noise(out, 0.4, 0.1, { f: 500, to: 200, attack: 0.05 }); },
+    call_lightning(out) { noise(out, 0.06, 0.24, { type: 'highpass', f: 2200 }); noise(out, 0.9, 0.24, { f: 500, to: 80, delay: 0.05 }); tone(lp(out, 600), 60, 0.6, 'sawtooth', 0.1, -20, 0.05); },
+    insect_plague(out) { for (let i = 0; i < 3; i++) tone(lp(out, 1400), vary(220, 0.1), 0.7, 'sawtooth', 0.03, vary(40, 0.5), i * 0.05, 0.2); noise(out, 0.7, 0.08, { type: 'bandpass', f: 900, q: 3, attack: 0.2 }); },
   };
 
   const FX = {

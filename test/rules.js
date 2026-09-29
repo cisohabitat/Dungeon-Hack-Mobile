@@ -6202,12 +6202,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{},"feats":{}}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{},"feats":{},"kin":0}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
-  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 } }));
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 }, kin: 'x' }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1},"kin":0}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;
@@ -10375,6 +10375,254 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (Game.level().monsters.includes(m)) out.push('the goblin never fell');
       else if (said !== 'Bestiary: Goblin added, and you learned how tough it is.' && said !== 'Bestiary: Goblin added. | Bestiary: Goblin, you learned how tough it is.') out.push(`the bestiary said "${said}"`);
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  // ---------- the druid ----------
+  const druidSpell = (ctx, id) => ctx.SPELLS.druid.find(s => s.id === id);
+  /** A druid of some level with points to spend, ready to cast. */
+  const druid = async (seed, level = 1, opts) => {
+    const ctx = await start('druid', seed, opts);
+    const p = ctx.Game.player();
+    Object.assign(p.stats, evenStats, { wis: 16 });
+    p.level = level; p.sp = 999; p.hp = p.maxHp = 200;
+    return ctx;
+  };
+  const ready = ctx => { const G = ctx.Game.state(), p = ctx.Game.player(); G.t = Math.max(G.t, p.nextAttack); };
+
+  await test('a druid: Wisdom lands the spear, and the kit is light armour, a spear and six spells, the bear among them', async () => {
+    const out = [];
+    const ctx = await druid('druid-kit');
+    const { Game, CLASSES } = ctx; const p = Game.player();
+    if (!p.eq.weapon || p.eq.weapon.t !== 'spear' || !p.eq.armor || p.eq.armor.t !== 'leather') out.push(`a druid starts with ${p.eq.weapon && p.eq.weapon.t} and ${p.eq.armor && p.eq.armor.t}`);
+    p.stats.str = 8; p.stats.wis = 18;
+    const high = Game.toHit(); p.stats.wis = 10; const low = Game.toHit();
+    if (high - low !== 4) out.push(`Wisdom 18 against 10 moved a druid's to-hit by ${high - low}`);
+    const ids = Game.knownSpells().map(s => s.id).join();
+    if (ids !== 'thorn_lash,wild_shape,mending_moss,entangle,call_lightning,insect_plague') out.push(`a druid knows ${ids}`);
+    if (!Game.spellAvailable(druidSpell(ctx, 'wild_shape'))) out.push('the bear is not there from the first level');
+    if (CLASSES.druid.title !== 'Archdruid') out.push(`the druid's title is ${CLASSES.druid.title}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('Wild Shape: claws for blows, better armour, a hide that takes the blows first; it ends with time, a torn hide or another spell', async () => {
+    const out = [];
+    const ctx = await druid('druid-shape', 4);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const ac0 = Game.playerAC(), shape = druidSpell(ctx, 'wild_shape');
+    if (Game.castSpell(shape) !== true || !Game.shaped()) return 'the bear did not come';
+    const w = Game.weapon();
+    if (w.name !== 'claws' || w.range || w.dmg[1] !== 8) out.push(`a bear strikes with ${JSON.stringify(w)}`);
+    if (Game.playerAC() !== ac0 + 2) out.push(`a bear's armour class is ${Game.playerAC()}, the druid's ${ac0}`);
+    if (Game.renderState().fx.view.cls !== 'bear' || Game.renderState().fx.view.weapon) out.push('the view does not show a bear\'s paws');
+    if (!/^Bear: 40s, hide 8$/.test(Game.shapeChip())) out.push(`the status line says "${Game.shapeChip()}"`);
+    if (Game.spellWasteReason(shape) !== 'You are a bear already.') out.push('the bear could be cast over itself');
+    // a blow on the hide: all of it taken, then the rest through, and the shape broken
+    const hp0 = p.hp;
+    Game.hurtPlayer(5, 'The orc hits you for 5.');
+    if (p.hp !== hp0 || p.shape.hide !== 3) out.push(`five on a hide of 8 left hp ${hp0}->${p.hp}, hide ${p.shape && p.shape.hide}`);
+    const mark = markLog(G);
+    Game.hurtPlayer(7, 'The orc hits you for 7.');
+    if (p.hp !== hp0 - 4 || Game.shaped()) out.push(`seven on a hide of 3 left hp ${hp0}->${p.hp}, shaped ${Game.shaped()}`);
+    const said = linesSince(G, mark).join(' / ');
+    // the blow first, then what it did to the bear
+    if (!said.includes('(Your hide takes 3.)') || !(said.indexOf('tears through the bear') > said.indexOf('hits you for 7'))) out.push(`said: ${said}`);
+    // time runs out
+    ready(ctx); Game.castSpell(shape);
+    run(Game, G, 40100);
+    if (Game.shaped() || p.shape) out.push('the bear outlasted its forty seconds');
+    // another spell lets it go, and is cast
+    ready(ctx); Game.castSpell(shape);
+    const heal = druidSpell(ctx, 'mending_moss'); p.hp = 10; ready(ctx);
+    if (Game.castSpell(heal) !== true || Game.shaped() || p.hp <= 10) out.push(`Mending Moss in bear shape: cast, shaped ${Game.shaped()}, hp ${p.hp}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a bear holds nothing: a flaming spear\'s fire and an oil stay behind with it', async () => {
+    const out = [];
+    const ctx = await druid('druid-nothing', 4);
+    const { Game } = ctx; const p = Game.player();
+    p.eq.weapon = { t: 'spear', q: 1, e: 0, pw: 'flame' };
+    p.coating = { t: 'fire', left: 20 };
+    if (!Game.hasPower('flame', 'weapon')) out.push('the flaming spear did not flame in the hand');
+    Game.castSpell(druidSpell(ctx, 'wild_shape'));
+    if (Game.hasPower('flame', 'weapon') || Game.hasPower('flame')) out.push('a bear\'s claws carried the spear\'s fire');
+    const m = beside(ctx, 'goblin', { hp: 500, maxHp: 500, nextAct: 1e12 });
+    p.perkHit = 60;
+    for (let i = 0; i < 5; i++) { ready(ctx); Game.input('attack'); }
+    if (p.coating.left !== 20) out.push(`a bear's claws spent the oil: ${p.coating.left} left`);
+    if (!(m.hp < 500)) out.push('the claws never landed');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('Entangle holds the first foe ahead and breaks its blow; Old Growth holds every one in reach; a boss tears free in half the time', async () => {
+    const out = [];
+    const lineUp = (ctx, ids, extra = {}) => {
+      const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), G = Game.state();
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      for (let k = 1; k <= 4; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      L.monsters.length = 0;
+      return ids.map((id, i) => { const m = { uid: 70 + i, id, x: p.x + dx * (i + 2), y: p.y + dy * (i + 2), hp: 99, maxHp: 99, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, windup: { kind: 'melee', at: G.t, until: G.t + 500 }, ...extra }; L.monsters.push(m); return m; });
+    };
+    const ctx = await druid('druid-entangle', 5);
+    const { Game } = ctx; const G = Game.state(), sp = druidSpell(ctx, 'entangle');
+    Game.level().monsters.length = 0;
+    if (!/Nothing within reach/.test(Game.spellWasteReason(sp) || '')) out.push('Entangle at nothing was not called a waste');
+    const [a, b] = lineUp(ctx, ['orc', 'orc']);
+    const t0 = G.t;
+    if (Game.castSpell(sp) !== true) return 'Entangle was refused with an orc ahead';
+    if (a.windup || a.nextAct - t0 < 3000) out.push(`the first orc: windup ${!!a.windup}, moves in ${a.nextAct - t0}ms`);
+    if (!b.windup) out.push('the second orc was held too, without Old Growth');
+    // Old Growth, and a Grovewarden's longer hold
+    const c2 = await druid('druid-growth', 9);
+    c2.Game.player().path = 'grovewarden'; c2.Game.player().capstone = 'old_growth';
+    const [x, y] = lineUp(c2, ['orc', 'orc']); const t1 = c2.Game.state().t;
+    c2.Game.castSpell(druidSpell(c2, 'entangle'));
+    if (x.windup || y.windup || y.nextAct - t1 < 4500) out.push(`Old Growth: windups ${!!x.windup}/${!!y.windup}, the second moves in ${y.nextAct - t1}ms`);
+    // a boss, half
+    const c3 = await druid('druid-boss', 5);
+    const [boss] = lineUp(c3, ['warlord'], { windup: null }); const t2 = c3.Game.state().t;
+    c3.Game.castSpell(druidSpell(c3, 'entangle'));
+    if (boss.nextAct - t2 !== 1500) out.push(`the Warlord was held ${boss.nextAct - t2}ms`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a druid\'s bond: a companion half again as tough, a floor further on, mended with them and by Beast Bond, and a Grovewarden\'s twice as tough', async () => {
+    const out = [];
+    const hound = async (cls, seed) => {
+      const ctx = await start(cls, seed, { levels: 6 });
+      const p = ctx.Game.player(); p.hp = p.maxHp = 9999; p.food = 100;
+      meetAndChoose(ctx, 'stray', 0); ctx.Game.closeEncounter();
+      return ctx;
+    };
+    const f = await hound('fighter', 'kin-f'), dr = await hound('druid', 'kin-d');
+    const hf = f.Game.companion(), hd = dr.Game.companion();
+    if (!hf || !hd) return `no hound: fighter ${!!hf}, druid ${!!hd}`;
+    f.Game.player().level = dr.Game.player().level;
+    if (hd.maxHp !== Math.round(hf.maxHp * 1.5)) out.push(`a druid's hound has ${hd.maxHp} hit points, a fighter's ${hf.maxHp}`);
+    if ((hd.floors || 0) !== 1 || (hf.floors || 0) !== 0) out.push(`it came a floor on: druid's ${hd.floors}, fighter's ${hf.floors}`);
+    // mended with the druid
+    const p = dr.Game.player(); p.level = 3; p.sp = 99; p.hp = 5; p.maxHp = 100; hd.hp = 1;
+    dr.Game.state().t = Math.max(dr.Game.state().t, p.nextAttack);
+    dr.Game.castSpell(druidSpell(dr, 'mending_moss'));
+    if (!(hd.hp > 1)) out.push('Mending Moss did not mend the hound');
+    // a druid unhurt with a hurt hound: not a waste
+    p.hp = p.maxHp; hd.hp = 1;
+    if (dr.Game.spellWasteReason(druidSpell(dr, 'mending_moss'))) out.push('healing was wasted on an unhurt druid with a hurt hound');
+    hd.hp = hd.maxHp;
+    if (!dr.Game.spellWasteReason(druidSpell(dr, 'mending_moss'))) out.push('healing an unhurt druid and hound was not a waste');
+    // Beast Bond: a hit point every three seconds at their side, beyond what it mends on its own
+    const mended = bond => {
+      if (bond) talent(dr, 'beast_bond');
+      hd.hp = 1; hd.mode = 'stay'; hd.x = p.x + 1; hd.y = p.y; p.nextKin = 0;
+      dr.Game.level().monsters.length = 0;
+      run(dr.Game, dr.Game.state(), 9100);
+      return hd.hp - 1;
+    };
+    run(dr.Game, dr.Game.state(), 1000);   // (it grows to the druid's new level first)
+    const own = mended(false), bonded = mended(true);
+    if (bonded - own < 3 || bonded - own > 4) out.push(`in nine seconds it mended ${own} on its own, ${bonded} with Beast Bond`);
+    // a Grovewarden's grows to twice a fighter's
+    f.Game.player().level = p.level; run(f.Game, f.Game.state(), 1000);
+    p.path = 'grovewarden'; run(dr.Game, dr.Game.state(), 1000);
+    if (hd.maxHp !== hf.maxHp * 2) out.push(`a Grovewarden's hound has ${hd.maxHp} hit points, a fighter's ${hf.maxHp}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the druid\'s paths and capstones: the bear\'s cost, time, hide and claws; Mending Moss\'s cost', async () => {
+    const out = [];
+    const hero = async (path, cap) => { const ctx = await druid('druid-path-' + (cap || path || 'none'), 9); ctx.Game.player().path = path; ctx.Game.player().capstone = cap; return ctx; };
+    const none = await hero(undefined), ss = await hero('shapeshifter'), gw = await hero('grovewarden');
+    const cost = (c, id) => c.Game.spellCost(druidSpell(c, id));
+    if (cost(ss, 'wild_shape') !== cost(none, 'wild_shape') - 1 || cost(ss, 'thorn_lash') !== cost(none, 'thorn_lash') + 1) out.push(`Shapeshifter: the bear costs ${cost(ss, 'wild_shape')}, the lash ${cost(ss, 'thorn_lash')}`);
+    const shaped = c => { c.Game.castSpell(druidSpell(c, 'wild_shape')); const p = c.Game.player(); return { secs: Math.round((p.shape.until - c.Game.state().t) / 1000), hide: p.shape.hide, claws: c.Game.weapon().dmg[2] }; };
+    const n = shaped(none), s = shaped(ss), g = shaped(gw);
+    if (n.secs !== 40 || s.secs !== 45 || g.secs !== 40) out.push(`the bear lasts ${n.secs}s, a Shapeshifter's ${s.secs}s, a Grovewarden's ${g.secs}s`);
+    if (s.hide !== n.hide + 2 || s.claws !== n.claws + 2) out.push(`a Shapeshifter's hide ${n.hide}->${s.hide}, claws +${s.claws}`);
+    const dire = shaped(await hero('shapeshifter', 'dire_bear')), old = shaped(await hero('shapeshifter', 'old_hide'));
+    if (dire.claws !== n.claws + 5) out.push(`Dire Bear: claws +${dire.claws}`);
+    if (old.hide !== n.hide + 8) out.push(`Old Hide: hide ${n.hide}->${old.hide}`);
+    const hw = await hero('grovewarden', 'heartwood');
+    if (cost(hw, 'mending_moss') !== cost(gw, 'mending_moss') - 1) out.push(`Heartwood: Mending Moss ${cost(gw, 'mending_moss')}->${cost(hw, 'mending_moss')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the druid\'s talents: a thicker hide, bark, longer thorns, rending claws that bleed', async () => {
+    const out = [];
+    const ctx = await druid('druid-talents', 6);
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+    const shape = druidSpell(ctx, 'wild_shape');
+    Game.castSpell(shape); const hide0 = p.shape.hide; delete p.shape;
+    talent(ctx, 'thick_hide'); ready(ctx); Game.castSpell(shape);
+    if (p.shape.hide !== Math.round(hide0 * 1.5)) out.push(`Thick Hide took the hide from ${hide0} to ${p.shape.hide}`);
+    const ac0 = Game.playerAC(); talent(ctx, 'barkskin');
+    if (Game.playerAC() !== ac0 + 1) out.push(`Barkskin took armour class ${ac0}->${Game.playerAC()}`);
+    // Rending Claws: every third blow that lands opens a wound that bleeds
+    talent(ctx, 'rending_claws');
+    const m = beside(ctx, 'ogre', { hp: 9999, maxHp: 9999, nextAct: 1e12 });
+    p.perkHit = 60;
+    for (let i = 0; i < 3; i++) { ready(ctx); Game.input('attack'); }
+    if (!m.dot || m.dot.kind !== 'bleed') out.push('three claw blows opened no wound');
+    const hp = m.hp; run(Game, G, 3100);
+    if (!(m.hp < hp)) out.push('the wound did not bleed');
+    // Long Thorns: two squares further
+    delete p.shape;
+    const lash = druidSpell(ctx, 'thorn_lash');
+    const [dx, dy] = Dungeon.DIRS[p.dir], L = Game.level();
+    for (let k = 1; k <= 6; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+    m.x = p.x + dx * 6; m.y = p.y + dy * 6; m.dot = null;
+    if (!Game.spellWasteReason(lash)) out.push('Thorn Lash reached six squares without Long Thorns');
+    talent(ctx, 'long_thorns');
+    if (Game.spellWasteReason(lash)) out.push(`with Long Thorns: ${Game.spellWasteReason(lash)}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the druid\'s green gifts: Green Hands and a Grovewarden heal more, Stormborn and a Grovewarden\'s thorns hold back what they strike', async () => {
+    const out = [];
+    // the same die, so the only difference is the gift
+    const healed = async (key, set) => {
+      const ctx = await druid('druid-heal-' + key, 5); set(ctx);
+      const p = ctx.Game.player(); p.hp = 1; seedDice(ctx, 'moss');
+      ctx.Game.castSpell(druidSpell(ctx, 'mending_moss'));
+      return p.hp - 1;
+    };
+    const plain = await healed('plain', () => {}), green = await healed('green', c => talent(c, 'green_hands')), grove = await healed('grove', c => { c.Game.player().path = 'grovewarden'; });
+    if (Math.abs(green - plain * 4 / 3) > 1) out.push(`Green Hands healed ${green}, plainly ${plain}`);
+    if (Math.abs(grove - plain * 1.25) > 1) out.push(`a Grovewarden healed ${grove}, plainly ${plain}`);
+    // a bolt's hold: how much later the orc it strikes may act
+    const held = async (key, id, set) => {
+      const ctx = await druid('druid-hold-' + key, 5); set(ctx);
+      const m = beside(ctx, 'orc', { hp: 999, maxHp: 999, nextAct: ctx.Game.state().t });
+      const t0 = ctx.Game.state().t; seedDice(ctx, 'hold');
+      ctx.Game.castSpell(druidSpell(ctx, id));
+      return { hold: m.nextAct - t0, dealt: 999 - m.hp };
+    };
+    const bolt = await held('bolt', 'call_lightning', () => {}), storm = await held('storm', 'call_lightning', c => talent(c, 'stormborn'));
+    if (storm.hold - bolt.hold !== 700) out.push(`Stormborn held the orc ${storm.hold}ms, without it ${bolt.hold}ms`);
+    if (Math.abs(storm.dealt - bolt.dealt * 1.25) > 1) out.push(`Stormborn's lightning dealt ${storm.dealt}, without it ${bolt.dealt}`);
+    const lash = await held('lash', 'thorn_lash', () => {}), grovel = await held('grovel', 'thorn_lash', c => { c.Game.player().path = 'grovewarden'; });
+    if (grovel.hold - lash.hold !== 700) out.push(`a Grovewarden's thorns held the orc ${grovel.hold}ms, plain ones ${lash.hold}ms`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
+    const out = [];
+    const ctx = await newContext();
+    const { Game, Progress } = ctx;
+    if (Progress.classOpen('druid')) out.push('the Druid was open from the start');
+    const win = (cls, kin) => {
+      Game.newGame({ name: 'K', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'kin-' + cls + kin, opts: { ...OPTS, permadeath: true, difficulty: 'easy' } });
+      const G = Game.state();
+      if (kin) G.companion = { kind: 'hound', name: 'Ash', x: 0, y: 0, depth: G.depth, hp: 5, maxHp: 5, mode: 'follow', joined: G.depth, fallen: kin === 'fallen' ? G.depth : undefined };
+      winHere(Game); return Game.earned();
+    };
+    win('fighter', 'fallen');
+    if (Progress.classOpen('druid')) out.push('a win whose companion had fallen opened the Druid');
+    const e = win('cleric', 'yes');
+    if (!e.classesOpened.includes('druid') || !Progress.classOpen('druid')) out.push(`a win with the hound at heel opened ${JSON.stringify(e.classesOpened)}`);
+    // the Ranger still wants the first four, and only them
+    win('mage', ''); const r = win('thief', '');
+    if (!r.classesOpened.includes('ranger')) out.push(`the four first classes won opened ${JSON.stringify(r.classesOpened)}`);
     return out.length ? out.join('; ') : true;
   });
 

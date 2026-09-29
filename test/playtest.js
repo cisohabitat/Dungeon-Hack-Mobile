@@ -145,11 +145,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'empower', 'mirror_image', 'arcane_flow', 'quick_words', 'kindling', 'rime',
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
         'eagle_eye', 'hunters_mark', 'swift_quiver', 'volley', 'long_snare', 'field_craft', 'camouflage',
+        'thick_hide', 'barkskin', 'rending_claws', 'green_hands', 'beast_bond', 'stormborn', 'long_thorns',
         'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
       // a ranger's blows go by Dexterity: Strength lessons are nothing to one
       const pick = order.find(id => offer.includes(id) && !(cls === 'ranger' && id === 'str')) || offer[0];
       // Self-Taught: both points in the class's key score, then (its two given) in Constitution
-      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex', ranger: 'dex' }[cls];
+      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex', ranger: 'dex', druid: 'wis' }[cls];
       const room = k => ((Game.player().taught || {})[k] || 0) === 0;
       const to = room(key) ? key : room('con') ? 'con' : 'dex';
       Game.chooseBoon(pick, pick === 'spread' ? [to, to] : undefined);
@@ -167,7 +168,11 @@ function play(ctx, cls, seed, opts, bg, idx) {
       // casting shares the swing timer, so only try when ready
       const castable = G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && !Game.spellWasteReason(sp));
       const healSp = castable.filter(sp => sp.kind === 'heal').pop();
-      if (hpFrac < 0.5 && healSp && !process.env.NOHEAL) { Game.castSpell(healSp); rec.healsCast = (rec.healsCast || 0) + 1; step(); continue; }
+      // a druid takes the bear when a fight comes close, and keeps it: any other spell would let it go
+      const closeBy = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
+      const shape = !process.env.NOSHAPE && castable.find(sp => sp.kind === 'shape');
+      if (shape && closeBy) { Game.castSpell(shape); rec.shapes = (rec.shapes || 0) + 1; step(); continue; }
+      if (hpFrac < 0.5 && healSp && !process.env.NOHEAL && !Game.shaped()) { Game.castSpell(healSp); rec.healsCast = (rec.healsCast || 0) + 1; step(); continue; }
       // a fight is about to start: raise defences first, keeping points in hand
       const closing = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
       const buff = closing && !process.env.NOBUFF && castable.find(sp => sp.kind === 'buff' && p.sp >= Game.spellCost(sp) + 2);
@@ -399,7 +404,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     }
 
     // --- shoot down the corridor before anything closes the distance
-    const bolts = process.env.NOBOLT || G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
+    const bolts = process.env.NOBOLT || G.t < p.nextAttack || Game.shaped() ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
     if (bolts.length) {
       let shot = null;
       for (let k = 0; k < 4 && !shot; k++) {
@@ -475,7 +480,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
-      const spells = process.env.NOBOLT ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt');
+      const spells = process.env.NOBOLT || Game.shaped() ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt');
       // points kept back for the next fight are no use against the last one
       // a Pyromancer reaches for fire first, at the same moments
       const pick = (p.path === 'pyromancer' && spells.find(s => s.id === 'burning_hands')) || spells[spells.length - 1];
@@ -792,7 +797,7 @@ const opts = { levels: parseInt(process.env.LEVELS || '8', 10), size: 'medium', 
 // SEEDN / SEEDPFX pick a larger or different seed set (defaults: the 20 bench seeds)
 const SEEDS = Array.from({ length: parseInt(process.env.SEEDN || '20', 10) }, (_, i) => (process.env.SEEDPFX || 'bench') + i);
 const TRIALS = parseInt(process.argv[3] || '2', 10);
-const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief', 'ranger'];
+const classes = process.argv[2] ? [process.argv[2]] : ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid'];
 async function main() {
 const results = {};
 for (const cls of classes) {

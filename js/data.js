@@ -109,7 +109,7 @@ const BOONS = [
   { id: 'dex', stat: 'dex', max: 2, name: 'Sure Footing', desc: 'Your Dexterity bonus rises by one.', apply: p => { p.stats.dex += p.stats.dex % 2 ? 1 : 2; } },
   { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
   { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
-  { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' },
+  { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' || p.cls === 'druid' },
   // two points placed where the player likes, both in one score if they want: a build planned, not dealt
   { id: 'spread', name: 'Self-Taught', desc: 'Two points to add to any scores you choose, both to one if it has room.', spread: 2, max: 2, apply: () => {} },
   { id: 'vigor', name: 'Old Scars', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
@@ -165,6 +165,15 @@ const TALENTS = {
     { id: 'long_snare', name: 'Long Snare', desc: 'Snare holds a second and a half longer, and comes back in twelve seconds, not sixteen.' },
     { id: 'camouflage', name: 'Camouflage', desc: 'Sleeping monsters notice you a square later.' },
     { id: 'field_craft', name: 'Field Craft', desc: 'You make a good camp: the second rest on a floor is as good and as quiet as the first, and rests thin out one later.' },
+  ],
+  druid: [
+    { id: 'thick_hide', name: 'Thick Hide', desc: 'Your bear\'s hide is half as thick again.' },
+    { id: 'rending_claws', name: 'Rending Claws', desc: 'In bear shape, one blow in three that lands leaves the living bleeding: 1d4 a second for three seconds.' },
+    { id: 'barkskin', name: 'Barkskin', desc: 'Your armour class is 1 better, in bear shape or out of it.' },
+    { id: 'long_thorns', name: 'Long Thorns', desc: 'Thorn Lash reaches two squares further and deals 2 more.' },
+    { id: 'green_hands', name: 'Green Hands', desc: 'Mending Moss heals a third as much again.' },
+    { id: 'stormborn', name: 'Stormborn', desc: 'Call Lightning deals a quarter more, and holds back what it strikes a moment.' },
+    { id: 'beast_bond', name: 'Beast Bond', desc: 'Your companion heals a hit point every three seconds at your side, even mid-fight.' },
   ],
 };
 
@@ -303,6 +312,26 @@ const PATHS = {
       { id: 'wild_bulwark', name: 'Wild Bulwark', flavour: 'The line holds because you are the line.', effects: ['Your armour class is 3 better, not 1.'] },
     ] },
   ],
+  druid: [
+    { id: 'shapeshifter', name: 'Shapeshifter', flavour: 'The bear is not a shape you take any more. It is one you remember.', effects: [
+      'Wild Shape costs a spell point less, and lasts 45 seconds.',
+      'Your bear\'s hide is 2 thicker.',
+      'Your claws deal 2 more damage.',
+      'Your other spells cost a spell point more.',
+    ], capstones: [
+      { id: 'dire_bear', name: 'Dire Bear', flavour: 'The thing you become has forgotten it was ever small.', effects: ['Your claws deal 5 more damage, not 2.'] },
+      { id: 'old_hide', name: 'Old Hide', flavour: 'Scars on scars. Nothing gets through the first time.', effects: ['Your bear\'s hide is 8 thicker, not 2.'] },
+    ] },
+    { id: 'grovewarden', name: 'Grovewarden', flavour: 'The wood keeps its own, and so do you.', effects: [
+      'Your companion has twice the hit points it would at another\'s side, not half again, and strikes 2 harder.',
+      'Mending Moss heals a quarter more.',
+      'Thorn Lash holds back what it strikes a moment.',
+      'Entangle holds a second and a half longer.',
+    ], capstones: [
+      { id: 'heartwood', name: 'Heartwood', flavour: 'Green things grow where you have bled.', effects: ['Mending Moss costs a spell point less.'] },
+      { id: 'old_growth', name: 'Old Growth', flavour: 'The roots were here first. They have been waiting.', effects: ['Entangle holds every foe in its reach down the corridor, not only the first.'] },
+    ] },
+  ],
 };
 
 /** Whether a class can carry this in the shield hand: a thief takes a buckler and nothing bigger, and a caster's focus is for that caster's class alone. */
@@ -339,6 +368,12 @@ const CLASSES = {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once on one life with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a bow or sling shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
+  },
+  // opened by a win with a companion still at the hero's side (opens: 'kin'), not by the other classes' wins
+  druid: {
+    name: 'Druid', plural: 'Druids', title: 'Archdruid', opens: 'kin', locked: 'Win once on one life with a companion still at your side, at any difficulty, and a Druid will come to your fire.', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 0.85, spells: 'druid', primary: 'wis',
+    desc: 'Keeper of the old ways, at home in the dark as the beasts are. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher and sooner wise.',
+    startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
 };
 
@@ -396,20 +431,20 @@ const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int
 
 const ITEMS = {
   // weapons: dmg = [dice, sides, bonus]; speed = attack cooldown in ms
-  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief', 'ranger'], value: 2,  sprite: 'dagger', tier: 1 },
-  club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief'], value: 1, sprite: 'club', tier: 1, blunt: true },
-  staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric'], twoHanded: true, value: 2, sprite: 'staff', tier: 1, blunt: true },
+  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief', 'ranger', 'druid'], value: 2,  sprite: 'dagger', tier: 1 },
+  club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief', 'druid'], value: 1, sprite: 'club', tier: 1, blunt: true },
+  staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric', 'druid'], twoHanded: true, value: 2, sprite: 'staff', tier: 1, blunt: true },
   shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief', 'ranger'], value: 8, sprite: 'shortsword', tier: 1 },
   mace:       { kind: 'weapon', name: 'Mace',             dmg: [1, 6, 1],  speed: 700,  cls: ['fighter', 'cleric'], value: 8, sprite: 'mace', tier: 1, blunt: true },
   hammer:     { kind: 'weapon', name: 'War Hammer',       dmg: [1, 4, 2],  speed: 650,  cls: ['fighter', 'cleric'], value: 9, sprite: 'hammer', tier: 2, blunt: true },
-  spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'ranger'], value: 6, sprite: 'spear', tier: 2 },
+  spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'ranger', 'druid'], value: 6, sprite: 'spear', tier: 2 },
   longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief', 'ranger'], value: 15, sprite: 'longsword', tier: 2 },
   flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'flail', tier: 3, blunt: true },
   battleaxe:  { kind: 'weapon', name: 'Battle Axe',       dmg: [1, 8, 1],  speed: 850,  cls: ['fighter'], value: 18, sprite: 'battleaxe', tier: 3 },
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'greatsword', tier: 4 },
   // thrown and missile arms. Attack reaches down the corridor when one is in hand.
   throwknife: { kind: 'weapon', name: 'Throwing Knives', dmg: [1, 4, 0], speed: 520, range: 4, cls: ['fighter', 'thief', 'mage', 'ranger'], value: 12, sprite: 'throwknife', tier: 1 },
-  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric', 'ranger'], value: 10, sprite: 'sling', tier: 2, aimed: true },
+  sling:      { kind: 'weapon', name: 'Sling',           dmg: [1, 4, 1], speed: 800, range: 5, cls: ['fighter', 'thief', 'cleric', 'ranger', 'druid'], value: 10, sprite: 'sling', tier: 2, aimed: true },
   shortbow:   { kind: 'weapon', name: 'Short Bow',       dmg: [1, 6, 0], speed: 850, range: 6, cls: ['fighter', 'thief', 'ranger'], twoHanded: true, value: 30, sprite: 'shortbow', tier: 3, aimed: true },
   longbow:    { kind: 'weapon', name: 'Long Bow',        dmg: [1, 8, 0],  speed: 950, range: 7, cls: ['fighter', 'ranger'], twoHanded: true, value: 70, sprite: 'longbow', tier: 5, aimed: true },
   // armor
@@ -623,6 +658,15 @@ const SPELLS = {
     { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, L], color: '#8f8', desc: 'Heals 2d8 + your level in hit points.' },
     { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 90000, color: '#adf', desc: '+2 armour class for a minute and a half.' },
     { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], area: true, fire: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
+  ],
+  // a druid's: the bear is a spell like the others, and any other spell lets it go
+  druid: [
+    { id: 'thorn_lash',     name: 'Thorn Lash',     lvl: 1, cost: 2, kind: 'bolt', range: 4, dmg: L => [1, 6, 1 + Math.floor(L / 3)], color: '#8c4', desc: 'A whip of thorns lashes the first foe within four squares.' },
+    { id: 'wild_shape',     name: 'Wild Shape',     lvl: 1, cost: 5, kind: 'shape', color: '#c95', desc: 'Become a bear for forty seconds: claws for your blows, 2 better armour class, and a hide that takes the blows before you do. Casting any other spell lets the bear go.' },
+    { id: 'mending_moss',   name: 'Mending Moss',   lvl: 2, cost: 3, kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points, and your companion as much.' },
+    { id: 'entangle',       name: 'Entangle',       lvl: 3, cost: 3, kind: 'root', range: 4, color: '#6b3', desc: 'Roots burst from the stone and hold the first foe within four squares for three seconds, the blow it was drawing back broken off.' },
+    { id: 'call_lightning', name: 'Call Lightning', lvl: 3, cost: 5, kind: 'bolt', range: 5, dmg: L => [3, 8, Math.floor(L / 2)], element: 'lightning', color: '#ff8', desc: 'Lightning falls on the first foe within five squares.' },
+    { id: 'insect_plague',  name: 'Insect Plague',  lvl: 5, cost: 9, kind: 'bolt', range: 3, dmg: L => [4, 6, L], pierce: true, color: '#cb6', desc: 'A stinging swarm fills the corridor ahead, and every foe in it within three squares.' },
   ],
 };
 

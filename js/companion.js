@@ -45,9 +45,10 @@ export function makeCompanion(K) {
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
   /** Its armour: its kind's, and more under an iron-studded collar. */
   const acOf = c => kindOf(c).ac + (c && c.charm === 'charm_collar' ? 3 : 0);
-  const maxHpFor = (c, level) => kindOf(c).hp[0] + kindOf(c).hp[1] * level + 4 * rankOf(c);
+  // (a druid's is tougher: see wild.js)
+  const maxHpFor = (c, level) => Math.round((kindOf(c).hp[0] + kindOf(c).hp[1] * level + 4 * rankOf(c)) * (K.kinHp ? K.kinHp() : 1));
   const hitFor = (c, level) => kindOf(c).hit + Math.floor(level / 3);
-  const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3)];
+  const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3) + (K.kinBite ? K.kinBite() : 0)];
   /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. (A goblin goes quiet as a thief.) */
   const noisy = () => { const c = here(), p = K.P(); return !!c && c.kind !== 'goblin' && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
@@ -99,6 +100,9 @@ export function makeCompanion(K) {
     const name = new Rng(`${G.seed}|${k}`).pick(def.names);
     const spot = besideHero() || { x: p.x, y: p.y };
     const c = { kind: k, name, x: spot.x, y: spot.y, depth: G.depth, hp: 0, maxHp: 0, mode: /** @type {'follow'} */ ('follow'), nextAct: G.t + 600, kills: 0, joined: G.depth };
+    // it comes to a druid a floor further on in what it knows
+    const kin = K.kinFloors ? K.kinFloors() : 0;
+    if (kin) c.floors = kin;
     c.hp = c.maxHp = maxHpFor(c, p.level);
     G.companion = c;
     Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: def.voice }));
@@ -255,6 +259,14 @@ export function makeCompanion(K) {
     if (!c) return;
     moveTo(c, fromX, fromY);
   }
+  /** A druid's healing mends it too, by as much. @returns {number} what it was mended */
+  function mend(n) {
+    const c = here();
+    if (!c || n <= 0 || c.hp >= c.maxHp) return 0;
+    const was = c.hp;
+    c.hp = Math.min(c.maxHp, c.hp + n);
+    return c.hp - was;
+  }
   /** Rest heals it with the hero, by the same share. */
   function rested(share) {
     const c = here();
@@ -351,5 +363,5 @@ export function makeCompanion(K) {
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
 }

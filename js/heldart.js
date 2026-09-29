@@ -18,6 +18,9 @@ const HAND_COLORS = {
   cleric: ['#8a6440', '#c9a24a', '#e8e0d0'],
   mage: ['#d8b090', '#6a4aa0', '#4a3a78'],
   thief: ['#3a3438', '#5a4a3a', '#3e4a3a'],
+  druid: ['#8a6a44', '#4e6a34', '#5a4a2e'],
+  // a druid in Wild Shape: fur to the elbow, and claws (see hand())
+  bear: ['#5a3a22', '#4a2e1a', '#3e2614'],
 };
 const DARK = '#1a1418', LEATHER = '#3a2618', WOOD = '#7a5230', RIM = '#7a808c';
 
@@ -99,6 +102,11 @@ function hand(x, y, a, arm, cls, o = {}) {
         limb(...P(0.2, -3.2), ...P(-1.9, -1.2), 1.05, 0.95, glove),               // the thumb, tucked
         hair(...P(-0.4, -2.2), ...P(-1.8, -0.4), DARK),
         specks(row.map(k => P(2.9, k - 0.3)), glint),
+        // a bear's paw: pale hooked claws out past the knuckles, and a ruff of fur at the wrist
+        ...(cls === 'bear' ? [
+          ...row.map(k => limb(...P(3.1, k), ...P(4.9, k * 1.1 - 0.5), 0.55, 0.2, '#d8ccb0')),
+          ...[-2.6, -1, 0.6, 2.2].map(k => hair(...P(-1.6, k), ...P(-3.4, k * 1.2), '#7a5434')),
+        ] : []),
       ],
     };
   }

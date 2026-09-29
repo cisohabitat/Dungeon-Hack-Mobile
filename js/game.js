@@ -12,6 +12,7 @@ import { SIZE as DRESS_SIZE } from './dressing.js';
 import { encodeSave, decodeSave } from './savecode.js';
 import { makeCompanion } from './companion.js';
 import { makeBounty } from './bounty.js';
+import { makeWild } from './wild.js';
 
 // Core game state and rules.
 
@@ -360,7 +361,7 @@ const Game = (() => {
   // Frostweaver: the cold holds things back, and the Shield holds longer.
   const FROST_SPELLS = ['lightning', 'cone_cold'];
   /** How long a spell holds back what it hits: Rime's jolt, a Frostweaver's, or both. */
-  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? (capped('deep_winter') ? 1400 : 700) : 0)
+  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (sp.id === 'thorn_lash' && onPath('grovewarden') ? 700 : 0) + (sp.id === 'call_lightning' && hasTalent('stormborn') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? (capped('deep_winter') ? 1400 : 700) : 0)
     + (FROST_SPELLS.includes(sp.id) && focusHas('storm') ? 400 : 0);
   // What a spell costs, and what a buff gives and for how long, with the paths in.
   /** Spell points a spell costs this hero. */
@@ -371,6 +372,9 @@ const Game = (() => {
     // a Pyromancer has given the cold up for the fire, and it comes harder to them
     else if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) cost += sp.id === 'cone_cold' ? 2 : 1;
     if ((sp.id === 'smite' && capped('crusade')) || (sp.kind === 'heal' && capped('wellspring'))) cost = Math.max(1, cost - 1);
+    // a Shapeshifter reaches the bear more easily, and the words less so
+    if (onPath('shapeshifter')) cost += sp.id === 'wild_shape' ? -1 : 1;
+    if (sp.id === 'mending_moss' && capped('heartwood')) cost = Math.max(1, cost - 1);
     // the Robe of the Magi eases the great workings: five points or more cost one less
     const robe = P().eq.armor;
     if (robe && ITEMS[robe.t].cheap && cost >= 5) cost -= 1;
@@ -418,6 +422,8 @@ const Game = (() => {
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
     const p = P();
+    // a bear strikes with its claws, whatever the druid was holding
+    if (wild.shaped(p)) return wild.claws();
     const spd = skillSpeed() * (p.eq.offhand ? DUAL_SWING_COST : 1) * berserkerFrenzy();
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, px: '', range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
@@ -505,7 +511,9 @@ const Game = (() => {
   function hasPower(power, slot, p = P()) {
     const slots = slot ? [slot] : ['weapon', 'offhand', 'armor', 'shield', ...JEWEL_SLOTS, 'cloak'];
     // a relic's powers, the one power an ordinary piece was made with, or a ring's
-    return slots.some(s => { const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
+    // a bear holds nothing: what rides on a blade stays behind with it
+    const bear = !!(G && wild.shaped(p));
+    return slots.some(s => { if (bear && (s === 'weapon' || s === 'offhand')) return false; const it = p.eq[s], r = relicOf(it); return (!!r && r.powers.includes(power)) || (!!it && (it.pw === power || jewelPowers(it).includes(power))); });
   }
   /** What keeps out the cold, for the log: "your cloak", or "Your ring" to open a sentence. */
   function warmthFrom(cap = false) {
@@ -576,7 +584,7 @@ const Game = (() => {
   /** What the coating on the weapon adds to a blow on this foe. */
   function coatDamage(m) {
     const c = P().coating;
-    if (!c || !(c.left > 0) || !P().eq.weapon) return 0;
+    if (!c || !(c.left > 0) || !P().eq.weapon || wild.shaped()) return 0;
     if (c.t === 'fire') return elemental(m, d(1, 4), 'fire');
     if (c.t === 'silver' && mstat(m).undead) return d(1, 6);
     return 0;
@@ -798,7 +806,7 @@ const Game = (() => {
   // Placed after the floor is made, from a stream of its own, so the map is
   // the seed's own whether anyone is remembered or not.
   const SHADE_FAR = 8;       // steps from the way in its bones lie, at least, where the floor allows
-  const SHADE_HP = { fighter: 1.25, mage: 0.8, thief: 0.9 };
+  const SHADE_HP = { fighter: 1.25, mage: 0.8, thief: 0.9, druid: 1.1 };
   // how each class's shade fights: as it did in life
   /** @type {Record<string, {move?: string, ac?: number, dmg?: number, speed?: number, lunge?: number, ranged?: string, element?: string}>} */
   const SHADE_WAYS = {
@@ -807,6 +815,8 @@ const Game = (() => {
     mage: { ac: -1, dmg: 4, ranged: 'hurls cold fire at', element: 'cold' },
     thief: { speed: 750, lunge: 1, dmg: 6 },
     ranger: { dmg: 6, ranged: 'looses a pale arrow at' },
+    // a druid's comes back with the bear still in it: harder to hurt, heavier blows
+    druid: { ac: 1, dmg: 8 },
   };
   // A run is known by when it began, to the millisecond, and never shares it
   // with the run before: a death and a new run in the same instant (as the
@@ -964,7 +974,8 @@ const Game = (() => {
   // A cleric's faith guides the mace as much as the arm does: whichever is the
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
   // a ranger looses every arrow and lands every blow by Dexterity
-  const armStat = p => p.cls === 'cleric' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.stats.str;
+  // (and a druid's, whose staff and claws answer the same wisdom)
+  const armStat = p => p.cls === 'cleric' || p.cls === 'druid' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.stats.str;
   function toHit() {
     const p = P();
     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
@@ -977,6 +988,8 @@ const Game = (() => {
     // without it won 59% on Normal and 33% on Hard, well below the others)
     if (p.cls === 'thief' || p.cls === 'ranger') ac += Math.floor((p.level + 2) / 3);
     if (onPath('warden')) ac += capped('wild_bulwark') ? 3 : 1;
+    if (wild.shaped(p)) ac += wild.SHAPE_AC;
+    if (hasTalent('barkskin')) ac += 1;
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
@@ -2377,7 +2390,7 @@ const Game = (() => {
       if (m) fxDelay = release + flight;
     }
     if (!m) {
-      if (!w.range) Sound.play('swing', { w: p.eq.weapon && p.eq.weapon.t });
+      if (!w.range) Sound.play('swing', { w: w.claws ? null : p.eq.weapon && p.eq.weapon.t });
       // nothing to fight in front: a barrel, crate or urn there takes the blow
       const d = propAt(p.x + dx, p.y + dy);
       if (d) smash(lvl(), d);
@@ -2424,7 +2437,7 @@ const Game = (() => {
       + berserkerRage() + templarBlow(m)   // a path's number, likewise
       + jewelBonus('might')                // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
       + (effect('might') ? 2 : 0);         // and a Potion of Might's, which says +2 and means it
-    const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
+    const baseSpeed = w.base || (p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450);
     let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + coatDamage(m) + dawnBlow(m) + bargained() + rangerAim(m, atRange) + wardenHold(m);
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
@@ -2465,7 +2478,8 @@ const Game = (() => {
       if (mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
       if (kindles()) setBurning(m);
     }
-    if (bladeLanded) coatLanded(m, struckSurvived);
+    if (bladeLanded && !w.claws) coatLanded(m, struckSurvived);
+    if (bladeLanded) wild.rend(m, struckSurvived);
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
     if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
@@ -2580,6 +2594,7 @@ const Game = (() => {
     else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
     else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
     else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
     else {
@@ -2913,6 +2928,10 @@ const Game = (() => {
     if (G.status !== 'playing') return;
     noteTaken(dmg, from, cause);
     const p = P();
+    // a bear's hide takes the blow before the druid inside it does
+    const hide = wild.shaped(p) ? p.shape.hide : 0;
+    const through = wild.soak(dmg);
+    if (hide && through < dmg) { if (msg) msg += ` (Your hide takes ${dmg - through}.)`; dmg = through; }
     p.hp -= dmg;
     p.lastHurt = G.t;
     if (from) {
@@ -2937,6 +2956,7 @@ const Game = (() => {
     // and it is felt differently in the hand: twice, not once
     buzz(from && fx.hurtFrom ? [40, 70, 40] : 40);
     if (msg) log(msg, 'bad');
+    wild.torn();
     // an Amulet of Life Saving takes the killing blow, once, and is spent
     const saver = p.hp <= 0 && JEWEL_SLOTS.find(s => jewelPowers(p.eq[s]).includes('lifesave'));
     if (saver) {
@@ -3097,7 +3117,7 @@ const Game = (() => {
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
-      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2) });
+      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2), kin: !!(G.companion && !G.companion.fallen) });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
@@ -3146,8 +3166,8 @@ const Game = (() => {
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)
       : tag === 'offhand' ? (p.eq.offhand ? the(p.eq.offhand) : 'your off hand')
-      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare'
-      : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
+      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare' : tag === 'bleed' ? 'your claws\' wounds'
+      : wild.shaped(p) ? 'a bear\'s claws' : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
     s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
   }
   /** Damage the hero took, from a monster or from anything else. */
@@ -3276,16 +3296,20 @@ const Game = (() => {
     return out;
   }
   /** How far a bolt reaches, Radiance included. */
-  const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0);
+  const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0) + (sp.id === 'thorn_lash' && hasTalent('long_thorns') ? 2 : 0);
   /** Why casting this now would waste the points, or null if it would not. */
   function spellWasteReason(sp) {
     const p = P();
-    if (sp.kind === 'heal' && p.hp >= p.maxHp) return `You are unhurt. ${sp.name} would be wasted.`;
+    // (a druid's healing mends a hurt companion too, so it is not wasted on them)
+    const kinHurt = p.cls === 'druid' && !!companion.here() && companion.here().hp < companion.here().maxHp;
+    if (sp.kind === 'heal' && p.hp >= p.maxHp && !kinHurt) return `You are unhurt. ${sp.name} would be wasted.`;
     // fire burns a web away, so a webbed caster's flame is never wasted
     if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
     if (sp.kind === 'buff' && ownEffect(sp.stat) >= buffAmount(sp)) return `${sp.name} is already upon you.`;
+    if (sp.kind === 'shape' && wild.shaped(p)) return 'You are a bear already.';
+    if (sp.kind === 'root' && !boltTargets(spellRange(sp), false).filter(m => !m.collapsed).length) return `Nothing within reach for ${sp.name} to hold.`;
     return null;
   }
   // A spell takes time, and shares the swing's timer. Casting used to cost
@@ -3303,6 +3327,8 @@ const Game = (() => {
     magic_missile: ['missile', 650], burning_hands: ['hands', 450], shield: ['buff', 600], lightning: ['lightning', 380],
     cone_cold: ['cone', 520], cure_light: ['heal', 800], bless: ['buff', 600], smite: ['smite', 560],
     cure_serious: ['heal', 850], protection: ['buff', 600], flame_strike: ['pillar', 700],
+    thorn_lash: ['missile', 600], wild_shape: ['buff', 700], mending_moss: ['heal', 800], entangle: ['smite', 560],
+    call_lightning: ['lightning', 380], insect_plague: ['cone', 560],
   };
   /** Show a spell's effect: where it lands, or the square ahead if nowhere. */
   /** How long a scroll takes to read and burn away, and the colour its writing kindles. */
@@ -3329,6 +3355,8 @@ const Game = (() => {
     if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
     if (G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
     p.nextAttack = G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
+    // a bear cannot say the words: the druid lets it go to speak any other spell
+    if (sp.kind !== 'shape' && wild.shaped(p)) wild.end('cast');
     p.sp -= spellCost(sp);
     noteSpell(sp);
     G.lastSpell = sp.id;
@@ -3337,12 +3365,19 @@ const Game = (() => {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') ? 4 / 3 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); healPlayer(n); log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; log(`You cast ${sp.name} and heal ${n}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${G.companion.name} is mended ${kin} with you.`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
+      case 'shape': wild.begin(); break;
+      case 'root': {
+        const held = boltTargets(spellRange(sp), false);
+        spellFx(look[0], sp.color, look[1], held, spellRange(sp));
+        wild.entangle(spellRange(sp));
+        break;
+      }
       case 'bolt': {
         if (sp.fire) burnWeb();
         const targets = boltTargets(spellRange(sp), sp.pierce);
@@ -3363,6 +3398,8 @@ const Game = (() => {
             if (focusHas('wrath') && (sp.holy || sp.id === 'flame_strike')) dmg = Math.round(dmg * 1.25);
             if (sp.holy && hasTalent('radiance')) dmg = Math.round(dmg * 1.5);
             if (hasTalent('empower')) dmg = Math.round(dmg * 1.2);
+            if (sp.id === 'thorn_lash' && hasTalent('long_thorns')) dmg += 2;
+            if (sp.id === 'call_lightning' && hasTalent('stormborn')) dmg = Math.round(dmg * 1.25);
             dmg = Math.round(dmg * deepMagic());
             if (sp.fire) dmg = pyroFire(dmg);
             dmg = templarSmite(sp, dmg);
@@ -3894,6 +3931,13 @@ const Game = (() => {
       p.hp++; p.nextWard = G.t + 3000; emit('stats');
     }
     healerMercy();
+    wild.tick();
+    // Beast Bond: a companion close at a druid's side mends a little, even mid-fight
+    if (hasTalent('beast_bond') && G.t >= (p.nextKin || 0)) {
+      const c = companion.here();
+      p.nextKin = G.t + 3000;
+      if (c && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3) companion.mend(1);
+    }
     if (p.hp < p.maxHp && G.t >= (p.nextMend || 0) && hasPower('mend')) {
       p.hp++; p.nextMend = G.t + 4000; emit('stats');
     }
@@ -4120,7 +4164,8 @@ const Game = (() => {
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };
-    fx.view = {
+    const bear = wild.shaped(p);
+    fx.view = bear ? { weapon: null, two: false, drawn: false, shield: null, offhand: null, cls: 'bear', walk: cam.moving ? camProgress() : 0, steps: p.steps } : {
       weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ['shortbow', 'longbow'].includes(ITEMS[wIt.t].sprite)),
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
@@ -4382,6 +4427,13 @@ const Game = (() => {
     get damageMonster() { return damageMonster; },
     get heard() { return heard; }, get realNow() { return realNow; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
+    kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(),
+  });
+  // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
+  const wild = makeWild({
+    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; },
+    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
+    get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; },
   });
   // ---------- jobs from the traders: see bounty.js ----------
   const bounty = makeBounty({
@@ -4395,6 +4447,9 @@ const Game = (() => {
     companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
     /** Give a charm from the pack to the companion: why not, or null when it is worn. */
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
+    /** A druid in Wild Shape: whether, and the status line's words for it. */
+    shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
+    hurtPlayer,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,

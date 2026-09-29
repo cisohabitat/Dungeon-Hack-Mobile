@@ -488,7 +488,7 @@ const ENCOUNTERS = {
     choices: [
       // a cost, not an effect: a hero with nothing to share cannot share it
       { label: 'Share your food with it', cost: { food: 25 }, outcome: { text: 'It eats from your hand, slowly, as if it cannot believe it. When you move on, it gets up and follows.', effects: [{ companion: 'hound' }] } },
-      { label: 'Call it to you', check: { stat: 'cha', dc: 11, knack: [['ranger', null, 3], [null, 'deepborn', 2]] },
+      { label: 'Call it to you', check: { stat: 'cha', dc: 11, knack: [['ranger', null, 3], ['druid', null, 3], [null, 'deepborn', 2]] },
         pass: { text: 'It comes, low and wary, and pushes its nose into your hand. It is yours now, or you are its.', effects: [{ companion: 'hound' }] },
         fail: { text: 'It shies from your hand and slinks off into the dark, and does not come back.', effects: [] } },
       { label: 'Leave it be', outcome: { text: 'You leave it curled in its corner. It watches you go.', effects: [] } },

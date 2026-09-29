@@ -43,10 +43,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Mastery at level 9.** A hero on a path masters it, again in place of the lesson: one of the
   path's two capstones (a Knight's shield that catches one blow in four, a Berserker who will not
   fall once a floor, a Pyromancer's fire that burns hotter and longer, a Sharpshooter's quicker draw).
-- **Five classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief, Ranger. Six ability scores
+- **Six classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief, Ranger, Druid. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,
   experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover
-  faster, clerics heal, mages kill at range, thieves dodge, crit often and backstab.
+  faster, clerics heal, mages kill at range, thieves dodge, crit often and backstab, rangers keep
+  their distance, and druids take a bear's shape, whose hide takes the blows first (any other
+  spell lets it go). The Ranger is earned by winning with the other four; the Druid by a win with
+  a companion still at your side.
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
@@ -257,13 +260,19 @@ Tuned against the simulator rather than by feel. The bot plays whole runs headin
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
 Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
 
-| Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
-| --- | --- | --- | --- | --- | --- | --- |
-| Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 81% | 80% | 79% | 79% | 84% | about 81% |
-| Hard | 57% | 56% | 58% | 60% | 63% | about 59% |
-| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | about 82% |
-| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | about 58% |
+| Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Easy | 98% | 96% | 96% | 96% | 97% | – | about 97% |
+| Normal | 81% | 80% | 79% | 79% | 84% | 84% | about 81% |
+| Hard | 57% | 56% | 58% | 60% | 63% | 60% | about 59% |
+| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | – | about 82% |
+| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | – | about 58% |
+
+The Druid's two rows are 400 runs each, two seed sets of 200 (`SEEDN=20`), measured when it came;
+the overall figures are the first five classes'. Its bear was far too strong at first (96% on
+Normal, 85% on Hard): a thinner hide, a dearer spell and fewer spell points brought it into line.
+Its paths are still apart on Hard, the Shapeshifter near 78% and the Grovewarden near 55%, whose
+gifts lean on a companion that a third of runs do not keep.
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
 fighter lowest, the ranger highest. Oils, charms, capstones and traders' jobs lifted it to about

@@ -1041,7 +1041,7 @@ export function makeFoes(K) {
     K.log(`The bones knit together: the ${mb.name} rises again!`, 'bad');
     Sound.play('voice', K.heard(m, { who: m.id }));
   }
-  /** Burning and venom tick; a regenerating creature mends. @returns {boolean} whether it is still up to act */
+  /** Burning, venom and a bear's rending tick; a regenerating creature mends. @returns {boolean} whether it is still up to act */
   function burnsAndMends(m, mb, L) {
     const G = K.G;
     if (m.dot && G.t >= m.dot.next) {
@@ -1049,7 +1049,7 @@ export function makeFoes(K) {
       if (dot.next > dot.until) m.dot = null;
       else {
         dot.next += 1000;
-        K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : K.elemental(m, d(1, dot.die || 4), 'fire'), dot.kind);
+        K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : dot.kind === 'bleed' ? d(1, dot.die || 4) : K.elemental(m, d(1, dot.die || 4), 'fire'), dot.kind);
         if (!L.monsters.includes(m) || m.collapsed) return false;
       }
     }

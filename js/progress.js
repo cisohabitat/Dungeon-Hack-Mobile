@@ -11,15 +11,17 @@ const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, kin: number}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], paths: {}, vows: {}, feats: {} };
+  const out = { won: {}, relics: [], paths: {}, vows: {}, feats: {}, kin: 0 };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
+  // wins with a companion still at the hero's side, which open the Druid
+  out.kin = Math.max(0, Math.floor(Number(v.kin) || 0));
   // wins with each path, and with each vow kept: counts, nothing else
   /** @type {[('paths'|'vows'|'feats'), string[]][]} */
   const counted = [['paths', PATH_IDS], ['vows', Object.keys(VOWS)], ['feats', Object.keys(FEATS)]];
@@ -51,7 +53,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], paths: {}, vows: {}, feats: {} };
+  return { won, relics: [], paths: {}, vows: {}, feats: {}, kin: 0 };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -82,10 +84,15 @@ function trophyCount(v = load()) {
   n += PATH_IDS.filter(id => v.paths[id]).length + Object.keys(VOWS).filter(id => v.vows[id]).length + Object.keys(FEATS).filter(id => v.feats[id]).length;
   return { won: n, total: Object.keys(CLASSES).length * DIFFS.length + PATH_IDS.length + Object.keys(VOWS).length + Object.keys(FEATS).length };
 }
-/** A class with a lock (the Ranger) opens once every class without one has won, at any difficulty. */
+/**
+ * A class with a lock opens once every class without one has won, at any
+ * difficulty (the Ranger); one that says what opens it, by that (the Druid,
+ * by a win with a companion still at the hero's side).
+ */
 function classOpen(cls, v = load()) {
   const c = CLASSES[cls];
   if (!c) return false;
+  if (c.opens === 'kin') return v.kin > 0;
   return !c.locked || Object.keys(CLASSES).filter(k => !CLASSES[k].locked).every(k => highest(k, v));
 }
 /** Vows are open once any hero has won on Hard. */
@@ -101,7 +108,7 @@ function bgOpen(id, v = load()) {
 /**
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
- * @param {{path?: string, vows?: string[], levels?: number, route?: string, jobs?: number, veteran?: boolean}} [how]
+ * @param {{path?: string, vows?: string[], levels?: number, route?: string, jobs?: number, veteran?: boolean, kin?: boolean}} [how]
  * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], classesOpened: string[], firstPath: string, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
  */
 function recordWin(cls, difficulty, how = {}) {
@@ -124,6 +131,7 @@ function recordWin(cls, difficulty, how = {}) {
     ...((how.jobs || 0) >= 3 ? ['friend'] : []), ...(how.veteran ? ['veteran'] : [])];
   const firstFeats = feats.filter(id => !v.feats[id]);
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
+  if (how.kin) v.kin++;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
   const classesOpened = Object.keys(CLASSES).filter(k => classOpen(k, v) && !classesWere.includes(k));

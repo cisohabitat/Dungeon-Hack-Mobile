@@ -39,7 +39,8 @@ const UI = (() => {
   }
   /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
   function buyStart(cls) {
-    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' ? 'dex' : 'str';
+    // (a druid's Wisdom lands the blows, so Dexterity for light armour comes next)
+    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' || cls === 'druid' ? 'dex' : 'str';
     const b = { str: 10, dex: 10, con: 14, int: 10, wis: 10, cha: 8 };
     b[key] = 15; if (fight !== key) b[fight] = 13;
     return b;
@@ -128,7 +129,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29e', text: 'the Warlord\'s hall beats to his war-drum; a companion that falls leaves its charm where it fell; and a first tip for oils, jobs, a companion\'s growth, a mastered path and the Warlord\'s tricks' };
+  const NEWS = { id: '2026-09-29f', text: 'a sixth class, the Druid: a bear\'s shape, thorns, moss and storm, and a bond with a companion. Win with a companion still at your side and a Druid will come to your fire' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -383,7 +384,7 @@ const UI = (() => {
       // a Hard win earns the class's title, shown on its card from then on
       const titled = open && Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
       b.innerHTML = open ? `<b>${c.name}</b>${titled}<small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`
-        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${stillToWin(known)}</em>`;
+        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${c.opens ? '' : stillToWin(known)}</em>`;
       b.disabled = !open;
       if (open) b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
@@ -492,7 +493,7 @@ const UI = (() => {
     for (let i = 0; i < 40; i++) {
       create.rolled = Game.rollStats();
       fitStats();
-      const s = create.stats, fight = create.cls === 'thief' || create.cls === 'ranger' ? s.dex : s.str;
+      const s = create.stats, fight = create.cls === 'thief' || create.cls === 'ranger' || create.cls === 'druid' ? s.dex : s.str;
       if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
     }
     const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
@@ -628,6 +629,7 @@ const UI = (() => {
     oil: 'An <b>oil</b> in your pack. Open the pack and choose <b>Coat weapon</b>, or tap the flask at the left end of the log as a fight starts: it rides on your next 20 blows that land.',
     job: 'The trader\'s <b>job</b> is on this floor: the line under your bars shows how it goes. Leave the floor with it undone and it is lost; the next trader you meet pays for it done.',
     blooded: 'Your companion has learned a <b>trick</b>. It grows with every new floor it comes down at your side; the <b>Hero</b> sheet says what it knows and what comes next.',
+    bear: 'You are a <b>bear</b>: claws for your blows, and a <b>hide</b> that takes blows before you do (its time and thickness are on the status line). Any <b>other spell</b> lets the bear go.',
     mastered: 'You have <b>mastered your path</b>. Your capstone is listed under Path on the <b>Hero</b> sheet, with what it does.',
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
@@ -836,6 +838,7 @@ const UI = (() => {
     if (readying('rally') && showTip('horn', true)) return;
     if (readying('drum') && showTip('drum', true)) return;
     if (L.monsters.some(m => m.throne && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 8) && showTip('throne', true)) return;
+    if (Game.shaped() && showTip('bear', true)) return;
     if (readying('drink') && showTip('drink', true)) return;
     if (readying('blink') && showTip('blink', true)) return;
     if (readying('bristle') && showTip('quills', true)) return;
@@ -939,7 +942,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip()].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip()].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -979,6 +982,7 @@ const UI = (() => {
     if (secs('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
     if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
     // a trader's job, on its floor and once it is done
+    if (Game.shapeChip()) st.push(`<span class="good shape">${escapeHtml(Game.shapeChip())}</span>`);
     if (Game.bountyChip()) st.push(`<span class="good bounty" title="${escapeHtml(Game.threadNotes().find(n => n.startsWith('A job')) || '')}">${escapeHtml(Game.bountyChip())}</span>`);
     // a coating counts down by the blows that land, not by the clock
     if (p.coating) st.push(`<span class="good coat" title="The ${escapeHtml(Game.coatingName(p.coating.t))} on your weapon: blows that land before it wears off">${escapeHtml(Game.coatingName(p.coating.t)).replace(/^./, c => c.toUpperCase())} \u00d7${Number(p.coating.left)}</span>`);
@@ -1468,7 +1472,7 @@ const UI = (() => {
       dex: p.cls === 'thief' ? 'to armour class and to damage' : p.cls === 'ranger' ? 'to hit, to damage and to armour class' : 'to armour class',
       con: 'hit point with every level from now on',
       int: p.cls === 'mage' ? 'spell point for every hero level' : 'to Study and to every Intelligence check',
-      wis: p.cls === 'cleric' ? 'spell point for every hero level, to hit and to damage, and a surer will against draining' : 'against draining',
+      wis: p.cls === 'cleric' || p.cls === 'druid' ? 'spell point for every hero level, to hit and to damage, and a surer will against draining' : 'against draining',
     }[b.stat];
     return `${STAT_NAMES[b.stat]} ${s} \u2192 ${next}: +1 ${what}.`;
   }
