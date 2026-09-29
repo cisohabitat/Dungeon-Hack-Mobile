@@ -21,6 +21,11 @@ const KINDS = {
     names: ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'],
     tricks: [{ id: 'hamstring', name: 'Hamstring', says: 'one bite in three that lands holds its foe back a moment' },
       { id: 'pack', name: 'Pack Hunter', says: 'you have +2 to hit anything it stands beside' }] },
+  // a druid's, in the delves with no hound: quieter than a hound, and it learns to go for the weak
+  wolf: { sprite: 'wolf', voice: 'wolf', ac: 13, speed: 850, stepMs: 320, trotMs: 130, hp: [9, 4], hit: 3, dmg: [1, 6], verb: 'bites', sits: 'lies down, its ears up', word: 'wolf',
+    names: ['Grey', 'Rime', 'Fen', 'Sable', 'Thorn', 'Hollow', 'Bracken', 'Frost', 'Shale', 'Wisp'],
+    tricks: [{ id: 'pack', name: 'Pack Hunter', says: 'you have +2 to hit anything it stands beside' },
+      { id: 'savage', name: 'Savage', says: 'its bite deals 2 more to anything below half its life' }] },
   goblin: { sprite: 'scrag', voice: 'goblin', ac: 14, speed: 800, stepMs: 300, trotMs: 130, hp: [6, 3], hit: 2, dmg: [1, 4], verb: 'stabs', sits: 'squats on its heels', word: 'goblin',
     names: ['Snik', 'Grub', 'Nib', 'Skaz', 'Twitch', 'Mog', 'Rattle', 'Fenn', 'Scrag', 'Wort'],
     tricks: [{ id: 'backstab', name: 'Backstab', says: 'its stab deals double to anything at your side' },
@@ -49,8 +54,8 @@ export function makeCompanion(K) {
   const maxHpFor = (c, level) => Math.round((kindOf(c).hp[0] + kindOf(c).hp[1] * level + 4 * rankOf(c)) * (K.kinHp ? K.kinHp() : 1));
   const hitFor = (c, level) => kindOf(c).hit + Math.floor(level / 3);
   const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3) + (K.kinBite ? K.kinBite() : 0)];
-  /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. (A goblin goes quiet as a thief.) */
-  const noisy = () => { const c = here(), p = K.P(); return !!c && c.kind !== 'goblin' && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
+  /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. (A goblin goes quiet as a thief, and a wolf as a wolf.) */
+  const noisy = () => { const c = here(), p = K.P(); return !!c && (c.kind || 'hound') === 'hound' && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
   /** Ground it can stand on: open floor, no trader, stone or barrel in the way. */
   const ground = (x, y) => K.passable(x, y) && !K.npcAt(x, y) && !K.propAt(x, y);
@@ -95,8 +100,9 @@ export function makeCompanion(K) {
   /** A companion of this kind joins the hero (while none stands with them already). */
   function join(kind = 'hound') {
     const G = K.G, p = K.P();
-    if (G.companion && !G.companion.fallen) return '';
     const k = KINDS[kind] ? kind : 'hound', def = KINDS[k];
+    // one at a time: one already at the hero's side will not have another there
+    if (G.companion && !G.companion.fallen) return `${G.companion.name} will not share your heel: the ${def.word} thinks better of following, and slips off into the dark.`;
     const name = new Rng(`${G.seed}|${k}`).pick(def.names);
     const spot = besideHero() || { x: p.x, y: p.y };
     const c = { kind: k, name, x: spot.x, y: spot.y, depth: G.depth, hp: 0, maxHp: 0, mode: /** @type {'follow'} */ ('follow'), nextAct: G.t + 600, kills: 0, joined: G.depth };
@@ -166,7 +172,9 @@ export function makeCompanion(K) {
       const many = m.pack ? m.pack.length : 0;
       // a goblin that has learned to backstab goes for what the hero is fighting
       const atSide = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
-      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + (c.charm === 'charm_fang' ? 2 : 0)) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
+      // a wolf that has learned to be savage goes for the weak
+      const savage = knows(c, 'savage') && m.hp < m.maxHp / 2 ? 2 : 0;
+      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + (c.charm === 'charm_fang' ? 2 : 0) + savage) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
       const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
       if (down) c.kills++;
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later

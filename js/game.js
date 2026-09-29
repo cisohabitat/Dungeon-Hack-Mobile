@@ -2,7 +2,7 @@ import { Rng, Dice, d } from './rng.js';
 import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
-import { ENCOUNTERS, encounterDc } from './encounters.js';
+import { ENCOUNTERS, encounterDc, encounterPlan } from './encounters.js';
 import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan, routeRelic } from './relics.js';
 import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
@@ -1610,6 +1610,11 @@ const Game = (() => {
     }
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
+    // a delve with no hound in it sends a druid a wolf instead, at the first stair
+    if (cfg.cls === 'druid' && !Object.values(encounterPlan(cfg.seed, G.opts.levels || 8)).some(ids => ids.includes('stray'))) {
+      companion.join('wolf');
+      log(`A grey wolf pads out of the dark at the foot of the stair and falls in beside you, as if it had always meant to. ${G.companion.name} follows you now.`, 'good');
+    }
 
     return G;
   }
@@ -3076,6 +3081,11 @@ const Game = (() => {
       if (won) return here ? `a goblin called ${n} came out into the daylight with them, blinked at it, and has been opening the valley's locks ever since` : `a goblin called ${n} was seen at the mouth of the Deepdelve a month later, with a sack that clinked`;
       return here && c.mode === 'follow' ? `a goblin called ${n} slipped away into the dark with their purse, which is only what goblins do` : `a goblin called ${n} is still down there somewhere, picking locks for nobody`;
     }
+    if (c.kind === 'wolf') {
+      if (c.fallen) return `a grey wolf called ${n} lies under a cairn on floor ${c.fallen} of the Deepdelve, and the valley's dogs will not go near it`;
+      if (won) return here ? `a grey wolf called ${n} came out of the mountain with them, and is seen at the edge of the valley's woods on still nights` : `a grey wolf called ${n} was heard howling at the mouth of the Deepdelve for three nights, and then was gone`;
+      return here && c.mode === 'follow' ? `a grey wolf called ${n} stood over them to the last, and went back into the dark` : `a grey wolf called ${n} is said to walk the deep floors still`;
+    }
     if (c.fallen) return `a hound called ${n} lies buried on floor ${c.fallen} of the Deepdelve, and they do not talk about it`;
     if (won) return here ? `a brown hound called ${n} sleeps by their fire, and will not be parted from them` : `a brown hound called ${n} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again`;
     return here && c.mode === 'follow' ? `a brown hound called ${n} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${n} was found at the foot of the stair, waiting`;
@@ -4461,7 +4471,7 @@ const Game = (() => {
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
     hurtPlayer, spMax,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
-    companionHere: () => !!companion.here(),
+    companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,

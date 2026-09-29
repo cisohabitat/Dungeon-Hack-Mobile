@@ -960,6 +960,51 @@ const CREATURES = {
     ];
   },
 
+  // The druid's wolf: grey and lean where the hound is brown and scruffy, its
+  // ears pricked, its eyes amber, no collar on it, and its tail carried low. It
+  // comes to a druid in the delves that have no hound.
+  wolf: (pose = 'idle') => {
+    const coat = '#7c7e86', dark = '#4c4e58', pale = '#d4d2c8', muzzle = '#a2a2a6', nose = '#141216';
+    const bite = pose === 'windup', sit = pose === 'sit';
+    const hy = bite ? 15.5 : sit ? 11.5 : 13;
+    // told to stay, it sits: haunches down on the stone, forelegs straight, the
+    // tail laid round its feet, and the head up, watching the way you went
+    const hind = sit
+      ? [...both(ball(10.6, 27.2, 3.2, 2.7, dark)), ...both(ball(9.6, 30.4, 1.9, 0.9, dark)),
+        limb(20.5, 29.5, 24.5, 30.2, 1.1, 0.8, dark), limb(24.5, 30.2, 26.5, 28.8, 0.8, 0.5, coat)]
+      : [limb(20, 19, 24, 23, 1.7, 1.3, dark), limb(24, 23, 25, 26.5, 1.3, 0.6, pale),
+        ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
+        ...both(ball(10, 30.4, 1.7, 0.9, dark))];
+    const by = sit ? 22 : 20.5;
+    return [
+      // the tail up and waving behind, and the hind legs, short and sturdy
+      ...hind,
+      // a deep body with a saddle of darker coat (upright when it sits)
+      sit ? ball(15.5, by, 5.6, 5.8, coat) : ball(15.5, by, 6.8, 4.6, coat),
+      sit ? sheet([[11.5, 18.5], [19.5, 18.5], [19, 21], [12, 21]], dark, { curve: 1 }) : sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
+      // forelegs, braced for the spring if it means to bite, straight when it sits
+      ...both(limb(12.5, by + 1, bite ? 10.5 : sit ? 12.8 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : sit ? 12.8 : 12, 26.5, bite ? 11 : sit ? 12.9 : 12.3, 30, 1.1, 1, coat)),
+      ...both(ball(bite ? 11 : sit ? 12.9 : 12.3, 30.4, 1.7, 0.9, coat)),
+      // a pale chest and a ruff of thicker fur at the throat, and no collar
+      ball(15.5, by + 2, 3, sit ? 3.6 : 3.2, pale),
+      sheet([[12, hy + 3], [19, hy + 3], [18, hy + 5.4], [15.5, hy + 6.4], [13, hy + 5.4]], pale, { curve: 0.8 }),
+      // ears pricked up, pointed, over a narrower head
+      ...both(sheet([[12.2, hy - 1.8], [11.4, hy - 6.4], [14.2, hy - 2.8]], dark, { curve: 0.3 })),
+      ...both(sheet([[12.6, hy - 2.2], [12, hy - 5], [13.6, hy - 2.8]], '#8e7a6e', { curve: 0.3 })),
+      ball(15.5, hy, 3.9, 3.4, coat),
+      ...both(ball(13.9, hy - 0.8, 1.3, 0.9, '#3a2412')),
+      // the muzzle, and the eyes, warm and brown with a catch of light
+      bite ? sheet([[13.3, hy + 1.5], [17.7, hy + 1.5], [17.2, hy + 5.5], [13.8, hy + 5.5]], '#4a1818', { curve: 0.5 }) : limb(15.5, hy + 1, 15.5, hy + 4.4, 2, 1.4, muzzle),
+      bite ? ball(15.5, hy + 5.4, 2, 1, muzzle) : ball(15.5, hy + 4.3, 1.3, 0.9, nose),
+      dots([[14, Math.round(hy) - 1], [17, Math.round(hy) - 1]], '#c07818'), dots([[14, Math.round(hy) - 2], [17, Math.round(hy) - 2]], '#f0b030'),
+      ...(bite ? [dots([[14, Math.round(hy) + 2], [17, Math.round(hy) + 2], [14, Math.round(hy) + 4], [17, Math.round(hy) + 4]], '#f4ecdc')] : []),
+      // fine work: a tuft on the head, whiskers, the tag's glint, claws, the coat's grain
+      hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
+      ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
+      hair(13, by - 1.5, 14.5, by + 0.5, '#34363e'), hair(17.5, by - 1.5, 16.5, by + 1, '#34363e'), hair(11.5, by + 1.5, 12, by + 3.5, '#b4b4b0'),
+    ];
+  },
+
   // The goblin you let out of its cage: smaller than the ones that hunt the
   // halls, all knees and elbows under a grey hooded rag, a broken manacle
   // still on one wrist and a ring of picks at its belt. It holds its bent
@@ -1703,7 +1748,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], scrag: ['windup', 'sit'] };
+const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.

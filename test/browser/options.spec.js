@@ -160,6 +160,18 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a druid in a delve with no hound is met by a wolf at the first stair, named on the status line when told to stay', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: {}, relics: [], kin: 1 })));
+    await startGame(page, { cls: 'druid', seed: 'wolf-0' });
+    await clearBoons(page);
+    expect(await page.evaluate(() => Game.companion() && Game.companion().kind)).toBe('wolf');
+    expect(await page.evaluate(() => Game.state().log.some(e => /grey wolf pads out of the dark/.test(e.m)))).toBe(true);
+    const name = await page.evaluate(() => { Game.companion().mode = 'stay'; return Game.companion().name; });
+    await expect(page.locator('#hud-status')).toContainText(name);
+    expect(errors).toEqual([]);
+  });
+
   test('the Druid is locked until a win with a companion at your side; then Wild Shape from the spell list makes a bear, shown on the status line', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

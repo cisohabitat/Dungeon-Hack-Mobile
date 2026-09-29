@@ -10701,6 +10701,70 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a wolf comes to a druid in a delve with no hound, and only then; it hunts quietly, learns to go for the weak, and has its own fate', async () => {
+    const out = [];
+    const OPT8 = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false };
+    const ctx = await newContext();
+    const { Game } = ctx;
+    const has = (cls, seed) => { Game.newGame({ name: 'W', cls, stats: { ...evenStats, wis: 16 }, seed, opts: OPT8 }); return Game.companion(); };
+    // seeds with and without the starving hound: the wolf comes only where there is none
+    let wolfSeed = '', houndSeed = '';
+    for (let i = 0; i < 40 && !(wolfSeed && houndSeed); i++) { const c = has('druid', 'wolfseed-' + i); if (c && !wolfSeed) wolfSeed = 'wolfseed-' + i; if (!c && !houndSeed) houndSeed = 'wolfseed-' + i; }
+    if (!wolfSeed || !houndSeed) return `seeds: wolf ${wolfSeed}, hound ${houndSeed}`;
+    const w = has('druid', wolfSeed);
+    if (w.kind !== 'wolf' || w.depth !== 1 || (w.floors || 0) !== 1) out.push(`the wolf: ${JSON.stringify({ kind: w.kind, depth: w.depth, floors: w.floors })}`);
+    if (!Game.state().log.some(e => /grey wolf pads out of the dark/.test(e.m))) out.push('the wolf\'s coming was not told');
+    if (has('fighter', wolfSeed)) out.push('a fighter was given a companion at the first stair');
+    if (has('druid', houndSeed)) out.push('a druid in a delve with a hound was given a wolf as well');
+    // it hunts quietly, where a hound pants at heel
+    has('druid', wolfSeed);
+    const c = Game.companion(), p = Game.player();
+    c.x = p.x; c.y = p.y + 1; c.mode = 'follow';
+    if (Game.companionNoisy()) out.push('the wolf is as noisy as a hound');
+    c.kind = 'hound'; if (!Game.companionNoisy()) out.push('a hound at heel was quiet'); c.kind = 'wolf';
+    // Savage: the same bites, 2 more each against a foe below half its life
+    const bites = async low => {
+      const b = await start('druid', wolfSeed, OPT8);
+      const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
+      h.floors = 4; h.mode = 'stay';
+      b.Game.level().monsters.length = 0;
+      const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => b.Game.level().tiles[y * b.Game.level().w + x] === b.Dungeon.T.FLOOR && Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
+      if (!spot) return null;
+      const m = { uid: 95, id: 'ogre', x: spot[0], y: spot[1], hp: low ? 4e5 : 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      b.Game.level().monsters.push(m);
+      seedDice(b, 'savage');
+      const hp0 = m.hp;
+      run(b.Game, G2, 20000);
+      return hp0 - m.hp;
+    };
+    const full = await bites(false), weak = await bites(true);
+    if (full === null || weak === null) out.push('no room beside the wolf for the ogre');
+    else if (!(weak > full) || (weak - full) % 2) out.push(`Savage: ${full} dealt to a whole ogre, ${weak} to a half-dead one`);
+    // its own fate in the valley's tale
+    const f = await start('druid', wolfSeed, OPT8);
+    f.Game.companion().fallen = 1;
+    const tale = JSON.stringify(f.Game.epilogue(false));
+    if (!/grey wolf called/.test(tale) || /brown hound/.test(tale)) out.push(`the tale: ${tale.slice(0, 200)}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a goblin freed from its cage while a companion already follows slips away, and says so', async () => {
+    const out = [];
+    let said = '', tries = 0;
+    while (!said && tries++ < 6) {
+      const ctx = await start('fighter', 'cage-kin-' + tries, { levels: 6 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.stats.dex = 40;
+      G.companion = { kind: 'hound', name: 'Ash', x: p.x, y: p.y, depth: 9, hp: 5, maxHp: 5, mode: 'stay', joined: 1 };
+      const res = meetAndChoose(ctx, 'caged', 1);
+      if (G.companion.kind !== 'hound') { out.push(`the goblin took the hound's place: ${G.companion.kind}`); break; }
+      said = JSON.stringify(res || '') + G.log.slice(-4).map(e => e.m).join(' / ');
+      if (!/slips off into the dark|thinks better of following/.test(said)) said = '';
+    }
+    if (!said && !out.length) out.push('no line said the goblin would not follow');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
     const out = [];
     const ctx = await newContext();

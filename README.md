@@ -275,7 +275,8 @@ spell points brought it into line. The Grovewarden once leaned on a companion th
 runs do not keep, and trailed the Shapeshifter on Hard by over twenty points; its skin now takes
 the bark's grain (2 better armour class, companion or none). Once the bot also roots foes with
 Entangle, the two paths are within a few points of each other on Normal and Hard (on Hard about
-72% and 76%).
+72% and 76%). The wolf that meets a druid in a delve with no hound was measured after: it
+leaves the Druid where it was (Normal about 82%, Hard about 64%).
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
 fighter lowest, the ranger highest. Oils, charms, capstones and traders' jobs lifted it to about
