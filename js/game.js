@@ -4126,6 +4126,8 @@ const Game = (() => {
       // a hero from before paths is offered one at their next level; one who
       // has no next level to reach is offered it now
       if (G.player.level >= MAX_LEVEL && G.player.level >= PATH_LEVEL && !G.player.path) offerPath();
+      // and a save from before capstones, already at the top, is offered its path's
+      else if (G.player.level >= MAX_LEVEL && G.player.path && !G.player.capstone) offerCapstone();
       if (G.looks) { const all = buildLooks(G.seed); for (const id in all) if (!G.looks[id]) G.looks[id] = all[id]; }
       if (!G.pendingBoons) G.pendingBoons = [];
       // a save without the counter for monsters that arrive mid-run would start it

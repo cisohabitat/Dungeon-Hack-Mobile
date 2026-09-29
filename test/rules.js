@@ -6791,6 +6791,14 @@ await test('at level 9 a hero on a path is offered its two capstones, in place o
   }
   if (kinds.join('') !== 'PLC') out.push(`a mage without a path at level 9 was offered ${kinds.join('')}`);
   if (late.Game.player().capstone !== 'inferno') out.push(`the late mage mastered ${late.Game.player().capstone}`);
+  // a save from before capstones, already at the top level, is offered them on loading
+  late.Game.save(true);
+  const raw = JSON.parse(late.store.get('deepdelve.save'));
+  delete raw.player.capstone;
+  raw.player.level = late.MAX_LEVEL; raw.player.xp = late.XP_TABLE[late.MAX_LEVEL - 1]; raw.pendingBoons = []; delete raw.pendingLevels;
+  late.store.set('deepdelve.save', JSON.stringify(raw));
+  if (!late.Game.load()) out.push('the top-level save would not load');
+  else if (!late.Game.isCapstoneOffer(late.Game.pendingBoons() || [])) out.push(`a top-level hero came back offered ${late.Game.pendingBoons()}`);
   // and no hero without a path is offered one
   const none = await start('thief', 'capstone-none');
   none.Game.player().path = undefined;
