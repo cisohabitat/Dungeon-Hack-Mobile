@@ -3,7 +3,9 @@
 // down (A Caged Goblin; both in encounters.js). One at a time. It follows,
 // strikes whatever awake thing stands beside it (the one at the hero's side
 // first), draws the blows of anything that reaches it first, heals when the
-// hero rests, and grows with the hero; the goblin picks locks and makes safe
+// hero rests, and grows with the hero and with every floor it goes down at
+// their side (blooded after two, a veteran after four: a trick at each);
+// the goblin picks locks and makes safe
 // the traps it passes, where the hound is the stronger in a fight. If it
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
@@ -16,10 +18,23 @@ import { Sound } from './sound.js';
 // as the hero's level grows, and the words for it.
 const KINDS = {
   hound: { sprite: 'dog', voice: 'dog', ac: 13, speed: 900, stepMs: 330, trotMs: 140, hp: [10, 4], hit: 3, dmg: [1, 6], verb: 'bites', sits: 'sits', word: 'hound',
-    names: ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'] },
+    names: ['Brindle', 'Soot', 'Bramble', 'Pip', 'Ash', 'Moss', 'Tansy', 'Grip', 'Wick', 'Nettle', 'Rook', 'Hob'],
+    tricks: [{ id: 'hamstring', name: 'Hamstring', says: 'one bite in three that lands holds its foe back a moment' },
+      { id: 'pack', name: 'Pack Hunter', says: 'you have +2 to hit anything it stands beside' }] },
   goblin: { sprite: 'scrag', voice: 'goblin', ac: 14, speed: 800, stepMs: 300, trotMs: 130, hp: [6, 3], hit: 2, dmg: [1, 4], verb: 'stabs', sits: 'squats on its heels', word: 'goblin',
-    names: ['Snik', 'Grub', 'Nib', 'Skaz', 'Twitch', 'Mog', 'Rattle', 'Fenn', 'Scrag', 'Wort'] },
+    names: ['Snik', 'Grub', 'Nib', 'Skaz', 'Twitch', 'Mog', 'Rattle', 'Fenn', 'Scrag', 'Wort'],
+    tricks: [{ id: 'backstab', name: 'Backstab', says: 'its stab deals double to anything at your side' },
+      { id: 'scrounge', name: 'Scrounger', says: 'on each new floor it finds you something on the way down' }] },
 };
+// It grows with the floors it goes down at the hero's side, not its kills: a
+// hound kept alive through the dark has earned it, whoever struck the blows.
+const RANKS = [{ floors: 2, name: 'blooded' }, { floors: 4, name: 'a veteran' }];
+/** How far it has come: 0, then 1 (blooded), then 2 (a veteran). */
+const rankOf = c => RANKS.filter(r => ((c && c.floors) || 0) >= r.floors).length;
+/** Whether it has learned this trick. */
+const knows = (c, id) => !!c && kindOf(c).tricks.slice(0, rankOf(c)).some(t => t.id === id);
+// what a goblin that has learned to scrounge turns up on the way down, from its own dice
+const SCROUNGE = [['gold', 40], ['potion_heal', 20], ['oil_fire', 12], ['oil_venom', 10], ['oil_silver', 8], ['scroll_map', 10]];
 const LOST_MS = 3000;
 /** @param {{kind?: string}|null} c */
 const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
@@ -28,7 +43,7 @@ const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };
-  const maxHpFor = (c, level) => kindOf(c).hp[0] + kindOf(c).hp[1] * level;
+  const maxHpFor = (c, level) => kindOf(c).hp[0] + kindOf(c).hp[1] * level + 4 * rankOf(c);
   const hitFor = (c, level) => kindOf(c).hit + Math.floor(level / 3);
   const biteFor = (c, level) => [kindOf(c).dmg[0], kindOf(c).dmg[1], Math.floor(level / 3)];
   /** A hound at heel pants, and its claws click on the stone: sleepers hear the hero a square sooner. (A goblin goes quiet as a thief.) */
@@ -136,8 +151,13 @@ export function makeCompanion(K) {
     if (roll !== 1 && (roll === 20 || roll + hitFor(c, p.level) >= mb.ac)) {
       // in a group the front one falls and the next steps up into the same place
       const many = m.pack ? m.pack.length : 0;
-      K.damageMonster(m, Math.max(1, d(...biteFor(c, p.level))), 'companion');
-      if (!L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many) c.kills++;
+      // a goblin that has learned to backstab goes for what the hero is fighting
+      const atSide = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+      K.damageMonster(m, Math.max(1, d(...biteFor(c, p.level))) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
+      const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
+      if (down) c.kills++;
+      // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
+      else if (knows(c, 'hamstring') && d(1, 3) === 1) m.nextAct = Math.max(m.nextAct, K.G.t) + 500;
     }
     return true;
   }
@@ -236,6 +256,36 @@ export function makeCompanion(K) {
     c.depth = K.G.depth;
     Object.assign(c, spot || { x: p.x, y: p.y });
     c.moveT1 = 0; c.nextAct = K.G.t + 700; c.stuckSince = 0;
+    // a floor it has not been down to before, at the hero's side: it grows
+    if (K.G.depth > (c.deepest || c.joined)) {
+      c.deepest = K.G.depth;
+      const was = rankOf(c);
+      c.floors = (c.floors || 0) + 1;
+      if (rankOf(c) > was) {
+        const t = kindOf(c).tricks[rankOf(c) - 1];
+        c.maxHp = maxHpFor(c, p.level); c.hp = c.maxHp;
+        K.log(`${c.name} is ${RANKS[rankOf(c) - 1].name} now, and has learned a trick: ${t.name}, ${t.says}.`, 'good');
+        Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
+      }
+      if (knows(c, 'scrounge')) scrounge(c);
+    }
+  }
+  /** A scrounging goblin's find on the way down: gold, or a flask or a scroll it slips into the pack. */
+  function scrounge(c) {
+    const G = K.G, p = K.P(), rng = new Rng(`${G.seed}|scrounge|${G.depth}`);
+    const t = rng.weighted(SCROUNGE);
+    if (t === 'gold') {
+      const n = rng.int(4, 10) * G.depth;
+      p.gold += n;
+      K.log(`${c.name} tips ${n} gold into your hand: found on the way down, it says, and will not say where.`, 'good');
+    } else if (K.giveItem({ t, q: 1, e: 0 })) {
+      K.log(`${c.name} slips ${K.aThing(K.itemName({ t, q: 1, e: 0 }))} into your pack: found on the way down.`, 'good');
+    }
+  }
+  /** It helps the hero land a blow on what it stands beside, once it has learned to hunt as a pack. */
+  function flanks(m) {
+    const c = here();
+    return !!c && knows(c, 'pack') && Math.abs(m.x - c.x) + Math.abs(m.y - c.y) === 1;
   }
   /** After a load: its clock starts again with the game's. */
   function loaded() {
@@ -265,9 +315,11 @@ export function makeCompanion(K) {
     const w = kindOf(c).word;
     if (c.fallen) return `${c.name}, the ${w} who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
     const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}` : '';
-    return `${c.name}, your ${w}: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}${tricks}.`;
+    const r = rankOf(c), learned = kindOf(c).tricks.slice(0, r);
+    const next = r < RANKS.length ? ` ${RANKS[r].floors - (c.floors || 0)} more floor${RANKS[r].floors - (c.floors || 0) > 1 ? 's' : ''} down at your side and it learns ${kindOf(c).tricks[r].name}.` : '';
+    return `${c.name}, your ${w}${r ? `, ${RANKS[r - 1].name}` : ''}: ${c.hp} of ${c.maxHp} hit points, ${c.mode === 'stay' ? `told to stay on floor ${c.depth}` : 'at your heel'}${c.kills ? `, ${c.kills} kill${c.kills > 1 ? 's' : ''}` : ''}${tricks}.${learned.map(t => ` ${t.name}: ${t.says}.`).join('')}${next}`;
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, arrive, loaded, sprite, note, flanks, rank: () => rankOf(K.G && K.G.companion) };
 }

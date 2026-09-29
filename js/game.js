@@ -2366,8 +2366,10 @@ const Game = (() => {
     // a riposte: the opening a missed blow left, taken
     const rip = !atRange && p.riposteUntil > G.t ? 4 : 0;
     if (rip) p.riposteUntil = 0;
-    const note = rollNote(roll, toHit() + rip, mb.ac, crit);
-    if (!open && !sure && (roll === 1 || (!crit && roll + toHit() + rip < mb.ac))) {
+    // a hound that hunts as a pack, beside the same foe, makes it easier to hit
+    const edge = rip + (companion.flanks(m) ? 2 : 0);
+    const note = rollNote(roll, toHit() + edge, mb.ac, crit);
+    if (!open && !sure && (roll === 1 || (!crit && roll + toHit() + edge < mb.ac))) {
       log(`You miss the ${mb.name}.${note}`);
       { const o = heard(m); soon(() => Sound.play('glance', o)); }
       floatText(m, 'miss', '#e4e4ee');
@@ -4313,11 +4315,12 @@ const Game = (() => {
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
     get damageMonster() { return damageMonster; },
     get heard() { return heard; }, get realNow() { return realNow; },
+    get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
   });
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
-    companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(),
+    companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,

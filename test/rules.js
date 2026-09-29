@@ -9688,6 +9688,123 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a companion grows with each new floor it goes down at the hero\'s side: blooded after two, a veteran after four, a trick at each', async () => {
+    const out = [];
+    const ctx = await withHound('hound-grow');
+    const { Game } = ctx; const G = Game.state(); const c = Game.companion();
+    const hp0 = c.maxHp;
+    const down = () => { const mark = markLog(G); Game.level().monsters.length = 0; Game.descend(); return linesSince(G, mark); };
+    down();
+    if (c.floors !== 1 || Game.companionRank() !== 0) out.push(`after one floor: floors ${c.floors}, rank ${Game.companionRank()}`);
+    c.hp = 1;
+    const said = down();
+    if (Game.companionRank() !== 1) out.push(`after two floors the rank is ${Game.companionRank()}`);
+    if (!said.some(l => l.includes(`${c.name} is blooded now`) && l.includes('Hamstring'))) out.push(`at two floors it said: ${said.join(' / ')}`);
+    if (c.hp !== c.maxHp || c.maxHp < hp0 + 4) out.push(`blooded, it has ${c.hp} of ${c.maxHp} (was ${hp0})`);
+    down();
+    const vet = down();
+    if (Game.companionRank() !== 2 || !vet.some(l => l.includes('is a veteran now') && l.includes('Pack Hunter'))) out.push(`after four floors: rank ${Game.companionRank()}, said ${vet.join(' / ')}`);
+    if (!Game.threadNotes().some(n => n.includes('Hamstring') && n.includes('Pack Hunter'))) out.push('the hero sheet does not list its tricks');
+    // one told to stay does not come, and does not grow
+    const s = await withHound('hound-grow-stay');
+    const c2 = s.Game.companion();
+    c2.mode = 'stay';
+    s.Game.level().monsters.length = 0; s.Game.descend();
+    if (c2.floors) out.push('a hound left behind grew');
+    // and before its first trick the hero sheet says how far there is to go
+    if (!s.Game.threadNotes().some(n => n.includes('2 more floors down at your side and it learns Hamstring'))) out.push(`the sheet said: ${s.Game.threadNotes().filter(n => n.includes(c2.name)).join(' / ')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a pack-hunting hound beside a foe gives the hero +2 to hit it; a backstabbing goblin stabs twice as hard at a foe beside the hero', async () => {
+    const out = [];
+    /** The bonus shown on the hero's roll at an ogre in front, with the hound beside it (or not) at this rank. */
+    const bonus = async (floors, beside) => {
+      const ctx = await withHound('hound-pack-' + floors + beside);
+      const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+      clearAround(ctx);
+      rollsOn(Game);
+      Object.assign(p.stats, evenStats);
+      c.floors = floors; c.mode = 'stay';
+      const [dx, dy] = Dungeon.DIRS[p.dir], [lx, ly] = Dungeon.DIRS[(p.dir + 1) % 4];
+      const m = { uid: 98, id: 'ogre', x: p.x + dx, y: p.y + dy, hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      Game.level().monsters.push(m);
+      Object.assign(c, beside ? { x: m.x + lx, y: m.y + ly } : { x: p.x - dx, y: p.y - dy });
+      for (let i = 0; i < 40; i++) {
+        const mark = markLog(G);
+        G.t = p.nextAttack; Game.input('attack');
+        const l = linesSince(G, mark).map(x => x.match(/d20 \d+\+(\d+) vs AC/)).find(Boolean);
+        if (l) return Number(l[1]);
+      }
+      return NaN;
+    };
+    const plain = await bonus(0, true), vetFar = await bonus(4, false), vetBy = await bonus(4, true), blooded = await bonus(2, true);
+    if (!(vetBy === plain + 2)) out.push(`a veteran hound beside the ogre: +${vetBy}, against +${plain} with a new one`);
+    if (vetFar !== plain) out.push(`a veteran hound behind the hero changed the roll to +${vetFar}`);
+    if (blooded !== plain) out.push(`a blooded hound (no Pack Hunter yet) changed the roll to +${blooded}`);
+    // the goblin: the same stab dice, doubled on a foe at the hero's side once blooded
+    const stabs = async floors => {
+      const ctx = await withGoblin('goblin-stab-' + floors);
+      const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+      if (!c) return { err: 'no goblin' };
+      clearAround(ctx);
+      seedDice(ctx, 'goblin-stab');
+      c.floors = floors; c.mode = 'stay';
+      const [dx, dy] = Dungeon.DIRS[p.dir], [lx, ly] = Dungeon.DIRS[(p.dir + 1) % 4];
+      const m = { uid: 99, id: 'ogre', x: p.x + dx, y: p.y + dy, hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, ac: 1, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      Game.level().monsters.push(m);
+      Object.assign(c, { x: m.x + lx, y: m.y + ly });
+      let total = 0, n = 0;
+      for (let i = 0; i < 16000 && n < 150; i++) { const hp = m.hp; Game.update(G.t + 25, 25); m.nextAct = 1e12; if (m.hp < hp) { total += hp - m.hp; n++; } }
+      return { mean: total / Math.max(1, n), n };
+    };
+    const g0 = await stabs(0), g2 = await stabs(2);
+    if (g0.err || g2.err) out.push(g0.err || g2.err);
+    else if (!(g0.n > 100 && g2.n > 100 && g2.mean > g0.mean * 1.7 && g2.mean < g0.mean * 2.4)) out.push(`a goblin's stabs: ${g0.mean.toFixed(2)} (${g0.n}) new, ${g2.mean.toFixed(2)} (${g2.n}) blooded`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a blooded hound\'s bite that lands sometimes holds its foe back; a veteran goblin finds something on each new floor', async () => {
+    const out = [];
+    const held = async floors => {
+      const ctx = await withHound('hound-ham-' + floors);
+      const { Game } = ctx; const G = Game.state(), c = Game.companion(), p = Game.player();
+      clearAround(ctx);
+      c.floors = floors; c.mode = 'stay';
+      const spot = ctx.Dungeon.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) > 1 && !(x === p.x && y === p.y));
+      const m = { uid: 96, id: 'ogre', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, ac: 1, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      Game.level().monsters.push(m);
+      let bites = 0, slowed = 0;
+      for (let i = 0; i < 16000 && bites < 150; i++) {
+        const hp = m.hp; m.nextAct = G.t + 1e9;
+        Game.update(G.t + 25, 25);
+        if (m.hp < hp) { bites++; if (m.nextAct > G.t + 1e9) slowed++; }
+      }
+      return { bites, slowed };
+    };
+    const h0 = await held(0), h2 = await held(2);
+    if (h0.slowed) out.push(`a new hound held its foe back ${h0.slowed} times`);
+    if (!(h2.bites > 100 && h2.slowed > h2.bites * 0.2 && h2.slowed < h2.bites * 0.5)) out.push(`a blooded hound held back ${h2.slowed} of ${h2.bites} bitten`);
+    // the goblin's finds, on floors it has not been to
+    const ctx = await withGoblin('goblin-scrounge');
+    const { Game } = ctx; const G = Game.state(), c = Game.companion(), p = Game.player();
+    if (!c) return 'no goblin';
+    c.floors = 3;
+    const count = () => p.gold * 1000 + p.inv.reduce((a, i) => a + (i.q || 1), 0);
+    const before = count();
+    const mark = markLog(G);
+    Game.level().monsters.length = 0; Game.descend();
+    const said = linesSince(G, mark);
+    if (Game.companionRank() !== 2) out.push(`after the fourth floor the goblin's rank is ${Game.companionRank()}`);
+    if (count() === before || !said.some(l => l.includes(`${c.name} tips`) || l.includes(`${c.name} slips`))) out.push(`nothing found: ${said.join(' / ')}`);
+    // a floor it has been to already brings nothing
+    const again = count();
+    c.deepest = G.depth + 1;
+    Game.level().monsters.length = 0; Game.descend();
+    if (count() !== again) out.push('it found something on a floor it had been down to');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('review fixes: the hound is not the hero, for smoke, the best blow or the trader\'s lamp; a cleric unhurt readies a spell that does something', async () => {
     const out = [];
     // the hound's bites are its own: not the hero's best blow, nor the hero's tally

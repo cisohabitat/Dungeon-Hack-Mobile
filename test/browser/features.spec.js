@@ -1065,7 +1065,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('goblin');
+    await expect(p2.locator('#news-text')).toContainText('capstones');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);
@@ -1085,6 +1085,36 @@ test.describe('dungeon features', () => {
     await back.close();
     expect(errors).toEqual([]);
   });
+  test('a hound that has come down two floors at the hero\'s side is blooded, and the Hero sheet says what it has learned', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'hound-grow-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'stray', x: p.x + dx, y: p.y + dy });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Share your food' }).click();
+    await page.waitForTimeout(450);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect.poll(() => page.evaluate(() => !!Game.companion())).toBe(true);
+    const name = await page.evaluate(() => Game.companion().name);
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('2 more floors down at your side and it learns Hamstring');
+    await page.click('#ov-char [data-close]');
+    await page.evaluate(() => { for (let i = 0; i < 2; i++) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); } });
+    await expect.poll(() => page.evaluate(() => Game.companionRank())).toBe(1);
+    expect(await page.evaluate(n => Game.state().log.some(e => e.m.includes(`${n} is blooded now`)), name)).toBe(true);
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText(`${name}, your hound, blooded`);
+    await expect(page.locator('#char-sheet')).toContainText('Hamstring: one bite in three that lands holds its foe back a moment.');
+    expect(errors).toEqual([]);
+  });
+
   test('a starving hound fed on the way follows the hero, shows in the view, and stays or comes when told', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'hound-ui', cls: 'Fighter' });
