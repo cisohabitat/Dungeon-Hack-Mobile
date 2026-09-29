@@ -255,18 +255,18 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely. Normal and Hard were measured again with capstones, oils and companions that grow (the bot takes each capstone in turn, coats its weapon as a fight starts, and its companion learns as it goes):
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 82% | 79% | 78% | 79% | 83% | about 80% |
-| Hard | 58% | 55% | 59% | 61% | 59% | about 58% |
-| Long Delve (12 floors), Normal | 78% | 78% | 80% | 84% | 81% | about 80% |
-| Long Delve (12 floors), Hard | 55% | 61% | 64% | 65% | 59% | about 60% |
+| Normal | 81% | 80% | 79% | 79% | 84% | about 81% |
+| Hard | 59% | 61% | 62% | 61% | 63% | about 61% |
+| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | about 82% |
+| Long Delve (12 floors), Hard | 69% | 66% | 70% | 64% | 65% | about 67% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class lands within about six points of it: the fighter lowest, the thief highest. (It was once tuned
+Delve on Hard, and every class lands within about six points of it: the cleric lowest, the ranger highest. The new tools lifted it a few points past the aim. (It was once tuned
 to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
@@ -277,7 +277,7 @@ sturdier they get, capping the thief's dodge). The ranger's figure is the noisie
 have given it anything from 37% to 62%. It trailed at about 43% until the deep floors got
 monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
 answers well; over three seed sets it now wins about 49% with no help, and giving its blows
-the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%.
+the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%. Measured again with capstones, oils, charms, jobs and the Warlord, the casters lead there and the thief and the ranger trail, all within about six points.
 
 The hound (floor 2, on about two seeds in three; the bot always takes it) is worth three or four
 points everywhere: without it the same build wins about 74% on Normal, 51% on Hard, 74% and 53%
