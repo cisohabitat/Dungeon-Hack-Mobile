@@ -2020,7 +2020,11 @@ const UI = (() => {
       edged(x * size - ox + size * 0.25, y * size - oy + size * 0.25, size * 0.5, size * 0.5, MAP_COLOUR.loot);
     }
     // traps an encounter told of, so the hero can go round them
-    if (L.trapsKnown) for (const k in L.traps) { const [x, y] = k.split(',').map(Number); glyph('\u00d7', x, y, MAP_COLOUR.trap); }
+    if (L.trapsKnown) for (const k in L.traps) {
+      const [x, y] = k.split(',').map(Number);
+      edged(x * size - ox + size * 0.15, y * size - oy + size * 0.15, size * 0.7, size * 0.7, MAP_COLOUR.trap);
+      glyph('\u00d7', x, y, '#2a0808');
+    }
     for (const n of (L.npcs || [])) {
       if (!L.explored[n.y * L.w + n.x]) continue;
       edged(n.x * size - ox, n.y * size - oy, size, size, MAP_COLOUR.trader);
