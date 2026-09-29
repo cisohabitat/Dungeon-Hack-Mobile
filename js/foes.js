@@ -1010,6 +1010,7 @@ export function makeFoes(K) {
   /** @returns {undefined|'stop'} */
   function monsterTurn(m, L, p) {
     const G = K.G, mb = K.mstat(m);
+    if (m.sunk) { lurks(m, L, p); return; }
     speaks(m, mb);
     if (m.collapsed) { rises(m, mb); return; }
     if (!burnsAndMends(m, mb, L)) return;
@@ -1025,6 +1026,9 @@ export function makeFoes(K) {
     m.lostAt = 0;
     if (m.fleeing && flees(m, mb, L, p, di)) return;
     const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+    // the eyeless hunt by ear: a hero standing still, not beside it, is lost to it
+    if (mb.hears && !adjacent && !hearsHero(p)) { gropes(m, mb); return; }
+    if (mb.hears && m.groping) { m.groping = false; K.floatText(m, 'hears you', '#e0d0ff'); }
     const shot = !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss);
     // Blows from several attackers used to land in one frame, read as one
     // hit, and kill faster than anyone could turn. Space them so each one
@@ -1087,6 +1091,19 @@ export function makeFoes(K) {
   /** Asleep: it wakes if the hero comes close enough to be noticed, else dozes or drifts. */
   function stirs(m, mb, L, p, di) {
     const G = K.G;
+    // the eyeless wake to a sound, and only a sound (or a touch): a hero who stands still is passed by
+    if (mb.hears) {
+      const touch = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+      if (touch || (di >= 0 && di <= (p.cls === 'thief' ? 4 : 7) && hearsHero(p))) {
+        m.awake = true; m.groping = false; Sound.play('voice', K.heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT;
+        K.meet(m);
+        if (touch) beginWindup(m, 'melee', WAKE_BEAT);
+        return;
+      }
+      if (Math.random() < 0.3) wander(m);
+      m.nextAct = G.t + mb.speed * 1.5;
+      return;
+    }
     // Thieves move quietly, so their double blow on a sleeping foe can
     // actually happen: at six squares almost nothing stayed asleep long
     // enough to be reached. Deep-born blood stacks with it, and so do a
@@ -1112,6 +1129,50 @@ export function makeFoes(K) {
     // lost in a thief's smoke, it stands and peers about rather than wandering off
     if (!(p.smokeUntil > G.t) && Math.random() < 0.25) wander(m);
     m.nextAct = G.t + mb.speed * 1.5;
+  }
+  // How long a sound hangs about for an eyeless to follow: a thief's steps fade sooner
+  const HEAR_MS = 1500, HEAR_MS_THIEF = 800;
+  /** Whether the hero has made a sound lately: a step, a blow, a spell, a door. */
+  const hearsHero = p => K.G.t - (p.noiseAt == null ? -1e9 : p.noiseAt) < (p.cls === 'thief' ? HEAR_MS_THIEF : HEAR_MS);
+  /** An eyeless that has lost the sound: it stops, listens, and gropes about. */
+  function gropes(m, mb) {
+    const G = K.G;
+    m.windup = null; m.volley = null;
+    if (!m.groping) {
+      m.groping = true;
+      K.floatText(m, 'listening', '#c8c0e0');
+      if (!m.gropeSaid) { m.gropeSaid = true; K.log(`The ${mb.name} stops dead, its blind head turning, listening for you.`, 'good'); K.learn(m.id, 'answer'); }
+    }
+    if (Math.random() < 0.5) wander(m);
+    m.nextAct = G.t + mb.speed;
+  }
+  /** A drowned one lies sunk until something comes within two squares of it. */
+  function lurks(m, L, p) {
+    const G = K.G;
+    if (G.t < m.nextAct) return;
+    const di = K.distField[m.y * L.w + m.x];
+    if (di >= 0 && di <= 2) surface(m, 'near');
+    else m.nextAct = G.t + 400;
+  }
+  /**
+   * A drowned one comes up out of the water: come near, stepped into, or
+   * struck in its ripple. It rises reaching for whoever is beside it.
+   * @param {'near'|'step'|'struck'} why
+   */
+  function surface(m, why) {
+    const G = K.G, p = K.P(), mb = K.mstat(m);
+    if (!m.sunk) return;
+    delete m.sunk;
+    m.awake = true; m.blows = 1;
+    K.spray(m, 'rot', 0.6, false);
+    Sound.play('voice', K.heard(m, { who: m.id }));
+    K.log(why === 'struck' ? `Your blow finds something under the water, and a ${mb.name} heaves up out of it!`
+      : why === 'step' ? `You tread on something under the water. A ${mb.name} rises, reaching for you!`
+        : `The black water heaves, and a ${mb.name} rises out of it!`, 'bad');
+    K.meet(m, 'trick');
+    m.nextAct = G.t + WAKE_BEAT;
+    // beside the hero, its first move is to seize them
+    if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) startMove(m, mb, true);
   }
   /** Out of reach of the trail: after a while it stops hunting and settles again. */
   function losesYou(m, mb) {
@@ -1219,5 +1280,5 @@ export function makeFoes(K) {
     else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
   }
 
-  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, sporesOn, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
+  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, sporesOn, surface, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
 }

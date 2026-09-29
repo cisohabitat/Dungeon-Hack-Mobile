@@ -236,7 +236,7 @@ const Sound = (() => {
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },
@@ -244,6 +244,10 @@ const Sound = (() => {
     howl(out) { const l = lp(out, 1200); tone(l, 330, 0.9, 'triangle', 0.08, 140, 0, 0.18); tone(l, 470, 0.5, 'sine', 0.03, -120, 0.35, 0.1); noise(out, 0.7, 0.03, { type: 'bandpass', f: 900, q: 2, attack: 0.2 }); },
     // the hero's hound: two short, glad barks, nothing like the deep's growls
     bark(out) { const l = lp(out, 1500); for (let i = 0; i < 2; i++) { tone(l, vary(360, 0.06), 0.1, 'sawtooth', 0.11, -150, i * 0.17, 0.008); noise(out, 0.08, 0.07, { type: 'bandpass', f: 1100, q: 1.3, delay: i * 0.17 }); } },
+    // a drowned one: a moan through water, bubbling up out of it
+    gurgle(out, s) { const f = 110 / s, l = lp(out, 420); tone(l, f, 0.8, 'sawtooth', 0.08, -f * 0.2, 0, 0.2); for (let i = 0; i < 5; i++) tone(lp(out, 900), vary(300, 0.3), 0.06, 'sine', 0.06, 200, 0.1 + i * 0.1); },
+    // an eyeless: quick dry clicks, the sound it finds its way by
+    click(out) { clicks(out, 7, 0.45, 3200, 0.1); tone(out, 1800, 0.05, 'square', 0.03, -400, 0.2); },
     hiss(out) { noise(out, 0.4, 0.09, { type: 'highpass', f: 3500, attack: 0.06 }); clicks(out, 4, 0.3, 2500, 0.06); },
     squelch(out) { const l = lp(out, 700); tone(l, 160, 0.18, 'sine', 0.22, -80); tone(l, 110, 0.16, 'sine', 0.18, 150, 0.12); noise(out, 0.2, 0.08, { f: 500, delay: 0.05 }); },
     rattle(out) { clicks(out, 9, 0.45, 2200, 0.09); tone(lp(out, 300), 90, 0.1, 'triangle', 0.08, -30); },

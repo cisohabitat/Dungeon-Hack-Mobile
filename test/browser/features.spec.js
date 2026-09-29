@@ -636,6 +636,32 @@ test.describe('dungeon features', () => {
     expect(errors2).toEqual([]);
     await ctx.close();
   });
+  test('a drowned one shows only as a ripple until it rises, and is told when it does; an eyeless is told as it comes near', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice', 'quickscroll'])));
+    await startGame(page, { tips: true, seed: 'kin-tips' });
+    await clearBoons(page);
+    await faceOpenGround(page, 4);
+    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; L.twist = 'flooded'; Game.player().hp = Game.player().maxHp = 999; document.getElementById('tip').classList.remove('show'); });
+    // sunk three squares off: a ripple on the water, and no creature drawn
+    await placeMonster(page, 'drowned', 3, { hp: 40, maxHp: 40, awake: false, sunk: true, nextAct: 0 });
+    const drawn = () => page.evaluate(() => { const s = Game.renderState(performance.now()).sprites; return { ripple: s.some(x => x.img === Assets.sprites.dress_ripple), body: s.some(x => x.img === Assets.sprites.drowned) }; });
+    await page.waitForTimeout(600);
+    expect(await drawn()).toEqual({ ripple: true, body: false });
+    // a step nearer, and it rises
+    await page.evaluate(() => Game.input('forward'));
+    await expect.poll(drawn, { timeout: 4000 }).toEqual({ ripple: false, body: true });
+    await expect(page.locator('#tip')).toContainText('drowned one', { timeout: 3000 });
+    await expect(page.locator('#tip')).toContainText('Step back');
+    // an eyeless, awake and near
+    await page.waitForTimeout(7200);
+    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; L.twist = 'dark'; document.getElementById('tip').classList.remove('show'); });
+    await placeMonster(page, 'eyeless', 3, { hp: 40, maxHp: 40 });
+    await expect(page.locator('#tip')).toContainText('Stand still', { timeout: 4000 });
+    const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
+    for (const id of ['drowned', 'eyeless']) expect(seen).toContain(id);
+    expect(errors).toEqual([]);
+  });
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
@@ -1146,7 +1172,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('Puffcap');
+    await expect(p2.locator('#news-text')).toContainText('drowned');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

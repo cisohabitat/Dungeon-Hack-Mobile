@@ -428,8 +428,8 @@ function heroName(bg, avoid = '', rnd = Math.random) {
 // What sets a middle floor apart now and then (dungeon.js deals them out):
 // the line on arriving, and the chip that stays up while you are there.
 const TWISTS = {
-  dark: { name: 'Dark', arrive: 'The torches on this floor have burnt out. It is hard to see, and hard to be seen.', chip: 'Most torches here are out: less to see by, but sleeping things notice you a square later' },
-  flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too.', chip: 'Black water: you and everything here move a quarter slower' },
+  dark: { name: 'Dark', arrive: 'The torches on this floor have burnt out. It is hard to see, and hard to be seen. Somewhere in the dark, something is clicking.', chip: 'Most torches here are out: less to see by, but sleeping things notice you a square later. Eyeless stalkers hunt here by sound: stand still and they lose you' },
+  flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too. Here and there a ripple spreads where nothing moves.', chip: 'Black water: you and everything here move a quarter slower. The drowned lie under it, seen only as a ripple, and rise at whoever comes near' },
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
   overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones, and something larger and fungal shuffles in the dark.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here, and puffcaps that burst in spores at a blow from beside them. A druid is at home: their spells cost a point less' },
@@ -588,6 +588,12 @@ const MONSTERS = {
   // An overgrown floor's own (game.js grows them over some of its creatures;
   // never dealt by depth): a slow fungus that bursts into spores when a blow
   // lands on it from beside it. Burn it, shoot it, or breathe its spores.
+  // A flooded floor's own: a drowned dead thing lying sunk in the black water,
+  // seen only as a ripple, that rises and seizes whoever comes near it.
+  drowned:  { name: 'Drowned One', hp: [2, 8, 0],   ac: 12, hit: 4,  dmg: [1, 8, 0], speed: 1300, xp: 60,   tier: [99, 99], sprite: 'drowned',  scale: 0.95, undead: true, move: 'grab', sinks: true, door: 'batter' },
+  // A dark floor's own: a blind hunter that finds its prey by the noise it
+  // makes. Stand still and it loses you; move, strike or speak and it comes.
+  eyeless:  { name: 'Eyeless Stalker', hp: [3, 8, 0], ac: 14, hit: 5, dmg: [1, 8, 1], speed: 900, xp: 90,  tier: [99, 99], sprite: 'eyeless',  scale: 1.0, hears: true, door: 'batter' },
   puffcap:  { name: 'Puffcap',     hp: [2, 8, 0],    ac: 10, hit: 3,  dmg: [1, 6, 0], speed: 1600, xp: 45,   tier: [99, 99], sprite: 'puffcap',  scale: 0.85, spores: true, door: 'batter' },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
@@ -716,6 +722,7 @@ const ELEMENTS_TAKEN = {
   rustmaw:  { lightning: 1.5 },
   quillback: { fire: 1.5 },
   puffcap:  { fire: 1.5 },
+  drowned:  { fire: 0.5, lightning: 1.5 },
   wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
   skeleton: { cold: 0.5 },
@@ -776,6 +783,12 @@ const BESTIARY = {
   quillback: { lore: 'A squat, heavy beast with a mantle of long dark quills and a temper to match. Its quills burn.',
     trick: 'Its quills rattle up on end, and any blow struck at it from beside it drives into them and bites back.',
     answer: 'Hold your blow while the quills stand. When they sink flat it is left open. An arrow or a spell from further off does not touch them.' },
+  drowned:  { lore: 'Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.',
+    trick: 'It lies sunk and unseen until you come within two squares, then rises and reaches to seize you. Held, you cannot step away.',
+    answer: 'Watch the water for a ripple that does not settle, and go round it, or strike it first. As it rises and lurches, step back and it grabs the air.' },
+  eyeless:  { lore: 'A long pale hunter of the dark floors, with no eyes at all: a smooth, blind head and a mouth full of needles. It hears everything.',
+    trick: 'It finds you by the noise you make: every step, every blow, every spell. It is quick, and it bites hard.',
+    answer: 'Stand still and it loses you: it stops and gropes about, listening. Turning on the spot makes no sound. It still finds you by touch if it blunders up beside you.' },
   puffcap:  { lore: 'A fungus the size of a crouching man, grown up out of the moss on stubby roots. It shuffles after warm things, slowly.',
     trick: 'A blow struck at it from beside it bursts its cap in a cloud of spores, and a lungful poisons you.',
     answer: 'Burn it, or strike from further off: an arrow or a spell looses no spores, and fire sears them before they fly. A druid breathes them as the moss does.' },

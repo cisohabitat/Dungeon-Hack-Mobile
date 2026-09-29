@@ -78,6 +78,7 @@
  * @property {number} [lastTear]  when the hero last tore at a web
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
+ * @property {number} [noiseAt]  when the hero last made a sound (a step, a blow, a spell, a door), for the eyeless, which hunt by it
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
  * @property {number} [abilityReady]  when a fighter's Bash or a thief's Smoke can be used again
  * @property {number} [smokeUntil]  a thief's smoke hangs until then: nothing notices them by sight or sound
@@ -110,6 +111,9 @@
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {number} [worth]     what it pays in experience, when not its kind's own: a puffcap is worth the creature it grew over
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
+ * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
+ * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
+ * @property {boolean} [gropeSaid]  its first groping told in the log
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first

@@ -67,6 +67,13 @@ const DRESSING = {
   ],
   // what a fallen creature leaves once its body has sunk away: bones, if it
   // was bones or had them to spare, else a dark husk and its rags
+  // rings spreading on black water over something lying under it (a drowned one, sunk)
+  ripple: () => [
+    ball(16, 28.5, 15.5, 3, '#0c1218'),
+    ball(16, 28.5, 14, 2.5, '#6a8aa0'), ball(16, 28.5, 12.2, 2, '#0c1218'),
+    ball(16, 28.5, 9, 1.7, '#8aa8bc'), ball(16, 28.5, 7.4, 1.2, '#0c1218'),
+    ball(16, 28.5, 3.6, 0.9, '#aac4d4'), ball(16, 28.5, 2, 0.5, '#0c1218'),
+  ],
   remains_bones: () => [
     limb(9, 30, 15, 28.5, 0.7, 0.7, BONE), limb(17, 31, 23, 29.5, 0.7, 0.7, BONE_DARK),
     ball(13, 30.2, 2.4, 1.6, '#e2d8bc'), dots([[12, 30], [14, 30]], '#1a120c'),
@@ -89,7 +96,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

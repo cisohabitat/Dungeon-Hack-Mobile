@@ -1863,12 +1863,15 @@ const Game = (() => {
     const prop = propAt(nx, ny);
     if (prop && !monsterAt(nx, ny)) { smash(lvl(), prop, true); return true; }
     const m = monsterAt(nx, ny);
+    if (m && m.sunk) { surface(m, 'step'); return false; }
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
     // the hound steps into your square as you step into its own
     if (companion.at(nx, ny)) companion.swap(p.x, p.y);
     p.x = nx; p.y = ny; p.steps++;
+    // a step is heard (by the eyeless, which hunt by it); a turn on the spot is not
+    p.noiseAt = G.t;
     if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
     startCam(lvl().twist === 'flooded' ? Math.round(MOVE_MS * FLOOD_SLOW) : MOVE_MS);
     Sound.play('step');
@@ -1894,7 +1897,7 @@ const Game = (() => {
     lastBlocked = G.t;
     log(message);
   }
-  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); log('You push the door open.'); Sound.play('door'); }
+  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); P().noiseAt = G.t; log('You push the door open.'); Sound.play('door'); }
   function revealSecret(x, y, keenEyes) {
     setTile(x, y, T.DOOR_OPEN);
     log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
@@ -2120,7 +2123,7 @@ const Game = (() => {
     spore: { c: ['#d8d0a0', '#b8b070', '#e8e4c8'], g: 0.6, stain: false },
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
-    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto', puffcap: 'spore' };
+    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto', puffcap: 'spore', drowned: 'rot' };
   // a named champion bleeds as its kind does
   for (const id in MONSTERS) if (MONSTERS[id].named && GORE_OF[MONSTERS[id].named.kin]) GORE_OF[id] = GORE_OF[MONSTERS[id].named.kin];
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
@@ -2230,6 +2233,7 @@ const Game = (() => {
     const p = P();
     if (G.t < p.nextAttack) return;
     if (p.held > G.t) { blocked(heldWhy()); return; }
+    p.noiseAt = G.t;
     const w = weapon();
     const [dx, dy] = DIRS[p.dir];
     let m = monsterAt(p.x + dx, p.y + dy);
@@ -2414,6 +2418,8 @@ const Game = (() => {
       Sound.play('wardhit', heard(m));
       return;
     }
+    // a blow into the ripple brings up what lies under it
+    if (m.sunk) surface(m, 'struck');
     noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;
@@ -3231,6 +3237,8 @@ const Game = (() => {
     const waste = spellWasteReason(sp);
     if (waste) { log(waste, 'bad'); Sound.play('error'); emit('waste'); return false; }
     if (G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
+    // the words are heard
+    p.noiseAt = G.t;
     p.nextAttack = G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
     // a bear cannot say the words: the druid lets it go to speak any other spell
     if (sp.kind !== 'shape' && wild.shaped(p)) wild.end('cast');
@@ -3656,27 +3664,33 @@ const Game = (() => {
    * What a floor's twist changes when it is first made (dungeon.js deals the
    * twists, and does the torches and the market itself): on a floor of the
    * restless dead, over half its ordinary creatures have risen as undead of
-   * the depth, rolled afresh; on an overgrown one, puffcaps have grown up over
-   * some of them (each worth what it grew over, so the floor pays as it would).
+   * the depth, rolled afresh. Three others each have a creature of their own
+   * grown in place of some of the floor's (each worth what it replaced, so the
+   * floor pays as it would): puffcaps in the moss, the drowned sunk in the
+   * black water, and on a dark floor the eyeless that hunt by sound.
    * @param {import('./types.js').Level} L
    */
   function twistLevel(L, depth) {
-    if (L.twist === 'overgrown') {
-      const rng = new Rng(`${G.seed}|puffcaps|${depth}`), nb = MONSTERS.puffcap;
+    const kin = TWIST_KIN[L.twist || ''];
+    if (kin) {
+      const rng = new Rng(`${G.seed}|${kin.dice}|${depth}`), nb = MONSTERS[kin.id];
       for (const m of L.monsters) {
         const b = MONSTERS[m.id];
-        if (b.boss || b.named || m.elite || m.pack || rng.next() >= PUFFCAP_SHARE) continue;
+        if (b.boss || b.named || m.elite || m.pack || rng.next() >= kin.share) continue;
         m.worth = b.xp;
-        m.id = 'puffcap';
-        // a die more of life for every two floors down, from its own two at the top
+        m.id = kin.id;
+        // a die more of life for every two floors down, from its own at the top
         m.maxHp = m.hp = rng.dice(nb.hp[0] + Math.floor(depth / 2), nb.hp[1], nb.hp[2]);
+        // the drowned lie under the water until something comes near
+        if (nb.sinks) { m.sunk = true; m.awake = false; }
       }
       return;
     }
     if (L.twist !== 'restless') return;
     const rng = new Rng(`${G.seed}|restless|${depth}`);
     const t = Dungeon.tierAt(depth, G.opts.levels || 8);
-    const undead = Object.keys(MONSTERS).filter(id => MONSTERS[id].undead && !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade);
+    // (not the drowned: they belong to the black water, and are never dealt by depth)
+    const undead = Object.keys(MONSTERS).filter(id => MONSTERS[id].undead && !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade && MONSTERS[id].tier[0] < 99);
     const off = id => Math.max(0, MONSTERS[id].tier[0] - t, t - MONSTERS[id].tier[1]);
     const fit = undead.filter(id => off(id) === 0);
     const pool = fit.length ? fit : [undead.sort((a, b) => off(a) - off(b))[0]];
@@ -3693,7 +3707,8 @@ const Game = (() => {
       if (el) m.maxHp = m.hp = Math.round(m.hp * el.hp);
     }
   }
-  const PUFFCAP_SHARE = 0.35;
+  /** Each twist's own creature, how many of a floor's it takes the place of, and the name of its dice. */
+  const TWIST_KIN = { overgrown: { id: 'puffcap', share: 0.35, dice: 'puffcaps' }, flooded: { id: 'drowned', share: 0.3, dice: 'drowned' }, dark: { id: 'eyeless', share: 0.25, dice: 'eyeless' } };
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
@@ -3963,6 +3978,11 @@ const Game = (() => {
         const t = (now - m.moveT0) / (m.moveT1 - m.moveT0);
         m.rx = m.fromX + (m.x - m.fromX) * t; m.ry = m.fromY + (m.y - m.fromY) * t;
       } else { m.rx = m.x; m.ry = m.y; }
+      // a drowned one under the water shows only as a ripple that does not settle
+      if (m.sunk) {
+        if (Assets.sprites.dress_ripple) sprites.push({ x: m.x + 0.5, y: m.y + 0.5, img: Assets.sprites.dress_ripple, scale: 0.86 + 0.06 * Math.sin(now / 420 + m.uid), yOff: 0, onFloor: true, dress: true });
+        continue;
+      }
       const mb = MONSTERS[m.id];
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
       const base = Assets.sprites[mb.sprite];
@@ -4313,7 +4333,7 @@ const Game = (() => {
     houndRests: () => companion.rested(1),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },

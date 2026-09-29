@@ -319,6 +319,67 @@ const CREATURES = {
     ];
   },
 
+  // A drowned one, risen out of the black water: bloated and grey-blue, lank
+  // hair plastered over its face, weed hanging off it, both arms reaching for
+  // you and water still running off it.
+  drowned: () => {
+    const skin = '#8a9ea4', dark = '#5e7078', rag = '#3e4a44', locks = '#1a2024', weed = '#3e5a2e';
+    return [
+      // legs sunk to the shin in the water, and the water about them
+      limb(13, 23, 12.5, 29.5, 2.2, 1.9, dark), limb(19, 23, 19.5, 29.5, 2.2, 1.9, dark),
+      ball(16, 30.2, 8.5, 1.5, '#1e2a34'), ball(16, 30.2, 6, 0.9, '#4e6878'),
+      // a swollen body in what is left of a shirt
+      ball(16, 18, 7, 6.8, skin),
+      sheet([[9.5, 14], [22.5, 14], [23, 23], [20, 21.5], [17.5, 24], [15, 22], [12, 24], [9, 22.5]], rag, { curve: 1 }),
+      // both arms out, reaching
+      limb(10, 14.5, 5.5, 10.5, 2, 1.6, skin), ball(4.8, 9.8, 1.9, 1.7, skin),
+      limb(22, 14.5, 26.5, 10.5, 2, 1.6, skin), ball(27.2, 9.8, 1.9, 1.7, skin),
+      // the head, bloated and pale, hair plastered down it in wet strands
+      ball(16, 9, 5, 5, skin), ball(15, 10.5, 3, 2.2, '#a2b4b8'),
+      sheet([[11, 7.5], [12, 4], [16, 3], [20, 4], [21, 7.5], [19.5, 5.8], [16, 4.8], [12.5, 5.8]], locks, { curve: 0.8 }),
+      limb(11.2, 6, 10.6, 13.5, 1, 0.5, locks), limb(20.8, 6, 21.4, 13.5, 1, 0.5, locks), limb(17.5, 5, 18.2, 11.5, 0.8, 0.4, locks),
+      // dark drowned hollows for eyes, a pale gleam in one, and the mouth hanging open
+      ball(14, 8.8, 1.3, 1.1, '#1e2428'), ball(18.3, 8.8, 1.1, 1, '#1e2428'), dots([[14, 9]], '#e8f0e8'),
+      ball(16, 12.3, 1.5, 1.2, '#1a1418'),
+      // weed draped over a shoulder and hanging from an arm
+      limb(10.5, 13.5, 11, 19.5, 0.8, 0.5, weed), limb(22, 13, 23.5, 18, 0.7, 0.5, weed), limb(6, 11, 5.5, 15, 0.6, 0.4, weed),
+      // fine work: water running off it, fingers, the grain of the drowned skin, hair strands
+      specks([[4, 12], [4.5, 14.5], [27.5, 12.5], [28, 15], [12, 25.5], [20.5, 26], [16, 25]], '#b8d0dc'),
+      specks([[3.5, 8.5], [5, 8], [6.5, 8.5], [25.5, 8.5], [27, 8], [28.5, 8.5]], '#a8bcc0'),
+      hair(13, 17, 15, 19.5, '#6e8288'), hair(19, 16, 20, 19, '#6e8288'),
+      hair(12, 5, 11.5, 11, '#2e363a'), hair(20, 5, 20.5, 11, '#2e363a'),
+    ];
+  },
+
+  // An eyeless stalker: gaunt and pale, crouched on long thin limbs, its
+  // smooth head craned forward with no eyes at all, only a wide mouth of
+  // needle teeth and slits where it breathes, and ears like a bat's.
+  eyeless: () => {
+    const skin = '#b4aab8', dark = '#7a7080', pale = '#d8d0dc', mouth = '#2a141c';
+    return [
+      // hind legs folded under it, long front arms planted wide
+      ...both(limb(10, 20, 7, 25.5, 2, 1.4, dark)), ...both(limb(7, 25.5, 9, 30.5, 1.4, 1, dark)), ...both(ball(9.5, 30.8, 1.8, 0.8, dark)),
+      limb(11, 15, 5, 22, 1.6, 1.2, skin), limb(5, 22, 4, 30, 1.2, 0.9, skin), ball(4.2, 30.6, 1.9, 0.8, skin),
+      limb(21, 15, 27, 22, 1.6, 1.2, skin), limb(27, 22, 28, 30, 1.2, 0.9, skin), ball(27.8, 30.6, 1.9, 0.8, skin),
+      // a lean ribbed body
+      ball(16, 18, 5.5, 5.2, skin), ball(16, 20, 3.4, 3, pale),
+      // the long neck and the smooth blind head, ears spread
+      limb(16, 14, 16, 9, 2.4, 2, skin),
+      ball(16, 7.2, 5.4, 4.2, skin), ball(16, 5, 3.6, 1, '#c4bac8'),
+      sheet([[11.5, 5.5], [5, 1.5], [9.5, 8.5]], dark, { tilt: [-0.5, -0.3] }), sheet([[20.5, 5.5], [27, 1.5], [22.5, 8.5]], dark, { tilt: [0.5, -0.3] }),
+      // the mouth, wide and full of needles
+      sheet([[11.5, 9], [20.5, 9], [19, 11.4], [13, 11.4]], mouth),
+      ...[12.2, 13.6, 15, 16.4, 17.8, 19.2].map(x => hair(x, 9.1, x + 0.3, 10.6, '#f0ece0')),
+      ...[12.9, 14.3, 15.7, 17.1, 18.5].map(x => hair(x, 11.3, x + 0.2, 10.1, '#e0dccc')),
+      // fine work: breathing slits where eyes would be, ribs, claws, the skin's veins
+      hair(12.5, 5.5, 14, 5, '#5a5060'), hair(18, 5, 19.5, 5.5, '#5a5060'),
+      hair(13.5, 17, 18.5, 17, dark), hair(13.8, 19, 18.2, 19, dark),
+      specks([[3, 31], [4.5, 31.3], [26.5, 31.3], [28, 31], [29, 31]], '#e8e4d8'),
+      hair(7, 20, 6, 24, '#9a90a0'), hair(25, 20, 26, 24, '#9a90a0'),
+      specks([[16, 3.5], [14, 4.2], [18, 4.2]], '#ece6ee'),
+    ];
+  },
+
   // A puffcap: a squat fungus on stubby roots, its cap swollen with spores,
   // pale speckles on the dome, dark gills beneath, two small black eyes low on
   // the stalk, and a haze of spores leaking from the rim.

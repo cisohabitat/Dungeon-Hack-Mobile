@@ -10870,6 +10870,108 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a flooded floor hides the drowned under its water, a dark one holds the eyeless; each worth what it replaced, and the restless never raise the drowned', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'kin-place');
+    const { Game, Dungeon, MONSTERS } = ctx;
+    for (const [twist, id] of [['flooded', 'drowned'], ['dark', 'eyeless']]) {
+      const at = (() => { for (let i = 0; i < 400; i++) { const p = Dungeon.twistPlan('kin-' + i, 8); for (const d in p) if (p[d] === twist && +d === 2) return ['kin-' + i, +d]; } return null; })();
+      if (!at) { out.push(`no ${twist} second floor in 400 seeds`); continue; }
+      Game.newGame({ name: 'K', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: at[0], opts: { ...OPTS, levels: 8 } });
+      Game.descend();
+      const L = Game.level();
+      if (L.twist !== twist) { out.push(`floor 2 of ${at[0]} is ${L.twist}`); continue; }
+      const raw = Dungeon.generate(at[0], 2, { ...OPTS, levels: 8 });
+      const kin = L.monsters.filter(m => m.id === id);
+      if (!kin.length) out.push(`no ${id} on a ${twist} floor of ${L.monsters.length} creatures`);
+      for (const m of kin) {
+        const was = raw.monsters.find(r => r.x === m.x && r.y === m.y);
+        if (!was || m.worth !== MONSTERS[was.id].xp) out.push(`a ${id} over a ${was && was.id} is worth ${m.worth}`);
+        if (id === 'drowned' && (!m.sunk || m.awake)) out.push(`a drowned one began ${m.sunk ? '' : 'un'}sunk and ${m.awake ? 'awake' : 'asleep'}`);
+      }
+    }
+    // a restless floor raises its dead from those dealt by depth, never the drowned
+    for (let i = 0; i < 300; i++) {
+      const p = Dungeon.twistPlan('rst-' + i, 8), d = Object.keys(p).find(k => p[k] === 'restless');
+      if (!d) continue;
+      Game.newGame({ name: 'R', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rst-' + i, opts: { ...OPTS, levels: 8, monsters: 'many' } });
+      for (let k = 0; k < 8 && Game.state().depth < +d; k++) { if (Game.forkPending && Game.forkPending()) Game.chooseRoute('crypts'); Game.descend(); }
+      if (Game.level().monsters.some(m => m.id === 'drowned')) { out.push(`the restless dead of rst-${i} raised a drowned one`); break; }
+      if (i > 40) break;
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a drowned one lies unseen under the water and rises within two squares, or at a blow into its ripple, or when trodden on, and reaches to seize you', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'drowned-rise');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    for (const k of [1, 2, 3, 4, 5]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+    const sunk = (dist, extra = {}) => { L.monsters.length = 0; const m = { uid: 70 + dist, id: 'drowned', x: p.x + dx * dist, y: p.y + dy * dist, hp: 40, maxHp: 40, awake: false, sunk: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra }; L.monsters.push(m); return m; };
+    // three squares off it stays down, unseen
+    let m = sunk(3);
+    run(Game, G, 2000);
+    if (!m.sunk || m.awake) out.push('a drowned one three squares off rose');
+    // two squares off it rises, and reaches for you
+    m = sunk(2);
+    let mark = markLog(G);
+    run(Game, G, 800);
+    if (m.sunk || !m.awake || !linesSince(G, mark).some(l => /rises out of it/.test(l))) out.push(`two squares off: sunk ${!!m.sunk}, awake ${m.awake} (${linesSince(G, mark).join(' | ')})`);
+    // trodden on: it rises, and the hero does not step into it
+    m = sunk(1, { nextAct: 1e12 });
+    mark = markLog(G);
+    const x0 = p.x; Game.input('forward');
+    if (m.sunk || p.x !== x0 || !linesSince(G, mark).some(l => /tread on something/.test(l))) out.push(`trodden on: sunk ${!!m.sunk}, hero moved ${p.x !== x0}`);
+    if (!(m.windup && m.windup.move === 'grab')) out.push(`risen beside the hero it drew back ${m.windup ? m.windup.move || m.windup.kind : 'nothing'}, not a grab`);
+    // struck in its ripple
+    m = sunk(1, { nextAct: 1e12 });
+    p.stats.str = 30;
+    let rose = false;
+    for (let i = 0; i < 10 && !rose; i++) { m.sunk = true; m.awake = false; mark = markLog(G); G.t = Math.max(G.t, p.nextAttack) + 700; Game.input('attack'); rose = linesSince(G, mark).some(l => /Your blow finds something under the water/.test(l)); }
+    if (!rose) out.push('no blow into the ripple brought it up');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('an eyeless stalker hunts by sound: a hero standing still is lost to it, and one who moves or strikes is found; asleep, it wakes to a sound, not a sight', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'eyeless-hunt');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    for (const k of [1, 2, 3, 4, 5, 6]) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+    const place = (dist, extra = {}) => { L.monsters.length = 0; const m = { uid: 60, id: 'eyeless', x: p.x + dx * dist, y: p.y + dy * dist, hp: 400, maxHp: 400, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, ...extra }; L.monsters.push(m); return m; };
+    // silent: it stops and listens, and never draws a blow
+    p.noiseAt = -1e9;
+    let m = place(4);
+    const mark = markLog(G);
+    let blows = 0;
+    for (let t = 0; t < 4000; t += 25) { Game.update(G.t + 25, 25); if (m.windup && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) > 1) blows++; }
+    if (!m.groping || !linesSince(G, mark).some(l => /listening for you/.test(l))) out.push(`a silent hero: groping ${!!m.groping}`);
+    if (blows) out.push('it drew back a blow at a silent hero it was not beside');
+    // noisy: it comes straight for you
+    m = place(4);
+    let closest = 4;
+    for (let t = 0; t < 4000; t += 25) { p.noiseAt = G.t; Game.update(G.t + 25, 25); closest = Math.min(closest, Math.abs(m.x - p.x) + Math.abs(m.y - p.y)); }
+    if (closest > 1) out.push(`a noisy hero: it came no nearer than ${closest}`);
+    // beside a silent hero, it finds them by touch
+    p.noiseAt = -1e9;
+    m = place(1);
+    let struck = false;
+    for (let t = 0; t < 3000 && !struck; t += 25) { Game.update(G.t + 25, 25); struck = !!m.windup; }
+    if (!struck) out.push('beside a silent hero it never struck');
+    // asleep, it sleeps through a silent hero three squares off, and wakes to a step's noise
+    p.noiseAt = -1e9;
+    m = place(3, { awake: false });
+    run(Game, G, 2000);
+    if (m.awake) out.push('a sleeping eyeless woke to a silent hero');
+    p.noiseAt = G.t; m.x = p.x + dx * 3; m.y = p.y + dy * 3; m.nextAct = G.t;
+    run(Game, G, 400);
+    if (!m.awake) out.push('a sleeping eyeless slept through a step');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a puffcap bursts in spores at a hand\'s blow from beside it: a save or poisoned; not at a spell, nor through fire on the blade; a druid breathes them; fire burns it well, and it never flees', async () => {
     const out = [];
     /** Strike a puffcap beside the hero until a blow lands. @returns {string} what was said, or '' */
