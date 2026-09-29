@@ -248,18 +248,18 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely:
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely. Normal and Hard were measured again with capstones, oils and companions that grow (the bot takes each capstone in turn, coats its weapon as a fight starts, and its companion learns as it goes):
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Overall |
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
-| Normal | 82% | 79% | 77% | 76% | 80% | about 79% |
-| Hard | 56% | 56% | 60% | 58% | 58% | about 58% |
+| Normal | 82% | 79% | 78% | 79% | 83% | about 80% |
+| Hard | 58% | 55% | 59% | 61% | 59% | about 58% |
 | Long Delve (12 floors), Normal | 78% | 78% | 80% | 84% | 81% | about 80% |
 | Long Delve (12 floors), Hard | 55% | 61% | 64% | 65% | 59% | about 60% |
 
 Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class lands within about six points of it: the fighter and the cleric lowest, the mage highest. (It was once tuned
+Delve on Hard, and every class lands within about six points of it: the fighter lowest, the thief highest. (It was once tuned
 to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
