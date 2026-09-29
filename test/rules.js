@@ -9306,6 +9306,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Game.mood() !== 'champion') out.push(`a shade awake: ${Game.mood()}`);
     beside(ctx, 'lich', { spoke: true, nextAct: 1e12 });
     if (Game.mood() !== 'boss') out.push(`the lich awake: ${Game.mood()}`);
+    L.monsters = L.monsters.filter(m => m.id !== 'lich');
+    beside(ctx, 'warlord', { spoke: true, nextAct: 1e12 });
+    if (Game.mood() !== 'warlord') out.push(`the Warlord awake: ${Game.mood()}`);
     G.status = 'dead';
     if (Game.mood() !== 'quiet') out.push(`over the fallen: ${Game.mood()}`);
     void Dungeon;
@@ -9333,6 +9336,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (count(fight, 'pulse') < 60 || count(fight, 'thud') < 12) out.push(`a fight pulsed ${count(fight, 'pulse')} and beat ${count(fight, 'thud')}`);
     if (count(fight, 'horn') || !count(champ, 'horn') || !count(boss, 'horn')) out.push('only a champion or the lich brings the horn');
     if (!(boss[0].dur < fight[0].dur && fight[0].dur < quiet[0].dur)) out.push('the music does not quicken with the fight');
+    // the Warlord's hall is led by his drum: more of the beat than the lich's, and still the horn
+    const warlord = Music.plan('warlord', 0, 64);
+    if (!(count(warlord, 'thud') > count(boss, 'thud')) || !count(warlord, 'horn')) out.push(`the Warlord's music beat ${count(warlord, 'thud')} to the lich's ${count(boss, 'thud')}`);
     // two floors sound different
     const tune = t => Music.plan('fight', t, 16).flatMap(s => s.notes.filter(n => n.k === 'bell').map(n => n.midi)).join();
     if (tune(0) === tune(4)) out.push('the Grey Halls and the Crimson Crypts play the same fight');
@@ -10286,6 +10292,19 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       for (let i = 0; i < 12000; i++) { const hp = h.hp; b.Game.update(G2.t + 25, 25); if (h.hp < hp) hits++; h.hp = h.maxHp; h.fallen = 0; }
       return hits;
     };
+    // one that falls leaves its charm where it fell, to be taken up again
+    {
+      const f = await withHound('charm-fall');
+      const h = f.Game.companion(), G3 = f.Game.state(), P3 = f.Game.player();
+      clearAround(f);
+      h.charm = 'charm_fang'; h.mode = 'stay'; h.hp = h.maxHp = 3;
+      const spot = f.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P3.x) + Math.abs(y - P3.y) > 1 && !(x === P3.x && y === P3.y));
+      f.Game.level().monsters.push({ uid: 92, id: 'ogre', x: spot[0], y: spot[1], hp: 999, maxHp: 999, awake: true, nextAct: G3.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 1200 && !h.fallen; i++) { f.Game.update(G3.t + 25, 25); P3.hp = P3.maxHp; }
+      const k = `${h.x},${h.y}`;
+      if (!h.fallen) out.push('the hound never fell');
+      else if (h.charm || !(f.Game.level().items[k] || []).some(i => i.t === 'charm_fang')) out.push('a fallen hound\'s charm was lost with it');
+    }
     const bare = await landed(undefined), collared = await landed('charm_collar');
     if (!(bare > 60 && collared < bare * 0.85)) out.push(`an orc landed ${bare} blows on a bare hound, ${collared} on a collared one`);
     return out.length ? out.join('; ') : true;

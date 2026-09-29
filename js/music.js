@@ -5,7 +5,8 @@
 // scale, echoing off the stone, with long silences between. Something awake
 // and close brings in a low pulse, like a held breath; once it comes to blows
 // the pulse quickens into a beat and the bells into a figure that repeats; a
-// named champion, a shade or the lich adds a horn underneath. When the last
+// named champion, a shade or the lich adds a horn underneath (and the Goblin
+// Warlord his war-drum's beat). When the last
 // foe falls the music comes home: two notes down to the floor's own note, and
 // then quiet for a while before the bells come back.
 //
@@ -32,9 +33,9 @@ const Music = (() => {
     { root: 43, steps: [0, 3, 5, 7, 10] },           // The Warrens: G, five notes, goblin-plain
   ];
   // how fast a step goes (eighth notes, in seconds) for each mood
-  const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27 };
+  const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27, warlord: 0.27 };
   const MOODS = Object.keys(STEP_S);
-  const LEVEL = { quiet: 0, wary: 1, fight: 2, champion: 3, boss: 4 };
+  const LEVEL = { quiet: 0, wary: 1, fight: 2, champion: 3, boss: 4, warlord: 4 };
   /** How loud the music sits under the game's own sounds and the floor's drone. */
   const LEVEL_ALL = 0.6;
   /** How far the music draws back while the game is paused (the Pack, the Map, the Menu). */
@@ -120,7 +121,9 @@ const Music = (() => {
     if (lvl >= 2) {
       const d = [0, 0, 4, 0, 0, 0, n > 5 ? 5 : 3, 0][beat];
       out.push({ k: 'pulse', midi: note(sc, d, -1), vel: beat % 2 ? 0.3 : 0.45, len: 0.22 });
-      if (beat === 0 || beat === 4 || (lvl >= 4 && beat === 6)) out.push({ k: 'thud', midi: 0, vel: beat === 0 ? 0.7 : 0.5, len: 0.2 });
+      // the Warlord's hall beats his war-drum under it: BOOM, BOOM, and two quicker
+      if (mood === 'warlord') { if ([0, 2, 5, 6].includes(beat)) out.push({ k: 'thud', midi: 0, vel: beat < 4 ? 0.85 : 0.6, len: 0.24 }); }
+      else if (beat === 0 || beat === 4 || (lvl >= 4 && beat === 6)) out.push({ k: 'thud', midi: 0, vel: beat === 0 ? 0.7 : 0.5, len: 0.2 });
     }
     // a champion, a shade or the lich: a horn beneath, home then the sixth, a bar each
     if (lvl >= 3 && beat === 0) out.push({ k: 'horn', midi: note(sc, bar % 2 ? (n > 5 ? 5 : 4) : 0, -1), vel: lvl >= 4 ? 0.4 : 0.32, len: STEP_S[mood] * 7.5 });
@@ -226,7 +229,7 @@ const Music = (() => {
   /**
    * Called every frame while a floor is being played: keep the next steps
    * written a moment ahead.
-   * @param {string} mood  quiet, wary, fight, champion or boss @param {number} theme  the floor's @param {number} nowMs  the page's clock
+   * @param {string} mood  quiet, wary, fight, champion, boss or warlord @param {number} theme  the floor's @param {number} nowMs  the page's clock
    */
   function update(mood, theme, nowMs) {
     if (!enabled || !Sound.isEnabled()) { if (playing) stop(); return; }

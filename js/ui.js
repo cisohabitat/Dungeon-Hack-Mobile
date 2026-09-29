@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29d', text: 'two new feats in the Hall of Heroes (Friend of the Lampfolk, Old Campaigners); the Warlord\'s drum is heard, and his bar says when he sits his throne; and traders\' jobs are fairer: a lost satchel always lies where you can walk to it, and each goblin of a group counts.' };
+  const NEWS = { id: '2026-09-29e', text: 'the Warlord\'s hall beats to his war-drum; a companion that falls leaves its charm where it fell; and a first tip for oils, jobs, a companion\'s growth, a mastered path and the Warlord\'s tricks' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -623,10 +623,16 @@ const UI = (() => {
     quickscroll: 'A scroll worth reading <b>now</b>, or an oil for a bare blade as a fight starts, waits at the left end of the log, under the view: <b>one tap</b> uses it.',
     hurt: 'You are badly hurt. Tap the <b>bottle</b> beside your life bar to drink a healing potion, or <b>Rest</b> when nothing is near.',
     shade: 'A <b>shade</b>: one of your own heroes, risen where they fell, and it fights as they did. Lay it to rest and what they wore is yours.',
+    drum: 'He raises his drumstick to call his warband. <b>Strike him</b> before the beat and the call dies.',
+    throne: 'He sits his <b>throne</b>: his shield-bearers turn every blow meant for him. <b>Cut them down</b> and he must come down, or throw a <b>spell</b> over their heads.',
+    oil: 'An <b>oil</b> in your pack. Open the pack and choose <b>Coat weapon</b>, or tap the flask at the left end of the log as a fight starts: it rides on your next 20 blows that land.',
+    job: 'The trader\'s <b>job</b> is on this floor: the line under your bars shows how it goes. Leave the floor with it undone and it is lost; the next trader you meet pays for it done.',
+    blooded: 'Your companion has learned a <b>trick</b>. It grows with every new floor it comes down at your side; the <b>Hero</b> sheet says what it knows and what comes next.',
+    mastered: 'You have <b>mastered your path</b>. Your capstone is listed under Path on the <b>Hero</b> sheet, with what it does.',
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drink', 'blink', 'quills', 'breath', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'breath', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -804,7 +810,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), breath: () => near('breath'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), breath: () => near('breath'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -828,6 +834,8 @@ const UI = (() => {
     if (readying('web') && showTip('webspit', true)) return;
     if (readying('charge') && showTip('charge', true)) return;
     if (readying('rally') && showTip('horn', true)) return;
+    if (readying('drum') && showTip('drum', true)) return;
+    if (L.monsters.some(m => m.throne && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 8) && showTip('throne', true)) return;
     if (readying('drink') && showTip('drink', true)) return;
     if (readying('blink') && showTip('blink', true)) return;
     if (readying('bristle') && showTip('quills', true)) return;
@@ -889,6 +897,11 @@ const UI = (() => {
     if (byLabel[label] && showTip(byLabel[label])) return;
     if ([...p.inv, ...Object.values(p.eq)].some(it => Game.qualityHidden(it)) && showTip('unknown')) return;
     if (p.hp < p.maxHp * 0.4 && showTip('hurt')) return;
+    // the newer things, each told once, at a quiet moment
+    if (!p.coating && p.inv.some(it => ITEMS[it.t] && ITEMS[it.t].kind === 'oil') && showTip('oil')) return;
+    if (Game.bountyChip() && !(Game.bounty() || {}).done && showTip('job')) return;
+    if (Game.companionHere() && Game.companionRank() >= 1 && showTip('blooded')) return;
+    if (p.capstone && showTip('mastered')) return;
     // the rolls start hidden: once a few fights have been won, say they can be had
     if (!Game.rollsShown() && p.kills >= 3 && showTip('dice')) return;
   }

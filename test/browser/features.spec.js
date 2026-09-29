@@ -577,6 +577,36 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the newer things are each told once at a quiet moment: an oil, a job on its floor, a companion\'s trick, a mastered path; and the Warlord\'s throne in the fight', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice', 'quickscroll'])));
+    await startGame(page, { tips: true, seed: 'new-tips' });
+    await clearBoons(page);
+    const tip = page.locator('#tip');
+    const next = async (setup, words) => {
+      await page.evaluate(() => { const el = document.getElementById('tip'); el.classList.remove('show'); });
+      await page.evaluate(setup);
+      await expect(tip).toHaveClass(/show/, { timeout: 3000 });
+      await expect(tip).toContainText(words);
+    };
+    await page.evaluate(() => { Game.level().monsters.length = 0; const p = Game.player(); p.hp = p.maxHp; });
+    await next(() => Game.player().inv.push({ t: 'oil_fire', q: 1, e: 0 }), 'Coat weapon');
+    await page.waitForTimeout(7200);   // the last tip runs its time before the next is told
+    await next(() => { Game.state().bounty = { kind: 'cull', depth: Game.state().depth, from: 0, need: 4, got: 0, reward: { gold: 40, t: 'oil_venom' }, started: true }; }, 'job');
+    await page.waitForTimeout(7200);
+    await next(() => { Game.player().capstone = 'rally'; Game.player().path = 'knight'; }, 'mastered your path');
+    // and in a fight, the throne cannot wait
+    await next(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      const base = { awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.push({ ...base, uid: 881, id: 'warlord', x: p.x + dx * 3, y: p.y + dy * 3, hp: 200, maxHp: 300, spoke: true, throne: true, wardUntil: Game.state().t + 1e6, phase: 1 });
+      L.monsters.push({ ...base, uid: 882, id: 'orc', x: -40, y: -40, hp: 30, maxHp: 30, bearer: 881, awake: false });
+    }, 'shield-bearers');
+    const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
+    for (const id of ['oil', 'job', 'mastered', 'throne']) expect(seen).toContain(id);
+    expect(errors).toEqual([]);
+  });
+
   test('a trick\'s warning goes once the trick has come and gone, and no log line runs under the Log button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));

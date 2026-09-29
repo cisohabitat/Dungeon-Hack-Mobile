@@ -882,7 +882,7 @@ const Game = (() => {
    * How the fight stands, for the music: the lich awake; a named champion or
    * a shade awake and close; something awake close enough to come to blows;
    * something awake further off; or nothing at all.
-   * @returns {'quiet'|'wary'|'fight'|'champion'|'boss'}
+   * @returns {'quiet'|'wary'|'fight'|'champion'|'boss'|'warlord'}
    */
   function mood() {
     if (!G || G.status !== 'playing') return 'quiet';
@@ -896,7 +896,7 @@ const Game = (() => {
     for (const m of L.monsters) {
       if (!m.awake || m.collapsed) continue;
       const b = MONSTERS[m.id], d = steps(m);
-      if (b.boss && m.spoke) return 'boss';
+      if (b.boss && m.spoke) return m.id === 'warlord' ? 'warlord' : 'boss';
       if ((b.named || m.shade) && m.spoke && d <= MOOD_WARY) best = 'champion';
       else if (d <= MOOD_FIGHT && best !== 'champion') best = 'fight';
       else if (d <= MOOD_WARY && best === 'quiet') best = 'wary';

@@ -132,6 +132,13 @@ export function makeCompanion(K) {
     if (c.hp > 0) { K.log(`${what} ${c.name} for ${n}.`, 'bad'); return; }
     c.hp = 0; c.fallen = G.depth;
     K.log(`${what} ${c.name}, and ${c.name} falls, and does not get up.`, 'bad');
+    // what it wore is left where it fell, for the hero to take up again
+    if (c.charm) {
+      const L = K.lvl(), k = `${c.x},${c.y}`;
+      (L.items[k] = L.items[k] || []).push({ t: c.charm, q: 1, e: 0 });
+      K.log(`The ${K.itemName({ t: c.charm, q: 1, e: 0 }).toLowerCase()} ${c.name} wore lies where ${c.name} fell.`, 'info');
+      delete c.charm;
+    }
     Sound.play('death', K.heard({ x: c.x, y: c.y }, { gore: 'blood' }));
   }
   /** A monster beside it and not beside the hero swings at it instead. */
