@@ -91,6 +91,10 @@ await test('the off hand takes a light blade, and only from a class trained for 
   if (!Game.offhandReason(give('shortbow'))) return 'a bow cannot be fenced with';
   const blade = give('shortsword');
   if (Game.offhandReason(blade)) return `a short sword was refused: ${Game.offhandReason(blade)}`;
+  // nor beside a weapon that needs both hands: the pack offered it, and the swap refused
+  const main = p.eq.weapon; p.eq.weapon = give('longbow');
+  if (!Game.offhandReason(blade)) return 'a short sword was offered for the off hand beside a long bow';
+  p.eq.weapon = main;
 
   // taking up a second blade must free the shield hand
   if (!Game.equip(blade, true, 'offhand')) return 'the off hand refused a legal blade';

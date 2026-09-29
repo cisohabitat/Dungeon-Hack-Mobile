@@ -456,6 +456,8 @@ const Game = (() => {
     if (b.twoHanded) return 'A two-handed weapon needs both hands.';
     if (b.range) return 'You cannot fence with a missile weapon.';
     if (b.speed > OFFHAND_MAX_SPEED) return `A ${b.name.toLowerCase()} is too heavy for the off hand.`;
+    // (the pack offered "Off hand" beside a bow, and the swap then refused)
+    if (p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded && p.eq.weapon !== it) return `${cap(the(p.eq.weapon))} needs both hands.`;
     return null;
   }
   function canDualWield() { return !!(G && CLASSES[P().cls].dualWield); }
@@ -4230,7 +4232,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
     descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
-    offhandReason, offhandWeapon, canDualWield, rollsShown, toggleRolls, useLabel, stairsBeside,
+    offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,

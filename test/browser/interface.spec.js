@@ -523,6 +523,8 @@ test.describe('interface', () => {
     // a bow's reach is said beside the figure, which cannot count the blows it buys
     await page.locator('#inv-grid .slot.filled', { hasText: 'Long Bow' }).first().click();
     await expect(page.locator('.compare')).toContainText('reaches 7 squares');
+    // fewer blows a second but a longer reach: coloured neither up nor down
+    await expect(page.locator('.compare')).toHaveClass(/mixed/);
     // and food says how much of the bar a meal fills, not a bare "nourishment"
     await page.evaluate(() => { Game.player().inv.push({ t: 'ration', q: 1, e: 0 }); });
     await page.click('[data-close]').catch(() => {});

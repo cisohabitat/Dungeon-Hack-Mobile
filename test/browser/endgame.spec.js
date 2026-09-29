@@ -33,6 +33,10 @@ test.describe('the endgame', () => {
     expect(r.carrying).toBe(false);
     expect(r.onFloor, 'the Heart stays where it lies').toBe(true);
     expect(r.said.join(' ')).toMatch(/will not come loose/);
+    // the pack's floor row says why instead of offering a Take that does nothing to see
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#floor-box')).toContainText('held fast while the lich stands');
+    await expect(page.locator('#floor-box .floor-item', { hasText: 'Heart' }).locator('button')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 

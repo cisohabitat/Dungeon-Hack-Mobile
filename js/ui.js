@@ -1778,6 +1778,12 @@ const UI = (() => {
         const row = document.createElement('div');
         row.className = 'floor-item';
         row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</span>`;
+        // the Heart, held fast while the lich stands, says so here: its Take did nothing to see
+        if (it.t === 'artifact' && Game.heartHeldFast()) {
+          row.insertAdjacentHTML('beforeend', '<small class="dim">held fast while the lich stands</small>');
+          fb.appendChild(row);
+          continue;
+        }
         const b = document.createElement('button');
         b.className = 'small'; b.textContent = 'Take';
         b.addEventListener('click', () => { Game.takeItem(it); renderInv(); });
@@ -1890,7 +1896,9 @@ const UI = (() => {
       const reach = x => (x && ITEMS[x.t].range) || 1, r0 = reach(cur), r1 = reach(it);
       const far = r1 > r0 ? `, and it reaches ${r1} squares: more blows before a foe arrives`
         : r1 < r0 ? `, but ${r1 > 1 ? `it reaches only ${r1} squares` : 'only at arm\'s length'}, not ${r0}` : '';
-      return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second${far}</p>`;
+      // coloured by the whole of it: when reach and damage pull opposite ways, neither green nor red
+      const mixed = (r1 > r0 && delta < 0) || (r1 < r0 && delta > 0);
+      return `<p class="compare ${mixed ? 'mixed' : delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second${far}</p>`;
     }
     // a focus is not measured in armour: its own words say what it does
     if (b.focus || (cur && ITEMS[cur.t].focus)) return '';
@@ -2023,7 +2031,7 @@ const UI = (() => {
     if (L.trapsKnown) for (const k in L.traps) {
       const [x, y] = k.split(',').map(Number);
       edged(x * size - ox + size * 0.15, y * size - oy + size * 0.15, size * 0.7, size * 0.7, MAP_COLOUR.trap);
-      glyph('\u00d7', x, y, '#2a0808');
+      glyph('\u00d7', x, y, '#fff4ec');
     }
     for (const n of (L.npcs || [])) {
       if (!L.explored[n.y * L.w + n.x]) continue;

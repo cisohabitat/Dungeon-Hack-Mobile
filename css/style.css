@@ -198,6 +198,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .compare { margin: 6px 0 0; font-size: 0.88rem; }
 .compare.up { color: var(--green); }
 .compare.down { color: #e08a80; }
+.compare.mixed { color: var(--gold); }
 #hud-compass { color: var(--dim); font-family: monospace; }
 .view-wrap { position: relative; background: #000; border-bottom: 2px solid var(--border);
   flex: 1000 1 auto; min-height: calc(100vw * 0.625); max-height: calc(100vw * 1.125); }
