@@ -544,9 +544,10 @@ const Dungeon = (() => {
         const shelf = [
           ['potion_heal', 40], ['potion_xheal', 12 + depth * 2], ['potion_cure', 14], ['potion_might', 10],
           ['potion_mana', 12], ['scroll_heal', 12], ['scroll_fire', 10], ['scroll_map', 12], ['scroll_teleport', 8],
-          ['ration', 26], ['meat', 14],
-          // a Crypts trader keeps more for curses and venom
-          ...(route === 'crypts' ? [['potion_cure', 20], ['scroll_uncurse', 16]] : []),
+          ['ration', 26], ['meat', 14], ['oil_fire', 6], ['oil_silver', depth >= 3 ? 6 : 2], ['oil_venom', 5],
+          // a Crypts trader keeps more for curses, venom and the dead; a Warrens one for blades
+          ...(route === 'crypts' ? [['potion_cure', 20], ['scroll_uncurse', 16], ['oil_silver', 10]] : []),
+          ...(route === 'warrens' ? [['oil_fire', 8], ['oil_venom', 8]] : []),
         ];
         const n = rng.int(4, 6);
         for (let i = 0; i < n; i++) {
@@ -813,7 +814,8 @@ const Dungeon = (() => {
       case 'gem': { const g = rng.pick(GEMS); return { t: 'gem', name: g[0], q: Math.round(g[1] * (1 + depth * 0.15)) }; }
       case 'potion': return { t: rng.weighted([['potion_heal', 70], ['potion_xheal', 14 + depth * 4], ['potion_cure', 12], ['potion_might', 9], ['potion_mana', 10]]), q: 1 };
       case 'food': return { t: rng.weighted([['ration', 50], ['meat', 30], ['bread', 20]]), q: 1 };
-      case 'scroll': return { t: rng.weighted([['scroll_fire', 32], ['scroll_heal', 27], ['scroll_map', 18], ['scroll_teleport', 13], ['scroll_uncurse', 14]]), q: 1 };
+      // (the oils ride in with the scrolls: the same draw, so nothing else on the floor moves)
+      case 'scroll': return { t: rng.weighted([['scroll_fire', 32], ['scroll_heal', 27], ['scroll_map', 18], ['scroll_teleport', 13], ['scroll_uncurse', 14], ['oil_fire', 7], ['oil_silver', depth >= 3 ? 7 : 2], ['oil_venom', 6]]), q: 1 };
       case 'weapon': return gear('weapon');
       case 'armor': return gear('armor');
       case 'shield': return gear('shield');

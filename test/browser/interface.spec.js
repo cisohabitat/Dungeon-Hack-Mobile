@@ -131,6 +131,30 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('an oil in the pack is worked into the weapon, and the blows it has left show under the bars', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'oil-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.player().inv.push({ t: 'oil_venom', q: 1, e: 0 }); });
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: 'Blade Venom' }).click();
+    await expect(page.locator('#item-detail')).toContainText('one in three poisons the living');
+    await page.locator('#item-detail button', { hasText: /^Coat weapon$/ }).click();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    await expect(page.locator('#hud-status .coat')).toHaveText('Blade venom \u00d720');
+    expect(await page.evaluate(() => Game.player().coating)).toEqual({ t: 'venom', left: 20 });
+    expect(await page.evaluate(() => Game.player().inv.some(i => i.t === 'oil_venom'))).toBe(false);
+    // one blow that lands takes one off the count
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 7, id: 'ogre', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 40 && p.coating.left === 20; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    });
+    await expect(page.locator('#hud-status .coat')).toHaveText('Blade venom \u00d719');
+    expect(errors).toEqual([]);
+  });
+
   test('a scroll worth reading now is one tap away at the end of the log, and gone when it is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));

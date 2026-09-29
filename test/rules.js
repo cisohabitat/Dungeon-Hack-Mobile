@@ -6574,6 +6574,91 @@ await test('a scroll of fire burns a zombie well, and a Ring of Warmth halves a 
   return out.length ? out.join('; ') : true;
 });
 
+// ---------- oils and coatings ----------
+/** A fighter holding a long sword, with an oil of each kind in the pack. */
+async function oiled(key) {
+  const ctx = await start('fighter', key);
+  const p = ctx.Game.player();
+  p.eq.weapon = { t: 'longsword', q: 1, e: 0 }; p.eq.offhand = null;
+  p.inv.push({ t: 'oil_fire', q: 2, e: 0 }, { t: 'oil_silver', q: 1, e: 0 }, { t: 'oil_venom', q: 1, e: 0 });
+  return ctx;
+}
+/** Swing at a foe until n blows have landed; the damage of each, and the lines said. */
+function landBlows(ctx, m, n, keep) {
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  const dmg = [], lines = [];
+  for (let i = 0; i < n * 20 && dmg.length < n; i++) {
+    if (keep) p.coating = { t: keep, left: 20 };
+    m.hp = m.maxHp = 1e6; m.nextAct = 1e12; m.dot = null;
+    const mark = markLog(G), hp0 = m.hp;
+    G.t = p.nextAttack; Game.input('attack');
+    lines.push(...linesSince(G, mark));
+    if (m.hp < hp0) dmg.push(hp0 - m.hp);
+    if (keep === 'venom' && m.dot) lines.push('POISONED');
+  }
+  return { dmg, lines, mean: dmg.reduce((a, b) => a + b, 0) / Math.max(1, dmg.length) };
+}
+
+await test('an oil coats the weapon for twenty blows that land, then wears off; with no weapon there is nothing to coat', async () => {
+  const out = [];
+  const ctx = await oiled('oil-coat');
+  const { Game } = ctx; const COAT = Game.COAT_BLOWS;
+  const p = Game.player(), G = Game.state();
+  const fire = p.inv.find(i => i.t === 'oil_fire');
+  const mark = markLog(G);
+  Game.useItem(fire);
+  if (!p.coating || p.coating.t !== 'fire' || p.coating.left !== COAT) return `after the fire oil the coating is ${JSON.stringify(p.coating)}`;
+  if (fire.q !== 1) out.push(`the flask count went to ${fire.q}`);
+  if (!linesSince(G, mark).some(l => /fire oil into your long sword/.test(l))) out.push(`said: ${linesSince(G, mark).join(' / ')}`);
+  // the same oil again on a fresh coat is refused; another kind replaces it
+  Game.useItem(fire);
+  if (!p.inv.some(i => i.t === 'oil_fire')) out.push('a second fire oil was spent on a fresh coat');
+  Game.useItem(p.inv.find(i => i.t === 'oil_silver'));
+  if (!p.coating || p.coating.t !== 'silver') out.push(`silver over fire left ${JSON.stringify(p.coating)}`);
+  // twenty blows that land, and it is gone
+  const m = beside(ctx, 'ogre', { nextAct: 1e12 });
+  p.stats.str = 18;
+  const r = landBlows(ctx, m, COAT);
+  if (r.dmg.length !== COAT) out.push(`only ${r.dmg.length} blows landed`);
+  if (p.coating) out.push(`after ${COAT} blows ${p.coating.left} were left`);
+  if (!r.lines.some(l => /silver wash has worn off/.test(l))) out.push('it wore off unsaid');
+  // no weapon, no coating
+  const bare = await oiled('oil-bare');
+  bare.Game.player().eq.weapon = null;
+  const v = bare.Game.player().inv.find(i => i.t === 'oil_venom');
+  bare.Game.useItem(v);
+  if (bare.Game.player().coating || !bare.Game.player().inv.includes(v)) out.push('an oil was spent with no weapon in hand');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('fire oil burns every foe a little more, silver only the dead, and venom poisons only the living', async () => {
+  const out = [];
+  const mean = async (foe, keep) => {
+    const ctx = await oiled('oil-dmg-' + foe);
+    seedDice(ctx, 'oil-dmg');
+    ctx.Game.player().stats.str = 18;
+    const m = beside(ctx, foe, { nextAct: 1e12 });
+    return landBlows(ctx, m, 240, keep);
+  };
+  const gob = await mean('goblin', null), gobFire = await mean('goblin', 'fire'), gobSilver = await mean('goblin', 'silver');
+  const sk = await mean('skeleton', null), skSilver = await mean('skeleton', 'silver');
+  const fireGain = gobFire.mean - gob.mean, silverGob = gobSilver.mean - gob.mean, silverSk = skSilver.mean - sk.mean;
+  if (!(fireGain > 1.2 && fireGain < 4)) out.push(`fire oil added ${fireGain.toFixed(2)} a blow`);
+  if (Math.abs(silverGob) > 1) out.push(`silver added ${silverGob.toFixed(2)} a blow to a goblin`);
+  if (!(silverSk > 1.8)) out.push(`silver added ${silverSk.toFixed(2)} a blow to a skeleton`);
+  const venomGob = await mean('goblin', 'venom'), venomSk = await mean('skeleton', 'venom');
+  const took = venomGob.lines.filter(l => l === 'POISONED').length;
+  if (!(took > 50 && took < 115)) out.push(`venom took on ${took} of 240 blows at a goblin`);
+  if (venomSk.lines.includes('POISONED')) out.push('venom poisoned a skeleton');
+  // a troll's wound does not close under fire
+  const ctx = await oiled('oil-troll');
+  const m = beside(ctx, 'troll', { nextAct: 1e12 });
+  ctx.Game.player().stats.str = 18;
+  landBlows(ctx, m, 1, 'fire');
+  if (!(m.burnUntil > ctx.Game.state().t)) out.push('a fire-oiled blow left the troll mending');
+  return out.length ? out.join('; ') : true;
+});
+
 // ---------- paths ----------
 /** Set the hero on a path, as if chosen, with flat scores so the path is the only difference between two heroes. */
 const walk = (ctx, id) => { const p = ctx.Game.player(); p.path = id; Object.assign(p.stats, evenStats); };

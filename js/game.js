@@ -564,6 +564,34 @@ const Game = (() => {
     if (hasTalent('sanctified') && mstat(m).undead) n += d(1, 4);
     return n;
   }
+  // A coating rides on the next COAT_BLOWS blows that land, then it is worn away.
+  const COAT_BLOWS = 20;
+  const COATINGS = {
+    fire: { name: 'fire oil', says: 'It will burn for the next 20 blows that land.' },
+    silver: { name: 'silver wash', says: 'The dead will feel the next 20 blows that land.' },
+    venom: { name: 'blade venom', says: 'One in three of the next 20 blows that land will poison.' },
+  };
+  /** What the coating on the weapon adds to a blow on this foe. */
+  function coatDamage(m) {
+    const c = P().coating;
+    if (!c || !(c.left > 0)) return 0;
+    if (c.t === 'fire') return elemental(m, d(1, 4), 'fire');
+    if (c.t === 'silver' && mstat(m).undead) return d(1, 6);
+    return 0;
+  }
+  /** A blow with a coated weapon has landed: fire stops the mending, venom may take, and the coat wears. */
+  function coatLanded(m, survived) {
+    const p = P(), c = p.coating;
+    if (!c || !(c.left > 0)) return;
+    const mb = mstat(m);
+    if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
+    if (survived && c.t === 'venom' && !mb.undead && Dice.chance(1 / 3)) {
+      m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
+      log(`The ${mb.name} is poisoned.`, 'good');
+    }
+    if (--c.left <= 0) { p.coating = null; log(`The ${COATINGS[c.t].name} has worn off your weapon.`); }
+    emit('stats');
+  }
   function leech(dmg, slot) {
     const p = P();
     if (!hasPower('leech', slot) || p.hp >= p.maxHp) return;
@@ -1130,6 +1158,8 @@ const Game = (() => {
     if (!b) return null;
     if (!isKnown(it.t)) return null;
     if (b.kind === 'food' && p.food >= 100) return 'You are too full to eat another bite.';
+    if (b.kind === 'oil' && !p.eq.weapon) return 'You have no weapon to coat.';
+    if (b.kind === 'oil' && p.coating && p.coating.t === b.coat && p.coating.left >= COAT_BLOWS) return 'Your weapon is freshly coated with it already.';
     if (b.kind === 'potion') {
       if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The draught would be wasted.';
       if (b.effect === 'cure' && !p.poison) return 'You are not poisoned.';
@@ -1163,7 +1193,7 @@ const Game = (() => {
     if (G.status !== 'playing') return;
     const p = P(), b = ITEMS[it.t];
     if (p.held > G.t) { blocked(heldWhy()); return; }
-    const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll';
+    const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll' || b.kind === 'oil';
     if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
     if (b.kind === 'potion' && vowed('unaided')) { log('You swore to go unaided: no draught passes your lips.', 'bad'); Sound.play('error'); return; }
     if (consumable) {
@@ -1195,6 +1225,14 @@ const Game = (() => {
         }
         holdVitals(was, fxDelay);
       } finally { fxDelay = 0; }
+    } else if (b.kind === 'oil') {
+      removeOne(it);
+      const was = p.coating;
+      p.coating = { t: b.coat, left: COAT_BLOWS };
+      const wb = ITEMS[p.eq.weapon.t], what = p.eq.weapon.t === 'sling' ? 'your sling stones' : wb.aimed ? 'your arrows' : `your ${wb.name.toLowerCase()}`;
+      log(`${was && was.t !== b.coat ? `You wipe off the ${COATINGS[was.t].name} and work` : 'You work'} the ${b.name.toLowerCase()} into ${what}. ${COATINGS[b.coat].says}`, 'good');
+      Sound.play('pickup');
+      emit('stats');
     } else if (b.kind === 'scroll') {
       const wasNewS = !isKnown(it.t);
       removeOne(it);
@@ -2348,7 +2386,7 @@ const Game = (() => {
       + jewelBonus('might')                // and a Ring of Might's: on a dagger, scaled, it rounded away to nothing
       + (effect('might') ? 2 : 0);         // and a Potion of Might's, which says +2 and means it
     const baseSpeed = p.eq.weapon ? ITEMS[p.eq.weapon.t].speed : 450;
-    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + dawnBlow(m) + bargained() + rangerAim(m, atRange) + wardenHold(m);
+    let dmg = d(...w.dmg) + w.e + (w.px === 'heavy' ? 1 : 0) + Math.round(finesse ? flat : flat * (baseSpeed / 700)) + knack + (rip ? 2 : 0) + baneDamage(m, 'weapon') + coatDamage(m) + dawnBlow(m) + bargained() + rangerAim(m, atRange) + wardenHold(m);
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
     if (marked) dmg *= 2;
@@ -2385,6 +2423,7 @@ const Game = (() => {
       if (mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
       if (kindles()) setBurning(m);
     }
+    coatLanded(m, struckSurvived);
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
     if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
@@ -4286,6 +4325,7 @@ const Game = (() => {
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encounter, encounterOptions, chooseEncounter, closeEncounter,
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
+    COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

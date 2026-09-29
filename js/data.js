@@ -461,6 +461,10 @@ const ITEMS = {
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this floor.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },
+  // Oils and coatings: worked into the weapon, they ride on its next blows that land.
+  oil_fire:   { kind: 'oil', name: 'Fire Oil',     stack: true, value: 30, sprite: 'oil_fire',   coat: 'fire',   desc: 'Coats your weapon: its next 20 blows that land burn for 1d4 more, and no troll mends the wound.' },
+  oil_silver: { kind: 'oil', name: 'Silver Wash',  stack: true, value: 30, sprite: 'oil_silver', coat: 'silver', desc: 'Coats your weapon: its next 20 blows that land deal 1d6 more to the undead.' },
+  oil_venom:  { kind: 'oil', name: 'Blade Venom',  stack: true, value: 30, sprite: 'oil_venom',  coat: 'venom',  desc: 'Coats your weapon: for its next 20 blows that land, one in three poisons the living.' },
   scroll_uncurse:  { kind: 'scroll', name: 'Scroll of Remove Curse', stack: true, value: 40, sprite: 'scroll', effect: 'uncurse', desc: 'Breaks any curse on what you wear, and shows the true quality of all your gear.' },
   // Rings and amulets: anyone may wear two rings and an amulet. Found ones
   // are known only by their look until worn or studied (see RING_LOOKS), and

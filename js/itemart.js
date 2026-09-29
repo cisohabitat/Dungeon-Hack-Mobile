@@ -109,6 +109,23 @@ function bottle(bodyParts, liquidParts, neck, glints) {
 }
 
 /**
+ * An oil comes in a squat flask with a rag for a stopper, tied with cord, so
+ * it is never taken for a potion; the colour of what is in it says which.
+ */
+function flask(liquid, light) {
+  return [
+    ball(16, 23, 11.5, 6.6, liquid),
+    sheet(capAbove(16, 23, 11.5, 6.6, 18.8), GLASS, { curve: 1 }),
+    limb(16, 12.5, 16, 17.5, 4.6, 5, GLASS),
+    ball(16, 11.5, 5.2, 2.6, '#c8b890'),                   // the rag
+    limb(13.5, 10, 11, 6.5, 1.3, 0.6, '#c8b890'),           // and its loose end
+    limb(11.4, 14.4, 20.6, 14.4, 0.7, 0.7, '#7a5a38'),      // the cord round the neck
+    dots([[10, 21], [9, 23], [11, 26]], '#f4fbff'),
+    dots([[18, 25], [21, 23], [15, 27]], light),
+  ];
+}
+
+/**
  * A ring lying at a slant: a band seen as an ellipse, thick and bright at the
  * front, thinner and in shadow at the back, and a stone in a setting on top
  * where it has one. Without a stone the band itself is the thing to see.
@@ -584,6 +601,11 @@ const ITEM_ART = {
     [sheet(capAbove(16, 23.5, 10, 6.5, 22), GLASS, { curve: 1 })],
     [limb(16, 14, 16, 18.5, 3.6, 3.8, GLASS), ball(16, 13.5, 4.4, 1.3, GLASS), ball(16, 11.5, 3.6, 1.8, '#b8383a')],
     [[9, 20], [8, 22], [10, 25]]),
+
+  // ---- oils ----
+  oil_fire: () => flask('#d8601c', '#ffc040'),
+  oil_silver: () => flask('#b8c4d4', '#ffffff'),
+  oil_venom: () => flask('#4c9a2a', '#b0f070'),
 
   // ---- paper ----
   scroll: () => [
