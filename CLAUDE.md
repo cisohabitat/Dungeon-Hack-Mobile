@@ -8,7 +8,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/game.js`: the rules, one IIFE (`Game`). Monster AI lives in `js/foes.js`
   and the traders in `js/trader.js`; both are factories (`makeFoes(K)`,
   `makeTrader(K)`) that borrow from the game through an object of getters `K`,
-  wired near the end of `game.js`.
+  wired near the end of `game.js`. The same pattern holds the companion
+  (`js/companion.js`), traders' jobs (`js/bounty.js`), the druid's Wild Shape
+  and Entangle (`js/wild.js`) and the encounters' engine (`js/meet.js`).
 - `js/dungeon.js`: level generation, deterministic per `(seed, depth)`. Plans
   for a whole run (`namedPlan`, `twistPlan`) use their own `Rng` streams so they
   never shift the map's dice.
