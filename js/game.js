@@ -997,11 +997,13 @@ const Game = (() => {
     if (onPath('grovewarden')) ac += 2;
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
-    if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
+    // a bear carries no shield and no second blade: its hide is its guard
+    const bear = wild.shaped(p);
+    if (p.eq.shield && !bear) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
     // the Stairwarden's Arms, both worn
     if (setWorn('stair', p)) ac += 2;
     // a second blade is no shield, but it turns aside a blow now and then
-    if (p.eq.offhand) ac += OFFHAND_PARRY;
+    if (p.eq.offhand && !bear) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
     if (p.eq.cloak) ac += (ITEMS[p.eq.cloak.t].ac || 0) + (p.eq.cloak.e || 0);
     return ac + jewelBonus('protect', p) + berserkerOpen();
@@ -2941,8 +2943,10 @@ const Game = (() => {
     const p = P();
     // a bear's hide takes the blow before the druid inside it does (and what
     // it takes is not counted as taken)
-    const hide = wild.shaped(p) ? p.shape.hide : 0;
-    const through = wild.soak(dmg);
+    // (hunger and poison work from inside, where no hide reaches)
+    const inside = cause === 'hunger' || cause === 'poison';
+    const hide = wild.shaped(p) && !inside ? p.shape.hide : 0;
+    const through = inside ? dmg : wild.soak(dmg);
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }
     noteTaken(dmg, from, cause);
     p.hp -= dmg;
@@ -4365,6 +4369,7 @@ const Game = (() => {
   // What that module borrows from here goes through these getters (and setters
   // for the state it changes), so it always sees the game as it is now.
   const foesK = {
+    shaped: () => wild.shaped(),
     warmthFrom,
     get BLOW_GAP() { return BLOW_GAP; },
     get DIRS() { return DIRS; },

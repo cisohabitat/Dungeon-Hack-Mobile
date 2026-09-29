@@ -526,8 +526,10 @@ export function makeFoes(K) {
     const p = K.P();
     // a book, an orb or a holy symbol is no metal for it to eat
     // (nor is a quillback's quills on their frame)
-    const shield = p.eq.shield && !ITEMS[p.eq.shield.t].focus && p.eq.shield.t !== 'quillshield' ? p.eq.shield : null;
-    const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, shield, p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
+    // (and a druid in a bear's shape holds neither shield nor blade for it to reach)
+    const bear = K.shaped();
+    const shield = !bear && p.eq.shield && !ITEMS[p.eq.shield.t].focus && p.eq.shield.t !== 'quillshield' ? p.eq.shield : null;
+    const metal = [p.eq.armor && RUSTS.armor.includes(p.eq.armor.t) ? p.eq.armor : null, shield, !bear && p.eq.weapon && RUSTS.weapon(p.eq.weapon.t) ? p.eq.weapon : null].filter(Boolean);
     if (!metal.length) { K.log('Its jaws find no metal on you to eat.'); return; }
     // what is rusted through already, it passes over for the next
     const it = metal.find(x => (x.e || 0) > -3);

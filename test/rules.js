@@ -10765,6 +10765,36 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a bear carries no shield, gives the rust no blade, and its hide keeps out blows, not hunger or poison', async () => {
+    const out = [];
+    const ctx = await druid('druid-bear-rules', 4);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.eq.shield = { t: 'buckler', q: 1, e: 0 };
+    const withShield = Game.playerAC(); p.eq.shield = null; const bare = Game.playerAC(); p.eq.shield = { t: 'buckler', q: 1, e: 0 };
+    Game.castSpell(druidSpell(ctx, 'wild_shape'));
+    if (Game.playerAC() !== bare + 2) out.push(`a bear with a buckler: armour class ${Game.playerAC()}, want the bare druid's ${bare} + 2 (with the buckler, ${withShield})`);
+    // the rust: armour of leather has no metal, and the bear holds neither the buckler nor the spear
+    p.eq.weapon = { t: 'longsword', q: 1, e: 0 };
+    const hide1 = p.shape.hide, until1 = p.shape.until;
+    p.hp = p.maxHp = 9999; p.shape.hide = 1e6; p.shape.until = 1e12;
+    const m = beside(ctx, 'rustmaw', { blows: 2, hp: 999, maxHp: 999, edge: 40 });
+    const mark = markLog(G);
+    for (let i = 0; i < 4; i++) { m.moveReady = 0; run(Game, G, 1200); }
+    if (p.eq.weapon.e !== 0 || p.eq.shield.e !== 0) out.push(`the rust reached what a bear does not hold: sword ${p.eq.weapon.e}, buckler ${p.eq.shield.e} (${linesSince(G, mark).filter(l => /[Rr]ust|metal/.test(l)).join(' | ')})`);
+    if (!linesSince(G, mark).some(l => /no metal on you/.test(l))) out.push('the rustmaw never bit, or found metal');
+    ctx.Game.level().monsters.length = 0; p.shape.hide = hide1; p.shape.until = G.t + 30000; void until1;
+    // hunger and poison reach the druid inside the bear; a blow goes to the hide
+    const hide0 = p.shape.hide, hp0 = p.hp;
+    Game.hurtPlayer(1, 'The poison burns in your veins.', null, 'poison');
+    if (p.shape.hide !== hide0 || p.hp !== hp0 - 1) out.push(`poison: hide ${hide0}->${p.shape.hide}, hp ${hp0}->${p.hp}`);
+    Game.hurtPlayer(1, 'You are starving!', null, 'hunger');
+    if (p.shape.hide !== hide0 || p.hp !== hp0 - 2) out.push(`hunger: hide ${hide0}->${p.shape.hide}, hp ${hp0 - 1}->${p.hp}`);
+    Game.hurtPlayer(1, 'A dart strikes you.', null, 'trap');
+    if (p.shape.hide !== hide0 - 1 || p.hp !== hp0 - 2) out.push(`a dart: hide ${hide0}->${p.shape.hide}, hp ${p.hp}`);
+    void G;
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
     const out = [];
     const ctx = await newContext();
