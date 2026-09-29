@@ -21,6 +21,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   background and the scores all come from the date. Eight floors, normal difficulty, one life,
   one try. The title then shows how it went, the Hall marks the run, a streak counts the days in
   a row, and Share copies a one-line result. Nothing leaves the device.
+  A second, the Ranger & Druid Daily, deals one of those two classes, with its own record and streak.
 - **A story you descend into.** An opening sets up the valley above Karrathal and what went wrong
   beneath it. Each of the eight levels holds one page left by the guild crews who went first, and
   the Journal collects them as the account of what actually happened down there assembles itself.
@@ -48,8 +49,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover
   faster, clerics heal, mages kill at range, thieves dodge, crit often and backstab, rangers keep
   their distance, and druids take a bear's shape, whose hide takes the blows first (any other
-  spell lets it go). The Ranger is earned by winning with the other four; the Druid by a win with
-  a companion still at your side.
+  spell lets it go). All six can be chosen from the start.
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.

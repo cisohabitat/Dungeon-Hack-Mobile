@@ -6119,18 +6119,13 @@ await test('the Long Delve\'s back half is surer and sturdier: a step surer from
   return long6.hit === short7.hit || `on floor 6 of 12 creatures are already ${long6.hit} surer`;
 });
 
-await test('mastery: the Ranger opens when the other four have each won; every relic found is the Collector; the Daily keeps to the first four classes', async () => {
+await test('mastery: every class is open from the start, and no win opens one; every relic found is the Collector; the Daily keeps to the first four classes', async () => {
   const out = [];
   const ctx = await newContext();
-  const { Game, Progress, RELICS, Daily } = ctx;
-  if (Progress.classOpen('ranger')) out.push('the Ranger was open from the start');
-  if (!Progress.classOpen('thief')) out.push('the thief was locked');
+  const { Game, Progress, RELICS, Daily, CLASSES } = ctx;
+  for (const cls of Object.keys(CLASSES)) if (!Progress.classOpen(cls)) out.push(`the ${cls} was locked at the start`);
   const win = (cls, difficulty) => { Game.newGame({ name: 'M', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mastery-' + cls, opts: { ...OPTS, permadeath: true, difficulty } }); winHere(Game); return Game.earned(); };
-  win('fighter', 'easy'); win('cleric', 'normal'); win('mage', 'hard');
-  if (Progress.classOpen('ranger')) out.push('three classes won opened the Ranger');
-  const e = win('thief', 'easy');
-  if (JSON.stringify(e.classesOpened) !== '["ranger"]' || !Progress.classOpen('ranger')) out.push(`the fourth class's win opened ${JSON.stringify(e.classesOpened)}`);
-  if (win('fighter', 'normal').classesOpened.length) out.push('the Ranger was opened twice');
+  for (const cls of ['fighter', 'ranger', 'druid']) if (win(cls, 'easy').classesOpened.length) out.push(`a ${cls}'s win opened a class`);
   // the Collector
   const ids = Object.keys(RELICS);
   for (const id of ids.slice(0, -1)) Progress.noteRelic(id);
@@ -6203,12 +6198,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{},"feats":{},"kin":0}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"paths":{},"vows":{},"feats":{}}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
-  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 }, kin: 'x' }));
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 } }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1},"kin":0}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;
@@ -10847,34 +10842,23 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Daily.status(key, 'earned').state !== 'started') out.push('the earned Daily did not record its start');
     Daily.finish(key, { won: true, depth: 8, kills: 30, cls: 'druid', score: 1000 }, 'earned');
     if (Daily.status(key, 'earned').state !== 'done' || Daily.status(key).state !== 'fresh') out.push('finishing the earned Daily touched the first');
-    if (!/^Deepdelve earned daily 2026-03-01: Druid, claimed the Heart/.test(Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned'))) out.push(`its line: ${Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned')}`);
+    if (!/^Deepdelve Ranger & Druid daily 2026-03-01: Druid, claimed the Heart/.test(Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned'))) out.push(`its line: ${Daily.shareLine(key, Daily.status(key, 'earned').done, 'earned')}`);
     if (Daily.streak(key) !== 0 || Daily.streak(key, 'earned') !== 1) out.push(`streaks: first ${Daily.streak(key)}, earned ${Daily.streak(key, 'earned')}`);
     return out.length ? out.join('; ') : true;
   });
 
-  await test('the Druid opens with a win with a companion still at the hero\'s side, and the Ranger\'s rule does not count the Druid', async () => {
+  await test('Old Campaigners wants the veteran at the hero\'s side at the end, not left on another floor', async () => {
     const out = [];
     const ctx = await newContext();
-    const { Game, Progress } = ctx;
-    if (Progress.classOpen('druid')) out.push('the Druid was open from the start');
-    const win = (cls, kin) => {
-      Game.newGame({ name: 'K', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'kin-' + cls + kin, opts: { ...OPTS, permadeath: true, difficulty: 'easy' } });
+    const { Game } = ctx;
+    const win = (depthOff, seed) => {
+      Game.newGame({ name: 'K', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed, opts: { ...OPTS, permadeath: true, difficulty: 'normal' } });
       const G = Game.state();
-      if (kin) G.companion = { kind: 'hound', name: 'Ash', x: 0, y: 0, depth: G.depth, hp: 5, maxHp: 5, mode: 'follow', joined: G.depth, fallen: kin === 'fallen' ? G.depth : undefined };
-      winHere(Game); return Game.earned();
+      G.companion = { kind: 'hound', name: 'Ash', x: 0, y: 0, depth: G.depth + depthOff, hp: 5, maxHp: 5, mode: depthOff ? 'stay' : 'follow', joined: 1, floors: 4 };
+      winHere(Game); return Game.earned().firstFeats;
     };
-    win('fighter', 'fallen');
-    if (Progress.classOpen('druid')) out.push('a win whose companion had fallen opened the Druid');
-    // one told to stay on a floor above is not at the hero's side
-    Game.newGame({ name: 'K', cls: 'mage', bg: 'oathbroken', stats: { ...evenStats }, seed: 'kin-stay', opts: { ...OPTS, permadeath: true, difficulty: 'easy' } });
-    Game.state().companion = { kind: 'hound', name: 'Ash', x: 0, y: 0, depth: Game.state().depth + 1, hp: 5, maxHp: 5, mode: 'stay', joined: 1 };
-    winHere(Game);
-    if (Progress.classOpen('druid')) out.push('a hound left on another floor opened the Druid');
-    const e = win('cleric', 'yes');
-    if (!e.classesOpened.includes('druid') || !Progress.classOpen('druid')) out.push(`a win with the hound at heel opened ${JSON.stringify(e.classesOpened)}`);
-    // the Ranger still wants the first four, and only them
-    win('mage', ''); const r = win('thief', '');
-    if (!r.classesOpened.includes('ranger')) out.push(`the four first classes won opened ${JSON.stringify(r.classesOpened)}`);
+    if (win(1, 'vet-stay').includes('veteran')) out.push('a veteran left on another floor earned Old Campaigners');
+    if (!win(0, 'vet-here').includes('veteran')) out.push('a veteran at the hero\'s side did not earn Old Campaigners');
     return out.length ? out.join('; ') : true;
   });
 

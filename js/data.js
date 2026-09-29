@@ -366,13 +366,12 @@ const CLASSES = {
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', locked: 'Win once on one life with each of the other four classes, at any difficulty, and a Ranger will come to your fire.', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a bow or sling shot at a foe two squares off or more bites harder, light feet make a ranger harder to hit as they grow, and Snare catches the first foe down the corridor.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
-  // opened by a win with a companion still at the hero's side (opens: 'kin'), not by the other classes' wins
   druid: {
-    name: 'Druid', plural: 'Druids', title: 'Archdruid', opens: 'kin', locked: 'Win once on one life with a companion still at your side, at any difficulty, and a Druid will come to your fire.', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 0.85, spells: 'druid', primary: 'wis',
+    name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 0.85, spells: 'druid', primary: 'wis',
     desc: 'Keeper of the old ways, at home in the dark as the beasts are. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher and sooner wise.',
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },

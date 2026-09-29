@@ -8,7 +8,7 @@ import { CLASSES, BACKGROUNDS } from './data.js';
 // only, like the Hall of Heroes; nothing is sent anywhere.
 
 const DAILY_KEY = 'deepdelve.daily';
-// A second daily for the classes that are earned, kept apart from the first:
+// A second daily for the Ranger and the Druid, kept apart from the first:
 // its own seed, its own record and its own streak, so the Daily Delve every
 // player shares is dealt exactly as it always was. (kind 'earned'; 'main' is the first)
 const EARNED_KEY = 'deepdelve.daily.earned';
@@ -113,7 +113,7 @@ function outcome(done) { return done.won ? 'claimed the Heart' : `fell on floor 
 /** One line to paste anywhere. */
 function shareLine(key, done, kind = 'main') {
   const who = CLASSES[done.cls] ? CLASSES[done.cls].name : done.cls;
-  return `Deepdelve ${kind === 'earned' ? 'earned daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
+  return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
 }
 
 const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };

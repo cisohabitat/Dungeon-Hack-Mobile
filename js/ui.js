@@ -129,7 +129,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29h', text: 'a new floor twist, Overgrown (moss over the traps, pale caps to eat, a druid at home); an Earned Daily for a Ranger or a Druid once you have earned one; and the Druid has a wolf, two relics and the Wildheart feat' };
+  const NEWS = { id: '2026-09-29i', text: 'the Ranger and the Druid can be chosen from the start, and the Ranger & Druid Daily is there for everyone; also a new floor twist, Overgrown (moss over the traps, pale caps to eat, a druid at home)' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -140,21 +140,12 @@ const UI = (() => {
   function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; }
   /** Which daily a button is for, and where it says how it stands. @param {'main'|'earned'} kind */
   const DAILY_UI = { main: { btn: '#btn-daily', note: '#daily-summary' }, earned: { btn: '#btn-daily-earned', note: '#daily-earned-summary' } };
-  /** The Daily Delve buttons say how today stands: fresh, waiting below, or done. The earned one shows once a class is earned. */
+  /** The Daily Delve buttons say how today stands: fresh, waiting below, or done. */
   function refreshDaily() {
     for (const kind of /** @type {('main'|'earned')[]} */ (['main', 'earned'])) {
       const key = Daily.today(), st = Daily.status(key, kind), s = Game.saveSummary();
       const btn = /** @type {HTMLButtonElement} */ ($(DAILY_UI[kind].btn)), note = $(DAILY_UI[kind].note);
       if (!btn || !note) continue;
-      if (kind === 'earned') {
-        const known = Progress.load();
-        btn.hidden = !Daily.EARNED_CLASSES.some(c => Progress.classOpen(c, known));
-        if (btn.hidden) continue;
-        // the day's hero is one of the earned classes, the same for everyone: one this player has yet to earn waits
-        const cls = Daily.heroFor(key, 'earned').cls;
-        btn.disabled = !Progress.classOpen(cls, known);
-        if (btn.disabled) { note.textContent = `Today a ${CLASSES[cls].name}'s, not yet earned`; continue; }
-      }
       // the day's own run, not a custom one that borrowed its seed
       const waiting = !!s && s.daily === key && s.dailyKind === kind;
       const run = Daily.streak(key, kind);
@@ -399,7 +390,7 @@ const UI = (() => {
       // a Hard win earns the class's title, shown on its card from then on
       const titled = open && Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
       b.innerHTML = open ? `<b>${c.name}</b>${titled}<small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`
-        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${c.opens ? '' : stillToWin(known)}</em>`;
+        : `<b>${c.name}</b><small>${c.desc}</small><em class="key lock">Locked. ${escapeHtml(c.locked || '')}${stillToWin(known)}</em>`;
       b.disabled = !open;
       if (open) b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
@@ -544,7 +535,7 @@ const UI = (() => {
     // how this run is kept, said plainly before it starts
     const o = cfg.opts, d = diffOf(o);
     $('#pro-rules').textContent = o.daily
-      ? `The ${o.dailyKind === 'earned' ? 'earned classes\' Daily Delve' : 'Daily Delve'} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
+      ? `The ${o.dailyKind === 'earned' ? 'Ranger and Druid Daily' : 'Daily Delve'} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffName(d)}.` : '');
@@ -2276,7 +2267,7 @@ const UI = (() => {
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
     $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
-    $('#m-seed').textContent = `${G.opts.daily ? `${G.opts.dailyKind === 'earned' ? 'Earned Daily' : 'Daily Delve'} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `${G.opts.dailyKind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve'} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   // ---------- end screens ----------

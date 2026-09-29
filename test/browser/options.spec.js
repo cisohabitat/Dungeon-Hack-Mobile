@@ -126,22 +126,19 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the Ranger is locked until the other four classes have each won; then it starts with a bow and has Snare on the Cast button', async ({ page }) => {
+  test('the Ranger and the Druid can be chosen from the start; a Ranger starts with a bow and has Snare on the Cast button', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
     await page.click('#btn-new');
-    await expect(page.locator('.class-card[data-cls="ranger"]')).toBeDisabled();
-    await expect(page.locator('.class-card[data-cls="ranger"]')).toContainText('Locked');
-    // three of four is not enough
-    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 } }, relics: [] })));
+    for (const cls of ['ranger', 'druid']) {
+      await expect(page.locator(`.class-card[data-cls="${cls}"]`)).toBeEnabled();
+      await expect(page.locator(`.class-card[data-cls="${cls}"]`)).not.toContainText('Locked');
+    }
+    // a class won on Hard shows its title
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { mage: { hard: 1 } }, relics: [] })));
     await page.click('#c-back'); await page.click('#btn-new');
-    await expect(page.locator('.class-card[data-cls="ranger"]')).toBeDisabled();
-    // the card says which class is still to win
-    await expect(page.locator('.class-card[data-cls="ranger"]')).toContainText('Still to win: Thief.');
-    // and the mage's Hard win shows as its title
     await expect(page.locator('.class-card[data-cls="mage"] .class-title')).toHaveText('Archmage');
-    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { normal: 1 }, mage: { hard: 1 }, thief: { easy: 1 } }, relics: [] })));
     await startGame(page, { cls: 'ranger', seed: 'ranger-snare' });
     await clearBoons(page);
     await expect(page.locator('[data-tap="cast"] small')).toHaveText('Snare');
@@ -162,7 +159,6 @@ test.describe('rest and the quick drink', () => {
 
   test('a druid in a delve with no hound is met by a wolf at the first stair, named on the status line when told to stay', async ({ page }) => {
     const errors = watchForErrors(page);
-    await page.addInitScript(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: {}, relics: [], kin: 1 })));
     await startGame(page, { cls: 'druid', seed: 'wolf-0' });
     await clearBoons(page);
     expect(await page.evaluate(() => Game.companion() && Game.companion().kind)).toBe('wolf');
@@ -172,19 +168,8 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the Druid is locked until a win with a companion at your side; then Wild Shape from the spell list makes a bear, shown on the status line', async ({ page }) => {
+  test('a Druid\'s Wild Shape from the spell list makes a bear, shown on the status line', async ({ page }) => {
     const errors = watchForErrors(page);
-    await page.goto('/');
-    await page.evaluate(() => localStorage.clear());
-    await page.click('#btn-new');
-    const card = page.locator('.class-card[data-cls="druid"]');
-    await expect(card).toBeDisabled();
-    await expect(card).toContainText('companion still at your side');
-    // (its lock is its own: the card does not list the classes still to win, as the Ranger's does)
-    await expect(card).not.toContainText('Still to win');
-    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 } }, relics: [], kin: 1 })));
-    await page.click('#c-back'); await page.click('#btn-new');
-    await expect(card).toBeEnabled();
     await startGame(page, { cls: 'druid', seed: 'druid-bear' });
     await clearBoons(page);
     await page.evaluate(() => { Game.level().monsters.length = 0; });
@@ -472,27 +457,17 @@ test.describe('the Daily Delve', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the Earned Daily shows once a class is earned, waits on a day whose class is not, and keeps apart from the first Daily', async ({ page }) => {
+  test('the Ranger & Druid Daily is there from the start, deals one of the two, and keeps apart from the first Daily', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.clock.setFixedTime(DAY);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await page.goto('/');
-    await expect(page.locator('#btn-daily-earned')).toBeHidden();
-    // only the Druid earned: the day's hero decides whether it can be played
-    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: {}, relics: [], kin: 1 })));
-    await page.goto('/');
     await expect(page.locator('#btn-daily-earned')).toBeVisible();
+    await expect(page.locator('#btn-daily-earned')).toContainText('Ranger & Druid Daily');
     const cls = await page.evaluate(async () => (await import('./js/daily.js')).Daily.heroFor('2026-09-24', 'earned').cls);
-    if (cls === 'ranger') {
-      await expect(page.locator('#btn-daily-earned')).toBeDisabled();
-      await expect(page.locator('#daily-earned-summary')).toContainText('not yet earned');
-    }
-    // both earned: it plays, as its own run
-    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { easy: 1 }, cleric: { easy: 1 }, mage: { easy: 1 }, thief: { easy: 1 } }, relics: [], kin: 1 })));
-    await page.goto('/');
-    await expect(page.locator('#btn-daily-earned')).toBeEnabled();
+    expect(['ranger', 'druid']).toContain(cls);
     await page.click('#btn-daily-earned');
-    await expect(page.locator('#pro-rules')).toContainText('earned classes');
+    await expect(page.locator('#pro-rules')).toContainText('Ranger and Druid Daily');
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
     const run = await page.evaluate(() => ({ seed: Game.state().seed, cls: Game.player().cls, kind: Game.state().opts.dailyKind }));
