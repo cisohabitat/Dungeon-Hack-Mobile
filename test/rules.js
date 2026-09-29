@@ -4333,6 +4333,10 @@ await test('at two thirds the Warlord takes his throne behind shield-bearers; cu
   if (m.hp !== hp1) out.push(`on his throne he took ${hp1 - m.hp}`);
   if (!linesSince(G, told).some(l => /shield-bearers turn the blow aside/.test(l))) out.push(`a blow at him on his throne said: ${linesSince(G, told).join(' / ')}`);
   if (Game.mstat(m).ranged == null) out.push('on his throne he has no spear to throw');
+  // his bar says where he is (it shows once he has spoken)
+  m.spoke = true; m.awake = true;
+  const bar = (Game.renderState(0).fx.boss || {}).name;
+  if (bar !== 'Goblin Warlord, on his throne') out.push(`his bar read ${bar}`);
   // beside him on his throne, he strikes no blow of his own: that is the shield-bearers' work
   {
     m.x = m.rx = m.fromX = p.x + dx; m.y = m.ry = m.fromY = p.y + dy; m.nextAct = G.t; m.windup = null;

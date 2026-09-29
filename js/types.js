@@ -131,6 +131,11 @@
  * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it
  * @property {number} [edge]  how much surer and harder it hits, on a floor readier for a strong hero
  * @property {number} [riteReady]  when the lich can next try its rite
+ * @property {boolean} [throne]  the Goblin Warlord sits his throne: his shield-bearers turn every blow but a spell, and he only throws
+ * @property {number} [bearer]  this orc is one of the Warlord's shield-bearers (the Warlord's uid)
+ * @property {number} [drums]  how many times the Warlord has beaten his war-drum
+ * @property {boolean} [frenzy]  the Warlord has kicked open his war-chest and fights in a frenzy
+ * @property {boolean} [overSaid]  a spell over the shield-bearers' heads has been told once
  * @property {number[][]} [snuffed]  the torches the lich put out, to light again when it falls
  * @property {Array<{x: number, y: number}>} [lights]  their light, likewise
  * @property {{x: number, y: number, w: number, h: number}} [hall]  the lich's own hall, whose torches it puts out

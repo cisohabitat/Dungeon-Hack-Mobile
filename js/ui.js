@@ -1521,7 +1521,7 @@ const UI = (() => {
     // what the level brought, and what comes next
     const level = Game.pendingLevel(), got = Game.levelNote(level);
     const bits = [];
-    if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
+    if (got) { bits.push(`+${got.hp} hit point${got.hp === 1 ? '' : 's'}`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
     const nextTalent = level + (level % 2 === 0 ? 2 : 1);   // talents come at the even levels
     if (nextTalent <= MAX_LEVEL) bits.push(isTalent ? `next talent at level ${nextTalent}` : (nextTalent === level + 1 ? 'a talent at the next level' : `next talent at level ${nextTalent}`));
     if (!p.path && level < PATH_LEVEL && PATHS[p.cls]) bits.push(`your path at level ${PATH_LEVEL}`);
@@ -1578,7 +1578,7 @@ const UI = (() => {
     // held sideways, the paths sit side by side: one under the other, the second was below the fold
     el.classList.add('paths');
     const bits = [];
-    if (got) { bits.push(`+${got.hp} hit points`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
+    if (got) { bits.push(`+${got.hp} hit point${got.hp === 1 ? '' : 's'}`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
     const head = document.createElement('p');
     head.className = 'boon-head';
     head.textContent = bits.join(' \u00b7 ');

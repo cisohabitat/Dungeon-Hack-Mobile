@@ -4093,7 +4093,8 @@ const Game = (() => {
     // the lich's life across the top of the view, once it has woken and spoken
     const boss = L.monsters.find(m => MONSTERS[m.id].boss && m.spoke && m.awake && !m.collapsed);
     const rite = boss && boss.windup && boss.windup.move === 'rite' ? boss.windup : null;
-    fx.boss = boss ? { name: MONSTERS[boss.id].name, hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!rite,
+    // (the Warlord on his throne says so on his bar: nothing marks it otherwise but a blow turned aside)
+    fx.boss = boss ? { name: MONSTERS[boss.id].name + (boss.throne ? ', on his throne' : ''), hp: boss.hp, maxHp: boss.maxHp, phase: boss.phase || 0, rite: !!rite,
       riteDone: rite ? Math.min(1, Math.max(0, (G.t - rite.at) / Math.max(1, rite.until - rite.at))) : 0 } : null;
     // else a named champion's, its name in full and marked where its fight turns, if it does
     if (!boss && topNamed) {
