@@ -262,18 +262,20 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Easy | 98% | 96% | 96% | 96% | 97% | – | about 97% |
+| Easy | 98% | 96% | 96% | 96% | 97% | 98% | about 97% |
 | Normal | 81% | 80% | 79% | 79% | 84% | 81% | about 81% |
-| Hard | 57% | 56% | 58% | 60% | 63% | 60% | about 59% |
-| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | – | about 82% |
-| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | – | about 58% |
+| Hard | 57% | 56% | 58% | 60% | 63% | 64% | about 59% |
+| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | 83% | about 82% |
+| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | 53% | about 58% |
 
-The Druid's two rows are 400 runs each, two seed sets of 200 (`SEEDN=20`), measured when it came;
-the overall figures are the first five classes'. Its bear was far too strong at first (96% on
-Normal, 85% on Hard): a thinner hide, a dearer spell and fewer spell points brought it into line.
-Its Grovewarden once leaned on a companion that a third of runs do not keep, and trailed the
-Shapeshifter on Hard by over twenty points; its skin now takes the bark's grain (2 better armour
-class, companion or none), and the paths are about 77% and 64% on Hard, 84% and 92% on Normal.
+The Druid's Normal and Hard rows are 400 runs each, two seed sets of 200 (`SEEDN=20`); its Easy
+and Long Delve rows are one set of 200. The overall figures are the first five classes'. Its bear
+was far too strong at first (96% on Normal, 85% on Hard): a thinner hide, a dearer spell and fewer
+spell points brought it into line. The Grovewarden once leaned on a companion that a third of
+runs do not keep, and trailed the Shapeshifter on Hard by over twenty points; its skin now takes
+the bark's grain (2 better armour class, companion or none). Once the bot also roots foes with
+Entangle, the two paths are within a few points of each other on Normal and Hard (on Hard about
+72% and 76%).
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
 fighter lowest, the ranger highest. Oils, charms, capstones and traders' jobs lifted it to about
