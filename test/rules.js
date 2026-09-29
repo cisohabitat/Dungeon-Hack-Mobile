@@ -3780,6 +3780,135 @@ const shopAhead = ctx => {
   return !!Game.currentShop();
 };
 
+// ---------- jobs from the traders ----------
+/** Take the job the trader ahead offers; the shop is closed after. */
+function takeJob(ctx) {
+  const { Game } = ctx;
+  if (!shopAhead(ctx)) return 'the shop did not open';
+  const row = Game.shopServices().find(s => s.id === 'bounty');
+  if (!row || row.why || row.price !== 0) return `the job row: ${JSON.stringify(row)}`;
+  if (!Game.buyService('bounty') || !Game.bounty()) return 'the job was not taken';
+  Game.closeShop();
+  return '';
+}
+const downOne = ctx => { const { Game } = ctx; Game.level().monsters.length = 0; Game.descend(); };
+/** Strike down a monster brought to stand in front of the hero. */
+function strikeDown(ctx, m) {
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+  Game.level().tiles[(p.y + dy) * Game.level().w + p.x + dx] = Dungeon.T.FLOOR;
+  Object.assign(m, { x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12 });
+  delete m.pack;
+  p.perkHit = 60;
+  for (let i = 0; i < 40 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
+  return !Game.level().monsters.includes(m);
+}
+
+await test('a trader\'s job: kill so many on the floor below, and the next trader pays gold and a flask or scroll', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'job-cull');
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const why = takeJob(ctx);
+  if (why) return why;
+  const b = Game.bounty();
+  b.kind = 'cull'; b.need = 3;
+  if (b.depth !== 2 || !(b.reward.gold > 0) || !b.reward.t) out.push(`the job: ${JSON.stringify(b)}`);
+  // the same trader has nothing more to offer, and says so
+  shopAhead(ctx);
+  const again = Game.shopServices().find(s => s.id === 'bounty');
+  if (!again || !again.why) out.push('a second job was offered with one in hand');
+  Game.closeShop();
+  const mark = markLog(G);
+  downOne(ctx);
+  if (!b.started || !linesSince(G, mark).some(l => /The job the trader gave you is here/.test(l))) out.push('arriving did not start the job');
+  if (Game.bountyChip() !== 'Job: 0 of 3 slain') out.push(`the chip read ${Game.bountyChip()}`);
+  // a trader met with the job not yet done pays nothing
+  const g0 = p.gold;
+  shopAhead(ctx);
+  if (Game.bounty() !== b || p.gold !== g0) out.push('a trader paid for a job not yet done');
+  Game.closeShop();
+  for (let i = 0; i < 3; i++) {
+    const m = beside(ctx, 'rat', { uid: 600 + i });
+    if (!strikeDown(ctx, m)) out.push(`rat ${i} would not fall`);
+  }
+  if (!b.done || b.got !== 3) out.push(`after three kills: got ${b.got}, done ${b.done}`);
+  if (!/done/.test(Game.bountyChip())) out.push(`done, the chip read ${Game.bountyChip()}`);
+  if (!Game.threadNotes().some(n => n.startsWith('A job from the traders'))) out.push('the hero sheet does not list the job');
+  const gold = p.gold, reward = b.reward;
+  const inv = p.inv.filter(i => i.t === reward.t).reduce((a, i) => a + (i.q || 1), 0);
+  shopAhead(ctx);
+  if (Game.bounty()) out.push('the next trader did not pay');
+  if (p.gold !== gold + reward.gold) out.push(`paid ${p.gold - gold} gold, not ${reward.gold}`);
+  if (p.inv.filter(i => i.t === reward.t).reduce((a, i) => a + (i.q || 1), 0) !== inv + 1) out.push(`no ${reward.t} in the pack`);
+  if (G.stats.bounties !== 1) out.push(`jobs done: ${G.stats.bounties}`);
+  // and this trader has a job of its own now
+  const next = Game.shopServices().find(s => s.id === 'bounty');
+  if (!next || next.why) out.push('the paying trader offered no job of its own');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a satchel job lays the satchel far across the floor below; a champion job is its champion; a job left undone is lost', async () => {
+  const out = [];
+  {
+    const ctx = await start('fighter', 'job-fetch');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const why = takeJob(ctx);
+    if (why) return why;
+    Game.bounty().kind = 'fetch';
+    downOne(ctx);
+    const L = Game.level(), k = Object.keys(L.items).find(key => L.items[key].some(i => i.t === 'satchel'));
+    if (!k) return 'no satchel on the floor below';
+    const [x, y] = k.split(',').map(Number);
+    if (Math.abs(x - L.start.x) + Math.abs(y - L.start.y) < 8) out.push(`the satchel lay ${Math.abs(x - L.start.x) + Math.abs(y - L.start.y)} squares from the stair`);
+    p.x = x; p.y = y;
+    Game.takeItem(L.items[k].find(i => i.t === 'satchel'));
+    if (!Game.bounty().done) out.push('picking up the satchel did not finish the job');
+    shopAhead(ctx);
+    if (p.inv.some(i => i.t === 'satchel')) out.push('the satchel stayed in the pack once paid for');
+    if (Game.shopServices().length && Game.currentShop() && p.inv.some(i => i.t === 'satchel')) out.push('the satchel could be sold');
+    void G;
+  }
+  {
+    const ctx = await start('fighter', 'job-slay', { levels: 8 });
+    const { Game } = ctx; const G = Game.state();
+    Game.player().hp = Game.player().maxHp = 9999;
+    downOne(ctx);                                    // to floor 2: the floor below holds a champion
+    const plan = ctx.Dungeon.namedPlan(G.seed, 8, G.route || undefined);
+    if (!plan[3]) return `this seed's plan has no champion on floor 3: ${JSON.stringify(plan)}`;
+    const why = takeJob(ctx);
+    if (why) return why;
+    if (Game.bounty().kind !== 'slay') out.push(`the job for floor 3 is ${Game.bounty().kind}, not the champion`);
+    downOne(ctx);
+    const b = Game.bounty();
+    const champ = Game.level().monsters.find(m => ctx.MONSTERS[m.id].named);
+    if (!champ || b.target !== champ.id || !b.name) out.push(`the job's target: ${b.target}, the floor's champion: ${champ && champ.id}`);
+    else {
+      const other = beside(ctx, 'rat', { uid: 650 });
+      Game.level().monsters.push(champ);
+      strikeDown(ctx, other);
+      if (b.done) out.push('a rat finished the champion\'s job');
+      if (!strikeDown(ctx, champ)) out.push('the champion would not fall');
+      if (!b.done) out.push('slaying the champion did not finish the job');
+    }
+  }
+  {
+    const ctx = await start('fighter', 'job-lost');
+    const { Game } = ctx; const G = Game.state();
+    const why = takeJob(ctx);
+    if (why) return why;
+    downOne(ctx);
+    const mark = markLog(G);
+    downOne(ctx);
+    if (Game.bounty()) out.push('the job went on to the next floor');
+    if (!linesSince(G, mark).some(l => /no pay for it now/.test(l))) out.push('losing the job was not told');
+    // no job for the floor that holds the lich
+    G.depth = G.opts.levels - 1;
+    shopAhead(ctx);
+    if (Game.shopServices().some(s => s.id === 'bounty')) out.push('a job was offered for the lich\'s floor');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('one sworn to go unaided cannot drink the trader\'s tonic', async () => {
   const ctx = await start('fighter', 'unaided-tonic');
   const { Game } = ctx;

@@ -32,6 +32,32 @@ async function findTrader(page) {
 }
 
 test.describe('the trader', () => {
+  test('a trader offers a job for the floor below, taken at a tap; on that floor the status line says how it goes', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'job-ui', levels: '8' });
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ id: 'merchant', x: p.x + dx, y: p.y + dy, markup: 2, stock: [], greeted: false });
+      Game.input('forward');
+    });
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    const row = page.locator('#shop-services .shop-row', { hasText: 'A job for the floor below' });
+    await expect(row).toBeVisible();
+    await expect(row).toContainText('It pays');
+    await page.waitForTimeout(700);   // a tap just after the shop opens is not taken as a choice
+    await row.locator('button', { hasText: 'Take it' }).click();
+    await expect.poll(() => page.evaluate(() => !!Game.bounty())).toBe(true);
+    await expect(row.locator('button')).toHaveText('\u2014');
+    await page.evaluate(() => document.querySelector('#ov-shop [data-close]').click());
+    await page.evaluate(() => { Game.level().monsters.length = 0; Game.descend(); });
+    await expect(page.locator('#hud-status .bounty')).toContainText('Job:');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('A job from the traders');
+    expect(errors).toEqual([]);
+  });
+
   test('walking into a trader opens a shop and does not walk through them', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'shop-open', levels: '8' });

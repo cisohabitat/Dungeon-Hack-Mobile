@@ -11,6 +11,7 @@ import { makeFoes } from './foes.js';
 import { SIZE as DRESS_SIZE } from './dressing.js';
 import { encodeSave, decodeSave } from './savecode.js';
 import { makeCompanion } from './companion.js';
+import { makeBounty } from './bounty.js';
 
 // Core game state and rules.
 
@@ -101,6 +102,7 @@ const Game = (() => {
   /** What the hero carries from their choices, for the hero sheet. */
   function threadNotes() {
     const t = G.threads || {}, out = [];
+    if (bounty.note()) out.push(bounty.note());
     if (t.guide) out.push(t.guided ? `The guildsman you dug out marked floor ${t.guided} for you.` : 'The guildsman you dug out has gone ahead to mark the way.');
     if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less for their wares.');
     if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
@@ -667,6 +669,28 @@ const Game = (() => {
     for (const id of [R.floor[depth], road]) if (id) layRelic(L, id);
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
+  }
+  /** The open floor square farthest from the way in, with nothing on it: where a lost thing lies (a bounty's satchel). */
+  function farthestFloor(L) {
+    const dist = new Int32Array(L.w * L.h).fill(-1);
+    const q = [L.start.y * L.w + L.start.x];
+    dist[q[0]] = 0;
+    for (let qi = 0; qi < q.length; qi++) {
+      const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
+      for (const [dx, dy] of DIRS) {
+        if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h) continue;
+        const ni = (y + dy) * L.w + x + dx;
+        if (dist[ni] >= 0 || L.tiles[ni] === T.WALL || L.tiles[ni] === T.TORCH || L.tiles[ni] === T.FOUNTAIN) continue;
+        dist[ni] = dist[i] + 1; q.push(ni);
+      }
+    }
+    const held = new Set((L.npcs || []).map(n => key(n.x, n.y)));
+    let best = null, bd = -1;
+    for (let i = 0; i < dist.length; i++) {
+      const k = key(i % L.w, (i / L.w) | 0);
+      if (dist[i] > bd && L.tiles[i] === T.FLOOR && !L.traps[k] && !held.has(k) && !L.items[k] && !(L.props || []).some(pr => key(pr.x, pr.y) === k)) { bd = dist[i]; best = k; }
+    }
+    return best;
   }
   /** Lay a relic on the pile furthest from the way in that holds none yet, or on bare floor if there is no such pile. */
   function layRelic(L, id) {
@@ -1439,7 +1463,7 @@ const Game = (() => {
       if (giveItem({ ...it, q: room })) { it.q -= room; log(`You take ${room} of them. Your belt holds no more.`); Sound.play('pickup'); }
       else log('Your pack is full: drop something first.', 'bad');
     }
-    else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); }
+    else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); if (it.t === 'satchel') bounty.found(); }
     else { log('Your pack is full: drop something first.', 'bad'); }
     // still lying there (a full pack, a full belt): still the hero's own, left where it was put
     if (was && list.includes(it)) it.left = was;
@@ -1590,6 +1614,7 @@ const Game = (() => {
       bonesArrive(L);
       threadArrivals(L, depth, fresh);
     } else log(`You climb back up to floor ${depth}.`, 'info');
+    bounty.arrive(L);
     emit('level');
     checkTile();
   }
@@ -2551,6 +2576,7 @@ const Game = (() => {
     if (at < 0) return;                    // already removed by something else
     L.monsters.splice(at, 1);
     if (mb.boss) G.bossDown = true;
+    bounty.killed(m);
     memberDown(m, note);
     if (mb.boss) { bossFalls(m); log('The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
@@ -4310,7 +4336,7 @@ const Game = (() => {
   };
   // The traders (trader.js) borrow the same way.
   const traderK = {
-    get BELT() { return BELT; },
+    get BELT() { return BELT; }, get bounty() { return bounty; },
     get G() { return G; },
     P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn,
     revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack,
@@ -4328,11 +4354,18 @@ const Game = (() => {
     get heard() { return heard; }, get realNow() { return realNow; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
   });
+  // ---------- jobs from the traders: see bounty.js ----------
+  const bounty = makeBounty({
+    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
+    get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; }, get key() { return key; },
+    get farthestFloor() { return farthestFloor; }, namedPlan: Dungeon.namedPlan,
+  });
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
     companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
     /** Give a charm from the pack to the companion: why not, or null when it is worn. */
+    bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,

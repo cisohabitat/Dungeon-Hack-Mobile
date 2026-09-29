@@ -926,7 +926,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : ''].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip()].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -965,6 +965,8 @@ const UI = (() => {
     if (Game.berserkerRage() > 0) st.push(`<span class="good" title="Berserker: +${Game.berserkerRage()} damage on every blow${p.hp < p.maxHp / 2 ? ', and a quicker swing' : ''}">Rage +${Game.berserkerRage()}${p.hp < p.maxHp / 2 ? ', frenzied' : ''}</span>`);
     if (secs('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
     if (secs('might')) st.push(`<span class="good">Mighty ${secs('might')}s</span>`);
+    // a trader's job, on its floor and once it is done
+    if (Game.bountyChip()) st.push(`<span class="good bounty" title="${escapeHtml(Game.threadNotes().find(n => n.startsWith('A job')) || '')}">${escapeHtml(Game.bountyChip())}</span>`);
     // a coating counts down by the blows that land, not by the clock
     if (p.coating) st.push(`<span class="good coat" title="The ${escapeHtml(Game.coatingName(p.coating.t))} on your weapon: blows that land before it wears off">${escapeHtml(Game.coatingName(p.coating.t)).replace(/^./, c => c.toUpperCase())} \u00d7${Number(p.coating.left)}</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
@@ -1341,10 +1343,11 @@ const UI = (() => {
       row.className = 'shop-row service';
       row.innerHTML = `<div class="what"><b>${escapeHtml(sv.label)}</b><small>${escapeHtml(sv.detail)}</small></div>`;
       const btn = document.createElement('button');
-      btn.textContent = sv.why ? '—' : `Pay ${sv.price}g`;
+      btn.textContent = sv.why ? '—' : sv.price ? `Pay ${sv.price}g` : 'Take it';
       btn.disabled = !!sv.why || p.gold < sv.price;
       if (!btn.disabled) btn.className = 'afford';
-      btn.setAttribute('aria-label', `${sv.label}${sv.why ? '' : ` for ${sv.price} gold`}`);
+      btn.setAttribute('aria-label', `${sv.label}${sv.why || !sv.price ? '' : ` for ${sv.price} gold`}`);
+      // (a job costs nothing, so it is never dear enough to ask twice)
       if (!sv.why) payButton(btn, row, sv.price, 'Pay', () => Game.buyService(sv.id));
       row.appendChild(btn);
       (sv.why && fold ? fold : svc).appendChild(row);
@@ -1352,7 +1355,7 @@ const UI = (() => {
     if (fold) svc.appendChild(fold);
     const sellBox = $('#shop-sell');
     sellBox.innerHTML = '';
-    const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key');
+    const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key' && it.t !== 'satchel');
     if (!sellable.length) sellBox.innerHTML = '<div class="shop-empty">Nothing in your pack the trader wants.</div>';
     // everything the class can never use, in one go: the pack was a chore to empty a row at a time
     const junk = Game.junkInPack();

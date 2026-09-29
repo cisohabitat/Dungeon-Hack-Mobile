@@ -55,7 +55,10 @@ export function makeTrader(K) {
     if (!shop) return [];
     const hidden = hiddenGear(), cursed = cursedWorn();
     const deep = K.G.depth;
+    // a job for the floor below comes first, when there is one (bounty.js)
+    const job = K.bounty.service();
     return [
+      ...(job ? [job] : []),
       { id: 'appraise', label: 'Appraise your gear', detail: hidden.length ? `${hidden.length} piece${hidden.length > 1 ? 's' : ''} of unknown quality` : 'You know the quality of everything you carry',
         price: Math.round((8 + 4 * deep) * Math.max(1, hidden.length) * (1 - charm())), why: hidden.length ? null : 'Nothing you carry is unknown.' },
       { id: 'uncurse', label: 'Lift a curse', detail: cursed.length ? `Free you of ${cursed.map(it => the(it)).join(' and ')}` : 'Nothing you wear is cursed',
@@ -153,6 +156,7 @@ export function makeTrader(K) {
     const p = P();
     if (p.gold < s.price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
     p.gold -= s.price;
+    if (id === 'bounty') { K.bounty.take(); emit('shop'); return true; }
     if (id === 'rune_weapon' || id === 'rune_armor') {
       const it = P().eq[id === 'rune_weapon' ? 'weapon' : 'armor'];
       it.pw = /** @type {any} */ (s).pw;
@@ -232,6 +236,7 @@ export function makeTrader(K) {
         } else log(`"You lit a lamp for one of us, in the dark." It would give you ${what}, but you have no room to carry it.`, 'info');
       }
     }
+    K.bounty.pay();
     Sound.play('gold');
     emit('shop');
     return true;

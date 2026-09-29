@@ -234,6 +234,22 @@
  * @property {Object<number, number>} hurtOn  damage taken, by floor
  * @property {number} potions @property {number} scrolls @property {number} meals
  * @property {number} gold     picked up off the floor, gems included
+ * @property {number} [bounties]  traders' jobs done and paid for
+ */
+
+/**
+ * A trader's job for the floor below (see bounty.js).
+ * @typedef {Object} Bounty
+ * @property {'slay'|'cull'|'fetch'} kind  slay the floor's champion, kill a number of its creatures, or find a lost satchel
+ * @property {number} depth  the floor it is for
+ * @property {number} from   the floor whose trader gave it: only a trader deeper pays
+ * @property {number} need   how many to kill (1 for the rest)
+ * @property {number} got    how many so far
+ * @property {{gold: number, t: string}} reward
+ * @property {boolean} [started]  the hero has reached its floor
+ * @property {boolean} [done]
+ * @property {string} [target]  the champion's MONSTERS key, once met with
+ * @property {string} [name]    and its name
  */
 
 /**
@@ -247,6 +263,8 @@
  * @property {string} [route]  the road taken at the fork: crypts or warrens; absent until chosen
  * @property {boolean} [forkPending]  the hero stands at the divided stair and has not yet chosen
  * @property {number} [lunges]  how many lunges have followed the hero this run: the first-fight lesson reads it
+ * @property {Bounty|null} [bounty]  the trader's job the hero has taken, if any (see bounty.js)
+ * @property {Record<number, number>} [bountyTaken]  floors whose trader's job has been taken, so it is not offered twice
  * @property {Record<string, number>} [threads]  choices that follow the hero down: each kept with the floor it was made on (see threads in game.js)
  * @property {Array<{m: string, c: string, base?: string, n?: number, notes?: Record<string, string[]>, gone?: boolean, at?: number}>} log
  * @property {number} logSeq  messages ever written; the log array itself is capped

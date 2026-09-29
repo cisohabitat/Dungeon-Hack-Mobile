@@ -79,6 +79,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
   of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
   gravestone.
+- **Jobs from the traders.** A trader may offer a job for the floor below: slay its champion,
+  cull its creatures, or find a lost satchel. Free to take, for that floor only, and paid in gold
+  and a flask or scroll by the next trader you meet.
 - **A hound at your heel.** On floor 2 of most delves a starving hound watches from the dark.
   Share your food, or win it over with a word, and it follows you down: it bites whatever
   stands beside it (the thing at your side first), draws the blows of anything that reaches it
