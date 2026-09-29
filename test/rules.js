@@ -10415,18 +10415,18 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (w.name !== 'claws' || w.range || w.dmg[1] !== 8) out.push(`a bear strikes with ${JSON.stringify(w)}`);
     if (Game.playerAC() !== ac0 + 2) out.push(`a bear's armour class is ${Game.playerAC()}, the druid's ${ac0}`);
     if (Game.renderState().fx.view.cls !== 'bear' || Game.renderState().fx.view.weapon) out.push('the view does not show a bear\'s paws');
-    if (!/^Bear: 40s, hide 8$/.test(Game.shapeChip())) out.push(`the status line says "${Game.shapeChip()}"`);
+    if (!/^Bear: 40s, hide 7$/.test(Game.shapeChip())) out.push(`the status line says "${Game.shapeChip()}"`);
     if (Game.spellWasteReason(shape) !== 'You are a bear already.') out.push('the bear could be cast over itself');
     // a blow on the hide: all of it taken, then the rest through, and the shape broken
     const hp0 = p.hp;
     Game.hurtPlayer(5, 'The orc hits you for 5.');
-    if (p.hp !== hp0 || p.shape.hide !== 3) out.push(`five on a hide of 8 left hp ${hp0}->${p.hp}, hide ${p.shape && p.shape.hide}`);
+    if (p.hp !== hp0 || p.shape.hide !== 2) out.push(`five on a hide of 7 left hp ${hp0}->${p.hp}, hide ${p.shape && p.shape.hide}`);
     const mark = markLog(G);
     Game.hurtPlayer(7, 'The orc hits you for 7.');
-    if (p.hp !== hp0 - 4 || Game.shaped()) out.push(`seven on a hide of 3 left hp ${hp0}->${p.hp}, shaped ${Game.shaped()}`);
+    if (p.hp !== hp0 - 5 || Game.shaped()) out.push(`seven on a hide of 2 left hp ${hp0}->${p.hp}, shaped ${Game.shaped()}`);
     const said = linesSince(G, mark).join(' / ');
     // the blow first, then what it did to the bear
-    if (!said.includes('(Your hide takes 3.)') || !(said.indexOf('tears through the bear') > said.indexOf('hits you for 7'))) out.push(`said: ${said}`);
+    if (!said.includes('(Your hide takes 2.)') || !(said.indexOf('tears through the bear') > said.indexOf('hits you for 7'))) out.push(`said: ${said}`);
     // time runs out
     ready(ctx); Game.castSpell(shape);
     run(Game, G, 40100);
@@ -10529,7 +10529,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
-  await test('the druid\'s paths and capstones: the bear\'s cost, time, hide and claws; Mending Moss\'s cost', async () => {
+  await test('the druid\'s paths and capstones: the bear\'s cost, time, hide and claws; Mending Moss\'s cost; a Grovewarden\'s bark', async () => {
     const out = [];
     const hero = async (path, cap) => { const ctx = await druid('druid-path-' + (cap || path || 'none'), 9); ctx.Game.player().path = path; ctx.Game.player().capstone = cap; return ctx; };
     const none = await hero(undefined), ss = await hero('shapeshifter'), gw = await hero('grovewarden');
@@ -10538,10 +10538,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const shaped = c => { c.Game.castSpell(druidSpell(c, 'wild_shape')); const p = c.Game.player(); return { secs: Math.round((p.shape.until - c.Game.state().t) / 1000), hide: p.shape.hide, claws: c.Game.weapon().dmg[2] }; };
     const n = shaped(none), s = shaped(ss), g = shaped(gw);
     if (n.secs !== 40 || s.secs !== 45 || g.secs !== 40) out.push(`the bear lasts ${n.secs}s, a Shapeshifter's ${s.secs}s, a Grovewarden's ${g.secs}s`);
-    if (s.hide !== n.hide + 2 || s.claws !== n.claws + 2) out.push(`a Shapeshifter's hide ${n.hide}->${s.hide}, claws +${s.claws}`);
+    if (s.hide !== n.hide || s.claws !== n.claws + 2) out.push(`a Shapeshifter's hide ${n.hide}->${s.hide}, claws +${s.claws}`);
     const dire = shaped(await hero('shapeshifter', 'dire_bear')), old = shaped(await hero('shapeshifter', 'old_hide'));
     if (dire.claws !== n.claws + 5) out.push(`Dire Bear: claws +${dire.claws}`);
     if (old.hide !== n.hide + 8) out.push(`Old Hide: hide ${n.hide}->${old.hide}`);
+    // a Grovewarden is harder to hit, bear or not
+    if (gw.Game.playerAC() !== none.Game.playerAC() + 2) out.push(`a Grovewarden's armour class is ${gw.Game.playerAC()}, a druid's with no path ${none.Game.playerAC()}`);
     const hw = await hero('grovewarden', 'heartwood');
     if (cost(hw, 'mending_moss') !== cost(gw, 'mending_moss') - 1) out.push(`Heartwood: Mending Moss ${cost(gw, 'mending_moss')}->${cost(hw, 'mending_moss')}`);
     return out.length ? out.join('; ') : true;
@@ -10561,8 +10563,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     talent(ctx, 'rending_claws');
     const m = beside(ctx, 'ogre', { hp: 9999, maxHp: 9999, nextAct: 1e12 });
     p.perkHit = 60;
-    for (let i = 0; i < 3; i++) { ready(ctx); Game.input('attack'); }
-    if (!m.dot || m.dot.kind !== 'bleed') out.push('three claw blows opened no wound');
+    // (a natural 1 misses whatever the bonus: swing until three have landed)
+    let landed = 0;
+    for (let i = 0; i < 20 && landed < 3; i++) { const was = m.hp; ready(ctx); Game.input('attack'); if (m.hp < was) landed++; }
+    if (!m.dot || m.dot.kind !== 'bleed') out.push(`${landed} claw blows landed and opened no wound`);
     const hp = m.hp; run(Game, G, 3100);
     if (!(m.hp < hp)) out.push('the wound did not bleed');
     // Long Thorns: two squares further

@@ -315,14 +315,14 @@ const PATHS = {
   druid: [
     { id: 'shapeshifter', name: 'Shapeshifter', flavour: 'The bear is not a shape you take any more. It is one you remember.', effects: [
       'Wild Shape costs a spell point less, and lasts 45 seconds.',
-      'Your bear\'s hide is 2 thicker.',
       'Your claws deal 2 more damage.',
       'Your other spells cost a spell point more.',
     ], capstones: [
       { id: 'dire_bear', name: 'Dire Bear', flavour: 'The thing you become has forgotten it was ever small.', effects: ['Your claws deal 5 more damage, not 2.'] },
-      { id: 'old_hide', name: 'Old Hide', flavour: 'Scars on scars. Nothing gets through the first time.', effects: ['Your bear\'s hide is 8 thicker, not 2.'] },
+      { id: 'old_hide', name: 'Old Hide', flavour: 'Scars on scars. Nothing gets through the first time.', effects: ['Your bear\'s hide is 8 thicker.'] },
     ] },
     { id: 'grovewarden', name: 'Grovewarden', flavour: 'The wood keeps its own, and so do you.', effects: [
+      'Your armour class is 2 better.',
       'Your companion has twice the hit points it would at another\'s side, not half again, and strikes 2 harder.',
       'Mending Moss heals a quarter more.',
       'Thorn Lash holds back what it strikes a moment.',

@@ -25,9 +25,9 @@ export function makeWild(K) {
   const shaped = (p = K.P()) => !!(p && p.shape && p.shape.until > K.G.t);
   /** How long the bear lasts: a Shapeshifter's longer. */
   const duration = () => (K.onPath('shapeshifter') ? 45000 : SHAPE_MS);
-  /** How thick the hide is: 4 and 1 a level, more on the Shapeshifter's path, and half again with Thick Hide. */
+  /** How thick the hide is: 3 and 1 a level, 8 more with Old Hide, and half again with Thick Hide. */
   function hideFor(p) {
-    const base = 4 + p.level + (K.onPath('shapeshifter') ? (K.capped('old_hide') ? 8 : 2) : 0);
+    const base = 3 + p.level + (K.capped('old_hide') ? 8 : 0);
     return Math.round(base * (K.hasTalent('thick_hide') ? 1.5 : 1));
   }
   /** What the claws add, beyond the die: a Shapeshifter's, more for a Dire Bear. */

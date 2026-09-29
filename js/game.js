@@ -990,6 +990,8 @@ const Game = (() => {
     if (onPath('warden')) ac += capped('wild_bulwark') ? 3 : 1;
     if (wild.shaped(p)) ac += wild.SHAPE_AC;
     if (hasTalent('barkskin')) ac += 1;
+    // a Grovewarden's skin has taken the bark's grain, companion or none
+    if (onPath('grovewarden')) ac += 2;
     if (p.eq.armor) ac += ITEMS[p.eq.armor.t].ac + (p.eq.armor.e || 0) + (p.eq.armor.px === 'sturdy' ? 1 : 0);
     // a focus turns no more blows for being well made: its make is in what it does
     if (p.eq.shield) ac += ITEMS[p.eq.shield.t].focus ? ITEMS[p.eq.shield.t].ac : ITEMS[p.eq.shield.t].ac + (p.eq.shield.e || 0) + (p.eq.shield.px === 'sturdy' ? 1 : 0) + (hasTalent('bulwark') ? 2 : 0) + knightShieldAC();
