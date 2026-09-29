@@ -71,3 +71,8 @@ README balance table current.
   kills it; find the PID another way.
 - Timing-sensitive browser tests flake under heavy CPU load (a bench running):
   rerun alone before calling a failure real, then fix the test if it is.
+- The first tip (about the controls) holds the dungeon still while it is up.
+  Browser tests therefore start with tips off; `startGame(page, { tips: true })`
+  turns them on for a test that is about tips.
+- A browser test that waits for a monster's blow to land must allow for
+  misses: take the hero's armour off, or give it several seconds.
