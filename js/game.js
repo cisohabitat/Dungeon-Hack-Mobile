@@ -3699,14 +3699,15 @@ const Game = (() => {
   const DIFFICULTY = {
     easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25], press: false },
     normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.8,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true },
+    hard:   { hp: 1.9,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(G && G.opts && G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
   // the first floor is where a hero learns: its creatures hit a step softer. On Hard
   // the second and third keep that step too: a quarter of Hard's fighters and clerics
   // died there before they had a path, so it comes from the fourth floor, paid for
-  // with sturdier creatures (1.8, not 1.7) all the way down.
+  // with sturdier creatures (1.8, not 1.7) all the way down. (1.9 since oils, charms,
+  // capstones and traders' jobs lifted Hard to about three in five: back to the high fifties.)
   const diffEdge = () => Math.max(0, diff().edge - (G.depth <= 1 || (diff().edge > 1 && G.depth <= 3) ? 1 : 0)) + longEdge();
   // The Long Delve's back half: its creatures a step surer from the seventh
   // floor, and a little sturdier with every floor past the sixth. Without it

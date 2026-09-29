@@ -6764,7 +6764,7 @@ await test('a named champion is as much sturdier as the difficulty says, and the
     return Game.level().monsters.find(o => MONSTERS[o.id].named);
   };
   const easy = await on('easy'), normal = await on('normal'), hard = await on('hard');
-  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.8) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
+  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.9) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
   // a hero far ahead of the floor: every creature there is readier, and many become champions, but not this one
   for (let i = 0; i < 6; i++) {
     const pressed = await pinned(i / 6, () => on('normal', 12));

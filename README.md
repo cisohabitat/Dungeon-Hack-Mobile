@@ -261,13 +261,16 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | about 97% |
 | Normal | 81% | 80% | 79% | 79% | 84% | about 81% |
-| Hard | 59% | 61% | 62% | 61% | 63% | about 61% |
+| Hard | 57% | 56% | 58% | 60% | 63% | about 59% |
 | Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | about 82% |
-| Long Delve (12 floors), Hard | 69% | 66% | 70% | 64% | 65% | about 67% |
+| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | about 58% |
 
-Hard's target is about half: it sits evenly between Normal (about three in four) and the Long
-Delve on Hard, and every class lands within about six points of it: the cleric lowest, the ranger highest. The new tools lifted it a few points past the aim. (It was once tuned
-to 42%; later classes and gear lifted it, and half is kept as the aim rather than pulling back.)
+Hard's aim is the high fifties, and every class lands within about six points of it: the
+fighter lowest, the ranger highest. Oils, charms, capstones and traders' jobs lifted it to about
+61%, and its creatures were made a little sturdier (1.9 times as drawn, not 1.8) to bring it
+back; the bot uses every one of those tools, which a player will not always, so it was brought
+back to where it stood before them rather than to half. (It was once tuned to 42%, and later to
+about half.)
 
 The Long Delve on Hard is where the classes spread widest. The casters used to die on its deep
 floors (8 to 12), winning 33% and 34%; since spells strike and heal harder there, floor by floor,
@@ -277,7 +280,7 @@ sturdier they get, capping the thief's dodge). The ranger's figure is the noisie
 have given it anything from 37% to 62%. It trailed at about 43% until the deep floors got
 monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
 answers well; over three seed sets it now wins about 49% with no help, and giving its blows
-the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%. Measured again with capstones, oils, charms, jobs and the Warlord, the casters lead there and the thief and the ranger trail, all within about six points.
+the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%. Measured again with capstones, oils, charms, jobs, the Warlord and Hard's sturdier creatures, the fighter and the ranger lead there and the thief trails, all within about seven points.
 
 The hound (floor 2, on about two seeds in three; the bot always takes it) is worth three or four
 points everywhere: without it the same build wins about 74% on Normal, 51% on Hard, 74% and 53%
