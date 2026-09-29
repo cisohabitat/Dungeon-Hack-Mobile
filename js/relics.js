@@ -32,6 +32,8 @@ const RELIC_POWERS = {
   warmth: 'Warmth: cold does half as much to you.',
   fireward: 'Fire-warded: a wyrm\'s fire does half as much to you.',
   lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
+  // a druid's: carried into the shape as it is taken, though the bear holds nothing
+  wild: 'Wild: your Wild Shape lasts ten seconds longer, and its hide is 4 thicker.',
 };
 
 /** Ordinary gear found enchanted can carry one of these powers, named by it. */
@@ -108,6 +110,11 @@ const RELICS = {
   // worn at the throat or on a finger, so whoever takes the road can use it
   sextons_locket: { t: 'amulet_ward', e: 1, name: 'the Sexton\'s Locket', powers: ['warmth'], value: 320, route: 'crypts',
     lore: 'The gravedigger who kept these halls wore it to his last shift. Inside, a lock of hair gone white, and the cold cannot find you through it.' },
+  // two made for druids, and for no one else, so every other class's relics are dealt as they always were
+  oakheart: { t: 'staff', e: 1, name: 'Oakheart', powers: ['wild'], value: 320, cls: 'druid',
+    lore: 'Cut from the heart of an oak that was old when the mountain was young. Hold it, and something in you remembers having claws.' },
+  mossmantle: { t: 'leather', e: 1, name: 'the Mossmantle', powers: ['mend', 'pure'], value: 340, cls: 'druid',
+    lore: 'A cloak of living moss over soft hide, green even this far from the sun. It closes its wearer\'s wounds, and nothing foul takes root in them.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };
@@ -115,6 +122,7 @@ const RELICS = {
 /** Whether this class could ever wear or wield the relic. */
 function relicUsableBy(id, cls) {
   const r = RELICS[id], b = ITEMS[r.t], c = CLASSES[cls];
+  if (r.cls && r.cls !== cls) return false;
   if (b.kind === 'ring' || b.kind === 'amulet') return true;
   if (b.kind === 'weapon') return b.cls.includes(cls);
   if (b.kind === 'armor') return armorFits(c, b);

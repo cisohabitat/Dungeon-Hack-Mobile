@@ -243,6 +243,7 @@
  * @property {number} potions @property {number} scrolls @property {number} meals
  * @property {number} gold     picked up off the floor, gems included
  * @property {number} [bounties]  traders' jobs done and paid for
+ * @property {number} [shapes]    a druid's Wild Shapes taken this run, for the Wildheart feat
  */
 
 /**

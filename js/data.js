@@ -214,6 +214,7 @@ const FEATS = {
   collector: { name: 'The Collector', desc: 'Find every relic at least once, over as many runs as it takes.' },
   friend: { name: 'Friend of the Lampfolk', desc: 'Win having done three traders\' jobs in the one run, on Normal or Hard.' },
   veteran: { name: 'Old Campaigners', desc: 'Win with a companion at your side that is a veteran, on Normal or Hard.' },
+  wildheart: { name: 'Wildheart', desc: 'Win as a Druid, on Normal or Hard, having taken the bear\'s shape thirty times in the run.' },
 };
 const PATHS = {
   fighter: [

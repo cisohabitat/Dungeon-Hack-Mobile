@@ -3119,7 +3119,7 @@ const Game = (() => {
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
-      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2), kin: !!(G.companion && !G.companion.fallen) });
+      jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(G.companion && !G.companion.fallen && companion.rank() >= 2), kin: !!(G.companion && !G.companion.fallen), shapes: (G.stats && G.stats.shapes) || 0 });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
@@ -4435,7 +4435,7 @@ const Game = (() => {
   const wild = makeWild({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
-    get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; },
+    get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; }, get hasPower() { return hasPower; },
   });
   // ---------- jobs from the traders: see bounty.js ----------
   const bounty = makeBounty({

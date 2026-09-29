@@ -10435,6 +10435,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     ready(ctx); Game.castSpell(shape);
     const heal = druidSpell(ctx, 'mending_moss'); p.hp = 10; ready(ctx);
     if (Game.castSpell(heal) !== true || Game.shaped() || p.hp <= 10) out.push(`Mending Moss in bear shape: cast, shaped ${Game.shaped()}, hp ${p.hp}`);
+    // each bear taken is counted, for Wildheart
+    if (G.stats.shapes !== 3) out.push(`three bears were counted as ${G.stats.shapes}`);
     return out.length ? out.join('; ') : true;
   });
 
@@ -10606,6 +10608,58 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Math.abs(storm.dealt - bolt.dealt * 1.25) > 1) out.push(`Stormborn's lightning dealt ${storm.dealt}, without it ${bolt.dealt}`);
     const lash = await held('lash', 'thorn_lash', () => {}), grovel = await held('grovel', 'thorn_lash', c => { c.Game.player().path = 'grovewarden'; });
     if (grovel.hold - lash.hold !== 700) out.push(`a Grovewarden's thorns held the orc ${grovel.hold}ms, plain ones ${lash.hold}ms`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the druid\'s relics are a druid\'s alone: Oakheart\'s bear lasts longer and is thicker-hided; other classes\' relics are dealt as before', async () => {
+    const out = [];
+    const ctx = await druid('druid-oak', 4);
+    const { Game, relicUsableBy, relicPlan, RELICS } = ctx; const p = Game.player();
+    for (const id of ['oakheart', 'mossmantle']) {
+      if (!relicUsableBy(id, 'druid')) out.push(`${id} is not a druid's`);
+      for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger']) if (relicUsableBy(id, cls)) out.push(`${id} is usable by a ${cls}`);
+    }
+    // another class's deal leaves the druid's relics out, so it is the deal it always was
+    const plan = relicPlan('oak-seed', 'mage', 8);
+    if ([...Object.values(plan.floor), ...plan.shop].some(id => RELICS[id].cls)) out.push('a mage was dealt a druid\'s relic');
+    const shape = druidSpell(ctx, 'wild_shape');
+    Game.castSpell(shape);
+    const plain = { secs: Math.round((p.shape.until - Game.state().t) / 1000), hide: p.shape.hide };
+    delete p.shape;
+    p.eq.weapon = { t: 'staff', q: 1, e: 1, u: 'oakheart' };
+    if (!Game.hasPower('wild')) out.push('Oakheart in hand has no Wild power');
+    ready(ctx); Game.castSpell(shape);
+    const oak = { secs: Math.round((p.shape.until - Game.state().t) / 1000), hide: p.shape.hide };
+    if (oak.secs !== plain.secs + 10 || oak.hide !== plain.hide + 4) out.push(`with Oakheart the bear lasts ${oak.secs}s (plainly ${plain.secs}s), hide ${oak.hide} (plainly ${plain.hide})`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a druid is at home with the old stone, the pale caps and the mapmaker\'s finger; and Wildheart is a druid\'s win of thirty bears', async () => {
+    const out = [];
+    for (const [id, i, want] of [['shrine', 2, 2], ['fungus', 1, 4], ['mapmaker', 1, 2]]) {
+      const bonus = async cls => {
+        const c = await start(cls, 'knack-' + id, { levels: 6 });
+        const { Game, Dungeon } = c; const p = Game.player(), L = Game.level();
+        const [dx, dy] = Dungeon.DIRS[p.dir];
+        L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR; L.monsters.length = 0;
+        L.npcs = [{ id, kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+        Game.input('use');
+        return Game.encounterOptions()[i].knack;
+      };
+      const d = await bonus('druid'), f = await bonus('fighter');
+      if (d - f !== want) out.push(`${id}: a druid's knack ${d}, a fighter's ${f}`);
+    }
+    // the feat
+    const ctx = await newContext();
+    const { Game } = ctx;
+    const win = (cls, shapes, difficulty = 'normal') => {
+      Game.newGame({ name: 'W', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'wild-' + cls + shapes + difficulty, opts: { ...OPTS, permadeath: true, difficulty } });
+      Game.state().stats.shapes = shapes; winHere(Game); return Game.earned().firstFeats;
+    };
+    if (win('druid', 29).includes('wildheart')) out.push('twenty-nine bears earned Wildheart');
+    if (win('druid', 30, 'easy').includes('wildheart')) out.push('Wildheart was earned on Easy');
+    if (win('fighter', 40).includes('wildheart')) out.push('a fighter earned Wildheart');
+    if (!win('druid', 30).includes('wildheart')) out.push('thirty bears on Normal did not earn Wildheart');
     return out.length ? out.join('; ') : true;
   });
 

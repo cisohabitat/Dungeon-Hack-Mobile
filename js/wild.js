@@ -24,10 +24,10 @@ export function makeWild(K) {
   /** Whether the hero is a bear just now. */
   const shaped = (p = K.P()) => !!(p && p.shape && p.shape.until > K.G.t);
   /** How long the bear lasts: a Shapeshifter's longer. */
-  const duration = () => (K.onPath('shapeshifter') ? 45000 : SHAPE_MS);
+  const duration = () => (K.onPath('shapeshifter') ? 45000 : SHAPE_MS) + (K.hasPower('wild') ? 10000 : 0);
   /** How thick the hide is: 3 and 1 a level, 8 more with Old Hide, and half again with Thick Hide. */
   function hideFor(p) {
-    const base = 3 + p.level + (K.capped('old_hide') ? 8 : 0);
+    const base = 3 + p.level + (K.capped('old_hide') ? 8 : 0) + (K.hasPower('wild') ? 4 : 0);
     return Math.round(base * (K.hasTalent('thick_hide') ? 1.5 : 1));
   }
   /** What the claws add, beyond the die: a Shapeshifter's, more for a Dire Bear. */
@@ -41,6 +41,7 @@ export function makeWild(K) {
     const p = K.P(), G = K.G;
     const hide = hideFor(p);
     p.shape = { until: G.t + duration(), hide, full: hide };
+    if (G.stats) G.stats.shapes = (G.stats.shapes || 0) + 1;
     K.log(`You drop to all fours, and rise a bear: claws, a thick hide (${hide}), and ${Math.round(duration() / 1000)} seconds before the shape slips.`, 'good');
   }
   /** Let the bear go: its time is up, its hide is torn through, or the druid would speak. */
