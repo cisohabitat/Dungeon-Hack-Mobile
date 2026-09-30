@@ -2350,21 +2350,28 @@ const Game = (() => {
     if (pc.k === 'slick') return (pc.line || [[pc.x, pc.y]]).some(([x, y]) => { const f = (L.fields || {})[key(x, y)]; return f && f.k === 'oil'; });
     if (pc.casks && !pc.casks.some(caskAt)) return false;
     if (pc.k === 'barricade') return tile(pc.x, pc.y) === T.DOOR_LOCKED;
-    return !pc.uids || L.monsters.some(m => pc.uids.includes(m.uid) && !m.awake);
+    return !pc.uids || L.monsters.some(m => pc.uids.includes(m.uid));
   }
+  // a scene is named as soon as it can be seen: from further than a sleeping group
+  // hears a hero come (six squares), or a cache was named only once it had woken
+  const PIECE_SIGHT = 7;
   /** A scene laid out for fire is named as the hero comes within sight of it. */
   function notePieces() {
     const L = lvl(), p = P();
     for (const pc of L.pieces || []) {
-      if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > 4) continue;
+      if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > PIECE_SIGHT) continue;
       // seen from the scene's own squares: a locked door is seen from a cask beside it
       const from = pc.k === 'barricade' && pc.casks ? pc.casks : [[pc.x, pc.y], ...(pc.casks || []), ...(pc.line || [])];
       if (!from.some(([x, y]) => inSight(x, y))) continue;
       pc.said = true;
       if (!pieceStands(L, pc)) continue;
-      log(pc.k === 'cache' ? `Oil casks stand among the sleeping ${MONSTERS[pc.who] ? MONSTERS[pc.who].name.toLowerCase() + 's' : 'creatures'}. It would take only a spark.`
+      // (asleep only while they all are; a barricade by the casks seen from this side of the door)
+      const group = pc.k === 'cache' ? L.monsters.filter(m => (pc.uids || []).includes(m.uid)) : [];
+      const asleep = group.every(m => !m.awake) ? 'sleeping ' : '';
+      const seen = (pc.casks || []).filter(([x, y]) => inSight(x, y) && (L.dressing || []).some(q => q.k === 'oilcask' && q.x === x && q.y === y)).length;
+      log(pc.k === 'cache' ? `Oil casks stand among the ${asleep}${MONSTERS[pc.who] ? MONSTERS[pc.who].name.toLowerCase() + 's' : 'creatures'}. It would take only a spark.`
         : pc.k === 'slick' ? 'The passage here is slick with spilt lamp oil, where anything coming through must cross it.'
-          : 'Oil casks are stacked against the locked door. A door burns as well as it opens.', 'info');
+          : `${seen === 1 ? 'An oil cask stands' : 'Oil casks are stacked'} against the locked door. A door burns as well as it opens.`, 'info');
     }
   }
   /** A barrel, crate or urn on this square, if one stands there. */
@@ -2395,8 +2402,10 @@ const Game = (() => {
     if (found) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(found);
     if (found && found.t === 'gold') floatText({ rx: cx - 0.5, ry: cy - 0.5 }, `+${found.q}`, '#ffd24a');
     if (burst) return;
-    if (d.k === 'oilcask') elements.spill(d.x, d.y);
-    log(`${(kicked ? KICK_WORDS : SMASH_WORDS)[d.k]}${!found ? ': nothing inside.' : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
+    // a cask's oil was what was inside: said after the staves give, not before, and no "nothing inside"
+    const cask = d.k === 'oilcask';
+    log(`${(kicked ? KICK_WORDS : SMASH_WORDS)[d.k]}${!found ? (cask ? '.' : ': nothing inside.') : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
+    if (cask) elements.spill(d.x, d.y);
   }
   /** Sparks where a blow was turned aside. */
   function sparks(m) { spray(m, 'spark', 0.05, false); }
@@ -2661,7 +2670,13 @@ const Game = (() => {
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your companion'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
-    else if (tag === 'burning' || tag === 'blaze') { log(`The ${mb.name} burns for ${dmg}.`); }
+    else if (tag === 'burning' || tag === 'blaze') {
+      // standing in flames, the first tick is told and the rest show on the creature, so the
+      // log keeps room for warnings (a burn it carries, Kindling's, is short and told whole)
+      const inFire = (elements.fieldAt(m.x, m.y) || {}).k === 'fire';
+      if (!inFire || !(m.burnSaid > G.t)) log(`The ${mb.name} burns for ${dmg}.`);
+      if (inFire) m.burnSaid = G.t + 2500;
+    }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
@@ -3491,9 +3506,17 @@ const Game = (() => {
         const targets = boltTargets(spellRange(sp), sp.pierce);
         spellFx(look[0], sp.color, look[1], targets, spellRange(sp));
         if (!targets.length) {
-          log(`Your ${sp.name} strikes nothing.`);
           // fire that strikes nothing still lands somewhere: on spilt oil, or moss, it catches
-          if (spellElement(sp) === 'fire') { const end = boltEnd(spellRange(sp)); if (end) elements.scorch(end.x, end.y); }
+          // (and says so, not that it struck nothing, with the fire's own line kept back)
+          const end = spellElement(sp) === 'fire' ? boltEnd(spellRange(sp)) : null, kind = end ? elements.fuel(end.x, end.y) : '';
+          if (end && kind) {
+            log(`Your ${sp.name} sets the ${kind === 'oil' ? 'oil' : 'moss'} alight!`, 'good');
+            lvl().fireSaid = G.t + 4000;
+            elements.scorch(end.x, end.y);
+          } else {
+            log(`Your ${sp.name} strikes nothing.`);
+            if (end) elements.scorch(end.x, end.y);
+          }
           break;
         }
         // an Empowered or Radiant spell says so in every line it hits with
@@ -4759,7 +4782,7 @@ const Game = (() => {
     currentEncounter: () => encs.current(), encounterOptions: () => encs.encounterOptions(), chooseEncounter: i => encs.chooseEncounter(i), closeEncounter: () => encs.closeEncounter(),
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
-    fieldAt: (x, y) => elements.fieldAt(x, y),
+    fieldAt: (x, y) => elements.fieldAt(x, y), wet: (x, y) => !!(G && elements.wet(x, y)),
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

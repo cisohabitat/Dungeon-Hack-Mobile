@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30h', text: 'on a Hard Long Delve a ranger\'s shots and blows now grow with the deep floors; more testing aids in the Menu: show every monster on the map, reveal a floor, gain a level, be given any item, and go straight to any floor' };
+  const NEWS = { id: '2026-09-30i', text: 'the status line now says when you stand in spilt oil or a puddle; a scene laid for fire is named as soon as you can see it; creatures burning in flames no longer fill the log; on a Hard Long Delve a ranger\'s shots and blows grow with the deep floors; more testing aids in the Menu, among them show every monster' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -630,7 +630,7 @@ const UI = (() => {
     spores: 'A <b>puffcap</b>. Strike it from beside it and it bursts in <b>spores</b> that poison. <b>Shoot it</b> or cast at it from further off, or put <b>fire</b> on your blade first: fire oil sears the spores.',
     firepot: 'A <b>lit pot of oil</b>. <b>Step aside</b>, out of its line: it bursts in flames where you stood and on the square behind, and burns there a while.',
     chill: 'A <b>grave-cold</b> creeping over the stones at your feet. <b>Step aside</b>, out of its line: stay and you are frozen fast a moment.',
-    storm: 'Lightning called down into the <b>water</b> you stand in. <b>Get out of the water</b>, or at least aside: water beside you still carries half of it.',
+    storm: 'Lightning called down into the <b>water</b> you stand in. <b>Get out of the water</b>, or at least <b>step aside</b>: water beside you still carries half of it, but no more.',
     firearrow: 'A <b>burning arrow</b>, aimed at your feet: what you stand on will burn. <b>Step aside</b>, then keep clear as the flames spread.',
     breath: 'Fire kindles in its throat. <b>Step in close</b>, under its jaws, or <b>out of its line</b>. Stepping back keeps you in the fire.',
     drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes from your maximum hit points is gone for good.',
@@ -893,7 +893,8 @@ const UI = (() => {
     if (p.cls !== 'druid' && puffcapNear(3) && showTip('spores', true)) return;
     // the elements at work on the place: a fire near, an oil cask beside you, and water to a caster who can use it
     if (Object.keys(L.fields || {}).some(k => L.fields[k].k === 'fire' && (([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) <= 5)(k.split(',').map(Number))) && showTip('fire', true)) return;
-    if ((L.dressing || []).some(q => q.k === 'oilcask' && Math.abs(q.x - p.x) + Math.abs(q.y - p.y) <= 2) && showTip('cask')) return;
+    // (and as soon as a scene of casks is named, before one has been broken unknowing)
+    if (((L.dressing || []).some(q => q.k === 'oilcask' && Math.abs(q.x - p.x) + Math.abs(q.y - p.y) <= 2) || (L.pieces || []).some(pc => pc.said && pc.casks)) && showTip('cask')) return;
     if (L.twist === 'flooded' && Game.knownSpells().some(sp => sp.element === 'lightning' || sp.element === 'cold') && showTip('water')) return;
     // a drowned one risen, or an eyeless awake and near: each told once
     if (kinNear('drowned', 3) && showTip('drowned', true)) return;
@@ -997,7 +998,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested()].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot()].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -1023,6 +1024,11 @@ const UI = (() => {
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
+    // what the hero stands in, which the view cannot show under their own feet: a burning
+    // arrow looks for oil, and an acolyte's lightning for water
+    const under = underfoot();
+    if (under === 'oil') st.push('<span class="bad" title="Spilt lamp oil under your feet: fire here would catch">Oil underfoot</span>');
+    else if (under === 'water') st.push('<span class="bad" title="A puddle under your feet: lightning here would find you">In water</span>');
     if (secs('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);
     // a blessing lasts minutes: counted in minutes, so the row does not tick every second
     // a ward (armour) or a blessing (to hit) bought or prayed for; both at once are Warded
@@ -2173,6 +2179,12 @@ const UI = (() => {
     ctx.restore();
   }
 
+  /** 'oil' or 'water' (a puddle; a flooded floor has its own chip) when the hero stands in it, else ''. */
+  function underfoot() {
+    const p = Game.player(), L = Game.level(), f = Game.fieldAt(p.x, p.y);
+    if (f && f.k === 'oil') return 'oil';
+    return L.twist !== 'flooded' && Game.wet(p.x, p.y) ? 'water' : '';
+  }
   /** The hound, if it is on this floor and standing. */
   function houndHere() {
     const c = Game.companion(), L = Game.level();

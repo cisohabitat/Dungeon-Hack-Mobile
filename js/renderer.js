@@ -1388,9 +1388,10 @@ const Renderer = (() => {
       const markY = Math.min(H - 4, Math.max(markLow, markAt));
       // Pushed down onto the drawing (a big one close in a short, sideways
       // view), the mark sat on its face, with the misses written over it: it
-      // moves out beside the head instead, where both can be seen.
+      // moves out beside the head instead, where both can be seen: but no further
+      // than the creature's own shoulder, or beside two foes it belonged to neither
       const pushed = s.tell && markLow > markAt + markSize * 0.5;
-      const markX = pushed ? Math.min(W - markSize, Math.round(screenX + sw * 0.3 + markSize * 0.7)) : Math.round(screenX);
+      const markX = pushed ? Math.min(W - markSize, Math.round(screenX + Math.min(sw * 0.3 + markSize * 0.7, sw * 0.4))) : Math.round(screenX);
       if (s.maxHp != null && seenR >= 0 && s.tell) Object.assign(shown[shown.length - 1], { markX, markY, markSize, midX: screenX, width: sw });
       // an ogre up close is taller than the view: its bar stays inside it,
       // and under the mark when a tip has pushed the mark down

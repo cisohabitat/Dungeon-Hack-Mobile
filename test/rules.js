@@ -11863,6 +11863,110 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('playtest fixes: Burning Hands on oil says it sets it alight; a kicked cask says so before its oil spills; flames tell a creature burning once; a flooded floor\'s storm says step aside and a step aside answers it', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at, cast } = await arena('mage', 'el-playtest');
+    L.twist = null;
+    // Burning Hands at spilt oil, with nothing standing there
+    const [ox, oy] = at(1);
+    L.fields[`${ox},${oy}`] = { k: 'oil' };
+    let mark = markLog(G);
+    cast('burning_hands');
+    let lines = linesSince(G, mark);
+    if (lines.some(l => /strikes nothing/.test(l))) out.push('Burning Hands on oil said it struck nothing');
+    if (!lines.some(l => /sets the oil alight/.test(l))) out.push(`Burning Hands on oil: ${lines.join(' / ')}`);
+    if ((Game.fieldAt(ox, oy) || {}).k !== 'fire') out.push('the oil did not catch');
+    if (countSaid(lines, /goes up in a sheet/) > 0) out.push('the fire\'s own line followed the spell\'s');
+    // a cask kicked over: its staves, then its oil, and nothing about nothing inside
+    L.fields = {}; L.dressing = [{ x: ox, y: oy, k: 'oilcask', ox: 0, oy: 0 }];
+    mark = markLog(G);
+    Game.input('forward');
+    lines = linesSince(G, mark);
+    const staves = lines.findIndex(l => /cask/i.test(l) && !/spills/.test(l)), spilt = lines.findIndex(l => /spills out/.test(l));
+    if (staves < 0 || spilt < 0 || staves > spilt) out.push(`a kicked cask told: ${lines.join(' / ')}`);
+    // (what a broken cask holds is rolled for its square: casks all round, so one holds nothing)
+    const dir0 = p.dir;
+    for (let k = 0; k < 4; k++) {
+      const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy;
+      if (L.tiles[y * L.w + x] !== Dungeon.T.FLOOR) continue;
+      L.fields = {}; L.dressing = [{ x, y, k: 'oilcask', ox: 0, oy: 0 }]; p.dir = k;
+      Game.input('forward');
+      lines = lines.concat(linesSince(G, mark));
+    }
+    p.dir = dir0;
+    if (lines.some(l => /nothing inside/.test(l))) out.push('a cask of oil had "nothing inside"');
+    // an orc standing in burning oil for five seconds: the first tick told, the rest not
+    L.fields = {}; L.dressing = []; L.monsters.length = 0;
+    const [fx, fy] = at(2);
+    const orc = put('orc', 2, 0, { hp: 999, maxHp: 999, nextAct: 1e12 });
+    L.fields[`${fx},${fy}`] = { k: 'fire', fuel: 'oil', until: G.t + 9000, spread: G.t + 9000, burn: G.t + 100, gen: 0 };
+    mark = markLog(G);
+    run(Game, G, 5000);
+    const told = countSaid(linesSince(G, mark), /burns for/);
+    if (orc.hp > 999 - 8) out.push(`the orc hardly burnt (${orc.hp})`);
+    if (told !== 1) out.push(`five seconds in the flames told the orc burning ${told} times`);
+    // the storm: on a flooded floor there is no getting out of the water
+    const warned = twist => {
+      L.twist = twist; L.fields = {};
+      for (let i = 0; i < 40; i++) {
+        L.monsters.length = 0; G.blowGate = 0;
+        const a = put('acolyte', 4, 0, { nextAct: G.t, hp: 80, maxHp: 80 });
+        const m0 = markLog(G);
+        run(Game, G, 30);
+        if (a.windup && a.windup.move === 'storm') return linesSince(G, m0).join(' / ');
+      }
+      return '';
+    };
+    const flooded = warned('flooded');
+    if (!/Step aside!/.test(flooded) || /Get out of the water/.test(flooded)) out.push(`on a flooded floor the storm warned: ${flooded}`);
+    // a step aside takes half, and is the answer there
+    L.monsters.length = 0; L.fields = {}; L.twist = 'flooded'; G.blowGate = 0;
+    delete Game.bestiary().acolyte;
+    const a = put('acolyte', 4, 0, { hp: 80, maxHp: 80 });
+    a.windup = { kind: 'move', move: 'storm', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until;
+    const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    p.x += sx; p.y += sy;
+    const hp0 = p.hp;
+    run(Game, G, 400);
+    if (!(p.hp < hp0)) out.push('a step aside in a flooded floor took nothing');
+    if (!(Game.bestiary().acolyte || {}).answer) out.push('a step aside from the storm on a flooded floor was not counted its answer');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a scene is named from seven squares, before a sleeping group hears the hero; asleep only while they all are; a barricade by the casks seen from this side', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-sight');
+    L.twist = null;
+    const said = (setup) => {
+      L.monsters.length = 0; L.dressing = [];
+      const pc = setup();
+      L.pieces = [pc];
+      const mark = markLog(G);
+      run(Game, G, 60);
+      return linesSince(G, mark).filter(l => /cask/i.test(l)).join(' / ');
+    };
+    const cache = awake => said(() => {
+      const a = put('goblin', 6, 0, { awake: false, nextAct: 1e12 }), b = put('goblin', 6, -1, { awake, nextAct: 1e12 });
+      const [cx, cy] = at(5, 1);
+      L.dressing.push({ x: cx, y: cy, k: 'oilcask', ox: 0, oy: 0 });
+      return { k: 'cache', x: a.x, y: a.y, who: 'goblin', uids: [a.uid, b.uid], casks: [[cx, cy]] };
+    });
+    // six squares off, with nothing between
+    const asleep = cache(false);
+    if (!/among the sleeping goblins/.test(asleep)) out.push(`a cache six squares off: ${asleep || 'not named'}`);
+    const stirring = cache(true);
+    if (!/among the goblins/.test(stirring)) out.push(`a cache with one awake: ${stirring || 'not named'}`);
+    // a locked door with a cask on this side and one beyond
+    const door = said(() => {
+      const [dx, dy] = at(4), [nx, ny] = at(3), [fx, fy] = at(5);
+      L.tiles[dy * L.w + dx] = Dungeon.T.DOOR_LOCKED;
+      L.dressing.push({ x: nx, y: ny, k: 'oilcask', ox: 0, oy: 0 }, { x: fx, y: fy, k: 'oilcask', ox: 0, oy: 0 });
+      return { k: 'barricade', x: dx, y: dy, casks: [[nx, ny], [fx, fy]] };
+    });
+    if (!/An oil cask stands against the locked door/.test(door)) out.push(`a barricade with one cask this side: ${door || 'not named'}`);
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('fire tricks respect the way: a nimble hero can save against a firepot; a pot or a burning arrow stops at a door shut in its flight; a charger pulls up at whatever stands before the fire; a burnt doorway stays open under oil', async () => {
     const out = [];
     const { Game, Dungeon, G, L, p, put, at } = await arena('thief', 'el-review3');

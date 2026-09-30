@@ -78,7 +78,7 @@ export function makeElements(K) {
     if (!(L.fireSaid > G.t)) {
       L.fireSaid = G.t + 4000;
       const seen = dist({ x, y }, K.P()) <= 6;
-      K.log(seen ? (kind === 'oil' ? 'The spilt oil goes up in a sheet of flame!' : 'The moss catches, and fire runs across the floor!') : 'Somewhere near, something is burning.', 'bad');
+      K.log(seen ? (kind === 'oil' ? 'The oil goes up in a sheet of flame!' : 'The moss catches, and fire runs across the floor!') : 'Somewhere near, something is burning.', 'bad');
       Sound.play('cast', K.heard({ x, y }, { spell: 'burning_hands' }));
     }
     return true;

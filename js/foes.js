@@ -283,7 +283,8 @@ export function makeFoes(K) {
       extra = { tx: p.x, ty: p.y };
     }
     else if (mv === 'storm') {
-      say = `The ${mb.name} raises a hand, and the air crackles over the water round you! Get out of the water!`;
+      // (on a flooded floor there is no getting out of the water: a step aside takes the worst of it off)
+      say = `The ${mb.name} raises a hand, and the air crackles over the water round you! ${K.lvl().twist === 'flooded' ? 'Step aside!' : 'Get out of the water!'}`;
       extra = { tx: p.x, ty: p.y };
     }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
@@ -567,6 +568,8 @@ export function makeFoes(K) {
         if (got.hero) {
           K.hurtPlayer(got.hero, got.hero === n ? `Lightning comes down into the water on you! (${got.hero})` : `The lightning strikes the water beside you, and runs through it into you! (${got.hero})`, m, 'an acolyte\'s lightning');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
+          // a step aside took the worst of it: on a flooded floor that is the whole of the answer
+          if (got.hero < n) K.learn(m.id, 'answer');
         } else if (K.wet(w.tx, w.ty)) { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         else K.log('Lightning comes down, but finds no water to run through.', 'good');
         m.moveReady = K.G.t + 8000;

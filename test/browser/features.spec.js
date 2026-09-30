@@ -1206,6 +1206,20 @@ test.describe('dungeon features', () => {
     await page.click('#m-test-eye');
     expect(errors).toEqual([]);
   });
+  test('the status line says when the hero stands in spilt oil or a puddle, which the view cannot show underfoot', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'underfoot', cls: 'fighter' });
+    await clearBoons(page);
+    await expect(page.locator('#hud-status')).not.toContainText('underfoot');
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.twist = null; L.fields = L.fields || {}; L.fields[`${p.x},${p.y}`] = { k: 'oil' }; });
+    await expect(page.locator('#hud-status')).toContainText('Oil underfoot');
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); delete L.fields[`${p.x},${p.y}`]; (L.dressing = L.dressing || []).push({ x: p.x, y: p.y, k: 'puddle', ox: 0, oy: 0 }); });
+    await expect(page.locator('#hud-status')).toContainText('In water');
+    await expect(page.locator('#hud-status')).not.toContainText('Oil underfoot');
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.dressing = L.dressing.filter(q => !(q.k === 'puddle' && q.x === p.x && q.y === p.y)); });
+    await expect(page.locator('#hud-status')).not.toContainText('In water');
+    expect(errors).toEqual([]);
+  });
   test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'living-afire' });

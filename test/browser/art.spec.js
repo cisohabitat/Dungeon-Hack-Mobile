@@ -110,6 +110,8 @@ test.describe('art', () => {
     const clear = Math.abs(c.markX - c.midX) - c.markSize * 0.62 >= c.width * 0.18 || c.markY <= c.top;
     expect(clear, `mark at ${Math.round(c.markX)},${Math.round(c.markY)}; the lich's middle ${Math.round(c.midX)}, top ${Math.round(c.top)}, width ${Math.round(c.width)}`).toBe(true);
     expect(c.markX + c.markSize * 0.62, 'the mark stays in the view').toBeLessThanOrEqual(await page.evaluate(() => Renderer.W));
+    // beside its head, but over its own shoulder: past it, beside two foes it could be either's
+    expect(Math.abs(c.markX - c.midX), 'the mark stays over the creature').toBeLessThanOrEqual(c.width * 0.4 + 1);
     expect(errors).toEqual([]);
   });
   for (const [label, vp] of Object.entries({ sideways: { width: 844, height: 390 }, upright: { width: 390, height: 844 } })) {

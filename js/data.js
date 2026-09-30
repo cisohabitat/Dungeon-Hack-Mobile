@@ -669,7 +669,7 @@ const MONSTERS = {
 const SPELLS = {
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
-    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you.' },
+    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you, and sets spilt oil or moss there alight.' },
     { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute. Bolts of magic break on it, and it takes half of the lich\'s storm.' },
     { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 5,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, element: 'lightning', color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
     { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, element: 'cold', color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
