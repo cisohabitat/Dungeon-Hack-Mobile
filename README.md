@@ -264,7 +264,7 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | 98% | about 97% |
 | Normal | 81% | 80% | 79% | 79% | 84% | 81% | about 81% |
-| Hard | 57% | 56% | 58% | 60% | 63% | 64% | about 59% |
+| Hard | 53% | 56% | 59% | 57% | 61% | 59% | about 57% |
 | Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | 83% | about 82% |
 | Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | 53% | about 58% |
 
@@ -279,7 +279,10 @@ Entangle, the two paths are within a few points of each other on Normal and Hard
 leaves the Druid where it was (Normal about 82%, Hard about 64%).
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
-fighter lowest, the ranger highest. Oils, charms, capstones and traders' jobs lifted it to about
+cleric lowest, the ranger highest. (The Hard row was measured again, both seed sets, after the
+dungeon began to answer the elements and goblins took to throwing fire: since it was last
+measured the cleric has slipped about four points, and the druid and ranger a few; the mage,
+whose Pyromancer now reaches three squares with Burning Hands, is where it was.) Oils, charms, capstones and traders' jobs lifted it to about
 61%, and its creatures were made a little sturdier (1.9 times as drawn, not 1.8) to bring it
 back; the bot uses every one of those tools, which a player will not always, so it was brought
 back to where it stood before them rather than to half. (It was once tuned to 42%, and later to
