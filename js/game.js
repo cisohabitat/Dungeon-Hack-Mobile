@@ -1671,7 +1671,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1852,7 +1852,7 @@ const Game = (() => {
     // says Attack; two buttons with one name read as a mistake
     if (monsterAt(tx, ty)) return 'Use';
     if (propAt(tx, ty)) return 'Break';
-    if (t === T.DOOR_OPEN) return 'Close';
+    if (t === T.DOOR_OPEN && !(lvl().burntDoors || {})[key(tx, ty)]) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
     if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
     // draughts underfoot the belt has no room for: say why they stay there
@@ -1961,6 +1961,9 @@ const Game = (() => {
   }
   function tryUnlock(x, y) {
     const L = lvl(), p = P();
+    // a door on fire is no more to be handled locked than unlocked
+    const fire = elements.fieldAt(x, y);
+    if (fire && fire.k === 'fire') { log('The door is burning: it is too hot to touch.', 'bad'); return false; }
     const color = L.locks[key(x, y)] || 'brass';
     const k = p.inv.find(it => it.t === 'key' && it.color === color);
     // the goblin opens it with a bent wire, quietly, where there is no key
@@ -2044,7 +2047,7 @@ const Game = (() => {
     const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
     return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
   }
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
@@ -2125,7 +2128,7 @@ const Game = (() => {
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
       const f = elements.fieldAt(tx, ty);
-      if (f && f.k === 'ash' && f.door) { log('The door lies burnt in the doorway. There is nothing left to shut.'); return; }
+      if ((lvl().burntDoors || {})[key(tx, ty)]) { log('The door lies burnt in the doorway. There is nothing left to shut.'); return; }
       if (f && f.k === 'fire') { log('Fire burns in the doorway.', 'bad'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
@@ -2242,6 +2245,91 @@ const Game = (() => {
     L.lampOil = true;
     const frng = new Rng(`${G.seed}|lampoil|${depth}`);
     for (const n of L.npcs || []) if (Array.isArray(n.stock) && !n.stock.some(s => s.t === 'lamp_oil')) n.stock.push({ t: 'lamp_oil', q: 2 + frng.int(0, 2), e: 0 });
+  }
+  // ---------- scenes laid out for fire ----------
+  // Now and then a floor sets a scene that shows what fire is for, and says no
+  // more than what is there: oil casks standing among a sleeping group, the
+  // way into a lair slick with spilt lamp oil, casks stacked against a locked
+  // door. A line in the log names it as the hero comes near. Its own dice, so
+  // the map's are not shifted; never on the first floor or the last.
+  const PIECE_CHANCE = 0.4;
+  function pieceLevel(L, depth) {
+    if (depth < 2 || L.isFinal) return;
+    const rng = new Rng(`${G.seed}|piece|${depth}`);
+    if (rng.next() >= PIECE_CHANCE) return;
+    const at = (x, y) => L.tiles[y * L.w + x];
+    const ends = [L.start, L.stairsUp, L.stairsDown].filter(Boolean);
+    const roomOf = (x, y) => L.roomId ? L.roomId[y * L.w + x] : -1;
+    const startRooms = new Set(ends.map(e => roomOf(e.x, e.y)).filter(r => r >= 0));
+    const free = (x, y) => at(x, y) === T.FLOOR && !L.monsters.some(m => m.x === x && m.y === y) && !(L.npcs || []).some(n => n.x === x && n.y === y)
+      && !(L.items[key(x, y)] || []).length && !(L.dressing || []).some(q => q.x === x && q.y === y) && !(L.traps || {})[key(x, y)]
+      && !ends.some(e => Math.abs(e.x - x) + Math.abs(e.y - y) <= 1);
+    const plain = m => !MONSTERS[m.id].boss && !MONSTERS[m.id].named && !m.sunk;
+    const cask = (x, y) => (L.dressing || (L.dressing = [])).push({ x, y, k: 'oilcask', ox: 0, oy: 0 });
+    const pieces = {
+      // casks among a sleeping group: a spark in the room, and the room goes up
+      cache: () => {
+        const byRoom = new Map();
+        for (const m of L.monsters) { const r = roomOf(m.x, m.y); if (r < 0 || startRooms.has(r) || !plain(m) || m.awake) continue; byRoom.set(r, [...(byRoom.get(r) || []), m]); }
+        const cands = [...byRoom.entries()].filter(([, ms]) => ms.length >= 2);
+        if (!cands.length) return null;
+        const [, ms] = cands[rng.int(0, cands.length - 1)];
+        let n = 0;
+        for (const m of ms) for (const [dx, dy] of DIRS) { if (n >= 3) break; const x = m.x + dx, y = m.y + dy; if (free(x, y) && roomOf(x, y) === roomOf(m.x, m.y)) { cask(x, y); n++; break; } }
+        return n >= 2 ? { k: 'cache', x: ms[0].x, y: ms[0].y, who: ms[0].id } : null;
+      },
+      // the way into a lair slick with oil: light it as they come through
+      slick: () => {
+        const lairs = [...new Set(L.monsters.filter(plain).map(m => roomOf(m.x, m.y)))].filter(r => r >= 0 && !startRooms.has(r));
+        for (const r of rng.shuffle(lairs)) {
+          // a square just outside the room, the start of a corridor into it
+          for (let i = 0; i < L.w * L.h; i++) {
+            const x = i % L.w, y = (i / L.w) | 0;
+            if (roomOf(x, y) !== -1 || at(x, y) !== T.FLOOR) continue;
+            if (!DIRS.some(([dx, dy]) => roomOf(x + dx, y + dy) === r || (at(x + dx, y + dy) === T.DOOR && DIRS.some(([ex, ey]) => roomOf(x + dx + ex, y + dy + ey) === r)))) continue;
+            // walk out along the corridor, laying oil on three squares of it
+            const line = [[x, y]];
+            let px = x, py = y, cx = x, cy = y;
+            for (let k = 0; k < 2; k++) {
+              const next = DIRS.map(([dx, dy]) => [cx + dx, cy + dy]).find(([nx, ny]) => at(nx, ny) === T.FLOOR && roomOf(nx, ny) === -1 && !(nx === px && ny === py) && !line.some(([lx, ly]) => lx === nx && ly === ny));
+              if (!next) break;
+              px = cx; py = cy; [cx, cy] = next; line.push(next);
+            }
+            if (line.length < 3 || !line.every(([lx, ly]) => free(lx, ly))) continue;
+            L.fields = L.fields || {};
+            for (const [lx, ly] of line) L.fields[key(lx, ly)] = { k: 'oil' };
+            return { k: 'slick', x, y };
+          }
+        }
+        return null;
+      },
+      // casks stacked against a locked door: break one, and a flame does what a key would
+      barricade: () => {
+        const doors = rng.shuffle(Object.keys(L.locks || {}).map(k => k.split(',').map(Number)).filter(([x, y]) => at(x, y) === T.DOOR_LOCKED));
+        for (const [x, y] of doors) {
+          const sides = DIRS.map(([dx, dy]) => [x + dx, y + dy]).filter(([sx, sy]) => free(sx, sy));
+          if (!sides.length) continue;
+          for (const [sx, sy] of sides) cask(sx, sy);
+          return { k: 'barricade', x, y };
+        }
+        return null;
+      },
+    };
+    for (const kind of rng.shuffle(Object.keys(pieces))) {
+      const piece = pieces[kind]();
+      if (piece) { L.pieces = [piece]; return; }
+    }
+  }
+  /** A scene laid out for fire is named as the hero comes within sight of it. */
+  function notePieces() {
+    const L = lvl(), p = P();
+    for (const pc of L.pieces || []) {
+      if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > 4) continue;
+      pc.said = true;
+      log(pc.k === 'cache' ? `Oil casks stand among the sleeping ${MONSTERS[pc.who] ? MONSTERS[pc.who].name.toLowerCase() + 's' : 'creatures'}. It would take only a spark.`
+        : pc.k === 'slick' ? 'The passage here is slick with spilt lamp oil, where anything coming through must cross it.'
+          : 'Oil casks are stacked against the locked door. A door burns as well as it opens.', 'info');
+    }
   }
   /** A barrel, crate or urn on this square, if one stands there. */
   const propAt = (x, y) => (tile(x, y) === T.FLOOR && (lvl().dressing || []).find(q => q.x === x && q.y === y && SMASHABLE.includes(q.k))) || null;
@@ -3918,6 +4006,7 @@ const Game = (() => {
     companion.turn();
     // fire spreads and burns, ice melts
     elements.tick();
+    notePieces();
     if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
     // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
@@ -4396,6 +4485,7 @@ const Game = (() => {
     get damageMonster() { return damageMonster; },
     get fieldAt() { return elements.fieldAt; }, get burnLine() { return elements.burnLine; },
     firepot: spots => elements.firepot(spots), fuelAt: (x, y) => elements.fuel(x, y), igniteWild: (x, y) => elements.ignite(x, y, 0, true),
+    rime: (x, y) => elements.rime(x, y), stormAt: (x, y, n) => elements.stormAt(x, y, n), wet: (x, y) => elements.wet(x, y),
     get castingName() { return castingName; },
     get assassinQuiet() { return assassinQuiet; },
     get elemental() { return elemental; },

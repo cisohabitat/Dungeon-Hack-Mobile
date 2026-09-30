@@ -187,7 +187,9 @@
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
  * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean, door?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero; an ash's door, where a door burnt through
  * @property {number} [fireSaid]  until when a fire catching is not told again
+ * @property {Object<string, boolean>} [burntDoors]  doorways whose doors have burnt through, keyed "x,y": nothing left to shut
  * @property {boolean} [lampOil]  its traders have been given their flasks of lamp oil (once, so one bought out stays so)
+ * @property {Array<{k: 'cache'|'slick'|'barricade', x: number, y: number, who?: string, said?: boolean}>} [pieces]  a scene laid out for fire on this floor, and whether it has been named yet
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast

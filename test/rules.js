@@ -11143,6 +11143,58 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('now and then a floor lays out a scene for fire (casks among sleepers, an oil-slick way in, casks at a locked door), the same for a seed, named once as the hero comes near', async () => {
+    const out = [];
+    const REAL = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+    const found = {};
+    for (let s = 0; s < 30 && Object.keys(found).length < 3; s++) {
+      const ctx = await start('fighter', 'scene-' + s, REAL);
+      const { Game } = ctx;
+      for (let d = 2; d <= 7; d++) {
+        Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
+        const L = Game.level();
+        for (const pc of L.pieces || []) if (!found[pc.k]) found[pc.k] = { ctx, seed: 'scene-' + s, depth: Game.state().depth, pc, L };
+      }
+    }
+    for (const k of ['cache', 'slick', 'barricade']) if (!found[k]) out.push(`no ${k} in thirty seeds`);
+    const DIRS4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    const casksBy = (L, x, y) => (L.dressing || []).filter(q => q.k === 'oilcask' && DIRS4.some(([dx, dy]) => q.x === x + dx && q.y === y + dy));
+    if (found.cache) {
+      const { L } = found.cache;
+      const beside = L.monsters.filter(m => casksBy(L, m.x, m.y).length).length;
+      if (beside < 2) out.push(`a cache had casks beside ${beside} sleepers`);
+    }
+    if (found.slick) {
+      const { L } = found.slick;
+      if (Object.values(L.fields || {}).filter(f => f.k === 'oil').length < 3) out.push('an oil-slick way in had under three squares of oil');
+    }
+    if (found.barricade) {
+      const { L, pc } = found.barricade;
+      if (L.tiles[pc.y * L.w + pc.x] !== found.barricade.ctx.Dungeon.T.DOOR_LOCKED) out.push('a barricade was not at a locked door');
+      if (!casksBy(L, pc.x, pc.y).length) out.push('no casks stood against the barricaded door');
+    }
+    // named once, as the hero comes near
+    if (found.cache) {
+      const { ctx, L, pc } = found.cache;
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; L.monsters.length = 0;
+      const mark = markLog(G);
+      p.x = pc.x; p.y = pc.y;
+      run(Game, G, 200); run(Game, G, 200);
+      const said = countSaid(linesSince(G, mark), /Oil casks stand among/);
+      if (said !== 1) out.push(`the cache was named ${said} times`);
+    }
+    // the same seed lays the same scene
+    if (found.slick) {
+      const again = await start('fighter', found.slick.seed, REAL);
+      let pc2 = null;
+      for (let d = 2; d <= found.slick.depth; d++) { again.Game.descend(); if (again.Game.forkPending()) again.Game.chooseRoute('crypts'); }
+      pc2 = (again.Game.level().pieces || [])[0];
+      if (!pc2 || pc2.k !== 'slick' || pc2.x !== found.slick.pc.x || pc2.y !== found.slick.pc.y) out.push(`the same seed laid ${JSON.stringify(pc2)}, not ${JSON.stringify(found.slick.pc)}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a cleric\'s prayer takes 0.85 seconds: slower than a druid\'s words or a mage\'s, quicker than it was (a second)', async () => {
     const out = [];
     const took = {};
@@ -11487,7 +11539,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
       if (aside) { p.x += sx; p.y += sy; }
       const mark = markLog(G);
-      run(Game, G, 130);
+      run(Game, G, 400);
       const f = Game.fieldAt(x0, y0);
       if (!f || f.k !== 'fire') out.push(`${aside ? 'stepping aside' : 'standing still'}: the moss where the arrow was aimed did not catch`);
       if (aside && !linesSince(G, mark).some(l => /where you stood/.test(l))) out.push('no word of the arrow missing');
@@ -11526,6 +11578,110 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (r.x !== rx || r.y !== ry) out.push(`the rat lunged into the fire (to ${r.x},${r.y})`);
     if (linesSince(G, mark).some(l => /lunges after/.test(l))) out.push('the rat lunged after the hero through the fire');
     p.x = was[0]; p.y = was[1];
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a wraith breathes a grave-cold at the feet of a hero a few squares off: stay and be frozen fast and chilled; step aside and it glazes the empty square', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put } = await arena('fighter', 'el-chill');
+    L.twist = null;
+    let n = 0;
+    for (let i = 0; i < 20; i++) { L.monsters.length = 0; L.fields = {}; const w = put('wraith', 3, 0, { nextAct: G.t, hp: 80, maxHp: 80 }); run(Game, G, 30); if (w.windup && w.windup.move === 'chill') n++; }
+    if (!n) out.push('a wraith three squares off never breathed its grave-cold in twenty chances');
+    for (const aside of [false, true]) {
+      L.monsters.length = 0; L.fields = {}; p.held = 0;
+      const w = put('wraith', 3, 0, { hp: 80, maxHp: 80 });
+      w.windup = { kind: 'move', move: 'chill', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; w.nextAct = w.windup.until;
+      const x0 = p.x, y0 = p.y, [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+      if (aside) { p.x += sx; p.y += sy; }
+      const hp0 = p.hp, mark = markLog(G);
+      run(Game, G, 400);
+      const f = Game.fieldAt(x0, y0);
+      if (!f || f.k !== 'ice') out.push(`${aside ? 'aside' : 'standing'}: no frost where it was breathed`);
+      if (!aside && (!(p.hp < hp0) || !(p.held > G.t - 1200) || p.heldBy !== 'ice')) out.push(`standing in the grave-cold: hp ${hp0}->${p.hp}, held ${p.held > G.t - 1200} by ${p.heldBy}`);
+      if (aside && (p.hp < hp0 || !linesSince(G, mark).some(l => /where you stood/.test(l)))) out.push('stepping aside from the grave-cold did not answer it');
+      p.x = x0; p.y = y0; p.held = 0;
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('an acolyte calls lightning into the water a hero stands in, never on dry stone: the full of it on the square, half through the water beside it', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put } = await arena('fighter', 'el-storm');
+    const tries = twist => {
+      L.twist = twist; let n = 0;
+      for (let i = 0; i < 25; i++) { L.monsters.length = 0; L.fields = {}; const a = put('acolyte', 4, 0, { nextAct: G.t, hp: 80, maxHp: 80 }); run(Game, G, 30); if (a.windup && a.windup.move === 'storm') n++; }
+      return n;
+    };
+    if (tries(null)) out.push('an acolyte called lightning at a hero on dry stone');
+    if (!tries('flooded')) out.push('an acolyte never called lightning at a hero in water in twenty-five chances');
+    L.twist = 'flooded';
+    const took = {};
+    for (const how of ['stay', 'aside']) {
+      L.monsters.length = 0; L.fields = {};
+      const a = put('acolyte', 4, 0, { hp: 80, maxHp: 80 });
+      a.windup = { kind: 'move', move: 'storm', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until;
+      const x0 = p.x, y0 = p.y, [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+      if (how === 'aside') { p.x += sx; p.y += sy; }
+      const hp0 = p.hp; run(Game, G, 400); took[how] = hp0 - p.hp;
+      p.x = x0; p.y = y0; G.blowGate = 0;
+    }
+    if (!(took.stay > 0)) out.push('lightning called on a hero standing in the water did not hurt');
+    if (!(took.aside > 0 && took.aside <= Math.ceil((12 + Math.floor(G.depth / 2)) / 2))) out.push(`a step aside in the water took ${took.aside}, not half`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('fire tricks respect the way: a nimble hero can save against a firepot; a pot or a burning arrow stops at a door shut in its flight; a charger pulls up at whatever stands before the fire; a burnt doorway stays open under oil', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('thief', 'el-review3');
+    L.twist = null;
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    const pot = (extra = {}) => { const g = put('goblin', 4, 0, { hp: 50, maxHp: 50 }); g.windup = { kind: 'move', move: 'firepot', at: G.t, until: G.t + 100, tx: p.x, ty: p.y, dx: -fx, dy: -fy, ...extra }; g.nextAct = g.windup.until; return g; };
+    // a Dex 30 hero turns from the worst of a pot now and then
+    p.stats.dex = 30;
+    let saved = 0;
+    for (let i = 0; i < 20 && !saved; i++) {
+      L.monsters.length = 0; L.fields = {}; G.blowGate = 0;
+      pot(); const mark = markLog(G); run(Game, G, 200);
+      if (linesSince(G, mark).some(l => /turn from the worst/.test(l))) saved++;
+    }
+    if (!saved) out.push('a Dex 30 hero never saved against a firepot in twenty');
+    // a door shut between the goblin and the hero takes the pot
+    L.monsters.length = 0; L.fields = {}; G.blowGate = 0;
+    const [dx, dy] = at(2);
+    pot();
+    L.tiles[dy * L.w + dx] = Dungeon.T.DOOR;
+    let hp0 = p.hp; run(Game, G, 250);
+    if (p.hp < hp0) out.push('a firepot came through a shut door');
+    const mine = Game.fieldAt(p.x, p.y);
+    if (mine && mine.k === 'fire') out.push('a firepot through a shut door lit the hero\'s square');
+    // and a burning arrow
+    L.monsters.length = 0; L.fields = {}; G.blowGate = 0;
+    L.twist = 'overgrown';
+    const a = put('archer', 4, 0, { hp: 50, maxHp: 50 });
+    a.windup = { kind: 'move', move: 'firearrow', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until;
+    run(Game, G, 250);
+    const f2 = Game.fieldAt(p.x, p.y);
+    if (f2 && f2.k === 'fire') out.push('a burning arrow through a shut door lit the hero\'s square');
+    L.twist = null; L.tiles[dy * L.w + dx] = Dungeon.T.FLOOR;
+    // an orc charging with a skeleton before the fire stops behind the skeleton, not on it
+    L.monsters.length = 0; L.fields = {}; G.blowGate = 0;
+    const o = put('orc', 4, 0, { hp: 200, maxHp: 200 }), sk = put('skeleton', 3, 0, { hp: 200, maxHp: 200 });
+    const [cx, cy] = at(2);
+    L.fields[`${cx},${cy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: 1e15, gen: 0, wild: true };
+    o.windup = { kind: 'move', move: 'charge', at: G.t, until: G.t + 50, dx: -fx, dy: -fy }; o.nextAct = o.windup.until;
+    run(Game, G, 150);
+    if (o.x === sk.x && o.y === sk.y) out.push('the charger pulled up on top of the skeleton');
+    // a burnt-through doorway under spilt oil still cannot be shut
+    L.monsters.length = 0; L.fields = {};
+    const [bx, by] = at(1);
+    L.tiles[by * L.w + bx] = Dungeon.T.DOOR;
+    L.fields[`${bx},${by}`] = { k: 'fire', fuel: 'door', until: G.t + 50, spread: 1e15, burn: 1e15, gen: 0 };
+    run(Game, G, 200);
+    L.fields[`${bx},${by}`] = { k: 'oil' };
+    G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('use');
+    if (L.tiles[by * L.w + bx] !== Dungeon.T.DOOR_OPEN) out.push('a burnt doorway under oil was pulled shut');
+    L.tiles[by * L.w + bx] = Dungeon.T.FLOOR;
     return out.length ? out.join('; ') : true;
   });
 

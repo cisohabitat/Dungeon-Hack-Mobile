@@ -213,6 +213,31 @@ export function makeElements(K) {
     for (const [x, y] of spots) if (open(x, y)) ignite(x, y, 0, true);
   }
 
+  /**
+   * A wraith's grave-cold on a square: ice over it (dry stone too) for a few
+   * seconds, and a fire there put out. @returns {boolean} whether it froze
+   */
+  function rime(x, y) {
+    if (!open(x, y)) return false;
+    const f = fieldAt(x, y);
+    if (f && f.k === 'fire') { delete fields()[K.key(x, y)]; return false; }
+    fields()[K.key(x, y)] = { k: 'ice', until: K.G.t + ICE_MS };
+    return true;
+  }
+  /**
+   * An acolyte's lightning called down on a square: the full of it there, and
+   * half through the water to anyone else wading within a square of it (not
+   * across ice). @returns {{hero: number, comp: number}} what reached the hero and the companion
+   */
+  function stormAt(x, y, dmg) {
+    const p = K.P(), water = wet(x, y) ? waterNear(x, y, 1) : new Set([K.key(x, y)]);
+    const half = Math.max(1, Math.ceil(dmg / 2));
+    const hero = p.x === x && p.y === y ? dmg : water.has(K.key(p.x, p.y)) && wet(p.x, p.y) ? half : 0;
+    const c = K.companionHere();
+    const comp = c && water.has(K.key(c.x, c.y)) && (wet(c.x, c.y) || (c.x === x && c.y === y)) ? half : 0;
+    return { hero, comp };
+  }
+
   /** A fire that reaches an oil cask still whole bursts it. */
   function burstCask(x, y, wild = false) {
     const L = lvl();
@@ -299,6 +324,8 @@ export function makeElements(K) {
     const L = lvl();
     if (K.tile(x, y) === K.T.DOOR || K.tile(x, y) === K.T.DOOR_LOCKED) K.setTile(x, y, K.T.DOOR_OPEN);
     if (L.locks) delete L.locks[K.key(x, y)];
+    // (kept apart from what lies on the floor, which oil or fire may cover again)
+    (L.burntDoors || (L.burntDoors = {}))[K.key(x, y)] = true;
     if (dist({ x, y }, K.P()) <= 6) K.log('The burning door gives way and falls in.', 'info');
     Sound.play('door', K.heard({ x, y }));
   }
@@ -312,5 +339,5 @@ export function makeElements(K) {
     return out;
   }
 
-  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, burstCask, burnLine, tick, view };
+  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, rime, stormAt, burstCask, burnLine, tick, view };
 }

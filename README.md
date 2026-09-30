@@ -262,11 +262,11 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Easy | 98% | 96% | 96% | 96% | 97% | 98% | about 97% |
+| Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
 | Normal | 81% | 78% | 79% | 81% | 79% | 85% | about 80% |
-| Hard | 58% | 56% | 59% | 57% | 61% | 59% | about 58% |
-| Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | 83% | about 82% |
-| Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | 53% | about 58% |
+| Hard | 61% | 55% | 60% | 61% | 60% | 60% | about 59% |
+| Long Delve (12 floors), Normal | 87% | 88% | 85% | 79% | 80% | 84% | about 84% |
+| Long Delve (12 floors), Hard | 66% | 69% | 57% | 58% | 53% | 54% | about 60% |
 
 The Druid's Normal and Hard rows are 400 runs each, two seed sets of 200 (`SEEDN=20`); its Easy
 and Long Delve rows are one set of 200. The overall figures are the first five classes'. Its bear
@@ -279,11 +279,14 @@ Entangle, the two paths are within a few points of each other on Normal and Hard
 leaves the Druid where it was (Normal about 82%, Hard about 64%).
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
-fighter lowest, the ranger highest. (The Normal and Hard rows were measured again, both seed
+fighter lowest, the cleric and the thief highest. (The Normal and Hard rows were measured again, both seed
 sets, after the dungeon began to answer the elements and goblins took to throwing fire. The
 cleric had slipped to 53% on Hard; its prayers now take 0.85 seconds, not a second, which brings
 it back to 58% (a d10 hit die, tried instead, overshot to 63%). The mage, whose Pyromancer now
-reaches three squares with Burning Hands for a point more, is where it was.) Oils, charms, capstones and traders' jobs lifted it to about
+reaches three squares with Burning Hands for a point more, is where it was. Every row was
+measured again after that; the Hard and Long Delve Hard rows last, with the scenes laid out
+for fire, the wraith's grave-cold and the acolyte's lightning, which moved no class beyond
+the noise.) Oils, charms, capstones and traders' jobs lifted it to about
 61%, and its creatures were made a little sturdier (1.9 times as drawn, not 1.8) to bring it
 back; the bot uses every one of those tools, which a player will not always, so it was brought
 back to where it stood before them rather than to half. (It was once tuned to 42%, and later to

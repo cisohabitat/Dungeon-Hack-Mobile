@@ -182,7 +182,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -190,6 +190,7 @@ export function makeFoes(K) {
   const WARD_MS = 4000;     // how long the lich stays wrapped in shadow when its fight turns
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
   const HELD_MS = 1300;     // a ghoul's touch freezes you this long
+  const CHILL_HOLD = 1500;  // and a wraith's grave-cold, this long
   const NOVA_REACH = 2;     // the lich's cold fire reaches this far
   const THRONE_MS = 15000;  // the longest the Warlord sits his throne, shield-bearers or none
   const WARBAND = ['goblin', 'orc', 'archer'];   // who comes running to the Warlord's drum
@@ -221,7 +222,9 @@ export function makeFoes(K) {
     const p = K.P();
     // in the dark, a wounded lich turns to the Heart and drinks; strike it to break the rite
     const rite = mb.boss && m.id === 'lich' && (m.phase || 0) >= 2 && m.hp < m.maxHp && K.G.t >= (m.riteReady || 0);
-    const mv = rite ? 'rite' : mb.move;
+    // an acolyte at a hero wading in water calls lightning into it, in place of its chant
+    const storm = !rite && mb.storm && mb.ranged && K.wet(p.x, p.y) && K.G.t >= (m.moveReady || 0) && hasLineToPlayer(m, mb.ranged.range) && Math.random() < 0.4;
+    const mv = rite ? 'rite' : storm ? 'storm' : mb.move;
     if (!mv || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
     let say = '', extra = {};
     if (rite) say = `The ${mb.name} lifts its hands toward the Heart and begins to drink its light! Strike it to break the rite!`;
@@ -274,6 +277,15 @@ export function makeFoes(K) {
       say = `The ${mb.name} touches a burning arrow to its bow, aimed at your feet! Step aside!`;
       extra = { tx: p.x, ty: p.y };
     }
+    // a wraith breathes a grave-cold across the stones at the feet of a hero a few squares off
+    else if (mv === 'chill' && hasLineToPlayer(m, 3) && Math.random() < 0.5) {
+      say = `The ${mb.name} breathes out a grave-cold that creeps across the stones toward you! Step aside!`;
+      extra = { tx: p.x, ty: p.y };
+    }
+    else if (mv === 'storm') {
+      say = `The ${mb.name} raises a hand, and the air crackles over the water round you! Get out of the water!`;
+      extra = { tx: p.x, ty: p.y };
+    }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
@@ -306,6 +318,8 @@ export function makeFoes(K) {
         if (inLine) for (let i = 1, x = m.x, y = m.y; i <= 6; i++) {
           x += w.dx || 0; y += w.dy || 0;
           if (x === p.x && y === p.y) break;
+          // (something standing in the way stops the line before the fire does)
+          if (!K.passable(x, y) || K.monsterAt(x, y) || K.npcAt(x, y) || K.companionAt(x, y)) break;
           if (flames(x, y)) { short = { x: x - (w.dx || 0), y: y - (w.dy || 0) }; break; }
         }
         // a door shut across its line stops it cold: it hits the door, not you
@@ -488,9 +502,16 @@ export function makeFoes(K) {
         break;
       }
       case 'firepot': {
-        // it bursts where the hero stood when it was lit, and on the square behind, down its line
-        const spots = [[w.tx, w.ty], [w.tx + w.dx, w.ty + w.dy]];
-        Sound.play('smash', K.heard({ x: w.tx, y: w.ty }));
+        // it bursts where the hero stood when it was lit, and on the square behind, down its line;
+        // a door shut or a wall in its flight takes it, and it bursts short of that (six squares at most)
+        let spots = [[w.tx, w.ty], [w.tx + w.dx, w.ty + w.dy]], short = false;
+        for (let i = 1, x = m.x, y = m.y; i <= 6; i++) {
+          x += w.dx; y += w.dy;
+          if (!K.passable(x, y)) { spots = [[x - w.dx, y - w.dy]]; short = true; break; }
+          if (x === w.tx && y === w.ty) break;
+          if (i === 6) { spots = [[x, y]]; short = true; }
+        }
+        Sound.play('smash', K.heard({ x: spots[0][0], y: spots[0][1] }));
         const hit = spots.some(([x, y]) => p.x === x && p.y === y);
         K.firepot(spots);
         if (hit) {
@@ -498,17 +519,54 @@ export function makeFoes(K) {
           const n = Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 2)) / (c.pass ? 2 : 1)));
           K.hurtPlayer(n, `The pot bursts over you in a sheet of flame for ${n}!${c.pass ? ' You turn from the worst of it.' : ''}${c.note}`, m, 'a goblin\'s firepot');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
-        } else { K.log(`The pot bursts in flames where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        } else if (short) K.log('The pot bursts in flames short of you.', 'good');
+        else { K.log(`The pot bursts in flames where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         m.moveReady = K.G.t + 9000;
         m.nextAct = K.G.t + mb.speed;
         break;
       }
       case 'firearrow': {
-        // the arrow comes at the feet it was aimed at: if they are still there, it is a shot at the hero as any other
-        const still = p.x === w.tx && p.y === w.ty && hasLineToPlayer(m, mb.ranged.range);
-        if (still) rangedAttack(m);
-        else { K.log(`The burning arrow thuds into the ground where you stood.`, 'good'); K.learn(m.id, 'answer'); Sound.play('arrow', K.heard(m)); }
-        K.igniteWild(w.tx, w.ty);
+        // the arrow flies at the feet it was aimed at, if nothing stands or shuts in its way
+        let clear = true;
+        for (let x = m.x, y = m.y, i = 0; i < 12; i++) {
+          x += Math.sign(w.tx - m.x); y += Math.sign(w.ty - m.y);
+          if (x === w.tx && y === w.ty) break;
+          if (!K.passable(x, y) || K.monsterAt(x, y) || K.npcAt(x, y) || K.companionAt(x, y)) { clear = false; break; }
+        }
+        Sound.play('arrow', K.heard(m));
+        if (!clear) K.log(`The ${mb.name}'s burning arrow strikes something in its way.`);
+        else if (p.x === w.tx && p.y === w.ty) { rangedAttack(m); K.G.blowGate = K.G.t + K.BLOW_GAP; }
+        else { K.log(`The burning arrow thuds into the ground where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        if (clear) K.igniteWild(w.tx, w.ty);
+        m.moveReady = K.G.t + 8000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'chill': {
+        // the frost takes the square it was breathed at; a hero still on it is frozen fast
+        const froze = K.rime(w.tx, w.ty);
+        Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));
+        if (froze && p.x === w.tx && p.y === w.ty) {
+          const warm = K.hasPower('warmth');
+          const n = Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 3)) / (warm ? 2 : 1)));
+          K.hurtPlayer(n, `The grave-cold closes round your feet, and you are frozen fast! (${n})${warm ? ` ${K.warmthFrom(true)} keeps out the worst of it.` : ''}`, m, 'a wraith\'s grave-cold');
+          if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + CHILL_HOLD)) { p.held = K.G.t + CHILL_HOLD; p.heldBy = 'ice'; }
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+        } else { K.log(`Frost glazes the stones where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        m.moveReady = K.G.t + 7000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'storm': {
+        // it comes down where the hero stood; the water carries half of it a square further
+        const n = d(2, 6) + Math.floor(K.G.depth / 2);
+        const got = K.stormAt(w.tx, w.ty, n);
+        Sound.play('cast', K.heard({ x: w.tx, y: w.ty }, { spell: 'lightning' }));
+        if (got.comp) K.companionHurt(got.comp, 'The lightning runs through the water into');
+        if (got.hero) {
+          K.hurtPlayer(got.hero, got.hero === n ? `Lightning comes down into the water on you! (${got.hero})` : `The lightning strikes the water beside you, and runs through it into you! (${got.hero})`, m, 'an acolyte\'s lightning');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+        } else { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         m.moveReady = K.G.t + 8000;
         m.nextAct = K.G.t + mb.speed;
         break;
@@ -871,7 +929,7 @@ export function makeFoes(K) {
     Sound.play('namedfall', K.heard(m));
     const L = K.lvl();
     let ran = 0;
-    for (const o of L.monsters) if (WARBAND.includes(o.id)) { o.fleeing = true; o.awake = true; ran++; }
+    for (const o of L.monsters) if (WARBAND.includes(o.id)) { o.fleeing = true; o.awake = true; o.windup = null; o.volley = null; ran++; }
     const k = K.key(m.x, m.y);
     (L.items[k] = L.items[k] || []).push({ t: 'gold', q: Dice.int(20, 30) * K.G.depth });
     K.log(`The ${MONSTERS[m.id].name} crashes down among his plunder${ran ? ', and his warband breaks and scatters into the Warrens' : ''}.`, 'good');
