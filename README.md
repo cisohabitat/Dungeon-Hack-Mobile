@@ -266,11 +266,13 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Normal | 81% | 78% | 79% | 81% | 79% | 85% | about 80% |
 | Hard | 61% | 55% | 60% | 61% | 60% | 60% | about 59% |
 | Long Delve (12 floors), Normal | 87% | 88% | 85% | 79% | 80% | 84% | about 84% |
-| Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 54% | 57% | about 61% |
+| Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 58% | 57% | about 62% |
 
 On one seed set the Long Delve on Hard looked wide (the fighter 69%, the ranger 53%); the second
-set brings the fighter back to the others, but the ranger is the lowest on both (53% and 56%), a
-few points short of the rest on the deep floors.
+set brought the fighter back to the others, but the ranger was the lowest on both (53% and 56%),
+a few points short of the rest on the deep floors. Its shots and blows now grow 2% a floor there
+from the seventh, half the fighter's: 57% and 60% on the two sets (3% gave 56% and 65%, noisier
+and no surer). The Sharpshooter still trails the Warden there, about 58% to 72%.
 
 The Druid's Normal and Hard rows are 400 runs each, two seed sets of 200 (`SEEDN=20`); its Easy
 and Long Delve Normal rows are one set of 200, its Long Delve Hard row two. The overall figures are the first five classes'. Its bear
@@ -304,7 +306,7 @@ sturdier they get, capping the thief's dodge). The ranger's figure is the noisie
 have given it anything from 37% to 62%. It trailed at about 43% until the deep floors got
 monsters of their own (the blink hound, the quillback and the cave wyrm), whose tricks a bow
 answers well; over three seed sets it now wins about 49% with no help, and giving its blows
-the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest, so it has none. The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%. Measured again with capstones, oils, charms, jobs, the Warlord and Hard's sturdier creatures, the fighter and the ranger lead there and the thief trails, all within about seven points.
+the fighter's growth as well (2% or 4% a floor) put it near 55%, past the rest then, so it had none (once the rest rose past it, it was given half the fighter's; see above). The fighter trailed there at 37%, with no spell to grow with the floors, until a fighter's blows grew 4% a floor from the seventh, as a spell does 6%. Measured again with capstones, oils, charms, jobs, the Warlord and Hard's sturdier creatures, the fighter and the ranger lead there and the thief trails, all within about seven points.
 
 The hound (floor 2, on about two seeds in three; the bot always takes it) is worth three or four
 points everywhere: without it the same build wins about 74% on Normal, 51% on Hard, 74% and 53%

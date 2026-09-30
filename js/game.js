@@ -3889,8 +3889,13 @@ const Game = (() => {
   // And the fighter, whose one answer is the blow, fell behind there once the
   // casters were lifted (37% wins, the rest 40% to 59%): a fighter's blows grow
   // with the deep floors of a Hard Long Delve too, a little less than a spell.
-  const DEEP_STEEL = 0.04;
-  const deepSteel = () => (P().cls === 'fighter' && isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + DEEP_STEEL * (G.depth - 6) : 1);
+  // The ranger then trailed the rest there by about six points over two seed
+  // sets (54%, the others 57% to 65%): its shots and blows grow half as much.
+  const DEEP_STEEL = 0.04, DEEP_AIM = 0.02;
+  const deepSteel = () => {
+    const rate = P().cls === 'fighter' ? DEEP_STEEL : P().cls === 'ranger' ? DEEP_AIM : 0;
+    return rate && isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + rate * (G.depth - 6) : 1;
+  };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**
    * What a floor's twist changes when it is first made (dungeon.js deals the

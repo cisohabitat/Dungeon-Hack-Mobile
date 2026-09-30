@@ -4141,9 +4141,9 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors', async () => {
-  const hurt = async depth => {
-    const ctx = await start('fighter', 'deep-steel', { levels: 12, difficulty: 'hard' });
+await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors, a ranger\'s half as much; not on Normal', async () => {
+  const hurt = async (depth, cls = 'fighter', difficulty = 'hard') => {
+    const ctx = await start(cls, 'deep-steel', { levels: 12, difficulty });
     const { Game } = ctx;
     const G = Game.state(), p = Game.player();
     G.levels[depth] = G.levels[1]; G.depth = depth;
@@ -4155,11 +4155,15 @@ await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors', 
     for (let i = 0; i < 20; i++) { const hp = m.hp; G.t = Math.max(G.t, p.nextAttack || 0); Game.input('attack'); dealt += hp - m.hp; }
     return dealt;
   };
-  const shallow = await hurt(6), deep = await hurt(11);
-  if (!shallow) return 'no blow landed';
-  const r = deep / shallow;
-  // five floors past the sixth, 4% a floor
-  return (r > 1.12 && r < 1.28) || `blows on floor 11 were ${r.toFixed(2)} times those on floor 6`;
+  const out = [];
+  // five floors past the sixth: 4% a floor for a fighter, 2% for a ranger, none on Normal
+  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.12, 1.28], ['ranger', 'hard', 1.04, 1.16], ['ranger', 'normal', 0.97, 1.03]]) {
+    const shallow = await hurt(6, cls, diff), deep = await hurt(11, cls, diff);
+    if (!shallow) { out.push(`no ${cls} blow landed`); continue; }
+    const r = deep / shallow;
+    if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
+  }
+  return out.length ? out.join('; ') : true;
 });
 
 await test('a trader stands in the way of a charge and a shot', async () => {

@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30g', text: 'more testing aids in the Menu: show every monster on the map, reveal a floor, gain a level, be given any item, and go straight to any floor' };
+  const NEWS = { id: '2026-09-30h', text: 'on a Hard Long Delve a ranger\'s shots and blows now grow with the deep floors; more testing aids in the Menu: show every monster on the map, reveal a floor, gain a level, be given any item, and go straight to any floor' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
