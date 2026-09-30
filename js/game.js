@@ -13,6 +13,7 @@ import { encodeSave, decodeSave } from './savecode.js';
 import { makeCompanion } from './companion.js';
 import { makeBounty } from './bounty.js';
 import { makeWild } from './wild.js';
+import { makeElements } from './elements.js';
 import { makeEncounters } from './meet.js';
 
 // Core game state and rules.
@@ -270,7 +271,7 @@ const Game = (() => {
   // if it comes soon, cannot miss and lands as a telling blow. This is what
   // reading the violet mark buys, beyond the blow it spared you.
   /** Why the hero cannot act: knocked down by a charge, or frozen by a touch. */
-  const heldWhy = () => ({ down: 'You are still getting to your feet!', stone: 'Your limbs are stone!' }[P().heldBy || ''] || 'You are frozen in place!');
+  const heldWhy = () => ({ down: 'You are still getting to your feet!', stone: 'Your limbs are stone!', ice: 'Your feet are frozen into the ice!' }[P().heldBy || ''] || 'You are frozen in place!');
   const OPENING_MS = 2500;
   /** @param {import('./types.js').Monster} m */
   function opening(m) {
@@ -1320,6 +1321,7 @@ const Game = (() => {
               for (const m of targets) {
                 if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
                 hitGroup(m, elemental(m, pyroFire(d(4, 6)), 'fire'), 'burn');
+                elements.strike(m, 'fire', 0, 'spell');
               }
             } finally { castingName = ''; }
             break;
@@ -1631,7 +1633,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -2172,16 +2174,25 @@ const Game = (() => {
   // holds is its own, dealt from the seed and where it stands, so breaking
   // it after a reload finds the same: a little gold, a meal now and then, a
   // draught very rarely, most often nothing at all.
-  const SMASHABLE = ['barrel', 'crate', 'urn'];
-  const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters' };
-  const KICK_WORDS = { barrel: 'You kick the barrel over and its staves give way', crate: 'You kick the crate over and it splinters', urn: 'You knock the urn over and it shatters' };
+  const SMASHABLE = ['barrel', 'crate', 'urn', 'oilcask'];
+  const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters', oilcask: 'The cask\'s staves give way' };
+  const KICK_WORDS = { barrel: 'You kick the barrel over and its staves give way', crate: 'You kick the crate over and it splinters', urn: 'You knock the urn over and it shatters', oilcask: 'You kick the cask over and its staves give way' };
+  // A third of the barrels about the dungeon hold lamp oil (see elements.js),
+  // chosen from dice of their own when a floor is first made, so every other
+  // barrel, and the floor, fall as they always did.
+  const OIL_CASKS = 0.35;
+  /** @param {import('./types.js').Level} L */
+  function caskLevel(L, depth) {
+    const rng = new Rng(`${G.seed}|casks|${depth}`);
+    for (const q of L.dressing || []) if (q.k === 'barrel' && rng.next() < OIL_CASKS) q.k = 'oilcask';
+  }
   /** A barrel, crate or urn on this square, if one stands there. */
   const propAt = (x, y) => (tile(x, y) === T.FLOOR && (lvl().dressing || []).find(q => q.x === x && q.y === y && SMASHABLE.includes(q.k))) || null;
-  /** @param {import('./types.js').Level} L @param {import('./types.js').Dressing} d @param {boolean} [kicked] */
-  function smash(L, d, kicked) {
+  /** @param {import('./types.js').Level} L @param {import('./types.js').Dressing} d @param {boolean} [kicked] @param {boolean} [burst] burst by a fire: what spills, and what it held, are told by elements.js */
+  function smash(L, d, kicked, burst) {
     L.dressing.splice(L.dressing.indexOf(d), 1);
     const cx = d.x + 0.5 + d.ox, cy = d.y + 0.5 + d.oy;
-    const cols = d.k === 'urn' ? ['#9a5a3a', '#6a3a24', '#c9a24a'] : ['#7a5230', '#4e3320', '#a8844e'];
+    const cols = d.k === 'urn' ? ['#9a5a3a', '#6a3a24', '#c9a24a'] : d.k === 'oilcask' ? ['#4a3620', '#2e2214', '#8a6a3a'] : ['#7a5230', '#4e3320', '#a8844e'];
     // a burst of staves or shards, big enough to see past the swing
     for (let i = 0; i < 28; i++) {
       fx.bits.push({ x: cx, y: cy, z: 0.1 + look() * 0.35, vx: (look() - 0.5) * 2.6, vy: (look() - 0.5) * 2.6, vz: 0.9 + look() * 1.8,
@@ -2201,6 +2212,8 @@ const Game = (() => {
     else if (r < 0.4) found = { t: 'potion_heal', q: 1 };
     if (found) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(found);
     if (found && found.t === 'gold') floatText({ rx: cx - 0.5, ry: cy - 0.5 }, `+${found.q}`, '#ffd24a');
+    if (burst) return;
+    if (d.k === 'oilcask') elements.spill(d.x, d.y);
     log(`${(kicked ? KICK_WORDS : SMASH_WORDS)[d.k]}${!found ? ': nothing inside.' : found.t === 'gold' ? `, and ${found.q} gold spills out.` : ', and something rolls out.'}`, found ? 'good' : '');
   }
   /** Sparks where a blow was turned aside. */
@@ -2325,6 +2338,8 @@ const Game = (() => {
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
     // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
     const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
+    // fire on the blade sets alight whatever will burn where the blow lands
+    if (bladeLanded && !wild.shaped() && (hasPower('flame', 'weapon') || (p.coating && p.coating.t === 'fire' && p.coating.left > 0))) elements.strike(m, 'fire', 0, 'blade');
     // a critical blow in close is felt: the view jolts a little, less than a blow taken
     if (crit && !atRange && realNow >= fx.shakeUntil) { fx.shakeAmp = Math.min(3.5, 1.5 + dmg / 12); fx.shakeMs = 140; fx.shakeUntil = realNow + fxDelay + 140; }
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
@@ -2470,6 +2485,7 @@ const Game = (() => {
     else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
     else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
     else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'shock') { log(`The lightning runs through the water into the ${mb.name}${of} for ${dmg}.`); }
     else {
       const pre = { crit: 'A mighty blow! ', opening: 'You take the opening! ', lucky: 'A lucky blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
       log(castingName ? `Your ${castingName} hits the ${mb.name}${of} for ${dmg}.` : `${pre}You hit the ${mb.name}${of} for ${dmg}.${note || ''}`);
@@ -3270,6 +3286,7 @@ const Game = (() => {
         // an Empowered or Radiant spell says so in every line it hits with
         castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
         fxDelay = Math.round(look[1] * (SPELL_IMPACT[look[0]] || 0));
+        const struck = new Set();
         try {
           for (const m of targets) {
             if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
@@ -3294,6 +3311,8 @@ const Game = (() => {
             // fills the square, takes a whole group; a dart only the front one
             const tag = sp.fire ? 'burn' : 'fire';
             if (sp.pierce || sp.area) hitGroup(m, dmg, tag); else damageMonster(m, dmg, tag);
+            // and the place answers it: water carries the lightning, freezes in the cold; moss and oil burn
+            elements.strike(m, spellElement(sp), dmg, 'spell', struck);
           }
         } finally { castingName = ''; fxDelay = 0; }
         break;
@@ -3813,6 +3832,9 @@ const Game = (() => {
     updateMonsters();
     if (G.status !== 'playing') return;
     companion.turn();
+    // fire spreads and burns, ice melts
+    elements.tick();
+    if (G.status !== 'playing') return;
     // out of combat and unpursued, wounds close slowly on their own
     // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
     const regenTo = Math.ceil(p.maxHp * (p.bg === 'heartsworn' ? HEARTSWORN_CAP : REGEN_CAP));
@@ -4019,6 +4041,8 @@ const Game = (() => {
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
+    // flames standing on a burning square (its glow on the floor is drawn by the renderer)
+    for (const f of elements.view()) if (f.k === 'fire' && Assets.sprites.dress_flames) sprites.push({ x: f.x + 0.5, y: f.y + 0.5, img: Assets.sprites.dress_flames, scale: 0.5 + 0.07 * Math.sin(now / 110 + f.x * 7 + f.y * 3), yOff: 0, onFloor: true, glow: true });
     // what lies about the room for looks, and what the fallen left (puddles are drawn flat by the renderer)
     for (const d of (L.dressing || [])) {
       if (d.k !== 'puddle' && Assets.sprites['dress_' + d.k]) sprites.push({ x: d.x + 0.5 + d.ox, y: d.y + 0.5 + d.oy, img: Assets.sprites['dress_' + d.k], scale: DRESS_SIZE[d.k] || 0.34, yOff: 0, onFloor: true, dress: true });
@@ -4130,6 +4154,8 @@ const Game = (() => {
         if (!G.levels[dpt].dressing) {
           const hereNow = Number(dpt) === G.depth ? G.player : null;
           G.levels[dpt].dressing = Dungeon.dress(G.levels[dpt], G.seed).filter(d => !(hereNow && d.x === hereNow.x && d.y === hereNow.y));
+          // (its barrels hold oil as a floor made now would)
+          caskLevel(G.levels[dpt], Number(dpt));
         }
         stepAside(G.levels[dpt]);
       }
@@ -4270,6 +4296,7 @@ const Game = (() => {
     get cap() { return cap; },
     get cls() { return cls; },
     get damageMonster() { return damageMonster; },
+    get fieldAt() { return elements.fieldAt; }, get burnLine() { return elements.burnLine; },
     get castingName() { return castingName; },
     get assassinQuiet() { return assassinQuiet; },
     get elemental() { return elemental; },
@@ -4349,6 +4376,13 @@ const Game = (() => {
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
     get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; }, get hasPower() { return hasPower; },
   });
+  // ---------- the dungeon answers the elements: see elements.js ----------
+  const elements = makeElements({
+    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get tile() { return tile; }, get T() { return T; }, get key() { return key; },
+    get log() { return log; }, get floatText() { return floatText; }, get spray() { return spray; }, get heard() { return heard; }, get mstat() { return mstat; },
+    get damageMonster() { return damageMonster; }, get elemental() { return elemental; }, get hurtPlayer() { return hurtPlayer; }, get smash() { return smash; },
+    surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
+  });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
@@ -4386,6 +4420,7 @@ const Game = (() => {
     currentEncounter: () => encs.current(), encounterOptions: () => encs.encounterOptions(), chooseEncounter: i => encs.chooseEncounter(i), closeEncounter: () => encs.closeEncounter(),
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
+    fieldAt: (x, y) => elements.fieldAt(x, y),
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

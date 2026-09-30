@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-29l', text: 'every twisted floor has a creature of its own now: on a flooded floor the drowned lie under the water, seen only as a ripple, and on a dark floor eyeless stalkers hunt by sound (stand still and they lose you); and a puffcap is told the first time you meet one' };
+  const NEWS = { id: '2026-09-30a', text: 'the dungeon answers the elements: lightning runs through standing water (you too, if you wade close), cold freezes it and holds what stands there, fire spreads over moss and spilt oil, and some barrels are oil casks' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -624,6 +624,9 @@ const UI = (() => {
     quills: 'Its quills are up. <b>Hold your blow</b> until they sink: every blow struck into them bites you back. An arrow or a spell from further off is safe.',
     drowned: 'A <b>drowned one</b> has risen out of the water to seize you. <b>Step back</b> as it lurches and it grabs the air. Watch the black water for a <b>ripple</b> that does not settle: one lies under it.',
     eyeless: 'An <b>eyeless stalker</b>: it hunts by sound. <b>Stand still</b> and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.',
+    fire: '<b>Fire!</b> It spreads over moss and spilt oil and burns whatever stands in it, <b>you too</b>: step out of it. It burns out, and leaves ash that will not burn again.',
+    cask: 'An <b>oil cask</b>: the barrel with a flame burnt into it. Break it and lamp oil spills round it; any fire (a spell, a flaming blade, fire oil) sets the oil alight.',
+    water: 'Standing water carries <b>lightning</b> to everything in it within two squares (you too, if you are wading close), and <b>cold</b> freezes it, holding fast whatever stands there.',
     spores: 'A <b>puffcap</b>. Strike it from beside it and it bursts in <b>spores</b> that poison. <b>Shoot it</b> or cast at it from further off, or put <b>fire</b> on your blade first: fire oil sears the spores.',
     breath: 'Fire kindles in its throat. <b>Step in close</b>, under its jaws, or <b>out of its line</b>. Stepping back keeps you in the fire.',
     drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes from your maximum hit points is gone for good.',
@@ -863,6 +866,10 @@ const UI = (() => {
     if (readying('breath') && showTip('breath', true)) return;
     // a puffcap has no warning mark: its lesson comes as it comes close (a druid breathes its spores unharmed)
     if (p.cls !== 'druid' && puffcapNear(3) && showTip('spores', true)) return;
+    // the elements at work on the place: a fire near, an oil cask beside you, and water to a caster who can use it
+    if (Object.keys(L.fields || {}).some(k => L.fields[k].k === 'fire' && (([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) <= 5)(k.split(',').map(Number))) && showTip('fire', true)) return;
+    if ((L.dressing || []).some(q => q.k === 'oilcask' && Math.abs(q.x - p.x) + Math.abs(q.y - p.y) <= 2) && showTip('cask')) return;
+    if (L.twist === 'flooded' && Game.knownSpells().some(sp => sp.element === 'lightning' || sp.element === 'cold') && showTip('water')) return;
     // a drowned one risen, or an eyeless awake and near: each told once
     if (kinNear('drowned', 3) && showTip('drowned', true)) return;
     if (kinNear('eyeless', 6) && showTip('eyeless', true)) return;

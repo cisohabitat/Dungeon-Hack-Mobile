@@ -22,6 +22,27 @@ const DRESSING = {
     ball(16, 10, 6.5, 1.8, WOOD_LIGHT),
     ball(16, 10, 4.5, 1, WOOD_DARK),
   ],
+  // a cask of lamp oil: darker, oil-soaked staves, a black drip down its side,
+  // a stopper in the top, and a flame burnt into it so it reads as oil (see elements.js)
+  oilcask: () => [
+    // painted a warning red, so it reads as oil from across a room
+    sheet([[9.5, 10], [22.5, 10], [24, 20], [22.5, 31], [9.5, 31], [8, 20]], '#7a2a18', { curve: 1 }),
+    ...[11.5, 20.5].map(x => line(x, 11, x, 30, '#4a1a10')),
+    line(8.5, 13, 23.5, 13, IRON), line(8.5, 28, 23.5, 28, IRON),
+    ball(16, 10, 6.5, 1.8, '#9a4a2a'), ball(16, 10, 4.5, 1, '#3a140c'), ball(16, 9.6, 1.4, 1.1, '#c9a24a'),
+    // a big flame painted on its belly
+    sheet([[12.5, 26.5], [19.5, 26.5], [19, 22], [17.5, 23.5], [16, 16.5], [14.5, 23.5], [13, 22]], '#f0a020', { curve: 0.5 }),
+    sheet([[14.2, 26], [17.8, 26], [16, 20.5]], '#ffe070', { curve: 0.5 }),
+    // oil run down it and pooled at its foot
+    line(20.5, 11, 21, 18, '#140e08'), dots([[21, 19], [21, 20]], '#140e08'), ball(19, 31, 4, 0.8, '#1a120a'),
+  ],
+  // flames standing on a burning square (drawn over the flat glow of the fire; see elements.js)
+  flames: () => [
+    sheet([[8, 31], [11, 20], [13, 25], [16, 12], [19, 24], [21, 18], [24, 31]], '#d84a10', { curve: 0.6 }),
+    sheet([[10.5, 31], [13, 23], [16, 17], [19, 23], [21.5, 31]], '#f08a20', { curve: 0.6 }),
+    sheet([[13, 31], [15, 25], [16, 22], [17, 25], [19, 31]], '#ffd060', { curve: 0.6 }),
+    dots([[12, 17], [20, 14], [16, 9]], '#ffb040'),
+  ],
   // a slatted crate, braced corner to corner, seen a little from above
   crate: () => [
     sheet([[8, 17], [24, 17], [24, 31], [8, 31]], '#8a6a40', { tilt: [0, 0.1] }),
@@ -96,7 +117,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

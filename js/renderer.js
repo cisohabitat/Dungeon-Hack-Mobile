@@ -575,6 +575,25 @@ const Renderer = (() => {
     }
     return list;
   }
+  // Fire, ash, spilt oil and ice on the squares the elements have touched
+  // (elements.js): each square a patch on the floor, fire bright and flickering.
+  const FIELD_LOOK = { ash: ['#16130f', 0.42], oil: ['#2a1c0c', 0.44], ice: ['#a8cce4', 0.46] };
+  function fieldStains(level, now) {
+    const F = level.fields;
+    if (!F) return null;
+    const out = [];
+    for (const k in F) {
+      const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
+      if (f.k === 'fire') {
+        // embers across the square, a brighter heart that flickers
+        const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 90 + seed);
+        out.push({ x: x + 0.5, y: y + 0.5, r: 0.3, c: '#5a1c0a', seed, glow: true, solo: true });
+        out.push({ x: x + 0.5, y: y + 0.5, r: 0.14, c: flick > 0.5 ? '#e87a24' : '#c85a18', seed: seed + 3, glow: true, solo: true });
+      // (a burnt floor can be many squares: each is one patch, without the splashes round it)
+      } else if (FIELD_LOOK[f.k]) out.push({ x: x + 0.5, y: y + 0.5, r: FIELD_LOOK[f.k][1], c: FIELD_LOOK[f.k][0], seed, solo: f.k === 'ash' });
+    }
+    return out;
+  }
   function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm, now) {
     if (!list || !list.length) return;
     // a stain from a blow still in the air waits for it
@@ -592,11 +611,14 @@ const Renderer = (() => {
       const tx = x | 0, ty = y | 0;
       const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
       const f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
-      ctx.fillStyle = dim(c, f * 0.8, 0.7);
+      ctx.fillStyle = glow ? c : dim(c, f * 0.8, 0.7);
       ctx.beginPath(); ctx.ellipse(cx, cy, rx, Math.min(ry, rx), 0, 0, Math.PI * 2); ctx.fill();
     };
+    let glow = false;
     for (const st of list) {
+      glow = !!st.glow;
       blob(st.x, st.y, st.r, st.c);
+      if (st.solo) continue;
       for (let i = 0; i < 4; i++) {
         const a = hash(st.seed + i) * Math.PI * 2, d = st.r * (0.9 + hash(st.seed + i + 9) * 0.9);
         blob(st.x + Math.cos(a) * d, st.y + Math.sin(a) * d, st.r * (0.18 + hash(st.seed + i + 5) * 0.2), st.c);
@@ -1193,6 +1215,8 @@ const Renderer = (() => {
     // standing water first, blood over it
     drawStains(puddlesOf(level), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
+    // what the elements have left on the floor: ash, spilt oil, ice, and fire burning over them
+    drawStains(fieldStains(level, now), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -1317,6 +1341,8 @@ const Renderer = (() => {
       let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / fog * Assets.SHADES.length));
       const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
       if (sLm > 0) shadeIdx = Math.max(0, shadeIdx - Math.round(sLm / 7 * Assets.SHADES.length));
+      // what gives its own light (a fire's flames) is not darkened by the distance
+      if (s.glow) shadeIdx = 0;
       const img = (s.flash && now < s.flash) ? art.flash : art.levels[shadeIdx];
       let run = -1, seenL = W, seenR = -1;
       const fading = s.alpha != null && s.alpha < 1;

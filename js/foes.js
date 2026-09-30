@@ -450,6 +450,8 @@ export function makeFoes(K) {
         } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: ${(mb.named && mb.named.pron) || 'its'} fire roars out over your head, and ${mb.named && mb.named.pron ? 'she is' : 'it is'} left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         else { K.log(`The ${mb.name}'s fire roars down an empty passage, and leaves ${mb.named && mb.named.pron ? 'her' : 'it'} spent and open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         m.moveReady = K.G.t + 7000;
+        // and whatever will burn along its line catches
+        K.burnLine(m.x, m.y, w.dx, w.dy, 5);
         break;
       }
       case 'nova':
@@ -588,7 +590,7 @@ export function makeFoes(K) {
     }
     // a numbing claw is struck aside by a blow that lands first, and leaves it
     // open: a blow or a spell, not poison or fire already eating at it
-    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns', 'companion'].includes(tag)) {
+    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns', 'companion', 'shock'].includes(tag)) {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 900;
       K.log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
       K.learn(m.id, 'answer');
@@ -1150,6 +1152,9 @@ export function makeFoes(K) {
   function lurks(m, L, p) {
     const G = K.G;
     if (G.t < m.nextAct) return;
+    // it cannot come up through ice
+    const f = K.fieldAt(m.x, m.y);
+    if (f && f.k === 'ice') { m.nextAct = G.t + 400; return; }
     const di = K.distField[m.y * L.w + m.x];
     if (di >= 0 && di <= 2) surface(m, 'near');
     else m.nextAct = G.t + 400;
@@ -1157,7 +1162,7 @@ export function makeFoes(K) {
   /**
    * A drowned one comes up out of the water: come near, stepped into, or
    * struck in its ripple. It rises reaching for whoever is beside it.
-   * @param {'near'|'step'|'struck'} why
+   * @param {'near'|'step'|'struck'|'shock'} why
    */
   function surface(m, why) {
     const G = K.G, p = K.P(), mb = K.mstat(m);
@@ -1166,7 +1171,8 @@ export function makeFoes(K) {
     m.awake = true; m.blows = 1;
     K.spray(m, 'rot', 0.6, false);
     Sound.play('voice', K.heard(m, { who: m.id }));
-    K.log(why === 'struck' ? `Your blow finds something under the water, and a ${mb.name} heaves up out of it!`
+    K.log(why === 'shock' ? `The lightning finds something under the water, and a ${mb.name} heaves up out of it!`
+      : why === 'struck' ? `Your blow finds something under the water, and a ${mb.name} heaves up out of it!`
       : why === 'step' ? `You tread on something under the water. A ${mb.name} rises, reaching for you!`
         : `The black water heaves, and a ${mb.name} rises out of it!`, 'bad');
     K.meet(m, 'trick');

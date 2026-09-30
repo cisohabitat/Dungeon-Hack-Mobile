@@ -82,7 +82,7 @@
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
  * @property {number} [abilityReady]  when a fighter's Bash or a thief's Smoke can be used again
  * @property {number} [smokeUntil]  a thief's smoke hangs until then: nothing notices them by sight or sound
- * @property {'down'|'frozen'|'stone'} [heldBy]  what is holding the hero still while `held` lasts
+ * @property {'down'|'frozen'|'stone'|'ice'} [heldBy]  what is holding the hero still while `held` lasts
  * @property {{uid: number, until: number}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then
@@ -184,6 +184,8 @@
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
+ * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js)
+ * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast

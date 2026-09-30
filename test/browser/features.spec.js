@@ -1079,6 +1079,35 @@ test.describe('dungeon features', () => {
     expect(wet.blue).toBeGreaterThan(plain.blue + 3);
     expect(errors).toEqual([]);
   });
+  test('an oil cask is told once and kicked over spills oil; set alight it burns in the view, the fire is told, and it burns out to ash', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick', 'take', 'stairs', 'examine', 'trade', 'unknown', 'hurt', 'dice', 'quickscroll'])));
+    await startGame(page, { tips: true, seed: 'living-oil' });
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; L.fields = {}; document.getElementById('tip').classList.remove('show');
+      const p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir]; L.dressing.push({ x: p.x + dx, y: p.y + dy, k: 'oilcask', ox: 0, oy: 0 }); });
+    await page.evaluate(() => { const p = Game.player(); p.hp = p.maxHp = 500; });
+    await expect(page.locator('#tip')).toContainText('oil cask', { timeout: 3000 });
+    await page.evaluate(() => { document.getElementById('tip').classList.remove('show'); Game.input('forward'); });
+    const oil = () => page.evaluate(() => Object.values(Game.level().fields || {}).filter(f => f.k === 'oil').length);
+    await expect.poll(oil, { timeout: 3000 }).toBeGreaterThan(2);
+    // it tips away from the hero who kicked it
+    expect(await page.evaluate(() => { const p = Game.player(); return Game.fieldAt(p.x, p.y); })).toBeNull();
+    // the lower view before and after the oil is lit
+    const orange = () => page.evaluate(() => { const c = document.getElementById('view'), d = c.getContext('2d').getImageData(0, c.height / 2, c.width, c.height / 2).data; let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (d[i] > 190 && d[i + 1] > 70 && d[i + 1] < 190 && d[i + 2] < 90) n++; return n; });
+    await page.waitForTimeout(400);
+    const before = await orange();
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir], t = Game.state().t;
+      L.fields[`${p.x + dx},${p.y + dy}`] = { k: 'fire', fuel: 'oil', until: t + 4500, spread: t + 700, burn: t + 150, gen: 0 }; });
+    await page.waitForTimeout(700);
+    expect(await orange()).toBeGreaterThan(before + 150);
+    await expect(page.locator('#tip')).toContainText('Fire!', { timeout: 4000 });
+    // it burns through the oil and leaves ash
+    await expect.poll(() => page.evaluate(() => { const F = Object.values(Game.level().fields || {}); return F.length > 0 && F.every(f => f.k === 'ash'); }), { timeout: 12000 }).toBe(true);
+    expect(errors).toEqual([]);
+  });
   test('a puffcap is drawn in front of you, and a blow from beside it bursts it in spores', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'feat-puffcap' });
@@ -1172,7 +1201,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('drowned');
+    await expect(p2.locator('#news-text')).toContainText('oil casks');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);
