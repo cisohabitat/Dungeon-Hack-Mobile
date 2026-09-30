@@ -189,7 +189,7 @@
  * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {Object<string, boolean>} [burntDoors]  doorways whose doors have burnt through, keyed "x,y": nothing left to shut
  * @property {boolean} [lampOil]  its traders have been given their flasks of lamp oil (once, so one bought out stays so)
- * @property {Array<{k: 'cache'|'slick'|'barricade', x: number, y: number, who?: string, said?: boolean}>} [pieces]  a scene laid out for fire on this floor, and whether it has been named yet
+ * @property {Array<{k: 'cache'|'slick'|'barricade', x: number, y: number, who?: string, uids?: number[], casks?: number[][], line?: number[][], said?: boolean}>} [pieces]  a scene laid out for fire on this floor (its sleepers, casks or oil), and whether it has been named yet
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast

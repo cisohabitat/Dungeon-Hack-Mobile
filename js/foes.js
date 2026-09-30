@@ -516,7 +516,7 @@ export function makeFoes(K) {
         K.firepot(spots);
         if (hit) {
           const c = K.trickSave('dex', 'firepot');
-          const n = Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 2)) / (c.pass ? 2 : 1)));
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 2)) / (c.pass ? 2 : 1) / (K.hasTalent('stand_firm') ? 2 : 1))));
           K.hurtPlayer(n, `The pot bursts over you in a sheet of flame for ${n}!${c.pass ? ' You turn from the worst of it.' : ''}${c.note}`, m, 'a goblin\'s firepot');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else if (short) K.log('The pot bursts in flames short of you.', 'good');
@@ -544,11 +544,12 @@ export function makeFoes(K) {
       }
       case 'chill': {
         // the frost takes the square it was breathed at; a hero still on it is frozen fast
-        const froze = K.rime(w.tx, w.ty);
+        // (on a burning square it puts the fire out and leaves no ice, but the hero is caught all the same)
+        K.rime(w.tx, w.ty);
         Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));
-        if (froze && p.x === w.tx && p.y === w.ty) {
+        if (p.x === w.tx && p.y === w.ty) {
           const warm = K.hasPower('warmth');
-          const n = Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 3)) / (warm ? 2 : 1)));
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 3)) / (warm ? 2 : 1) / (K.hasTalent('stand_firm') ? 2 : 1))));
           K.hurtPlayer(n, `The grave-cold closes round your feet, and you are frozen fast! (${n})${warm ? ` ${K.warmthFrom(true)} keeps out the worst of it.` : ''}`, m, 'a wraith\'s grave-cold');
           if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + CHILL_HOLD)) { p.held = K.G.t + CHILL_HOLD; p.heldBy = 'ice'; }
           K.G.blowGate = K.G.t + K.BLOW_GAP;
@@ -559,14 +560,15 @@ export function makeFoes(K) {
       }
       case 'storm': {
         // it comes down where the hero stood; the water carries half of it a square further
-        const n = d(2, 6) + Math.floor(K.G.depth / 2);
+        const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1))));
         const got = K.stormAt(w.tx, w.ty, n);
         Sound.play('cast', K.heard({ x: w.tx, y: w.ty }, { spell: 'lightning' }));
         if (got.comp) K.companionHurt(got.comp, 'The lightning runs through the water into');
         if (got.hero) {
           K.hurtPlayer(got.hero, got.hero === n ? `Lightning comes down into the water on you! (${got.hero})` : `The lightning strikes the water beside you, and runs through it into you! (${got.hero})`, m, 'an acolyte\'s lightning');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
-        } else { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        } else if (K.wet(w.tx, w.ty)) { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        else K.log('Lightning comes down, but finds no water to run through.', 'good');
         m.moveReady = K.G.t + 8000;
         m.nextAct = K.G.t + mb.speed;
         break;

@@ -1124,7 +1124,7 @@ test.describe('dungeon features', () => {
       await page.click(id);
       await expect(page.locator(id)).toHaveText(`${word}: On`);
     }
-    expect(JSON.parse(await page.evaluate(() => localStorage.getItem('deepdelve.testing')))).toEqual({ hp: true, sp: true, gold: true });
+    expect(JSON.parse(await page.evaluate(() => localStorage.getItem('deepdelve.testing')))).toEqual({ hp: true, sp: true, gold: true, eye: false });
     await page.click('#ov-menu [data-close]');
     await expect(page.locator('#hud-status')).toContainText('Test run');
     // life, spell points and gold run full, and a killing blow does not kill
@@ -1140,6 +1140,70 @@ test.describe('dungeon features', () => {
     await page.waitForTimeout(300);
     expect(await page.evaluate(() => Game.player().gold)).toBe(7);
     expect(await page.evaluate(() => Game.tested())).toBe(true);
+    expect(errors).toEqual([]);
+  });
+  test('the Menu\'s testing tools: reveal the floor, show every monster, be given an item, gain a level and go to a floor', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'testing-tools', cls: 'fighter' });
+    await clearBoons(page);
+    // no monster's key on the map until they are shown
+    await page.click('[data-open="map"]');
+    await expect(page.locator('#map-legend [data-key="monster"]')).toBeHidden();
+    await page.click('#ov-map [data-close]');
+    // every monster on the map, and its key with it: even one on ground not yet seen
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-eye');
+    await expect(page.locator('#m-test-eye')).toHaveText('Show every monster: On');
+    await page.click('#ov-menu [data-close]');
+    await page.click('[data-open="map"]');
+    await expect(page.locator('#map-legend [data-key="monster"]')).toBeVisible();
+    await expect(page.locator('#map-note')).toContainText('every monster');
+    // a monster far off and asleep is drawn in its square, in the monster's red
+    const red = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), c = /** @type {HTMLCanvasElement} */ (document.querySelector('#map-canvas'));
+      const m = L.monsters.slice().sort((a, b) => (Math.abs(b.x - p.x) + Math.abs(b.y - p.y)) - (Math.abs(a.x - p.x) + Math.abs(a.y - p.y)))[0];
+      const size = Number(c.dataset.tile), ox = Number(c.dataset.originX), oy = Number(c.dataset.originY);
+      // (just inside the mark's dark edge, halfway down: clear of its letter)
+      const inX = Math.ceil(size * 0.1 + Math.max(1, Math.round(size / 10))) + 1;
+      const d = c.getContext('2d').getImageData((m.x - ox) * size + inX, (m.y - oy) * size + Math.round(size / 2), 1, 1).data;
+      return d[0] > 200 && d[1] < 90 && d[2] < 90;
+    });
+    expect(red).toBe(true);
+    await page.click('#ov-map [data-close]');
+    await expect(page.locator('#hud-status')).toContainText('Test run');
+    // the floor laid out, and the map opened on it
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-map');
+    await expect(page.locator('#ov-map')).toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.level().explored.every(v => v))).toBe(true);
+    await page.click('#ov-map [data-close]');
+    // an item handed over, and said so under the tools
+    await page.click('[data-open="menu"]');
+    await page.selectOption('#m-test-item', 'potion_mana');
+    await page.click('#m-test-give');
+    await expect(page.locator('#m-test-said')).toContainText('Potion of Clarity');
+    expect(await page.evaluate(() => Game.player().inv.some(i => i.t === 'potion_mana'))).toBe(true);
+    // a level gained: its choice takes the Menu's place
+    const level = await page.evaluate(() => Game.player().level);
+    await page.click('#m-test-level');
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.player().level)).toBe(level + 1);
+    await clearBoons(page);
+    // down past the divided stair, by the road picked
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-test-floor')).toHaveValue('2');
+    await expect(page.locator('#m-test-road')).toBeVisible();
+    await page.selectOption('#m-test-floor', '5');
+    await page.selectOption('#m-test-road', 'warrens');
+    await page.click('#m-test-go');
+    await expect(page.locator('#ov-menu')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => [Game.state().depth, Game.state().route])).toEqual([5, 'warrens']);
+    // the road taken, it is asked no more
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-test-road')).toBeHidden();
+    await expect(page.locator('#m-test-floor option:checked')).toHaveText('Floor 6');
+    await expect(page.locator('#m-test-floor option[value="5"]')).toHaveText('Floor 5 (here)');
+    await page.click('#m-test-eye');
     expect(errors).toEqual([]);
   });
   test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
@@ -1271,7 +1335,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('grave-cold');
+    await expect(p2.locator('#news-text')).toContainText('every monster');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

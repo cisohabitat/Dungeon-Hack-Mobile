@@ -258,7 +258,7 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; the Long Delve rows, measured after the lich's change, are one set, so read them loosely. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; so is the Long Delve on Hard; the Long Delve on Normal, measured after the lich's change, is one set, so read it loosely. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -266,10 +266,14 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Normal | 81% | 78% | 79% | 81% | 79% | 85% | about 80% |
 | Hard | 61% | 55% | 60% | 61% | 60% | 60% | about 59% |
 | Long Delve (12 floors), Normal | 87% | 88% | 85% | 79% | 80% | 84% | about 84% |
-| Long Delve (12 floors), Hard | 66% | 69% | 57% | 58% | 53% | 54% | about 60% |
+| Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 54% | 57% | about 61% |
+
+On one seed set the Long Delve on Hard looked wide (the fighter 69%, the ranger 53%); the second
+set brings the fighter back to the others, but the ranger is the lowest on both (53% and 56%), a
+few points short of the rest on the deep floors.
 
 The Druid's Normal and Hard rows are 400 runs each, two seed sets of 200 (`SEEDN=20`); its Easy
-and Long Delve rows are one set of 200. The overall figures are the first five classes'. Its bear
+and Long Delve Normal rows are one set of 200, its Long Delve Hard row two. The overall figures are the first five classes'. Its bear
 was far too strong at first (96% on Normal, 85% on Hard): a thinner hide, a dearer spell and fewer
 spell points brought it into line. The Grovewarden once leaned on a companion that a third of
 runs do not keep, and trailed the Shapeshifter on Hard by over twenty points; its skin now takes

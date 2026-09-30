@@ -496,6 +496,22 @@ test.describe('the Daily Delve', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a Daily run that used a testing aid keeps no result, so its end offers none to share', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startDaily(page);
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-map');
+    await page.click('#ov-map [data-close]');
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#screen-end')).toBeVisible();
+    await expect(page.locator('#end-share')).toBeHidden();
+    await expect(page.locator('#end-card')).toBeVisible();
+    expect(errors).toEqual([]);
+  });
   test('gives everyone the same dungeon and hero on the same day, and one try', async ({ page, browser }) => {
     const errors = watchForErrors(page);
     const first = await startDaily(page);

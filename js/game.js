@@ -2274,9 +2274,18 @@ const Game = (() => {
         const cands = [...byRoom.entries()].filter(([, ms]) => ms.length >= 2);
         if (!cands.length) return null;
         const [, ms] = cands[rng.int(0, cands.length - 1)];
-        let n = 0;
-        for (const m of ms) for (const [dx, dy] of DIRS) { if (n >= 3) break; const x = m.x + dx, y = m.y + dy; if (free(x, y) && roomOf(x, y) === roomOf(m.x, m.y)) { cask(x, y); n++; break; } }
-        return n >= 2 ? { k: 'cache', x: ms[0].x, y: ms[0].y, who: ms[0].id } : null;
+        // the spots found first, and the casks set down only if there are two: one alone is no scene
+        const spots = [];
+        for (const m of ms) for (const [dx, dy] of DIRS) {
+          if (spots.length >= 3) break;
+          const x = m.x + dx, y = m.y + dy;
+          if (free(x, y) && roomOf(x, y) === roomOf(m.x, m.y) && !spots.some(([sx, sy]) => sx === x && sy === y)) { spots.push([x, y]); break; }
+        }
+        if (spots.length < 2) return null;
+        for (const [x, y] of spots) cask(x, y);
+        // named for what sleeps there only when they are all of a kind
+        const who = ms.every(m => m.id === ms[0].id) ? ms[0].id : '';
+        return { k: 'cache', x: ms[0].x, y: ms[0].y, who, uids: ms.map(m => m.uid), casks: spots };
       },
       // the way into a lair slick with oil: light it as they come through
       slick: () => {
@@ -2298,7 +2307,7 @@ const Game = (() => {
             if (line.length < 3 || !line.every(([lx, ly]) => free(lx, ly))) continue;
             L.fields = L.fields || {};
             for (const [lx, ly] of line) L.fields[key(lx, ly)] = { k: 'oil' };
-            return { k: 'slick', x, y };
+            return { k: 'slick', x, y, line };
           }
         }
         return null;
@@ -2310,7 +2319,7 @@ const Game = (() => {
           const sides = DIRS.map(([dx, dy]) => [x + dx, y + dy]).filter(([sx, sy]) => free(sx, sy));
           if (!sides.length) continue;
           for (const [sx, sy] of sides) cask(sx, sy);
-          return { k: 'barricade', x, y };
+          return { k: 'barricade', x, y, casks: sides };
         }
         return null;
       },
@@ -2320,12 +2329,39 @@ const Game = (() => {
       if (piece) { L.pieces = [piece]; return; }
     }
   }
+  /** Nothing solid between the hero and a square: stone and a shut door hide what is past them. */
+  function inSight(x, y) {
+    const p = P(), n = Math.max(Math.abs(x - p.x), Math.abs(y - p.y)) * 4;
+    for (let i = 1; i < n; i++) {
+      const sx = Math.floor(p.x + 0.5 + (x - p.x) * i / n), sy = Math.floor(p.y + 0.5 + (y - p.y) * i / n);
+      if ((sx === p.x && sy === p.y) || (sx === x && sy === y)) continue;
+      const t = tile(sx, sy);
+      if (t !== T.FLOOR && t !== T.DOOR_OPEN && t !== T.FOUNTAIN) return false;
+    }
+    return true;
+  }
+  /**
+   * Whether a scene still stands as it was laid: casks unburst, oil unburnt,
+   * the door still locked, and something still asleep among the casks. A fire
+   * that got there first (a goblin's pot, a wyrm's breath) leaves nothing to say.
+   */
+  function pieceStands(L, pc) {
+    const caskAt = ([x, y]) => (L.dressing || []).some(q => q.k === 'oilcask' && q.x === x && q.y === y);
+    if (pc.k === 'slick') return (pc.line || [[pc.x, pc.y]]).some(([x, y]) => { const f = (L.fields || {})[key(x, y)]; return f && f.k === 'oil'; });
+    if (pc.casks && !pc.casks.some(caskAt)) return false;
+    if (pc.k === 'barricade') return tile(pc.x, pc.y) === T.DOOR_LOCKED;
+    return !pc.uids || L.monsters.some(m => pc.uids.includes(m.uid) && !m.awake);
+  }
   /** A scene laid out for fire is named as the hero comes within sight of it. */
   function notePieces() {
     const L = lvl(), p = P();
     for (const pc of L.pieces || []) {
       if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > 4) continue;
+      // seen from the scene's own squares: a locked door is seen from a cask beside it
+      const from = pc.k === 'barricade' && pc.casks ? pc.casks : [[pc.x, pc.y], ...(pc.casks || []), ...(pc.line || [])];
+      if (!from.some(([x, y]) => inSight(x, y))) continue;
       pc.said = true;
+      if (!pieceStands(L, pc)) continue;
       log(pc.k === 'cache' ? `Oil casks stand among the sleeping ${MONSTERS[pc.who] ? MONSTERS[pc.who].name.toLowerCase() + 's' : 'creatures'}. It would take only a spark.`
         : pc.k === 'slick' ? 'The passage here is slick with spilt lamp oil, where anything coming through must cross it.'
           : 'Oil casks are stacked against the locked door. A door burns as well as it opens.', 'info');
@@ -3156,7 +3192,8 @@ const Game = (() => {
     // a shade laid to rest on the way down
     if (G.rested) lines.push(`On the way down they found ${G.rested}, who had gone before them, and laid them to rest.`);
     // the fallen are remembered (Progress.fallen), and the next delve will say so
-    if (!won && !G.opts.daily) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
+    // (a test run leaves no bones: recordFallen passes it by)
+    if (!won && !G.opts.daily && !G.tested) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
     return lines;
   }
   function recordHero(won) {
@@ -4001,11 +4038,93 @@ const Game = (() => {
   // or gold that never run out, switched in the Menu and kept on the device
   // (not in the save). A run that has had any of them on is marked for good,
   // and kept out of the Hall, the trophies, the fallen, the codex and the Daily.
-  let testing = { hp: false, sp: false, gold: false };
+  // (the eye, every monster on the map, is drawn by the screens; here it only marks the run)
+  let testing = { hp: false, sp: false, gold: false, eye: false };
   const TEST_GOLD = 99999;
-  /** @param {{hp?: boolean, sp?: boolean, gold?: boolean}} t */
-  function setTesting(t) { testing = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold }; applyTesting(); }
-  const testingOn = () => testing.hp || testing.sp || testing.gold;
+  /** @param {{hp?: boolean, sp?: boolean, gold?: boolean, eye?: boolean}} t */
+  function setTesting(t) { testing = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold, eye: !!t.eye }; applyTesting(); }
+  const testingOn = () => testing.hp || testing.sp || testing.gold || testing.eye;
+  // The tools below do a thing once rather than stay on, and mark the run the same way.
+  function testTool() {
+    if (!G || G.status !== 'playing') return false;
+    G.tested = true;
+    return true;
+  }
+  /**
+   * Straight to a floor, up or down, without the floors between. Down past the
+   * divided stair with no road taken yet, it takes the road given (or the
+   * seed's own, as descend() does).
+   * @param {number} depth @param {string} [road]
+   */
+  function testFloor(depth, road) {
+    if (!G || G.status !== 'playing') return false;
+    const n = G.opts.levels || 8;
+    depth = Math.max(1, Math.min(n, Math.floor(depth) || 1));
+    if (depth === G.depth) return false;
+    testTool();
+    const span = Dungeon.routeSpan(n);
+    if (span && depth > span.fork && !G.route) G.route = ROUTES[road || ''] ? road : new Rng(`${G.seed}|road`).next() < 0.5 ? 'crypts' : 'warrens';
+    G.forkPending = false;
+    const down = depth > G.depth;
+    log(`(Testing) You are carried ${down ? 'down' : 'up'} to floor ${depth}.`, 'info');
+    enterLevel(depth, down ? 'down' : 'up');
+    save(true);
+    return true;
+  }
+  /** The whole of this floor on the map, as a Scroll of Mapping draws it. */
+  function testReveal() {
+    if (!testTool()) return false;
+    lvl().explored.fill(1);
+    log('(Testing) The whole floor is laid out on your map.', 'info');
+    return true;
+  }
+  /** Enough experience for the next level, and its choice with it. */
+  function testLevel() {
+    if (!G || G.status !== 'playing' || P().level >= MAX_LEVEL) return false;
+    testTool();
+    const p = P();
+    p.xp = Math.max(p.xp, XP_TABLE[p.level]);
+    checkLevelUp();
+    emit('stats');
+    return true;
+  }
+  // what can be handed over: not the Heart, coin, gems or the things a place or an encounter gives
+  const NOT_GIVEN = ['gold', 'gem', 'artifact', 'page', 'quest', 'key'];
+  /** @returns {{id: string, name: string, group: string}[]} */
+  function testGifts() {
+    const out = [{ id: 'keys', name: 'Keys to this floor\'s locked doors', group: 'Keys' }];
+    for (const id in ITEMS) if (!NOT_GIVEN.includes(ITEMS[id].kind)) out.push({ id, name: ITEMS[id].name, group: ITEMS[id].kind });
+    for (const id in RELICS) out.push({ id: 'relic:' + id, name: RELICS[id].name, group: 'relic' });
+    return out;
+  }
+  /**
+   * Into the pack, known for what it is: an item's id, 'keys' (one for each
+   * colour of lock left on this floor) or 'relic:' and a relic's id.
+   * @param {string} id
+   */
+  function testGive(id) {
+    if (!G || G.status !== 'playing') return false;
+    const L = lvl();
+    if (id === 'keys') {
+      const colours = [...new Set(Object.values(L.locks || {}))];
+      if (!colours.length) { log('(Testing) No door on this floor is locked.', 'info'); return false; }
+      testTool();
+      for (const color of colours) giveItem({ t: 'key', q: 1, color });
+      log(`(Testing) Keys put in your pack: ${colours.join(', ')}.`, 'info');
+      emit('stats');
+      return true;
+    }
+    const relic = id.startsWith('relic:') ? id.slice(6) : '';
+    if (relic ? !RELICS[relic] : !ITEMS[id] || NOT_GIVEN.includes(ITEMS[id].kind)) return false;
+    const it = relic ? relicItem(relic) : { t: id, q: 1, e: 0 };
+    if (!giveItem(it)) { log('Your pack is full.', 'bad'); return false; }
+    testTool();
+    G.known[it.t] = 1;
+    if (relic) discoverRelic(relic);
+    log(`(Testing) ${relic ? RELICS[relic].name : ITEMS[id].name} put in your pack.`, 'info');
+    emit('stats');
+    return true;
+  }
   function applyTesting() {
     if (!G || G.status !== 'playing' || !testingOn()) return;
     G.tested = true;
@@ -4400,7 +4519,8 @@ const Game = (() => {
       if (!G.looks) G.looks = buildLooks(G.seed);
       // a run from before relics finds them on the floors it has yet to see
       if (!G.relics) G.relics = { ...relicPlan(G.seed, G.player.cls, G.opts.levels), offered: 0, found: [] };
-      for (const id of G.relics.found) Progress.noteRelic(id);   // a run from before the codex adds what it found
+      // a run from before the codex adds what it found (a test run, nothing)
+      if (!G.tested) for (const id of G.relics.found) Progress.noteRelic(id);
       // a run from before the end screen kept its numbers counts from here on
       G.stats = { ...freshStats(), ...G.stats };
       if (!G.known) { G.known = {}; for (const id in ITEMS) G.known[id] = 1; }
@@ -4638,7 +4758,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     mood,

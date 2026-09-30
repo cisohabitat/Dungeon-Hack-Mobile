@@ -230,11 +230,13 @@ export function makeElements(K) {
    * across ice). @returns {{hero: number, comp: number}} what reached the hero and the companion
    */
   function stormAt(x, y, dmg) {
-    const p = K.P(), water = wet(x, y) ? waterNear(x, y, 1) : new Set([K.key(x, y)]);
+    const p = K.P(), water = wet(x, y) ? waterNear(x, y, 1) : new Set();
     const half = Math.max(1, Math.ceil(dmg / 2));
+    // (a square that is no longer water, frozen or burning, gives it nothing to come down into)
+    if (!wet(x, y)) return { hero: 0, comp: 0 };
     const hero = p.x === x && p.y === y ? dmg : water.has(K.key(p.x, p.y)) && wet(p.x, p.y) ? half : 0;
     const c = K.companionHere();
-    const comp = c && water.has(K.key(c.x, c.y)) && (wet(c.x, c.y) || (c.x === x && c.y === y)) ? half : 0;
+    const comp = c && water.has(K.key(c.x, c.y)) && wet(c.x, c.y) ? half : 0;
     return { hero, comp };
   }
 

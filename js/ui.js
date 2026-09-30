@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30f', text: 'floors now and then lay out a scene for fire; wraiths breathe a grave-cold at your feet, and acolytes call lightning into water you stand in; goblins throw burning oil, and a cleric\'s prayers come quicker; the Menu has testing aids (endless life, spell points, gold)' };
+  const NEWS = { id: '2026-09-30g', text: 'more testing aids in the Menu: show every monster on the map, reveal a floor, gain a level, be given any item, and go straight to any floor' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -680,11 +680,23 @@ const UI = (() => {
   const setHand = () => document.body.classList.toggle('lefty', lefty());
   // Calm view: no shake, no drifting dust, torches that burn steady. Chosen
   // in the menu; until it is, it follows the phone's own ask for less motion.
-  // Testing aids: endless life, spell points or gold, kept on the device (see Game.setTesting)
+  // Testing aids: endless life, spell points or gold, and every monster on the
+  // map, kept on the device (see Game.setTesting)
   const TESTING = 'deepdelve.testing';
-  /** @returns {{hp: boolean, sp: boolean, gold: boolean}} */
-  function testingSet() { try { const t = JSON.parse(store(TESTING) || '{}'); return { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold }; } catch (e) { return { hp: false, sp: false, gold: false }; } }
-  function toggleTesting(k) { const t = testingSet(); t[k] = !t[k]; store(TESTING, JSON.stringify(t)); Game.setTesting(t); renderMenu(); if (Game.state()) refreshHud(); }
+  /** @returns {{hp: boolean, sp: boolean, gold: boolean, eye: boolean}} */
+  // (read once and kept: the corner map asks after the eye many times a second)
+  let testingNow = null;
+  function testingSet() {
+    if (!testingNow) try { const t = JSON.parse(store(TESTING) || '{}'); testingNow = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold, eye: !!t.eye }; } catch (e) { testingNow = { hp: false, sp: false, gold: false, eye: false }; }
+    return testingNow;
+  }
+  function toggleTesting(k) { const t = { ...testingSet() }; t[k] = !t[k]; store(TESTING, JSON.stringify(t)); testingNow = t; Game.setTesting(t); miniSig = ''; renderMenu(); if (Game.state()) refreshHud(); }
+  /** What a testing tool just did, said under the tools (the log is behind the Menu). */
+  function testSaid() {
+    const last = Game.state().log.slice(-1)[0];
+    $('#m-test-said').textContent = last ? (last.base || last.m) : '';
+    refreshHud();
+  }
   const CALM = 'deepdelve.calm';
   function calmOn() {
     const v = store(CALM);
@@ -1225,7 +1237,9 @@ const UI = (() => {
     const L = Game.level(), p = Game.player();
     const R = 7, size = 6;
     const hound = houndHere();
-    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, hound ? `${hound.x},${hound.y}` : ''].join(',');
+    // (with every monster shown, where each one is: they move while you stand still)
+    const eye = testingSet().eye;
+    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, hound ? `${hound.x},${hound.y}` : '', eye ? L.monsters.map(m => `${m.x},${m.y},${m.awake ? 1 : 0}`).join(';') : ''].join(',');
     if (sig === miniSig) return;
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
@@ -1252,7 +1266,7 @@ const UI = (() => {
     }
     for (const m of L.monsters) {
       const dx = m.x - p.x, dy = m.y - p.y;
-      if (Math.abs(dx) > R || Math.abs(dy) > R || !L.explored[m.y * L.w + m.x] || !m.awake) continue;
+      if (Math.abs(dx) > R || Math.abs(dy) > R || (!eye && (!L.explored[m.y * L.w + m.x] || !m.awake))) continue;
       ctx.fillStyle = '#e04030';
       ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
     }
@@ -1989,6 +2003,8 @@ const UI = (() => {
     { id: 'player', colour: '#ff6a50', label: 'You' },
     // shown only while a hound is with you on the floor
     { id: 'hound', colour: '#f2ecdc', label: 'Your companion' },
+    // shown only with Show every monster on (Menu, for testing)
+    { id: 'monster', colour: '#ff3a30', label: 'Monster (! awake, z asleep)' },
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
     { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
@@ -2024,6 +2040,9 @@ const UI = (() => {
       }
     }
     if (!seen) { minX = p.x - 1; maxX = p.x + 1; minY = p.y - 1; maxY = p.y + 1; }
+    // every monster shown, the map reaches to the farthest of them
+    const eye = testingSet().eye;
+    if (eye) for (const m of L.monsters) { minX = Math.min(minX, m.x); maxX = Math.max(maxX, m.x); minY = Math.min(minY, m.y); maxY = Math.max(maxY, m.y); }
     const pad = 2;
     minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
     maxX = Math.min(L.w - 1, maxX + pad); maxY = Math.min(L.h - 1, maxY + pad);
@@ -2113,6 +2132,15 @@ const UI = (() => {
       edged(n.x * size - ox, n.y * size - oy, size, size, MAP_COLOUR.trader);
       glyph('\u00a4', n.x, n.y, '#2a1a38');
     }
+
+    // every monster, awake or asleep, seen or not, for whoever is testing
+    if (eye) for (const m of L.monsters) {
+      edged(m.x * size - ox + size * 0.1, m.y * size - oy + size * 0.1, size * 0.8, size * 0.8, MAP_COLOUR.monster);
+      glyph(m.awake ? '!' : 'z', m.x, m.y, '#fff4ec');
+    }
+    const mk = /** @type {HTMLElement|null} */ ($('#map-legend [data-key="monster"]'));
+    if (mk) mk.hidden = !eye;
+    $('#map-note').textContent = eye ? 'Explored ground, and every monster (a testing aid). You are the ringed square.' : 'Explored ground only. You are the ringed square.';
 
     // the hound, where it waits or walks at your heel
     const hound = houndHere();
@@ -2309,8 +2337,39 @@ const UI = (() => {
     $('#m-test-hp').textContent = 'Endless life: ' + (t.hp ? 'On' : 'Off');
     $('#m-test-sp').textContent = 'Endless spell points: ' + (t.sp ? 'On' : 'Off');
     $('#m-test-gold').textContent = 'Endless gold: ' + (t.gold ? 'On' : 'Off');
+    $('#m-test-eye').textContent = 'Show every monster: ' + (t.eye ? 'On' : 'Off');
+    $('#m-test-level').disabled = G.player.level >= MAX_LEVEL;
+    renderTestFloors();
+    renderTestItems();
     $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
     $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+  }
+
+  /** Go to floor: every floor of the run, the next one down picked; and a road while none is taken. */
+  function renderTestFloors() {
+    const G = Game.state(), n = G.opts.levels || 8;
+    const floors = /** @type {HTMLSelectElement} */ ($('#m-test-floor'));
+    floors.innerHTML = '';
+    for (let i = 1; i <= n; i++) {
+      const o = document.createElement('option');
+      o.value = String(i);
+      o.textContent = `Floor ${i}${i === G.depth ? ' (here)' : ''}`;
+      floors.appendChild(o);
+    }
+    floors.value = String(Math.min(n, G.depth + 1));
+    const road = /** @type {HTMLSelectElement} */ ($('#m-test-road'));
+    road.hidden = !Dungeon.routeSpan(n) || !!G.route;
+    if (!road.options.length) road.innerHTML = Object.keys(ROUTES).map(id => `<option value="${id}">by ${escapeHtml(ROUTES[id].name)}</option>`).join('');
+    $('#m-test-said').textContent = '';
+  }
+  /** Give: everything that can be handed over, by kind; built once, and the pick kept. */
+  function renderTestItems() {
+    const sel = /** @type {HTMLSelectElement} */ ($('#m-test-item'));
+    if (sel.options.length) return;
+    const groups = {};
+    for (const g of Game.testGifts()) (groups[g.group] = groups[g.group] || []).push(g);
+    sel.innerHTML = Object.keys(groups).map(k => `<optgroup label="${escapeHtml(k[0].toUpperCase() + k.slice(1))}">${
+      groups[k].map(g => `<option value="${escapeHtml(g.id)}">${escapeHtml(g.name)}</option>`).join('')}</optgroup>`).join('');
   }
 
   // ---------- end screens ----------
@@ -2492,7 +2551,8 @@ const UI = (() => {
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
     // any run can be told in one line: a daily one with its streak, another with
     // its seed, so a friend can walk the same halls
-    $('#end-share').style.display = '';
+    // (a test run's Daily kept no result, so it has none to share)
+    $('#end-share').style.display = G.opts.daily && G.tested ? 'none' : '';
     $('#end-card').style.display = '';
     $('#end-card').textContent = 'Share a picture';
     $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : 'Share this run';
@@ -2578,6 +2638,19 @@ const UI = (() => {
     $('#m-test-hp').addEventListener('click', () => toggleTesting('hp'));
     $('#m-test-sp').addEventListener('click', () => toggleTesting('sp'));
     $('#m-test-gold').addEventListener('click', () => toggleTesting('gold'));
+    $('#m-test-eye').addEventListener('click', () => toggleTesting('eye'));
+    // the floor laid out, and the map opened on it to show it
+    $('#m-test-map').addEventListener('click', () => { if (Game.testReveal()) { miniSig = ''; openOverlay('map'); } });
+    // the level's choice takes the Menu's place
+    $('#m-test-level').addEventListener('click', () => { if (Game.testLevel()) { renderMenu(); refreshHud(); } });
+    $('#m-test-go').addEventListener('click', () => {
+      const depth = Number(/** @type {HTMLSelectElement} */ ($('#m-test-floor')).value);
+      const road = /** @type {HTMLSelectElement} */ ($('#m-test-road')).value;
+      if (depth === Game.state().depth) return;
+      closeOverlay();
+      Game.testFloor(depth, road);
+    });
+    $('#m-test-give').addEventListener('click', () => { Game.testGive(/** @type {HTMLSelectElement} */ ($('#m-test-item')).value); testSaid(); });
     $('#m-hand').addEventListener('click', () => { store(HAND, lefty() ? 'right' : 'left'); setHand(); renderMenu(); fitView(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     // How to Play in the middle of a run: the run is kept first (a phone may

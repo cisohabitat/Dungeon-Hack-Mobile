@@ -11175,9 +11175,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     }
     // named once, as the hero comes near
     if (found.cache) {
-      const { ctx, L, pc } = found.cache;
+      const { ctx, L, pc, depth } = found.cache;
       const { Game } = ctx; const p = Game.player(), G = Game.state();
-      p.hp = p.maxHp = 9999; L.monsters.length = 0;
+      // back on the cache's own floor (the search went on down), its sleepers left asleep
+      if (G.depth !== depth) Game.testFloor(depth);
+      p.hp = p.maxHp = 9999;
+      for (const m of L.monsters) m.nextAct = 1e12;
       const mark = markLog(G);
       p.x = pc.x; p.y = pc.y;
       run(Game, G, 200); run(Game, G, 200);
@@ -11224,6 +11227,81 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (G.status !== 'dead') out.push('with the aids off, the hero did not die');
     if (localStorage.getItem('deepdelve.hall') !== hallBefore) out.push('a test run was written in the Hall');
     if (ctx.Progress && JSON.stringify(ctx.Progress.fallen()) !== fallenBefore) out.push('a test run\'s death was remembered for the bones');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('testing tools: go to a floor (the road given past the divided stair), reveal it, gain a level, be given an item, a relic or the floor\'s keys; each marks the run, and the eye does too', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'el-tools', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true });
+    const { Game, Dungeon } = ctx;
+    const G = Game.state(), p = Game.player();
+    // standing still is no tool used
+    if (Game.testFloor(1) || Game.tested()) out.push('going to the floor you are on did something');
+    // down past the fork, by the road asked for
+    const fork = Dungeon.routeSpan(8).fork;
+    if (!Game.testFloor(fork + 2, 'warrens')) out.push('could not go down');
+    if (G.depth !== fork + 2) out.push(`carried to floor ${G.depth}, not ${fork + 2}`);
+    if (G.route !== 'warrens') out.push(`past the divided stair the road was ${G.route}`);
+    if (!Game.tested()) out.push('going to a floor did not mark the run');
+    const L = Game.level();
+    if (p.x !== L.start.x || p.y !== L.start.y) out.push('carried down, the hero was not at the stair\'s foot');
+    if (p.deepest < fork + 2) out.push('the deepest floor was not kept');
+    // back up, and down again: the road taken stays taken
+    Game.testFloor(2);
+    const up = Game.level();
+    if (G.depth !== 2) out.push(`carried up to floor ${G.depth}`);
+    const back = up.downStart || up.start;
+    if (p.x !== back.x || p.y !== back.y) out.push('carried up, the hero was not by the stair down');
+    Game.testFloor(8, 'crypts');
+    if (G.route !== 'warrens') out.push('a second trip down changed the road taken');
+    if (!Game.level().isFinal) out.push('floor 8 of 8 was not the final floor');
+    if (Game.testFloor(9) && G.depth > 8) out.push('went below the last floor');
+    // the next run starts unmarked; the rest one by one on it
+    const ctx2 = await start('fighter', 'el-tools2', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true });
+    const G2 = ctx2.Game.state(), p2 = ctx2.Game.player();
+    if (ctx2.Game.tested()) out.push('a new run began marked');
+    const one = (what, fn) => { const c = ctx2; c.Game.state().tested = false; const r = fn(); if (r && !c.Game.tested()) out.push(`${what} did not mark the run`); return r; };
+    const L2 = ctx2.Game.level();
+    if (!one('reveal', () => ctx2.Game.testReveal())) out.push('could not reveal the floor');
+    if (!L2.explored.every(v => v)) out.push('the floor was not all laid out');
+    const lv = p2.level;
+    if (!one('a level', () => ctx2.Game.testLevel())) out.push('could not gain a level');
+    if (p2.level !== lv + 1) out.push(`gaining a level went from ${lv} to ${p2.level}`);
+    if (!ctx2.Game.pendingBoons()) out.push('a level gained offered no choice');
+    // items: known for what they are; the Heart and gold are not handed over
+    delete G2.known.potion_heal;
+    if (!one('an item', () => ctx2.Game.testGive('potion_heal'))) out.push('could not be given a potion');
+    if (!p2.inv.some(i => i.t === 'potion_heal') || !G2.known.potion_heal) out.push('the potion given was not in the pack, known');
+    if (ctx2.Game.testGive('artifact') || ctx2.Game.testGive('gold') || ctx2.Game.testGive('nonsense')) out.push('the Heart, gold or nothing at all was given');
+    const gifts = ctx2.Game.testGifts();
+    if (gifts.some(g => ['artifact', 'gold', 'key'].includes(g.id)) || !gifts.some(g => g.id === 'keys') || !gifts.some(g => g.id.startsWith('relic:'))) out.push('the list of gifts is wrong');
+    // a relic: found this run, but not written in the codex
+    const rid = gifts.find(g => g.id.startsWith('relic:')).id.slice(6);
+    const codex = JSON.stringify(ctx2.Progress.load().relics);
+    if (!one('a relic', () => ctx2.Game.testGive('relic:' + rid))) out.push('could not be given a relic');
+    if (!p2.inv.some(i => i.u === rid) || !G2.relics.found.includes(rid)) out.push('the relic given was not in the pack, found');
+    if (JSON.stringify(ctx2.Progress.load().relics) !== codex) out.push('a relic given for testing was written in the codex');
+    // keys: one for each colour of lock left on the floor; none where no door is locked
+    let d = 1;
+    while (d < 8 && !Object.keys(ctx2.Game.level().locks || {}).length) ctx2.Game.testFloor(++d);
+    const colours = [...new Set(Object.values(ctx2.Game.level().locks || {}))];
+    if (!colours.length) out.push('no floor had a locked door to test the keys on');
+    else {
+      p2.inv = p2.inv.filter(i => i.t !== 'key');
+      if (!one('keys', () => ctx2.Game.testGive('keys'))) out.push('could not be given the keys');
+      const got = p2.inv.filter(i => i.t === 'key').map(i => i.color).sort();
+      if (JSON.stringify(got) !== JSON.stringify(colours.slice().sort())) out.push(`keys given ${got}, locks ${colours}`);
+      ctx2.Game.level().locks = {};
+      if (ctx2.Game.testGive('keys')) out.push('keys were given where no door is locked');
+    }
+    // a full pack takes nothing, and nothing is marked
+    while (ctx2.Game.giveItem({ t: 'dagger', q: 1, e: 0 }));
+    G2.tested = false;
+    if (ctx2.Game.testGive('longsword') || ctx2.Game.tested()) out.push('a full pack took a gift, or was marked for it');
+    // the eye marks the run as the other switches do
+    ctx2.Game.setTesting({ eye: true });
+    if (!ctx2.Game.testingOn() || !ctx2.Game.tested()) out.push('showing every monster did not mark the run');
+    ctx2.Game.setTesting({});
     return out.length ? out.join('; ') : true;
   });
 
@@ -11660,6 +11738,124 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     }
     if (!(took.stay > 0)) out.push('lightning called on a hero standing in the water did not hurt');
     if (!(took.aside > 0 && took.aside <= Math.ceil((12 + Math.floor(G.depth / 2)) / 2))) out.push(`a step aside in the water took ${took.aside}, not half`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('review fixes 4: a grave-cold on a burning square still catches the hero; no lightning through ice; Stand Firm halves the new tricks; a test run writes no relic on loading and promises no bones', async () => {
+    const out = [];
+    const { ctx, Game, Dungeon, G, L, p, put } = await arena('fighter', 'el-review4');
+    L.twist = null;
+    const chill = () => { const w = put('wraith', 3, 0, { hp: 80, maxHp: 80 }); w.windup = { kind: 'move', move: 'chill', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; w.nextAct = w.windup.until; return w; };
+    // standing in burning oil: the frost puts the fire out, and the hero, who never moved, is caught
+    L.monsters.length = 0; L.fields = {}; p.held = 0; G.blowGate = 0;
+    L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'oil', until: G.t + 9000, spread: G.t + 9000, burn: G.t + 9000, gen: 0 };
+    chill();
+    let hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 150);
+    const f = Game.fieldAt(p.x, p.y);
+    if (f && f.k === 'fire') out.push('the grave-cold left the fire burning');
+    if (!(p.hp < hp0) || !(p.held > G.t) || linesSince(G, mark).some(l => /where you stood/.test(l))) out.push(`a hero who stayed in the fire was let off the grave-cold (hp ${hp0}->${p.hp}, held ${p.held > G.t})`);
+    // a flooded floor, but ice under the hero: the storm has no water to come down into
+    L.twist = 'flooded'; L.monsters.length = 0; L.fields = {}; p.held = 0; G.blowGate = 0;
+    L.fields[`${p.x},${p.y}`] = { k: 'ice', until: G.t + 9000 };
+    const a = put('acolyte', 4, 0, { hp: 80, maxHp: 80 });
+    a.windup = { kind: 'move', move: 'storm', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until;
+    hp0 = p.hp; mark = markLog(G);
+    run(Game, G, 400);
+    if (p.hp < hp0) out.push(`lightning came down through ice for ${hp0 - p.hp}`);
+    if (linesSince(G, mark).some(l => /into the water/.test(l))) out.push('the storm on ice spoke of water');
+    // Stand Firm halves the grave-cold, as it does every trick that lands
+    L.twist = null;
+    const total = firm => {
+      p.talents = firm ? ['stand_firm'] : [];
+      let sum = 0;
+      for (let i = 0; i < 40; i++) { L.monsters.length = 0; L.fields = {}; p.held = 0; G.blowGate = 0; p.hp = p.maxHp; chill(); run(Game, G, 150); sum += p.maxHp - p.hp; }
+      return sum;
+    };
+    const bare = total(false), firm = total(true);
+    if (!(firm < bare * 0.75)) out.push(`Stand Firm took ${firm} from forty grave-colds against ${bare}`);
+    p.talents = []; L.monsters.length = 0; p.held = 0;
+    // a relic found in a test run is not written in the codex by a load either
+    const rid = Object.keys(ctx.RELICS)[0];
+    for (const tested of [false, true]) {
+      const c2 = await start('fighter', 'el-codex-' + tested);
+      const G2 = c2.Game.state();
+      G2.relics.found.push(rid); G2.tested = tested;
+      c2.Game.save(true); c2.Game.load();
+      const has = c2.Progress.load().relics.includes(rid);
+      if (has === tested) out.push(tested ? 'a load wrote a test run\'s relic in the codex' : 'a load no longer writes an old run\'s relics in the codex');
+      // and its epilogue promises no bones it will not leave
+      const bones = c2.Game.epilogue(false).some(l => /will not lie quiet/.test(l));
+      if (bones === tested) out.push(tested ? 'a test run\'s epilogue promised bones' : 'a run\'s epilogue no longer promises bones');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('review fixes 4: a scene lays no stray cask, names a mixed group as creatures, and is named only in sight and while it still stands', async () => {
+    const out = [];
+    const REAL = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+    const D4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    let mixed = null, cache = null;
+    // (pc-62 and pc-65 once left a cask for a cache that failed, beside a barricade)
+    for (const s of [62, 65, ...Array.from({ length: 30 }, (_, i) => i)]) {
+      const c = await start(['fighter', 'mage', 'thief', 'ranger'][s % 4], 'pc-' + s, REAL);
+      for (let d = 2; d <= 7; d++) {
+        c.Game.descend(); if (c.Game.forkPending()) c.Game.chooseRoute(s % 2 ? 'crypts' : 'warrens');
+        const L = c.Game.level(), pc = (L.pieces || [])[0];
+        // a scene's casks stand square in their squares; any such cask is one of its own
+        for (const q of (L.dressing || []).filter(q => q.k === 'oilcask' && q.ox === 0 && q.oy === 0)) {
+          if (!pc || !(pc.casks || []).some(([x, y]) => x === q.x && y === q.y)) { out.push(`pc-${s} floor ${d}: a cask at ${q.x},${q.y} belongs to no scene`); break; }
+        }
+        if (pc && pc.k === 'cache') {
+          const ids = new Set(L.monsters.filter(m => pc.uids.includes(m.uid)).map(m => m.id));
+          if (ids.size > 1 && pc.who) out.push(`a cache among ${[...ids]} was named for ${pc.who}`);
+          if (ids.size === 1 && pc.who !== [...ids][0]) out.push(`a cache among ${[...ids]} was named ${pc.who}`);
+          // (kept on its floor: this world goes no deeper)
+          if (ids.size > 1 && !mixed) { mixed = { c, L, pc }; break; }
+          if (!cache) { cache = { c, L, pc }; break; }
+        }
+      }
+    }
+    if (!mixed) out.push('no cache among a mixed group in the seeds tried');
+    else {
+      const { c, L, pc } = mixed, G = c.Game.state(), p = c.Game.player();
+      p.hp = p.maxHp = 9999;
+      for (const m of L.monsters) m.nextAct = 1e12;
+      const mark = markLog(G);
+      p.x = pc.x; p.y = pc.y; pc.said = false;
+      run(c.Game, G, 100);
+      if (!linesSince(G, mark).some(l => /among the sleeping creatures/.test(l))) out.push('a mixed group\'s cache was not named for creatures');
+    }
+    if (cache) {
+      const { c, L, pc } = cache, G = c.Game.state(), p = c.Game.player(), T = c.Dungeon.T;
+      p.hp = p.maxHp = 9999;
+      for (const m of L.monsters) m.nextAct = 1e12;
+      // a square near by, but walled off from every square of the scene
+      const saved = L.tiles.slice();
+      const spots = [[pc.x, pc.y], ...pc.casks];
+      let hide = null;
+      for (let dx = -3; dx <= 3 && !hide; dx++) for (let dy = -3; dy <= 3 && !hide; dy++) {
+        const x = pc.x + dx, y = pc.y + dy;
+        if (Math.abs(dx) + Math.abs(dy) !== 4 || L.tiles[y * L.w + x] !== T.FLOOR || spots.some(([sx, sy]) => Math.abs(sx - x) <= 1 && Math.abs(sy - y) <= 1)) continue;
+        hide = [x, y];
+      }
+      if (!hide) out.push('no square four off the cache to hide on');
+      else {
+        for (let yy = hide[1] - 1; yy <= hide[1] + 1; yy++) for (let xx = hide[0] - 1; xx <= hide[0] + 1; xx++) if (xx !== hide[0] || yy !== hide[1]) L.tiles[yy * L.w + xx] = T.WALL;
+        pc.said = false;
+        let mark = markLog(G);
+        p.x = hide[0]; p.y = hide[1];
+        run(c.Game, G, 100);
+        if (linesSince(G, mark).some(l => /Oil casks stand among/.test(l)) || pc.said) out.push('a cache behind stone was named');
+        for (let i = 0; i < L.tiles.length; i++) L.tiles[i] = saved[i];
+        // its casks gone before the hero comes: nothing to name
+        L.dressing = (L.dressing || []).filter(q => !(q.k === 'oilcask' && pc.casks.some(([x, y]) => x === q.x && y === q.y)));
+        mark = markLog(G);
+        p.x = pc.x; p.y = pc.y;
+        run(c.Game, G, 100);
+        if (linesSince(G, mark).some(l => /Oil casks stand among/.test(l))) out.push('a cache whose casks were gone was named');
+      }
+    } else out.push('no cache in the seeds tried');
     return out.length ? out.join('; ') : true;
   });
 

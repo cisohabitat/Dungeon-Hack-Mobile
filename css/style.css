@@ -84,6 +84,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .menu { display: flex; flex-direction: column; gap: 9px; }
 .menu-row { display: flex; gap: 9px; }
 .menu-row button { flex: 1; }
+/* the testing tools' pickers: the list takes the room, the button stays a thumb's width */
+.menu-row.test-row select { flex: 1; min-width: 0; }
+.menu-row.test-row button { flex: 0 0 auto; min-width: 64px; }
 .menu .big { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 12px 16px;
   background: linear-gradient(#232032, #17151f); border-color: #4a4463; box-shadow: 0 2px 0 #0d0c12, inset 0 1px 0 rgba(255,255,255,0.06); }
 .menu .big b { font-weight: normal; font-size: 1.15rem; letter-spacing: 0.03em; }
@@ -665,7 +668,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   .ov-head { padding: 1px 12px; }
   .ov-head h2 { font-size: 1.25rem; }
   .ov-body.menu { display: grid; grid-template-columns: 1fr 1fr; align-content: start; max-width: 640px; gap: 8px 10px; }
-  .ov-body.menu p { grid-column: 1 / -1; }
+  .ov-body.menu p, .ov-body.menu .test-row { grid-column: 1 / -1; }
   .ov-body.menu .big { justify-content: center; }
   /* the picture beside the words, so the choices start on the first screen */
   .enc-art { float: left; margin: 0 14px 6px 0; }
