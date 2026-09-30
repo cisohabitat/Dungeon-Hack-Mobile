@@ -502,7 +502,7 @@ const ITEMS = {
   potion_might: { kind: 'potion', name: 'Potion of Might',         stack: true, value: 40, sprite: 'potion_orange', effect: 'might', desc: '+2 to hit and damage for two minutes.' },
   potion_mana:  { kind: 'potion', name: 'Potion of Clarity',       stack: true, value: 40, sprite: 'potion_blue',   effect: 'mana', desc: 'Restores all spell points.' },
   // scrolls (usable by anyone)
-  scroll_fire:     { kind: 'scroll', name: 'Scroll of Fire',        stack: true, value: 30, sprite: 'scroll', effect: 'fire', desc: 'Hurls a ball of fire (4d6) at the foe ahead.' },
+  scroll_fire:     { kind: 'scroll', name: 'Scroll of Fire',        stack: true, value: 30, sprite: 'scroll', effect: 'fire', desc: 'Hurls a ball of fire (4d6) at the foe ahead. With none, it bursts where it lands, and sets spilt oil alight.' },
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this floor.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },

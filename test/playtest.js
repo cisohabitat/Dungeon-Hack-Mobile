@@ -429,6 +429,43 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // --- lamp oil: throw a flask at something coming down a passage two or three
+    // squares off, then set it alight (a Flame Strike, a fire-oiled shot, a
+    // fireball scroll). The living shy from the flames, and it burns meanwhile.
+    // NOFLASK=1 plays without.
+    if (!process.env.NOFLASK && G.t >= p.nextAttack && !Game.shaped()) {
+      const flask = p.inv.find(i => i.t === 'lamp_oil');
+      const wepNow = Game.weapon();
+      const fireShot = !!wepNow.range && ((p.coating && p.coating.t === 'fire' && p.coating.left > 0) || Game.hasPower('flame', 'weapon'));
+      const strike = Game.knownSpells().find(sp => sp.id === 'flame_strike' && Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp));
+      const scroll = p.inv.find(i => ITEMS[i.t].kind === 'scroll' && ITEMS[i.t].effect === 'fire');
+      const oiled = (x, y) => { const f = Game.fieldAt(x, y); return !!f && f.k === 'oil'; };
+      let aim = null;
+      for (let k = 0; k < 4 && !aim; k++) {
+        const [dx, dy] = Dungeon.DIRS[k];
+        for (let i = 1; i <= 3; i++) {
+          const x = p.x + dx * i, y = p.y + dy * i, t = L.tiles[y * L.w + x];
+          if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
+          const m = L.monsters.find(mm => mm.x === x && mm.y === y && !mm.sunk && !mm.collapsed);
+          if (m) { if (i >= 2 && m.awake && !MONSTERS[m.id].boss) aim = { k, i, m }; break; }
+        }
+      }
+      if (aim) {
+        const reachFire = (fireShot && wepNow.range >= aim.i) || (strike && strike.range >= aim.i) || (scroll && aim.i <= 3);
+        if (reachFire && oiled(aim.m.x, aim.m.y)) {
+          // it stands in the oil: light it (a fire-oiled shot is loosed below as any shot is)
+          p.dir = aim.k;
+          if (strike && strike.range >= aim.i && Game.castSpell(strike) !== false) { rec.flasksLit = (rec.flasksLit || 0) + 1; step(); continue; }
+          if (!fireShot && scroll) { const q0 = scroll.q || 1; Game.useItem(scroll); if (!p.inv.includes(scroll) || (scroll.q || 1) < q0) { rec.flasksLit = (rec.flasksLit || 0) + 1; step(); continue; } }
+          if (fireShot) rec.flasksLit = (rec.flasksLit || 0) + 1;
+        } else if (reachFire && flask && hpFrac > 0.3) {
+          p.dir = aim.k;
+          const q0 = flask.q; Game.useItem(flask);
+          if (!p.inv.includes(flask) || flask.q < q0) { rec.flasksThrown = (rec.flasksThrown || 0) + 1; step(); continue; }
+        }
+      }
+    }
+
     // --- shoot down the corridor before anything closes the distance
     // standing in water, lightning at anything within two squares would run back into the hero (NOWADE=1 plays without knowing it)
     const wading = !process.env.NOWADE && (L.twist === 'flooded' || (L.dressing || []).some(q => q.k === 'puddle' && q.x === p.x && q.y === p.y));
@@ -662,6 +699,13 @@ function play(ctx, cls, seed, opts, bg, idx) {
             while (i && i.q > 0 && oils() < 2 && p.gold >= Game.buyPrice(s, i) * 2 + 100 && p.inv.length < 18 && Game.buy(i)) rec.oilsBought = (rec.oilsBought || 0) + 1;
           }
         }
+        // a flask or two of lamp oil for a hero who can set it alight from off (a cleric's
+        // Flame Strike, a bow or sling with fire oil to hand), unless NOFLASK=1
+        if (!process.env.NOFLASK && (p.cls === 'cleric' || (Game.weapon().range && ((p.coating && p.coating.t === 'fire') || p.inv.some(i => ITEMS[i.t].coat === 'fire'))))) {
+          const lo = s.stock.find(x => x.t === 'lamp_oil' && x.q > 0);
+          const have = () => p.inv.filter(i => i.t === 'lamp_oil').reduce((a, i) => a + (i.q || 1), 0);
+          while (lo && lo.q > 0 && have() < 2 && p.gold >= Game.buyPrice(s, lo) * 2 + 100 && p.inv.length < 18 && Game.buy(lo)) rec.flasksBought = (rec.flasksBought || 0) + 1;
+        }
         // then the forge, with what is left: better steel is what the rest of the gold is for
         if (!process.env.NOFORGE) {
           const svc = id => Game.shopServices().find(v => v.id === id);
@@ -863,7 +907,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)
   const byPath = {};

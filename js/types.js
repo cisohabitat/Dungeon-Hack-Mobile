@@ -185,7 +185,7 @@
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
- * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js)
+ * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero
  * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp

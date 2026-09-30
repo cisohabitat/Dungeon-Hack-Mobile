@@ -14,6 +14,9 @@
 //   drowned one cannot rise through it.
 // - Some barrels are oil casks. Broken, one spills its oil about it; a fire
 //   that reaches one whole bursts it.
+// - A wooden door beside a fire may catch. It burns a while, then falls in,
+//   and leaves an open doorway: a locked one too, so oil and a flame are a
+//   way through a lock without a key.
 //
 // What lies on each square (fire, ash, oil, ice) is kept on the level in
 // `fields`, keyed like its items, so it is saved with the rest. What it
@@ -21,7 +24,7 @@
 import { d } from './rng.js';
 import { Sound } from './sound.js';
 
-const FIRE_MS = 3000, OIL_FIRE_MS = 4500, SPREAD_MS = 700, BURN_MS = 800;
+const FIRE_MS = 3000, OIL_FIRE_MS = 4500, DOOR_FIRE_MS = 6000, SPREAD_MS = 700, BURN_MS = 800;
 const ICE_MS = 8000, ICE_HOLD = 2500, HERO_ICE_HOLD = 1200;
 // how many squares out from where it caught a moss fire can still spread: two,
 // so a hero who strikes from three squares off is clear of it
@@ -46,23 +49,32 @@ export function makeElements(K) {
     if (f && (f.k === 'ice' || f.k === 'fire')) return false;
     return open(x, y) && (lvl().twist === 'flooded' || puddle(x, y));
   }
-  /** What would burn on a square: spilt oil, or an overgrown floor's moss not yet burnt. */
+  /** What would burn on a square: spilt oil, a shut wooden door, or an overgrown floor's moss not yet burnt. */
   function fuel(x, y) {
     const f = fieldAt(x, y);
     if (f && f.k === 'oil') return 'oil';
     if (f && f.k !== 'oil') return '';
-    return lvl().twist === 'overgrown' && K.tile(x, y) === K.T.FLOOR ? 'moss' : '';
+    const t = K.tile(x, y);
+    if (t === K.T.DOOR || t === K.T.DOOR_LOCKED) return 'door';
+    return lvl().twist === 'overgrown' && t === K.T.FLOOR ? 'moss' : '';
   }
   const DIRS4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 
-  /** Set a square alight. @param {number} gen how many squares from where the fire caught */
-  function ignite(x, y, gen = 0) {
+  /**
+   * Set a square alight.
+   * @param {number} gen how many squares from where the fire caught
+   * @param {boolean} [wild] a monster's fire (a wyrm's breath), not the hero's:
+   *   what it burns is not the hero's blow, and does not break a chant
+   */
+  function ignite(x, y, gen = 0, wild = false) {
     const f = fieldAt(x, y), G = K.G;
     if (f && f.k === 'ice') { delete fields()[K.key(x, y)]; return false; }
     const kind = fuel(x, y);
     if (!kind) return false;
-    fields()[K.key(x, y)] = { k: 'fire', fuel: kind, until: G.t + (kind === 'oil' ? OIL_FIRE_MS : FIRE_MS), spread: G.t + SPREAD_MS, burn: G.t + 150, gen };
+    fields()[K.key(x, y)] = { k: 'fire', fuel: kind, until: G.t + (kind === 'oil' ? OIL_FIRE_MS : kind === 'door' ? DOOR_FIRE_MS : FIRE_MS), spread: G.t + SPREAD_MS, burn: G.t + 150, gen, ...(wild ? { wild: true } : {}) };
     const L = lvl();
+    // (a door catching is said whenever it is seen: it is news, not more of the same fire)
+    if (kind === 'door') { if (dist({ x, y }, K.P()) <= 6) K.log('The door catches fire!', 'bad'); return true; }
     if (!(L.fireSaid > G.t)) {
       L.fireSaid = G.t + 4000;
       const seen = dist({ x, y }, K.P()) <= 6;
@@ -182,14 +194,14 @@ export function makeElements(K) {
   }
 
   /** A fire that reaches an oil cask still whole bursts it. */
-  function burstCask(x, y) {
+  function burstCask(x, y, wild = false) {
     const L = lvl();
     const cask = (L.dressing || []).find(q => q.k === 'oilcask' && q.x === x && q.y === y);
     if (!cask) return;
     K.smash(L, cask, false, true);
     K.log('An oil cask bursts in the heat!', 'bad');
     spill(x, y);
-    ignite(x, y, 0);
+    ignite(x, y, 0, wild);
   }
 
   /**
@@ -204,8 +216,8 @@ export function makeElements(K) {
       if (i < from) continue;
       const f = fieldAt(sx, sy);
       if (f && f.k === 'ice') { delete fields()[K.key(sx, sy)]; continue; }
-      ignite(sx, sy, 0);
-      burstCask(sx, sy);
+      ignite(sx, sy, 0, true);
+      burstCask(sx, sy, true);
     }
   }
 
@@ -229,23 +241,29 @@ export function makeElements(K) {
       if (f.k !== 'fire') continue;
       const [x, y] = k.split(',').map(Number);
       // (oil that burnt on moss took the moss with it: that ash stays, as the moss's does)
-      if (G.t >= f.until) { L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0 }; continue; }
+      if (G.t >= f.until) {
+        L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0 };
+        if (f.fuel === 'door') doorFalls(x, y);
+        continue;
+      }
       if (G.t >= f.spread) {
         f.spread += SPREAD_MS;
         for (const [dx, dy] of DIRS4) {
           const nx = x + dx, ny = y + dy, kind = fuel(nx, ny);
-          burstCask(nx, ny);
+          burstCask(nx, ny, !!f.wild);
           if (!kind) continue;
           if (kind === 'moss' && f.gen >= MOSS_REACH) continue;
-          if (Math.random() < (kind === 'oil' ? 0.9 : 0.5)) ignite(nx, ny, kind === 'oil' ? 0 : f.gen + 1);
+          if (Math.random() < (kind === 'oil' ? 0.9 : 0.5)) ignite(nx, ny, kind === 'oil' ? 0 : f.gen + 1, !!f.wild);
         }
       }
       if (G.t >= f.burn) {
         f.burn += BURN_MS;
-        for (const m of L.monsters.filter(o => o.x === x && o.y === y && !o.collapsed && !o.sunk)) K.damageMonster(m, K.elemental(m, d(1, 6) + depthBite, 'fire'), 'burning');
+        for (const m of L.monsters.filter(o => o.x === x && o.y === y && !o.collapsed && !o.sunk)) K.damageMonster(m, K.elemental(m, d(1, 6) + depthBite, 'fire'), f.wild ? 'blaze' : 'burning');
         if (G.status !== 'playing') return;
         const p = K.P();
         if (p.x === x && p.y === y) {
+          // a web holding the hero burns away, as it does for a fire spell
+          K.burnWeb();
           const n = d(1, 4) + depthBite;
           K.hurtPlayer(n, `The flames lick at you! (${n})`, null, f.fuel === 'oil' ? 'burning oil' : 'burning moss');
           if (G.status !== 'playing') return;
@@ -254,6 +272,15 @@ export function makeElements(K) {
         if (c && c.x === x && c.y === y) K.companionHurt(d(1, 4) + depthBite, 'The flames lick at');
       }
     }
+  }
+
+  /** A burnt door falls in: the doorway stands open, and whatever lock it had is gone with it. */
+  function doorFalls(x, y) {
+    const L = lvl();
+    if (K.tile(x, y) === K.T.DOOR || K.tile(x, y) === K.T.DOOR_LOCKED) K.setTile(x, y, K.T.DOOR_OPEN);
+    if (L.locks) delete L.locks[K.key(x, y)];
+    if (dist({ x, y }, K.P()) <= 6) K.log('The burning door gives way and falls in.', 'info');
+    Sound.play('door', K.heard({ x, y }));
   }
 
   /** What the renderer draws on the floor, and where flames stand. */

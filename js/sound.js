@@ -195,6 +195,7 @@ const Sound = (() => {
   function strikeOf(o) {
     const t = o.tag;
     if (t === 'fire') return 'force';
+    if (t === 'blaze') return 'burning';
     if (t === 'burn' || t === 'burning' || t === 'venom') return t === 'burn' ? 'fire' : t;
     if (t === 'thorns') return 'pierce';
     if (o.w === 'fists') return 'fist';

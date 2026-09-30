@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30b', text: 'the living shy away from fire now, so a line of burning oil holds them back; traders sell flasks of lamp oil to throw, and a fire spell or a fire-oiled arrow sets the oil alight' };
+  const NEWS = { id: '2026-09-30c', text: 'traders sell flasks of lamp oil to throw, and the living shy from fire; wooden doors burn too, so oil and a flame take a locked door down without its key' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

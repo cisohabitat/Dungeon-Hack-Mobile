@@ -2483,7 +2483,7 @@ const Game = (() => {
     {
       // a spray scaled to the blow, and a stain when it was a heavy one or the last
       const hard = dmg / Math.max(1, m.maxHp);
-      if (tag !== 'burning' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
+      if (tag !== 'burning' && tag !== 'blaze' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
     { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' || wild.shaped() ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
@@ -2516,7 +2516,7 @@ const Game = (() => {
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
     else if (tag === 'companion') { log(`${G.companion ? G.companion.name : 'Your companion'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
-    else if (tag === 'burning') { log(`The ${mb.name} burns for ${dmg}.`); }
+    else if (tag === 'burning' || tag === 'blaze') { log(`The ${mb.name} burns for ${dmg}.`); }
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
@@ -3102,7 +3102,7 @@ const Game = (() => {
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)
       : tag === 'offhand' ? (p.eq.offhand ? the(p.eq.offhand) : 'your off hand')
-      : tag === 'thorns' ? 'your barbs' : tag === 'burning' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare' : tag === 'bleed' ? 'your claws\' wounds'
+      : tag === 'thorns' ? 'your barbs' : tag === 'burning' || tag === 'blaze' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare' : tag === 'bleed' ? 'your claws\' wounds'
       : wild.shaped(p) ? 'a bear\'s claws' : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
     s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
   }
@@ -4094,7 +4094,17 @@ const Game = (() => {
       });
     }
     // flames standing on a burning square (its glow on the floor is drawn by the renderer)
-    for (const f of elements.view()) if (f.k === 'fire' && Assets.sprites.dress_flames) sprites.push({ x: f.x + 0.5, y: f.y + 0.5, img: Assets.sprites.dress_flames, scale: 0.5 + 0.07 * Math.sin(now / 110 + f.x * 7 + f.y * 3), yOff: 0, onFloor: true, glow: true });
+    for (const f of elements.view()) {
+      if (f.k !== 'fire' || !Assets.sprites.dress_flames) continue;
+      // a shut door on fire burns on the face turned to the hero, not hidden inside its own square
+      let ox = 0, oy = 0;
+      const t = tile(f.x, f.y);
+      if (t === T.DOOR || t === T.DOOR_LOCKED) {
+        const hero = P(), ddx = hero.x - f.x, ddy = hero.y - f.y;
+        if (Math.abs(ddx) >= Math.abs(ddy)) ox = Math.sign(ddx) * 0.56; else oy = Math.sign(ddy) * 0.56;
+      }
+      sprites.push({ x: f.x + 0.5 + ox, y: f.y + 0.5 + oy, img: Assets.sprites.dress_flames, scale: (f.fuel === 'door' ? 0.75 : 0.5) + 0.07 * Math.sin(now / 110 + f.x * 7 + f.y * 3), yOff: 0, onFloor: true, glow: true });
+    }
     // what lies about the room for looks, and what the fallen left (puddles are drawn flat by the renderer)
     for (const d of (L.dressing || [])) {
       if (d.k !== 'puddle' && Assets.sprites['dress_' + d.k]) sprites.push({ x: d.x + 0.5 + d.ox, y: d.y + 0.5 + d.oy, img: Assets.sprites['dress_' + d.k], scale: DRESS_SIZE[d.k] || 0.34, yOff: 0, onFloor: true, dress: true });
@@ -4433,6 +4443,7 @@ const Game = (() => {
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get tile() { return tile; }, get T() { return T; }, get key() { return key; },
     get log() { return log; }, get floatText() { return floatText; }, get spray() { return spray; }, get heard() { return heard; }, get mstat() { return mstat; },
     get damageMonster() { return damageMonster; }, get elemental() { return elemental; }, get hurtPlayer() { return hurtPlayer; }, get smash() { return smash; },
+    get setTile() { return setTile; }, burnWeb: () => burnWeb(),
     surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
   });
   // ---------- encounters: see meet.js ----------

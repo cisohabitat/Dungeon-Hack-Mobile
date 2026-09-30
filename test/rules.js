@@ -11228,6 +11228,56 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('fire a monster lit burns what stands in it but is not the hero\'s blow: it does not break a chant; the hero\'s own fire does', async () => {
+    const out = [];
+    for (const wild of [true, false]) {
+      const { Game, G, L, put, at } = await arena('fighter', 'el-blaze-' + wild);
+      L.twist = null;
+      const ac = put('acolyte', 3, 0, { hp: 50, maxHp: 100, nextAct: G.t + 5000 });
+      ac.windup = { kind: 'move', move: 'mend', at: G.t, until: G.t + 5000, target: ac.uid };
+      const [x, y] = at(3);
+      L.fields[`${x},${y}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: G.t, gen: 0, ...(wild ? { wild: true } : {}) };
+      const mark = markLog(G);
+      run(Game, G, 300);
+      if (!(ac.hp < 50)) out.push(`${wild ? 'a wyrm\'s' : 'the hero\'s'} fire did not burn the acolyte`);
+      const broken = !ac.windup;
+      const said = linesSince(G, mark).some(l => /You break/.test(l));
+      if (wild && (broken || said)) out.push(`a wyrm's fire broke the acolyte's chant for the hero (${linesSince(G, mark).join(' | ')})`);
+      if (!wild && !broken) out.push('the hero\'s own fire did not break the chant');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a shut wooden door beside a fire catches, burns a while and falls in, a locked one too; fire under a webbed hero burns the web away', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, at } = await arena('fighter', 'el-door');
+    L.twist = null;
+    const [dx, dy] = at(3), [fx, fy] = at(2);
+    L.tiles[dy * L.w + dx] = Dungeon.T.DOOR_LOCKED;
+    L.locks = L.locks || {}; L.locks[`${dx},${dy}`] = 'brass';
+    L.fields[`${fx},${fy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: G.t, burn: 1e15, gen: 0 };
+    const mark = markLog(G);
+    let caught = false, heldWhileBurning = true;
+    for (let i = 0; i < 80; i++) {
+      run(Game, G, 200);
+      const f = Game.fieldAt(dx, dy);
+      if (f && f.k === 'fire') { caught = true; if (L.tiles[dy * L.w + dx] !== Dungeon.T.DOOR_LOCKED) heldWhileBurning = false; }
+      if (L.tiles[dy * L.w + dx] === Dungeon.T.DOOR_OPEN) break;
+    }
+    if (!caught) out.push('the door beside the fire never caught');
+    if (!heldWhileBurning) out.push('the door stood open while it was still burning');
+    if (L.tiles[dy * L.w + dx] !== Dungeon.T.DOOR_OPEN) out.push('the burnt door never fell in');
+    if (L.locks[`${dx},${dy}`]) out.push('the lock outlived the door');
+    const said = linesSince(G, mark);
+    if (!said.some(l => /door catches fire/.test(l)) || !said.some(l => /falls in/.test(l))) out.push(`no word of the door burning (${said.join(' | ')})`);
+    // a web holding the hero shrivels in the flames
+    p.webbed = G.t + 60000;
+    L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: G.t, gen: 0 };
+    run(Game, G, 300);
+    if (p.webbed > G.t) out.push('fire under a webbed hero left the web whole');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a cave wyrm\'s fire passes over the square under its jaws: a hero in close on moss is not set alight, the moss beyond is', async () => {
     const out = [];
     const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-breath');
@@ -11241,6 +11291,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (here) out.push(`the square under its jaws took ${here.k}`);
     const beyond = Game.fieldAt(bx, by);
     if (!beyond || beyond.k !== 'fire') out.push('the moss past the hero did not catch');
+    else if (!beyond.wild) out.push('the wyrm\'s fire was taken for the hero\'s own');
     return out.length ? out.join('; ') : true;
   });
 

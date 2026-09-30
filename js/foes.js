@@ -201,7 +201,7 @@ export function makeFoes(K) {
   }
   /** Crushing and magic keep a skeleton down; an edge only takes it apart. */
   function breaksBones(tag) {
-    if (tag === 'fire' || tag === 'burn' || tag === 'burning' || tag === 'shock') return true;
+    if (tag === 'fire' || tag === 'burn' || tag === 'burning' || tag === 'blaze' || tag === 'shock') return true;
     if (tag === 'thorns' || tag === 'companion') return false;
     const w = tag === 'offhand' ? K.offhandWeapon() : K.weapon();
     return !!(w && w.blunt);
@@ -598,15 +598,16 @@ export function makeFoes(K) {
     }
     // a numbing claw is struck aside by a blow that lands first, and leaves it
     // open: a blow or a spell, not poison or fire already eating at it
-    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'venom', 'thorns', 'companion', 'shock'].includes(tag)) {
+    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'blaze', 'venom', 'thorns', 'companion', 'shock'].includes(tag)) {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 900;
       K.log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
       K.learn(m.id, 'answer');
       K.opening(m);
     }
     // a chant, a war-horn call and the lich's rite are the hero's to break:
-    // the hound's teeth do not count, or it quietly won the lich fight for them
-    const byHero = tag !== 'companion';
+    // the hound's teeth do not count, or it quietly won the lich fight for them;
+    // nor does a fire some monster lit (a wyrm's breath)
+    const byHero = tag !== 'companion' && tag !== 'blaze';
     // a chant is broken by any wound
     if (byHero && m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
@@ -633,7 +634,7 @@ export function makeFoes(K) {
       K.learn(m.id, 'answer');
     }
     // fire sears a troll's wounds shut, so they cannot grow back for a while
-    if ((tag === 'burn' || tag === 'burning') && mb.regen) {
+    if ((tag === 'burn' || tag === 'burning' || tag === 'blaze') && mb.regen) {
       if (!(m.burnUntil > K.G.t)) { K.log(`The ${mb.name}'s burns do not close.`, 'good'); K.learn(m.id, 'answer'); }
       m.burnUntil = K.G.t + 6000;
     }
