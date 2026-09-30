@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30f', text: 'floors now and then lay out a scene for fire; wraiths breathe a grave-cold at your feet, and acolytes call lightning into water you stand in; goblins throw burning oil, and a cleric\'s prayers come quicker' };
+  const NEWS = { id: '2026-09-30f', text: 'floors now and then lay out a scene for fire; wraiths breathe a grave-cold at your feet, and acolytes call lightning into water you stand in; goblins throw burning oil, and a cleric\'s prayers come quicker; the Menu has testing aids (endless life, spell points, gold)' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -680,6 +680,11 @@ const UI = (() => {
   const setHand = () => document.body.classList.toggle('lefty', lefty());
   // Calm view: no shake, no drifting dust, torches that burn steady. Chosen
   // in the menu; until it is, it follows the phone's own ask for less motion.
+  // Testing aids: endless life, spell points or gold, kept on the device (see Game.setTesting)
+  const TESTING = 'deepdelve.testing';
+  /** @returns {{hp: boolean, sp: boolean, gold: boolean}} */
+  function testingSet() { try { const t = JSON.parse(store(TESTING) || '{}'); return { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold }; } catch (e) { return { hp: false, sp: false, gold: false }; } }
+  function toggleTesting(k) { const t = testingSet(); t[k] = !t[k]; store(TESTING, JSON.stringify(t)); Game.setTesting(t); renderMenu(); if (Game.state()) refreshHud(); }
   const CALM = 'deepdelve.calm';
   function calmOn() {
     const v = store(CALM);
@@ -980,7 +985,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip()].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested()].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -998,6 +1003,8 @@ const UI = (() => {
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
+    // a testing aid on, or once on this run: the run will not count, and this says so
+    if (Game.testingOn() || Game.tested()) st.push('<span class="bad" title="A testing aid is on (Menu): this run is not written in the Hall">Test run</span>');
     // a floor readier for a strong hero says so while you are on it
     if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' || (L.twist === 'overgrown' && p.cls === 'druid') ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
     if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Foes +${Game.pressSturdier(L)}%</span>`);
@@ -2298,6 +2305,10 @@ const UI = (() => {
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
+    const t = testingSet();
+    $('#m-test-hp').textContent = 'Endless life: ' + (t.hp ? 'On' : 'Off');
+    $('#m-test-sp').textContent = 'Endless spell points: ' + (t.sp ? 'On' : 'Off');
+    $('#m-test-gold').textContent = 'Endless gold: ' + (t.gold ? 'On' : 'Off');
     $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
     $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
@@ -2443,7 +2454,8 @@ const UI = (() => {
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
-    if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
+    if (G.tested) news.push('A test run (endless life, spell points or gold): it is not written in the Hall, and earns no trophy.');
+    else if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     // and the next thing to aim for, while a past is still locked
     else if (won) {
       const next = Object.keys(BACKGROUNDS).find(id => BACKGROUNDS[id].unlock && !Progress.bgOpen(id));
@@ -2563,6 +2575,9 @@ const UI = (() => {
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
+    $('#m-test-hp').addEventListener('click', () => toggleTesting('hp'));
+    $('#m-test-sp').addEventListener('click', () => toggleTesting('sp'));
+    $('#m-test-gold').addEventListener('click', () => toggleTesting('gold'));
     $('#m-hand').addEventListener('click', () => { store(HAND, lefty() ? 'right' : 'left'); setHand(); renderMenu(); fitView(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     // How to Play in the middle of a run: the run is kept first (a phone may
@@ -2605,7 +2620,7 @@ const UI = (() => {
 
   /** A daily run's end is kept at once, before any finale, in case the phone is put away. */
   function noteDaily(run, won) {
-    if (!run.opts.daily) return;
+    if (!run.opts.daily || run.tested) return;
     const p = run.player;
     Daily.finish(run.opts.daily, { won, depth: run.depth, kills: p.kills, cls: p.cls, score: Game.score(p, run.depth, won) }, run.opts.dailyKind || 'main');
   }
@@ -2648,6 +2663,7 @@ const UI = (() => {
       if (h) { if (!h.id) h.id = ov.id + '-title'; ov.setAttribute('aria-labelledby', h.id); }
     }
     Renderer.setCalm(calmOn());
+    Game.setTesting(testingSet());
     setHand();
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }

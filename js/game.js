@@ -633,7 +633,7 @@ const Game = (() => {
     G.relics.found.push(id);
     G.known[RELICS[id].t] = 1;   // a named ring or amulet says what it was made for
     const had = Progress.load().feats.collector;
-    Progress.noteRelic(id);   // the codex remembers it after the run
+    if (!G.tested) Progress.noteRelic(id);   // the codex remembers it after the run
     log(RELICS[id].lore, 'info');
     if (!had && Progress.load().feats.collector) log('That is every relic in the deep found, over all your runs: the Collector\'s feat, a trophy of its own.', 'good');
   }
@@ -949,7 +949,7 @@ const Game = (() => {
     fx.shakeAmp = 5; fx.shakeMs = 600; fx.shakeUntil = realNow + 600;
     Sound.play('namedfall', heard(m));
     learn(m.id, 'answer');
-    Progress.layToRest(m.shade.run);
+    if (!G.tested) Progress.layToRest(m.shade.run);
     G.rested = heroTitle(m.shade.name, m.shade.cls);
   }
   /** What killed the hero, as the one who finds their bones will be told it: "a goblin", "Grisk, the Goblin King". */
@@ -2973,6 +2973,8 @@ const Game = (() => {
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }
     noteTaken(dmg, from, cause);
     p.hp -= dmg;
+    // (with endless life on for testing, no blow is the last)
+    if (testing.hp && p.hp < 1) { p.hp = p.maxHp; G.tested = true; }
     p.lastHurt = G.t;
     if (from) {
       const bearing = relativeBearing(from);
@@ -3064,7 +3066,7 @@ const Game = (() => {
     Sound.play('die');
     if (G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } noteRun(runKey(), 'ended'); }
     // remembered, for a later run to find where they fell
-    if (!G.opts.daily) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
+    if (!G.opts.daily && !G.tested) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
     recordHero(false);
     emit('dead');
   }
@@ -3159,6 +3161,8 @@ const Game = (() => {
   }
   function recordHero(won) {
     const p = P();
+    // a test run (endless life, spell points or gold) is written nowhere
+    if (G.tested) { G.earned = won ? { tested: true } : null; return; }
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
@@ -3992,10 +3996,29 @@ const Game = (() => {
     const p = P(), left = p.nextAttack - G.t;
     return left <= 0 ? 1 : Math.max(0, 1 - left / weapon().speed);
   }
+  // ---------- testing aids ----------
+  // For whoever is testing the game, not a way to play it: life, spell points
+  // or gold that never run out, switched in the Menu and kept on the device
+  // (not in the save). A run that has had any of them on is marked for good,
+  // and kept out of the Hall, the trophies, the fallen, the codex and the Daily.
+  let testing = { hp: false, sp: false, gold: false };
+  const TEST_GOLD = 99999;
+  /** @param {{hp?: boolean, sp?: boolean, gold?: boolean}} t */
+  function setTesting(t) { testing = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold }; applyTesting(); }
+  const testingOn = () => testing.hp || testing.sp || testing.gold;
+  function applyTesting() {
+    if (!G || G.status !== 'playing' || !testingOn()) return;
+    G.tested = true;
+    const p = P();
+    if (testing.hp) p.hp = p.maxHp;
+    if (testing.sp && p.maxSp) p.sp = p.maxSp;
+    if (testing.gold && p.gold < TEST_GOLD) p.gold = TEST_GOLD;
+  }
   function update(now, dt) {
     realNow = now;
     if (!G || G.status !== 'playing') return;
     G.t += dt;
+    applyTesting();
     const p = P();
     fx.hpFrac = p.hp / p.maxHp;
     updateCam();
@@ -4615,7 +4638,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, spellRange, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     mood,

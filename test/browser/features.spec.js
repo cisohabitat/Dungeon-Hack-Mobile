@@ -1108,6 +1108,40 @@ test.describe('dungeon features', () => {
     await expect.poll(() => page.evaluate(() => { const F = Object.values(Game.level().fields || {}); return F.length > 0 && F.every(f => f.k === 'ash'); }), { timeout: 12000 }).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('the Menu turns endless life, spell points and gold on and off for testing; the HUD says it is a test run', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'testing-aids', cls: 'mage' });
+    await clearBoons(page);
+    // endless life alone, at full life, changes no number: the chip must still say so at once
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-hp');
+    await page.click('#ov-menu [data-close]');
+    await expect(page.locator('#hud-status')).toContainText('Test run');
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-hp');
+    for (const [id, word] of [['#m-test-hp', 'Endless life'], ['#m-test-sp', 'Endless spell points'], ['#m-test-gold', 'Endless gold']]) {
+      await expect(page.locator(id)).toHaveText(`${word}: Off`);
+      await page.click(id);
+      await expect(page.locator(id)).toHaveText(`${word}: On`);
+    }
+    expect(JSON.parse(await page.evaluate(() => localStorage.getItem('deepdelve.testing')))).toEqual({ hp: true, sp: true, gold: true });
+    await page.click('#ov-menu [data-close]');
+    await expect(page.locator('#hud-status')).toContainText('Test run');
+    // life, spell points and gold run full, and a killing blow does not kill
+    await page.evaluate(() => { const p = Game.player(); p.hp = 1; p.sp = 0; p.gold = 0; });
+    await expect.poll(() => page.evaluate(() => { const p = Game.player(); return p.hp === p.maxHp && p.sp === p.maxSp && p.gold >= 99999; }), { timeout: 3000 }).toBe(true);
+    await expect(page.locator('#hud-status')).toContainText('Test run');
+    // off again: the numbers are the hero's own once more, but the run stays marked
+    await page.click('[data-open="menu"]');
+    await page.click('#m-test-gold');
+    await expect(page.locator('#m-test-gold')).toHaveText('Endless gold: Off');
+    await page.click('#ov-menu [data-close]');
+    await page.evaluate(() => { Game.player().gold = 7; });
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => Game.player().gold)).toBe(7);
+    expect(await page.evaluate(() => Game.tested())).toBe(true);
+    expect(errors).toEqual([]);
+  });
   test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'living-afire' });

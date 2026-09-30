@@ -11195,6 +11195,38 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('testing aids: endless life, spell points and gold keep the hero topped up and alive; a run that had one on is written nowhere', async () => {
+    const out = [];
+    const { Game, G, L, p, put, ctx } = await arena('mage', 'el-testing');
+    p.maxHp = 20; p.hp = 20; p.maxSp = 30; p.sp = 30; p.gold = 5;
+    Game.setTesting({ hp: true, sp: true, gold: true });
+    run(Game, G, 50);
+    if (!Game.testingOn() || !Game.tested()) out.push('the aids did not mark the run');
+    if (p.gold < 99999) out.push(`endless gold left ${p.gold}`);
+    // a blow far past the hero's life
+    const o = put('ogre', 1, 0, { hp: 999, maxHp: 999 });
+    for (let i = 0; i < 20; i++) { o.windup = { kind: 'move', move: 'crush', at: G.t, until: G.t }; o.nextAct = G.t; o.blows = 3; run(Game, G, 300); }
+    if (G.status !== 'playing') out.push(`endless life let the hero ${G.status}`);
+    if (p.hp !== p.maxHp) out.push(`endless life left ${p.hp} of ${p.maxHp}`);
+    L.monsters.length = 0;
+    // a spell cast costs nothing that stays spent
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    Game.castSpell(ctx.SPELLS.mage.find(s => s.id === 'shield'));
+    run(Game, G, 50);
+    if (p.sp !== p.maxSp) out.push(`endless spell points left ${p.sp} of ${p.maxSp}`);
+    // switched off, the run stays marked: its death is not remembered, nor written in the Hall
+    Game.setTesting({});
+    const hallBefore = localStorage.getItem('deepdelve.hall');
+    const fallenBefore = JSON.stringify(ctx.Progress ? ctx.Progress.fallen() : null);
+    p.hp = 1; L.monsters.length = 0;
+    const o2 = put('ogre', 1, 0, { hp: 999, maxHp: 999, nextAct: G.t });
+    for (let i = 0; i < 60 && G.status === 'playing'; i++) { o2.windup = { kind: 'move', move: 'crush', at: G.t, until: G.t }; o2.nextAct = G.t; o2.blows = 3; run(Game, G, 300); }
+    if (G.status !== 'dead') out.push('with the aids off, the hero did not die');
+    if (localStorage.getItem('deepdelve.hall') !== hallBefore) out.push('a test run was written in the Hall');
+    if (ctx.Progress && JSON.stringify(ctx.Progress.fallen()) !== fallenBefore) out.push('a test run\'s death was remembered for the bones');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a cleric\'s prayer takes 0.85 seconds: slower than a druid\'s words or a mage\'s, quicker than it was (a second)', async () => {
     const out = [];
     const took = {};

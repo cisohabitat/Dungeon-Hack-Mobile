@@ -283,6 +283,7 @@
  * @property {Object<number, Level>} levels
  * @property {number} depth
  * @property {string} [route]  the road taken at the fork: crypts or warrens; absent until chosen
+ * @property {boolean} [tested]  a testing aid (endless life, spell points or gold) was on at some point: the run is written nowhere
  * @property {boolean} [forkPending]  the hero stands at the divided stair and has not yet chosen
  * @property {number} [lunges]  how many lunges have followed the hero this run: the first-fight lesson reads it
  * @property {Bounty|null} [bounty]  the trader's job the hero has taken, if any (see bounty.js)
@@ -315,7 +316,7 @@
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
- * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
+ * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean, tested?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
  */
 
 export {};
