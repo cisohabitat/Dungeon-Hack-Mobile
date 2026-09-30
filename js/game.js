@@ -2230,7 +2230,16 @@ const Game = (() => {
   function caskLevel(L, depth) {
     const rng = new Rng(`${G.seed}|casks|${depth}`);
     for (const q of L.dressing || []) if (q.k === 'barrel' && rng.next() < OIL_CASKS) q.k = 'oilcask';
-    // and every trader keeps a few flasks of it, to throw
+    stockLampOil(L, depth);
+  }
+  /**
+   * Every trader keeps a few flasks of lamp oil, to throw: once a floor (a
+   * floor saved before there were flasks gets them as it loads, and a trader
+   * bought out stays bought out).
+   */
+  function stockLampOil(L, depth) {
+    if (L.lampOil) return;
+    L.lampOil = true;
     const frng = new Rng(`${G.seed}|lampoil|${depth}`);
     for (const n of L.npcs || []) if (Array.isArray(n.stock) && !n.stock.some(s => s.t === 'lamp_oil')) n.stock.push({ t: 'lamp_oil', q: 2 + frng.int(0, 2), e: 0 });
   }
@@ -4245,6 +4254,7 @@ const Game = (() => {
           // (its barrels hold oil as a floor made now would)
           caskLevel(G.levels[dpt], Number(dpt));
         }
+        stockLampOil(G.levels[dpt], Number(dpt));
         stepAside(G.levels[dpt]);
       }
       // a run saved on the climb out, from when the Heart had to be carried to

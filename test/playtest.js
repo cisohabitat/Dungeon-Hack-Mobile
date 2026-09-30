@@ -434,7 +434,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // squares off, then set it alight (a Flame Strike, a fire-oiled shot, a
     // fireball scroll). The living shy from the flames, and it burns meanwhile.
     // NOFLASK=1 plays without.
-    if (!process.env.NOFLASK && G.t >= p.nextAttack && !Game.shaped()) {
+    // (never on moss: its fire would spread back to the hero's own feet)
+    if (!process.env.NOFLASK && G.t >= p.nextAttack && !Game.shaped() && L.twist !== 'overgrown') {
       const flask = p.inv.find(i => i.t === 'lamp_oil');
       const wepNow = Game.weapon();
       const fireShot = !!wepNow.range && ((p.coating && p.coating.t === 'fire' && p.coating.left > 0) || Game.hasPower('flame', 'weapon'));

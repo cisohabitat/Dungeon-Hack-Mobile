@@ -263,8 +263,8 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 98% | 96% | 96% | 96% | 97% | 98% | about 97% |
-| Normal | 81% | 80% | 79% | 79% | 84% | 81% | about 81% |
-| Hard | 53% | 56% | 59% | 57% | 61% | 59% | about 57% |
+| Normal | 81% | 78% | 79% | 81% | 79% | 85% | about 80% |
+| Hard | 58% | 56% | 59% | 57% | 61% | 59% | about 58% |
 | Long Delve (12 floors), Normal | 83% | 85% | 81% | 85% | 78% | 83% | about 82% |
 | Long Delve (12 floors), Hard | 57% | 62% | 58% | 55% | 62% | 53% | about 58% |
 
@@ -279,10 +279,11 @@ Entangle, the two paths are within a few points of each other on Normal and Hard
 leaves the Druid where it was (Normal about 82%, Hard about 64%).
 
 Hard's aim is the high fifties, and every class lands within about six points of it: the
-cleric lowest, the ranger highest. (The Hard row was measured again, both seed sets, after the
-dungeon began to answer the elements and goblins took to throwing fire: since it was last
-measured the cleric has slipped about four points, and the druid and ranger a few; the mage,
-whose Pyromancer now reaches three squares with Burning Hands, is where it was.) Oils, charms, capstones and traders' jobs lifted it to about
+fighter lowest, the ranger highest. (The Normal and Hard rows were measured again, both seed
+sets, after the dungeon began to answer the elements and goblins took to throwing fire. The
+cleric had slipped to 53% on Hard; its prayers now take 0.85 seconds, not a second, which brings
+it back to 58% (a d10 hit die, tried instead, overshot to 63%). The mage, whose Pyromancer now
+reaches three squares with Burning Hands for a point more, is where it was.) Oils, charms, capstones and traders' jobs lifted it to about
 61%, and its creatures were made a little sturdier (1.9 times as drawn, not 1.8) to bring it
 back; the bot uses every one of those tools, which a player will not always, so it was brought
 back to where it stood before them rather than to half. (It was once tuned to 42%, and later to

@@ -300,6 +300,14 @@ export function makeFoes(K) {
         break;
       case 'charge': {
         const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
+        // a living thing charging pulls up short of fire in its line
+        const flames = (x, y) => fearsFire(mb) && fiery(x, y);
+        let short = null;
+        if (inLine) for (let i = 1, x = m.x, y = m.y; i <= 6; i++) {
+          x += w.dx || 0; y += w.dy || 0;
+          if (x === p.x && y === p.y) break;
+          if (flames(x, y)) { short = { x: x - (w.dx || 0), y: y - (w.dy || 0) }; break; }
+        }
         // a door shut across its line stops it cold: it hits the door, not you
         let door = inLine ? doorInCharge(m, w) : null, x = m.x, y = m.y;
         if (door) {
@@ -312,7 +320,13 @@ export function makeFoes(K) {
           }
           if (Math.abs(door.x - x) + Math.abs(door.y - y) > 1) door = null;
         }
-        if (door) {
+        if (short && !(door && Math.abs(door.x - m.x) + Math.abs(door.y - m.y) < Math.abs(short.x - m.x) + Math.abs(short.y - m.y))) {
+          if (short.x !== m.x || short.y !== m.y) moveMonster(m, short.x, short.y);
+          K.log(`The ${mb.name} pulls up short of the flames, and is left open!`, 'good');
+          K.learn(m.id, 'answer');
+          K.opening(m);
+          m.nextAct = K.G.t + 1600;
+        } else if (door) {
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           K.log(`The ${mb.name} slams into the shut door and reels back, wide open!`, 'good');
           Sound.play('smash', K.heard(m));
@@ -336,7 +350,7 @@ export function makeFoes(K) {
           let x = m.x, y = m.y;
           for (let i = 0; i < 3; i++) {
             const nx = x + (w.dx || 0), ny = y + (w.dy || 0);
-            if (!K.passable(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || (nx === p.x && ny === p.y)) break;
+            if (!K.passable(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || (nx === p.x && ny === p.y) || flames(nx, ny)) break;
             x = nx; y = ny;
           }
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
@@ -1306,7 +1320,9 @@ export function makeFoes(K) {
     if (w.kind === 'pet') { m.windup = null; K.companionStruck(m, mb); m.nextAct = G.t + Math.max(120, mb.speed - (w.until - w.at)); return; }
     const cycle = w.kind === 'shot' ? mb.speed * 1.3 : mb.speed;
     // a step back is not always out of reach: a lunger follows you, and the lich's touch reaches
-    const follow = w.kind === 'melee' && !adjacent ? K.followBlow(m, mb, w) : null;
+    let follow = w.kind === 'melee' && !adjacent ? K.followBlow(m, mb, w) : null;
+    // (a living lunger does not follow you into fire: the blow falls on the air)
+    if (follow && follow.lunge && fearsFire(mb) && fiery(follow.x, follow.y)) follow = null;
     const inReach = w.kind === 'melee' ? adjacent || !!follow : shot;
     if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; return; }   // held a beat, still coming
     m.windup = null;

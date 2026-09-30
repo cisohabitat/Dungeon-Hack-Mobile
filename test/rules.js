@@ -11143,6 +11143,40 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a cleric\'s prayer takes 0.85 seconds: slower than a druid\'s words or a mage\'s, quicker than it was (a second)', async () => {
+    const out = [];
+    const took = {};
+    for (const [cls, id] of [['cleric', 'bless'], ['druid', 'thorn_lash'], ['mage', 'shield']]) {
+      const { Game, G, p, put, ctx } = await arena(cls, 'el-pray-' + cls);
+      if (id === 'thorn_lash') put('goblin', 2);
+      G.t = Math.max(G.t, p.nextAttack) + 10;
+      const sp = ctx.SPELLS[cls].find(s => s.id === id);
+      if (!Game.castSpell(sp)) { out.push(`${cls} could not cast ${id}`); continue; }
+      took[cls] = p.nextAttack - G.t;
+    }
+    if (took.cleric !== 850) out.push(`a cleric's prayer took ${took.cleric}ms`);
+    if (!(took.druid < took.cleric && took.mage < took.druid)) out.push(`prayer ${took.cleric}, druid ${took.druid}, mage ${took.mage}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a trader on a floor saved before there were flasks of lamp oil stocks some as it loads, once: bought out, it stays bought out', async () => {
+    const out = [];
+    const { Game, L, at } = await arena('fighter', 'el-oldstock');
+    const [x, y] = at(4, 1);
+    // an old save: a trader with no lamp oil, on a floor not yet stocked
+    L.npcs = [{ id: 'merchant', x, y, stock: [{ t: 'potion_heal', q: 2, e: 0 }], markup: 1, greeted: false }];
+    delete L.lampOil;
+    Game.save(true); Game.load();
+    const t = () => Game.level().npcs.find(n => n.id === 'merchant');
+    const oil = () => t().stock.find(i => i.t === 'lamp_oil');
+    if (!oil() || !(oil().q >= 2)) out.push(`an old save's trader stocked ${oil() ? oil().q : 'no'} flasks`);
+    // every flask bought (the stock line gone), and loaded again: none come back
+    t().stock = t().stock.filter(i => i.t !== 'lamp_oil');
+    Game.save(true); Game.load();
+    if (oil()) out.push('a trader bought out of lamp oil was stocked again by a reload');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a flask of lamp oil is thrown: it smashes three squares ahead or on the first thing in the way and spills there; not at a wall; every trader keeps some', async () => {
     const out = [];
     const { Game, G, L, p, put, at } = await arena('fighter', 'el-flask');
@@ -11459,6 +11493,39 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (aside && !linesSince(G, mark).some(l => /where you stood/.test(l))) out.push('no word of the arrow missing');
       p.x = x0; p.y = y0;
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a living charger pulls up short of fire in its line and is left open; a living lunger does not follow a step back into fire', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-charge');
+    L.twist = null;
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    const o = put('orc', 4, 0, { hp: 200, maxHp: 200 });
+    const [cx, cy] = at(2);
+    L.fields[`${cx},${cy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: 1e15, gen: 0, wild: true };
+    o.windup = { kind: 'move', move: 'charge', at: G.t, until: G.t + 50, dx: -fx, dy: -fy }; o.nextAct = o.windup.until;
+    let hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 150);
+    const [sx, sy] = at(3);
+    if (o.x !== sx || o.y !== sy) out.push(`the orc charged to ${o.x},${o.y}, not short of the fire at ${cx},${cy}`);
+    if (p.hp < hp0) out.push('the charge came through the fire and hit the hero');
+    if (!linesSince(G, mark).some(l => /short of the flames/.test(l))) out.push(`no word of the orc pulling up (${linesSince(G, mark).join(' | ')})`);
+    if (!(o.openUntil > G.t) && !(p.opening && p.opening.until > G.t)) out.push('the orc was not left open');
+    // a rat draws back beside the hero; the hero steps back, and fire takes the square they left
+    L.monsters.length = 0; L.fields = {};
+    const r = put('rat', 1, 0, { nextAct: G.t, hp: 50, maxHp: 50 });
+    for (let i = 0; i < 60 && !r.windup; i++) run(Game, G, 25);
+    if (!r.windup || r.windup.move) return `the rat drew back ${JSON.stringify(r.windup)}`;
+    const was = [p.x, p.y];
+    p.x -= fx; p.y -= fy;
+    L.fields[`${was[0]},${was[1]}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: 1e15, gen: 0 };
+    hp0 = p.hp; mark = markLog(G);
+    const rx = r.x, ry = r.y;
+    run(Game, G, 1200);
+    if (r.x !== rx || r.y !== ry) out.push(`the rat lunged into the fire (to ${r.x},${r.y})`);
+    if (linesSince(G, mark).some(l => /lunges after/.test(l))) out.push('the rat lunged after the hero through the fire');
+    p.x = was[0]; p.y = was[1];
     return out.length ? out.join('; ') : true;
   });
 
