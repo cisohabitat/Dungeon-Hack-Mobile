@@ -2342,29 +2342,32 @@ const Game = (() => {
   }
   /**
    * Whether a scene still stands as it was laid: casks unburst, oil unburnt,
-   * the door still locked, and something still asleep among the casks. A fire
-   * that got there first (a goblin's pot, a wyrm's breath) leaves nothing to say.
+   * the door still locked, and some of the group still among the casks (awake
+   * or not: a group that has gone off after the hero is no scene). A fire that
+   * got there first (a goblin's pot, a wyrm's breath) leaves nothing to say.
    */
   function pieceStands(L, pc) {
     const caskAt = ([x, y]) => (L.dressing || []).some(q => q.k === 'oilcask' && q.x === x && q.y === y);
     if (pc.k === 'slick') return (pc.line || [[pc.x, pc.y]]).some(([x, y]) => { const f = (L.fields || {})[key(x, y)]; return f && f.k === 'oil'; });
     if (pc.casks && !pc.casks.some(caskAt)) return false;
     if (pc.k === 'barricade') return tile(pc.x, pc.y) === T.DOOR_LOCKED;
-    return !pc.uids || L.monsters.some(m => pc.uids.includes(m.uid));
+    return !pc.uids || L.monsters.some(m => pc.uids.includes(m.uid) && Math.abs(m.x - pc.x) + Math.abs(m.y - pc.y) <= 2);
   }
   // a scene is named as soon as it can be seen: from further than a sleeping group
   // hears a hero come (six squares), or a cache was named only once it had woken
-  const PIECE_SIGHT = 7;
+  // (on a dark floor, no further than the dark lets the view reach)
+  const PIECE_SIGHT = 7, PIECE_SIGHT_DARK = 4;
   /** A scene laid out for fire is named as the hero comes within sight of it. */
   function notePieces() {
     const L = lvl(), p = P();
     for (const pc of L.pieces || []) {
-      if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > PIECE_SIGHT) continue;
+      if (pc.said || Math.abs(pc.x - p.x) + Math.abs(pc.y - p.y) > (L.twist === 'dark' ? PIECE_SIGHT_DARK : PIECE_SIGHT)) continue;
       // seen from the scene's own squares: a locked door is seen from a cask beside it
       const from = pc.k === 'barricade' && pc.casks ? pc.casks : [[pc.x, pc.y], ...(pc.casks || []), ...(pc.line || [])];
       if (!from.some(([x, y]) => inSight(x, y))) continue;
       pc.said = true;
       if (!pieceStands(L, pc)) continue;
+      pc.named = true;   // (said aloud, not only passed: the cask tip follows only a scene named)
       // (asleep only while they all are; a barricade by the casks seen from this side of the door)
       const group = pc.k === 'cache' ? L.monsters.filter(m => (pc.uids || []).includes(m.uid)) : [];
       const asleep = group.every(m => !m.awake) ? 'sleeping ' : '';
@@ -2673,7 +2676,7 @@ const Game = (() => {
     else if (tag === 'burning' || tag === 'blaze') {
       // standing in flames, the first tick is told and the rest show on the creature, so the
       // log keeps room for warnings (a burn it carries, Kindling's, is short and told whole)
-      const inFire = (elements.fieldAt(m.x, m.y) || {}).k === 'fire';
+      const inFire = !m.dotTick && (elements.fieldAt(m.x, m.y) || {}).k === 'fire';
       if (!inFire || !(m.burnSaid > G.t)) log(`The ${mb.name} burns for ${dmg}.`);
       if (inFire) m.burnSaid = G.t + 2500;
     }
@@ -4386,8 +4389,11 @@ const Game = (() => {
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
-    // flames standing on a burning square (its glow on the floor is drawn by the renderer)
+    // flames standing on a burning square (its glow on the floor is drawn by the renderer),
+    // and a shut door on fire, how far through it the fire is (the renderer chars it as it goes)
+    fx.doorFire = null;
     for (const f of elements.view()) {
+      if (f.k === 'fire' && f.fuel === 'door') (fx.doorFire = fx.doorFire || {})[`${f.x},${f.y}`] = f.burnt;
       if (f.k !== 'fire' || !Assets.sprites.dress_flames) continue;
       // a shut door on fire burns on the face turned to the hero, not hidden inside its own square
       let ox = 0, oy = 0;
@@ -4466,14 +4472,12 @@ const Game = (() => {
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
     };
     fx.threats = threats();
-    // a shut door on fire, and how far through it the fire is (the renderer chars it as it goes)
-    fx.doorFire = {};
-    for (const f of elements.view()) if (f.k === 'fire' && f.fuel === 'door') fx.doorFire[`${f.x},${f.y}`] = f.burnt;
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes
     fx.frost = [];
     for (const m of L.monsters) {
       const w = m.windup;
-      if (!w || w.move !== 'chill' || w.tx == null) continue;
+      // (breathed only down a straight line: off one, there is no trail to draw)
+      if (!w || w.move !== 'chill' || w.tx == null || (m.x !== w.tx && m.y !== w.ty)) continue;
       const n = Math.max(1, Math.abs(w.tx - m.x) + Math.abs(w.ty - m.y)), u = Math.max(0, Math.min(1, (G.t - w.at) / Math.max(1, w.until - w.at)));
       const dx = Math.sign(w.tx - m.x), dy = Math.sign(w.ty - m.y);
       for (let i = 1; i <= n; i++) { const a = Math.min(1, u * n - i + 1.5); if (a > 0) fx.frost.push({ x: m.x + dx * i, y: m.y + dy * i, a }); }

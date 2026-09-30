@@ -11948,6 +11948,27 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     run(Game, G, 400);
     if (!(p.hp < hp0)) out.push('a step aside in a flooded floor took nothing');
     if (!(Game.bestiary().acolyte || {}).answer) out.push('a step aside from the storm on a flooded floor was not counted its answer');
+    // on puddles, a step into the next one still takes half, and is not the answer (out of the water is)
+    L.monsters.length = 0; L.twist = null; G.blowGate = 0; p.x -= sx; p.y -= sy;
+    delete Game.bestiary().acolyte;
+    L.dressing = [[0, 0], [sx, sy]].map(([dx, dy]) => ({ x: p.x + dx, y: p.y + dy, k: 'puddle', ox: 0, oy: 0 }));
+    const b = put('acolyte', 4, 0, { hp: 80, maxHp: 80 });
+    b.windup = { kind: 'move', move: 'storm', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; b.nextAct = b.windup.until;
+    p.x += sx; p.y += sy;
+    const hp1 = p.hp;
+    run(Game, G, 400);
+    if (!(p.hp < hp1)) out.push('a step into the next puddle took nothing');
+    if ((Game.bestiary().acolyte || {}).answer) out.push('a step into the next puddle was counted the storm\'s answer');
+    L.dressing = [];
+    // a burn it carries (Kindling's) is told every tick, flames under it or not
+    L.monsters.length = 0; L.fields = {};
+    const lit = put('orc', 2, 0, { hp: 999, maxHp: 999, nextAct: 1e12 });
+    lit.dot = { kind: 'burning', until: G.t + 2500, next: G.t + 100, die: 4 };
+    L.fields[`${lit.x},${lit.y}`] = { k: 'fire', fuel: 'oil', until: G.t + 9000, spread: G.t + 99999, burn: G.t + 99999, gen: 0 };
+    const m2 = markLog(G);
+    run(Game, G, 3000);
+    const carried = countSaid(linesSince(G, m2), /burns for/);
+    if (carried < 3) out.push(`a carried burn in flames was told ${carried} times of 3`);
     return out.length ? out.join('; ') : true;
   });
 
@@ -11982,6 +12003,22 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       return { k: 'barricade', x: dx, y: dy, casks: [[nx, ny], [fx, fy]] };
     });
     if (!/An oil cask stands against the locked door/.test(door)) out.push(`a barricade with one cask this side: ${door || 'not named'}`);
+    L.tiles[at(4)[1] * L.w + at(4)[0]] = Dungeon.T.FLOOR;
+    // a group gone off after the hero, away from its casks: nothing to name, and no tip after it
+    let gone = null;
+    const left = said(() => {
+      const a = put('goblin', 1, 1, { awake: true, nextAct: 1e12 });
+      const [cx, cy] = at(6), [kx, ky] = at(6, 1);
+      L.dressing.push({ x: kx, y: ky, k: 'oilcask', ox: 0, oy: 0 });
+      return (gone = { k: 'cache', x: cx, y: cy, who: 'goblin', uids: [a.uid], casks: [[kx, ky]] });
+    });
+    if (left) out.push(`a cache its group had left was named: ${left}`);
+    if (gone.named) out.push('a cache left unnamed was marked named');
+    // a dark floor: named no further off than the dark lets the view reach
+    L.twist = 'dark';
+    const dark = cache(false);
+    if (dark) out.push(`on a dark floor a cache six squares off was named: ${dark}`);
+    L.twist = null;
     return out.length ? out.join('; ') : true;
   });
 
@@ -11997,8 +12034,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     L.fields[`${dx},${dy}`].until = G.t + 1500;
     const late = Game.renderState(0).fx.doorFire[`${dx},${dy}`];
     if (!(early >= 0 && early < 0.1 && late > 0.7 && late <= 1)) out.push(`a burning door was told ${early} then ${late}`);
-    if (Object.keys(Game.renderState(0).fx.doorFire).length !== 1) out.push('a door not on fire was told burning');
+    if (Object.keys(Game.renderState(0).fx.doorFire || {}).length !== 1) out.push('a door not on fire was told burning');
     L.fields = {}; L.tiles[dy * L.w + dx] = Dungeon.T.FLOOR;
+    // (no door burning, nothing to look up every column of every frame)
+    if (Game.renderState(0).fx.doorFire !== null) out.push('with no door on fire the view was still handed a list of them');
     // a wraith three squares off: the frost starts at its feet and reaches the hero as it finishes
     const w = put('wraith', 3, 0, { hp: 80, maxHp: 80 });
     w.windup = { kind: 'move', move: 'chill', at: G.t, until: G.t + 1500, tx: p.x, ty: p.y };
@@ -12008,6 +12047,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const end = frost();
     if (!start.length || start.some(f => f.x === p.x && f.y === p.y)) out.push(`at the first breath the frost lay on ${JSON.stringify(start)}`);
     if (!end.some(f => f.x === p.x && f.y === p.y && f.a > 0.5)) out.push(`as the breath ended the frost lay on ${JSON.stringify(end)}`);
+    w.windup = { kind: 'move', move: 'chill', at: G.t - 700, until: G.t + 800, tx: p.x + 1, ty: p.y + 1 };
+    if (frost().length) out.push('frost was drawn off a straight line');
     w.windup = null;
     if (frost().length) out.push('frost was drawn with no grave-cold being breathed');
     return out.length ? out.join('; ') : true;

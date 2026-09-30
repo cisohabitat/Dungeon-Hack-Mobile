@@ -263,15 +263,16 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 81% | 78% | 79% | 81% | 79% | 85% | about 80% |
+| Normal | 81% | 78% | 79% | 81% | 80% | 85% | about 80% |
 | Hard | 61% | 55% | 60% | 61% | 63% | 60% | about 60% |
 | Long Delve (12 floors), Normal | 87% | 88% | 85% | 79% | 80% | 84% | about 84% |
-| Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 58% | 57% | about 62% |
+| Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 64% | 57% | about 63% |
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of
 reach did: a Sharpshooter's snare now holds a second and a half longer, and it wins about 67% (a
-point of armour instead gave 68%, both 67%), the ranger 63% on Hard.
+point of armour instead gave 68%, both 67%), the ranger 63% on Hard, 80% on Normal and 64% on the
+Long Delve on Hard (62% and 66.5%; it was 58%), measured again after.
 
 On one seed set the Long Delve on Hard looked wide (the fighter 69%, the ranger 53%); the second
 set brought the fighter back to the others, but the ranger was the lowest on both (53% and 56%),

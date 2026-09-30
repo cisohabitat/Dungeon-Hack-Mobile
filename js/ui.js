@@ -630,7 +630,7 @@ const UI = (() => {
     spores: 'A <b>puffcap</b>. Strike it from beside it and it bursts in <b>spores</b> that poison. <b>Shoot it</b> or cast at it from further off, or put <b>fire</b> on your blade first: fire oil sears the spores.',
     firepot: 'A <b>lit pot of oil</b>. <b>Step aside</b>, out of its line: it bursts in flames where you stood and on the square behind, and burns there a while.',
     chill: 'A <b>grave-cold</b> creeping over the stones at your feet. <b>Step aside</b>, out of its line: stay and you are frozen fast a moment.',
-    storm: 'Lightning called down into the <b>water</b> you stand in. <b>Get out of the water</b>, or at least <b>step aside</b>: water beside you still carries half of it, but no more.',
+    storm: 'Lightning called down into the <b>water</b> you stand in. <b>Get out of the water</b>; on a flooded floor, <b>step aside</b>: the water beside you still carries half of it, but no more.',
     firearrow: 'A <b>burning arrow</b>, aimed at your feet: what you stand on will burn. <b>Step aside</b>, then keep clear as the flames spread.',
     breath: 'Fire kindles in its throat. <b>Step in close</b>, under its jaws, or <b>out of its line</b>. Stepping back keeps you in the fire.',
     drink: 'Her cold hand reaches in to drink your life. <b>Step back!</b> What she takes from your maximum hit points is gone for good.',
@@ -894,7 +894,7 @@ const UI = (() => {
     // the elements at work on the place: a fire near, an oil cask beside you, and water to a caster who can use it
     if (Object.keys(L.fields || {}).some(k => L.fields[k].k === 'fire' && (([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) <= 5)(k.split(',').map(Number))) && showTip('fire', true)) return;
     // (and as soon as a scene of casks is named, before one has been broken unknowing)
-    if (((L.dressing || []).some(q => q.k === 'oilcask' && Math.abs(q.x - p.x) + Math.abs(q.y - p.y) <= 2) || (L.pieces || []).some(pc => pc.said && pc.casks)) && showTip('cask')) return;
+    if (((L.dressing || []).some(q => q.k === 'oilcask' && Math.abs(q.x - p.x) + Math.abs(q.y - p.y) <= 2) || (L.pieces || []).some(pc => pc.named && pc.casks)) && showTip('cask')) return;
     if (L.twist === 'flooded' && Game.knownSpells().some(sp => sp.element === 'lightning' || sp.element === 'cold') && showTip('water')) return;
     // a drowned one risen, or an eyeless awake and near: each told once
     if (kinNear('drowned', 3) && showTip('drowned', true)) return;

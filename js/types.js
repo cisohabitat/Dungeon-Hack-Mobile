@@ -114,6 +114,7 @@
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
+ * @property {boolean} [dotTick]  while a carried burn or poison deals its tick (told whole, in flames or not)
  * @property {number} [burnSaid]  until when its burning has been told (the first tick of a burning, not every one)
  * @property {number} [balkSaid]  until when its shying back from a fire has been told (once a fire, not every step)
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number, tx?: number, ty?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
@@ -190,7 +191,7 @@
  * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {Object<string, boolean>} [burntDoors]  doorways whose doors have burnt through, keyed "x,y": nothing left to shut
  * @property {boolean} [lampOil]  its traders have been given their flasks of lamp oil (once, so one bought out stays so)
- * @property {Array<{k: 'cache'|'slick'|'barricade', x: number, y: number, who?: string, uids?: number[], casks?: number[][], line?: number[][], said?: boolean}>} [pieces]  a scene laid out for fire on this floor (its sleepers, casks or oil), and whether it has been named yet
+ * @property {Array<{k: 'cache'|'slick'|'barricade', x: number, y: number, who?: string, uids?: number[], casks?: number[][], line?: number[][], said?: boolean, named?: boolean}>} [pieces]  a scene laid out for fire on this floor (its sleepers, casks or oil), whether the hero has come within sight of it, and whether it was named then
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast

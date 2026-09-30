@@ -569,7 +569,7 @@ export function makeFoes(K) {
           K.hurtPlayer(got.hero, got.hero === n ? `Lightning comes down into the water on you! (${got.hero})` : `The lightning strikes the water beside you, and runs through it into you! (${got.hero})`, m, 'an acolyte\'s lightning');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           // a step aside took the worst of it: on a flooded floor that is the whole of the answer
-          if (got.hero < n) K.learn(m.id, 'answer');
+          if (got.hero < n && K.lvl().twist === 'flooded') K.learn(m.id, 'answer');
         } else if (K.wet(w.tx, w.ty)) { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         else K.log('Lightning comes down, but finds no water to run through.', 'good');
         m.moveReady = K.G.t + 8000;
@@ -1204,7 +1204,10 @@ export function makeFoes(K) {
       if (dot.next > dot.until) m.dot = null;
       else {
         dot.next += 1000;
+        // (marked as a carried burn's tick, told whole even while it stands in flames)
+        m.dotTick = true;
         K.damageMonster(m, dot.kind === 'venom' ? d(1, 3) : dot.kind === 'bleed' ? d(1, dot.die || 4) : K.elemental(m, d(1, dot.die || 4), 'fire'), dot.kind);
+        m.dotTick = false;
         if (!L.monsters.includes(m) || m.collapsed) return false;
       }
     }
