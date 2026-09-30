@@ -114,6 +114,7 @@
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
+ * @property {boolean} [balkSaid]  its shying back from a fire told once
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first

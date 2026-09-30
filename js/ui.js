@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30a', text: 'the dungeon answers the elements: lightning runs through standing water (you too, if you wade close), cold freezes it and holds what stands there, fire spreads over moss and spilt oil, and some barrels are oil casks' };
+  const NEWS = { id: '2026-09-30b', text: 'the living shy away from fire now, so a line of burning oil holds them back; traders sell flasks of lamp oil to throw, and a fire spell or a fire-oiled arrow sets the oil alight' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -625,7 +625,7 @@ const UI = (() => {
     drowned: 'A <b>drowned one</b> has risen out of the water to seize you. <b>Step back</b> as it lurches and it grabs the air. Watch the black water for a <b>ripple</b> that does not settle: one lies under it.',
     eyeless: 'An <b>eyeless stalker</b>: it hunts by sound. <b>Stand still</b> and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.',
     fire: '<b>Fire!</b> It spreads over moss and spilt oil and burns whatever stands in it, <b>you too</b>: step out of it. It burns out, and leaves ash that will not burn again.',
-    cask: 'An <b>oil cask</b>: the barrel with a flame burnt into it. Break it and lamp oil spills round it; any fire (a spell, a flaming blade, fire oil) sets the oil alight.',
+    cask: 'An <b>oil cask</b>: the barrel with a flame burnt into it. Break it and lamp oil spills round it; a fire spell landing on it, or a flaming blow or arrow striking something on it, sets the oil alight.',
     water: 'Standing water carries <b>lightning</b> to everything in it within two squares (you too, if you are wading close), and <b>cold</b> freezes it, holding fast whatever stands there.',
     spores: 'A <b>puffcap</b>. Strike it from beside it and it bursts in <b>spores</b> that poison. <b>Shoot it</b> or cast at it from further off, or put <b>fire</b> on your blade first: fire oil sears the spores.',
     breath: 'Fire kindles in its throat. <b>Step in close</b>, under its jaws, or <b>out of its line</b>. Stepping back keeps you in the fire.',
@@ -1900,6 +1900,7 @@ const UI = (() => {
       else if (b.kind === 'potion') add('Drink', () => useFromPack(it), 'primary');
       else if (b.kind === 'scroll') add('Read', () => useFromPack(it), 'primary');
       else if (b.kind === 'oil') add('Coat weapon', () => useFromPack(it), 'primary');
+      else if (b.kind === 'flask') add('Throw', () => useFromPack(it), 'primary');
       else if (b.kind === 'charm' && Game.companionHere()) add(`Give to ${Game.companion().name}`, () => { Game.giveCharm(it); if (overlay === 'inv') closeOverlay(); }, 'primary');
       // an unknown potion or scroll can be puzzled out instead of risked
       if ((['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) && !Game.isKnown(it.t)) || it.h) {

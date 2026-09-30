@@ -11070,6 +11070,180 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('the living will not walk into fire, and one caught in it gets out; the dead come on through it', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at } = await arena('fighter', 'el-shy');
+    L.twist = null;
+    // a wall of fire across the passage two squares ahead
+    const wall = () => { for (const j of [-1, 0, 1]) { const [x, y] = at(2, j); L.fields[`${x},${y}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e9, spread: 1e15, burn: 1e15, gen: 0 }; } };
+    wall();
+    const gob = put('goblin', 4, 0, { nextAct: G.t });
+    run(Game, G, 4000);
+    const near = Math.abs(gob.x - p.x) + Math.abs(gob.y - p.y);
+    if (near <= 2) out.push(`a goblin came through the fire to ${near} squares`);
+    if (!gob.balkSaid) out.push('the goblin never shied back from the flames');
+    // the dead do not care
+    L.monsters.length = 0;
+    const bones = put('skeleton', 4, 0, { nextAct: G.t });
+    let reached = false;
+    for (let t = 0; t < 8000 && !reached; t += 25) { Game.update(G.t + 25, 25); reached = Math.abs(bones.x - p.x) + Math.abs(bones.y - p.y) <= 1; }
+    if (!reached) out.push('a skeleton would not come through the fire');
+    // one standing in fire gets out of it, even right beside the hero, where it would otherwise stand and swing
+    L.monsters.length = 0; L.fields = {};
+    const [fx, fy] = at(1);
+    L.fields[`${fx},${fy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e9, spread: 1e15, burn: 1e15, gen: 0 };
+    const caught = put('goblin', 1, 0, { nextAct: G.t });
+    run(Game, G, 1200);
+    if (caught.x === fx && caught.y === fy) out.push('a goblin stood on in the flames');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a flask of lamp oil is thrown: it smashes three squares ahead or on the first thing in the way and spills there; not at a wall; every trader keeps some', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at } = await arena('fighter', 'el-flask');
+    L.twist = null;
+    p.inv.push({ t: 'lamp_oil', q: 3, e: 0 });
+    const flask = () => p.inv.find(i => i.t === 'lamp_oil');
+    // nothing in the way: three squares out
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    Game.useItem(flask());
+    const [x3, y3] = at(3);
+    if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('a flask thrown down an empty passage did not spill three squares out');
+    if (flask().q !== 2) out.push(`throwing left ${flask().q} flasks`);
+    // a goblin in the way takes it
+    L.fields = {};
+    const g = put('goblin', 2);
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    Game.useItem(flask());
+    if (!Game.fieldAt(g.x, g.y) || Game.fieldAt(g.x, g.y).k !== 'oil') out.push('a flask did not smash on the goblin in the way');
+    const [x4, y4] = at(4);
+    if (Game.fieldAt(x4, y4)) out.push('the flask flew on past the goblin');
+    // a wall right ahead: it is not thrown, and not used up
+    L.monsters.length = 0; L.fields = {};
+    const [wx, wy] = at(1); L.tiles[wy * L.w + wx] = 1;
+    const q0 = flask().q;
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    Game.useItem(flask());
+    if (flask().q !== q0) out.push('a flask was thrown into a wall');
+    // every trader keeps a few
+    {
+      const ctx = await start('fighter', 'flask-traders');
+      let traders = 0, stocked = 0;
+      for (let i = 0; i < 20; i++) {
+        ctx.Game.newGame({ name: 'T', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'fl-' + i, opts: { ...OPTS, levels: 8 } });
+        for (let k = 0; k < 3; k++) {
+          for (const n of ctx.Game.level().npcs || []) if (Array.isArray(n.stock)) { traders++; if (n.stock.some(s => s.t === 'lamp_oil' && s.q >= 2)) stocked++; }
+          if (ctx.Game.forkPending && ctx.Game.forkPending()) ctx.Game.chooseRoute('crypts');
+          ctx.Game.descend();
+        }
+      }
+      if (!traders || stocked !== traders) out.push(`${stocked} of ${traders} traders kept lamp oil`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('fire oil on a bow lights spilt oil where the arrow lands', async () => {
+    const out = [];
+    const { Game, G, L, p, put } = await arena('ranger', 'el-arrow');
+    L.twist = null;
+    p.eq.weapon = { t: 'shortbow', q: 1, e: 0 }; p.stats.dex = 30;
+    p.coating = { t: 'fire', left: 20 };
+    const g = put('goblin', 3);
+    L.fields[`${g.x},${g.y}`] = { k: 'oil' };
+    let lit = false;
+    for (let i = 0; i < 12 && !lit; i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); lit = !!Game.fieldAt(g.x, g.y) && Game.fieldAt(g.x, g.y).k === 'fire'; }
+    if (!lit) out.push('a fire-oiled arrow did not light the oil it landed in');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('lightning through water shocks the hero once a casting, runs through the water and not through walls, and keeps a skeleton down', async () => {
+    const out = [];
+    const { Dungeon, G, L, p, put, at, cast } = await arena('mage', 'el-arc2');
+    L.twist = 'flooded';
+    // two struck in a line beside the hero: the water carries it into them once, not once for each
+    put('goblin', 1); put('goblin', 2);
+    let mark = markLog(G);
+    cast('lightning');
+    const shocks = linesSince(G, mark).filter(l => /through the water into you/.test(l)).length;
+    if (shocks !== 1) out.push(`the hero was shocked ${shocks} times by one bolt`);
+    // a wall between the water it struck and the one beyond keeps it out
+    L.monsters.length = 0;
+    const [wx, wy] = at(4, 1), [bx, by] = at(4, 2);
+    L.tiles[wy * L.w + wx] = Dungeon.T.WALL; L.tiles[by * L.w + bx] = Dungeon.T.FLOOR;
+    put('goblin', 4); const b = put('goblin', 4, 2);
+    cast('lightning');
+    if (b.hp !== 999) out.push('lightning ran through a wall');
+    // a skeleton the water's lightning brings down stays down, as one the bolt brings down does
+    L.monsters.length = 0; L.tiles[wy * L.w + wx] = Dungeon.T.FLOOR;
+    p.eq.weapon = { t: 'dagger', q: 1, e: 0 };
+    put('goblin', 4); const sk = put('skeleton', 4, 1, { hp: 1, maxHp: 20 });
+    cast('lightning');
+    if (L.monsters.includes(sk)) out.push(`a skeleton felled by lightning through the water ${sk.collapsed ? 'lies waiting to rise' : 'still stands'}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('ice holds a drowned one down under a blow or a tread; oil burnt on moss leaves ash that stays; a fire spell that strikes nothing lights oil where it lands', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at, cast } = await arena('fighter', 'el-loose');
+    L.twist = 'flooded';
+    const [fx, fy] = at(1);
+    const dr = put('drowned', 1, 0, { sunk: true, awake: false, nextAct: G.t, hp: 40, maxHp: 40 });
+    L.fields[`${fx},${fy}`] = { k: 'ice', until: G.t + 1e6 };
+    for (let i = 0; i < 4; i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); }
+    if (!dr.sunk) out.push('a blow brought a drowned one up through the ice');
+    const x0 = p.x;
+    Game.input('forward'); run(Game, G, 300);
+    if (!dr.sunk) out.push('a tread brought a drowned one up through the ice');
+    if (p.x !== x0 && p.x === fx) out.push('the hero walked onto the drowned one\'s square');
+    // oil that burns on moss takes the moss with it
+    const m = await arena('mage', 'el-loose2');
+    m.L.twist = 'overgrown';
+    const [ox, oy] = m.at(2);
+    m.L.fields[`${ox},${oy}`] = { k: 'fire', fuel: 'oil', until: m.G.t + 10, spread: 1e15, burn: 1e15, gen: 0 };
+    run(m.Game, m.G, 32000);
+    const f = m.Game.fieldAt(ox, oy);
+    if (!f || f.k !== 'ash') out.push(`oil burnt on moss left ${f ? f.k : 'nothing'} after half a minute, and the moss would burn again`);
+    // fire that strikes nothing still lights the oil where it comes down
+    m.L.twist = null; m.L.fields = {};
+    const [ax, ay] = m.at(1);
+    m.L.fields[`${ax},${ay}`] = { k: 'oil' };
+    m.cast('burning_hands');
+    if (!m.Game.fieldAt(ax, ay) || m.Game.fieldAt(ax, ay).k !== 'fire') out.push('a fire spell that struck nothing did not light the oil it fell on');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('one caught alight at the far edge of spilt oil gets out away from the oil, not across the rest of it that is about to burn', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at } = await arena('fighter', 'el-edge');
+    L.twist = null;
+    // a line of oil two to four squares ahead; the far end catches under a goblin
+    for (const k of [2, 3, 4]) { const [x, y] = at(k); L.fields[`${x},${y}`] = { k: 'oil' }; }
+    const g = put('goblin', 4, 0, { nextAct: G.t });
+    const [gx, gy] = at(4);
+    L.fields[`${gx},${gy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: 1e15, gen: 0 };
+    run(Game, G, 700);
+    const d = Math.abs(g.x - p.x) + Math.abs(g.y - p.y);
+    if (d < 4) out.push(`it came out ${d} squares from the hero, over the oil that was about to burn`);
+    if (g.x === gx && g.y === gy) out.push('it stayed in the flames');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a cave wyrm\'s fire passes over the square under its jaws: a hero in close on moss is not set alight, the moss beyond is', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-breath');
+    L.twist = 'overgrown';
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    const m = put('wyrm', 1);
+    // it breathes back down the passage, over the hero's head and on past
+    m.windup = { kind: 'move', move: 'breath', at: G.t, until: G.t + 200, dx: -fx, dy: -fy }; m.nextAct = m.windup.until;
+    run(Game, G, 300);
+    const here = Game.fieldAt(p.x, p.y), [bx, by] = at(-1);
+    if (here) out.push(`the square under its jaws took ${here.k}`);
+    const beyond = Game.fieldAt(bx, by);
+    if (!beyond || beyond.k !== 'fire') out.push('the moss past the hero did not catch');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a drowned one lies unseen under the water and rises within two squares, or at a blow into its ripple, or when trodden on, and reaches to seize you', async () => {
     const out = [];
     const ctx = await start('fighter', 'drowned-rise');

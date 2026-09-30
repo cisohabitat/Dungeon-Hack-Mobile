@@ -1108,6 +1108,21 @@ test.describe('dungeon features', () => {
     await expect.poll(() => page.evaluate(() => { const F = Object.values(Game.level().fields || {}); return F.length > 0 && F.every(f => f.k === 'ash'); }), { timeout: 12000 }).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('a flask of lamp oil is thrown from the pack and spills where it lands', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'living-flask' });
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; L.fields = {}; Game.player().inv.push({ t: 'lamp_oil', q: 2, e: 0 }); });
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#ov-inv')).toHaveClass(/open/);
+    await page.locator('#inv-grid .slot.filled').filter({ has: page.locator('img') }).last().click();
+    await expect(page.locator('#item-detail')).toContainText('Lamp Oil');
+    await page.locator('#item-detail button', { hasText: 'Throw' }).click();
+    await expect.poll(() => page.evaluate(() => Object.values(Game.level().fields || {}).filter(f => f.k === 'oil').length), { timeout: 3000 }).toBeGreaterThan(2);
+    expect(await page.evaluate(() => Game.player().inv.find(i => i.t === 'lamp_oil').q)).toBe(1);
+    expect(errors).toEqual([]);
+  });
   test('a puffcap is drawn in front of you, and a blow from beside it bursts it in spores', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'feat-puffcap' });
@@ -1201,7 +1216,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('oil casks');
+    await expect(p2.locator('#news-text')).toContainText('lamp oil');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

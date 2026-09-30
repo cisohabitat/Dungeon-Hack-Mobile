@@ -590,7 +590,11 @@ const Renderer = (() => {
         out.push({ x: x + 0.5, y: y + 0.5, r: 0.3, c: '#5a1c0a', seed, glow: true, solo: true });
         out.push({ x: x + 0.5, y: y + 0.5, r: 0.14, c: flick > 0.5 ? '#e87a24' : '#c85a18', seed: seed + 3, glow: true, solo: true });
       // (a burnt floor can be many squares: each is one patch, without the splashes round it)
-      } else if (FIELD_LOOK[f.k]) out.push({ x: x + 0.5, y: y + 0.5, r: FIELD_LOOK[f.k][1], c: FIELD_LOOK[f.k][0], seed, solo: f.k === 'ash' });
+      } else if (FIELD_LOOK[f.k]) {
+        out.push({ x: x + 0.5, y: y + 0.5, r: FIELD_LOOK[f.k][1], c: FIELD_LOOK[f.k][0], seed, solo: f.k === 'ash' });
+        // lamp oil catches the light in a pale sheen, so a spill reads against the dark stone
+        if (f.k === 'oil') out.push({ x: x + 0.42, y: y + 0.56, r: 0.12, c: '#7a5e24', seed: seed + 5, solo: true });
+      }
     }
     return out;
   }

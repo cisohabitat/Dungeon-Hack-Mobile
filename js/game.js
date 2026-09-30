@@ -1215,6 +1215,7 @@ const Game = (() => {
   function wasteReason(it) {
     const p = P(), b = ITEMS[it.t];
     if (!b) return null;
+    if (b.kind === 'flask' && !throwSpot()) return 'There is no room ahead to throw it.';
     if (!isKnown(it.t)) return null;
     if (b.kind === 'food' && p.food >= 100) return 'You are too full to eat another bite.';
     if (b.kind === 'oil' && !p.eq.weapon) return 'You have no weapon to coat.';
@@ -1226,7 +1227,7 @@ const Game = (() => {
     }
     if (b.kind === 'scroll') {
       if (b.effect === 'heal' && p.hp >= p.maxHp) return 'You are unhurt. The scroll would be wasted.';
-      if (b.effect === 'fire' && !boltTargets(3, false).length) return 'There is nothing ahead to burn.';
+      if (b.effect === 'fire' && !boltTargets(3, false).length && !fireCatches(3)) return 'There is nothing ahead to burn.';
       if (b.effect === 'map' && lvl().explored.every(v => v)) return 'You already know this floor.';
       if (b.effect === 'uncurse' && !cursedWorn().length && !hiddenGear().length) return 'Nothing you wear is cursed, and you know all your gear.';
     }
@@ -1247,12 +1248,37 @@ const Game = (() => {
     if (!h || realNow >= h.until) return { hp: p.hp, sp: p.sp };
     return { hp: Math.max(1, p.hp - h.dhp), sp: Math.max(0, p.sp - h.dsp) };
   }
+  /** Where a thrown flask lands: up to three squares ahead, on the first creature in the way, or short of a wall. */
+  function throwSpot() {
+    const p = P(), [dx, dy] = DIRS[p.dir];
+    let spot = null;
+    for (let i = 1; i <= 3; i++) {
+      const x = p.x + dx * i, y = p.y + dy * i;
+      if (!passable(x, y) || npcAt(x, y)) break;
+      spot = { x, y };
+      if (monsterAt(x, y)) break;
+    }
+    return spot;
+  }
+  /** A flask of lamp oil thrown: it smashes and spills where it lands. @returns {boolean} whether it was thrown */
+  function throwFlask() {
+    const spot = throwSpot();
+    if (!spot) { log('There is no room ahead to throw it.', 'bad'); return false; }
+    const p = P();
+    p.noiseAt = G.t;
+    p.nextAttack = Math.max(p.nextAttack, G.t + 500);
+    const m = monsterAt(spot.x, spot.y);
+    log(m ? `The flask smashes on the ${mstat(m).name}!` : 'The flask smashes on the stones.', 'info');
+    Sound.play('blunt', heard(spot));
+    elements.spill(spot.x, spot.y);
+    return true;
+  }
   function showUse(kind, it, color) { fx.useAt = realNow; fx.useKind = kind; fx.useSprite = spriteFor(it); fx.useColor = color; }
   function useItem(it) {
     if (G.status !== 'playing') return;
     const p = P(), b = ITEMS[it.t];
     if (p.held > G.t) { blocked(heldWhy()); return; }
-    const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll' || b.kind === 'oil';
+    const consumable = b.kind === 'food' || b.kind === 'potion' || b.kind === 'scroll' || b.kind === 'oil' || b.kind === 'flask';
     if (consumable && p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return; }
     if (b.kind === 'potion' && vowed('unaided')) { log('You swore to go unaided: no draught passes your lips.', 'bad'); Sound.play('error'); return; }
     if (consumable) {
@@ -1260,7 +1286,10 @@ const Game = (() => {
       if (why) { log(why, 'bad'); Sound.play('error'); emit('waste'); return; }
       noteUsed(b.kind);
     }
-    if (b.kind === 'food') {
+    if (b.kind === 'flask') {
+      if (!throwFlask()) return;
+      removeOne(it);
+    } else if (b.kind === 'food') {
       showUse('eat', it, '#e0c080');
       removeOne(it);
       p.food = Math.min(100, p.food + b.food);
@@ -1312,7 +1341,11 @@ const Game = (() => {
             const targets = boltTargets(3, false);
             // the fireball leaves the burning page, not the hand
             spellFx('fireball', '#ff7020', 750, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
-            if (!targets.length) { log('A ball of fire bursts harmlessly against the stones.'); break; }
+            if (!targets.length) {
+              log('A ball of fire bursts against the stones.');
+              const end = boltEnd(3); if (end) elements.scorch(end.x, end.y);
+              break;
+            }
             castingName = 'fireball';
             // what it looks like waits for the fireball to burst: it leaves the
             // page six tenths into the reading and flies for a third of its 750ms
@@ -2185,6 +2218,9 @@ const Game = (() => {
   function caskLevel(L, depth) {
     const rng = new Rng(`${G.seed}|casks|${depth}`);
     for (const q of L.dressing || []) if (q.k === 'barrel' && rng.next() < OIL_CASKS) q.k = 'oilcask';
+    // and every trader keeps a few flasks of it, to throw
+    const frng = new Rng(`${G.seed}|lampoil|${depth}`);
+    for (const n of L.npcs || []) if (Array.isArray(n.stock) && !n.stock.some(s => s.t === 'lamp_oil')) n.stock.push({ t: 'lamp_oil', q: 2 + frng.int(0, 2), e: 0 });
   }
   /** A barrel, crate or urn on this square, if one stands there. */
   const propAt = (x, y) => (tile(x, y) === T.FLOOR && (lvl().dressing || []).find(q => q.x === x && q.y === y && SMASHABLE.includes(q.k))) || null;
@@ -2210,6 +2246,7 @@ const Game = (() => {
     if (r < 0.26) found = { t: 'gold', q: rng.int(3, 8) * G.depth + rng.int(0, 5) };
     else if (r < 0.36) found = { t: rng.chance(0.5) ? 'bread' : 'ration', q: 1 };
     else if (r < 0.4) found = { t: 'potion_heal', q: 1 };
+    else if (r < 0.46) found = { t: 'lamp_oil', q: 1 };
     if (found) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(found);
     if (found && found.t === 'gold') floatText({ rx: cx - 0.5, ry: cy - 0.5 }, `+${found.q}`, '#ffd24a');
     if (burst) return;
@@ -2401,7 +2438,7 @@ const Game = (() => {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
     // a spell flies over the Warlord's shield-bearers: on his throne it is the one thing that reaches him
-    const overShields = m.throne && !!castingName;
+    const overShields = m.throne && !!castingName && tag !== 'shock';
     if (overShields && !m.overSaid) { m.overSaid = true; log(`Your ${castingName} flies over the shield-bearers' heads and finds the ${MONSTERS[m.id].name} on his throne!`, 'good'); learn(m.id, 'answer'); }
     if (m.wardUntil > G.t && MONSTERS[m.id].boss && !overShields) {
       // the Warlord on his throne: his shield-bearers take what was meant for him
@@ -2413,7 +2450,7 @@ const Game = (() => {
         return;
       }
       // a mage knows how the shadow is woven: a spell pulls it apart instead
-      if (castingName && castingName !== 'fireball' && P().cls === 'mage') {
+      if (castingName && castingName !== 'fireball' && tag !== 'shock' && P().cls === 'mage') {
         // it was waiting out its shadow; now it has a moment to gather itself
         m.wardUntil = G.t; m.nextAct = G.t + 400;
         Sound.stop('ward');
@@ -3194,6 +3231,15 @@ const Game = (() => {
     }
     return out;
   }
+  /** Where a bolt that strikes nothing comes down: the last open square of its flight. */
+  function boltEnd(range) {
+    const p = P(), [dx, dy] = DIRS[p.dir];
+    let end = null;
+    for (let i = 1; i <= range; i++) { const x = p.x + dx * i, y = p.y + dy * i; if (!passable(x, y)) break; end = { x, y }; }
+    return end;
+  }
+  /** Whether fire that strikes nothing would set something alight where it comes down. */
+  const fireCatches = range => { const end = boltEnd(range); return !!end && !!elements.fuel(end.x, end.y); };
   /** How far a bolt reaches, Radiance included. */
   const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0) + (sp.id === 'thorn_lash' && hasTalent('long_thorns') ? 2 : 0);
   /** Why casting this now would waste the points, or null if it would not. */
@@ -3203,7 +3249,8 @@ const Game = (() => {
     const kinHurt = p.cls === 'druid' && !!companion.here() && companion.here().hp < companion.here().maxHp;
     if (sp.kind === 'heal' && p.hp >= p.maxHp && !kinHurt) return `You are unhurt. ${sp.name} would be wasted.`;
     // fire burns a web away, so a webbed caster's flame is never wasted
-    if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length) {
+    // (nor where it comes down on spilt oil or moss, which it sets alight)
+    if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length && !(spellElement(sp) === 'fire' && fireCatches(spellRange(sp)))) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
     if (sp.kind === 'buff' && ownEffect(sp.stat) >= buffAmount(sp)) return `${sp.name} is already upon you.`;
@@ -3282,7 +3329,12 @@ const Game = (() => {
         if (sp.fire) burnWeb();
         const targets = boltTargets(spellRange(sp), sp.pierce);
         spellFx(look[0], sp.color, look[1], targets, spellRange(sp));
-        if (!targets.length) { log(`Your ${sp.name} strikes nothing.`); break; }
+        if (!targets.length) {
+          log(`Your ${sp.name} strikes nothing.`);
+          // fire that strikes nothing still lands somewhere: on spilt oil, or moss, it catches
+          if (spellElement(sp) === 'fire') { const end = boltEnd(spellRange(sp)); if (end) elements.scorch(end.x, end.y); }
+          break;
+        }
         // an Empowered or Radiant spell says so in every line it hits with
         castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
         fxDelay = Math.round(look[1] * (SPELL_IMPACT[look[0]] || 0));

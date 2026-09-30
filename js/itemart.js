@@ -634,6 +634,7 @@ const ITEM_ART = {
 
   // ---- oils ----
   oil_fire: () => flask('#d8601c', '#ffc040'),
+  lamp_oil: () => flask('#6a4a1a', '#c9a24a'),
   oil_silver: () => flask('#b8c4d4', '#ffffff'),
   oil_venom: () => flask('#4c9a2a', '#b0f070'),
 

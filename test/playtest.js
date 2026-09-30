@@ -68,6 +68,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
   const G = Game.state();
   const p = Game.player();
   const rec = { cls, bg, seed, depth: 1, deepest: 1, died: false, won: false, cause: '', ticks: 0, kills: 0, potionsDrunk: 0, rests: 0, starved: 0, packFull: 0, goldFound: 0, hpLow: 0 };
+  const fieldsCounted = new WeakSet();   // the floors counted in fieldsSeen
 
   // BFS from the player over passable tiles, returning a distance field
   const field = (L, tx, ty, treatDoorsOpen, colors) => {
@@ -194,13 +195,13 @@ function play(ctx, cls, seed, opts, bg, idx) {
       if (ch && !Game.giveCharm(ch)) rec.charms = (rec.charms || 0) + 1;
     }
     // (how much the elements are at work: the floors this run on which something was left burning, frozen or spilt)
-    if (L.fields && Object.keys(L.fields).length && !L.fieldsCounted) { L.fieldsCounted = true; rec.fieldsSeen = (rec.fieldsSeen || 0) + 1; }
+    if (L.fields && Object.keys(L.fields).length && !fieldsCounted.has(L)) { fieldsCounted.add(L); rec.fieldsSeen = (rec.fieldsSeen || 0) + 1; }
     // --- standing in fire: step out of it first (as anyone would), to a square not burning
     {
       const burning = (x, y) => { const f = Game.fieldAt ? Game.fieldAt(x, y) : null; return !!f && f.k === 'fire'; };
       if (burning(p.x, p.y) && !(p.held > G.t)) {
         const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy, t = L.tiles[y * L.w + x];
-          return (t === T.FLOOR || t === T.DOOR_OPEN) && !burning(x, y) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y); });
+          return (t === T.FLOOR || t === T.DOOR_OPEN) && !burning(x, y) && !(L.dressing || []).some(q => q.x === x && q.y === y && ['barrel', 'crate', 'urn', 'oilcask'].includes(q.k)) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y); });
         if (k !== undefined) { Game.input(['forward', 'strafeR', 'back', 'strafeL'][(k - p.dir + 4) % 4]); rec.fireSteps = (rec.fireSteps || 0) + 1; step(); continue; }
       }
     }

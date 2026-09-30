@@ -41,11 +41,19 @@ export function makeFoes(K) {
     m.moveT0 = K.realNow;
     m.moveT1 = K.realNow + Math.max(200, Math.round(MONSTERS[m.id].speed * 0.45));
   }
+  // The living will not walk into fire, and one caught in it gets out: a line
+  // of burning moss across a passage holds back whatever breathes. The dead,
+  // and the lich and the Warlord, come on through it as if it were not there.
+  const burning = (x, y) => { const f = K.fieldAt(x, y); return !!f && f.k === 'fire'; };
+  // spilt oil beside a fire is as good as alight: it will be in a breath
+  const fiery = (x, y) => { if (burning(x, y)) return true; const f = K.fieldAt(x, y); return !!f && f.k === 'oil' && K.DIRS.some(([dx, dy]) => burning(x + dx, y + dy)); };
+  const fearsFire = mb => !mb.undead && !mb.boss;
   function wander(m) {
-    const p = K.P();
+    const p = K.P(), shy = fearsFire(K.mstat(m));
     const opts = [];
     for (const [dx, dy] of K.DIRS) {
       const nx = m.x + dx, ny = m.y + dy;
+      if (shy && fiery(nx, ny)) continue;
       if (K.passable(nx, ny) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny) && !(nx === p.x && ny === p.y)) opts.push([nx, ny]);
     }
     if (opts.length) { const o = Dice.pick(opts); moveMonster(m, o[0], o[1]); }
@@ -193,7 +201,7 @@ export function makeFoes(K) {
   }
   /** Crushing and magic keep a skeleton down; an edge only takes it apart. */
   function breaksBones(tag) {
-    if (tag === 'fire' || tag === 'burn' || tag === 'burning') return true;
+    if (tag === 'fire' || tag === 'burn' || tag === 'burning' || tag === 'shock') return true;
     if (tag === 'thorns' || tag === 'companion') return false;
     const w = tag === 'offhand' ? K.offhandWeapon() : K.weapon();
     return !!(w && w.blunt);
@@ -450,8 +458,8 @@ export function makeFoes(K) {
         } else if (dist === 1) { K.log(`You are in under the ${mb.name}'s jaws: ${(mb.named && mb.named.pron) || 'its'} fire roars out over your head, and ${mb.named && mb.named.pron ? 'she is' : 'it is'} left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         else { K.log(`The ${mb.name}'s fire roars down an empty passage, and leaves ${mb.named && mb.named.pron ? 'her' : 'it'} spent and open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         m.moveReady = K.G.t + 7000;
-        // and whatever will burn along its line catches
-        K.burnLine(m.x, m.y, w.dx, w.dy, 5);
+        // and whatever will burn along its line catches, from two squares out as the fire runs
+        K.burnLine(m.x, m.y, w.dx, w.dy, 5, 2);
         break;
       }
       case 'nova':
@@ -1019,6 +1027,8 @@ export function makeFoes(K) {
     // the Warlord comes down from his throne once no one holds it for him
     if (m.throne && (G.t >= m.wardUntil || !L.monsters.some(o => o.bearer === m.uid))) leaveThrone(m);
     if (G.t < m.nextAct) return;
+    // caught in fire, the living get out of it before anything else (a blow already drawn back still falls)
+    if (!m.windup && !m.volley && fiery(m.x, m.y) && fearsFire(mb) && escapesFire(m, mb, L, p)) return;
     // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
     // (the Warlord on his throne fights on from it, but does not leave it)
     if (m.wardUntil > G.t && mb.boss && !m.throne) { m.nextAct = m.wardUntil; return; }
@@ -1167,6 +1177,13 @@ export function makeFoes(K) {
   function surface(m, why) {
     const G = K.G, p = K.P(), mb = K.mstat(m);
     if (!m.sunk) return;
+    // ice over the water holds it down until it melts
+    const f = K.fieldAt(m.x, m.y);
+    if (f && f.k === 'ice') {
+      if (why === 'step') K.log('Something moves under the ice there, and cannot come up through it.');
+      else if (why === 'struck') K.log('Your blow finds something under the ice, and it cannot come up through it.');
+      return;
+    }
     delete m.sunk;
     m.awake = true; m.blows = 1;
     K.spray(m, 'rot', 0.6, false);
@@ -1179,6 +1196,21 @@ export function makeFoes(K) {
     m.nextAct = G.t + WAKE_BEAT;
     // beside the hero, its first move is to seize them
     if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) startMove(m, mb, true);
+  }
+  /** Out of the flames, to the square beside that is nearest the hero and not burning. @returns {boolean} whether it moved */
+  function escapesFire(m, mb, L, p) {
+    let best = null, bd = Infinity;
+    for (const [dx, dy] of K.DIRS) {
+      const nx = m.x + dx, ny = m.y + dy;
+      if (!K.passable(nx, ny) || fiery(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || (nx === p.x && ny === p.y)) continue;
+      const dd = K.distField[ny * L.w + nx];
+      const score = dd >= 0 ? dd : 99;
+      if (score < bd) { bd = score; best = [nx, ny]; }
+    }
+    if (!best) return false;
+    moveMonster(m, best[0], best[1]);
+    m.nextAct = K.G.t + Math.max(300, Math.round(mb.speed * 0.45));
+    return true;
   }
   /** Out of reach of the trail: after a while it stops hunting and settles again. */
   function losesYou(m, mb) {
@@ -1266,16 +1298,23 @@ export function makeFoes(K) {
   const besideHound = m => K.DIRS.some(([dx, dy]) => K.companionAt(m.x + dx, m.y + dy));
   /** One step nearer along the trail, drawing back as it arrives. */
   function closesIn(m, mb, L, p, di) {
-    const G = K.G;
-    let best = null, bd = di;
+    const G = K.G, shy = fearsFire(mb);
+    let best = null, bd = di, balked = false;
     for (const [dx, dy] of K.DIRS) {
       const nx = m.x + dx, ny = m.y + dy;
       if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
       const dd = K.distField[ny * L.w + nx];
-      if (dd >= 0 && dd < bd && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny) && !(nx === p.x && ny === p.y)) { bd = dd; best = [nx, ny]; }
+      if (dd >= 0 && dd < bd && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny) && !(nx === p.x && ny === p.y)) {
+        if (shy && fiery(nx, ny)) { balked = true; continue; }
+        bd = dd; best = [nx, ny];
+      }
     }
     const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
-    if (!best) { m.nextAct = G.t + mb.speed; return; }
+    if (!best) {
+      // held back by the flames: it says so, once
+      if (balked && !m.balkSaid) { m.balkSaid = true; K.floatText(m, 'shies', '#ffb060'); if (K.heard(m).dist <= 6) K.log(`The ${mb.name} shies back from the flames.`, 'good'); }
+      m.nextAct = G.t + mb.speed; return;
+    }
     const slow = K.tile(best[0], best[1]) === K.T.DOOR ? meetDoor(m, mb, best[0], best[1]) : (moveMonster(m, best[0], best[1]), false);
     m.nextAct = G.t + (slow ? mb.speed : moveSpeed);
     // Stepping up to you, it draws back as it comes, so its first blow

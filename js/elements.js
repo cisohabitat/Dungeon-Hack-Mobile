@@ -90,18 +90,43 @@ export function makeElements(K) {
       return;
     }
     if (how !== 'spell' || !wet(m.x, m.y)) return;
-    if (el === 'lightning') arc(m, dmg, seen);
+    // (what the struck one's own weakness added to the blow stays with it, and
+    // does not run on through the water)
+    const f = el === 'lightning' ? K.elemental(m, 100, el) / 100 : 1;
+    if (el === 'lightning') arc(m, f > 0 ? dmg / f : dmg, seen);
     else if (el === 'cold') freeze(m);
   }
 
-  /** Lightning runs through the water from what it struck to all else standing in it close by. */
+  /** The water joined to a square within so many steps: lightning runs through the water, not through walls. */
+  function waterNear(x, y, reach) {
+    const got = new Set([K.key(x, y)]);
+    let edge = [[x, y]];
+    for (let i = 0; i < reach; i++) {
+      const next = [];
+      for (const [ex, ey] of edge) for (const [dx, dy] of DIRS4) {
+        const nx = ex + dx, ny = ey + dy, k = K.key(nx, ny);
+        if (got.has(k) || !wet(nx, ny)) continue;
+        got.add(k); next.push([nx, ny]);
+      }
+      edge = next;
+    }
+    return got;
+  }
+  /**
+   * Lightning runs through the water from what it struck to all else standing
+   * in it close by. The hero and the companion are shocked once a casting at
+   * most, however many things in the water it struck.
+   */
   function arc(m, dmg, seen) {
     const L = lvl(), p = K.P(), n = Math.max(1, Math.ceil(dmg / 2));
-    const hit = L.monsters.filter(o => !seen.has(o) && !o.collapsed && dist(o, m) <= ARC_REACH && wet(o.x, o.y));
-    const heroIn = wet(p.x, p.y) && dist(p, m) <= ARC_REACH;
+    const water = waterNear(m.x, m.y, ARC_REACH), inWater = (o) => water.has(K.key(o.x, o.y));
+    const hit = L.monsters.filter(o => !seen.has(o) && !o.collapsed && inWater(o));
+    const heroIn = !seen.has('hero') && inWater(p);
     const comp = K.companionHere();
-    const compIn = !!comp && wet(comp.x, comp.y) && dist(comp, m) <= ARC_REACH;
+    const compIn = !!comp && !seen.has('companion') && inWater(comp);
     if (!hit.length && !heroIn && !compIn) return;
+    if (heroIn) seen.add('hero');
+    if (compIn) seen.add('companion');
     Sound.play('cast', K.heard(m, { spell: 'lightning' }));
     K.floatText(m, 'arcs', '#bfe4ff');
     for (const o of hit) {
@@ -123,6 +148,7 @@ export function makeElements(K) {
     const G = K.G, L = lvl(), p = K.P();
     const squares = [[m.x, m.y], ...DIRS4.map(([dx, dy]) => [m.x + dx, m.y + dy])].filter(([x, y]) => wet(x, y));
     for (const [x, y] of squares) fields()[K.key(x, y)] = { k: 'ice', until: G.t + ICE_MS };
+    const stands = L.monsters.includes(m);
     const on = (o) => squares.some(([x, y]) => o.x === x && o.y === y);
     for (const o of L.monsters) {
       if (!on(o) || o.collapsed || o.sunk) continue;
@@ -132,9 +158,10 @@ export function makeElements(K) {
       K.floatText(o, 'frozen in', '#cfeaff');
     }
     Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));
-    K.log(`The water freezes solid round the ${K.mstat(m).name}, and holds it fast.`, 'good');
-    if (on(p)) {
-      p.held = Math.max(p.held || 0, G.t + HERO_ICE_HOLD); p.heldBy = 'ice';
+    K.log(stands ? `The water freezes solid round the ${K.mstat(m).name}, and holds it fast.` : 'The water freezes solid where it fell.', 'good');
+    // (a hold already longer, a basilisk's stone, keeps its own name)
+    if (on(p) && !((p.held || 0) > G.t + HERO_ICE_HOLD)) {
+      p.held = G.t + HERO_ICE_HOLD; p.heldBy = 'ice';
       K.log('The ice closes round your own feet too!', 'bad');
     }
   }
@@ -146,7 +173,8 @@ export function makeElements(K) {
     for (const [sx, sy] of [[x, y], ...DIRS4.map(([dx, dy]) => [x + dx, y + dy])]) {
       if (!open(sx, sy) || wet(sx, sy) || (sx === p.x && sy === p.y)) continue;
       const f = fieldAt(sx, sy);
-      if (f && (f.k === 'fire' || f.k === 'oil')) continue;
+      // (ice is water too, frozen: the oil runs off it)
+      if (f && (f.k === 'fire' || f.k === 'oil' || f.k === 'ice')) continue;
       fields()[K.key(sx, sy)] = { k: 'oil' };
       n++;
     }
@@ -164,16 +192,29 @@ export function makeElements(K) {
     ignite(x, y, 0);
   }
 
-  /** A gout of fire down a line (a cave wyrm's breath) sets alight what will burn along it. */
-  function burnLine(x, y, dx, dy, reach) {
+  /**
+   * A gout of fire down a line (a cave wyrm's breath) sets alight what will
+   * burn along it, from so many squares out: a wyrm's fire passes over the
+   * square under its jaws.
+   */
+  function burnLine(x, y, dx, dy, reach, from = 1) {
     for (let i = 1; i <= reach; i++) {
       const sx = x + dx * i, sy = y + dy * i;
       if (!open(sx, sy)) break;
+      if (i < from) continue;
       const f = fieldAt(sx, sy);
       if (f && f.k === 'ice') { delete fields()[K.key(sx, sy)]; continue; }
       ignite(sx, sy, 0);
       burstCask(sx, sy);
     }
+  }
+
+  /** Fire that strikes no creature, at the end of its flight: it melts ice there, or sets alight what will burn. */
+  function scorch(x, y) {
+    if (!open(x, y) || K.G.status !== 'playing') return;
+    const f = fieldAt(x, y);
+    if (f && f.k === 'ice') { delete fields()[K.key(x, y)]; return; }
+    ignite(x, y, 0);
   }
 
   /** Fire spreads and burns, ice melts, ash settles: called every frame the dungeon runs. */
@@ -187,7 +228,8 @@ export function makeElements(K) {
       if ((f.k === 'ice' || f.k === 'ash') && f.until && G.t >= f.until) { delete L.fields[k]; continue; }
       if (f.k !== 'fire') continue;
       const [x, y] = k.split(',').map(Number);
-      if (G.t >= f.until) { L.fields[k] = { k: 'ash', until: f.fuel === 'oil' ? G.t + OIL_ASH_MS : 0 }; continue; }
+      // (oil that burnt on moss took the moss with it: that ash stays, as the moss's does)
+      if (G.t >= f.until) { L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0 }; continue; }
       if (G.t >= f.spread) {
         f.spread += SPREAD_MS;
         for (const [dx, dy] of DIRS4) {
@@ -223,5 +265,5 @@ export function makeElements(K) {
     return out;
   }
 
-  return { fieldAt, wet, fuel, ignite, strike, spill, burstCask, burnLine, tick, view };
+  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, burstCask, burnLine, tick, view };
 }

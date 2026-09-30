@@ -512,6 +512,8 @@ const ITEMS = {
   charm_collar: { kind: 'charm', name: 'Iron-Studded Collar', value: 40, sprite: 'charm_collar', charm: 'collar', desc: 'For your companion to wear: blows find it harder to land (+3 armour).' },
   charm_fang:   { kind: 'charm', name: 'Fang Charm',          value: 40, sprite: 'charm_fang',   charm: 'fang',   desc: 'For your companion to wear: its every blow deals 2 more.' },
   charm_rowan:  { kind: 'charm', name: 'Rowan Knot',          value: 40, sprite: 'charm_rowan',  charm: 'rowan',  desc: 'For your companion to wear: its wounds close by themselves, a hit point every four seconds.' },
+  // Lamp oil, to throw: the flask smashes where it lands and spills its oil (see elements.js)
+  lamp_oil:   { kind: 'flask', name: 'Flask of Lamp Oil', stack: true, value: 12, sprite: 'lamp_oil', desc: 'Throw it: it smashes up to three squares ahead, or on the first thing in the way, and spills lamp oil there. Any fire sets the oil alight.' },
   // Oils and coatings: worked into the weapon, they ride on its next blows that land.
   oil_fire:   { kind: 'oil', name: 'Fire Oil',     stack: true, value: 30, sprite: 'oil_fire',   coat: 'fire',   desc: 'Coats your weapon: its next 20 blows that land burn for 1d4 more, and no troll mends the wound.' },
   oil_silver: { kind: 'oil', name: 'Silver Wash',  stack: true, value: 30, sprite: 'oil_silver', coat: 'silver', desc: 'Coats your weapon: its next 20 blows that land deal 1d6 more to the undead.' },
