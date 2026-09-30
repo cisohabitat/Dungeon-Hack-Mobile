@@ -1220,6 +1220,42 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#hud-status')).not.toContainText('In water');
     expect(errors).toEqual([]);
   });
+  test('a burning door burns on its own face: flames across the planks, not only on the floor before it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'doorfire', cls: 'fighter' });
+    await clearBoons(page);
+    // two squares from a shut door, facing it
+    const found = await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), T = Dungeon.T, D = Dungeon.DIRS;
+      L.monsters.length = 0;
+      for (let i = 0; i < L.tiles.length; i++) {
+        if (L.tiles[i] !== T.DOOR) continue;
+        const x = i % L.w, y = (i / L.w) | 0;
+        for (let k = 0; k < 4; k++) {
+          const ax = x - D[k][0], ay = y - D[k][1], bx = x - 2 * D[k][0], by = y - 2 * D[k][1];
+          if (L.tiles[ay * L.w + ax] === T.FLOOR && L.tiles[by * L.w + bx] === T.FLOOR) { p.x = bx; p.y = by; p.dir = k; Game.save(true); Game.load(); window.__door = [x, y]; return true; }
+        }
+      }
+      return false;
+    });
+    expect(found).toBe(true);
+    // the door's face either side of its middle, where no flame on the floor stands
+    const flames = () => page.evaluate(() => {
+      const c = document.getElementById('view'), g = c.getContext('2d');
+      let n = 0;
+      for (const [x0, x1] of [[0.26, 0.36], [0.64, 0.74]]) {
+        const d = g.getImageData(Math.round(c.width * x0), Math.round(c.height * 0.55), Math.round(c.width * (x1 - x0)), Math.round(c.height * 0.08)).data;
+        for (let i = 0; i < d.length; i += 4) if (d[i] > 200 && d[i + 1] > 60 && d[i + 2] < 120) n++;
+      }
+      return n;
+    });
+    await page.waitForTimeout(400);
+    const cold = await flames();
+    await page.evaluate(() => { const L = Game.level(), G = Game.state(), [x, y] = window.__door; L.fields = L.fields || {}; L.fields[`${x},${y}`] = { k: 'fire', fuel: 'door', until: G.t + 4000, spread: G.t + 99999, burn: G.t + 99999, gen: 0 }; });
+    await page.waitForTimeout(400);
+    expect(await flames()).toBeGreaterThan(cold + 200);
+    expect(errors).toEqual([]);
+  });
   test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'living-afire' });

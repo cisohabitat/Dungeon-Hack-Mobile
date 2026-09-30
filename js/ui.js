@@ -124,7 +124,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30i', text: 'the status line now says when you stand in spilt oil or a puddle; a scene laid for fire is named as soon as you can see it; creatures burning in flames no longer fill the log; on a Hard Long Delve a ranger\'s shots and blows grow with the deep floors; more testing aids in the Menu, among them show every monster' };
+  const NEWS = { id: '2026-09-30j', text: 'a burning door now burns on its face, and a wraith\'s grave-cold creeps over the stones as it breathes; a Sharpshooter\'s snare holds longer; the status line says when you stand in oil or a puddle; more testing aids in the Menu, among them show every monster' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

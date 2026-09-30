@@ -4037,6 +4037,24 @@ await test('an encounter left open does not carry into a loaded game or a new ru
   return !Game.currentEncounter() || 'the encounter was still open in a new run';
 });
 
+await test('a snare holds two and a half seconds; a Warden\'s a second longer, a Sharpshooter\'s a second and a half', async () => {
+  const out = [];
+  for (const [path, ms] of [[null, 2500], ['warden', 3500], ['sharpshooter', 4000]]) {
+    const ctx = await start('ranger', 'snare-hold-' + path);
+    const { Game, Dungeon } = ctx;
+    const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 9999; p.path = path;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    for (let i = 1; i <= 3; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 96, id: 'orc', x: p.x + dx * 3, y: p.y + dy * 3, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    if (!Game.useAbility()) { out.push(`no snare thrown (${path})`); continue; }
+    const held = Game.level().monsters[0].snaredUntil - G.t;
+    if (held !== ms) out.push(`${path || 'no path'}: held ${held}ms, not ${ms}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a snared foe stays snared through a save and a load', async () => {
   const ctx = await start('ranger', 'snare-load');
   const { Game, Dungeon } = ctx;
@@ -11964,6 +11982,34 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       return { k: 'barricade', x: dx, y: dy, casks: [[nx, ny], [fx, fy]] };
     });
     if (!/An oil cask stands against the locked door/.test(door)) out.push(`a barricade with one cask this side: ${door || 'not named'}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the view is told how far a door\'s burning has gone, and where a wraith\'s grave-cold has crept so far', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-looks');
+    L.twist = null;
+    const [dx, dy] = at(3);
+    L.tiles[dy * L.w + dx] = Dungeon.T.DOOR;
+    L.fields[`${dx},${dy}`] = { k: 'fire', fuel: 'door', until: G.t + 6000, spread: G.t + 99999, burn: G.t + 99999, gen: 0 };
+    const early = Game.renderState(0).fx.doorFire[`${dx},${dy}`];
+    G.t += 4500;
+    L.fields[`${dx},${dy}`].until = G.t + 1500;
+    const late = Game.renderState(0).fx.doorFire[`${dx},${dy}`];
+    if (!(early >= 0 && early < 0.1 && late > 0.7 && late <= 1)) out.push(`a burning door was told ${early} then ${late}`);
+    if (Object.keys(Game.renderState(0).fx.doorFire).length !== 1) out.push('a door not on fire was told burning');
+    L.fields = {}; L.tiles[dy * L.w + dx] = Dungeon.T.FLOOR;
+    // a wraith three squares off: the frost starts at its feet and reaches the hero as it finishes
+    const w = put('wraith', 3, 0, { hp: 80, maxHp: 80 });
+    w.windup = { kind: 'move', move: 'chill', at: G.t, until: G.t + 1500, tx: p.x, ty: p.y };
+    const frost = () => Game.renderState(0).fx.frost;
+    const start = frost();
+    G.t += 1499;
+    const end = frost();
+    if (!start.length || start.some(f => f.x === p.x && f.y === p.y)) out.push(`at the first breath the frost lay on ${JSON.stringify(start)}`);
+    if (!end.some(f => f.x === p.x && f.y === p.y && f.a > 0.5)) out.push(`as the breath ended the frost lay on ${JSON.stringify(end)}`);
+    w.windup = null;
+    if (frost().length) out.push('frost was drawn with no grave-cold being breathed');
     return out.length ? out.join('; ') : true;
   });
 

@@ -3604,7 +3604,9 @@ const Game = (() => {
     const broke = !rite && !!(m.windup || m.volley);
     if (!rite) { m.windup = null; m.volley = null; }
     m.pressing = false;
-    const hold = (SNARE_MS + (hasTalent('long_snare') ? 1500 : 0) + (onPath('warden') ? 1000 : 0)) / (mb.boss ? 2 : 1);
+    // (a Sharpshooter's snare holds longest: kept at range, a foe held is a foe shot, and on
+    // Hard it trailed the Warden by some thirteen points with no better way to stay out of reach)
+    const hold = (SNARE_MS + (hasTalent('long_snare') ? 1500 : 0) + (onPath('warden') ? 1000 : 0) + (onPath('sharpshooter') ? 1500 : 0)) / (mb.boss ? 2 : 1);
     if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
     m.snaredUntil = G.t + hold;
     m.awake = true;
@@ -4464,6 +4466,18 @@ const Game = (() => {
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
     };
     fx.threats = threats();
+    // a shut door on fire, and how far through it the fire is (the renderer chars it as it goes)
+    fx.doorFire = {};
+    for (const f of elements.view()) if (f.k === 'fire' && f.fuel === 'door') fx.doorFire[`${f.x},${f.y}`] = f.burnt;
+    // a wraith's grave-cold creeping over the stones toward its mark while it breathes
+    fx.frost = [];
+    for (const m of L.monsters) {
+      const w = m.windup;
+      if (!w || w.move !== 'chill' || w.tx == null) continue;
+      const n = Math.max(1, Math.abs(w.tx - m.x) + Math.abs(w.ty - m.y)), u = Math.max(0, Math.min(1, (G.t - w.at) / Math.max(1, w.until - w.at)));
+      const dx = Math.sign(w.tx - m.x), dy = Math.sign(w.ty - m.y);
+      for (let i = 1; i <= n; i++) { const a = Math.min(1, u * n - i + 1.5); if (a > 0) fx.frost.push({ x: m.x + dx * i, y: m.y + dy * i, a }); }
+    }
     return { level: L, cam, sprites, fx };
   }
 

@@ -337,7 +337,11 @@ export function makeElements(K) {
     const out = [];
     const F = lvl().fields;
     if (!F) return out;
-    for (const k in F) { const [x, y] = k.split(',').map(Number); out.push({ x, y, k: F[k].k, fuel: F[k].fuel || '' }); }
+    for (const k in F) {
+      const [x, y] = k.split(',').map(Number), f = F[k];
+      // (a door on fire, how far through its burning: the renderer chars it as it goes)
+      out.push({ x, y, k: f.k, fuel: f.fuel || '', burnt: f.fuel === 'door' ? Math.max(0, Math.min(1, 1 - (f.until - K.G.t) / DOOR_FIRE_MS)) : 0 });
+    }
     return out;
   }
 

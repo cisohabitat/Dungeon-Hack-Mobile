@@ -578,10 +578,12 @@ const Renderer = (() => {
   // Fire, ash, spilt oil and ice on the squares the elements have touched
   // (elements.js): each square a patch on the floor, fire bright and flickering.
   const FIELD_LOOK = { ash: ['#16130f', 0.42], oil: ['#3a2a12', 0.46], ice: ['#a8cce4', 0.46] };
-  function fieldStains(level, now) {
+  function fieldStains(level, now, fx) {
     const F = level.fields;
-    if (!F) return null;
     const out = [];
+    // the frost a wraith breathes, creeping over the stones toward where it is aimed
+    for (const f of (fx && fx.frost) || []) out.push({ x: f.x + 0.5, y: f.y + 0.5, r: 0.46 * f.a, c: '#a8cce4', seed: f.x * 131 + f.y * 71 });
+    if (!F) return out;
     for (const k in F) {
       const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
       if (f.k === 'fire') {
@@ -1232,7 +1234,7 @@ const Renderer = (() => {
     drawStains(puddlesOf(level), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
     // what the elements have left on the floor: ash, spilt oil, ice, and fire burning over them
-    drawStains(fieldStains(level, now), level, px, py, dirX, dirY, planeX, planeY, lm, now);
+    drawStains(fieldStains(level, now, fx), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
@@ -1269,8 +1271,11 @@ const Renderer = (() => {
         const blows = level.doorBlows && level.doorBlows[mapX + ',' + mapY];
         if (blows) img = Assets.crackedDoor(img, blows);
       }
+      // a door on fire burns on its own face, and lights itself
+      const burning = fx.doorFire && (tile === T.DOOR || tile === T.DOOR_LOCKED) ? fx.doorFire[mapX + ',' + mapY] : undefined;
+      if (burning !== undefined) img = Assets.burningDoor(img, burning < 0.34 ? 0 : burning < 0.67 ? 1 : 2, calm ? 0 : Math.floor(now / 110) % 3);
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
-      let shade = dist / fog + (side === 1 ? 0.12 : 0);
+      let shade = dist / fog + (side === 1 ? 0.12 : 0) - (burning !== undefined ? 0.4 : 0);
       // torchlight falling on this wall face brightens it, read smoothly at the
       // very spot the ray struck, not square by square: taken whole from the
       // square, each torch lit its own wall as a flat bright block with hard

@@ -299,7 +299,7 @@ const PATHS = {
       'An arrow at a foe three squares off or more deals 3 more damage.',
       'With a bow, a sling or throwing knives, your critical hits land one number sooner on the die.',
       'Your first arrow at a foe that has not seen you never misses.',
-      'Snare reaches two squares further.',
+      'Snare reaches two squares further, and holds a second and a half longer.',
     ], capstones: [
       { id: 'deadeye', name: 'Deadeye', flavour: 'Farther is easier. You have stopped explaining it.', effects: ['An arrow at a foe three squares off or more deals 5 more damage, not 3.'] },
       { id: 'swift_draw', name: 'Swift Draw', flavour: 'Nock, draw, loose: one movement, and then another.', effects: ['A bow or a sling draws a fifth faster.'] },

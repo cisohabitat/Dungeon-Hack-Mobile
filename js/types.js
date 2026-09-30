@@ -116,7 +116,7 @@
  * @property {boolean} [gropeSaid]  its first groping told in the log
  * @property {number} [burnSaid]  until when its burning has been told (the first tick of a burning, not every one)
  * @property {number} [balkSaid]  until when its shying back from a fire has been told (once a fire, not every step)
- * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
+ * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number, tx?: number, ty?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first
  * @property {boolean} [fleeing]

@@ -900,6 +900,35 @@ const Assets = (() => {
   ];
   const cracked = new WeakMap();
   /** The door texture with the damage of n blows on it (n from 1 to 3). */
+  // A shut door on fire, drawn on the door itself: the planks blacken as it
+  // burns (stage 0 to 2), embers glow in the grain, and flames lick up from its
+  // foot, higher as it goes (three frames, so they move). Made once and kept.
+  const burnt = new Map();
+  function burningDoor(door, stage, frame) {
+    let set = burnt.get(door);
+    if (!set) burnt.set(door, set = []);
+    const k = stage * 3 + frame;
+    if (set[k]) return set[k];
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d');
+    ctx.drawImage(door, 0, 0);
+    ctx.fillStyle = `rgba(22,11,4,${0.22 + 0.24 * stage})`;
+    ctx.fillRect(0, 0, TEX, TEX);
+    for (let i = 0; i < 10 + stage * 14; i++) {
+      const x = (i * 37 + stage * 11) % TEX, y = (i * 53 + 7) % (TEX - 8);
+      ctx.fillStyle = (i + frame) % 3 ? '#ff6a1a' : '#ffc050';
+      ctx.fillRect(x, y, 1, 1);
+    }
+    const reach = 20 + stage * 12;
+    for (let x = 0; x < TEX; x++) {
+      const h = Math.max(3, Math.round(reach * (0.35 + 0.65 * Math.abs(Math.sin(x * 0.31 + frame * 2.1)) * (0.75 + 0.25 * Math.sin(x * 0.93 + frame * 1.7)))));
+      for (let y = 0; y < h; y++) {
+        const t = y / h;
+        ctx.fillStyle = t < 0.3 ? '#fff0a8' : t < 0.6 ? '#ffb030' : t < 0.85 ? '#e2561a' : '#8a2410';
+        ctx.fillRect(x, TEX - 1 - y, 1, 1);
+      }
+    }
+    return (set[k] = c);
+  }
   function crackedDoor(door, n) {
     let set = cracked.get(door);
     if (!set) cracked.set(door, set = []);
@@ -1273,7 +1302,7 @@ const Assets = (() => {
     return fr;
   }
 
-  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried, crackedDoor };
+  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried, crackedDoor, burningDoor };
 })();
 
 export { Assets };
