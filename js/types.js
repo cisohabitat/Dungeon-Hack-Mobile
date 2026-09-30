@@ -114,7 +114,7 @@
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
- * @property {boolean} [balkSaid]  its shying back from a fire told once
+ * @property {number} [balkSaid]  until when its shying back from a fire has been told (once a fire, not every step)
  * @property {{kind: string, at: number, until: number, move?: string, dx?: number, dy?: number, target?: number, px?: number, py?: number}|null} [windup]  a blow or trick being drawn back, and when it lands
  * @property {boolean} [pressing]  made to miss, so its next wind-up is quicker
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first
@@ -185,7 +185,7 @@
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
- * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero
+ * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean, door?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero; an ash's door, where a door burnt through
  * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp

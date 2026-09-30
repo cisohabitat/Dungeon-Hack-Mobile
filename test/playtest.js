@@ -386,7 +386,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         }
       }
       if (trick) {
-        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath';
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
         let best = null, score = -1;
         for (let k = 0; k < 4; k++) {
@@ -395,6 +395,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const t = L.tiles[ny * L.w + nx];
           if (t !== T.FLOOR && t !== T.DOOR_OPEN) continue;
           if (L.monsters.some(o => o.x === nx && o.y === ny) || (L.npcs || []).some(o => o.x === nx && o.y === ny)) continue;
+          if (Game.fieldAt && Game.fieldAt(nx, ny) && Game.fieldAt(nx, ny).k === 'fire') continue;
           const dd = Math.abs(trick.x - nx) + Math.abs(trick.y - ny);
           const inLine = nx === trick.x || ny === trick.y;
           if (sideways ? inLine : dd <= d0) continue;
@@ -482,7 +483,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const m = L.monsters.find(mm => mm.x === x && mm.y === y);
           if (m) {
             // a Pyromancer burns what is beside them rather than spend on the cold
-            const sp = (i === 1 && p.path === 'pyromancer' && bolts.find(b => b.id === 'burning_hands')) || bolts.filter(b => b.range >= i && !shocksMe(b, i)).pop();
+            const reach = b => (Game.spellRange ? Game.spellRange(b) : b.range);
+            const sp = (i <= reach({ id: 'burning_hands', range: 1 }) && p.path === 'pyromancer' && bolts.find(b => b.id === 'burning_hands')) || bolts.filter(b => reach(b) >= i && !shocksMe(b, i)).pop();
             if (sp && (i > 1 || p.sp > Game.spellCost(sp) * 2)) shot = { dir: k, sp };
             break;
           }

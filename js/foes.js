@@ -182,7 +182,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -262,6 +262,17 @@ export function makeFoes(K) {
       const its = (mb.named && mb.named.pron) || 'its';
       say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
+    // a goblin on its own, from the third floor down, lights a pot of lamp oil
+    // and throws it at where the hero stands, a few squares off down a line
+    else if (mv === 'firepot' && K.G.depth >= 3 && hasLineToPlayer(m, 4) && Math.random() < 0.5) {
+      say = `The ${mb.name} lights a clay pot of oil and draws back to throw it! Step aside!`;
+      extra = { tx: p.x, ty: p.y, dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
+    // an archer with a hero standing on something that will burn looses a lit arrow at their feet
+    else if (mv === 'firearrow' && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && K.fuelAt(p.x, p.y) && Math.random() < 0.5) {
+      say = `The ${mb.name} touches a burning arrow to its bow, aimed at your feet! Step aside!`;
+      extra = { tx: p.x, ty: p.y };
     }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
@@ -460,6 +471,32 @@ export function makeFoes(K) {
         m.moveReady = K.G.t + 7000;
         // and whatever will burn along its line catches, from two squares out as the fire runs
         K.burnLine(m.x, m.y, w.dx, w.dy, 5, 2);
+        break;
+      }
+      case 'firepot': {
+        // it bursts where the hero stood when it was lit, and on the square behind, down its line
+        const spots = [[w.tx, w.ty], [w.tx + w.dx, w.ty + w.dy]];
+        Sound.play('smash', K.heard({ x: w.tx, y: w.ty }));
+        const hit = spots.some(([x, y]) => p.x === x && p.y === y);
+        K.firepot(spots);
+        if (hit) {
+          const c = K.trickSave('dex', 'firepot');
+          const n = Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 2)) / (c.pass ? 2 : 1)));
+          K.hurtPlayer(n, `The pot bursts over you in a sheet of flame for ${n}!${c.pass ? ' You turn from the worst of it.' : ''}${c.note}`, m, 'a goblin\'s firepot');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+        } else { K.log(`The pot bursts in flames where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        m.moveReady = K.G.t + 9000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'firearrow': {
+        // the arrow comes at the feet it was aimed at: if they are still there, it is a shot at the hero as any other
+        const still = p.x === w.tx && p.y === w.ty && hasLineToPlayer(m, mb.ranged.range);
+        if (still) rangedAttack(m);
+        else { K.log(`The burning arrow thuds into the ground where you stood.`, 'good'); K.learn(m.id, 'answer'); Sound.play('arrow', K.heard(m)); }
+        K.igniteWild(w.tx, w.ty);
+        m.moveReady = K.G.t + 8000;
+        m.nextAct = K.G.t + mb.speed;
         break;
       }
       case 'nova':
@@ -1198,14 +1235,14 @@ export function makeFoes(K) {
     // beside the hero, its first move is to seize them
     if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) startMove(m, mb, true);
   }
-  /** Out of the flames, to the square beside that is nearest the hero and not burning. @returns {boolean} whether it moved */
+  /** Out of the flames, to the square beside that is nearest the hero and not burning (furthest, for one fleeing). @returns {boolean} whether it moved */
   function escapesFire(m, mb, L, p) {
     let best = null, bd = Infinity;
     for (const [dx, dy] of K.DIRS) {
       const nx = m.x + dx, ny = m.y + dy;
       if (!K.passable(nx, ny) || fiery(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || (nx === p.x && ny === p.y)) continue;
       const dd = K.distField[ny * L.w + nx];
-      const score = dd >= 0 ? dd : 99;
+      const score = m.fleeing ? -(dd >= 0 ? dd : 0) : dd >= 0 ? dd : 99;
       if (score < bd) { bd = score; best = [nx, ny]; }
     }
     if (!best) return false;
@@ -1232,6 +1269,8 @@ export function makeFoes(K) {
       if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
       const dd = K.distField[ny * L.w + nx];
       // never onto the hero: a chase or a wander would not, and a stale map must not tempt one
+      // (and never into fire, for a living thing running for its life)
+      if (fearsFire(mb) && fiery(nx, ny)) continue;
       if (dd > ad && !(nx === p.x && ny === p.y) && !K.monsterAt(nx, ny) && !K.npcAt(nx, ny) && !K.companionAt(nx, ny)) { ad = dd; away = [nx, ny]; }
     }
     // a shut door in the way is met as in a chase: opened, battered or smashed, never walked through
@@ -1313,7 +1352,7 @@ export function makeFoes(K) {
     const moveSpeed = Math.max(300, Math.round(mb.speed * 0.45));
     if (!best) {
       // held back by the flames: it says so, once
-      if (balked && !m.balkSaid) { m.balkSaid = true; K.floatText(m, 'shies', '#ffb060'); if (K.heard(m).dist <= 6) K.log(`The ${mb.name} shies back from the flames.`, 'good'); }
+      if (balked && !(m.balkSaid > K.G.t)) { m.balkSaid = K.G.t + 12000; K.floatText(m, 'shies', '#ffb060'); if (K.heard(m).dist <= 6) K.log(`The ${mb.name} shies back from the flames.`, 'good'); }
       m.nextAct = G.t + mb.speed; return;
     }
     const slow = K.tile(best[0], best[1]) === K.T.DOOR ? meetDoor(m, mb, best[0], best[1]) : (moveMonster(m, best[0], best[1]), false);

@@ -51,11 +51,11 @@ export function makeElements(K) {
   }
   /** What would burn on a square: spilt oil, a shut wooden door, or an overgrown floor's moss not yet burnt. */
   function fuel(x, y) {
-    const f = fieldAt(x, y);
+    const f = fieldAt(x, y), t = K.tile(x, y);
+    // (a door shut over spilt oil burns as a door: it catches, and falls)
+    if (t === K.T.DOOR || t === K.T.DOOR_LOCKED) return f && f.k !== 'oil' ? '' : 'door';
     if (f && f.k === 'oil') return 'oil';
-    if (f && f.k !== 'oil') return '';
-    const t = K.tile(x, y);
-    if (t === K.T.DOOR || t === K.T.DOOR_LOCKED) return 'door';
+    if (f) return '';
     return lvl().twist === 'overgrown' && t === K.T.FLOOR ? 'moss' : '';
   }
   const DIRS4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
@@ -178,19 +178,39 @@ export function makeElements(K) {
     }
   }
 
-  /** Oil from a broken cask, over its square and the dry floor beside it (not the hero's: it tips away from whoever breaks it). */
+  /**
+   * Oil from a broken cask or a flask, over its square and the floor beside it
+   * (not the hero's: it tips away from whoever breaks it). On water it floats,
+   * and burns there as well as on stone; the water under it still carries
+   * lightning until it is alight.
+   */
   function spill(x, y) {
     const p = K.P();
-    let n = 0;
+    let n = 0, afloat = false;
     for (const [sx, sy] of [[x, y], ...DIRS4.map(([dx, dy]) => [x + dx, y + dy])]) {
-      if (!open(sx, sy) || wet(sx, sy) || (sx === p.x && sy === p.y)) continue;
+      if (!open(sx, sy) || (sx === p.x && sy === p.y)) continue;
+      if (wet(sx, sy)) afloat = true;
       const f = fieldAt(sx, sy);
       // (ice is water too, frozen: the oil runs off it)
       if (f && (f.k === 'fire' || f.k === 'oil' || f.k === 'ice')) continue;
       fields()[K.key(sx, sy)] = { k: 'oil' };
       n++;
     }
-    if (n) K.log('Lamp oil spills out across the floor.', 'info');
+    if (n) K.log(afloat ? 'Lamp oil spreads out over the water.' : 'Lamp oil spills out across the floor.', 'info');
+  }
+
+  /**
+   * A goblin's pot of burning oil bursts on these squares: oil over each (the
+   * hero's too: it was thrown at them), and alight at once. A monster's fire.
+   */
+  function firepot(spots) {
+    for (const [x, y] of spots) {
+      if (!open(x, y)) continue;
+      const f = fieldAt(x, y);
+      if (f && f.k === 'ice') { delete fields()[K.key(x, y)]; continue; }
+      if (!f || f.k !== 'fire') fields()[K.key(x, y)] = { k: 'oil' };
+    }
+    for (const [x, y] of spots) if (open(x, y)) ignite(x, y, 0, true);
   }
 
   /** A fire that reaches an oil cask still whole bursts it. */
@@ -242,7 +262,7 @@ export function makeElements(K) {
       const [x, y] = k.split(',').map(Number);
       // (oil that burnt on moss took the moss with it: that ash stays, as the moss's does)
       if (G.t >= f.until) {
-        L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0 };
+        L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0, ...(f.fuel === 'door' ? { door: true } : {}) };
         if (f.fuel === 'door') doorFalls(x, y);
         continue;
       }
@@ -265,7 +285,7 @@ export function makeElements(K) {
           // a web holding the hero burns away, as it does for a fire spell
           K.burnWeb();
           const n = d(1, 4) + depthBite;
-          K.hurtPlayer(n, `The flames lick at you! (${n})`, null, f.fuel === 'oil' ? 'burning oil' : 'burning moss');
+          K.hurtPlayer(n, `The flames lick at you! (${n})`, null, f.fuel === 'oil' ? 'burning oil' : f.fuel === 'door' ? 'a burning door' : 'burning moss');
           if (G.status !== 'playing') return;
         }
         const c = K.companionHere();
@@ -292,5 +312,5 @@ export function makeElements(K) {
     return out;
   }
 
-  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, burstCask, burnLine, tick, view };
+  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, burstCask, burnLine, tick, view };
 }

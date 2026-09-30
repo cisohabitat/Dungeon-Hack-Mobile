@@ -373,6 +373,8 @@ const Game = (() => {
     else if (sp.id === 'cone_cold' && onPath('frostweaver')) cost -= 2;
     // a Pyromancer has given the cold up for the fire, and it comes harder to them
     else if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) cost += sp.id === 'cone_cold' ? 2 : 1;
+    // (and the fire they throw three squares down the passage costs them a point more than a fan in the face)
+    else if (sp.id === 'burning_hands' && onPath('pyromancer')) cost += 1;
     if ((sp.id === 'smite' && capped('crusade')) || (sp.kind === 'heal' && capped('wellspring'))) cost = Math.max(1, cost - 1);
     // a Shapeshifter reaches the bear more easily, and the words less so
     if (onPath('shapeshifter')) cost += sp.id === 'wild_shape' ? -1 : 1;
@@ -1254,9 +1256,12 @@ const Game = (() => {
     let spot = null;
     for (let i = 1; i <= 3; i++) {
       const x = p.x + dx * i, y = p.y + dy * i;
-      if (!passable(x, y) || npcAt(x, y)) break;
+      // (it is not thrown at the companion: it comes down short of them)
+      if (!passable(x, y) || npcAt(x, y) || companion.at(x, y)) break;
       spot = { x, y };
-      if (monsterAt(x, y)) break;
+      // the first thing in the way takes it: a creature (not one sunk out of sight), or a barrel or crate
+      const m = monsterAt(x, y);
+      if ((m && !m.sunk) || propAt(x, y)) break;
     }
     return spot;
   }
@@ -1267,9 +1272,9 @@ const Game = (() => {
     const p = P();
     p.noiseAt = G.t;
     p.nextAttack = Math.max(p.nextAttack, G.t + 500);
-    const m = monsterAt(spot.x, spot.y);
-    log(m ? `The flask smashes on the ${mstat(m).name}!` : 'The flask smashes on the stones.', 'info');
-    Sound.play('blunt', heard(spot));
+    const m = monsterAt(spot.x, spot.y), prop = propAt(spot.x, spot.y);
+    log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
+    Sound.play('smash', heard(spot));
     elements.spill(spot.x, spot.y);
     return true;
   }
@@ -1932,7 +1937,11 @@ const Game = (() => {
     lastBlocked = G.t;
     log(message);
   }
-  function openDoor(x, y) { setTile(x, y, T.DOOR_OPEN); P().noiseAt = G.t; log('You push the door open.'); Sound.play('door'); }
+  function openDoor(x, y) {
+    const f = elements.fieldAt(x, y);
+    if (f && f.k === 'fire') { log('The door is burning: it is too hot to touch.', 'bad'); return; }
+    setTile(x, y, T.DOOR_OPEN); P().noiseAt = G.t; log('You push the door open.'); Sound.play('door');
+  }
   function revealSecret(x, y, keenEyes) {
     setTile(x, y, T.DOOR_OPEN);
     log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
@@ -2115,6 +2124,9 @@ const Game = (() => {
     if (t === T.WALL || t === T.TORCH) { log('You search the wall but find nothing.' + stairHint()); return; }
     if (t === T.DOOR_OPEN) {
       if (monsterAt(tx, ty) || (lvl().items[key(tx, ty)] || []).length) { log('Something is in the doorway.'); return; }
+      const f = elements.fieldAt(tx, ty);
+      if (f && f.k === 'ash' && f.door) { log('The door lies burnt in the doorway. There is nothing left to shut.'); return; }
+      if (f && f.k === 'fire') { log('Fire burns in the doorway.', 'bad'); return; }
       setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
     }
     if ((lvl().items[key(tx, ty)] || []).length) { log('Step forward onto it to pick it up.'); return; }
@@ -2239,7 +2251,7 @@ const Game = (() => {
     L.remains.push({ x: Math.round(cx * 100) / 100, y: Math.round(cy * 100) / 100, k: d.k === 'urn' ? 'remains_shards' : 'remains_staves', at: G.t - 1000, until: G.t + REMAINS_MS * 2 });
     if (realNow >= fx.shakeUntil) { fx.shakeAmp = 2; fx.shakeMs = 120; fx.shakeUntil = realNow + fxDelay + 120; }
     if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
-    Sound.play('blunt', heard(d));
+    Sound.play('smash', heard(d));
     const rng = new Rng(`${G.seed}|smash|${G.depth}|${d.x},${d.y}`), r = rng.next();
     /** @type {import('./types.js').Item|null} */
     let found = null;
@@ -2490,7 +2502,7 @@ const Game = (() => {
     buzz(12);
     if (m.hp <= 0) {
       // Bloodlust: every foe the hero fells gives a little back
-      if (capped('bloodlust') && tag !== 'companion') healPlayer(d(1, 4));
+      if (capped('bloodlust') && tag !== 'companion' && tag !== 'blaze') healPlayer(d(1, 4));
       // in a group the front one falls and the next steps up; the square
       // empties only when the last of them is down
       if (m.pack && m.pack.length) { m.dot = null; memberDown(m, note); promote(m); return; }
@@ -3093,7 +3105,8 @@ const Game = (() => {
   /** @param {number} [hpBefore]  what the one struck had left, so a blow past death counts only what it took */
   function noteDealt(m, dmg, tag, hpBefore = m.hp) {
     // the hound's bite is the hound's: it made neither the hero's best blow nor their tally
-    if (tag === 'companion') return;
+    // (nor is a fire some monster lit)
+    if (tag === 'companion' || tag === 'blaze') return;
     const s = runStats(), p = P();
     // a blow counts for what it took: a crushing roll on a one-point rat is one point
     dmg = Math.min(dmg, Math.max(0, hpBefore));
@@ -3231,17 +3244,27 @@ const Game = (() => {
     }
     return out;
   }
-  /** Where a bolt that strikes nothing comes down: the last open square of its flight. */
+  /**
+   * Where fire that strikes nothing comes down: on the first spilt oil in its
+   * flight (it is aimed there), or else the last open square it reaches.
+   */
   function boltEnd(range) {
     const p = P(), [dx, dy] = DIRS[p.dir];
     let end = null;
-    for (let i = 1; i <= range; i++) { const x = p.x + dx * i, y = p.y + dy * i; if (!passable(x, y)) break; end = { x, y }; }
+    for (let i = 1; i <= range; i++) {
+      const x = p.x + dx * i, y = p.y + dy * i;
+      if (!passable(x, y)) break;
+      end = { x, y };
+      const f = elements.fieldAt(x, y);
+      if (f && f.k === 'oil') break;
+    }
     return end;
   }
   /** Whether fire that strikes nothing would set something alight where it comes down. */
   const fireCatches = range => { const end = boltEnd(range); return !!end && !!elements.fuel(end.x, end.y); };
   /** How far a bolt reaches, Radiance included. */
-  const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0) + (sp.id === 'thorn_lash' && hasTalent('long_thorns') ? 2 : 0);
+  // (a Pyromancer's Burning Hands fans down the passage, so they can light oil from a safe distance)
+  const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0) + (sp.id === 'thorn_lash' && hasTalent('long_thorns') ? 2 : 0) + (sp.id === 'burning_hands' && onPath('pyromancer') ? 2 : 0);
   /** Why casting this now would waste the points, or null if it would not. */
   function spellWasteReason(sp) {
     const p = P();
@@ -4100,8 +4123,9 @@ const Game = (() => {
       let ox = 0, oy = 0;
       const t = tile(f.x, f.y);
       if (t === T.DOOR || t === T.DOOR_LOCKED) {
-        const hero = P(), ddx = hero.x - f.x, ddy = hero.y - f.y;
-        if (Math.abs(ddx) >= Math.abs(ddy)) ox = Math.sign(ddx) * 0.56; else oy = Math.sign(ddy) * 0.56;
+        // (a door opens onto the floor on two sides: the face is on whichever of those the hero is)
+        const hero = P(), alongX = passable(f.x - 1, f.y) || passable(f.x + 1, f.y);
+        if (alongX) ox = (hero.x >= f.x ? 1 : -1) * 0.56; else oy = (hero.y >= f.y ? 1 : -1) * 0.56;
       }
       sprites.push({ x: f.x + 0.5 + ox, y: f.y + 0.5 + oy, img: Assets.sprites.dress_flames, scale: (f.fuel === 'door' ? 0.75 : 0.5) + 0.07 * Math.sin(now / 110 + f.x * 7 + f.y * 3), yOff: 0, onFloor: true, glow: true });
     }
@@ -4162,7 +4186,9 @@ const Game = (() => {
     }
     // what ails or aids the hero, tinted over the view
     fx.status = { poison: !!p.poison, held: (p.held || 0) > G.t, webbed: (p.webbed || 0) > G.t, grabbed: !!p.grabbed,
-      ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0 };
+      ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0,
+      // (the fire under your own feet is not in the view: this says it is there)
+      burning: !!elements.fieldAt(p.x, p.y) && elements.fieldAt(p.x, p.y).k === 'fire' };
     const bear = wild.shaped(p);
     fx.view = bear ? { weapon: null, two: false, drawn: false, shield: null, offhand: null, cls: 'bear', walk: cam.moving ? camProgress() : 0, steps: p.steps } : {
       weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ['shortbow', 'longbow'].includes(ITEMS[wIt.t].sprite)),
@@ -4359,6 +4385,7 @@ const Game = (() => {
     get cls() { return cls; },
     get damageMonster() { return damageMonster; },
     get fieldAt() { return elements.fieldAt; }, get burnLine() { return elements.burnLine; },
+    firepot: spots => elements.firepot(spots), fuelAt: (x, y) => elements.fuel(x, y), igniteWild: (x, y) => elements.ignite(x, y, 0, true),
     get castingName() { return castingName; },
     get assassinQuiet() { return assassinQuiet; },
     get elemental() { return elemental; },
@@ -4427,6 +4454,7 @@ const Game = (() => {
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
+    fieldAt: (x, y) => elements.fieldAt(x, y),
     get damageMonster() { return damageMonster; },
     get heard() { return heard; }, get realNow() { return realNow; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
@@ -4487,7 +4515,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, spellRange, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     mood,

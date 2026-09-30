@@ -7509,7 +7509,7 @@ await test('Pyromancer: fire hits a fifth harder and keeps burning, and the cold
   const r = pyro.dealt / plain.dealt;
   if (!(r > 1.15 && r < 1.25)) out.push(`burning hands: ${plain.dealt} -> ${pyro.dealt}`);
   if (plain.burn || pyro.burn !== 3000 || both.burn !== 6000) out.push(`burns lasted ${plain.burn}, ${pyro.burn}, with Kindling ${both.burn}`);
-  if (plain.cost !== 3 || pyro.cost !== 3) out.push(`burning hands cost ${plain.cost}, then ${pyro.cost}`);
+  if (plain.cost !== 3 || pyro.cost !== 4) out.push(`burning hands cost ${plain.cost}, then ${pyro.cost} (a Pyromancer's reaches three squares, for a point more)`);
   const scroll = async path => {
     const ctx = await start('mage', 'pyro-scroll');
     seedDice(ctx, 'pyro-scroll');
@@ -11098,6 +11098,51 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a Pyromancer\'s Burning Hands reach three squares down the passage; anyone else\'s one', async () => {
+    const out = [];
+    for (const pyro of [true, false]) {
+      const { p, G, L, put, at, Game, ctx } = await arena('mage', 'el-pyro-' + pyro);
+      L.twist = null;
+      if (pyro) p.path = 'pyromancer';
+      const g = put('goblin', 3);
+      G.t = Math.max(G.t, p.nextAttack) + 10;
+      const sp = ctx.SPELLS.mage.find(s => s.id === 'burning_hands');
+      const cast = Game.castSpell(sp);
+      if (pyro && !(g.hp < 999)) out.push('a Pyromancer\'s Burning Hands did not reach three squares');
+      if (!pyro && (cast || g.hp < 999)) out.push('Burning Hands reached three squares without the path');
+      if (Game.spellCost(sp) !== sp.cost + (pyro ? 1 : 0)) out.push(`Burning Hands cost ${Game.spellCost(sp)} ${pyro ? 'to a Pyromancer' : 'to another mage'}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('lamp oil floats on water: thrown on a flooded floor it spreads over the water, burns there, and the water under it still carries lightning until it burns', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at, cast } = await arena('mage', 'el-afloat');
+    L.twist = 'flooded';
+    p.inv.push({ t: 'lamp_oil', q: 2, e: 0 });
+    const a = put('goblin', 3), b = put('goblin', 3, 1);
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    const mark = markLog(G);
+    Game.useItem(p.inv.find(i => i.t === 'lamp_oil'));
+    const [x3, y3] = at(3);
+    if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('a flask thrown on the water left no oil there');
+    if (!linesSince(G, mark).some(l => /over the water/.test(l))) out.push(`no word of oil on the water (${linesSince(G, mark).join(' | ')})`);
+    // oil on the water still lets the lightning through to the one beside
+    cast('lightning');
+    if (b.hp === 999) out.push('oil on the water stopped the lightning');
+    // and a flame sets it alight on the water
+    L.fields[`${x3},${y3}`] = { k: 'oil' };
+    a.hp = 999; b.hp = 999;
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    Game.state().lastSpell = null;
+    const sp = Game.knownSpells().find(s => s.id === 'burning_hands');
+    L.monsters.length = 0; L.fields = {};
+    const [x1, y1] = at(1); L.fields[`${x1},${y1}`] = { k: 'oil' };
+    if (!Game.castSpell(sp)) out.push('a fire spell at oil on the water was refused');
+    if (!Game.fieldAt(x1, y1) || Game.fieldAt(x1, y1).k !== 'fire') out.push('oil on the water did not catch');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a flask of lamp oil is thrown: it smashes three squares ahead or on the first thing in the way and spills there; not at a wall; every trader keeps some', async () => {
     const out = [];
     const { Game, G, L, p, put, at } = await arena('fighter', 'el-flask');
@@ -11275,6 +11320,145 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: G.t, gen: 0 };
     run(Game, G, 300);
     if (p.webbed > G.t) out.push('fire under a webbed hero left the web whole');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('fire loose ends: a fleeing creature does not run into fire; a burning door is too hot to open and a burnt one cannot be shut; a door fire is named as such', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-flee');
+    L.twist = null;
+    // a one-wide passage, fire behind a goblin running from the hero
+    for (let k = 1; k <= 6; k++) for (const j of [-1, 1]) { const [x, y] = at(k, j); L.tiles[y * L.w + x] = Dungeon.T.WALL; }
+    const g = put('goblin', 3, 0, { nextAct: G.t, fleeing: true, hp: 30, maxHp: 30 });
+    const [fx, fy] = at(4);
+    L.fields[`${fx},${fy}`] = { k: 'fire', fuel: 'oil', until: G.t + 1e6, spread: 1e15, burn: G.t, gen: 0 };
+    let entered = 0;
+    for (let i = 0; i < 30; i++) { run(Game, G, 100); if (g.x === fx && g.y === fy) entered++; }
+    if (entered) out.push(`a fleeing goblin stood in the fire ${entered} times in three seconds`);
+    // a burning door will not open, and one burnt through will not shut
+    L.fields = {}; L.monsters.length = 0;
+    const [dx, dy] = at(1);
+    L.tiles[dy * L.w + dx] = Dungeon.T.DOOR;
+    L.fields[`${dx},${dy}`] = { k: 'fire', fuel: 'door', until: G.t + 1e6, spread: 1e15, burn: 1e15, gen: 0 };
+    G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('use');
+    if (L.tiles[dy * L.w + dx] !== Dungeon.T.DOOR) out.push('a burning door was pushed open');
+    L.fields[`${dx},${dy}`].until = G.t + 50;
+    run(Game, G, 300);
+    if (L.tiles[dy * L.w + dx] !== Dungeon.T.DOOR_OPEN) out.push('the burning door did not fall');
+    G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('use');
+    if (L.tiles[dy * L.w + dx] !== Dungeon.T.DOOR_OPEN) out.push('a burnt-through door was pulled shut');
+    // standing in a burning doorway, the hurt is from the door, not moss
+    L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'door', until: G.t + 1e6, spread: 1e15, burn: G.t, gen: 0 };
+    G.stats = null; p.hp = 9999;
+    run(Game, G, 300);
+    const worst = G.stats && G.stats.worst;
+    if (!worst || worst.cause !== 'a burning door') out.push(`a door fire hurt as ${worst ? worst.cause : 'nothing'}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a flask flies over a drowned one sunk out of sight, stops at a barrel; fire that strikes nothing comes down on the first oil in its flight', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at } = await arena('cleric', 'el-throw2');
+    L.twist = 'flooded';
+    p.inv.push({ t: 'lamp_oil', q: 5, e: 0 });
+    const flask = () => p.inv.find(i => i.t === 'lamp_oil');
+    put('drowned', 1, 0, { sunk: true, awake: false });
+    let mark = markLog(G);
+    G.t = Math.max(G.t, p.nextAttack) + 10; Game.useItem(flask());
+    const [x3, y3] = at(3);
+    if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('a flask stopped on a drowned one sunk out of sight');
+    if (linesSince(G, mark).some(l => /Drowned/.test(l))) out.push('the log named a drowned one the hero cannot see');
+    // a barrel two squares off takes it
+    L.twist = null; L.monsters.length = 0; L.fields = {};
+    const [bx, by] = at(2);
+    L.dressing.push({ x: bx, y: by, k: 'barrel', ox: 0, oy: 0 });
+    G.t = Math.max(G.t, p.nextAttack) + 10; Game.useItem(flask());
+    const [x4, y4] = at(4);
+    if (!Game.fieldAt(bx, by) || Game.fieldAt(bx, by).k !== 'oil' || Game.fieldAt(x4, y4)) out.push('a flask flew past a barrel in its way');
+    // Flame Strike at nothing, with oil two squares off and open stone beyond, lights the oil
+    L.dressing = []; L.fields = {};
+    const [ox, oy] = at(2); L.fields[`${ox},${oy}`] = { k: 'oil' };
+    const sp = Game.knownSpells().find(s => s.id === 'flame_strike');
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    if (!sp || !Game.castSpell(sp)) out.push('Flame Strike at oil two squares off was refused');
+    else if (!Game.fieldAt(ox, oy) || Game.fieldAt(ox, oy).k !== 'fire') out.push('Flame Strike at nothing flew past the oil it was aimed at');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a goblin on its own throws a lit pot of oil from the third floor down, never before; it bursts in flames where the hero stood and the square behind; a step aside answers it', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-pot');
+    L.twist = null;
+    const [fx, fy] = Dungeon.DIRS[p.dir];
+    // (the same floor, taken as another depth)
+    const d0 = G.depth;
+    const tries = depth => {
+      G.levels[depth] = L; G.depth = depth;
+      let n = 0;
+      for (let i = 0; i < 20; i++) {
+        L.monsters.length = 0; L.fields = {};
+        const g = put('goblin', 3, 0, { nextAct: G.t, hp: 50, maxHp: 50 });
+        run(Game, G, 30);
+        if (g.windup && g.windup.move === 'firepot') n++;
+      }
+      return n;
+    };
+    if (tries(2)) out.push('a goblin threw a firepot on the second floor');
+    if (!tries(3)) out.push('a goblin on the third floor never threw a firepot in twenty chances');
+    G.depth = d0;
+    // it lands: stand still and it bursts over you, on your square and the one behind
+    const pot = () => { L.monsters.length = 0; L.fields = {}; const g = put('goblin', 3, 0, { hp: 50, maxHp: 50 }); g.windup = { kind: 'move', move: 'firepot', at: G.t, until: G.t + 100, tx: p.x, ty: p.y, dx: -fx, dy: -fy }; g.nextAct = g.windup.until; return g; };
+    let g = pot(), hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 140);
+    const [bx, by] = at(-1);
+    if (!(p.hp < hp0)) out.push(`a firepot burst on a hero who stood still and did not hurt them (${linesSince(G, mark).join(' | ')})`);
+    for (const [x, y, what] of [[p.x, p.y, 'the hero\'s square'], [bx, by, 'the square behind']]) { const f = Game.fieldAt(x, y); if (!f || f.k !== 'fire' || !f.wild) out.push(`no goblin's fire on ${what}`); }
+    // a step aside before it lands: the pot bursts where the hero stood
+    const x0 = p.x, y0 = p.y;
+    g = pot();
+    const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    p.x += sx; p.y += sy;
+    hp0 = p.hp; mark = markLog(G);
+    run(Game, G, 400);
+    if (p.hp < hp0) out.push('a firepot hurt a hero who stepped aside');
+    if (!Game.fieldAt(x0, y0) || Game.fieldAt(x0, y0).k !== 'fire') out.push('the pot did not burst where the hero had stood');
+    if (!linesSince(G, mark).some(l => /where you stood/.test(l))) out.push('no word of the pot missing');
+    p.x = x0; p.y = y0;
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a goblin archer looses a burning arrow at a hero standing on something that will burn, and lights it; stepping aside leaves the arrow to light the empty square', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put } = await arena('fighter', 'el-farrow');
+    const tries = twist => {
+      L.twist = twist;
+      let n = 0;
+      for (let i = 0; i < 20; i++) {
+        L.monsters.length = 0; L.fields = {};
+        const a = put('archer', 3, 0, { nextAct: G.t, hp: 50, maxHp: 50 });
+        run(Game, G, 30);
+        if (a.windup && a.windup.move === 'firearrow') n++;
+      }
+      return n;
+    };
+    if (tries(null)) out.push('an archer loosed a burning arrow at a hero on bare stone');
+    if (!tries('overgrown')) out.push('an archer never loosed a burning arrow at a hero on moss in twenty chances');
+    // loosed: stand on the moss and it catches under you; step aside and it catches where you stood
+    L.twist = 'overgrown';
+    for (const aside of [false, true]) {
+      L.monsters.length = 0; L.fields = {};
+      const a = put('archer', 3, 0, { hp: 50, maxHp: 50 });
+      a.windup = { kind: 'move', move: 'firearrow', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until;
+      const x0 = p.x, y0 = p.y;
+      const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+      if (aside) { p.x += sx; p.y += sy; }
+      const mark = markLog(G);
+      run(Game, G, 130);
+      const f = Game.fieldAt(x0, y0);
+      if (!f || f.k !== 'fire') out.push(`${aside ? 'stepping aside' : 'standing still'}: the moss where the arrow was aimed did not catch`);
+      if (aside && !linesSince(G, mark).some(l => /where you stood/.test(l))) out.push('no word of the arrow missing');
+      p.x = x0; p.y = y0;
+    }
     return out.length ? out.join('; ') : true;
   });
 

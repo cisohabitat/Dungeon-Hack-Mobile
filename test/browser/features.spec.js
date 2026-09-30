@@ -1108,6 +1108,27 @@ test.describe('dungeon features', () => {
     await expect.poll(() => page.evaluate(() => { const F = Object.values(Game.level().fields || {}); return F.length > 0 && F.every(f => f.k === 'ash'); }), { timeout: 12000 }).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'living-afire' });
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    // how orange the bottom strip of the view is: red well over blue, across many pixels
+    const orange = () => page.evaluate(() => {
+      const c = document.querySelector('#view'), g = c.getContext('2d');
+      const d = g.getImageData(0, Math.round(c.height * 0.95), c.width, 1).data;
+      let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] > 180 && d[i] - d[i + 2] > 120) n++;
+      return n / (d.length / 4);
+    });
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; p.hp = p.maxHp = 999; });
+    await page.waitForTimeout(300);
+    const before = await orange();
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(), t = Game.state().t; L.fields = L.fields || {}; L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'oil', until: t + 60000, spread: t + 1e9, burn: t + 1e9, gen: 0 }; });
+    await expect.poll(orange, { timeout: 3000 }).toBeGreaterThan(Math.max(0.25, before + 0.2));
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); delete L.fields[`${p.x},${p.y}`]; });
+    await expect.poll(orange, { timeout: 3000 }).toBeLessThan(before + 0.1);
+    expect(errors).toEqual([]);
+  });
   test('a flask of lamp oil is thrown from the pack and spills where it lands', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'living-flask' });
@@ -1216,7 +1237,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('doors burn');
+    await expect(p2.locator('#news-text')).toContainText('burning oil');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

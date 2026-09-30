@@ -58,7 +58,8 @@ export function makeCompanion(K) {
   const noisy = () => { const c = here(), p = K.P(); return !!c && (c.kind || 'hound') === 'hound' && c.mode === 'follow' && Math.abs(c.x - p.x) + Math.abs(c.y - p.y) <= 3; };
   const at = (x, y) => { const c = here(); return !!c && c.x === x && c.y === y; };
   /** Ground it can stand on: open floor, no trader, stone or barrel in the way. */
-  const ground = (x, y) => K.passable(x, y) && !K.npcAt(x, y) && !K.propAt(x, y);
+  // (nor fire: it goes round the flames, as any living thing does)
+  const ground = (x, y) => K.passable(x, y) && !K.npcAt(x, y) && !K.propAt(x, y) && !(K.fieldAt && K.fieldAt(x, y) && K.fieldAt(x, y).k === 'fire');
   const free = (x, y) => ground(x, y) && !K.monsterAt(x, y) && !(x === K.P().x && y === K.P().y);
   /**
    * Its own way to the hero, walked out from them over ground it can stand on.

@@ -724,6 +724,18 @@ const Renderer = (() => {
     if (!st) return;
     const slow = 0.5 + 0.5 * Math.sin(now / 600);
     if (st.poison) rim(70, 170, 40, 0.22 + 0.14 * slow);
+    if (st.burning) {
+      // standing in fire: a hot rim, and flames licking up the foot of the view
+      const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 70);
+      rim(255, 110, 30, 0.3 + 0.15 * flick, 0.3);
+      const n = 11, w = W / n;
+      for (let i = 0; i < n; i++) {
+        const h = H * (0.08 + 0.07 * hash(i * 7 + 1) + (calm ? 0 : 0.035 * Math.sin(now / (90 + hash(i) * 60) + i * 2)));
+        const x0 = i * w, cx = x0 + w / 2 + (calm ? 0 : Math.sin(now / 130 + i) * w * 0.15);
+        ctx.fillStyle = i % 2 ? 'rgba(232,110,30,0.85)' : 'rgba(250,170,60,0.8)';
+        ctx.beginPath(); ctx.moveTo(x0 - w * 0.2, H); ctx.quadraticCurveTo(cx - w * 0.3, H - h * 0.5, cx, H - h); ctx.quadraticCurveTo(cx + w * 0.3, H - h * 0.5, x0 + w * 1.2, H); ctx.fill();
+      }
+    }
     if (st.starving) rim(20, 14, 10, 0.4, 0.3);
     if (st.grabbed) rim(70, 50, 30, 0.35);
     if (st.might) rim(230, 110, 40, 0.14 + 0.06 * slow, 0.42);
