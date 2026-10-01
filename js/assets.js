@@ -50,7 +50,7 @@ const Assets = (() => {
   function makeSprite(def, scale) {
     // a creature built from parts arrives already lit; the old grids are flat
     const sc = scale || (def.fine ? 2 : 1);
-    const painted = def.parts ? paintParts(def.parts, 32, sc) : null;
+    const painted = def.parts ? paintParts(def.parts, def.grid || 32, sc, !!def.grim) : null;
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     // the outline keeps its weight in a finer painting: two of its pixels wide
     const ow = sc >= 4 ? 2 : 1;
@@ -95,7 +95,7 @@ const Assets = (() => {
     const outline = rgba32(def.outline || '#0a0810');
     // a colour mixed most of the way to the outline's ink (pixels are ABGR in memory)
     const inked = v => {
-      const r = v & 255, g = (v >> 8) & 255, b = (v >> 16) & 255, k = 0.68;
+      const r = v & 255, g = (v >> 8) & 255, b = (v >> 16) & 255, k = def.grim ? 0.8 : 0.68;
       return (0xff << 24 | Math.round(b + (30 - b) * k) << 16 | Math.round(g + (18 - g) * k) << 8 | Math.round(r + (22 - r) * k)) >>> 0;
     };
     const reach = ow === 1 ? [[1, 0], [-1, 0], [0, 1], [0, -1]]
@@ -112,7 +112,9 @@ const Assets = (() => {
             // the right of this edge) the outline is a deep shade of what it
             // wraps, as a pixel artist inks it; on the shadow side it stays
             // near black, so the shape still stands off a dark wall
-            touch = def.outline || !(ox > 0 || oy > 0) ? 0 : px32[(ny + ow) * w + nx + ow];
+            // (painted grim, it is a deep shade of what it wraps all round:
+            // no black line about a figure, which read as a cartoon)
+            touch = def.outline || (!def.grim && !(ox > 0 || oy > 0)) ? 0 : px32[(ny + ow) * w + nx + ow];
             break;
           }
         }
@@ -1172,7 +1174,7 @@ const Assets = (() => {
   const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
   /** A creature's sprite, its champions' and its other poses, which ride on it. */
   function creature(k, scale) {
-    const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true });
+    const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true });
     const s = makeSprite(def(), scale);
     for (const pose of POSES[k] || []) {
       const ps = makeSprite(def(pose), scale);
@@ -1246,9 +1248,9 @@ const Assets = (() => {
       if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true }));
     }
     // props stand in the world too, painted as finely
-    for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true }));
+    for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
-    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true }));
+    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true, grim: true }));
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
     setTimeout(paintSoon, 200);
   }

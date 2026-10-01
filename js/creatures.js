@@ -3144,29 +3144,43 @@ const LIGHT = (() => { const v = [-0.5, -0.75, 0.55], n = Math.hypot(...v); retu
 const SHADOW_INK = [28, 24, 48], LIGHT_CREAM = [255, 242, 208];
 const mixTo = (rgb, to, a) => '#' + rgb.map((v, i) => Math.round(v + (to[i] - v) * a).toString(16).padStart(2, '0')).join('');
 const rampCache = new Map();
-function ramp(hex) {
-  if (rampCache.has(hex)) return rampCache.get(hex);
-  const rgb = hexToRgb(hex);
-  const out = [mixTo(rgb, SHADOW_INK, 0.72), mixTo(rgb, SHADOW_INK, 0.5), mixTo(rgb, SHADOW_INK, 0.26),
-    hex, mixTo(rgb, LIGHT_CREAM, 0.22), mixTo(rgb, LIGHT_CREAM, 0.45)];
-  rampCache.set(hex, out);
+// The creatures of the deep are painted grim rather than bright: each colour
+// muted toward grey and darkened, its shadows sunk nearly to black and its lit
+// side hot, so a figure reads as worn, lifelike and lit by a torch, not as a
+// cartoon. Items keep the bright, clean ramp, so a potion or a ring is easy to
+// tell from the next.
+function ramp(hex, grim = false) {
+  const key = grim ? hex + '!' : hex;
+  if (rampCache.has(key)) return rampCache.get(key);
+  let rgb = hexToRgb(hex);
+  if (grim) {
+    const lum = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
+    rgb = rgb.map(v => Math.round((v + (lum - v) * 0.3) * 0.86));
+  }
+  const out = grim
+    ? [mixTo(rgb, [10, 8, 14], 0.86), mixTo(rgb, [14, 10, 20], 0.64), mixTo(rgb, [20, 16, 28], 0.36), mixTo(rgb, rgb, 0), mixTo(rgb, LIGHT_CREAM, 0.28), mixTo(rgb, LIGHT_CREAM, 0.6)]
+    : [mixTo(rgb, SHADOW_INK, 0.72), mixTo(rgb, SHADOW_INK, 0.5), mixTo(rgb, SHADOW_INK, 0.26),
+      hex, mixTo(rgb, LIGHT_CREAM, 0.22), mixTo(rgb, LIGHT_CREAM, 0.45)];
+  rampCache.set(key, out);
   return out;
 }
-const BANDS = [0.3, 0.45, 0.58, 0.76, 0.9];
+// (painted grim, more of a figure lies in shadow)
+const BANDS = [0.3, 0.45, 0.58, 0.76, 0.9], GRIM_BANDS = [0.38, 0.54, 0.66, 0.82, 0.94];
 // a 4x4 ordered-dither matrix: where two tones meet, the upper edge of the
 // darker band is stippled with the lighter one, so a curve grades smoothly
 const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
 /** The ramp step for a surface normal; with a pixel given, blended across band edges. */
-function toneFor(nx, ny, nz, px, py) {
+function toneFor(nx, ny, nz, px, py, grim = false) {
   const n = Math.hypot(nx, ny, nz) || 1;
   const dot = (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / n;
   // the side turned from the light is not one flat dark: light thrown back
   // off the floor lifts its far edge a step, so a limb reads round
   const v = 0.3 + 0.7 * Math.max(0, dot) + (dot < -0.3 ? 0.2 * Math.min(1, (-dot - 0.3) / 0.45) : 0);
+  const bands = grim ? GRIM_BANDS : BANDS;
   let i = 0;
-  while (i < BANDS.length && v >= BANDS[i]) i++;
-  if (px == null || i >= BANDS.length) return i;
-  const lo = i ? BANDS[i - 1] : 0.3, hi = BANDS[i], f = (v - lo) / ((hi - lo) || 1);
+  while (i < bands.length && v >= bands[i]) i++;
+  if (px == null || i >= bands.length) return i;
+  const lo = i ? bands[i - 1] : 0.3, hi = bands[i], f = (v - lo) / ((hi - lo) || 1);
   const soft = 0.4;
   return f > 1 - soft && BAYER[(py & 3) * 4 + (px & 3)] < (f - (1 - soft)) / soft ? i + 1 : i;
 }
@@ -3188,7 +3202,8 @@ function insidePoly(pts, x, y) {
  *   blended shading and a fine grain on skin and cloth, from the same parts.
  * @returns {{aw: number, ah: number, color: (string|null)[]}}
  */
-function paintParts(parts, grid = 32, scale = 1) {
+/** @param {boolean} [grim] painted grim (see ramp): the creatures, props and dressing, not items */
+function paintParts(parts, grid = 32, scale = 1, grim = false) {
   const size = grid * scale;
   const N = size * size;
   const col = new Array(N).fill(null), tone = new Int8Array(N).fill(-1), owner = new Int16Array(N).fill(-1);
@@ -3259,13 +3274,18 @@ function paintParts(parts, grid = 32, scale = 1) {
     const fine = scale > 1, rough = fine && !p.smooth;
     const tn = (nx, ny, nz, x, y) => {
       // cloth is flat enough that blending its bands only reads as mesh
-      let t = fine && p.k !== 'sheet' ? toneFor(nx, ny, nz, x, y) : toneFor(nx, ny, nz);
+      let t = fine && p.k !== 'sheet' ? toneFor(nx, ny, nz, x, y, grim) : toneFor(nx, ny, nz, undefined, undefined, grim);
       if (rough && t > 0) {
+        // painted grim, the grain is heavier, worn into skin, hide and cloth
+        // (lighter where it is finest, up close, or it came out as speckle)
+        const g = grim ? (scale >= 4 ? 0.13 : 0.2) : 0.09;
         if (p.k === 'sheet') {
           // cloth hangs in folds: a few broad darker runs down it, not speckle
           const fx = x / scale, fy = y / scale;
-          if (Math.sin(fx * 1.25 + Math.sin(fy * 0.35 + i) * 1.1) > 0.9) t--;
-        } else if (grain(x, y, i) < 0.09) t--;   // a fine grain on skin and fur
+          if (Math.sin(fx * 1.25 + Math.sin(fy * 0.35 + i) * 1.1) > (grim ? 0.75 : 0.9)) t--;
+          else if (grim && grain(x, y, i) < g * 0.6) t--;
+        } else if (grain(x, y, i) < g) t--;   // a fine grain on skin and fur
+        else if (grim && t < 5 && grain(x + 7, y + 3, i) > (scale >= 4 ? 0.965 : 0.93)) t++;
       }
       return t;
     };
@@ -3322,7 +3342,7 @@ function paintParts(parts, grid = 32, scale = 1) {
       if (up || left) shadeK[k] = Math.min(5, shadeK[k] + 1);
     }
   }
-  for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k])[shadeK[k]];
+  for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k], grim)[shadeK[k]];
   return { aw: size, ah: size, color: col };
 }
 
