@@ -433,6 +433,7 @@ const TWISTS = {
   flooded: { name: 'Flooded', arrive: 'Black water stands ankle-deep on this floor. Everything here wades, you too. Here and there a ripple spreads where nothing moves.', chip: 'Black water: you and everything here move a quarter slower. The drowned lie under it, seen only as a ripple, and rise at whoever comes near' },
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
+  tremors: { name: 'Tremors', arrive: 'The floor shivers under your feet, and grit patters down from the roof. This deep, the rock overhead is restless.', chip: 'Now and then the ground shudders and rock falls from the roof: the squares it will land on are marked first, yours among them. Step off. It falls on your foes too, and they never look up' },
   overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones, and something larger and fungal shuffles in the dark.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here, and puffcaps that burst in spores at a blow from beside them. A druid is at home: their spells cost a point less' },
 };
 
@@ -557,6 +558,8 @@ const TRAP_TYPES = {
   needle: { name: 'poison needle', msg: 'A poisoned needle pricks your foot!',   dmg: [1, 3, 0], poison: true },
   pit:    { name: 'pit trap',     msg: 'The floor gives way and you tumble into a pit!', dmg: [2, 6, 0] },
   alarm:  { name: 'alarm',        msg: 'A gong sounds! Something stirs in the dark.', dmg: null, alarm: true },
+  // a kobold's: set where it can be seen (a glint of wire), and it holds a foot fast a moment
+  snare:  { name: 'wire snare',   msg: 'The wire snare snaps shut round your ankle!', dmg: [1, 4, 0], hold: 1500 },
 };
 
 // Monsters: hp = [dice, sides, bonus]; tier = [minDepth, maxDepth]; speed = ms per action
@@ -574,6 +577,8 @@ const MONSTERS = {
   ogre:     { name: 'Ogre',        hp: [7, 10, 4],   ac: 15, hit: 7,  dmg: [2, 6, 2], speed: 1400, xp: 180,  tier: [8, 13],  sprite: 'ogre',     scale: 1.3, move: 'crush', door: 'smash' },
   troll:    { name: 'Troll',       hp: [8, 10, 6],   ac: 16, hit: 8,  dmg: [2, 8, 2], speed: 1200, xp: 260,  tier: [8, 30],  sprite: 'troll',    scale: 1.3, regen: 1, door: 'smash' },
   minotaur: { name: 'Minotaur',    hp: [10, 10, 10], ac: 17, hit: 10, dmg: [3, 6, 3], speed: 1000, xp: 400,  tier: [10, 30], sprite: 'minotaur', scale: 1.35, move: 'charge', door: 'smash' },
+  // it keeps out of reach, throwing darts, and sets snares between you (foes.js)
+  kobold:   { name: 'Kobold Trapper', hp: [2, 6, 1], ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 900,  xp: 40,   tier: [3, 6],   sprite: 'kobold',   scale: 0.62, move: 'snare', skirmish: true, ranged: { range: 5, dmg: [1, 4, 0], verb: 'flings a dart at' } },
   archer:   { name: 'Goblin Archer', hp: [2, 8, 0],  ac: 13, hit: 3,  dmg: [1, 4, 0], speed: 1100, xp: 30,   tier: [2, 6],   sprite: 'archer',   scale: 0.75, move: 'firearrow', ranged: { range: 4, dmg: [1, 6, 0], verb: 'shoots an arrow at' } },
   basilisk: { name: 'Basilisk',    hp: [6, 10, 0],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1100, xp: 150,  tier: [5, 12],  sprite: 'basilisk', scale: 1.15, move: 'gaze', door: 'batter' },
   rustmaw:  { name: 'Rustmaw',     hp: [4, 10, 2],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1000, xp: 120,  tier: [4, 11],  sprite: 'rustmaw',  scale: 1.08, move: 'rust', door: 'batter' },
@@ -597,6 +602,8 @@ const MONSTERS = {
   // A dark floor's own: a blind hunter that finds its prey by the noise it
   // makes. Stand still and it loses you; move, strike or speak and it comes.
   eyeless:  { name: 'Eyeless Stalker', hp: [3, 8, 0], ac: 14, hit: 5, dmg: [1, 8, 1], speed: 900, xp: 90,  tier: [99, 99], sprite: 'eyeless',  scale: 1.0, hears: true, door: 'batter' },
+  // a barrel among barrels, until it is touched (game.js lays it in; see foes.js for how it springs)
+  mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
   puffcap:  { name: 'Puffcap',     hp: [2, 8, 0],    ac: 10, hit: 3,  dmg: [1, 6, 0], speed: 1600, xp: 45,   tier: [99, 99], sprite: 'puffcap',  scale: 0.85, spores: true, door: 'batter' },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
@@ -725,6 +732,7 @@ const ELEMENTS_TAKEN = {
   rustmaw:  { lightning: 1.5 },
   quillback: { fire: 1.5 },
   puffcap:  { fire: 1.5 },
+  mimic:    { fire: 1.5 },
   drowned:  { fire: 0.5, lightning: 1.5 },
   wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
@@ -774,6 +782,9 @@ const BESTIARY = {
   minotaur: { lore: 'The master of the deep halls, bull-headed and tireless. It hits harder than anything but the lich.',
     trick: 'Charges down a straight line from four squares off and slams into you.',
     answer: 'Sidestep out of the line: it thunders past and stumbles, wide open. A door shut across its line stops it cold.' },
+  kobold:   { lore: 'A small, scaled, sharp-snouted thing that lives by its traps. It will not stand and fight if it can step back and throw instead.',
+    trick: 'It sets a wire snare on the stones between you, where you would step to reach it, and backs away from you to throw its darts.',
+    answer: 'A snare is set where you can see it glint: go round it, or stand before it and Use to spring it safely. Its snares go slack when it dies.' },
   archer:   { lore: 'A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses.',
     trick: 'When you stand on something that will burn (moss, spilt oil), it lights an arrow and looses it at your feet.',
     answer: 'Step aside before it looses: the arrow lights the square where you stood, not you. Then keep away from the flames as they spread.' },
@@ -795,6 +806,9 @@ const BESTIARY = {
   drowned:  { lore: 'Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.',
     trick: 'It lies sunk and unseen until you come within two squares, then rises and reaches to seize you. Held, you cannot step away.',
     answer: 'Watch the water for a ripple that does not settle, and go round it, or strike it first. As it rises and lurches, step back and it grabs the air.' },
+  mimic:    { lore: 'A thing that has learned to look like a barrel, staves, hoops and all, and waits among the real ones for someone to come and open it.',
+    trick: 'It springs on whoever touches it or stands beside it, and seizes them in a mouth that was a lid a moment before.',
+    answer: 'A barrel that creaks with nothing near it is no barrel. Strike it from where you stand before you go close: caught shut, it takes double the blow.' },
   eyeless:  { lore: 'A long pale hunter of the dark floors, with no eyes at all: a smooth, blind head and a mouth full of needles. It hears everything.',
     trick: 'It finds you by the noise you make: every step, every blow, every spell. It is quick, and it bites hard.',
     answer: 'Stand still and it loses you: it stops and gropes about, listening. Turning on the spot makes no sound. It still finds you by touch if it blunders up beside you.' },

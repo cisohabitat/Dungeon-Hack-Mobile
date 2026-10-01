@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-01a', text: 'the title says how your last run ended; Combat numbers under Menu draws the numbers off a struck creature larger; the Pack has a Sort button; a burning door burns on its face, and a wraith\'s grave-cold creeps over the stones; more testing aids in the Menu, among them show every monster' };
+  const NEWS = { id: '2026-10-01b', text: 'the middle floors grow stranger: a barrel that creaks may be a mimic, kobold trappers set wire snares, a floor of tremors brings the roof down on marked squares, and two new encounters, a lever door and a lost mule' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -627,11 +627,14 @@ const UI = (() => {
     blink: 'It has stepped back into the world <b>at your back</b>. <b>Turn round</b> to face it before it bites, and it is caught open.',
     quills: 'Its quills are up. <b>Hold your blow</b> until they sink: every blow struck into them bites you back. An arrow or a spell from further off is safe.',
     drowned: 'A <b>drowned one</b> has risen out of the water to seize you. <b>Step back</b> as it lurches and it grabs the air. Watch the black water for a <b>ripple</b> that does not settle: one lies under it.',
+    tremors: 'The ground is shuddering: <b>rock is coming down</b> where the floor is ringed with grit, <b>your square too</b>. Step onto one that is not marked. It falls on your foes as well, and they never look up.',
+    mimic: 'A barrel that <b>creaks</b> with nothing near is a <b>mimic</b>. <b>Strike it from where you stand</b>: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.',
     eyeless: 'An <b>eyeless stalker</b>: it hunts by sound. <b>Stand still</b> and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.',
     fire: '<b>Fire!</b> It spreads over moss and spilt oil and burns whatever stands in it, <b>you too</b>: step out of it. It burns out, and leaves ash that will not burn again.',
     cask: 'An <b>oil cask</b>: the barrel painted red with a flame. Break it and lamp oil spills round it; a fire spell landing on it, or a flaming blow or arrow striking something on it, sets the oil alight.',
     water: 'Standing water carries <b>lightning</b> to everything in it within two squares (you too, if you are wading close), and <b>cold</b> freezes it, holding fast whatever stands there.',
     spores: 'A <b>puffcap</b>. Strike it from beside it and it bursts in <b>spores</b> that poison. <b>Shoot it</b> or cast at it from further off, or put <b>fire</b> on your blade first: fire oil sears the spores.',
+    snare: 'A <b>kobold</b> is setting a wire <b>snare</b> on the square before you. It is seen where it <b>glints</b>: go round it, or stand before it and press <b>Use</b> to spring it safely. Its snares go slack when it dies.',
     firepot: 'A <b>lit pot of oil</b>. <b>Step aside</b>, out of its line: it bursts in flames where you stood and on the square behind, and burns there a while.',
     chill: 'A <b>grave-cold</b> creeping over the stones at your feet. <b>Step aside</b>, out of its line: stay and you are frozen fast a moment.',
     storm: 'Lightning called down into the <b>water</b> you stand in. <b>Get out of the water</b>; on a flooded floor, <b>step aside</b>: the water beside you still carries half of it, but no more.',
@@ -659,7 +662,7 @@ const UI = (() => {
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -783,7 +786,7 @@ const UI = (() => {
   };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
-  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm' };
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare' };
   /** Whether an awake puffcap is within reach of a few steps. */
   const kinNear = (id, n) => { const p = Game.player(); return Game.level().monsters.some(m => m.id === id && m.awake && !m.sunk && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= n); };
   const puffcapNear = n => kinNear('puffcap', n);
@@ -860,7 +863,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3), tremors: () => !!(L0.quake && L0.quake.falls.length), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -893,9 +896,11 @@ const UI = (() => {
     if (readying('bristle') && showTip('quills', true)) return;
     if (readying('breath') && showTip('breath', true)) return;
     if (readying('firepot') && showTip('firepot', true)) return;
+    if (readying('snare') && showTip('snare', true)) return;
     if (readying('firearrow') && showTip('firearrow', true)) return;
     if (readying('chill') && showTip('chill', true)) return;
     if (readying('storm') && showTip('storm', true)) return;
+    if (L.quake && L.quake.falls.length && showTip('tremors', true)) return;
     // a puffcap has no warning mark: its lesson comes as it comes close (a druid breathes its spores unharmed)
     if (p.cls !== 'druid' && puffcapNear(3) && showTip('spores', true)) return;
     // the elements at work on the place: a fire near, an oil cask beside you, and water to a caster who can use it
@@ -906,6 +911,7 @@ const UI = (() => {
     // a drowned one risen, or an eyeless awake and near: each told once
     if (kinNear('drowned', 3) && showTip('drowned', true)) return;
     if (kinNear('eyeless', 6) && showTip('eyeless', true)) return;
+    if (kinNear('mimic', 3) && showTip('mimic', true)) return;
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
@@ -1028,7 +1034,7 @@ const UI = (() => {
     // a floor readier for a strong hero says so while you are on it
     if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' || (L.twist === 'overgrown' && p.cls === 'druid') ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
     if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Foes +${Game.pressSturdier(L)}%</span>`);
-    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : 'Frozen'}</span>`);
+    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : p.heldBy === 'snare' ? 'Snared' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     // what the hero stands in, which the view cannot show under their own feet: a burning
@@ -2136,8 +2142,8 @@ const UI = (() => {
       if (!L.explored[y * L.w + x] || !L.items[k].length) continue;
       edged(x * size - ox + size * 0.25, y * size - oy + size * 0.25, size * 0.5, size * 0.5, MAP_COLOUR.loot);
     }
-    // traps an encounter told of, so the hero can go round them
-    if (L.trapsKnown) for (const k in L.traps) {
+    // traps an encounter told of, and a kobold's snares (seen where they lie), so the hero can go round them
+    for (const k in (L.trapsKnown ? L.traps : (L.snares || {}))) {
       const [x, y] = k.split(',').map(Number);
       edged(x * size - ox + size * 0.15, y * size - oy + size * 0.15, size * 0.7, size * 0.7, MAP_COLOUR.trap);
       glyph('\u00d7', x, y, '#fff4ec');

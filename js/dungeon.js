@@ -108,9 +108,13 @@ function twistPlan(seed, levels, grow = true) {
   // twisted, so which floors those are, and all the rest, fall as they always did
   const moss = new Rng(`${seed}|overgrown`);
   if (grow) for (const d of Object.keys(plan).map(Number).sort((a, b) => a - b)) if (plan[d] !== 'market' && moss.next() < OVERGROWN_SHARE) plan[d] = 'overgrown';
+  // and a sixth, tremors, the same way over what is left, from the third floor
+  // down: the roof needs some weight of rock over it before it starts to come in
+  const rock = new Rng(`${seed}|tremors`);
+  if (grow) for (const d of Object.keys(plan).map(Number).sort((a, b) => a - b)) if (d >= 3 && ['dark', 'flooded', 'restless'].includes(plan[d]) && rock.next() < TREMORS_SHARE) plan[d] = 'tremors';
   return plan;
 }
-const OVERGROWN_SHARE = 0.25;
+const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25;
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 

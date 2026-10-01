@@ -100,6 +100,14 @@ const DRESSING = {
     ball(13, 30.2, 2.4, 1.6, '#e2d8bc'), dots([[12, 30], [14, 30]], '#1a120c'),
     dots([[19, 28], [21, 31], [7, 31]], BONE),
   ],
+  // a kobold's wire snare, laid flat in a loop between two pegs, with a glint
+  // on the wire so it can be seen and gone round (see game.js)
+  snare: () => [
+    limb(7, 29.5, 7, 26.5, 0.6, 0.45, '#5a3e22'), limb(25, 29.5, 25, 26.5, 0.6, 0.45, '#5a3e22'),
+    ball(16, 29.5, 7.5, 2.2, '#b8c0c8'), ball(16, 29.5, 6.4, 1.5, '#1e1a16'),
+    line(7.5, 27, 9.5, 29.2, '#b8c0c8'), line(24.5, 27, 22.5, 29.2, '#b8c0c8'),
+    dots([[12, 28], [21, 31]], '#ffffff'), dots([[11, 28], [12, 27], [13, 28], [12, 29]], '#e8f0ff'),
+  ],
   // what is left of a barrel or crate once broken, and of an urn
   remains_staves: () => [
     limb(7, 30.5, 15, 29, 0.7, 0.7, WOOD), limb(13, 31, 22, 30.5, 0.7, 0.7, WOOD_DARK), limb(18, 29.5, 26, 31, 0.7, 0.7, WOOD_LIGHT),
@@ -117,7 +125,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

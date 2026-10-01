@@ -82,7 +82,7 @@
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
  * @property {number} [abilityReady]  when a fighter's Bash or a thief's Smoke can be used again
  * @property {number} [smokeUntil]  a thief's smoke hangs until then: nothing notices them by sight or sound
- * @property {'down'|'frozen'|'stone'|'ice'} [heldBy]  what is holding the hero still while `held` lasts
+ * @property {'down'|'frozen'|'stone'|'ice'|'snare'} [heldBy]  what is holding the hero still while `held` lasts
  * @property {{uid: number, until: number}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then
@@ -114,6 +114,11 @@
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
+ * @property {boolean} [disguised]  a mimic still shut, drawn and taken as the barrel it seems (foes.js springs it)
+ * @property {boolean} [creaked]  a shut mimic that has creaked as the hero came near: heard, it can be aimed at
+ * @property {number} [springAt]  when a shut mimic beside the hero springs, if the hero stays
+ * @property {number} [dox]  where in its square the barrel it seems to be stood, across
+ * @property {number} [doy]  and along
  * @property {boolean} [dotTick]  while a carried burn or poison deals its tick (told whole, in flames or not)
  * @property {number} [burnSaid]  until when its burning has been told (the first tick of a burning, not every one)
  * @property {number} [balkSaid]  until when its shying back from a fire has been told (once a fire, not every step)
@@ -186,7 +191,8 @@
  * @property {number} theme
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
- * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless or market
+ * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless, market, overgrown or tremors
+ * @property {{next: number, falls: Array<{x: number, y: number, at: number, lands: number}>}} [quake]  a floor of tremors: when the ground next shudders, and the squares rock is coming down on (elements.js)
  * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean, door?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero; an ash's door, where a door burnt through
  * @property {number} [fireSaid]  until when a fire catching is not told again
  * @property {Object<string, boolean>} [burntDoors]  doorways whose doors have burnt through, keyed "x,y": nothing left to shut
@@ -195,6 +201,7 @@
  * @property {number} [rests]  rests taken on this floor: each gives back less than the last
  * @property {boolean} [lodged]  the hero has slept by this floor's trader's lamp
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast
+ * @property {Object<string, number>} [snares]  a kobold's snares set on this floor, keyed "x,y", by whose uid set it (each is in traps too)
  * @property {boolean} [trapsKnown]  an encounter told the hero where this floor's traps are
  * @property {boolean} [stoodFast]  Undying or Miracle has already turned a killing blow on this floor
  * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square
@@ -213,6 +220,7 @@
  * @property {string} k    its kind, a key into DRESSING (dressing.js), or 'puddle'
  * @property {number} ox @property {number} oy   where on its square, from the middle
  * @property {number} [r]  a puddle's size
+ * @property {boolean} [fell]  rubble that came down from the roof on a floor of tremors
  */
 
 /**

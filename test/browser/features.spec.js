@@ -1256,6 +1256,42 @@ test.describe('dungeon features', () => {
     expect(await flames()).toBeGreaterThan(cold + 200);
     expect(errors).toEqual([]);
   });
+  test('a floor of tremors: grit rings where rock will land, the tip says to step off, and the rock comes down', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { tips: true, seed: 'quake', cls: 'fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.dressing = []; L.items = {};
+      for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      p.hp = p.maxHp = 999;
+    });
+    // the floor two squares ahead, low in the view
+    const floor = () => page.evaluate(() => {
+      const c = document.getElementById('view'), g = c.getContext('2d');
+      const d = g.getImageData(Math.round(c.width * 0.38), Math.round(c.height * 0.62), Math.round(c.width * 0.24), Math.round(c.height * 0.1)).data;
+      let sum = 0;
+      for (let i = 0; i < d.length; i += 4) sum += d[i] + d[i + 1] + d[i + 2];
+      return sum / (d.length / 4);
+    });
+    await page.waitForTimeout(400);
+    const before = await floor();
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.twist = 'tremors';
+      L.quake = { next: G.t + 1e9, falls: [{ x: p.x, y: p.y, at: G.t, lands: G.t + 60000 }, { x: p.x + dx * 2, y: p.y + dy * 2, at: G.t - 30000, lands: G.t + 30000 }] };
+    });
+    await expect(page.locator('#tip')).toContainText('rock is coming down', { timeout: 2000 });
+    await page.waitForTimeout(300);
+    // (the view's own flicker moves this by about three; the rings by about thirty)
+    expect(Math.abs(await floor() - before)).toBeGreaterThan(15);
+    // it lands on the hero who stays under it, and leaves rubble
+    await page.evaluate(() => { const L = Game.level(), G = Game.state(); for (const f of L.quake.falls) f.lands = G.t + 200; });
+    await expect.poll(() => page.evaluate(() => Game.player().hp), { timeout: 4000 }).toBeLessThan(999);
+    expect(await page.evaluate(() => Game.level().dressing.filter(d => d.k === 'rubble' && d.fell).length)).toBe(2);
+    expect(errors).toEqual([]);
+  });
   test('the title says how the last run ended; the Menu draws combat numbers large; the pack sorts like with like', async ({ page }) => {
     const errors = watchForErrors(page);
     // the run before, as the game kept it
@@ -1411,7 +1447,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('every monster');
+    await expect(p2.locator('#news-text')).toContainText('mimic');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

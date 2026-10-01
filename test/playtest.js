@@ -91,6 +91,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     return dist;
   };
 
+  // a mimic still shut is a barrel to the bot as to a player, until it has creaked
+  const shown = m => !(m.disguised && !m.creaked);
   const snap = () => {
     const L = Game.level();
     let adj = 0, near = 0;
@@ -203,6 +205,16 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy, t = L.tiles[y * L.w + x];
           return (t === T.FLOOR || t === T.DOOR_OPEN) && !burning(x, y) && !(L.dressing || []).some(q => q.x === x && q.y === y && ['barrel', 'crate', 'urn', 'oilcask'].includes(q.k)) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y); });
         if (k !== undefined) { Game.input(['forward', 'strafeR', 'back', 'strafeL'][(k - p.dir + 4) % 4]); rec.fireSteps = (rec.fireSteps || 0) + 1; step(); continue; }
+      }
+    }
+    // --- rock about to come down on a floor of tremors: step off its mark, to a square it will not fall on
+    {
+      const falls = (L.quake && L.quake.falls) || [];
+      const under = (x, y) => falls.some(f => f.x === x && f.y === y);
+      if (under(p.x, p.y) && !(p.held > G.t)) {
+        const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy, t = L.tiles[y * L.w + x];
+          return (t === T.FLOOR || t === T.DOOR_OPEN) && !under(x, y) && !(L.dressing || []).some(q => q.x === x && q.y === y && ['barrel', 'crate', 'urn', 'oilcask'].includes(q.k)) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y); });
+        if (k !== undefined) { Game.input(['forward', 'strafeR', 'back', 'strafeL'][(k - p.dir + 4) % 4]); rec.rockSteps = (rec.rockSteps || 0) + 1; step(); continue; }
       }
     }
     // --- a puffcap close by: fire on the blade sears its spores, so a coat of
@@ -448,7 +460,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         for (let i = 1; i <= 3; i++) {
           const x = p.x + dx * i, y = p.y + dy * i, t = L.tiles[y * L.w + x];
           if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
-          const m = L.monsters.find(mm => mm.x === x && mm.y === y && !mm.sunk && !mm.collapsed);
+          const m = L.monsters.find(mm => mm.x === x && mm.y === y && !mm.sunk && !mm.collapsed && shown(mm));
           if (m) { if (i >= 2 && m.awake && !MONSTERS[m.id].boss) aim = { k, i, m }; break; }
         }
       }
@@ -504,7 +516,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const x = p.x + dx * i, y = p.y + dy * i;
           const t = L.tiles[y * L.w + x];
           if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
-          if (L.monsters.some(mm => mm.x === x && mm.y === y)) { shot = k; break; }
+          if (L.monsters.some(mm => mm.x === x && mm.y === y && shown(mm))) { shot = k; break; }
         }
       }
       if (shot !== null) { p.dir = shot; Game.input('attack'); step(); continue; }
@@ -542,7 +554,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     const near = [];
     for (let k = 0; k < 4; k++) {
       const [dx, dy] = Dungeon.DIRS[k];
-      const m = L.monsters.find(mm => mm.x === p.x + dx && mm.y === p.y + dy);
+      const m = L.monsters.find(mm => mm.x === p.x + dx && mm.y === p.y + dy && shown(mm));
       if (m) near.push({ m, dir: k });
     }
     const adj = near.find(a => !(a.m.wardUntil > G.t)) || near[0] || null;
@@ -825,6 +837,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const [bx, by] = Dungeon.DIRS[best], doorX = p.x + bx, doorY = p.y + by;
       if (!process.env.OLDANSWERS && L2.tiles[doorY * L2.w + doorX] === T.DOOR && (L2.doorBlows || {})[`${doorX},${doorY}`]
         && L2.monsters.some(m => m.awake && Math.abs(m.x - doorX) + Math.abs(m.y - doorY) === 1)) { rec.waitedAtDoor = (rec.waitedAtDoor || 0) + 1; return; }
+      // a kobold's snare in the way, seen where it glints: sprung from before it, as a player would
+      if ((L2.snares || {})[`${doorX},${doorY}`]) { Game.input('use'); rec.snaresSprung = (rec.snaresSprung || 0) + 1; return; }
       Game.input('forward');
     }
   }
@@ -910,7 +924,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)})  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  rock ${avg('rockSteps').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)
   const byPath = {};

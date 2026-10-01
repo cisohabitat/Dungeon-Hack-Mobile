@@ -274,6 +274,37 @@ const ENCOUNTERS = {
     ],
   },
 
+  // a vault behind a stone door with three levers, and only one order opens it;
+  // or it can be heaved open, and the whole floor hears it give
+  levers: {
+    title: 'The Lever Door', sprite: 'lever_door', depth: [3, 6],
+    text: 'A squat stone door is set in the rock, and beside it three iron levers stand in a row, each worn bright at the grip. Someone has scratched marks over them, and crossed most of the marks out.',
+    choices: [
+      { label: 'Work out the order from the marks', check: { stat: 'int', dc: 12, knack: [['mage', null, 2], ['thief', null, 1]] },
+        pass: { text: 'Left, right, middle. Something heavy rolls aside in the wall and the door swings in on a small vault, dry and untouched.', effects: [{ loot: 2 }, { goldPerDepth: 12 }, { xp: 30 }] },
+        fail: { text: 'Wrong. Darts spit from holes in the frame before you can step back.', effects: [{ hurtFrac: 0.12 }] } },
+      { label: 'Put your shoulder to the door', check: { stat: 'str', dc: 13, knack: [['fighter', null, 2]] },
+        pass: { text: 'Stone grinds on stone, and gives. The vault is yours, but the noise of it rolls away down every passage on the floor.', effects: [{ loot: 1 }, { goldPerDepth: 8 }, { wake: 1 }] },
+        fail: { text: 'It will not move, and you have wrenched something trying.', effects: [{ hurtFrac: 0.08 }] } },
+      { label: 'Leave the levers alone', outcome: { text: 'Whoever made the marks did not get in either. You leave the door to the next one.', effects: [] } },
+    ],
+  },
+
+  // someone's mule, still laden, wandering where it should not be: lead it on
+  // and the next trader knows whose it is (see trader.js), or rob it now
+  mule: {
+    title: 'A Lost Mule', sprite: 'mule', depth: [3, 6],
+    text: 'A mule stands in the passage with its head low and its packs askew, a frayed rope hanging from its halter where someone let go of it. It looks at you, and then at the dark, as if it would rather you.',
+    choices: [
+      { label: 'Take its rope and lead it on', outcome: { text: 'It falls in behind you, nosing at your pack. You tie it where the traders pass; the next one you meet will know whose it is.', effects: [{ thread: 'mule' }] } },
+      { label: 'Strip its packs and send it off', outcome: { text: 'Rope, a pot, a lamp, some coin and one thing worth having. The mule trots off lighter, and does not look back.', effects: [{ loot: 0 }, { goldPerDepth: 5 }] } },
+      { label: 'Let it lead you, as it knows the way', check: { stat: 'wis', dc: 12, knack: [['druid', null, 3], ['ranger', null, 2]] },
+        pass: { text: 'You give it its head. It picks its way through the passages without a wrong turn, and you learn the floor as it goes.', effects: [{ map: 1 }, { xp: 25 }] },
+        fail: { text: 'It bolts the moment the rope is slack, and you lose an hour chasing it.', effects: [{ food: -10 }] } },
+      { label: 'Leave it be', outcome: { text: 'You leave it to find its own way. It watches you go.', effects: [] } },
+    ],
+  },
+
   // a bargain that follows you all the way down: strength now, and the lich
   // the stronger for it when you meet
   bargain: {

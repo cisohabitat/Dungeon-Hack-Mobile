@@ -8639,6 +8639,77 @@ await test('a Lampfolk\'s lamp relit is thanked by the next Lampfolk trader belo
   return out.length ? out.join('; ') : true;
 });
 
+await test('the Lever Door: worked out, a vault of gold and gear; heaved open, less, and the floor hears; a wrong order or a wrench hurts', async () => {
+  const out = [];
+  const ctx = await start('mage', 'levers', { levels: 8 });
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 999;
+  while (G.depth < 4) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+  // worked out by a sharp mind (a natural 1 fails anything: tried a few times)
+  p.stats.int = 30;
+  let r = null;
+  for (let i = 0; i < 6 && !(r && r.check.pass); i++) { const g0 = p.gold; r = meetAndChoose(ctx, 'levers', 0); Game.closeEncounter(); if (r.check.pass && p.gold - g0 < 12 * G.depth) out.push(`the vault held ${p.gold - g0} gold, not ${12 * G.depth}`); }
+  if (!r.check.pass) out.push('a sharp mind never worked out the levers');
+  // heaved: the floor wakes
+  p.stats.str = 30;
+  const L = Game.level();
+  r = null;
+  for (let i = 0; i < 6 && !(r && r.check.pass); i++) {
+    L.monsters.length = 0;
+    r = meetAndChoose(ctx, 'levers', 1);
+    Game.closeEncounter();
+  }
+  if (!r.check.pass) out.push('great strength never heaved the door');
+  else if (!r.lines.some(l => /is awake/.test(l))) out.push('heaving the door was not heard');
+  // failing either hurts
+  p.stats.int = 1; p.stats.str = 1;
+  for (const i of [0, 1]) {
+    let hurt = false;
+    for (let k = 0; k < 6 && !hurt; k++) { p.hp = 999; const rr = meetAndChoose(ctx, 'levers', i); Game.closeEncounter(); if (!rr.check.pass) hurt = p.hp < 999; }
+    if (!hurt) out.push(`failing choice ${i} at the lever door did no harm`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a lost mule: led on, the next trader below knows it and pays once; stripped, gold and gear now; followed, the floor learnt or an hour lost', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'mule', { levels: 8 });
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 999;
+  while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+  meetAndChoose(ctx, 'mule', 0); Game.closeEncounter();
+  if (!G.threads || G.threads.mule !== 3) return `leading the mule on left the thread ${JSON.stringify(G.threads)}`;
+  if (!Game.threadNotes().some(n => /mule/.test(n))) out.push('the hero sheet forgot the mule');
+  let g0 = p.gold;
+  shopAhead(ctx); Game.closeShop();
+  if (p.gold !== g0) out.push('a trader on the same floor paid for the mule');
+  Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
+  g0 = p.gold;
+  shopAhead(ctx); Game.closeShop();
+  if (p.gold - g0 !== 18 * G.depth) out.push(`the trader below paid ${p.gold - g0}, not ${18 * G.depth}`);
+  g0 = p.gold;
+  shopAhead(ctx); Game.closeShop();
+  if (p.gold !== g0) out.push('a second trader paid again');
+  if (!Game.threadNotes().some(n => /paid you/.test(n))) out.push('the hero sheet did not say the mule was paid for');
+  // stripped
+  g0 = p.gold;
+  meetAndChoose(ctx, 'mule', 1); Game.closeEncounter();
+  // (the one thing worth having may be a purse of its own)
+  if (p.gold - g0 < 5 * G.depth) out.push(`stripping the mule gave ${p.gold - g0} gold, not ${5 * G.depth}`);
+  // followed by one who reads it well: the floor is learnt; badly, food is lost
+  p.stats.wis = 30;
+  let r = null;
+  for (let i = 0; i < 6 && !(r && r.check.pass); i++) { r = meetAndChoose(ctx, 'mule', 2); Game.closeEncounter(); }
+  const L = Game.level();
+  if (!r.check.pass) out.push('a wise hero never followed the mule');
+  else if (L.seen && !Array.from(L.seen).some(Boolean)) out.push('following the mule learnt nothing of the floor');
+  p.stats.wis = 1; p.food = 80;
+  let lost = false;
+  for (let i = 0; i < 6 && !lost; i++) { const f0 = p.food; r = meetAndChoose(ctx, 'mule', 2); Game.closeEncounter(); if (!r.check.pass) lost = p.food < f0; }
+  if (!lost) out.push('losing the mule cost no food');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('Self-Taught puts its two points where the player says, and nowhere until they do', async () => {
   const ctx = await start('fighter', 'spread');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
@@ -8738,7 +8809,7 @@ await test('floor twists: dealt by the seed to middle floors only, never two run
       if (plan[d + 1]) return `seed ${seed} twisted floors ${d} and ${d + 1}`;
     }
   }
-  return seen.size === 5 || `only ${[...seen].join(', ')} were ever dealt`;
+  return seen.size === 6 || `only ${[...seen].join(', ')} were ever dealt`;
 });
 
 await test('each floor twist does what it says, and is told on arriving', async () => {
@@ -8748,7 +8819,7 @@ await test('each floor twist does what it says, and is told on arriving', async 
     for (let i = 0; i < 400; i++) { const plan = Dungeon.twistPlan('twist' + i, 8); const d = Object.keys(plan).find(k => plan[k] === kind); if (d) return { seed: 'twist' + i, d: Number(d) }; }
     return null;
   };
-  for (const kind of ['dark', 'flooded', 'restless', 'market']) {
+  for (const kind of ['dark', 'flooded', 'restless', 'market', 'tremors']) {
     const at = await find(kind);
     if (!at) { out.push(`no seed dealt ${kind}`); continue; }
     const ctx = await start('fighter', at.seed, { levels: 8 });
@@ -8768,9 +8839,23 @@ await test('each floor twist does what it says, and is told on arriving', async 
       if (m && Game.mstat(m).speed !== Math.round(MONSTERS[m.id].speed * 1.25)) out.push(`a ${m.id} in the water acts every ${Game.mstat(m).speed}ms, drawn at ${MONSTERS[m.id].speed}`);
     }
     if (kind === 'restless') {
-      const plain = L.monsters.filter(x => !MONSTERS[x.id].named && !x.pack);
-      const dead = plain.filter(x => MONSTERS[x.id].undead).length;
-      if (plain.length >= 4 && dead < plain.length * 0.4) out.push(`only ${dead} of ${plain.length} creatures on a restless floor are undead`);
+      // (each creature rises on a roll, so one floor of seven can fall short: counted over three)
+      let dead = 0, all = 0;
+      for (let i = 0, n = 0; i < 400 && n < 3; i++) {
+        const seed = 'twist' + i, d = Object.keys(ctx.Dungeon.twistPlan(seed, 8)).find(k => ctx.Dungeon.twistPlan(seed, 8)[k] === 'restless');
+        if (!d) continue;
+        n++;
+        const c2 = seed === at.seed ? ctx : await start('fighter', seed, { levels: 8 });
+        if (c2 !== ctx) { c2.Game.player().hp = c2.Game.player().maxHp = 9999; downTo(c2, Number(d)); }
+        const plain = c2.Game.level().monsters.filter(x => !MONSTERS[x.id].named && !x.pack);
+        dead += plain.filter(x => MONSTERS[x.id].undead).length; all += plain.length;
+      }
+      if (all >= 12 && dead < all * 0.4) out.push(`only ${dead} of ${all} creatures on three restless floors are undead`);
+    }
+    if (kind === 'tremors') {
+      // (in a few seconds of arriving the ground has shuddered once)
+      run(Game, G, 9000);
+      if (!L.quake || L.quake.next <= G.t || !linesSince(G, mark).some(l => /ground shudders/.test(l))) out.push('a floor of tremors never shuddered');
     }
     if (kind === 'market') {
       const shop = L.npcs.find(n => n.id === 'merchant');
@@ -9902,10 +9987,11 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Game.useLabel() !== 'Force') out.push(`with the goblin across the room, Use says ${Game.useLabel()}`);
     c.mode = 'follow';
     // a trap two squares from it is made safe, one further off is not
-    L.traps = { '5,8': 'dart', '10,3': 'dart' };
+    L.traps = { '5,8': 'dart', '10,3': 'dart', '6,6': 'snare' }; L.snares = { '6,6': 4242 };
     c.x = 5; c.y = 6;
     run(Game, G, 1000);
     if (L.traps['5,8']) out.push('a trap two squares from the goblin was left');
+    if (L.traps['6,6'] || L.snares['6,6']) out.push('a kobold\'s snare beside the goblin was left, or half left');
     if (!Game.threadNotes().some(n => n.includes(c.name) && /trap/.test(n))) out.push('the hero sheet does not count its traps');
     // it stabs rather than bites, and it is quiet on its feet
     L.monsters.push({ uid: 90, id: 'goblin', x: 5, y: 5, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
@@ -10843,7 +10929,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     for (let i = 0; i < 200; i++) {
       const seed = 'og-' + i, a = Dungeon.twistPlan(seed, 8), b = Dungeon.twistPlan(seed, 8, false);
       if (Object.keys(a).join() !== Object.keys(b).join()) { out.push(`${seed}: twisted floors ${Object.keys(a)} against ${Object.keys(b)}`); break; }
-      for (const d in a) { if (a[d] === 'overgrown') { seen++; if (b[d] === 'market') out.push(`${seed}: a goblin market overgrown`); } else if (a[d] !== b[d]) out.push(`${seed}: floor ${d} ${b[d]} became ${a[d]}`); }
+      for (const d in a) { if (a[d] === 'overgrown') { seen++; if (b[d] === 'market') out.push(`${seed}: a goblin market overgrown`); } else if (a[d] !== b[d] && !(a[d] === 'tremors' && b[d] !== 'market')) out.push(`${seed}: floor ${d} ${b[d]} became ${a[d]}`); }
     }
     if (seen < 20) out.push(`only ${seen} overgrown floors in 200 runs`);
     // caps grow on its floor
@@ -11359,6 +11445,209 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const daggers = s.p.inv.filter(i => i.t === 'dagger').map(i => i.e);
     if (daggers.join() !== '0,1') out.push('two of a kind changed places in the sort');
     if (s.p.inv.length !== 7) out.push('the sort lost or made an item');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a mimic waits among the barrels of a middle floor as one of them, the same for a seed: away from the stairs, shut and asleep', async () => {
+    const out = [];
+    const REAL = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+    let found = 0, floors = 0, bad = 0, first = null;
+    for (let s = 0; s < 24; s++) {
+      const c = await start('fighter', 'mimic-' + s, REAL);
+      for (let d = 2; d <= 8; d++) {
+        c.Game.descend(); if (c.Game.forkPending()) c.Game.chooseRoute('crypts');
+        const L = c.Game.level(), depth = c.Game.state().depth, mm = L.monsters.filter(m => m.id === 'mimic');
+        if (depth >= 3 && depth <= 7) floors++;
+        if (!mm.length) continue;
+        if (depth < 3 || depth > 7 || mm.length > 1) bad++;
+        const m = mm[0];
+        if (!m.disguised || m.awake) out.push(`floor ${depth}: a mimic laid ${m.disguised ? 'awake' : 'open'}`);
+        const ends = [L.start, L.stairsUp, L.stairsDown].filter(Boolean);
+        if (ends.some(e => Math.abs(e.x - m.x) + Math.abs(e.y - m.y) <= 2)) out.push(`floor ${depth}: a mimic by the stairs`);
+        if ((L.dressing || []).some(q => q.x === m.x && q.y === m.y)) out.push(`floor ${depth}: a barrel still stood on the mimic's square`);
+        found++;
+        if (!first) first = { seed: 'mimic-' + s, depth, x: m.x, y: m.y };
+      }
+    }
+    if (bad) out.push(`${bad} floors held a mimic out of the middle floors, or more than one`);
+    if (!(found >= floors * 0.15 && found <= floors * 0.6)) out.push(`${found} mimics on ${floors} middle floors`);
+    if (first) {
+      const again = await start('fighter', first.seed, REAL);
+      for (let d = 2; d <= first.depth; d++) { again.Game.descend(); if (again.Game.forkPending()) again.Game.chooseRoute('crypts'); }
+      const m2 = again.Game.level().monsters.find(m => m.id === 'mimic');
+      if (!m2 || m2.x !== first.x || m2.y !== first.y) out.push('the same seed laid its mimic elsewhere');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a mimic creaks as the hero comes near, springs on one who touches it or stays beside it, and struck first from where the hero stands is caught shut for double', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at, cast } = await arena('mage', 'el-mimic');
+    L.twist = null;
+    const shut = (fwd, side = 0) => put('mimic', fwd, side, { awake: false, disguised: true, hp: 60, maxHp: 60, nextAct: 0 });
+    // drawn as a barrel, the Use button reads Break
+    let m = shut(1);
+    // (no life bar, no warning: whatever is drawn there is drawn as a barrel)
+    if (Game.renderState(0).sprites.some(sp => Math.abs(sp.x - (m.x + 0.5)) < 0.3 && Math.abs(sp.y - (m.y + 0.5)) < 0.3 && (sp.hp != null || sp.tell))) out.push('a shut mimic was drawn as a creature');
+    if (Game.useLabel() !== 'Break') out.push(`a shut mimic ahead was offered "${Game.useLabel()}"`);
+    // walked into: it has the hero at once
+    let mark = markLog(G);
+    Game.input('forward');
+    if (m.disguised || !p.grabbed) out.push(`walked into, the mimic ${m.disguised ? 'stayed shut' : 'did not seize the hero'}`);
+    if (!linesSince(G, mark).some(l => /splits open/.test(l))) out.push('walked into, the mimic said nothing');
+    // stood beside: a creak first, then it lunges after a beat, and a step away is time enough
+    L.monsters.length = 0; p.grabbed = null; G.blowGate = 0;
+    m = shut(3);
+    mark = markLog(G);
+    run(Game, G, 300);
+    if (countSaid(linesSince(G, mark), /creaks/) !== 1 || !m.creaked) out.push('three squares off, the mimic did not creak, once');
+    if (!m.disguised) out.push('the mimic sprang at three squares');
+    m.x = at(1)[0]; m.y = at(1)[1]; m.rx = m.x; m.ry = m.y;
+    run(Game, G, 300);
+    if (!m.disguised) out.push('the mimic sprang before its beat');
+    run(Game, G, 500);
+    if (m.disguised || !m.windup) out.push(`beside it for a while, the mimic ${m.disguised ? 'stayed shut' : 'did not lunge'}`);
+    const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+    p.x += sx; p.y += sy;
+    run(Game, G, 1500);
+    if (p.grabbed) out.push('a step away from a mimic\'s lunge was not time enough');
+    p.x -= sx; p.y -= sy;
+    // heard, it is aimed at from where the hero stands: caught shut, the blow lands twice
+    L.monsters.length = 0; p.grabbed = null;
+    m = shut(3);
+    m.creaked = true;
+    const hp0 = m.hp;
+    cast('magic_missile');
+    run(Game, G, 600);
+    if (m.disguised) out.push('struck by a spell, the mimic stayed shut');
+    if (!(hp0 - m.hp >= 4)) out.push(`caught shut, the mimic took only ${hp0 - m.hp}`);
+    if (!(Game.bestiary().mimic || {}).answer) out.push('striking a shut mimic first was not counted its answer');
+    // not yet heard, a spell finds nothing there
+    L.monsters.length = 0;
+    m = shut(3);
+    const hp1 = m.hp;
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    const { ctx } = { ctx: null };
+    Game.castSpell(Game.knownSpells().find(sp => sp.id === 'magic_missile'));
+    run(Game, G, 600);
+    if (m.hp !== hp1 || !m.disguised) out.push('a spell found a mimic that had not yet creaked');
+    // woken with the whole floor (a door heaved open), it is still a barrel: no foe near to rest, no warning at the side
+    L.monsters.length = 0;
+    m = shut(0, 1); m.awake = true; m.creaked = true; m.nextAct = 1e12;
+    if (Game.restLabel() === 'Foes near') out.push('a shut mimic, woken, kept the hero from resting');
+    if (Game.renderState(0).fx.threats.length) out.push('a shut mimic, woken, was shown as a threat at the side');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a kobold trapper backs off to throw, sets a snare between you that is seen and can be sprung from before it, and its snares go slack when it dies', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-kobold');
+    L.twist = null; L.traps = {};
+    // beside the hero it steps back, if it has room
+    let k = put('kobold', 1, 0, { hp: 40, maxHp: 40, nextAct: G.t });
+    run(Game, G, 200);
+    if (Math.abs(k.x - p.x) + Math.abs(k.y - p.y) !== 2) out.push(`beside the hero the kobold stood ${Math.abs(k.x - p.x) + Math.abs(k.y - p.y)} off`);
+    // three squares off it sets a snare on the square before the hero
+    L.monsters.length = 0;
+    let set = false;
+    for (let i = 0; i < 30 && !set; i++) {
+      L.monsters.length = 0; L.traps = {}; L.snares = {};
+      k = put('kobold', 3, 0, { hp: 40, maxHp: 40, nextAct: G.t });
+      run(Game, G, 30);
+      if (k.windup && k.windup.move === 'snare') { run(Game, G, 1000); set = true; }
+    }
+    const [sx, sy] = at(1), sk = `${sx},${sy}`;
+    if (!set) out.push('three squares off, the kobold never set a snare in thirty chances');
+    else if (!L.snares[sk] || L.traps[sk] !== 'snare') out.push(`the snare was set at ${JSON.stringify(L.snares)}`);
+    // seen: the Use button springs it from before it, and that is the answer
+    if (Game.useLabel() !== 'Disarm') out.push(`before a snare the Use button read "${Game.useLabel()}"`);
+    Game.input('use');
+    if (L.snares[sk] || L.traps[sk]) out.push('Use did not spring the snare ahead');
+    if (!(Game.bestiary().kobold || {}).answer) out.push('springing a snare from before it was not counted the answer');
+    // walked into, it holds the hero (unless a quick foot pulls clear: tried a few times)
+    let held = false;
+    p.stats.dex = 3;
+    for (let i = 0; i < 6 && !held; i++) {
+      p.held = 0;
+      L.traps[sk] = 'snare'; L.snares[sk] = k.uid;
+      p.x = sx - Dungeon.DIRS[p.dir][0]; p.y = sy - Dungeon.DIRS[p.dir][1];
+      G.t = Math.max(G.t, p.nextMove || 0) + 400;
+      Game.input('forward'); run(Game, G, 50);
+      if (p.held > G.t && p.heldBy === 'snare') held = true;
+    }
+    if (!held) out.push('walking into a snare never held the hero');
+    // its snares go slack when it dies
+    p.held = 0;
+    const [tx, ty] = at(2);
+    L.traps[`${tx},${ty}`] = 'snare'; L.snares[`${tx},${ty}`] = k.uid;
+    const mark = markLog(G);
+    k.hp = 1;
+    put('kobold', 5, 0, { uid: 77777, hp: 40, maxHp: 40 });
+    L.traps['9,9'] = 'snare'; L.snares['9,9'] = 77777;
+    k.nextAct = 1e12;
+    p.x = k.x - Dungeon.DIRS[p.dir][0]; p.y = k.y - Dungeon.DIRS[p.dir][1];
+    for (let i = 0; i < 10 && L.monsters.includes(k); i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); run(Game, G, 30); }
+    if (L.monsters.includes(k)) out.push('could not kill the kobold');
+    else {
+      if (L.snares[`${tx},${ty}`] || L.traps[`${tx},${ty}`]) out.push('a dead kobold\'s snare stayed set');
+      if (!L.snares['9,9']) out.push('another kobold\'s snare went slack with the first');
+      if (!linesSince(G, mark).some(l => /goes slack/.test(l))) out.push('the slack snare was not told');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('tremors: on a middle floor dealt them, the ground shudders now and then and marks where rock will land, the hero\'s square among them; it lands on whatever stands there', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-quake');
+    // dealt over floors already twisted, from the third floor down, the rest of the plan as it was
+    let dealt = 0;
+    for (let i = 0; i < 300; i++) {
+      const seed = 'qk-' + i, a = Dungeon.twistPlan(seed, 8), b = Dungeon.twistPlan(seed, 8, false);
+      if (Object.keys(a).join() !== Object.keys(b).join()) { out.push(`${seed}: twisted floors ${Object.keys(a)} against ${Object.keys(b)}`); break; }
+      for (const d in a) if (a[d] === 'tremors') { dealt++; if (+d < 3) out.push(`${seed}: tremors on floor ${d}`); }
+    }
+    if (dealt < 10) out.push(`tremors dealt on only ${dealt} floors in 300 seeds`);
+    // a plain floor never shudders
+    L.twist = null; L.quake = { next: G.t, falls: [] };
+    run(Game, G, 100);
+    if (L.quake.falls.length) out.push('a plain floor shuddered');
+    // a floor of tremors: marks round the hero, the hero's own square among them, and told
+    L.twist = 'tremors'; L.quake = { next: G.t, falls: [] };
+    const g = put('goblin', 1);
+    let mark = markLog(G);
+    run(Game, G, 50);
+    const falls = L.quake.falls;
+    if (!falls.some(f => f.x === p.x && f.y === p.y)) out.push(`the hero's square was not marked: ${JSON.stringify(falls)}`);
+    if (falls.length < 3) out.push(`only ${falls.length} squares marked`);
+    if (falls.some(f => Math.abs(f.x - p.x) + Math.abs(f.y - p.y) > 3)) out.push('rock was marked more than three squares off');
+    if (falls.some(f => L.tiles[f.y * L.w + f.x] !== Dungeon.T.FLOOR)) out.push('rock was marked off the floor');
+    if (!linesSince(G, mark).some(l => /ground shudders/.test(l))) out.push('the shudder was not told');
+    if (!(Game.renderState(0).fx.rocks || []).length) out.push('the marks were not given to the view');
+    // standing still under it: the rock lands on the hero, and on a foe that stands under it too
+    const [gx, gy] = at(1);
+    L.quake.falls = [{ x: p.x, y: p.y, at: G.t, lands: G.t + 300 }, { x: gx, y: gy, at: G.t, lands: G.t + 300 }];
+    mark = markLog(G);
+    run(Game, G, 400);
+    if (p.hp >= 9999) out.push('rock landing on the hero did no harm');
+    if (g.hp >= 999) out.push('rock landing on a goblin did it no harm');
+    if (!linesSince(G, mark).some(l => /crashes down on you/.test(l))) out.push('the rock on the hero was not told');
+    if (L.quake.falls.length) out.push('the fallen rock stayed marked');
+    if (!L.dressing.some(o => o.k === 'rubble' && o.x === gx && o.y === gy)) out.push('fallen rock left no rubble');
+    // stepping off in time: no harm
+    p.hp = 9999;
+    L.quake.falls = [{ x: p.x, y: p.y, at: G.t, lands: G.t + 1000 }];
+    const [lx, ly] = at(0, 1);
+    p.x = lx; p.y = ly;
+    run(Game, G, 1100);
+    if (p.hp !== 9999) out.push('rock hurt a hero who had stepped off its mark');
+    // nothing falls while the hero stands on the stairs
+    const t = L.tiles[p.y * L.w + p.x];
+    L.tiles[p.y * L.w + p.x] = Dungeon.T.STAIRS_DOWN; L.quake = { next: G.t, falls: [] };
+    run(Game, G, 50);
+    if (L.quake.falls.length) out.push('rock was marked round a hero on the stairs');
+    L.tiles[p.y * L.w + p.x] = t;
+    // and it shudders again, in sixteen to twenty-four seconds
+    if (!(L.quake.next >= G.t + 15000 && L.quake.next <= G.t + 24000)) out.push(`the next shudder is ${L.quake.next - G.t}ms off`);
     return out.length ? out.join('; ') : true;
   });
 

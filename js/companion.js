@@ -130,6 +130,8 @@ export function makeCompanion(K) {
       const [x, y] = k.split(',').map(Number);
       if (Math.abs(x - c.x) + Math.abs(y - c.y) > 2) continue;
       delete L.traps[k];
+      // (a kobold's snare goes with it, picture and all)
+      if (L.snares) delete L.snares[k];
       c.traps = (c.traps || 0) + 1;
       K.log(`${c.name} finds a trap under a loose flagstone, and jams it with a sliver of iron.`, 'good');
     }
@@ -163,7 +165,8 @@ export function makeCompanion(K) {
   /** Its bite: an awake thing beside it, the one at the hero's side first. */
   function bite(c) {
     const L = K.lvl(), p = K.P();
-    const foes = L.monsters.filter(m => m.awake && !m.collapsed && !m.fleeing && Math.abs(m.x - c.x) + Math.abs(m.y - c.y) === 1);
+    // (a mimic still a barrel is no foe it knows of)
+    const foes = L.monsters.filter(m => m.awake && !m.collapsed && !m.fleeing && !m.disguised && Math.abs(m.x - c.x) + Math.abs(m.y - c.y) === 1);
     if (!foes.length) return false;
     const m = foes.find(o => Math.abs(o.x - p.x) + Math.abs(o.y - p.y) === 1) || foes[0];
     c.lungeAt = K.realNow;

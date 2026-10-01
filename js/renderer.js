@@ -585,6 +585,12 @@ const Renderer = (() => {
     const out = [];
     // the frost a wraith breathes, creeping over the stones toward where it is aimed
     for (const f of (fx && fx.frost) || []) out.push({ x: f.x + 0.5, y: f.y + 0.5, r: 0.46 * f.a, c: '#a8cce4', seed: f.x * 131 + f.y * 71 });
+    // where rock will land on a floor of tremors: a ring of grit spreading as it nears, dark at the heart
+    for (const r of (fx && fx.rocks) || []) {
+      const seed = r.x * 131 + r.y * 71;
+      out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.22 + 0.26 * r.u, c: '#9a8a6c', seed, solo: true });
+      out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.1 + 0.12 * r.u, c: '#2a2218', seed: seed + 5, solo: true });
+    }
     if (!F) return out;
     for (const k in F) {
       const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;

@@ -114,6 +114,7 @@ const Game = (() => {
     if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. Whatever keeps the Heart will be the stronger for it.');
     if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
     if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
+    if (t.mule) out.push(t.muleDone ? 'A trader knew the lost mule you led on, and paid you for it.' : 'You led a lost mule on: the next trader you meet will know whose it is.');
     { const n = companion.note(); if (n) out.push(n); }
     return out;
   }
@@ -273,7 +274,7 @@ const Game = (() => {
   // if it comes soon, cannot miss and lands as a telling blow. This is what
   // reading the violet mark buys, beyond the blow it spared you.
   /** Why the hero cannot act: knocked down by a charge, or frozen by a touch. */
-  const heldWhy = () => ({ down: 'You are still getting to your feet!', stone: 'Your limbs are stone!', ice: 'Your feet are frozen into the ice!' }[P().heldBy || ''] || 'You are frozen in place!');
+  const heldWhy = () => ({ down: 'You are still getting to your feet!', stone: 'Your limbs are stone!', ice: 'Your feet are frozen into the ice!', snare: 'The snare has your ankle!' }[P().heldBy || ''] || 'You are frozen in place!');
   const OPENING_MS = 2500;
   /** @param {import('./types.js').Monster} m */
   function opening(m) {
@@ -1263,7 +1264,7 @@ const Game = (() => {
       spot = { x, y };
       // the first thing in the way takes it: a creature (not one sunk out of sight), or a barrel or crate
       const m = monsterAt(x, y);
-      if ((m && !m.sunk) || propAt(x, y)) break;
+      if ((m && !m.sunk) || propAt(x, y)) break;   // (a mimic, still a barrel, stops it as one)
     }
     return spot;
   }
@@ -1275,7 +1276,9 @@ const Game = (() => {
     p.noiseAt = G.t;
     p.nextAttack = Math.max(p.nextAttack, G.t + 500);
     const m = monsterAt(spot.x, spot.y), prop = propAt(spot.x, spot.y);
-    log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
+    // a mimic still shut takes it as the barrel it seems, and that is a blow to it
+    if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
+    else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
     Sound.play('smash', heard(spot));
     elements.spill(spot.x, spot.y);
     return true;
@@ -1673,7 +1676,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
@@ -1850,9 +1853,11 @@ const Game = (() => {
     if (t === T.FOUNTAIN) return 'Drink';
     if (npcAt(tx, ty)) return npcAt(tx, ty).kind === 'encounter' ? 'Examine' : 'Trade';
     if (companion.at(tx, ty) && !monsterAt(tx, ty)) return companion.here().mode === 'stay' ? 'Come' : 'Stay';
+    if (lvl().snares && lvl().snares[key(tx, ty)] && !monsterAt(tx, ty)) return 'Disarm';
     // Use still strikes what is in front, but the button beside it already
     // says Attack; two buttons with one name read as a mistake
-    if (monsterAt(tx, ty)) return 'Use';
+    // (a mimic still shut is a barrel to the eye, and to the button)
+    if (monsterAt(tx, ty)) return monsterAt(tx, ty).disguised ? 'Break' : 'Use';
     if (propAt(tx, ty)) return 'Break';
     if (t === T.DOOR_OPEN && !(lvl().burntDoors || {})[key(tx, ty)]) return 'Close';
     // a hidden door reads as wall until found, so it must not label differently
@@ -1906,6 +1911,8 @@ const Game = (() => {
     if (prop && !monsterAt(nx, ny)) { smash(lvl(), prop, true); return true; }
     const m = monsterAt(nx, ny);
     if (m && m.sunk) { surface(m, 'step'); return false; }
+    // walking into a barrel kicks it: a mimic so touched has the hero (the step is spent)
+    if (m && m.disguised) { spring(m, 'touch'); return true; }
     if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
@@ -2068,6 +2075,9 @@ const Game = (() => {
     const L = lvl();
     const tr = TRAP_TYPES[L.traps[k]];
     delete L.traps[k];
+    // a kobold's snare lies in plain sight: walked into, it springs (there is no spotting
+    // what was seen), but a quick foot may still pull clear as it snaps
+    if (L.snares && L.snares[k]) { delete L.snares[k]; return snareSprung(tr); }
     if (L.trapsKnown) { log(`You step round the ${tr.name} you were told of.`, 'good'); return; }
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
@@ -2109,6 +2119,51 @@ const Game = (() => {
     if (tr.alarm) for (const m of L.monsters) m.awake = true;
   }
 
+  /** A kobold's snare closing on the hero: a Dexterity save pulls the foot clear; else it holds, and bites. */
+  function snareSprung(tr) {
+    const p = P();
+    fx.trapAt = realNow; fx.trapKind = 'snare'; fx.trapSide = 1;
+    Sound.play('trap');
+    const dodge = statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves() + tricksterTraps());
+    fx.trapDodged = dodge.pass;
+    if (dodge.pass) { log(`The wire snare snaps, and you snatch your foot clear!${dodge.note}`, 'good'); return; }
+    const n = Math.max(1, d(...tr.dmg));
+    hurtPlayer(n, `${tr.msg} (${n})${dodge.note}`, null, 'a kobold\'s snare');
+    if (G.status === 'playing' && !((p.held || 0) > G.t + tr.hold)) { p.held = G.t + tr.hold; p.heldBy = 'snare'; }
+  }
+  /** Sprung from where the hero stands, with a foot well back: the snare ahead is harmless now. */
+  function disarmSnare(k) {
+    const L = lvl(), by = L.snares[k];
+    delete L.snares[k]; delete L.traps[k];
+    log('You spring the wire snare with your boot well back. It snaps shut on nothing.', 'good');
+    Sound.play('locked');
+    const m = L.monsters.find(o => o.uid === by);
+    learn(m ? m.id : 'kobold', 'answer');
+  }
+  /** Whether a kobold could set a snare here: open floor, nothing on it, no trap already. */
+  function snareable(x, y) {
+    const L = lvl(), p = P();
+    return tile(x, y) === T.FLOOR && !L.traps[key(x, y)] && !monsterAt(x, y) && !npcAt(x, y) && !propAt(x, y) && !(p.x === x && p.y === y);
+  }
+  const snaresBy = uid => Object.values(lvl().snares || {}).filter(u => u === uid).length;
+  /** A snare set: seen where it lies (and sprung at once on a hero who stepped onto the square). @returns {boolean} whether it was set */
+  function setSnare(x, y, uid) {
+    const L = lvl(), p = P(), k = key(x, y);
+    if (tile(x, y) !== T.FLOOR || L.traps[k] || monsterAt(x, y) || npcAt(x, y) || propAt(x, y)) return false;
+    L.traps[k] = 'snare';
+    (L.snares = L.snares || {})[k] = uid;
+    if (p.x === x && p.y === y) triggerTrap(k);
+    return true;
+  }
+  /** A kobold dead: what it set goes slack with it. */
+  function snaresSlack(m) {
+    const L = lvl();
+    if (!L.snares) return;
+    const keys = Object.keys(L.snares).filter(k => L.snares[k] === m.uid);
+    for (const k of keys) { delete L.snares[k]; delete L.traps[k]; }
+    if (keys.length) log(keys.length === 1 ? 'Its snare goes slack.' : 'Its snares go slack.', 'good');
+  }
+
   // ---------- interaction ----------
   function use() {
     const p = P();
@@ -2123,6 +2178,7 @@ const Game = (() => {
     if (t === T.FOUNTAIN) return drinkFountain(tx, ty);
     const ahead = npcAt(tx, ty);
     if (ahead) return ahead.kind === 'encounter' ? encs.openEncounter(ahead) : openShop(ahead);
+    if (lvl().snares && lvl().snares[key(tx, ty)] && !monsterAt(tx, ty)) return disarmSnare(key(tx, ty));
     if (monsterAt(tx, ty)) return attack();
     if (companion.at(tx, ty)) return companion.toggle();
     if (propAt(tx, ty)) return attack();   // a barrel, crate or urn ahead: break it
@@ -2237,6 +2293,41 @@ const Game = (() => {
     for (const q of L.dressing || []) if (q.k === 'barrel' && rng.next() < OIL_CASKS) q.k = 'oilcask';
     stockLampOil(L, depth);
   }
+  // Now and then, on the middle floors, one barrel in a room away from the
+  // stairs is a mimic (foes.js), chosen from dice of its own when the floor is
+  // made, so the floor's other dice fall as they did. It takes the barrel's place.
+  const MIMIC_CHANCE = 0.35;
+  /** @param {import('./types.js').Level} L */
+  function mimicLevel(L, depth) {
+    const tier = Dungeon.tierAt(depth, G.opts.levels || 8);
+    if (tier < 3 || tier > 7 || L.isFinal) return;
+    const rng = new Rng(`${G.seed}|mimic|${depth}`);
+    if (rng.next() >= MIMIC_CHANCE) return;
+    const ends = [L.start, L.stairsUp, L.stairsDown].filter(Boolean);
+    const roomOf = (x, y) => (L.roomId ? L.roomId[y * L.w + x] : -1);
+    const startRooms = new Set(ends.map(e => roomOf(e.x, e.y)).filter(r => r >= 0));
+    const barrels = (L.dressing || []).filter(q => q.k === 'barrel' && roomOf(q.x, q.y) >= 0 && !startRooms.has(roomOf(q.x, q.y))
+      && !L.monsters.some(m => m.x === q.x && m.y === q.y) && !ends.some(e => Math.abs(e.x - q.x) + Math.abs(e.y - q.y) <= 2));
+    // with no barrel to take the place of, it stands as one against a wall of a room
+    const at = (x, y) => L.tiles[y * L.w + x];
+    const byWall = [];
+    if (!barrels.length) for (let i = 0; i < L.w * L.h; i++) {
+      const x = i % L.w, y = (i / L.w) | 0, r = roomOf(x, y);
+      if (r < 0 || startRooms.has(r) || at(x, y) !== T.FLOOR || !DIRS.some(([dx, dy]) => at(x + dx, y + dy) === T.WALL)) continue;
+      // (not beside a door, a stair or a fountain, where it would stand in the way)
+      if (DIRS.some(([dx, dy]) => [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN].includes(at(x + dx, y + dy)))) continue;
+      if (ends.some(e => Math.abs(e.x - x) + Math.abs(e.y - y) <= 2) || L.monsters.some(m => m.x === x && m.y === y) || (L.npcs || []).some(n => n.x === x && n.y === y)
+        || (L.items[key(x, y)] || []).length || (L.dressing || []).some(q => q.x === x && q.y === y) || (L.traps || {})[key(x, y)]) continue;
+      byWall.push({ x, y, ox: 0, oy: 0 });
+    }
+    const pool = barrels.length ? barrels : byWall;
+    if (!pool.length) return;
+    const b = pool[rng.int(0, pool.length - 1)], mb = MONSTERS.mimic;
+    if (barrels.length) L.dressing.splice(L.dressing.indexOf(b), 1);
+    const hp = Dice.dice(mb.hp[0], mb.hp[1], mb.hp[2]);
+    L.monsters.push({ uid: depth * 1000 + 990, id: 'mimic', x: b.x, y: b.y, hp, maxHp: hp, awake: false, disguised: true, dox: b.ox, doy: b.oy,
+      nextAct: 0, rx: b.x, ry: b.y, fromX: b.x, fromY: b.y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  }
   /**
    * Every trader keeps a few flasks of lamp oil, to throw: once a floor (a
    * floor saved before there were flasks gets them as it loads, and a trader
@@ -2266,7 +2357,7 @@ const Game = (() => {
     const free = (x, y) => at(x, y) === T.FLOOR && !L.monsters.some(m => m.x === x && m.y === y) && !(L.npcs || []).some(n => n.x === x && n.y === y)
       && !(L.items[key(x, y)] || []).length && !(L.dressing || []).some(q => q.x === x && q.y === y) && !(L.traps || {})[key(x, y)]
       && !ends.some(e => Math.abs(e.x - x) + Math.abs(e.y - y) <= 1);
-    const plain = m => !MONSTERS[m.id].boss && !MONSTERS[m.id].named && !m.sunk;
+    const plain = m => !MONSTERS[m.id].boss && !MONSTERS[m.id].named && !m.sunk && !m.disguised;
     const cask = (x, y) => (L.dressing || (L.dressing = [])).push({ x, y, k: 'oilcask', ox: 0, oy: 0 });
     const pieces = {
       // casks among a sleeping group: a spark in the room, and the room goes up
@@ -2453,7 +2544,8 @@ const Game = (() => {
         const x = p.x + dx * i, y = p.y + dy * i;
         if (!passable(x, y)) break;
         const t = monsterAt(x, y);
-        if (t) { m = t; atRange = true; break; }
+        // (a mimic still shut is a barrel down the corridor, until it has creaked and been heard)
+        if (t && !(t.disguised && !t.creaked)) { m = t; atRange = true; break; }
       }
     }
     p.nextAttack = G.t + w.speed;
@@ -2631,6 +2723,8 @@ const Game = (() => {
     }
     // a blow into the ripple brings up what lies under it
     if (m.sunk) surface(m, 'struck');
+    // a mimic struck while it is still a barrel is caught shut: the blow lands twice over
+    if (m.disguised) { dmg *= 2; spring(m, 'struck'); }
     noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;
@@ -2649,7 +2743,7 @@ const Game = (() => {
     buzz(12);
     if (m.hp <= 0) {
       // Bloodlust: every foe the hero fells gives a little back
-      if (capped('bloodlust') && tag !== 'companion' && tag !== 'blaze') healPlayer(d(1, 4));
+      if (capped('bloodlust') && tag !== 'companion' && tag !== 'blaze' && tag !== 'rockfall') healPlayer(d(1, 4));
       // in a group the front one falls and the next steps up; the square
       // empties only when the last of them is down
       if (m.pack && m.pack.length) { m.dot = null; memberDown(m, note); promote(m); return; }
@@ -2687,6 +2781,7 @@ const Game = (() => {
     else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
     else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
     else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'rockfall') { log(`Rock crashes down on the ${mb.name}${of} for ${dmg}!`, 'good'); }
     else if (tag === 'shock') { log(`The lightning runs through the water into the ${mb.name}${of} for ${dmg}.`); }
     else {
       const pre = { crit: 'A mighty blow! ', opening: 'You take the opening! ', lucky: 'A lucky blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';
@@ -2713,6 +2808,7 @@ const Game = (() => {
     if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
     if (m.shade) shadeFalls(m);
+    snaresSlack(m);
   }
 
   // ---------- groups ----------
@@ -3286,7 +3382,7 @@ const Game = (() => {
     // the first blow to reach a number keeps the record, so a tie does not rename it
     const how = castingName ? cap(castingName)
       : tag === 'offhand' ? (p.eq.offhand ? the(p.eq.offhand) : 'your off hand')
-      : tag === 'thorns' ? 'your barbs' : tag === 'burning' || tag === 'blaze' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare' : tag === 'bleed' ? 'your claws\' wounds'
+      : tag === 'thorns' ? 'your barbs' : tag === 'burning' || tag === 'blaze' ? 'fire' : tag === 'venom' ? 'poison' : tag === 'snare' ? 'your snare' : tag === 'rockfall' ? 'falling rock' : tag === 'bleed' ? 'your claws\' wounds'
       : wild.shaped(p) ? 'a bear\'s claws' : p.eq.weapon ? the(p.eq.weapon) : 'your bare hands';
     s.best = { dmg, to: mstat(m).name, id: m.id, how, depth: G.depth };
   }
@@ -3411,6 +3507,7 @@ const Game = (() => {
       const x = p.x + dx * i, y = p.y + dy * i;
       if (!passable(x, y)) break;
       const m = monsterAt(x, y);
+      if (m && m.disguised && !m.creaked) continue;   // a barrel to a spell, until it has given itself away
       if (m) { out.push(m); if (!pierce) break; }
     }
     return out;
@@ -3770,7 +3867,8 @@ const Game = (() => {
     const L = lvl();
     ensureDist();
     // one lost in a thief's smoke is still there, and no one sleeps beside it
-    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return (m.awake || (m.smoked || 0) > G.t) && dd >= 0 && dd <= 5; });
+    // (a mimic still a barrel is a barrel, whatever woke the floor)
+    return L.monsters.some(m => { const dd = distField[m.y * L.w + m.x]; return !m.disguised && (m.awake || (m.smoked || 0) > G.t) && dd >= 0 && dd <= 5; });
   }
   /**
    * What the Rest button will do: rest, saying how well once rests here grow
@@ -4307,7 +4405,7 @@ const Game = (() => {
     if (!G || G.status !== 'playing') return [];
     const p = P(), out = [];
     for (const m of lvl().monsters) {
-      if (!m.awake || m.fleeing || m.collapsed) continue;
+      if (!m.awake || m.fleeing || m.collapsed || m.disguised) continue;
       const dx = m.x - p.x, dy = m.y - p.y, dist = Math.abs(dx) + Math.abs(dy);
       if (dist > 2) continue;
       // the side it is on: the longer axis, and a diagonal counts as the flank
@@ -4363,6 +4461,11 @@ const Game = (() => {
         const t = (now - m.moveT0) / (m.moveT1 - m.moveT0);
         m.rx = m.fromX + (m.x - m.fromX) * t; m.ry = m.fromY + (m.y - m.fromY) * t;
       } else { m.rx = m.x; m.ry = m.y; }
+      // a mimic still shut is drawn as the barrel it seems, where the barrel stood
+      if (m.disguised) {
+        if (Assets.sprites.dress_barrel) sprites.push({ x: m.x + 0.5 + (m.dox || 0), y: m.y + 0.5 + (m.doy || 0), img: Assets.sprites.dress_barrel, scale: DRESS_SIZE.barrel || 0.66, yOff: 0, onFloor: true, dress: true });
+        continue;
+      }
       // a drowned one under the water shows only as a ripple that does not settle
       if (m.sunk) {
         if (Assets.sprites.dress_ripple) sprites.push({ x: m.x + 0.5, y: m.y + 0.5, img: Assets.sprites.dress_ripple, scale: 0.86 + 0.06 * Math.sin(now / 420 + m.uid), yOff: 0, onFloor: true, dress: true });
@@ -4419,6 +4522,11 @@ const Game = (() => {
         if (alongX) ox = (hero.x >= f.x ? 1 : -1) * 0.56; else oy = (hero.y >= f.y ? 1 : -1) * 0.56;
       }
       sprites.push({ x: f.x + 0.5 + ox, y: f.y + 0.5 + oy, img: Assets.sprites.dress_flames, scale: (f.fuel === 'door' ? 0.75 : 0.5) + 0.07 * Math.sin(now / 110 + f.x * 7 + f.y * 3), yOff: 0, onFloor: true, glow: true });
+    }
+    // a kobold's snares, set where they can be seen, the wire catching the light now and then
+    for (const k in (L.snares || {})) {
+      const [sx, sy] = k.split(',').map(Number);
+      if (Assets.sprites.dress_snare) sprites.push({ x: sx + 0.5, y: sy + 0.5, img: Assets.sprites.dress_snare, scale: (DRESS_SIZE.snare || 0.42) * (1 + 0.06 * Math.sin(now / 160 + sx * 3 + sy)), yOff: 0, onFloor: true, dress: true });
     }
     // what lies about the room for looks, and what the fallen left (puddles are drawn flat by the renderer)
     for (const d of (L.dressing || [])) {
@@ -4488,6 +4596,9 @@ const Game = (() => {
     };
     fx.threats = threats();
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes
+    // on a floor of tremors, where rock is about to land: marked on the floor, and the rock itself as it drops
+    fx.rocks = elements.falling();
+    for (const r of fx.rocks) if (r.u > 0.72 && Assets.sprites.dress_rubble) sprites.push({ x: r.x + 0.5, y: r.y + 0.5, img: Assets.sprites.dress_rubble, scale: 0.5, yOff: 1.1 * (1 - r.u) / 0.28, dress: true });
     fx.frost = [];
     for (const m of L.monsters) {
       const w = m.windup;
@@ -4688,6 +4799,7 @@ const Game = (() => {
     get cls() { return cls; },
     get damageMonster() { return damageMonster; },
     get fieldAt() { return elements.fieldAt; }, get burnLine() { return elements.burnLine; },
+    snareable, snaresBy, setSnare,
     firepot: spots => elements.firepot(spots), fuelAt: (x, y) => elements.fuel(x, y), igniteWild: (x, y) => elements.ignite(x, y, 0, true),
     rime: (x, y) => elements.rime(x, y), stormAt: (x, y, n) => elements.stormAt(x, y, n), wet: (x, y) => elements.wet(x, y),
     get castingName() { return castingName; },
@@ -4753,7 +4865,7 @@ const Game = (() => {
     houndRests: () => companion.rested(1),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
@@ -4777,6 +4889,7 @@ const Game = (() => {
     get damageMonster() { return damageMonster; }, get elemental() { return elemental; }, get hurtPlayer() { return hurtPlayer; }, get smash() { return smash; },
     get setTile() { return setTile; }, burnWeb: () => burnWeb(),
     surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
+    shake: (amp, ms) => { fx.shakeAmp = amp; fx.shakeMs = ms; fx.shakeUntil = realNow + ms; },
   });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({

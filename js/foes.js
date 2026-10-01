@@ -182,7 +182,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -287,6 +287,12 @@ export function makeFoes(K) {
       say = `The ${mb.name} raises a hand, and the air crackles over the water round you! ${K.lvl().twist === 'flooded' ? 'Step aside!' : 'Get out of the water!'}`;
       extra = { tx: p.x, ty: p.y };
     }
+    // a kobold sets a snare on the square before the hero, toward itself, where they would step to reach it
+    // (three of its own lying set at most)
+    else if (mv === 'snare' && !adjacent && hasLineToPlayer(m, 4) && K.snaresBy(m.uid) < 3 && Math.random() < 0.45) {
+      const tx = p.x + Math.sign(m.x - p.x), ty = p.y + Math.sign(m.y - p.y);
+      if (K.snareable(tx, ty)) { say = `The ${mb.name} crouches and sets something that glints on the stones between you!`; extra = { tx, ty }; }
+    }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
@@ -380,13 +386,7 @@ export function makeFoes(K) {
       }
       case 'grab':
         if (dist === 1) {
-          if (monsterAttack(m, { verb: 'seizes', sure: true }) && K.G.status === 'playing' && !p.grabbed) {
-            if (K.hasTalent('stand_firm')) K.log(`You tear out of the ${mb.name}'s grasp before it closes.`, 'good');
-            else {
-              p.grabbed = { uid: m.uid, until: K.G.t + 4000, nextTry: 0 };
-              K.log(`The ${mb.name} has hold of you! Pull free: stepping away takes strength.`, 'bad');
-            }
-          }
+          seize(m, mb);
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else { K.log(`The ${mb.name} grabs at the air where you stood, wide open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.nextAct = K.G.t + mb.speed;
@@ -539,6 +539,12 @@ export function makeFoes(K) {
         else if (p.x === w.tx && p.y === w.ty) { rangedAttack(m); K.G.blowGate = K.G.t + K.BLOW_GAP; }
         else { K.log(`The burning arrow thuds into the ground where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         if (clear) K.igniteWild(w.tx, w.ty);
+        m.moveReady = K.G.t + 8000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'snare': {
+        if (K.setSnare(w.tx, w.ty, m.uid)) K.log('A wire snare lies set on the stones between you. Go round it, or stand before it and Use to spring it.', 'info');
         m.moveReady = K.G.t + 8000;
         m.nextAct = K.G.t + mb.speed;
         break;
@@ -1136,6 +1142,7 @@ export function makeFoes(K) {
   function monsterTurn(m, L, p) {
     const G = K.G, mb = K.mstat(m);
     if (m.sunk) { lurks(m, L, p); return; }
+    if (m.disguised) { waits(m, L, p); return; }
     speaks(m, mb);
     if (m.collapsed) { rises(m, mb); return; }
     if (!burnsAndMends(m, mb, L)) return;
@@ -1164,6 +1171,8 @@ export function makeFoes(K) {
     if (m.windup && m.windup.move) { resolveMove(m, mb, m.windup); return G.status !== 'playing' ? STOP : undefined; }
     // on his throne the Warlord only throws: his shield-bearers do the close work
     if (m.throne && adjacent) { m.windup = null; m.nextAct = G.t + 400; return; }
+    // a skirmisher (a kobold) steps back out of reach to throw, now and then, if it has room
+    if (!m.windup && adjacent && mb.skirmish && backsOff(m, mb, L, p)) return;
     if (!m.windup && startMove(m, mb, adjacent)) return;
     if (m.windup) return strikes(m, mb, adjacent, shot);
     if (adjacent || shot) {
@@ -1315,6 +1324,73 @@ export function makeFoes(K) {
     // beside the hero, its first move is to seize them
     if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) startMove(m, mb, true);
   }
+  /** A sure blow that takes hold of the hero (a zombie's lurch, a mimic's jaws), unless Stand Firm tears free. */
+  function seize(m, mb) {
+    const p = K.P();
+    if (monsterAttack(m, { verb: 'seizes', sure: true }) && K.G.status === 'playing' && !p.grabbed) {
+      if (K.hasTalent('stand_firm')) K.log(`You tear out of the ${mb.name}'s grasp before it closes.`, 'good');
+      else {
+        p.grabbed = { uid: m.uid, until: K.G.t + 4000, nextTry: 0 };
+        K.log(`The ${mb.name} has hold of you! Pull free: stepping away takes strength.`, 'bad');
+      }
+    }
+  }
+  /** One step further from the hero, onto open ground (not fire, nor its own snares); once in a while, so a cornered one fights. @returns {boolean} whether it stepped */
+  function backsOff(m, mb, L, p) {
+    const G = K.G;
+    if ((m.backAt || 0) > G.t) return false;
+    const d0 = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+    for (const [dx, dy] of K.DIRS) {
+      const nx = m.x + dx, ny = m.y + dy;
+      if (Math.abs(nx - p.x) + Math.abs(ny - p.y) <= d0) continue;
+      if (!K.passable(nx, ny) || K.monsterAt(nx, ny) || K.npcAt(nx, ny) || K.companionAt(nx, ny) || fiery(nx, ny) || (L.traps || {})[K.key(nx, ny)]) continue;
+      moveMonster(m, nx, ny);
+      m.backAt = G.t + 2500;
+      m.nextAct = G.t + Math.round(mb.speed * 0.8);
+      return true;
+    }
+    return false;
+  }
+  // ---------- a mimic ----------
+  // As a barrel it creaks once as the hero comes within three squares (its
+  // tell), and springs on a hero who touches it or stays beside it a moment.
+  // Struck first, from where the hero stands, it is caught shut (see game.js).
+  const MIMIC_CREAK = 3, MIMIC_BEAT = 600;
+  function waits(m, L, p) {
+    const G = K.G;
+    if (G.t < m.nextAct) return;
+    m.nextAct = G.t + 150;
+    const di = K.distField[m.y * L.w + m.x], beside = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+    if (!m.creaked && di >= 0 && di <= MIMIC_CREAK) {
+      m.creaked = true;
+      K.log('A barrel nearby creaks, though nothing touched it.');
+      Sound.play('creak', K.heard(m));
+    }
+    if (!beside) { m.springAt = 0; return; }
+    if (!m.springAt) m.springAt = G.t + MIMIC_BEAT;
+    else if (G.t >= m.springAt) spring(m, 'near');
+  }
+  /**
+   * The barrel opens: touched (it seizes at once), struck (caught shut: the
+   * blow was the answer), or stood beside (it lunges, and a step away is time enough).
+   * @param {'touch'|'struck'|'near'} why
+   */
+  function spring(m, why) {
+    const G = K.G, p = K.P(), mb = K.mstat(m);
+    if (!m.disguised) return;
+    delete m.disguised; m.springAt = 0;
+    m.awake = true; m.blows = 1;
+    Sound.play('voice', K.heard(m, { who: m.id }));
+    K.log(why === 'touch' ? `The barrel splits open into a mouth full of teeth: a ${mb.name}, and it lunges for you!`
+      : why === 'struck' ? `The barrel shrieks and heaves open: a ${mb.name}, caught shut by your blow!`
+        : `The barrel yawns open: a ${mb.name}, and it lunges for you!`, why === 'struck' ? 'good' : 'bad');
+    K.meet(m, 'trick');
+    if (why === 'struck') K.learn(m.id, 'answer');
+    m.nextAct = G.t + WAKE_BEAT;
+    const beside = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
+    if (why === 'touch' && beside) { seize(m, mb); G.blowGate = G.t + K.BLOW_GAP; m.nextAct = G.t + mb.speed; }
+    else if (why === 'near' && beside) startMove(m, mb, true);
+  }
   /** Out of the flames, to the square beside that is nearest the hero and not burning (furthest, for one fleeing). @returns {boolean} whether it moved */
   function escapesFire(m, mb, L, p) {
     let best = null, bd = Infinity;
@@ -1447,5 +1523,5 @@ export function makeFoes(K) {
     else if (mb.ranged && hasLineToPlayer(m, mb.ranged.range, !!mb.boss)) beginWindup(m, 'shot', Math.max(moveSpeed, windupFor(mb.speed * 1.3)));
   }
 
-  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, sporesOn, surface, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
+  return { RISE_MS, WAKE_BEAT, updateMonsters, beginWindup, bossFalls, breaksBones, burnWeb, ensureDist, hasLineToPlayer, meetDoor, monsterAttack, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedMends, namedTitle, namedWakes, poisonFor, rangedAttack, resolveMove, startMove, wander, windupFor };
 }

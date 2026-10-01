@@ -17,6 +17,10 @@
 // - A wooden door beside a fire may catch. It burns a while, then falls in,
 //   and leaves an open doorway: a locked one too, so oil and a flame are a
 //   way through a lock without a key.
+// - On a floor of tremors the ground shudders now and then, and rock comes
+//   down from the roof: the squares it will fall on are marked a moment
+//   before it lands, round the hero. It falls on whatever stands there then,
+//   the hero's foes too, which never think to look up.
 //
 // What lies on each square (fire, ash, oil, ice) is kept on the level in
 // `fields`, keyed like its items, so it is saved with the rest. What it
@@ -33,6 +37,10 @@ const MOSS_REACH = 2;
 const OIL_ASH_MS = 30000;
 // how far lightning runs through water from what it struck
 const ARC_REACH = 2;
+// a floor of tremors: how long between shudders, how long the marks stand
+// before the rock lands (long enough to see and take a step), how far round
+// the hero it falls, and on how many squares besides the hero's own
+const QUAKE_GAP = [16000, 24000], QUAKE_WARN = 1700, QUAKE_REACH = 3, QUAKE_FALLS = 4;
 
 /** @param {any} K */
 export function makeElements(K) {
@@ -279,7 +287,8 @@ export function makeElements(K) {
   /** Fire spreads and burns, ice melts, ash settles: called every frame the dungeon runs. */
   function tick() {
     const L = lvl(), G = K.G;
-    if (!L.fields) return;
+    quake();
+    if (G.status !== 'playing' || !L.fields) return;
     const depthBite = Math.floor(G.depth / 3);
     for (const k of Object.keys(L.fields)) {
       const f = L.fields[k];
@@ -321,6 +330,63 @@ export function makeElements(K) {
     }
   }
 
+  /**
+   * A floor of tremors: every so often the ground shudders, and the squares
+   * rock will fall on are marked, the hero's own among them, so standing still
+   * is never safe. When the marks are done it lands on whatever stands there.
+   * Kept on the level as `quake` (when it next shudders, and what is falling).
+   */
+  function quake() {
+    const L = lvl(), G = K.G, p = K.P();
+    if (L.twist !== 'tremors') return;
+    const q = L.quake || (L.quake = { next: G.t + QUAKE_GAP[0] / 2, falls: [] });
+    for (const f of q.falls.filter(o => G.t >= o.lands)) {
+      q.falls.splice(q.falls.indexOf(f), 1);
+      rockFalls(f.x, f.y);
+      if (G.status !== 'playing') return;
+    }
+    if (G.t < q.next) return;
+    q.next = G.t + QUAKE_GAP[0] + Math.random() * (QUAKE_GAP[1] - QUAKE_GAP[0]);
+    // (not while the dungeon has no hold on the hero: none fall on the stairs, nor in sight of a trader)
+    if (K.tile(p.x, p.y) === K.T.STAIRS_DOWN || K.tile(p.x, p.y) === K.T.STAIRS_UP) return;
+    const near = [];
+    for (let dy = -QUAKE_REACH; dy <= QUAKE_REACH; dy++) for (let dx = -QUAKE_REACH; dx <= QUAKE_REACH; dx++) {
+      const x = p.x + dx, y = p.y + dy;
+      if ((dx || dy) && Math.abs(dx) + Math.abs(dy) <= QUAKE_REACH && K.tile(x, y) === K.T.FLOOR) near.push({ x, y });
+    }
+    const spots = [{ x: p.x, y: p.y }];
+    while (spots.length <= QUAKE_FALLS && near.length) spots.push(near.splice(Math.floor(Math.random() * near.length), 1)[0]);
+    for (const s of spots) q.falls.push({ x: s.x, y: s.y, at: G.t, lands: G.t + QUAKE_WARN });
+    K.log('The ground shudders, and dust sifts down from the roof! Get out from under it!', 'bad');
+    Sound.play('rumble');
+    K.shake(3, 900);
+  }
+  /** Rock lands on a square: on the hero, a companion, and the monsters standing there alike. */
+  function rockFalls(x, y) {
+    const L = lvl(), G = K.G, p = K.P();
+    for (const m of L.monsters.filter(o => o.x === x && o.y === y && !o.collapsed && !o.sunk && !o.disguised)) {
+      K.damageMonster(m, d(2, 6) + G.depth, 'rockfall');
+      if (G.status !== 'playing') return;
+    }
+    if (p.x === x && p.y === y) {
+      const n = d(2, 6) + Math.floor(G.depth / 2);
+      K.hurtPlayer(n, `Rock crashes down on you from the roof! (${n})`, null, 'falling rock');
+      if (G.status !== 'playing') return;
+      K.shake(6, 500);
+    }
+    const c = K.companionHere();
+    if (c && c.x === x && c.y === y) K.companionHurt(d(2, 6) + Math.floor(G.depth / 2), 'Rock crashes down on');
+    if (dist({ x, y }, p) <= 5) Sound.play('smash', K.heard({ x, y }));
+    // what came down stays where it fell, for looks (rubble blocks nothing)
+    const dr = L.dressing || (L.dressing = []);
+    if (dr.filter(o => o.k === 'rubble' && o.fell).length < 40 && !dr.some(o => o.x === x && o.y === y)) dr.push({ k: 'rubble', x, y, ox: 0, oy: 0, fell: true });
+  }
+  /** The squares rock is about to fall on, and how near it is to landing (0 to 1), for the renderer and the bot. */
+  function falling() {
+    const L = lvl(), G = K.G;
+    return ((L.quake && L.quake.falls) || []).map(f => ({ x: f.x, y: f.y, u: Math.max(0, Math.min(1, (G.t - f.at) / Math.max(1, f.lands - f.at))) }));
+  }
+
   /** A burnt door falls in: the doorway stands open, and whatever lock it had is gone with it. */
   function doorFalls(x, y) {
     const L = lvl();
@@ -345,5 +411,5 @@ export function makeElements(K) {
     return out;
   }
 
-  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, rime, stormAt, burstCask, burnLine, tick, view };
+  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, rime, stormAt, burstCask, burnLine, tick, view, falling };
 }

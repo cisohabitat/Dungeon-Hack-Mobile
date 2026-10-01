@@ -351,6 +351,80 @@ const CREATURES = {
     ];
   },
 
+  // A kobold trapper: small, scaled a rusty red, with a long snout full of
+  // little teeth, stubby horns, a tail for balance, a dart up in one claw and
+  // a coil of snare wire slung over its shoulder.
+  kobold: (pose = 'idle') => {
+    const scale = '#a8502e', dark = '#6e3018', belly = '#d89a62', horn = '#e8dcc0', leather = '#5a3a24', wire = '#b8c0c8';
+    const throwing = pose === 'windup';
+    return [
+      // the tail, curling out behind and to one side (lashed up as it throws)
+      limb(19, 26, 25, throwing ? 24 : 28, 1.6, 0.9, dark), limb(25, throwing ? 24 : 28, 28.5, throwing ? 19 : 25.5, 0.9, 0.4, dark),
+      // legs bent like a lizard's, clawed feet
+      limb(13.5, 23, 12, 27.5, 1.7, 1.4, scale), limb(12, 27.5, 13, 30.5, 1.4, 1.1, scale),
+      limb(18.5, 23, 20, 27.5, 1.7, 1.4, scale), limb(20, 27.5, 19, 30.5, 1.4, 1.1, scale),
+      ball(12.6, 30.7, 2, 0.9, dark), ball(19.4, 30.7, 2, 0.9, dark),
+      // the body, a paler belly down the front, a scrap of leather at the hips
+      ball(16, 19.5, 5, 5.2, scale),
+      ball(16, 20.5, 3, 4, belly),
+      sheet([[11.5, 22.5], [20.5, 22.5], [19.5, 25.5], [12.5, 25.5]], leather, { curve: 1 }),
+      // the coil of wire over one shoulder and across the chest
+      ball(11.5, 15.5, 2.6, 2.6, wire), ball(11.5, 15.5, 1.7, 1.7, '#3a3a40'),
+      line(12.5, 17, 19.5, 22, wire),
+      // arms: one at its side, one up with a dart (higher as it throws)
+      // (swung out for balance as it throws)
+      limb(11, 16.5, throwing ? 5.5 : 9, throwing ? 15 : 21.5, 1.3, 1.1, scale), ball(throwing ? 5 : 8.8, throwing ? 14.6 : 22, 1.2, 1.1, dark),
+      limb(21, 16.5, 23.5, throwing ? 10 : 13, 1.3, 1.1, scale), ball(23.8, throwing ? 9.4 : 12.4, 1.2, 1.1, dark),
+      limb(23.8, throwing ? 9.4 : 12.4, 25.5, throwing ? 5.5 : 8.5, 0.35, 0.25, '#c8ced8'),
+      dots([[26, throwing ? 5 : 8]], '#e04a30'),
+      // the head: a long snout, stubby horns swept back, a frill of spines
+      limb(13.5, 9, 11, 6.5, 0.9, 0.4, horn), limb(18.5, 9, 21, 6.5, 0.9, 0.4, horn),
+      ball(16, 11, 4.2, 3.8, scale),
+      limb(16, 12.5, 16, 15.5, 2.2, 1.3, scale),
+      ball(16, 15.8, 1.6, 1, dark),
+      dots([[15, 16], [17, 16]], '#1a0808'),
+      // a row of little teeth along the snout, eyes bright and slitted
+      dots([[14.5, 14], [17.5, 14], [15, 15], [17, 15]], '#f2ead2'),
+      ball(13.8, 10.5, 1.3, 1.1, '#f0d040'), ball(18.2, 10.5, 1.3, 1.1, '#f0d040'),
+      dots([[14, 10], [18, 10], [14, 11], [18, 11]], '#1a0808'),
+    ];
+  },
+
+  // A mimic: a barrel to the hoops, until its lid lifts into a jaw. Rows of
+  // teeth where the staves meet, a long tongue out over the rim, and two
+  // eyes on stalks that were knots in the wood. Lunging, it gapes wider.
+  mimic: (pose = 'idle') => {
+    const wood = '#7a5230', dark = '#4e3320', light = '#9a6c40', iron = '#3e4048', gum = '#8a2a3a', tooth = '#f2ead2';
+    const open = pose === 'windup' ? 7 : 4;       // how far the lid stands off the body
+    const lidY = 15 - open;
+    return [
+      // the body, staves and hoops as the barrel it pretends to be
+      sheet([[8.5, 16], [23.5, 16], [24.5, 23], [23, 31], [9, 31], [7.5, 23]], wood, { curve: 1 }),
+      ...[12, 16, 20].map(x => line(x, 17, x, 30, dark)),
+      line(8, 21, 24, 21, iron), line(8.5, 27.5, 23.5, 27.5, iron),
+      // the mouth: a dark throat and gums between body and lid
+      sheet([[9, 15.5], [23, 15.5], [22, lidY + 2], [10, lidY + 2]], '#2a0e14'),
+      ball(16, 16, 7, 1.4, gum),
+      ball(16, lidY + 2, 6.5, 1.3, gum),
+      // teeth down from the lid and up from the rim, uneven as broken staves
+      ...[10.5, 13, 15.5, 18, 20.5].map((x, i) => limb(x, lidY + 2.2, x + (i % 2 ? 0.3 : -0.2), lidY + 4.2 + (i % 2), 0.7, 0.2, tooth)),
+      ...[11.5, 14, 16.5, 19, 21.5].map((x, i) => limb(x, 15.3, x + (i % 2 ? -0.2 : 0.3), 13.2 - (i % 2), 0.7, 0.2, tooth)),
+      // the tongue, lolling out over the rim and down the front
+      limb(15, 15.5, 13.5, 20, 1.6, 1.3, '#c04a5a'), limb(13.5, 20, 14.2, 23.5, 1.3, 1, '#c04a5a'),
+      line(14.6, 16.5, 13.9, 22, '#8a2a3a'),
+      // the lid, tipped back on its hinge, hoop and all
+      sheet([[8.5, lidY + 1.5], [23.5, lidY + 1.5], [22.5, lidY - 2], [9.5, lidY - 2]], wood, { curve: 1, tilt: [0, -0.6] }),
+      line(9, lidY, 23, lidY, iron),
+      ball(16, lidY - 2, 6.5, 1.5, light),
+      // eyes on stalks, where two knots in the wood were
+      limb(11, lidY - 1, 9.5, lidY - 5, 0.6, 0.5, dark), limb(21, lidY - 1, 22.5, lidY - 5, 0.6, 0.5, dark),
+      ball(9.5, lidY - 5.8, 2, 1.9, '#e8e0b0'), ball(22.5, lidY - 5.8, 2, 1.9, '#e8e0b0'),
+      ball(10, lidY - 5.6, 1.1, 1.1, '#c8281c'), ball(22, lidY - 5.6, 1.1, 1.1, '#c8281c'),
+      dots([[10, lidY - 6], [22, lidY - 6]], '#1a0808'),
+      dots([[9, lidY - 7], [22, lidY - 7]], '#fff8d8'),
+    ];
+  },
+
   // An eyeless stalker: gaunt and pale, crouched on long thin limbs, its
   // smooth head craned forward with no eyes at all, only a wide mouth of
   // needle teeth and slits where it breathes, and ears like a bat's.
@@ -1446,6 +1520,36 @@ const CREATURES = {
 // only suggest. Painted coarsely (the art checks, scale 1) they fold back
 // onto whole pixels and change little.
 const DETAILS = {
+  // scales picked out down the back and arms, claws, a slitted eye, wire glints and the dart's fletching
+  kobold: (pose = 'idle') => {
+    const throwing = pose === 'windup';
+    return [
+      specks([[13, 17], [14.5, 16.5], [17.5, 16.5], [19, 17], [13.5, 21], [18.5, 21], [14, 23.5], [18, 23.5]], '#c86a3e'),
+      specks([[12, 18.5], [20, 18.5], [12.5, 20.5], [19.5, 20.5]], '#6e3018'),
+      hair(15, 18, 15, 23, '#e8b480'), hair(17, 18, 17, 23, '#e8b480'),
+      specks([[11.5, 31], [12.5, 31.2], [13.5, 31], [18.5, 31], [19.5, 31.2], [20.5, 31]], '#f2ead2'),
+      specks(throwing ? [[4.5, 14], [5, 15.5], [4, 15]] : [[8, 23], [9, 23.2], [9.5, 22.5]], '#f2ead2'),
+      specks([[11, 14.5], [12, 15], [10.5, 16]], '#ffffff'),
+      hair(14, 10.5, 14, 11, '#1a0808'), hair(18, 10.5, 18, 11, '#1a0808'),
+      specks(throwing ? [[25.5, 4.5], [26, 4], [25, 4]] : [[25.5, 7.5], [26, 7], [25, 7]], '#e04a30'),
+      hair(15, 13, 15.5, 14.5, '#6e3018'), hair(17, 13, 16.5, 14.5, '#6e3018'),
+      specks([[12.5, 8], [19.5, 8]], '#fff4dc'),
+    ];
+  },
+  // grain down the staves, nail heads on the hoops, splinters on the teeth,
+  // veins on the tongue and a string of drool off the rim
+  mimic: (pose = 'idle') => {
+    const lidY = 15 - (pose === 'windup' ? 7 : 4);
+    return [
+      hair(10, 18, 10.5, 29, '#5e3e24'), hair(14, 18, 14, 30, '#5e3e24'), hair(18, 18, 18.5, 30, '#5e3e24'), hair(22, 18, 21.5, 29, '#5e3e24'),
+      specks([[9, 21], [12, 21], [16, 21], [20, 21], [23, 21], [9.5, 27.5], [13, 27.5], [16.5, 27.5], [20, 27.5], [22.5, 27.5]], '#8a8e96'),
+      specks([[11, lidY + 4], [14.5, lidY + 4.5], [19.5, lidY + 4.5], [12.5, 13], [17, 13], [21, 13.5]], '#c8bca0'),
+      hair(14.5, 17, 13.8, 21, '#e06a7a'), hair(13.6, 18.5, 14.6, 19.5, '#a03848'),
+      specks([[18.5, 16.5], [18.5, 17.5], [18.6, 18.5], [18.4, 19.5]], '#d8e0e8'),
+      hair(9, lidY - 1.5, 23, lidY - 1.5, '#7a5230'),
+      specks([[10, lidY], [16, lidY], [22, lidY]], '#8a8e96'),
+    ];
+  },
   warlord: () => [
     // hammer marks on the crown, a scar across the brow, rings in the ears
     specks([[11.5, 4], [14, 4.5], [18, 4], [20.5, 4.5]], '#8a6418'),
@@ -1835,7 +1939,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'] };
+const POSES = { kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -1916,6 +2020,51 @@ const PROPS = {
       sheet([[14, 17], [18, 17], [18, 22], [14, 22]], '#a07830', { curve: 0.5 }),
       dots([[16, 19], [16, 20]], '#1a1008'),
       dots([[4, 22], [3, 24], [4, 26], [3, 28], [4, 30], [28, 22], [29, 24], [28, 26], [29, 28], [28, 30]], '#9aa2aa'),
+    ];
+  },
+  // a squat stone door set in the rock, three iron levers beside it in a row,
+  // each worn bright at the grip, and a line of old marks scratched over them
+  lever_door: () => {
+    const stone = '#6e6a66', dark = '#4a4744', iron = '#5a6068', grip = '#c9b07a';
+    return [
+      sheet([[4, 6], [20, 6], [20, 31], [4, 31]], stone, { curve: 0.4 }),
+      sheet([[6.5, 9], [17.5, 9], [17.5, 31], [6.5, 31]], '#3e3a36', { curve: 0.6 }),
+      ...[12, 17, 22, 27].map(y => line(6.5, y, 17.5, y, dark)),
+      ball(12, 20, 1.6, 1.6, iron), dots([[12, 20]], '#1a1a1e'),
+      // the frame's keystone, cut with a mark like an eye
+      sheet([[9.5, 5], [14.5, 5], [14, 8], [10, 8]], '#8a8680'), dots([[12, 6]], '#2a2622'),
+      // three levers in their slots, set at different angles
+      ...[[23, 0.8], [26, -0.6], [29, 0.3]].flatMap(([x, lean]) => [
+        sheet([[x - 1.2, 22], [x + 1.2, 22], [x + 1.2, 25], [x - 1.2, 25]], dark),
+        limb(x, 23.5, x + lean * 4, 15.5, 0.6, 0.5, iron),
+        ball(x + lean * 4, 15, 1.1, 1, grip),
+      ]),
+      // scratched marks over the levers: someone else tried, and counted
+      ...[[22, 11], [25, 10], [28, 11]].map(([x, y]) => line(x, y, x + 1, y + 2, '#b8b0a0')),
+    ];
+  },
+  // a mule, still laden, standing with its head low and its packs askew, a
+  // frayed rope hanging from its halter where someone let go of it
+  mule: () => {
+    const coat = '#7a6250', dark = '#4e3e30', muzzle = '#c8b8a0', pack = '#8a6a3a', strap = '#3a2a1a';
+    return [
+      // legs, the far pair darker
+      ...[[10, dark], [21, dark], [12.5, coat], [23.5, coat]].map(([x, c]) => limb(x, 22, x, 30.3, 1.7, 1.3, c)),
+      ...[10, 12.5, 21, 23.5].map(x => ball(x, 30.8, 1.6, 0.8, '#2a2018')),
+      // the body and a tail
+      ball(17, 19.5, 8.8, 5.6, coat), ball(17, 22.5, 6.5, 2.4, '#8c7462'),
+      limb(25, 17, 27.5, 24, 0.8, 0.5, dark), ball(27.6, 24.6, 0.9, 1.2, '#2a2018'),
+      // the packs, one slipped low on its flank, a pot tied on top
+      sheet([[11, 14], [20, 14], [21, 21], [10, 21]], pack, { curve: 1 }),
+      line(15.5, 14, 15.5, 21, strap), line(10.5, 17.5, 20.5, 17.5, strap),
+      ball(18, 12.6, 2.4, 1.8, '#5a5e66'), ball(18, 11.2, 1.6, 0.6, '#3a3e44'),
+      sheet([[19, 19], [24, 19.5], [23.5, 24], [19.5, 23.5]], '#7a5a30', { curve: 1 }),
+      // the head, held low, long ears, a pale muzzle, a halter with a trailing rope
+      limb(10, 16, 6.5, 20, 2.8, 2.2, coat),
+      ball(5.5, 21, 3.2, 2.9, coat), ball(4, 23, 2.2, 1.7, muzzle),
+      dots([[3.5, 22.5]], '#2a2018'), dots([[5.5, 20]], '#1a1008'),
+      sheet([[6, 18.5], [7, 13], [8, 18.5]], coat, { tilt: [0.2, -0.6] }), sheet([[4, 18.5], [4.5, 13.5], [5.8, 18.5]], dark, { tilt: [-0.2, -0.6] }),
+      line(3.5, 21.5, 7, 21.5, strap), line(4.5, 23.5, 3.5, 28, '#b0a080'), line(3.5, 28, 5, 31, '#b0a080'),
     ];
   },
   // a voice with nothing behind it: a cold light, trailing

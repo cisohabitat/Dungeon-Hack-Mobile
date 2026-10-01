@@ -236,6 +236,15 @@ export function makeTrader(K) {
         } else log(`"You lit a lamp for one of us, in the dark." It would give you ${what}, but you have no room to carry it.`, 'info');
       }
     }
+    // a mule led on from the dark is known, and paid for, by the first trader after it
+    { const t = K.G.threads || {};
+      if (t.mule && K.G.depth > t.mule && !t.muleDone) {
+        t.muleDone = K.G.depth;
+        const gold = 18 * K.G.depth;
+        P().gold += gold;
+        log(`"That is old Fennick's mule! He'll weep. Here, for bringing it." ${gold} gold, from a purse it keeps for such things.`, 'good');
+      }
+    }
     K.bounty.pay();
     Sound.play('gold');
     emit('shop');
