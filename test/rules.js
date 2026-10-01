@@ -4159,9 +4159,9 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; not on Normal', async () => {
-  const hurt = async (depth, cls = 'fighter', difficulty = 'hard') => {
-    const ctx = await start(cls, 'deep-steel', { levels: 12, difficulty });
+await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; not on Normal', async () => {
+  const hurt = async (depth, cls = 'fighter', difficulty = 'hard', levels = 12) => {
+    const ctx = await start(cls, 'deep-steel', { levels, difficulty });
     const { Game } = ctx;
     const G = Game.state(), p = Game.player();
     G.levels[depth] = G.levels[1]; G.depth = depth;
@@ -4183,6 +4183,13 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
     if (!shallow) { out.push(`no ${cls} blow landed`); continue; }
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
+  }
+  // eight floors: three past the fifth, 4% a floor for a fighter on Hard, none for a mage's staff nor on Normal
+  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.07, 1.18], ['fighter', 'normal', 0.97, 1.03], ['ranger', 'hard', 0.97, 1.03]]) {
+    const shallow = await hurt(5, cls, diff, 8), deep = await hurt(8, cls, diff, 8);
+    if (!shallow) { out.push(`no ${cls} blow landed on eight floors`); continue; }
+    const r = deep / shallow;
+    if (!(r > lo && r < hi)) out.push(`on eight ${diff} floors a ${cls}'s blows on floor 8 were ${r.toFixed(2)} times those on floor 5`);
   }
   return out.length ? out.join('; ') : true;
 });

@@ -4057,10 +4057,15 @@ const Game = (() => {
   // The druid, whose spells grew with the deep but whose bear's claws did not,
   // then trailed there (50%, falling most on the ninth to eleventh floors): its
   // blows grow as a fighter's do (58% over two seed sets; half as much gave 53%).
-  const DEEP_STEEL = 0.04, DEEP_AIM = 0.02, DEEP_CLAW = 0.04;
+  // On an eight-floor Hard delve the fighter was lowest too (53% over two seed
+  // sets, the rest 56% to 60%), dying most on the sixth floor and to the lord
+  // of the last: its blows grow there from the sixth floor on, as in the deep
+  // of a Long Delve (57.5%; 7% a floor gave 62%).
+  const DEEP_STEEL = 0.04, DEEP_AIM = 0.02, DEEP_CLAW = 0.04, HARD_STEEL = 0.04;
   const deepSteel = () => {
+    if (!isLong()) return P().cls === 'fighter' && G.opts.difficulty === 'hard' && G.depth >= 6 ? 1 + HARD_STEEL * (G.depth - 5) : 1;
     const rate = P().cls === 'fighter' ? DEEP_STEEL : P().cls === 'ranger' ? DEEP_AIM : P().cls === 'druid' ? DEEP_CLAW : 0;
-    return rate && isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + rate * (G.depth - 6) : 1;
+    return rate && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + rate * (G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**

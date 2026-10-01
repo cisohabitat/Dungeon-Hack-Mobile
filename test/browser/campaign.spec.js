@@ -268,7 +268,10 @@ test('a four floor campaign: down to the lich, and the Heart', async ({ page }) 
   });
   expect(lastPage.status, 'died hunting the last page').toBeUndefined();
   expect(lastPage.timeout, 'never reached the page on floor four').toBeFalsy();
-  await page.evaluate(() => { const p = Game.player(); p.hp = p.maxHp; });
+  // (the bot thinks in real time, and with the other tests running beside it
+  // the lich acts more often between its thoughts: it once wore 400 hit points
+  // down. The walk is what is checked here, not the odds of the fight.)
+  await page.evaluate(() => { const p = Game.player(); p.maxHp = Math.max(p.maxHp, 1200); p.hp = p.maxHp; });
 
   // ---- the lich, then the Heart ----
   const grab = await play(page, {

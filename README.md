@@ -264,7 +264,7 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
 | Normal | 81% | 83% | 79.5% | 79.5% | 78.5% | 80% | about 80% |
-| Hard | 58% | 53% | 57.5% | 56% | 59.5% | 57% | about 57% |
+| Hard | 58% | 57.5% | 57.5% | 56% | 59.5% | 57% | about 58% |
 | Long Delve (12 floors), Normal | 88% | 81.5% | 78% | 80% | 75.5% | 86.5% | about 81% |
 | Long Delve (12 floors), Hard | 59% | 57.5% | 56% | 57% | 62% | 58% | about 58% |
 
@@ -284,7 +284,9 @@ from about 50% (with the deep floors in, before its claws grew) to 58%, and ever
 within 56% to 62%. On eight floors Hard barely moved, but for the fighter, down from 56% to 53%
 (47.5% and 59% on the two seed sets): lowest, and still inside the six points. Played again on the
 commit before these changes it won 54.8% (50.5% and 59%), so the deep floors are not what
-took it down: it had drifted there before.
+took it down: it had drifted there before. Its blows now grow on an eight-floor Hard delve from
+the sixth floor, 4% a floor past the fifth, as they do in the deep of a Long Delve: 57.5% over both
+seed sets (53.5% and 61.5%; 7% a floor gave 62%), level with the rest.
 
 The Normal row (both seed sets) and the Long Delve on Normal (one set) were measured after it too:
 Normal about 80%, every class within 78.5% to 83%; the Long Delve on Normal about 81%. On one set
