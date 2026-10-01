@@ -1159,6 +1159,44 @@ test.describe('dungeon features', () => {
     expect(await page.evaluate(() => Game.tested())).toBe(true);
     expect(errors).toEqual([]);
   });
+  test('testing aids left on are switched off when a run that counts begins or is taken up again; a test run taken up keeps them', async ({ page }) => {
+    const errors = watchForErrors(page);
+    // left on by an earlier run on this device
+    await page.addInitScript(() => { if (!sessionStorage.getItem('aids-seeded')) { localStorage.setItem('deepdelve.testing', JSON.stringify({ hp: true, sp: false, gold: true, eye: true })); sessionStorage.setItem('aids-seeded', '1'); } });
+    await startGame(page, { seed: 'aids-off', cls: 'fighter' });
+    await clearBoons(page);
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => [Game.tested(), localStorage.getItem('deepdelve.testing')])).toEqual([false, null]);
+    await expect(page.locator('#hud-status')).not.toContainText('Test run');
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: Off');
+    await expect(page.locator('#m-test-gold')).toHaveText('Endless gold: Off');
+    await expect(page.locator('#m-test-eye')).toHaveText('Show every monster: Off');
+    // made a test run, put away and taken up again: its aid is still on
+    await page.click('#m-test-hp');
+    await page.click('#m-test-hp');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: On');
+    await page.click('#ov-menu [data-close]');
+    await page.evaluate(() => Game.save(true));
+    await page.goto('/');
+    await page.click('#btn-continue');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => [Game.tested(), JSON.parse(localStorage.getItem('deepdelve.testing')).hp])).toEqual([true, true]);
+    // a new run after it (replacing that hero) starts with it off
+    await page.goto('/');
+    await page.click('#btn-new');
+    await page.click('#confirm-replace');
+    await page.locator('.class-card', { has: page.locator('b', { hasText: /^fighter$/i }) }).click();
+    await page.fill('#c-seed', 'aids-off-2');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await clearBoons(page);
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => [Game.tested(), localStorage.getItem('deepdelve.testing'), Game.player().hp === Game.player().maxHp])).toEqual([false, null, true]);
+    expect(errors).toEqual([]);
+  });
+
   test('the Menu\'s testing tools: reveal the floor, show every monster, be given an item, gain a level and go to a floor', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'testing-tools', cls: 'fighter' });

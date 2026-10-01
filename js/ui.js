@@ -586,6 +586,9 @@ const UI = (() => {
   function startPlaying() {
     newsSeen();
     logCount = -1; hudSig = '';
+    // a testing aid left on is not carried into a run that still counts, new or
+    // taken up again: it would mark it at the first step (a test run keeps its own)
+    if (!Game.tested() && testingOn()) { store(TESTING, null); testingNow = null; Game.setTesting(testingSet()); miniSig = ''; }
     // a tip, and a lesson half given, belong to the run they were given in
     resetTips();
     clearOverlays();
@@ -699,6 +702,7 @@ const UI = (() => {
     if (!testingNow) try { const t = JSON.parse(store(TESTING) || '{}'); testingNow = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold, eye: !!t.eye }; } catch (e) { testingNow = { hp: false, sp: false, gold: false, eye: false }; }
     return testingNow;
   }
+  const testingOn = () => { const t = testingSet(); return t.hp || t.sp || t.gold || t.eye; };
   function toggleTesting(k) { const t = { ...testingSet() }; t[k] = !t[k]; store(TESTING, JSON.stringify(t)); testingNow = t; Game.setTesting(t); miniSig = ''; renderMenu(); if (Game.state()) refreshHud(); }
   // A testing aid takes the run out of the Hall for good, and one tap too many
   // could do it by mistake: while the run still counts, the first tap only arms
