@@ -264,9 +264,9 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
 | Normal | 84% | 80% | 80% | 78.5% | 83% | 84% | about 81% |
-| Hard | 55% | 56% | 59.5% | 56% | 61% | 57% | about 58% |
+| Hard | 58% | 53% | 57.5% | 56% | 59.5% | 57% | about 57% |
 | Long Delve (12 floors), Normal | 84% | 81.5% | 78.5% | 84% | 84% | 77% | about 82% |
-| Long Delve (12 floors), Hard | 60% | 57% | 59% | 56% | 59.5% | 53.5% | about 58% |
+| Long Delve (12 floors), Hard | 59% | 57.5% | 56% | 57% | 62% | 58% | about 58% |
 
 The Normal and Hard rows were measured again, both seed sets, after the middle floors grew
 stranger (mimics, kobold trappers and their snares, floors of tremors, the Lever Door and the Lost
@@ -274,7 +274,15 @@ Mule) and the sellsword came to be hired there. Normal barely moved; Hard came d
 points, the cleric most (61% to 55%), and every class is still within six points of the high
 fifties. The Long Delve rows were measured again after it too (Hard on both seed sets, Normal on
 one): both came down a few points, the Long Delve on Hard from about 63% to 58%, level with the
-eight floors. The druid is lowest there, at 53.5%.
+eight floors. The druid was lowest there, at 53.5%.
+
+Both Hard rows were measured again, both seed sets, after the deep floors came alive (smouldering
+floors and their emberlings, the Forge-Spirit), the druid's bear's claws came to grow with the deep
+floors of a Long Delve on Hard as a fighter's blows do, and the sellsword took a whetstone, a wage
+below the eighth floor and a cut that breaks a boss's rite. On the Long Delve the druid came up
+from about 50% (with the deep floors in, before its claws grew) to 58%, and every class there is
+within 56% to 62%. On eight floors Hard barely moved, but for the fighter, down from 56% to 53%
+(47.5% and 59% on the two seed sets): lowest, and still inside the six points.
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of
