@@ -279,7 +279,7 @@ const Renderer = (() => {
       phase[k] = ((l.x * 73 + l.y * 151) % 97) / 97 * Math.PI * 2;
       rate[k] = 0.85 + ((l.x * 37 + l.y * 17) % 31) / 31 * 0.3;
     });
-    const L = { lm, src, lit: Int32Array.from(lit), live: lm.slice(), gain: new Float32Array(lights.length).fill(1), phase, rate, at: -1 };
+    const L = { lm, src, lit: Int32Array.from(lit), live: lm.slice(), gain: new Float32Array(lights.length).fill(1), phase, rate, at: -1, pos: lights };
     lightCache.set(key, L);
     return L;
   }
@@ -1237,6 +1237,79 @@ const Renderer = (() => {
   const shown = [];
   const FLOOR_BEHIND = 0.45;
   const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
+  const litLast = [];     // what the last frame warmed with firelight, and how much, for the tests
+  let leanedN = 0;        // how many standing things the last frame drew leaning, for the tests
+  const runs = [];        // a sprite's visible stretches of columns, start and end in turn
+
+  // ---------- firelight on what stands in it ----------
+  // A torch, a candle, a burning square or a burning thing lights what stands
+  // near it, not only the walls: warmly, and more on the side the flame is on.
+  // Each picture gets three warm copies the first time it is lit (lit evenly,
+  // from the left, from the right), its own tones turned to firelight, which
+  // are laid over it additively as strong as the light falling on it.
+  const warmCache = new WeakMap();
+  function warmOf(base) {
+    let w = warmCache.get(base);
+    if (w) return w;
+    const bw = base.width, bh = base.height;
+    const c = document.createElement('canvas'); c.width = bw; c.height = bh;
+    const g = c.getContext('2d'); g.drawImage(base, 0, 0);
+    const px = g.getImageData(0, 0, bw, bh).data;
+    /** @param {(u: number) => number} ramp */
+    const bake = ramp => {
+      const out = document.createElement('canvas'); out.width = bw; out.height = bh;
+      const og = out.getContext('2d'), img = og.createImageData(bw, bh), o = img.data;
+      for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) {
+        const i = (y * bw + x) * 4, a = px[i + 3];
+        if (!a) continue;
+        // bright parts catch the light, dark ones (and the outline) hardly
+        const v = (0.15 + 0.85 * (px[i] * 0.3 + px[i + 1] * 0.59 + px[i + 2] * 0.11) / 255) * ramp(x / Math.max(1, bw - 1));
+        o[i] = 255 * v; o[i + 1] = 150 * v; o[i + 2] = 70 * v; o[i + 3] = a;
+      }
+      og.putImageData(img, 0, 0);
+      return out;
+    };
+    w = { front: bake(() => 1), left: bake(u => Math.max(0, Math.min(1, 1.2 - 1.6 * u))), right: bake(u => Math.max(0, Math.min(1, 1.6 * u - 0.4))) };
+    warmCache.set(base, w);
+    return w;
+  }
+  /** This frame's flames, as points that throw light: {x, y, r (squares), i (strength), src (a sprite that is itself the flame)}. */
+  function flamesOf(level, lights, sprites, fx, now) {
+    const out = [];
+    (lights.pos || []).forEach((l, k) => out.push({ x: l.x + 0.5, y: l.y + 0.5, r: l.r, i: (l.r === LIGHT_R ? 0.9 : 0.5) * lights.gain[k], src: null }));
+    const F = level.fields;
+    if (F) for (const k in F) {
+      if (F[k].k !== 'fire') continue;
+      const [x, y] = k.split(',').map(Number);
+      out.push({ x: x + 0.5, y: y + 0.5, r: 2.6, i: 1.4 * (calm ? 1 : 0.85 + 0.15 * Math.sin(now / 90 + x * 131 + y * 71)), src: null });
+    }
+    for (const v of (fx && fx.vents) || []) if (v.heat && !v.sealed) out.push({ x: v.x + 0.5, y: v.y + 0.5, r: 1.8, i: 0.8 * v.heat, src: null });
+    for (const s of sprites) if (s.emit) out.push({ x: s.x, y: s.y, r: s.emit, i: 1.2, src: s });
+    return out;
+  }
+  /**
+   * A picture drawn over the visible stretches of its columns, its top swayed
+   * across by shiftTop pixels and its feet still: drawn in bands, each slid
+   * along by its height above the feet, so a wall still hides exactly the
+   * columns it hides.
+   */
+  function drawLeaning(image, nRuns, left, sw, top, sh, shiftTop, artTop) {
+    const tw = image.width, th = image.height;
+    const nb = Math.abs(shiftTop) < 1 ? 1 : Math.min(12, Math.max(3, Math.ceil(Math.abs(shiftTop) / 2)));
+    const span = Math.max(0.3, 1 - (artTop || 0));
+    for (let k = 0; k < nb; k++) {
+      const y0 = nb === 1 ? top : Math.round(top + k / nb * sh), y1 = nb === 1 ? top + sh : Math.round(top + (k + 1) / nb * sh);
+      if (y1 <= y0) continue;
+      const v0 = (y0 - top) / sh * th, v1 = (y1 - top) / sh * th;
+      const shift = nb === 1 ? 0 : shiftTop * Math.min(1, Math.max(0, (1 - (k + 0.5) / nb) / span));
+      for (let r = 0; r < nRuns; r += 2) {
+        const dl = Math.max(runs[r], left + shift), dr = Math.min(runs[r + 1], left + shift + sw);
+        if (dr <= dl) continue;
+        const u0 = (dl - left - shift) / sw * tw, u1 = (dr - left - shift) / sw * tw;
+        ctx.drawImage(image, u0, v0, Math.max(0.01, u1 - u0), v1 - v0, dl, y0, dr - dl, y1 - y0);
+      }
+    }
+  }
   /** Whether a creature, its bar or its mark was drawn in this box of the last frame. */
   function busy(x0, y0, x1, y1) {
     return crowd.some(r => r[0] < x1 && r[2] > x0 && r[1] < y1 && r[3] > y0);
@@ -1335,6 +1408,8 @@ const Renderer = (() => {
     dressedN = 0;
     shown.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
+    const flames = flamesOf(level, lights, sprites, fx, now);
+    litLast.length = 0; leanedN = 0;
     const list = [];
     for (const s of sprites) {
       const sx = s.x - px, sy = s.y - py;
@@ -1387,7 +1462,9 @@ const Renderer = (() => {
       // where the drawing itself begins: bars and marks sit on it, not on the empty frame
       const drawnTop = top + (art.top || 0) * sh;
       const left = screenX - sw / 2;
-      const x0 = Math.max(0, Math.floor(left)), x1 = Math.min(W, Math.ceil(left + sw));
+      // its head sways across the view while its feet stay put (see motion in game.js); held still in a calm view
+      const shiftTop = calm || !s.lean ? 0 : s.lean * sw, leanRoom = Math.abs(shiftTop);
+      const x0 = Math.max(0, Math.floor(left - leanRoom)), x1 = Math.min(W, Math.ceil(left + sw + leanRoom));
       if (x1 <= x0) continue;
       let shadeIdx = Math.min(Assets.SHADES.length - 1, Math.floor(tY / fog * Assets.SHADES.length));
       const sLm = (s.x | 0) >= 0 && (s.y | 0) >= 0 && (s.x | 0) < w && (s.y | 0) < h ? lm[(s.y | 0) * w + (s.x | 0)] : 0;
@@ -1395,21 +1472,44 @@ const Renderer = (() => {
       // what gives its own light (a fire's flames) is not darkened by the distance
       if (s.glow) shadeIdx = 0;
       const img = (s.flash && now < s.flash) ? art.flash : art.levels[shadeIdx];
-      let run = -1, seenL = W, seenR = -1;
+      let run = -1, seenL = W, seenR = -1, nRuns = 0;
       const fading = s.alpha != null && s.alpha < 1;
-      if (fading) ctx.globalAlpha = Math.max(0, s.alpha);
       for (let x = x0; x <= x1; x++) {
         const vis = x < x1 && tY < zbuf[x];
         if (vis) { if (x < seenL) seenL = x; seenR = x; }
         if (vis && run < 0) run = x;
-        if (!vis && run >= 0) {
-          const tw = img.width, th = img.height;   // sprites are not all one size
-          const u0 = (run - left) / sw * tw, u1 = (x - left) / sw * tw;
-          ctx.drawImage(img, u0, 0, Math.max(0.01, u1 - u0), th, run, top, x - run, sh);
-          run = -1;
+        if (!vis && run >= 0) { runs[nRuns++] = run; runs[nRuns++] = x; run = -1; }
+      }
+      if (fading) ctx.globalAlpha = Math.max(0, s.alpha);
+      if (nRuns) drawLeaning(img, nRuns, left, sw, top, sh, shiftTop, art.top);
+      if (nRuns && leanRoom >= 1) leanedN++;
+      // the firelight falling on it, warmer on the side the flame is on (not on
+      // what lies on the floor, nor on a flame itself, nor in the white of a blow)
+      if (nRuns && !s.onFloor && !s.glow && img !== art.flash && flames.length) {
+        let heat = 0, side = 0, front = 0;
+        for (const f of flames) {
+          if (f.src === s) continue;
+          const dx = f.x - s.x, dy = f.y - s.y, d = Math.hypot(dx, dy);
+          if (d >= f.r) continue;
+          const v = f.i * (1 - d / f.r) * (1 - d / f.r);
+          heat += v;
+          if (d < 0.05) { front += v; continue; }
+          // (the view's right is (-dirY, dirX); a flame on the hero's side of it lights the face turned to them)
+          side += v * (dy * dirX - dx * dirY) / d;
+          front += v * Math.max(0, -(dx * dirX + dy * dirY) / d);
+        }
+        const k = 1.1 * Math.max(0, 1 - tY / (fog + 0.5)) * (fading ? Math.max(0, s.alpha) : 1);
+        const aF = Math.min(0.55, (0.25 * heat + 0.5 * front) * k), aS = Math.min(0.85, Math.abs(side) * k);
+        if (aF + aS >= 0.03) {
+          const warm = warmOf(art.levels[0]);
+          ctx.globalCompositeOperation = 'lighter';
+          if (aF >= 0.02) { ctx.globalAlpha = aF; drawLeaning(warm.front, nRuns, left, sw, top, sh, shiftTop, art.top); }
+          if (aS >= 0.02) { ctx.globalAlpha = aS; drawLeaning(side > 0 ? warm.right : warm.left, nRuns, left, sw, top, sh, shiftTop, art.top); }
+          ctx.globalCompositeOperation = 'source-over';
+          litLast.push({ x: s.x, y: s.y, front: aF, side: aS * Math.sign(side) });
         }
       }
-      if (fading) ctx.globalAlpha = 1;
+      if (fading || ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, bottom: floorY, dist: tY, texel: sh / img.height });
@@ -1690,7 +1790,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; } };
 })();
 
 export { Renderer };

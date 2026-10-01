@@ -225,6 +225,63 @@ test.describe('art', () => {
     expect(lit.torchFar, 'and reaches further').toBeGreaterThan(0);
     expect(errors).toEqual([]);
   });
+  test('a creature sways as it stands, leans into a step across the view and topples as it falls; firelight warms the side it is on; a calm view holds it upright', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'sway-lit' });
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(2);
+    const got = await page.evaluate(async () => {
+      const L = Game.level(), p = Game.player(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir], [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+      const x = p.x + dx * 2, y = p.y + dy * 2;
+      for (const j of [-1, 0, 1]) L.tiles[(y + sy * j) * L.w + x + sx * j] = Dungeon.T.FLOOR;
+      L.monsters.length = 0; L.dressing = []; L.items = {}; L.fields = {}; L.lights = [];
+      L.monsters.push({ uid: 5, id: 'orc', x, y, hp: 99, maxHp: 99, awake: false, nextAct: 1e12, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const orc = () => Game.renderState(performance.now()).sprites.find(s => s.maxHp);
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      // at rest it sways, slowly, a little
+      const leans = [];
+      for (let i = 0; i < 8; i++) { leans.push(orc().lean); await wait(250); }
+      await wait(300);
+      const unlit = Renderer.lit.length;
+      // a fire on the square to its right (the view's right): its right side is warmed
+      L.fields[`${x + sx},${y + sy}`] = { k: 'fire', fuel: 'vent', until: G.t + 1e9, spread: 1e12, burn: 1e12, gen: 0 };
+      await wait(300);
+      const lit = Renderer.lit;
+      L.fields = {};
+      // a step to its right, across the view: it leans that way at the middle of it
+      const m = L.monsters[0], t0 = performance.now();
+      m.fromX = m.x; m.fromY = m.y; m.x += sx; m.y += sy; m.moveT0 = t0; m.moveT1 = t0 + 2000;
+      const mid = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean;
+      m.fromX = m.x; m.fromY = m.y; m.x -= 2 * sx; m.y -= 2 * sy; m.moveT0 = t0; m.moveT1 = t0 + 2000;
+      const back = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean;
+      m.moveT1 = 0; m.x += sx; m.y += sy; m.rx = m.x; m.ry = m.y;
+      await wait(300);
+      const leaned = Renderer.leaned;
+      // a calm view draws it upright
+      Renderer.setCalm(true); await wait(300);
+      const calmLeaned = Renderer.leaned;
+      Renderer.setCalm(false);
+      // and the fallen topple to one side as they sink
+      L.monsters.length = 0;
+      const now = performance.now(), fx = Game.renderState(now).fx;
+      fx.corpses.push({ x: x + 0.5, y: y + 0.5, sprite: 'orc', scale: 1, born: now, dx: 0, dy: 1, fly: 0 });
+      const fall = [0.1, 0.5, 0.9].map(u => Math.abs(Game.renderState(now + u * 520).sprites.find(s => s.alpha != null && s.sqx > 1).lean));
+      return { leans, unlit, lit, mid, back, leaned, calmLeaned, fall };
+    });
+    expect(Math.max(...got.leans) - Math.min(...got.leans), 'it sways at rest').toBeGreaterThan(0.005);
+    expect(Math.max(...got.leans.map(Math.abs)), 'but only a little').toBeLessThan(0.06);
+    expect(got.unlit, 'with no torch and no fire near, nothing is warmed').toBe(0);
+    expect(got.lit.length, 'beside the fire it is warmed').toBe(1);
+    expect(got.lit[0].side, 'on its right, where the fire is').toBeGreaterThan(0.1);
+    expect(got.mid, 'stepping to the right, it leans right').toBeGreaterThan(0.04);
+    expect(got.back, 'stepping to the left, it leans left').toBeLessThan(-0.04);
+    expect(got.leaned, 'drawn leaning').toBeGreaterThanOrEqual(1);
+    expect(got.fall[2], 'falling, it topples further and further').toBeGreaterThan(got.fall[1]);
+    expect(got.fall[1]).toBeGreaterThan(got.fall[0]);
+    expect(got.fall[2], 'well over by the end').toBeGreaterThan(0.3);
+    expect(got.calmLeaned, 'a calm view draws nothing leaning').toBe(0);
+    expect(errors).toEqual([]);
+  });
   test('a creature standing on a pile of things is drawn in front of all of it', async ({ page }) => {
     // a gem scattered to the near side of its square came out over the orc standing on it
     const errors = watchForErrors(page);

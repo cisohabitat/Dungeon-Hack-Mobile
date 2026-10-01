@@ -482,7 +482,16 @@ export function makeCompanion(K) {
     const lunging = now - (c.lungeAt || 0) < 220;
     // told to stay (and not moving or biting), it sits
     const img = lunging && s.windup ? s.windup : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
-    return { x: x + 0.5, y: y + 0.5, img, scale: 0.62, yOff: 0, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
+    // it breathes and sways as a monster does (see motion in game.js), waddles
+    // as it trots, and swings through a bite; sitting, it only breathes
+    const sat = img === s.sit, b = Math.sin(now / 560 + 1.3) * 0.02;
+    let lean = sat ? 0 : Math.sin(now / 1700 + 0.7) * 0.025, lift = 0;
+    if (c.moveT1 > now) {
+      const arc = Math.sin(Math.max(0, Math.min(1, (now - c.moveT0) / (c.moveT1 - c.moveT0))) * Math.PI);
+      lift = Math.abs(arc) * 0.05; lean += arc * 0.06 * ((c.fromX + c.fromY) % 2 ? 1 : -1);
+    }
+    if (lunging) lean += Math.sin((now - c.lungeAt) / 220 * Math.PI) * 0.08;
+    return { x: x + 0.5, y: y + 0.5, img, scale: 0.62, yOff: lift, sqy: 1 + b, sqx: 1 - b * 0.6, lean, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
   }
   /** For the hero sheet and the epilogue. */
   function note() {
