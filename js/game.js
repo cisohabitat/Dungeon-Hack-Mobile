@@ -4813,7 +4813,7 @@ const Game = (() => {
     get itemName() { return itemName; },
     get key() { return key; },
     get knightGuard() { return knightGuard; },
-    get knightSteadfast() { return knightSteadfast; }, flame: (x, y) => elements.flame(x, y),
+    get knightSteadfast() { return knightSteadfast; }, flame: (x, y, ms) => elements.flame(x, y, ms),
     get learn() { return learn; },
     get log() { return log; },
     get lvl() { return lvl; },

@@ -42,7 +42,7 @@ function run(ctx, cls, seed, opts, bg, idx) {
 }
 
 function play(ctx, cls, seed, opts, bg, idx) {
-  const { Game, Dungeon, ITEMS, RELICS, MONSTERS } = ctx;
+  const { Game, Dungeon, ITEMS, RELICS, MONSTERS, ELEMENTS_TAKEN } = ctx;
   const T = Dungeon.T;
   // FIT=1 does what the creation screen does: the best roll goes in the class's key stat
   const stats = Game.rollStats();
@@ -488,6 +488,18 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // standing in water, lightning at anything within two squares would run back into the hero (NOWADE=1 plays without knowing it)
     const wading = !process.env.NOWADE && (L.twist === 'flooded' || (L.dressing || []).some(q => q.k === 'puddle' && q.x === p.x && q.y === p.y));
     const shocksMe = (sp, dist) => wading && sp.element === 'lightning' && dist <= 2;
+    // a caster who has seen a thing shrug off its first choice reaches for what
+    // hurts it most: a Pyromancer turns to the cold against the Heartforged and
+    // its embers, where the bot that burned them anyway lost a fifth more mages
+    // at the bottom of a Long Delve (ELEMENTBLIND=1 burns them anyway)
+    const avgDmg = sp => { const [n, s, b] = sp.dmg(p.level); return n * (s + 1) / 2 + b; };
+    const taken = (m, sp) => { const t = ELEMENTS_TAKEN[m.id] || {}, el = sp.fire ? 'fire' : sp.element; return el && t[el] ? t[el] : 1; };
+    const against = (m, first, pool) => {
+      if (process.env.ELEMENTBLIND || !first || !first.dmg || taken(m, first) >= 1) return first;
+      let best = first, bv = avgDmg(first) * taken(m, first);
+      for (const o of pool) { const v = o.dmg ? avgDmg(o) * taken(m, o) : 0; if (v > bv) { best = o; bv = v; } }
+      return best;
+    };
     const bolts = process.env.NOBOLT || G.t < p.nextAttack || Game.shaped() ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
     if (bolts.length) {
       let shot = null;
@@ -501,7 +513,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (m) {
             // a Pyromancer burns what is beside them rather than spend on the cold
             const reach = b => (Game.spellRange ? Game.spellRange(b) : b.range);
-            const sp = (i <= reach({ id: 'burning_hands', range: 1 }) && p.path === 'pyromancer' && bolts.find(b => b.id === 'burning_hands')) || bolts.filter(b => reach(b) >= i && !shocksMe(b, i)).pop();
+            const fit = bolts.filter(b => reach(b) >= i && !shocksMe(b, i));
+            const sp = against(m, (i <= reach({ id: 'burning_hands', range: 1 }) && p.path === 'pyromancer' && bolts.find(b => b.id === 'burning_hands')) || fit[fit.length - 1], fit);
             if (sp && (i > 1 || p.sp > Game.spellCost(sp) * 2)) shot = { dir: k, sp };
             break;
           }
@@ -580,7 +593,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const spells = process.env.NOBOLT || Game.shaped() ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt' && !shocksMe(s, 1));
       // points kept back for the next fight are no use against the last one
       // a Pyromancer reaches for fire first, at the same moments
-      const pick = (p.path === 'pyromancer' && spells.find(s => s.id === 'burning_hands')) || spells[spells.length - 1];
+      const pick = against(adj.m, (p.path === 'pyromancer' && spells.find(s => s.id === 'burning_hands')) || spells[spells.length - 1], spells);
       if (spells.length && (p.sp > p.maxSp * 0.4 || MONSTERS[adj.m.id].boss)) Game.castSpell(pick);
       else Game.input('attack');
       step();

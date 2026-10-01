@@ -4415,6 +4415,10 @@ await test('the Heartforged stamps fire down its four lines: on a line you burn,
   if (p.hp < hp) out.push(`off its lines, the stamp did ${hp - p.hp}`);
   if (!linesSince(G, mark).some(l => /hammer sticks fast in the stone/.test(l))) out.push(`off its lines it said: ${linesSince(G, mark).join(' / ')}`);
   if (!(p.opening && p.opening.until > G.t)) out.push('off its lines, it was not left open');
+  // and its fire is gone from beside it while the hammer is still stuck, so the opening can be taken
+  for (let i = 0; i < 28; i++) Game.update(G.t + 25, 25);
+  if (burning(m.x - dx, m.y - dy) || burning(m.x + sx, m.y + sy)) out.push('the fire beside it still burned 0.7 seconds after the stamp');
+  if (!(m.nextAct > G.t)) out.push('the hammer came free before its fire went out');
   // not on a line at all, it does not begin
   Game.level().fields = {}; m.blows = 1; m.moveReady = 0; m.nextAct = G.t; m.windup = null;
   for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);

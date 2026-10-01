@@ -79,6 +79,10 @@ export function makeFoes(K) {
    * squares, four once it glows white.
    */
   const stampReach = m => ((m.phase || 0) >= 2 ? 4 : 3);
+  // The stamp's fire runs down the lines and is gone: it burnt as long as a
+  // vent's, longer than the opening it leaves, and a hero who stepped in to
+  // take the opening stood in the fire on every square beside it
+  const STAMP_FIRE_MS = 600;
   /** The hero on one of its four lines, near enough, with nothing solid between: how far off, or null. (Fire runs over heads.) */
   function onLines(m, reach) {
     const p = K.P();
@@ -607,7 +611,7 @@ export function makeFoes(K) {
       case 'stamp': {
         // fire runs out from it along the floor, down all four lines, as far as its reach or the first wall
         const reach = stampReach(m);
-        for (const [dx, dy] of K.DIRS) for (let i = 1; i <= reach; i++) { const x = m.x + dx * i, y = m.y + dy * i; if (!K.passable(x, y)) break; K.flame(x, y); }
+        for (const [dx, dy] of K.DIRS) for (let i = 1; i <= reach; i++) { const x = m.x + dx * i, y = m.y + dy * i; if (!K.passable(x, y)) break; K.flame(x, y, STAMP_FIRE_MS); }
         Sound.play('smash', K.heard(m));
         K.fx.shakeAmp = 4; K.fx.shakeMs = 350; K.fx.shakeUntil = K.realNow + 350;
         if (onLines(m, reach)) {
