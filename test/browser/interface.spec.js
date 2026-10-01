@@ -700,7 +700,8 @@ test.describe('talents', () => {
     expect(at.last, 'the last card should end near the foot of the screen').toBeGreaterThan(at.h - 90);
     expect(at.first, 'the cards should not start at the top').toBeGreaterThan(at.h * 0.3);
     await page.setViewportSize(vp);
-    await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points/);
+    // (one point is "hit point": the roll is a die's, and sometimes a one)
+    await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points?\b/);
     // level 2 is a talent's level: the next comes at 4
     await expect(page.locator('.boon-head')).toContainText('next talent at level 4');
     await page.locator('#boon-list .boon').first().click();

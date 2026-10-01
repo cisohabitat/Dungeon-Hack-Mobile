@@ -84,6 +84,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .menu { display: flex; flex-direction: column; gap: 9px; }
 .menu-row { display: flex; gap: 9px; }
 .menu-row button { flex: 1; }
+/* the pack's count and its Sort button, over the grid */
+.inv-tools { display: flex; align-items: center; justify-content: space-between; margin: 6px 0 4px; }
+.inv-tools button { min-height: 32px; padding: 4px 14px; }
+/* the run before this one, under the tagline */
+.last-run { text-align: center; margin: 4px 12px 0; }
 /* the testing tools' pickers: the list takes the room, the button stays a thumb's width */
 .menu-row.test-row select { flex: 1; min-width: 0; }
 .menu-row.test-row button { flex: 0 0 auto; min-width: 64px; }

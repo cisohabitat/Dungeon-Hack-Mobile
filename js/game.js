@@ -24,6 +24,8 @@ const Game = (() => {
   const INV_MAX = 20;
   const SAVE_KEY = 'deepdelve.save';
   const HALL_KEY = 'deepdelve.hall';
+  // the run before this one, for a line on the title (the Hall keeps only the best twenty)
+  const LAST_KEY = 'deepdelve.lastrun';
   const MOVE_MS = 220;
   const FLOOD_SLOW = 1.25;   // how much slower everything goes through a flooded floor's water
   const TURN_MS = 200;
@@ -3218,6 +3220,7 @@ const Game = (() => {
     const p = P();
     // a test run (endless life, spell points or gold) is written nowhere
     if (G.tested) { G.earned = won ? { tested: true } : null; return; }
+    try { localStorage.setItem(LAST_KEY, JSON.stringify({ name: p.name, cls: p.cls, depth: G.depth, levels: G.opts.levels || 8, won, killer: won ? '' : killerPhrase(), date: Date.now() })); } catch (e) { /* private browsing */ }
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
@@ -3243,6 +3246,18 @@ const Game = (() => {
       list.sort((a, b) => b.score - a.score);
       localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
     } catch (e) { /* ignore */ }
+  }
+  /** The last run ended (not a test run), for the title. @returns {{name: string, cls: string, depth: number, levels: number, won: boolean, killer: string, date: number}|null} */
+  function lastRun() {
+    try { return JSON.parse(localStorage.getItem(LAST_KEY) || 'null'); } catch (e) { return null; }
+  }
+  // the pack sorted by what a thing is: what you fight with first, what you use up after
+  const SORT_KINDS = ['weapon', 'armor', 'shield', 'cloak', 'ring', 'amulet', 'charm', 'heal', 'potion', 'scroll', 'flask', 'oil', 'buff', 'food', 'key', 'page', 'quest', 'gem'];
+  function sortPack() {
+    const p = P(), rank = it => { const k = SORT_KINDS.indexOf(ITEMS[it.t].kind); return k < 0 ? SORT_KINDS.length : k; };
+    // (a stable sort: like with like keeps the order it had)
+    p.inv = p.inv.map((it, i) => ({ it, i })).sort((a, b) => rank(a.it) - rank(b.it) || itemName(a.it).localeCompare(itemName(b.it)) || a.i - b.i).map(o => o.it);
+    emit('stats');
   }
   // ---------- the run in numbers ----------
   // What the end screen tells about the run: who was killed, the best blow,
@@ -4794,7 +4809,7 @@ const Game = (() => {
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     state: () => G, player: P, level: lvl, log, mod,
-    descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     currentEncounter: () => encs.current(), encounterOptions: () => encs.encounterOptions(), chooseEncounter: i => encs.chooseEncounter(i), closeEncounter: () => encs.closeEncounter(),

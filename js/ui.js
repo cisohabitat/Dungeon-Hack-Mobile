@@ -119,12 +119,16 @@ const UI = (() => {
       : 'No saved game';
     refreshDaily();
     refreshNews();
+    // the run before, in a line: who, and how it ended
+    const lr = Game.lastRun(), lastEl = $('#last-run');
+    lastEl.hidden = !lr;
+    if (lr) lastEl.textContent = `Last time: ${lr.name} the ${CLASSES[lr.cls] ? CLASSES[lr.cls].name : lr.cls} ${lr.won ? `won the Heart of the Mountain (${lr.levels} floors)` : `fell on floor ${lr.depth}${lr.killer ? `, killed by ${lr.killer}` : ''}`}.`;
   }
   // ---------- what's new ----------
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-09-30j', text: 'a burning door now burns on its face, and a wraith\'s grave-cold creeps over the stones as it breathes; a Sharpshooter\'s snare holds longer; the status line says when you stand in oil or a puddle; more testing aids in the Menu, among them show every monster' };
+  const NEWS = { id: '2026-10-01a', text: 'the title says how your last run ended; Combat numbers under Menu draws the numbers off a struck creature larger; the Pack has a Sort button; a burning door burns on its face, and a wraith\'s grave-cold creeps over the stones; more testing aids in the Menu, among them show every monster' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -697,6 +701,9 @@ const UI = (() => {
     $('#m-test-said').textContent = last ? (last.base || last.m) : '';
     refreshHud();
   }
+  // combat numbers drawn larger (the menu), kept on the device
+  const NUMBERS = 'deepdelve.bignumbers';
+  const bigNumbers = () => store(NUMBERS) === '1';
   const CALM = 'deepdelve.calm';
   function calmOn() {
     const v = store(CALM);
@@ -1851,6 +1858,8 @@ const UI = (() => {
     }
     const grid = $('#inv-grid');
     grid.innerHTML = '';
+    $('#inv-count').textContent = `${p.inv.length} of ${Game.INV_MAX} squares`;
+    /** @type {HTMLButtonElement} */ ($('#inv-sort')).disabled = p.inv.length < 2;
     for (let i = 0; i < Game.INV_MAX; i++) {
       const it = p.inv[i];
       const el = slotEl(it, null);
@@ -2345,6 +2354,7 @@ const UI = (() => {
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
+    $('#m-numbers').textContent = 'Combat numbers: ' + (bigNumbers() ? 'Large' : 'Normal');
     const t = testingSet();
     $('#m-test-hp').textContent = 'Endless life: ' + (t.hp ? 'On' : 'Off');
     $('#m-test-sp').textContent = 'Endless spell points: ' + (t.sp ? 'On' : 'Off');
@@ -2647,6 +2657,9 @@ const UI = (() => {
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
+    $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
+    // like with like: what you fight with first, what you use up after (the pick stays picked)
+    $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
     $('#m-test-hp').addEventListener('click', () => toggleTesting('hp'));
     $('#m-test-sp').addEventListener('click', () => toggleTesting('sp'));
     $('#m-test-gold').addEventListener('click', () => toggleTesting('gold'));
@@ -2748,6 +2761,7 @@ const UI = (() => {
       if (h) { if (!h.id) h.id = ov.id + '-title'; ov.setAttribute('aria-labelledby', h.id); }
     }
     Renderer.setCalm(calmOn());
+    Renderer.setBigNumbers(bigNumbers());
     Game.setTesting(testingSet());
     setHand();
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes

@@ -225,6 +225,8 @@ const Renderer = (() => {
   let darkGrad = null, darkFor = 0;
   let dressedN = 0;   // how many pieces of dressing the last frame drew, for the tests
   let calm = false;   // a calm view: no dust, no flicker (and main.js no shake); see the menu
+  // combat numbers drawn larger, for a small screen or tired eyes (the menu); a line of them spaced to match
+  let bigNumbers = false;
   function darkEdges() {
     if (!darkGrad || darkFor !== H) {
       darkGrad = ctx.createRadialGradient(W / 2, H * 0.55, H * 0.12, W / 2, H * 0.55, Math.max(W, H) * 0.62);
@@ -1468,7 +1470,8 @@ const Renderer = (() => {
     drawBits(fx, now, px, py, dirX, dirY, planeX, planeY, invDet);
 
     // floating texts
-    ctx.font = 'bold 16px monospace';
+    const textPx = bigNumbers ? 23 : 16;
+    ctx.font = `bold ${textPx}px monospace`;
     ctx.textAlign = 'center';
     ctx.lineJoin = 'round';
     for (const t of fx.texts) {
@@ -1484,11 +1487,11 @@ const Renderer = (() => {
       // spot was the top edge of the view, dark and easy to miss
       // a stacked word sits a full line from the one before it, and still does
       // when both are pressed against the top of the view (they used to meet there)
-      const line = (t.lift || 0) * 17;
-      const y = Math.max(18 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - line));
+      const line = (t.lift || 0) * (textPx + 1);
+      const y = Math.max(textPx + 2 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - line));
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
-      ctx.lineWidth = 4;
+      ctx.lineWidth = bigNumbers ? 5 : 4;
       ctx.strokeStyle = 'rgba(0,0,0,0.9)';
       ctx.strokeText(t.text, screenX, y);
       ctx.fillStyle = t.color;
@@ -1659,7 +1662,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); } };
 })();
 
 export { Renderer };

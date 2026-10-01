@@ -11327,6 +11327,41 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('the run that ends is kept for the title, with what killed it (a test run is not); the pack sorts like with like, keeping the order within a kind', async () => {
+    const out = [];
+    const { Game, G, L, p, put } = await arena('fighter', 'el-lastrun');
+    localStorage.removeItem('deepdelve.lastrun');
+    p.hp = 1; p.maxHp = 10;
+    const o = put('ogre', 1, 0, { hp: 999, maxHp: 999 });
+    for (let i = 0; i < 60 && G.status === 'playing'; i++) { o.windup = { kind: 'move', move: 'crush', at: G.t, until: G.t }; o.nextAct = G.t; o.blows = 3; run(Game, G, 300); }
+    const lr = Game.lastRun();
+    if (G.status !== 'dead') out.push('the hero did not die');
+    else if (!lr || lr.name !== p.name || lr.cls !== 'fighter' || lr.won || lr.depth !== G.depth || !/ogre/.test(lr.killer)) out.push(`the last run was kept as ${JSON.stringify(lr)}`);
+    // a test run leaves the one before it standing
+    const t = await arena('mage', 'el-lastrun-2');
+    // (each world keeps its own storage: the run before is set down in this one)
+    localStorage.setItem('deepdelve.lastrun', JSON.stringify({ name: 'Before', cls: 'fighter', depth: 3, levels: 8, won: false, killer: '', date: 1 }));
+    t.Game.setTesting({ gold: true });
+    t.p.hp = 1;
+    const o2 = t.put('ogre', 1, 0, { hp: 999, maxHp: 999 });
+    for (let i = 0; i < 60 && t.G.status === 'playing'; i++) { o2.windup = { kind: 'move', move: 'crush', at: t.G.t, until: t.G.t }; o2.nextAct = t.G.t; o2.blows = 3; run(t.Game, t.G, 300); }
+    t.Game.setTesting({});
+    if (t.G.status !== 'dead') out.push('the test run did not end');
+    else if ((t.Game.lastRun() || {}).name !== 'Before') out.push('a test run was kept as the last run');
+    // the pack sorted
+    const s = await arena('fighter', 'el-sort');
+    s.p.inv = [{ t: 'potion_heal', q: 1, e: 0 }, { t: 'dagger', q: 1, e: 0 }, { t: 'ration', q: 1, e: 0 }, { t: 'leather', q: 1, e: 0 }, { t: 'mace', q: 1, e: 0 }, { t: 'scroll_map', q: 1, e: 0 }, { t: 'dagger', q: 1, e: 1 }];
+    s.Game.sortPack();
+    const kinds = s.p.inv.map(i => s.ctx.ITEMS[i.t].kind);
+    const order = ['weapon', 'armor', 'heal', 'potion', 'scroll', 'food'];
+    const idx = kinds.map(k => order.indexOf(k) < 0 ? 99 : order.indexOf(k));
+    if (idx.some((v, i) => i && v < idx[i - 1])) out.push(`sorted to ${s.p.inv.map(i => i.t).join(', ')}`);
+    const daggers = s.p.inv.filter(i => i.t === 'dagger').map(i => i.e);
+    if (daggers.join() !== '0,1') out.push('two of a kind changed places in the sort');
+    if (s.p.inv.length !== 7) out.push('the sort lost or made an item');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a cleric\'s prayer takes 0.85 seconds: slower than a druid\'s words or a mage\'s, quicker than it was (a second)', async () => {
     const out = [];
     const took = {};

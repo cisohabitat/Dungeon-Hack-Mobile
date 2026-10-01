@@ -1256,6 +1256,32 @@ test.describe('dungeon features', () => {
     expect(await flames()).toBeGreaterThan(cold + 200);
     expect(errors).toEqual([]);
   });
+  test('the title says how the last run ended; the Menu draws combat numbers large; the pack sorts like with like', async ({ page }) => {
+    const errors = watchForErrors(page);
+    // the run before, as the game kept it
+    await page.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.lastrun', JSON.stringify({ name: 'Cadoc', cls: 'fighter', depth: 5, levels: 8, won: false, killer: 'an orc', date: 1 })); sessionStorage.setItem('seeded', '1'); } });
+    await page.goto('/');
+    await expect(page.locator('#last-run')).toBeVisible();
+    await expect(page.locator('#last-run')).toHaveText('Last time: Cadoc the Fighter fell on floor 5, killed by an orc.');
+    await startGame(page, { seed: 'qol', cls: 'fighter' });
+    await clearBoons(page);
+    // combat numbers, large and back
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-numbers')).toHaveText('Combat numbers: Normal');
+    await page.click('#m-numbers');
+    await expect(page.locator('#m-numbers')).toHaveText('Combat numbers: Large');
+    expect(await page.evaluate(() => Renderer.bigNumbers)).toBe(true);
+    expect(await page.evaluate(() => localStorage.getItem('deepdelve.bignumbers'))).toBe('1');
+    await page.click('#ov-menu [data-close]');
+    // the pack: a potion, a sword and bread in that order, sorted to sword, potion, bread
+    await page.evaluate(() => { Game.player().inv = [{ t: 'potion_heal', q: 1, e: 0 }, { t: 'longsword', q: 1, e: 0 }, { t: 'ration', q: 1, e: 0 }]; });
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('#inv-count')).toHaveText(/^3 of \d+ squares$/);
+    await page.click('#inv-sort');
+    expect(await page.evaluate(() => Game.player().inv.map(i => i.t))).toEqual(['longsword', 'potion_heal', 'ration']);
+    await page.click('#ov-inv [data-close]');
+    expect(errors).toEqual([]);
+  });
   test('standing in fire shows flames licking up the foot of the view, and they go when you step out', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'living-afire' });
