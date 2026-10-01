@@ -1,12 +1,14 @@
 // The hero's companion: a hound won over on the way down (the Starving Hound),
 // or, in the delves that have no hound, a goblin let out of a cage further
-// down (A Caged Goblin; both in encounters.js). One at a time. It follows,
+// down (A Caged Goblin), or a sellsword hired for gold on the middle floors
+// (A Sellsword for Hire; all in encounters.js). One at a time. It follows,
 // strikes whatever awake thing stands beside it (the one at the hero's side
 // first), draws the blows of anything that reaches it first, heals when the
 // hero rests, and grows with the hero and with every floor it goes down at
 // their side (blooded after two, a veteran after four: a trick at each);
 // the goblin picks locks and makes safe
-// the traps it passes, where the hound is the stronger in a fight. If it
+// the traps it passes, where the hound is the stronger in a fight; the
+// sellsword is slow, armoured and hits hard, and learns to guard the hero. If it
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
 // the getters in K, as the monsters' and the traders' do.
@@ -30,6 +32,11 @@ const KINDS = {
     names: ['Snik', 'Grub', 'Nib', 'Skaz', 'Twitch', 'Mog', 'Rattle', 'Fenn', 'Scrag', 'Wort'],
     tricks: [{ id: 'backstab', name: 'Backstab', says: 'its stab deals double to anything at your side' },
       { id: 'scrounge', name: 'Scrounger', says: 'on each new floor it finds you something on the way down' }] },
+  // hired, not won over: armoured and tough, slow to swing but heavy when it lands
+  sellsword: { sprite: 'sellsword', voice: 'sellsword', ac: 16, speed: 1300, stepMs: 380, trotMs: 170, hp: [14, 5], hit: 4, dmg: [1, 10], verb: 'cuts', sits: 'plants the sword point-down and leans on it', word: 'sellsword',
+    names: ['Brannoc', 'Hilde', 'Corran', 'Maud', 'Osric', 'Tamsin', 'Garet', 'Wenna', 'Ulf', 'Ysolde'],
+    tricks: [{ id: 'guard', name: 'Guard', says: 'one blow in three at you from a foe beside the sellsword lands on the sellsword instead' },
+      { id: 'second_wind', name: 'Second Wind', says: 'once a floor, a blow that would fell the sellsword leaves them standing at half their life' }] },
 };
 // It grows with the floors it goes down at the hero's side, not its kills: a
 // hound kept alive through the dark has earned it, whoever struck the blows.
@@ -140,8 +147,16 @@ export function makeCompanion(K) {
   function hurt(n, what) {
     const c = here(), G = K.G;
     if (!c || n <= 0) return;
-    c.hp -= n;
     c.flashUntil = K.realNow + 130;
+    // a sellsword who has learned it finds a second wind, once a floor, at the blow that should have felled them
+    if (c.hp - n <= 0 && knows(c, 'second_wind') && c.windOn !== G.depth) {
+      c.windOn = G.depth;
+      c.hp = Math.ceil(c.maxHp / 2);
+      K.log(`${what} ${c.name}, who should fall, and does not: ${c.name} finds a second wind (${c.hp} of ${c.maxHp}).`, 'good');
+      Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
+      return;
+    }
+    c.hp -= n;
     if (c.hp > 0) { K.log(`${what} ${c.name} for ${n}.`, 'bad'); return; }
     c.hp = 0; c.fallen = G.depth;
     K.log(`${what} ${c.name}, and ${c.name} falls, and does not get up.`, 'bad');
@@ -161,6 +176,19 @@ export function makeCompanion(K) {
     const roll = d(1, 20);
     if (roll === 1 || (roll !== 20 && roll + mb.hit < acOf(c) + Math.floor(p.level / 3))) return;
     hurt(Math.max(1, d(...mb.dmg)), `The ${mb.name} hits`);
+  }
+  /**
+   * A sellsword who has learned to guard steps into one ordinary blow in three
+   * at the hero from a foe beside them both, and takes it instead.
+   * @returns {boolean} whether the blow was taken
+   */
+  function guards(m, mb) {
+    const c = here();
+    if (!c || !knows(c, 'guard') || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1 || d(1, 3) !== 1) return false;
+    c.guarded = (c.guarded || 0) + 1;
+    Sound.play('block', K.heard({ x: c.x, y: c.y }));
+    hurt(Math.max(1, d(...mb.dmg)), `${c.name} steps into the blow meant for you: the ${mb.name} hits`);
+    return true;
   }
   /** Its bite: an awake thing beside it, the one at the hero's side first. */
   function bite(c) {
@@ -367,7 +395,8 @@ export function makeCompanion(K) {
     if (!c) return '';
     const w = kindOf(c).word;
     if (c.fallen) return `${c.name}, the ${w} who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
-    const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}` : '';
+    const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}`
+      : c.guarded ? `, ${c.guarded} blow${c.guarded > 1 ? 's' : ''} taken for you` : '';
     const r = rankOf(c), learned = kindOf(c).tricks.slice(0, r);
     const next = r < RANKS.length ? ` ${RANKS[r].floors - (c.floors || 0)} more floor${RANKS[r].floors - (c.floors || 0) > 1 ? 's' : ''} down at your side and it learns ${kindOf(c).tricks[r].name}.` : '';
     const worn = c.charm ? `, wearing the ${K.itemName({ t: c.charm, q: 1, e: 0 }).toLowerCase()}` : '';
@@ -375,5 +404,5 @@ export function makeCompanion(K) {
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, guards, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
 }

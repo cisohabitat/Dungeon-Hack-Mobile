@@ -3267,6 +3267,11 @@ const Game = (() => {
       if (won) return here ? `a grey wolf called ${n} came out of the mountain with them, and is seen at the edge of the valley's woods on still nights` : `a grey wolf called ${n} was heard howling at the mouth of the Deepdelve for three nights, and then was gone`;
       return here && c.mode === 'follow' ? `a grey wolf called ${n} stood over them to the last, and went back into the dark` : `a grey wolf called ${n} is said to walk the deep floors still`;
     }
+    if (c.kind === 'sellsword') {
+      if (c.fallen) return `a sellsword called ${n} lies on floor ${c.fallen} of the Deepdelve with the sword across their chest, paid in full`;
+      if (won) return here ? `a sellsword called ${n} walked out of the mountain at their side, drank the valley dry that night, and still tells it better than they do` : `a sellsword called ${n} came up a day after them, bloodied, and asked for the rest of the pay`;
+      return here && c.mode === 'follow' ? `a sellsword called ${n} carried them up out of the dark, and would not take a coin for it` : `a sellsword called ${n} waited where they were told on the floor below until the food ran out, and then came up cursing`;
+    }
     if (c.fallen) return `a hound called ${n} lies buried on floor ${c.fallen} of the Deepdelve, and they do not talk about it`;
     if (won) return here ? `a brown hound called ${n} sleeps by their fire, and will not be parted from them` : `a brown hound called ${n} came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again`;
     return here && c.mode === 'follow' ? `a brown hound called ${n} stood over them to the last, and came up out of the dark alone` : `a brown hound called ${n} was found at the foot of the stair, waiting`;
@@ -4811,7 +4816,7 @@ const Game = (() => {
     get diff() { return diff; },
     get distField() { return distField; }, set distField(v) { distField = v; },
     // the hero's hound: where it stands, and what a blow at it or the quills do
-    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
+    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionGuards() { return companion.guards; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
     get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
     get effectFrom() { return effectFrom; },
     get emit() { return emit; },

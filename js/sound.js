@@ -237,12 +237,14 @@ const Sound = (() => {
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },
     // the druid's wolf: one low howl that rises and falls away
     howl(out) { const l = lp(out, 1200); tone(l, 330, 0.9, 'triangle', 0.08, 140, 0, 0.18); tone(l, 470, 0.5, 'sine', 0.03, -120, 0.35, 0.1); noise(out, 0.7, 0.03, { type: 'bandpass', f: 900, q: 2, attack: 0.2 }); },
+    // the sellsword: a gruff grunt through the teeth, and a ring of steel under it
+    oath(out) { const l = lp(out, 900); tone(l, vary(130, 0.06), 0.28, 'sawtooth', 0.12, -30, 0, 0.02); noise(out, 0.2, 0.06, { type: 'bandpass', f: 700, q: 1.6 }); tone(out, 2400, 0.5, 'sine', 0.025, -60, 0.08, 0.3); tone(out, 3600, 0.35, 'sine', 0.012, -90, 0.08, 0.2); },
     // the hero's hound: two short, glad barks, nothing like the deep's growls
     bark(out) { const l = lp(out, 1500); for (let i = 0; i < 2; i++) { tone(l, vary(360, 0.06), 0.1, 'sawtooth', 0.11, -150, i * 0.17, 0.008); noise(out, 0.08, 0.07, { type: 'bandpass', f: 1100, q: 1.3, delay: i * 0.17 }); } },
     // a drowned one: a moan through water, bubbling up out of it

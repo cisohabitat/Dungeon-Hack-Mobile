@@ -712,7 +712,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps', 'goldBack']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -8567,6 +8567,8 @@ await test('every choice of every encounter can be taken, passed and failed, and
         if (t >= 2 && (!e.choices[i].check || (seen.has(`${id}/${i}/true`) && seen.has(`${id}/${i}/false`)))) break;
         for (const k in p.stats) p.stats[k] = t % 2 ? 3 : 30;
         p.hp = p.maxHp = 999; p.gold = 99999; p.inv.length = 0;
+        // (one companion at a time: one won at an earlier encounter would bar the hiring)
+        Game.state().companion = null;
         let r;
         try { r = meetAndChoose(ctx, id, i); } catch (err) { return `${id} choice ${i}: ${err.message}`; }
         Game.closeEncounter();
@@ -9026,7 +9028,8 @@ await test('a barrel, crate or urn breaks to a blow with nothing to fight in fro
   L.dressing.push({ x: p.x + dx, y: p.y + dy, k: 'barrel', ox: 0, oy: 0 });
   const m = beside(ctx, 'goblin', { hp: 999, maxHp: 999 });
   p.perkHit = 60;
-  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  // (a natural 1 misses whatever the odds: swung a few times)
+  for (let i = 0; i < 4 && m.hp === 999; i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); }
   if (m.hp === 999) out.push('the goblin in front was not struck');
   if (!L.dressing.some(d => d.k === 'barrel' && d.x === p.x + dx)) out.push('the barrel under the goblin broke instead');
   return out.length ? out.join('; ') : true;
@@ -9964,6 +9967,121 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     for (let i = 0; i < 30 && !Game.companion(); i++) { meetAndChoose(ctx, 'caged', 0); Game.closeEncounter(); }
     return ctx;
   };
+
+  // a sellsword hired on a middle floor, the hero made sturdy and rich enough to hire
+  const withSellsword = async (seed, opts = {}) => {
+    const ctx = await start('fighter', seed, { levels: 8, ...opts });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+    p.gold = 1000;
+    meetAndChoose(ctx, 'hire', 0); Game.closeEncounter();
+    return ctx;
+  };
+
+  await test('a sellsword for hire: paid, they follow; haggled, half or nothing; with a companion already at your side the hiring is not on offer', async () => {
+    const out = [];
+    {
+      const ctx = await withSellsword('sell-pay');
+      const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+      if (!c || c.kind !== 'sellsword') return `no sellsword followed: ${JSON.stringify(c)}`;
+      if (p.gold !== 1000 - 20 * G.depth) out.push(`hiring cost ${1000 - p.gold}, not ${20 * G.depth}`);
+      // tougher than a hound
+      if (c.maxHp < 14 + 5 * p.level) out.push(`a sellsword has ${c.maxHp} hit points`);
+      if (!Game.threadNotes().some(n => n.includes(c.name) && /sellsword/.test(n))) out.push('the hero sheet does not name the sellsword');
+      // one at a time: with them at your side, neither hiring is on offer, but the talk is
+      p.gold = 1000;
+      const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR; L.monsters.length = 0;
+      L.npcs = [{ id: 'hire', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+      Game.input('use');
+      const o = Game.encounterOptions();
+      if (!o[0].blocked || !o[1].blocked || o[2].blocked) out.push(`with a companion, the choices were blocked ${o.map(x => !!x.blocked)}`);
+      if (Game.chooseEncounter(0) || p.gold !== 1000) out.push('a second sellsword was paid for');
+      Game.closeEncounter();
+    }
+    // haggled by a silver tongue: half
+    {
+      const ctx = await start('fighter', 'sell-haggle', { levels: 8 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+      p.stats.cha = 30;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && r.check.pass); i++) { p.gold = 1000; r = meetAndChoose(ctx, 'hire', 1); Game.closeEncounter(); }
+      if (!r.check.pass) out.push('a silver tongue never haggled');
+      else {
+        if (p.gold !== 1000 - 10 * G.depth) out.push(`haggled, the sellsword cost ${1000 - p.gold}, not ${10 * G.depth}`);
+        if (!Game.companion() || Game.companion().kind !== 'sellsword') out.push('haggled down, the sellsword did not follow');
+      }
+    }
+    // haggled badly: the coin comes back, and so does nobody (exactly the coin: a Trickster's purse finds no more in it)
+    {
+      const ctx = await start('thief', 'sell-haggle-fail', { levels: 8 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.path = 'trickster'; p.hp = p.maxHp = 9999;
+      while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+      p.stats.cha = 1;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && !r.check.pass); i++) { p.gold = 1000; G.companion = null; r = meetAndChoose(ctx, 'hire', 1); Game.closeEncounter(); }
+      if (r.check.pass) out.push('a churl haggled six times running');
+      else {
+        if (p.gold !== 1000) out.push(`a failed haggle cost ${1000 - p.gold}`);
+        if (Game.companion()) out.push('a failed haggle still hired the sellsword');
+      }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a sellsword cuts what stands beside them; blooded, they guard you (one blow in three from a foe beside them both); a veteran, they find a second wind once a floor', async () => {
+    const out = [];
+    const ctx = await withSellsword('sell-guard');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no sellsword';
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1; c.x = 7; c.y = 7; c.mode = 'stay';
+    p.eq.armor = null; p.eq.shield = null; p.stats.dex = 3;
+    // an orc beside them both, swinging at the hero
+    const orc = () => { L.monsters.length = 0; L.monsters.push({ uid: 91, id: 'orc', x: 7, y: 6, hp: 99999, maxHp: 99999, awake: true, nextAct: G.t, rx: 7, ry: 6, fromX: 7, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 }); };
+    const guarded = ms => { const mark = markLog(G); orc(); c.hp = c.maxHp = 9999; p.hp = 9999; run(Game, G, ms); L.monsters.length = 0; return { took: countSaid(linesSince(G, mark), /steps into the blow meant for you/), hit: countSaid(linesSince(G, mark), /hits you/) }; };
+    // it cuts, slowly: about one blow in 1.3 seconds
+    {
+      const mark = markLog(G); orc(); c.hp = c.maxHp = 9999; L.monsters[0].nextAct = 1e12;
+      run(Game, G, 13000);
+      if (!countSaid(linesSince(G, mark), new RegExp(`${c.name} cuts the`))) out.push('the sellsword never cut the orc');
+      // (each swing, landed or not, is a lunge: about ten in thirteen seconds)
+      if (L.monsters[0].hp > 99999 - 10) out.push('the sellsword\'s cuts did almost nothing');
+      L.monsters.length = 0;
+    }
+    // not yet blooded: it takes nothing for you
+    c.floors = 0;
+    let g = guarded(20000);
+    if (g.took) out.push(`not yet blooded, the sellsword took ${g.took} blows for you`);
+    // blooded: about one landed blow in three
+    c.floors = 2;
+    g = guarded(60000);
+    const share = g.took / Math.max(1, g.took + g.hit);
+    if (g.took + g.hit < 15 || share < 0.15 || share > 0.55) out.push(`blooded, the sellsword took ${g.took} of ${g.took + g.hit} blows`);
+    // not beside the orc: it cannot step in
+    c.x = 5; c.y = 6;
+    g = guarded(20000);
+    if (g.took) out.push(`from across the hero, the sellsword took ${g.took} blows`);
+    // the hero sheet counts the blows taken
+    if (!Game.threadNotes().some(n => /blows? taken for you/.test(n))) out.push('the hero sheet does not count the blows the sellsword took');
+    // a veteran: once a floor, the blow that should fell them leaves them at half
+    c.floors = 4; c.x = 7; c.y = 7; c.hp = 1; c.maxHp = 40;
+    L.twist = 'tremors';
+    L.quake = { next: G.t + 1e9, falls: [{ x: c.x, y: c.y, at: G.t, lands: G.t + 100 }] };
+    let mark = markLog(G);
+    run(Game, G, 200);
+    if (c.fallen || c.hp !== 20) out.push(`a veteran under falling rock ${c.fallen ? 'fell' : `stood at ${c.hp}`}, not at half`);
+    if (!linesSince(G, mark).some(l => /second wind/.test(l))) out.push('the second wind was not told');
+    // and only once a floor
+    c.hp = 1;
+    L.quake.falls = [{ x: c.x, y: c.y, at: G.t, lands: G.t + 100 }];
+    run(Game, G, 200);
+    if (!c.fallen) out.push('a second second wind on the same floor');
+    return out.length ? out.join('; ') : true;
+  });
 
   await test('the caged goblin, let out, follows; it picks a locked door there is no key for, and makes safe a trap it passes', async () => {
     const out = [];

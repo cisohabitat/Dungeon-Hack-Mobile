@@ -608,6 +608,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (e.map) v += 2;
           if (e.xp) v += e.xp / 25;
           if (e.goldPerDepth) v += e.goldPerDepth / 12;
+          if (e.goldBack) v += e.goldBack / 12;
           if (e.hurt) v -= (e.hurt[0] * (e.hurt[1] + 1) / 2 + e.hurt[2]) / Math.max(1, p.hp) * 12;
           if (e.hurtFrac) v -= e.hurtFrac * p.maxHp / Math.max(1, p.hp) * 12;
           if (e.heal) v += (e.heal === 'full' ? (p.maxHp - p.hp) : e.heal) / p.maxHp * 5;

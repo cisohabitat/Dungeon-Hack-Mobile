@@ -123,6 +123,8 @@ export function makeFoes(K) {
     }
     // a Trickster slips an ordinary blow now and then; a warned trick is not so easily slipped
     if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
+    // a sellsword at your side may step into an ordinary blow and take it
+    if (!heavy && K.companionGuards(m, mb)) return false;
     let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
     // a crushing blow is doubled already; and on the first two floors a lucky
     // blow is not doubled at all: a level-one hero's whole life was a goblin's

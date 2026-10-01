@@ -1172,6 +1172,98 @@ const CREATURES = {
   // little knife low and grins as if it knows where the good stuff is.
   // Lunging, it drops low and drives the knife up at you; told to wait, it
   // squats on its heels with its hands on its knees and the knife put away.
+  // The sellsword: a hired blade, and the only one of the companions who
+  // could pass for the hero. A kettle hat with a wide iron brim, a brigandine
+  // of blue-grey cloth studded with brass rivets over a mail shirt, a red sash
+  // from shoulder to hip, a steel pauldron on the left, a scar down the cheek,
+  // and a greatsword: carried on the shoulder, swung up over the head for the
+  // cut, and planted point-down to lean on while it waits for its pay.
+  sellsword: (pose = 'idle') => {
+    const skin = '#c49272', shade = '#8c5e44', coat = '#4a566c', mail = '#7c8290', sash = '#a8322a', leather = '#6a4a30', boot = '#3a2c22',
+      trouser = '#5a4a3a', steel = '#aeb4be', iron = '#6e747e', brass = '#c9a24a', grip = '#5a3a22', blade = '#d4d8e0';
+    const cut = pose === 'windup', sit = pose === 'sit';
+    // how far the body leans and drops: into the cut, or onto the sword
+    const lean = cut ? 1.2 : sit ? -0.6 : 0, drop = cut ? 1.2 : sit ? 0.6 : 0;
+    const hx = 15.5 + lean, hy = 8.8 + drop;
+    // a greatsword from the grip at (x, y) along (u, v), a unit long: guard, blade, fuller, pommel
+    const sword = (x, y, u, v, len) => [
+      limb(x - u * 1.6, y - v * 1.6, x + u * 0.6, y + v * 0.6, 0.55, 0.55, grip),
+      ball(x - u * 2, y - v * 2, 0.8, 0.8, brass),
+      limb(x + u * 1 - v * 2.2, y + v * 1 + u * 2.2, x + u * 1 + v * 2.2, y + v * 1 - u * 2.2, 0.5, 0.5, iron),
+      limb(x + u * 1.4, y + v * 1.4, x + u * len, y + v * len, 1.1, 0.5, blade, { smooth: 1 }),
+      hair(x + u * 2, y + v * 2, x + u * (len - 1.5), y + v * (len - 1.5), '#8a909c'),
+      hair(x + u * 2 - v * 0.5, y + v * 2 + u * 0.5, x + u * (len - 2) - v * 0.4, y + v * (len - 2) + u * 0.4, '#f6f8fc'),
+    ];
+    const hand = (x, y) => [ball(x, y, 1.25, 1.15, leather), specks([[x - 0.5, y - 0.5]], '#8a6a48')];
+    // the body: mail hanging below the brigandine, the coat, the sash, the belt and its purse
+    const tx = 15.5 + lean * 0.6, ty = drop;
+    const body = [
+      sheet([[11 + lean * 0.4, 19.6 + ty], [20 + lean * 0.4, 19.6 + ty], [20.8 + lean * 0.2, 23.8 + ty], [10.2 + lean * 0.2, 23.8 + ty]], mail, { curve: 0.6 }),
+      sheet([[10.4 + lean, 12 + ty], [20.6 + lean, 12 + ty], [21 + lean * 0.5, 20.4 + ty], [10 + lean * 0.5, 20.4 + ty]], coat, { curve: 1 }),
+      limb(19.6 + lean, 12.6 + ty, 11.4 + lean * 0.5, 19.4 + ty, 0.95, 0.95, sash),
+      line(10.2 + lean * 0.5, 20.2 + ty, 20.8 + lean * 0.5, 20.2 + ty, leather),
+      ball(tx, 20.2 + ty, 0.9, 0.8, brass),
+      ball(18.8 + lean * 0.5, 21.8 + ty, 1.2, 1.4, leather), dots([[Math.floor(18.8 + lean * 0.5), Math.floor(21 + ty)]], brass),
+      // the pauldron on the left shoulder
+      ball(10.6 + lean, 12.8 + ty, 2.5, 1.9, steel), hair(9 + lean, 12.4 + ty, 12.2 + lean, 12 + ty, '#e4e8ee'),
+      limb(15.5 + lean, 11.2 + ty, 15.5 + lean, 12.6 + ty, 1.2, 1.3, skin),
+    ];
+    let legs, arms;
+    if (cut) {
+      // a wide stance, the front foot forward, the sword swung up over the head and back
+      legs = [
+        limb(13.6, 22.6 + ty, 10.6, 27.4, 1.4, 1.2, trouser), limb(10.6, 27.4, 9.8, 30, 1.2, 1.1, boot), ball(9.4, 30.4, 2.1, 0.9, boot),
+        limb(17.8, 22.6 + ty, 21, 27, 1.4, 1.2, trouser), limb(21, 27, 22.2, 30, 1.2, 1.1, boot), ball(22.6, 30.4, 2.1, 0.9, boot),
+      ];
+      arms = [
+        limb(11 + lean, 13.4 + ty, 15.2, 3.6, 1.3, 1.1, coat), limb(20.4 + lean, 13.4 + ty, 19.4, 3.4, 1.3, 1.1, coat),
+        ...sword(17.6, 2.6, -0.98, 0.2, 13),
+        ...hand(16, 3), ...hand(18.8, 2.6),
+      ];
+    } else if (sit) {
+      // the weight on one hip, the sword planted before it, both hands on the pommel
+      legs = [
+        limb(13.8, 23 + ty, 12.4, 27.6, 1.4, 1.2, trouser), limb(12.4, 27.6, 12.8, 30, 1.2, 1.1, boot), ball(12.6, 30.4, 2, 0.9, boot),
+        limb(17.4, 23 + ty, 19, 27.4, 1.4, 1.2, trouser), limb(19, 27.4, 17.6, 30, 1.2, 1.1, boot), ball(17.2, 30.4, 2, 0.9, boot),
+      ];
+      arms = [
+        ...sword(20.6, 16.8, 0, 1, 14),
+        limb(10.8 + lean, 13.6 + ty, 12.4, 18.4, 1.3, 1.1, coat), limb(12.4, 18.4, 19.4, 16.6, 1.1, 1, coat),
+        limb(20.2 + lean, 13.6 + ty, 21.6, 16.8, 1.3, 1.1, coat),
+        ...hand(19.6, 16.4), ...hand(21.6, 16.8),
+      ];
+    } else {
+      // standing easy, the sword carried back over the right shoulder
+      legs = [
+        ...both(limb(14, 23, 13.2, 27.6, 1.4, 1.2, trouser)), ...both(limb(13.2, 27.6, 13, 30, 1.2, 1.1, boot)), ...both(ball(12.8, 30.4, 2, 0.9, boot)),
+      ];
+      arms = [
+        limb(10.6, 13.8, 9.8, 19, 1.3, 1.1, coat), ...hand(9.8, 19.6),
+        ...sword(20.4, 15.6, 0.5, -0.86, 14),
+        limb(20.6, 13.6, 22.4, 17, 1.3, 1.1, coat), limb(22.4, 17, 20.6, 16, 1.1, 1, coat), ...hand(20.4, 15.8),
+      ];
+    }
+    // the head: a hard, weathered face under the hat's brim; eyes narrowed when it leans and waits
+    const head = [
+      ball(hx, hy, 3, 3.3, skin),
+      ball(hx, hy - 3, 3.3, 2.4, steel), hair(hx - 2.4, hy - 3.6, hx - 0.6, hy - 4.8, '#e4e8ee'),
+      sheet(oval(hx, hy - 1.6, 5.4, 1.2), iron, { curve: 0.4 }),
+      dots(sit ? [[Math.floor(hx - 1.6), Math.floor(hy + 0.4)], [Math.floor(hx + 1.2), Math.floor(hy + 0.4)]] : [[Math.floor(hx - 1.6), Math.floor(hy)], [Math.floor(hx + 1.2), Math.floor(hy)]], '#1e1a1a'),
+      line(hx - 1, hy + 2, hx + 1, hy + 2, cut ? '#3a1a14' : shade),
+    ];
+    return [
+      ...legs, ...body, ...arms, ...head,
+      // fine work: rivets on the coat, mail rings, the scar, stubble, the purse's string, bootlaces, the hat's rivets
+      specks([[11.5 + lean, 14 + ty], [13.5 + lean, 14 + ty], [17.5 + lean, 14 + ty], [19.5 + lean, 14 + ty], [11.5 + lean, 17 + ty], [13.5 + lean, 17.5 + ty], [17.5 + lean, 17.5 + ty], [19.5 + lean, 17 + ty]], brass),
+      specks([[11.5 + lean * 0.3, 22 + ty], [13 + lean * 0.3, 22.5 + ty], [14.5 + lean * 0.3, 22 + ty], [16 + lean * 0.3, 22.5 + ty], [17.5 + lean * 0.3, 22 + ty], [19 + lean * 0.3, 22.5 + ty]], '#b0b6c0'),
+      hair(hx + 1.6, hy - 0.6, hx + 2.2, hy + 2.2, '#e8c0a8'),
+      specks([[hx - 1.5, hy + 2.5], [hx - 0.5, hy + 3], [hx + 0.5, hy + 3], [hx + 1.5, hy + 2.5]], '#7a5a44'),
+      hair(hx - 2.2, hy - 0.8, hx - 0.8, hy - 1, '#4a3428'), hair(hx + 0.6, hy - 1, hx + 2, hy - 0.8, '#4a3428'),
+      specks([[hx - 4, hy - 1.5], [hx, hy - 1], [hx + 4, hy - 1.5]], '#c8ccd4'),
+      hair(19.2 + lean * 0.5, 20.6 + ty, 18.6 + lean * 0.5, 21.2 + ty, brass),
+      ...(cut ? [] : both(specks([[sit ? 12 : 12, 30], [sit ? 13 : 13, 30]], '#8a6a48'))),
+    ];
+  },
   scrag: (pose = 'idle') => {
     const skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', cloth = '#6a5c4a', cord = '#4a3a28';
     const iron = '#6e727c', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
@@ -1939,11 +2031,13 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'] };
+const POSES = { kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
 const PROPS = {
+  // a sellsword waiting to be hired: leaning on the sword, eyes narrowed, the price already in mind
+  hireling: () => CREATURES.sellsword('sit'),
   // a fall of stone, and a hand still moving under it
   rubble: () => {
     const rock = '#7a7268', dark = '#5a544c';

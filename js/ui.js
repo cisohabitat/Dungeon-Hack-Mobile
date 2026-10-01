@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-01b', text: 'the middle floors grow stranger: a barrel that creaks may be a mimic, kobold trappers set wire snares, a floor of tremors brings the roof down on marked squares, and two new encounters, a lever door and a lost mule' };
+  const NEWS = { id: '2026-10-01c', text: 'a sellsword waits for hire on the middle floors: slow, armoured and hard to kill, they learn to take blows meant for you; and the middle floors grow stranger: a barrel that creaks may be a mimic, kobold trappers set wire snares, a floor of tremors brings the roof down on marked squares, a lever door, a lost mule' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -2513,7 +2513,7 @@ const UI = (() => {
     // a hound still at the hero's side at the end stands in the picture with them
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,

@@ -1447,7 +1447,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('mimic');
+    await expect(p2.locator('#news-text')).toContainText('sellsword');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);
@@ -1591,6 +1591,37 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a sellsword waits for hire leaning on the sword; paid, they follow, drawn as themselves, and lean on it again when told to stay', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'sell-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.gold = 500;
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'hire', x: p.x + dx, y: p.y + dy });
+    });
+    // waiting, drawn leaning on the sword, not as any creature or the hound
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.hireling))).toBe(true);
+    await page.evaluate(() => Game.input('forward'));
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices')).toContainText('Pay their price');
+    await expect(page.locator('#enc-choices')).toContainText('20 gold');
+    // (the choices arm a moment after the encounter opens)
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Pay their price' }).click();
+    await page.waitForTimeout(450);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect.poll(() => page.evaluate(() => Game.companion() && Game.companion().kind)).toBe('sellsword');
+    expect(await page.evaluate(() => Game.player().gold)).toBe(480);
+    // at heel, drawn as themselves; told to stay, leaning on the sword
+    const drawn = () => page.evaluate(() => { const sp = Assets.sprites.sellsword, r = Game.renderState(performance.now()).sprites; return r.some(s => s.img === sp) ? 'stand' : r.some(s => s.img === sp.sit) ? 'sit' : r.some(s => s.img === sp.windup) ? 'cut' : 'none'; });
+    await expect.poll(drawn).toBe('stand');
+    await page.evaluate(() => { const c = Game.companion(); c.mode = 'stay'; c.moveT1 = 0; });
+    await expect.poll(drawn).toBe('sit');
+    expect(errors).toEqual([]);
+  });
   test('a goblin let out of its cage follows, and the Use button picks a locked door there is no key for', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'goblin-ui', cls: 'Fighter' });

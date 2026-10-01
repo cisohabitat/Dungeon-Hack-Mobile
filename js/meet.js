@@ -53,6 +53,9 @@ export function makeEncounters(K) {
       if (cost && cost.hp && p.hp <= cost.hp) blocked = 'You are too weak to spare the blood.';
       // (and not the last of it: sharing it all left the hero starving)
       if (cost && cost.food && p.food <= cost.food) blocked = 'You have too little food to share.';
+      // a choice that would bring a second companion, while one stands with you, is not on offer
+      const c = K.G.companion;
+      if (ch.alone && c && !c.fallen) blocked = `${c.name} is with you: there is no room for another.`;
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, K.G.depth), bonus = knack(ch.check);
@@ -118,6 +121,8 @@ export function makeEncounters(K) {
         if (n > 0) { const got = K.tricksterPurse(n); p.gold += got; out.push(`+${got} gold`); }
         else { const took = Math.min(p.gold, -n); p.gold -= took; if (took) out.push(`−${took} gold`); }
       }
+      // coin handed back (a haggle refused): exactly what was paid, not gold found
+      if (e.goldBack) { const n = e.goldBack * K.G.depth; p.gold += n; out.push(`+${n} gold back`); }
       if (e.hurt || e.hurtFrac) {
         const n = e.hurtFrac ? Math.max(1, Math.ceil(p.maxHp * e.hurtFrac)) : Math.max(1, d(...e.hurt));
         K.G.lastAttacker = { name: def.title, dmg: n, bearing: '', encounter: true };

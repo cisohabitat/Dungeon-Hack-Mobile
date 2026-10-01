@@ -541,6 +541,23 @@ const ENCOUNTERS = {
     ],
   },
 
+  // a blade for hire on the middle floors: a companion bought, not won over.
+  // Only one stands with you at a time, so with one already at your side
+  // the hiring is not on offer, though the sellsword will still talk.
+  hire: {
+    title: 'A Sellsword for Hire', sprite: 'hireling', depth: [3, 6],
+    text: 'Someone sits on an upturned crate by the wall, a greatsword planted point-down in front of them and a kettle hat pushed back. "Going down? So am I, for pay. I am slow, I am hard to kill, and anything that comes for you comes through me."',
+    choices: [
+      { label: 'Pay their price', cost: { goldPerDepth: 20 }, alone: true,
+        outcome: { text: 'They weigh the purse, nod once, and get to their feet. "Lead on, then."', effects: [{ companion: 'sellsword' }] } },
+      { label: 'Haggle them down to half', cost: { goldPerDepth: 10 }, alone: true, check: { stat: 'cha', dc: 13, knack: [['fighter', null, 2]] },
+        pass: { text: 'They laugh, and spit, and shake on it. "Half, and you buy the drinks when we come up."', effects: [{ companion: 'sellsword' }] },
+        fail: { text: 'They push your coin back across the crate. "Not for that. Not for anyone." And they will not hear another word.', effects: [{ goldBack: 10 }] } },
+      { label: 'Ask what they have seen down here', outcome: { text: '"Mind the floor," they say, and tell you where they have seen others step wrong.', effects: [{ traps: 1 }] } },
+      { label: 'Leave them to their wait', outcome: { text: 'They shrug, and go back to watching the dark.', effects: [] } },
+    ],
+  },
+
   mapmaker: {
     title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
     text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',
