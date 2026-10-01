@@ -2157,6 +2157,45 @@ const PROPS = {
     specks([[12, 4.5], [20.5, 3.5], [15, 1.5], [22.5, 7], [9.5, 8]], '#ffd060'),
     specks([[11.5, 19], [14, 19], [17, 19], [20.5, 19]], '#c8ccd4'),
   ],
+  // a shaft in the floor, ringed with smooth stones, the Heart's red light welling up out of it
+  heartwell: () => [
+    ball(16, 26, 12, 4.6, '#4a3e38'), ball(16, 25.6, 10, 3.6, '#5e5048'),
+    ...[[6, 25], [9, 22.6], [14, 21.8], [19, 21.8], [24, 22.6], [27, 25], [24, 28.4], [16, 29.6], [8, 28.4]].map(([x, y]) => ball(x, y, 2.2, 1.6, '#6e6058')),
+    ball(16, 25.6, 7.6, 2.6, '#1a0806'), ball(16, 25.4, 5.6, 1.8, '#7a1c0c'), ball(16, 25.2, 3.4, 1.1, '#e05020'), ball(16, 25.1, 1.6, 0.6, '#ffc060'),
+    // the warm light welling over the lip, and thin wisps of heat rising off it
+    ball(16, 22.8, 7, 2.2, '#5a1c0e'), ball(16, 23.4, 4.4, 1.2, '#a83010'),
+    // sparks drifting up out of it, thinning as they rise
+    dots([[14, 20], [18, 19], [16, 17], [13, 15], [19, 14]], '#ffc060'),
+    dots([[15, 12], [17.5, 10], [12.5, 10.5], [20, 8.5]], '#e8641c'),
+    dots([[16, 6], [14, 4.5], [18.5, 4]], '#a83010'),
+    specks([[7, 24.5], [25, 24.5], [12, 22], [21, 22]], '#8a7a70'),
+  ],
+  // a wasted delver in the rags of a fine coat, hunched over a fire of bones
+  lastdelver: () => [
+    // the fire of bones
+    ball(21.5, 29.4, 5, 1.6, '#3a2a20'), ...[[18.5, 28.6], [21.5, 28], [24.5, 28.8]].map(([x, y]) => limb(x - 1.5, y, x + 1.5, y - 0.6, 0.6, 0.6, '#d8d0bc')),
+    sheet([[18.5, 28.4], [19.6, 23], [21.2, 25.5], [22.2, 21.5], [23.6, 25.6], [24.6, 28.4]], '#e8641c', { curve: 0.6 }),
+    sheet([[20.4, 28.2], [21.4, 25.2], [22.2, 23.8], [23, 25.6], [23.4, 28.2]], '#ffd060', { curve: 0.5 }),
+    // the delver, hunched, knees up, a ragged coat that was blue once
+    sheet([[5.5, 30], [7, 17], [10, 12.5], [14.5, 13], [16.5, 19], [16, 30]], '#2a3a5a', { curve: 1 }),
+    sheet([[6, 30], [7, 21], [9, 30]], '#1e2a42'), line(9, 18, 14, 19, '#c8a040'), line(8.6, 21.5, 14.6, 22.4, '#c8a040'),
+    // a thin hand held out to the fire
+    limb(14.5, 20, 18.6, 22.6, 1, 0.8, '#2a3a5a'), ball(19.2, 22.9, 1, 0.9, '#c8a890'),
+    // the head: matted grey hair, a gaunt face, eyes too bright
+    ball(11.6, 10.8, 3.6, 3.8, '#9a9488'), ball(12.6, 11.6, 2.4, 2.8, '#c8a890'),
+    dots([[13, 11], [14, 11]], '#ffe8a0'), line(12.6, 13.6, 14, 13.6, '#5a3a30'),
+    hair(9, 8.5, 8, 13, '#7a746a'), hair(10.5, 7.6, 9.6, 12, '#b8b2a6'),
+    specks([[20, 20.5], [23, 19.5], [21.5, 18]], '#ffd060'),
+  ],
+  // a wyrm's egg in a nest of ash and gnawed bones, scaled like a pine cone
+  wyrmegg: () => [
+    ball(16, 28, 11, 3.2, '#3e3632'), ball(16, 27.6, 9, 2.4, '#5a504a'),
+    ...[[7, 27.5], [25, 27], [11, 29.8], [22, 29.6]].map(([x, y]) => limb(x - 2, y, x + 2, y - 0.8, 0.6, 0.6, '#d8d0bc')),
+    ball(16, 18.6, 6.6, 9, '#4e6a3a'), ball(14.4, 16.4, 3.6, 5.4, '#6a8a4e'),
+    ...[[13, 12], [17, 12], [11.5, 16], [15, 16], [18.6, 16], [12, 20], [16, 20.4], [20, 20], [14, 24], [18, 24]].map(([x, y]) => sheet([[x - 1.6, y + 1], [x, y - 1.2], [x + 1.6, y + 1]], '#3a5228', { curve: 0.4 })),
+    line(14.5, 9.8, 17, 11.5, '#22301a'), line(17, 11.5, 16, 13.5, '#22301a'),
+    specks([[12.5, 13.5], [13.5, 18], [19, 22.5], [17.5, 15]], '#8aae68'),
+  ],
   // a sellsword waiting to be hired: leaning on the sword, eyes narrowed, the price already in mind
   hireling: () => CREATURES.sellsword('sit'),
   // a fall of stone, and a hand still moving under it

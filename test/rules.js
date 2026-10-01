@@ -12174,6 +12174,103 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  /** A hero on the sixth floor of eight, sturdy and rich, for the deep encounters. */
+  const deepHero = async seed => {
+    const ctx = await start('fighter', seed, { levels: 8 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 300; p.gold = 9999;
+    while (G.depth < 6) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+    return ctx;
+  };
+
+  await test('the Heartwell: a strong chest breathes its warmth for more life, gold down the shaft steadies the hand, a rest by it heals and costs food', async () => {
+    const out = [];
+    {
+      const ctx = await deepHero('heartwell-breathe');
+      const { Game } = ctx; const p = Game.player();
+      p.stats.con = 30;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && r.check.pass); i++) { p.hp = p.maxHp = 300; r = meetAndChoose(ctx, 'heartwell', 0); Game.closeEncounter(); }
+      if (!r.check.pass) out.push('a strong chest never breathed its warmth');
+      else if (p.maxHp !== 304) out.push(`its warmth left ${p.maxHp} maximum hit points, not 304`);
+    }
+    {
+      const ctx = await deepHero('heartwell-gold');
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      const g0 = p.gold;
+      meetAndChoose(ctx, 'heartwell', 1); Game.closeEncounter();
+      if (g0 - p.gold !== 10 * G.depth) out.push(`gold down the shaft cost ${g0 - p.gold}, not ${10 * G.depth}`);
+      if (!p.effects.boon_hit || p.effects.boon_hit.amount !== 2) out.push(`gold down the shaft gave ${JSON.stringify(p.effects.boon_hit)}`);
+    }
+    {
+      const ctx = await deepHero('heartwell-rest');
+      const { Game } = ctx; const p = Game.player();
+      p.hp = 100; p.food = 80;
+      meetAndChoose(ctx, 'heartwell', 2); Game.closeEncounter();
+      if (p.hp !== 115 || p.food !== 70) out.push(`a rest by it: ${p.hp} hit points (not 115), ${p.food} food (not 70)`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the Last Delver: a meal shared buys the floor and its traps; asked badly, they wake the floor; robbed well, their pack', async () => {
+    const out = [];
+    {
+      const ctx = await deepHero('delver-meal');
+      const { Game } = ctx; const L = Game.level();
+      L.explored.fill(0);
+      meetAndChoose(ctx, 'lastdelver', 0); Game.closeEncounter();
+      if (!L.explored.every(v => v)) out.push('a shared meal did not lay out the floor');
+      if (Object.keys(L.traps || {}).length && !L.trapsKnown) out.push('a shared meal did not tell the traps');
+    }
+    {
+      const ctx = await deepHero('delver-ask');
+      const { Game } = ctx; const p = Game.player();
+      p.stats.wis = 1;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && !r.check.pass); i++) {
+        const L = Game.level();
+        r = meetAndChoose(ctx, 'lastdelver', 1); Game.closeEncounter();
+        // (put a sleeper back on the floor to see whether it wakes: meeting clears the floor's monsters)
+        if (r.check && !r.check.pass) break;
+        void L;
+      }
+      if (r.check.pass) out.push('a dull wit asked well six times running');
+      else if (!r.lines.some(l => /awake/.test(l))) out.push(`asked badly, they said: ${r.lines.join(' / ')}`);
+    }
+    {
+      const ctx = await deepHero('delver-rob');
+      const { Game } = ctx; const p = Game.player();
+      p.stats.dex = 30;
+      let r = null;
+      const held = () => p.inv.reduce((a, it) => a + (it.q || 1), 0);
+      let before = 0;
+      for (let i = 0; i < 6 && !(r && r.check && r.check.pass); i++) { before = held(); r = meetAndChoose(ctx, 'lastdelver', 2); Game.closeEncounter(); }
+      if (!r.check.pass) out.push('quick fingers never robbed them');
+      else if (!r.lines.some(l => /^Found: /.test(l))) out.push(`robbed, they gave: ${r.lines.join(' / ')} (${before} -> ${held()})`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a warm egg: smashed, a deal of experience and the floor wakes; a hand warmed at it heals a little', async () => {
+    const out = [];
+    {
+      const ctx = await deepHero('egg-smash');
+      const { Game } = ctx; const p = Game.player();
+      const xp = p.xp;
+      const r = meetAndChoose(ctx, 'wyrmegg', 0); Game.closeEncounter();
+      if (p.xp - xp < 60) out.push(`smashed, it gave ${p.xp - xp} experience`);
+      if (!r.lines.some(l => /awake/.test(l))) out.push(`smashed, it said: ${r.lines.join(' / ')}`);
+    }
+    {
+      const ctx = await deepHero('egg-warm');
+      const { Game } = ctx; const p = Game.player();
+      p.hp = 100;
+      meetAndChoose(ctx, 'wyrmegg', 2); Game.closeEncounter();
+      if (p.hp !== 112) out.push(`a hand warmed at it: ${p.hp} hit points, not 112`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a kobold trapper backs off to throw, sets a snare between you that is seen and can be sprung from before it, and its snares go slack when it dies', async () => {
     const out = [];
     const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-kobold');

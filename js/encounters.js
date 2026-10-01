@@ -576,6 +576,51 @@ const ENCOUNTERS = {
     ],
   },
 
+  // the deep floors' own, with the forge-spirit: the Heart felt from below, one who came
+  // down and never went back up, and a wyrm's warm egg
+  heartwell: {
+    title: 'The Heartwell', sprite: 'heartwell', depth: [6, 99], tier: 8,
+    text: 'A shaft drops away into the dark, ringed with stones worn smooth by hands. Up out of it comes a warm red light, and a slow sound like a heartbeat: the Heart, somewhere far below. The air over it shimmers.',
+    choices: [
+      { label: 'Lean over and breathe its warmth', check: { stat: 'con', dc: 14, knack: [['druid', null, 2], ['fighter', null, 1]] },
+        pass: { text: 'The heat goes into you like strong wine and stays. You feel the stronger for it, and whole.', effects: [{ maxHp: 4 }, { heal: 20 }] },
+        fail: { text: 'The heat sears your throat and lungs, and you reel back coughing.', effects: [{ hurtFrac: 0.15 }] } },
+      { label: 'Drop gold down the shaft', cost: { goldPerDepth: 10 },
+        outcome: { text: 'The coins fall a long way, and the beat below quickens, once. Your hand is steadier for a while.', effects: [{ buff: { stats: [['hit', 2]], dur: 300000 } }, { xp: 20 }] } },
+      { label: 'Sit and warm yourself a while', outcome: { text: 'You rest your back against the warm stones and let the beat slow your own. The time passes, and so does some of the hurt.', effects: [{ heal: 15 }, { food: -10 }] } },
+      { label: 'Leave it beating', outcome: { text: 'You leave the Heart\'s warmth behind and go on into the cold.', effects: [] } },
+    ],
+  },
+
+  lastdelver: {
+    title: 'The Last Delver', sprite: 'lastdelver', depth: [6, 99], tier: 8,
+    text: 'A wasted figure in the rags of a fine coat crouches over a fire of bones, muttering. They came down for the Heart, long ago, and never went back up. They look at you with eyes too bright. "Another one. Have you brought anything to eat?"',
+    choices: [
+      { label: 'Share a meal with them', cost: { food: 20 },
+        outcome: { text: 'They eat like a starving thing, then draw the floor for you in the ash with a bone, every trap marked. "I know every stone of it," they say. "Every stone."', effects: [{ map: 1 }, { traps: 1 }, { xp: 25 }] } },
+      { label: 'Ask what lies below', check: { stat: 'wis', dc: 13, knack: [['cleric', null, 2], ['mage', null, 2]] },
+        pass: { text: 'You let them talk, and pick out what is true. They name every flask and blade you carry, and what each will do.', effects: [{ identifyAll: 1 }, { xp: 20 }] },
+        fail: { text: 'Their muttering rises to a shriek that rings down every passage. Things stir all over the floor.', effects: [{ wake: 1 }] } },
+      { label: 'Rob them while they mutter', check: { stat: 'dex', dc: 14, knack: [['thief', null, 3]] },
+        pass: { text: 'Their pack has been gathering for years: the best of what a delver carries, and they never notice it go.', effects: [{ loot: 2 }] },
+        fail: { text: 'They catch your wrist with a grip like iron, rake your face, and scream. Things stir all over the floor.', effects: [{ hurtFrac: 0.1 }, { wake: 1 }] } },
+      { label: 'Leave them to their fire', outcome: { text: 'You leave them muttering over the bones. They do not look up.', effects: [] } },
+    ],
+  },
+
+  wyrmegg: {
+    title: 'A Warm Egg', sprite: 'wyrmegg', depth: [6, 99], tier: 8,
+    text: 'In a nest of ash and gnawed bones lies an egg the size of a shield, scaled like a pine cone and warm to the touch. Something inside it shifts as you come near.',
+    choices: [
+      { label: 'Smash it before it hatches', outcome: { text: 'It takes three blows. What is inside never draws breath, but somewhere far off on this floor something huge roars, and keeps roaring.', effects: [{ xp: 60 }, { wake: 1 }] } },
+      { label: 'Prise off a shard of its shell', check: { stat: 'dex', dc: 13, knack: [['thief', null, 2], ['ranger', null, 2]] },
+        pass: { text: 'The shard comes away clean. Under the nest, among the bones, lies what the last thief to try it dropped.', effects: [{ loot: 2 }, { xp: 20 }] },
+        fail: { text: 'The shell gives, and something inside snaps at your fingers through the gap.', effects: [{ hurtFrac: 0.1 }] } },
+      { label: 'Warm your hands at it', outcome: { text: 'The egg is as warm as a hearth. You stand by it a while, and feel better for it.', effects: [{ heal: 12 }] } },
+      { label: 'Leave it be', outcome: { text: 'You leave the egg to its nest, and whatever laid it.', effects: [] } },
+    ],
+  },
+
   mapmaker: {
     title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
     text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',
