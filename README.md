@@ -263,10 +263,16 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 81% | 78% | 79% | 81% | 80% | 85% | about 80% |
-| Hard | 61% | 55% | 60% | 61% | 63% | 60% | about 60% |
+| Normal | 84% | 80% | 80% | 78.5% | 83% | 84% | about 81% |
+| Hard | 55% | 56% | 59.5% | 56% | 61% | 57% | about 58% |
 | Long Delve (12 floors), Normal | 87% | 88% | 85% | 79% | 80% | 84% | about 84% |
 | Long Delve (12 floors), Hard | 65% | 65% | 59% | 61% | 64% | 57% | about 63% |
+
+The Normal and Hard rows were measured again, both seed sets, after the middle floors grew
+stranger (mimics, kobold trappers and their snares, floors of tremors, the Lever Door and the Lost
+Mule) and the sellsword came to be hired there. Normal barely moved; Hard came down about two
+points, the cleric most (61% to 55%), and every class is still within six points of the high
+fifties. The Long Delve rows are from before.
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of
