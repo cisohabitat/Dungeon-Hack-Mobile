@@ -296,7 +296,7 @@ const ENCOUNTERS = {
     title: 'A Lost Mule', sprite: 'mule', depth: [3, 6],
     text: 'A mule stands in the passage with its head low and its packs askew, a frayed rope hanging from its halter where someone let go of it. It looks at you, and then at the dark, as if it would rather you.',
     choices: [
-      { label: 'Take its rope and lead it on', outcome: { text: 'It falls in behind you, nosing at your pack. You tie it where the traders pass; the next one you meet will know whose it is.', effects: [{ thread: 'mule' }] } },
+      { label: 'Take its rope and lead it on', outcome: { text: 'It falls in behind you, nosing at your pack. You tie it where the traders pass; the next of them below will know whose it is.', effects: [{ thread: 'mule' }] } },
       { label: 'Strip its packs and send it off', outcome: { text: 'Rope, a pot, a lamp, some coin and one thing worth having. The mule trots off lighter, and does not look back.', effects: [{ loot: 0 }, { goldPerDepth: 5 }] } },
       { label: 'Let it lead you, as it knows the way', check: { stat: 'wis', dc: 12, knack: [['druid', null, 3], ['ranger', null, 2]] },
         pass: { text: 'You give it its head. It picks its way through the passages without a wrong turn, and you learn the floor as it goes.', effects: [{ map: 1 }, { xp: 25 }] },
@@ -546,7 +546,7 @@ const ENCOUNTERS = {
   // the hiring is not on offer, though the sellsword will still talk.
   hire: {
     title: 'A Sellsword for Hire', sprite: 'hireling', depth: [3, 6],
-    text: 'Someone sits on an upturned crate by the wall, a greatsword planted point-down in front of them and a kettle hat pushed back. "Going down? So am I, for pay. I am slow, I am hard to kill, and anything that comes for you comes through me."',
+    text: 'Someone leans against the wall with both hands on the pommel of a greatsword planted point-down before them, a kettle hat pushed back. "Going down? So am I, for pay. I am slow, I am hard to kill, and anything that comes for you comes through me."',
     choices: [
       { label: 'Pay their price', cost: { goldPerDepth: 20 }, alone: true,
         outcome: { text: 'They weigh the purse, nod once, and get to their feet. "Lead on, then."', effects: [{ companion: 'sellsword' }] } },

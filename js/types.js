@@ -111,6 +111,7 @@
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {number} [worth]     what it pays in experience, when not its kind's own: a puffcap is worth the creature it grew over
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
+ * @property {number} [backAt]    a skirmisher (a kobold) may not step back from the hero again before this time
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log

@@ -183,8 +183,8 @@ export function makeCompanion(K) {
    * @returns {boolean} whether the blow was taken
    */
   function guards(m, mb) {
-    const c = here();
-    if (!c || !knows(c, 'guard') || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1 || d(1, 3) !== 1) return false;
+    const c = here(), p = K.P();
+    if (!c || !knows(c, 'guard') || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1 || Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1 || d(1, 3) !== 1) return false;
     c.guarded = (c.guarded || 0) + 1;
     Sound.play('block', K.heard({ x: c.x, y: c.y }));
     hurt(Math.max(1, d(...mb.dmg)), `${c.name} steps into the blow meant for you: the ${mb.name} hits`);

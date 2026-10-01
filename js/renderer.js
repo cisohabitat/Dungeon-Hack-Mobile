@@ -885,7 +885,7 @@ const Renderer = (() => {
   // floor gives way, darkness closes in from above and below as the hero
   // drops, dust rushing up past, then the landing jolts it open again; a gong's
   // note rolls out in bronze rings; a trap spotted and jammed is a gold glint.
-  const TRAP_MS = { dart: 420, needle: 650, pit: 900, alarm: 1400, disarm: 700 };
+  const TRAP_MS = { dart: 420, needle: 650, pit: 900, alarm: 1400, disarm: 700, snare: 900 };
   function drawTrap(fx, now) {
     const k = fx.trapKind;
     if (!k) return;
@@ -910,6 +910,17 @@ const Renderer = (() => {
         ctx.globalCompositeOperation = 'lighter';
         glow(ex, ey, 6 + f * 14, '#ffd080', (1 - f) * 0.9);
         for (let i = 0; i < 6; i++) { const a = hash(i + 3) * Math.PI * 2, r = f * 16 * (0.5 + hash(i)); ctx.fillStyle = hexA('#ffe0a0', 1 - f); ctx.fillRect(Math.round(ex + Math.cos(a) * r), Math.round(ey + Math.sin(a) * r), 1, 1); }
+      }
+    } else if (k === 'snare') {
+      // a kobold's wire loop snaps up off the stones and pulls tight across the foot of the view;
+      // a quick foot slipped, it closes on nothing and falls slack
+      const u = Math.min(1, t / 0.3), cx = W * 0.5, by = H + 4;
+      const r = W * (0.32 - (fx.trapDodged ? 0.1 : 0.22) * ease(u)), lift = H * 0.13 * ease(u) * (fx.trapDodged && t > 0.5 ? 1 - (t - 0.5) * 2 : 1);
+      ctx.globalAlpha = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+      if (!fx.trapDodged && u >= 1) { ctx.fillStyle = hexA('#c83a2a', 0.14 * (1 - t)); ctx.fillRect(0, 0, W, H); }
+      for (const [c, w] of [['#0a0810', 3.5], ['#d8dce4', 1.4]]) {
+        ctx.strokeStyle = c; ctx.lineWidth = w;
+        ctx.beginPath(); ctx.ellipse(cx, by - lift, Math.max(2, r), Math.max(1, r * 0.35), 0, Math.PI, Math.PI * 2); ctx.stroke();
       }
     } else if (k === 'needle') {
       const up = t < 0.2 ? ease(t / 0.2) : t < 0.55 ? 1 : 1 - ease((t - 0.55) / 0.45);

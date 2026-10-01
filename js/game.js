@@ -114,7 +114,7 @@ const Game = (() => {
     if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. Whatever keeps the Heart will be the stronger for it.');
     if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
     if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
-    if (t.mule) out.push(t.muleDone ? 'A trader knew the lost mule you led on, and paid you for it.' : 'You led a lost mule on: the next trader you meet will know whose it is.');
+    if (t.mule) out.push(t.muleDone ? 'A trader knew the lost mule you led on, and paid you for it.' : 'You led a lost mule on: the next trader below will know whose it is.');
     { const n = companion.note(); if (n) out.push(n); }
     return out;
   }
@@ -1682,6 +1682,9 @@ const Game = (() => {
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
     clearLanding(L);
+    // a floor of tremors starts its count again on arrival: rock left in the air when the hero went
+    // never lands on them unmarked as they come back
+    if (L.quake) L.quake = null;
     // you arrive beside the stair you came by; that one needs no announcing
     const came = stairsBeside();
     besideKey = came ? came.key : '';
@@ -2324,7 +2327,7 @@ const Game = (() => {
     if (!pool.length) return;
     const b = pool[rng.int(0, pool.length - 1)], mb = MONSTERS.mimic;
     if (barrels.length) L.dressing.splice(L.dressing.indexOf(b), 1);
-    const hp = Dice.dice(mb.hp[0], mb.hp[1], mb.hp[2]);
+    const hp = rng.dice(mb.hp[0], mb.hp[1], mb.hp[2]) + Math.floor((depth - 1) / 2);
     L.monsters.push({ uid: depth * 1000 + 990, id: 'mimic', x: b.x, y: b.y, hp, maxHp: hp, awake: false, disguised: true, dox: b.ox, doy: b.oy,
       nextAct: 0, rx: b.x, ry: b.y, fromX: b.x, fromY: b.y, moveT0: 0, moveT1: 0, flashUntil: 0 });
   }
@@ -2576,7 +2579,8 @@ const Game = (() => {
     // an arrow at a foe that has not yet seen who loosed it
     const unseen = atRange && !m.awake;
     const marked = unseen && hasTalent('hunters_mark');
-    const sure = unseen && onPath('sharpshooter');   // a Sharpshooter's first arrow at it never misses
+    // a Sharpshooter's first arrow at it never misses; nor does any blow at a mimic still shut, which is a barrel standing still
+    const sure = (unseen && onPath('sharpshooter')) || !!m.disguised;
     m.awake = true;
     const roll = d(1, 20);
     // an answered trick's opening, taken in time, on the one that left it
@@ -3757,6 +3761,8 @@ const Game = (() => {
     const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
     if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
     const mb = mstat(m), shield = !!(p.eq.shield && !ITEMS[p.eq.shield.t].focus), what = shield ? 'shield' : p.eq.weapon ? 'pommel' : 'fist';
+    // a barrel bashed that was a mimic springs open before it is named
+    if (m.disguised) spring(m, 'struck');
     // any blow or trick it was drawing back is broken off; the lich's rite goes on through it
     const rite = !!(m.windup && m.windup.move === 'rite');
     const broke = !rite && !!(m.windup || m.volley);
@@ -4603,7 +4609,7 @@ const Game = (() => {
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes
     // on a floor of tremors, where rock is about to land: marked on the floor, and the rock itself as it drops
     fx.rocks = elements.falling();
-    for (const r of fx.rocks) if (r.u > 0.72 && Assets.sprites.dress_rubble) sprites.push({ x: r.x + 0.5, y: r.y + 0.5, img: Assets.sprites.dress_rubble, scale: 0.5, yOff: 1.1 * (1 - r.u) / 0.28, dress: true });
+    for (const r of fx.rocks) if (r.u > 0.72 && Assets.sprites.dress_rubble) sprites.push({ x: r.x + 0.5, y: r.y + 0.5, img: Assets.sprites.dress_rubble, scale: 0.36, yOff: 1.1 * (1 - r.u) / 0.28, dress: true });
     fx.frost = [];
     for (const m of L.monsters) {
       const w = m.windup;

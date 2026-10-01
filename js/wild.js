@@ -103,6 +103,8 @@ export function makeWild(K) {
       const x = p.x + dx * i, y = p.y + dy * i;
       if (!K.passable(x, y)) break;
       const m = K.monsterAt(x, y);
+      // (a mimic still shut stops the roots as the barrel it seems)
+      if (m && m.disguised) break;
       if (m && !m.collapsed) { held.push(m); if (!all) break; }
     }
     return held;

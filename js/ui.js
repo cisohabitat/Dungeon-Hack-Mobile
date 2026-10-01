@@ -788,6 +788,8 @@ const UI = (() => {
   // as it does for the first plain blow: the tip names the trick's own move.
   const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare' };
   /** Whether an awake puffcap is within reach of a few steps. */
+  /** A mimic still shut that has creaked, within four squares. */
+  const mimicHeard = () => { const p = Game.player(); return Game.level().monsters.some(m => m.disguised && m.creaked && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4); };
   const kinNear = (id, n) => { const p = Game.player(); return Game.level().monsters.some(m => m.id === id && m.awake && !m.sunk && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= n); };
   const puffcapNear = n => kinNear('puffcap', n);
   /** How fast the dungeon runs: slowed while the first warning mark, or a trick's first coming, is being answered. */
@@ -863,7 +865,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3), tremors: () => !!(L0.quake && L0.quake.falls.length), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -911,7 +913,8 @@ const UI = (() => {
     // a drowned one risen, or an eyeless awake and near: each told once
     if (kinNear('drowned', 3) && showTip('drowned', true)) return;
     if (kinNear('eyeless', 6) && showTip('eyeless', true)) return;
-    if (kinNear('mimic', 3) && showTip('mimic', true)) return;
+    // (a mimic's lesson comes as it gives itself away: at its creak, while it is still a barrel)
+    if ((kinNear('mimic', 3) || mimicHeard()) && showTip('mimic', true)) return;
     // only a hero with fire to hand is told to burn a web
     if ((p.webbed || 0) > Game.state().t && showTip(Game.knownSpells().some(sp => sp.fire && Game.spellAvailable(sp)) ? 'web' : 'webtear', true)) return;
     if (p.opening && p.opening.until > Game.state().t && showTip('opening', true)) return;
@@ -1011,7 +1014,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot()].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : ''].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -1040,6 +1043,8 @@ const UI = (() => {
     // what the hero stands in, which the view cannot show under their own feet: a burning
     // arrow looks for oil, and an acolyte's lightning for water
     const under = underfoot();
+    // (your own square is under the view: its grit ring cannot be seen, so the row says it)
+    if (L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y)) st.push('<span class="bad" title="Rock is about to fall on the square you stand on: step off it">Rock falling here!</span>');
     if (under === 'oil') st.push('<span class="bad" title="Spilt lamp oil under your feet: fire here would catch">Oil underfoot</span>');
     else if (under === 'water') st.push('<span class="bad" title="A puddle under your feet: lightning here would find you">In water</span>');
     if (secs('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);

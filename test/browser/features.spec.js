@@ -1256,6 +1256,46 @@ test.describe('dungeon features', () => {
     expect(await flames()).toBeGreaterThan(cold + 200);
     expect(errors).toEqual([]);
   });
+  test('a barrel that creaks brings the mimic tip while still shut; a sprung snare snaps across the foot of the view', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { tips: true, seed: 'creak-tip', cls: 'fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.dressing = [];
+      for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      const x = p.x + dx * 3, y = p.y + dy * 3;
+      L.monsters.push({ uid: 4321, id: 'mimic', x, y, hp: 60, maxHp: 60, awake: false, disguised: true, creaked: true, nextAct: 1e12, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(page.locator('#tip')).toContainText('mimic', { timeout: 3000 });
+    expect(await page.evaluate(() => Game.level().monsters[0].disguised)).toBe(true);
+    // the wire across the floor before the hero, pale against the stones (between the shield and the blade, which bob as the hero steps)
+    const wire = () => page.evaluate(() => {
+      const c = document.getElementById('view'), g = c.getContext('2d');
+      const d = g.getImageData(Math.round(c.width * 0.32), Math.round(c.height * 0.72), Math.round(c.width * 0.36), Math.round(c.height * 0.22)).data;
+      let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (d[i] > 190 && d[i + 1] > 190 && d[i + 2] > 195) n++;
+      return n;
+    });
+    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; });
+    await page.waitForTimeout(300);
+    const before = await wire();
+    const after = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir], k = `${p.x + dx},${p.y + dy}`;
+      p.stats.dex = 1;
+      L.traps[k] = 'snare'; L.snares = { [k]: 99 };
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 200));
+      const c = document.getElementById('view'), g = c.getContext('2d');
+      const d = g.getImageData(Math.round(c.width * 0.32), Math.round(c.height * 0.72), Math.round(c.width * 0.36), Math.round(c.height * 0.22)).data;
+      let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (d[i] > 190 && d[i + 1] > 190 && d[i + 2] > 195) n++;
+      return n;
+    });
+    expect(after).toBeGreaterThan(before + 30);
+    expect(errors).toEqual([]);
+  });
   test('a floor of tremors: grit rings where rock will land, the tip says to step off, and the rock comes down', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
@@ -1283,6 +1323,8 @@ test.describe('dungeon features', () => {
       L.quake = { next: G.t + 1e9, falls: [{ x: p.x, y: p.y, at: G.t, lands: G.t + 60000 }, { x: p.x + dx * 2, y: p.y + dy * 2, at: G.t - 30000, lands: G.t + 30000 }] };
     });
     await expect(page.locator('#tip')).toContainText('rock is coming down', { timeout: 2000 });
+    // the hero's own square is under the view, so the status row says rock is falling there
+    await expect(page.locator('#hud-status')).toContainText('Rock falling here!');
     await page.waitForTimeout(300);
     // (the view's own flicker moves this by about three; the rings by about thirty)
     expect(Math.abs(await floor() - before)).toBeGreaterThan(15);

@@ -11657,6 +11657,100 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('review fixes 6: a shut mimic cannot dodge a blow, springs at a bash, stops roots, never counts as awake; rock is not the hero\'s blow and crushes bones', async () => {
+    const out = [];
+    {
+      const { Game, G, L, p, put } = await arena('fighter', 'rv6-swing');
+      L.twist = null;
+      // the clumsiest swing still lands on a barrel standing still, and it is named only once it has sprung
+      p.stats.str = 1; p.perkHit = -40;
+      const m = put('mimic', 1, 0, { awake: false, disguised: true, hp: 60, maxHp: 60, nextAct: 0 });
+      const mark = markLog(G);
+      G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack');
+      const said = linesSince(G, mark);
+      if (m.disguised || m.hp >= 60) out.push(`a clumsy swing at a shut mimic ${m.disguised ? 'left it shut' : 'did no harm'}`);
+      if (said.some(l => /You miss the Mimic/.test(l))) out.push('a swing at a shut mimic missed it by name');
+    }
+    {
+      const { Game, G, L, p, put } = await arena('fighter', 'rv6-bash');
+      L.twist = null;
+      const m = put('mimic', 1, 0, { awake: false, disguised: true, hp: 60, maxHp: 60, nextAct: 0 });
+      const mark = markLog(G);
+      Game.useAbility();
+      const said = linesSince(G, mark), opened = said.findIndex(l => /barrel/i.test(l)), named = said.findIndex(l => /bash the Mimic/.test(l));
+      if (m.disguised) out.push('a bashed mimic stayed shut');
+      else if (opened < 0 || (named >= 0 && named < opened)) out.push(`bashing a shut mimic named it first: ${said.join(' | ')}`);
+    }
+    {
+      const { Game, G, L, p, put } = await arena('druid', 'rv6-roots');
+      L.twist = null;
+      const m = put('mimic', 2, 0, { awake: false, disguised: true, hp: 60, maxHp: 60, nextAct: 0 });
+      const behind = put('goblin', 3);
+      const mark = markLog(G);
+      // (with only a barrel in the way the spell finds nothing to hold, and may not be cast at all)
+      G.t = Math.max(G.t, p.nextAttack) + 10;
+      Game.castSpell(Game.knownSpells().find(sp => sp.id === 'entangle'));
+      if ((m.snaredUntil || 0) > G.t || linesSince(G, mark).some(l => /wrap the Mimic/.test(l))) out.push('roots wrapped a shut mimic');
+      if ((behind.snaredUntil || 0) > G.t) out.push('roots passed a shut mimic to the goblin behind it');
+      // woken with the whole floor, it is asleep again before anything can count it
+      m.awake = true;
+      run(Game, G, 50);
+      if (m.awake) out.push('a shut mimic stayed awake');
+    }
+    {
+      const { Game, G, L, p, put } = await arena('fighter', 'rv6-rock');
+      L.twist = 'tremors';
+      // an acolyte's chant goes on under falling rock, and the hero is not thanked for it
+      const a = put('acolyte', 2, 0, { hp: 999, maxHp: 999, nextAct: 1e12 });
+      a.windup = { kind: 'move', move: 'mend', at: G.t, until: G.t + 60000 };
+      L.quake = { next: G.t + 1e9, falls: [{ x: a.x, y: a.y, at: G.t, lands: G.t + 50 }] };
+      const mark = markLog(G);
+      run(Game, G, 100);
+      if (!a.windup || a.windup.move !== 'mend') out.push('falling rock broke an acolyte\'s chant');
+      if (linesSince(G, mark).some(l => /You break/.test(l))) out.push('falling rock was told as the hero\'s blow');
+      // a skeleton under it, the hero holding an edge, stays down
+      L.monsters.length = 0;
+      const sk = put('skeleton', 2, 0, { hp: 1, maxHp: 20 });
+      L.quake.falls = [{ x: sk.x, y: sk.y, at: G.t, lands: G.t + 50 }];
+      run(Game, G, 100);
+      if (L.monsters.includes(sk)) out.push(`a skeleton under falling rock ${sk.collapsed ? 'fell apart to rise again' : 'was left standing'}`);
+    }
+    // a floor left with rock in the air drops none of it on a hero coming back
+    {
+      const ctx = await start('fighter', 'rv6-back', { levels: 8 });
+      const { Game } = ctx; const G = Game.state(), p = Game.player();
+      p.hp = p.maxHp = 999;
+      Game.testFloor(3);
+      const L3 = Game.level();
+      L3.twist = 'tremors';
+      L3.quake = { next: G.t + 1e9, falls: [{ x: L3.downStart ? L3.downStart.x : L3.start.x, y: L3.downStart ? L3.downStart.y : L3.start.y, at: G.t, lands: G.t + 1000 }] };
+      Game.testFloor(4); Game.level().monsters.length = 0;
+      run(Game, G, 3000);
+      Game.testFloor(3); Game.level().monsters.length = 0;
+      run(Game, G, 50);
+      if (p.hp < 999) out.push('rock left in the air fell on a hero coming back');
+      if (L3.quake && L3.quake.falls.length) out.push('rock left in the air was still falling on return');
+    }
+    // a mimic's life comes from its floor's own dice: the same seed, the same mimic
+    {
+      let seen = 0;
+      for (let i = 0; i < 40 && seen < 2; i++) {
+        const hp = [];
+        for (const k of [0, 1]) {
+          const ctx = await start('fighter', 'rv6-hp-' + i, { levels: 8 });
+          ctx.Game.testFloor(5);
+          const m = ctx.Game.level().monsters.find(x => x.id === 'mimic');
+          hp.push(m ? m.hp : null);
+        }
+        if (hp[0] == null) continue;
+        seen++;
+        if (hp[0] !== hp[1]) out.push(`one seed's mimic had ${hp[0]} and then ${hp[1]} hit points`);
+      }
+      if (!seen) out.push('no mimic on the fifth floor of forty seeds');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a kobold trapper backs off to throw, sets a snare between you that is seen and can be sprung from before it, and its snares go slack when it dies', async () => {
     const out = [];
     const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-kobold');

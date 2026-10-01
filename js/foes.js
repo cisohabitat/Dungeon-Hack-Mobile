@@ -204,7 +204,8 @@ export function makeFoes(K) {
   }
   /** Crushing and magic keep a skeleton down; an edge only takes it apart. */
   function breaksBones(tag) {
-    if (tag === 'fire' || tag === 'burn' || tag === 'burning' || tag === 'blaze' || tag === 'shock') return true;
+    // (falling rock crushes as surely as a hammer)
+    if (tag === 'fire' || tag === 'burn' || tag === 'burning' || tag === 'blaze' || tag === 'shock' || tag === 'rockfall') return true;
     if (tag === 'thorns' || tag === 'companion') return false;
     const w = tag === 'offhand' ? K.offhandWeapon() : K.weapon();
     return !!(w && w.blunt);
@@ -720,7 +721,7 @@ export function makeFoes(K) {
     }
     // a numbing claw is struck aside by a blow that lands first, and leaves it
     // open: a blow or a spell, not poison or fire already eating at it
-    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'blaze', 'venom', 'thorns', 'companion', 'shock'].includes(tag)) {
+    if (m.windup && m.windup.move === 'paralyse' && !['burning', 'blaze', 'venom', 'thorns', 'companion', 'shock', 'rockfall'].includes(tag)) {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 900;
       K.log(`Your blow knocks the ${mb.name}'s claw aside before it can close!`, 'good');
       K.learn(m.id, 'answer');
@@ -728,8 +729,8 @@ export function makeFoes(K) {
     }
     // a chant, a war-horn call and the lich's rite are the hero's to break:
     // the hound's teeth do not count, or it quietly won the lich fight for them;
-    // nor does a fire some monster lit (a wyrm's breath)
-    const byHero = tag !== 'companion' && tag !== 'blaze';
+    // nor does a fire some monster lit (a wyrm's breath), nor rock the roof let fall
+    const byHero = tag !== 'companion' && tag !== 'blaze' && tag !== 'rockfall';
     // a chant is broken by any wound
     if (byHero && m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
@@ -1144,7 +1145,8 @@ export function makeFoes(K) {
   function monsterTurn(m, L, p) {
     const G = K.G, mb = K.mstat(m);
     if (m.sunk) { lurks(m, L, p); return; }
-    if (m.disguised) { waits(m, L, p); return; }
+    // (a mimic still shut sleeps as a barrel does, whatever woke the floor: nothing that counts the awake counts it)
+    if (m.disguised) { m.awake = false; waits(m, L, p); return; }
     speaks(m, mb);
     if (m.collapsed) { rises(m, mb); return; }
     if (!burnsAndMends(m, mb, L)) return;

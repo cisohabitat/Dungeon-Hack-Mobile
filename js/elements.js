@@ -347,7 +347,7 @@ export function makeElements(K) {
     }
     if (G.t < q.next) return;
     q.next = G.t + QUAKE_GAP[0] + Math.random() * (QUAKE_GAP[1] - QUAKE_GAP[0]);
-    // (not while the dungeon has no hold on the hero: none fall on the stairs, nor in sight of a trader)
+    // (none fall round a hero on the stair: they are leaving, and a stair is no place to dodge)
     if (K.tile(p.x, p.y) === K.T.STAIRS_DOWN || K.tile(p.x, p.y) === K.T.STAIRS_UP) return;
     const near = [];
     for (let dy = -QUAKE_REACH; dy <= QUAKE_REACH; dy++) for (let dx = -QUAKE_REACH; dx <= QUAKE_REACH; dx++) {
