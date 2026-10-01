@@ -152,6 +152,7 @@
  * @property {boolean} [cutBroke]  a boss whose rite or drumbeat a sellsword's cut has broken this fight (once only)
  * @property {boolean} [throne]  the Goblin Warlord sits his throne: his shield-bearers turn every blow but a spell, and he only throws
  * @property {number} [bearer]  this orc is one of the Warlord's shield-bearers (the Warlord's uid)
+ * @property {number} [ember]  this emberling climbed out of the Heartforged's furnace (its uid): it goes out when the Heartforged falls
  * @property {number} [drums]  how many times the Warlord has beaten his war-drum
  * @property {boolean} [frenzy]  the Warlord has kicked open his war-chest and fights in a frenzy
  * @property {boolean} [overSaid]  a spell over the shield-bearers' heads has been told once

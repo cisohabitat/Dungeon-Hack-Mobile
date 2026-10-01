@@ -237,10 +237,12 @@ const Sound = (() => {
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl', heartforged: 'forge' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },
+    // the Heartforged: a furnace's roar through an iron throat, and the ring of the metal it is made of
+    forge(out) { const l = lp(out, 420); tone(l, 55, 1.1, 'sawtooth', 0.16, -12, 0, 0.12); tone(l, 82, 0.9, 'square', 0.06, -20, 0.05, 0.1); noise(out, 1.0, 0.07, { f: 300, attack: 0.15 }); tone(out, 880, 0.9, 'sine', 0.03, -40, 0.1, 0.5); tone(out, 1320, 0.6, 'sine', 0.015, -60, 0.1, 0.35); },
     // the druid's wolf: one low howl that rises and falls away
     howl(out) { const l = lp(out, 1200); tone(l, 330, 0.9, 'triangle', 0.08, 140, 0, 0.18); tone(l, 470, 0.5, 'sine', 0.03, -120, 0.35, 0.1); noise(out, 0.7, 0.03, { type: 'bandpass', f: 900, q: 2, attack: 0.2 }); },
     // the sellsword: a gruff grunt through the teeth, and a ring of steel under it

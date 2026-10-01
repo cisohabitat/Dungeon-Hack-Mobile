@@ -402,7 +402,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         }
       }
       if (trick) {
-        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm';
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm' || mv === 'stamp';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
         let best = null, score = -1;
         for (let k = 0; k < 4; k++) {

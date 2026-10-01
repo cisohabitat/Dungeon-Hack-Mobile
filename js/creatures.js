@@ -393,6 +393,51 @@ const CREATURES = {
   // A mimic: a barrel to the hoops, until its lid lifts into a jaw. Rows of
   // teeth where the staves meet, a long tongue out over the rim, and two
   // eyes on stalks that were knots in the wood. Lunging, it gapes wider.
+  // The Heartforged: an iron giant, broad as a door, plates riveted over a
+  // furnace that shows through the grille in its chest, a slit of fire for
+  // eyes, and a great hammer. Raising it (its windup), the hammer goes up over
+  // its head and the furnace burns white.
+  heartforged: (pose = 'idle') => {
+    const up = pose === 'windup';
+    const iron = '#3a3c46', iron2 = '#545a68', dark = '#22232a', rivet = '#8a909c', seam = up ? '#ffb040' : '#c8501c';
+    const fire = up ? '#fff4c0' : '#ff9a30', fire2 = up ? '#ffd060' : '#e0501c', glow = up ? '#ffffff' : '#ffd060';
+    return [
+      // legs like pillars, and great square feet
+      limb(12, 22, 11, 29.5, 2.8, 2.6, iron), limb(20, 22, 21, 29.5, 2.8, 2.6, iron),
+      line(9.5, 25.5, 12.5, 25.5, seam), line(19.5, 25.5, 22.5, 25.5, seam),
+      sheet([[7.5, 29], [14.5, 29], [14.5, 31.5], [7.5, 31.5]], dark), sheet([[17.5, 29], [24.5, 29], [24.5, 31.5], [17.5, 31.5]], dark),
+      // the body: a barrel of plate, the furnace grille in its chest, seams glowing between the plates
+      sheet([[7, 11], [25, 11], [26, 23], [6, 23]], iron, { curve: 0.6 }),
+      sheet([[8, 12], [13, 12], [12, 22], [7, 22]], iron2, { curve: 0.4 }),
+      line(6.5, 22.6, 25.5, 22.6, seam), line(7.5, 11.4, 24.5, 11.4, seam),
+      sheet([[11.5, 14], [20.5, 14], [20, 20.5], [12, 20.5]], '#1a0c08'),
+      ball(16, 17.4, 3.8, 3, fire2), ball(16, 17.6, 2.4, 1.9, fire),
+      ...[13, 15, 17, 19].map(x => line(x, 14, x, 20.5, dark)),
+      line(11.5, 17.2, 20.5, 17.2, dark),
+      ...[[8, 12.6], [24, 12.6], [7, 21.6], [25, 21.6]].map(([x, y]) => ball(x, y, 0.7, 0.7, rivet)),
+      // shoulders like anvils
+      ball(6.5, 12.5, 3.6, 2.8, iron2), ball(25.5, 12.5, 3.6, 2.8, iron2),
+      // the left arm hangs, the fist huge
+      limb(5.5, 14, 4.5, 22, 2.2, 2, iron), ball(4.5, 23.5, 2.6, 2.4, iron2),
+      // the right arm and the hammer: down at its side, or swung up and back over its head
+      ...(up ? [
+        limb(26, 13, 26.5, 5.5, 2.2, 2, iron), ball(26.5, 4.6, 2.4, 2.2, iron2),
+        limb(26, 4, 9, 2.2, 0.9, 0.9, '#6a4426'),
+        sheet([[1.5, 0], [9.5, 0], [9.5, 6], [1.5, 6]], dark), sheet([[2, 0.4], [9, 0.4], [9, 2], [2, 2]], iron2),
+        line(2, 5.5, 9, 5.5, fire2),
+      ] : [
+        limb(26, 14, 27.5, 22, 2.2, 2, iron), ball(27.5, 23.5, 2.6, 2.4, iron2),
+        limb(27.5, 23, 27.5, 28, 0.9, 0.9, '#6a4426'),
+        sheet([[22.5, 24.5], [31.5, 24.5], [31.5, 31], [22.5, 31]], dark), sheet([[23, 25], [31, 25], [31, 26.6], [23, 26.6]], iron2),
+        line(23, 30.5, 31, 30.5, seam),
+      ]),
+      // the head: a squat helm, a slit of fire for eyes
+      sheet([[11.5, 5], [20.5, 5], [21, 10.8], [11, 10.8]], iron, { curve: 0.5 }),
+      sheet([[12, 5.5], [15, 5.5], [14.6, 10.4], [11.6, 10.4]], iron2, { curve: 0.3 }),
+      sheet([[12.4, 7.2], [19.6, 7.2], [19.6, 8.6], [12.4, 8.6]], '#1a0c08'),
+      line(12.8, 7.9, 19.2, 7.9, glow),
+    ];
+  },
   // The emberling: a knot of cooling rock the size of a dog, crusted black and
   // split with cracks that glow like a forge, on four stubby legs, with two
   // ember eyes and little flames licking up off its back. Blazing up (its
@@ -1645,6 +1690,18 @@ const CREATURES = {
 // onto whole pixels and change little.
 const DETAILS = {
   // pits and ridges on the crust, sparks rising, the glow at the cracks' ends, and a drip of molten rock
+  // rivet glints, hammer-dents in the plate, soot round the grille and sparks off the furnace
+  heartforged: (pose = 'idle') => {
+    const up = pose === 'windup';
+    return [
+      specks([[9, 15], [10, 18.5], [23, 16], [22.5, 20], [8.5, 21], [24, 13.5]], '#30333a'),
+      specks([[7.5, 11.6], [24.5, 11.6], [15.5, 11.2]], '#e0e6f0'),
+      specks([[12, 13.6], [20, 13.6], [11.6, 21], [20.4, 21]], '#1a1210'),
+      specks(up ? [[14, 12.5], [18, 12], [16, 10.6], [13, 11.5]] : [[14.5, 13], [17.5, 12.6]], up ? '#fff4c0' : '#ffb040'),
+      hair(10.5, 24, 10, 27, '#5a5e68'), hair(21.5, 24, 22, 27, '#5a5e68'),
+      hair(12.5, 6, 13, 9.5, '#7a808c'), specks([[19, 6], [18.4, 9.8]], '#30333a'),
+    ];
+  },
   emberling: (pose = 'idle') => {
     const hot = pose === 'windup', dy = hot ? 1.2 : 0, cx = 16, cy = 21 + dy;
     return [
@@ -2075,7 +2132,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
+const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.

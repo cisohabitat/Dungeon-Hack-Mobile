@@ -1502,8 +1502,10 @@ const Game = (() => {
    * the lich, so every sidestep in the fight repeated it and filled the log.
    * @param {boolean} [trying] the hero reached for it: always said
    */
-  /** What holds the Heart while its keeper stands: the lich's cold, or the chain the Warlord has it on. */
-  const heldBy = k => (k.id === 'warlord' ? `The ${MONSTERS[k.id].name} has it chained to his hoard, and the chain will hold while he stands` : `The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands`);
+  /** What holds the Heart while its keeper stands: the lich's cold, the chain the Warlord has it on, or the Heartforged's furnace. */
+  const heldBy = k => (k.id === 'warlord' ? `The ${MONSTERS[k.id].name} has it chained to his hoard, and the chain will hold while he stands`
+    : k.id === 'heartforged' ? `It burns in the furnace in the ${MONSTERS[k.id].name}'s chest, and will while it stands`
+    : `The ${MONSTERS[k.id].name}'s cold holds it fast, and will while it stands`);
   function heartHeld(trying = false) {
     const k = keeper(), L = lvl();
     if (L.heartSaid && !trying) return;
@@ -1697,7 +1699,9 @@ const Game = (() => {
     if (from === 'down') {
       if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
-      if (L.isFinal) log(L.monsters.some(m => m.id === 'warlord') ? 'Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart\'s own hall.' : 'A dreadful presence waits somewhere on this floor.', 'bad');
+      if (L.isFinal) log(L.monsters.some(m => m.id === 'warlord') ? 'Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart\'s own hall.'
+        : L.monsters.some(m => m.id === 'heartforged') ? 'The stone is warm underfoot, and somewhere ahead a great hammer rings on iron, slow as a heartbeat. This deep, the Heart rests where it was made, and something made to keep it keeps it still.'
+        : 'A dreadful presence waits somewhere on this floor.', 'bad');
       if (L.twist && TWISTS[L.twist]) log(TWISTS[L.twist].arrive, L.twist === 'market' ? 'good' : 'info');
       namedArrives(L);
       bonesArrive(L);
@@ -2237,7 +2241,7 @@ const Game = (() => {
     spore: { c: ['#d8d0a0', '#b8b070', '#e8e4c8'], g: 0.6, stain: false },
   };
   const GORE_OF = { slime: 'goo', spider: 'ichor', skeleton: 'bone', zombie: 'rot', ghoul: 'rot', wraith: 'ecto', troll: 'troll', lich: 'bone',
-    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto', puffcap: 'spore', drowned: 'rot' };
+    basilisk: 'bile', rustmaw: 'rust', shade: 'ecto', puffcap: 'spore', drowned: 'rot', heartforged: 'spark', emberling: 'spark' };
   // a named champion bleeds as its kind does
   for (const id in MONSTERS) if (MONSTERS[id].named && GORE_OF[MONSTERS[id].named.kin]) GORE_OF[id] = GORE_OF[MONSTERS[id].named.kin];
   const STAINS_PER_FLOOR = 60, BITS_MAX = 160;
@@ -2812,7 +2816,7 @@ const Game = (() => {
     L.monsters.splice(at, 1);
     if (mb.boss) G.bossDown = true;
     memberDown(m, note);
-    if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
+    if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : m.id === 'heartforged' ? 'The Heart of the Mountain rolls out of the slag, still burning, and lies unguarded where it was made.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
     if (m.shade) shadeFalls(m);
     snaresSlack(m);

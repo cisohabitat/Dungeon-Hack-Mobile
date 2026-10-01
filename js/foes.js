@@ -74,6 +74,20 @@ export function makeFoes(K) {
     }
     return dist;
   }
+  /**
+   * How far the Heartforged's stamp runs down each of its four lines: three
+   * squares, four once it glows white.
+   */
+  const stampReach = m => ((m.phase || 0) >= 2 ? 4 : 3);
+  /** The hero on one of its four lines, near enough, with nothing solid between: how far off, or null. (Fire runs over heads.) */
+  function onLines(m, reach) {
+    const p = K.P();
+    if (m.x !== p.x && m.y !== p.y) return null;
+    const dx = Math.sign(p.x - m.x), dy = Math.sign(p.y - m.y), dist = Math.abs(p.x - m.x) + Math.abs(p.y - m.y);
+    if (dist < 1 || dist > reach) return null;
+    for (let i = 1; i < dist; i++) if (!K.passable(m.x + dx * i, m.y + dy * i)) return null;
+    return dist;
+  }
   function rangedAttack(m) {
     const mb = K.mstat(m), r = mb.ranged;
     m.lungeAt = K.realNow;
@@ -185,7 +199,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -300,6 +314,8 @@ export function makeFoes(K) {
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
     // an emberling close to the hero blazes up, after a blow or two
     else if (mv === 'flare' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2 && (m.blows || 0) >= 1) say = `The ${mb.name}'s cracks blaze white-hot! Get clear of it, or quench it with cold!`;
+    // the Heartforged stamps when the hero stands on one of its lines, after a blow (at once, once it glows white)
+    else if (mv === 'stamp' && onLines(m, stampReach(m)) && ((m.blows || 0) >= 1 || (m.phase || 0) >= 2)) say = `The ${mb.name} raises its hammer high, and fire runs down its arm! Step off its lines!`;
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
     if (!say) return false;
@@ -588,6 +604,27 @@ export function makeFoes(K) {
         m.nextAct = K.G.t + mb.speed;
         break;
       }
+      case 'stamp': {
+        // fire runs out from it along the floor, down all four lines, as far as its reach or the first wall
+        const reach = stampReach(m);
+        for (const [dx, dy] of K.DIRS) for (let i = 1; i <= reach; i++) { const x = m.x + dx * i, y = m.y + dy * i; if (!K.passable(x, y)) break; K.flame(x, y); }
+        Sound.play('smash', K.heard(m));
+        K.fx.shakeAmp = 4; K.fx.shakeMs = 350; K.fx.shakeUntil = K.realNow + 350;
+        if (onLines(m, reach)) {
+          const c = K.trickSave('dex', 'stamp');
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(4, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1) / (K.hasPower('fireward') ? 2 : 1))));
+          K.hurtPlayer(n, `The ${mb.name}'s hammer comes down, and fire runs down the floor over you for ${n}!${c.pass ? ' You leap the worst of it.' : ''}${c.note}`, m, 'the Heartforged\'s fire');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else {
+          // off its lines: the fire runs past, and the hammer sticks fast in the stone (longer once it glows white, burning itself out)
+          K.log(`The ${mb.name}'s hammer comes down, and fire runs out along its lines, past you. The hammer sticks fast in the stone: it is open!`, 'good');
+          K.learn(m.id, 'answer'); K.opening(m);
+          m.nextAct = K.G.t + ((m.phase || 0) >= 2 ? 2000 : 1500);
+        }
+        m.moveReady = K.G.t + ((m.phase || 0) >= 2 ? 4000 : 6500);
+        break;
+      }
       case 'flare': {
         // the stones round it catch: its own square and the four beside it; a hero beside it is scorched
         for (const [dx, dy] of [[0, 0], ...K.DIRS]) K.flame(m.x + dx, m.y + dy);
@@ -804,6 +841,7 @@ export function makeFoes(K) {
   // out every torch in its hall, quickens, and tries to drink the Heart's light to mend itself.
   function bossTurns(m) {
     if (m.id === 'warlord') { warlordTurns(m); return; }
+    if (m.id === 'heartforged') { forgeTurns(m); return; }
     const mb = MONSTERS[m.id];
     // its own hall, remembered before it moves: the torches it puts out are these
     if (!m.hall) m.hall = roomOf(m);
@@ -872,6 +910,45 @@ export function makeFoes(K) {
     for (const [x, y] of m.snuffed || []) K.setTile(x, y, K.T.TORCH);
     if (m.lights && m.lights.length) L.lights = (L.lights || []).concat(m.lights);
     m.snuffed = []; m.lights = [];
+  }
+  // ---------- the Heartforged ----------
+  // The Long Delve's last fight. It stamps fire down its four lines; at two
+  // thirds it tears open the furnace in its chest and two emberlings climb out
+  // of it; at one third it glows white: quicker, its lines longer, and it
+  // stamps as often as it can (each one that misses leaves it open longer).
+  function forgeTurns(m) {
+    const mb = MONSTERS[m.id];
+    m.windup = null; m.volley = null;
+    if (m.phase === 1) {
+      let n = 0;
+      for (let i = 0; i < 2; i++) {
+        const spot = spotNear(m);
+        if (!spot) break;
+        const b = MONSTERS.emberling;
+        const e = K.newMonster('emberling', spot[0], spot[1], Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor(K.G.depth / 2));
+        e.awake = true; e.ember = m.uid;
+        K.flame(spot[0], spot[1]);
+        n++;
+      }
+      K.log(`The ${mb.name} tears open the furnace in its chest. ${n > 1 ? 'Two embers climb' : n ? 'An ember climbs' : 'Embers spill'} out of it${n ? ' and stand up burning' : ' and gutter on the stone'}!`, 'bad');
+      K.learn(m.id, 'trick');
+      m.nextAct = K.G.t + 800;
+    } else if (m.phase === 2) {
+      m.moveReady = 0;
+      K.log(`The ${mb.name}'s iron glows white with the Heart's own fire. It comes on quicker now, and its fire runs further.`, 'bad');
+      m.nextAct = K.G.t + 700;
+    }
+    K.fx.shakeAmp = 5; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
+    Sound.play('roar', K.heard(m));
+  }
+  /** The Heartforged's fire goes out: it falls apart into slag, and the embers it let out gutter with it. */
+  function forgeFalls(m) {
+    K.fx.shakeAmp = 8; K.fx.shakeMs = 1000; K.fx.shakeUntil = K.realNow + 1000;
+    Sound.play('namedfall', K.heard(m));
+    const L = K.lvl();
+    const embers = L.monsters.filter(o => o.ember === m.uid);
+    for (const e of embers) { K.spray(e, 'spark', 1, false); L.monsters.splice(L.monsters.indexOf(e), 1); }
+    K.log(`The fire in the ${MONSTERS[m.id].name}'s chest gutters and goes out. The great iron shape groans, and falls apart into cooling slag${embers.length ? ', and the embers it let out gutter with it' : ''}.`, 'good');
   }
   // ---------- the Warlord ----------
   // The Warrens' last fight, in place of the lich. At first he fights with his
@@ -970,6 +1047,7 @@ export function makeFoes(K) {
   /** The lich's end: its bones burst apart, its cold light goes up, and the torches catch again. */
   function bossFalls(m) {
     if (m.id === 'warlord') { warlordFalls(m); return; }
+    if (m.id === 'heartforged') { forgeFalls(m); return; }
     K.spray(m, 'bone', 1, false); K.spray(m, 'bone', 1, false); K.spray(m, 'ecto', 1, false);
     relightTorches(m);
     K.fx.shakeAmp = 7; K.fx.shakeMs = 900; K.fx.shakeUntil = K.realNow + 900;
@@ -1214,7 +1292,8 @@ export function makeFoes(K) {
   function speaks(m, mb) {
     if (mb.boss && m.awake && !m.spoke) {
       m.spoke = true;
-      if (m.id === 'warlord') K.log('A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. "Grisk was my sister\'s boy. You will make me a fine footstool."', 'bad');
+      if (m.id === 'heartforged') K.log('Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in the fire inside it. It says nothing at all.', 'bad');
+      else if (m.id === 'warlord') K.log('A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. "Grisk was my sister\'s boy. You will make me a fine footstool."', 'bad');
       else K.log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
       Sound.play('voice', K.heard(m, { who: m.id === 'warlord' ? 'orc' : m.id }));
       K.fx.shakeAmp = 4; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;

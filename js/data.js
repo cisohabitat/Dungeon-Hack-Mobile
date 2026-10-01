@@ -623,6 +623,15 @@ const MONSTERS = {
   // throne of plunder behind two shield-bearers and throws spears from it; at
   // one third he kicks open his war-chest and fights in a frenzy. (The same
   // count of hit dice as the lich: the floor's other dice fall as they did.)
+  // The Long Delve's own keeper of the Heart, down either road: an iron giant
+  // the old smiths built around a furnace to guard it, deeper than the lich or
+  // the Warlord ever came. It stamps fire down its four lines (step off them);
+  // at two thirds it tears open its chest-furnace and embers climb out
+  // (emberlings); at one third it glows white, quicker, and its lines run
+  // further. (The same count of hit dice as the lich: the floor's other dice
+  // fall as they did.)
+  heartforged: { name: 'Heartforged', hp: [12, 10, 20], ac: 17, hit: 9, dmg: [2, 8, 2], speed: 1300, xp: 1600, tier: [99, 99], sprite: 'heartforged', scale: 1.4, boss: true, move: 'stamp', fiery: true,
+    phases: [{ speed: 1200 }, { speed: 1000 }] },
   warlord:  { name: 'Goblin Warlord', hp: [12, 9, 12], ac: 16, hit: 9, dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'warlord', scale: 1.3, boss: true, move: 'drum', cunning: 1,
     phases: [
       { ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a spear from his throne at' } },
@@ -738,6 +747,7 @@ const ELEMENTS_TAKEN = {
   puffcap:  { fire: 1.5 },
   mimic:    { fire: 1.5 },
   emberling: { fire: 0.25, cold: 1.5 },
+  heartforged: { fire: 0.25, cold: 1.5 },
   drowned:  { fire: 0.5, lightning: 1.5 },
   wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
@@ -827,6 +837,9 @@ const BESTIARY = {
     trick: 'It rears back and breathes a gout of fire down the passage, from two squares out to five.',
     answer: 'Close in under its jaws: the fire roars out over your head. Or step out of its line. Stepping back only keeps you in it.' },
   shade:    { lore: 'One of your own, who fell in an earlier delve and did not stay down. It keeps the floor where it died, over the bones and the gear it died in, and it fights the way it did in life: a fighter\'s shade charges, a mage\'s throws cold fire, a cleric\'s mends itself, a thief\'s is quick and follows a step back, a ranger\'s shoots. Undead: holy magic burns it twice as badly. Lay it to rest and its gear is yours.' },
+  heartforged: { lore: 'Below where the lich and the Warlord ever came, the Heart rests where it was made, and the thing the old smiths built to keep it keeps it still: an iron giant twice a man\'s height, a furnace burning in its chest, a hammer in its fist. Fire barely touches it. Cold bites deep.',
+    trick: 'It raises its hammer and stamps, and fire runs out along the floor down all four of its lines, three squares each way (four, once it glows white). At two thirds it tears open its chest-furnace and two emberlings climb out of it; at one third it glows white and moves quicker.',
+    answer: 'Step off its lines while the hammer is up, to where it would have to turn to face you: the fire runs past, the hammer sticks in the stone, and it is left open. Cold hurts it half again as much.' },
   warlord:  { lore: 'Grisk was only his sister\'s boy. The Warlord of the Warrens wears a crown of hammered gold, beats a war-drum that every goblin in the deep comes running to, and has dragged the Heart into his own hall. Break the beat by striking him; cut down his shield-bearers and he must leave his throne; and when he kicks open his war-chest, keep your head.',
     trick: 'He raises his war-drum to call a warband; strike him before the beat. At two thirds he takes to his throne behind two shield-bearers, who turn every blow meant for him, and throws spears; at one third he fights in a frenzy.',
     answer: 'Strike him while the drumstick is raised and the call dies. Kill the shield-bearers and he must come down from his throne; a spell flies over their heads and finds him there, and his spears break on a mage\'s Shield.' },

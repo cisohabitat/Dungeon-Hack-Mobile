@@ -4352,6 +4352,114 @@ await test('the Warlord beats his drum for a warband, and a blow while the stick
   return out.length ? out.join('; ') : true;
 });
 
+// ---------- the Heartforged: the Long Delve's own keeper ----------
+await test('at the bottom of a Long Delve the Heartforged keeps the Heart, down either road; eight floors keep the lich and the Warlord; the rest of the floor is the same', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'hf-floor');
+  for (let i = 0; i < 5; i++) {
+    const seed = `hf-${i}`;
+    for (const levels of [12, 16]) {
+      const opts = { ...OPTS, levels, size: 'medium', monsters: 'normal' };
+      const W = ctx.Dungeon.generate(seed, levels, { ...opts, route: 'warrens' }), C = ctx.Dungeon.generate(seed, levels, { ...opts, route: 'crypts' });
+      const boss = L => L.monsters.filter(m => ctx.MONSTERS[m.id].boss).map(m => m.id).join();
+      if (boss(W) !== 'heartforged' || boss(C) !== 'heartforged') out.push(`${seed} (${levels}): warrens ${boss(W)}, crypts ${boss(C)}`);
+    }
+    // the eight floors as they were
+    const o8 = { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' };
+    const w8 = ctx.Dungeon.generate(seed, 8, { ...o8, route: 'warrens' }), c8 = ctx.Dungeon.generate(seed, 8, { ...o8, route: 'crypts' });
+    const b8 = L => L.monsters.filter(m => ctx.MONSTERS[m.id].boss).map(m => m.id).join();
+    if (b8(w8) !== 'warlord' || b8(c8) !== 'lich') out.push(`${seed} (8): warrens ${b8(w8)}, crypts ${b8(c8)}`);
+  }
+  // the same count of hit dice as the lich's, so nothing else on the floor rolls differently
+  if (ctx.MONSTERS.heartforged.hp[0] !== ctx.MONSTERS.lich.hp[0]) out.push(`it rolls ${ctx.MONSTERS.heartforged.hp[0]} hit dice, the lich ${ctx.MONSTERS.lich.hp[0]}`);
+  return out.length ? out.join('; ') : true;
+});
+
+/** Open floor round the hero, nothing else on it, and the Heartforged on the square ahead. */
+const forgeRoom = (ctx, extra = {}) => {
+  const { Game, Dungeon } = ctx;
+  const p = Game.player(), L = Game.level();
+  // in the middle of the map, so every one of its lines has room to run
+  p.x = Math.floor(L.w / 2); p.y = Math.floor(L.h / 2);
+  for (let y = p.y - 5; y <= p.y + 5; y++) for (let x = p.x - 5; x <= p.x + 5; x++) if (x > 0 && y > 0 && x < L.w - 1 && y < L.h - 1) L.tiles[y * L.w + x] = Dungeon.T.FLOOR;
+  L.npcs = []; L.items = {}; L.traps = {}; L.fields = {};
+  return beside(ctx, 'heartforged', { hp: 3000, maxHp: 3000, nextAct: 1e12, spoke: true, ...extra });
+};
+
+await test('the Heartforged stamps fire down its four lines: on a line you burn, off them the fire runs past and its hammer sticks, leaving it open', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'hf-stamp', { levels: 12 });
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = forgeRoom(ctx);
+  const [dx, dy] = Dungeon.DIRS[p.dir], [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
+  // two squares off down its line, after a blow: it raises its hammer
+  const gather = () => { m.windup = null; m.blows = 1; m.moveReady = 0; m.nextAct = G.t; for (let i = 0; i < 20 && !(m.windup && m.windup.move === 'stamp'); i++) Game.update(G.t + 25, 25); return !!(m.windup && m.windup.move === 'stamp'); };
+  m.x = m.rx = m.fromX = p.x + dx * 2; m.y = m.ry = m.fromY = p.y + dy * 2;
+  if (!gather()) return `it did not raise its hammer with the hero on its line (${JSON.stringify(m.windup)})`;
+  // stay on the line: burned, and its lines are on fire
+  let hp = p.hp, mark = markLog(G);
+  for (let i = 0; i < 80 && m.windup; i++) Game.update(G.t + 25, 25);
+  if (p.hp >= hp) out.push('on its line, the stamp did no harm');
+  if (!linesSince(G, mark).some(l => /fire runs down the floor over you/.test(l))) out.push(`on its line it said: ${linesSince(G, mark).join(' / ')}`);
+  const burning = (x, y) => { const f = Game.fieldAt(x, y); return !!f && f.k === 'fire'; };
+  if (!burning(m.x - dx, m.y - dy) || !burning(m.x + sx, m.y + sy) || !burning(m.x + sx * 3, m.y + sy * 3) || !burning(m.x - sx * 3, m.y - sy * 3) || !burning(m.x + dx * 3, m.y + dy * 3)) out.push('its four lines did not burn');
+  if (burning(m.x + sx * 4, m.y + sy * 4)) out.push('its fire ran four squares before it glowed white');
+  if (burning(m.x + sx + dx, m.y + sy + dy) || burning(m.x - sx - dx, m.y - sy - dy)) out.push('a square off its lines burned');
+  // again, the hero stepping off its line while the hammer is up: the fire misses, and it is open
+  Game.level().fields = {}; p.hp = 9999;
+  if (!gather()) return 'it did not raise its hammer a second time';
+  p.x += sx; p.y += sy;
+  hp = p.hp; mark = markLog(G);
+  for (let i = 0; i < 80 && m.windup; i++) Game.update(G.t + 25, 25);
+  if (p.hp < hp) out.push(`off its lines, the stamp did ${hp - p.hp}`);
+  if (!linesSince(G, mark).some(l => /hammer sticks fast in the stone/.test(l))) out.push(`off its lines it said: ${linesSince(G, mark).join(' / ')}`);
+  if (!(p.opening && p.opening.until > G.t)) out.push('off its lines, it was not left open');
+  // not on a line at all, it does not begin
+  Game.level().fields = {}; m.blows = 1; m.moveReady = 0; m.nextAct = G.t; m.windup = null;
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  if (m.windup && m.windup.move === 'stamp') out.push('it raised its hammer with the hero off its lines');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the Heartforged at two thirds lets two emberlings out of its furnace; at one third it glows white, quicker, its fire running four squares; when it falls they go out with it', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'hf-phases', { levels: 12 });
+  const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+  p.hp = p.maxHp = 9999; p.perkHit = 60; p.stats.str = 18;
+  const m = forgeRoom(ctx, { hp: 300, maxHp: 300 });
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const hit = () => { m.x = m.rx = m.fromX = p.x + dx; m.y = m.ry = m.fromY = p.y + dy; m.nextAct = 1e12; m.windup = null; G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); };
+  const speed0 = Game.mstat(m).speed;
+  m.hp = 201; let mark = markLog(G);
+  for (let i = 0; i < 20 && m.phase !== 1; i++) hit();
+  if (m.phase !== 1) return 'it never reached two thirds';
+  const embers = L.monsters.filter(o => o.ember === m.uid);
+  if (embers.length !== 2 || embers.some(e => e.id !== 'emberling' || !e.awake)) out.push(`at two thirds: ${embers.map(e => e.id)}`);
+  if (!linesSince(G, mark).some(l => /tears open the furnace in its chest/.test(l))) out.push(`at two thirds it said: ${linesSince(G, mark).join(' / ')}`);
+  m.hp = 99; mark = markLog(G);
+  for (let i = 0; i < 20 && m.phase !== 2; i++) hit();
+  if (m.phase !== 2) return 'it never reached one third';
+  if (!(Game.mstat(m).speed < speed0)) out.push(`at one third its speed is ${Game.mstat(m).speed}, not quicker than ${speed0}`);
+  if (!linesSince(G, mark).some(l => /glows white/.test(l))) out.push(`at one third it said: ${linesSince(G, mark).join(' / ')}`);
+  // its fire reaches four squares now: four off down its line, it stamps
+  m.x = m.rx = m.fromX = p.x + dx * 4; m.y = m.ry = m.fromY = p.y + dy * 4;
+  m.windup = null; m.moveReady = 0; m.nextAct = G.t;
+  const at4 = [m.x, m.y];
+  for (let i = 0; i < 20 && !(m.windup && m.windup.move === 'stamp'); i++) Game.update(G.t + 25, 25);
+  // (from where it stood: it must not have stepped a square nearer first)
+  if (!(m.windup && m.windup.move === 'stamp') || m.x !== at4[0] || m.y !== at4[1]) out.push(`glowing white, it did not stamp from four squares off (${JSON.stringify(m.windup)} at ${m.x},${m.y})`);
+  // it falls: the Heart is free, and the embers go out
+  for (const e of L.monsters) if (e.ember) { e.x = p.x - dx * 3; e.y = p.y - dy * 3; e.nextAct = 1e12; }
+  m.windup = null; m.hp = 1; mark = markLog(G);
+  for (let i = 0; i < 10 && L.monsters.includes(m); i++) hit();
+  if (L.monsters.includes(m)) return 'it would not fall';
+  if (L.monsters.some(o => o.ember === m.uid)) out.push('its embers still burn after it fell');
+  if (!linesSince(G, mark).some(l => /falls apart into cooling slag/.test(l))) out.push(`its fall said: ${linesSince(G, mark).join(' / ')}`);
+  if (Game.heartHeldFast()) out.push('the Heart is still held after it fell');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('at two thirds the Warlord takes his throne behind shield-bearers; cut them down and he comes down; at one third a frenzy', async () => {
   const out = [];
   const ctx = await start('fighter', 'warlord-throne');

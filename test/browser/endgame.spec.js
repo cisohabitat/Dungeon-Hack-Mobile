@@ -46,6 +46,39 @@ test.describe('the endgame', () => {
     expect(errors).toEqual([]);
   });
 
+  test('at the bottom of a Long Delve the Heartforged keeps the Heart: drawn, waking, its life across the top, and a tip when it raises its hammer', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-forge', levels: '12', tips: true });
+    // past the first tip, which holds the dungeon still
+    for (let i = 0; i < 3 && await page.locator('#tip.show').isVisible(); i++) { await page.locator('#tip').click(); await page.waitForTimeout(200); }
+    await page.evaluate(() => { const p = Game.player(); p.maxHp = 900; p.hp = 900; Game.testFloor(12); });
+    for (let i = 0; i < 10 && await page.locator('#ov-boons.open').isVisible(); i++) {
+      await page.locator('#boon-list .boon').first().click(); await page.waitForTimeout(700);
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
+    }
+    expect(await page.evaluate(() => Game.level().monsters.filter(m => MONSTERS[m.id].boss).map(m => m.id))).toEqual(['heartforged']);
+    expect(await page.evaluate(() => Game.state().log.some(e => /hammer rings on iron/.test(e.m)))).toBe(true);
+    // bring it round to face the hero, two squares off down a line, awake
+    await page.evaluate(() => {
+      const L = Game.level(), m = L.monsters.find(o => o.id === 'heartforged'), p = Game.player();
+      L.monsters.length = 0; L.monsters.push(m);
+      for (let k = 0; k < 4; k++) {
+        const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx * 2, y = p.y + dy * 2;
+        if (L.tiles[y * L.w + x] === Dungeon.T.FLOOR && L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.FLOOR) { p.dir = k; Object.assign(m, { x, y, rx: x, ry: y, fromX: x, fromY: y, awake: true, nextAct: Game.state().t + 1e9, moveT1: 0 }); break; }
+      }
+    });
+    await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Heartforged');
+    expect(await page.evaluate(() => Game.state().log.some(e => /a furnace opens in its chest/.test(e.m)))).toBe(true);
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged))).toBe(true);
+    // it raises its hammer: the tip says to step off its lines, and the drawing has the hammer up
+    if (await page.locator('#tip.show').isVisible()) await page.locator('#tip').click();
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.blows = 1; m.moveReady = 0; m.nextAct = Game.state().t; });
+    await expect(page.locator('#tip')).toContainText('Step off its lines', { timeout: 4000 });
+    // (the view draws its raised-hammer picture for a sprite with a tell)
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged && s.tell && !!s.img.windup))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('the Heart will not come loose while the lich stands', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'end-held', levels: '4' });
