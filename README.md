@@ -258,14 +258,14 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; so is the Long Delve on Hard; the Long Delve on Normal, measured after the lich's change, is one set, so read it loosely. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; so is the Long Delve on Hard; the Long Delve on Normal is too, since the deep floors came in. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
 | Normal | 81% | 83% | 79.5% | 79.5% | 78.5% | 80% | about 80% |
 | Hard | 58% | 57.5% | 57.5% | 56% | 59.5% | 57% | about 58% |
-| Long Delve (12 floors), Normal | 88% | 81.5% | 78% | 80% | 75.5% | 86.5% | about 81% |
+| Long Delve (12 floors), Normal | 83% | 80% | 80% | 83% | 79% | 84% | about 81% |
 | Long Delve (12 floors), Hard | 59% | 57.5% | 56% | 57% | 62% | 58% | about 58% |
 
 The Normal and Hard rows were measured again, both seed sets, after the middle floors grew
@@ -289,9 +289,9 @@ the sixth floor, 4% a floor past the fifth, as they do in the deep of a Long Del
 seed sets (53.5% and 61.5%; 7% a floor gave 62%), level with the rest.
 
 The Normal row (both seed sets) and the Long Delve on Normal (one set) were measured after it too:
-Normal about 80%, every class within 78.5% to 83%; the Long Delve on Normal about 81%. On one set
-the Long Delve on Normal swings a class by several points (the ranger 75.5%, the druid 86.5%, the
-other way round from the set before), so read that row loosely.
+Normal about 80%, every class within 78.5% to 83%; the Long Delve on Normal about 81%, on both seed
+sets now, every class within 79% to 84%. (One set alone had the ranger at 75.5% and the druid at
+86.5%; the second set put them at 82.5% and 82%.)
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of

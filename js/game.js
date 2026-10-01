@@ -15,6 +15,7 @@ import { makeBounty } from './bounty.js';
 import { makeWild } from './wild.js';
 import { makeElements } from './elements.js';
 import { makeEncounters } from './meet.js';
+import { makeTesting } from './testing.js';
 
 // Core game state and rules.
 
@@ -3134,7 +3135,7 @@ const Game = (() => {
     noteTaken(dmg, from, cause);
     p.hp -= dmg;
     // (with endless life on for testing, no blow is the last)
-    if (testing.hp && p.hp < 1) { p.hp = p.maxHp; G.tested = true; }
+    if (aids.on('hp') && p.hp < 1) { p.hp = p.maxHp; G.tested = true; }
     p.lastHurt = G.t;
     if (from) {
       const bearing = relativeBearing(from);
@@ -4239,106 +4240,13 @@ const Game = (() => {
     const p = P(), left = p.nextAttack - G.t;
     return left <= 0 ? 1 : Math.max(0, 1 - left / weapon().speed);
   }
-  // ---------- testing aids ----------
-  // For whoever is testing the game, not a way to play it: life, spell points
-  // or gold that never run out, switched in the Menu and kept on the device
-  // (not in the save). A run that has had any of them on is marked for good,
-  // and kept out of the Hall, the trophies, the fallen, the codex and the Daily.
-  // (the eye, every monster on the map, is drawn by the screens; here it only marks the run)
-  let testing = { hp: false, sp: false, gold: false, eye: false };
-  const TEST_GOLD = 99999;
-  /** @param {{hp?: boolean, sp?: boolean, gold?: boolean, eye?: boolean}} t */
-  function setTesting(t) { testing = { hp: !!t.hp, sp: !!t.sp, gold: !!t.gold, eye: !!t.eye }; applyTesting(); }
-  const testingOn = () => testing.hp || testing.sp || testing.gold || testing.eye;
-  // The tools below do a thing once rather than stay on, and mark the run the same way.
-  function testTool() {
-    if (!G || G.status !== 'playing') return false;
-    G.tested = true;
-    return true;
-  }
-  /**
-   * Straight to a floor, up or down, without the floors between. Down past the
-   * divided stair with no road taken yet, it takes the road given (or the
-   * seed's own, as descend() does).
-   * @param {number} depth @param {string} [road]
-   */
-  function testFloor(depth, road) {
-    if (!G || G.status !== 'playing') return false;
-    const n = G.opts.levels || 8;
-    depth = Math.max(1, Math.min(n, Math.floor(depth) || 1));
-    if (depth === G.depth) return false;
-    testTool();
-    const span = Dungeon.routeSpan(n);
-    if (span && depth > span.fork && !G.route) G.route = ROUTES[road || ''] ? road : new Rng(`${G.seed}|road`).next() < 0.5 ? 'crypts' : 'warrens';
-    G.forkPending = false;
-    const down = depth > G.depth;
-    log(`(Testing) You are carried ${down ? 'down' : 'up'} to floor ${depth}.`, 'info');
-    enterLevel(depth, down ? 'down' : 'up');
-    save(true);
-    return true;
-  }
-  /** The whole of this floor on the map, as a Scroll of Mapping draws it. */
-  function testReveal() {
-    if (!testTool()) return false;
-    lvl().explored.fill(1);
-    log('(Testing) The whole floor is laid out on your map.', 'info');
-    return true;
-  }
-  /** Enough experience for the next level, and its choice with it. */
-  function testLevel() {
-    if (!G || G.status !== 'playing' || P().level >= MAX_LEVEL) return false;
-    testTool();
-    const p = P();
-    p.xp = Math.max(p.xp, XP_TABLE[p.level]);
-    checkLevelUp();
-    emit('stats');
-    return true;
-  }
-  // what can be handed over: not the Heart, coin, gems or the things a place or an encounter gives
-  const NOT_GIVEN = ['gold', 'gem', 'artifact', 'page', 'quest', 'key'];
-  /** @returns {{id: string, name: string, group: string}[]} */
-  function testGifts() {
-    const out = [{ id: 'keys', name: 'Keys to this floor\'s locked doors', group: 'Keys' }];
-    for (const id in ITEMS) if (!NOT_GIVEN.includes(ITEMS[id].kind)) out.push({ id, name: ITEMS[id].name, group: ITEMS[id].kind });
-    for (const id in RELICS) out.push({ id: 'relic:' + id, name: RELICS[id].name, group: 'relic' });
-    return out;
-  }
-  /**
-   * Into the pack, known for what it is: an item's id, 'keys' (one for each
-   * colour of lock left on this floor) or 'relic:' and a relic's id.
-   * @param {string} id
-   */
-  function testGive(id) {
-    if (!G || G.status !== 'playing') return false;
-    const L = lvl();
-    if (id === 'keys') {
-      const colours = [...new Set(Object.values(L.locks || {}))];
-      if (!colours.length) { log('(Testing) No door on this floor is locked.', 'info'); return false; }
-      testTool();
-      for (const color of colours) giveItem({ t: 'key', q: 1, color });
-      log(`(Testing) Keys put in your pack: ${colours.join(', ')}.`, 'info');
-      emit('stats');
-      return true;
-    }
-    const relic = id.startsWith('relic:') ? id.slice(6) : '';
-    if (relic ? !RELICS[relic] : !ITEMS[id] || NOT_GIVEN.includes(ITEMS[id].kind)) return false;
-    const it = relic ? relicItem(relic) : { t: id, q: 1, e: 0 };
-    if (!giveItem(it)) { log('Your pack is full.', 'bad'); return false; }
-    testTool();
-    G.known[it.t] = 1;
-    if (relic) discoverRelic(relic);
-    log(`(Testing) ${relic ? RELICS[relic].name : ITEMS[id].name} put in your pack.`, 'info');
-    emit('stats');
-    return true;
-  }
-  function applyTesting() {
-    if (!G || G.status !== 'playing' || !testingOn()) return;
-    G.tested = true;
-    const p = P();
-    if (testing.hp) p.hp = p.maxHp;
-    if (testing.sp && p.maxSp) p.sp = p.maxSp;
-    if (testing.gold && p.gold < TEST_GOLD) p.gold = TEST_GOLD;
-  }
+  // ---------- testing aids: see testing.js ----------
+  const aids = makeTesting({
+    get G() { return G; }, P: () => P(), lvl: () => lvl(), log: (m, c) => log(m, c), emit: k => emit(k),
+    enterLevel: (d, f) => enterLevel(d, f), save: q => save(q), checkLevelUp: () => checkLevelUp(),
+    giveItem: it => giveItem(it), relicItem: id => relicItem(id), discoverRelic: id => discoverRelic(id),
+  });
+  const { setTesting, testingOn, testFloor, testReveal, testLevel, testGifts, testGive, applyTesting } = aids;
   function update(now, dt) {
     realNow = now;
     if (!G || G.status !== 'playing') return;
