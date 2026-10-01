@@ -59,8 +59,8 @@ const masks = {};
  * its own size and each 2x2 block taken as one pixel, so every check below
  * reads all of them alike.
  */
-const paint32 = (k, pose) => {
-  const g = gridOf(k), out = paintParts(CREATURES[k](pose), g, 1);
+const paint32 = (k, pose, from = CREATURES) => {
+  const g = gridOf(k), out = paintParts(from[k](pose), g, 1);
   if (g === 32) return out;
   const f = g / 32, color = new Array(32 * 32).fill(null);
   for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) {
@@ -118,7 +118,7 @@ for (const k in POSES) {
     check(!same(paintParts(parts, 32, 4).color, paintParts(bare, 32, 4).color), `${k}'s close-up detail does not show close up`);
   }
   // (the lifelike figures on the finer grid need none: they are fine through and through)
-  check(withNear >= 12, `only ${withNear} creatures have close-up detail`);
+  check(withNear >= 10, `only ${withNear} creatures have close-up detail`);
 }
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
@@ -154,7 +154,7 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
   check(Object.keys(CLASSES).length === 6, 'the class list changed; check every class still has relics (the druid has a staff, a dagger, a buckler, light armour and every ring)');
 }
 for (const k in PROPS) {
-  const { color } = paintParts(PROPS[k]());
+  const { color } = paint32(k, undefined, PROPS);
   const filled = color.filter(Boolean);
   check(filled.length > 80, `prop ${k} painted only ${filled.length} pixels`);
   check(filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `prop ${k} painted a colour that is not #rrggbb`);

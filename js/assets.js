@@ -1249,7 +1249,7 @@ const Assets = (() => {
       if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true }));
     }
     // props stand in the world too, painted as finely
-    for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true }));
+    for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
     for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true, grim: true }));
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
