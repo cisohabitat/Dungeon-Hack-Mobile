@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-01c', text: 'a sellsword waits for hire on the middle floors: slow, armoured and hard to kill, they learn to take blows meant for you; and the middle floors grow stranger: a barrel that creaks may be a mimic, kobold trappers set wire snares, a floor of tremors brings the roof down on marked squares, a lever door, a lost mule' };
+  const NEWS = { id: '2026-10-01d', text: 'the deep floors have a life of their own: a floor may smoulder, its cracks flaring fire (cold seals them), with emberlings that blaze up when close; and a forge-spirit tempers a blade or a coat past where the traders stop' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -627,6 +627,8 @@ const UI = (() => {
     blink: 'It has stepped back into the world <b>at your back</b>. <b>Turn round</b> to face it before it bites, and it is caught open.',
     quills: 'Its quills are up. <b>Hold your blow</b> until they sink: every blow struck into them bites you back. An arrow or a spell from further off is safe.',
     drowned: 'A <b>drowned one</b> has risen out of the water to seize you. <b>Step back</b> as it lurches and it grabs the air. Watch the black water for a <b>ripple</b> that does not settle: one lies under it.',
+    vents: 'A <b>glowing crack</b> is heating up: when it flares, fire sheets over it and the <b>four squares beside it</b>. Step clear of the glow. <b>Cold</b> seals a crack a while.',
+    flare: 'An <b>emberling</b> is blazing white-hot: it is about to <b>flare</b> and set the stones round it alight. <b>Step two squares off</b>, or strike it with <b>cold</b> to quench it.',
     tremors: 'The ground is shuddering: <b>rock is coming down</b> where the floor is ringed with grit, <b>your square too</b>. Step onto one that is not marked. It falls on your foes as well, and they never look up.',
     mimic: 'A barrel that <b>creaks</b> with nothing near is a <b>mimic</b>. <b>Strike it from where you stand</b>: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.',
     eyeless: 'An <b>eyeless stalker</b>: it hunts by sound. <b>Stand still</b> and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.',
@@ -662,7 +664,7 @@ const UI = (() => {
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -786,8 +788,12 @@ const UI = (() => {
   };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
-  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare' };
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare', flare: 'flare' };
   /** Whether an awake puffcap is within reach of a few steps. */
+  /** A smouldering floor's crack heating up within so many squares of the hero. */
+  const ventNear = n => { const p = Game.player(); return Game.vents().some(v => v.heat > 0 && Math.abs(v.x - p.x) + Math.abs(v.y - p.y) <= n); };
+  /** Whether the hero's own square is under a crack's coming flare (their own square is under the view, and cannot be seen). */
+  const ventUnder = () => { const p = Game.player(); return Game.vents().some(v => v.area.some(a => a.x === p.x && a.y === p.y)); };
   /** A mimic still shut that has creaked, within four squares. */
   const mimicHeard = () => { const p = Game.player(); return Game.level().monsters.some(m => m.disguised && m.creaked && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4); };
   const kinNear = (id, n) => { const p = Game.player(); return Game.level().monsters.some(m => m.id === id && m.awake && !m.sunk && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= n); };
@@ -865,7 +871,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), vents: () => ventNear(4), flare: () => near('flare'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -903,6 +909,8 @@ const UI = (() => {
     if (readying('chill') && showTip('chill', true)) return;
     if (readying('storm') && showTip('storm', true)) return;
     if (L.quake && L.quake.falls.length && showTip('tremors', true)) return;
+    if (readying('flare') && showTip('flare', true)) return;
+    if (ventNear(4) && showTip('vents', true)) return;
     // a puffcap has no warning mark: its lesson comes as it comes close (a druid breathes its spores unharmed)
     if (p.cls !== 'druid' && puffcapNear(3) && showTip('spores', true)) return;
     // the elements at work on the place: a fire near, an oil cask beside you, and water to a caster who can use it
@@ -1014,7 +1022,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : ''].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -1045,6 +1053,7 @@ const UI = (() => {
     const under = underfoot();
     // (your own square is under the view: its grit ring cannot be seen, so the row says it)
     if (L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y)) st.push('<span class="bad" title="Rock is about to fall on the square you stand on: step off it">Rock falling here!</span>');
+    if (ventUnder()) st.push('<span class="bad" title="A crack beside you is about to flare over the square you stand on: step clear">Fire rising here!</span>');
     if (under === 'oil') st.push('<span class="bad" title="Spilt lamp oil under your feet: fire here would catch">Oil underfoot</span>');
     else if (under === 'water') st.push('<span class="bad" title="A puddle under your feet: lightning here would find you">In water</span>');
     if (secs('ac')) st.push(`<span class="good">Shielded ${secs('ac')}s</span>`);

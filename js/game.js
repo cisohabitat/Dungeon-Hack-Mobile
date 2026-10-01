@@ -2813,6 +2813,8 @@ const Game = (() => {
     if (mb.named) namedFalls(m, mb);
     if (m.shade) shadeFalls(m);
     snaresSlack(m);
+    // an emberling bursts as it dies, and its square burns a moment
+    if (m.id === 'emberling') { elements.flame(m.x, m.y, 3000); log(`The ${mb.name} bursts in a gout of flame as it dies.`, 'bad'); }
   }
 
   // ---------- groups ----------
@@ -3543,6 +3545,11 @@ const Game = (() => {
   // (a Pyromancer's Burning Hands fans down the passage, so they can light oil from a safe distance)
   const spellRange = sp => sp.range + (sp.holy && hasTalent('radiance') ? 2 : 0) + (sp.id === 'thorn_lash' && hasTalent('long_thorns') ? 2 : 0) + (sp.id === 'burning_hands' && onPath('pyromancer') ? 2 : 0);
   /** Why casting this now would waste the points, or null if it would not. */
+  /** Whether cold cast down the corridor would come down by a smouldering floor's crack not yet sealed, and seal it. */
+  function coldSeals(range) {
+    const end = boltEnd(range);
+    return !!end && elements.vents().some(v => !v.sealed && Math.abs(v.x - end.x) + Math.abs(v.y - end.y) <= 1);
+  }
   function spellWasteReason(sp) {
     const p = P();
     // (a druid's healing mends a hurt companion too, so it is not wasted on them)
@@ -3550,7 +3557,7 @@ const Game = (() => {
     if (sp.kind === 'heal' && p.hp >= p.maxHp && !kinHurt) return `You are unhurt. ${sp.name} would be wasted.`;
     // fire burns a web away, so a webbed caster's flame is never wasted
     // (nor where it comes down on spilt oil or moss, which it sets alight)
-    if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length && !(spellElement(sp) === 'fire' && fireCatches(spellRange(sp)))) {
+    if (sp.kind === 'bolt' && !(sp.fire && p.webbed > G.t) && !boltTargets(spellRange(sp), sp.pierce).length && !(spellElement(sp) === 'fire' && fireCatches(spellRange(sp))) && !(spellElement(sp) === 'cold' && coldSeals(spellRange(sp)))) {
       return `Nothing within reach for ${sp.name} to strike.`;
     }
     if (sp.kind === 'buff' && ownEffect(sp.stat) >= buffAmount(sp)) return `${sp.name} is already upon you.`;
@@ -3638,7 +3645,9 @@ const Game = (() => {
             lvl().fireSaid = G.t + 4000;
             elements.scorch(end.x, end.y);
           } else {
-            log(`Your ${sp.name} strikes nothing.`);
+            // (cold that strikes nothing still lands somewhere: by a smouldering floor's crack, it seals it)
+            const coldEnd = spellElement(sp) === 'cold' ? boltEnd(spellRange(sp)) : null;
+            if (!(coldEnd && elements.seal(coldEnd.x, coldEnd.y))) log(`Your ${sp.name} strikes nothing.`);
             if (end) elements.scorch(end.x, end.y);
           }
           break;
@@ -4043,9 +4052,12 @@ const Game = (() => {
   // with the deep floors of a Hard Long Delve too, a little less than a spell.
   // The ranger then trailed the rest there by about six points over two seed
   // sets (54%, the others 57% to 65%): its shots and blows grow half as much.
-  const DEEP_STEEL = 0.04, DEEP_AIM = 0.02;
+  // The druid, whose spells grew with the deep but whose bear's claws did not,
+  // then trailed there (50%, falling most on the ninth to eleventh floors): its
+  // blows grow as a fighter's do (58% over two seed sets; half as much gave 53%).
+  const DEEP_STEEL = 0.04, DEEP_AIM = 0.02, DEEP_CLAW = 0.04;
   const deepSteel = () => {
-    const rate = P().cls === 'fighter' ? DEEP_STEEL : P().cls === 'ranger' ? DEEP_AIM : 0;
+    const rate = P().cls === 'fighter' ? DEEP_STEEL : P().cls === 'ranger' ? DEEP_AIM : P().cls === 'druid' ? DEEP_CLAW : 0;
     return rate && isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + rate * (G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
@@ -4060,6 +4072,7 @@ const Game = (() => {
    * @param {import('./types.js').Level} L
    */
   function twistLevel(L, depth) {
+    if (L.twist === 'smouldering') ventLevel(L, depth);
     const kin = TWIST_KIN[L.twist || ''];
     if (kin) {
       const rng = new Rng(`${G.seed}|${kin.dice}|${depth}`), nb = MONSTERS[kin.id];
@@ -4097,7 +4110,36 @@ const Game = (() => {
     }
   }
   /** Each twist's own creature, how many of a floor's it takes the place of, and the name of its dice. */
-  const TWIST_KIN = { overgrown: { id: 'puffcap', share: 0.35, dice: 'puffcaps' }, flooded: { id: 'drowned', share: 0.3, dice: 'drowned' }, dark: { id: 'eyeless', share: 0.25, dice: 'eyeless' } };
+  /**
+   * A smouldering floor's glowing cracks, in its rooms, from dice of their own:
+   * not in the room the hero arrives in, not by a stair or a door, and not
+   * where something lies or stands.
+   * @param {import('./types.js').Level} L
+   */
+  function ventLevel(L, depth) {
+    const rng = new Rng(`${G.seed}|vents|${depth}`);
+    const ends = [L.start, L.stairsUp, L.stairsDown, L.downStart].filter(Boolean);
+    const roomOf = (x, y) => (L.roomId ? L.roomId[y * L.w + x] : -1);
+    const startRooms = new Set(ends.map(e => roomOf(e.x, e.y)).filter(r => r >= 0));
+    const at = (x, y) => L.tiles[y * L.w + x];
+    const spots = [];
+    for (let i = 0; i < L.w * L.h; i++) {
+      const x = i % L.w, y = (i / L.w) | 0, r = roomOf(x, y);
+      if (r < 0 || startRooms.has(r) || at(x, y) !== T.FLOOR) continue;
+      if (DIRS.some(([dx, dy]) => [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET, T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN].includes(at(x + dx, y + dy)))) continue;
+      if (ends.some(e => Math.abs(e.x - x) + Math.abs(e.y - y) <= 3) || (L.npcs || []).some(n => Math.abs(n.x - x) + Math.abs(n.y - y) <= 1) || (L.items[key(x, y)] || []).length || (L.traps || {})[key(x, y)]) continue;
+      spots.push({ x, y });
+    }
+    const want = Math.max(5, Math.min(10, Math.round((L.rooms || []).length * 0.8)));
+    L.vents = [];
+    while (L.vents.length < want && spots.length) {
+      const s = spots.splice(rng.int(0, spots.length - 1), 1)[0];
+      // (two cracks never side by side: each flare is its own to step out of)
+      if (L.vents.some(v => Math.abs(v.x - s.x) + Math.abs(v.y - s.y) <= 2)) continue;
+      L.vents.push({ x: s.x, y: s.y, next: 0, heat: 0, sealedUntil: 0 });
+    }
+  }
+  const TWIST_KIN = { smouldering: { id: 'emberling', share: 0.3, dice: 'emberlings' }, overgrown: { id: 'puffcap', share: 0.35, dice: 'puffcaps' }, flooded: { id: 'drowned', share: 0.3, dice: 'drowned' }, dark: { id: 'eyeless', share: 0.25, dice: 'eyeless' } };
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
@@ -4607,6 +4649,8 @@ const Game = (() => {
     };
     fx.threats = threats();
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes
+    // on a smouldering floor, the cracks: quiet, sealed, or glowing toward a flare over the squares it will cover
+    fx.vents = elements.vents();
     // on a floor of tremors, where rock is about to land: marked on the floor, and the rock itself as it drops
     fx.rocks = elements.falling();
     for (const r of fx.rocks) if (r.u > 0.72 && Assets.sprites.dress_rubble) sprites.push({ x: r.x + 0.5, y: r.y + 0.5, img: Assets.sprites.dress_rubble, scale: 0.36, yOff: 1.1 * (1 - r.u) / 0.28, dress: true });
@@ -4836,7 +4880,7 @@ const Game = (() => {
     get itemName() { return itemName; },
     get key() { return key; },
     get knightGuard() { return knightGuard; },
-    get knightSteadfast() { return knightSteadfast; },
+    get knightSteadfast() { return knightSteadfast; }, flame: (x, y) => elements.flame(x, y),
     get learn() { return learn; },
     get log() { return log; },
     get lvl() { return lvl; },
@@ -4901,6 +4945,7 @@ const Game = (() => {
     get setTile() { return setTile; }, burnWeb: () => burnWeb(),
     surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
     shake: (amp, ms) => { fx.shakeAmp = amp; fx.shakeMs = ms; fx.shakeUntil = realNow + ms; },
+    learn: (id, what) => learn(id, what),
   });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({
@@ -4939,7 +4984,7 @@ const Game = (() => {
     currentEncounter: () => encs.current(), encounterOptions: () => encs.encounterOptions(), chooseEncounter: i => encs.chooseEncounter(i), closeEncounter: () => encs.closeEncounter(),
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
-    fieldAt: (x, y) => elements.fieldAt(x, y), wet: (x, y) => !!(G && elements.wet(x, y)),
+    fieldAt: (x, y) => elements.fieldAt(x, y), wet: (x, y) => !!(G && elements.wet(x, y)), vents: () => (G ? elements.vents() : []),
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,

@@ -10,6 +10,9 @@ import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
 
 /** @param {any} K */
+// a deep forge takes a piece one step past the traders' (theirs stop at +3)
+const HONE_MOST = 4;
+
 export function makeEncounters(K) {
   /** The encounter open just now, if one is: its prop, its choices, and what came of the one made. */
   let encounter = null;
@@ -120,6 +123,17 @@ export function makeEncounters(K) {
         // gold an encounter gives is gold found: a trickster's is a quarter more, as any is
         if (n > 0) { const got = K.tricksterPurse(n); p.gold += got; out.push(`+${got} gold`); }
         else { const took = Math.min(p.gold, -n); p.gold -= took; if (took) out.push(`−${took} gold`); }
+      }
+      // a deep forge's work: one step better, up to one past the traders' hammers, and a curse burnt out
+      if (e.hone) {
+        const it = p.eq[e.hone], word = e.hone === 'weapon' ? 'blade' : 'armour';
+        if (!it) out.push(`You have no ${e.hone === 'weapon' ? 'weapon' : 'armour'} for it to temper`);
+        else if ((it.e || 0) >= HONE_MOST) out.push(`Your ${word} is as fine as fire can make it`);
+        else {
+          if (it.curse) { delete it.curse; out.push('Its curse burns away'); }
+          it.e = (it.e || 0) + 1;
+          out.push(`${K.itemName(it)} (+1)`);
+        }
       }
       // coin handed back (a haggle refused): exactly what was paid, not gold found
       if (e.goldBack) { const n = e.goldBack * K.G.depth; p.gold += n; out.push(`+${n} gold back`); }

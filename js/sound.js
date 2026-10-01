@@ -452,6 +452,8 @@ const Sound = (() => {
     batter: out => { tone(out, 70, 0.2, 'sine', 0.28, -25); noise(out, 0.16, 0.2, { f: 380, to: 140 }); tone(lp(out, 600), vary(110, 0.15), 0.3, 'sawtooth', 0.04, -30, 0.08); },
     // a mimic's tell: old wood shifting under a weight that is not there, a slow groan of staves
     creak: out => { tone(lp(out, 700), vary(150, 0.12), 0.5, 'sawtooth', 0.035, -40, 0, 0.12); tone(lp(out, 900), vary(210, 0.1), 0.3, 'sawtooth', 0.02, 30, 0.25, 0.08); },
+    // a crack in a smouldering floor heating up: a rising hiss of gas through hot stone
+    hiss: out => { noise(out, 1.2, 0.12, { type: 'bandpass', f: 1400, to: 3200, q: 1.2, attack: 0.6 }); tone(lp(out, 400), 70, 1.2, 'sawtooth', 0.05, 20, 0, 0.5); },
     // the ground shuddering on a floor of tremors: a long low roll, grit pattering down after
     rumble: out => { const l = lp(out, 260); tone(l, 42, 1.4, 'sawtooth', 0.16, -8, 0, 0.3); noise(l, 1.4, 0.22, { f: 180, to: 90, attack: 0.3 }); clicks(out, 10, 1.2, 2200, 0.025); },
     // and giving way: the thud, then planks cracking apart

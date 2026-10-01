@@ -558,6 +558,24 @@ const ENCOUNTERS = {
     ],
   },
 
+  // deep down, a forge older than the traders', with something living in its fire:
+  // it tempers a blade or a coat for blood, gold or the work of its bellows,
+  // one step past where the traders' hammers stop, and burns out a curse as it does
+  forgespirit: {
+    title: 'The Forge-Spirit', sprite: 'forge_spirit', depth: [6, 99], tier: 8,
+    text: 'An anvil black with age stands on a stump of rock, and over it hangs a fire with no fuel under it. As you come near, the fire turns, and two eyes open in it. "Iron," it says, in a voice like a bellows. "Bring me iron. I am hungry, and I have not worked in an age."',
+    choices: [
+      { label: 'Thrust your blade into its fire', cost: { hurtFrac: 0.15 },
+        outcome: { text: 'It takes the blade and your blood with it. The metal comes out ringing, darker than it went in.', effects: [{ hone: 'weapon' }] } },
+      { label: 'Lay your armour on its anvil', cost: { goldPerDepth: 12 },
+        outcome: { text: 'It eats the gold like kindling, and works the armour with hands of flame until the seams glow and set.', effects: [{ hone: 'armor' }] } },
+      { label: 'Work its bellows for it', check: { stat: 'str', dc: 13, knack: [['fighter', null, 2]] },
+        pass: { text: 'You work the bellows until your arms shake. It roars with the joy of it, and gives back both blade and coat the better for it.', effects: [{ hone: 'weapon' }, { hone: 'armor' }, { xp: 30 }] },
+        fail: { text: 'The bellows kick back, and a tongue of its fire licks out at you.', effects: [{ hurtFrac: 0.12 }] } },
+      { label: 'Leave it to its fire', outcome: { text: 'It watches you go, and turns back to its empty anvil.', effects: [] } },
+    ],
+  },
+
   mapmaker: {
     title: 'The Mapmaker', sprite: 'mapmaker', depth: [1, 99],
     text: 'A skeleton in a surveyor\'s coat sits against the wall, a satchel of rolled maps in its lap and a measuring chain wound round its arm. One bony finger still points down the passage.',

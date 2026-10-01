@@ -434,6 +434,7 @@ const TWISTS = {
   restless: { name: 'Restless dead', arrive: 'The dead do not lie still on this floor. You can hear them walking.', chip: 'Many of this floor\'s creatures have risen from the dead' },
   market: { name: 'Goblin market', arrive: 'Goblin voices haggle somewhere on this floor: a market, and a trader who undersells.', chip: 'A trader here, selling cheaper than most' },
   tremors: { name: 'Tremors', arrive: 'The floor shivers under your feet, and grit patters down from the roof. This deep, the rock overhead is restless.', chip: 'Now and then the ground shudders and rock falls from the roof: the squares it will land on are marked first, yours among them. Step off. It falls on your foes too, and they never look up' },
+  smouldering: { name: 'Smouldering', arrive: 'The air down here is hot and tastes of iron. Cracks in the floor glow red, and now and then one breathes out a sheet of flame. Something small and burning skitters in the dark.', chip: 'Glowing cracks heat up and flare fire over their square and the four beside it: when one brightens, step clear. Cold seals a crack a while. Emberlings live here: step back when one blazes up, or strike it with cold' },
   overgrown: { name: 'Overgrown', arrive: 'Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones, and something larger and fungal shuffles in the dark.', chip: 'Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here, and puffcaps that burst in spores at a blow from beside them. A druid is at home: their spells cost a point less' },
 };
 
@@ -603,6 +604,7 @@ const MONSTERS = {
   // makes. Stand still and it loses you; move, strike or speak and it comes.
   eyeless:  { name: 'Eyeless Stalker', hp: [3, 8, 0], ac: 14, hit: 5, dmg: [1, 8, 1], speed: 900, xp: 90,  tier: [99, 99], sprite: 'eyeless',  scale: 1.0, hears: true, door: 'batter' },
   // a barrel among barrels, until it is touched (game.js lays it in; see foes.js for how it springs)
+  emberling: { name: 'Emberling', hp: [3, 8, 2],  ac: 14, hit: 6,  dmg: [1, 8, 2], speed: 1000, xp: 110,  tier: [99, 99], sprite: 'emberling', scale: 0.7, move: 'flare', fiery: true, door: 'batter' },
   mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
   puffcap:  { name: 'Puffcap',     hp: [2, 8, 0],    ac: 10, hit: 3,  dmg: [1, 6, 0], speed: 1600, xp: 45,   tier: [99, 99], sprite: 'puffcap',  scale: 0.85, spores: true, door: 'batter' },
   lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
@@ -733,6 +735,7 @@ const ELEMENTS_TAKEN = {
   quillback: { fire: 1.5 },
   puffcap:  { fire: 1.5 },
   mimic:    { fire: 1.5 },
+  emberling: { fire: 0.25, cold: 1.5 },
   drowned:  { fire: 0.5, lightning: 1.5 },
   wyrm:     { fire: 0.5, cold: 1.5 },
   bat:      { lightning: 1.5 },
@@ -806,6 +809,9 @@ const BESTIARY = {
   drowned:  { lore: 'Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.',
     trick: 'It lies sunk and unseen until you come within two squares, then rises and reaches to seize you. Held, you cannot step away.',
     answer: 'Watch the water for a ripple that does not settle, and go round it, or strike it first. As it rises and lurches, step back and it grabs the air.' },
+  emberling: { lore: 'A knot of cooling rock the size of a dog, crusted black and split with cracks that glow like a forge. It lives where the deep floors smoulder, and fire is its home: it barely feels it. Cold hurts it badly.',
+    trick: 'When it is close it blazes white-hot, then flares, setting the stones round it alight. It bursts into flame as it dies.',
+    answer: 'Step two squares off while it glows, or strike it with cold to quench it before it flares.' },
   mimic:    { lore: 'A thing that has learned to look like a barrel, staves, hoops and all, and waits among the real ones for someone to come and open it.',
     trick: 'It springs on whoever touches it or stands beside it, and seizes them in a mouth that was a lid a moment before.',
     answer: 'A barrel that creaks with nothing near it is no barrel. Strike it from where you stand before you go close: caught shut, it takes double the blow.' },

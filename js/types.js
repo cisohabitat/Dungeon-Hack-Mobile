@@ -192,7 +192,9 @@
  * @property {number} theme
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
- * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless, market, overgrown or tremors
+ * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless, market, overgrown, tremors or (deep down) smouldering
+ * @property {Array<{x: number, y: number, next: number, heat: number, sealedUntil: number}>} [vents]  a smouldering floor's glowing cracks: when each next heats up, when it began to (0 when quiet), and how long cold has sealed it (elements.js)
+ * @property {number} [ventSaid]  when a crack's flare was last told, so the log keeps room
  * @property {{next: number, falls: Array<{x: number, y: number, at: number, lands: number}>}} [quake]  a floor of tremors: when the ground next shudders, and the squares rock is coming down on (elements.js)
  * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean, door?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero; an ash's door, where a door burnt through
  * @property {number} [fireSaid]  until when a fire catching is not told again

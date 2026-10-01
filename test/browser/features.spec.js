@@ -1308,6 +1308,42 @@ test.describe('dungeon features', () => {
     expect(after).toBeGreaterThan(before + 30);
     expect(errors).toEqual([]);
   });
+  test('a smouldering floor: a crack heating up glows over the squares it will flare, the tip says to step clear, and the row warns when your own square is in it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
+    await startGame(page, { tips: true, seed: 'vent', cls: 'fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; L.dressing = []; L.items = {};
+      for (let k = 1; k <= 3; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
+      p.hp = p.maxHp = 999;
+    });
+    // the floor ahead, low in the view
+    const floor = () => page.evaluate(() => {
+      const c = document.getElementById('view'), g = c.getContext('2d');
+      const d = g.getImageData(Math.round(c.width * 0.38), Math.round(c.height * 0.62), Math.round(c.width * 0.24), Math.round(c.height * 0.1)).data;
+      let red = 0;
+      for (let i = 0; i < d.length; i += 4) if (d[i] > 150 && d[i] > d[i + 2] * 1.8) red++;
+      return red;
+    });
+    await page.waitForTimeout(400);
+    const before = await floor();
+    // a crack one square ahead begins to glow: its flare covers the hero's own square too
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.twist = 'smouldering';
+      L.vents = [{ x: p.x + dx, y: p.y + dy, next: G.t + 1e9, heat: G.t - 1400, sealedUntil: 0 }];
+      // (held on the point of flaring, so the glow can be looked at)
+      window.__hold = setInterval(() => { const v = Game.level().vents && Game.level().vents[0]; if (v) v.heat = Game.state().t - 1400; }, 30);
+    });
+    await expect(page.locator('#tip')).toContainText('glowing crack', { timeout: 2000 });
+    await expect(page.locator('#hud-status')).toContainText('Fire rising here!');
+    await page.waitForTimeout(300);
+    expect(await floor()).toBeGreaterThan(before + 200);
+    await page.evaluate(() => clearInterval(window.__hold));
+    expect(errors).toEqual([]);
+  });
   test('a floor of tremors: grit rings where rock will land, the tip says to step off, and the rock comes down', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));
@@ -1501,7 +1537,7 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('sellsword');
+    await expect(p2.locator('#news-text')).toContainText('smoulder');
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

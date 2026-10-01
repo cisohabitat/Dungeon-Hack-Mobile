@@ -585,6 +585,17 @@ const Renderer = (() => {
     const out = [];
     // the frost a wraith breathes, creeping over the stones toward where it is aimed
     for (const f of (fx && fx.frost) || []) out.push({ x: f.x + 0.5, y: f.y + 0.5, r: 0.46 * f.a, c: '#a8cce4', seed: f.x * 131 + f.y * 71 });
+    // a smouldering floor's cracks: a dull red split in the stones, crusted pale when cold has sealed it;
+    // heating up, it brightens and a glow spreads over the squares its flare will cover
+    for (const v of (fx && fx.vents) || []) {
+      const seed = v.x * 131 + v.y * 71;
+      if (v.sealed) { out.push({ x: v.x + 0.5, y: v.y + 0.5, r: 0.2, c: '#8a96a2', seed, solo: true }); continue; }
+      const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 220 + seed);
+      out.push({ x: v.x + 0.5, y: v.y + 0.5, r: 0.15 + 0.04 * flick + 0.12 * v.heat, c: v.heat ? '#f08a30' : '#8a2c10', seed, glow: true, solo: true });
+      // (the glow comes up from a dull red to a hot orange as the flare nears, and spreads as it does)
+      const hot = '#' + [[0x5a, 0xd8], [0x1e, 0x64], [0x0e, 0x1c]].map(([a, b]) => Math.round(a + (b - a) * v.heat).toString(16).padStart(2, '0')).join('');
+      for (const a of v.area) out.push({ x: a.x + 0.5, y: a.y + 0.5, r: 0.08 + 0.16 * v.heat, c: hot, seed: seed + a.x * 7 + a.y * 3, glow: v.heat > 0.85, solo: true });
+    }
     // where rock will land on a floor of tremors: a ring of grit spreading as it nears, dark at the heart
     for (const r of (fx && fx.rocks) || []) {
       const seed = r.x * 131 + r.y * 71;

@@ -393,6 +393,38 @@ const CREATURES = {
   // A mimic: a barrel to the hoops, until its lid lifts into a jaw. Rows of
   // teeth where the staves meet, a long tongue out over the rim, and two
   // eyes on stalks that were knots in the wood. Lunging, it gapes wider.
+  // The emberling: a knot of cooling rock the size of a dog, crusted black and
+  // split with cracks that glow like a forge, on four stubby legs, with two
+  // ember eyes and little flames licking up off its back. Blazing up (its
+  // windup), it hunches, the cracks go white-hot and the flames stand tall.
+  emberling: (pose = 'idle') => {
+    const hot = pose === 'windup';
+    const crust = '#2e2624', crust2 = '#3e3430', glow = hot ? '#fff0b0' : '#f08a30', glow2 = hot ? '#ffd060' : '#c8501c', flame = hot ? '#ffe070' : '#ff9a30', flame2 = hot ? '#fff4c0' : '#ffd060';
+    const dy = hot ? 1.2 : 0, sx = hot ? 1.06 : 1;
+    const cx = 16, cy = 21 + dy;
+    return [
+      // stubby legs of rock, the far pair behind
+      limb(10.5, 24 + dy, 9.6, 29.6, 1.6, 1.4, crust), limb(21.5, 24 + dy, 22.4, 29.6, 1.6, 1.4, crust),
+      ball(9.4, 30, 2, 1, crust2), ball(22.6, 30, 2, 1, crust2),
+      // the body: a lumpy boulder, wider than tall
+      ball(cx, cy, 8 * sx, 6.2, crust), ball(cx - 4, cy - 3.6, 3.6, 3, crust2), ball(cx + 4.2, cy - 3.2, 3.4, 2.8, crust2),
+      ball(cx, cy + 1.6, 4.4, 3.2, crust2),
+      // the near pair of legs
+      limb(13, 25 + dy, 12.4, 29.8, 1.5, 1.3, crust2), limb(19, 25 + dy, 19.6, 29.8, 1.5, 1.3, crust2),
+      ball(12.2, 30.2, 1.9, 0.9, crust), ball(19.8, 30.2, 1.9, 0.9, crust),
+      // the cracks, glowing: lines across the crust
+      line(cx - 6, cy - 1, cx - 2, cy + 2, glow), line(cx - 2, cy + 2, cx + 1, cy - 1, glow), line(cx + 1, cy - 1, cx + 6, cy + 1.5, glow),
+      line(cx - 3, cy - 4.5, cx - 1, cy - 2, glow2), line(cx + 3, cy - 4, cx + 4.5, cy - 1.5, glow2), line(cx - 1, cy + 3.5, cx + 2, cy + 5, glow2),
+      // two ember eyes low on the front
+      ball(cx - 2.6, cy + 3.4, 1.4, 1.1, '#141010'), ball(cx + 2.6, cy + 3.4, 1.4, 1.1, '#141010'),
+      dots([[cx - 3, Math.floor(cy + 3.2)], [cx - 2, Math.floor(cy + 3.2)], [cx + 2, Math.floor(cy + 3.2)], [cx + 3, Math.floor(cy + 3.2)]], hot ? '#ffffff' : '#ffd060'),
+      // flames licking up off its back, taller when it blazes
+      sheet([[cx - 5, cy - 5], [cx - 4.2, cy - (hot ? 13 : 9)], [cx - 3, cy - 5.6]], flame, { curve: 0.4 }),
+      sheet([[cx - 1.4, cy - 5.6], [cx + 0.2, cy - (hot ? 15 : 11)], [cx + 1.6, cy - 5.8]], flame, { curve: 0.4 }),
+      sheet([[cx + 3, cy - 5.2], [cx + 4.4, cy - (hot ? 12.5 : 8.5)], [cx + 5.4, cy - 4.8]], flame, { curve: 0.4 }),
+      sheet([[cx - 0.6, cy - 5.8], [cx + 0.2, cy - (hot ? 11 : 8.4)], [cx + 0.9, cy - 5.9]], flame2, { curve: 0.3 }),
+    ];
+  },
   mimic: (pose = 'idle') => {
     const wood = '#7a5230', dark = '#4e3320', light = '#9a6c40', iron = '#3e4048', gum = '#8a2a3a', tooth = '#f2ead2';
     const open = pose === 'windup' ? 7 : 4;       // how far the lid stands off the body
@@ -1612,6 +1644,18 @@ const CREATURES = {
 // only suggest. Painted coarsely (the art checks, scale 1) they fold back
 // onto whole pixels and change little.
 const DETAILS = {
+  // pits and ridges on the crust, sparks rising, the glow at the cracks' ends, and a drip of molten rock
+  emberling: (pose = 'idle') => {
+    const hot = pose === 'windup', dy = hot ? 1.2 : 0, cx = 16, cy = 21 + dy;
+    return [
+      specks([[cx - 6.5, cy + 2.5], [cx - 4, cy + 4], [cx + 5, cy + 3.5], [cx + 6.5, cy - 1], [cx - 2, cy - 5], [cx + 2.5, cy - 5]], '#1a1412'),
+      specks([[cx - 5.5, cy - 2], [cx + 5.5, cy - 2.5], [cx - 1.5, cy + 5.5], [cx + 3.5, cy + 5]], '#5a4a44'),
+      specks(hot ? [[cx - 3, cy - 15], [cx + 2, cy - 17], [cx + 5, cy - 14], [cx - 5, cy - 12]] : [[cx - 3, cy - 11], [cx + 1.5, cy - 13], [cx + 4.5, cy - 10]], '#ffd060'),
+      specks([[cx - 6, cy - 1], [cx + 6, cy + 1.5], [cx - 3, cy - 4.5], [cx + 4.5, cy - 1.5]], hot ? '#ffffff' : '#ffc060'),
+      hair(cx + 1.5, cy + 5.5, cx + 1.5, cy + 7.5, hot ? '#ffe080' : '#e06a20'),
+      hair(cx - 4.5, cy - 4.5, cx - 6, cy - 3, '#5a4a44'), hair(cx + 4.5, cy - 4, cx + 6, cy - 2.5, '#5a4a44'),
+    ];
+  },
   // scales picked out down the back and arms, claws, a slitted eye, wire glints and the dart's fletching
   kobold: (pose = 'idle') => {
     const throwing = pose === 'windup';
@@ -2031,11 +2075,31 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
+const POSES = { emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
 const PROPS = {
+  // the Forge-Spirit: an anvil black with age on a stump of rock, and over it a fire
+  // with no fuel, two eyes open in it, sparks rising
+  forge_spirit: () => [
+    // the stump of rock
+    ball(16, 28.4, 7.4, 2.8, '#4a3e38'), sheet([[9.6, 28.6], [10.6, 23.4], [21.4, 23.4], [22.4, 28.6]], '#5a4c44', { curve: 0.6 }),
+    hair(12, 24.5, 11.5, 28, '#3a302a'), hair(19.5, 24, 20.5, 28.2, '#3a302a'),
+    // the anvil: waist, body, face and horn
+    sheet([[13.4, 23.6], [18.6, 23.6], [17.6, 21], [14.4, 21]], '#2e3036', { curve: 0.3 }),
+    sheet([[11, 21.2], [21.4, 21.2], [21.8, 18.6], [10.4, 18.6]], '#3a3c44', { curve: 0.5 }),
+    limb(10.6, 19.4, 5.6, 19.8, 1.3, 0.3, '#3a3c44'),
+    line(10.4, 18.6, 21.8, 18.6, '#8a8e98'),
+    // the fire hanging over it: an outer flame, a hotter heart, two eyes and a mouth
+    sheet([[11.6, 17.6], [10.4, 13], [12.4, 10], [13, 6.2], [15, 8.6], [16.2, 3.4], [17.6, 8.2], [19.6, 5.8], [20, 10.4], [21.6, 13.2], [20.4, 17.6]], '#e8641c', { curve: 0.8 }),
+    sheet([[13, 17.2], [12.6, 13.4], [14.2, 11], [16, 7.6], [17.6, 11], [19.2, 13.2], [19, 17.2]], '#ffa030', { curve: 0.8 }),
+    sheet([[14.4, 17], [14.4, 14], [16, 11.6], [17.6, 14], [17.6, 17]], '#ffe080', { curve: 0.6 }),
+    dots([[14, 13], [15, 13], [17, 13], [18, 13]], '#3a1006'),
+    line(15, 15.4, 17, 15.4, '#7a2a0a'),
+    specks([[12, 4.5], [20.5, 3.5], [15, 1.5], [22.5, 7], [9.5, 8]], '#ffd060'),
+    specks([[11.5, 19], [14, 19], [17, 19], [20.5, 19]], '#c8ccd4'),
+  ],
   // a sellsword waiting to be hired: leaning on the sword, eyes narrowed, the price already in mind
   hireling: () => CREATURES.sellsword('sit'),
   // a fall of stone, and a hand still moving under it

@@ -112,9 +112,17 @@ function twistPlan(seed, levels, grow = true) {
   // down: the roof needs some weight of rock over it before it starts to come in
   const rock = new Rng(`${seed}|tremors`);
   if (grow) for (const d of Object.keys(plan).map(Number).sort((a, b) => a - b)) if (d >= 3 && ['dark', 'flooded', 'restless'].includes(plan[d]) && rock.next() < TREMORS_SHARE) plan[d] = 'tremors';
+  // and one deep floor in a few runs smoulders: dealt from dice of its own over the last quarter
+  // of the delve (never the deepest, nor a champion's floor, nor beside a floor already twisted)
+  const heat = new Rng(`${seed}|smoulder`);
+  if (grow && heat.next() < SMOULDER_SHARE) {
+    const deep = [];
+    for (let d = Math.max(3, Math.ceil(levels * 0.75)); d <= levels - 1; d++) if (!plan[d] && !plan[d - 1] && !plan[d + 1] && !named[d]) deep.push(d);
+    if (deep.length) plan[deep[Math.floor(heat.next() * deep.length)]] = 'smouldering';
+  }
   return plan;
 }
-const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25;
+const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25, SMOULDER_SHARE = 0.4;
 
 // Procedural dungeon generator. Deterministic per (seed, depth).
 

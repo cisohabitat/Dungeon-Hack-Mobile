@@ -712,7 +712,7 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps', 'goldBack']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps', 'goldBack', 'hone']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
@@ -4159,7 +4159,7 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors, a ranger\'s half as much; not on Normal', async () => {
+await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; not on Normal', async () => {
   const hurt = async (depth, cls = 'fighter', difficulty = 'hard') => {
     const ctx = await start(cls, 'deep-steel', { levels: 12, difficulty });
     const { Game } = ctx;
@@ -4167,6 +4167,8 @@ await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors, a
     G.levels[depth] = G.levels[1]; G.depth = depth;
     // the same hero both times: scores are rolled afresh for each new game
     for (const k in p.stats) p.stats[k] = 14;
+    // a druid fights as the bear, whose claws are its blows in the deep
+    if (cls === 'druid') { p.sp = 99; Game.castSpell(ctx.SPELLS.druid.find(s => s.id === 'wild_shape')); if (!p.shape) return -1; p.shape.until = 1e12; }
     const m = beside(ctx, 'ogre', { hp: 99999, maxHp: 99999, nextAct: 1e12 });
     seedDice(ctx, 'deep-steel-swings');
     let dealt = 0;
@@ -4174,9 +4176,10 @@ await test('in a Hard Long Delve a fighter\'s blows grow with the deep floors, a
     return dealt;
   };
   const out = [];
-  // five floors past the sixth: 4% a floor for a fighter, 2% for a ranger, none on Normal
-  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.12, 1.28], ['ranger', 'hard', 1.04, 1.16], ['ranger', 'normal', 0.97, 1.03]]) {
+  // five floors past the sixth: 4% a floor for a fighter and a druid, 2% for a ranger, none on Normal
+  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.12, 1.28], ['druid', 'hard', 1.12, 1.28], ['ranger', 'hard', 1.04, 1.16], ['ranger', 'normal', 0.97, 1.03]]) {
     const shallow = await hurt(6, cls, diff), deep = await hurt(11, cls, diff);
+    if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape'); continue; }
     if (!shallow) { out.push(`no ${cls} blow landed`); continue; }
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
@@ -8806,12 +8809,13 @@ await test('floor twists: dealt by the seed to middle floors only, never two run
     if (JSON.stringify(plan) !== JSON.stringify(Dungeon.twistPlan(seed, 8))) return `seed ${seed} dealt two plans`;
     for (const d of Object.keys(plan).map(Number)) {
       seen.add(plan[d]);
-      if (d < 2 || d > 6) return `seed ${seed} put ${plan[d]} on floor ${d}`;
+      // (a smouldering floor is a deep one: the last quarter, never the deepest)
+      if (plan[d] === 'smouldering' ? d < 6 || d > 7 : d < 2 || d > 6) return `seed ${seed} put ${plan[d]} on floor ${d}`;
       if (named[d]) return `seed ${seed} put ${plan[d]} on ${named[d]}'s floor`;
       if (plan[d + 1]) return `seed ${seed} twisted floors ${d} and ${d + 1}`;
     }
   }
-  return seen.size === 6 || `only ${[...seen].join(', ')} were ever dealt`;
+  return seen.size === 7 || `only ${[...seen].join(', ')} were ever dealt`;
 });
 
 await test('each floor twist does what it says, and is told on arriving', async () => {
@@ -8821,7 +8825,7 @@ await test('each floor twist does what it says, and is told on arriving', async 
     for (let i = 0; i < 400; i++) { const plan = Dungeon.twistPlan('twist' + i, 8); const d = Object.keys(plan).find(k => plan[k] === kind); if (d) return { seed: 'twist' + i, d: Number(d) }; }
     return null;
   };
-  for (const kind of ['dark', 'flooded', 'restless', 'market', 'tremors']) {
+  for (const kind of ['dark', 'flooded', 'restless', 'market', 'tremors', 'smouldering']) {
     const at = await find(kind);
     if (!at) { out.push(`no seed dealt ${kind}`); continue; }
     const ctx = await start('fighter', at.seed, { levels: 8 });
@@ -11046,6 +11050,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     let seen = 0;
     for (let i = 0; i < 200; i++) {
       const seed = 'og-' + i, a = Dungeon.twistPlan(seed, 8), b = Dungeon.twistPlan(seed, 8, false);
+      // (a deep smouldering floor is added on its own dice, not dealt over another: left out here)
+      for (const d in a) if (a[d] === 'smouldering') delete a[d];
       if (Object.keys(a).join() !== Object.keys(b).join()) { out.push(`${seed}: twisted floors ${Object.keys(a)} against ${Object.keys(b)}`); break; }
       for (const d in a) { if (a[d] === 'overgrown') { seen++; if (b[d] === 'market') out.push(`${seed}: a goblin market overgrown`); } else if (a[d] !== b[d] && !(a[d] === 'tremors' && b[d] !== 'market')) out.push(`${seed}: floor ${d} ${b[d]} became ${a[d]}`); }
     }
@@ -11751,6 +11757,153 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a smouldering floor: its cracks glow, then flare fire over themselves and the four squares beside; cold seals one a while', async () => {
+    const out = [];
+    const { Game, Dungeon, G, L, p, put, at, cast } = await arena('mage', 'el-vent');
+    L.twist = 'smouldering';
+    const [vx, vy] = at(2), [hx, hy] = at(0), [nx, ny] = at(1);
+    L.vents = [{ x: vx, y: vy, next: Math.max(1, G.t), heat: 0, sealedUntil: 0 }];
+    run(Game, G, 100);
+    let v = Game.vents()[0];
+    if (!(v.heat > 0)) out.push('a crack whose time had come did not heat up');
+    if (v.area.length !== 5 || !v.area.some(a => a.x === nx && a.y === ny)) out.push(`a heating crack would cover ${JSON.stringify(v.area)}`);
+    // standing beside it when it flares: the fire is under the hero, and burns
+    p.x = nx; p.y = ny;
+    const mark = markLog(G);
+    run(Game, G, 1600);
+    const f = Game.fieldAt(p.x, p.y);
+    if (!f || f.k !== 'fire') out.push('the flare left no fire on the square beside the crack');
+    if (!linesSince(G, mark).some(l => /flares/.test(l))) out.push('the flare was not told');
+    run(Game, G, 1000);
+    if (p.hp >= 9999) out.push('a hero standing in a flare was not burnt');
+    v = Game.vents()[0];
+    if (v.heat) out.push('the crack was still glowing after its flare');
+    if (!(L.vents[0].next >= G.t + 6000 && L.vents[0].next <= G.t + 16000)) out.push(`the crack flares again in ${L.vents[0].next - G.t}ms`);
+    // cold cast at it seals it: no glow, no flare, a while
+    L.fields = {}; p.x = hx; p.y = hy; p.hp = 9999;
+    L.vents[0].next = G.t + 5000;
+    const m2 = markLog(G);
+    cast('cone_cold');
+    if (!Game.vents()[0].sealed) out.push('cold cast at a crack did not seal it');
+    if (!linesSince(G, m2).some(l => /crusts the glowing crack/.test(l))) out.push('the seal was not told');
+    L.vents[0].next = G.t;
+    run(Game, G, 3000);
+    if (Game.vents()[0].heat || Object.keys(L.fields).length) out.push('a sealed crack heated or flared');
+    // cold striking a creature beside a crack seals it too
+    L.vents[0].sealedUntil = 0; L.vents[0].next = G.t + 99999;
+    const g = put('goblin', 3);
+    G.t = Math.max(G.t, p.nextAttack) + 10;
+    cast('cone_cold');
+    if (!Game.vents()[0].sealed) out.push('cold striking a goblin beside a crack did not seal it');
+    void g; void Dungeon;
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('an emberling blazes up close to the hero and flares: beside it, scorched; two squares off, clear (the answer); quenched by cold; walks through fire; bursts into flame as it dies', async () => {
+    const out = [];
+    const { Game, G, L, p, put, at, cast, ctx } = await arena('mage', 'el-ember');
+    L.twist = null;
+    // fire barely touches it, cold hurts it badly
+    const e0 = put('emberling', 3, 0, { hp: 999, maxHp: 999 });
+    if (!(ctx.ELEMENTS_TAKEN.emberling.fire < 1 && ctx.ELEMENTS_TAKEN.emberling.cold > 1)) out.push('an emberling does not shrug off fire and fear cold');
+    L.monsters.length = 0; void e0;
+    // close, after a blow, it blazes up; still beside the hero when it flares, it scorches
+    let e = put('emberling', 1, 0, { hp: 999, maxHp: 999, nextAct: G.t, blows: 1 });
+    let blazed = false;
+    for (let i = 0; i < 40 && !blazed; i++) { run(Game, G, 50); blazed = !!(e.windup && e.windup.move === 'flare'); if (!blazed && !e.windup) e.blows = 1; if (e.windup && !e.windup.move) { e.windup = null; e.nextAct = G.t; e.blows = 1; } }
+    if (!blazed) out.push('an emberling beside the hero never blazed up');
+    else {
+      p.eq.armor = null;
+      const hp0 = p.hp, mk = markLog(G);
+      run(Game, G, 1500);
+      // (the flare also sets the hero's own square alight: the scorch is told apart from the fire)
+      if (p.hp >= hp0 || !linesSince(G, mk).some(l => /heat of it scorches you/.test(l))) out.push('an emberling flaring beside the hero did not scorch them');
+      const f = Game.fieldAt(at(1)[0], at(1)[1]);
+      if (!f || f.k !== 'fire') out.push('the flare did not set its own square alight');
+    }
+    // two squares off when it flares: clear, and the answer
+    L.monsters.length = 0; L.fields = {}; p.hp = 9999;
+    e = put('emberling', 1, 0, { hp: 999, maxHp: 999, nextAct: 1e12 });
+    e.windup = { kind: 'move', move: 'flare', at: G.t, until: G.t + 300 }; e.nextAct = G.t + 300;
+    const [bx, by] = ctx.Dungeon.DIRS[(p.dir + 2) % 4];
+    L.tiles[(p.y + by) * L.w + p.x + bx] = ctx.Dungeon.T.FLOOR;
+    p.x += bx; p.y += by;
+    run(Game, G, 500);
+    if (p.hp !== 9999) out.push('a hero two squares off was scorched by the flare');
+    if (!(Game.bestiary().emberling || {}).answer) out.push('standing clear of the flare was not counted the answer');
+    p.x -= bx; p.y -= by;
+    // blazing up, quenched by cold
+    L.monsters.length = 0; L.fields = {};
+    e = put('emberling', 2, 0, { hp: 999, maxHp: 999, nextAct: 1e12 });
+    e.windup = { kind: 'move', move: 'flare', at: G.t, until: G.t + 5000 }; e.nextAct = G.t + 5000;
+    const mark = markLog(G);
+    cast('cone_cold');
+    if (e.windup) out.push('cold did not quench an emberling blazing up');
+    if (!linesSince(G, mark).some(l => /dulls the Emberling's glow/.test(l))) out.push('the quench was not told');
+    // it dies in a burst of flame
+    L.monsters.length = 0; L.fields = {};
+    e = put('emberling', 1, 0, { hp: 1, maxHp: 30, nextAct: 1e12 });
+    const [ex, ey] = [e.x, e.y];
+    for (let i = 0; i < 8 && L.monsters.includes(e); i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); run(Game, G, 30); }
+    const fd = Game.fieldAt(ex, ey);
+    if (L.monsters.includes(e)) out.push('could not kill the emberling');
+    else if (!fd || fd.k !== 'fire') out.push('a dead emberling left no fire where it fell');
+    // a smouldering floor grows them among its creatures, and its cracks in its rooms
+    {
+      const found = (() => { for (let i = 0; i < 400; i++) { const pl = ctx.Dungeon.twistPlan('sm-' + i, 8); for (const d in pl) if (pl[d] === 'smouldering') return ['sm-' + i, +d]; } return null; })();
+      if (!found) out.push('no smouldering floor in 400 seeds');
+      else {
+        const c2 = await start('fighter', found[0], { levels: 8 });
+        c2.Game.player().hp = c2.Game.player().maxHp = 9999;
+        c2.Game.testFloor(found[1]);
+        const L2 = c2.Game.level();
+        if (L2.twist !== 'smouldering') out.push(`floor ${found[1]} of ${found[0]} is ${L2.twist}`);
+        if (!L2.vents || L2.vents.length < 5) out.push(`a smouldering floor had ${L2.vents ? L2.vents.length : 0} cracks`);
+        else {
+          const ends = [L2.start, L2.stairsDown, L2.stairsUp].filter(Boolean);
+          if (L2.vents.some(v => ends.some(q => Math.abs(q.x - v.x) + Math.abs(q.y - v.y) <= 3))) out.push('a crack lay within three squares of a stair or the start');
+          if (L2.vents.some((v, i) => L2.vents.some((w, j) => i !== j && Math.abs(v.x - w.x) + Math.abs(v.y - w.y) <= 2))) out.push('two cracks lay side by side');
+        }
+        if (!L2.monsters.some(m => m.id === 'emberling')) out.push(`no emberling among ${L2.monsters.length} creatures on a smouldering floor`);
+      }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the forge-spirit: blade or coat a step better, past the traders\' +3 to +4 and no further; a curse burnt out; the bellows for both', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'forgespirit', { levels: 8 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.gold = 9999;
+    while (G.depth < 6) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+    const w = p.eq.weapon;
+    w.e = 3;
+    meetAndChoose(ctx, 'forgespirit', 0); Game.closeEncounter();
+    if (w.e !== 4) out.push(`a +3 blade in its fire came out +${w.e}`);
+    meetAndChoose(ctx, 'forgespirit', 0); Game.closeEncounter();
+    if (w.e !== 4) out.push(`it took a blade past +4, to +${w.e}`);
+    // a cursed coat comes back clean, and better
+    p.eq.armor = p.eq.armor || { t: 'leather', q: 1, e: 0 };
+    const a = p.eq.armor;
+    a.e = -1; a.curse = 1;
+    const g0 = p.gold;
+    const r = meetAndChoose(ctx, 'forgespirit', 1); Game.closeEncounter();
+    if (a.curse || a.e !== 0) out.push(`a cursed -1 coat on its anvil came back ${a.curse ? 'cursed' : 'clean'} at ${a.e}`);
+    if (g0 - p.gold !== 12 * G.depth) out.push(`the anvil cost ${g0 - p.gold}, not ${12 * G.depth}`);
+    if (!r.lines.some(l => /curse burns away/.test(l))) out.push('the burnt curse was not told');
+    // the bellows, worked by a strong arm: both
+    w.e = 0; a.e = 0; p.stats.str = 30;
+    let rr = null;
+    for (let i = 0; i < 6 && !(rr && rr.check.pass); i++) { rr = meetAndChoose(ctx, 'forgespirit', 2); Game.closeEncounter(); }
+    if (!rr.check.pass) out.push('a strong arm never worked the bellows');
+    else if (w.e !== 1 || a.e !== 1) out.push(`the bellows left the blade +${w.e} and the coat +${a.e}`);
+    // nothing to temper
+    p.eq.weapon = null;
+    const r2 = meetAndChoose(ctx, 'forgespirit', 0); Game.closeEncounter();
+    if (!r2.lines.some(l => /no weapon for it/.test(l))) out.push(`with no weapon the fire said ${r2.lines.join(' | ')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a kobold trapper backs off to throw, sets a snare between you that is seen and can be sprung from before it, and its snares go slack when it dies', async () => {
     const out = [];
     const { Game, Dungeon, G, L, p, put, at } = await arena('fighter', 'el-kobold');
@@ -11815,6 +11968,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     let dealt = 0;
     for (let i = 0; i < 300; i++) {
       const seed = 'qk-' + i, a = Dungeon.twistPlan(seed, 8), b = Dungeon.twistPlan(seed, 8, false);
+      // (a deep smouldering floor is added on its own dice, not dealt over another: left out here)
+      for (const d in a) if (a[d] === 'smouldering') delete a[d];
       if (Object.keys(a).join() !== Object.keys(b).join()) { out.push(`${seed}: twisted floors ${Object.keys(a)} against ${Object.keys(b)}`); break; }
       for (const d in a) if (a[d] === 'tremors') { dealt++; if (+d < 3) out.push(`${seed}: tremors on floor ${d}`); }
     }

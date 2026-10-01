@@ -21,6 +21,10 @@
 //   down from the roof: the squares it will fall on are marked a moment
 //   before it lands, round the hero. It falls on whatever stands there then,
 //   the hero's foes too, which never think to look up.
+// - On a smouldering floor (a deep one) cracks in the stones glow, heat up
+//   where they can be seen, and flare: fire over the crack and the four
+//   squares beside it, a moment, on whatever stands there. Cold striking by
+//   a crack seals it a while.
 //
 // What lies on each square (fire, ash, oil, ice) is kept on the level in
 // `fields`, keyed like its items, so it is saved with the rest. What it
@@ -41,6 +45,9 @@ const ARC_REACH = 2;
 // before the rock lands (long enough to see and take a step), how far round
 // the hero it falls, and on how many squares besides the hero's own
 const QUAKE_GAP = [16000, 24000], QUAKE_WARN = 1700, QUAKE_REACH = 3, QUAKE_FALLS = 4;
+// a smouldering floor's cracks: how long between flares, how long one glows first, how long
+// its fire lasts, and how long cold seals it
+const VENT_GAP = [9000, 15000], VENT_WARN = 1500, VENT_FIRE_MS = 2200, VENT_SEAL_MS = 25000;
 
 /** @param {any} K */
 export function makeElements(K) {
@@ -103,6 +110,16 @@ export function makeElements(K) {
   function strike(m, el, dmg, how, seen = new Set()) {
     if (!m || !el || K.G.status !== 'playing') return;
     seen.add(m);
+    // cold by a smouldering floor's crack seals it, a spell's or a blade's;
+    // and an emberling blazing up is quenched by it
+    if (el === 'cold') {
+      seal(m.x, m.y);
+      if (m.windup && m.windup.move === 'flare' && K.lvl().monsters.includes(m)) {
+        m.windup = null; m.moveReady = K.G.t + 6000; m.nextAct = K.G.t + 600;
+        K.log(`The cold dulls the ${K.mstat(m).name}'s glow before it can flare.`, 'good');
+        K.learn(m.id, 'answer');
+      }
+    }
     if (el === 'fire') {
       const f = fieldAt(m.x, m.y);
       if (f && f.k === 'ice') { delete fields()[K.key(m.x, m.y)]; K.log('The ice hisses and runs back into water.'); return; }
@@ -288,6 +305,7 @@ export function makeElements(K) {
   function tick() {
     const L = lvl(), G = K.G;
     quake();
+    if (G.status === 'playing') smoulder();
     if (G.status !== 'playing' || !L.fields) return;
     const depthBite = Math.floor(G.depth / 3);
     for (const k of Object.keys(L.fields)) {
@@ -298,7 +316,7 @@ export function makeElements(K) {
       const [x, y] = k.split(',').map(Number);
       // (oil that burnt on moss took the moss with it: that ash stays, as the moss's does)
       if (G.t >= f.until) {
-        L.fields[k] = { k: 'ash', until: f.fuel === 'oil' && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0, ...(f.fuel === 'door' ? { door: true } : {}) };
+        L.fields[k] = { k: 'ash', until: (f.fuel === 'oil' || f.fuel === 'vent') && L.twist !== 'overgrown' ? G.t + OIL_ASH_MS : 0, ...(f.fuel === 'door' ? { door: true } : {}) };
         if (f.fuel === 'door') doorFalls(x, y);
         continue;
       }
@@ -321,7 +339,7 @@ export function makeElements(K) {
           // a web holding the hero burns away, as it does for a fire spell
           K.burnWeb();
           const n = d(1, 4) + depthBite;
-          K.hurtPlayer(n, `The flames lick at you! (${n})`, null, f.fuel === 'oil' ? 'burning oil' : f.fuel === 'door' ? 'a burning door' : 'burning moss');
+          K.hurtPlayer(n, `The flames lick at you! (${n})`, null, f.fuel === 'oil' ? 'burning oil' : f.fuel === 'door' ? 'a burning door' : f.fuel === 'vent' ? 'a fire from the floor' : 'burning moss');
           if (G.status !== 'playing') return;
         }
         const c = K.companionHere();
@@ -387,6 +405,70 @@ export function makeElements(K) {
     return ((L.quake && L.quake.falls) || []).map(f => ({ x: f.x, y: f.y, u: Math.max(0, Math.min(1, (G.t - f.at) / Math.max(1, f.lands - f.at))) }));
   }
 
+  /** The squares a crack's flare covers: its own and the four beside it that are open floor. */
+  function ventArea(v) {
+    return [[0, 0], ...DIRS4].map(([dx, dy]) => ({ x: v.x + dx, y: v.y + dy })).filter(s => open(s.x, s.y));
+  }
+  /**
+   * Flames on a square that need no fuel (a crack's flare, an emberling's blaze):
+   * oil there goes up as oil does, ice melts instead, and the rest burns a moment.
+   * A monster's fire, not the hero's.
+   */
+  function flame(x, y, ms = VENT_FIRE_MS) {
+    const G = K.G, f = fieldAt(x, y);
+    if (!open(x, y)) return;
+    if (f && f.k === 'ice') { delete fields()[K.key(x, y)]; return; }
+    if (f && f.k === 'fire') { f.until = Math.max(f.until, G.t + ms); return; }
+    if (fuel(x, y)) { ignite(x, y, 0, true); return; }
+    // (it spreads no further than the moss or oil beside it would let any fire)
+    fields()[K.key(x, y)] = { k: 'fire', fuel: 'vent', until: G.t + ms, spread: G.t + SPREAD_MS, burn: G.t + 150, gen: MOSS_REACH, wild: true };
+  }
+  /**
+   * A smouldering floor's cracks, each in its own time: it glows for a moment
+   * (seen, and heard close by), then flares over its square and the four beside
+   * it. One sealed by cold waits out the seal.
+   */
+  function smoulder() {
+    const L = lvl(), G = K.G, p = K.P();
+    if (L.twist !== 'smouldering' || !L.vents) return;
+    for (const v of L.vents) {
+      if (!v.next) v.next = G.t + 2000 + Math.random() * VENT_GAP[1];
+      if ((v.sealedUntil || 0) > G.t) continue;
+      if (!v.heat && G.t >= v.next) {
+        // (never 0, which reads as quiet: the clock starts there)
+        v.heat = Math.max(1, G.t);
+        if (dist(v, p) <= 5) Sound.play('hiss', K.heard(v));
+        continue;
+      }
+      if (v.heat && G.t >= v.heat + VENT_WARN) {
+        v.heat = 0;
+        v.next = G.t + VENT_GAP[0] + Math.random() * (VENT_GAP[1] - VENT_GAP[0]);
+        for (const s of ventArea(v)) flame(s.x, s.y);
+        if (dist(v, p) <= 6 && !(L.ventSaid > G.t)) { L.ventSaid = G.t + 6000; K.log('A crack in the floor flares, and fire sheets out of it!', 'bad'); }
+        if (dist(v, p) <= 6) Sound.play('cast', K.heard(v, { spell: 'burning_hands' }));
+      }
+    }
+  }
+  /** Cold by a crack seals it a while: its glow dies, and it does not flare. @returns {number} how many were sealed */
+  function seal(x, y) {
+    const L = lvl(), G = K.G;
+    if (L.twist !== 'smouldering' || !L.vents) return 0;
+    let n = 0;
+    for (const v of L.vents) {
+      if (dist(v, { x, y }) > 1 || (v.sealedUntil || 0) > G.t) continue;
+      v.sealedUntil = G.t + VENT_SEAL_MS; v.heat = 0; v.next = v.sealedUntil + 2000;
+      n++;
+    }
+    if (n) K.log(n > 1 ? 'The cold crusts the glowing cracks over: they will not flare for a while.' : 'The cold crusts the glowing crack over: it will not flare for a while.', 'good');
+    return n;
+  }
+  /** A smouldering floor's cracks for the renderer and the bot: where, how near to flaring (0 to 1, or 0 when quiet), sealed or not, and the squares a flare would cover. */
+  function vents() {
+    const L = lvl(), G = K.G;
+    if (!L.vents) return [];
+    return L.vents.map(v => ({ x: v.x, y: v.y, heat: v.heat ? Math.max(0, Math.min(1, (G.t - v.heat) / VENT_WARN)) : 0, sealed: (v.sealedUntil || 0) > G.t, area: v.heat ? ventArea(v) : [] }));
+  }
+
   /** A burnt door falls in: the doorway stands open, and whatever lock it had is gone with it. */
   function doorFalls(x, y) {
     const L = lvl();
@@ -411,5 +493,5 @@ export function makeElements(K) {
     return out;
   }
 
-  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, rime, stormAt, burstCask, burnLine, tick, view, falling };
+  return { fieldAt, wet, fuel, ignite, strike, scorch, spill, firepot, rime, stormAt, burstCask, burnLine, tick, view, falling, flame, seal, vents };
 }

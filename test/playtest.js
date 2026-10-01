@@ -209,7 +209,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     }
     // --- rock about to come down on a floor of tremors: step off its mark, to a square it will not fall on
     {
-      const falls = (L.quake && L.quake.falls) || [];
+      // (and a smouldering floor's crack glowing toward a flare: the squares it will cover)
+      const falls = [...((L.quake && L.quake.falls) || []), ...(Game.vents ? Game.vents().flatMap(v => v.area) : [])];
       const under = (x, y) => falls.some(f => f.x === x && f.y === y);
       if (under(p.x, p.y) && !(p.held > G.t)) {
         const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy, t = L.tiles[y * L.w + x];
@@ -609,6 +610,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (e.xp) v += e.xp / 25;
           if (e.goldPerDepth) v += e.goldPerDepth / 12;
           if (e.goldBack) v += e.goldBack / 12;
+          if (e.hone) v += p.eq[e.hone] && (p.eq[e.hone].e || 0) < 4 ? 3 : 0;
           if (e.hurt) v -= (e.hurt[0] * (e.hurt[1] + 1) / 2 + e.hurt[2]) / Math.max(1, p.hp) * 12;
           if (e.hurtFrac) v -= e.hurtFrac * p.maxHp / Math.max(1, p.hp) * 12;
           if (e.heal) v += (e.heal === 'full' ? (p.maxHp - p.hp) : e.heal) / p.maxHp * 5;

@@ -47,7 +47,8 @@ export function makeFoes(K) {
   const burning = (x, y) => { const f = K.fieldAt(x, y); return !!f && f.k === 'fire'; };
   // spilt oil beside a fire is as good as alight: it will be in a breath
   const fiery = (x, y) => { if (burning(x, y)) return true; const f = K.fieldAt(x, y); return !!f && f.k === 'oil' && K.DIRS.some(([dx, dy]) => burning(x + dx, y + dy)); };
-  const fearsFire = mb => !mb.undead && !mb.boss;
+  // (a creature of fire, an emberling, walks through it)
+  const fearsFire = mb => !mb.undead && !mb.boss && !mb.fiery;
   function wander(m) {
     const p = K.P(), shy = fearsFire(K.mstat(m));
     const opts = [];
@@ -184,7 +185,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -297,6 +298,8 @@ export function makeFoes(K) {
       if (K.snareable(tx, ty)) { say = `The ${mb.name} crouches and sets something that glints on the stones between you!`; extra = { tx, ty }; }
     }
     else if (mv === 'rally' || mv === 'drink') say = namedTrick(m, mb, mv, adjacent);
+    // an emberling close to the hero blazes up, after a blow or two
+    else if (mv === 'flare' && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2 && (m.blows || 0) >= 1) say = `The ${mb.name}'s cracks blaze white-hot! Get clear of it, or quench it with cold!`;
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
     if (!say) return false;
@@ -582,6 +585,19 @@ export function makeFoes(K) {
         } else if (K.wet(w.tx, w.ty)) { K.log(`Lightning comes down into the water where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         else K.log('Lightning comes down, but finds no water to run through.', 'good');
         m.moveReady = K.G.t + 8000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'flare': {
+        // the stones round it catch: its own square and the four beside it; a hero beside it is scorched
+        for (const [dx, dy] of [[0, 0], ...K.DIRS]) K.flame(m.x + dx, m.y + dy);
+        Sound.play('cast', K.heard(m, { spell: 'burning_hands' }));
+        if (dist <= 1) {
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1))));
+          K.hurtPlayer(n, `The ${mb.name} flares, and the heat of it scorches you! (${n})`, m, 'an emberling\'s flare');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+        } else { K.log(`The ${mb.name} flares, and the stones round it catch, but you are clear of it.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
+        m.moveReady = K.G.t + 7000;
         m.nextAct = K.G.t + mb.speed;
         break;
       }
