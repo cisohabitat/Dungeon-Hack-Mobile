@@ -263,9 +263,9 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 84% | 80% | 80% | 78.5% | 83% | 84% | about 81% |
+| Normal | 81% | 83% | 79.5% | 79.5% | 78.5% | 80% | about 80% |
 | Hard | 58% | 53% | 57.5% | 56% | 59.5% | 57% | about 57% |
-| Long Delve (12 floors), Normal | 84% | 81.5% | 78.5% | 84% | 84% | 77% | about 82% |
+| Long Delve (12 floors), Normal | 88% | 81.5% | 78% | 80% | 75.5% | 86.5% | about 81% |
 | Long Delve (12 floors), Hard | 59% | 57.5% | 56% | 57% | 62% | 58% | about 58% |
 
 The Normal and Hard rows were measured again, both seed sets, after the middle floors grew
@@ -285,6 +285,11 @@ within 56% to 62%. On eight floors Hard barely moved, but for the fighter, down 
 (47.5% and 59% on the two seed sets): lowest, and still inside the six points. Played again on the
 commit before these changes it won 54.8% (50.5% and 59%), so the deep floors are not what
 took it down: it had drifted there before.
+
+The Normal row (both seed sets) and the Long Delve on Normal (one set) were measured after it too:
+Normal about 80%, every class within 78.5% to 83%; the Long Delve on Normal about 81%. On one set
+the Long Delve on Normal swings a class by several points (the ranger 75.5%, the druid 86.5%, the
+other way round from the set before), so read that row loosely.
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of
