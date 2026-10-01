@@ -502,6 +502,7 @@ test.describe('the Daily Delve', () => {
     await clearBoons(page);
     await page.click('[data-open="menu"]');
     await page.click('#m-test-map');
+    await page.click('#m-test-map');
     await page.click('#ov-map [data-close]');
     await faceOpenGround(page, 2);
     await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });

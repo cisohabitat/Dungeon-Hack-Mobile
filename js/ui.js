@@ -700,6 +700,28 @@ const UI = (() => {
     return testingNow;
   }
   function toggleTesting(k) { const t = { ...testingSet() }; t[k] = !t[k]; store(TESTING, JSON.stringify(t)); testingNow = t; Game.setTesting(t); miniSig = ''; renderMenu(); if (Game.state()) refreshHud(); }
+  // A testing aid takes the run out of the Hall for good, and one tap too many
+  // could do it by mistake: while the run still counts, the first tap only arms
+  // the tool and says what it costs, and a second within a few seconds uses it.
+  // (Turning one off asks nothing, nor does a run already marked.)
+  const TEST_ARM_MS = 4000;
+  let testArmed = null, testArmTimer = 0;
+  function disarmTest() {
+    clearTimeout(testArmTimer);
+    if (testArmed && testArmed.isConnected) { testArmed.classList.remove('armed'); testArmed.textContent = testArmed.dataset.plain || testArmed.textContent; }
+    testArmed = null;
+  }
+  /** @param {HTMLElement} btn @param {() => void} use @param {boolean} [free]  nothing to lose (turning a tool off) */
+  function testGate(btn, use, free) {
+    if (free || Game.tested() || testArmed === btn) { disarmTest(); $('#m-test-said').textContent = ''; use(); return; }
+    disarmTest();
+    testArmed = btn;
+    btn.dataset.plain = btn.textContent;
+    btn.classList.add('armed');
+    btn.textContent = 'Tap again';
+    $('#m-test-said').textContent = 'Tap again to use it. This run will then be a test run, for good: not written in the Hall, no trophy, no bones.';
+    testArmTimer = setTimeout(() => { disarmTest(); if (!Game.tested()) $('#m-test-said').textContent = ''; }, TEST_ARM_MS);
+  }
   /** What a testing tool just did, said under the tools (the log is behind the Menu). */
   function testSaid() {
     const last = Game.state().log.slice(-1)[0];
@@ -2376,6 +2398,7 @@ const UI = (() => {
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
     $('#m-numbers').textContent = 'Combat numbers: ' + (bigNumbers() ? 'Large' : 'Normal');
     const t = testingSet();
+    disarmTest();
     $('#m-test-hp').textContent = 'Endless life: ' + (t.hp ? 'On' : 'Off');
     $('#m-test-sp').textContent = 'Endless spell points: ' + (t.sp ? 'On' : 'Off');
     $('#m-test-gold').textContent = 'Endless gold: ' + (t.gold ? 'On' : 'Off');
@@ -2680,22 +2703,21 @@ const UI = (() => {
     $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
     // like with like: what you fight with first, what you use up after (the pick stays picked)
     $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
-    $('#m-test-hp').addEventListener('click', () => toggleTesting('hp'));
-    $('#m-test-sp').addEventListener('click', () => toggleTesting('sp'));
-    $('#m-test-gold').addEventListener('click', () => toggleTesting('gold'));
-    $('#m-test-eye').addEventListener('click', () => toggleTesting('eye'));
+    for (const k of /** @type {const} */ (['hp', 'sp', 'gold', 'eye'])) {
+      const btn = $(`#m-test-${k}`);
+      btn.addEventListener('click', () => testGate(btn, () => toggleTesting(k), testingSet()[k]));
+    }
     // the floor laid out, and the map opened on it to show it
-    $('#m-test-map').addEventListener('click', () => { if (Game.testReveal()) { miniSig = ''; openOverlay('map'); } });
+    $('#m-test-map').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { if (Game.testReveal()) { miniSig = ''; openOverlay('map'); } }));
     // the level's choice takes the Menu's place
-    $('#m-test-level').addEventListener('click', () => { if (Game.testLevel()) { renderMenu(); refreshHud(); } });
-    $('#m-test-go').addEventListener('click', () => {
+    $('#m-test-level').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { if (Game.testLevel()) { renderMenu(); refreshHud(); } }));
+    $('#m-test-go').addEventListener('click', e => {
       const depth = Number(/** @type {HTMLSelectElement} */ ($('#m-test-floor')).value);
       const road = /** @type {HTMLSelectElement} */ ($('#m-test-road')).value;
       if (depth === Game.state().depth) return;
-      closeOverlay();
-      Game.testFloor(depth, road);
+      testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { closeOverlay(); Game.testFloor(depth, road); });
     });
-    $('#m-test-give').addEventListener('click', () => { Game.testGive(/** @type {HTMLSelectElement} */ ($('#m-test-item')).value); testSaid(); });
+    $('#m-test-give').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { Game.testGive(/** @type {HTMLSelectElement} */ ($('#m-test-item')).value); testSaid(); }));
     $('#m-hand').addEventListener('click', () => { store(HAND, lefty() ? 'right' : 'left'); setHand(); renderMenu(); fitView(); });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     // How to Play in the middle of a run: the run is kept first (a phone may

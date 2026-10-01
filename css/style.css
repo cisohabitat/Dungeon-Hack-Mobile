@@ -350,8 +350,9 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .shop-row .what small { color: var(--dim); }
 .shop-row button { min-width: 86px; min-height: 44px; padding: 6px 8px; }
 .shop-row { cursor: pointer; }
-/* a dear purchase asks twice: the first tap turns the button to a warning */
+/* a dear purchase asks twice, and so does a testing tool while the run still counts: the first tap turns the button to a warning */
 .shop-row button.armed { background: #6a3a12; border-color: #ffb040; color: #fff2d8; font-weight: bold; }
+#ov-menu button.armed { background: #6a3a12; border-color: #ffb040; color: #fff2d8; font-weight: bold; }
 .shop-row button.afford { border-color: var(--accent); color: #f5e6c0; }
 .shop-row button:disabled { opacity: 0.6; }   /* dimmed, but the price still easy to read */
 .shop-empty { color: var(--dim); font-size: 0.9rem; padding: 6px 2px; }

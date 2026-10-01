@@ -1108,13 +1108,30 @@ test.describe('dungeon features', () => {
     await expect.poll(() => page.evaluate(() => { const F = Object.values(Game.level().fields || {}); return F.length > 0 && F.every(f => f.k === 'ash'); }), { timeout: 12000 }).toBe(true);
     expect(errors).toEqual([]);
   });
-  test('the Menu turns endless life, spell points and gold on and off for testing; the HUD says it is a test run', async ({ page }) => {
+  test('the Menu turns endless life, spell points and gold on and off for testing, each asking a second tap while the run counts; the HUD says it is a test run', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'testing-aids', cls: 'mage' });
     await clearBoons(page);
-    // endless life alone, at full life, changes no number: the chip must still say so at once
     await page.click('[data-open="menu"]');
+    // while the run still counts, the first tap only arms the tool and says what it costs
     await page.click('#m-test-hp');
+    await expect(page.locator('#m-test-hp')).toHaveText('Tap again');
+    await expect(page.locator('#m-test-said')).toContainText('test run');
+    expect(await page.evaluate(() => [Game.tested(), localStorage.getItem('deepdelve.testing')])).toEqual([false, null]);
+    // left a few seconds, it disarms, and the next tap arms it again rather than using it
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: Off', { timeout: 6000 });
+    await expect(page.locator('#m-test-said')).toHaveText('');
+    await page.click('#m-test-hp');
+    expect(await page.evaluate(() => Game.tested())).toBe(false);
+    // a tap on another tool moves the arming to it
+    await page.click('#m-test-gold');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: Off');
+    await expect(page.locator('#m-test-gold')).toHaveText('Tap again');
+    expect(await page.evaluate(() => Game.tested())).toBe(false);
+    // endless life alone, at full life, changes no number: the chip must still say so at once
+    await page.click('#m-test-hp');
+    await page.click('#m-test-hp');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: On');
     await page.click('#ov-menu [data-close]');
     await expect(page.locator('#hud-status')).toContainText('Test run');
     await page.click('[data-open="menu"]');
@@ -1151,7 +1168,9 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#map-legend [data-key="monster"]')).toBeHidden();
     await page.click('#ov-map [data-close]');
     // every monster on the map, and its key with it: even one on ground not yet seen
+    // (a second tap, while the run still counts; once it is a test run, one does)
     await page.click('[data-open="menu"]');
+    await page.click('#m-test-eye');
     await page.click('#m-test-eye');
     await expect(page.locator('#m-test-eye')).toHaveText('Show every monster: On');
     await page.click('#ov-menu [data-close]');
