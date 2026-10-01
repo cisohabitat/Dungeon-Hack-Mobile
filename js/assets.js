@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
-import { CREATURES, POSES, PROPS, FLOATING, paintParts } from './creatures.js';
+import { CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -53,7 +53,7 @@ const Assets = (() => {
     const painted = def.parts ? paintParts(def.parts, def.grid || 32, sc, !!def.grim) : null;
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     // the outline keeps its weight in a finer painting: two of its pixels wide
-    const ow = sc >= 4 ? 2 : 1;
+    const ow = sc * (def.grid || 32) / 32 >= 4 ? 2 : 1;
     const w = aw + ow * 2, h = ah + ow * 2;     // room for the outline
     // the drawing and its outline are set pixel by pixel into one layer, which
     // then goes over the shadow: a canvas call per pixel was most of the time
@@ -1174,7 +1174,7 @@ const Assets = (() => {
   const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
   /** A creature's sprite, its champions' and its other poses, which ride on it. */
   function creature(k, scale) {
-    const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true });
+    const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true, grid: gridOf(k) });
     const s = makeSprite(def(), scale);
     for (const pose of POSES[k] || []) {
       const ps = makeSprite(def(pose), scale);
@@ -1195,7 +1195,8 @@ const Assets = (() => {
     /** @param {(s: any) => any} pick */
     const via = pick => () => {
       if (hi) return pick(hi);
-      if (!asked) { asked = true; setTimeout(() => { hi = creature(k, NEAR_SCALE); }, 0); }
+      // (a lifelike figure on the finer grid is fine already: three to its unit is enough)
+      if (!asked) { asked = true; setTimeout(() => { hi = creature(k, gridOf(k) === 64 ? 3 : NEAR_SCALE); }, 0); }
       return null;
     };
     lo.near = via(s => s);

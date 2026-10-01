@@ -34,6 +34,24 @@ const mirror = p => {
   return p;
 };
 const both = p => [p, mirror(p)];
+// The lifelike figures are designed on a grid twice as fine, 64 units across
+// (see gridOf): there, a mirror is across x = 31.5
+const m64 = p => {
+  const m = x => 63 - x;
+  if (p.k === 'ball') return { ...p, x: m(p.x) };
+  if (p.k === 'limb' || p.k === 'line') return { ...p, x1: m(p.x1), x2: m(p.x2) };
+  if (p.k === 'sheet' || p.k === 'dots') return { ...p, pts: p.pts.map(([x, y]) => [m(x), y]) };
+  if (p.k === 'specks') return { ...p, pts: p.pts.map(([x, y]) => [63.5 - x, y]) };
+  if (p.k === 'hair') return { ...p, x1: 63.5 - p.x1, x2: 63.5 - p.x2 };
+  return p;
+};
+const both64 = p => [p, m64(p)];
+// Which creatures are drawn lifelike, on the finer grid: a human's proportions,
+// layered cloth falling in folds, armour, hands and faces, where the rest are
+// still the stockier figures of the 32-unit grid
+const FINE_GRID = new Set(['lich', 'acolyte', 'skeleton']);
+/** The grid a creature is designed on: 64 units for the lifelike ones, else 32. */
+const gridOf = k => (FINE_GRID.has(k) ? 64 : 32);
 
 /** The points of an oval, for a flat sheet in that shape. */
 const oval = (cx, cy, rx, ry, n = 14) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * rx, cy + Math.sin(i / n * Math.PI * 2) * ry]);
@@ -199,38 +217,51 @@ const CREATURES = {
     ];
   },
 
-  // Bone and gaps: the corridor shows between the ribs, which is most of what
-  // makes a skeleton read as one at a distance.
+  // A skeleton: a man's bones held together by nothing, a ribcage over an empty
+  // belly, a rag of a loincloth rotting on it, and a rusted sword raised.
   skeleton: () => {
-    const bone = '#ddd5bd', worn = '#a89e84';
+    const bone = '#d8d0b8', boneDk = '#a49a82', boneSh = '#6e6656', rag = '#4a3c2c', rust = '#8a5a3a', steel = '#9aa0aa', steelLt = '#d8dce4', grip = '#4a3420';
+    const ribs = [];
+    for (let i = 0; i < 6; i++) {
+      const y = 18.5 + i * 2.3, w = 6.2 - Math.abs(i - 2) * 0.5 - (i > 3 ? 0.8 : 0);
+      ribs.push(...both64(limb(31.4, y, 32 - w, y + 1.3, 0.55, 0.5, bone)), ...both64(limb(32 - w, y + 1.3, 32 - w + 1.2, y + 2.6, 0.5, 0.4, bone)));
+    }
     return [
-      limb(14, 22, 13, 26.5, 1.1, 0.9, worn), limb(13, 26.5, 13, 30, 0.9, 0.8, worn),
-      limb(18, 22, 19, 26.5, 1.1, 0.9, worn), limb(19, 26.5, 19, 30, 0.9, 0.8, worn),
-      ball(13, 26.5, 1.3, 1.2, bone), ball(19, 26.5, 1.3, 1.2, bone),
-      ball(12, 30.4, 2, 1, bone), ball(20, 30.4, 2, 1, bone),
-      ball(16, 21.3, 3.8, 1.9, bone),
-      dots([[15, 21], [17, 21]], '#1a1418'),
-      limb(16.5, 11, 16.5, 21, 0.6, 0.6, worn),
-      // one-pixel ribs on pixel centres, a row apart, so the dark shows between
-      limb(11.5, 12.5, 21.5, 12.5, 0.55, 0.55, bone),
-      limb(12.5, 14.5, 20.5, 14.5, 0.55, 0.55, bone),
-      limb(12.5, 16.5, 20.5, 16.5, 0.55, 0.55, bone),
-      limb(13.5, 18.5, 19.5, 18.5, 0.55, 0.55, bone),
-      ball(11, 12.6, 1.6, 1.5, bone), ball(21, 12.6, 1.6, 1.5, bone),
-      limb(10.6, 13.5, 8.8, 18, 0.85, 0.75, bone), limb(8.8, 18, 9.8, 22.5, 0.75, 0.7, bone),
-      ball(8.8, 18, 1, 1, bone), ball(10, 23.2, 1.2, 1.1, worn),
-      limb(21.4, 13.5, 24, 16.8, 0.85, 0.75, bone), limb(24, 16.8, 25.2, 12.8, 0.75, 0.7, bone),
-      ball(24, 16.8, 1, 1, bone),
-      line(25.5, 13.5, 28.5, 1.5, '#c8ccd4', { lit: 1 }), line(26.5, 13.5, 29.5, 1.5, '#8e929a', { lit: 1 }),
-      line(23.5, 12.5, 28, 14.5, '#9a7a3a', { lit: 1 }),
-      ball(25.3, 12.8, 1.3, 1.2, bone),
-      ball(16, 5.8, 4.6, 4.3, bone),
-      ball(16, 10, 2.9, 1.5, worn),
-      dots([[13, 5], [14, 5], [13, 6], [14, 6], [18, 5], [19, 5], [18, 6], [19, 6]], '#140e14'),
-      dots([[14, 5], [18, 5]], '#e04030'),
-      dots([[16, 7], [16, 8]], '#241c20'),
-      dots([[14, 10], [15, 10], [17, 10], [18, 10]], '#f6f0de'),
-      dots([[16, 10]], '#2a2226'),
+      // the legs: thigh, knee, shin, the long bones of the feet
+      ...both64(limb(29, 39, 28, 48, 1.1, 0.9, bone)), ...both64(ball(28, 48.4, 1.4, 1.3, boneDk)),
+      ...both64(limb(28, 49, 28.4, 58.5, 0.9, 0.75, bone)), ...both64(limb(27.6, 49.5, 27.8, 58, 0.45, 0.4, boneDk)),
+      ...both64(ball(28.4, 59.4, 1, 0.9, boneDk)), ...both64(limb(28.2, 60.2, 24.6, 61.6, 0.7, 0.5, bone)),
+      // the pelvis, and a rag of a loincloth hanging from it
+      sheet([[25.5, 33.5], [38.5, 33.5], [37, 38.5], [32, 40], [27, 38.5]], bone, { curve: 0.8 }),
+      ...both64(ball(28.8, 36, 1.3, 1.1, boneSh)),
+      sheet([[26.5, 36], [37.5, 36], [38, 44], [36, 42.5], [34.5, 45.5], [32, 43], [29.5, 46], [28, 42.5], [26, 44]], rag, { curve: 0.8 }),
+      // the spine, and the ribs curving round from it
+      ...[17, 19.3, 21.6, 23.9, 26.2, 28.5, 30.8].map(y => ball(32, y, 0.9, 0.7, boneDk)), limb(32, 16, 32, 33.5, 0.55, 0.55, boneDk),
+      ...ribs,
+      ball(32, 20.5, 1.1, 2.4, boneDk),
+      // the collarbones and shoulders
+      ...both64(limb(25, 17, 31, 16.2, 0.6, 0.5, bone)), ...both64(ball(24.6, 17.6, 1.5, 1.4, bone)),
+      // the left arm hanging, the hand's bones loose
+      limb(24.4, 18.5, 23, 27, 0.9, 0.8, bone), ball(23, 27.4, 1.1, 1, boneDk),
+      limb(23, 27.8, 22.6, 35, 0.75, 0.6, bone), limb(23.6, 28, 23.4, 34.6, 0.4, 0.35, boneDk),
+      ...[[21.6, 36.2, 21.2, 38.6], [22.6, 36.6, 22.6, 39.2], [23.6, 36.2, 23.9, 38.6]].map(([a, b, c, d]) => limb(a, b, c, d, 0.35, 0.3, bone)),
+      ball(22.7, 35.6, 1, 0.9, bone),
+      // the right arm raised, the rusted sword held up in it
+      limb(39.6, 18.5, 42.5, 26, 0.9, 0.8, bone), ball(42.6, 26.4, 1.1, 1, boneDk),
+      limb(42.6, 26.4, 44.6, 21.8, 0.75, 0.6, bone),
+      limb(44.8, 2.5, 44.8, 19.6, 0.8, 0.6, steel, { smooth: 1 }), hair(44.5, 3.5, 44.5, 19, steelLt),
+      sheet([[44.8, 0.6], [45.6, 2.8], [44, 2.8]], steel),
+      specks([[45, 7], [44.5, 11.5], [45.25, 14], [44.75, 17]], rust),
+      limb(41.4, 20.2, 48.2, 20.2, 0.7, 0.7, rust), limb(44.8, 21, 44.8, 25, 0.6, 0.6, grip), ball(44.8, 25.8, 0.9, 0.9, rust),
+      ball(44.6, 22.4, 1.3, 1.2, bone), ...[21.6, 22.6, 23.6].map(y => hair(43.5, y, 45.75, y, boneSh)),
+      // the skull: deep sockets, a pinprick of red in each, the nose a hole, the teeth bared
+      limb(32, 13, 32, 16, 0.8, 0.8, boneDk),
+      ball(32, 8, 3.7, 4.3, bone), ball(32, 12.3, 2.6, 1.4, boneDk),
+      ball(30.4, 8.2, 1.15, 1.1, '#120c10'), ball(33.6, 8.2, 1.15, 1.1, '#120c10'),
+      dots([[30, 8], [33, 8]], '#e03020'),
+      sheet([[31.4, 10.6], [32.6, 10.6], [32, 9.4]], '#2a2220'),
+      ...[30.5, 31.5, 32.5, 33.5].map(x => hair(x, 11.75, x, 13, boneSh)), hair(30, 12.25, 34, 12.25, boneSh),
+      hair(29, 5, 30, 6.5, boneDk), hair(34.5, 4.5, 35, 6, boneDk),
     ];
   },
 
@@ -689,25 +720,44 @@ const CREATURES = {
     ];
   },
 
-  // A robed cultist whose hood holds only darkness and two points of light,
-  // hands cupped around something that should not glow.
+  // The Dark Acolyte: tall and hooded in crimson, a mantle trimmed in gold over
+  // its shoulders, a gaunt face in the hood's shadow lit from below by the
+  // violet orb it holds in two bony hands before its chest.
   acolyte: () => {
-    const robe = '#6a1f34', trim = '#c9a24a', skin = '#d8b8a0';
+    const robe = '#5a1416', robeDk = '#2e0a0c', robeLt = '#842a26', mantle = '#3e0c10', gold = '#b88a34', goldLt = '#e8c060';
+    const skin = '#c4ac9c', skinDk = '#7a6458', orb = '#a850f0', orbLt = '#f0d8ff';
     return [
-      // a lesser figure than the lich: narrow, stooped, hood drawn to a point
-      sheet([[11.5, 13], [20.5, 13], [23, 31], [9, 31]], robe, { curve: 1 }),
-      line(16, 22, 16, 31, '#4a1224'),
-      line(9, 31, 23, 31, trim),
-      sheet([[10.5, 14], [12, 6], [16, 1], [20, 6], [21.5, 14], [19, 16], [13, 16]], robe, { curve: 0.9 }),
-      ball(16, 10.5, 3.4, 3.8, '#0c080e'),
-      dots([[14, 10], [18, 10]], '#ff5070'), dots([[14, 11], [18, 11]], '#a02040'),
-      // both hands lift the orb high, out in front of the chest
-      limb(11.5, 15, 13.5, 18, 1.5, 1.3, robe), limb(20.5, 15, 18.5, 18, 1.5, 1.3, robe),
-      ball(16, 17.5, 2.9, 2.9, '#b060ff'),
-      ball(15.2, 16.7, 1.2, 1.2, '#e8c8ff'),
-      dots([[12, 14], [20, 14], [11, 18], [21, 18], [16, 13.5]], '#d8a0ff'),
-      ball(13.6, 18.6, 1.3, 1.2, skin), ball(18.4, 18.6, 1.3, 1.2, skin),
-      line(12, 21.5, 20, 21.5, trim), dots([[15, 22], [15, 23], [16, 24]], trim),
+      // the robe to the floor, folds running down it, pointed shoes at the hem
+      ...both64(ball(28, 62, 2.2, 0.9, '#1a1012')),
+      sheet([[22, 16], [42, 16], [47, 61], [43, 62.4], [38, 61.2], [32, 62.8], [26, 61.2], [21, 62.4], [17, 61]], robe, { curve: 1 }),
+      ...[[23.5, 22, 19.5, 61], [28, 34, 26, 62], [33.5, 34, 34.5, 62.6], [38.5, 22, 42, 61.6]].map(([x0, y0, x1, y1]) => sheet([[x0, y0], [x0 + 1.5, y0], [x1 + 1.2, y1], [x1 - 1, y1]], robeDk, { curve: 0.3 })),
+      ...[[26, 34, 23, 61.5], [36, 34, 38, 61.5]].map(([x0, y0, x1, y1]) => sheet([[x0, y0], [x0 + 1, y0], [x1 + 1, y1], [x1 - 0.6, y1]], robeLt, { curve: 0.3 })),
+      // a gold cord at the waist, a sigil hanging from it, tassels
+      hair(23, 33.5, 41, 33.5, gold), line(23, 33, 41, 33, gold),
+      limb(32, 33.5, 32, 38, 0.3, 0.3, gold), sheet([[30.4, 38], [33.6, 38], [32, 42.5]], gold), hair(32, 38.5, 32, 41.5, goldLt),
+      ...both64(limb(27, 33.5, 26.5, 39, 0.35, 0.25, gold)),
+      // embroidery down the front
+      ...[44, 48, 52, 56].flatMap(y => [hair(30.5, y, 32, y + 1.5, gold), hair(33.5, y, 32, y + 1.5, gold)]),
+      // the sleeves, coming forward to the orb; the bony hands round it
+      ...both64(limb(23.5, 18, 26, 27, 3, 3.6, robe)), ...both64(sheet([[22.5, 25], [29.5, 25.5], [28.5, 30], [22, 30.5]], robeDk, { curve: 0.6 })),
+      ...both64(hair(22.5, 30.25, 28.75, 29.75, robeLt)),
+      // the orb, its light, and sparks of it in the air
+      ball(32, 26, 4, 3.9, orb, { glows: true }), ball(31.2, 25, 2, 1.9, orbLt, { glows: true }), dots([[31, 25]], '#ffffff'),
+      specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]], '#c890ff'),
+      ...both64(ball(27.8, 28, 1.5, 1.6, skin)),
+      ...both64(limb(28, 26.8, 29.4, 24, 0.4, 0.3, skin)), ...both64(limb(27.8, 29, 29.6, 30.2, 0.4, 0.3, skin)),
+      // the mantle over the shoulders, trimmed in gold
+      sheet([[21, 16.5], [27, 13.5], [37, 13.5], [43, 16.5], [44, 21], [32, 23.5], [20, 21]], mantle, { curve: 0.9 }),
+      hair(20.5, 21, 32, 23.25, goldLt), hair(32, 23.25, 43.5, 21, goldLt),
+      // the hood, pointed and deep; the face within it gaunt, lit from below
+      sheet([[24, 16.5], [24.5, 9], [28, 3.5], [32, 1.2], [36, 3.5], [39.5, 9], [40, 16.5], [36, 15], [28, 15]], robe, { curve: 0.9 }),
+      sheet([[26, 15], [26.6, 8.6], [29, 5.4], [35, 5.4], [37.4, 8.6], [38, 15]], robeDk, { curve: 0.5 }),
+      sheet(oval(32, 10.4, 3.9, 4.8), '#0e0a0c'),
+      ball(32, 11.2, 2.7, 3.4, skin), ball(32, 13.6, 2, 1.3, skinDk),
+      sheet([[29.2, 8.4], [34.8, 8.4], [34.6, 10.2], [29.4, 10.2]], '#120a0c'),
+      dots([[30, 9], [33, 9]], '#ff3a2a'), specks([[30.5, 9.5], [33.5, 9.5]], '#ffb0a0'),
+      hair(30, 11.5, 30.5, 13, skinDk), hair(34, 11.5, 33.5, 13, skinDk), hair(31, 13.75, 33, 13.75, '#5a3a34'),
+      specks([[31.5, 12.5], [32.5, 12.5]], '#e8c8ff'),
     ];
   },
 
@@ -830,41 +880,57 @@ const CREATURES = {
     ];
   },
 
-  // A crowned skull in rotting robes, bony fingers on a staff whose stone
-  // burns cold.
-  // The lich: a crowned skull in a high stiff collar, a robe of night-violet
-  // gone to rags at the hem, parted at the chest on the ribs beneath, bell
-  // sleeves cuffed in gold, and a staff whose iron claw holds a cold blue
-  // stone. Frost and pale lights hang about it.
+  // The Dread Lich: a skull under a horned helm, ornate shoulder plates trimmed
+  // in gold, a skull worn on the chest, crimson robes falling in folds to the
+  // floor, and its staff, an iron claw round a cold blue stone.
   lich: () => {
-    const robe = '#3a2c52', deep = '#221836', bone = '#e6dec6', gold = '#d8a840', wood = '#5a4630';
+    const crimson = '#6a1218', crimsonDk = '#3a080c', crimsonLt = '#9a2a2a', black = '#18121a', bone = '#e4dccc', boneDk = '#a89e88';
+    const gold = '#c89a3a', goldLt = '#f0d070', steel = '#9ea4b2', steelLt = '#e8ecf4', wood = '#4a3626', ice = '#40e8ff';
     return [
-      limb(26, 30, 26, 5, 0.7, 0.7, wood),
-      // the claw that holds the stone, two iron prongs either side
-      limb(24.6, 6.4, 24.2, 3, 0.45, 0.3, '#4a4458'), limb(27.4, 6.4, 27.8, 3, 0.45, 0.3, '#4a4458'),
-      ball(26, 4, 2.2, 2.2, '#40e8ff'), ball(25.3, 3.3, 0.9, 0.9, '#e0ffff'),
-      dots([[23, 2], [29, 5], [24, 6], [28, 1]], '#9af4ff'),
-      // the robe falls to rags, ragged points at the hem
-      sheet([[9, 12], [23, 12], [26, 31], [24.2, 29.4], [22.4, 31], [20, 29.6], [17.6, 31], [15, 29.6], [12.4, 31], [10, 29.6], [7.8, 31], [6, 31]], deep, { curve: 1 }),
-      sheet([[10, 12], [22, 12], [23.5, 25], [16, 23], [8.5, 25]], robe, { curve: 1 }),
-      // parted at the chest on the dark of the ribs, gold down the edge below
-      sheet([[13.8, 12.4], [18.2, 12.4], [17, 19.4], [15, 19.4]], '#120c1c'),
-      line(16, 20, 16, 31, gold),
-      ...both(sheet([[8, 11], [13, 11], [12, 15], [7.5, 15]], robe, { curve: 0.6 })),
-      // bell sleeves, cuffed in gold, the bone hands out of them
-      limb(9.5, 13.5, 11, 19.5, 1.5, 2.1, robe), line(10, 20, 12.4, 20, gold), ball(11.5, 21, 1.4, 1.3, bone),
-      dots([[11, 22], [12, 22.5], [13, 22]], bone),
-      limb(22.5, 13.5, 25, 17.6, 1.5, 2.1, robe), line(24, 18, 26.4, 17.4, gold), ball(25.5, 18.5, 1.4, 1.3, bone),
-      // a high collar standing up behind the skull
-      sheet([[10, 13], [8.6, 5.4], [11.6, 9], [16, 12.2], [20.4, 9], [23.4, 5.4], [22, 13]], deep, { curve: 0.8 }),
-      ball(16, 7.5, 4.3, 4.1, bone),
-      ball(16, 11.3, 2.6, 1.3, '#b8ae94'),
-      dots([[13, 7], [14, 7], [13, 8], [14, 8], [18, 7], [19, 7], [18, 8], [19, 8]], '#0c0814'),
-      dots([[14, 7], [18, 7]], '#4ff0ff'),
-      dots([[16, 9], [16, 10]], '#1c1424'),
-      dots([[14, 11], [15, 11], [17, 11], [18, 11]], '#f6f0de'),
-      sheet([[11.5, 5], [12, 1], [13.5, 3.5], [16, 0.5], [18.5, 3.5], [20, 1], [20.5, 5]], gold, { curve: 0.7 }),
-      dots([[16, 3], [12, 4], [20, 4]], '#ff4060'),
+      // the staff, behind the right hand: dark wood bound in iron, the claw, the stone, its cold light
+      limb(46, 6, 46, 61.5, 0.8, 0.9, wood), ...[20, 38, 52].map(y => line(45, y, 47, y, '#5a5e6a')),
+      limb(44.4, 6.4, 43.6, 1.6, 0.45, 0.3, '#4a4458'), limb(47.6, 6.4, 48.4, 1.6, 0.45, 0.3, '#4a4458'), limb(46, 6.6, 46, 1, 0.4, 0.3, '#4a4458'),
+      ball(46, 3.6, 2.3, 2.3, ice, { glows: true }), ball(45.3, 2.9, 1, 1, '#e0ffff', { glows: true }), dots([[45, 3]], '#ffffff'),
+      specks([[42.5, 1.5], [49.5, 4], [43, 6.5], [49, 0.5], [41.5, 4]], '#9af4ff'),
+      // the robes, black beneath, crimson over, to the floor in deep folds
+      sheet([[18, 30], [46, 30], [53, 62], [11, 62]], black, { curve: 1 }),
+      sheet([[20, 34], [44, 34], [50, 61], [46, 62.6], [40, 61.2], [34, 62.8], [28, 61.2], [22, 62.6], [14, 61]], crimson, { curve: 1 }),
+      ...[[22, 38, 17, 61], [27, 38, 24, 62], [32.5, 38, 33, 62.5], [38, 38, 40, 62], [42, 38, 47, 61]].map(([x0, y0, x1, y1]) => sheet([[x0, y0], [x0 + 1.4, y0], [x1 + 1.2, y1], [x1 - 1, y1]], crimsonDk, { curve: 0.3 })),
+      ...[[24.5, 38, 20.5, 61], [35, 38, 36.5, 61.5]].map(([x0, y0, x1, y1]) => sheet([[x0, y0], [x0 + 1, y0], [x1 + 1, y1], [x1 - 0.6, y1]], crimsonLt, { curve: 0.3 })),
+      specks([[12.5, 61.5], [16, 61], [47, 61], [51, 61.5], [9.5, 58], [54, 57]], '#c8f0ff'),
+      // the belt and the tassets hanging from it, studded and trimmed
+      sheet([[21, 32], [43, 32], [43, 35], [21, 35]], black, { curve: 0.8 }), line(21, 33.5, 43, 33.5, gold),
+      ...[23, 27, 31, 35, 39].map(x => sheet([[x, 35], [x + 3.4, 35], [x + 3, 43], [x + 0.4, 43]], crimsonDk, { curve: 0.5 })),
+      ...[23, 27, 31, 35, 39].flatMap(x => [hair(x + 0.6, 36, x + 0.6, 42.5, gold), specks([[x + 1.7, 37], [x + 1.7, 39.5], [x + 1.7, 42]], goldLt)]),
+      // the breastplate, dark and trimmed in gold, a skull worn at its heart
+      sheet([[20, 15], [44, 15], [44, 32], [20, 32]], black, { curve: 1 }),
+      sheet([[23, 16], [41, 16], [40, 26], [32, 29.5], [24, 26]], crimson, { curve: 1 }),
+      hair(23.5, 16.5, 32, 29, gold), hair(40.5, 16.5, 32, 29, gold), hair(23, 26.5, 41, 26.5, gold),
+      ball(32, 21, 3, 3.1, bone), ball(32, 23.6, 2, 1.2, boneDk),
+      dots([[31, 21], [33, 21]], '#100a10'), specks([[31.5, 23.5], [32.5, 23.5], [32, 22.5]], '#3a2a2a'),
+      // the shoulders: great plates, crimson and gold, flared and spiked
+      ...both64(ball(20, 16.5, 6.5, 4.6, crimson)),
+      ...both64(sheet([[13.5, 17], [19, 11.5], [26.5, 13.5], [24, 20], [15.5, 21]], crimsonLt, { curve: 0.7 })),
+      ...both64(hair(14, 18.5, 25, 12.75, goldLt)), ...both64(hair(15, 20.5, 24, 19.5, gold)),
+      ...both64(sheet([[14.5, 13.5], [12, 8.5], [17, 12]], gold)), ...both64(sheet([[18.5, 12], [17.5, 8], [21, 11.5]], gold)),
+      // the left arm down, the gauntlet resting on the robe
+      limb(17.5, 20, 16.5, 31, 2.8, 2.5, crimson), line(14.5, 31.5, 18.5, 31.5, gold), ball(16.5, 33.5, 2.4, 2.2, steel), hair(15.5, 32.5, 17.5, 32.5, steelLt),
+      ...[15.1, 16.5, 17.9].map(x => limb(x, 34.5, x - 0.2, 36.7, 0.5, 0.45, steel)),
+      // the right arm, the gauntlet closed on the staff
+      limb(46.5, 20, 46, 30, 2.8, 2.5, crimson), line(44, 31, 48, 31, gold),
+      ball(46, 33.5, 2.4, 2.2, steel), hair(44.5, 32.5, 47.5, 32.5, steelLt), ...[33, 34.2, 35.4].map(y => hair(44, y, 48, y, '#5a606c')),
+      // the skull: deep sockets with a cold light in them, a broken nose, a full grin
+      ball(32, 9, 4.4, 4.8, bone),
+      ball(32, 12.8, 3.2, 1.8, boneDk),
+      ball(30, 9, 1.5, 1.4, '#140c14'), ball(34, 9, 1.5, 1.4, '#140c14'),
+      dots([[30, 9], [34, 9]], ice), specks([[30.5, 9.5], [34.5, 9.5]], '#e0ffff'),
+      sheet([[31.3, 11.4], [32.7, 11.4], [32, 10]], '#2a1e20'),
+      ...[30, 31, 32, 33, 34].map(x => hair(x, 12.5, x, 14, '#5a5246')), hair(29.75, 13.25, 34.25, 13.25, '#5a5246'),
+      hair(28.5, 6.5, 29.5, 8, boneDk), hair(35.5, 6.5, 34.5, 8, boneDk),
+      // the horned helm over it, a crest of gold
+      sheet([[27.2, 8], [27.8, 4.4], [30, 2.6], [34, 2.6], [36.2, 4.4], [36.8, 8], [34.5, 6.4], [29.5, 6.4]], steel, { curve: 0.8 }),
+      hair(28.5, 4, 32, 2.75, steelLt), line(32, 2.6, 32, 6.4, gold), sheet([[30.5, 4.5], [33.5, 4.5], [32, 6.2]], gold),
+      ...both64(limb(27.8, 5.5, 24.5, 3.5, 0.9, 0.7, '#d8ccb0')), ...both64(limb(24.5, 3.5, 23.6, 0.8, 0.7, 0.3, '#e8e0cc')),
     ];
   },
 
@@ -1892,24 +1958,6 @@ const DETAILS = {
     ...both(specks([[10, 30.5], [11, 30.5], [12, 30.5]], '#2a2018')),
   ],
 
-  skeleton: () => [
-    // a crack across the skull, the brow over the sockets, cheekbones
-    hair(17.5, 2, 18.5, 3.5, '#8a826c'), hair(18.5, 3.5, 18, 5, '#8a826c'),
-    hair(12.5, 4.5, 14.5, 4.5, '#b8ae94'), hair(17.5, 4.5, 19.5, 4.5, '#b8ae94'),
-    specks([[12.5, 8.5], [19.5, 8.5]], '#a89e84'),
-    // gaps between the teeth
-    specks([[14.5, 10], [15.5, 10], [17.5, 10]], '#6a6252'),
-    // the breastbone, and the ends of each rib where it meets it
-    specks([[16, 12], [16, 13.5], [16, 15.5], [16, 17.5]], '#f6f0de'),
-    specks([[11.5, 12], [21, 12], [12.5, 14], [20, 14], [12.5, 16], [20, 16], [13.5, 18], [19, 18]], '#8a826c'),
-    // knuckles, finger bones and a pitted blade
-    specks([[9.5, 24.5], [10.5, 24.5], [11, 24], [9, 24]], '#ddd5bd'),
-    specks([[27, 6.5], [28, 4], [27.5, 9]], '#8a6a4a'), hair(27, 12, 29, 2, '#eef2f6'),
-    // kneecaps and the grain of the long bones
-    ...both(specks([[12.5, 26], [13, 26]], '#f6f0de')),
-    hair(13, 27.5, 13, 29.5, '#b8ae94'), hair(19, 27.5, 19, 29.5, '#b8ae94'),
-  ],
-
   spider: () => [
     // bristles standing up off the abdomen, and its segments
     hair(10, 16, 9.5, 14.5, '#7a6a94'), hair(12, 14, 11.5, 12.5, '#7a6a94'), hair(16, 13, 16, 11.5, '#7a6a94'),
@@ -2031,20 +2079,6 @@ const DETAILS = {
     hair(12.5, 12.5, 13.5, 14, '#7a7462'), hair(19.5, 12.5, 18.5, 14, '#7a7462'),
   ],
 
-  acolyte: () => [
-    // an embroidered sigil down the front of the robe, and gold at the cuffs
-    specks([[16, 24.5], [16, 26], [15.5, 26.5], [16.5, 26.5], [16, 27.5], [15, 28.5], [17, 28.5], [16, 29.5]], '#c9a24a'),
-    specks([[12, 17.5], [13, 18], [20, 17.5], [19, 18]], '#c9a24a'),
-    // stitches round the hood's edge and a fold at its peak
-    specks([[11, 13], [11.5, 10], [12.5, 7], [19.5, 7], [20.5, 10], [21, 13]], '#8a2a44'),
-    hair(16, 1.5, 15.5, 4.5, '#4a1224'),
-    // a swirl of light inside the orb, and fingers round it
-    hair(15, 18, 16.5, 17, '#f0d8ff'), specks([[17, 18.5], [16, 19]], '#f0d8ff'),
-    specks([[13, 19.5], [14, 19.5], [18, 19.5], [19, 19.5]], '#b89878'),
-    // the frayed hem
-    specks([[10, 30.5], [12.5, 30.5], [19, 30.5], [21.5, 30.5]], '#4a1224'),
-  ],
-
   wraith: () => [
     // holes worn through the cloak, frost at the fingertips
     specks([[11, 19], [11.5, 19], [20.5, 16], [21, 16.5], [14, 26], [18.5, 27]], '#1a1028'),
@@ -2112,26 +2146,6 @@ const DETAILS = {
     specks([[11, 21], [13.5, 21], [18.5, 21], [21, 21]], '#fff0a0'),
     // split hooves
     ...both(specks([[12, 30], [12, 30.5], [12, 31]], '#5a4838')),
-  ],
-
-  lich: () => [
-    // the ribs where the robe parts, and a cold light behind them
-    hair(14.4, 14, 17.6, 14, '#cfc6ae'), hair(14.6, 15.5, 17.4, 15.5, '#cfc6ae'), hair(14.9, 17, 17.1, 17, '#cfc6ae'), hair(16, 13, 16, 18.6, '#b8ae94'),
-    specks([[15.5, 16], [16.5, 16.5]], '#40e8ff'),
-    // pale lights drifting about the hem
-    specks([[4.5, 27], [5, 22.5], [27.5, 26], [28, 21.5], [3.5, 17]], '#9af4ff'),
-    // runes stitched down the robe in faded silver
-    specks([[12.5, 17], [13, 17.5], [12.5, 18], [19.5, 17], [19, 17.5], [19.5, 18]], '#8a7ab0'),
-    specks([[11, 26], [11.5, 27], [12, 26], [20, 26], [20.5, 27], [21, 26]], '#8a7ab0'),
-    // cracks in the skull and gems in the crown
-    hair(14, 4, 15, 6, '#9a927c'), hair(18.5, 3.5, 18, 5.5, '#9a927c'),
-    specks([[13.5, 2.5], [18.5, 2.5]], '#40e8ff'),
-    // the staff: bands of rune light, a claw holding the stone
-    specks([[26, 9], [26, 13], [26, 17], [26, 21], [26, 25]], '#40e8ff'),
-    specks([[24.5, 5], [27.5, 5]], '#d8a840'),
-    // frost gathering at the hem, and knucklebones on the hand
-    specks([[7, 30.5], [9, 30], [23, 30], [25, 30.5]], '#c8f0ff'),
-    specks([[24.5, 19], [25.5, 19.5], [26.5, 19]], '#b8ae94'),
   ],
 
   merchant: () => [
@@ -2244,21 +2258,7 @@ for (const k in DETAILS) {
 // picture (four pixels to the unit, see NEAR_SCALE in assets.js): hairlines
 // on a quarter-unit grid that further off would only be noise. Close in, the
 // lich's robe shows its stitched runes and the Heartforged its scars.
-const NEAR = {
-  lich: () => [
-    // runes worked down either side of the gold, and stitches on the sleeves
-    ...[21, 23.5, 26, 28.5].flatMap(y => [hair(15, y, 15.5, y + 0.75, '#8a7ab0'), hair(15.5, y + 0.75, 15, y + 1.5, '#8a7ab0'), hair(17, y, 16.5, y + 0.75, '#8a7ab0'), hair(16.5, y + 0.75, 17, y + 1.5, '#8a7ab0')]),
-    hair(9.75, 15, 10.5, 17.5, '#4e3e6a'), hair(23, 15, 24, 16.75, '#4e3e6a'),
-    // the skull's fine cracks, the gaps between its teeth, a cold ring in each socket
-    hair(13.25, 4.75, 13.75, 5.75, '#a8a088'), hair(18.25, 5.25, 19.25, 6, '#a8a088'), hair(15.75, 4, 16.25, 5.25, '#b0a890'),
-    ...[14.5, 15.5, 16.5, 17.5].map(x => hair(x, 10.75, x, 11.75, '#6a6250')),
-    specks([[12.75, 6.75], [15, 6.75], [12.75, 9], [15, 9], [17.75, 6.75], [20, 6.75], [17.75, 9], [20, 9]], '#2a8a9a'),
-    // the crown's engraving, the staff's grain, frost crystals at the rags
-    hair(11.75, 4.25, 20.25, 4.25, '#a07820'),
-    hair(25.75, 8, 25.75, 14, '#4a3a26'), hair(26.25, 17, 26.25, 23, '#4a3a26'),
-    specks([[7.75, 30.75], [8.25, 30.25], [12.25, 30.75], [17.5, 30.75], [22.25, 30.75], [24.5, 30.25]], '#e8fcff'),
-  ],
-  warlord: () => [
+const NEAR = {  warlord: () => [
     // the edge of every gilded scale, the cloak's folds and its torn hem
     ...[16, 18.5, 21].flatMap(y => [10.5, 13, 15.5, 18, 20.5].map(x => hair(x + (y === 18.5 ? 1.2 : 0) - 1, y + 0.75, x + (y === 18.5 ? 1.2 : 0) + 1, y + 0.75, '#8a6418'))),
     hair(6, 16, 5, 29, '#6a1414'), hair(26, 16, 27, 29, '#6a1414'), hair(24.5, 14, 25.5, 28, '#6a1414'),
@@ -2316,16 +2316,7 @@ const NEAR = {
     hair(7.5, 16, 6.75, 19.25, '#3a5020'),
     // the axe's honed edge, the cord wound round its haft
     hair(30.75, 4.75, 31, 12.25, '#e8eef6'), ...[15, 16.5, 18].map(y => hair(26.5, y, 27.5, y - 0.5, '#8a6a40')),
-  ],
-  skeleton: () => [
-    // the underside of each rib in shadow, cracks in the skull, the dark of the joints
-    hair(12, 13, 21, 13, '#a89c80'), hair(13, 15, 20, 15, '#a89c80'), hair(13, 17, 20, 17, '#a89c80'), hair(14, 19, 19, 19, '#a89c80'),
-    hair(14.25, 3.5, 15.25, 5.5, '#9a927c'), hair(15.25, 5.5, 14.75, 6.25, '#9a927c'), hair(18.25, 4, 17.75, 5.25, '#9a927c'),
-    specks([[12.75, 26.25], [13.25, 26.75], [18.75, 26.25], [19.25, 26.75], [8.75, 17.75], [24, 16.5]], '#6a6250'),
-    // a chip out of the pelvis, the toes
-    specks([[14, 22], [14.25, 21.75]], '#23202c'), specks([[11, 30.75], [12, 30.75], [20, 30.75], [21, 30.75]], '#f4eedc'),
-  ],
-  troll: () => [
+  ],  troll: () => [
     // warts and moss on the hide, lank strands from the hair, the loincloth's fringe, claws
     specks([[12.5, 13.5], [19.5, 15], [14, 19.25], [18.5, 18.5], [21, 12], [10.75, 16.25]], '#3e7244'),
     specks([[13.25, 12.5], [19, 13.75], [11.5, 18]], '#8ab46a'),
@@ -3342,8 +3333,9 @@ function paintParts(parts, grid = 32, scale = 1, grim = false) {
       if (up || left) shadeK[k] = Math.min(5, shadeK[k] + 1);
     }
   }
-  for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k], grim)[shadeK[k]];
+  // (what gives its own light, an orb or a burning stone, is not muted with the rest)
+  for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k], grim && !parts[owner[k]].glows)[shadeK[k]];
   return { aw: size, ah: size, color: col };
 }
 
-export { CREATURES, POSES, PROPS, FLOATING, paintParts, ball, limb, sheet, line, dots, specks, hair, both };
+export { CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, ball, limb, sheet, line, dots, specks, hair, both };

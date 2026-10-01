@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, POSES, PROPS, FLOATING, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -53,15 +53,29 @@ check(CREATURES.merchant, 'the trader has no sprite');
 // stand on the floor, and no two share a silhouette. The old grids had seven
 // humanoids that were one body in different colours; this is the guard.
 const masks = {};
-const filledCount = k => paintParts(CREATURES[k]()).color.filter(Boolean).length;
+/**
+ * A creature painted at one pixel to the 32-unit grid, whatever grid it is
+ * designed on: a lifelike figure on the 64-unit grid (gridOf) is painted at
+ * its own size and each 2x2 block taken as one pixel, so every check below
+ * reads all of them alike.
+ */
+const paint32 = (k, pose) => {
+  const g = gridOf(k), out = paintParts(CREATURES[k](pose), g, 1);
+  if (g === 32) return out;
+  const f = g / 32, color = new Array(32 * 32).fill(null);
+  for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) {
+    for (let b = 0; b < f && !color[y * 32 + x]; b++) for (let a = 0; a < f && !color[y * 32 + x]; a++) color[y * 32 + x] = out.color[(y * f + b) * g + x * f + a];
+  }
+  return { aw: 32, ah: 32, color };
+};
 for (const k in CREATURES) {
-  const { aw, ah, color } = paintParts(CREATURES[k]());
+  const { aw, ah, color } = paint32(k);
   // every monster carries hand-drawn detail on the fine grid, and it shows
   if (MONSTERS[k]) {
     const fine = CREATURES[k]().filter(p => p.k === 'specks' || p.k === 'hair');
     check(fine.length >= 6, `${k} has only ${fine.length} fine details`);
-    const hi = paintParts(CREATURES[k](), 32, 2);
-    check(hi.aw === 64 && hi.color.filter(Boolean).length > filledCount(k) * 3.2, `${k} painted finely covers too little`);
+    const g = gridOf(k), lo = paintParts(CREATURES[k](), g, 1), hi = paintParts(CREATURES[k](), g, 2);
+    check(hi.aw === g * 2 && hi.color.filter(Boolean).length > lo.color.filter(Boolean).length * 3.2, `${k} painted finely covers too little`);
   }
   const filled = color.filter(Boolean);
   check(aw === 32 && ah === 32, `${k} painted at ${aw}x${ah}, not 32x32`);
@@ -77,11 +91,11 @@ for (const k in CREATURES) {
 for (const k in POSES) {
   check(CREATURES[k], `poses are given for '${k}', which is not a creature`);
   if (!CREATURES[k]) continue;
-  const rest = paintParts(CREATURES[k]()).color;
+  const rest = paint32(k).color;
   for (const pose of POSES[k]) {
     // (a companion also sits, when told to stay)
     check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)), `${k} has a pose '${pose}' the view never shows`);
-    const { color } = paintParts(CREATURES[k](pose));
+    const { color } = paint32(k, pose);
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
     let lowest = -1, moved = 0;
@@ -103,7 +117,8 @@ for (const k in POSES) {
     check(same(paintParts(parts, 32, 2).color, paintParts(bare, 32, 2).color), `${k}'s close-up detail shows in its picture from further off`);
     check(!same(paintParts(parts, 32, 4).color, paintParts(bare, 32, 4).color), `${k}'s close-up detail does not show close up`);
   }
-  check(withNear >= 14, `only ${withNear} creatures have close-up detail`);
+  // (the lifelike figures on the finer grid need none: they are fine through and through)
+  check(withNear >= 12, `only ${withNear} creatures have close-up detail`);
 }
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
