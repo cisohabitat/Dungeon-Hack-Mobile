@@ -12747,11 +12747,11 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       return '';
     };
     {
-      // a weak chest fails the save at least once in a few blows (a natural 20 still passes)
+      // a weak chest fails the save at least once in a dozen blows (a fighter's grit and a natural 20 still pass, often enough that four tries were not enough)
       const ctx = await start('fighter', 'puff-fighter');
       const p = ctx.Game.player(); p.hp = p.maxHp = 9999; p.stats.str = 30; p.stats.con = 1;
       let poisoned = false, said = '';
-      for (let i = 0; i < 4 && !poisoned; i++) { said = strike(ctx); poisoned = !!p.poison; }
+      for (let i = 0; i < 12 && !poisoned; i++) { said = strike(ctx); poisoned = !!p.poison; }
       if (!/bursts in a cloud of spores/.test(said) || !poisoned) out.push(`a blow on a puffcap: ${said} (poisoned ${poisoned})`);
       // fire on the blade sears them
       p.eq.weapon = { t: 'longsword', q: 1, e: 0, pw: 'flame' };

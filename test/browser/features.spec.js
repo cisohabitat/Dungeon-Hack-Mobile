@@ -1281,17 +1281,29 @@ test.describe('dungeon features', () => {
     await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; });
     await page.waitForTimeout(300);
     const before = await wire();
+    // walked into, it closes (a quick foot may still pull clear, even at Dexterity 1: tried again until it holds),
+    // and the brightest frame of its snapping is taken, not one moment that a slow machine may miss
     const after = await page.evaluate(async () => {
-      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir], k = `${p.x + dx},${p.y + dy}`;
+      const count = () => {
+        const c = document.getElementById('view'), g = c.getContext('2d');
+        const d = g.getImageData(Math.round(c.width * 0.32), Math.round(c.height * 0.72), Math.round(c.width * 0.36), Math.round(c.height * 0.22)).data;
+        let n = 0;
+        for (let i = 0; i < d.length; i += 4) if (d[i] > 190 && d[i + 1] > 190 && d[i + 2] > 195) n++;
+        return n;
+      };
+      const p = Game.player(), L = Game.level(), G = Game.state();
       p.stats.dex = 1;
-      L.traps[k] = 'snare'; L.snares = { [k]: 99 };
-      Game.input('forward');
-      await new Promise(r => setTimeout(r, 200));
-      const c = document.getElementById('view'), g = c.getContext('2d');
-      const d = g.getImageData(Math.round(c.width * 0.32), Math.round(c.height * 0.72), Math.round(c.width * 0.36), Math.round(c.height * 0.22)).data;
-      let n = 0;
-      for (let i = 0; i < d.length; i += 4) if (d[i] > 190 && d[i + 1] > 190 && d[i + 2] > 195) n++;
-      return n;
+      let best = 0;
+      for (let tries = 0; tries < 6 && !((p.held || 0) > G.t && p.heldBy === 'snare'); tries++) {
+        const [dx, dy] = Dungeon.DIRS[p.dir], k = `${p.x + dx},${p.y + dy}`;
+        p.held = 0; L.traps[k] = 'snare'; L.snares = { [k]: 99 };
+        G.t = Math.max(G.t, p.nextMove || 0) + 300;
+        Game.input('forward');
+        best = 0;
+        for (let f = 0; f < 14; f++) { await new Promise(r => setTimeout(r, 40)); best = Math.max(best, count()); }
+        if (!((p.held || 0) > G.t)) { p.x -= dx; p.y -= dy; }
+      }
+      return best;
     });
     expect(after).toBeGreaterThan(before + 30);
     expect(errors).toEqual([]);
