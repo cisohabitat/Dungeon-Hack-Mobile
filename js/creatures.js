@@ -58,9 +58,9 @@ const up2 = p => {
 // layered cloth falling in folds, armour, hands and faces, where the rest are
 // still the stockier figures of the 32-unit grid
 const FINE_GRID = new Set(['lich', 'acolyte', 'skeleton', 'warlord', 'heartforged', 'sellsword', 'mender',
-  'goblin', 'orc', 'zombie', 'ghoul', 'wraith',
+  'goblin', 'orc', 'zombie', 'ghoul', 'wraith', 'troll', 'ogre', 'minotaur', 'archer', 'kobold', 'shade',
   // (and the encounter props that are one of them, waiting)
-  'hireling', 'stray_healer', 'goblin_toll']);
+  'hireling', 'stray_healer', 'goblin_toll', 'ogre_sleep']);
 /** The grid a creature or prop is designed on: 64 units for the lifelike ones, else 32. */
 const gridOf = k => (FINE_GRID.has(k) ? 64 : 32);
 
@@ -415,42 +415,53 @@ const CREATURES = {
     ];
   },
 
-  // A kobold trapper: small, scaled a rusty red, with a long snout full of
-  // little teeth, stubby horns, a tail for balance, a dart up in one claw and
-  // a coil of snare wire slung over its shoulder.
+  // A kobold trapper: a small upright lizard in rust-red scales, a paler
+  // belly, stubby horns swept back and a frill of spines, a coil of trap-wire
+  // over its shoulder and a scrap of leather at its hips; a dart held up,
+  // thrown hard (its windup) with the tail lashed up for balance.
   kobold: (pose = 'idle') => {
-    const scale = '#a8502e', dark = '#6e3018', belly = '#d89a62', horn = '#e8dcc0', leather = '#5a3a24', wire = '#b8c0c8';
-    const throwing = pose === 'windup';
+    const scale = '#a8502e', scaleDk = '#6e3018', scaleLt = '#c8704a', belly = '#d89a62', horn = '#e8dcc0', leather = '#5a3a24', wire = '#b8c0c8';
+    const t = pose === 'windup';
     return [
-      // the tail, curling out behind and to one side (lashed up as it throws)
-      limb(19, 26, 25, throwing ? 24 : 28, 1.6, 0.9, dark), limb(25, throwing ? 24 : 28, 28.5, throwing ? 19 : 25.5, 0.9, 0.4, dark),
-      // legs bent like a lizard's, clawed feet
-      limb(13.5, 23, 12, 27.5, 1.7, 1.4, scale), limb(12, 27.5, 13, 30.5, 1.4, 1.1, scale),
-      limb(18.5, 23, 20, 27.5, 1.7, 1.4, scale), limb(20, 27.5, 19, 30.5, 1.4, 1.1, scale),
-      ball(12.6, 30.7, 2, 0.9, dark), ball(19.4, 30.7, 2, 0.9, dark),
-      // the body, a paler belly down the front, a scrap of leather at the hips
-      ball(16, 19.5, 5, 5.2, scale),
-      ball(16, 20.5, 3, 4, belly),
-      sheet([[11.5, 22.5], [20.5, 22.5], [19.5, 25.5], [12.5, 25.5]], leather, { curve: 1 }),
-      // the coil of wire over one shoulder and across the chest
-      ball(11.5, 15.5, 2.6, 2.6, wire), ball(11.5, 15.5, 1.7, 1.7, '#3a3a40'),
-      line(12.5, 17, 19.5, 22, wire),
-      // arms: one at its side, one up with a dart (higher as it throws)
-      // (swung out for balance as it throws)
-      limb(11, 16.5, throwing ? 5.5 : 9, throwing ? 15 : 21.5, 1.3, 1.1, scale), ball(throwing ? 5 : 8.8, throwing ? 14.6 : 22, 1.2, 1.1, dark),
-      limb(21, 16.5, 23.5, throwing ? 10 : 13, 1.3, 1.1, scale), ball(23.8, throwing ? 9.4 : 12.4, 1.2, 1.1, dark),
-      limb(23.8, throwing ? 9.4 : 12.4, 25.5, throwing ? 5.5 : 8.5, 0.35, 0.25, '#c8ced8'),
-      dots([[26, throwing ? 5 : 8]], '#e04a30'),
-      // the head: a long snout, stubby horns swept back, a frill of spines
-      limb(13.5, 9, 11, 6.5, 0.9, 0.4, horn), limb(18.5, 9, 21, 6.5, 0.9, 0.4, horn),
-      ball(16, 11, 4.2, 3.8, scale),
-      limb(16, 12.5, 16, 15.5, 2.2, 1.3, scale),
-      ball(16, 15.8, 1.6, 1, dark),
-      dots([[15, 16], [17, 16]], '#1a0808'),
-      // a row of little teeth along the snout, eyes bright and slitted
-      dots([[14.5, 14], [17.5, 14], [15, 15], [17, 15]], '#f2ead2'),
-      ball(13.8, 10.5, 1.3, 1.1, '#f0d040'), ball(18.2, 10.5, 1.3, 1.1, '#f0d040'),
-      dots([[14, 10], [18, 10], [14, 11], [18, 11]], '#1a0808'),
+      // the tail, curling out behind (lashed up as it throws)
+      limb(37, 44, 48, t ? 40 : 52, 3, 1.8, scaleDk), limb(48, t ? 40 : 52, 56, t ? 30 : 46, 1.8, 0.8, scaleDk),
+      ...[[44, t ? 42.5 : 48], [50, t ? 37 : 50]].map(([x, y]) => hair(x - 1, y - 1.5, x + 1, y - 1.5, scale)),
+      // legs bent like a lizard's, the knees forward, clawed feet
+      ...both64(limb(27.5, 44, 23, 52, 3, 2.6, scale)), ...both64(ball(23, 52, 2.6, 2.4, scaleDk)),
+      ...both64(limb(23, 52, 26, 60, 2.4, 2, scale)), ...both64(ball(25.2, 61.4, 3.6, 1.6, scaleDk)),
+      ...both64(specks([[21.5, 62.5], [23, 62.75], [24.5, 62.75]], horn)),
+      // the body, the paler belly scaled in bands, the scrap of leather at the hips
+      ball(32, 37, 9, 10, scale), ball(32, 39, 5.4, 7.6, belly),
+      ...[34, 37, 40, 43].map(y => hair(28, y, 36, y, '#b87a4a')),
+      sheet([[23, 44], [41, 44], [40, 50], [32, 48.5], [24, 50]], leather, { curve: 1 }),
+      // the coil of wire over its shoulder and across the chest
+      ball(23, 29, 4.6, 4.6, wire), ball(23, 29, 3, 3, '#3a3a40'), limb(25, 32, 39, 42, 0.5, 0.5, wire),
+      // the arms: one swung out for balance, one up with the dart (higher as it throws)
+      ...(t ? [
+        limb(23, 31, 13, 29, 2.4, 2, scale), ball(12, 28.6, 2.2, 2, scaleDk),
+        limb(41, 31, 46, 21, 2.4, 2, scale), limb(46, 21, 47, 12, 2, 1.8, scale), ball(47.4, 10.6, 2.2, 2, scaleDk),
+        limb(47.6, 10, 51, 2, 0.6, 0.45, '#c8ced8'), sheet([[50.4, 1.2], [52.6, 0.6], [51.6, 3]], '#e04a30'),
+      ] : [
+        limb(23, 31, 18, 42, 2.4, 2, scale), ball(17.6, 43.6, 2.2, 2, scaleDk),
+        limb(41, 31, 46, 25, 2.4, 2, scale), ball(47.4, 24, 2.2, 2, scaleDk),
+        limb(47.6, 23.4, 51, 15.6, 0.6, 0.45, '#c8ced8'), sheet([[50.4, 14.8], [52.6, 14.2], [51.6, 16.6]], '#e04a30'),
+      ]),
+      // the head: a long snout, stubby horns swept back, a frill of spines behind
+      ...[[-50, 6], [-70, 7.5], [-90, 8], [-110, 7.5], [-130, 6]].map(([a, h]) => {
+        const r = a * Math.PI / 180, bx = 32 + Math.cos(r) * 7, by = 20 + Math.sin(r) * 6.4;
+        return sheet([[bx - 1.6, by + 1], [bx + Math.cos(r) * h * 0.5, by + Math.sin(r) * h * 0.5], [bx + 1.6, by + 1]], '#8a3a20');
+      }),
+      ...both64(limb(27, 15, 21, 9.5, 1.6, 0.7, horn)), ...both64(hair(26, 14, 22, 10, '#b8a888')),
+      ball(32, 20, 7.4, 6.6, scale),
+      limb(32, 22.5, 32, 29.5, 4, 2.4, scale), ball(32, 29.6, 2.8, 1.8, scaleDk), dots([[31, 30], [33, 30]], '#1a0808'),
+      ...[[29.2, 26], [34.8, 26], [29.8, 28], [34.2, 28]].map(([x, y]) => sheet([[x - 0.5, y], [x + 0.5, y], [x, y + 1.2]], '#f2ead2')),
+      hair(28.5, 24, 35.5, 24, scaleDk),
+      // eyes bright and slitted
+      ball(28, 19, 1.6, 1.2, '#d8b830'), ball(36, 19, 1.6, 1.2, '#d8b830'),
+      limb(28, 18.2, 28, 19.8, 0.35, 0.35, '#1a0808'), limb(36, 18.2, 36, 19.8, 0.35, 0.35, '#1a0808'),
+      limb(25.6, 17.4, 30, 17.8, 0.8, 0.6, scaleDk), limb(38.4, 17.4, 34, 17.8, 0.8, 0.6, scaleDk),
+      // scales picked out down the back and arms
+      specks([[26, 33], [38, 33], [24, 38], [40, 38], [29, 16], [35, 16]], scaleDk), specks([[27, 21.5], [37, 21.5]], scaleLt),
     ];
   },
 
@@ -637,30 +648,46 @@ const CREATURES = {
     ];
   },
 
-  // The goblin again, hooded, with a bow drawn and an arrow on the string.
+  // A goblin archer: a goblin in a hooded leather jerkin, a quiver of crude
+  // arrows over one shoulder, the bow held out to one side with the string
+  // drawn back to its cheek, squinting down the shaft.
   archer: () => {
-    const skin = '#6aa84a', dark = '#3f6e2c', hood = '#5a4a30', wood = '#8a6030';
+    const skin = '#6aa84a', skinDk = '#3f6e2c', skinLt = '#8ac66a', hood = '#5a4a30', hoodDk = '#3a2e1c', jerkin = '#4a5a30', jerkinDk = '#323e20', wood = '#8a6030', string = '#d8d0b8';
     return [
-      sheet([[20, 14], [25, 13], [26, 22], [21, 23]], '#6a4a28', { tilt: [0.5, 0] }),
-      dots([[24, 12], [25, 11], [26, 12], [24, 11]], '#d8d0c0'),
-      ...both(limb(13.5, 23, 12.5, 29.5, 1.9, 1.5, dark)),
-      ...both(ball(11.5, 30.3, 2.4, 1.2, '#4a3a2a')),
-      ball(16, 20, 5.2, 5, skin),
-      sheet([[10.5, 17], [21.5, 17], [22.5, 25], [16, 24], [9.5, 25]], '#4a5a30', { curve: 1 }),
-      line(10.5, 21.5, 21.5, 21.5, '#3a2a1a'),
-      limb(21.5, 16.5, 23.5, 21.5, 1.6, 1.3, skin), ball(23.5, 22, 1.5, 1.4, skin),
-      ball(16, 10.5, 6.2, 5.4, skin),
-      sheet([[9, 11], [10, 5], [16, 3.5], [22, 5], [23, 11], [21, 8], [16, 6.5], [11, 8]], hood, { curve: 0.8 }),
-      sheet([[9.5, 10.5], [3, 7], [9.5, 13]], skin, { tilt: [-0.5, -0.2] }),
-      sheet([[22.5, 10.5], [29, 7], [22.5, 13]], skin, { tilt: [0.5, -0.2] }),
-      ball(16, 12.2, 1.4, 2, '#5f9a40'),
-      dots([[12, 10], [13, 10], [19, 10], [20, 10]], '#ffe040'), dots([[13, 10], [19, 10]], '#1a1010'),
-      dots([[13, 14], [14, 15], [15, 15], [16, 15], [17, 15], [18, 15], [19, 14]], '#2a1010'),
-      // the bow, held out to one side, string drawn back to the cheek
-      line(4, 7, 3, 11, wood), line(3, 11, 3, 17, wood), line(3, 17, 4, 21, wood),
-      line(4, 7, 11, 14, '#d8d0b8'), line(11, 14, 4, 21, '#d8d0b8'),
-      line(11, 14, 1, 14, '#b89a60'), dots([[0, 13], [0, 14], [0, 15], [1, 14]], '#c8ccd4'),
-      limb(10.5, 16.5, 5, 14.5, 1.6, 1.3, skin), ball(4.5, 14, 1.5, 1.5, skin),
+      // the quiver over its back, arrows sticking up out of it
+      sheet([[40, 26], [48, 22], [52, 42], [44, 46]], '#6a4a28', { tilt: [0.5, 0] }), hair(41, 28, 45, 44, '#4a3018'),
+      ...[[46, 21], [48.5, 20.5], [51, 21.5]].map(([x, y]) => limb(x, y + 3, x + 0.5, y - 2, 0.4, 0.4, '#a08050')),
+      ...[[46.5, 18.5], [49, 18], [51.5, 19]].map(([x, y]) => sheet([[x - 1, y + 1.5], [x, y - 1], [x + 1, y + 1.5]], '#d8d0c0')),
+      // bandy legs and bare feet
+      ...both64(limb(28, 46, 26, 53, 2, 1.7, skin)), ...both64(ball(26, 53, 1.9, 1.7, skinDk)),
+      ...both64(limb(26, 53, 27, 60, 1.7, 1.5, skin)), ...both64(limb(27, 61, 22.5, 62, 1.6, 1.2, skinDk)),
+      // the body in its jerkin, belted, a knife at the belt
+      ball(32, 38, 7.4, 8.5, skin),
+      sheet([[23, 32], [41, 32], [42.5, 48], [32, 47], [21.5, 48]], jerkin, { curve: 1 }),
+      sheet([[23, 32], [27, 32], [26, 48], [21.5, 48]], jerkinDk, { curve: 0.3 }),
+      line(22.5, 42, 41.5, 42, '#3a2a1a'), ball(32, 42, 1, 0.9, '#8a7a5a'),
+      limb(37, 42.5, 39, 48, 0.6, 0.5, '#5a3a20'), limb(39, 48, 40.5, 52, 0.5, 0.3, '#b8bcc4'),
+      ...[[27, 36], [36, 38], [30, 45]].map(([x, y]) => specks([[x, y]], '#2a3418')),
+      // the bow out to the left, the string drawn back to the cheek, an arrow nocked
+      limb(9, 12, 6, 22, 0.9, 0.8, wood), limb(6, 22, 6, 34, 0.8, 0.8, wood), limb(6, 34, 9, 44, 0.8, 0.9, wood),
+      ball(6, 28, 1.3, 1.6, '#5a3a20'),
+      hair(9, 12, 26, 26, string), hair(26, 26, 9, 44, string),
+      limb(26, 26, 2.5, 26, 0.45, 0.45, '#b89a60'), sheet([[0.5, 26], [3.5, 24.6], [3.5, 27.4]], '#c8ccd4'),
+      sheet([[23.5, 24.6], [27.5, 24], [27.5, 28], [23.5, 27.4]], '#a84030'),
+      // the arms: the bow arm straight out, the drawing hand back at the cheek
+      limb(24, 30, 15, 28.4, 2, 1.7, skin), limb(15, 28.4, 7.5, 28, 1.7, 1.5, skin), ball(7, 28, 1.9, 1.8, skin),
+      limb(40, 30, 33, 30, 2, 1.7, skin), limb(33, 30, 27.5, 26.4, 1.7, 1.5, skin), ball(26.6, 26, 1.9, 1.8, skin),
+      // the head in its hood, the ears out through slits in it
+      limb(32, 24, 32, 28.5, 2, 2.3, skinDk),
+      sheet([[25.5, 17], [8, 11], [11, 15], [25.5, 21.5]], skin, { tilt: [-0.5, -0.2] }), sheet([[38.5, 17], [56, 11], [53, 15], [38.5, 21.5]], skin, { tilt: [0.5, -0.2] }),
+      sheet([[24, 17.5], [13, 13.5], [24, 20]], '#b06e56'), sheet([[40, 17.5], [51, 13.5], [40, 20]], '#b06e56'),
+      ball(32, 18, 7, 6.6, skin), ball(32, 22.4, 5, 2.6, skin),
+      sheet([[23.5, 19], [24.5, 10], [32, 7], [39.5, 10], [40.5, 19], [37.5, 14.5], [32, 13], [26.5, 14.5]], hood, { curve: 0.8 }),
+      hair(25, 12, 31, 8, '#7a6444'), sheet([[23.5, 19], [26.5, 14.5], [26, 21], [24, 22]], hoodDk, { curve: 0.4 }),
+      // one eye screwed shut, the other narrowed down the shaft
+      hair(27.5, 17.5, 30, 17.25, '#1a1010'), ball(35.4, 17.6, 1.6, 1.1, '#2a4a1c'), dots([[35, 17], [36, 17]], '#ffe040'), dots([[35, 17]], '#1a1010'),
+      limb(32, 17, 32.6, 22, 0.9, 1.4, skin), ball(33, 22.2, 1.5, 1.1, skinLt),
+      sheet([[28, 23.6], [32, 24.6], [36, 23.6], [35, 25.6], [29, 25.6]], '#2a1010'), dots([[30, 24], [34, 24]], '#e8dcb8'),
     ];
   },
 
@@ -876,106 +903,159 @@ const CREATURES = {
     ];
   },
 
-  // What is left of a hero who fell down here before: helm, mail and sword
-  // still keeping their shape, and nothing below the belt but mist. Pale
-  // where the wraith is dark, and it stands straight: it remembers being a person.
+  // A shade: what is left of a hero who fell down here before. Helm, mail and
+  // sword still keep their shape, a torn surcoat over the mail, and nothing
+  // below the belt but mist trailing away; pale where the wraith is dark, and
+  // it stands straight, because it remembers being a person.
   shade: () => {
-    const mail = '#7e98b0', deep = '#4a5e78', steel = '#a8bccc', glow = '#e0fcff';
+    const mail = '#7e98b0', mailDk = '#5a7088', deep = '#4a5e78', mist = '#6a82a0', steel = '#a8bccc', steelLt = '#e0f0ff', surcoat = '#5a6a8a', glow = '#e0fcff';
     return [
       // the mist it trails away into
-      sheet([[10, 19], [22, 19], [23.5, 24], [21, 28], [19, 25], [17, 30], [15, 25.5], [12.5, 29], [11, 24.5], [8.5, 26]], deep, { curve: 1 }),
-      // mail from the shoulders to the belt
-      sheet([[10, 12.5], [22, 12.5], [22.5, 21], [16, 22.5], [9.5, 21]], mail, { curve: 1 }),
-      line(10, 20, 22, 20, '#3a4a60'), ball(16, 20.2, 1.3, 1, steel),
-      // the shield arm hangs, the sword arm lifts the blade it died with
-      limb(10.5, 13.5, 7.5, 20, 1.6, 1.3, mail), ball(7.3, 20.6, 1.4, 1.3, steel),
-      limb(21.5, 13.5, 24.5, 17.5, 1.6, 1.3, mail), ball(24.8, 18.2, 1.4, 1.3, steel),
-      line(25.5, 17.5, 28, 4, '#d8f0ff'), line(26, 17.8, 28.5, 4.4, '#8aa4bc'),
-      line(23, 17.6, 27.6, 19, steel),
-      ...both(ball(10.5, 13, 2.6, 2.2, steel)),
+      sheet([[20, 40], [44, 40], [47, 48], [43, 58], [39, 50], [35, 61], [31, 51], [27, 60], [23, 50], [18, 56], [16, 47]], deep, { curve: 1 }),
+      sheet([[22, 40], [42, 40], [43, 46], [38, 50], [32, 47], [26, 50], [21, 46]], mist, { curve: 1 }),
+      specks([[17, 58], [25, 62], [34, 63], [42, 61], [46, 55], [30, 56]], '#9ab4d0'),
+      // mail from the shoulders to the belt, the torn surcoat over it
+      sheet([[20, 23], [44, 23], [45, 41], [32, 43], [19, 41]], mail, { curve: 1 }),
+      ...[27, 30, 33, 36, 39].map(y => hair(20, y, 44, y, mailDk)),
+      sheet([[24, 23], [40, 23], [41, 40], [37, 38], [34, 42], [30, 38.5], [27, 41.5], [23, 40]], surcoat, { curve: 0.9 }),
+      sheet([[29, 27], [35, 27], [35, 33], [32, 35], [29, 33]], '#8a9ab8', { curve: 0.4 }), hair(32, 27.5, 32, 34, '#c8d4e8'), hair(29.5, 30, 34.5, 30, '#c8d4e8'),
+      line(19, 40, 45, 40, '#3a4a60'), ball(32, 40.2, 2, 1.6, steel),
+      // the shield arm hangs, the shield still on it; the sword arm lifts the blade it died with
+      limb(20.5, 25, 16, 36, 2.6, 2.2, mail), ball(15.6, 37.4, 2.2, 2, steel),
+      sheet([[6, 30], [17, 30], [17, 40], [11.5, 47], [6, 40]], '#3a4a64', { curve: 0.9 }), hair(7, 31, 16, 31, '#8aa4bc'),
+      sheet([[10.5, 33], [12.5, 33], [12.5, 44], [10.5, 44]], '#8a9ab8'),
+      limb(43.5, 25, 48.5, 33, 2.6, 2.2, mail), ball(49.2, 34.4, 2.2, 2, steel),
+      limb(50.5, 33, 56, 6, 1.1, 0.6, '#d8f0ff', { smooth: 1 }), hair(51, 32, 56, 7, steelLt),
+      limb(46, 34.4, 53, 32.4, 0.8, 0.8, steel),
+      ...both64(ball(20.5, 24.4, 4.6, 3.6, steel)), ...both64(hair(17, 22.5, 24, 21.5, steelLt)),
       // the helm, and nothing in it but two cold lights
-      ball(16, 8.2, 4, 4.3, steel),
-      limb(12, 8.5, 20, 8.5, 0.9, 0.9, '#0a0e16'),
-      line(16, 4.5, 16, 10.5, '#8aa4bc'),
-      dots([[14, 8], [18, 8]], glow), dots([[13, 8], [19, 8]], '#6ab0d0'),
+      ball(32, 15, 6.6, 7.4, steel), hair(27, 10, 31, 8.5, steelLt),
+      sheet([[25.5, 14.2], [38.5, 14.2], [38.5, 17], [25.5, 17]], '#0a0e16'), line(32, 8, 32, 20.5, '#8aa4bc'),
+      ball(28.6, 15.6, 1.2, 0.9, glow, { glows: true }), ball(35.4, 15.6, 1.2, 0.9, glow, { glows: true }),
+      ...[[27, 18.5], [29, 19], [35, 19], [37, 18.5]].map(([x, y]) => ball(x, y, 0.4, 0.4, '#3a4a5a')),
+      specks([[22, 12], [42, 11], [24, 6], [40, 5]], '#c8e0f0'),
     ];
   },
 
-  // Mostly belly, a little head on top, and a club the size of a man.
+  // An ogre: a hill of a man, mostly belly, the shoulders hunched up round a
+  // small head with a heavy brow and an underbite of tusks; a loincloth under
+  // the paunch, rope-bound shins, and a club the size of a man on its shoulder.
   ogre: () => {
-    const skin = '#b08a5a', dark = '#7a5a36';
+    const skin = '#b08a5a', skinDk = '#7a5a36', skinLt = '#caa676', cloth = '#5a4a30', clothDk = '#3e3220', club = '#6a4a2a', rope = '#a88a5a';
     return [
-      limb(26, 22, 28, 3, 1.4, 2.6, '#6a4a2a'),
-      dots([[27, 2], [29, 3], [27, 6], [30, 6]], '#cfc6b0'),
-      ...both(limb(12, 24, 11.5, 30, 2.8, 2.5, dark)),
-      ...both(ball(11, 30.4, 3.2, 1.3, '#5a3e24')),
-      ball(16, 20, 9, 7.8, skin),
-      ball(16.5, 22, 5.5, 4.5, '#c49e6c'),
-      dots([[17, 22]], '#6a4a2a'),
-      sheet([[8, 24], [24, 24], [23, 29], [18, 27], [16, 29.5], [13, 27], [9, 29]], '#5a4a30', { curve: 1 }),
-      limb(8, 14, 5, 23, 2.8, 2.4, skin), ball(5, 24, 2.5, 2.4, skin),
-      limb(24, 14, 26, 21, 2.8, 2.4, skin), ball(26.3, 21.8, 2.6, 2.4, skin),
-      // shoulders hunched up round a head sunk between them
-      ball(11, 13.5, 4.2, 3, skin), ball(21, 13.5, 4.2, 3, skin),
-      ball(10.8, 10, 1.3, 1.8, dark), ball(21.2, 10, 1.3, 1.8, dark),
-      ball(16, 10, 5, 4.6, skin),
-      // a heavy brow over small eyes, a flat nose, an underbite with tusks
-      ball(16, 7.8, 4.4, 1.5, '#9a7648'),
-      dots([[14, 9], [18, 9]], '#ff9040'), dots([[13, 9], [19, 9]], '#3a2410'),
-      ball(16, 10.8, 1.5, 1.2, '#9c7648'),
-      ball(16, 13, 3.4, 1.6, dark),
-      dots([[14, 13], [15, 13], [16, 13], [17, 13], [18, 13]], '#2a1410'),
-      dots([[14, 12], [18, 12]], '#f0ead6'), dots([[14, 11], [18, 11]], '#f8f2e0'),
+      // the club over its right shoulder, knotted and studded with nails
+      limb(48, 44, 56, 6, 2.4, 4.6, club), hair(49.5, 40, 56.5, 8, '#4a3018'),
+      specks([[57.5, 7], [54, 12.5], [58, 15], [53, 20]], '#cfc6b0'),
+      // legs like stumps, rope bound about the shins, broad bare feet
+      ...both64(limb(24, 46, 23, 59, 5.4, 5, skinDk)), ...both64(ball(22, 61.2, 5.8, 2.2, '#5a3e24')),
+      ...both64(hair(18.5, 52, 28, 53.5, rope)), ...both64(hair(18.5, 55, 28, 56.5, rope)),
+      // the belly, the stretched skin and navel, the loincloth beneath it
+      ball(32, 38, 17, 15, skin), ball(33, 42, 11, 9, skinLt),
+      hair(32.5, 42.5, 33.5, 44, '#7a5a36'), hair(26, 38, 29, 41, '#c8a676'), hair(40, 38, 37, 41, '#c8a676'),
+      sheet([[16, 46], [48, 46], [46, 56], [38, 53], [32, 58], [26, 53], [18, 56]], cloth, { curve: 1 }),
+      sheet([[16, 46], [22, 46], [21, 55], [18, 56]], clothDk, { curve: 0.3 }), line(16, 46.5, 48, 46.5, '#2a2014'),
+      // arms like logs, the left fist hanging, the right up on the club
+      limb(16, 26, 10, 40, 5.4, 4.8, skin), limb(10, 40, 9, 47, 4.6, 4.2, skin), ball(9, 49, 4.6, 4.2, skin),
+      hair(6, 48, 12, 48, skinDk), hair(13, 30, 10, 37, skinDk),
+      limb(48, 26, 51, 37, 5.4, 4.8, skin), limb(51, 37, 51, 42, 4.6, 4.2, skin), ball(50.6, 43, 4.6, 4.2, skin),
+      // the shoulders hunched up round a head sunk between them
+      ...both64(ball(21, 26, 8.4, 6, skin)), ...both64(hair(15, 22.5, 26, 21, skinLt)),
+      ball(32, 21, 9, 5, skinDk),
+      // the head: small for the body, a heavy brow, little eyes, a flat nose, the tusks
+      ball(32, 16, 8, 7.6, skin), ball(32, 21.4, 6.6, 3.4, skinDk),
+      ball(32, 11.6, 7.4, 2.6, '#9a7648'), hair(25.5, 12.5, 38.5, 12.5, '#6a4a2a'),
+      ball(28.4, 15, 1.6, 1.1, '#3a2410'), ball(35.6, 15, 1.6, 1.1, '#3a2410'),
+      dots([[28, 15], [36, 15]], '#ff9040'),
+      ball(32, 17.6, 2.6, 1.8, '#9c7648'), dots([[31, 18], [33, 18]], '#3a2410'),
+      sheet([[26, 21], [38, 21], [37, 23], [27, 23]], '#2a1410'),
+      sheet([[27, 22.6], [28.6, 22.6], [27.8, 18.4]], '#f0ead6'), sheet([[37, 22.6], [35.4, 22.6], [36.2, 18.4]], '#f0ead6'),
+      ball(23.6, 16, 1.6, 2.4, skin), ball(40.4, 16, 1.6, 2.4, skin),
+      // warts, scars, a few bristles on the scalp
+      specks([[24, 34], [40, 30], [19, 42], [45, 44], [36, 25]], '#9a7648'), hair(27, 8.5, 26, 6.5, '#3a2a1a'), hair(37, 8.5, 38, 6.5, '#3a2a1a'),
     ];
   },
 
-  // Tall and bent, arms long enough to drag its knuckles, a great hooked nose
-  // and moss for hair.
+  // A troll: tall, gaunt and bent, the skin a mottled green like wet stone,
+  // arms long enough to drag its knuckles, a great hooked nose and moss for
+  // hair; a ragged hide about its hips and yellow eyes under a jutting brow.
   troll: () => {
-    const skin = '#58985c', dark = '#356a3c', hair = '#2e4a26';
+    const skin = '#58985c', skinDk = '#356a3c', skinLt = '#78b47a', moss = '#2e4a26', mossLt = '#4a6e36', hide = '#5a4630', claw = '#e8e0c8';
     return [
-      limb(13.5, 21, 13, 30, 1.5, 1.3, dark), limb(18.5, 21, 19, 30, 1.5, 1.3, dark),
-      ball(12, 30.4, 2.8, 1.1, dark), ball(20, 30.4, 2.8, 1.1, dark),
-      ball(16, 16, 6.2, 6.5, skin),
-      sheet([[11, 19], [21, 19], [21.5, 24], [16, 22.5], [10.5, 24]], '#5a4630', { curve: 1 }),
-      limb(10, 12, 6, 21, 1.8, 1.5, skin), limb(6, 21, 5, 29, 1.5, 1.4, skin),
-      limb(22, 12, 26, 21, 1.8, 1.5, skin), limb(26, 21, 27, 29, 1.5, 1.4, skin),
-      ball(5, 29.6, 2, 1.5, dark), ball(27, 29.6, 2, 1.5, dark),
-      dots([[3, 30], [4, 31], [6, 31], [26, 31], [28, 31], [29, 30]], '#e8e0c8'),
-      sheet([[10, 5], [16, 1.5], [22, 5], [23.5, 12], [21, 9], [16, 7], [11, 9], [8.5, 12]], hair, { curve: 0.8 }),
-      ball(16, 8.5, 4.6, 4, skin),
-      ball(17, 10.5, 2, 2.6, '#4c8a50'),
-      dots([[18, 12], [19, 12]], '#4c8a50'),
-      dots([[13, 8], [14, 8], [19, 8], [20, 8]], '#ffe040'), dots([[14, 8], [19, 8]], '#1a1a08'),
-      dots([[13, 12], [14, 13], [15, 13], [20, 13]], '#1e2a14'), dots([[14, 12], [20, 12]], '#f0ead6'),
-      dots([[12, 15], [20, 17], [14, 18], [21, 14]], '#3e7a44'),
+      // long legs, knees bent, the feet broad and clawed
+      ...both64(limb(27, 42, 24, 51, 3, 2.6, skinDk)), ...both64(ball(24, 51, 2.8, 2.6, skinDk)),
+      ...both64(limb(24, 51, 25, 59.5, 2.6, 2.2, skinDk)), ...both64(ball(23.6, 61.2, 4, 1.6, skinDk)),
+      ...both64(specks([[20, 62.5], [21.5, 62.75], [23, 62.75]], claw)),
+      // the gaunt, hunched body, ribs and a pot of a belly, the ragged hide about the hips
+      ball(32, 30, 10, 12, skin),
+      ...[24, 27, 30].flatMap(y => [hair(24, y, 29, y + 1, skinDk), hair(40, y, 35, y + 1, skinDk)]),
+      sheet([[22, 38], [42, 38], [43.5, 46], [40, 44], [37, 48], [33, 45], [29, 48.5], [25.5, 45], [21, 47]], hide, { curve: 1 }),
+      hair(23, 40, 41, 40, '#3a2e20'),
+      // long arms hanging down to the floor, the claws nearly dragging
+      limb(23, 21, 14, 34, 2.6, 2.2, skin), ball(14, 34, 2.4, 2.2, skinDk), limb(14, 34, 10, 52, 2.2, 2, skin),
+      ball(9.6, 54.6, 3.2, 3, skinDk), ...[[7, 56.5, 5.5, 60.6], [9.5, 57.4, 9, 61.6], [12, 57, 12.8, 61]].map(([a, b, c, d]) => limb(a, b, c, d, 0.6, 0.3, claw)),
+      limb(41, 21, 50, 34, 2.6, 2.2, skin), ball(50, 34, 2.4, 2.2, skinDk), limb(50, 34, 54, 52, 2.2, 2, skin),
+      ball(54.4, 54.6, 3.2, 3, skinDk), ...[[57, 56.5, 58.5, 60.6], [54.5, 57.4, 55, 61.6], [52, 57, 51.2, 61]].map(([a, b, c, d]) => limb(a, b, c, d, 0.6, 0.3, claw)),
+      ...both64(ball(23, 21, 4.4, 3.2, skin)),
+      // the head thrust forward on the neck, moss for hair hanging down over the brow
+      limb(32, 15, 32, 20, 2.8, 3.2, skinDk),
+      sheet([[22, 10], [32, 2], [42, 10], [45, 24], [40, 17], [32, 13], [24, 17], [19, 24]], moss, { curve: 0.8 }),
+      ...[[23, 13, 20.5, 22], [41, 13, 43.5, 22], [28, 6, 26, 12]].map(([a, b, c, d]) => hair(a, b, c, d, mossLt)),
+      ball(32, 15, 6.8, 6, skin),
+      limb(26.5, 12, 30.5, 13.4, 1.4, 1.1, skinDk), limb(37.5, 12, 33.5, 13.4, 1.4, 1.1, skinDk),
+      ball(28.8, 14.4, 1.7, 1.2, '#1e2a14'), ball(35.2, 14.4, 1.7, 1.2, '#1e2a14'),
+      dots([[28, 14], [29, 14], [35, 14], [36, 14]], '#ffe040'), dots([[29, 14], [35, 14]], '#1a1a08'),
+      // the great hooked nose, hanging over a wide mouth with crooked teeth
+      limb(32, 14, 33.6, 20, 1.6, 2.4, skinLt), ball(33.8, 20.6, 2.4, 1.8, '#4c8a50'),
+      sheet([[26.5, 20.4], [31, 21.8], [37.5, 20.4], [36, 22.8], [28, 22.8]], '#1e2a14'),
+      dots([[28, 21], [36, 21], [30, 22]], '#f0ead6'),
+      // warts and moss on the hide
+      specks([[25, 27], [39, 24], [30, 35], [36, 33], [18, 40], [46, 40]], '#3e7a44'), specks([[26, 26], [38, 31]], '#8ab46a'),
     ];
   },
 
-  // Bull above the shoulders, man below, and a double axe held across.
+  // A minotaur: a bull above the shoulders and a man below, broad and
+  // shaggy-chested, great horns swept out and up, a ring through the nose,
+  // a kilt of red cloth belted in bronze, hooves for feet, and a double axe
+  // held across its body.
   minotaur: () => {
-    const hide = '#7a5436', dark = '#4e3320', horn = '#efe6cc';
+    const hide = '#7a5436', hideDk = '#4e3320', hideLt = '#9a7050', horn = '#efe6cc', hornDk = '#b8a888', kilt = '#6a2a20', kiltDk = '#481a14', bronze = '#c9a24a', steel = '#9aa2ae', steelLt = '#e0e6ee';
     return [
-      limb(4, 26, 28, 10, 0.8, 0.8, '#5a3a20'),
-      sheet([[23, 6.5], [30, 5], [31, 13], [26, 14]], '#9aa2ae', { tilt: [0.5, -0.2] }),
-      sheet([[26, 14], [31, 13], [30, 19], [24, 17]], '#8a929e', { tilt: [0.5, 0.2] }),
-      ...both(limb(12.5, 22, 12, 28.5, 2.4, 1.9, dark)),
-      ...both(sheet([[9.5, 28.5], [14.5, 28.5], [14.5, 31], [9.5, 31]], '#2a1e16')),
-      ball(16, 17.5, 7.2, 6.6, hide),
-      ...both(ball(12.8, 16, 3, 2.6, '#8a6242')),
-      sheet([[9.5, 21], [22.5, 21], [21.5, 26], [16, 24.5], [10.5, 26]], '#6a2a20', { curve: 1 }),
-      line(9.5, 21, 22.5, 21, '#c9a24a'),
-      limb(9, 13, 7, 21, 2.3, 2, hide), ball(6.8, 22, 2.2, 2, hide),
-      limb(23, 13, 24.5, 19, 2.3, 2, hide), ball(25, 19.8, 2.2, 2, hide),
-      ...both(limb(11.5, 6, 6, 4, 1.4, 0.9, horn)), ...both(limb(6, 4, 4.5, 0.5, 0.9, 0.5, horn)),
-      ball(16, 7.5, 5.2, 4.4, hide),
-      sheet([[14.5, 3], [16, 2.3], [17.5, 3], [17, 5], [16, 4.4], [15, 5]], dark, { curve: 0.8 }),
-      ball(16, 11.2, 4, 2.6, '#9a7050'),
-      ball(16, 10.3, 3, 1.2, '#b08868'),
-      dots([[14, 12], [18, 12]], '#1a0c08'),
-      dots([[15, 13], [16, 13.5], [17, 13]], '#d8b040'),
-      dots([[13, 6], [19, 6]], '#ff4030'), dots([[12, 5], [13, 5], [19, 5], [20, 5]], '#2a1a10'),
-      ...both(sheet([[11.5, 7.5], [9, 6.5], [11.5, 9.5]], hide, { tilt: [-0.4, 0] })),
+      // the double axe across the body, haft from low left to high right
+      limb(10, 54, 57, 6, 1.2, 1.2, '#5a3a20'),
+      sheet([[51, 2], [61, 0], [63, 12], [56, 13]], steel, { tilt: [0.5, -0.2] }), sheet([[56, 13], [63, 12], [62, 22], [54, 19]], '#8a929e', { tilt: [0.5, 0.2] }),
+      line(62, 1, 63, 11.5, steelLt), line(62.6, 13, 61.6, 21.5, steelLt), ball(57, 6, 1.6, 1.6, '#5a5e68'),
+      // the legs: a man's thighs, a beast's shanks and cloven hooves
+      ...both64(limb(26, 44, 24, 52, 4, 3.4, hideDk)), ...both64(limb(24, 52, 25, 58, 2.6, 2, hideDk)),
+      ...both64(sheet([[20.5, 58], [29.5, 58], [30, 63], [25.5, 63], [25, 60.5], [24.5, 63], [20, 63]], '#2a1e16')),
+      // the great chest, shaggy, a paler hide over the breast
+      ball(32, 32, 13.4, 12, hide),
+      ...both64(ball(26, 29, 5.4, 4.6, hideLt)),
+      ...[[26, 34], [30, 36], [34, 36], [38, 34], [28, 39], [36, 39]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.75 : 0.75), y + 1.5, hideDk)),
+      // the kilt, belted in bronze
+      sheet([[19, 41], [45, 41], [44, 52], [38, 49], [32, 53], [26, 49], [20, 52]], kilt, { curve: 1 }),
+      sheet([[19, 41], [24, 41], [23, 50], [20, 52]], kiltDk, { curve: 0.3 }),
+      sheet([[19, 40], [45, 40], [45, 43], [19, 43]], '#3a2410', { curve: 0.6 }), ...[24, 32, 40].map(x => ball(x, 41.5, 1.2, 1.1, bronze)),
+      // arms thick with muscle, both on the haft
+      limb(19, 24, 15, 36, 4.4, 3.8, hide), limb(15, 36, 18, 45, 3.6, 3.2, hide), ball(18.6, 46, 3.4, 3, hide),
+      limb(45, 24, 47, 30, 4.4, 3.8, hide), limb(47, 30, 44, 21, 3.6, 3.2, hide), ball(44, 20, 3.4, 3, hide),
+      line(15, 41, 21, 41, bronze), line(42, 24, 48, 24, bronze),
+      // the bull's neck, a hump of muscle, and the head
+      ball(32, 20, 11, 6, hide), ...both64(ball(21, 23, 6, 4.4, hide)),
+      // horns swept out and up, ringed at the base
+      ...both64(limb(25, 9, 15, 6, 2.6, 1.8, horn)), ...both64(limb(15, 6, 10.5, 0.6, 1.8, 0.8, horn)),
+      ...both64(hair(23, 8, 23.5, 10.5, hornDk)), ...both64(hair(18, 6.5, 18.5, 9, hornDk)),
+      ball(32, 13, 8.4, 7.4, hide),
+      sheet([[29, 5], [32, 4], [35, 5], [34.5, 8.5], [32, 7.4], [29.5, 8.5]], hideDk, { curve: 0.8 }),
+      ...both64(sheet([[24.5, 13], [19, 11], [24, 16]], hide, { tilt: [-0.4, 0] })),
+      // the muzzle, broad and pale, the nostrils flared, the bronze ring through them
+      ball(32, 19.4, 6, 4, hideLt), ball(32, 18, 4.4, 1.8, '#b08868'),
+      ball(29.6, 20, 1.2, 0.9, '#1a0c08'), ball(34.4, 20, 1.2, 0.9, '#1a0c08'),
+      sheet(oval(32, 22.6, 1.8, 1.4, 10), bronze), sheet(oval(32, 22.6, 1, 0.7, 8), hideLt),
+      // small furious eyes under the brow
+      limb(25.5, 11, 29.5, 12.6, 1.2, 1, hideDk), limb(38.5, 11, 34.5, 12.6, 1.2, 1, hideDk),
+      dots([[27, 13], [37, 13]], '#ff4030'), specks([[27.5, 13.5], [37.5, 13.5]], '#ffb0a0'),
+      // scars across the chest, a notch in one horn
+      hair(35, 26, 40, 31, '#3a2414'), specks([[12, 3], [12.5, 2.5]], '#23202c'),
     ];
   },
 
@@ -1965,22 +2045,6 @@ const DETAILS = {
       hair(cx - 4.5, cy - 4.5, cx - 6, cy - 3, '#5a4a44'), hair(cx + 4.5, cy - 4, cx + 6, cy - 2.5, '#5a4a44'),
     ];
   },
-  // scales picked out down the back and arms, claws, a slitted eye, wire glints and the dart's fletching
-  kobold: (pose = 'idle') => {
-    const throwing = pose === 'windup';
-    return [
-      specks([[13, 17], [14.5, 16.5], [17.5, 16.5], [19, 17], [13.5, 21], [18.5, 21], [14, 23.5], [18, 23.5]], '#c86a3e'),
-      specks([[12, 18.5], [20, 18.5], [12.5, 20.5], [19.5, 20.5]], '#6e3018'),
-      hair(15, 18, 15, 23, '#e8b480'), hair(17, 18, 17, 23, '#e8b480'),
-      specks([[11.5, 31], [12.5, 31.2], [13.5, 31], [18.5, 31], [19.5, 31.2], [20.5, 31]], '#f2ead2'),
-      specks(throwing ? [[4.5, 14], [5, 15.5], [4, 15]] : [[8, 23], [9, 23.2], [9.5, 22.5]], '#f2ead2'),
-      specks([[11, 14.5], [12, 15], [10.5, 16]], '#ffffff'),
-      hair(14, 10.5, 14, 11, '#1a0808'), hair(18, 10.5, 18, 11, '#1a0808'),
-      specks(throwing ? [[25.5, 4.5], [26, 4], [25, 4]] : [[25.5, 7.5], [26, 7], [25, 7]], '#e04a30'),
-      hair(15, 13, 15.5, 14.5, '#6e3018'), hair(17, 13, 16.5, 14.5, '#6e3018'),
-      specks([[12.5, 8], [19.5, 8]], '#fff4dc'),
-    ];
-  },
   // grain down the staves, nail heads on the hoops, splinters on the teeth,
   // veins on the tongue and a string of drool off the rim
   mimic: (pose = 'idle') => {
@@ -2042,81 +2106,14 @@ const DETAILS = {
     specks([[26, 27.5], [27, 28]], '#b8ffc8'),
   ],
 
-  archer: () => [
-    // red fletching on the nocked arrow, and a bracer on the bow arm
-    specks([[1, 13.5], [1.5, 13.5], [1, 14.5], [1.5, 14.5]], '#c04040'),
-    specks([[6, 13.5], [7, 13.5], [6, 15], [7, 15]], '#5a3a1a'),
-    // the quiver strap across the chest, and its buckle
-    hair(11, 17.5, 21, 23, '#3a2a1a'), specks([[16, 20], [16.5, 20.5]], '#c9a24a'),
-    // stitching round the hood, nostrils, a squint
-    specks([[11, 8.5], [13, 7.5], [16, 7], [19, 7.5], [21, 8.5]], '#7a6a48'),
-    specks([[15.5, 12.5], [16.5, 12.5]], '#2e5020'),
-    hair(11.5, 9, 14, 9.5, '#3f6e2c'), hair(18, 9.5, 20.5, 9, '#3f6e2c'),
-    // grain on the bow, claws on the drawing hand
-    specks([[3.5, 9], [3, 13], [3, 16], [3.5, 19]], '#b08040'),
-    specks([[3.5, 15], [4.5, 15.5]], '#e8e0c0'),
-  ],
 
 
 
 
 
-  shade: () => [
-    // rivets on the pauldrons, rings of mail catching the light
-    specks([[9.5, 12], [10.5, 11.5], [11.5, 12], [20.5, 12], [21.5, 11.5], [22.5, 12]], '#e8f4ff'),
-    hair(11, 15, 21, 15, '#9ab4cc'), hair(11, 17, 21, 17, '#9ab4cc'), hair(11, 19, 21, 19, '#6a84a0'),
-    // a notch in the blade, a dent in the helm
-    specks([[27, 9], [27.5, 9.5]], '#4a5e78'), specks([[14, 5.5], [14.5, 6]], '#6a84a0'),
-    // the mist coming off it
-    hair(12.5, 29, 12, 31, '#8aa4c0'), hair(17, 30, 17.5, 31.5, '#8aa4c0'), hair(21, 28, 22, 30, '#8aa4c0'), hair(8.5, 26, 7.5, 27.5, '#8aa4c0'),
-    // breath of frost from the visor
-    specks([[15.5, 10], [16.5, 10.5], [16, 11.5]], '#c0e8f8'),
-  ],
 
-  ogre: () => [
-    // grain and nails in the club
-    hair(26.5, 20, 27.5, 6, '#5a3e22'), specks([[26.5, 10], [28, 8], [27, 14]], '#3a2a18'),
-    // stretch marks on the belly, a mole, the rope that holds the loincloth
-    hair(11, 19, 12, 21.5, '#9a7650'), hair(21, 19, 20, 21.5, '#9a7650'), specks([[13, 17]], '#6a4a2a'),
-    hair(8.5, 24, 23.5, 24, '#3a2a18'), specks([[16, 24.5], [16.5, 25], [16, 25.5]], '#3a2a18'),
-    // stubble, a split lip, a tooth missing
-    specks([[14, 12.5], [15.5, 13], [17, 13], [18.5, 12.5]], '#8a6a44'),
-    specks([[16.5, 12]], '#8a2a20'),
-    // knuckles and toenails
-    specks([[4, 25.5], [5, 26], [6, 25.5], [25.5, 23], [26.5, 23.5], [27.5, 23]], '#8a6a44'),
-    ...both(specks([[9, 31], [10.5, 31], [12, 31]], '#d8c8a0')),
-  ],
 
-  troll: () => [
-    // moss and a sprig growing out of the hair
-    specks([[11, 5], [13, 3.5], [19, 3.5], [21.5, 6], [10, 9], [22, 9.5]], '#7aaa48'),
-    hair(20, 3, 21.5, 1, '#4a7a30'), specks([[21.5, 0.5]], '#c8e060'),
-    // warts on the nose, a scar across the chest, knuckle hair
-    specks([[17.5, 9], [18.5, 11]], '#3e7a44'),
-    hair(12, 13, 17, 17, '#3e6a40'),
-    specks([[4, 28], [5, 27.5], [27, 27.5], [28, 28]], '#2e4a26'),
-    // ribs showing on its gaunt side
-    hair(10.5, 15.5, 12, 16, '#46804a'), hair(10.5, 17, 12, 17.5, '#46804a'), hair(21.5, 15.5, 20, 16, '#46804a'),
-    // a fringe of rags on the loincloth
-    specks([[11.5, 24.5], [13.5, 24], [18.5, 24], [20.5, 24.5]], '#3e3020'),
-  ],
 
-  minotaur: () => [
-    // rings worn into the horns
-    ...both(specks([[9.5, 5], [7.5, 4.5], [5.5, 3]], '#c8bfa0')),
-    // shaggy fur on the chest and brow, a scar over the muzzle
-    hair(13, 14, 14, 16, '#5a3a22'), hair(16, 14.5, 16, 16.5, '#5a3a22'), hair(19, 14, 18, 16, '#5a3a22'),
-    hair(12.5, 4, 14, 5, '#4e3320'), hair(19.5, 4, 18, 5, '#4e3320'),
-    hair(16.5, 9.5, 18, 12, '#8a6a52'),
-    // steam from the nostrils, the nose ring's shine
-    specks([[13, 13.5], [12.5, 14], [19, 13.5], [19.5, 14]], '#e8e0d8'),
-    specks([[16, 13.5]], '#fff0a0'),
-    // an engraved axe head and a studded belt
-    hair(27, 8, 29.5, 7.5, '#6a727e'), hair(27, 16, 29.5, 16.5, '#6a727e'),
-    specks([[11, 21], [13.5, 21], [18.5, 21], [21, 21]], '#fff0a0'),
-    // split hooves
-    ...both(specks([[12, 30], [12, 30.5], [12, 31]], '#5a4838')),
-  ],
 
   merchant: () => [
     // straps across the pack and the knot of the blanket roll
@@ -2244,23 +2241,6 @@ const NEAR = {
       ...(rear ? [] : [specks([[1.75, 31], [4.75, 31.25], [7.5, 31], [24.5, 31], [27.25, 31.25], [30.25, 31]], '#fffaf0')]),
     ];
   },
-  troll: () => [
-    // warts and moss on the hide, lank strands from the hair, the loincloth's fringe, claws
-    specks([[12.5, 13.5], [19.5, 15], [14, 19.25], [18.5, 18.5], [21, 12], [10.75, 16.25]], '#3e7244'),
-    specks([[13.25, 12.5], [19, 13.75], [11.5, 18]], '#8ab46a'),
-    hair(10.25, 6, 9.25, 11, '#24402c'), hair(21.75, 6, 22.75, 11, '#24402c'), hair(16, 2.5, 15.5, 6.5, '#24402c'),
-    ...[12, 14, 18, 20].map(x => hair(x, 23.25, x, 24.5, '#3a2e20')),
-    specks([[4.25, 30.75], [5.75, 30.75], [26.25, 30.75], [27.75, 30.75], [11, 31], [21, 31]], '#d8d0b0'),
-  ],
-  ogre: () => [
-    // a furrowed brow, the navel and the stretched skin round it, the club's grain and a nail driven through it
-    hair(12.5, 7.25, 15, 7.75, '#9a7648'), hair(17, 7.75, 19.5, 7.25, '#9a7648'),
-    hair(16.25, 22, 16.75, 22.75, '#8a6a40'), hair(13, 19.5, 14.5, 21, '#c8a676'), hair(20, 19.5, 18.5, 21, '#c8a676'),
-    specks([[12.5, 17], [20, 16.5], [9.5, 21], [23, 22.5], [11.5, 24], [21.5, 15]], '#b08a5a'),
-    hair(26.5, 20, 27.75, 6, '#4a3018'), hair(27.25, 18, 28.25, 8, '#5a3c22'),
-    specks([[28.75, 6.5], [29, 6.25], [27, 10.75]], '#b8bcc4'),
-    ...[11, 15, 19].map(x => hair(x, 24.5, x + 0.5, 25.5, '#3e3220')),
-  ],
   rat: () => [
     // fur laid back along the body in short strokes, fine whiskers, rings down the tail, claws
     ...[[13, 22.5], [16, 21.75], [19, 21.75], [22, 22.5], [14.5, 24.5], [17.5, 24], [20.5, 24.5], [23.5, 25.25], [16, 26.5], [19, 26.5]].map(([x, y]) => hair(x, y, x + 1, y + 0.5, '#7a5c3c')),
@@ -2574,11 +2554,11 @@ const PROPS = {
   // an ogre asleep on a bed of stolen coin, snoring like a rockfall
   ogre_sleep: () => [
     ...CREATURES.ogre(),
-    ball(9, 30, 4, 1.4, '#c89a28'), ball(16, 30.4, 4.5, 1.2, '#d8a830'), ball(23, 30, 4, 1.4, '#c89a28'),
-    dots([[8, 29], [15, 30], [22, 29], [18, 30]], '#fff0a0'),
-    // the snore, drawn clear of the club over its other shoulder
-    dots([[4, 2], [5, 2], [6, 2], [7, 2], [6, 3], [5, 4], [4, 5], [5, 5], [6, 5], [7, 5]], '#dde8ff'),
-    dots([[9, 6], [10, 6], [11, 6], [10, 7], [9, 8], [10, 8], [11, 8]], '#b8c8f0'),
+    ...[ball(9, 30, 4, 1.4, '#c89a28'), ball(16, 30.4, 4.5, 1.2, '#d8a830'), ball(23, 30, 4, 1.4, '#c89a28')].map(up2),
+    specks([[16, 58.5], [30, 60.5], [44, 58.5], [36, 60.5]], '#fff0a0'),
+    // the snore, drawn clear of the club over its other shoulder (a Z, then a smaller one; four fine pixels to each of the old)
+    ...[[[4, 2], [5, 2], [6, 2], [7, 2], [6, 3], [5, 4], [4, 5], [5, 5], [6, 5], [7, 5]], [[9, 6], [10, 6], [11, 6], [10, 7], [9, 8], [10, 8], [11, 8]]].map((z, n) =>
+      dots(z.flatMap(([x, y]) => [[x * 2, y * 2], [x * 2 + 1, y * 2], [x * 2, y * 2 + 1], [x * 2 + 1, y * 2 + 1]]), n ? '#b8c8f0' : '#dde8ff')),
   ],
   // a tall mirror in a gilt frame, where no mirror should be
   mirror: () => [
@@ -2962,10 +2942,10 @@ const PROP_DETAILS = {
     hair(9, 27, 13, 27, '#e8d0a0'), hair(9, 28, 13, 28, '#e8d0a0'),
   ],
   ogre_sleep: () => [
-    specks([[12, 29.5], [19, 30], [26, 29.5], [6.5, 30]], '#fff8c0'),
+    specks([[24, 59], [38, 60], [52, 59], [13, 60]], '#fff8c0'),
     // eyes shut: lids over both, a dark line where they meet
-    specks([[14, 9], [14.5, 9], [18, 9], [18.5, 9]], '#9a7648'),
-    specks([[14, 9.5], [14.5, 9.5], [18, 9.5], [18.5, 9.5]], '#3a2410'),
+    ball(28.4, 15, 2, 1.4, '#9a7648'), ball(35.6, 15, 2, 1.4, '#9a7648'),
+    hair(26.75, 15.5, 30, 15.75, '#3a2410'), hair(34, 15.75, 37.25, 15.5, '#3a2410'),
   ],
   mirror: () => [
     specks([[9, 7], [23, 7], [8, 14], [24, 14], [9, 21], [23, 21], [16, 25.5]], '#fff0a0'),
