@@ -558,6 +558,22 @@ const ENCOUNTERS = {
     ],
   },
 
+  // a healer whose party went on without them: food shared, or a word well put,
+  // brings them along (one companion at a time); either way they will see to a wound
+  stray_healer: {
+    title: 'A Healer by a Dead Lamp', sprite: 'stray_healer', depth: [2, 6],
+    text: 'Someone in a grey-green hooded robe kneels by a lamp that has gone out, winding a bandage round their own forearm and holding the end in their teeth. An open satchel spills dried herbs on the stone. "My party went on without me," they say round the bandage. "Or I went on without them. Either way, I mend people, and there is nobody down here to mend."',
+    choices: [
+      { label: 'Share your food, and ask them along', cost: { food: 20 }, alone: true,
+        outcome: { text: 'They eat as if they had forgotten how, knot the bandage, shoulder the satchel and take up their staff. "Lead on. Try not to need me."', effects: [{ companion: 'mender' }] } },
+      { label: 'Ask them to come with you', alone: true, check: { stat: 'cha', dc: 13, knack: [['cleric', null, 2], ['druid', null, 1]] },
+        pass: { text: '"Better than sitting here in the dark," they say, and get to their feet. "I will keep you on yours."', effects: [{ companion: 'mender' }] },
+        fail: { text: '"I do not know you," they say, "and I have been left once already." But they bind your worst cut before you go.', effects: [{ heal: 8 }] } },
+      { label: 'Ask them to see to your wounds', outcome: { text: 'They clean and bind what the dark has done to you, humming as they work, and will not take a coin.', effects: [{ heal: 15 }, { cure: 1 }] } },
+      { label: 'Leave them to their lamp', outcome: { text: 'They nod, and go back to their bandage.', effects: [] } },
+    ],
+  },
+
   // deep down, a forge older than the traders', with something living in its fire:
   // it tempers a blade or a coat for blood, gold or the work of its bellows,
   // one step past where the traders' hammers stop, and burns out a curse as it does

@@ -1341,6 +1341,96 @@ const CREATURES = {
       ...(cut ? [] : both(specks([[sit ? 12 : 12, 30], [sit ? 13 : 13, 30]], '#8a6a48'))),
     ];
   },
+  // The healer: a hooded robe of grey-green wool belted with a cord, a
+  // satchel on a strap across the chest with sprigs of herb sticking out of
+  // it, a leaf stitched in pale thread over the heart, and a staff of ash with
+  // a bundle of dried herbs and a little bell tied below its head. A round,
+  // kind face in the hood's shadow. Rapping, it swings the staff up in both
+  // hands to bring it down; told to wait, it kneels with the staff laid by and
+  // its hands in the open satchel, a roll of bandage between them.
+  mender: (pose = 'idle') => {
+    const skin = '#d0a080', shade = '#9a6e52', robe = '#6a7a62', hood = '#56664e', cord = '#c8b48a', strap = '#6a4a30',
+      bag = '#8a6440', leaf = '#5e9a48', ash = '#a8865a', herb = '#b8a058', bell = '#c9a24a', linen = '#e8e2d2', hairc = '#6a4630';
+    const rap = pose === 'windup', sit = pose === 'sit';
+    // kneeling, the whole of it sits lower; rapping, it leans into the blow
+    const dy = sit ? 4.2 : 0, lean = rap ? 1 : 0;
+    const hx = 15.5 + lean, hy = 8.6 + dy + (rap ? 0.6 : 0);
+    // the staff from (x1, y1) to (x2, y2): the wood, the herbs and the bell tied below the head
+    const staff = (x1, y1, x2, y2) => {
+      const l = Math.hypot(x2 - x1, y2 - y1), u = (x2 - x1) / l, v = (y2 - y1) / l, bx = x2 - u * 2.6, by = y2 - v * 2.6;
+      return [
+        limb(x1, y1, x2, y2, 0.55, 0.65, ash),
+        ball(x2, y2, 0.9, 0.9, ash),
+        limb(bx - v * 0.2, by + u * 0.2, bx - v * 1.8 + u * 1.2, by + u * 1.8 + v * 1.2, 0.7, 0.35, herb),
+        hair(bx, by, bx - v * 1.4 + u * 1.6, by + u * 1.4 + v * 1.6, '#7a8a3a'),
+        line(bx - v * 0.2, by + u * 0.2, bx + v * 0.8, by - u * 0.8, cord),
+        ball(bx + v * 1.2, by - u * 1.2 + 0.6, 0.6, 0.7, bell), specks([[bx + v * 1.2, by - u * 1.2 + 1.4]], '#5a4420'),
+      ];
+    };
+    const hand = (x, y) => [ball(x, y, 1.1, 1, skin), specks([[x - 0.5, y - 0.5]], '#e8c0a0')];
+    // the robe: wide at the hem, the hem on the floor when it kneels
+    const hem = sit ? 29.6 : 29.2;
+    const body = [
+      sheet([[11.4 + lean, 12 + dy], [19.6 + lean, 12 + dy], [21.8 + lean * 0.4, 19 + dy], [23.4, hem], [7.6, hem], [9.2 + lean * 0.4, 19 + dy]], robe, { curve: 1 }),
+      // the folds down the skirt
+      hair(12.6, 21 + dy, 11.2, hem - 0.4, '#4e5c48'), hair(15.6, 21 + dy, 15.6, hem - 0.4, '#4e5c48'), hair(18.6, 21 + dy, 20, hem - 0.4, '#4e5c48'),
+      // the cord at the waist and its hanging ends
+      line(9.6 + lean * 0.4, 18.6 + dy, 21.4 + lean * 0.4, 18.6 + dy, cord),
+      limb(13.6 + lean * 0.4, 18.8 + dy, 13 + lean * 0.4, 22.6 + dy, 0.35, 0.3, cord), ball(13 + lean * 0.4, 22.9 + dy, 0.45, 0.5, cord),
+      // the strap from the left shoulder to the right hip, and the satchel on it
+      limb(11.8 + lean, 12.6 + dy, 19.8 + lean * 0.4, 19.4 + dy, 0.5, 0.5, strap),
+      sheet([[17.8, 18.6 + dy], [22.4, 18.6 + dy], [22.8, 22.6 + dy], [17.4, 22.6 + dy]], bag, { curve: 0.5 }),
+      sheet([[17.6, 18.4 + dy], [22.6, 18.4 + dy], [22.4, 20 + dy], [17.8, 20 + dy]], '#76522e', { curve: 0.3 }),
+      dots([[20, Math.floor(20.4 + dy)]], bell),
+      // sprigs out of the satchel's mouth
+      line(18.6, 18.4 + dy, 18, 16.4 + dy, leaf), line(19.6, 18.4 + dy, 20.2, 16 + dy, leaf), line(21.2, 18.4 + dy, 22.2, 16.8 + dy, leaf),
+      specks([[18, 16.5 + dy], [20.5, 16 + dy], [22.5, 17 + dy]], '#8ac864'),
+      // the leaf stitched over the heart
+      sheet([[12.6 + lean, 15.8 + dy], [13.6 + lean, 14.4 + dy], [14.6 + lean, 15.8 + dy], [13.6 + lean, 16.8 + dy]], '#c8d8b0', { curve: 0.3 }),
+      hair(13.6 + lean, 14.6 + dy, 13.6 + lean, 16.6 + dy, '#8aa070'),
+    ];
+    let arms;
+    if (rap) {
+      // the staff swung up behind the head in both hands, to come down on the foe
+      arms = [
+        ...staff(22.4, 4.4, 6.2, 1),
+        limb(11.4 + lean, 13 + dy, 12.8, 3.4, 1.1, 0.9, robe), limb(20 + lean, 13 + dy, 19.6, 3.8, 1.1, 0.9, robe),
+        ...hand(13, 2.8), ...hand(19.6, 3.4),
+      ];
+    } else if (sit) {
+      // the staff laid on the floor beside it, both hands in the satchel with a roll of bandage
+      arms = [
+        ...staff(23.8, 30.2, 6.6, 29.6),
+        limb(11.4, 13 + dy, 13.6, 18.4 + dy, 1.1, 1, robe), limb(13.6, 18.4 + dy, 18.4, 20 + dy, 1, 0.9, robe),
+        limb(19.8, 13 + dy, 21.6, 18.4 + dy, 1.1, 1, robe),
+        ball(19.6, 20.4 + dy, 1.4, 1.1, linen), hair(18.6, 20 + dy, 20.6, 20.8 + dy, '#b8b0a0'),
+        ...hand(18.4, 20.4 + dy), ...hand(21.4, 19.8 + dy),
+      ];
+    } else {
+      // the staff planted upright in the right hand, the left hand on the satchel
+      arms = [
+        ...staff(9, 30.2, 9, 3.4),
+        limb(11.4, 13, 9.4, 17.4, 1.1, 1, robe), ...hand(9.2, 17.6),
+        limb(19.8, 13, 21.6, 17.6, 1.1, 1, robe), ...hand(21.2, 18.6),
+      ];
+    }
+    // the head in its hood: a round, kind face, a lock of hair, a small smile
+    const head = [
+      sheet([[hx - 4.4, hy + 3.8], [hx - 4.2, hy - 1.6], [hx - 2.4, hy - 4.6], [hx + 2.4, hy - 4.6], [hx + 4.2, hy - 1.6], [hx + 4.4, hy + 3.8], [hx, hy + 4.8]], hood, { curve: 1 }),
+      ball(hx, hy + 0.3, 2.8, 3, skin),
+      limb(hx - 2.4, hy - 2, hx + 0.6, hy - 2.6, 0.9, 0.6, hairc),
+      dots([[Math.floor(hx - 1.4), Math.floor(hy + 0.2)], [Math.floor(hx + 1.2), Math.floor(hy + 0.2)]], '#2a2020'),
+      hair(hx - 0.9, hy + 2.1, hx + 0.9, hy + 2.1, rap ? '#5a2a20' : shade),
+      specks([[hx - 1.5, hy + 1.5], [hx + 1.5, hy + 1.5]], '#e0a088'),
+    ];
+    const feet = sit ? [] : both(ball(12.8, 30.4, 1.6, 0.8, '#4a3a2a'));
+    return [...feet, ...body, ...arms, ...head,
+      // fine work: the hood's seam, stitches round the leaf, the cord's twist
+      hair(hx - 2.2, hy - 4.2, hx - 3.8, hy + 2, '#465640'),
+      specks([[12.5 + lean, 14.5 + dy], [15 + lean, 14.5 + dy], [12.5 + lean, 17 + dy], [15 + lean, 17 + dy]], '#c8d8b0'),
+      specks([[11, 18.5 + dy], [14, 18.5 + dy], [17, 18.5 + dy]], '#8a7a5a'),
+    ];
+  },
   scrag: (pose = 'idle') => {
     const skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', cloth = '#6a5c4a', cord = '#4a3a28';
     const iron = '#6e727c', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
@@ -2132,7 +2222,7 @@ for (const k in DETAILS) {
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'] };
+const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -2198,6 +2288,8 @@ const PROPS = {
   ],
   // a sellsword waiting to be hired: leaning on the sword, eyes narrowed, the price already in mind
   hireling: () => CREATURES.sellsword('sit'),
+  // a healer with nobody to mend: kneeling by a dead lamp, the satchel open, a bandage half wound
+  stray_healer: () => CREATURES.mender('sit'),
   // a fall of stone, and a hand still moving under it
   rubble: () => {
     const rock = '#7a7268', dark = '#5a544c';

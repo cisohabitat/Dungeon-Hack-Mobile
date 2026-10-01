@@ -10,7 +10,10 @@
 // the traps it passes, where the hound is the stronger in a fight; the
 // sellsword is slow, armoured and hits hard, learns to guard the hero, wants a
 // wage in the deep of a Long Delve, and once in a boss fight cuts through what
-// the boss is gathering. If it
+// the boss is gathering; the healer, met
+// on the middle floors (A Healer by a Dead Lamp), fights badly but tends the
+// hero's wounds between fights, from a satchel of herbs that goes only so far
+// on each floor. If it
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
 // the getters in K, as the monsters' and the traders' do.
@@ -39,6 +42,12 @@ const KINDS = {
     names: ['Brannoc', 'Hilde', 'Corran', 'Maud', 'Osric', 'Tamsin', 'Garet', 'Wenna', 'Ulf', 'Ysolde'],
     tricks: [{ id: 'guard', name: 'Guard', says: 'one blow in three at you from a foe beside the sellsword lands on the sellsword instead' },
       { id: 'second_wind', name: 'Second Wind', says: 'once a floor, a blow that would fell the sellsword leaves them standing at half their life' }] },
+  // won over with a share of food: no fighter, but between fights it mends what the fights cost
+  // (its own kind's name, not 'healer', which is the cleric's path)
+  mender: { sprite: 'mender', voice: 'mender', ac: 12, speed: 1100, stepMs: 340, trotMs: 150, hp: [8, 3], hit: 1, dmg: [1, 4], verb: 'raps', sits: 'kneels and sorts through the satchel', word: 'healer',
+    names: ['Ailsa', 'Bede', 'Elowen', 'Hild', 'Ivo', 'Mirren', 'Oswin', 'Senna', 'Wynn', 'Cuthbert'],
+    tricks: [{ id: 'poultice', name: 'Poultice', says: 'between fights it draws poison out of you too' },
+      { id: 'dressing', name: 'Field Dressing', says: 'once a floor, a blow that leaves you under a quarter of your life is bound at once, for a quarter of it back' }] },
 };
 // It grows with the floors it goes down at the hero's side, not its kills: a
 // hound kept alive through the dark has earned it, whoever struck the blows.
@@ -53,6 +62,10 @@ const LOST_MS = 3000;
 // Past the eighth floor of a Long Delve a sellsword's pay goes up: so much a
 // floor, by its depth, asked at the foot of each new stair
 const WAGE_FROM = 8, WAGE = 4;
+// A healer tends the hero between fights, a little every so often while
+// nothing awake is near: from a satchel that holds so much of the hero's life
+// on each new floor, so it spares a rest or a draught, not every one of them
+const TEND_MS = 2500, HERBS = 0.3, QUIET = 6;
 // a charm only one kind has a use for
 const ONLY = { charm_whetstone: 'sellsword' };
 /** @param {{kind?: string}|null} c */
@@ -150,6 +163,45 @@ export function makeCompanion(K) {
       K.log(`${c.name} finds a trap under a loose flagstone, and jams it with a sliver of iron.`, 'good');
     }
   }
+  /** Whether anything awake and hostile is near the hero: a fight on, or about to be. */
+  function fighting() {
+    const p = K.P();
+    return K.lvl().monsters.some(m => m.awake && !m.fleeing && !m.disguised && !m.collapsed && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= QUIET);
+  }
+  /**
+   * A healer close by, with nothing awake near, tends the hero's wounds a
+   * little at a time, from herbs that go so far on each new floor (and its own
+   * scrapes, which cost it nothing); once it has learned the poultice, it draws
+   * out poison too.
+   */
+  function tend(c) {
+    const G = K.G, p = K.P();
+    if (c.kind !== 'mender' || G.t < (c.tendAt || 0)) return;
+    c.tendAt = G.t + TEND_MS;
+    if (Math.abs(c.x - p.x) + Math.abs(c.y - p.y) > 2 || fighting()) { c.tending = false; return; }
+    // a new floor, a full satchel: gathered on the way down (and not again for climbing back up to one it has seen)
+    if (G.depth > (c.herbsOn || 0)) { c.herbsOn = G.depth; c.herbs = Math.ceil(p.maxHp * HERBS); }
+    if (c.hp < c.maxHp) c.hp++;
+    if (knows(c, 'poultice') && p.poison) { p.poison = null; K.log(`${c.name} presses a poultice to the wound and draws the poison out.`, 'good'); }
+    if (p.hp >= p.maxHp || !(c.herbs > 0)) { c.tending = false; return; }
+    const n = Math.min(c.herbs, Math.max(1, Math.ceil(p.maxHp / 30)), p.maxHp - p.hp);
+    c.herbs -= n; c.mended = (c.mended || 0) + n;
+    K.mendHero(n);
+    if (!c.tending) K.log(`${c.name} sees to your wounds.`, 'good');
+    c.tending = true;
+    if (c.herbs <= 0) K.log(`${c.name} shakes out the satchel: nothing more to spare on this floor.`, 'info');
+  }
+  /**
+   * A healer who has learned it binds a wound that has left the hero under a
+   * quarter of their life, at once, once a floor, from close by.
+   * @returns {number} what it mends, or 0
+   */
+  function dresses() {
+    const c = here(), p = K.P(), G = K.G;
+    if (!c || !knows(c, 'dressing') || c.dressedOn === G.depth || p.hp <= 0 || p.hp >= p.maxHp / 4 || Math.abs(c.x - p.x) + Math.abs(c.y - p.y) > 3) return 0;
+    c.dressedOn = G.depth;
+    return Math.min(Math.ceil(p.maxHp / 4), p.maxHp - p.hp);
+  }
   /** It takes a blow, or the quills, or anything else: it may fall. */
   function hurt(n, what) {
     const c = here(), G = K.G;
@@ -241,6 +293,7 @@ export function makeCompanion(K) {
       c.unpaid = 0;
     }
     sniffTraps(c);
+    tend(c);
     // something came to stand where it stands (a lunge, a summoning): it gives way first
     if (K.monsterAt(c.x, c.y)) {
       const out = K.DIRS.map(([dx, dy]) => [c.x + dx, c.y + dy]).find(([x, y]) => free(x, y));
@@ -437,7 +490,8 @@ export function makeCompanion(K) {
     if (!c) return '';
     const w = kindOf(c).word;
     if (c.fallen) return `${c.name}, the ${w} who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
-    const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}`
+    const tricks = c.kind === 'mender' ? `${c.mended ? `, ${c.mended} hit point${c.mended > 1 ? 's' : ''} of yours mended` : ''}${c.herbsOn === K.G.depth ? (c.herbs > 0 ? `, herbs for ${c.herbs} more on this floor` : ', no herbs left on this floor') : ''}`
+      : c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}`
       : `${c.guarded ? `, ${c.guarded} blow${c.guarded > 1 ? 's' : ''} taken for you` : ''}${c.unpaid ? `, owed ${c.unpaid} gold and not guarding you until paid` : ''}`;
     const r = rankOf(c), learned = kindOf(c).tricks.slice(0, r);
     const next = r < RANKS.length ? ` ${RANKS[r].floors - (c.floors || 0)} more floor${RANKS[r].floors - (c.floors || 0) > 1 ? 's' : ''} down at your side and it learns ${kindOf(c).tricks[r].name}.` : '';
@@ -446,5 +500,5 @@ export function makeCompanion(K) {
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, guards, breaks, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, guards, dresses, breaks, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
 }

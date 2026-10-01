@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-02a', text: 'the Long Delve has a keeper of its own: at its bottom, down either road, the Heartforged waits, an iron giant that stamps fire down its four lines (step off them), lets embers out of its furnace and glows white at the last' };
+  const NEWS = { id: '2026-10-02a', text: 'the Long Delve has a keeper of its own, the Heartforged, an iron giant that stamps fire down its four lines (step off them); a healer may join you on the middle floors and tend your wounds between fights; three new things to meet on the deep floors, and a ring of cinders to find where the floor smoulders' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -2557,7 +2557,7 @@ const UI = (() => {
     // a hound still at the hero's side at the end stands in the picture with them
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
+    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound,

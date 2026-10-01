@@ -1805,6 +1805,41 @@ test.describe('dungeon features', () => {
     await expect.poll(drawn).toBe('sit');
     expect(errors).toEqual([]);
   });
+  test('a healer kneels by a dead lamp; given a share of food they follow, drawn as themselves, tend the hero between fights, and the Hero sheet counts it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'heal-ui', cls: 'Cleric' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      // (a satchel holds a third of the hero's life: enough of it to mend twice over)
+      p.food = 90; p.hp = p.maxHp = 100;
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.npcs.push({ kind: 'encounter', id: 'stray_healer', x: p.x + dx, y: p.y + dy });
+    });
+    // waiting, drawn kneeling by the lamp
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.stray_healer))).toBe(true);
+    await page.evaluate(() => Game.input('forward'));
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-choices')).toContainText('Share your food');
+    await expect(page.locator('#enc-choices .arming')).toHaveCount(0);
+    await page.locator('#enc-choices .enc-choice', { hasText: 'Share your food' }).click();
+    await page.waitForTimeout(450);
+    await page.locator('#enc-choices .primary', { hasText: 'Continue' }).click();
+    await expect.poll(() => page.evaluate(() => Game.companion() && Game.companion().kind)).toBe('mender');
+    // at heel, drawn as themselves; told to stay, kneeling over the satchel
+    const drawn = () => page.evaluate(() => { const sp = Assets.sprites.mender, r = Game.renderState(performance.now()).sprites; return r.some(s => s.img === sp) ? 'stand' : r.some(s => s.img === sp.sit) ? 'sit' : r.some(s => s.img === sp.windup) ? 'rap' : 'none'; });
+    await expect.poll(drawn).toBe('stand');
+    // hurt, with nothing awake near: tended, a little at a time
+    await page.evaluate(() => { const p = Game.player(), c = Game.companion(); Game.level().monsters.length = 0; p.hp = 90; c.mode = 'stay'; c.moveT1 = 0; const [dx, dy] = Dungeon.DIRS[(p.dir + 2) % 4]; c.x = p.x + dx; c.y = p.y + dy; Game.level().tiles[c.y * Game.level().w + c.x] = Dungeon.T.FLOOR; });
+    await expect.poll(drawn).toBe('sit');
+    await expect.poll(() => page.evaluate(() => Game.companion().mended || 0), { timeout: 15000 }).toBeGreaterThan(0);
+    await expect(page.locator('#log')).toContainText('sees to your wounds');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('of yours mended');
+    await expect(page.locator('#char-sheet')).toContainText('herbs for');
+    expect(errors).toEqual([]);
+  });
   test('a goblin let out of its cage follows, and the Use button picks a locked door there is no key for', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'goblin-ui', cls: 'Fighter' });

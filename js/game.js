@@ -3194,6 +3194,13 @@ const Game = (() => {
       log(`Second wind! (+${n})`, 'good');
       Sound.play('heal');
     }
+    // a healer who has learned it is at the hero's side with a dressing, once a floor
+    const dressed = companion.dresses();
+    if (dressed) {
+      noteHealed(dressed); p.hp += dressed;
+      fx.healAt = realNow; Sound.play('heal');
+      log(`${G.companion.name} is at your side at once, and binds the wound tight. (+${dressed})`, 'good');
+    }
     emit('stats');
     if (p.hp <= 0 && from) learn(from.id, 'death');
     if (p.hp <= 0) die();
@@ -3279,6 +3286,11 @@ const Game = (() => {
       if (c.fallen) return `a grey wolf called ${n} lies under a cairn on floor ${c.fallen} of the Deepdelve, and the valley's dogs will not go near it`;
       if (won) return here ? `a grey wolf called ${n} came out of the mountain with them, and is seen at the edge of the valley's woods on still nights` : `a grey wolf called ${n} was heard howling at the mouth of the Deepdelve for three nights, and then was gone`;
       return here && c.mode === 'follow' ? `a grey wolf called ${n} stood over them to the last, and went back into the dark` : `a grey wolf called ${n} is said to walk the deep floors still`;
+    }
+    if (c.kind === 'mender') {
+      if (c.fallen) return `a healer called ${n} lies on floor ${c.fallen} of the Deepdelve, with the satchel for a pillow and nobody left to mend them`;
+      if (won) return here ? `a healer called ${n} walked out of the mountain beside them, and has stitched up half the valley since` : `a healer called ${n} came up out of the Deepdelve a week after them, with a full satchel and a long story`;
+      return here && c.mode === 'follow' ? `a healer called ${n} closed their eyes, and went on down alone to find someone who could still be mended` : `a healer called ${n} waited on the floor below where they were told, tending their own scrapes, until the herbs ran out`;
     }
     if (c.kind === 'sellsword') {
       if (c.fallen) return `a sellsword called ${n} lies on floor ${c.fallen} of the Deepdelve with the sword across their chest, paid in full`;
@@ -4852,6 +4864,8 @@ const Game = (() => {
     get heard() { return heard; }, get realNow() { return realNow; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
     kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(), isLong: () => isLong(),
+    // a healer's tending: quiet, a little at a time, not a draught's flash and sound
+    mendHero: n => { const p = P(); noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp))); p.hp = Math.min(p.maxHp, p.hp + n); emit('stats'); },
   });
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
   const wild = makeWild({

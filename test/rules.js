@@ -8684,7 +8684,7 @@ await test('every choice of every encounter can be taken, passed and failed, and
       for (let t = 0; t < 40; t++) {
         if (t >= 2 && (!e.choices[i].check || (seen.has(`${id}/${i}/true`) && seen.has(`${id}/${i}/false`)))) break;
         for (const k in p.stats) p.stats[k] = t % 2 ? 3 : 30;
-        p.hp = p.maxHp = 999; p.gold = 99999; p.inv.length = 0;
+        p.hp = p.maxHp = 999; p.gold = 99999; p.food = 100; p.inv.length = 0;
         // (one companion at a time: one won at an earlier encounter would bar the hiring)
         Game.state().companion = null;
         let r;
@@ -10413,6 +10413,158 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (h.err) { out.push(h.err); continue; }
       if (h.said.some(l => /drumstick from|rite breaks|break the .* rite/.test(l))) out.push(`a hound broke the ${boss}'s: ${h.said.join(' / ')}`);
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  /** A cleric three floors down, with a healer who came for a share of food. */
+  const withHealer = async (seed, opts = {}) => {
+    const ctx = await start('cleric', seed, { levels: 8, ...opts });
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+    p.hp = p.maxHp = 100; p.food = 90;
+    // (no meal in the pack, so the share comes off the hunger bar)
+    p.inv = p.inv.filter(it => ctx.ITEMS[it.t].kind !== 'food');
+    meetAndChoose(ctx, 'stray_healer', 0); Game.closeEncounter();
+    return ctx;
+  };
+  /** The healer's floor made plain: the hero and the healer side by side in a bare room, the healer told to stay. */
+  const healerRoom = ctx => {
+    const { Game } = ctx; const p = Game.player(), c = Game.companion();
+    bareFloor(ctx); dig(ctx, 3, 3, 16, 9);
+    p.x = 6; p.y = 6; p.dir = 1; c.x = 6; c.y = 7; c.mode = 'stay'; c.tendAt = 0; c.tending = false;
+    return Game.level();
+  };
+
+  await test('a healer by a dead lamp: food shared, they follow; talked round, they follow, or bind a cut and stay; with a companion already, they only tend you', async () => {
+    const out = [];
+    {
+      const ctx = await withHealer('healer-food');
+      const { Game } = ctx; const p = Game.player(), c = Game.companion();
+      if (!c || c.kind !== 'mender') return `no healer followed: ${JSON.stringify(c)}`;
+      if (p.food !== 70) out.push(`sharing food left ${p.food} of 90`);
+      if (!Game.threadNotes().some(n => n.includes(c.name) && /healer/.test(n))) out.push('the hero sheet does not name the healer');
+      // one at a time: with them at your side, neither asking is on offer, but the tending is
+      const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR; L.monsters.length = 0;
+      L.npcs = [{ id: 'stray_healer', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+      Game.input('use');
+      const o = Game.encounterOptions();
+      if (!o[0].blocked || !o[1].blocked || o[2].blocked) out.push(`with a companion, the choices were blocked ${o.map(x => !!x.blocked)}`);
+      p.hp = 50;
+      Game.chooseEncounter(2);
+      if (p.hp !== 65) out.push(`tended at the lamp, the hero went from 50 to ${p.hp}, not 65`);
+      Game.closeEncounter();
+    }
+    // talked round by a cleric's tongue
+    {
+      const ctx = await start('cleric', 'healer-talk', { levels: 8 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+      p.stats.cha = 30;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && r.check.pass); i++) { r = meetAndChoose(ctx, 'stray_healer', 1); Game.closeEncounter(); }
+      if (!r.check.pass) out.push('a silver tongue never talked the healer round');
+      else if (!Game.companion() || Game.companion().kind !== 'mender') out.push('talked round, the healer did not follow');
+    }
+    // talked to badly: a cut bound, and nobody follows
+    {
+      const ctx = await start('fighter', 'healer-churl', { levels: 8 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      while (G.depth < 3) { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+      p.stats.cha = 1; p.maxHp = 100;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && !r.check.pass); i++) { p.hp = 50; G.companion = null; r = meetAndChoose(ctx, 'stray_healer', 1); Game.closeEncounter(); }
+      if (r.check.pass) out.push('a churl talked the healer round six times running');
+      else {
+        if (Game.companion()) out.push('a failed asking still brought the healer');
+        if (p.hp !== 58) out.push(`a failed asking left the hero at ${p.hp}, not 58`);
+      }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a healer tends your wounds between fights, close by and with nothing awake near, from herbs that go so far on each new floor', async () => {
+    const out = [];
+    const ctx = await withHealer('healer-tend');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no healer';
+    let L = healerRoom(ctx);
+    // (the hero mends a little on their own over time, so what the healer mends is counted on the healer)
+    const mended = () => c.mended || 0;
+    // an orc awake four squares off: a fight about to start, and no tending
+    L.monsters.push({ uid: 91, id: 'orc', x: 10, y: 6, hp: 99, maxHp: 99, awake: true, nextAct: 1e12, rx: 10, ry: 6, fromX: 10, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    p.hp = 40;
+    run(Game, G, 10000);
+    if (mended()) out.push(`with an orc awake four squares off, the healer mended ${mended()}`);
+    // the same orc asleep: nothing to fight, and it tends, about four every two and a half seconds
+    L.monsters[0].awake = false;
+    run(Game, G, 5100);
+    if (mended() < 4 || mended() > 12 || p.hp < 40 + mended()) out.push(`in five seconds the healer mended ${mended()}, not about 8`);
+    // far off, it does not reach
+    L.monsters.length = 0; c.x = 12; c.y = 6;
+    let was = mended();
+    run(Game, G, 10000);
+    if (mended() !== was) out.push(`from six squares off the healer mended ${mended() - was}`);
+    // close again: it mends until the satchel is empty, a third of the hero's life on the floor, and no more
+    c.x = 6; c.y = 7; p.hp = 40;
+    let mark = markLog(G);
+    run(Game, G, 40000);
+    if (mended() !== 30) out.push(`the floor's herbs mended ${mended()}, not 30 (a third of 100)`);
+    if (!linesSince(G, mark).some(l => /nothing more to spare/.test(l))) out.push('the empty satchel was not told');
+    // (told once a spell of it: the line may run on from the last spell's, the log folding the two)
+    if (countSaid(linesSince(G, mark), /sees to your wounds/) > 2) out.push(`the tending was told at every touch: ${linesSince(G, mark).join(' / ')}`);
+    if (!Game.threadNotes().some(n => /30 hit points of yours mended/.test(n) && /no herbs left/.test(n))) out.push(`the hero sheet does not count the mending: ${Game.threadNotes().find(n => n.includes(c.name))}`);
+    // its own scrapes it mends for nothing
+    c.hp = 1; c.maxHp = 40;
+    run(Game, G, 10000);
+    if (c.hp < 4) out.push(`the healer mended itself only to ${c.hp}`);
+    // a new floor, a full satchel
+    c.mode = 'follow';
+    Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
+    L = healerRoom(ctx);
+    p.hp = 40; was = mended();
+    run(Game, G, 6000);
+    if (mended() <= was) out.push('on a new floor the healer had nothing to mend with');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a blooded healer draws out poison as they tend; a veteran binds a wound that leaves you under a quarter, once a floor, from close by', async () => {
+    const out = [];
+    const ctx = await withHealer('healer-tricks');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no healer';
+    healerRoom(ctx);
+    // not yet blooded: the poison stays
+    c.floors = 0;
+    p.poison = { until: G.t + 1e9, next: G.t + 1e9, dmg: 1 };
+    run(Game, G, 6000);
+    if (!p.poison) out.push('a healer not yet blooded drew out the poison');
+    c.floors = 2;
+    let mark = markLog(G);
+    run(Game, G, 6000);
+    if (p.poison) out.push('a blooded healer left the poison in');
+    else if (!linesSince(G, mark).some(l => /draws the poison out/.test(l))) out.push('the poultice was not told');
+    // blooded only: a blow to under a quarter is not bound
+    p.hp = 100;
+    Game.hurtPlayer(80, 'The orc hits you for 80.');
+    if (p.hp !== 20) out.push(`a blooded healer bound a wound (${p.hp})`);
+    // a veteran: bound at once, for a quarter back
+    c.floors = 4; p.hp = 100;
+    mark = markLog(G);
+    Game.hurtPlayer(80, 'The orc hits you for 80.');
+    if (p.hp !== 45) out.push(`a veteran's dressing left the hero at ${p.hp}, not 45`);
+    if (!linesSince(G, mark).some(l => /binds the wound tight/.test(l))) out.push('the dressing was not told');
+    // once a floor
+    p.hp = 100;
+    Game.hurtPlayer(80, 'The orc hits you for 80.');
+    if (p.hp !== 20) out.push(`a second dressing on the same floor (${p.hp})`);
+    // a blow that leaves a quarter or more is not bound, nor one from far off
+    c.dressedOn = 0; p.hp = 100;
+    Game.hurtPlayer(70, 'The orc hits you for 70.');
+    if (p.hp !== 30) out.push(`a blow to 30 of 100 was bound (${p.hp})`);
+    c.x = 12; c.y = 6; p.hp = 100;
+    Game.hurtPlayer(80, 'The orc hits you for 80.');
+    if (p.hp !== 20) out.push(`a healer six squares off bound the wound (${p.hp})`);
     return out.length ? out.join('; ') : true;
   });
 
