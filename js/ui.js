@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03d', text: 'the deep is drawn grim and lifelike, not cartoonish: the lich, the Dark Acolyte, the skeleton, the Goblin Warlord, the Heartforged, the sellsword and the healer redrawn, with more to follow; the Long Delve has a keeper of its own, the Heartforged, and a healer may join you on the middle floors' };
+  const NEWS = { id: '2026-10-03e', text: 'the deep is drawn grim and lifelike, not cartoonish: the lich, the Warlord, the Heartforged, the Dark Acolyte, skeletons, goblins, orcs, zombies, ghouls, wraiths and both hired companions redrawn, with more to follow; the Long Delve has a keeper of its own, and a healer may join you on the middle floors' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

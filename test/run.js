@@ -117,8 +117,9 @@ for (const k in POSES) {
     check(same(paintParts(parts, 32, 2).color, paintParts(bare, 32, 2).color), `${k}'s close-up detail shows in its picture from further off`);
     check(!same(paintParts(parts, 32, 4).color, paintParts(bare, 32, 4).color), `${k}'s close-up detail does not show close up`);
   }
-  // (the lifelike figures on the finer grid need none: they are fine through and through)
-  check(withNear >= 10, `only ${withNear} creatures have close-up detail`);
+  // (the lifelike figures on the finer grid need none: they are fine through and through,
+  // so this falls as more are redrawn; it guards against the table going missing altogether)
+  check(withNear >= 5, `only ${withNear} creatures have close-up detail`);
 }
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
