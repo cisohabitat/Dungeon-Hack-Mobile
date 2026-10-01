@@ -2938,7 +2938,7 @@ await test('a fallen cave wyrm or quillback leaves its scales or quills now and 
   return out.length ? out.join('; ') : true;
 });
 
-await test('a mage draws back two spell points a spell-kill on Hard and in the Long Delve, one on an ordinary Normal delve; an ordinary Normal delve\'s creatures are a touch sturdier', async () => {
+await test('a mage draws back one spell point a spell-kill, on Normal, on Hard and in the Long Delve alike; an ordinary Normal delve\'s creatures are a touch sturdier', async () => {
   const out = [];
   const drawn = async (difficulty, levels) => {
     for (let tries = 0; tries < 12; tries++) {
@@ -2957,8 +2957,8 @@ await test('a mage draws back two spell points a spell-kill on Hard and in the L
   };
   const n = await drawn('normal', 8), h = await drawn('hard', 8), l = await drawn('normal', 12);
   if (n !== 1) out.push(`an ordinary Normal delve drew back ${n}`);
-  if (h !== 2) out.push(`Hard drew back ${h}`);
-  if (l !== 2) out.push(`the Long Delve drew back ${l}`);
+  if (h !== 1) out.push(`Hard drew back ${h}`);
+  if (l !== 1) out.push(`the Long Delve drew back ${l}`);
   // the same floor, Normal: an ordinary delve's creatures carry a little more life than the Long Delve's
   const life = async levels => {
     const ctx = await start('fighter', 'sturdy', { levels, size: 'medium', monsters: 'normal', difficulty: 'normal' });

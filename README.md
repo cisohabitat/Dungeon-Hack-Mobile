@@ -263,10 +263,25 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 81% | 83% | 79.5% | 79.5% | 78.5% | 80% | about 80% |
-| Hard | 58% | 57.5% | 57.5% | 56% | 59.5% | 57% | about 58% |
-| Long Delve (12 floors), Normal | 83% | 80% | 80% | 83% | 79% | 84% | about 81% |
-| Long Delve (12 floors), Hard | 59% | 57.5% | 56% | 57% | 62% | 58% | about 58% |
+| Normal | 83% | 81.5% | 85% | 80.5% | 81% | 84% | about 82% |
+| Hard | 58% | 59% | 64% | 58% | 59.5% | 57.5% | about 59% |
+| Long Delve (12 floors), Normal | 78% | 83% | 76% | 79% | 84.5% | 77% | about 80% |
+| Long Delve (12 floors), Hard | 61% | 63% | 62.5% | 62% | 61.5% | 55.5% | about 61% |
+
+Every row but Easy was measured again, both seed sets, after the Long Delve got a keeper of its
+own (the Heartforged), three more things to meet on the deep floors, the Cinder Ring and a healer
+to meet on the middle floors. Eight floors came up a point or two, the healer most of it. On the
+Long Delve the Heartforged first cost the casters five or six points against the old keepers, and
+two things were wrong, neither of them its numbers. Its stamp left its lines burning for longer
+than the opening it gave, so taking the opening meant standing in fire; the fire now goes out in
+a moment. And the bot's Pyromancer cast Burning Hands at it and its embers, which shrug off fire,
+where a player turns to the cold. Taught to reach for what hurts a thing most, the bot's mage
+jumped on Hard by about eight points: on eight floors too, its Frostweaver had been casting cold
+at the lich, which shrugs that off. The mage's second spell point drawn back from each kill on
+Hard and in the Long Delve had been added to make up for a mage that was only being played badly,
+and has gone: a mage draws back one everywhere. On eight floors of Hard it still leads, at 64%
+(59.5% and 68.8% on the two sets), five points over the rest; the druid's 55.5% on the Long Delve
+on Hard is 64% and 47% on the two sets, as it was before this batch.
 
 The Normal and Hard rows were measured again, both seed sets, after the middle floors grew
 stranger (mimics, kobold trappers and their snares, floors of tremors, the Lever Door and the Lost

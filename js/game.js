@@ -2848,8 +2848,11 @@ const Game = (() => {
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
     // (a spell, cast: the fire scroll's blast names itself 'fireball' but is no spell)
-    // (twice as much on Hard and in the Long Delve, where the mage trailed the rest)
-    const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? Math.min(p.maxSp - p.sp, mageDraw()) : 0;
+    // (it was twice as much on Hard and in the Long Delve, where the mage
+    // trailed the rest; but the bot that measured it was casting cold at the
+    // lich and fire at the Heartforged, and once it chose as a player does,
+    // the mage led on Hard by ten points)
+    const drawn = castingName && castingName !== 'fireball' && p.cls === 'mage' && p.sp < p.maxSp ? 1 : 0;
     p.sp += drawn;
     // the dead are destroyed; the living are slain
     const reward = `${note || ''} (+${xp} xp${drawn ? `, +${drawn} spell point${drawn > 1 ? 's' : ''}` : ''})`;
@@ -4057,8 +4060,6 @@ const Game = (() => {
   // about three in four): its creatures are a touch sturdier to make up for
   // it. Not the Long Delve's, whose figure did not move.
   const NORMAL_SHORT = 1.04;
-  const MAGE_DRAW = 2;
-  const mageDraw = () => (G.opts.difficulty === 'hard' || isLong() ? MAGE_DRAW : 1);
   const shortNormal = () => ((G.opts.difficulty || 'normal') === 'normal' && !isLong() ? NORMAL_SHORT : 1);
   // On Hard the Long Delve's deep floors hold creatures nearly twice as sturdy,
   // and a spell's dice do not grow with gear as a blow does: the casters fell
