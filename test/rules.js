@@ -12035,10 +12035,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     // a cursed coat comes back clean, and better
     p.eq.armor = p.eq.armor || { t: 'leather', q: 1, e: 0 };
     const a = p.eq.armor;
-    a.e = -1; a.curse = 1;
+    // (and not yet known for what it is: the fire shows it, as it shows the curse)
+    a.e = -1; a.curse = 1; a.h = 1;
     const g0 = p.gold;
     const r = meetAndChoose(ctx, 'forgespirit', 1); Game.closeEncounter();
     if (a.curse || a.e !== 0) out.push(`a cursed -1 coat on its anvil came back ${a.curse ? 'cursed' : 'clean'} at ${a.e}`);
+    if (a.h) out.push('a coat not yet known came back from the anvil still unknown');
     if (g0 - p.gold !== 12 * G.depth) out.push(`the anvil cost ${g0 - p.gold}, not ${12 * G.depth}`);
     if (!r.lines.some(l => /curse burns away/.test(l))) out.push('the burnt curse was not told');
     // the bellows, worked by a strong arm: both

@@ -127,6 +127,8 @@ export function makeEncounters(K) {
       // a deep forge's work: one step better, up to one past the traders' hammers, and a curse burnt out
       if (e.hone) {
         const it = p.eq[e.hone], word = e.hone === 'weapon' ? 'blade' : 'armour';
+        // the fire shows a piece for what it is, as it shows a curse
+        if (it && it.h) delete it.h;
         if (!it) out.push(`You have no ${e.hone === 'weapon' ? 'weapon' : 'armour'} for it to temper`);
         else if ((it.e || 0) >= HONE_MOST) out.push(`Your ${word} is as fine as fire can make it`);
         else {

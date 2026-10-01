@@ -282,7 +282,9 @@ floors of a Long Delve on Hard as a fighter's blows do, and the sellsword took a
 below the eighth floor and a cut that breaks a boss's rite. On the Long Delve the druid came up
 from about 50% (with the deep floors in, before its claws grew) to 58%, and every class there is
 within 56% to 62%. On eight floors Hard barely moved, but for the fighter, down from 56% to 53%
-(47.5% and 59% on the two seed sets): lowest, and still inside the six points.
+(47.5% and 59% on the two seed sets): lowest, and still inside the six points. Played again on the
+commit before these changes it won 54.8% (50.5% and 59%), so the deep floors are not what
+took it down: it had drifted there before.
 
 The ranger's two paths were far apart on Hard, the Sharpshooter winning about 60% to the Warden's
 74% over two seed sets. More damage at range did not close it (61% either way); staying out of
