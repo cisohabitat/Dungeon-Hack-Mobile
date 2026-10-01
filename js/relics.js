@@ -31,6 +31,7 @@ const RELIC_POWERS = {
   seer:   'The Seer: +6 to spot traps, and hidden doors show as you pass.',
   warmth: 'Warmth: cold does half as much to you.',
   fireward: 'Fire-warded: a wyrm\'s fire does half as much to you.',
+  emberwalk: 'Ember-walker: fire on the floor does not burn you, and an emberling\'s flare or the Heartforged\'s stamp does half as much.',
   lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
   // a druid's: carried into the shape as it is taken, though the bear holds nothing
   wild: 'Wild: your Wild Shape lasts ten seconds longer, and its hide is 4 thicker.',
@@ -115,6 +116,9 @@ const RELICS = {
     lore: 'Cut from the heart of an oak that was old when the mountain was young. Hold it, and something in you remembers having claws.' },
   mossmantle: { t: 'leather', e: 1, name: 'the Mossmantle', powers: ['mend', 'pure'], value: 340, cls: 'druid',
     lore: 'A cloak of living moss over soft hide, green even this far from the sun. It closes its wearer\'s wounds, and nothing foul takes root in them.' },
+  // found only on a smouldering floor, lying where the fire has been (see game.js twistLevel)
+  cinder_ring: { t: 'ring_protect', e: 1, name: 'the Cinder Ring', powers: ['emberwalk'], value: 340, twist: 'smouldering',
+    lore: 'A plain iron band, still warm, found in the ash where the floor burns. Whoever wore it last walked through fire for a living, and the fire let them.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };
@@ -140,7 +144,8 @@ function relicUsableBy(id, cls) {
 function relicPlan(seed, cls, levels) {
   const rng = new Rng(`${seed}|relics|${cls}`);
   // a road's own relic waits down that road (see routeRelic), never on a trader's shelf
-  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && relicUsableBy(id, cls)));
+  // (and a twisted floor's own lies on that floor, if the run has one)
+  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && relicUsableBy(id, cls)));
   // keep at least one back for the traders, whenever there are two to share
   const n = Math.min(Math.max(1, Math.round((levels - 1) * 0.4)), Math.max(1, pool.length - 1));
   const chosen = pool.slice(0, n).sort((a, b) => RELICS[a].value - RELICS[b].value);
@@ -159,5 +164,7 @@ function relicPlan(seed, cls, levels) {
 
 /** The relic found only down this road, on its last floor. */
 const routeRelic = route => Object.keys(RELICS).find(id => RELICS[id].route === route) || '';
+/** The relic found only on a floor of this twist. */
+const twistRelic = twist => Object.keys(RELICS).find(id => RELICS[id].twist === twist) || '';
 
-export { routeRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };
+export { routeRelic, twistRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };

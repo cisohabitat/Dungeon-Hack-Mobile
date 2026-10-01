@@ -335,7 +335,9 @@ export function makeElements(K) {
         for (const m of L.monsters.filter(o => o.x === x && o.y === y && !o.collapsed && !o.sunk)) K.damageMonster(m, K.elemental(m, d(1, 6) + depthBite, 'fire'), f.wild ? 'blaze' : 'burning');
         if (G.status !== 'playing') return;
         const p = K.P();
-        if (p.x === x && p.y === y) {
+        // (a hero wearing the Cinder Ring walks through it: the web still burns)
+        if (p.x === x && p.y === y && K.hasPower && K.hasPower('emberwalk')) K.burnWeb();
+        else if (p.x === x && p.y === y) {
           // a web holding the hero burns away, as it does for a fire spell
           K.burnWeb();
           const n = d(1, 4) + depthBite;

@@ -99,8 +99,8 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
   const used = new Set(), names = new Set();
   for (const id in RELICS) {
     const r = RELICS[id], b = ITEMS[r.t];
-    // a road's own relic is a ring or an amulet, for whoever takes the road
-    check(b && (['weapon', 'armor', 'shield'].includes(b.kind) || (r.route && ['ring', 'amulet'].includes(b.kind))), `relic ${id} rides on '${r.t}', which is not gear`);
+    // a road's own relic is a ring or an amulet, for whoever takes the road; so is a twisted floor's, for whoever comes to it
+    check(b && (['weapon', 'armor', 'shield'].includes(b.kind) || ((r.route || r.twist) && ['ring', 'amulet'].includes(b.kind))), `relic ${id} rides on '${r.t}', which is not gear`);
     check(r.powers.length && r.powers.every(k => RELIC_POWERS[k]), `relic ${id} has a power the rules do not know`);
     check(r.e >= 1 && r.e <= 2, `relic ${id} is +${r.e}`);
     check(r.name && r.lore && r.value > 0, `relic ${id} is missing its name, story or value`);

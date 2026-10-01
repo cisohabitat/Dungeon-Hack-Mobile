@@ -612,7 +612,7 @@ export function makeFoes(K) {
         K.fx.shakeAmp = 4; K.fx.shakeMs = 350; K.fx.shakeUntil = K.realNow + 350;
         if (onLines(m, reach)) {
           const c = K.trickSave('dex', 'stamp');
-          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(4, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1) / (K.hasPower('fireward') ? 2 : 1))));
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(4, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (c.pass ? 2 : 1) / (K.hasPower('fireward') || K.hasPower('emberwalk') ? 2 : 1))));
           K.hurtPlayer(n, `The ${mb.name}'s hammer comes down, and fire runs down the floor over you for ${n}!${c.pass ? ' You leap the worst of it.' : ''}${c.note}`, m, 'the Heartforged\'s fire');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
@@ -630,7 +630,7 @@ export function makeFoes(K) {
         for (const [dx, dy] of [[0, 0], ...K.DIRS]) K.flame(m.x + dx, m.y + dy);
         Sound.play('cast', K.heard(m, { spell: 'burning_hands' }));
         if (dist <= 1) {
-          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1))));
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (K.hasPower('emberwalk') ? 2 : 1))));
           K.hurtPlayer(n, `The ${mb.name} flares, and the heat of it scorches you! (${n})`, m, 'an emberling\'s flare');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else { K.log(`The ${mb.name} flares, and the stones round it catch, but you are clear of it.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }

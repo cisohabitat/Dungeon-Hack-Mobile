@@ -9033,6 +9033,67 @@ await test('the stair divides a third of the way down: stepping onto it asks, an
   return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
 });
 
+await test('a smouldering floor holds the Cinder Ring, and no other floor or trader does; worn, fire on the floor does not burn, and an emberling\'s flare and the Heartforged\'s stamp do half', async () => {
+  const out = [];
+  const ctx = await newContext();
+  const { Game, Dungeon, RELICS, twistRelic, relicPlan } = ctx;
+  const id = twistRelic('smouldering');
+  if (!id || RELICS[id].twist !== 'smouldering') return 'no relic for a smouldering floor';
+  // a seed whose eight floors have a smouldering one
+  let seed = '', at = 0;
+  for (let i = 0; i < 400 && !at; i++) { const plan = Dungeon.twistPlan(`cinder-${i}`, 8); const d = Number(Object.keys(plan).find(k => plan[k] === 'smouldering') || 0); if (d > 0) { seed = `cinder-${i}`; at = d; } }
+  if (!at) return 'no seed of 400 had a smouldering floor';
+  Game.newGame({ name: 'C', cls: 'thief', bg: 'oathbroken', stats: { ...evenStats }, seed, opts: { ...OPTS, levels: 8 } });
+  const G = Game.state();
+  const holds = () => Object.values(Game.level().items).flat().filter(it => it.u === id).length;
+  while (G.depth < at) { if (holds()) out.push(`floor ${G.depth} held the Cinder Ring`); Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); }
+  if (Game.level().twist !== 'smouldering') return `floor ${at} is ${Game.level().twist}, not smouldering`;
+  if (holds() !== 1) out.push(`the smouldering floor held ${holds()} Cinder Rings`);
+  // never planned for a floor or a trader
+  for (let i = 0; i < 30; i++) for (const cls of ['fighter', 'mage', 'thief', 'druid']) {
+    const plan = relicPlan('rp' + i, cls, 12);
+    if ([...Object.values(plan.floor), ...plan.shop].includes(id)) out.push(`${id} was planned for seed rp${i}`);
+  }
+  // worn: standing in fire on the floor does no harm, where without it it does
+  const p = Game.player();
+  p.hp = p.maxHp = 999;
+  const L = Game.level();
+  L.monsters.length = 0; L.npcs = [];
+  const burnFor = ms => { const hp = p.hp; for (let t = 0; t < ms; t += 25) { L.fields = L.fields || {}; L.fields[`${p.x},${p.y}`] = { k: 'fire', fuel: 'vent', until: G.t + 5000, spread: G.t + 1e9, burn: Math.min((L.fields[`${p.x},${p.y}`] || {}).burn || G.t, G.t + 200), gen: 9, wild: true }; Game.update(G.t + 25, 25); } return hp - p.hp; };
+  const bare = burnFor(3000);
+  if (!(bare > 0)) out.push('without the ring, fire on the floor did no harm');
+  wearRelic(ctx, id);
+  if (!Game.hasPower('emberwalk')) out.push('the Cinder Ring worn gave no Ember-walker');
+  p.hp = 999;
+  const ringed = burnFor(3000);
+  if (ringed) out.push(`with the ring, fire on the floor did ${ringed}`);
+  // an emberling's flare and the Heartforged's stamp, beside the hero: half as much with the ring as without
+  const [dx, dy] = Dungeon.DIRS[p.dir];
+  const blowOf = (id, move, n) => {
+    let total = 0;
+    seedDice(ctx, 'cinder-' + move);
+    for (let i = 0; i < n; i++) {
+      L.fields = {}; L.monsters.length = 0; p.hp = 999; G.blowGate = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.push({ uid: 300 + i, id, x: p.x + dx, y: p.y + dy, hp: 9999, maxHp: 9999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, spoke: true, windup: { kind: 'move', move, at: G.t, until: G.t } });
+      const hp = p.hp;
+      Game.update(G.t + 25, 25);
+      total += hp - p.hp;
+    }
+    return total / n;
+  };
+  for (const [id, move] of [['emberling', 'flare'], ['heartforged', 'stamp']]) {
+    const worn = blowOf(id, move, 40);
+    const ring = p.eq.ring && p.eq.ring.u === id ? 'ring' : p.eq.ring2 && p.eq.ring2.u === id ? 'ring2' : (p.eq.ring && p.eq.ring.u ? 'ring' : 'ring2');
+    const was = p.eq[ring]; p.eq[ring] = null;
+    const bareBlow = blowOf(id, move, 40);
+    p.eq[ring] = was;
+    const r = worn / Math.max(1, bareBlow);
+    if (!(r > 0.3 && r < 0.75)) out.push(`a ${move} did ${worn.toFixed(1)} with the ring and ${bareBlow.toFixed(1)} without`);
+  }
+  return out.length ? [...new Set(out)].slice(0, 6).join('; ') : true;
+});
+
 await test('each road\'s last floor holds a relic found nowhere else, which anyone can wear', async () => {
   const out = [];
   for (const road of ['crypts', 'warrens']) {

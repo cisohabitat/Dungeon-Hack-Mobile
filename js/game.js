@@ -3,7 +3,7 @@ import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LE
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterPlan } from './encounters.js';
-import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan, routeRelic } from './relics.js';
+import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan, routeRelic, twistRelic } from './relics.js';
 import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
@@ -4085,6 +4085,8 @@ const Game = (() => {
    */
   function twistLevel(L, depth) {
     if (L.twist === 'smouldering') ventLevel(L, depth);
+    // a twisted floor's own relic lies on the floor furthest from the way in, where the fire has been
+    { const r = twistRelic(L.twist || ''); if (r && G.relics && !G.relics.found.includes(r)) layRelic(L, r); }
     const kin = TWIST_KIN[L.twist || ''];
     if (kin) {
       const rng = new Rng(`${G.seed}|${kin.dice}|${depth}`), nb = MONSTERS[kin.id];
@@ -4865,7 +4867,7 @@ const Game = (() => {
     get setTile() { return setTile; }, burnWeb: () => burnWeb(),
     surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
     shake: (amp, ms) => { fx.shakeAmp = amp; fx.shakeMs = ms; fx.shakeUntil = realNow + ms; },
-    learn: (id, what) => learn(id, what),
+    learn: (id, what) => learn(id, what), hasPower: k => hasPower(k),
   });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({
