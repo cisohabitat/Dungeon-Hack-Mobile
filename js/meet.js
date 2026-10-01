@@ -134,7 +134,7 @@ export function makeEncounters(K) {
         else {
           if (it.curse) { delete it.curse; out.push('Its curse burns away'); }
           it.e = (it.e || 0) + 1;
-          out.push(`${K.itemName(it)} (+1)`);
+          out.push(`Tempered: ${K.itemName(it)}`);
         }
       }
       // coin handed back (a haggle refused): exactly what was paid, not gold found

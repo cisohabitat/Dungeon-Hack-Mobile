@@ -722,7 +722,8 @@ const UI = (() => {
     testArmed = btn;
     btn.dataset.plain = btn.textContent;
     btn.classList.add('armed');
-    btn.textContent = 'Tap again';
+    // (a wide button says what it costs; a narrow one has the line just below it)
+    btn.textContent = btn.classList.contains('big') ? 'Tap again: run won\u2019t count' : 'Tap again';
     $('#m-test-said').textContent = 'Tap again to use it. This run will then be a test run, for good: not written in the Hall, no trophy, no bones.';
     testArmTimer = setTimeout(() => { disarmTest(); if (!Game.tested()) $('#m-test-said').textContent = ''; }, TEST_ARM_MS);
   }

@@ -1693,7 +1693,6 @@ const Game = (() => {
     snapCam();
     distFieldAt = -1e9;
     p.deepest = Math.max(p.deepest, depth);
-    companion.arrive(cameFrom);
     if (from === 'down') {
       if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
@@ -1703,6 +1702,9 @@ const Game = (() => {
       bonesArrive(L);
       threadArrivals(L, depth, fresh);
     } else log(`You climb back up to floor ${depth}.`, 'info');
+    // the companion comes down after the floor is told, so what it has to say
+    // (a trick learned, a find, a wage asked) is not pushed out of sight by it
+    companion.arrive(cameFrom);
     bounty.arrive(L);
     emit('level');
     checkTile();

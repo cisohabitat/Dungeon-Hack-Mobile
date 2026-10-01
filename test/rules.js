@@ -10167,6 +10167,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     down();
     if (p.gold !== 1000 - 36) out.push(`on the ninth the wage was ${1000 - p.gold}, not 36`);
     if (!linesSince(G, mark).some(l => /holds out a hand/.test(l) && l.includes(c.name))) out.push('the wage was taken unsaid');
+    // (and said after the floor is, so the floor's own words do not push it out of sight)
+    { const ls = linesSince(G, mark), at = re => ls.findIndex(l => re.test(l));
+      if (at(/holds out a hand/) < at(/You descend to floor 9/)) out.push(`the wage was asked before the floor was told: ${ls.join(' | ')}`); }
     // the tenth, with ten gold: owed, and said so
     p.gold = 10; mark = markLog(G);
     down();

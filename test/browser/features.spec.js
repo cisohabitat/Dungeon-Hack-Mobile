@@ -1115,7 +1115,7 @@ test.describe('dungeon features', () => {
     await page.click('[data-open="menu"]');
     // while the run still counts, the first tap only arms the tool and says what it costs
     await page.click('#m-test-hp');
-    await expect(page.locator('#m-test-hp')).toHaveText('Tap again');
+    await expect(page.locator('#m-test-hp')).toHaveText('Tap again: run won\u2019t count');
     await expect(page.locator('#m-test-said')).toContainText('test run');
     expect(await page.evaluate(() => [Game.tested(), localStorage.getItem('deepdelve.testing')])).toEqual([false, null]);
     // left a few seconds, it disarms, and the next tap arms it again rather than using it
@@ -1126,7 +1126,7 @@ test.describe('dungeon features', () => {
     // a tap on another tool moves the arming to it
     await page.click('#m-test-gold');
     await expect(page.locator('#m-test-hp')).toHaveText('Endless life: Off');
-    await expect(page.locator('#m-test-gold')).toHaveText('Tap again');
+    await expect(page.locator('#m-test-gold')).toContainText('Tap again');
     expect(await page.evaluate(() => Game.tested())).toBe(false);
     // endless life alone, at full life, changes no number: the chip must still say so at once
     await page.click('#m-test-hp');
