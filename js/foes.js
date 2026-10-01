@@ -759,16 +759,19 @@ export function makeFoes(K) {
       K.log(`You cut the ${mb.name}'s call short! The horn falls from his lips.`, 'good');
       K.learn(m.id, 'answer');
     }
+    // (but a sellsword is paid to stand in the way: once in a fight, their cut
+    // breaks the drumbeat or the rite as the hero's blow would)
+    const cut = tag === 'companion' && m.windup && (m.windup.move === 'drum' || m.windup.move === 'rite') && K.companionBreaks ? K.companionBreaks(m) : null;
     // and the Warlord's drum: a blow while the stick is raised and the beat dies
-    if (byHero && m.windup && m.windup.move === 'drum') {
+    if ((byHero || cut) && m.windup && m.windup.move === 'drum') {
       m.windup = null; m.moveReady = K.G.t + 4000; m.nextAct = K.G.t + 700;
-      K.log(`You strike the drumstick from the ${mb.name}'s fist! The beat dies before it starts.`, 'good');
+      K.log(cut ? `${cut} cuts the drumstick from the ${mb.name}'s fist! The beat dies before it starts.` : `You strike the drumstick from the ${mb.name}'s fist! The beat dies before it starts.`, 'good');
       K.learn(m.id, 'answer');
     }
     // and so is the lich's rite, though it will try again
-    if (byHero && m.windup && m.windup.move === 'rite') {
+    if ((byHero || cut) && m.windup && m.windup.move === 'rite') {
       m.windup = null; m.riteReady = K.G.t + 6000; m.nextAct = K.G.t + 700;
-      K.log(`You break the ${mb.name}'s rite! The Heart's light slips back out of its hands.`, 'good');
+      K.log(cut ? `${cut}'s cut catches the ${mb.name}'s hands, and the rite breaks! The Heart's light slips back out of them.` : `You break the ${mb.name}'s rite! The Heart's light slips back out of its hands.`, 'good');
       Sound.play('riteBroken', K.heard(m));
       K.learn(m.id, 'answer');
     }

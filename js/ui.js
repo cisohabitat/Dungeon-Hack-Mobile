@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-01d', text: 'the deep floors have a life of their own: a floor may smoulder, its cracks flaring fire (cold seals them), with emberlings that blaze up when close; and a forge-spirit tempers a blade or a coat past where the traders stop' };
+  const NEWS = { id: '2026-10-01e', text: 'the deep floors come alive: a floor may smoulder, its cracks flaring fire (cold seals them), emberlings blaze up close, and a forge-spirit tempers gear past the traders; and a sellsword takes a whetstone, breaks a boss\'s rite or drum once a fight, and wants a wage below the eighth floor of a Long Delve' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

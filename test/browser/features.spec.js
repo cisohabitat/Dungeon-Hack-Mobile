@@ -1592,6 +1592,42 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a trader brings out a whetstone for a sellsword at your side; bought, it is given from its card, and the Hero sheet says they wear it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'whet-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    const name = await page.evaluate(() => {
+      const G = Game.state(), p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      p.gold = 1000;
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      G.companion = { kind: 'sellsword', name: 'Hilde', x: p.x - dx, y: p.y - dy, depth: G.depth, hp: 40, maxHp: 40, mode: 'stay', nextAct: 1e12, kills: 0, joined: G.depth };
+      L.npcs.push({ id: 'merchant', x: p.x + dx, y: p.y + dy, markup: 2, stock: [{ t: 'ration', q: 1, e: 0 }] });
+      Game.input('forward');
+      return G.companion.name;
+    });
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    await expect(page.locator('#log')).toContainText('brings a whetstone out');
+    const row = page.locator('#shop-stock .shop-row', { hasText: "Sellsword's Whetstone" });
+    await expect(row).toHaveCount(1);
+    // bought: a tap on its button (and a second, if it asks twice)
+    const g0 = await page.evaluate(() => Game.player().gold);
+    await page.waitForTimeout(450);
+    await row.locator('button').click();
+    if (await page.evaluate(() => Game.player().gold) === g0) { await page.waitForTimeout(450); await row.locator('button').click(); }
+    await expect.poll(() => page.evaluate(() => Game.player().inv.some(i => i.t === 'charm_whetstone'))).toBe(true);
+    await page.evaluate(() => document.querySelector('#ov-shop [data-close]').click());
+    await page.click('[data-open="inv"]');
+    await page.locator('#inv-grid .slot', { hasText: "Sellsword's Whetstone" }).click();
+    await expect(page.locator('#item-detail')).toContainText('their every cut deals 3 more');
+    await page.locator('#item-detail button', { hasText: `Give to ${name}` }).click();
+    await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+    expect(await page.evaluate(() => Game.companion().charm)).toBe('charm_whetstone');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText("wearing the sellsword's whetstone");
+    expect(errors).toEqual([]);
+  });
+
   test('a hound that has come down two floors at the hero\'s side is blooded, and the Hero sheet says what it has learned', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'hound-grow-ui', cls: 'Fighter' });

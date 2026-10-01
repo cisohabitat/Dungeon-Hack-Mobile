@@ -149,6 +149,7 @@
  * @property {boolean} [riteCalled]  a wraith the lich's rite called to guard it
  * @property {number} [edge]  how much surer and harder it hits, on a floor readier for a strong hero
  * @property {number} [riteReady]  when the lich can next try its rite
+ * @property {boolean} [cutBroke]  a boss whose rite or drumbeat a sellsword's cut has broken this fight (once only)
  * @property {boolean} [throne]  the Goblin Warlord sits his throne: his shield-bearers turn every blow but a spell, and he only throws
  * @property {number} [bearer]  this orc is one of the Warlord's shield-bearers (the Warlord's uid)
  * @property {number} [drums]  how many times the Warlord has beaten his war-drum
@@ -169,6 +170,7 @@
  * @property {Item[]} [stock]
  * @property {number} [markup]    multiplier over an item's own value
  * @property {boolean} [greeted]
+ * @property {boolean} [whet]  whether this trader has brought out a whetstone for a sellsword
  */
 
 /**
@@ -320,7 +322,7 @@
  * @property {{name: string, id?: string, dmg: number, bearing: string, encounter?: boolean, cause?: boolean}} [lastAttacker]  who struck last, and what kind it was (for the share card's picture)
  * @property {string} [rested]  the earlier hero whose shade this run laid to rest: "Brand the Fighter"
  * @property {number} [nextUid]  counter for monsters that appear mid-run
- * @property {{kind: string, name: string, x: number, y: number, depth: number, hp: number, maxHp: number, mode: 'follow'|'stay', nextAct: number, kills: number, joined: number, fallen?: number, fromX?: number, fromY?: number, moveT0?: number, moveT1?: number, flashUntil?: number, lungeAt?: number, stuckSince?: number, locks?: number, traps?: number, floors?: number, deepest?: number, charm?: string, mendAt?: number, guarded?: number, windOn?: number}} [companion]  the hero's companion (a hound, a goblin, a wolf or a sellsword), if one follows them (see companion.js); floors counts the new floors it went down at their side, deepest the deepest of them; charm the item it wears (a charm_ id), and mendAt when a rowan knot next mends it; a sellsword's guarded counts the blows it took for the hero, and windOn the floor its second wind was spent on
+ * @property {{kind: string, name: string, x: number, y: number, depth: number, hp: number, maxHp: number, mode: 'follow'|'stay', nextAct: number, kills: number, joined: number, fallen?: number, fromX?: number, fromY?: number, moveT0?: number, moveT1?: number, flashUntil?: number, lungeAt?: number, stuckSince?: number, locks?: number, traps?: number, floors?: number, deepest?: number, charm?: string, mendAt?: number, guarded?: number, windOn?: number, wages?: number, unpaid?: number}} [companion]  the hero's companion (a hound, a goblin, a wolf or a sellsword), if one follows them (see companion.js); floors counts the new floors it went down at their side, deepest the deepest of them; charm the item it wears (a charm_ id), and mendAt when a rowan knot next mends it; a sellsword's guarded counts the blows it took for the hero, windOn the floor its second wind was spent on, wages how many floors' pay it has asked past the eighth of a Long Delve, and unpaid the gold it is owed (it will not guard until paid)
  * @property {boolean} [metLampfolk]  a Lampfolk trader has been met this run (the first says who they are)
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]

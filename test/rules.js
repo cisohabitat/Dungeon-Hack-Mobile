@@ -10087,6 +10087,156 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  /** A trader in front of the hero, the companion moved out of the way, and the shop opened. */
+  const shopWith = (ctx, shop) => {
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level(), c = Game.companion();
+    L.npcs = [shop]; L.monsters.length = 0;
+    const [dx, dy] = Dungeon.DIRS[p.dir]; shop.x = p.x + dx; shop.y = p.y + dy;
+    L.tiles[shop.y * L.w + shop.x] = Dungeon.T.FLOOR;
+    if (c && c.x === shop.x && c.y === shop.y) { c.x = p.x - dx; c.y = p.y - dy; }
+    Game.input('forward');
+    return !!Game.currentShop();
+  };
+  /** A companion beside a foe stood in front of the hero, and not beside the hero. */
+  const besideFoe = (ctx, c, m) => {
+    const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+    const spot = Dungeon.DIRS.map(([dx, dy]) => [m.x + dx, m.y + dy]).find(([x, y]) => Math.abs(x - p.x) + Math.abs(y - p.y) > 1);
+    L.tiles[spot[1] * L.w + spot[0]] = Dungeon.T.FLOOR;
+    c.x = spot[0]; c.y = spot[1]; c.depth = Game.state().depth; c.mode = 'stay';
+  };
+
+  await test('a trader brings out a whetstone for a sellsword, once; worn, it adds three to every cut; a hound has no use for it', async () => {
+    const out = [];
+    const ctx = await withSellsword('sell-whet');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no sellsword';
+    const shop = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+    let mark = markLog(G);
+    if (!shopWith(ctx, shop)) return 'could not open the shop';
+    const whets = () => shop.stock.filter(s => s.t === 'charm_whetstone').reduce((a, s) => a + s.q, 0);
+    if (whets() !== 1) out.push(`with a sellsword at heel the shelf held ${whets()} whetstones`);
+    if (!linesSince(G, mark).some(l => /brings a whetstone out/.test(l))) out.push('the whetstone was brought out unsaid');
+    Game.closeShop();
+    shopWith(ctx, shop);
+    if (whets() !== 1) out.push(`opened again, the shelf held ${whets()} whetstones`);
+    Game.closeShop();
+    // a hound's trader keeps it under the counter
+    {
+      const h = await withHound('whet-hound');
+      const shop2 = { id: 'merchant', x: 0, y: 0, markup: 2, stock: [] };
+      shopWith(h, shop2);
+      if (shop2.stock.some(s => s.t === 'charm_whetstone')) out.push('a trader brought out a whetstone for a hound');
+      // nor will a hound wear one
+      const it = { t: 'charm_whetstone', q: 1, e: 0 };
+      h.Game.closeShop();
+      h.Game.player().inv.push(it);
+      const why = h.Game.giveCharm(it);
+      if (!why || h.Game.companion().charm || !h.Game.player().inv.includes(it)) out.push(`a hound took the whetstone (${why})`);
+    }
+    // worn: three more a cut, the same swings
+    const cuts = async charm => {
+      const b = await withSellsword('whet-cuts-' + (charm || 'none'));
+      const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
+      clearAround(b); seedDice(b, 'whet-cuts');
+      h.charm = charm; h.mode = 'stay';
+      const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
+      const m = { uid: 96, id: 'ogre', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      b.Game.level().monsters.push(m);
+      let total = 0, n = 0;
+      for (let i = 0; i < 24000 && n < 150; i++) { const hp = m.hp; b.Game.update(G2.t + 25, 25); m.nextAct = 1e12; if (m.hp < hp) { total += hp - m.hp; n++; } }
+      return total / Math.max(1, n);
+    };
+    const plain = await cuts(undefined), keen = await cuts('charm_whetstone');
+    if (!(keen - plain > 2.5 && keen - plain < 3.5)) out.push(`the whetstone: ${plain.toFixed(2)} -> ${keen.toFixed(2)} a cut`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('below the eighth floor of a Long Delve a sellsword wants a wage at each new floor; unpaid, they will not guard, and take it once there is gold', async () => {
+    const out = [];
+    const ctx = await withSellsword('sell-wage', { levels: 12 });
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no sellsword';
+    const down = () => { Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts'); };
+    while (G.depth < 7) down();
+    // to the eighth: no wage yet
+    p.gold = 1000; let mark = markLog(G);
+    down();
+    if (G.depth !== 8 || c.depth !== 8) return `went down to ${G.depth}, the sellsword on ${c.depth}`;
+    if (p.gold !== 1000 || c.wages) out.push(`on the eighth floor the sellsword took ${1000 - p.gold}`);
+    // the ninth: four gold a floor down, paid
+    down();
+    if (p.gold !== 1000 - 36) out.push(`on the ninth the wage was ${1000 - p.gold}, not 36`);
+    if (!linesSince(G, mark).some(l => /holds out a hand/.test(l) && l.includes(c.name))) out.push('the wage was taken unsaid');
+    // the tenth, with ten gold: owed, and said so
+    p.gold = 10; mark = markLog(G);
+    down();
+    if (p.gold !== 10 || c.unpaid !== 40) out.push(`with ten gold on the tenth: ${p.gold} gold left, ${c.unpaid} owed`);
+    if (!linesSince(G, mark).some(l => /will not step into a blow for you until paid/.test(l))) out.push('the unpaid wage was not told');
+    if (!Game.threadNotes().some(n => /owed 40 gold/.test(n))) out.push('the hero sheet does not say what is owed');
+    // owed, a veteran will not guard
+    c.floors = 4;
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1; c.x = 7; c.y = 7; c.mode = 'stay';
+    p.eq.armor = null; p.eq.shield = null; p.stats.dex = 3; p.hp = p.maxHp = 9999;
+    const guarded = ms => {
+      const m = markLog(G);
+      L.monsters.length = 0; L.monsters.push({ uid: 92, id: 'orc', x: 7, y: 6, hp: 99999, maxHp: 99999, awake: true, nextAct: G.t, rx: 7, ry: 6, fromX: 7, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      c.hp = c.maxHp = 9999; p.hp = 9999; run(Game, G, ms); L.monsters.length = 0;
+      return countSaid(linesSince(G, m), /steps into the blow meant for you/);
+    };
+    const owed = guarded(40000);
+    if (owed) out.push(`owed a wage, the sellsword took ${owed} blows for you`);
+    // gold comes: the wage is taken, and the guarding starts again
+    p.gold = 100; mark = markLog(G);
+    run(Game, G, 2000);
+    if (p.gold !== 60 || c.unpaid) out.push(`with a hundred gold: ${p.gold} left, ${c.unpaid} owed`);
+    if (!linesSince(G, mark).some(l => /You pay .* the 40 gold owed/.test(l))) out.push('the paying was not told');
+    if (!guarded(40000)) out.push('paid, the sellsword still would not guard');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('once in a boss fight a sellsword\'s cut breaks the Warlord\'s drumbeat or the lich\'s rite; a second time it does not, and a hound\'s bite never does', async () => {
+    const out = [];
+    /** A sellsword (or the hound) beside a boss gathering itself, the hero idle: what was said while it gathered. */
+    const gather = async (seed, kind, boss) => {
+      const ctx = kind === 'hound' ? await withHound(seed) : await withSellsword(seed);
+      const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+      if (!c) return { err: `no ${kind}` };
+      clearAround(ctx, 5);
+      p.hp = p.maxHp = 9999; p.level = 30;   // (a sure hand: the companion's aim grows with the hero)
+      const m = boss === 'warlord' ? beside(ctx, 'warlord', { blows: 2, hp: 4000, maxHp: 4000 }) : lichRoom(ctx, { phase: 2, hp: 300, maxHp: 4000, riteReady: 0, nextAct: G.t, awake: true }).m;
+      besideFoe(ctx, c, m); c.hp = c.maxHp = 9999; c.nextAct = 1e12;
+      const move = boss === 'warlord' ? 'drum' : 'rite';
+      const said = [];
+      for (let round = 0; round < 2; round++) {
+        if (boss === 'warlord') { m.blows = 2; m.moveReady = 0; } else m.riteReady = 0;
+        m.nextAct = G.t;
+        for (let i = 0; i < 60 && !(m.windup && m.windup.move === move); i++) Game.update(G.t + 25, 25);
+        if (!(m.windup && m.windup.move === move)) return { err: `${boss} never began its ${move} (${JSON.stringify(m.windup)})` };
+        const mark = markLog(G);
+        c.nextAct = G.t;
+        for (let i = 0; i < 160 && m.windup && m.windup.move === move; i++) { Game.update(G.t + 25, 25); if (c.nextAct > G.t + 25 && m.windup) c.nextAct = G.t; }
+        said.push(linesSince(G, mark).join(' | '));
+        c.nextAct = 1e12;
+        L0(ctx);
+      }
+      return { said, name: c.name };
+    };
+    // (the warband called by a drum that was not broken is sent away between rounds)
+    const L0 = ctx => { const L = ctx.Game.level(); for (let i = L.monsters.length - 1; i >= 0; i--) if (!ctx.MONSTERS[L.monsters[i].id].boss) L.monsters.splice(i, 1); };
+    for (const boss of ['warlord', 'lich']) {
+      const r = await gather('sell-cut-' + boss, 'sellsword', boss);
+      if (r.err) { out.push(r.err); continue; }
+      const broke = boss === 'warlord' ? new RegExp(`${r.name} cuts the drumstick`) : new RegExp(`${r.name}'s cut catches the .* rite breaks`);
+      if (!broke.test(r.said[0])) out.push(`the first ${boss} round: ${r.said[0]}`);
+      if (broke.test(r.said[1])) out.push(`a second ${boss} round was broken too`);
+      const h = await gather('hound-cut-' + boss, 'hound', boss);
+      if (h.err) { out.push(h.err); continue; }
+      if (h.said.some(l => /drumstick from|rite breaks|break the .* rite/.test(l))) out.push(`a hound broke the ${boss}'s: ${h.said.join(' / ')}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('the caged goblin, let out, follows; it picks a locked door there is no key for, and makes safe a trap it passes', async () => {
     const out = [];
     const ctx = await withGoblin('goblin-join');

@@ -4866,7 +4866,7 @@ const Game = (() => {
     get diff() { return diff; },
     get distField() { return distField; }, set distField(v) { distField = v; },
     // the hero's hound: where it stands, and what a blow at it or the quills do
-    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionGuards() { return companion.guards; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
+    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionGuards() { return companion.guards; }, get companionBreaks() { return companion.breaks; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
     get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
     get effectFrom() { return effectFrom; },
     get emit() { return emit; },
@@ -4918,6 +4918,7 @@ const Game = (() => {
     // the hound sleeps by the lamp too, and a hurt one is reason enough to stop there
     houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },
     houndRests: () => companion.rested(1),
+    companionHere: () => companion.here(),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
@@ -4929,7 +4930,7 @@ const Game = (() => {
     get damageMonster() { return damageMonster; },
     get heard() { return heard; }, get realNow() { return realNow; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
-    kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(),
+    kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(), isLong: () => isLong(),
   });
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
   const wild = makeWild({

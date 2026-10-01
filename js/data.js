@@ -515,6 +515,8 @@ const ITEMS = {
   charm_collar: { kind: 'charm', name: 'Iron-Studded Collar', value: 40, sprite: 'charm_collar', charm: 'collar', desc: 'For your companion to wear: blows find it harder to land (+3 armour).' },
   charm_fang:   { kind: 'charm', name: 'Fang Charm',          value: 40, sprite: 'charm_fang',   charm: 'fang',   desc: 'For your companion to wear: its every blow deals 2 more.' },
   charm_rowan:  { kind: 'charm', name: 'Rowan Knot',          value: 40, sprite: 'charm_rowan',  charm: 'rowan',  desc: 'For your companion to wear: its wounds close by themselves, a hit point every four seconds.' },
+  // brought out from under the counter for a sellsword's notched blade (trader.js); no other companion has a use for it
+  charm_whetstone: { kind: 'charm', name: 'Sellsword\'s Whetstone', value: 45, sprite: 'charm_whetstone', charm: 'whetstone', desc: 'For a sellsword to wear: their every cut deals 3 more. A hound, a wolf or a goblin has no use for it.' },
   // Lamp oil, to throw: the flask smashes where it lands and spills its oil (see elements.js)
   lamp_oil:   { kind: 'flask', name: 'Flask of Lamp Oil', stack: true, value: 12, sprite: 'lamp_oil', desc: 'Throw it: it smashes up to three squares ahead, or on the first thing in the way, and spills lamp oil there. Any fire sets the oil alight.' },
   // Oils and coatings: worked into the weapon, they ride on its next blows that land.

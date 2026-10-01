@@ -8,7 +8,9 @@
 // their side (blooded after two, a veteran after four: a trick at each);
 // the goblin picks locks and makes safe
 // the traps it passes, where the hound is the stronger in a fight; the
-// sellsword is slow, armoured and hits hard, and learns to guard the hero. If it
+// sellsword is slow, armoured and hits hard, learns to guard the hero, wants a
+// wage in the deep of a Long Delve, and once in a boss fight cuts through what
+// the boss is gathering. If it
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
 // the getters in K, as the monsters' and the traders' do.
@@ -48,6 +50,11 @@ const knows = (c, id) => !!c && kindOf(c).tricks.slice(0, rankOf(c)).some(t => t
 // what a goblin that has learned to scrounge turns up on the way down, from its own dice
 const SCROUNGE = [['gold', 40], ['potion_heal', 20], ['oil_fire', 12], ['oil_venom', 10], ['oil_silver', 8], ['scroll_map', 10]];
 const LOST_MS = 3000;
+// Past the eighth floor of a Long Delve a sellsword's pay goes up: so much a
+// floor, by its depth, asked at the foot of each new stair
+const WAGE_FROM = 8, WAGE = 4;
+// a charm only one kind has a use for
+const ONLY = { charm_whetstone: 'sellsword' };
 /** @param {{kind?: string}|null} c */
 const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
 
@@ -184,7 +191,8 @@ export function makeCompanion(K) {
    */
   function guards(m, mb) {
     const c = here(), p = K.P();
-    if (!c || !knows(c, 'guard') || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1 || Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1 || d(1, 3) !== 1) return false;
+    // (one owed a wage does not step into blows for nothing)
+    if (!c || !knows(c, 'guard') || c.unpaid || Math.abs(m.x - c.x) + Math.abs(m.y - c.y) !== 1 || Math.abs(m.x - p.x) + Math.abs(m.y - p.y) !== 1 || d(1, 3) !== 1) return false;
     c.guarded = (c.guarded || 0) + 1;
     Sound.play('block', K.heard({ x: c.x, y: c.y }));
     hurt(Math.max(1, d(...mb.dmg)), `${c.name} steps into the blow meant for you: the ${mb.name} hits`);
@@ -206,7 +214,8 @@ export function makeCompanion(K) {
       const atSide = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
       // a wolf that has learned to be savage goes for the weak
       const savage = knows(c, 'savage') && m.hp < m.maxHp / 2 ? 2 : 0;
-      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + (c.charm === 'charm_fang' ? 2 : 0) + savage) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
+      const charm = c.charm === 'charm_fang' ? 2 : c.charm === 'charm_whetstone' ? 3 : 0;
+      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + charm + savage) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
       const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
       if (down) c.kills++;
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
@@ -225,6 +234,12 @@ export function makeCompanion(K) {
     if (c.maxHp < want) { c.hp += want - c.maxHp; c.maxHp = want; }
     // a rowan knot closes its wounds, slowly
     if (c.charm === 'charm_rowan' && c.hp < c.maxHp && G.t >= (c.mendAt || 0)) { if (c.mendAt) c.hp++; c.mendAt = G.t + 4000; }
+    // a wage owed is taken as soon as there is gold to take it from
+    if (c.unpaid && p.gold >= c.unpaid) {
+      p.gold -= c.unpaid;
+      K.log(`You pay ${c.name} the ${c.unpaid} gold owed. ${c.name} counts it, and is at your shoulder again.`, 'good');
+      c.unpaid = 0;
+    }
     sniffTraps(c);
     // something came to stand where it stands (a lunge, a summoning): it gives way first
     if (K.monsterAt(c.x, c.y)) {
@@ -332,7 +347,33 @@ export function makeCompanion(K) {
         Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
       }
       if (knows(c, 'scrounge')) scrounge(c);
+      if (c.kind === 'sellsword' && K.isLong && K.isLong() && K.G.depth > WAGE_FROM) wage(c);
     }
+  }
+  /** A sellsword's wage on a new floor past the eighth: paid if there is gold, owed if not. */
+  function wage(c) {
+    const p = K.P(), owed = WAGE * K.G.depth;
+    const ask = c.wages ? `${c.name} holds out a hand for the floor's wage, ${owed} gold` : `${c.name} stops at the foot of the stair and holds out a hand: this deep, the pay is ${owed} gold a floor`;
+    c.wages = (c.wages || 0) + 1;
+    if (!c.unpaid && p.gold >= owed) {
+      p.gold -= owed;
+      K.log(`${ask}. You pay it.`, 'info');
+      return;
+    }
+    c.unpaid = (c.unpaid || 0) + owed;
+    K.log(`${ask}, and you have not got ${c.unpaid > owed ? `the ${c.unpaid} owed` : 'it'}. No pay, no guarding: ${c.name} will not step into a blow for you until paid.`, 'bad');
+  }
+  /**
+   * A sellsword is paid to stand in the way: once in a fight with a boss, a cut
+   * that lands while it gathers its rite or raises the drumstick breaks it, as
+   * the hero's blow would. (The hound's teeth never do.)
+   * @returns {string|null} the sellsword's name, when the cut breaks it
+   */
+  function breaks(m) {
+    const c = here();
+    if (!c || c.kind !== 'sellsword' || m.cutBroke) return null;
+    m.cutBroke = true;
+    return c.name;
   }
   /** A scrounging goblin's find on the way down: gold, or a flask or a scroll it slips into the pack. */
   function scrounge(c) {
@@ -355,6 +396,7 @@ export function makeCompanion(K) {
     if (!c) return K.G.companion && !K.G.companion.fallen ? `${K.G.companion.name} is not on this floor.` : 'You have no companion to wear it.';
     const i = p.inv.indexOf(it);
     if (i < 0) return 'You are not carrying that.';
+    if (ONLY[it.t] && (c.kind || 'hound') !== ONLY[it.t]) return `${c.name} has no blade to hone, and no use for a whetstone.`;
     p.inv.splice(i, 1);
     const old = c.charm;
     c.charm = it.t;
@@ -396,7 +438,7 @@ export function makeCompanion(K) {
     const w = kindOf(c).word;
     if (c.fallen) return `${c.name}, the ${w} who followed you from floor ${c.joined}, fell on floor ${c.fallen}.`;
     const tricks = c.kind === 'goblin' ? `${c.locks ? `, ${c.locks} lock${c.locks > 1 ? 's' : ''} picked` : ''}${c.traps ? `, ${c.traps} trap${c.traps > 1 ? 's' : ''} made safe` : ''}`
-      : c.guarded ? `, ${c.guarded} blow${c.guarded > 1 ? 's' : ''} taken for you` : '';
+      : `${c.guarded ? `, ${c.guarded} blow${c.guarded > 1 ? 's' : ''} taken for you` : ''}${c.unpaid ? `, owed ${c.unpaid} gold and not guarding you until paid` : ''}`;
     const r = rankOf(c), learned = kindOf(c).tricks.slice(0, r);
     const next = r < RANKS.length ? ` ${RANKS[r].floors - (c.floors || 0)} more floor${RANKS[r].floors - (c.floors || 0) > 1 ? 's' : ''} down at your side and it learns ${kindOf(c).tricks[r].name}.` : '';
     const worn = c.charm ? `, wearing the ${K.itemName({ t: c.charm, q: 1, e: 0 }).toLowerCase()}` : '';
@@ -404,5 +446,5 @@ export function makeCompanion(K) {
   }
   /** The word for it (hound, goblin), for the screens. */
   const word = () => kindOf(K.G && K.G.companion).word;
-  return { here, noisy, at, join, verb, word, picker, hurt, struck, guards, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
+  return { here, noisy, at, join, verb, word, picker, hurt, struck, guards, breaks, turn, toggle, swap, rested, mend, arrive, loaded, sprite, note, flanks, wear, rank: () => rankOf(K.G && K.G.companion) };
 }

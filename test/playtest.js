@@ -191,9 +191,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // --- emergency: drink a healing potion
     const heal = p.inv.find(i => i.t === 'potion_heal' || i.t === 'potion_xheal');
     if (hpFrac < 0.35 && heal) { Game.useItem(heal); rec.potionsDrunk++; step(); continue; }
-    // --- a charm in the pack goes on the companion (the fang first), unless NOCHARM=1
-    if (!process.env.NOCHARM && Game.companionHere() && !Game.companion().charm) {
-      const ch = p.inv.find(i => i.t === 'charm_fang') || p.inv.find(i => ITEMS[i.t].kind === 'charm');
+    // --- a charm in the pack goes on the companion (the fang first; a sellsword's whetstone before
+    // anything, in place of what it wears), unless NOCHARM=1
+    if (!process.env.NOCHARM && Game.companionHere()) {
+      const c = Game.companion(), hired = c.kind === 'sellsword';
+      const whet = hired && c.charm !== 'charm_whetstone' && p.inv.find(i => i.t === 'charm_whetstone');
+      const ch = whet || (!c.charm && (p.inv.find(i => i.t === 'charm_fang') || p.inv.find(i => ITEMS[i.t].kind === 'charm' && i.t !== 'charm_whetstone')));
       if (ch && !Game.giveCharm(ch)) rec.charms = (rec.charms || 0) + 1;
     }
     // (how much the elements are at work: the floors this run on which something was left burning, frozen or spilt)
@@ -704,9 +707,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
         // a trader's job costs nothing: take it (NOJOBS=1 to leave them)
         if (!process.env.NOJOBS && Game.shopServices().some(v => v.id === 'bounty' && !v.why) && Game.buyService('bounty')) rec.jobs = (rec.jobs || 0) + 1;
         // a charm for a companion that wears none, with gold to spare
-        if (!process.env.NOCHARM && Game.companion() && !Game.companion().fallen && !Game.companion().charm && !p.inv.some(i => ITEMS[i.t].kind === 'charm')) {
-          const ch = s.stock.find(x => ITEMS[x.t].kind === 'charm' && x.q > 0 && p.gold >= Game.buyPrice(s, x) + 150);
+        // (a sellsword's whetstone first, even over what it wears; nobody else's)
+        if (!process.env.NOCHARM && Game.companion() && !Game.companion().fallen && !p.inv.some(i => ITEMS[i.t].kind === 'charm')) {
+          const c = Game.companion(), hired = c.kind === 'sellsword', can = x => x.q > 0 && p.gold >= Game.buyPrice(s, x) + 150;
+          const ch = hired && c.charm !== 'charm_whetstone' ? s.stock.find(x => x.t === 'charm_whetstone' && can(x)) : null;
           if (ch) Game.buy(ch);
+          else if (!c.charm) { const any = s.stock.find(x => ITEMS[x.t].kind === 'charm' && x.t !== 'charm_whetstone' && can(x)); if (any) Game.buy(any); }
         }
         // an oil or two with gold to spare (silver in the Crypts, where the dead are), unless NOOIL=1
         if (!process.env.NOOIL) {
