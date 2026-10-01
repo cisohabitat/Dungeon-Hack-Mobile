@@ -236,11 +236,11 @@ test.describe('art', () => {
       for (const j of [-1, 0, 1]) L.tiles[(y + sy * j) * L.w + x + sx * j] = Dungeon.T.FLOOR;
       L.monsters.length = 0; L.dressing = []; L.items = {}; L.fields = {}; L.lights = [];
       L.monsters.push({ uid: 5, id: 'orc', x, y, hp: 99, maxHp: 99, awake: false, nextAct: 1e12, rx: x, ry: y, fromX: x, fromY: y, moveT0: 0, moveT1: 0, flashUntil: 0 });
-      const orc = () => Game.renderState(performance.now()).sprites.find(s => s.maxHp);
       const wait = ms => new Promise(r => setTimeout(r, ms));
       // at rest it sways, slowly, a little
-      const leans = [];
-      for (let i = 0; i < 8; i++) { leans.push(orc().lean); await wait(250); }
+      // (read across a whole slow sway, not waited out: it takes seconds)
+      const t00 = performance.now(), leans = [];
+      for (let i = 0; i < 12; i++) leans.push(Game.renderState(t00 + i * 1100).sprites.find(s => s.maxHp).lean);
       await wait(300);
       const unlit = Renderer.lit.length;
       // a fire on the square to its right (the view's right): its right side is warmed

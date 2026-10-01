@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03a', text: 'the Long Delve has a keeper of its own, the Heartforged (step off its lines of fire); a healer may join you on the middle floors; and creatures now sway, lean into their steps and topple as they fall, warmed by any torch or fire near them' };
+  const NEWS = { id: '2026-10-03b', text: 'the Long Delve has a keeper of its own, the Heartforged; a healer may join you on the middle floors; creatures sway, lean into their steps and topple as they fall, warmed by any fire near them, and show finer detail up close, the four great foes most of all' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

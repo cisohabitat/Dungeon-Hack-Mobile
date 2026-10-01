@@ -90,6 +90,21 @@ for (const k in POSES) {
     check(moved > 60, `${k}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
   }
 }
+// Detail meant for a creature right in front of you (NEAR in creatures.js) is
+// painted into its finest picture only: the pictures for further off are the
+// same with it as without it, and the finest one is not
+{
+  let withNear = 0;
+  for (const k in CREATURES) {
+    const parts = CREATURES[k]();
+    if (!parts.some(q => q.near)) continue;
+    withNear++;
+    const bare = parts.filter(q => !q.near), same = (a, b) => a.every((c, i) => c === b[i]);
+    check(same(paintParts(parts, 32, 2).color, paintParts(bare, 32, 2).color), `${k}'s close-up detail shows in its picture from further off`);
+    check(!same(paintParts(parts, 32, 4).color, paintParts(bare, 32, 4).color), `${k}'s close-up detail does not show close up`);
+  }
+  check(withNear >= 14, `only ${withNear} creatures have close-up detail`);
+}
 // every encounter has a prop to stand in the corridor, and every prop paints
 for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id} wants prop '${ENCOUNTERS[id].sprite}', which does not exist`);
 
