@@ -4422,9 +4422,14 @@ const Game = (() => {
   // and a lean into a step across the view, a cock to one side as a blow is
   // drawn back and a swing through as it lands, and a jolt when struck. A big
   // thing sways less: it is heavier.
-  const CORPSE_MS = 520;
+  // a body falls, lies a moment, then sinks away into what it leaves (see the fallen in renderState)
+  const CORPSE_MS = 1100;
   // how far a burning thing (the Heartforged, an emberling) throws its light onto what stands near it, in squares
   const FIERY_GLOW = 2.2;
+  // a breath at rest: [how slow, how deep], by size
+  const BREATH = { small: [300, 0.03], mid: [560, 0.04], big: [700, 0.05] };
+  // things that move but do not breathe: rock, ooze, iron and spores
+  const BREATHLESS = new Set(['slime', 'emberling', 'mimic', 'puffcap', 'rustmaw', 'heartforged']);
   function motion(m, now, i, tell) {
     const p = P(), mb = MONSTERS[m.id];
     const vx = p.x + 0.5 - (m.rx + 0.5), vy = p.y + 0.5 - (m.ry + 0.5), len = Math.hypot(vx, vy) || 1;
@@ -4433,10 +4438,15 @@ const Game = (() => {
     const rx = -Math.sin(cam.angle), ry = Math.cos(cam.angle);
     const hand = m.uid % 2 ? 1 : -1, heavy = mb.scale > 1.2 ? 0.6 : 1;
     let push = 0, lift = 0, sqx = 1, sqy = 1, lean = 0, jx = 0;
-    // (a big thing breathes slower and deeper)
-    if (!mb.fly) {
-      const b = Math.sin(now / (520 * Math.max(1, mb.scale)) + m.uid * 1.7 + i * 2.1) * (mb.scale > 1.2 ? 0.03 : 0.022);
-      sqy += b; sqx -= b * 0.6;
+    // it breathes: the chest fills and empties, enough to see across a room; a
+    // big thing breathes slower and deeper, a small one quick and shallow
+    // (BREATH), and the dead and the bloodless do not breathe at all
+    if (!mb.fly && !mb.undead && !BREATHLESS.has(mb.sprite)) {
+      const [ms, depth] = mb.scale > 1.2 ? BREATH.big : mb.scale < 0.8 ? BREATH.small : BREATH.mid;
+      const ph = Math.sin(now / (ms * Math.max(1, mb.scale)) + m.uid * 1.7 + i * 2.1);
+      // the breath in is quicker than the breath out
+      const b = (ph > 0 ? ph : ph * 0.7) * depth;
+      sqy += b; sqx -= b * 0.5;
     }
     lean += Math.sin(now / (1500 + 500 * mb.scale) + m.uid * 2.3 + i * 1.3) * (mb.fly ? 0.04 : 0.025);
     if (m.moveT1 > now) {
@@ -4570,11 +4580,15 @@ const Game = (() => {
       if (!art) continue;
       // one killed by a fireball still in the air stands until it lands
       const u = Math.max(0, Math.min(1, (now - c.born) / CORPSE_MS));
-      const back = Math.sin(Math.min(1, u * 1.6) * Math.PI / 2) * 0.18;
-      // and it topples as it goes, to one side or the other
-      const topple = ((c.born | 0) % 2 ? 1 : -1) * 0.5 * u * u;
-      sprites.push({ x: c.x + c.dx * back, y: c.y + c.dy * back, img: (c.elite && art.elite && art.elite[c.elite]) || art, scale: c.scale, yOff: c.fly * (1 - u),
-        sqx: 1 + 0.3 * u, sqy: Math.max(0.12, 1 - 0.85 * u * u), lean: topple, alpha: 1 - u * u, flash: now >= c.born && u < 0.15 ? now + 1 : 0 });
+      // knocked back by the blow, it falls as a body falls, slow then fast,
+      // tipping over to one side and down onto the floor, with a jolt as it lands;
+      // it lies there a moment, then sinks away into what it leaves behind
+      const f = Math.min(1, u / 0.4), drop = f * f, back = Math.sin(Math.min(1, u / 0.3) * Math.PI / 2) * 0.18;
+      const land = u > 0.4 && u < 0.5 ? Math.sin((u - 0.4) / 0.1 * Math.PI) * 0.08 : 0;
+      const topple = ((c.born | 0) % 2 ? 1 : -1) * 0.9 * drop;
+      const gone = u > 0.72 ? (u - 0.72) / 0.28 : 0;
+      sprites.push({ x: c.x + c.dx * back, y: c.y + c.dy * back, img: (c.elite && art.elite && art.elite[c.elite]) || art, scale: c.scale, yOff: c.fly * (1 - drop),
+        sqx: 1 + 0.35 * drop, sqy: Math.max(0.1, (1 - 0.72 * drop) * (1 - land) * (1 - 0.4 * gone)), lean: topple, alpha: 1 - gone, flash: now >= c.born && u < 0.08 ? now + 1 : 0 });
     }
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;

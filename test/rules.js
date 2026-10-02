@@ -5229,6 +5229,28 @@ await test('Attack swings the held weapon, a spell lifts the casting hand, and a
   return out.length ? out.join('; ') : true;
 });
 
+await test('a creature at rest breathes, slower and deeper the bigger it is; the dead and the bloodless do not', async () => {
+  const ctx = await start('fighter', 'breathing');
+  const { Game } = ctx;
+  const out = [];
+  /** the rise and fall of its height at rest over four seconds, and how often it turns */
+  const breath = id => {
+    const L = Game.level(); L.monsters.length = 0;
+    beside(ctx, id, { nextAct: 1e12, awake: false });
+    const h = []; for (let t = 0; t < 4000; t += 20) h.push(Game.renderState(10000 + t).sprites.find(s => s.maxHp).sqy);
+    let turns = 0; for (let i = 2; i < h.length; i++) if ((h[i] - h[i - 1]) * (h[i - 1] - h[i - 2]) < 0) turns++;
+    return { range: Math.max(...h) - Math.min(...h), turns };
+  };
+  const rat = breath('rat'), orc = breath('orc'), ogre = breath('ogre'), skel = breath('skeleton'), slime = breath('slime');
+  if (!(orc.range > 0.05)) out.push(`an orc breathes too faintly to see (${orc.range.toFixed(3)})`);
+  if (!(orc.range < 0.12)) out.push(`an orc heaves like a bellows (${orc.range.toFixed(3)})`);
+  if (!(ogre.range > orc.range)) out.push(`the ogre breathes no deeper than the orc (${ogre.range.toFixed(3)} against ${orc.range.toFixed(3)})`);
+  if (!(ogre.turns < orc.turns && orc.turns < rat.turns)) out.push(`breaths a rat ${rat.turns}, an orc ${orc.turns}, an ogre ${ogre.turns}: the bigger should breathe slower`);
+  if (!(skel.range < 0.01)) out.push(`a skeleton breathes (${skel.range.toFixed(3)})`);
+  if (!(slime.range < 0.01)) out.push(`a slime breathes (${slime.range.toFixed(3)})`);
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a slain monster falls where it stood, and is gone once it has fallen', async () => {
   const ctx = await start('fighter', 'corpse');
   const { Game } = ctx; const p = Game.player(), G = Game.state();

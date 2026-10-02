@@ -2524,11 +2524,14 @@ const PROPS = {
   // an ogre asleep on a bed of stolen coin, snoring like a rockfall
   ogre_sleep: () => [
     ...CREATURES.ogre(),
-    ...[ball(9, 30, 4, 1.4, '#c89a28'), ball(16, 30.4, 4.5, 1.2, '#d8a830'), ball(23, 30, 4, 1.4, '#c89a28')].map(up2),
+    ball(18, 60, 8, 2.8, '#a87a20'), ball(32, 60.8, 9, 2.4, '#b8882a'), ball(46, 60, 8, 2.8, '#a87a20'),
+    ...[[13, 59], [18, 58.4], [23, 59.4], [27, 60], [32, 59.2], [37, 60], [41, 59.4], [46, 58.4], [51, 59]].map(([x, y], i) => ball(x, y, 2.2, 0.8, i % 2 ? '#d8a830' : '#c89a28')),
+    ...[[15, 58.75], [30, 59], [44, 58.25], [49, 58.75]].map(([x, y]) => hair(x - 1, y, x + 1, y, '#fff0a0')),
+    ball(24, 57, 0.8, 2, '#c89a28'), ball(40, 57.4, 0.8, 1.8, '#d8a830'),
     specks([[16, 58.5], [30, 60.5], [44, 58.5], [36, 60.5]], '#fff0a0'),
-    // the snore, drawn clear of the club over its other shoulder (a Z, then a smaller one; four fine pixels to each of the old)
-    ...[[[4, 2], [5, 2], [6, 2], [7, 2], [6, 3], [5, 4], [4, 5], [5, 5], [6, 5], [7, 5]], [[9, 6], [10, 6], [11, 6], [10, 7], [9, 8], [10, 8], [11, 8]]].map((z, n) =>
-      dots(z.flatMap(([x, y]) => [[x * 2, y * 2], [x * 2 + 1, y * 2], [x * 2, y * 2 + 1], [x * 2 + 1, y * 2 + 1]]), n ? '#b8c8f0' : '#dde8ff')),
+    // the snore, drawn clear of the club over its other shoulder: a Z, then a smaller one
+    ...[[8, 4.5, 16, 11.5, 1, '#dde8ff'], [18, 12.5, 23.5, 17.5, 0.8, '#b8c8f0']].flatMap(([x0, y0, x1, y1, r, c]) => [
+      limb(x0, y0, x1, y0, r, r, c), limb(x1, y0, x0, y1, r, r, c), limb(x0, y1, x1, y1, r, r, c)]),
     specks([[24, 59], [38, 60], [52, 59], [13, 60]], '#fff8c0'),
     // eyes shut: lids over both, a dark line where they meet
     ball(28.4, 15, 2, 1.4, '#9a7648'), ball(35.6, 15, 2, 1.4, '#9a7648'),
@@ -2570,11 +2573,12 @@ const PROPS = {
   },
   // a goblin on a crate beside a hand-painted sign, cup out for the toll
   goblin_toll: () => [
-    up2(limb(3.5, 31, 3.5, 13, 0.7, 0.7, '#6a4424')),
+    limb(7, 62, 7, 26, 1.4, 1.4, '#6a4424'), hair(6.5, 30, 6.5, 60, '#8a6038'),
     ...CREATURES.goblin(),
-    up2(sheet([[0.5, 8.5], [9.5, 8.5], [9.5, 14.5], [0.5, 14.5]], '#b08a58', { tilt: [-0.1, -0.2] })),
-    // (the letters, a pixel of the coarse grid each: four of the fine)
-    ...[[2, 10], [3, 10], [4, 10], [3, 11], [3, 12], [3, 13], [6, 10], [6, 11], [6, 12], [6, 13], [7, 10], [7, 13], [8, 10], [8, 11], [8, 12], [8, 13]].map(([x, y]) => dots([[x * 2, y * 2], [x * 2 + 1, y * 2], [x * 2, y * 2 + 1], [x * 2 + 1, y * 2 + 1]], '#3a2410')),
+    sheet([[1, 17], [19, 17], [19, 29], [1, 29]], '#b08a58', { tilt: [-0.1, -0.2] }), hair(2, 21, 18, 21, '#8a6a40'), hair(2, 25.5, 18, 25.5, '#8a6a40'),
+    // the letters, daubed: a T and an O
+    limb(4, 20.5, 10, 20.5, 0.75, 0.75, '#3a2410'), limb(7, 20.5, 7, 27.2, 0.75, 0.75, '#3a2410'),
+    ...Array.from({ length: 10 }, (_, i) => { const a0 = i / 10 * Math.PI * 2, a1 = (i + 1) / 10 * Math.PI * 2; return limb(14.5 + Math.cos(a0) * 2.4, 23.8 + Math.sin(a0) * 3.4, 14.5 + Math.cos(a1) * 2.4, 23.8 + Math.sin(a1) * 3.4, 0.7, 0.7, '#3a2410'); }),
     // the sign's nails and its grain
     specks([[2, 18], [18, 18], [2, 28], [18, 28]], '#7a5a30'), hair(1, 23, 19, 23, '#9a7648'),
   ],
@@ -2700,52 +2704,45 @@ const PROPS = {
   // padlock, and a goblin crouched inside with its fingers round the bars,
   // peering out between them to see what you will do
   cage: () => {
-    const iron = '#555a64', far = '#2e3038', skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c';
-    // the bars stand either side of the middle (x = 16), with a wider gap at
-    // the door so the face shows whole through it
-    const bars = [5.5, 9, 12.5, 19.5, 23, 26.5];
-    return [...[
+    const iron = '#555a64', ironLt = '#8a909a', far = '#2e3038', skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', ragDk = '#5a4c3c';
+    // the bars stand either side of the middle, with a wider gap at the door so the face shows whole through it
+    const bars = [11, 18, 25, 39, 46, 53];
+    return [
       // the cage's floor, dark and strewn with straw, and its far bars
-      sheet([[4.5, 25.5], [27.5, 25.5], [27.5, 29], [4.5, 29]], '#3a3630', { tilt: [0, -0.9] }),
-      ...[7.2, 10.8, 14.4, 17.6, 21.2, 24.8].map(x => limb(x, 10, x, 26, 0.45, 0.45, far)),
+      sheet([[9, 51], [55, 51], [55, 58], [9, 58]], '#3a3630', { tilt: [0, -0.9] }),
+      ...[[12, 56, 16, 54], [44, 55, 49, 56.5], [28, 57, 34, 56], [20, 53, 24, 54]].map(([a, b, c, d]) => hair(a, b, c, d, '#a8904a')),
+      ...[14.4, 21.6, 28.8, 35.2, 42.4, 49.6].map(x => limb(x, 20, x, 52, 0.9, 0.9, far)),
       // the goblin, squatting on its heels, knees out, reaching for the bars
-      limb(10.6, 25, 13.2, 27.6, 1, 0.85, dark), limb(21.4, 25, 18.8, 27.6, 1, 0.85, dark),
-      ball(13.2, 27.8, 1.8, 0.8, foot), ball(18.8, 27.8, 1.8, 0.8, foot),
-      ball(16, 24.6, 3.2, 3, skin),
-      limb(12.6, 22.4, 10.6, 24, 0.95, 0.9, skin), limb(19.4, 22.4, 21.4, 24, 0.95, 0.9, skin),
-      sheet([[12, 21.2], [20, 21.2], [22.4, 22.4], [23, 25], [21.6, 24.4], [20.6, 25.8], [19.2, 24.6], [17.6, 26], [16, 24.8],
-        [14.4, 26], [12.8, 24.6], [11.4, 25.8], [10.4, 24.4], [9, 25], [9.6, 22.4]], rag, { curve: 1 }),
-      limb(14.4, 26.4, 10.6, 25, 1.2, 1.1, dark), limb(17.6, 26.4, 21.4, 25, 1.2, 1.1, dark),
-      ball(10.4, 24.8, 1.4, 1.3, dark), ball(21.6, 24.8, 1.4, 1.3, dark),
-      // elbows out over its knees, hands up to the door bars under its chin
-      limb(10.6, 24, 12.2, 21.8, 0.9, 0.85, skin), limb(21.4, 24, 19.8, 21.8, 0.9, 0.85, skin),
-      // the manacle it came in with, still on, a link of chain hanging
-      ball(10.6, 24.4, 0.75, 0.8, iron), specks([[10.6, 24.4]], '#1c1a22'),
-      limb(10.6, 22.4, 12.2, 23.4, 0.85, 0.85, iron),
-      ball(12.5, 21.2, 1.25, 1.15, skin), ball(19.5, 21.2, 1.25, 1.15, skin),
-    ].map(up2), ...scragHead(32, 34.8, { look: 0 }), ...[
-      // the near bars, in front of it all
-      ...bars.map(x => limb(x, 9, x, 28.6, 0.6, 0.6, iron)),
-      // fingers curled round them
-      limb(11.6, 20.9, 13.4, 20.9, 0.55, 0.55, skin), limb(18.6, 20.9, 20.4, 20.9, 0.55, 0.55, skin),
-      specks([[12, 21.5], [13, 21.5], [19, 21.5], [20, 21.5]], '#e8e0c0'),
+      ...both64(limb(28.8, 52.8, 21, 50, 2.4, 2.2, dark)), ...both64(ball(21, 49.6, 2.8, 2.6, dark)),
+      ...both64(limb(21, 50, 26, 55, 2, 1.7, dark)), ...both64(ball(26, 55.8, 3.6, 1.6, foot)), ...both64(specks([[23.5, 56.5], [25, 57], [26.5, 57]], '#e8e0c0')),
+      ball(32, 49, 6.4, 6, skin), hair(29, 47, 30, 50, dark), hair(35, 47, 34, 50, dark),
+      sheet([[24, 42.4], [40, 42.4], [44.8, 44.8], [46, 50], [43.2, 48.8], [41.2, 51.6], [38.4, 49.2], [35.2, 52], [32, 49.6], [28.8, 52], [25.6, 49.2],
+        [22.8, 51.6], [20.8, 48.8], [18, 50], [19.2, 44.8]], rag, { curve: 1 }),
+      ...[[22, 48], [28, 50], [36, 50], [42, 48]].map(([x, y]) => hair(x, y, x + 0.5, y + 2, ragDk)),
+      // elbows out over its knees, hands up to the door bars under its chin, the manacle still on
+      ...both64(limb(21, 48, 24.4, 43.6, 1.8, 1.7, skin)),
+      limb(21.2, 44.8, 24.4, 46.8, 1.7, 1.7, iron), hair(21.5, 44, 24, 45.5, ironLt), ball(21.2, 48.8, 1.5, 1.6, iron),
+      ...both64(ball(25, 42.4, 2.5, 2.3, skin)),
+      ...scragHead(32, 34.8, { look: 0 }),
+      // the near bars, in front of it all, and the fingers curled round them
+      ...bars.flatMap(x => [limb(x, 18, x, 57.2, 1.2, 1.2, iron), hair(x - 0.5, 20, x - 0.5, 56, ironLt)]),
+      ...both64(limb(23.2, 41.8, 26.8, 41.8, 1.1, 1.1, skin)), ...both64(specks([[24, 43], [26, 43]], '#e8e0c0')),
       // the door's rails and hinges
-      limb(12.5, 12, 19.5, 12, 0.55, 0.55, iron), limb(12.5, 24, 19.5, 24, 0.55, 0.55, iron),
-      ball(12.5, 13, 0.9, 1.1, '#484c56'), ball(12.5, 23, 0.9, 1.1, '#484c56'),
-      // the bands top and bottom, and a ring on top to hang it by
-      limb(14.2, 7.6, 15, 5.4, 0.55, 0.55, iron), limb(17.8, 7.6, 17, 5.4, 0.55, 0.55, iron), limb(15, 5.2, 17, 5.2, 0.55, 0.55, iron),
-      sheet([[3.8, 7.4], [28.2, 7.4], [28.2, 10], [3.8, 10]], iron, { curve: 0.8 }),
-      sheet([[3.8, 28.4], [28.2, 28.4], [28.4, 31], [3.6, 31]], iron, { curve: 0.8 }),
+      limb(25, 24, 39, 24, 1.1, 1.1, iron), limb(25, 48, 39, 48, 1.1, 1.1, iron), hair(25.5, 23.25, 38.5, 23.25, ironLt),
+      ball(25, 26, 1.8, 2.2, '#484c56'), ball(25, 46, 1.8, 2.2, '#484c56'),
+      // the bands top and bottom, riveted, and a ring on top to hang it by
+      limb(28.4, 15.2, 30, 10.8, 1.1, 1.1, iron), limb(35.6, 15.2, 34, 10.8, 1.1, 1.1, iron), limb(30, 10.4, 34, 10.4, 1.1, 1.1, iron),
+      sheet([[7.6, 14.8], [56.4, 14.8], [56.4, 20], [7.6, 20]], iron, { curve: 0.8 }), hair(8, 15.25, 56, 15.25, ironLt),
+      sheet([[7.6, 56.8], [56.4, 56.8], [56.8, 62], [7.2, 62]], iron, { curve: 0.8 }), hair(8, 57.25, 56, 57.25, ironLt),
+      specks([11, 18, 25, 39, 46, 53].flatMap(x => [[x, 17], [x, 59]]), '#9aa0aa'),
+      // rust run from the bands
+      hair(11, 26, 11, 30, '#7a4a2a'), hair(53, 44, 53, 49, '#7a4a2a'), specks([[18, 51], [46, 24]], '#7a4a2a'),
       // the padlock, big as a fist, through a hasp on the door's edge
-      limb(18.9, 24.6, 18.9, 22.6, 0.5, 0.5, '#8a8e96'), limb(21.1, 24.6, 21.1, 22.6, 0.5, 0.5, '#8a8e96'), limb(18.9, 22.2, 21.1, 22.2, 0.5, 0.5, '#8a8e96'),
-      sheet([[17.8, 24.2], [22.2, 24.2], [22.6, 27.8], [17.4, 27.8]], '#6e6248', { curve: 0.9 }),
-      dots([[20, 25], [20, 26]], '#140e10'),
-      // fine work: rivets along the bands, rust, straw, the lock's shine
-      specks([[5.5, 8.5], [9, 8.5], [12.5, 8.5], [19.5, 8.5], [23, 8.5], [26.5, 8.5], [5.5, 29.5], [9, 29.5], [12.5, 29.5], [19.5, 29.5], [23, 29.5], [26.5, 29.5]], '#9aa0aa'),
-      hair(5.5, 13, 5.5, 15, '#7a4a2a'), hair(26.5, 22, 26.5, 24.5, '#7a4a2a'), specks([[9, 25.5], [23, 12]], '#7a4a2a'),
-      hair(6, 27.5, 8, 27, '#a8904a'), hair(24, 27.5, 26.5, 28, '#a8904a'), hair(15, 28, 17, 27.5, '#a8904a'),
-      hair(18.5, 24.5, 18.5, 27, '#b8a878'), specks([[20.5, 22], [21, 22.5]], '#c8ccd4'),
-    ].map(up2)];
+      limb(37.8, 49.2, 37.8, 45.2, 1, 1, '#8a8e96'), limb(42.2, 49.2, 42.2, 45.2, 1, 1, '#8a8e96'), limb(37.8, 44.4, 42.2, 44.4, 1, 1, '#8a8e96'),
+      sheet([[35.6, 48.4], [44.4, 48.4], [45.2, 55.6], [34.8, 55.6]], '#6e6248', { curve: 0.9 }),
+      ball(40, 51, 0.8, 0.8, '#140e10'), limb(40, 51.5, 40, 53.4, 0.4, 0.4, '#140e10'),
+      hair(37, 49, 37, 54, '#b8a878'), specks([[41, 44], [42, 45]], '#c8ccd4'),
+    ];
   },
 
   // one of the Lampfolk, hunched in the dark with its lamp gone cold in its

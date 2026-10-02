@@ -265,8 +265,11 @@ test.describe('art', () => {
       L.monsters.length = 0;
       const now = performance.now(), fx = Game.renderState(now).fx;
       fx.corpses.push({ x: x + 0.5, y: y + 0.5, sprite: 'orc', scale: 1, born: now, dx: 0, dy: 1, fly: 0 });
-      const fall = [0.1, 0.5, 0.9].map(u => Math.abs(Game.renderState(now + u * 520).sprites.find(s => s.alpha != null && s.sqx > 1).lean));
-      return { leans, unlit, lit, mid, back, leaned, calmLeaned, fall };
+      const body = u => Game.renderState(now + u * 1100).sprites.find(s => s.alpha != null && s.sqx > 1);
+      const fall = [0.05, 0.2, 0.38].map(u => Math.abs(body(u).lean));
+      // down on the floor a while, then sinking away
+      const lying = body(0.6), going = body(0.97);
+      return { leans, unlit, lit, mid, back, leaned, calmLeaned, fall, lying: { sqy: lying.sqy, alpha: lying.alpha }, goingAlpha: going ? going.alpha : 0 };
     });
     expect(Math.max(...got.leans) - Math.min(...got.leans), 'it sways at rest').toBeGreaterThan(0.005);
     expect(Math.max(...got.leans.map(Math.abs)), 'but only a little').toBeLessThan(0.06);
@@ -278,7 +281,10 @@ test.describe('art', () => {
     expect(got.leaned, 'drawn leaning').toBeGreaterThanOrEqual(1);
     expect(got.fall[2], 'falling, it topples further and further').toBeGreaterThan(got.fall[1]);
     expect(got.fall[1]).toBeGreaterThan(got.fall[0]);
-    expect(got.fall[2], 'well over by the end').toBeGreaterThan(0.3);
+    expect(got.fall[2], 'well over by the time it lands').toBeGreaterThan(0.6);
+    expect(got.lying.sqy, 'it lies low on the floor').toBeLessThan(0.4);
+    expect(got.lying.alpha, 'still there, not yet fading').toBeGreaterThan(0.95);
+    expect(got.goingAlpha, 'then sinks away').toBeLessThan(0.2);
     expect(got.calmLeaned, 'a calm view draws nothing leaning').toBe(0);
     expect(errors).toEqual([]);
   });

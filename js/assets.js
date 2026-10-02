@@ -186,37 +186,7 @@ const Assets = (() => {
     if (theme.face === 'glass') return makeGlass(theme, seed, cracked);
     if (theme.face === 'bones') return makeOssuary(theme, seed, cracked);
     if (theme.face === 'earth') return makeEarth(theme, seed, cracked);
-    const c = canvas(TEX, TEX);
-    const ctx = c.getContext('2d');
-    const rng = new Rng(seed);
-    ctx.fillStyle = theme.mortar;
-    ctx.fillRect(0, 0, TEX, TEX);
-    const bh = 8, bw = 16;
-    for (let row = 0; row < TEX / bh; row++) {
-      const off = (row % 2) ? 8 : 0;
-      for (let bx = -1; bx <= TEX / bw; bx++) {
-        const x = bx * bw + off, y = row * bh;
-        const shade = rng.int(-14, 14);
-        ctx.fillStyle = adjust(theme.wall, shade);
-        ctx.fillRect(x + 1, y + 1, bw - 2, bh - 2);
-        ctx.fillStyle = adjust(theme.wall, shade + 20);
-        ctx.fillRect(x + 1, y + 1, bw - 2, 1);
-        ctx.fillRect(x + 1, y + 1, 1, bh - 2);
-        ctx.fillStyle = adjust(theme.wall, shade - 24);
-        ctx.fillRect(x + 1, y + bh - 2, bw - 2, 1);
-        ctx.fillRect(x + bw - 2, y + 1, 1, bh - 2);
-      }
-    }
-    ctx.fillStyle = 'rgba(0,0,0,0.25)';
-    for (let i = 0; i < 50; i++) ctx.fillRect(rng.int(0, TEX - 1), rng.int(0, TEX - 1), 1, 1);
-    if (cracked) {
-      ctx.fillStyle = theme.accent;
-      for (let i = 0; i < 26; i++) ctx.fillRect(rng.int(0, TEX - 1), rng.int(0, TEX - 1), rng.int(1, 2), 1);
-      ctx.fillStyle = 'rgba(0,0,0,0.6)';
-      let x = rng.int(10, 50), y = 0;
-      while (y < TEX) { ctx.fillRect(x, y, 1, 2); y += 2; x += rng.int(-1, 1); }
-    }
-    return c;
+    return makeBrick(theme, seed, cracked);
   }
   // Black glass: the Sanctum's walls are not laid in courses of brick but cut
   // in great polished slabs, dark as a well, that catch the light from above
@@ -837,6 +807,234 @@ const Assets = (() => {
     },
   };
   /** The decorated walls of one theme, each a copy of its plain wall dressed. */
+  // ---- the painter's tools for stone and wood ----
+  // Surfaces are painted a pixel at a time, the way stone and wood actually
+  // look: no two bricks the same tone, a grain through each, light on the top
+  // edges and shadow under them, damp creeping up from the floor.
+  /** a repeatable 0..1 value for a pixel and a seed */
+  function hash2(x, y, s) {
+    let h = (Math.imul(x | 0, 374761393) + Math.imul(y | 0, 668265263) + Math.imul(s | 0, 1442695041)) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+  /** smooth noise that tiles across the texture: blotches about `cell` pixels across */
+  function vnoise(x, y, cell, s) {
+    const n = TEX / cell, gx = x / cell, gy = y / cell, x0 = Math.floor(gx), y0 = Math.floor(gy), fx = gx - x0, fy = gy - y0;
+    const v = (i, j) => hash2(((i % n) + n) % n, ((j % n) + n) % n, s);
+    const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
+    return (v(x0, y0) * (1 - sx) + v(x0 + 1, y0) * sx) * (1 - sy) + (v(x0, y0 + 1) * (1 - sx) + v(x0 + 1, y0 + 1) * sx) * sy;
+  }
+  /** a pixel canvas to paint into, and the way to hand it back as a canvas */
+  function pixels() {
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d'), img = ctx.createImageData(TEX, TEX), d = img.data;
+    /** @param {number} x @param {number} y @param {number[]} c  red, green, blue @param {number} [k]  how much lighter (or darker) */
+    const set = (x, y, c, k = 0) => {
+      const i = (y * TEX + x) * 4, [r, g, b] = c;
+      d[i] = Math.max(0, Math.min(255, r + k)); d[i + 1] = Math.max(0, Math.min(255, g + k)); d[i + 2] = Math.max(0, Math.min(255, b + k)); d[i + 3] = 255;
+    };
+    const get = (x, y) => { const i = (y * TEX + x) * 4; return [d[i], d[i + 1], d[i + 2]]; };
+    return { c, ctx, set, get, done: () => { ctx.putImageData(img, 0, 0); return c; } };
+  }
+  const mixRgb = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+
+  /** A brick wall: courses of dressed stone, each its own tone, in recessed mortar. */
+  function makeBrick(theme, seed, cracked) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), wall = hexToRgb(theme.wall), mortar = hexToRgb(theme.mortar), damp = mixRgb(wall, [26, 34, 30], 0.55);
+    // each brick's tone, tint and whether a corner has been knocked off
+    const brick = new Map();
+    const brickOf = (bx, row) => {
+      const k = bx * 31 + row;
+      if (!brick.has(k)) brick.set(k, { t: rng.int(-16, 14), warm: rng.int(-5, 5), chip: rng.chance(0.35) ? rng.int(0, 3) : -1, pores: rng.int(2, 6) });
+      return brick.get(k);
+    };
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const row = y >> 3, off = row & 1 ? 8 : 0, lx = (x + off) & 15, ly = y & 7, bx = (x + off) >> 4;
+      const dampness = Math.max(0, (y - 40) / 24) * (0.55 + 0.45 * vnoise(x, y, 16, s + 3));
+      if (isMortar(x, y)) {
+        // mortar sits back from the face: in shadow, and crumbling, just under
+        // each brick (ly 7); the course above the next brick is the mortar's own colour
+        const under = ly === 7 ? -14 + (hash2(x, y, s) - 0.5) * 14 : (hash2(x, y, s) - 0.5) * 3;
+        P.set(x, y, mixRgb(mortar, [10, 10, 12], dampness * 0.4), under);
+        continue;
+      }
+      const b = brickOf(bx, row);
+      // a knocked-off corner shows as a hollow in the stone
+      const corner = b.chip >= 0 && ((b.chip === 0 && lx < 3 && ly < 3 && lx + ly < 3) || (b.chip === 1 && lx > 12 && ly < 3 && (15 - lx) + ly < 4) ||
+        (b.chip === 2 && lx < 3 && ly > 4 && lx + (7 - ly) < 3) || (b.chip === 3 && lx > 12 && ly > 4 && (15 - lx) + (7 - ly) < 4));
+      let k = b.t + (vnoise(x, y, 4, s + 1) - 0.5) * 18 + (hash2(x, y, s + 2) - 0.5) * 12;
+      // the stone's grain runs along the course
+      k += Math.sin((x + b.t) * 0.9 + vnoise(x, y, 8, s + 5) * 6) * 2.5;
+      // dressed faces catch the light on top and to the left, and fall into shadow below
+      if (ly === 1) k += 16; else if (ly === 2) k += 6;
+      if (lx === 1) k += 8;
+      if (ly === 6) k -= 22; else if (ly === 5) k -= 7;
+      if (lx === 14) k -= 14;
+      if (corner) k -= 30;
+      // pores and flecks
+      const h = hash2(x, y, s + 9);
+      if (h < b.pores * 0.006) k -= 26; else if (h > 0.985) k += 22;
+      let c = mixRgb(wall, damp, dampness);
+      c = [c[0] + b.warm, c[1], c[2] - b.warm];
+      P.set(x, y, c, k);
+    }
+    // stains run down the face from a few joints, darker where water stands
+    for (let i = 0; i < 4; i++) {
+      let x = rng.int(0, TEX - 1);
+      const y0 = rng.int(0, 30), len = rng.int(10, 30);
+      for (let y = y0; y < Math.min(TEX, y0 + len); y++) {
+        const [r, g, b] = P.get(x, y), a = 0.18 * (1 - (y - y0) / len);
+        P.set(x, y, [r * (1 - a) + 18 * a, g * (1 - a) + 22 * a, b * (1 - a) + 18 * a]);
+        if (rng.chance(0.15)) x = (x + rng.int(-1, 1) + TEX) % TEX;
+      }
+    }
+    if (cracked) {
+      // a crack running down through stone and mortar alike, the stone's colour beside it lit
+      let x = rng.int(10, 50);
+      for (let y = 0; y < TEX; y++) {
+        P.set(x, y, [12, 10, 10]);
+        if (x + 1 < TEX) { const c = P.get(x + 1, y); P.set(x + 1, y, c, 18); }
+        if (rng.chance(0.45)) x = Math.max(1, Math.min(TEX - 2, x + rng.int(-1, 1)));
+        if (rng.chance(0.08)) { const bx = Math.max(0, Math.min(TEX - 1, x + rng.int(-4, 4))); P.set(bx, y, hexToRgb(theme.accent)); }
+      }
+    }
+    return P.done();
+  }
+
+  /** Flagstones: big worn slabs, uneven, with grime in the joints and a crack or two. */
+  function makeFlags(theme, seed) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), floor = hexToRgb(theme.floor), grime = mixRgb(floor, [8, 8, 8], 0.6);
+    const n = 4, sz = TEX / n, slab = [];
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) slab.push({ t: rng.int(-12, 10), tilt: rng.int(-6, 6), crack: rng.chance(0.3) });
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const i = Math.floor(x / sz), j = Math.floor(y / sz), lx = x - i * sz, ly = y - j * sz, sl = slab[j * n + i];
+      // the joints wander a pixel: no mason laid these to a rule
+      const jitter = vnoise(x, y, 8, s + 7) > 0.62 ? 1 : 0;
+      if (lx < 1 + jitter || ly < 1 + (jitter ^ 1) || lx === sz - 1 || ly === sz - 1) { P.set(x, y, grime, (hash2(x, y, s) - 0.5) * 10); continue; }
+      let k = sl.t + (vnoise(x, y, 6, s + 1) - 0.5) * 16 + (hash2(x, y, s + 2) - 0.5) * 10 + sl.tilt * (lx / sz - 0.5);
+      // worn smooth and pale in the middle where feet go, dark at the edges
+      const edge = Math.min(lx, ly, sz - 1 - lx, sz - 1 - ly);
+      if (edge <= 1) k -= 10; else if (edge >= 4) k += 4;
+      if (ly === 1 + (jitter ^ 1)) k += 8;
+      const h = hash2(x, y, s + 4);
+      if (h < 0.03) k -= 20; else if (h > 0.985) k += 18;
+      P.set(x, y, floor, k);
+    }
+    // cracks across a few slabs
+    slab.forEach((sl, idx) => {
+      if (!sl.crack) return;
+      const i = idx % n, j = Math.floor(idx / n);
+      let x = i * sz + rng.int(3, sz - 4), y = j * sz + 2;
+      while (y < (j + 1) * sz - 2) { P.set(x, y, grime, -10); y++; if (rng.chance(0.5)) x = Math.max(i * sz + 2, Math.min((i + 1) * sz - 3, x + rng.int(-1, 1))); }
+    });
+    // grit scattered over it
+    for (let k = 0; k < 18; k++) { const x = rng.int(0, TEX - 1), y = rng.int(0, TEX - 1); P.set(x, y, floor, rng.int(-26, 26)); }
+    return P.done();
+  }
+
+  /** The roof of the place: rough-hewn rock, cracked, dark with damp in patches. */
+  function makeRock(theme, seed) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), ceil = hexToRgb(theme.ceil);
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const big = vnoise(x, y, 16, s), mid = vnoise(x, y, 6, s + 1), fine = hash2(x, y, s + 2);
+      // chisel marks: facets where the rock was cut, each lit a little differently
+      const facet = Math.floor(vnoise(x, y, 10, s + 3) * 5) * 4 - 8;
+      P.set(x, y, ceil, (big - 0.5) * 18 + (mid - 0.5) * 12 + (fine - 0.5) * 10 + facet);
+    }
+    // one faint crack: more, repeated on every square of the roof, read as a net
+    let x = rng.int(0, TEX - 1);
+    for (let y = rng.int(0, 20), end = y + rng.int(20, 40); y < Math.min(TEX, end); y++) { const c = P.get(x, y); P.set(x, y, c, -14); if (rng.chance(0.5)) x = (x + rng.int(-1, 1) + TEX) % TEX; }
+    return P.done();
+  }
+
+  /** A plank door in a dark frame: grained oak, iron bands riveted across, rust bleeding from them. */
+  function makePlankDoor(theme, wallTex, lockColor) {
+    const s = 9137, P = pixels();
+    P.ctx.drawImage(wallTex, 0, 0);
+    const src = P.ctx.getImageData(0, 0, TEX, TEX).data;
+    for (let i = 0; i < TEX * TEX; i++) { const x = i % TEX, y = (i / TEX) | 0; P.set(x, y, [src[i * 4], src[i * 4 + 1], src[i * 4 + 2]]); }
+    const oak = [[122, 86, 50], [107, 74, 42], [116, 80, 46], [100, 70, 40], [118, 84, 48], [110, 76, 44]];
+    for (let y = 2; y < TEX; y++) for (let x = 6; x < 58; x++) {
+      // the frame: a deep reveal, darker at the top where the lintel shades it
+      if (x < 8 || x > 55 || y < 4) { P.set(x, y, [26, 20, 16], (hash2(x, y, s) - 0.5) * 8 - (y < 4 ? 4 : 0)); continue; }
+      const p = Math.floor((x - 8) / 8), lx = (x - 8) % 8;
+      // grain: lines that wander down each plank, with a knot or two to bend round
+      const knot = Math.hypot(lx - 4, (y + p * 17) % 37 - 18) < 2.2;
+      const grain = Math.sin(lx * 1.7 + vnoise(x, y, 8, s + p) * 9 + p * 2.3);
+      let k = grain * 7 + (hash2(x, y, s + 1) - 0.5) * 8 + (vnoise(x, y, 16, s + 2) - 0.5) * 10;
+      if (lx === 0) k -= 34; else if (lx === 1) k += 10; else if (lx === 7) k -= 12;
+      if (knot) k -= 22 + (Math.hypot(lx - 4, (y + p * 17) % 37 - 18) < 1 ? 14 : 0);
+      // worn pale at hand height near the handle, dark with grime at the foot
+      if (y > 58) k -= (y - 58) * 4;
+      P.set(x, y, oak[p], k);
+    }
+    // iron bands: a face, a lit top edge, a shadow under, rivets with their glints, rust run below
+    for (const y0 of [12, 46]) {
+      for (let y = y0; y < y0 + 6; y++) for (let x = 8; x < 56; x++) {
+        const k = (y === y0 ? 34 : y === y0 + 5 ? -16 : 0) + (hash2(x, y, s + 3) - 0.5) * 10 + (vnoise(x, y, 4, s + 4) - 0.5) * 12;
+        P.set(x, y, [74, 78, 86], k);
+      }
+      for (let x = 8; x < 56; x++) { const c = P.get(x, y0 + 6); P.set(x, y0 + 6, c, -26); }
+      for (let x = 12; x < 56; x += 10) {
+        P.set(x, y0 + 2, [168, 172, 180]); P.set(x + 1, y0 + 2, [130, 134, 142]); P.set(x, y0 + 3, [96, 100, 108]); P.set(x + 1, y0 + 3, [40, 42, 48]);
+        for (let k = 0; k < 3 + (x % 4); k++) { const c = P.get(x + (k % 2), y0 + 7 + k); P.set(x + (k % 2), y0 + 7 + k, mixRgb(c, [120, 56, 28], 0.35)); }
+      }
+    }
+    if (lockColor) {
+      const lc = hexToRgb(lockColor);
+      for (let y = 27; y < 43; y++) for (let x = 38; x < 52; x++) {
+        const edge = x === 38 || x === 51 || y === 27 || y === 42;
+        P.set(x, y, edge ? [36, 36, 42] : lc, edge ? 0 : (y === 28 ? 30 : y === 41 ? -24 : 0) + (x === 39 ? 14 : x === 50 ? -14 : 0) + (hash2(x, y, s + 6) - 0.5) * 10);
+      }
+      for (const [x, y] of [[44, 31], [45, 31], [44, 32], [45, 32], [44, 33], [45, 33], [44.5, 34], [44, 35], [45, 35], [44, 36], [45, 36], [44, 37], [45, 37]]) P.set(Math.floor(x), y, [10, 8, 8]);
+      for (const [x, y] of [[40, 29], [49, 29], [40, 40], [49, 40]]) P.set(x, y, [200, 204, 210]);
+    } else {
+      // an iron ring for a handle on a round plate
+      for (let y = 26; y < 40; y++) for (let x = 38; x < 52; x++) {
+        const d = Math.hypot(x - 44.5, y - 32.5);
+        if (d < 3.2) P.set(x, y, [60, 62, 70], (y < 32 ? 26 : -10));
+        else if (Math.abs(d - 5.2) < 0.9 && y > 31) P.set(x, y, [118, 122, 132], y < 35 ? 30 : -6);
+      }
+    }
+    return P.done();
+  }
+
+  /** A stair through an arch of cut stone: down into the dark, or up toward a grey light. */
+  function makeArchStairs(theme, wallTex, down) {
+    const s = down ? 4421 : 8812, P = pixels(), stone = hexToRgb(theme.wall);
+    P.ctx.drawImage(wallTex, 0, 0);
+    const src = P.ctx.getImageData(0, 0, TEX, TEX).data;
+    for (let i = 0; i < TEX * TEX; i++) P.set(i % TEX, (i / TEX) | 0, [src[i * 4], src[i * 4 + 1], src[i * 4 + 2]]);
+    const inArch = (x, y, r) => y >= 20 ? Math.abs(x - 31.5) <= r : Math.hypot((x - 31.5) / r, (y - 20) / 22) <= 1;
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      if (inArch(x, y, 24) && !inArch(x, y, 21)) {
+        // the arch's voussoirs: wedges of dressed stone radiating from the curve
+        const a = Math.atan2(y - 20, x - 31.5), seg = Math.floor((a + Math.PI) / (Math.PI / 9)), edge = Math.abs(((a + Math.PI) / (Math.PI / 9)) % 1 - 0.5) > 0.44;
+        P.set(x, y, stone, edge && y < 22 ? -40 : 14 + (seg % 2) * 8 + (hash2(x, y, s) - 0.5) * 14 + (inArch(x, y, 22.4) ? -12 : 4));
+      } else if (inArch(x, y, 21)) P.set(x, y, [5, 5, 8], (hash2(x, y, s + 1) - 0.5) * 4);
+    }
+    // the treads, stone, lit at the nose, each narrower as it goes
+    const steps = 7;
+    for (let i = 0; i < steps; i++) {
+      const y = down ? 30 + i * 5 : 60 - i * 6, h = down ? 5 : 6, inset = 4 + i * 2, light = down ? 1 - i * 0.13 : 0.35 + i * 0.1;
+      for (let yy = y; yy < Math.min(TEX, y + h); yy++) for (let x = 14 + inset; x < 50 - inset; x++) {
+        const nose = yy === y, k = (hash2(x, yy, s + 2) - 0.5) * 12 + (vnoise(x, yy, 4, s + 3) - 0.5) * 10 + (nose ? 26 : yy === y + h - 1 ? -18 : 0);
+        P.set(x, yy, stone.map(v => v * light), k * light);
+      }
+    }
+    if (!down) {
+      // grey daylight spilling down from the top of the climb
+      for (let y = 6; y < 30; y++) for (let x = 18; x < 46; x++) {
+        if (!inArch(x, y, 21)) continue;
+        const a = Math.max(0, 0.42 - Math.hypot(x - 31.5, y - 14) / 26), c = P.get(x, y);
+        P.set(x, y, mixRgb(c, [236, 228, 200], a));
+      }
+    }
+    return P.done();
+  }
+
   function makeDecor(theme, wall, i) {
     return (theme.decor || []).map((name, k) => {
       const c = canvas(TEX, TEX);
@@ -847,49 +1045,7 @@ const Assets = (() => {
     });
   }
 
-  function makeDoor(theme, wallTex, lockColor) {
-    const c = canvas(TEX, TEX);
-    const ctx = c.getContext('2d');
-    ctx.drawImage(wallTex, 0, 0);
-    // frame
-    ctx.fillStyle = '#1a1410';
-    ctx.fillRect(6, 2, 52, 62);
-    // planks
-    for (let i = 0; i < 6; i++) {
-      const x = 8 + i * 8;
-      ctx.fillStyle = i % 2 ? '#6b4a2a' : '#7a5632';
-      ctx.fillRect(x, 4, 8, 60);
-      ctx.fillStyle = '#4a3018';
-      ctx.fillRect(x, 4, 1, 60);
-    }
-    // wood grain
-    ctx.fillStyle = 'rgba(0,0,0,0.18)';
-    for (let y = 6; y < 62; y += 5) for (let i = 0; i < 6; i++) ctx.fillRect(9 + i * 8 + ((y * 7 + i * 3) % 5), y, 3, 1);
-    // iron bands
-    for (const y of [12, 46]) {
-      ctx.fillStyle = '#4a4e56';
-      ctx.fillRect(8, y, 48, 6);
-      ctx.fillStyle = '#7c8088';
-      ctx.fillRect(8, y, 48, 1);
-      ctx.fillStyle = '#9aa0a8';
-      for (let x = 12; x < 56; x += 10) ctx.fillRect(x, y + 2, 2, 2);
-    }
-    if (lockColor) {
-      ctx.fillStyle = '#2a2a30';
-      ctx.fillRect(38, 27, 14, 16);
-      ctx.fillStyle = lockColor;
-      ctx.fillRect(39, 28, 12, 14);
-      ctx.fillStyle = '#101010';
-      ctx.fillRect(44, 31, 2, 2);
-      ctx.fillRect(44, 33, 2, 5);
-    } else {
-      ctx.fillStyle = '#2a2a30';
-      ctx.fillRect(42, 30, 6, 6);
-      ctx.fillStyle = '#c0c4cc';
-      ctx.fillRect(43, 31, 4, 4);
-    }
-    return c;
-  }
+  function makeDoor(theme, wallTex, lockColor) { return makePlankDoor(theme, wallTex, lockColor); }
 
   // A door a beast is battering shows each blow: a plank splits, then the
   // splits run and an iron band bends, and on the third the wood gives
@@ -965,42 +1121,7 @@ const Assets = (() => {
     return (set[n] = c);
   }
 
-  function makeStairs(theme, wallTex, down) {
-    const c = canvas(TEX, TEX);
-    const ctx = c.getContext('2d');
-    ctx.drawImage(wallTex, 0, 0);
-    // archway
-    ctx.fillStyle = '#050508';
-    ctx.beginPath();
-    ctx.moveTo(8, 64);
-    ctx.lineTo(8, 20);
-    ctx.quadraticCurveTo(32, -8, 56, 20);
-    ctx.lineTo(56, 64);
-    ctx.closePath();
-    ctx.fill();
-    // steps
-    const steps = 7;
-    for (let i = 0; i < steps; i++) {
-      let y, hgt, inset, bright;
-      if (down) {
-        // steps descend away from the viewer into darkness
-        y = 30 + i * 5; hgt = 5; inset = 4 + i * 2; bright = 110 - i * 14;
-      } else {
-        // steps climb toward light
-        y = 60 - i * 6; hgt = 6; inset = 4 + i * 2; bright = 60 + i * 14;
-      }
-      ctx.fillStyle = `rgb(${bright},${bright},${bright + 6})`;
-      ctx.fillRect(10 + inset, y, 44 - inset * 2, hgt);
-      ctx.fillStyle = `rgb(${bright + 30},${bright + 30},${bright + 36})`;
-      ctx.fillRect(10 + inset, y, 44 - inset * 2, 1);
-    }
-    if (!down) {
-      // daylight glow at the top of an ascending stair
-      ctx.fillStyle = 'rgba(255,240,200,0.35)';
-      ctx.fillRect(22, 16, 20, 8);
-    }
-    return c;
-  }
+  function makeStairs(theme, wallTex, down) { return makeArchStairs(theme, wallTex, down); }
 
   // Floor and ceiling textures are stored as Uint32 pixel arrays at 8 darkness
   // levels so the floor caster can copy pixels without per-pixel math.
@@ -1038,36 +1159,9 @@ const Assets = (() => {
       for (let i = 0; i < 2; i++) { let x = rng.int(0, TEX), y = rng.int(0, TEX); for (let k = 0; k < 14; k++) { px(ctx, '#4a3420', x & (TEX - 1), y & (TEX - 1)); x += 1; if (rng.chance(0.4)) y += rng.int(-1, 1); } }
       return c;
     }
-    ctx.fillStyle = adjust(theme.floor, -18);
-    ctx.fillRect(0, 0, TEX, TEX);
-    const n = 4, s = TEX / n;
-    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
-      const sh = rng.int(-10, 10);
-      ctx.fillStyle = adjust(theme.floor, sh + 6);
-      ctx.fillRect(x * s + 1, y * s + 1, s - 2, s - 2);
-      ctx.fillStyle = adjust(theme.floor, sh + 16);
-      ctx.fillRect(x * s + 1, y * s + 1, s - 2, 1);
-      ctx.fillStyle = adjust(theme.floor, sh - 10);
-      ctx.fillRect(x * s + 1, y * s + s - 2, s - 2, 1);
-      ctx.fillStyle = 'rgba(0,0,0,0.22)';
-      for (let k = 0; k < 6; k++) ctx.fillRect(x * s + rng.int(2, s - 3), y * s + rng.int(2, s - 3), 1, 1);
-    }
-    return c;
+    return makeFlags(theme, seed);
   }
-  function makeCeiling(theme, seed) {
-    const c = canvas(TEX, TEX);
-    const ctx = c.getContext('2d');
-    const rng = new Rng(seed);
-    ctx.fillStyle = theme.ceil;
-    ctx.fillRect(0, 0, TEX, TEX);
-    for (let i = 0; i < 260; i++) {
-      ctx.fillStyle = adjust(theme.ceil, rng.int(-10, 14));
-      ctx.fillRect(rng.int(0, TEX - 1), rng.int(0, TEX - 1), rng.int(1, 3), rng.int(1, 2));
-    }
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
-    for (let i = 0; i < 4; i++) { let x = rng.int(0, TEX - 1); for (let y = 0; y < TEX; y += 2) { ctx.fillRect(x, y, 1, 2); x = (x + rng.int(-1, 1) + TEX) % TEX; } }
-    return c;
-  }
+  function makeCeiling(theme, seed) { return makeRock(theme, seed); }
   function makeFountain(theme, wallTex, dry) {
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
