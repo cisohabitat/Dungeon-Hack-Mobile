@@ -1342,228 +1342,218 @@ const CREATURES = {
   },
 
   // Low and heavy on six splayed legs, turned a little so its length shows:
-  // a crest of horn plates down its back, a serpent's tail coiled up behind,
-  // and eyes that are what you see first. Winding up a bite it drops its jaw;
-  // to look at you it rears its head up high, and the eyes blaze.
+  // keeled scales in rows down a long muscled body, a crest of horn plates
+  // down its back, a serpent's tail coiled up behind, and eyes that are what
+  // you see first. Winding up a bite it drops its jaw; to look at you it rears
+  // its head up high, the crown spreads into a frill and the eyes blaze.
   basilisk: (pose = 'idle') => {
-    const hide = '#62703f', skin = '#77834e', flank = '#4a5436', belly = '#b0aa78', horn = '#a08e5e', jaw = '#8e8c5e';
+    const hide = '#62703f', hideLt = '#7a8a50', skin = '#77834e', flank = '#4a5436', belly = '#b0aa78', horn = '#a08e5e', hornDk = '#7a6844', jaw = '#8e8c5e', scaleC = '#3e4826', claw = '#e0d8b8';
     const gaze = pose === 'special', bite = pose === 'windup';
-    const up = gaze ? 1.2 : bite ? -0.4 : 0;    // how far the body is raised
+    const up = gaze ? 2.4 : bite ? -0.8 : 0;    // how far the body is raised
     // plates standing up off the spine: [x, y at the spine, height, lean]
-    const plates = [[25, 13, 3, 0.8], [21.5, 12, 4, 0.6], [18, 12.5, 4.6, 0.4], [14.5, 14.5, 4.2, 0.2]]
+    const plates = [[52, 28, 5, 1.6], [47, 25, 7, 1.4], [42, 23.6, 8.4, 1.2], [37, 24, 9.2, 1], [32, 25.4, 9, 0.8], [27.4, 28, 8, 0.5], [23.6, 31, 6.4, 0.3]]
       .map(([x, y, h, l]) => gaze ? [x, y - up, h * 1.25, l * 0.6] : [x, y, h, l]);
+    /** a leg: hip, elbow or knee, foot, with three clawed toes */
+    const legOf = (x1, y1, x2, y2, x3, y3, r, c) => [
+      limb(x1, y1, x2, y2, r, r * 0.8, c), ball(x2, y2, r * 0.8, r * 0.75, c), limb(x2, y2, x3, y3, r * 0.8, r * 0.6, c),
+      ball(x3, y3 + 1, r * 1.1, r * 0.5, flank),
+      ...[-1, 0, 1].map(d => limb(x3 + d * r * 0.8, y3 + 1.4, x3 + d * r * 1.3, y3 + 2.6, 0.7, 0.3, claw)),
+    ];
     /** the head, square on to you: a crown of plates, a wedge of a snout, eyes on top */
     const head = (cx, cy) => {
       // the crown stands up off the skull; rearing, it spreads into a frill
-      const crown = (gaze ? [[-178, 6.5], [-148, 8], [-120, 8.5], [-90, 9], [-60, 8.5], [-32, 8], [-2, 6.5]] : [[-150, 2.2], [-115, 2.8], [-65, 2.8], [-30, 2.2]])
+      const crown = (gaze ? [-180, -158, -136, -114, -90, -66, -44, -22, 0].map((a, i) => [a, [12, 15, 17, 18, 19, 18, 17, 15, 12][i]]) : [[-160, 4.4], [-134, 5.6], [-112, 6], [-68, 6], [-46, 5.6], [-20, 4.4]])
         .map(([a, r]) => {
-          const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), w = gaze ? 1.7 : 1.5;
-          const bx = cx + dx * 4, by = cy - 0.5 + dy * 2.4;
+          const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), w = gaze ? 3 : 2.6;
+          const bx = cx + dx * 8, by = cy - 1 + dy * 4.8;
           return [sheet([[bx - dy * w, by + dx * w], [bx + dx * r, by + dy * r], [bx + dy * w, by - dx * w]], horn, { tilt: [dx * 0.5, dy * 0.5] }),
-            hair(bx, by, bx + dx * r * 0.8, by + dy * r * 0.8, '#7a6844')];
+            hair(bx, by, bx + dx * r * 0.8, by + dy * r * 0.8, hornDk)];
         }).flat();
+      if (gaze) crown.unshift(sheet(oval(cx, cy - 2, 17, 13, 20), '#5a6a38', { tilt: [0, -0.4] }));
       /** @type {object[]} */
-      const p = [...crown, ball(cx, cy, 5.6, 3.4, skin)];
-      // scales over the skull, a ridge down the snout, the nostrils
-      p.push(specks([[cx - 2, cy - 2.5], [cx, cy - 3], [cx + 2, cy - 2.5], [cx - 1, cy - 2], [cx + 1, cy - 2]], '#9aa46a'),
-        hair(cx, cy - 1, cx, cy + 2.5, '#8e9a62'));
+      const p = [...crown, ball(cx, cy, 11.2, 6.8, skin), ball(cx - 3, cy - 3, 5, 2.4, hideLt)];
+      // scales over the skull, a ridge down the snout
+      p.push(...[[-4, -5], [0, -6], [4, -5], [-2, -4], [2, -4]].flatMap(([d, y]) => [hair(cx + d - 1, cy + y, cx + d, cy + y + 0.75, scaleC), hair(cx + d, cy + y + 0.75, cx + d + 1, cy + y, scaleC)]),
+        hair(cx, cy - 2, cx, cy + 5, '#8e9a62'));
       if (bite) {
         p.push(
-          sheet([[cx - 4.5, cy + 0.5], [cx + 4.5, cy + 0.5], [cx + 3, cy + 7], [cx - 3, cy + 7]], '#5a1c1e', { curve: 0.6 }),
-          ball(cx, cy + 7.3, 3.4, 1.3, jaw),
-          limb(cx, cy + 0.5, cx, cy + 3, 3.6, 2.6, skin),
-          ball(cx, cy + 5.6, 2, 1, '#a04a40'),
-          specks([[cx - 2.5, cy + 3.5], [cx - 1, cy + 4], [cx + 1, cy + 4], [cx + 2.5, cy + 3.5]], '#f0e8cc'),
-          specks([[cx - 2, cy + 6.5], [cx - 0.5, cy + 6.5], [cx + 1, cy + 6.5], [cx + 2.5, cy + 6.5]], '#e0d8b8'),
+          sheet([[cx - 9, cy + 1], [cx + 9, cy + 1], [cx + 6, cy + 14], [cx - 6, cy + 14]], '#5a1c1e', { curve: 0.6 }),
+          ball(cx, cy + 14.6, 6.8, 2.6, jaw), limb(cx, cy + 1, cx, cy + 6, 7.2, 5.2, skin), ball(cx, cy + 11.2, 4, 2, '#a04a40'),
+          ...[-5, -2, 2, 5].map(d => limb(cx + d, cy + 6.6, cx + d, cy + 8.4, 0.55, 0.2, '#f0e8cc')),
+          ...[-4, -1.3, 1.3, 4].map(d => limb(cx + d, cy + 13, cx + d, cy + 11.4, 0.5, 0.2, '#e0d8b8')),
+          hair(cx + 4, cy + 15, cx + 4, cy + 18, '#c8d0a0'), specks([[cx - 5, cy + 16]], '#c8d0a0'),
         );
       } else {
         p.push(
-          ball(cx, cy + 5.6, 2.6, 1.3, jaw),
-          limb(cx, cy + 1, cx, cy + 4.4, 3.6, 2.4, skin),
-          hair(cx - 2.5, cy + 5, cx + 3, cy + 5, '#2a1a14'), hair(cx - 3, cy + 4, cx - 2.5, cy + 5, '#2a1a14'), hair(cx + 3.5, cy + 4, cx + 3, cy + 5, '#2a1a14'),
-          specks([[cx - 2, cy + 5.5], [cx - 2, cy + 6], [cx + 2.5, cy + 5.5], [cx + 2.5, cy + 6], [cx, cy + 5.5]], '#f0e8cc'),
+          ball(cx, cy + 11.2, 5.2, 2.6, jaw), limb(cx, cy + 2, cx, cy + 8.8, 7.2, 4.8, skin),
+          hair(cx - 5, cy + 10, cx + 6, cy + 10, '#2a1a14'), hair(cx - 6, cy + 8, cx - 5, cy + 10, '#2a1a14'), hair(cx + 7, cy + 8, cx + 6, cy + 10, '#2a1a14'),
+          ...[-4, -1.3, 1.3, 4].map(d => limb(cx + d, cy + 10.2, cx + d, cy + 11.6, 0.45, 0.2, '#f0e8cc')),
         );
       }
+      p.push(ball(cx - 1.6, cy + 6.4, 0.7, 0.6, '#1e2414'), ball(cx + 1.6, cy + 6.4, 0.7, 0.6, '#1e2414'));
       // the eyes sit in dark rims under a heavy brow
-      const ey = Math.floor(cy) - 1;
-      p.push(ball(cx - 3, ey + 1, 1.9, gaze ? 2.1 : 1.5, '#262a18'), ball(cx + 3, ey + 1, 1.9, gaze ? 2.1 : 1.5, '#262a18'));
-      const L = [cx - 4, cx - 3, cx - 2], R = [cx + 1, cx + 2, cx + 3];
-      const eye = rows => rows.flatMap(y => [...L, ...R].map(x => [x, y]));
-      if (gaze) {
-        // wide and burning, the pupils shrunk to a line
-        p.push(dots(eye([ey - 1, ey, ey + 1]), '#e8ff70'), dots([ey - 1, ey, ey + 1].flatMap(y => [[cx - 3, y], [cx + 2, y]]), '#fcffd0'));
-      } else if (bite) {
-        // narrowed to slits under the brow
-        p.push(dots(eye([ey + 1]), '#d8f040'), dots([[cx - 3, ey + 1], [cx + 2, ey + 1]], '#1a2008'));
-      } else {
-        p.push(dots(eye([ey, ey + 1]), '#d8f040'), dots([[cx - 3, ey], [cx - 3, ey + 1], [cx + 2, ey], [cx + 2, ey + 1]], '#1a2008'));
+      const ey = cy - 1;
+      p.push(ball(cx - 5, ey, 3.8, gaze ? 4 : 3, '#262a18'), ball(cx + 5, ey, 3.8, gaze ? 4 : 3, '#262a18'));
+      for (const x of [cx - 5, cx + 5]) {
+        if (gaze) p.push(ball(x, ey, 2.8, 2.6, '#e8ff70', { glows: true }), ball(x, ey, 1.6, 1.6, '#fcffd0', { glows: true }), limb(x, ey - 1.6, x, ey + 1.6, 0.3, 0.3, '#2a3008'));
+        else if (bite) p.push(ball(x, ey + 0.6, 2.6, 0.8, '#d8f040', { glows: true }), limb(x, ey, x, ey + 1.2, 0.35, 0.35, '#1a2008'));
+        else p.push(ball(x, ey, 2.6, 1.8, '#d8f040', { glows: true }), limb(x, ey - 1.4, x, ey + 1.4, 0.45, 0.4, '#1a2008'), specks([[x - 1.25, ey - 1]], '#f4ffc0'));
       }
-      p.push(specks([[cx - 1, cy + 3.5], [cx + 1, cy + 3.5]], '#1e2414'));
       if (gaze) {
         // light spilling out of them, over the frill and down the snout
-        for (const [ex, dir] of [[cx - 3, -1], [cx + 3, 1]]) {
-          p.push(hair(ex + dir * 2.5, ey + 0.5, ex + dir * 5, ey + 0.5, '#d8ff60'), hair(ex + dir * 2, ey - 1.5, ex + dir * 4, ey - 3.5, '#c0f050'),
-            hair(ex + dir * 2, ey + 2.5, ex + dir * 4, ey + 4.5, '#c0f050'), hair(ex, ey - 2, ex, ey - 4, '#c0f050'));
-          p.push(specks([[ex + dir * 4, ey - 1], [ex - dir, ey + 3]], '#f0ffa0'));
+        for (const [ex, dir] of [[cx - 5, -1], [cx + 5, 1]]) {
+          p.push(hair(ex + dir * 5, ey, ex + dir * 10, ey, '#d8ff60', { glows: true }), hair(ex + dir * 4, ey - 3, ex + dir * 8, ey - 7, '#c0f050', { glows: true }),
+            hair(ex + dir * 4, ey + 3, ex + dir * 8, ey + 7, '#c0f050', { glows: true }), hair(ex, ey - 4, ex, ey - 8, '#c0f050', { glows: true }));
+          p.push(specks([[ex + dir * 8, ey - 2], [ex - dir * 2, ey + 6]], '#f0ffa0', { glows: true }));
         }
       }
-      if (bite) p.push(hair(cx + 2, cy + 7.5, cx + 2, cy + 9, '#c8d0a0'), specks([[cx - 2.5, cy + 8]], '#c8d0a0'));
-      const b = gaze ? -1.2 : bite ? 0.4 : 0;    // the brow, raised or drawn down
-      p.push(limb(cx - 5, ey - 1 + b, cx - 1.5, ey + 0.2 + b, 0.8, 0.5, horn), limb(cx + 5, ey - 1 + b, cx + 1.5, ey + 0.2 + b, 0.8, 0.5, horn));
+      const b = gaze ? -2.4 : bite ? 0.8 : 0;    // the brow, raised or drawn down
+      p.push(limb(cx - 10, ey - 2.6 + b, cx - 3, ey - 0.6 + b, 1.6, 1, horn), limb(cx + 10, ey - 2.6 + b, cx + 3, ey - 0.6 + b, 1.6, 1, horn));
       return p;
     };
     /** @type {object[]} */
     const out = [
-      // the tail, up behind it in a serpent's coil
-      limb(26, 15, 29.5, 12, 2.6, 2.1, hide), limb(29.5, 12, 30, 7, 2.1, 1.6, hide),
-      limb(30, 7, 27.5, 3.5, 1.6, 1.1, hide), limb(27.5, 3.5, 25, 4.5, 1.1, 0.7, hide),
-      limb(25, 4.5, 25, 6.5, 0.7, 0.5, hide),
-      limb(29.3, 12.5, 29.8, 7.5, 1, 0.8, belly),
-      ...[[31, 10, 1], [30.5, 5, 0.6], [27.5, 2, 0]].map(([x, y, l]) => sheet([[x - 1.5 * l - 0.8, y + 1.2 - l], [x + 1.2 * l, y - 1.3 + l * 0.3], [x + 0.6, y + 1.4]], horn, { tilt: [0.4, -0.4] })),
+      // the tail, up behind it in a serpent's coil, ringed and spiked
+      limb(52, 30, 59, 24, 5.2, 4.2, hide), limb(59, 24, 60, 14, 4.2, 3.2, hide),
+      limb(60, 14, 55, 7, 3.2, 2.2, hide), limb(55, 7, 50, 9, 2.2, 1.4, hide), limb(50, 9, 50, 13, 1.4, 1, hide),
+      limb(58.6, 25, 59.6, 15, 2, 1.6, belly),
+      ...[[62, 20, 1], [61, 10, 0.6], [55, 4, 0]].map(([x, y, l]) => sheet([[x - 3 * l - 1.6, y + 2.4 - l * 2], [x + 2.4 * l, y - 2.6 + l * 0.6], [x + 1.2, y + 2.8]], horn, { tilt: [0.4, -0.4] })),
+      ...[[56, 27], [59.5, 20], [60, 15], [57.5, 9.5], [53, 7]].map(([x, y]) => hair(x - 2, y - 1, x + 2, y + 1, '#46502e')),
       // the far legs, splayed out behind
-      limb(16, 15 - up, 11.5, 13.5 - up, 1.5, 1.2, flank), limb(11.5, 13.5 - up, 11, 19.5, 1.2, 1, flank), ball(10.8, 20.2, 1.6, 0.8, flank),
-      limb(12, 19.5 - up, 6.5, 18.5 - up, 1.9, 1.5, flank), limb(6.5, 18.5 - up, 5, 25.5, 1.5, 1.2, flank), ball(4.8, 26.2, 2, 1, flank),
-      ball(11.5, 13.5 - up, 1.4, 1.3, flank), ball(6.5, 18.5 - up, 1.7, 1.6, flank),
+      ...legOf(32, 30 - up, 23, 27 - up, 22, 39, 3, flank),
+      ...legOf(24, 39 - up, 13, 37 - up, 10, 51, 3.8, flank),
       // the crest
-      ...plates.map(([x, y, h, l]) => sheet([[x - 1.8, y + 1], [x + l * 1.5, y - h], [x + 1.8, y + 1]], horn, { curve: 0.6 })),
-      // the body, from the haunch forward to the shoulders
-      ball(24.5, 16.5 - up * 0.5, 4.8, 3.8, hide),
-      ball(19.5, 17.5 - up, 6.5, 5, hide),
-      ball(14.5, 19.5 - up, 6.5, 5.2, flank),
-      ball(19.5, 21 - up, 5.5, 1.8, belly),
+      ...plates.map(([x, y, h, l]) => sheet([[x - 3.6, y + 2], [x + l * 3, y - h], [x + 3.6, y + 2]], horn, { curve: 0.6 })),
+      ...plates.map(([x, y, h, l]) => hair(x, y + 1, x + l * 3, y - h + 2, hornDk)),
+      // the body, from the haunch forward to the shoulders, the muscle of each
+      ball(49, 33 - up * 0.5, 9.6, 7.6, hide), ball(39, 35 - up, 13, 10, hide), ball(29, 39 - up, 13, 10.4, flank),
+      ball(38, 31 - up, 8, 4, hideLt), ball(48, 30 - up * 0.5, 5, 3, hideLt),
+      ball(39, 42 - up, 11, 3.6, belly),
       // the near legs: hind, middle, front
-      limb(24.5, 18.5 - up * 0.5, 27, 21.5, 1.8, 1.4, hide), limb(27, 21.5, 27, 27, 1.4, 1.1, hide), ball(27, 27.6, 1.9, 0.9, flank),
-      ball(27, 21.5, 1.3, 1.2, hide),
-      limb(20.5, 20.5 - up, 22.5, 24.5 - up * 0.5, 2, 1.7, hide), limb(22.5, 24.5 - up * 0.5, 21.5, 29.5, 1.7, 1.3, hide), ball(21.3, 30.2, 2.2, 1.1, flank),
-      ball(22.5, 24.5 - up * 0.5, 1.6, 1.5, hide),
-      limb(15, 22 - up, 17.5, 25 - up * 0.5, 2.3, 1.9, hide), limb(17.5, 25 - up * 0.5, 16.5, 29.8, 1.9, 1.5, hide), ball(16.3, 30.4, 2.4, 1.1, flank),
-      ball(17.5, 25 - up * 0.5, 1.8, 1.7, hide),
+      ...legOf(49, 37 - up * 0.5, 54, 43, 54, 54, 3.6, hide),
+      ...legOf(41, 41 - up, 45, 49 - up * 0.5, 43, 59, 4, hide),
+      ...legOf(30, 44 - up, 35, 50 - up * 0.5, 33, 59.6, 4.6, hide),
     ];
-    // the fine detail: ridges on the plates, scales in staggered rows over
-    // the back and shoulders, rings round the tail and claws on the feet
-    const onBack = (x, y) => y < 19.5 - up && (((x - 19.5) / 6) ** 2 + ((y - 17.5 + up) / 4.4) ** 2 < 1 || ((x - 24.5) / 4.3) ** 2 + ((y - 16.5 + up * 0.5) / 3.3) ** 2 < 1
-      || ((x - 14.5) / 5.8) ** 2 + ((y - 19.5 + up) / 4.6) ** 2 < 1);
-    const scales = [];
-    for (let r = 0; r < 5; r++) for (let x = 9 + (r % 2); x < 29; x += 2) { const y = 13.5 + r * 1.5; if (onBack(x - 0.5, y) && onBack(x + 0.5, y + 0.5)) scales.push([x, y]); }
+    // keeled scales in staggered rows over the back and shoulders, each a small arc
+    const onBack = (x, y) => y < 39 - up && (((x - 39) / 12) ** 2 + ((y - 35 + up) / 8.8) ** 2 < 1 || ((x - 49) / 8.6) ** 2 + ((y - 33 + up * 0.5) / 6.6) ** 2 < 1
+      || ((x - 29) / 11.6) ** 2 + ((y - 39 + up) / 9.2) ** 2 < 1);
+    for (let r = 0; r < 8; r++) for (let x = 18 + (r % 2) * 1.5; x < 58; x += 3) {
+      const y = 27 + r * 1.8;
+      if (onBack(x - 1, y) && onBack(x + 1, y + 1)) out.push(hair(x - 1.25, y, x, y + 0.75, scaleC), hair(x, y + 0.75, x + 1.25, y, scaleC));
+    }
     out.push(
-      ...plates.map(([x, y, h, l]) => hair(x, y + 0.5, x + l * 1.5, y - h + 1, '#7a6844')),
-      // each scale's lower edge as a little arc, so they lie in rows like tiles
-      ...scales.flatMap(([x, y]) => [hair(x - 0.75, y, x, y + 0.5, '#48532e'), hair(x, y + 0.5, x + 0.75, y, '#48532e')]),
-      hair(27, 14.5, 29.5, 13.5, '#46502e'), hair(28.5, 10.5, 31, 11, '#46502e'), hair(28.5, 7, 31, 6.5, '#46502e'), hair(27.5, 4.5, 28.5, 2.5, '#46502e'),
-      ...[[16.3, 30.4], [21.3, 30.2], [27, 27.6], [4.8, 26.2], [10.8, 20.2]].map(([x, y]) => specks([[x - 1.5, y + 0.5], [x - 0.5, y + 1], [x + 0.5, y + 1], [x + 1.5, y + 0.5]], '#e0d8b8')),
-      // a pale scaled belly along the near side
-      specks([[19, 21.5 - up], [20.5, 21.5 - up], [22, 21 - up], [23.5, 21 - up]], '#8a8660'),
+      // a pale scaled belly along the near side, and the folds of skin at each leg
+      ...[33, 37, 41, 45].map(x => hair(x, 42.5 - up, x + 1.5, 43 - up, '#8a8660')),
+      hair(36, 45 - up, 38, 48 - up, flank), hair(46, 42 - up, 48, 45 - up, flank), hair(52, 38, 55, 41, flank),
     );
     if (gaze) {
       // reared up high on its neck, pale throat toward you
-      out.push(limb(15, 20.5, 12.5, 13.5, 4, 3.3, hide), limb(12.5, 13.5, 11.5, 10, 3.3, 3, hide),
-        ...[13, 14.5, 16, 17.5, 19].map((y, i) => hair(10.5 + i * 0.5, y, 14 + i * 0.6, y - 0.5, '#8e9a62')), ...head(11, 8.5));
-    } else out.push(...head(11, bite ? 21.8 : 22.5));
+      out.push(limb(30, 41, 25, 27, 8, 6.6, hide), limb(25, 27, 23, 20, 6.6, 6, hide), ball(25, 31, 3.6, 7, belly),
+        ...[26, 29, 32, 35, 38].map((y, i) => hair(21 + i, y, 28 + i * 1.2, y - 1, '#8e9a62')), ...head(22, 17));
+    } else out.push(...head(22, bite ? 43.6 : 45));
     // the hide is smooth between its scales: the painter's grain on top of the
     // rows of scales only read as dirt
     for (const q of out) Object.assign(q, { smooth: 1 });
     return out;
   },
 
-  // A beetle the size of a boar, come up through the floor: a domed shell of
-  // rust and green-crusted copper, legs made for digging, heavy mandibles
-  // either side of a round, drooling mouth ringed with little teeth. Rust
-  // flakes off it as it moves. Winding up to bite it rears back, forelegs
-  // up and mandibles spread wide.
+  // A rustmaw: a beetle the size of a pony, square on. Its wing cases are a
+  // dome of rust split down the middle, ridged and pitted in rows and crusted
+  // green where the copper has gone over; a plated shield stands behind the
+  // head. The head is all mouth: a round wet maw ringed with small teeth,
+  // mandibles either side, compound eyes, and two feathered feelers that taste
+  // the air for iron. Six jointed legs, spined. Rearing for the bite, the front
+  // of it lifts, the spade feet come up and the mandibles spread.
   rustmaw: (pose = 'idle') => {
-    const rust = '#a4461a', shield = '#8a3a16', verd = '#5a9a80', bronze = '#5e3020', jaw = '#7a3620', leg = '#4e2e1c', knee = '#8a5430', gold = '#d8a860';
+    const rust = '#a4461a', rustDk = '#7a3010', rustLt = '#c0602c', shield = '#8a3a16', verd = '#5a9a80', verdLt = '#9ad0b8', bronze = '#5e3020', jaw = '#7a3620',
+      leg = '#4e2e1c', knee = '#8a5430', gold = '#d8a860';
     const rear = pose === 'windup' || pose === 'special';
-    const up = rear ? 3.5 : 0;    // how far the front of it is raised
-    const hy = 24.5 - up;         // the head
+    const up = rear ? 7 : 0;      // how far the front of it is raised
+    const hy = 49 - up;           // the head
     const sy = up * 0.7;          // and the shell
+    /** a jointed leg: hip, knee and foot, with spines down the shin */
+    const legOf = (hx, hY, kx, ky, fx, fy, r) => [
+      ...both64(limb(hx, hY, kx, ky, r, r * 0.8, leg)), ...both64(ball(kx, ky, r * 0.85, r * 0.8, knee)), ...both64(limb(kx, ky, fx, fy, r * 0.8, r * 0.55, leg)),
+      ...[0.3, 0.55, 0.8].flatMap(f => both64(hair(kx + (fx - kx) * f, ky + (fy - ky) * f, kx + (fx - kx) * f - 1.75, ky + (fy - ky) * f - 0.75, gold))),
+    ];
     /** @type {object[]} */
     const out = [
       // hind legs, far back: out, up at the knee and down to the floor
-      ...both(limb(10.5, 16 - up * 0.4, 5, 9.5 - up * 0.5, 1.4, 1.1, leg)), ...both(limb(5, 9.5 - up * 0.5, 3, 20.5, 1.05, 0.8, leg)),
-      ...both(ball(5, 9.5 - up * 0.5, 1.1, 1.1, knee)),
-      // the shell, crusted green where the copper has gone over
-      ball(16, 15.5 - sy, 10.8, 8.4, rust),
-      sheet([[6, 13], [8, 10.5], [10.5, 10], [11, 12], [9.5, 13], [10, 15.5], [7.5, 17], [5.5, 16]].map(([x, y]) => [x, y - sy]), verd, { tilt: [-0.4, -0.3] }),
-      sheet([[20, 8.5], [22.5, 8], [24, 10], [22.5, 10.5], [21, 10]].map(([x, y]) => [x, y - sy]), verd, { tilt: [0.2, -0.6] }),
-      sheet([[23, 14], [25.5, 13], [26.8, 16], [26, 19], [24, 18], [24.5, 16]].map(([x, y]) => [x, y - sy]), verd, { tilt: [0.6, 0] }),
-      sheet([[12.5, 17.5], [14.5, 16.5], [15, 19], [13, 19.5]].map(([x, y]) => [x, y - sy]), verd, { tilt: [-0.2, 0] }),
-      // middle legs, braced wide
-      ...both(limb(8, 21 - up * 0.6, 2.5, 15.5 - up * 0.8, 1.6, 1.3, leg)), ...both(limb(2.5, 15.5 - up * 0.8, 1.2, 27.5, 1.25, 0.9, leg)),
-      ...both(ball(2.5, 15.5 - up * 0.8, 1.3, 1.2, knee)),
-      ...both(ball(1.8, 28, 1.4, 0.8, leg)), ...both(limb(1.8, 28.2, 0.5, 29.5, 0.5, 0.3, knee)), ...both(limb(2.2, 28.4, 3.4, 29.6, 0.5, 0.3, knee)),
-      // the shield behind the head, with a rolled front edge
-      ball(16, 20.5 - up, 8.6, 4.4, shield),
-      limb(8.5, 22.3 - up, 23.5, 22.3 - up, 0.7, 0.7, '#b8602c'),
+      ...legOf(21, 32 - up * 0.4, 10, 19 - up * 0.5, 6, 41, 2.6),
+      // the wing cases: a dome split down the middle, a rim to each
+      ball(32, 31 - sy, 21.6, 16.8, rust), ball(32, 39 - sy, 20, 8, rustDk),
+      ball(24, 24 - sy, 8, 6, rustLt), ball(40, 24 - sy, 8, 6, rustLt),
+      limb(32, 15 - sy, 32, 46 - sy, 0.9, 0.9, '#4a1c0c'),
+      // the copper gone green in crusts over it
+      sheet([[12, 26], [16, 21], [21, 20], [22, 24], [19, 26], [20, 31], [15, 34], [11, 32]].map(([x, y]) => [x, y - sy]), verd, { tilt: [-0.4, -0.3] }),
+      sheet([[40, 17], [45, 16], [48, 20], [45, 21], [42, 20]].map(([x, y]) => [x, y - sy]), verd, { tilt: [0.2, -0.6] }),
+      sheet([[46, 28], [51, 26], [53.6, 32], [52, 38], [48, 36], [49, 32]].map(([x, y]) => [x, y - sy]), verd, { tilt: [0.6, 0] }),
+      sheet([[25, 35], [29, 33], [30, 38], [26, 39]].map(([x, y]) => [x, y - sy]), verd, { tilt: [-0.2, 0] }),
+      // middle legs, braced wide, the feet clawed
+      ...legOf(16, 42 - up * 0.6, 5, 31 - up * 0.8, 2.4, 55, 3.2),
+      ...both64(ball(3, 56, 2.8, 1.6, leg)), ...both64(limb(3, 56.4, 1, 59, 1, 0.6, knee)), ...both64(limb(4, 56.8, 6.8, 59.2, 1, 0.6, knee)),
+      // the shield behind the head, with a rolled front edge and a row of rivet-like bosses
+      ball(32, 41 - up, 17.2, 8.8, shield), ball(32, 38 - up, 14, 4, '#9a4a22'),
+      limb(17, 44.6 - up, 47, 44.6 - up, 1.4, 1.4, '#b8602c'), hair(18, 43.5 - up, 46, 43.5 - up, '#e08850'),
+      ...[20, 26, 32, 38, 44].map(x => ball(x, 40.5 - up, 1.1, 1, '#6a2a10')),
     ];
     if (rear) {
       // forelegs raised high, the spade feet up and out
-      out.push(
-        ...both(limb(11, 22.5 - up, 4, 15.5 - up, 1.6, 1.3, leg)), ...both(limb(4, 15.5 - up, 5.5, 7, 1.3, 1, leg)),
-        ...both(limb(5.5, 7, 8.8, 5.3, 0.9, 0.45, gold)), ...both(limb(5.5, 7.5, 8.8, 8.8, 0.8, 0.4, gold)), ...both(limb(5.3, 7, 5.3, 3.5, 0.7, 0.4, gold)),
-        ...both(ball(4, 15.5 - up, 1.4, 1.4, knee)),
-      );
+      out.push(...legOf(22, 45 - up, 8, 31 - up, 11, 14, 3.2),
+        ...both64(limb(11, 14, 17.6, 10.6, 1.8, 0.9, gold)), ...both64(limb(11, 15, 17.6, 17.6, 1.6, 0.8, gold)), ...both64(limb(10.6, 14, 10.6, 7, 1.4, 0.8, gold)));
     } else {
-      out.push(
-        ...both(limb(11, 24, 7, 21, 1.6, 1.3, leg)), ...both(limb(7, 21, 4.5, 28, 1.3, 1, leg)),
-        ...both(ball(4.3, 29.3, 2.2, 1.8, leg)),
-        ...both(limb(4, 29.5, 1.8, 31, 0.6, 0.35, knee)), ...both(limb(4.5, 29.8, 4.5, 31.2, 0.6, 0.35, knee)), ...both(limb(5, 29.5, 6.8, 31, 0.6, 0.35, knee)),
-        ...both(ball(7, 21, 1.4, 1.4, knee)),
-      );
+      out.push(...legOf(22, 48, 14, 42, 9, 56, 3.2),
+        ...both64(ball(8.6, 58.6, 4.4, 3.6, leg)),
+        ...both64(limb(8, 59, 3.6, 62, 1.2, 0.7, knee)), ...both64(limb(9, 59.6, 9, 62.4, 1.2, 0.7, knee)), ...both64(limb(10, 59, 13.6, 62, 1.2, 0.7, knee)));
     }
-    const mr = rear ? [3.8, 3.4] : [3.2, 2.8];    // how wide the maw gapes
+    const mr = rear ? [7.6, 6.8] : [6.4, 5.6];    // how wide the maw gapes
     out.push(
-      ball(16, hy, 6.2, 4.4, bronze),
+      ball(32, hy, 12.4, 8.8, bronze), ball(28, hy - 4, 5, 2.6, '#7a4030'),
       // the maw, round and wet, lipped in raw red. The hole itself is laid
       // flat and turned from the light: painted as a ball, the painter lit
       // its crown, and the dark of the throat came out a grey dome
-      ball(16, hy + 1, mr[0] + 0.6, mr[1] + 0.5, '#8a3424'),
-      sheet(oval(16, hy + 1, mr[0], mr[1]), '#3a0a0a', { tilt: [0.55, 0.6] }),
-      sheet(oval(16, hy + 1.4, mr[0] * 0.6, mr[1] * 0.6), '#0a0204', { tilt: [0.7, 0.7] }),
-      // one wet glint deep in it
-      specks([[15, hy + 0.5], [15.5, hy + 0.5]], '#d07a60'),
+      ball(32, hy + 2, mr[0] + 1.2, mr[1] + 1, '#8a3424'),
+      sheet(oval(32, hy + 2, mr[0], mr[1]), '#3a0a0a', { tilt: [0.55, 0.6] }),
+      sheet(oval(32, hy + 2.8, mr[0] * 0.6, mr[1] * 0.6), '#0a0204', { tilt: [0.7, 0.7] }),
+      specks([[30, hy + 1], [31, hy + 1]], '#d07a60'),
     );
     if (rear) {
-      // mandibles spread wide, ready to close
-      out.push(
-        ...both(limb(11, hy - 1, 6, hy - 2.5, 2, 1.6, jaw)), ...both(limb(6, hy - 2.5, 3.5, hy + 1, 1.6, 1.1, jaw)),
-        ...both(limb(3.5, hy + 1, 4.8, hy + 4.2, 1.1, 0.5, gold)),
-      );
+      // mandibles spread wide, ready to close, their inner edges toothed
+      out.push(...both64(limb(22, hy - 2, 12, hy - 5, 4, 3.2, jaw)), ...both64(limb(12, hy - 5, 7, hy + 2, 3.2, 2.2, jaw)),
+        ...both64(limb(7, hy + 2, 9.6, hy + 8.4, 2.2, 1, gold)), ...both64(specks([[10, hy - 2], [9, hy], [8.5, hy + 2]], '#f0d090')));
     } else {
-      out.push(
-        ...both(limb(11, hy + 0.5, 7.5, hy + 3, 2, 1.6, jaw)), ...both(limb(7.5, hy + 3, 9, hy + 5.8, 1.6, 1.1, jaw)),
-        ...both(limb(9, hy + 5.8, 12.3, hy + 6.3, 1.1, 0.5, gold)),
-      );
+      out.push(...both64(limb(22, hy + 1, 15, hy + 6, 4, 3.2, jaw)), ...both64(limb(15, hy + 6, 18, hy + 11.6, 3.2, 2.2, jaw)),
+        ...both64(limb(18, hy + 11.6, 24.6, hy + 12.6, 2.2, 1, gold)), ...both64(specks([[17.5, hy + 8], [19.5, hy + 10.5], [22, hy + 11.5]], '#f0d090')));
     }
     out.push(
-      // small dull eyes, and clubbed feelers
-      dots([[11, hy - 2], [20, hy - 2]], '#d05a28'),
-      ...both(limb(13, hy - 3, 10.5, hy - 6, 0.5, 0.5, leg)), ...both(ball(10, hy - 6.5, 1.2, 1, knee)),
+      // compound eyes, dull and faceted, and the feathered feelers
+      ball(22.6, hy - 4.4, 2.6, 2.2, '#3a1408'), ball(41.4, hy - 4.4, 2.6, 2.2, '#3a1408'),
+      ball(22.6, hy - 4.4, 1.7, 1.4, '#d05a28', { glows: true }), ball(41.4, hy - 4.4, 1.7, 1.4, '#d05a28', { glows: true }),
+      specks([[22, hy - 5], [23.5, hy - 4], [22.5, hy - 3.5], [40.75, hy - 5], [42, hy - 4], [41, hy - 3.5]], '#601e0a'),
+      ...both64(limb(26, hy - 6, 21, hy - 13, 1, 0.8, leg)), ...both64(limb(21, hy - 13, 17, hy - 15, 0.8, 0.7, leg)),
+      ...both64(ball(16.4, hy - 15.4, 2.6, 2, knee)),
+      ...[0, 1, 2, 3].flatMap(i => both64(hair(23 - i * 1.5, hy - 10 - i * 1.5, 20.5 - i * 1.5, hy - 11 - i * 1.5, '#a87040'))),
     );
-    // the fine detail: a ring of small teeth, the drool, the seam of the shell,
-    // pits and flakes of rust, spines on the legs
+    // the fine detail: a ring of small teeth, the drool, pits in rows down each
+    // wing case, flakes of rust coming away
     const teeth = [];
     // along the top and bottom of the rim only: a full ring of pale points
     // read as a gun-sight, not a mouth
-    for (let a = 0; a < 16; a++) { if (a % 8 === 0 || a % 8 === 1 || a % 8 === 7) continue; const t = a / 16 * Math.PI * 2; teeth.push([16 + Math.cos(t) * (mr[0] - 0.6), hy + 1 + Math.sin(t) * (mr[1] - 0.5)]); }
+    for (let a = 0; a < 24; a++) { if (a % 12 < 2 || a % 12 > 10) continue; const t = a / 24 * Math.PI * 2; teeth.push([32 + Math.cos(t) * (mr[0] - 1), hy + 2 + Math.sin(t) * (mr[1] - 1)]); }
     const pits = [];
-    for (const f of [0.3, 0.62]) for (let y = 9; y <= 16.5; y += 1) {
-      const w = 10.8 * Math.sqrt(1 - ((y - 15.5) / 8.4) ** 2) * f;
-      pits.push([16 - w, y], [16 + w, y]);
+    for (const f of [0.22, 0.42, 0.64, 0.84]) for (let y = 18; y <= 34; y += 2) {
+      const w = 21.6 * Math.sqrt(Math.max(0, 1 - ((y - 31) / 16.8) ** 2)) * f;
+      pits.push([32 - w, y], [32 + w, y]);
     }
     out.push(
       specks(teeth, '#d8c8a4'),
+      // ridges down each wing case, following its curve
+      ...[0.32, 0.53, 0.74].flatMap(f => [hair(32 - 21.6 * f * 0.55, 17 - sy, 32 - 21.6 * f, 36 - sy, '#6a2810'), hair(32 + 21.6 * f * 0.55, 17 - sy, 32 + 21.6 * f, 36 - sy, '#6a2810')]),
+      ...pits.map(([x, y]) => specks([[x, y - sy]], '#5a2008')),
+      specks([[17, 22], [44, 17], [50, 27], [27, 34]].map(([x, y]) => [x, y - sy]), verdLt),
       // drool hanging from the lip, not a rope down to the floor
-      hair(15, hy + 1.5 + mr[1], 14.5, hy + 4 + mr[1], '#c89048'), hair(17.5, hy + 1.5 + mr[1], 18, hy + 3 + mr[1], '#c89048'), specks([[14.5, hy + 5 + mr[1]], [18, hy + 4 + mr[1]]], '#e0b060'),
-      hair(16, 7.5 - sy, 16, 17.5 - sy, '#4a1c0c'),
-      // pits in rows down each wing case, following its curve, as a beetle's
-      // are, rather than scattered like dirt
-      ...pits.map(([x, y]) => specks([[x, y - sy]], '#6a2a10')),
-      // a bright edge on each crust of copper
-      specks([[8.5, 11], [22, 8.5], [25, 13.5]].map(([x, y]) => [x, y - sy]), '#9ad0b8'),
-      // flakes of rust coming away, on the floor beneath it
-      specks([[8, 31.5], [23, 31.5]], '#c06a30'),
-      ...both(specks([[1.5, 24], [1, 26], [2, 19]], '#8a5a30')),
-      ...both(specks(rear ? [[4, 13], [3, 11], [5, 14.5]] : [[5.5, 24.5], [5, 26], [6.5, 23]], gold)),
+      hair(30, hy + 3 + mr[1], 29, hy + 8 + mr[1], '#c89048'), hair(35, hy + 3 + mr[1], 36, hy + 6 + mr[1], '#c89048'), specks([[29, hy + 10 + mr[1]], [36, hy + 8 + mr[1]]], '#e0b060'),
+      specks([[16, 63], [46, 63], [24, 62.5], [40, 62.75]], '#c06a30'),
     );
     // the shell is worn smooth: the painter's grain on it read as a second,
     // noisier coat of rust over the pits
@@ -1962,315 +1952,193 @@ const CREATURES = {
     return gone;
   },
 
-  // A squat, heavy beast like a boar, under a mantle of long dark quills with
-  // pale points. Small mean eyes, tusks, legs hardly longer than hooves.
-  // Roused, the quills stand straight out all round it in a bristling crown;
-  // about to gore, its head goes down and the tusks come up and forward.
+  // A squat, heavy beast like a boar, under a mantle of long quills banded
+  // dark and pale. Coarse bristled hide on a deep chest, small mean eyes sunk
+  // under the brow, a snout like a stopper, tusks, legs hardly longer than
+  // hooves. Roused, the quills stand straight out all round it in a bristling
+  // crown; about to gore, its head goes down and the tusks come up and forward.
   quillback: (pose = 'idle') => {
-    const hide = '#5e4a3a', dark = '#3a2c24', quill = '#2c2630', mantle = '#2e2830', tip = '#e2d8ba', snout = '#9a7466', tusk = '#f0e8d0';
+    const hide = '#5e4a3a', hideLt = '#76604c', dark = '#3a2c24', quill = '#2c2630', quill2 = '#3e3440', mantle = '#2e2830', tip = '#e2d8ba', band = '#8a7e6a',
+      snout = '#9a7466', tusk = '#f0e8d0', hoof = '#221a18';
     const bristle = pose === 'special', gore = pose === 'windup';
-    const hy = gore ? 24 : 21.5;    // the head
-    const my = gore ? 16.5 : 18;    // the crown of the mantle
+    const hy = gore ? 48 : 43;    // the head
+    const my = gore ? 33 : 36;    // the crown of the mantle
     // the quills, from the mantle outward: [angle, length]. At rest they lie
     // back along it and show short; raised, they stand out their full length
-    const rake = bristle
-      ? [[-200, 10], [-188, 13], [-176, 11], [-164, 14], [-152, 12], [-140, 15], [-128, 13], [-116, 15], [-104, 14], [-92, 16], [-80, 14], [-68, 15], [-56, 13], [-44, 15], [-32, 12], [-20, 14], [-8, 11], [4, 13], [16, 10]]
-      : gore ? [[-160, 5], [-145, 6.5], [-130, 7], [-115, 7.5], [-100, 8], [-85, 8], [-70, 7.5], [-55, 7], [-40, 6.5], [-25, 5]]
-        : [[-172, 5], [-158, 6.5], [-144, 6], [-130, 7], [-116, 6.5], [-102, 7.5], [-88, 7], [-74, 7.5], [-60, 6.5], [-46, 7], [-32, 6], [-18, 6.5], [-6, 5]];
+    const n = bristle ? 36 : gore ? 20 : 26, a0 = bristle ? -204 : gore ? -162 : -174, a1 = bristle ? 24 : gore ? -18 : -6;
+    const rake = Array.from({ length: n }, (_, i) => {
+      const a = a0 + (a1 - a0) * i / (n - 1), mid = 1 - Math.abs(i / (n - 1) - 0.5) * 1.2;
+      return [a, (bristle ? 22 : gore ? 12 : 11) * (0.75 + 0.25 * mid) + ((i * 7) % 5 - 2) * (bristle ? 1.2 : 0.6)];
+    });
     /** @param {number[]} q  [angle, length] @param {number} i @param {boolean} back */
     const quillAt = (q, i, back) => {
       const [a, len] = q, t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t);
-      const bx = 16 + dx * 8.5, by = my + 1 + dy * 4.5;
-      const l = back ? len : len * 0.72, sway = back ? 0 : (i % 2 ? 0.1 : -0.1);
-      const ex = bx + (dx + sway) * l, ey = by + dy * l, f = bristle ? 0.8 : 0.84, mx = bx + (dx + sway) * l * f, mY = by + dy * l * f;
-      return [limb(bx, by, mx, mY, back ? 1 : 0.9, 0.5, back ? quill : '#3e3440'), limb(mx, mY, ex, ey, 0.5, 0.3, tip)];
+      const bx = 32 + dx * 17, by = my + 2 + dy * 9;
+      const l = back ? len : len * 0.72, sway = back ? 0 : (i % 2 ? 0.08 : -0.08);
+      const ex = bx + (dx + sway) * l, ey = by + dy * l, f = 0.8, mx = bx + (dx + sway) * l * f, mY = by + dy * l * f;
+      const bnd = 0.45, bX = bx + (dx + sway) * l * bnd, bY = by + dy * l * bnd;
+      return [limb(bx, by, mx, mY, back ? 1.2 : 1, 0.6, back ? quill : quill2), limb(mx, mY, ex, ey, 0.6, 0.3, tip),
+        hair(bX, bY, bX + (dx + sway) * 1.5, bY + dy * 1.5, band)];
     };
     /** @type {object[]} */
     const out = [
       // the long quills behind, the shorter row in front of them
       ...rake.flatMap((q, i) => quillAt(q, i, true)),
-      ...rake.filter((_, i) => i % 2).map(([a, l]) => [a + (bristle ? 6 : 7), l]).flatMap((q, i) => quillAt(q, i, false)),
-      // the hind legs, stubby and set wide
-      ...both(limb(8, 24, 7, 29.5, 2.1, 1.9, dark)), ...both(ball(7, 30.3, 2.3, 1, '#221a18')),
-      // the body under its mantle
-      ball(16, 22, 10.5, 6.8, hide),
-      ball(16, my + 1.5, 10.8, 5.6, mantle),
-      // quills laid over the mantle in rows, pointing back and up
-      ...[0, 1, 2].flatMap(row => Array.from({ length: 9 - row }, (_, i) => {
-        const x = 7.5 + i * 2 + row + ((i * 7 + row * 3) % 5 - 2) * 0.25, y = my + 5.5 - row * 2 + (i % 3) * 0.4, lean = (x - 16) * 0.3;
-        const up = (bristle ? 4.5 : 3.2) + (i + row) % 3 * 0.6;
-        return limb(x, y, x + lean, y - up, 0.7, 0.35, (i + row) % 2 ? '#241e28' : '#3e3642');
-      })),
+      ...rake.filter((_, i) => i % 2).map(([a, l]) => [a + (bristle ? 4 : 5), l]).flatMap((q, i) => quillAt(q, i, false)),
+      // the hind legs, stubby and set wide, split hooves
+      ...both64(limb(16, 48, 14, 59, 4.2, 3.8, dark)), ...both64(ball(14, 60.6, 4.6, 2, hoof)), ...both64(hair(14, 59, 14, 62.5, '#5a4838')),
+      // the body under its mantle: a deep chest, coarse bristled hide
+      ball(32, 44, 21, 13.6, hide), ball(32, 50, 14, 6, hideLt),
+      ball(32, my + 3, 21.6, 11.2, mantle),
+      // quills laid over the mantle in rows, pointing back and up, banded
+      ...[0, 1, 2, 3].flatMap(row => Array.from({ length: 15 - row * 2 }, (_, i) => {
+        const x = 14 + i * 2.5 + row * 2.5 + ((i * 7 + row * 3) % 5 - 2) * 0.3, y = my + 11 - row * 3.2 + (i % 3) * 0.6, lean = (x - 32) * 0.3;
+        const up = (bristle ? 9 : 6.4) + (i + row) % 3 * 1.2;
+        return [limb(x, y, x + lean, y - up, 0.8, 0.4, (i + row) % 2 ? '#241e28' : quill2), hair(x + lean * 0.5, y - up * 0.5, x + lean * 0.55, y - up * 0.5 - 1, band)];
+      })).flat(),
       // forelegs, short and thick, braced out when it lowers its head
       ...(gore
-        ? [...both(limb(11.5, 25, 10, 29.8, 2.3, 2, hide)), ...both(ball(9.8, 30.4, 2.4, 1, '#221a18'))]
-        : [...both(limb(12, 25, 11.5, 29.8, 2.2, 2, hide)), ...both(ball(11.3, 30.4, 2.3, 1, '#221a18'))]),
+        ? [...both64(limb(23, 50, 20, 59.6, 4.6, 4, hide)), ...both64(ball(19.6, 60.8, 4.8, 2, hoof)), ...both64(hair(19.6, 59.5, 19.6, 62.75, '#5a4838'))]
+        : [...both64(limb(24, 50, 23, 59.6, 4.4, 4, hide)), ...both64(ball(22.6, 60.8, 4.6, 2, hoof)), ...both64(hair(22.6, 59.5, 22.6, 62.75, '#5a4838'))]),
+      // coarse bristles over the chest and shoulders
+      ...[[16, 46], [19, 49], [22, 51], [42, 51], [45, 49], [48, 46], [27, 53], [37, 53], [32, 55]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.75 : 0.75), y + 3, '#2a201a')),
       // small ears poking out of the quills
-      ...both(sheet([[11.5, hy - 2.5], [9, hy - 5.5], [13.5, hy - 3.8]], hide, { tilt: [-0.4, -0.2] })),
-      // the head, square on: a broad skull, a snout like a stopper
-      ball(16, hy, 5.4, 4, hide),
-      ball(16, hy - 2, 4.8, 1.4, '#4a3a2e'),
-      ball(16, hy + 3.2, 3, 2.1, snout),
-      ball(16, hy + 3, 2.2, 1.4, '#b08878'),
-      dots([[15, Math.round(hy) + 3], [17, Math.round(hy) + 3]], '#2a1614'),
+      ...both64(sheet([[23, hy - 5], [18, hy - 11], [27, hy - 7.6]], hide, { tilt: [-0.4, -0.2] })), ...both64(sheet([[23.4, hy - 5.6], [20, hy - 9.6], [26, hy - 7.2]], '#8a6a5a')),
+      // the head, square on: a broad skull, jowls, a snout like a stopper
+      ball(32, hy, 10.8, 8, hide), ...both64(ball(25, hy + 4, 4.4, 4, hide)), ball(32, hy - 4, 9.6, 2.8, '#4a3a2e'),
+      ball(32, hy + 6.4, 6, 4.2, snout), ball(32, hy + 6, 4.4, 2.8, '#b08878'),
+      ball(30, hy + 6.6, 1, 0.9, '#2a1614'), ball(34, hy + 6.6, 1, 0.9, '#2a1614'), specks([[29.5, hy + 5.25], [33.5, hy + 5.25]], '#d0a898'),
       // small, mean, red, sunk under the brow
-      dots([[13, Math.round(hy) - 1], [19, Math.round(hy) - 1]], '#ff3a1c'),
-      dots([[12, Math.round(hy) - 1], [20, Math.round(hy) - 1]], '#1c1010'),
-      // the mouth
-      hair(12.5, hy + 4.5, 19.5, hy + 4.5, '#2a1614'),
+      ball(26.6, hy - 1.4, 2.4, 1.6, '#1c1010'), ball(37.4, hy - 1.4, 2.4, 1.6, '#1c1010'),
+      ball(27, hy - 1.4, 1.1, 0.9, '#ff3a1c', { glows: true }), ball(37, hy - 1.4, 1.1, 0.9, '#ff3a1c', { glows: true }), specks([[26.5, hy - 2], [36.5, hy - 2]], '#ffb0a0'),
+      limb(22.6, hy - 4.6, 29.6, hy - 2.6, 1.2, 0.8, dark), limb(41.4, hy - 4.6, 34.4, hy - 2.6, 1.2, 0.8, dark),
+      // the mouth, a scar across the brow, bristles on the snout, spit at the tusks
+      hair(25, hy + 9, 39, hy + 9, '#2a1614'), hair(27, hy - 5, 31, hy - 2.5, '#7a6250'),
+      specks([[29, hy + 3.5], [35, hy + 3.5], [32, hy + 3], [26, hy + 6], [38, hy + 6]], '#6a5040'),
+      specks([[25, hy + 11], [39, hy + 10]], '#c8d0d8'),
     ];
     // tusks up out of the corners of the mouth; brought forward to gore, they
     // curve out wide and long
-    const tk = gore ? [[12.5, hy + 4.5, 8.5, hy + 1.5, 7.5, hy - 2.5]] : [[12.8, hy + 4.2, 10.8, hy + 2.5, 10.5, hy + 0.2]];
-    for (const [x1, y1, x2, y2, x3, y3] of tk) {
-      out.push(...both(limb(x1, y1, x2, y2, gore ? 1.1 : 0.9, gore ? 0.8 : 0.7, tusk)), ...both(limb(x2, y2, x3, y3, gore ? 0.8 : 0.7, 0.4, tusk)));
-    }
+    const tk = gore ? [25, hy + 9, 17, hy + 3, 15, hy - 5] : [25.6, hy + 8.4, 21.6, hy + 5, 21, hy + 0.4];
+    const [x1, y1, x2, y2, x3, y3] = tk;
+    out.push(...both64(limb(x1, y1, x2, y2, gore ? 2.2 : 1.8, gore ? 1.6 : 1.4, tusk)), ...both64(limb(x2, y2, x3, y3, gore ? 1.6 : 1.4, 0.6, tusk)),
+      ...both64(hair(x1 - 0.5, y1 - 1, x2 - 0.5, y2 - 1, '#c8bca0')));
     return out;
   },
 
-  // A young drake of the deep, wingless and heavy, low on splayed forelegs:
-  // rust-red scales, a paler belly, a horned head on a thick neck. Rearing
-  // up to breathe, its jaws gape and fire gathers in the throat; drawing
-  // back to bite, the neck coils and the jaws part.
+  // A cave wyrm, square on: a long low body heavy with muscle, scaled in rows
+  // of dark red with a pale plated belly, legs bowed out at the elbow like a
+  // crocodile's, a ridge of spines over the shoulders, and the neck up out of
+  // them to a long head, horns swept back and smoke curling from the nostrils.
+  // Winding up, the neck coils back to strike and the jaws part; rearing, it
+  // lifts its forelegs, claws out, and the throat glows like a furnace.
   wyrm: (pose = 'idle') => {
-    const hide = '#8a3622', dark = '#5a2016', scale = '#a44428', belly = '#c8966a', horn = '#dccaa0', claw = '#efe4c8';
+    const hide = '#8a3622', dark = '#5a2016', deep = '#3e140c', scale = '#a44428', belly = '#c8966a', bellyDk = '#a87a52', horn = '#dccaa0', hornDk = '#a8987a', claw = '#efe4c8';
     const rear = pose === 'special', coil = pose === 'windup';
-    const hx = coil ? 15 : 16, hy = rear ? 6.5 : coil ? 13.5 : 11.5;    // the head
-    const cy = rear ? -1.5 : coil ? -1 : 0;                                // how high the shoulders ride
+    const hx = coil ? 29 : 32, hy = rear ? 12 : coil ? 25 : 21;    // the head
+    const cy = rear ? -3 : coil ? -1.5 : 0;                         // how high the shoulders ride
+    const arc = (x, y, c = deep) => [hair(x - 1.25, y, x, y + 0.75, c), hair(x, y + 0.75, x + 1.25, y, c)];
     /** @type {object[]} */
     const out = [
-      // the tail, round the front of it on the floor
-      limb(22, 25, 27.5, 28, 3, 2.3, dark), limb(27.5, 28, 30, 25, 2.3, 1.3, dark), limb(30, 25, 29.5, 22, 1.3, 0.6, dark),
-      // the hind feet, planted behind
-      ...both(limb(9.5, 24, 9, 29.5, 2.4, 2, dark)), ...both(ball(9, 30.2, 2.6, 1.1, dark)),
+      // the tail, round the front of it on the floor, its tip curled up
+      limb(44, 51, 54, 57, 5, 4, dark), limb(54, 57, 60, 52, 4, 2.6, dark), limb(60, 52, 59.5, 45, 2.6, 1.2, dark), limb(59.5, 45, 57, 42, 1.2, 0.5, dark),
+      ...[[48, 54], [52, 56], [56, 56], [59, 50], [59.5, 46.5]].flatMap(([x, y]) => arc(x, y)),
+      ...[[51, 53], [56, 53.5], [58, 48]].map(([x, y]) => sheet([[x - 1, y], [x + 0.5, y - 2.4], [x + 1.2, y]], horn)),
+      // the hind feet, planted behind, toes splayed
+      ...both64(limb(19, 47, 17, 58, 4.8, 4, dark)), ...both64(ball(16.6, 60, 5.4, 2.2, dark)),
+      ...both64(specks([[12.5, 62], [15, 62.5], [18, 62.5], [20.5, 62]], claw)),
       // a ridge of spines down the back, over the shoulders behind the neck
-      ...[[-155, 2.8], [-135, 3.6], [-115, 4.2], [-65, 4.2], [-45, 3.6], [-25, 2.8]].map(([a, h]) => {
-        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), bx = 16 + dx * 8.5, by = 20 + cy + dy * 4.5;
-        return sheet([[bx - dy * 1.3, by + dx * 1.3], [bx + dx * h, by + dy * h], [bx + dy * 1.3, by - dx * 1.3]], horn, { tilt: [dx * 0.5, dy * 0.5] });
+      ...[[-160, 4.4], [-142, 6.4], [-124, 8], [-112, 7], [-68, 7], [-56, 8], [-38, 6.4], [-20, 4.4]].map(([a, h]) => {
+        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), bx = 32 + dx * 18, by = 39 + cy + dy * 9;
+        return sheet([[bx - dy * 2, by + dx * 2], [bx + dx * h, by + dy * h], [bx + dy * 2, by - dx * 2]], horn, { tilt: [dx * 0.5, dy * 0.5] });
       }),
-      // the great barrel of the body, low to the floor
-      ball(16, 22 + cy * 0.5, 11, 6.3, hide),
+      // the long barrel of the body, low to the floor, the flanks heavy with muscle
+      ball(32, 44 + cy * 0.5, 22, 12.6, hide), ball(22, 41 + cy * 0.6, 8, 6, scale), ball(42, 41 + cy * 0.6, 8, 6, scale),
+      ball(32, 51 + cy * 0.5, 16, 4, dark),
     ];
-    // the forelegs, splayed wide like a lizard's, or lifted, claws out, as it rears
+    // the forelegs, bowed out at the elbow like a crocodile's, or lifted, claws out, as it rears
     if (rear) {
       out.push(
-        ...both(ball(7, 19.5 + cy, 3.6, 3.3, scale)),
-        ...both(limb(7, 19.5 + cy, 3, 15.5, 3, 2.3, scale)), ...both(limb(3, 15.5, 4.5, 11, 2.3, 1.8, scale)),
-        ...both(ball(4.5, 10.5, 2.2, 1.8, dark)),
-        ...both(limb(3.6, 9.6, 2.6, 8, 0.7, 0.3, claw)), ...both(limb(4.8, 9.2, 4.9, 7.6, 0.7, 0.3, claw)), ...both(limb(5.9, 9.6, 6.9, 8.3, 0.7, 0.3, claw)),
+        ...both64(ball(14, 39 + cy, 7.4, 6.6, scale)), ...both64(ball(12, 37 + cy, 3.6, 2.6, '#b85438')),
+        ...both64(limb(14, 39 + cy, 5, 31, 5.4, 4.2, scale)), ...both64(ball(5, 31, 3.4, 3.2, hide)), ...both64(limb(5, 31, 8.6, 21.4, 4, 3.2, scale)),
+        ...both64(ball(8.6, 20.4, 4.2, 3.4, dark)),
+        ...both64(limb(6.4, 18.6, 4.6, 15, 1.2, 0.4, claw)), ...both64(limb(8.6, 17.8, 8.8, 14, 1.2, 0.4, claw)), ...both64(limb(10.8, 18.6, 12.8, 15.4, 1.2, 0.4, claw)),
+        ...both64(hair(7, 28, 8, 23, deep)), ...both64(hair(11, 35, 7, 32, deep)),
       );
     } else {
-      const w = coil ? 0.8 : 0;    // braced wider for the bite
+      const w = coil ? 1.6 : 0;    // braced wider for the bite
       out.push(
-        ...both(ball(7 - w * 0.5, 20.5 + cy, 3.8, 3.4, scale)),
-        ...both(limb(7 - w * 0.5, 20.5 + cy, 3 - w, 24.5, 3, 2.4, scale)), ...both(limb(3 - w, 24.5, 4.8 - w, 29, 2.4, 2, scale)),
-        ...both(ball(4.8 - w, 29.8, 2.9, 1.4, dark)),
-        ...both(limb(3.3 - w, 30, 1.8 - w, 31.2, 0.6, 0.35, claw)), ...both(limb(4.8 - w, 30.3, 4.8 - w, 31.5, 0.6, 0.35, claw)), ...both(limb(6.3 - w, 30, 7.6 - w, 31.2, 0.6, 0.35, claw)),
+        ...both64(ball(14 - w * 0.5, 41 + cy, 7.6, 6.8, scale)), ...both64(ball(12 - w * 0.5, 39 + cy, 3.6, 2.6, '#b85438')),
+        ...both64(limb(14 - w * 0.5, 41 + cy, 6 - w, 49, 5.6, 4.6, scale)), ...both64(ball(6 - w, 49, 3.6, 3.4, hide)),
+        ...both64(limb(6 - w, 49, 9.6 - w, 58, 4.6, 3.8, scale)),
+        ...both64(ball(9.6 - w, 59.6, 5.8, 2.8, dark)),
+        ...both64(limb(6.6 - w, 60, 3.6 - w, 62.4, 1.2, 0.5, claw)), ...both64(limb(9.6 - w, 60.6, 9.6 - w, 63, 1.2, 0.5, claw)), ...both64(limb(12.6 - w, 60, 15.2 - w, 62.4, 1.2, 0.5, claw)),
+        ...both64(hair(8.5 - w, 47, 12 - w, 44, deep)), ...both64(hair(7 - w, 52, 8.5 - w, 56, deep)),
       );
     }
-    // the pale chest, and the neck up out of it: coiled back on itself to strike
-    out.push(ball(16, 24.5 + cy * 0.5, 5.6, 4, belly));
+    // the pale plated chest, and the neck up out of it: coiled back on itself to strike
+    out.push(ball(32, 49 + cy * 0.5, 11.2, 8, belly), ...[46, 49, 52, 55].map(y => hair(23.5 + (y - 46) * 0.4, y + cy * 0.5, 40.5 - (y - 46) * 0.4, y + cy * 0.5, bellyDk)));
     if (coil) {
-      out.push(limb(16, 21, 18.5, 17.5, 4.6, 4, hide), limb(18.5, 17.5, hx, hy + 2, 4, 3.6, hide));
+      out.push(limb(32, 42, 37.5, 35, 9.2, 8, hide), limb(37.5, 35, hx, hy + 4, 8, 7, hide),
+        ...[[36, 39], [37.5, 35.5], [35, 31.5]].map(([x, y]) => hair(x - 4.5, y, x + 4.5, y - 0.5, bellyDk)));
     } else {
-      out.push(limb(16, 21 + cy, hx, hy + 2, 4.6, 3.8, hide));
-      if (rear) out.push(limb(16, 22 + cy, hx, hy + 5, 1.9, 1.5, '#e8904a'));
+      out.push(limb(32, 42 + cy, hx, hy + 4, 9.2, 7.2, hide), ball(hx, hy + 13, 4.4, 9, belly));
+      out.push(...[34, 31, 28].map(y => hair(hx - 3.5, y + cy * 0.3 - (rear ? 8 : 0), hx + 3.5, y + cy * 0.3 - (rear ? 8 : 0), bellyDk)));
+      if (rear) out.push(limb(32, 41 + cy, hx, hy + 9, 3.2, 2.6, '#f09050', { glows: true }));
     }
-    // the horns, swept back and up, and a spur at each hinge of the jaw
+    // scales in rows over the shoulders, flanks and neck
+    for (let r = 0; r < 3; r++) for (let x = 16 + (r % 2) * 2.5; x <= 48; x += 5) {
+      const y = 36 + r * 3 + cy * 0.5;
+      if (Math.abs(x - 32) < 12 && y > 38) continue;
+      out.push(...arc(x, y, '#6a2618'));
+    }
+    // the horns, swept back and up, ringed, and a spur at each hinge of the jaw
     out.push(
       ...[1, -1].flatMap(s => [
-        limb(hx - s * 3.8, hy - 1.8, hx - s * 7.5, hy - 4.8, 1.3, 0.9, horn), limb(hx - s * 7.5, hy - 4.8, hx - s * 10, hy - 5.8, 0.9, 0.4, horn),
-        limb(hx - s * 1.8, hy - 2.6, hx - s * 3.2, hy - 6.2, 0.9, 0.4, horn),
-        limb(hx - s * 4.5, hy + 1, hx - s * 8, hy + (rear ? -0.5 : 0.8), 0.9, 0.4, horn),
+        limb(hx - s * 7.4, hy - 3.4, hx - s * 14.6, hy - 9.4, 2.6, 1.8, horn), limb(hx - s * 14.6, hy - 9.4, hx - s * 19.6, hy - 11.4, 1.8, 0.7, horn),
+        hair(hx - s * 10, hy - 6.5, hx - s * 11, hy - 4.75, hornDk), hair(hx - s * 13.5, hy - 9.5, hx - s * 14.5, hy - 7.75, hornDk),
+        limb(hx - s * 3.6, hy - 5, hx - s * 6, hy - 12, 1.6, 0.6, horn),
+        limb(hx - s * 8.6, hy + 2.4, hx - s * 15, hy + (rear ? -1 : 2), 1.6, 0.6, horn),
       ]),
-      ball(hx, hy, 5.2, 3.4, hide),
+      // a long head: a broad skull narrowing to the snout, the cheeks plated
+      ball(hx, hy, 9.4, 6.4, hide), ...[-1, 1].map(s => ball(hx + s * 6, hy + 2, 3.6, 3.4, scale)), ball(hx, hy - 3.6, 5.4, 2, '#9a3e26'),
     );
-    const ex = Math.round(hx), ey = Math.round(hy) - 1;
+    const ey = hy - 1;
     if (rear) {
-      // the jaws wide, the throat a furnace
+      // the jaws wide, the throat a furnace: the fire is not lit by anything, it is the light
       out.push(
-        ball(hx, hy + 5, 4.2, 3.8, '#5a1a10'),
-        sheet(oval(hx, hy + 5, 3.3, 3), '#e8641a', { tilt: [-0.4, -0.6] }),
-        // the fire itself is not lit by anything: it is the light
-        dots([[ex - 2, ey + 5], [ex - 1, ey + 5], [ex, ey + 5], [ex + 1, ey + 5], [ex + 2, ey + 5], [ex - 2, ey + 6], [ex - 1, ey + 6], [ex, ey + 6], [ex + 1, ey + 6], [ex + 2, ey + 6],
-          [ex - 1, ey + 4], [ex, ey + 4], [ex + 1, ey + 4], [ex - 1, ey + 7], [ex, ey + 7], [ex + 1, ey + 7]], '#ffb030'),
-        dots([[ex - 1, ey + 5], [ex, ey + 5], [ex + 1, ey + 5], [ex - 1, ey + 6], [ex, ey + 6], [ex + 1, ey + 6]], '#ffe070'),
-        dots([[ex, ey + 5], [ex, ey + 6]], '#fff8d8'),
-        limb(hx, hy + 0.5, hx, hy + 1.8, 3.8, 3.4, scale),
-        ...[-1, 1].map(s => ball(hx + s * 1.6, hy + 1.8, 1.1, 0.9, scale)),
-        ball(hx, hy + 9.2, 3.4, 1.2, scale),
-        dots([[ex - 3, ey + 5], [ex + 3, ey + 5], [ex - 3, ey + 7], [ex + 3, ey + 7], [ex - 2, ey + 9], [ex + 2, ey + 9]], '#f4ecd4'),
-        dots([[ex - 3, ey], [ex - 2, ey], [ex + 2, ey], [ex + 3, ey]], '#ffd040'), dots([[ex - 2, ey], [ex + 2, ey]], '#fff8c0'),
+        ball(hx, hy + 10, 8, 7.4, '#5a1a10'), sheet(oval(hx, hy + 10, 6.4, 6), '#e8641a', { tilt: [-0.4, -0.6], glows: true }),
+        ball(hx, hy + 10.6, 4.6, 4.2, '#ffb030', { glows: true }), ball(hx, hy + 10.6, 2.8, 2.6, '#ffe070', { glows: true }), ball(hx, hy + 10.4, 1.2, 1.4, '#fff8d8', { glows: true }),
+        limb(hx, hy + 1, hx, hy + 3.6, 7.4, 6.6, scale), ...[-1, 1].map(s => ball(hx + s * 3.2, hy + 3.6, 2.2, 1.8, scale)),
+        ball(hx, hy + 18.4, 6.8, 2.4, scale),
+        ...[[-6, 5.6], [6, 5.6], [-4, 5.2], [4, 5.2]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.9, hy + y + 2, 0.7, 0.2, '#f4ecd4')),
+        ...[[-5.5, 17], [5.5, 17], [-3, 17.4], [3, 17.4]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.9, hy + y - 2, 0.7, 0.2, '#f4ecd4')),
+        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.3, '#ffd040', { glows: true }), ball(x, ey, 0.9, 0.8, '#fff8c0', { glows: true })]),
+        specks([[hx - 8, hy - 2], [hx + 9, hy - 4], [hx - 4, hy - 8], [hx + 5, hy - 10], [hx - 11, hy + 6], [hx + 12, hy + 5], [hx - 2, hy - 13], [hx + 7, hy - 16]], '#ffd060', { glows: true }),
       );
     } else {
-      const o = coil ? 1.4 : 0;    // how far the jaws part
+      const o = coil ? 2.8 : 0;    // how far the jaws part
       out.push(
-        ball(hx, hy + 5.4 + o, 3.8, 1.3, dark),
-        ...(coil ? [sheet([[hx - 3.2, hy + 4], [hx + 3.2, hy + 4], [hx + 2.6, hy + 6.4], [hx - 2.6, hy + 6.4]], '#3a0e0a')] : []),
-        limb(hx, hy + 0.5, hx, hy + 4.4, 3.8, 2.6, scale),
-        ...[-1, 1].map(s => ball(hx + s * 1.3, hy + 4.4, 1, 0.8, scale)),
-        dots([[ex - 1, ey + 5], [ex + 1, ey + 5]], '#1a0806'),
-        dots(coil ? [[ex - 3, ey + 6], [ex + 3, ey + 6], [ex - 2, ey + 8], [ex + 2, ey + 8]] : [[ex - 3, ey + 5], [ex + 3, ey + 5], [ex - 2, ey + 6], [ex + 2, ey + 6]], '#f4ecd4'),
-        dots([[ex - 3, ey], [ex - 2, ey], [ex + 2, ey], [ex + 3, ey]], '#ffb020'), dots([[ex - 2, ey], [ex + 2, ey]], '#2a0c04'),
-      );
-    }
-    // the brow ridges over the eyes, drawn down in anger
-    out.push(limb(hx - 5.2, ey - 1.5, hx - 1.2, ey - 0.2 + (coil ? 0.6 : 0), 0.9, 0.6, dark), limb(hx + 5.2, ey - 1.5, hx + 1.2, ey - 0.2 + (coil ? 0.6 : 0), 0.9, 0.6, dark));
-    for (const q of out) Object.assign(q, { smooth: 1 });
-    return out;
-  },
-};
-
-// Hand-drawn detail laid over the quillback and the wyrm as they were first
-// drawn, on the 32-unit grid at half a unit to the line: seams, bands and
-// scales. It goes up to the finer grid with the rest of them (see FINER).
-const DETAILS = {
-  quillback: (pose = 'idle') => {
-    const hy = pose === 'windup' ? 24 : 21.5, my = pose === 'windup' ? 16.5 : 18;
-    return [
-      // the laid quills of the mantle, and the bands on them
-      hair(9, my + 2, 11, my - 1.5, '#4e4450'), hair(13, my + 1, 14, my - 2.5, '#4e4450'), hair(18, my + 1, 17, my - 2.5, '#4e4450'),
-      hair(22.5, my + 2, 20.5, my - 1.5, '#4e4450'), hair(6.5, my + 4, 8, my + 1, '#4e4450'), hair(25, my + 4, 23.5, my + 1, '#4e4450'),
-      specks([[11, my - 1], [15, my - 2.5], [16.5, my - 2], [20.5, my - 1.5], [8, my + 1.5], [23.5, my + 1.5]], '#8a7e6a'),
-      // bristles on the snout, a scar across the brow, split hooves
-      specks([[14.5, hy + 2], [17.5, hy + 2], [16, hy + 1.5]], '#6a5040'),
-      hair(13.5, hy - 2.5, 15.5, hy - 1, '#7a6250'),
-      ...both(specks([[7, 30.5], [7, 31]], '#5a4838')),
-      ...both(specks([[11.5, 30.5], [11.5, 31]], '#5a4838')),
-      // spit at the tusks
-      specks([[12.5, hy + 5.5], [19.5, hy + 5]], '#c8d0d8'),
-    ];
-  },
-
-  wyrm: (pose = 'idle') => {
-    const rear = pose === 'special', coil = pose === 'windup';
-    const hx = coil ? 15 : 16, hy = rear ? 6.5 : coil ? 13.5 : 11.5, cy = rear ? -1.5 : coil ? -1 : 0;
-    /** @type {object[]} */
-    const out = [
-      // scales over the shoulders in rows, each a small arc
-      ...[[6, 18.5], [8, 18.5], [7, 20], [5, 20], [9, 21.5], [11.5, 18], [25, 18.5], [23, 18.5], [24, 20], [26, 20], [22, 21.5], [20.5, 18]]
-        .flatMap(([x, y]) => [hair(x - 0.75, y + cy, x, y + 0.5 + cy, '#5a2016'), hair(x, y + 0.5 + cy, x + 0.75, y + cy, '#5a2016')]),
-      // plates across the chest
-      hair(12.5, 23 + cy * 0.5, 19.5, 23 + cy * 0.5, '#a8784c'), hair(11.5, 25 + cy * 0.5, 20.5, 25 + cy * 0.5, '#a8784c'), hair(12.5, 27 + cy * 0.5, 19.5, 27 + cy * 0.5, '#a8784c'),
-      // rings on the horns, scales on the brow
-      specks([[hx - 5.5, hy - 3.5], [hx - 8.5, hy - 5.5], [hx + 6, hy - 3.5], [hx + 9, hy - 5.5]], '#a8987a'),
-      specks([[hx - 1.5, hy - 2.5], [hx, hy - 3], [hx + 1.5, hy - 2.5]], '#c05a36'),
-      // rings down the tail
-      hair(25, 25.5, 24, 28.5, '#3a140c'), hair(28, 26, 26.5, 29, '#3a140c'),
-    ];
-    if (rear) {
-      // embers rising off the jaws, the throat glowing through its plates
-      out.push(specks([[hx - 4, hy - 1], [hx + 4.5, hy - 2], [hx - 2, hy - 4], [hx + 2.5, hy - 5], [hx - 5.5, hy + 3], [hx + 6, hy + 2.5]], '#ffd060'),
-        specks([[hx - 1, hy - 6.5], [hx + 3.5, hy - 8]], '#ff8a20'),
-        hair(14.5, 13, 17.5, 13, '#ffd070'), hair(14.5, 15, 17.5, 15, '#ffb040'), hair(14.5, 17, 17.5, 17, '#ff9030'));
-    } else {
-      // scales in rows down the front of the neck
-      const nk = coil ? [[17.5, 18.5], [17.5, 20]] : [[16, 17], [16, 18.5], [16, 20]];
-      out.push(...nk.flatMap(([x, y]) => [hair(x - 2.5, y, x, y + 0.5, '#5a2016'), hair(x, y + 0.5, x + 2.5, y, '#5a2016')]),
+        ball(hx, hy + 10.8 + o, 7, 2.6, dark),
+        ...(coil ? [sheet([[hx - 6.4, hy + 8], [hx + 6.4, hy + 8], [hx + 5.2, hy + 12.8], [hx - 5.2, hy + 12.8]], '#3a0e0a'), ball(hx, hy + 11.6, 3, 1.2, '#a03028')] : []),
+        limb(hx, hy + 1, hx, hy + 8.8, 7.6, 5.2, scale), ...[-1, 1].map(s => ball(hx + s * 2.6, hy + 8.8, 2, 1.6, scale)),
+        ball(hx - 2, hy + 9.4, 0.8, 0.7, '#1a0806'), ball(hx + 2, hy + 9.4, 0.8, 0.7, '#1a0806'),
+        ...(coil ? [[-5.5, 9.6, 1], [5.5, 9.6, 1], [-3.5, 13, -1], [3.5, 13, -1]] : [[-5.5, 10.4, 1], [5.5, 10.4, 1], [-3.6, 11.6, 0.6], [3.6, 11.6, 0.6]])
+          .map(([d, y, s]) => limb(hx + d, hy + y, hx + d * 0.92, hy + y + s * 2, 0.7, 0.2, '#f4ecd4')),
+        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.2, '#ffb020', { glows: true }), limb(x, ey - 1, x, ey + 1, 0.4, 0.4, '#2a0c04'), specks([[x - 1, ey - 0.75]], '#fff0b0')]),
         // a curl of smoke from each nostril, and an old claw scar across the snout
-        specks([[hx - 3, hy + 4.5], [hx - 3.5, hy + 4], [hx + 3.5, hy + 4.5], [hx + 4, hy + 4]], '#8a8078'),
-        hair(hx + 1, hy + 0.5, hx + 2.5, hy + 3, '#c86a44'));
-    }
-    return out;
-  },
-};
-for (const k in DETAILS) {
-  const base = CREATURES[k];
-  // a pose (see POSES) passes through to both
-  CREATURES[k] = pose => [...base(pose), ...DETAILS[k](pose)];
-}
-
-// The great beasts keep the shapes and the poses they were first drawn with on
-// the coarser grid, set on the finer one at twice the size; their eyes, teeth
-// and nostrils were single pixels of that grid, and are drawn again here
-// finely, with the scales, bristles and pits laid over them that the coarse
-// grid had no room for
-const FINER = {
-  basilisk: (pose = 'idle') => {
-    const gaze = pose === 'special', bite = pose === 'windup';
-    const cx = 22, cy = gaze ? 17 : bite ? 43.6 : 45, ey = 2 * (Math.floor(cy / 2) - 1) + 2;
-    const up = gaze ? 2.4 : bite ? -0.8 : 0;
-    // scales down the flank in staggered rows, each a small arc
-    const arcs = [];
-    for (let r = 0; r < 4; r++) for (let x = 18 + (r % 2) * 1.5; x < 54; x += 3) {
-      const y = 30 + r * 2.4 - up + (x < 30 ? 3 : 0);
-      if (Math.hypot((x - 39) / 14, (y - 35 + up) / 9) < 1) arcs.push(hair(x - 1.25, y, x, y + 0.75, '#3e4826'), hair(x, y + 0.75, x + 1.25, y, '#3e4826'));
-    }
-    const eye = gaze
-      ? [...[cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.8, 2.6, '#e8ff70', { glows: true }), ball(x, ey, 1.6, 1.6, '#fcffd0', { glows: true }), limb(x, ey - 1.6, x, ey + 1.6, 0.3, 0.3, '#2a3008')])]
-      : bite ? [cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.6, 0.8, '#d8f040', { glows: true }), limb(x, ey - 0.6, x, ey + 0.6, 0.35, 0.35, '#1a2008')])
-        : [cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.6, 1.6, '#d8f040', { glows: true }), limb(x, ey - 1.2, x, ey + 1.2, 0.45, 0.4, '#1a2008'), specks([[x - 1.25, ey - 1]], '#f4ffc0')]);
-    return [
-      ...arcs, ...eye,
-      // warts along the jaw and over the brow
-      specks([[cx - 5, cy + 9], [cx + 5.5, cy + 8.5], [cx - 3, cy - 4], [cx + 3, cy - 4.5]], '#4a5430'),
-    ];
-  },
-  rustmaw: (pose = 'idle') => {
-    const rear = pose === 'windup' || pose === 'special', up = rear ? 3.5 : 0, H = 2 * (24.5 - up), S = 1.4 * up;
-    return [
-      // small dull eyes over the maw
-      ball(23, H - 3, 1.4, 1.1, '#d05a28', { glows: true }), ball(41, H - 3, 1.4, 1.1, '#d05a28', { glows: true }), specks([[22.5, H - 3.5], [40.5, H - 3.5]], '#ffb080'),
-      // the plates of the wing cases, their worn bright edges, streaks of rust
-      hair(14, 26 - S, 21, 18 - S, '#c86a3a'), hair(43, 18 - S, 50, 26 - S, '#c86a3a'), hair(24, 15 - S, 30, 14 - S, '#c86a3a'),
-      ...[[18, 30], [22, 36], [26, 26], [38, 26], [42, 36], [46, 30], [28, 40], [36, 40]].map(([x, y]) => hair(x, y - S, x + 0.5, y + 3 - S, '#6a2208')),
-      // a second ring of teeth further in, and the barbs on the mandibles
-      ...[-3, -1, 1, 3].map(d => limb(32 + d * 1.2, H + 0.5, 32 + d * 1.1, H + 1.6, 0.4, 0.2, '#c8b894')),
-      specks(rear ? [[12, H - 4], [10, H - 3], [8, H - 1], [52, H - 4], [54, H - 3], [56, H - 1]] : [[15, H + 3], [17, H + 6], [21, H + 10], [49, H + 3], [47, H + 6], [43, H + 10]], '#e0b070'),
-      // bristles on the legs
-      ...[[5, 26], [4, 34], [3, 44], [9, 18], [12, 50]].flatMap(([x, y]) => both64(hair(x, y - S, x - 1.5, y - 1 - S, '#8a5a30'))),
-    ];
-  },
-  quillback: (pose = 'idle') => {
-    const gore = pose === 'windup', H = gore ? 48 : 43;
-    return [
-      // small, mean, red, sunk under the brow
-      ball(27, H - 1, 2.2, 1.6, '#1c1010'), ball(37, H - 1, 2.2, 1.6, '#1c1010'),
-      ball(27.4, H - 1, 1.1, 0.9, '#ff3a1c', { glows: true }), ball(36.6, H - 1, 1.1, 0.9, '#ff3a1c', { glows: true }), specks([[27, H - 1.5], [36.25, H - 1.5]], '#ffb0a0'),
-      // the brow drawn down over them, the nostrils in the snout
-      limb(23.5, H - 4, 29.5, H - 2.6, 1, 0.7, '#4a3a2e'), limb(40.5, H - 4, 34.5, H - 2.6, 1, 0.7, '#4a3a2e'),
-      ball(30, H + 7, 0.9, 0.8, '#2a1614'), ball(34, H + 7, 0.9, 0.8, '#2a1614'),
-      // coarse bristles on the flanks and jowls, below the mantle
-      ...[[13, 46], [16, 49], [19, 50], [45, 50], [48, 49], [51, 46], [23, H + 4], [41, H + 4]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.75 : 0.75), y + 2.5, '#2a201a')),
-      specks([[22, 52], [42, 52], [32, 54]], '#7a6050'),
-    ];
-  },
-  wyrm: (pose = 'idle') => {
-    const rear = pose === 'special', coil = pose === 'windup';
-    const hx = coil ? 30 : 32, hy = rear ? 13 : coil ? 27 : 23, cy = rear ? -3 : coil ? -2 : 0;
-    const ey = 2 * (Math.round(hy / 2) - 1) + 1;
-    // the scales of its flanks in rows, each a small dark arc
-    const arcs = [];
-    for (const [row, y] of [[0, 37], [1, 39.5], [2, 42], [3, 44.5]]) for (let x = 14 + (row % 2) * 1.5; x <= 50; x += 3) {
-      if (Math.abs(x - 32) < 11 && y > 41) continue;    // not over the pale chest
-      arcs.push(hair(x - 1.25, y + cy * 0.5, x, y + cy * 0.5 + 0.75, '#6a2618'), hair(x, y + cy * 0.5 + 0.75, x + 1.25, y + cy * 0.5, '#6a2618'));
-    }
-    /** @type {object[]} */
-    const out = [...arcs];
-    if (rear) {
-      // the jaws wide and the throat a furnace: the fire is not lit by anything, it is the light
-      out.push(ball(hx, hy + 10.6, 5.6, 5, '#ffb030', { glows: true }), ball(hx, hy + 10.6, 3.4, 3, '#ffe070', { glows: true }), ball(hx, hy + 10.6, 1.4, 1.6, '#fff8d8', { glows: true }),
-        ...[[-6, 9], [6, 9], [-5.5, 13], [5.5, 13], [-3.5, 17], [3.5, 17]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.8, hy + y + (y > 15 ? -1.6 : 1.6), 0.7, 0.2, '#f4ecd4')),
-        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.3, '#ffd040', { glows: true }), ball(x, ey, 0.9, 0.8, '#fff8c0', { glows: true })]));
-    } else {
-      out.push(
-        ball(hx - 2, hy + 11, 0.8, 0.7, '#1a0806'), ball(hx + 2, hy + 11, 0.8, 0.7, '#1a0806'),
-        ...(coil ? [[-6, 13], [6, 13], [-4, 17], [4, 17]] : [[-6, 11.4], [6, 11.4], [-4, 13], [4, 13]]).map(([d, y], i) => limb(hx + d, y + hy - (i > 1 && coil ? 1.6 : 0), hx + d * 0.9, hy + y + (i > 1 && coil ? -1.6 : 1.8), 0.6, 0.2, '#f4ecd4')),
-        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.2, '#ffb020', { glows: true }), limb(x, ey - 1, x, ey + 1, 0.4, 0.4, '#2a0c04')]),
+        specks([[hx - 3, hy + 7.5], [hx - 4, hy + 6], [hx - 3.5, hy + 4.5], [hx + 3, hy + 7.5], [hx + 4, hy + 6], [hx + 4.5, hy + 4.5]], '#8a8078'),
+        hair(hx + 1.5, hy + 1, hx + 4.5, hy + 6, '#c86a44'),
       );
     }
-    out.push(
-      // the chest's plates, and the claws' pale edges
-      ...[46, 49, 52].map(y => hair(25, y + cy * 0.5, 39, y + cy * 0.5, '#a87a52')),
-      ...(rear ? [] : [specks([[3.5, 62], [9.5, 62.5], [15, 62], [49, 62], [54.5, 62.5], [60.5, 62]], '#fffaf0')]),
-    );
+    // the brow ridges over the eyes, drawn down in anger, and the scales of the skull
+    out.push(limb(hx - 9, ey - 2.6, hx - 2.4, ey - 0.6 + (coil ? 1 : 0), 1.6, 1.1, dark), limb(hx + 9, ey - 2.6, hx + 2.4, ey - 0.6 + (coil ? 1 : 0), 1.6, 1.1, dark),
+      ...[[-3, -4.5], [0, -5.25], [3, -4.5], [-1.5, -3], [1.5, -3]].flatMap(([d, y]) => arc(hx + d, hy + y, '#6a2618')),
+      specks([[hx - 6, hy + 3], [hx + 6.5, hy + 3.5], [hx - 7, hy + 1], [hx + 7.5, hy + 0.5]], '#c05a36'));
+    for (const q of /** @type {any[]} */ (out)) if (q.k !== 'hair' && q.k !== 'specks') Object.assign(q, { smooth: 1 });
     return out;
   },
 };
-for (const k in FINER) {
-  const base = CREATURES[k];
-  CREATURES[k] = pose => [...base(pose).filter(p => p.k !== 'dots').map(up2), ...FINER[k](pose)];
-}
 
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
