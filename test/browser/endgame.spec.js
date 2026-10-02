@@ -42,7 +42,8 @@ test.describe('the endgame', () => {
     });
     await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Goblin Warlord');
     expect(await page.evaluate(() => Game.state().log.some(e => /fine footstool/.test(e.m)))).toBe(true);
-    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.warlord))).toBe(true);
+    // (his picture is painted in the background, the first time a floor wants it: under load it can be a moment coming)
+    await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.warlord)), { timeout: 8000 }).toBe(true);
     expect(errors).toEqual([]);
   });
 

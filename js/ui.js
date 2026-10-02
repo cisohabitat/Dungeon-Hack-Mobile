@@ -111,6 +111,8 @@ const UI = (() => {
   function refreshTitle() {
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
+    // with nothing saved, no greyed-out Continue taking the second place on the screen
+    /** @type {HTMLElement} */ ($('#btn-continue')).hidden = !s;
     // a run waiting to be picked up is the likelier wish
     $('#btn-continue').classList.toggle('primary', !!s);
     $('#btn-new').classList.toggle('primary', !s);
@@ -128,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03x', text: 'the dungeon dressed: corridors laid with setts, caverns walled in bare rock, beams over the great halls, doors set back in their doorways, cells behind barred gates, the shrine on a mosaic, the cistern under water and webs in the corners' };
+  const NEWS = { id: '2026-10-03y', text: 'the screens tidied: a class picker you can compare at a glance, tips over the log instead of the fight, the menu in groups, a map that fills the screen and zooms, a Drink button that counts, and one Daily button with a switch' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -138,7 +140,25 @@ const UI = (() => {
   }
   function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; }
   /** Which daily a button is for, and where it says how it stands. @param {'main'|'earned'} kind */
-  const DAILY_UI = { main: { btn: '#btn-daily', note: '#daily-summary' }, earned: { btn: '#btn-daily-earned', note: '#daily-earned-summary' } };
+  const DAILY_UI = { main: { btn: '#btn-daily', note: '#daily-summary' }, earned: { btn: '#btn-daily', note: '#daily-earned-summary' } };
+  // which daily the title's Daily button is set to: the day's dungeon for any hero, or a Ranger's or a Druid's
+  const DAILY_KIND = 'deepdelve.dailyKind';
+  /** @returns {'main'|'earned'} */
+  function dailyKind() {
+    // left as the player set it; never set, a daily run waiting below sets it to its own kind
+    const k = store(DAILY_KIND), s = Game.saveSummary();
+    if (k) return k === 'earned' ? 'earned' : 'main';
+    return s && s.daily === Daily.today() && s.dailyKind === 'earned' ? 'earned' : 'main';
+  }
+  /** Set the Daily button to one daily or the other, and show how that one stands. */
+  function showDailyKind() {
+    const kind = dailyKind();
+    for (const b of $$('.daily-kind [data-kind]')) { const on = /** @type {HTMLElement} */ (b).dataset.kind === kind; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
+    $('#daily-name').textContent = kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve';
+    /** @type {HTMLElement} */ ($('#daily-summary')).hidden = kind !== 'main';
+    /** @type {HTMLElement} */ ($('#daily-earned-summary')).hidden = kind !== 'earned';
+    $('#btn-daily').classList.toggle('done', $('#btn-daily').dataset[kind === 'earned' ? 'earnedDone' : 'mainDone'] === '1');
+  }
   /** The Daily Delve buttons say how today stands: fresh, waiting below, or done. */
   function refreshDaily() {
     for (const kind of /** @type {('main'|'earned')[]} */ (['main', 'earned'])) {
@@ -148,12 +168,13 @@ const UI = (() => {
       // the day's own run, not a custom one that borrowed its seed
       const waiting = !!s && s.daily === key && s.dailyKind === kind;
       const run = Daily.streak(key, kind);
-      btn.classList.toggle('done', st.state !== 'fresh' && !waiting);
+      btn.dataset[kind === 'earned' ? 'earnedDone' : 'mainDone'] = st.state !== 'fresh' && !waiting ? '1' : '0';
       if (waiting) note.textContent = `Today's delve waits on floor ${s.depth}`;
       else if (st.state === 'done') note.textContent = `Today: ${Daily.outcome(st.done)} \u00b7 Share`;
       else if (st.state === 'started') note.textContent = 'Today: left unfinished';
       else note.textContent = run ? `One try today \u00b7 streak ${run}` : kind === 'earned' ? 'A Ranger or a Druid, one try' : "Today's dungeon, one try";
     }
+    showDailyKind();
   }
   /** Copy a line to the clipboard, the old way if the new one is refused. */
   async function copyText(text) {
@@ -402,9 +423,15 @@ const UI = (() => {
       const goal = !Progress.highest(id, known) || !paths.length ? ''
         : Progress.mastered(id, known) ? '<em class="key mastery">Mastered: both paths won</em>'
           : `<em class="key goal">${pathGoal(paths.filter(x => known.paths[x.id]), paths.filter(x => !known.paths[x.id]))}</em>`;
-      b.innerHTML = `<img class="class-face" src="${faceOf(id)}" alt="">` + `<b>${c.name}</b>${first}${titled}<em class="ease">${escapeHtml(c.ease || '')}</em><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${goal}`;
+      // a card says only enough to choose by: who, and in a line how they play;
+      // the whole of it is told beneath for the one chosen, at the full width
+      b.innerHTML = `<span class="cc-head"><img class="class-face" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
       b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
+    }
+    {
+      const c = CLASSES[create.cls];
+      $('#c-class-more').innerHTML = `<b>${c.name}</b> ${c.desc} <em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
     }
     const bgGrid = $('#c-backgrounds');
     bgGrid.innerHTML = '';
@@ -855,13 +882,35 @@ const UI = (() => {
     const el = $('#tip'), view = $('#view'), chips = $('#hud-status');
     let rows = 0;
     const v = view ? view.getBoundingClientRect() : null;
-    if (el && v && v.height > 0 && el.classList.contains('show')) rows = (el.getBoundingClientRect().bottom - v.top + 3) / v.height * Renderer.H;
+    if (el && el.classList.contains('show')) placeTip(el);
+    // (a tip lies over the log now, but one long enough to rise into the top of the view still counts)
+    if (el && v && v.height > 0 && el.classList.contains('show')) { const t = el.getBoundingClientRect(); if (t.top < v.top + v.height * 0.4) rows = (t.bottom - v.top + 3) / v.height * Renderer.H; }
     // the status chips along the top of the view hide a mark as surely as a tip does
     if (chips && v && v.height > 0 && chips.children.length) {
       const c = chips.getBoundingClientRect();
       if (c.bottom > v.top && c.top < v.top + v.height * 0.5) rows = Math.max(rows, (c.bottom - v.top + 2) / v.height * Renderer.H);
     }
     Renderer.keepTopClear(rows);
+  }
+  /**
+   * A tip lies over the log, its foot just above the newest line so that line
+   * can still be read, and as wide as the log's own lines (clear of its button
+   * and of whatever hangs at its ends). A long one rises over the floor at the
+   * foot of the view, never into the top half, where the fight is.
+   * @param {HTMLElement} el
+   */
+  function placeTip(el) {
+    const wrap = el.offsetParent, log = $('#log');
+    if (!wrap || !log) return;
+    const w = wrap.getBoundingClientRect(), g = log.getBoundingClientRect(), cs = getComputedStyle(log);
+    if (!g.height) return;
+    // (the newest line may wrap: the whole of it is left in sight)
+    const line = parseFloat(cs.lineHeight) || 18, last = log.lastElementChild;
+    const foot = Math.min(g.bottom - line - 6, last ? last.getBoundingClientRect().top - 3 : Infinity);
+    el.style.left = Math.round(g.left - w.left + parseFloat(cs.paddingLeft) - 4) + 'px';
+    el.style.right = Math.round(w.right - g.right + parseFloat(cs.paddingRight) - 4) + 'px';
+    el.style.bottom = Math.round(w.bottom - foot) + 'px';
+    el.style.maxHeight = Math.max(line * 2, Math.round(foot - (w.top + w.height * 0.5))) + 'px';
   }
   function checkTipsNow() {
     const now = performance.now();
@@ -1211,7 +1260,7 @@ const UI = (() => {
     const btn = $('#hud-quaff');
     btn.style.display = drinks ? '' : 'none';
     btn.style.visibility = n ? '' : 'hidden';
-    $('#hud-quaff-n').textContent = n > 1 ? String(n) : '';
+    $('#hud-quaff-n').textContent = `Drink \u00d7${n}`;
     btn.setAttribute('aria-label', `Quaff a healing draught (${n} carried)`);
   }
   let castSig = '';
@@ -1283,16 +1332,10 @@ const UI = (() => {
 
   // Small live automap in the corner of the view, 15x15 tiles around the player.
   let miniFaded = false;
-  let miniBelow = 0;
   function refreshMinimap(now) {
     if (now - miniAt < 120) return;
     miniAt = now;
     const c = $('#minimap');
-    // a tip across the top of the view would cover it: it steps down below the
-    // tip while one is up, and back when it goes; so do the status chips, which
-    // share the top edge (the hound's among them)
-    const tip = $('#tip'), below = tip && tip.classList.contains('show') ? tip.offsetTop + tip.offsetHeight + 4 : 0;
-    if (below !== miniBelow) { miniBelow = below; c.style.top = below ? below + 'px' : ''; $('#hud-status').style.top = below ? below + 'px' : ''; }
     // it steps back, nearly out of sight, while a creature stands under it:
     // a health bar or a warning mark matters more than the map
     const vr = $('#view').getBoundingClientRect(), mr = c.getBoundingClientRect();
@@ -1762,9 +1805,16 @@ const UI = (() => {
     }
   }
 
+  // The history can be narrowed to one kind of line, by the colour each is
+  // already told in: the dangers, the good news, and the places and story.
+  const LOG_KINDS = [['all', 'All'], ['bad', 'Danger'], ['good', 'Good'], ['info', 'Story']];
+  let logKind = 'all';
   function renderLogHistory() {
     const G = Game.state();
-    $('#log-history').innerHTML = '<div class="log-history">' + G.log.filter(e => !e.gone).reverse().map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') + '</div>';
+    const lines = G.log.filter(e => !e.gone && (logKind === 'all' || e.c === logKind)).reverse();
+    $('#log-history').innerHTML = '<div class="log-kinds" role="group" aria-label="Show">' + LOG_KINDS.map(([k, name]) => `<button type="button" class="chip" data-kind="${k}" aria-pressed="${k === logKind}">${name}</button>`).join('') + '</div>'
+      + '<div class="log-history">' + (lines.length ? lines.map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') : '<p class="dim small">Nothing of that kind yet.</p>') + '</div>';
+    for (const b of $$('#log-history .log-kinds [data-kind]')) b.addEventListener('click', () => { logKind = /** @type {HTMLElement} */ (b).dataset.kind || 'all'; renderLogHistory(); });
   }
   // ---------- overlays ----------
   // A level-up choice or an encounter holds the screen until it is dealt
@@ -1784,7 +1834,7 @@ const UI = (() => {
     setBehind(true);
     syncHistory();
     if (name === 'inv') renderInv();
-    if (name === 'map') renderMap();
+    if (name === 'map') { mapView.panX = 0; mapView.panY = 0; renderMap(); }
     if (name === 'spells') renderSpells();
     if (name === 'char') renderChar();
     if (name === 'menu') renderMenu();
@@ -1913,6 +1963,8 @@ const UI = (() => {
     const grid = $('#inv-grid');
     grid.innerHTML = '';
     $('#inv-count').textContent = `${p.inv.length} of ${Game.INV_MAX} squares`;
+    // what the gear worn comes to, so a change of it is seen to count
+    $('#inv-sum').innerHTML = `<span>Armour class <b>${Game.playerAC()}</b></span><span>${escapeHtml(weaponLine())}, <b>${(Game.toHit() >= 0 ? '+' : '') + Game.toHit()}</b> to hit</span><span><b>${p.gold}</b> gold</span>`;
     /** @type {HTMLButtonElement} */ ($('#inv-sort')).disabled = p.inv.length < 2;
     for (let i = 0; i < Game.INV_MAX; i++) {
       const it = p.inv[i];
@@ -2091,6 +2143,44 @@ const UI = (() => {
   const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
 
   const MAP_TILE_MAX = 28;
+  // how far the map is zoomed in (1, the whole of what is known) and how far
+  // its frame has been dragged from the hero, in squares
+  const mapView = { zoom: 1, panX: 0, panY: 0 };
+  /** Zoom the map by a factor, about the hero. @param {number} k */
+  function zoomMap(k) {
+    mapView.zoom = Math.max(1, Math.min(6, mapView.zoom * k));
+    if (mapView.zoom === 1) { mapView.panX = 0; mapView.panY = 0; }
+    renderMap();
+  }
+  /** Two fingers pinch the map in and out; one drags it about once it is zoomed in. */
+  function wireMapPinch() {
+    const c = /** @type {HTMLCanvasElement} */ ($('#map-canvas'));
+    /** @type {Map<number, {x: number, y: number}>} */
+    const down = new Map();
+    let pinch = null, drag = null;
+    const spread = () => { const [a, b] = [...down.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+    c.addEventListener('pointerdown', e => {
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { c.setPointerCapture(e.pointerId); } catch (err) { /* a synthetic pointer */ }
+      if (down.size === 2) { pinch = { d: spread(), zoom: mapView.zoom }; drag = null; }
+      else if (down.size === 1) drag = { x: e.clientX, y: e.clientY, panX: mapView.panX, panY: mapView.panY };
+    });
+    c.addEventListener('pointermove', e => {
+      if (!down.has(e.pointerId)) return;
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pinch && down.size === 2) {
+        const z = Math.max(1, Math.min(6, pinch.zoom * spread() / Math.max(1, pinch.d)));
+        if (Math.abs(z - mapView.zoom) > 0.04) { mapView.zoom = z; if (z === 1) { mapView.panX = 0; mapView.panY = 0; } renderMap(); }
+      } else if (drag && mapView.zoom > 1) {
+        const t = Number(c.dataset.tile) || 16;
+        mapView.panX = drag.panX - (e.clientX - drag.x) / t; mapView.panY = drag.panY - (e.clientY - drag.y) / t;
+        renderMap();
+      }
+    });
+    const up = e => { down.delete(e.pointerId); if (down.size < 2) pinch = null; if (!down.size) drag = null; };
+    c.addEventListener('pointerup', up);
+    c.addEventListener('pointercancel', up);
+  }
   function renderMap() {
     const L = Game.level(), p = Game.player();
     const c = $('#map-canvas');
@@ -2126,16 +2216,26 @@ const UI = (() => {
     const bs = getComputedStyle(body), room = body.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom);
     const keyH = outer($('#map-legend')) + outer(/** @type {HTMLElement} */ ($('#map-legend').nextElementSibling));
     // (less the canvas's border, and the gap a canvas leaves under itself as a line of text would)
-    const availW = window.innerWidth - 24, availH = room > 0 ? room - keyH - 8 : window.innerHeight - 230;
+    const availW = Math.min(window.innerWidth, body.clientWidth || window.innerWidth) - 24, availH = room > 0 ? room - keyH - 8 : window.innerHeight - 230;
     // ...but not so large that the first few squares of a floor read as a close-up
-    // rather than the start of a map
-    const size = Math.max(8, Math.min(MAP_TILE_MAX, Math.floor(Math.min(availW / cols, availH / rows))));
-    c.width = cols * size; c.height = rows * size;
+    // rather than the start of a map, unless the hero has zoomed in on it
+    const fit = Math.max(8, Math.min(MAP_TILE_MAX, Math.floor(Math.min(availW / cols, availH / rows))));
+    const size = Math.max(8, Math.min(64, Math.round(fit * mapView.zoom)));
+    // The frame fills the room it has, whatever has been walked: what lies
+    // outside the known ground is dark, as it should be. Zoomed in, the frame
+    // is centred on the hero, and a drag moves it about.
+    const fitCols = Math.max(1, Math.floor(availW / size)), fitRows = Math.max(1, Math.floor(availH / size));
+    const focusX = mapView.zoom > 1 ? p.x + 0.5 + mapView.panX : (minX + maxX + 1) / 2;
+    const focusY = mapView.zoom > 1 ? p.y + 0.5 + mapView.panY : (minY + maxY + 1) / 2;
+    minX = Math.round(focusX - fitCols / 2); minY = Math.round(focusY - fitRows / 2);
+    c.width = fitCols * size; c.height = fitRows * size;
     c.style.width = c.width + 'px';
     const ox = minX * size, oy = minY * size;
     c.dataset.tile = String(size);
     c.dataset.originX = String(minX);
     c.dataset.originY = String(minY);
+    $('#map-in').disabled = size >= 64;
+    $('#map-out').disabled = mapView.zoom <= 1;
     $('#map-title').textContent = `Floor ${L.depth}: ${THEMES[L.theme].name}`;
 
     const ctx = c.getContext('2d');
@@ -2289,25 +2389,38 @@ const UI = (() => {
     }
   }
 
+  /** The weapon in hand as the pack and the sheet name it: its name, and its damage one figure with the make folded in. */
+  function weaponLine() {
+    const w = Game.weapon(), wIt = Game.player().eq.weapon;
+    const wAdd = w.dmg[2] + w.e + (w.px === 'heavy' ? 1 : 0);
+    return `${Game.shaped() ? 'A bear\'s claws' : wIt ? Game.itemName(wIt).replace(/ [+\u2212−]\d+$/, '') : 'Fists'} ${w.dmg[0]}d${w.dmg[1]}${wAdd > 0 ? '+' + wAdd : wAdd < 0 ? '\u2212' + -wAdd : ''}`;
+  }
   function renderChar() {
     const p = Game.player(), c = CLASSES[p.cls], G = Game.state();
-    const w = Game.weapon();
-    const rows = [];
-    const r = (k, v, full) => rows.push(`<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`);
     const path = Game.pathOf();
-    r('Name', escapeHtml(p.name)); r('Class', path ? `${c.name}, ${escapeHtml(path.name)}` : c.name);
-    r('Hero level', p.level); r('Experience', `${p.xp} / ${p.level < MAX_LEVEL ? XP_TABLE[p.level] : '—'}`);
-    r('Hit points', `${p.hp} / ${p.maxHp}`); r('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '—');
-    r('Armour class', Game.playerAC()); r('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit());
-    // named as the pack names it, and the damage one figure with the make folded in, as the pack shows it
-    const wAdd = w.dmg[2] + w.e + (w.px === 'heavy' ? 1 : 0), wIt = Game.player().eq.weapon;
-    r('Weapon', `${Game.shaped() ? 'A bear\'s claws' : wIt ? Game.itemName(wIt).replace(/ [+\u2212−]\d+$/, '') : 'Fists'} ${w.dmg[0]}d${w.dmg[1]}${wAdd > 0 ? '+' + wAdd : wAdd < 0 ? '\u2212' + -wAdd : ''}`, true);
-    r('Gold', p.gold);
-    for (const k in STAT_NAMES) { const m = Game.mod(p.stats[k]); r(STAT_NAMES[k], `${p.stats[k]} (${m >= 0 ? '+' : ''}${m})`); }
-    r('Kills', p.kills); r('Steps', p.steps);
-    r('Deepest floor', p.deepest); r('Seed', escapeHtml(G.seed));
-    r('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '—', true);
-    r('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`, true);
+    // In groups: who the hero is at the top, then what counts in a fight, the
+    // six scores, and the run so far. One long list read as a ledger.
+    const row = (k, v, full) => `<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`;
+    const next = p.level < MAX_LEVEL ? XP_TABLE[p.level] : 0, prev = p.level > 1 ? XP_TABLE[p.level - 1] || 0 : 0;
+    const toNext = next ? Math.max(0, Math.min(100, Math.round((p.xp - prev) / Math.max(1, next - prev) * 100))) : 100;
+    const top = `<div class="sheet-top"><img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}">`
+      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}</span>`
+      + `<div class="xp-bar" role="img" aria-label="Experience ${p.xp} of ${next || p.xp}"><i style="width:${toNext}%"></i></div>`
+      + `<small>Experience ${p.xp} / ${next || '\u2014'}</small></div></div>`;
+    const fight = [
+      row('Hit points', `${p.hp} / ${p.maxHp}`), row('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '\u2014'),
+      row('Armour class', Game.playerAC()), row('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit()),
+      row('Weapon', weaponLine(), true),
+    ];
+    const scores = Object.keys(STAT_NAMES).map(k => { const m = Game.mod(p.stats[k]); return `<div${k === c.primary ? ' class="key-stat"' : ''}>${STAT_NAMES[k]}<span>${p.stats[k]} (${m >= 0 ? '+' : ''}${m})</span></div>`; });
+    const run = [
+      row('Gold', p.gold), row('Kills', p.kills), row('Steps', p.steps), row('Deepest floor', p.deepest),
+      row('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
+      row('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '\u2014', true),
+    ];
+    const groups = `<h3 class="sheet-h">In a fight</h3><div class="sheet">${fight.join('')}</div>`
+      + `<h3 class="sheet-h">Scores</h3><div class="sheet scores">${scores.join('')}</div>`
+      + `<h3 class="sheet-h">The run</h3><div class="sheet">${run.join('')}</div>`;
     let extra = '';
     // the path taken, or the two still ahead
     const paths = PATHS[p.cls] || [];
@@ -2381,7 +2494,7 @@ const UI = (() => {
         return b ? `<li><b>${escapeHtml(b.name)}${n > 1 ? ` \u00d7${n}` : ''}</b><span>${escapeHtml(b.desc)}</span></li>` : '';
       }).join('') + '</ul>';
     }
-    $('#char-sheet').innerHTML = `<img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}"><div class="sheet">${rows.join('')}</div>${extra}`;
+    $('#char-sheet').innerHTML = top + groups + extra;
   }
 
   // Text size scales the whole interface from the root, so every rem follows.
@@ -2392,6 +2505,13 @@ const UI = (() => {
     document.documentElement.style.fontSize = TEXT_SIZES[i].px + 'px';
     fitView();
   }
+  // whether the menu's testing tools were last left open
+  const TESTS_OPEN = 'deepdelve.testsOpen';
+  /** @param {boolean} open */
+  function showTests(open) {
+    /** @type {HTMLElement} */ ($('#m-tests')).hidden = !open;
+    $('#m-testing').setAttribute('aria-expanded', String(open));
+  }
   function renderMenu() {
     const G = Game.state();
     // under permadeath there is no going back, and a save made when the app
@@ -2401,6 +2521,10 @@ const UI = (() => {
     // keeps the run for Continue, and says so
     $('#m-load').hidden = !!G.opts.permadeath;
     $('#m-save').textContent = G.opts.permadeath ? 'Save for Continue' : 'Save Game';
+    // the testing tools stay folded unless opened; one of them on opens them, and they stay open
+    // until folded by hand (not folded under the finger that has just turned the last one off)
+    if (testingOn()) store(TESTS_OPEN, '1');
+    showTests(store(TESTS_OPEN) === '1');
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
     // the music plays through the sound: with the sound off it is silent whatever it says
     $('#m-music').textContent = 'Music: ' + (Music.isEnabled() ? (Sound.isEnabled() ? 'On' : 'On (sound is off)') : 'Off');
@@ -2659,6 +2783,9 @@ const UI = (() => {
     }
     for (const b of $$('[data-open]')) b.addEventListener('click', () => { Sound.unlock(); openOverlay(b.dataset.open); });
     $('#minimap').addEventListener('click', () => openOverlay('map'));
+    $('#map-in').addEventListener('click', () => zoomMap(1.5));
+    $('#map-out').addEventListener('click', () => zoomMap(1 / 1.5));
+    wireMapPinch();
     // a tip goes at a tap on it, and the tap goes no further
     $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); });
     $('#log-more').addEventListener('click', () => openOverlay('log'));
@@ -2739,6 +2866,7 @@ const UI = (() => {
     // How to Play in the middle of a run: the run is kept first (a phone may
     // close a page it cannot see), and Back returns to the Menu, still paused,
     // rather than straight into a blow that was already falling
+    $('#m-testing').addEventListener('click', () => { const open = $('#m-testing').getAttribute('aria-expanded') !== 'true'; store(TESTS_OPEN, open ? '1' : '0'); showTests(open); });
     $('#m-help').addEventListener('click', () => {
       if (Game.state() && Game.state().status === 'playing') Game.save(true);
       closeOverlay(); helpFromMenu = true; showScreen('screen-help');
@@ -2897,8 +3025,8 @@ const UI = (() => {
     $('#confirm-keep').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     $('#confirm-replace').addEventListener('click', startPending);
     $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow('quick'); });
-    $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(); });
-    $('#btn-daily-earned').addEventListener('click', () => { Sound.unlock(); dailyTap('earned'); });
+    $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(dailyKind()); });
+    for (const b of $$('.daily-kind [data-kind]')) b.addEventListener('click', () => { store(DAILY_KIND, /** @type {HTMLElement} */ (b).dataset.kind === 'earned' ? 'earned' : 'main'); showDailyKind(); });
     // the run as a picture: to the phone's share sheet where it takes files, else saved
     $('#end-card').addEventListener('click', async () => {
       const b = $('#end-card'), G = Game.state();
@@ -2937,7 +3065,7 @@ const UI = (() => {
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
-    tips: () => ({ ...TIPS }), timeScale, bossBar };
+    tips: () => ({ ...TIPS }), placeTip, timeScale, bossBar };
 })();
 
 export { UI };

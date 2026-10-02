@@ -692,24 +692,24 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a tip lies along the top of the view: off the log, off the fight in the middle, and off the controls', async ({ page }) => {
+  test('a tip lies over the log: off the fight in the view, and off the controls', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { tips: true, seed: 'tip-place' });
     await clearBoons(page);
     await expect(page.locator('#tip')).toHaveClass(/show/);
+    await page.waitForTimeout(400);
     const r = await page.evaluate(() => {
-      const box = id => document.getElementById(id).getBoundingClientRect();
-      const tip = box('tip'), view = box('view'), log = box('log');
-      return { inView: tip.top >= view.top - 1 && tip.bottom <= view.bottom + 1, overLog: tip.bottom > log.top + 1,
-        upperHalf: tip.bottom <= view.top + view.height * 0.5 + 1 };
+      const box = el => el.getBoundingClientRect();
+      const tip = box(document.getElementById('tip')), view = box(document.getElementById('view')), log = box(document.getElementById('log')), pad = box(document.querySelector('.controls'));
+      return { overLog: tip.bottom <= log.bottom + 1 && tip.bottom > log.top, lowerHalf: tip.top >= view.top + view.height * 0.5 - 1, offControls: tip.bottom <= pad.top + 1 };
     });
-    expect(r.inView, 'the tip should lie on the view').toBe(true);
-    expect(r.overLog, 'the tip covers the log').toBe(false);
-    expect(r.upperHalf, 'the tip reaches down into the fight').toBe(true);
+    expect(r.overLog, 'the tip should lie on the log').toBe(true);
+    expect(r.lowerHalf, 'the tip reaches up into the fight').toBe(true);
+    expect(r.offControls, 'the tip covers the controls').toBe(true);
     expect(errors).toEqual([]);
   });
 
-  test('every tip fits whole in the top half of the view, on a small phone and a large one', async ({ page }) => {
+  test('every tip fits whole, over the log and below the fight, on a small phone and a large one', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 568 });
     await startGame(page, { seed: 'tip-fit' });
     // and sideways, where the view is short and a tip smaller
@@ -717,14 +717,16 @@ test.describe('dungeon features', () => {
       await page.setViewportSize({ width, height });
       await page.waitForTimeout(300);
       const cut = await page.evaluate(() => {
-        const el = document.getElementById('tip'), view = document.getElementById('view').getBoundingClientRect();
+        const el = document.getElementById('tip'), view = document.getElementById('view').getBoundingClientRect(), pad = document.querySelector('.controls').getBoundingClientRect();
         el.classList.add('show');
         const out = [];
         for (const [k, v] of Object.entries(UI.tips())) {
           el.innerHTML = v;
+          UI.placeTip(el);
           const r = el.getBoundingClientRect();
           if (el.scrollHeight > el.clientHeight + 1) out.push(`${k} is cut off (${el.scrollHeight} > ${el.clientHeight})`);
-          if (r.bottom > view.top + view.height * 0.5 + 1) out.push(`${k} reaches down into the fight (${Math.round(r.bottom - view.top)} of ${Math.round(view.height)})`);
+          if (r.top < view.top + view.height * 0.5 - 1) out.push(`${k} reaches up into the fight (${Math.round(r.top - view.top)} of ${Math.round(view.height)})`);
+          if (r.bottom > pad.top + 1 && r.top < pad.bottom && r.right > pad.left + 1 && r.left < pad.right - 1) out.push(`${k} covers the controls`);
         }
         return out;
       });
@@ -787,8 +789,10 @@ test.describe('dungeon features', () => {
     await page.evaluate(() => { const m = Game.level().monsters[0]; m.nextAct = Game.state().t; });
     await expect(page.locator('#tip')).toContainText('warning mark', { timeout: 3000 });
     expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
-    // the mark it speaks of is drawn below the tip, not under it
-    expect(await page.evaluate(() => Renderer.keptClear)).toBeGreaterThan(10);
+    // the mark it speaks of is in plain sight: the tip lies over the log, below the view's fight, and pushes nothing down
+    const tipTop = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return (t.top - v.top) / v.height; });
+    expect(tipTop).toBeGreaterThanOrEqual(0.5);
+    expect(await page.evaluate(() => Renderer.keptClear)).toBe(0);
     await page.evaluate(() => Game.input('back'));
     await expect(page.locator('#tip')).toContainText('hit empty air', { timeout: 4000 });
     expect(await page.evaluate(() => UI.timeScale())).toBe(1);
@@ -1051,9 +1055,10 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#tip')).toHaveClass(/show/);
     await expect(page.locator('#tip')).toContainText('Move with the arrows');
     // a tap on it puts it away (and goes no further: see the round five tests),
-    // and it keeps to the top of the view, clear of the middle where taps act
-    const box = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return { tipBottom: t.bottom, mid: v.top + v.height / 2 }; });
-    expect(box.tipBottom).toBeLessThan(box.mid);
+    // and it keeps below the view's middle, clear of the fight
+    await page.waitForTimeout(400);
+    const box = await page.evaluate(() => { const t = document.getElementById('tip').getBoundingClientRect(), v = document.getElementById('view').getBoundingClientRect(); return { tipTop: t.top, mid: v.top + v.height / 2 }; });
+    expect(box.tipTop).toBeGreaterThanOrEqual(box.mid);
     const seen = await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.tipsSeen')));
     expect(seen).toContain('controls');
     // a second run on this device does not repeat it. Leaving the page saves

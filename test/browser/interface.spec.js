@@ -628,19 +628,29 @@ test.describe('round five playtest', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the minimap and the status chips step down below a tip while one is up, and back after', async ({ page }) => {
-    const errors = watchForErrors(page);
-    await page.goto('/');
-    await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
-    await startGame(page, { tips: true, seed: 'tip-map' });
-    await clearBoons(page);
-    await expect(page.locator('#tip.show')).toBeVisible();
-    const clear = () => page.evaluate(() => { const t = document.querySelector('#tip').getBoundingClientRect(), m = document.querySelector('#minimap').getBoundingClientRect(), s = document.querySelector('#hud-status').getBoundingClientRect(); return { tipUp: document.querySelector('#tip').classList.contains('show'), gap: Math.min(m.top, s.top) - t.bottom, top: Math.max(m.top, s.top) - document.querySelector('#view').getBoundingClientRect().top }; });
-    await expect.poll(async () => (await clear()).gap, { timeout: 3000 }).toBeGreaterThanOrEqual(0);
-    await page.locator('#tip.show').click();
-    await expect.poll(async () => (await clear()).top, { timeout: 3000 }).toBeLessThan(20);
-    expect(errors).toEqual([]);
-  });
+  for (const [label, viewport] of [['upright', { width: 390, height: 844 }], ['sideways', { width: 844, height: 390 }]]) {
+    test(`a tip lies over the log, clear of the top half of the view and of the newest line, held ${label}`, async ({ page }) => {
+      const errors = watchForErrors(page);
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
+      await startGame(page, { tips: true, seed: 'tip-map' });
+      await clearBoons(page);
+      await expect(page.locator('#tip.show')).toBeVisible();
+      const at = () => page.evaluate(() => {
+        const r = s => document.querySelector(s).getBoundingClientRect(), t = r('#tip'), v = r('#view'), m = r('#minimap');
+        const lines = [...document.querySelectorAll('#log > div')], last = lines.length ? lines[lines.length - 1].getBoundingClientRect() : null;
+        return { fromTop: t.top - v.top, half: v.height / 2, newest: last ? last.top - t.bottom : 0, map: m.top - v.top };
+      });
+      // (it slides in: measured once it has settled)
+      await page.waitForTimeout(400);
+      const seen = await at();
+      expect(seen.fromTop, 'the tip keeps out of the top half of the view').toBeGreaterThanOrEqual(seen.half);
+      expect(seen.newest, 'the newest line of the log is below the tip').toBeGreaterThanOrEqual(-1);
+      expect(seen.map, 'the minimap stays at the top of the view').toBeLessThan(20);
+      expect(errors).toEqual([]);
+    });
+  }
 
   test('a tap on a tip puts it away, and does not act in the dungeon', async ({ page }) => {
     const errors = watchForErrors(page);
@@ -822,3 +832,125 @@ test.describe('gear powers', () => {
   });
 });
 
+
+test.describe('the screens around the dungeon', () => {
+  test('the class picker shows each class in a line, and the whole of the chosen one beneath; sideways all six in one row', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    // a card is a face, a name and a line: what the class is like at length is told for the chosen one
+    await expect(page.locator('.class-card[data-cls="fighter"] small')).toHaveCount(0);
+    await page.click('.class-card[data-cls="mage"]');
+    await expect(page.locator('#c-class-more')).toContainText('Mage');
+    await expect(page.locator('#c-class-more')).toContainText('Key stat: Intelligence');
+    await page.click('.class-card[data-cls="thief"]');
+    await expect(page.locator('#c-class-more')).toContainText('Key stat: Dexterity');
+    // the text under the face runs the card's full width, not down a narrow column beside it
+    const w = await page.evaluate(() => { const c = document.querySelector('.class-card[data-cls="thief"]'), e = c.querySelector('.ease'); return e.getBoundingClientRect().width / c.clientWidth; });
+    expect(w).toBeGreaterThan(0.75);
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.waitForTimeout(200);
+    const tops = await page.evaluate(() => [...document.querySelectorAll('.class-card')].map(c => Math.round(c.getBoundingClientRect().top)));
+    expect(new Set(tops).size, 'the classes in one row').toBe(1);
+    expect(errors).toEqual([]);
+  });
+
+  test('the menu is in groups, its testing tools folded until opened, and open while one is on', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { testsFolded: true, seed: 'menu-groups' });
+    await clearBoons(page);
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#ov-menu .menu-h')).toHaveText(['Game', 'Sound', 'Display', 'Controls']);
+    await expect(page.locator('#m-tests')).toBeHidden();
+    await expect(page.locator('#m-test-hp')).toBeHidden();
+    await page.click('#m-testing');
+    await expect(page.locator('#m-testing')).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('#m-test-hp')).toBeVisible();
+    // one switched on (twice, as each asks first), then the tools folded away: the menu opens with them showing
+    await page.click('#m-test-hp'); await page.click('#m-test-hp');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: On');
+    await page.click('#m-testing');
+    await page.click('#ov-menu [data-close]');
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-test-hp')).toBeVisible();
+    // turned off again, folded stays folded
+    await page.click('#m-test-hp');
+    await expect(page.locator('#m-test-hp')).toHaveText('Endless life: Off');
+    await page.click('#m-testing');
+    await page.click('#ov-menu [data-close]');
+    await page.click('[data-open="menu"]');
+    await expect(page.locator('#m-tests')).toBeHidden();
+    expect(errors).toEqual([]);
+  });
+
+  test('the map fills the width it has, and zooms in about the hero by its buttons or a pinch', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'map-zoom' });
+    await clearBoons(page);
+    await page.click('[data-open="map"]');
+    const at = () => page.evaluate(() => { const c = document.querySelector('#map-canvas'), b = document.querySelector('#ov-map .ov-body'); return { tile: Number(c.dataset.tile), share: c.getBoundingClientRect().width / b.clientWidth }; });
+    const first = await at();
+    expect(first.share, 'the map spans the overlay').toBeGreaterThan(0.85);
+    await expect(page.locator('#map-out')).toBeDisabled();
+    await page.click('#map-in');
+    const closer = await at();
+    expect(closer.tile).toBeGreaterThan(first.tile);
+    await page.click('#map-out');
+    expect((await at()).tile).toBe(first.tile);
+    // two fingers spread apart on it
+    await page.evaluate(() => {
+      const c = document.querySelector('#map-canvas'), r = c.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const ev = (type, id, x) => c.dispatchEvent(new PointerEvent(type, { pointerId: id, clientX: x, clientY: cy, bubbles: true, pointerType: 'touch' }));
+      ev('pointerdown', 1, cx - 20); ev('pointerdown', 2, cx + 20);
+      ev('pointermove', 1, cx - 60); ev('pointermove', 2, cx + 60);
+      ev('pointerup', 1, cx - 60); ev('pointerup', 2, cx + 60);
+    });
+    expect((await at()).tile).toBeGreaterThan(first.tile);
+    expect(errors).toEqual([]);
+  });
+
+  test('the pack sums up what is worn, the hero sheet is grouped, and the messages can be narrowed to one kind', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { cls: 'fighter', seed: 'sheets' });
+    await clearBoons(page);
+    await page.click('[data-open="inv"]');
+    const ac = await page.evaluate(() => Game.playerAC());
+    await expect(page.locator('#inv-sum')).toContainText(`Armour class ${ac}`);
+    await expect(page.locator('#inv-sum')).toContainText('to hit');
+    await page.click('#ov-inv [data-close]');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet > .sheet-h').first()).toHaveText('In a fight');
+    await expect(page.locator('#char-sheet .sheet.scores > div')).toHaveCount(6);
+    await expect(page.locator('#char-sheet .sheet.scores .key-stat')).toContainText('Strength');
+    await expect(page.locator('#char-sheet .xp-bar')).toBeVisible();
+    await page.click('#ov-char [data-close]');
+    // a danger, then the history narrowed to the dangers
+    await page.evaluate(() => { Game.state().log.push({ m: 'Something growls in the dark.', c: 'bad' }); });
+    await page.evaluate(() => document.querySelector('#log-more').click());
+    await page.click('#log-history [data-kind="bad"]');
+    await expect(page.locator('#log-history [data-kind="bad"]')).toHaveAttribute('aria-pressed', 'true');
+    const kinds = await page.evaluate(() => [...document.querySelectorAll('#log-history .log-history > div')].map(d => d.className));
+    expect(kinds.length).toBeGreaterThan(0);
+    expect(new Set(kinds)).toEqual(new Set(['bad']));
+    await page.click('#log-history [data-kind="all"]');
+    expect(await page.locator('#log-history .log-history > div').count()).toBeGreaterThan(kinds.length);
+    expect(errors).toEqual([]);
+  });
+
+  test('the bottle says Drink and how many; Continue is shown only with a run to continue', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
+    await page.goto('/');
+    await expect(page.locator('#btn-continue')).toBeHidden();
+    await startGame(page, { cls: 'mage', seed: 'drink' });
+    await clearBoons(page);
+    const n = await page.evaluate(() => Game.player().inv.filter(i => i.t === 'potion_heal' && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0));
+    expect(n).toBeGreaterThan(0);
+    await expect(page.locator('#hud-quaff')).toContainText(`Drink ×${n}`);
+    await page.evaluate(() => Game.save(true));
+    await page.goto('/');
+    await expect(page.locator('#btn-continue')).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+});

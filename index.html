@@ -38,9 +38,15 @@
         <button id="btn-continue" class="big"><b>Continue</b><small id="save-summary">No saved game</small></button>
         <div class="menu-row">
           <button id="btn-quick" class="ghost two"><b>Quick Start</b><small>A random hero, straight in</small></button>
-          <button id="btn-daily" class="ghost two"><b>Daily Delve</b><small id="daily-summary">Today's dungeon, one try</small></button>
+          <!-- one Daily button for the two dailies, and a switch under it for which -->
+          <div class="daily-cell">
+            <button id="btn-daily" class="ghost two"><b id="daily-name">Daily Delve</b><small id="daily-summary">Today's dungeon, one try</small><small id="daily-earned-summary" hidden>A Ranger or a Druid, one try</small></button>
+            <div class="seg daily-kind" role="radiogroup" aria-label="Which daily">
+              <button type="button" role="radio" id="btn-daily-main" data-kind="main" aria-checked="true" class="on">Any hero</button>
+              <button type="button" role="radio" id="btn-daily-earned" data-kind="earned" aria-checked="false">Ranger &amp; Druid</button>
+            </div>
+          </div>
         </div>
-        <button id="btn-daily-earned" class="ghost two"><b>Ranger &amp; Druid Daily</b><small id="daily-earned-summary">A Ranger or a Druid, one try</small></button>
         <div class="menu-row">
           <button id="btn-hall" class="ghost">Hall of Heroes</button>
           <button id="btn-beasts" class="ghost">Bestiary</button>
@@ -57,14 +63,19 @@
   <section id="screen-create" class="screen scroll">
     <div class="panel">
       <h2>Create Your Adventurer</h2>
-      <div class="seg" id="c-difficulty" role="radiogroup" aria-label="Difficulty">
-        <button type="button" role="radio" data-diff="easy" aria-checked="false">Easy</button>
-        <button type="button" role="radio" data-diff="normal" aria-checked="true" class="on">Normal</button>
-        <button type="button" role="radio" data-diff="hard" aria-checked="false">Hard</button>
+      <div class="create-top">
+        <div>
+          <div class="seg" id="c-difficulty" role="radiogroup" aria-label="Difficulty">
+            <button type="button" role="radio" data-diff="easy" aria-checked="false">Easy</button>
+            <button type="button" role="radio" data-diff="normal" aria-checked="true" class="on">Normal</button>
+            <button type="button" role="radio" data-diff="hard" aria-checked="false">Hard</button>
+          </div>
+          <p id="c-diff-note" class="diff-note"></p>
+        </div>
+        <label class="field">Name <span class="row"><input id="c-name" maxlength="16" placeholder="Your hero's name" autocomplete="off"><button id="c-name-rand" class="small" type="button" title="Random name" aria-label="Random name">⟳</button></span></label>
       </div>
-      <p id="c-diff-note" class="diff-note"></p>
-      <label class="field">Name <span class="row"><input id="c-name" maxlength="16" placeholder="Your hero's name" autocomplete="off"><button id="c-name-rand" class="small" type="button" title="Random name" aria-label="Random name">⟳</button></span></label>
       <div class="class-grid" id="c-classes"></div>
+      <p class="class-more" id="c-class-more" aria-live="polite"></p>
       <h3>Who you were</h3>
       <div class="bg-grid" id="c-backgrounds"></div>
       <p id="c-bg-perk" class="perk-line"></p>
@@ -194,19 +205,19 @@
         <h3>Who you are</h3>
         <p>Pick a class and a background. The class decides what you can wield and cast; each card says in a word how it plays, and for your first few runs the Fighter and the Cleric, who forgive mistakes best, are marked as a good first hero. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
         <h3>Moving</h3>
-        <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Stairs are set into the walls, so you have to be facing them: if you step up beside a staircase the log says which side it is on, and the <b>Use</b> button changes its name to say what it will do &mdash; <i>Descend</i>, <i>Open</i>, <i>Trade</i> and so on. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you. Left-handed? <b>Menu &rsaquo; Controls</b> swaps the d-pad and the buttons to the other sides.</p>
+        <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Stairs are set into the walls, so you have to be facing them: if you step up beside a staircase the log says which side it is on, and the <b>Use</b> button changes its name to say what it will do &mdash; <i>Descend</i>, <i>Open</i>, <i>Trade</i> and so on. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you. Left-handed? <b>Menu &rsaquo; Controls</b> swaps the d-pad and the buttons to the other sides. <b>Map</b>, or a tap on the little map in the corner of the view, shows all you have explored; pinch it, or press <b>+</b>, to look closer, and drag it about.</p>
         <h3>Finds</h3>
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
         <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches. It starts on if your phone asks for less motion.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
-        <p>For testing the game, <b>Menu</b> also has <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
+        <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
         <p>The <b>music</b> follows the fight: quiet bells while nothing is near, a low pulse when something awake is close, a beat once it comes to blows, and a horn for a champion, a shade or the last foe (in the Warlord's hall, his war-drum leads it). When the fight is over it settles and goes quiet for a while, and it draws back whenever the game is paused. <b>Music</b> in the <b>Menu</b> turns it off, and <b>Sound</b> turns off everything.</p>
         <h3>Secrets</h3>
         <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
         <p>Rooms come in many shapes: halls with rows of pillars to put between you and a blow, caverns, long galleries, rooms with niches in their walls. The corridors loop, so there is usually more than one way round. Past the divided stair each road builds after its own fashion: the Crypts in burial niches, long galleries and straight passages, the Warrens in burrows and crooked tunnels. Every floor holds one <b>set piece</b>: a block of cells along an aisle, each behind a barred gate; a shrine with a basin at its back; a cistern where the water carries lightning and freezes under cold; or a hall half fallen in, with something left at the back of the stone. Each keeps a find worth the detour.</p>
         <h3>Survival</h3>
-        <p>Walking makes you hungry. Eat rations from your pack or you will start to starve. Your wounds close on their own only up to half your life (more for the Heartsworn); past that it takes a potion, a prayer or a <b>Rest</b>. Resting costs food and is impossible with enemies close by. The first rest on a floor restores everything; the second does half as much, the third a quarter, and after that the dark is too close to sleep until you find the next floor. The longer you linger, the likelier something finds you asleep. The Rest button shows how much the next rest will do; with anything close it dims and says <i>foes near</i>, and it never drinks for you. Drink in a fight from the <b>Pack</b>, or in one tap: anyone carrying a healing potion they know gets a red bottle button beside the life bar. Watch for traps in corridors. Now and then someone who knows a floor tells you where its traps lie: they show on the map as a red &times;, and you step round them.</p>
+        <p>Walking makes you hungry. Eat rations from your pack or you will start to starve. Your wounds close on their own only up to half your life (more for the Heartsworn); past that it takes a potion, a prayer or a <b>Rest</b>. Resting costs food and is impossible with enemies close by. The first rest on a floor restores everything; the second does half as much, the third a quarter, and after that the dark is too close to sleep until you find the next floor. The longer you linger, the likelier something finds you asleep. The Rest button shows how much the next rest will do; with anything close it dims and says <i>foes near</i>, and it never drinks for you. Drink in a fight from the <b>Pack</b>, or in one tap: anyone carrying a healing potion they know gets a red <b>Drink</b> button beside the life bar, which says how many they carry. Watch for traps in corridors. Now and then someone who knows a floor tells you where its traps lie: they show on the map as a red &times;, and you step round them.</p>
         <p>The deep takes the measure of whoever comes down. Arrive on a floor far stronger than most who reach it and what waits there is readier for you: sturdier, surer, and more often a champion. Clearing every corner still pays, just not for free.</p>
         <h3>Keyboard</h3>
         <p>W/S or arrows to move, A/D to turn, Q/E to sidestep, Space to attack, U to use, C to cast, R to rest, X to drink a healing potion, Z to read a scroll (or coat a bare blade as a fight starts), M map, I pack, P spells, H hero, J journal, Esc to close.</p>
@@ -244,7 +255,7 @@
         <h3>Groups</h3>
         <p>From the second floor down, goblins, rats, skeletons and bats go about in <b>groups</b> of two, and deeper in threes, sharing one square. You fight the one in front; when it falls the next steps up, and the square is clear only when the last is down. They draw back together and swing in a quick volley, every one of them, so a group hits hard; step away while the warning mark is up and the whole volley misses. And a spell that fills the square hits every one of them at once: a mage's <b>Burning Hands</b>, <b>Lightning Bolt</b> and <b>Cone of Cold</b>, a cleric's <b>Flame Strike</b>, and a Scroll of Fire. Lightning and cold carry on down the corridor into any group behind.</p>
         <h3>Monster tricks</h3>
-        <p>Many monsters have a trick of their own. It gets a bigger warning mark, a <b>violet spiked burst</b> rather than a triangle, a deeper sound and a line in the log, and every trick has an answer &mdash; usually a step, sometimes a weapon or a spell. The first time you meet each trick, and the first time anything swings at you, a tip says what to do and time runs slow until the moment has passed (unless tips are off). The very first tip, about the controls, holds the dungeon still while you read it, until you move or it fades. A few monsters have a nature rather than a trick, like the troll that grows its wounds back. Your <b>Bestiary</b>, in the Journal and on the title screen, writes each trick down once you have seen it, and the answer once you have beaten it. Tap a creature's picture there to look closer.</p>
+        <p>Many monsters have a trick of their own. It gets a bigger warning mark, a <b>violet spiked burst</b> rather than a triangle, a deeper sound and a line in the log, and every trick has an answer &mdash; usually a step, sometimes a weapon or a spell. The first time you meet each trick, and the first time anything swings at you, a tip over the log says what to do and time runs slow until the moment has passed (unless tips are off). The very first tip, about the controls, holds the dungeon still while you read it, until you move or it fades. A few monsters have a nature rather than a trick, like the troll that grows its wounds back. Your <b>Bestiary</b>, in the Journal and on the title screen, writes each trick down once you have seen it, and the answer once you have beaten it. Tap a creature's picture there to look closer.</p>
         <h3>The way down</h3>
         <p>For a quick game, choose <b>2</b> floors: <b>a quick delve</b>. The first floor is an ordinary first floor; the second is a little deeper than that, and at its far end a lesser lich, not yet come into its full strength, keeps the Heart. You learn three times as fast, so a good delve still reaches a path. It is over in a quarter of an hour or so. A win there goes in the Hall, but trophies, titles and what a win opens wait for four floors or more.</p>
         <p>Choose <b>12</b> or <b>16</b> floors when you make your hero for <b>the Long Delve</b>: the same dungeon drawn out, so every kind of creature has floors of its own before the last (the trolls, the ogres and the minotaur come in their turn rather than all at the bottom), and three named champions hold floors on the way down instead of two. It is the harder road: from the seventh floor its creatures hit surer, and every floor past the sixth they are a little sturdier. On Hard the deep answers magic too: from the seventh floor spells strike and heal 6% harder for every floor past the sixth, and so do a cleric's blows; a fighter's blows and a druid's grow 4% a floor there, and a ranger's shots and blows 2%. At its bottom, down either road, neither the lich nor the Warlord keeps the Heart: the <b>Heartforged</b> does, an iron giant with a furnace in its chest. When it raises its hammer, fire runs out along the floor down all four of its lines: <b>step off its lines</b> and it is left open. At two thirds it lets embers out of its furnace (emberlings); at one third it glows white, quicker, and its fire runs further. Cold hurts it. A win on it, on Normal or Hard, is a feat with its own trophy in the Hall.</p>
@@ -318,7 +329,7 @@
         <p>After any win on Hard, <b>vows</b> open on the New Game screen: the <b>Iron Vow</b> (no resting, not even by a trader's lamp), the <b>Pauper's Vow</b> (no trader will deal with you) and the <b>Unaided Vow</b> (no draught passes your lips). Swear as many as you like; each one kept to a win on one life, on Normal or Hard, is a trophy of its own. The Daily Delve takes no vows.</p>
         <h3>The Daily Delve</h3>
         <p>Everyone gets the same dungeon each day, with the same hero: class, background and scores all come from the date. Eight floors, normal difficulty, one life, and one try. When it is over the title screen shows how you did, and <b>Share</b> passes on a one-line result, through your phone's share sheet or copied to paste wherever you like. Play on consecutive days to build a streak.</p>
-        <p>Beneath it, the <b>Ranger &amp; Druid Daily</b> is a second dungeon a day, the same for everyone, whose hero is always a Ranger or a Druid. It keeps its own record and its own streak, and the first Daily is dealt just as it always was.</p>
+        <p>Set the switch under the Daily Delve button to <b>Ranger &amp; Druid</b> for the <b>Ranger &amp; Druid Daily</b>: a second dungeon a day, the same for everyone, whose hero is always a Ranger or a Druid. It keeps its own record and its own streak, and the first Daily is dealt just as it always was.</p>
       </div>
       <div class="row"><button id="help-back" class="big primary">Back</button></div>
     </div>
@@ -335,13 +346,13 @@
             <div class="bar sp"><div id="bar-sp" class="fill"></div><span id="txt-sp"></span></div>
             <div class="bar food"><div id="bar-food" class="fill"></div><span id="txt-food"></span></div>
           </div>
-          <button id="hud-quaff" class="hud-quaff" data-tap="quaff" aria-label="Quaff a healing draught" style="display:none">&#x2697;<small id="hud-quaff-n"></small></button>
+          <button id="hud-quaff" class="hud-quaff" data-tap="quaff" aria-label="Quaff a healing draught" style="display:none"><span class="q-ico" aria-hidden="true">&#x2697;</span><small id="hud-quaff-n">Drink</small></button>
           <div class="hud-right"><span id="hud-depth"></span><span id="hud-gold"></span><span id="hud-compass"></span></div>
         </div>
         <div class="view-wrap">
           <canvas id="view" width="320" height="200"></canvas>
-          <!-- a tip lies along the top of the view, over the ceiling: never over
-               the fight below it, nor over the log it may point to -->
+          <!-- a tip hangs below the view, over the log: never over the fight,
+               nor over the log's newest line, which it may point to -->
           <div id="tip" class="tip" role="status" aria-live="polite"></div>
           <div id="hud-status" class="hud-status"></div>
           <!-- a scroll worth reading this moment, in reach of the left thumb; there only while it is.
@@ -390,6 +401,7 @@
       <div class="ov-body">
         <div class="equip" id="equip"></div>
         <div class="equip jewels" id="equip-jewels"></div>
+        <div class="inv-sum" id="inv-sum"></div>
         <div class="inv-tools"><span id="inv-count" class="dim small"></span><button id="inv-sort" class="small ghost">Sort</button></div>
         <div class="grid" id="inv-grid"></div>
         <div id="floor-box" class="floor-box"></div>
@@ -399,7 +411,8 @@
     <div id="ov-map" class="overlay">
       <div class="ov-head"><h2 id="map-title">Map</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body center">
-        <canvas id="map-canvas"></canvas>
+        <!-- pinch the map, or the buttons in its corner: in toward the hero, and back out to the whole of it -->
+        <div class="map-frame"><canvas id="map-canvas"></canvas><div id="map-zoom" class="map-zoom"><button id="map-out" type="button" aria-label="Zoom out">−</button><button id="map-in" type="button" aria-label="Zoom in">+</button></div></div>
         <div id="map-legend" class="map-legend"></div>
         <p class="dim small" id="map-note">Explored ground only. You are the ringed square.</p>
       </div>
@@ -473,28 +486,46 @@
     <div id="ov-menu" class="overlay">
       <div class="ov-head"><h2>Menu</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body menu">
-        <button id="m-save" class="big">Save Game</button>
-        <button id="m-load" class="big">Load Game</button>
-        <button id="m-code" class="big">Save code</button>
-        <button id="m-sound" class="big">Sound: On</button>
-        <button id="m-music" class="big">Music: On</button>
-        <button id="m-rolls" class="big">Combat rolls: Off</button>
-        <button id="m-text" class="big">Text size: Normal</button>
-        <button id="m-tips" class="big">Tips: On</button>
-        <button id="m-calm" class="big">Calm view: Off</button>
-        <button id="m-numbers" class="big">Combat numbers: Normal</button>
-        <button id="m-hand" class="big">Controls: right-handed</button>
-        <p class="dim small menu-note">For testing: a run that has used any of these is not written in the Hall and earns no trophy. Each asks for a second tap first.</p>
-        <button id="m-test-hp" class="big ghost">Endless life: Off</button>
-        <button id="m-test-sp" class="big ghost">Endless spell points: Off</button>
-        <button id="m-test-gold" class="big ghost">Endless gold: Off</button>
-        <button id="m-test-eye" class="big ghost">Show every monster: Off</button>
-        <button id="m-test-map" class="big ghost">Reveal this floor</button>
-        <button id="m-test-level" class="big ghost">Gain a level</button>
-        <div class="menu-row test-row"><select id="m-test-floor" aria-label="Floor to go to"></select><select id="m-test-road" aria-label="Road below the divided stair"></select><button id="m-test-go" class="ghost">Go</button></div>
-        <div class="menu-row test-row"><select id="m-test-item" aria-label="Item to put in your pack"></select><button id="m-test-give" class="ghost">Give</button></div>
-        <p class="dim small" id="m-test-said" aria-live="polite"></p>
-        <button id="m-help" class="big ghost">How to Play</button>
+        <!-- grouped, the things done often first; the testing tools folded away under one row -->
+        <h3 class="menu-h">Game</h3>
+        <div class="menu-grid">
+          <button id="m-save" class="big">Save Game</button>
+          <button id="m-load" class="big">Load Game</button>
+          <button id="m-code" class="big">Save code</button>
+          <button id="m-help" class="big">How to Play</button>
+        </div>
+        <h3 class="menu-h">Sound</h3>
+        <div class="menu-grid">
+          <button id="m-sound" class="big">Sound: On</button>
+          <button id="m-music" class="big">Music: On</button>
+        </div>
+        <h3 class="menu-h">Display</h3>
+        <div class="menu-grid">
+          <button id="m-text" class="big">Text size: Normal</button>
+          <button id="m-tips" class="big">Tips: On</button>
+          <button id="m-calm" class="big">Calm view: Off</button>
+          <button id="m-numbers" class="big">Combat numbers: Normal</button>
+          <button id="m-rolls" class="big">Combat rolls: Off</button>
+        </div>
+        <h3 class="menu-h">Controls</h3>
+        <div class="menu-grid">
+          <button id="m-hand" class="big">Controls: right-handed</button>
+        </div>
+        <button id="m-testing" class="menu-fold" aria-expanded="false" aria-controls="m-tests">Testing tools <span class="fold-mark" aria-hidden="true">▸</span></button>
+        <div id="m-tests" class="menu-tests" hidden>
+          <p class="dim small menu-note">A run that has used any of these is not written in the Hall and earns no trophy. Each asks for a second tap first.</p>
+          <div class="menu-grid">
+            <button id="m-test-hp" class="big ghost">Endless life: Off</button>
+            <button id="m-test-sp" class="big ghost">Endless spell points: Off</button>
+            <button id="m-test-gold" class="big ghost">Endless gold: Off</button>
+            <button id="m-test-eye" class="big ghost">Show every monster: Off</button>
+            <button id="m-test-map" class="big ghost">Reveal this floor</button>
+            <button id="m-test-level" class="big ghost">Gain a level</button>
+          </div>
+          <div class="menu-row test-row"><select id="m-test-floor" aria-label="Floor to go to"></select><select id="m-test-road" aria-label="Road below the divided stair"></select><button id="m-test-go" class="ghost">Go</button></div>
+          <div class="menu-row test-row"><select id="m-test-item" aria-label="Item to put in your pack"></select><button id="m-test-give" class="ghost">Give</button></div>
+          <p class="dim small" id="m-test-said" aria-live="polite"></p>
+        </div>
         <button id="m-quit" class="big danger">Quit to Title</button>
         <p class="dim small" id="m-seed"></p>
       </div>

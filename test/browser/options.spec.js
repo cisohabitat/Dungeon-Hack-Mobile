@@ -481,11 +481,16 @@ test.describe('the Daily Delve', () => {
     await page.clock.setFixedTime(DAY);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await page.goto('/');
+    // one Daily button, and a switch under it: set to the Ranger & Druid, it says so
     await expect(page.locator('#btn-daily-earned')).toBeVisible();
-    await expect(page.locator('#btn-daily-earned')).toContainText('Ranger & Druid Daily');
+    await expect(page.locator('#btn-daily')).toContainText('Daily Delve');
     const cls = await page.evaluate(async () => (await import('./js/daily.js')).Daily.heroFor('2026-09-24', 'earned').cls);
     expect(['ranger', 'druid']).toContain(cls);
     await page.click('#btn-daily-earned');
+    await expect(page.locator('#btn-daily-earned')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('#btn-daily')).toContainText('Ranger & Druid Daily');
+    await expect(page.locator('#btn-daily')).toContainText('A Ranger or a Druid, one try');
+    await page.click('#btn-daily');
     await expect(page.locator('#pro-rules')).toContainText('Ranger & Druid Daily');
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
@@ -495,6 +500,12 @@ test.describe('the Daily Delve', () => {
     await page.goto('/');
     await expect(page.locator('#daily-earned-summary')).toContainText('waits on floor 1');
     await expect(page.locator('#daily-summary')).not.toContainText('waits');
+    // the switch is as it was left; set back, the button is the first Daily again
+    await expect(page.locator('#btn-daily')).toContainText('waits on floor 1');
+    await page.click('#btn-daily-main');
+    await expect(page.locator('#daily-name')).toHaveText('Daily Delve');
+    await expect(page.locator('#daily-summary')).toBeVisible();
+    await expect(page.locator('#daily-earned-summary')).toBeHidden();
     expect(errors).toEqual([]);
   });
 
@@ -503,6 +514,8 @@ test.describe('the Daily Delve', () => {
     await startDaily(page);
     await clearBoons(page);
     await page.click('[data-open="menu"]');
+    // (the testing tools are folded away until opened)
+    await page.click('#m-testing');
     await page.click('#m-test-map');
     await page.click('#m-test-map');
     await page.click('#ov-map [data-close]');
