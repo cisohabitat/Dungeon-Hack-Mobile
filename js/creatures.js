@@ -1827,7 +1827,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
   mender: (pose = 'idle') => {
     const robe = '#6a7a62', robeDk = '#4e5c48', robeLt = '#8a9a80', hood = '#56664e', cord = '#c8b48a', strap = '#6a4a30',
       bag = '#8a6440', leaf = '#5e9a48', ash = '#a8865a', herb = '#b8a058', bell = '#c9a24a', linen = '#e8e2d2', skin = '#ecc0a0', skinDk = '#b0806a', hairc = '#6a4630';
-    const rap = pose === 'windup', sit = pose === 'sit';
+    const rap = pose === 'windup', sit = pose === 'sit', heal = pose === 'heal';
     // kneeling, the whole of it sits lower and the robe pools on the floor
     const dy = sit ? 9 : 0, lean = rap ? 1.5 : 0;
     const hx = 32 + lean, hy = 9.5 + dy + (rap ? 1 : 0);
@@ -1886,6 +1886,17 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
         ball(39, 37.6 + dy, 2.4, 1.9, linen), hair(37, 37 + dy, 41, 38.5 + dy, '#b8b0a0'),
         ...hand(36.6, 37.8 + dy), ...hand(42.4, 36.6 + dy),
       ];
+    } else if (heal) {
+      // tending: the staff leant in the crook of the left arm, both hands held out
+      // and cupped, a warm green light gathering over them as the wound knits
+      arms = [
+        ...staff(23, 62, 13, 6),
+        limb(22, 19, 23.5, 30, 2, 1.8, robe), limb(23.5, 30, 28.6, 33, 1.8, 1.6, robe),
+        limb(42, 19, 40.5, 30, 2, 1.8, robe), limb(40.5, 30, 35.4, 33, 1.8, 1.6, robe),
+        ...hand(29.2, 32.6), ...hand(34.8, 32.6),
+        ball(32, 28.6, 4.4, 4.2, '#b8e890', { glows: true }), ball(32, 28.6, 2.1, 2, '#fffbe0', { glows: true }),
+        specks([[27.5, 24], [36.5, 23.4], [30, 20.6], [34.6, 19.2], [26.4, 28], [37.6, 28.4], [32, 17]], '#d8ffb0', { glows: true }),
+      ];
     } else {
       // the staff planted upright in the right hand, the left hand on the satchel
       arms = [
@@ -1902,7 +1913,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
       limb(hx - 3.6, hy - 3, hx + 1.2, hy - 4, 1.4, 0.9, hairc),
       ball(hx - 3.6, hy + 1.5, 0.5, 1, skinDk), ball(hx + 3.6, hy + 1.5, 0.5, 1, skinDk),
       hair(hx - 2.5, hy - 0.25, hx - 1, hy, '#5a3a28'), hair(hx + 1, hy, hx + 2.5, hy - 0.25, '#5a3a28'),
-      dots([[Math.floor(hx - 2), Math.floor(hy + 1)], [Math.floor(hx + 1), Math.floor(hy + 1)]], '#2a2020'),
+      ...(heal ? [hair(hx - 2.75, hy + 1.25, hx - 1.25, hy + 1.25, '#2a2020'), hair(hx + 1.25, hy + 1.25, hx + 2.75, hy + 1.25, '#2a2020')] : [dots([[Math.floor(hx - 2), Math.floor(hy + 1)], [Math.floor(hx + 1), Math.floor(hy + 1)]], '#2a2020')]),
       limb(hx, hy + 1.2, hx + 0.2, hy + 3, 0.5, 0.7, skinDk),
       hair(hx - 1.5, hy + 4, hx - 0.5, hy + 4.5, rap ? '#5a2a20' : '#8a4a3a'), hair(hx - 0.5, hy + 4.5, hx + 1.5, hy + 4, rap ? '#5a2a20' : '#8a4a3a'),
       specks([[hx - 2.25, hy + 2.75], [hx + 2.25, hy + 2.75]], '#e0a088'),
@@ -2305,7 +2316,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
+const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.

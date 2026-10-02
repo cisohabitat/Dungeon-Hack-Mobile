@@ -199,7 +199,7 @@ export function makeCompanion(K) {
   function dresses() {
     const c = here(), p = K.P(), G = K.G;
     if (!c || !knows(c, 'dressing') || c.dressedOn === G.depth || p.hp <= 0 || p.hp >= p.maxHp / 4 || Math.abs(c.x - p.x) + Math.abs(c.y - p.y) > 3) return 0;
-    c.dressedOn = G.depth;
+    c.dressedOn = G.depth; c.dressAt = K.realNow;
     return Math.min(Math.ceil(p.maxHp / 4), p.maxHp - p.hp);
   }
   /** It takes a blow, or the quills, or anything else: it may fall. */
@@ -467,7 +467,7 @@ export function makeCompanion(K) {
   function loaded() {
     const c = K.G.companion;
     // (its picture's clocks run on the page's time, which starts again from nothing)
-    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.stuckSince = 0; }
+    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.dressAt = 0; c.stuckSince = 0; }
   }
   /** Where to draw it, smoothly between squares. */
   function sprite(Assets, now) {
@@ -480,8 +480,10 @@ export function makeCompanion(K) {
     }
     const s = Assets.sprites[kindOf(c).sprite] || Assets.sprites.dog;
     const lunging = now - (c.lungeAt || 0) < 220;
+    // a healer at work (tending, or just now binding a bad wound) holds its hands out over you
+    const healing = s.heal && !(c.moveT1 > now) && (c.tending || now - (c.dressAt || 0) < 1200);
     // told to stay (and not moving or biting), it sits
-    const img = lunging && s.windup ? s.windup : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
+    const img = lunging && s.windup ? s.windup : healing ? s.heal : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
     // it breathes and sways as a monster does (see motion in game.js), waddles
     // as it trots, and swings through a bite; sitting, it only breathes
     const sat = img === s.sit, b = Math.sin(now / 560 + 1.3) * 0.02;

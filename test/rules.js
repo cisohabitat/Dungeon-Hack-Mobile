@@ -10515,6 +10515,36 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a healer at work is drawn holding their hands out over you: while tending, and for a moment after a dressing', async () => {
+    const out = [];
+    const ctx = await withHealer('healer-pose');
+    const { Game } = ctx; const p = Game.player(), G = Game.state(), c = Game.companion();
+    if (!c) return 'no healer';
+    healerRoom(ctx);
+    const art = { sprites: { mender: { name: 'stand', windup: { name: 'windup' }, sit: { name: 'sit' }, heal: { name: 'heal' } } } };
+    const drawn = (/** @type {number} */ now) => { const s = Game.companionSprite(art, now); return s && s.img.name; };
+    // wounded, close by, nothing awake: it tends, and is drawn tending
+    p.hp = 40;
+    run(Game, G, 3000);
+    if (!c.tending) out.push('the healer was not tending');
+    c.moveT1 = 0; c.lungeAt = 0; c.dressAt = 0;
+    if (drawn(1e6) !== 'heal') out.push(`tending, the healer was drawn ${drawn(1e6)}`);
+    // a swing still shows the swing
+    c.lungeAt = 1e6 - 50;
+    if (drawn(1e6) !== 'windup') out.push(`swinging while tending, the healer was drawn ${drawn(1e6)}`);
+    c.lungeAt = 0;
+    // whole again: told to stay, it sits
+    p.hp = p.maxHp;
+    run(Game, G, 3000);
+    c.moveT1 = 0;
+    if (c.tending || drawn(1e6) !== 'sit') out.push(`with nothing to mend, the healer was drawn ${drawn(1e6)}`);
+    // a dressing just bound shows for a moment, then passes
+    c.dressAt = 1e6;
+    if (drawn(1e6 + 500) !== 'heal') out.push(`just after a dressing, the healer was drawn ${drawn(1e6 + 500)}`);
+    if (drawn(1e6 + 2000) !== 'sit') out.push(`two seconds after a dressing, the healer was drawn ${drawn(1e6 + 2000)}`);
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a healer tends your wounds between fights, close by and with nothing awake near, from herbs that go so far on each new floor', async () => {
     const out = [];
     const ctx = await withHealer('healer-tend');

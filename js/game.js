@@ -4939,7 +4939,7 @@ const Game = (() => {
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
-    companion: () => (G && G.companion) || null, companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
+    companion: () => (G && G.companion) || null, companionSprite: (/** @type {any} */ Assets, /** @type {number} */ now) => companion.sprite(Assets, now), companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
     /** Give a charm from the pack to the companion: why not, or null when it is worn. */
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     /** A druid in Wild Shape: whether, and the status line's words for it. */
