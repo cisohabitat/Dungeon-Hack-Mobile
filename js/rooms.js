@@ -10,13 +10,30 @@
  * block, a cell's wall), 3 a door.
  * @typedef {{ w: number, h: number, g: number[], shape: string,
  *   sealed?: boolean, mouths?: number[][], doors?: number[][], loot?: number[][],
- *   sleeper?: number[], fountain?: number[], props?: {x: number, y: number, k: string}[] }} Grid
+ *   sleeper?: number[], fountain?: number[], heart?: number[], props?: {x: number, y: number, k: string}[] }} Grid
  */
 
 const STONE = 0, FLOOR = 1, SOLID = 2, DOOR = 3;
 
 /** How often each shape is dealt for an ordinary room. */
 const SHAPES = [['box', 34], ['colonnade', 14], ['cross', 12], ['ell', 10], ['niches', 11], ['cave', 11], ['gallery', 8]];
+/**
+ * How each road builds its floors. The Crypts were laid out by masons for the
+ * dead: burial niches, long galleries, colonnades and crosses, the passages
+ * between them cut straight, and a pillared hall at the heart of the floor.
+ * The Warrens were dug by many small hands: caverns and crooked rooms, the
+ * tunnels wandering and crossing one another, and a cavern for a great hall.
+ * `dig` is what a square of stone costs a corridor and `grain` how much that
+ * varies, so a cheap dig with a strong grain wanders; `turn` is what turning
+ * costs it, `loops` how many links beyond the tree a floor has, by its rooms,
+ * and `tries` how many places each room is offered (a big burrow seldom fits
+ * the first, and the small rooms would crowd it out).
+ */
+const BUILDS = {
+  plain: { shapes: SHAPES, great: null, dig: 2, grain: 1.4, turn: 1.5, loops: 1 / 5, tries: 1 },
+  crypts: { shapes: [['box', 18], ['colonnade', 18], ['cross', 16], ['niches', 26], ['gallery', 22]], great: 'hall', dig: 2, grain: 0.3, turn: 4, loops: 1 / 5, tries: 2 },
+  warrens: { shapes: [['box', 10], ['ell', 14], ['burrow', 62], ['cave', 10], ['niches', 4]], great: 'burrow', dig: 0.7, grain: 4, turn: 0.3, loops: 1 / 3, tries: 5 },
+};
 
 /** The set pieces, one to a floor: a block of cells, a shrine, a cistern, a hall half fallen in. */
 const PIECE_IDS = ['cells', 'shrine', 'cistern', 'rubble'];
@@ -65,6 +82,7 @@ function turned(R, k) {
     for (const key of ['mouths', 'doors', 'loot']) if (src[key]) n[key] = src[key].map(to);
     if (src.sleeper) n.sleeper = to(src.sleeper);
     if (src.fountain) n.fountain = to(src.fountain);
+    if (src.heart) n.heart = to(src.heart);
     if (src.props) n.props = src.props.map(p => { const [x, y] = to([p.x, p.y]); return { ...p, x, y }; });
     out = n;
   }
@@ -81,6 +99,7 @@ function roomShape(rng, shape, great = false) {
     // the great hall: a nave between two rows of pillars, with a walk round the edge, or a cavern
     const w = rng.int(9, 11), h = rng.int(7, 9);
     if (shape === 'cave') return cave(rng, w, h) || roomShape(rng, 'colonnade', true);
+    if (shape === 'burrow') return burrow(rng, w + 1, h + 1);
     const R = blank(w, h, 'hall');
     for (let x = 2; x <= w - 3; x += 2) { set(R, x, 2, SOLID); set(R, x, h - 3, SOLID); }
     return R;
@@ -111,7 +130,9 @@ function roomShape(rng, shape, great = false) {
     for (let y = 1; y < h - 1; y += 2) { set(R, 0, y, FLOOR); set(R, w - 1, y, FLOOR); }
     return R;
   }
-  if (shape === 'cave') return cave(rng, rng.int(6, 9), rng.int(5, 8)) || roomShape(rng, 'box');
+  // (a cavern that would not grow is dug out as a burrow, not squared off into a box)
+  if (shape === 'cave') { const w = rng.int(6, 9), h = rng.int(5, 8); return cave(rng, w, h) || burrow(rng, w + 1, h + 1); }
+  if (shape === 'burrow') return burrow(rng, rng.int(7, 10), rng.int(6, 9));
   if (shape === 'gallery') {
     // long and narrow; three wide, a pillar every third square down the middle
     const w = rng.int(9, 12), h = rng.int(2, 3), R = blank(w, h, shape);
@@ -119,6 +140,50 @@ function roomShape(rng, shape, great = false) {
     return turned(R, rng.int(0, 1));
   }
   return blank(rng.int(3, 7), rng.int(3, 6), 'box');
+}
+
+/**
+ * A burrow, the Warrens' own: dug, not grown, so its outline bulges and pinches
+ * (an oval pushed out and in by three waves round it), its edges are ragged,
+ * and in a big one a rock was left standing where the diggers went round it.
+ * Tried a few times before it settles for a cavern.
+ * @param {import('./rng.js').Rng} rng @param {number} w @param {number} h @returns {Grid}
+ */
+function burrow(rng, w, h) {
+  for (let tries = 0; tries < 4; tries++) {
+    const R = blank(w, h, 'burrow', STONE);
+    const waves = [2, 3, 5].map((k, i) => ({ k, a: [0.24, 0.17, 0.1][i] * (0.6 + rng.next() * 0.8), p: rng.next() * Math.PI * 2 }));
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const nx = (x + 0.5 - w / 2) / (w / 2), ny = (y + 0.5 - h / 2) / (h / 2), th = Math.atan2(ny, nx);
+      const reach = 0.95 + waves.reduce((n, wv) => n + wv.a * Math.sin(wv.k * th + wv.p), 0);
+      if (Math.hypot(nx, ny) <= reach && rng.chance(0.9)) set(R, x, y, FLOOR);
+    }
+    // one pass to smooth the bites, not so many that it rounds off again
+    const next = R.g.slice();
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      let n = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (at(R, x + dx, y + dy) === FLOOR) n++;
+      next[y * w + x] = n >= 5 ? FLOOR : n <= 2 ? STONE : R.g[y * w + x];
+    }
+    R.g = next;
+    let best = new Set();
+    const done = new Set();
+    for (let i = 0; i < w * h; i++) {
+      if (R.g[i] !== FLOOR || done.has(i)) continue;
+      const part = joined(R, i);
+      part.forEach(j => done.add(j));
+      if (part.size > best.size) best = part;
+    }
+    for (let i = 0; i < w * h; i++) if (R.g[i] === FLOOR && !best.has(i)) R.g[i] = STONE;
+    if (best.size < Math.max(12, w * h * 0.35)) continue;
+    // a rock left standing, with open floor all round it, in a burrow big enough to spare it
+    if (best.size >= 34) {
+      const open = [...best].filter(i => { const x = i % w, y = (i / w) | 0; return [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]].every(([dx, dy]) => at(R, x + dx, y + dy) === FLOOR); });
+      if (open.length) { const i = rng.pick(open); R.g[i] = SOLID; }
+    }
+    return R;
+  }
+  return cave(rng, w, h) || blank(w, h, 'box');
 }
 
 /**
@@ -150,6 +215,25 @@ function cave(rng, w, h) {
   }
   for (let i = 0; i < w * h; i++) if (R.g[i] === FLOOR && !best.has(i)) R.g[i] = STONE;
   return best.size >= Math.max(10, w * h * 0.35) ? R : null;
+}
+
+/**
+ * The hall the Heart is kept in, on the last floor: long and pillared, a nave
+ * down the middle between two rows of columns, entered by one way at the near
+ * end, the Heart on its dais at the far end and its keeper before it. Drawn
+ * with the way in on its left; the generator lays it toward the far side of
+ * the floor from the way down.
+ * @param {import('./rng.js').Rng} rng @returns {Grid}
+ */
+function sanctum(rng) {
+  const w = 11 + 2 * rng.int(0, 1), h = 7, R = blank(w, h, 'sanctum');
+  R.sealed = true;
+  for (let x = 2; x <= w - 3; x += 2) { set(R, x, 1, SOLID); set(R, x, h - 2, SOLID); }
+  // the far corners cut away, so the end with the dais narrows toward it
+  for (const y of [0, h - 1]) set(R, w - 1, y, STONE);
+  R.mouths = [[-1, 3]];
+  R.heart = [w - 1, 3];
+  return R;
 }
 
 /**
@@ -224,4 +308,4 @@ function piece(rng, kind) {
   return turned(R, rng.int(0, 1));
 }
 
-export { SHAPES, PIECE_IDS, PIECE_SAY, roomShape, piece, STONE, FLOOR, SOLID, DOOR };
+export { SHAPES, BUILDS, PIECE_IDS, PIECE_SAY, roomShape, piece, sanctum, STONE, FLOOR, SOLID, DOOR };

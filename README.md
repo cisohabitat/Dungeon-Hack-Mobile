@@ -263,11 +263,22 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 87.5% | 79% | 84% | 77% | 83% | 77% | about 81% |
-| Hard | 59% | 64% | 63% | 57.5% | 60% | 63.5% | about 61% |
+| Normal | 81% | 79.5% | 78% | 76% | 73% | 74% | about 77% |
+| Hard | 55.5% | 56% | 62% | 54% | 61% | 53% | about 57% |
 | Long Delve (12 floors), Normal | 78% | 83% | 76% | 79% | 84.5% | 77% | about 80% |
 | Long Delve (12 floors), Hard | 61% | 63% | 62.5% | 62% | 61.5% | 55.5% | about 61% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The Normal and Hard rows were measured again, both seed sets, after the two roads came to build
+their own floors (the Crypts cut in niches and galleries, the Warrens dug in burrows) and the last
+floor its own hall. A lich asleep at the far end of a long hall was walked up to and struck before
+it woke, and almost no one died on the last floor; now it wakes as a hero sets foot in its hall,
+and one of the floor's creatures stands guard in the nave (two killed one druid in six who reached
+the hall). The last floor now takes about one hero in ten who reach it, as it did before. The new
+floors are a little harder on the way down, more creatures reaching the hero at once in the bigger
+rooms, and a floor holds about a tenth fewer for it. Normal sits at about 77% (back in the band it
+was tuned to before it drifted up to 82%), Hard at about 57%; the ranger and the druid trail on
+Normal, at 73% and 74%.
 
 The Normal and Hard rows were measured again after the floors were built anew (rooms of many
 shapes, corridors that loop, a set piece on every floor), 200 runs a class on each of the two

@@ -1364,7 +1364,12 @@ export function makeFoes(K) {
     // first blow from anything that woke beside you, so the only warning was
     // the damage. Give the growl a beat to be heard and turned toward.
     // in a thief's smoke nothing finds them by sight or sound; a blow still wakes it
-    if (di >= 0 && di <= notice && !(p.smokeUntil > G.t)) {
+    // the keeper of the Heart knows the moment a hero sets foot in its hall, however
+    // quietly: its hall is long, and a lich asleep at the far end of it was walked up
+    // to and struck before it had said a word (the lich sees through smoke besides)
+    const here = L.roomId ? L.roomId[p.y * L.w + p.x] : -1;
+    const inHall = !!mb.boss && here >= 0 && here === L.roomId[m.y * L.w + m.x];
+    if (inHall || (di >= 0 && di <= notice && !(p.smokeUntil > G.t))) {
       const coughing = (m.smoked || 0) > G.t && K.hasTalent('choking_cloud');
       m.awake = true; m.smoked = 0; Sound.play('voice', K.heard(m, { who: m.id })); m.nextAct = G.t + WAKE_BEAT + (coughing ? 1500 : 0);
       if (coughing) K.floatText(m, 'coughing', '#eef0ff');

@@ -506,6 +506,47 @@ check(traders > 0, 'no traders generated at all');
   check(noBasin === 0, `${noBasin} shrines without their basin`);
   check(!noLoop.length, `floors with no loop to walk round: ${noLoop.slice(0, 4).join('; ')}`);
   check(smeared.length <= floors / 40, `${smeared.length} floors have a corridor two wide: ${smeared.slice(0, 3).join('; ')}`);
+  // each road builds after its own fashion: the Crypts cut, the Warrens dug
+  const roadFloors = { crypts: { n: 0, dug: 0, cut: 0, bends: 0, corridor: 0 }, warrens: { n: 0, dug: 0, cut: 0, bends: 0, corridor: 0 } };
+  for (let s = 0; s < 30; s++) for (const route of ['crypts', 'warrens']) for (const depth of [4, 5, 6]) {
+    const L = Dungeon.generate('road' + s, depth, { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route });
+    const f = roadFloors[route], kinds = new Set(L.rooms.map(r => r.shape));
+    f.n++;
+    if (kinds.has('burrow') || kinds.has('cave')) f.dug++;
+    if (kinds.has('niches') || kinds.has('gallery')) f.cut++;
+    for (let i = 0; i < L.w * L.h; i++) {
+      if (L.tiles[i] !== T.FLOOR || L.roomId[i] >= 0) continue;
+      f.corridor++;
+      const o = Dungeon.DIRS.map(([dx, dy]) => L.tiles[i + dy * L.w + dx] !== T.WALL);
+      if ((o[0] || o[2]) && (o[1] || o[3])) f.bends++;
+    }
+  }
+  const { crypts: cr, warrens: wa } = roadFloors;
+  check(cr.dug === 0, `${cr.dug} Crypts floors had a cavern or a burrow`);
+  check(cr.cut >= cr.n * 0.8, `only ${cr.cut} of ${cr.n} Crypts floors had niches or a gallery`);
+  check(wa.dug >= wa.n * 0.8, `only ${wa.dug} of ${wa.n} Warrens floors had a burrow or a cavern`);
+  check(wa.bends / wa.corridor > cr.bends / cr.corridor + 0.04, `the Warrens' tunnels bend at ${(100 * wa.bends / wa.corridor).toFixed(0)}% of their squares, the Crypts' passages at ${(100 * cr.bends / cr.corridor).toFixed(0)}%`);
+  // the last floor's hall: one way in, the Heart at its far end, its keeper before it
+  const badHall = [];
+  for (let s = 0; s < 40; s++) {
+    const size = ['small', 'medium', 'large'][s % 3], levels = s % 4 === 3 ? 12 : 8;
+    const L = Dungeon.generate('hall' + s, levels, { levels, size, monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: s % 2 ? 'warrens' : 'crypts' });
+    const heart = Object.keys(L.items).find(k => L.items[k].some(it => it.t === 'artifact'));
+    if (!heart) { badHall.push(`hall${s}: no Heart`); continue; }
+    const [hx, hy] = heart.split(',').map(Number), hr = L.roomId[hy * L.w + hx], room = L.rooms[hr];
+    if (!room || room.shape !== 'sanctum') { badHall.push(`hall${s}: the Heart lies in a ${room ? room.shape : 'corridor'}`); continue; }
+    const ways = new Set();
+    for (let i = 0; i < L.w * L.h; i++) {
+      if (L.roomId[i] !== hr) continue;
+      for (const [dx, dy] of Dungeon.DIRS) { const j = i + dy * L.w + dx; if ([T.FLOOR, T.DOOR, T.DOOR_LOCKED].includes(L.tiles[j]) && L.roomId[j] !== hr) ways.add(j); }
+    }
+    if (ways.size !== 1) { badHall.push(`hall${s}: ${ways.size} ways into the hall`); continue; }
+    const way = [...ways][0], wx = way % L.w, wy = (way / L.w) | 0;
+    if (Math.abs(wx - hx) + Math.abs(wy - hy) < room.w - 1) badHall.push(`hall${s}: the Heart ${Math.abs(wx - hx) + Math.abs(wy - hy)} squares from the way in`);
+    const keeper = L.monsters.find(m => ['lich', 'warlord', 'heartforged'].includes(m.id));
+    if (!keeper || Math.abs(keeper.x - hx) + Math.abs(keeper.y - hy) !== 1) badHall.push(`hall${s}: the keeper is not beside the Heart`);
+  }
+  check(!badHall.length, `the last floor's hall: ${badHall.slice(0, 4).join('; ')}`);
   console.log(`floor shapes: ${floors} floors, ${(shapeKinds / floors).toFixed(1)} room shapes a floor, set pieces ${JSON.stringify(pieceKinds)}, ${smeared.length} with a wide corridor`);
 }
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);

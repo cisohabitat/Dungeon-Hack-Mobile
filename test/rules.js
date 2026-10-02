@@ -757,6 +757,7 @@ await test('an encounter resolves once: the check, the effects, the prop gone, n
   const [dx, dy] = Dungeon.DIRS[k];
   p.x = prop.x - dx; p.y = prop.y - dy; p.dir = k;
   L.monsters.length = 0;
+  delete L.items[p.x + ',' + p.y];          // (whatever lies underfoot would be taken first)
   if (Game.useLabel() !== 'Examine') return `facing the prop, Use says "${Game.useLabel()}"`;
   Game.input('forward');
   const e = Game.currentEncounter();
@@ -1449,21 +1450,18 @@ await test('worn powers: mind, mend, ward, pure, thorns and quiet do what they s
     const c = await start('thief', 'quiet');
     const pl = c.Game.player(), Gs = c.Game.state(), Lv = c.Game.level();
     if (withRelic) wearRelic(c, 'shadowskin');
-    // find a straight run of floor to put the sleeper at the end of
-    for (let k = 0; k < 4; k++) {
-      const [ax, ay] = c.Dungeon.DIRS[k];
-      if ([1, 2, 3, 4].every(n => Lv.tiles[(pl.y + ay * n) * Lv.w + pl.x + ax * n] === c.Dungeon.T.FLOOR)) {
-        Lv.monsters.length = 0;
-        const m = { ...foe('goblin', pl.x + ax * 4, pl.y + ay * 4), awake: false, nextAct: Gs.t };
-        Lv.monsters.push(m);
-        c.Game.update(Gs.t + 50, 50);
-        return m.awake;
-      }
-    }
-    return null;
+    // a straight run of floor ahead, four squares, with the sleeper at the end of it
+    const [ax, ay] = c.Dungeon.DIRS[pl.dir];
+    if (![1, 2, 3, 4].every(n => { const x = pl.x + ax * n, y = pl.y + ay * n; return x > 0 && y > 0 && x < Lv.w - 1 && y < Lv.h - 1; })) return null;
+    for (let n = 1; n <= 4; n++) Lv.tiles[(pl.y + ay * n) * Lv.w + pl.x + ax * n] = c.Dungeon.T.FLOOR;
+    Lv.monsters.length = 0;
+    const m = { ...foe('goblin', pl.x + ax * 4, pl.y + ay * 4), awake: false, nextAct: Gs.t };
+    Lv.monsters.push(m);
+    c.Game.update(Gs.t + 50, 50);
+    return m.awake;
   };
   const plain = await asleepAt(false), muffled = await asleepAt(true);
-  if (plain === null) return 'no straight corridor to test stealth in';
+  if (plain === null) return 'no room ahead of the hero to test stealth in';
   if (!plain || muffled) return `at four squares a thief woke it: ${plain}, in Shadowskin: ${muffled}`;
   return true;
 });
@@ -4004,6 +4002,30 @@ await test('a trickster finding gold in an encounter is told the sum the purse r
   return 'no trickster found gold behind the wire in forty tries';
 });
 
+await test('the Heart waits on a dais at the far end of a long hall, and its keeper wakes the moment a hero sets foot in it', async () => {
+  const ctx = await start('thief', 'keeper-hall', { levels: 4, size: 'medium' });
+  const { Game } = ctx; const G = Game.state();
+  Game.player().hp = Game.player().maxHp = 9999;
+  downTo(ctx, 4);
+  const L = Game.level(), p = Game.player();
+  const hi = L.rooms.findIndex(r => r.shape === 'sanctum'), r = L.rooms[hi];
+  if (hi < 0) return 'the last floor has no hall';
+  const lich = L.monsters.find(m => m.id === 'lich');
+  if (!lich || L.roomId[lich.y * L.w + lich.x] !== hi) return 'the lich is not in its hall';
+  L.monsters = L.monsters.filter(m => m === lich);
+  lich.awake = false; lich.nextAct = G.t;
+  // a thief just inside the way in, ten squares and more from it: quiet, and still found
+  p.x = r.x; p.y = r.y + 3; p.dir = 1;
+  if (Math.abs(lich.x - p.x) + Math.abs(lich.y - p.y) < 9) return `the lich stands only ${Math.abs(lich.x - p.x) + Math.abs(lich.y - p.y)} squares from the way in`;
+  for (let i = 0; i < 20 && !lich.awake; i++) Game.update(G.t + 25, 25);
+  if (!lich.awake) return 'the lich slept on with a hero in its hall';
+  // and outside its hall, the same distance off, it sleeps
+  lich.awake = false; lich.spoke = false; p.x = r.x - 2; p.y = r.y + 3;
+  if (L.roomId[p.y * L.w + p.x] === hi) return 'two squares outside the way in is still the hall';
+  for (let i = 0; i < 20; i++) Game.update(G.t + 25, 25);
+  return !lich.awake || 'the lich woke with the hero outside its hall';
+});
+
 await test('every floor holds a set piece, and the first step into it says what it is, once', async () => {
   const ctx = await start('fighter', 'piece-step', { levels: 8, size: 'medium' });
   const { Game, Dungeon } = ctx; const G = Game.state(), T = Dungeon.T;
@@ -4046,17 +4068,20 @@ await test('every floor holds a set piece, and the first step into it says what 
 });
 
 await test('a champion risen on a restless floor keeps a champion\'s life', async () => {
-  // seed rs76's second floor is restless, and an Ancient there rises as an
-  // Ancient zombie: one once had the life of a plain zombie, within one roll of 4d8+2
-  // (rs4 was the seed until the overgrown floors took its second floor, and rs59
-  // until the rooms took shapes)
-  const ctx = await start('fighter', 'rs76', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
-  const { Game, MONSTERS } = ctx;
-  while (Game.state().depth < 2) { Game.level().monsters.length = 0; Game.descend(); }
-  const L = Game.level();
-  if (L.twist !== 'restless') return `floor 2 of rs76 is ${L.twist || 'plain'} now: pick another seed`;
-  const risen = L.monsters.filter(m => m.elite && MONSTERS[m.id].undead && m.elite === 'Ancient');
-  if (!risen.length) return 'no Ancient rose on that floor: pick another seed';
+  // a seed whose second floor is restless, where an Ancient rises as an Ancient
+  // undead: one once had the life of a plain zombie, within one roll of 4d8+2
+  // (searched for, not named: a named seed lasted only until the maps next changed)
+  let ctx = null, risen = [];
+  for (let i = 0; i < 400 && !risen.length; i++) {
+    const probe = await newContext();
+    if ((probe.Dungeon.twistPlan('rs' + i, 8) || {})[2] !== 'restless') continue;
+    ctx = await start('fighter', 'rs' + i, { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
+    while (ctx.Game.state().depth < 2) { ctx.Game.level().monsters.length = 0; ctx.Game.descend(); }
+    const Lv = ctx.Game.level();
+    if (Lv.twist === 'restless') risen = Lv.monsters.filter(m => m.elite && ctx.MONSTERS[m.id].undead && m.elite === 'Ancient');
+  }
+  if (!risen.length) return 'no seed of four hundred had an Ancient risen on a restless second floor';
+  const { MONSTERS } = ctx;
   const plainMost = b => b.hp[0] * b.hp[1] + b.hp[2] + 1;
   const weak = risen.filter(m => m.maxHp <= plainMost(MONSTERS[m.id]));
   return !weak.length || `an Ancient ${weak[0].id} rose with ${weak[0].maxHp} life, no more than a plain one`;
@@ -6163,7 +6188,10 @@ await test('a blow drawn back on the hero\'s left is heard on the left, a far on
   if (!(w.pan < 0)) return `a wind-up on the left played at pan ${w.pan}`;
   // an archer drawing on the hero from four squares ahead: dead centre, and quieter
   const a = ahead(ctx, 'archer', 4);
-  const far = await listenTo(ctx, () => { for (let i = 0; i < 4 && !a.windup; i++) Game.update(G.t + 25, 25); });
+  // (stone about it but on the hero's side, so it draws where it stands rather than stepping back first)
+  for (const [ex, ey] of Dungeon.DIRS) if (a.x + ex !== p.x + Dungeon.DIRS[p.dir][0] * 3 || a.y + ey !== p.y + Dungeon.DIRS[p.dir][1] * 3) L.tiles[(a.y + ey) * L.w + a.x + ex] = Dungeon.T.WALL;
+  // (it may take a moment over spotting the hero before it draws)
+  const far = await listenTo(ctx, () => { for (let i = 0; i < 80 && !a.windup; i++) Game.update(G.t + 25, 25); });
   const fw = far.find(s => s.name === 'windup');
   if (!fw) return `the archer's draw was not heard: ${far.map(s => s.name).join(', ')}`;
   if (!(fw.gain < w.gain)) return `four squares off played at ${fw.gain}, beside at ${w.gain}`;
@@ -9077,7 +9105,9 @@ await test('each floor twist does what it says, and is told on arriving', async 
     if (L.twist !== kind) { out.push(`floor ${at.d} of ${at.seed} is ${L.twist}, not ${kind}`); continue; }
     if (!linesSince(G, mark).some(l => l.includes(ctx.TWISTS[kind].arrive))) out.push(`arriving on a ${kind} floor said nothing of it`);
     if (kind === 'dark') {
-      const full = Math.round(L.rooms.length * 0.9) + 4;
+      // (a floor's rooms are worth torches by the floor they cover, as dungeon.js counts them)
+      let area = 0; for (let i = 0; i < L.w * L.h; i++) if (L.roomId[i] >= 0) area++;
+      const full = Math.round(Math.max(L.rooms.length, Math.round(area / ctx.Dungeon.ROOM_WORTH)) * 0.9) + 4;
       if (L.lights.length > Math.round(full * 0.25)) out.push(`a dark floor kept ${L.lights.length} torches of ${full}`);
     }
     if (kind === 'flooded') {

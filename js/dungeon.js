@@ -2,7 +2,7 @@ import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES, WALL_PROPS } from './data.js';
 import { encounterPlan } from './encounters.js';
 import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
-import { SHAPES, PIECE_IDS, roomShape, piece } from './rooms.js';
+import { BUILDS, PIECE_IDS, roomShape, piece, sanctum } from './rooms.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
@@ -33,9 +33,11 @@ function tierAt(depth, levels) {
  */
 // How often a room's finds are gathered onto one square, and how many at most
 const TOGETHER = 0.4, TOGETHER_MOST = 3;
-// how much room floor counts as one room's worth (see `worth`): set so a floor
-// holds about as many creatures and finds as when every room was a plain box
-const ROOM_WORTH = 21;
+// How much room floor counts as one room's worth (see `worth`). At 21 a floor held
+// as many creatures as when every room was a plain box; but in bigger rooms with
+// more ways round, more of them reach the hero at once, and Hard fell to 55% with
+// the cleric at 47%. A floor holds about a tenth fewer now (Hard about 57%).
+const ROOM_WORTH = 23;
 
 /**
  * Where the stair divides, and which floors follow the road taken: the fork
@@ -194,14 +196,35 @@ const Dungeon = (() => {
       for (let a = 0; a < tries; a++) {
         const rx = near ? rng.int(Math.floor((w - R.w) / 2) - 5, Math.floor((w - R.w) / 2) + 5) : rng.int(2, w - R.w - 3);
         const ry = near ? rng.int(Math.floor((h - R.h) / 2) - 5, Math.floor((h - R.h) / 2) + 5) : rng.int(2, h - R.h - 3);
-        if (fits(rx, ry, R.w, R.h)) { rooms.push({ x: rx, y: ry, w: R.w, h: R.h, R, piece: kind || null, cx: 0, cy: 0, size: 0 }); return true; }
+        if (fits(rx, ry, R.w, R.h)) { rooms.push({ x: rx, y: ry, w: R.w, h: R.h, R, piece: kind || null, sanctum: false, cx: 0, cy: 0, size: 0 }); return true; }
       }
       return false;
     };
+    // (each road builds after its own fashion: see BUILDS in rooms.js)
+    const build = (route && BUILDS[route]) || BUILDS.plain;
+    // the last floor's hall first of all, toward the far side from where the floors are entered
+    if (isFinal) {
+      const R = sanctum(rng);
+      for (let a = 0; a < 300; a++) {
+        // (on a small floor near the top or the bottom, so the set piece still has a band to fit in)
+        const rx = rng.int(Math.max(2, w - R.w - 9), w - R.w - 3);
+        const ry = w >= 36 ? rng.int(2, h - R.h - 3) : rng.chance(0.5) ? rng.int(2, 4) : rng.int(h - R.h - 5, h - R.h - 3);
+        if (fits(rx, ry, R.w, R.h)) { rooms.push({ x: rx, y: ry, w: R.w, h: R.h, R, piece: null, sanctum: true, cx: 0, cy: 0, size: 0 }); break; }
+      }
+    }
     const pieceKind = piecePlan(seed, opts.levels || 8)[depth] || null;
-    if (pieceKind) placeRoom(piece(rng, pieceKind), 200, false, pieceKind);
-    if (w >= 36) placeRoom(roomShape(rng, rng.chance(0.4) ? 'cave' : 'hall', true), 120, true);
-    for (let a = 0; a < 1500 && rooms.length < maxRooms; a++) placeRoom(roomShape(rng, rng.weighted(SHAPES)), 1, false);
+    if (pieceKind) placeRoom(piece(rng, pieceKind), 600, false, pieceKind);
+    if (w >= 36) placeRoom(roomShape(rng, build.great || (rng.chance(0.4) ? 'cave' : 'hall'), true), 120, true);
+    // A small box fits where nothing else will, and left alone the boxes filled
+    // every gap until over half the rooms were boxes whatever their share; so
+    // a floor takes boxes only up to a little more than their share.
+    const boxShare = (build.shapes.find(([k]) => k === 'box') || ['box', 0])[1] / build.shapes.reduce((n, [, v]) => n + v, 0);
+    let boxes = 0;
+    for (let a = 0; a < 1500 && rooms.length < maxRooms; a++) {
+      const kind = rng.weighted(build.shapes);
+      if (kind === 'box' && boxes >= Math.max(2, rooms.length * (boxShare + 0.04))) continue;
+      if (placeRoom(roomShape(rng, kind), build.tries, false) && kind === 'box') boxes++;
+    }
     rooms.sort((a, b) => (a.x + a.w / 2) - (b.x + b.w / 2) || a.y - b.y);
     const pieceDoors = [], seal = new Uint8Array(w * h), mouth = new Uint8Array(w * h);
     let pieceFountain = null;
@@ -225,7 +248,8 @@ const Dungeon = (() => {
     // What a floor's rooms are worth in creatures, finds and torches: by the
     // floor they cover, since a shaped room is often bigger and a floor has
     // fewer of them (counted by rooms, a floor came to hold a fifth fewer creatures).
-    const worth = Math.max(rooms.length, Math.round(rooms.reduce((n, r) => n + r.size, 0) / ROOM_WORTH));
+    // (not the last floor's hall, where the keeper stands alone: its size is no reason for more of them)
+    const worth = Math.max(rooms.length, Math.round(rooms.reduce((n, r) => n + (r.sanctum ? 0 : r.size), 0) / ROOM_WORTH));
     // a sealed set piece is entered by its mouths alone, so its walls stay whole
     for (const r of rooms) {
       if (!r.R.sealed) continue;
@@ -257,8 +281,8 @@ const Dungeon = (() => {
       const goY = () => { while (y !== b.cy) { y += Math.sign(b.cy - y); carve(x, y); } };
       if (rng.chance(0.5)) { goX(); goY(); } else { goY(); goX(); }
     }
-    const grain = Array.from({ length: w * h }, () => rng.next() * 1.4);
-    const TURN = 1.5;
+    const grain = Array.from({ length: w * h }, () => rng.next() * build.grain);
+    const TURN = build.turn;
     const open = i => tiles[i] === T.FLOOR;
     const nextTo = (i, f) => { const x = i % w, y = (i / w) | 0; return DIRS.some(([dx, dy]) => f(idx(x + dx, y + dy))); };
     /**
@@ -273,7 +297,7 @@ const Dungeon = (() => {
       if (tiles[i] !== T.WALL) return Infinity;
       if (mouth[i]) return 1;
       if (nextTo(i, j => open(j) && roomId[j] >= 0)) return 8 + grain[i];
-      return 2 + grain[i] + (nextTo(i, j => open(j) && roomId[j] < 0) ? (fresh ? 7 : 2.5) : 0);
+      return build.dig + grain[i] + (nextTo(i, j => open(j) && roomId[j] < 0) ? (fresh ? 7 : 2.5) : 0);
     }
     function dig(a, b, fresh = false) {
       const N = w * h * 5, best = new Float64Array(N).fill(Infinity), prev = new Int32Array(N).fill(-1);
@@ -341,7 +365,7 @@ const Dungeon = (() => {
       }
       return seen.has(b) ? seen.get(b) : Infinity;
     };
-    const loops = Math.max(1, Math.round(rooms.length / 5));
+    const loops = Math.max(1, Math.round(rooms.length * build.loops));
     const pairs = [];
     for (let i = 0; i < rooms.length; i++) for (let j = i + 1; j < rooms.length; j++) if (between(rooms[i], rooms[j]) <= 22) pairs.push([rooms[i], rooms[j]]);
     pairs.sort((p, q) => between(p[0], p[1]) - between(q[0], q[1]));
@@ -430,7 +454,10 @@ const Dungeon = (() => {
     }
 
     // the set piece is never where you come in, where you go down, or the lich's hall
-    const plain = rooms.filter(r => !r.piece);
+    const plain = rooms.filter(r => !r.piece && !r.sanctum);
+    const hall = rooms.find(r => r.sanctum) || null;
+    // (the Heart on its dais: the middle of the hall, as the rest of the floor counts it, is there)
+    if (hall && hall.R.heart) { hall.cx = hall.x + hall.R.heart[0]; hall.cy = hall.y + hall.R.heart[1]; }
     // and you come in by a plain room, where the first thing ahead is the floor
     // and not a pillar, so the way down begins somewhere easy to read
     let startRoom = null, upSlot = null;
@@ -447,7 +474,7 @@ const Dungeon = (() => {
     const dist0 = bfs(start.x, start.y, false);
     const byDist = plain.filter(r => r !== startRoom).sort((a, b) => dist0[idx(b.cx, b.cy)] - dist0[idx(a.cx, a.cy)]);
     // the lich's hall is a hall: not a gallery two squares wide
-    let farRoom = (isFinal && byDist.find(r => r.size >= 20)) || byDist[0] || startRoom;
+    let farRoom = (isFinal && (hall || byDist.find(r => r.size >= 20))) || byDist[0] || startRoom;
     let downStart = null, stairsDown = null;
     if (!isFinal) {
       for (const relaxed of [false, true]) {
@@ -869,7 +896,9 @@ const Dungeon = (() => {
       const shop = npcs.find(n => n.id === 'merchant'), M = 5;
       const kept = r => npcs.some(n => inRoom(r, idx(n.x, n.y)));
       const byShop = r => !!shop && shop.x >= r.x - M && shop.x < r.x + r.w + M && shop.y >= r.y - M && shop.y < r.y + r.h + M;
-      const fits = r => open(r).length >= 3;
+      // (and, beside the shop after all, with room to sleep more than four squares from it)
+      const clear = i => !shop || Math.abs((i % w) - shop.x) + Math.abs(((i / w) | 0) - shop.y) > 4;
+      const fits = r => open(r).length >= 3 && open(r).some(clear);
       // the stairs' room only when no other room will hold it at all
       const pickLair = ok => byDist.find(r => r !== farRoom && fits(r) && ok(r));
       const lair = pickLair(r => !kept(r) && !byShop(r)) || pickLair(r => !kept(r)) || pickLair(() => true) || (fits(farRoom) ? farRoom : null);
@@ -877,7 +906,8 @@ const Dungeon = (() => {
         for (let i = monsters.length - 1; i >= 0; i--) if (inRoom(lair, idx(monsters[i].x, monsters[i].y))) { occupied.delete(idx(monsters[i].x, monsters[i].y)); monsters.splice(i, 1); }
         // the champion in the middle of its room, its kin about it
         const spots = open(lair).sort((a, b) => Math.hypot((a % w) - lair.cx, ((a / w) | 0) - lair.cy) - Math.hypot((b % w) - lair.cx, ((b / w) | 0) - lair.cy));
-        const at = spots.shift();
+        const ci = Math.max(0, spots.findIndex(clear));
+        const at = spots.splice(ci, 1)[0];
         monsters.push(makeMonster(namedId, at % w, (at / w) | 0, nrng));
         const guard = MONSTERS[namedId].named.guard;
         if (guard && spots.length) {
@@ -900,10 +930,28 @@ const Dungeon = (() => {
       addItem(ax, ay, { t: 'artifact', q: 1 });
       const spots = [];
       for (const [dx, dy] of DIRS) { const nx = ax + dx, ny = ay + dy; if (get(nx, ny) === T.FLOOR && !occupied.has(idx(nx, ny))) spots.push([nx, ny]); }
+      // in the hall, the keeper stands before the Heart, on the side you come in by
+      if (hall && farRoom === hall) { const mx = hall.x + hall.R.mouths[0][0], my = hall.y + hall.R.mouths[0][1]; spots.sort((p, q) => Math.abs(p[0] - mx) + Math.abs(p[1] - my) - Math.abs(q[0] - mx) - Math.abs(q[1] - my)); }
       // down the Warrens the Warlord has dragged the Heart into his own hall; every other way, the lich keeps it;
       // at the bottom of a Long Delve, deeper than either came, the Heartforged keeps it where it was made
       const keeper = (opts.levels || 8) >= 12 ? 'heartforged' : opts.route === 'warrens' ? 'warlord' : 'lich';
       if (spots.length) { const s = spots[0]; monsters.push(makeMonster(keeper, s[0], s[1])); }
+      // one of the floor's creatures stands guard in the hall, in the nave before the dais
+      // (moved there, not added: the floor holds as many as it did; two killed one
+      // druid in six that reached the hall, near twice what the lich itself did)
+      if (hall && farRoom === hall) {
+        const nave = [];
+        for (let y = hall.y; y < hall.y + hall.h; y++) for (let x = hall.x + 2; x < hall.x + hall.w - 3; x++) {
+          const i = idx(x, y);
+          if (roomId[i] === hall.id && tiles[i] === T.FLOOR && !occupied.has(i) && Math.abs(y - ay) <= 1) nave.push(i);
+        }
+        const keeperOf = m => MONSTERS[m.id].boss;
+        for (const i of rng.shuffle(nave).slice(0, 1)) {
+          const m = monsters.find(o => !keeperOf(o) && !o.elite && roomId[idx(o.x, o.y)] !== hall.id);
+          if (!m) break;
+          occupied.delete(idx(m.x, m.y)); m.x = m.rx = m.fromX = i % w; m.y = m.ry = m.fromY = (i / w) | 0; occupied.add(i);
+        }
+      }
       // no escort: the level already crawls with the deep tier's own horrors
       // and no trap in the hall or at its mouth: a pit across the only way in
       // dropped every hero into it just as the lich spoke, the view dark for
@@ -1080,7 +1128,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan };
 })();
 
 export { Dungeon };

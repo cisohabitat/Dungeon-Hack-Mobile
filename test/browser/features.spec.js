@@ -1011,9 +1011,20 @@ test.describe('dungeon features', () => {
       L.monsters.push({ uid: 98, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       const it = { t: 'scroll_fire', q: 1, e: 0 }; p.inv.push(it); G.known.scroll_fire = 1;
       Game.useItem(it);
+      /** @type {any} */ (window).__readAt = performance.now();
     });
-    await page.waitForTimeout(200);
-    await expect(page.locator('#log')).not.toContainText('fireball hits');
+    // (measured against the line's own moment, not a fixed wait: in the busy first
+    // moments of a page a wait of 200ms ran to 800, past the fireball's landing)
+    const held = await page.evaluate(async () => {
+      const e = Game.state().log.filter(l => /fireball hits/.test(l.m)).pop();
+      if (!e || !e.at) return { hold: 0, early: null };
+      const hold = e.at - /** @type {any} */ (window).__readAt;
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const early = performance.now() < e.at - 40 ? document.querySelector('#log').textContent.includes('fireball hits') : null;
+      return { hold, early };
+    });
+    expect(held.hold, 'the line is held for the fireball\'s flight').toBeGreaterThan(300);
+    expect(held.early, 'shown before the fireball landed').not.toBe(true);
     await expect(page.locator('#log')).toContainText('fireball hits', { timeout: 2000 });
     // a draught: the bar keeps its old life until it is down
     const hp = await page.evaluate(() => {
@@ -1022,8 +1033,15 @@ test.describe('dungeon features', () => {
       Game.useItem(it); return p.hp;
     });
     expect(hp).toBeGreaterThan(2);
-    await page.waitForTimeout(150);
-    await expect(page.locator('#txt-hp')).toHaveText('HP 2/40');
+    // (again against the draught's own moment: the bar keeps its old figure until the hold runs out)
+    const bar = await page.evaluate(async () => {
+      const h = Game.renderState(performance.now()).fx.hold;
+      if (!h) return { held: false };
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      return { held: true, early: performance.now() < h.until - 40 ? document.querySelector('#txt-hp').textContent : null };
+    });
+    expect(bar.held, 'the draught holds the bar').toBe(true);
+    if (bar.early !== null) expect(bar.early).toBe('HP 2/40');
     await expect(page.locator('#txt-hp')).toHaveText(`HP ${hp}/40`, { timeout: 2000 });
     expect(errors).toEqual([]);
   });
