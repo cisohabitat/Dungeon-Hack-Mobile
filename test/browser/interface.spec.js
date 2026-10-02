@@ -109,13 +109,20 @@ test.describe('interface', () => {
     const fx = await page.evaluate(() => { const now = performance.now(), f = Game.renderState(now).fx; return { ago: now - f.readAt, kind: f.readKind }; });
     expect(fx.kind).toBe('map');
     expect(fx.ago, 'the reading should be under way').toBeLessThan(1000);
-    // and the page, lit blue, is drawn on the view while it is read
-    await page.waitForTimeout(350);
-    const blue = await page.evaluate(() => {
-      const c = document.getElementById('view'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-      let n = 0;
-      for (let i = 0; i < d.length; i += 4) if (d[i + 2] > 200 && d[i + 2] > d[i] + 60) n++;
-      return n;
+    // and the page, lit blue, is drawn on the view while it is read (the most of it
+    // seen on any frame of the reading: one moment's sample could fall at its very end
+    // on a loaded machine, or while the view was still rising out of the stair's dark)
+    const blue = await page.evaluate(async () => {
+      const c = document.getElementById('view'), readAt = Game.renderState(performance.now()).fx.readAt;
+      let most = 0;
+      while (performance.now() - readAt < 1100) {
+        await new Promise(r => requestAnimationFrame(r));
+        const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+        let n = 0;
+        for (let i = 0; i < d.length; i += 4) if (d[i + 2] > 200 && d[i + 2] > d[i] + 60) n++;
+        most = Math.max(most, n);
+      }
+      return most;
     });
     expect(blue, 'no blue writing on the view').toBeGreaterThan(20);
     // a draught is the same: the pack closes and the bottle comes up

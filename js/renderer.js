@@ -383,7 +383,9 @@ const Renderer = (() => {
     // a blow landing jolts the hands down (not in a calm view)
     const hurt = !calm && now < fx.damageUntil ? (fx.damageUntil - now) / 260 : 0;
     const jx = hurt ? Math.sin(now / 17) * 4 * hurt : 0, jy = hurt * 9;
-    const dx = bx + jx, dy = by + jy;
+    // just come down the stair, the hands come up into the view with it
+    const au = (now - (fx.arriveAt == null ? -1e9 : fx.arriveAt)) / ARRIVE_MS, rising = au >= 0 && au < 1 ? (1 - au) * (1 - au) * H * 0.3 : 0;
+    const dx = bx + jx, dy = by + jy + rising;
     const u = (now - fx.swingAt) / (fx.swingMs || 300);
     const swinging = u >= 0 && u < 1;
     // the off hand's blow: it draws back a touch, drives in toward the middle
@@ -447,6 +449,8 @@ const Renderer = (() => {
       const [x, y] = at('left');
       put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
     }
+    // on a dark floor, a lantern: in the free hand, or hung from the wrist beside the shield
+    if (v.lantern) { const [lx, ly] = v.shield || v.offhand || (v.weapon && v.two) ? [W * 0.09, H * 0.8] : at('left'); drawLantern(lx, ly, dx, dy, now); }
     if (reading) drawReading(fx, ru, v.cls, dx, dy);
     if (using) drawUse(fx, uu, v.cls, dx, dy);
     if (cast > 0) {
@@ -663,6 +667,76 @@ const Renderer = (() => {
       }
     }
   }
+  // A lantern held up: an iron cage on a ring, its glass lit amber, the flame
+  // swaying inside it, and the light of it thrown round about.
+  let lanternN = 0, glintsN = 0;
+  function drawLantern(x0, y0, dx, dy, now) {
+    lanternN = 1;
+    const s = Math.max(1, Math.round(H / 120)), t = calm ? 0 : now;
+    const sway = calm ? 0 : Math.sin(now / 520) * 2 * s, x = Math.round(x0 + dx + sway), y = Math.round(y0 + dy - H * 0.08);
+    const flick = 0.85 + 0.15 * Math.sin(t / 90) * Math.sin(t / 37 + 1);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, H * 0.32);
+    g.addColorStop(0, `rgba(255,190,90,${(0.32 * flick).toFixed(3)})`); g.addColorStop(1, 'rgba(255,150,60,0)');
+    ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(x - H * 0.32, y - H * 0.32, H * 0.64, H * 0.64); ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#1a1612'; ctx.fillRect(x - s, y - 12 * s, 2 * s, 5 * s);                       // the ring it hangs by
+    ctx.fillStyle = '#2e2a24'; ctx.fillRect(x - 5 * s, y - 8 * s, 10 * s, 3 * s);                   // the cap
+    ctx.fillStyle = `rgb(${Math.round(230 * flick)},${Math.round(150 * flick)},60)`; ctx.fillRect(x - 4 * s, y - 5 * s, 8 * s, 10 * s);   // the glass
+    ctx.fillStyle = '#fff0b0'; ctx.fillRect(x - s + Math.round(Math.sin(t / 130) * s), y - 2 * s, 2 * s, 4 * s);                        // the flame
+    ctx.fillStyle = '#2e2a24';
+    for (const bx of [-5, -1, 3]) ctx.fillRect(x + bx * s, y - 5 * s, 2 * s, 10 * s);              // the cage bars
+    ctx.fillRect(x - 5 * s, y + 5 * s, 10 * s, 3 * s);                                               // the base
+  }
+  /** A four-pointed glint over loot worth stooping for, now and then, each in its own time. */
+  function drawGlint(s, x, top, h, tY, now) {
+    if (calm) return;
+    const ph = (now / 1000 + hash(s.x * 7.3 + s.y * 13.1) * 3) % 2.8;
+    if (ph > 0.4 || x < 0 || x >= W || tY >= zbuf[x | 0]) return;
+    glintsN++;
+    const a = Math.sin(ph / 0.4 * Math.PI), r = Math.max(2, Math.round(h * 0.18 * a)), cy = Math.round(top + h * 0.3), cx = Math.round(x);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = `rgba(255,248,210,${(0.9 * a).toFixed(3)})`;
+    ctx.fillRect(cx - r, cy, r * 2 + 1, 1); ctx.fillRect(cx, cy - r, 1, r * 2 + 1);
+    ctx.fillRect(cx - 1, cy - 1, 3, 3);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  // Come onto a new floor, the view rises out of the dark of the stair: black at
+  // first, lifting quickly and then slowly, like eyes getting used to the light.
+  const ARRIVE_MS = 700;
+  let arrivingN = 0, levellingN = 0;
+  function drawArrival(fx, now) {
+    arrivingN = 0;
+    const u = (now - (fx.arriveAt == null ? -1e9 : fx.arriveAt)) / ARRIVE_MS;
+    if (u < 0 || u >= 1) return;
+    arrivingN = 1;
+    ctx.fillStyle = `rgba(0,0,0,${(0.95 * (1 - u) * (1 - u)).toFixed(3)})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+  // A level gained: shafts of golden light rise through the view from below,
+  // motes climbing in them, and fade; held still in a calm view, only fading.
+  const LEVEL_MS = 1300;
+  function drawLevelUp(fx, now) {
+    levellingN = 0;
+    const u = (now - (fx.levelAt == null ? -1e9 : fx.levelAt)) / LEVEL_MS;
+    if (u < 0 || u >= 1) return;
+    levellingN = 1;
+    const fade = u < 0.15 ? u / 0.15 : 1 - (u - 0.15) / 0.85, rise = calm ? 1 : Math.min(1, u * 2.2);
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 9; i++) {
+      const x = Math.round(W * (i + 0.5) / 9 + (calm ? 0 : Math.sin(now / 300 + i) * 3)), bw = Math.max(3, Math.round(W / 22));
+      const top = Math.round(H - H * rise * (0.55 + 0.4 * hash(i * 3.3)));
+      const g = ctx.createLinearGradient(0, top, 0, H);
+      g.addColorStop(0, 'rgba(255,220,120,0)'); g.addColorStop(1, `rgba(255,200,90,${(0.32 * fade).toFixed(3)})`);
+      ctx.fillStyle = g;
+      ctx.fillRect(x - (bw >> 1), top, bw, H - top);
+    }
+    for (let i = 0; i < 24; i++) {
+      const ph = calm ? hash(i * 2.1) : (u * 1.4 + hash(i * 2.1)) % 1;
+      const x = Math.round(W * hash(i * 5.3)), y = Math.round(H - ph * H * 0.9);
+      ctx.fillStyle = `rgba(255,236,160,${((1 - ph) * fade).toFixed(3)})`;
+      ctx.fillRect(x, y, 2, 2);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
   // The columns of fountain wall drawn this frame (column, top, height, texel
   // across, distance), for the water moving on it.
   const fountainCols = [];
@@ -695,7 +769,7 @@ const Renderer = (() => {
   // Water dripping from the roof: here and there over the floors near you a drop
   // gathers, falls, and splashes; more of them where the floor has flooded. Where
   // they fall and how often is fixed by the square, so they keep their places.
-  let dripsN = 0;
+  let dripsN = 0, doorsN = 0;   // (drops falling, and columns of a moving door, drawn in the last frame: for the tests)
   function drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet) {
     dripsN = 0;
     const share = level.twist === 'flooded' ? 0.14 : 0.05, R = 5;
@@ -1512,7 +1586,8 @@ const Renderer = (() => {
     drawStains(fx.stains && fx.stains[level.depth], level, px, py, dirX, dirY, planeX, planeY, lm, now);
     // what the elements have left on the floor: ash, spilt oil, ice, and fire burning over them
     drawStains(fieldStains(level, now, fx), level, px, py, dirX, dirY, planeX, planeY, lm, now);
-    const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored;
+    const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored, doorShut = fx.doorShut;
+    doorsN = 0;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
     for (let col = 0; col < W; col++) {
@@ -1523,11 +1598,20 @@ const Renderer = (() => {
       let stepX, stepY, sdx, sdy;
       if (rdx < 0) { stepX = -1; sdx = (px - mapX) * ddx; } else { stepX = 1; sdx = (mapX + 1 - px) * ddx; }
       if (rdy < 0) { stepY = -1; sdy = (py - mapY) * ddy; } else { stepY = 1; sdy = (mapY + 1 - py) * ddy; }
-      let side = 0, tile = T.WALL, n = 0;
+      let side = 0, tile = T.WALL, n = 0, door = null;
       while (n++ < 64) {
         if (sdx < sdy) { sdx += ddx; mapX += stepX; side = 0; } else { sdy += ddy; mapY += stepY; side = 1; }
         tile = getT(mapX, mapY);
         if (mapX >= 0 && mapY >= 0 && mapX < w && mapY < h) explored[mapY * w + mapX] = 1;
+        // a door sliding open or shut stands across only part of its doorway: the ray
+        // strikes it there and passes by it everywhere else
+        const moving = doorShut && doorShut[mapY * w + mapX];
+        if (moving) {
+          const dd = side === 0 ? sdx - ddx : sdy - ddy;
+          let wx = side === 0 ? py + dd * rdy : px + dd * rdx; wx -= Math.floor(wx);
+          if (wx < moving.shut) { door = moving; doorsN++; break; }
+          continue;
+        }
         if (isSolid(tile)) break;
       }
       const dist = side === 0 ? (sdx - ddx) : (sdy - ddy);
@@ -1537,9 +1621,10 @@ const Renderer = (() => {
       const top = ((H - lineH) / 2) | 0;
       let wallX = side === 0 ? py + dist * rdy : px + dist * rdx;
       wallX -= Math.floor(wallX);
-      let tx = Math.floor(wallX * 64);
+      // (a sliding door shows its leading part: what has gone into the wall is the part not seen)
+      let tx = Math.max(0, Math.min(63, Math.floor((door ? wallX + 1 - door.shut : wallX) * 64)));
       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
-      let img = texFor(tex, tile, mapX, mapY);
+      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door) : texFor(tex, tile, mapX, mapY);
       if (!img) {
         if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
@@ -1586,7 +1671,7 @@ const Renderer = (() => {
     shown.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const flames = flamesOf(level, lights, sprites, fx, now);
-    litLast.length = 0; leanedN = 0; afflictedN.n = 0;
+    litLast.length = 0; leanedN = 0; afflictedN.n = 0; glintsN = 0; lanternN = 0;
     const list = [];
     for (const s of sprites) {
       const sx = s.x - px, sy = s.y - py;
@@ -1688,6 +1773,7 @@ const Renderer = (() => {
       }
       if (fading || ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
       if (nRuns && s.aff && img !== art.flash) drawAfflictions(s.aff, left, sw, top, sh, shiftTop, art.top || 0, tY, now);
+      if (nRuns && s.glint) drawGlint(s, screenX, drawnTop, floorY - drawnTop, tY, now);
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, bottom: floorY, dist: tY, texel: sh / img.height });
@@ -1820,6 +1906,8 @@ const Renderer = (() => {
     // the hero's hands, over the world and under the flashes; once the Heart
     // is lifted they put down what they held and take it up instead
     if (!(fx.heartAt >= 0)) drawView(fx, now);
+    drawLevelUp(fx, now);
+    drawArrival(fx, now);
     drawBossBar(fx.boss, now);
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;
@@ -1969,7 +2057,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

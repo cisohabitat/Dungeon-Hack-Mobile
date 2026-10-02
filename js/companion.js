@@ -490,7 +490,9 @@ export function makeCompanion(K) {
     const reeling = now < (c.flashUntil || 0) + 260;
     // trotting along, it strides, a step to each half of a square (see stride in creatures.js)
     const trot = c.moveT1 > now && s.stepA ? ((now - (c.moveT0 || 0)) / Math.max(1, c.moveT1 - (c.moveT0 || 0)) < 0.5) === ((c.x + c.y) % 2 === 0) ? s.stepA : s.stepB : null;
-    const img = lunging && s.windup ? s.windup : reeling && s.hurt ? s.hurt : healing ? s.heal : trot || (c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s);
+    // and now and then, at rest, it blinks
+    const blinking = s.blink && (now + 311) % 3700 < 130;
+    const img = lunging && s.windup ? s.windup : reeling && s.hurt ? s.hurt : healing ? s.heal : trot || (c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : blinking ? s.blink : s);
     // it breathes and sways as a monster does (see motion in game.js), waddles
     // as it trots, and swings through a bite; sitting, it only breathes
     const sat = img === s.sit, b = Math.sin(now / 560 + 1.3) * 0.02;

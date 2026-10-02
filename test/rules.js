@@ -10608,6 +10608,94 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a door pushed open or pulled shut slides across its doorway, a door at a time and on its own floor, and is still', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'door-slide');
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.tiles[6 * L.w + 7] = Dungeon.T.DOOR;
+    const shut = (/** @type {number} */ now) => { const s = Game.renderState(now).fx.doorShut; return s && s[6 * L.w + 7] ? s[6 * L.w + 7].shut : null; };
+    if (shut(0) !== null) out.push('a door at rest was drawn moving');
+    Game.input('use');
+    if (L.tiles[6 * L.w + 7] !== Dungeon.T.DOOR_OPEN) return 'the door did not open';
+    const at = Game.renderState(0).fx.doors['7,6'].at;
+    const a = shut(at + 10), b = shut(at + 260), c = shut(at + 2000);
+    if (!(a > 0.9 && b > 0.1 && b < 0.9)) out.push(`opening, it was ${a} then ${b} shut, not shut then half way`);
+    if (c !== null && c > 0.01) out.push(`long after, it was still ${c} shut`);
+    // pulled shut again, it slides back across
+    G.t += 5000; Game.input('use');
+    if (L.tiles[6 * L.w + 7] !== Dungeon.T.DOOR) return 'the door did not shut';
+    const at2 = Game.renderState(0).fx.doors['7,6'].at;
+    if (!(shut(at2 + 10) < 0.1 && shut(at2 + 400) > 0.6)) out.push(`shutting, it was ${shut(at2 + 10)} then ${shut(at2 + 400)} shut`);
+    // a door broken to splinters does not slide; and a door still moving on the floor left behind is not drawn here
+    Game.renderState(0).fx.doors['7,6'].depth = G.depth + 1;
+    if (shut(at2 + 100) !== null) out.push('a door moving on another floor was drawn on this one');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('coming onto a new floor and rising a level are each marked for the view, the moment they happen', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'arrive-rise');
+    const { Game } = ctx; const p = Game.player();
+    const fx = () => Game.renderState(0).fx;
+    const before = fx().arriveAt;
+    Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
+    if (!(fx().arriveAt >= before) || fx().arriveAt === -1e9) out.push(`down the stair, the arrival was not marked (${before} -> ${fx().arriveAt})`);
+    const lv0 = fx().levelAt, lvl = p.level;
+    // (experience is weighed when next some is gained: a kill does it)
+    p.xp += 100000;
+    { const L = Game.level(); L.monsters.length = 0; const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR; L.monsters.push({ uid: 99, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 }); for (let i = 0; i < 10 && L.monsters.length; i++) { Game.state().t = p.nextAttack; Game.input('attack'); } }
+    if (p.level === lvl) out.push('the hero never rose a level');
+    else if (!(fx().levelAt !== lv0 && fx().levelAt > -1e9)) out.push('rising a level was not marked for the view');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a monster asleep has its eyes shut; awake, it blinks now and then, but never while it winds up a blow', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'blink');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 98, id: 'orc', x: 9, y: 6, hp: 55, maxHp: 55, awake: false, nextAct: 1e12, rx: 9, ry: 6, fromX: 9, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const m = L.monsters[0];
+    // (in the rules' own world no pictures are painted, so the view is lent the poses to choose among)
+    const { Assets } = await import('../js/assets.js');
+    const was = Assets.sprites.orc, pic = { blink: {}, windup: {}, stepA: {}, stepB: {}, hurt: {} };
+    Assets.sprites.orc = pic;
+    try {
+      const shut = (/** @type {number} */ now) => Game.renderState(now).sprites.find(q => q.maxHp === 55).img === pic.blink;
+      if (!shut(1000) || !shut(4321)) out.push('asleep, its eyes were open');
+      m.awake = true;
+      let n = 0; for (let t = 0; t < 20000; t += 20) if (shut(t)) n++;
+      if (n === 0) out.push('awake, it never blinked in twenty seconds');
+      if (n > 200) out.push(`awake, its eyes were shut ${n * 20}ms in twenty seconds: more stare than blink`);
+      m.windup = { kind: 'blow', at: G.t, until: G.t + 1000 };
+      let during = 0; for (let t = 0; t < 20000; t += 20) if (shut(t)) during++;
+      if (during) out.push('winding up a blow, it blinked');
+    } finally { Assets.sprites.orc = was; }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('loot worth stooping for is marked to catch the light, and on a dark floor the hero carries a lantern', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'glint-lantern');
+    const { Game } = ctx; const p = Game.player();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.items = { '8,6': [{ t: 'ring_protect', q: 1, e: 0 }], '9,6': [{ t: 'dagger', q: 1, e: 0 }], '10,6': [{ t: 'dagger', q: 1, e: 2 }] };
+    const glint = (/** @type {number} */ x) => { const s = Game.renderState(0).sprites.find(q => q.onFloor && Math.floor(q.x) === x && Math.abs(q.y - 6.5) < 0.6); return s ? s.glint : 'none'; };
+    if (glint(8) !== true) out.push(`a ring lying there did not catch the light (${glint(8)})`);
+    if (glint(9) !== false) out.push(`a plain dagger caught the light (${glint(9)})`);
+    if (glint(10) !== true) out.push(`a dagger +2 did not catch the light (${glint(10)})`);
+    L.twist = null;
+    if (Game.renderState(0).fx.view.lantern) out.push('on a lit floor the hero carried a lantern');
+    L.twist = 'dark';
+    if (!Game.renderState(0).fx.view.lantern) out.push('on a dark floor the hero carried no lantern');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a struck monster reels: its flinching picture through the white of the hit and a moment after, never over a wind-up', async () => {
     const out = [];
     const ctx = await start('fighter', 'reel');

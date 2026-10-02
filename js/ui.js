@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03r', text: 'creatures stride as they walk and bats beat their wings; each class has a face of its own; water drips from the roof, puddles and fountains glint, and a companion glows when it learns a trick' };
+  const NEWS = { id: '2026-10-03s', text: 'doors slide open and shut; a new floor rises out of the dark of the stair and a level sends light up through you; creatures blink and sleep with their eyes shut; a shade wears the gear of the hero it was; a lantern lights the dark floors, and loot worth having glints' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

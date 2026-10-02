@@ -3322,8 +3322,49 @@ function paintParts(parts, grid = 32, scale = 1, grim = false) {
 // flies is knocked bodily askew in the air. Drawn for a moment after the white
 // of the hit (see renderState in game.js), for every creature with poses, its
 // champions too. The side it reels to is its own, so a pack does not reel as one.
+// Eyes shut: what is small and bright (or glows) on a head, and the pupils and
+// glints inside it, are covered by the colour of what they were drawn on: a
+// blink, and the screwed-shut eyes of a creature struck.
+const lumOf = c => { const n = parseInt(c.slice(1), 16); return (0.3 * (n >> 16) + 0.59 * ((n >> 8) & 255) + 0.11 * (n & 255)) / 255; };
+const darker = c => { const n = parseInt(c.slice(1), 16), f = v => Math.round(v * 0.62).toString(16).padStart(2, '0'); return `#${f(n >> 16)}${f((n >> 8) & 255)}${f(n & 255)}`; };
+const eyesShut = parts => {
+  // (a head is a ball, or a sheet, drawn before the eye and under its point)
+  const under = (i, x, y) => {
+    for (let j = i - 1; j >= 0; j--) {
+      const q = parts[j];
+      if (q.k === 'ball' && q.rx >= 2.6 && ((x - q.x) / q.rx) ** 2 + ((y - q.y) / q.ry) ** 2 <= 1) return q;
+      if (q.k === 'sheet' && q.pts.length > 2) {
+        const xs = q.pts.map(v => v[0]), ys = q.pts.map(v => v[1]);
+        if (x > Math.min(...xs) && x < Math.max(...xs) && y > Math.min(...ys) && y < Math.max(...ys) && Math.max(...xs) - Math.min(...xs) > 5) return q;
+      }
+    }
+    return null;
+  };
+  const small = q => (q.k === 'ball' && q.rx <= 2.6 && q.ry <= 2.2) || q.k === 'dots' || (q.k === 'specks' && q.pts.length <= 4);
+  const bright = q => q.glows || lumOf(q.c) > 0.55;
+  const eyes = [];
+  parts.forEach((q, i) => {
+    if (!small(q) || !bright(q)) return;
+    const pts = q.k === 'ball' ? [[q.x, q.y]] : q.pts;
+    for (const [x, y] of pts) { const head = under(i, x, y); if (head && !head.glows && lumOf(head.c) < lumOf(q.c)) eyes.push({ x, y, r: q.k === 'ball' ? Math.max(q.rx, 1.2) + 0.6 : 1.6, c: head.c }); }
+  });
+  if (!eyes.length) return null;
+  const near = (x, y) => eyes.find(e => Math.abs(x - e.x) <= e.r && Math.abs(y - e.y) <= e.r);
+  const out = [];
+  for (const q of parts) {
+    if (!small(q)) { out.push(q); continue; }
+    if (q.k === 'ball') { const e = near(q.x, q.y); if (e) { out.push({ ...q, c: e.c, glows: false, rx: q.rx * 1.15, ry: Math.max(0.5, q.ry * 0.5) }); continue; } out.push(q); continue; }
+    const keep = q.pts.filter(([x, y]) => !near(x, y)), shut = q.pts.filter(([x, y]) => near(x, y));
+    if (keep.length) out.push({ ...q, pts: keep });
+    for (const [x, y] of shut) out.push({ k: 'dots', pts: [[x, y]], c: near(x, y).c });
+  }
+  // and the line of each shut lid
+  for (const e of eyes) out.push(hair(e.x - e.r * 0.8, e.y + 0.25, e.x + e.r * 0.8, e.y + 0.25, darker(e.c)));
+  return out;
+};
 const REEL_LEFT = new Set(['rat', 'basilisk', 'rustmaw', 'quillback', 'mimic', 'slime', 'puffcap', 'zombie', 'ghoul', 'orc', 'spider', 'dog', 'wolf']);
-const flinch = (parts, k) => {
+const flinch = (parts0, k) => {
+  const parts = eyesShut(parts0) || parts0;
   const ys = parts.map(p => midOf(p)[1]), top = Math.min(...ys), bot = Math.max(...ys), span = bot - top;
   const deg = REEL_LEFT.has(k) ? -1 : 1;
   if (FLOATING.has(k)) { const mid = top + span * 0.5; return turn(grow(parts, 32, mid, 1.05, 0.93), 32, mid, 10 * deg); }
@@ -3356,10 +3397,11 @@ const stride = (parts, k, pose) => {
     return nudge([p], (left ? -1 : 1) * lift * 0.2 * u, -lift * u)[0];
   });
 };
+// a creature with eyes to shut blinks now and then (see renderState in game.js)
 for (const k in POSES) {
-  const f = CREATURES[k], walks = !FLOATING.has(k) || OWN_STEPS.has(k);
-  CREATURES[k] = (pose = 'idle') => (pose === 'hurt' ? flinch(f(), k) : STEPS.includes(pose) && !OWN_STEPS.has(k) ? stride(f(), k, pose) : f(pose));
-  POSES[k].push('hurt', ...(walks ? STEPS : []));
+  const f = CREATURES[k], walks = !FLOATING.has(k) || OWN_STEPS.has(k), blinks = !!eyesShut(f());
+  CREATURES[k] = (pose = 'idle') => (pose === 'hurt' ? flinch(f(), k) : pose === 'blink' ? eyesShut(f()) || f() : STEPS.includes(pose) && !OWN_STEPS.has(k) ? stride(f(), k, pose) : f(pose));
+  POSES[k].push('hurt', ...(walks ? STEPS : []), ...(blinks ? ['blink'] : []));
 }
 
 // The named champions, each drawn as itself: its kind's picture, recoloured
@@ -3370,7 +3412,7 @@ const CHAMPION_OF = { grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
-  return (pose = 'idle') => (pose === 'hurt' ? flinch(draw('idle'), kind) : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
+  return (pose = 'idle') => (pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('idle') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
 };
 const CHAMPIONS = {
   // Grisk, the Goblin King: a dented bucket for a crown, bent spoons stuck round
@@ -3491,6 +3533,49 @@ const CHAMPIONS = {
       ],
     };
   }),
+};
+
+// A fallen hero's shade rises in the gear of their trade: the dead knight's
+// shape, and over it a thief's hood and cloak, a mage's hat, robe and staff, a
+// cleric's mitre and tabard, a ranger's hood and bow, a druid's antlers and
+// staff, all as cold and pale as the rest of it. (A fighter's is the knight.)
+/** What hangs from the shield arm, turned with it as the blade swings (see the shade's windup). */
+const shieldSide = (pose, parts) => (pose === 'windup' ? turn(parts, 20.5, 25, 25) : parts);
+const SHADE_GEAR = {
+  thief: champion('shade', pose => ({ front: [
+    ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 52], [5, 48], [7, 34]], '#3a4a62', { curve: 0.8 }), hair(16, 30, 9, 46, '#5a6a84'), hair(20, 30, 15, 49, '#2e3a50')]),
+    sheet([[23.4, 22], [24, 11], [28, 6.4], [36, 6.4], [40, 11], [40.6, 22], [38, 17], [32, 13.6], [26, 17]], '#4a5c78', { curve: 0.9 }),
+    hair(24.5, 12, 28.5, 7, '#7a8ca8'), hair(39.5, 12, 35.5, 7, '#2e3a50'),
+    sheet([[25.6, 17.4], [38.4, 17.4], [37.6, 21], [32, 22.6], [26.4, 21]], '#3a4a62', { curve: 0.6 }), hair(27, 19.5, 37, 19.5, '#5a6a84'),
+  ] })),
+  mage: champion('shade', pose => ({ front: [
+    sheet([[19, 23], [45, 23], [48, 44], [44, 58], [38, 52], [32, 60], [26, 52], [20, 58], [16, 44]], '#4e5a8a', { curve: 1 }),
+    ...[[24, 28, 21, 54], [32, 30, 32, 58], [40, 28, 43, 54]].map(([a, b, c, d]) => hair(a, b, c, d, '#3a4470')), hair(26, 23.5, 38, 23.5, '#9aa8d0'),
+    ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 50], [7, 46], [8, 34]], '#4e5a8a', { curve: 0.8 }), limb(9, 58, 11, 9, 0.9, 0.8, '#8a9ab0'),
+      ball(11, 7, 2.4, 2.6, '#b4e0ff', { glows: true }), specks([[8, 4], [14, 5], [12, 2]], '#e0f4ff', { glows: true })]),
+    ball(32, 12.4, 11, 1.8, '#4e5a8a'), sheet([[23, 12], [41, 12], [36, 6.4], [31, 0.6], [28.6, 6.4]], '#4e5a8a', { curve: 0.6 }), hair(25, 11.75, 39, 11.75, '#9aa8d0'),
+  ] })),
+  cleric: champion('shade', () => ({ front: [
+    sheet([[25, 23], [39, 23], [40, 41], [32, 43], [24, 41]], '#c8d4e8', { curve: 0.8 }), hair(25.5, 24, 25.5, 40, '#e8e0a0'), hair(38.5, 24, 38.5, 40, '#e8e0a0'),
+    ball(32, 30, 2.6, 2.6, '#f0e8b0', { glows: true }),
+    ...Array.from({ length: 8 }, (_, i) => i / 8 * Math.PI * 2).map(t => limb(32 + Math.cos(t) * 2.8, 30 + Math.sin(t) * 2.8, 32 + Math.cos(t) * 4.4, 30 + Math.sin(t) * 4.4, 0.45, 0.25, '#f4ecc0')),
+    sheet([[25.6, 10], [28, 4], [32, 1.4], [36, 4], [38.4, 10], [38.4, 12.4], [25.6, 12.4]], '#c8d4e8', { curve: 0.4 }), hair(26, 11.5, 38, 11.5, '#e8e0a0'), line(32, 2.4, 32, 11, '#e8e0a0'),
+  ] })),
+  ranger: champion('shade', pose => ({ front: [
+    limb(44, 25, 50, 11, 1.8, 1.6, '#5a6e6e'), ...[[48.6, 9.4], [50.6, 8.6], [52.4, 10]].map(([x, y]) => sheet([[x - 0.9, y + 3], [x, y], [x + 0.9, y + 3]], '#d8e8e8')),
+    ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 50], [6, 46], [8, 34]], '#4e6a6a', { curve: 0.8 }),
+      ...Array.from({ length: 8 }, (_, i) => { const a = (i / 8) * Math.PI, b = ((i + 1) / 8) * Math.PI; return hair(8 - Math.sin(a) * 5, 17 + i * 4.4, 8 - Math.sin(b) * 5, 17 + (i + 1) * 4.4, '#9ab0b0'); }),
+      line(8, 17, 8, 52, '#d8e8e8')]),
+    sheet([[23.4, 22], [24, 11], [28, 6.4], [36, 6.4], [40, 11], [40.6, 22], [38, 17], [32, 13.6], [26, 17]], '#4e6a6a', { curve: 0.9 }), hair(24.5, 12, 28.5, 7, '#7a9898'),
+  ] })),
+  druid: champion('shade', pose => ({ front: [
+    sheet([[14, 24], [50, 24], [47, 31], [40, 29], [32, 33], [24, 29], [17, 31]], '#5a7a6a', { curve: 0.9 }),
+    ...[[18, 26], [24, 28], [30, 29], [36, 29], [42, 28], [47, 26]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.6 : 0.6), y + 3, '#8ab09a')),
+    ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 50], [7, 46], [8, 34]], '#5a7a6a', { curve: 0.8 }), limb(9, 58, 10, 9, 1, 0.9, '#7a8a80'),
+      ...[[7, 10], [13, 8], [9, 6.5]].map(([x, y]) => sheet([[x - 1.6, y], [x, y - 2.2], [x + 1.6, y], [x, y + 1.2]], '#8ac0a0'))]),
+    ...both64(limb(27, 9, 22, 2, 0.9, 0.5, '#d0dce0')), ...both64(limb(24.4, 5.4, 20.6, 5, 0.6, 0.3, '#d0dce0')), ...both64(limb(23, 3.4, 24, 0.6, 0.5, 0.3, '#d0dce0')),
+    hair(25.5, 9.75, 38.5, 9.75, '#6a8a7a'), ...[[27, 9.4], [32, 8.8], [37, 9.4]].map(([x, y]) => sheet([[x - 1.4, y], [x, y - 2], [x + 1.4, y], [x, y + 1.1]], '#8ac0a0')),
+  ] })),
 };
 
 // The heroes, one to a class, head and shoulders, for the class picker, the
@@ -3620,4 +3705,4 @@ const PORTRAITS = {
   },
 };
 
-export { PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2, ball, limb, sheet, line, dots, specks, hair, both };
+export { SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2, ball, limb, sheet, line, dots, specks, hair, both };

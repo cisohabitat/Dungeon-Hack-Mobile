@@ -44,6 +44,8 @@ const Game = (() => {
                trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
                /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number, how: string}>} */ corpses: [],
+               /** @type {Object<string, {x: number, y: number, at: number, open: boolean, lock: string|null, depth: number}>} doors sliding open or shut, by square */ doors: {},
+               /** @type {Object<number, {shut: number, lock: string|null}>|null} how far each moving door on this floor is shut, by tile index, for the renderer */ doorShut: null,
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
                /** @type {Array<{x: number, y: number, z: number, vx: number, vy: number, vz: number, g: number, c: string, born: number, life: number, size: number, glow?: boolean}>} */ bits: [],
                /** stains on the floor, by depth; for the look of a fight, not saved */
@@ -56,12 +58,13 @@ const Game = (() => {
                /** when the hero fell, for the view going dark before the end screen; -1 before */
                deadAt: -1,
                /** @type {any} */ status: null,
+               /** when the hero last came onto a floor, and last rose a level, for the view */ arriveAt: -1e9, levelAt: -1e9,
                /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number, named?: boolean, notches?: number[]}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
     fxGen++;
-    fx.texts = []; fx.spells = []; fx.corpses = []; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0;
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.doors = {}; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0;
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
@@ -229,7 +232,22 @@ const Game = (() => {
     const L = lvl();
     return (x < 0 || y < 0 || x >= L.w || y >= L.h) ? T.WALL : L.tiles[y * L.w + x];
   }
-  function setTile(x, y, t) { const L = lvl(); L.tiles[y * L.w + x] = t; }
+  function setTile(x, y, t) {
+    const L = lvl(), i = y * L.w + x, was = L.tiles[i];
+    L.tiles[i] = t;
+    // a door pushed open or pulled shut slides into the wall or out of it (see the doors in renderState)
+    if ((was === T.DOOR || was === T.DOOR_LOCKED) && t === T.DOOR_OPEN) doorMoves(x, y, true, was === T.DOOR_LOCKED ? (L.locks || {})[key(x, y)] || 'any' : null);
+    else if (was === T.DOOR_OPEN && t === T.DOOR) doorMoves(x, y, false, null);
+  }
+  /** A door on the move, for the picture, and the dust it shakes down. @param {string|null} lock its lock's colour, if it had one */
+  function doorMoves(x, y, open, lock) {
+    fx.doors[key(x, y)] = { x, y, at: realNow, open, lock, depth: G.depth };
+    for (let i = 0; i < 10; i++) {
+      fx.bits.push({ x: x + 0.3 + look() * 0.4, y: y + 0.3 + look() * 0.4, z: 0.6 + look() * 0.4, vx: (look() - 0.5) * 0.4, vy: (look() - 0.5) * 0.4, vz: 0,
+        g: 1.2, c: ['#8a7a64', '#a89a84', '#6a5e4e'][i % 3], born: realNow, life: 600 + look() * 400, size: 0.012 });
+    }
+    if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
+  }
   function monsterAt(x, y) { return lvl().monsters.find(m => m.x === x && m.y === y) || null; }
   function npcAt(x, y) { const L = lvl(); return (L.npcs || []).find(n => n.x === x && n.y === y) || null; }
   function passable(x, y) { const t = tile(x, y); return t === T.FLOOR || t === T.DOOR_OPEN; }
@@ -1681,6 +1699,8 @@ const Game = (() => {
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
     G.depth = depth;
+    // the view comes up out of the dark of the stair (see drawArrival in the renderer)
+    fx.arriveAt = realNow;
     const L = G.levels[depth];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
@@ -2909,7 +2929,7 @@ const Game = (() => {
     const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
     const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
     const heap = m.collapsed && how !== 'clatter';
-    const c = { x: rx + 0.5, y: ry + 0.5, sprite: heap ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (heap ? 0.95 : 1),
+    const c = { x: rx + 0.5, y: ry + 0.5, sprite: heap ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : m.shade ? 'shade_' + m.shade.cls : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (heap ? 0.95 : 1),
       born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0, how };
     fx.corpses.push(c);
     deathBurst(c, how);
@@ -2961,6 +2981,8 @@ const Game = (() => {
     const p = P();
     while (p.level < MAX_LEVEL && p.xp >= XP_TABLE[p.level]) {
       p.level++;
+      // and golden light rises through the view (see drawLevelUp in the renderer)
+      fx.levelAt = realNow;
       const gain = Math.max(1, d(1, cls().hitDie) + mod(p.stats.con));
       p.maxHp += gain; p.hp += gain;
       p.maxSp = spMax(p); p.sp = p.maxSp;
@@ -4365,6 +4387,7 @@ const Game = (() => {
     fx.texts = fx.texts.filter(t => t.until > now);
     if (fx.spells.length) fx.spells = fx.spells.filter(s => s.until > now);
     if (fx.corpses.length) fx.corpses = fx.corpses.filter(c => now - c.born < CORPSE_MS);
+    for (const k in fx.doors) if (now - fx.doors[k].at > DOOR_MS) delete fx.doors[k];
     if (fx.bits.length) fx.bits = fx.bits.filter(b => now - b.born < b.life);
     if (fx.drops.length) fx.drops = fx.drops.filter(d => now - d.born < d.life);
   }
@@ -4457,6 +4480,8 @@ const Game = (() => {
   // thing sways less: it is heavier.
   // a body falls, lies a moment, then sinks away into what it leaves (see the fallen in renderState)
   const CORPSE_MS = 1100;
+  // how long a door takes to slide open or shut
+  const DOOR_MS = 520;
   // how long a creature reels after the white of a hit has gone (see flinch in creatures.js)
   const REEL_MS = 260;
   // how far a burning thing (the Heartforged, an emberling) throws its light onto what stands near it, in squares
@@ -4552,6 +4577,14 @@ const Game = (() => {
   }
   function renderState(now) {
     const L = lvl();
+    // a door on the move: how much of it is still across the doorway, eased in and out
+    fx.doorShut = null;
+    for (const k in fx.doors) {
+      const d = fx.doors[k];
+      if (d.depth !== G.depth) continue;
+      const u = Math.max(0, Math.min(1, (now - d.at) / DOOR_MS)), e = u * u * (3 - 2 * u);
+      (fx.doorShut = fx.doorShut || {})[d.y * L.w + d.x] = { shut: d.open ? 1 - e : e, lock: d.lock };
+    }
     const sprites = [];
     // a named champion awake and close carries its life along the top of the view, as the lich does
     const topNamed = namedBar(L);
@@ -4573,8 +4606,8 @@ const Game = (() => {
       const mb = MONSTERS[m.id];
       const bob = mb.fly ? Math.sin(now / 250 + m.uid) * 0.05 : 0;
       const base = Assets.sprites[mb.sprite];
-      // a champion wears its colour: a prefix's, or a named one's own
-      const tint = m.elite || (mb.named ? m.id : '');
+      // a champion wears its colour, or is drawn as itself; a hero's shade wears the gear of their trade
+      const tint = m.elite || (mb.named ? m.id : '') || (m.shade && base && base.elite && base.elite['shade_' + m.shade.cls] ? 'shade_' + m.shade.cls : '');
       const img = (tint && base && base.elite && base.elite[tint]) ? base.elite[tint] : base;
       const n = packSize(m);
       // how far through its wind-up it is, for the tell drawn over it
@@ -4588,7 +4621,9 @@ const Game = (() => {
       // a bat beats its wings all the while it is aloft (see stride in creatures.js)
       const step = tell || !img || !img.stepA ? '' : mb.fly ? ['', 'stepA', '', 'stepB'][Math.floor(now / 90 + m.uid) % 4]
         : m.moveT1 > now ? ((now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0) < 0.5) === ((m.x + m.y) % 2 === 0) ? 'stepA' : 'stepB' : '';
-      const walking = step ? img[step] : img;
+      // asleep, its eyes are shut; awake, it blinks now and then (see eyesShut in creatures.js)
+      const shut = !tell && !step && img && img.blink && (!m.awake || (now + m.uid * 977) % (3200 + (m.uid % 5) * 450) < 130);
+      const walking = step ? img[step] : shut ? img.blink : img;
       const shown = reeling && img && img.hurt ? img.hurt : walking;
       // what is upon it, drawn on its body: fire, venom, a bleeding wound, and what holds it fast
       const aff = afflictions(m);
@@ -4666,7 +4701,9 @@ const Game = (() => {
         // the Heart floats; a relic hovers a little, so it reads as more than iron
         const floats = it.t === 'artifact' || !!it.u;
         const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
-        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true });
+        // what is worth stooping for catches the light now and then: a relic, the Heart, a ring or amulet, gear with an edge to it
+        const glint = !!(it.u || it.t === 'artifact' || it.e > 0 || ['ring', 'amulet'].includes((ITEMS[it.t] || {}).kind));
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint });
       });
     }
     // the fallen: knocked back, sinking into a heap and fading
@@ -4704,6 +4741,8 @@ const Game = (() => {
       weapon: wIt ? spriteFor(wIt) : null, two: !!(wIt && ITEMS[wIt.t].twoHanded), drawn: !!(wIt && ['shortbow', 'longbow'].includes(ITEMS[wIt.t].sprite)),
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
+      // on a dark floor, a lantern in hand: the light the hero sees by
+      lantern: L.twist === 'dark',
     };
     fx.threats = threats();
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes

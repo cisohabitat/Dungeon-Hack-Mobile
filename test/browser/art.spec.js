@@ -120,6 +120,80 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a door slides into the wall as it is pushed open', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(2);
+    // a shut door just ahead, pushed open: for a moment part of it is still across the doorway
+    const seen = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.DOOR;
+      await new Promise(r => setTimeout(r, 200));
+      Game.input('use');
+      let most = 0;
+      for (let i = 0; i < 12; i++) { await new Promise(r => requestAnimationFrame(r)); most = Math.max(most, Renderer.doorColumns); }
+      await new Promise(r => setTimeout(r, 900));
+      return { most, after: Renderer.doorColumns, open: L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.DOOR_OPEN };
+    });
+    expect(seen.open).toBe(true);
+    expect(seen.most, 'part of the door drawn sliding').toBeGreaterThan(10);
+    expect(seen.after, 'and then gone into the wall').toBe(0);
+    expect(errors).toEqual([]);
+  });
+
+  test('a new floor rises out of the dark of the stair, and a level gained sends light up through the view', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    const seen = await page.evaluate(async () => {
+      const frame = () => new Promise(r => requestAnimationFrame(r));
+      Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
+      await frame(); await frame();
+      const arriving = Renderer.arriving;
+      await new Promise(r => setTimeout(r, 1000));
+      const after = Renderer.arriving;
+      // (the rules mark a level gained; here the view is shown the mark)
+      Game.renderState(performance.now()).fx.levelAt = performance.now();
+      await frame(); await frame();
+      const levelling = Renderer.levelling;
+      await new Promise(r => setTimeout(r, 1600));
+      return { arriving, after, levelling, later: Renderer.levelling };
+    });
+    expect(seen).toEqual({ arriving: 1, after: 0, levelling: 1, later: 0 });
+    expect(errors).toEqual([]);
+  });
+
+  test('a lantern lights a dark floor, loot worth having glints, and a fallen hero\'s shade wears the gear of their trade', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(2);
+    const seen = await page.evaluate(async () => {
+      const frame = () => new Promise(r => requestAnimationFrame(r));
+      const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
+      await frame(); await frame();
+      const lit = Renderer.lantern;
+      L.twist = 'dark'; await frame(); await frame();
+      const dark = Renderer.lantern;
+      L.twist = null;
+      // a ring two squares ahead: over three seconds it glints at least once
+      L.items[`${p.x + dx * 2},${p.y + dy * 2}`] = [{ t: 'ring_protect', q: 1, e: 1 }];
+      let glints = 0; const t0 = performance.now();
+      while (performance.now() - t0 < 3200) { await frame(); glints = Math.max(glints, Renderer.glints); }
+      delete L.items[`${p.x + dx * 2},${p.y + dy * 2}`];
+      // the shade of a mage who fell here, drawn in a mage's gear
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 777, id: 'shade', x: p.x + dx * 2, y: p.y + dy * 2, hp: 50, maxHp: 50, awake: false, nextAct: 1e12, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: p.x + dx * 2, fromY: p.y + dy * 2, moveT0: 0, moveT1: 0, flashUntil: 0,
+        shade: { name: 'Ysolde', cls: 'mage', level: 4, run: 'r1', depth: 1 } });
+      const sp = Game.renderState(performance.now()).sprites.find(q => q.maxHp === 50);
+      const gear = Assets.sprites.shade.elite.shade_mage;
+      return { lit, dark, glints, mage: !!gear && (sp.img === gear || sp.img === gear.blink) };
+    });
+    expect(seen).toEqual({ lit: 0, dark: 1, glints: 1, mage: true });
+    expect(errors).toEqual([]);
+  });
+
   test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
     // floor 8 said "black glass walls" over the same grey courses as floor 1
     const errors = watchForErrors(page);

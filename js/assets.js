@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
-import { PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
+import { SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -1285,6 +1285,13 @@ const Assets = (() => {
       const o = makeSprite(own(), scale);
       for (const pose of POSES[k] || []) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite[id] = o[pose]; }
       s.elite[id] = o;
+    }
+    // a fallen hero's shade in the gear of their trade, likewise (see SHADE_GEAR)
+    if (k === 'shade') for (const cls in SHADE_GEAR) {
+      const own = pose => ({ parts: SHADE_GEAR[cls](pose), shadow: 0, elites: false, fine: true, grim: true, grid: gridOf(k) });
+      const o = makeSprite(own(), scale);
+      for (const pose of POSES[k] || []) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite['shade_' + cls] = o[pose]; }
+      s.elite['shade_' + cls] = o;
     }
     return s;
   }
