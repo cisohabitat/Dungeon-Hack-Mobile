@@ -1035,6 +1035,100 @@ const Assets = (() => {
     return P.done();
   }
 
+  // ---- the stairwell, drawn in depth (renderer.js: drawStairs) ----
+  // A stair square is a recess behind an arch: the arch at the wall's face with
+  // its opening clear, the recess's own side walls in the walls' stone, and on
+  // its back wall the flight going on in perspective. The opening's width, as a
+  // share of the square, is STAIR_OPEN either side of the middle.
+  const STAIR_OPEN = 21 / 64;
+  /** The arch at the stair's face: dressed voussoirs round an opening left clear. */
+  function makeStairArch(theme, wallTex) {
+    const s = 7713, P = pixels(), stone = hexToRgb(theme.wall);
+    P.ctx.drawImage(wallTex, 0, 0);
+    const src = P.ctx.getImageData(0, 0, TEX, TEX).data;
+    for (let i = 0; i < TEX * TEX; i++) P.set(i % TEX, (i / TEX) | 0, [src[i * 4], src[i * 4 + 1], src[i * 4 + 2]]);
+    const inArch = (x, y, r) => y >= 20 ? Math.abs(x - 31.5) <= r : Math.hypot((x - 31.5) / r, (y - 20) / 22) <= 1;
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      if (inArch(x, y, 24) && !inArch(x, y, 21)) {
+        const a = Math.atan2(y - 20, x - 31.5), seg = Math.floor((a + Math.PI) / (Math.PI / 9)), edge = Math.abs(((a + Math.PI) / (Math.PI / 9)) % 1 - 0.5) > 0.44;
+        P.set(x, y, stone, edge && y < 22 ? -40 : 14 + (seg % 2) * 8 + (hash2(x, y, s) - 0.5) * 14 + (inArch(x, y, 22.4) ? -12 : 4));
+      }
+    }
+    const c = P.done(), ctx = c.getContext('2d'), img = ctx.getImageData(0, 0, TEX, TEX);
+    // the opening: clear, so the stairwell behind shows through it
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) if (inArch(x, y, 21)) img.data[(y * TEX + x) * 4 + 3] = 0;
+    ctx.putImageData(img, 0, 0);
+    return c;
+  }
+  /**
+   * The back of the recess: the flight going on beyond it, in perspective, as
+   * seen from a square or two off. Up, the treads climb toward a grey light
+   * and the roof rises with them; down, the first tread's nose shows at the
+   * foot, the roof slopes away below and there is only a far, faint glow.
+   */
+  function makeStairBack(theme, down) {
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d'), rng = new Rng(down ? 'stairback-d' : 'stairback-u');
+    const D0 = 1.4, W = TEX / (2 * STAIR_OPEN);   // how far off it is seen from, in squares; texture pixels to a square, across
+    // a point of the stairwell: lateral (squares from the middle), height (floor 0, roof 1), and how far beyond the back
+    const at = (xw, h, z) => { const k = 1 / (1 + z / D0); return [TEX / 2 + xw * W * k, TEX / 2 + (0.5 - h) * TEX * k]; };
+    const poly = (pts, fill) => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+    const fade = (hex, z, more = 0) => adjust(hex, -Math.round(z * (down ? 70 : 34) + more));
+    const sw = STAIR_OPEN, rise = 0.14, run = 0.2, N = 9;
+    ctx.fillStyle = down ? '#020203' : adjust(theme.ceil, -20);
+    ctx.fillRect(0, 0, TEX, TEX);
+    const roof = z => (down ? 1 - z * 0.62 : 1 + z * 0.62);
+    const ground = z => (down ? (z < 0.06 ? 0 : -Math.ceil((z - 0.06) / run) * rise) : Math.floor(z / run) * rise);
+    const zEnd = run * N;
+    // the roof, then the walls either side, each in bands that darken going in
+    for (let k = 0; k < 12; k++) {
+      const z0 = zEnd * k / 12, z1 = zEnd * (k + 1) / 12;
+      poly([at(-sw, roof(z0), z0), at(sw, roof(z0), z0), at(sw, roof(z1), z1), at(-sw, roof(z1), z1)], fade(theme.ceil, z0, 6));
+      for (const sx of [-sw, sw]) poly([at(sx, roof(z0), z0), at(sx, roof(z1), z1), at(sx, ground(z1) - (down ? rise : 0), z1), at(sx, ground(z0) - (down ? rise : 0), z0)], fade(theme.wall, z0, sx < 0 ? 4 : 16));
+    }
+    // courses in the walls, running into the dark
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 1;
+    for (let hc = 0.125; hc < 1; hc += 0.25) for (const sx of [-sw, sw]) {
+      const a = at(sx, hc, 0), b = at(sx, hc, zEnd);
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    if (!down) {
+      // a grey light from the top of the climb, behind the last of the treads
+      const [lx, ly] = at(0, roof(zEnd) - 0.25, zEnd);
+      const g = ctx.createRadialGradient(lx, ly, 1, lx, ly, 22);
+      g.addColorStop(0, 'rgba(236,228,200,0.85)'); g.addColorStop(0.5, 'rgba(200,192,170,0.25)'); g.addColorStop(1, 'rgba(200,192,170,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, TEX, TEX);
+      // the treads and their risers, the far ones first
+      for (let i = N - 1; i >= 0; i--) {
+        const z0 = i * run, z1 = (i + 1) * run, h0 = i * rise, h1 = (i + 1) * rise;
+        poly([at(-sw, h0, z0), at(sw, h0, z0), at(sw, h1, z0), at(-sw, h1, z0)], fade(theme.wall, z0, 22));
+        poly([at(-sw, h1, z0), at(sw, h1, z0), at(sw, h1, z1), at(-sw, h1, z1)], fade(theme.floor, z0, -26));
+        // the nose of each tread, catching the light
+        const [ax, ay] = at(-sw, h1, z0), [bx] = at(sw, h1, z0);
+        ctx.fillStyle = `rgba(255,248,226,${(0.5 - i * 0.04).toFixed(2)})`; ctx.fillRect(Math.round(ax), Math.round(ay), Math.round(bx - ax), 1);
+      }
+    } else {
+      // far below, the glow of a light on some landing
+      const [lx, ly] = at(0, -1.1, zEnd * 1.6);
+      const g = ctx.createRadialGradient(lx, ly, 1, lx, ly, 16);
+      g.addColorStop(0, 'rgba(255,170,80,0.45)'); g.addColorStop(1, 'rgba(255,140,60,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, TEX, TEX);
+      // the treads dropping away: only the nearest show above the foot of the opening
+      for (let i = N - 1; i >= 0; i--) {
+        const z0 = 0.06 + i * run, h = -i * rise;
+        poly([at(-sw, h, z0), at(sw, h, z0), at(sw, h, z0 + run), at(-sw, h, z0 + run)], fade(theme.floor, z0, 10));
+        const [ax, ay] = at(-sw, h, z0), [bx] = at(sw, h, z0);
+        ctx.fillStyle = `rgba(255,240,210,${Math.max(0, 0.42 - i * 0.12).toFixed(2)})`; ctx.fillRect(Math.round(ax), Math.round(ay), Math.round(bx - ax), 1);
+      }
+      // the floor's own edge, where it drops
+      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0, TEX - 2, TEX, 2);
+    }
+    // grit over it all, so it sits with the hand-made stone round it
+    const img = ctx.getImageData(0, 0, TEX, TEX);
+    for (let i = 0; i < TEX * TEX; i++) { const n = (rng.next() - 0.5) * 14; for (let k = 0; k < 3; k++) img.data[i * 4 + k] = Math.max(0, Math.min(255, img.data[i * 4 + k] + n)); }
+    ctx.putImageData(img, 0, 0);
+    return c;
+  }
+
   function makeDecor(theme, wall, i) {
     return (theme.decor || []).map((name, k) => {
       const c = canvas(TEX, TEX);
@@ -1287,6 +1381,10 @@ const Assets = (() => {
       locked,
       stairsDown: makeStairs(theme, wall, true),
       stairsUp: makeStairs(theme, wall, false),
+      // the stairwell drawn in depth: its arch, and the flight beyond it
+      stairArch: makeStairArch(theme, wall),
+      stairsUpBack: makeStairBack(theme, false),
+      stairsDownBack: makeStairBack(theme, true),
       torchFrames: torches,
       fountain: makeFountain(theme, wall, false),
       fountainDry: makeFountain(theme, wall, true),
@@ -1453,7 +1551,7 @@ const Assets = (() => {
     return fr;
   }
 
-  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, held, carried, crackedDoor, burningDoor };
+  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
 })();
 
 export { Assets };

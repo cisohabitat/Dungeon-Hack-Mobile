@@ -120,6 +120,30 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a stair is drawn as a stairwell behind its arch, from the side it is come at by, and as plain wall from any other', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    const look = async (fn) => page.evaluate(async (src) => {
+      // eslint-disable-next-line no-new-func
+      new Function(src)();
+      const P = Game.player(), c = Game.renderState(performance.now()).cam;
+      c.x = c.toX = P.x + 0.5; c.y = c.toY = P.y + 0.5; c.angle = c.toA = P.dir * Math.PI / 2 - Math.PI / 2; c.moving = false;
+      let most = 0;
+      for (let i = 0; i < 6; i++) { await new Promise(r => requestAnimationFrame(r)); most = Math.max(most, Renderer.stairColumns); }
+      return most;
+    }, fn);
+    // a square out from the stair up, turned round to it: the stairwell behind its arch
+    const facing = await look(`const P = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[L.start.dir];
+      L.monsters.length = 0; P.x = L.start.x + dx; P.y = L.start.y + dy; P.dir = (L.start.dir + 2) % 4;`);
+    expect(facing, 'columns seen into the stairwell').toBeGreaterThan(20);
+    // the same stair from a square off to its side, with that face open: plain wall, no stairwell
+    const side = await look(`const P = Game.player(), L = Game.level(), s = L.stairsUp, k = (L.start.dir + 1) % 4, [dx, dy] = Dungeon.DIRS[k];
+      L.tiles[(s.y - dy) * L.w + s.x - dx] = Dungeon.T.FLOOR; P.x = s.x - dx; P.y = s.y - dy; P.dir = k;`);
+    expect(side).toBe(0);
+    expect(errors).toEqual([]);
+  });
+
   test('a pillar standing free in a room is drawn narrower than its square; a block joined to a wall is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);
