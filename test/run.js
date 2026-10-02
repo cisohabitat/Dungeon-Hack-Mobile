@@ -435,6 +435,79 @@ check(traders > 0, 'no traders generated at all');
   check(longWay === 0, `${longWay} traders or encounters on a Long Delve's floors stand in the way`);
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot, ${together} squares with finds together`);
 }
+// The shape of a floor: rooms of many shapes, joined as a network with loops
+// and without corridors smeared two wide, and one set piece on every floor
+// whose walls are whole.
+{
+  const SHAPE_NAMES = ['box', 'colonnade', 'cross', 'ell', 'niches', 'cave', 'gallery'];
+  const shapesSeen = new Set(), piecesBadWalls = [], noLoop = [], smeared = [], noPiece = [], pieceKinds = {};
+  let shapeKinds = 0, floors = 0, missingFind = 0, dryCistern = 0, noBasin = 0;
+  const pass = (L, i) => [T.FLOOR, T.DOOR, T.DOOR_LOCKED, T.DOOR_OPEN].includes(L.tiles[i]);
+  for (let s = 0; s < 40; s++) {
+    const seen = new Set();
+    for (let depth = 1; depth <= 8; depth++) {
+      const size = ['small', 'medium', 'large'][s % 3];
+      const L = Dungeon.generate('shape' + s, depth, { levels: 8, size, monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+      floors++;
+      const here = new Set(L.rooms.map(r => r.shape).filter(k => SHAPE_NAMES.includes(k)));
+      here.forEach(k => shapesSeen.add(k));
+      shapeKinds += here.size;
+      if (!L.piece) { noPiece.push(`shape${s}/${depth}`); continue; }
+      seen.add(L.piece.kind);
+      pieceKinds[L.piece.kind] = (pieceKinds[L.piece.kind] || 0) + 1;
+      // what joins the set piece to the rest: open squares outside it beside its floor
+      const pr = L.piece.room, ways = new Set();
+      for (let i = 0; i < L.w * L.h; i++) {
+        if (L.roomId[i] !== pr || L.tiles[i] !== T.FLOOR) continue;
+        const x = i % L.w, y = (i / L.w) | 0;
+        for (const [dx, dy] of Dungeon.DIRS) { const j = (y + dy) * L.w + x + dx; if (pass(L, j) && L.roomId[j] !== pr) ways.add(j); }
+      }
+      // the squares among those that lead on out (a cell's door leads only from
+      // its cell to its own aisle): two ends of a cell block's aisle, three ways into a shrine
+      const most = { cells: 2, shrine: 3 }[L.piece.kind];
+      const outside = [...ways].filter(j => !Dungeon.DIRS.every(([dx, dy]) => { const k = j + dy * L.w + dx; return L.roomId[k] === pr || !pass(L, k); }));
+      if (most && outside.length > most) piecesBadWalls.push(`shape${s}/${depth} ${L.piece.kind}: ${outside.length} ways out`);
+      // what each holds
+      const inPiece = k => { const [x, y] = k.split(',').map(Number); return L.roomId[y * L.w + x] === pr; };
+      if (L.piece.kind !== 'cistern' && L.piece.kind !== 'shrine' && !Object.keys(L.items).some(inPiece)) missingFind++;
+      if (L.piece.kind === 'cistern' && (L.dressing || []).filter(d => d.k === 'puddle' && L.roomId[d.y * L.w + d.x] === pr).length < 10) dryCistern++;
+      if (L.piece.kind === 'shrine' && !L.tiles.some((t, i) => t === T.FOUNTAIN && Dungeon.DIRS.some(([dx, dy]) => L.roomId[i + dy * L.w + dx] === pr))) noBasin++;
+      // loops: rooms counted as one place each, the corridors as squares; the
+      // count of independent rounds a hero could walk
+      const node = i => (L.roomId[i] >= 0 ? 'r' + L.roomId[i] : 'c' + i);
+      const V = new Set(), E = new Set(), reached = new Uint8Array(L.w * L.h), q = [L.start.y * L.w + L.start.x];
+      reached[q[0]] = 1;
+      for (let k = 0; k < q.length; k++) {
+        const i = q[k], x = i % L.w, y = (i / L.w) | 0;
+        V.add(node(i));
+        for (const [dx, dy] of Dungeon.DIRS) {
+          const j = (y + dy) * L.w + x + dx;
+          if (!pass(L, j)) continue;
+          const a = node(i), b = node(j);
+          if (a !== b) E.add(a < b ? a + '|' + b : b + '|' + a);
+          if (!reached[j]) { reached[j] = 1; q.push(j); }
+        }
+      }
+      if (size !== 'small' && E.size - V.size + 1 < 1) noLoop.push(`shape${s}/${depth}`);
+      // a corridor two wide: four open corridor squares in a square, all reached without a secret door
+      for (let y = 1; y < L.h - 2; y++) for (let x = 1; x < L.w - 2; x++) {
+        const sq = [y * L.w + x, y * L.w + x + 1, (y + 1) * L.w + x, (y + 1) * L.w + x + 1];
+        if (sq.every(i => reached[i] && L.roomId[i] < 0 && L.tiles[i] === T.FLOOR)) { smeared.push(`shape${s}/${depth} at ${x},${y}`); break; }
+      }
+    }
+    if (seen.size < 4) noPiece.push(`shape${s} met only ${[...seen].join(', ')} in eight floors`);
+  }
+  for (const k of SHAPE_NAMES) check(shapesSeen.has(k), `no room was ever made a ${k}`);
+  check(shapeKinds / floors >= 3, `a floor holds only ${(shapeKinds / floors).toFixed(1)} shapes of room on average`);
+  check(!noPiece.length, `floors without their set piece, or runs missing one: ${noPiece.slice(0, 4).join('; ')}`);
+  check(!piecesBadWalls.length, `set pieces opened in their walls: ${piecesBadWalls.slice(0, 4).join('; ')}`);
+  check(missingFind === 0, `${missingFind} cell blocks or fallen halls held no find`);
+  check(dryCistern === 0, `${dryCistern} cisterns with little water`);
+  check(noBasin === 0, `${noBasin} shrines without their basin`);
+  check(!noLoop.length, `floors with no loop to walk round: ${noLoop.slice(0, 4).join('; ')}`);
+  check(smeared.length <= floors / 40, `${smeared.length} floors have a corridor two wide: ${smeared.slice(0, 3).join('; ')}`);
+  console.log(`floor shapes: ${floors} floors, ${(shapeKinds / floors).toFixed(1)} room shapes a floor, set pieces ${JSON.stringify(pieceKinds)}, ${smeared.length} with a wide corridor`);
+}
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
 }

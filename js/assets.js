@@ -1240,6 +1240,34 @@ const Assets = (() => {
     });
   }
 
+  /**
+   * A pillar: the walls' own stone, shaded round as a column is (lit down
+   * the middle, falling into shadow at either edge), with a capital at its
+   * head and a plinth at its foot, so it reads as standing free in a room.
+   */
+  function makePillar(theme, wall) {
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d');
+    ctx.drawImage(wall, 0, 0);
+    // round: a band of light a little left of the middle, dark toward both edges
+    for (let x = 0; x < TEX; x++) {
+      const u = (x + 0.5) / TEX, off = u - 0.42, shade = Math.min(0.62, off * off * 3.2);
+      ctx.fillStyle = `rgba(0,0,0,${shade.toFixed(3)})`;
+      ctx.fillRect(x, 0, 1, TEX);
+      if (Math.abs(off) < 0.08) { ctx.fillStyle = 'rgba(255,240,220,0.08)'; ctx.fillRect(x, 0, 1, TEX); }
+    }
+    // fluting: a few shallow grooves down its length
+    for (const gx of [10, 22, 34, 46, 56]) { ctx.fillStyle = 'rgba(0,0,0,0.16)'; ctx.fillRect(gx, 8, 1, TEX - 16); ctx.fillStyle = 'rgba(255,255,255,0.06)'; ctx.fillRect(gx + 1, 8, 1, TEX - 16); }
+    // the capital and the plinth: a broader band of dressed stone, lit on top, shadowed beneath
+    for (const [y0, h] of [[0, 7], [TEX - 8, 8]]) {
+      ctx.fillStyle = adjust(theme.wall, 8); ctx.fillRect(0, y0, TEX, h);
+      ctx.fillStyle = adjust(theme.wall, 30); ctx.fillRect(0, y0, TEX, 1);
+      ctx.fillStyle = adjust(theme.mortar, -10); ctx.fillRect(0, y0 + h - 1, TEX, 1);
+      for (let x = 0; x < TEX; x++) { const off = (x + 0.5) / TEX - 0.42; ctx.fillStyle = `rgba(0,0,0,${Math.min(0.5, off * off * 2.4).toFixed(3)})`; ctx.fillRect(x, y0, 1, h); }
+    }
+    ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.fillRect(0, 7, TEX, 2);
+    return c;
+  }
+
   function makeTheme(theme, i) {
     const wall = makeWall(theme, 'wall' + i, false);
     const wallCracked = makeWall(theme, 'crack' + i, true);
@@ -1249,8 +1277,11 @@ const Assets = (() => {
     // A level shows only one theme, so its decorations are painted the first
     // time the renderer asks for them rather than all six sets at startup.
     let decor = null;
+    let pillar = null;
     return {
       wall, wallCracked,
+      // (painted the first time a pillar is seen, as the decorations are)
+      get pillar() { return pillar || (pillar = makePillar(theme, wall)); },
       get decor() { return decor || (decor = makeDecor(theme, wall, i)); },
       door: makeDoor(theme, wall, null),
       locked,

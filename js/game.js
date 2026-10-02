@@ -2,6 +2,7 @@ import { Rng, Dice, d } from './rng.js';
 import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
+import { PIECE_SAY } from './rooms.js';
 import { ENCOUNTERS, encounterPlan } from './encounters.js';
 import { RELICS, GIANTS, POWER_SUFFIX, PREFIX_NAME, RELIC_SETS, relicPlan, routeRelic, twistRelic } from './relics.js';
 import { makeTrader } from './trader.js';
@@ -1959,8 +1960,15 @@ const Game = (() => {
     const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0) + (hasPower('seer') ? 0.35 : 0);
     if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < eye) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
-    if (G.status === 'playing') noticeStairs();
+    if (G.status === 'playing') { noticeStairs(); noticePiece(); }
     return true;
+  }
+  /** The first step into a floor's set piece: a line on what it is, once. */
+  function noticePiece() {
+    const L = lvl(), pc = L.piece;
+    if (!pc || pc.seen || !L.roomId || L.roomId[P().y * L.w + P().x] !== pc.room) return;
+    pc.seen = true;
+    if (PIECE_SAY[pc.kind]) log(PIECE_SAY[pc.kind], 'info');
   }
   function turn(dd) {
     const p = P();

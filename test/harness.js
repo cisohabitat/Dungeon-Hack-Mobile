@@ -38,6 +38,7 @@ async function loadGame(opts = {}) {
   const data = await import(url('data.js'));
   const rng = await import(url('rng.js'));
   const creatures = await import(url('creatures.js'));   // pure: parts and the painter
+  const rooms = await import(url('rooms.js'));           // pure: room shapes and set pieces
   const dungeon = await import(url('dungeon.js') + bust);
   const game = await import(url('game.js') + bust);
   return {
@@ -46,6 +47,7 @@ async function loadGame(opts = {}) {
     Rng: rng.Rng,
     Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
     store,
+    PIECE_SAY: rooms.PIECE_SAY, PIECE_IDS: rooms.PIECE_IDS,
     SHADE_GEAR: creatures.SHADE_GEAR, CHAMPIONS: creatures.CHAMPIONS, CHAMPION_OF: creatures.CHAMPION_OF, CREATURES: creatures.CREATURES, POSES: creatures.POSES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, gridOf: creatures.gridOf, paintParts: creatures.paintParts,
     // shared by every world: game.js imports it without the cache-buster
     Sound: (await import(url('sound.js'))).Sound,

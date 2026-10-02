@@ -367,22 +367,27 @@ await test('standing beside the stairs facing stone, the game points at them', a
   // it and searched it, and was told nothing useful either time.
   const ctx = await newContext();
   const { Game, Dungeon } = ctx, T = Dungeon.T;
-  Game.newGame({ name: 'S', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'stair-hint',
-    opts: { ...OPTS, lockedDoors: true, traps: true } });
+  // a seed whose stair has open floor beside its approach, along the wall
+  let side = null, ds = null, toward = 0;
+  for (let n = 0; n < 12 && !side; n++) {
+    Game.newGame({ name: 'S', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: n ? `stair-hint-${n}` : 'stair-hint',
+      opts: { ...OPTS, lockedDoors: true, traps: true } });
+    const L = Game.level();
+    ds = L.downStart; toward = (ds.dir + 2) % 4;     // arrival faces away from the stair
+    for (const turn of [1, 3]) {
+      const k = (toward + turn) % 4, sx = ds.x - Dungeon.DIRS[k][0], sy = ds.y - Dungeon.DIRS[k][1];
+      // (and a plain wall beside the approach, to bump and search)
+      const plainWall = [0, 1, 2, 3].some(j => j !== toward && L.tiles[(ds.y + Dungeon.DIRS[j][1]) * L.w + ds.x + Dungeon.DIRS[j][0]] === T.WALL);
+      if (L.tiles[sy * L.w + sx] === T.FLOOR && plainWall) { side = { x: sx, y: sy, dir: k, turn }; break; }
+    }
+  }
+  if (!side) return 'no seed had floor and a plain wall beside the stair approach';
   const p = Game.player(), G = Game.state(), L = Game.level();
   L.monsters.length = 0;
   for (const k in L.items) delete L.items[k];
   let now = 0;
   const settle = () => { for (let i = 0; i < 20; i++) { now += 50; Game.update(now, 50); } };
   const say = fn => { const m = markLog(G); fn(); settle(); return linesSince(G, m).join(' | '); };
-  const ds = L.downStart, toward = (ds.dir + 2) % 4;     // arrival faces away from the stair
-  // a square beside the approach, along the wall
-  let side = null;
-  for (const turn of [1, 3]) {
-    const k = (toward + turn) % 4, sx = ds.x - Dungeon.DIRS[k][0], sy = ds.y - Dungeon.DIRS[k][1];
-    if (L.tiles[sy * L.w + sx] === T.FLOOR) { side = { x: sx, y: sy, dir: k, turn }; break; }
-  }
-  if (!side) return 'no floor beside the stair approach on this seed';
   p.x = side.x; p.y = side.y; p.dir = side.dir; settle();
   const stepped = say(() => Game.input('forward'));
   const where = side.turn === 1 ? 'on your left' : 'on your right';
@@ -2399,15 +2404,18 @@ await test('a save without the late-monster count picks it up past the highest n
 });
 
 await test('a fleeing monster never runs onto the hero, even when its map of the way is stale', async () => {
-  const ctx = await start('fighter', 'flee-onto');
-  const { Game, Dungeon } = ctx; const T = Dungeon.T;
+  // a straight corridor five squares long, on the first seed that has one
+  let ctx = null, row = null;
+  for (let n = 0; n < 12 && !row; n++) {
+    ctx = await start('fighter', n ? `flee-onto-${n}` : 'flee-onto');
+    const L = ctx.Game.level(), T = ctx.Dungeon.T;
+    const shut = (x, y) => L.tiles[y * L.w + x] !== T.FLOOR && L.tiles[y * L.w + x] !== T.DOOR_OPEN;
+    for (let y = 1; y < L.h - 1 && !row; y++) for (let x = 1; x < L.w - 5 && !row; x++) if ([0, 1, 2, 3, 4].every(k => L.tiles[y * L.w + x + k] === T.FLOOR && shut(x + k, y - 1) && shut(x + k, y + 1))) row = [x, y];
+  }
+  if (!row) return 'no straight corridor on any seed tried';
+  const { Game } = ctx;
   const G = Game.state(), L = Game.level(), p = Game.player();
   L.monsters.length = 0;
-  // a straight corridor five squares long
-  let row = null;
-  const shut = (x, y) => L.tiles[y * L.w + x] !== T.FLOOR && L.tiles[y * L.w + x] !== T.DOOR_OPEN;
-  for (let y = 1; y < L.h - 1 && !row; y++) for (let x = 1; x < L.w - 5 && !row; x++) if ([0, 1, 2, 3, 4].every(k => L.tiles[y * L.w + x + k] === T.FLOOR && shut(x + k, y - 1) && shut(x + k, y + 1))) row = [x, y];
-  if (!row) return 'no straight corridor on this floor';
   const [x0, y0] = row;
   p.x = x0; p.y = y0; p.dir = 1;
   Game.update(G.t + 16, 16);
@@ -3996,15 +4004,57 @@ await test('a trickster finding gold in an encounter is told the sum the purse r
   return 'no trickster found gold behind the wire in forty tries';
 });
 
+await test('every floor holds a set piece, and the first step into it says what it is, once', async () => {
+  const ctx = await start('fighter', 'piece-step', { levels: 8, size: 'medium' });
+  const { Game, Dungeon } = ctx; const G = Game.state(), T = Dungeon.T;
+  Game.player().hp = Game.player().maxHp = 9999;
+  const said = {};
+  for (let depth = 1; depth <= 4; depth++) {
+    if (depth > 1) downTo(ctx, depth);
+    const L = Game.level(), p = Game.player(), pc = L.piece;
+    if (!pc) return `floor ${depth} has no set piece`;
+    L.monsters.length = 0; L.npcs.length = 0;
+    // a square just outside it, beside one of its open squares, to step in from
+    let from = null;
+    for (let i = 0; i < L.w * L.h && !from; i++) {
+      if (L.roomId[i] !== pc.room || L.tiles[i] !== T.FLOOR) continue;
+      const x = i % L.w, y = (i / L.w) | 0;
+      for (let k = 0; k < 4 && !from; k++) {
+        const [dx, dy] = Dungeon.DIRS[k], ox = x - dx, oy = y - dy, o = oy * L.w + ox;
+        // (a way in may be a doorway: open it and step in from there)
+        if ([T.FLOOR, T.DOOR].includes(L.tiles[o]) && L.roomId[o] !== pc.room) { L.tiles[o] = L.tiles[o] === T.DOOR ? T.DOOR_OPEN : T.FLOOR; from = { x: ox, y: oy, dir: k }; }
+      }
+    }
+    if (!from) return `no way into the ${pc.kind} on floor ${depth}`;
+    const step = () => {
+      delete L.items[`${from.x + Dungeon.DIRS[from.dir][0]},${from.y + Dungeon.DIRS[from.dir][1]}`]; L.traps = {};
+      for (let i = 0; i < 40; i++) Game.update(G.t + 25, 25);     // the last step done with
+      p.x = from.x; p.y = from.y; p.dir = from.dir;
+      const m = markLog(G); Game.input('forward');
+      return { lines: linesSince(G, m), inside: L.roomId[p.y * L.w + p.x] === pc.room };
+    };
+    const first = step();
+    if (!first.inside || !first.lines.includes(ctx.PIECE_SAY[pc.kind])) return `stepping into the ${pc.kind} (${first.inside ? 'in' : 'not in'}) said: ${first.lines.join(' | ')}`;
+    const again = step();
+    if (!again.inside) return `the second step did not go into the ${pc.kind}`;
+    // (counted over the whole log: a line said again straight after itself is folded into one)
+    const told = countSaid(G.log.map(e => e.m), new RegExp('^' + ctx.PIECE_SAY[pc.kind].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    if (told !== 1) return `the ${pc.kind} was told of ${told} times`;
+    said[pc.kind] = true;
+  }
+  return Object.keys(said).length === 4 || `four floors met only ${Object.keys(said).join(', ')}`;
+});
+
 await test('a champion risen on a restless floor keeps a champion\'s life', async () => {
-  // seed rs59's second floor is restless, and an Ancient there rises as an
+  // seed rs76's second floor is restless, and an Ancient there rises as an
   // Ancient zombie: one once had the life of a plain zombie, within one roll of 4d8+2
-  // (rs4 was the seed until the overgrown floors took its second floor)
-  const ctx = await start('fighter', 'rs59', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
+  // (rs4 was the seed until the overgrown floors took its second floor, and rs59
+  // until the rooms took shapes)
+  const ctx = await start('fighter', 'rs76', { levels: 8, size: 'medium', monsters: 'normal', lockedDoors: true, traps: true, difficulty: 'normal' });
   const { Game, MONSTERS } = ctx;
   while (Game.state().depth < 2) { Game.level().monsters.length = 0; Game.descend(); }
   const L = Game.level();
-  if (L.twist !== 'restless') return `floor 2 of rs59 is ${L.twist || 'plain'} now: pick another seed`;
+  if (L.twist !== 'restless') return `floor 2 of rs76 is ${L.twist || 'plain'} now: pick another seed`;
   const risen = L.monsters.filter(m => m.elite && MONSTERS[m.id].undead && m.elite === 'Ancient');
   if (!risen.length) return 'no Ancient rose on that floor: pick another seed';
   const plainMost = b => b.hp[0] * b.hp[1] + b.hp[2] + 1;

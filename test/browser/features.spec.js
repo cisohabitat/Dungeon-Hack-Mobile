@@ -1220,10 +1220,13 @@ test.describe('dungeon features', () => {
       const L = Game.level(), p = Game.player(), c = /** @type {HTMLCanvasElement} */ (document.querySelector('#map-canvas'));
       const m = L.monsters.slice().sort((a, b) => (Math.abs(b.x - p.x) + Math.abs(b.y - p.y)) - (Math.abs(a.x - p.x) + Math.abs(a.y - p.y)))[0];
       const size = Number(c.dataset.tile), ox = Number(c.dataset.originX), oy = Number(c.dataset.originY);
-      // (just inside the mark's dark edge, halfway down: clear of its letter)
-      const inX = Math.ceil(size * 0.1 + Math.max(1, Math.round(size / 10))) + 1;
-      const d = c.getContext('2d').getImageData((m.x - ox) * size + inX, (m.y - oy) * size + Math.round(size / 2), 1, 1).data;
-      return d[0] > 200 && d[1] < 90 && d[2] < 90;
+      // (along the middle of the mark, inside its dark edge: some of it red, whatever letter crosses it)
+      const ctx2 = c.getContext('2d'), y = (m.y - oy) * size + Math.round(size / 2);
+      for (let dx = 1; dx < size - 1; dx++) {
+        const d = ctx2.getImageData((m.x - ox) * size + dx, y, 1, 1).data;
+        if (d[0] > 200 && d[1] < 90 && d[2] < 90) return true;
+      }
+      return false;
     });
     expect(red).toBe(true);
     await page.click('#ov-map [data-close]');
@@ -1491,7 +1494,12 @@ test.describe('dungeon features', () => {
     await startGame(page, { seed: 'living-flask' });
     await clearBoons(page);
     await faceOpenGround(page, 3);
-    await page.evaluate(() => { const L = Game.level(); L.monsters.length = 0; L.fields = {}; Game.player().inv.push({ t: 'lamp_oil', q: 2, e: 0 }); });
+    // (open floor ahead, three wide, whatever shape of room the hero came into: room for the oil to run)
+    await page.evaluate(() => {
+      const L = Game.level(), p = Game.player(), [dx, dy] = Dungeon.DIRS[p.dir];
+      for (let k = 1; k <= 5; k++) for (let s = -1; s <= 1; s++) { const x = p.x + dx * k + dy * s, y = p.y + dy * k + dx * s; if (x > 0 && y > 0 && x < L.w - 1 && y < L.h - 1) { L.tiles[y * L.w + x] = Dungeon.T.FLOOR; delete L.items[x + ',' + y]; } }
+      L.monsters.length = 0; L.fields = {}; Game.player().inv.push({ t: 'lamp_oil', q: 2, e: 0 });
+    });
     await page.click('[data-open="inv"]');
     await expect(page.locator('#ov-inv')).toHaveClass(/open/);
     await page.locator('#inv-grid .slot.filled').filter({ has: page.locator('img') }).last().click();

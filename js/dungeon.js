@@ -2,6 +2,7 @@ import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES, WALL_PROPS } from './data.js';
 import { encounterPlan } from './encounters.js';
 import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
+import { SHAPES, PIECE_IDS, roomShape, piece } from './rooms.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
@@ -32,6 +33,9 @@ function tierAt(depth, levels) {
  */
 // How often a room's finds are gathered onto one square, and how many at most
 const TOGETHER = 0.4, TOGETHER_MOST = 3;
+// how much room floor counts as one room's worth (see `worth`): set so a floor
+// holds about as many creatures and finds as when every room was a plain box
+const ROOM_WORTH = 21;
 
 /**
  * Where the stair divides, and which floors follow the road taken: the fork
@@ -45,6 +49,20 @@ function routeSpan(levels) {
   const fork = Math.max(2, Math.round(levels * 0.35));
   return { fork, from: fork + 1, to: levels - 2 };
 }
+/**
+ * Which set piece each floor of a run holds: the four dealt in a shuffled
+ * order and dealt again, so a delve meets each before it meets one twice.
+ * Its own stream, so the plan never moves the map's dice.
+ * @param {string} seed @param {number} levels @returns {Record<number, string>}
+ */
+function piecePlan(seed, levels) {
+  const deck = new Rng(`${seed}|pieces`).shuffle(PIECE_IDS.slice());
+  /** @type {Record<number, string>} */
+  const plan = {};
+  for (let d = 1; d <= levels; d++) plan[d] = deck[(d - 1) % deck.length];
+  return plan;
+}
+
 /** @param {string} seed @param {number} levels @param {string} [route] */
 function namedPlan(seed, levels, route) {
   const rng = new Rng(`${seed}|named`);
@@ -160,38 +178,182 @@ const Dungeon = (() => {
     const lean = id => !route ? 1 : ROUTES[route].kin.includes(id) ? 3 : ROUTES[otherRoad].kin.includes(id) ? 1 / 3 : 1;
 
     // ---- rooms ----
+    // Each ordinary room takes a shape (rooms.js): a plain box, a colonnade, a
+    // cross, an L, a room with niches, a cavern or a long gallery. Every floor
+    // holds one set piece, laid first so it always finds room, and a floor of
+    // the middle size or more a great hall near its middle. A shape is laid
+    // into the map as floor, as stone that must stay stone (a pillar, a fallen
+    // block, a cell's wall: `keep`), and as the doors it brings with it.
     const rooms = [];
+    const keep = new Uint8Array(w * h);
     const maxRooms = Math.floor(w * h / 70);
-    for (let a = 0; a < 500 && rooms.length < maxRooms; a++) {
-      const rw = rng.int(3, 7), rh = rng.int(3, 6);
-      const rx = rng.int(2, w - rw - 3), ry = rng.int(2, h - rh - 3);
-      let ok = true;
-      for (const r of rooms) {
-        if (rx < r.x + r.w + 2 && rx + rw + 2 > r.x && ry < r.y + r.h + 2 && ry + rh + 2 > r.y) { ok = false; break; }
+    const fits = (rx, ry, rw, rh) => rx >= 2 && ry >= 2 && rx + rw <= w - 3 && ry + rh <= h - 3
+      && !rooms.some(r => rx < r.x + r.w + 2 && rx + rw + 2 > r.x && ry < r.y + r.h + 2 && ry + rh + 2 > r.y);
+    /** @param {any} R @param {string} [kind] */
+    const placeRoom = (R, tries, near, kind) => {
+      for (let a = 0; a < tries; a++) {
+        const rx = near ? rng.int(Math.floor((w - R.w) / 2) - 5, Math.floor((w - R.w) / 2) + 5) : rng.int(2, w - R.w - 3);
+        const ry = near ? rng.int(Math.floor((h - R.h) / 2) - 5, Math.floor((h - R.h) / 2) + 5) : rng.int(2, h - R.h - 3);
+        if (fits(rx, ry, R.w, R.h)) { rooms.push({ x: rx, y: ry, w: R.w, h: R.h, R, piece: kind || null, cx: 0, cy: 0, size: 0 }); return true; }
       }
-      if (!ok) continue;
-      rooms.push({ x: rx, y: ry, w: rw, h: rh, cx: rx + (rw >> 1), cy: ry + (rh >> 1) });
-    }
-    rooms.sort((a, b) => a.cx - b.cx || a.cy - b.cy);
+      return false;
+    };
+    const pieceKind = piecePlan(seed, opts.levels || 8)[depth] || null;
+    if (pieceKind) placeRoom(piece(rng, pieceKind), 200, false, pieceKind);
+    if (w >= 36) placeRoom(roomShape(rng, rng.chance(0.4) ? 'cave' : 'hall', true), 120, true);
+    for (let a = 0; a < 1500 && rooms.length < maxRooms; a++) placeRoom(roomShape(rng, rng.weighted(SHAPES)), 1, false);
+    rooms.sort((a, b) => (a.x + a.w / 2) - (b.x + b.w / 2) || a.y - b.y);
+    const pieceDoors = [], seal = new Uint8Array(w * h), mouth = new Uint8Array(w * h);
+    let pieceFountain = null;
     rooms.forEach((r, id) => {
       r.id = id;
-      for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) { tiles[idx(x, y)] = T.FLOOR; roomId[idx(x, y)] = id; }
+      const R = r.R;
+      for (let y = 0; y < R.h; y++) for (let x = 0; x < R.w; x++) {
+        const v = R.g[y * R.w + x], i = idx(r.x + x, r.y + y);
+        if (v === 1) { tiles[i] = T.FLOOR; roomId[i] = id; r.size++; }
+        else if (v === 2) keep[i] = 1;
+        else if (v === 3) { tiles[i] = T.DOOR; keep[i] = 1; pieceDoors.push({ x: r.x + x, y: r.y + y }); }
+      }
+      // its middle: the open square nearest the middle of its bounds
+      let bd = Infinity;
+      for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+        if (roomId[idx(x, y)] !== id) continue;
+        const d = Math.abs(x + 0.5 - (r.x + r.w / 2)) + Math.abs(y + 0.5 - (r.y + r.h / 2));
+        if (d < bd) { bd = d; r.cx = x; r.cy = y; }
+      }
     });
+    // What a floor's rooms are worth in creatures, finds and torches: by the
+    // floor they cover, since a shaped room is often bigger and a floor has
+    // fewer of them (counted by rooms, a floor came to hold a fifth fewer creatures).
+    const worth = Math.max(rooms.length, Math.round(rooms.reduce((n, r) => n + r.size, 0) / ROOM_WORTH));
+    // a sealed set piece is entered by its mouths alone, so its walls stay whole
+    for (const r of rooms) {
+      if (!r.R.sealed) continue;
+      for (const [mx, my] of r.R.mouths || []) mouth[idx(r.x + mx, r.y + my)] = 1;
+      for (let y = r.y - 1; y <= r.y + r.h; y++) for (let x = r.x - 1; x <= r.x + r.w; x++) {
+        const i = idx(x, y);
+        // (beside its doors too, or a corridor brushing past a cell's door opens the cell onto it)
+        if (tiles[i] === T.WALL && !mouth[i] && DIRS.some(([dx, dy]) => roomId[idx(x + dx, y + dy)] === r.id || (tiles[idx(x + dx, y + dy)] === T.DOOR && keep[idx(x + dx, y + dy)]))) seal[i] = 1;
+      }
+      if (r.R.fountain) pieceFountain = { x: r.x + r.R.fountain[0], y: r.y + r.R.fountain[1] };
+    }
 
-    // ---- corridors ----
+    // ---- corridors: the rooms joined as a network ----
+    // Each room to its nearest as a tree, so none is left out, and then a few
+    // links between rooms the tree had left far apart, so a floor has loops to
+    // circle round and fewer long walks back out of a dead end. Each corridor
+    // is dug the cheapest way: along one already dug rather than beside it,
+    // never along a room's wall (which opened it like a wound), never through
+    // a pillar or a set piece's walls, and turning no more than it must, with
+    // a little wander from the grain of the stone.
     const carve = (x, y) => {
-      if (x <= 0 || y <= 0 || x >= w - 1 || y >= h - 1) return;
+      if (x <= 0 || y <= 0 || x >= w - 1 || y >= h - 1 || keep[idx(x, y)]) return;
       if (tiles[idx(x, y)] === T.WALL) tiles[idx(x, y)] = T.FLOOR;
     };
+    // the old way, straight lines between middles: only if the cheapest way finds none
     function corridor(a, b) {
       let x = a.cx, y = a.cy;
       const goX = () => { while (x !== b.cx) { x += Math.sign(b.cx - x); carve(x, y); } };
       const goY = () => { while (y !== b.cy) { y += Math.sign(b.cy - y); carve(x, y); } };
       if (rng.chance(0.5)) { goX(); goY(); } else { goY(); goX(); }
     }
-    for (let i = 1; i < rooms.length; i++) corridor(rooms[i - 1], rooms[i]);
-    const extra = Math.max(1, Math.floor(rooms.length / 4));
-    for (let i = 0; i < extra; i++) corridor(rng.pick(rooms), rng.pick(rooms));
+    const grain = Array.from({ length: w * h }, () => rng.next() * 1.4);
+    const TURN = 1.5;
+    const open = i => tiles[i] === T.FLOOR;
+    const nextTo = (i, f) => { const x = i % w, y = (i / w) | 0; return DIRS.some(([dx, dy]) => f(idx(x + dx, y + dy))); };
+    /**
+     * What it costs to dig into (or walk on along) square i, on the way out of
+     * room `from`. A loop's corridor is dug `fresh`: along the corridors already
+     * dug it would only follow the tree round, and make no loop at all.
+     */
+    function stepCost(i, from, fresh) {
+      const x = i % w, y = (i / w) | 0;
+      if (x <= 0 || y <= 0 || x >= w - 1 || y >= h - 1 || keep[i] || seal[i]) return Infinity;
+      if (open(i)) return roomId[i] < 0 ? (fresh ? 5 : 0.6) : roomId[i] === from ? Infinity : fresh ? 8 : 2.5;
+      if (tiles[i] !== T.WALL) return Infinity;
+      if (mouth[i]) return 1;
+      if (nextTo(i, j => open(j) && roomId[j] >= 0)) return 8 + grain[i];
+      return 2 + grain[i] + (nextTo(i, j => open(j) && roomId[j] < 0) ? (fresh ? 7 : 2.5) : 0);
+    }
+    function dig(a, b, fresh = false) {
+      const N = w * h * 5, best = new Float64Array(N).fill(Infinity), prev = new Int32Array(N).fill(-1);
+      // a little binary heap of [cost, state]; a state is a square and the way it was entered (4: not yet moved)
+      const hc = [], hs = [];
+      const push = (c, st) => {
+        let k = hc.length; hc.push(c); hs.push(st);
+        while (k > 0) { const p = (k - 1) >> 1; if (hc[p] <= hc[k]) break; [hc[p], hc[k]] = [hc[k], hc[p]]; [hs[p], hs[k]] = [hs[k], hs[p]]; k = p; }
+      };
+      const pop = () => {
+        const c = hc[0], st = hs[0], lc = hc.pop(), ls = hs.pop();
+        if (hc.length) {
+          hc[0] = lc; hs[0] = ls;
+          for (let k = 0; ;) {
+            const l = 2 * k + 1, r = l + 1; let m = k;
+            if (l < hc.length && hc[l] < hc[m]) m = l;
+            if (r < hc.length && hc[r] < hc[m]) m = r;
+            if (m === k) break;
+            [hc[m], hc[k]] = [hc[k], hc[m]]; [hs[m], hs[k]] = [hs[k], hs[m]]; k = m;
+          }
+        }
+        return [c, st];
+      };
+      for (let i = 0; i < w * h; i++) if (roomId[i] === a.id && open(i)) { best[i * 5 + 4] = 0; push(0, i * 5 + 4); }
+      let end = -1;
+      while (hc.length) {
+        const [c, st] = pop();
+        if (c > best[st]) continue;
+        const i = (st / 5) | 0, came = st % 5;
+        if (roomId[i] === b.id && open(i)) { end = st; break; }
+        const x = i % w, y = (i / w) | 0;
+        for (let k = 0; k < 4; k++) {
+          const j = idx(x + DIRS[k][0], y + DIRS[k][1]);
+          let step = roomId[j] === b.id && open(j) ? 0 : stepCost(j, a.id, fresh);
+          if (step === Infinity) continue;
+          if (came < 4 && came !== k) step += TURN;
+          const ns = j * 5 + k;
+          if (c + step < best[ns]) { best[ns] = c + step; prev[ns] = st; push(c + step, ns); }
+        }
+      }
+      if (end < 0) return false;
+      for (let st = end; st >= 0; st = prev[st]) { const i = (st / 5) | 0; if (tiles[i] === T.WALL) tiles[i] = T.FLOOR; }
+      return true;
+    }
+    const between = (a, b) => Math.abs(a.cx - b.cx) + Math.abs(a.cy - b.cy);
+    const links = [];
+    {
+      const inTree = rooms.slice(0, 1), outside = rooms.slice(1);
+      while (outside.length) {
+        let bi = 0, bj = 0, bd = Infinity;
+        for (let i = 0; i < inTree.length; i++) for (let j = 0; j < outside.length; j++) {
+          const d = between(inTree[i], outside[j]);
+          if (d < bd) { bd = d; bi = i; bj = j; }
+        }
+        links.push([inTree[bi], outside[bj]]);
+        inTree.push(outside[bj]); outside.splice(bj, 1);
+      }
+    }
+    // how many links apart two rooms are
+    const hops = (a, b) => {
+      const seen = new Map([[a, 0]]), q = [a];
+      for (let k = 0; k < q.length; k++) for (const [p, r] of links) {
+        const o = p === q[k] ? r : r === q[k] ? p : null;
+        if (o && !seen.has(o)) { seen.set(o, seen.get(q[k]) + 1); q.push(o); }
+      }
+      return seen.has(b) ? seen.get(b) : Infinity;
+    };
+    const loops = Math.max(1, Math.round(rooms.length / 5));
+    const pairs = [];
+    for (let i = 0; i < rooms.length; i++) for (let j = i + 1; j < rooms.length; j++) if (between(rooms[i], rooms[j]) <= 22) pairs.push([rooms[i], rooms[j]]);
+    pairs.sort((p, q) => between(p[0], p[1]) - between(q[0], q[1]));
+    for (const [a, b] of pairs) {
+      if (links.length >= rooms.length - 1 + loops) break;
+      // a loop worth walking: rooms the links already set three or more apart
+      if (hops(a, b) < 3 || rng.chance(0.3)) continue;
+      links.push([a, b]);
+    }
+    // and at least one, if only a short one, on a floor of few rooms
+    if (links.length < rooms.length) { const p = pairs.find(([a, b]) => hops(a, b) >= 2); if (p) links.push(p); }
+    links.forEach(([a, b], k) => { if (!dig(a, b, k >= rooms.length - 1)) corridor(a, b); });
 
     // ---- doors ----
     const doors = [];
@@ -210,6 +372,9 @@ const Dungeon = (() => {
         if (rng.chance(0.75)) { tiles[i] = T.DOOR; doors.push({ x, y }); }
       }
     }
+    // a set piece's own doors (a cell's) may be locked like any other
+    doors.push(...pieceDoors);
+    if (pieceFountain) tiles[idx(pieceFountain.x, pieceFountain.y)] = T.FOUNTAIN;
 
     // ---- BFS helper ----
     function bfs(sx, sy, lockedSolid) {
@@ -234,47 +399,55 @@ const Dungeon = (() => {
     }
 
     // ---- stairs slots (a wall tile on a room's edge, facing into the room) ----
-    function wallSlot(room, relaxed) {
+    function wallSlot(room, relaxed, longest = false) {
       // `relaxed` drops the tidiness requirements. The strict pass wants a wall
       // that touches exactly one floor square and no door, which reads best; the
       // relaxed pass takes any wall the room touches, so that a room can always
       // yield somewhere to put a staircase.
       const cands = [];
-      const tryS = (sx, sy, fx, fy, dir) => {
-        if (get(sx, sy) !== T.WALL) return;
-        let floors = 0, doorAdj = false;
-        for (const [dx, dy] of DIRS) {
-          const t = get(sx + dx, sy + dy);
-          if (t !== T.WALL) floors++;
-          if (t === T.DOOR) doorAdj = true;
+      // any stone beside one of its open squares, not a pillar or a cell's wall
+      for (let y = room.y; y < room.y + room.h; y++) for (let x = room.x; x < room.x + room.w; x++) {
+        if (roomId[idx(x, y)] !== room.id) continue;
+        for (let k = 0; k < 4; k++) {
+          const sx = x + DIRS[k][0], sy = y + DIRS[k][1];
+          if (get(sx, sy) !== T.WALL || keep[idx(sx, sy)] || seal[idx(sx, sy)]) continue;
+          let floors = 0, doorAdj = false;
+          for (const [dx, dy] of DIRS) {
+            const t = get(sx + dx, sy + dy);
+            if (t !== T.WALL) floors++;
+            if (t === T.DOOR) doorAdj = true;
+          }
+          if (relaxed ? floors >= 1 : (floors === 1 && !doorAdj)) cands.push({ x: sx, y: sy, fx: x, fy: y, dir: (k + 2) % 4 });
         }
-        if (relaxed ? floors >= 1 : (floors === 1 && !doorAdj)) cands.push({ x: sx, y: sy, fx, fy, dir });
-      };
-      for (let x = room.x; x < room.x + room.w; x++) {
-        tryS(x, room.y - 1, x, room.y, 2);
-        tryS(x, room.y + room.h, x, room.y + room.h - 1, 0);
       }
-      for (let y = room.y; y < room.y + room.h; y++) {
-        tryS(room.x - 1, y, room.x, y, 1);
-        tryS(room.x + room.w, y, room.x + room.w - 1, y, 3);
+      if (longest && cands.length) {
+        // the way in looks down the longest open line the room has, not into a near wall
+        const view = c => { let n = 0; while (n < 12 && get(c.fx + DIRS[c.dir][0] * (n + 1), c.fy + DIRS[c.dir][1] * (n + 1)) === T.FLOOR) n++; return n; };
+        const most = Math.max(...cands.map(view));
+        return rng.pick(cands.filter(c => view(c) === most));
       }
       return cands.length ? rng.pick(cands) : null;
     }
 
+    // the set piece is never where you come in, where you go down, or the lich's hall
+    const plain = rooms.filter(r => !r.piece);
+    // and you come in by a plain room, where the first thing ahead is the floor
+    // and not a pillar, so the way down begins somewhere easy to read
     let startRoom = null, upSlot = null;
-    for (const r of rooms) { upSlot = wallSlot(r); if (upSlot) { startRoom = r; break; } }
+    for (const r of [...plain.filter(q => q.R.shape === 'box'), ...plain.filter(q => q.R.shape !== 'box')]) { upSlot = wallSlot(r, false, true); if (upSlot) { startRoom = r; break; } }
     // No room offered a tidy slot. Rather than fail to build the level at all,
     // take any wall a room touches; every room has at least one.
     if (!upSlot) {
-      for (const r of rooms) { upSlot = wallSlot(r, true); if (upSlot) { startRoom = r; break; } }
+      for (const r of plain) { upSlot = wallSlot(r, true); if (upSlot) { startRoom = r; break; } }
     }
     if (!upSlot) throw new Error(`cannot place the entrance stair on level ${depth} of "${seed}"`);
     tiles[idx(upSlot.x, upSlot.y)] = T.STAIRS_UP;
     const start = { x: upSlot.fx, y: upSlot.fy, dir: upSlot.dir };
 
     const dist0 = bfs(start.x, start.y, false);
-    const byDist = rooms.filter(r => r !== startRoom).sort((a, b) => dist0[idx(b.cx, b.cy)] - dist0[idx(a.cx, a.cy)]);
-    let farRoom = byDist[0] || startRoom;
+    const byDist = plain.filter(r => r !== startRoom).sort((a, b) => dist0[idx(b.cx, b.cy)] - dist0[idx(a.cx, a.cy)]);
+    // the lich's hall is a hall: not a gallery two squares wide
+    let farRoom = (isFinal && byDist.find(r => r.size >= 20)) || byDist[0] || startRoom;
     let downStart = null, stairsDown = null;
     if (!isFinal) {
       for (const relaxed of [false, true]) {
@@ -367,7 +540,7 @@ const Dungeon = (() => {
     // Many ended before the stairs were found, most at character level one.
     const density = Math.min({ few: 0.6, normal: 1.0, many: 1.6 }[opts.monsters] || 1, depth === 1 ? 1.0 : Infinity);
     // (the lich's floor holds a quarter fewer: the danger there is meant to be the lich)
-    const count = Math.round((Math.round(rooms.length * density * 0.85) + Math.floor(depth / 3)) * (isFinal ? 0.75 : 1));
+    const count = Math.round((Math.round(worth * density * 0.85) + Math.floor(depth / 3)) * (isFinal ? 0.75 : 1));
     const mCands = [];
     for (let i = 0; i < w * h; i++) {
       if (tiles[i] !== T.FLOOR || dist0[i] < 5) continue;
@@ -419,16 +592,51 @@ const Dungeon = (() => {
     // ---- loot ----
     // an easy delve leaves more lying about
     const treasure = ({ scarce: 0.6, normal: 1.0, rich: 1.6 }[opts.treasure] || 1) * (opts.difficulty === 'easy' ? 1.3 : 1);
-    const nItems = Math.round(rooms.length * treasure * 0.8) + 2;
+    // (the set piece holds some of them: see below)
+    const pieceRoom = rooms.find(r => r.piece) || null;
+    const pieceLoot = pieceRoom ? (pieceRoom.R.loot || []).length : 0;
+    const nItems = Math.max(2, Math.round(worth * treasure * 0.8) + 2 - pieceLoot);
     const roomTiles = [];
-    for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y)) roomTiles.push(i);
-    const dropAt = it => { const c = rng.pick(roomTiles); addItem(c % w, (c / w) | 0, it); };
+    // (not where the set piece keeps its own finds)
+    const pieceSpots = new Set(pieceRoom ? (pieceRoom.R.loot || []).map(([x, y]) => idx(pieceRoom.x + x, pieceRoom.y + y)) : []);
+    for (let i = 0; i < w * h; i++) if (tiles[i] === T.FLOOR && roomId[i] >= 0 && i !== idx(start.x, start.y) && !pieceSpots.has(i)) roomTiles.push(i);
+    // (a square already holding two things is passed over, a few times, so finds never heap past three)
+    const dropAt = it => {
+      let c = rng.pick(roomTiles);
+      for (let t = 0; t < 6 && (items[(c % w) + ',' + ((c / w) | 0)] || []).length >= 2; t++) c = rng.pick(roomTiles);
+      addItem(c % w, (c / w) | 0, it);
+    };
     for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
     // a page left by the crews who came first, so the story unfolds as you descend
     if (depth >= 1 && depth <= JOURNAL.length) dropAt({ t: 'page', q: 1, page: depth - 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });
+
+    // ---- the set piece's own: what was left in it, and what sleeps there ----
+    // From a stream of its own. Its finds are some of the floor's, not more,
+    // a little the better for being sought out; and whatever sleeps in a cell
+    // takes the place of one of the floor's creatures, so it holds as many.
+    let pieceInfo = null;
+    if (pieceRoom) {
+      const prng = new Rng(`${seed}|piece|${depth}`), R = pieceRoom.R;
+      const here = ([x, y]) => [pieceRoom.x + x, pieceRoom.y + y];
+      for (const spot of R.loot || []) {
+        const [x, y] = here(spot);
+        addItem(x, y, rollLoot(prng, depth + 1));
+        if (pieceKind === 'rubble') addItem(x, y, { t: 'gold', q: prng.int(10, 25) * depth });
+      }
+      if (R.sleeper) {
+        const [x, y] = here(R.sleeper);
+        const other = monsters.findIndex(m => !m.elite && roomId[idx(m.x, m.y)] !== pieceRoom.id);
+        if (!occupied.has(idx(x, y)) && other >= 0) {
+          const gone = monsters.splice(other, 1)[0];
+          occupied.delete(idx(gone.x, gone.y));
+          monsters.push(makeMonster(prng.pick(pool), x, y, prng));
+        }
+      }
+      pieceInfo = { kind: pieceKind, room: pieceRoom.id, props: (R.props || []).map(q => { const [x, y] = here([q.x, q.y]); return { x, y, k: q.k }; }) };
+    }
 
     // ---- torches: wall brackets that light corridors and rooms ----
     const lights = [];
@@ -445,7 +653,7 @@ const Dungeon = (() => {
       }
       rng.shuffle(cands);
       // a dark floor keeps a torch in four
-      const want = Math.round((Math.round(rooms.length * 0.9) + 4) * (twist === 'dark' ? 0.25 : 1));
+      const want = Math.round((Math.round(worth * 0.9) + 4) * (twist === 'dark' ? 0.25 : 1));
       const minGap = 5;
       for (const c of cands) {
         if (lights.length >= want) break;
@@ -459,7 +667,7 @@ const Dungeon = (() => {
     // ---- features: fountains and secret vaults ----
     const features = {};
     if (rng.chance(0.55)) {
-      const cands = rng.shuffle(rooms.filter(r => r !== startRoom));
+      const cands = rng.shuffle(plain.filter(r => r !== startRoom));
       for (const r of cands) {
         const s = wallSlot(r);
         if (!s) continue;
@@ -470,7 +678,7 @@ const Dungeon = (() => {
     }
     const nVaults = rng.int(0, 2) + (depth >= 3 ? 1 : 0);
     for (let v = 0, tries = 0; v < nVaults && tries < 40; tries++) {
-      const r = rng.pick(rooms);
+      const r = rng.pick(plain);
       const s = wallSlot(r);
       if (!s) continue;
       const od = DIRS[(s.dir + 2) % 4]; // direction away from the room
@@ -544,11 +752,11 @@ const Dungeon = (() => {
     // two fifths of the way down, and the floor before the last
     const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === (opts.levels || 8) - 1;
     if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader || twist === 'market')) {
-      const cands = rooms.filter(r => r !== startRoom);
+      const cands = plain.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
-          if (tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y] && !inTheWay(x, y)) spots.push([x, y]);
+          if (tiles[idx(x, y)] === T.FLOOR && roomId[idx(x, y)] === r.id && !occupied.has(idx(x, y)) && !traps[x + ',' + y] && !items[x + ',' + y] && !inTheWay(x, y)) spots.push([x, y]);
         }
         if (!spots.length) continue;
         let chosen = null;
@@ -613,13 +821,13 @@ const Dungeon = (() => {
       if (encId === 'vigil') {
         const toHall = bfs(farRoom.cx, farRoom.cy, false);
         const far = r => { const v = toHall[idx(r.cx, r.cy)]; return v < 0 ? Infinity : v; };
-        roomsFor = rooms.filter(rr => rr !== startRoom && rr !== farRoom).sort((a, b) => far(a) - far(b)).concat([startRoom]);
-      } else roomsFor = erng.shuffle(rooms.filter(rr => rr !== startRoom));
+        roomsFor = plain.filter(rr => rr !== startRoom && rr !== farRoom).sort((a, b) => far(a) - far(b)).concat([startRoom]);
+      } else roomsFor = erng.shuffle(plain.filter(rr => rr !== startRoom));
       for (const r of roomsFor) {
         const spots = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
           const i = idx(x, y);
-          if (tiles[i] !== T.FLOOR || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y] || (x === start.x && y === start.y)) continue;
+          if (tiles[i] !== T.FLOOR || roomId[i] !== r.id || occupied.has(i) || traps[x + ',' + y] || items[x + ',' + y] || (x === start.x && y === start.y)) continue;
           // not in a doorway's mouth, where it would read as a wall across the way in, nor before a stair or fountain
           if (inTheWay(x, y)) continue;
           spots.push([x, y]);
@@ -652,7 +860,7 @@ const Dungeon = (() => {
         const out = [];
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
           const i = idx(x, y);
-          if (tiles[i] === T.FLOOR && dist0[i] >= 0 && !held.has(i) && !traps[x + ',' + y]) out.push(i);
+          if (tiles[i] === T.FLOOR && roomId[i] === r.id && dist0[i] >= 0 && !held.has(i) && !traps[x + ',' + y]) out.push(i);
         }
         return out;
       };
@@ -719,7 +927,8 @@ const Dungeon = (() => {
       const byRoom = new Map();
       for (const k in items) {
         const [x, y] = k.split(',').map(Number), r = roomId[idx(x, y)];
-        if (r < 0 || !items[k].every(movable)) continue;
+        // (not in the set piece: a cell's find stays in its cell)
+        if (r < 0 || (pieceRoom && r === pieceRoom.id) || !items[k].every(movable)) continue;
         if (!byRoom.has(r)) byRoom.set(r, []);
         byRoom.get(r).push(k);
       }
@@ -740,7 +949,7 @@ const Dungeon = (() => {
       const spots = [];
       for (const r of rooms) for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
         const k = `${x},${y}`;
-        if (tiles[idx(x, y)] !== T.FLOOR || items[k] || traps[k] || npcs.some(n => n.x === x && n.y === y) || (x === start.x && y === start.y)) continue;
+        if (tiles[idx(x, y)] !== T.FLOOR || roomId[idx(x, y)] !== r.id || items[k] || traps[k] || npcs.some(n => n.x === x && n.y === y) || (x === start.x && y === start.y)) continue;
         spots.push(k);
       }
       for (const k of crng.shuffle(spots).slice(0, 3)) items[k] = [{ t: 'caps', q: 1 + crng.int(0, 1) }];
@@ -753,8 +962,9 @@ const Dungeon = (() => {
     const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
-      theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h })),
+      theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h, shape: r.R.shape })),
     };
+    if (pieceInfo) L.piece = pieceInfo;
     L.dressing = dress(L, seed);
     return L;
   }
@@ -780,6 +990,8 @@ const Dungeon = (() => {
     // by either stair, nor in front of a stair or a fountain, nor in a doorway
     const taken = new Set([...Object.keys(L.items), ...(L.npcs || []).map(n => n.x + ',' + n.y), L.start.x + ',' + L.start.y]);
     if (L.downStart) taken.add(L.downStart.x + ',' + L.downStart.y);
+    // nor the square just ahead of where the hero arrives, so the first step is free
+    for (const a of [L.start, L.downStart]) if (a && a.dir != null) taken.add((a.x + DIRS[a.dir][0]) + ',' + (a.y + DIRS[a.dir][1]));
     const KEEP_CLEAR = [T.STAIRS_DOWN, T.STAIRS_UP, T.FOUNTAIN, T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET];
     for (let i = 0; i < w * L.h; i++) {
       const x = i % w, y = (i / w) | 0;
@@ -793,6 +1005,13 @@ const Dungeon = (() => {
       byRoom.get(L.roomId[i]).push(i);
     }
     const out = [];
+    // the set piece's own first: a cistern's water, a shrine's candles, a cell's bones
+    for (const q of (L.piece && L.piece.props) || []) {
+      const k = q.x + ',' + q.y;
+      if (taken.has(k) || L.tiles[q.y * w + q.x] !== T.FLOOR) continue;
+      taken.add(k);
+      out.push(q.k === 'puddle' ? { x: q.x, y: q.y, k: q.k, ox: 0, oy: 0, r: 0.34 } : { x: q.x, y: q.y, k: q.k, ox: 0, oy: 0 });
+    }
     for (const cells of byRoom.values()) {
       // a small room one or two things, a great hall up to four
       const n = Math.min(4, Math.round(cells.length / 16) + rng.int(0, 1));
@@ -861,7 +1080,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, TWIST_IDS, routeSpan };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan };
 })();
 
 export { Dungeon };

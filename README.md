@@ -263,11 +263,20 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 83% | 81.5% | 85% | 80.5% | 81% | 84% | about 82% |
-| Hard | 58% | 59% | 64% | 58% | 59.5% | 57.5% | about 59% |
+| Normal | 87.5% | 79% | 84% | 77% | 83% | 77% | about 81% |
+| Hard | 59% | 64% | 63% | 57.5% | 60% | 63.5% | about 61% |
 | Long Delve (12 floors), Normal | 78% | 83% | 76% | 79% | 84.5% | 77% | about 80% |
 | Long Delve (12 floors), Hard | 61% | 63% | 62.5% | 62% | 61.5% | 55.5% | about 61% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The Normal and Hard rows were measured again after the floors were built anew (rooms of many
+shapes, corridors that loop, a set piece on every floor), 200 runs a class on each of the two
+seed sets (`SEEDN=20`, then `SEEDPFX=alt`). A floor holds about as many creatures and finds as
+before, counted by the floor its rooms cover rather than by how many there are. Normal moved by
+about a point and Hard by about two. On the same seeds the old floors gave the cleric 85%, the
+thief 78.5% and the druid 81%, so the cleric and the thief are within noise. The druid's drop of
+about four points is not certain at 400 runs, and its wolf falls more often in the bigger rooms.
+The Long Delve and quick delve rows were not measured again.
 
 The quick delve row is one seed set, 200 runs a class (`LEVELS=2 SEEDN=20`). Two floors at the
 pace of eight brought heroes to the lich at the second or third level, and half of them died

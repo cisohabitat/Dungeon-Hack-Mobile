@@ -120,6 +120,31 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a pillar standing free in a room is drawn narrower than its square; a block joined to a wall is not', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(2);
+    const seen = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T, [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      // open floor about a square two ahead, and stone in the middle of it
+      const cx = p.x + dx * 2, cy = p.y + dy * 2;
+      for (let y = cy - 1; y <= cy + 1; y++) for (let x = cx - 1; x <= cx + 1; x++) { L.tiles[y * L.w + x] = T.FLOOR; delete L.items[x + ',' + y]; }
+      L.dressing = (L.dressing || []).filter(d => Math.abs(d.x - cx) > 1 || Math.abs(d.y - cy) > 1);
+      L.tiles[cy * L.w + cx] = T.WALL;
+      const frames = async () => { let most = 0; for (let i = 0; i < 6; i++) { await new Promise(r => requestAnimationFrame(r)); most = Math.max(most, Renderer.pillarColumns); } return most; };
+      const free = await frames();
+      // the same stone with a wall beside it is part of the wall
+      L.tiles[(cy + dx) * L.w + cx + dy] = T.WALL;
+      const joined = await frames();
+      return { free, joined };
+    });
+    expect(seen.free, 'columns of the free-standing pillar').toBeGreaterThan(10);
+    expect(seen.joined).toBe(0);
+    expect(errors).toEqual([]);
+  });
+
   test('a door slides into the wall as it is pushed open', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);

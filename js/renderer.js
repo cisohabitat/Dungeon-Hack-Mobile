@@ -339,6 +339,17 @@ const Renderer = (() => {
     }
   }
 
+  // A square of stone with no wall on any side stands alone in a room: a
+  // pillar, drawn as one (a colonnade's, a shrine's ring, a gallery's), not as
+  // a lump of wall that reads as a corridor's mouth.
+  const PILLAR_IN = 0.2;   // how far in from each side of its square a pillar stands
+  function standsAlone(level, x, y) {
+    const w = level.w, t = level.tiles;
+    if (x <= 0 || y <= 0 || x >= w - 1 || y >= level.h - 1) return false;
+    return t[y * w + x - 1] !== T.WALL && t[y * w + x + 1] !== T.WALL && t[(y - 1) * w + x] !== T.WALL && t[(y + 1) * w + x] !== T.WALL
+      && t[y * w + x - 1] !== T.TORCH && t[y * w + x + 1] !== T.TORCH && t[(y - 1) * w + x] !== T.TORCH && t[(y + 1) * w + x] !== T.TORCH;
+  }
+
   // sprites: [{x, y, img (sprite asset), scale, yOff, flash}]
   // ---------- the hero's hands ----------
   // What the hero holds, drawn at the bottom of the view: the weapon's own
@@ -769,7 +780,7 @@ const Renderer = (() => {
   // Water dripping from the roof: here and there over the floors near you a drop
   // gathers, falls, and splashes; more of them where the floor has flooded. Where
   // they fall and how often is fixed by the square, so they keep their places.
-  let dripsN = 0, doorsN = 0;   // (drops falling, and columns of a moving door, drawn in the last frame: for the tests)
+  let dripsN = 0, doorsN = 0, pillarsN = 0;   // (drops falling, columns of a moving door and of a pillar, drawn in the last frame: for the tests)
   function drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet) {
     dripsN = 0;
     const share = level.twist === 'flooded' ? 0.14 : 0.05, R = 5;
@@ -1587,7 +1598,7 @@ const Renderer = (() => {
     // what the elements have left on the floor: ash, spilt oil, ice, and fire burning over them
     drawStains(fieldStains(level, now, fx), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored, doorShut = fx.doorShut;
-    doorsN = 0;
+    doorsN = 0; pillarsN = 0;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
     for (let col = 0; col < W; col++) {
@@ -1598,7 +1609,7 @@ const Renderer = (() => {
       let stepX, stepY, sdx, sdy;
       if (rdx < 0) { stepX = -1; sdx = (px - mapX) * ddx; } else { stepX = 1; sdx = (mapX + 1 - px) * ddx; }
       if (rdy < 0) { stepY = -1; sdy = (py - mapY) * ddy; } else { stepY = 1; sdy = (mapY + 1 - py) * ddy; }
-      let side = 0, tile = T.WALL, n = 0, door = null;
+      let side = 0, tile = T.WALL, n = 0, door = null, colT = -1, colU = 0;
       while (n++ < 64) {
         if (sdx < sdy) { sdx += ddx; mapX += stepX; side = 0; } else { sdy += ddy; mapY += stepY; side = 1; }
         tile = getT(mapX, mapY);
@@ -1612,19 +1623,36 @@ const Renderer = (() => {
           if (wx < moving.shut) { door = moving; doorsN++; break; }
           continue;
         }
+        // a pillar standing free is narrower than its square: the ray strikes
+        // the column where it stands, and passes by it on either side
+        if (tile === T.WALL && standsAlone(level, mapX, mapY)) {
+          const x0 = mapX + PILLAR_IN, x1 = mapX + 1 - PILLAR_IN, y0 = mapY + PILLAR_IN, y1 = mapY + 1 - PILLAR_IN;
+          // (where the ray crosses into and out of the column's two pairs of sides; no arrays, as this runs per column)
+          let xa = -Infinity, xb = Infinity, ya = -Infinity, yb = Infinity;
+          if (rdx !== 0) { const a = (x0 - px) / rdx, b = (x1 - px) / rdx; xa = Math.min(a, b); xb = Math.max(a, b); } else if (px <= x0 || px >= x1) xa = Infinity;
+          if (rdy !== 0) { const a = (y0 - py) / rdy, b = (y1 - py) / rdy; ya = Math.min(a, b); yb = Math.max(a, b); } else if (py <= y0 || py >= y1) ya = Infinity;
+          const enter = Math.max(xa, ya), leave = Math.min(xb, yb);
+          if (enter <= leave && enter > 0) {
+            colT = enter; side = xa >= ya ? 0 : 1; pillarsN++;
+            const along = side === 0 ? py + enter * rdy : px + enter * rdx;
+            colU = Math.max(0, Math.min(0.999, (along - Math.floor(along) - PILLAR_IN) / (1 - 2 * PILLAR_IN)));
+            break;
+          }
+          continue;
+        }
         if (isSolid(tile)) break;
       }
-      const dist = side === 0 ? (sdx - ddx) : (sdy - ddy);
+      const dist = colT >= 0 ? colT : side === 0 ? (sdx - ddx) : (sdy - ddy);
       zbuf[col] = dist;
       if (dist > fog + 1) continue;
       const lineH = Math.floor(P / dist);
       const top = ((H - lineH) / 2) | 0;
       let wallX = side === 0 ? py + dist * rdy : px + dist * rdx;
-      wallX -= Math.floor(wallX);
+      wallX = colT >= 0 ? colU : wallX - Math.floor(wallX);
       // (a sliding door shows its leading part: what has gone into the wall is the part not seen)
       let tx = Math.max(0, Math.min(63, Math.floor((door ? wallX + 1 - door.shut : wallX) * 64)));
       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
-      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door) : texFor(tex, tile, mapX, mapY);
+      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door) : (tile === T.WALL && tex.pillar && standsAlone(level, mapX, mapY)) ? tex.pillar : texFor(tex, tile, mapX, mapY);
       if (!img) {
         if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
@@ -2057,7 +2085,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

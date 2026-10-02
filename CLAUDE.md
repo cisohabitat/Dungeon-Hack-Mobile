@@ -13,8 +13,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   and Entangle (`js/wild.js`), the encounters' engine (`js/meet.js`) and the
   elements acting on the place: fire, ice, oil, water (`js/elements.js`).
 - `js/dungeon.js`: level generation, deterministic per `(seed, depth)`. Plans
-  for a whole run (`namedPlan`, `twistPlan`) use their own `Rng` streams so they
-  never shift the map's dice.
+  for a whole run (`namedPlan`, `twistPlan`, `piecePlan`) use their own `Rng`
+  streams so they never shift the map's dice. Room shapes and the set pieces
+  (cells, shrine, cistern, rubble) are drawn in `js/rooms.js`; corridors join
+  the rooms as a tree plus a few loops, dug by a cheapest-path search.
 - `js/data.js`: classes, items, monsters, spells, talents, paths, names.
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
