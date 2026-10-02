@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03s', text: 'doors slide open and shut; a new floor rises out of the dark of the stair and a level sends light up through you; creatures blink and sleep with their eyes shut; a shade wears the gear of the hero it was; a lantern lights the dark floors, and loot worth having glints' };
+  const NEWS = { id: '2026-10-03t', text: 'a quick delve for a short game: pick 2 floors, and a lesser lich keeps the Heart at the bottom of the second, over in a quarter of an hour' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -203,7 +203,9 @@ const UI = (() => {
   /** What a delve of this many floors holds, under the options. */
   function levelsNote() {
     const n = parseInt($('#c-levels').value, 10);
-    $('#c-levels-note').textContent = n >= 12
+    $('#c-levels-note').textContent = n <= 2
+      ? 'A quick delve: two floors, a lesser lich keeping the Heart at the bottom of the second. Over in a quarter of an hour; trophies wait for four floors or more.'
+      : n >= 12
       ? `The Long Delve: ${n} floors. From the seventh the dark bites harder and its creatures are sturdier, three champions hold it, and a third of the way down the stair divides. A win is a feat of its own.`
       : Dungeon.routeSpan(n) ? 'A third of the way down, the stair divides: the Crypts or the Warrens, your choice.'
       : 'A short delve: the stair runs straight down, with no road to choose.';
@@ -2592,6 +2594,7 @@ const UI = (() => {
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
     if (G.tested) news.push('A test run (endless life, spell points or gold): it is not written in the Hall, and earns no trophy.');
+    else if (won && (G.opts.levels || 8) <= 2) news.push('A quick delve won: it goes in the Hall, but trophies wait for a delve of four floors or more.');
     else if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     // and the next thing to aim for, while a past is still locked
     else if (won) {

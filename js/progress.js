@@ -40,13 +40,15 @@ function clean(v) {
 }
 /** A Hall from before progress was kept still counts its wins: those on one
  * life. An entry from before the Hall said so counts; one that says it could
- * be reloaded does not, as recordWin would not have counted it either. */
+ * be reloaded does not, as recordWin would not have counted it either, nor
+ * does a quick delve's. */
 function fromHall() {
   let list = [];
   try { list = JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { /* nothing to count */ }
   const won = {};
   if (Array.isArray(list)) for (const h of list) {
-    if (!h || !h.won || !CLASSES[h.cls] || h.permadeath === false) continue;
+    // (nor a quick delve of two floors, which goes in the Hall but earns no trophy)
+    if (!h || !h.won || !CLASSES[h.cls] || h.permadeath === false || (h.levels && h.levels <= 2)) continue;
     const d = DIFFS.includes(h.difficulty) ? h.difficulty : 'normal';
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;

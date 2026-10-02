@@ -1062,6 +1062,9 @@ if (process.env.LICH) {
     const lamp = {};
     for (const r of last) lamp[r.lamp || 'never reached'] = (lamp[r.lamp || 'never reached'] || 0) + 1;
     console.log(`   ${cls}: ${last.length} reached the last floor; ${died.length} died there (${(died.length / Math.max(1, last.length) * 100).toFixed(1)}%), ${byLich.length} to the lich (${(byLich.length / Math.max(1, last.length) * 100).toFixed(1)}%)`);
+    const what = {};
+    for (const r of died) { const k = `${r.cause || '?'} (level ${r.level || '?'})`; what[k] = (what[k] || 0) + 1; }
+    console.log(`     killed by: ${Object.entries(what).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([k, n]) => `${k} ${n}`).join(' | ')}`);
     console.log(`     lamp: ${Object.entries(lamp).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(' | ')}`);
   }
 }

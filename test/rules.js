@@ -1868,6 +1868,21 @@ await test('the lich\'s rite calls a wraith to guard it, one at a time', async (
   return wraiths() === 1 || `${wraiths()} wraiths after a second rite with the first still standing`;
 });
 
+await test('a lesser lich, at the foot of a quick delve, calls one skeleton to guard its rite, not a wraith, one at a time', async () => {
+  const ctx = await start('fighter', 'rite-quick', { levels: 2 });
+  const { Game } = ctx; const p = Game.player(), G = Game.state();
+  p.hp = p.maxHp = 9999;
+  const m = beside(ctx, 'lich', { hp: 30, maxHp: 120, phase: 2, riteReady: 0, spoke: true, awake: true, nextAct: G.t });
+  for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+  if (!(m.windup && m.windup.move === 'rite')) return 'no rite began';
+  const guards = () => Game.level().monsters.filter(o => o.riteCalled);
+  if (Game.level().monsters.some(o => o.id === 'wraith')) return 'a wraith rose on a quick delve';
+  if (guards().length !== 1 || guards()[0].id !== 'skeleton' || guards()[0].pack) return `the rite called ${JSON.stringify(guards().map(g => [g.id, g.pack && g.pack.length]))}`;
+  m.windup = null; m.riteReady = 0; m.nextAct = G.t;
+  for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rite'); i++) Game.update(G.t + 25, 25);
+  return guards().length === 1 || `${guards().length} guards after a second rite with the first still standing`;
+});
+
 await test('the fifth circle comes at seventh level; a mage starts with more life; ogres wait for the seventh floor of eight', async () => {
   const ctx = await newContext();
   const { Game, SPELLS, CLASSES } = ctx;
@@ -6271,6 +6286,39 @@ await test('a win on a long delve, on Normal or Hard, is the Long Delve feat; th
   if (Game.earned().firstFeats.length || progressOf(ctx).feats.long !== 2) return 'a second long win was told as a first, or not counted';
   const lens = Game.hall().map(h => h.levels).sort((a, b) => a - b).join();
   return lens === '8,12,12,16' || `the Hall kept levels ${lens}`;
+});
+
+await test('a quick delve of two floors: its second floor sits low on the ladder, its lich has three tenths of its life and strikes less surely, its hero learns three times as fast, and its win earns no trophy', async () => {
+  const out = [];
+  // a goblin is worth three times as much as on an ordinary delve (the ordinary one
+  // first: each context takes over the stored progress the game reads)
+  const gain = c => {
+    const h = c.Game.player(), g = c.Game.state(); h.perkHit = 60;
+    const m = beside(c, 'goblin', { hp: 1, maxHp: 1, nextAct: 1e12 }), xp0 = h.xp;
+    for (let i = 0; i < 6 && c.Game.level().monsters.includes(m); i++) { g.t = Math.max(g.t, h.nextAttack); c.Game.input('attack'); }   // a natural 1 still misses
+    return h.xp - xp0;
+  };
+  const o = gain(await start('fighter', 'quick-delve', { levels: 8, difficulty: 'normal' }));
+  const ctx = await start('fighter', 'quick-delve', { levels: 2, difficulty: 'normal', permadeath: true });
+  const { Game, Dungeon, MONSTERS, Progress } = ctx; const p = Game.player();
+  if (Dungeon.tierAt(1, 2) !== 1 || Dungeon.tierAt(2, 2) > 2) out.push(`the quick delve sat at tiers ${Dungeon.tierAt(1, 2)} and ${Dungeon.tierAt(2, 2)}`);
+  if (Dungeon.tierAt(2, 4) <= Dungeon.tierAt(2, 2)) out.push('a four-floor delve\'s second floor was no deeper than a quick one\'s');
+  const q = gain(ctx);
+  if (!(o > 0) || q !== 3 * o) out.push(`a goblin paid ${q} on a quick delve and ${o} on an ordinary one`);
+  // the second floor is the last, and its keeper the lich, weakened
+  p.hp = p.maxHp = 9999;
+  downTo(ctx, 2);
+  const lich = Game.level().monsters.find(m => MONSTERS[m.id].boss);
+  if (!lich || lich.id !== 'lich') return `the quick delve's second floor was kept by ${lich && lich.id}`;
+  // on Normal its life is twice its dice, near 170: three tenths of that is about fifty
+  if (lich.maxHp >= 90) out.push(`the quick lich had ${lich.maxHp} life`);
+  if (!((lich.edge || 0) <= -4)) out.push(`the quick lich's edge was ${lich.edge}`);
+  // and a win (the lich gone first): the Hall keeps it, the trophies do not
+  Game.level().monsters.length = 0;
+  if (!winHere(Game)) return out.concat('lifting the Heart did not win').join('; ');
+  if (Progress.hasWon('fighter', 'normal') || (Game.earned() && Game.earned().cls)) out.push(`a quick win earned a trophy: ${JSON.stringify(Game.earned())}`);
+  if (!Game.hall().some(h => h.won && h.levels === 2)) out.push('the quick win was not in the Hall');
+  return out.length ? out.join('; ') : true;
 });
 
 await test('the Long Delve\'s back half is surer and sturdier: a step surer from the seventh floor, four percent sturdier a floor past the sixth', async () => {

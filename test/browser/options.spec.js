@@ -114,11 +114,13 @@ test.describe('rest and the quick drink', () => {
     await expect(page.locator('[data-tap="cast"] small')).toHaveText('Smoke');
   });
 
-  test('the floors picked are explained under the options: a short delve, the divided stair, the Long Delve', async ({ page }) => {
+  test('the floors picked are explained under the options: a quick delve, a short delve, the divided stair, the Long Delve', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.click('#btn-new');
     await expect(page.locator('#c-levels-note')).toContainText('the stair divides');
+    await page.selectOption('#c-levels', '2');
+    await expect(page.locator('#c-levels-note')).toContainText('A quick delve: two floors');
     await page.selectOption('#c-levels', '4');
     await expect(page.locator('#c-levels-note')).toContainText('no road to choose');
     await page.selectOption('#c-levels', '12');

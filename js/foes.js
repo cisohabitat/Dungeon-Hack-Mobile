@@ -251,7 +251,7 @@ export function makeFoes(K) {
     let say = '', extra = {};
     if (rite) say = `The ${mb.name} lifts its hands toward the Heart and begins to drink its light! Strike it to break the rite!`;
     // and the light it draws calls a guard to stand between you, once a rite
-    if (rite && !L0guard(m)) raiseGuards(m, 'wraith');
+    if (rite && !L0guard(m)) raiseGuards(m, riteGuard(), true);
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
     else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' || mb.named ? 4 : 3) && Math.random() < 0.6) {
       say = `The ${mb.name} lowers its head and charges!`;
@@ -851,7 +851,7 @@ export function makeFoes(K) {
     if (!m.hall) m.hall = roomOf(m);
     raiseGuards(m);
     // the last act calls the rite's own guard at once: a wraith, cold as its master
-    if (m.phase === 2) raiseGuards(m, 'wraith');
+    if (m.phase === 2) raiseGuards(m, riteGuard(), true);
     m.windup = null; m.volley = null;
     m.wardUntil = K.G.t + WARD_MS; m.wardSaid = false;
     // a blow that goes straight through two thirds and one third does not
@@ -1059,7 +1059,12 @@ export function makeFoes(K) {
     K.log('The torches catch again, one by one.', 'good');
   }
   /** A wraith the lich's rite called is still standing. */
-  const L0guard = m => K.lvl().monsters.some(o => o.id === 'wraith' && o.riteCalled);
+  const L0guard = m => K.lvl().monsters.some(o => o.riteCalled);
+  // a lesser lich, keeping the Heart at the foot of a quick delve, has not the
+  // strength to call a wraith: one of the dead stands for its rite (a wraith,
+  // hard to hit and quick to follow, killed a thief of the fourth level in
+  // three of the quick delves it lost)
+  const riteGuard = () => (K.quick() ? 'skeleton' : 'wraith');
   /** An open square near a monster (the lich, or a champion calling its kin), never behind a wall; null if none is within three steps. */
   function spotNear(m) {
     const p = K.P();
@@ -1079,15 +1084,15 @@ export function makeFoes(K) {
     return spots.length ? Dice.pick(spots) : null;
   }
   /** Two skeletons sharing a square beside the lich; or, for its rite, a wraith. */
-  function raiseGuards(m, kind = 'skeleton') {
+  function raiseGuards(m, kind = 'skeleton', called = false) {
     const spot = spotNear(m);
     if (!spot) return;
     const [x, y] = spot;
     const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
     const g = K.newMonster(kind, x, y, hp());
-    if (kind !== 'skeleton') g.riteCalled = true;
-    if (kind === 'skeleton') { const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true; }
-    K.log(kind === 'skeleton' ? `The ${K.mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`
+    if (called) g.riteCalled = true;
+    else { const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true; }
+    K.log(!called ? `The ${K.mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`
       : `A ${b.name.toLowerCase()} rises out of the Heart's light to guard the ${K.mstat(m).name}'s rite!`, 'bad');
     K.learn(m.id, 'trick');
     Sound.play('raise', K.heard({ x, y }));

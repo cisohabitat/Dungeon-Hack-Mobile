@@ -267,6 +267,15 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Hard | 58% | 59% | 64% | 58% | 59.5% | 57.5% | about 59% |
 | Long Delve (12 floors), Normal | 78% | 83% | 76% | 79% | 84.5% | 77% | about 80% |
 | Long Delve (12 floors), Hard | 61% | 63% | 62.5% | 62% | 61.5% | 55.5% | about 61% |
+| Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The quick delve row is one seed set, 200 runs a class (`LEVELS=2 SEEDN=20`). Two floors at the
+pace of eight brought heroes to the lich at the second or third level, and half of them died
+there. So on a quick delve the hero learns three times as fast. The lich has three tenths of its
+life and strikes four steps less surely, and one skeleton guards its rite in place of a wraith.
+That makes it kinder than eight floors, as a short game should be. The thief trails: at the
+fourth or fifth level its daggers are short against the lich. With heroes learning only twice as
+fast and the wraith still called, it won 58.5% and the mage 92.5%. On Hard the thief wins 68%.
 
 Every row but Easy was measured again, both seed sets, after the Long Delve got a keeper of its
 own (the Heartforged), three more things to meet on the deep floors, the Cinder Ring and a healer

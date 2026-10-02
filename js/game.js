@@ -2865,7 +2865,8 @@ const Game = (() => {
     // (whole numbers: a shade's tier can be a fraction on a short delve, and its
     // experience once ran to fourteen places, and the score after it)
     // (a puffcap is worth what it grew over)
-    const worth = m.worth || mb.xp, xp = Math.round(m.split ? Math.ceil(worth / 2) : worth);
+    // (a quick delve's hero learns twice as fast: see QUICK)
+    const worth = (m.worth || mb.xp) * (isQuick() ? QUICK.xp : 1), xp = Math.round(m.split ? Math.ceil(worth / 2) : worth);
     p.xp = Math.round(p.xp + xp);
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
@@ -3407,7 +3408,8 @@ const Game = (() => {
     try { localStorage.setItem(LAST_KEY, JSON.stringify({ name: p.name, cls: p.cls, depth: G.depth, levels: G.opts.levels || 8, won, killer: won ? '' : killerPhrase(), date: Date.now() })); } catch (e) { /* private browsing */ }
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
-    if (won && G.opts.permadeath) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
+    // (a quick delve's win goes in the Hall, but earns no trophy: those wait for four floors or more)
+    if (won && G.opts.permadeath && !isQuick()) G.earned = Progress.recordWin(p.cls, G.opts.difficulty || 'normal', { path: p.path, vows: G.opts.vows, levels: G.opts.levels, route: G.route,
       jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (G.stats && G.stats.shapes) || 0 });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
@@ -4108,6 +4110,16 @@ const Game = (() => {
   // twelve floors were easier than eight (82% on Normal, 60% on Hard): the
   // extra floors gave more levels and gear than the deep took back.
   const isLong = () => (G.opts.levels || 8) >= 12;
+  // A quick delve: two floors, over in a quarter of an hour (see tierAt in
+  // dungeon.js). Two floors at the pace of eight brought the hero to the lich
+  // at the second or third level, and half of them died there: so the hero
+  // learns three times as fast, reaching a path in a good delve, and the lich,
+  // not yet come into its strength, has three tenths of its life and strikes
+  // four steps less surely (and calls no wraith: see riteGuard in foes.js).
+  // About nine in ten won on Normal, the thief three in four; twice as fast
+  // left the thief at 58% and the mage at 92%.
+  const isQuick = () => (G.opts.levels || 8) <= 2;
+  const QUICK = { keeperHp: 0.3, keeperEdge: -4, xp: 3 };
   const longEdge = () => (isLong() && G.depth >= 7 ? 1 : 0);
   const longSturdier = depth => (isLong() ? 1 + 0.04 * Math.max(0, depth - 6) : 1);
   // The deep floors' own monsters answer so well to a player who reads the
@@ -4228,8 +4240,10 @@ const Game = (() => {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal();
+      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) * (isQuick() ? QUICK.keeperHp : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal();
       m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
+      // a quick delve's keeper is a lesser lich, for a hero of a few levels: less life, and blows less sure and less heavy
+      if (isQuick() && MONSTERS[m.id].boss) m.edge = QUICK.keeperEdge;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }
     }
   }
@@ -4939,6 +4953,7 @@ const Game = (() => {
   // for the state it changes), so it always sees the game as it is now.
   const foesK = {
     shaped: () => wild.shaped(),
+    quick: () => isQuick(),
     warmthFrom,
     get BLOW_GAP() { return BLOW_GAP; },
     get DIRS() { return DIRS; },

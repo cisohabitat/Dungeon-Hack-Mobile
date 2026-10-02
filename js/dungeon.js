@@ -6,6 +6,7 @@ import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
 const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
+const QUICK_TIER = 2;     // where on that ladder a quick delve's second floor sits
 /**
  * Where on the ladder of monster tiers a floor of a delve sits: a delve
  * shorter than the ladder is stretched over it, the stretch coming late.
@@ -13,6 +14,9 @@ const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floor
  */
 function tierAt(depth, levels) {
   if (levels >= TIER_FLOORS) return depth;
+  // a quick delve of two floors is not the whole ladder squeezed into two rungs:
+  // its first floor is a first floor, and its second only a little deeper
+  if (levels <= 2) return depth <= 1 ? 1 : QUICK_TIER;
   const f = levels > 1 ? (depth - 1) / (levels - 1) : 0;
   return depth + (TIER_FLOORS - levels) * f * f;
 }
