@@ -4051,6 +4051,7 @@ await test('a snare holds two and a half seconds; a Warden\'s a second longer, a
     if (!Game.useAbility()) { out.push(`no snare thrown (${path})`); continue; }
     const held = Game.level().monsters[0].snaredUntil - G.t;
     if (held !== ms) out.push(`${path || 'no path'}: held ${held}ms, not ${ms}`);
+    if (Game.level().monsters[0].heldBy !== 'snare') out.push(`what held it was marked ${Game.level().monsters[0].heldBy}, not a snare, for its picture`);
   }
   return out.length ? out.join('; ') : true;
 });
@@ -10515,6 +10516,60 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('what is upon a monster goes to the view with it: fire, venom or bleeding, and what holds it fast, until it passes', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'aff');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 93, id: 'orc', x: 8, y: 6, hp: 77, maxHp: 77, awake: true, nextAct: 1e12, rx: 8, ry: 6, fromX: 8, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const m = L.monsters[0];
+    const aff = () => { const s = Game.renderState(0).sprites.find(q => q.maxHp === 77); return s && s.aff ? `${s.aff.dot}/${s.aff.held}` : 'none'; };
+    if (aff() !== 'none') out.push(`untouched, it carried ${aff()}`);
+    for (const kind of ['burning', 'venom', 'bleed']) { m.dot = { kind, until: G.t + 3000, next: 1e12 }; if (aff() !== `${kind}/`) out.push(`${kind}: the view was told ${aff()}`); }
+    m.dot = null;
+    for (const by of ['ice', 'roots', 'snare']) { m.snaredUntil = G.t + 2000; m.heldBy = by; if (aff() !== `/${by}`) out.push(`held by ${by}: the view was told ${aff()}`); }
+    // both at once, and then both passed
+    m.dot = { kind: 'burning', until: G.t + 3000, next: 1e12 };
+    if (aff() !== 'burning/snare') out.push(`burning and snared, the view was told ${aff()}`);
+    G.t += 5000;
+    if (aff() !== 'none') out.push(`once both had passed, the view was still told ${aff()}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('each kind dies its own way: bones clatter down, a slime bursts flat, a wraith comes apart into mist, a bat drops, a puffcap bursts, an orc topples', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'deaths');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1; p.hp = p.maxHp = 9999;
+    // (an emberling's sparks are lost in the gout of flame it bursts in, which shows for them)
+    const want = { skeleton: ['clatter', '#e8e0cc'], slime: ['splat', '#4a9a2e'], wraith: ['mist', '#a8d8ff'], bat: ['tumble', null], puffcap: ['burst', '#d8d0a0'], emberling: ['gutter', null], orc: ['fall', null] };
+    for (const id in want) {
+      L.monsters.length = 0;
+      // (a skeleton that has risen once stays down; its first fall into the heap is tried below)
+      L.monsters.push({ uid: 94, id, x: 7, y: 6, hp: 1, maxHp: 30, awake: true, nextAct: 1e12, rx: 7, ry: 6, fromX: 7, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0, risen: true });
+      const fx = Game.renderState(0).fx, had = fx.corpses.length, bits0 = fx.bits.length;
+      for (let i = 0; i < 12 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+      if (L.monsters.length) { out.push(`${id}: never died`); continue; }
+      const after = Game.renderState(0).fx, body = after.corpses[after.corpses.length - 1];
+      const [how, col] = want[id];
+      if (after.corpses.length <= had || !body) { out.push(`${id}: left no body to fall`); continue; }
+      if (body.how !== how) out.push(`${id} died by '${body.how}', not '${how}'`);
+      if (col && !after.bits.slice(bits0).some(b => b.c === col)) out.push(`${id}'s death threw none of its ${how}`);
+    }
+    // a skeleton cut down the first time clatters into its heap the same way, and the heap lies there to rise
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 95, id: 'skeleton', x: 7, y: 6, hp: 1, maxHp: 30, awake: true, nextAct: 1e12, rx: 7, ry: 6, fromX: 7, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const n0 = Game.renderState(0).fx.corpses.length;
+    for (let i = 0; i < 12 && !L.monsters[0].collapsed; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    const cs = Game.renderState(0).fx.corpses;
+    if (!L.monsters[0] || !L.monsters[0].collapsed) out.push('the skeleton never fell into its heap');
+    else if (cs.length <= n0 || cs[cs.length - 1].how !== 'clatter' || cs[cs.length - 1].sprite !== 'skeleton') out.push('the skeleton fell into its heap without clattering down');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a struck monster reels: its flinching picture through the white of the hit and a moment after, never over a wind-up', async () => {
     const out = [];
     const ctx = await start('fighter', 'reel');
@@ -11499,6 +11554,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     L.monsters.push(bones, orc);
     ready(ctx);
     if (Game.castSpell(druidSpell(ctx, 'entangle')) !== true || !(orc.snaredUntil > G.t)) out.push('Entangle did not reach past the bones to the orc');
+    else if (orc.heldBy !== 'roots') out.push(`what held the orc was marked ${orc.heldBy}, not roots, for its picture`);
     // Mending Moss on a full druid for a hurt companion says it healed the druid nothing
     L.monsters.length = 0; p.hp = p.maxHp;
     G.companion = { kind: 'hound', name: 'Ash', x: p.x - dx, y: p.y - dy, depth: G.depth, hp: 1, maxHp: 30, mode: 'follow', joined: G.depth };
@@ -11766,6 +11822,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const [ax, ay] = at(2), [bx, by] = at(2, 1);
     if (!Game.fieldAt(ax, ay) || Game.fieldAt(ax, ay).k !== 'ice' || !Game.fieldAt(bx, by) || Game.fieldAt(bx, by).k !== 'ice') out.push('the water did not freeze round what the cold struck');
     if (!(b.nextAct > G.t + 1500)) out.push('the one beside it was not held by the ice');
+    if (b.heldBy !== 'ice') out.push(`what held it was marked ${b.heldBy}, not ice, for its picture`);
     if (p.held > G.t) out.push('ice two squares off held the hero');
     // struck beside the hero, the ice takes the hero's feet too; a drowned one beside cannot come up through it
     L.fields = {}; L.monsters.length = 0;

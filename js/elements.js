@@ -191,7 +191,7 @@ export function makeElements(K) {
       if (!on(o) || o.collapsed || o.sunk) continue;
       o.nextAct = Math.max(o.nextAct, G.t + ICE_HOLD);
       if (o.windup) o.windup.until += ICE_HOLD;
-      o.snaredUntil = Math.max(o.snaredUntil || 0, G.t + ICE_HOLD);
+      o.snaredUntil = Math.max(o.snaredUntil || 0, G.t + ICE_HOLD); o.heldBy = 'ice';
       K.floatText(o, 'frozen in', '#cfeaff');
     }
     Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));

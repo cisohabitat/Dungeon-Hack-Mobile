@@ -43,7 +43,7 @@ const Game = (() => {
                /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
                trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
-               /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number}>} */ corpses: [],
+               /** @type {Array<{x: number, y: number, sprite: string, elite?: string, scale: number, born: number, dx: number, dy: number, fly: number, how: string}>} */ corpses: [],
                /** what blows throw: droplets, bone chips, sparks, flying and falling */
                /** @type {Array<{x: number, y: number, z: number, vx: number, vy: number, vz: number, g: number, c: string, born: number, life: number, size: number, glow?: boolean}>} */ bits: [],
                /** stains on the floor, by depth; for the look of a fight, not saved */
@@ -2764,6 +2764,8 @@ const Game = (() => {
       if (mb.move === 'rise' && !m.risen && !m.collapsed && !breaksBones(tag)) {
         m.risen = true; m.collapsed = G.t + RISE_MS; m.hp = 0;
         m.windup = null; m.volley = null; m.fleeing = false;
+        // (it clatters down into the heap as bones that stay down would: the heap is drawn under it)
+        body(m, 'clatter');
         log(`The ${mb.name} clatters into a heap of bones... and the bones begin to twitch. Smash them before it rises!`, 'bad');
         Sound.play('death', heard(m, { gore: 'bone', who: m.id }));
         meet(m, 'trick');
@@ -2878,16 +2880,47 @@ const Game = (() => {
     checkLevelUp();
     emit('stats');
   }
-  /** A body sinking and fading where it fell, knocked back from the hero. */
-  function fallen(m) {
+  // How each kind dies, where it does not simply topple: a skeleton clatters
+  // down into its bones, a slime bursts flat across the stones, a wraith or a
+  // shade comes apart into mist, a bat drops out of the air turning over, a
+  // puffcap swells and bursts in a last cloud, an emberling gutters out in sparks.
+  // (the lich and the Heartforged have deaths of their own)
+  const DEATHS = { skeleton: 'clatter', slime: 'splat', wraith: 'mist', shade: 'mist', bat: 'tumble', puffcap: 'burst', emberling: 'gutter' };
+  /** What flies from a body as it dies its own way: bones, ooze, mist, spores, sparks. */
+  function deathBurst(c, how) {
+    const kind = { clatter: 'bone', splat: 'goo', mist: 'ecto', burst: 'spore', gutter: 'spark' }[how];
+    if (!kind) return;
+    const g = GORE[kind], n = how === 'burst' ? 34 : how === 'mist' ? 22 : 18;
+    // (a puffcap's cloud comes as it bursts, a moment after it is struck down)
+    const at = c.born + (how === 'burst' ? CORPSE_MS * 0.2 : 0), z0 = c.fly + c.scale * (how === 'clatter' ? 0.5 : how === 'splat' ? 0.15 : 0.45);
+    for (let i = 0; i < n; i++) {
+      const a = look() * Math.PI * 2, sp = how === 'mist' ? 0.25 + look() * 0.4 : how === 'burst' ? 0.5 + look() * 1.1 : 0.4 + look() * 1.4;
+      fx.bits.push({ x: c.x, y: c.y, z: z0 + (look() - 0.5) * c.scale * (how === 'mist' ? 0.7 : 0.3), vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+        vz: how === 'mist' ? 0.1 + look() * 0.3 : how === 'splat' ? 0.3 + look() * 0.9 : 0.5 + look() * 1.5,
+        g: how === 'burst' ? 0.25 : g.g, c: g.c[i % g.c.length], born: at, life: (how === 'mist' || how === 'burst' ? 900 : 520) + look() * 400,
+        size: how === 'clatter' ? (look() < 0.4 ? 0.04 : 0.026) : look() < 0.3 ? 0.03 : 0.018, glow: g.glow });
+    }
+    if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
+  }
+  /** A body sinking and fading where it fell, knocked back from the hero, or dying its own way (DEATHS). */
+  /** Its body going down the way it goes (DEATHS), with what flies from it. */
+  function body(m, how) {
     const p = P(), base = MONSTERS[m.id];
     const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
     const vx = rx - p.x, vy = ry - p.y, len = Math.hypot(vx, vy) || 1;
-    fx.corpses.push({ x: rx + 0.5, y: ry + 0.5, sprite: m.collapsed ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (m.collapsed ? 0.95 : 1),
-      born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0 });
+    const heap = m.collapsed && how !== 'clatter';
+    const c = { x: rx + 0.5, y: ry + 0.5, sprite: heap ? 'bone_heap' : base.sprite, elite: m.elite || (base.named ? m.id : undefined), scale: base.scale * (packSize(m) > 1 ? 0.88 : 1) * (heap ? 0.95 : 1),
+      born: realNow + fxDelay, dx: vx / len, dy: vy / len, fly: base.fly || 0, how };
+    fx.corpses.push(c);
+    deathBurst(c, how);
+  }
+  function fallen(m) {
+    const base = MONSTERS[m.id];
+    const rx = m.rx == null ? m.x : m.rx, ry = m.ry == null ? m.y : m.ry;
+    body(m, m.collapsed ? 'fall' : DEATHS[base.sprite] || 'fall');
     // once the body has sunk away something stays a while: bones from the dead
-    // and the bony, a husk from the rest; a wraith, a slime or the lich leave nothing
-    if (!['wraith', 'slime', 'lich', 'shade'].includes(base.sprite)) {
+    // and the bony, a husk from the rest; a wraith, a slime, a burst puffcap or the lich leave nothing
+    if (!['wraith', 'slime', 'lich', 'shade', 'puffcap'].includes(base.sprite)) {
       const L = lvl(), k = base.undead || base.sprite === 'skeleton' || base.sprite === 'bat' ? 'remains_bones' : 'remains_husk';
       L.remains = (L.remains || []).filter(r => r.until > G.t).slice(-(REMAINS_MAX - 1));
       L.remains.push({ x: Math.round((rx + 0.5) * 100) / 100, y: Math.round((ry + 0.5) * 100) / 100, k, at: G.t, until: G.t + REMAINS_MS });
@@ -3763,7 +3796,7 @@ const Game = (() => {
     // Hard it trailed the Warden by some thirteen points with no better way to stay out of reach)
     const hold = (SNARE_MS + (hasTalent('long_snare') ? 1500 : 0) + (onPath('warden') ? 1000 : 0) + (onPath('sharpshooter') ? 1500 : 0)) / (mb.boss ? 2 : 1);
     if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
-    m.snaredUntil = G.t + hold;
+    m.snaredUntil = G.t + hold; m.heldBy = 'snare';
     m.awake = true;
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
@@ -4468,6 +4501,55 @@ const Game = (() => {
     }
     return { dx: tx * push + rx * jx, dy: ty * push + ry * jx, lift, sqx, sqy, lean: lean * heavy };
   }
+  /**
+   * How a body is drawn u of the way through its dying (0 to 1), by the way it dies
+   * (DEATHS): its squash, its lean, how high it hangs, how far it is knocked back, how much of it is left.
+   */
+  function corpsePose(how, u, side, fly) {
+    const gone = (from) => (u > from ? Math.min(1, (u - from) / (1 - from)) : 0);
+    if (how === 'clatter') {
+      // the bones give way all at once and drop straight down into a heap
+      const f = Math.min(1, u / 0.22), d = f * f;
+      return { back: 0.05 * f, yOff: 0, sqx: 1 + 0.5 * d, sqy: Math.max(0.12, 1 - 0.86 * d), lean: side * 0.15 * Math.sin(u * 40) * (1 - f), alpha: 1 - gone(0.6) };
+    }
+    if (how === 'splat') {
+      // it bursts out flat across the stones, quivers, and soaks away
+      const f = Math.min(1, u / 0.14), q = u > 0.14 ? Math.sin((u - 0.14) * 50) * 0.06 * (1 - u) : 0;
+      return { back: 0, yOff: 0, sqx: 1 + 0.95 * f + q, sqy: Math.max(0.1, 1 - 0.82 * f - q), lean: 0, alpha: 1 - gone(0.55) };
+    }
+    if (how === 'mist') {
+      // it rises a little, drawn out thin, and comes apart into the air
+      const f = Math.min(1, u / 0.85);
+      return { back: 0, yOff: fly + 0.3 * f, sqx: Math.max(0.2, 1 - 0.6 * f), sqy: 1 + 0.45 * f, lean: Math.sin(u * 18) * 0.12 * f, alpha: Math.max(0, 1 - f * 1.1) };
+    }
+    if (how === 'tumble') {
+      // it drops out of the air, turning over as it falls, and lies where it lands
+      const f = Math.min(1, u / 0.35), d = f * f;
+      return { back: 0.1 * f, yOff: fly * (1 - d), sqx: 1, sqy: u < 0.35 ? 1 - 0.3 * Math.abs(Math.sin(u * 30)) : 0.45, lean: u < 0.35 ? Math.sin(u * 26) * 0.9 : side * 0.6, alpha: 1 - gone(0.7) };
+    }
+    if (how === 'burst') {
+      // it swells tight, then bursts and is gone in its cloud
+      const sw = Math.min(1, u / 0.2);
+      return { back: 0, yOff: 0, sqx: 1 + 0.35 * sw, sqy: 1 + 0.3 * sw, lean: 0, alpha: u < 0.2 ? 1 : Math.max(0, 1 - (u - 0.2) / 0.08) };
+    }
+    if (how === 'gutter') {
+      // it sinks down into itself, its fire going out
+      const f = Math.min(1, u / 0.6);
+      return { back: 0, yOff: 0, sqx: 1 + 0.2 * f, sqy: Math.max(0.15, 1 - 0.7 * f), lean: 0, alpha: 1 - gone(0.3) };
+    }
+    // knocked back by the blow, it falls as a body falls, slow then fast,
+    // tipping over to one side and down onto the floor, with a jolt as it lands;
+    // it lies there a moment, then sinks away into what it leaves behind
+    const f = Math.min(1, u / 0.4), drop = f * f, back = Math.sin(Math.min(1, u / 0.3) * Math.PI / 2) * 0.18;
+    const land = u > 0.4 && u < 0.5 ? Math.sin((u - 0.4) / 0.1 * Math.PI) * 0.08 : 0;
+    const g = gone(0.72);
+    return { back, yOff: fly * (1 - drop), sqx: 1 + 0.35 * drop, sqy: Math.max(0.1, (1 - 0.72 * drop) * (1 - land) * (1 - 0.4 * g)), lean: side * 0.9 * drop, alpha: 1 - g };
+  }
+  /** What is upon a monster, for drawing on it: burning, venom or bleeding, and held fast by ice, roots or a snare. @returns {{dot: string, held: string}|null} */
+  function afflictions(m) {
+    const dot = m.dot && m.dot.until > G.t ? m.dot.kind : '', held = m.snaredUntil > G.t ? m.heldBy || 'snare' : '';
+    return dot || held ? { dot, held } : null;
+  }
   function renderState(now) {
     const L = lvl();
     const sprites = [];
@@ -4503,6 +4585,8 @@ const Game = (() => {
       // moment after, unless it is winding up, whose warning must never be hidden
       const reeling = !tell && now >= (m.flashAt || 0) && now < (m.flashUntil || 0) + REEL_MS;
       const shown = reeling && img && img.hurt ? img.hurt : img;
+      // what is upon it, drawn on its body: fire, venom, a bleeding wound, and what holds it fast
+      const aff = afflictions(m);
       if (m.collapsed) {
         // a heap of bones on the floor, a ring round it filling as it pulls itself together
         const rising = Math.min(1, Math.max(0.02, 1 - (m.collapsed - G.t) / RISE_MS));
@@ -4512,7 +4596,7 @@ const Game = (() => {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -4524,7 +4608,7 @@ const Game = (() => {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : img, ...(i === 0 ? { reeling } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : img, ...(i === 0 ? { reeling, aff } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
@@ -4586,15 +4670,10 @@ const Game = (() => {
       if (!art) continue;
       // one killed by a fireball still in the air stands until it lands
       const u = Math.max(0, Math.min(1, (now - c.born) / CORPSE_MS));
-      // knocked back by the blow, it falls as a body falls, slow then fast,
-      // tipping over to one side and down onto the floor, with a jolt as it lands;
-      // it lies there a moment, then sinks away into what it leaves behind
-      const f = Math.min(1, u / 0.4), drop = f * f, back = Math.sin(Math.min(1, u / 0.3) * Math.PI / 2) * 0.18;
-      const land = u > 0.4 && u < 0.5 ? Math.sin((u - 0.4) / 0.1 * Math.PI) * 0.08 : 0;
-      const topple = ((c.born | 0) % 2 ? 1 : -1) * 0.9 * drop;
-      const gone = u > 0.72 ? (u - 0.72) / 0.28 : 0;
-      sprites.push({ x: c.x + c.dx * back, y: c.y + c.dy * back, img: (c.elite && art.elite && art.elite[c.elite]) || art, scale: c.scale, yOff: c.fly * (1 - drop),
-        sqx: 1 + 0.35 * drop, sqy: Math.max(0.1, (1 - 0.72 * drop) * (1 - land) * (1 - 0.4 * gone)), lean: topple, alpha: 1 - gone, flash: now >= c.born && u < 0.08 ? now + 1 : 0 });
+      // (how it falls, by the way its kind dies: see corpsePose)
+      const img = (c.elite && art.elite && art.elite[c.elite]) || art, flash = now >= c.born && u < 0.08 ? now + 1 : 0, side = (c.born | 0) % 2 ? 1 : -1;
+      const pose = corpsePose(c.how, u, side, c.fly);
+      sprites.push({ x: c.x + c.dx * pose.back, y: c.y + c.dy * pose.back, img, scale: c.scale, yOff: pose.yOff, sqx: pose.sqx, sqy: pose.sqy, lean: pose.lean, alpha: pose.alpha, flash, death: c.how });
     }
     // what the hero holds, for the view at the bottom of the screen
     const p = P(), wIt = p.eq.weapon;

@@ -2,7 +2,7 @@
 // What the view draws: walls that match what the floor says of them, the
 // weapon in the hero's hands, and a monster right in front of them.
 const { test } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, expect } = require('./helpers');
+const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, expect } = require('./helpers');
 
 test.describe('art', () => {
   test('pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after', async ({ page }) => {
@@ -46,6 +46,36 @@ test.describe('art', () => {
     }));
     expect(champs.length).toBeGreaterThanOrEqual(7);
     for (const c of champs) expect(c, c.id).toEqual({ id: c.id, own: true, poses: true });
+    expect(errors).toEqual([]);
+  });
+
+  test('what is upon a monster is drawn on it, and each kind dies its own way', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await faceOpenGround(page);
+    // burning, it is drawn burning; when the fire is out, it is not
+    expect(await placeMonster(page, 'orc', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
+    await page.evaluate(() => { const m = Game.level().monsters.find(q => q.maxHp === 300); m.dot = { kind: 'burning', until: Game.state().t + 1e7, next: 1e12 }; });
+    await expect.poll(() => page.evaluate(() => Renderer.afflicted), { timeout: 3000 }).toBeGreaterThan(0);
+    await page.evaluate(() => { Game.level().monsters.find(q => q.maxHp === 300).dot = null; });
+    await expect.poll(() => page.evaluate(() => Renderer.afflicted), { timeout: 3000 }).toBe(0);
+    await page.evaluate(() => { Game.level().monsters.length = 0; Game.player().xp = -1e7; });
+    // a wraith cut down rises thin into mist; a slime bursts out flat
+    for (const [id, check] of [['wraith', 'mist'], ['slime', 'splat']]) {
+      const uid = await placeMonster(page, id, 1, { hp: 1, maxHp: 30 });
+      expect(uid).not.toBeNull();
+      const m = await page.evaluate(id => Game.level().monsters.find(q => q.id === id).uid, id);
+      expect(await killMonster(page, m)).toBe(true);
+      const seen = await page.evaluate(async () => {
+        const out = [];
+        for (let i = 0; i < 8; i++) { const s = Game.renderState(performance.now()).sprites.find(q => q.death); if (s) out.push({ how: s.death, sqx: s.sqx, sqy: s.sqy, y: s.yOff }); await new Promise(r => setTimeout(r, 70)); }
+        return out;
+      });
+      expect(seen.length, `${id}'s body was drawn`).toBeGreaterThan(2);
+      expect(seen.every(s => s.how === check)).toBe(true);
+      if (check === 'mist') expect(seen[seen.length - 1].sqx < 0.9 && seen[seen.length - 1].sqy > 1.1 && seen[seen.length - 1].y > seen[0].y, `mist: ${JSON.stringify(seen)}`).toBe(true);
+      else expect(seen.some(s => s.sqx > 1.6 && s.sqy < 0.4), `splat: ${JSON.stringify(seen)}`).toBe(true);
+    }
     expect(errors).toEqual([]);
   });
 

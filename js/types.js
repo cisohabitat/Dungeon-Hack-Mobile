@@ -139,7 +139,8 @@
  * @property {number} [phase]      how many times a boss has called for help
  * @property {number} [lungeAt]    when it last swung, for the lunge drawn with it
  * @property {number} [smoked]   lost in a thief's smoke until this time: asleep to them, but still near
- * @property {number} [snaredUntil]   caught in a ranger's Snare until this time
+ * @property {number} [snaredUntil]   caught in a ranger's Snare until this time (or Entangle's roots, or frozen into ice)
+ * @property {string} [heldBy]   what holds it while snaredUntil lasts: 'snare', 'roots' or 'ice', for the picture of it
  * @property {boolean} [spoke]     the lich, or a named champion, has spoken, and its fight has begun
  * @property {number} [rallies]    how many times a named champion has tried to call its kin
  * @property {boolean} [mendSaid]  the log has said once that a named troll's wounds close

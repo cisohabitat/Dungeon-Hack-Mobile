@@ -122,7 +122,7 @@ export function makeWild(K) {
       m.pressing = false;
       const hold = (ENTANGLE_MS + (K.onPath('grovewarden') ? 1500 : 0)) / (mb.boss ? 2 : 1);
       if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
-      m.snaredUntil = G.t + hold;
+      m.snaredUntil = G.t + hold; m.heldBy = 'roots';
       m.awake = true;
       K.meet(m);
       K.floatText(m, 'rooted', '#a8e070');

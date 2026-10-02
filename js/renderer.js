@@ -677,6 +677,86 @@ const Renderer = (() => {
     }
     ctx.globalAlpha = 1;
   }
+  // What is upon a creature, drawn on its body so it reads at a glance and not
+  // by colour alone: flames licking up it, venom or blood running down it, ice
+  // fast about its legs, roots wound round them, a snare's cord pulled tight.
+  // Placed on the drawing's own frame (fx across, fy down from the top of what
+  // is drawn), leaning with it, and hidden behind walls nearer than it.
+  const afflictedN = { n: 0 };
+  function drawAfflictions(aff, left, sw, top, sh, shiftTop, artTop, tY, now) {
+    const t = calm ? 0 : now;
+    const bodyTop = top + artTop * sh, bodyH = top + sh - bodyTop;
+    const at = (fx, fy) => { const y = bodyTop + fy * bodyH; return [Math.round(left + sw * fx + shiftTop * (1 - (y - top) / sh)), Math.round(y)]; };
+    const px = Math.max(1, Math.round(sh / 48));
+    // a block of colour, only in the columns where the creature itself is seen
+    const fill = (x, y, w, h, c) => {
+      if (w <= 0 || h <= 0) return;
+      ctx.fillStyle = c;
+      let run = -1;
+      for (let i = Math.max(0, x); i <= Math.min(W, x + w); i++) {
+        const seen = i < Math.min(W, x + w) && tY < zbuf[i];
+        if (seen && run < 0) run = i;
+        if (!seen && run >= 0) { ctx.fillRect(run, y, i - run, h); run = -1; }
+      }
+    };
+    afflictedN.n++;
+    if (aff.dot === 'burning') {
+      ctx.globalCompositeOperation = 'lighter';
+      // tongues of flame, wide at the root and thin at the tip, each flickering on its own
+      for (let i = 0; i < 9; i++) {
+        const flick = 0.55 + 0.45 * Math.sin(t / 70 + i * 2.3);
+        const [x, y] = at(0.28 + hash(i * 7.1) * 0.44, 0.3 + hash(i * 3.3) * 0.62);
+        const h = Math.round(px * (6 + 6 * hash(i + 0.5)) * flick), sway = Math.round(Math.sin(t / 110 + i) * px);
+        ctx.globalAlpha = 0.9;
+        fill(x - px * 2, y - Math.round(h * 0.35), px * 4, Math.round(h * 0.35), '#e04a08');
+        fill(x - px + sway, y - Math.round(h * 0.7), px * 2, Math.round(h * 0.35), '#ff7a18');
+        fill(x + sway * 2, y - h, Math.max(1, px), Math.round(h * 0.3), '#ffb030');
+        fill(x - (px >> 1), y - Math.round(h * 0.4), Math.max(1, px), Math.round(h * 0.3), '#fff0a0');
+      }
+      for (let i = 0; i < 5; i++) {
+        const ph = (t / 900 + hash(i * 5.7)) % 1, [x, y] = at(0.3 + hash(i * 2.9) * 0.4, 0.55 - ph * 0.7);
+        ctx.globalAlpha = 1 - ph;
+        fill(x, y, px, px, '#ffb040');
+      }
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    } else if (aff.dot === 'venom' || aff.dot === 'bleed') {
+      const [c, dk] = aff.dot === 'venom' ? ['#86d848', '#3e7a1e'] : ['#c0181c', '#5a0608'];
+      for (let i = 0; i < 4; i++) { const [x, y] = at(0.36 + hash(i * 4.1) * 0.28, 0.25 + hash(i * 6.3) * 0.4); fill(x, y, px * 2, px * 2, dk); fill(x, y, px, px, c); }
+      for (let i = 0; i < 6; i++) {
+        const ph = (t / 800 + hash(i * 9.1)) % 1, [x, y] = at(0.34 + hash(i * 3.7) * 0.32, 0.3 + hash(i * 1.9) * 0.35 + ph * 0.28);
+        ctx.globalAlpha = ph < 0.85 ? 1 : (1 - ph) / 0.15;
+        fill(x, y - px * 2, px, px * 2, dk);
+        fill(x, y, px, Math.max(1, Math.round(px * 1.5)), c);
+      }
+      ctx.globalAlpha = 1;
+    }
+    if (aff.held === 'ice') {
+      // ice about its legs, clear and pale, catching the light
+      const [x0, y0] = at(0.2, 0.7), [x1, y1] = at(0.8, 1.0);
+      ctx.globalAlpha = 0.5; fill(x0, y0, x1 - x0, y1 - y0, '#bfe6ff');
+      ctx.globalAlpha = 0.8; fill(x0, y0, x1 - x0, px, '#eaf8ff');
+      for (let i = 0; i < 4; i++) { const [x, y] = at(0.26 + i * 0.15, 0.76); fill(x, y, px, Math.round((y1 - y0) * 0.5), '#ffffff'); }
+      for (let i = 0; i < 5; i++) { const [x, y] = at(0.24 + hash(i * 2.2) * 0.52, 0.66 + hash(i * 5.5) * 0.06); fill(x, y, px, px * (2 + (i % 3)), '#d8f2ff'); }
+      for (let i = 0; i < 4; i++) { if (Math.sin(t / 160 + i * 1.9) < 0.6) continue; const [x, y] = at(0.25 + hash(i * 8.8) * 0.5, 0.72 + hash(i * 1.3) * 0.25); ctx.globalAlpha = 1; fill(x, y, px, px, '#ffffff'); }
+      ctx.globalAlpha = 1;
+    } else if (aff.held === 'roots') {
+      // roots up out of the floor, wound round its legs, a leaf here and there
+      for (let v = 0; v < 4; v++) {
+        for (let k = 0; k <= 16; k++) {
+          const u = k / 16, [x, y] = at(0.5 + Math.sin(u * 7 + v * 1.6) * (0.16 + 0.08 * (v % 2)), 1 - u * (0.3 + 0.06 * v));
+          fill(x, y, px * 2, px * 2, v % 2 ? '#4a3a22' : '#56702c');
+          if (k % 5 === 3) fill(x + px * 2, y - px, px * 2, px, '#86c050');
+        }
+      }
+    } else if (aff.held === 'snare') {
+      // the snare's cord pulled tight round its legs, the loose end trailing on the floor
+      for (const fy of [0.84, 0.91]) for (let k = 0; k <= 12; k++) {
+        const u = k / 12, [x, y] = at(0.3 + u * 0.4, fy + Math.sin(u * Math.PI) * 0.025);
+        fill(x, y, px * 2, px, '#d8b880');
+      }
+      for (let k = 0; k <= 6; k++) { const [x, y] = at(0.7 + k * 0.04, 0.91 + k * 0.015); fill(x, y, px * 2, px, '#b89860'); }
+    }
+  }
   /** Blood on the view after a hard blow: a splash at the edge, flecks flung
    * round it, a thin run down from it; it all fades. Pixel squares, like the rest. */
   function drawDrops(drops, now) {
@@ -1409,7 +1489,7 @@ const Renderer = (() => {
     shown.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const flames = flamesOf(level, lights, sprites, fx, now);
-    litLast.length = 0; leanedN = 0;
+    litLast.length = 0; leanedN = 0; afflictedN.n = 0;
     const list = [];
     for (const s of sprites) {
       const sx = s.x - px, sy = s.y - py;
@@ -1510,6 +1590,7 @@ const Renderer = (() => {
         }
       }
       if (fading || ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
+      if (nRuns && s.aff && img !== art.flash) drawAfflictions(s.aff, left, sw, top, sh, shiftTop, art.top || 0, tY, now);
       // a creature, with room above it for its bar and warning mark
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, bottom: floorY, dist: tY, texel: sh / img.height });
@@ -1790,7 +1871,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; } };
 })();
 
 export { Renderer };
