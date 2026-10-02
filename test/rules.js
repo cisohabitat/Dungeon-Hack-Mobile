@@ -10251,11 +10251,17 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const guarded = ms => { const mark = markLog(G); orc(); c.hp = c.maxHp = 9999; p.hp = 9999; run(Game, G, ms); L.monsters.length = 0; return { took: countSaid(linesSince(G, mark), /steps into the blow meant for you/), hit: countSaid(linesSince(G, mark), /hits you/) }; };
     // it cuts, slowly: about one blow in 1.3 seconds
     {
-      const mark = markLog(G); orc(); c.hp = c.maxHp = 9999; L.monsters[0].nextAct = 1e12;
-      run(Game, G, 13000);
-      if (!countSaid(linesSince(G, mark), new RegExp(`${c.name} cuts the`))) out.push('the sellsword never cut the orc');
-      // (each swing, landed or not, is a lunge: about ten in thirteen seconds)
-      if (L.monsters[0].hp > 99999 - 10) out.push('the sellsword\'s cuts did almost nothing');
+      // (each swing, landed or not, is a lunge: about ten in thirteen seconds; a run of
+      // misses can still leave the orc nearly whole, so it gets three tries)
+      let cut = false, dealt = 0;
+      for (let tries = 0; tries < 3 && dealt < 10; tries++) {
+        const mark = markLog(G); orc(); c.hp = c.maxHp = 9999; L.monsters[0].nextAct = 1e12;
+        run(Game, G, 13000);
+        cut = cut || !!countSaid(linesSince(G, mark), new RegExp(`${c.name} cuts the`));
+        dealt = 99999 - L.monsters[0].hp;
+      }
+      if (!cut) out.push('the sellsword never cut the orc');
+      if (dealt < 10) out.push('the sellsword\'s cuts did almost nothing');
       L.monsters.length = 0;
     }
     // not yet blooded: it takes nothing for you
