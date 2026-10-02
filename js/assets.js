@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
-import { CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts } from './creatures.js';
+import { CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -50,7 +50,7 @@ const Assets = (() => {
   function makeSprite(def, scale) {
     // a creature built from parts arrives already lit; the old grids are flat
     const sc = scale || (def.fine ? 2 : 1);
-    const painted = def.parts ? paintParts(def.parts, def.grid || 32, sc, !!def.grim) : null;
+    const painted = def.parts ? paintParts(def.parts, def.grid || 32, sc, def.grim || false) : null;
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     // the outline keeps its weight in a finer painting: two of its pixels wide
     const ow = sc * (def.grid || 32) / 32 >= 4 ? 2 : 1;
@@ -1242,16 +1242,19 @@ const Assets = (() => {
     // twice as fine as the items in the pack
     for (const k in CREATURES) later(k, () => { const s = creature(k); nearFor(k, s); return s; });
     // items painted from parts replace their old grids too
-    // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit
-    for (const k in ITEM_ART) later(k, () => makeSprite({ parts: ITEM_ART[k](), fine: true }));
+    // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit.
+    // They are set on the creatures' finer grid and lit as they are, softly grim (see ramp), clean of the
+    // painter's grain: their own fine work carries the wood and the steel, where grain read as rust on all of it
+    const itemParts = k => ITEM_ART[k]().map(p => ({ ...up2(p), smooth: 1 }));
+    for (const k in ITEM_ART) later(k, () => makeSprite({ parts: itemParts(k), fine: true, grim: 'soft', grid: 64 }));
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite))) {
-      if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: ITEM_ART[k](), outline: '#e8b84a', fine: true }));
+      if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: itemParts(k), outline: '#e8b84a', fine: true, grim: 'soft', grid: 64 }));
     }
     // props stand in the world too, painted as finely
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
-    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true, grim: true }));
+    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true, grim: true, grid: 64 }));
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
     setTimeout(paintSoon, 200);
   }
@@ -1283,7 +1286,8 @@ const Assets = (() => {
   const paintHeld = (h, outline) => {
     const SCALE = 3, m = {};
     for (const k in h.marks || {}) m[k] = h.marks[k].map(v => v * SCALE);
-    return trim(paintParts(h.parts, h.grid, SCALE), outline, h.anchor.map(v => v * SCALE), m);
+    // in the same light as the pictures in the pack: softly grim, clean of grain
+    return trim(paintParts(h.parts.map(p => ({ ...p, smooth: 1 })), h.grid, SCALE, 'soft'), outline, h.anchor.map(v => v * SCALE), m);
   };
   const outlineFor = id => (id && id.startsWith('relic_') ? '#e8b84a' : '#0a0810');
   /** One pose of a held weapon (or bare fist, id null) with the hand on it. */
