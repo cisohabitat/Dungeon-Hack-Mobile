@@ -1594,7 +1594,9 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    await expect(p2.locator('#news-text')).toContainText('lifelike');
+    // the note is whatever NEWS says now, read from the source so the test outlives each note
+    const news = /const NEWS = \{ id: '[^']*', text: '([^']*)' \};/.exec(require('fs').readFileSync(require('path').join(__dirname, '../../js/ui.js'), 'utf8'))[1];
+    await expect(p2.locator('#news-text')).toContainText(news.slice(0, 40));
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);

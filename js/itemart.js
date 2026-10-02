@@ -6,7 +6,7 @@
 // they read best in a pack slot and uses the whole square. Potions keep one
 // bottle shape per colour, so the colour is never the only clue.
 
-import { ball, limb, sheet, line, dots, specks, hair } from './creatures.js';
+import { ball, limb, sheet, line, specks, hair } from './creatures.js';
 import { KEY_COLORS } from './data.js';
 
 const STEEL = '#b4bcc8', DARK_STEEL = '#7a808c', IRON = '#6e727c', BRASS = '#c8a040', GOLD = '#e8b830';
@@ -46,40 +46,60 @@ function capAbove(cx, cy, rx, ry, cut) {
   const dy = (cut - cy) / ry, dx = Math.sqrt(Math.max(0, 1 - dy * dy)) * rx;
   return [[cx - dx, cut], ...pts, [cx + dx, cut]];
 }
-/** Every pixel centre inside a polygon, for textures laid over a shape. */
-function inside(pts, test) {
+
+// the shape every body armour is cut from: sloping shoulders, arm holes, the
+// waist drawn in a little
+const TORSO = [[6, 9], [11, 6], [13.5, 7.5], [18.5, 7.5], [21, 6], [26, 9], [26.5, 14], [24.5, 16], [24, 27], [8, 27], [7.5, 16], [5.5, 14]];
+const NECK = [[13.5, 7.5], [18.5, 7.5], [17.5, 11], [14.5, 11]];
+/** Whether a point lies inside a polygon. */
+function inPoly(pts, px, py) {
+  let inn = false;
+  for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+    const [xi, yi] = pts[i], [xj, yj] = pts[j];
+    if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) inn = !inn;
+  }
+  return inn;
+}
+/** Points on a staggered lattice inside a polygon, row by row from the top, for rings, scales and rivets. */
+function lattice(pts, dx, dy, y0, y1, test) {
   const out = [];
-  for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) {
-    const px = x + 0.5, py = y + 0.5;
-    let inn = false;
-    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
-      const [xi, yi] = pts[i], [xj, yj] = pts[j];
-      if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) inn = !inn;
-    }
-    if (inn && (!test || test(x, y))) out.push([x, y]);
+  for (let r = 0, y = y0; y <= y1; r++, y += dy) for (let x = 3 + (r % 2) * dx / 2; x < 29; x += dx) {
+    if (inPoly(pts, x, y) && (!test || test(x, y))) out.push([x, y, r]);
+  }
+  return out;
+}
+/** One scale of a scale shirt, its point hanging down: a leaf of metal sewn on at the top. */
+const scaleAt = (x, y, k) => [[x - k, y - 0.9 * k], [x + k, y - 0.9 * k], [x + k, y + 0.2 * k], [x, y + 1.3 * k], [x - k, y + 0.2 * k]];
+/** A shoulder guard of overlapping lames, the lowest drawn first so each above laps over it. */
+function pauldron(side, n, c, edge, lit) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const y = 8 + i * 1.7, m = x => (side < 0 ? x : 32 - x);
+    out.push(sheet([[m(3.6), y + 1.4], [m(6.4), y - 1.6], [m(11), y - 0.8], [m(12), y + 1.2], [m(5), y + 3]], i % 2 ? shade(c, -0.12) : c, { curve: 1, tilt: [side * 0.5, -0.4] }));
+    out.push(hair(m(5), y - 0.6, m(10.5), y - 0.2, lit), hair(m(4.5), y + 2.4, m(11.5), y + 1.4, edge));
   }
   return out;
 }
 
-// the shape every body armour is cut from: shoulders, arm holes, waist
-const TORSO = [[5, 8], [11, 5], [13, 7.5], [19, 7.5], [21, 5], [27, 8], [27, 13], [24, 15], [23.5, 27], [8.5, 27], [8, 15], [5, 13]];
-const NECK = [[13, 7.5], [19, 7.5], [17.5, 11], [14.5, 11]];
-
 // A robe: a gown that flares to the floor, bell sleeves, a hood fallen behind
-// the neck, a sash at the waist and a trimmed hem and opening.
+// the neck, a sash at the waist and a trimmed hem and opening. The folds are
+// panels of light and shade with creases between them, as cloth falls.
 const ROBE = [[7, 8], [11, 5], [13, 7.5], [19, 7.5], [21, 5], [25, 8], [29.5, 16.5], [26, 18], [23, 18.5], [28.5, 30], [3.5, 30], [9, 18.5], [6, 18], [2.5, 16.5]];
 function robe(cloth, light, trim, extra) {
+  const dark = shade(cloth, -0.3), crease = shade(cloth, -0.45);
   return [
     ball(16, 6.5, 5.5, 3, shade(cloth, -0.35)),          // the hood, behind
     sheet(ROBE, cloth, { curve: 1 }),
+    sheet([[10, 9], [13.5, 9], [12.5, 30], [5, 30], [9.4, 18.6]], light, { curve: 0.8 }), sheet([[18.5, 9], [22, 9], [22.6, 18.6], [27, 30], [20, 30]], dark, { curve: 0.8 }),
+    sheet([[3, 16.4], [7, 9.6], [9, 12], [6.5, 17.8]], light, { curve: 0.8 }), sheet([[29, 16.4], [25, 9.6], [23, 12], [25.5, 17.8]], dark, { curve: 0.8 }),
+    ...[[12, 19, 8, 29.5], [14, 19, 12.5, 29.6], [18, 19, 19.5, 29.6], [20.5, 19, 24.5, 29.5], [11, 10.5, 10.5, 17.5], [21, 10.5, 21.5, 17.5]].map(([a, b, c, d]) => hair(a, b, c, d, crease)),
     sheet(NECK, shade(cloth, -0.55)),
-    // the lit fold down the left, a shadowed one down the right
-    limb(11, 10, 11, 17, 1, 1, light), limb(11.5, 20, 7.5, 29, 1, 1.8, light), limb(20.5, 20, 24.5, 29, 1, 1.6, shade(cloth, -0.25)),
     // trim down the opening and round the hem and the cuffs
     line(16, 11, 16, 29.5, trim), line(4.5, 29.5, 27.5, 29.5, trim),
     line(3, 16.5, 6.5, 17.8, trim), line(25.5, 17.8, 29, 16.5, trim),
-    // the sash
-    limb(9.5, 18.5, 22.5, 18.5, 1, 1, shade(cloth, -0.45)),
+    // the sash, knotted, its ends hanging
+    limb(9.5, 18.5, 22.5, 18.5, 1, 1, shade(cloth, -0.45)), hair(10, 17.75, 22, 17.75, shade(cloth, -0.2)),
+    ball(14, 18.6, 1.1, 1, shade(cloth, -0.5)), limb(13.6, 19.4, 12.8, 23, 0.5, 0.4, shade(cloth, -0.45)), limb(14.4, 19.4, 14.6, 22.4, 0.5, 0.4, shade(cloth, -0.45)),
     ...extra,
   ];
 }
@@ -88,12 +108,14 @@ function robe(cloth, light, trim, extra) {
 // falling wide to the hem in folds, lit down one side.
 const CLOAK = [[11, 6], [21, 6], [24, 10], [27, 29], [5, 29], [8, 10]];
 function cloak(cloth, light, clasp, extra) {
+  const dark = shade(cloth, -0.35), crease = shade(cloth, -0.5);
   return [
     ball(16, 6, 6, 3, shade(cloth, -0.35)),                 // the hood, behind
     sheet(CLOAK, cloth, { curve: 0.6 }),
-    // folds: lit down the left, in shadow down the right
-    limb(11, 11, 8.5, 28, 0.9, 1.6, light), limb(16, 12, 16, 28, 0.7, 1.2, shade(cloth, -0.3)), limb(21, 11, 23.5, 28, 0.9, 1.5, shade(cloth, -0.4)),
-    ball(16, 8, 1.8, 1.8, clasp),                            // the clasp at the throat
+    sheet([[9, 9], [13, 9], [11.5, 29], [5.2, 29]], light, { curve: 0.8 }), sheet([[19, 9], [23, 9], [26.8, 29], [20.5, 29]], dark, { curve: 0.8 }),
+    ...[[10.5, 10, 7.5, 28.6], [13, 10, 12.5, 28.8], [16, 11, 16, 28.8], [19, 10, 19.5, 28.8], [21.5, 10, 24.5, 28.6]].map(([a, b, c, d]) => hair(a, b, c, d, crease)),
+    hair(6, 28.6, 26, 28.6, crease),
+    ball(16, 8, 1.8, 1.8, clasp, { smooth: 1 }), specks([[15.5, 7.5]], '#ffffff'),       // the clasp at the throat
     ...extra,
   ];
 }
@@ -104,7 +126,7 @@ function bottle(bodyParts, liquidParts, neck, glints) {
     ...bodyParts,
     ...liquidParts,
     ...neck,
-    dots(glints, '#f4fbff'),
+    ...glints.map(([x, y], i) => (i % 2 ? specks([[x + 0.25, y + 0.25]], '#f4fbff') : hair(x + 0.25, y, x + 0.5, y + 1.5, '#f4fbff'))),
   ];
 }
 
@@ -120,8 +142,8 @@ function flask(liquid, light) {
     ball(16, 11.5, 5.2, 2.6, '#c8b890'),                   // the rag
     limb(13.5, 10, 11, 6.5, 1.3, 0.6, '#c8b890'),           // and its loose end
     limb(11.4, 14.4, 20.6, 14.4, 0.7, 0.7, '#7a5a38'),      // the cord round the neck
-    dots([[10, 21], [9, 23], [11, 26]], '#f4fbff'),
-    dots([[18, 25], [21, 23], [15, 27]], light),
+    hair(9.5, 20.5, 9, 24, '#f4fbff'), specks([[11.25, 26.25]], '#f4fbff'),
+    specks([[18.25, 25.25], [21.25, 23.25], [15.25, 27.25], [19.75, 26.75]], light), hair(13, 26, 20, 27.5, shade(light, -0.3)),
   ];
 }
 
@@ -131,34 +153,47 @@ function flask(liquid, light) {
  * where it has one. Without a stone the band itself is the thing to see.
  */
 function jewelRing(band, dark, stone, hi, plainMark) {
-  const out = [], cx = 16, cy = 20, rx = 11.5, ry = 7.2, n = 22;
-  for (let i = 0; i < n; i++) {
-    const a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2, mid = (a0 + a1) / 2;
-    const front = Math.sin(mid) > 0, w = stone ? (front ? 2 : 1.4) : (front ? 2.6 : 1.8);
-    out.push(limb(cx + Math.cos(a0) * rx, cy + Math.sin(a0) * ry, cx + Math.cos(a1) * rx, cy + Math.sin(a1) * ry, w, w, front ? band : dark));
+  const out = [], cx = 16, cy = 20, rx = 11, ry = 6.8, n = 40;
+  // the band as two smooth halves, the far one in shadow behind the near
+  const half = (a0, a1, w, c) => {
+    const at2 = (a, r) => [cx + Math.cos(a) * (rx + r), cy + Math.sin(a) * (ry + r * 0.7)];
+    const pts = [];
+    for (let i = 0; i <= n / 2; i++) pts.push(at2(a0 + (a1 - a0) * i / (n / 2), w));
+    for (let i = n / 2; i >= 0; i--) pts.push(at2(a0 + (a1 - a0) * i / (n / 2), -w));
+    return sheet(pts, c, { curve: 1, smooth: 1 });
+  };
+  out.push(half(Math.PI - 0.15, Math.PI * 2 + 0.15, stone ? 1.05 : 1.4, shade(band, -0.28)), half(0, Math.PI, stone ? 1.6 : 2.1, band));
+  // the light running along the band's front, and its shadowed inner edge
+  for (let i = 5; i < 15; i++) {
+    const a0 = i / 20 * Math.PI, a1 = (i + 1) / 20 * Math.PI;
+    out.push(hair(cx + Math.cos(a0) * rx, cy + Math.sin(a0) * ry - 0.6, cx + Math.cos(a1) * rx, cy + Math.sin(a1) * ry - 0.6, hi || '#ffffff'));
   }
-  // the light along the band's front edge
-  for (let i = 3; i < 8; i++) { const a = i / 10 * Math.PI; out.push(dots([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry + 1.2]], hi || '#ffffff')); }
+  out.push(hair(cx - rx + 1.5, cy - 1, cx - rx + 3.5, cy - 3.6, shade(dark, -0.3)), hair(cx + rx - 1.5, cy - 1, cx + rx - 3.5, cy - 3.6, shade(dark, -0.3)));
   if (stone) {
-    out.push(ball(cx, cy - ry - 0.5, 5, 3, dark));
-    out.push(ball(cx, cy - ry - 3.5, 4.4, 4.1, stone));
-    out.push(dots([[cx - 1.6, cy - ry - 5.2], [cx - 0.6, cy - ry - 6]], hi));
+    const sy = cy - ry - 3.4;
+    out.push(ball(cx, cy - ry - 0.6, 4.2, 2.2, dark, { smooth: 1 }),
+      ...[-1, 1].flatMap(d => [limb(cx + d * 3, cy - ry - 1.2, cx + d * 2.4, sy - 1.4, 0.55, 0.4, band), limb(cx + d * 1.2, cy - ry - 0.6, cx + d * 1, sy + 2.2, 0.5, 0.35, band)]),
+      ball(cx, sy, 3.6, 3.3, stone, { smooth: 1 }),
+      sheet([[cx - 1.7, sy - 2], [cx + 1.7, sy - 2], [cx + 2.5, sy - 0.4], [cx - 2.5, sy - 0.4]], shade(stone, 0.3), { smooth: 1 }),
+      hair(cx - 2.5, sy - 0.4, cx, sy + 2.8, shade(stone, -0.3)), hair(cx + 2.5, sy - 0.4, cx, sy + 2.8, shade(stone, -0.2)),
+      specks([[cx - 1.25, sy - 1.75], [cx - 0.75, sy - 2.25]], hi), specks([[cx + 1.5, sy + 1]], '#ffffff'));
   } else if (plainMark) out.push(...plainMark(cx, cy, rx, ry));
   return out;
 }
-/** An amulet: a chain hung in a curve from the top corners, and a pendant in its frame. */
+/** An amulet: a fine chain hung in a curve from the top corners, and a pendant in its bezel. */
 function jewelAmulet(chain, frame, stone, hi, cord) {
   const out = [];
   const pts = [];
-  for (let i = 0; i <= 12; i++) { const t = i / 12, x = 4 + t * 24, y = 2 + Math.sin(t * Math.PI) * 13; pts.push([x, y]); }
+  for (let i = 0; i <= 24; i++) { const t = i / 24, x = 4 + t * 24, y = 2 + Math.sin(t * Math.PI) * 13; pts.push([x, y]); }
   for (let i = 0; i < pts.length - 1; i++) {
-    if (cord) out.push(limb(...pts[i], ...pts[i + 1], 0.7, 0.7, chain));
-    else out.push(ball((pts[i][0] + pts[i + 1][0]) / 2, (pts[i][1] + pts[i + 1][1]) / 2, 1.1, 0.8, i % 2 ? frame : chain));
+    const [x0, y0] = pts[i], [x1, y1] = pts[i + 1], mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+    if (cord) out.push(limb(x0, y0, x1, y1, 0.6, 0.6, chain), ...(i % 3 ? [] : [hair(mx - 0.3, my - 0.3, mx + 0.3, my + 0.3, shade(chain, -0.35))]));
+    else out.push(i % 2 ? limb(x0 + (x1 - x0) * 0.2, y0 + (y1 - y0) * 0.2, x1 - (x1 - x0) * 0.2, y1 - (y1 - y0) * 0.2, 0.35, 0.35, frame) : ball(mx, my, 0.7, 0.55, chain, { smooth: 1 }));
   }
-  out.push(ball(16, 17.5, 1.6, 1.6, frame));
-  out.push(ball(16, 24, 6.6, 7.2, frame));
-  out.push(ball(16, 24, 4.9, 5.5, stone));
-  out.push(dots([[13.8, 21], [14.5, 20.3]], hi));
+  out.push(ball(16, 17.4, 1.2, 1.4, frame, { smooth: 1 }), ball(16, 24, 6.4, 7, frame, { smooth: 1 }), ball(16, 24, 5.4, 6, shade(frame, -0.25), { smooth: 1 }));
+  out.push(ball(16, 24, 4.6, 5.2, stone, { smooth: 1 }), ball(14.8, 22.4, 2, 2.2, shade(stone, 0.25), { smooth: 1 }));
+  out.push(hair(13.6, 21.4, 14.6, 20.2, hi), specks([[17.5, 27]], shade(stone, 0.4)));
+  out.push(...[[16, 17.4], [11.4, 21], [20.6, 21], [11.4, 27], [20.6, 27], [16, 30.6]].map(([x, y]) => specks([[x, y]], shade(frame, 0.35))));
   return out;
 }
 
@@ -175,6 +210,9 @@ function longStave() {
   return pts;
 }
 
+/** Marks a pixel of the coarse grid each, painted a quarter as large: a glint, a stud, a stitch. */
+const fine = (pts, c) => specks(pts.map(([x, y]) => [Math.floor(x) + 0.25, Math.floor(y) + 0.25]), c);
+
 const ITEM_ART = {
   // ---- rings and amulets: each look its own metal and stone ----
   ring_silver: () => jewelRing('#c8ccd4', '#80868f', '#3a6ad8', '#a8c8ff'),
@@ -182,8 +220,8 @@ const ITEM_ART = {
   ring_garnet: () => jewelRing('#b4bcc8', '#6e727c', '#8a1a3a', '#e06080'),
   ring_onyx: () => jewelRing('#c8ccd4', '#80868f', '#1a1a22', '#8a8a9a'),
   ring_copper: () => jewelRing('#c87a40', '#7a4420', '#e8a030', '#ffe0a0'),
-  ring_jade: () => jewelRing('#4aa070', '#2a6a48', null, '#9ae0b8', (cx, cy, rx, ry) => [dots([[cx - 4, cy + ry - 0.5], [cx - 3, cy + ry], [cx + 2, cy + ry + 0.2]], '#bff0d0')]),
-  ring_bone: () => jewelRing('#e8dcc0', '#a89c80', null, '#ffffff', (cx, cy, rx, ry) => [0.2, 0.35, 0.5, 0.65, 0.8].map(t => { const a = t * Math.PI; return dots([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]], '#6a5c44'); })),
+  ring_jade: () => jewelRing('#4aa070', '#2a6a48', null, '#9ae0b8', (cx, cy, rx, ry) => [fine([[cx - 4, cy + ry - 0.5], [cx - 3, cy + ry], [cx + 2, cy + ry + 0.2]], '#bff0d0')]),
+  ring_bone: () => jewelRing('#e8dcc0', '#a89c80', null, '#ffffff', (cx, cy, rx, ry) => [0.2, 0.35, 0.5, 0.65, 0.8].map(t => { const a = t * Math.PI; return fine([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]], '#6a5c44'); })),
   ring_iron: () => jewelRing('#6e727c', '#3a3e46', null, '#b4bcc8', (cx, cy, rx, ry) => [0.25, 0.5, 0.75].map(t => { const a = t * Math.PI; return ball(cx + Math.cos(a) * rx, cy + Math.sin(a) * ry, 0.9, 0.9, '#9aa0a8'); })),
   amulet_amber: () => jewelAmulet('#e8b830', '#9a7418', '#e8a030', '#ffe0a0'),
   amulet_silver: () => jewelAmulet('#c8ccd4', '#80868f', '#d8e8f8', '#ffffff'),
@@ -191,30 +229,29 @@ const ITEM_ART = {
   amulet_bone: () => jewelAmulet('#8a5a32', '#a89c80', '#e8dcc0', '#ffffff', true),
   // ---- blades ----
   dagger: () => [
-    axis(5.5, 10, 1.1, 1.1, WRAP), ball(...at(4.8), 1.6, 1.6, BRASS),
-    guard(10.5, 6), ...blade(11, 22, 2.6),
+    axis(5.5, 10, 1.05, 1.05, WRAP), ball(...at(4.9), 1.25, 1.25, BRASS), specks([at(4.5, -0.4)], '#fff0a0'),
+    guard(10.5, 5.2, BRASS, 0.7), ...blade(11, 22, 2.5),
   ],
   shortsword: () => [
     // a soldier's blade: plain steel fittings, quillons swept toward the point
-    axis(4.5, 10, 1.2, 1.2, '#3e2a1c'), ball(...at(3.6), 1.8, 1.8, DARK_STEEL),
+    axis(4.5, 10, 1.15, 1.15, '#3e2a1c'), ball(...at(3.7), 1.45, 1.45, DARK_STEEL), specks([at(3.3, -0.5)], '#e8ecf2'),
     limb(...at(10.2, -4.5), ...at(11.5, -1), 0.9, 0.9, DARK_STEEL), limb(...at(10.2, 4.5), ...at(11.5, 1), 0.9, 0.9, DARK_STEEL),
     ball(...at(10.8), 1.4, 1.4, DARK_STEEL),
     ...blade(11.5, 26.5, 3.3),
   ],
   longsword: () => [
-    axis(3.2, 10.5, 1.15, 1.15, WRAP),
-    dots([at(5), at(7), at(9)].map(([x, y]) => [Math.round(x), Math.round(y)]), '#3a2414'),
-    ball(...at(2.4), 1.9, 1.9, STEEL),
-    guard(11, 11, DARK_STEEL, 1), ball(...at(11, -5.5), 1.1, 1.1, DARK_STEEL), ball(...at(11, 5.5), 1.1, 1.1, DARK_STEEL),
+    axis(3.2, 10.5, 1.1, 1.1, WRAP), ...[4.4, 5.6, 6.8, 8, 9.2].map(s => hairAt(s, -1, s + 0.5, 1, '#3a2414')),
+    ball(...at(2.5), 1.5, 1.5, STEEL), specks([at(1.6)], '#5a606c'), specks([at(2.1, -0.6)], '#f4f8ff'),
+    guard(11, 10.4, DARK_STEEL, 0.75), ball(...at(11, -5.3), 0.8, 0.8, DARK_STEEL), ball(...at(11, 5.3), 0.8, 0.8, DARK_STEEL),
     ...blade(11.5, 31, 3.1),
   ],
   greatsword: () => [
     axis(2, 10.5, 1.3, 1.3, '#4a2e1a'),
     ...[3.5, 5.5, 7.5, 9.5].map(s => guard(s, 2.6, '#7a5230', 0.55)),
-    ball(...at(1.2), 2.1, 2.1, BRASS),
+    ball(...at(1.4), 1.7, 1.7, BRASS), specks([at(0.9, -0.6)], '#fff0a0'),
     // swept quillons, a leather-wrapped ricasso, then a blade as long as a man's leg
-    limb(...at(11, -7), ...at(12.2, -3), 1.1, 1, BRASS), limb(...at(11, 7), ...at(12.2, 3), 1.1, 1, BRASS),
-    guard(12, 6.5, BRASS, 1.2),
+    limb(...at(11, -7), ...at(12.2, -3), 0.85, 0.75, BRASS), limb(...at(11, 7), ...at(12.2, 3), 0.85, 0.75, BRASS),
+    guard(12, 6.5, BRASS, 0.9),
     ...blade(12.8, 33.5, 3.8),
     axis(13, 16, 1.5, 1.5, WRAP),
   ],
@@ -233,15 +270,15 @@ const ITEM_ART = {
   club: () => [
     axis(3, 27, 1.2, 3.4, WOOD),
     axis(3, 8, 1.45, 1.6, WRAP),
-    dots([at(16, 1.5), at(21, -1.5), at(24, 1.8)].map(([x, y]) => [Math.round(x), Math.round(y)]), DARK_WOOD),
-    dots([at(18, -2.2), at(25.5, -1)].map(([x, y]) => [Math.round(x), Math.round(y)]), '#b07a48'),
+    ...[[16, 1.5], [21, -1.5], [24, 1.8]].flatMap(([s, o]) => [ball(...at(s, o), 0.7, 0.6, DARK_WOOD), specksAt([[s + 0.4, o + 0.3]], '#3a2414')]),
+    specksAt([[18, -2.2], [25.5, -1], [12, 0.8]], '#b07a48'),
   ],
   staff: () => [
     axis(0.5, 30, 1.15, 1.15, WOOD),
     ball(...at(0.2), 1.2, 1.2, IRON),
     axis(27.5, 29, 1.6, 1.6, BRASS), axis(12, 15, 1.35, 1.35, WRAP),
-    ball(...at(31), 2.6, 2.6, '#58b8f0'),
-    dots([at(30.3, -1.1)].map(([x, y]) => [Math.round(x), Math.round(y)]), '#e8faff'),
+    ball(...at(31), 2.6, 2.6, '#58b8f0', { glows: true }), ball(...at(31.4, 0.5), 1.4, 1.4, '#3a88c8', { glows: true }),
+    specks([at(30.3, -1.1), at(30.6, -1.4)], '#e8faff'),
   ],
   spear: () => [
     axis(0.5, 24, 0.95, 0.95, WOOD),
@@ -259,7 +296,7 @@ const ITEM_ART = {
     });
     return [
       axis(2, 23, 1.1, 1.2, DARK_WOOD), axis(2, 8, 1.35, 1.35, WRAP),
-      ball(...at(1.6), 1.5, 1.5, IRON),
+      ball(...at(1.7), 1.2, 1.2, IRON),
       ...flanges,
       ball(c[0], c[1], 3.4, 3.4, IRON),
       ball(...at(29.2), 1.2, 1.2, DARK_STEEL),
@@ -309,7 +346,7 @@ const ITEM_ART = {
     ball(26.3, 7.3, 1, 1, '#7a5230'),
     ball(18.5, 21.5, 4.2, 2.8, '#7a5230'),
     ball(18.5, 19.8, 2.3, 2.1, '#8e8a84'),
-    dots([[17, 19]], '#d8d4cc'),
+    fine([[17, 19]], '#d8d4cc'),
   ],
   shortbow: () => {
     // a recurved stave bowed toward the right, string taut on the left
@@ -327,7 +364,7 @@ const ITEM_ART = {
       line(pts[0][0], pts[0][1], pts[8][0], pts[8][1], '#e8e0cc'),
       line(5, 16, 27, 16, '#b08858'),
       sheet([[26, 14], [30, 16], [26, 18]], STEEL, { tilt: [-0.3, -0.4] }),
-      dots([[5, 15], [6, 15], [5, 17], [6, 17], [4, 14], [4, 18]], '#e04838'),
+      sheet([[4, 13.6], [7, 15.4], [7, 16], [4.6, 15.4]], '#e04838'), sheet([[4, 18.4], [7, 16.6], [7, 16], [4.6, 16.6]], '#c03828'), hair(4.5, 14.5, 6.5, 15.5, '#ff8070'),
       ...stave,
       ball(pts[0][0], pts[0][1], 0.9, 0.9, '#6a4424'), ball(pts[8][0], pts[8][1], 0.9, 0.9, '#6a4424'),
     ];
@@ -341,7 +378,7 @@ const ITEM_ART = {
       // a long arrow, nocked across the grip, its head well past the belly
       line(3, 16, 27.5, 16, '#a88050'),
       sheet([[27, 14.2], [31, 16], [27, 17.8]], STEEL, { tilt: [-0.3, -0.4] }),
-      dots([[3, 15], [4, 15], [5, 15], [3, 17], [4, 17], [5, 17], [2, 14], [2, 18]], '#e4e0d4'),
+      sheet([[2, 13.6], [6, 15.4], [6, 16], [2.6, 15.4]], '#e4e0d4'), sheet([[2, 18.4], [6, 16.6], [6, 16], [2.6, 16.6]], '#c8c4b8'), hair(2.5, 14.5, 5.5, 15.5, '#ffffff'),
       ...stave,
       // a leather wrap round the grip, longer than the short bow's cord
       limb(pts[4][0] + 0.2, 12.8, pts[6][0] + 0.2, 19.2, 1.55, 1.55, '#4a2c18'),
@@ -351,78 +388,89 @@ const ITEM_ART = {
     ];
   },
 
-  // ---- body armour ----
+  // boiled leather, laced up the front, the shoulders in layered caps, stitched, scuffed, belted
   leather: () => [
     sheet(TORSO, '#8a5a34', { curve: 1 }),
+    sheet([[9, 10], [15, 9.5], [14.5, 26.5], [9, 26.5]], '#9a6a40', { curve: 0.8 }), sheet([[17.5, 9.5], [23, 10], [23, 26.5], [17.5, 26.5]], '#76482a', { curve: 0.8 }),
     sheet(NECK, '#3a2414'),
-    ball(8, 9, 3.2, 2.4, '#7a4e2c'), ball(24, 9, 3.2, 2.4, '#7a4e2c'),
-    // laced up the front, belted at the waist
-    dots([[15, 12], [17, 13], [15, 14], [17, 15], [15, 16], [17, 17], [15, 18], [17, 19]], '#e0c890'),
-    limb(8.5, 23, 23.5, 23, 1.2, 1.2, '#4a2e1a'),
-    dots([[15, 23], [16, 23], [17, 23], [15, 22], [17, 22], [15, 24], [17, 24]], BRASS),
+    hair(16, 11, 16, 22, '#3a2414'),
+    ...[0, 1, 2, 3, 4, 5].flatMap(i => [hair(15, 11.6 + i * 1.8, 17, 12.8 + i * 1.8, '#e0c890'), hair(17, 11.6 + i * 1.8, 15, 12.8 + i * 1.8, '#e0c890')]),
+    specks([0, 1, 2, 3, 4, 5, 6].flatMap(i => [[14.75, 11.5 + i * 1.8], [17.25, 11.5 + i * 1.8]]), '#2a1a0e'),
+    ...pauldron(-1, 2, '#7a4e2c', '#4a2e18', '#a8784a'), ...pauldron(1, 2, '#7a4e2c', '#4a2e18', '#a8784a'),
+    specks([9, 10.5, 12, 13.5].flatMap(y => [[8.5, y + 6], [23.5, y + 6]]), '#c8a070'),
+    limb(8.2, 23, 23.8, 23, 1.2, 1.2, '#4a2e1a'), hair(8.5, 22.25, 23.5, 22.25, '#6a4a2a'),
+    sheet([[14.6, 21.8], [17.4, 21.8], [17.4, 24.2], [14.6, 24.2]], BRASS), sheet([[15.3, 22.5], [16.7, 22.5], [16.7, 23.5], [15.3, 23.5]], '#4a2e1a'), hair(16, 22.4, 16, 23.6, '#f0d070'),
+    hair(11, 15, 12.5, 17, '#b8885a'), hair(20, 18, 21.5, 19.5, '#b8885a'), hair(10, 25, 22, 25.5, '#5a3a20'),
   ],
+  // the same leather under rows of iron rivets, each with its shadow and its glint
   studded: () => [
     sheet(TORSO, '#6e4a2c', { curve: 1 }),
+    sheet([[9, 10], [15, 9.5], [14.5, 26.5], [9, 26.5]], '#7a5434', { curve: 0.8 }), sheet([[17.5, 9.5], [23, 10], [23, 26.5], [17.5, 26.5]], '#5a3a22', { curve: 0.8 }),
     sheet(NECK, '#2e1c10'),
-    ball(8, 9, 3.2, 2.4, '#5e3e24'), ball(24, 9, 3.2, 2.4, '#5e3e24'),
-    // rows of rivets, offset row to row
-    dots([...[11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => [x + (r % 2), y]))], '#d8dce4'),
-    dots([...[11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => [x + (r % 2), y + 1]))], '#3a2616'),
-    dots([[7, 8], [9, 8], [23, 8], [25, 8]], '#d8dce4'),
+    ...lattice(TORSO, 2.6, 2.4, 11.5, 25.5, (x, y) => !(y < 13 && x > 12.5 && x < 19.5)).flatMap(([x, y]) => [specks([[x + 0.25, y + 0.5]], '#2a1a0e'), ball(x, y, 0.5, 0.5, '#b8bcc4', { smooth: 1 }), specks([[x - 0.25, y - 0.25]], '#f4f8ff')]),
+    ...pauldron(-1, 2, '#5e3e24', '#3a2616', '#8a6a48'), ...pauldron(1, 2, '#5e3e24', '#3a2616', '#8a6a48'),
+    ...[[6, 9], [9.5, 8], [26, 9], [22.5, 8]].map(([x, y]) => ball(x, y, 0.45, 0.45, '#c8ccd4')),
+    limb(8.2, 24.5, 23.8, 24.5, 1, 1, '#3a2616'), hair(10, 16, 11, 19, '#8a6a48'),
   ],
-  scale: () => {
-    const body = TORSO;
-    return [
-      sheet(body, '#a08850', { curve: 1 }),
-      sheet(NECK, '#3a2c18'),
-      // overlapping scales: a dark lower lip and a bright crown on each
-      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 0) && ((x + (y % 6 ? 0 : 1)) % 2 === 0)), '#5e4c28'),
-      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 1) && ((x + (y % 6 === 1 ? 1 : 0)) % 2 === 0)), '#dcc890'),
-      ball(8, 9, 3.4, 2.5, '#b0985c'), ball(24, 9, 3.4, 2.5, '#b0985c'),
-    ];
-  },
-  // scales off a cave wyrm, rust-red and still warm-looking, laced onto hide
-  wyrmscale: () => {
-    const body = TORSO;
-    return [
-      sheet(body, '#8a3a24', { curve: 1 }),
-      sheet(NECK, '#2a1410'),
-      // rounded scales in rows, each with a dark lower lip and an ember crown
-      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 0) && ((x + (y % 6 ? 0 : 1)) % 2 === 0)), '#4a1a12'),
-      dots(inside(body, (x, y) => y > 9 && y < 26 && (y % 3 === 1) && ((x + (y % 6 === 1 ? 1 : 0)) % 2 === 0)), '#e08a4a'),
-      ball(8, 9, 3.6, 2.6, '#a44a2c'), ball(24, 9, 3.6, 2.6, '#a44a2c'),
-      // a pale plate down the chest, as on the beast's own belly
-      sheet([[13, 12], [19, 12], [18.5, 24], [13.5, 24]], '#c8a878', { curve: 0.8 }),
-      ...[14.5, 17.5, 20.5].map(y => line(13.8, y, 18.2, y, '#8a6a44')),
-    ];
-  },
+  // overlapping scales of bronze sewn onto leather, each hanging over the row below
+  scale: () => [
+    sheet(TORSO, '#6a5a34', { curve: 1 }), sheet(NECK, '#3a2c18'),
+    ...lattice(TORSO, 1.9, 1.5, 10.5, 26).reverse().flatMap(([x, y]) => [
+      sheet(scaleAt(x, y, 1), inPoly([[6, 9], [16, 8], [16, 27], [8, 27]], x, y) ? '#b09858' : '#9a8448', { curve: 1 }),
+      hair(x - 0.8, y + 0.8, x + 0.8, y + 0.8, '#4e3e20'), specks([[x - 0.25, y - 0.5]], '#e8d8a0'),
+    ]),
+    ...pauldron(-1, 3, '#a89050', '#5e4c28', '#e0d098'), ...pauldron(1, 3, '#a89050', '#5e4c28', '#e0d098'),
+    limb(8.2, 26.4, 23.8, 26.4, 0.8, 0.8, '#5e4c28'),
+  ],
+  // scales off a cave wyrm, rust-red and still warm-looking, laced onto hide, a pale plate down the chest
+  wyrmscale: () => [
+    sheet(TORSO, '#5a2416', { curve: 1 }), sheet(NECK, '#2a1410'),
+    ...lattice(TORSO, 2.1, 1.7, 10.5, 26, (x) => x < 12.6 || x > 19.4).reverse().flatMap(([x, y]) => [
+      sheet(scaleAt(x, y, 1.15), x < 16 ? '#a44a2c' : '#8a3a24', { curve: 1 }), hair(x - 0.9, y + 0.9, x + 0.9, y + 0.9, '#3a120c'), specks([[x - 0.25, y - 0.5]], '#e08a4a'),
+    ]),
+    sheet([[13, 11.5], [19, 11.5], [18.5, 25], [13.5, 25]], '#c8a878', { curve: 0.8 }),
+    ...[13.5, 15.8, 18.1, 20.4, 22.7].map(y => [limb(13.6, y, 18.4, y, 0.4, 0.4, '#8a6a44'), hair(13.8, y + 0.6, 18.2, y + 0.6, '#e8d0a0')]).flat(),
+    ...pauldron(-1, 3, '#a44a2c', '#3a120c', '#e08a4a'), ...pauldron(1, 3, '#a44a2c', '#3a120c', '#e08a4a'),
+    hair(13, 25.5, 19, 25.5, '#3a120c'),
+  ],
+  // a shirt of riveted rings over a padded coat: the rings drawn as rings, row on row
   chain: () => [
-    // short mail sleeves hang below the shoulders
-    limb(7, 10, 5.5, 17, 2.6, 2.2, '#8e949e'), limb(25, 10, 26.5, 17, 2.6, 2.2, '#8e949e'),
-    sheet(TORSO, '#9aa0aa', { curve: 1 }),
-    sheet(NECK, '#2a2e36'),
-    // every other link dark, so the mail reads as rings rather than cloth
-    dots(inside(TORSO, (x, y) => y > 8 && (x + y) % 2 === 0 && !(y < 11 && x > 12 && x < 19)), '#5c626c'),
-    dots([[5, 16], [6, 17], [26, 16], [25, 17]], '#5c626c'),
-    limb(8.5, 26, 23.5, 26, 1, 1, '#7a808a'),
+    limb(7, 10, 5.4, 17.5, 2.7, 2.3, '#868c96'), limb(25, 10, 26.6, 17.5, 2.7, 2.3, '#868c96'),
+    sheet(TORSO, '#8e949e', { curve: 1 }),
+    sheet([[9, 10], [15, 9.5], [14.5, 26.5], [9, 26.5]], '#9ea4ae', { curve: 0.8 }), sheet([[17.5, 9.5], [23, 10], [23, 26.5], [17.5, 26.5]], '#7a808a', { curve: 0.8 }),
+    ...lattice([...TORSO, [5, 18], [4, 17]], 1.15, 0.9, 9.2, 26.4, (x, y) => !(y < 11.2 && x > 13 && x < 19)).flatMap(([x, y, r]) => [
+      hair(x - 0.45, y, x, y + 0.45, '#4e545e'), hair(x, y + 0.45, x + 0.45, y, '#4e545e'), ...(r % 3 === 0 && x % 2 < 1.2 ? [specks([[x, y - 0.25]], '#dfe4ec')] : []),
+    ]),
+    ...lattice([[3, 11], [8.6, 11], [7.6, 18.6], [3, 18.6]], 1.15, 0.9, 11, 18.4).flatMap(([x, y]) => [hair(x - 0.45, y, x, y + 0.45, '#4e545e'), hair(x, y + 0.45, x + 0.45, y, '#4e545e')]),
+    ...lattice([[23.4, 11], [29, 11], [29, 18.6], [24.4, 18.6]], 1.15, 0.9, 11, 18.4).flatMap(([x, y]) => [hair(x - 0.45, y, x, y + 0.45, '#4e545e'), hair(x, y + 0.45, x + 0.45, y, '#4e545e')]),
+    sheet(NECK, '#2a2e36'), ball(16, 7.6, 3.4, 1.2, '#7a6a50'), hair(13, 7.25, 19, 7.25, '#9a8a6a'),
+    limb(8.2, 26.6, 23.8, 26.6, 0.9, 0.9, '#6a707a'), hair(9, 26.1, 23, 26.1, '#b8bec8'),
   ],
+  // steel splints riveted down a leather coat, a gorget at the throat and lames at the shoulders
   splint: () => [
-    sheet(TORSO, '#4a3a2c', { curve: 1 }),
-    sheet(NECK, '#221810'),
-    ...[10, 13, 16, 19, 22].map(x => limb(x + 0.5, 12, x + 0.5, 25.5, 1.15, 1.15, STEEL)),
-    limb(9, 11, 23, 11, 1, 1, DARK_STEEL),
-    ball(7.5, 9.5, 3.6, 2.8, STEEL), ball(24.5, 9.5, 3.6, 2.8, STEEL),
-    dots([[10, 12], [13, 12], [16, 12], [19, 12], [22, 12], [10, 25], [13, 25], [16, 25], [19, 25], [22, 25]], BRASS),
+    sheet(TORSO, '#4a3a2c', { curve: 1 }), sheet(NECK, '#221810'),
+    ...[10, 13, 16, 19, 22].flatMap(x => [
+      limb(x, 12.4, x, 25.4, 1.2, 1.2, x < 16 ? STEEL : x > 16 ? '#9aa2ae' : '#aab2be', { smooth: 1 }), hair(x - 0.5, 13, x - 0.5, 25, '#e8eef6'), hair(x + 0.75, 13, x + 0.75, 25, '#6a7280'),
+      ball(x, 13, 0.4, 0.4, BRASS), ball(x, 24.8, 0.4, 0.4, BRASS), ball(x, 19, 0.35, 0.35, BRASS),
+    ]),
+    sheet([[11, 9.4], [21, 9.4], [21.6, 12], [10.4, 12]], DARK_STEEL, { curve: 0.6 }), hair(11.5, 9.75, 20.5, 9.75, '#c8ccd4'),
+    ...pauldron(-1, 3, STEEL, '#5a606c', '#eef3fa'), ...pauldron(1, 3, STEEL, '#5a606c', '#eef3fa'),
+    limb(8.2, 26.4, 23.8, 26.4, 1, 1, '#2e2218'), hair(10, 25.9, 22, 25.9, '#6a5a44'),
   ],
+  // a breastplate with a ridge down it, lit down one side, lames over the belly and the
+  // shoulders, the edges gilt and riveted
   plate: () => [
-    sheet(TORSO, '#aab4c2', { curve: 1 }),
-    sheet(NECK, '#2a2e38'),
-    // a ridge down the breastplate, gilt edges, and lames over the belly
-    line(16, 12, 16, 21, '#eef3fa'),
-    limb(9, 22.5, 23, 22.5, 0.9, 0.9, '#8a94a2'), limb(9, 25, 23, 25, 0.9, 0.9, '#8a94a2'),
-    line(13, 7, 19, 7, GOLD), line(14, 11, 18, 11, GOLD),
-    ball(7.5, 9.5, 4.2, 3.4, '#b8c2d0'), ball(24.5, 9.5, 4.2, 3.4, '#b8c2d0'),
-    line(4, 11, 11, 11, GOLD), line(21, 11, 28, 11, GOLD),
+    sheet(TORSO, '#a8b2c0', { curve: 1, smooth: 1 }),
+    sheet([[9, 10.5], [15.6, 9.4], [15.6, 21.6], [10, 21]], '#c4ccd8', { curve: 1, tilt: [-0.4, -0.2], smooth: 1 }),
+    sheet([[16.4, 9.4], [23, 10.5], [22, 21], [16.4, 21.6]], '#8a94a2', { curve: 1, tilt: [0.4, -0.2], smooth: 1 }),
+    limb(16, 9.6, 16, 21.6, 0.4, 0.4, '#eef3fa'), hair(16.5, 10, 16.5, 21.5, '#6a7480'),
+    hair(10, 12, 12, 19, '#e8eef6'), hair(20.5, 12, 19.5, 19, '#7a8492'),
+    sheet(NECK, '#2a2e38'), sheet([[12.4, 7.2], [19.6, 7.2], [19, 9.6], [13, 9.6]], '#b8c2d0', { curve: 0.6 }), hair(13, 7, 19, 7, GOLD), hair(13.5, 9.75, 18.5, 9.75, GOLD),
+    ...[22.4, 24.4, 26.4].flatMap((y, i) => [limb(8.6 + i * 0.2, y, 23.4 - i * 0.2, y, 1, 1, i % 2 ? '#8e98a6' : '#9aa4b2', { smooth: 1 }), hair(9, y - 0.75, 23, y - 0.75, '#dfe6ee'),
+      specks([[9.2 + i * 0.2, y], [22.8 - i * 0.2, y]], '#4a4e58')]),
+    ...pauldron(-1, 3, '#b8c2d0', '#6a7480', '#f0f4fa'), ...pauldron(1, 3, '#b8c2d0', '#6a7480', '#f0f4fa'),
+    hair(4, 13.5, 11, 12.6, GOLD), hair(28, 13.5, 21, 12.6, GOLD),
+    specks([[11.5, 11], [20.5, 11], [12, 20.5], [20, 20.5]], '#4a4e58'), hair(19, 14, 20.5, 15.5, '#6a7480'),
   ],
   // ---- robes: a mage's cloth, long to the floor, sleeves wide at the wrist ----
   robe_apprentice: () => robe('#6e6252', '#8a7c68', '#b8a070', [
@@ -439,58 +487,64 @@ const ITEM_ART = {
   ]),
   robe_warded: () => robe('#6e2230', '#8e3040', GOLD, [
     // a band of warding runes round the hem, and a sigil on the breast
-    dots([[6, 28], [8.5, 27.5], [11, 28], [13.5, 27.5], [18.5, 27.5], [21, 28], [23.5, 27.5], [26, 28]], '#ffd870'),
+    ...[6, 8.5, 11, 13.5, 18.5, 21, 23.5, 26].flatMap((x, i) => [hair(x - 0.5, 28, x + 0.5, 27, '#ffd870'), hair(x, 27 + (i % 2) * 0.5, x + (i % 2 ? 0.75 : -0.75), 28.25, '#ffd870')]),
     ...ring(16, 15, 2, 0.45, '#ffd870', 10),
   ]),
   robe_magi: () => robe('#4a2478', '#6a38a4', GOLD, [
     // stars scattered on the cloth, a bright sigil, gold at the cuffs
-    dots([[10, 13], [22, 12], [12, 22], [20, 21], [9, 27], [23, 27], [14, 26]], '#fff0a0'),
+    ...[[10, 13], [22, 12], [12, 22], [20, 21], [9, 27], [23, 27], [14, 26]].flatMap(([x, y]) => [hair(x - 0.5, y, x + 0.5, y, '#fff0a0'), hair(x, y - 0.5, x, y + 0.5, '#fff0a0')]),
     ball(16, 15, 1.6, 1.6, '#c8f0ff'), ball(16, 15, 0.7, 0.7, '#ffffff'),
     line(3, 17, 6.5, 18.2, GOLD), line(25.5, 18.2, 29, 17, GOLD),
   ]),
 
-  // ---- shields ----
+  // a small round shield: planks behind a steel rim, a domed boss, rivets round the edge
   buckler: () => [
-    ball(16, 17, 10, 10, DARK_STEEL),
-    ball(16, 17, 8.4, 8.4, WOOD),
-    ...[0, 1, 2, 3, 4, 5, 6, 7].map(i => dots([[Math.round(16 + Math.cos(i * Math.PI / 4) * 9.2 - 0.5), Math.round(17 + Math.sin(i * Math.PI / 4) * 9.2 - 0.5)]], '#dfe4ec')),
-    ball(16, 17, 3.2, 3.2, STEEL),
+    ball(16, 17, 10, 10, DARK_STEEL, { smooth: 1 }), ball(16, 17, 8.6, 8.6, WOOD),
+    ...[-5.5, -2, 1.6, 5].map(x => hair(16 + x, 17 - Math.sqrt(Math.max(0, 70 - x * x)), 16 + x, 17 + Math.sqrt(Math.max(0, 70 - x * x)), DARK_WOOD)),
+    hair(10, 12, 12, 21, '#a8784a'), hair(20, 14, 21, 20, '#5a3a20'),
+    ...Array.from({ length: 12 }, (_, i) => { const a = i / 12 * Math.PI * 2; return [ball(16 + Math.cos(a) * 9.3, 17 + Math.sin(a) * 9.3, 0.42, 0.42, '#dfe4ec'), specks([[16 + Math.cos(a) * 9.3 + 0.2, 17 + Math.sin(a) * 9.3 + 0.3]], '#3a3e46')]; }).flat(),
+    hair(9, 10, 13, 7.6, '#d8dce4'),
+    ball(16, 17, 3.4, 3.4, '#8a909c', { smooth: 1 }), ball(16, 17, 2.6, 2.6, STEEL, { smooth: 1 }), ball(15, 16, 1, 0.9, '#f4f8ff', { smooth: 1 }),
   ],
+  // a heater shield: a steel rim, the field painted blue with a gold bend, chipped to the wood
   shield: () => {
     const outer = [[5, 4], [27, 4], [27, 15], [24, 22.5], [16, 30], [8, 22.5], [5, 15]];
-    const face = [[7, 6], [25, 6], [25, 15], [22.5, 21.5], [16, 27.5], [9.5, 21.5], [7, 15]];
+    const face = [[6.6, 5.6], [25.4, 5.6], [25.4, 15], [22.8, 21.6], [16, 28], [9.2, 21.6], [6.6, 15]];
     return [
-      sheet(outer, DARK_STEEL, { curve: 1 }),
-      sheet(face, '#2e4a7a', { curve: 1 }),
-      // a gold bend across the field
-      sheet([[7, 9.5], [10, 6], [25, 21], [22.5, 21.5], [21.5, 23.5]], GOLD, { curve: 1 }),
-      dots([[7, 5], [16, 5], [25, 5], [6, 14], [26, 14]], '#e6ebf2'),
+      sheet(outer, DARK_STEEL, { curve: 1, smooth: 1 }),
+      sheet(face, '#2e4a7a', { curve: 1 }), sheet([[6.6, 5.6], [16, 5.6], [16, 28], [9.2, 21.6], [6.6, 15]], '#365488', { curve: 1 }),
+      sheet([[6.6, 9.5], [9.8, 5.6], [25.4, 20.6], [22.8, 21.6], [21.6, 23.4]], GOLD, { curve: 1 }),
+      hair(10.5, 6.5, 24.5, 20.5, '#fff0a0'), hair(7.5, 10, 21.5, 23, '#a07818'),
+      // a silver star in each empty quarter, a chip through the paint to the wood
+      ...[[20, 10.5], [12, 17.5]].flatMap(([x, y]) => [hair(x, y - 1.25, x, y + 1.25, '#e8ecf4'), hair(x - 1.25, y, x + 1.25, y, '#e8ecf4'), specks([[x, y]], '#ffffff')]),
+      sheet([[21, 14], [23, 13.4], [22.4, 15.4]], '#8a5a32'), hair(13, 23, 15, 25.5, '#1e3050'),
+      ...[[6, 5], [16, 4.8], [26, 5], [5.8, 14], [26.2, 14], [9, 22.6], [23, 22.6]].map(([x, y]) => ball(x, y, 0.45, 0.45, '#e6ebf2')),
+      hair(5.6, 5.6, 5.6, 13.6, '#c8ccd6'), hair(8, 4.6, 15, 4.6, '#c8ccd6'),
     ];
   },
-  // a round shield faced with a quillback's quills, points outward
+  // a round shield faced with a quillback's quills, points outward, banded dark and pale
   quillshield: () => [
-    ball(16, 16, 10.5, 10.5, '#4a3020'),
-    ball(16, 16, 9, 9, '#6a4428'),
-    // quills lashed to the face, thick at the root and fine at the tip, overlapping the rim
-    ...Array.from({ length: 22 }, (_, i) => {
-      const a = (i + 0.5) / 22 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a), r = i % 2 ? 14.8 : 13;
-      return limb(16 + c * 3.5, 16 + sn * 3.5, 16 + c * r, 16 + sn * r, 0.95, 0.3, i % 3 ? '#2a2420' : '#3e342a');
-    }),
-    ...Array.from({ length: 22 }, (_, i) => {
-      const a = (i + 0.5) / 22 * Math.PI * 2, r = i % 2 ? 14.8 : 13;
-      return dots([[Math.round(16 + Math.cos(a) * r), Math.round(16 + Math.sin(a) * r)]], '#eee4cc');
-    }),
-    ball(16, 16, 3.4, 3.4, IRON), ball(15.3, 15.3, 1.3, 1.3, '#c8ccd4'),
+    ball(16, 16, 10.5, 10.5, '#4a3020'), ball(16, 16, 9, 9, '#6a4428'),
+    ...Array.from({ length: 30 }, (_, i) => {
+      const a = (i + 0.5) / 30 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a), r = i % 2 ? 14.8 : 13.2, m = r * 0.82, b = r * 0.5;
+      return [limb(16 + c * 3.5, 16 + sn * 3.5, 16 + c * m, 16 + sn * m, 0.75, 0.32, i % 3 ? '#2a2420' : '#3e342a'), limb(16 + c * m, 16 + sn * m, 16 + c * r, 16 + sn * r, 0.32, 0.15, '#eee4cc'),
+        hair(16 + c * b, 16 + sn * b, 16 + c * (b + 0.8), 16 + sn * (b + 0.8), '#8a7e6a')];
+    }).flat(),
+    ...Array.from({ length: 8 }, (_, i) => { const a = i / 8 * Math.PI * 2; return hair(16 + Math.cos(a) * 4, 16 + Math.sin(a) * 4, 16 + Math.cos(a + 0.4) * 4, 16 + Math.sin(a + 0.4) * 4, '#c8b080'); }),
+    ball(16, 16, 3.4, 3.4, IRON, { smooth: 1 }), ball(15.3, 15.3, 1.3, 1.3, '#c8ccd4', { smooth: 1 }),
   ],
+  // a tall shield of planks, banded and nailed, a red stripe painted down it, a boss in the middle
   towershield: () => {
     const outer = [[6, 2], [26, 2], [26, 27], [16, 31], [6, 27]];
     return [
-      sheet(outer, '#7a5230', { curve: 1 }),
-      ...[10, 14, 18, 22].map(x => line(x, 3, x, 28, '#5a3a20')),
-      sheet([[14, 3], [18, 3], [18, 29], [16, 30], [14, 29]], '#8a2a2a', { curve: 0.4 }),
-      limb(6, 8, 26, 8, 1.1, 1.1, IRON), limb(6, 22, 26, 22, 1.1, 1.1, IRON),
-      ball(16, 15, 3.4, 3.4, STEEL),
-      dots([[7, 8], [25, 8], [7, 22], [25, 22], [7, 3], [25, 3]], '#d8dce4'),
+      sheet(outer, '#7a5230', { curve: 1 }), sheet([[6, 2], [11, 2], [11, 29], [6, 27]], '#8a6038', { curve: 0.6 }),
+      ...[10, 14, 18, 22].map(x => line(x, 3, x, 28.5, '#5a3a20')),
+      hair(8, 4, 8.5, 7, '#5e3c1e'), hair(8, 10, 7.5, 20, '#5e3c1e'), hair(12, 10, 12, 16, '#5e3c1e'), hair(20.5, 9.5, 20, 14, '#5e3c1e'), hair(24, 10, 24.5, 20, '#5e3c1e'),
+      specks([[12, 18.5], [12.5, 18], [20.5, 5], [21, 5.5]], '#4a2e14'),
+      sheet([[14, 3], [18, 3], [18, 29.4], [16, 30.2], [14, 29.4]], '#8a2a2a', { curve: 0.4 }), hair(14.5, 4, 14.5, 28, '#a84040'),
+      ...[8, 22].flatMap(y => [limb(6, y, 26, y, 1.1, 1.1, IRON, { smooth: 1 }), hair(6.5, y - 0.75, 25.5, y - 0.75, '#aab0ba'), ...[7, 11.5, 20, 25].map(x => ball(x, y, 0.4, 0.4, '#d8dce4'))]),
+      ball(16, 15, 3.6, 3.6, '#8a909c', { smooth: 1 }), ball(16, 15, 2.8, 2.8, STEEL, { smooth: 1 }), ball(15, 14, 1, 0.9, '#ffffff', { smooth: 1 }),
+      specks([[7, 3], [25, 3], [15.5, 5], [15.5, 26.5]], '#d8dce4'),
     ];
   },
 
@@ -568,7 +622,7 @@ const ITEM_ART = {
     sheet([[12, 16], [20, 16], [20, 25], [12, 25]], '#3a2a1a'),
     limb(14, 20.5, 18, 20.5, 1.2, 1, '#efe6d0'), ball(13.8, 20.5, 1, 1, '#efe6d0'), ball(18.2, 20.5, 1, 1, '#efe6d0'),
     line(8, 28, 24, 28, '#8a6a20'), line(8, 13, 24, 13, '#fff0a0'),
-    dots([[10, 15], [22, 15], [10, 26], [22, 26]], '#58c0ff'),
+    fine([[10, 15], [22, 15], [10, 26], [22, 26]], '#58c0ff'),
   ],
 
   // ---- draughts: one bottle shape per colour ----
@@ -607,28 +661,28 @@ const ITEM_ART = {
     sheet([[7, 13], [25, 13], [26.5, 27], [24, 29], [8, 29], [5.5, 27]], '#8a5a32', { curve: 0.6 }),
     sheet([[7, 13], [25, 13], [23.5, 20.5], [8.5, 20.5]], '#6a4424', { curve: 0.4 }),
     limb(9, 13, 12, 5, 1.3, 1.3, '#4a2e1a'), limb(23, 13, 20, 5, 1.3, 1.3, '#4a2e1a'), limb(12, 5, 20, 5, 1.3, 1.3, '#4a2e1a'),
-    ball(16, 20.5, 2, 1.6, '#e8b830'), dots([[15.4, 20]], '#fff0b0'),
+    ball(16, 20.5, 2, 1.6, '#e8b830'), fine([[15.4, 20]], '#fff0b0'),
     ball(16, 25, 2.6, 2.6, '#f0c060'), ball(16, 25, 1.4, 1.4, '#fff4c8'),
-    dots([[9, 23], [10, 26], [22, 24]], '#a8784a'),
+    fine([[9, 23], [10, 26], [22, 24]], '#a8784a'),
   ],
 
   // ---- charms, for a companion ----
   charm_collar: () => jewelRing('#6a4424', '#3e2614', null, '#a8784a',
     (cx, cy, rx, ry) => [
       ...[0.15, 0.3, 0.45, 0.6, 0.75, 0.9].map(t => ball(cx + Math.cos(t * Math.PI) * rx, cy + Math.sin(t * Math.PI) * ry, 1.5, 1.5, '#c8ccd4')),
-      ball(cx, cy - ry, 2.4, 2, '#9aa0aa'), dots([[cx - 0.6, cy - ry - 0.6]], '#ffffff')]),
+      ball(cx, cy - ry, 2.4, 2, '#9aa0aa'), fine([[cx - 0.6, cy - ry - 0.6]], '#ffffff')]),
   charm_fang: () => [
     ...jewelAmulet('#8a5a32', '#6a4424', '#6a4424', '#6a4424', true).slice(0, 12),
     limb(16, 17, 16, 20, 1.6, 1.6, '#6a4424'),
     limb(16, 19, 18.5, 29, 3.4, 0.6, '#ece0c0'), limb(16.3, 20, 18, 27.5, 1.4, 0.4, '#fff8e8'),
-    dots([[15, 19.5], [15.3, 21]], '#b8a888'),
+    fine([[15, 19.5], [15.3, 21]], '#b8a888'),
   ],
   charm_rowan: () => [
     limb(10, 10, 22, 26, 1.4, 1.2, '#7a4a28'), limb(22, 10, 10, 26, 1.4, 1.2, '#7a4a28'),
     limb(16, 8, 16, 28, 1.4, 1.2, '#6a3e20'),
     ball(16, 18, 3.2, 3.2, '#b8383a'), limb(12, 18, 20, 18, 1, 1, '#d8c498'),
     ...[[9, 9], [23, 9], [9, 27], [23, 27], [16, 6.5]].map(([x, y]) => ball(x, y, 1.9, 1.9, '#d83a30')),
-    dots([[8.4, 8.4], [22.4, 8.4], [15.4, 6]], '#ffb0a0'),
+    fine([[8.4, 8.4], [22.4, 8.4], [15.4, 6]], '#ffb0a0'),
     ball(19.5, 12, 2.4, 1.2, '#4a8a3a'), ball(12.5, 24, 2.4, 1.2, '#4a8a3a'),
   ],
   // a sellsword's: a bar of grey stone worn pale and hollow in the middle by the blade, on a thong
@@ -638,7 +692,7 @@ const ITEM_ART = {
     limb(10.7, 12.4, 23.9, 25.7, 3.7, 3.7, '#747b86'),
     limb(14, 15.6, 21, 22.6, 2, 2, '#9ca4b0'), limb(15.4, 16.4, 19.8, 20.8, 0.8, 0.8, '#d4dae2'),
     ball(10.4, 12.8, 1.7, 1.7, '#3a2618'),
-    dots([[13, 18.5], [22.5, 25], [23.6, 23], [12, 15.6], [19, 25.5]], '#3e444e'),
+    fine([[13, 18.5], [22.5, 25], [23.6, 23], [12, 15.6], [19, 25.5]], '#3e444e'),
   ],
 
   // ---- oils ----
@@ -650,7 +704,7 @@ const ITEM_ART = {
   // ---- paper ----
   scroll: () => [
     sheet([[8, 7.5], [24, 7.5], [24, 25.5], [8, 25.5]], '#e8d8b0', { curve: 0.5 }),
-    dots([...[12, 15, 18, 21].flatMap(y => [11, 12, 13, 15, 16, 17, 18, 20, 21].filter((x, i) => (x + y) % 7 !== 0).map(x => [x, y]))], '#6a5a48'),
+    ...[12, 15, 18, 21].flatMap(y => [[10.6, 13.4], [14.6, 18.6], [19.6, 21.6]].filter(([a], i) => (a + y + i) % 5 > 0.6).map(([a, b]) => hair(a, y + 0.4, b, y + 0.2 + (a % 2) * 0.3, '#6a5a48'))),
     limb(6.5, 7, 25.5, 7, 2, 2, '#d8c498'), limb(6.5, 26, 25.5, 26, 2, 2, '#d8c498'),
     ball(5.8, 7, 1.5, 1.8, '#7a5230'), ball(26.2, 7, 1.5, 1.8, '#7a5230'),
     ball(5.8, 26, 1.5, 1.8, '#7a5230'), ball(26.2, 26, 1.5, 1.8, '#7a5230'),
@@ -660,8 +714,8 @@ const ITEM_ART = {
     const torn = [[7, 4], [25, 5], [26, 27], [23, 28.5], [21, 27], [18, 29], [15, 27.5], [12, 29], [9, 27.5], [6, 28]];
     return [
       sheet(torn, '#e2d2a8', { tilt: [-0.15, -0.3] }),
-      dots([...[8, 11, 14, 17, 20, 23].flatMap(y => [10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22].filter(x => (x * 3 + y) % 5 !== 0).map(x => [x, y]))], '#4a3c30'),
-      dots([[22, 23], [23, 24], [21, 24]], '#8a2020'),
+      ...[8, 11, 14, 17, 20, 23].flatMap(y => [[9.6, 12.4], [13.6, 17.6], [18.6, 22.4]].filter(([a], i) => (a * 3 + y + i) % 7 > 1).map(([a, b]) => hair(a, y + 0.4, b, y + 0.3 + (a % 2) * 0.3, '#4a3c30'))),
+      fine([[22, 23], [23, 24], [21, 24]], '#8a2020'),
     ];
   },
 
@@ -678,8 +732,8 @@ const ITEM_ART = {
     ball(26.5, 26, 1.8, 1.8, '#f2eadc'), ball(25, 28, 1.8, 1.8, '#f2eadc'),
     ball(13, 14, 8.5, 7.5, '#b8563a'),
     ball(11, 11.5, 4, 3, '#c8704e'),
-    dots([[9, 14], [11, 16], [13, 18], [14, 12], [16, 14], [18, 16]], '#8a3a24'),
-    dots([[9, 9], [10, 9], [8, 10]], '#f0c8a8'),
+    fine([[9, 14], [11, 16], [13, 18], [14, 12], [16, 14], [18, 16]], '#8a3a24'),
+    fine([[9, 9], [10, 9], [8, 10]], '#f0c8a8'),
   ],
   // pale caps on a clump of moss, grown only on an overgrown floor
   caps: () => [
@@ -687,14 +741,14 @@ const ITEM_ART = {
     limb(11, 27, 11, 20, 1.3, 1, '#e8e0cc'), ball(11, 19, 5, 2.6, '#d4c8ac'),
     limb(21, 28, 21, 16, 1.5, 1.2, '#ece4d0'), ball(21, 15, 6.5, 3.2, '#e0d4b8'),
     limb(16, 28, 16, 23, 1.1, 0.9, '#e8e0cc'), ball(16, 22.5, 3.6, 1.9, '#ccc0a4'),
-    dots([[19, 14], [23, 14], [9, 18], [15, 22]], '#f8f4e8'),
-    dots([[8, 29], [24, 29]], '#6a8a48'),
+    fine([[19, 14], [23, 14], [9, 18], [15, 22]], '#f8f4e8'),
+    fine([[8, 29], [24, 29]], '#6a8a48'),
   ],
   bread: () => [
     ball(16, 21, 12, 7, '#c8883e'),
     ball(15, 19, 8, 4, '#d69a4e'),
     ...[10, 15, 20].map(x => limb(x - 1.5, 21, x + 2, 16.5, 0.55, 0.55, '#f0cc90')),
-    dots([[6, 24], [26, 24], [8, 26], [24, 26]], '#9a6228'),
+    fine([[6, 24], [26, 24], [8, 26], [24, 26]], '#9a6228'),
   ],
 
   // ---- treasure ----
@@ -705,8 +759,8 @@ const ITEM_ART = {
       coin(12, 25), coin(19, 25), coin(15.5, 22.3), coin(10, 22.8),
       ball(23.5, 20.5, 1.5, 3.8, '#d8a828'), ball(8, 18.5, 1.5, 3.6, '#d8a828'),
       coin(16, 19.5),
-      dots([[14, 18], [21, 24], [10, 24], [7, 27], [22, 18], [7, 16]], '#fff4b0'),
-      dots([[15, 19], [16, 19], [17, 19]], '#b88a18'),
+      fine([[14, 18], [21, 24], [10, 24], [7, 27], [22, 18], [7, 16]], '#fff4b0'),
+      fine([[15, 19], [16, 19], [17, 19]], '#b88a18'),
     ];
   },
   gem: () => [
@@ -715,7 +769,7 @@ const ITEM_ART = {
     sheet([[9, 8], [23, 8], [27, 13], [5, 13]], '#5ccaf6', { tilt: [-0.2, -0.7] }),
     sheet([[12, 8], [20, 8], [19, 13], [13, 13]], '#8ae0ff', { tilt: [-0.3, -0.6] }),
     line(5, 13, 27, 13, '#bff0ff'),
-    dots([[12, 10], [13, 9], [11, 11], [9, 16]], '#ffffff'),
+    fine([[12, 10], [13, 9], [11, 11], [9, 16]], '#ffffff'),
   ],
   artifact: () => [
     sheet([[11, 27], [21, 27], [23.5, 31], [8.5, 31]], BRASS, { curve: 1 }),
@@ -723,8 +777,8 @@ const ITEM_ART = {
     sheet([[5.2, 14], [26.8, 14], [16, 28]], '#d42a3a', { curve: 1 }),
     line(16, 9, 16, 27, '#8a1622'),
     line(9, 15, 16, 26, '#f06070'), line(23, 15, 16, 26, '#a01c2a'),
-    dots([[9, 9], [10, 8], [8, 10], [11, 9]], '#ffd0d4'),
-    dots([[14, 16], [15, 15], [16, 17], [17, 16], [15, 18]], '#ff9aa4'),
+    fine([[9, 9], [10, 8], [8, 10], [11, 9]], '#ffd0d4'),
+    fine([[14, 16], [15, 15], [16, 17], [17, 16], [15, 18]], '#ff9aa4'),
   ],
 
   // ---- keys: one shape, in the colour of the lock each one opens ----
@@ -952,111 +1006,7 @@ const ITEM_DETAILS = {
     specks([[3.5, 15], [3.5, 17]], '#6a665e'),
   ],
 
-  // ---- body armour ----
-  leather: () => [
-    // the lace criss-crossing between its eyelets
-    ...[[15.5, 12.5, 17.5, 13.5], [17.5, 13.5, 15.5, 14.5], [15.5, 14.5, 17.5, 15.5], [17.5, 15.5, 15.5, 16.5],
-      [15.5, 16.5, 17.5, 17.5], [17.5, 17.5, 15.5, 18.5], [15.5, 18.5, 17.5, 19.5]].map(([a, b, c, d]) => hair(a, b, c, d, '#b89868')),
-    // stitching round the hem and the shoulders, holes in the belt, a tongue in the buckle
-    specks([10, 11.5, 13, 14.5, 18, 19.5, 21, 22.5].map(x => [x, 26.2]), '#c89a68'),
-    specks([[5.5, 9.5], [6.5, 11], [8, 11.5], [9.5, 11], [22.5, 11], [24, 11.5], [25.5, 11], [26.5, 9.5]], '#c89a68'),
-    specks([[19.5, 23], [21, 23], [22.5, 23]], '#1e120a'),
-    hair(16, 23, 18.5, 23, '#fff0a0'),
-    // scuffs and creases in the hide
-    hair(10, 15, 11.5, 17.5, '#a87448'), hair(21, 16.5, 22, 18.5, '#6a4426'), hair(11, 19.5, 12.5, 21, '#6a4426'),
-  ],
-  studded: () => [
-    // every stud domed: a glint above, a shadow below
-    ...[11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => specks([[x + (r % 2), y]], '#ffffff'))),
-    specks([11, 14, 17, 20, 23].flatMap((y, r) => [10, 13, 16, 19, 22].map(x => [x + (r % 2) + 0.5, y + 0.5])), '#8a909a'),
-    // stitching down the sides and round the hem, a strap at each shoulder
-    specks([10, 12, 14, 18, 20, 22].map(x => [x + 0.5, 26.3]), '#a07a52'),
-    specks([[9, 16], [9, 19], [9, 22], [23, 16], [23, 19], [23, 22]], '#a07a52'),
-    hair(6, 10.5, 9.5, 11.5, '#3a2616'), hair(22.5, 11.5, 26, 10.5, '#3a2616'),
-  ],
-  scale: () => [
-    // a few scales catching the light, one lost, and the leather edging
-    specks([[12, 11.5], [14, 14.5], [11, 17.5], [13, 20.5], [19, 11.5], [21, 14.5]], '#fff4c8'),
-    specks([[18, 19], [18.5, 19], [18, 19.5], [18.5, 19.5]], '#3a2c18'),
-    hair(9, 26.5, 23, 26.5, '#5e4c28'),
-    specks([10, 12, 14, 16, 18, 20, 22].map(x => [x, 26.5]), '#c8a868'),
-    // rims and rivets on the shoulder guards
-    hair(5.5, 10.5, 10, 11.3, '#6e5a30'), hair(22, 11.3, 26.5, 10.5, '#6e5a30'),
-    specks([[7, 8], [25, 8]], '#fff4c8'),
-  ],
-  chain: () => [
-    // light through the rings on the lit shoulder and chest
-    specks(inside(TORSO, (x, y) => y > 8 && y < 20 && x < 19 && (x + y) % 2 === 1 && y % 2 === 1 && !(y < 11 && x > 12)), '#d4d9e1'),
-    // a leather collar and a row of bright links at the hem
-    hair(12.5, 7.5, 14.5, 11, '#6a4a30'), hair(19, 7.5, 17, 11, '#6a4a30'),
-    specks([9.5, 11.5, 13.5, 15.5, 17.5, 19.5, 21.5].map(x => [x, 26]), '#dfe5ee'),
-    // a split link and the sleeves' ends
-    specks([[21, 20], [21.5, 20.5]], '#2a2e36'),
-    specks([[4.5, 18], [5.5, 18.5], [25.5, 18.5], [26.5, 18]], '#c8ced8'),
-  ],
-  splint: () => [
-    // each strip lit down one side, its rivets glinting
-    ...[10, 13, 16, 19, 22].map(x => hair(x, 13.5, x, 24, '#eef3fa')),
-    specks([10, 13, 16, 19, 22].flatMap(x => [[x, 12], [x, 25]]), '#fff4b0'),
-    specks([10, 13, 16, 19, 22].map(x => [x + 1.5, 18.5]), '#8a7058'),
-    // rims and rivets on the pauldrons, a buckle on the collar strap
-    hair(4.5, 11, 9.5, 12, '#6a707c'), hair(22, 12, 27, 11, '#6a707c'),
-    ...rivet(6, 9), ...rivet(25, 9),
-    specks([[15.5, 10.5], [16, 10.5], [16.5, 10.5], [15.5, 11.5], [16.5, 11.5]], BRASS),
-  ],
-  plate: () => [
-    // the ridge's shadow side, the lames' rivets, a dent in the breast
-    hair(17, 12.5, 17, 21, '#7a8494'),
-    ...rivet(9.5, 22.3), ...rivet(22, 22.3), ...rivet(9.5, 24.8), ...rivet(22, 24.8),
-    specks([[12.5, 16.5], [13, 17]], '#6a7484'), specks([[12, 16], [12.5, 16]], '#f4f8ff'),
-    // rivets on the pauldrons, gilt pins at the ends of the collar trim
-    specks([[13, 11], [19.5, 11]], '#fff0a0'),
-    ...rivet(6, 8.5), ...rivet(25.5, 8.5),
-    hair(4.5, 9, 7, 6.5, '#f4f8ff'),
-  ],
 
-  // ---- shields ----
-  buckler: () => [
-    // grain curving across the boards, the lit rim, a glint on the boss
-    hair(9.5, 12.5, 12.5, 11, '#5e3c1e'), hair(9, 16, 12.5, 15.5, '#5e3c1e'), hair(19.5, 18.5, 23, 18, '#5e3c1e'),
-    hair(10, 21, 13, 22.5, '#5e3c1e'), hair(18.5, 22.5, 21.5, 21, '#5e3c1e'), hair(19, 12, 22, 13.5, '#a87448'),
-    specks([[14.5, 15], [15, 14.5], [15, 15]], '#ffffff'),
-    hair(8, 12, 10.5, 9.5, '#b8bec8'),
-    // a cut across the face
-    hair(19.5, 21.5, 22, 20, '#3a2414'), hair(19.5, 22, 22, 20.5, '#b88a58'),
-  ],
-  wyrmscale: () => [
-    // a few scales catching the light like embers, and the lacing at the sides
-    specks([[12, 11.5], [14, 14.5], [11, 17.5], [21, 11.5], [20, 17.5], [22, 20.5]], '#ffd08a'),
-    specks([[9, 14], [9, 17], [9, 20], [23, 14], [23, 17], [23, 20]], '#2a1410'),
-    hair(9, 26.5, 23, 26.5, '#4a1a12'),
-    hair(14, 13, 18, 13, '#f0dcb4'), hair(13.8, 22.5, 18.2, 22.5, '#6a4a2c'),
-  ],
-  quillshield: () => [
-    // the rim's lashing, and a tip or two broken off
-    specks([[5, 16], [27, 16], [16, 5], [16, 27], [8, 8], [24, 24], [24, 8], [8, 24]], '#3a2616'),
-    specks([[11, 6], [21, 26], [6, 20]], '#fff8e8'),
-    hair(12.5, 13, 14, 11.5, '#e0e4ec'),
-  ],
-  shield: () => [
-    // the bend's edges, and a silver star in each empty quarter
-    hair(10.5, 6.5, 24.5, 20.5, '#fff0a0'), hair(7.5, 10, 21.5, 23, '#a07818'),
-    specks([[20, 9.5], [20, 10], [20, 11], [20, 11.5], [19, 10.5], [19.5, 10.5], [20.5, 10.5], [21, 10.5], [20, 10.5]], '#e8ecf4'),
-    specks([[12, 16.5], [12, 17], [12, 18], [12, 18.5], [11, 17.5], [11.5, 17.5], [12.5, 17.5], [13, 17.5], [12, 17.5]], '#e8ecf4'),
-    // the lit rim and a scratch through the paint
-    hair(5.5, 5.5, 5.5, 13.5, '#c8ccd6'), hair(8, 4.5, 15, 4.5, '#c8ccd6'),
-    hair(21.5, 15, 23.5, 13.5, '#8aa0c8'),
-  ],
-  towershield: () => [
-    // grain and knots in the planks, nails down the painted stripe
-    hair(8, 4, 8.5, 7, '#5e3c1e'), hair(8, 10, 7.5, 20, '#5e3c1e'), hair(12, 10, 12, 16, '#5e3c1e'),
-    hair(20.5, 9.5, 20, 14, '#5e3c1e'), hair(24, 10, 24.5, 20, '#5e3c1e'), hair(11.5, 23.5, 12, 27, '#5e3c1e'), hair(20, 24, 20, 27.5, '#5e3c1e'),
-    specks([[12, 18.5], [12.5, 18], [12.5, 19]], '#4a2e14'), specks([[20.5, 5], [21, 5.5]], '#4a2e14'),
-    specks([[15.5, 5], [15.5, 11], [15.5, 19], [15.5, 26.5]], '#e0a0a0'),
-    // more rivets along the bands, a glint on the boss
-    ...rivet(11.5, 7.7, '#3a3e46'), ...rivet(20, 7.7, '#3a3e46'), ...rivet(11.5, 21.7, '#3a3e46'), ...rivet(20, 21.7, '#3a3e46'),
-    specks([[14.5, 13.5], [15, 13], [15, 13.5]], '#ffffff'),
-  ],
 
   // ---- draughts ----
   potion_red: () => [
