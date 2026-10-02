@@ -46,23 +46,21 @@ const m64 = p => {
   return p;
 };
 const both64 = p => [p, m64(p)];
-/** A part drawn on the 32-unit grid, set on the 64-unit one beside a lifelike figure. */
+/** A part drawn on the 32-unit grid, set on the 64-unit one at twice the size. */
 const up2 = p => {
   const d = v => v * 2;
   if (p.k === 'ball') return { ...p, x: d(p.x), y: d(p.y), rx: d(p.rx), ry: d(p.ry) };
   if (p.k === 'limb') return { ...p, x1: d(p.x1), y1: d(p.y1), x2: d(p.x2), y2: d(p.y2), r1: d(p.r1), r2: d(p.r2) };
   if (p.k === 'line' || p.k === 'hair') return { ...p, x1: d(p.x1), y1: d(p.y1), x2: d(p.x2), y2: d(p.y2) };
+  // a pixel of the coarse grid is a square of four on the finer one
+  if (p.k === 'dots') return { ...p, pts: p.pts.flatMap(([x, y]) => [[d(x), d(y)], [d(x) + 1, d(y)], [d(x), d(y) + 1], [d(x) + 1, d(y) + 1]]) };
   return { ...p, pts: p.pts.map(([x, y]) => [d(x), d(y)]) };
 };
-// Which creatures are drawn lifelike, on the finer grid: a human's proportions,
-// layered cloth falling in folds, armour, hands and faces, where the rest are
-// still the stockier figures of the 32-unit grid
-const FINE_GRID = new Set(['lich', 'acolyte', 'skeleton', 'warlord', 'heartforged', 'sellsword', 'mender',
-  'goblin', 'orc', 'zombie', 'ghoul', 'wraith', 'troll', 'ogre', 'minotaur', 'archer', 'kobold', 'shade',
-  // (and the encounter props that are one of them, waiting)
-  'hireling', 'stray_healer', 'goblin_toll', 'ogre_sleep']);
-/** The grid a creature or prop is designed on: 64 units for the lifelike ones, else 32. */
-const gridOf = k => (FINE_GRID.has(k) ? 64 : 32);
+// Every creature is drawn lifelike, on the finer grid: a human's proportions,
+// cloth falling in folds, armour, hands and faces, scales and fur. So are the
+// encounter props that are one of them; the other props keep the 32-unit grid.
+const FINE_PROPS = new Set(['hireling', 'stray_healer', 'goblin_toll', 'ogre_sleep', 'cage']);
+const gridOf = k => (k in CREATURES || FINE_PROPS.has(k) ? 64 : 32);
 
 /** The points of an oval, for a flat sheet in that shape. */
 const oval = (cx, cy, rx, ry, n = 14) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * rx, cy + Math.sin(i / n * Math.PI * 2) * ry]);
@@ -76,8 +74,9 @@ const oval = (cx, cy, rx, ry, n = 14) => Array.from({ length: n }, (_, i) => [cx
  * @param {(row: number) => boolean} keep
  * @param {number | ((row: number) => number)} [shift]  how far each kept row slides:
  *   alternate rows either way by this much, or by row as a function says
+ * @param {number} [n]  the grid it is cut on
  */
-const slats = (p, keep, shift = 0) => {
+const slats = (p, keep, shift = 0, n = 32) => {
   const inside = (x, y) => {
     if (p.k === 'ball') return ((x - p.x) / p.rx) ** 2 + ((y - p.y) / p.ry) ** 2 <= 1;
     if (p.k === 'sheet') return insidePoly(p.pts, x, y);
@@ -86,12 +85,12 @@ const slats = (p, keep, shift = 0) => {
     return Math.hypot(x - p.x1 - ax * t, y - p.y1 - ay * t) <= Math.max(p.r1 + (p.r2 - p.r1) * t, 0.55);
   };
   const out = [];
-  for (let r = 0; r < 32; r++) {
+  for (let r = 0; r < n; r++) {
     if (!keep(r)) continue;
     const y = r + 0.5, dx = typeof shift === 'function' ? shift(r) : r % 2 ? shift : -shift;
     let a = -1;
-    for (let c = 0; c <= 32; c++) {
-      const on = c < 32 && inside(c + 0.5, y);
+    for (let c = 0; c <= n; c++) {
+      const on = c < n && inside(c + 0.5, y);
       if (on && a < 0) a = c;
       if (!on && a >= 0) { out.push(limb(a + 0.5 + dx, y, c - 0.5 + dx, y, 0.55, 0.55, p.c, { smooth: 1 })); a = -1; }
     }
@@ -99,46 +98,113 @@ const slats = (p, keep, shift = 0) => {
   return out;
 };
 
-// The freed goblin's head, the same in the cage and at your heel: a ragged
-// hood with its peak flopped over, knife ears poking out from under it, big
-// bright eyes that never stop looking about, and a grin up one side.
-// `look` sends the eyes left (-1), right (1) or straight at you (0);
+// The freed goblin's head, the same in the cage and at your heel, on the
+// finer grid: a ragged hood with its peak flopped over, knife ears poking out
+// from under it, bright eyes that never stop looking about, and a grin up one
+// side. `look` sends the eyes left (-1), right (1) or straight at you (0);
 // `mouth` is 'grin', or 'teeth' when it means business.
 const scragHead = (x, y, { look = 1, mouth = 'grin' } = {}) => {
-  const skin = '#72ac4c', dark = '#46742f', rag = '#80705c', ex = Math.round(x), ey = Math.round(y);
-  const eye = '#ffd84a', pupil = '#1a1010';
-  const pupils = look > 0 ? [[ex - 2, ey], [ex + 2, ey]] : look < 0 ? [[ex - 3, ey], [ex + 1, ey]] : [[ex - 2, ey], [ex + 1, ey]];
+  const skin = '#72ac4c', dark = '#46742f', light = '#8cc466', rag = '#80705c', ragDk = '#5a4c3c';
+  const px = look * 0.8;
   return [
     // the hood behind the head, close about it, its peak gone limp and
     // fallen over to one side
-    sheet([[x - 5.4, y + 3.2], [x - 5.8, y - 1], [x - 5.2, y - 4], [x - 5.6, y - 6.6], [x - 7.6, y - 8.6], [x - 8.4, y - 7.2], [x - 6.4, y - 8.8],
-      [x - 3.4, y - 7.6], [x - 1, y - 6.2], [x + 2, y - 6], [x + 4.4, y - 5], [x + 5.8, y - 2.6], [x + 5.4, y + 3.2]], rag, { curve: 1 }),
+    sheet([[x - 10.8, y + 6.4], [x - 11.6, y - 2], [x - 10.4, y - 8], [x - 11.2, y - 13.2], [x - 15.2, y - 17.2], [x - 16.8, y - 14.4], [x - 12.8, y - 17.6],
+      [x - 6.8, y - 15.2], [x - 2, y - 12.4], [x + 4, y - 12], [x + 8.8, y - 10], [x + 11.6, y - 5.2], [x + 10.8, y + 6.4]], rag, { curve: 1 }),
+    hair(x - 13, y - 15, x - 9, y - 11, ragDk), hair(x + 9, y - 8, x + 10.5, y - 2, ragDk), specks([[x - 15.5, y - 15], [x - 7, y - 14]], '#a89a82'),
     // the dark inside of the hood, round the face
-    ball(x, y - 0.4, 5.3, 4.9, '#3a302a'),
-    // long ears out through the rag, pink inside, the left one nicked
-    sheet([[x - 4, y - 1.4], [x - 11.2, y - 3.8], [x - 9.6, y - 1.6], [x - 10.4, y - 1.2], [x - 9, y - 0.4], [x - 4, y + 1.8]], skin, { tilt: [-0.5, -0.2] }),
-    sheet([[x + 4, y - 1.4], [x + 11.2, y - 3.8], [x + 9.4, y - 1.2], [x + 4, y + 1.8]], skin, { tilt: [0.5, -0.2] }),
-    sheet([[x - 4.6, y - 0.6], [x - 9, y - 2.6], [x - 4.6, y + 1]], '#c07860'),
-    sheet([[x + 4.6, y - 0.6], [x + 9, y - 2.6], [x + 4.6, y + 1]], '#c07860'),
-    ball(x, y, 4.6, 4.1, skin),
+    ball(x, y - 0.8, 10.6, 9.8, '#3a302a'),
+    // long ears out through the rag, pink inside, the left one nicked, veined
+    sheet([[x - 8, y - 2.8], [x - 22.4, y - 7.6], [x - 19.2, y - 3.2], [x - 20.8, y - 2.4], [x - 18, y - 0.8], [x - 8, y + 3.6]], skin, { tilt: [-0.5, -0.2] }),
+    sheet([[x + 8, y - 2.8], [x + 22.4, y - 7.6], [x + 18.8, y - 2.4], [x + 8, y + 3.6]], skin, { tilt: [0.5, -0.2] }),
+    sheet([[x - 9.2, y - 1.2], [x - 18, y - 5.2], [x - 9.2, y + 2]], '#c07860'), sheet([[x + 9.2, y - 1.2], [x + 18, y - 5.2], [x + 9.2, y + 2]], '#c07860'),
+    hair(x - 10, y - 0.5, x - 16, y - 4, '#9a5a48'), hair(x + 10, y - 0.5, x + 16, y - 4, '#9a5a48'),
+    // a narrow face, the cheekbones high, a pointed chin
+    ball(x, y, 9.2, 8.2, skin), ball(x, y + 5.4, 5.6, 3.6, skin), ball(x - 3, y - 2, 4, 2.6, light),
     // the hood's brim pulled low over the brow
-    sheet([[x - 5.3, y - 0.6], [x - 4.2, y - 4], [x - 1, y - 5.1], [x + 2, y - 5], [x + 4.5, y - 3.8], [x + 5.3, y - 0.6],
-      [x + 3.6, y - 2.4], [x, y - 3], [x - 3.6, y - 2.4]], rag, { curve: 1 }),
+    sheet([[x - 10.6, y - 1.2], [x - 8.4, y - 8], [x - 2, y - 10.2], [x + 4, y - 10], [x + 9, y - 7.6], [x + 10.6, y - 1.2],
+      [x + 7.2, y - 4.8], [x, y - 6], [x - 7.2, y - 4.8]], rag, { curve: 1 }),
+    hair(x - 7, y - 5.5, x + 7, y - 5.5, ragDk),
     // brows up, one higher than the other: curious, and up to something
-    hair(x - 3.5, y - 1.5, x - 1.5, y - 2, dark), hair(x + 1, y - 1.5, x + 3, y - 1.5, dark),
+    limb(x - 7, y - 3, x - 3, y - 3.8, 0.8, 0.6, dark), limb(x + 2, y - 3.6, x + 6, y - 3.4, 0.8, 0.6, dark),
+    // the eyes, yellow and lit, the pupils off to one side, lids heavy over them
+    ball(x - 4.6, y - 0.6, 2.4, 1.6, '#ffd84a'), ball(x + 3.8, y - 0.6, 2.4, 1.6, '#ffd84a'),
+    ball(x - 4.6 + px, y - 0.4, 1.1, 1.3, '#1a1010'), ball(x + 3.8 + px, y - 0.4, 1.1, 1.3, '#1a1010'),
+    specks([[x - 5.5 + px, y - 1.5], [x + 3 + px, y - 1.5]], '#fffbe0'),
+    hair(x - 7, y - 2, x - 2.5, y - 2, dark), hair(x + 1.5, y - 2, x + 6, y - 2, dark),
     // a small sharp nose, and the cheek the grin pushes up
-    ball(x + 2.6, y + 1.5, 1.3, 0.9, skin),
-    limb(x, y - 0.4, x + 0.3, y + 1.2, 0.5, 0.8, skin),
-    // big eyes, lit, the pupils off to one side
-    dots([[ex - 3, ey - 1], [ex - 2, ey - 1], [ex - 3, ey], [ex - 2, ey], [ex + 1, ey - 1], [ex + 2, ey - 1], [ex + 1, ey], [ex + 2, ey]], eye),
-    dots(pupils, pupil),
+    limb(x, y - 0.8, x + 0.6, y + 2.6, 1, 1.6, skin), ball(x + 1, y + 2.8, 1.2, 0.9, light), specks([[x - 0.5, y + 3]], dark),
+    ball(x + 5.2, y + 3, 2.6, 1.8, skin), hair(x + 6.5, y + 2, x + 7.5, y + 4.5, dark),
     mouth === 'teeth'
-      ? sheet([[x - 2.8, y + 1.8], [x, y + 2.3], [x + 3, y + 1.4], [x + 2.4, y + 3.4], [x, y + 3.9], [x - 2.3, y + 3.3]], '#2a1010')
-      : sheet([[x - 2.2, y + 2.3], [x, y + 2.6], [x + 2.4, y + 1.8], [x + 3.3, y + 1], [x + 2.9, y + 2.6], [x + 0.4, y + 3.4], [x - 1.8, y + 3]], '#2a1010'),
-    mouth === 'teeth'
-      ? dots([[ex - 2, ey + 2], [ex, ey + 2], [ex + 2, ey + 2], [ex - 1, ey + 3], [ex + 1, ey + 3]], '#f0e6c8')
-      : dots([[ex + 1, ey + 2]], '#f0e6c8'),
+      ? sheet([[x - 5.6, y + 3.6], [x, y + 4.6], [x + 6, y + 2.8], [x + 4.8, y + 6.8], [x, y + 7.8], [x - 4.6, y + 6.6]], '#2a1010')
+      : sheet([[x - 4.4, y + 4.6], [x, y + 5.2], [x + 4.8, y + 3.6], [x + 6.6, y + 2], [x + 5.8, y + 5.2], [x + 0.8, y + 6.8], [x - 3.6, y + 6]], '#2a1010'),
+    ...(mouth === 'teeth'
+      ? [-4, -1.5, 1, 3.5].map(d => limb(x + d, y + 4.4, x + d, y + 5.8, 0.5, 0.2, '#f0e6c8')).concat([-2.5, 0, 2.5].map(d => limb(x + d, y + 7.2, x + d, y + 6, 0.45, 0.2, '#f0e6c8')))
+      : [limb(x + 2.2, y + 4.4, x + 2.2, y + 5.6, 0.5, 0.25, '#f0e6c8'), limb(x + 4.2, y + 3.8, x + 4.2, y + 5, 0.45, 0.2, '#f0e6c8')]),
+    // warts and a scar, and the chin's stubble
+    specks([[x - 6.5, y + 3], [x + 7, y - 0.5], [x - 2, y + 8.5], [x + 1, y + 9]], dark), hair(x - 7, y + 1, x - 5.5, y + 4, '#a8d080'),
   ];
+};
+
+// The hound and the wolf that walk with a hero: one body, square on to you,
+// told apart by the coat, the ears, the tail and how long in the leg. Standing,
+// winding up to bite (head down, forelegs braced, jaws open) or sitting.
+const canine = (pose, o) => {
+  const { coat, dark, pale, muzzle, nose, eye, eyeLt, grain } = o;
+  const bite = pose === 'windup', sit = pose === 'sit';
+  const leg = o.leggy ? 1.6 : 0;                 // the wolf stands taller
+  const hy = bite ? 31 : sit ? 22 : 26 - leg;    // the head
+  const by = sit ? 44 : 41 - leg;                // the body
+  /** @type {object[]} */
+  const out = [];
+  // the tail: up and waving, carried low, or laid round its feet when it sits
+  if (sit) out.push(limb(41, 59, 49, 60.5, 2.2, 1.6, dark), limb(49, 60.5, 53, 57.5, 1.6, 1, o.tailTip || coat));
+  else if (o.tail === 'low') out.push(limb(40, 38 - leg, 46, 45, 3.2, 3.6, dark), limb(46, 45, 48, 53, 3.6, 2, coat), ball(48.2, 54, 2, 2.2, o.tailTip),
+    ...[[42.5, 41], [45, 44.5], [46.5, 48.5], [47.5, 51.5]].map(([x, y]) => hair(x, y, x + 1, y + 2, grain)));
+  else out.push(limb(38, 36, 46, 26, 2.4, 1.6, dark), limb(46, 26, 49, 19, 1.6, 1, coat), ...[[41, 33], [44, 29.5], [46.5, 25], [48, 21.5]].map(([x, y]) => hair(x, y, x + 1, y - 2, o.tailTip || pale)));
+  // the hind legs, set wide behind, or the haunches when it sits
+  if (sit) out.push(...both64(ball(21, 54, 6.4, 5.4, dark)), ...both64(ball(19.2, 60.8, 3.8, 1.8, dark)), ...both64(hair(17, 50, 19, 56, grain)));
+  else out.push(...both64(limb(22, 42 - leg, 19, 52, 4, 2.6, dark)), ...both64(ball(19, 52, 2.4, 2.2, dark)), ...both64(limb(19, 52, 20, 60, 2.4, 2, dark)),
+    ...both64(ball(20, 61, 3.4, 1.8, dark)));
+  // a deep body with a saddle of darker coat over it (upright when it sits)
+  out.push(sit ? ball(31.5, by, 11.2, 11.6, coat) : ball(31.5, by, 13.6, 9.2, coat),
+    sit ? sheet([[23, 37], [39, 37], [38, 42], [24, 42]], dark, { curve: 1 }) : sheet([[21, 35 - leg], [41, 35 - leg], [39, 40 - leg], [23, 40 - leg]], dark, { curve: 1 }),
+    ...[[24, 39], [28, 38], [34, 38], [38, 39], [22, 45], [40, 45]].map(([x, y]) => hair(x, y - leg, x + (x < 31.5 ? -1 : 1), y + 2.5 - leg, grain)));
+  // forelegs: braced wide for the spring, straight, or straight up when it sits
+  const fx = bite ? 21 : sit ? 25.6 : 24, kx = bite ? 21.6 : sit ? 25.8 : 24.6;
+  out.push(...both64(limb(25, by + 2, fx, 53, 3.4, 2.2, coat)), ...both64(limb(fx, 53, kx, 60, 2.2, 2, coat)),
+    ...both64(ball(kx, 61, 3.4, 1.8, coat)), ...both64(hair(fx + 1, 54, kx + 1, 59, grain)),
+    ...both64(specks([[kx - 2, 62.5], [kx, 62.75], [kx + 2, 62.5]], '#e8dcc8')));
+  // a pale chest, and a ruff of thicker fur at the throat for the wolf
+  out.push(sheet([[27, by - 7], [36, by - 7], [38, by], [35.5, by + (sit ? 10 : 8)], [31.5, by + (sit ? 11 : 9)], [27.5, by + (sit ? 10 : 8)], [25, by]], pale, { curve: 1 }),
+    ...[[28, by - 2], [35, by - 2], [30, by + 3], [33, by + 3], [31.5, by + 7]].map(([x, y]) => hair(x, y, x + (x < 31.5 ? -0.5 : 0.5), y + 2.5, grain)));
+  if (o.ruff) out.push(sheet([[23, hy + 6], [39, hy + 6], [37, hy + 11], [34, hy + 10], [31.5, hy + 13], [28, hy + 10], [25, hy + 11]], pale, { curve: 0.8 }),
+    ...[25, 28, 31, 34, 37].map(x => hair(x, hy + 7, x + (x - 31.5) * 0.1, hy + 11, '#b0aca2')));
+  // the collar with its tag
+  if (o.collar) out.push(sheet([[25, hy + 7], [37, hy + 7], [36, hy + 9.4], [26, hy + 9.4]], '#a02828', { curve: 0.6 }), hair(26, hy + 7.5, 36, hy + 7.5, '#d04848'),
+    ball(31.5, hy + 11.4, 1.8, 2, '#d8b848'), specks([[30.5, hy + 10.5]], '#fff4c0'));
+  // the ears: floppy and hanging, or pricked up and pointed
+  if (o.ears === 'flop') out.push(...both64(sheet([[25, hy - 5], [19, hy - 2], [19.5, hy + 8], [24.8, hy + 4]], dark, { curve: 0.8, tilt: [-0.3, 0.2] })), ...both64(hair(21, hy - 1, 20.5, hy + 6, '#3a2412')));
+  else out.push(...both64(sheet([[24.4, hy - 3.6], [22.4, hy - 13.6], [28.6, hy - 5.6]], dark, { curve: 0.3 })), ...both64(sheet([[25.2, hy - 4.4], [24, hy - 10.6], [27.2, hy - 5.6]], '#8e7a6e', { curve: 0.3 })),
+    ...both64(hair(24, hy - 6, 25, hy - 9, '#c8c0b8')));
+  // a broad head, the brow over the eyes, the muzzle long and grey or brown
+  out.push(ball(31.5, hy, 7.8, 6.8, coat), ball(29, hy - 3, 4, 2.4, o.brow || coat), ...both64(ball(27.6, hy - 1.4, 2.6, 1.8, '#2a1a10')),
+    hair(29, hy - 5, 30, hy - 7.5, pale), hair(33, hy - 5, 32, hy - 7.5, pale));
+  if (bite) {
+    // the jaws open: a dark mouth, white teeth top and bottom, tongue in it
+    out.push(sheet([[26.6, hy + 3], [35.4, hy + 3], [34.4, hy + 11], [27.6, hy + 11]], '#4a1818', { curve: 0.5 }), ball(31.5, hy + 9, 2.6, 1.6, '#b04a50'),
+      ball(31.5, hy + 11, 4, 2, muzzle), limb(31.5, hy + 2, 31.5, hy + 4, 4, 3.4, muzzle), ball(31.5, hy + 3.4, 1.8, 1.1, nose),
+      ...[27.5, 29.5, 32.5, 34.5].map((x, i) => limb(x, hy + 4.6, x, hy + (i % 3 ? 5.8 : 6.6), 0.5, 0.2, '#f4ecdc')),
+      ...[28, 30, 32, 34].map((x, i) => limb(x, hy + 10, x, hy + (i % 3 ? 9 : 8.4), 0.5, 0.2, '#f4ecdc')),
+      hair(27, hy - 2.5, 30, hy - 1.75, '#1a1008'), hair(35, hy - 2.5, 32, hy - 1.75, '#1a1008'));
+  } else {
+    out.push(limb(31.5, hy + 2, 31.5, hy + 7.2, 4.4, 3.2, muzzle), ball(31.5, hy + 7.4, 2.6, 1.7, nose), specks([[30, hy + 6.75]], '#8a8890'),
+      hair(31.5, hy + 8.5, 31.5, hy + 9.5, '#2a1a14'), hair(29, hy + 10, 33, hy + 10, '#2a1a14'),
+      specks([[27, hy + 5], [26.5, hy + 6], [35, hy + 5], [35.5, hy + 6]], '#e8d0a8'));
+  }
+  // the eyes, with a catch of light in each
+  out.push(...both64(ball(27.6, hy - 1, 1.4, 1.2, eye)), dots([[27, Math.round(hy) - 1], [36, Math.round(hy) - 1]], '#140c08'), dots([[27, Math.round(hy) - 2], [35, Math.round(hy) - 2]], eyeLt));
+  return out;
 };
 
 const CREATURES = {
@@ -297,121 +363,159 @@ const CREATURES = {
     ];
   },
 
-  // Low and wide, all legs: a bloated abdomen with a warning mark behind a
-  // small head bristling with eyes.
+  // A cave spider the size of a hound: a bloated, glossy abdomen with the red
+  // hourglass on it, a bristled body slung low between eight jointed legs,
+  // a cluster of eyes catching the light and fangs that drip.
   spider: () => {
-    const shell = '#4a3e60', leg = '#5a4a72';
+    const shell = '#3e3454', shellLt = '#5e5278', shellDk = '#241e34', leg = '#4a3e64', legDk = '#2e2642', red = '#c02828', fang = '#e8e0d0';
     const legs = [];
-    const roots = [[12, 22], [11.5, 23.5], [12, 25], [12.5, 26.5]];
-    const knees = [[6, 14.5], [3.5, 18.5], [3.5, 23], [6, 26]];
-    const feet = [[2, 22], [0.8, 26.5], [1.2, 30.5], [5, 31]];
-    for (let i = 0; i < 4; i++) {
-      legs.push(...both(limb(roots[i][0], roots[i][1], knees[i][0], knees[i][1], 0.85, 0.7, leg)));
-      legs.push(...both(limb(knees[i][0], knees[i][1], feet[i][0], feet[i][1], 0.7, 0.5, leg)));
-      legs.push(...both(ball(knees[i][0], knees[i][1], 0.95, 0.95, '#6e5c8a')));
+    // each leg from its root on the body, up to the knee, down to the foot
+    for (const [rx, ry, kx, ky, fx, fy] of [[26, 38, 12, 24, 4, 50], [25.5, 40.5, 9, 32, 3, 58], [26, 43, 12, 42, 9, 62], [27, 45, 19, 50, 18, 63]]) {
+      legs.push(...both64(limb(rx, ry, kx, ky, 1.6, 1.3, leg)), ...both64(ball(kx, ky, 1.7, 1.7, legDk)), ...both64(limb(kx, ky, fx, fy, 1.3, 0.7, leg)));
+      legs.push(...both64(hair(kx + (rx - kx) * 0.3, ky + (ry - ky) * 0.3 - 1, kx + (rx - kx) * 0.3 - 0.75, ky + (ry - ky) * 0.3 - 2.5, '#6e5c8a')));
     }
-    const out = [
-      ...legs.slice(0, 6 * 2),
-      ball(16, 19.5, 7.8, 6.6, shell),
-      // the warning mark, an hourglass: two lit triangles rather than red
-      // pixels, which the painter took for eyes and glinted every one of
-      sheet([[13.6, 15.5], [18.4, 15.5], [16, 18.4]], '#c02828', { tilt: [-0.2, -0.3] }),
-      sheet([[16, 17.6], [18.4, 20.7], [13.6, 20.7]], '#c02828', { tilt: [-0.2, 0.1] }),
-      ...legs.slice(6 * 2),
-      ball(16, 25.5, 4.4, 3.4, '#4e4264'),
-      // a big pair of eyes in front, smaller ones stepping out round them
-      dots([[15, 24], [17, 24]], '#ff3030'),
-      dots([[14, 23], [18, 23], [13, 25], [19, 25]], '#b01818'),
-      dots([[15, 28], [17, 28], [15, 29], [17, 29]], '#e8e0d0'),
+    return [
+      ...legs,
+      // the abdomen behind, glossy, the hourglass on it, bristles round its edge
+      ball(32, 33, 14, 12, shell), ball(28, 28, 6, 4.4, shellLt),
+      sheet([[28, 25], [36, 25], [32, 31]], red, { tilt: [-0.2, -0.3] }), sheet([[32, 30], [36, 37], [28, 37]], red, { tilt: [-0.2, 0.1] }),
+      hair(28.5, 25.5, 35.5, 25.5, '#ff6060'),
+      ...[[19, 26], [18, 33], [20, 40], [45, 26], [46, 33], [44, 40], [25, 21], [39, 21], [32, 20.5]].map(([x, y]) => hair(x, y, x + (x < 32 ? -1.5 : x > 32 ? 1.5 : 0), y - 1.5, '#7a6a96')),
+      // the head-and-body in front, slung low, a ring of eyes on it
+      ball(32, 47, 8, 6.4, shellDk), ball(30, 45, 3, 2, shell),
+      ...[[28.5, 44.5], [31, 43.6], [33, 43.6], [35.5, 44.5], [30, 46.4], [34, 46.4]].map(([x, y], i) => ball(x, y, i < 4 ? 1.1 : 0.8, i < 4 ? 1 : 0.7, '#c02828', { glows: true })),
+      specks([[28, 44], [30.5, 43], [32.5, 43], [35, 44]], '#ffd0d0'),
+      // the fangs, hooked and dripping
+      limb(29.5, 51, 28.5, 56, 1.1, 0.4, fang), limb(34.5, 51, 35.5, 56, 1.1, 0.4, fang),
+      ball(29.6, 50.8, 1.8, 1.4, shellDk), ball(34.4, 50.8, 1.8, 1.4, shellDk),
+      specks([[28.5, 57], [35.5, 57.5], [28.75, 58.5]], '#a8d048'),
     ];
-    // a hard, glossy shell: the painter's grain on it read as dust, not chitin
-    for (const q of out) Object.assign(q, { smooth: 1 });
-    return out;
   },
 
-  // Side on, so it reads as a rat and not a box with ears: long body, pointed
-  // snout, naked tail curling up behind.
+  // A giant rat, side on: a long hunched body in coarse brown fur, a pointed
+  // whiskered snout, round ears, beady red eyes, pink paws and a long naked
+  // tail curling up behind.
   rat: () => {
-    const fur = '#8a6a48', pink = '#d89a96';
+    const fur = '#8a6a48', furDk = '#5a4430', furLt = '#a8886a', pink = '#d89a90', pinkDk = '#a86a64';
     return [
-      limb(24, 26.5, 29.5, 22.5, 0.7, 0.5, pink), limb(29.5, 22.5, 28.5, 18, 0.5, 0.4, pink),
-      limb(20, 27, 21, 30.5, 1, 0.8, '#6a4e34'), limb(12, 27, 11.5, 30.5, 1, 0.8, '#6a4e34'),
-      ball(18, 25, 7.8, 4.6, fur),
-      ball(22, 23.5, 3.5, 2.5, '#9a7a56'),
-      limb(15, 27.5, 14.5, 30.5, 1, 0.8, fur), limb(23, 27.5, 24, 30.5, 1.1, 0.9, fur),
-      ball(14.5, 30.6, 1.4, 0.7, pink), ball(24, 30.6, 1.4, 0.7, pink),
-      ball(10, 20.5, 1.7, 2, fur), ball(12.5, 20.3, 1.6, 1.9, fur),
-      ball(10, 20.7, 0.9, 1.2, pink), ball(12.5, 20.5, 0.8, 1.1, pink),
-      ball(9, 24, 4.2, 3.3, fur),
-      ball(4.8, 25.2, 2.3, 1.7, '#9a7a58'),
-      dots([[2, 25], [3, 25]], '#e87080'),
-      dots([[7, 23], [8, 23]], '#ff3030'), dots([[8, 23]], '#1a0c0c'), dots([[7, 22]], '#ffd0c0'),
-      dots([[4, 27], [5, 27]], '#f4ecd8'),
-      line(3, 24, 0, 23, '#cfc4b0'), line(3, 26, 0, 27, '#cfc4b0'),
+      // the tail curling up behind
+      limb(46, 52, 56, 50, 1.4, 1, pink), limb(56, 50, 60, 42, 1, 0.8, pink), limb(60, 42, 57, 35, 0.8, 0.5, pink),
+      ...[[49, 51.5], [53, 51], [57, 48.5], [59.5, 44.5], [59, 39.5]].map(([x, y]) => hair(x - 0.5, y - 0.75, x + 0.5, y + 0.75, pinkDk)),
+      // the far legs, behind
+      limb(40, 54, 42, 61, 1.8, 1.4, furDk), limb(24, 54, 23, 61, 1.8, 1.4, furDk),
+      // the long hunched body
+      ball(36, 50, 15, 9, fur), ball(42, 47, 7, 6, furLt), ball(34, 55, 10, 4, furDk),
+      ...[[26, 45], [31, 43.5], [37, 43], [43, 43.5], [48, 45.5], [29, 48], [35, 47.5], [41, 48], [46, 50]].map(([x, y]) => hair(x, y, x + 2, y + 1, furDk)),
+      // the near legs and pink paws
+      limb(30, 56, 29, 61.5, 2, 1.6, fur), limb(46, 55, 47.5, 61.5, 2.2, 1.8, fur),
+      ball(28.6, 62, 2.6, 1.2, pink), ball(48, 62, 2.6, 1.2, pink), specks([[26.5, 62.5], [28, 62.75], [46, 62.75], [47.5, 62.75]], '#f0e8dc'),
+      // the head: ears up, the snout long, the eye beady
+      ball(20, 41, 3.4, 4, fur), ball(25, 40.6, 3.2, 3.8, fur), ball(20, 41.4, 1.8, 2.4, pink), ball(25, 41, 1.6, 2.2, pink),
+      ball(18, 48, 8.4, 6.6, fur), limb(14, 48, 5, 51, 4, 2, fur), ball(4.6, 51.2, 2, 1.6, furLt), ball(3.4, 51, 1.1, 1, pinkDk),
+      dots([[15, 46]], '#e02020'), specks([[15, 45.5]], '#ffb0b0'),
+      hair(6, 50, 0.5, 47.5, '#e0d4c0'), hair(6, 51.25, 0.25, 51.5, '#e0d4c0'), hair(6, 52, 0.75, 54.5, '#e0d4c0'),
+      sheet([[4, 53], [9, 53], [8, 54.6], [5, 54.6]], '#2a1814'), dots([[6, 54]], '#f2ead2'),
     ];
   },
 
-  // Spread wide on ribbed wings, which is how a bat is seen when it comes at you.
+  // A cave bat as it comes at you, wings spread wide: thin leathery membrane
+  // stretched over long finger bones, a furred body, ears like knife-points,
+  // a pug face, and a mouthful of needle teeth.
   bat: () => {
-    const body = '#4e4262', wing = '#3a3050', rib = '#6e5f8a';
-    const w = sheet([[14, 12], [7, 7], [1, 6], [3, 9.5], [1, 12.5], [4.5, 13], [2.5, 17], [7, 15.5], [10, 18], [14, 17]], wing, { tilt: [-0.35, -0.1] });
+    const wing = '#4a3c5c', wingLt = '#6a5a7e', bone = '#2e2440', body = '#5a4c70', bodyDk = '#3a2e4a', fang = '#f2eee0';
+    const half = [
+      // the wing: membrane scalloped between the finger bones
+      sheet([[28, 24], [14, 14], [2, 12], [6, 19], [2, 25], [9, 26], [5, 34], [13, 32], [19, 37], [28, 32]], wing, { tilt: [-0.35, -0.1] }),
+      sheet([[28, 25], [16, 17], [10, 22], [18, 28], [28, 30]], wingLt, { tilt: [-0.3, -0.1] }),
+      limb(28, 24, 14, 14, 0.8, 0.6, bone), limb(14, 14, 2, 12, 0.6, 0.3, bone), limb(14, 14, 2, 25, 0.5, 0.3, bone),
+      limb(14, 14, 5, 34, 0.5, 0.3, bone), limb(14, 14, 19, 37, 0.5, 0.3, bone),
+      ball(14, 14, 1, 1, bone), specks([[13, 12.5], [12.5, 13]], '#c8c0d4'),
+    ];
     return [
-      ...both(w),
-      ...both(line(14, 13, 1, 6, rib)), ...both(line(13, 14, 1, 12, rib)), ...both(line(13, 15, 3, 17, rib)),
-      ball(16, 14.5, 3.3, 4.3, body),
-      ...both(sheet([[13.2, 8.5], [12.5, 4], [15, 7.5]], body, { tilt: [-0.3, -0.3] })),
-      ball(16, 9.8, 3.1, 2.7, '#5a4c70'),
-      dots([[14, 9], [18, 9]], '#ff3a3a'), dots([[14, 8], [18, 8]], '#ffc0b0'),
-      dots([[15, 11], [17, 11]], '#f4ecd8'),
-      ...both(limb(14.5, 18.5, 14, 20.5, 0.5, 0.4, rib)),
+      ...half, ...half.map(m64),
+      // the body, furred, and the little hind claws
+      ball(32, 28, 5.4, 7.6, body), ...[[30, 24], [33, 26], [31, 30], [34, 31]].map(([x, y]) => hair(x, y, x + 0.75, y + 1.5, bodyDk)),
+      ...both64(limb(30, 34, 29, 38, 0.6, 0.4, bone)),
+      // the head: tall ears, a pug snout, needle teeth, eyes bright in the dark
+      ...both64(sheet([[28.5, 18], [26.5, 8], [31, 16]], body, { tilt: [-0.3, -0.3] })), ...both64(sheet([[28.8, 16.5], [27.6, 10.5], [30.2, 15.4]], '#8a6a8a')),
+      ball(32, 19.6, 5, 4.4, '#5a4c70'), ball(32, 21.6, 2.4, 1.6, '#7a6a88'),
+      dots([[30, 21], [34, 21]], '#1a1018'),
+      ball(29.4, 18.6, 1.1, 1, '#ff5040', { glows: true }), ball(34.6, 18.6, 1.1, 1, '#ff5040', { glows: true }),
+      sheet([[29.6, 23], [34.4, 23], [33.6, 25], [30.4, 25]], '#2a1018'),
+      sheet([[30.2, 23], [31, 23], [30.6, 24.8]], fang), sheet([[33, 23], [33.8, 23], [33.4, 24.8]], fang),
     ];
   },
 
-  // A wobbling drop with a brighter core, bubbles caught inside and a face
-  // pressed against the skin.
+  // A green slime: a wobbling mound of ooze, glossy and half-clear, a brighter
+  // core inside it, bones and a coin caught in it, bubbles rising, a face of
+  // sorts pressed against its skin, and a trail where it has crept.
   slime: () => {
-    const gel = '#3fb45a';
+    const ooze = '#5aa048', oozeDk = '#3a7030', oozeLt = '#8ad070', core = '#b8f08a', bone = '#d8d0b8';
     return [
-      ball(16, 24.5, 11, 7.3, gel),
-      ball(14.5, 23.5, 6.5, 4.2, '#62d67a'),
-      ball(26.5, 29, 2, 2.4, gel),
-      ball(10, 25, 1.2, 1.2, '#9af0ac'), ball(20, 27.5, 0.9, 0.9, '#9af0ac'), ball(18.5, 21, 0.7, 0.7, '#b8ffc8'),
-      dots([[9, 19], [10, 18], [11, 18], [12, 18], [8, 20]], '#e8ffee'),
-      dots([[12, 23], [12, 24], [13, 23], [13, 24], [19, 23], [19, 24], [20, 23], [20, 24]], '#0e3016'),
-      dots([[12, 23], [19, 23]], '#d8ffe0'),
-      dots([[14, 27], [15, 28], [16, 28], [17, 28], [18, 27]], '#12401e'),
+      // the trail behind it, and the mound
+      ball(32, 61.6, 22, 2, oozeDk),
+      sheet([[10, 62], [12, 52], [17, 42], [24, 35], [32, 32], [40, 35], [47, 42], [52, 52], [54, 62]], ooze, { curve: 1 }),
+      ball(32, 50, 15, 11, oozeDk), ball(32, 47, 12, 9, ooze),
+      ball(33, 49, 7, 5.6, core, { glows: true }),
+      // what it has swallowed: a skull, a bone, a coin
+      ball(22, 54, 3, 2.6, bone), dots([[21, 54], [23, 54]], '#3a4a2a'), limb(38, 56, 46, 52, 0.8, 0.8, bone), ball(41, 45, 1.4, 0.8, '#c9a24a'),
+      // bubbles rising inside, and the glint on its skin
+      ...[[26, 44, 1.2], [30, 40, 0.8], [38, 42, 1], [44, 50, 0.9], [20, 48, 0.7], [35, 55, 0.8]].map(([x, y, r]) => ball(x, y, r, r, oozeLt)),
+      ball(25, 38, 4, 2, '#c8f0a8'), hair(22, 38, 27, 36, '#f0fff0'),
+      specks([[20, 41], [44, 39], [47, 47], [16, 52], [27, 35.5], [38, 34.5]], '#d8ffc8'), hair(42, 37, 46, 41, '#c8f0a8'),
+      // grit and old blood clouding its lower part
+      specks([[24, 58], [30, 59], [40, 58.5], [45, 57], [19, 56]], '#2a4a20'), specks([[26, 50], [43, 54]], '#8a3a2a'),
+      // a face pressed against the skin: dark eyes, a gaping mouth
+      ball(28, 46, 1.6, 2, '#1e3a18'), ball(36, 46, 1.6, 2, '#1e3a18'), dots([[28, 45], [36, 45]], '#e8f8c0'),
+      ball(32, 52, 3.2, 2, '#1e3a18'),
+      hair(25.5, 43, 29.5, 43.5, '#2e5a24'), hair(38.5, 43, 34.5, 43.5, '#2e5a24'),
+      // drips off its sides
+      ...[[13, 55], [51, 54], [17, 47]].map(([x, y]) => limb(x, y, x + (x < 32 ? -0.5 : 0.5), y + 4, 1, 0.6, ooze)),
     ];
   },
 
-  // A drowned one, risen out of the black water: bloated and grey-blue, lank
-  // hair plastered over its face, weed hanging off it, both arms reaching for
-  // you and water still running off it.
+  // One of the drowned, risen from the black water: sunk to the shins in it,
+  // swollen and grey-blue, what is left of a shirt clinging to it, both arms
+  // out and reaching, hair plastered down a bloated face, the eyes gone to
+  // dark hollows and the jaw hanging slack, weed hanging off it everywhere.
   drowned: () => {
-    const skin = '#8a9ea4', dark = '#5e7078', rag = '#3e4a44', locks = '#1a2024', weed = '#3e5a2e';
+    const skin = '#8a9ea4', skinDk = '#5e7078', skinLt = '#a8bcc0', rag = '#3e4a44', ragDk = '#28322e', locks = '#1a2024', weed = '#3e5a2e', weedLt = '#5a7a3e';
     return [
-      // legs sunk to the shin in the water, and the water about them
-      limb(13, 23, 12.5, 29.5, 2.2, 1.9, dark), limb(19, 23, 19.5, 29.5, 2.2, 1.9, dark),
-      ball(16, 30.2, 8.5, 1.5, '#1e2a34'), ball(16, 30.2, 6, 0.9, '#4e6878'),
-      // a swollen body in what is left of a shirt
-      ball(16, 18, 7, 6.8, skin),
-      sheet([[9.5, 14], [22.5, 14], [23, 23], [20, 21.5], [17.5, 24], [15, 22], [12, 24], [9, 22.5]], rag, { curve: 1 }),
-      // both arms out, reaching
-      limb(10, 14.5, 5.5, 10.5, 2, 1.6, skin), ball(4.8, 9.8, 1.9, 1.7, skin),
-      limb(22, 14.5, 26.5, 10.5, 2, 1.6, skin), ball(27.2, 9.8, 1.9, 1.7, skin),
-      // the head, bloated and pale, hair plastered down it in wet strands
-      ball(16, 9, 5, 5, skin), ball(15, 10.5, 3, 2.2, '#a2b4b8'),
-      sheet([[11, 7.5], [12, 4], [16, 3], [20, 4], [21, 7.5], [19.5, 5.8], [16, 4.8], [12.5, 5.8]], locks, { curve: 0.8 }),
-      limb(11.2, 6, 10.6, 13.5, 1, 0.5, locks), limb(20.8, 6, 21.4, 13.5, 1, 0.5, locks), limb(17.5, 5, 18.2, 11.5, 0.8, 0.4, locks),
-      // dark drowned hollows for eyes, a pale gleam in one, and the mouth hanging open
-      ball(14, 8.8, 1.3, 1.1, '#1e2428'), ball(18.3, 8.8, 1.1, 1, '#1e2428'), dots([[14, 9]], '#e8f0e8'),
-      ball(16, 12.3, 1.5, 1.2, '#1a1418'),
-      // weed draped over a shoulder and hanging from an arm
-      limb(10.5, 13.5, 11, 19.5, 0.8, 0.5, weed), limb(22, 13, 23.5, 18, 0.7, 0.5, weed), limb(6, 11, 5.5, 15, 0.6, 0.4, weed),
-      // fine work: water running off it, fingers, the grain of the drowned skin, hair strands
-      specks([[4, 12], [4.5, 14.5], [27.5, 12.5], [28, 15], [12, 25.5], [20.5, 26], [16, 25]], '#b8d0dc'),
-      specks([[3.5, 8.5], [5, 8], [6.5, 8.5], [25.5, 8.5], [27, 8], [28.5, 8.5]], '#a8bcc0'),
-      hair(13, 17, 15, 19.5, '#6e8288'), hair(19, 16, 20, 19, '#6e8288'),
-      hair(12, 5, 11.5, 11, '#2e363a'), hair(20, 5, 20.5, 11, '#2e363a'),
+      // legs sunk in the water, ripples round them
+      limb(26, 44, 22.5, 59, 3.2, 2.8, skinDk), limb(38, 44, 41.5, 59, 3.2, 2.8, skinDk), hair(24, 50, 23.5, 56, '#4a5a60'), hair(40, 50, 40.5, 56, '#4a5a60'),
+      ball(32, 60.6, 18, 3, '#1e2a34'), ball(32, 60.4, 13, 1.8, '#4e6878'),
+      hair(16, 60.5, 22, 60, '#8aa8b8'), hair(42, 60, 48, 60.5, '#8aa8b8'), hair(28, 61.5, 36, 61.5, '#6a8898'),
+      // the swollen body in a torn shirt, the belly showing through a rent
+      ball(32, 36, 13, 12.6, skin), ball(29, 32, 6, 5, skinLt),
+      sheet([[19, 27], [45, 27], [46, 46], [41, 43], [38, 48], [34, 44], [30, 47.5], [25, 44], [22, 47], [18, 44]], rag, { curve: 1 }),
+      sheet([[19, 27], [24, 27], [23, 45], [18, 44]], ragDk, { curve: 0.4 }),
+      sheet([[30, 33], [36, 31], [37, 40], [31, 41]], skin, { curve: 1 }), hair(31, 36, 36, 35.5, skinDk),
+      ...[[22, 31], [26, 38], [40, 33], [42, 40], [35, 44]].map(([x, y]) => hair(x, y, x + 0.75, y + 2.5, ragDk)),
+      // both arms out and up, reaching, long swollen fingers
+      limb(20, 29, 13, 23, 3.2, 2.8, skin), limb(13, 23, 8, 18, 2.8, 2.4, skin), ball(7, 17, 3, 2.6, skin),
+      ...[[4, 13.5], [6, 12.5], [8.5, 13], [10.5, 14.5]].map(([x, y]) => limb(x + 1.5, y + 3, x, y, 0.7, 0.6, skinLt)),
+      limb(44, 29, 51, 23, 3.2, 2.8, skin), limb(51, 23, 56, 18, 2.8, 2.4, skin), ball(57, 17, 3, 2.6, skin),
+      ...[[60, 13.5], [58, 12.5], [55.5, 13], [53.5, 14.5]].map(([x, y]) => limb(x - 1.5, y + 3, x, y, 0.7, 0.6, skinLt)),
+      hair(14, 24.5, 18, 28, skinDk), hair(50, 24.5, 46, 28, skinDk),
+      // the neck, and the bloated head, pale and blotched
+      limb(32, 22, 32, 27, 4, 4.4, skinDk),
+      ball(32, 16, 9, 9.4, skin), ball(30, 19, 5.4, 4, skinLt), ball(36.5, 14, 2, 1.6, '#7a8e94'), ball(27, 21, 1.6, 1.2, '#7a8e94'),
+      // hair plastered down it in wet strands, down past the jaw
+      sheet([[22.5, 14], [24, 7], [32, 5], [40, 7], [41.5, 14], [38.5, 10.5], [32, 9], [25.5, 10.5]], locks, { curve: 0.8 }),
+      limb(23.4, 11, 22, 27, 1.6, 0.8, locks), limb(40.6, 11, 42.5, 27, 1.6, 0.8, locks), limb(35, 9, 36.5, 20, 1.2, 0.5, locks), limb(27.5, 9.5, 26.5, 15, 1, 0.5, locks),
+      ...[[24, 12], [40, 12], [30, 7], [36, 7.5]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.5 : 0.5), y + 6, '#2e363a')),
+      // dark drowned hollows for eyes, a pale gleam in one, the jaw hanging open
+      ball(28, 15.6, 2.4, 2, '#1e2428'), ball(36.4, 15.6, 2.1, 1.9, '#1e2428'), dots([[28, 16]], '#e8f0e8'), specks([[27.5, 15.25]], '#a8c0c0'),
+      hair(26, 13, 30, 13.25, skinDk), hair(34.5, 13.25, 38.5, 13, skinDk),
+      limb(32, 15.5, 32.4, 20, 0.9, 1.3, skin), ball(32.4, 20.2, 1.2, 0.8, skinDk),
+      ball(32, 24, 3, 2.6, '#1a1418'), dots([[31, 22], [33, 22]], '#c8c4a8'),
+      // weed draped over the shoulders and trailing from the arms
+      limb(20, 27, 21, 40, 1.4, 0.8, weed), limb(21, 40, 19.5, 45, 0.8, 0.5, weed), limb(44, 26, 47, 36, 1.2, 0.7, weed),
+      limb(10, 20, 9, 28, 1, 0.5, weed), limb(54, 20, 55.5, 26, 0.9, 0.5, weed), limb(33, 8, 31, 4, 0.8, 0.5, weedLt),
+      ...[[20.5, 31], [21, 36], [45, 30], [9.5, 24]].map(([x, y]) => hair(x, y, x + 1.5, y + 1, weedLt)),
+      // water running off it, the grain of the drowned skin
+      specks([[7, 21], [8, 24], [57, 21], [56, 24.5], [24, 48], [40, 49], [32, 50], [6, 15]], '#b8d0dc'),
+      specks([[27, 30], [37, 34], [33, 18], [30, 12.5]], '#6e8288'),
     ];
   },
 
@@ -529,122 +633,154 @@ const CREATURES = {
       hair(19.5, 46, 19, 51, '#121318'), hair(44.5, 46, 45.5, 51.5, '#121318'),
     ];
   },
-  // The emberling: a knot of cooling rock the size of a dog, crusted black and
-  // split with cracks that glow like a forge, on four stubby legs, with two
-  // ember eyes and little flames licking up off its back. Blazing up (its
-  // windup), it hunches, the cracks go white-hot and the flames stand tall.
+  // An emberling: a crawling lump of cooling rock the size of a hound, crusted
+  // and craggy, the fire inside it showing through every crack, flames
+  // licking up off its back. Winding up it squats and blazes white-hot.
   emberling: (pose = 'idle') => {
     const hot = pose === 'windup';
-    const crust = '#2e2624', crust2 = '#3e3430', glow = hot ? '#fff0b0' : '#f08a30', glow2 = hot ? '#ffd060' : '#c8501c', flame = hot ? '#ffe070' : '#ff9a30', flame2 = hot ? '#fff4c0' : '#ffd060';
-    const dy = hot ? 1.2 : 0, sx = hot ? 1.06 : 1;
-    const cx = 16, cy = 21 + dy;
+    const crust = '#2e2624', crust2 = '#3e3430', crust3 = '#4e423c', glow = hot ? '#fff0b0' : '#f08a30', glow2 = hot ? '#ffd060' : '#c8501c', flame = hot ? '#ffe070' : '#ff9a30', flame2 = hot ? '#fff4c0' : '#ffd060';
+    const dy = hot ? 2.4 : 0, sx = hot ? 1.06 : 1;
+    const cx = 32, cy = 46 + dy;
+    const g = { glows: true };
+    // a tongue of flame: a wavering spike that leans as it climbs
+    const tongue = (x, y, h, w, lean, c) => sheet([[x - w, y], [x - w * 0.6 + lean * 0.3, y - h * 0.4], [x - w * 0.2 + lean * 0.8, y - h * 0.7], [x + lean, y - h], [x + w * 0.3 + lean * 0.5, y - h * 0.62], [x + w * 0.7 + lean * 0.1, y - h * 0.32], [x + w, y]], c, { curve: 0.6, glows: true });
     return [
       // stubby legs of rock, the far pair behind
-      limb(10.5, 24 + dy, 9.6, 29.6, 1.6, 1.4, crust), limb(21.5, 24 + dy, 22.4, 29.6, 1.6, 1.4, crust),
-      ball(9.4, 30, 2, 1, crust2), ball(22.6, 30, 2, 1, crust2),
-      // the body: a lumpy boulder, wider than tall
-      ball(cx, cy, 8 * sx, 6.2, crust), ball(cx - 4, cy - 3.6, 3.6, 3, crust2), ball(cx + 4.2, cy - 3.2, 3.4, 2.8, crust2),
-      ball(cx, cy + 1.6, 4.4, 3.2, crust2),
-      // the near pair of legs
-      limb(13, 25 + dy, 12.4, 29.8, 1.5, 1.3, crust2), limb(19, 25 + dy, 19.6, 29.8, 1.5, 1.3, crust2),
-      ball(12.2, 30.2, 1.9, 0.9, crust), ball(19.8, 30.2, 1.9, 0.9, crust),
-      // the cracks, glowing: lines across the crust
-      line(cx - 6, cy - 1, cx - 2, cy + 2, glow), line(cx - 2, cy + 2, cx + 1, cy - 1, glow), line(cx + 1, cy - 1, cx + 6, cy + 1.5, glow),
-      line(cx - 3, cy - 4.5, cx - 1, cy - 2, glow2), line(cx + 3, cy - 4, cx + 4.5, cy - 1.5, glow2), line(cx - 1, cy + 3.5, cx + 2, cy + 5, glow2),
-      // two ember eyes low on the front
-      ball(cx - 2.6, cy + 3.4, 1.4, 1.1, '#141010'), ball(cx + 2.6, cy + 3.4, 1.4, 1.1, '#141010'),
-      dots([[cx - 3, Math.floor(cy + 3.2)], [cx - 2, Math.floor(cy + 3.2)], [cx + 2, Math.floor(cy + 3.2)], [cx + 3, Math.floor(cy + 3.2)]], hot ? '#ffffff' : '#ffd060'),
+      limb(20, 53, 18.5, 60, 3.4, 3, crust), limb(44, 53, 45.5, 60, 3.4, 3, crust),
+      ball(18.6, 60.5, 4, 2, crust2), ball(45.4, 60.5, 4, 2, crust2),
+      // the body: a lumpy boulder, wider than tall, crags on its back
+      ball(cx, cy, 16 * sx, 12.4, crust), ball(cx - 8, cy - 7.2, 7.2, 6, crust2), ball(cx + 8.4, cy - 6.4, 6.8, 5.6, crust2),
+      ball(cx, cy + 3.2, 8.8, 6.4, crust2), ball(cx - 10, cy - 9, 3, 2, crust3), ball(cx + 7, cy - 10, 3.4, 2, crust3), ball(cx + 13, cy - 2, 2.4, 3, crust3),
+      // the near pair of legs, clawed with stone
+      limb(25, 55, 24.4, 60.4, 3.2, 2.8, crust2), limb(39, 55, 39.6, 60.4, 3.2, 2.8, crust2),
+      ball(24.4, 61, 3.8, 1.8, crust), ball(39.6, 61, 3.8, 1.8, crust),
+      specks([[21, 62], [23, 62.5], [25.5, 62.5], [38.5, 62.5], [41, 62.5], [43, 62]], '#5a4e46'),
+      // the grain of the crust: pits, ash and ridges
+      ...[[cx - 13, cy + 7], [cx + 12, cy + 8], [cx - 6, cy - 12], [cx + 4, cy - 12.5], [cx + 15, cy + 2], [cx - 15, cy + 1]].map(([x, y]) => hair(x, y, x + 2, y + 0.5, '#1a1412')),
+      specks([[cx - 9, cy - 4], [cx + 10, cy - 5], [cx - 3, cy + 10], [cx + 8, cy + 9], [cx - 11, cy + 9]], '#6a5a50'),
+      // the cracks, glowing: a web across the crust, the fire bright inside
+      line(cx - 12, cy - 2, cx - 4, cy + 4, glow, g), line(cx - 4, cy + 4, cx + 2, cy - 2, glow, g), line(cx + 2, cy - 2, cx + 12, cy + 3, glow, g),
+      line(cx - 6, cy - 9, cx - 2, cy - 4, glow2, g), line(cx + 6, cy - 8, cx + 9, cy - 3, glow2, g), line(cx - 2, cy + 7, cx + 4, cy + 10, glow2, g),
+      line(cx - 12, cy - 2, cx - 14, cy + 4, glow2, g), line(cx + 12, cy + 3, cx + 14, cy - 3, glow2, g), line(cx - 2, cy - 4, cx + 2, cy - 2, glow2, g),
+      line(cx - 8, cy + 1, cx - 9, cy + 7, glow2, g), line(cx + 7, cy + 1, cx + 8, cy + 6, glow2, g),
+      ...[[cx - 4, cy + 4], [cx + 2, cy - 2], [cx - 12, cy - 2], [cx + 12, cy + 3]].map(([x, y]) => ball(x, y, 1.2, 1, flame2, g)),
+      // two ember eyes low on the front, under a jut of brow
+      ball(cx - 5, cy + 6.4, 2.8, 2.2, '#141010'), ball(cx + 5, cy + 6.4, 2.8, 2.2, '#141010'),
+      ball(cx - 5, cy + 6.6, 1.6, 1.2, hot ? '#ffffff' : '#ffd060', g), ball(cx + 5, cy + 6.6, 1.6, 1.2, hot ? '#ffffff' : '#ffd060', g),
+      limb(cx - 8.5, cy + 4, cx - 2, cy + 4.6, 1.4, 1, crust3), limb(cx + 8.5, cy + 4, cx + 2, cy + 4.6, 1.4, 1, crust3),
       // flames licking up off its back, taller when it blazes
-      sheet([[cx - 5, cy - 5], [cx - 4.2, cy - (hot ? 13 : 9)], [cx - 3, cy - 5.6]], flame, { curve: 0.4 }),
-      sheet([[cx - 1.4, cy - 5.6], [cx + 0.2, cy - (hot ? 15 : 11)], [cx + 1.6, cy - 5.8]], flame, { curve: 0.4 }),
-      sheet([[cx + 3, cy - 5.2], [cx + 4.4, cy - (hot ? 12.5 : 8.5)], [cx + 5.4, cy - 4.8]], flame, { curve: 0.4 }),
-      sheet([[cx - 0.6, cy - 5.8], [cx + 0.2, cy - (hot ? 11 : 8.4)], [cx + 0.9, cy - 5.9]], flame2, { curve: 0.3 }),
+      tongue(cx - 9, cy - 9, hot ? 18 : 11, 3.4, -2, flame), tongue(cx + 0.5, cy - 11, hot ? 21 : 14, 4, 1.5, flame), tongue(cx + 9, cy - 9.6, hot ? 16 : 10, 3, 2.5, flame),
+      tongue(cx - 4.5, cy - 10.4, hot ? 12 : 7, 2, -1, flame), tongue(cx + 5, cy - 10.6, hot ? 13 : 8, 2, 1, flame),
+      tongue(cx + 0.5, cy - 11, hot ? 13 : 8, 2, 1, flame2), tongue(cx - 9, cy - 9, hot ? 10 : 6, 1.6, -1, flame2), tongue(cx + 9, cy - 9.6, hot ? 9 : 5.5, 1.4, 1.5, flame2),
+      specks(hot ? [[cx - 6, cy - 27], [cx + 5, cy - 30], [cx - 13, cy - 23], [cx + 13, cy - 24], [cx + 1, cy - 35]] : [[cx - 6, cy - 20], [cx + 5, cy - 23], [cx - 13, cy - 17], [cx + 13, cy - 17], [cx + 2, cy - 28]], flame2, g),
     ];
   },
+  // A mimic, given away at last: the barrel it pretended to be, staves and
+  // iron hoops, the lid hinged back to show a wet throat, gums and uneven teeth
+  // like broken staves, a long tongue lolling over the rim and down the front,
+  // and two eyes on stalks where knots in the wood were. Winding up, it gapes.
   mimic: (pose = 'idle') => {
-    const wood = '#7a5230', dark = '#4e3320', light = '#9a6c40', iron = '#3e4048', gum = '#8a2a3a', tooth = '#f2ead2';
-    const open = pose === 'windup' ? 7 : 4;       // how far the lid stands off the body
-    const lidY = 15 - open;
+    const wood = '#7a5230', dark = '#4e3320', light = '#9a6c40', iron = '#3e4048', ironLt = '#6a6e78', gum = '#8a2a3a', tooth = '#f2ead2', tongue = '#c04a5a';
+    const open = pose === 'windup' ? 14 : 8;       // how far the lid stands off the body
+    const lidY = 30 - open;
     return [
       // the body, staves and hoops as the barrel it pretends to be
-      sheet([[8.5, 16], [23.5, 16], [24.5, 23], [23, 31], [9, 31], [7.5, 23]], wood, { curve: 1 }),
-      ...[12, 16, 20].map(x => line(x, 17, x, 30, dark)),
-      line(8, 21, 24, 21, iron), line(8.5, 27.5, 23.5, 27.5, iron),
+      sheet([[17, 32], [47, 32], [49, 46], [46, 62], [18, 62], [15, 46]], wood, { curve: 1 }),
+      sheet([[17, 32], [22, 32], [21, 62], [18, 62], [15, 46]], dark, { curve: 0.6 }), sheet([[36, 32], [42, 32], [43, 62], [38, 62]], light, { curve: 0.6 }),
+      ...[23, 29, 35, 41].map(x => line(x, 34, x + (x - 32) * 0.05, 61, dark)),
+      limb(15.5, 42, 48.5, 42, 1.2, 1.2, iron), limb(16, 55, 48, 55, 1.2, 1.2, iron), hair(17, 41, 47, 41, ironLt), hair(17.5, 54, 46.5, 54, ironLt),
+      ...[[18, 42], [46, 42], [18.5, 55], [45.5, 55]].map(([x, y]) => specks([[x, y]], '#a8acb4')),
+      ...[[26, 37], [33, 48], [39, 59], [25, 50]].map(([x, y]) => hair(x, y, x + 0.5, y + 3, '#5e3e24')),
+      ball(32, 62.6, 16, 1, '#2a1c10'),
       // the mouth: a dark throat and gums between body and lid
-      sheet([[9, 15.5], [23, 15.5], [22, lidY + 2], [10, lidY + 2]], '#2a0e14'),
-      ball(16, 16, 7, 1.4, gum),
-      ball(16, lidY + 2, 6.5, 1.3, gum),
+      sheet([[18, 31], [46, 31], [44, lidY + 4], [20, lidY + 4]], '#2a0e14'), ball(32, (31 + lidY + 4) / 2, 8, (31 - lidY - 4) / 3, '#4a1420'),
+      ball(32, 32, 14, 2.8, gum), ball(32, lidY + 4, 13, 2.6, gum),
       // teeth down from the lid and up from the rim, uneven as broken staves
-      ...[10.5, 13, 15.5, 18, 20.5].map((x, i) => limb(x, lidY + 2.2, x + (i % 2 ? 0.3 : -0.2), lidY + 4.2 + (i % 2), 0.7, 0.2, tooth)),
-      ...[11.5, 14, 16.5, 19, 21.5].map((x, i) => limb(x, 15.3, x + (i % 2 ? -0.2 : 0.3), 13.2 - (i % 2), 0.7, 0.2, tooth)),
+      ...[21, 25.5, 30, 34.5, 39, 43].map((x, i) => limb(x, lidY + 4.4, x + (i % 2 ? 0.6 : -0.4), lidY + 8.4 + (i % 2) * 2, 1.4, 0.4, tooth)),
+      ...[23, 27.5, 32, 36.5, 41].map((x, i) => limb(x, 30.6, x + (i % 2 ? -0.4 : 0.6), 26.4 - (i % 2) * 2, 1.4, 0.4, tooth)),
       // the tongue, lolling out over the rim and down the front
-      limb(15, 15.5, 13.5, 20, 1.6, 1.3, '#c04a5a'), limb(13.5, 20, 14.2, 23.5, 1.3, 1, '#c04a5a'),
-      line(14.6, 16.5, 13.9, 22, '#8a2a3a'),
+      limb(30, 31, 27, 40, 3.2, 2.6, tongue), limb(27, 40, 28.4, 47, 2.6, 2, tongue), ball(28.4, 47.4, 2.2, 1.6, tongue),
+      hair(29.2, 33, 27.8, 44, '#8a2a3a'), specks([[26, 36], [27, 43], [29, 49]], '#e0a0a8'),
       // the lid, tipped back on its hinge, hoop and all
-      sheet([[8.5, lidY + 1.5], [23.5, lidY + 1.5], [22.5, lidY - 2], [9.5, lidY - 2]], wood, { curve: 1, tilt: [0, -0.6] }),
-      line(9, lidY, 23, lidY, iron),
-      ball(16, lidY - 2, 6.5, 1.5, light),
+      sheet([[17, lidY + 3], [47, lidY + 3], [45, lidY - 4], [19, lidY - 4]], wood, { curve: 1, tilt: [0, -0.6] }),
+      limb(18, lidY, 46, lidY, 1, 1, iron), hair(19, lidY - 1, 45, lidY - 1, ironLt),
+      ball(32, lidY - 4, 13, 3, light), ...[25, 32, 39].map(x => hair(x, lidY - 6, x, lidY - 2, dark)),
       // eyes on stalks, where two knots in the wood were
-      limb(11, lidY - 1, 9.5, lidY - 5, 0.6, 0.5, dark), limb(21, lidY - 1, 22.5, lidY - 5, 0.6, 0.5, dark),
-      ball(9.5, lidY - 5.8, 2, 1.9, '#e8e0b0'), ball(22.5, lidY - 5.8, 2, 1.9, '#e8e0b0'),
-      ball(10, lidY - 5.6, 1.1, 1.1, '#c8281c'), ball(22, lidY - 5.6, 1.1, 1.1, '#c8281c'),
-      dots([[10, lidY - 6], [22, lidY - 6]], '#1a0808'),
-      dots([[9, lidY - 7], [22, lidY - 7]], '#fff8d8'),
+      limb(22, lidY - 2, 19, lidY - 10, 1.2, 1, dark), limb(42, lidY - 2, 45, lidY - 10, 1.2, 1, dark),
+      ball(19, lidY - 11.6, 4, 3.8, '#e8e0b0'), ball(45, lidY - 11.6, 4, 3.8, '#e8e0b0'),
+      ball(20, lidY - 11.2, 2.2, 2.2, '#c8281c'), ball(44, lidY - 11.2, 2.2, 2.2, '#c8281c'),
+      dots([[20, lidY - 11], [44, lidY - 11]], '#1a0808'), specks([[18.5, lidY - 13], [43.5, lidY - 13]], '#fff8d8'),
+      hair(16, lidY - 13, 18, lidY - 15, '#8a3a2a'), hair(42, lidY - 15, 44, lidY - 13, '#8a3a2a'),
+      // drool strung between the teeth
+      specks([[24, lidY + 10], [37, lidY + 11], [33, 28]], '#e8c8d0'),
     ];
   },
 
   // An eyeless stalker: gaunt and pale, crouched on long thin limbs, its
   // smooth head craned forward with no eyes at all, only a wide mouth of
-  // needle teeth and slits where it breathes, and ears like a bat's.
+  // needle teeth and slits where it breathes, and ears like a bat's. The
+  // skin is stretched so tight the ribs and every knuckle show.
   eyeless: () => {
-    const skin = '#b4aab8', dark = '#7a7080', pale = '#d8d0dc', mouth = '#2a141c';
+    const skin = '#b4aab8', skinDk = '#7a7080', pale = '#d8d0dc', mouth = '#2a141c', vein = '#9a8aa8';
     return [
-      // hind legs folded under it, long front arms planted wide
-      ...both(limb(10, 20, 7, 25.5, 2, 1.4, dark)), ...both(limb(7, 25.5, 9, 30.5, 1.4, 1, dark)), ...both(ball(9.5, 30.8, 1.8, 0.8, dark)),
-      limb(11, 15, 5, 22, 1.6, 1.2, skin), limb(5, 22, 4, 30, 1.2, 0.9, skin), ball(4.2, 30.6, 1.9, 0.8, skin),
-      limb(21, 15, 27, 22, 1.6, 1.2, skin), limb(27, 22, 28, 30, 1.2, 0.9, skin), ball(27.8, 30.6, 1.9, 0.8, skin),
-      // a lean ribbed body
-      ball(16, 18, 5.5, 5.2, skin), ball(16, 20, 3.4, 3, pale),
-      // the long neck and the smooth blind head, ears spread
-      limb(16, 14, 16, 9, 2.4, 2, skin),
-      ball(16, 7.2, 5.4, 4.2, skin), ball(16, 5, 3.6, 1, '#c4bac8'),
-      sheet([[11.5, 5.5], [5, 1.5], [9.5, 8.5]], dark, { tilt: [-0.5, -0.3] }), sheet([[20.5, 5.5], [27, 1.5], [22.5, 8.5]], dark, { tilt: [0.5, -0.3] }),
+      // hind legs folded under it like a hare's, long-toed feet
+      ...both64(limb(22, 40, 14, 50, 3.4, 2.6, skinDk)), ...both64(ball(14, 50, 2.6, 2.4, skinDk)), ...both64(limb(14, 50, 18, 60, 2.4, 1.8, skinDk)),
+      ...both64(limb(18, 61, 23, 62.5, 1.6, 0.8, skinDk)), ...both64(specks([[24, 62.75], [22.5, 62.75]], '#e8e4d8')),
+      // the long front arms planted wide, elbows high, clawed hands splayed
+      limb(23, 29, 11, 38, 2.6, 2, skin), ball(11, 38, 2.2, 2, skinDk), limb(11, 38, 8, 59, 2, 1.5, skin),
+      ...[[3.5, 62.5], [6, 63], [9, 63], [12, 62.5]].map(([x, y]) => limb(8, 59.5, x, y, 0.8, 0.4, skin)),
+      limb(41, 29, 53, 38, 2.6, 2, skin), ball(53, 38, 2.2, 2, skinDk), limb(53, 38, 56, 59, 2, 1.5, skin),
+      ...[[60.5, 62.5], [58, 63], [55, 63], [52, 62.5]].map(([x, y]) => limb(56, 59.5, x, y, 0.8, 0.4, skin)),
+      specks([[3, 63], [5.5, 63], [61, 63], [58.5, 63]], '#f0ece0'),
+      hair(14, 33, 11, 37, vein), hair(50, 33, 53, 37, vein), hair(9.5, 42, 8.5, 54, vein), hair(54.5, 42, 55.5, 54, vein),
+      // a lean ribbed body, the spine ridged
+      ball(32, 35, 10.5, 10, skin), ball(32, 39, 6.4, 5.6, pale),
+      ...[30, 33, 36, 39].map(y => hair(25, y, 30, y + 0.75, skinDk)), ...[30, 33, 36, 39].map(y => hair(39, y, 34, y + 0.75, skinDk)),
+      hair(32, 28, 32, 44, '#c4bac8'),
+      // the long neck craned forward, and the smooth blind head, ears spread
+      limb(32, 27, 32, 18, 4.4, 3.6, skin), hair(30, 26, 30.5, 19, skinDk), hair(34, 26, 33.5, 19, skinDk),
+      sheet([[23, 11], [6, 1], [13, 9], [10, 12], [19, 17]], skinDk, { tilt: [-0.5, -0.3] }), sheet([[41, 11], [58, 1], [51, 9], [54, 12], [45, 17]], skinDk, { tilt: [0.5, -0.3] }),
+      sheet([[22, 11.5], [11, 4.5], [19, 15]], '#a07888'), sheet([[42, 11.5], [53, 4.5], [45, 15]], '#a07888'),
+      hair(20, 12, 13, 7, '#806070'), hair(44, 12, 51, 7, '#806070'),
+      ball(32, 13.6, 10.4, 8, skin), ball(32, 9, 7, 2.4, '#c4bac8'), ball(29, 8.5, 3, 1.2, pale),
       // the mouth, wide and full of needles
-      sheet([[11.5, 9], [20.5, 9], [19, 11.4], [13, 11.4]], mouth),
-      ...[12.2, 13.6, 15, 16.4, 17.8, 19.2].map(x => hair(x, 9.1, x + 0.3, 10.6, '#f0ece0')),
-      ...[12.9, 14.3, 15.7, 17.1, 18.5].map(x => hair(x, 11.3, x + 0.2, 10.1, '#e0dccc')),
-      // fine work: breathing slits where eyes would be, ribs, claws, the skin's veins
-      hair(12.5, 5.5, 14, 5, '#5a5060'), hair(18, 5, 19.5, 5.5, '#5a5060'),
-      hair(13.5, 17, 18.5, 17, dark), hair(13.8, 19, 18.2, 19, dark),
-      specks([[3, 31], [4.5, 31.3], [26.5, 31.3], [28, 31], [29, 31]], '#e8e4d8'),
-      hair(7, 20, 6, 24, '#9a90a0'), hair(25, 20, 26, 24, '#9a90a0'),
-      specks([[16, 3.5], [14, 4.2], [18, 4.2]], '#ece6ee'),
+      sheet([[23, 17], [41, 17], [38.5, 22.4], [25.5, 22.4]], mouth, { curve: 0.6 }),
+      ...[24.5, 26.6, 28.7, 30.8, 32.9, 35, 37.1, 39.2].map((x, i) => limb(x, 17.2, x + 0.3, 19.6 + (i % 2) * 0.6, 0.45, 0.15, '#f0ece0')),
+      ...[25.8, 27.9, 30, 32.1, 34.2, 36.3, 38.2].map(x => limb(x, 22.2, x + 0.2, 20, 0.4, 0.15, '#e0dccc')),
+      ball(32, 21.6, 3, 0.8, '#5a2a3a'),
+      // breathing slits where eyes would be, flared; the skin's veins
+      hair(25, 11, 28, 10, '#5a5060'), hair(25.5, 12.25, 28.5, 11.25, '#5a5060'), hair(36, 10, 39, 11, '#5a5060'), hair(35.5, 11.25, 38.5, 12.25, '#5a5060'),
+      hair(32, 5.5, 31, 9, vein), hair(29, 14, 27, 16, vein), hair(35, 14, 37, 16, vein),
+      specks([[32, 6], [28, 7], [36, 7], [30, 15], [34, 15]], '#ece6ee'),
     ];
   },
 
-  // A puffcap: a squat fungus on stubby roots, its cap swollen with spores,
-  // pale speckles on the dome, dark gills beneath, two small black eyes low on
-  // the stalk, and a haze of spores leaking from the rim.
+  // A puffcap: a squat fungus on rooted feet, its cap swollen fit to burst
+  // with spores, pale scabs on the dome, the gills beneath dark and frilled,
+  // two small black eyes low on the bowed stalk, and spores leaking off the rim.
   puffcap: () => {
-    const cap = '#9a6a3a', capHi = '#b8844a', gill = '#5a3a2a', stalk = '#d8ccb0', shade = '#aa9c80', root = '#6a5a40';
+    const cap = '#9a6a3a', capHi = '#b8844a', capDk = '#6e4626', gill = '#5a3a2a', stalk = '#d8ccb0', shade = '#aa9c80', root = '#6a5a40';
     return [
-      // roots splayed on the stone, the stalk thick and a little bowed
-      ...both(limb(12.5, 28, 8.5, 30.5, 1.6, 0.9, root)), limb(16, 29, 16.5, 31, 1.4, 0.8, root),
-      ball(16, 24, 5.6, 6.2, stalk), ball(14.3, 23, 2.6, 4.2, '#e8dec6'), ball(19, 25.5, 1.8, 3.2, shade),
-      // the gills, and the cap over them, wide and domed
-      ball(16, 15.8, 11.5, 2.6, gill),
-      ball(16, 12.2, 12.2, 6.4, cap), ball(13.5, 10, 7, 3.4, capHi),
-      // pale speckles on the dome
-      ball(10, 11, 1.5, 1.1, '#efe4c4'), ball(17, 8.2, 1.7, 1.2, '#efe4c4'), ball(22.5, 11.5, 1.3, 1, '#efe4c4'), ball(14, 13.6, 1, 0.8, '#efe4c4'),
-      // eyes, low on the stalk, and a slit of a mouth
-      dots([[13, 22], [14, 22], [13, 23], [14, 23], [18, 22], [19, 22], [18, 23], [19, 23]], '#140e0a'), dots([[13, 22], [18, 22]], '#fff4d8'),
-      dots([[15, 26], [16, 26.4], [17, 26]], '#6a5a40'),
-      // fine work: the rim's edge, gill lines, grain on the stalk, and the spores leaking out
-      hair(5, 15, 27, 15, '#3e2618'), hair(9, 16.2, 12, 17, '#3e2618'), hair(20, 17, 23, 16.2, '#3e2618'),
-      hair(13, 25, 13.5, 29, '#bcae90'), hair(18.5, 21, 18, 28, '#bcae90'),
-      specks([[4, 13.5], [3, 11], [28, 13], [29.5, 10.5], [6, 8.5], [26.5, 7.5], [16, 3.5], [11, 4.5], [21, 4]], '#e0dcb0'),
-      specks([[9.5, 10.5], [16.5, 7.8], [22, 11]], '#fffae8'),
-      specks([[12, 30.5], [20, 30.5], [16, 31.2]], '#4a3e2a'),
+      // roots splayed on the stone, gripping it
+      ...both64(limb(25, 55, 15, 61, 2.6, 1.4, root)), ...both64(limb(15, 61, 9, 62.5, 1.4, 0.6, root)), ...both64(limb(28, 58, 24, 63, 1.8, 1, root)),
+      limb(32, 57, 33, 63, 2.2, 1.2, root), ...both64(hair(18, 59.5, 12, 61.5, '#4a3e2a')),
+      // the stalk, thick and a little bowed, a ragged ring of skin round it
+      ball(32, 47, 11, 12, stalk), ball(28.6, 45, 5, 8, '#e8dec6'), ball(38, 50, 3.6, 6.4, shade),
+      sheet([[21.5, 39], [42.5, 39], [41, 42.5], [37, 41], [33, 43], [29, 41], [25, 43], [22.5, 41.5]], '#c8bca0', { curve: 0.6 }),
+      hair(26, 46, 27, 56, '#bcae90'), hair(37, 43, 36, 55, '#bcae90'), hair(31, 49, 31.5, 57, '#bcae90'),
+      // the gills under the cap, frilled
+      ball(32, 31, 23, 5, gill), ...[10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54].map(x => hair(x, 29.5, x + (x - 32) * 0.08, 33.5 - Math.abs(x - 32) * 0.08, '#3e2618')),
+      // the cap, wide and swollen, its rim curling under
+      ball(32, 24, 24.5, 13, cap), ball(27, 19, 14, 7, capHi), ball(32, 32, 22, 2.4, capDk),
+      // pale scabs on the dome, some flaking
+      ...[[20, 21, 3, 2.2], [34, 15.5, 3.4, 2.4], [45, 22, 2.6, 2], [28, 27, 2, 1.6], [39, 28, 1.8, 1.3], [14, 27, 1.6, 1.2], [26, 13, 1.8, 1.3]].map(([x, y, rx, ry]) => ball(x, y, rx, ry, '#efe4c4')),
+      specks([[19, 20], [33, 14.5], [44, 21]], '#fffae8'),
+      // the eyes low on the stalk, and a slit of a mouth
+      ball(27, 44, 1.8, 2, '#140e0a'), ball(37, 44, 1.8, 2, '#140e0a'), dots([[26, 43], [36, 43]], '#fff4d8'),
+      sheet([[29, 51], [35, 51], [34, 52.4], [30, 52.4]], '#5a4a30'),
+      // the spores leaking out of the rim
+      specks([[8, 27], [6, 22], [56, 26], [59, 21], [12, 17], [53, 15], [32, 7], [22, 9], [42, 8], [4, 31], [60, 30], [16, 11], [48, 10]], '#e0dcb0'),
+      specks([[10, 33], [55, 34], [7, 36]], '#c8c49a'),
     ];
   },
 
@@ -1113,73 +1249,95 @@ const CREATURES = {
     ];
   },
 
-  // One of the Lampfolk, who have traded in the deep for as long as there has
-  // been a deep: small, grey and patient, eyes wide and pale as lanterns from
-  // a life without the sun, a pack taller than itself and a lamp on a staff.
-  // Nothing about it says fight: no blade, no teeth, and the light held out.
+  // One of the Lampfolk, who trade in the dark: short and grey, broad ears
+  // that droop, great pale eyes for seeing by a little light; a long patched
+  // robe, a pack piled high with a blanket roll and a pan swinging off it,
+  // the lamp on its staff held out, and a coin held up between long fingers.
   merchant: () => {
-    const skin = '#98a0ae', dark = '#6c7482', robe = '#6a5a48', patch = '#7c6a3e', pack = '#5e4a36';
+    const skin = '#98a0ae', skinDk = '#6c7482', skinLt = '#b4bcc8', robe = '#6a5a48', robeDk = '#4a3e30', patch = '#7c6a3e', pack = '#5e4a36', packDk = '#40321e', wood = '#6a5238';
     return [
-      // the pack, the rolled blanket on top of it and a pan swinging off one side
-      ball(16, 11, 9, 9.5, pack),
-      limb(9.5, 3, 22.5, 3, 2.3, 2.3, '#8a4a3a'),
-      ball(25.5, 13, 2.4, 2.2, '#6a6e76'), line(24.5, 10, 25.5, 11, '#4a4a50'),
-      // short legs under a long robe, and bare grey feet
-      ...both(limb(14, 25, 13.5, 29.5, 1.7, 1.5, dark)),
-      ...both(ball(12.8, 30.4, 2.4, 1.1, skin)),
-      sheet([[10.5, 17], [21.5, 17], [23.5, 29.5], [8.5, 29.5]], robe, { curve: 1 }),
-      sheet([[16.5, 21], [21, 21], [22, 27], [17, 27]], patch, { curve: 0.6 }),
-      line(10.5, 18, 21.5, 18, '#4a3e30'),
-      // the staff and its lamp, held out on the left
-      line(5.5, 5, 5.5, 30, '#6a5238'),
-      line(5.5, 5, 8.5, 5, '#6a5238'), line(8.5, 5, 8.5, 6.5, '#4a4040'),
-      ball(8.5, 9, 2.2, 2.6, '#ffd060'), ball(8.4, 8.5, 1, 1, '#fff6d0'),
-      limb(10.5, 18, 7, 21.5, 1.4, 1.1, robe), ball(6.4, 22, 1.4, 1.3, skin),
-      // the other hand held up, a coin between long fingers
-      limb(21.5, 18, 24, 21.5, 1.4, 1.1, robe), ball(24.4, 22, 1.4, 1.3, skin),
-      dots([[25, 20]], '#e8c050'),
-      // broad ears that droop, a round head, and the eyes
-      sheet([[11.5, 12], [4.5, 14.5], [5.5, 16.5], [11.5, 15]], skin, { tilt: [-0.5, 0.2] }),
-      sheet([[20.5, 12], [27.5, 14.5], [26.5, 16.5], [20.5, 15]], skin, { tilt: [0.5, 0.2] }),
-      ball(16, 13.5, 5.6, 5, skin),
-      ...both(ball(13.6, 13, 2, 2.1, '#f4e6a8')),
-      dots([[14, 13], [18, 13]], '#1a1620'), dots([[13, 12], [17, 12]], '#ffffff'),
-      ball(16, 15.8, 0.8, 0.6, dark),
-      dots([[15, 17], [16, 17], [17, 17]], '#5a5462'),
+      // the pack behind: a rolled blanket on top, a pan and a cup hung off it
+      ball(32, 22, 18, 19, pack), ball(26, 16, 8, 8, '#6e583e'), hair(18, 26, 46, 26, packDk), hair(17, 14, 47, 14, packDk),
+      limb(18, 5, 46, 5, 4.6, 4.6, '#8a4a3a'), ...[22, 28, 34, 40].map(x => hair(x, 1.5, x + 0.5, 8.5, '#6a3428')),
+      limb(47, 20, 51, 22, 0.5, 0.5, '#4a4a50'), ball(52, 27, 4.4, 4, '#6a6e76'), ball(51, 26, 2, 1.6, '#8a8e96'),
+      ball(12, 24, 2.4, 2.4, '#7a7e86'), line(13, 19, 12.5, 21.5, '#4a4a50'),
+      // short legs under the robe, and bare grey feet
+      ...both64(limb(28, 50, 27, 59, 2.8, 2.4, skinDk)), ...both64(ball(25.6, 61, 4.4, 2, skin)),
+      ...both64(specks([[22, 61.5], [23.5, 62], [25, 62]], '#d4d8e0')),
+      // the long robe, patched and frayed at the hem
+      sheet([[21, 34], [43, 34], [47, 59], [41, 57.5], [36, 59.5], [32, 58], [28, 59.5], [23, 57.5], [17, 59]], robe, { curve: 1 }),
+      sheet([[21, 34], [25, 34], [22, 58.5], [17, 59]], robeDk, { curve: 0.4 }),
+      sheet([[33, 42], [42, 42], [43.5, 53], [34, 53]], patch, { curve: 0.6 }), ...[[33.5, 42.5], [42.5, 43], [43.5, 52.5], [34, 52.5]].map(([x, y]) => specks([[x, y]], '#c8b890')),
+      line(21, 36, 43, 36, '#4a3e30'), limb(30, 37, 29, 42, 0.5, 0.4, '#8a7050'), ball(29, 43, 1.2, 1.2, '#c9a24a'),
+      ...[[27, 46], [38, 39], [30, 54], [40, 56]].map(([x, y]) => hair(x, y, x + 0.5, y + 3, robeDk)),
+      // the staff and its lamp, held out on the left, the light warm on the glass
+      line(11, 10, 11, 62, wood), limb(11, 10, 17, 10, 0.7, 0.7, wood), line(17, 10, 17, 13, '#4a4040'),
+      ball(17, 18, 4, 4.8, '#3a3634'), ball(17, 18, 3, 3.8, '#ffd060', { glows: true }), ball(16.6, 17, 1.6, 1.8, '#fff6d0', { glows: true }),
+      line(14, 14, 20, 14, '#2a2624'), line(14, 22.5, 20, 22.5, '#2a2624'),
+      limb(21, 36, 14, 42, 2.6, 2.2, robe), ball(12.6, 43, 2.6, 2.4, skin), ...[[10, 41.5], [10, 43.5]].map(([x, y]) => limb(11.5, y, x, y + 0.5, 0.6, 0.5, skin)),
+      // the other hand held up, the coin between long fingers
+      limb(43, 36, 48, 42, 2.6, 2.2, robe), ball(49, 42, 2.4, 2.2, skin),
+      limb(49, 40.5, 50.5, 37, 0.6, 0.5, skin), limb(50, 41, 52, 38, 0.6, 0.5, skin),
+      ball(51.4, 36, 1.8, 1.8, '#e8c050', { glows: true }), specks([[51, 35.5]], '#fff4c0'),
+      // broad ears that droop, a round head, and the great pale eyes
+      sheet([[23, 24], [8, 28], [6, 32], [10, 33.5], [23, 30]], skin, { tilt: [-0.5, 0.2] }), sheet([[41, 24], [56, 28], [58, 32], [54, 33.5], [41, 30]], skin, { tilt: [0.5, 0.2] }),
+      sheet([[22, 26], [11, 29.5], [22, 29]], '#a87e86'), sheet([[42, 26], [53, 29.5], [42, 29]], '#a87e86'),
+      ball(32, 27, 11, 10, skin), ball(29, 23, 6, 4, skinLt),
+      hair(25, 22, 29.5, 22.5, skinDk), hair(39, 22, 34.5, 22.5, skinDk),
+      ...both64(ball(27.4, 26.4, 3.8, 3.8, '#f4e6a8')), ...both64(ball(27.8, 26.6, 2, 2.2, '#3a3020')),
+      dots([[28, 27], [36, 27]], '#0e0c10'), dots([[27, 25], [35, 25]], '#ffffff'),
+      limb(32, 27, 32, 31, 0.9, 1.4, skin), ball(32, 31.4, 1.4, 1, skinDk),
+      sheet([[28.5, 33.5], [35.5, 33.5], [34.5, 34.8], [29.5, 34.8]], '#4a4250'),
+      // the grey skin's creases, a scrap of beard, wrinkles at the eyes
+      hair(23, 29, 25, 31, skinDk), hair(41, 29, 39, 31, skinDk), hair(22.5, 27, 23.5, 28.5, skinDk), hair(41.5, 27, 40.5, 28.5, skinDk),
+      ...[30, 32, 34].map(x => hair(x, 35.5, x + 0.25, 37.5, '#c8ccd4')),
+      specks([[26, 20], [37, 19.5], [31, 18.5]], skinDk),
     ];
   },
 
   // A goblin who would rather sell you a blade than stick you with one: no
   // weapon in its hands, a floppy cap, and a heap of other people's things on
-  // its back, pots and a sword hilt and a string of trinkets.
+  // its back, pots and a pan and a sword hilt and a string of trinkets; one
+  // hand holds charms out to you and the other beckons, grinning.
   pedlar: () => {
-    const skin = '#6aa84a', dark = '#3f6e2c', tunic = '#8a6a3a', heap = '#6e5236';
+    const skin = '#6aa84a', skinDk = '#3f6e2c', skinLt = '#8ac66a', tunic = '#8a6a3a', tunicDk = '#5a4224', heap = '#6e5236', heapDk = '#4a3620', cap = '#a03a30', capDk = '#702620';
     return [
-      // the heap on its back: a sack, a pot, a pan, a hilt standing out of it
-      ball(16, 13, 9.5, 7.5, heap),
-      ball(8, 9, 2.8, 2.4, '#7a7e86'), ball(24.5, 8.5, 2.6, 2.2, '#9a6a3a'),
-      line(21, 3, 23, 8, '#b8bcc4', { lit: 1 }), line(19.5, 4.5, 22.5, 3.5, '#c9a24a'),
-      ...both(limb(13.5, 23, 12.5, 29.5, 1.9, 1.5, dark)),
-      ...both(ball(11.5, 30.3, 2.4, 1.2, '#4a3a2a')),
-      ball(16, 21, 5.2, 4.8, skin),
-      sheet([[10.5, 18], [21.5, 18], [22.5, 25], [9.5, 25]], tunic, { curve: 1 }),
-      line(10.5, 18.5, 21.5, 18.5, '#5a3a20'),
-      // one hand holds a string of charms out to you, the other beckons
-      limb(10.5, 18, 6.5, 22, 1.7, 1.3, skin), ball(6.3, 22.8, 1.6, 1.5, skin),
-      line(6, 24, 6, 28, '#8a7050'), dots([[6, 25], [6, 27]], '#e8c050'), dots([[6, 26]], '#60c0e0'),
-      limb(21.5, 18, 24.5, 15.5, 1.7, 1.3, skin), ball(25, 14.8, 1.6, 1.5, skin),
-      // ears, a head, a floppy cap
-      sheet([[10.5, 11], [3, 8], [4.5, 10.5], [10.5, 14]], skin, { tilt: [-0.5, -0.2] }),
-      sheet([[21.5, 11], [29, 8], [27.5, 10.5], [21.5, 14]], skin, { tilt: [0.5, -0.2] }),
-      ball(16, 12, 5.8, 5, skin),
-      sheet([[10, 9.5], [12, 5], [16, 4], [20.5, 5], [22, 9.5], [16, 8.5]], '#a03a30', { curve: 0.8 }),
-      ball(21.5, 5.5, 1.2, 1.2, '#e8d8b0'),
-      // an open, hopeful look and a grin that wants your coin
-      ...both(ball(13.3, 11.8, 1.5, 1.3, '#f0e8c0')),
-      dots([[13, 12], [19, 12]], '#1a1010'),
-      limb(16, 11, 16, 14, 0.6, 1, skin),
-      sheet([[12.5, 14.8], [16, 15.8], [19.5, 14.8], [18, 16.6], [14, 16.6]], '#2a1010'),
-      dots([[14, 15], [17, 15]], '#f0e6c8'),
+      // the heap on its back: a sack, a pot, a pan, a hilt standing out of it, a lantern
+      ball(32, 26, 19, 15, heap), ball(26, 21, 9, 6, '#7e6244'), hair(16, 30, 48, 30, heapDk), hair(22, 16, 30, 26, heapDk),
+      ball(16, 18, 5.6, 4.8, '#7a7e86'), ball(15, 16.6, 3, 1.6, '#9a9ea6'), ball(16, 14, 4, 1, '#5a5e66'),
+      ball(49, 17, 5.2, 4.4, '#9a6a3a'), ball(49, 15, 3.6, 1.2, '#4a2e18'), limb(53, 19, 58, 23, 0.6, 0.6, '#7a4a20'),
+      line(42, 4, 46, 16, '#b8bcc4', { lit: 1 }), hair(42.5, 5, 45.5, 15, '#f0f2f6'), limb(39, 9, 45.5, 7, 0.8, 0.8, '#c9a24a'), ball(41.6, 3.4, 1.2, 1.2, '#c9a24a'),
+      limb(20, 10, 26, 12, 0.8, 0.8, '#5a3a20'), ball(19, 9.5, 1.6, 2, '#8a8070'), specks([[19, 9]], '#ffe0a0'),
+      ...[[22, 34], [26, 35.5], [30, 36], [34, 36], [38, 35.5], [42, 34]].map(([x, y], i) => ball(x, y, 0.9, 0.9, ['#e8c050', '#60c0e0', '#e05040'][i % 3])),
+      // bandy legs, long bare feet
+      ...both64(limb(28, 46, 26, 53, 2.2, 1.9, skin)), ...both64(ball(26, 53, 2, 1.8, skinDk)), ...both64(limb(26, 53, 26.5, 60, 1.9, 1.6, skin)),
+      ...both64(limb(26.5, 61, 21.5, 62, 1.7, 1.3, skinDk)), ...both64(specks([[20, 62.5], [21.5, 62.75]], '#d8cfb0')),
+      // the pot-belly in a stained tunic, a belt with a fat purse on it
+      ball(32, 40, 8.4, 8.6, skin),
+      sheet([[23, 35], [41, 35], [43, 48], [40, 46.5], [36, 49], [32, 47], [28, 49], [24, 46.5], [21, 48]], tunic, { curve: 1 }),
+      sheet([[23, 35], [27, 35], [25, 47.5], [21, 48]], tunicDk, { curve: 0.4 }),
+      line(22.5, 42, 41.5, 42, '#4a2e18'), ball(36, 44.4, 2.6, 2.2, '#8a5a30'), specks([[35.5, 43.5]], '#e8c050'),
+      ...[[28, 38], [37, 39], [30, 46]].map(([x, y]) => specks([[x, y], [x + 0.5, y + 0.5]], '#c8a878')),
+      // one hand holds out a string of charms, the other beckons
+      limb(23, 36, 16, 42, 2, 1.7, skin), limb(16, 42, 13, 45, 1.7, 1.5, skin), ball(12.6, 46, 2.2, 2, skin),
+      line(12, 48, 12, 57, '#8a7050'), ball(12, 50, 1, 1, '#e8c050'), ball(12, 53, 1.1, 1.1, '#60c0e0', { glows: true }), ball(12, 56, 1, 1, '#c8c8d0'), ball(12, 58, 1.4, 1.6, '#e05040'),
+      limb(41, 36, 47, 33, 2, 1.7, skin), limb(47, 33, 50, 27, 1.7, 1.5, skin), ball(50.4, 26, 2.2, 2, skin),
+      limb(50, 24, 48.5, 22.5, 0.6, 0.5, skin), limb(51.5, 24.5, 50.5, 22, 0.6, 0.5, skin),
+      // the great ears swept out, a narrow head, the floppy cap
+      sheet([[25, 22], [5, 15], [8, 20], [6, 22], [11, 24], [25, 27]], skin, { tilt: [-0.5, -0.2] }), sheet([[39, 22], [59, 15], [56, 20], [58, 22], [53, 24], [39, 27]], skin, { tilt: [0.5, -0.2] }),
+      sheet([[23.5, 22.5], [11, 18], [23.5, 25.5]], '#b06e56'), sheet([[40.5, 22.5], [53, 18], [40.5, 25.5]], '#b06e56'),
+      limb(32, 30, 32, 34, 2, 2.3, skinDk),
+      ball(32, 23, 7.4, 7, skin), ball(32, 27.6, 5.4, 2.8, skin),
+      sheet([[23.5, 20], [26, 12], [32, 9.5], [39, 11], [44, 14], [46, 20], [42, 17], [39.5, 19.5]], cap, { curve: 0.8 }),
+      sheet([[39, 11], [44, 14], [46, 20], [42, 17]], capDk, { curve: 0.6 }), ball(46, 21, 1.8, 1.8, '#e8d8b0'),
+      line(24, 19.5, 40, 19.5, capDk),
+      // an open, hopeful look, raised brows, a nose, and a grin that wants your coin
+      limb(26, 19.8, 30, 20.8, 1, 0.8, skinDk), limb(38, 19.8, 34, 20.8, 1, 0.8, skinDk),
+      ...both64(ball(28.4, 23, 2.2, 1.8, '#f0e8c0')), dots([[28, 23], [36, 23]], '#1a1010'), specks([[28.5, 22.5], [36.5, 22.5]], '#ffffff'),
+      limb(32, 22, 32.6, 27, 1, 1.6, skin), ball(33, 27.4, 1.6, 1.2, skinLt),
+      sheet([[25.5, 28.4], [32, 30.6], [38.5, 28.4], [36.5, 31.8], [32, 32.8], [27.5, 31.8]], '#2a1010'),
+      dots([[28, 29], [30, 30], [34, 30], [36, 29]], '#f0e6c8'), ball(32, 32, 1.8, 0.6, '#6a2424'),
+      specks([[27, 17], [37, 17.5], [30.5, 25.5]], skinDk),
     ];
   },
 
@@ -1416,93 +1574,18 @@ const CREATURES = {
   // The hero's hound: brown and scruffy, ears that flop, a frayed red collar
   // with a tag, and a tail that will not keep still. Nothing like the grey
   // things of the deep: shorter in the leg, warmer, and on your side.
-  dog: (pose = 'idle') => {
-    const coat = '#8a5a32', dark = '#5e3a1e', pale = '#c8a070', muzzle = '#a8784a', nose = '#1a1210';
-    const bite = pose === 'windup', sit = pose === 'sit';
-    const hy = bite ? 15.5 : sit ? 11.5 : 13;
-    // told to stay, it sits: haunches down on the stone, forelegs straight, the
-    // tail laid round its feet, and the head up, watching the way you went
-    const hind = sit
-      ? [...both(ball(10.6, 27.2, 3.2, 2.7, dark)), ...both(ball(9.6, 30.4, 1.9, 0.9, dark)),
-        limb(20.5, 29.5, 24.5, 30.2, 1.1, 0.8, dark), limb(24.5, 30.2, 26.5, 28.8, 0.8, 0.5, coat)]
-      : [limb(19, 18, 23, 13, 1.2, 0.8, dark), limb(23, 13, 24.5, 9.5, 0.8, 0.5, coat),
-        ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
-        ...both(ball(10, 30.4, 1.7, 0.9, dark))];
-    const by = sit ? 22 : 20.5;
-    return [
-      // the tail up and waving behind, and the hind legs, short and sturdy
-      ...hind,
-      // a deep body with a saddle of darker coat (upright when it sits)
-      sit ? ball(15.5, by, 5.6, 5.8, coat) : ball(15.5, by, 6.8, 4.6, coat),
-      sit ? sheet([[11.5, 18.5], [19.5, 18.5], [19, 21], [12, 21]], dark, { curve: 1 }) : sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
-      // forelegs, braced for the spring if it means to bite, straight when it sits
-      ...both(limb(12.5, by + 1, bite ? 10.5 : sit ? 12.8 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : sit ? 12.8 : 12, 26.5, bite ? 11 : sit ? 12.9 : 12.3, 30, 1.1, 1, coat)),
-      ...both(ball(bite ? 11 : sit ? 12.9 : 12.3, 30.4, 1.7, 0.9, coat)),
-      // a pale chest, and the collar with its tag
-      ball(15.5, by + 2, 3, sit ? 3.6 : 3.2, pale),
-      sheet([[12.6, hy + 3.4], [18.4, hy + 3.4], [18, hy + 4.6], [13, hy + 4.6]], '#a02828', { curve: 0.6 }),
-      ball(15.5, hy + 5.6, 0.9, 1, '#d8b848'),
-      // floppy ears hanging down beside a broad head
-      ...both(sheet([[12.6, hy - 2.5], [9.5, hy - 1], [10.2, hy + 4], [12.4, hy + 2]], dark, { curve: 0.8, tilt: [-0.3, 0.2] })),
-      ball(15.5, hy, 3.9, 3.4, coat),
-      ...both(ball(13.9, hy - 0.8, 1.3, 0.9, '#3a2412')),
-      // the muzzle, and the eyes, warm and brown with a catch of light
-      bite ? sheet([[13.3, hy + 1.5], [17.7, hy + 1.5], [17.2, hy + 5.5], [13.8, hy + 5.5]], '#4a1818', { curve: 0.5 }) : limb(15.5, hy + 1, 15.5, hy + 3.6, 2.2, 1.7, muzzle),
-      bite ? ball(15.5, hy + 5.4, 2, 1, muzzle) : ball(15.5, hy + 3.5, 1.4, 0.9, nose),
-      dots([[14, Math.round(hy) - 1], [17, Math.round(hy) - 1]], '#2a1808'), dots([[14, Math.round(hy) - 2], [17, Math.round(hy) - 2]], '#f0d8a0'),
-      ...(bite ? [dots([[14, Math.round(hy) + 2], [17, Math.round(hy) + 2], [14, Math.round(hy) + 4], [17, Math.round(hy) + 4]], '#f4ecdc')] : []),
-      // fine work: a tuft on the head, whiskers, the tag's glint, claws, the coat's grain
-      hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
-      specks([[15.5, hy + 5.5]], '#fff4c0'),
-      ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
-      hair(13, by - 1.5, 14.5, by + 0.5, '#6e4424'), hair(17.5, by - 1.5, 16.5, by + 1, '#6e4424'), hair(11.5, by + 1.5, 12, by + 3.5, '#a87848'),
-    ];
-  },
+  dog: (pose = 'idle') => canine(pose, {
+    coat: '#8a5a32', dark: '#5e3a1e', pale: '#c8a070', muzzle: '#a8784a', nose: '#1a1210', eye: '#3a2410', eyeLt: '#f0d8a0', grain: '#6e4424',
+    brow: '#9a6a3e', ears: 'flop', collar: true,
+  }),
 
   // The druid's wolf: grey and lean where the hound is brown and scruffy, its
-  // ears pricked, its eyes amber, no collar on it, and its tail carried low. It
-  // comes to a druid in the delves that have no hound.
-  wolf: (pose = 'idle') => {
-    const coat = '#7c7e86', dark = '#4c4e58', pale = '#d4d2c8', muzzle = '#a2a2a6', nose = '#141216';
-    const bite = pose === 'windup', sit = pose === 'sit';
-    const hy = bite ? 15.5 : sit ? 11.5 : 13;
-    // told to stay, it sits: haunches down on the stone, forelegs straight, the
-    // tail laid round its feet, and the head up, watching the way you went
-    const hind = sit
-      ? [...both(ball(10.6, 27.2, 3.2, 2.7, dark)), ...both(ball(9.6, 30.4, 1.9, 0.9, dark)),
-        limb(20.5, 29.5, 24.5, 30.2, 1.1, 0.8, dark), limb(24.5, 30.2, 26.5, 28.8, 0.8, 0.5, coat)]
-      : [limb(20, 19, 24, 23, 1.7, 1.3, dark), limb(24, 23, 25, 26.5, 1.3, 0.6, pale),
-        ...both(limb(11, 21, 9.5, 26, 2, 1.3, dark)), ...both(limb(9.5, 26, 10, 30, 1.2, 1, dark)),
-        ...both(ball(10, 30.4, 1.7, 0.9, dark))];
-    const by = sit ? 22 : 20.5;
-    return [
-      // the tail carried low behind, and the hind legs, long and lean
-      ...hind,
-      // a deep body with a saddle of darker coat (upright when it sits)
-      sit ? ball(15.5, by, 5.6, 5.8, coat) : ball(15.5, by, 6.8, 4.6, coat),
-      sit ? sheet([[11.5, 18.5], [19.5, 18.5], [19, 21], [12, 21]], dark, { curve: 1 }) : sheet([[10.5, 17.5], [20.5, 17.5], [19.5, 20], [11.5, 20]], dark, { curve: 1 }),
-      // forelegs, braced for the spring if it means to bite, straight when it sits
-      ...both(limb(12.5, by + 1, bite ? 10.5 : sit ? 12.8 : 12, 26.5, 1.7, 1.1, coat)), ...both(limb(bite ? 10.5 : sit ? 12.8 : 12, 26.5, bite ? 11 : sit ? 12.9 : 12.3, 30, 1.1, 1, coat)),
-      ...both(ball(bite ? 11 : sit ? 12.9 : 12.3, 30.4, 1.7, 0.9, coat)),
-      // a pale chest and a ruff of thicker fur at the throat, and no collar
-      ball(15.5, by + 2, 3, sit ? 3.6 : 3.2, pale),
-      sheet([[12, hy + 3], [19, hy + 3], [18, hy + 5.4], [15.5, hy + 6.4], [13, hy + 5.4]], pale, { curve: 0.8 }),
-      // ears pricked up, pointed, over a narrower head
-      ...both(sheet([[12.2, hy - 1.8], [11.4, hy - 6.4], [14.2, hy - 2.8]], dark, { curve: 0.3 })),
-      ...both(sheet([[12.6, hy - 2.2], [12, hy - 5], [13.6, hy - 2.8]], '#8e7a6e', { curve: 0.3 })),
-      ball(15.5, hy, 3.9, 3.4, coat),
-      ...both(ball(13.9, hy - 0.8, 1.3, 0.9, '#3a2412')),
-      // the muzzle, and the eyes, amber with a catch of light
-      bite ? sheet([[13.3, hy + 1.5], [17.7, hy + 1.5], [17.2, hy + 5.5], [13.8, hy + 5.5]], '#4a1818', { curve: 0.5 }) : limb(15.5, hy + 1, 15.5, hy + 4.4, 2, 1.4, muzzle),
-      bite ? ball(15.5, hy + 5.4, 2, 1, muzzle) : ball(15.5, hy + 4.3, 1.3, 0.9, nose),
-      dots([[14, Math.round(hy) - 1], [17, Math.round(hy) - 1]], '#c07818'), dots([[14, Math.round(hy) - 2], [17, Math.round(hy) - 2]], '#f0b030'),
-      ...(bite ? [dots([[14, Math.round(hy) + 2], [17, Math.round(hy) + 2], [14, Math.round(hy) + 4], [17, Math.round(hy) + 4]], '#f4ecdc')] : []),
-      // fine work: a tuft on the head, whiskers, claws, the coat's grain
-      hair(15, hy - 3.2, 16, hy - 4, pale), specks([[13.5, hy + 2], [17.5, hy + 2]], '#e8d0a8'),
-      ...both(specks([[9, 31], [10, 31], [11, 31]], '#e8dcc8')),
-      hair(13, by - 1.5, 14.5, by + 0.5, '#34363e'), hair(17.5, by - 1.5, 16.5, by + 1, '#34363e'), hair(11.5, by + 1.5, 12, by + 3.5, '#b4b4b0'),
-    ];
-  },
+  // ears pricked, its eyes amber, a ruff at its throat and no collar on it, and
+  // its tail carried low. It comes to a druid in the delves that have no hound.
+  wolf: (pose = 'idle') => canine(pose, {
+    coat: '#7c7e86', dark: '#4c4e58', pale: '#d4d2c8', muzzle: '#a2a2a6', nose: '#141216', eye: '#c07818', eyeLt: '#f0b030', grain: '#34363e',
+    brow: '#8a8c94', ears: 'prick', ruff: true, tail: 'low', tailTip: '#d4d2c8', leggy: true,
+  }),
 
   // The sellsword: a hired blade, as tall as the hero. A kettle hat with a wide
   // iron brim, a brigandine of blue-grey cloth studded with brass over a mail
@@ -1686,6 +1769,7 @@ const CREATURES = {
     ];
     return [...body, ...arms, ...head];
   },
+  // (drawn first on the coarse grid and set on the finer one, its head drawn again there)
   scrag: (pose = 'idle') => {
     const skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', cloth = '#6a5c4a', cord = '#4a3a28';
     const iron = '#6e727c', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
@@ -1768,13 +1852,19 @@ const CREATURES = {
       ];
     }
     return [
-      ...parts,
-      ...scragHead(hx, hy, { look: stab ? 0 : sit ? -1 : 1, mouth: stab ? 'teeth' : 'grin' }),
+      ...parts.map(up2),
+      ...scragHead(hx * 2, hy * 2, { look: stab ? 0 : sit ? -1 : 1, mouth: stab ? 'teeth' : 'grin' }),
       // fine work: ribs, frayed threads at the hem, a darn in the rag, toes
+      ...[
       hair(14.5, 21.6 + dy, 14, 22.6 + dy, '#4c7e34'), hair(17.5, 21.6 + dy, 18, 22.6 + dy, '#4c7e34'),
       hair(11.8, 22.4 + dy, 11.6, 23.4 + dy, rag), hair(18, 22.6 + dy, 18.2, 23.6 + dy, rag),
       specks([[13, 19.5 + dy], [13.5, 20 + dy], [14, 19.5 + dy], [14.5, 20 + dy]], '#a89a82'),
       ...(stab ? [] : both(specks([[sit ? 12 : 11, 30.5], [sit ? 13 : 12, 30.5]], '#e8e0c0'))),
+      ].map(up2),
+      // knuckles and the grime in them, more frays, the wear on the chain
+      hair(25, 41 + 2 * dy, 24, 45 + 2 * dy, '#5a4c3c'), hair(38, 41 + 2 * dy, 39.5, 45 + 2 * dy, '#5a4c3c'), hair(31, 40 + 2 * dy, 31.5, 44 + 2 * dy, '#5a4c3c'),
+      specks([[27, 38 + 2 * dy], [36, 38.5 + 2 * dy], [21, 43 + 2 * dy], [43, 43 + 2 * dy]], '#a89a82'),
+      hair(29, 47.5 + 2 * dy, 35, 47.5 + 2 * dy, '#3a2a1a'),
     ];
   },
 
@@ -1784,89 +1874,91 @@ const CREATURES = {
   // to slats of itself and only the eyes stay whole; about to bite, its
   // hackles stand and its head drops, jaws open.
   hound: (pose = 'idle') => {
-    const coat = '#767a86', dark = '#4c505c', pale = '#94989f', muzzle = '#8c909a', nose = '#16161e';
+    const coat = '#767a86', dark = '#4c505c', pale = '#94989f', muzzle = '#8c909a', nose = '#16161e', sinew = '#5e626e', socket = '#24262e', eyeC = '#c8ecff';
     const fade = pose === 'special', bite = pose === 'windup';
-    const hy = bite ? 15 : 11.5;    // the head
-    const sh = bite ? 1 : 0;        // the shoulders, hunched for the spring
+    const hy = bite ? 30 : 23;    // the head
+    const sh = bite ? 2 : 0;      // the shoulders, hunched for the spring
     /** @type {any[]} its own parts are read back below, to cut into slats */
     const out = [
       // the tail, a thin whip up behind it
-      limb(20, 15, 24, 11, 0.9, 0.6, dark), limb(24, 11, 25.5, 6, 0.6, 0.45, dark),
-      // the hind legs, well back behind the ribs: a high hock, a thin shank
-      ...both(limb(10.5, 17.5, 8.3, 24, 1.8, 0.9, dark)), ...both(limb(8.3, 24, 9, 30, 0.9, 0.7, dark)),
-      ...both(ball(8.8, 30.4, 1.4, 0.7, dark)),
+      limb(40, 30, 48, 22, 1.8, 1.2, dark), limb(48, 22, 51, 12, 1.2, 0.8, dark), hair(44, 27, 49, 19, sinew),
+      // the hind legs, well back behind the ribs: a high hock, a thin shank, long toes
+      ...both64(limb(21, 35, 16.6, 48, 3.6, 1.8, dark)), ...both64(ball(16.6, 48, 1.8, 1.7, dark)), ...both64(limb(16.6, 48, 18, 60, 1.8, 1.3, dark)),
+      ...both64(ball(17.6, 61, 2.8, 1.4, dark)), ...both64(hair(19.5, 38, 17.5, 46, sinew)),
       // the barrel of the ribs, and the shoulder blades standing up out of it
-      ball(15.5, 16.5 + sh, 6.4, 4.2, coat),
-      ball(15.5, 20 + sh, 4.5, 1.6, dark),
-      ...both(ball(11.2, 14 + sh, 2.3, 2, '#686c78')),
+      ball(31.5, 33 + sh, 12.8, 8.4, coat), ball(31.5, 40 + sh, 9, 3.2, dark),
+      ...both64(ball(22.4, 28 + sh, 4.6, 4, '#686c78')),
+      ...[29.5, 32.5, 35.5].flatMap(y => both64(hair(21, y + sh, 26.5, y + 1.25 + sh, dark))),
+      hair(31.5, 25 + sh, 31.5, 29 + sh, sinew),
     ];
     if (bite) {
       // hackles up along the neck and shoulders, a ragged ruff behind the head
       for (const a of [-170, -150, -130, -110, -90, -70, -50, -30, -10]) {
-        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), h = 2.6 + (a % 20 ? 1 : 0);
-        const bx = 15.5 + dx * 6, by = 14.5 + dy * 3.2;
-        out.push(sheet([[bx - dy * 1.1, by + dx * 1.1], [bx + dx * h, by + dy * h], [bx + dy * 1.1, by - dx * 1.1]], dark, { tilt: [dx * 0.5, dy * 0.5] }));
+        const t = a * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t), h = 5.2 + (a % 20 ? 2 : 0);
+        const bx = 31.5 + dx * 12, by = 29 + dy * 6.4;
+        out.push(sheet([[bx - dy * 2.2, by + dx * 2.2], [bx + dx * h, by + dy * h], [bx + dy * 2.2, by - dx * 2.2]], dark, { tilt: [dx * 0.5, dy * 0.5] }),
+          hair(bx, by, bx + dx * h * 0.7, by + dy * h * 0.7, '#3a3e48'));
       }
       // forelegs braced wide and bent, for the spring
-      out.push(...both(limb(12, 18.5, 10, 24.5, 1.6, 0.9, coat)), ...both(limb(10, 24.5, 10.8, 30, 0.9, 0.8, coat)),
-        ...both(ball(10.6, 30.4, 1.6, 0.8, coat)));
+      out.push(...both64(limb(24, 37, 20, 49, 3.2, 1.8, coat)), ...both64(ball(20, 49, 1.8, 1.7, coat)), ...both64(limb(20, 49, 21.6, 60, 1.8, 1.5, coat)),
+        ...both64(ball(21.2, 61, 3.2, 1.5, coat)));
     } else {
-      out.push(...both(limb(12.2, 17.5, 11.9, 25, 1.5, 0.8, coat)), ...both(limb(11.9, 25, 12.3, 30, 0.8, 0.7, coat)),
-        ...both(ball(12.2, 30.4, 1.5, 0.8, coat)));
+      out.push(...both64(limb(24.4, 35, 23.8, 50, 3, 1.6, coat)), ...both64(ball(23.8, 50, 1.7, 1.6, coat)), ...both64(limb(23.8, 50, 24.6, 60, 1.6, 1.4, coat)),
+        ...both64(ball(24.4, 61, 3, 1.5, coat)));
     }
     out.push(
+      // the sinews down the forelegs, and the long claws
+      ...both64(hair(bite ? 22 : 24.5, 40, bite ? 20.5 : 24, 48, sinew)),
+      ...both64(specks(bite ? [[18.5, 62.5], [20.5, 62.75], [22.5, 62.75], [24, 62.5]] : [[22, 62.5], [24, 62.75], [26, 62.5]], '#d8d4c8')),
       // a narrow keel of a chest under the head
-      ball(15.5, 19.2, 2.4, 3.2, pale),
+      ball(31.5, 38.4, 4.8, 6.4, pale), hair(31.5, 34, 31.5, 43, '#a8acb4'),
       // tall ears, pricked, or laid back flat for the bite
-      ...both(sheet(bite ? [[13, hy - 1.5], [8.5, hy - 4.5], [14.2, hy - 3]] : [[13, hy - 1.5], [11.3, hy - 8.5], [14.8, hy - 3]], coat, { tilt: [-0.4, -0.3] })),
-      ...both(sheet(bite ? [[13, hy - 2], [10, hy - 4], [13.8, hy - 3]] : [[13.2, hy - 2.2], [12, hy - 7], [14.3, hy - 3.2]], '#3a2e3e', { tilt: [-0.2, -0.2] })),
+      ...both64(sheet(bite ? [[26, hy - 3], [17, hy - 9], [28.4, hy - 6]] : [[26, hy - 3], [22.6, hy - 17], [29.6, hy - 6]], coat, { tilt: [-0.4, -0.3] })),
+      ...both64(sheet(bite ? [[26, hy - 4], [20, hy - 8], [27.6, hy - 6]] : [[26.4, hy - 4.4], [24, hy - 14], [28.6, hy - 6.4]], '#3a2e3e', { tilt: [-0.2, -0.2] })),
+      ...both64(hair(bite ? 22 : 24.5, bite ? hy - 6.5 : hy - 11, bite ? 25 : 26, bite ? hy - 5 : hy - 6, '#9a8a9e')),
       // a wedge of a head: broad at the skull, down to a long muzzle
-      ball(15.5, hy, 3.8, 3, coat),
-      ...both(ball(13.4, hy + 1.8, 1.7, 1.5, coat)),
+      ball(31.5, hy, 7.6, 6, coat), ...both64(ball(26.8, hy + 3.6, 3.4, 3, coat)), ball(31.5, hy - 3.6, 4.4, 1.8, '#848894'),
       // a heavy brow over deep sockets
-      ...both(ball(13.9, hy - 0.4, 1.5, 1.1, '#24262e')),
+      ...both64(ball(27.8, hy - 0.8, 3, 2.2, socket)), ...both64(limb(24, hy - 3.4, 29.6, hy - 2, 1.2, 0.8, dark)),
     );
-    const ey = Math.round(hy) - 1;
+    // the eyes stay whole when the rest of it goes, so they are kept apart
+    const eyes = fade
+      ? [...both64(ball(27.4, hy - 0.8, 3, 1.6, eyeC, { glows: true })), ...both64(ball(27.8, hy - 0.8, 1.2, 0.9, '#f8feff', { glows: true }))]
+      : [...both64(ball(27.8, hy - 0.8, 1.8, 1.1, eyeC, { glows: true })), specks([[27.5, hy - 1.25], [35.5, hy - 1.25]], '#f8feff')];
     if (bite) {
-      // the jaws open: a dark mouth, teeth top and bottom, the lower jaw dropped
+      // the jaws open: a dark mouth, fangs top and bottom, the lower jaw dropped
       out.push(
-        sheet([[12.8, hy + 1.5], [18.2, hy + 1.5], [17.5, hy + 7], [13.5, hy + 7]], '#3a1418', { curve: 0.5 }),
-        ball(15.5, hy + 7, 2.3, 1.1, muzzle),
-        limb(15.5, hy + 0.5, 15.5, hy + 2.6, 2.3, 1.9, muzzle),
-        ...both(specks([[13.5, hy + 2.5], [13.5, hy + 3], [13.5, hy + 3.5], [14, hy + 6.5], [14, hy + 6], [14, hy + 5.5]], '#f0ead8')),
-        dots([[15, Math.round(hy) + 5], [16, Math.round(hy) + 5]], '#b04a50'),
-        dots([[15, Math.round(hy) + 2], [16, Math.round(hy) + 2]], nose),
-        dots([[13, ey + 1], [14, ey + 1], [17, ey + 1], [18, ey + 1]], '#c8ecff'), dots([[14, ey + 1], [17, ey + 1]], '#f8feff'),
+        sheet([[25.6, hy + 3], [37.4, hy + 3], [36, hy + 14], [27, hy + 14]], '#3a1418', { curve: 0.5 }), ball(31.5, hy + 10.6, 3, 1.8, '#b04a50'),
+        ball(31.5, hy + 14, 4.6, 2.2, muzzle), limb(31.5, hy + 1, 31.5, hy + 5.2, 4.6, 3.8, muzzle), ball(31.5, hy + 4.4, 2, 1.2, nose),
+        ...both64(limb(27.4, hy + 5.4, 27.6, hy + 8.4, 0.6, 0.2, '#f0ead8')), ...both64(limb(29.4, hy + 5.8, 29.5, hy + 7.2, 0.45, 0.2, '#f0ead8')),
+        ...both64(limb(28, hy + 12.6, 28.2, hy + 10, 0.55, 0.2, '#f0ead8')), ...both64(limb(30, hy + 12.8, 30.1, hy + 11.4, 0.4, 0.2, '#f0ead8')),
+        hair(29, hy + 14, 28.5, hy + 17, '#c8c4d0'),
       );
     } else {
       out.push(
-        limb(15.5, hy + 1, 15.5, hy + 4.4, 2.1, 1.5, muzzle),
-        ball(15.5, hy + 4.3, 1.4, 0.9, nose),
-        dots([[15, Math.round(hy) + 3]], '#9a9ca8'),
-        dots(fade ? [[12, ey], [13, ey], [14, ey], [17, ey], [18, ey], [19, ey], [13, ey + 1], [14, ey + 1], [17, ey + 1], [18, ey + 1]]
-          : [[13, ey], [14, ey], [17, ey], [18, ey]], '#c8ecff'),
-        dots([[14, ey], [17, ey]], '#f8feff'),
+        limb(31.5, hy + 2, 31.5, hy + 8.8, 4.2, 3, muzzle), ball(31.5, hy + 8.6, 2.8, 1.8, nose), specks([[30.5, hy + 8], [32.5, hy + 8]], '#3a3a44'),
+        hair(31.5, hy + 3, 31.5, hy + 7, '#9a9ca8'), hair(28, hy + 10, 35, hy + 10, '#2a2a34'),
+        ...both64(limb(28.5, hy + 9.6, 28.6, hy + 11.2, 0.45, 0.2, '#e0dccc')),
       );
     }
-    // the flanks tear where it slips half out of the world: stray pixels of it
+    // the flanks tear where it slips half out of the world: stray flecks of it
     // left a step off its outline
-    out.push(dots(bite ? [[5, 17], [26, 19], [6, 25]] : [[7, 15], [24, 19], [6, 23]], '#6a6e7a'));
-    if (!fade) return out;
-    // going: all of it but the eyes cut into slats, each row slid a little
-    // off the next, and a violet light where the world closes over it
+    out.push(dots(bite ? [[10, 34], [11, 34], [52, 38], [53, 38], [12, 50], [12, 51]] : [[14, 30], [15, 30], [48, 38], [49, 38], [12, 46], [12, 47]], '#6a6e7a'));
+    if (!fade) return [...out, ...eyes];
+    // going: all of it but the eyes cut into slats, each pair of rows slid a
+    // little off the next, and a violet light where the world closes over it
     const gaps = [2, 5, 8, 11, 13, 16, 19, 21, 24, 27];
-    const keep = r => !gaps.includes(r);
-    const tear = r => [0, 0.5, -0.5, 1, 0, -1, 0.5, 0, -0.5][r % 9];
+    const keep = r => !gaps.includes(r >> 1);
+    const tear = r => [0, 1, -1, 2, 0, -2, 1, 0, -1][(r >> 1) % 9];
     /** @type {object[]} */
     const gone = [];
     for (const p of out) {
-      if (p.k === 'dots') continue;
-      const c = p.c === dark ? '#5a5a78' : p.c === pale ? '#b8b0d4' : p.c === '#24262e' ? '#24262e' : '#8a88a4';
+      if (p.k === 'dots' || p.k === 'hair' || p.k === 'specks') continue;
+      const c = p.c === dark ? '#5a5a78' : p.c === pale ? '#b8b0d4' : p.c === socket ? socket : '#8a88a4';
       // some rows catch the light of the tear more than others
-      gone.push(...slats({ ...p, c }, keep, tear).map(q => (q.y1 % 7 === 3.5 && c !== '#24262e' ? { ...q, c: '#c4b8f0' } : q)));
+      gone.push(...slats({ ...p, c }, keep, tear, 64).map(q => ((q.y1 >> 1) % 7 === 3 && c !== socket ? { ...q, c: '#c4b8f0' } : q)));
     }
-    gone.push(...out.filter(p => p.k === 'dots' && p.c !== '#6a6e7a'),
-      dots([[11, ey], [20, ey]], '#a890ff'), dots([[15, ey - 1], [16, ey - 1]], '#d8ccff'));
+    gone.push(...eyes, ...both64(ball(21.5, hy - 0.8, 1.2, 0.9, '#a890ff', { glows: true })), ball(31.5, hy - 3.5, 1.6, 0.9, '#d8ccff', { glows: true }));
     return gone;
   },
 
@@ -2029,143 +2121,10 @@ const CREATURES = {
   },
 };
 
-// Hand-drawn detail laid over each monster on the fine grid, half a unit to
-// the pixel: the claws, seams, cracks, rivets and fur that a 32-grid could
-// only suggest. Painted coarsely (the art checks, scale 1) they fold back
-// onto whole pixels and change little.
+// Hand-drawn detail laid over the quillback and the wyrm as they were first
+// drawn, on the 32-unit grid at half a unit to the line: seams, bands and
+// scales. It goes up to the finer grid with the rest of them (see FINER).
 const DETAILS = {
-  emberling: (pose = 'idle') => {
-    const hot = pose === 'windup', dy = hot ? 1.2 : 0, cx = 16, cy = 21 + dy;
-    return [
-      specks([[cx - 6.5, cy + 2.5], [cx - 4, cy + 4], [cx + 5, cy + 3.5], [cx + 6.5, cy - 1], [cx - 2, cy - 5], [cx + 2.5, cy - 5]], '#1a1412'),
-      specks([[cx - 5.5, cy - 2], [cx + 5.5, cy - 2.5], [cx - 1.5, cy + 5.5], [cx + 3.5, cy + 5]], '#5a4a44'),
-      specks(hot ? [[cx - 3, cy - 15], [cx + 2, cy - 17], [cx + 5, cy - 14], [cx - 5, cy - 12]] : [[cx - 3, cy - 11], [cx + 1.5, cy - 13], [cx + 4.5, cy - 10]], '#ffd060'),
-      specks([[cx - 6, cy - 1], [cx + 6, cy + 1.5], [cx - 3, cy - 4.5], [cx + 4.5, cy - 1.5]], hot ? '#ffffff' : '#ffc060'),
-      hair(cx + 1.5, cy + 5.5, cx + 1.5, cy + 7.5, hot ? '#ffe080' : '#e06a20'),
-      hair(cx - 4.5, cy - 4.5, cx - 6, cy - 3, '#5a4a44'), hair(cx + 4.5, cy - 4, cx + 6, cy - 2.5, '#5a4a44'),
-    ];
-  },
-  // grain down the staves, nail heads on the hoops, splinters on the teeth,
-  // veins on the tongue and a string of drool off the rim
-  mimic: (pose = 'idle') => {
-    const lidY = 15 - (pose === 'windup' ? 7 : 4);
-    return [
-      hair(10, 18, 10.5, 29, '#5e3e24'), hair(14, 18, 14, 30, '#5e3e24'), hair(18, 18, 18.5, 30, '#5e3e24'), hair(22, 18, 21.5, 29, '#5e3e24'),
-      specks([[9, 21], [12, 21], [16, 21], [20, 21], [23, 21], [9.5, 27.5], [13, 27.5], [16.5, 27.5], [20, 27.5], [22.5, 27.5]], '#8a8e96'),
-      specks([[11, lidY + 4], [14.5, lidY + 4.5], [19.5, lidY + 4.5], [12.5, 13], [17, 13], [21, 13.5]], '#c8bca0'),
-      hair(14.5, 17, 13.8, 21, '#e06a7a'), hair(13.6, 18.5, 14.6, 19.5, '#a03848'),
-      specks([[18.5, 16.5], [18.5, 17.5], [18.6, 18.5], [18.4, 19.5]], '#d8e0e8'),
-      hair(9, lidY - 1.5, 23, lidY - 1.5, '#7a5230'),
-      specks([[10, lidY], [16, lidY], [22, lidY]], '#8a8e96'),
-    ];
-  },
-
-  spider: () => [
-    // bristles standing up off the abdomen, and its segments
-    hair(10, 16, 9.5, 14.5, '#7a6a94'), hair(12, 14, 11.5, 12.5, '#7a6a94'), hair(16, 13, 16, 11.5, '#7a6a94'),
-    hair(20, 14, 20.5, 12.5, '#7a6a94'), hair(22, 16, 22.5, 14.5, '#7a6a94'),
-    hair(10.5, 19, 13, 17.5, '#3a3050'), hair(19, 17.5, 21.5, 19, '#3a3050'),
-    // hair on the legs
-    ...both(specks([[6.5, 15.5], [4, 19.5], [4, 24], [6.5, 27]], '#8a7aa6')),
-    // fangs wet with venom
-    specks([[15, 30], [17, 30]], '#ffffff'), specks([[15, 30.5], [17, 31]], '#9af060'),
-  ],
-
-  rat: () => [
-    // fur laid back along the body
-    hair(12, 21.5, 13.5, 22, '#6a4e34'), hair(15, 20.5, 16.5, 21, '#6a4e34'), hair(18, 20.5, 19.5, 21, '#6a4e34'),
-    hair(21, 21, 22.5, 21.5, '#6a4e34'), hair(24, 22, 25.5, 23, '#6a4e34'), hair(14, 24, 15.5, 24.5, '#a4845e'),
-    hair(18, 23.5, 19.5, 24, '#a4845e'), hair(10, 22, 11, 22.5, '#6a4e34'),
-    // rings on the tail
-    specks([[25.5, 25.5], [27, 24.5], [28.5, 23.5], [29.5, 21.5], [29, 19.5]], '#b07a78'),
-    // a vein in the ear, whiskers, claws, a nick of a tooth
-    hair(10, 19.5, 10, 21.5, '#c07878'),
-    hair(3.5, 25, 0.5, 25, '#e8e0d0'),
-    specks([[13.5, 31], [14.5, 31], [15, 31], [23, 31], [24, 31], [24.5, 31]], '#f4ecd8'),
-    specks([[2.5, 24.5]], '#ffffff'),
-  ],
-
-  bat: () => [
-    // the finer veins between the ribs of each wing, and a claw at its peak
-    ...both(hair(11, 12, 5, 8.5, '#4e4268')), ...both(hair(10, 14.5, 4, 14.5, '#4e4268')), ...both(hair(9, 16.5, 5.5, 16, '#4e4268')),
-    ...both(specks([[7, 7], [6.5, 6.5]], '#e8e0d0')),
-    // fur on the chest, the inside of the ears, a snarl
-    specks([[15, 13], [17, 13], [16, 14.5], [15.5, 16], [16.5, 16], [16, 17.5]], '#6e608a'),
-    ...both(hair(13.5, 7.5, 13, 5.5, '#8a5a78')),
-    specks([[16, 11.5], [15.5, 11], [16.5, 11]], '#2a1a24'),
-  ],
-
-  slime: () => [
-    // something it swallowed: a bone, a coin, a key
-    hair(19.5, 25, 22, 26.5, '#e8e0c8'), specks([[19.5, 24.5], [22, 27]], '#e8e0c8'),
-    specks([[9.5, 27.5], [10, 27.5], [10.5, 27.5], [10, 28]], '#ffd060'),
-    specks([[22.5, 22], [23, 22], [23.5, 22.5], [23, 23]], '#b0a060'),
-    // highlights along its skin, a drip and a sag at the base
-    hair(8, 21, 10, 19.5, '#e8ffee'), specks([[21.5, 19], [22.5, 19.5]], '#e8ffee'),
-    specks([[7, 31], [7, 31.5], [25, 31], [16, 31.5]], '#2e8a44'),
-    specks([[26, 27.5], [27, 28]], '#b8ffc8'),
-  ],
-
-
-
-
-
-
-
-
-
-
-  merchant: () => [
-    // straps across the pack and the knot of the blanket roll
-    hair(9, 7, 23, 7, '#3e3024'), hair(12.5, 4.5, 12.5, 1.5, '#5a2e24'), hair(19.5, 4.5, 19.5, 1.5, '#5a2e24'),
-    specks([[11, 7], [21, 7]], '#c9a24a'),
-    // stitching round the patch, a knotted cord belt, the lamp's cage
-    specks([[16.5, 21.5], [18, 21.5], [19.5, 21.5], [21, 21.5], [16.5, 26.5], [18.5, 26.5], [21, 26.5]], '#a88a58'),
-    specks([[15.5, 18.5], [16, 19], [16.5, 19.5]], '#8a7050'),
-    hair(7.5, 7, 7.5, 10.5, '#4a4040'), hair(9.5, 7, 9.5, 10.5, '#4a4040'),
-    // folds in the grey skin, the droop of the ears, long fingers
-    hair(12, 10.5, 14.5, 10.5, '#6c7482'), hair(17.5, 10.5, 20, 10.5, '#6c7482'),
-    hair(6, 15, 10, 14.5, '#7a8290'), hair(26, 15, 22, 14.5, '#7a8290'),
-    specks([[5.5, 23.5], [6.5, 23.5], [24, 20.5], [25, 20.5]], '#b0b8c4'),
-  ],
-
-  pedlar: () => [
-    // stitches on the sack, a patch on the cap, a buckle and toes
-    specks([[10, 15], [11.5, 16], [21, 16], [22.5, 15]], '#a88258'),
-    specks([[14, 6], [15, 6], [14, 7], [15, 7]], '#c86a50'),
-    specks([[15.5, 18.5], [16.5, 18.5], [15.5, 19], [16.5, 19]], '#c9a24a'),
-    hair(14.5, 9.5, 15.5, 10, '#4a8034'), hair(17.5, 9.5, 16.5, 10, '#4a8034'),
-    ...both(specks([[10, 30.5], [11, 30.5], [12, 30.5]], '#2a2018')),
-  ],
-
-  hound: (pose = 'idle') => {
-    const hy = pose === 'windup' ? 15 : 11.5, px = pose === 'windup' ? 10.6 : 12.2;
-    // going, it is only light at the edges where the world closes over it
-    if (pose === 'special') {
-      return [
-        hair(4.5, 12, 4.5, 16, '#e8e0ff'), hair(26.5, 18, 26.5, 23, '#e8e0ff'), hair(6, 26, 6, 29, '#c8b8ff'), hair(25, 8, 25, 11, '#c8b8ff'),
-        specks([[3.5, 18], [5, 21.5], [27.5, 15], [26, 26], [15, 2.5], [9.5, 4.5], [22, 5]], '#f4f0ff'),
-        specks([[14.5, hy - 1.5], [17, hy - 1.5]], '#ffffff'),
-      ];
-    }
-    return [
-      // ribs showing down each side of the barrel
-      ...both(hair(9.5, 16.5, 11, 17, '#4a4e5a')), ...both(hair(9.5, 18, 11, 18.5, '#4a4e5a')), ...both(hair(10, 19.5, 11, 20, '#4a4e5a')),
-      ...both(hair(9.5, 17, 10.5, 17.5, '#9a9eaa')), ...both(hair(9.5, 18.5, 10.5, 19, '#9a9eaa')),
-      // rough fur down the chest, and the breastbone
-      hair(15.5, 17, 15.5, 21, '#7c808a'), hair(14.5, 18, 14, 20, '#a4a8b2'), hair(16.5, 18, 17, 20, '#a4a8b2'),
-      // claws
-      ...both(specks([[px - 1, 31], [px, 31], [px + 1, 31]], '#d8d4c8')),
-      // the tear at its flanks: a flicker of violet-white where it slips
-      hair(8, 14, 8, 16.5, '#e4dcff'), hair(23.5, 18, 23.5, 20, '#e4dcff'), hair(6.5, 22, 6.5, 23.5, '#b8a0ff'),
-      specks([[5.5, 15], [26, 17.5], [25.5, 12]], '#a88cff'),
-      // a torn ear, whiskers, and a wet glint on the nose
-      specks([[12, hy - 6], [12.5, hy - 5.5]], '#1c1c24'),
-      specks([[14, hy + 3.5], [17.5, hy + 3.5]], '#b8bcc4'),
-      specks([[15.5, hy + 4]], '#8a8e9a'),
-    ];
-  },
-
   quillback: (pose = 'idle') => {
     const hy = pose === 'windup' ? 24 : 21.5, my = pose === 'windup' ? 16.5 : 18;
     return [
@@ -2221,63 +2180,96 @@ for (const k in DETAILS) {
   CREATURES[k] = pose => [...base(pose), ...DETAILS[k](pose)];
 }
 
-// Detail for a creature right in front of you, painted only into its finest
-// picture (four pixels to the unit, see NEAR_SCALE in assets.js): hairlines
-// on a quarter-unit grid that further off would only be noise. Close in, the
-// lich's robe shows its stitched runes and the Heartforged its scars.
-const NEAR = {
+// The great beasts keep the shapes and the poses they were first drawn with on
+// the coarser grid, set on the finer one at twice the size; their eyes, teeth
+// and nostrils were single pixels of that grid, and are drawn again here
+// finely, with the scales, bristles and pits laid over them that the coarse
+// grid had no room for
+const FINER = {
+  basilisk: (pose = 'idle') => {
+    const gaze = pose === 'special', bite = pose === 'windup';
+    const cx = 22, cy = gaze ? 17 : bite ? 43.6 : 45, ey = 2 * (Math.floor(cy / 2) - 1) + 2;
+    const up = gaze ? 2.4 : bite ? -0.8 : 0;
+    // scales down the flank in staggered rows, each a small arc
+    const arcs = [];
+    for (let r = 0; r < 4; r++) for (let x = 18 + (r % 2) * 1.5; x < 54; x += 3) {
+      const y = 30 + r * 2.4 - up + (x < 30 ? 3 : 0);
+      if (Math.hypot((x - 39) / 14, (y - 35 + up) / 9) < 1) arcs.push(hair(x - 1.25, y, x, y + 0.75, '#3e4826'), hair(x, y + 0.75, x + 1.25, y, '#3e4826'));
+    }
+    const eye = gaze
+      ? [...[cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.8, 2.6, '#e8ff70', { glows: true }), ball(x, ey, 1.6, 1.6, '#fcffd0', { glows: true }), limb(x, ey - 1.6, x, ey + 1.6, 0.3, 0.3, '#2a3008')])]
+      : bite ? [cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.6, 0.8, '#d8f040', { glows: true }), limb(x, ey - 0.6, x, ey + 0.6, 0.35, 0.35, '#1a2008')])
+        : [cx - 5, cx + 5].flatMap(x => [ball(x, ey, 2.6, 1.6, '#d8f040', { glows: true }), limb(x, ey - 1.2, x, ey + 1.2, 0.45, 0.4, '#1a2008'), specks([[x - 1.25, ey - 1]], '#f4ffc0')]);
+    return [
+      ...arcs, ...eye,
+      // warts along the jaw and over the brow
+      specks([[cx - 5, cy + 9], [cx + 5.5, cy + 8.5], [cx - 3, cy - 4], [cx + 3, cy - 4.5]], '#4a5430'),
+    ];
+  },
+  rustmaw: (pose = 'idle') => {
+    const rear = pose === 'windup' || pose === 'special', up = rear ? 3.5 : 0, H = 2 * (24.5 - up), S = 1.4 * up;
+    return [
+      // small dull eyes over the maw
+      ball(23, H - 3, 1.4, 1.1, '#d05a28', { glows: true }), ball(41, H - 3, 1.4, 1.1, '#d05a28', { glows: true }), specks([[22.5, H - 3.5], [40.5, H - 3.5]], '#ffb080'),
+      // the plates of the wing cases, their worn bright edges, streaks of rust
+      hair(14, 26 - S, 21, 18 - S, '#c86a3a'), hair(43, 18 - S, 50, 26 - S, '#c86a3a'), hair(24, 15 - S, 30, 14 - S, '#c86a3a'),
+      ...[[18, 30], [22, 36], [26, 26], [38, 26], [42, 36], [46, 30], [28, 40], [36, 40]].map(([x, y]) => hair(x, y - S, x + 0.5, y + 3 - S, '#6a2208')),
+      // a second ring of teeth further in, and the barbs on the mandibles
+      ...[-3, -1, 1, 3].map(d => limb(32 + d * 1.2, H + 0.5, 32 + d * 1.1, H + 1.6, 0.4, 0.2, '#c8b894')),
+      specks(rear ? [[12, H - 4], [10, H - 3], [8, H - 1], [52, H - 4], [54, H - 3], [56, H - 1]] : [[15, H + 3], [17, H + 6], [21, H + 10], [49, H + 3], [47, H + 6], [43, H + 10]], '#e0b070'),
+      // bristles on the legs
+      ...[[5, 26], [4, 34], [3, 44], [9, 18], [12, 50]].flatMap(([x, y]) => both64(hair(x, y - S, x - 1.5, y - 1 - S, '#8a5a30'))),
+    ];
+  },
+  quillback: (pose = 'idle') => {
+    const gore = pose === 'windup', H = gore ? 48 : 43;
+    return [
+      // small, mean, red, sunk under the brow
+      ball(27, H - 1, 2.2, 1.6, '#1c1010'), ball(37, H - 1, 2.2, 1.6, '#1c1010'),
+      ball(27.4, H - 1, 1.1, 0.9, '#ff3a1c', { glows: true }), ball(36.6, H - 1, 1.1, 0.9, '#ff3a1c', { glows: true }), specks([[27, H - 1.5], [36.25, H - 1.5]], '#ffb0a0'),
+      // the brow drawn down over them, the nostrils in the snout
+      limb(23.5, H - 4, 29.5, H - 2.6, 1, 0.7, '#4a3a2e'), limb(40.5, H - 4, 34.5, H - 2.6, 1, 0.7, '#4a3a2e'),
+      ball(30, H + 7, 0.9, 0.8, '#2a1614'), ball(34, H + 7, 0.9, 0.8, '#2a1614'),
+      // coarse bristles on the flanks and jowls, below the mantle
+      ...[[13, 46], [16, 49], [19, 50], [45, 50], [48, 49], [51, 46], [23, H + 4], [41, H + 4]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.75 : 0.75), y + 2.5, '#2a201a')),
+      specks([[22, 52], [42, 52], [32, 54]], '#7a6050'),
+    ];
+  },
   wyrm: (pose = 'idle') => {
-    const rear = pose === 'special', coil = pose === 'windup', cy = rear ? -1.5 : coil ? -1 : 0;
+    const rear = pose === 'special', coil = pose === 'windup';
+    const hx = coil ? 30 : 32, hy = rear ? 13 : coil ? 27 : 23, cy = rear ? -3 : coil ? -2 : 0;
+    const ey = 2 * (Math.round(hy / 2) - 1) + 1;
     // the scales of its flanks in rows, each a small dark arc
     const arcs = [];
-    for (const [row, y] of [[0, 18.5], [1, 20.75], [2, 23]]) for (let x = 7 + (row % 2) * 1.25; x <= 25; x += 2.5) {
-      if (Math.abs(x - 16) < 5.5 && y > 21) continue;    // not over the pale chest
-      arcs.push(hair(x - 1, y + cy * 0.5, x, y + cy * 0.5 + 0.75, '#6a2618'), hair(x, y + cy * 0.5 + 0.75, x + 1, y + cy * 0.5, '#6a2618'));
+    for (const [row, y] of [[0, 37], [1, 39.5], [2, 42], [3, 44.5]]) for (let x = 14 + (row % 2) * 1.5; x <= 50; x += 3) {
+      if (Math.abs(x - 32) < 11 && y > 41) continue;    // not over the pale chest
+      arcs.push(hair(x - 1.25, y + cy * 0.5, x, y + cy * 0.5 + 0.75, '#6a2618'), hair(x, y + cy * 0.5 + 0.75, x + 1.25, y + cy * 0.5, '#6a2618'));
     }
-    return [
-      ...arcs,
-      // the chest's plates, the claws' pale edges
-      ...[23, 24.5, 26].map(y => hair(12.5, y + cy * 0.5, 19.5, y + cy * 0.5, '#a87a52')),
-      ...(rear ? [] : [specks([[1.75, 31], [4.75, 31.25], [7.5, 31], [24.5, 31], [27.25, 31.25], [30.25, 31]], '#fffaf0')]),
-    ];
-  },
-  rat: () => [
-    // fur laid back along the body in short strokes, fine whiskers, rings down the tail, claws
-    ...[[13, 22.5], [16, 21.75], [19, 21.75], [22, 22.5], [14.5, 24.5], [17.5, 24], [20.5, 24.5], [23.5, 25.25], [16, 26.5], [19, 26.5]].map(([x, y]) => hair(x, y, x + 1, y + 0.5, '#7a5c3c')),
-    hair(3, 24.75, 0.5, 23.5, '#e0d4c0'), hair(3, 25.5, 0.25, 25.75, '#e0d4c0'), hair(3, 26, 0.75, 27.25, '#e0d4c0'),
-    ...[[25.5, 25.25], [27, 24.25], [28.5, 23.25], [29.5, 21.25], [29.25, 19.5]].map(([x, y]) => hair(x - 0.25, y - 0.25, x + 0.25, y + 0.25, '#c87a7a')),
-    specks([[13.75, 30.75], [15.25, 30.75], [23.25, 30.75], [24.75, 30.75]], '#f0e8dc'),
-  ],
-  spider: () => [
-    // bristles round the abdomen, the hourglass's bright edge, a glint in each eye, the fangs' tips
-    ...[[9, 16], [8.5, 19.5], [9, 23], [23, 16], [23.5, 19.5], [23, 23], [12, 13.5], [20, 13.5], [16, 13]].map(([x, y]) => hair(x, y, x + (x < 16 ? -0.75 : x > 16 ? 0.75 : 0), y - 0.75, '#7a6a96')),
-    hair(14, 15.75, 18, 15.75, '#ff6060'), hair(14, 20.5, 18, 20.5, '#8a1818'),
-    specks([[14.5, 24.75], [16.5, 24.5], [18, 25]], '#ffd0d0'),
-    specks([[15.25, 29.25], [16.75, 29.25]], '#f0f0e0'),
-  ],
-  dog: (pose = 'idle') => {
-    const bite = pose === 'windup', sit = pose === 'sit', hy = bite ? 15.5 : sit ? 11.5 : 13, by = sit ? 22 : 20.5;
-    return [
-      // fur strokes on the flanks, the collar's stitching, a glint in the tag, claws
-      ...[[11, by - 2], [13, by - 3], [18, by - 3], [20, by - 2], [10.5, by + 1], [20.5, by + 1]].map(([x, y]) => hair(x, y, x + (x < 15.5 ? -0.75 : 0.75), y + 0.75, '#6e4626')),
-      specks([[13.25, hy + 4], [14.75, hy + 4], [16.25, hy + 4], [17.75, hy + 4]], '#e8c0a0'),
-      specks([[15.25, hy + 5.25]], '#fff6c0'),
-      specks([[11.5, 30.75], [12.75, 30.75], [18.25, 30.75], [19.5, 30.75]], '#e8dcc0'),
-    ];
-  },
-  wolf: (pose = 'idle') => {
-    const sit = pose === 'sit', by = sit ? 22 : 20.5;
-    return [
-      // a rough grey coat in strokes, the ruff of paler fur at the throat, claws
-      ...[[11, by - 2], [13, by - 3], [18, by - 3], [20, by - 2], [10.5, by + 1], [20.5, by + 1], [12, by + 2.5], [19, by + 2.5]].map(([x, y]) => hair(x, y, x + (x < 15.5 ? -0.75 : 0.75), y + 0.75, '#5c5e68')),
-      ...[13.5, 15.5, 17.5].map(x => hair(x, by + 0.5, x + (x - 15.5) * 0.25, by + 2, '#f0eee6')),
-      specks([[11.5, 30.75], [12.75, 30.75], [18.25, 30.75], [19.5, 30.75]], '#e8e4d8'),
-    ];
+    /** @type {object[]} */
+    const out = [...arcs];
+    if (rear) {
+      // the jaws wide and the throat a furnace: the fire is not lit by anything, it is the light
+      out.push(ball(hx, hy + 10.6, 5.6, 5, '#ffb030', { glows: true }), ball(hx, hy + 10.6, 3.4, 3, '#ffe070', { glows: true }), ball(hx, hy + 10.6, 1.4, 1.6, '#fff8d8', { glows: true }),
+        ...[[-6, 9], [6, 9], [-5.5, 13], [5.5, 13], [-3.5, 17], [3.5, 17]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.8, hy + y + (y > 15 ? -1.6 : 1.6), 0.7, 0.2, '#f4ecd4')),
+        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.3, '#ffd040', { glows: true }), ball(x, ey, 0.9, 0.8, '#fff8c0', { glows: true })]));
+    } else {
+      out.push(
+        ball(hx - 2, hy + 11, 0.8, 0.7, '#1a0806'), ball(hx + 2, hy + 11, 0.8, 0.7, '#1a0806'),
+        ...(coil ? [[-6, 13], [6, 13], [-4, 17], [4, 17]] : [[-6, 11.4], [6, 11.4], [-4, 13], [4, 13]]).map(([d, y], i) => limb(hx + d, y + hy - (i > 1 && coil ? 1.6 : 0), hx + d * 0.9, hy + y + (i > 1 && coil ? -1.6 : 1.8), 0.6, 0.2, '#f4ecd4')),
+        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.2, '#ffb020', { glows: true }), limb(x, ey - 1, x, ey + 1, 0.4, 0.4, '#2a0c04')]),
+      );
+    }
+    out.push(
+      // the chest's plates, and the claws' pale edges
+      ...[46, 49, 52].map(y => hair(25, y + cy * 0.5, 39, y + cy * 0.5, '#a87a52')),
+      ...(rear ? [] : [specks([[3.5, 62], [9.5, 62.5], [15, 62], [49, 62], [54.5, 62.5], [60.5, 62]], '#fffaf0')]),
+    );
+    return out;
   },
 };
-for (const k in NEAR) {
+for (const k in FINER) {
   const base = CREATURES[k];
-  CREATURES[k] = pose => [...base(pose), ...NEAR[k](pose).map(q => ({ ...q, near: true }))];
+  CREATURES[k] = pose => [...base(pose).filter(p => p.k !== 'dots').map(up2), ...FINER[k](pose)];
 }
 
 // Other pictures of a creature, painted from the same parts with a pose
@@ -2697,7 +2689,7 @@ const PROPS = {
     // the bars stand either side of the middle (x = 16), with a wider gap at
     // the door so the face shows whole through it
     const bars = [5.5, 9, 12.5, 19.5, 23, 26.5];
-    return [
+    return [...[
       // the cage's floor, dark and strewn with straw, and its far bars
       sheet([[4.5, 25.5], [27.5, 25.5], [27.5, 29], [4.5, 29]], '#3a3630', { tilt: [0, -0.9] }),
       ...[7.2, 10.8, 14.4, 17.6, 21.2, 24.8].map(x => limb(x, 10, x, 26, 0.45, 0.45, far)),
@@ -2716,7 +2708,7 @@ const PROPS = {
       ball(10.6, 24.4, 0.75, 0.8, iron), specks([[10.6, 24.4]], '#1c1a22'),
       limb(10.6, 22.4, 12.2, 23.4, 0.85, 0.85, iron),
       ball(12.5, 21.2, 1.25, 1.15, skin), ball(19.5, 21.2, 1.25, 1.15, skin),
-      ...scragHead(16, 17.4, { look: 0 }),
+    ].map(up2), ...scragHead(32, 34.8, { look: 0 }), ...[
       // the near bars, in front of it all
       ...bars.map(x => limb(x, 9, x, 28.6, 0.6, 0.6, iron)),
       // fingers curled round them
@@ -2738,7 +2730,7 @@ const PROPS = {
       hair(5.5, 13, 5.5, 15, '#7a4a2a'), hair(26.5, 22, 26.5, 24.5, '#7a4a2a'), specks([[9, 25.5], [23, 12]], '#7a4a2a'),
       hair(6, 27.5, 8, 27, '#a8904a'), hair(24, 27.5, 26.5, 28, '#a8904a'), hair(15, 28, 17, 27.5, '#a8904a'),
       hair(18.5, 24.5, 18.5, 27, '#b8a878'), specks([[20.5, 22], [21, 22.5]], '#c8ccd4'),
-    ];
+    ].map(up2)];
   },
 
   // one of the Lampfolk, hunched in the dark with its lamp gone cold in its
@@ -3107,9 +3099,6 @@ function paintParts(parts, grid = 32, scale = 1, grim = false) {
     owner[k] = i; base[k] = exact ? null : b; tone[k] = exact ? -1 : t; col[k] = exact ? b : null;
   };
   parts.forEach((p, i) => {
-    // detail meant for a creature right in front of you (see NEAR) is left out
-    // of the pictures painted for further off, where it would only be noise
-    if (p.near && scale < 4) return;
     // eyes, teeth and glints stay whole pixels of the grid, crisp at any scale
     if (p.k === 'dots') {
       // painted finely, a coloured eye catches a glint in its upper corner
