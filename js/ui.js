@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03q', text: 'what is upon a monster shows on it now, flames, venom, ice, roots or a snare; and each kind dies its own way, bones clattering down, a slime bursting flat, a wraith coming apart into mist' };
+  const NEWS = { id: '2026-10-03r', text: 'creatures stride as they walk and bats beat their wings; each class has a face of its own; water drips from the roof, puddles and fountains glint, and a companion glows when it learns a trick' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -378,6 +378,8 @@ const UI = (() => {
   const pathGoal = (won, left) => `${won.length ? `Won as ${won.map(x => escapeHtml(x.name)).join(' and ')}; to` : 'To'} master: win as ${left.map(x => escapeHtml(x.name)).join(' and ')}`;
   /** The classes that forgive a new player's mistakes: marked on the cards, and a first Quick Start's. */
   const FIRST_HEROES = ['fighter', 'cleric'];
+  /** A class's hero, head and shoulders (see PORTRAITS in creatures.js), as an image's source. */
+  const faceOf = cls => { const s = Assets.sprites['portrait_' + cls]; return s && s.url ? s.url : ''; };
   function buildCreate() {
     const grid = $('#c-classes');
     grid.innerHTML = '';
@@ -398,7 +400,7 @@ const UI = (() => {
       const goal = !Progress.highest(id, known) || !paths.length ? ''
         : Progress.mastered(id, known) ? '<em class="key mastery">Mastered: both paths won</em>'
           : `<em class="key goal">${pathGoal(paths.filter(x => known.paths[x.id]), paths.filter(x => !known.paths[x.id]))}</em>`;
-      b.innerHTML = `<b>${c.name}</b>${first}${titled}<em class="ease">${escapeHtml(c.ease || '')}</em><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${goal}`;
+      b.innerHTML = `<img class="class-face" src="${faceOf(id)}" alt="">` + `<b>${c.name}</b>${first}${titled}<em class="ease">${escapeHtml(c.ease || '')}</em><small>${c.desc}</small><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${goal}`;
       b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
@@ -2377,7 +2379,7 @@ const UI = (() => {
         return b ? `<li><b>${escapeHtml(b.name)}${n > 1 ? ` \u00d7${n}` : ''}</b><span>${escapeHtml(b.desc)}</span></li>` : '';
       }).join('') + '</ul>';
     }
-    $('#char-sheet').innerHTML = `<div class="sheet">${rows.join('')}</div>${extra}`;
+    $('#char-sheet').innerHTML = `<img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}"><div class="sheet">${rows.join('')}</div>${extra}`;
   }
 
   // Text size scales the whole interface from the root, so every rem follows.
@@ -2561,7 +2563,7 @@ const UI = (() => {
     const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
-      won, art, killer, hound,
+      won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
       outcome: won ? 'Claimed the Heart' : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
@@ -2574,6 +2576,9 @@ const UI = (() => {
     const G = Game.state(), p = G.player;
     clearOverlays();
     $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
+    // the hero's face under it, gone grey if they fell
+    const face = /** @type {HTMLImageElement} */ ($('#end-face'));
+    face.src = faceOf(p.cls); face.alt = `${p.name}, the ${CLASSES[p.cls].name}`; face.classList.toggle('fallen', !won);
     $('#end-text').textContent = won
       ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the Dread Lich and lifted the Heart of the Mountain.`
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says

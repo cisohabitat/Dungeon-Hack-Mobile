@@ -4584,7 +4584,12 @@ const Game = (() => {
       // just struck, it reels: its flinching picture, through the white of the hit and a
       // moment after, unless it is winding up, whose warning must never be hidden
       const reeling = !tell && now >= (m.flashAt || 0) && now < (m.flashUntil || 0) + REEL_MS;
-      const shown = reeling && img && img.hurt ? img.hurt : img;
+      // walking, it strides, a step to each half of a square and the other foot first on the next;
+      // a bat beats its wings all the while it is aloft (see stride in creatures.js)
+      const step = tell || !img || !img.stepA ? '' : mb.fly ? ['', 'stepA', '', 'stepB'][Math.floor(now / 90 + m.uid) % 4]
+        : m.moveT1 > now ? ((now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0) < 0.5) === ((m.x + m.y) % 2 === 0) ? 'stepA' : 'stepB' : '';
+      const walking = step ? img[step] : img;
+      const shown = reeling && img && img.hurt ? img.hurt : walking;
       // what is upon it, drawn on its body: fire, venom, a bleeding wound, and what holds it fast
       const aff = afflictions(m);
       if (m.collapsed) {
@@ -4596,7 +4601,7 @@ const Game = (() => {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, step, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -4608,7 +4613,7 @@ const Game = (() => {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : img, ...(i === 0 ? { reeling, aff } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reeling, aff, step } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }

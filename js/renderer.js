@@ -572,7 +572,7 @@ const Renderer = (() => {
     if (!d) return null;
     let list = puddleCache.get(d);
     if (!list) {
-      list = d.filter(p => p.k === 'puddle').map((p, i) => ({ x: p.x + 0.5 + p.ox, y: p.y + 0.5 + p.oy, r: p.r || 0.25, c: '#2c3c4c', seed: p.x * 31 + p.y * 17 + i }));
+      list = d.filter(p => p.k === 'puddle').map((p, i) => ({ x: p.x + 0.5 + p.ox, y: p.y + 0.5 + p.oy, r: p.r || 0.25, c: '#2c3c4c', seed: p.x * 31 + p.y * 17 + i, wet: true }));
       puddleCache.set(d, list);
     }
     return list;
@@ -638,15 +638,94 @@ const Renderer = (() => {
       const f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
       ctx.fillStyle = glow ? c : dim(c, f * 0.8, 0.7);
       ctx.beginPath(); ctx.ellipse(cx, cy, rx, Math.min(ry, rx), 0, 0, Math.PI * 2); ctx.fill();
+      return { cx, cy, rx, ry: Math.min(ry, rx), f };
+    };
+    // standing water catches the light: a glint that slides slowly across it and comes and goes
+    const glint = (g, seed) => {
+      if (!g || g.rx < 3) return;
+      const t = calm ? 0 : now, a = (0.18 + 0.14 * Math.sin(t / 700 + seed)) * g.f;
+      if (a < 0.04) return;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = `rgba(150,190,220,${a.toFixed(3)})`;
+      const gx = g.cx + Math.sin(t / 1100 + seed * 1.7) * g.rx * 0.4, gw = Math.max(2, g.rx * 0.45);
+      ctx.fillRect(Math.round(gx - gw / 2), Math.round(g.cy - g.ry * 0.3), Math.round(gw), Math.max(1, Math.round(g.ry * 0.22)));
+      ctx.globalCompositeOperation = 'source-over';
     };
     let glow = false;
     for (const st of list) {
       glow = !!st.glow;
-      blob(st.x, st.y, st.r, st.c);
+      const g = blob(st.x, st.y, st.r, st.c);
+      if (st.wet) glint(g, st.seed);
       if (st.solo) continue;
       for (let i = 0; i < 4; i++) {
         const a = hash(st.seed + i) * Math.PI * 2, d = st.r * (0.9 + hash(st.seed + i + 9) * 0.9);
         blob(st.x + Math.cos(a) * d, st.y + Math.sin(a) * d, st.r * (0.18 + hash(st.seed + i + 5) * 0.2), st.c);
+      }
+    }
+  }
+  // The columns of fountain wall drawn this frame (column, top, height, texel
+  // across, distance), for the water moving on it.
+  const fountainCols = [];
+  function drawFountains(now) {
+    if (!fountainCols.length) return;
+    const t = calm ? 0 : now;
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < fountainCols.length; i += 5) {
+      const col = fountainCols[i], top = fountainCols[i + 1], h = fountainCols[i + 2], tx = fountainCols[i + 3], dist = fountainCols[i + 4];
+      const near = Math.max(0, 1 - dist / fog), px = Math.max(1, Math.round(h / 64));
+      if (near <= 0) continue;
+      // the stream from the spout: brighter beads running down it (fountain texture, rows 26 to 45)
+      if (tx >= 31 && tx <= 32) for (let b = 0; b < 3; b++) {
+        const yy = 26 + ((t / 45 + b * 6.3) % 19);
+        ctx.fillStyle = `rgba(200,230,255,${(0.7 * near).toFixed(3)})`;
+        ctx.fillRect(col, Math.round(top + yy / 64 * h), 1, px * 2);
+      }
+      // the basin's water (rows 45 to 55), glinting here and there
+      if (tx >= 11 && tx <= 52) for (let k = 0; k < 2; k++) {
+        const seed = tx * 3.1 + k * 7.7, on = Math.sin(t / 190 + hash(seed) * 40);
+        if (on < 0.8) continue;
+        const yy = 45.5 + hash(seed + 1) * 9;
+        ctx.fillStyle = `rgba(220,240,255,${((on - 0.8) * 4 * near).toFixed(3)})`;
+        ctx.fillRect(col, Math.round(top + yy / 64 * h), 1, px);
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    fountainCols.length = 0;
+  }
+  // Water dripping from the roof: here and there over the floors near you a drop
+  // gathers, falls, and splashes; more of them where the floor has flooded. Where
+  // they fall and how often is fixed by the square, so they keep their places.
+  let dripsN = 0;
+  function drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet) {
+    dripsN = 0;
+    const share = level.twist === 'flooded' ? 0.14 : 0.05, R = 5;
+    for (let my = Math.max(0, (py | 0) - R); my <= Math.min(level.h - 1, (py | 0) + R); my++) {
+      for (let mx = Math.max(0, (px | 0) - R); mx <= Math.min(level.w - 1, (px | 0) + R); mx++) {
+        const seed = mx * 13.7 + my * 7.3 + level.depth * 3.1;
+        if (hash(seed) > share || level.tiles[my * level.w + mx] !== T.FLOOR) continue;
+        const period = 2600 + hash(seed + 1) * 2600, ph = ((now + hash(seed + 2) * period) % period) / period;
+        // most of the while it is gathering; then a fall of a fifth of a second and a splash
+        const fall = 0.16, splash = 0.08;
+        if (ph < 1 - fall - splash) continue;
+        const x = mx + 0.2 + hash(seed + 3) * 0.6, y = my + 0.2 + hash(seed + 4) * 0.6;
+        const sx = x - px, sy = y - py, tY = invDet * (-planeY * sx + planeX * sy);
+        if (tY <= 0.3 || tY > fog) continue;
+        const tX = invDet * (dirY * sx - dirX * sy), cx = Math.round((W / 2) * (1 + tX / tY));
+        if (cx < 1 || cx >= W - 1 || tY >= zbuf[cx]) continue;
+        const hFull = P / tY, floorY = H / 2 + hFull / 2, near = Math.max(0, 1 - tY / fog);
+        const u = (ph - (1 - fall - splash)) / fall;
+        ctx.fillStyle = `rgba(160,190,215,${(0.8 * near).toFixed(3)})`;
+        if (u < 1) {
+          const z = 1 - u * u, cy = Math.round(floorY - z * hFull);
+          ctx.fillRect(cx, cy, 1, Math.max(2, Math.round(hFull * 0.03)));
+        } else {
+          const s = (ph - (1 - splash)) / splash, w = Math.max(2, Math.round(hFull * 0.06 * (0.5 + s)));
+          ctx.globalAlpha = 1 - s;
+          ctx.fillRect(cx - w, Math.round(floorY - 1), w * 2 + 1, 1);
+          ctx.fillRect(cx - (w >> 1), Math.round(floorY - 2 - hFull * 0.02 * (1 - s)), 1, 1); ctx.fillRect(cx + (w >> 1), Math.round(floorY - 2 - hFull * 0.02 * (1 - s)), 1, 1);
+          ctx.globalAlpha = 1;
+        }
+        dripsN++;
       }
     }
   }
@@ -729,6 +808,21 @@ const Renderer = (() => {
         fill(x, y, px, Math.max(1, Math.round(px * 1.5)), c);
       }
       ctx.globalAlpha = 1;
+    }
+    if (aff.flare) {
+      // a companion just grown: golden motes spiralling up round it, and a soft ring at its feet
+      const k = aff.flare;
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < 14; i++) {
+        const ph = (k * 1.6 + hash(i * 3.3)) % 1, a = hash(i * 7.7) * Math.PI * 2 + ph * 5;
+        const [x, y] = at(0.5 + Math.cos(a) * 0.32, 1 - ph * 1.1);
+        ctx.globalAlpha = (1 - ph) * (1 - k * 0.6);
+        fill(x, y, px * 2, px * 2, i % 3 ? '#ffd860' : '#fff4c0');
+      }
+      ctx.globalAlpha = 0.35 * (1 - k);
+      const [l, f] = at(0.15, 0.97), [r] = at(0.85, 0.97);
+      fill(l, f, r - l, px * 2, '#ffd860');
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
     }
     if (aff.held === 'ice') {
       // ice about its legs, clear and pale, catching the light
@@ -1458,6 +1552,7 @@ const Renderer = (() => {
       const burning = fx.doorFire && (tile === T.DOOR || tile === T.DOOR_LOCKED) ? fx.doorFire[mapX + ',' + mapY] : undefined;
       if (burning !== undefined) img = Assets.burningDoor(img, burning < 0.34 ? 0 : burning < 0.67 ? 1 : 2, calm ? 0 : Math.floor(now / 110) % 3);
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
+      if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
       let shade = dist / fog + (side === 1 ? 0.12 : 0) - (burning !== undefined ? 0.4 : 0);
       // torchlight falling on this wall face brightens it, read smoothly at the
       // very spot the ray struck, not square by square: taken whole from the
@@ -1478,6 +1573,8 @@ const Renderer = (() => {
       }
     }
 
+    // a fountain's water moving: the stream running down, the basin glittering
+    drawFountains(now);
     // dust hanging in the air, catching whatever light there is (not in a calm view)
     if (!calm) drawMotes(level, lm, px, py, dirX, dirY, planeX, planeY, now);
     // a dark floor: only what your own light reaches, the edges of the view lost
@@ -1677,6 +1774,7 @@ const Renderer = (() => {
     }
 
     drawBits(fx, now, px, py, dirX, dirY, planeX, planeY, invDet);
+    if (!calm) drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet);
 
     // floating texts
     const textPx = bigNumbers ? 23 : 16;
@@ -1871,7 +1969,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; } };
 })();
 
 export { Renderer };

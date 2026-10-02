@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
-import { CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
+import { PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -1345,6 +1345,8 @@ const Assets = (() => {
     // stand in the world, close enough to fill the view, so they are painted
     // twice as fine as the items in the pack
     for (const k in CREATURES) later(k, () => { const s = creature(k); nearFor(k, s); return s; });
+    // the heroes' portraits, one to a class (see PORTRAITS)
+    for (const k in PORTRAITS) later('portrait_' + k, () => makeSprite({ parts: PORTRAITS[k](), shadow: 0, elites: false, fine: true, grid: 64 }));
     // items painted from parts replace their old grids too
     // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit.
     // They are set on the creatures' finer grid and lit as they are, softly grim (see ramp), clean of the

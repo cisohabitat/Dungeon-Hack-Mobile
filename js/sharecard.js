@@ -15,7 +15,8 @@ function fitText(g, text, x, y, maxW, size, weight, colour) {
 /**
  * @param {{ won: boolean, hero: string, outcome: string, killer?: string, stats: string, mode: string,
  *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null,
- *   hound?: { name: string, word?: string, art: HTMLCanvasElement | HTMLImageElement | null } | null }} info
+ *   hound?: { name: string, word?: string, art: HTMLCanvasElement | HTMLImageElement | null } | null,
+ *   face?: HTMLCanvasElement | HTMLImageElement | null }} info
  * @returns {HTMLCanvasElement}
  */
 function drawShareCard(info) {
@@ -47,6 +48,13 @@ function drawShareCard(info) {
     const s = Math.min(120 / info.hound.art.width, 120 / info.hound.art.height), w = info.hound.art.width * s, h = info.hound.art.height * s;
     g.imageSmoothingEnabled = false;
     g.drawImage(info.hound.art, 92 - w / 2, 378 - h, w, h);
+  }
+  // the hero's own face, in a frame in the corner
+  if (info.face && info.face.width) {
+    g.fillStyle = '#15120e'; g.fillRect(32, 32, 84, 84);
+    g.imageSmoothingEnabled = false;
+    g.drawImage(info.face, 34, 34, 80, 80);
+    g.strokeStyle = '#c9a24a'; g.lineWidth = 2; g.strokeRect(32, 32, 84, 84);
   }
   // the words, on the right
   const x = 400, maxW = W - x - 40;

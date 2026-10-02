@@ -79,6 +79,47 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('each class has its hero\'s face: on its card, on the hero sheet, and at the end of a run, grey if they fell', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.click('#btn-new');
+    // a face on every class card, each its own
+    const faces = await page.locator('#c-classes .class-face').evaluateAll(els => els.map(e => /** @type {HTMLImageElement} */ (e).src));
+    expect(faces.length).toBe(await page.evaluate(() => Object.keys(CLASSES).length));
+    expect(faces.every(f => f.startsWith('data:image/png'))).toBe(true);
+    expect(new Set(faces).size).toBe(faces.length);
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await clearBoons(page);
+    // the hero sheet opens on their face
+    await page.click('[data-open="char"]');
+    const sheet = page.locator('#char-sheet .sheet-face');
+    await expect(sheet).toBeVisible();
+    expect(await sheet.evaluate(e => /** @type {HTMLImageElement} */ (e).naturalWidth)).toBeGreaterThan(0);
+    await page.keyboard.press('Escape');
+    // and a hero who falls is shown at the end, gone grey
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { const p = Game.player(); p.hp = 1; p.eq.armor = null; p.eq.shield = null; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('#screen-end')).toBeVisible();
+    const end = page.locator('#end-face');
+    await expect(end).toBeVisible();
+    await expect(end).toHaveClass(/fallen/);
+    expect(await end.evaluate(e => /** @type {HTMLImageElement} */ (e).src.startsWith('data:image/png'))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
+  test('water drips from the roof here and there, more where the floor has flooded', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await page.evaluate(() => { Game.level().twist = 'flooded'; });
+    // over a few seconds some drop is seen falling or splashing
+    await expect.poll(() => page.evaluate(() => Renderer.drips), { timeout: 8000 }).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
+
   test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
     // floor 8 said "black glass walls" over the same grey courses as floor 1
     const errors = watchForErrors(page);
@@ -305,14 +346,17 @@ test.describe('art', () => {
       const lit = Renderer.lit;
       L.fields = {};
       // a step to its right, across the view: it leans that way at the middle of it
+      // (read against its sway at that same moment, which can lean it either way on its own)
       const m = L.monsters[0], t0 = performance.now();
+      const still = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean;
       m.fromX = m.x; m.fromY = m.y; m.x += sx; m.y += sy; m.moveT0 = t0; m.moveT1 = t0 + 2000;
-      const mid = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean;
+      const mid = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean - still;
       m.fromX = m.x; m.fromY = m.y; m.x -= 2 * sx; m.y -= 2 * sy; m.moveT0 = t0; m.moveT1 = t0 + 2000;
-      const back = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean;
+      const back = Game.renderState(t0 + 1000).sprites.find(s => s.maxHp).lean - still;
       m.moveT1 = 0; m.x += sx; m.y += sy; m.rx = m.x; m.ry = m.y;
-      await wait(300);
-      const leaned = Renderer.leaned;
+      // (drawn leaning on some frame of a second and a half: its sway passes upright now and then)
+      let leaned = 0;
+      for (let i = 0; i < 10; i++) { await wait(150); leaned = Math.max(leaned, Renderer.leaned); }
       // a calm view draws it upright
       Renderer.setCalm(true); await wait(300);
       const calmLeaned = Renderer.leaned;
@@ -332,8 +376,9 @@ test.describe('art', () => {
     expect(got.unlit, 'with no torch and no fire near, nothing is warmed').toBe(0);
     expect(got.lit.length, 'beside the fire it is warmed').toBe(1);
     expect(got.lit[0].side, 'on its right, where the fire is').toBeGreaterThan(0.1);
-    expect(got.mid, 'stepping to the right, it leans right').toBeGreaterThan(0.04);
-    expect(got.back, 'stepping to the left, it leans left').toBeLessThan(-0.04);
+    // (its waddle leans it a little one way or the other by the square it steps from; the step outweighs it)
+    expect(got.mid, 'stepping to the right, it leans right').toBeGreaterThan(0.02);
+    expect(got.back, 'stepping to the left, it leans left').toBeLessThan(-0.02);
     expect(got.leaned, 'drawn leaning').toBeGreaterThanOrEqual(1);
     expect(got.fall[2], 'falling, it topples further and further').toBeGreaterThan(got.fall[1]);
     expect(got.fall[1]).toBeGreaterThan(got.fall[0]);

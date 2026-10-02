@@ -396,6 +396,8 @@ export function makeCompanion(K) {
       if (rankOf(c) > was) {
         const t = kindOf(c).tricks[rankOf(c) - 1];
         c.maxHp = maxHpFor(c, p.level); c.hp = c.maxHp;
+        // (and is drawn a moment in a rising of golden motes: see the flare in the renderer)
+        c.flareAt = K.realNow;
         K.log(`${c.name} is ${RANKS[rankOf(c) - 1].name} now, and has learned a trick: ${t.name}, ${t.says}.`, 'good');
         Sound.play('voice', K.heard({ x: c.x, y: c.y }, { who: kindOf(c).voice }));
       }
@@ -467,8 +469,9 @@ export function makeCompanion(K) {
   function loaded() {
     const c = K.G.companion;
     // (its picture's clocks run on the page's time, which starts again from nothing)
-    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.dressAt = 0; c.stuckSince = 0; }
+    if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.dressAt = 0; c.flareAt = -1e9; c.stuckSince = 0; }
   }
+  const FLARE_MS = 2200;
   /** Where to draw it, smoothly between squares. */
   function sprite(Assets, now) {
     const c = here();
@@ -485,7 +488,9 @@ export function makeCompanion(K) {
     // told to stay (and not moving or biting), it sits
     // struck, it reels a moment (see flinch in creatures.js)
     const reeling = now < (c.flashUntil || 0) + 260;
-    const img = lunging && s.windup ? s.windup : reeling && s.hurt ? s.hurt : healing ? s.heal : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
+    // trotting along, it strides, a step to each half of a square (see stride in creatures.js)
+    const trot = c.moveT1 > now && s.stepA ? ((now - (c.moveT0 || 0)) / Math.max(1, c.moveT1 - (c.moveT0 || 0)) < 0.5) === ((c.x + c.y) % 2 === 0) ? s.stepA : s.stepB : null;
+    const img = lunging && s.windup ? s.windup : reeling && s.hurt ? s.hurt : healing ? s.heal : trot || (c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s);
     // it breathes and sways as a monster does (see motion in game.js), waddles
     // as it trots, and swings through a bite; sitting, it only breathes
     const sat = img === s.sit, b = Math.sin(now / 560 + 1.3) * 0.02;
@@ -495,7 +500,9 @@ export function makeCompanion(K) {
       lift = Math.abs(arc) * 0.05; lean += arc * 0.06 * ((c.fromX + c.fromY) % 2 ? 1 : -1);
     }
     if (lunging) lean += Math.sin((now - c.lungeAt) / 220 * Math.PI) * 0.08;
-    return { x: x + 0.5, y: y + 0.5, img, scale: 0.62, yOff: lift, sqy: 1 + b, sqx: 1 - b * 0.6, lean, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
+    // just grown, golden motes rise round it a moment
+    const fa = c.flareAt == null ? -1e9 : c.flareAt, flare = now >= fa && now - fa < FLARE_MS ? Math.max(0.001, (now - fa) / FLARE_MS) : 0;
+    return { x: x + 0.5, y: y + 0.5, img, scale: 0.62, yOff: lift, ...(flare ? { aff: { dot: '', held: '', flare } } : {}), sqy: 1 + b, sqx: 1 - b * 0.6, lean, flash: now < (c.flashUntil || 0) ? c.flashUntil : 0 };
   }
   /** For the hero sheet and the epilogue. */
   function note() {

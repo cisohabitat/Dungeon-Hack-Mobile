@@ -696,6 +696,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   #screen-create h3 { margin: 10px 0 2px; }
   #screen-create .class-grid, #screen-create .bg-grid { grid-template-columns: repeat(4, 1fr); }
   #screen-create .class-card, #screen-create .bg-card { padding: 7px 9px; }
+  #screen-create .class-card { padding-right: 46px; }
+  #screen-create .class-face { width: 34px; height: 34px; top: 6px; right: 6px; }
   #screen-create .stats { grid-template-columns: repeat(6, 1fr); }
   /* six to a row, each name sits over its own number, not beside the next one's */
   #screen-create .stats > div { text-align: center; }
@@ -796,3 +798,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 
 /* a figure and its word kept together: "prices 18%" / "higher" read as two things */
 .nowrap { white-space: nowrap; }
+
+/* the heroes' faces: on the class cards, the hero sheet and the end of a run */
+.class-card { position: relative; padding-right: 58px; }
+.class-face { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; image-rendering: pixelated; border-radius: 6px; border: 1px solid #3a3224; background: #15120e; }
+.sheet-face { display: block; width: 72px; height: 72px; margin: 0 auto 8px; image-rendering: pixelated; border-radius: 8px; border: 1px solid #3a3224; background: #15120e; }
+.end-face { display: block; width: 88px; height: 88px; margin: 6px auto 4px; image-rendering: pixelated; border-radius: 8px; border: 2px solid #c9a24a; background: #15120e; }
+.end-face.fallen { filter: grayscale(0.85) brightness(0.75); border-color: #6a5a4a; }

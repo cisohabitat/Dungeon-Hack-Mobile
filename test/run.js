@@ -94,14 +94,15 @@ for (const k in POSES) {
   const rest = paint32(k).color;
   for (const pose of POSES[k]) {
     // (a creature flinches when struck; a companion also sits, when told to stay, and the healer tends)
-    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)) || (pose === 'heal' && k === 'mender') || pose === 'hurt', `${k} has a pose '${pose}' the view never shows`);
+    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)) || (pose === 'heal' && k === 'mender') || ['hurt', 'stepA', 'stepB'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
     const { color } = paint32(k, pose);
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
     let lowest = -1, moved = 0;
     color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); if (c !== rest[i]) moved++; });
     if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats in its ${pose} pose`);
-    check(moved > 60, `${k}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
+    // (a stride lifts only a leg or two, and is drawn quickly in turn: it need not be so far from rest)
+    check(moved > (pose.startsWith('step') ? 15 : 60), `${k}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
   }
 }
 // Every named champion is drawn as itself: on its kind's picture, standing
@@ -126,7 +127,7 @@ for (const id in CHAMPION_OF) {
     p.forEach((c, i) => { if (c) low = Math.max(low, Math.floor(i / 32)); if (c !== rest[i]) moved++; });
     check(p.filter(Boolean).every(c => /^#[0-9a-f]{6}$/.test(c)), `${id} painted badly in its ${pose} pose`);
     if (!FLOATING.has(k)) check(low >= 29, `${id} floats in its ${pose} pose`);
-    check(moved > 60, `${id}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
+    check(moved > (pose.startsWith('step') ? 15 : 60), `${id}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
   }
 }
 // every encounter has a prop to stand in the corridor, and every prop paints

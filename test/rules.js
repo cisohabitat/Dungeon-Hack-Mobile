@@ -10570,6 +10570,44 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a walking monster strides, a step to each half of a square and the other foot first on the next; standing or winding up, it does not; a bat beats its wings all the while', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'stride');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 92, id: 'orc', x: 9, y: 6, hp: 88, maxHp: 88, awake: true, nextAct: 1e12, rx: 9, ry: 6, fromX: 10, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const m = L.monsters[0];
+    // (in the rules' own world no pictures are painted, so the view is lent the poses to choose among)
+    const { Assets } = await import('../js/assets.js');
+    // the stride it is drawn in, read off the picture the view is handed
+    const step = (/** @type {number} */ now, hp = 88) => {
+      const s = Game.renderState(now).sprites.find(q => q.maxHp === hp), art = Assets.sprites[hp === 88 ? 'orc' : 'bat'];
+      return !s ? 'gone' : s.img === art.stepA ? 'stepA' : s.img === art.stepB ? 'stepB' : s.img === art ? '' : 'other';
+    };
+
+    const pic = { stepA: {}, stepB: {}, hurt: {}, windup: {} };
+    const was = { orc: Assets.sprites.orc, bat: Assets.sprites.bat };
+    Assets.sprites.orc = pic; Assets.sprites.bat = { ...pic };
+    try {
+      if (step(1000)) out.push(`standing, it was drawn mid-stride (${step(1000)})`);
+      m.moveT0 = 1000; m.moveT1 = 1300;
+      const a = step(1050), b = step(1250);
+      if (!a || !b || a === b) out.push(`crossing a square it strode ${a} then ${b}`);
+      m.fromX = 9; m.x = 8; m.rx = 8; m.moveT0 = 1300; m.moveT1 = 1600;
+      if (step(1350) !== b) out.push(`on the next square it led with ${step(1350)}, not the other foot (${b})`);
+      m.windup = { kind: 'blow', at: G.t, until: G.t + 1000 };
+      if (step(1350)) out.push('winding up a blow, it was drawn mid-stride');
+      m.windup = null;
+      // a bat, standing still in the air, beats its wings
+      L.monsters.push({ uid: 97, id: 'bat', x: 8, y: 7, hp: 66, maxHp: 66, awake: true, nextAct: 1e12, rx: 8, ry: 7, fromX: 8, fromY: 7, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const beats = new Set(); for (let t = 0; t < 400; t += 30) beats.add(step(5000 + t, 66));
+      if (!beats.has('stepA') || !beats.has('stepB')) out.push(`a bat aloft did not beat its wings (${[...beats].join(', ')})`);
+    } finally { Assets.sprites.orc = was.orc; Assets.sprites.bat = was.bat; }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a struck monster reels: its flinching picture through the white of the hit and a moment after, never over a wind-up', async () => {
     const out = [];
     const ctx = await start('fighter', 'reel');
@@ -10999,6 +11037,14 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (Game.companionRank() !== 1) out.push(`after two floors the rank is ${Game.companionRank()}`);
     if (!said.some(l => l.includes(`${c.name} is blooded now`) && l.includes('Hamstring'))) out.push(`at two floors it said: ${said.join(' / ')}`);
     if (c.hp !== c.maxHp || c.maxHp < hp0 + 4) out.push(`blooded, it has ${c.hp} of ${c.maxHp} (was ${hp0})`);
+    // learning its trick, it is drawn a moment in a rising of golden motes, and then not
+    const art = { sprites: { dog: {} } }, at = c.flareAt;
+    if (at == null) out.push('learning a trick, it was not marked to flare');
+    else {
+      const s0 = Game.companionSprite(art, at + 300), s1 = Game.companionSprite(art, at + 5000);
+      if (!(s0 && s0.aff && s0.aff.flare > 0)) out.push('just after learning its trick it was not drawn flaring');
+      if (s1 && s1.aff) out.push('long after learning its trick it was still drawn flaring');
+    }
     down();
     const vet = down();
     if (Game.companionRank() !== 2 || !vet.some(l => l.includes('is a veteran now') && l.includes('Pack Hunter'))) out.push(`after four floors: rank ${Game.companionRank()}, said ${vet.join(' / ')}`);
