@@ -1759,102 +1759,113 @@ const CREATURES = {
     ];
     return [...body, ...arms, ...head];
   },
-  // (drawn first on the coarse grid and set on the finer one, its head drawn again there)
+  // The freed goblin at your heel: wiry and ribby under a hooded rag of a
+  // mantle chewed ragged at the hem, a loincloth and a cord belt with its ring
+  // of picks and a key, the manacle it came in with still on one wrist and a
+  // stub of chain, and a short knife with a kink in the blade. Standing, the
+  // knife held low; lunging, it drives the knife up at you, the chained arm flung
+  // back; told to stay, it squats on its heels, the knife pushed through the belt.
   scrag: (pose = 'idle') => {
-    const skin = '#72ac4c', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', cloth = '#6a5c4a', cord = '#4a3a28';
-    const iron = '#6e727c', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
+    const skin = '#72ac4c', skinLt = '#8cc466', dark = '#4c7e34', foot = '#5a8c3c', rag = '#80705c', ragDk = '#5a4c3c', cloth = '#6a5c4a', cord = '#4a3a28';
+    const iron = '#6e727c', ironLt = '#a8acb4', brass = '#c9a24a', steel = '#c0c4cc', grip = '#6a4a2a';
     const stab = pose === 'windup', sit = pose === 'sit';
-    const hx = stab ? 16.5 : 16, hy = stab ? 17 : sit ? 17.2 : 14.8;
+    const hx = stab ? 33 : 32, hy = stab ? 34 : sit ? 34.4 : 29.6;
     // how far the body has dropped: a long way for the lunge, a little to squat
-    const dy = stab ? 2.2 : sit ? 2.4 : 0, belt = 23.6 + dy;
-    // the rag: a hooded mantle over the shoulders, chewed ragged at the hem
-    const mantle = sheet([[12, 18 + dy], [20, 18 + dy], [22.4, 19.2 + dy], [23.2, 21.8 + dy], [21.8, 21.2 + dy], [20.8, 22.6 + dy], [19.4, 21.4 + dy], [18, 22.8 + dy],
-      [16.4, 21.6 + dy], [14.8, 22.8 + dy], [13.2, 21.4 + dy], [11.6, 22.6 + dy], [10.2, 21.2 + dy], [8.8, 21.8 + dy], [9.6, 19.2 + dy]], rag, { curve: 1 });
-    // the ring of picks and a key, hung at the belt
-    const kx = sit ? 15.5 : 18.5, ky = Math.round(belt) + 1.5;
-    const picks = [
-      hair(kx - 0.8, ky + 0.6, kx - 1.6, ky + 3, '#9aa0aa'), hair(kx - 0.2, ky + 0.8, kx - 0.4, ky + 3.4, '#9aa0aa'),
-      line(kx + 1, ky + 1, kx + 1.4, ky + 3, brass), specks([[kx + 1.5, ky + 2.5], [kx + 2, ky + 2.5], [kx + 2, ky + 3]], brass),
-      ball(kx, ky, 1.2, 1.2, brass), dots([[Math.floor(kx), Math.floor(ky)]], '#2a1e14'),
+    const D = stab ? 4.4 : sit ? 4.8 : 0, B = 47.2 + D;
+    // the rag: a hooded mantle over the shoulders, short enough to show the ribs, chewed ragged at the hem
+    const mantle = [
+      sheet([[24, 36 + D], [40, 36 + D], [44.8, 38.4 + D], [46.4, 42.4 + D], [43.6, 41 + D], [41.6, 42.4 + D], [38.8, 40.2 + D], [36, 41.6 + D],
+        [32.8, 39.8 + D], [29.6, 41.6 + D], [26.4, 40.2 + D], [23.2, 42.4 + D], [20.4, 41 + D], [17.6, 42.4 + D], [19.2, 38.4 + D]], rag, { curve: 1 }),
+      ...[[22, 39], [27, 38.4], [37, 38.4], [42, 39]].map(([x, y]) => hair(x, y + D, x + 0.5, y + 2 + D, ragDk)),
+      ...[[23, 42.2], [29.5, 41.4], [36, 41.4], [41.5, 42.2]].map(([x, y]) => hair(x, y + D, x + 0.25, y + 1.75 + D, rag)),
+      specks([[26, 39 + D], [27, 40 + D], [28, 39 + D], [29, 40 + D]], '#a89a82'),
     ];
-    // an iron cuff across the wrist (u, v: half the band, the way it runs),
-    // and what is left of its chain: links alternately face on and edge on,
-    // the last one sprung open where it broke
+    // the ring of picks and a key, hung at the belt
+    const kx = sit ? 31 : 37, ky = B + 3;
+    const picks = [
+      hair(kx - 1.6, ky + 1.2, kx - 3.2, ky + 6, '#9aa0aa'), hair(kx - 0.4, ky + 1.6, kx - 0.8, ky + 6.8, '#9aa0aa'),
+      limb(kx + 2, ky + 2, kx + 2.8, ky + 6, 0.5, 0.5, brass), specks([[kx + 3, ky + 5], [kx + 4, ky + 5], [kx + 4, ky + 6]], brass),
+      ball(kx, ky, 2.4, 2.4, brass), ball(kx, ky, 1.2, 1.2, '#2a1e14'),
+    ];
+    // an iron cuff across the wrist at (x, y), its band running along (u, v),
+    // and what is left of its chain: links face on and edge on, the last sprung open
     const cuff = (x, y, u, v, links) => [
-      ...links.map(([lx, ly], i) => i % 2 ? limb(lx, ly - 0.6, lx, ly + 0.6, 0.4, 0.4, '#585c66') : ball(lx, ly, 0.8, 0.85, iron)),
-      ...links.map(([lx, ly], i) => i % 2 ? hair(lx, ly - 0.5, lx, ly, '#a8acb4') : specks([[lx, ly]], '#1c1a22')),
-      hair(links[links.length - 1][0] - 0.5, links[links.length - 1][1] + 0.5, links[links.length - 1][0] - 1, links[links.length - 1][1] + 1, iron),
-      limb(x - u, y - v, x + u, y + v, 0.9, 0.9, iron),
-      hair(x - u, y - v - 0.5, x + u * 0.6, y + v * 0.6 - 0.5, '#c8ccd4'),
+      ...links.map(([lx, ly], i) => (i % 2 ? limb(lx, ly - 1.2, lx, ly + 1.2, 0.8, 0.8, '#585c66') : ball(lx, ly, 1.6, 1.7, iron))),
+      ...links.map(([lx, ly], i) => (i % 2 ? hair(lx, ly - 1, lx, ly, ironLt) : specks([[lx, ly]], '#1c1a22'))),
+      hair(links[links.length - 1][0] - 1, links[links.length - 1][1] + 1, links[links.length - 1][0] - 2, links[links.length - 1][1] + 2, iron),
+      limb(x - u, y - v, x + u, y + v, 1.8, 1.8, iron), hair(x - u, y - v - 1, x + u * 0.6, y + v * 0.6 - 1, '#c8ccd4'),
     ];
     // a short knife with a kink in the blade, from the fist at (x, y) along (u, v)
     const knife = (x, y, u, v) => [
-      limb(x + u * 0.9, y + v * 0.9, x + u * 3.2, y + v * 3.2, 0.65, 0.55, steel, { smooth: 1 }),
-      limb(x + u * 3.2, y + v * 3.2, x + u * 4.4 + v * 0.6, y + v * 4.4 - u * 0.6, 0.55, 0.3, steel, { smooth: 1 }),
-      hair(x + u * 1.2 - v * 0.3, y + v * 1.2 + u * 0.3, x + u * 3.2 - v * 0.3, y + v * 3.2 + u * 0.3, '#f4f6fa'),
+      limb(x + u * 1.8, y + v * 1.8, x + u * 6.4, y + v * 6.4, 1.3, 1.1, steel, { smooth: 1 }),
+      limb(x + u * 6.4, y + v * 6.4, x + u * 8.8 + v * 1.2, y + v * 8.8 - u * 1.2, 1.1, 0.5, steel, { smooth: 1 }),
+      hair(x + u * 2.4 - v * 0.6, y + v * 2.4 + u * 0.6, x + u * 6.4 - v * 0.6, y + v * 6.4 + u * 0.6, '#f4f6fa'),
+      limb(x - u * 0.6, y - v * 0.6, x + u * 1.6, y + v * 1.6, 0.9, 0.9, grip),
     ];
+    /** a hand: the fist, the knuckles, fingers curled */
+    const hand = (x, y, open) => [ball(x, y, 2.6, 2.4, skin), ...(open ? [-1, 0, 1].map(d => limb(x + d * 1.3, y + 1.6, x + d * 1.6, y + 3.8, 0.55, 0.4, skin)) : [hair(x - 1.5, y - 0.5, x + 1.5, y - 0.5, dark)]),
+      specks([[x - 1, y - 1.5], [x + 1, y - 1.5]], skinLt)];
+    /** a leg from the hip, through a knobbly knee, to a long bare foot with its toes */
+    const leg = (hx2, hy2, kx2, ky2, fx, fy, toe) => [
+      limb(hx2, hy2, kx2, ky2, 2.2, 1.8, dark), ball(kx2, ky2, 2.2, 2, dark), limb(kx2, ky2, fx, fy, 1.8, 1.5, dark),
+      limb(fx, fy + 0.6, fx + toe * 4.6, fy + 1.6, 1.7, 1.2, foot), specks([[fx + toe * 4.6, fy + 2.25], [fx + toe * 3.4, fy + 2.5], [fx + toe * 2.2, fy + 2.5]], '#e8e0c0'),
+    ];
+    // the wiry body: ribs showing, a pot of a belly, the loincloth and belt
     const body = [
-      ball(16, 22.6 + dy, 3.2, 3.6, skin),
-      sheet([[12.8, belt], [19.2, belt], [18.8, belt + 3], [17.6, belt + 2.2], [16.4, belt + 3.4], [15, belt + 2.2], [13.4, belt + 2.8]], cloth, { curve: 0.8 }),
-      line(12, belt, 20, belt, cord),
+      limb(32, 33 + D, 32, 38 + D, 2.2, 2.6, dark),
+      ball(32, 45.2 + D, 6.4, 7.2, skin), ball(32, 48 + D, 4.6, 3.2, skinLt),
+      ...[41.5, 43.6, 45.7].flatMap(y => [hair(26.5, y + D, 30.5, y - 0.5 + D, dark), hair(37.5, y + D, 33.5, y - 0.5 + D, dark)]),
+      sheet([[25.6, B], [38.4, B], [37.6, B + 6], [35.2, B + 4.4], [32.8, B + 6.8], [30, B + 4.4], [26.8, B + 5.6]], cloth, { curve: 0.8 }),
+      hair(28, B + 1, 28.5, B + 4.5, '#4a3e30'), hair(35, B + 1, 34.5, B + 4.5, '#4a3e30'),
+      limb(24, B, 40, B, 0.8, 0.8, cord), hair(25, B - 0.75, 39, B - 0.75, '#6a5a44'),
       ...picks,
     ];
     let parts;
     if (stab) {
       parts = [
-        limb(14.6, 26.4, 10.6, 27.8, 1.1, 0.9, dark), limb(10.6, 27.8, 9.8, 30.2, 0.9, 0.75, dark), ball(9.6, 30.4, 1.9, 0.8, foot),
-        limb(17.6, 26.4, 21.6, 27.6, 1.1, 0.9, dark), limb(21.6, 27.6, 22.4, 30.2, 0.9, 0.75, dark), ball(22.6, 30.4, 1.9, 0.8, foot),
-        ball(10.6, 27.8, 1.1, 1, dark), ball(21.6, 27.6, 1.1, 1, dark),
+        ...leg(29.2, 52.8, 21.2, 55.6, 19.6, 60.4, -1), ...leg(35.2, 52.8, 43.2, 55.2, 44.8, 60.4, 1),
         ...body,
         // the chained arm flung back for balance, the knife driven up at you
-        limb(12.2, 21.4, 7, 23.8, 0.95, 0.85, skin), limb(19.8, 21.4, 25.2, 19.4, 0.95, 0.85, skin),
-        mantle,
-        ...cuff(8, 23.3, 0.45, 1.05, [[6.8, 25.2], [6, 26.5], [5.2, 27.8]]),
-        ball(6.3, 24.2, 1.3, 1.2, skin),
-        ...knife(26, 18.8, 0.6, -0.8),
-        ball(26, 18.8, 1.3, 1.2, skin),
+        limb(24.4, 42.8, 19, 45.6, 1.9, 1.7, skin), ball(19, 45.6, 1.7, 1.6, skin), limb(19, 45.6, 14, 47.6, 1.7, 1.5, skin),
+        limb(39.6, 42.8, 45, 41, 1.9, 1.7, skin), ball(45, 41, 1.7, 1.6, skin), limb(45, 41, 50.4, 38.8, 1.7, 1.5, skin),
+        ...mantle,
+        ...cuff(16, 46.6, 0.9, 2.1, [[13.6, 50.4], [12, 53], [10.4, 55.6]]),
+        ...hand(12.6, 48.4, true),
+        ...knife(52, 37.6, 0.6, -0.8),
+        ...hand(52, 37.6, false),
       ];
     } else if (sit) {
       parts = [
         // on its heels, knees out wide and feet together under it
-        ...both(limb(9, 26.2, 12.6, 30, 1, 0.85, dark)), ...both(ball(12.8, 30.4, 1.9, 0.9, foot)),
+        ...both64(limb(18, 52.4, 25.2, 60, 2, 1.7, dark)), ...both64(ball(25.6, 60.8, 3.8, 1.8, foot)), ...both64(specks([[23, 61.5], [24.5, 62], [26, 62]], '#e8e0c0')),
         ...body,
-        ...both(limb(14, 27.6, 9.2, 26, 1.2, 1.1, dark)), ...both(ball(9, 25.8, 1.4, 1.3, dark)),
+        ...both64(limb(28, 55.2, 18.4, 52, 2.4, 2.2, dark)), ...both64(ball(18, 51.6, 2.8, 2.6, dark)),
         // the knife pushed through the belt, only the grip showing
-        limb(18.2, belt - 1.6, 19, belt + 0.6, 0.55, 0.55, grip), dots([[18, belt - 2]], brass),
-        ...both(limb(12, 21.4, 9.2, 24.6, 0.95, 0.85, skin)),
-        mantle,
-        ...cuff(9.8, 23.9, 0.9, 0.7, [[7.6, 24.8], [7.1, 26.2], [6.8, 27.6]]),
-        ...both(ball(9, 24.9, 1.4, 1.1, skin)),
+        limb(36.4, B - 3.2, 38, B + 1.2, 1.1, 1.1, grip), ball(36, B - 4, 1, 1, brass),
+        ...both64(limb(24, 42.8, 20.6, 46.4, 1.9, 1.7, skin)), ...both64(ball(20.6, 46.4, 1.7, 1.6, skin)), ...both64(limb(20.6, 46.4, 18.4, 49.2, 1.7, 1.5, skin)),
+        ...mantle,
+        ...cuff(19.6, 47.8, 1.8, 1.4, [[15.2, 49.6], [14.2, 52.4], [13.6, 55.2]]),
+        ...hand(18, 49.8, false), ...hand(46, 49.8, false),
       ];
     } else {
       parts = [
-        ...both(limb(14.4, 25, 12.2, 27.6, 1.1, 0.9, dark)), ...both(limb(12.2, 27.6, 12.8, 30.2, 0.9, 0.75, dark)),
-        ...both(ball(12.2, 27.6, 1.1, 1, dark)), ...both(ball(12.4, 30.4, 1.9, 0.8, foot)),
+        ...leg(28.8, 50, 24.4, 55.2, 25.6, 60.4, -1), ...leg(35.2, 50, 39.6, 55.2, 38.4, 60.4, 1),
         ...body,
-        ...both(limb(12.2, 19.8, 10.6, 23.4, 0.95, 0.85, skin)),
-        mantle,
-        ...cuff(10.8, 22.6, 1.05, -0.15, [[8.6, 23.8], [8.4, 25.2], [8.3, 26.6]]),
-        ball(10.4, 24.2, 1.3, 1.2, skin),
+        limb(24.4, 39.6, 22.4, 43.6, 1.9, 1.7, skin), ball(22.4, 43.6, 1.7, 1.6, skin), limb(22.4, 43.6, 21.2, 46.8, 1.7, 1.5, skin),
+        limb(39.6, 39.6, 41.6, 43.6, 1.9, 1.7, skin), ball(41.6, 43.6, 1.7, 1.6, skin), limb(41.6, 43.6, 43.2, 47, 1.7, 1.5, skin),
+        ...mantle,
+        ...cuff(21.6, 45.2, 2.1, -0.3, [[17.2, 47.6], [16.8, 50.4], [16.6, 53.2]]),
+        ...hand(20.8, 48.4, true),
         // the knife held low, point down and out
-        ...knife(21.6, 24.2, 0.45, 0.9),
-        ball(21.6, 24.2, 1.3, 1.2, skin),
+        ...knife(43.2, 48.4, 0.45, 0.9),
+        ...hand(43.2, 48.4, false),
       ];
     }
     return [
-      ...parts.map(up2),
-      ...scragHead(hx * 2, hy * 2, { look: stab ? 0 : sit ? -1 : 1, mouth: stab ? 'teeth' : 'grin' }),
-      // fine work: ribs, frayed threads at the hem, a darn in the rag, toes
-      ...[
-      hair(14.5, 21.6 + dy, 14, 22.6 + dy, '#4c7e34'), hair(17.5, 21.6 + dy, 18, 22.6 + dy, '#4c7e34'),
-      hair(11.8, 22.4 + dy, 11.6, 23.4 + dy, rag), hair(18, 22.6 + dy, 18.2, 23.6 + dy, rag),
-      specks([[13, 19.5 + dy], [13.5, 20 + dy], [14, 19.5 + dy], [14.5, 20 + dy]], '#a89a82'),
-      ...(stab ? [] : both(specks([[sit ? 12 : 11, 30.5], [sit ? 13 : 12, 30.5]], '#e8e0c0'))),
-      ].map(up2),
-      // knuckles and the grime in them, more frays, the wear on the chain
-      hair(25, 41 + 2 * dy, 24, 45 + 2 * dy, '#5a4c3c'), hair(38, 41 + 2 * dy, 39.5, 45 + 2 * dy, '#5a4c3c'), hair(31, 40 + 2 * dy, 31.5, 44 + 2 * dy, '#5a4c3c'),
-      specks([[27, 38 + 2 * dy], [36, 38.5 + 2 * dy], [21, 43 + 2 * dy], [43, 43 + 2 * dy]], '#a89a82'),
-      hair(29, 47.5 + 2 * dy, 35, 47.5 + 2 * dy, '#3a2a1a'),
+      ...parts,
+      ...scragHead(hx, hy, { look: stab ? 0 : sit ? -1 : 1, mouth: stab ? 'teeth' : 'grin' }),
+      // grime on the knees and the belly, a scar down the ribs
+      specks([[27, 38 + D], [36, 38.5 + D], [30, 50 + D], [34.5, 50.5 + D]], '#a89a82'), hair(35.5, 42 + D, 37, 46.5 + D, '#a8d080'),
     ];
   },
 
