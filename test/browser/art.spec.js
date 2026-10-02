@@ -23,6 +23,32 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await faceOpenGround(page);
+    expect(await placeMonster(page, 'orc', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
+    // struck just now: the view is handed its flinching picture
+    const drawn = await page.evaluate(() => {
+      const m = Game.level().monsters.find(q => q.maxHp === 300), now = performance.now();
+      m.flashAt = now; m.flashUntil = now + 130;
+      const s = Game.renderState(now + 60).sprites.find(q => q.maxHp === 300);
+      const later = Game.renderState(now + 900).sprites.find(q => q.maxHp === 300);
+      return { reeling: s.img === Assets.sprites.orc.hurt, after: later.img === Assets.sprites.orc };
+    });
+    expect(drawn).toEqual({ reeling: true, after: true });
+    // each champion has a picture of its own, poses and all; a wash of its kind
+    // covers the same pixels, its own picture does not
+    const champs = await page.evaluate(() => Object.keys(MONSTERS).filter(id => MONSTERS[id].named).map(id => {
+      const kind = Assets.sprites[MONSTERS[id].sprite], own = kind.elite[id];
+      const opaque = c => { const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i]) n++; return n; };
+      return { id, own: !!own && opaque(own.levels[0]) !== opaque(kind.levels[0]), poses: !!own && !!own.windup && !!own.hurt && kind.windup.elite[id] === own.windup };
+    }));
+    expect(champs.length).toBeGreaterThanOrEqual(7);
+    for (const c of champs) expect(c, c.id).toEqual({ id: c.id, own: true, poses: true });
+    expect(errors).toEqual([]);
+  });
+
   test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
     // floor 8 said "black glass walls" over the same grey courses as floor 1
     const errors = watchForErrors(page);

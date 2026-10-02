@@ -1,6 +1,6 @@
 import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
-import { CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
+import { CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
@@ -1265,7 +1265,8 @@ const Assets = (() => {
     };
   }
 
-  const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
+  // a named champion drawn as itself (see CHAMPIONS) needs no wash of its kind's picture
+  const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k && !CHAMPIONS[id]).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
   /** A creature's sprite, its champions' and its other poses, which ride on it. */
   function creature(k, scale) {
     const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true, grid: gridOf(k) });
@@ -1275,6 +1276,15 @@ const Assets = (() => {
       s[pose] = ps;
       // (the finer painting's champions are found through the pose: see nearFor)
       if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];
+    }
+    // a champion drawn as itself is painted from its own parts, poses and all, into
+    // the place its wash would take, so whatever looks a champion up finds it there
+    for (const id in CHAMPION_OF) {
+      if (CHAMPION_OF[id] !== k || !MONSTERS[id] || MONSTERS[id].sprite !== k) continue;
+      const own = pose => ({ parts: CHAMPIONS[id](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: false, fine: true, grim: true, grid: gridOf(k) });
+      const o = makeSprite(own(), scale);
+      for (const pose of POSES[k] || []) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite[id] = o[pose]; }
+      s.elite[id] = o;
     }
     return s;
   }

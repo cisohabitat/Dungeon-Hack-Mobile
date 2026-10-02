@@ -10515,6 +10515,30 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a struck monster reels: its flinching picture through the white of the hit and a moment after, never over a wind-up', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'reel');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    const L = bareFloor(ctx); dig(ctx, 3, 3, 12, 9);
+    p.x = 6; p.y = 6; p.dir = 1;
+    L.monsters.length = 0;
+    L.monsters.push({ uid: 91, id: 'orc', x: 7, y: 6, hp: 99, maxHp: 99, awake: true, nextAct: 1e12, rx: 7, ry: 6, fromX: 7, fromY: 6, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    const m = L.monsters[0];
+    const reeling = (/** @type {number} */ now) => { const s = Game.renderState(now).sprites.find(q => q.maxHp === 99); return !!(s && s.reeling); };
+    // a real blow lands (swinging again past a natural one)
+    for (let i = 0; i < 8 && m.hp === 99; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    if (m.hp === 99) return 'eight swings never landed';
+    const at = m.flashAt || 0;
+    if (reeling(at - 20)) out.push('it reeled before the blow landed');
+    if (!reeling(at + 50)) out.push('in the white of the hit it did not reel');
+    if (!reeling(m.flashUntil + 200)) out.push('a moment after the white it had already stopped reeling');
+    if (reeling(m.flashUntil + 400)) out.push('it was still reeling long after the blow');
+    // winding up a blow of its own, it shows the wind-up, struck or not
+    m.windup = { at: G.t, until: G.t + 1000 };
+    if (reeling(at + 50)) out.push('struck while winding up, it reeled and hid its wind-up');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('a healer at work is drawn holding their hands out over you: while tending, and for a moment after a dressing', async () => {
     const out = [];
     const ctx = await withHealer('healer-pose');

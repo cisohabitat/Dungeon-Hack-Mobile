@@ -4,7 +4,7 @@
 const { loadGame } = require('./harness');
 
 async function main() {
-const { Dungeon, SPRITES, MONSTERS, ITEMS, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
+const { Dungeon, SPRITES, MONSTERS, ITEMS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, ENCOUNTERS, RELICS, RELIC_POWERS, CLASSES, ITEM_ART, KEY_COLORS, POTION_LOOKS } = await loadGame();
 const T = Dungeon.T;
 
 let failures = 0;
@@ -93,8 +93,8 @@ for (const k in POSES) {
   if (!CREATURES[k]) continue;
   const rest = paint32(k).color;
   for (const pose of POSES[k]) {
-    // (a companion also sits, when told to stay, and the healer tends)
-    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)) || (pose === 'heal' && k === 'mender'), `${k} has a pose '${pose}' the view never shows`);
+    // (a creature flinches when struck; a companion also sits, when told to stay, and the healer tends)
+    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)) || (pose === 'heal' && k === 'mender') || pose === 'hurt', `${k} has a pose '${pose}' the view never shows`);
     const { color } = paint32(k, pose);
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
@@ -102,6 +102,31 @@ for (const k in POSES) {
     color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); if (c !== rest[i]) moved++; });
     if (!FLOATING.has(k)) check(lowest >= 29, `${k} floats in its ${pose} pose`);
     check(moved > 60, `${k}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
+  }
+}
+// Every named champion is drawn as itself: on its kind's picture, standing
+// where its kind stands, carrying fine detail of its own, through every pose its
+// kind has, and plainly not just its kind in another colour
+for (const id in MONSTERS) if (MONSTERS[id].named) check(CHAMPIONS[id], `champion ${id} has no picture of its own`);
+for (const id in CHAMPION_OF) {
+  const k = CHAMPION_OF[id];
+  check(MONSTERS[id] && MONSTERS[id].named && MONSTERS[id].sprite === k, `${id} is drawn on the ${k}, which is not its kind`);
+  const base = paint32(k).color, { color } = paint32(id, undefined, CHAMPIONS);
+  let lowest = -1, own = 0;
+  color.forEach((c, i) => { if (c) lowest = Math.max(lowest, Math.floor(i / 32)); if (c !== base[i]) own++; });
+  if (!FLOATING.has(k)) check(lowest >= 29, `${id} floats: its lowest pixel is row ${lowest}`);
+  // (a recolouring alone changes pixels but adds nothing: it must carry things its kind does not)
+  const added = CHAMPIONS[id]().length - CREATURES[k]().length;
+  check(own > 100 && added >= 8, `${id} is hardly more than its kind (${own} pixels its own, ${added} things added)`);
+  check(CHAMPIONS[id]().filter(p => p.k === 'specks' || p.k === 'hair').length >= 6, `${id} has too little fine detail`);
+  const rest = color;
+  for (const pose of POSES[k]) {
+    const p = paint32(id, pose, CHAMPIONS).color;
+    let low = -1, moved = 0;
+    p.forEach((c, i) => { if (c) low = Math.max(low, Math.floor(i / 32)); if (c !== rest[i]) moved++; });
+    check(p.filter(Boolean).every(c => /^#[0-9a-f]{6}$/.test(c)), `${id} painted badly in its ${pose} pose`);
+    if (!FLOATING.has(k)) check(low >= 29, `${id} floats in its ${pose} pose`);
+    check(moved > 60, `${id}'s ${pose} pose is hardly different from its rest (${moved} pixels)`);
   }
 }
 // every encounter has a prop to stand in the corridor, and every prop paints

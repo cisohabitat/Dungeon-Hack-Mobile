@@ -483,7 +483,9 @@ export function makeCompanion(K) {
     // a healer at work (tending, or just now binding a bad wound) holds its hands out over you
     const healing = s.heal && !(c.moveT1 > now) && (c.tending || now - (c.dressAt || 0) < 1200);
     // told to stay (and not moving or biting), it sits
-    const img = lunging && s.windup ? s.windup : healing ? s.heal : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
+    // struck, it reels a moment (see flinch in creatures.js)
+    const reeling = now < (c.flashUntil || 0) + 260;
+    const img = lunging && s.windup ? s.windup : reeling && s.hurt ? s.hurt : healing ? s.heal : c.mode === 'stay' && !(c.moveT1 > now) && s.sit ? s.sit : s;
     // it breathes and sways as a monster does (see motion in game.js), waddles
     // as it trots, and swings through a bite; sitting, it only breathes
     const sat = img === s.sit, b = Math.sin(now / 560 + 1.3) * 0.02;

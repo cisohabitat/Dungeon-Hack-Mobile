@@ -128,7 +128,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03o', text: 'every monster now shows its blow coming, the casters lift lit hands before a spell, and your healer holds a warm light over your wounds while tending them' };
+  const NEWS = { id: '2026-10-03p', text: 'the seven named champions are drawn as themselves now: the Goblin King in his bucket crown, the Hollow Abbess in her wimple and beads, the Troll-Father white-maned; and every creature reels when struck' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -261,7 +261,8 @@ const UI = (() => {
     for (const m of L.monsters) {
       const mb = MONSTERS[m.id];
       const base = Assets.sprites[mb.sprite];
-      title.sprites.push({ x: m.x + 0.5, y: m.y + 0.5, img: (m.elite && base.elite && base.elite[m.elite]) ? base.elite[m.elite] : base, scale: mb.scale, yOff: mb.fly || 0, _fly: !!mb.fly, _uid: m.uid });
+      const tint = m.elite || (mb.named ? m.id : '');
+      title.sprites.push({ x: m.x + 0.5, y: m.y + 0.5, img: (tint && base.elite && base.elite[tint]) ? base.elite[tint] : base, scale: mb.scale, yOff: mb.fly || 0, _fly: !!mb.fly, _uid: m.uid });
     }
     for (const k in L.items) {
       const list = L.items[k];

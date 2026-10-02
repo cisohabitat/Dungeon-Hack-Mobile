@@ -4424,6 +4424,8 @@ const Game = (() => {
   // thing sways less: it is heavier.
   // a body falls, lies a moment, then sinks away into what it leaves (see the fallen in renderState)
   const CORPSE_MS = 1100;
+  // how long a creature reels after the white of a hit has gone (see flinch in creatures.js)
+  const REEL_MS = 260;
   // how far a burning thing (the Heartforged, an emberling) throws its light onto what stands near it, in squares
   const FIERY_GLOW = 2.2;
   // a breath at rest: [how slow, how deep], by size
@@ -4497,6 +4499,10 @@ const Game = (() => {
       const tell = m.volley ? 1 : m.windup ? Math.min(1, Math.max(0.05, (G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
       // a monster's own trick is marked in violet, so it reads as more than a blow
       const special = !!(m.windup && m.windup.move);
+      // just struck, it reels: its flinching picture, through the white of the hit and a
+      // moment after, unless it is winding up, whose warning must never be hidden
+      const reeling = !tell && now >= (m.flashAt || 0) && now < (m.flashUntil || 0) + REEL_MS;
+      const shown = reeling && img && img.hurt ? img.hurt : img;
       if (m.collapsed) {
         // a heap of bones on the floor, a ring round it filling as it pulls itself together
         const rising = Math.min(1, Math.max(0.02, 1 - (m.collapsed - G.t) / RISE_MS));
@@ -4506,7 +4512,7 @@ const Game = (() => {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -4518,7 +4524,7 @@ const Game = (() => {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img, scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : img, ...(i === 0 ? { reeling } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
