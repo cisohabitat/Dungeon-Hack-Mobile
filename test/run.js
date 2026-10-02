@@ -549,6 +549,66 @@ check(traders > 0, 'no traders generated at all');
   check(!badHall.length, `the last floor's hall: ${badHall.slice(0, 4).join('; ')}`);
   console.log(`floor shapes: ${floors} floors, ${(shapeKinds / floors).toFixed(1)} room shapes a floor, set pieces ${JSON.stringify(pieceKinds)}, ${smeared.length} with a wide corridor`);
 }
+// What each square looks like (looks.js): every set piece dressed as what it
+// is, the ways between rooms laid as paths, a cavern's walls its own bare
+// rock, and a door barred as a cell's only where it shuts a cell.
+{
+  const url = f => require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', f)).href;
+  const { lookOf, FLOOR, CEIL, WALL } = await import(url('looks.js'));
+  const { THEMES } = await import(url('data.js'));
+  const bad = [], seen = { altar: 0, water: 0, straw: 0, rubble: 0, gates: 0, rock: 0, fallen: 0, beams: 0, roots: 0, cave: 0 };
+  for (let s = 0; s < 24; s++) for (const route of ['crypts', 'warrens']) for (let depth = 1; depth <= 8; depth++) {
+    const L = Dungeon.generate('look' + s, depth, { levels: 8, size: ['small', 'medium', 'large'][s % 3], monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: depth >= 4 ? route : null });
+    const theme = THEMES[L.theme], K = lookOf(L, theme), where = `look${s}/${route}/${depth}`;
+    const n = L.w * L.h, count = (a, v) => { let c = 0; for (let i = 0; i < n; i++) if (a[i] === v) c++; return c; };
+    for (let i = 0; i < n; i++) {
+      if (L.tiles[i] === T.FLOOR && L.roomId[i] < 0 && K.floor[i] !== FLOOR.PATH) { bad.push(`${where}: a corridor square not laid as a path`); break; }
+      if (L.roomId[i] >= 0 && K.floor[i] === FLOOR.PATH) { bad.push(`${where}: a room square laid as a path`); break; }
+    }
+    // a cavern's walls are its rock, wherever the place is not dug earth
+    const caves = L.rooms.map((r, id) => (r.shape === 'cave' || r.shape === 'burrow') ? id : -1).filter(id => id >= 0);
+    for (const id of caves) for (let i = 0; i < n; i++) {
+      if (L.roomId[i] !== id) continue;
+      const x = i % L.w, y = (i / L.w) | 0;
+      for (const [dx, dy] of Dungeon.DIRS) {
+        const j = (y + dy) * L.w + x + dx;
+        if (L.tiles[j] === T.WALL && theme.face !== 'earth' && K.wall[j] !== WALL.ROCK && !(L.piece && L.piece.kind === 'rubble' && K.wall[j] === WALL.FALLEN)) bad.push(`${where}: a cavern wall built of dressed stone`);
+      }
+    }
+    seen.rock += count(K.wall, WALL.ROCK); seen.beams += count(K.ceil, CEIL.BEAMS); seen.roots += count(K.ceil, CEIL.ROOTS); seen.cave += count(K.ceil, CEIL.CAVE);
+    const gates = count(K.cell, 1);
+    if (!L.piece) { if (gates) bad.push(`${where}: cell gates with no cells`); continue; }
+    const r = L.rooms[L.piece.room], kind = L.piece.kind, inPiece = [];
+    for (let i = 0; i < n; i++) if (L.roomId[i] === L.piece.room) inPiece.push(i);
+    if (kind === 'shrine') {
+      const altars = count(K.floor, FLOOR.ALTAR);
+      if (altars !== 1) bad.push(`${where}: ${altars} altars in the shrine`);
+      const at = K.floor.indexOf(FLOOR.ALTAR);
+      if (at >= 0 && !(L.items[`${at % L.w},${(at / L.w) | 0}`] || []).length) bad.push(`${where}: nothing laid on the altar`);
+      if (inPiece.some(i => K.floor[i] !== FLOOR.MOSAIC && K.floor[i] !== FLOOR.ALTAR)) bad.push(`${where}: the shrine's floor not all mosaic`);
+      seen.altar += altars;
+    }
+    if (kind === 'cistern') { if (inPiece.some(i => K.floor[i] !== FLOOR.WATER)) bad.push(`${where}: dry squares in the cistern`); seen.water++; }
+    if (kind === 'rubble') {
+      if (inPiece.some(i => K.floor[i] !== FLOOR.RUBBLE)) bad.push(`${where}: the fallen hall's floor not strewn`);
+      const fallen = count(K.wall, WALL.FALLEN);
+      if (!fallen) bad.push(`${where}: no fallen stone in the fallen hall`);
+      for (let i = 0; i < n; i++) if (K.wall[i] === WALL.FALLEN) { const x = i % L.w, y = (i / L.w) | 0; if (x < r.x || y < r.y || x >= r.x + r.w || y >= r.y + r.h) { bad.push(`${where}: fallen stone outside the fallen hall`); break; } }
+      seen.rubble++; seen.fallen += fallen;
+    }
+    if (kind === 'cells') {
+      // six cells, each behind its own gate, the gates the only ones barred; the cells strewn with straw and the aisle not
+      const doors = []; for (let i = 0; i < n; i++) { const x = i % L.w, y = (i / L.w) | 0; if ([T.DOOR, T.DOOR_LOCKED, T.DOOR_OPEN].includes(L.tiles[i]) && x >= r.x && y >= r.y && x < r.x + r.w && y < r.y + r.h) doors.push(i); }
+      if (gates !== 6 || doors.some(i => !K.cell[i])) bad.push(`${where}: ${gates} cell gates, ${doors.length} doors in the block`);
+      const straw = inPiece.filter(i => K.floor[i] === FLOOR.STRAW).length;
+      if (straw !== 24) bad.push(`${where}: ${straw} squares of straw, not the 24 of six cells`);
+      seen.straw++; seen.gates += gates;
+    } else if (gates) bad.push(`${where}: ${gates} cell gates outside a block of cells`);
+  }
+  check(!bad.length, `looks: ${bad.slice(0, 5).join('; ')}`);
+  for (const k in seen) check(seen[k] > 0, `looks: no ${k} seen in 384 floors`);
+  console.log(`looks: ${JSON.stringify(seen)}`);
+}
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
 }

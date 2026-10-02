@@ -144,6 +144,86 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a door stands back in its doorway, the stone of the doorway either side of it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    expect(await faceOpenGround(page, 2)).toBeGreaterThanOrEqual(2);
+    const seen = await page.evaluate(async () => {
+      const p = Game.player(), L = Game.level(), T = Dungeon.T, [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      // a shut door two squares ahead, in a wall running across the way
+      const fx = p.x + dx * 2, fy = p.y + dy * 2;
+      for (const k of [-2, -1, 1, 2]) L.tiles[(fy + dx * k) * L.w + fx + dy * k] = T.WALL;
+      L.tiles[fy * L.w + fx] = T.DOOR;
+      let most = { shut: 0, jambs: 0 };
+      for (let i = 0; i < 6; i++) { await new Promise(r => requestAnimationFrame(r)); const k = Renderer.looks; most = { shut: Math.max(most.shut, k.shut), jambs: Math.max(most.jambs, k.jambs) }; }
+      return most;
+    });
+    expect(seen.shut, 'columns of the door').toBeGreaterThan(20);
+    expect(seen.jambs, 'columns of the doorway either side of it').toBeGreaterThan(2);
+    expect(errors).toEqual([]);
+  });
+
+  test('each set piece is drawn as what it is, the ways between rooms are laid as paths, and corners wear webs', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    // the four set pieces are dealt to the first four floors
+    const seen = await page.evaluate(async () => {
+      const FLOOR = { PATH: 1, MOSAIC: 2, ALTAR: 3, WATER: 4, RUBBLE: 5, STRAW: 6 };
+      const out = { kinds: [], gates: 0, path: false, mosaic: false, water: false, rubble: false, fallen: 0, webs: 0 };
+      const T = Dungeon.T, D = Dungeon.DIRS;
+      const view = async (x, y, d) => {
+        const P = Game.player(); P.x = x; P.y = y; P.dir = d;
+        const c = Game.renderState(performance.now()).cam;
+        c.x = c.toX = x + 0.5; c.y = c.toY = y + 0.5; c.angle = c.toA = d * Math.PI / 2 - Math.PI / 2; c.moving = false;
+        let k = { floors: 0, cells: 0, fallen: 0, webs: 0 };
+        for (let i = 0; i < 4; i++) { await new Promise(r => requestAnimationFrame(r)); const n = Renderer.looks; k = { floors: k.floors | n.floors, cells: Math.max(k.cells, n.cells), fallen: Math.max(k.fallen, n.fallen), webs: Math.max(k.webs, n.webs) }; }
+        out.webs = Math.max(out.webs, k.webs);
+        return k;
+      };
+      for (let depth = 1; depth <= 4; depth++) {
+        if (depth > 1) Game.testFloor(depth);
+        const L = Game.level(), w = L.w, at = (x, y) => L.tiles[y * w + x];
+        L.monsters.length = 0;
+        const r = L.rooms[L.piece.room], kind = L.piece.kind, cx = r.x + (r.w >> 1), cy = r.y + (r.h >> 1);
+        out.kinds.push(kind);
+        if (kind === 'cells') {
+          // from the aisle, face a cell's door
+          const hor = r.w > r.h;
+          for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
+            if (at(x, y) !== T.DOOR && at(x, y) !== T.DOOR_LOCKED) continue;
+            for (let d = 0; d < 4; d++) { const fx = x - D[d][0], fy = y - D[d][1]; if (hor ? fy === cy : fx === cx) out.gates = Math.max(out.gates, (await view(fx, fy, d)).cells); }
+          }
+        } else {
+          for (let d = 0; d < 4; d++) {
+            const k = await view(cx, cy, d);
+            if (k.floors & ((1 << FLOOR.MOSAIC) | (1 << FLOOR.ALTAR))) out.mosaic = true;
+            if (k.floors & (1 << FLOOR.WATER)) out.water = true;
+            if (k.floors & (1 << FLOOR.RUBBLE)) out.rubble = true;
+            out.fallen = Math.max(out.fallen, k.fallen);
+          }
+        }
+        // somewhere in a corridor, looking along it
+        for (let i = 0; i < w * L.h && !out.path; i++) {
+          const x = i % w, y = (i / w) | 0;
+          if (at(x, y) !== T.FLOOR || L.roomId[i] >= 0) continue;
+          for (let d = 0; d < 4 && !out.path; d++) if (at(x + D[d][0], y + D[d][1]) === T.FLOOR && L.roomId[(y + D[d][1]) * w + x + D[d][0]] < 0) out.path = !!((await view(x, y, d)).floors & (1 << FLOOR.PATH));
+        }
+      }
+      return out;
+    });
+    expect(seen.kinds.sort()).toEqual(['cells', 'cistern', 'rubble', 'shrine']);
+    expect(seen.gates, 'columns of a barred cell door').toBeGreaterThan(20);
+    expect(seen.mosaic, 'the shrine floor').toBe(true);
+    expect(seen.water, 'the cistern floor').toBe(true);
+    expect(seen.rubble && seen.fallen > 0, 'the fallen hall').toBe(true);
+    expect(seen.path, 'a corridor laid as a path').toBe(true);
+    expect(seen.webs, 'columns of web in a corner').toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
+
   test('a pillar standing free in a room is drawn narrower than its square; a block joined to a wall is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);
@@ -197,15 +277,15 @@ test.describe('art', () => {
     await clearBoons(page);
     const seen = await page.evaluate(async () => {
       const frame = () => new Promise(r => requestAnimationFrame(r));
+      // (watched for a few frames: a frame's time is when it began, which can be just before the mark was made)
+      const within = async (get) => { for (let i = 0; i < 10; i++) { await frame(); if (get()) return get(); } return get(); };
       Game.level().monsters.length = 0; Game.descend(); if (Game.forkPending()) Game.chooseRoute('crypts');
-      await frame(); await frame();
-      const arriving = Renderer.arriving;
+      const arriving = await within(() => Renderer.arriving);
       await new Promise(r => setTimeout(r, 1000));
       const after = Renderer.arriving;
       // (the rules mark a level gained; here the view is shown the mark)
       Game.renderState(performance.now()).fx.levelAt = performance.now();
-      await frame(); await frame();
-      const levelling = Renderer.levelling;
+      const levelling = await within(() => Renderer.levelling);
       await new Promise(r => setTimeout(r, 1600));
       return { arriving, after, levelling, later: Renderer.levelling };
     });

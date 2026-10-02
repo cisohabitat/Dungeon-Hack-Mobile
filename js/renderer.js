@@ -1,6 +1,7 @@
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { THEMES } from './data.js';
+import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -103,17 +104,32 @@ const Renderer = (() => {
 
   // Textured floor and ceiling: for every screen row below the horizon, walk
   // the world-space line it sees and copy pre-shaded texture pixels.
+  // How near the edge of a square, where the floor meets a wall, the shadow
+  // gathers there: the nearest band two shades darker, the next one.
+  const FOOT_IN = 0.07, FOOT_OUT = 0.18;
+  // worked out once for each of the sixteen ways a square can have walls about
+  // it, texel by texel, so the floor caster only looks the shade up
+  const FOOT = Array.from({ length: 16 }, (_, e) => {
+    const TX = Assets.TEX, m = new Uint8Array(TX * TX);
+    if (e) for (let ty = 0; ty < TX; ty++) for (let tx = 0; tx < TX; tx++) {
+      const ux = (tx + 0.5) / TX, uy = (ty + 0.5) / TX;
+      const near = Math.min(e & 1 ? uy : 1, e & 2 ? 1 - ux : 1, e & 4 ? 1 - uy : 1, e & 8 ? ux : 1);
+      m[ty * TX + tx] = near < FOOT_IN ? 2 : near < FOOT_OUT ? 1 : 0;
+    }
+    return m;
+  });
+  let floorKinds = 0;   // which floors (looks.js FLOOR) the last frame showed, as bits, for the tests
   function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm) {
     const TX = Assets.TEX;
-    const floorT = tex.floor, ceilT = tex.ceil;
+    const look = looksOf(level, tex), fk = look.floor, ck = look.ceil, edge = look.edge, floors = look.floors, ceils = look.ceils;
     const lw = level.w, lh = level.h;
     const rdx0 = dirX - planeX, rdy0 = dirY - planeY;
     const rdx1 = dirX + planeX, rdy1 = dirY + planeY;
     const half = H / 2;
+    let seen = 0;
     for (let y = half + 1; y < H; y++) {
       const level = rowLevel[y];
       const dist = rowDist[y];
-      const fl = floorT[level];
       if (level >= 7 && dist > fog) {
         const o0 = y * W, oc0 = (H - 1 - y) * W;
         for (let x = 0; x < W; x++) { fb32[o0 + x] = fogPx; fb32[oc0 + x] = fogPx; }
@@ -124,29 +140,39 @@ const Renderer = (() => {
       let o = y * W, oc = (H - 1 - y) * W;
       // the hero's own light: a faint warm pool on the floor at their feet
       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
+      // (a square's floor, roof and walls are looked up once for each run of pixels across it)
+      let lastI = -2, f = 0, c = 0, boost = 0, floorT = floors[0], ceilT = ceils[0], footMap = FOOT[0], caveDark = 0;
       for (let x = 0; x < W; x++) {
-        const mx = fx | 0, my = fy | 0;
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
+        const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
+        if (i !== lastI) {
+          lastI = i;
+          if (i >= 0) { boost = lm[i]; f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floors[f]; ceilT = ceils[c]; seen |= 1 << f; }
+          else { boost = 0; c = 0; footMap = FOOT[0]; caveDark = 0; floorT = floors[0]; ceilT = ceils[0]; }
+        }
         // (a shade brighter right at the hero's feet, where their own light falls)
         let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;
-        if (mx >= 0 && my >= 0 && mx < lw && my < lh) {
-          const boost = lm[my * lw + mx];
-          // rounded to a shade level, with a pattern fixed to the texture
-          // deciding the texels of a tile that sits between two
-          if (boost > 0) {
-            lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
-            glow = Math.max(glow, Math.min(1, boost / LIGHT_MAX));
-          }
+        // rounded to a shade level, with a pattern fixed to the texture
+        // deciding the texels of a tile that sits between two
+        if (boost > 0) {
+          lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
+          glow = Math.max(glow, Math.min(1, boost / LIGHT_MAX));
         }
-        if (lv >= 7) { fb32[o + x] = fogPx; fb32[oc + x] = fogPx; fx += stepX; fy += stepY; continue; }
-        const src = lv === level ? fl : floorT[lv];
-        const csrc = ceilT[lv];
         const ti = ty * TX + tx;
-        if (glow > 0.05) { fb32[o + x] = warmQ(src[ti], (glow * (WARM_STEPS - 1) + 0.5) | 0); fb32[oc + x] = warmQ(csrc[ti], (glow * 0.7 * (WARM_STEPS - 1) + 0.5) | 0); }
-        else { fb32[o + x] = src[ti]; fb32[oc + x] = csrc[ti]; }
+        // the shadow along the foot of a wall (and in the angle of roof and wall
+        // above it); and a cavern's roof is lost in the dark higher up than a built one
+        let flv = lv + footMap[ti];
+        if (flv > 7) flv = 7;
+        let clv = flv + caveDark;
+        if (clv > 7) clv = 7;
+        if (flv >= 7 && clv >= 7) { fb32[o + x] = fogPx; fb32[oc + x] = fogPx; fx += stepX; fy += stepY; continue; }
+        const src = floorT[flv], csrc = ceilT[clv];
+        if (glow > 0.05) { fb32[o + x] = flv >= 7 ? fogPx : warmQ(src[ti], (glow * (WARM_STEPS - 1) + 0.5) | 0); fb32[oc + x] = clv >= 7 ? fogPx : warmQ(csrc[ti], (glow * 0.7 * (WARM_STEPS - 1) + 0.5) | 0); }
+        else { fb32[o + x] = flv >= 7 ? fogPx : src[ti]; fb32[oc + x] = clv >= 7 ? fogPx : csrc[ti]; }
         fx += stepX; fy += stepY;
       }
     }
+    floorKinds = seen;
     // horizon rows
     for (let x = 0; x < W; x++) { fb32[half * W + x] = fogPx; fb32[(half - 1) * W + x] = fogPx; }
     ctx.putImageData(fb, 0, 0);
@@ -315,6 +341,25 @@ const Renderer = (() => {
     h = Math.imul(h ^ (h >>> 13), 0x5bd1e995);
     return (h ^ (h >>> 15)) >>> 0;
   }
+  // What each square looks like (looks.js), worked out the first time a floor
+  // is drawn, with the floors and roofs it wants fetched from its theme.
+  const CAVE_ROOF = CEIL.CAVE;
+  const lookCache = new WeakMap();
+  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][]}} */
+  function looksOf(level, tex) {
+    const had = lookCache.get(level);
+    if (had && had.tex === tex) return had;
+    const base = lookOf(level, tex.theme), floors = [tex.floor], ceils = [tex.ceil];
+    for (const k of base.kinds.floor) floors[k] = tex.floorOf(k);
+    for (const k of base.kinds.ceil) ceils[k] = tex.ceilOf(k);
+    const L = { ...base, tex, floors, ceils };
+    lookCache.set(level, L);
+    return L;
+  }
+  // A web strung across a corner where two walls meet the roof: how far
+  // along each wall it reaches, as a share of the square.
+  const WEB_W = 0.34;
+  const isStoneT = t => t === T.WALL || t === T.TORCH || t === T.SECRET;
   // the flame's frames in an uneven order, so it never visibly cycles
   const FLAME_SEQ = [0, 1, 0, 2, 1, 2, 0, 2, 1];
   const FLAME_MS = 140;
@@ -334,7 +379,11 @@ const Renderer = (() => {
         const h = decorAt(x, y);
         // about one wall in seven wears something: often enough that a room
         // looks lived in once, not so often the dressing becomes wallpaper
-        return h % 7 === 0 && tex.decor.length ? tex.decor[(h >>> 8) % tex.decor.length] : tex.wall;
+        if (h % 7 === 0 && tex.decor.length) return tex.decor[(h >>> 8) % tex.decor.length];
+        // and the rest are laid from more than one painting of the stone, some
+        // of it damp, so a long wall does not repeat the same blocks all along it
+        const v = (h >>> 12) % 6;
+        return v < 2 ? tex.wallB : v === 2 ? tex.wallDamp : tex.wall;
       }
     }
   }
@@ -801,7 +850,7 @@ const Renderer = (() => {
   // Water dripping from the roof: here and there over the floors near you a drop
   // gathers, falls, and splashes; more of them where the floor has flooded. Where
   // they fall and how often is fixed by the square, so they keep their places.
-  let dripsN = 0, doorsN = 0, pillarsN = 0, stairsN = 0;   // (drops falling, columns of a moving door, a pillar and an open stairwell, drawn in the last frame: for the tests)
+  let dripsN = 0, doorsN = 0, pillarsN = 0, stairsN = 0, cellsN = 0, shutN = 0, jambsN = 0, rockN = 0, fallenN = 0, websN = 0;   // (drops falling, columns of a moving door, a pillar and an open stairwell, drawn in the last frame: for the tests)
   function drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet) {
     dripsN = 0;
     const share = level.twist === 'flooded' ? 0.14 : 0.05, R = 5;
@@ -1619,7 +1668,10 @@ const Renderer = (() => {
     // what the elements have left on the floor: ash, spilt oil, ice, and fire burning over them
     drawStains(fieldStains(level, now, fx), level, px, py, dirX, dirY, planeX, planeY, lm, now);
     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored, doorShut = fx.doorShut;
-    doorsN = 0; pillarsN = 0; stairsN = 0;
+    doorsN = 0; pillarsN = 0; stairsN = 0; cellsN = 0; shutN = 0; jambsN = 0; rockN = 0; fallenN = 0; websN = 0;
+    const look = looksOf(level, tex);
+    // how often a corner wears a web: most of them where the dead and the spiders keep house, hardly any in black glass
+    const webOdds = tex.theme.face === 'bones' || level.route === 'crypts' ? 2 : tex.theme.face === 'glass' ? 7 : 3;
     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
 
     for (let col = 0; col < W; col++) {
@@ -1630,18 +1682,32 @@ const Renderer = (() => {
       let stepX, stepY, sdx, sdy;
       if (rdx < 0) { stepX = -1; sdx = (px - mapX) * ddx; } else { stepX = 1; sdx = (mapX + 1 - px) * ddx; }
       if (rdy < 0) { stepY = -1; sdy = (py - mapY) * ddy; } else { stepY = 1; sdy = (mapY + 1 - py) * ddy; }
-      let side = 0, tile = T.WALL, n = 0, door = null, colT = -1, colU = 0, stair = null;
+      let side = 0, tile = T.WALL, n = 0, door = null, colT = -1, colU = 0, stair = null, shutAt = false, jamb = false, pastDoor = false;
       while (n++ < 64) {
         if (sdx < sdy) { sdx += ddx; mapX += stepX; side = 0; } else { sdy += ddy; mapY += stepY; side = 1; }
         tile = getT(mapX, mapY);
         if (mapX >= 0 && mapY >= 0 && mapX < w && mapY < h) explored[mapY * w + mapX] = 1;
-        // a door sliding open or shut stands across only part of its doorway: the ray
-        // strikes it there and passes by it everywhere else
+        // stone struck just after passing beside a door is the side of its doorway
+        jamb = pastDoor; pastDoor = false;
+        // A door hangs halfway into the depth of its doorway, not flush with the
+        // wall: the ray meets it there, or, passing to one side of it before it
+        // gets so far, goes on to strike the stone of the jamb. One sliding open
+        // or shut stands across only part of the doorway: the ray strikes it
+        // there and passes by it everywhere else.
         const moving = doorShut && doorShut[mapY * w + mapX];
-        if (moving) {
-          const dd = side === 0 ? sdx - ddx : sdy - ddy;
-          let wx = side === 0 ? py + dd * rdy : px + dd * rdx; wx -= Math.floor(wx);
-          if (wx < moving.shut) { door = moving; doorsN++; break; }
+        if (moving || tile === T.DOOR || tile === T.DOOR_LOCKED) {
+          // (the way through runs between the two walls either side of it)
+          const across = isSolid(getT(mapX - 1, mapY)) && isSolid(getT(mapX + 1, mapY));
+          const t = across ? (rdy === 0 ? -1 : (mapY + 0.5 - py) / rdy) : (rdx === 0 ? -1 : (mapX + 0.5 - px) / rdx);
+          const tIn = side === 0 ? sdx - ddx : sdy - ddy, tOut = Math.min(sdx, sdy);
+          if (t >= tIn && t <= tOut) {
+            const along = across ? px + t * rdx : py + t * rdy, wx = along - Math.floor(along);
+            if (!moving || wx < moving.shut) {
+              side = across ? 1 : 0; colT = t; colU = wx; shutAt = true;
+              if (moving) { door = moving; doorsN++; }
+              break;
+            }
+          } else pastDoor = true;
           continue;
         }
         // a pillar standing free is narrower than its square: the ray strikes
@@ -1687,7 +1753,20 @@ const Renderer = (() => {
       // (a sliding door shows its leading part: what has gone into the wall is the part not seen)
       let tx = Math.max(0, Math.min(63, Math.floor((door ? wallX + 1 - door.shut : wallX) * 64)));
       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
-      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door) : (tile === T.WALL && tex.pillar && standsAlone(level, mapX, mapY)) ? tex.pillar : texFor(tex, tile, mapX, mapY);
+      const ti = mapX >= 0 && mapY >= 0 && mapX < w && mapY < h ? mapY * w + mapX : -1;
+      const built = ti >= 0 && tile === T.WALL ? look.wall[ti] : WALL_K.PLAIN;
+      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door)
+        : tile === T.WALL && standsAlone(level, mapX, mapY) ? (built === WALL_K.ROCK ? tex.rockPillar : built === WALL_K.FALLEN ? tex.fallen : tex.pillar)
+        : built === WALL_K.ROCK ? tex.rock : built === WALL_K.FALLEN ? tex.fallen
+        // (the side of a doorway is plain stone: a banner or a niche cut through by it reads as a mistake)
+        : jamb && tile === T.WALL ? tex.wall
+        : texFor(tex, tile, mapX, mapY);
+      // a cell's door is a gate of bars, its lock in its key's colour
+      if (shutAt && ti >= 0 && look.cell[ti]) {
+        const lock = door ? door.lock : tile === T.DOOR_LOCKED ? level.locks[mapX + ',' + mapY] : null;
+        img = lock ? tex.cellLocked(lock) : tex.cellDoor;
+        cellsN++;
+      }
       // a stair: its arch on the face come at by (plain wall on any other), and
       // through the opening the recess behind it, drawn first, deeper and dimmer
       if (stair) {
@@ -1701,7 +1780,7 @@ const Renderer = (() => {
           if (sR > 0.03) { ctx.fillStyle = shadeStyles[Math.min(20, Math.round(sR * 20))]; ctx.fillRect(col, tR, 1, hR); }
         }
       }
-      if (!img) {
+      if (!img && !(shutAt && ti >= 0 && look.cell[ti])) {
         if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
       }
@@ -1712,7 +1791,8 @@ const Renderer = (() => {
       // a door on fire burns on its own face, and lights itself
       const burning = fx.doorFire && (tile === T.DOOR || tile === T.DOOR_LOCKED) ? fx.doorFire[mapX + ',' + mapY] : undefined;
       if (burning !== undefined) img = Assets.burningDoor(img, burning < 0.34 ? 0 : burning < 0.67 ? 1 : 2, calm ? 0 : Math.floor(now / 110) % 3);
-      let shade = dist / fog + (side === 1 ? 0.12 : 0) - (burning !== undefined ? 0.4 : 0);
+      // (a door stands back in the shadow of its doorway, and the doorway's sides are darker still)
+      let shade = dist / fog + (side === 1 ? 0.12 : 0) - (burning !== undefined ? 0.4 : 0) + (shutAt ? 0.06 : jamb ? 0.16 : 0);
       // (the arch over an open stairwell is drawn darkened already: shade laid over its column would darken the stairwell too)
       const openArch = !!(stair && stair.open);
       if (openArch) {
@@ -1723,6 +1803,28 @@ const Renderer = (() => {
       }
       ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
       if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
+      if (shutAt) shutN++;
+      if (jamb) jambsN++;
+      if (built === WALL_K.ROCK) rockN++; else if (built === WALL_K.FALLEN) fallenN++;
+      // a web strung across the corner where this wall meets the next and the
+      // roof: some corners have one, the same ones always, and both walls show
+      // their share of it
+      if (tile === T.WALL && colT < 0 && !jamb && webOdds) {
+        const raw = side === 0 ? py + dist * rdy : px + dist * rdx, a = raw - Math.floor(raw), lo = a < WEB_W;
+        if (lo || a > 1 - WEB_W) {
+          // the square of floor the wall is seen from, and the one beside it along the wall
+          const fX = mapX - (side === 0 ? stepX : 0), fY = mapY - (side === 1 ? stepY : 0);
+          const nX = side === 0 ? fX : fX + (lo ? -1 : 1), nY = side === 0 ? fY + (lo ? -1 : 1) : fY;
+          if (isStoneT(getT(nX, nY))) {
+            const cX = side === 0 ? (stepX > 0 ? mapX : mapX + 1) : fX + (lo ? 0 : 1), cY = side === 0 ? fY + (lo ? 0 : 1) : (stepY > 0 ? mapY : mapY + 1);
+            if (hashXY(cX, cY) % webOdds === 0) {
+              const d = lo ? a : 1 - a;
+              ctx.drawImage(tex.web, Math.min(31, Math.floor(d / WEB_W * 32)), 0, 1, 32, col, top, 1, Math.max(1, Math.round(lineH * WEB_W)));
+              websN++;
+            }
+          }
+        }
+      }
       // torchlight falling on this wall face brightens it, read smoothly at the
       // very spot the ray struck, not square by square: taken whole from the
       // square, each torch lit its own wall as a flat bright block with hard
@@ -2141,7 +2243,7 @@ const Renderer = (() => {
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };
