@@ -125,7 +125,7 @@ const BOONS = [
 // and the last floors are the hardest: a hero who has climbed as far as a
 // hero can still has something to fight for. They are small on purpose, each
 // half a lesson or less, and the sharpest of them can be taken twice at most.
-const RENOWN_XP = 3000;
+const RENOWN_XP = 1500;
 const RENOWN = [
   { id: 'r_vigor', name: 'Hardened', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
   { id: 'r_well', name: 'Deeper Well', desc: '+3 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 3; }, when: p => !!CLASSES[p.cls].spells },

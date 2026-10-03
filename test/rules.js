@@ -5517,11 +5517,11 @@ await test('the view holds what is equipped: weapon, shield or second blade, and
   return out.length ? out.join('; ') : true;
 });
 
-await test('past the top level experience earns renown: a rank every 3000, each a choice of three small gains for good, the sharper twice at most; none offered with the boss down', async () => {
+await test('past the top level experience earns renown: a rank every 1500, each a choice of three small gains for good, the sharper twice at most; none offered with the boss down', async () => {
   const out = [];
   const ctx = await start('fighter', 'renown');
   const { Game, MAX_LEVEL, XP_TABLE, RENOWN_XP, RENOWN } = ctx; const p = Game.player(), G = Game.state();
-  if (Game.renownAt(1) !== XP_TABLE[MAX_LEVEL - 1] + RENOWN_XP || RENOWN_XP !== 3000) out.push(`the first rank comes at ${Game.renownAt(1)}`);
+  if (Game.renownAt(1) !== XP_TABLE[MAX_LEVEL - 1] + RENOWN_XP || RENOWN_XP !== 1500) out.push(`the first rank comes at ${Game.renownAt(1)}`);
   // a hero at level 11 who earns enough at once for the top and two ranks past it
   p.level = MAX_LEVEL - 1; p.xp = Game.renownAt(2); G.pendingBoons = []; G.pendingLevels = [];
   Game.testLevel();
