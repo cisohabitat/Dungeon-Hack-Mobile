@@ -263,24 +263,34 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 84.5% | 80% | 82% | 77% | 73% | 73% | about 78% |
-| Hard | 54% | 56% | 59% | 53% | 60.5% | 54% | about 56% |
-| Long Delve (12 floors), Normal | 84% | 79% | 72% | 82% | 81% | 76% | about 79% |
-| Long Delve (12 floors), Hard | 63.5% | 58% | 62% | 63% | 60% | 60% | about 61% |
-| Long Delve (16 floors), Normal | 72% | 70% | 62.5% | 86% | 82% | 63% | about 72.5% |
-| Long Delve (16 floors), Hard | 60% | 50% | 47% | 54% | 56.5% | 50.5% | about 53% |
+| Normal | 83% | 80% | 84% | 77% | 73% | 75.5% | about 79% |
+| Hard | 58% | 56% | 62% | 53% | 60.5% | 56% | about 57.5% |
+| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 81% | about 82% |
+| Long Delve (12 floors), Hard | 65.5% | 58% | 68% | 63% | 60% | 57% | about 62% |
+| Long Delve (16 floors), Normal | 74% | 70% | 66% | 86% | 82% | 63% | about 73.5% |
+| Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 52.5% | about 53.5% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The Cleric, Mage and Druid columns were measured again, both seed sets, after a fault in the bot
+was found: a caster with a bolt to spend would aim it at a mimic still shut, which the game will
+not take as a mark, and stood casting at it until the run ran out of time. A run that times out
+counts as a loss, and it had happened in one mage run in eight on a Long Delve (24 of 200), a few
+on eight floors and on sixteen, and now and then to the druid and the cleric. With the mimic left
+alone the mage on the Long Delve is among the strongest classes there, not one of the weakest: 68%
+on Hard and 83.5% on Normal where the table had 62% and 72%. Part of each move is also drift since those
+rows were last taken; the fighter, thief and ranger, who never cast a bolt, were not played again.
 
 The sixteen-floor rows are new, both seed sets, measured once the delve passed three peoples: the
 lizardfolk's Sunless Marsh on the fifth floor (warriors whose tail sweep knocks a hero flat, shamans
 who mend them and call lightning into the water that stands in every room, and Hissra, the
 Marsh-Mother), the grey dwarves' Grey Hold on the eleventh (stout now: poison never takes on them,
 and they ride out a spell more often), and the dark elves on the fourteenth. On Hard the fighter
-went from 53.5% (before the marsh, on the first set) to 49.5%, the mage from 43.5% to 44.5%. The
+went from 53.5% (before the marsh, on the first set) to 49.5%. The
 mage and the druid trail the thief and the ranger by about twenty points on Normal; on Hard the
-spread across the classes is thirteen. The bot now steps back from a grey dwarf grown to twice its height whenever a square is
-open (`NOROOM=1` stands its ground): it made no difference worth the name, the fighter 50.25% with
-it and 51.25% without, the mage 47.25% and 46.25%.
+spread across the classes is eight. The bot now steps back from a grey dwarf grown to twice its
+height whenever a square is open (`NOROOM=1` stands its ground): it made no difference worth the
+name, the fighter 50.25% with it and 51.25% without, the mage (before the mimic was mended) 47.25%
+and 46.25%.
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills

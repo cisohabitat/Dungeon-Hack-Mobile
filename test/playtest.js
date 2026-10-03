@@ -114,6 +114,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
     const dt = wait > 0 && wait < TICK ? Math.max(16, Math.ceil(wait)) : TICK;
     Game.update(now, dt);
   };
+  // STUCKAT=1 keeps the last moves made, to show what a run that ran out of time was doing
+  const trace = [];
+  if (process.env.STUCKAT) for (const k of ['input', 'castSpell', 'useItem', 'rest', 'useAbility']) {
+    const f = Game[k];
+    Game[k] = (...a) => { trace.push(`${rec.ticks} f${G.depth} ${p.x},${p.y} d${p.dir} ${k}(${a.map(x => typeof x === 'object' ? (x && (x.t || x.id)) || '?' : x).join(',')}) line ${(/playtest\.js:(\d+)/.exec(new Error().stack.split('\n')[2] || '') || [])[1]}`); if (trace.length > 60) trace.shift(); return f(...a); };
+  }
   while (rec.ticks < 80000 && G.status === 'playing') {
     rec.ticks++;
     // DETAIL=1: note the hero's state on arriving at each floor (read-only, no dice)
@@ -533,6 +539,9 @@ function play(ctx, cls, seed, opts, bg, idx) {
           const t = L.tiles[y * L.w + x];
           if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
           const m = L.monsters.find(mm => mm.x === x && mm.y === y);
+          // a mimic still shut is a barrel in the way, not a mark: the game will not aim a spell at
+          // it, and a bot that kept trying stood casting at it until the run ran out of time
+          if (m && !shown(m)) break;
           if (m) {
             // a Pyromancer burns what is beside them rather than spend on the cold
             const reach = b => (Game.spellRange ? Game.spellRange(b) : b.range);
@@ -907,6 +916,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
   // STUCKAT=1 prints where a run that ran out of time was standing, and what was left near it
   if (rec.timedOut && process.env.STUCKAT) {
     const L = Game.level();
+    console.error(trace.join('\n'));
     console.error(`STUCK ${seed} floor ${G.depth} (theme ${L.theme}) at ${p.x},${p.y} hp ${p.hp}/${p.maxHp} awake ${L.monsters.filter(m => m.awake).map(m => `${m.id}@${Math.abs(m.x - p.x) + Math.abs(m.y - p.y)}`).join(' ')} held ${p.held > G.t ? p.heldBy : '-'} webbed ${p.webbed > G.t}`);
   }
   rec.dual = !!p.eq.offhand;
@@ -955,6 +965,8 @@ const results = {};
 for (const cls of classes) {
   const rows = [];
   for (const seed of SEEDS) {
+    // SEEDONLY=alt18 plays one seed of the set, with the background it has in the whole set
+    if (process.env.SEEDONLY && seed !== process.env.SEEDONLY) continue;
     for (let t = 0; t < TRIALS; t++) {
       const ctx = await loadGame();
       // rotate backgrounds so the benchmark is not one perk repeated 60 times
