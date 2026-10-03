@@ -70,7 +70,8 @@ test.describe('the endgame', () => {
     });
     await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Heartforged');
     expect(await page.evaluate(() => Game.state().log.some(e => /a furnace opens in its chest/.test(e.m)))).toBe(true);
-    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged))).toBe(true);
+    // (polled: under load its picture can be a frame or two behind the bar at the top)
+    await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged)), { timeout: 8000 }).toBe(true);
     // it raises its hammer: the tip says to step off its lines, and the drawing has the hammer up
     if (await page.locator('#tip.show').isVisible()) await page.locator('#tip').click();
     await page.evaluate(() => { const m = Game.level().monsters[0]; m.blows = 1; m.moveReady = 0; m.nextAct = Game.state().t; });
@@ -149,6 +150,9 @@ test.describe('the endgame', () => {
       return [small, big];
     });
     expect(scales[1] / scales[0]).toBeGreaterThan(1.3);
+    // a champion's own jewel shows in the pack as itself, edged in gold, not as the seed's plain ring or amulet
+    expect(await page.evaluate(() => [Game.spriteFor({ t: 'ring_forge', q: 1, e: 1, u: 'thane_ring' }), Game.spriteFor({ t: 'amulet_spider', q: 1, e: 1, u: 'spider_pendant' })]
+      .map(k => k + ':' + !!Assets.sprites[k]))).toEqual(['relic_ring_forge:true', 'relic_amulet_spider:true']);
     expect(errors).toEqual([]);
   });
 

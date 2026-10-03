@@ -14498,7 +14498,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await test('a spell can slide off a dark elf as if it were not there: a warrior one time in five, a mage one in four, the High Priestess one in three; it does nothing to one it slides off, never slides off a goblin, nor do Entangle\'s roots, and the bestiary learns it', async () => {
     const out = [];
     const shrugs = async (cls, id, spell, n = 300) => {
-      const { Game, G, p, put, cast } = await arena(cls, 'spellres-' + id + spell);
+      const { ctx, Game, G, p, put, cast } = await arena(cls, 'spellres-' + id + spell);
+      seedDice(ctx, 'spellres-' + id + spell);
       let k = 0;
       for (let i = 0; i < n; i++) {
         Game.level().monsters.length = 0;

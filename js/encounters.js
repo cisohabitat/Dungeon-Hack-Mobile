@@ -602,7 +602,7 @@ const ENCOUNTERS = {
   // Priestess's death, and either way it tells what waits below
   exile: {
     title: 'A Dark Elf Outcast', sprite: 'exile', depth: [99, 99], home: 'elves', before: 2,
-    text: 'A dark elf sits against the wall with two curved blades across their knees, in leather gone brown with wear, the silver of their house cut from it. Their eyes are amber, not red. "Going down? Two floors under you are my people, who would flay me for the colour of my eyes. I know their ways, and I will sell them to you."',
+    text: 'A dark elf stands with their back to the wall, two curved blades hanging loose in their hands, in leather gone brown with wear, the silver of their house cut from it. Their eyes are amber, not red. "Going down? Two floors under you are my people, who would flay me for the colour of my eyes. I know their ways, and I will sell them to you."',
     choices: [
       { label: 'Pay their price', cost: { goldPerDepth: 25 }, alone: true,
         outcome: { text: 'They take the gold without counting it and slide the blades home. "Their halls, then. I will show you where they keep their knives."', effects: [{ companion: 'renegade' }] } },

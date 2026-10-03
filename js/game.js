@@ -208,7 +208,8 @@ const Game = (() => {
   /** @param {import('./types.js').Monster} m @param {{ name: string }} sp @param {boolean} [many] */
   function spellShrug(m, sp, many = false) {
     const mb = mstat(m), r = mb.spellRes || 0;
-    if (!r || m.collapsed || Math.random() >= r) return false;
+    // (on the game's own dice, so a seed's fight goes the same way twice)
+    if (!r || m.collapsed || d(1, 1000) > Math.round(r * 1000)) return false;
     floatText(m, 'unharmed', '#b8a8f0');
     log(`Your ${sp.name} slides off the ${mb.name}${many ? 's' : ''} as if ${many ? 'they were' : 'it was'} not there.`);
     // (a champion's own entry: the High Priestess shrugs off more than her mages)

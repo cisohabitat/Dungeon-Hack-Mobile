@@ -1828,7 +1828,8 @@ const Assets = (() => {
     const itemParts = k => ITEM_ART[k]().map(p => ({ ...up2(p), smooth: 1 }));
     for (const k in ITEM_ART) later(k, () => makeSprite({ parts: itemParts(k), fine: true, grim: 'soft', grid: 64 }));
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
-    for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind)).map(b => b.sprite))) {
+    // (and a champion's own jewel, never dealt a seed's look, wears its own picture so: the Spider Pendant, Durgrim's Ring)
+    for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind) || (['ring', 'amulet'].includes(b.kind) && b.tier >= 99)).map(b => b.sprite))) {
       if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: itemParts(k), outline: '#e8b84a', fine: true, grim: 'soft', grid: 64 }));
     }
     // props stand in the world too, painted as finely
