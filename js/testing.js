@@ -54,12 +54,12 @@ export function makeTesting(K) {
     log('(Testing) The whole floor is laid out on your map.', 'info');
     return true;
   }
-  /** Enough experience for the next level, and its choice with it. */
+  /** Enough experience for the next level, and its choice with it; at the top, for the next rank of renown. */
   function testLevel() {
-    if (!K.G || K.G.status !== 'playing' || P().level >= MAX_LEVEL) return false;
+    if (!K.G || K.G.status !== 'playing') return false;
     testTool();
     const p = P();
-    p.xp = Math.max(p.xp, XP_TABLE[p.level]);
+    p.xp = Math.max(p.xp, p.level >= MAX_LEVEL ? K.renownAt((p.renown || 0) + 1) : XP_TABLE[p.level]);
     K.checkLevelUp();
     K.emit('stats');
     return true;

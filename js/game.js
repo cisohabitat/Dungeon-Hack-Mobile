@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
+import { ROUTES, TWISTS, heroName, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, XP_TABLE, MAX_LEVEL, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, armorFits, shieldFits } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { PIECE_SAY } from './rooms.js';
@@ -477,6 +477,8 @@ const Game = (() => {
   const dawnBlow = m => (setWorn('dawn') && mstat(m).undead ? d(1, 4) : 0);
   /** A Blessed make on armour or shield: +1 to every save, each. */
   const blessedSaves = (p = P()) => ['armor', 'shield'].filter(s => p.eq[s] && p.eq[s].px === 'blessed').length;
+  /** What the hero adds to every saving throw of their own: blessed gear, and renown's Unshaken. */
+  const heroSaves = (p = P()) => blessedSaves(p) + (p.perkSave || 0);
   /** Squares closer a sleeping monster lets an Assassin come. */
   const assassinQuiet = () => (onPath('assassin') ? 1 : 0);
   // Trickster: never where the blow lands.
@@ -2171,11 +2173,11 @@ const Game = (() => {
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
-  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus + jewelBonus('evasion') + blessedSaves());
+  const trickSave = (stat, kind, bonus = 0) => statCheck(stat, saveDC(kind), bonus + jewelBonus('evasion') + heroSaves());
   function venomSave(kind, whose, quiet = false) {
     const p = P();
     if (p.poison || hasPower('pure')) return null;
-    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves());
+    const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion') + heroSaves());
     if (!c.pass) p.poison = poisonFor();
     if (!quiet) log(c.pass ? `You shake off ${whose} venom.${c.note}` : `${cap(whose)} venom takes hold: you are poisoned!${c.note}`, c.pass ? 'good' : 'bad');
     return c;
@@ -2209,7 +2211,7 @@ const Game = (() => {
     // set, and deeper ones are set better. A dart or a needle then misses
     // outright; a pit is only half a fall, caught at its edge. A gong cannot
     // be dodged: its harm is the noise.
-    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves() + tricksterTraps()) : null;
+    const dodge = tr.dmg ? statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + heroSaves() + tricksterTraps()) : null;
     const pit = tr === TRAP_TYPES.pit;
     fx.trapDodged = !!(dodge && dodge.pass && !pit);
     // a fall shakes the view longer than a blow: set once the harm (which
@@ -2235,7 +2237,7 @@ const Game = (() => {
     const p = P();
     fx.trapAt = realNow; fx.trapKind = 'snare'; fx.trapSide = 1;
     Sound.play('trap');
-    const dodge = statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + blessedSaves() + tricksterTraps());
+    const dodge = statCheck('dex', TRAP_DC + Math.ceil(G.depth / 2), jewelBonus('evasion') + heroSaves() + tricksterTraps());
     fx.trapDodged = dodge.pass;
     if (dodge.pass) { log(`The wire snare snaps, and you snatch your foot clear!${dodge.note}`, 'good'); return; }
     const n = Math.max(1, d(...tr.dmg));
@@ -3116,6 +3118,34 @@ const Game = (() => {
       if (capstone && p.level === CAPSTONE_LEVEL) continue;
       if (p.level % 2 === 0) offerTalents(); else offerBoons();
     }
+    // past the top level, renown: a rank for every RENOWN_XP more, with the same golden light
+    // and a choice of its own (see RENOWN in data.js). A save from before renown, at the top
+    // with experience over, comes into its ranks with the next experience it earns.
+    while (p.level >= MAX_LEVEL && p.xp >= renownAt((p.renown || 0) + 1)) {
+      p.renown = (p.renown || 0) + 1;
+      fx.levelAt = realNow;
+      log(`Renown: word of your deeds runs ahead of you. Rank ${p.renown}.`, 'good');
+      Sound.play('levelup');
+      offerRenown();
+    }
+  }
+  /** The experience a rank of renown is reached at: the top level's, and RENOWN_XP for each rank. */
+  const renownAt = n => XP_TABLE[MAX_LEVEL - 1] + n * RENOWN_XP;
+  /** The gains of renown a hero can still be offered. */
+  function renownPool() {
+    const p = P(), taken = p.renownTaken || [];
+    return RENOWN.filter(r => (!r.when || r.when(p)) && !(r.max && taken.filter(t => t === r.id).length >= r.max));
+  }
+  /** An offer of renown's gains, rather than a lesson or a talent. */
+  const isRenownOffer = offer => !!offer && offer.some(id => RENOWN.some(r => r.id === id));
+  /** Three of renown's gains. In the queue the offer stands as the level past the top that its rank would be. */
+  function offerRenown() {
+    const p = P();
+    // with the lich down the run is all but over: the rank is still the hero's, the choice is not
+    if (G.bossDown) return;
+    G.pendingBoons = (G.pendingBoons || []).concat([Dice.shuffle(renownPool().slice()).slice(0, 3).map(r => r.id)]);
+    G.pendingLevels = (G.pendingLevels || []).concat(MAX_LEVEL + p.renown);
+    emit('boons');
   }
   /** The lessons a hero can still be offered. */
   function boonPool() {
@@ -3143,7 +3173,7 @@ const Game = (() => {
     for (let i = 0; i < rest.length; i++) {
       if (isPathOffer(rest[i]) || isCapstoneOffer(rest[i])) continue;      // the two paths, or capstones, stand as they are
       const talentOffer = rest[i].some(id => (TALENTS[P().cls] || []).some(t => t.id === id));
-      const pool = (talentOffer ? talentPool() : boonPool()).map(b => b.id);
+      const pool = (isRenownOffer(rest[i]) ? renownPool() : talentOffer ? talentPool() : boonPool()).map(b => b.id);
       const keep = rest[i].filter(id => pool.includes(id));
       const more = Dice.shuffle(pool.filter(id => !keep.includes(id))).slice(0, Math.max(0, 3 - keep.length));
       rest[i] = keep.concat(more);
@@ -3238,6 +3268,20 @@ const Game = (() => {
       G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
       redrawOffers();
       log(`Talent: ${talent.name}. ${talent.desc}`, 'good');
+      Sound.play('levelup');
+      emit('stats');
+      if (!pendingBoons()) emit('boonsDone');
+      return true;
+    }
+    const fame = RENOWN.find(r => r.id === id);
+    if (fame) {
+      fame.apply(p);
+      p.maxSp = spMax(p);
+      p.sp = Math.min(p.maxSp, p.sp);
+      p.renownTaken = (p.renownTaken || []).concat(id);
+      G.pendingBoons.shift(); if (G.pendingLevels) G.pendingLevels.shift();
+      redrawOffers();
+      log(`${fame.name}. ${fame.desc}`, 'good');
       Sound.play('levelup');
       emit('stats');
       if (!pendingBoons()) emit('boonsDone');
@@ -3534,7 +3578,7 @@ const Game = (() => {
       jobs: (G.stats && G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (G.stats && G.stats.shapes) || 0 });
     else if (won) G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
-    const entry = { name: p.name, cls: p.cls, level: p.level, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
+    const entry = { name: p.name, cls: p.cls, level: p.level, renown: p.renown || 0, depth: G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: G.seed, date: Date.now(), score: score(p, G.depth, won),
       difficulty: G.opts.difficulty || 'normal', permadeath: !!G.opts.permadeath, levels: G.opts.levels || 8, ...(G.route ? { route: G.route } : {}), ...(G.opts.daily ? { daily: G.opts.daily, ...(G.opts.dailyKind ? { dailyKind: G.opts.dailyKind } : {}) } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
@@ -3921,7 +3965,8 @@ const Game = (() => {
   const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
-  const abilityCool = a => (a.id === 'bash' && capped('rally') ? 0.5 : 1) * (a.id === 'smoke' && onPath('trickster') ? (capped('quick_smoke') ? 10000 : 16000) : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
+  // (renown's Well Practised takes a tenth off, twice at most)
+  const abilityCool = a => (1 - (P().perkQuick || 0)) * (a.id === 'bash' && capped('rally') ? 0.5 : 1) * (a.id === 'smoke' && onPath('trickster') ? (capped('quick_smoke') ? 10000 : 16000) : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - G.t) / 1000));
   function useAbility() {
@@ -4503,7 +4548,7 @@ const Game = (() => {
   // ---------- testing aids: see testing.js ----------
   const aids = makeTesting({
     get G() { return G; }, P: () => P(), lvl: () => lvl(), log: (m, c) => log(m, c), emit: k => emit(k),
-    enterLevel: (d, f) => enterLevel(d, f), save: q => save(q), checkLevelUp: () => checkLevelUp(),
+    enterLevel: (d, f) => enterLevel(d, f), save: q => save(q), checkLevelUp: () => checkLevelUp(), renownAt: n => renownAt(n),
     giveItem: it => giveItem(it), relicItem: id => relicItem(id), discoverRelic: id => discoverRelic(id),
   });
   const { setTesting, testingOn, testFloor, testReveal, testLevel, testGifts, testGive, applyTesting } = aids;
@@ -5281,7 +5326,7 @@ const Game = (() => {
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
     fieldAt: (x, y) => elements.fieldAt(x, y), wet: (x, y) => !!(G && elements.wet(x, y)), vents: () => (G ? elements.vents() : []),
-    pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, isRenownOffer, renownAt, heroSaves: () => heroSaves(), capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,

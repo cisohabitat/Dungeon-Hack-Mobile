@@ -299,6 +299,13 @@ height whenever a square is open (`NOROOM=1` stands its ground): it made no diff
 name, the fighter 50.25% with it and 51.25% without, the mage (before the mimic was mended) 47.25%
 and 46.25%.
 
+Renown (a rank every 3000 experience past level 12, each a small gain) left the rows as they
+were. The top level comes late: in a sixteen-floor delve on Normal the bot's heroes reach it on the
+fifteenth floor or so (eight or nine in ten of them get there), with some 4,000 to 6,000 experience over
+by the end, so a hero takes one or two ranks, nearly all on the last floors. The mage there, 50 runs on
+the second seed set, won 86% before and 84% after, inside the noise. `DETAIL=1` prints, for each class,
+how many runs reached the top level, on which floor, the experience over, and the ranks taken.
+
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills
 its square or its corridor (three quarters of it) or tear free of Entangle sooner, and the hero

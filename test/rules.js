@@ -5517,6 +5517,57 @@ await test('the view holds what is equipped: weapon, shield or second blade, and
   return out.length ? out.join('; ') : true;
 });
 
+await test('past the top level experience earns renown: a rank every 3000, each a choice of three small gains for good, the sharper twice at most; none offered with the boss down', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'renown');
+  const { Game, MAX_LEVEL, XP_TABLE, RENOWN_XP, RENOWN } = ctx; const p = Game.player(), G = Game.state();
+  if (Game.renownAt(1) !== XP_TABLE[MAX_LEVEL - 1] + RENOWN_XP || RENOWN_XP !== 3000) out.push(`the first rank comes at ${Game.renownAt(1)}`);
+  // a hero at level 11 who earns enough at once for the top and two ranks past it
+  p.level = MAX_LEVEL - 1; p.xp = Game.renownAt(2); G.pendingBoons = []; G.pendingLevels = [];
+  Game.testLevel();
+  if (p.level !== MAX_LEVEL || p.renown !== 2) out.push(`level ${p.level}, renown ${p.renown}`);
+  // (the level's own choices first, the path and the talent, then a card for each rank, last)
+  const offers = G.pendingBoons.slice(), n = offers.length, rank = offers.slice(n - 2);
+  if (offers.slice(0, n - 2).some(o => Game.isRenownOffer(o)) || !rank.every(o => Game.isRenownOffer(o))) out.push(`the offers came ${JSON.stringify(offers)}`);
+  if (!rank.every(o => o.length === 3 && new Set(o).size === 3 && o.every(id => RENOWN.some(r => r.id === id)))) out.push(`a rank offered ${JSON.stringify(rank)}`);
+  if (G.pendingLevels[n - 2] !== MAX_LEVEL + 1 || G.pendingLevels[n - 1] !== MAX_LEVEL + 2) out.push(`ranks queued as ${G.pendingLevels}`);
+  G.pendingBoons = [rank[0]]; G.pendingLevels = [MAX_LEVEL + 1];
+  // a gain is for good, and said on the hero
+  const hp = p.maxHp;
+  G.pendingBoons[0] = ['r_vigor', 'r_keen', 'r_steady'];
+  if (!Game.chooseBoon('r_vigor') || p.maxHp !== hp + 6 || !(p.renownTaken || []).includes('r_vigor') || Game.pendingBoons()) out.push('Hardened did not take');
+  // a level is not gained past the top, and the sharper gains come twice at most
+  p.renownTaken = ['r_keen', 'r_keen'];
+  for (let i = 0; i < 12; i++) {
+    G.pendingBoons = []; G.pendingLevels = [];
+    Game.testLevel();
+    const o = Game.pendingBoons();
+    if (!o) { out.push('a rank came with no offer'); break; }
+    if (o.includes('r_keen')) { out.push('Veteran\'s Eye offered a third time'); break; }
+    if (o.includes('r_well')) { out.push('a fighter was offered spell points'); break; }
+  }
+  if (p.level !== MAX_LEVEL) out.push(`rose to level ${p.level}`);
+  // Unshaken counts toward every save of the hero's; Well Practised brings the class move back sooner
+  const saves = Game.heroSaves();
+  G.pendingBoons = [['r_steady', 'r_quick', 'r_vigor']]; G.pendingLevels = [MAX_LEVEL + 9];
+  Game.chooseBoon('r_steady');
+  if (Game.heroSaves() !== saves + 1) out.push(`saves ${saves} then ${Game.heroSaves()}`);
+  G.pendingBoons = [['r_steady', 'r_quick', 'r_vigor']]; G.pendingLevels = [MAX_LEVEL + 9];
+  Game.chooseBoon('r_quick');
+  const L = Game.level(), [dx, dy] = ctx.Dungeon.DIRS[p.dir];
+  L.monsters.length = 0;
+  L.monsters.push({ uid: 77, id: 'orc', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+  p.abilityReady = 0; G.t = Math.max(G.t, p.nextAttack) + 10;
+  Game.useAbility();
+  if (p.abilityReady - G.t !== 13500) out.push(`Bash came back in ${p.abilityReady - G.t}ms`);
+  // with the boss down the rank is still earned, but no card stands between the hero and the Heart
+  G.bossDown = true; G.pendingBoons = []; G.pendingLevels = [];
+  const was = p.renown;
+  Game.testLevel();
+  if (p.renown !== was + 1 || Game.pendingBoons()) out.push('a rank with the boss down offered a choice, or was not earned');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('Attack swings the held weapon, a spell lifts the casting hand, and a monster lunges when it strikes', async () => {
   const out = [];
   const ctx = await start('mage', 'motion');

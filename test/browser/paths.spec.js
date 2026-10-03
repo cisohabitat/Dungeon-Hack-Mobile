@@ -154,6 +154,37 @@ test.describe('paths', () => {
     expect(errors).toEqual([]);
   });
 
+  test('past level 12 a kill that brings a rank of renown offers three small gains; the one taken is on the Hero sheet, and the star beside the level', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'renown', cls: 'Fighter' });
+    await clearBoons(page);
+    const next = await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      p.level = MAX_LEVEL; p.path = 'knight'; p.xp = Game.renownAt(1) - 1; p.perkHit = 60;
+      L.monsters.length = 0;
+      L.monsters.push({ uid: 7, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+      return Game.renownAt(2);
+    });
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#boon-title')).toHaveText('Renown, rank 1: your name goes before you');
+    await expect(page.locator('.boon-head')).toContainText(`the next rank at ${next} experience`);
+    const cards = page.locator('.boon.renown');
+    await expect(cards).toHaveCount(3);
+    const name = await cards.nth(0).locator('b').textContent();
+    await page.waitForTimeout(800);
+    await cards.nth(0).click();
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    await expect(page.locator('#hud-cls')).toHaveText('Fighter 12 \u26051');
+    await page.click('[data-open="char"]');
+    const sheet = page.locator('#char-sheet');
+    await expect(sheet).toContainText('hero level 12, renown \u26051');
+    await expect(sheet.locator('.sheet-h', { hasText: /^Renown$/ })).toBeVisible();
+    await expect(sheet.locator('.talent-list').last()).toContainText(name);
+    // the bar fills toward the next rank
+    await expect(sheet.locator('.sheet-who small')).toContainText(`/ ${next}`);
+    expect(errors).toEqual([]);
+  });
   test('before level 5 the Hero sheet says which paths are ahead', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

@@ -42,7 +42,7 @@ function run(ctx, cls, seed, opts, bg, idx) {
 }
 
 function play(ctx, cls, seed, opts, bg, idx) {
-  const { Game, Dungeon, ITEMS, RELICS, MONSTERS, ELEMENTS_TAKEN } = ctx;
+  const { Game, Dungeon, ITEMS, RELICS, MONSTERS, ELEMENTS_TAKEN, MAX_LEVEL, XP_TABLE } = ctx;
   const T = Dungeon.T;
   // FIT=1 does what the creation screen does: the best roll goes in the class's key stat
   const stats = Game.rollStats();
@@ -127,6 +127,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
       rec._lastDepth = G.depth;
       (rec.arrive = rec.arrive || {})[G.depth] = { lvl: p.level, maxHp: p.maxHp, hp: p.hp, pots: p.inv.filter(i => i.t === 'potion_heal' || i.t === 'potion_xheal').reduce((a, i) => a + (i.q || 1), 0), gold: p.gold, t: G.t };
     }
+    // the floor the top level was reached on, for how long the hero went on past it
+    if (p.level >= MAX_LEVEL && !rec.topAt) rec.topAt = G.depth;
     if (p.hp <= p.maxHp * 0.5) { const s2 = snap(); rec.lastAdj = s2.adj; rec.lastNear = s2.near; rec.lastAwake = s2.awake; rec.lastTotal = s2.total; }
     now += TICK;
     // experience offers a choice on every level; take the most useful one
@@ -155,7 +157,9 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
         'eagle_eye', 'hunters_mark', 'swift_quiver', 'volley', 'long_snare', 'field_craft', 'camouflage',
         'thick_hide', 'barkskin', 'rending_claws', 'green_hands', 'beast_bond', 'stormborn', 'long_thorns',
-        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis'];
+        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis',
+        // past the top level, renown
+        'r_keen', 'r_vigor', 'r_steady', 'r_swift', 'r_quick', 'r_mend', 'r_well'];
       // a ranger's blows go by Dexterity: Strength lessons are nothing to one
       const pick = order.find(id => offer.includes(id) && !(cls === 'ranger' && id === 'str')) || offer[0];
       // Self-Taught: both points in the class's key score, then (its two given) in Constitution
@@ -912,6 +916,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
   if (rec.died && !rec.cause) rec.cause = (G.lastAttacker && G.lastAttacker.name) || (p.food <= 0 ? 'starvation' : 'poison or a trap');
   rec.won = G.status === 'won';
   rec.level = p.level;
+  // past the top level (it comes at XP_TABLE[MAX_LEVEL - 1]; the table's last entry is never reached)
+  rec.capped = p.level >= MAX_LEVEL; rec.pastTop = p.xp - XP_TABLE[MAX_LEVEL - 1]; rec.renown = p.renown || 0;
   rec.timedOut = G.status === 'playing';
   // STUCKAT=1 prints where a run that ran out of time was standing, and what was left near it
   if (rec.timedOut && process.env.STUCKAT) {
@@ -1043,6 +1049,8 @@ if (process.env.DETAIL) {
     }
     console.log(`   ${cls} arrive: ${line.join(' | ')}`);
     const wins = rows.filter(r => r.won);
+    // past the top level: the floor it was reached on, how much experience was left over, and the renown it bought
+    { const top = rows.filter(r => r.capped); if (top.length) console.log(`   ${cls} at the top level: ${top.length}/${rows.length} runs, reached on floor ${(top.reduce((a, r) => a + (r.topAt || 0), 0) / top.length).toFixed(1)}, xp past it ${(top.reduce((a, r) => a + r.pastTop, 0) / top.length).toFixed(0)} (most ${Math.max(...top.map(r => r.pastTop))}), renown ${(top.reduce((a, r) => a + r.renown, 0) / top.length).toFixed(2)}`); }
     if (wins.length) console.log(`   ${cls} winners end: level ${(wins.reduce((s, r) => s + r.level, 0) / wins.length).toFixed(1)}, gold ${(wins.reduce((s, r) => s + r.goldFound, 0) / wins.length).toFixed(0)}, potions drunk ${(wins.reduce((s, r) => s + r.potionsDrunk, 0) / wins.length).toFixed(1)}, hpLow ticks ${(wins.reduce((s, r) => s + r.hpLow, 0) / wins.length).toFixed(0)}, runs that dipped <30% hp ${wins.filter(r => r.hpLow > 0).length}/${wins.length}`);
   }
 }

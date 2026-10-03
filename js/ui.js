@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS } from './data.js';
+import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-11a', text: 'a new run opens on the way in: your hero walks into the mountain and turns to see the roof come down behind them (tap to skip); and a Bash is now seen, the shield driven into the foe as it reels, as is a snare cord or a flask of oil thrown from the hand' };
+  const NEWS = { id: '2026-10-12a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; and a Bash is now seen, the shield driven into the foe as it reels, as is a snare cord or a flask of oil thrown from the hand' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1133,7 +1133,7 @@ const UI = (() => {
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
-    $('#hud-cls').textContent = `${CLASSES[p.cls].name} ${p.level}`;
+    $('#hud-cls').textContent = `${CLASSES[p.cls].name} ${p.level}${p.renown ? ` \u2605${p.renown}` : ''}`;
     $('#bar-hp').style.width = Math.max(0, vit.hp / p.maxHp * 100) + '%';
     $('#txt-hp').textContent = `HP ${vit.hp}/${p.maxHp}`;
     const spBar = $('.bar.sp');
@@ -1725,6 +1725,7 @@ const UI = (() => {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
     if (Game.isPathOffer(offer) || Game.isCapstoneOffer(offer)) { renderPaths(offer); return; }
+    if (Game.isRenownOffer(offer)) { renderRenown(offer); return; }
     const p = Game.player();
     const talents = TALENTS[p.cls] || [];
     const isTalent = offer.some(id => talents.some(t => t.id === id));
@@ -1764,6 +1765,40 @@ const UI = (() => {
       btn.addEventListener('click', () => {
         if (performance.now() - openedAt < BOON_GUARD_MS) return;
         if (/** @type {any} */ (b).spread) { renderSpread(/** @type {any} */ (b)); return; }
+        Game.chooseBoon(id);
+        if (Game.pendingBoons()) renderBoons(); else closeOverlay();
+      });
+      el.appendChild(btn);
+    }
+  }
+
+  // A rank of renown, past the top level: the same kind of card as a lesson,
+  // with what the next rank asks for, so the bar still has somewhere to go.
+  function renderRenown(offer) {
+    const rank = Game.pendingLevel() - MAX_LEVEL;
+    $('#boon-title').textContent = `Renown, rank ${rank}: your name goes before you`;
+    const el = $('#boon-list');
+    el.innerHTML = '';
+    el.classList.remove('paths');
+    const head = document.createElement('p');
+    head.className = 'boon-head';
+    head.textContent = `past the top level \u00b7 the next rank at ${Game.renownAt(rank + 1)} experience`;
+    el.appendChild(head);
+    const note = document.createElement('p');
+    note.className = 'dim small';
+    note.textContent = 'A small gain, for good. Choose one.';
+    el.appendChild(note);
+    const openedAt = performance.now();
+    for (const id of offer) {
+      const b = RENOWN.find(x => x.id === id);
+      if (!b) continue;
+      const btn = document.createElement('button');
+      btn.className = 'boon renown';
+      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.desc)}</small>`;
+      btn.disabled = true; btn.classList.add('arming');
+      setTimeout(() => { btn.disabled = false; btn.classList.remove('arming'); }, BOON_GUARD_MS);
+      btn.addEventListener('click', () => {
+        if (performance.now() - openedAt < BOON_GUARD_MS) return;
         Game.chooseBoon(id);
         if (Game.pendingBoons()) renderBoons(); else closeOverlay();
       });
@@ -2431,10 +2466,12 @@ const UI = (() => {
     // In groups: who the hero is at the top, then what counts in a fight, the
     // six scores, and the run so far. One long list read as a ledger.
     const row = (k, v, full) => `<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`;
-    const next = p.level < MAX_LEVEL ? XP_TABLE[p.level] : 0, prev = p.level > 1 ? XP_TABLE[p.level - 1] || 0 : 0;
+    // at the top level the bar fills toward the next rank of renown
+    const top12 = p.level >= MAX_LEVEL, rank = p.renown || 0;
+    const next = top12 ? Game.renownAt(rank + 1) : XP_TABLE[p.level], prev = top12 ? Game.renownAt(rank) : p.level > 1 ? XP_TABLE[p.level - 1] || 0 : 0;
     const toNext = next ? Math.max(0, Math.min(100, Math.round((p.xp - prev) / Math.max(1, next - prev) * 100))) : 100;
     const top = `<div class="sheet-top"><img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}">`
-      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}</span>`
+      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}${rank ? `, renown \u2605${rank}` : ''}</span>`
       + `<div class="xp-bar" role="img" aria-label="Experience ${p.xp} of ${next || p.xp}"><i style="width:${toNext}%"></i></div>`
       + `<small>Experience ${p.xp} / ${next || '\u2014'}</small></div></div>`;
     const fight = [
@@ -2524,6 +2561,14 @@ const UI = (() => {
         return b ? `<li><b>${escapeHtml(b.name)}${n > 1 ? ` \u00d7${n}` : ''}</b><span>${escapeHtml(b.desc)}</span></li>` : '';
       }).join('') + '</ul>';
     }
+    if (p.renownTaken && p.renownTaken.length) {
+      const counts = new Map();
+      for (const id of p.renownTaken) counts.set(id, (counts.get(id) || 0) + 1);
+      extra += '<h3 class="sheet-h">Renown</h3><ul class="talent-list">' + [...counts].map(([id, n]) => {
+        const b = RENOWN.find(x => x.id === id);
+        return b ? `<li><b>${escapeHtml(b.name)}${n > 1 ? ` \u00d7${n}` : ''}</b><span>${escapeHtml(b.desc)}</span></li>` : '';
+      }).join('') + '</ul>';
+    }
     $('#char-sheet').innerHTML = top + groups + extra;
   }
 
@@ -2569,7 +2614,8 @@ const UI = (() => {
     $('#m-test-sp').textContent = 'Endless spell points: ' + (t.sp ? 'On' : 'Off');
     $('#m-test-gold').textContent = 'Endless gold: ' + (t.gold ? 'On' : 'Off');
     $('#m-test-eye').textContent = 'Show every monster: ' + (t.eye ? 'On' : 'Off');
-    $('#m-test-level').disabled = G.player.level >= MAX_LEVEL;
+    // at the top level it gives the next rank of renown instead
+    $('#m-test-level').textContent = G.player.level >= MAX_LEVEL ? 'Gain a rank of renown' : 'Gain a level';
     renderTestFloors();
     renderTestItems();
     $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
@@ -2671,6 +2717,7 @@ const UI = (() => {
     // and the smaller lessons of each level, a count where one was learnt more than once
     const learnt = new Map();
     for (const id of p.boons || []) { const b = BOONS.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
+    for (const id of p.renownTaken || []) { const b = RENOWN.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
     const relics = ((G.relics && G.relics.found) || []).filter(id => RELICS[id]);
     if (relics.length) parts.push('<div class="end-h"><span>Relics found</span></div><div class="end-tags">' + relics.map(id => `<span class="tag relic">${escapeHtml(upFirst(RELICS[id].name))}</span>`).join('') + '</div>');
@@ -2722,7 +2769,7 @@ const UI = (() => {
       won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
       outcome: won ? 'Claimed the Heart' : `Fell on floor ${G.depth}`,
-      stats: `Level ${p.level} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
+      stats: `Level ${p.level}${p.renown ? ` \u2605${p.renown}` : ''} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
       mode: mode.join(' \u00b7 '),
       seed: String(G.seed),
       date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),

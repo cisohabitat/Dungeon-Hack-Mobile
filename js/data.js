@@ -119,6 +119,23 @@ const BOONS = [
   { id: 'hardy', name: 'Slow to Bleed', desc: 'Between fights, wounds close half again as fast.', unique: true, apply: p => { p.perkRegen = (p.perkRegen || 0) + 0.5; } },
 ];
 
+// Renown: past the top level experience still counts. Every RENOWN_XP more
+// brings a rank of renown (shown as 12 ★ 1, ★ 2...) and a choice of three
+// small gains, for good. A long delve reaches the top level near its end,
+// and the last floors are the hardest: a hero who has climbed as far as a
+// hero can still has something to fight for. They are small on purpose, each
+// half a lesson or less, and the sharpest of them can be taken twice at most.
+const RENOWN_XP = 3000;
+const RENOWN = [
+  { id: 'r_vigor', name: 'Hardened', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
+  { id: 'r_well', name: 'Deeper Well', desc: '+3 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 3; }, when: p => !!CLASSES[p.cls].spells },
+  { id: 'r_keen', name: 'Veteran\'s Eye', max: 2, desc: '+1 to hit with every blow.', apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },
+  { id: 'r_swift', name: 'Old Habits', max: 2, desc: 'Every swing comes 4% sooner.', apply: p => { p.perkSpeed = (p.perkSpeed || 0) + 0.04; } },
+  { id: 'r_steady', name: 'Unshaken', max: 2, desc: '+1 to every saving throw.', apply: p => { p.perkSave = (p.perkSave || 0) + 1; } },
+  { id: 'r_mend', name: 'Quick to Mend', max: 1, desc: 'Between fights, wounds close half again as fast.', apply: p => { p.perkRegen = (p.perkRegen || 0) + 0.5; } },
+  { id: 'r_quick', name: 'Well Practised', max: 2, desc: 'Your class move comes back a tenth sooner.', apply: p => { p.perkQuick = (p.perkQuick || 0) + 0.1; }, when: p => p.cls === 'fighter' || p.cls === 'thief' || p.cls === 'ranger' },
+];
+
 // Class talents: on every even level the hero picks one of three from their
 // class's own, each taken once. They change how a class plays rather than
 // adding a point here and there; game.js honours each by id.
@@ -1041,4 +1058,4 @@ const SPRITES = {
 /** Floor dressing that stands against a wall rather than out in a room (see dressing.js). */
 const WALL_PROPS = ['barrel', 'crate', 'urn'];
 
-export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS };
+export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS };

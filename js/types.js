@@ -72,6 +72,10 @@
  * @property {number} [rendN]     claw blows landed in bear shape, for Rending Claws' every third
  * @property {number} [nextKin]   when Beast Bond next mends the companion
  * @property {number} [perkHit] @property {number} [perkSpeed] @property {number} [perkRegen]
+ * @property {number} [renown]  ranks of renown earned past the top level (see RENOWN in data.js)
+ * @property {string[]} [renownTaken]  the gains of renown chosen, by id, one entry a rank
+ * @property {number} [perkSave]  renown's Unshaken: added to every saving throw of the hero's
+ * @property {number} [perkQuick]  renown's Well Practised: the share taken off the class move's wait
  * @property {number} [regenCarry]  the part of a point of natural healing still owed (Slow to Bleed's half again)
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
