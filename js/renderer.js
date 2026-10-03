@@ -345,14 +345,15 @@ const Renderer = (() => {
   // is drawn, with the floors and roofs it wants fetched from its theme.
   const CAVE_ROOF = CEIL.CAVE;
   const lookCache = new WeakMap();
-  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][]}} */
+  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][], caved: number}} */
   function looksOf(level, tex) {
-    const had = lookCache.get(level);
-    if (had && had.tex === tex) return had;
+    // (worked out again when more of the roof has come down: the way in falls a square at a time)
+    const had = lookCache.get(level), caved = level.caved ? level.caved.length : 0;
+    if (had && had.tex === tex && had.caved === caved) return had;
     const base = lookOf(level, tex.theme), floors = [tex.floor], ceils = [tex.ceil];
     for (const k of base.kinds.floor) floors[k] = tex.floorOf(k);
     for (const k of base.kinds.ceil) ceils[k] = tex.ceilOf(k);
-    const L = { ...base, tex, floors, ceils };
+    const L = { ...base, tex, floors, ceils, caved };
     lookCache.set(level, L);
     return L;
   }
@@ -1739,7 +1740,8 @@ const Renderer = (() => {
           continue;
         }
         // a stair, struck through the face it is come at by: a recess behind its arch
-        if ((tile === T.STAIRS_UP || tile === T.STAIRS_DOWN) && tex.stairArch) {
+        // (not a stair the roof has come down on: that is a face of fallen rock)
+        if ((tile === T.STAIRS_UP || tile === T.STAIRS_DOWN) && tex.stairArch && look.wall[mapY * w + mapX] !== WALL_K.FALLEN) {
           const nrm = stairFace(level, mapX, mapY);
           if (nrm && (side === 0 ? nrm[1] === 0 && stepX === -nrm[0] : nrm[0] === 0 && stepY === -nrm[1])) {
             const f = side === 0 ? sdx - ddx : sdy - ddy, raw = side === 0 ? py + f * rdy : px + f * rdx, u0 = raw - Math.floor(raw);
@@ -1765,7 +1767,7 @@ const Renderer = (() => {
       let tx = Math.max(0, Math.min(63, Math.floor((door ? wallX + 1 - door.shut : wallX) * 64)));
       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
       const ti = mapX >= 0 && mapY >= 0 && mapX < w && mapY < h ? mapY * w + mapX : -1;
-      const built = ti >= 0 && tile === T.WALL ? look.wall[ti] : WALL_K.PLAIN;
+      const built = ti >= 0 && (tile === T.WALL || tile === T.STAIRS_UP) ? look.wall[ti] : WALL_K.PLAIN;
       let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door)
         : tile === T.WALL && standsAlone(level, mapX, mapY) ? (built === WALL_K.ROCK ? tex.rockPillar : built === WALL_K.FALLEN ? tex.fallen : tex.pillar)
         : built === WALL_K.ROCK ? tex.rock : built === WALL_K.FALLEN ? tex.fallen
@@ -2105,6 +2107,8 @@ const Renderer = (() => {
     if (!(fx.heartAt >= 0)) drawView(fx, now);
     drawLevelUp(fx, now);
     drawArrival(fx, now);
+    // the dust of a roof come down, thick enough at the last to hide everything (see prelude.js)
+    if (fx.dust > 0) { ctx.fillStyle = `rgba(28,24,20,${Math.min(1, fx.dust).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
     drawBossBar(fx.boss, now);
     if (now < fx.castUntil) {
       const a = (fx.castUntil - now) / 260;

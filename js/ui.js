@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-09a', text: 'the lizardfolk of the Sunless Marsh keep the fifth floor of a sixteen-floor delve, grey dwarves shrug off poison, a dark elf mage may drop a hand crossbow, and below the twelfth floor of sixteen spells and blades strike harder on every difficulty' };
+  const NEWS = { id: '2026-10-10a', text: 'a new run now opens on the way in: your hero walks down the passage into the mountain and turns to see the roof come down behind them (tap to skip), and below the twelfth floor of sixteen spells and blades strike harder' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -605,6 +605,11 @@ const UI = (() => {
     showPrologue(cfg);
   }
   const STORY_READ = 'deepdelve.storyRead';
+  // the way in plays as every new run opens (see prelude.js). A browser driven by
+  // the tests starts without it, unless a test asks for it ('on'): it would take
+  // the first tap of every test that begins a run
+  const PRELUDE = 'deepdelve.prelude';
+  const preludeWanted = () => store(PRELUDE) === 'on' || (store(PRELUDE) !== 'off' && !navigator.webdriver);
   function commitGame() {
     store(STORY_READ, '1');
     if (!pendingCfg) return;
@@ -613,6 +618,8 @@ const UI = (() => {
     Game.newGame(pendingCfg);
     pendingCfg = null;
     Game.save(true);
+    // (begun before the first look at the HUD, so the first tip waits for it)
+    if (preludeWanted()) Game.beginPrelude();
     startPlaying();
   }
   function startPlaying() {
@@ -968,7 +975,8 @@ const UI = (() => {
       const p2 = Game.player();
       if (`${p2.x},${p2.y},${p2.dir}` !== tipFrom) { el.classList.remove('show'); tipUntil = now; }
     }
-    if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing') return;
+    // (and none while the way in plays: the controls tip waits for the first floor)
+    if (now < tipCheckAt || overlay || !Game.state() || Game.state().status !== 'playing' || Game.preludeOn()) return;
     tipCheckAt = now + 250;
     const p = Game.player(), L = Game.level();
     if (showTip('controls')) return;
@@ -1101,6 +1109,14 @@ const UI = (() => {
     refreshUse();
     refreshFeet();
     checkTips();
+    // 'Tap to skip' over the view while the way in plays, where the corner map is: that
+    // map is of the first floor, not the passage, so it waits for the floor
+    const skip = /** @type {HTMLElement|null} */ ($('#prelude-skip')), preluding = Game.preludeOn();
+    if (skip && skip.hidden === preluding) {
+      skip.hidden = !preluding;
+      const mini = /** @type {HTMLElement|null} */ ($('#minimap'));
+      if (mini) mini.style.visibility = preluding ? 'hidden' : '';
+    }
     const G = Game.state();
     if (!G) return;
     const p = G.player;
@@ -1372,7 +1388,8 @@ const UI = (() => {
     for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
       const x = p.x + dx, y = p.y + dy;
       if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
-      const t = L.tiles[y * L.w + x];
+      // (the first floor's stair up is under fallen rock: wall, on the map as in the view)
+      const t = L.caved && L.caved.includes(y * L.w + x) ? T.WALL : L.tiles[y * L.w + x];
       let col = '#46425a';
       // a torch is a bracket set into a wall, so it reads as wall here: picking
       // it out in its own colour made the corner map busy and told you nothing
@@ -2274,7 +2291,7 @@ const UI = (() => {
       for (let x = 0; x < L.w; x++) {
         const i = y * L.w + x;
         if (!L.explored[i]) continue;
-        const t = L.tiles[i];
+        const t = L.caved && L.caved.includes(i) ? T.WALL : L.tiles[i];
         let col = MAP_COLOUR.floor, mark = null, markColour = '#000';
         switch (t) {
           case T.WALL: case T.SECRET: col = MAP_COLOUR.wall; break;

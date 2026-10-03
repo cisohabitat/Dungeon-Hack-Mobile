@@ -100,6 +100,8 @@ function lookOf(L, theme = {}) {
       if (ns || ew) cell[i] = 1;
     }
   }
+  // squares the roof has come down on: the first floor's stair up, and the way in as it falls (see prelude.js)
+  for (const i of L.caved || []) if (i >= 0 && i < n) wall[i] = WALL.FALLEN;
   const used = a => [...new Set(a)].sort((p, q) => p - q);
   return { floor, ceil, wall, edge, cell, kinds: { floor: used(floor), ceil: used(ceil) } };
 }

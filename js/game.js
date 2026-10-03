@@ -17,6 +17,7 @@ import { makeWild } from './wild.js';
 import { makeElements } from './elements.js';
 import { makeEncounters } from './meet.js';
 import { makeTesting } from './testing.js';
+import { makePrelude } from './prelude.js';
 
 // Core game state and rules.
 
@@ -1753,6 +1754,8 @@ const Game = (() => {
     // the view comes up out of the dark of the stair (see drawArrival in the renderer)
     fx.arriveAt = realNow;
     const L = G.levels[depth];
+    // the first floor's stair up is under fallen rock: the way in came down behind the hero
+    if (depth === 1 && L.stairsUp && !L.caved) L.caved = [L.stairsUp.y * L.w + L.stairsUp.x];
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
     clearLanding(L);
@@ -1881,7 +1884,7 @@ const Game = (() => {
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return; }
     if (G.depth === 1) {
-      log('The way out is sealed behind you. Only the depths remain.', 'info');
+      log('The way you came in lies under fallen rock. Only the depths remain.', 'info');
       return;
     }
     Sound.play('stairs');
@@ -2284,6 +2287,8 @@ const Game = (() => {
   }
 
   // ---------- trading ---------- see trader.js ----------
+  // ---------- the way in, played as a new run opens: see prelude.js ----------
+  const prelude = makePrelude({ lvl: () => lvl(), get fx() { return fx; }, log: (msg, cls) => log(msg, cls) });
   // ---------- encounters: see meet.js ----------
   let queuedAttack = false;
   let queuedMove = null;       // one step tapped while the camera was still moving
@@ -4469,6 +4474,8 @@ const Game = (() => {
   function update(now, dt) {
     realNow = now;
     if (!G || G.status !== 'playing') return;
+    // the dungeon holds still while the way in plays
+    if (prelude.active()) return;
     G.t += dt;
     applyTesting();
     const p = P();
@@ -4541,6 +4548,8 @@ const Game = (() => {
   /** @param {string} act @param {boolean} [repeat]  sent again because a button is still held, not a fresh press */
   function input(act, repeat) {
     if (!G || G.status !== 'playing') return;
+    // any control during the way in skips it, and does nothing else
+    if (prelude.active()) { prelude.finish(realNow); return; }
     switch (act) {
       case 'forward': case 'back': case 'strafeL': case 'strafeR': case 'left': case 'right':
         // a step tapped while the last one is still easing in is kept, not
@@ -4909,7 +4918,7 @@ const Game = (() => {
       const dx = Math.sign(w.tx - m.x), dy = Math.sign(w.ty - m.y);
       for (let i = 1; i <= n; i++) { const a = Math.min(1, u * n - i + 1.5); if (a > 0) fx.frost.push({ x: m.x + dx * i, y: m.y + dy * i, a }); }
     }
-    return { level: L, cam, sprites, fx };
+    return prelude.frame({ level: L, cam, sprites, fx }, now);
   }
 
   // ---------- save / load ----------
@@ -5227,6 +5236,7 @@ const Game = (() => {
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
+    beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: () => prelude.finish(realNow || performance.now()),
     state: () => G, player: P, level: lvl, log, mod,
     lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,

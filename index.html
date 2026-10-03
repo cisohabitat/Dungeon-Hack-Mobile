@@ -204,6 +204,8 @@
         <p>The same seed with the same choices makes the same dungeon. When a run ends, <b>Share this run</b> passes on a line with its seed and any choices you changed (through your phone's share sheet, or copied if it has none), so a friend can try the same halls. <b>Share a picture</b> makes a card of the run instead: the hero, how far they got and what brought them down (or the Heart they lifted), to send or to keep.</p>
         <h3>Who you are</h3>
         <p>Pick a class and a background. The class decides what you can wield and cast; each card says in a word how it plays, and for your first few runs the Fighter and the Cleric, who forgive mistakes best, are marked as a good first hero. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
+        <h3>The way in</h3>
+        <p>A new run opens on your hero coming down the passage into the mountain, walking on by themselves. At its end the roof comes down behind them, and the first floor begins with fallen rock where the stair back up would be: there is no way out but down. Tap the view, or any button, to skip it.</p>
         <h3>Moving</h3>
         <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key, and into a staircase to take it. Stairs are set into the walls, so you have to be facing them: if you step up beside a staircase the log says which side it is on, and the <b>Use</b> button changes its name to say what it will do &mdash; <i>Descend</i>, <i>Open</i>, <i>Trade</i> and so on. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you. Left-handed? <b>Menu &rsaquo; Controls</b> swaps the d-pad and the buttons to the other sides. <b>Map</b>, or a tap on the little map in the corner of the view, shows all you have explored; pinch it, or press <b>+</b>, to look closer, and drag it about.</p>
         <h3>Finds</h3>
@@ -355,6 +357,8 @@
         </div>
         <div class="view-wrap">
           <canvas id="view" width="320" height="200"></canvas>
+          <!-- while the way in plays: a tap on the view, or any control, skips it -->
+          <div id="prelude-skip" class="prelude-skip" hidden>Tap to skip</div>
           <!-- a tip hangs below the view, over the log: never over the fight,
                nor over the log's newest line, which it may point to -->
           <div id="tip" class="tip" role="status" aria-live="polite"></div>

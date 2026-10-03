@@ -194,6 +194,7 @@
  * @property {{x: number, y: number, dir: number}} start
  * @property {{x: number, y: number, dir: number}|null} downStart
  * @property {{x: number, y: number}} stairsUp
+ * @property {number[]} [caved] squares the roof has come down on (by index): the first floor's stair up, and the way in as it falls (prelude.js)
  * @property {{x: number, y: number}|null} stairsDown
  * @property {number} theme
  * @property {boolean} isFinal

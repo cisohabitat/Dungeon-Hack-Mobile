@@ -185,4 +185,49 @@ test.describe('choices kept', () => {
     await expect(page.locator('#pro-world details p').first()).toBeVisible();
     expect(errors).toEqual([]);
   });
+
+  // The way in: a new run opens on the hero walking down a passage, turning at a
+  // rumble and watching the roof come down. (A browser driven by the tests starts
+  // without it unless asked: see preludeWanted in ui.js.)
+  test('the way in plays as a run opens: the controls tip waits for it, a tap on the view skips it, and the roof is told', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.prelude', 'on'));
+    await startGame(page, { seed: 'way-in-quiet', tips: true });
+    expect(await page.evaluate(() => Game.preludeOn())).toBe(true);
+    await expect(page.locator('#prelude-skip')).toBeVisible();
+    // in the corner map's place: that map is of the first floor, not the passage
+    await expect(page.locator('#minimap')).toBeHidden();
+    // the passage, not the first floor, and no tip over it while it plays
+    expect(await page.evaluate(() => Game.renderState(performance.now()).level.w)).toBe(7);
+    await page.waitForTimeout(600);
+    await expect(page.locator('#tip.show')).toHaveCount(0);
+    const at = await page.evaluate(() => { const p = Game.player(); return [p.x, p.y, p.dir]; });
+    await page.locator('#view').click();
+    expect(await page.evaluate(() => Game.preludeOn())).toBe(false);
+    await expect(page.locator('#prelude-skip')).toBeHidden();
+    await expect(page.locator('#minimap')).toBeVisible();
+    // the tap only skipped it: the hero stands where the run begins
+    expect(await page.evaluate(() => { const p = Game.player(); return [p.x, p.y, p.dir]; })).toEqual(at);
+    expect(await page.evaluate(() => Game.state().log.some(l => /the roof of the passage comes down/.test(l.base || l.m || '')))).toBe(true);
+    // and now the first tip comes
+    await expect(page.locator('#tip.show[data-tip="controls"]')).toBeVisible({ timeout: 5000 });
+    expect(errors).toEqual([]);
+  });
+
+  test('left alone the way in plays out by itself into the first floor, where the stair up lies under fallen rock', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.prelude', 'on'));
+    await startGame(page, { seed: 'way-in-alone' });
+    expect(await page.evaluate(() => Game.preludeOn())).toBe(true);
+    const t0 = await page.evaluate(() => Game.state().t);
+    await page.waitForFunction(() => !Game.preludeOn(), null, { timeout: 15000 });
+    // the dungeon stood still while it played
+    expect(await page.evaluate(() => Game.state().t) - t0).toBeLessThan(1000);
+    await expect(page.locator('#prelude-skip')).toBeHidden();
+    expect(await page.evaluate(() => Game.state().log.some(l => /the roof of the passage comes down/.test(l.base || l.m || '')))).toBe(true);
+    // turned round, the hero faces fallen rock where the stair up was
+    for (let i = 0; i < 2; i++) { await page.evaluate(() => Game.input('left')); await page.waitForTimeout(450); }
+    await expect.poll(() => page.evaluate(() => Renderer.looks.fallen), { timeout: 3000 }).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
 });

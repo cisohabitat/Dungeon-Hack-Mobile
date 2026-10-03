@@ -133,9 +133,14 @@ test.describe('art', () => {
       for (let i = 0; i < 6; i++) { await new Promise(r => requestAnimationFrame(r)); most = Math.max(most, Renderer.stairColumns); }
       return most;
     }, fn);
-    // a square out from the stair up, turned round to it: the stairwell behind its arch
-    const facing = await look(`const P = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[L.start.dir];
+    // the first floor's stair up lies under fallen rock (the way in came down behind the hero): no stairwell
+    const buried = await look(`const P = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[L.start.dir];
       L.monsters.length = 0; P.x = L.start.x + dx; P.y = L.start.y + dy; P.dir = (L.start.dir + 2) % 4;`);
+    expect(buried, 'columns seen into a buried stairwell').toBe(0);
+    expect(await page.evaluate(() => Renderer.looks.fallen)).toBeGreaterThan(0);
+    // dug out, as a stair up is on any other floor, a square out from it and turned round to it: the stairwell behind its arch
+    const facing = await look(`const P = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[L.start.dir];
+      L.caved = []; L.monsters.length = 0; P.x = L.start.x + dx; P.y = L.start.y + dy; P.dir = (L.start.dir + 2) % 4;`);
     expect(facing, 'columns seen into the stairwell').toBeGreaterThan(20);
     // the same stair from a square off to its side, with that face open: plain wall, no stairwell
     const side = await look(`const P = Game.player(), L = Game.level(), s = L.stairsUp, k = (L.start.dir + 1) % 4, [dx, dy] = Dungeon.DIRS[k];

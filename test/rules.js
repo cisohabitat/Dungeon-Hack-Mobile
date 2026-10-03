@@ -4465,6 +4465,42 @@ await test('spells strike harder in the deep: 6% a floor past the sixth on a Har
   return out.length ? out.join('; ') : true;
 });
 
+await test('the way in: the dungeon holds still while it plays, any control skips it, it ends by itself, it is told once, and the first floor\'s stair up lies under fallen rock', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'way-in');
+  const { Game } = ctx;
+  const G = Game.state(), L = Game.level();
+  // the stair up on the first floor is caved in, and says so
+  if (!L.caved || !L.caved.includes(L.stairsUp.y * L.w + L.stairsUp.x)) out.push('the first floor\'s stair up is not under fallen rock');
+  const said = markLog(G);
+  Game.player().x = L.start.x; Game.player().y = L.start.y; Game.player().dir = (L.start.dir + 2) % 4;
+  Game.input('use');
+  if (!linesSince(G, said).some(l => /lies under fallen rock/.test(l))) out.push('the stair up did not say it is buried');
+  // while it plays: the time of the dungeon stands, a step is not taken, and the view is the passage
+  Game.update(1000, 0);
+  Game.beginPrelude(1000);
+  if (!Game.preludeOn()) return 'the way in did not begin';
+  const t0 = G.t, at = { ...Game.player() };
+  for (let i = 0; i < 20; i++) Game.update(1000 + i * 100, 100);
+  if (G.t !== t0) out.push(`the dungeon's time ran on ${G.t - t0}ms through it`);
+  const mid = Game.renderState(3000);
+  if (mid.level === L || mid.level.w !== 7) out.push('the view in the middle of it was not the passage');
+  const mark = markLog(G);
+  Game.input('forward');
+  if (Game.preludeOn()) out.push('a control did not skip it');
+  if (Game.player().x !== at.x || Game.player().y !== at.y) out.push('the control that skipped it also moved the hero');
+  if (linesSince(G, mark).filter(l => /roof of the passage comes down/.test(l)).length !== 1) out.push('skipped, the roof coming down was not told once');
+  if (Game.renderState(3100).level !== L) out.push('after it the view was not the first floor');
+  // left alone it ends by itself, past the dust, and tells it only once
+  Game.update(9000, 0);
+  Game.beginPrelude(9000);
+  const mark2 = markLog(G);
+  for (let t = 9000; t < 9000 + 12000 && Game.preludeOn(); t += 100) Game.renderState(t);
+  if (Game.preludeOn()) out.push('left alone it never ended');
+  if (linesSince(G, mark2).filter(l => /roof of the passage comes down/.test(l)).length !== 1) out.push('played out, the roof coming down was not told once');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a trader stands in the way of a charge and a shot', async () => {
   const ctx = await start('fighter', 'trader-line');
   const { Game, Dungeon } = ctx;
@@ -14500,6 +14536,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const saves = async stout => {
       const { ctx, Game, G, p, put, cast } = await arena('mage', 'stout-saves');
       const { MONSTERS } = ctx;
+      // the same mage both times: scores are rolled afresh for each new game, and a
+      // mage two points sharper set a save two harder, hiding the dwarf's two (a flake)
+      for (const k in p.stats) p.stats[k] = 14;
       const was = MONSTERS.ogre;
       MONSTERS.ogre = { ...was, hit: 4, stout };
       try {
