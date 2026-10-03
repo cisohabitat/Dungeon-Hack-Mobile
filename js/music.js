@@ -37,6 +37,8 @@ const Music = (() => {
     // The Grey Hold: F, the old minor, low and heavy; and far off, a hammer on an anvil,
     // two short rings every other bar, while nothing is close
     { root: 41, steps: [0, 2, 3, 5, 7, 8, 10], anvil: true },
+    // The Sunless Marsh: A, the old minor, slow; and while all is still, frogs: two low croaks every third bar
+    { root: 45, steps: [0, 2, 3, 5, 7, 8, 10], frogs: true },
   ];
   // how fast a step goes (eighth notes, in seconds) for each mood
   const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27, warlord: 0.27 };
@@ -126,6 +128,8 @@ const Music = (() => {
     }
     // the dwarves' hammers, ringing on an anvil somewhere in the hold
     if (sc.anvil && lvl === 0 && !quietNow && bar % 2 === 1 && (beat === 0 || beat === 2)) out.push({ k: 'bell', midi: note(sc, 0, 3), vel: beat === 0 ? 0.08 : 0.06, len: 0.15 });
+    // the marsh's frogs, low and close, two croaks together
+    if (sc.frogs && lvl === 0 && !quietNow && bar % 3 === 1 && (beat === 1 || beat === 2)) out.push({ k: 'pulse', midi: note(sc, beat === 1 ? 0 : 1, -1), vel: 0.12, len: 0.1 });
     // a quiet pad under the bells once in a long while, home and its fifth
     if (lvl === 0 && !quietNow && beat === 0 && bar % 8 === 0) out.push({ k: 'pad', midi: note(sc, 0, -1), vel: 0.18, len: 7 });
     // something awake and close: a low held-breath pulse

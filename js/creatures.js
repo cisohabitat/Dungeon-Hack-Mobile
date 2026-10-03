@@ -347,6 +347,39 @@ const warPick = (x, y, u, v, len, k) => {
   ];
 };
 
+// The lizardfolk's looks, shared by the warrior, the shaman and their
+// Marsh-Mother: green scales over a pale belly, a crest down the skull, yellow
+// slit eyes, and a tail as thick as a man's leg.
+const lizardKit = () => ({
+  scale: '#5a7a3a', scaleDk: '#3a5426', scaleLt: '#7e9e52', belly: '#c8c08a', bellyDk: '#9a9466', crest: '#b0602a', eye: '#f0d040',
+  hide: '#6a5232', hideDk: '#4a3820', shell: '#6a6a3a', shellDk: '#4a4a26', shellLt: '#9a9a5a', wood: '#7a5a34', bone: '#e8dcc0', boneDk: '#b8aa88',
+});
+/** A lizardfolk's head seen from the front: a broad flat skull, a long snout narrowing to the nostrils, slit eyes either side, a crest above. */
+const lizardHead = (hx, hy, k, { open: jaw = false } = {}) => [
+  ...[-1, 1].map(sd => sheet([[hx + sd * 1, hy - 6], [hx + sd * 3, hy - 9.5], [hx + sd * 2.4, hy - 5]], k.crest, { curve: 0.3 })),
+  sheet([[hx - 1.2, hy - 7], [hx, hy - 11], [hx + 1.2, hy - 7]], k.crest),
+  ball(hx, hy - 2, 7.4, 5.6, k.scale), ball(hx, hy - 3.6, 5, 2.6, k.scaleLt),
+  // the snout coming toward you, and its jaw
+  sheet([[hx - 4.4, hy], [hx + 4.4, hy], [hx + 3.2, hy + 6.5], [hx, hy + 7.6], [hx - 3.2, hy + 6.5]], k.scale, { curve: 0.8 }),
+  ...(jaw ? [sheet([[hx - 3.2, hy + 4], [hx + 3.2, hy + 4], [hx + 2.4, hy + 8.6], [hx - 2.4, hy + 8.6]], '#5a1a1a'), ...[-2, -0.7, 0.7, 2].map(d => limb(hx + d, hy + 4.4, hx + d, hy + 5.6, 0.35, 0.15, k.bone))]
+    : [hair(hx - 3, hy + 5, hx + 3, hy + 5, k.scaleDk)]),
+  ball(hx - 1, hy + 6.4, 0.5, 0.4, '#1a1a10'), ball(hx + 1, hy + 6.4, 0.5, 0.4, '#1a1a10'),
+  ...[-1, 1].flatMap(sd => [ball(hx + sd * 4.6, hy - 2.4, 1.6, 1.3, k.eye, { glows: true }), limb(hx + sd * 4.6, hy - 3.4, hx + sd * 4.6, hy - 1.4, 0.3, 0.3, '#1a1a10')]),
+  specks([[hx - 3, hy - 5], [hx + 2, hy - 4], [hx - 1, hy + 2], [hx + 2.5, hy + 3]], k.scaleDk),
+];
+/** The body: a scaled torso with a pale belly in bands, a hide kilt, thick legs ending in three-toed feet, and the tail out behind to one side. */
+const lizardBody = (k, { tail = 'rest' } = {}) => [
+  ...(tail === 'rest' ? [limb(36, 46, 48, 54, 4.4, 3, k.scale), limb(48, 54, 58, 60, 3, 1.4, k.scale), hair(40, 48, 56, 59, k.scaleDk)] : []),
+  ...both64(limb(27, 44, 25, 53, 4, 3.4, k.scale)), ...both64(limb(25, 53, 25.5, 59.5, 3, 2.6, k.scaleDk)),
+  ...both64(ball(24.5, 61.2, 4.4, 1.6, k.scaleDk)), ...both64(limb(21.5, 61, 20, 62.6, 0.6, 0.4, k.bone)),
+  sheet([[20, 20], [44, 20], [43, 44], [21, 44]], k.scale, { curve: 1 }),
+  sheet([[26, 22], [38, 22], [37, 43], [27, 43]], k.belly, { curve: 0.8 }),
+  ...[26, 30, 34, 38, 42].map(y => hair(27, y, 37, y, k.bellyDk)),
+  specks([[22, 26], [42, 28], [23, 34], [41, 36], [24, 40]], k.scaleDk),
+  sheet([[20, 41], [44, 41], [45.5, 50], [32, 51.5], [18.5, 50]], k.hide, { curve: 0.6 }), ...[24, 29, 35, 40].map(x => hair(x, 43, x + (x - 32) * 0.05, 50.5, k.hideDk)),
+  limb(32, 15, 32, 21, 4.6, 5.4, k.scale),
+];
+
 // what the renegade wears in place of the house's black and silver
 const RENEGADE = { '#2a2a36': '#4a3a2c', '#464656': '#6a5640', '#1a1a22': '#33281e', '#26182e': '#3e4636', '#160e1c': '#2a3024',
   '#b8bccc': '#8a8078', '#eef0f8': '#c8c0b4', '#3a3046': '#3a3226' };
@@ -2002,6 +2035,44 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
     return [...quiver, ...dwarfBody(k, { narrow: true }), ...bow.slice(0, aim ? 4 : 6), ...dwarfHead(32, 12, k, { grim: atk || aim, helm: true }), ...bow.slice(aim ? 4 : 6)];
   },
 
+  // A lizardfolk warrior: on its hind legs and as tall as a man, green-scaled
+  // and crested, a spear in one hand and a turtle-shell shield on the other
+  // arm, its tail out behind. Striking, the spear comes up; coiling to sweep,
+  // the body turns and the tail swings round low in front, across its feet.
+  lizardfolk: (pose = 'idle') => {
+    const atk = pose === 'windup', sweep = pose === 'special';
+    const k = lizardKit();
+    const hand = (x, y) => [ball(x, y, 2.4, 2.2, k.scale), hair(x - 1.2, y + 1, x + 1.2, y + 1, k.scaleDk)];
+    const spear = (x0, y0, x1, y1) => [limb(x0, y0, x1, y1, 0.9, 0.9, k.wood), sheet([[x1 - 1.6, y1 + 0.5], [x1, y1 - 5], [x1 + 1.6, y1 + 0.5]], k.boneDk), hair(x1 - 0.4, y1, x1, y1 - 4, k.bone)];
+    const shield = (x, y) => [ball(x, y, 7, 8, k.shellDk), ball(x, y - 0.5, 6, 7, k.shell), ...[[0, -3], [-3, 1], [3, 1], [0, 4]].map(([dx, dy]) => ball(x + dx, y + dy, 2, 1.7, k.shellLt)), hair(x - 5, y - 4, x - 2, y - 6.5, '#c8c890')];
+    let arms;
+    if (atk) arms = [limb(43, 23, 48, 14, 3, 2.6, k.scale), ...hand(48.5, 12.5), ...spear(48.5, 30, 49, 0.5), limb(21, 23, 16, 30, 3, 2.6, k.scale), ...shield(14, 31)];
+    else if (sweep) arms = [limb(21, 23, 13, 26, 3, 2.6, k.scale), ...shield(10, 26), limb(43, 23, 51, 28, 3, 2.6, k.scale), ...hand(52, 29), ...spear(52, 44, 56, 14)];
+    else arms = [limb(43, 23, 47, 33, 3, 2.6, k.scale), ...hand(47.5, 35), ...spear(47.5, 56, 47.5, 9), limb(21, 23, 17, 32, 3, 2.6, k.scale), ...shield(15, 34)];
+    // coiled to sweep: the tail swung round low across the front of its feet, the body leaning into it
+    const tail = sweep ? [limb(44, 48, 50, 56, 4.4, 3.6, k.scale), limb(50, 56, 34, 60, 3.6, 2.6, k.scale), limb(34, 60, 14, 57, 2.6, 1.2, k.scale), hair(48, 55, 16, 57, k.scaleDk), specks([[40, 59], [28, 59], [20, 57.5]], k.scaleLt)] : [];
+    return [...lizardBody(k, { tail: sweep ? 'none' : 'rest' }), ...arms, ...lizardHead(32, 11, k, { open: atk || sweep }), ...tail];
+  },
+  // A lizardfolk shaman: slighter, in a cloak of hanging reeds and a headdress
+  // of bones, a staff hung with charms. Spitting fire, the staff comes forward;
+  // chanting over its kin, both arms go up and green light gathers between them.
+  lizard_shaman: (pose = 'idle') => {
+    const atk = pose === 'windup', chant = pose === 'special';
+    const k = lizardKit(), reed = '#6a7040', reedDk = '#4a5028';
+    const hand = (x, y) => [ball(x, y, 2.1, 2, k.scale), hair(x - 1, y + 0.9, x + 1, y + 0.9, k.scaleDk)];
+    const staff = (x0, y0, x1, y1) => [limb(x0, y0, x1, y1, 0.9, 0.8, k.wood), ball(x1, y1, 2.6, 2.4, k.bone), ball(x1 - 0.9, y1 - 0.3, 0.6, 0.6, '#1a1a10'), ball(x1 + 0.9, y1 - 0.3, 0.6, 0.6, '#1a1a10'), ...[-2.5, 2.5].map(d => limb(x1 + d, y1 + 2, x1 + d * 1.2, y1 + 6, 0.3, 0.3, k.boneDk))];
+    let arms;
+    if (atk) arms = [limb(43, 23, 47, 20, 2.8, 2.4, k.scale), ...hand(47.5, 19.5), ...staff(42, 34, 52, 6), limb(21, 23, 18, 32, 2.8, 2.4, k.scale), ...hand(17.5, 33.5)];
+    else if (chant) arms = [limb(21, 23, 14, 12, 2.8, 2.4, k.scale), ...hand(13.5, 10.5), limb(43, 23, 50, 12, 2.8, 2.4, k.scale), ...hand(50.5, 10.5), ...staff(51, 30, 51, 4),
+      ball(32, 4, 4.5, 3, '#a0e060', { glows: true }), ...[[24, 6], [40, 6], [32, 0.5]].map(([x, y]) => ball(x, y, 1, 1, '#d0ff90', { glows: true }))];
+    else arms = [limb(43, 23, 46, 33, 2.8, 2.4, k.scale), ...hand(46.5, 34.5), ...staff(46.5, 58, 46.5, 6), limb(21, 23, 18, 33, 2.8, 2.4, k.scale), ...hand(17.5, 34.5)];
+    // the reed cloak over the shoulders and down the back, and the headdress: a beast's skull worn over its own
+    const cloak = [sheet([[17, 17], [47, 17], [55, 59], [46, 61], [32, 59], [18, 61], [9, 59]], reedDk, { curve: 0.8 }), ...[12, 16, 20, 24, 28, 36, 40, 44, 48, 52].map(x => hair(x + (x < 32 ? 3 : -3) * 0.5, 18, x + (x - 32) * 0.2, 60, reed))];
+    const headdress = [sheet([[25, 3], [39, 3], [41, 8], [32, 10], [23, 8]], k.bone, { curve: 0.6 }), ball(28.5, 6, 1.2, 1, '#1a1a10'), ball(35.5, 6, 1.2, 1, '#1a1a10'),
+      ...[-1, 1].map(sd => limb(32 + sd * 6, 4, 32 + sd * 11, -0.5, 0.8, 0.3, k.boneDk))];
+    return [...cloak, ...lizardBody(k, { tail: 'rest' }).filter(p => p.c !== k.hide && p.c !== k.hideDk), ...arms, ...lizardHead(32, 12, k, { open: atk }), ...headdress];
+  },
+
   // The sellsword: a hired blade, as tall as the hero. A kettle hat with a wide
   // iron brim, a brigandine of blue-grey cloth studded with brass over a mail
   // shirt, a red sash from shoulder to hip, a steel pauldron, a scar down the
@@ -2590,7 +2661,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], grey_dwarf: ['windup', 'special'], dwarf_arbalest: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], renegade: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
+const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], grey_dwarf: ['windup', 'special'], dwarf_arbalest: ['windup', 'special'], lizardfolk: ['windup', 'special'], lizard_shaman: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], renegade: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -2719,6 +2790,17 @@ const PROPS = {
       ...[[4, 60], [12, 60], [8, 57], [6, 54]].map(([x, y]) => sheet([[x - 3.5, y], [x + 3.5, y], [x + 2.6, y - 2.6], [x - 2.6, y - 2.6]], '#4a4c52')),
       ...[[4, 60], [12, 60], [8, 57], [6, 54]].map(([x, y]) => hair(x - 2.4, y - 2.4, x + 2.4, y - 2.4, ironLt)),
       ball(56, 54, 6, 7, wood), ...[49.5, 54, 58.5].map(y => hair(50.5, y, 61.5, y, copper)), ball(56, 54, 1.6, 1.6, '#2a1a10'), limb(56, 54, 56, 57, 0.6, 0.6, copper),
+    ];
+  },
+  // the lizardfolk's eggs: a mound of black mud half out of the water, a dozen leathery eggs pressed into its top
+  egg_clutch: () => {
+    const mud = '#3a3424', mudLt = '#5a5038', egg = '#d8d0b0', eggDk = '#a8a080', water = '#1e3036';
+    return [
+      ball(32, 58, 28, 5, water), ...[[12, 58], [26, 60], [44, 59], [54, 57]].map(([x, y]) => hair(x - 4, y, x + 4, y, '#4a6a70')),
+      sheet([[6, 58], [12, 46], [22, 38], [32, 35], [42, 38], [52, 46], [58, 58]], mud, { curve: 1 }),
+      sheet([[14, 47], [24, 40], [32, 38], [40, 40], [50, 47], [40, 45], [24, 45]], mudLt, { curve: 1 }),
+      ...[[22, 43], [29, 40], [36, 40], [43, 43], [26, 47], [33, 45], [40, 47], [18, 49], [47, 49], [32, 50]].flatMap(([x, y]) => [ball(x, y, 3.2, 3.8, egg), ball(x + 0.8, y + 1, 2, 2.4, eggDk), specks([[x - 1, y - 2]], '#ffffff')]),
+      ...[[8, 50, 6, 36], [56, 50, 58, 34], [12, 54, 10, 42], [52, 54, 55, 40]].map(([a, b, c2, d2]) => limb(a, b, c2, d2, 0.6, 0.3, '#6a7040')),
     ];
   },
   // a dark elf cast out of the halls, waiting by a wall with its blades lowered
@@ -3722,7 +3804,7 @@ for (const k in POSES) {
 // where age or office would change it, with what the stories give it laid
 // behind and over. Each moves through its kind's poses, flinch and all, and is
 // painted into the slot a colour wash used to fill (see creature in assets.js).
-const CHAMPION_OF = { vaelith: 'drow_mage', durgrim: 'grey_dwarf', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
+const CHAMPION_OF = { vaelith: 'drow_mage', durgrim: 'grey_dwarf', hissra: 'lizardfolk', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
@@ -3762,6 +3844,16 @@ const CHAMPIONS = {
       line(24.6, 6.4, 39.4, 6.4, '#c87a3a'), ...[27, 32, 37].map(x => ball(x, 5, 0.9, 0.9, '#e09a50')),
       // a smith's leather apron, scorched, under the beard and over the mail to the knee
       sheet([[23, 40], [41, 40], [43, 55], [21, 55]], '#5a3a22', { curve: 0.6 }), hair(22, 54, 42, 54, '#3a2414'), specks([[26, 47], [37, 50], [31, 52]], '#2a1a10'),
+    ],
+  })),
+  // Hissra, the Marsh-Mother: her scales gone dark with age and her crest white,
+  // a collar of teeth about her neck, and a mantle of reeds on her shoulders.
+  hissra: champion('lizardfolk', () => ({
+    map: { '#5a7a3a': '#3e5a30', '#7e9e52': '#5e7e46', '#b0602a': '#e8e0c8' },
+    back: [sheet([[16, 18], [48, 18], [52, 44], [12, 44]], '#4a5028', { curve: 0.8 }), ...[16, 22, 28, 36, 42, 48].map(x => hair(x, 19, x + (x - 32) * 0.15, 44, '#6a7040'))],
+    front: [
+      ...[-8, -5.5, -3, -0.5, 2, 4.5, 7].map((dx, i) => limb(32 + dx, 19 + Math.abs(dx) * -0.2 + 1, 32 + dx * 1.05, 23 - Math.abs(dx) * 0.15, 0.7, 0.25, i % 2 ? '#e8dcc0' : '#d0c4a0')),
+      hair(23, 19.5, 41, 19.5, '#6a5232'),
     ],
   })),
   // Grisk, the Goblin King: a dented bucket for a crown, bent spoons stuck round

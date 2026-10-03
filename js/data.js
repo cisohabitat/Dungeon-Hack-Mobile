@@ -482,6 +482,12 @@ const ITEMS = {
   // as good as a soldier's chain, and their curved blades, quick in the hand
   elvenchain:  { kind: 'armor', name: 'Elven Chain', ac: 5, weight: 'light', value: 320, sprite: 'elvenchain', tier: 99 },
   scimitar:    { kind: 'weapon', name: 'Dark Elf Scimitar', dmg: [1, 8, 1], speed: 600, cls: ['fighter', 'thief', 'ranger'], value: 150, sprite: 'scimitar', tier: 99 },
+  // and a dark elf mage's hand crossbow, small enough to hold in one hand, its bolts
+  // dipped in their sleeping poison: one in four that lands leaves a living foe drowsy
+  handxbow:    { kind: 'weapon', name: 'Dark Elf Hand Crossbow', dmg: [1, 6, 1], speed: 900, range: 5, cls: ['fighter', 'thief', 'ranger'], value: 220, sprite: 'handxbow', tier: 99, aimed: true, drowse: true },
+  // and what the lizardfolk leave: their warriors' armour of tanned marsh-hide, which
+  // nothing foul gets through
+  marshhide:   { kind: 'armor', name: 'Marsh-Hide Armour', ac: 4, weight: 'light', power: 'pure', value: 200, sprite: 'marshhide', tier: 99 },
   // and what the grey dwarves leave: their warriors' plate, the best mail there is and as heavy
   // as it looks, and their hammers; their arbalests' shields, cut with runes against the dead
   dwarfplate:  { kind: 'armor', name: 'Dwarven Plate', ac: 8, weight: 'heavy', value: 600, sprite: 'dwarfplate', tier: 99 },
@@ -556,6 +562,8 @@ const ITEMS = {
   amulet_spider: { kind: 'amulet', name: 'Spider Pendant', value: 200, sprite: 'amulet_spider', power: 'evasion', bonus: 2, tier: 99, desc: '+2 to every saving throw.' },
   amulet_ward:  { kind: 'amulet', name: 'Amulet of Warding',  value: 150, sprite: 'amulet_silver', power: ['ward', 'pure'], tier: 3, desc: 'Your life force cannot be drained, and poison cannot take hold of you.' },
   amulet_mind:  { kind: 'amulet', name: 'Amulet of Wizardry', value: 150, sprite: 'amulet_obsidian', power: 'mind', tier: 3, desc: '+6 spell points for anyone who has spells to spend them on.' },
+  // what Hissra's Tooth (a relic: see relics.js) hangs on; never found bare, last of the amulets
+  amulet_tooth: { kind: 'amulet', name: 'Tooth Charm', value: 180, sprite: 'amulet_tooth', power: 'mend', tier: 99, desc: 'Heals a hit point every four seconds, even mid-fight.' },
   // food
   ration: { kind: 'food', name: 'Iron Ration', stack: true, value: 3, sprite: 'ration', food: 45 },
   meat:   { kind: 'food', name: 'Dried Meat',  stack: true, value: 2, sprite: 'meat',   food: 30 },
@@ -638,9 +646,18 @@ const MONSTERS = {
   // while it swells and the working breaks); the arbalest keeps back with a
   // crossbow, and now and then takes careful aim for a heavy bolt (step out of
   // its line before it looses).
-  grey_dwarf: { name: 'Grey Dwarf', hp: [6, 8, 4], ac: 17, hit: 7, dmg: [1, 10, 2], speed: 1150, xp: 170, tier: [99, 99], sprite: 'grey_dwarf', scale: 0.8, move: 'enlarge', cunning: 1 },
-  dwarf_arbalest: { name: 'Grey Dwarf Arbalest', hp: [4, 8, 2], ac: 15, hit: 7, dmg: [1, 6, 1], speed: 1300, xp: 150, tier: [99, 99], sprite: 'dwarf_arbalest', scale: 0.8, move: 'aim', skirmish: true, cunning: 1,
+  grey_dwarf: { name: 'Grey Dwarf', hp: [6, 8, 4], ac: 17, hit: 7, dmg: [1, 10, 2], speed: 1150, xp: 170, tier: [99, 99], sprite: 'grey_dwarf', scale: 0.8, move: 'enlarge', cunning: 1, stout: true },
+  dwarf_arbalest: { name: 'Grey Dwarf Arbalest', hp: [4, 8, 2], ac: 15, hit: 7, dmg: [1, 6, 1], speed: 1300, xp: 150, tier: [99, 99], sprite: 'dwarf_arbalest', scale: 0.8, move: 'aim', skirmish: true, cunning: 1, stout: true,
     ranged: { range: 5, dmg: [2, 6, 1], verb: 'looses a crossbow bolt at' } },
+  // The lizardfolk's own, as the elves and the dwarves are theirs: their marsh
+  // is the fifth floor of a sixteen-floor delve, before the stair divides,
+  // standing water through every room. The warrior coils its tail to sweep the
+  // hero's legs (step back out of its reach); the shaman keeps back, chants
+  // over its kin's wounds, and calls lightning down into the water a hero
+  // stands in (get out of the water).
+  lizardfolk: { name: 'Lizardfolk Warrior', hp: [4, 8, 1], ac: 14, hit: 4, dmg: [1, 8, 1], speed: 1000, xp: 60, tier: [99, 99], sprite: 'lizardfolk', scale: 1.0, move: 'sweep', cunning: 1 },
+  lizard_shaman: { name: 'Lizardfolk Shaman', hp: [3, 8, 0], ac: 12, hit: 3, dmg: [1, 6, 0], speed: 1100, xp: 60, tier: [99, 99], sprite: 'lizard_shaman', scale: 0.95, move: 'mend', spell: true, storm: true, skirmish: true, cunning: 1,
+    ranged: { range: 5, dmg: [1, 6, 1], verb: 'spits a bolt of swamp-fire at' } },
   // a barrel among barrels, until it is touched (game.js lays it in; see foes.js for how it springs)
   emberling: { name: 'Emberling', hp: [3, 8, 2],  ac: 14, hit: 6,  dmg: [1, 8, 2], speed: 1000, xp: 110,  tier: [99, 99], sprite: 'emberling', scale: 0.7, move: 'flare', fiery: true, door: 'batter' },
   mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
@@ -729,10 +746,17 @@ const MONSTERS = {
       arrive: 'Violet lamps, and a far-off chanting. Vaelith, High Priestess of the dark elves, keeps her temple somewhere on this floor.',
       wake: 'The chanting stops. Vaelith the High Priestess turns from her altar, and her warriors draw their blades.',
       fall: 'Vaelith the High Priestess is dead! The violet lamps gutter, and somewhere a great many dark elves fall silent.' } },
+  // The lizardfolk's Marsh-Mother holds their marsh, and only there: she sweeps
+  // as her warriors do, harder, and two shamans keep her.
+  hissra:   { name: 'Marsh-Mother', hp: [8, 8, 6], ac: 15, hit: 6, dmg: [2, 6, 1], speed: 1050, xp: 350, tier: [99, 99], sprite: 'lizardfolk', scale: 1.2, move: 'sweep', cunning: 1,
+    named: { called: 'Hissra', kin: 'lizardfolk', tint: '#7ab04a', guard: ['lizard_shaman', 2], often: 2, pron: 'her', home: 'marsh',
+      arrive: 'Black water, rotting reeds, and a low hissing that comes from everywhere. Hissra, the Marsh-Mother of the lizardfolk, keeps this floor.',
+      wake: 'The hissing stops. Hissra the Marsh-Mother rises out of the reeds, and her shamans begin to chant.',
+      fall: 'Hissra the Marsh-Mother is dead! The reeds go still, and the lizardfolk slip away into the water.' } },
   // The grey dwarves' Forge-Thane holds their hold, and only there. He swells
   // as his warriors do, and his hammer falls the harder for it; two arbalests
   // keep his back.
-  durgrim:  { name: 'Forge-Thane', hp: [10, 8, 14], ac: 18, hit: 9, dmg: [2, 6, 3], speed: 1150, xp: 600, tier: [99, 99], sprite: 'grey_dwarf', scale: 1.0, move: 'enlarge', cunning: 1,
+  durgrim:  { name: 'Forge-Thane', hp: [10, 8, 14], ac: 18, hit: 9, dmg: [2, 6, 3], speed: 1150, xp: 600, tier: [99, 99], sprite: 'grey_dwarf', scale: 1.0, move: 'enlarge', cunning: 1, stout: true,
     named: { called: 'Durgrim', kin: 'grey_dwarf', tint: '#e08a40', guard: ['dwarf_arbalest', 2], often: 2, pron: 'his', home: 'dwarves',
       arrive: 'The ring of hammers, far off, and the smell of a forge. Durgrim, Forge-Thane of the grey dwarves, holds this floor.',
       wake: 'The hammers stop. Durgrim the Forge-Thane sets down his tongs, takes up his hammer, and his arbalests wind their crossbows.',
@@ -888,6 +912,15 @@ const BESTIARY = {
   drow_mage: { lore: 'A dark elf in robes the colour of a bruise, who keeps well back and lets the warriors do the dying. It throws violet fire from afar, and steps away from anyone who comes close.',
     trick: 'It weaves its hands, and a web of shadow spins out down its line toward you, to bind your legs.',
     answer: 'Step out of its line, to one side, and the web sails past; it is left open while it weaves another. Close in on it, and it backs away.' },
+  lizardfolk: { lore: 'A man-sized lizard on its hind legs, green and brown and crested, with a spear, a shield of turtle-shell and a tail as thick as a man\'s leg, which it uses.',
+    trick: 'It coils its tail and swings it round low to sweep your legs from under you: a heavy blow, and you are knocked flat.',
+    answer: 'Step back out of its reach while the tail is coiled, and it lashes empty air and is left open.' },
+  lizard_shaman: { lore: 'A lizardfolk in a cloak of reeds and a headdress of bones, with a staff hung with charms. It keeps behind the warriors, chanting.',
+    trick: 'It chants over its kin\'s wounds and closes them; and when you stand in the water, it calls lightning down into it.',
+    answer: 'Wound it while it chants and the chant breaks. Keep out of the water while it is near, or step out of it when the air crackles.' },
+  hissra: { lore: 'The Marsh-Mother of the lizardfolk, half again the size of her warriors, her crest gone white with age and her neck hung with the teeth of everything she has eaten.',
+    trick: 'She coils her tail to sweep you off your feet, harder than any of her warriors.',
+    answer: 'Step back out of her reach as the tail coils. Cut down her shamans first, or they will close her wounds.' },
   grey_dwarf: { lore: 'A dwarf as grey as the rock, bald and broad, with an iron-coloured beard in braids to the belt, in mail too heavy for anyone taller to carry. Slow, sure and very hard to hurt.',
     trick: 'It mutters a working and begins to swell, and grows to twice its height for a while: its blows fall half as hard again.',
     answer: 'Strike it while it swells and the working breaks. Once it is grown, step back out of its reach until it shrinks.' },
@@ -976,6 +1009,8 @@ const THEMES = [
   { name: 'The Dark Elf Halls', people: 'elves', face: 'ashlar', wall: '#3a3446', mortar: '#16121e', floor: '#24202c', ceil: '#100c16', accent: '#b070f0', flavor: 'Black stone laid true, and violet lamps. You have come into the country of the dark elves.', decor: ['banner', 'runes', 'cobweb', 'sconce', 'chains'], props: ['candles', 'crate', 'urn', 'bones'], fog: '#0c0814' },
   // the grey dwarves' hold, one deep floor of a sixteen-floor delve: square-cut granite, forge-light
   { name: 'The Grey Hold', people: 'dwarves', face: 'granite', wall: '#5e5c58', mortar: '#1e1c1a', floor: '#2e2b28', ceil: '#141210', accent: '#e8843a', flavor: 'Square-cut granite, and far off the ring of hammers. You have come into the hold of the grey dwarves.', decor: ['banner', 'sconce', 'chains', 'grate', 'ring'], props: ['crate', 'barrel', 'rubble', 'candles'], fog: '#120c08' },
+  // the lizardfolk's marsh, the fifth floor of a sixteen-floor delve: wattle and daub, standing water (pools: the share of each room under it)
+  { name: 'The Sunless Marsh', people: 'marsh', face: 'reed', wall: '#5a5a3c', mortar: '#1e2414', floor: '#2a3020', ceil: '#121810', accent: '#9ac050', flavor: 'Black water among rotting reeds, and walls of wattle daubed with mud. You have come into the marsh of the lizardfolk.', decor: ['moss', 'roots', 'seep', 'cobweb'], props: ['mushrooms', 'bones', 'puddle'], pools: 0.28, fog: '#0a120a' },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.

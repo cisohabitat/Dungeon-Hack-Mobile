@@ -90,6 +90,24 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Not in the deck: the lizardfolk's marsh of a sixteen-floor delve holds it, and only there
+  egg_clutch: {
+    title: 'A Clutch of Eggs', sprite: 'egg_clutch', depth: [99, 99], home: 'marsh',
+    text: 'A mound of warm black mud half out of the water, and pressed into its top a dozen leathery eggs the size of a man\'s head. Something has been turning them. It is not here now.',
+    choices: [
+      { label: 'Take an egg to sell', check: { stat: 'dex', dc: 13, knack: [['thief', null, 2], ['ranger', null, 1]] },
+        pass: { text: 'It is heavier than it looks, and warm. Somebody up in the valley will pay well for it, and ask no questions.', effects: [{ goldPerDepth: 25 }, { xp: 20 }] },
+        fail: { text: 'The mound shifts under your hand and the eggs roll. Something in the reeds has seen, and is hissing for the others.', effects: [{ wake: 1 }, { ambush: { id: 'lizardfolk', n: 2 } }] } },
+      { label: 'Warm your hands at the mound', check: { stat: 'con', dc: 12 },
+        pass: { text: 'The heat in the mud soaks into you, and the ache of the dark goes out of your bones.', effects: [{ heal: 15 }, { cure: 1 }] },
+        fail: { text: 'The mud stinks, and something in it bites. Your hand swells.', effects: [{ poison: 1 }] } },
+      { label: 'Smash the eggs', check: { stat: 'str', dc: 11 },
+        pass: { text: 'It is ugly work, and quick. Somewhere in the marsh a great voice cries out, and keeps crying.', effects: [{ xp: 50 }, { wake: 1 }] },
+        fail: { text: 'The shells are tougher than they look, and the noise carries. The marsh goes quiet, and then not.', effects: [{ wake: 1 }, { hurtFrac: 0.05 }] } },
+      { label: 'Leave them be', outcome: { text: 'You leave the eggs to whatever turns them.', effects: [] } },
+    ],
+  },
+
   // Not in the deck: every delve's last floor holds one, in the room nearest
   // the lich's hall, so the gold carried down and found on the way buys something.
   vigil: {

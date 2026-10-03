@@ -286,8 +286,8 @@ export function makeCompanion(K) {
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
       // (not a boss wrapped in its shadow or up on its throne, where the bite never landed, nor through a rite)
       else if (knows(c, 'hamstring') && !(m.wardUntil > K.G.t && K.mstat(m).boss) && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) m.nextAct = Math.max(m.nextAct, K.G.t) + (K.mstat(m).boss ? 250 : 500);
-      // a renegade's poison makes a living foe drowsy; the dead do not sleep, and a boss or a champion shakes it off
-      else if (knows(c, 'sleep_poison') && !mb.undead && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) {
+      // a renegade's poison makes a living foe drowsy; the dead do not sleep, a grey dwarf is too stout for it, and a boss or a champion shakes it off
+      else if (knows(c, 'sleep_poison') && !mb.undead && !mb.stout && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) {
         m.nextAct = Math.max(m.nextAct, K.G.t) + DROWSE_MS;
         if (K.floatText) K.floatText(m, 'drowsy', '#b8a8f0');
       }

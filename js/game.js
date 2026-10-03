@@ -189,7 +189,7 @@ const Game = (() => {
   // for a named champion or the Heart's keeper. A 1 always fails, a 20 always holds.
   const SAVED_SHARE = 0.75;
   const spellDC = (p = P()) => 10 + Math.floor(p.level / 2) + mod(p.stats[CLASSES[p.cls].primary] || 10);
-  const saveBonus = m => { const mb = mstat(m); return Math.floor((mb.hit || 0) / 2) + (mb.named || mb.boss ? 2 : 0); };
+  const saveBonus = m => { const mb = mstat(m); return Math.floor((mb.hit || 0) / 2) + (mb.named || mb.boss ? 2 : 0) + (mb.stout ? 2 : 0); };
   /** @param {import('./types.js').Monster} m @param {string} stat */
   function spellSave(m, stat) {
     const roll = d(1, 20), b = saveBonus(m), dc = spellDC();
@@ -663,13 +663,22 @@ const Game = (() => {
     if (c.t === 'silver' && mstat(m).undead) return d(1, 6);
     return 0;
   }
+  // The grey dwarves are stout: poison does not take on them, as it does not on the dead,
+  // and they ride out a spell a little more often than their skill at arms alone would say
+  /** Whether venom can take on this foe; a stout one says so the first time it shrugs it off. */
+  function venomTakes(m, mb) {
+    if (mb.undead) return false;
+    if (!mb.stout) return true;
+    if (!m.stoutSaid) { m.stoutSaid = true; floatText(m, 'stout', '#c8b890'); log(`The poison does nothing to the ${mb.name}: grey dwarves are stout.`); learn(mb.named ? mb.named.kin : m.id, 'stout'); }
+    return false;
+  }
   /** A blow with a coated weapon has landed: fire stops the mending, venom may take, and the coat wears. */
   function coatLanded(m, survived) {
     const p = P(), c = p.coating;
     if (!c || !(c.left > 0) || !p.eq.weapon) return;
     const mb = mstat(m);
     if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
-    if (survived && c.t === 'venom' && !mb.undead && Dice.chance(1 / 3)) {
+    if (survived && c.t === 'venom' && venomTakes(m, mb) && Dice.chance(1 / 3)) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
@@ -1388,7 +1397,7 @@ const Game = (() => {
       removeOne(it);
       const was = p.coating;
       p.coating = { t: b.coat, left: COAT_BLOWS };
-      const wb = ITEMS[p.eq.weapon.t], what = p.eq.weapon.t === 'sling' ? 'your sling stones' : wb.aimed ? 'your arrows' : `your ${wb.name.toLowerCase()}`;
+      const wb = ITEMS[p.eq.weapon.t], what = p.eq.weapon.t === 'sling' ? 'your sling stones' : p.eq.weapon.t === 'handxbow' ? 'your bolts' : wb.aimed ? 'your arrows' : `your ${wb.name.toLowerCase()}`;
       log(`${was && was.t !== b.coat ? `You wipe off the ${COATINGS[was.t].name} and work` : 'You work'} the ${b.name.toLowerCase()} into ${what}. ${COATINGS[b.coat].says}`, 'good');
       Sound.play('pickup');
       emit('stats');
@@ -2135,7 +2144,7 @@ const Game = (() => {
     const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
     return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
   }
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11, sweep: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
@@ -2379,7 +2388,8 @@ const Game = (() => {
   /** @param {import('./types.js').Level} L */
   function mimicLevel(L, depth) {
     const tier = Dungeon.tierAt(depth, G.opts.levels || 8);
-    if (tier < 3 || tier > 7 || L.isFinal) return;
+    // (and never on a people's floor: nobody lives there but them)
+    if (tier < 3 || tier > 7 || L.isFinal || (THEMES[L.theme] && THEMES[L.theme].people)) return;
     const rng = new Rng(`${G.seed}|mimic|${depth}`);
     if (rng.next() >= MIMIC_CHANCE) return;
     const ends = [L.start, L.stairsUp, L.stairsDown].filter(Boolean);
@@ -2604,6 +2614,8 @@ const Game = (() => {
     shortbow: { style: 'arrow', release: 0.72, perSquare: 45, from: { x: 0.5, y: 0.66 }, color: '#b08858' },
     // the long bow's heavier draw sends its arrow a little quicker down the hall
     longbow: { style: 'arrow', release: 0.72, perSquare: 38, from: { x: 0.5, y: 0.66 }, color: '#a88050' },
+    // a short black bolt, let go as the crossbow kicks, and quick off the prod
+    handxbow: { style: 'arrow', release: 0.32, perSquare: 36, from: { x: 0.56, y: 0.6 }, color: '#3a3040' },
   };
   function attack() {
     try { strike(); } finally { fxDelay = 0; }
@@ -2731,9 +2743,15 @@ const Game = (() => {
       if (kindles()) setBurning(m);
     }
     if (bladeLanded && !w.claws) coatLanded(m, struckSurvived);
+    // a dark elf's hand crossbow: its bolts carry their sleeping poison, and one in four that lands
+    // leaves a living foe drowsy, its next move a second late (not the dead, a stout grey dwarf, a boss or a champion)
+    if (!w.claws && P().eq.weapon && ITEMS[P().eq.weapon.t].drowse && atRange && struckSurvived && !mb.undead && !mb.stout && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && Dice.chance(1 / 4)) {
+      m.nextAct = Math.max(m.nextAct, G.t) + 1000;
+      floatText(m, 'drowsy', '#b8a8f0');
+    }
     if (bladeLanded) wild.rend(m, struckSurvived);
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
-    if (hasTalent('venom') && struckSurvived && !mb.undead && Math.random() < 0.25) {
+    if (hasTalent('venom') && struckSurvived && Math.random() < 0.25 && venomTakes(m, mb)) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
@@ -2903,8 +2921,9 @@ const Game = (() => {
   // what a wyrm's scales and a quillback's quills are made into, and how often one is whole enough (Skarrow always)
   // (each a list of what may be taken, and how often: a dark elf warrior's blade more often than its mail)
   const TROPHIES = { wyrm: [['wyrmscale', 0.25]], skarrow: [['wyrmscale', 1]], quillback: [['quillshield', 0.2]],
-    drow_warrior: [['scimitar', 0.12], ['elvenchain', 0.08]], drow_mage: [['cloak_shadow', 0.15]],
-    grey_dwarf: [['dwarfhammer', 0.12], ['dwarfplate', 0.06]], dwarf_arbalest: [['runeshield', 0.15]] };
+    drow_warrior: [['scimitar', 0.12], ['elvenchain', 0.08]], drow_mage: [['cloak_shadow', 0.15], ['handxbow', 0.1]],
+    grey_dwarf: [['dwarfhammer', 0.12], ['dwarfplate', 0.06]], dwarf_arbalest: [['runeshield', 0.15]],
+    lizardfolk: [['marshhide', 0.1]], lizard_shaman: [['charm_fang', 0.15]] };
   /** One of them falls: the reward, the log line and the chance of loot. */
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
@@ -2959,6 +2978,13 @@ const Game = (() => {
       const k = key(m.x, m.y);
       (L.items[k] = L.items[k] || []).push(relicItem(own));
       log(`As ${RELICS[own].fell || 'it falls'}, ${RELICS[own].name} drops to the stones.`, 'good');
+    }
+    // a renegade at the hero's side when the High Priestess falls has what they came down for
+    // (near enough to see it: one told to stay at the far end of the floor only hears of it)
+    const rc = companion.here();
+    if (m.id === 'vaelith' && rc && rc.kind === 'renegade' && !rc.avenged && Math.abs(rc.x - m.x) + Math.abs(rc.y - m.y) <= 8) {
+      rc.avenged = G.depth; rc.hp = rc.maxHp;
+      log(`${rc.name} stands over the High Priestess a long moment, and says something in their own tongue. When they turn back to you the amber eyes are dry. "That was all I wanted. The rest of the way down, I go for you."`, 'good');
     }
     checkLevelUp();
     emit('stats');
@@ -3414,6 +3440,9 @@ const Game = (() => {
       return here && c.mode === 'follow' ? `a healer called ${n} closed their eyes, and went on down alone to find someone who could still be mended` : `a healer called ${n} waited on the floor below where they were told, tending their own scrapes, until the herbs ran out`;
     }
     if (c.kind === 'renegade') {
+      if (c.avenged && won && here) return `a dark elf called ${n}, who saw the High Priestess of their people fall, walked out of the mountain at their side and has never once looked back down it`;
+      if (c.avenged && !c.fallen) return won ? `a dark elf called ${n}, who saw the High Priestess of their people fall, came up out of the Deepdelve a night after them, and was gone again before dawn` : `a dark elf called ${n}, who saw the High Priestess of their people fall, went on down alone, for the debt was paid and the dark was theirs again`;
+      if (c.avenged && c.fallen) return `a dark elf called ${n} lies on floor ${c.fallen} of the Deepdelve, the two blades crossed on their breast, having seen the High Priestess fall first`;
       if (c.fallen) return `a dark elf called ${n} lies on floor ${c.fallen} of the Deepdelve, the two blades crossed on their breast, further from home than any of their people had gone`;
       if (won) return here ? `a dark elf called ${n} came up into the daylight with them, hooded against it, and keeps to the valley's woods and the night` : `a dark elf called ${n} came up out of the Deepdelve a night after them, and was gone again before dawn`;
       return here && c.mode === 'follow' ? `a dark elf called ${n} stood over them to the last, and went back down into the dark, where nobody would have them` : `a dark elf called ${n} waited where they were told on the floor below, and is waiting still`;
@@ -3588,7 +3617,7 @@ const Game = (() => {
       // what fire, cold and lightning were found to do to it, and nothing else
       const el = {};
       if (r.el && typeof r.el === 'object') for (const k of ['fire', 'cold', 'lightning']) if (r.el[k] === 'weak' || r.el[k] === 'resist') el[k] = r.el[k];
-      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(r.sr ? { sr: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
+      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(r.sr ? { sr: 1 } : {}), ...(r.stout ? { stout: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
     }
     beastRaw = raw; beastBook = out;
     return out;
@@ -3628,6 +3657,7 @@ const Game = (() => {
     }
     else if (what === 'death') r.deaths++;
     else if (what === 'spellres') { if (!r.sr) { r.sr = 1; news.push('shrugs off spells'); } }
+    else if (what === 'stout') { if (!r.stout) { r.stout = 1; news.push('poison does not take'); } }
     else if (what.startsWith('element:')) {
       const [, el, how] = what.split(':');
       r.el = r.el || {};

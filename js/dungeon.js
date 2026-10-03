@@ -12,12 +12,14 @@ const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat', 'drow_warrior'];
  * shortest delve they are found in, and how many floors above the Heart's
  * their floor lies. The dark elves are two above it in a Long Delve of twelve
  * or sixteen floors; the grey dwarves five above it, in sixteen only, between
- * the second champion and the third.
+ * the second champion and the third; the lizardfolk eleven above it, the fifth
+ * of sixteen, between the first champion and the divided stair.
  * @type {Record<string, { kin: [string, number][], from: number, back: number, word: string }>}
  */
 const PEOPLES = {
   elves: { kin: [['drow_warrior', 2], ['drow_mage', 1]], from: 12, back: 2, word: "the dark elves' country" },
   dwarves: { kin: [['grey_dwarf', 2], ['dwarf_arbalest', 1]], from: 16, back: 5, word: "the grey dwarves' hold" },
+  marsh: { kin: [['lizardfolk', 2], ['lizard_shaman', 1]], from: 16, back: 11, word: "the lizardfolk's marsh" },
 };
 const ELF_KIN = PEOPLES.elves.kin;
 const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
@@ -1124,6 +1126,17 @@ const Dungeon = (() => {
         if (byWall) for (const [dx, dy] of wallsBy(x, y)) { ox += dx * 0.3; oy += dy * 0.3; }
         const clamp = v => Math.round(Math.max(-0.34, Math.min(0.34, v)) * 100) / 100;
         out.push(kind === 'puddle' ? { x, y, k: kind, ox: clamp(ox), oy: clamp(oy), r: Math.round((0.18 + rng.next() * 0.16) * 100) / 100 } : { x, y, k: kind, ox: clamp(ox), oy: clamp(oy) });
+      }
+    }
+    // a marsh: standing water over a share of every room, on dice of its own so the rest lies as it would
+    const pools = THEMES[L.theme] && THEMES[L.theme].pools;
+    if (pools) {
+      const wet = new Rng(`${seed}|marsh|${L.depth}`);
+      for (const cells of byRoom.values()) for (const i of cells) {
+        const x = i % w, y = (i / w) | 0;
+        if (taken.has(x + ',' + y) || wet.next() >= pools) continue;
+        taken.add(x + ',' + y);
+        out.push({ x, y, k: 'puddle', ox: 0, oy: 0, r: 0.34 });
       }
     }
     return out;

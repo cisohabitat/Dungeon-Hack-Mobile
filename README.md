@@ -258,7 +258,7 @@ push and pull request.
 
 Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`), 200 runs per class on
-Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; so is the Long Delve on Hard; the Long Delve on Normal is too, since the deep floors came in. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
+Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes apart; the Long Delve rows are 200 runs a class (`LEVELS=12 SEEDN=20`, or `LEVELS=16` for sixteen floors). Normal and Hard are the mean of two seed sets (`SEEDPFX=alt` for the second), since one set alone swings a class by five points or more; so is the Long Delve on Hard; the Long Delve on Normal is too, since the deep floors came in. All four rows were measured again with capstones, oils, charms, traders' jobs and the Goblin Warlord at the end of the Warrens (the bot takes each capstone in turn, buys and uses oils and charms, takes every job, and goes down each road on half its seeds):
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -267,7 +267,20 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Hard | 54% | 56% | 59% | 53% | 60.5% | 54% | about 56% |
 | Long Delve (12 floors), Normal | 84% | 79% | 72% | 82% | 81% | 76% | about 79% |
 | Long Delve (12 floors), Hard | 63.5% | 58% | 62% | 63% | 60% | 60% | about 61% |
+| Long Delve (16 floors), Normal | 72% | 70% | 62.5% | 86% | 82% | 63% | about 72.5% |
+| Long Delve (16 floors), Hard | 60% | 50% | 47% | 54% | 56.5% | 50.5% | about 53% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The sixteen-floor rows are new, both seed sets, measured once the delve passed three peoples: the
+lizardfolk's Sunless Marsh on the fifth floor (warriors whose tail sweep knocks a hero flat, shamans
+who mend them and call lightning into the water that stands in every room, and Hissra, the
+Marsh-Mother), the grey dwarves' Grey Hold on the eleventh (stout now: poison never takes on them,
+and they ride out a spell more often), and the dark elves on the fourteenth. On Hard the fighter
+went from 53.5% (before the marsh, on the first set) to 49.5%, the mage from 43.5% to 44.5%. The
+mage and the druid trail the thief and the ranger by about twenty points on Normal; on Hard the
+spread across the classes is thirteen. The bot now steps back from a grey dwarf grown to twice its height whenever a square is
+open (`NOROOM=1` stands its ground): it made no difference worth the name, the fighter 50.25% with
+it and 51.25% without, the mage 47.25% and 46.25%.
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills

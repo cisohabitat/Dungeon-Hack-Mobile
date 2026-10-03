@@ -188,6 +188,7 @@ const Assets = (() => {
     if (theme.face === 'earth') return makeEarth(theme, seed, cracked);
     if (theme.face === 'ashlar') return makeAshlar(theme, seed, cracked);
     if (theme.face === 'granite') return makeGranite(theme, seed, cracked);
+    if (theme.face === 'reed') return makeReed(theme, seed, cracked);
     return makeBrick(theme, seed, cracked);
   }
   // Black glass: the Sanctum's walls are not laid in courses of brick but cut
@@ -989,6 +990,45 @@ const Assets = (() => {
         P.set(x, y, [10, 9, 8]);
         if (x + 1 < TEX) P.set(x + 1, y, P.get(x + 1, y), 18);
         if (rng.chance(0.45)) x = Math.max(1, Math.min(TEX - 2, x + rng.int(-1, 1)));
+      }
+    }
+    return P.done();
+  }
+
+  // The lizardfolk's marsh: walls of wattle, bundles of reeds stood on end and
+  // lashed with cord, and mud daubed over them in great smears that have dried
+  // and cracked, the reeds showing through where it has fallen away; damp and
+  // green at the foot, where the water stands.
+  function makeReed(theme, seed, cracked) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), reed = hexToRgb(theme.wall), mud = mixRgb(reed, [92, 74, 52], 0.6), cord = [70, 54, 32], slime = [44, 70, 36];
+    const bundle = Array.from({ length: 16 }, () => rng.int(-14, 12));
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const b = x >> 2, lx = x & 3;
+      // the reeds: each bundle its own tone, each stem lit down its left, a node now and then
+      let k = bundle[b] + (lx === 0 ? 10 : lx === 3 ? -14 : 0) + (hash2(x, y, s) - 0.5) * 8 + Math.sin(y * 0.35 + b * 2.1) * 3;
+      if (hash2(b, y >> 3, s + 3) > 0.86 && (y & 7) === 0) k -= 18;
+      let c = reed;
+      // the lashings: two turns of cord across every course
+      const ly = y & 15;
+      if (ly === 7 || ly === 8) { c = cord; k = (ly === 7 ? 8 : -12) + (hash2(x, y, s + 1) - 0.5) * 8; }
+      // the daub over it, thick in smears, cracked as it dried
+      const daub = vnoise(x, y, 14, s + 5);
+      if (daub > 0.42) {
+        c = mud; k = (vnoise(x, y, 5, s + 6) - 0.5) * 16 + (hash2(x, y, s + 7) - 0.5) * 8 + (daub < 0.47 ? -14 : 0);
+        if (vnoise(x, y, 4, s + 8) > 0.83) k -= 24;   // a crack in the dried mud
+      }
+      // damp and green at the foot
+      const foot = Math.max(0, (y - 44) / 20);
+      if (foot > 0) c = mixRgb(c, slime, foot * (0.5 + 0.5 * vnoise(x, y, 6, s + 9)));
+      P.set(x, y, c, k);
+    }
+    if (cracked) {
+      // a great piece of the daub has fallen away, and the reeds behind it have split
+      const cx = rng.int(16, 48), cy = rng.int(14, 40);
+      for (let y = cy - 10; y < cy + 12; y++) for (let x = cx - 9; x < cx + 9; x++) {
+        if ((x - cx) ** 2 / 81 + (y - cy) ** 2 / 121 > 1 || x < 0 || y < 0 || x >= TEX || y >= TEX) continue;
+        P.set(x, y, (x & 3) === 1 ? [16, 14, 10] : reed, (x & 3) === 0 ? 6 : -20);
       }
     }
     return P.done();

@@ -426,6 +426,29 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // --- a grey dwarf grown to twice its height is given room until it shrinks, as the bestiary
+    // says: a step back from it whenever one is open, rather than trading blows half as hard again
+    // (NOROOM=1 stands its ground, to measure what the step back is worth)
+    if (!process.env.OLDANSWERS && !process.env.NOROOM) {
+      const big = L.monsters.find(m => m.bigUntil > G.t && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+      if (big) {
+        const open = (x, y) => { const t = L.tiles[y * L.w + x]; return (t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === x && o.y === y) && !(L.npcs || []).some(o => o.x === x && o.y === y) && !(Game.fieldAt && Game.fieldAt(x, y) && Game.fieldAt(x, y).k === 'fire'); };
+        let best = -1, far = 1;
+        for (let k = 0; k < 4; k++) {
+          const [dx, dy] = Dungeon.DIRS[k], x = p.x + dx, y = p.y + dy;
+          if (!open(x, y)) continue;
+          const dd = Math.min(...L.monsters.filter(o => o.awake).map(o => Math.abs(o.x - x) + Math.abs(o.y - y)));
+          if (dd > far) { far = dd; best = k; }
+        }
+        if (best >= 0) {
+          Game.input(['forward', 'strafeR', 'back', 'strafeL'][(best - p.dir + 4) % 4]);
+          rec.roomGiven = (rec.roomGiven || 0) + 1;
+          step();
+          continue;
+        }
+      }
+    }
+
     // --- DODGE=1 steps straight back from every plain blow drawn back beside
     // it, as a twitchy human does; DODGE=2 has read the bestiary and steps
     // aside from a lunger or the lich's reach instead
@@ -881,6 +904,11 @@ function play(ctx, cls, seed, opts, bg, idx) {
   rec.won = G.status === 'won';
   rec.level = p.level;
   rec.timedOut = G.status === 'playing';
+  // STUCKAT=1 prints where a run that ran out of time was standing, and what was left near it
+  if (rec.timedOut && process.env.STUCKAT) {
+    const L = Game.level();
+    console.error(`STUCK ${seed} floor ${G.depth} (theme ${L.theme}) at ${p.x},${p.y} hp ${p.hp}/${p.maxHp} awake ${L.monsters.filter(m => m.awake).map(m => `${m.id}@${Math.abs(m.x - p.x) + Math.abs(m.y - p.y)}`).join(' ')} held ${p.held > G.t ? p.heldBy : '-'} webbed ${p.webbed > G.t}`);
+  }
   rec.dual = !!p.eq.offhand;
   // the named champions this run held, and which of them fell (NAMED=1 prints it)
   rec.namedHeld = Object.values(Dungeon.namedPlan(seed, opts.levels));

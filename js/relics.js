@@ -127,6 +127,9 @@ const RELICS = {
   // sixteen-floor delve, so it is a find beyond the set the Collector's feat asks for (`beyond`)
   thane_ring: { t: 'ring_forge', e: 1, name: 'Durgrim\'s Ring', powers: ['fireward'], value: 420, champion: 'durgrim', fell: 'the Forge-Thane falls', beyond: true,
     lore: 'A heavy band of dark iron with a vein of copper through it, forged in the first fire of the grey dwarves\' hold. Every Thane has worn it at the anvil, and none of them has been burnt.' },
+  // Hissra's own, from about her neck as she falls; found only in a sixteen-floor delve, beyond the set
+  hissra_tooth: { t: 'amulet_tooth', e: 1, name: 'Hissra\'s Tooth', powers: ['pure'], value: 400, champion: 'hissra', fell: 'the Marsh-Mother falls', beyond: true,
+    lore: 'A yellow fang as long as a finger, on a thong of hide, from something that lived in the marsh before the lizardfolk did. Wounds close under it, and nothing foul takes root in them.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };

@@ -1210,7 +1210,7 @@ const GRIPS = {
   // in its HELD_ART picture: the right fist under the guard, the left at the pommel
   greatsword: { at: at(9.9), second: at(3.4), grid: 100 }, throwknife: { at: at(12.5) },
   club: { at: at(5.6) }, staff: { at: at(13.5), second: at(3.5) }, spear: { at: at(9.5) },
-  mace: { at: at(5.2) }, hammer: { at: at(5.2) }, dwarfhammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
+  mace: { at: at(5.2) }, hammer: { at: at(5.2) }, dwarfhammer: { at: at(5.2) }, handxbow: { at: at(6) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
   sling: { at: [8, 6.5], fixed: true },
 };
 const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
@@ -1238,5 +1238,25 @@ const ironclad = parts => parts.map(p => { if (!/^#[0-9a-f]{6}$/i.test(p.c)) ret
 /** @type {any} */ (ITEM_ART).dwarfhammer = () => dwarven(ITEM_ART.hammer());
 /** @type {any} */ (ITEM_ART).runeshield = () => [...ironclad(ITEM_ART.towershield()), ...[[13, 12, 16, 16], [16, 16, 19, 12], [16, 16, 16, 22], [13, 22, 19, 22]].map(([a, b, c, d]) => hair(a, b, c, d, '#7ad0e8', { glows: true }))];
 /** @type {any} */ (HELD_ART).dwarfhammer = () => dwarven(HELD_ART.hammer());
+// The lizardfolk's marsh-hide: the leather coat's own picture, in green-brown scaled hide
+/** @type {any} */ (ITEM_ART).marshhide = () => [...ITEM_ART.leather().map(p => (/^#[0-9a-f]{6}$/i.test(p.c) ? { ...p, c: (n => { const r = n >> 16, g = (n >> 8) & 255, b = n & 255, l = (r * 0.3 + g * 0.59 + b * 0.11) / 255; return '#' + [l * 120 + 10, l * 150 + 18, l * 90 + 8].map(v => Math.round(Math.min(255, v)).toString(16).padStart(2, '0')).join(''); })(parseInt(p.c.slice(1), 16)) } : p)),
+  ...[[12, 12], [18, 12], [15, 16], [12, 20], [18, 20], [15, 24]].map(([x, y]) => ball(x, y, 1.1, 0.8, '#7e9e52'))];
+// Hissra's: a long yellow fang on a thong of hide
+/** @type {any} */ (ITEM_ART).amulet_tooth = () => [
+  ...[0.12, 0.3, 0.5, 0.7, 0.88].map((t, n, a) => n ? limb(16 + Math.cos(Math.PI * (1 - a[n - 1])) * 9, 6 + Math.sin(Math.PI * a[n - 1]) * 9, 16 + Math.cos(Math.PI * (1 - t)) * 9, 6 + Math.sin(Math.PI * t) * 9, 0.6, 0.6, '#6a4a2a') : null).filter(Boolean),
+  limb(16, 15, 16, 17, 1, 1, '#6a4a2a'),
+  sheet([[13.5, 17], [18.5, 17], [17.4, 23], [16, 29], [14.6, 23]], '#e8d898', { curve: 0.7 }), sheet([[16.6, 17.5], [18.5, 17], [17.4, 23], [16, 29]], '#b8a868', { curve: 0.5 }),
+  hair(14.6, 18, 15.6, 26, '#fff8d8'),
+];
+// A dark elf's hand crossbow: a short black stock with a violet stone set in it, a small
+// steel prod across its head, the string drawn back to the nut, a bolt laid in it
+/** @type {any} */ (ITEM_ART).handxbow = () => [
+  axis(2.5, 21, 1.5, 1.2, '#2a2230'), axis(3, 20.5, 0.5, 0.4, '#463a52'),
+  ball(...at(9), 1.1, 1.1, '#9a60e0', { glows: true }),
+  limb(...at(19.5, -8.5), ...at(21.5, 0), 0.75, 0.9, '#b8bccc'), limb(...at(21.5, 0), ...at(19.5, 8.5), 0.9, 0.75, '#b8bccc'),
+  hair(...at(19.5, -8.3), ...at(13.5, 0), '#d8d0c0'), hair(...at(13.5, 0), ...at(19.5, 8.3), '#d8d0c0'),
+  axis(13.5, 27.5, 0.45, 0.45, '#6a4a2c'), axis(26.5, 29.5, 0.8, 0.2, '#eef0f8'),
+  hairAt(3, -1, 20, -1, '#5a4e66'), specksAt([[22, -0.5]], '#ffffff'),
+];
 
 export { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS };

@@ -6893,10 +6893,10 @@ function roomBeside(ctx, m) {
 await test('named champions hold a floor a third and two thirds down (a long delve: a quarter, half and three quarters), chosen to suit it, never the first nor the lich\'s', async () => {
   const { Dungeon, MONSTERS } = await newContext();
   const named = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
-  if (named.length < 4 || named.length > 9) return `${named.length} named champions`;
+  if (named.length < 4 || named.length > 10) return `${named.length} named champions`;
   for (const id of named) if (MONSTERS[id].boss) return `${id} is marked as the Heart's keeper`;
-  // (and on a long delve the dark elves' High Priestess, on their own floor; in sixteen, the grey dwarves' Thane on theirs)
-  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9, 10], 16: [4, 8, 11, 12, 14] };
+  // (and on a long delve the dark elves' High Priestess, on their own floor; in sixteen, the lizardfolk's Marsh-Mother and the grey dwarves' Thane on theirs)
+  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9, 10], 16: [4, 5, 8, 11, 12, 14] };
   for (const levels of [2, 3, 4, 6, 8, 12, 16]) {
     for (let s = 0; s < 12; s++) {
       const seed = `named-floors-${s}`, plan = Dungeon.namedPlan(seed, levels);
@@ -9935,6 +9935,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const anvils = theme => Music.plan('quiet', theme, 64).flatMap(s => s.notes).filter(n => n.k === 'bell' && n.len === 0.15).length;
     if (!(anvils(9) >= 8)) out.push(`the grey dwarves' hold rang ${anvils(9)} hammers in 64 quiet steps`);
     if (anvils(0) || anvils(8)) out.push('another floor rang hammers like the dwarves\' hold');
+    // and the lizardfolk's marsh croaks with frogs; no other floor does
+    const frogs = theme => Music.plan('quiet', theme, 72).flatMap(s => s.notes).filter(n => n.k === 'pulse' && n.len === 0.1).length;
+    if (!(frogs(10) >= 6)) out.push(`the marsh croaked ${frogs(10)} times in 72 quiet steps`);
+    if (frogs(0) || frogs(9)) out.push('another floor croaked like the marsh');
     const quiet = Music.plan('quiet', 0, 64), wary = Music.plan('wary', 0, 64), fight = Music.plan('fight', 0, 64), champ = Music.plan('champion', 0, 64), boss = Music.plan('boss', 0, 64);
     // quiet is sparse: bells, a long silence between phrases, no beat
     const quietBells = count(quiet, 'bell');
@@ -14428,6 +14432,208 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (Object.values(plan.floor).includes('thane_ring') || plan.shop.includes('thane_ring')) { out.push('the Thane\'s ring was dealt to a floor or a shop'); break; }
     }
     if (RELICS.thane_ring.champion !== 'durgrim') out.push('the ring is not Durgrim\'s');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('grey dwarves are stout: venom on a blade never takes on them (told once), and they ride out a blast more often than their skill alone would say', async () => {
+    const out = [];
+    const poisoned = async id => {
+      const ctx = await start('fighter', 'stout-' + id);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; p.stats.str = 30;
+      const m = beside(ctx, id, { hp: 1e6, maxHp: 1e6, nextAct: 1e12 });
+      const mark = markLog(G);
+      let n = 0;
+      for (let i = 0; i < 60; i++) { p.coating = { t: 'venom', left: 20 }; m.dot = null; G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); if (m.dot && m.dot.kind === 'venom') n++; }
+      return { n, said: linesSince(G, mark).filter(l => /grey dwarves are stout/.test(l)).length };
+    };
+    const dw = await poisoned('grey_dwarf'), elf = await poisoned('drow_warrior');
+    if (dw.n) out.push(`venom took on a grey dwarf ${dw.n} times`);
+    if (dw.said !== 1) out.push(`the dwarf's stoutness was told ${dw.said} times`);
+    if (!(elf.n > 3)) out.push(`venom took on a dark elf only ${elf.n} times in 60 blows`);
+    // the same blasts at a foe as sure as a grey dwarf with its arms, stout and not
+    const saves = async stout => {
+      const { ctx, Game, G, p, put, cast } = await arena('mage', 'stout-saves');
+      const { MONSTERS } = ctx;
+      const was = MONSTERS.ogre;
+      MONSTERS.ogre = { ...was, hit: 4, stout };
+      try {
+        seedDice(ctx, 'stout-saves');
+        let k = 0;
+        for (let i = 0; i < 200; i++) {
+          Game.level().monsters.length = 0;
+          put('ogre', 1, 0, { hp: 5000, maxHp: 5000 });
+          const mark = markLog(G); p.sp = 999; cast('lightning');
+          if (linesSince(G, mark).some(l => /the worst of your/.test(l))) k++;
+        }
+        return k;
+      } finally { MONSTERS.ogre = was; }
+    };
+    const plain = await saves(false), stoutK = await saves(true);
+    if (!(stoutK > plain + 10)) out.push(`a stout foe saved ${stoutK} times in 200, one not stout ${plain}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a dark elf mage leaves its hand crossbow now and then; its bolts drowse a living foe one hit in four, never the dead, a stout dwarf nor a champion', async () => {
+    const out = [];
+    const ctx = await start('ranger', 'xbow');
+    const { Game, ITEMS } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.dex = 30;
+    p.eq.weapon = { t: 'handxbow', q: 1, e: 0 };
+    const shots = id => {
+      const m = ahead(ctx, id, 3, { hp: 1e6, maxHp: 1e6, nextAct: 1e12 });
+      seedDice(ctx, 'xbow-' + id);
+      for (let i = 0; i < 80; i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); }
+      return { hit: 1e6 - m.hp, drowsed: Math.round((m.nextAct - 1e12) / 1000) };
+    };
+    const ogre = shots('ogre'), bones = shots('skeleton'), queen = shots('vaelith'), dwarf = shots('grey_dwarf');
+    if (!(ogre.hit > 0)) out.push('the crossbow never hit');
+    else if (!(ogre.drowsed >= 4)) out.push(`80 bolts drowsed a living ogre ${ogre.drowsed} times`);
+    if (bones.drowsed || queen.drowsed || dwarf.drowsed) out.push(`bolts drowsed a skeleton ${bones.drowsed} times, Vaelith ${queen.drowsed}, a stout grey dwarf ${dwarf.drowsed}`);
+    if (ITEMS.handxbow.tier < 50 || ITEMS.handxbow.twoHanded) out.push('the hand crossbow is ordinary loot, or wants two hands');
+    // and it falls from a mage now and then
+    let got = 0;
+    for (let i = 0; i < 80; i++) {
+      const m = beside(ctx, 'drow_mage', { hp: 1, maxHp: 1, nextAct: 1e12 });
+      p.eq.weapon = { t: 'longsword', q: 1, e: 0 };
+      for (let t = 0; t < 40 && Game.level().monsters.includes(m); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+      const k = `${m.x},${m.y}`;
+      if ((Game.level().items[k] || []).some(it => it.t === 'handxbow')) got++;
+      delete Game.level().items[k];
+    }
+    if (!(got >= 1 && got < 24)) out.push(`80 mages left ${got} hand crossbows`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a renegade at the hero\'s side when Vaelith falls has what they came for: they say so, are mended whole, and the valley tells it', async () => {
+    const out = [];
+    for (const where of ['beside', 'below', 'far']) {
+      const here = where === 'beside';
+      const ctx = await start('fighter', 'avenge-' + where, { levels: 12 });
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; p.stats.str = 30; p.gold = 1000;
+      meetAndChoose(ctx, 'exile', 0); Game.closeEncounter();
+      const c = Game.companion();
+      c.hp = 1;
+      if (where === 'below') c.depth = G.depth + 1;
+      const v = beside(ctx, 'vaelith', { hp: 1, maxHp: 1, nextAct: 1e12 });
+      // told to stay at the far end of the floor: out of sight of it
+      if (where === 'far') { c.mode = 'stay'; c.x = v.x + 12; c.y = v.y; }
+      const mark = markLog(G);
+      for (let t = 0; t < 40 && Game.level().monsters.includes(v); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+      const said = linesSince(G, mark).some(l => /That was all I wanted/.test(l));
+      if (here && (!said || !c.avenged || c.hp !== c.maxHp)) out.push(`at the hero's side: said ${said}, avenged ${c.avenged}, ${c.hp}/${c.maxHp}`);
+      if (!here && (said || c.avenged)) out.push(`a renegade ${where === 'far' ? 'at the far end of the floor' : 'on another floor'} was told as avenged`);
+      if (here) {
+        c.depth = G.depth; if (!/saw the High Priestess of their people fall/.test(JSON.stringify(Game.epilogue(true)))) out.push('the tale does not tell it');
+        // and still tells it when the hero dies, or wins with them left on another floor
+        if (!/saw the High Priestess of their people fall/.test(JSON.stringify(Game.epilogue(false)))) out.push('the tale of a fallen hero forgets it');
+        c.depth = G.depth + 1; if (!/saw the High Priestess of their people fall/.test(JSON.stringify(Game.epilogue(true)))) out.push('the tale forgets it when they are not at the end');
+      }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  // ---------- the lizardfolk's marsh ----------
+  await test('the fifth floor of a sixteen-floor delve is the lizardfolk\'s marsh: their people, their Marsh-Mother, their eggs, water in every room; a rest there is broken by them', async () => {
+    const out = [];
+    const { Dungeon } = await newContext();
+    for (let i = 0; i < 200; i++) {
+      if (Dungeon.twistPlan('lz' + i, 16)[5]) { out.push('the marsh was twisted'); break; }
+      if (Dungeon.namedPlan('lz' + i, 16)[5] !== 'hissra') { out.push('the marsh was not the Marsh-Mother\'s'); break; }
+    }
+    for (let s = 0; s < 4; s++) {
+      const L = Dungeon.generate('lz' + s, 5, { levels: 16, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+      if (!(L.npcs || []).some(n => n.kind === 'encounter' && n.id === 'egg_clutch')) out.push(`lz${s}: no eggs in the marsh`);
+    }
+    // nobody lives there but them, mimics in the barrels included, whatever the seed
+    for (let s = 0; s < 8; s++) {
+      const c = await start('fighter', 'marshonly' + s, { levels: 16, size: 'medium', monsters: 'normal' });
+      c.Game.testFloor(5);
+      const odd = c.Game.level().monsters.map(m => m.id).filter(id => !/^(lizardfolk|lizard_shaman|hissra)$/.test(id));
+      if (odd.length) { out.push(`marshonly${s}: ${odd.join()} in the marsh`); break; }
+    }
+    const ctx = await start('fighter', 'marshrest', { levels: 16, size: 'medium', monsters: 'normal' });
+    const { Game } = ctx; const G = Game.state(), p = Game.player();
+    Game.testFloor(5);
+    const L = Game.level(), kinds = new Set();
+    // the hero stands in water somewhere in its rooms
+    if (!L.dressing.some(d => d.k === 'puddle' && Game.wet(d.x, d.y))) out.push('no standing water in the marsh is wet');
+    for (let i = 0; i < 30; i++) {
+      L.monsters.length = 0; L.rests = 1; p.hp = 1; p.food = 100;
+      G.t += 60000;
+      Game.input('rest');
+      for (const mm of L.monsters) kinds.add(mm.id);
+    }
+    if (!kinds.size) out.push('thirty rests in the marsh and nothing came');
+    if ([...kinds].some(id => !/^(lizardfolk|lizard_shaman)$/.test(id))) out.push(`a rest in the marsh was broken by ${[...kinds].join(', ')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a lizardfolk warrior coils its tail to sweep the legs: one who stays is struck and maybe knocked flat; one who steps back leaves it lashing air, wide open', async () => {
+    const out = [];
+    let downed = false, struck = false;
+    for (let t = 0; t < 8; t++) {
+      const ctx = await start('fighter', 'sweep-stay' + t);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; p.stats.dex = 3;
+      const m = beside(ctx, 'lizardfolk', { blows: 1 });
+      if (!untilTrick(ctx, m, 'sweep')) return 'the warrior never coiled its tail';
+      const hp0 = p.hp, mark = markLog(G);
+      for (let i = 0; i < 60 && m.windup && m.windup.move === 'sweep'; i++) Game.update(G.t + 25, 25);
+      const said = linesSince(G, mark).join(' | ');
+      if (p.hp < hp0 && /sweeps its tail into/.test(said)) struck = true;
+      // a blow and a half is still a whole number of hurt
+      if (!Number.isInteger(p.hp)) out.push(`the sweep left the hero on ${p.hp} hit points`);
+      if (p.heldBy === 'down' && p.held > G.t) downed = true;
+    }
+    if (!struck) out.push('standing, the sweep never struck');
+    if (!downed) out.push('standing, the sweep never knocked the hero flat in eight tries');
+    {
+      const ctx = await start('fighter', 'sweep-back');
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999;
+      clearBehind(ctx);
+      const m = beside(ctx, 'lizardfolk', { blows: 1 });
+      if (!untilTrick(ctx, m, 'sweep')) return 'the warrior never coiled its tail';
+      Game.input('back');
+      const hp0 = p.hp, mark = markLog(G);
+      for (let i = 0; i < 60 && m.windup && m.windup.move === 'sweep'; i++) Game.update(G.t + 25, 25);
+      if (p.hp < hp0 || !linesSince(G, mark).some(l => /lashes the empty air/.test(l)) || !(p.opening && p.opening.uid === m.uid)) out.push(`stepped back: ${linesSince(G, mark).join(' | ')}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a lizardfolk shaman calls lightning down into the water a hero stands in; a warrior leaves marsh-hide now and then, a shaman a fang charm, and Hissra her tooth once, beyond the Collector\'s count', async () => {
+    const out = [];
+    {
+      const { Game, G, L, p, put, at } = await arena('fighter', 'marsh-storm');
+      p.hp = p.maxHp = 9999;
+      L.dressing = [{ x: p.x, y: p.y, k: 'puddle', ox: 0, oy: 0, r: 0.34 }];
+      const m = put('lizard_shaman', 3, 0, { nextAct: G.t, blows: 0 });
+      if (!untilTrick({ Game }, m, 'storm')) out.push('a shaman never called lightning into the water the hero stood in');
+    }
+    const ctx = await start('fighter', 'marsh-loot', { levels: 16 });
+    const { Game, ITEMS, RELICS, Progress } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.str = 30;
+    const kills = (id, n) => {
+      const got = {};
+      for (let i = 0; i < n; i++) {
+        const m = beside(ctx, id, { hp: 1, maxHp: 1, nextAct: 1e12 });
+        for (let t = 0; t < 40 && Game.level().monsters.includes(m); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+        const k = `${m.x},${m.y}`;
+        for (const it of Game.level().items[k] || []) got[it.u || it.t] = (got[it.u || it.t] || 0) + 1;
+        delete Game.level().items[k];
+      }
+      return got;
+    };
+    const w = kills('lizardfolk', 80), sh = kills('lizard_shaman', 60);
+    if (!((w.marshhide || 0) >= 1 && (w.marshhide || 0) < 24)) out.push(`80 warriors left ${w.marshhide || 0} marsh-hide`);
+    if (!((sh.charm_fang || 0) >= 1 && (sh.charm_fang || 0) < 28)) out.push(`60 shamans left ${sh.charm_fang || 0} fang charms`);
+    if (kills('hissra', 1).hissra_tooth !== 1) out.push('Hissra did not drop her tooth');
+    G.relics.found.push('hissra_tooth');
+    if (kills('hissra', 1).hissra_tooth) out.push('a second tooth fell, the first already found');
+    if (!RELICS.hissra_tooth.beyond || ITEMS.amulet_tooth.tier < 50 || ITEMS.marshhide.tier < 50) out.push('the marsh\'s loot is ordinary, or the tooth counts toward the Collector');
     return out.length ? out.join('; ') : true;
   });
 

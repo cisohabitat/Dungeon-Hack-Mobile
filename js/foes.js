@@ -144,7 +144,8 @@ export function makeFoes(K) {
     if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
     // a sellsword at your side may step into an ordinary blow and take it
     if (!heavy && K.companionGuards(m, mb)) return false;
-    let dmg = Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1);
+    // rounded, since a blow and a half (the tail's sweep) would otherwise leave half a point of hurt
+    let dmg = Math.round(Math.max(1, d(...mb.dmg) + (h.extra ? d(h.extra[0], h.extra[1], h.extra[2]) : 0)) * (h.mult || 1));
     // a crushing blow is doubled already; and on the first two floors a lucky
     // blow is not doubled at all: a level-one hero's whole life was a goblin's
     // one roll of 20, and those deaths taught nothing
@@ -205,7 +206,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
   // how long a grey dwarf stays grown, and how much harder its blows fall while it is
   const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
@@ -288,6 +289,11 @@ export function makeFoes(K) {
     else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
     // a dark elf warrior crosses its blades in a guard that answers a blow with a cut
     else if (mv === 'parry' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.5) say = `The ${mb.name} crosses its blades in a guard! Hold your blow!`;
+    // a lizardfolk warrior beside the hero, after a blow, coils its tail to sweep their legs
+    else if (mv === 'sweep' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.55) {
+      const pr = mb.named && mb.named.pron;
+      say = `The ${mb.name} coils ${pr || 'its'} tail to sweep your legs! Step back!`;
+    }
     // a grey dwarf mutters a working that swells it to twice its height, after a blow or from a little way off
     else if (mv === 'enlarge' && !(m.bigUntil > K.G.t) && (adjacent ? (m.blows || 0) >= 1 : hasLineToPlayer(m, 3)) && Math.random() < 0.5) {
       const pr = mb.named && mb.named.pron, obj = pr === 'his' ? 'him' : pr === 'her' ? 'her' : 'it';
@@ -455,6 +461,22 @@ export function makeFoes(K) {
         m.moveReady = K.G.t + 7000;
         m.nextAct = K.G.t + Math.round(mb.speed * 0.6);
         break;
+      case 'sweep': {
+        const pr = mb.named && mb.named.pron, its = pr || 'its', it = pr === 'her' ? 'her' : 'it';
+        if (dist === 1) {
+          const struck = monsterAttack(m, { hit: 2, mult: 1.5, verb: `sweeps ${its} tail into`, sure: true });
+          // and it takes the hero's legs from under them
+          if (struck && K.G.status === 'playing' && !K.hasTalent('stand_firm')) {
+            const c = K.trickSave('dex', 'sweep');
+            if (c.pass) K.log(`You stumble, but keep your feet!${c.note}`, 'good');
+            else { p.held = Math.max(p.held || 0, K.G.t + K.KNOCKDOWN_MS); p.heldBy = 'down'; K.log(`The tail takes your legs from under you: you go down${K.wet(p.x, p.y) ? ' in the water' : ''}!${c.note}`, 'bad'); }
+          }
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else { K.log(`The ${mb.name}'s tail lashes the empty air where you stood, and leaves ${it} wide open!`, 'good'); m.nextAct = K.G.t + 1500; K.learn(m.id, 'answer'); K.riposte(); K.opening(m); }
+        m.moveReady = K.G.t + 5000;
+        break;
+      }
       case 'enlarge': {
         const pr = mb.named && mb.named.pron, its = pr || 'its', obj = pr === 'his' ? 'him' : pr === 'her' ? 'her' : 'it';
         m.bigUntil = K.G.t + ENLARGE_MS;

@@ -570,6 +570,17 @@ const Renderer = (() => {
         // the pouch comes down empty: the next stone is only fitted once the arm is home
         put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + dx, q[1] + dy);
       }
+    } else if (v.weapon && /handxbow$/.test(v.weapon)) {
+      // a hand crossbow is not swung: it comes up level with the eye, the
+      // trigger lets the bolt go with a kick up the wrist, and it comes down
+      const r = at('rest');
+      let x = r[0], y = r[1];
+      if (swinging) {
+        if (u < 0.3) { const e = ease(u / 0.3); x -= W * 0.1 * e; y -= H * 0.12 * e; }
+        else if (u < 0.45) { x -= W * 0.1; y -= H * (0.12 + 0.05 * Math.sin((u - 0.3) / 0.15 * Math.PI)); }
+        else { const e = ease((u - 0.45) / 0.55); x -= W * 0.1 * (1 - e); y -= H * 0.12 * (1 - e); }
+      }
+      put(Assets.held(v.weapon, 'rest', v.cls, false), x + dx, y + dy);
     } else if (v.weapon && /throwknife$/.test(v.weapon)) {
       // a throw, not a slash: the hand cocks back up by the ear, snaps forward
       // toward the middle (smaller, reaching into the view) as a knife leaves

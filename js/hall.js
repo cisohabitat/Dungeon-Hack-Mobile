@@ -24,6 +24,7 @@ function beastTraits(id, mb) {
   if (mb.drain) t.push('drains life');
   if (mb.regen) t.push('regrows its wounds');
   if (mb.spellRes) t.push(`shrugs off one spell in ${Math.round(1 / mb.spellRes)}`);
+  if (mb.stout) t.push('stout: poison does not take, and spells are ridden out more often');
   return t;
 }
 /** Fill el with the bestiary; returns the count line. */
@@ -49,7 +50,7 @@ function renderBestiary(el) {
     const people = Object.keys(Dungeon.PEOPLES).find(k => Dungeon.PEOPLES[k].kin.some(([c]) => c === id) || (mb.named && mb.named.home === k));
     const homeFloor = people ? Dungeon.peopleDepth(people, levels) : undefined, homeWord = people ? Dungeon.PEOPLES[people].word : '';
     const where = mb.boss ? 'Guards the Heart of the Mountain' : mb.shade ? 'Keeps the floor where a hero of yours fell'
-      : people ? (homeFloor ? `Only on floor ${homeFloor}, ${homeWord}` : `Only in ${homeWord}, deep in a ${Dungeon.PEOPLES[people].from >= 16 ? 'sixteen-floor ' : ''}Long Delve`)
+      : people ? (homeFloor ? `Only on floor ${homeFloor}, ${homeWord}` : `Only in ${homeWord}, ${(Dungeon.PEOPLES[people].from - Dungeon.PEOPLES[people].back) * 2 > Dungeon.PEOPLES[people].from ? 'deep in' : 'partway down'} a ${Dungeon.PEOPLES[people].from >= 16 ? 'sixteen-floor ' : ''}Long Delve`)
       : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
     if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
     const bits = [`<h3${mb.named ? ' class="named"' : ''}>${escapeHtml(mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];

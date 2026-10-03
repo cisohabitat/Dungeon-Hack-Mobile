@@ -499,6 +499,25 @@ check(traders > 0, 'no traders generated at all');
       }
     }
     check(bad.length === 0, `the grey dwarves' hold: ${bad.slice(0, 6).join('; ')}`);
+    // the lizardfolk's marsh: in a sixteen-floor delve only, the fifth floor, before the stair divides, with only
+    // their people and their Marsh-Mother, and standing water through its rooms
+    {
+      const marshTheme = THEMES.findIndex(t => t.people === 'marsh'), LIZ = new Set(['lizardfolk', 'lizard_shaman', 'hissra']), badM = [];
+      check(Dungeon.peopleDepth('marsh', 12) === null && Dungeon.peopleDepth('marsh', 16) === 5 && Dungeon.peopleDepth('marsh', 16) < Dungeon.routeSpan(16).fork, `the marsh is floor ${Dungeon.peopleDepth('marsh', 16)} of 16`);
+      let pools = 0, squares = 0;
+      for (let s = 0; s < 8; s++) for (const depth of [4, 5, 6]) {
+        const L = Dungeon.generate('marsh' + s, depth, { levels: 16, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+        const ids = L.monsters.map(m => m.id), lz = ids.filter(id => LIZ.has(id));
+        if (depth === 5) {
+          if (L.theme !== marshTheme || L.twist) badM.push(`marsh${s}: theme ${L.theme}, twist ${L.twist}`);
+          if (lz.length !== ids.length || ids.filter(id => id === 'hissra').length !== 1) badM.push(`marsh${s}: ${ids.join()}`);
+          pools += L.dressing.filter(d => d.k === 'puddle').length; squares += Array.from(L.roomId).filter((r, i) => r >= 0 && L.tiles[i] === Dungeon.T.FLOOR).length;
+        } else if (lz.length || L.theme === marshTheme) badM.push(`marsh${s}/${depth}: the marsh's people or walls outside it`);
+      }
+      check(badM.length === 0, `the lizardfolk's marsh: ${badM.slice(0, 5).join('; ')}`);
+      check(pools > squares * 0.15, `the marsh's rooms: ${pools} pools in ${squares} squares`);
+      console.log(`lizardfolk: 8 marshes, a pool on ${Math.round(pools / squares * 100)}% of their rooms' floor`);
+    }
     // each people builds its own walls, unlike anyone else's
     const faces = THEMES.filter(t => t.people).map(t => t.face);
     check(faces.every(Boolean) && new Set([...faces, ...THEMES.filter(t => !t.people).map(t => t.face)]).size === new Set(THEMES.map(t => t.face)).size && new Set(faces).size === faces.length && !THEMES.some(t => !t.people && faces.includes(t.face)), `the peoples' walls: ${faces.join()}`);
