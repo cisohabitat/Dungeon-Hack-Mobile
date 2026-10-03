@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-08a', text: 'the lizardfolk of the Sunless Marsh keep the fifth floor of a sixteen-floor delve, grey dwarves shrug off poison, a dark elf mage may drop a hand crossbow, and a renegade who sees the High Priestess fall is paid in full' };
+  const NEWS = { id: '2026-10-09a', text: 'the lizardfolk of the Sunless Marsh keep the fifth floor of a sixteen-floor delve, grey dwarves shrug off poison, a dark elf mage may drop a hand crossbow, and below the twelfth floor of sixteen spells and blades strike harder on every difficulty' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

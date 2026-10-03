@@ -4247,7 +4247,20 @@ const Game = (() => {
   // to them half again as often as anyone (28% and 34% wins, the rest 47% to
   // 57%). So there, from the seventh floor, spells strike and heal 6% harder a
   // floor, and a cleric's blows with them, the god's answer as deep as the prayer.
-  const deepMagic = () => (isLong() && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + 0.06 * (G.depth - 6) : 1);
+  // (The mage's 4% on twelve floors: once the bot stopped casting at shut mimics
+  // it led there by three points at 6%, 68% over two seed sets, and 4% gave 63%.
+  // Sixteen floors keep 6%, for the dark elves and the grey dwarves ride spells out.)
+  // A sixteen-floor delve goes four floors deeper than any other, on every
+  // difficulty, and there the casters fell where nobody else did: on Normal the
+  // mage and the druid won 66% and 63%, the thief 86%, nearly all of the
+  // difference lost on the thirteenth floor and below. So past the twelfth,
+  // spells strike and heal 6% harder a floor there too (the mage 73%, the cleric
+  // 74% to 81%).
+  const deepMagic = () => {
+    if (!isLong()) return 1;
+    if (G.opts.difficulty === 'hard') return G.depth >= 7 ? 1 + (P().cls === 'mage' && G.opts.levels < 16 ? 0.04 : 0.06) * (G.depth - 6) : 1;
+    return G.depth > 12 ? 1 + 0.06 * (G.depth - 12) : 1;
+  };
   // And the fighter, whose one answer is the blow, fell behind there once the
   // casters were lifted (37% wins, the rest 40% to 59%): a fighter's blows grow
   // with the deep floors of a Hard Long Delve too, a little less than a spell.
@@ -4264,7 +4277,11 @@ const Game = (() => {
   const deepSteel = () => {
     if (!isLong()) return P().cls === 'fighter' && G.opts.difficulty === 'hard' && G.depth >= 6 ? 1 + HARD_STEEL * (G.depth - 5) : 1;
     const rate = P().cls === 'fighter' ? DEEP_STEEL : P().cls === 'ranger' ? DEEP_AIM : P().cls === 'druid' ? DEEP_CLAW : 0;
-    return rate && G.depth >= 7 && G.opts.difficulty === 'hard' ? 1 + rate * (G.depth - 6) : 1;
+    // and below a sixteen-floor delve's twelfth floor, on any difficulty, a fighter's
+    // blows and the bear's claws grow as they do on Hard: with the spells lifted
+    // there they were left last (70% and 66%), and came to 73% and 70.5%
+    if (G.opts.difficulty !== 'hard') return (P().cls === 'fighter' || P().cls === 'druid') && G.depth > 12 ? 1 + rate * (G.depth - 12) : 1;
+    return rate && G.depth >= 7 ? 1 + rate * (G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**

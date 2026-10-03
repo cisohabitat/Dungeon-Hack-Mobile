@@ -266,10 +266,19 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Normal | 83% | 80% | 84% | 77% | 73% | 75.5% | about 79% |
 | Hard | 58% | 56% | 62% | 53% | 60.5% | 56% | about 57.5% |
 | Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 81% | about 82% |
-| Long Delve (12 floors), Hard | 65.5% | 58% | 68% | 63% | 60% | 57% | about 62% |
-| Long Delve (16 floors), Normal | 74% | 70% | 66% | 86% | 82% | 63% | about 73.5% |
+| Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 57% | about 61% |
+| Long Delve (16 floors), Normal | 81% | 73% | 73% | 86% | 82% | 70.5% | about 77.5% |
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 52.5% | about 53.5% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+With the bot mended, two levers were moved, each measured on both seed sets. The mage's spells on
+a Hard Long Delve of twelve floors grow 4% a floor past the sixth, not 6% (the mage 68% before,
+63% after; sixteen floors keep 6%, where two peoples ride spells out). And a sixteen-floor delve,
+which goes four floors deeper than any other, now lifts its heroes below the twelfth floor on every
+difficulty, as Hard already did from the seventh: spells and a cleric's blows 6% a floor, a
+fighter's blows and a druid's 4%. On Normal the casters had died there where the thief did not
+(the mage 66%, the druid 63%, the thief 86%); after it the cleric won 81% (74% before), the mage
+73% (66%), the fighter 73% (70%) and the druid 70.5% (63%).
 
 The Cleric, Mage and Druid columns were measured again, both seed sets, after a fault in the bot
 was found: a caster with a bolt to spend would aim it at a mimic still shut, which the game will
@@ -285,9 +294,7 @@ lizardfolk's Sunless Marsh on the fifth floor (warriors whose tail sweep knocks 
 who mend them and call lightning into the water that stands in every room, and Hissra, the
 Marsh-Mother), the grey dwarves' Grey Hold on the eleventh (stout now: poison never takes on them,
 and they ride out a spell more often), and the dark elves on the fourteenth. On Hard the fighter
-went from 53.5% (before the marsh, on the first set) to 49.5%. The
-mage and the druid trail the thief and the ranger by about twenty points on Normal; on Hard the
-spread across the classes is eight. The bot now steps back from a grey dwarf grown to twice its
+went from 53.5% (before the marsh, on the first set) to 49.5%. On Hard the spread across the classes is eight. The bot now steps back from a grey dwarf grown to twice its
 height whenever a square is open (`NOROOM=1` stands its ground): it made no difference worth the
 name, the fighter 50.25% with it and 51.25% without, the mage (before the mimic was mended) 47.25%
 and 46.25%.

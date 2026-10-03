@@ -3068,9 +3068,13 @@ await test('a fallen cave wyrm or quillback leaves its scales or quills now and 
   // the quills prick whatever strikes you
   {
     p.eq.shield = { t: 'quillshield', q: 1, e: 0 };
+    // armour off and half a minute to wait: ten seconds against a whole coat of
+    // mail went by without one blow landing about one time in twenty
+    const coat = p.eq.armor; p.eq.armor = null;
     const m = beside(ctx, 'skeleton', { hp: 999, maxHp: 999 });
     const mark = markLog(G);
-    for (let i = 0; i < 400 && m.hp === 999; i++) { Game.update(G.t + 25, 25); p.hp = p.maxHp; }
+    for (let i = 0; i < 1200 && m.hp === 999; i++) { Game.update(G.t + 25, 25); p.hp = p.maxHp; }
+    p.eq.armor = coat;
     if (m.hp === 999) out.push('a blow that landed was not pricked back');
     else if (!linesSince(G, mark).some(l => /barbs/.test(l))) out.push('the prick was not told');
     p.eq.shield = null;
@@ -4385,7 +4389,7 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; not on Normal', async () => {
+await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; on Normal only below the twelfth of sixteen', async () => {
   const hurt = async (depth, cls = 'fighter', difficulty = 'hard', levels = 12) => {
     const ctx = await start(cls, 'deep-steel', { levels, difficulty });
     const { Game } = ctx;
@@ -4410,12 +4414,53 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
   }
+  // sixteen floors on Normal: four past the twelfth, 4% a floor for a fighter and a druid, none for a ranger
+  for (const [cls, lo, hi] of [['fighter', 1.09, 1.24], ['druid', 1.09, 1.24], ['ranger', 0.97, 1.03]]) {
+    const shallow = await hurt(12, cls, 'normal', 16), deep = await hurt(16, cls, 'normal', 16);
+    if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape on sixteen floors'); continue; }
+    if (!shallow) { out.push(`no ${cls} blow landed on sixteen floors`); continue; }
+    const r = deep / shallow;
+    if (!(r > lo && r < hi)) out.push(`on sixteen Normal floors a ${cls}'s blows on floor 16 were ${r.toFixed(2)} times those on floor 12`);
+  }
   // eight floors: three past the fifth, 4% a floor for a fighter on Hard, none for a mage's staff nor on Normal
   for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.07, 1.18], ['fighter', 'normal', 0.97, 1.03], ['ranger', 'hard', 0.97, 1.03]]) {
     const shallow = await hurt(5, cls, diff, 8), deep = await hurt(8, cls, diff, 8);
     if (!shallow) { out.push(`no ${cls} blow landed on eight floors`); continue; }
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`on eight ${diff} floors a ${cls}'s blows on floor 8 were ${r.toFixed(2)} times those on floor 5`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('spells strike harder in the deep: 6% a floor past the sixth on a Hard Long Delve (a mage\'s 4% on twelve floors), and past the twelfth of sixteen on any difficulty, a cleric\'s blows with them', async () => {
+  const dealt = async (cls, depth, difficulty, levels) => {
+    const ctx = await start(cls, 'deep-magic', { levels, difficulty });
+    const { Game } = ctx;
+    const G = Game.state(), p = Game.player();
+    G.levels[depth] = G.levels[1]; G.depth = depth;
+    for (const k in p.stats) p.stats[k] = 14;
+    p.level = 6; p.hp = p.maxHp = 999;
+    const m = cls === 'cleric' ? beside(ctx, 'ogre', { hp: 99999, maxHp: 99999, nextAct: 1e12 }) : ahead(ctx, 'ogre', 2, { hp: 99999, maxHp: 99999, nextAct: 1e12 });
+    const missile = ctx.SPELLS.mage.find(sp => sp.id === 'magic_missile');
+    seedDice(ctx, 'deep-magic-' + cls);
+    for (let i = 0; i < 20; i++) {
+      G.t = Math.max(G.t, p.nextAttack || 0) + 10;
+      if (cls === 'cleric') Game.input('attack'); else { p.sp = 99; Game.castSpell(missile); }
+    }
+    return 99999 - m.hp;
+  };
+  const out = [];
+  for (const [what, cls, diff, levels, a, b, lo, hi] of [
+    ['a mage on twelve Hard floors', 'mage', 'hard', 12, 6, 11, 1.12, 1.28],
+    ['a mage on sixteen Hard floors', 'mage', 'hard', 16, 6, 11, 1.21, 1.40],
+    ['a mage on sixteen Normal floors', 'mage', 'normal', 16, 12, 16, 1.15, 1.33],
+    ['a mage on twelve Normal floors', 'mage', 'normal', 12, 6, 11, 0.97, 1.03],
+    ['a cleric\'s blows on sixteen Normal floors', 'cleric', 'normal', 16, 12, 16, 1.15, 1.33],
+  ]) {
+    const shallow = await dealt(cls, a, diff, levels), deep = await dealt(cls, b, diff, levels);
+    if (!shallow) { out.push(`${what}: nothing landed`); continue; }
+    const r = deep / shallow;
+    if (!(r > lo && r < hi)) out.push(`${what}: floor ${b} struck ${r.toFixed(2)} times floor ${a}`);
   }
   return out.length ? out.join('; ') : true;
 });
