@@ -491,17 +491,29 @@ const Renderer = (() => {
     // casting: the off hand rises into view, alight, and what it held dips
     const cu = (now - fx.castAt) / 520;
     const cast = cu >= 0 && cu < 1 ? Math.sin(cu * Math.PI) : 0;
+    // a Bash: drawn back a touch, driven in toward the middle and away (smaller, reaching into
+    // the view) to land a third of the way through, held there a beat, then home
+    const bu = (now - (fx.bashAt ?? -1e9)) / BASH_MS, bashing = bu >= 0 && bu < 1 ? fx.bashKind : '';
+    const shove = !bashing ? 0 : bu < 0.14 ? -0.2 * ease(bu / 0.14) : bu < 0.33 ? -0.2 + 1.2 * ease((bu - 0.14) / 0.19) : bu < 0.5 ? 1 : 1 - ease((bu - 0.5) / 0.5);
+    // the weapon hand's shove, by pommel or fist; the shield's is drawn with the shield
+    const jab = bashing && bashing !== 'shield' ? shove : 0;
+    const rdx = dx - jab * W * 0.24, rdy0 = dy - jab * H * 0.13;
+    // a throw (a snare's cord, a flask of oil): what the weapon hand held goes down out of the
+    // way, and the empty hand comes up, cocks back by the ear and snaps forward (see drawThrow)
+    const tu = (now - (fx.throwAt ?? -1e9)) / THROW_MS, throwing = tu >= 0 && tu < 1;
+    const rdy = rdy0 + (throwing ? Math.min(1, tu * 6, (1 - tu) * 6) * H * 0.5 : 0);
 
     // left: a shield carried low, or a second blade
     if (v.weapon && v.drawn) {
       // a bow: held out in the left hand, the right on the string; an attack
       // draws the string back to the cheek and looses it
-      const [x, y] = at('bow'), fr = Assets.held(v.weapon, 'rest', v.cls, false);
+      // (a bash with a bow in hand shoves the whole of it, both hands; a throw takes the string hand)
+      const [x0, y] = at('bow'), x = x0 - jab * W * 0.24, by0 = y - jab * H * 0.13, fr = Assets.held(v.weapon, 'rest', v.cls, false);
       const pull = swinging && u < 0.7 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.7;
-      const hx = x + dx + W * 0.08 + pull * W * 0.09, hy = y + dy + H * 0.08 + pull * H * 0.045;
-      put(fr, x + dx, y + dy);
+      const hx = x + dx + W * 0.08 + pull * W * 0.09, hy = by0 + dy + H * 0.08 + pull * H * 0.045 + (rdy - rdy0);
+      put(fr, x + dx, by0 + dy);
       if (fr) {
-        const k = handK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(y + dy - fr.ay * k);
+        const k = handK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(by0 + dy - fr.ay * k);
         const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
         const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
         // the string hangs straight until the fingers draw it back
@@ -525,8 +537,9 @@ const Renderer = (() => {
       }
       put(Assets.held(null, 'fist', v.cls, false), hx, hy);
     } else if (v.shield) {
-      const [x, y] = at('shield');
-      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4, y + dy + cast * H * 0.4 + put_down + hurt * 6);
+      // a Bash drives the shield in toward the middle of the view, rim first, and brings it home
+      const [x, y] = at('shield'), sh = bashing === 'shield' ? shove : 0;
+      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
     } else if (v.offhand) {
       const [x, y] = at('left');
       put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
@@ -553,7 +566,7 @@ const Renderer = (() => {
       const r = at('rest', 0.16), top = [W * 0.76, H * 0.36];
       if (swinging && u < 0.62) {
         const up = ease(Math.min(1, u / 0.12));
-        const hx = r[0] + (top[0] - r[0]) * up + dx, hy = r[1] + (top[1] - r[1]) * up + dy;
+        const hx = r[0] + (top[0] - r[0]) * up + rdx, hy = r[1] + (top[1] - r[1]) * up + rdy;
         const a = (u / 0.55) * Math.PI * 4 - Math.PI / 2, R = W * 0.2 * up;
         const px = hx + Math.cos(a) * R, py = hy - H * 0.06 + Math.sin(a) * R * 0.45;
         ctx.lineCap = 'round';
@@ -569,7 +582,7 @@ const Renderer = (() => {
         let q = r;
         if (swinging) { const e = ease((u - 0.62) / 0.38); q = [top[0] + (r[0] - top[0]) * e, top[1] + (r[1] - top[1]) * e]; }
         // the pouch comes down empty: the next stone is only fitted once the arm is home
-        put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + dx, q[1] + dy);
+        put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + rdx, q[1] + rdy);
       }
     } else if (v.weapon && /handxbow$/.test(v.weapon)) {
       // a hand crossbow is not swung: it comes up level with the eye, the
@@ -581,7 +594,7 @@ const Renderer = (() => {
         else if (u < 0.45) { x -= W * 0.1; y -= H * (0.12 + 0.05 * Math.sin((u - 0.3) / 0.15 * Math.PI)); }
         else { const e = ease((u - 0.45) / 0.55); x -= W * 0.1 * (1 - e); y -= H * 0.12 * (1 - e); }
       }
-      put(Assets.held(v.weapon, 'rest', v.cls, false), x + dx, y + dy);
+      put(Assets.held(v.weapon, 'rest', v.cls, false), x + rdx, y + rdy);
     } else if (v.weapon && /throwknife$/.test(v.weapon)) {
       // a throw, not a slash: the hand cocks back up by the ear, snaps forward
       // toward the middle (smaller, reaching into the view) as a knife leaves
@@ -593,13 +606,14 @@ const Renderer = (() => {
         else if (u < 0.45) { const e = ease((u - 0.3) / 0.15); x += W * (0.04 - 0.3 * e); y -= H * (0.22 - 0.1 * e); s = 1 - 0.18 * e; }
         else { const e = ease((u - 0.45) / 0.55); x -= W * 0.26 * (1 - e); y -= H * 0.12 * (1 - e); s = 0.82 + 0.18 * e; }
       }
-      put(Assets.held(v.weapon, 'rest', v.cls, false), x + dx, y + dy, s);
+      put(Assets.held(v.weapon, 'rest', v.cls, false), x + rdx, y + rdy, s);
     } else if (v.weapon) {
       // a two-handed grip sits higher so the lower hand shows, the long grip of
       // a two-handed sword higher still; a sling hangs from the hand
       const lift = /greatsword$/.test(v.weapon) ? 0.15 : v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
+      // (a Bash with a blade in hand is a jab of the pommel, not a cut: the swing waits)
       let pose = 'rest', p = at('rest', lift);
-      if (swinging) {
+      if (swinging && !bashing) {
         if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
         else if (u < 0.32) { pose = 'cut'; p = lerp(at('windup', lift), at('cut', lift), ease((u - 0.16) / 0.16)); }
         else if (u < 0.52) { pose = 'through'; p = lerp(at('cut', lift), at('through', lift), ease((u - 0.32) / 0.2)); }
@@ -607,12 +621,32 @@ const Renderer = (() => {
       }
       // the lower hand of a two-handed grip is the one that casts, reads, drinks
       // and eats: it lets go of the grip, or a third hand would bring the bottle up
-      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using), p[0] + dx, p[1] + dy);
+      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using), p[0] + rdx, p[1] + rdy);
     } else {
-      const punch = swinging && u < 0.55;
+      const punch = swinging && u < 0.55 && !bashing;
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');
-      put(Assets.held(null, punch && u > 0.12 && u < 0.43 ? 'punch' : 'fist', v.cls, false), p[0] + dx, p[1] + dy);
+      put(Assets.held(null, (punch && u > 0.12 && u < 0.43) || jab > 0.5 ? 'punch' : 'fist', v.cls, false), p[0] + rdx, p[1] + rdy);
     }
+    if (throwing) drawThrow(tu, v.cls, dx, dy);
+  }
+
+  // how long a Bash takes in the view, its shove landing a third of the way in (BASH_LANDS in game.js)
+  const BASH_MS = 450;
+  // how long a throw takes, the thing let go of at THROW_LET_GO in game.js
+  const THROW_MS = 460;
+  /**
+   * The throwing hand: up from below the view, cocked back by the ear, then
+   * snapped forward toward the middle (smaller, reaching in) as what it held
+   * leaves it, a follow-through, and down out of sight again.
+   */
+  function drawThrow(tu, cls, dx, dy) {
+    const r = at('fist');
+    let x = r[0] + dx, y = r[1] + dy, s = 1, pose = 'fist';
+    if (tu < 0.16) { const e = ease(tu / 0.16); y += (1 - e) * H * 0.4; }
+    else if (tu < 0.34) { const e = ease((tu - 0.16) / 0.18); x += W * 0.04 * e; y -= H * 0.22 * e; }
+    else if (tu < 0.5) { const e = ease((tu - 0.34) / 0.16); x += W * (0.04 - 0.3 * e); y -= H * (0.22 - 0.12 * e); s = 1 - 0.18 * e; pose = e > 0.5 ? 'punch' : 'fist'; }
+    else { const e = ease((tu - 0.5) / 0.5); x -= W * 0.26 * (1 - e); y -= H * 0.1 * (1 - e) - e * H * 0.45; s = 0.82 + 0.18 * e; pose = e < 0.3 ? 'punch' : 'fist'; }
+    put(Assets.held(null, pose, cls, false), x, y, s);
   }
 
   /** The lich's life along the top of the view, marked where its fight turns; or a named champion's, in gold. */
@@ -700,8 +734,11 @@ const Renderer = (() => {
       out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.1 + 0.12 * r.u, c: '#2a2218', seed: seed + 5, solo: true });
     }
     if (!F) return out;
+    const land = fx && fx.landAt && now < fx.landAt.at ? fx.landAt : null;
     for (const k in F) {
       const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
+      // (oil from a flask still in the air is not on the floor yet)
+      if (land && f.k === 'oil' && land.x === x && land.y === y) continue;
       if (f.k === 'fire') {
         // embers across the square, a brighter heart that flickers
         const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 90 + seed);
@@ -1479,6 +1516,53 @@ const Renderer = (() => {
             ctx.strokeStyle = c; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x - ux, y - uy); ctx.lineTo(x, y); ctx.stroke();
             ctx.fillStyle = '#e04838'; ctx.fillRect(Math.round(x - ux - 1), Math.round(y - uy - 1), 2, 2);
             ctx.fillStyle = '#d8dce4'; ctx.fillRect(Math.round(x - 1), Math.round(y - 1), 2, 2);
+          }
+          ctx.restore();
+          break;
+        }
+        case 'cord': {
+          // a snare's cord in flight: two weights turning about each other on the line between
+          // them, smaller as they go, and wrapping round what they strike
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          const x = hand.x + (first.x - hand.x) * t, y = hand.y + (first.y - hand.y) * t - Math.sin(t * Math.PI) * 8;
+          const rad = 22 * (1 - t) + Math.max(7, first.r * 0.3) * t, a = t * 22;
+          const ux = Math.cos(a) * rad, uy = Math.sin(a) * rad * 0.6;
+          ctx.lineCap = 'round';
+          for (const [col, lw] of [['#0a0810', 4], [c, 2]]) {
+            ctx.strokeStyle = col; ctx.lineWidth = lw;
+            ctx.beginPath(); ctx.moveTo(x - ux, y - uy); ctx.lineTo(x + ux, y + uy); ctx.stroke();
+          }
+          for (const sgn of [-1, 1]) {
+            ctx.fillStyle = '#0a0810'; ctx.beginPath(); ctx.arc(x + sgn * ux, y + sgn * uy, 4.6, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#8e8a84'; ctx.beginPath(); ctx.arc(x + sgn * ux, y + sgn * uy, 3.4, 0, Math.PI * 2); ctx.fill();
+          }
+          ctx.restore();
+          break;
+        }
+        case 'flask': {
+          // a flask of oil tumbling end over end in a high arc, then smashing: a burst of glass
+          // and dark oil where it lands (the spill itself waits for it, see landAt)
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          const f = Math.min(1, t / 0.7);
+          if (t < 0.7) {
+            const x = hand.x + (first.x - hand.x) * f, y = hand.y + (first.y - hand.y) * f - Math.sin(f * Math.PI) * 26;
+            const sz = 16 * (1 - f) + Math.max(6, first.r * 0.16) * f;
+            ctx.translate(x, y); ctx.rotate(f * 9);
+            ctx.fillStyle = '#0a0810'; ctx.fillRect(-sz * 0.5 - 1, -sz * 0.4 - 1, sz + 2, sz * 1.1 + 2); ctx.fillRect(-sz * 0.2 - 1, -sz * 0.8 - 1, sz * 0.4 + 2, sz * 0.5 + 2);
+            ctx.fillStyle = c; ctx.fillRect(-sz * 0.5, -sz * 0.4, sz, sz * 1.1);
+            ctx.fillStyle = '#7a5a30'; ctx.fillRect(-sz * 0.2, -sz * 0.8, sz * 0.4, sz * 0.5);
+            ctx.fillStyle = 'rgba(255,240,200,0.7)'; ctx.fillRect(-sz * 0.35, -sz * 0.3, Math.max(1, sz * 0.18), sz * 0.6);
+          } else {
+            const b = (t - 0.7) / 0.3;
+            for (let k = 0; k < 14; k++) {
+              const ang = -Math.PI * (0.1 + 0.8 * hash(k + 40)), d = (0.3 + hash(k + 60) * 0.7) * first.r * 0.5 * b;
+              const px = first.x + Math.cos(ang) * d, py = first.y + first.r * 0.3 - Math.sin(ang) * d * 0.8 + b * b * first.r * 0.3;
+              ctx.globalAlpha = 1 - b;
+              ctx.fillStyle = k % 3 ? '#3a2a12' : '#e8e0c8';
+              ctx.fillRect(Math.round(px), Math.round(py), k % 3 ? 4 : 3, k % 3 ? 4 : 3);
+            }
           }
           ctx.restore();
           break;

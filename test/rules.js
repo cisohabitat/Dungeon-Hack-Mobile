@@ -12473,6 +12473,38 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a Bash is seen: the shield (or pommel) shoves and the foe flashes and reels with no wound; a snare cord and a flask are thrown from the hand and fly, the spill drawn when the flask lands', async () => {
+    const out = [];
+    { const { Game, G, p, put } = await arena('fighter', 'see-bash');
+      p.eq.shield = { t: 'shield', q: 1, e: 0 };
+      const m = put('orc', 1);
+      const fx = Game.renderState(0).fx;
+      fx.bashAt = -1e9; G.t = Math.max(G.t, p.nextAttack, p.abilityReady || 0) + 10;
+      if (!Game.useAbility()) out.push('the bash would not go');
+      if (!(fx.bashAt > -1e9) || fx.bashKind !== 'shield') out.push(`no shove drawn (${fx.bashKind})`);
+      if (!(m.flashUntil > m.flashAt && m.flashAt > 0)) out.push('the orc did not flash at the blow');
+      if (m.hp !== 999) out.push('a plain bash wounded the orc');
+      if (!fx.texts.some(t => t.text === 'reels')) out.push('no word over the orc'); }
+    { const { Game, G, p, put } = await arena('ranger', 'see-snare');
+      put('orc', 3);
+      const fx = Game.renderState(0).fx;
+      fx.throwAt = -1e9; fx.spells.length = 0; G.t = Math.max(G.t, p.nextAttack, p.abilityReady || 0) + 10;
+      if (!Game.useAbility()) out.push('the snare would not go');
+      if (!(fx.throwAt > -1e9) || fx.throwKind !== 'cord') out.push(`no throw drawn for the snare (${fx.throwKind})`);
+      if (!fx.spells.some(s => s.style === 'cord' && s.pts.length === 1)) out.push('no cord in flight to the orc'); }
+    { const { Game, G, p, at } = await arena('thief', 'see-flask');
+      p.inv.push({ t: 'lamp_oil', q: 1, e: 0 });
+      const fx = Game.renderState(0).fx;
+      fx.throwAt = -1e9; fx.spells.length = 0; fx.landAt = null; G.t = Math.max(G.t, p.nextAttack) + 10;
+      Game.useItem(p.inv.find(i => i.t === 'lamp_oil'));
+      const [x3, y3] = at(3);
+      if (!(fx.throwAt > -1e9) || fx.throwKind !== 'flask') out.push(`no throw drawn for the flask (${fx.throwKind})`);
+      if (!fx.spells.some(s => s.style === 'flask')) out.push('no flask in flight');
+      if (!fx.landAt || fx.landAt.x !== x3 || fx.landAt.y !== y3 || !(fx.landAt.at > fx.throwAt)) out.push(`the spill is not held for the landing (${JSON.stringify(fx.landAt)})`);
+      if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('the oil was not spilt at once (the rules must not wait on the picture)'); }
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('lamp oil floats on water: thrown on a flooded floor it spreads over the water, burns there, and the water under it still carries lightning until it burns', async () => {
     const out = [];
     const { Game, G, L, p, put, at, cast } = await arena('mage', 'el-afloat');

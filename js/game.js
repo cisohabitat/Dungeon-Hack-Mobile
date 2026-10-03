@@ -42,6 +42,10 @@ const Game = (() => {
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
                useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
+               /** a Bash: when, and with what (shield, pommel or fist); a throw (a snare's cord, a flask): when, and which */
+               bashAt: -1e9, bashKind: '', throwAt: -1e9, throwKind: '',
+               /** where a thrown flask comes down, and when, so its spill is not drawn before it lands */
+               /** @type {{x: number, y: number, at: number}|null} */ landAt: null,
                /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
                trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
@@ -1347,12 +1351,28 @@ const Game = (() => {
     p.noiseAt = G.t;
     p.nextAttack = Math.max(p.nextAttack, G.t + 500);
     const m = monsterAt(spot.x, spot.y), prop = propAt(spot.x, spot.y);
+    // the arm goes back and over, and the flask tumbles through the air to where it smashes
+    const squares = Math.abs(spot.x - p.x) + Math.abs(spot.y - p.y);
+    const land = throwArm('flask', 'flask', '#c89040', FLASK_SQUARE * squares, m && !m.sunk ? [m] : [], squares);
+    fx.landAt = { x: spot.x, y: spot.y, at: realNow + land };
     // a mimic still shut takes it as the barrel it seems, and that is a blow to it
     if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
     else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
-    Sound.play('smash', heard(spot));
+    { const o = heard(spot); fxDelay = land; soon(() => Sound.play('smash', o)); fxDelay = 0; }
     elements.spill(spot.x, spot.y);
     return true;
+  }
+  // A throw from the hand: the weapon hand lets go of what it holds, comes up
+  // empty, and snaps forward; what it threw leaves it partway through (see
+  // THROW_MS in the renderer, which this must keep step with).
+  const THROW_MS = 460, THROW_LET_GO = 0.42, FLASK_SQUARE = 85, CORD_SQUARE = 55;
+  /** Throw something: the arm, and it in flight. @returns {number} ms until it gets there */
+  function throwArm(kind, style, color, flight, targets, squares) {
+    fx.throwAt = realNow; fx.throwKind = kind;
+    const release = Math.round(THROW_MS * THROW_LET_GO);
+    // (a flask lands, then smashes: its splash is the last part of its look)
+    spellFx(style, color, style === 'flask' ? Math.round(flight / 0.7) : flight, targets, squares, release, { x: 0.68, y: 0.72 });
+    return release + flight;
   }
   function showUse(kind, it, color) { fx.useAt = realNow; fx.useKind = kind; fx.useSprite = spriteFor(it); fx.useColor = color; }
   function useItem(it) {
@@ -3942,9 +3962,14 @@ const Game = (() => {
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
     Sound.play('shoot', { w: 'sling' });
-    floatText(m, 'snared', '#e8d8a0');
-    log(`Your cord wraps the ${mb.name}${broke ? ' and breaks off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It stands caught!'}`, 'good');
-    if (onPath('warden')) damageMonster(m, Math.max(1, d(1, 6) + mod(p.stats.dex)), 'snare');
+    // the cord is whirled and let fly, its two weights turning about each other down the corridor
+    const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+    fxDelay = throwArm('cord', 'cord', '#c8a868', CORD_SQUARE * far, [m], far);
+    try {
+      floatText(m, 'snared', '#e8d8a0');
+      log(`Your cord wraps the ${mb.name}${broke ? ' and breaks off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It stands caught!'}`, 'good');
+      if (onPath('warden')) damageMonster(m, Math.max(1, d(1, 6) + mod(p.stats.dex)), 'snare');
+    } finally { fxDelay = 0; }
     return true;
   }
   /**
@@ -3962,6 +3987,8 @@ const Game = (() => {
   }
   /** A Warden's snared foe takes 2 more from every blow and arrow. */
   const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? (capped('iron_snare') ? 4 : 2) : 0);
+  // how long after the Bash button the shove lands (a third of the renderer's BASH_MS)
+  const BASH_LANDS = 150;
   function bash(a, p) {
     const [dx, dy] = DIRS[p.dir], m = monsterAt(p.x + dx, p.y + dy);
     if (!m || m.collapsed) { log('There is nothing in front of you to bash.', 'bad'); Sound.play('error'); return false; }
@@ -3978,12 +4005,21 @@ const Game = (() => {
     if (!rite) m.nextAct = Math.max(m.nextAct, G.t + (mb.boss ? stagger / 2 : stagger));
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
-    Sound.play('block', heard(m));
-    log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
-    // a Rallying Bash puts heart back into the one who swings it
-    if (capped('rally')) healPlayer(d(1, 6));
-    // a Berserker puts weight behind it: the bash is a blow of its own
-    if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
+    // the shove: the shield (or the pommel, or a fist) driven into it, and it reels from the blow
+    // when the blow lands (see BASH_MS in the renderer), the white of a hit and a jolt with it
+    fx.bashAt = realNow; fx.bashKind = what;
+    fxDelay = BASH_LANDS;
+    try {
+      m.flashAt = realNow + fxDelay; m.flashUntil = m.flashAt + 130;
+      if (realNow >= fx.shakeUntil) { fx.shakeAmp = shield ? 3 : 2; fx.shakeMs = 180; fx.shakeUntil = realNow + fxDelay + 180; }
+      { const o = heard(m); soon(() => Sound.play('block', o)); }
+      if (!rite) floatText(m, broke ? 'broken off' : 'reels', '#e8d8a0');
+      log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
+      // a Rallying Bash puts heart back into the one who swings it
+      if (capped('rally')) healPlayer(d(1, 6));
+      // a Berserker puts weight behind it: the bash is a blow of its own
+      if (onPath('berserker')) damageMonster(m, Math.max(1, d(1, 6) + mod(armStat(p)) + berserkerRage()), 'bash');
+    } finally { fxDelay = 0; }
     // Shield Slam: it goes back a square, if the square behind it is open, and is dazed a second
     // longer: without that it walked straight back in with the first move, and the slam cost tempo
     if (hasTalent('shield_slam') && lvl().monsters.includes(m) && !m.collapsed && !mb.boss) {
