@@ -17,7 +17,7 @@ const CLAWS = [1, 8];
 const CLAW_MS = 650;
 // the bear's hide turns blows as well as taking them
 const SHAPE_AC = 2;
-const ENTANGLE_MS = 3000;
+const ENTANGLE_MS = 3500;
 
 /** @param {any} K */
 export function makeWild(K) {

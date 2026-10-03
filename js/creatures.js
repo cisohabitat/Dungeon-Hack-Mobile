@@ -2463,6 +2463,27 @@ const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'spec
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
 const PROPS = {
+  // the dark elves' altar: a black block under a canopy of webs, a spider of
+  // obsidian squatting on it with garnet eyes, bowls of dark wine before it
+  spider_altar: () => {
+    const stone = '#24202c', stoneLt = '#34303e', obs = '#141018', obsLt = '#3a3448', web = '#a8a0b8';
+    return [
+      // the web canopy behind, strung from the corners
+      ...[[4, 4, 32, 20], [60, 4, 32, 20], [4, 30, 32, 20], [60, 30, 32, 20], [32, 2, 32, 20]].map(([a, b, c, d]) => hair(a, b, c, d, web)),
+      ...[6, 10, 14].flatMap(r => oval(32, 20, r * 1.7, r, 10).map((pt, i, q) => hair(pt[0], pt[1], q[(i + 1) % q.length][0], q[(i + 1) % q.length][1], '#8a8298'))),
+      // the altar: a black block with a silver line about its top
+      sheet([[10, 44], [54, 44], [56, 62], [8, 62]], stone, { curve: 0.6 }), sheet([[12, 40], [52, 40], [54, 45], [10, 45]], stoneLt, { curve: 0.5 }),
+      hair(12, 41, 52, 41, '#b8bccc'), hair(10, 50, 54, 50, '#1a1620'), specks([[11, 61], [53, 61], [14, 46], [50, 47]], '#0e0c12'),
+      // the spider: abdomen, body, eight legs folded about it, garnet eyes
+      ...[-1, 1].flatMap(sd => [[4, 30, 14, 22, 20, 38], [5, 33, 17, 30, 22, 40], [5, 35, 16, 38, 21, 41], [4, 37, 12, 44, 15, 41]].flatMap(([a, b, c, d, e, f]) => [
+        limb(32 + sd * a, b, 32 + sd * c, d, 1.1, 0.9, obs), limb(32 + sd * c, d, 32 + sd * e, f, 0.9, 0.6, obs), hair(32 + sd * a, b - 0.7, 32 + sd * c, d - 0.7, obsLt)])),
+      ball(32, 30, 8, 7, obs), ball(30, 27, 3, 2.4, obsLt), ball(32, 37.5, 5, 4, obs), ball(31, 36, 1.8, 1.2, obsLt),
+      ball(30, 37.5, 1.2, 1, '#e8303a', { glows: true }), ball(34, 37.5, 1.2, 1, '#e8303a', { glows: true }), specks([[29.5, 37], [33.5, 37]], '#ffb0b0', { glows: true }),
+      // the bowls of wine, a candle burning violet
+      ...[[18, 46], [46, 46]].flatMap(([x, y]) => [ball(x, y, 4, 1.6, '#80868f'), ball(x, y - 0.4, 3, 0.9, '#4a0e24')]),
+      limb(26, 47, 26, 42, 1, 0.9, '#d8d0e0'), sheet([[25.2, 41.6], [26, 37.6], [26.8, 41.6]], '#b070f0', { curve: 0.5, glows: true }),
+    ];
+  },
   // the Forge-Spirit: an anvil black with age on a stump of rock, and over it a fire
   // with no fuel, two eyes open in it, sparks rising
   forge_spirit: () => [

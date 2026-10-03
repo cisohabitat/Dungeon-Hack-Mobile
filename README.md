@@ -263,10 +263,10 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 84.5% | 80% | 82% | 77% | 73% | 78% | about 79% |
-| Hard | 54% | 56% | 59% | 53% | 60.5% | 53% | about 56% |
-| Long Delve (12 floors), Normal | 84% | 79% | 72% | 82% | 81% | 78% | about 79% |
-| Long Delve (12 floors), Hard | 63.5% | 58% | 62% | 63% | 60% | 54% | about 60% |
+| Normal | 84.5% | 80% | 82% | 77% | 73% | 73% | about 78% |
+| Hard | 54% | 56% | 59% | 53% | 60.5% | 54% | about 56% |
+| Long Delve (12 floors), Normal | 84% | 79% | 72% | 82% | 81% | 76% | about 79% |
+| Long Delve (12 floors), Hard | 63.5% | 58% | 62% | 63% | 60% | 60% | about 61% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
@@ -282,6 +282,13 @@ went from 56.9% to 55.9%, on Normal from 76.9% to 79.1%; the Long Delve on Hard 
 on Normal from 78.8% to 79.2%. The druid on the Long Delve on Hard came down from 61% to 54%, but its
 61% was one seed set at 65% (the commit before that played it at 57%), and 54% is where that row
 has sat before.
+
+Fresh seeds bore the druid's drop out (57% before, 55.5% after, on two sets it had never played),
+so Entangle now holds for three and a half seconds rather than three, and Insect Plague bites five
+over its dice rather than three. The Druid column is that build, two seed sets of 200 a row, with
+the delve before the saves played on the same seeds: eight floors on Hard 54% (53% before), on
+Normal 73% (74%); the Long Delve on Normal 76% (79%, its two sets ten points apart), and on Hard,
+over four sets, 60% (61.5%).
 
 Both Long Delve rows were measured again, both seed sets, with the commit before them played on
 the same seeds, after the tenth floor of twelve became the dark elves' country (their warriors and

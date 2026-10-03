@@ -478,11 +478,18 @@ const ITEMS = {
   // shelf (tier 99), only taken from a cave wyrm or a quillback that falls.
   wyrmscale:   { kind: 'armor', name: 'Wyrm-Scale Mail', ac: 4, weight: 'light', power: 'fireward', value: 260, sprite: 'wyrmscale', tier: 99 },
   quillshield: { kind: 'shield', name: 'Quill Shield', ac: 2, power: 'thorns', value: 110, sprite: 'quillshield', tier: 99 },
+  // and what the dark elves leave: their warriors' mail, light as leather and
+  // as good as a soldier's chain, and their curved blades, quick in the hand
+  elvenchain:  { kind: 'armor', name: 'Elven Chain', ac: 5, weight: 'light', value: 320, sprite: 'elvenchain', tier: 99 },
+  scimitar:    { kind: 'weapon', name: 'Dark Elf Scimitar', dmg: [1, 8, 1], speed: 600, cls: ['fighter', 'thief', 'ranger'], value: 150, sprite: 'scimitar', tier: 99 },
   // a cloak over whatever else is worn, for anyone: known at a glance, as a ring is not
   cloak_protect: { kind: 'cloak', name: 'Cloak of Protection', ac: 1, value: 80,  sprite: 'cloak_protect', tier: 2,
     desc: 'Armour class +1, over whatever else you wear.' },
   cloak_elven:   { kind: 'cloak', name: 'Elven Cloak',          power: 'quiet',  value: 90,  sprite: 'cloak_elven', tier: 2,
     desc: 'Sleeping things notice you a square later.' },
+  // a dark elf mage's, taken from one that falls (tier 99: never on a pile or a shelf)
+  cloak_shadow:  { kind: 'cloak', name: 'Shadow-Spun Cloak', ac: 1, power: 'quiet', value: 220, sprite: 'cloak_shadow', tier: 99,
+    desc: 'Armour class +1, and sleeping things notice you a square later.' },
   cloak_warmth:  { kind: 'cloak', name: 'Cloak of Warmth',      power: 'warmth', value: 70,  sprite: 'cloak_warmth', tier: 2,
     desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
@@ -537,6 +544,8 @@ const ITEMS = {
   ring_quiet:   { kind: 'ring', name: 'Ring of Stealth',      value: 70,  sprite: 'ring_iron',   power: 'quiet', tier: 2, desc: 'Sleeping monsters notice you a square later.' },
   ring_warmth:  { kind: 'ring', name: 'Ring of Warmth',       value: 90,  sprite: 'ring_copper', power: 'warmth', tier: 3, desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   amulet_life:  { kind: 'amulet', name: 'Amulet of Life Saving', value: 260, sprite: 'amulet_amber', power: 'lifesave', tier: 4, desc: 'The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust.' },
+  // what the Spider Pendant (a relic: see relics.js) hangs on; never found bare
+  amulet_spider: { kind: 'amulet', name: 'Spider Pendant', value: 200, sprite: 'amulet_spider', power: 'evasion', bonus: 2, tier: 99, desc: '+2 to every saving throw.' },
   amulet_ward:  { kind: 'amulet', name: 'Amulet of Warding',  value: 150, sprite: 'amulet_silver', power: ['ward', 'pure'], tier: 3, desc: 'Your life force cannot be drained, and poison cannot take hold of you.' },
   amulet_mind:  { kind: 'amulet', name: 'Amulet of Wizardry', value: 150, sprite: 'amulet_obsidian', power: 'mind', tier: 3, desc: '+6 spell points for anyone who has spells to spend them on.' },
   // food
@@ -707,7 +716,7 @@ const MONSTERS = {
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
 // A spell that fills a square or a corridor (save: the score a foe rolls with)
 // can be ridden out: a foe that saves takes three quarters of it, or tears
-// free of Entangle's roots in half the time. A dart, a smite or a lash at one
+// free of Entangle's roots in two thirds of the time. A dart, a smite or a lash at one
 // foe (Call Lightning too: it falls on the first foe only) is never saved
 // against. The blasts hit a little harder than they did before foes could
 // save: a goblin pack that rode out Burning Hands at the first level lived
@@ -733,9 +742,9 @@ const SPELLS = {
     { id: 'thorn_lash',     name: 'Thorn Lash',     lvl: 1, cost: 2, kind: 'bolt', range: 4, dmg: L => [1, 6, 1 + Math.floor(L / 3)], color: '#8c4', desc: 'A whip of thorns lashes the first foe within four squares.' },
     { id: 'wild_shape',     name: 'Wild Shape',     lvl: 1, cost: 5, kind: 'shape', color: '#c95', desc: 'Become a bear for forty seconds: claws for your blows, 2 better armour class, and a hide that takes the blows before you do. Casting any other spell lets the bear go.' },
     { id: 'mending_moss',   name: 'Mending Moss',   lvl: 2, cost: 3, kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points, and your companion as much.' },
-    { id: 'entangle',       name: 'Entangle',       lvl: 3, cost: 3, kind: 'root', save: 'str', range: 4, color: '#6b3', desc: 'Roots burst from the stone and hold the first foe within four squares for three seconds, the blow it was drawing back broken off.' },
+    { id: 'entangle',       name: 'Entangle',       lvl: 3, cost: 3, kind: 'root', save: 'str', range: 4, color: '#6b3', desc: 'Roots burst from the stone and hold the first foe within four squares for three and a half seconds, the blow it was drawing back broken off.' },
     { id: 'call_lightning', name: 'Call Lightning', lvl: 3, cost: 5, kind: 'bolt', range: 5, dmg: L => [3, 8, Math.floor(L / 2)], element: 'lightning', color: '#ff8', desc: 'Lightning falls on the first foe within five squares.' },
-    { id: 'insect_plague',  name: 'Insect Plague',  lvl: 5, cost: 9, kind: 'bolt', save: 'con', range: 3, dmg: L => [4, 6, L + 3], pierce: true, color: '#cb6', desc: 'A stinging swarm fills the corridor ahead, and every foe in it within three squares.' },
+    { id: 'insect_plague',  name: 'Insect Plague',  lvl: 5, cost: 9, kind: 'bolt', save: 'con', range: 3, dmg: L => [4, 6, L + 5], pierce: true, color: '#cb6', desc: 'A stinging swarm fills the corridor ahead, and every foe in it within three squares.' },
   ],
 };
 

@@ -35,6 +35,7 @@ const RELIC_POWERS = {
   lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
   // a druid's: carried into the shape as it is taken, though the bear holds nothing
   wild: 'Wild: your Wild Shape lasts ten seconds longer, and its hide is 4 thicker.',
+  webwalk: 'Spider-blessed: no web holds you, spat or woven.',
 };
 
 /** Ordinary gear found enchanted can carry one of these powers, named by it. */
@@ -119,6 +120,9 @@ const RELICS = {
   // found only on a smouldering floor, lying where the fire has been (see game.js twistLevel)
   cinder_ring: { t: 'ring_protect', e: 1, name: 'the Cinder Ring', powers: ['emberwalk'], value: 340, twist: 'smouldering',
     lore: 'A plain iron band, still warm, found in the ash where the floor burns. Whoever wore it last walked through fire for a living, and the fire let them.' },
+  // Vaelith's own, from her breast as she falls (see game.js), never lying about or on a shelf
+  spider_pendant: { t: 'amulet_spider', e: 1, name: 'the Spider Pendant', powers: ['webwalk'], value: 420, champion: 'vaelith', fell: 'the High Priestess falls',
+    lore: 'A silver spider with garnet eyes, worn by every High Priestess of the dark elves in turn. Their goddess\'s webs part for whoever wears it, and the blows she sends aside go wide.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };
@@ -144,8 +148,8 @@ function relicUsableBy(id, cls) {
 function relicPlan(seed, cls, levels) {
   const rng = new Rng(`${seed}|relics|${cls}`);
   // a road's own relic waits down that road (see routeRelic), never on a trader's shelf
-  // (and a twisted floor's own lies on that floor, if the run has one)
-  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && relicUsableBy(id, cls)));
+  // (and a twisted floor's own lies on that floor, if the run has one; a champion's own falls with it)
+  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && relicUsableBy(id, cls)));
   // keep at least one back for the traders, whenever there are two to share
   const n = Math.min(Math.max(1, Math.round((levels - 1) * 0.4)), Math.max(1, pool.length - 1));
   const chosen = pool.slice(0, n).sort((a, b) => RELICS[a].value - RELICS[b].value);

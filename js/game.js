@@ -186,7 +186,7 @@ const Game = (() => {
   // corridor. The hero's number to beat is 10, half their level and their
   // casting score's bonus; the foe's roll is a d20 and half its skill at arms
   // (the surer its blows, the quicker it is to get out of the way), two more
-  // for a champion or the Heart's keeper. A 1 always fails, a 20 always holds.
+  // for a named champion or the Heart's keeper. A 1 always fails, a 20 always holds.
   const SAVED_SHARE = 0.75;
   const spellDC = (p = P()) => 10 + Math.floor(p.level / 2) + mod(p.stats[CLASSES[p.cls].primary] || 10);
   const saveBonus = m => { const mb = mstat(m); return Math.floor((mb.hit || 0) / 2) + (mb.named || mb.boss ? 2 : 0); };
@@ -431,9 +431,16 @@ const Game = (() => {
   const buffDuration = sp => sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) * (sp.id === 'bless' && onPath('templar') ? 2 : 1) * (sp.id === 'shield' && onPath('frostweaver') ? 1.5 : 1);
   const SPAN_WORDS = { 60000: 'a minute', 90000: 'a minute and a half', 120000: 'two minutes', 180000: 'three minutes', 240000: 'four minutes' };
   /** A spell's description as it works for this hero: a buff's amount and time with the paths and talents in. */
+  // what a foe's saving throw does to a spell, said on its card (the number to beat moves with the hero)
+  function saveLine(sp) {
+    if (sp.kind === 'root') return ` A foe that saves by its Strength (against your ${spellDC()}) is held two thirds as long; a boss always half.`;
+    if (sp.save) return ` A foe that saves by its ${STAT_WORD[sp.save]} (against your ${spellDC()}) takes three quarters.`;
+    if (sp.kind === 'bolt') return ' Never saved against.';
+    return '';
+  }
   function spellDesc(sp) {
     if (sp.kind === 'shape') return sp.desc.replace('forty seconds', `${Math.round(wild.duration() / 1000)} seconds`);
-    if (sp.kind !== 'buff') return sp.desc;
+    if (sp.kind !== 'buff') return sp.desc + saveLine(sp);
     const dur = buffDuration(sp);
     return sp.desc.replace(/^\+\d+/, '+' + buffAmount(sp))
       .replace(/for (a minute and a half|a minute)/, 'for ' + (SPAN_WORDS[dur] || `${Math.round(dur / 1000)} seconds`));
@@ -841,7 +848,7 @@ const Game = (() => {
   function placeCloaks(L, depth) {
     if (depth < 2) return;
     const rng = new Rng(`${G.seed}|cloaks|${depth}`);
-    const pool = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'cloak');
+    const pool = Object.keys(ITEMS).filter(id => ITEMS[id].kind === 'cloak' && ITEMS[id].tier < 99);
     const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
     if (piles.length && rng.chance(CLOAK_FIND)) L.items[rng.pick(piles)].push({ t: rng.pick(pool), q: 1, e: 0 });
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
@@ -2876,7 +2883,9 @@ const Game = (() => {
   // blows, each of them swings, and a blast that fills the square hits all.
   const packSize = m => 1 + (m.pack ? m.pack.length : 0);
   // what a wyrm's scales and a quillback's quills are made into, and how often one is whole enough (Skarrow always)
-  const TROPHIES = { wyrm: ['wyrmscale', 0.25], skarrow: ['wyrmscale', 1], quillback: ['quillshield', 0.2] };
+  // (each a list of what may be taken, and how often: a dark elf warrior's blade more often than its mail)
+  const TROPHIES = { wyrm: [['wyrmscale', 0.25]], skarrow: [['wyrmscale', 1]], quillback: [['quillshield', 0.2]],
+    drow_warrior: [['scimitar', 0.12], ['elvenchain', 0.08]], drow_mage: [['cloak_shadow', 0.15]] };
   /** One of them falls: the reward, the log line and the chance of loot. */
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
@@ -2916,11 +2925,19 @@ const Game = (() => {
       (L.items[k] = L.items[k] || []).push(loot);
     }
     // and the deep's own beasts leave something of themselves now and then
-    const trophy = TROPHIES[m.id];
-    if (trophy && Math.random() < trophy[1]) {
+    for (const [t, chance] of TROPHIES[m.id] || []) {
+      if (Math.random() >= chance) continue;
       const k = key(m.x, m.y);
-      (L.items[k] = L.items[k] || []).push({ t: trophy[0], q: 1, e: 0 });
-      log(`Something of the ${mb.name} is worth taking: a ${ITEMS[trophy[0]].name}.`, 'good');
+      (L.items[k] = L.items[k] || []).push({ t, q: 1, e: 0 });
+      log(`Something of the ${mb.name} is worth taking: a ${ITEMS[t].name}.`, 'good');
+      break;
+    }
+    // a champion with a relic of its own drops it as it falls, once a run
+    const own = Object.keys(RELICS).find(id => RELICS[id].champion === m.id);
+    if (own && G.relics && !G.relics.found.includes(own) && !Object.values(L.items).some(pile => pile.some(it => it.u === own))) {
+      const k = key(m.x, m.y);
+      (L.items[k] = L.items[k] || []).push(relicItem(own));
+      log(`As ${RELICS[own].fell || 'it falls'}, ${RELICS[own].name} drops to the stones.`, 'good');
     }
     checkLevelUp();
     emit('stats');
@@ -3776,13 +3793,16 @@ const Game = (() => {
             dmg = Math.round(dmg * deepMagic());
             if (sp.fire) dmg = pyroFire(dmg);
             dmg = templarSmite(sp, dmg);
-            // a blast can be ridden out: a foe that saves takes three quarters of it
-            if (sp.save) {
+            // a blast can be ridden out: a foe that saves takes three quarters of it (a group rides it out
+            // together, as it takes one roll of the dice; a heap of bones does not, nor a boss the blast cannot reach)
+            const unreached = m.wardUntil > G.t && mstat(m).boss && !m.throne;
+            if (sp.save && !m.collapsed && !unreached) {
               const sv = spellSave(m, sp.save);
               if (sv.pass) {
                 dmg = Math.max(1, Math.round(dmg * SAVED_SHARE));
                 floatText(m, 'saves', '#c8c8d8');
-                log(`The ${mstat(m).name} ${sp.save === 'con' ? 'braces against' : 'twists from'} the worst of your ${sp.name}.${sv.note}`);
+                const many = (sp.pierce || sp.area) && packSize(m) > 1;
+                log(`The ${mstat(m).name}${many ? 's' : ''} ${sp.save === 'con' ? (many ? 'brace' : 'braces') + ' against' : (many ? 'twist' : 'twists') + ' from'} the worst of your ${sp.name}.${sv.note}`);
               }
             }
             // Rime, or a Frostweaver: the cold and the lightning hold back whatever they touch

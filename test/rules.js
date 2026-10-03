@@ -837,8 +837,8 @@ await test('across runs every encounter turns up, and no two runs meet the same 
     all.forEach(e => seen.add(e));
     sets.add(all.slice().sort().join(','));
   }
-  // (a road's own encounter is placed by the road, not dealt)
-  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route);
+  // (a road's own encounter is placed by the road, and a people's by their floor, not dealt)
+  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route && !ENCOUNTERS[e].home);
   if (missing.length) return `never met in 80 runs: ${missing.join(', ')}`;
   return sets.size >= 70 || `80 runs met only ${sets.size} different handfuls`;
 });
@@ -9926,6 +9926,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
         if (stray.length) out.push(`theme ${theme}, ${mood}: ${stray.length} notes off its scale`);
       }
     }
+    // the dark elves' halls chime, high and far off, while all is still; no other floor does
+    const chimes = theme => Music.plan('quiet', theme, 64).flatMap(s => s.notes).filter(n => n.k === 'bell' && n.len === 3 && n.midi >= Music.SCALES[theme].root + 24).length;
+    if (!(chimes(8) >= 4)) out.push(`the elves' halls chimed ${chimes(8)} times in 64 quiet steps`);
+    if (chimes(0) || chimes(7)) out.push('another floor chimed like the elves\' halls');
     const quiet = Music.plan('quiet', 0, 64), wary = Music.plan('wary', 0, 64), fight = Music.plan('fight', 0, 64), champ = Music.plan('champion', 0, 64), boss = Music.plan('boss', 0, 64);
     // quiet is sparse: bells, a long silence between phrases, no beat
     const quietBells = count(quiet, 'bell');
@@ -11755,7 +11759,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const c3 = await druid('druid-boss', 5);
     const [boss] = lineUp(c3, ['warlord'], { windup: null }); const t2 = c3.Game.state().t;
     c3.Game.castSpell(druidSpell(c3, 'entangle'));
-    if (boss.nextAct - t2 !== 1500) out.push(`the Warlord was held ${boss.nextAct - t2}ms`);
+    if (boss.nextAct - t2 !== 1750) out.push(`the Warlord was held ${boss.nextAct - t2}ms`);
     return out.length ? out.join('; ') : true;
   });
 
@@ -13277,7 +13281,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const { Game, G, L, p, put, at, cast } = await arena('fighter', 'el-loose');
     L.twist = 'flooded';
     const [fx, fy] = at(1);
-    const dr = put('drowned', 1, 0, { sunk: true, awake: false, nextAct: G.t, hp: 40, maxHp: 40 });
+    const dr = put('drowned', 1, 0, { sunk: true, awake: false, nextAct: G.t, hp: 400, maxHp: 400 });   // (four good blows must not kill it under the ice)
     L.fields[`${fx},${fy}`] = { k: 'ice', until: G.t + 1e6 };
     for (let i = 0; i < 4; i++) { G.t = Math.max(G.t, p.nextAttack) + 10; Game.input('attack'); }
     if (!dr.sunk) out.push('a blow brought a drowned one up through the ice');
@@ -14116,6 +14120,87 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  // ---------- what the dark elves leave ----------
+  await test('a dark elf warrior leaves its scimitar or its elven chain now and then, a mage its shadow cloak; Vaelith drops the Spider Pendant once; none is found lying about', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'elf-loot', { levels: 12 });
+    const { Game, ITEMS, CLASSES, armorFits, RELICS } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.str = 30;
+    const kills = (id, n) => {
+      const got = {};
+      for (let i = 0; i < n; i++) {
+        const m = beside(ctx, id, { hp: 1, maxHp: 1, nextAct: 1e12 });
+        for (let t = 0; t < 40 && Game.level().monsters.includes(m); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+        const k = `${m.x},${m.y}`;
+        for (const it of Game.level().items[k] || []) got[it.u || it.t] = (got[it.u || it.t] || 0) + 1;
+        delete Game.level().items[k];
+      }
+      return got;
+    };
+    const w = kills('drow_warrior', 80), m = kills('drow_mage', 60);
+    if (!((w.scimitar || 0) > 2 && (w.scimitar || 0) < 25)) out.push(`80 warriors left ${w.scimitar || 0} scimitars`);
+    if (!((w.elvenchain || 0) > 0 && (w.elvenchain || 0) < 20)) out.push(`80 warriors left ${w.elvenchain || 0} coats of elven chain`);
+    if (!((m.cloak_shadow || 0) > 2 && (m.cloak_shadow || 0) < 25)) out.push(`60 mages left ${m.cloak_shadow || 0} shadow cloaks`);
+    if (w.cloak_shadow || m.scimitar || m.elvenchain) out.push('a warrior left a cloak, or a mage a blade or mail');
+    const v1 = kills('vaelith', 1);
+    if (v1.spider_pendant !== 1) out.push(`Vaelith left ${JSON.stringify(v1)}`);
+    G.relics.found.push('spider_pendant');
+    if (kills('vaelith', 1).spider_pendant) out.push('a second Spider Pendant fell, the first already found');
+    if (ITEMS.elvenchain.tier < 50 || ITEMS.scimitar.tier < 50 || ITEMS.cloak_shadow.tier < 50 || ITEMS.amulet_spider.tier < 50) out.push('elven loot can turn up as ordinary loot');
+    if (!armorFits(CLASSES.thief, ITEMS.elvenchain) || armorFits(CLASSES.mage, ITEMS.elvenchain) || ITEMS.elvenchain.ac !== ITEMS.chain.ac) out.push('elven chain is not light armour as good as chain');
+    // nor on a pile or a trader's shelf as a cloak, nor dealt as a relic of the floors or the shops
+    const { relicPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'relics.js')).href);
+    for (let i = 0; i < 60; i++) for (const cls of ['fighter', 'mage', 'druid']) {
+      const plan = relicPlan('pend' + i, cls, 12);
+      if (Object.values(plan.floor).includes('spider_pendant') || plan.shop.includes('spider_pendant')) { out.push('the Spider Pendant was dealt to a floor or a shop'); break; }
+    }
+    if (RELICS.spider_pendant.champion !== 'vaelith') out.push('the pendant is not Vaelith\'s');
+    for (let d = 2; d <= 12; d++) {
+      Game.testFloor(d);
+      for (const pile of Object.values(Game.level().items)) if (pile.some(it => it.t === 'cloak_shadow')) out.push(`a shadow cloak lay about on floor ${d}`);
+      for (const n of Game.level().npcs || []) if ((n.stock || []).some(it => it.t === 'cloak_shadow')) out.push(`a trader sold a shadow cloak on floor ${d}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the Spider Pendant keeps every web off its wearer and steadies every save; a web still holds the hero without it', async () => {
+    const out = [];
+    for (const worn of [false, true]) {
+      const { Game, G, p, put } = await arena('fighter', 'pendant-' + worn);
+      if (worn) p.eq.amulet = { t: 'amulet_spider', q: 1, e: 1, u: 'spider_pendant' };
+      const m = put('drow_mage', 3, 0, { hp: 80, maxHp: 80 });
+      m.windup = { kind: 'move', move: 'web', at: G.t, until: G.t + 100 }; m.nextAct = m.windup.until;
+      p.webbed = 0;
+      const mark = markLog(G);
+      run(Game, G, 300);
+      const held = p.webbed > G.t;
+      if (worn && held) out.push('a web held the hero wearing the Spider Pendant');
+      if (worn && !linesSince(G, mark).some(l => /parts around you/.test(l))) out.push('the web parting was not told');
+      if (!worn && !held) out.push('a web did not hold the hero without the pendant');
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the dark elves\' floor holds their Spider Altar, and no other floor does; robbing it badly brings their warriors', async () => {
+    const out = [];
+    const { encounterPlan, ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+    const { Dungeon } = await newContext();
+    for (let i = 0; i < 40; i++) for (const levels of [8, 12, 16]) {
+      if (encounterPlan('alt' + i, levels, Dungeon.tierAt).flat().includes('spider_altar')) { out.push('the altar was dealt from the deck'); break; }
+    }
+    for (let s = 0; s < 6; s++) for (const levels of [12, 16]) {
+      const at = Dungeon.elfDepth(levels);
+      for (const depth of [at - 1, at, at + 1]) {
+        const L = Dungeon.generate('alt' + s, depth, { levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: 'crypts' });
+        const has = (L.npcs || []).some(n => n.kind === 'encounter' && n.id === 'spider_altar');
+        if (has !== (depth === at)) out.push(`alt${s}/${levels}/${depth}: altar ${has ? 'there' : 'missing'}`);
+      }
+    }
+    const pry = ENCOUNTERS.spider_altar.choices.find(c => /garnets/.test(c.label));
+    if (!pry.fail.effects.some(e => e.ambush && e.ambush.id === 'drow_warrior')) out.push('a botched theft brought no warriors');
+    return out.length ? out.join('; ') : true;
+  });
+
   // ---------- saving throws, both ways ----------
   // The same dice twice over, one foe that cannot fail a save (but on a 1) and one that cannot
   // make it (but on a 20): every cast lands for the same roll, so the saved hits are three quarters of the rest.
@@ -14155,6 +14240,29 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const yes = await castSeries(cls, id, true), no = await castSeries(cls, id, false);
       if (yes.dmg.join() !== no.dmg.join() || yes.saved.some(Boolean)) out.push(`${id} was saved against`);
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a boss wrapped in shadow, or a heap of bones, does not ride out a blast it cannot feel; a group that does is told as one', async () => {
+    const out = [];
+    const { ctx, Game, G, p, put, cast } = await arena('mage', 'save-skip');
+    const { MONSTERS } = ctx;
+    for (const id of ['lich', 'skeleton', 'goblin']) MONSTERS[id] = { ...MONSTERS[id], hit: 60 };
+    const said = (id, extra) => {
+      Game.level().monsters.length = 0;
+      put(id, 1, 0, { hp: 5000, maxHp: 5000, ...extra });
+      const mark = markLog(G); p.sp = 999; cast('lightning');
+      return linesSince(G, mark).join(' | ');
+    };
+    for (let i = 0; i < 4; i++) {
+      if (/the worst of your/.test(said('lich', { wardUntil: G.t + 1e9 }))) { out.push('a lich in shadow rode out a blast'); break; }
+    }
+    for (let i = 0; i < 4; i++) {
+      if (/the worst of your/.test(said('skeleton', { collapsed: true }))) { out.push('a heap of bones rode out a blast'); break; }
+    }
+    let group = '';
+    for (let i = 0; i < 6 && !/Goblins twist/.test(group); i++) group = said('goblin', { pack: [{ hp: 5000, maxHp: 5000 }, { hp: 5000, maxHp: 5000 }] });
+    if (!/The Goblins twist from the worst/.test(group)) out.push(`a group's save: "${group}"`);
     return out.length ? out.join('; ') : true;
   });
 
@@ -14203,7 +14311,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
         if (m.windup) out.push(`${sure ? 'a saving' : 'a held'} foe kept its blow`);
         holds.push(m.snaredUntil - G.t);
       }
-      const long = holds.filter(h => h >= 2900).length, short = holds.filter(h => h >= 1900 && h <= 2100).length;
+      const long = holds.filter(h => h >= 3400).length, short = holds.filter(h => h >= 2250 && h <= 2420).length;
       if (sure && short < 10) out.push(`a foe that saves was held ${holds.join(', ')}`);
       if (!sure && long < 10) out.push(`a foe that cannot save was held ${holds.join(', ')}`);
     }
@@ -14215,7 +14323,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
         Game.level().monsters.length = 0;
         const m = put('warlord', 2, 0, { hp: 5000, maxHp: 5000 });
         cast('entangle');
-        if (m.snaredUntil - G.t !== 1500) { out.push(`a boss sure of its save was held ${m.snaredUntil - G.t}ms`); break; }
+        if (m.snaredUntil - G.t !== 1750) { out.push(`a boss sure of its save was held ${m.snaredUntil - G.t}ms`); break; }
       }
     }
     return out.length ? out.join('; ') : true;
@@ -14251,6 +14359,23 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const q = quick.reduce((n, g) => n + g.hurt, 0), s = slow.reduce((n, g) => n + g.hurt, 0);
       if (!(s > 0) || !(q < s * 0.85)) out.push(`${name}: a quick hero took ${q} over sixteen, a slow one ${s}`);
     }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a spell\'s card says how foes save against it, and the number they must beat', async () => {
+    const out = [];
+    const card = async (cls, id, int = 16, level = 5) => {
+      const { ctx, Game, p } = await arena(cls, 'save-card-' + id);
+      p.level = level; p.stats[ctx.CLASSES[cls].primary] = int;
+      return Game.spellDesc(ctx.SPELLS[cls].find(s => s.id === id));
+    };
+    const bolt = await card('mage', 'lightning'), cone = await card('mage', 'cone_cold', 18, 9), dart = await card('mage', 'magic_missile');
+    const roots = await card('druid', 'entangle'), heal = await card('cleric', 'cure_light'), call = await card('druid', 'call_lightning');
+    if (!/saves by its Dexterity \(against your 15\) takes three quarters/.test(bolt)) out.push(`Lightning Bolt: "${bolt}"`);
+    if (!/saves by its Constitution \(against your 18\)/.test(cone)) out.push(`Cone of Cold at level 9, Intelligence 18: "${cone}"`);
+    if (!/Never saved against\.$/.test(dart) || !/Never saved against\.$/.test(call)) out.push(`a dart or a lightning stroke: "${dart}" / "${call}"`);
+    if (!/held two thirds as long; a boss always half/.test(roots)) out.push(`Entangle: "${roots}"`);
+    if (/save/i.test(heal)) out.push(`a healing spell spoke of saves: "${heal}"`);
     return out.length ? out.join('; ') : true;
   });
 

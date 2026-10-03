@@ -431,7 +431,7 @@ export function makeFoes(K) {
         m.nextAct = K.G.t + mb.speed;
         break;
       case 'web':
-        if ((dist === 1 || hasLineToPlayer(m, 4)) && K.hasTalent('evasion')) K.log('The web slides off you.', 'good');
+        if ((dist === 1 || hasLineToPlayer(m, 4)) && (K.hasTalent('evasion') || K.hasPower('webwalk'))) K.log(K.hasTalent('evasion') ? 'The web slides off you.' : 'The web parts around you like a curtain.', 'good');
         else if (dist === 1 || hasLineToPlayer(m, 4)) {
           const c = K.trickSave('dex', 'web');
           p.webbed = K.G.t + (c.pass ? 1600 : 3200);

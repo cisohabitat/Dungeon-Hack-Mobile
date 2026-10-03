@@ -227,7 +227,30 @@ const ITEM_ART = {
   amulet_silver: () => jewelAmulet('#c8ccd4', '#80868f', '#d8e8f8', '#ffffff'),
   amulet_obsidian: () => jewelAmulet('#6e727c', '#3a3e46', '#1a1622', '#8a7aa8'),
   amulet_bone: () => jewelAmulet('#8a5a32', '#a89c80', '#e8dcc0', '#ffffff', true),
+  // the High Priestess's: a black stone in silver, worked as a spider, its eyes garnets
+  amulet_spider: () => [
+    ...jewelAmulet('#c8ccd4', '#80868f', '#241a2c', '#8a7aa8'),
+    ...[-1, 1].flatMap(sd => [[2.4, -3.4, 7.4, -7], [3.2, -0.8, 8.4, -1.6], [3, 1.8, 8, 4.4], [2.2, 4, 6.2, 8.4]].flatMap(([a, b, c, d]) => [
+      limb(16 + sd * a, 24 + b, 16 + sd * (a + c) / 2, 24 + Math.min(b, d) - 1.2, 0.45, 0.4, '#c8ccd4'), limb(16 + sd * (a + c) / 2, 24 + Math.min(b, d) - 1.2, 16 + sd * c, 24 + d, 0.4, 0.3, '#c8ccd4')])),
+    ball(14.8, 20.4, 0.7, 0.7, '#e8303a', { glows: true }), ball(17.2, 20.4, 0.7, 0.7, '#e8303a', { glows: true }),
+  ],
   // ---- blades ----
+  // a dark elf's curved blade: a grip bound in silver wire, a slight guard with a violet stone,
+  // and a blade that sweeps wider toward the point, the edge bright along the curve
+  scimitar: () => {
+    const bend = s => 0.014 * (s - 11) * (s - 11), wide = s => 1.3 + (s - 11) * 0.07;
+    const back = [], edge = [];
+    for (let s = 11; s <= 27; s += 2) { back.push(at(s, -wide(s) + bend(s))); edge.unshift(at(s, wide(s) + bend(s))); }
+    return [
+      axis(4, 10.2, 1, 1, '#2a1e30'), ...[5, 6.5, 8, 9.5].map(s => hairAt(s, -0.9, s + 0.4, 0.9, '#b8bccc')),
+      ball(...at(3.2), 1.4, 1.3, '#b8bccc'), specks([at(2.8, -0.5)], '#eef0f8'),
+      limb(...at(10.6, -3.4), ...at(11, 3.4), 0.7, 0.7, '#b8bccc'),
+      sheet([...back, at(29.5, bend(29.5) - 0.6), ...edge], '#cdd2de', { tilt: [-0.3, -0.35] }),
+      ...[0, 1, 2, 3, 4, 5, 6].map(i => { const s = 11.5 + i * 2.2, t = s + 2.2; return hairAt(s, wide(s) + bend(s) - 0.45, t, wide(t) + bend(t) - 0.45, '#f4f8ff'); }),
+      ...[0, 1, 2, 3, 4].map(i => { const s = 12 + i * 3; return hairAt(s, -wide(s) + bend(s) + 0.4, s + 3, -wide(s + 3) + bend(s + 3) + 0.4, '#8a909e'); }),
+      ball(...at(10.9), 0.85, 0.85, '#8a3ac0'), specks([at(10.7, -0.3)], '#e0c0ff'),
+    ];
+  },
   dagger: () => [
     axis(5.5, 10, 1.05, 1.05, WRAP), ball(...at(4.9), 1.25, 1.25, BRASS), specks([at(4.5, -0.4)], '#fff0a0'),
     guard(10.5, 5.2, BRASS, 0.7), ...blade(11, 22, 2.5),
@@ -557,6 +580,11 @@ const ITEM_ART = {
     // a leaf for a clasp, and the cloth shifting grey-green like leaf-shadow
     sheet([[14, 7.5], [16, 5.5], [18, 7.5], [16, 10]], '#9ac070'),
     hair(9, 16, 11, 26, '#4e6a48'), hair(21, 14, 23, 25, '#6e8e62'),
+  ]),
+  // a dark elf mage's: near black, a silver spider at the clasp, a violet thread at the hem
+  cloak_shadow: () => cloak('#1e1a26', '#2e283a', '#b8bccc', [
+    ...[-1, 1].flatMap(sd => [[1, -1.2, 3.4, -2.6], [1.2, 0, 3.6, 0.4], [1, 1.2, 3.2, 2.8]].map(([a, b, c, d]) => limb(16 + sd * a, 8 + b, 16 + sd * c, 8 + d, 0.35, 0.3, '#b8bccc'))),
+    line(6, 28.2, 26, 28.2, '#8a4ac8'), hair(10, 14, 9, 25, '#3a3048'), hair(22, 14, 23.5, 25, '#2a2436'),
   ]),
   cloak_warmth: () => cloak('#7a3424', '#9a4a30', '#efe6d0', [
     // a thick fur collar and fur at the hem
@@ -1176,7 +1204,7 @@ const HELD_ART = {
 };
 
 const GRIPS = {
-  dagger: { at: at(7.8) }, shortsword: { at: at(7.3) }, longsword: { at: at(7) },
+  dagger: { at: at(7.8) }, shortsword: { at: at(7.3) }, longsword: { at: at(7) }, scimitar: { at: at(7) },
   // in its HELD_ART picture: the right fist under the guard, the left at the pommel
   greatsword: { at: at(9.9), second: at(3.4), grid: 100 }, throwknife: { at: at(12.5) },
   club: { at: at(5.6) }, staff: { at: at(13.5), second: at(3.5) }, spear: { at: at(9.5) },
@@ -1184,5 +1212,11 @@ const GRIPS = {
   sling: { at: [8, 6.5], fixed: true },
 };
 const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
+
+// Elven Chain: the chain shirt's own picture, finer and darker, the colour of
+// a blade in moonlight, laced in violet (drawn from the chain so the two read as kin)
+const MITHRAL = { '#868c96': '#343848', '#8e949e': '#3c4054', '#9ea4ae': '#4c5268', '#7a808a': '#2a2e3c', '#4e545e': '#9aa0c8',
+  '#dfe4ec': '#f4f4ff', '#2a2e36': '#120e18', '#7a6a50': '#3a2050', '#9a8a6a': '#a070e0', '#6a707a': '#5a3a88', '#b8bec8': '#c8b0f0' };
+/** @type {any} */ (ITEM_ART).elvenchain = () => ITEM_ART.chain().map(p => (MITHRAL[p.c] ? { ...p, c: MITHRAL[p.c] } : p));
 
 export { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS };

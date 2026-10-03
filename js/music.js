@@ -31,6 +31,9 @@ const Music = (() => {
     { root: 48, steps: [0, 1, 4, 5, 7, 8, 11] },     // Obsidian Sanctum: C, the lich's strange major
     { root: 47, steps: [0, 1, 3, 5, 7, 8, 10] },     // The Ossuary: B, phrygian, bone on bone
     { root: 43, steps: [0, 3, 5, 7, 10] },           // The Warrens: G, five notes, goblin-plain
+    // The Dark Elf Halls: C#, the Hungarian minor, its raised fourth strange and cold; and far
+    // off, temple chimes, two high notes falling, while nothing is close
+    { root: 49, steps: [0, 2, 3, 6, 7, 8, 11], chime: true },
   ];
   // how fast a step goes (eighth notes, in seconds) for each mood
   const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27, warlord: 0.27 };
@@ -112,6 +115,11 @@ const Music = (() => {
         if (rnd(c) < 0.18) out.push({ k: 'bell', midi: note(sc, c.degree - 2, 1), vel: 0.16, len: 2.4 });
         if (++c.phrase >= 3 + Math.floor(rnd(c) * 4)) { c.phrase = 0; c.rest = (lvl ? 6 : 12) + Math.floor(rnd(c) * 12); c.degree = 2 + Math.floor(rnd(c) * 3); }
       }
+    }
+    // the elves' temple chimes, high and far off, every fourth bar while all is still
+    if (sc.chime && lvl === 0 && !quietNow && bar % 4 === 2) {
+      if (beat === 0) out.push({ k: 'bell', midi: note(sc, 4, 2), vel: 0.11, len: 3 });
+      if (beat === 3) out.push({ k: 'bell', midi: note(sc, 3, 2), vel: 0.09, len: 3 });
     }
     // a quiet pad under the bells once in a long while, home and its fifth
     if (lvl === 0 && !quietNow && beat === 0 && bar % 8 === 0) out.push({ k: 'pad', midi: note(sc, 0, -1), vel: 0.18, len: 7 });

@@ -51,6 +51,25 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Not in the deck: the dark elves' floor of a Long Delve holds it, and only
+  // that floor (see dungeon.js), where they pray before they hunt
+  spider_altar: {
+    title: 'The Spider Altar', sprite: 'spider_altar', depth: [99, 99], home: 'elves',
+    text: 'A black altar under a canopy of webs, and on it a great spider carved from obsidian, its eyes two garnets the size of plums. Bowls of dark wine stand before it, still full. The elves pray here before they hunt.',
+    choices: [
+      { label: 'Drink from the bowls', check: { stat: 'con', dc: 13 },
+        pass: { text: 'The wine is bitter and very old, and it does not want you. You keep it down. Your wounds close, and for a while blows seem to slide off you.', effects: [{ heal: 'full' }, { buff: { stats: [['ac', 2]], dur: 180000 } }] },
+        fail: { text: 'The wine fights back. Whatever is in it was never meant for you.', effects: [{ poison: 1 }, { hurtFrac: 0.1 }] } },
+      { label: 'Pry the garnets from its eyes', check: { stat: 'dex', dc: 14, knack: [['thief', null, 3]] },
+        pass: { text: 'The stones come away with a soft click, heavy and warm. No one comes.', effects: [{ goldPerDepth: 30 }, { xp: 30 }] },
+        fail: { text: 'The altar shrieks as the first stone moves, and the halls answer. Blades are coming.', effects: [{ wake: 1 }, { ambush: { id: 'drow_warrior', n: 2 } }] } },
+      { label: 'Cast the spider down', check: { stat: 'str', dc: 13 },
+        pass: { text: 'It goes over and breaks across the stones. Somewhere in the halls a voice cries out, and goes quiet.', effects: [{ xp: 70 }] },
+        fail: { text: 'It will not move, and the effort costs you. Something in the dark has seen you try.', effects: [{ hurtFrac: 0.15 }, { wake: 1 }] } },
+      { label: 'Leave it be', outcome: { text: 'You leave the spider to its prayers.', effects: [] } },
+    ],
+  },
+
   // Not in the deck: every delve's last floor holds one, in the room nearest
   // the lich's hall, so the gold carried down and found on the way buys something.
   vigil: {
@@ -670,7 +689,7 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
 function encounterPlan(seed, levels, tierAt = d => d) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
-  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early));
+  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early && !ENCOUNTERS[k].home));
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);

@@ -125,7 +125,10 @@ const TWIST_IDS = ['dark', 'flooded', 'restless', 'market'];
 /** @param {string} seed @param {number} levels @param {boolean} [grow] false leaves out the overgrown floors (for the rules' own checks) */
 function twistPlan(seed, levels, grow = true) {
   const rng = new Rng(`${seed}|twists`);
-  const named = namedPlan(seed, levels);
+  // (the champions' floors, but not the dark elves': their floor came later, and counted
+  // here it moved the dice for every floor after it, so it is only struck off at the end)
+  const named = namedPlan(seed, levels), elves = elfDepth(levels);
+  if (elves) delete named[elves];
   const ids = rng.shuffle(TWIST_IDS.slice());
   const most = Math.max(1, Math.floor(levels / 4));
   /** @type {Record<number, string>} */
@@ -159,6 +162,8 @@ function twistPlan(seed, levels, grow = true) {
     for (let d = Math.max(3, Math.ceil(levels * 0.75)); d <= levels - 1; d++) if (!plan[d] && !plan[d - 1] && !plan[d + 1] && !named[d]) deep.push(d);
     if (deep.length) plan[deep[Math.floor(heat.next() * deep.length)]] = 'smouldering';
   }
+  // the dark elves' floor is never twisted: dark, flooded or restless it would hold drowned and undead, not elves
+  if (elves) delete plan[elves];
   return plan;
 }
 const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25, SMOULDER_SHARE = 0.4;
@@ -858,7 +863,8 @@ const Dungeon = (() => {
     // adding them does not move anything else on a seed's level.
     const erng = new Rng(`${seed}|encounter-spots|${depth}`);
     // the road's own encounter waits on its first floor
-    const encHere = [...(encounterPlan(seed, opts.levels || 8, tierAt)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : [])];
+    // (and the dark elves' floor its own: their altar)
+    const encHere = [...(encounterPlan(seed, opts.levels || 8, tierAt)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : []), ...(elves ? ['spider_altar'] : [])];
     for (const encId of encHere) {
       let placed = false;
       // the last floor's vigil lamp stands at the edge of the lich's hall, in
