@@ -4046,7 +4046,9 @@ const Game = (() => {
     if (!cands.length) return false;
     // what finds the sleeper is what lives on this floor: the same stretched tiers
     const td = Dungeon.tierAt(G.depth, G.opts.levels || 8);
-    const pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
+    // (in the dark elves' country, one of the elves)
+    const pool = THEMES[lvl().theme] && THEMES[lvl().theme].elves ? Dungeon.ELF_KIN.map(([k]) => k)
+      : Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
     const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
     const [x, y] = Dice.pick(cands);
     newMonster(id, x, y, Dice.dice(b.hp[0], b.hp[1], b.hp[2])).nextAct = G.t + 1500;

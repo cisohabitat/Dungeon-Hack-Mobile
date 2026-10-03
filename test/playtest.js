@@ -378,13 +378,13 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const mv = trick.windup.move, dx = Math.sign(trick.x - p.x), dy = Math.sign(trick.y - p.y);
         const toward = Dungeon.DIRS.findIndex(([ax, ay]) => ax === dx && ay === dy);
         const adjacent = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 1;
-        // a blink hound at your back is met face on; raised quills are waited out;
+        // a blink hound at your back is met face on; raised quills and crossed blades are waited out;
         // a wyrm's fire is dodged by closing in under its jaws when one step does it
         if (mv === 'blink' && adjacent) {
           if (toward !== p.dir) { Game.input(toward === (p.dir + 1) % 4 ? 'right' : 'left'); rec.dodges = (rec.dodges || 0) + 1; }
           step(); continue;
         }
-        if (mv === 'bristle' && adjacent) { step(); continue; }
+        if ((mv === 'bristle' || mv === 'parry') && adjacent) { step(); continue; }
         if (mv === 'breath' && toward >= 0 && (dx === 0 || dy === 0) && Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 2) {
           const t = L.tiles[(p.y + dy) * L.w + p.x + dx];
           if ((t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === p.x + dx && o.y === p.y + dy)) {

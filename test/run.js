@@ -433,6 +433,41 @@ check(traders > 0, 'no traders generated at all');
   }
   check(longNpcs > 200, `the long sweep found only ${longNpcs} traders and encounters`);
   check(longWay === 0, `${longWay} traders or encounters on a Long Delve's floors stand in the way`);
+  // the dark elves' country: on a Long Delve only, two floors above the bottom
+  // down either road, in their halls, with only their people and their High
+  // Priestess (two warriors at her side); nowhere else does a dark elf walk
+  {
+    const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
+    const DROW = new Set(['drow_warrior', 'drow_mage', 'vaelith']), elfTheme = THEMES.findIndex(t => t.elves);
+    const bad = [];
+    let elfFloors = 0, warriors = 0, mages = 0;
+    check(Dungeon.elfDepth(8) === null && Dungeon.elfDepth(12) === 10 && Dungeon.elfDepth(16) === 14, `the dark elves' floor is ${Dungeon.elfDepth(8)}/${Dungeon.elfDepth(12)}/${Dungeon.elfDepth(16)} of 8/12/16`);
+    for (let s = 0; s < 12; s++) for (const levels of [8, 12, 16]) {
+      const plan = Dungeon.namedPlan('elves' + s, levels), at = Dungeon.elfDepth(levels);
+      const dealt = Object.entries(plan).filter(([, id]) => id === 'vaelith').map(([d]) => +d);
+      if (dealt.join() !== (at ? String(at) : '')) bad.push(`elves${s}/${levels}: Vaelith dealt to floors ${dealt.join()}`);
+      for (const route of ['crypts', 'warrens']) for (let depth = Math.max(2, (at || 9) - 2); depth <= Math.min(levels - 1, (at || 9) + 1); depth++) {
+        const L = Dungeon.generate('elves' + s, depth, { levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route });
+        const ids = L.monsters.map(m => m.id), drow = ids.filter(id => DROW.has(id));
+        if (depth === at) {
+          elfFloors++;
+          warriors += ids.filter(id => id === 'drow_warrior').length; mages += ids.filter(id => id === 'drow_mage').length;
+          if (L.theme !== elfTheme) bad.push(`elves${s}/${levels}/${depth}: theme ${L.theme}`);
+          if (L.twist) bad.push(`elves${s}/${levels}/${depth}: twisted (${L.twist})`);
+          if (drow.length !== ids.length) bad.push(`elves${s}/${levels}/${depth}: ${ids.filter(id => !DROW.has(id)).join()} among the elves`);
+          if (ids.filter(id => id === 'vaelith').length !== 1) bad.push(`elves${s}/${levels}/${depth}: ${ids.filter(id => id === 'vaelith').length} High Priestesses`);
+          const v = L.monsters.find(m => m.id === 'vaelith');
+          if (v && L.monsters.filter(m => m.id === 'drow_warrior' && Math.max(Math.abs(m.x - v.x), Math.abs(m.y - v.y)) <= 3).reduce((n, m) => n + 1 + (m.pack || []).length, 0) < 2) bad.push(`elves${s}/${levels}/${depth}: Vaelith without her two warriors`);
+        } else {
+          if (drow.length) bad.push(`elves${s}/${levels}/${depth}: ${drow.join()} outside their country`);
+          if (L.theme === elfTheme) bad.push(`elves${s}/${levels}/${depth}: the elves' halls outside their floor`);
+        }
+      }
+    }
+    check(bad.length === 0, `the dark elves' country: ${bad.slice(0, 6).join('; ')}`);
+    check(elfFloors === 48 && warriors > mages * 1.4 && mages > 48, `the dark elves' floors: ${elfFloors} floors, ${warriors} warriors, ${mages} mages`);
+    console.log(`dark elves: ${elfFloors} floors, ${warriors} warriors and ${mages} mages`);
+  }
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot, ${together} squares with finds together`);
 }
 // The shape of a floor: rooms of many shapes, joined as a network with loops

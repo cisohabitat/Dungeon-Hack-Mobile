@@ -237,7 +237,7 @@ const Sound = (() => {
   // ---- monster voices, by family; bigger is lower ----
   const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
-    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', mender: 'hum', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl', heartforged: 'forge' };
+    acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', mender: 'hum', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl', heartforged: 'forge', drow_warrior: 'oath', drow_mage: 'chant' };
   const VOICE = {
     growl(out, s) { const f = 95 / s, l = lp(out, 520); tone(l, f, 0.4, 'sawtooth', 0.14, -f * 0.3, 0, 0.04); tone(l, f * 1.03, 0.4, 'sawtooth', 0.08, -f * 0.3, 0, 0.04); noise(out, 0.35, 0.05, { f: 400, attack: 0.05 }); },
     shriek(out) { for (let i = 0; i < 3; i++) tone(out, vary(2600, 0.08), 0.07, 'sine', 0.05, 700, i * 0.09); },

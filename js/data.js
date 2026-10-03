@@ -605,6 +605,15 @@ const MONSTERS = {
   // A dark floor's own: a blind hunter that finds its prey by the noise it
   // makes. Stand still and it loses you; move, strike or speak and it comes.
   eyeless:  { name: 'Eyeless Stalker', hp: [3, 8, 0], ac: 14, hit: 5, dmg: [1, 8, 1], speed: 900, xp: 90,  tier: [99, 99], sprite: 'eyeless',  scale: 1.0, hears: true, door: 'batter' },
+  // The dark elves' own (never dealt by depth): their country lies on one deep
+  // floor of a Long Delve (Dungeon.elfDepth), and they hold all of it. The
+  // warrior fights with two curved blades, quick, and now and then crosses
+  // them in a guard that turns a blow struck into it back on the striker
+  // (hold your blow); the mage keeps its distance, throwing violet fire and
+  // weaving webs of shadow that hold a hero's legs (step out of its line).
+  drow_warrior: { name: 'Dark Elf Warrior', hp: [5, 8, 3], ac: 16, hit: 8, dmg: [1, 8, 2], speed: 925, xp: 170, tier: [99, 99], sprite: 'drow_warrior', lunge: 1, scale: 0.95, move: 'parry', cunning: 1 },
+  drow_mage: { name: 'Dark Elf Mage', hp: [4, 8, 2], ac: 14, hit: 7, dmg: [1, 6, 1], speed: 1100, xp: 160, tier: [99, 99], sprite: 'drow_mage', scale: 0.95, move: 'web', spell: true, skirmish: true, cunning: 1,
+    ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of violet fire at' } },
   // a barrel among barrels, until it is touched (game.js lays it in; see foes.js for how it springs)
   emberling: { name: 'Emberling', hp: [3, 8, 2],  ac: 14, hit: 6,  dmg: [1, 8, 2], speed: 1000, xp: 110,  tier: [99, 99], sprite: 'emberling', scale: 0.7, move: 'flare', fiery: true, door: 'batter' },
   mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
@@ -683,6 +692,16 @@ const MONSTERS = {
       arrive: 'The air on the stair is hot and smells of cinders. Skarrow the Elder Wyrm lairs somewhere on this floor.',
       wake: 'Coals stir in the dark, and open, and are eyes. Skarrow the Elder Wyrm uncoils from her hoard.',
       fall: 'Skarrow the Elder Wyrm is dead! The fire in her throat gutters out, and her hoard goes dark.' } },
+  // The dark elves' High Priestess holds their country, and only there (`home`:
+  // never dealt to another floor, see namedPlan). She mends her own with a
+  // chant that any wound breaks, lashes with shadow from afar, and keeps two
+  // warriors at her side.
+  vaelith:  { name: 'High Priestess', hp: [10, 8, 12], ac: 17, hit: 9, dmg: [1, 8, 3], speed: 1000, xp: 600, tier: [99, 99], sprite: 'drow_mage', scale: 1.15, move: 'mend', spell: true, cunning: 1,
+    ranged: { range: 5, dmg: [2, 8, 2], verb: 'brings a lash of shadow down on' },
+    named: { called: 'Vaelith', kin: 'drow_mage', tint: '#c070ff', guard: ['drow_warrior', 2], often: 2, pron: 'her', home: 'elves',
+      arrive: 'Violet lamps, and a far-off chanting. Vaelith, High Priestess of the dark elves, keeps her temple somewhere on this floor.',
+      wake: 'The chanting stops. Vaelith the High Priestess turns from her altar, and her warriors draw their blades.',
+      fall: 'Vaelith the High Priestess is dead! The violet lamps gutter, and somewhere a great many dark elves fall silent.' } },
 };
 
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
@@ -821,6 +840,15 @@ const BESTIARY = {
   drowned:  { lore: 'Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.',
     trick: 'It lies sunk and unseen until you come within two squares, then rises and reaches to seize you. Held, you cannot step away.',
     answer: 'Watch the water for a ripple that does not settle, and go round it, or strike it first. As it rises and lurches, step back and it grabs the air.' },
+  drow_warrior: { lore: 'A dark elf in black mail, grey-skinned and white-haired, with a curved blade in each hand. They are quick, and they fight as if they had been taught to by someone who would kill them for doing it badly.',
+    trick: 'It crosses its two blades in a guard, and any blow struck into it from beside it is turned and answered with a cut.',
+    answer: 'Hold your blow while the blades are crossed. When it lowers them it is left open. An arrow or a spell from further off goes past the guard.' },
+  drow_mage: { lore: 'A dark elf in robes the colour of a bruise, who keeps well back and lets the warriors do the dying. It throws violet fire from afar, and steps away from anyone who comes close.',
+    trick: 'It weaves its hands, and a web of shadow spins out down its line toward you, to bind your legs.',
+    answer: 'Step out of its line, to one side, and the web sails past; it is left open while it weaves another. Close in on it, and it backs away.' },
+  vaelith: { lore: 'The High Priestess of the dark elves, crowned in silver spiders, who has kept their temple for longer than the Heart has been gone. Her warriors die for her without being asked.',
+    trick: 'She begins a chant over the wounded, her own warriors or herself, and dark power knits their wounds.',
+    answer: 'Wound her while she chants and the chant breaks. Cut down her guard first, or strike her from afar.' },
   emberling: { lore: 'A knot of cooling rock the size of a dog, crusted black and split with cracks that glow like a forge. It lives where the deep floors smoulder, and fire is its home: it barely feels it. Cold hurts it badly.',
     trick: 'When it is close it blazes white-hot, then flares, setting the stones round it alight. It bursts into flame as it dies.',
     answer: 'Step two squares off while it glows, or strike it with cold to quench it before it flares.' },
@@ -893,6 +921,8 @@ const THEMES = [
   // the roads at the divided stair each have walls of their own (see ROUTES)
   { name: 'The Ossuary', road: 'crypts', face: 'bones', wall: '#8a8272', mortar: '#16120e', floor: '#302c26', ceil: '#14110e', accent: '#7ac0b0', flavor: 'The dead are stacked to the roof here, skull upon skull.', decor: ['niche', 'cobweb', 'sconce', 'cobweb'], props: ['bones', 'candles', 'urn', 'candles'], fog: '#0a1614' },
   { name: 'The Warrens', road: 'warrens', face: 'earth', wall: '#6a5238', mortar: '#2a2016', floor: '#382c20', ceil: '#1c1610', accent: '#d08a40', flavor: 'Rough tunnels, dug by many small hands and propped with timber.', decor: ['roots', 'cobweb', 'sconce', 'banner'], props: ['crate', 'barrel', 'rubble', 'mushrooms', 'bones'], fog: '#161008' },
+  // the dark elves' country, one deep floor of a Long Delve (Dungeon.elfDepth): black stone laid true, violet lamps
+  { name: 'The Dark Elf Halls', elves: true, wall: '#3a3446', mortar: '#16121e', floor: '#24202c', ceil: '#100c16', accent: '#b070f0', flavor: 'Black stone laid true, and violet lamps. You have come into the country of the dark elves.', decor: ['banner', 'runes', 'cobweb', 'sconce', 'chains'], props: ['candles', 'crate', 'urn', 'bones'], fog: '#0c0814' },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.

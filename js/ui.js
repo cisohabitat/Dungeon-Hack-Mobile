@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-04a', text: 'the controls redrawn: the arrows and the buttons are one set of clean line icons now, the same on every phone' };
+  const NEWS = { id: '2026-10-04b', text: 'the Long Delve goes through the Dark Elf Halls: blade warriors who guard and riposte, mages of violet fire, and their High Priestess, Vaelith' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -660,6 +660,7 @@ const UI = (() => {
     charge: 'It lowers its head to charge down the line. <b>Step aside</b>, or pull a <b>door</b> shut across its path: it slams into the door, wide open.',
     horn: 'He means to sound a horn and call his kin. <b>Strike him</b> before he does: any wound cuts the call short.',
     blink: 'It has stepped back into the world <b>at your back</b>. <b>Turn round</b> to face it before it bites, and it is caught open.',
+    guard: 'Its blades are crossed in a guard. <b>Hold your blow</b>: strike into it and it answers with a cut. Wait, and the guard falls open.',
     quills: 'Its quills are up. <b>Hold your blow</b> until they sink: every blow struck into them bites you back. An arrow or a spell from further off is safe.',
     drowned: 'A <b>drowned one</b> has risen out of the water to seize you. <b>Step back</b> as it lurches and it grabs the air. Watch the black water for a <b>ripple</b> that does not settle: one lies under it.',
     vents: 'A <b>glowing crack</b> is heating up: when it flares, fire sheets over it and the <b>four squares beside it</b>. Step clear of the glow. <b>Cold</b> seals a crack a while.',
@@ -700,7 +701,7 @@ const UI = (() => {
     dice: 'Every blow is a roll of the dice. To see the numbers behind each one in the log, turn on <b>Combat rolls</b> in the <b>Menu</b>.',
   };
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'guard', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -848,7 +849,7 @@ const UI = (() => {
   };
   // The first time each trick comes, time slows while its answer is read,
   // as it does for the first plain blow: the tip names the trick's own move.
-  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare', flare: 'flare', stamp: 'stamp' };
+  const TRICK_TIPS = { gaze: 'gaze', rust: 'rust', claw: 'paralyse', crush: 'crush', webspit: 'web', charge: 'charge', horn: 'rally', drink: 'drink', blink: 'blink', quills: 'bristle', guard: 'parry', breath: 'breath', firepot: 'firepot', firearrow: 'firearrow', chill: 'chill', storm: 'storm', snare: 'snare', flare: 'flare', stamp: 'stamp' };
   /** Whether an awake puffcap is within reach of a few steps. */
   /** A smouldering floor's crack heating up within so many squares of the hero. */
   const ventNear = n => { const p = Game.player(); return Game.vents().some(v => v.heat > 0 && Math.abs(v.x - p.x) + Math.abs(v.y - p.y) <= n); };
@@ -953,7 +954,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), vents: () => ventNear(4), flare: () => near('flare'), stamp: () => near('stamp'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), guard: () => near('parry'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), vents: () => ventNear(4), flare: () => near('flare'), stamp: () => near('stamp'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -984,6 +985,7 @@ const UI = (() => {
     if (readying('drink') && showTip('drink', true)) return;
     if (readying('blink') && showTip('blink', true)) return;
     if (readying('bristle') && showTip('quills', true)) return;
+    if (readying('parry') && showTip('guard', true)) return;
     if (readying('breath') && showTip('breath', true)) return;
     if (readying('firepot') && showTip('firepot', true)) return;
     if (readying('snare') && showTip('snare', true)) return;

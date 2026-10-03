@@ -33,6 +33,9 @@ const BUILDS = {
   plain: { shapes: SHAPES, great: null, dig: 2, grain: 1.4, turn: 1.5, loops: 1 / 5, tries: 1 },
   crypts: { shapes: [['box', 18], ['colonnade', 18], ['cross', 16], ['niches', 26], ['gallery', 22]], great: 'hall', dig: 2, grain: 0.3, turn: 4, loops: 1 / 5, tries: 2 },
   warrens: { shapes: [['box', 10], ['ell', 14], ['burrow', 62], ['cave', 10], ['niches', 4]], great: 'burrow', dig: 0.7, grain: 4, turn: 0.3, loops: 1 / 3, tries: 5 },
+  // the dark elves cut their halls to a plan: pillared, cross-shaped, long
+  // galleries, straight passages between, and a pillared temple at the heart
+  elves: { shapes: [['colonnade', 26], ['cross', 18], ['gallery', 18], ['box', 14], ['niches', 12], ['ell', 8]], great: 'hall', dig: 2, grain: 0.5, turn: 3, loops: 1 / 4, tries: 2 },
 };
 
 /** The set pieces, one to a floor: a block of cells, a shrine, a cistern, a hall half fallen in. */

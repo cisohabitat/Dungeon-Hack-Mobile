@@ -511,8 +511,6 @@ test.describe('interface', () => {
       for (let y = at.sy - 2; y <= at.sy + 2; y++) for (let x = at.sx - 2; x <= at.sx + 2; x++) {
         if (x >= 0 && y >= 0 && x < L.w && y < L.h) L.explored[y * L.w + x] = 1;
       }
-      await new Promise(r => setTimeout(r, 300));
-
       const c = document.getElementById('minimap');
       const ctx = c.getContext('2d', { willReadFrequently: true });
       const R = 7, size = 6;
@@ -521,14 +519,20 @@ test.describe('interface', () => {
         const d = ctx.getImageData(px, py, 1, 1).data;
         return `${d[0]},${d[1]},${d[2]}`;
       };
-      // a plain wall to compare against, and a floor square
+      // a plain wall to compare against, and a floor square (read once the map
+      // has drawn them: under load its next redraw can be a while coming)
       let wall = null, floor = null;
-      for (let y = at.sy - 2; y <= at.sy + 2 && !(wall && floor); y++) {
-        for (let x = at.sx - 2; x <= at.sx + 2; x++) {
-          const t = L.tiles[y * L.w + x];
-          if (t === T.WALL && !wall) wall = read(x, y);
-          if (t === T.FLOOR && !floor && !(x === at.sx && y === at.sy)) floor = read(x, y);
+      for (let tries = 0; tries < 40; tries++) {
+        await new Promise(r => setTimeout(r, 150));
+        wall = floor = null;
+        for (let y = at.sy - 2; y <= at.sy + 2 && !(wall && floor); y++) {
+          for (let x = at.sx - 2; x <= at.sx + 2; x++) {
+            const t = L.tiles[y * L.w + x];
+            if (t === T.WALL && !wall) wall = read(x, y);
+            if (t === T.FLOOR && !floor && !(x === at.sx && y === at.sy)) floor = read(x, y);
+          }
         }
+        if (tries >= 1 && (!wall || !floor || wall !== floor)) break;
       }
       return { torch: read(at.tx, at.ty), wall, floor };
     });

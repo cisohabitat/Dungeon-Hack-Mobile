@@ -203,7 +203,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400 };
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -258,10 +258,10 @@ export function makeFoes(K) {
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     // the Web-Mother spits from beside you as readily as down a corridor
-    else if (mv === 'web' && (adjacent ? !!mb.named : hasLineToPlayer(m, 3)) && !(p.webbed > K.G.t)) say = `The ${mb.name} rears back to spit a web!`;
+    else if (mv === 'web' && (adjacent ? !!mb.named : hasLineToPlayer(m, 3)) && !(p.webbed > K.G.t)) say = mb.spell ? `The ${mb.name} weaves ${(mb.named && mb.named.pron) || 'its'} hands, and a web of shadow spins out toward you!` : `The ${mb.name} rears back to spit a web!`;
     else if (mv === 'mend') {
       const t = mendTarget(m);
-      if (t) { say = t === m ? `The ${mb.name} begins a dark chant over its own wounds!` : `The ${mb.name} begins a dark chant over the wounded ${K.mstat(t).name}!`; extra = { target: t.uid }; }
+      if (t) { say = t === m ? `The ${mb.name} begins a dark chant over ${(mb.named && mb.named.pron) || 'its'} own wounds!` : `The ${mb.name} begins a dark chant over the wounded ${K.mstat(t).name}!`; extra = { target: t.uid }; }
     }
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
     else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= (mb.named && mb.named.often ? 1 : 2)) say = `The ${mb.name} reaches out with a numbing claw!`;
@@ -282,6 +282,8 @@ export function makeFoes(K) {
       }
     }
     else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
+    // a dark elf warrior crosses its blades in a guard that answers a blow with a cut
+    else if (mv === 'parry' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.5) say = `The ${mb.name} crosses its blades in a guard! Hold your blow!`;
     // a wyrm breathes down a passage at one who keeps their distance; under its jaws it only bites
     else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && Math.random() < 0.6) {
       const its = (mb.named && mb.named.pron) || 'its';
@@ -506,6 +508,13 @@ export function makeFoes(K) {
         // the quills lie down again; one who held their blow finds it open
         if (w.struck) K.log(`The ${mb.name}'s quills settle, red with your blood.`);
         else { K.log(`The ${mb.name}'s quills sink flat, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
+        m.moveReady = K.G.t + 6000;
+        m.nextAct = K.G.t + (w.struck ? Math.round(mb.speed * 0.6) : 1400);
+        break;
+      case 'parry':
+        // the guard comes down; one who held their blow finds it open
+        if (w.struck) K.log(`The ${mb.name} lowers its blades, your blood on one of them.`);
+        else { K.log(`The ${mb.name} lowers its blades, and is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.moveReady = K.G.t + 6000;
         m.nextAct = K.G.t + (w.struck ? Math.round(mb.speed * 0.6) : 1400);
         break;
@@ -774,6 +783,18 @@ export function makeFoes(K) {
         m.windup.struck = true;
         const n = K.knightSteadfast(d(1, 6) + Math.floor(K.G.depth / 2));
         K.hurtPlayer(n, `You strike into its raised quills, and they bite deep! (${n})`, m, 'a quillback\'s quills');
+      }
+    }
+    // a dark elf's crossed blades turn a blow struck into them, and cut back
+    if (m.windup && m.windup.move === 'parry' && (HAND_BLOW.has(tag) || tag === 'companion') && !K.castingName && K.G.status === 'playing') {
+      if (tag === 'companion') K.companionHurt(d(1, 6) + Math.floor(K.G.depth / 2), 'The crossed blades turn the blow, and cut');
+      else {
+        const p = K.P();
+        if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) {
+          m.windup.struck = true;
+          const n = K.knightSteadfast(d(1, 8) + Math.floor(K.G.depth / 2));
+          K.hurtPlayer(n, `Your blow meets its crossed blades, and it answers with a cut! (${n})`, m, 'a dark elf\'s riposte');
+        }
       }
     }
     // a numbing claw is struck aside by a blow that lands first, and leaves it

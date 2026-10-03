@@ -2,7 +2,7 @@
 // The endgame: the Heart is held fast while the lich stands; bring it down,
 // lift the Heart, and the run is won on the spot. There is no climb back out.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, descendTo } = require('./helpers');
+const { expect, watchForErrors, startGame, descendTo, placeMonster } = require('./helpers');
 
 /** Stand on the Heart and try to take it. */
 const takeHeart = () => {
@@ -77,6 +77,37 @@ test.describe('the endgame', () => {
     await expect(page.locator('#tip')).toContainText('Step off its lines', { timeout: 4000 });
     // (the view draws its raised-hammer picture for a sprite with a tell)
     expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged && s.tell && !!s.img.windup))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
+  test('the Long Delve passes through the dark elves\' halls: their floor named on the map, their warriors, mages and High Priestess drawn as themselves, a tip when blades cross', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-elves', levels: '12', tips: true });
+    for (let i = 0; i < 3 && await page.locator('#tip.show').isVisible(); i++) { await page.locator('#tip').click(); await page.waitForTimeout(200); }
+    await page.evaluate(() => { const p = Game.player(); p.maxHp = 900; p.hp = 900; Game.testFloor(10); });
+    for (let i = 0; i < 10 && await page.locator('#ov-boons.open').isVisible(); i++) {
+      await page.locator('#boon-list .boon').first().click(); await page.waitForTimeout(700);
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
+    }
+    const kinds = await page.evaluate(() => [...new Set(Game.level().monsters.map(m => m.id))].sort());
+    expect(kinds).toEqual(['drow_mage', 'drow_warrior', 'vaelith']);
+    expect(await page.evaluate(() => THEMES[Game.level().theme].name)).toBe('The Dark Elf Halls');
+    // each of them stands before the hero in turn, drawn as itself
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; for (let k = 0; k < 4; k++) { const [dx, dy] = Dungeon.DIRS[k]; if ([1, 2].every(n => L.tiles[(p.y + dy * n) * L.w + p.x + dx * n] === Dungeon.T.FLOOR)) { p.dir = k; break; } } });
+    for (const [id, art] of [['drow_warrior', 'drow_warrior'], ['drow_mage', 'drow_mage'], ['vaelith', 'vaelith']]) {
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      expect(await placeMonster(page, id, 2, { hp: 200 })).not.toBeNull();
+      await expect.poll(() => page.evaluate(a => {
+        const want = a === 'vaelith' ? Assets.sprites.drow_mage.elite.vaelith : Assets.sprites[a];
+        return Game.renderState(performance.now()).sprites.some(s => s.img === want);
+      }, art), { timeout: 8000 }).toBe(true);
+    }
+    // a warrior beside the hero crosses its blades: the tip says to hold the blow, and the picture has the blades crossed
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await placeMonster(page, 'drow_warrior', 1, { hp: 200, blows: 1 });
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.windup = { kind: 'move', move: 'parry', at: Game.state().t, until: Game.state().t + 1e9 }; m.nextAct = 1e12; });
+    await expect(page.locator('#tip')).toContainText('Hold your blow', { timeout: 4000 });
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.drow_warrior && s.tell && s.special && !!s.img.special))).toBe(true);
     expect(errors).toEqual([]);
   });
 

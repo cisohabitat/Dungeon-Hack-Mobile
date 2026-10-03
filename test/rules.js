@@ -2833,6 +2833,140 @@ await test('a quillback\'s raised quills bite a hand that strikes it; one who ho
   return out.length ? out.join('; ') : true;
 });
 
+await test('a dark elf warrior\'s crossed blades answer a blow struck into them with a cut; one who holds their blow finds it open', async () => {
+  const out = [];
+  // strike into the guard (a blow can miss: try again)
+  let struck = false;
+  for (let tries = 0; tries < 8 && !struck; tries++) {
+    const ctx = await start('fighter', 'parry' + tries);
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.str = 30;
+    const m = beside(ctx, 'drow_warrior', { blows: 1 });
+    if (!untilTrick(ctx, m, 'parry')) return 'the warrior never crossed its blades';
+    const hp0 = p.hp, mark = markLog(G);
+    p.nextAttack = 0; Game.input('attack');
+    const said = linesSince(G, mark).join(' | ');
+    if (!/You hit|mighty blow/.test(said)) continue;
+    struck = true;
+    if (!(p.hp < hp0) || !/crossed blades/.test(said)) out.push(`a blow into the guard cost nothing: ${said}`);
+    const mark2 = markLog(G);
+    run(Game, G, 1500);
+    if (p.opening && p.opening.uid === m.uid) out.push('striking into the guard still left it open');
+    if (!linesSince(G, mark2).some(l => /your blood on one of them/.test(l))) out.push('the guard did not lower, told as a cut that landed');
+  }
+  if (!struck) out.push('no blow landed in eight tries');
+  {
+    const ctx = await start('fighter', 'parry-hold');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, 'drow_warrior', { blows: 1 });
+    if (!untilTrick(ctx, m, 'parry')) return 'the warrior never crossed its blades';
+    const hp0 = p.hp, mark = markLog(G);
+    run(Game, G, 1500);
+    if (p.hp < hp0) out.push('holding the blow still cost hit points');
+    if (!p.opening || p.opening.uid !== m.uid) out.push('holding the blow left no opening');
+    if (!linesSince(G, mark).some(l => /is left open/.test(l))) out.push('the open guard was not told');
+  }
+  // a bite into the guard is turned too, and cuts the hound
+  {
+    const ctx = await start('fighter', 'parry-hound');
+    const { Game, Dungeon } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+    p.hp = p.maxHp = 9999;
+    const m = beside(ctx, 'drow_warrior', { blows: 1 });
+    // the hound beside the warrior, to one side of the hero
+    const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4], hx = m.x + sx, hy = m.y + sy;
+    L.tiles[hy * L.w + hx] = Dungeon.T.FLOOR;
+    G.companion = { kind: 'hound', name: 'Ash', x: hx, y: hy, rx: hx, ry: hy, depth: G.depth, hp: 30, maxHp: 30, mode: 'follow', joined: G.depth };
+    m.windup = { kind: 'move', move: 'parry', at: G.t, until: G.t + 1e9 }; m.nextAct = 1e12;
+    // (a bite can miss: give the hound time to land one)
+    seedDice(ctx, 'parry-hound');
+    for (let i = 0; i < 800 && m.hp === 999; i++) { Game.update(G.t + 25, 25); G.companion.hp = Math.max(G.companion.hp, 1); }
+    if (m.hp === 999) out.push('the hound never bit');
+    else if (!(G.companion.hp < 30)) out.push('a bite into the guard cost the hound nothing');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('a dark elf mage throws its web of shadow from afar; the High Priestess speaks as herself', async () => {
+  const out = [];
+  {
+    const ctx = await start('fighter', 'shadow-web');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    const m = ahead(ctx, 'drow_mage', 3);
+    const mark = markLog(G);
+    Game.update(G.t + 25, 25);
+    if (!m.windup || m.windup.move !== 'web') return `it drew ${JSON.stringify(m.windup)}`;
+    if (!linesSince(G, mark).some(l => /weaves its hands, and a web of shadow/.test(l))) out.push(`the web was not told as shadow: ${linesSince(G, mark).join(' | ')}`);
+    run(Game, G, 700);
+    if (!(p.webbed > G.t)) out.push('the web of shadow did not hold the hero');
+  }
+  {
+    const ctx = await start('fighter', 'vaelith-chant');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999;
+    p.stats.str = 30;
+    let broke = false;
+    for (let tries = 0; tries < 8 && !broke; tries++) {
+      const v = beside(ctx, 'vaelith', { hp: 50, maxHp: 200, blows: 0 });
+      const mark = markLog(G);
+      if (!untilTrick(ctx, v, 'mend')) return 'the High Priestess never chanted over her wounds';
+      if (!linesSince(G, mark).some(l => /a dark chant over her own wounds/.test(l))) out.push(`her chant was not told as hers: ${linesSince(G, mark).join(' | ')}`);
+      p.nextAttack = 0; Game.input('attack');
+      if (v.hp >= 50) continue;
+      broke = true;
+      const hp1 = v.hp;
+      if (v.windup && v.windup.move === 'mend') out.push('a wound did not break her chant');
+      run(Game, G, 1500);
+      if (v.hp > hp1) out.push('her chant, broken, still knit her wounds');
+    }
+    if (!broke) out.push('no blow landed on her in eight tries');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('the Long Delve\'s tenth floor of twelve is the dark elves\' country: their halls, their people, their High Priestess; a rest broken there is broken by them', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'elfland', { levels: 12, size: 'medium', monsters: 'normal' });
+  const { Game, MONSTERS } = ctx; const G = Game.state(), p = Game.player();
+  const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
+  Game.testFloor(9);
+  if (THEMES[Game.level().theme].elves) out.push('the ninth floor is the elves\'');
+  if (Game.level().monsters.some(m => /^drow_|vaelith/.test(m.id))) out.push('a dark elf on the ninth floor');
+  Game.testFloor(10);
+  const L = Game.level();
+  if (!THEMES[L.theme].elves) out.push(`the tenth floor is ${THEMES[L.theme].name}`);
+  const ids = L.monsters.map(m => m.id);
+  if (ids.some(id => !/^drow_|vaelith/.test(id))) out.push(`others among the elves: ${ids.filter(id => !/^drow_|vaelith/.test(id)).join()}`);
+  if (!ids.includes('vaelith')) out.push('no High Priestess on their floor');
+  const kinds = new Set();
+  for (let i = 0; i < 30; i++) {
+    L.monsters.length = 0; L.rests = 1; p.hp = 1; p.food = 100;
+    G.t += 60000;
+    Game.input('rest');
+    for (const mm of L.monsters) kinds.add(mm.id);
+  }
+  if (!kinds.size) out.push('thirty rests in the elves\' country and nothing came');
+  if ([...kinds].some(id => !/^drow_/.test(id))) out.push(`a rest there was broken by ${[...kinds].join(', ')}`);
+  // a failed word with the mirror brings their warriors, not a wraith
+  let got = null;
+  for (let t = 0; t < 30 && !got; t++) {
+    const c = await start('fighter', `elf-mirror-${t}`, { levels: 12 });
+    c.Game.testFloor(10);
+    const q = c.Game.player(), M = c.Game.level();
+    q.stats.cha = 3; M.npcs.length = 0; M.monsters.length = 0;
+    const [dx, dy] = c.Dungeon.DIRS[q.dir];
+    M.tiles[(q.y + dy) * M.w + q.x + dx] = c.Dungeon.T.FLOOR;
+    M.npcs.push({ kind: 'encounter', id: 'mirror', x: q.x + dx, y: q.y + dy });
+    c.Game.input('forward');
+    const r = c.Game.chooseEncounter(1);
+    if (!r || !r.check || r.check.pass) continue;
+    got = M.monsters.map(m => m.id).join(',');
+  }
+  if (got !== 'drow_warrior') out.push(`a failed word with the mirror in the elves' country brought ${got || 'nothing'}`);
+  return out.length ? out.join('; ') : (MONSTERS.vaelith.named.home === 'elves' || 'Vaelith has no home');
+});
+
 await test('a cave wyrm\'s fire runs down its line: under its jaws or out of the line it misses and leaves it open; a step back does not', async () => {
   const out = [];
   for (const how of ['stay', 'back', 'close', 'aside']) {
@@ -2874,7 +3008,8 @@ await test('a cave wyrm turns up now and then on the seventh floor of an ordinar
   if (count(8, 6, 60) > 0) out.push('an ordinary delve\'s sixth floor held a wyrm');
   if (count(6, 5, 60) > 0) out.push('a six-floor delve held a wyrm');
   if (count(12, 8, 60) > 0) out.push('the Long Delve\'s eighth floor held a wyrm');
-  if (!(count(12, 10, 60) > 0)) out.push('the Long Delve\'s tenth floor never held a wyrm');
+  // (the tenth is the dark elves', and holds only them)
+  if (!(count(12, 11, 60) > 0)) out.push('the Long Delve\'s eleventh floor never held a wyrm');
   return out.length ? out.join('; ') : true;
 });
 
@@ -6759,7 +6894,8 @@ await test('named champions hold a floor a third and two thirds down (a long del
   const named = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
   if (named.length < 4 || named.length > 8) return `${named.length} named champions`;
   for (const id of named) if (MONSTERS[id].boss) return `${id} is marked as the Heart's keeper`;
-  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9], 16: [4, 8, 12] };
+  // (and on a long delve the dark elves' High Priestess, on their own floor)
+  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9, 10], 16: [4, 8, 12, 14] };
   for (const levels of [2, 3, 4, 6, 8, 12, 16]) {
     for (let s = 0; s < 12; s++) {
       const seed = `named-floors-${s}`, plan = Dungeon.namedPlan(seed, levels);
@@ -6770,7 +6906,7 @@ await test('named champions hold a floor a third and two thirds down (a long del
       for (const d of floors) {
         const b = MONSTERS[plan[d]], t = Dungeon.tierAt(d, levels);
         // each suits its floor, wherever any champion does
-        if (named.some(id => t >= MONSTERS[id].tier[0] && t <= MONSTERS[id].tier[1]) && !(t >= b.tier[0] && t <= b.tier[1])) return `${plan[d]} (tiers ${b.tier}) holds floor ${d} of ${levels}, at tier ${t.toFixed(1)}`;
+        if (!b.named.home && named.some(id => t >= MONSTERS[id].tier[0] && t <= MONSTERS[id].tier[1]) && !(t >= b.tier[0] && t <= b.tier[1])) return `${plan[d]} (tiers ${b.tier}) holds floor ${d} of ${levels}, at tier ${t.toFixed(1)}`;
       }
       if (![3, 8, 12].includes(levels) || s > 3) continue;
       // and on the floors themselves: there, asleep, the only one of its name, and nowhere else

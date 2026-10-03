@@ -240,6 +240,47 @@ const canine = (pose, o) => {
   return out;
 };
 
+// The dark elves' looks, shared by the warrior, the mage and their High
+// Priestess: grey-violet skin, white hair, silver and black.
+const drowKit = () => ({
+  skin: '#6c6284', skinDk: '#463e5a', skinLt: '#9088a8', hair: '#f4f2fa', hairDk: '#d0cadc', eye: '#ff3a34',
+  mail: '#2a2a36', mailLt: '#464656', leather: '#1e1a26', boot: '#16121c', cloak: '#26182e', cloakDk: '#160e1c',
+  silver: '#b8bccc', silverLt: '#eef0f8', blade: '#cdd2de', grip: '#2a1e30',
+});
+/** A dark elf's long white hair, falling behind the shoulders (drawn first, behind everything). */
+const drowHair = (hx, hy, k) => [
+  sheet([[hx - 5, hy - 3], [hx + 5, hy - 3], [hx + 6.5, hy + 8], [hx + 7, hy + 16], [hx + 3, hy + 14], [hx, hy + 16.5], [hx - 3, hy + 14], [hx - 7, hy + 16], [hx - 6.5, hy + 8]], k.hairDk, { curve: 1 }),
+  ...[-4.5, -1.5, 1.5, 4.5].map(d => hair(hx + d, hy, hx + d * 1.3, hy + 15, '#9a92ac')),
+];
+/** A dark elf's face: narrow, the ears long and swept back, the eyes red, the hair parted over the brow. */
+const drowHead = (hx, hy, k, { grim = false } = {}) => [
+  ...[-1, 1].map(sd => sheet([[hx + sd * 3.2, hy - 0.6], [hx + sd * 10.5, hy - 5.2], [hx + sd * 8.6, hy - 3.2], [hx + sd * 3.4, hy + 1.8]], k.skin, { curve: 0.4, tilt: [sd * 0.4, -0.2] })),
+  ...[-1, 1].map(sd => hair(hx + sd * 4, hy - 0.4, hx + sd * 8.5, hy - 3.6, k.skinDk)),
+  // a narrow face drawn to a point at the chin, high cheekbones catching the light
+  sheet([[hx - 3.3, hy - 3], [hx + 3.3, hy - 3], [hx + 3.4, hy + 0.8], [hx + 2, hy + 3.6], [hx, hy + 5.2], [hx - 2, hy + 3.6], [hx - 3.4, hy + 0.8]], k.skin, { curve: 0.9 }),
+  ball(hx - 2.1, hy + 1.6, 0.9, 0.6, k.skinLt), ball(hx + 2.1, hy + 1.6, 0.9, 0.6, k.skinLt),
+  // the hair over the brow, parted, and down over the ears
+  sheet([[hx - 4, hy - 1], [hx - 3.8, hy - 4.6], [hx, hy - 5.6], [hx + 3.8, hy - 4.6], [hx + 4, hy - 1], [hx + 2.2, hy - 3.2], [hx, hy - 3.8], [hx - 2.2, hy - 3.2]], k.hair, { curve: 0.8 }),
+  hair(hx, hy - 5.5, hx, hy - 3.5, k.hairDk), hair(hx - 3.5, hy - 2, hx - 4.2, hy + 3, k.hair), hair(hx + 3.5, hy - 2, hx + 4.2, hy + 3, k.hair),
+  // brows drawn down, red eyes with a light in them, a thin mouth
+  hair(hx - 2.75, grim ? hy - 1.25 : hy - 1.5, hx - 0.75, hy - 0.75, k.hair), hair(hx + 0.75, hy - 0.75, hx + 2.75, grim ? hy - 1.25 : hy - 1.5, k.hair),
+  ball(hx - 1.7, hy + 0.3, 0.8, 0.55, k.eye, { glows: true }), ball(hx + 1.7, hy + 0.3, 0.8, 0.55, k.eye, { glows: true }),
+  hair(hx + 0.25, hy + 1, hx + 0.25, hy + 2.5, k.skinDk),
+  hair(hx - 1, hy + 3.75, hx + 1, hy + 3.75, grim ? '#241830' : k.skinDk),
+];
+/** A slender grey hand. */
+const drowHand = (x, y, k) => [ball(x, y, 1.6, 1.5, k.skin), specks([[x - 0.5, y - 0.75]], k.skinLt)];
+/** A curved blade from a grip at (x, y) along (u, v), bending to side `c`: hilt, guard, blade and its edge. */
+const scimitar = (x, y, u, v, len, c, k) => {
+  const px = -v * c, py = u * c;
+  const a = [x + u * 2, y + v * 2], b = [x + u * len * 0.55 + px * 1.4, y + v * len * 0.55 + py * 1.4], e = [x + u * len + px * 3.6, y + v * len + py * 3.6];
+  return [
+    limb(x - u * 2.4, y - v * 2.4, x + u * 1, y + v * 1, 0.7, 0.7, k.grip), ball(x - u * 3, y - v * 3, 0.9, 0.9, k.silver),
+    limb(x + u * 1.4 - v * 2.6, y + v * 1.4 + u * 2.6, x + u * 1.4 + v * 2.6, y + v * 1.4 - u * 2.6, 0.55, 0.55, k.silver),
+    limb(a[0], a[1], b[0], b[1], 1.3, 1.1, k.blade, { smooth: 1 }), limb(b[0], b[1], e[0], e[1], 1.1, 0.25, k.blade, { smooth: 1 }),
+    hair(a[0] + px * 0.6, a[1] + py * 0.6, b[0] + px * 0.6, b[1] + py * 0.6, k.silverLt), hair(b[0] + px * 0.5, b[1] + py * 0.5, e[0], e[1], k.silverLt),
+  ];
+};
 const CREATURES = {
   // A goblin: small, wiry and stooped, all knees and elbows, its great ears
   // swept back, a long hooked nose over a grin of crooked teeth, a ragged tunic
@@ -1077,6 +1118,103 @@ const CREATURES = {
   // The Dark Acolyte: tall and hooded in crimson, a mantle trimmed in gold over
   // its shoulders, a gaunt face in the hood's shadow lit from below by the
   // violet orb it holds in two bony hands before its chest.
+  // A dark elf warrior: slight and tall, grey-violet skin, white hair falling
+  // to the shoulder blades, long ears swept back, eyes red as coals; black
+  // mail edged in silver, a dark cloak, a curved blade in each hand. Striking,
+  // both blades go up and back; in its guard, they cross before its chest.
+  drow_warrior: (pose = 'idle') => {
+    const atk = pose === 'windup', guard = pose === 'special';
+    const k = drowKit();
+    const { skin, mail, mailLt, leather, boot, cloak, cloakDk, silver, silverLt } = k;
+    const dy = atk ? 1 : 0;
+    const legs = guard
+      ? [limb(28, 45, 24, 53, 2.2, 2, leather), limb(24, 53, 22.5, 60, 2, 1.8, boot), ball(21.6, 61.4, 3, 1.4, boot),
+        limb(36, 45, 40, 53, 2.2, 2, leather), limb(40, 53, 41.5, 60, 2, 1.8, boot), ball(42.4, 61.4, 3, 1.4, boot)]
+      : [...both64(limb(28, 45, 27.5, 54, 2.2, 2, leather)), ...both64(limb(27.5, 54, 27, 60, 2, 1.8, boot)), ...both64(ball(26.4, 61.4, 3, 1.4, boot))];
+    const body = [
+      // the cloak behind, falling to the knee in points
+      sheet([[20, 17 + dy], [44, 17 + dy], [47, 50], [43, 52.5], [38, 50], [32, 53.5], [26, 50], [21, 52.5], [17, 50]], cloakDk, { curve: 1 }),
+      sheet([[21, 17 + dy], [43, 17 + dy], [45, 47], [32, 49], [19, 47]], cloak, { curve: 1 }),
+      // a skirt of leather strips at the hips, the mail shirt over it, silver at its edges and down its front
+      sheet([[23, 38 + dy], [41, 38 + dy], [42.5, 46.5], [32, 47.5], [21.5, 46.5]], leather, { curve: 0.6 }),
+      ...[26, 30, 34, 38].map(x => hair(x, 39.5 + dy, x + (x - 32) * 0.08, 46.5, '#3a3046')),
+      sheet([[22.5, 17 + dy], [41.5, 17 + dy], [40.5, 39 + dy], [23.5, 39 + dy]], mail, { curve: 1 }),
+      ...[21, 25, 29, 33, 37].map(y => hair(23.5, y + dy, 40.5, y + dy, '#1a1a22')),
+      sheet([[27, 17.5 + dy], [37, 17.5 + dy], [36, 31 + dy], [32, 33 + dy], [28, 31 + dy]], mailLt, { curve: 0.6 }),
+      hair(32, 18 + dy, 32, 32.5 + dy, silver), hair(27.5, 18 + dy, 28.5, 30.5 + dy, silver), hair(36.5, 18 + dy, 35.5, 30.5 + dy, silver),
+      line(23.5, 38.6 + dy, 40.5, 38.6 + dy, '#14101a'), ball(32, 38.8 + dy, 1.4, 1.1, silver), specks([[31.5, 38.25 + dy]], silverLt),
+      // pauldrons edged in silver, and the neck
+      ...both64(ball(22, 18.5 + dy, 3.8, 2.8, mailLt)), ...both64(hair(18.5, 17.5 + dy, 25, 16.5 + dy, silver)),
+      limb(32, 13.5 + dy, 32, 17 + dy, 1.6, 1.9, skin),
+    ];
+    let arms;
+    if (atk) {
+      // both blades swung up and back, to come down together
+      arms = [limb(22, 19 + dy, 16.5, 11, 2, 1.8, mail), limb(16.5, 11, 15.5, 6.5, 1.8, 1.6, leather), ...drowHand(15.4, 5.6, k), ...scimitar(15.4, 5.6, -0.55, -0.83, 17, 1, k),
+        limb(42, 19 + dy, 47.5, 11, 2, 1.8, mail), limb(47.5, 11, 48.5, 6.5, 1.8, 1.6, leather), ...drowHand(48.6, 5.6, k), ...scimitar(48.6, 5.6, 0.55, -0.83, 17, -1, k)];
+    } else if (guard) {
+      // the guard: the two blades crossed before the chest, edges out
+      arms = [limb(22, 19, 21.5, 27, 2, 1.8, mail), limb(21.5, 27, 27, 29.5, 1.8, 1.6, leather), ...drowHand(27.6, 29.4, k),
+        limb(42, 19, 42.5, 27, 2, 1.8, mail), limb(42.5, 27, 37, 29.5, 1.8, 1.6, leather), ...drowHand(36.4, 29.4, k),
+        ...scimitar(27.6, 29.4, 0.6, -0.8, 21, -1, k), ...scimitar(36.4, 29.4, -0.6, -0.8, 21, 1, k),
+        specks([[32, 22.5], [31, 21.5], [33, 23.5]], silverLt)];
+    } else {
+      // standing ready, the blades held low and out to either side
+      arms = [limb(22, 19, 19.5, 29, 2, 1.8, mail), limb(19.5, 29, 18.5, 36, 1.8, 1.6, leather), ...drowHand(18.4, 37.2, k), ...scimitar(18.4, 37.2, -0.42, 0.9, 18, 1, k),
+        limb(42, 19, 44.5, 29, 2, 1.8, mail), limb(44.5, 29, 45.5, 36, 1.8, 1.6, leather), ...drowHand(45.6, 37.2, k), ...scimitar(45.6, 37.2, 0.42, 0.9, 18, -1, k)];
+    }
+    return [...drowHair(32, 10 + dy, k), ...legs, ...body, ...arms, ...drowHead(32, 10 + dy, k, { grim: atk || guard })];
+  },
+  // A dark elf mage: the same people in a robe the colour of a bruise, worked
+  // in silver, with violet fire in one hand. Throwing it, both hands come
+  // forward round the swelling flame; weaving a web, the arms spread wide and
+  // threads of shadow run between the fingers.
+  drow_mage: (pose = 'idle') => {
+    const bolt = pose === 'windup', weave = pose === 'special';
+    const k = drowKit();
+    const { skin, silver, silverLt } = k;
+    const robe = '#2c1a3c', robeDk = '#1a0e26', robeLt = '#46285e', fire = '#b060ff', fireLt = '#f0d8ff';
+    const body = [
+      // a narrow gown to the floor, its folds, a silver panel down its front
+      ...both64(ball(29, 62, 2, 0.9, '#140e18')),
+      sheet([[24.5, 16], [39.5, 16], [41.5, 61], [37.5, 62.4], [32, 61.8], [26.5, 62.4], [22.5, 61]], robe, { curve: 1 }),
+      ...[[26, 36, 24.5, 61.5], [37, 36, 38.5, 61.5]].map(([x0, y0, x1, y1]) => sheet([[x0, y0], [x0 + 1.2, y0], [x1 + 1, y1], [x1 - 0.8, y1]], robeDk, { curve: 0.3 })),
+      sheet([[29.8, 18], [34.2, 18], [35.4, 61], [28.6, 61]], robeLt, { curve: 0.4 }),
+      ...[40, 52].map(y => hair(30.4, y, 34.6, y, silver)), hair(29.8, 18, 28.6, 61, silver), hair(34.2, 18, 35.4, 61, silver),
+      hair(23, 60.5, 41, 60.5, silver),
+      // a mantle over the shoulders, cut into long points at the elbows and edged in silver
+      sheet([[22, 15], [42, 15], [46, 24], [49, 35], [43.5, 31.5], [39, 36.5], [32, 33.5], [25, 36.5], [20.5, 31.5], [15, 35], [18, 24]], robeDk, { curve: 0.9 }),
+      hair(49, 35, 43.5, 31.5, silver), hair(43.5, 31.5, 39, 36.5, silver), hair(39, 36.5, 32, 33.5, silver),
+      hair(32, 33.5, 25, 36.5, silver), hair(25, 36.5, 20.5, 31.5, silver), hair(20.5, 31.5, 15, 35, silver),
+      ball(32, 30.6, 1.5, 1.2, silver), specks([[31.5, 30]], silverLt),
+      // a high collar standing up behind the head, and the neck
+      sheet([[24, 18], [25, 11], [28, 14], [36, 14], [39, 11], [40, 18]], robeDk, { curve: 0.6 }), hair(25, 11.5, 27.5, 14, silver), hair(39, 11.5, 36.5, 14, silver),
+      limb(32, 13.5, 32, 17, 1.5, 1.8, skin),
+      ...both64(ball(23.5, 18.5, 3.4, 2.6, robe)),
+    ];
+    const flame = (x, y, r) => [ball(x, y, r * 1.6, r * 1.6, '#4a1a7a', { glows: true }), ball(x, y, r, r, fire, { glows: true }), ball(x - r * 0.3, y - r * 0.3, r * 0.5, r * 0.5, fireLt, { glows: true }),
+      specks([[x - r * 2, y - r], [x + r * 1.8, y - r * 1.4], [x, y - r * 2.4]], '#d0a0ff', { glows: true })];
+    let arms;
+    if (bolt) {
+      // both hands forward round the flame, swelling to be thrown
+      arms = [limb(23.5, 19, 25, 27, 2.4, 2.6, robe), sheet([[22, 25], [28.5, 25.5], [28, 30], [22, 30.5]], robeDk, { curve: 0.6 }),
+        limb(40.5, 19, 39, 27, 2.4, 2.6, robe), sheet([[42, 25], [35.5, 25.5], [36, 30], [42, 30.5]], robeDk, { curve: 0.6 }),
+        ...drowHand(28.6, 28.6, k), ...drowHand(35.4, 28.6, k), ...flame(32, 26.5, 3.2)];
+    } else if (weave) {
+      // the arms spread wide, the web of shadow strung between the hands
+      arms = [limb(23.5, 19, 14, 22, 2.4, 2.2, robe), sheet([[9.5, 19.5], [15.5, 20], [15, 25], [9, 24.5]], robeDk, { curve: 0.6 }), ...drowHand(9.8, 22.6, k),
+        limb(40.5, 19, 50, 22, 2.4, 2.2, robe), sheet([[54.5, 19.5], [48.5, 20], [49, 25], [55, 24.5]], robeDk, { curve: 0.6 }), ...drowHand(54.2, 22.6, k),
+        ...[[10, 22, 54, 22], [10, 22, 32, 34], [54, 22, 32, 34], [10, 22, 32, 12], [54, 22, 32, 12], [32, 12, 32, 34], [20, 17, 44, 27], [44, 17, 20, 27]].map(([a, b, c, d]) => hair(a, b, c, d, '#9a8ab4', { glows: true })),
+        ...[4, 7, 10].flatMap(r => oval(32, 22.5, r * 2, r, 10).map((pt, i, a) => { const n = a[(i + 1) % a.length]; return hair(pt[0], pt[1], n[0], n[1], '#b4a4d0', { glows: true }); })),
+        specks([[32, 22.5], [24, 18], [40, 27]], '#e8dcff', { glows: true })];
+    } else {
+      // one hand at the side, the other holding up its violet fire
+      arms = [limb(23.5, 19, 21.5, 29, 2.4, 2.6, robe), sheet([[18.5, 28], [24.5, 28.5], [24, 33], [18, 33.5]], robeDk, { curve: 0.6 }), ...drowHand(21.4, 34.6, k),
+        limb(40.5, 19, 44, 25, 2.4, 2.4, robe), sheet([[41, 23], [47, 23.5], [46.5, 27.5], [41, 28]], robeDk, { curve: 0.6 }), ...drowHand(45.6, 23.6, k), ...flame(45.8, 19.4, 2.4)];
+    }
+    return [...drowHair(32, 10, k), ...body, ...arms, ...drowHead(32, 10, k, { grim: bolt || weave })];
+  },
+
   acolyte: (pose = 'idle') => {
     const atk = pose === 'windup', cast = pose === 'special';
     const robe = '#5a1416', robeDk = '#2e0a0c', robeLt = '#842a26', mantle = '#3e0c10', gold = '#b88a34', goldLt = '#e8c060';
@@ -2320,7 +2458,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
+const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -3408,13 +3546,35 @@ for (const k in POSES) {
 // where age or office would change it, with what the stories give it laid
 // behind and over. Each moves through its kind's poses, flinch and all, and is
 // painted into the slot a colour wash used to fill (see creature in assets.js).
-const CHAMPION_OF = { grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
+const CHAMPION_OF = { vaelith: 'drow_mage', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
   return (pose = 'idle') => (pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('idle') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
 };
 const CHAMPIONS = {
+  // Vaelith, High Priestess of the dark elves: robed in black and wine-red, a
+  // crown of silver spiders, a great fan of a collar behind her head, and a
+  // silver spider at her breast; her fire burns a deeper violet
+  vaelith: champion('drow_mage', () => ({
+    map: { '#2c1a3c': '#1c1018', '#1a0e26': '#0e080c', '#46285e': '#5a1a3e' },
+    back: [
+      sheet([[18, 20], [17, 6], [22, 9], [25, 1], [29, 6], [32, -1], [35, 6], [39, 1], [42, 9], [47, 6], [46, 20]], '#1e1222', { curve: 0.8 }),
+      ...[[18, 19, 17.5, 7], [25, 16, 25, 2], [32, 15, 32, 0], [39, 16, 39, 2], [46, 19, 46.5, 7]].map(([a, b, c, d]) => hair(a, b, c, d, '#b8bccc')),
+      hair(17.5, 7, 22, 9, '#b8bccc'), hair(22, 9, 25, 2, '#b8bccc'), hair(25, 2, 29, 6, '#b8bccc'), hair(29, 6, 32, 0, '#b8bccc'),
+      hair(32, 0, 35, 6, '#b8bccc'), hair(35, 6, 39, 2, '#b8bccc'), hair(39, 2, 42, 9, '#b8bccc'), hair(42, 9, 46.5, 7, '#b8bccc'),
+    ],
+    front: [
+      // the crown: a band of silver, a spider at its brow, legs arched up from it
+      line(27.6, 6.2, 36.4, 6.2, '#b8bccc'), hair(28, 5.75, 36, 5.75, '#eef0f8'),
+      ball(32, 5, 1.4, 1.1, '#2a2030'), ball(32, 3.6, 0.9, 0.8, '#2a2030'), specks([[31.5, 3.25], [32.5, 3.25]], '#ff5a50', { glows: true }),
+      ...[-1, 1].flatMap(sd => [[1.4, -2.6, 3.4, -4.2], [1.6, -1.4, 4.4, -2.2], [1.5, 0.2, 4.2, 0.8]].map(([a, b, c, d]) => limb(32 + sd * a, 5 + b * 0.6, 32 + sd * c, 5 + d, 0.35, 0.25, '#c8ccd8'))),
+      // the spider at her breast, on a silver chain
+      hair(28, 17.5, 32, 22, '#b8bccc'), hair(36, 17.5, 32, 22, '#b8bccc'),
+      ball(32, 23.6, 1.6, 1.3, '#c8ccd8'), ball(32, 25.6, 2, 1.7, '#9aa0b0'), specks([[31.5, 23], [32.5, 23]], '#ff5a50', { glows: true }),
+      ...[-1, 1].flatMap(sd => [[1.4, 24, 4, 22.4], [1.8, 25, 4.6, 25.2], [1.6, 26.4, 4, 28.4]].map(([a, b, c, d]) => limb(32 + sd * a, b, 32 + sd * c, d, 0.3, 0.2, '#c8ccd8'))),
+    ],
+  })),
   // Grisk, the Goblin King: a dented bucket for a crown, bent spoons stuck round
   // its rim for points, a red rag of blanket for a royal cloak, junk on his belt
   grisk: champion('goblin', pose => ({

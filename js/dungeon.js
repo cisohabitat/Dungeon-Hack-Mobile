@@ -5,7 +5,10 @@ import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
 import { BUILDS, PIECE_IDS, roomShape, piece, sanctum } from './rooms.js';
 
 /** Creatures that go about in twos and threes. */
-const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat'];
+const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat', 'drow_warrior'];
+/** Who lives in the dark elves' country, and how many of each (see elfDepth). */
+/** @type {[string, number][]} */
+const ELF_KIN = [['drow_warrior', 2], ['drow_mage', 1]];
 const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
 const QUICK_TIER = 2;     // where on that ladder a quick delve's second floor sits
 /**
@@ -65,10 +68,19 @@ function piecePlan(seed, levels) {
   return plan;
 }
 
+/**
+ * The floor of a Long Delve that lies in the dark elves' country: two above
+ * the Heart's (the tenth of twelve, the fourteenth of sixteen), below the
+ * three champions, so that it takes none of their floors. Their High
+ * Priestess holds it, and they hold the rest of it. Not in a shorter delve.
+ * @param {number} levels @returns {number|null}
+ */
+function elfDepth(levels) { return levels >= 12 ? levels - 2 : null; }
 /** @param {string} seed @param {number} levels @param {string} [route] */
 function namedPlan(seed, levels, route) {
   const rng = new Rng(`${seed}|named`);
-  const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
+  // (a champion with a home of its own is met only there)
+  const ids = Object.keys(MONSTERS).filter(id => MONSTERS[id].named && !MONSTERS[id].named.home);
   /** @type {Record<number, string>} */
   const plan = {};
   // a long delve (twelve floors or more) has three: a quarter, half and three quarters of the way down
@@ -95,6 +107,9 @@ function namedPlan(seed, levels, route) {
       plan[d] = fit.length ? rrng.pick(fit) : free.sort((a, b) => off(a) - off(b))[0];
     }
   }
+  // and the dark elves' floor is their High Priestess's
+  const elves = elfDepth(levels);
+  if (elves) plan[elves] = 'vaelith';
   return plan;
 }
 
@@ -201,7 +216,9 @@ const Dungeon = (() => {
       return false;
     };
     // (each road builds after its own fashion: see BUILDS in rooms.js)
-    const build = (route && BUILDS[route]) || BUILDS.plain;
+    // the dark elves' country, on its floor of a Long Delve: their walls, their halls, their people
+    const elves = elfDepth(opts.levels || 8) === depth;
+    const build = elves ? BUILDS.elves : (route && BUILDS[route]) || BUILDS.plain;
     // the last floor's hall first of all, toward the far side from where the floors are entered
     if (isFinal) {
       const R = sanctum(rng);
@@ -562,6 +579,8 @@ const Dungeon = (() => {
     // (neither the lich nor a named champion is met at random)
     let pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && tierDepth >= MONSTERS[id].tier[0] && tierDepth <= MONSTERS[id].tier[1]);
     if (!pool.length) pool = Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade).sort((a, b) => MONSTERS[b].xp - MONSTERS[a].xp).slice(0, 3);
+    // (in the dark elves' country, whatever sleeps in a cell or keeps a vault is one of them too)
+    if (elves) pool = ELF_KIN.map(([id]) => id);
     // The first floor is where the controls are learned, so a crowded setting
     // starts from the second: at full density a third to a half of runs on
     // Many ended before the stairs were found, most at character level one.
@@ -579,7 +598,8 @@ const Dungeon = (() => {
       const c = mCands[i];
       if (occupied.has(c)) continue;
       // deeper levels favour the tougher end of the pool
-      const weighted = pool.map(id => [id, (1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])) * lean(id) * (tierDepth < (MONSTERS[id].shy || 0) ? 1 / 3 : 1)]);
+      // (in the dark elves' country, only they: two warriors to every mage)
+      const weighted = elves ? ELF_KIN : pool.map(id => [id, (1 + Math.max(0, tierDepth - MONSTERS[id].tier[0])) * lean(id) * (tierDepth < (MONSTERS[id].shy || 0) ? 1 / 3 : 1)]);
       const m = makeMonster(rng.weighted(weighted), c % w, (c / w) | 0);
       // champions appear more often the deeper you go
       // no champions on the first floor: a Rabid goblin swinging nearly twice
@@ -1006,7 +1026,7 @@ const Dungeon = (() => {
     // the ordinary themes take turns down the stair; the last floor and the
     // two roads have their own (the roads' come after the last floor's in THEMES)
     const FINAL = THEMES.findIndex(t => t.final);
-    const theme = isFinal ? FINAL : route ? ROUTES[route].theme : (depth - 1) % FINAL;
+    const theme = isFinal ? FINAL : elves ? THEMES.findIndex(t => t.elves) : route ? ROUTES[route].theme : (depth - 1) % FINAL;
     const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
@@ -1128,7 +1148,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, ELF_KIN, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth };
 })();
 
 export { Dungeon };

@@ -265,9 +265,17 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
 | Normal | 81% | 79.5% | 78% | 76% | 73% | 74% | about 77% |
 | Hard | 55.5% | 56% | 62% | 54% | 61% | 53% | about 57% |
-| Long Delve (12 floors), Normal | 78% | 83% | 76% | 79% | 84.5% | 77% | about 80% |
-| Long Delve (12 floors), Hard | 61% | 63% | 62.5% | 62% | 61.5% | 55.5% | about 61% |
+| Long Delve (12 floors), Normal | 83% | 78.5% | 71% | 80.5% | 81% | 79% | about 79% |
+| Long Delve (12 floors), Hard | 62% | 58% | 58% | 64% | 61% | 61% | about 60.5% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+Both Long Delve rows were measured again, both seed sets, with the commit before them played on
+the same seeds, after the tenth floor of twelve became the dark elves' country (their warriors and
+mages, and Vaelith, their High Priestess). On Hard the delve won 60.9% before and 60.6% after, every
+class within four points of where it was; on Normal 77.0% before and 78.8% after. The first warriors
+were quicker, surer and harder-hitting, and killed one thief in six who reached their floor on one
+seed set; at Wraith-like numbers (and a guard that answers a blow struck into it) the floor kills
+about as many as the floor it replaced.
 
 The Normal and Hard rows were measured again, both seed sets, after the two roads came to build
 their own floors (the Crypts cut in niches and galleries, the Warrens dug in burrows) and the last
