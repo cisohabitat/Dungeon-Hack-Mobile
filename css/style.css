@@ -291,6 +291,14 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .actions .attack { grid-row: 1 / 3; background: #4a2020; border-color: #8a3a34; font-size: 1.6rem; }
 .ctl { font-size: 1.5rem; padding: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; touch-action: none; }
 .ctl small { font-size: 0.72rem; color: var(--dim); margin-top: 3px; letter-spacing: 0.05em; }
+/* the controls' line icons (icon in uikit.js): one weight, the button's own colour */
+.ico { display: inline-flex; line-height: 0; }
+.ico .icon { width: 28px; height: 28px; }
+.ctl { color: #e8e0d0; }
+.ctl.attack .ico { color: #f4d2c8; }
+.ctl.attack .ico .icon { width: 34px; height: 34px; }
+.ctl.ctx .ico, .ctl.ctx small { color: var(--gold); }
+.hud-quaff .ico .icon { width: 20px; height: 20px; }
 .ctl.held { background: #3a3555; }
 /* the Attack button fills from the bottom as the next blow readies */
 .ctl.attack.cooling { background-image: linear-gradient(to top, rgba(255,120,90,0.28) calc(var(--ready, 1) * 100%), rgba(0,0,0,0.25) calc(var(--ready, 1) * 100%)); }
@@ -455,7 +463,6 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .hud-quaff { flex: 0 0 auto; position: relative; min-width: 52px; height: 44px; min-height: 44px; padding: 2px 6px; line-height: 1;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   color: #f8e6e0; background: #3a1c22; border-color: #a0484a; border-radius: 8px; }
-.hud-quaff .q-ico { font-size: 1.15rem; }
 .hud-quaff:active { background: #5a2830; }
 /* what it does, and how many are carried: "Drink ×2" */
 .hud-quaff small { font-size: 0.66rem; color: #ffd8c8; white-space: nowrap; }

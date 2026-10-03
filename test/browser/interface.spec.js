@@ -937,6 +937,23 @@ test.describe('the screens around the dungeon', () => {
     expect(errors).toEqual([]);
   });
 
+  test('every control wears a drawn icon from the one set, not a character the phone may draw as an emoji', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { cls: 'fighter', seed: 'icons' });
+    await clearBoons(page);
+    const seen = await page.evaluate(() => [...document.querySelectorAll('.dpad .ctl, .actions .ctl')].map(b => ({
+      icon: !!b.querySelector('.ico svg.icon path, .ico svg.icon circle'),
+      // what the button says in letters, less its label: nothing but the label should be text
+      stray: [...b.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent.trim()).join(''),
+    })));
+    expect(seen).toHaveLength(9);
+    for (const b of seen) { expect(b.icon).toBe(true); expect(b.stray).toBe(''); }
+    // the third action button wears the class's own: a fighter's Bash is a shield
+    await expect(page.locator('[data-tap="cast"] .ico')).toHaveAttribute('data-icon', 'bash');
+    await expect(page.locator('#hud-quaff .ico svg.icon')).toHaveCount(1);
+    expect(errors).toEqual([]);
+  });
+
   test('the bottle says Drink and how many; Continue is shown only with a run to continue', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

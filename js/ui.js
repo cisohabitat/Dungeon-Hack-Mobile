@@ -9,7 +9,7 @@ import { Game } from './game.js';
 import { RELIC_POWERS, RELICS, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf } from './relics.js';
 import { Daily } from './daily.js';
 import { Progress } from './progress.js';
-import { $, $$, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
+import { $, $$, escapeHtml, upFirst, diffOf, diffName, icon } from './uikit.js';
 import { renderBestiary, renderCodex, renderHall } from './hall.js';
 import { drawShareCard } from './sharecard.js';
 
@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-03y', text: 'the screens tidied: a class picker you can compare at a glance, tips over the log instead of the fight, the menu in groups, a map that fills the screen and zooms, a Drink button that counts, and one Daily button with a switch' };
+  const NEWS = { id: '2026-10-04a', text: 'the controls redrawn: the arrows and the buttons are one set of clean line icons now, the same on every phone' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1263,6 +1263,11 @@ const UI = (() => {
     $('#hud-quaff-n').textContent = `Drink \u00d7${n}`;
     btn.setAttribute('aria-label', `Quaff a healing draught (${n} carried)`);
   }
+  /** Put a named icon in a control (see icon in uikit.js), unless it is there already. @param {Element} btn @param {string} name */
+  function setIcon(btn, name) {
+    const el = /** @type {HTMLElement|null} */ (btn.querySelector('.ico'));
+    if (el && el.dataset.icon !== name) { el.dataset.icon = name; el.innerHTML = icon(name); }
+  }
   let castSig = '';
   function refreshCast() {
     const label = Game.castLabel();
@@ -1274,7 +1279,7 @@ const UI = (() => {
     const a = Game.abilityOf();
     if (a) {
       const cooling = label !== a.name;
-      btn.firstChild.nodeValue = a.id === 'bash' ? '\u26E8' : a.id === 'snare' ? '\u27B0' : '\u2601';
+      setIcon(btn, a.id === 'bash' ? 'bash' : a.id === 'snare' ? 'snare' : 'smoke');
       btn.classList.toggle('empty', cooling);
       btn.querySelector('small').textContent = label;
       btn.setAttribute('aria-label', cooling ? `${a.name}: ready in ${label.split(' ')[1]}` : a.id === 'bash' ? 'Bash: break the blow in front of you and set it reeling' : a.id === 'snare' ? 'Snare: catch the first foe down the corridor ahead' : 'Smoke: everything close loses you for a few seconds');
@@ -1282,7 +1287,7 @@ const UI = (() => {
     }
     // the spell-less quaff instead, and the button dims with nothing known to drink
     const quaffs = label.startsWith('Quaff');
-    btn.firstChild.nodeValue = quaffs ? '\u2697' : '\u2726';
+    setIcon(btn, quaffs ? 'flask' : 'cast');
     btn.classList.toggle('empty', label === 'Quaff (none)');
     btn.querySelector('small').textContent = quaffs ? 'Quaff' : label;
     btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : quaffs ? 'Quaff: no known healing draught' : `Cast ${label}`);
@@ -2782,6 +2787,8 @@ const UI = (() => {
       b.addEventListener('click', () => { Sound.unlock(); Game.input(b.dataset.tap); });
     }
     for (const b of $$('[data-open]')) b.addEventListener('click', () => { Sound.unlock(); openOverlay(b.dataset.open); });
+    // every control's icon drawn from the one set
+    for (const el of $$('[data-icon]')) el.innerHTML = icon(/** @type {HTMLElement} */ (el).dataset.icon || '');
     $('#minimap').addEventListener('click', () => openOverlay('map'));
     $('#map-in').addEventListener('click', () => zoomMap(1.5));
     $('#map-out').addEventListener('click', () => zoomMap(1 / 1.5));
