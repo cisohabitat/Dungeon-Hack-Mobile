@@ -182,6 +182,22 @@ const Game = (() => {
     const pass = (roll === 20 && o.natural !== false) || (roll !== 1 && roll + m >= dc);
     return { stat, dc, roll, mod: m, pass, note: checkNote(stat, roll, m, dc) };
   }
+  // A foe's saving throw against a spell that fills its square or its
+  // corridor. The hero's number to beat is 10, half their level and their
+  // casting score's bonus; the foe's roll is a d20 and half its skill at arms
+  // (the surer its blows, the quicker it is to get out of the way), two more
+  // for a champion or the Heart's keeper. A 1 always fails, a 20 always holds.
+  const SAVED_SHARE = 0.75;
+  const spellDC = (p = P()) => 10 + Math.floor(p.level / 2) + mod(p.stats[CLASSES[p.cls].primary] || 10);
+  const saveBonus = m => { const mb = mstat(m); return Math.floor((mb.hit || 0) / 2) + (mb.named || mb.boss ? 2 : 0); };
+  /** @param {import('./types.js').Monster} m @param {string} stat */
+  function spellSave(m, stat) {
+    const roll = d(1, 20), b = saveBonus(m), dc = spellDC();
+    const pass = roll === 20 || (roll !== 1 && roll + b >= dc);
+    const w = STAT_WORD[stat];
+    const note = !showRolls ? '' : roll === 1 ? ` (its ${w} d20 1, a fumble)` : roll === 20 ? ` (its ${w} d20 20)` : ` (its ${w} d20 ${roll}+${b} vs ${dc})`;
+    return { pass, note };
+  }
 
   // ---------- messages ----------
   // The log is capped, so once it is full its length stops changing. Anything
@@ -2094,7 +2110,7 @@ const Game = (() => {
     const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
     return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
   }
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
@@ -3760,6 +3776,15 @@ const Game = (() => {
             dmg = Math.round(dmg * deepMagic());
             if (sp.fire) dmg = pyroFire(dmg);
             dmg = templarSmite(sp, dmg);
+            // a blast can be ridden out: a foe that saves takes three quarters of it
+            if (sp.save) {
+              const sv = spellSave(m, sp.save);
+              if (sv.pass) {
+                dmg = Math.max(1, Math.round(dmg * SAVED_SHARE));
+                floatText(m, 'saves', '#c8c8d8');
+                log(`The ${mstat(m).name} ${sp.save === 'con' ? 'braces against' : 'twists from'} the worst of your ${sp.name}.${sv.note}`);
+              }
+            }
             // Rime, or a Frostweaver: the cold and the lightning hold back whatever they touch
             const hold = spellHold(sp);
             if (hold) { m.nextAct = Math.max(m.nextAct, G.t) + hold; if (m.windup) m.windup.until += hold; }
@@ -5058,7 +5083,7 @@ const Game = (() => {
   });
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
   const wild = makeWild({
-    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; },
+    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; }, get spellSave() { return spellSave; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
     get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; }, get hasPower() { return hasPower; },
   });

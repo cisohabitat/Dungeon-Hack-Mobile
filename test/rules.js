@@ -8714,9 +8714,14 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   run(Game, G, 2500);
   if (m.awake) out.push('the goblin woke inside the smoke');
   // a blow on it now is a strike from the shadows
-  const mark = markLog(G);
-  p.perkHit = 60;   // the blow lands: a miss would wake it, as it should
-  G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+  let mark = markLog(G);
+  p.perkHit = 60;   // the blow lands: a miss would wake it, as it should (but a 1 always misses: try again)
+  for (let tries = 0; tries < 3; tries++) {
+    if (tries) { m.awake = false; m.windup = null; }
+    mark = markLog(G);
+    G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+    if (!linesSince(G, mark).some(l => /You miss/.test(l))) break;
+  }
   if (!linesSince(G, mark).some(l => /from the shadows/.test(l))) out.push(`no strike from the shadows: ${linesSince(G, mark).join(' | ')}`);
   if (Game.castLabel() === 'Smoke') out.push('Smoke came back at once');
   // and the lich is not fooled
@@ -11727,6 +11732,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const [dx, dy] = Dungeon.DIRS[p.dir];
       for (let k = 1; k <= 4; k++) L.tiles[(p.y + dy * k) * L.w + p.x + dx * k] = Dungeon.T.FLOOR;
       L.monsters.length = 0;
+      // (foes that fail their saves: one that makes it is held half as long, which the saving throws test)
+      for (const id of ids) ctx.MONSTERS[id] = { ...ctx.MONSTERS[id], hit: -60 };
       return ids.map((id, i) => { const m = { uid: 70 + i, id, x: p.x + dx * (i + 2), y: p.y + dy * (i + 2), hp: 99, maxHp: 99, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, windup: { kind: 'melee', at: G.t, until: G.t + 500 }, ...extra }; L.monsters.push(m); return m; });
     };
     const ctx = await druid('druid-entangle', 5);
@@ -12639,11 +12646,16 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     // (no life bar, no warning: whatever is drawn there is drawn as a barrel)
     if (Game.renderState(0).sprites.some(sp => Math.abs(sp.x - (m.x + 0.5)) < 0.3 && Math.abs(sp.y - (m.y + 0.5)) < 0.3 && (sp.hp != null || sp.tell))) out.push('a shut mimic was drawn as a creature');
     if (Game.useLabel() !== 'Break') out.push(`a shut mimic ahead was offered "${Game.useLabel()}"`);
-    // walked into: it has the hero at once
-    let mark = markLog(G);
-    Game.input('forward');
+    // walked into: it has the hero at once (a warned blow still misses on a 1: try again)
+    let mark = markLog(G), opened = false;
+    for (let tries = 0; tries < 3 && !p.grabbed; tries++) {
+      if (tries) { L.monsters.length = 0; G.blowGate = 0; m = shut(1); }
+      mark = markLog(G);
+      Game.input('forward');
+      opened = opened || linesSince(G, mark).some(l => /splits open/.test(l));
+    }
     if (m.disguised || !p.grabbed) out.push(`walked into, the mimic ${m.disguised ? 'stayed shut' : 'did not seize the hero'}`);
-    if (!linesSince(G, mark).some(l => /splits open/.test(l))) out.push('walked into, the mimic said nothing');
+    if (!opened) out.push('walked into, the mimic said nothing');
     // stood beside: a creak first, then it lunges after a beat, and a step away is time enough
     L.monsters.length = 0; p.grabbed = null; G.blowGate = 0;
     m = shut(3);
@@ -14102,6 +14114,153 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     if (win(1, 'vet-stay').includes('veteran')) out.push('a veteran left on another floor earned Old Campaigners');
     if (!win(0, 'vet-here').includes('veteran')) out.push('a veteran at the hero\'s side did not earn Old Campaigners');
     return out.length ? out.join('; ') : true;
+  });
+
+  // ---------- saving throws, both ways ----------
+  // The same dice twice over, one foe that cannot fail a save (but on a 1) and one that cannot
+  // make it (but on a 20): every cast lands for the same roll, so the saved hits are three quarters of the rest.
+  const castSeries = async (cls, spellId, sure, n = 30) => {
+    const { ctx, Game, G, p, put, cast } = await arena(cls, 'saves-' + spellId);
+    const { MONSTERS } = ctx;
+    p.stats[ctx.CLASSES[cls].primary] = 16;
+    MONSTERS.ogre = { ...MONSTERS.ogre, hit: sure ? 60 : -60 };
+    seedDice(ctx, 'saves-' + spellId);
+    const dmg = [], saved = [];
+    for (let i = 0; i < n; i++) {
+      Game.level().monsters.length = 0;
+      const m = put('ogre', 1, 0, { hp: 5000, maxHp: 5000 });
+      const mark = markLog(G);
+      p.sp = 999; cast(spellId);
+      dmg.push(5000 - m.hp);
+      saved.push(linesSince(G, mark).some(l => /the worst of your/.test(l)));
+    }
+    return { dmg, saved, G };
+  };
+
+  await test('a foe can ride out a spell that fills its square or its corridor and take three quarters of it, by the right score; a dart, a smite, a lash or a lightning stroke at one foe is never saved against', async () => {
+    const out = [];
+    for (const [cls, id, word] of [['mage', 'burning_hands', 'twists from'], ['mage', 'lightning', 'twists from'], ['mage', 'cone_cold', 'braces against'], ['cleric', 'flame_strike', 'twists from'], ['druid', 'insect_plague', 'braces against']]) {
+      const yes = await castSeries(cls, id, true), no = await castSeries(cls, id, false);
+      let cut = 0;
+      for (let i = 0; i < yes.dmg.length; i++) {
+        const whole = no.dmg[i], part = Math.max(1, Math.round(whole * 0.75));
+        if (yes.dmg[i] === part && part !== whole) cut++;
+        else if (yes.dmg[i] !== whole) { out.push(`${id}: cast ${i} did ${yes.dmg[i]} to a foe that saves, ${whole} to one that does not`); break; }
+      }
+      if (cut < yes.dmg.length * 0.7) out.push(`${id}: only ${cut} of ${yes.dmg.length} casts were cut by a save`);
+      if (no.saved.filter(Boolean).length > 4) out.push(`${id}: a foe that cannot save was told as saving ${no.saved.filter(Boolean).length} times`);
+      if (!yes.G.log.some(e => e.m.includes(word))) out.push(`${id}: the save was not told as one that ${word} it`);
+    }
+    for (const [cls, id] of [['mage', 'magic_missile'], ['cleric', 'smite'], ['druid', 'thorn_lash'], ['druid', 'call_lightning']]) {
+      const yes = await castSeries(cls, id, true), no = await castSeries(cls, id, false);
+      if (yes.dmg.join() !== no.dmg.join() || yes.saved.some(Boolean)) out.push(`${id} was saved against`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a foe\'s save against a spell is harder the sharper the caster and the higher their level, easier the surer its blows; a champion saves better still', async () => {
+    const out = [];
+    const { ctx, Game, G, p, put, cast } = await arena('mage', 'save-dc');
+    const { MONSTERS } = ctx;
+    if (!Game.rollsShown()) Game.toggleRolls();
+    // every save holds (but on a 1), and with the rolls shown says what it needed
+    const seen = (int, level, id = 'ogre', hit = 20) => {
+      MONSTERS[id] = { ...MONSTERS[id], hit };
+      p.stats.int = int; p.level = level;
+      for (let i = 0; i < 40; i++) {
+        Game.level().monsters.length = 0;
+        put(id, 1, 0, { hp: 5000, maxHp: 5000 });
+        const mark = markLog(G);
+        p.sp = 999; cast('burning_hands');
+        const line = linesSince(G, mark).find(l => /d20 \d+\+\d+ vs \d+/.test(l));
+        if (line) { const [, b, dc] = line.match(/d20 \d+\+(\d+) vs (\d+)/); return { b: +b, dc: +dc }; }
+      }
+      return null;
+    };
+    const a = seen(10, 1), b = seen(18, 1), c = seen(18, 9), d = seen(18, 9, 'ogre', 7), e = seen(18, 9, 'vaelith', 20);
+    if (!a || a.dc !== 10) out.push(`a level-1 caster with Intelligence 10: to beat ${a && a.dc}, not 10`);
+    if (!b || b.dc !== 14) out.push(`Intelligence 18: ${b && b.dc}, not 14`);
+    if (!c || c.dc !== 18) out.push(`at level 9: ${c && c.dc}, not 18`);
+    if (!c || c.b !== 10) out.push(`a foe that hits at +20 saves at +${c && c.b}, not +10`);
+    if (!d || d.b !== 3) out.push(`a foe that hits at +7 saves at +${d && d.b}, not +3`);
+    if (!e || e.b !== 12) out.push(`a champion that hits at +20 saves at +${e && e.b}, not +12`);
+    // and on a natural 1 no foe saves, on a 20 every one does
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('Entangle holds a foe that saves by its strength two thirds as long, and still breaks off its blow; a boss half as long, whatever it rolls', async () => {
+    const out = [];
+    for (const sure of [true, false]) {
+      const { ctx, Game, G, put, cast } = await arena('druid', 'entangle-save-' + sure);
+      const { MONSTERS } = ctx;
+      MONSTERS.ogre = { ...MONSTERS.ogre, hit: sure ? 60 : -60 };
+      const holds = [];
+      for (let i = 0; i < 12; i++) {
+        Game.level().monsters.length = 0;
+        const m = put('ogre', 2, 0, { hp: 5000, maxHp: 5000 });
+        m.windup = { kind: 'move', move: 'crush', at: G.t, until: G.t + 900 };
+        cast('entangle');
+        if (m.windup) out.push(`${sure ? 'a saving' : 'a held'} foe kept its blow`);
+        holds.push(m.snaredUntil - G.t);
+      }
+      const long = holds.filter(h => h >= 2900).length, short = holds.filter(h => h >= 1900 && h <= 2100).length;
+      if (sure && short < 10) out.push(`a foe that saves was held ${holds.join(', ')}`);
+      if (!sure && long < 10) out.push(`a foe that cannot save was held ${holds.join(', ')}`);
+    }
+    // a boss tears free in half the time whatever it rolls: never a quarter
+    {
+      const { ctx, Game, G, put, cast } = await arena('druid', 'entangle-save-boss');
+      ctx.MONSTERS.warlord = { ...ctx.MONSTERS.warlord, hit: 60 };
+      for (let i = 0; i < 6; i++) {
+        Game.level().monsters.length = 0;
+        const m = put('warlord', 2, 0, { hp: 5000, maxHp: 5000 });
+        cast('entangle');
+        if (m.snaredUntil - G.t !== 1500) { out.push(`a boss sure of its save was held ${m.snaredUntil - G.t}ms`); break; }
+      }
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the hero saves against a wraith\'s grave-cold (constitution: frozen half as long), an emberling\'s flare and lightning through the water (dexterity: half the hurt)', async () => {
+    const out = [];
+    const series = async (stat, score, setup) => {
+      const { ctx, Game, G, L, p, put } = await arena('fighter', `hero-save-${stat}-${setup.name}`);
+      p.stats[stat] = score;
+      seedDice(ctx, 'hero-save-' + setup.name);
+      const got = [];
+      for (let i = 0; i < 16; i++) {
+        L.monsters.length = 0; L.fields = {}; p.held = 0; G.blowGate = 0;
+        const hp0 = p.hp, t0 = G.t;
+        setup(G, L, p, put);
+        run(Game, G, 400);
+        got.push({ hurt: hp0 - p.hp, held: Math.max(0, (p.held || 0) - t0) });
+      }
+      return got;
+    };
+    const chill = function chill(G, L, p, put) { L.twist = null; const w = put('wraith', 3, 0, { hp: 80, maxHp: 80 }); w.windup = { kind: 'move', move: 'chill', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; w.nextAct = w.windup.until; };
+    const flare = function flare(G, L, p, put) { L.twist = null; const e = put('emberling', 1, 0, { hp: 80, maxHp: 80 }); e.windup = { kind: 'move', move: 'flare', at: G.t, until: G.t + 100 }; e.nextAct = e.windup.until; };
+    const storm = function storm(G, L, p, put) { L.twist = 'flooded'; const a = put('acolyte', 4, 0, { hp: 80, maxHp: 80 }); a.windup = { kind: 'move', move: 'storm', at: G.t, until: G.t + 100, tx: p.x, ty: p.y }; a.nextAct = a.windup.until; };
+    // frozen: a hardy hero is held half as long (the hold counted from before the breath lands); a frail one
+    // mostly the whole of it (at level 9 even a score of 1 saves now and then)
+    const hardy = await series('con', 40, chill), frail = await series('con', 1, chill);
+    const heldH = hardy.map(g => g.held), heldF = frail.map(g => g.held);
+    if (heldH.filter(h => h > 0 && h <= 1000).length < 14) out.push(`a hardy hero in the grave-cold was held ${heldH.join(', ')}`);
+    if (heldF.filter(h => h > 1200).length < 8) out.push(`a frail hero in the grave-cold was held ${heldF.join(', ')}`);
+    for (const [name, setup] of [['flare', flare], ['storm', storm]]) {
+      const quick = await series('dex', 40, setup), slow = await series('dex', 1, setup);
+      const q = quick.reduce((n, g) => n + g.hurt, 0), s = slow.reduce((n, g) => n + g.hurt, 0);
+      if (!(s > 0) || !(q < s * 0.85)) out.push(`${name}: a quick hero took ${q} over sixteen, a slow one ${s}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('every saving throw the hero makes against a monster has its number to beat', async () => {
+    const fs = require('fs'), path = require('path');
+    const src = ['foes.js', 'game.js', 'meet.js', 'elements.js', 'wild.js'].map(f => fs.readFileSync(path.join(__dirname, '..', 'js', f), 'utf8')).join('\n');
+    const kinds = [...new Set([...src.matchAll(/trickSave\('\w+', '(\w+)'/g)].map(m => m[1]))];
+    const table = src.match(/const SAVE_DC = \{([^}]*)\}/)[1];
+    const missing = kinds.filter(k => !new RegExp(`\\b${k}:`).test(table));
+    return (kinds.length > 10 && !missing.length) || `saves with no number to beat: ${missing.join(', ') || '(none found)'}`;
   });
 
   console.log(`rule checks complete, ${failures} failure(s)`);

@@ -705,13 +705,20 @@ const MONSTERS = {
 };
 
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
+// A spell that fills a square or a corridor (save: the score a foe rolls with)
+// can be ridden out: a foe that saves takes three quarters of it, or tears
+// free of Entangle's roots in half the time. A dart, a smite or a lash at one
+// foe (Call Lightning too: it falls on the first foe only) is never saved
+// against. The blasts hit a little harder than they did before foes could
+// save: a goblin pack that rode out Burning Hands at the first level lived
+// through it, and the bot's mage on Hard fell ten points.
 const SPELLS = {
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
-    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', range: 1, dmg: L => [2, 4, L], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you, and sets spilt oil or moss there alight.' },
+    { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', save: 'dex', range: 1, dmg: L => [2, 4, L + 2], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you, and sets spilt oil or moss there alight.' },
     { id: 'shield',        name: 'Shield',         lvl: 1, cost: 3,  kind: 'buff', stat: 'ac', amount: 4, dur: 60000, color: '#adf', desc: '+4 armour class for a minute. Bolts of magic break on it, and it takes half of the lich\'s storm.' },
-    { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 5,  kind: 'bolt', range: 6, dmg: L => [3, 6, L], pierce: true, element: 'lightning', color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
-    { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', range: 3, dmg: L => [5, 6, L], pierce: true, element: 'cold', color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
+    { id: 'lightning',     name: 'Lightning Bolt', lvl: 3, cost: 5,  kind: 'bolt', save: 'dex', range: 6, dmg: L => [3, 6, L + 2], pierce: true, element: 'lightning', color: '#ff8', desc: 'A bolt that tears through every foe in its path.' },
+    { id: 'cone_cold',     name: 'Cone of Cold',   lvl: 5, cost: 10, kind: 'bolt', save: 'con', range: 3, dmg: L => [5, 6, L + 3], pierce: true, element: 'cold', color: '#8ef', desc: 'A freezing blast down the corridor ahead, catching every foe in it.' },
   ],
   cleric: [
     { id: 'cure_light',   name: 'Cure Light Wounds',   lvl: 1, cost: 2,  kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points.' },
@@ -719,16 +726,16 @@ const SPELLS = {
     { id: 'smite',        name: 'Holy Smite',          lvl: 2, cost: 4,  kind: 'bolt', range: 3, dmg: L => [1, 6, Math.floor(L / 2)], holy: true, color: '#ffd', desc: 'Radiant strike. Double damage to the undead.' },
     { id: 'cure_serious', name: 'Cure Serious Wounds', lvl: 3, cost: 5,  kind: 'heal', heal: L => [2, 8, L], color: '#8f8', desc: 'Heals 2d8 + your level in hit points.' },
     { id: 'protection',   name: 'Protection',          lvl: 3, cost: 5,  kind: 'buff', stat: 'ac', amount: 2, dur: 90000, color: '#adf', desc: '+2 armour class for a minute and a half.' },
-    { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', range: 4, dmg: L => [6, 6, L], area: true, fire: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
+    { id: 'flame_strike', name: 'Flame Strike',        lvl: 5, cost: 10, kind: 'bolt', save: 'dex', range: 4, dmg: L => [6, 6, L + 2], area: true, fire: true, color: '#f84', desc: 'A pillar of holy fire consumes everything in the square ahead.' },
   ],
   // a druid's: the bear is a spell like the others, and any other spell lets it go
   druid: [
     { id: 'thorn_lash',     name: 'Thorn Lash',     lvl: 1, cost: 2, kind: 'bolt', range: 4, dmg: L => [1, 6, 1 + Math.floor(L / 3)], color: '#8c4', desc: 'A whip of thorns lashes the first foe within four squares.' },
     { id: 'wild_shape',     name: 'Wild Shape',     lvl: 1, cost: 5, kind: 'shape', color: '#c95', desc: 'Become a bear for forty seconds: claws for your blows, 2 better armour class, and a hide that takes the blows before you do. Casting any other spell lets the bear go.' },
     { id: 'mending_moss',   name: 'Mending Moss',   lvl: 2, cost: 3, kind: 'heal', heal: L => [1, 8, L], color: '#8f8', desc: 'Heals 1d8 + your level in hit points, and your companion as much.' },
-    { id: 'entangle',       name: 'Entangle',       lvl: 3, cost: 3, kind: 'root', range: 4, color: '#6b3', desc: 'Roots burst from the stone and hold the first foe within four squares for three seconds, the blow it was drawing back broken off.' },
+    { id: 'entangle',       name: 'Entangle',       lvl: 3, cost: 3, kind: 'root', save: 'str', range: 4, color: '#6b3', desc: 'Roots burst from the stone and hold the first foe within four squares for three seconds, the blow it was drawing back broken off.' },
     { id: 'call_lightning', name: 'Call Lightning', lvl: 3, cost: 5, kind: 'bolt', range: 5, dmg: L => [3, 8, Math.floor(L / 2)], element: 'lightning', color: '#ff8', desc: 'Lightning falls on the first foe within five squares.' },
-    { id: 'insect_plague',  name: 'Insect Plague',  lvl: 5, cost: 9, kind: 'bolt', range: 3, dmg: L => [4, 6, L], pierce: true, color: '#cb6', desc: 'A stinging swarm fills the corridor ahead, and every foe in it within three squares.' },
+    { id: 'insect_plague',  name: 'Insect Plague',  lvl: 5, cost: 9, kind: 'bolt', save: 'con', range: 3, dmg: L => [4, 6, L + 3], pierce: true, color: '#cb6', desc: 'A stinging swarm fills the corridor ahead, and every foe in it within three squares.' },
   ],
 };
 

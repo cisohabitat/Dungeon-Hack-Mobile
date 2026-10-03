@@ -592,8 +592,10 @@ export function makeFoes(K) {
         if (p.x === w.tx && p.y === w.ty) {
           const warm = K.hasPower('warmth');
           const n = K.knightSteadfast(Math.max(1, Math.ceil((d(1, 6) + Math.floor(K.G.depth / 3)) / (warm ? 2 : 1) / (K.hasTalent('stand_firm') ? 2 : 1))));
-          K.hurtPlayer(n, `The grave-cold closes round your feet, and you are frozen fast! (${n})${warm ? ` ${K.warmthFrom(true)} keeps out the worst of it.` : ''}`, m, 'a wraith\'s grave-cold');
-          if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + CHILL_HOLD)) { p.held = K.G.t + CHILL_HOLD; p.heldBy = 'ice'; }
+          // (a hardy hero, saving by their constitution, is held half as long)
+          const c = K.trickSave('con', 'chill'), hold = CHILL_HOLD / (c.pass ? 2 : 1);
+          K.hurtPlayer(n, `The grave-cold closes round your feet, and you are frozen fast! (${n})${warm ? ` ${K.warmthFrom(true)} keeps out the worst of it.` : ''}${c.pass ? ' You stamp, and the ice is already cracking.' : ''}${c.note}`, m, 'a wraith\'s grave-cold');
+          if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + hold)) { p.held = K.G.t + hold; p.heldBy = 'ice'; }
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else { K.log(`Frost glazes the stones where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         m.moveReady = K.G.t + 7000;
@@ -607,7 +609,9 @@ export function makeFoes(K) {
         Sound.play('cast', K.heard({ x: w.tx, y: w.ty }, { spell: 'lightning' }));
         if (got.comp) K.companionHurt(got.comp, 'The lightning runs through the water into');
         if (got.hero) {
-          K.hurtPlayer(got.hero, got.hero === n ? `Lightning comes down into the water on you! (${got.hero})` : `The lightning strikes the water beside you, and runs through it into you! (${got.hero})`, m, 'an acolyte\'s lightning');
+          // (a quick hero, saving by their dexterity, takes half)
+          const c = K.trickSave('dex', 'storm'), hit = c.pass ? Math.max(1, Math.ceil(got.hero / 2)) : got.hero;
+          K.hurtPlayer(hit, `${got.hero === n ? 'Lightning comes down into the water on you!' : 'The lightning strikes the water beside you, and runs through it into you!'} (${hit})${c.pass ? ' You leap clear of the worst of it.' : ''}${c.note}`, m, 'an acolyte\'s lightning');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           // a step aside took the worst of it: on a flooded floor that is the whole of the answer
           if (got.hero < n && K.lvl().twist === 'flooded') K.learn(m.id, 'answer');
@@ -643,8 +647,10 @@ export function makeFoes(K) {
         for (const [dx, dy] of [[0, 0], ...K.DIRS]) K.flame(m.x + dx, m.y + dy);
         Sound.play('cast', K.heard(m, { spell: 'burning_hands' }));
         if (dist <= 1) {
-          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (K.hasPower('emberwalk') ? 2 : 1))));
-          K.hurtPlayer(n, `The ${mb.name} flares, and the heat of it scorches you! (${n})`, m, 'an emberling\'s flare');
+          // (a quick hero, saving by their dexterity, takes half)
+          const c = K.trickSave('dex', 'flare');
+          const n = K.knightSteadfast(Math.max(1, Math.ceil((d(2, 6) + Math.floor(K.G.depth / 2)) / (K.hasTalent('stand_firm') ? 2 : 1) / (K.hasPower('emberwalk') ? 2 : 1) / (c.pass ? 2 : 1))));
+          K.hurtPlayer(n, `The ${mb.name} flares, and the heat of it scorches you! (${n})${c.pass ? ' You throw up an arm against the worst of it.' : ''}${c.note}`, m, 'an emberling\'s flare');
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else { K.log(`The ${mb.name} flares, and the stones round it catch, but you are clear of it.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.moveReady = K.G.t + 7000;

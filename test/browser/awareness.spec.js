@@ -257,6 +257,30 @@ test.describe('not wasting what you carry', () => {
     expect(result.sp, 'no points should be spent').toBe(40);
     expect(result.said).toMatch(/nothing within reach/i);
   });
+
+  test('a foe that rides out a blast has "saves" over it, and the log says it took the worst of it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'aware-saves', cls: 'Mage' });
+    await clearBoons(page);
+    await faceOpenGround(page);
+    // a foe sure of its save (it fails only on a 1): cast until one holds
+    await page.evaluate(() => { MONSTERS.ogre = { ...MONSTERS.ogre, hit: 60 }; const p = Game.player(); p.maxSp = 99; p.sp = 99; Game.level().monsters.length = 0; });
+    expect(await placeMonster(page, 'ogre', 1, { hp: 900 })).not.toBeNull();
+    const got = await page.evaluate(async () => {
+      const p = Game.player(), G = Game.state(), sp = Game.knownSpells().find(s => s.id === 'burning_hands');
+      for (let i = 0; i < 6; i++) {
+        p.sp = 99; p.nextAttack = 0; G.blowGate = 0;
+        Game.castSpell(sp);
+        const t = Game.renderState(performance.now() + 200).fx.texts.find(x => x.text === 'saves');
+        if (t) return { float: true, said: G.log.some(e => /twists from the worst of your Burning Hands/.test(e.m)) };
+        await new Promise(r => setTimeout(r, 900));
+      }
+      return { float: false, said: false };
+    });
+    expect(got).toEqual({ float: true, said: true });
+    await expect(page.locator('#log')).toContainText('twists from the worst of your Burning Hands');
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('not losing a run by accident', () => {

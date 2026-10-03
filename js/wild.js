@@ -120,13 +120,17 @@ export function makeWild(K) {
       const broke = !rite && !!(m.windup || m.volley);
       if (!rite) { m.windup = null; m.volley = null; }
       m.pressing = false;
-      const hold = (ENTANGLE_MS + (K.onPath('grovewarden') ? 1500 : 0)) / (mb.boss ? 2 : 1);
+      // a foe that saves (by its strength) tears free in two thirds of the time, and it still loses its
+      // blow (held half as long, the druid's moment to mend under the roots was gone, and the bot's druid
+      // on Hard fell eight points); a boss always tears free in half the time, and does not roll as well
+      const sv = mb.boss ? { pass: false, note: '' } : K.spellSave(m, 'str');
+      const hold = Math.round((ENTANGLE_MS + (K.onPath('grovewarden') ? 1500 : 0)) * (mb.boss ? 1 / 2 : sv.pass ? 2 / 3 : 1));
       if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
       m.snaredUntil = G.t + hold; m.heldBy = 'roots';
       m.awake = true;
       K.meet(m);
-      K.floatText(m, 'rooted', '#a8e070');
-      K.log(`Roots burst from the stone and wrap the ${mb.name}${broke ? ', breaking off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It is held fast!'}`, 'good');
+      K.floatText(m, sv.pass ? 'saves' : 'rooted', sv.pass ? '#c8c8d8' : '#a8e070');
+      K.log(`Roots burst from the stone and wrap the ${mb.name}${broke ? ', breaking off its blow' : ''}. ${rite ? 'Its rite goes on.' : sv.pass ? 'It strains at them, and will soon tear free.' : 'It is held fast!'}${sv.note}`, 'good');
     }
     return held.length;
   }

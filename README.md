@@ -263,11 +263,25 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 81% | 79.5% | 78% | 76% | 73% | 74% | about 77% |
-| Hard | 55.5% | 56% | 62% | 54% | 61% | 53% | about 57% |
-| Long Delve (12 floors), Normal | 83% | 78.5% | 71% | 80.5% | 81% | 79% | about 79% |
-| Long Delve (12 floors), Hard | 62% | 58% | 58% | 64% | 61% | 61% | about 60.5% |
+| Normal | 84.5% | 80% | 82% | 77% | 73% | 78% | about 79% |
+| Hard | 54% | 56% | 59% | 53% | 60.5% | 53% | about 56% |
+| Long Delve (12 floors), Normal | 84% | 79% | 72% | 82% | 81% | 78% | about 79% |
+| Long Delve (12 floors), Hard | 63.5% | 58% | 62% | 63% | 60% | 54% | about 60% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+
+The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
+played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills
+its square or its corridor (three quarters of it) or tear free of Entangle sooner, and the hero
+saves against a wraith's grave-cold, an emberling's flare and lightning through the water. Plain,
+the saves cost the bot's mage ten points on Hard (a goblin pack lived through Burning Hands at the
+first level; the lich and the Warlord saved nearly half the time) and the druid eight (held half as
+long, a foe under Entangle was loose before the druid had mended). So the blasts hit two or three
+harder than before, Call Lightning (at one foe only) is never saved against, and a foe that saves
+against Entangle is held two thirds as long, never less than a boss. Overall, eight floors on Hard
+went from 56.9% to 55.9%, on Normal from 76.9% to 79.1%; the Long Delve on Hard from 60.6% to 60.2%,
+on Normal from 78.8% to 79.2%. The druid on the Long Delve on Hard came down from 61% to 54%, but its
+61% was one seed set at 65% (the commit before that played it at 57%), and 54% is where that row
+has sat before.
 
 Both Long Delve rows were measured again, both seed sets, with the commit before them played on
 the same seeds, after the tenth floor of twelve became the dark elves' country (their warriors and
