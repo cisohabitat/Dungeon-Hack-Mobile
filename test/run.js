@@ -499,6 +499,9 @@ check(traders > 0, 'no traders generated at all');
       }
     }
     check(bad.length === 0, `the grey dwarves' hold: ${bad.slice(0, 6).join('; ')}`);
+    // each people builds its own walls, unlike anyone else's
+    const faces = THEMES.filter(t => t.people).map(t => t.face);
+    check(faces.every(Boolean) && new Set([...faces, ...THEMES.filter(t => !t.people).map(t => t.face)]).size === new Set(THEMES.map(t => t.face)).size && new Set(faces).size === faces.length && !THEMES.some(t => !t.people && faces.includes(t.face)), `the peoples' walls: ${faces.join()}`);
     check(holds === 24 && warriors > bows && bows > 24, `the dwarves' holds: ${holds} floors, ${warriors} warriors, ${bows} arbalests`);
     console.log(`grey dwarves: ${holds} holds, ${warriors} warriors and ${bows} arbalests`);
   }

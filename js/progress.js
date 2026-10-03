@@ -4,7 +4,7 @@
 // bestiary, and read afresh each time so there is no state to go stale.
 
 import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS } from './data.js';
-import { RELICS } from './relics.js';
+import { RELICS, toCollect } from './relics.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
 const HALL_KEY = 'deepdelve.hall';
@@ -139,7 +139,8 @@ function noteRelic(id) {
   if (fresh) v.relics.push(id);
   // every relic found: the Collector's feat, once (asked even of one already
   // known, so a codex filled before the feat existed still earns it)
-  const done = !v.feats.collector && Object.keys(RELICS).every(r => v.relics.includes(r));
+  // (Durgrim's Ring, found only in a sixteen-floor delve, is a find beyond the set)
+  const done = !v.feats.collector && toCollect().every(r => v.relics.includes(r));
   if (done) v.feats.collector = 1;
   if (fresh || done) store(v);
   return fresh;

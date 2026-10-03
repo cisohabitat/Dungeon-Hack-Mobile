@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-07a', text: 'spells can slide off the dark elves, a renegade dark elf waits for hire two floors above their halls, and a sixteen-floor delve passes through the Grey Hold of the grey dwarves' };
+  const NEWS = { id: '2026-10-07b', text: 'spells can slide off the dark elves, a renegade dark elf waits for hire above their halls, and a sixteen-floor delve passes through the Grey Hold of the grey dwarves, each people with walls of their own' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

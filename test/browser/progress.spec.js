@@ -4,7 +4,7 @@
 const { test } = require('@playwright/test');
 const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
-const relicCount = page => page.evaluate(async () => Object.keys((await import('./js/relics.js')).RELICS).length);
+const relicCount = page => page.evaluate(async () => (await import('./js/relics.js')).toCollect().length);
 
 test.describe('progress between runs', () => {
   test('the Hall shows a trophy for each class and difficulty won', async ({ page }) => {
@@ -127,7 +127,10 @@ test.describe('progress between runs', () => {
     await expect(tooth.locator('.relic-powers')).toContainText('Keen');
     await expect(tooth.locator('.relic-lore')).toContainText('goblin chieftain');
     // the rest: dim rows that say only what sort of thing they are
-    await expect(page.locator('#relics-list .relic-row.unfound')).toHaveCount(total - 1);
+    // (every relic has a row, Durgrim's Ring beyond the Collector's count among them)
+    const rows = await page.evaluate(async () => Object.keys((await import('./js/relics.js')).RELICS).length);
+    await expect(page.locator('#relics-list .relic-row.unfound')).toHaveCount(rows - 1);
+    await expect(page.locator('#relics-list [data-relic="thane_ring"]')).toContainText('beyond the Collector');
     const whisper = page.locator('#relics-list [data-relic="whisper"]');
     await expect(whisper).toContainText('Not yet found');
     await expect(whisper).toContainText('Weapon');

@@ -186,6 +186,8 @@ const Assets = (() => {
     if (theme.face === 'glass') return makeGlass(theme, seed, cracked);
     if (theme.face === 'bones') return makeOssuary(theme, seed, cracked);
     if (theme.face === 'earth') return makeEarth(theme, seed, cracked);
+    if (theme.face === 'ashlar') return makeAshlar(theme, seed, cracked);
+    if (theme.face === 'granite') return makeGranite(theme, seed, cracked);
     return makeBrick(theme, seed, cracked);
   }
   // Black glass: the Sanctum's walls are not laid in courses of brick but cut
@@ -896,6 +898,97 @@ const Assets = (() => {
         if (x + 1 < TEX) { const c = P.get(x + 1, y); P.set(x + 1, y, c, 18); }
         if (rng.chance(0.45)) x = Math.max(1, Math.min(TEX - 2, x + rng.int(-1, 1)));
         if (rng.chance(0.08)) { const bx = Math.max(0, Math.min(TEX - 1, x + rng.int(-4, 4))); P.set(bx, y, hexToRgb(theme.accent)); }
+      }
+    }
+    return P.done();
+  }
+
+  // The dark elves' halls: black stone laid true, in long blocks set so close
+  // that the joints are a hairline, polished smooth and catching the light in
+  // a cold sheen along the top of each; and on some, cut into the face and
+  // filled with the violet of their lamps, a strand of web or a rune.
+  function makeAshlar(theme, seed, cracked) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), wall = hexToRgb(theme.wall), joint = hexToRgb(theme.mortar), glow = hexToRgb(theme.accent);
+    const block = new Map();
+    const blockOf = (bx, row) => {
+      const k = bx * 31 + row;
+      if (!block.has(k)) block.set(k, { t: rng.int(-8, 8), carve: rng.chance(0.3) ? rng.int(0, 2) : -1 });
+      return block.get(k);
+    };
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const row = y >> 4, off = row & 1 ? 16 : 0, lx = (x + off) & 31, ly = y & 15, bx = (x + off) >> 5;
+      if (ly === 0 || lx === 0) { P.set(x, y, joint, (hash2(x, y, s) - 0.5) * 4); continue; }
+      const b = blockOf(bx, row);
+      // polished: the light sits along the top and falls away below, no grain to speak of
+      let k = b.t + (vnoise(x, y, 16, s + 1) - 0.5) * 8 + (hash2(x, y, s + 2) - 0.5) * 4 - Math.round(ly * 1.3);
+      if (ly === 1) k += 22; else if (ly === 2) k += 10;
+      if (lx === 1) k += 8; else if (lx === 31) k -= 16;
+      if (ly === 15) k -= 18;
+      // a faint diagonal sheen across the face
+      if (((x + y * 2 + b.t * 3) & 31) < 2 && ly > 2 && ly < 13) k += 10;
+      P.set(x, y, wall, k);
+      // the carving: a strand of web fanned from a corner, or a rune of three strokes
+      if (b.carve === 0 && ly > 2 && ly < 14 && lx > 2 && lx < 29) {
+        const dx = lx - 3, dy = ly - 3, r = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
+        if ((Math.abs(a - 0.25) < 0.05 || Math.abs(a - 0.75) < 0.05 || Math.abs(a - 1.25) < 0.06) && r < 12) P.set(x, y, mixRgb(wall, glow, 0.55), 6);
+        else if ((Math.abs(r - 5) < 0.5 || Math.abs(r - 9) < 0.5) && a > 0.1 && a < 1.4) P.set(x, y, mixRgb(wall, glow, 0.45), 4);
+      } else if (b.carve === 1 && ly > 3 && ly < 12) {
+        if (lx === 14 || (lx === 16 && ly < 8) || (ly === 4 + Math.abs(lx - 15) && lx > 11 && lx < 19)) P.set(x, y, mixRgb(wall, glow, 0.6), 8);
+      }
+    }
+    if (cracked) {
+      // a crack through the black stone, violet light showing in the deepest of it
+      let x = rng.int(12, 50);
+      for (let y = 0; y < TEX; y++) {
+        P.set(x, y, rng.chance(0.2) ? glow : [8, 6, 10]);
+        if (x + 1 < TEX) P.set(x + 1, y, P.get(x + 1, y), 16);
+        if (rng.chance(0.4)) x = Math.max(1, Math.min(TEX - 2, x + rng.int(-1, 1)));
+      }
+    }
+    return P.done();
+  }
+  // The grey dwarves' hold: the living granite squared off in blocks as big as
+  // a door, each face dressed with the chisel in rows of strokes, a bevel at
+  // its edges; and across every course a band of dark iron, riveted, a glint
+  // of copper at each rivet, that the dwarves set to hold the hold together.
+  function makeGranite(theme, seed, cracked) {
+    const rng = new Rng(seed), s = Math.floor(rng.next() * 1e6);
+    const P = pixels(), wall = hexToRgb(theme.wall), joint = hexToRgb(theme.mortar), iron = [44, 46, 52], copper = [200, 122, 58];
+    const block = new Map();
+    const blockOf = (bx, row) => { const k = bx * 31 + row; if (!block.has(k)) block.set(k, { t: rng.int(-12, 10), warm: rng.int(-4, 4), slant: rng.chance(0.5) ? 1 : -1 }); return block.get(k); };
+    for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) {
+      const row = y >> 5, off = row & 1 ? 16 : 0, lx = (x + off) & 31, ly = y & 31, bx = (x + off) >> 5;
+      // the iron band across the middle of each course, its edges lit and shadowed
+      if (ly >= 20 && ly <= 25) {
+        let k = (hash2(x, y, s + 7) - 0.5) * 6;
+        if (ly === 20) k += 26; else if (ly === 25) k -= 24;
+        const rivet = ((x + 4) & 15) < 3 && ly >= 21 && ly <= 24;
+        if (rivet) P.set(x, y, ((x + 4) & 15) === 0 && ly === 21 ? copper : iron, ((x + 4) & 15) === 0 ? 40 : 22);
+        else P.set(x, y, iron, k);
+        continue;
+      }
+      if (ly === 0 || lx === 0 || ly === 31) { P.set(x, y, joint, (hash2(x, y, s) - 0.5) * 6 - 4); continue; }
+      const b = blockOf(bx, row);
+      let k = b.t + (vnoise(x, y, 6, s + 1) - 0.5) * 14 + (hash2(x, y, s + 2) - 0.5) * 14;
+      // the chisel's strokes, in slanting rows across the face
+      if (((lx * b.slant + ly * 2) & 3) === 0) k -= 9;
+      // granite's flecks, pale and dark
+      const h = hash2(x, y, s + 9);
+      if (h > 0.97) k += 26; else if (h < 0.03) k -= 22;
+      // the bevel: lit along the top and left of a block, shadowed at its foot and right
+      if (ly === 1 || ly === 26) k += 18; else if (ly === 2 || ly === 27) k += 6;
+      if (lx === 1) k += 12; else if (lx === 31) k -= 18;
+      if (ly === 19 || ly === 30) k -= 22;
+      P.set(x, y, [wall[0] + b.warm, wall[1], wall[2] - b.warm], k);
+    }
+    if (cracked) {
+      // a crack through block and band alike, the band's iron sprung where it crosses
+      let x = rng.int(10, 50);
+      for (let y = 0; y < TEX; y++) {
+        P.set(x, y, [10, 9, 8]);
+        if (x + 1 < TEX) P.set(x + 1, y, P.get(x + 1, y), 18);
+        if (rng.chance(0.45)) x = Math.max(1, Math.min(TEX - 2, x + rng.int(-1, 1)));
       }
     }
     return P.done();

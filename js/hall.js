@@ -2,7 +2,7 @@ import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES } from '
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
-import { RELIC_POWERS, RELICS, RELIC_SETS, setOf } from './relics.js';
+import { RELIC_POWERS, RELICS, RELIC_SETS, setOf, toCollect } from './relics.js';
 import { Progress } from './progress.js';
 import { $, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
 
@@ -98,7 +98,7 @@ function renderCodex(el) {
     // takes no article: "Chain Mail")
     // (a ring's or an amulet's make would give it away, so those say only where to look)
     const jewel = b.kind === 'ring' || b.kind === 'amulet';
-    const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : '';
+    const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : r.beyond ? ' · found only in a sixteen-floor delve, beyond the Collector\'s count' : '';
     if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
     const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
     return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
@@ -107,7 +107,8 @@ function renderCodex(el) {
       + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';
-  return `${ids.filter(id => found.includes(id)).length} of ${ids.length} found`;
+  const set = toCollect();
+  return `${set.filter(id => found.includes(id)).length} of ${set.length} found`;
 }
 
 /** Every class by three difficulties, each lit once that class has won there. */
@@ -149,7 +150,7 @@ function renderTrophies() {
   const box = $('#hall-trophies');
   box.onclick = e => { const c = /** @type {HTMLElement} */ (e.target).closest('[data-trophy]'); if (c) { $('#trophy-note').textContent = c.getAttribute('title') || ''; box.querySelectorAll('.cell.picked').forEach(x => x.classList.remove('picked')); c.classList.add('picked'); } };
   box.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { const c = /** @type {HTMLElement} */ ((/** @type {HTMLElement} */ (e.target)).closest('[data-trophy]')); if (c) { e.preventDefault(); c.click(); } } };
-  $('#hall-relics-count').textContent = `${v.relics.length} of ${Object.keys(RELICS).length} found`;
+  $('#hall-relics-count').textContent = `${toCollect().filter(id => v.relics.includes(id)).length} of ${toCollect().length} found`;
 }
 /** ", Knight": the path a hero in the Hall took, if they lived to take one. */
 const hallPath = h => { const x = (PATHS[h.cls] || []).find(q => q.id === h.path); return x ? `, ${escapeHtml(x.name)}` : ''; };
