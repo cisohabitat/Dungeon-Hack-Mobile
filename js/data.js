@@ -482,6 +482,11 @@ const ITEMS = {
   // as good as a soldier's chain, and their curved blades, quick in the hand
   elvenchain:  { kind: 'armor', name: 'Elven Chain', ac: 5, weight: 'light', value: 320, sprite: 'elvenchain', tier: 99 },
   scimitar:    { kind: 'weapon', name: 'Dark Elf Scimitar', dmg: [1, 8, 1], speed: 600, cls: ['fighter', 'thief', 'ranger'], value: 150, sprite: 'scimitar', tier: 99 },
+  // and what the grey dwarves leave: their warriors' plate, the best mail there is and as heavy
+  // as it looks, and their hammers; their arbalests' shields, cut with runes against the dead
+  dwarfplate:  { kind: 'armor', name: 'Dwarven Plate', ac: 8, weight: 'heavy', value: 600, sprite: 'dwarfplate', tier: 99 },
+  dwarfhammer: { kind: 'weapon', name: 'Dwarven Hammer', dmg: [2, 4, 2], speed: 700, cls: ['fighter', 'cleric'], value: 180, sprite: 'dwarfhammer', tier: 99, blunt: true },
+  runeshield:  { kind: 'shield', name: 'Rune-Cut Shield', ac: 3, power: 'ward', value: 240, sprite: 'runeshield', tier: 99 },
   // a cloak over whatever else is worn, for anyone: known at a glance, as a ring is not
   cloak_protect: { kind: 'cloak', name: 'Cloak of Protection', ac: 1, value: 80,  sprite: 'cloak_protect', tier: 2,
     desc: 'Armour class +1, over whatever else you wear.' },
@@ -543,6 +548,9 @@ const ITEMS = {
   ring_mend:    { kind: 'ring', name: 'Ring of Regeneration', value: 140, sprite: 'ring_garnet', power: 'mend', tier: 3, desc: 'Heals a hit point every four seconds, even mid-fight.' },
   ring_quiet:   { kind: 'ring', name: 'Ring of Stealth',      value: 70,  sprite: 'ring_iron',   power: 'quiet', tier: 2, desc: 'Sleeping monsters notice you a square later.' },
   ring_warmth:  { kind: 'ring', name: 'Ring of Warmth',       value: 90,  sprite: 'ring_copper', power: 'warmth', tier: 3, desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
+  // the Forge-Thane's, from his hand as he falls (tier 99: never found lying, never on a shelf;
+  // last of the rings, so every other ring keeps the look a seed gave it)
+  ring_forge:   { kind: 'ring', name: 'Forge Ring',           value: 200, sprite: 'ring_forge', power: 'might', bonus: 1, tier: 99, desc: '+1 to hit and to damage with every blow, more if finely made.' },
   amulet_life:  { kind: 'amulet', name: 'Amulet of Life Saving', value: 260, sprite: 'amulet_amber', power: 'lifesave', tier: 4, desc: 'The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust.' },
   // what the Spider Pendant (a relic: see relics.js) hangs on; never found bare
   amulet_spider: { kind: 'amulet', name: 'Spider Pendant', value: 200, sprite: 'amulet_spider', power: 'evasion', bonus: 2, tier: 99, desc: '+2 to every saving throw.' },
@@ -620,9 +628,19 @@ const MONSTERS = {
   // them in a guard that turns a blow struck into it back on the striker
   // (hold your blow); the mage keeps its distance, throwing violet fire and
   // weaving webs of shadow that hold a hero's legs (step out of its line).
-  drow_warrior: { name: 'Dark Elf Warrior', hp: [5, 8, 3], ac: 16, hit: 8, dmg: [1, 8, 2], speed: 925, xp: 170, tier: [99, 99], sprite: 'drow_warrior', lunge: 1, scale: 0.95, move: 'parry', cunning: 1 },
-  drow_mage: { name: 'Dark Elf Mage', hp: [4, 8, 2], ac: 14, hit: 7, dmg: [1, 6, 1], speed: 1100, xp: 160, tier: [99, 99], sprite: 'drow_mage', scale: 0.95, move: 'web', spell: true, skirmish: true, cunning: 1,
+  drow_warrior: { name: 'Dark Elf Warrior', hp: [5, 8, 3], ac: 16, hit: 8, dmg: [1, 8, 2], speed: 925, xp: 170, tier: [99, 99], sprite: 'drow_warrior', lunge: 1, scale: 0.95, move: 'parry', cunning: 1, spellRes: 0.2 },
+  drow_mage: { name: 'Dark Elf Mage', hp: [4, 8, 2], ac: 14, hit: 7, dmg: [1, 6, 1], speed: 1100, xp: 160, tier: [99, 99], sprite: 'drow_mage', scale: 0.95, move: 'web', spell: true, skirmish: true, cunning: 1, spellRes: 0.25,
     ranged: { range: 5, dmg: [2, 6, 2], verb: 'hurls a bolt of violet fire at' } },
+  // The grey dwarves' own, as the elves are theirs: their hold is one floor of
+  // a sixteen-floor delve (Dungeon.peopleDepth), five above the Heart's. Short,
+  // broad and slow, in heavy mail; the warrior mutters a working that swells it
+  // to twice its height for a while, its blows the heavier for it (strike it
+  // while it swells and the working breaks); the arbalest keeps back with a
+  // crossbow, and now and then takes careful aim for a heavy bolt (step out of
+  // its line before it looses).
+  grey_dwarf: { name: 'Grey Dwarf', hp: [6, 8, 4], ac: 17, hit: 7, dmg: [1, 10, 2], speed: 1150, xp: 170, tier: [99, 99], sprite: 'grey_dwarf', scale: 0.8, move: 'enlarge', cunning: 1 },
+  dwarf_arbalest: { name: 'Grey Dwarf Arbalest', hp: [4, 8, 2], ac: 15, hit: 7, dmg: [1, 6, 1], speed: 1300, xp: 150, tier: [99, 99], sprite: 'dwarf_arbalest', scale: 0.8, move: 'aim', skirmish: true, cunning: 1,
+    ranged: { range: 5, dmg: [2, 6, 1], verb: 'looses a crossbow bolt at' } },
   // a barrel among barrels, until it is touched (game.js lays it in; see foes.js for how it springs)
   emberling: { name: 'Emberling', hp: [3, 8, 2],  ac: 14, hit: 6,  dmg: [1, 8, 2], speed: 1000, xp: 110,  tier: [99, 99], sprite: 'emberling', scale: 0.7, move: 'flare', fiery: true, door: 'batter' },
   mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
@@ -705,12 +723,20 @@ const MONSTERS = {
   // never dealt to another floor, see namedPlan). She mends her own with a
   // chant that any wound breaks, lashes with shadow from afar, and keeps two
   // warriors at her side.
-  vaelith:  { name: 'High Priestess', hp: [10, 8, 12], ac: 17, hit: 9, dmg: [1, 8, 3], speed: 1000, xp: 600, tier: [99, 99], sprite: 'drow_mage', scale: 1.15, move: 'mend', spell: true, cunning: 1,
+  vaelith:  { name: 'High Priestess', hp: [10, 8, 12], ac: 17, hit: 9, dmg: [1, 8, 3], speed: 1000, xp: 600, tier: [99, 99], sprite: 'drow_mage', scale: 1.15, move: 'mend', spell: true, cunning: 1, spellRes: 1 / 3,
     ranged: { range: 5, dmg: [2, 8, 2], verb: 'brings a lash of shadow down on' },
     named: { called: 'Vaelith', kin: 'drow_mage', tint: '#c070ff', guard: ['drow_warrior', 2], often: 2, pron: 'her', home: 'elves',
       arrive: 'Violet lamps, and a far-off chanting. Vaelith, High Priestess of the dark elves, keeps her temple somewhere on this floor.',
       wake: 'The chanting stops. Vaelith the High Priestess turns from her altar, and her warriors draw their blades.',
       fall: 'Vaelith the High Priestess is dead! The violet lamps gutter, and somewhere a great many dark elves fall silent.' } },
+  // The grey dwarves' Forge-Thane holds their hold, and only there. He swells
+  // as his warriors do, and his hammer falls the harder for it; two arbalests
+  // keep his back.
+  durgrim:  { name: 'Forge-Thane', hp: [10, 8, 14], ac: 18, hit: 9, dmg: [2, 6, 3], speed: 1150, xp: 600, tier: [99, 99], sprite: 'grey_dwarf', scale: 1.0, move: 'enlarge', cunning: 1,
+    named: { called: 'Durgrim', kin: 'grey_dwarf', tint: '#e08a40', guard: ['dwarf_arbalest', 2], often: 2, pron: 'his', home: 'dwarves',
+      arrive: 'The ring of hammers, far off, and the smell of a forge. Durgrim, Forge-Thane of the grey dwarves, holds this floor.',
+      wake: 'The hammers stop. Durgrim the Forge-Thane sets down his tongs, takes up his hammer, and his arbalests wind their crossbows.',
+      fall: 'Durgrim the Forge-Thane is dead! His forge-fire sinks to embers, and the hold goes quiet.' } },
 };
 
 // Spells: circles 1-3 come at hero levels 1, 3 and 5, the fifth circle at 7 (spellLevel in game.js). dmg/heal are functions of caster level.
@@ -862,6 +888,15 @@ const BESTIARY = {
   drow_mage: { lore: 'A dark elf in robes the colour of a bruise, who keeps well back and lets the warriors do the dying. It throws violet fire from afar, and steps away from anyone who comes close.',
     trick: 'It weaves its hands, and a web of shadow spins out down its line toward you, to bind your legs.',
     answer: 'Step out of its line, to one side, and the web sails past; it is left open while it weaves another. Close in on it, and it backs away.' },
+  grey_dwarf: { lore: 'A dwarf as grey as the rock, bald and broad, with an iron-coloured beard in braids to the belt, in mail too heavy for anyone taller to carry. Slow, sure and very hard to hurt.',
+    trick: 'It mutters a working and begins to swell, and grows to twice its height for a while: its blows fall half as hard again.',
+    answer: 'Strike it while it swells and the working breaks. Once it is grown, step back out of its reach until it shrinks.' },
+  dwarf_arbalest: { lore: 'A grey dwarf with a crossbow as long as itself, which keeps behind the warriors and winds and looses, winds and looses, without hurry.',
+    trick: 'It sets its crossbow to its shoulder and takes careful aim down its line: the bolt that follows does not miss, and hits twice as hard.',
+    answer: 'Step out of its line, to one side, before it looses, and the bolt cracks off the stone. Close in on it, and it backs away.' },
+  durgrim: { lore: 'The Forge-Thane of the grey dwarves, older than their hold, his beard bound in copper rings and his hammer the one that made their gates. Two arbalests stand at his back.',
+    trick: 'He swells as his warriors do, and his hammer falls half as hard again while he is grown.',
+    answer: 'Break the working with a blow as he swells. Grown, give him room until he shrinks, and deal with his arbalests.' },
   vaelith: { lore: 'The High Priestess of the dark elves, crowned in silver spiders, who has kept their temple for longer than the Heart has been gone. Her warriors die for her without being asked.',
     trick: 'She begins a chant over the wounded, her own warriors or herself, and dark power knits their wounds.',
     answer: 'Wound her while she chants and the chant breaks. Cut down her guard first, or strike her from afar.' },
@@ -938,7 +973,9 @@ const THEMES = [
   { name: 'The Ossuary', road: 'crypts', face: 'bones', wall: '#8a8272', mortar: '#16120e', floor: '#302c26', ceil: '#14110e', accent: '#7ac0b0', flavor: 'The dead are stacked to the roof here, skull upon skull.', decor: ['niche', 'cobweb', 'sconce', 'cobweb'], props: ['bones', 'candles', 'urn', 'candles'], fog: '#0a1614' },
   { name: 'The Warrens', road: 'warrens', face: 'earth', wall: '#6a5238', mortar: '#2a2016', floor: '#382c20', ceil: '#1c1610', accent: '#d08a40', flavor: 'Rough tunnels, dug by many small hands and propped with timber.', decor: ['roots', 'cobweb', 'sconce', 'banner'], props: ['crate', 'barrel', 'rubble', 'mushrooms', 'bones'], fog: '#161008' },
   // the dark elves' country, one deep floor of a Long Delve (Dungeon.elfDepth): black stone laid true, violet lamps
-  { name: 'The Dark Elf Halls', elves: true, wall: '#3a3446', mortar: '#16121e', floor: '#24202c', ceil: '#100c16', accent: '#b070f0', flavor: 'Black stone laid true, and violet lamps. You have come into the country of the dark elves.', decor: ['banner', 'runes', 'cobweb', 'sconce', 'chains'], props: ['candles', 'crate', 'urn', 'bones'], fog: '#0c0814' },
+  { name: 'The Dark Elf Halls', people: 'elves', wall: '#3a3446', mortar: '#16121e', floor: '#24202c', ceil: '#100c16', accent: '#b070f0', flavor: 'Black stone laid true, and violet lamps. You have come into the country of the dark elves.', decor: ['banner', 'runes', 'cobweb', 'sconce', 'chains'], props: ['candles', 'crate', 'urn', 'bones'], fog: '#0c0814' },
+  // the grey dwarves' hold, one deep floor of a sixteen-floor delve: square-cut granite, forge-light
+  { name: 'The Grey Hold', people: 'dwarves', wall: '#5e5c58', mortar: '#1e1c1a', floor: '#2e2b28', ceil: '#141210', accent: '#e8843a', flavor: 'Square-cut granite, and far off the ring of hammers. You have come into the hold of the grey dwarves.', decor: ['banner', 'sconce', 'chains', 'grate', 'ring'], props: ['crate', 'barrel', 'rubble', 'candles'], fog: '#120c08' },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.

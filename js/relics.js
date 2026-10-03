@@ -123,6 +123,9 @@ const RELICS = {
   // Vaelith's own, from her breast as she falls (see game.js), never lying about or on a shelf
   spider_pendant: { t: 'amulet_spider', e: 1, name: 'the Spider Pendant', powers: ['webwalk'], value: 420, champion: 'vaelith', fell: 'the High Priestess falls',
     lore: 'A silver spider with garnet eyes, worn by every High Priestess of the dark elves in turn. Their goddess\'s webs part for whoever wears it, and the blows she sends aside go wide.' },
+  // Durgrim's own, from his hand as he falls, as the Pendant is Vaelith's
+  thane_ring: { t: 'ring_forge', e: 1, name: 'Durgrim\'s Ring', powers: ['fireward'], value: 420, champion: 'durgrim', fell: 'the Forge-Thane falls',
+    lore: 'A heavy band of dark iron with a vein of copper through it, forged in the first fire of the grey dwarves\' hold. Every Thane has worn it at the anvil, and none of them has been burnt.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
 };

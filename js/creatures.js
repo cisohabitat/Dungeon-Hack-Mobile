@@ -281,6 +281,75 @@ const scimitar = (x, y, u, v, len, c, k) => {
     hair(a[0] + px * 0.6, a[1] + py * 0.6, b[0] + px * 0.6, b[1] + py * 0.6, k.silverLt), hair(b[0] + px * 0.5, b[1] + py * 0.5, e[0], e[1], k.silverLt),
   ];
 };
+// The grey dwarves' looks, shared by the warrior, the arbalest and their
+// Thane: skin the grey of the rock, an iron-coloured beard in braids bound
+// with copper, eyes like coals, mail and plate as dark as the iron they dig.
+const dwarfKit = () => ({
+  skin: '#8a8a8c', skinDk: '#5e5e62', skinLt: '#aeaeb0', beard: '#6a6c70', beardDk: '#46484c', beardLt: '#8e9094', eye: '#ff9a3a',
+  iron: '#4e5258', ironLt: '#7e848c', ironDk: '#2c2e32', mail: '#3c3e44', leather: '#4a3424', boot: '#22201e', copper: '#c87a3a', haft: '#5a4030',
+});
+/** A grey dwarf's head: bald and broad, a brow like a ledge, coal eyes, a big nose, and the beard in two braids to the belt. */
+const dwarfHead = (hx, hy, k, { grim = false, helm = false } = {}) => [
+  // the beard first, under the face: a broad spade of it, two braids out of it bound in copper
+  sheet([[hx - 7.5, hy + 2], [hx + 7.5, hy + 2], [hx + 8, hy + 12], [hx + 5, hy + 20], [hx, hy + 24], [hx - 5, hy + 20], [hx - 8, hy + 12]], k.beard, { curve: 1 }),
+  ...[-4, -1.5, 1.5, 4].map(d => hair(hx + d, hy + 5, hx + d * 1.15, hy + 21, k.beardDk)),
+  ...[-1, 1].flatMap(sd => [limb(hx + sd * 4, hy + 18, hx + sd * 4.6, hy + 30, 1.3, 1, k.beard), ball(hx + sd * 4.6, hy + 25, 1.6, 1, k.copper), ball(hx + sd * 4.7, hy + 28, 1.5, 0.9, k.copper)]),
+  // the head, the ears small against it, and the dome bald (or under an iron helm)
+  ball(hx, hy, 7.6, 7.2, k.skin), ball(hx - 7.4, hy + 0.5, 1.4, 2, k.skin), ball(hx + 7.4, hy + 0.5, 1.4, 2, k.skin),
+  ...(helm ? [sheet([[hx - 8.2, hy - 1], [hx - 7, hy - 6], [hx - 3, hy - 9], [hx + 3, hy - 9], [hx + 7, hy - 6], [hx + 8.2, hy - 1]], k.iron, { curve: 0.9 }),
+    line(hx - 8, hy - 1, hx + 8, hy - 1, k.ironLt), limb(hx, hy - 1, hx, hy + 3.5, 0.9, 0.7, k.ironLt), hair(hx - 5, hy - 6.5, hx - 1, hy - 8.4, k.ironLt)]
+    : [ball(hx - 2.5, hy - 4.5, 2.6, 1.4, k.skinLt), hair(hx - 6, hy - 3.5, hx + 6, hy - 3.5, k.skinDk)]),
+  // the brow drawn down like a ledge, the eyes red as coals under it, the nose
+  limb(hx - 5.5, grim ? hy - 0.2 : hy - 0.8, hx - 1, hy - 0.2, 1.3, 1, k.skinDk), limb(hx + 5.5, grim ? hy - 0.2 : hy - 0.8, hx + 1, hy - 0.2, 1.3, 1, k.skinDk),
+  ball(hx - 3, hy + 1.2, 0.9, 0.6, k.eye, { glows: true }), ball(hx + 3, hy + 1.2, 0.9, 0.6, k.eye, { glows: true }),
+  ball(hx, hy + 3.4, 2, 1.8, k.skinLt), hair(hx - 1.5, hy + 4.6, hx + 1.5, hy + 4.6, k.skinDk),
+  // the moustache over the mouth, falling into the beard
+  sheet([[hx - 4.5, hy + 5.4], [hx, hy + 4.8], [hx + 4.5, hy + 5.4], [hx + 5.4, hy + 8.6], [hx, hy + 6.6], [hx - 5.4, hy + 8.6]], k.beardLt, { curve: 0.8 }),
+  ...(grim ? [sheet([[hx - 2, hy + 7.2], [hx + 2, hy + 7.2], [hx + 1.4, hy + 8.8], [hx - 1.4, hy + 8.8]], '#1a1210')] : []),
+];
+/** A dwarf's squat body in mail, plate over the chest, a belt with a broad buckle and a skirt of mail. */
+const dwarfBody = (k, { plate = true, dy = 0, narrow = false } = {}) => narrow ? dwarfJerkin(k) : [
+  // short thick legs, heavy boots
+  ...both64(limb(26, 50, 25, 56, 3.8, 3.4, k.mail)), ...both64(limb(25, 56, 24.6, 59.5, 3.6, 3.4, k.boot)), ...both64(ball(23.6, 61.2, 4.8, 1.8, k.boot)),
+  // the mail coat to the knee, wide as a door
+  sheet([[16, 24 + dy], [48, 24 + dy], [50, 52], [14, 52]], k.mail, { curve: 1 }),
+  ...[30, 34, 38, 42, 46, 50].map(y => hair(15.5, y, 48.5, y, '#2a2c30')),
+  ...(plate ? [
+    sheet([[19, 25 + dy], [45, 25 + dy], [44, 41 + dy], [32, 44 + dy], [20, 41 + dy]], k.iron, { curve: 1 }),
+    sheet([[19, 25 + dy], [24, 25 + dy], [24.5, 41 + dy], [20, 41 + dy]], k.ironLt, { curve: 0.5 }),
+    line(32, 25.5 + dy, 32, 43 + dy, k.ironDk), hair(20, 26 + dy, 31, 26 + dy, '#b8bec6'),
+    ...[[22, 28], [42, 28], [22, 38], [42, 38]].map(([x, y]) => ball(x, y + dy, 0.7, 0.7, k.ironLt)),
+  ] : [sheet([[20, 25 + dy], [44, 25 + dy], [43, 44 + dy], [21, 44 + dy]], k.leather, { curve: 1 }), ...[29, 33, 37, 41].map(y => hair(21, y + dy, 43, y + dy, '#3a2818'))]),
+  // the belt and its buckle
+  sheet([[15, 44 + dy], [49, 44 + dy], [49, 47.5 + dy], [15, 47.5 + dy]], '#1e1610', { curve: 0.8 }),
+  sheet([[29, 43.4 + dy], [35, 43.4 + dy], [35, 48 + dy], [29, 48 + dy]], k.copper), sheet([[30.4, 44.6 + dy], [33.6, 44.6 + dy], [33.6, 46.8 + dy], [30.4, 46.8 + dy]], '#1e1610'),
+  // pauldrons, and the bull neck
+  ...both64(ball(16.5, 26 + dy, 6.6, 4.8, k.iron)), ...both64(hair(11.5, 24 + dy, 21, 22.4 + dy, k.ironLt)),
+  limb(32, 18 + dy, 32, 25 + dy, 5, 5.4, k.skinDk),
+];
+/** An arbalest's: the same short legs, a quilted jerkin and no pauldrons, narrower than a warrior's plate. */
+const dwarfJerkin = k => [
+  ...both64(limb(27, 48, 26, 56, 3.6, 3.2, k.mail)), ...both64(limb(26, 56, 25.6, 59.5, 3.4, 3.2, k.boot)), ...both64(ball(24.8, 61.2, 4.4, 1.8, k.boot)),
+  sheet([[20, 24], [44, 24], [45, 49], [19, 49]], k.leather, { curve: 1 }),
+  ...[28, 32, 36, 40, 44].map(y => hair(20, y, 44, y, '#3a2818')), line(32, 24.5, 32, 48.5, '#2a1c10'),
+  sheet([[18.5, 44], [45.5, 44], [45.5, 47.5], [18.5, 47.5]], '#1e1610', { curve: 0.8 }),
+  sheet([[29.5, 43.4], [34.5, 43.4], [34.5, 48], [29.5, 48]], k.copper),
+  ...both64(ball(20, 26, 4, 3.2, k.leather)),
+  limb(32, 18, 32, 25, 5, 5.4, k.skinDk),
+];
+/** A war pick from the grip at (x, y) along (u, v): the haft, and its head across the top, a spike one way and a hammer the other. */
+const warPick = (x, y, u, v, len, k) => {
+  const ex = x + u * len, ey = y + v * len, px = -v, py = u;
+  return [
+    limb(x - u * 4, y - v * 4, ex, ey, 1.2, 1.1, k.haft), ...[0.35, 0.55].map(t => hair(x + u * len * t + px * 1.2, y + v * len * t + py * 1.2, x + u * len * t - px * 1.2, y + v * len * t - py * 1.2, k.copper)),
+    limb(ex - px * 2, ey - py * 2, ex + px * 9, ey + py * 9, 1.8, 0.3, k.iron), limb(ex - px * 6, ey - py * 6, ex - px * 1, ey - py * 1, 2.6, 2.6, k.iron),
+    hair(ex + px * 1, ey + py * 1 - 1, ex + px * 8, ey + py * 8 - 0.5, k.ironLt), ball(ex - px * 6.5, ey - py * 6.5, 2.6, 2.6, k.ironDk),
+  ];
+};
+
+// what the renegade wears in place of the house's black and silver
+const RENEGADE = { '#2a2a36': '#4a3a2c', '#464656': '#6a5640', '#1a1a22': '#33281e', '#26182e': '#3e4636', '#160e1c': '#2a3024',
+  '#b8bccc': '#8a8078', '#eef0f8': '#c8c0b4', '#3a3046': '#3a3226' };
 const CREATURES = {
   // A goblin: small, wiry and stooped, all knees and elbows, its great ears
   // swept back, a long hooked nose over a grin of crooked teeth, a ragged tunic
@@ -1870,6 +1939,69 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
     brow: '#8a8c94', ears: 'prick', ruff: true, tail: 'low', tailTip: '#d4d2c8', leggy: true,
   }),
 
+  // A renegade dark elf, hired: the warrior's figure, but cast out of the
+  // halls and dressed for it, in worn brown leather where the house wore
+  // black mail, a weathered grey-green cloak, dull iron for its silver, and
+  // eyes gone amber rather than red, so the hero knows it from its kin across
+  // a dark room. Its hood is up, ears through it; it keeps its blades crossed
+  // before it, watching the dark, and swings them up together to strike; told
+  // to stay, it lets them fall to its sides.
+  renegade: (pose = 'idle') => {
+    const atk = pose === 'windup', hx = 32, hy = 10 + (atk ? 1 : 0), hood = '#4a5240', hoodDk = '#2a3024';
+    const back = [sheet([[hx - 6.5, hy + 3], [hx - 7.5, hy - 4], [hx - 3, hy - 9.5], [hx + 3, hy - 9.5], [hx + 7.5, hy - 4], [hx + 6.5, hy + 3], [hx + 10, hy + 8], [hx - 10, hy + 8]], hoodDk, { curve: 1 })];
+    // the hood's rim over the brow, framing the face
+    const rim = [sheet([[hx - 5, hy + 1.5], [hx - 5.2, hy - 4], [hx - 2, hy - 7.5], [hx + 2, hy - 7.5], [hx + 5.2, hy - 4], [hx + 5, hy + 1.5], [hx + 3.8, hy - 2.4], [hx, hy - 4.4], [hx - 3.8, hy - 2.4]], hood, { curve: 0.8 }),
+      hair(hx - 4.6, hy - 3.6, hx - 1.6, hy - 6.8, '#626a56')];
+    const body = recolour(CREATURES.drow_warrior(atk ? 'windup' : pose === 'sit' ? 'idle' : 'special'), RENEGADE).map(p => (p.glows && p.c === '#ff3a34' ? { ...p, c: '#ffb648' } : p));
+    return [...back, ...body, ...rim];
+  },
+
+  // A grey dwarf: short and very broad, bald, grey as the rock, an iron beard
+  // in braids bound with copper, black mail to the knee and plate over it, and
+  // a war hammer, a spike behind its head. Striking, it goes up over its head; working its spell of
+  // growing, it flings its arms wide and the runes on its plate kindle.
+  grey_dwarf: (pose = 'idle') => {
+    const atk = pose === 'windup', swell = pose === 'special';
+    const k = dwarfKit(), dy = atk ? 1 : 0;
+    const fist = (x, y) => [ball(x, y, 3.2, 3, k.skin), hair(x - 1.6, y - 0.6, x + 1.6, y - 0.6, k.skinDk)];
+    let arms;
+    if (atk) arms = [limb(16, 27, 24, 14, 3.8, 3.2, k.mail), limb(48, 27, 40, 14, 3.8, 3.2, k.mail), ...warPick(32, 10, 0.55, -0.83, 13, k), ...fist(28, 12), ...fist(35, 9.5)];
+    else if (swell) arms = [limb(16, 27, 7, 20, 3.8, 3.2, k.mail), ...fist(5.5, 18.5), limb(48, 27, 57, 20, 3.8, 3.2, k.mail), ...fist(58.5, 18.5), ...warPick(58.5, 18.5, 0.1, 1, 30, k)];
+    else arms = [limb(16, 27, 13, 38, 3.8, 3.4, k.mail), ...fist(12.5, 41), limb(48, 27, 51, 37, 3.8, 3.4, k.mail), ...fist(51.5, 39.5), ...warPick(51.5, 39.5, 0.04, -1, 26, k)];
+    // the runes cut in its plate, kindling as the working takes it
+    const runes = swell ? [[24, 30, 27, 34], [27, 34, 24, 37], [40, 30, 37, 34], [37, 34, 40, 37], [32, 29, 32, 36]].map(([a, b, c2, d2]) => hair(a, b, c2, d2, '#ffb050', { glows: true })) : [];
+    return [...dwarfBody(k, { dy }), ...runes, ...arms, ...dwarfHead(32, 12 + dy, k, { grim: atk || swell })];
+  },
+  // A grey dwarf arbalest: the same people under an iron helm, in leather over
+  // mail, with a crossbow as long as itself, held across the body; loosing, it
+  // comes up to the chest; taking careful aim, it comes up to the eye and its
+  // bow points straight at you.
+  dwarf_arbalest: (pose = 'idle') => {
+    const atk = pose === 'windup', aim = pose === 'special';
+    const k = dwarfKit(), wood = '#6a4a2c', woodDk = '#46301c', string = '#d8d0c0';
+    const fist = (x, y) => [ball(x, y, 3, 2.8, k.skin), hair(x - 1.4, y - 0.6, x + 1.4, y - 0.6, k.skinDk)];
+    let bow;
+    if (aim) {
+      // end on: the prod a wide arc across the face, the bolt's head at its heart, glinting
+      bow = [limb(16, 27, 25, 24, 3.8, 3.2, k.mail), limb(48, 27, 39, 24, 3.8, 3.2, k.mail), ...fist(26, 23.5), ...fist(38, 23.5),
+        ball(32, 21, 3.4, 3, woodDk), limb(14, 17, 32, 21, 1.4, 1.1, wood), limb(50, 17, 32, 21, 1.4, 1.1, wood), hair(14.5, 17.5, 49.5, 17.5, string),
+        ball(32, 20.4, 1.4, 1.4, k.ironLt), specks([[31.5, 20]], '#ffffff')];
+    } else if (atk) {
+      // loosing: brought up to the chest, across the body
+      bow = [limb(20, 27, 20, 31, 3.6, 3.2, k.mail), ...fist(21, 31), limb(44, 27, 44, 26, 3.6, 3.2, k.mail), ...fist(43, 26),
+        limb(18, 34, 48, 23, 1.8, 1.5, wood), hair(19, 33, 47, 22.5, woodDk),
+        limb(44, 16, 52, 30, 1.3, 1.3, wood), hair(44.5, 16.5, 51.5, 29.5, string), ball(48.4, 23, 1, 1, k.ironLt)];
+    } else {
+      // at rest: the crossbow upright on its left shoulder, the prod above its head
+      bow = [limb(20, 27, 15, 36, 3.6, 3.2, k.mail), ...fist(14, 38), limb(44, 27, 47, 38, 3.6, 3.2, k.mail), ...fist(47.5, 40),
+        limb(14, 40, 12, 6, 1.8, 1.5, wood), hair(13.4, 39, 11.4, 7, woodDk),
+        limb(2, 9, 12, 5, 1.3, 1.1, wood), limb(22, 9, 12, 5, 1.3, 1.1, wood), hair(2.5, 9.5, 21.5, 9.5, string)];
+    }
+    // a quiver of bolts at the right hip
+    const quiver = [sheet([[50, 34], [56, 34], [55, 52], [51, 52]], k.leather, { curve: 0.5 }), ...[51.5, 53, 54.5].map(x => limb(x, 34, x, 30, 0.5, 0.4, '#c8c0b0')), hair(50.5, 40, 55.5, 40, k.copper)];
+    return [...quiver, ...dwarfBody(k, { narrow: true }), ...bow.slice(0, aim ? 4 : 6), ...dwarfHead(32, 12, k, { grim: atk || aim, helm: true }), ...bow.slice(aim ? 4 : 6)];
+  },
+
   // The sellsword: a hired blade, as tall as the hero. A kettle hat with a wide
   // iron brim, a brigandine of blue-grey cloth studded with brass over a mail
   // shirt, a red sash from shoulder to hip, a steel pauldron, a scar down the
@@ -2458,7 +2590,7 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
+const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], grey_dwarf: ['windup', 'special'], dwarf_arbalest: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], renegade: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
 
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
@@ -2568,6 +2700,29 @@ const PROPS = {
   },
   // a sellsword waiting to be hired: leaning on the sword, eyes narrowed, the price already in mind
   hireling: () => CREATURES.sellsword('sit'),
+  // the grey dwarves' forge: a mouth in the rock full of red coals, an anvil as long as a coffin before it,
+  // dark iron ingots stacked beside, and a cask of their ale
+  dwarf_forge: () => {
+    const rock = '#5a5856', rockDk = '#3a3836', rockLt = '#7a7874', iron = '#2e3034', ironLt = '#6e747c', coal = '#ff6a28', ember = '#ffb050', wood = '#6a4a2c', copper = '#c87a3a';
+    return [
+      // the forge, a hood of cut stone over its mouth, coals glowing within
+      sheet([[10, 44], [10, 18], [16, 8], [48, 8], [54, 18], [54, 44]], rockDk, { curve: 0.4 }),
+      ...[16, 24, 32].map(y => hair(11, y, 53, y, rock)), ...[[20, 8, 20, 16], [32, 16, 32, 24], [44, 8, 44, 16], [26, 24, 26, 32], [38, 24, 38, 32]].map(([a, b, c2, d2]) => hair(a, b, c2, d2, rock)),
+      sheet([[18, 44], [18, 30], [22, 24], [42, 24], [46, 30], [46, 44]], '#1a0e0a', { curve: 0.6 }),
+      ball(32, 40, 12, 4.4, coal, { glows: true }), ...[[24, 38], [29, 36.5], [35, 37], [40, 39], [32, 39]].map(([x, y]) => ball(x, y, 2, 1.4, ember, { glows: true })),
+      specks([[27, 33], [36, 31], [31, 29]], ember, { glows: true }),
+      // the anvil before it, its horn to one side, on a block of stone
+      sheet([[24, 61], [40, 61], [38, 53], [26, 53]], rock, { curve: 0.5 }), hair(25, 54, 39, 54, rockLt),
+      sheet([[27, 53], [37, 53], [36, 49], [28, 49]], iron),
+      sheet([[16, 49], [48, 49], [50, 45], [22, 44.5], [14, 45.5]], iron, { curve: 0.7 }), hair(18, 45.4, 47, 45.4, ironLt), line(15, 49, 49, 49, '#16181a'),
+      // the ingots, stacked crosswise, and the cask with its tap
+      ...[[4, 60], [12, 60], [8, 57], [6, 54]].map(([x, y]) => sheet([[x - 3.5, y], [x + 3.5, y], [x + 2.6, y - 2.6], [x - 2.6, y - 2.6]], '#4a4c52')),
+      ...[[4, 60], [12, 60], [8, 57], [6, 54]].map(([x, y]) => hair(x - 2.4, y - 2.4, x + 2.4, y - 2.4, ironLt)),
+      ball(56, 54, 6, 7, wood), ...[49.5, 54, 58.5].map(y => hair(50.5, y, 61.5, y, copper)), ball(56, 54, 1.6, 1.6, '#2a1a10'), limb(56, 54, 56, 57, 0.6, 0.6, copper),
+    ];
+  },
+  // a dark elf cast out of the halls, waiting by a wall with its blades lowered
+  exile: () => CREATURES.renegade('sit'),
   // a healer with nobody to mend: kneeling by a dead lamp, the satchel open, a bandage half wound
   stray_healer: () => CREATURES.mender('sit'),
   // a fall of stone, and a hand still moving under it
@@ -3567,7 +3722,7 @@ for (const k in POSES) {
 // where age or office would change it, with what the stories give it laid
 // behind and over. Each moves through its kind's poses, flinch and all, and is
 // painted into the slot a colour wash used to fill (see creature in assets.js).
-const CHAMPION_OF = { vaelith: 'drow_mage', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
+const CHAMPION_OF = { vaelith: 'drow_mage', durgrim: 'grey_dwarf', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
@@ -3594,6 +3749,19 @@ const CHAMPIONS = {
       hair(28, 17.5, 32, 22, '#b8bccc'), hair(36, 17.5, 32, 22, '#b8bccc'),
       ball(32, 23.6, 1.6, 1.3, '#c8ccd8'), ball(32, 25.6, 2, 1.7, '#9aa0b0'), specks([[31.5, 23], [32.5, 23]], '#ff5a50', { glows: true }),
       ...[-1, 1].flatMap(sd => [[1.4, 24, 4, 22.4], [1.8, 25, 4.6, 25.2], [1.6, 26.4, 4, 28.4]].map(([a, b, c, d]) => limb(32 + sd * a, b, 32 + sd * c, d, 0.3, 0.2, '#c8ccd8'))),
+    ],
+  })),
+  // Durgrim, the grey dwarves' Forge-Thane: his beard gone white and bound in
+  // more copper, a crown of dark iron set with copper studs, and a short cloak
+  // of forge-scorched red behind his shoulders.
+  durgrim: champion('grey_dwarf', () => ({
+    map: { '#6a6c70': '#b8b8b4', '#46484c': '#8a8a86', '#8e9094': '#dcdcd6' },
+    back: [sheet([[14, 24], [50, 24], [54, 50], [46, 54], [32, 50], [18, 54], [10, 50]], '#6a2a1a', { curve: 1 }), hair(12, 48, 52, 48, '#3a1610')],
+    front: [
+      sheet([[24.6, 6.6], [24, 1], [27.5, 3.6], [30, -0.4], [32, 3], [34, -0.4], [36.5, 3.6], [40, 1], [39.4, 6.6]], '#3a3c40', { curve: 0.3 }),
+      line(24.6, 6.4, 39.4, 6.4, '#c87a3a'), ...[27, 32, 37].map(x => ball(x, 5, 0.9, 0.9, '#e09a50')),
+      // a smith's leather apron, scorched, under the beard and over the mail to the knee
+      sheet([[23, 40], [41, 40], [43, 55], [21, 55]], '#5a3a22', { curve: 0.6 }), hair(22, 54, 42, 54, '#3a2414'), specks([[26, 47], [37, 50], [31, 52]], '#2a1a10'),
     ],
   })),
   // Grisk, the Goblin King: a dented bucket for a crown, bent spoons stuck round

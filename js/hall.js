@@ -23,6 +23,7 @@ function beastTraits(id, mb) {
   if (mb.poison) t.push('venomous');
   if (mb.drain) t.push('drains life');
   if (mb.regen) t.push('regrows its wounds');
+  if (mb.spellRes) t.push(`shrugs off one spell in ${Math.round(1 / mb.spellRes)}`);
   return t;
 }
 /** Fill el with the bestiary; returns the count line. */
@@ -44,10 +45,11 @@ function renderBestiary(el) {
     const levels = (Game.state() && Game.state().opts.levels) || 8;
     let first = 1;
     while (first <= levels && Dungeon.tierAt(first, levels) < mb.tier[0]) first++;
-    // the dark elves keep one floor of a Long Delve, and nowhere else
-    const elfFloor = Dungeon.ELF_KIN.some(([k]) => k === id) || (mb.named && mb.named.home === 'elves') ? Dungeon.elfDepth(levels) : undefined;
+    // a people keeps one floor of a long enough delve, and nowhere else
+    const people = Object.keys(Dungeon.PEOPLES).find(k => Dungeon.PEOPLES[k].kin.some(([c]) => c === id) || (mb.named && mb.named.home === k));
+    const homeFloor = people ? Dungeon.peopleDepth(people, levels) : undefined, homeWord = people ? Dungeon.PEOPLES[people].word : '';
     const where = mb.boss ? 'Guards the Heart of the Mountain' : mb.shade ? 'Keeps the floor where a hero of yours fell'
-      : elfFloor !== undefined ? (elfFloor ? `Only on floor ${elfFloor}, the dark elves' country` : 'Only in the dark elves\' country, deep in a Long Delve')
+      : people ? (homeFloor ? `Only on floor ${homeFloor}, ${homeWord}` : `Only in ${homeWord}, deep in a ${Dungeon.PEOPLES[people].from >= 16 ? 'sixteen-floor ' : ''}Long Delve`)
       : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
     if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
     const bits = [`<h3${mb.named ? ' class="named"' : ''}>${escapeHtml(mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];

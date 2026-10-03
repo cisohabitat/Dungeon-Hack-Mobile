@@ -2931,11 +2931,11 @@ await test('the Long Delve\'s tenth floor of twelve is the dark elves\' country:
   const { Game, MONSTERS } = ctx; const G = Game.state(), p = Game.player();
   const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
   Game.testFloor(9);
-  if (THEMES[Game.level().theme].elves) out.push('the ninth floor is the elves\'');
+  if (THEMES[Game.level().theme].people) out.push('the ninth floor is the elves\'');
   if (Game.level().monsters.some(m => /^drow_|vaelith/.test(m.id))) out.push('a dark elf on the ninth floor');
   Game.testFloor(10);
   const L = Game.level();
-  if (!THEMES[L.theme].elves) out.push(`the tenth floor is ${THEMES[L.theme].name}`);
+  if (THEMES[L.theme].people !== 'elves') out.push(`the tenth floor is ${THEMES[L.theme].name}`);
   const ids = L.monsters.map(m => m.id);
   if (ids.some(id => !/^drow_|vaelith/.test(id))) out.push(`others among the elves: ${ids.filter(id => !/^drow_|vaelith/.test(id)).join()}`);
   if (!ids.includes('vaelith')) out.push('no High Priestess on their floor');
@@ -6892,10 +6892,10 @@ function roomBeside(ctx, m) {
 await test('named champions hold a floor a third and two thirds down (a long delve: a quarter, half and three quarters), chosen to suit it, never the first nor the lich\'s', async () => {
   const { Dungeon, MONSTERS } = await newContext();
   const named = Object.keys(MONSTERS).filter(id => MONSTERS[id].named);
-  if (named.length < 4 || named.length > 8) return `${named.length} named champions`;
+  if (named.length < 4 || named.length > 9) return `${named.length} named champions`;
   for (const id of named) if (MONSTERS[id].boss) return `${id} is marked as the Heart's keeper`;
-  // (and on a long delve the dark elves' High Priestess, on their own floor)
-  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9, 10], 16: [4, 8, 12, 14] };
+  // (and on a long delve the dark elves' High Priestess, on their own floor; in sixteen, the grey dwarves' Thane on theirs)
+  const want = { 2: [], 3: [2], 4: [2, 3], 6: [2, 4], 8: [3, 6], 12: [3, 6, 9, 10], 16: [4, 8, 11, 12, 14] };
   for (const levels of [2, 3, 4, 6, 8, 12, 16]) {
     for (let s = 0; s < 12; s++) {
       const seed = `named-floors-${s}`, plan = Dungeon.namedPlan(seed, levels);
@@ -9930,6 +9930,10 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const chimes = theme => Music.plan('quiet', theme, 64).flatMap(s => s.notes).filter(n => n.k === 'bell' && n.len === 3 && n.midi >= Music.SCALES[theme].root + 24).length;
     if (!(chimes(8) >= 4)) out.push(`the elves' halls chimed ${chimes(8)} times in 64 quiet steps`);
     if (chimes(0) || chimes(7)) out.push('another floor chimed like the elves\' halls');
+    // and the grey dwarves' hold rings with far-off hammers on an anvil; no other floor does
+    const anvils = theme => Music.plan('quiet', theme, 64).flatMap(s => s.notes).filter(n => n.k === 'bell' && n.len === 0.15).length;
+    if (!(anvils(9) >= 8)) out.push(`the grey dwarves' hold rang ${anvils(9)} hammers in 64 quiet steps`);
+    if (anvils(0) || anvils(8)) out.push('another floor rang hammers like the dwarves\' hold');
     const quiet = Music.plan('quiet', 0, 64), wary = Music.plan('wary', 0, 64), fight = Music.plan('fight', 0, 64), champ = Music.plan('champion', 0, 64), boss = Music.plan('boss', 0, 64);
     // quiet is sparse: bells, a long silence between phrases, no beat
     const quietBells = count(quiet, 'bell');
@@ -14201,6 +14205,231 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('a dark elf outcast waits two floors above their halls on a Long Delve, and nowhere else; paid, or promised the High Priestess, they follow; Sleep Poison slows the living, never the dead, a boss or a champion; Kinslayer cuts 4 deeper at their kin; and they have their own fate', async () => {
+    const out = [];
+    const { encounterPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
+    const { Dungeon } = await newContext();
+    for (let i = 0; i < 40; i++) for (const levels of [8, 12, 16]) {
+      if (encounterPlan('ex' + i, levels, Dungeon.tierAt).flat().includes('exile')) { out.push('the outcast was dealt from the deck'); break; }
+    }
+    for (let s = 0; s < 4; s++) for (const levels of [12, 16]) {
+      const at = Dungeon.elfDepth(levels) - 2;
+      for (const depth of [at - 1, at, at + 1]) {
+        const L = Dungeon.generate('ex' + s, depth, { levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: 'crypts' });
+        const has = (L.npcs || []).some(n => n.kind === 'encounter' && n.id === 'exile');
+        if (has !== (depth === at)) out.push(`ex${s}/${levels}/${depth}: outcast ${has ? 'there' : 'missing'}`);
+      }
+    }
+    const OPT12 = { levels: 12 };
+    {
+      const ctx = await start('fighter', 'exile-pay', OPT12);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.gold = 1000;
+      meetAndChoose(ctx, 'exile', 0); Game.closeEncounter();
+      const c = Game.companion();
+      if (!c || c.kind !== 'renegade') return `no renegade followed: ${JSON.stringify(c)}`;
+      if (p.gold !== 1000 - 25 * G.depth) out.push(`hiring cost ${1000 - p.gold}, not ${25 * G.depth}`);
+      // blooded already, two floors from a veteran: Kinslayer by the time the hero reaches the halls
+      if (c.floors !== 2 || !Game.threadNotes().some(n => n.includes(c.name) && /Sleep Poison/.test(n) && /learns Kinslayer/.test(n))) out.push(`the renegade came in at ${c.floors} floors: ${Game.threadNotes().find(n => n.includes(c.name))}`);
+    }
+    {
+      const ctx = await start('thief', 'exile-promise', OPT12);
+      const { Game } = ctx; const p = Game.player();
+      p.stats.cha = 30; p.gold = 0;
+      let r = null;
+      for (let i = 0; i < 6 && !(r && r.check && r.check.pass); i++) { r = meetAndChoose(ctx, 'exile', 1); Game.closeEncounter(); }
+      if (!r.check.pass || !Game.companion() || Game.companion().kind !== 'renegade') out.push('promised Vaelith, the outcast did not follow');
+    }
+    // its cuts at one foe beside it (not beside the hero), on the same dice: how deep, and how often they drowse it
+    const cuts = async (id, floors, key) => {
+      const b = await start('fighter', 'exile-cuts', OPT12);
+      const P2 = b.Game.player(), G2 = b.Game.state();
+      P2.hp = P2.maxHp = 9999; P2.gold = 1000;
+      meetAndChoose(b, 'exile', 0); b.Game.closeEncounter();
+      const h = b.Game.companion();
+      h.floors = floors; h.mode = 'stay';
+      const L = b.Game.level();
+      L.monsters.length = 0;
+      const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => L.tiles[y * L.w + x] === b.Dungeon.T.FLOOR && Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1);
+      if (!spot) return null;
+      const m = { uid: 95, id, x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.push(m);
+      seedDice(b, key);
+      run(b.Game, G2, 20000);
+      return { dealt: 1e6 - m.hp, drowsed: Math.round((m.nextAct - 1e12) / 1000) };
+    };
+    const kin = await cuts('drow_warrior', 4, 'kin'), plain = await cuts('drow_warrior', 2, 'kin');
+    if (!kin || !plain) return 'no room beside the renegade';
+    if (!(kin.dealt > plain.dealt) || (kin.dealt - plain.dealt) % 4) out.push(`Kinslayer: ${plain.dealt} dealt to a warrior blooded, ${kin.dealt} a veteran`);
+    const ogre = await cuts('ogre', 2, 'drowse'), green = await cuts('ogre', 0, 'drowse');
+    if (!(ogre.drowsed >= 2)) out.push(`a blooded renegade drowsed a living ogre ${ogre.drowsed} times in twenty seconds`);
+    if (green.drowsed) out.push('a renegade new to the hero drowsed its foe');
+    for (const id of ['skeleton', 'warlord', 'vaelith']) {
+      const r = await cuts(id, 2, 'drowse-' + id);
+      if (r.drowsed) out.push(`the poison drowsed a ${id} ${r.drowsed} times`);
+    }
+    const f = await start('fighter', 'exile-pay', OPT12);
+    f.Game.player().gold = 1000;
+    meetAndChoose(f, 'exile', 0); f.Game.closeEncounter();
+    f.Game.companion().fallen = 3;
+    const tale = JSON.stringify(f.Game.epilogue(false));
+    if (!/a dark elf called/i.test(tale)) out.push(`the tale: ${tale.slice(-400)}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  // ---------- the grey dwarves' hold ----------
+  await test('the eleventh floor of a sixteen-floor delve is the grey dwarves\' hold: their halls, their people, their Thane and their anvil; no such floor in twelve; no twist there; a rest broken there is broken by them', async () => {
+    const out = [];
+    const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
+    const { Dungeon } = await newContext();
+    if (Dungeon.peopleDepth('dwarves', 16) !== 11 || Dungeon.peopleDepth('dwarves', 12) !== null || Dungeon.peopleDepth('elves', 16) !== 14) out.push('the peoples\' floors are not the eleventh and fourteenth of sixteen, nor only the elves\' in twelve');
+    const OPT = levels => ({ levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route: 'crypts' });
+    const DWARF = /^(grey_dwarf|dwarf_arbalest|durgrim)$/;
+    for (let s = 0; s < 5; s++) {
+      for (const depth of [10, 11, 12]) {
+        const L = Dungeon.generate('gh' + s, depth, OPT(16));
+        const ids = L.monsters.map(m => m.id), forge = (L.npcs || []).some(n => n.kind === 'encounter' && n.id === 'dwarf_forge');
+        if (depth === 11) {
+          if (THEMES[L.theme].people !== 'dwarves') out.push(`gh${s}: the eleventh floor is ${THEMES[L.theme].name}`);
+          if (ids.some(id => !DWARF.test(id))) out.push(`gh${s}: others in the hold: ${ids.filter(id => !DWARF.test(id)).join()}`);
+          if (!ids.includes('durgrim')) out.push(`gh${s}: no Thane in the hold`);
+          if (!forge) out.push(`gh${s}: no anvil in the hold`);
+        } else if (ids.some(id => DWARF.test(id)) || forge) out.push(`gh${s}: a dwarf or their anvil on floor ${depth}`);
+      }
+      for (const depth of [8, 9, 10, 11]) if (Dungeon.generate('gh' + s, depth, OPT(12)).monsters.some(m => DWARF.test(m.id))) out.push(`gh${s}: a dwarf on floor ${depth} of twelve`);
+    }
+    for (let i = 0; i < 200; i++) {
+      if (Dungeon.twistPlan('ght' + i, 16)[11]) { out.push('the hold was twisted'); break; }
+      if (Dungeon.namedPlan('ght' + i, 16)[11] !== 'durgrim') { out.push('the hold was not the Thane\'s'); break; }
+    }
+    // a rest broken in the hold is broken by its people
+    const ctx = await start('fighter', 'dwarfhold', { levels: 16, size: 'medium', monsters: 'normal' });
+    const { Game } = ctx; const G = Game.state(), p = Game.player();
+    Game.testFloor(11);
+    const L = Game.level(), kinds = new Set();
+    for (let i = 0; i < 30; i++) {
+      L.monsters.length = 0; L.rests = 1; p.hp = 1; p.food = 100;
+      G.t += 60000;
+      Game.input('rest');
+      for (const mm of L.monsters) kinds.add(mm.id);
+    }
+    if (!kinds.size) out.push('thirty rests in the hold and nothing came');
+    if ([...kinds].some(id => !DWARF.test(id))) out.push(`a rest in the hold was broken by ${[...kinds].join(', ')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a grey dwarf swells to twice its height and hits half as hard again until it shrinks; a wound as it swells breaks the working', async () => {
+    const out = [];
+    // the same blows on the same dice, grown and not
+    const blows = async grown => {
+      const ctx = await start('fighter', 'enlarge-hits');
+      const { Game, MONSTERS } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 99999;
+      const was = MONSTERS.grey_dwarf;
+      MONSTERS.grey_dwarf = { ...was, hit: 60, move: undefined };
+      try {
+        beside(ctx, 'grey_dwarf', grown ? { bigUntil: 1e15 } : {});
+        seedDice(ctx, 'enlarge-hits');
+        const hp0 = p.hp; run(Game, G, 15000);
+        return hp0 - p.hp;
+      } finally { MONSTERS.grey_dwarf = was; }
+    };
+    const plain = await blows(false), big = await blows(true);
+    if (!(plain > 0) || big / plain < 1.35 || big / plain > 1.65) out.push(`grown it dealt ${big}, its own size ${plain}`);
+    // left to swell, it grows, and shrinks again
+    {
+      const ctx = await start('fighter', 'enlarge-left');
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999;
+      const m = beside(ctx, 'grey_dwarf', { blows: 1 });
+      if (!untilTrick(ctx, m, 'enlarge')) return 'the grey dwarf never swelled';
+      const mark = markLog(G);
+      run(Game, G, 1500);
+      if (!(m.bigUntil > G.t)) out.push('left alone, it did not grow');
+      if (!linesSince(G, mark).some(l => /grown to twice its height/.test(l))) out.push('its growing was not told');
+      const mark2 = markLog(G);
+      for (let i = 0; i < 480 && m.bigUntil; i++) { Game.update(G.t + 25, 25); p.hp = p.maxHp; }
+      if (m.bigUntil) out.push('it never shrank');
+      if (!linesSince(G, mark2).some(l => /shrinks back to its own size/.test(l))) out.push('its shrinking was not told');
+    }
+    // struck as it swells, the working breaks (a blow can miss: try again)
+    let struck = false;
+    for (let tries = 0; tries < 8 && !struck; tries++) {
+      const ctx = await start('fighter', 'enlarge-break' + tries);
+      const { Game } = ctx; const p = Game.player(), G = Game.state();
+      p.hp = p.maxHp = 9999; p.stats.str = 30;
+      const m = beside(ctx, 'grey_dwarf', { blows: 1 });
+      if (!untilTrick(ctx, m, 'enlarge')) return 'the grey dwarf never swelled';
+      const hp0 = m.hp, mark = markLog(G);
+      p.nextAttack = 0; Game.input('attack');
+      if (m.hp >= hp0) continue;
+      struck = true;
+      run(Game, G, 1500);
+      if (m.bigUntil > G.t) out.push('a wound as it swelled did not break the working');
+      if (!linesSince(G, mark).some(l => /breaks the Grey Dwarf's working/.test(l))) out.push('the broken working was not told');
+    }
+    if (!struck) out.push('no blow landed in eight tries');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a grey dwarf arbalest takes careful aim down its line: the bolt takes one still in it twice as hard, and cracks off the stone, leaving it open, past one who steps aside', async () => {
+    const out = [];
+    for (const aside of [false, true]) {
+      const { Game, G, p, put } = await arena('fighter', 'aim-' + aside);
+      p.hp = p.maxHp = 9999;
+      const m = put('dwarf_arbalest', 3, 0, { nextAct: G.t, blows: 0 });
+      if (!untilTrick({ Game }, m, 'aim')) return 'the arbalest never took aim';
+      if (aside) Game.input('strafeR');
+      const hp0 = p.hp, mark = markLog(G);
+      for (let i = 0; i < 60 && m.windup && m.windup.move === 'aim'; i++) Game.update(G.t + 25, 25);
+      const said = linesSince(G, mark).join(' | ');
+      if (!aside && (!(p.hp < hp0) || !/takes you square/.test(said))) out.push(`standing in its line, the bolt: ${said}`);
+      if (aside && (p.hp < hp0 || !/cracks off the stone/.test(said) || !(p.opening && p.opening.uid === m.uid))) out.push(`stepped aside, the bolt: ${said}`);
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a grey dwarf leaves its hammer or its plate now and then, an arbalest its rune-cut shield; Durgrim drops his ring once; none is found lying about or dealt', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'dwarf-loot', { levels: 16 });
+    const { Game, ITEMS, RELICS } = ctx; const p = Game.player(), G = Game.state();
+    p.hp = p.maxHp = 9999; p.stats.str = 30;
+    // (what each kill that left plate said of it, read straight after, before the log can scroll it away)
+    const plateSaid = [];
+    const kills = (id, n) => {
+      const got = {};
+      for (let i = 0; i < n; i++) {
+        const m = beside(ctx, id, { hp: 1, maxHp: 1, nextAct: 1e12 });
+        const mark = markLog(G);
+        for (let t = 0; t < 40 && Game.level().monsters.includes(m); t++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
+        const k = `${m.x},${m.y}`;
+        for (const it of Game.level().items[k] || []) got[it.u || it.t] = (got[it.u || it.t] || 0) + 1;
+        if ((Game.level().items[k] || []).some(it => it.t === 'dwarfplate')) plateSaid.push(linesSince(G, mark).join(' | '));
+        delete Game.level().items[k];
+      }
+      return got;
+    };
+    // (about one dwarf in nineteen leaves plate: 120 of them leave none about one time in seven hundred)
+    const w = kills('grey_dwarf', 120), a = kills('dwarf_arbalest', 60);
+    if (!((w.dwarfhammer || 0) > 3 && (w.dwarfhammer || 0) < 32)) out.push(`120 dwarves left ${w.dwarfhammer || 0} hammers`);
+    if (!((w.dwarfplate || 0) > 0 && (w.dwarfplate || 0) < 20)) out.push(`120 dwarves left ${w.dwarfplate || 0} suits of plate`);
+    if (!((a.runeshield || 0) > 2 && (a.runeshield || 0) < 25)) out.push(`60 arbalests left ${a.runeshield || 0} shields`);
+    if (w.runeshield || a.dwarfhammer || a.dwarfplate) out.push('a warrior left a shield, or an arbalest a hammer or plate');
+    if (plateSaid.some(l => !/worth taking: Dwarven Plate\./.test(l))) out.push(`plate was told as: ${plateSaid.find(l => !/worth taking: Dwarven Plate\./.test(l))}`);
+    if (kills('durgrim', 1).thane_ring !== 1) out.push('Durgrim did not drop his ring');
+    G.relics.found.push('thane_ring');
+    if (kills('durgrim', 1).thane_ring) out.push('a second ring fell, the first already found');
+    if (['dwarfplate', 'dwarfhammer', 'runeshield', 'ring_forge'].some(t => ITEMS[t].tier < 50)) out.push('dwarven loot can turn up as ordinary loot');
+    if (!(ITEMS.dwarfplate.ac > ITEMS.plate.ac) || ITEMS.dwarfplate.weight !== 'heavy') out.push('dwarven plate is not heavy armour better than plate');
+    const { relicPlan } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'relics.js')).href);
+    for (let i = 0; i < 60; i++) for (const cls of ['fighter', 'mage', 'druid']) {
+      const plan = relicPlan('ring' + i, cls, 16);
+      if (Object.values(plan.floor).includes('thane_ring') || plan.shop.includes('thane_ring')) { out.push('the Thane\'s ring was dealt to a floor or a shop'); break; }
+    }
+    if (RELICS.thane_ring.champion !== 'durgrim') out.push('the ring is not Durgrim\'s');
+    return out.length ? out.join('; ') : true;
+  });
+
   // ---------- saving throws, both ways ----------
   // The same dice twice over, one foe that cannot fail a save (but on a 1) and one that cannot
   // make it (but on a 20): every cast lands for the same roll, so the saved hits are three quarters of the rest.
@@ -14263,6 +14492,37 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     let group = '';
     for (let i = 0; i < 6 && !/Goblins twist/.test(group); i++) group = said('goblin', { pack: [{ hp: 5000, maxHp: 5000 }, { hp: 5000, maxHp: 5000 }] });
     if (!/The Goblins twist from the worst/.test(group)) out.push(`a group's save: "${group}"`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('a spell can slide off a dark elf as if it were not there: a warrior one time in five, a mage one in four, the High Priestess one in three; it does nothing to one it slides off, never slides off a goblin, nor do Entangle\'s roots, and the bestiary learns it', async () => {
+    const out = [];
+    const shrugs = async (cls, id, spell, n = 300) => {
+      const { Game, G, p, put, cast } = await arena(cls, 'spellres-' + id + spell);
+      let k = 0;
+      for (let i = 0; i < n; i++) {
+        Game.level().monsters.length = 0;
+        const m = put(id, 1, 0, { hp: 5000, maxHp: 5000, nextAct: G.t + 1e6 });
+        const mark = markLog(G); p.sp = 999; cast(spell);
+        if (linesSince(G, mark).some(l => /slides off /.test(l))) {
+          k++;
+          if (m.hp !== 5000) out.push(`${spell} hurt a ${id} it slid off`);
+          if (m.snaredUntil > G.t) out.push(`${spell} held a ${id} it slid off`);
+        } else if (m.hp === 5000 && !(m.snaredUntil > G.t)) out.push(`${spell} did nothing to a ${id}, and did not say it slid off`);
+      }
+      return { rate: k / n, Game };
+    };
+    for (const [id, want] of [['drow_warrior', 0.2], ['drow_mage', 0.25], ['vaelith', 1 / 3]]) {
+      const { rate } = await shrugs('mage', id, 'magic_missile');
+      if (Math.abs(rate - want) > 0.08) out.push(`Magic Missile slid off a ${id} ${Math.round(rate * 100)}% of the time, not about ${Math.round(want * 100)}%`);
+    }
+    // (Entangle's roots are the stone's own, not a spell upon the elf: they hold it as they hold anyone)
+    if ((await shrugs('druid', 'drow_warrior', 'entangle', 100)).rate) out.push('Entangle slid off a warrior');
+    const blast = await shrugs('mage', 'drow_mage', 'lightning', 200);
+    if (Math.abs(blast.rate - 0.25) > 0.1) out.push(`Lightning slid off a mage ${Math.round(blast.rate * 100)}% of the time`);
+    const book = blast.Game.bestiary();
+    if (!(book.drow_mage && book.drow_mage.sr)) out.push('the bestiary did not learn that a mage shrugs off spells');
+    if ((await shrugs('mage', 'goblin', 'magic_missile', 100)).rate) out.push('a spell slid off a goblin');
     return out.length ? out.join('; ') : true;
   });
 

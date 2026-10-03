@@ -113,6 +113,45 @@ test.describe('the endgame', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a sixteen-floor delve passes through the grey dwarves\' hold: their warriors, arbalests and Thane drawn as themselves, their anvil, a dwarf grown tall, and a tip when one swells', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-dwarves', levels: '16', tips: true });
+    for (let i = 0; i < 3 && await page.locator('#tip.show').isVisible(); i++) { await page.locator('#tip').click(); await page.waitForTimeout(200); }
+    await page.evaluate(() => { const p = Game.player(); p.maxHp = 900; p.hp = 900; Game.testFloor(11); });
+    for (let i = 0; i < 12 && await page.locator('#ov-boons.open').isVisible(); i++) {
+      await page.locator('#boon-list .boon').first().click(); await page.waitForTimeout(700);
+      if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
+    }
+    const kinds = await page.evaluate(() => [...new Set(Game.level().monsters.map(m => m.id))].sort());
+    expect(kinds).toEqual(['durgrim', 'dwarf_arbalest', 'grey_dwarf']);
+    expect(await page.evaluate(() => THEMES[Game.level().theme].name)).toBe('The Grey Hold');
+    expect(await page.evaluate(() => (Game.level().npcs || []).some(n => n.id === 'dwarf_forge') && !!Assets.sprites.dwarf_forge)).toBe(true);
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; for (let k = 0; k < 4; k++) { const [dx, dy] = Dungeon.DIRS[k]; if ([1, 2].every(n => L.tiles[(p.y + dy * n) * L.w + p.x + dx * n] === Dungeon.T.FLOOR)) { p.dir = k; break; } } });
+    for (const id of ['grey_dwarf', 'dwarf_arbalest', 'durgrim']) {
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      expect(await placeMonster(page, id, 2, { hp: 200 })).not.toBeNull();
+      await expect.poll(() => page.evaluate(a => {
+        const want = a === 'durgrim' ? Assets.sprites.grey_dwarf.elite.durgrim : Assets.sprites[a];
+        return Game.renderState(performance.now()).sprites.some(s => s.img === want);
+      }, id), { timeout: 8000 }).toBe(true);
+    }
+    // a dwarf beside the hero swells: the tip says to strike it, and its picture is the working's, drawn growing
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    await placeMonster(page, 'grey_dwarf', 1, { hp: 200, blows: 1 });
+    await page.evaluate(() => { const m = Game.level().monsters[0]; m.windup = { kind: 'move', move: 'enlarge', at: Game.state().t, until: Game.state().t + 1e9 }; m.nextAct = 1e12; });
+    await expect(page.locator('#tip')).toContainText('Strike it', { timeout: 4000 });
+    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.grey_dwarf && s.tell && s.special && !!s.img.special))).toBe(true);
+    // grown, it stands half as tall again
+    const scales = await page.evaluate(() => {
+      const m = Game.level().monsters[0], at = () => Game.renderState(performance.now()).sprites.find(s => s.hp != null && s.maxHp === m.maxHp);
+      m.windup = null; m.bigUntil = 0; const small = at().scale;
+      m.bigUntil = Game.state().t + 1e9; const big = at().scale;
+      return [small, big];
+    });
+    expect(scales[1] / scales[0]).toBeGreaterThan(1.3);
+    expect(errors).toEqual([]);
+  });
+
   test('the Heart will not come loose while the lich stands', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'end-held', levels: '4' });

@@ -362,8 +362,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (dir >= 0) { p.dir = dir; if (Game.useAbility()) { rec.abilities = (rec.abilities || 0) + 1; step(); continue; } }
         }
       }
-      // a chant, the lich's rite, a war-horn or the Warlord's drum is answered by striking it, not by stepping away
-      const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally', 'drum'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
+      // a chant, the lich's rite, a war-horn, the Warlord's drum or a grey dwarf's swelling is answered by striking it, not by stepping away
+      const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally', 'drum', 'enlarge'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
       if (trick && trick.windup.move === 'gaze') {
         const faces = dir => { const [ax, ay] = Dungeon.DIRS[dir], [bx, by] = Dungeon.DIRS[(dir + 1) % 4]; const dx = trick.x - p.x, dy = trick.y - p.y, f = dx * ax + dy * ay; return f > 0 && Math.abs(dx * bx + dy * by) <= f; };
@@ -402,7 +402,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         }
       }
       if (trick) {
-        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm' || mv === 'stamp';
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm' || mv === 'stamp' || mv === 'aim';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
         let best = null, score = -1;
         for (let k = 0; k < 4; k++) {

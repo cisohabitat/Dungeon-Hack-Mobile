@@ -220,6 +220,8 @@ const ITEM_ART = {
   ring_garnet: () => jewelRing('#b4bcc8', '#6e727c', '#8a1a3a', '#e06080'),
   ring_onyx: () => jewelRing('#c8ccd4', '#80868f', '#1a1a22', '#8a8a9a'),
   ring_copper: () => jewelRing('#c87a40', '#7a4420', '#e8a030', '#ffe0a0'),
+  // the Forge-Thane's: dark iron with a vein of copper, and a stone like a coal
+  ring_forge: () => [...jewelRing('#585c64', '#2c2e32', '#e0602a', '#ffb070'), ...[0.15, 0.35, 0.55, 0.75].map(t => hair(16 + Math.cos(t * Math.PI) * 6.4, 20 + Math.sin(t * Math.PI) * 4.4, 16 + Math.cos((t + 0.12) * Math.PI) * 6.4, 20 + Math.sin((t + 0.12) * Math.PI) * 4.4, '#c87a3a'))],
   ring_jade: () => jewelRing('#4aa070', '#2a6a48', null, '#9ae0b8', (cx, cy, rx, ry) => [fine([[cx - 4, cy + ry - 0.5], [cx - 3, cy + ry], [cx + 2, cy + ry + 0.2]], '#bff0d0')]),
   ring_bone: () => jewelRing('#e8dcc0', '#a89c80', null, '#ffffff', (cx, cy, rx, ry) => [0.2, 0.35, 0.5, 0.65, 0.8].map(t => { const a = t * Math.PI; return fine([[cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]], '#6a5c44'); })),
   ring_iron: () => jewelRing('#6e727c', '#3a3e46', null, '#b4bcc8', (cx, cy, rx, ry) => [0.25, 0.5, 0.75].map(t => { const a = t * Math.PI; return ball(cx + Math.cos(a) * rx, cy + Math.sin(a) * ry, 0.9, 0.9, '#9aa0a8'); })),
@@ -1208,7 +1210,7 @@ const GRIPS = {
   // in its HELD_ART picture: the right fist under the guard, the left at the pommel
   greatsword: { at: at(9.9), second: at(3.4), grid: 100 }, throwknife: { at: at(12.5) },
   club: { at: at(5.6) }, staff: { at: at(13.5), second: at(3.5) }, spear: { at: at(9.5) },
-  mace: { at: at(5.2) }, hammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
+  mace: { at: at(5.2) }, hammer: { at: at(5.2) }, dwarfhammer: { at: at(5.2) }, flail: { at: at(4.6) }, battleaxe: { at: at(4.4) },
   sling: { at: [8, 6.5], fixed: true },
 };
 const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
@@ -1218,5 +1220,23 @@ const ICON_AXIS = -Math.PI / 4;   // the icon's blades point up and to the right
 const MITHRAL = { '#868c96': '#343848', '#8e949e': '#3c4054', '#9ea4ae': '#4c5268', '#7a808a': '#2a2e3c', '#4e545e': '#9aa0c8',
   '#dfe4ec': '#f4f4ff', '#2a2e36': '#120e18', '#7a6a50': '#3a2050', '#9a8a6a': '#a070e0', '#6a707a': '#5a3a88', '#b8bec8': '#c8b0f0' };
 /** @type {any} */ (ITEM_ART).elvenchain = () => ITEM_ART.chain().map(p => (MITHRAL[p.c] ? { ...p, c: MITHRAL[p.c] } : p));
+
+// The grey dwarves' make: their plate, hammer and shield drawn from the plain
+// ones (so the two read as kin), in the dark iron they dig, the brass on them
+// copper. Wood and leather are left as they are.
+const DARK_IRON = c => {
+  const n = parseInt(c.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+  const hex = (...v) => '#' + v.map(x => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0')).join('');
+  if (mx - mn < 30) return hex(r * 0.58 + 8, g * 0.58 + 8, b * 0.58 + 12);
+  const l = (r * 0.3 + g * 0.59 + b * 0.11) / 255;
+  return r > g && g > b && l > 0.42 ? hex(255 * l * 1.05, 150 * l * 1.05, 74 * l * 1.05) : c;
+};
+const dwarven = parts => parts.map(p => (/^#[0-9a-f]{6}$/i.test(p.c) ? { ...p, c: DARK_IRON(p.c) } : p));
+// (their shield's face is iron through, not painted wood: every colour on it goes to the iron's)
+const ironclad = parts => parts.map(p => { if (!/^#[0-9a-f]{6}$/i.test(p.c)) return p; const n = parseInt(p.c.slice(1), 16), l = ((n >> 16) * 0.3 + ((n >> 8) & 255) * 0.59 + (n & 255) * 0.11) / 255; return { ...p, c: '#' + [l * 140 + 22, l * 146 + 24, l * 156 + 28].map(x => Math.round(Math.min(255, x)).toString(16).padStart(2, '0')).join('') }; });
+/** @type {any} */ (ITEM_ART).dwarfplate = () => dwarven(ITEM_ART.plate());
+/** @type {any} */ (ITEM_ART).dwarfhammer = () => dwarven(ITEM_ART.hammer());
+/** @type {any} */ (ITEM_ART).runeshield = () => [...ironclad(ITEM_ART.towershield()), ...[[13, 12, 16, 16], [16, 16, 19, 12], [16, 16, 16, 22], [13, 22, 19, 22]].map(([a, b, c, d]) => hair(a, b, c, d, '#7ad0e8', { glows: true }))];
+/** @type {any} */ (HELD_ART).dwarfhammer = () => dwarven(HELD_ART.hammer());
 
 export { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS };

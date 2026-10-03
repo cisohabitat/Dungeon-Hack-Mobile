@@ -149,6 +149,8 @@ export function makeFoes(K) {
     // blow is not doubled at all: a level-one hero's whole life was a goblin's
     // one roll of 20, and those deaths taught nothing
     if (roll === 20 && !h.mult && K.G.depth >= 3) dmg *= 2;
+    // a grey dwarf grown to twice its height hits half as hard again
+    if (m.bigUntil > K.G.t) dmg = Math.round(dmg * ENLARGE_HIT);
     const firm = heavy && K.hasTalent('stand_firm');
     if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
     // a Knight takes a trick on set feet, and an ordinary blow now and then on the shield
@@ -203,10 +205,12 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200 };
+  // how long a grey dwarf stays grown, and how much harder its blows fall while it is
+  const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
-  const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
+  const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
   const WARD_MS = 4000;     // how long the lich stays wrapped in shadow when its fight turns
   const RISE_MS = 4500;     // a skeleton's bones lie still this long before it rises
@@ -284,6 +288,16 @@ export function makeFoes(K) {
     else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
     // a dark elf warrior crosses its blades in a guard that answers a blow with a cut
     else if (mv === 'parry' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.5) say = `The ${mb.name} crosses its blades in a guard! Hold your blow!`;
+    // a grey dwarf mutters a working that swells it to twice its height, after a blow or from a little way off
+    else if (mv === 'enlarge' && !(m.bigUntil > K.G.t) && (adjacent ? (m.blows || 0) >= 1 : hasLineToPlayer(m, 3)) && Math.random() < 0.5) {
+      const pr = mb.named && mb.named.pron, obj = pr === 'his' ? 'him' : pr === 'her' ? 'her' : 'it';
+      say = `The ${mb.name} mutters a working, and begins to swell! Strike ${obj} before ${pr === 'his' ? 'he grows' : pr === 'her' ? 'she grows' : 'it grows'}!`;
+    }
+    // a grey dwarf arbalest sets its crossbow to its shoulder and takes careful aim down its line
+    else if (mv === 'aim' && !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && Math.random() < 0.4) {
+      say = `The ${mb.name} sets its crossbow to its shoulder and takes careful aim! Step out of its line!`;
+      extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
     // a wyrm breathes down a passage at one who keeps their distance; under its jaws it only bites
     else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && Math.random() < 0.6) {
       const its = (mb.named && mb.named.pron) || 'its';
@@ -441,6 +455,29 @@ export function makeFoes(K) {
         m.moveReady = K.G.t + 7000;
         m.nextAct = K.G.t + Math.round(mb.speed * 0.6);
         break;
+      case 'enlarge': {
+        const pr = mb.named && mb.named.pron, its = pr || 'its', obj = pr === 'his' ? 'him' : pr === 'her' ? 'her' : 'it';
+        m.bigUntil = K.G.t + ENLARGE_MS;
+        K.log(`The ${mb.name} has grown to twice ${its} height, and ${its} blows will fall the harder! Give ${obj} room until ${pr === 'his' ? 'he shrinks' : pr === 'her' ? 'she shrinks' : 'it shrinks'}.`, 'bad');
+        K.floatText(m, 'grown', '#e8a060');
+        Sound.play('special', K.heard(m, { ms: 300 }));
+        m.moveReady = K.G.t + ENLARGE_MS + 6000;
+        m.nextAct = K.G.t + Math.round(mb.speed * 0.5);
+        break;
+      }
+      case 'aim': {
+        // the bolt flies down the line it was aimed along: one who has stepped out of it is missed
+        const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
+        Sound.play('arrow', K.heard(m));
+        if (inLine && hasLineToPlayer(m, mb.ranged.range)) {
+          const n = K.knightSteadfast(Math.max(1, Math.ceil(d(...mb.ranged.dmg) * 2 / (K.hasTalent('stand_firm') ? 2 : 1))));
+          K.hurtPlayer(n, `The ${mb.name}'s bolt takes you square for ${n}!`, m, 'a grey dwarf\'s bolt');
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else { K.log(`The ${mb.name}'s bolt cracks off the stone where you stood. It is open while it winds again.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        m.moveReady = K.G.t + 7000;
+        break;
+      }
       case 'mend': {
         const t = L.monsters.find(o => o.uid === w.target);
         if (t && !t.collapsed && t.hp < t.maxHp) {
@@ -815,6 +852,12 @@ export function makeFoes(K) {
     // the hound's teeth do not count, or it quietly won the lich fight for them;
     // nor does a fire some monster lit (a wyrm's breath), nor rock the roof let fall
     const byHero = tag !== 'companion' && tag !== 'blaze' && tag !== 'rockfall';
+    // a grey dwarf's working is broken by any wound the hero gives it as it swells
+    if (byHero && m.windup && m.windup.move === 'enlarge') {
+      m.windup = null; m.moveReady = K.G.t + 5000; m.nextAct = K.G.t + 700;
+      K.log(`Your blow breaks the ${mb.name}'s working, and ${mb.named && mb.named.pron === 'his' ? 'he shrinks' : 'it shrinks'} back!`, 'good');
+      K.learn(m.id, 'answer');
+    }
     // a chant is broken by any wound
     if (byHero && m.windup && m.windup.move === 'mend') {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
@@ -1278,6 +1321,12 @@ export function makeFoes(K) {
   function monsterTurn(m, L, p) {
     const G = K.G, mb = K.mstat(m);
     if (m.sunk) { lurks(m, L, p); return; }
+    // a grey dwarf's working wears off, and it shrinks back to its own size
+    // (told only of one close enough to be seen)
+    if (m.bigUntil && G.t >= m.bigUntil) {
+      delete m.bigUntil;
+      if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6) K.log(`The ${mb.name} shrinks back to ${(mb.named && mb.named.pron) || 'its'} own size.`, 'good');
+    }
     // (a mimic still shut sleeps as a barrel does, whatever woke the floor: nothing that counts the awake counts it)
     if (m.disguised) { m.awake = false; waits(m, L, p); return; }
     speaks(m, mb);

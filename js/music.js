@@ -34,6 +34,9 @@ const Music = (() => {
     // The Dark Elf Halls: C#, the Hungarian minor, its raised fourth strange and cold; and far
     // off, temple chimes, two high notes falling, while nothing is close
     { root: 49, steps: [0, 2, 3, 6, 7, 8, 11], chime: true },
+    // The Grey Hold: F, the old minor, low and heavy; and far off, a hammer on an anvil,
+    // two short rings every other bar, while nothing is close
+    { root: 41, steps: [0, 2, 3, 5, 7, 8, 10], anvil: true },
   ];
   // how fast a step goes (eighth notes, in seconds) for each mood
   const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27, warlord: 0.27 };
@@ -121,6 +124,8 @@ const Music = (() => {
       if (beat === 0) out.push({ k: 'bell', midi: note(sc, 4, 2), vel: 0.11, len: 3 });
       if (beat === 3) out.push({ k: 'bell', midi: note(sc, 3, 2), vel: 0.09, len: 3 });
     }
+    // the dwarves' hammers, ringing on an anvil somewhere in the hold
+    if (sc.anvil && lvl === 0 && !quietNow && bar % 2 === 1 && (beat === 0 || beat === 2)) out.push({ k: 'bell', midi: note(sc, 0, 3), vel: beat === 0 ? 0.08 : 0.06, len: 0.15 });
     // a quiet pad under the bells once in a long while, home and its fifth
     if (lvl === 0 && !quietNow && beat === 0 && bar % 8 === 0) out.push({ k: 'pad', midi: note(sc, 0, -1), vel: 0.18, len: 7 });
     // something awake and close: a low held-breath pulse

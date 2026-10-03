@@ -290,6 +290,16 @@ the delve before the saves played on the same seeds: eight floors on Hard 54% (5
 Normal 73% (74%); the Long Delve on Normal 76% (79%, its two sets ten points apart), and on Hard,
 over four sets, 60% (61.5%).
 
+The Long Delve on Hard was measured again, both seed sets, with the commit before played on the
+same seeds, after spells came to slide off the dark elves (a warrior one time in five, a mage one in
+four, Vaelith one in three) and a renegade dark elf could be hired two floors above their halls:
+the mage 58% before and 57% after, the cleric 65% and 68%, the fighter 56% and 62% (the renegade
+at its side, where no hound was). The druid lost three or four points on both sets while
+Entangle's roots slid off as well; with the roots exempt, over four seed sets, it won 56.1% before
+and 56.5% after. A sixteen-floor delve, which now passes through the grey dwarves' hold on its
+eleventh floor, was played on one set before and after: the fighter 49% and 53.5%, the mage 39.5%
+and 43.5%, a few more of them falling in the hold and fewer two floors below it.
+
 Both Long Delve rows were measured again, both seed sets, with the commit before them played on
 the same seeds, after the tenth floor of twelve became the dark elves' country (their warriors and
 mages, and Vaelith, their High Priestess). On Hard the delve won 60.9% before and 60.6% after, every

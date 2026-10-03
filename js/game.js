@@ -198,6 +198,23 @@ const Game = (() => {
     const note = !showRolls ? '' : roll === 1 ? ` (its ${w} d20 1, a fumble)` : roll === 20 ? ` (its ${w} d20 20)` : ` (its ${w} d20 ${roll}+${b} vs ${dc})`;
     return { pass, note };
   }
+  // Some deep folk were raised among spells, and a spell can slide off one of
+  // them as if it had found no one there: off a dark elf warrior one time in
+  // five, a mage one in four, their High Priestess one in three. It is rolled
+  // before any save, a group rolling once as it saves once, and only against
+  // what a spell does to a foe; it does not stop a heal, a blessing or the bear,
+  // nor Entangle, whose roots are the stone's own and hold an elf as they hold
+  // anyone (sliding off, they cost the bot's druid three or four points).
+  /** @param {import('./types.js').Monster} m @param {{ name: string }} sp @param {boolean} [many] */
+  function spellShrug(m, sp, many = false) {
+    const mb = mstat(m), r = mb.spellRes || 0;
+    if (!r || m.collapsed || Math.random() >= r) return false;
+    floatText(m, 'unharmed', '#b8a8f0');
+    log(`Your ${sp.name} slides off the ${mb.name}${many ? 's' : ''} as if ${many ? 'they were' : 'it was'} not there.`);
+    // (a champion's own entry: the High Priestess shrugs off more than her mages)
+    learn(m.id, 'spellres');
+    return true;
+  }
 
   // ---------- messages ----------
   // The log is capped, so once it is full its length stops changing. Anything
@@ -2885,7 +2902,8 @@ const Game = (() => {
   // what a wyrm's scales and a quillback's quills are made into, and how often one is whole enough (Skarrow always)
   // (each a list of what may be taken, and how often: a dark elf warrior's blade more often than its mail)
   const TROPHIES = { wyrm: [['wyrmscale', 0.25]], skarrow: [['wyrmscale', 1]], quillback: [['quillshield', 0.2]],
-    drow_warrior: [['scimitar', 0.12], ['elvenchain', 0.08]], drow_mage: [['cloak_shadow', 0.15]] };
+    drow_warrior: [['scimitar', 0.12], ['elvenchain', 0.08]], drow_mage: [['cloak_shadow', 0.15]],
+    grey_dwarf: [['dwarfhammer', 0.12], ['dwarfplate', 0.06]], dwarf_arbalest: [['runeshield', 0.15]] };
   /** One of them falls: the reward, the log line and the chance of loot. */
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
@@ -2929,7 +2947,9 @@ const Game = (() => {
       if (Math.random() >= chance) continue;
       const k = key(m.x, m.y);
       (L.items[k] = L.items[k] || []).push({ t, q: 1, e: 0 });
-      log(`Something of the ${mb.name} is worth taking: a ${ITEMS[t].name}.`, 'good');
+      // (armour takes no article: 'Elven Chain', not 'a Elven Chain')
+      const nm = ITEMS[t].name, a = ITEMS[t].kind === 'armor' ? '' : /^[aeiou]/i.test(nm) ? 'an ' : 'a ';
+      log(`Something of the ${mb.name} is worth taking: ${a}${nm}.`, 'good');
       break;
     }
     // a champion with a relic of its own drops it as it falls, once a run
@@ -3392,6 +3412,11 @@ const Game = (() => {
       if (won) return here ? `a healer called ${n} walked out of the mountain beside them, and has stitched up half the valley since` : `a healer called ${n} came up out of the Deepdelve a week after them, with a full satchel and a long story`;
       return here && c.mode === 'follow' ? `a healer called ${n} closed their eyes, and went on down alone to find someone who could still be mended` : `a healer called ${n} waited on the floor below where they were told, tending their own scrapes, until the herbs ran out`;
     }
+    if (c.kind === 'renegade') {
+      if (c.fallen) return `a dark elf called ${n} lies on floor ${c.fallen} of the Deepdelve, the two blades crossed on their breast, further from home than any of their people had gone`;
+      if (won) return here ? `a dark elf called ${n} came up into the daylight with them, hooded against it, and keeps to the valley's woods and the night` : `a dark elf called ${n} came up out of the Deepdelve a night after them, and was gone again before dawn`;
+      return here && c.mode === 'follow' ? `a dark elf called ${n} stood over them to the last, and went back down into the dark, where nobody would have them` : `a dark elf called ${n} waited where they were told on the floor below, and is waiting still`;
+    }
     if (c.kind === 'sellsword') {
       if (c.fallen) return `a sellsword called ${n} lies on floor ${c.fallen} of the Deepdelve with the sword across their chest, paid in full`;
       if (won) return here ? `a sellsword called ${n} walked out of the mountain at their side, drank the valley dry that night, and still tells it better than they do` : `a sellsword called ${n} came up a day after them, bloodied, and asked for the rest of the pay`;
@@ -3562,7 +3587,7 @@ const Game = (() => {
       // what fire, cold and lightning were found to do to it, and nothing else
       const el = {};
       if (r.el && typeof r.el === 'object') for (const k of ['fire', 'cold', 'lightning']) if (r.el[k] === 'weak' || r.el[k] === 'resist') el[k] = r.el[k];
-      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
+      out[id] = { met: n(r.met), kills: n(r.kills), deaths: n(r.deaths), ...(r.trick ? { trick: 1 } : {}), ...(r.answer ? { answer: 1 } : {}), ...(r.sr ? { sr: 1 } : {}), ...(Object.keys(el).length ? { el } : {}) };
     }
     beastRaw = raw; beastBook = out;
     return out;
@@ -3601,6 +3626,7 @@ const Game = (() => {
       if (lore.answer && !r.answer) { if (!r.trick) news.push('its trick'); r.answer = 1; r.trick = 1; news.push('how to beat it'); }
     }
     else if (what === 'death') r.deaths++;
+    else if (what === 'spellres') { if (!r.sr) { r.sr = 1; news.push('shrugs off spells'); } }
     else if (what.startsWith('element:')) {
       const [, el, how] = what.split(':');
       r.el = r.el || {};
@@ -3778,6 +3804,8 @@ const Game = (() => {
         const struck = new Set();
         try {
           for (const m of targets) {
+            // (a spell that slides off a dark elf does nothing to it at all, nor to the place it stands)
+            if (spellShrug(m, sp, (sp.pierce || sp.area) && packSize(m) > 1)) { m.awake = true; meet(m); continue; }
             if ((sp.pierce || sp.area) && packSize(m) > 1) log(`${sp.name} engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
             // a Crystal Orb adds one to each of the spell's dice, up to two
             const dice = sp.dmg(p.level);
@@ -4091,8 +4119,8 @@ const Game = (() => {
     if (!cands.length) return false;
     // what finds the sleeper is what lives on this floor: the same stretched tiers
     const td = Dungeon.tierAt(G.depth, G.opts.levels || 8);
-    // (in the dark elves' country, one of the elves)
-    const pool = THEMES[lvl().theme] && THEMES[lvl().theme].elves ? Dungeon.ELF_KIN.map(([k]) => k)
+    // (on a people's floor, one of them)
+    const pool = THEMES[lvl().theme] && THEMES[lvl().theme].people ? Dungeon.PEOPLES[THEMES[lvl().theme].people].kin.map(([k]) => k)
       : Object.keys(MONSTERS).filter(id => !MONSTERS[id].boss && !MONSTERS[id].named && !MONSTERS[id].shade && td >= MONSTERS[id].tier[0] && td <= MONSTERS[id].tier[1]);
     const id = pool.length ? Dice.pick(pool) : 'goblin', b = MONSTERS[id];
     const [x, y] = Dice.pick(cands);
@@ -4553,6 +4581,8 @@ const Game = (() => {
   const DOOR_MS = 520;
   // how long a creature reels after the white of a hit has gone (see flinch in creatures.js)
   const REEL_MS = 260;
+  // how much taller a grey dwarf stands when its working has grown it
+  const GROWN_SCALE = 1.45;
   // how far a burning thing (the Heartforged, an emberling) throws its light onto what stands near it, in squares
   const FIERY_GLOW = 2.2;
   // a breath at rest: [how slow, how deep], by size
@@ -4702,10 +4732,12 @@ const Game = (() => {
         sprites.push({ x: m.rx + 0.5, y: m.ry + 0.5, img: Assets.sprites.bone_heap || img, scale: mb.scale * 0.95, yOff: 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, heap: rising });
         continue;
       }
+      // a grey dwarf swelling, or grown to twice its height, is drawn so
+      const big = m.bigUntil > G.t ? GROWN_SCALE : m.windup && m.windup.move === 'enlarge' ? 1 + (GROWN_SCALE - 1) * 0.6 * tell : 1;
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, step, scale: mb.scale, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, step, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -4717,7 +4749,7 @@ const Game = (() => {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reeling, aff, step } : {}), scale: mb.scale * 0.88, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reeling, aff, step } : {}), scale: mb.scale * 0.88 * big, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
@@ -5095,7 +5127,7 @@ const Game = (() => {
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
     fieldAt: (x, y) => elements.fieldAt(x, y),
     get damageMonster() { return damageMonster; },
-    get heard() { return heard; }, get realNow() { return realNow; },
+    get heard() { return heard; }, get realNow() { return realNow; }, get floatText() { return floatText; },
     get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
     kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(), isLong: () => isLong(),
     // a healer's tending: quiet, a little at a time, not a draught's flash and sound
@@ -5103,7 +5135,7 @@ const Game = (() => {
   });
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
   const wild = makeWild({
-    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; }, get spellSave() { return spellSave; },
+    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; }, get spellSave() { return spellSave; }, get spellShrug() { return spellShrug; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
     get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; }, get hasPower() { return hasPower; },
   });

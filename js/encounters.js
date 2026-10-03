@@ -70,6 +70,26 @@ const ENCOUNTERS = {
     ],
   },
 
+  // Not in the deck: the grey dwarves' floor of a sixteen-floor delve holds it,
+  // and only that floor, where their smiths work: a blade tempered on it, its
+  // ingots stolen or its ale drunk, each with its risk
+  dwarf_forge: {
+    title: 'The Great Anvil', sprite: 'dwarf_forge', depth: [99, 99], home: 'dwarves',
+    text: 'A forge cut into the living rock, its coals still red, and before it an anvil as long as a coffin, black and worn bright on top. Ingots of dark iron lie stacked beside it, and a cask of the dwarves\' ale stands open.',
+    choices: [
+      { label: 'Temper your weapon on it', check: { stat: 'str', dc: 14, knack: [['fighter', null, 2], ['cleric', null, 1]] },
+        pass: { text: 'You heat it in their coals and work it on their anvil until it rings true. It comes out better than it went in.', effects: [{ hone: 'weapon' }] },
+        fail: { text: 'The hammer is heavier than any you have lifted, and it slips. The coals bite your hands, and the ringing carries.', effects: [{ hurtFrac: 0.1 }, { wake: 1 }] } },
+      { label: 'Take the ingots', check: { stat: 'dex', dc: 14, knack: [['thief', null, 3]] },
+        pass: { text: 'You slide the top bars into your pack without a sound. Dark iron is worth its weight in silver anywhere.', effects: [{ goldPerDepth: 30 }, { xp: 30 }] },
+        fail: { text: 'The stack goes over with a crash like a bell. Boots are running, and hammers are coming down off the walls.', effects: [{ wake: 1 }, { ambush: { id: 'grey_dwarf', n: 2 } }] } },
+      { label: 'Drink from the cask', check: { stat: 'con', dc: 13 },
+        pass: { text: 'It is black and bitter and strong enough to strip paint, and it puts iron in your arm. Your wounds stop hurting, and your blows land true.', effects: [{ heal: 'full' }, { buff: { stats: [['hit', 2]], dur: 180000 } }] },
+        fail: { text: 'It is very much stronger than you are. The room tilts, and stays tilted a while.', effects: [{ poison: 1 }, { hurtFrac: 0.1 }] } },
+      { label: 'Leave it be', outcome: { text: 'You leave the anvil to the smiths who will come back to it.', effects: [] } },
+    ],
+  },
+
   // Not in the deck: every delve's last floor holds one, in the room nearest
   // the lich's hall, so the gold carried down and found on the way buys something.
   vigil: {
@@ -574,6 +594,23 @@ const ENCOUNTERS = {
         fail: { text: 'They push your coin back across the crate. "Not for that. Not for anyone." And they will not hear another word.', effects: [{ goldBack: 10 }] } },
       { label: 'Ask what they have seen down here', outcome: { text: '"Mind the floor," they say, and tell you where they have seen others step wrong.', effects: [{ traps: 1 }] } },
       { label: 'Leave them to their wait', outcome: { text: 'They shrug, and go back to watching the dark.', effects: [] } },
+    ],
+  },
+
+  // a dark elf cast out of the halls, two floors above them on a Long Delve
+  // (Dungeon.elfDepth): hired for gold, or for the promise of the High
+  // Priestess's death, and either way it tells what waits below
+  exile: {
+    title: 'A Dark Elf Outcast', sprite: 'exile', depth: [99, 99], home: 'elves', before: 2,
+    text: 'A dark elf sits against the wall with two curved blades across their knees, in leather gone brown with wear, the silver of their house cut from it. Their eyes are amber, not red. "Going down? Two floors under you are my people, who would flay me for the colour of my eyes. I know their ways, and I will sell them to you."',
+    choices: [
+      { label: 'Pay their price', cost: { goldPerDepth: 25 }, alone: true,
+        outcome: { text: 'They take the gold without counting it and slide the blades home. "Their halls, then. I will show you where they keep their knives."', effects: [{ companion: 'renegade' }] } },
+      { label: 'Promise them the High Priestess', alone: true, check: { stat: 'cha', dc: 14, knack: [['thief', null, 2], ['ranger', null, 1]] },
+        pass: { text: '"Vaelith." They say it as if it tastes of blood. "For that I would come for nothing." They get to their feet.', effects: [{ companion: 'renegade' }] },
+        fail: { text: '"Everyone promises that," they say, "and their skulls hang in her temple." They turn their face to the wall.', effects: [] } },
+      { label: 'Ask about the halls below', outcome: { text: '"Hold your blow when a warrior crosses its blades. Burn the webs. And trust no spell of yours to land on one of us." They tell you where they last saw traps laid.', effects: [{ traps: 1 }] } },
+      { label: 'Leave them to the dark', outcome: { text: 'They watch you go with their amber eyes, and do not move.', effects: [] } },
     ],
   },
 

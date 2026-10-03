@@ -94,7 +94,7 @@ for (const k in POSES) {
   const rest = paint32(k).color;
   for (const pose of POSES[k]) {
     // (a creature flinches when struck; a companion also sits, when told to stay, and the healer tends)
-    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender'].includes(k)) || (pose === 'heal' && k === 'mender') || ['hurt', 'stepA', 'stepB', 'blink'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
+    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender', 'renegade'].includes(k)) || (pose === 'heal' && k === 'mender') || ['hurt', 'stepA', 'stepB', 'blink'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
     const { color } = paint32(k, pose);
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);
@@ -438,7 +438,7 @@ check(traders > 0, 'no traders generated at all');
   // Priestess (two warriors at her side); nowhere else does a dark elf walk
   {
     const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-    const DROW = new Set(['drow_warrior', 'drow_mage', 'vaelith']), elfTheme = THEMES.findIndex(t => t.elves);
+    const DROW = new Set(['drow_warrior', 'drow_mage', 'vaelith']), elfTheme = THEMES.findIndex(t => t.people === 'elves');
     const bad = [];
     let elfFloors = 0, warriors = 0, mages = 0;
     check(Dungeon.elfDepth(8) === null && Dungeon.elfDepth(12) === 10 && Dungeon.elfDepth(16) === 14, `the dark elves' floor is ${Dungeon.elfDepth(8)}/${Dungeon.elfDepth(12)}/${Dungeon.elfDepth(16)} of 8/12/16`);
@@ -467,6 +467,40 @@ check(traders > 0, 'no traders generated at all');
     check(bad.length === 0, `the dark elves' country: ${bad.slice(0, 6).join('; ')}`);
     check(elfFloors === 48 && warriors > mages * 1.4 && mages > 48, `the dark elves' floors: ${elfFloors} floors, ${warriors} warriors, ${mages} mages`);
     console.log(`dark elves: ${elfFloors} floors, ${warriors} warriors and ${mages} mages`);
+  }
+  // the grey dwarves' hold: in a sixteen-floor delve only, the eleventh floor, down either road,
+  // with only their people and their Thane (two arbalests at his back); nowhere else does a dwarf walk
+  {
+    const { THEMES } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
+    const DWARF = new Set(['grey_dwarf', 'dwarf_arbalest', 'durgrim']), holdTheme = THEMES.findIndex(t => t.people === 'dwarves');
+    const bad = [];
+    let holds = 0, warriors = 0, bows = 0;
+    check(Dungeon.peopleDepth('dwarves', 12) === null && Dungeon.peopleDepth('dwarves', 16) === 11, `the dwarves' hold is floor ${Dungeon.peopleDepth('dwarves', 12)}/${Dungeon.peopleDepth('dwarves', 16)} of 12/16`);
+    for (let s = 0; s < 12; s++) for (const levels of [12, 16]) {
+      const plan = Dungeon.namedPlan('hold' + s, levels), at = Dungeon.peopleDepth('dwarves', levels);
+      const dealt = Object.entries(plan).filter(([, id]) => id === 'durgrim').map(([d]) => +d);
+      if (dealt.join() !== (at ? String(at) : '')) bad.push(`hold${s}/${levels}: Durgrim dealt to floors ${dealt.join()}`);
+      for (const route of ['crypts', 'warrens']) for (const depth of [10, 11, 12]) {
+        const L = Dungeon.generate('hold' + s, depth, { levels, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, route });
+        const ids = L.monsters.map(m => m.id), dw = ids.filter(id => DWARF.has(id));
+        if (depth === at) {
+          holds++;
+          warriors += ids.filter(id => id === 'grey_dwarf').length; bows += ids.filter(id => id === 'dwarf_arbalest').length;
+          if (L.theme !== holdTheme) bad.push(`hold${s}/${levels}/${depth}: theme ${L.theme}`);
+          if (L.twist) bad.push(`hold${s}/${levels}/${depth}: twisted (${L.twist})`);
+          if (dw.length !== ids.length) bad.push(`hold${s}/${levels}/${depth}: ${ids.filter(id => !DWARF.has(id)).join()} among the dwarves`);
+          if (ids.filter(id => id === 'durgrim').length !== 1) bad.push(`hold${s}/${levels}/${depth}: ${ids.filter(id => id === 'durgrim').length} Thanes`);
+          const t = L.monsters.find(m => m.id === 'durgrim');
+          if (t && L.monsters.filter(m => m.id === 'dwarf_arbalest' && Math.max(Math.abs(m.x - t.x), Math.abs(m.y - t.y)) <= 3).length < 2) bad.push(`hold${s}/${levels}/${depth}: Durgrim without his two arbalests`);
+        } else {
+          if (dw.length) bad.push(`hold${s}/${levels}/${depth}: ${dw.join()} outside their hold`);
+          if (L.theme === holdTheme) bad.push(`hold${s}/${levels}/${depth}: the hold's walls outside its floor`);
+        }
+      }
+    }
+    check(bad.length === 0, `the grey dwarves' hold: ${bad.slice(0, 6).join('; ')}`);
+    check(holds === 24 && warriors > bows && bows > 24, `the dwarves' holds: ${holds} floors, ${warriors} warriors, ${bows} arbalests`);
+    console.log(`grey dwarves: ${holds} holds, ${warriors} warriors and ${bows} arbalests`);
   }
   console.log(`standing sweep: ${sweptTraders} traders and ${sweptEncounters} encounters over 3600 levels, ${sealed} sealed, ${onLoot} on loot, ${together} squares with finds together`);
 }

@@ -174,9 +174,9 @@ export function makeEncounters(K) {
         // what answers is the floor's own kind of danger: above where wraiths
         // walk, the thing that comes out of the dark is a lesser dead one
         const td = Dungeon.tierAt(K.G.depth, K.G.opts.levels || 8), ladder = [e.ambush.id, ...(e.ambush.early || [])];
-        // (and in the dark elves' country, it is the elves who answer)
-        const elves = Dungeon.elfDepth(K.G.opts.levels || 8) === K.G.depth;
-        const kind = elves ? 'drow_warrior' : ladder.find(id => MONSTERS[id].tier[0] <= td + 0.5) || ladder[ladder.length - 1];
+        // (and on a people's floor, it is their warriors who answer)
+        const people = Dungeon.peopleAt(K.G.opts.levels || 8, K.G.depth);
+        const kind = people ? Dungeon.PEOPLES[people].kin[0][0] : ladder.find(id => MONSTERS[id].tier[0] <= td + 0.5) || ladder[ladder.length - 1];
         let placed = 0;
         for (let r = 2; r <= 4 && placed < e.ambush.n; r++) {
           for (let dy = -r; dy <= r && placed < e.ambush.n; dy++) for (let dx = -r; dx <= r && placed < e.ambush.n; dx++) {

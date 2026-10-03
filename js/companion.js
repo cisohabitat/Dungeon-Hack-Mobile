@@ -48,7 +48,16 @@ const KINDS = {
     names: ['Ailsa', 'Bede', 'Elowen', 'Hild', 'Ivo', 'Mirren', 'Oswin', 'Senna', 'Wynn', 'Cuthbert'],
     tricks: [{ id: 'poultice', name: 'Poultice', says: 'between fights it draws poison out of you too' },
       { id: 'dressing', name: 'Field Dressing', says: 'once a floor, a blow that leaves you under a quarter of your life is bound at once, for a quarter of it back' }] },
+  // a dark elf cast out of the halls, hired two floors above them on a Long Delve: quick and
+  // sure with its two blades, a drop of its people's sleeping poison on them, and no love for its kin;
+  // it comes blooded already, so it has learned to hunt its kin by the time the hero reaches them
+  renegade: { sprite: 'renegade', voice: 'renegade', seasoned: 2, ac: 15, speed: 950, stepMs: 300, trotMs: 130, hp: [10, 4], hit: 4, dmg: [1, 8], verb: 'cuts', sits: 'lowers both blades and watches the dark', word: 'renegade',
+    names: ['Zaknar', 'Ilvra', 'Velkyn', 'Sorn', 'Quavra', 'Nym', 'Tazith', 'Ryld', 'Ssera', 'Vhorn'],
+    tricks: [{ id: 'sleep_poison', name: 'Sleep Poison', says: 'one cut in three that lands leaves a living foe drowsy, its next move a second late' },
+      { id: 'kinslayer', name: 'Kinslayer', says: 'its cuts deal 4 more to the dark elves' }] },
 };
+// what the renegade's poison holds a foe back by, and what Kinslayer adds against its kin
+const DROWSE_MS = 1000, KIN_BITE = 4, KIN = new Set(['drow_warrior', 'drow_mage', 'vaelith']);
 // It grows with the floors it goes down at the hero's side, not its kills: a
 // hound kept alive through the dark has earned it, whoever struck the blows.
 const RANKS = [{ floors: 2, name: 'blooded' }, { floors: 4, name: 'a veteran' }];
@@ -137,6 +146,8 @@ export function makeCompanion(K) {
     // it comes to a druid a floor further on in what it knows
     const kin = K.kinFloors ? K.kinFloors() : 0;
     if (kin) c.floors = kin;
+    // (one that has fought its way this deep alone comes already blooded)
+    if (def.seasoned) c.floors = (c.floors || 0) + def.seasoned;
     c.hp = c.maxHp = maxHpFor(c, p.level);
     G.companion = c;
     Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: def.voice }));
@@ -267,12 +278,19 @@ export function makeCompanion(K) {
       // a wolf that has learned to be savage goes for the weak
       const savage = knows(c, 'savage') && m.hp < m.maxHp / 2 ? 2 : 0;
       const charm = c.charm === 'charm_fang' ? 2 : c.charm === 'charm_whetstone' ? 3 : 0;
-      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + charm + savage) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
+      // a renegade that has learned to hunt its own kind cuts deepest at them
+      const kin = knows(c, 'kinslayer') && KIN.has(m.id) ? KIN_BITE : 0;
+      K.damageMonster(m, (Math.max(1, d(...biteFor(c, p.level))) + charm + savage + kin) * (atSide && knows(c, 'backstab') ? 2 : 1), 'companion');
       const down = !L.monsters.includes(m) || (m.pack ? m.pack.length : 0) < many;
       if (down) c.kills++;
       // a hound that has learned to hamstring drags at the leg: the foe's next move comes later
       // (not a boss wrapped in its shadow or up on its throne, where the bite never landed, nor through a rite)
       else if (knows(c, 'hamstring') && !(m.wardUntil > K.G.t && K.mstat(m).boss) && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) m.nextAct = Math.max(m.nextAct, K.G.t) + (K.mstat(m).boss ? 250 : 500);
+      // a renegade's poison makes a living foe drowsy; the dead do not sleep, and a boss or a champion shakes it off
+      else if (knows(c, 'sleep_poison') && !mb.undead && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && d(1, 3) === 1) {
+        m.nextAct = Math.max(m.nextAct, K.G.t) + DROWSE_MS;
+        if (K.floatText) K.floatText(m, 'drowsy', '#b8a8f0');
+      }
     }
     return true;
   }
