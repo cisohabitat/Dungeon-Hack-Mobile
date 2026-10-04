@@ -3977,6 +3977,8 @@ const Game = (() => {
   const ABILITIES = { fighter: { id: 'bash', name: 'Bash', cool: 15000 }, thief: { id: 'smoke', name: 'Smoke', cool: 24000 }, ranger: { id: 'snare', name: 'Snare', cool: 16000 } };
   const SNARE_REACH = 5, SNARE_MS = 2500;
   const SMOKE_MS = 3000, SMOKE_REACH = 3;
+  // how long smoke stalls the lich or the Warlord, who see through it
+  const SMOKE_BOSS_MS = 1800;
   // how long a foe that lost you in smoke stays near and wary after it clears: no resting beside it
   const SMOKE_ALERT_MS = 5000;
   /** This hero's move, if their class has one. */
@@ -4103,8 +4105,10 @@ const Game = (() => {
       if ((m.windup && m.windup.kind !== 'pet') || m.volley) { committed++; continue; }
       if (m.windup) m.windup = null;
       m.pressing = false;
-      // the lich sees through smoke, though it spoils its aim for a moment
-      if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
+      // the lich sees through smoke, though it spoils its aim for a moment; it and the Warlord, the
+      // ends of the shorter delves, a longer one: a thief met them at the end of a short run with
+      // little else, and won 59.5% of two-floor delves where every other class won 87% or more
+      if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + (m.id === 'lich' || m.id === 'warlord' ? SMOKE_BOSS_MS : 600)); continue; }
       // a foe that had you is hunting for you in the grey, and stays near for a while after:
       // no resting beside it. A sleeper never knew you were there, and stays as it was.
       if (m.awake) { lost++; floatText(m, 'lost you', '#eef0ff'); m.smoked = G.t + SMOKE_ALERT_MS + (onPath('assassin') ? 4500 : SMOKE_MS); }

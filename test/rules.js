@@ -5527,6 +5527,18 @@ await test('the view holds what is equipped: weapon, shield or second blade, and
   return out.length ? out.join('; ') : true;
 });
 
+await test('a thief, a ranger and a druid set out with three more hit points (a mage seven, for want of armour); a druid\'s spell points run to the full measure', async () => {
+  const out = [];
+  for (const [cls, extra] of [['thief', 3], ['ranger', 3], ['druid', 3], ['mage', 7], ['fighter', 0]]) {
+    const ctx = await start(cls, 'start-hp-' + cls);
+    const p = ctx.Game.player(), c = ctx.CLASSES[cls];
+    const want = Math.max(10, c.hitDie + 6 + extra + ctx.Game.mod(p.stats.con));
+    if (p.maxHp !== want) out.push(`a ${cls} set out with ${p.maxHp} hit points, not ${want}`);
+  }
+  if (((await start('druid', 'druid-sp')).CLASSES.druid.spMul || 1) !== 1) out.push('a druid\'s spell points are not the full measure');
+  return out.length ? out.join('; ') : true;
+});
+
 await test('past the sixth floor of sixteen, on Normal, a sneak blow is one less; not on Hard, nor above it, nor on a shorter delve', async () => {
   const out = [];
   const at = async (opts, depth) => { const ctx = await start('thief', 'deep-sneak', opts); ctx.Game.state().depth = depth; return ctx.Game.sneakMult(); };
@@ -8868,20 +8880,31 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   if (m.awake) out.push('the goblin woke inside the smoke');
   // a blow on it now is a strike from the shadows
   let mark = markLog(G);
-  p.perkHit = 60;   // the blow lands: a miss would wake it, as it should (but a 1 always misses: try again)
-  for (let tries = 0; tries < 3; tries++) {
-    if (tries) { m.awake = false; m.windup = null; }
+  p.perkHit = 60;   // the blow lands: a miss would wake it, as it should (but a 1 always misses: try again;
+  // and a 20 is told as a mighty blow, not a strike from the shadows, though it is both: again)
+  for (let tries = 0; tries < 4; tries++) {
+    if (tries) { m.awake = false; m.windup = null; m.hp = m.maxHp; }
     mark = markLog(G);
     G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
-    if (!linesSince(G, mark).some(l => /You miss/.test(l))) break;
+    if (!linesSince(G, mark).some(l => /You miss|A mighty blow/.test(l))) break;
   }
   if (!linesSince(G, mark).some(l => /from the shadows/.test(l))) out.push(`no strike from the shadows: ${linesSince(G, mark).join(' | ')}`);
   if (Game.castLabel() === 'Smoke') out.push('Smoke came back at once');
   // and the lich is not fooled
   const c2 = await start('thief', 'smoke-lich');
   const lich = beside(c2, 'lich', { spoke: true });
+  const t0 = c2.Game.state().t;
   c2.Game.useAbility();
   if (!lich.awake) out.push('the lich lost the thief in smoke');
+  // though it is stalled most of two seconds, where another boss only loses its aim a moment
+  if (!(lich.nextAct - t0 >= 1700)) out.push(`smoke stalled the lich ${lich.nextAct - t0}ms`);
+  const c3 = await start('thief', 'smoke-forged');
+  const forged = beside(c3, 'heartforged', { nextAct: 0 });
+  const t3 = c3.Game.state().t;
+  c3.Game.useAbility();
+  if (!(forged.nextAct - t3 < 1000)) out.push(`smoke stalled the Heartforged ${forged.nextAct - t3}ms, as long as the lich`);
+  // and a thief sets out with two healing draughts, as a ranger does
+  if (c3.Game.player().inv.filter(it => it.t === 'potion_heal').reduce((a, it) => a + (it.q || 1), 0) !== 2) out.push('a thief did not set out with two healing draughts');
   return out.length ? out.join('; ') : true;
 });
 

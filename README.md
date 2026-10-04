@@ -263,13 +263,13 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 83% | 80% | 84% | 77% | 73% | 75.5% | about 79% |
-| Hard | 58% | 56% | 62% | 53% | 60.5% | 56% | about 57.5% |
-| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 81% | about 82% |
-| Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 57% | about 61% |
-| Long Delve (16 floors), Normal | 81% | 75% | 77.5% | 85% | 82% | 75% | about 79% |
-| Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 52.5% | about 53.5% |
-| Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
+| Normal | 83% | 80% | 84% | 83.5% | 76% | 82.5% | about 81.5% |
+| Hard | 58% | 56% | 62% | 61% | 64.5% | 57.5% | about 60% |
+| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 86% | about 82.5% |
+| Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 67.5% | about 63% |
+| Long Delve (16 floors), Normal | 81% | 75% | 77.5% | 85% | 82% | 78% | about 80% |
+| Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 56% | about 54% |
+| Quick delve (2 floors), Normal | 94% | 87% | 98% | 72% | 87% | 94% | about 88.5% |
 
 With the bot mended, two levers were moved, each measured on both seed sets. The mage's spells on
 a Hard Long Delve of twelve floors grow 4% a floor past the sixth, not 6% (the mage 68% before,
@@ -317,6 +317,29 @@ And from the other end: the fighter, the mage and the druid on sixteen floors on
 on both seed sets at 200 runs each, won 72.25%, 74.5% and 71%. The deep's lift (spells 6% a floor, a
 fighter's blows and a druid's 4%) now begins for those three past the tenth floor rather than the
 twelfth: 75%, 77.5% and 75%. The spread across the classes there went from fourteen points to ten.
+
+The bot dies now and then with healing draughts still in its pack, four or six or ten of them, and it
+looked as if it drank too late: it drinks below 35% of its life. Two rules that drank sooner were
+tried on the same seeds, 200 runs each on eight Normal floors. Drinking at half its life whenever it
+carried three, and while the worst blow taken on the floor could kill it: the cleric fell from 80% to
+77%, the fighter from 80% to 73%. Only the second: 77% and 76.5%. A draught drunk with a foe beside it
+is a turn not spent finishing it, and the deaths with full packs are mostly a hero held (flat on the
+floor, stone, frozen) or taken from a third of their life in one blow. The old rule stands, and the
+rows above with it.
+
+Measured again with the old rule, the thief, the ranger and the druid were left behind on eight Normal
+floors (77.25%, 73% and 73.75%, both seed sets, 200 runs each), and the thief on two floors most of all
+(62.25%, where every other class won 87% or more; the Dread Lich killed nearly all of them, at hero
+levels two to six, often with draughts in the pack). Now the thief sets out with a second healing
+draught (as a ranger does) and three more hit points, and its smoke holds the lich and the Goblin
+Warlord, who see through it, for most of two seconds rather than a moment; the ranger sets out with
+three more hit points; the druid with three more, and its spell points at the full measure (0.85 of it
+before). Eight Normal floors: thief 83.5%, ranger 76%, druid 82.25%; eight Hard floors: 60.75% (from
+57.75%), 64.5% (from 60.5%), 57.5% (from 54.25%); two floors, the thief 71.75%. The druid's Long Delve
+rows are one seed set (86%, 67.5%, 78%, 56%). The thief's and the ranger's few more hit points at the
+start barely touch a long delve (the thief on sixteen Normal floors, 84%, as it was), so their Long
+Delve rows stand. Six more hit points for the thief put it at 86.5% on eight Normal floors: too much.
+The ranger stays the lowest on Normal: more hit points lifted Hard more than Normal.
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills

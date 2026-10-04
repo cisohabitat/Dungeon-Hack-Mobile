@@ -383,19 +383,19 @@ const CLASSES = {
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
   },
   thief: {
-    name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
+    name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     ease: 'Daring: strikes first, and must not be struck back.',
-    startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_map'],
+    startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_map'],
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
     ease: 'Steady: wins the fight before it reaches you.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
   druid: {
-    name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 0.85, spells: 'druid', primary: 'wis',
+    name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 1, spells: 'druid', primary: 'wis',
     desc: 'Keeper of the old ways. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher.',
     ease: 'Versatile: a bear or a caster, never both at once.',
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],

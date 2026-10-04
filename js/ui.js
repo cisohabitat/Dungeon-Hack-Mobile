@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-14a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; the Drink button beats when your life runs low; a Bash, a snare cord, a thrown flask and a blade being oiled are now seen; and on sixteen floors on Normal the fighter, mage and druid grow stronger sooner while the thief strikes sleeping foes one less' };
+  const NEWS = { id: '2026-10-15a', text: 'the thief now sets out with a second healing draught and a little more life, and its smoke holds the lich and the Goblin Warlord back for longer; the ranger and the druid set out a little sturdier, and the druid has more spell points; past level 12 your experience earns ranks of renown; the Drink button beats when your life runs low' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
