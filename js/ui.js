@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-12a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; and a Bash is now seen, the shield driven into the foe as it reels, as is a snare cord or a flask of oil thrown from the hand' };
+  const NEWS = { id: '2026-10-13a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; a Bash, a snare cord, a thrown flask and a blade being oiled are now seen; and deep in a sixteen-floor delve on Normal a sneak blow strikes one less' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -546,7 +546,7 @@ const UI = (() => {
     // "straight in" means it for anyone who has been down before; a first
     // hero still hears why the Heart matters
     if (firstRun) showPrologue(cfg);
-    else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); startPlaying(); }
+    else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); if (preludeWanted()) Game.beginPrelude(); startPlaying(); }
   }
   /** @type {'new'|'quick'|'daily'|'earned'} what the player asked for, waiting on the replace question */
   let pendingKind = 'new';
@@ -1129,7 +1129,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.renown || 0, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -1782,7 +1782,8 @@ const UI = (() => {
     el.classList.remove('paths');
     const head = document.createElement('p');
     head.className = 'boon-head';
-    head.textContent = `past the top level \u00b7 the next rank at ${Game.renownAt(rank + 1)} experience`;
+    // (with ranks still waiting to be chosen, the next is the one after the hero's own, not after this card's)
+    head.textContent = `past the top level \u00b7 the next rank at ${Game.renownAt((Game.player().renown || 0) + 1)} experience`;
     el.appendChild(head);
     const note = document.createElement('p');
     note.className = 'dim small';
@@ -1887,6 +1888,8 @@ const UI = (() => {
   // turn rather than covering it, and what the player taps for is ignored.
   const GAME_ASKS = ['boons', 'encounter', 'shop', 'fork'];
   function openOverlay(name) {
+    // the pack, the spells or the map opened while the way in plays end it first: what they do is done on the floor itself
+    if (Game.preludeOn()) Game.skipPrelude();
     if (overlay === 'boons' || overlay === 'encounter') {
       if (name !== overlay && GAME_ASKS.includes(name) && !waiting.includes(name)) waiting.push(name);
       return;
@@ -2471,7 +2474,7 @@ const UI = (() => {
     const next = top12 ? Game.renownAt(rank + 1) : XP_TABLE[p.level], prev = top12 ? Game.renownAt(rank) : p.level > 1 ? XP_TABLE[p.level - 1] || 0 : 0;
     const toNext = next ? Math.max(0, Math.min(100, Math.round((p.xp - prev) / Math.max(1, next - prev) * 100))) : 100;
     const top = `<div class="sheet-top"><img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}">`
-      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}${rank ? `, renown \u2605${rank}` : ''}</span>`
+      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}${rank ? `, renown\u00a0\u2605${rank}` : ''}</span>`
       + `<div class="xp-bar" role="img" aria-label="Experience ${p.xp} of ${next || p.xp}"><i style="width:${toNext}%"></i></div>`
       + `<small>Experience ${p.xp} / ${next || '\u2014'}</small></div></div>`;
     const fight = [

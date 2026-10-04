@@ -1378,6 +1378,13 @@ const Renderer = (() => {
       y = rest[1] + (1 - rise) * H * 0.6 + (H * 0.8 - rest[1]) * tip + low * H * 0.6;
       s = base * (1 + tip * 1.3);
       rot = tip * 2.7;
+    } else if (fx.useKind === 'coat') {
+      // over to the weapon hand and tipped on its side above the blade (or the arrows), held there
+      // while it runs out onto it
+      const tip = ease(clamp01((uu - 0.2) / 0.25)) * (1 - low);
+      x = rest[0] + (W * 0.66 - rest[0]) * tip;
+      y = rest[1] + (1 - rise) * H * 0.6 + (H * 0.56 - rest[1]) * tip + low * H * 0.6;
+      rot = tip * 1.9;
     } else {
       // to the mouth, low in the middle of the view, and two bites
       const lift = ease(clamp01((uu - 0.2) / 0.2)) * (1 - low);
@@ -1406,6 +1413,20 @@ const Renderer = (() => {
           const up = (f * 1.2 + hash(k + 70) * 0.5) % 1;
           glow(W * (0.1 + hash(k + 90) * 0.8), H * (1 - up * 0.85), 3 + hash(k) * 3, c, (1 - up) * (1 - f * 0.6));
         }
+      }
+    } else if (fx.useKind === 'coat') {
+      // it runs from the neck in drops onto what the other hand holds, which takes its colour a moment
+      const f = clamp01((uu - 0.42) / 0.36);
+      if (f > 0 && f < 1) {
+        const nx = x + Math.cos(rot - Math.PI / 2) * img.height * s * 0.5, ny = y + Math.sin(rot - Math.PI / 2) * img.height * s * 0.5;
+        ctx.globalCompositeOperation = 'source-over';
+        for (let k = 0; k < 6; k++) {
+          const age = (f * 3 + hash(k + 40)) % 1;
+          ctx.fillStyle = k % 2 ? c : '#2a1a0a';
+          ctx.fillRect(Math.round(nx + (hash(k + 7) - 0.5) * 4), Math.round(ny + age * age * H * 0.22), 2, 3);
+        }
+        ctx.globalCompositeOperation = 'lighter';
+        glow(W * 0.8, H * 0.74, 10 + 8 * Math.sin(f * Math.PI), c, 0.45 * Math.sin(f * Math.PI));
       }
     } else if (uu > 0.4 && uu < 0.9) {
       // crumbs, falling from each bite

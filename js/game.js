@@ -470,7 +470,13 @@ const Game = (() => {
   }
   // Assassin: the blow from the dark.
   /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
-  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (capped('death_mark') ? 1 : 0) + (setWorn('night') ? 1 : 0);
+  // (past the sixth floor of sixteen, on Normal or Easy, what sleeps there sleeps lightly and
+  // turns from the blade a little as it falls: one less. The thief alone was left untouched by
+  // the deep floors' reckoning, and won 87.5% there where the classes together won 77.5%; with
+  // this, 84.75%, and the Assassin no longer five to eight points over the Trickster. From the
+  // thirteenth floor only, it was worth one point)
+  const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (capped('death_mark') ? 1 : 0) + (setWorn('night') ? 1 : 0)
+    - (G && (G.opts.levels || 8) >= 16 && G.opts.difficulty !== 'hard' && G.depth > 6 ? 1 : 0);
   /** Whether every piece of a relic set is worn at once. */
   const setWorn = (id, p = P()) => RELIC_SETS[id].pieces.every(u => Object.values(p.eq).some(it => it && it.u === u));
   /** The Order of the Dawn's pair: +1d4 on the undead. */
@@ -657,6 +663,8 @@ const Game = (() => {
   }
   // A coating rides on the next COAT_BLOWS blows that land, then it is worn away.
   const COAT_BLOWS = 20;
+  // the colour of each coating as it runs off the flask
+  const COAT_GLOW = { fire: '#ff8a30', silver: '#dfe6f0', venom: '#7ad040' };
   const COATINGS = {
     fire: { name: 'fire oil', says: 'It will burn for the next 20 blows that land.' },
     silver: { name: 'silver wash', says: 'The dead will feel the next 20 blows that land.' },
@@ -1355,8 +1363,10 @@ const Game = (() => {
     const m = monsterAt(spot.x, spot.y), prop = propAt(spot.x, spot.y);
     // the arm goes back and over, and the flask tumbles through the air to where it smashes
     const squares = Math.abs(spot.x - p.x) + Math.abs(spot.y - p.y);
-    const land = throwArm('flask', 'flask', '#c89040', FLASK_SQUARE * squares, m && !m.sunk ? [m] : [], squares);
-    fx.landAt = { x: spot.x, y: spot.y, at: realNow + land };
+    const land = throwArm('flask', 'flask', '#c89040', FLASK_SQUARE * squares, m && !m.sunk ? [m] : [], squares, () => Sound.play('swing', { w: null }));
+    // (oil already there stays to be seen while the flask is in the air)
+    const had = elements.fieldAt(spot.x, spot.y);
+    if (!(had && had.k === 'oil')) fx.landAt = { x: spot.x, y: spot.y, at: realNow + land };
     // a mimic still shut takes it as the barrel it seems, and that is a blow to it
     if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
     else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
@@ -1368,10 +1378,11 @@ const Game = (() => {
   // empty, and snaps forward; what it threw leaves it partway through (see
   // THROW_MS in the renderer, which this must keep step with).
   const THROW_MS = 460, THROW_LET_GO = 0.42, FLASK_SQUARE = 85, CORD_SQUARE = 55;
-  /** Throw something: the arm, and it in flight. @returns {number} ms until it gets there */
-  function throwArm(kind, style, color, flight, targets, squares) {
+  /** Throw something: the arm, the sound of it leaving the hand, and it in flight. @returns {number} ms until it gets there */
+  function throwArm(kind, style, color, flight, targets, squares, sound) {
     fx.throwAt = realNow; fx.throwKind = kind;
     const release = Math.round(THROW_MS * THROW_LET_GO);
+    if (sound) { const was = fxDelay; fxDelay = release; soon(sound); fxDelay = was; }
     // (a flask lands, then smashes: its splash is the last part of its look)
     spellFx(style, color, style === 'flask' ? Math.round(flight / 0.7) : flight, targets, squares, release, { x: 0.68, y: 0.72 });
     return release + flight;
@@ -1420,6 +1431,8 @@ const Game = (() => {
       removeOne(it);
       const was = p.coating;
       p.coating = { t: b.coat, left: COAT_BLOWS };
+      // the flask is brought up and tipped over the blade (or the arrows), and drips from it
+      showUse('coat', it, COAT_GLOW[b.coat] || '#c89040');
       const wb = ITEMS[p.eq.weapon.t], what = p.eq.weapon.t === 'sling' ? 'your sling stones' : p.eq.weapon.t === 'handxbow' ? 'your bolts' : wb.aimed ? 'your arrows' : `your ${wb.name.toLowerCase()}`;
       log(`${was && was.t !== b.coat ? `You wipe off the ${COATINGS[was.t].name} and work` : 'You work'} the ${b.name.toLowerCase()} into ${what}. ${COATINGS[b.coat].says}`, 'good');
       Sound.play('pickup');
@@ -1717,6 +1730,8 @@ const Game = (() => {
     return !!(!b || !['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) || !G.looks[t] || G.known[t]);
   }
   function newGame(cfg) {
+    // a way in still playing from a run left at the title is not this run's
+    prelude.cancel();
     const c = CLASSES[cfg.cls];
     // a background still locked (or a stale choice) falls back to the first
     const bg = BACKGROUNDS[cfg.bg] && Progress.bgOpen(cfg.bg) ? cfg.bg : 'oathbroken';
@@ -4006,10 +4021,10 @@ const Game = (() => {
     m.awake = true;
     p.abilityReady = G.t + abilityCool(a);
     meet(m);
-    Sound.play('shoot', { w: 'sling' });
-    // the cord is whirled and let fly, its two weights turning about each other down the corridor
+    // the cord is whirled and let fly, its two weights turning about each other down the corridor,
+    // heard as it leaves the hand
     const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-    fxDelay = throwArm('cord', 'cord', '#c8a868', CORD_SQUARE * far, [m], far);
+    fxDelay = throwArm('cord', 'cord', '#c8a868', CORD_SQUARE * far, [m], far, () => Sound.play('shoot', { w: 'sling' }));
     try {
       floatText(m, 'snared', '#e8d8a0');
       log(`Your cord wraps the ${mb.name}${broke ? ' and breaks off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It stands caught!'}`, 'good');
@@ -4069,7 +4084,8 @@ const Game = (() => {
     // longer: without that it walked straight back in with the first move, and the slam cost tempo
     if (hasTalent('shield_slam') && lvl().monsters.includes(m) && !m.collapsed && !mb.boss) {
       const bx = m.x + dx, by = m.y + dy;
-      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by) && !companion.at(bx, by)) { moveMonster(m, bx, by); m.nextAct = Math.max(m.nextAct, G.t + stagger + 1000); log(`The ${mb.name} is knocked back a square, dazed.`, 'good'); }
+      // (it starts to slide back when the shield lands, not as the arm begins to move)
+      if (passable(bx, by) && !monsterAt(bx, by) && !npcAt(bx, by) && !companion.at(bx, by)) { moveMonster(m, bx, by); m.moveT0 += BASH_LANDS; m.moveT1 += BASH_LANDS; m.nextAct = Math.max(m.nextAct, G.t + stagger + 1000); log(`The ${mb.name} is knocked back a square, dazed.`, 'good'); }
     }
     return true;
   }
@@ -4747,7 +4763,7 @@ const Game = (() => {
     }
     lean += Math.sin(now / (1500 + 500 * mb.scale) + m.uid * 2.3 + i * 1.3) * (mb.fly ? 0.04 : 0.025);
     if (m.moveT1 > now) {
-      const t = (now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0), arc = Math.sin(t * Math.PI);
+      const t = Math.max(0, (now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0)), arc = Math.sin(t * Math.PI);
       lift += Math.abs(arc) * 0.07;
       const across = (m.x - m.fromX) * rx + (m.y - m.fromY) * ry;
       lean += arc * (0.09 * across + 0.06 * ((m.fromX + m.fromY) % 2 ? 1 : -1));
@@ -4827,7 +4843,8 @@ const Game = (() => {
     const topNamed = namedBar(L);
     for (const m of L.monsters) {
       if (m.moveT1 > now) {
-        const t = (now - m.moveT0) / (m.moveT1 - m.moveT0);
+        // (a slide that starts a moment from now, a Shield Slam's, holds where it was until then)
+        const t = Math.max(0, (now - m.moveT0) / (m.moveT1 - m.moveT0));
         m.rx = m.fromX + (m.x - m.fromX) * t; m.ry = m.fromY + (m.y - m.fromY) * t;
       } else { m.rx = m.x; m.ry = m.y; }
       // a mimic still shut is drawn as the barrel it seems, where the barrel stood
@@ -5020,6 +5037,7 @@ const Game = (() => {
   }
   function hasSave() { try { return !!localStorage.getItem(SAVE_KEY); } catch (e) { return false; } }
   function load() {
+    prelude.cancel();
     queuedAttack = false;
     let s = null;
     try { s = localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
@@ -5039,6 +5057,8 @@ const Game = (() => {
         if (!G.levels[dpt].features) G.levels[dpt].features = {};
         if (!G.levels[dpt].lights) G.levels[dpt].lights = [];
         if (!G.levels[dpt].npcs) G.levels[dpt].npcs = [];
+        // a first floor saved before the way in came down has its stair up under fallen rock now, as told
+        { const F = G.levels[dpt]; if (+dpt === 1 && F.stairsUp && !F.caved) F.caved = [F.stairsUp.y * F.w + F.stairsUp.x]; }
         // a floor saved before there was dressing gets some now (what was already
         // taken or dropped there is kept clear, so it may differ from a new floor's)
         // (and never under the hero's feet, wherever they stood when it was saved)

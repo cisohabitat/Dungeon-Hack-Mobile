@@ -4498,6 +4498,15 @@ await test('the way in: the dungeon holds still while it plays, any control skip
   for (let t = 9000; t < 9000 + 12000 && Game.preludeOn(); t += 100) Game.renderState(t);
   if (Game.preludeOn()) out.push('left alone it never ended');
   if (linesSince(G, mark2).filter(l => /roof of the passage comes down/.test(l)).length !== 1) out.push('played out, the roof coming down was not told once');
+  // a run left at the title with the way in still playing does not carry it into the next run, nor tell it there
+  Game.beginPrelude(20000);
+  Game.newGame({ name: 'Next', cls: 'thief', stats: Game.rollStats(), seed: 'way-in-next', opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: 'normal' } });
+  if (Game.preludeOn()) out.push('a new run took up the last run\'s way in');
+  if (Game.state().log.some(l => /roof of the passage comes down/.test(l.t || l.text || String(l)))) out.push('the last run\'s way in was told in the new one');
+  // a first floor saved before the way in came down has its stair up under rock when taken up
+  const F = Game.level(); delete F.caved; Game.save(true);
+  if (!Game.load()) out.push('could not take the save up');
+  else if (!(Game.level().caved || []).includes(F.stairsUp.y * F.w + F.stairsUp.x)) out.push('an old first floor kept its stair up open');
   return out.length ? out.join('; ') : true;
 });
 
@@ -5514,6 +5523,16 @@ await test('the view holds what is equipped: weapon, shield or second blade, and
     p.eq.weapon = { t: 'shortsword', q: 1, e: 0 }; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
     const v = Game.renderState(0).fx.view;
     if (v.offhand !== 'dagger' || v.cls !== 'thief') out.push(`dual: ${JSON.stringify(v)}`); }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('past the sixth floor of sixteen, on Normal, a sneak blow is one less; not on Hard, nor above it, nor on a shorter delve', async () => {
+  const out = [];
+  const at = async (opts, depth) => { const ctx = await start('thief', 'deep-sneak', opts); ctx.Game.state().depth = depth; return ctx.Game.sneakMult(); };
+  const base = await at({ levels: 16, difficulty: 'normal' }, 6);
+  if (await at({ levels: 16, difficulty: 'normal' }, 7) !== base - 1) out.push('a sneak blow on the seventh of sixteen was not one less');
+  if (await at({ levels: 16, difficulty: 'hard' }, 7) !== base) out.push('the trim reached Hard');
+  if (await at({ levels: 12, difficulty: 'normal' }, 12) !== base) out.push('the trim reached a twelve-floor delve');
   return out.length ? out.join('; ') : true;
 });
 
@@ -8878,6 +8897,8 @@ await test('Shield Slam brings Bash back in ten seconds and knocks the foe a squ
   if (!Game.useAbility()) return 'Bash was refused';
   if (m.x !== x0 + dx || m.y !== y0 + dy) out.push(`the goblin stayed at ${m.x},${m.y}, not knocked to ${x0 + dx},${y0 + dy}`);
   if (m.nextAct - G.t < 1700) out.push(`a slammed goblin moves again in ${m.nextAct - G.t}ms`);
+  // it starts to slide back when the shield lands, not as the arm begins to move
+  if (!(m.moveT0 >= Game.renderState(0).fx.bashAt + 100)) out.push(`the slide began at ${m.moveT0 - Game.renderState(0).fx.bashAt}ms into the bash`);
   const secs = +(Game.castLabel().match(/\d+/) || [0])[0];
   if (!(secs > 0 && secs <= 10)) out.push(`after a Shield Slam the button says ${Game.castLabel()}`);
   // against a wall it still bashes, and stays put
@@ -12524,7 +12545,7 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
-  await test('a Bash is seen: the shield (or pommel) shoves and the foe flashes and reels with no wound; a snare cord and a flask are thrown from the hand and fly, the spill drawn when the flask lands', async () => {
+  await test('a Bash is seen: the shield (or pommel) shoves and the foe flashes and reels with no wound; a snare cord and a flask are thrown from the hand and fly (the cord heard as it leaves), the spill drawn when the flask lands; oiling a blade is seen', async () => {
     const out = [];
     { const { Game, G, p, put } = await arena('fighter', 'see-bash');
       p.eq.shield = { t: 'shield', q: 1, e: 0 };
@@ -12543,6 +12564,27 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (!Game.useAbility()) out.push('the snare would not go');
       if (!(fx.throwAt > -1e9) || fx.throwKind !== 'cord') out.push(`no throw drawn for the snare (${fx.throwKind})`);
       if (!fx.spells.some(s => s.style === 'cord' && s.pts.length === 1)) out.push('no cord in flight to the orc'); }
+    // the cord is heard as it leaves the hand, not as the button is pressed
+    { const ctx = await start('ranger', 'hear-snare'); const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state();
+      const [dx, dy] = Dungeon.DIRS[p.dir], L = Game.level();
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      beside(ctx, 'orc', { nextAct: 1e12 });
+      const heard = [];
+      ctx.Sound.listen(name => heard.push(name));
+      try {
+        G.t = Math.max(G.t, p.nextAttack, p.abilityReady || 0) + 10;
+        Game.useAbility();
+        if (heard.includes('shoot')) out.push('the snare was heard before it left the hand');
+        await new Promise(r => setTimeout(r, 400));
+        if (!heard.includes('shoot')) out.push('the snare was never heard');
+      } finally { ctx.Sound.listen(null); } }
+    // working an oil into the weapon is seen: the flask comes up and is tipped over it
+    { const ctx = await start('fighter', 'see-coat'); const { Game } = ctx; const p = Game.player();
+      p.eq.weapon = { t: 'shortsword', q: 1, e: 0 };
+      p.inv.push({ t: 'oil_fire', q: 1, e: 0 });
+      const fx = Game.renderState(0).fx; fx.useAt = -1e9;
+      Game.useItem(p.inv.find(i => i.t === 'oil_fire'));
+      if (!(fx.useAt > -1e9) || fx.useKind !== 'coat' || !fx.useSprite) out.push(`oiling the blade showed ${fx.useKind} (${fx.useSprite})`); }
     { const { Game, G, p, at } = await arena('thief', 'see-flask');
       p.inv.push({ t: 'lamp_oil', q: 1, e: 0 });
       const fx = Game.renderState(0).fx;

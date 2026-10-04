@@ -267,7 +267,7 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Hard | 58% | 56% | 62% | 53% | 60.5% | 56% | about 57.5% |
 | Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 81% | about 82% |
 | Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 57% | about 61% |
-| Long Delve (16 floors), Normal | 81% | 73% | 73% | 86% | 82% | 70.5% | about 77.5% |
+| Long Delve (16 floors), Normal | 81% | 73% | 73% | 85% | 82% | 70.5% | about 77.5% |
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 52.5% | about 53.5% |
 | Quick delve (2 floors), Normal | 94.5% | 92.5% | 96.5% | 74.5% | 92.5% | 97.5% | about 91% |
 
@@ -307,6 +307,11 @@ runs each, the fighter won 68% before and after and the mage 86% before and afte
 hero reaches the top level (the fighter ends at 9.8 on average), so renown is a sixteen-floor thing.
 `DETAIL=1` prints, for each class, how many runs reached the top level, on which floor, the experience
 over, and the ranks taken.
+
+The thief on sixteen floors on Normal was the outlier, 88% and 87% on the two seed sets (87.5%) where the
+classes together won 77.5%, and the Assassin five to eight points over the Trickster. Past the sixth
+floor of sixteen, on Normal or Easy, a sneak blow is now one less: 84% and 85.5% (84.75%), the two paths
+within a few points of each other. From the thirteenth floor only, the same trim was worth one point.
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills

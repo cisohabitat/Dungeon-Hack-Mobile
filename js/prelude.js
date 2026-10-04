@@ -110,5 +110,8 @@ export function makePrelude(K) {
     return { level: L, cam: { ...rs.cam, x: MID + 0.5, y, angle, moving }, sprites, fx };
   }
 
-  return { begin, active, finish, frame, END_MS };
+  /** Gone without a word: a new run, or a save taken up, while it was still playing. */
+  function cancel() { on = null; }
+
+  return { begin, active, finish, frame, cancel, END_MS };
 }

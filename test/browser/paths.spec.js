@@ -178,7 +178,7 @@ test.describe('paths', () => {
     await expect(page.locator('#hud-cls')).toHaveText('Fighter 12 \u26051');
     await page.click('[data-open="char"]');
     const sheet = page.locator('#char-sheet');
-    await expect(sheet).toContainText('hero level 12, renown \u26051');
+    await expect(sheet).toContainText('hero level 12, renown\u00a0\u26051');
     await expect(sheet.locator('.sheet-h', { hasText: /^Renown$/ })).toBeVisible();
     await expect(sheet.locator('.talent-list').last()).toContainText(name);
     // the bar fills toward the next rank
