@@ -193,6 +193,8 @@ const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25, SMOULDER_SHARE = 0.4;
 const Dungeon = (() => {
   const T = { FLOOR: 0, WALL: 1, DOOR: 2, DOOR_OPEN: 3, DOOR_LOCKED: 4, STAIRS_DOWN: 5, STAIRS_UP: 6, SECRET: 7, FOUNTAIN: 8, TORCH: 9 };
   const SIZES = { small: 28, medium: 36, large: 44 };
+  /** How much floor a floor of this size covers, to the middle size's 1. @param {string} [size] */
+  const areaOf = size => { const w = SIZES[size] || 36; return w === 36 ? 1 : (w * w) / (36 * 36); };
   const KEY_ORDER = ['brass', 'silver', 'gold', 'iron', 'bone'];
   const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
 
@@ -206,6 +208,12 @@ const Dungeon = (() => {
   function generate(seed, depth, opts) {
     const rng = new Rng(`${seed}#${depth}`);
     const w = SIZES[opts.size] || 36, h = w;
+    // What a floor holds is measured for the middle size: a larger one has more
+    // of everything by the floor it covers, a smaller one fewer locks and traps.
+    // Its hidden rooms and encounters stay as many as the middle size's: a small
+    // floor already has fewer fights and finds, and with fewer of those as well
+    // its heroes came to the lich a level short and lost one run in eight more.
+    const area = areaOf(opts.size), reward = Math.max(1, area);
     const tiles = new Array(w * h).fill(T.WALL);
     const roomId = new Array(w * h).fill(-1);
     const idx = (x, y) => y * w + x;
@@ -256,7 +264,8 @@ const Dungeon = (() => {
     }
     const pieceKind = piecePlan(seed, opts.levels || 8)[depth] || null;
     if (pieceKind) placeRoom(piece(rng, pieceKind), 600, false, pieceKind);
-    if (w >= 36) placeRoom(roomShape(rng, build.great || (rng.chance(0.4) ? 'cave' : 'hall'), true), 120, true);
+    // (a small floor has a lesser one: without it, a small floor was all small rooms)
+    placeRoom(roomShape(rng, build.great || (rng.chance(0.4) ? 'cave' : 'hall'), true, w < 36), 120, true);
     // A small box fits where nothing else will, and left alone the boxes filled
     // every gap until over half the rooms were boxes whatever their share; so
     // a floor takes boxes only up to a little more than their share.
@@ -323,8 +332,12 @@ const Dungeon = (() => {
       const goY = () => { while (y !== b.cy) { y += Math.sign(b.cy - y); carve(x, y); } };
       if (rng.chance(0.5)) { goX(); goY(); } else { goY(); goX(); }
     }
-    const grain = Array.from({ length: w * h }, () => rng.next() * build.grain);
-    const TURN = build.turn;
+    // On a large floor the corridors wander more and turn more readily: dug as
+    // straight as on the middle size, they ran on so far that a long walk down
+    // one was a long lane for a bow, and dull to walk
+    const wander = w > 36 ? 1.8 : 1;
+    const grain = Array.from({ length: w * h }, () => rng.next() * build.grain * wander);
+    const TURN = build.turn / wander;
     const open = i => tiles[i] === T.FLOOR;
     const nextTo = (i, f) => { const x = i % w, y = (i / w) | 0; return DIRS.some(([dx, dy]) => f(idx(x + dx, y + dy))); };
     /**
@@ -407,19 +420,51 @@ const Dungeon = (() => {
       }
       return seen.has(b) ? seen.get(b) : Infinity;
     };
-    const loops = Math.max(1, Math.round(rooms.length * build.loops));
+    // a small floor's few rooms seldom lie three links apart, and it was left
+    // with one loop or none: there two links apart will do, and it has two
+    const loops = Math.max(w < 36 ? 2 : 1, Math.round(rooms.length * build.loops));
+    const loopHops = w < 36 ? 2 : 3;
     const pairs = [];
     for (let i = 0; i < rooms.length; i++) for (let j = i + 1; j < rooms.length; j++) if (between(rooms[i], rooms[j]) <= 22) pairs.push([rooms[i], rooms[j]]);
     pairs.sort((p, q) => between(p[0], p[1]) - between(q[0], q[1]));
     for (const [a, b] of pairs) {
       if (links.length >= rooms.length - 1 + loops) break;
       // a loop worth walking: rooms the links already set three or more apart
-      if (hops(a, b) < 3 || rng.chance(0.3)) continue;
+      if (hops(a, b) < loopHops || rng.chance(0.3)) continue;
       links.push([a, b]);
     }
     // and at least one, if only a short one, on a floor of few rooms
     if (links.length < rooms.length) { const p = pairs.find(([a, b]) => hops(a, b) >= 2); if (p) links.push(p); }
     links.forEach(([a, b], k) => { if (!dig(a, b, k >= rooms.length - 1)) corridor(a, b); });
+
+    // On a large floor a long straight corridor has a recess cut in its side, a
+    // square deep, near its middle: something to break the walk, and somewhere
+    // to step aside from a blow where a corridor has no sides to step to.
+    // (on dice of their own, so the rest of the floor falls as it would without them)
+    if (w > 36) {
+      const arng = new Rng(`${seed}#${depth}|alcoves`);
+      const lane = i => tiles[i] === T.FLOOR && roomId[i] < 0;
+      const solid = i => tiles[i] === T.WALL && !keep[i] && !seal[i] && !mouth[i];
+      const cut = [];
+      for (const [dx, dy] of [[1, 0], [0, 1]]) for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+        // the start of a straight run, walled along both sides all the way
+        if (!lane(idx(x, y)) || lane(idx(x - dx, y - dy))) continue;
+        let n = 0;
+        while (lane(idx(x + dx * n, y + dy * n)) && solid(idx(x + dx * n + dy, y + dy * n + dx)) && solid(idx(x + dx * n - dy, y + dy * n - dx))) n++;
+        if (n < 7) continue;
+        const m = Math.floor(n / 2), side = arng.chance(0.5) ? 1 : -1;
+        const mx = x + dx * m, my = y + dy * m, ax = mx + dy * side, ay = my + dx * side;
+        // the recess opens on the corridor alone: stone all round it but there
+        let shut = true;
+        for (let yy = ay - 1; yy <= ay + 1 && shut; yy++) for (let xx = ax - 1; xx <= ax + 1; xx++) {
+          if (xx === ax && yy === ay) continue;
+          const onLane = (xx - mx) * dy + (yy - my) * dx === 0 && Math.abs((xx - mx) * dx + (yy - my) * dy) <= 1;
+          if (!onLane && !solid(idx(xx, yy))) { shut = false; break; }
+        }
+        if (shut && ax > 0 && ay > 0 && ax < w - 1 && ay < h - 1) cut.push(idx(ax, ay));
+      }
+      for (const i of cut) tiles[i] = T.FLOOR;
+    }
 
     // ---- doors ----
     const doors = [];
@@ -534,7 +579,7 @@ const Dungeon = (() => {
     const addItem = (x, y, it) => { const k = x + ',' + y; (items[k] = items[k] || []).push(it); };
     const locks = {};
     if (opts.lockedDoors && doors.length) {
-      const nLock = Math.min(rng.int(1, 3), doors.length, KEY_ORDER.length);
+      const nLock = Math.min(w < 36 ? rng.int(1, 2) : w > 36 ? rng.int(2, 4) : rng.int(1, 3), doors.length, KEY_ORDER.length);
       const shuffled = rng.shuffle(doors.slice());
       let placed = 0;
       for (const dr of shuffled) {
@@ -561,7 +606,7 @@ const Dungeon = (() => {
     // ---- traps ----
     const traps = {};
     if (opts.traps) {
-      const n = rng.int(1, 2) + Math.floor(depth / 2);
+      const n = Math.max(1, Math.round((rng.int(1, 2) + Math.floor(depth / 2)) * area));
       const cands = [];
       for (let i = 0; i < w * h; i++) {
         if (tiles[i] !== T.FLOOR || roomId[i] !== -1 || dist0[i] < 4) continue;
@@ -748,7 +793,7 @@ const Dungeon = (() => {
         break;
       }
     }
-    const nVaults = rng.int(0, 2) + (depth >= 3 ? 1 : 0);
+    const nVaults = Math.round((rng.int(0, 2) + (depth >= 3 ? 1 : 0)) * reward);
     for (let v = 0, tries = 0; v < nVaults && tries < 40; tries++) {
       const r = rng.pick(plain);
       const s = wallSlot(r);
@@ -886,7 +931,7 @@ const Dungeon = (() => {
     // (and each people's floor its own: the elves' altar, the dwarves' anvil; and some a floor or two
     // above it, as the elves' outcast waits two above their halls: `before`)
     const homeEnc = Object.keys(ENCOUNTERS).filter(id => { const e = ENCOUNTERS[id], at = e.home ? peopleDepth(e.home, opts.levels || 8) : null; return at && at - (e.before || 0) === depth; });
-    const encHere = [...(encounterPlan(seed, opts.levels || 8, tierAt)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : []), ...homeEnc];
+    const encHere = [...(encounterPlan(seed, opts.levels || 8, tierAt, reward)[depth] || []), ...(route && depth === span.from ? [ROUTES[route].encounter] : []), ...homeEnc];
     for (const encId of encHere) {
       let placed = false;
       // the last floor's vigil lamp stands at the edge of the lich's hall, in
@@ -1191,7 +1236,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, areaOf, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt };
 })();
 
 export { Dungeon };

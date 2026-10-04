@@ -100,13 +100,15 @@ function turned(R, k) {
 /**
  * An ordinary room's shape: its size and what in it is floor.
  * @param {import('./rng.js').Rng} rng @param {string} shape @param {boolean} [great] the floor's great hall
+ * @param {boolean} [small] a great hall cut down to a small floor
  * @returns {Grid}
  */
-function roomShape(rng, shape, great = false) {
+function roomShape(rng, shape, great = false, small = false) {
   if (great) {
-    // the great hall: a nave between two rows of pillars, with a walk round the edge, or a cavern
-    const w = rng.int(9, 11), h = rng.int(7, 9);
-    if (shape === 'cave') return cave(rng, w, h) || roomShape(rng, 'colonnade', true);
+    // the great hall: a nave between two rows of pillars, with a walk round the edge, or a cavern;
+    // on a small floor a lesser one, which still leaves room for the rest
+    const w = small ? rng.int(7, 9) : rng.int(9, 11), h = small ? rng.int(6, 7) : rng.int(7, 9);
+    if (shape === 'cave') return cave(rng, w, h) || roomShape(rng, 'colonnade', true, small);
     if (shape === 'burrow') return burrow(rng, w + 1, h + 1);
     const R = blank(w, h, 'hall');
     for (let x = 2; x <= w - 3; x += 2) { set(R, x, 2, SOLID); set(R, x, h - 3, SOLID); }

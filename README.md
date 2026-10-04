@@ -271,20 +271,26 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 56% | about 54% |
 | Quick delve (2 floors), Normal | 92% | 83% | 97% | 72.5% | 88% | 94.5% | about 88% |
 
-Every row is played on Medium floors. Small and Large were measured once, eight Normal floors on
-both seed sets (`SIZE=small|large`), on the commit before the shrine's sealed corners were mended
-(four squares on a quarter of the floors):
+Every row is played on Medium floors. Small and Large were measured on eight Normal floors, both
+seed sets (`SIZE=small|large`), with the floors as they now are: a large floor holds about a third
+more locks, traps and hidden rooms and half again as many encounters (three a floor at most), its corridors wander and turn
+as often as a medium floor's, and a long straight one has a recess cut in its side; a small floor
+has a lesser great hall, two loops at least, and fewer locks and traps. Medium floors come out
+square for square as they were, so its row stands:
 
 | Floor size, Normal | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall | Kills | Level at the end |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Small (28 squares a side) | 76.5% | 74% | 79.5% | 76.5% | 80.5% | 76% | about 77% | 34 | 7.6 |
+| Small (28 squares a side) | 77.5% | 70% | 79% | 76% | 79.5% | 74% | about 76% | 34 | 7.5 |
 | Medium (36) | 79% | 74.5% | 80.5% | 83% | 79% | 80% | about 79.5% | 50 | 8.1 |
-| Large (44) | 79.5% | 70% | 79.5% | 79.5% | 87.5% | 82.5% | about 80% | 61 | 8.5 |
+| Large (44) | 76.5% | 78.5% | 80.5% | 82% | 81% | 78% | about 79.5% | 66 | 8.6 |
 
-The three come out within noise of each other overall: a Small floor's hero ends half a level lower
-from a third fewer fights, and a Large floor's walks further for more of everything. Large spreads
-the classes wider (the ranger 87.5%, the fighter 70%): its corridors run long and straight, a lane
-for a bow.
+A small floor first had fewer hidden rooms and encounters too, by its floor space: it came to 71.5%,
+its heroes a third of a level lower again, so it keeps the middle size's (with fewer encounters only
+75%, with fewer hidden rooms only 73%). Before any of this, Small was about 77% and Large about 80%,
+Large with the classes spread from 70% (the fighter) to 87.5% (the ranger); now 76.5% to 82%. That
+spread was not the long straight corridors it looked to be: a large floor has no more long
+sightlines for its floor space than a medium one (about three lines of nine squares or more to a
+hundred squares of floor, on both), and its longest corridors were no longer than a medium floor's.
 
 With the bot mended, two levers were moved, each measured on both seed sets. The mage's spells on
 a Hard Long Delve of twelve floors grow 4% a floor past the sixth, not 6% (the mage 68% before,

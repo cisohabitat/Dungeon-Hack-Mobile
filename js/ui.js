@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-17a', text: 'a step aside or back into a locked door no longer throws your shoulder at it; the first fight names only the side you can step to, in the arrows on the buttons; the map marks a locked door with a dot in its key colour; a tip no longer shows the log through it; past the top level the hero sheet says which rank the bar fills toward' };
+  const NEWS = { id: '2026-10-18a', text: 'floor size now changes what a floor holds: a large floor has more locks, traps, hidden rooms and encounters, corridors that wind, and recesses in its long ones to step aside into; a small floor has a lesser great hall, more ways round, and fewer locks and traps; loot no longer falls into the sealed corners of a shrine' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

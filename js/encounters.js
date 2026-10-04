@@ -739,9 +739,10 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
  * the Heart is kept, has none.
  * @param {string} seed @param {number} levels
  * @param {(depth: number, levels: number) => number} [tierAt] where a floor sits on the ladder of monster tiers
+ * @param {number} [scale] how much floor each floor covers, to the middle size's 1: a larger floor meets more
  * @returns {string[][]} plan[depth] = encounter ids
  */
-function encounterPlan(seed, levels, tierAt = d => d) {
+function encounterPlan(seed, levels, tierAt = d => d, scale = 1) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
   const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early && !ENCOUNTERS[k].home));
@@ -750,13 +751,15 @@ function encounterPlan(seed, levels, tierAt = d => d) {
   const floors = Math.max(1, levels - 1);
   // About one a floor, as a run always met: a bigger deck means each run
   // draws a different handful from it, not that it meets more of them.
-  const budget = Math.min(deck.length, Math.round(floors * 1.15));
+  const budget = Math.min(deck.length, Math.round(floors * 1.15 * scale));
+  // (two to a floor at most, or three on a large floor, which has room to spare for them)
+  const most = scale > 1.2 ? 3 : 2;
   for (let d = 1; d <= levels; d++) {
     plan[d] = [];
     if (d === levels) { if (levels > 1) plan[d].push('vigil'); continue; }
     const left = budget - used.size, floorsLeft = floors - d + 1;
     const share = left / floorsLeft;
-    const n = Math.min(2, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));
+    const n = Math.min(most, Math.floor(share) + (rng.next() < share % 1 ? 1 : 0));
     // the deck's own shuffled order decides, among those that belong this deep
     // and never one whose creature belongs deeper than this floor's monsters:
     // a sleeping ogre two floors before any ogre walks was a death with no warning

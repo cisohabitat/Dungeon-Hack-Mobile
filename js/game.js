@@ -1782,7 +1782,7 @@ const Game = (() => {
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
     // a delve with no hound in it sends a druid a wolf instead, at the first stair
-    if (cfg.cls === 'druid' && !Object.values(encounterPlan(cfg.seed, G.opts.levels || 8)).some(ids => ids.includes('stray'))) {
+    if (cfg.cls === 'druid' && !Object.values(encounterPlan(cfg.seed, G.opts.levels || 8, Dungeon.tierAt, Math.max(1, Dungeon.areaOf(G.opts.size)))).some(ids => ids.includes('stray'))) {
       companion.join('wolf');
       log(`A grey wolf pads out of the dark at the foot of the stair and falls in beside you, as if it had always meant to. ${G.companion.name} follows you now.`, 'good');
     }

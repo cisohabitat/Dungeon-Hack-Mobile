@@ -714,6 +714,52 @@ check(traders > 0, 'no traders generated at all');
   for (const k in seen) check(seen[k] > 0, `looks: no ${k} seen in 384 floors`);
   console.log(`looks: ${JSON.stringify(seen)}`);
 }
+// Floors of each size hold what their floor space calls for: locks and traps
+// scale with it, and a large floor has more hidden rooms and encounters too (a
+// small one keeps the middle size's, or its heroes fall behind); a small floor has loops to circle
+// (two at least, where it once had one or none), and a large floor's long
+// corridors have recesses cut in their sides, which no other size has.
+{
+  const tally = {};
+  for (const size of ['small', 'medium', 'large']) {
+    const t = tally[size] = { floors: 0, locks: 0, traps: 0, secrets: 0, encounters: 0, loops: 0, recesses: 0, fewLoops: 0 };
+    for (let s = 0; s < 12; s++) for (let depth = 1; depth <= 7; depth++) {
+      const L = Dungeon.generate('sized' + s, depth, { levels: 8, size, monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true });
+      const walk = i => [T.FLOOR, T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.FOUNTAIN].includes(L.tiles[i]);
+      t.floors++;
+      t.locks += Object.keys(L.locks).length;
+      t.traps += Object.keys(L.traps).length;
+      t.secrets += L.tiles.filter(x => x === T.SECRET).length;
+      t.encounters += (L.npcs || []).filter(n => n.kind === 'encounter' && !['vigil', 'stray', 'caged'].includes(n.id)).length;
+      // loops: links between rooms (each room one node) less what a tree would need
+      // (what can be walked to from the way in: a hidden room's nine squares would count as loops of their own)
+      const reached = new Uint8Array(L.w * L.h), q = [L.start.y * L.w + L.start.x];
+      reached[q[0]] = 1;
+      for (let h = 0; h < q.length; h++) for (const [dx, dy] of Dungeon.DIRS) { const j = q[h] + dy * L.w + dx; if (!reached[j] && walk(j)) { reached[j] = 1; q.push(j); } }
+      const node = i => L.roomId[i] >= 0 ? 'r' + L.roomId[i] : 'c' + i, nodes = new Set(), edges = new Set();
+      for (let i = 0; i < L.w * L.h; i++) {
+        if (!reached[i]) continue;
+        nodes.add(node(i));
+        for (const j of [i + 1, i + L.w]) if (j < L.w * L.h && reached[j] && node(i) !== node(j)) edges.add([node(i), node(j)].sort().join('|'));
+        // a recess: a corridor square open on one side only
+        const x = i % L.w, y = (i / L.w) | 0;
+        if (L.roomId[i] < 0 && L.tiles[i] === T.FLOOR && Dungeon.DIRS.filter(([dx, dy]) => walk((y + dy) * L.w + x + dx)).length === 1) t.recesses++;
+      }
+      const loops = edges.size - nodes.size + 1;
+      t.loops += loops;
+      if (loops < 1) t.fewLoops++;
+    }
+  }
+  const per = (size, k) => tally[size][k] / tally[size].floors;
+  const counts = k => ['small', 'medium', 'large'].map(z => per(z, k).toFixed(2)).join(' / ');
+  for (const k of ['locks', 'traps']) check(per('small', k) < per('medium', k) && per('medium', k) < per('large', k), `${k} do not grow with the floor: ${counts(k)}`);
+  for (const k of ['secrets', 'encounters']) check(per('small', k) >= per('medium', k) * 0.8 && per('medium', k) * 1.2 < per('large', k), `${k} are not kept on a small floor, or grown on a large one: ${counts(k)}`);
+  check(per('small', 'loops') >= 1.8, `small floors average ${per('small', 'loops').toFixed(2)} loops`);
+  check(tally.small.fewLoops <= tally.small.floors / 8, `${tally.small.fewLoops} of ${tally.small.floors} small floors have no loop at all`);
+  check(tally.medium.recesses === 0 && tally.small.recesses === 0, `recesses on a small or middle floor (${tally.small.recesses}, ${tally.medium.recesses})`);
+  check(per('large', 'recesses') >= 0.3, `large floors average ${per('large', 'recesses').toFixed(2)} recesses`);
+  console.log(`sizes: ${['small', 'medium', 'large'].map(z => `${z} locks ${per(z, 'locks').toFixed(1)} traps ${per(z, 'traps').toFixed(1)} hidden ${per(z, 'secrets').toFixed(1)} encounters ${per(z, 'encounters').toFixed(1)} loops ${per(z, 'loops').toFixed(1)} recesses ${per(z, 'recesses').toFixed(1)}`).join('; ')}`);
+}
   console.log(`${levels} levels checked (${vaults} vaults, ${fountains} fountains, ${torches} torches, ${elites} champions, ${groups} groups, ${traders} traders, ${encounters} encounters), ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);
 }

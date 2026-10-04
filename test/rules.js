@@ -972,10 +972,12 @@ await test('a trader saved standing in a doorway steps aside into its room on re
   const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
   const DOORS = [T.DOOR, T.DOOR_OPEN, T.DOOR_LOCKED, T.SECRET];
   // A square of room floor with a door beside it: just where a trader should not stand.
+  // (in a room with somewhere better to stand: one square at least with its own floor all round)
+  const roomy = r => L.tiles.some((t, i) => t === T.FLOOR && L.roomId[i] === r && DIRS.every(([dx, dy]) => { const j = i + dy * w + dx; return L.tiles[j] === T.FLOOR && L.roomId[j] === r; }));
   let spot = null;
   for (let i = 0; i < w * L.h && !spot; i++) {
     const x = i % w, y = (i / w) | 0;
-    if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || L.monsters.some(m => m.x === x && m.y === y)) continue;
+    if (L.tiles[i] !== T.FLOOR || L.roomId[i] < 0 || L.monsters.some(m => m.x === x && m.y === y) || !roomy(L.roomId[i])) continue;
     if (DIRS.some(([dx, dy]) => DOORS.includes(L.tiles[(y + dy) * w + x + dx]))) spot = [x, y];
   }
   if (!spot) return 'no square by a door on this floor';
@@ -12521,7 +12523,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     run(Game, G, 1500);
     if (!(a.hp < hp0)) out.push('the goblin stood in the fire unhurt');
     run(Game, G, 20000);
-    const ash = Object.keys(L.fields).filter(k => L.fields[k].k === 'ash').map(k => k.split(',').map(Number));
+    // (a door beside the burning moss burns too, and is no moss: its ash is not counted)
+    const ash = Object.keys(L.fields).filter(k => L.fields[k].k === 'ash' && !L.fields[k].door).map(k => k.split(',').map(Number));
     if (ash.length < 3) out.push(`the fire burnt only ${ash.length} squares`);
     const far = ash.filter(([x, y]) => Math.abs(x - ax) + Math.abs(y - ay) > 2);
     if (far.length) out.push(`moss burnt ${far.length} squares beyond two of where it caught`);
@@ -14044,7 +14047,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     mark = markLog(G);
     Game.input('forward');
     lines = linesSince(G, mark);
-    const staves = lines.findIndex(l => /cask/i.test(l) && !/spills/.test(l)), spilt = lines.findIndex(l => /spills out/.test(l));
+    // (by its staves: a cask that held gold says that "spills out" too)
+    const staves = lines.findIndex(l => /cask/i.test(l) && /staves/.test(l)), spilt = lines.findIndex(l => /oil spills out/i.test(l));
     if (staves < 0 || spilt < 0 || staves > spilt) out.push(`a kicked cask told: ${lines.join(' / ')}`);
     // (what a broken cask holds is rolled for its square: casks all round, so one holds nothing)
     const dir0 = p.dir;
