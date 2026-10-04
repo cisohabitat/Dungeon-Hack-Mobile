@@ -295,6 +295,20 @@ for (const seed of ['alpha', 'beta', 'gamma', 'delta', 'kar42', 'morthal7', 'x',
         check(m.pack.length >= 1 && m.pack.length <= (depth >= 5 ? 2 : 1), `a group of ${1 + m.pack.length} ${m.id}s on floor ${depth}`);
         check(m.pack.every(b => b.hp > 0 && b.hp === b.maxHp), `a ${m.id} in a group started hurt or dead`);
       }
+      // every floor square can be walked to from the way in, through locked and
+      // secret doors if need be: a shrine's corners once shut floor in behind its
+      // pillars, and loot and journal pages fell there out of anyone's reach
+      {
+        const seen = new Uint8Array(L.w * L.h), q = [L.start.y * L.w + L.start.x];
+        const through = t => t !== T.WALL && t !== T.TORCH && t !== T.STAIRS_DOWN && t !== T.STAIRS_UP;
+        seen[q[0]] = 1;
+        for (let h = 0; h < q.length; h++) {
+          const i = q[h], x = i % L.w, y = (i / L.w) | 0;
+          for (const [dx, dy] of Dungeon.DIRS) { const j = (y + dy) * L.w + x + dx; if (!seen[j] && through(L.tiles[j])) { seen[j] = 1; q.push(j); } }
+        }
+        const shut = L.tiles.findIndex((t, i) => t === T.FLOOR && !seen[i]);
+        check(shut < 0, `a floor square no way leads to, at ${shut % L.w},${(shut / L.w) | 0}: seed=${seed} size=${size} depth=${depth}`);
+      }
       // a torch must sit in a wall and light an adjacent floor tile
       for (const l of L.lights) check(L.tiles[l.y * L.w + l.x] === T.FLOOR, `torch lights a non-floor tile: seed=${seed} depth=${depth}`);
       check(L.monsters.every(m => L.tiles[m.y * L.w + m.x] === T.FLOOR), `monster on non-floor: seed=${seed} depth=${depth}`);

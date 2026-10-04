@@ -652,9 +652,9 @@ const UI = (() => {
     face: 'Something is coming, and not from in front. <b>Turn to face it</b>: the red chevron at the edge of the view points the way.',
     monster: 'Something is coming. When it is in front of you, tap <b>⚔ Attack</b> to strike it.',
     dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ↓</b> now and it hits empty air.',
-    dodgeside: () => `<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> ${asideWay()} now and it hits empty air.`,
-    dodgelunge: () => `<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> ${asideWay()} now and it hits empty air.`,
-    dodgelungeflank: () => `<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>${canStep(0) && canStep(2) ? 'forward or back</b> (↑ or ↓)' : canStep(0) ? 'forward</b> (↑)' : 'back</b> (↓)'}, out of its line, and it hits empty air.`,
+    dodgeside: (/** @type {boolean} */ widest) => `<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> ${asideWay(widest)} now and it hits empty air.`,
+    dodgelunge: (/** @type {boolean} */ widest) => `<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> ${asideWay(widest)} now and it hits empty air.`,
+    dodgelungeflank: (/** @type {boolean} */ widest) => `<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>${widest || (canStep(0) && canStep(2)) ? 'forward or back</b> (↑ or ↓)' : canStep(0) ? 'forward</b> (↑)' : 'back</b> (↓)'}, out of its line, and it hits empty air.`,
     lunged: 'It <b>lunged after you</b>: a rat, a ghoul or a wraith follows a step straight away from it. Step <b>out of its line</b> instead, to the side of it, and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
@@ -820,8 +820,8 @@ const UI = (() => {
   }
   /** Which way aside is open, in the d-pad's own arrows: naming a side walled or locked
    *  sent a first hero into a door it then tried to force, with the blow still coming. */
-  function asideWay() {
-    return canStep(1) && canStep(3) ? '(← or →)' : canStep(3) ? 'to the left (←)' : 'to the right (→)';
+  function asideWay(/** @type {boolean} */ widest) {
+    return widest ? 'to the right (→)' : canStep(1) && canStep(3) ? '(← or →)' : canStep(3) ? 'to the left (←)' : 'to the right (→)';
   }
   /** Whether the hero could step that way (0 ahead, 1 right, 2 behind, 3 left): open floor, nothing standing on it. */
   function canStep(turn) {
@@ -3165,7 +3165,8 @@ const UI = (() => {
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
-    tips: () => ({ ...TIPS }), placeTip, timeScale, bossBar };
+    // (a tip that suits itself to the spot is given in its widest words, for a test of whether it fits)
+    tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar };
 })();
 
 export { UI };

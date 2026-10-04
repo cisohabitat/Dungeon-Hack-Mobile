@@ -271,6 +271,21 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 56% | about 54% |
 | Quick delve (2 floors), Normal | 92% | 83% | 97% | 72.5% | 88% | 94.5% | about 88% |
 
+Every row is played on Medium floors. Small and Large were measured once, eight Normal floors on
+both seed sets (`SIZE=small|large`), on the commit before the shrine's sealed corners were mended
+(four squares on a quarter of the floors):
+
+| Floor size, Normal | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall | Kills | Level at the end |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Small (28 squares a side) | 76.5% | 74% | 79.5% | 76.5% | 80.5% | 76% | about 77% | 34 | 7.6 |
+| Medium (36) | 79% | 74.5% | 80.5% | 83% | 79% | 80% | about 79.5% | 50 | 8.1 |
+| Large (44) | 79.5% | 70% | 79.5% | 79.5% | 87.5% | 82.5% | about 80% | 61 | 8.5 |
+
+The three come out within noise of each other overall: a Small floor's hero ends half a level lower
+from a third fewer fights, and a Large floor's walks further for more of everything. Large spreads
+the classes wider (the ranger 87.5%, the fighter 70%): its corridors run long and straight, a lane
+for a bow.
+
 With the bot mended, two levers were moved, each measured on both seed sets. The mage's spells on
 a Hard Long Delve of twelve floors grow 4% a floor past the sixth, not 6% (the mage 68% before,
 63% after; sixteen floors keep 6%, where two peoples ride spells out). And a sixteen-floor delve,

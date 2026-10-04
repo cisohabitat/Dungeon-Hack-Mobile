@@ -278,6 +278,9 @@ function piece(rng, kind) {
     R.sealed = true;
     for (const [x, y] of [[0, 0], [1, 0], [0, 1]]) for (const [fx, fy] of [[x, y], [w - 1 - x, y], [x, h - 1 - y], [w - 1 - x, h - 1 - y]]) set(R, fx, fy, STONE);
     for (const [x, y] of [[1, 2], [5, 2], [1, 4], [5, 4], [2, 1], [4, 1], [2, 5], [4, 5]]) set(R, x, y, SOLID);
+    // the square inside each corner, shut in by the corner's stone and two pillars, is stone too:
+    // left floor, loot and journal pages fell there out of reach of anyone
+    for (const [x, y] of [[1, 1], [w - 2, 1], [1, h - 2], [w - 2, h - 2]]) set(R, x, y, SOLID);
     R.loot = [[3, 3]];
     R.props = [[2, 2], [4, 2], [2, 4], [4, 4]].map(([x, y]) => ({ x, y, k: 'candles' }));
     R.fountain = [3, -1];
