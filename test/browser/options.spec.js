@@ -78,6 +78,13 @@ test.describe('rest and the quick drink', () => {
     await page.evaluate(() => { const p = Game.player(); p.maxHp = 40; p.hp = 5; });
     // nearly dead with a draught to hand, the bottle beats
     await expect(bottle).toHaveClass(/urgent/);
+    // but held fast it cannot be drunk: it greys and says so, and does not beat
+    await page.evaluate(() => { Game.player().held = Game.state().t + 60000; });
+    await expect(bottle).toHaveClass(/held/);
+    await expect(bottle).not.toHaveClass(/urgent/);
+    await expect(page.locator('#hud-quaff-n')).toHaveText('Held');
+    await page.evaluate(() => { Game.player().held = 0; });
+    await expect(bottle).not.toHaveClass(/held/);
     const before = await healing(page);
     expect(before).toBeGreaterThan(0);
     await bottle.click();

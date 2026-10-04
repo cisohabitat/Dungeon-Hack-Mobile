@@ -538,12 +538,17 @@ const Game = (() => {
     const knack = (hasTalent('weapon_master') ? (b && b.twoHanded ? 2 : 1) : 0) + (hasTalent('zeal') && effectFrom('hit', 'bless') ? 1 : 0)
       + berserkerRage() + jewelBonus('might') + (effect('might') ? 2 : 0);
     // (a ranger's bow is reckoned as it is used, from a distance, with Steady Aim)
-    const steady = b && b.aimed && p.cls === 'ranger' ? STEADY_AIM : 0;
+    const steady = b && b.aimed && p.cls === 'ranger' ? steadyAim() : 0;
     let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady);
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained() + (hasTalent('weapon_master') ? 1 : 0));
     return blow / (speed / 1000);
   }
   const STEADY_AIM = 1;
+  // and on a delve of eight floors or fewer, on Normal or Easy, one more from three squares off:
+  // the ranger won 76% there where the rest won 80% to 84%, while on Hard it led (one more from
+  // two squares took it to 85.75%). Hard and the Long Delve keep the one. The pack weighs a bow
+  // at two squares, the shot it is most often loosed at.
+  const steadyAim = (far = 2) => STEADY_AIM + (far >= 3 && G && (G.opts.levels || 8) <= 8 && G.opts.difficulty !== 'hard' ? 1 : 0);
   // Two blades means neither hand swings clean, so the main hand loses rhythm.
   const DUAL_SWING_COST = 1.2;
   const DUAL_HIT_PENALTY = 2;
@@ -4046,7 +4051,7 @@ const Game = (() => {
     const p = P();
     if (!atRange || p.cls !== 'ranger' || !(p.eq.weapon && ITEMS[p.eq.weapon.t].aimed)) return 0;
     const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-    return STEADY_AIM + (onPath('sharpshooter') && far >= 3 ? (capped('deadeye') ? 5 : 3) : 0);
+    return steadyAim(far) + (onPath('sharpshooter') && far >= 3 ? (capped('deadeye') ? 5 : 3) : 0);
   }
   /** A Warden's snared foe takes 2 more from every blow and arrow. */
   const wardenHold = m => (onPath('warden') && m.snaredUntil > G.t ? (capped('iron_snare') ? 4 : 2) : 0);
@@ -4102,13 +4107,21 @@ const Game = (() => {
       if (!(di >= 0 && di <= SMOKE_REACH) || m.collapsed) continue;
       // (one drawn back at the hound is the hound's to take: the smoke still hides the hero,
       // and the blow is lost with it, or it waited frozen and fell on the hound unwarned)
+      // the lich and the Warlord, the ends of the shorter delves, see through smoke, but it holds them
+      // back most of two seconds and what they were drawing back falls apart in it (the lich's rite
+      // goes on): a thief met them at the end of a short run with little else, and won 62% of
+      // two-floor delves where every other class won 87% or more
+      if (m.id === 'lich' || m.id === 'warlord') {
+        if (!(m.windup && m.windup.move === 'rite') && (m.windup || m.volley)) { m.windup = null; m.volley = null; floatText(m, 'lost its aim', '#eef0ff'); }
+        m.pressing = false;
+        m.nextAct = Math.max(m.nextAct, G.t + SMOKE_BOSS_MS);
+        continue;
+      }
       if ((m.windup && m.windup.kind !== 'pet') || m.volley) { committed++; continue; }
       if (m.windup) m.windup = null;
       m.pressing = false;
-      // the lich sees through smoke, though it spoils its aim for a moment; it and the Warlord, the
-      // ends of the shorter delves, a longer one: a thief met them at the end of a short run with
-      // little else, and won 59.5% of two-floor delves where every other class won 87% or more
-      if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + (m.id === 'lich' || m.id === 'warlord' ? SMOKE_BOSS_MS : 600)); continue; }
+      // another boss sees through smoke, though it spoils its aim for a moment
+      if (mstat(m).boss) { m.nextAct = Math.max(m.nextAct, G.t + 600); continue; }
       // a foe that had you is hunting for you in the grey, and stays near for a while after:
       // no resting beside it. A sleeper never knew you were there, and stays as it was.
       if (m.awake) { lost++; floatText(m, 'lost you', '#eef0ff'); m.smoked = G.t + SMOKE_ALERT_MS + (onPath('assassin') ? 4500 : SMOKE_MS); }
@@ -4347,8 +4360,10 @@ const Game = (() => {
   // bestiary that an ordinary Normal delve grew kinder (78% wins, tuned to
   // about three in four): its creatures are a touch sturdier to make up for
   // it. Not the Long Delve's, whose figure did not move.
-  const NORMAL_SHORT = 1.04;
-  const shortNormal = () => ((G.opts.difficulty || 'normal') === 'normal' && !isLong() ? NORMAL_SHORT : 1);
+  // (1.11 since the thief, the ranger and the druid were lifted on the shorter delves and Normal
+  // there came to 82%, Hard to 60%: back toward 79% and 57.5%, and Hard 1.05 for the same reason)
+  const NORMAL_SHORT = 1.11, HARD_SHORT = 1.05;
+  const shortNormal = () => (isLong() ? 1 : (G.opts.difficulty || 'normal') === 'normal' ? NORMAL_SHORT : G.opts.difficulty === 'hard' ? HARD_SHORT : 1);
   // On Hard the Long Delve's deep floors hold creatures nearly twice as sturdy,
   // and a spell's dice do not grow with gear as a blow does: the casters fell
   // to them half again as often as anyone (28% and 34% wins, the rest 47% to
@@ -5357,7 +5372,7 @@ const Game = (() => {
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),
     fieldAt: (x, y) => elements.fieldAt(x, y), wet: (x, y) => !!(G && elements.wet(x, y)), vents: () => (G ? elements.vents() : []),
-    pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, isRenownOffer, renownAt, heroSaves: () => heroSaves(), capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
+    pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, isRenownOffer, renownAt, heroSaves: () => heroSaves(), sturdiness: () => diff().hp * shortNormal(), capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
     wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,

@@ -5527,6 +5527,16 @@ await test('the view holds what is equipped: weapon, shield or second blade, and
   return out.length ? out.join('; ') : true;
 });
 
+await test('on a delve shorter than the Long Delve its creatures are a touch sturdier: a ninth on Normal, a twentieth on Hard; not on Easy, nor on the Long Delve', async () => {
+  const out = [];
+  for (const [difficulty, levels, want] of [['normal', 8, 1.5 * 1.11], ['normal', 12, 1.5], ['hard', 8, 1.9 * 1.05], ['hard', 16, 1.9], ['easy', 8, 1]]) {
+    const ctx = await start('fighter', 'sturdy', { difficulty, levels });
+    const got = ctx.Game.sturdiness();
+    if (Math.abs(got - want) > 1e-9) out.push(`${difficulty}, ${levels} floors: ${got.toFixed(3)}, not ${want.toFixed(3)}`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a thief, a ranger and a druid set out with three more hit points (a mage seven, for want of armour); a druid\'s spell points run to the full measure', async () => {
   const out = [];
   for (const [cls, extra] of [['thief', 3], ['ranger', 3], ['druid', 3], ['mage', 7], ['fighter', 0]]) {
@@ -7369,7 +7379,8 @@ await test('a named champion is as much sturdier as the difficulty says, and the
     return Game.level().monsters.find(o => MONSTERS[o.id].named);
   };
   const easy = await on('easy'), normal = await on('normal'), hard = await on('hard');
-  if (Math.abs(normal.maxHp / easy.maxHp - 1.5) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.9) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
+  // (on eight floors, a delve shorter than the Long Delve: a ninth more on Normal, a twentieth on Hard)
+  if (Math.abs(normal.maxHp / easy.maxHp - 1.5 * 1.11) > 0.05 || Math.abs(hard.maxHp / easy.maxHp - 1.9 * 1.05) > 0.05) return `easy ${easy.maxHp}, normal ${normal.maxHp}, hard ${hard.maxHp}`;
   // a hero far ahead of the floor: every creature there is readier, and many become champions, but not this one
   for (let i = 0; i < 6; i++) {
     const pressed = await pinned(i / 6, () => on('normal', 12));
@@ -8898,6 +8909,13 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   if (!lich.awake) out.push('the lich lost the thief in smoke');
   // though it is stalled most of two seconds, where another boss only loses its aim a moment
   if (!(lich.nextAct - t0 >= 1700)) out.push(`smoke stalled the lich ${lich.nextAct - t0}ms`);
+  // and what it was drawing back falls apart in the smoke; its rite does not
+  lich.windup = { kind: 'melee', move: 'nova', at: t0, until: t0 + 900 }; c2.Game.player().abilityReady = 0;
+  c2.Game.useAbility();
+  if (lich.windup) out.push('the lich\'s nova came on through the smoke');
+  lich.windup = { kind: 'melee', move: 'rite', at: t0, until: t0 + 9000 }; c2.Game.player().abilityReady = 0;
+  c2.Game.useAbility();
+  if (!lich.windup || lich.windup.move !== 'rite') out.push('smoke broke off the lich\'s rite');
   const c3 = await start('thief', 'smoke-forged');
   const forged = beside(c3, 'heartforged', { nextAct: 0 });
   const t3 = c3.Game.state().t;
@@ -9723,7 +9741,7 @@ await test('a win by a road is a feat of that road; the Hall line names it', asy
   return Game.hall()[0].route === road || `the Hall kept ${Game.hall()[0].route}`;
 });
 
-await test('a ranger: a bow and Dexterity, Steady Aim at two squares or more, and the bow talents', async () => {
+await test('a ranger: a bow and Dexterity, Steady Aim at two squares or more (one more from three on a short Normal delve, not on Hard), and the bow talents', async () => {
   const out = [];
   const ctx = await start('ranger', 'ranger-kit');
   const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
@@ -9743,8 +9761,13 @@ await test('a ranger: a bow and Dexterity, Steady Aim at two squares or more, an
     for (let i = 0; i < 30; i++) { const hp = m.hp; G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); dealt += hp - m.hp; }
     return dealt / 30;
   };
+  // (on a short delve on Normal, as here, Steady Aim is two; on Hard one: see below)
   const near = volleyOf(1), far = volleyOf(3);
-  if (Math.abs(far - near - 1) > 0.01) out.push(`arrows from three squares did ${far.toFixed(2)} a shot, from beside it ${near.toFixed(2)}`);
+  if (Math.abs(far - near - 2) > 0.01) out.push(`arrows from three squares did ${far.toFixed(2)} a shot, from beside it ${near.toFixed(2)}`);
+  G.opts.difficulty = 'hard';
+  const nearH = volleyOf(1), farH = volleyOf(3);
+  if (Math.abs(farH - nearH - 1) > 0.01) out.push(`on Hard, arrows from three squares did ${farH.toFixed(2)} a shot, from beside it ${nearH.toFixed(2)}`);
+  G.opts.difficulty = 'normal';
   // talents: two squares further and a sixth quicker
   p.perkHit = 0;
   const hitAfter = Game.toHit();
@@ -11472,7 +11495,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     p.stats.dex = 18; p.level = 7;
     // the pack's figure for a ranger's bow carries Steady Aim; for knives, nothing. Per blow
     // (the rate times the draw), the long bow is 2 over the knives by its dice and the short
-    // bow 1, and Steady Aim adds 1 to each: 3 against 2, where without it it would be 2 against 1
+    // bow 1, and Steady Aim (as at two squares) adds 1 to each: 3 against 2, where without it
+    // it would be 2 against 1
     const blow = t => Game.blowRate({ t, q: 1, e: 0 }) * ITEMS_SPEED[t];
     const ratio = (blow('longbow') - blow('throwknife')) / (blow('shortbow') - blow('throwknife'));
     if (Math.abs(ratio - 1.5) > 0.01) out.push(`the pack weighed the bows over the knives at ${ratio.toFixed(2)} to one, not 1.5`);
@@ -11491,7 +11515,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       return total / Math.max(1, n);
     };
     const sling = shot('sling'), knives = shot('throwknife');
-    // both roll 1d4, the sling +1: another point between them is Steady Aim
+    // both roll 1d4, the sling +1: another point between them is Steady Aim (two squares off: the
+    // eight Normal floors' second point is for three squares or more)
     if (!(sling - knives > 1.5 && sling - knives < 2.6)) out.push(`a sling shot averaged ${sling.toFixed(2)}, a throwing knife ${knives.toFixed(2)}`);
     return out.length ? out.join('; ') : true;
   });

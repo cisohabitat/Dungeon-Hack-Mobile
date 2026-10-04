@@ -467,6 +467,8 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   color: #f8e6e0; background: #3a1c22; border-color: #a0484a; border-radius: 8px; }
 .hud-quaff:active { background: #5a2830; }
+/* held fast, no drinking: the button greys and says so */
+.hud-quaff.held { opacity: 0.5; filter: grayscale(0.7); }
 /* nearly dead with a draught to hand: the button beats; held still, it simply burns bright */
 .hud-quaff.urgent { border-color: #ff6a5a; animation: quaff-beat 0.6s ease-in-out infinite alternate; }
 @keyframes quaff-beat { from { box-shadow: 0 0 0 0 rgba(255, 90, 70, 0.2); background: #3a1c22; } to { box-shadow: 0 0 10px 3px rgba(255, 90, 70, 0.75); background: #6a2228; } }

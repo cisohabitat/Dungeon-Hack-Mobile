@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-15a', text: 'the thief now sets out with a second healing draught and a little more life, and its smoke holds the lich and the Goblin Warlord back for longer; the ranger and the druid set out a little sturdier, and the druid has more spell points; past level 12 your experience earns ranks of renown; the Drink button beats when your life runs low' };
+  const NEWS = { id: '2026-10-16a', text: 'the thief sets out with a second healing draught and a little more life, and its smoke holds the lich and the Warlord back; the ranger and the druid set out sturdier, the druid with more spell points and the ranger aiming truer from afar on shorter delves, whose creatures are a touch tougher to match; the Drink button beats when your life runs low, and greys while you are held' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1282,16 +1282,20 @@ const UI = (() => {
     const n = drinks ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
     // nearly dead with a draught to hand, the button beats with the red at the edge of the view
     // (QUAFF_URGENT, as the view's own pulse): heroes went down with four, six, ten in the pack
-    const vit = Game.vitals(), urgent = n > 0 && Game.state().status === 'playing' && vit.hp > 0 && vit.hp < p.maxHp * QUAFF_URGENT;
-    const sig = `${drinks}|${n}|${urgent}`;
+    // held fast (flat on the floor, stone, frozen) there is no drinking: the button says so rather
+    // than beating at a hero who cannot answer it
+    const G = Game.state(), held = (p.held || 0) > G.t;
+    const vit = Game.vitals(), urgent = !held && n > 0 && G.status === 'playing' && vit.hp > 0 && vit.hp < p.maxHp * QUAFF_URGENT;
+    const sig = `${drinks}|${n}|${urgent}|${held}`;
     if (sig === quaffSig) return;
     quaffSig = sig;
     const btn = $('#hud-quaff');
     btn.classList.toggle('urgent', urgent);
+    btn.classList.toggle('held', held);
     btn.style.display = drinks ? '' : 'none';
     btn.style.visibility = n ? '' : 'hidden';
-    $('#hud-quaff-n').textContent = `Drink \u00d7${n}`;
-    btn.setAttribute('aria-label', `Quaff a healing draught (${n} carried)`);
+    $('#hud-quaff-n').textContent = held ? 'Held' : `Drink \u00d7${n}`;
+    btn.setAttribute('aria-label', held ? `Held fast: no drinking until you are free (${n} carried)` : `Quaff a healing draught (${n} carried)`);
   }
   /** Put a named icon in a control (see icon in uikit.js), unless it is there already. @param {Element} btn @param {string} name */
   function setIcon(btn, name) {

@@ -263,13 +263,13 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 83% | 80% | 84% | 83.5% | 76% | 82.5% | about 81.5% |
-| Hard | 58% | 56% | 62% | 61% | 64.5% | 57.5% | about 60% |
-| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 86% | about 82.5% |
-| Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 67.5% | about 63% |
+| Normal | 78.5% | 74.5% | 80.5% | 83% | 78.5% | 80.5% | about 79% |
+| Hard | 56.5% | 56.5% | 61.5% | 60.5% | 61% | 62% | about 59.5% |
+| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 85% | about 82.5% |
+| Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 63% | about 62% |
 | Long Delve (16 floors), Normal | 81% | 75% | 77.5% | 85% | 82% | 78% | about 80% |
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 56% | about 54% |
-| Quick delve (2 floors), Normal | 94% | 87% | 98% | 72% | 87% | 94% | about 88.5% |
+| Quick delve (2 floors), Normal | 92% | 83% | 97% | 72.5% | 88% | 94.5% | about 88% |
 
 With the bot mended, two levers were moved, each measured on both seed sets. The mage's spells on
 a Hard Long Delve of twelve floors grow 4% a floor past the sixth, not 6% (the mage 68% before,
@@ -340,6 +340,18 @@ rows are one seed set (86%, 67.5%, 78%, 56%). The thief's and the ranger's few m
 start barely touch a long delve (the thief on sixteen Normal floors, 84%, as it was), so their Long
 Delve rows stand. Six more hit points for the thief put it at 86.5% on eight Normal floors: too much.
 The ranger stays the lowest on Normal: more hit points lifted Hard more than Normal.
+
+Then, both seed sets throughout: the druid on twelve floors, measured again, 85.25% on Normal and 63.25%
+on Hard, near the top but not over it. The ranger's Steady Aim is +2 from three squares off on a delve
+of eight floors or fewer on Normal or Easy (+2 from two squares took it to 85.75%, the pack then rating
+bows the higher and the bot holding them). The thief's smoke now breaks off what the lich or the
+Warlord was drawing back (not the rite): worth a point on two floors, 72.75%, within the noise; the
+lich at the end of a short delve is simply more than a thief of level three or four can outlast.
+With the three lifts Normal on eight floors had come to 82% and Hard to 60%, so the shorter delves'
+creatures are sturdier again, a ninth on Normal (1.04 before) and a twentieth on Hard; the Long Delve,
+whose rows had not moved, keeps its own. All six classes measured again with all of it: the eight-floor
+and two-floor rows above, Normal about 79% and Hard about 59.5%. The fighter is now the lowest on
+Normal, at 74.25%.
 
 The Normal, Hard and Long Delve rows were measured again, both seed sets, with the commit before
 played on the same seeds, after saving throws went both ways: a foe can ride out a spell that fills
