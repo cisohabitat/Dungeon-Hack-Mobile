@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-13a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; a Bash, a snare cord, a thrown flask and a blade being oiled are now seen; and deep in a sixteen-floor delve on Normal a sneak blow strikes one less' };
+  const NEWS = { id: '2026-10-14a', text: 'past level 12 your experience now earns ranks of renown, a star beside your level and a small gain of your choosing with each; the Drink button beats when your life runs low; a Bash, a snare cord, a thrown flask and a blade being oiled are now seen; and on sixteen floors on Normal the fighter, mage and druid grow stronger sooner while the thief strikes sleeping foes one less' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1272,16 +1272,22 @@ const UI = (() => {
     btn.style.setProperty('--qs', color);
     btn.setAttribute('aria-label', `${ITEMS[it.t].kind === 'oil' ? 'Coat your weapon with the' : 'Read the'} ${Game.itemName({ ...it, q: 1 })}`);
   }
+  // below this share of their life the Drink button beats (the view's red pulse starts there too)
+  const QUAFF_URGENT = 0.25;
   let quaffSig = '';
   function refreshQuaff() {
     const p = Game.player();
     // a caster's Cast button casts and a fighter's or thief's is their own move, so the bottle is here for everyone
     const drinks = (!!CLASSES[p.cls].spells || !!Game.abilityOf()) && !Game.vowed('unaided');
     const n = drinks ? p.inv.filter(i => (i.t === 'potion_heal' || i.t === 'potion_xheal') && Game.isKnown(i.t)).reduce((k, i) => k + i.q, 0) : 0;
-    const sig = `${drinks}|${n}`;
+    // nearly dead with a draught to hand, the button beats with the red at the edge of the view
+    // (QUAFF_URGENT, as the view's own pulse): heroes went down with four, six, ten in the pack
+    const vit = Game.vitals(), urgent = n > 0 && Game.state().status === 'playing' && vit.hp > 0 && vit.hp < p.maxHp * QUAFF_URGENT;
+    const sig = `${drinks}|${n}|${urgent}`;
     if (sig === quaffSig) return;
     quaffSig = sig;
     const btn = $('#hud-quaff');
+    btn.classList.toggle('urgent', urgent);
     btn.style.display = drinks ? '' : 'none';
     btn.style.visibility = n ? '' : 'hidden';
     $('#hud-quaff-n').textContent = `Drink \u00d7${n}`;
@@ -2924,7 +2930,7 @@ const UI = (() => {
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
-    $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); renderMenu(); });
+    $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); renderMenu(); });
     $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
     // like with like: what you fight with first, what you use up after (the pick stays picked)
     $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
@@ -3029,6 +3035,7 @@ const UI = (() => {
       if (h) { if (!h.id) h.id = ov.id + '-title'; ov.setAttribute('aria-labelledby', h.id); }
     }
     Renderer.setCalm(calmOn());
+    document.body.classList.toggle('calm', calmOn());   // (the HUD's own beats are stilled with the view)
     Renderer.setBigNumbers(bigNumbers());
     Game.setTesting(testingSet());
     setHand();

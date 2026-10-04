@@ -64,7 +64,7 @@ test.describe('rest and the quick drink', () => {
     expect(errors).toEqual([]);
   });
 
-  test("a caster's bottle beside the life bar drinks a healing potion; others quaff from Cast", async ({ page }) => {
+  test("a caster's bottle beside the life bar drinks a healing potion, and beats when life is low; others quaff from Cast", async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { cls: 'mage', seed: 'caster-quaff' });
@@ -74,12 +74,18 @@ test.describe('rest and the quick drink', () => {
     const box = await bottle.boundingBox();
     expect(box.width).toBeGreaterThanOrEqual(44);
     expect(box.height).toBeGreaterThanOrEqual(44);
+    await expect(bottle).not.toHaveClass(/urgent/);
     await page.evaluate(() => { const p = Game.player(); p.maxHp = 40; p.hp = 5; });
+    // nearly dead with a draught to hand, the bottle beats
+    await expect(bottle).toHaveClass(/urgent/);
     const before = await healing(page);
     expect(before).toBeGreaterThan(0);
     await bottle.click();
     await expect.poll(() => healing(page)).toBe(before - 1);
     expect(await page.evaluate(() => Game.player().hp)).toBeGreaterThan(5);
+    // out of danger, it is still
+    await page.evaluate(() => { Game.player().hp = 30; });
+    await expect(bottle).not.toHaveClass(/urgent/);
     // the Cast button still casts
     await expect(page.locator('[data-tap="cast"] small')).not.toHaveText('Quaff');
     // with nothing known to drink, the bottle is gone rather than doing something else

@@ -44,8 +44,8 @@ const Game = (() => {
                useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
                /** a Bash: when, and with what (shield, pommel or fist); a throw (a snare's cord, a flask): when, and which */
                bashAt: -1e9, bashKind: '', throwAt: -1e9, throwKind: '',
-               /** where a thrown flask comes down, and when, so its spill is not drawn before it lands */
-               /** @type {{x: number, y: number, at: number}|null} */ landAt: null,
+               /** where thrown flasks come down, when, and what lay there before, so their spill is not drawn before they land */
+               /** @type {Array<{x: number, y: number, at: number, was: string}>} */ landings: [],
                /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
                trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
@@ -70,7 +70,7 @@ const Game = (() => {
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
     fxGen++;
-    fx.texts = []; fx.spells = []; fx.corpses = []; fx.doors = {}; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0;
+    fx.texts = []; fx.spells = []; fx.corpses = []; fx.doors = {}; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0; fx.landings = [];
   }
   const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
@@ -1364,9 +1364,10 @@ const Game = (() => {
     // the arm goes back and over, and the flask tumbles through the air to where it smashes
     const squares = Math.abs(spot.x - p.x) + Math.abs(spot.y - p.y);
     const land = throwArm('flask', 'flask', '#c89040', FLASK_SQUARE * squares, m && !m.sunk ? [m] : [], squares, () => Sound.play('swing', { w: null }));
-    // (oil already there stays to be seen while the flask is in the air)
+    // (what already lay there, oil or fire, stays to be seen while the flask is in the air; each
+    // flask in the air keeps its own landing)
     const had = elements.fieldAt(spot.x, spot.y);
-    if (!(had && had.k === 'oil')) fx.landAt = { x: spot.x, y: spot.y, at: realNow + land };
+    fx.landings = fx.landings.filter(l => l.at > realNow).concat({ x: spot.x, y: spot.y, at: realNow + land, was: had ? had.k : '' });
     // a mimic still shut takes it as the barrel it seems, and that is a blow to it
     if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
     else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
@@ -4361,8 +4362,14 @@ const Game = (() => {
   const deepMagic = () => {
     if (!isLong()) return 1;
     if (G.opts.difficulty === 'hard') return G.depth >= 7 ? 1 + (P().cls === 'mage' && G.opts.levels < 16 ? 0.04 : 0.06) * (G.depth - 6) : 1;
-    return G.depth > 12 ? 1 + 0.06 * (G.depth - 12) : 1;
+    const from = deepFrom();
+    return (G.opts.levels || 8) >= 16 && G.depth > from ? 1 + 0.06 * (G.depth - from) : 1;
   };
+  // Below which floor of sixteen, on Normal or Easy, the deep lifts a hero's spells and blows: the
+  // twelfth, and for the three left last there (the fighter, the mage and the druid, 70% to 73% where
+  // the rest won 81% and more) the tenth
+  const LIFTED_EARLY = ['fighter', 'mage', 'druid'];
+  const deepFrom = () => (LIFTED_EARLY.includes(P().cls) ? 10 : 12);
   // And the fighter, whose one answer is the blow, fell behind there once the
   // casters were lifted (37% wins, the rest 40% to 59%): a fighter's blows grow
   // with the deep floors of a Hard Long Delve too, a little less than a spell.
@@ -4382,7 +4389,7 @@ const Game = (() => {
     // and below a sixteen-floor delve's twelfth floor, on any difficulty, a fighter's
     // blows and the bear's claws grow as they do on Hard: with the spells lifted
     // there they were left last (70% and 66%), and came to 73% and 70.5%
-    if (G.opts.difficulty !== 'hard') return (P().cls === 'fighter' || P().cls === 'druid') && G.depth > 12 ? 1 + rate * (G.depth - 12) : 1;
+    if (G.opts.difficulty !== 'hard') return (P().cls === 'fighter' || P().cls === 'druid') && (G.opts.levels || 8) >= 16 && G.depth > deepFrom() ? 1 + rate * (G.depth - deepFrom()) : 1;
     return rate && G.depth >= 7 ? 1 + rate * (G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */

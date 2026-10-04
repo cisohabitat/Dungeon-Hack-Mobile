@@ -734,11 +734,12 @@ const Renderer = (() => {
       out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.1 + 0.12 * r.u, c: '#2a2218', seed: seed + 5, solo: true });
     }
     if (!F) return out;
-    const land = fx && fx.landAt && now < fx.landAt.at ? fx.landAt : null;
+    const lands = fx && fx.landings && fx.landings.length ? fx.landings.filter(l => now < l.at) : null;
     for (const k in F) {
       const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
-      // (oil from a flask still in the air is not on the floor yet)
-      if (land && f.k === 'oil' && land.x === x && land.y === y) continue;
+      // (oil from a flask still in the air is not on the floor yet, nor the fire it would catch from:
+      // only what lay there before it was thrown)
+      if (lands && lands.some(l => l.x === x && l.y === y && f.k !== l.was)) continue;
       if (f.k === 'fire') {
         // embers across the square, a brighter heart that flickers
         const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 90 + seed);
@@ -1563,7 +1564,7 @@ const Renderer = (() => {
         }
         case 'flask': {
           // a flask of oil tumbling end over end in a high arc, then smashing: a burst of glass
-          // and dark oil where it lands (the spill itself waits for it, see landAt)
+          // and dark oil where it lands (the spill itself waits for it, see landings)
           ctx.save();
           ctx.globalCompositeOperation = 'source-over';
           const f = Math.min(1, t / 0.7);

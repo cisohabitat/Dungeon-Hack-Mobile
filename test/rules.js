@@ -4389,7 +4389,7 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; on Normal only below the twelfth of sixteen', async () => {
+await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; on Normal only below the tenth of sixteen', async () => {
   const hurt = async (depth, cls = 'fighter', difficulty = 'hard', levels = 12) => {
     const ctx = await start(cls, 'deep-steel', { levels, difficulty });
     const { Game } = ctx;
@@ -4414,13 +4414,13 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
   }
-  // sixteen floors on Normal: four past the twelfth, 4% a floor for a fighter and a druid, none for a ranger
-  for (const [cls, lo, hi] of [['fighter', 1.09, 1.24], ['druid', 1.09, 1.24], ['ranger', 0.97, 1.03]]) {
-    const shallow = await hurt(12, cls, 'normal', 16), deep = await hurt(16, cls, 'normal', 16);
+  // sixteen floors on Normal: six past the tenth, 4% a floor for a fighter and a druid, none for a ranger
+  for (const [cls, lo, hi] of [['fighter', 1.19, 1.31], ['druid', 1.19, 1.31], ['ranger', 0.97, 1.03]]) {
+    const shallow = await hurt(10, cls, 'normal', 16), deep = await hurt(16, cls, 'normal', 16);
     if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape on sixteen floors'); continue; }
     if (!shallow) { out.push(`no ${cls} blow landed on sixteen floors`); continue; }
     const r = deep / shallow;
-    if (!(r > lo && r < hi)) out.push(`on sixteen Normal floors a ${cls}'s blows on floor 16 were ${r.toFixed(2)} times those on floor 12`);
+    if (!(r > lo && r < hi)) out.push(`on sixteen Normal floors a ${cls}'s blows on floor 16 were ${r.toFixed(2)} times those on floor 10`);
   }
   // eight floors: three past the fifth, 4% a floor for a fighter on Hard, none for a mage's staff nor on Normal
   for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.07, 1.18], ['fighter', 'normal', 0.97, 1.03], ['ranger', 'hard', 0.97, 1.03]]) {
@@ -4432,7 +4432,7 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
   return out.length ? out.join('; ') : true;
 });
 
-await test('spells strike harder in the deep: 6% a floor past the sixth on a Hard Long Delve (a mage\'s 4% on twelve floors), and past the twelfth of sixteen on any difficulty, a cleric\'s blows with them', async () => {
+await test('spells strike harder in the deep: 6% a floor past the sixth on a Hard Long Delve (a mage\'s 4% on twelve floors), and on any difficulty past the twelfth of sixteen (a mage\'s past the tenth), a cleric\'s blows with them', async () => {
   const dealt = async (cls, depth, difficulty, levels) => {
     const ctx = await start(cls, 'deep-magic', { levels, difficulty });
     const { Game } = ctx;
@@ -4453,9 +4453,10 @@ await test('spells strike harder in the deep: 6% a floor past the sixth on a Har
   for (const [what, cls, diff, levels, a, b, lo, hi] of [
     ['a mage on twelve Hard floors', 'mage', 'hard', 12, 6, 11, 1.12, 1.28],
     ['a mage on sixteen Hard floors', 'mage', 'hard', 16, 6, 11, 1.21, 1.40],
-    ['a mage on sixteen Normal floors', 'mage', 'normal', 16, 12, 16, 1.15, 1.33],
+    ['a mage on sixteen Normal floors', 'mage', 'normal', 16, 10, 16, 1.26, 1.46],
     ['a mage on twelve Normal floors', 'mage', 'normal', 12, 6, 11, 0.97, 1.03],
     ['a cleric\'s blows on sixteen Normal floors', 'cleric', 'normal', 16, 12, 16, 1.15, 1.33],
+    ['a cleric\'s blows between the tenth and twelfth of sixteen', 'cleric', 'normal', 16, 10, 12, 0.97, 1.03],
   ]) {
     const shallow = await dealt(cls, a, diff, levels), deep = await dealt(cls, b, diff, levels);
     if (!shallow) { out.push(`${what}: nothing landed`); continue; }
@@ -12588,12 +12589,17 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     { const { Game, G, p, at } = await arena('thief', 'see-flask');
       p.inv.push({ t: 'lamp_oil', q: 1, e: 0 });
       const fx = Game.renderState(0).fx;
-      fx.throwAt = -1e9; fx.spells.length = 0; fx.landAt = null; G.t = Math.max(G.t, p.nextAttack) + 10;
+      fx.throwAt = -1e9; fx.spells.length = 0; fx.landings = []; G.t = Math.max(G.t, p.nextAttack) + 10;
       Game.useItem(p.inv.find(i => i.t === 'lamp_oil'));
       const [x3, y3] = at(3);
       if (!(fx.throwAt > -1e9) || fx.throwKind !== 'flask') out.push(`no throw drawn for the flask (${fx.throwKind})`);
       if (!fx.spells.some(s => s.style === 'flask')) out.push('no flask in flight');
-      if (!fx.landAt || fx.landAt.x !== x3 || fx.landAt.y !== y3 || !(fx.landAt.at > fx.throwAt)) out.push(`the spill is not held for the landing (${JSON.stringify(fx.landAt)})`);
+      const land = fx.landings[fx.landings.length - 1];
+      if (!land || land.x !== x3 || land.y !== y3 || !(land.at > fx.throwAt) || land.was !== '') out.push(`the spill is not held for the landing (${JSON.stringify(fx.landings)})`);
+      // a second flask while the first is in the air keeps the first one's landing too
+      p.inv.push({ t: 'lamp_oil', q: 1, e: 0 }); G.t = Math.max(G.t, p.nextAttack) + 10;
+      Game.useItem(p.inv.find(i => i.t === 'lamp_oil'));
+      if (fx.landings.length !== 2 || fx.landings[1].was !== 'oil') out.push(`two flasks in the air kept ${JSON.stringify(fx.landings)}`);
       if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('the oil was not spilt at once (the rules must not wait on the picture)'); }
     return out.length ? out.join('; ') : true;
   });
