@@ -1759,7 +1759,10 @@ const Game = (() => {
     // goblin blows could take, and a fifth of runs never left the first floor.
     // Starting a little sturdier costs nothing by the fourth floor, where
     // levels have added far more than this.
-    p.maxHp = Math.max(10, c.hitDie + 6 + (c.startHp || 0) + mod(p.stats.con));
+    // (the fighter's few more are for Easy and Normal only: it trailed the rest there,
+    // and on Hard, where it ran level with them, the same three took it ten points past)
+    const mild = (cfg.opts || {}).difficulty !== 'hard' ? c.mildHp || 0 : 0;
+    p.maxHp = Math.max(10, c.hitDie + 6 + (c.startHp || 0) + mild + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock

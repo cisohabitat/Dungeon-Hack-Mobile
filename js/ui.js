@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-18a', text: 'floor size now changes what a floor holds: a large floor has more locks, traps, hidden rooms and encounters, corridors that wind, and recesses in its long ones to step aside into; a small floor has a lesser great hall, more ways round, and fewer locks and traps; loot no longer falls into the sealed corners of a shrine' };
+  const NEWS = { id: '2026-10-19a', text: 'the fighter sets out with a little more life on Easy and Normal; weapons say how fast they swing in words, and the pack and the trader weigh one against another as a share, a third more or half as much, not a figure per second' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1447,6 +1447,21 @@ const UI = (() => {
     if (!r) return plainBlurb(it) + (it.px && !it.h && PREFIX_NAME[it.px] ? `. ${PREFIX_NAME[it.px]}: ${PREFIX_DESC[it.px]}` : '') + (it.pw && !it.h && RELIC_POWERS[it.pw] ? `. ${RELIC_POWERS[it.pw].split(':')[0]}` : '');
     return `${ITEMS[it.t].name}. ${plainBlurb(it)}. ${r.powers.map(k => RELIC_POWERS[k].split(':')[0]).join(', ')}`;
   }
+  // How fast a weapon swings, in words: "0.34s" between blows read as a
+  // stopwatch, not a weapon. A dagger is quick, a greatsword very slow.
+  /** @param {number} ms */
+  const paceOf = ms => ms <= 450 ? 'quick' : ms <= 600 ? 'brisk' : ms <= 750 ? 'steady' : ms <= 900 ? 'slow' : 'very slow';
+  // One weapon's damage over a fight beside another's, as a share anyone can
+  // weigh: "a third more", "half as much". It was "+14.9 damage per second".
+  /** @param {number} r  the new weapon's damage over time, to the old one's */
+  function damageShare(r) {
+    if (!(r > 0) || !isFinite(r)) return 'no damage to speak of';
+    if (Math.abs(r - 1) < 0.05) return 'about the same damage';
+    if (r >= 1.75) { const h = Math.round(r * 2) / 2; return `about ${h % 1 ? Math.floor(h) + '\u00bd' : h} times the damage`; }
+    const near = (/** @type {[number, string][]} */ list, x) => list.reduce((a, b) => Math.abs(b[0] - x) < Math.abs(a[0] - x) ? b : a)[1];
+    if (r > 1) return near([[0.1, 'a tenth more damage'], [0.2, 'a fifth more damage'], [0.25, 'a quarter more damage'], [1 / 3, 'a third more damage'], [0.5, 'half as much damage again'], [2 / 3, 'two thirds more damage']], r - 1);
+    return near([[0.9, 'a tenth less damage'], [0.8, 'a fifth less damage'], [0.75, 'a quarter less damage'], [2 / 3, 'a third less damage'], [0.5, 'half the damage'], [1 / 3, 'a third of the damage'], [0.25, 'a quarter of the damage'], [0.1, 'a fraction of the damage']], r);
+  }
   function plainBlurb(it) {
     const b = ITEMS[it.t];
     if (!Game.isKnown(it.t)) return 'You do not know what this does';
@@ -1455,7 +1470,7 @@ const UI = (() => {
       const sp = b.speed * (swiftOf(it) ? 0.85 : 1);
       // one figure, enchantment folded in: "1d6+1 +1" read as a typo
       const add = d[2] + knownE(it);
-      return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${(sp / 1000).toFixed(sp % 100 ? 2 : 1)}s${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
+      return `Damage ${d[0]}d${d[1]}${add > 0 ? '+' + add : add < 0 ? '\u2212' + -add : ''}${it.h ? ' ?' : ''}, ${paceOf(sp)} blows${b.range ? `, reaches ${b.range}` : ''}${b.twoHanded ? ', two-handed' : ''}`;
     }
     // a piece made with a power of its own (a wyrm's scales, a quillback's quills) says so
     const own = b.power && (b.kind === 'armor' || b.kind === 'shield') && RELIC_POWERS[b.power] ? `. ${RELIC_POWERS[b.power]}` : '';
@@ -2192,7 +2207,7 @@ const UI = (() => {
         : r1 < r0 ? `, but ${r1 > 1 ? `it reaches only ${r1} squares` : 'only at arm\'s length'}, not ${r0}` : '';
       // coloured by the whole of it: when reach and damage pull opposite ways, neither green nor red
       const mixed = (r1 > r0 && delta < 0) || (r1 < r0 && delta > 0);
-      return `<p class="compare ${mixed ? 'mixed' : delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} damage per second${far}</p>`;
+      return `<p class="compare ${mixed ? 'mixed' : delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${damageShare(next / now)} over a fight${far}</p>`;
     }
     // a focus is not measured in armour: its own words say what it does
     if (b.focus || (cur && ITEMS[cur.t].focus)) return '';

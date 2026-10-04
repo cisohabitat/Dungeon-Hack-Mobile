@@ -554,7 +554,10 @@ test.describe('interface', () => {
     });
     await page.click('[data-open="inv"]');
     await page.locator('#inv-grid .slot.filled', { hasText: 'Two-handed Sword' }).first().click();
-    await expect(page.locator('.compare')).toContainText(/damage per second/);
+    // in words a newcomer can weigh, not a figure per second; and the pace in words too
+    await expect(page.locator('.compare')).toContainText(/(more|less|same|times the) damage over a fight/);
+    await expect(page.locator('.compare')).not.toContainText(/per second/);
+    await expect(page.locator('#ov-inv')).toContainText(/very slow blows/);
     // a bow's reach is said beside the figure, which cannot count the blows it buys
     await page.locator('#inv-grid .slot.filled', { hasText: 'Long Bow' }).first().click();
     await expect(page.locator('.compare')).toContainText('reaches 7 squares');

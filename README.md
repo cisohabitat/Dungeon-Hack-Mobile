@@ -263,11 +263,11 @@ Easy and 400 on Normal and Hard (`SEEDN=40`), where 200 cannot tell the classes 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 99% | 98% | 98% | 97% | 97% | 98% | about 98% |
-| Normal | 78.5% | 74.5% | 80.5% | 83% | 78.5% | 80.5% | about 79% |
+| Normal | 78.5% | 80% | 80.5% | 83% | 78.5% | 80.5% | about 80% |
 | Hard | 56.5% | 56.5% | 61.5% | 60.5% | 61% | 62% | about 59.5% |
-| Long Delve (12 floors), Normal | 84% | 79% | 83.5% | 82% | 81% | 85% | about 82.5% |
+| Long Delve (12 floors), Normal | 84% | 84.5% | 83.5% | 82% | 81% | 85% | about 83% |
 | Long Delve (12 floors), Hard | 65.5% | 58% | 63% | 63% | 60% | 63% | about 62% |
-| Long Delve (16 floors), Normal | 81% | 75% | 77.5% | 85% | 82% | 78% | about 80% |
+| Long Delve (16 floors), Normal | 81% | 77.5% | 77.5% | 85% | 82% | 78% | about 80% |
 | Long Delve (16 floors), Hard | 58% | 50% | 50% | 54% | 56.5% | 56% | about 54% |
 | Quick delve (2 floors), Normal | 92% | 83% | 97% | 72.5% | 88% | 94.5% | about 88% |
 
@@ -280,9 +280,16 @@ square for square as they were, so its row stands:
 
 | Floor size, Normal | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall | Kills | Level at the end |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Small (28 squares a side) | 77.5% | 70% | 79% | 76% | 79.5% | 74% | about 76% | 34 | 7.5 |
-| Medium (36) | 79% | 74.5% | 80.5% | 83% | 79% | 80% | about 79.5% | 50 | 8.1 |
-| Large (44) | 76.5% | 78.5% | 80.5% | 82% | 81% | 78% | about 79.5% | 66 | 8.6 |
+| Small (28 squares a side) | 77.5% | 78% | 79% | 76% | 79.5% | 74% | about 77% | 34 | 7.5 |
+| Medium (36) | 79% | 80% | 80.5% | 83% | 79% | 80% | about 80% | 50 | 8.1 |
+| Large (44) | 76.5% | 83% | 80.5% | 82% | 81% | 78% | about 80% | 66 | 8.6 |
+
+The fighter, then the lowest on Normal at every size (75.5% on Medium, measured again the same day,
+70% on Small), now starts with three more hit points on Easy and Normal, as the thief, the ranger and
+the druid do on every difficulty: 80% on Medium, 78% on Small, 83% on Large, 84.5% and 77.5% on twelve
+and sixteen floors, and the quick delve as it was (83.5%, 84.5% before). Not on Hard, where it ran
+level with the rest (58.5%) and the same three took it to 68.5%. It still dies more often than the
+others with healing draughts unused: what kills it comes in one heavy blow more than a long fight.
 
 A small floor first had fewer hidden rooms and encounters too, by its floor space: it came to 71.5%,
 its heroes a third of a level lower again, so it keeps the middle size's (with fewer encounters only

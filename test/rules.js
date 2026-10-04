@@ -583,6 +583,21 @@ await test('every class starts with at least ten hit points', async () => {
   return true;
 });
 
+await test('a fighter starts three hit points sturdier on Easy or Normal than on Hard; no other class does', async () => {
+  const out = [];
+  for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid']) {
+    const hp = {};
+    for (const difficulty of ['easy', 'normal', 'hard']) {
+      const ctx = await newContext();
+      ctx.Game.newGame({ name: 'H', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mild-hp', opts: { ...OPTS, difficulty } });
+      hp[difficulty] = ctx.Game.player().maxHp;
+    }
+    const want = cls === 'fighter' ? 3 : 0;
+    if (hp.normal - hp.hard !== want || hp.easy - hp.hard !== want) out.push(`a ${cls} starts on ${hp.easy} / ${hp.normal} / ${hp.hard} (Easy, Normal, Hard)`);
+  }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a crowded dungeon starts crowding from the second floor', async () => {
   for (let i = 0; i < 12; i++) {
     const seed = 'dense' + i;
@@ -5578,9 +5593,10 @@ await test('on a delve shorter than the Long Delve its creatures are a touch stu
   return out.length ? out.join('; ') : true;
 });
 
-await test('a thief, a ranger and a druid set out with three more hit points (a mage seven, for want of armour); a druid\'s spell points run to the full measure', async () => {
+await test('a thief, a ranger and a druid set out with three more hit points (a mage seven, for want of armour; a fighter three, off Hard); a druid\'s spell points run to the full measure', async () => {
   const out = [];
-  for (const [cls, extra] of [['thief', 3], ['ranger', 3], ['druid', 3], ['mage', 7], ['fighter', 0]]) {
+  // (these start on Normal: the fighter's three are counted, and its Hard start in the test of its own)
+  for (const [cls, extra] of [['thief', 3], ['ranger', 3], ['druid', 3], ['mage', 7], ['fighter', 3]]) {
     const ctx = await start(cls, 'start-hp-' + cls);
     const p = ctx.Game.player(), c = ctx.CLASSES[cls];
     const want = Math.max(10, c.hitDie + 6 + extra + ctx.Game.mod(p.stats.con));

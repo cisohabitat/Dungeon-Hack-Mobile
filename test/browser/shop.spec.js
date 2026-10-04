@@ -136,7 +136,7 @@ test.describe('the trader', () => {
     await expect(page.locator('#ov-shop')).toHaveClass(/open/);
     const worn = await page.evaluate(() => ({ w: Game.itemName({ ...Game.player().eq.weapon, q: 1 }), a: Game.player().eq.armor ? Game.itemName({ ...Game.player().eq.armor, q: 1 }) : null }));
     const rows = page.locator('#shop-stock .shop-row');
-    await expect(rows.filter({ hasText: 'Dagger' })).toContainText(new RegExp(`vs ${worn.w}: [+-]?\\d+(\\.\\d)? damage per second`));
+    await expect(rows.filter({ hasText: 'Dagger' })).toContainText(new RegExp(`vs ${worn.w}: .*damage over a fight`));
     if (worn.a) await expect(rows.filter({ hasText: 'Leather' })).toContainText(new RegExp(`vs ${worn.a}: [+-]?\\d+ armour class`));
     expect(errors).toEqual([]);
   });

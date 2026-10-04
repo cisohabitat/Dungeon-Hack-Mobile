@@ -363,7 +363,7 @@ const MAX_LEVEL = 12;
 
 const CLASSES = {
   fighter: {
-    name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
+    name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, mildHp: 3, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
     // how the class plays for someone choosing it, on its card
     ease: 'Forgiving: takes a beating and hits back.',
