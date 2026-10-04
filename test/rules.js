@@ -450,6 +450,44 @@ await test('the Use button names each thing it can do', async () => {
   return true;
 });
 
+await test('a locked door is forced only face-on: a step aside or back into one is a bump, though a key still opens it', async () => {
+  const out = [];
+  const ctx = await newContext();
+  const { Game, Dungeon } = ctx, T = Dungeon.T, D = Dungeon.DIRS;
+  Game.newGame({ name: 'L', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats, str: 18 }, seed: 'lock-side', opts: OPTS });
+  const G = Game.state(), p = Game.player(), L = Game.level();
+  L.monsters.length = 0;
+  // the hero faces east (1); the doors are set round the hero fresh for each step
+  p.dir = 1;
+  const at = rel => { const [dx, dy] = D[(p.dir + rel) % 4]; return [p.x + dx, p.y + dy]; };
+  const lockAt = (rel, colour) => { const [x, y] = at(rel); L.tiles[y * L.w + x] = T.DOOR_LOCKED; L.locks[x + ',' + y] = colour; return [x, y]; };
+  const real = Math.random;
+  Math.random = () => 0;          // a shoulder thrown at it would always burst it
+  try {
+    for (const [rel, act] of [[1, 'strafeR'], [3, 'strafeL'], [2, 'back']]) {
+      const [x, y] = lockAt(rel, 'iron');
+      const t0 = p.nextAttack, mark = markLog(G);
+      Game.input(act);
+      if (L.tiles[y * L.w + x] !== T.DOOR_LOCKED) out.push(`a ${act} into a locked door forced it`);
+      if (p.nextAttack !== t0) out.push(`a ${act} into a locked door cost the hero a moment`);
+      if (!linesSince(G, mark).some(l => /locked/.test(l) && /face it/.test(l))) out.push(`a ${act} into a locked door said nothing of facing it: ${linesSince(G, mark).join(' | ')}`);
+      L.tiles[y * L.w + x] = T.WALL; delete L.locks[x + ',' + y];
+      G.t += 1000;
+    }
+    // face-on, it is forced as before
+    { const [x, y] = lockAt(0, 'iron');
+      Game.input('forward');
+      if (L.tiles[y * L.w + x] !== T.DOOR_OPEN) out.push('walking into a locked door ahead did not force it');
+      L.tiles[y * L.w + x] = T.WALL; G.t += 2000; }
+    // and with its key, a door at the side opens all the same
+    { const [x, y] = lockAt(1, 'silver');
+      p.inv.push({ t: 'key', q: 1, color: 'silver' });
+      Game.input('strafeR');
+      if (L.tiles[y * L.w + x] !== T.DOOR_OPEN) out.push('a step aside into a locked door, key in hand, did not unlock it'); }
+  } finally { Math.random = real; }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('a monster that wakes beside you growls before it strikes', async () => {
   const ctx = await newContext();
   const { Game, Dungeon } = ctx;
@@ -4503,7 +4541,8 @@ await test('the way in: the dungeon holds still while it plays, any control skip
   Game.beginPrelude(20000);
   Game.newGame({ name: 'Next', cls: 'thief', stats: Game.rollStats(), seed: 'way-in-next', opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: 'normal' } });
   if (Game.preludeOn()) out.push('a new run took up the last run\'s way in');
-  if (Game.state().log.some(l => /roof of the passage comes down/.test(l.t || l.text || String(l)))) out.push('the last run\'s way in was told in the new one');
+  for (let t = 20000; t < 30000; t += 500) Game.renderState(t);
+  if (Game.state().log.some(l => /roof of the passage comes down/.test(l.m))) out.push('the last run\'s way in was told in the new one');
   // a first floor saved before the way in came down has its stair up under rock when taken up
   const F = Game.level(); delete F.caved; Game.save(true);
   if (!Game.load()) out.push('could not take the save up');
@@ -5549,9 +5588,11 @@ await test('a thief, a ranger and a druid set out with three more hit points (a 
   return out.length ? out.join('; ') : true;
 });
 
-await test('past the sixth floor of sixteen, on Normal, a sneak blow is one less; not on Hard, nor above it, nor on a shorter delve', async () => {
+await test('past the sixth floor of sixteen, on Normal, a sneak blow is one less (a plain thief\'s no better than any blow); not on Hard, nor above it, nor on a shorter delve', async () => {
   const out = [];
-  const at = async (opts, depth) => { const ctx = await start('thief', 'deep-sneak', opts); ctx.Game.state().depth = depth; return ctx.Game.sneakMult(); };
+  // an Assassin's (three), so the trim shows; a thief with nothing to add never falls below the double blow
+  const at = async (opts, depth, path = 'assassin') => { const ctx = await start('thief', 'deep-sneak', opts); ctx.Game.state().depth = depth; ctx.Game.player().path = path; return ctx.Game.sneakMult(); };
+  if (await at({ levels: 16, difficulty: 'normal' }, 9, null) !== 1) out.push('a thief with nothing to add kept the double blow past the sixth of sixteen');
   const base = await at({ levels: 16, difficulty: 'normal' }, 6);
   if (await at({ levels: 16, difficulty: 'normal' }, 7) !== base - 1) out.push('a sneak blow on the seventh of sixteen was not one less');
   if (await at({ levels: 16, difficulty: 'hard' }, 7) !== base) out.push('the trim reached Hard');
@@ -8913,9 +8954,11 @@ await test('a thief\'s Smoke makes everything close lose them, asleep to them un
   lich.windup = { kind: 'melee', move: 'nova', at: t0, until: t0 + 900 }; c2.Game.player().abilityReady = 0;
   c2.Game.useAbility();
   if (lich.windup) out.push('the lich\'s nova came on through the smoke');
-  lich.windup = { kind: 'melee', move: 'rite', at: t0, until: t0 + 9000 }; c2.Game.player().abilityReady = 0;
+  const t1 = c2.Game.state().t;
+  lich.windup = { kind: 'melee', move: 'rite', at: t1, until: t1 + 2400 }; lich.nextAct = t1 + 2400; c2.Game.player().abilityReady = 0;
   c2.Game.useAbility();
   if (!lich.windup || lich.windup.move !== 'rite') out.push('smoke broke off the lich\'s rite');
+  if (lich.nextAct !== t1 + 2400) out.push(`smoke held the lich's rite back ${lich.nextAct - t1 - 2400}ms`);
   const c3 = await start('thief', 'smoke-forged');
   const forged = beside(c3, 'heartforged', { nextAct: 0 });
   const t3 = c3.Game.state().t;
@@ -12643,11 +12686,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       if (!(fx.throwAt > -1e9) || fx.throwKind !== 'flask') out.push(`no throw drawn for the flask (${fx.throwKind})`);
       if (!fx.spells.some(s => s.style === 'flask')) out.push('no flask in flight');
       const land = fx.landings[fx.landings.length - 1];
-      if (!land || land.x !== x3 || land.y !== y3 || !(land.at > fx.throwAt) || land.was !== '') out.push(`the spill is not held for the landing (${JSON.stringify(fx.landings)})`);
+      // (all five squares the spill runs onto, each with what lay there: nothing)
+      if (!land || land.x !== x3 || land.y !== y3 || !(land.at > fx.throwAt) || Object.keys(land.was).length !== 5 || Object.values(land.was).some(k => k !== '')) out.push(`the spill is not held for the landing (${JSON.stringify(fx.landings)})`);
       // a second flask while the first is in the air keeps the first one's landing too
       p.inv.push({ t: 'lamp_oil', q: 1, e: 0 }); G.t = Math.max(G.t, p.nextAttack) + 10;
       Game.useItem(p.inv.find(i => i.t === 'lamp_oil'));
-      if (fx.landings.length !== 2 || fx.landings[1].was !== 'oil') out.push(`two flasks in the air kept ${JSON.stringify(fx.landings)}`);
+      if (fx.landings.length !== 2 || fx.landings[1].was[`${x3},${y3}`] !== 'oil') out.push(`two flasks in the air kept ${JSON.stringify(fx.landings)}`);
       if (!Game.fieldAt(x3, y3) || Game.fieldAt(x3, y3).k !== 'oil') out.push('the oil was not spilt at once (the rules must not wait on the picture)'); }
     return out.length ? out.join('; ') : true;
   });

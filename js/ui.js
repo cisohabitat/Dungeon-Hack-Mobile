@@ -130,7 +130,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-16a', text: 'the thief sets out with a second healing draught and a little more life, and its smoke holds the lich and the Warlord back; the ranger and the druid set out sturdier, the druid with more spell points and the ranger aiming truer from afar on shorter delves, whose creatures are a touch tougher to match; the Drink button beats when your life runs low, and greys while you are held' };
+  const NEWS = { id: '2026-10-17a', text: 'a step aside or back into a locked door no longer throws your shoulder at it; the first fight names only the side you can step to, in the arrows on the buttons; the map marks a locked door with a dot in its key colour; a tip no longer shows the log through it; past the top level the hero sheet says which rank the bar fills toward' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -651,10 +651,10 @@ const UI = (() => {
     // step back from its blow (with time slowed while that is learnt)
     face: 'Something is coming, and not from in front. <b>Turn to face it</b>: the red chevron at the edge of the view points the way.',
     monster: 'Something is coming. When it is in front of you, tap <b>⚔ Attack</b> to strike it.',
-    dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ▼</b> now and it hits empty air.',
-    dodgeside: '<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
-    dodgelunge: '<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> (◀ or ▶) now and it hits empty air.',
-    dodgelungeflank: '<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>forward or back</b> (▲ or ▼), out of its line, and it hits empty air.',
+    dodge: '<b>A warning mark!</b> Its blow is coming: <b>step back ↓</b> now and it hits empty air.',
+    dodgeside: () => `<b>A warning mark!</b> Its blow is coming, and there is a wall behind you: <b>step aside</b> ${asideWay()} now and it hits empty air.`,
+    dodgelunge: () => `<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> ${asideWay()} now and it hits empty air.`,
+    dodgelungeflank: () => `<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>${canStep(0) && canStep(2) ? 'forward or back</b> (↑ or ↓)' : canStep(0) ? 'forward</b> (↑)' : 'back</b> (↓)'}, out of its line, and it hits empty air.`,
     lunged: 'It <b>lunged after you</b>: a rat, a ghoul or a wraith follows a step straight away from it. Step <b>out of its line</b> instead, to the side of it, and it hits empty air.',
     dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
@@ -795,7 +795,8 @@ const UI = (() => {
     if (!el || (!urgent && performance.now() < tipUntil)) return false;      // one at a time
     tipsSeen.push(id);
     store(TIPS_SEEN, JSON.stringify(tipsSeen));
-    el.innerHTML = TIPS[id];
+    const said = TIPS[id];
+    el.innerHTML = typeof said === 'function' ? said() : said;
     el.dataset.tip = id;
     el.classList.add('show');
     el.setAttribute('aria-label', 'Tip; tap to dismiss');
@@ -816,6 +817,11 @@ const UI = (() => {
     if (seenTip(id)) return;
     tipsSeen.push(id);
     store(TIPS_SEEN, JSON.stringify(tipsSeen));
+  }
+  /** Which way aside is open, in the d-pad's own arrows: naming a side walled or locked
+   *  sent a first hero into a door it then tried to force, with the blow still coming. */
+  function asideWay() {
+    return canStep(1) && canStep(3) ? '(← or →)' : canStep(3) ? 'to the left (←)' : 'to the right (→)';
   }
   /** Whether the hero could step that way (0 ahead, 1 right, 2 behind, 3 left): open floor, nothing standing on it. */
   function canStep(turn) {
@@ -2207,7 +2213,7 @@ const UI = (() => {
     { id: 'down', colour: '#ffd24a', label: 'Stairs down' },
     { id: 'up', colour: '#86d870', label: 'Stairs up' },
     { id: 'door', colour: '#c08a3e', label: 'Door' },
-    { id: 'locked', colour: '#d0409a', label: 'Locked door' },
+    { id: 'locked', colour: '#d0409a', label: 'Locked door (\u25cf its key\'s colour)' },
     { id: 'fountain', colour: '#49a6f0', label: 'Fountain' },
     { id: 'trader', colour: '#b57ae0', label: 'Trader' },
     { id: 'loot', colour: '#5ad0c0', label: 'Something here' },
@@ -2349,7 +2355,8 @@ const UI = (() => {
           case T.DOOR_OPEN: col = '#7a5a34'; mark = "'"; break;
           case T.DOOR_LOCKED:
             col = MAP_COLOUR.locked;
-            mark = '\u2716';
+            // a dot in its key's colour: a cross here read as the trap's mark
+            mark = '\u25cf';
             markColour = KEY_COLORS[L.locks[x + ',' + y]] || '#fff';
             break;
           case T.STAIRS_DOWN: col = MAP_COLOUR.down; mark = '\u25bc'; break;
@@ -2486,7 +2493,7 @@ const UI = (() => {
     const top = `<div class="sheet-top"><img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}">`
       + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}${rank ? `, renown\u00a0\u2605${rank}` : ''}</span>`
       + `<div class="xp-bar" role="img" aria-label="Experience ${p.xp} of ${next || p.xp}"><i style="width:${toNext}%"></i></div>`
-      + `<small>Experience ${p.xp} / ${next || '\u2014'}</small></div></div>`;
+      + `<small>Experience ${p.xp} / ${next || '\u2014'}${top12 ? ` to renown \u2605${rank + 1}` : ''}</small></div></div>`;
     const fight = [
       row('Hit points', `${p.hp} / ${p.maxHp}`), row('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '\u2014'),
       row('Armour class', Game.playerAC()), row('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit()),
@@ -2807,7 +2814,7 @@ const UI = (() => {
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
-    if (G.tested) news.push('A test run (endless life, spell points or gold): it is not written in the Hall, and earns no trophy.');
+    if (G.tested) news.push('A test run (a testing tool from the Menu was used): it is not written in the Hall, and earns no trophy.');
     else if (won && (G.opts.levels || 8) <= 2) news.push('A quick delve won: it goes in the Hall, but trophies wait for a delve of four floors or more.');
     else if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');
     // and the next thing to aim for, while a past is still locked

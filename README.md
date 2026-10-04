@@ -311,7 +311,9 @@ over, and the ranks taken.
 The thief on sixteen floors on Normal was the outlier, 88% and 87% on the two seed sets (87.5%) where the
 classes together won 77.5%, and the Assassin five to eight points over the Trickster. Past the sixth
 floor of sixteen, on Normal or Easy, a sneak blow is now one less: 84% and 85.5% (84.75%), the two paths
-within a few points of each other. From the thirteenth floor only, the same trim was worth one point.
+within a few points of each other. From the thirteenth floor only, the same trim was worth one point. A thief
+with no talent, path or relic to add to it strikes there as any blow does, and the log no longer
+calls it a sneak blow; holding the sneak blow at a double there undid the trim (87.75%), so it stays.
 
 And from the other end: the fighter, the mage and the druid on sixteen floors on Normal, measured again
 on both seed sets at 200 runs each, won 72.25%, 74.5% and 71%. The deep's lift (spells 6% a floor, a

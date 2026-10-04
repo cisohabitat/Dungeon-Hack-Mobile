@@ -532,6 +532,9 @@ body.calm .hud-quaff.urgent { animation: none; background: #6a2228; box-shadow: 
 .tip.show { opacity: 1; transform: none; pointer-events: auto; }
 .tip.show::after { content: '\2715'; position: absolute; right: 10px; top: 7px; color: var(--dim); }
 .tip b { color: var(--gold); }
+/* the tip hangs over the log's older lines: they are hidden while it does, or
+   their edges showed above and below it, half struck through by its border */
+.view-col:has(#tip.show) .log div:not(:last-child) { visibility: hidden; }
 /* what lies underfoot, at the foot of the view */
 .feet { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 6px;
   min-height: 44px; padding: 4px 10px; background: rgba(12, 10, 18, 0.72); border: 1px solid var(--border); border-radius: 10px; }
@@ -647,6 +650,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .trophy-grid .tcls { font-size: 0.88rem; color: #c8bfae; }
 .trophy-grid .cell { min-height: 36px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: 1rem; }
 .trophy-grid .cell.won { border-color: #7a6030; background: #33291a; box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.25); }
+/* the mastery cell shows its star dim until it is won: blank, the narrow column had no name */
+.trophy-grid .cell.mastery:not(.won) { color: #4a4458; }
 .trophy-grid.paths { grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1.5fr)) minmax(0, 0.5fr); }
 .trophy-grid.vows { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* a long name wraps onto a second line on the narrowest phones rather than losing its end */
@@ -772,7 +777,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
   /* the six classes in one row, each a face, a name and its line */
   #screen-create .class-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
   #screen-create .class-face { width: 34px; height: 34px; }
-  #screen-create .first-hero { white-space: nowrap; font-size: 0.66rem; }
+  /* (narrow cards: the badge keeps to its column and wraps there; on one line it ran a pixel or two over the card's edge) */
+  #screen-create .first-hero { font-size: 0.66rem; line-height: 1.15; padding: 1px 4px; max-width: 100%; box-sizing: border-box; }
   /* the difficulty and the name side by side, so the classes come higher up the screen */
   #screen-create .create-top { display: grid; grid-template-columns: 1.3fr 1fr; column-gap: 14px; align-items: start; }
   #screen-create .create-top label.field { margin: 2px 0 0; }

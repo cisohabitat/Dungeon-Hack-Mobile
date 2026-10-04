@@ -829,7 +829,8 @@ const Assets = (() => {
   }
   /** a pixel canvas to paint into, and the way to hand it back as a canvas */
   function pixels() {
-    const c = canvas(TEX, TEX), ctx = c.getContext('2d'), img = ctx.createImageData(TEX, TEX), d = img.data;
+    // (read back as often as it is written: a canvas kept on the GPU is slow to read, and the browser said so)
+    const c = canvas(TEX, TEX), ctx = c.getContext('2d', { willReadFrequently: true }), img = ctx.createImageData(TEX, TEX), d = img.data;
     /** @param {number} x @param {number} y @param {number[]} c  red, green, blue @param {number} [k]  how much lighter (or darker) */
     const set = (x, y, c, k = 0) => {
       const i = (y * TEX + x) * 4, [r, g, b] = c;

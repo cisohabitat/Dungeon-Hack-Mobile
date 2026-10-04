@@ -739,7 +739,7 @@ const Renderer = (() => {
       const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
       // (oil from a flask still in the air is not on the floor yet, nor the fire it would catch from:
       // only what lay there before it was thrown)
-      if (lands && lands.some(l => l.x === x && l.y === y && f.k !== l.was)) continue;
+      if (lands && lands.some(l => Math.abs(l.x - x) + Math.abs(l.y - y) <= 1 && f.k !== (l.was[k] || ''))) continue;
       if (f.k === 'fire') {
         // embers across the square, a brighter heart that flickers
         const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 90 + seed);

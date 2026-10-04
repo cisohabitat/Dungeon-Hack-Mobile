@@ -1089,7 +1089,7 @@ export function makeFoes(K) {
     if (!spot) { K.log('The drum booms through the Warrens, but there is no room for anyone to come.', 'bad'); return; }
     const b = MONSTERS.goblin, hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((K.G.depth - 1) / 2);
     const g = K.newMonster('goblin', spot[0], spot[1], hp());
-    const f = K.diff().hp * (1 + K.PRESS_HP * (K.lvl().press || 0));
+    const f = K.diff().hp * K.shortNormal() * (1 + K.PRESS_HP * (K.lvl().press || 0));
     g.pack = [0].map(() => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
     g.awake = true;
     K.log(`BOOM. BOOM. The ${mb.name}'s drum rolls through the Warrens, and a warband comes running!`, 'bad');
@@ -1232,7 +1232,7 @@ export function makeFoes(K) {
         const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]) + Math.floor((K.G.depth - 1) / 2);
         const g = K.newMonster(kind, spot[0], spot[1], hp());
         // the ones behind it as sturdy as newMonster made the one in front
-        const f = K.diff().hp * (1 + K.PRESS_HP * (K.lvl().press || 0));
+        const f = K.diff().hp * K.shortNormal() * (1 + K.PRESS_HP * (K.lvl().press || 0));
         if (n > 1) g.pack = Array.from({ length: n - 1 }, () => { const h = Math.max(1, Math.round(hp() * f)); return { hp: h, maxHp: h }; });
         K.log(`The horn blares! ${n > 1 ? `${K.cap(b.name.toLowerCase())}s come` : `A ${b.name.toLowerCase()} comes`} running to their king.`, 'bad');
       } else K.log('The horn blares, but there is no room for anyone to come.', 'bad');

@@ -866,14 +866,18 @@ test.describe('dungeon features', () => {
       return Game.level().monsters.length;
     })).toBe(0);
     await page.waitForTimeout(1500);
-    // the next (a goblin: a rat pounces after a step back, and has a lesson of its own), with a wall at the hero's back and room to one side
+    // the next (a goblin: a rat pounces after a step back, and has a lesson of its own), with a wall at the hero's back,
+    // room to the right and a locked door to the left: the tip names only the side open
     await rat(999, 'goblin');
     await page.evaluate(() => {
-      const p = Game.player(), L = Game.level(), T = Dungeon.T, [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4], [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4];
+      const p = Game.player(), L = Game.level(), T = Dungeon.T, [bx, by] = Dungeon.DIRS[(p.dir + 2) % 4], [rx, ry] = Dungeon.DIRS[(p.dir + 1) % 4], [lx, ly] = Dungeon.DIRS[(p.dir + 3) % 4];
       L.tiles[(p.y + by) * L.w + p.x + bx] = T.WALL; L.tiles[(p.y + ry) * L.w + p.x + rx] = T.FLOOR;
+      L.tiles[(p.y + ly) * L.w + p.x + lx] = T.DOOR_LOCKED; L.locks[(p.x + lx) + ',' + (p.y + ly)] = 'iron';
       const m = Game.level().monsters[0]; m.nextAct = Game.state().t;
     });
     await expect(page.locator('#tip.show')).toContainText('wall behind you', { timeout: 3000 });
+    await expect(page.locator('#tip.show')).toContainText('to the right (→)');
+    await expect(page.locator('#tip.show')).not.toContainText('←');
     expect(await page.evaluate(() => UI.timeScale())).toBeLessThan(1);
     await page.evaluate(() => Game.input('strafeR'));
     await expect(page.locator('#tip.show')).toContainText('hit empty air', { timeout: 4000 });

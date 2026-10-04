@@ -45,7 +45,7 @@ const Game = (() => {
                /** a Bash: when, and with what (shield, pommel or fist); a throw (a snare's cord, a flask): when, and which */
                bashAt: -1e9, bashKind: '', throwAt: -1e9, throwKind: '',
                /** where thrown flasks come down, when, and what lay there before, so their spill is not drawn before they land */
-               /** @type {Array<{x: number, y: number, at: number, was: string}>} */ landings: [],
+               /** @type {Array<{x: number, y: number, at: number, was: Object<string, string>}>} */ landings: [],
                /** a trap going off, or disarmed: which, when, and for a dart the wall it came from */
                trapAt: -1e9, trapKind: '', trapSide: 1, trapDodged: false,
                /** the fallen, sinking and fading where they fell */
@@ -475,6 +475,8 @@ const Game = (() => {
   // the deep floors' reckoning, and won 87.5% there where the classes together won 77.5%; with
   // this, 84.75%, and the Assassin no longer five to eight points over the Trickster. From the
   // thirteenth floor only, it was worth one point)
+  // (floored at the double blow, the trim was undone: a Trickster lost nothing, and the thief came
+  // back to 87.75%. A thief with nothing to add strikes there as any blow, and is not told otherwise)
   const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (capped('death_mark') ? 1 : 0) + (setWorn('night') ? 1 : 0)
     - (G && (G.opts.levels || 8) >= 16 && G.opts.difficulty !== 'hard' && G.depth > 6 ? 1 : 0);
   /** Whether every piece of a relic set is worn at once. */
@@ -1371,8 +1373,10 @@ const Game = (() => {
     const land = throwArm('flask', 'flask', '#c89040', FLASK_SQUARE * squares, m && !m.sunk ? [m] : [], squares, () => Sound.play('swing', { w: null }));
     // (what already lay there, oil or fire, stays to be seen while the flask is in the air; each
     // flask in the air keeps its own landing)
-    const had = elements.fieldAt(spot.x, spot.y);
-    fx.landings = fx.landings.filter(l => l.at > realNow).concat({ x: spot.x, y: spot.y, at: realNow + land, was: had ? had.k : '' });
+    // (a spill runs onto the four squares round where it lands as well: each keeps what lay there)
+    const was = {};
+    for (const [ox, oy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) { const f = elements.fieldAt(spot.x + ox, spot.y + oy); was[`${spot.x + ox},${spot.y + oy}`] = f ? f.k : ''; }
+    fx.landings = fx.landings.filter(l => l.at > realNow).concat({ x: spot.x, y: spot.y, at: realNow + land, was });
     // a mimic still shut takes it as the barrel it seems, and that is a blow to it
     if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
     else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
@@ -2025,7 +2029,9 @@ const Game = (() => {
     const t = tile(nx, ny);
     if (t === T.WALL || t === T.TORCH) { blocked('A wall blocks your path.' + stairHint()); return false; }
     if (t === T.DOOR) { openDoor(nx, ny); return true; }
-    if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny); return true; }
+    // only a door faced is forced: a strafe or a step back out of a blow, against
+    // a locked door, used to throw a shoulder at it and lose the moment to the lock
+    if (t === T.DOOR_LOCKED) { tryUnlock(nx, ny, rel === 0); return true; }
     if (t === T.STAIRS_DOWN) { takeStairsDown(); return true; }
     if (t === T.STAIRS_UP) { ascend(); return true; }
     if (t === T.SECRET) { revealSecret(nx, ny, false); return true; }
@@ -2102,7 +2108,7 @@ const Game = (() => {
     Sound.play('fountain');
     emit('stats');
   }
-  function tryUnlock(x, y) {
+  function tryUnlock(x, y, force = true) {
     const L = lvl(), p = P();
     // a door on fire is no more to be handled locked than unlocked
     const fire = elements.fieldAt(x, y);
@@ -2120,6 +2126,7 @@ const Game = (() => {
       p.nextAttack = G.t + 1200;
       return true;
     }
+    if (!k && !force) { blocked(`The door is locked. It needs a ${color} key; face it to force it.`); return false; }
     if (!k) {
       // a strong character can force a locked door, slowly and loudly
       const chance = 0.08 + mod(p.stats.str) * 0.05 + (p.cls === 'fighter' ? 0.1 : 0);
@@ -2710,7 +2717,7 @@ const Game = (() => {
     if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
     // Shadow Step: a sidestep a moment ago puts the next blow in the shadows
     const stepped = !atRange && hasTalent('shadow_step') && G.t < (p.shadowUntil || 0);
-    const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped);
+    const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped) && sneakMult() > 1;
     if (stepped) p.shadowUntil = 0;
     // an arrow at a foe that has not yet seen who loosed it
     const unseen = atRange && !m.awake;
@@ -4100,7 +4107,7 @@ const Game = (() => {
   function smoke(a, p) {
     const L = lvl();
     ensureDist();
-    let lost = 0, committed = 0;
+    let lost = 0, committed = 0, stalled = '';
     for (const m of L.monsters) {
       const di = distField[m.y * L.w + m.x];
       // a blow already on its way still comes: smoke is for getting clear, not for being saved
@@ -4112,9 +4119,12 @@ const Game = (() => {
       // goes on): a thief met them at the end of a short run with little else, and won 62% of
       // two-floor delves where every other class won 87% or more
       if (m.id === 'lich' || m.id === 'warlord') {
-        if (!(m.windup && m.windup.move === 'rite') && (m.windup || m.volley)) { m.windup = null; m.volley = null; floatText(m, 'lost its aim', '#eef0ff'); }
+        // (the rite goes on, and on time: holding the lich back would hold its rite back with it)
+        if (m.windup && m.windup.move === 'rite') continue;
+        if (m.windup || m.volley) { m.windup = null; m.volley = null; floatText(m, 'lost its aim', '#eef0ff'); }
         m.pressing = false;
         m.nextAct = Math.max(m.nextAct, G.t + SMOKE_BOSS_MS);
+        stalled = mstat(m).name;
         continue;
       }
       if ((m.windup && m.windup.kind !== 'pet') || m.volley) { committed++; continue; }
@@ -4136,7 +4146,8 @@ const Game = (() => {
     const coming = committed ? ` ${committed === 1 ? 'A blow already drawn back is' : 'Blows already drawn back are'} still coming.` : '';
     log(lost ? `You crush a smoke pellet underfoot. In the choking grey, ${lost === 1 ? 'your foe loses' : `${lost} foes lose`} you.${coming}`
       : committed ? `You crush a smoke pellet underfoot, but it is too late to hide from a blow already drawn back.`
-      : 'You crush a smoke pellet underfoot. Nothing awake is close enough to lose you in it.', lost ? 'good' : '');
+      : stalled ? `You crush a smoke pellet underfoot. The ${stalled} sees through it, but the grey spoils its aim.`
+      : 'You crush a smoke pellet underfoot. Nothing awake is close enough to lose you in it.', lost || stalled ? 'good' : '');
     return true;
   }
 
@@ -4900,7 +4911,7 @@ const Game = (() => {
       // walking, it strides, a step to each half of a square and the other foot first on the next;
       // a bat beats its wings all the while it is aloft (see stride in creatures.js)
       const step = tell || !img || !img.stepA ? '' : mb.fly ? ['', 'stepA', '', 'stepB'][Math.floor(now / 90 + m.uid) % 4]
-        : m.moveT1 > now ? ((now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0) < 0.5) === ((m.x + m.y) % 2 === 0) ? 'stepA' : 'stepB' : '';
+        : m.moveT1 > now ? (Math.max(0, (now - m.moveT0) / Math.max(1, m.moveT1 - m.moveT0)) < 0.5) === ((m.x + m.y) % 2 === 0) ? 'stepA' : 'stepB' : '';
       // asleep, its eyes are shut; awake, it blinks now and then (see eyesShut in creatures.js)
       const shut = !tell && !step && img && img.blink && (!m.awake || (now + m.uid * 977) % (3200 + (m.uid % 5) * 450) < 130);
       const walking = step ? img[step] : shut ? img.blink : img;
@@ -5246,7 +5257,7 @@ const Game = (() => {
     get followBlow() { return followBlow; },
     get shadeWakes() { return shadeWakes; },
     get tricksterOpening() { return tricksterOpening; },
-    get diff() { return diff; },
+    get diff() { return diff; }, get shortNormal() { return shortNormal; },
     get distField() { return distField; }, set distField(v) { distField = v; },
     // the hero's hound: where it stands, and what a blow at it or the quills do
     get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionGuards() { return companion.guards; }, get companionBreaks() { return companion.breaks; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },

@@ -128,7 +128,7 @@ function renderTrophies() {
     return `<span class="cell named${n ? ' won' : ''}" data-trophy="path-${x.id}" role="button" tabindex="0" aria-label="${what}" title="${what}">${escapeHtml(x.name)}</span>`;
   }), (() => {
     const done = Progress.mastered(cls, v), what = `${CLASSES[cls].name} mastered: ${done ? 'won with both its paths' : `win with both its paths (${Progress.pathsWon(cls, v)} of 2 so far)`}`;
-    return `<span class="cell mastery${done ? ' won' : ''}" data-trophy="mastery-${cls}" role="button" tabindex="0" aria-label="${what}" title="${what}">${done ? '✦' : ''}</span>`;
+    return `<span class="cell mastery${done ? ' won' : ''}" data-trophy="mastery-${cls}" role="button" tabindex="0" aria-label="${what}" title="${what}">✦</span>`;
   })()].join(''));
   // and each vow kept, dim until a Hard win opens them
   const open = Progress.vowsOpen(v);
@@ -143,7 +143,7 @@ function renderTrophies() {
   });
   $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
-    + `<div class="trophy-sub">Paths <small>(both won: the class mastered)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
+    + `<div class="trophy-sub">Paths <small>(both won: the class mastered, ✦)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
     + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`
     + `<div class="trophy-sub">Feats</div><div class="trophy-grid vows">${featCells.join('')}</div>`
     + '<p id="trophy-note" class="trophy-note" aria-live="polite">Tap a trophy to see what it asks and how often it is won.</p>';
