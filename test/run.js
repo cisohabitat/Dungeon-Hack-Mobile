@@ -743,7 +743,11 @@ check(traders > 0, 'no traders generated at all');
         for (const j of [i + 1, i + L.w]) if (j < L.w * L.h && reached[j] && node(i) !== node(j)) edges.add([node(i), node(j)].sort().join('|'));
         // a recess: a corridor square open on one side only
         const x = i % L.w, y = (i / L.w) | 0;
-        if (L.roomId[i] < 0 && L.tiles[i] === T.FLOOR && Dungeon.DIRS.filter(([dx, dy]) => walk((y + dy) * L.w + x + dx)).length === 1) t.recesses++;
+        if (L.roomId[i] < 0 && L.tiles[i] === T.FLOOR && Dungeon.DIRS.filter(([dx, dy]) => walk((y + dy) * L.w + x + dx)).length === 1) {
+          t.recesses++;
+          // a recess is somewhere to step aside into: never a trap
+          if (L.traps[x + ',' + y]) t.trappedRecesses = (t.trappedRecesses || 0) + 1;
+        }
       }
       const loops = edges.size - nodes.size + 1;
       t.loops += loops;
@@ -757,6 +761,7 @@ check(traders > 0, 'no traders generated at all');
   check(per('small', 'loops') >= 1.8, `small floors average ${per('small', 'loops').toFixed(2)} loops`);
   check(tally.small.fewLoops <= tally.small.floors / 8, `${tally.small.fewLoops} of ${tally.small.floors} small floors have no loop at all`);
   check(tally.medium.recesses === 0 && tally.small.recesses === 0, `recesses on a small or middle floor (${tally.small.recesses}, ${tally.medium.recesses})`);
+  check(!tally.large.trappedRecesses, `${tally.large.trappedRecesses} recesses on large floors hold a trap`);
   check(per('large', 'recesses') >= 0.3, `large floors average ${per('large', 'recesses').toFixed(2)} recesses`);
   console.log(`sizes: ${['small', 'medium', 'large'].map(z => `${z} locks ${per(z, 'locks').toFixed(1)} traps ${per(z, 'traps').toFixed(1)} hidden ${per(z, 'secrets').toFixed(1)} encounters ${per(z, 'encounters').toFixed(1)} loops ${per(z, 'loops').toFixed(1)} recesses ${per(z, 'recesses').toFixed(1)}`).join('; ')}`);
 }

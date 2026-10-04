@@ -612,6 +612,8 @@ const Dungeon = (() => {
         if (tiles[i] !== T.FLOOR || roomId[i] !== -1 || dist0[i] < 4) continue;
         const x = i % w, y = (i / w) | 0;
         if (DIRS.some(([dx, dy]) => { const t = get(x + dx, y + dy); return t === T.DOOR || t === T.DOOR_LOCKED; })) continue;
+        // nor in a large floor's recess, which is there to be stepped into
+        if (DIRS.filter(([dx, dy]) => get(x + dx, y + dy) !== T.WALL).length === 1) continue;
         cands.push(i);
       }
       rng.shuffle(cands);
