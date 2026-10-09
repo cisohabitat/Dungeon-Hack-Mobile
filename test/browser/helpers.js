@@ -136,4 +136,14 @@ async function descendTo(page, depth) {
   }, depth);
 }
 
-module.exports = { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, expect };
+/**
+ * Wait for every picture painted in spare time to be done. A creature is
+ * painted its plain picture first and its poses, champions and a shade's gear
+ * after (see creaturePieces in assets.js): a test about how one is drawn waits
+ * for the lot, rather than catching it in its plain picture.
+ */
+async function artReady(page) {
+  await page.waitForFunction(() => Assets.painting() === 0, null, { timeout: 60_000, polling: 200 });
+}
+
+module.exports = { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, expect };

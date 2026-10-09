@@ -158,7 +158,7 @@ const Assets = (() => {
       levels: SHADES.map(a => (a === 0 ? base : tintOf('#000', a))),
       flash: tintOf('#fff', 0.85),
       get url() { return baseUrl(); },
-      /** @type {null | (() => any)} the finer painting for up close, once it is ready (see nearFor) */
+      /** @type {null | (() => any)} the finer painting for up close, once it is ready (see finerOf) */
       near: null,
     });
     const sprite = make();
@@ -1874,55 +1874,99 @@ const Assets = (() => {
 
   // a named champion drawn as itself (see CHAMPIONS) needs no wash of its kind's picture
   const named = k => Object.keys(MONSTERS).filter(id => MONSTERS[id].named && MONSTERS[id].sprite === k && !CHAMPIONS[id]).map(id => ({ prefix: id, tint: MONSTERS[id].named.tint }));
-  /** A creature's sprite, its champions' and its other poses, which ride on it. */
-  function creature(k, scale) {
+  /**
+   * A creature's sprite in pieces, to be painted in order: its own picture and
+   * its champions' drawn as themselves first, then each pose (both steps of a
+   * walk together, so a stride never finds one foot painted and not the other),
+   * then a shade's gear, trade by trade. Painted one after another they make
+   * the whole sprite; painted a piece at a time in spare moments, none of them
+   * holds up a frame for long. Until a pose is painted the creature is drawn in
+   * its plain picture, which is what everything that reads a pose falls back to.
+   * @param {string} k
+   * @param {number} [scale]
+   * @param {null | ((pick: (s: any) => any) => () => any)} [fine]  how each picture asks for its finer painting (see finerOf)
+   */
+  function creaturePieces(k, scale, fine = null) {
     const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true, grid: gridOf(k) });
     const s = makeSprite(def(), scale);
-    for (const pose of POSES[k] || []) {
-      const ps = makeSprite(def(pose), scale);
-      s[pose] = ps;
-      // (the finer painting's champions are found through the pose: see nearFor)
-      if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];
-    }
     // a champion drawn as itself is painted from its own parts, poses and all, into
     // the place its wash would take, so whatever looks a champion up finds it there
+    const champs = [];
     for (const id in CHAMPION_OF) {
       if (CHAMPION_OF[id] !== k || !MONSTERS[id] || MONSTERS[id].sprite !== k) continue;
       const own = pose => ({ parts: CHAMPIONS[id](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: false, fine: true, grim: true, grid: gridOf(k) });
-      const o = makeSprite(own(), scale);
-      for (const pose of POSES[k] || []) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite[id] = o[pose]; }
-      s.elite[id] = o;
+      s.elite[id] = makeSprite(own(), scale);
+      champs.push({ id, own });
     }
-    // a fallen hero's shade in the gear of their trade, likewise (see SHADE_GEAR)
-    if (k === 'shade') for (const cls in SHADE_GEAR) {
+    if (fine) {
+      s.near = fine(x => x);
+      for (const e in s.elite) s.elite[e].near = fine(x => x.elite[e]);
+    }
+    const poses = POSES[k] || [];
+    const groups = [];
+    for (const pose of poses) {
+      if (pose === 'stepB' && poses.includes('stepA')) continue;
+      groups.push(pose === 'stepA' && poses.includes('stepB') ? ['stepA', 'stepB'] : [pose]);
+    }
+    const rest = groups.map(group => () => {
+      for (const pose of group) {
+        const ps = makeSprite(def(pose), scale);
+        s[pose] = ps;
+        // (the finer painting's champions are found through the pose: see finerOf)
+        if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];
+        for (const c of champs) { const o = s.elite[c.id]; o[pose] = makeSprite(c.own(pose), scale); ps.elite[c.id] = o[pose]; }
+        if (fine) {
+          ps.near = fine(x => x[pose]);
+          // (the finer painting is itself painted a piece at a time: a pose of it may not be there yet)
+          for (const e in ps.elite) ps.elite[e].near = fine(x => x[pose] && x[pose].elite[e]);
+        }
+      }
+    });
+    // a fallen hero's shade in the gear of their trade, likewise (see SHADE_GEAR),
+    // a trade to a piece: until one is painted, a shade is drawn in its plain picture
+    if (k === 'shade') for (const cls in SHADE_GEAR) rest.push(() => {
+      const key = 'shade_' + cls;
       const own = pose => ({ parts: SHADE_GEAR[cls](pose), shadow: 0, elites: false, fine: true, grim: true, grid: gridOf(k) });
       const o = makeSprite(own(), scale);
-      for (const pose of POSES[k] || []) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite['shade_' + cls] = o[pose]; }
-      s.elite['shade_' + cls] = o;
-    }
-    return s;
+      for (const pose of poses) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite[key] = o[pose]; }
+      s.elite[key] = o;
+      if (fine) {
+        o.near = fine(x => x.elite[key]);
+        for (const pose of poses) if (s[pose]) o[pose].near = fine(x => x[pose] && x[pose].elite[key]);
+      }
+    });
+    return { s, rest };
   }
   // Right in front of the hero a creature fills the view, and painted at two
   // pixels to the unit each of its pixels came out a block. So each kind is
   // painted again twice as fine, the first time the renderer asks (as one
-  // comes near), off the frame being drawn; until then it keeps its usual
-  // picture. Every pose and champion of it asks through near().
+  // comes near), in spare moments; until then it keeps its usual picture.
+  // Every pose and champion of it asks through near().
   const NEAR_SCALE = 4;
-  function nearFor(k, lo = sprites[k]) {
+  /** How each picture of a kind asks for its finer painting, made once for the kind. */
+  function finerOf(k) {
     let hi = null, asked = false;
     /** @param {(s: any) => any} pick */
-    const via = pick => () => {
+    return pick => () => {
       if (hi) return pick(hi);
       // (a lifelike figure on the finer grid is fine already: three to its unit is enough)
-      if (!asked) { asked = true; setTimeout(() => { hi = creature(k, gridOf(k) === 64 ? 3 : NEAR_SCALE); }, 0); }
+      // Painted a piece at a time like the rest: whole, it was over a second's
+      // work on a slow phone, with the creature right there. It waits behind the
+      // creatures not yet painted at all (a plain picture matters more than a
+      // finer one) and ahead of the items and props, and a pose not yet painted
+      // finely is drawn in its usual picture meanwhile
+      if (!asked) {
+        asked = true;
+        const at = unpainted.findIndex(x => typeof x === 'string' && !(x in CREATURES));
+        unpainted.splice(at < 0 ? unpainted.length : at, 0, () => {
+          const p = creaturePieces(k, gridOf(k) === 64 ? 3 : NEAR_SCALE);
+          hi = p.s;
+          unpainted.unshift(...p.rest);
+        });
+        paintSoon();
+      }
       return null;
     };
-    lo.near = via(s => s);
-    for (const e in lo.elite) lo.elite[e].near = via(s => s.elite[e]);
-    for (const pose of POSES[k] || []) {
-      lo[pose].near = via(s => s[pose]);
-      for (const e in lo[pose].elite) lo[pose].elite[e].near = via(s => s[pose].elite[e]);
-    }
   }
 
   // Painting every picture before the title could answer a tap took three
@@ -1930,6 +1974,7 @@ const Assets = (() => {
   // room dressing. Those are painted the first time anything asks for one, and
   // the rest a few at a time once the title is up, so they are all ready long
   // before the first floor.
+  /** @type {(string | (() => void))[]} the keys of pictures still to paint, and the pieces of creatures already begun */
   const unpainted = [];
   function later(key, make) {
     const keep = v => Object.defineProperty(sprites, key, { value: v, writable: true, configurable: true, enumerable: true });
@@ -1944,21 +1989,41 @@ const Assets = (() => {
    * Paint what is still waiting in the time the browser has spare between
    * frames (a few milliseconds a slice where it cannot say), so the title and
    * the first floor keep their frame rate while it happens.
-   * @param {{ timeRemaining(): number }} [idle]
+   * @param {{ timeRemaining(): number, didTimeout?: boolean }} [idle]
    */
   function paintAhead(idle) {
-    const until = performance.now() + (idle ? Math.max(1, idle.timeRemaining() - 1) : 5);
-    do { const k = unpainted.shift(); if (k) void sprites[k]; } while (unpainted.length && performance.now() < until);
+    waiting = true;
+    // (a slice the browser had to be pressed for, its frames too busy to leave any
+    // time spare, still gets a little: a piece a slice every half second was a
+    // queue that took a minute)
+    const until = performance.now() + (!idle ? 8 : idle.didTimeout ? 12 : Math.max(4, idle.timeRemaining() - 1));
+    do { const k = unpainted.shift(); if (typeof k === 'function') k(); else if (k) void sprites[k]; } while (unpainted.length && performance.now() < until);
+    waiting = false;
     if (unpainted.length) paintSoon();
   }
-  const paintSoon = () => (typeof requestIdleCallback === 'function' ? requestIdleCallback(paintAhead, { timeout: 500 }) : setTimeout(paintAhead, 40));
+  // (one slice asked for at a time: a creature's pieces ask too, as they join the queue)
+  let waiting = false;
+  const paintSoon = () => {
+    if (waiting) return;
+    waiting = true;
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(paintAhead, { timeout: 500 }); else setTimeout(paintAhead, 40);
+  };
   function init() {
     for (const k in SPRITES) sprites[k] = makeSprite(SPRITES[k]);
     // creatures built from parts replace their old grids: they are painted first
     // of what waits, as the first floor wants them before anything else. They
     // stand in the world, close enough to fill the view, so they are painted
     // twice as fine as the items in the pack
-    for (const k in CREATURES) later(k, () => { const s = creature(k); nearFor(k, s); return s; });
+    // A creature is painted its own picture first, and the rest of it (its
+    // poses, a shade's gear) is put at the head of what waits: a whole creature
+    // at once was up to half a second's work on a slow phone, in the middle of a
+    // fight's first frames.
+    for (const k in CREATURES) later(k, () => {
+      const { s, rest } = creaturePieces(k, undefined, finerOf(k));
+      unpainted.unshift(...rest);
+      paintSoon();
+      return s;
+    });
     // the heroes' portraits, one to a class (see PORTRAITS)
     for (const k in PORTRAITS) later('portrait_' + k, () => makeSprite({ parts: PORTRAITS[k](), shadow: 0, elites: false, fine: true, grid: 64 }));
     // items painted from parts replace their old grids too
@@ -2032,7 +2097,22 @@ const Assets = (() => {
 
   /** How many pictures still wait to be painted in spare time (the frame-rate checks wait for none). */
   const painting = () => unpainted.length;
-  return { init, painting, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
+  /**
+   * The pictures a floor will want soonest (its creatures, as the hero arrives)
+   * go to the head of what waits, so they are painted before any other.
+   * @param {string[]} keys
+   */
+  function paintFirst(keys) {
+    const want = new Set(keys);
+    const first = unpainted.filter(k => typeof k === 'string' && want.has(k));
+    if (!first.length) return;
+    for (let i = unpainted.length - 1; i >= 0; i--) if (typeof unpainted[i] === 'string' && want.has(/** @type {string} */ (unpainted[i]))) unpainted.splice(i, 1);
+    // (behind any creature's pieces already begun: they finish what is on the floor already)
+    const begun = unpainted.findIndex(k => typeof k === 'string');
+    unpainted.splice(begun < 0 ? unpainted.length : begun, 0, ...first);
+    paintSoon();
+  }
+  return { init, painting, paintFirst, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
 })();
 
 export { Assets };

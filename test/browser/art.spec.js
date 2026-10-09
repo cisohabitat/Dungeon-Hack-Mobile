@@ -2,7 +2,7 @@
 // What the view draws: walls that match what the floor says of them, the
 // weapon in the hero's hands, and a monster right in front of them.
 const { test } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, expect } = require('./helpers');
+const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, artReady, expect } = require('./helpers');
 
 test.describe('art', () => {
   test('pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after', async ({ page }) => {
@@ -19,13 +19,41 @@ test.describe('art', () => {
     expect(got.w).toBeGreaterThan(0);
     expect(got).toMatchObject({ url: true, painted: true });
     // and the rest are painted in the time to spare, well before a first floor
-    await expect.poll(async () => (await waiting()).length, { timeout: 15_000 }).toBe(0);
+    // (a creature a piece at a time, so frames stay smooth, takes a few seconds longer in all)
+    await expect.poll(async () => (await waiting()).length, { timeout: 25_000 }).toBe(0);
+    expect(errors).toEqual([]);
+  });
+
+  test('a creature is painted a piece at a time, a floor\'s own kinds first, and drawn plain until its poses are ready', async ({ page }) => {
+    test.setTimeout(120_000);
+    const errors = watchForErrors(page);
+    // slowed, so the painting is still under way while it is looked at
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+    await page.goto('/');
+    await page.waitForSelector('#btn-new', { state: 'visible' });
+    const painted = k => page.evaluate(k => typeof Object.getOwnPropertyDescriptor(Assets.sprites, k).get !== 'function', k);
+    expect(await painted('wyrm'), 'the wyrm is among the last kinds in the queue').toBe(false);
+    // asked for, its own picture comes at once, and its poses wait at the head of the queue
+    const asked = await page.evaluate(() => { const s = Assets.sprites.wyrm, n = Assets.painting(); return { w: s.w, windup: !!s.windup, waiting: n }; });
+    expect(asked.w).toBeGreaterThan(0);
+    expect(asked.windup, 'a pose is its own piece, painted later').toBe(false);
+    expect(asked.waiting).toBeGreaterThan(20);
+    await expect.poll(() => page.evaluate(() => { const s = Assets.sprites.wyrm; return !!(s.windup && s.stepA && s.stepB && s.hurt); }), { timeout: 40_000 }).toBe(true);
+    expect(await page.evaluate(() => Assets.painting()), 'the poses came before the rest').toBeGreaterThan(10);
+    // a floor's kinds go to the head of what waits (behind the pieces of any creature already begun)
+    expect(await painted('basilisk')).toBe(false);
+    await page.evaluate(() => Assets.paintFirst(['basilisk']));
+    await expect.poll(() => painted('basilisk'), { timeout: 40_000 }).toBe(true);
+    expect(await page.evaluate(() => Assets.painting())).toBeGreaterThan(10);
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
     expect(errors).toEqual([]);
   });
 
   test('a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);
+    await artReady(page);
     await faceOpenGround(page);
     expect(await placeMonster(page, 'orc', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
     // struck just now: the view is handed its flinching picture
@@ -52,6 +80,7 @@ test.describe('art', () => {
   test('what is upon a monster is drawn on it, and each kind dies its own way', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);
+    await artReady(page);
     await faceOpenGround(page);
     // burning, it is drawn burning; when the fire is out, it is not
     expect(await placeMonster(page, 'orc', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
@@ -301,6 +330,7 @@ test.describe('art', () => {
   test('a lantern lights a dark floor, loot worth having glints, and a fallen hero\'s shade wears the gear of their trade', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);
+    await artReady(page);
     await clearBoons(page);
     expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(2);
     const seen = await page.evaluate(async () => {

@@ -39,6 +39,9 @@ async function measure(page, cdp, ms) {
   return { fps: Math.round(frames.n / frames.secs * 10) / 10, scriptMs: Math.round((s1 - s0) / frames.n * 10) / 10 };
 }
 
+/** Wait for what is painted in spare moments (a close-up of a creature come near) to be done. */
+const settled = page => page.waitForFunction(() => Assets.painting() === 0, null, { timeout: 90_000, polling: 250 });
+
 test('the view holds its frame rate on a slow processor', async ({ page }) => {
   test.skip(process.env.PERF !== '1', 'the frame-rate budget runs alone: PERF=1 --project=perf --workers=1');
   test.setTimeout(240_000);
@@ -62,8 +65,10 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await cdp.send('Performance.enable');
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   const out = {};
-  // the first seconds of a fight paint the orcs finely as they come near: once
+  // the first seconds of a fight paint the orcs finely as they come near, a
+  // piece at a time in spare moments: once, and not what the budget is for
   await measure(page, cdp, 3000);
+  await settled(page);
   out.fight = await measure(page, cdp, 4000);
   // the same floor flooded: water over every floor square
   await page.evaluate(() => { Game.level().twist = 'flooded'; });
@@ -82,6 +87,7 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   });
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   await measure(page, cdp, 3000);
+  await settled(page);
   out.rite = await measure(page, cdp, 4000);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out));

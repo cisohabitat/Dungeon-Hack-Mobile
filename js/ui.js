@@ -131,7 +131,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-20a', text: 'reports: a new switch in the Menu, off unless you turn it on, sends a short note when a run ends or something breaks, so the game can be tuned to real delves; it never sends your name or anything that says who you are; on a small phone the map opens at its full size' };
+  const NEWS = { id: '2026-10-21a', text: 'the first minute on a slow phone runs smoother: the creatures are painted a little at a time, and those on your floor first; reports: a new switch in the Menu, off unless you turn it on, sends a short note when a run ends or something breaks; it never sends your name or anything that says who you are' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

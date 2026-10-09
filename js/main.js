@@ -36,6 +36,8 @@ document.addEventListener('visibilitychange', () => { Sound.away(document.hidden
 window.addEventListener('pagehide', saveOnHide);
 
 let last = 0;
+/** @type {any} the floor whose creatures were last put first to be painted */
+let lastFloor = null;
 function loop(now) {
   const dt = last ? Math.min(100, now - last) : 0;
   last = now;
@@ -44,6 +46,12 @@ function loop(now) {
   // the drone belongs to the dungeon: the help, the hall and the end screen are quiet
   if (!UI.isPlaying()) { Sound.stopAmbience(); Music.stop(); }
   const G = Game.state();
+  // a floor's own creatures are painted before anything else still waiting
+  const L = G && G.levels && G.levels[G.depth];
+  if (L && L !== lastFloor) {
+    lastFloor = L;
+    Assets.paintFirst(L.monsters.map(m => Data.MONSTERS[m.id] && Data.MONSTERS[m.id].sprite).filter(Boolean));
+  }
   if (G && UI.isPlaying()) {
     if (G.status === 'playing' && !UI.paused()) {
       UI.pumpHeld();
