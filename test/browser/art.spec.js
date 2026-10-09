@@ -91,6 +91,9 @@ test.describe('art', () => {
     await page.evaluate(() => { Game.level().monsters.length = 0; Game.player().xp = -1e7; });
     // a wraith cut down rises thin into mist; a slime bursts out flat
     for (const [id, check] of [['wraith', 'mist'], ['slime', 'splat']]) {
+      // the last one's body gone first: on a slow machine the wraith's mist was still
+      // thinning when the slime fell, and was the body found
+      await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(q => q.death)), { timeout: 15_000 }).toBe(false);
       const uid = await placeMonster(page, id, 1, { hp: 1, maxHp: 30 });
       expect(uid).not.toBeNull();
       const m = await page.evaluate(id => Game.level().monsters.find(q => q.id === id).uid, id);

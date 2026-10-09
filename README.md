@@ -611,14 +611,26 @@ index.html        app shell, loads one module
 css/style.css     mobile-first styles
 js/rng.js         seeded PRNG
 js/data.js        classes, items, monsters, spells, themes, pixel art
-js/assets.js      procedural textures and sprite rasterisation
+js/assets.js      procedural textures and sprite rasterisation (a creature a piece at a time)
+js/walldecor.js   moss, roots, skulls and rings on a theme's walls
+js/creatures.js   the creatures built from lit parts, their poses, the one list of them
+js/folk.js        the later creatures: traders, companions, the peoples below, deep beasts
+js/parts.js       the parts and the kits creatures share
+js/painter.js     parts to lit pixels
+js/props.js       the encounters' props
+js/champions.js   named champions, a shade's gear, the heroes' portraits
 js/dungeon.js     level generator
 js/renderer.js    canvas raycaster
+js/spellfx.js     spells, scrolls, drinks and traps over the view
 js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
-js/game.js        rules, state, save/load
+js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input
+js/titlescene.js, shopview.js, choices.js, pack.js, mapview.js, endscreen.js   overlays split from ui.js
+js/telemetry.js   opt-in reports
+api/              the reports' Vercel functions
+dashboard.html    real players' win rates beside the bot's
 js/daily.js       the Daily Delve: the day's hero, the one try, the streak
 js/main.js        entry point, game loop, debug surface
 js/types.js       JSDoc shapes for the type checker
@@ -627,6 +639,7 @@ manifest.json     PWA manifest
 vercel.json       Vercel headers
 test/harness.js   loads the game's modules into Node
 test/run.js       generator, sprite and balance checks
+test/api.js       the report functions' checks
 test/rules.js     rule-level regression checks
 test/browser/     Playwright suites
 test/server.js    dependency-free static server
