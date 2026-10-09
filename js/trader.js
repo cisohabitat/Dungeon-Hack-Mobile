@@ -11,9 +11,13 @@ import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } fr
  * @param {any} K  what the game lends: its state and the rules the rest of it keeps
  */
 export function makeTrader(K) {
-  const { BELT, P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn, revealAll, breakCurses, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack } = K;
-  // (fetched when called: it lives in combat.js, which is wired after the traders)
+  const { P, lvl, log, emit, the, cap, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn, revealAll, breakCurses, spMax, discoverRelic, junkInPack } = K;
+  // (fetched when called: these live in combat.js and items.js, which are wired after the traders)
   const healPlayer = (/** @type {any[]} */ ...a) => K.healPlayer(...a);
+  const itemName = (/** @type {any[]} */ ...a) => K.itemName(...a);
+  const beltRoom = (/** @type {any[]} */ ...a) => K.beltRoom(...a);
+  const giveItem = (/** @type {any[]} */ ...a) => K.giveItem(...a);
+  const removeOne = (/** @type {any[]} */ ...a) => K.removeOne(...a);
   // ---------- trading ----------
   // Prices key off the item's own value so the shelf stays sane at any depth.
   // Charisma is how the trader sees you: each point of modifier is six
@@ -266,7 +270,7 @@ export function makeTrader(K) {
     const p = P();
     if (!shop) return false;
     const price = buyPrice(shop, it);
-    if (beltRoom(it.t) <= 0) { log(`Your belt holds ${BELT} of those already.`, 'bad'); Sound.play('error'); return false; }
+    if (beltRoom(it.t) <= 0) { log(`Your belt holds ${K.BELT} of those already.`, 'bad'); Sound.play('error'); return false; }
     if (p.gold < price) { log('You cannot afford that.', 'bad'); Sound.play('error'); return false; }
     const one = { t: it.t, q: 1, e: it.e || 0, ...(it.u ? { u: it.u } : {}), ...(it.h ? { h: 1 } : {}), ...(it.pw ? { pw: it.pw } : {}), ...(it.px ? { px: it.px } : {}) };
     if (!giveItem(one)) { log('Your pack is full: drop something first.', 'bad'); Sound.play('error'); return false; }
