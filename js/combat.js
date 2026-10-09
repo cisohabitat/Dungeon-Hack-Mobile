@@ -10,12 +10,10 @@ import { Sound } from './sound.js';
 
 /** @param {any} K */
 export function makeCombat(K) {
-  const BITS_MAX = K.BITS_MAX;
+  // (GORE, GORE_OF and BITS_MAX are read from K where used: scenes.js, wired after this, holds them)
   const CORPSE_MS = K.CORPSE_MS;
   const DIRS = K.DIRS;
   const DUAL_HIT_PENALTY = K.DUAL_HIT_PENALTY;
-  const GORE = K.GORE;
-  const GORE_OF = K.GORE_OF;
   const JEWEL_SLOTS = K.JEWEL_SLOTS;
   const OFF_BALANCE = K.OFF_BALANCE;
   const QUICK = K.QUICK;
@@ -353,7 +351,7 @@ export function makeCombat(K) {
       if (tag !== 'burning' && tag !== 'blaze' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
     floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
-    { const o = heard(m, { tag, gore: GORE_OF[m.id], w: tag === 'companion' || wild.shaped() ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
+    { const o = heard(m, { tag, gore: K.GORE_OF[m.id], w: tag === 'companion' || wild.shaped() ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {
       // Bloodlust: every foe the hero fells gives a little back
@@ -445,7 +443,7 @@ export function makeCombat(K) {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
     bounty.killed(m);                      // each one of a group counts toward a trader's cull
-    { const o = heard(m, { gore: GORE_OF[m.id] || 'blood', who: m.id }); soon(() => Sound.play('death', o)); }
+    { const o = heard(m, { gore: K.GORE_OF[m.id] || 'blood', who: m.id }); soon(() => Sound.play('death', o)); }
     p.kills++;
     noteKill(m);
     // the two halves of a split slime are worth one slime between them
@@ -515,7 +513,7 @@ export function makeCombat(K) {
   function deathBurst(c, how) {
     const kind = { clatter: 'bone', splat: 'goo', mist: 'ecto', burst: 'spore', gutter: 'spark' }[how];
     if (!kind) return;
-    const g = GORE[kind], n = how === 'burst' ? 34 : how === 'mist' ? 22 : 18;
+    const g = K.GORE[kind], n = how === 'burst' ? 34 : how === 'mist' ? 22 : 18;
     // (a puffcap's cloud comes as it bursts, a moment after it is struck down)
     const at = c.born + (how === 'burst' ? CORPSE_MS * 0.2 : 0), z0 = c.fly + c.scale * (how === 'clatter' ? 0.5 : how === 'splat' ? 0.15 : 0.45);
     for (let i = 0; i < n; i++) {
@@ -525,7 +523,7 @@ export function makeCombat(K) {
         g: how === 'burst' ? 0.25 : g.g, c: g.c[i % g.c.length], born: at, life: (how === 'mist' || how === 'burst' ? 900 : 520) + look() * 400,
         size: how === 'clatter' ? (look() < 0.4 ? 0.04 : 0.026) : look() < 0.3 ? 0.03 : 0.018, glow: g.glow });
     }
-    if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
+    if (fx.bits.length > K.BITS_MAX) fx.bits.splice(0, fx.bits.length - K.BITS_MAX);
   }
   /** A body sinking and fading where it fell, knocked back from the hero, or dying its own way (DEATHS). */
   /** Its body going down the way it goes (DEATHS), with what flies from it. */
