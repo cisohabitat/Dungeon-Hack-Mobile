@@ -125,6 +125,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     const wait = p.nextAttack - G.t;
     const dt = wait > 0 && wait < TICK ? Math.max(16, Math.ceil(wait)) : TICK;
     Game.update(now, dt);
+    // FPTRACE=1 prints each line logged as it is said, with the game's clock, to find where two passes part
+    if (process.env.FPTRACE) { const n = (G.logSeq || 0) - (step.seen || 0); for (const e of G.log.slice(-Math.min(n, G.log.length))) if (n > 0) console.log(`TR ${G.t} ${e.m}`); step.seen = G.logSeq; }
   };
   // STUCKAT=1 keeps the last moves made, to show what a run that ran out of time was doing
   const trace = [];

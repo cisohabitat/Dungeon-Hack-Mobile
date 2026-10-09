@@ -11,7 +11,9 @@ import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } fr
  * @param {any} K  what the game lends: its state and the rules the rest of it keeps
  */
 export function makeTrader(K) {
-  const { BELT, P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn, revealAll, breakCurses, healPlayer, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack } = K;
+  const { BELT, P, lvl, log, emit, the, cap, itemName, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn, revealAll, breakCurses, spMax, beltRoom, giveItem, removeOne, discoverRelic, junkInPack } = K;
+  // (fetched when called: it lives in combat.js, which is wired after the traders)
+  const healPlayer = (/** @type {any[]} */ ...a) => K.healPlayer(...a);
   // ---------- trading ----------
   // Prices key off the item's own value so the shelf stays sane at any depth.
   // Charisma is how the trader sees you: each point of modifier is six
