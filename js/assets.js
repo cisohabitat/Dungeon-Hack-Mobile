@@ -147,12 +147,17 @@ const Assets = (() => {
     let firstRow = 0;
     while (firstRow < ah && !solid.subarray(firstRow * aw, firstRow * aw + aw).some(v => v)) firstRow++;
     const top = firstRow / h;
+    // The picture as a data URL is made the first time something shows it (the
+    // pack, the bestiary, the class cards): made for every sprite and champion's
+    // wash as it was built, it was spent mostly on pictures never shown.
+    // (the finer painting is only ever drawn in the view, never shown as a picture)
+    const lazyUrl = (/** @type {HTMLCanvasElement} */ c) => { let u = null; return () => (u === null ? (u = scale ? '' : c.toDataURL()) : u); };
+    const baseUrl = lazyUrl(base);
     const make = () => ({
       w, h, top,
       levels: SHADES.map(a => (a === 0 ? base : tintOf('#000', a))),
       flash: tintOf('#fff', 0.85),
-      // the finer painting is only ever drawn in the view, never shown as a picture
-      url: scale ? '' : base.toDataURL(),
+      get url() { return baseUrl(); },
       /** @type {null | (() => any)} the finer painting for up close, once it is ready (see nearFor) */
       near: null,
     });
@@ -172,7 +177,8 @@ const Assets = (() => {
           if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
           return c;
         };
-        return { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, url: scale ? '' : washed.toDataURL(), near: /** @type {null | (() => any)} */ (null) };
+        const washedUrl = lazyUrl(washed);
+        return { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, get url() { return washedUrl(); }, near: /** @type {null | (() => any)} */ (null) };
       };
       // the finer painting washes a champion's colour on only when one comes near
       if (scale) { let made = null; Object.defineProperty(sprite.elite, e.prefix, { get: () => made || (made = wash()), enumerable: true }); }
@@ -2024,7 +2030,9 @@ const Assets = (() => {
     return fr;
   }
 
-  return { init, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
+  /** How many pictures still wait to be painted in spare time (the frame-rate checks wait for none). */
+  const painting = () => unpainted.length;
+  return { init, painting, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
 })();
 
 export { Assets };

@@ -30,7 +30,7 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npx playwright test --shard=${{ matrix.shard }}/3
+      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -39,3 +39,19 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  perf:
+    # the frame-rate budget (test/browser/perf.spec.js), alone on its runner
+    name: Frame-rate budget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --project=perf --workers=1
+        env:
+          PERF: '1'
+          PERF_REPORT: '1'

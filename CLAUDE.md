@@ -49,8 +49,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `rule checks complete, 0 failure(s)`. `ONLY="part of a test name"` runs a subset.
 - `npx playwright test`: browser tests (phone viewport), about 5 minutes.
   Chromium is preinstalled; do not run `playwright install` locally.
-- CI (`.github/workflows/test.yml`) runs `npm test` and the browser tests in
-  three shards on every push to `main`.
+- `PERF=1 npx playwright test --project=perf --workers=1`: the frame-rate
+  budget (`test/browser/perf.spec.js`), 4x CPU throttle, about 40 seconds. It
+  skips without `PERF=1`, since beside other tests it measures the load.
+- CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
+  three shards, and the frame-rate budget alone on every push to `main`.
 - `.githooks/pre-push` runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
   in each fresh clone: `git config core.hooksPath .githooks`.

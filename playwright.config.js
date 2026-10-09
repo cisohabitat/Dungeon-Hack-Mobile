@@ -20,7 +20,10 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
-    { name: 'phone', use: { ...devices['Pixel 5'] } },
+    // the frame-rate budget runs alone, on one worker, in its own CI job: beside
+    // the rest it would measure the machine's load, not the game (see perf.spec.js)
+    { name: 'phone', use: { ...devices['Pixel 5'] }, testIgnore: /perf\.spec\.js/ },
+    { name: 'perf', use: { ...devices['Pixel 5'] }, testMatch: /perf\.spec\.js/, retries: 0 },
   ],
   webServer: {
     command: `node test/server.js ${PORT}`,
