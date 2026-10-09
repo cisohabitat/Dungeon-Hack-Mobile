@@ -212,6 +212,7 @@
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
         <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches. It starts on if your phone asks for less motion.</p>
+        <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
         <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
         <p>The <b>music</b> follows the fight: quiet bells while nothing is near, a low pulse when something awake is close, a beat once it comes to blows, and a horn for a champion, a shade or the last foe (in the Warlord's hall, his war-drum leads it). When the fight is over it settles and goes quiet for a while, and it draws back whenever the game is paused. <b>Music</b> in the <b>Menu</b> turns it off, and <b>Sound</b> turns off everything.</p>
@@ -433,7 +434,8 @@
     </div>
     <div id="ov-char" class="overlay">
       <div class="ov-head"><h2>Hero</h2><button class="close" data-close aria-label="Close">✕</button></div>
-      <div class="ov-body" id="char-sheet"></div>
+      <!-- (focusable, so a keyboard can scroll it on a short screen) -->
+      <div class="ov-body" id="char-sheet" tabindex="0" role="region" aria-label="Hero sheet"></div>
     </div>
     <div id="ov-shop" class="overlay">
       <div class="ov-head"><h2 id="shop-title">Trader</h2><span id="shop-gold" class="shop-gold"></span><button class="close" data-close aria-label="Close">✕</button></div>
@@ -517,6 +519,11 @@
           <button id="m-numbers" class="big">Combat numbers: Normal</button>
           <button id="m-rolls" class="big">Combat rolls: Off</button>
         </div>
+        <h3 class="menu-h">Reports</h3>
+        <div class="menu-grid">
+          <button id="m-reports" class="big">Send reports: Off</button>
+        </div>
+        <p class="dim small menu-note">Off unless you turn it on. When on, the game sends a short note when a run ends (class, path, difficulty, the seed, how deep, what killed the hero, how long it took, how smooth the view ran, the screen's size) and when something breaks (the error, the seed and the floor). Never the hero's name, nor anything that says who you are.</p>
         <h3 class="menu-h">Controls</h3>
         <div class="menu-grid">
           <button id="m-hand" class="big">Controls: right-handed</button>

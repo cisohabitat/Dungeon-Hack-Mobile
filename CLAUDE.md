@@ -36,6 +36,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `js/hall.js`, and small DOM helpers in `js/uikit.js`. `js/renderer.js`: the 3D view.
   `js/creatures.js`: procedural sprites (monsters and encounter props).
 - `js/types.js`: JSDoc types, checked by `tsc` (`checkJs`).
+- `js/telemetry.js`: opt-in reports (a run's end, a crash), off unless turned on
+  in the Menu. `api/telemetry.js` and `api/stats.js` are the Vercel functions
+  that keep and count them (checked by `test/api.js`); `dashboard.html` shows
+  them beside the README balance table, which it reads as it stands.
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
@@ -47,13 +51,18 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `node test/run.js`: generator and level checks.
 - `node test/rules.js`: rule checks, about 4 minutes; must end
   `rule checks complete, 0 failure(s)`. `ONLY="part of a test name"` runs a subset.
-- `npx playwright test`: browser tests (phone viewport), about 5 minutes.
+- `npx playwright test --project=phone`: browser tests (phone viewport), about 5 minutes.
   Chromium is preinstalled; do not run `playwright install` locally.
 - `PERF=1 npx playwright test --project=perf --workers=1`: the frame-rate
   budget (`test/browser/perf.spec.js`), 4x CPU throttle, about 40 seconds. It
   skips without `PERF=1`, since beside other tests it measures the load.
+- `npx playwright test --project=small`: the interface, play and accessibility
+  specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
+- `test/browser/a11y.spec.js` runs axe over every screen and overlay: no fault
+  rated serious or critical. A new overlay goes into it.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
-  three shards, and the frame-rate budget alone on every push to `main`.
+  three shards, the small phone, and the frame-rate budget alone on every push
+  to `main`.
 - `.githooks/pre-push` runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
   in each fresh clone: `git config core.hooksPath .githooks`.

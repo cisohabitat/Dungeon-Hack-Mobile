@@ -867,7 +867,7 @@ test.describe('the screens around the dungeon', () => {
     await startGame(page, { testsFolded: true, seed: 'menu-groups' });
     await clearBoons(page);
     await page.click('[data-open="menu"]');
-    await expect(page.locator('#ov-menu .menu-h')).toHaveText(['Game', 'Sound', 'Display', 'Controls']);
+    await expect(page.locator('#ov-menu .menu-h')).toHaveText(['Game', 'Sound', 'Display', 'Reports', 'Controls']);
     await expect(page.locator('#m-tests')).toBeHidden();
     await expect(page.locator('#m-test-hp')).toBeHidden();
     await page.click('#m-testing');

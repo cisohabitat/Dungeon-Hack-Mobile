@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node test/server.js 4173",
-    "test": "npm run typecheck && node test/run.js && node test/rules.js",
+    "test": "npm run typecheck && node test/run.js && node test/api.js && node test/rules.js",
     "test:browser": "playwright test",
     "test:all": "npm test && npm run test:browser",
     "playtest": "node test/playtest.js",
@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.56.1",
     "typescript": "^7.0.2"
   },

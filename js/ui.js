@@ -1,6 +1,7 @@
 import { randomSeedWord } from './rng.js';
 import { ROUTES, FEATS, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, MONSTERS, THEMES, TALENTS, SPELLS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS } from './data.js';
 import { Assets } from './assets.js';
+import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
@@ -130,7 +131,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-19a', text: 'the fighter sets out with a little more life on Easy and Normal; weapons say how fast they swing in words, and the pack and the trader weigh one against another as a share, a third more or half as much, not a figure per second' };
+  const NEWS = { id: '2026-10-20a', text: 'reports: a new switch in the Menu, off unless you turn it on, sends a short note when a run ends or something breaks, so the game can be tuned to real delves; it never sends your name or anything that says who you are; on a small phone the map opens at its full size' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -2280,6 +2281,7 @@ const UI = (() => {
     c.addEventListener('pointerup', up);
     c.addEventListener('pointercancel', up);
   }
+  let mapRedrawn = false;
   function renderMap() {
     const L = Game.level(), p = Game.player();
     const c = $('#map-canvas');
@@ -2440,6 +2442,11 @@ const UI = (() => {
     ctx.closePath();
     ctx.fill();
     ctx.restore();
+    // The key under the map wraps to the width the map had before this drawing:
+    // on a narrow phone it took a line more the first time the map opened, and
+    // the map came out smaller than after any zoom. Measured again, once.
+    const keyNow = outer($('#map-legend')) + outer(/** @type {HTMLElement} */ ($('#map-legend').nextElementSibling));
+    if (!mapRedrawn && Math.abs(keyNow - keyH) > 1) { mapRedrawn = true; renderMap(); mapRedrawn = false; }
   }
 
   /** 'oil' or 'water' (a puddle; a flooded floor has its own chip) when the hero stands in it, else ''. */
@@ -2643,6 +2650,7 @@ const UI = (() => {
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
     $('#m-numbers').textContent = 'Combat numbers: ' + (bigNumbers() ? 'Large' : 'Normal');
+    $('#m-reports').textContent = 'Send reports: ' + (Telemetry.enabled() ? 'On' : 'Off');
     const t = testingSet();
     disarmTest();
     $('#m-test-hp').textContent = 'Endless life: ' + (t.hp ? 'On' : 'Off');
@@ -2901,7 +2909,7 @@ const UI = (() => {
     $('#map-out').addEventListener('click', () => zoomMap(1 / 1.5));
     wireMapPinch();
     // a tip goes at a tap on it, and the tap goes no further
-    $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); });
+    $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); Telemetry.tipClosed(); });
     $('#log-more').addEventListener('click', () => openOverlay('log'));
 
     // Tap the view to act, swipe to turn or step.
@@ -2956,6 +2964,7 @@ const UI = (() => {
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
+    $('#m-reports').addEventListener('click', () => { Telemetry.setEnabled(!Telemetry.enabled()); renderMenu(); });
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); renderMenu(); });
     $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
     // like with like: what you fight with first, what you use up after (the pick stays picked)
@@ -3181,7 +3190,9 @@ const UI = (() => {
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** Every tip's words, so a test can check each fits where it is shown. */
     // (a tip that suits itself to the spot is given in its widest words, for a test of whether it fits)
-    tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar };
+    tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar,
+    /** The build, named by its latest news line (sent with a report). */
+    version: () => NEWS.id };
 })();
 
 export { UI };

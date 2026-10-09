@@ -23,6 +23,9 @@ module.exports = defineConfig({
     // the frame-rate budget runs alone, on one worker, in its own CI job: beside
     // the rest it would measure the machine's load, not the game (see perf.spec.js)
     { name: 'phone', use: { ...devices['Pixel 5'] }, testIgnore: /perf\.spec\.js/ },
+    // the smallest phone in the device matrix (docs/DEVICES.md): the interface and
+    // the core loop again at its size, in Chromium (WebKit is not installed here)
+    { name: 'small', use: { ...devices['iPhone SE'], browserName: 'chromium', defaultBrowserType: 'chromium' }, testMatch: /(interface|play|a11y)\.spec\.js/ },
     { name: 'perf', use: { ...devices['Pixel 5'] }, testMatch: /perf\.spec\.js/, retries: 0 },
   ],
   webServer: {

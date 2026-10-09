@@ -52,6 +52,27 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --project=perf --workers=1
+        # the first reading on a runner was 47, 48 and 60 fps against a bar of 30
         env:
           PERF: '1'
-          PERF_REPORT: '1'
+
+  small:
+    # the smallest phone in the device matrix (docs/DEVICES.md)
+    name: Smallest phone
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --project=small
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-small
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

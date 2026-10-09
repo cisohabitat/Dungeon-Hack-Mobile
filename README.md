@@ -213,6 +213,17 @@ vercel --prod   # production deployment
 The app must be served over HTTPS for the service worker (offline mode) and "Add to Home
 Screen" to work. Vercel does this by default.
 
+**Reports (optional)**
+
+Players can turn on **Send reports** in the Menu: a short note when a run ends and when
+something breaks, with nothing that names them. The notes go to `api/telemetry.js`, a Vercel
+function that counts them in an Upstash Redis database; `dashboard.html` shows real players'
+win rates beside the bot's figures in the balance table below. To switch the store on, add the
+**Upstash for Redis** integration to the project from Vercel's Marketplace (it sets
+`KV_REST_API_URL` and `KV_REST_API_TOKEN`), or set `UPSTASH_REDIS_REST_URL` and
+`UPSTASH_REDIS_REST_TOKEN` by hand, and redeploy. Without them the function answers and keeps
+nothing, and the dashboard says no store is set up.
+
 ## Run locally
 
 Any static server works. For example:
@@ -229,7 +240,7 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
-npm test              # typecheck, then generator, sprite, balance and rule checks
+npm test              # typecheck, then generator, sprite, report-endpoint and rule checks
 npm run test:browser  # 192 Playwright tests against a real browser, at phone size
 npm run test:all      # both
 npm run playtest      # 40 simulated runs for each of the five classes, reports win rate

@@ -7,6 +7,7 @@ import { Sound } from './sound.js';
 import { Music } from './music.js';
 import { Game } from './game.js';
 import { UI } from './ui.js';
+import { Telemetry } from './telemetry.js';
 import * as Data from './data.js';
 import { Dungeon } from './dungeon.js';
 
@@ -16,7 +17,7 @@ import { Dungeon } from './dungeon.js';
 // drive the game, and how you poke at a dungeon while working on one.
 function exposeForTesting() {
   Object.assign(window, {
-    Game, Dungeon, Renderer, Assets, Sound, Music, UI,
+    Game, Dungeon, Renderer, Assets, Sound, Music, UI, Telemetry,
     ITEMS: Data.ITEMS, MONSTERS: Data.MONSTERS, CLASSES: Data.CLASSES,
     SPELLS: Data.SPELLS, THEMES: Data.THEMES, SPRITES: Data.SPRITES,
     XP_TABLE: Data.XP_TABLE, MAX_LEVEL: Data.MAX_LEVEL, STAT_NAMES: Data.STAT_NAMES,
@@ -51,6 +52,8 @@ function loop(now) {
     } else {
       Game.tick(now);
     }
+    // (the reports count the frame rate in play, and send a run's note as it ends: only if turned on)
+    Telemetry.frame(G, now, G.status === 'playing' && !UI.paused());
     if (G.status === 'playing' || G.status === 'dead' || G.status === 'won') {
       const rs = Game.renderState(now);
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
@@ -78,6 +81,8 @@ function loop(now) {
 
 function boot() {
   exposeForTesting();
+  // listening for what breaks before anything else runs, so a fault painting the pictures is heard too
+  Telemetry.install({ getState: () => Game.state(), version: UI.version() });
   Assets.init();
   Renderer.init(document.getElementById('title-art'));
   UI.init();

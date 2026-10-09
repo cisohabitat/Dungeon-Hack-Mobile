@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Deepdelve dashboard</title>
+<style>
+  /* the game's own colours (css/style.css), kept apart so the game never loads this */
+  :root { --bg: #0b0a10; --panel: #16141f; --border: #3a3450; --text: #e6dfd0; --dim: #9a93a8; --gold: #e0b84a; --red: #e06a64; --green: #5ec06a; }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--text); font: 15px/1.45 Georgia, 'Times New Roman', serif; }
+  h1 { color: var(--gold); font-weight: normal; font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; font-size: 1.1rem; margin: 24px 0 8px; }
+  p { margin: 4px 0; color: var(--dim); max-width: 46em; }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; min-width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--gold); font-weight: normal; background: var(--panel); }
+  .bot { color: var(--dim); font-size: 0.85em; display: block; }
+  .low { color: var(--red); } .high { color: var(--green); }
+</style>
+</head>
+<body>
+<h1>Deepdelve: real players and the bot</h1>
+<p>Win rates from players who turned on reports in the Menu, beside the balance bot's figures from the README. A cell needs 20 runs before its rate is shown; the bot's figure is beneath it.</p>
+<p id="state">Loading…</p>
+<h2>Win rate by class</h2>
+<div class="wrap"><table id="rates"></table></div>
+<h2>Frame rate in play</h2>
+<p id="fps"></p>
+<h2>Commonest crashes</h2>
+<div class="wrap"><table id="crashes"></table></div>
+<script>
+'use strict';
+// The README's balance table, read as it stands, so the bot's side never goes stale.
+const CLASSES = ['Cleric', 'Fighter', 'Mage', 'Thief', 'Ranger', 'Druid'];
+const ROWS = [
+  { label: 'Easy', key: '8|easy' }, { label: 'Normal', key: '8|normal' }, { label: 'Hard', key: '8|hard' },
+  { label: 'Long Delve (12 floors), Normal', key: '12|normal' }, { label: 'Long Delve (12 floors), Hard', key: '12|hard' },
+  { label: 'Long Delve (16 floors), Normal', key: '16|normal' }, { label: 'Long Delve (16 floors), Hard', key: '16|hard' },
+  { label: 'Quick delve (2 floors), Normal', key: '2|normal' },
+];
+const MIN_RUNS = 20;
+const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+
+async function botTable() {
+  const out = {};
+  try {
+    const md = await (await fetch('/README.md')).text();
+    for (const line of md.split('\n')) {
+      const cells = line.split('|').map(s => s.trim()).filter((s, i, a) => i > 0 && i < a.length - 1);
+      const row = ROWS.find(r => r.label === cells[0]);
+      if (row && cells.length >= 7) CLASSES.forEach((c, i) => { out[row.key + '|' + c.toLowerCase()] = parseFloat(cells[i + 1]); });
+    }
+  } catch { /* the bot's side stays empty */ }
+  return out;
+}
+
+async function main() {
+  const [bot, stats] = await Promise.all([botTable(), fetch('/api/stats').then(r => r.json()).catch(() => ({ error: 'unreachable' }))]);
+  const state = document.getElementById('state');
+  if (stats.error) state.textContent = 'The store could not be reached.';
+  else if (!stats.ready) state.textContent = 'No store is set up yet, so these are the bot’s figures alone (see ROADMAP.md, Phase 0).';
+  else state.textContent = `${Object.values(stats.runs).reduce((a, b) => a + b, 0)} runs reported.`;
+  const runs = stats.runs || {}, wins = stats.wins || {};
+  const t = document.getElementById('rates');
+  const head = el('tr'); head.append(el('th', 'Delve'), ...CLASSES.map(c => el('th', c))); t.append(head);
+  for (const r of ROWS) {
+    const tr = el('tr'); tr.append(el('td', r.label));
+    for (const c of CLASSES) {
+      const k = r.key + '|' + c.toLowerCase(), n = runs[k] || 0, b = bot[k];
+      const td = el('td');
+      const real = n >= MIN_RUNS ? Math.round((wins[k] || 0) / n * 1000) / 10 : null;
+      const top = el('span', real == null ? (n ? `${n} runs` : '–') : `${real}%`, real == null || b == null ? '' : real < b - 10 ? 'low' : real > b + 10 ? 'high' : '');
+      td.append(top, el('span', b == null ? '' : `bot ${b}%`, 'bot'));
+      tr.append(td);
+    }
+    t.append(tr);
+  }
+  const f = stats.fps || {}, total = [0, 1, 2, 3].reduce((a, i) => a + (f[i] || 0), 0);
+  document.getElementById('fps').textContent = total
+    ? ['50 or more', '30 to 50', '20 to 30', 'under 20'].map((l, i) => `${l} fps: ${Math.round((f[i] || 0) / total * 1000) / 10}%`).join(' · ')
+    : 'No frames reported yet.';
+  const ct = document.getElementById('crashes');
+  const ch = el('tr'); ch.append(el('th', 'Build and message'), el('th', 'Times')); ct.append(ch);
+  for (const [m, n] of stats.crashes || []) { const tr = el('tr'); tr.append(el('td', m), el('td', String(n))); ct.append(tr); }
+  if (!(stats.crashes || []).length) { const tr = el('tr'); tr.append(el('td', 'None reported.'), el('td', '')); ct.append(tr); }
+}
+main();
+</script>
+</body>
+</html>
