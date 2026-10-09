@@ -11,13 +11,10 @@ import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } fr
  * @param {any} K  what the game lends: its state and the rules the rest of it keeps
  */
 export function makeTrader(K) {
-  const { P, lvl, log, emit, the, cap, relicOf, mod, hasTalent, isJewel, isKnown, vouched, vowed, hiddenGear, cursedWorn, revealAll, breakCurses, spMax, discoverRelic, junkInPack } = K;
-  // (fetched when called: these live in combat.js and items.js, which are wired after the traders)
-  const healPlayer = (/** @type {any[]} */ ...a) => K.healPlayer(...a);
-  const itemName = (/** @type {any[]} */ ...a) => K.itemName(...a);
-  const beltRoom = (/** @type {any[]} */ ...a) => K.beltRoom(...a);
-  const giveItem = (/** @type {any[]} */ ...a) => K.giveItem(...a);
-  const removeOne = (/** @type {any[]} */ ...a) => K.removeOne(...a);
+  // Each is fetched when called, not copied when the traders are made: much of it
+  // lives in modules (items.js, combat.js, curses.js) wired after the traders.
+  const later = (/** @type {string} */ name) => (/** @type {any[]} */ ...a) => K[name](...a);
+  const P = later('P'), lvl = later('lvl'), log = later('log'), emit = later('emit'), the = later('the'), cap = later('cap'), relicOf = later('relicOf'), mod = later('mod'), hasTalent = later('hasTalent'), isJewel = later('isJewel'), isKnown = later('isKnown'), vouched = later('vouched'), vowed = later('vowed'), hiddenGear = later('hiddenGear'), cursedWorn = later('cursedWorn'), revealAll = later('revealAll'), breakCurses = later('breakCurses'), spMax = later('spMax'), discoverRelic = later('discoverRelic'), junkInPack = later('junkInPack'), healPlayer = later('healPlayer'), itemName = later('itemName'), beltRoom = later('beltRoom'), giveItem = later('giveItem'), removeOne = later('removeOne');
   // ---------- trading ----------
   // Prices key off the item's own value so the shelf stays sane at any depth.
   // Charisma is how the trader sees you: each point of modifier is six
