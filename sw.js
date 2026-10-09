@@ -3,7 +3,7 @@ const CACHE = 'deepdelve-v25';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png',
   './js/package.json',
-  './js/rng.js', './js/data.js', './js/creatures.js', './js/itemart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/assets.js', './js/dungeon.js', './js/renderer.js', './js/sound.js', './js/music.js', './js/foes.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/ui.js', './js/main.js',
+  './js/rng.js', './js/data.js', './js/creatures.js', './js/itemart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/assets.js', './js/dungeon.js', './js/renderer.js', './js/sound.js', './js/music.js', './js/foes.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/chronicle.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/ui.js', './js/main.js',
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
