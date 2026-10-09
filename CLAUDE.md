@@ -23,6 +23,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `js/hall.js`, and small DOM helpers in `js/uikit.js`. `js/renderer.js`: the 3D view.
   `js/creatures.js`: procedural sprites (monsters and encounter props).
 - `js/types.js`: JSDoc types, checked by `tsc` (`checkJs`).
+- `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
+  a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 
