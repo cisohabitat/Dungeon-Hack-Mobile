@@ -12,6 +12,19 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   (`js/companion.js`), traders' jobs (`js/bounty.js`), the druid's Wild Shape
   and Entangle (`js/wild.js`), the encounters' engine (`js/meet.js`) and the
   elements acting on the place: fire, ice, oil, water (`js/elements.js`).
+  The rest of the rules sit in the same kind of factory, wired just before
+  `game.js` returns its API: combat and groups (`js/combat.js`), items and the
+  pack (`js/items.js`), spells and class moves (`js/powers.js`), curses and
+  hidden quality (`js/curses.js`), difficulty, resting and the deep floors'
+  scaling (`js/pacing.js`), the end, run numbers and bestiary
+  (`js/chronicle.js`), the fallen hero's bones and shade (`js/fallen.js`),
+  what a fight leaves behind and fire scenes (`js/scenes.js`), the render
+  state and motion (`js/motion.js`), and saving (`js/saving.js`). A factory
+  reads `game.js`'s changing state live through `K` (`K.G`, never a copy of
+  `G`), and a constant two factories share stays in `game.js`. A factory may
+  copy a value from `K` when it is made only if that value is already settled
+  by then: one made later, or one living in a factory wired after it, must be
+  read through `K` at the moment of use.
 - `js/dungeon.js`: level generation, deterministic per `(seed, depth)`. Plans
   for a whole run (`namedPlan`, `twistPlan`, `piecePlan`) use their own `Rng`
   streams so they never shift the map's dice. Room shapes and the set pieces
@@ -48,9 +61,12 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 with a bot. Seed-to-seed noise is about ±5 points, so compare variants on two
 seed sets (`SEEDPFX=alt` for the second). Other switches: `EARLY=1` (deaths
 before level 5), `CAUSES=1`, `LICH=1`, `NAMED=1`, `NOFORGE=1`, `SHADE=4` (a fallen
-hero's shade on floor 4), `SIZE=small|large` (Medium floors otherwise). Run variants in
-git worktrees under the scratchpad, not in the main checkout, and keep the
-README balance table current.
+hero's shade on floor 4), `SIZE=small|large` (Medium floors otherwise). `FP=1`
+(a fingerprint of each run's final state and log: moving code without
+changing behaviour must leave every one as it was; `FP=keys` hashes each part
+of the state, `FPTRACE=1` prints each line logged, to find where two passes part).
+Run variants in git worktrees under the scratchpad, not in the main checkout,
+and keep the README balance table current.
 
 ## Conventions
 

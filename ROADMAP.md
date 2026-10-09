@@ -50,7 +50,7 @@ Everything later needs to be measurable. Without this, every later phase is gues
 - [ ] **Crash reporting**: `window.onerror` and unhandled rejections to the same endpoint, carrying the seed and a save hash, so any crash can be replayed from its seed.
 - [ ] **Performance budget in CI**: a Playwright test that throttles the CPU 4× and asserts at least 30 FPS on floor 7 during a fight, on a flooded floor, and during the lich's rite. A push that drops below fails.
 - [ ] **Device matrix**: monthly runs on an old Android (Pixel 3 class) and an iPhone SE, real devices or a device farm, against a written checklist.
-- [ ] **Split `game.js`**: move combat, items and inventory, levelling, and save/load into factories in the pattern `foes.js` already uses. No file over 2,000 lines. Prove behaviour byte-identical with a fingerprint test, as done for the floor-size work.
+- [x] **Split `game.js`** (October 2026: 5,400 lines to 1,982, eleven new factories, every bench fingerprint unchanged; `creatures.js`, `ui.js`, `renderer.js` and `assets.js` are still over 2,000): move combat, items and inventory, levelling, and save/load into factories in the pattern `foes.js` already uses. No file over 2,000 lines. Prove behaviour byte-identical with a fingerprint test, as done for the floor-size work.
 - [ ] **Accessibility baseline**: run axe on every overlay; fix contrast and focus order; label every icon button.
 
 **Exit criteria**
