@@ -3742,19 +3742,22 @@ await test('a skeleton cut down by an edge rises again unless its bones are smas
   p.perkHit = 60;
   p.eq.weapon = { t: 'longsword', q: 1, e: 0 };
   const m = beside(edge, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
-  G.t = p.nextAttack; Game.input('attack');
+  // (a natural 1 misses whatever the bonus: swing until the blow lands)
+  const swing = (g, gs, hero, until) => { for (let k = 0; k < 8 && !until(); k++) { gs.t = hero.nextAttack; g.input('attack'); } };
+  swing(Game, G, p, () => m.collapsed || !L.monsters.includes(m));
   if (!L.monsters.includes(m) || !m.collapsed) return 'a sword-felled skeleton did not fall into a heap';
   run(Game, G, 5000);
   if (m.collapsed || m.hp !== 10) return `after the wait: collapsed ${m.collapsed}, hp ${m.hp}`;
   // the second time it stays down
-  m.hp = 1; m.nextAct = 1e12; G.t = p.nextAttack; Game.input('attack');
+  m.hp = 1; m.nextAct = 1e12;
+  swing(Game, G, p, () => !L.monsters.includes(m) || m.collapsed);
   if (L.monsters.includes(m)) return 'it rose a second time';
   // smashing the heap ends it
   const heap = await start('fighter', 'rise-smash');
   const hp2 = heap.Game.player(), G2 = heap.Game.state(), L2 = heap.Game.level();
   hp2.perkHit = 60; hp2.eq.weapon = { t: 'longsword', q: 1, e: 0 };
   const m2 = beside(heap, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
-  G2.t = hp2.nextAttack; heap.Game.input('attack');
+  swing(heap.Game, G2, hp2, () => m2.collapsed || !L2.monsters.includes(m2));
   hp2.perkHit = -100;                                 // a hero who could hit nothing still hits a heap
   G2.t = hp2.nextAttack; heap.Game.input('attack');
   if (L2.monsters.includes(m2)) return 'striking the heap did not scatter it';
@@ -3763,7 +3766,7 @@ await test('a skeleton cut down by an edge rises again unless its bones are smas
   const bp = blunt.Game.player(), G3 = blunt.Game.state(), L3 = blunt.Game.level();
   bp.perkHit = 60; bp.eq.weapon = { t: 'mace', q: 1, e: 0 };
   const m3 = beside(blunt, 'skeleton', { hp: 1, maxHp: 20, nextAct: 1e12 });
-  G3.t = bp.nextAttack; blunt.Game.input('attack');
+  swing(blunt.Game, G3, bp, () => m3.collapsed || !L3.monsters.includes(m3));
   return !L3.monsters.includes(m3) || 'a mace left the skeleton able to rise';
 });
 
