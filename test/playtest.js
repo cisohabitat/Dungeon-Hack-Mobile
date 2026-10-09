@@ -35,7 +35,19 @@ function run(ctx, cls, seed, opts, bg, idx) {
   Dice.s = new Rng(key).s;
   Math.random = () => loose.next();
   try {
-    return play(ctx, cls, seed, opts, bg, idx);
+    const rec = play(ctx, cls, seed, opts, bg, idx);
+    // FP=1 prints a fingerprint of the whole run as it ended: the state and every
+    // line logged. A change meant to alter nothing (moving code between files)
+    // must leave every fingerprint as it was.
+    if (process.env.FP) {
+      const G = ctx.Game.state();
+      // (all but the wall-clock moment the run began, which no two passes share)
+      const h = require('crypto').createHash('md5').update(JSON.stringify({ ...G, created: 0 })).update(JSON.stringify(G.log)).digest('hex').slice(0, 16);
+      console.log(`FP ${cls} ${seed} ${bg} ${h} t=${G.t} logSeq=${G.logSeq}`);
+      // FP=keys prints one hash a key of the state too, to find which part moved
+      if (process.env.FP === 'keys') for (const k of Object.keys(G)) console.log(`FPK ${cls} ${seed} ${k} ${require('crypto').createHash('md5').update(JSON.stringify(G[k]) || 'u').digest('hex').slice(0, 10)}`);
+    }
+    return rec;
   } finally {
     Math.random = realRandom;
   }
