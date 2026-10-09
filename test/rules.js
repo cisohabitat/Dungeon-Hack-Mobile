@@ -14473,10 +14473,12 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       }
       return got;
     };
-    const w = kills('drow_warrior', 80), m = kills('drow_mage', 60);
-    if (!((w.scimitar || 0) > 2 && (w.scimitar || 0) < 25)) out.push(`80 warriors left ${w.scimitar || 0} scimitars`);
-    if (!((w.elvenchain || 0) > 0 && (w.elvenchain || 0) < 20)) out.push(`80 warriors left ${w.elvenchain || 0} coats of elven chain`);
-    if (!((m.cloak_shadow || 0) > 2 && (m.cloak_shadow || 0) < 25)) out.push(`60 mages left ${m.cloak_shadow || 0} shadow cloaks`);
+    // (enough of each that a run of bad luck outside the bounds is about one in ten thousand:
+    // with 60 mages, two cloaks or fewer came up one run in 250, and did)
+    const w = kills('drow_warrior', 200), m = kills('drow_mage', 150);
+    if (!((w.scimitar || 0) > 8 && (w.scimitar || 0) < 50)) out.push(`200 warriors left ${w.scimitar || 0} scimitars`);
+    if (!((w.elvenchain || 0) > 3 && (w.elvenchain || 0) < 35)) out.push(`200 warriors left ${w.elvenchain || 0} coats of elven chain`);
+    if (!((m.cloak_shadow || 0) > 7 && (m.cloak_shadow || 0) < 50)) out.push(`150 mages left ${m.cloak_shadow || 0} shadow cloaks`);
     if (w.cloak_shadow || m.scimitar || m.elvenchain) out.push('a warrior left a cloak, or a mage a blade or mail');
     const v1 = kills('vaelith', 1);
     if (v1.spider_pendant !== 1) out.push(`Vaelith left ${JSON.stringify(v1)}`);

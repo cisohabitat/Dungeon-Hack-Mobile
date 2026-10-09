@@ -2,7 +2,7 @@
 // The endgame: the Heart is held fast while the lich stands; bring it down,
 // lift the Heart, and the run is won on the spot. There is no climb back out.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, descendTo, placeMonster } = require('./helpers');
+const { expect, watchForErrors, startGame, descendTo, placeMonster, artReady } = require('./helpers');
 
 /** Stand on the Heart and try to take it. */
 const takeHeart = () => {
@@ -73,11 +73,15 @@ test.describe('the endgame', () => {
     // (polled: under load its picture can be a frame or two behind the bar at the top)
     await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged)), { timeout: 8000 }).toBe(true);
     // it raises its hammer: the tip says to step off its lines, and the drawing has the hammer up
+    // (its raised-hammer pose is painted after its plain picture, in spare moments: waited for first)
+    await artReady(page);
     if (await page.locator('#tip.show').isVisible()) await page.locator('#tip').click();
     await page.evaluate(() => { const m = Game.level().monsters[0]; m.blows = 1; m.moveReady = 0; m.nextAct = Game.state().t; });
     await expect(page.locator('#tip')).toContainText('Step off its lines', { timeout: 4000 });
-    // (the view draws its raised-hammer picture for a sprite with a tell)
-    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged && s.tell && !!s.img.windup))).toBe(true);
+    // (the view draws its raised-hammer picture for a sprite with a tell; a wind-up is
+    // over in a moment, and on a loaded machine the blow can land before this looks, so
+    // it is watched for: the boss keeps swinging)
+    await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged && s.tell && !!s.img.windup))).toBe(true);
     expect(errors).toEqual([]);
   });
 
