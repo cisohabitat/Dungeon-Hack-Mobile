@@ -1785,8 +1785,9 @@ test.describe('dungeon features', () => {
       for (let i = 0; i < (turns === 3 ? 1 : turns); i++) Game.input(turns === 3 ? 'left' : 'right');
     });
     await expect(page.locator('[data-tap="use"]')).toContainText('Stay');
-    // it is drawn: the view holds the hound's picture
-    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.dog))).toBe(true);
+    // it is drawn: the view holds the hound's picture (any of its own: mid-stride or
+    // mid-blink is still the hound, and on a loaded machine the moment can fall on one)
+    expect(await page.evaluate(() => { const d = Assets.sprites.dog, own = [d, ...Object.values(d)]; return Game.renderState(performance.now()).sprites.some(s => own.includes(s.img)); })).toBe(true);
     await page.click('[data-tap="use"]');
     await expect(page.locator('#hud-status')).toContainText(`${name}`);
     await expect(page.locator('#hud-status')).toContainText('staying');

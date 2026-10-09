@@ -33,8 +33,21 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/data.js`: classes, items, monsters, spells, talents, paths, names.
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
-  `js/hall.js`, and small DOM helpers in `js/uikit.js`. `js/renderer.js`: the 3D view.
-  `js/creatures.js`: procedural sprites (monsters and encounter props).
+  `js/hall.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
+  wired at the end of `ui.js` in the same `K` pattern: the title's scene
+  (`js/titlescene.js`), the trader (`js/shopview.js`), an encounter's and a level's
+  choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`)
+  and the end of a run (`js/endscreen.js`).
+- `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
+  over it are in `js/spellfx.js`.
+- `js/creatures.js`: the creatures drawn from parts, their poses, and the one list
+  of them all; the later creatures are in `js/folk.js`, the parts and shared kits
+  in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
+  `js/props.js`, and the champions, a shade's gear and the portraits in
+  `js/champions.js`. `js/assets.js` turns them into sprites (a creature a piece at
+  a time, in spare moments) and paints the walls, floors and doors; the wall
+  decorations are in `js/walldecor.js`.
+- No file in `js/` is over 2,000 lines; split one that grows past it.
 - `js/types.js`: JSDoc types, checked by `tsc` (`checkJs`).
 - `js/telemetry.js`: opt-in reports (a run's end, a crash), off unless turned on
   in the Menu. `api/telemetry.js` and `api/stats.js` are the Vercel functions
@@ -111,3 +124,6 @@ and keep the README balance table current.
   turns them on for a test that is about tips.
 - A browser test that waits for a monster's blow to land must allow for
   misses: take the hero's armour off, or give it several seconds.
+- A creature's poses, champions and close-up are painted after its plain
+  picture, in spare moments: a test about how one is drawn calls `artReady(page)`
+  (helpers.js) first.
