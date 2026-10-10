@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Deepdelve sound check</title>
+<style>
+  /* the game's own colours (css/style.css), kept apart so the game never loads this */
+  :root { --bg: #0b0a10; --panel: #16141f; --border: #3a3450; --text: #e6dfd0; --dim: #9a93a8; --gold: #e0b84a; --press: #2b2740; --on: #4a3a1c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px 16px 48px; background: var(--bg); color: var(--text); font: 16px/1.45 Georgia, 'Times New Roman', serif; }
+  h1 { color: var(--gold); font-weight: normal; font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; font-size: 1.15rem; margin: 0; }
+  p { margin: 6px 0; color: var(--dim); max-width: 46em; }
+  details { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; padding: 10px 12px; }
+  summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 8px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▸'; color: var(--gold); }
+  details[open] > summary::before { content: '▾'; }
+  summary small { color: var(--dim); }
+  button { font: inherit; color: var(--text); background: #1d1a29; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; min-height: 44px; cursor: pointer; }
+  button:active { background: var(--press); }
+  button.on { background: var(--on); border-color: var(--gold); color: #f5e6c0; }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+  .item { border-top: 1px solid var(--border); padding: 8px 0; }
+  .item:first-of-type { border-top: 0; }
+  .item b { font-weight: normal; color: var(--text); }
+  .item .what { color: var(--dim); font-size: 0.9rem; display: block; margin-bottom: 4px; }
+  .tier { font-size: 0.75rem; color: var(--bg); background: var(--dim); border-radius: 4px; padding: 0 6px; margin-left: 6px; }
+  .tier.t1 { background: var(--gold); }
+  .bar { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 8px 0; border-bottom: 1px solid var(--border); }
+  #status { color: var(--dim); font-size: 0.9rem; }
+  label { color: var(--dim); font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+  input[type=range] { width: 160px; accent-color: var(--gold); }
+  .meta { color: var(--dim); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>Deepdelve sound check</h1>
+<p>Every sound and piece of music in <code>sound/</code>, to listen to before any of it goes into the game. They are synthesised (see <code>SOURCES.md</code>), not recorded. Use headphones as well as the phone's speaker: the game is mostly heard through the speaker.</p>
+<div class="bar">
+  <div class="row">
+    <span>Format:</span>
+    <button id="fmt-m4a" type="button">AAC (.m4a)</button>
+    <button id="fmt-ogg" type="button">Vorbis (.ogg)</button>
+    <button id="stop" type="button">Stop all</button>
+  </div>
+  <div id="status" role="status">Loading the list…</div>
+</div>
+<div id="sections"></div>
+
+<script>
+'use strict';
+// Plays the files through Web Audio, as the game would: decoded once, music
+// stems trimmed to their loop and started on one clock, layers faded with the mood.
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); } e.append(...kids); return e; };
+const status = t => { document.getElementById('status').textContent = t; };
+const probe = document.createElement('audio');
+const can = { m4a: !!probe.canPlayType('audio/mp4; codecs="mp4a.40.2"'), ogg: !!probe.canPlayType('audio/ogg; codecs="vorbis"') };
+let fmt = can.m4a ? 'm4a' : 'ogg';
+let ctx = null, master = null;
+const cache = new Map();
+const playing = new Set();
+
+function audio() {
+  if (!ctx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = 0.9; master.connect(ctx.destination);
+  }
+  if (ctx.state === 'suspended') ctx.resume();
+  return ctx;
+}
+async function load(path) {
+  const key = path + '.' + fmt;
+  if (!cache.has(key)) {
+    cache.set(key, (async () => {
+      const res = await fetch(key);
+      if (!res.ok) throw new Error(key + ': ' + res.status);
+      const data = await res.arrayBuffer();
+      // (old Safari's decodeAudioData takes callbacks only)
+      return await new Promise((ok, bad) => { const p = audio().decodeAudioData(data, ok, bad); if (p && p.catch) p.catch(bad); });
+    })());
+  }
+  return cache.get(key);
+}
+function track(src) { playing.add(src); src.onended = () => playing.delete(src); return src; }
+async function playOnce(path, gainDb = 0) {
+  try {
+    const buf = await load(path), c = audio();
+    const src = c.createBufferSource(), g = c.createGain();
+    src.buffer = buf; g.gain.value = Math.pow(10, gainDb / 20);
+    src.connect(g); g.connect(master); track(src).start();
+    status(`${path}.${fmt}: ${buf.duration.toFixed(2)} s, ${buf.numberOfChannels === 1 ? 'mono' : 'stereo'}`);
+  } catch (e) { status('Could not play ' + path + '.' + fmt + ': ' + e.message); }
+}
+function stopAll() {
+  for (const s of playing) { try { s.stop(); } catch (e) { /* already stopped */ } }
+  playing.clear();
+  for (const t of themes.values()) t.stopped();
+  for (const a of ambs.values()) a.stopped();
+  status('Stopped.');
+}
+
+// ---- a theme: four stems in step, layers faded by mood ----
+const MOODS = [['quiet', ['explore']], ['wary', ['explore', 'tension']], ['fight', ['explore', 'tension', 'fight']], ['boss', ['explore', 'tension', 'fight', 'boss']]];
+const themes = new Map();
+function makeTheme(name, m) {
+  const stems = ['explore', 'tension', 'fight', 'boss'];
+  let nodes = null, mood = 'quiet', on = new Set(['explore']);
+  // (the mood buttons and the layer buttons share two names, fight and boss: kept apart)
+  const ui = {}, uiMood = {}, uiLayer = {};
+  const fade = 2.0;
+  function apply(now) {
+    if (!nodes) return;
+    for (const s of stems) {
+      const g = nodes.gains[s].gain, t = now || ctx.currentTime;
+      g.cancelScheduledValues(t); g.setValueAtTime(g.value, t);
+      g.linearRampToValueAtTime(on.has(s) ? 1 : 0.0001, t + (now ? 0.01 : fade));
+    }
+    for (const [md] of MOODS) uiMood[md].classList.toggle('on', md === mood);
+    for (const s of stems) uiLayer[s].classList.toggle('on', on.has(s));
+  }
+  async function start() {
+    if (nodes) return;
+    status(`Loading ${name}…`);
+    try {
+      const bufs = await Promise.all(stems.map(s => load(m.stems[s])));
+      const c = audio(), at = c.currentTime + 0.15, sr = m.sampleRate || 48000;
+      const out = c.createGain(); out.gain.value = m.mixGain || 1; out.connect(master);
+      nodes = { out, srcs: {}, gains: {} };
+      for (const [i, s] of stems.entries()) {
+        const src = c.createBufferSource(), g = c.createGain();
+        src.buffer = bufs[i]; src.loop = true;
+        // the loop is the manifest's, not the decoded file's: the encoders pad the end
+        src.loopStart = (m.loopStartSample || 0) / sr; src.loopEnd = (m.loopEndSample || m.samples) / sr;
+        g.gain.value = 0.0001; src.connect(g); g.connect(out);
+        src.start(at, src.loopStart);
+        nodes.srcs[s] = track(src); nodes.gains[s] = g;
+      }
+      apply(at);
+      status(`${name}: ${m.bpm} bpm, ${m.key}, ${m.bars} bars, loop ${(m.samples / sr).toFixed(2)} s (${fmt}). Listen at the loop point for a click.`);
+    } catch (e) { nodes = null; status('Could not play ' + name + ': ' + e.message); }
+  }
+  function stop() { if (!nodes) return; for (const s of stems) { try { nodes.srcs[s].stop(); } catch (e) { /* ignore */ } } nodes = null; ui.play.textContent = 'Play'; ui.play.classList.remove('on'); }
+  const t = {
+    stopped() { nodes = null; ui.play.textContent = 'Play'; ui.play.classList.remove('on'); },
+  };
+  const box = el('div', { class: 'item' });
+  ui.play = el('button', { type: 'button', onclick: async () => { if (nodes) stop(); else { for (const o of themes.values()) if (o !== t) o.stop && o.stop(); await start(); if (nodes) { ui.play.textContent = 'Stop'; ui.play.classList.add('on'); } } } }, 'Play');
+  t.stop = stop;
+  const moods = el('div', { class: 'row' }, el('span', { class: 'meta' }, 'Mood (2 s fades):'));
+  for (const [md, set] of MOODS) { uiMood[md] = el('button', { type: 'button', onclick: () => { mood = md; on = new Set(set); apply(); } }, md); moods.append(uiMood[md]); }
+  const layers = el('div', { class: 'row' }, el('span', { class: 'meta' }, 'Layers:'));
+  for (const s of stems) { uiLayer[s] = el('button', { type: 'button', onclick: () => { mood = ''; if (on.has(s)) on.delete(s); else on.add(s); apply(); } }, s); layers.append(uiLayer[s]); }
+  box.append(
+    el('b', {}, name), el('span', { class: `tier t${m.tier}` }, 'tier ' + m.tier),
+    el('span', { class: 'what' }, `${m.key}, ${m.bpm} bpm, ${m.bars} bars`),
+    el('div', { class: 'row' }, ui.play, el('button', { type: 'button', onclick: () => playOnce(m.resolve) }, 'Fight over (resolve)')),
+    moods, layers);
+  uiMood.quiet.classList.add('on'); uiLayer.explore.classList.add('on');
+  themes.set(name, t);
+  return box;
+}
+
+// ---- an ambience bed, looped, with a level to try ----
+const ambs = new Map();
+function makeAmb(name, e) {
+  let src = null, gain = null, db = 24;
+  const btn = el('button', { type: 'button' }, 'Play');
+  const out = el('span', { class: 'meta' }, '+24 dB');
+  const slider = el('input', { type: 'range', min: '0', max: '40', step: '1', value: '24', 'aria-label': `${name} level` });
+  slider.addEventListener('input', () => { db = +slider.value; out.textContent = `+${db} dB`; if (gain) gain.gain.value = Math.pow(10, db / 20); });
+  const a = { stopped() { src = null; btn.textContent = 'Play'; btn.classList.remove('on'); } };
+  btn.addEventListener('click', async () => {
+    if (src) { try { src.stop(); } catch (er) { /* ignore */ } a.stopped(); return; }
+    try {
+      const buf = await load(e.file), c = audio();
+      src = c.createBufferSource(); gain = c.createGain();
+      src.buffer = buf; src.loop = true; src.loopEnd = (e.samples || buf.length) / (e.sampleRate || 48000);
+      gain.gain.value = Math.pow(10, db / 20); src.connect(gain); gain.connect(master); track(src).start();
+      btn.textContent = 'Stop'; btn.classList.add('on');
+      status(`${name}: ${buf.duration.toFixed(1)} s loop, played ${db} dB louder than the file (it is mastered very quiet)`);
+    } catch (er) { status('Could not play ' + name + ': ' + er.message); }
+  });
+  ambs.set(name, a);
+  return el('div', { class: 'item' }, el('b', {}, name), el('span', { class: 'what' }, e.description || ''),
+    el('div', { class: 'row' }, btn, el('label', {}, 'Level', slider, out)));
+}
+
+function section(title, note, open, ...items) {
+  const d = el('details', open ? { open: '' } : {}, el('summary', {}, el('h2', {}, title), el('small', {}, note)));
+  d.append(...items);
+  return d;
+}
+
+async function main() {
+  const fbtn = { m4a: document.getElementById('fmt-m4a'), ogg: document.getElementById('fmt-ogg') };
+  for (const f of ['m4a', 'ogg']) {
+    if (!can[f]) { fbtn[f].disabled = true; fbtn[f].textContent += ' (not on this browser)'; }
+    fbtn[f].addEventListener('click', () => { stopAll(); fmt = f; for (const g of ['m4a', 'ogg']) fbtn[g].classList.toggle('on', g === fmt); status('Playing .' + fmt + ' files.'); });
+  }
+  fbtn[fmt].classList.add('on');
+  document.getElementById('stop').addEventListener('click', stopAll);
+  let m;
+  try { m = await (await fetch('manifest.json')).json(); } catch (e) { status('Could not read manifest.json: ' + e.message); return; }
+  const S = document.getElementById('sections');
+  // music first: it is the biggest question
+  S.append(section('Music', `${Object.keys(m.music).length} themes, four layers each`, true, ...Object.entries(m.music).map(([n, e]) => makeTheme(n, e))));
+  S.append(section('Title cue', 'plays once on the first tap', false,
+    el('div', { class: 'item' }, el('span', { class: 'what' }, m.title.description || ''), el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => playOnce(m.title.file) }, `Play (${Math.round(m.title.seconds)} s)`)))));
+  S.append(section('Stingers', 'short cues', false, ...Object.entries(m.stingers).map(([n, e]) =>
+    el('div', { class: 'item' }, el('b', {}, n), el('span', { class: 'what' }, e.description || ''), el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => playOnce(e.file) }, 'Play'))))));
+  const sfx = Object.entries(m.sfx);
+  const group = tier => sfx.filter(([, e]) => e.tier === tier).map(([id, e]) => {
+    const row = el('div', { class: 'row' });
+    e.files.forEach((f, i) => row.append(el('button', { type: 'button', onclick: () => playOnce(f) }, String(i + 1))));
+    if (e.files.length > 1) row.append(el('button', { type: 'button', onclick: () => playOnce(e.files[Math.floor(Math.random() * e.files.length)]) }, 'Any'));
+    const what = (e.variations && e.variations[0] && e.variations[0].description) || '';
+    return el('div', { class: 'item' }, el('b', {}, id), el('span', { class: 'what' }, what), row);
+  });
+  S.append(section('Sound effects, tier 1', `${sfx.filter(([, e]) => e.tier === 1).length} sounds`, false, ...group(1)));
+  S.append(section('Sound effects, tier 2', 'voices, deaths, distant sounds', false, ...group(2)));
+  S.append(section('Ambience', 'looping beds; try the level', false, ...Object.entries(m.ambience).map(([n, e]) => makeAmb(n, e))));
+  status(`Ready: tap anything to hear it. Playing .${fmt} files${can.m4a && can.ogg ? '; switch the format above to hear the other' : ''}.`);
+}
+main();
+</script>
+</body>
+</html>

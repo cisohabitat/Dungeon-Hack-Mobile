@@ -13,6 +13,9 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // the sound pack is not in the game yet: listening to it on its own page
+  // (sound/listen.html) is left to the network, not stored on the phone
+  if (new URL(e.request.url).pathname.startsWith('/sound/')) return;
   e.respondWith(
     fetch(e.request).then(res => {
       // only a good answer is kept: a server's error page saved over the game
