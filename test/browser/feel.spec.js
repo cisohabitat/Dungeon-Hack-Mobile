@@ -73,3 +73,26 @@ test('the title opens out of the dark once a visit, a tap ends it at once and st
   await expect(title).toHaveClass(/active/);
   expect(await title.evaluate(el => el.classList.contains('opening'))).toBe(false);
 });
+
+test('each floor is named over the view as the hero arrives, once, and a calm view leaves it to the log', async ({ page }) => {
+  await startGame(page, { seed: 'floor-card' });
+  const card = page.locator('#floor-card');
+  await expect(card).toHaveClass(/show/);
+  await expect(page.locator('#floor-card-num')).toHaveText('Floor 1 of 8');
+  const name = await page.evaluate(() => THEMES[Game.level().theme].name);
+  await expect(page.locator('#floor-card-name')).toHaveText(name);
+  expect(await card.evaluate(el => getComputedStyle(el).pointerEvents)).toBe('none');
+  // it fades of itself
+  await expect.poll(() => card.evaluate(el => Number(getComputedStyle(el).opacity)), { timeout: 5000 }).toBe(0);
+  // the next floor is named in its turn
+  await page.evaluate(() => Game.testFloor(2));
+  await expect(page.locator('#floor-card-num')).toHaveText('Floor 2 of 8');
+  await expect.poll(() => card.evaluate(el => Number(getComputedStyle(el).opacity)), { timeout: 2000 }).toBeGreaterThan(0.5);
+  // a calm view: none
+  await page.evaluate(() => localStorage.setItem('deepdelve.calm', '1'));
+  await page.reload();
+  await page.click('#btn-continue');
+  await expect(page.locator('#screen-game')).toHaveClass(/active/);
+  await page.waitForTimeout(300);
+  expect(await card.evaluate(el => getComputedStyle(el).display)).toBe('none');
+});

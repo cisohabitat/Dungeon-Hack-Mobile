@@ -225,6 +225,10 @@ test.describe('choices kept', () => {
     expect(await page.evaluate(() => Game.state().t) - t0).toBeLessThan(1000);
     await expect(page.locator('#prelude-skip')).toBeHidden();
     expect(await page.evaluate(() => Game.state().log.some(l => /the roof of the passage comes down/.test(l.base || l.m || '')))).toBe(true);
+    // the corner map shows the room come into sight, not the hero's arrow alone
+    // (it kept what it drew while the dust was down: nothing)
+    const inked = () => page.evaluate(() => { const c = /** @type {HTMLCanvasElement} */ (document.getElementById('minimap')), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (Math.abs(d[i] - d[0]) + Math.abs(d[i + 1] - d[1]) + Math.abs(d[i + 2] - d[2]) > 30) n++; return n; });
+    await expect.poll(inked, { timeout: 3000 }).toBeGreaterThan(200);
     // turned round, the hero faces fallen rock where the stair up was
     for (let i = 0; i < 2; i++) { await page.evaluate(() => Game.input('left')); await page.waitForTimeout(450); }
     await expect.poll(() => page.evaluate(() => Renderer.looks.fallen), { timeout: 3000 }).toBeGreaterThan(0);

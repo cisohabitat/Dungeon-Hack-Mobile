@@ -125,7 +125,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
   45% { text-shadow: 0 1px 0 #6b5220, 0 2px 0 #4a3714, 0 3px 0 #2e2109, 0 4px 6px rgba(0,0,0,0.8), 0 0 42px rgba(255,200,90,0.45); }
   70% { text-shadow: 0 1px 0 #6b5220, 0 2px 0 #4a3714, 0 3px 0 #2e2109, 0 4px 6px rgba(0,0,0,0.8), 0 0 22px rgba(224,184,74,0.22); }
 }
-.tagline { color: #bdb2a0; margin: var(--s-10) 0 0; font-size: var(--t-lg); text-shadow: 0 1px 3px #000; }
+.tagline { color: #bdb2a0; margin: var(--s-10) 0 0; font-size: var(--t-lg); text-shadow: 0 1px 3px #000; text-wrap: balance; }   /* no word left alone on a narrow phone */
 .menu { display: flex; flex-direction: column; gap: var(--s-8); }
 .menu-row { display: flex; gap: var(--s-8); }
 /* the in-game menu in short groups: a heading each, the switches two to a row */
@@ -373,6 +373,17 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 #screen-title.opening .logo .l2 { animation: come-up 800ms ease-out 1000ms both; }
 #screen-title.opening .tagline, #screen-title.opening .last-run { animation: come-up 700ms ease-out 1400ms both; }
 #screen-title.opening .menu, #screen-title.opening .first-card, #screen-title.opening .news { animation: come-up 600ms ease-out 1800ms both; }
+/* a floor's name as the hero arrives (ui.js, showFloorCard): up, held, and gone, over the far end of the view */
+.floor-card { position: absolute; left: var(--s-16); right: var(--s-16); top: 22%; z-index: 2; text-align: center; pointer-events: none; opacity: 0;
+  color: var(--gold); text-shadow: 0 1px 3px #000, 0 0 12px rgba(0, 0, 0, 0.9); }
+.floor-card small { display: block; font-size: var(--t-sm); letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); }
+.floor-card b { display: block; font-weight: normal; font-size: var(--t-3xl); letter-spacing: 0.06em; margin-top: var(--s-2); }
+.floor-card.show { animation: floor-card 2600ms ease-out forwards; }
+@keyframes floor-card { 0% { opacity: 0; } 18% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+body.calm .floor-card { display: none; }
+/* the first-time card put away: it fades out, then the title fades up where it now stands (ui.js, firstTimeSeen) */
+.first-card.closing { pointer-events: none; animation: go-down 160ms ease-in forwards; }
+.title-inner.settling { animation: come-up 240ms ease-out; }
 .screen.active { animation: come-up 200ms ease-out; }
 .overlay.open { animation: come-up 170ms ease-out; }
 /* and an overlay put away fades out, letting taps through to what is behind */
@@ -899,12 +910,14 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .spread-grid .boon.raises small { color: var(--good-text); }
 
 /* On a phone held upright a choice's cards sit at the foot of the screen, where
-   the thumb already is; what it is about stays at the top. (An automatic top
+   the thumb already is; a level's few lines about them go down with them, so
+   they are read just above what they explain rather than across an empty
+   band; an encounter's picture and words stay at the top. (An automatic top
    margin rather than justify-content, so a list too long for the screen still
    scrolls from its start.) */
 @media (orientation: portrait) and (max-width: 600px) {
   #boon-list, #ov-encounter .ov-body, #ov-fork .ov-body { display: flex; flex-direction: column; }
-  #boon-list > .boon:first-of-type, #enc-choices, #fork-choices { margin-top: auto; }
+  #boon-list > :first-child, #enc-choices, #fork-choices { margin-top: auto; }
   #enc-choices, #fork-choices { width: 100%; }
   #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
   /* the choices sit low, so the picture above them takes some of the room a tall phone leaves */

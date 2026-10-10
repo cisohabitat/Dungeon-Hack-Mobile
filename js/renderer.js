@@ -1169,6 +1169,8 @@ const Renderer = (() => {
   // off it is, and how many of the view's pixels each of its own covers
   /** @type {{top: number, bottom: number, dist: number, texel: number, markX?: number, markY?: number, markSize?: number, midX?: number, width?: number}[]} */
   const shown = [];
+  /** @type {{text: string, x: number, y: number, half: number}[]} where each floating word was written this frame: for the tests */
+  const numbers = [];
   const FLOOR_BEHIND = 0.45;
   const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
   const litLast = [];     // what the last frame warmed with firelight, and how much, for the tests
@@ -1461,6 +1463,7 @@ const Renderer = (() => {
     crowd.length = 0;
     dressedN = 0;
     shown.length = 0;
+    numbers.length = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const flames = flamesOf(level, lights, sprites, fx, now);
     litLast.length = 0; leanedN = 0; afflictedN.n = 0; glintsN = 0; lanternN = 0;
@@ -1673,14 +1676,28 @@ const Renderer = (() => {
       // a stacked word sits a full line from the one before it, and still does
       // when both are pressed against the top of the view (they used to meet there)
       const line = (t.lift || 0) * (textPx + 1);
-      const y = Math.max(textPx + 2 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - age * 22 - line));
+      const yAt = a => Math.max(textPx + 2 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - a * 22 - line));
+      const y = yAt(age);
+      // A number whose climb passes through a warning mark would hide the one
+      // thing that says a blow is coming: it rises beside the mark instead,
+      // the whole way up, rather than jumping aside as it reaches it.
+      let x = screenX;
+      const half = ctx.measureText(t.text).width / 2 + 2, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
+      for (const m of shown) {
+        if (!m.markSize) continue;
+        const reach = m.markSize * 0.62 + 2;
+        if (lo > m.markY - m.markSize - 2 && hi < m.markY + 2 && Math.abs(x - m.markX) < reach + half) {
+          x = m.markX + reach + half <= W ? m.markX + reach + half : m.markX - reach - half;
+        }
+      }
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
       ctx.lineWidth = bigNumbers ? 5 : 4;
       ctx.strokeStyle = 'rgba(0,0,0,0.9)';
-      ctx.strokeText(t.text, screenX, y);
+      ctx.strokeText(t.text, x, y);
       ctx.fillStyle = t.color;
-      ctx.fillText(t.text, screenX, y);
+      ctx.fillText(t.text, x, y);
+      numbers.push({ text: t.text, x, y, half });
       ctx.globalAlpha = 1;
     }
 
@@ -1856,7 +1873,7 @@ const Renderer = (() => {
     get H() { return H; }, get W() { return W; }, get ctx() { return ctx; }, get ease() { return ease; }, get put() { return put; },
   });
 
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

@@ -720,9 +720,11 @@ test.describe('talents', () => {
     const vp = page.viewportSize();
     await page.setViewportSize({ width: 393, height: 1100 });
     await page.waitForTimeout(100);
-    const at = await page.evaluate(() => { const b = [...document.querySelectorAll('#boon-list .boon')]; return { first: b[0].getBoundingClientRect().top, last: b[b.length - 1].getBoundingClientRect().bottom, h: innerHeight }; });
+    const at = await page.evaluate(() => { const b = [...document.querySelectorAll('#boon-list .boon')]; return { head: document.querySelector('.boon-head').getBoundingClientRect().top, first: b[0].getBoundingClientRect().top, last: b[b.length - 1].getBoundingClientRect().bottom, h: innerHeight }; });
     expect(at.last, 'the last card should end near the foot of the screen').toBeGreaterThan(at.h - 90);
     expect(at.first, 'the cards should not start at the top').toBeGreaterThan(at.h * 0.3);
+    // and what the level brings goes down with them, just above, not across an empty band
+    expect(at.first - at.head, 'the level\'s lines sit just above its cards').toBeLessThan(220);
     await page.setViewportSize(vp);
     // (one point is "hit point": the roll is a die's, and sometimes a one)
     await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points?\b/);

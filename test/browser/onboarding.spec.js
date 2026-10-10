@@ -17,8 +17,16 @@ test('someone new is met by a card that says the game in a minute, and it stays 
   await expect(card).toBeVisible();
   await expect(card).toContainText('First time here?');
   await expect(card.locator('li')).toHaveCount(5);
+  // it fades out rather than vanishing, and the title fades up where it now
+  // stands (watched as it happens: the fade is over in a moment)
+  await page.evaluate(() => {
+    const seen = window.__seen = new Set();
+    const watch = el => new MutationObserver(() => el.classList.forEach(c => seen.add(c))).observe(el, { attributes: true, attributeFilter: ['class'] });
+    watch(document.getElementById('first-time')); watch(document.querySelector('#screen-title .title-inner'));
+  });
   await page.click('#ft-close');
   await expect(card).toBeHidden();
+  await expect.poll(() => page.evaluate(() => [...window.__seen].filter(c => c === 'closing' || c === 'settling').sort())).toEqual(['closing', 'settling']);
   await page.reload();
   await expect(page.locator('#btn-new')).toBeVisible();
   await expect(card).toBeHidden();

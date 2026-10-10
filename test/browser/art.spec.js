@@ -429,6 +429,37 @@ test.describe('art', () => {
       expect(errors).toEqual([]);
     });
   }
+  test('a number rising from a creature about to strike goes up beside its warning mark, never over it', async ({ page }) => {
+    // a giant rat is low: its mark sits about where a number starts its climb
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'mark-number', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.level().monsters.length = 0; });
+    expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(2);
+    for (const dist of [1, 2]) {
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      expect(await placeMonster(page, 'rat', dist, { hp: 300, maxHp: 300 })).not.toBeNull();
+      await page.evaluate(() => { const m = Game.level().monsters[0], G = Game.state(); m.nextAct = 1e12; m.windup = { at: G.t, until: G.t + 60000 }; });
+      await page.waitForTimeout(300);
+      // the number's whole climb, frame by frame, as a blow's would be
+      const frames = await page.evaluate(() => new Promise(res => {
+        const m = Game.level().monsters[0], now = performance.now(), out = [];
+        Game.renderState(now).fx.texts.push({ x: m.x + 0.5, y: m.y + 0.5, text: '18', color: '#fff', born: now, until: now + 750, lift: 0 });
+        const look = () => {
+          const mk = Renderer.shown.find(c => c.markSize), n = Renderer.numbers.find(t => t.text === '18');
+          if (mk && n) out.push({ m: mk, n });
+          if (performance.now() - now < 700) requestAnimationFrame(look); else res(out);
+        };
+        requestAnimationFrame(look);
+      }));
+      expect(frames.length, `the rat ${dist} away, its mark and the number, seen together`).toBeGreaterThan(5);
+      for (const { m, n } of frames) {
+        const apart = Math.abs(n.x - m.markX) >= m.markSize * 0.62 + n.half - 1 || n.y < m.markY - m.markSize || n.y - 13 > m.markY;
+        expect(apart, `number at ${Math.round(n.x)},${Math.round(n.y)}; mark at ${Math.round(m.markX)},${Math.round(m.markY)} size ${m.markSize}`).toBe(true);
+      }
+    }
+    expect(errors).toEqual([]);
+  });
   test('held sideways, the warning mark over a big one close in stands beside its head, not on its face', async ({ page }) => {
     // pushed down under the lich's bar, the mark sat on its skull with the misses written over it
     const errors = watchForErrors(page);

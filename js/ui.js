@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, PATHS, VOWS } from './data.js';
+import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, PATHS, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -159,7 +159,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-24', text: 'the title opens out of the dark to a swell of music (a tap skips it), the music fades from a fight to quiet instead of stopping dead, and every screen is set in one type and spacing scale' };
+  const NEWS = { id: '2026-10-24b', text: 'the title opens out of the dark to a swell of music (a tap skips it), each floor is named as you arrive, the music fades from a fight to quiet instead of stopping dead, and a number no longer hides a warning mark' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -172,7 +172,22 @@ const UI = (() => {
   // says in a minute what the game is and how it is played, once, until put away
   const FIRST_SEEN = 'deepdelve.firstSeen';
   function refreshFirstTime() { $('#first-time').hidden = returning() || store(FIRST_SEEN) === '1'; }
-  function firstTimeSeen() { store(FIRST_SEEN, '1'); $('#first-time').hidden = true; }
+  // Put away, the card fades out first and the title fades up where it now
+  // stands: the name drops down the screen as the card goes, and seen to jump
+  // there it looked like a fault.
+  const CARD_OUT_MS = 160;
+  function firstTimeSeen() {
+    store(FIRST_SEEN, '1');
+    const card = $('#first-time'), inner = $('#screen-title .title-inner');
+    if (card.hidden) return;
+    if (calmOn() || !$('#screen-title').classList.contains('active')) { card.hidden = true; return; }
+    card.classList.add('closing');
+    setTimeout(() => {
+      card.classList.remove('closing'); card.hidden = true;
+      inner.classList.add('settling');
+      setTimeout(() => inner.classList.remove('settling'), 260);
+    }, CARD_OUT_MS);
+  }
   /** Which daily a button is for, and where it says how it stands. @param {'main'|'earned'} kind */
   const DAILY_UI = { main: { btn: '#btn-daily', note: '#daily-summary' }, earned: { btn: '#btn-daily', note: '#daily-earned-summary' } };
   // which daily the title's Daily button is set to: the day's dungeon for any hero, or a Ranger's or a Druid's
@@ -996,6 +1011,24 @@ const UI = (() => {
       + (here.length > shown.length ? `<em>+${here.length - shown.length}</em>` : '');
     btn.setAttribute('aria-label', `Take what lies here: ${here.map(it => Game.itemName(it)).join(', ')}`);
   }
+  // ---------- a floor named as the hero arrives ----------
+  // Over the view for a couple of seconds, its number and its name, the first
+  // time each floor of a run is seen on this visit (a run continued is told
+  // where it stands too). Not while the way in plays: it waits for the floor,
+  // and comes up as the dust settles. None in a calm view: the log says it.
+  let floorKey = '';
+  function showFloorCard(G, L, preluding) {
+    const key = `${G.created}:${L.depth}`;
+    if (key === floorKey || preluding) return;
+    floorKey = key;
+    const card = $('#floor-card');
+    if (!card || calmOn() || G.status !== 'playing') return;
+    $('#floor-card-num').textContent = `Floor ${L.depth} of ${(G.opts && G.opts.levels) || 8}`;
+    $('#floor-card-name').textContent = (THEMES[L.theme] || THEMES[0]).name;
+    card.classList.remove('show');
+    void card.offsetWidth;   // (so the fade starts again on a floor taken quickly after the last)
+    card.classList.add('show');
+  }
   function refreshHud() {
     refreshUse();
     refreshFeet();
@@ -1012,6 +1045,7 @@ const UI = (() => {
     if (!G) return;
     const p = G.player;
     const L = Game.level();
+    showFloorCard(G, L, preluding);
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
@@ -1277,9 +1311,11 @@ const UI = (() => {
     const L = Game.level(), p = Game.player();
     const R = 7, size = 6;
     const hound = houndHere();
-    // (with every monster shown, where each one is: they move while you stand still)
+    // (with every monster shown, where each one is: they move while you stand still;
+    // and the way in ending, when the room the hero stands in is first seen and
+    // marked, or the map kept what it drew while the dust was down: nothing)
     const eye = testingSet().eye;
-    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, hound ? `${hound.x},${hound.y}` : '', eye ? L.monsters.map(m => `${m.x},${m.y},${m.awake ? 1 : 0}`).join(';') : ''].join(',');
+    const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, Game.preludeOn() ? 1 : 0, hound ? `${hound.x},${hound.y}` : '', eye ? L.monsters.map(m => `${m.x},${m.y},${m.awake ? 1 : 0}`).join(';') : ''].join(',');
     if (sig === miniSig) return;
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
