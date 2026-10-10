@@ -1,0 +1,5 @@
+# Kept in the repository, never deployed: the sound pack's full-quality
+# originals (the game plays the compressed copies beside them) and the page
+# for listening to the pack, which is for whoever tunes it, not for players.
+sound/masters
+sound/listen.html

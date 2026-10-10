@@ -61,7 +61,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   names), and `sound.js` / `music.js` play it in place of their synthesis once a
   sound is loaded, the synthesis standing in until then and for magic. The browser
   tests start with the pack off (`deepdelve.samples` = `on` turns it on), as with
-  the way in; `sound/listen.html` is a page for listening to all of it.
+  the way in; `sound/listen.html` is a page for listening to all of it. It and
+  `sound/masters/` stay in the repository and out of the deployment (`.vercelignore`).
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
