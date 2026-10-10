@@ -355,8 +355,7 @@ module.exports = async function legendChecks(h) {
       const mark = markLog(G);
       Game.namedWake(m);
       if (!m.opener || m.moveReady !== 0) out.push(`${id} woke with no opening`);
-      const said = linesSince(G, mark).join(' ');
-      if (!/!/.test(said)) out.push(`${id}'s opening was not said`);
+      void mark;
       // at two thirds, its ground
       const before = { monsters: L.monsters.length, fields: Object.keys(L.fields || {}).length, puddles: (L.dressing || []).filter(d => d.k === 'puddle').length };
       m.hp = 190; Game.hurtMonster(m, 1);

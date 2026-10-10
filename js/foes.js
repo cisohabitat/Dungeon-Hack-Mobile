@@ -1218,6 +1218,7 @@ export function makeFoes(K) {
   function namedWakes(m, mb) {
     m.spoke = true;
     K.log(mb.named.wake, 'bad');
+    // it leads with its trick, the trick's own warning saying so when it comes (lairs.js)
     K.lairs.opener(m, mb);
     K.meet(m);
     Sound.play('dread');
