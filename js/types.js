@@ -82,6 +82,8 @@
  * @property {number} [lastTear]  when the hero last tore at a web
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
+ * @property {number} [unseenUntil]  the Last Word: a foe slain from the shadows leaves the next blow there too, until then
+ * @property {{hp: number, until: number}} [aegis]  the Lantern of Mercy's ward of light: what it will take of the next blows, and when it fades
  * @property {number} [noiseAt]  when the hero last made a sound (a step, a blow, a spell, a door), for the eyeless, which hunt by it
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
  * @property {number} [abilityReady]  when a fighter's Bash or a thief's Smoke can be used again
@@ -117,6 +119,7 @@
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
  * @property {number} [backAt]    a skirmisher (a kobold) may not step back from the hero again before this time
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
+ * @property {number} [brittleUntil]  held back by the hero's cold: brittle to the Rimebound Grimoire until then
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
  * @property {boolean} [disguised]  a mimic still shut, drawn and taken as the barrel it seems (foes.js springs it)
@@ -282,6 +285,7 @@
  * @property {number} gold     picked up off the floor, gems included
  * @property {number} [bounties]  traders' jobs done and paid for
  * @property {number} [shapes]    a druid's Wild Shapes taken this run, for the Wildheart feat
+ * @property {{key: string, name: string, grade: string, depth: number}[]} [finds]  this run's finds: each piece of rare gear, relic or legend, once known, by the name it had then
  */
 
 /**

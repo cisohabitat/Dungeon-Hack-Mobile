@@ -407,6 +407,41 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('what is found wears the colour of its grade, a legend says so, and this run\'s finds keep it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'legend-ui', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player();
+      p.path = 'knight';
+      p.inv.push({ t: 'longsword', q: 1, e: 1 }, { t: 'longsword', q: 1, e: 1, pw: 'keen' });
+      const L = Game.level();
+      L.items[p.x + ',' + p.y] = [{ t: 'towershield', q: 1, e: 1, u: 'bastion' }];
+    });
+    await page.click('[data-open="inv"]');
+    await page.locator('#floor-box button', { hasText: 'Take' }).click();
+    await expect(page.locator('#inv-grid .slot.g-fine')).toHaveCount(1);
+    await expect(page.locator('#inv-grid .slot.g-rare')).toContainText('Long Sword +1 of Keenness');
+    const legend = page.locator('#inv-grid .slot.g-legend');
+    await expect(legend).toContainText('The Bastion');
+    await legend.click();
+    await expect(page.locator('#item-detail h3.g-legend')).toHaveText('The Bastion');
+    await expect(page.locator('#item-detail .grade-word')).toHaveText('Legendary');
+    await expect(page.locator('#item-detail .relic-powers')).toContainText('caught whole');
+    // its colour is not the relic's gold
+    const colours = await page.evaluate(() => [getComputedStyle(document.querySelector('#inv-grid .slot.g-legend')).color, getComputedStyle(document.querySelector('#inv-grid .slot.g-rare')).color]);
+    expect(colours[0]).not.toBe(colours[1]);
+    await page.locator('#item-detail button', { hasText: 'Equip' }).click();
+    await page.click('#ov-inv [data-close]');
+    // the hero sheet lists the run's finds, the legend first
+    await page.click('[data-open="char"]');
+    const finds = page.locator('#char-sheet .finds .tag');
+    await expect(finds.first()).toHaveText('The Bastion');
+    await expect(finds.first()).toHaveClass(/g-legend/);
+    await expect(page.locator('#char-sheet .finds')).toContainText('Long Sword +1 of Keenness');
+    expect(errors).toEqual([]);
+  });
+
   test('unknown gear shows a ?, and a cursed piece put on will not come off', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'curse-ui', cls: 'Fighter' });

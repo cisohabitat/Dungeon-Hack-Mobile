@@ -36,6 +36,19 @@ const RELIC_POWERS = {
   // a druid's: carried into the shape as it is taken, though the bear holds nothing
   wild: 'Wild: your Wild Shape lasts ten seconds longer, and its hide is 4 thicker.',
   webwalk: 'Spider-blessed: no web holds you, spat or woven.',
+  // the legendary pieces' own, one to a path (see LEGEND below): each turns the way that path fights
+  bastion: 'Bastion: a blow caught on your shield is caught whole, and your Bash is ready again at once.',
+  harvest: 'Harvest: below half your life, every foe you fell heals you 1d8.',
+  sunfire: 'Sunfire: your blows set the undead burning with holy fire, 1d4 a second for three seconds.',
+  overflow: 'Overflow: healing past your full life is kept as a ward of light that takes blows for you, up to a quarter of your life, for a minute.',
+  pyre: 'Pyre: a foe that dies burning bursts, scorching everything beside it for 2d6 and setting any oil or moss there alight.',
+  shatter: 'Shatter: a foe held back by your cold takes a third more from everything you deal, and one that dies so shatters, holding back those beside it.',
+  unseen: 'Unseen: a foe you slay with a strike from the shadows lets you melt back into them, and your next blow within four seconds strikes from the shadows too.',
+  mock: 'Mocking: a blow you slip aside from leaves its maker open, as an answered trick does.',
+  pierce: 'Piercing: an arrow that fells its mark flies on into the next foe behind it.',
+  bind: 'Binding: each of your blows and arrows that lands on a snared foe holds it a second longer.',
+  feast: 'Feast: in Wild Shape, every foe you fell heals you 1d6 and keeps the shape five seconds longer.',
+  rootbond: 'Rootbond: a foe held by your roots takes 2 more from every blow, yours and your companion\'s, and every foe your companion fells heals you 1d4.',
 };
 
 /** Ordinary gear found enchanted can carry one of these powers, named by it. */
@@ -132,7 +145,40 @@ const RELICS = {
     lore: 'A yellow fang as long as a finger, on a thong of hide, from something that lived in the marsh before the lizardfolk did. Wounds close under it, and nothing foul takes root in them.' },
   warchiefs_knuckle: { t: 'ring_protect', e: 1, name: 'the Warchief\'s Knuckle', powers: ['thorns'], value: 320, route: 'warrens',
     lore: 'An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.' },
+  // The legendary pieces: one made for each path, and found only as a champion
+  // (or now and then a marked one) falls before a hero already on that path
+  // (see legendFor), once a run. Each
+  // carries a power that bends the path's own way of fighting, so a run that
+  // finds one has a shape to it. Never on a floor or a shelf, and beyond the
+  // Collector's count: the codex keeps them apart, as the legends they are.
+  bastion: { t: 'towershield', e: 1, name: 'the Bastion', powers: ['bastion'], value: 520, legend: 'knight',
+    lore: 'A door from a dwarven gatehouse, cut down and strapped for an arm. It held the gate for a hundred years, and does not mean to start giving way now.' },
+  red_harvest: { t: 'battleaxe', e: 2, name: 'Red Harvest', powers: ['harvest'], value: 520, legend: 'berserker',
+    lore: 'The haft is wrapped in strips of every banner it has cut down. The worse its bearer bleeds, the lighter it swings.' },
+  sunhammer: { t: 'hammer', e: 2, name: 'the Sunhammer', powers: ['sunfire'], value: 520, legend: 'templar',
+    lore: 'Forged at dawn on a temple roof, and quenched in the first light. The dead it strikes remember the sun, and burn with the memory.' },
+  lantern_mercy: { t: 'holy_symbol', e: 1, name: 'the Lantern of Mercy', powers: ['overflow'], value: 520, legend: 'healer',
+    lore: 'A healer\'s sunburst, its rays worn smooth by a lifetime of hands. What it mends beyond the wound it keeps, and spends on the next.' },
+  cinderheart: { t: 'crystal_orb', e: 1, name: 'Cinderheart', powers: ['pyre'], value: 520, legend: 'pyromancer',
+    lore: 'An orb gone black and red inside, like a coal that will not go out. Whatever it burns, it burns until there is nothing left to hold the fire in.' },
+  rimebound: { t: 'spellbook', e: 1, name: 'the Rimebound Grimoire', powers: ['shatter'], value: 520, legend: 'frostweaver',
+    lore: 'Its pages are frost, and the words on them are cut, not written. A thing held in its cold grows brittle, and breaks like ice in spring.' },
+  last_word: { t: 'dagger', e: 2, name: 'the Last Word', powers: ['unseen'], value: 520, legend: 'assassin',
+    lore: 'A plain grey knife with no maker\'s mark. The guild that owned it never spoke its name aloud, and the people it was used on never spoke again.' },
+  motley: { t: 'leather', e: 2, name: 'Motley', powers: ['mock'], value: 520, legend: 'trickster',
+    lore: 'A jester\'s coat of patched leather, every patch a different colour. Whoever swings at its wearer finds only the laughter, and a gap in their guard.' },
+  farstrider: { t: 'longbow', e: 1, name: 'Farstrider', powers: ['pierce'], value: 520, legend: 'sharpshooter',
+    lore: 'A bow of black yew, longer than its owner was tall. Its arrows do not stop for the first thing they meet.' },
+  thornbinder: { t: 'spear', e: 2, name: 'Thornbinder', powers: ['bind'], value: 520, legend: 'warden',
+    lore: 'Its shaft is wound with briar that never dries. Every blow it lands on a thing already caught pulls the knot a little tighter.' },
+  moonbound: { t: 'amulet_mind', e: 1, name: 'the Moonbound Torc', powers: ['feast'], value: 520, legend: 'shapeshifter',
+    lore: 'A twisted band of pale silver that fits a throat or a bear\'s neck alike. The beast it wakes is always hungry, and never for long.' },
+  heartroot: { t: 'staff', e: 2, name: 'Heartroot', powers: ['rootbond'], value: 520, legend: 'grovewarden',
+    lore: 'A staff that is still, quietly, a living root. The ground knows it, and holds whatever its bearer and their friends are fighting.' },
 };
+
+/** The legendary piece made for this path, if it has one. */
+const legendFor = path => Object.keys(RELICS).find(id => RELICS[id].legend === path) || '';
 
 /** Whether this class could ever wear or wield the relic. */
 function relicUsableBy(id, cls) {
@@ -156,7 +202,7 @@ function relicPlan(seed, cls, levels) {
   const rng = new Rng(`${seed}|relics|${cls}`);
   // a road's own relic waits down that road (see routeRelic), never on a trader's shelf
   // (and a twisted floor's own lies on that floor, if the run has one; a champion's own falls with it)
-  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && relicUsableBy(id, cls)));
+  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend && relicUsableBy(id, cls)));
   // keep at least one back for the traders, whenever there are two to share
   const n = Math.min(Math.max(1, Math.round((levels - 1) * 0.4)), Math.max(1, pool.length - 1));
   const chosen = pool.slice(0, n).sort((a, b) => RELICS[a].value - RELICS[b].value);
@@ -179,6 +225,6 @@ const routeRelic = route => Object.keys(RELICS).find(id => RELICS[id].route === 
 const twistRelic = twist => Object.keys(RELICS).find(id => RELICS[id].twist === twist) || '';
 
 /** The relics the Collector's feat asks for: every one but a find beyond the set. */
-const toCollect = () => Object.keys(RELICS).filter(id => !RELICS[id].beyond);
+const toCollect = () => Object.keys(RELICS).filter(id => !RELICS[id].beyond && !RELICS[id].legend);
 
-export { toCollect, routeRelic, twistRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };
+export { legendFor, toCollect, routeRelic, twistRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };

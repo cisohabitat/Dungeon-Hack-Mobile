@@ -218,7 +218,7 @@ function shieldParts(base, cls) {
  */
 function heldParts(id, pose, cls, two = false) {
   const P = POSES[pose];
-  const base = id && id.replace(/^relic_/, '');
+  const base = id && id.replace(/^(relic|legend)_/, '');
   if (base && BOWS[base]) return bowParts(cls, base);
   const behind = [], front = [];
   let weapon = [];
@@ -244,7 +244,7 @@ function heldParts(id, pose, cls, two = false) {
 
 /** The back of a shield, by its sprite. */
 function carriedParts(id, cls) {
-  const base = id.replace(/^relic_/, '');
+  const base = id.replace(/^(relic|legend)_/, '');
   // the quill shield is held up as its own picture is drawn, round and bristling
   if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls);
   if (!['buckler', 'shield', 'towershield'].includes(base)) return null;

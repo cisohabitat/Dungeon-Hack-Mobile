@@ -77,7 +77,7 @@ export function makeShopView(K) {
     row.appendChild(img);
     const what = document.createElement('div');
     what.className = 'what';
-    what.innerHTML = `<b${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(o.one ? { ...it, q: 1 } : it))}</b><small>${escapeHtml(note || '')}</small>`;
+    what.innerHTML = `<b class="g-${Game.grade(it)}">${escapeHtml(Game.itemName(o.one ? { ...it, q: 1 } : it))}</b><small>${escapeHtml(note || '')}</small>`;
     row.appendChild(what);
     const btn = document.createElement('button');
     btn.textContent = `${label} ${price}g`;

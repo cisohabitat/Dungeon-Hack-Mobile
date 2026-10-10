@@ -176,7 +176,8 @@ export function makeCombat(K) {
     if (m.collapsed) { learn(m.id, 'answer'); damageMonster(m, 1, null, ' You scatter the bones for good.'); return; }
     // Shadow Step: a sidestep a moment ago puts the next blow in the shadows
     const stepped = !atRange && hasTalent('shadow_step') && K.G.t < (p.shadowUntil || 0);
-    const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped) && sneakMult() > 1;
+    // (the Last Word: a foe slain from the shadows a moment ago leaves the next blow there too)
+    const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped || K.legends.unseen()) && sneakMult() > 1;
     if (stepped) p.shadowUntil = 0;
     // an arrow at a foe that has not yet seen who loosed it
     const unseen = atRange && !m.awake;
@@ -229,6 +230,7 @@ export function makeCombat(K) {
     // a crit that only Lucky made one says so
     const lucky = crit && hasTalent('lucky') && roll === critFloor();
     const hpWas = m.hp;
+    blowSneak = sneak;
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
     // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
     const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
@@ -236,7 +238,10 @@ export function makeCombat(K) {
     if (bladeLanded && !wild.shaped() && (hasPower('flame', 'weapon') || (p.coating && p.coating.t === 'fire' && p.coating.left > 0))) elements.strike(m, 'fire', 0, 'blade');
     // a critical blow in close is felt: the view jolts a little, less than a blow taken
     if (crit && !atRange && K.realNow >= fx.shakeUntil) { fx.shakeAmp = Math.min(3.5, 1.5 + dmg / 12); fx.shakeMs = 140; fx.shakeUntil = K.realNow + K.fxDelay + 140; }
+    blowSneak = false;
     const struckSurvived = lvl().monsters.includes(m) && packSize(m) === packBefore && !m.collapsed;
+    // Farstrider: an arrow that felled its mark flies on
+    if (atRange && w.range && !struckSurvived) K.legends.pierce(struckX, struckY, dx, dy, w.range - Math.abs(struckX - p.x) - Math.abs(struckY - p.y), dmg);
     // Volley: every third arrow that lands looses a second after it
     if (hasTalent('volley') && atRange && w.range) {
       p.volleyN = (p.volleyN || 0) + 1;
@@ -257,6 +262,7 @@ export function makeCombat(K) {
       if (kindles()) setBurning(m);
     }
     if (bladeLanded && !w.claws) coatLanded(m, struckSurvived);
+    if (bladeLanded) K.legends.landed(m, struckSurvived);
     // a dark elf's hand crossbow: its bolts carry their sleeping poison, and one in four that lands
     // leaves a living foe drowsy, its next move a second late (not the dead, a stout grey dwarf, a boss or a champion)
     if (!w.claws && P().eq.weapon && ITEMS[P().eq.weapon.t].drowse && atRange && struckSurvived && !mb.undead && !mb.stout && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && Dice.chance(1 / 4)) {
@@ -297,6 +303,8 @@ export function makeCombat(K) {
     leech(Math.min(dmg, m.hp), 'offhand');
     damageMonster(m, dmg, 'offhand', note);
   }
+  /** Whether the blow now landing came from the shadows: a strike from the shadows is told by its tag only when it was not a crit as well. */
+  let blowSneak = false;
   function damageMonster(m, dmg, tag, note) {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
@@ -337,6 +345,8 @@ export function makeCombat(K) {
     if (m.sunk) surface(m, 'struck');
     // a mimic struck while it is still a barrel is caught shut: the blow lands twice over
     if (m.disguised) { dmg *= 2; spring(m, 'struck'); }
+    // what a legendary piece adds to the blow (a brittle foe's third more, a rooted one's 2)
+    dmg = K.legends.harder(m, dmg, tag);
     noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;
@@ -356,6 +366,8 @@ export function makeCombat(K) {
     if (m.hp <= 0) {
       // Bloodlust: every foe the hero fells gives a little back
       if (capped('bloodlust') && tag !== 'companion' && tag !== 'blaze' && tag !== 'rockfall') healPlayer(d(1, 4));
+      // and what a legendary piece makes of a death: how it stood as it fell
+      K.legends.felled(m, tag, { sneak: blowSneak, burning: !!(m.dot && m.dot.kind === 'burning' && m.dot.until > K.G.t), brittle: m.brittleUntil > K.G.t });
       // in a group the front one falls and the next steps up; the square
       // empties only when the last of them is down
       if (m.pack && m.pack.length) { m.dot = null; memberDown(m, note); promote(m); return; }
@@ -393,6 +405,7 @@ export function makeCombat(K) {
     else if (tag === 'cleave') { log(`Your swing carries into the next ${mb.name} as it steps up, for ${dmg}.`); }
     else if (tag === 'venom') { log(`The poison eats at the ${mb.name} for ${dmg}.`); }
     else if (tag === 'bleed') { log(`The ${mb.name} bleeds for ${dmg}.`); }
+    else if (tag === 'pierce') { log(`The arrow flies on into the ${mb.name}${of} for ${dmg}.`, 'good'); }
     else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
     else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
     else if (tag === 'rockfall') { log(`Rock crashes down on the ${mb.name}${of} for ${dmg}!`, 'good'); }
@@ -432,6 +445,8 @@ export function makeCombat(K) {
   // (m.pack, each {hp, maxHp}). They move as one, the front one takes your
   // blows, each of them swings, and a blast that fills the square hits all.
   const packSize = m => 1 + (m.pack ? m.pack.length : 0);
+  /** How often a marked one (feral, armoured, ancient, rabid) carries the hero's path's legend, once they walk one. */
+  const LEGEND_ELITE = 0.25;
   // what a wyrm's scales and a quillback's quills are made into, and how often one is whole enough (Skarrow always)
   // (each a list of what may be taken, and how often: a dark elf warrior's blade more often than its mail)
   const TROPHIES = { wyrm: [['wyrmscale', 0.25]], skarrow: [['wyrmscale', 1]], quillback: [['quillshield', 0.2]],
@@ -493,6 +508,9 @@ export function makeCombat(K) {
       (L.items[k] = L.items[k] || []).push(relicItem(own));
       log(`As ${RELICS[own].fell || 'it falls'}, ${RELICS[own].name} drops to the stones.`, 'good');
     }
+    // and the legend made for the hero's path, the first champion to fall once they walk it
+    // (or, now and then, one of the marked ones: a feral, armoured or ancient thing)
+    if (mb.named || (m.elite && Math.random() < LEGEND_ELITE)) K.legends.drop(m);
     // a renegade at the hero's side when the High Priestess falls has what they came down for
     // (near enough to see it: one told to stay at the far end of the floor only hears of it)
     const rc = companion.here();
@@ -839,6 +857,12 @@ export function makeCombat(K) {
     const hide = wild.shaped(p) && !inside ? p.shape.hide : 0;
     const through = inside ? dmg : wild.soak(dmg);
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }
+    // the Lantern of Mercy's ward of light takes what it can first
+    if (!inside) {
+      const w = K.legends.warded(dmg);
+      if (w.took) { if (msg) msg += ` (Your ward of light takes ${w.took}.)`; else log(`Your ward of light takes ${w.took}.`, 'good'); dmg = w.dmg; }
+      if (w.took && !dmg) { if (msg) log(msg); return; }
+    }
     noteTaken(dmg, from, cause);
     p.hp -= dmg;
     // (with endless life on for testing, no blow is the last)
@@ -922,6 +946,7 @@ export function makeCombat(K) {
   }
   function healPlayer(n) {
     const p = P();
+    K.legends.overflow(n);
     noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp)));
     p.hp = Math.min(p.maxHp, p.hp + n);
     // (a draught's or a scroll's is seen and heard once it has been taken)

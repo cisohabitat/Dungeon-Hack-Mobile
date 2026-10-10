@@ -4,7 +4,6 @@ import { Assets } from './assets.js';
 import { BACKGROUNDS, BOONS, CLASSES, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS } from './data.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
-import { RELICS } from './relics.js';
 import { $, diffName, diffOf, escapeHtml, upFirst } from './uikit.js';
 
 /** @param {any} K */
@@ -83,8 +82,9 @@ export function makeEndScreen(K) {
     for (const id of p.boons || []) { const b = BOONS.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     for (const id of p.renownTaken || []) { const b = RENOWN.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
-    const relics = ((G.relics && G.relics.found) || []).filter(id => RELICS[id]);
-    if (relics.length) parts.push('<div class="end-h"><span>Relics found</span></div><div class="end-tags">' + relics.map(id => `<span class="tag relic">${escapeHtml(upFirst(RELICS[id].name))}</span>`).join('') + '</div>');
+    // what was found: the rare gear, the relics and any legend, in the colours of their grades
+    const finds = Game.runFinds();
+    if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${f.grade}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');
     parts.push(`<div class="end-totals"><div><b>${s.dealt}</b><small>damage dealt</small></div><div><b>${s.taken}</b><small>damage taken</small></div><div><b>${s.healed}</b><small>healed</small></div></div>`);
     $('#end-summary').innerHTML = parts.join('');
   }

@@ -141,7 +141,7 @@ export function makeFoes(K) {
       return false;
     }
     // a Trickster slips an ordinary blow now and then; a warned trick is not so easily slipped
-    if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
+    if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
     // a sellsword at your side may step into an ordinary blow and take it
     if (!heavy && K.companionGuards(m, mb)) return false;
     // rounded, since a blow and a half (the tail's sweep) would otherwise leave half a point of hurt
@@ -157,6 +157,8 @@ export function makeFoes(K) {
     // a Knight takes a trick on set feet, and an ordinary blow now and then on the shield
     const was = dmg;
     dmg = heavy ? K.knightSteadfast(dmg) : K.knightGuard(dmg);
+    // the Bastion catches a blow on the shield whole
+    if (!heavy && dmg < was && K.legends.caught(m)) return false;
     const knight = dmg < was ? (heavy ? ' (your footing takes a quarter off)' : ' (caught on your shield: half)') : '';
     // a cold touch: a Ring of Warmth takes half of it
     const warm = mb.element === 'cold' && K.hasPower('warmth');

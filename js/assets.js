@@ -2,9 +2,13 @@ import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
 import { SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
+import { RELICS } from './relics.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
 import { makeWallDecor } from './walldecor.js';
+
+/** The edge a legendary piece wears, on the floor, in the pack and in the hand: warmer than a relic's gold. */
+const LEGEND_EDGE = '#ffa040';
 
 // Builds all textures and sprites procedurally at startup: no image files needed.
 
@@ -1610,6 +1614,10 @@ const Assets = (() => {
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind) || (['ring', 'amulet'].includes(b.kind) && b.tier >= 99)).map(b => b.sprite))) {
       if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: itemParts(k), outline: '#e8b84a', fine: true, grim: 'soft', grid: 64 }));
     }
+    // and the legendary pieces with a brighter, warmer edge than a relic's
+    for (const k of new Set(Object.values(RELICS).filter(r => r.legend).map(r => ITEMS[r.t].sprite))) {
+      if (ITEM_ART[k]) later('legend_' + k, () => makeSprite({ parts: itemParts(k), outline: LEGEND_EDGE, fine: true, grim: 'soft', grid: 64 }));
+    }
     // props stand in the world too, painted as finely
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
@@ -1648,7 +1656,7 @@ const Assets = (() => {
     // in the same light as the pictures in the pack: softly grim, clean of grain
     return trim(paintParts(h.parts.map(p => ({ ...p, smooth: 1 })), h.grid, SCALE, 'soft'), outline, h.anchor.map(v => v * SCALE), m);
   };
-  const outlineFor = id => (id && id.startsWith('relic_') ? '#e8b84a' : '#0a0810');
+  const outlineFor = id => (id && id.startsWith('relic_') ? '#e8b84a' : id && id.startsWith('legend_') ? LEGEND_EDGE : '#0a0810');
   /** One pose of a held weapon (or bare fist, id null) with the hand on it. */
   function held(id, pose, cls, two) {
     const key = `${id}|${pose}|${cls}|${two ? 2 : 1}`;

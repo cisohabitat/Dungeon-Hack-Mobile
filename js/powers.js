@@ -249,7 +249,7 @@ export function makePowers(K) {
             }
             // Rime, or a Frostweaver: the cold and the lightning hold back whatever they touch
             const hold = spellHold(sp);
-            if (hold) { m.nextAct = Math.max(m.nextAct, K.G.t) + hold; if (m.windup) m.windup.until += hold; }
+            if (hold) { m.nextAct = Math.max(m.nextAct, K.G.t) + hold; if (m.windup) m.windup.until += hold; if (FROST_SPELLS.includes(sp.id)) K.legends.chill(m, hold); }
             // a bolt that tears through everything in its path, or a blast that
             // fills the square, takes a whole group; a dart only the front one
             const tag = sp.fire ? 'burn' : 'fire';

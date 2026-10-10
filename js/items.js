@@ -97,6 +97,7 @@ export function makeItems(K) {
   }
   function spriteFor(it) {
     if (it.t === 'key') return 'key_' + it.color;
+    if (relicOf(it) && relicOf(it).legend && Assets.sprites['legend_' + ITEMS[it.t].sprite]) return 'legend_' + ITEMS[it.t].sprite;
     if (it.u && Assets.sprites['relic_' + ITEMS[it.t].sprite]) return 'relic_' + ITEMS[it.t].sprite;
     // a potion keeps its bottle once it is known: the same draught, now named
     // (and a ring its stone)

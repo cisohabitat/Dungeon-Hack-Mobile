@@ -6787,8 +6787,9 @@ await test('mastery: every relic found is the Collector; the Daily keeps to the 
   const out = [];
   const ctx = await newContext();
   const { Progress, RELICS, Daily } = ctx;
-  // the Collector (Durgrim's Ring, found only in a sixteen-floor delve, is a find beyond the set it asks for)
-  const ids = Object.keys(RELICS).filter(id => id !== 'thane_ring');
+  // the Collector (Durgrim's Ring, found only in a sixteen-floor delve, is a find beyond the set it asks for,
+  // and so are the paths' legends, which no one hero could ever gather)
+  const ids = Object.keys(RELICS).filter(id => !RELICS[id].beyond && !RELICS[id].legend);
   if (!RELICS.thane_ring || !RELICS.thane_ring.beyond) out.push('Durgrim\'s Ring is counted toward the Collector');
   for (const id of ids.slice(0, -1)) Progress.noteRelic(id);
   if (progressOf(ctx).feats.collector) out.push('the Collector came before the last relic');
@@ -15231,6 +15232,9 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const missing = kinds.filter(k => !new RegExp(`\\b${k}:`).test(table));
     return (kinds.length > 10 && !missing.length) || `saves with no number to beat: ${missing.join(', ') || '(none found)'}`;
   });
+
+  // the grades of what is found, and the legendary pieces (rules-legends.js)
+  await require('./rules-legends.js')({ test, start, beside, walk, wearRelic, tallyLines, seedDice, markLog, linesSince });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

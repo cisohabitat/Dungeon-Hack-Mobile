@@ -32,6 +32,13 @@
   --good-text: #9ee08a;
   --alarm-bg: #6a2228;
   --danger-edge: #7a3030;
+  /* the grades of what is found: fine, rare, and the legends (a relic is --gold) */
+  --g-fine: #8fd88a;
+  --g-rare: #86b0f0;
+  --g-legend: #ffa040;
+  --g-legend-edge: #8a4a18;
+  --g-fine-edge: #3c5a3a;
+  --g-rare-edge: #34486a;
   --overlay-bg: #08070c;
   --t-2xs: 0.62rem;
   --t-xs: 0.7rem;
@@ -208,6 +215,15 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .end-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-6); }
 .end-tags .tag { padding: var(--s-4) var(--s-10); border: 1px solid var(--border); border-radius: 999px; background: var(--panel); font-size: var(--t-md); color: var(--text); }
 .end-tags .tag.path { color: var(--gold); border-color: var(--gold); }
+.end-tags .tag.g-rare { color: var(--g-rare); border-color: var(--g-rare-edge); }
+.end-tags .tag.g-relic { color: var(--gold); border-color: var(--edge-won); }
+.end-tags .tag.g-legend { color: var(--g-legend); border-color: var(--g-legend-edge); }
+/* this run's finds on the hero sheet, as the end screen shows them */
+.finds { display: flex; flex-wrap: wrap; gap: var(--s-4); margin: var(--s-4) 0 var(--s-8); }
+.finds .tag { padding: var(--s-2) var(--s-8); border: 1px solid var(--border); border-radius: 999px; background: var(--panel); font-size: var(--t-sm); }
+.finds .tag.g-rare { border-color: var(--g-rare-edge); }
+.finds .tag.g-relic { border-color: var(--edge-won); }
+.finds .tag.g-legend { border-color: var(--g-legend-edge); }
 .end-tags .tag.relic { color: var(--gold); border-color: var(--edge-won); box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.18); }
 .end-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6); margin-top: var(--s-16); text-align: center; }
 .end-totals div { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: var(--s-6) var(--s-4) var(--s-6); }
@@ -421,6 +437,15 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 /* named relics: gold lettering and a warm edge, so one stands out in a full pack */
 .slot.relic { color: var(--gold); border-color: var(--edge-won); box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.18); }
 .relic { color: var(--gold); }
+/* the grades: fine and rare in their colours, a legend brighter and warmer than a relic */
+.g-fine { color: var(--g-fine); }
+.g-rare { color: var(--g-rare); }
+.g-relic { color: var(--gold); }
+.g-legend { color: var(--g-legend); }
+.slot.g-fine { color: var(--g-fine); border-color: var(--g-fine-edge); }
+.slot.g-rare { color: var(--g-rare); border-color: var(--g-rare-edge); }
+.slot.g-legend { color: var(--g-legend); border-color: var(--g-legend-edge); box-shadow: inset 0 0 10px rgba(255, 150, 60, 0.26); }
+.grade-word { margin: 0 0 var(--s-4); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; }
 .relic-powers { margin: var(--s-6) 0; padding-left: var(--s-16); font-size: var(--t-sm); color: var(--text); }
 .relic-powers li { margin: var(--s-2) 0; }
 .relic-set { font-size: var(--t-sm); color: #c8b890; margin: var(--s-4) 0; }

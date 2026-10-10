@@ -23,7 +23,9 @@ export function makePack(K) {
     } else if (label) {
       div.setAttribute('aria-label', `${label}: empty`);
     }
-    div.className = 'slot' + (it ? ' filled' : '') + (it && it.u ? ' relic' : '') + (it && it.curse && !it.h ? ' cursed' : '');
+    // its grade, at a glance: fine, rare, a relic or a legend each wear their own colour
+    const gr = it ? Game.grade(it) : 'plain';
+    div.className = 'slot' + (it ? ' filled' : '') + (gr !== 'plain' ? ` g-${gr}` : '') + (gr === 'relic' || gr === 'legend' ? ' relic' : '') + (it && it.curse && !it.h ? ' cursed' : '');
     if (label) div.innerHTML = `<span class="lbl">${label}</span>`;
     if (it) {
       const img = document.createElement('img');
@@ -84,7 +86,7 @@ export function makePack(K) {
       for (const it of floor) {
         const row = document.createElement('div');
         row.className = 'floor-item';
-        row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span${it.u ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</span>`;
+        row.innerHTML = `<img src="${Assets.sprites[Game.spriteFor(it)].url}" alt=""><span class="g-${Game.grade(it)}${it.u ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</span>`;
         // the Heart, held fast while the lich stands, says so here: its Take did nothing to see
         if (it.t === 'artifact' && Game.heartHeldFast()) {
           row.insertAdjacentHTML('beforeend', `<small class="dim">held fast while the ${Game.heartKeeper() === 'warlord' ? 'Warlord' : Game.heartKeeper() === 'heartforged' ? 'Heartforged' : 'lich'} stands</small>`);
@@ -127,7 +129,8 @@ export function makePack(K) {
     const setLine = set ? `<p class="relic-set"><b>${escapeHtml(upFirst(set.name))}</b>, with ${escapeHtml(RELICS[mate].name)}. ${escapeHtml(set.text)}${Object.values(Game.player().eq).some(x => x && x.u === mate) && Object.values(Game.player().eq).some(x => x === it) ? ' (both worn)' : ''}</p>` : '';
     const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>${setLine}<p class="relic-lore">${escapeHtml(r.lore)}</p>`
       : (it.pw && !it.h && RELIC_POWERS[it.pw] ? `<ul class="relic-powers"><li>${escapeHtml(RELIC_POWERS[it.pw])}</li></ul>` : '');
-    box.innerHTML = `<h3${r ? ' class="relic"' : ''}>${escapeHtml(Game.itemName(it))}</h3><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
+    const gr = Game.grade(it);
+    box.innerHTML = `<h3 class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}<p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); K.selectedItem = null; K.selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
     // a worn piece offers only taking it off, and a cursed one not even that

@@ -6,6 +6,9 @@ import { RELIC_POWERS, RELICS, RELIC_SETS, setOf, toCollect } from './relics.js'
 import { Progress } from './progress.js';
 import { $, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
 
+/** Each path's name, by its id, for a legend's codex line. */
+const PATH_NAME = Object.fromEntries(Object.values(PATHS).flat().map(x => [x.id, x.name]));
+
 // The pages that outlast a run: the Hall of Heroes and its trophies, the
 // bestiary, and the codex of relics. Split out of ui.js.
 
@@ -99,17 +102,18 @@ function renderCodex(el) {
     // takes no article: "Chain Mail")
     // (a ring's or an amulet's make would give it away, so those say only where to look)
     const jewel = b.kind === 'ring' || b.kind === 'amulet';
-    const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : r.beyond ? ' · found only in a sixteen-floor delve, beyond the Collector\'s count' : '';
+    const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : r.beyond ? ' · found only in a sixteen-floor delve, beyond the Collector\'s count'
+      : r.legend ? ` · legendary: a ${escapeHtml(PATH_NAME[r.legend] || r.legend)}'s, dropped by a champion` : '';
     if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
-    const art = Assets.sprites['relic_' + b.sprite] || Assets.sprites[b.sprite];
-    return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="relic">${escapeHtml(upFirst(r.name))}</h3>`
+    const art = Assets.sprites[(r.legend ? 'legend_' : 'relic_') + b.sprite] || Assets.sprites[b.sprite];
+    return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="${r.legend ? 'g-legend' : 'relic'}">${escapeHtml(upFirst(r.name))}</h3>`
       + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}${where}</p>`
       + `<ul class="relic-powers">${jewel ? `<li>${escapeHtml(b.desc)}</li>` : ''}${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
       + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';
-  const set = toCollect();
-  return `${set.filter(id => found.includes(id)).length} of ${set.length} found`;
+  const set = toCollect(), legends = Object.keys(RELICS).filter(id => RELICS[id].legend);
+  return `${set.filter(id => found.includes(id)).length} of ${set.length} found · legends ${legends.filter(id => found.includes(id)).length} of ${legends.length}`;
 }
 
 /** Every class by three difficulties, each lit once that class has won there. */
