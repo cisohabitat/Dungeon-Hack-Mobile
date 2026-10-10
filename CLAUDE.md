@@ -99,6 +99,9 @@ and keep the README balance table current.
   Player-facing text is the same register: short, concrete, no jargon.
 - Every new rule gets a rules test; every new screen or control a browser test.
 - Help text lives in `index.html` (How to Play); keep it true when rules change.
+- Styles are built from the tokens at the top of `css/style.css`: the colour sheet,
+  the type scale (`--t-*`) and the spacing scale (`--s-*`, a 2px grid to 16, then 4px).
+  A new rule picks from them; a value outside them is a picture, not the interface.
 - A batch of player-visible changes updates `NEWS` in `js/ui.js` (a new `id` and a
   one-line `text`): returning players see it once on the title screen.
 - New state on the player, a monster or a level is saved automatically (the
