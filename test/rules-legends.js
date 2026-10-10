@@ -344,4 +344,64 @@ module.exports = async function legendChecks(h) {
     const line = Game.buildLine();
     return line === 'Knight bearing the Bastion, fighting by Broken Off and The Wall Holds' || `the line read "${line}"`;
   });
+  await test('a champion leads with its trick as it wakes, turns its ground at two thirds of its life, and makes a last stand below a third', async () => {
+    const out = [];
+    const turnOf = async (id, check) => {
+      const { ctx, Game, G, L, p, put } = await arena('fighter', 'lair-' + id);
+      L.dressing = [];
+      const m = put(id, 3, 0, { hp: 300, maxHp: 300, awake: true, spoke: false });
+      ctx.lairsFor = m;
+      // it wakes: the trick is ready, the opening said
+      const mark = markLog(G);
+      Game.namedWake(m);
+      if (!m.opener || m.moveReady !== 0) out.push(`${id} woke with no opening`);
+      const said = linesSince(G, mark).join(' ');
+      if (!/!/.test(said)) out.push(`${id}'s opening was not said`);
+      // at two thirds, its ground
+      const before = { monsters: L.monsters.length, fields: Object.keys(L.fields || {}).length, puddles: (L.dressing || []).filter(d => d.k === 'puddle').length };
+      m.hp = 190; Game.hurtMonster(m, 1);
+      if (!m.turned) out.push(`${id} did not turn at two thirds`);
+      const why = check(L, before);
+      if (why) out.push(`${id}: ${why}`);
+      // below a third, its fury: quicker and harder
+      const calm = Game.mstat(m);
+      m.hp = 90; Game.hurtMonster(m, 1);
+      if (!m.fury) out.push(`${id} made no last stand`);
+      const wild = Game.mstat(m);
+      if (!(wild.speed < calm.speed) || !(wild.dmg[2] > calm.dmg[2])) out.push(`${id}'s fury: speed ${calm.speed}->${wild.speed}, damage +${calm.dmg[2]}->+${wild.dmg[2]}`);
+      void p;
+    };
+    await turnOf('grisk', (L, b) => (Object.values(L.fields || {}).filter(f => f.k === 'oil').length ? '' : 'no oil spilt'));
+    await turnOf('ushgar', (L, b) => (Object.values(L.fields || {}).filter(f => f.k === 'fire').length ? '' : 'no fire kicked across the floor'));
+    await turnOf('hissra', (L, b) => ((L.dressing || []).filter(d => d.k === 'puddle').length > b.puddles ? '' : 'no water welled up'));
+    await turnOf('morrow', (L, b) => (L.monsters.length > b.monsters ? '' : 'no kin came'));
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the Goblin King may sound his horn as he wakes, before he is hurt; after that, only past half his life', async () => {
+    const { Game, G, put } = await arena('fighter', 'lair-horn');
+    const m = put('grisk', 3, 0, { hp: 300, maxHp: 300, awake: true, spoke: false, nextAct: G.t });
+    Game.namedWake(m);
+    for (let i = 0; i < 40 && !(m.windup && m.windup.move === 'rally'); i++) Game.update(G.t + 50, 50);
+    if (!(m.windup && m.windup.move === 'rally')) return 'the horn did not come first';
+    if (m.opener) return 'the opening was not spent';
+    return true;
+  });
+
+  await test('the Heartforged splits its hall\'s floor at its turn; the cracks flare as a smouldering floor\'s do, and cool when it falls', async () => {
+    const out = [];
+    const { Game, G, L, p, put } = await arena('fighter', 'lair-forge');
+    L.twist = null; L.vents = undefined;
+    const m = put('heartforged', 3, 0, { hp: 300, maxHp: 300, awake: true, spoke: true });
+    m.hp = 190; Game.hurtMonster(m, 1);
+    if (!L.forgeVents || !(L.vents && L.vents.length)) return 'no cracks opened';
+    const v = L.vents[0];
+    v.next = G.t; p.hp = p.maxHp = 1e6;
+    for (let i = 0; i < 80; i++) Game.update(G.t + 50, 50);
+    if (!Object.values(L.fields || {}).some(f => f.k === 'fire')) out.push('a crack never flared');
+    L.monsters.length = 0; L.monsters.push(m);
+    m.hp = 1; Game.hurtMonster(m, 5);
+    if (L.forgeVents || (L.vents && L.vents.length)) out.push('the cracks did not cool when it fell');
+    return out.length ? out.join('; ') : true;
+  });
 };

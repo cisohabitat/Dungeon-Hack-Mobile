@@ -28,6 +28,7 @@ import { makeFallen } from './fallen.js';
 import { makePaths } from './paths.js';
 import { makeLegends } from './legends.js';
 import { makeCombos, COMBOS } from './combos.js';
+import { makeLairs } from './lairs.js';
 
 // Core game state and rules.
 
@@ -694,7 +695,8 @@ const Game = (() => {
   /** A champion with no matching prefix behaves exactly like its plain kind. */
   const NO_ELITE = { prefix: '', hp: 1, ac: 0, hit: 0, dmg: 0, xp: 1, speed: 1, tint: '#fff' };
   function mstat(m) {
-    const s = mstatBase(m);
+    // (a champion's last stand: quicker and harder, see lairs.js)
+    const s = m.fury ? lairs.furyOf(mstatBase(m)) : mstatBase(m);
     // a floor readier for a strong hero, or a harder delve: its creatures hit surer and harder
     // (and the lich, the last fight, more than the floor: see DIFFICULTY)
     const edge = (m.edge || 0) + diffEdge() + (s.boss ? diff().lichEdge || 0 : 0);
@@ -1388,6 +1390,11 @@ const Game = (() => {
     noteCombo: id => Progress.noteCombo(id), className: cls => CLASSES[cls].name,
     legendCarried: () => { const it = Object.values(P().eq).find(x => x && x.u && RELICS[x.u] && RELICS[x.u].legend); return it ? RELICS[it.u].name : ''; },
   });
+  const lairs = makeLairs({
+    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get passable() { return passable; }, get tile() { return tile; }, get T() { return T; },
+    get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, companionAt: (x, y) => companion.at(x, y), get log() { return log; }, get floatText() { return floatText; },
+    get fx() { return fx; }, get realNow() { return realNow; }, get learn() { return learn; }, get elements() { return elements; }, get heard() { return heard; }, get newMonster() { return newMonster; },
+  });
   const legends = makeLegends({
     get combos() { return combos; }, get capped() { return capped; },
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get hasPower() { return hasPower; }, get log() { return log; }, get pathOf() { return pathOf; },
@@ -1537,7 +1544,7 @@ const Game = (() => {
   // What that module borrows from here goes through these getters (and setters
   // for the state it changes), so it always sees the game as it is now.
   const foesK = {
-    get legends() { return legends; }, get combos() { return combos; },
+    get legends() { return legends; }, get combos() { return combos; }, get lairs() { return lairs; },
     shaped: () => wild.shaped(),
     quick: () => isQuick(),
     warmthFrom,
@@ -1624,7 +1631,7 @@ const Game = (() => {
     companionHere: () => companion.here(),
   };
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, poisonFor, wander } = makeFoes(foesK);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
@@ -1837,7 +1844,9 @@ const Game = (() => {
     state: () => G, player: P, level: lvl, log, mod,
     lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
     /** The run's build in a line, and its combinations, most used first. */
-    buildLine: () => (G ? combos.buildLine() : ''), noteCombo: (/** @type {string} */ id, /** @type {any} */ at) => combos.note(id, at), combosUsed: () => (G ? combos.used().map(([id, n]) => ({ id, n, name: COMBOS[id].name })) : []),
+    buildLine: () => (G ? combos.buildLine() : ''), noteCombo: (/** @type {string} */ id, /** @type {any} */ at) => combos.note(id, at),
+    /** For the tests: a champion wakes, and a wound as a blow of the hero's would give it. */
+    namedWake: (/** @type {any} */ m) => namedWakes(m, mstat(m)), hurtMonster: (/** @type {any} */ m, /** @type {number} */ n) => damageMonster(m, n, null), combosUsed: () => (G ? combos.used().map(([id, n]) => ({ id, n, name: COMBOS[id].name })) : []),
     /** This run's finds, best first: the rare gear known, the relics and legends (a save from before finds were kept lists its relics). */
     runFinds: () => { if (!G || !G.stats) return []; if (G.status === 'playing') legends.noteFinds(); const f = [...(G.stats.finds || [])]; for (const id of (G.relics && G.relics.found) || []) if (RELICS[id] && !f.some(x => x.key.endsWith('|' + id))) f.push({ key: '|' + id, name: RELICS[id].name, grade: RELICS[id].legend ? 'legend' : 'relic', depth: 0 }); const rank = { legend: 0, relic: 1, rare: 2 }; return f.sort((a, b) => rank[a.grade] - rank[b.grade]); }, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,

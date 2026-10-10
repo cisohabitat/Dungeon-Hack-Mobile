@@ -439,7 +439,8 @@ export function makeElements(K) {
    */
   function smoulder() {
     const L = lvl(), G = K.G, p = K.P();
-    if (L.twist !== 'smouldering' || !L.vents) return;
+    // (a smouldering floor's cracks, or those the Heartforged splits in its forge's floor)
+    if (!L.vents || (L.twist !== 'smouldering' && !L.forgeVents)) return;
     for (const v of L.vents) {
       if (!v.next) v.next = G.t + 2000 + Math.random() * VENT_GAP[1];
       if ((v.sealedUntil || 0) > G.t) continue;
@@ -461,7 +462,7 @@ export function makeElements(K) {
   /** Cold by a crack seals it a while: its glow dies, and it does not flare. @returns {number} how many were sealed */
   function seal(x, y) {
     const L = lvl(), G = K.G;
-    if (L.twist !== 'smouldering' || !L.vents) return 0;
+    if (!L.vents || (L.twist !== 'smouldering' && !L.forgeVents)) return 0;
     let n = 0;
     for (const v of L.vents) {
       if (dist(v, { x, y }) > 1 || (v.sealedUntil || 0) > G.t) continue;

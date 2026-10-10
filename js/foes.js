@@ -347,6 +347,7 @@ export function makeFoes(K) {
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
     if (!say) return false;
+    if (m.opener) K.lairs.led(m);
     m.blows = 0;
     m.windup = { kind: 'move', move: mv, at: K.G.t, until: K.G.t + SPECIAL_MS[mv], ...extra };
     m.nextAct = m.windup.until;
@@ -931,6 +932,8 @@ export function makeFoes(K) {
       const phase = m.hp < m.maxHp / 3 ? 2 : (m.hp < m.maxHp * 2 / 3 ? 1 : 0);
       while ((m.phase || 0) < phase) { m.phase = (m.phase || 0) + 1; bossTurns(m); }
     }
+    // a champion's fight turns too: its ground at two thirds, its last stand at one third (lairs.js)
+    if (mb.named) K.lairs.hurt(m, mb);
   }
   // ---------- the lich ----------
   // Three fights in one. At first it stands and drains, and gathers its storm
@@ -1031,6 +1034,8 @@ export function makeFoes(K) {
       }
       K.log(`The ${mb.name} tears open the furnace in its chest. ${n > 1 ? 'Two embers climb' : n ? 'An ember climbs' : 'Embers spill'} out of it${n ? ' and stand up burning' : ' and gutter on the stone'}!`, 'bad');
       K.learn(m.id, 'trick');
+      // and its hall's floor splits, the cracks flaring as a smouldering floor's do (lairs.js)
+      K.lairs.forgeCracks(m);
       m.nextAct = K.G.t + 800;
     } else if (m.phase === 2) {
       m.moveReady = 0;
@@ -1045,6 +1050,8 @@ export function makeFoes(K) {
     K.fx.shakeAmp = 8; K.fx.shakeMs = 1000; K.fx.shakeUntil = K.realNow + 1000;
     Sound.play('namedfall', K.heard(m));
     const L = K.lvl();
+    // the cracks it split in the floor cool with it
+    if (L.forgeVents) { L.forgeVents = false; L.vents = []; }
     const embers = L.monsters.filter(o => o.ember === m.uid);
     for (const e of embers) { K.spray(e, 'spark', 1, false); L.monsters.splice(L.monsters.indexOf(e), 1); }
     K.log(`The fire in the ${MONSTERS[m.id].name}'s chest gutters and goes out. The great iron shape groans, and falls apart into cooling slag${embers.length ? ', and the embers it let out gutter with it' : ''}.`, 'good');
@@ -1211,6 +1218,7 @@ export function makeFoes(K) {
   function namedWakes(m, mb) {
     m.spoke = true;
     K.log(mb.named.wake, 'bad');
+    K.lairs.opener(m, mb);
     K.meet(m);
     Sound.play('dread');
     K.fx.shakeAmp = 3; K.fx.shakeMs = 400; K.fx.shakeUntil = K.realNow + 400;
@@ -1218,7 +1226,8 @@ export function makeFoes(K) {
   /** The two tricks no plain kind has: the Goblin King's horn and the Abbess's thirst. Returns the warning, or '' when it is not the moment. */
   function namedTrick(m, mb, mv, adjacent) {
     // hurt past half, he calls his kin; twice at most, and a call cut short is spent
-    if (mv === 'rally' && m.hp < m.maxHp / 2 && (m.rallies || 0) < 2) {
+    // (or at once, as he wakes: his horn is how he leads, see lairs.js)
+    if (mv === 'rally' && (m.hp < m.maxHp / 2 || K.lairs.leads(m)) && (m.rallies || 0) < 2) {
       m.rallies = (m.rallies || 0) + 1;
       return `The ${mb.name} puts a war-horn to his lips to call his kin! Strike him before he sounds it!`;
     }

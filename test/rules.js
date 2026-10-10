@@ -9045,7 +9045,8 @@ await test('the trader\'s forge adds a quality of make to plain known gear, from
   if (!Game.currentShop()) return 'could not open the shop';
   const svc = id => Game.shopServices().find(v => v.id === id);
   const w = p.eq.weapon; w.h = 0; delete w.px; delete w.u; delete w.curse;
-  p.gold = 99999;
+  // (a plain Charisma: rolled high, the trader's warmth took the price under the floor this checks)
+  p.gold = 99999; p.stats.cha = 10;
   if (!svc('make_weapon') || !svc('make_weapon').why) out.push('the forge worked on the first floor');
   Game.closeShop ? Game.closeShop() : null;
   Game.level().monsters.length = 0; Game.descend();
@@ -10377,6 +10378,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
       const { Game } = ctx; const p = Game.player(), G = Game.state();
       p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
       p.stats.str = 30; p.stats.dex = 30;
+      // every blow lands: the last try ending on a miss once failed this as 'no swing killed the hero'
+      p.perkHit = 60;
       const m = beside(ctx, 'quillback', { hp: 999, maxHp: 999, nextAct: 1e12 });
       m.windup = { kind: 'move', move: 'bristle', at: G.t, until: G.t + 1e9 };
       p.hp = 1;

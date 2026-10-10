@@ -119,6 +119,9 @@
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
  * @property {number} [backAt]    a skirmisher (a kobold) may not step back from the hero again before this time
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
+ * @property {boolean} [opener]  a champion just woken, leading with its trick (lairs.js)
+ * @property {boolean} [turned]  a champion past two thirds of its life, its ground changed
+ * @property {boolean} [fury]  a champion below a third of its life, in its last stand: quicker and harder
  * @property {number} [brittleUntil]  held back by the hero's cold: brittle to the Rimebound Grimoire until then
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
@@ -209,6 +212,7 @@
  * @property {{kind: string, room: number, props: {x: number, y: number, k: string}[], seen?: boolean}} [piece]  the floor's set piece (rooms.js): which, its room, what lies in it, and whether the hero has stepped in yet
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless, market, overgrown, tremors or (deep down) smouldering
  * @property {Array<{x: number, y: number, next: number, heat: number, sealedUntil: number}>} [vents]  a smouldering floor's glowing cracks: when each next heats up, when it began to (0 when quiet), and how long cold has sealed it (elements.js)
+ * @property {boolean} [forgeVents]  the Heartforged has split its hall's floor: its cracks flare as a smouldering floor's do, until it falls
  * @property {number} [ventSaid]  when a crack's flare was last told, so the log keeps room
  * @property {{next: number, falls: Array<{x: number, y: number, at: number, lands: number}>}} [quake]  a floor of tremors: when the ground next shudders, and the squares rock is coming down on (elements.js)
  * @property {Record<string, {k: 'fire'|'ash'|'oil'|'ice', until?: number, fuel?: string, spread?: number, burn?: number, gen?: number, wild?: boolean, door?: boolean}>} [fields]  what lies on a square, keyed "x,y": fire, ash, spilt oil or ice (see elements.js); a fire's wild is set when a monster lit it, not the hero; an ash's door, where a door burnt through

@@ -1122,8 +1122,10 @@ if (process.env.NAMED) {
   for (const cls in results) for (const r of results[cls]) {
     const plan = r.namedHeld || [];
     for (const id of plan) (t[id] = t[id] || { held: 0, slain: 0, killed: 0 }).held++;
-    for (const id of r.namedSlain || []) t[id].slain++;
-    if (r.namedKiller) t[r.namedKiller].killed++;
+    // (one slain or a killer not in the plan, a renegade's quarry or a people's own, is counted all the same)
+    const at = id => (t[id] = t[id] || { held: 0, slain: 0, killed: 0 });
+    for (const id of r.namedSlain || []) at(id).slain++;
+    if (r.namedKiller) at(r.namedKiller).killed++;
   }
   for (const id in t) console.log(`   ${id.padEnd(8)} held in ${t[id].held} runs, slain in ${t[id].slain}, killed the hero in ${t[id].killed}`);
 }
