@@ -175,7 +175,7 @@ const Music = (() => {
     try { console.warn(`music "${k}" failed:`, e && e.message); } catch (err) { /* ignore */ }
   }
 
-  /** The music's own gain and a cave's echo, on the sound's master. */
+  /** The music's own gain and a cave's echo, on the sound's music bus (which ducks under a level gained or the lich's words). */
   function ensureBus() {
     const a = Sound.audio();
     if (!a) return null;
@@ -184,12 +184,12 @@ const Music = (() => {
     busUp = false;
     bus = c.createGain();
     bus.gain.value = 0;
-    bus.connect(a.master);
+    bus.connect(a.music);
     // the echo: what goes in comes back a dotted beat later, fainter each time
     const echo = c.createDelay(1.5), back = c.createGain(), wet = c.createGain(), dull = c.createBiquadFilter();
     echo.delayTime.value = 0.42; back.gain.value = 0.38; wet.gain.value = 0.32;
     dull.type = 'lowpass'; dull.frequency.value = 2200;
-    bus.connect(echo); echo.connect(dull); dull.connect(back); back.connect(echo); dull.connect(wet); wet.connect(a.master);
+    bus.connect(echo); echo.connect(dull); dull.connect(back); back.connect(echo); dull.connect(wet); wet.connect(a.music);
     busCtx = c;
     return a;
   }

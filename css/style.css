@@ -314,6 +314,18 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* Overlays */
 .overlay { position: absolute; inset: 0; background: #08070c; display: none; flex-direction: column; z-index: 10; padding-top: var(--sat); }
 .overlay.open { display: flex; }
+/* Nothing comes up with a hard cut: a screen or an overlay fades in over a
+   fifth of a second. Opacity only, so nothing moves under a finger, and none
+   at all in a calm view or where the phone asks for less motion. */
+@keyframes come-up { from { opacity: 0; } to { opacity: 1; } }
+.screen.active { animation: come-up 200ms ease-out; }
+.overlay.open { animation: come-up 170ms ease-out; }
+/* and an overlay put away fades out, letting taps through to what is behind */
+@keyframes go-down { from { opacity: 1; } to { opacity: 0; } }
+.overlay.closing { display: flex; pointer-events: none; animation: go-down 130ms ease-in forwards; }
+body.calm .screen.active, body.calm .overlay.open { animation: none; }
+body.calm .overlay.closing { display: none; }
+@media (prefers-reduced-motion: reduce) { .screen.active, .overlay.open { animation: none; } .overlay.closing { display: none; } }
 .ov-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; border-bottom: 1px solid var(--border); }
 .ov-head h2 { margin: 0; margin-right: 10px; }
 .close { min-width: 44px; font-size: 1.2rem; }

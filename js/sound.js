@@ -14,6 +14,23 @@ const Sound = (() => {
   let ctx = null;
   /** @type {GainNode} */
   let master = null;
+  /** @type {DynamicsCompressorNode|null} */
+  let limiter = null;
+  /** @type {GainNode|null} the music's bus on the master, drawn back under a level gained or the lich's voice */
+  let musicBus = null;
+  let duckedUntil = 0;
+  /** The music drawn back for a moment, and brought up again after: under what must be heard. */
+  function duckMusic(secs, depth = 0.3) {
+    if (!ctx || !musicBus) return;
+    const now = ctx.currentTime, g = musicBus.gain;
+    try {
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(g.value, now);
+      g.setTargetAtTime(depth, now, 0.06);
+      g.setTargetAtTime(1, now + secs, 0.5);
+    } catch (e) { /* ignore */ }
+    duckedUntil = Math.max(duckedUntil, now + secs);
+  }
   /** @type {AudioBuffer} two seconds of noise, made once: every hiss, thud and gust is cut from it */
   let noiseBuf = null;
   let enabled = true;
@@ -53,10 +70,19 @@ const Sound = (() => {
       const comp = ctx.createDynamicsCompressor();
       comp.threshold.value = -18; comp.knee.value = 12; comp.ratio.value = 4;
       comp.attack.value = 0.003; comp.release.value = 0.25;
+      // and a limiter after it, hard and fast: a crowd of blows at once, the
+      // lich's rite under the music, never clip on a phone's small speaker
+      limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -2; limiter.knee.value = 0; limiter.ratio.value = 20;
+      limiter.attack.value = 0.001; limiter.release.value = 0.1;
       master = ctx.createGain();
       master.gain.value = 0.85;
+      // the music has a bus of its own on the master, to be drawn back under
+      // what must be heard: a level gained, the lich speaking (see duckMusic)
+      musicBus = ctx.createGain();
+      musicBus.connect(master);
       // two calls: old Safari's connect() returned nothing to chain on
-      master.connect(comp); comp.connect(ctx.destination);
+      master.connect(comp); comp.connect(limiter); limiter.connect(ctx.destination);
       noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
       const data = noiseBuf.getChannelData(0);
       for (let i = 0; i < data.length; i++) data[i] = rnd() * 2 - 1;
@@ -466,6 +492,8 @@ const Sound = (() => {
     stairs: out => { for (let i = 0; i < 4; i++) { tone(out, 500 - i * 90, 0.12, 'triangle', 0.08, 0, i * 0.1); noise(out, 0.05, 0.05, { f: 800, delay: i * 0.1 }); } },
     spell: out => tone(out, 300, 0.3, 'sine', 0.15, 700),
     heal: out => { tone(out, 520, 0.12, 'sine', 0.12); tone(out, 780, 0.2, 'sine', 0.12, 0, 0.1); },
+    // a page turned: an overlay or a screen coming up, soft enough to be felt more than heard
+    page: out => { noise(out, 0.12, 0.05, { type: 'bandpass', f: 1800, to: 900, q: 0.8, attack: 0.02 }); },
     levelup: out => { [523, 659, 784, 1046].forEach((f, i) => tone(out, f, 0.2, 'triangle', 0.1, 0, i * 0.12)); },
     die: out => { releaseAll(); tone(lp(out, 600), 300, 1.4, 'sawtooth', 0.16, -240); tone(out, 60, 1.5, 'sine', 0.2, -25); },
     win: out => { [523, 659, 784, 1046, 1318].forEach((f, i) => tone(out, f, 0.35, 'triangle', 0.1, 0, 0.3 + i * 0.15)); },
@@ -647,6 +675,9 @@ const Sound = (() => {
       if (listener) { try { listener(name, v); } catch (e) { /* ignore */ } }
       if (!enabled) return;
       try { const f = FX[name]; if (f && ensure()) f(bus(v), v); } catch (e) { fault(name, e); }
+      // the music steps back under a level gained and under the lich's words
+      if (name === 'levelup') duckMusic(1.4);
+      else if (name === 'voice' && v.who === 'lich') duckMusic(2.4, 0.22);
     },
     /** Every sound it knows by name, and every distant one: for tests. */
     names() { return { fx: Object.keys(FX), far: Object.keys(FAR) }; },
@@ -662,7 +693,9 @@ const Sound = (() => {
     },
     isEnabled() { return enabled; },
     /** The audio clock and the master the music plays into, or null while sound is off or cannot be had. */
-    audio() { const c = ensure(); return c && master ? { ctx: c, master } : null; },
+    audio() { const c = ensure(); return c && master ? { ctx: c, master, music: musicBus || master } : null; },
+    /** How the mix stands, for tests: the limiter in place, and whether the music is drawn back. */
+    mix() { return { limiter: !!limiter, music: !!musicBus, ducked: !!ctx && ctx.currentTime < duckedUntil }; },
     unlock() { ensure(); },
     /** The page was hidden or shown: a hidden page makes no sound at all. */
     away(hidden) {

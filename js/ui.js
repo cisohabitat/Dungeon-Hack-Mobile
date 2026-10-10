@@ -57,6 +57,8 @@ const UI = (() => {
   let finaleTimer = 0;
   function showScreen(id) {
     if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
+    // a page turned as the screen comes up (not the dungeon's own: it has the arrival)
+    if (id !== 'screen-game' && !$('#' + id).classList.contains('active')) Sound.play('page');
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     // the raycaster draws into whichever canvas is on screen
     if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; refreshTitle(); }
@@ -138,7 +140,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-22a', text: 'your phone now buzzes when a blow lands on you, at a level, at a death and when you force a door (Menu: Vibration turns it off); the level choices say what a lesson is, and the hero you are making is named beside Descend' };
+  const NEWS = { id: '2026-10-22b', text: 'screens and overlays fade up with the sound of a page, and the music steps back under a level gained and under the lich; your phone buzzes when a blow lands on you, at a level and a death (Menu: Vibration); the level choices say what a lesson is' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1349,8 +1351,10 @@ const UI = (() => {
     }
     closeOverlay(false);
     overlay = name;
+    Sound.play('page');
     held.clear();
     $$('.ctl').forEach(b => b.classList.remove('held'));
+    $('#ov-' + name).classList.remove('closing');
     $('#ov-' + name).classList.add('open');
     setBehind(true);
     syncHistory();
@@ -1402,6 +1406,7 @@ const UI = (() => {
     stay.addEventListener('click', () => closeOverlay());
     el.appendChild(stay);
   }
+  const CLOSE_MS = 130;   // the overlay's fade away (see .overlay.closing)
   function closeOverlay(next = true) {
     if (!overlay) return;
     if (overlay === 'boons' && Game.pendingBoons()) return;   // a choice must be made
@@ -1410,7 +1415,10 @@ const UI = (() => {
     if (overlay === 'encounter') { const e = Game.currentEncounter(); if (e && !e.result) return; Game.closeEncounter(); }
     if (overlay === 'shop') Game.closeShop();
     if (overlay === 'fork') Game.leaveFork();
-    $('#ov-' + overlay).classList.remove('open');
+    // it fades away rather than vanishing, and lets taps through while it does
+    const gone = $('#ov-' + overlay);
+    gone.classList.remove('open'); gone.classList.add('closing');
+    setTimeout(() => gone.classList.remove('closing'), CLOSE_MS);
     overlay = null;
     setBehind(false);
     syncHistory();
