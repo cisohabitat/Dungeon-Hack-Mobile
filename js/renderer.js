@@ -1662,6 +1662,7 @@ const Renderer = (() => {
     ctx.font = `bold ${textPx}px monospace`;
     ctx.textAlign = 'center';
     ctx.lineJoin = 'round';
+    const marked = shown.some(m => m.markSize);
     for (const t of fx.texts) {
       if (now < t.born) continue;          // a number from a fireball still in the air
       const sx = t.x - px, sy = t.y - py;
@@ -1682,8 +1683,10 @@ const Renderer = (() => {
       // thing that says a blow is coming: it rises beside the mark instead,
       // the whole way up, rather than jumping aside as it reaches it.
       let x = screenX;
-      const half = ctx.measureText(t.text).width / 2 + 2, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
-      for (const m of shown) {
+      // (a word is measured once, not every frame: a fight is full of them)
+      if (t.halfAt !== textPx) { t.half = ctx.measureText(t.text).width / 2 + 2; t.halfAt = textPx; }
+      const half = t.half, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
+      if (marked) for (const m of shown) {
         if (!m.markSize) continue;
         const reach = m.markSize * 0.62 + 2;
         if (lo > m.markY - m.markSize - 2 && hi < m.markY + 2 && Math.abs(x - m.markX) < reach + half) {
