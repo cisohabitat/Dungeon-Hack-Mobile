@@ -49,7 +49,7 @@ export function makePacing(K) {
    * and the thinning comes a rest later. (It used to add a third to a rest, but the first on a floor
    * already heals everything, and most heroes rest about once a floor.)
    */
-  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = climbed(1) ? [1] : diff().rests; return n >= r.length ? 0 : r[n]; }
+  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = climbed(2) ? [1] : diff().rests; return n >= r.length ? 0 : r[n]; }
   /** Something of this floor finds the sleeper: awake, a few steps off. */
   function ambush() {
     const L = lvl();
@@ -132,7 +132,7 @@ export function makePacing(K) {
   // died there before they had a path, so it comes from the fourth floor, paid for
   // with sturdier creatures (1.8, not 1.7) all the way down. (1.9 since oils, charms,
   // capstones and traders' jobs lifted Hard to about three in five: back to the high fifties.)
-  const diffEdge = () => Math.max(0, diff().edge - (K.G.depth <= 1 || (diff().edge > 1 && K.G.depth <= 3) ? 1 : 0)) + longEdge() + (climbed(3) ? 1 : 0);
+  const diffEdge = () => Math.max(0, diff().edge - (K.G.depth <= 1 || (diff().edge > 1 && K.G.depth <= 3) ? 1 : 0)) + longEdge();
   // The Long Delve's back half: its creatures a step surer from the seventh
   // floor, and a little sturdier with every floor past the sixth. Without it
   // twelve floors were easier than eight (82% on Normal, 60% on Hard): the
@@ -177,10 +177,17 @@ export function makePacing(K) {
   // 74% to 81%).
   const deepMagic = () => {
     if (!isLong()) return 1;
-    if (K.G.opts.difficulty === 'hard') return K.G.depth >= 7 ? 1 + (P().cls === 'mage' && K.G.opts.levels < 16 ? 0.04 : 0.06) * (K.G.depth - 6) : 1;
+    // (the cleric 4% too, since its three more life at the start: it led the rest on a
+    // Hard Long Delve by eight points on twelve floors and six on sixteen)
+    if (K.G.opts.difficulty === 'hard') return K.G.depth >= 7 ? 1 + ((P().cls === 'mage' && K.G.opts.levels < 16) || P().cls === 'cleric' ? 0.04 : 0.06) * (K.G.depth - 6) : 1;
     const from = deepFrom();
-    return (K.G.opts.levels || 8) >= 16 && K.G.depth > from ? 1 + 0.06 * (K.G.depth - from) : 1;
+    const lift = (K.G.opts.levels || 8) >= 16 && K.G.depth > from ? 1 + 0.06 * (K.G.depth - from) : 1;
+    return lift * (P().cls === 'cleric' && K.G.depth >= 7 ? LONG_CLERIC : 1);
   };
+  // Below Hard, on a Long Delve, a cleric's prayers and blows are a tenth weaker past
+  // the sixth floor: with three more life to start, and the god's healing as deep as
+  // the delve, it won 92% of twelve floors where the rest won 84% to 87%.
+  const LONG_CLERIC = 0.9;
   // Below which floor of sixteen, on Normal or Easy, the deep lifts a hero's spells and blows: the
   // twelfth, and for the three left last there (the fighter, the mage and the druid, 70% to 73% where
   // the rest won 81% and more) the tenth
@@ -205,8 +212,17 @@ export function makePacing(K) {
     // and below a sixteen-floor delve's twelfth floor, on any difficulty, a fighter's
     // blows and the bear's claws grow as they do on Hard: with the spells lifted
     // there they were left last (70% and 66%), and came to 73% and 70.5%
-    if (K.G.opts.difficulty !== 'hard') return (P().cls === 'fighter' || P().cls === 'druid') && (K.G.opts.levels || 8) >= 16 && K.G.depth > deepFrom() ? 1 + rate * (K.G.depth - deepFrom()) : 1;
-    return rate && K.G.depth >= 7 ? 1 + rate * (K.G.depth - 6) : 1;
+    // (the fighter's by 6% a floor there, and the ranger's shots by 3.5%: they were left
+    // last on sixteen Normal floors again, at 78% and 80% to the rest's 82% to 85%)
+    if (K.G.opts.difficulty !== 'hard') {
+      const r = P().cls === 'fighter' ? 0.06 : P().cls === 'ranger' ? 0.035 : P().cls === 'druid' ? rate : 0;
+      return r && (K.G.opts.levels || 8) >= 16 && K.G.depth > deepFrom() ? 1 + r * (K.G.depth - deepFrom()) : 1;
+    }
+    // (on Hard the fighter's grow by 6% a floor and the ranger's by 3.5%: once the champions
+    // fought harder they trailed there again, by five points and more; and on sixteen
+    // floors the bear's claws by 5%, the druid then last there by six)
+    const hardRate = P().cls === 'fighter' ? 0.06 : P().cls === 'ranger' ? 0.035 : P().cls === 'druid' && (K.G.opts.levels || 8) >= 16 ? 0.05 : rate;
+    return hardRate && K.G.depth >= 7 ? 1 + hardRate * (K.G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */
   /**
@@ -297,8 +313,8 @@ export function makePacing(K) {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      // (and on the ladder's fourth rung, a champion and the last foe a quarter more again)
-      const lord = (MONSTERS[m.id].boss || MONSTERS[m.id].named) && climbed(4) ? LORD_HP : 1;
+      // (and on the ladder's third rung, a champion and the last foe a quarter more again)
+      const lord = (MONSTERS[m.id].boss || MONSTERS[m.id].named) && climbed(3) ? LORD_HP : 1;
       const f = (MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) * (isQuick() ? QUICK.keeperHp : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal());
       m.maxHp = Math.max(1, Math.round(m.maxHp * f * lord)); m.hp = m.maxHp;
       // a quick delve's keeper is a lesser lich, for a hero of a few levels: less life, and blows less sure and less heavy

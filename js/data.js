@@ -242,13 +242,17 @@ const VOWS = {
 // after with a win on the one before (see rungOpen in js/progress.js). Index 0
 // is Hard itself; the rules are applied in js/pacing.js, js/trader.js and
 // js/items.js, each behind `climbed(n)`.
+// (Each rung is meant to cost about the same, some five to seven points of the
+// bot's wins: the first cut, with every blow a step surer and harder, fell
+// fourteen there and two at another, and a second rest only a quarter as good
+// cost nothing at all, the bot so seldom resting twice on a floor.)
 const LADDER = [
   null,
+  { rule: 'Traders ask half again for everything they sell and do.' },
   { rule: 'One rest a floor, not two.' },
-  { rule: 'Traders ask a quarter more for everything they sell and do.' },
-  { rule: 'Every creature strikes a step surer and harder.' },
   { rule: 'Champions and the last foe have a quarter more life.' },
   { rule: 'Healing draughts heal a third less.' },
+  { rule: 'Every creature strikes a step surer.' },
 ];
 const RUNG_SCORE = 0.1;
 // The fork: a third of the way down the stair divides, and the floors

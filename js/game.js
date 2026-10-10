@@ -664,8 +664,10 @@ const Game = (() => {
     const wade = !s.boss && G && G.levels && lvl() && lvl().twist === 'flooded';
     // and for one sworn to the Hunted Vow, everything is a tenth quicker
     const hunted = vowed('hunted') ? 0.9 : 1;
-    if (!edge && !wade && hunted === 1) return s;
-    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), speed: Math.round(s.speed * (wade ? FLOOD_SLOW : 1) * hunted) };
+    // and on the ladder's fifth rung, a step surer (not harder)
+    const sure = climbed(5) ? 1 : 0;
+    if (!edge && !wade && hunted === 1 && !sure) return s;
+    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), ...(sure ? { hit: s.hit + edge + sure } : {}), speed: Math.round(s.speed * (wade ? FLOOD_SLOW : 1) * hunted) };
   }
   function mstatBase(m) {
     const b = MONSTERS[m.id];

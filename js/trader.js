@@ -25,8 +25,8 @@ export function makeTrader(K) {
   // traders below ask a sixth more of you (a goblin pedlar does not care).
   const lampThread = k => { const G = K.G, t = G.threads || {}; return t[k] && G.depth > t[k] && traderKind() === 'lampfolk'; };
   const grudge = () => (lampThread('robbed') ? 1 / 6 : 0);
-  // and on the ladder's second rung, a quarter dearer for everything they sell and do
-  const dear = () => (climbed(2) ? 1.25 : 1);
+  // and on the ladder past Hard, from its first rung, half again for everything they sell and do
+  const dear = () => (climbed(1) ? 1.5 : 1);
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
@@ -55,7 +55,7 @@ export function makeTrader(K) {
     return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
   }
 
-  /** What the trader charges to look your gear over, and to break a curse (a quarter more on the ladder's second rung; a job is not theirs to price). */
+  /** What the trader charges to look your gear over, and to break a curse (half again on the ladder past Hard; a job is not theirs to price). */
   function shopServices() {
     const all = servicesAsked();
     return dear() === 1 ? all : all.map(x => (x.id === 'bounty' ? x : { ...x, price: Math.round(x.price * dear()) }));

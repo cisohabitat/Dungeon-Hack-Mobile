@@ -4448,7 +4448,7 @@ await test('a trickster\'s gold from an encounter is a quarter more, as gold fou
   return r.lines.some(l => l.includes(`+${want} gold`)) || `the card said: ${r.lines.join(' | ')}`;
 });
 
-await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws grow with the deep floors, a ranger\'s half as much; on eight Hard floors a fighter\'s from the sixth; on Normal only below the tenth of sixteen', async () => {
+await test('in a Hard Long Delve a fighter\'s blows, a druid\'s bear\'s claws and a ranger\'s shots grow with the deep floors; on eight Hard floors a fighter\'s from the sixth; on Normal only deep in sixteen', async () => {
   const hurt = async (depth, cls = 'fighter', difficulty = 'hard', levels = 12) => {
     const ctx = await start(cls, 'deep-steel', { levels, difficulty });
     const { Game } = ctx;
@@ -4465,16 +4465,16 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
     return dealt;
   };
   const out = [];
-  // five floors past the sixth: 4% a floor for a fighter and a druid, 2% for a ranger, none on Normal
-  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.12, 1.28], ['druid', 'hard', 1.12, 1.28], ['ranger', 'hard', 1.04, 1.16], ['ranger', 'normal', 0.97, 1.03]]) {
+  // five floors past the sixth: 6% a floor for a fighter, 4% for a druid (5% on sixteen), 3.5% for a ranger, none on Normal
+  for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.20, 1.40], ['druid', 'hard', 1.12, 1.28], ['ranger', 'hard', 1.10, 1.26], ['ranger', 'normal', 0.97, 1.03]]) {
     const shallow = await hurt(6, cls, diff), deep = await hurt(11, cls, diff);
     if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape'); continue; }
     if (!shallow) { out.push(`no ${cls} blow landed`); continue; }
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
   }
-  // sixteen floors on Normal: six past the tenth, 4% a floor for a fighter and a druid, none for a ranger
-  for (const [cls, lo, hi] of [['fighter', 1.19, 1.31], ['druid', 1.19, 1.31], ['ranger', 0.97, 1.03]]) {
+  // sixteen floors on Normal: six past the tenth, 6% a floor for a fighter and 4% for a druid; four past the twelfth, 3.5% for a ranger
+  for (const [cls, lo, hi] of [['fighter', 1.28, 1.44], ['druid', 1.19, 1.31], ['ranger', 1.08, 1.21]]) {
     const shallow = await hurt(10, cls, 'normal', 16), deep = await hurt(16, cls, 'normal', 16);
     if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape on sixteen floors'); continue; }
     if (!shallow) { out.push(`no ${cls} blow landed on sixteen floors`); continue; }
@@ -4491,7 +4491,7 @@ await test('in a Hard Long Delve a fighter\'s blows and a druid\'s bear\'s claws
   return out.length ? out.join('; ') : true;
 });
 
-await test('spells strike harder in the deep: 6% a floor past the sixth on a Hard Long Delve (a mage\'s 4% on twelve floors), and on any difficulty past the twelfth of sixteen (a mage\'s past the tenth), a cleric\'s blows with them', async () => {
+await test('spells strike harder in the deep: 6% a floor past the sixth on a Hard Long Delve (a mage\'s 4% on twelve floors, a cleric\'s 4%), and on any difficulty past the twelfth of sixteen (a mage\'s past the tenth), a cleric\'s blows with them; below Hard a cleric\'s a tenth weaker past the sixth of a Long Delve', async () => {
   const dealt = async (cls, depth, difficulty, levels) => {
     const ctx = await start(cls, 'deep-magic', { levels, difficulty });
     const { Game } = ctx;
@@ -4516,6 +4516,10 @@ await test('spells strike harder in the deep: 6% a floor past the sixth on a Har
     ['a mage on twelve Normal floors', 'mage', 'normal', 12, 6, 11, 0.97, 1.03],
     ['a cleric\'s blows on sixteen Normal floors', 'cleric', 'normal', 16, 12, 16, 1.15, 1.33],
     ['a cleric\'s blows between the tenth and twelfth of sixteen', 'cleric', 'normal', 16, 10, 12, 0.97, 1.03],
+    // a cleric's: 4% a floor on a Hard Long Delve; and below Hard a tenth weaker past the sixth floor
+    ['a cleric\'s blows on twelve Hard floors', 'cleric', 'hard', 12, 6, 11, 1.12, 1.28],
+    ['a cleric\'s blows past the sixth of twelve Normal floors', 'cleric', 'normal', 12, 6, 11, 0.85, 0.95],
+    ['a cleric\'s blows on eight Normal floors', 'cleric', 'normal', 8, 5, 8, 0.97, 1.03],
   ]) {
     const shallow = await dealt(cls, a, diff, levels), deep = await dealt(cls, b, diff, levels);
     if (!shallow) { out.push(`${what}: nothing landed`); continue; }
