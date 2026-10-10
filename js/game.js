@@ -760,9 +760,16 @@ const Game = (() => {
     // Starting a little sturdier costs nothing by the fourth floor, where
     // levels have added far more than this.
     // (the fighter's few more are for Easy and Normal only: it trailed the rest there,
-    // and on Hard, where it ran level with them, the same three took it ten points past)
-    const mild = (cfg.opts || {}).difficulty !== 'hard' ? c.mildHp || 0 : 0;
-    p.maxHp = Math.max(10, c.hitDie + 6 + (c.startHp || 0) + mild + mod(p.stats.con));
+    // and on Hard, where it ran level with them, the same three took it ten points past.
+    // On Hard it has two of its own, `hardHp`: once the boss pass made the champions
+    // fight harder it fell to five points behind there, a sixth of its heroes dying
+    // before they had a path; the ranger has its few on Easy and Normal, where it trailed.)
+    const mild = (cfg.opts || {}).difficulty !== 'hard' ? c.mildHp || 0 : c.hardHp || 0;
+    // A quick delve of two floors brings a hero to the lich at the third or fourth
+    // level: a thief, all strike and no staying power, won three in four there while
+    // the casters won nineteen in twenty. Its few more (`quickHp`) are for that delve alone.
+    const quickHp = ((cfg.opts || {}).levels || 8) <= 2 ? c.quickHp || 0 : 0;
+    p.maxHp = Math.max(10, c.hitDie + 6 + (c.startHp || 0) + mild + quickHp + mod(p.stats.con));
     p.hp = p.maxHp;
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock

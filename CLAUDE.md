@@ -99,7 +99,7 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 ## Balance bench
 
 `FIT=1 DIFF=normal|hard SEEDN=40 node test/playtest.js <cls> 10` plays 400 runs
-with a bot. Seed-to-seed noise is about ±5 points, so compare variants on two
+with a bot (`DIFF=hard+3` for a rung of the ladder past Hard). Seed-to-seed noise is about ±5 points, so compare variants on two
 seed sets (`SEEDPFX=alt` for the second). Other switches: `EARLY=1` (deaths
 before level 5), `CAUSES=1`, `LICH=1`, `NAMED=1`, `NOFORGE=1`, `SHADE=4` (a fallen
 hero's shade on floor 4), `SIZE=small|large` (Medium floors otherwise). `FP=1`

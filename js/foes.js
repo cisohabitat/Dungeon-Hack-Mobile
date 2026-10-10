@@ -1193,7 +1193,9 @@ export function makeFoes(K) {
     const b = MONSTERS[kind], hp = () => Dice.dice(b.hp[0], b.hp[1], b.hp[2]);
     const g = K.newMonster(kind, x, y, hp());
     if (called) g.riteCalled = true;
-    else { const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; g.risen = true; }
+    // (a lesser lich, at the foot of a quick delve, has the strength for one of the dead, not two:
+    // two at a time killed more of the fighters and thieves who reached it than it did itself)
+    else { if (!K.quick()) { const h2 = hp(); g.pack = [{ hp: h2, maxHp: h2 }]; } g.risen = true; }
     K.log(!called ? `The ${K.mstat(m).name} raises its hands, and the dead climb out of the floor to guard it!`
       : `A ${b.name.toLowerCase()} rises out of the Heart's light to guard the ${K.mstat(m).name}'s rite!`, 'bad');
     K.learn(m.id, 'trick');

@@ -146,8 +146,11 @@ export function makePacing(K) {
   // four steps less surely (and calls no wraith: see riteGuard in foes.js).
   // About nine in ten won on Normal, the thief three in four; twice as fast
   // left the thief at 58% and the mage at 92%.
+  // (Since then the casters came to win nineteen in twenty there and the thief three in
+  // four: the lesser lich now has less life still, a fifth of its sort's, and strikes
+  // six steps less surely, and it raises one of the dead at a time, not two (foes.js).)
   const isQuick = () => (K.G.opts.levels || 8) <= 2;
-  const QUICK = { keeperHp: 0.3, keeperEdge: -4, xp: 3 };
+  const QUICK = { keeperHp: 0.22, keeperEdge: -6, xp: 3 };
   const longEdge = () => (isLong() && K.G.depth >= 7 ? 1 : 0);
   const longSturdier = depth => (isLong() ? 1 + 0.04 * Math.max(0, depth - 6) : 1);
   // The deep floors' own monsters answer so well to a player who reads the

@@ -583,7 +583,7 @@ await test('every class starts with at least ten hit points', async () => {
   return true;
 });
 
-await test('a fighter starts three hit points sturdier on Easy or Normal than on Hard; no other class does', async () => {
+await test('off Hard a fighter starts three hit points sturdier and a ranger four; on Hard a fighter two; no other class moves', async () => {
   const out = [];
   for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid']) {
     const hp = {};
@@ -592,7 +592,8 @@ await test('a fighter starts three hit points sturdier on Easy or Normal than on
       ctx.Game.newGame({ name: 'H', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mild-hp', opts: { ...OPTS, difficulty } });
       hp[difficulty] = ctx.Game.player().maxHp;
     }
-    const want = cls === 'fighter' ? 3 : 0;
+    // the difference off Hard, the fighter's own two on Hard counted against it
+    const want = { fighter: 3 - 2, ranger: 4 }[cls] || 0;
     if (hp.normal - hp.hard !== want || hp.easy - hp.hard !== want) out.push(`a ${cls} starts on ${hp.easy} / ${hp.normal} / ${hp.hard} (Easy, Normal, Hard)`);
   }
   return out.length ? out.join('; ') : true;
@@ -5596,16 +5597,43 @@ await test('on a delve shorter than the Long Delve its creatures are a touch stu
   return out.length ? out.join('; ') : true;
 });
 
-await test('a thief, a ranger and a druid set out with three more hit points (a mage seven, for want of armour; a fighter three, off Hard); a druid\'s spell points run to the full measure', async () => {
+await test('a ranger and a druid set out with three more hit points, a cleric three, a thief two (a mage seven, for want of armour; a fighter three and a ranger four more, off Hard); a druid\'s spell points run to the full measure', async () => {
   const out = [];
-  // (these start on Normal: the fighter's three are counted, and its Hard start in the test of its own)
-  for (const [cls, extra] of [['thief', 3], ['ranger', 3], ['druid', 3], ['mage', 7], ['fighter', 3]]) {
+  // (these start on Normal: the fighter's and the ranger's few off Hard are counted, and their Hard starts in the test of their own)
+  for (const [cls, extra] of [['thief', 2], ['ranger', 7], ['druid', 3], ['mage', 7], ['fighter', 3], ['cleric', 3]]) {
     const ctx = await start(cls, 'start-hp-' + cls);
     const p = ctx.Game.player(), c = ctx.CLASSES[cls];
     const want = Math.max(10, c.hitDie + 6 + extra + ctx.Game.mod(p.stats.con));
     if (p.maxHp !== want) out.push(`a ${cls} set out with ${p.maxHp} hit points, not ${want}`);
   }
   if (((await start('druid', 'druid-sp')).CLASSES.druid.spMul || 1) !== 1) out.push('a druid\'s spell points are not the full measure');
+  return out.length ? out.join('; ') : true;
+});
+
+await test('on a quick delve of two floors a thief starts seven hit points sturdier, and no one else; and the lesser lich raises one of the dead at a time', async () => {
+  const out = [];
+  for (const cls of ['thief', 'fighter', 'mage']) {
+    const hp = {};
+    for (const levels of [2, 4]) { const ctx = await newContext(); ctx.Game.newGame({ name: 'Q', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'quick-hp', opts: { ...OPTS, levels } }); hp[levels] = ctx.Game.player().maxHp; }
+    const want = cls === 'thief' ? 7 : 0;
+    if (hp[2] - hp[4] !== want) out.push(`a ${cls} starts on ${hp[2]} on two floors, ${hp[4]} on four`);
+  }
+  // the lich's guards: two sharing a square on a delve of four floors, one on a quick delve
+  for (const [levels, want] of [[2, 1], [4, 2]]) {
+    const ctx = await newContext(); const { Game } = ctx;
+    Game.newGame({ name: 'Q', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'quick-guard', opts: { ...OPTS, levels } });
+    Game.testFloor(levels);
+    const L = Game.level(), lich = L.monsters.find(m => m.id === 'lich');
+    if (!lich) { out.push(`no lich on the last of ${levels} floors`); continue; }
+    L.monsters = [lich];
+    const p = Game.player(); p.hp = p.maxHp = 9999;
+    lich.awake = true;
+    Game.hurtMonster(lich, Math.ceil(lich.maxHp * 0.4));
+    for (let i = 0; i < 100 && !L.monsters.some(m => m.risen); i++) Game.update(Game.state().t + 100, 100);
+    const g = L.monsters.find(m => m.risen);
+    if (!g) out.push(`the lich of ${levels} floors raised no one`);
+    else if (1 + ((g.pack || []).length) !== want) out.push(`on ${levels} floors the lich raised ${1 + (g.pack || []).length}`);
+  }
   return out.length ? out.join('; ') : true;
 });
 

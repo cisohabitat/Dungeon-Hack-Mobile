@@ -405,7 +405,7 @@ const MAX_LEVEL = 12;
 
 const CLASSES = {
   fighter: {
-    name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, mildHp: 3, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
+    name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, mildHp: 3, hardHp: 2, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
     // how the class plays for someone choosing it, on its card
     ease: 'Forgiving: takes a beating and hits back.',
@@ -413,8 +413,11 @@ const CLASSES = {
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Raider\'s Kit', desc: 'A battle axe that bites harder than the sword, light studded leather in place of mail and shield, and a flask of fire oil.', items: ['battleaxe', 'studded', 'ration', 'ration', 'potion_heal', 'oil_fire'] },
   },
+  // (a few more life to start with than it once had, `startHp`: it began the
+  // weakest of the six, fifteen to the rest's seventeen or more, and lost more
+  // heroes than any other before they chose a path, on Normal and Hard alike)
   cleric: {
-    name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, startHp: 3, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     ease: 'Forgiving: mends its own wounds.',
     // a cleric fights in the front line as a fighter does, and dresses for it
@@ -430,8 +433,11 @@ const CLASSES = {
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Hedge-Wizard\'s Kit', desc: 'A dagger and a spellbook, your points back a quarter faster, with a draught of clarity in place of the scroll.', items: ['dagger', 'spellbook', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_mana'] },
   },
+  // (one life fewer to start than it had: it led every other class on Normal and
+  // Hard, losing the fewest heroes before a path; and seven more on a quick delve
+  // of two floors, `quickHp`, where it trailed them all: see newGame in game.js)
   thief: {
-    name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
+    name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, startHp: 2, quickHp: 7, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     ease: 'Daring: strikes first, and must not be struck back.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_map'],
@@ -439,7 +445,7 @@ const CLASSES = {
     altKit: { name: 'Cutpurse\'s Kit', desc: 'A dagger, the quickest blade there is, with blade venom and lamp oil in place of the map.', items: ['dagger', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'oil_venom', 'lamp_oil'] },
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, mildHp: 4, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
     ease: 'Steady: wins the fight before it reaches you.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
