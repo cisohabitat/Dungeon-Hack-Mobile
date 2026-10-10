@@ -1,0 +1,374 @@
+{
+  "repo": "cisohabitat/Dungeon-Hack-Mobile",
+  "baseCommit": "d4b4688be60329912f84a3b605641c92af33b5dd",
+  "status": "Complete reproducible render recipe; see manifest.json and validation.json for delivery status.",
+  "sampleRate": 48000,
+  "masterBitDepth": 16,
+  "sfx": [
+    {
+      "id": "hit-blade",
+      "variations": 3,
+      "tier": 1,
+      "description": "a sword or axe biting into a body: meaty, a little steel",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "hit-blunt",
+      "variations": 3,
+      "tier": 1,
+      "description": "a mace or club thudding into a body",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "hit-pierce",
+      "variations": 3,
+      "tier": 1,
+      "description": "a dagger, spear or arrow punching in",
+      "durationRequirement": "\u2264 0.3 s"
+    },
+    {
+      "id": "hit-fist",
+      "variations": 2,
+      "tier": 1,
+      "description": "a fist, or a bear's paw, landing",
+      "durationRequirement": "\u2264 0.3 s"
+    },
+    {
+      "id": "crit",
+      "variations": 2,
+      "tier": 1,
+      "description": "a heavy extra layer for a critical blow (a crunch, a sharp sting), played over a hit",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "swing",
+      "variations": 3,
+      "tier": 1,
+      "description": "a weapon swung through the air",
+      "durationRequirement": "\u2264 0.35 s"
+    },
+    {
+      "id": "miss",
+      "variations": 3,
+      "tier": 1,
+      "description": "a swing that finds nothing: a longer whoosh",
+      "durationRequirement": "\u2264 0.5 s"
+    },
+    {
+      "id": "block",
+      "variations": 3,
+      "tier": 1,
+      "description": "a blow caught on a wood-and-iron shield",
+      "durationRequirement": "\u2264 0.5 s"
+    },
+    {
+      "id": "glance",
+      "variations": 2,
+      "tier": 1,
+      "description": "a blade scraping off armour",
+      "durationRequirement": "\u2264 0.5 s"
+    },
+    {
+      "id": "hurt",
+      "variations": 3,
+      "tier": 1,
+      "description": "the hero taking a blow: body impact, cloth and leather, a sharp breath. **No words and no clearly male or female voice**: the hero can be anyone",
+      "durationRequirement": "\u2264 0.6 s"
+    },
+    {
+      "id": "bow-shoot",
+      "variations": 2,
+      "tier": 1,
+      "description": "a bowstring released",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "arrow-hit",
+      "variations": 2,
+      "tier": 1,
+      "description": "an arrow thunking into wood or stone",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "door-open",
+      "variations": 2,
+      "tier": 1,
+      "description": "a heavy wooden door on iron hinges, swinging open",
+      "durationRequirement": "0.8\u20131.2 s"
+    },
+    {
+      "id": "door-close",
+      "variations": 1,
+      "tier": 1,
+      "description": "the same door shutting",
+      "durationRequirement": "\u2264 1 s"
+    },
+    {
+      "id": "door-locked",
+      "variations": 2,
+      "tier": 1,
+      "description": "a locked door rattled against its bolt",
+      "durationRequirement": "\u2264 0.7 s"
+    },
+    {
+      "id": "door-unlock",
+      "variations": 1,
+      "tier": 1,
+      "description": "an iron key turned in a heavy lock: a clunk",
+      "durationRequirement": "\u2264 0.8 s"
+    },
+    {
+      "id": "door-batter",
+      "variations": 3,
+      "tier": 1,
+      "description": "a shoulder or heavy blow against a wooden door (the hero forcing it, or a monster battering it from the other side)",
+      "durationRequirement": "\u2264 0.6 s"
+    },
+    {
+      "id": "door-splinter",
+      "variations": 1,
+      "tier": 1,
+      "description": "a door bursting apart",
+      "durationRequirement": "\u2264 1.5 s"
+    },
+    {
+      "id": "secret",
+      "variations": 1,
+      "tier": 1,
+      "description": "a hidden stone door grinding open",
+      "durationRequirement": "1\u20132 s"
+    },
+    {
+      "id": "stairs",
+      "variations": 1,
+      "tier": 1,
+      "description": "going down stone stairs: a few footsteps, the air changing",
+      "durationRequirement": "1\u20132 s"
+    },
+    {
+      "id": "trap",
+      "variations": 2,
+      "tier": 1,
+      "description": "a pressure plate clicking, and a mechanism springing",
+      "durationRequirement": "\u2264 0.8 s"
+    },
+    {
+      "id": "collapse",
+      "variations": 1,
+      "tier": 1,
+      "description": "a passage roof coming down behind you: rock falling, dust settling",
+      "durationRequirement": "2\u20133 s"
+    },
+    {
+      "id": "fountain",
+      "variations": 1,
+      "tier": 1,
+      "description": "water scooped and drunk from a stone fountain",
+      "durationRequirement": "\u2264 1.5 s"
+    },
+    {
+      "id": "step-stone",
+      "variations": 6,
+      "tier": 1,
+      "description": "one booted footstep on dungeon stone",
+      "durationRequirement": "\u2264 0.3 s"
+    },
+    {
+      "id": "step-water",
+      "variations": 4,
+      "tier": 1,
+      "description": "one step wading through shallow water",
+      "durationRequirement": "\u2264 0.5 s"
+    },
+    {
+      "id": "bump",
+      "variations": 2,
+      "tier": 1,
+      "description": "walking into a wall: a dull shoulder against stone",
+      "durationRequirement": "\u2264 0.3 s"
+    },
+    {
+      "id": "pickup",
+      "variations": 2,
+      "tier": 1,
+      "description": "picking something up: leather and cloth, a small clink",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "gold",
+      "variations": 3,
+      "tier": 1,
+      "description": "a handful of coins scooped up",
+      "durationRequirement": "\u2264 0.6 s"
+    },
+    {
+      "id": "drink",
+      "variations": 2,
+      "tier": 1,
+      "description": "a potion: a cork pulled, a gulp",
+      "durationRequirement": "\u2264 1 s"
+    },
+    {
+      "id": "eat",
+      "variations": 2,
+      "tier": 1,
+      "description": "a bite of hard bread or dried meat",
+      "durationRequirement": "\u2264 0.8 s"
+    },
+    {
+      "id": "read",
+      "variations": 2,
+      "tier": 1,
+      "description": "a parchment scroll unrolled",
+      "durationRequirement": "\u2264 0.8 s"
+    },
+    {
+      "id": "rest",
+      "variations": 1,
+      "tier": 1,
+      "description": "settling down to rest: cloth, a long breath out",
+      "durationRequirement": "\u2264 1.5 s"
+    },
+    {
+      "id": "ui-tap",
+      "variations": 2,
+      "tier": 1,
+      "description": "a button pressed: a soft, very short tick of wood or leather, quiet",
+      "durationRequirement": "\u2264 0.1 s"
+    },
+    {
+      "id": "ui-page",
+      "variations": 2,
+      "tier": 1,
+      "description": "a screen or panel opening: a soft page turn",
+      "durationRequirement": "\u2264 0.4 s"
+    },
+    {
+      "id": "ui-error",
+      "variations": 1,
+      "tier": 1,
+      "description": "something that cannot be done: a muted, dull knock",
+      "durationRequirement": "\u2264 0.3 s"
+    }
+  ],
+  "voiceFamilies": [
+    "growl",
+    "roar",
+    "shriek",
+    "chant",
+    "squelch",
+    "rasp",
+    "hiss",
+    "chitter",
+    "grunt",
+    "bark",
+    "rattle",
+    "howl",
+    "moan",
+    "lament",
+    "wail"
+  ],
+  "deathKinds": [
+    "blood",
+    "rot",
+    "bone",
+    "goo",
+    "ichor",
+    "ecto",
+    "spore",
+    "rust"
+  ],
+  "farSounds": {
+    "drip": 3,
+    "chain": 2,
+    "rumble": 2,
+    "wind": 2,
+    "creak": 2,
+    "bones": 1,
+    "moan": 1,
+    "clatter": 1
+  },
+  "stingers": [
+    [
+      "level-up",
+      2.6,
+      "a warm lift, brief triumph"
+    ],
+    [
+      "death",
+      4,
+      "a low, final fall"
+    ],
+    [
+      "victory",
+      8,
+      "hard-won, glowing, resolving"
+    ],
+    [
+      "champion",
+      2.6,
+      "a dread hit, low horn or drums"
+    ],
+    [
+      "boss-fall",
+      4,
+      "a great weight breaking"
+    ],
+    [
+      "floor",
+      2.6,
+      "a quiet, deep, unresolved breath"
+    ]
+  ],
+  "themes": [
+    {
+      "id": "halls",
+      "tier": 1,
+      "bpm": 84,
+      "key": "D Dorian",
+      "character": "cold stone, plain, lonely; main theme"
+    },
+    {
+      "id": "crypts",
+      "tier": 1,
+      "bpm": 76,
+      "key": "E Phrygian",
+      "character": "bone, incense, slow dread"
+    },
+    {
+      "id": "warrens",
+      "tier": 1,
+      "bpm": 100,
+      "key": "G minor pentatonic",
+      "character": "rough, rhythmic, crude percussion"
+    },
+    {
+      "id": "sanctum",
+      "tier": 1,
+      "bpm": 72,
+      "key": "C double harmonic (C Db E F G Ab B)",
+      "character": "strange, ritual, cold majesty"
+    },
+    {
+      "id": "darkelf",
+      "tier": 2,
+      "bpm": 80,
+      "key": "C# Hungarian minor",
+      "character": "cold, elegant; far-off temple chimes"
+    },
+    {
+      "id": "greyhold",
+      "tier": 2,
+      "bpm": 88,
+      "key": "F natural minor",
+      "character": "heavy and low; distant anvil"
+    },
+    {
+      "id": "marsh",
+      "tier": 2,
+      "bpm": 70,
+      "key": "A natural minor",
+      "character": "slow and wet; low croaks, water"
+    }
+  ]
+}

@@ -1,0 +1,3243 @@
+{
+  "status": "passed",
+  "logicalAssets": 185,
+  "exportFiles": 370,
+  "failures": [],
+  "decoderPaddingWarnings": [
+    "Trim decoded music/halls/explore.ogg to 1645714 sample frames",
+    "Trim decoded music/halls/explore.m4a to 1645714 sample frames",
+    "Trim decoded music/halls/tension.ogg to 1645714 sample frames",
+    "Trim decoded music/halls/tension.m4a to 1645714 sample frames",
+    "Trim decoded music/halls/fight.ogg to 1645714 sample frames",
+    "Trim decoded music/halls/fight.m4a to 1645714 sample frames",
+    "Trim decoded music/halls/boss.ogg to 1645714 sample frames",
+    "Trim decoded music/halls/boss.m4a to 1645714 sample frames",
+    "Trim decoded music/crypts/explore.ogg to 1818947 sample frames",
+    "Trim decoded music/crypts/explore.m4a to 1818947 sample frames",
+    "Trim decoded music/crypts/tension.ogg to 1818947 sample frames",
+    "Trim decoded music/crypts/tension.m4a to 1818947 sample frames",
+    "Trim decoded music/crypts/fight.ogg to 1818947 sample frames",
+    "Trim decoded music/crypts/fight.m4a to 1818947 sample frames",
+    "Trim decoded music/crypts/boss.ogg to 1818947 sample frames",
+    "Trim decoded music/crypts/boss.m4a to 1818947 sample frames",
+    "Trim decoded music/warrens/explore.ogg to 1382400 sample frames",
+    "Trim decoded music/warrens/tension.ogg to 1382400 sample frames",
+    "Trim decoded music/warrens/fight.ogg to 1382400 sample frames",
+    "Trim decoded music/warrens/boss.ogg to 1382400 sample frames",
+    "Trim decoded music/darkelf/explore.ogg to 1728000 sample frames",
+    "Trim decoded music/darkelf/explore.m4a to 1728000 sample frames",
+    "Trim decoded music/darkelf/tension.ogg to 1728000 sample frames",
+    "Trim decoded music/darkelf/tension.m4a to 1728000 sample frames",
+    "Trim decoded music/darkelf/fight.ogg to 1728000 sample frames",
+    "Trim decoded music/darkelf/fight.m4a to 1728000 sample frames",
+    "Trim decoded music/darkelf/boss.ogg to 1728000 sample frames",
+    "Trim decoded music/darkelf/boss.m4a to 1728000 sample frames",
+    "Trim decoded music/greyhold/explore.ogg to 1570909 sample frames",
+    "Trim decoded music/greyhold/explore.m4a to 1570909 sample frames",
+    "Trim decoded music/greyhold/tension.ogg to 1570909 sample frames",
+    "Trim decoded music/greyhold/tension.m4a to 1570909 sample frames",
+    "Trim decoded music/greyhold/fight.ogg to 1570909 sample frames",
+    "Trim decoded music/greyhold/fight.m4a to 1570909 sample frames",
+    "Trim decoded music/greyhold/boss.ogg to 1570909 sample frames",
+    "Trim decoded music/greyhold/boss.m4a to 1570909 sample frames",
+    "Trim decoded music/marsh/explore.ogg to 1974857 sample frames",
+    "Trim decoded music/marsh/explore.m4a to 1974857 sample frames",
+    "Trim decoded music/marsh/tension.ogg to 1974857 sample frames",
+    "Trim decoded music/marsh/tension.m4a to 1974857 sample frames",
+    "Trim decoded music/marsh/fight.ogg to 1974857 sample frames",
+    "Trim decoded music/marsh/fight.m4a to 1974857 sample frames",
+    "Trim decoded music/marsh/boss.ogg to 1974857 sample frames",
+    "Trim decoded music/marsh/boss.m4a to 1974857 sample frames",
+    "Trim decoded music/sanctum/explore.ogg to 1920000 sample frames",
+    "Trim decoded music/sanctum/tension.ogg to 1920000 sample frames",
+    "Trim decoded music/sanctum/fight.ogg to 1920000 sample frames",
+    "Trim decoded music/sanctum/boss.ogg to 1920000 sample frames",
+    "Trim decoded ambience/halls.ogg to 1440000 sample frames",
+    "Trim decoded ambience/halls.m4a to 1440000 sample frames",
+    "Trim decoded ambience/crypts.ogg to 1440000 sample frames",
+    "Trim decoded ambience/crypts.m4a to 1440000 sample frames",
+    "Trim decoded ambience/warrens.ogg to 1440000 sample frames",
+    "Trim decoded ambience/warrens.m4a to 1440000 sample frames",
+    "Trim decoded ambience/sanctum.ogg to 1440000 sample frames",
+    "Trim decoded ambience/sanctum.m4a to 1440000 sample frames",
+    "Trim decoded ambience/darkelf.ogg to 1440000 sample frames",
+    "Trim decoded ambience/darkelf.m4a to 1440000 sample frames",
+    "Trim decoded ambience/greyhold.ogg to 1440000 sample frames",
+    "Trim decoded ambience/greyhold.m4a to 1440000 sample frames",
+    "Trim decoded ambience/marsh.ogg to 1440000 sample frames",
+    "Trim decoded ambience/marsh.m4a to 1440000 sample frames"
+  ],
+  "sizes": {
+    "ogg": {
+      "tier1Bytes": 3405691,
+      "allBytes": 8846041
+    },
+    "m4a": {
+      "tier1Bytes": 7089462,
+      "allBytes": 15872688
+    },
+    "mastersBytes": 29184241
+  },
+  "files": [
+    {
+      "file": "sfx/hit-blade-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1356776262315955,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/hit-blade-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -2.16057508329726,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/hit-blade-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1071743873140476,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/hit-blade-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.9869316581700445,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/hit-blade-3.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -0.9894942673215883,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/hit-blade-3.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.5962104734138747,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/hit-blunt-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0615787011647273,
+      "onsetSeconds": 0.0001875
+    },
+    {
+      "file": "sfx/hit-blunt-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0682745357584438,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hit-blunt-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -0.9657008645491216,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/hit-blunt-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0663245384151994,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/hit-blunt-3.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0860337332140422,
+      "onsetSeconds": 0.0001875
+    },
+    {
+      "file": "sfx/hit-blunt-3.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1878640238131857,
+      "onsetSeconds": 0.00020833333333333335
+    },
+    {
+      "file": "sfx/hit-pierce-1.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.924874801718921,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/hit-pierce-1.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.3250136610604852,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hit-pierce-2.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.956704223969499,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hit-pierce-2.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.2522186176519445,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/hit-pierce-3.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.0238704904182905,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/hit-pierce-3.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9272535455225661,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hit-fist-1.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9870241758980878,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hit-fist-1.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.0972787303357157,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/hit-fist-2.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.107815442849494,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/hit-fist-2.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.002283490542671,
+      "onsetSeconds": 0.00016666666666666666
+    },
+    {
+      "file": "sfx/crit-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.001877931705495,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/crit-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.079997792464491,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/crit-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.163873945937501,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/crit-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0201101712322105,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/swing-1.ogg",
+      "decodedSamples": 15840,
+      "canonicalSamples": 15840,
+      "peakDbFS": -0.9776189678663015,
+      "onsetSeconds": 0.0003125
+    },
+    {
+      "file": "sfx/swing-1.m4a",
+      "decodedSamples": 16384,
+      "canonicalSamples": 15840,
+      "peakDbFS": -1.537926767381068,
+      "onsetSeconds": 0.0003333333333333333
+    },
+    {
+      "file": "sfx/swing-2.ogg",
+      "decodedSamples": 15840,
+      "canonicalSamples": 15840,
+      "peakDbFS": -2.5392863756351374,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/swing-2.m4a",
+      "decodedSamples": 16384,
+      "canonicalSamples": 15840,
+      "peakDbFS": -1.346846349045503,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/swing-3.ogg",
+      "decodedSamples": 15840,
+      "canonicalSamples": 15840,
+      "peakDbFS": -1.5078844960023072,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/swing-3.m4a",
+      "decodedSamples": 16384,
+      "canonicalSamples": 15840,
+      "peakDbFS": -1.238613286361728,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/miss-1.ogg",
+      "decodedSamples": 22560,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.5171995870763593,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/miss-1.m4a",
+      "decodedSamples": 23552,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.322088210601437,
+      "onsetSeconds": 0.0003125
+    },
+    {
+      "file": "sfx/miss-2.ogg",
+      "decodedSamples": 22560,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.711295293632071,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/miss-2.m4a",
+      "decodedSamples": 23552,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.1268486903956008,
+      "onsetSeconds": 0.00025
+    },
+    {
+      "file": "sfx/miss-3.ogg",
+      "decodedSamples": 22560,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.176100481877985,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/miss-3.m4a",
+      "decodedSamples": 23552,
+      "canonicalSamples": 22560,
+      "peakDbFS": -1.0942234412339034,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/block-1.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.017220426725681,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/block-1.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0528895988750562,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/block-2.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.2377923542384517,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/block-2.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.8696252228989292,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/block-3.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.2149460697986323,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/block-3.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0495653638868663,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/glance-1.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0354843502381268,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/glance-1.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -0.9585337941575158,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/glance-2.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.187847996859729,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/glance-2.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.1029769369241613,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/hurt-1.ogg",
+      "decodedSamples": 26880,
+      "canonicalSamples": 26880,
+      "peakDbFS": -1.0216951653861335,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hurt-1.m4a",
+      "decodedSamples": 27648,
+      "canonicalSamples": 26880,
+      "peakDbFS": -1.694398325216289,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/hurt-2.ogg",
+      "decodedSamples": 26880,
+      "canonicalSamples": 26880,
+      "peakDbFS": -1.0939310074020563,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/hurt-2.m4a",
+      "decodedSamples": 27648,
+      "canonicalSamples": 26880,
+      "peakDbFS": -2.010227969922798,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/hurt-3.ogg",
+      "decodedSamples": 26880,
+      "canonicalSamples": 26880,
+      "peakDbFS": -0.9990668488220988,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/hurt-3.m4a",
+      "decodedSamples": 27648,
+      "canonicalSamples": 26880,
+      "peakDbFS": -1.4477569809234738,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/bow-shoot-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1887514883166665,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/bow-shoot-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.3146192767017486,
+      "onsetSeconds": 0.000375
+    },
+    {
+      "file": "sfx/bow-shoot-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -2.5622027259467024,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/bow-shoot-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.148287577701617,
+      "onsetSeconds": 0.000375
+    },
+    {
+      "file": "sfx/arrow-hit-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1152380758928404,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/arrow-hit-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -0.9792993782902804,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/arrow-hit-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1171025269553854,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/arrow-hit-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.112678419147688,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/door-open-1.ogg",
+      "decodedSamples": 50528,
+      "canonicalSamples": 50400,
+      "peakDbFS": -1.1946716228547651,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/door-open-1.m4a",
+      "decodedSamples": 51200,
+      "canonicalSamples": 50400,
+      "peakDbFS": -1.1814016243424361,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/door-open-2.ogg",
+      "decodedSamples": 50528,
+      "canonicalSamples": 50400,
+      "peakDbFS": -1.1658388641712363,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/door-open-2.m4a",
+      "decodedSamples": 51200,
+      "canonicalSamples": 50400,
+      "peakDbFS": -1.113504089412782,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/door-close-1.ogg",
+      "decodedSamples": 40800,
+      "canonicalSamples": 40800,
+      "peakDbFS": -0.958058589117522,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/door-close-1.m4a",
+      "decodedSamples": 40960,
+      "canonicalSamples": 40800,
+      "peakDbFS": -1.2425016777879425,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-locked-1.ogg",
+      "decodedSamples": 30240,
+      "canonicalSamples": 30240,
+      "peakDbFS": -1.0515548436757884,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/door-locked-1.m4a",
+      "decodedSamples": 30720,
+      "canonicalSamples": 30240,
+      "peakDbFS": -1.0086552249805634,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-locked-2.ogg",
+      "decodedSamples": 30240,
+      "canonicalSamples": 30240,
+      "peakDbFS": -1.3102084222440475,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/door-locked-2.m4a",
+      "decodedSamples": 30720,
+      "canonicalSamples": 30240,
+      "peakDbFS": -1.031166319434391,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-unlock-1.ogg",
+      "decodedSamples": 31200,
+      "canonicalSamples": 31200,
+      "peakDbFS": -1.1264979829036408,
+      "onsetSeconds": 0.00016666666666666666
+    },
+    {
+      "file": "sfx/door-unlock-1.m4a",
+      "decodedSamples": 31744,
+      "canonicalSamples": 31200,
+      "peakDbFS": -1.0355350947582396,
+      "onsetSeconds": 0.00016666666666666666
+    },
+    {
+      "file": "sfx/door-batter-1.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.1125648441330092,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/door-batter-1.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -2.094457473250152,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/door-batter-2.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.1056830870437853,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/door-batter-2.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.0774033690925067,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/door-batter-3.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.1733474177667145,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-batter-3.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.3130774811273955,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-splinter-1.ogg",
+      "decodedSamples": 64928,
+      "canonicalSamples": 64800,
+      "peakDbFS": -1.0857984805289682,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/door-splinter-1.m4a",
+      "decodedSamples": 65536,
+      "canonicalSamples": 64800,
+      "peakDbFS": -1.0197806312512663,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/secret-1.ogg",
+      "decodedSamples": 76928,
+      "canonicalSamples": 76800,
+      "peakDbFS": -1.0918091017925902,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/secret-1.m4a",
+      "decodedSamples": 76800,
+      "canonicalSamples": 76800,
+      "peakDbFS": -1.1303258813456911,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/stairs-1.ogg",
+      "decodedSamples": 81728,
+      "canonicalSamples": 81600,
+      "peakDbFS": -1.0321883413141095,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/stairs-1.m4a",
+      "decodedSamples": 81920,
+      "canonicalSamples": 81600,
+      "peakDbFS": -1.0149600639671166,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/trap-1.ogg",
+      "decodedSamples": 35040,
+      "canonicalSamples": 35040,
+      "peakDbFS": -1.0948470980757745,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/trap-1.m4a",
+      "decodedSamples": 35840,
+      "canonicalSamples": 35040,
+      "peakDbFS": -1.1241159044215885,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/trap-2.ogg",
+      "decodedSamples": 35040,
+      "canonicalSamples": 35040,
+      "peakDbFS": -1.712579009891249,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/trap-2.m4a",
+      "decodedSamples": 35840,
+      "canonicalSamples": 35040,
+      "peakDbFS": -1.6126206110855468,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/collapse-1.ogg",
+      "decodedSamples": 120128,
+      "canonicalSamples": 120000,
+      "peakDbFS": -0.9499205478095036,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/collapse-1.m4a",
+      "decodedSamples": 120832,
+      "canonicalSamples": 120000,
+      "peakDbFS": -0.9223809881247684,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/fountain-1.ogg",
+      "decodedSamples": 64928,
+      "canonicalSamples": 64800,
+      "peakDbFS": -1.2673122326516617,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/fountain-1.m4a",
+      "decodedSamples": 65536,
+      "canonicalSamples": 64800,
+      "peakDbFS": -0.9475979477202914,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/step-stone-1.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.0168712076550366,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-stone-1.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9442115987924271,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-stone-2.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.0540532940753407,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/step-stone-2.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.2336816962807682,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-stone-3.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.1076537041921544,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/step-stone-3.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9987084851662648,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/step-stone-4.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9510572428092934,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-stone-4.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.003829203560205,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/step-stone-5.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9333577441461203,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/step-stone-5.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9420243936432107,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/step-stone-6.ogg",
+      "decodedSamples": 13440,
+      "canonicalSamples": 13440,
+      "peakDbFS": -1.3842478311798903,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-stone-6.m4a",
+      "decodedSamples": 14336,
+      "canonicalSamples": 13440,
+      "peakDbFS": -0.9584667320166739,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/step-water-1.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0988208788806357,
+      "onsetSeconds": 0.00010416666666666667
+    },
+    {
+      "file": "sfx/step-water-1.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -2.4918635129014333,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-water-2.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0126264085278263,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-water-2.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.2493905110340826,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/step-water-3.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.0702706483808109,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-water-3.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.250928217154361,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/step-water-4.ogg",
+      "decodedSamples": 22080,
+      "canonicalSamples": 22080,
+      "peakDbFS": -1.1886303841389343,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/step-water-4.m4a",
+      "decodedSamples": 22528,
+      "canonicalSamples": 22080,
+      "peakDbFS": -0.981585258311911,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/bump-1.ogg",
+      "decodedSamples": 14016,
+      "canonicalSamples": 12960,
+      "peakDbFS": -1.025004671088308,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/bump-1.m4a",
+      "decodedSamples": 13312,
+      "canonicalSamples": 12960,
+      "peakDbFS": -1.0164963948078927,
+      "onsetSeconds": 0.00014583333333333335
+    },
+    {
+      "file": "sfx/bump-2.ogg",
+      "decodedSamples": 14016,
+      "canonicalSamples": 12960,
+      "peakDbFS": -0.983901890402523,
+      "onsetSeconds": 0.00020833333333333335
+    },
+    {
+      "file": "sfx/bump-2.m4a",
+      "decodedSamples": 13312,
+      "canonicalSamples": 12960,
+      "peakDbFS": -1.0622860234312268,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/pickup-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.9870644203822516,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/pickup-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1155100359284469,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/pickup-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.3318729173300083,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/pickup-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.0251031251892233,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/gold-1.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.5688125605590937,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/gold-1.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.0762136871355439,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/gold-2.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.0964616494512152,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/gold-2.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -0.9910585964060159,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/gold-3.ogg",
+      "decodedSamples": 26400,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.4798688675935368,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/gold-3.m4a",
+      "decodedSamples": 26624,
+      "canonicalSamples": 26400,
+      "peakDbFS": -1.0032916593787629,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/drink-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.2183919985146543,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/drink-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.2109265547737633,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/drink-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.2873866731555834,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/drink-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9604504871273428,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/eat-1.ogg",
+      "decodedSamples": 34560,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.864689825336051,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/eat-1.m4a",
+      "decodedSamples": 34816,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.131784853066868,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/eat-2.ogg",
+      "decodedSamples": 34560,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.1545000835321102,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/eat-2.m4a",
+      "decodedSamples": 34816,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.112695484951808,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/read-1.ogg",
+      "decodedSamples": 34560,
+      "canonicalSamples": 34560,
+      "peakDbFS": -2.7813052498071364,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/read-1.m4a",
+      "decodedSamples": 34816,
+      "canonicalSamples": 34560,
+      "peakDbFS": -2.242506995287071,
+      "onsetSeconds": 0.0004166666666666667
+    },
+    {
+      "file": "sfx/read-2.ogg",
+      "decodedSamples": 34560,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.3049063189872403,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/read-2.m4a",
+      "decodedSamples": 34816,
+      "canonicalSamples": 34560,
+      "peakDbFS": -1.2077108536004113,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/rest-1.ogg",
+      "decodedSamples": 64928,
+      "canonicalSamples": 64800,
+      "peakDbFS": -1.9003983943173974,
+      "onsetSeconds": 0.0004583333333333333
+    },
+    {
+      "file": "sfx/rest-1.m4a",
+      "decodedSamples": 65536,
+      "canonicalSamples": 64800,
+      "peakDbFS": -1.1263801012121895,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/ui-tap-1.ogg",
+      "decodedSamples": 4080,
+      "canonicalSamples": 4080,
+      "peakDbFS": -1.1807847703071632,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/ui-tap-1.m4a",
+      "decodedSamples": 4096,
+      "canonicalSamples": 4080,
+      "peakDbFS": -1.0622731518746125,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/ui-tap-2.ogg",
+      "decodedSamples": 4080,
+      "canonicalSamples": 4080,
+      "peakDbFS": -1.4100085437530105,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/ui-tap-2.m4a",
+      "decodedSamples": 4096,
+      "canonicalSamples": 4080,
+      "peakDbFS": -1.751724329155413,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/ui-page-1.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.627993944526921,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/ui-page-1.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.1085512447204253,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/ui-page-2.ogg",
+      "decodedSamples": 17280,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.9845370803980238,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/ui-page-2.m4a",
+      "decodedSamples": 17408,
+      "canonicalSamples": 17280,
+      "peakDbFS": -1.812126219272575,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/ui-error-1.ogg",
+      "decodedSamples": 12480,
+      "canonicalSamples": 12480,
+      "peakDbFS": -0.9439541840508949,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/ui-error-1.m4a",
+      "decodedSamples": 13312,
+      "canonicalSamples": 12480,
+      "peakDbFS": -1.2399358965710836,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-growl-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.1981208074914886,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-growl-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.1776602472583217,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-growl-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.48648109623875,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-growl-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0533098203926567,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-roar-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.492746691342629,
+      "onsetSeconds": 0.0004583333333333333
+    },
+    {
+      "file": "sfx/voice-roar-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.07025483694489,
+      "onsetSeconds": 0.0004375
+    },
+    {
+      "file": "sfx/voice-roar-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.2430237661106827,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-roar-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.2558468780723913,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/voice-shriek-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9759417788983291,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-shriek-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.3283979697400228,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-shriek-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0848358295659772,
+      "onsetSeconds": 0.0014791666666666666
+    },
+    {
+      "file": "sfx/voice-shriek-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.163326405558198,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-chant-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9468837373486347,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-chant-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.029377924744688,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/voice-chant-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9792987987823741,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-chant-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.062696168017794,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-squelch-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.2785060235987313,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/voice-squelch-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9941962270694509,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/voice-squelch-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0454172598476257,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/voice-squelch-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0140628327882024,
+      "onsetSeconds": 0.00022916666666666666
+    },
+    {
+      "file": "sfx/voice-rasp-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.179829326161629,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/voice-rasp-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.3308041580497307,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/voice-rasp-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0463358397958802,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/voice-rasp-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.2096208508205724,
+      "onsetSeconds": 0.00016666666666666666
+    },
+    {
+      "file": "sfx/voice-hiss-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -2.1101989323826142,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/voice-hiss-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.5892369476935002,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/voice-hiss-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.4747180484552735,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/voice-hiss-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.6193241090602704,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-chitter-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -2.2625705077026033,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-chitter-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.1776199305257253,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-chitter-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.116799901754513,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/voice-chitter-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0910606284471176,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-grunt-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.318823264389428,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-grunt-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9167735309043481,
+      "onsetSeconds": 0.0004583333333333333
+    },
+    {
+      "file": "sfx/voice-bark-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.1352581209766552,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-bark-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0810847966223203,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-bark-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.525511307767884,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-bark-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0281417693413675,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/voice-rattle-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0254346149520308,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/voice-rattle-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0207984028203807,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/voice-rattle-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.7501042334730263,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/voice-rattle-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.3048305121501336,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/voice-howl-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0730837852107955,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-howl-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0400718027911378,
+      "onsetSeconds": 0.0004583333333333333
+    },
+    {
+      "file": "sfx/voice-howl-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9870833385006901,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-howl-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9670467955999842,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-moan-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.3052312129259458,
+      "onsetSeconds": 0.000375
+    },
+    {
+      "file": "sfx/voice-moan-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.014611517630124,
+      "onsetSeconds": 0.0003541666666666667
+    },
+    {
+      "file": "sfx/voice-moan-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9420670936965907,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-moan-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0596968842810068,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/voice-lament-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.1011707584467183,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-lament-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9418535955288054,
+      "onsetSeconds": 0.0034583333333333332
+    },
+    {
+      "file": "sfx/voice-lament-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.098312673969933,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-lament-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9174789402235699,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-wail-1.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9603273203836383,
+      "onsetSeconds": 0.0006458333333333333
+    },
+    {
+      "file": "sfx/voice-wail-1.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9974575227563218,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/voice-wail-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.0883613768377207,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/voice-wail-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -0.9351166738308656,
+      "onsetSeconds": 0.0019375
+    },
+    {
+      "file": "sfx/death-blood-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.950835436981688,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/death-blood-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1795292517990101,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-blood-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0404680604614134,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-blood-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0316053135288963,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/death-rot-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9646426671140438,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/death-rot-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -2.4389293772142864,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/death-rot-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9538799855712554,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/death-rot-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0422464820760151,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/death-bone-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9317507477894953,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/death-bone-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -4.753818591522067,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-bone-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.2140071036543063,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/death-bone-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9957486299317035,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-goo-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.3101741076528022,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/death-goo-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.255827733915065,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/death-goo-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1344091420968299,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-goo-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.6505394126614323,
+      "onsetSeconds": 0.000125
+    },
+    {
+      "file": "sfx/death-ichor-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9360945875530939,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/death-ichor-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0140564326393051,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/death-ichor-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9247233444528559,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-ichor-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.029192577645432,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-ecto-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1163589356586003,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/death-ecto-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0406734912878473,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/death-ecto-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.851357291335943,
+      "onsetSeconds": 0.00025
+    },
+    {
+      "file": "sfx/death-ecto-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.7828408518123768,
+      "onsetSeconds": 0.0003541666666666667
+    },
+    {
+      "file": "sfx/death-spore-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.4099835760798394,
+      "onsetSeconds": 0.0004166666666666667
+    },
+    {
+      "file": "sfx/death-spore-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1876099704024055,
+      "onsetSeconds": 0.0004583333333333333
+    },
+    {
+      "file": "sfx/death-spore-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.162653422128174,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/death-spore-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1477185664533156,
+      "onsetSeconds": 0.0005208333333333333
+    },
+    {
+      "file": "sfx/death-rust-1.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.271718732972154,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/death-rust-1.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.1065433761006018,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/death-rust-2.ogg",
+      "decodedSamples": 43200,
+      "canonicalSamples": 43200,
+      "peakDbFS": -0.9791342201016959,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/death-rust-2.m4a",
+      "decodedSamples": 44032,
+      "canonicalSamples": 43200,
+      "peakDbFS": -1.0572956299148761,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-drip-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9958653326084961,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/far-drip-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.8558709924897592,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/far-drip-2.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.317138533175447,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/far-drip-2.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.4786694168246497,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-drip-3.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.0330985259192424,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-drip-3.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9296335171583286,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-chain-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9159651999624159,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/far-chain-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.1732976394939052,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/far-chain-2.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9998126643522575,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/far-chain-2.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.0184224296882898,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "sfx/far-rumble-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.6351286589645577,
+      "onsetSeconds": 0.0003958333333333333
+    },
+    {
+      "file": "sfx/far-rumble-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.0915255548895582,
+      "onsetSeconds": 0.0005625
+    },
+    {
+      "file": "sfx/far-rumble-2.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9703424874901527,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/far-rumble-2.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.925397147987656,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/far-wind-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.3282031145577977,
+      "onsetSeconds": 0.0013541666666666667
+    },
+    {
+      "file": "sfx/far-wind-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9792860496182181,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/far-wind-2.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.3317105733165775,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/far-wind-2.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.1551996381834848,
+      "onsetSeconds": 0.00047916666666666664
+    },
+    {
+      "file": "sfx/far-creak-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.1403065094514877,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/far-creak-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9227488828117458,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-creak-2.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.2904398053771684,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-creak-2.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -4.422027152723541,
+      "onsetSeconds": 4.1666666666666665e-05
+    },
+    {
+      "file": "sfx/far-bones-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.243366067592197,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-bones-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -2.620810249094045,
+      "onsetSeconds": 2.0833333333333333e-05
+    },
+    {
+      "file": "sfx/far-moan-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -0.9523211820255867,
+      "onsetSeconds": 0.0005
+    },
+    {
+      "file": "sfx/far-moan-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.139407452583048,
+      "onsetSeconds": 0.0002916666666666667
+    },
+    {
+      "file": "sfx/far-clatter-1.ogg",
+      "decodedSamples": 86528,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.3526617084309676,
+      "onsetSeconds": 6.25e-05
+    },
+    {
+      "file": "sfx/far-clatter-1.m4a",
+      "decodedSamples": 87040,
+      "canonicalSamples": 86400,
+      "peakDbFS": -1.0684642316348845,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "stingers/level-up.ogg",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -10.69751740079495
+    },
+    {
+      "file": "stingers/level-up.m4a",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -10.857608459611626
+    },
+    {
+      "file": "stingers/death.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -14.451320744566482
+    },
+    {
+      "file": "stingers/death.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -14.200748532658727
+    },
+    {
+      "file": "stingers/victory.ogg",
+      "decodedSamples": 384128,
+      "canonicalSamples": 384000,
+      "peakDbFS": -8.491781280878145
+    },
+    {
+      "file": "stingers/victory.m4a",
+      "decodedSamples": 384000,
+      "canonicalSamples": 384000,
+      "peakDbFS": -8.397794427617214
+    },
+    {
+      "file": "stingers/champion.ogg",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -9.103268468197069
+    },
+    {
+      "file": "stingers/champion.m4a",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -9.27968792009866
+    },
+    {
+      "file": "stingers/boss-fall.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -14.364942648071754
+    },
+    {
+      "file": "stingers/boss-fall.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -14.492317281185748
+    },
+    {
+      "file": "stingers/floor.ogg",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -12.566973843533102
+    },
+    {
+      "file": "stingers/floor.m4a",
+      "decodedSamples": 124928,
+      "canonicalSamples": 124800,
+      "peakDbFS": -11.171056308296166
+    },
+    {
+      "file": "music/halls/explore.ogg",
+      "decodedSamples": 1645842,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -10.387753291135933,
+      "loopSeamJump": 0.0024773855693638325
+    },
+    {
+      "file": "music/halls/explore.m4a",
+      "decodedSamples": 1646592,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -10.413263146933538,
+      "loopSeamJump": 0.0009509582887403667
+    },
+    {
+      "file": "music/halls/tension.ogg",
+      "decodedSamples": 1645842,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -17.994606654222906,
+      "loopSeamJump": 9.102242620429024e-05
+    },
+    {
+      "file": "music/halls/tension.m4a",
+      "decodedSamples": 1646592,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -18.231823641807097,
+      "loopSeamJump": 1.1823127351817675e-05
+    },
+    {
+      "file": "music/halls/fight.ogg",
+      "decodedSamples": 1645842,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -6.912241097130951,
+      "loopSeamJump": 0.008205529302358627
+    },
+    {
+      "file": "music/halls/fight.m4a",
+      "decodedSamples": 1646592,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -6.621012647339914,
+      "loopSeamJump": 0.0004319045692682266
+    },
+    {
+      "file": "music/halls/boss.ogg",
+      "decodedSamples": 1645842,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -9.779944639267615,
+      "loopSeamJump": 0.0030980200972408056
+    },
+    {
+      "file": "music/halls/boss.m4a",
+      "decodedSamples": 1646592,
+      "canonicalSamples": 1645714,
+      "peakDbFS": -10.030149281514722,
+      "loopSeamJump": 0.0013593563344329596
+    },
+    {
+      "file": "music/halls/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -12.642326027557743
+    },
+    {
+      "file": "music/halls/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -12.697340895215474
+    },
+    {
+      "file": "music/crypts/explore.ogg",
+      "decodedSamples": 1819075,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -10.404608024862165,
+      "loopSeamJump": 0.0009724395349621773
+    },
+    {
+      "file": "music/crypts/explore.m4a",
+      "decodedSamples": 1819648,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -9.497039192569535,
+      "loopSeamJump": 0.0011703260242938995
+    },
+    {
+      "file": "music/crypts/tension.ogg",
+      "decodedSamples": 1819075,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -17.098830737937924,
+      "loopSeamJump": 4.649812035495415e-05
+    },
+    {
+      "file": "music/crypts/tension.m4a",
+      "decodedSamples": 1819648,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -17.40266647146575,
+      "loopSeamJump": 1.3756382941210177e-05
+    },
+    {
+      "file": "music/crypts/fight.ogg",
+      "decodedSamples": 1819075,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -5.403168839229422,
+      "loopSeamJump": 0.004043180495500565
+    },
+    {
+      "file": "music/crypts/fight.m4a",
+      "decodedSamples": 1819648,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -5.339607549600079,
+      "loopSeamJump": 0.006810866296291351
+    },
+    {
+      "file": "music/crypts/boss.ogg",
+      "decodedSamples": 1819075,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -7.893394923072908,
+      "loopSeamJump": 0.0023924526758491993
+    },
+    {
+      "file": "music/crypts/boss.m4a",
+      "decodedSamples": 1819648,
+      "canonicalSamples": 1818947,
+      "peakDbFS": -8.092860530676642,
+      "loopSeamJump": 0.0029983490239828825
+    },
+    {
+      "file": "music/crypts/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.601533986990205
+    },
+    {
+      "file": "music/crypts/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.712338112150114
+    },
+    {
+      "file": "music/warrens/explore.ogg",
+      "decodedSamples": 1382528,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -10.841012838312656,
+      "loopSeamJump": 0.001260537770576775
+    },
+    {
+      "file": "music/warrens/explore.m4a",
+      "decodedSamples": 1382400,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -10.813947542531466,
+      "loopSeamJump": 0.0006511704996228218
+    },
+    {
+      "file": "music/warrens/tension.ogg",
+      "decodedSamples": 1382528,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -18.505418385896554,
+      "loopSeamJump": 6.821581337135285e-05
+    },
+    {
+      "file": "music/warrens/tension.m4a",
+      "decodedSamples": 1382400,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -18.666075660114632,
+      "loopSeamJump": 3.366442979313433e-05
+    },
+    {
+      "file": "music/warrens/fight.ogg",
+      "decodedSamples": 1382528,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -7.001671607610601,
+      "loopSeamJump": 0.004545634612441063
+    },
+    {
+      "file": "music/warrens/fight.m4a",
+      "decodedSamples": 1382400,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -6.805620637883689,
+      "loopSeamJump": 0.0019495997112244368
+    },
+    {
+      "file": "music/warrens/boss.ogg",
+      "decodedSamples": 1382528,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -9.83924972699671,
+      "loopSeamJump": 0.0011443480616435409
+    },
+    {
+      "file": "music/warrens/boss.m4a",
+      "decodedSamples": 1382400,
+      "canonicalSamples": 1382400,
+      "peakDbFS": -9.843353754937416,
+      "loopSeamJump": 0.0024265360552817583
+    },
+    {
+      "file": "music/warrens/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -12.73716993882237
+    },
+    {
+      "file": "music/warrens/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -12.963356285677756
+    },
+    {
+      "file": "music/darkelf/explore.ogg",
+      "decodedSamples": 1728128,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -10.707671890614353,
+      "loopSeamJump": 0.0011325838277116418
+    },
+    {
+      "file": "music/darkelf/explore.m4a",
+      "decodedSamples": 1728512,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -10.794901456336884,
+      "loopSeamJump": 0.000632690149359405
+    },
+    {
+      "file": "music/darkelf/tension.ogg",
+      "decodedSamples": 1728128,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -17.22560610000489,
+      "loopSeamJump": 7.480854401364923e-05
+    },
+    {
+      "file": "music/darkelf/tension.m4a",
+      "decodedSamples": 1728512,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -17.45525477223098,
+      "loopSeamJump": 0.00012168681132607162
+    },
+    {
+      "file": "music/darkelf/fight.ogg",
+      "decodedSamples": 1728128,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -6.003731404290111,
+      "loopSeamJump": 0.003751976415514946
+    },
+    {
+      "file": "music/darkelf/fight.m4a",
+      "decodedSamples": 1728512,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -5.987626905149086,
+      "loopSeamJump": 0.004481297917664051
+    },
+    {
+      "file": "music/darkelf/boss.ogg",
+      "decodedSamples": 1728128,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -8.507396669378682,
+      "loopSeamJump": 0.0016859376337379217
+    },
+    {
+      "file": "music/darkelf/boss.m4a",
+      "decodedSamples": 1728512,
+      "canonicalSamples": 1728000,
+      "peakDbFS": -8.522765333577984,
+      "loopSeamJump": 0.0035524703562259674
+    },
+    {
+      "file": "music/darkelf/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.60019451597158
+    },
+    {
+      "file": "music/darkelf/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.82227176959603
+    },
+    {
+      "file": "music/greyhold/explore.ogg",
+      "decodedSamples": 1571037,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -9.501446059264731,
+      "loopSeamJump": 0.002996464492753148
+    },
+    {
+      "file": "music/greyhold/explore.m4a",
+      "decodedSamples": 1571840,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -9.552632750177448,
+      "loopSeamJump": 0.0015985737554728985
+    },
+    {
+      "file": "music/greyhold/tension.ogg",
+      "decodedSamples": 1571037,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -17.471623584178637,
+      "loopSeamJump": 5.220125603955239e-05
+    },
+    {
+      "file": "music/greyhold/tension.m4a",
+      "decodedSamples": 1571840,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -17.75443861123468,
+      "loopSeamJump": 1.4544966688845307e-05
+    },
+    {
+      "file": "music/greyhold/fight.ogg",
+      "decodedSamples": 1571037,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -6.33180572105821,
+      "loopSeamJump": 0.00987865962088108
+    },
+    {
+      "file": "music/greyhold/fight.m4a",
+      "decodedSamples": 1571840,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -6.341165933966975,
+      "loopSeamJump": 0.00393992755562067
+    },
+    {
+      "file": "music/greyhold/boss.ogg",
+      "decodedSamples": 1571037,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -9.571443536489406,
+      "loopSeamJump": 0.001766063505783677
+    },
+    {
+      "file": "music/greyhold/boss.m4a",
+      "decodedSamples": 1571840,
+      "canonicalSamples": 1570909,
+      "peakDbFS": -9.658454690497004,
+      "loopSeamJump": 0.0006323715788312256
+    },
+    {
+      "file": "music/greyhold/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.254941989834295
+    },
+    {
+      "file": "music/greyhold/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.005119938659801
+    },
+    {
+      "file": "music/marsh/explore.ogg",
+      "decodedSamples": 1974985,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -11.624380111358192,
+      "loopSeamJump": 0.003562847152352333
+    },
+    {
+      "file": "music/marsh/explore.m4a",
+      "decodedSamples": 1975296,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -11.735041106454469,
+      "loopSeamJump": 0.0010020738700404763
+    },
+    {
+      "file": "music/marsh/tension.ogg",
+      "decodedSamples": 1974985,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -17.864096765579845,
+      "loopSeamJump": 6.421384023269638e-05
+    },
+    {
+      "file": "music/marsh/tension.m4a",
+      "decodedSamples": 1975296,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -17.919438203010763,
+      "loopSeamJump": 5.8581834309734404e-05
+    },
+    {
+      "file": "music/marsh/fight.ogg",
+      "decodedSamples": 1974985,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -7.964709879098059,
+      "loopSeamJump": 0.004932726733386517
+    },
+    {
+      "file": "music/marsh/fight.m4a",
+      "decodedSamples": 1975296,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -8.024297780554207,
+      "loopSeamJump": 0.0015990529209375381
+    },
+    {
+      "file": "music/marsh/boss.ogg",
+      "decodedSamples": 1974985,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -8.703796148189495,
+      "loopSeamJump": 0.0024824165739119053
+    },
+    {
+      "file": "music/marsh/boss.m4a",
+      "decodedSamples": 1975296,
+      "canonicalSamples": 1974857,
+      "peakDbFS": -8.836863865597223,
+      "loopSeamJump": 0.0010370631935074925
+    },
+    {
+      "file": "music/marsh/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.839384207444773
+    },
+    {
+      "file": "music/marsh/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.852784550303237
+    },
+    {
+      "file": "music/title.ogg",
+      "decodedSamples": 1824128,
+      "canonicalSamples": 1824000,
+      "peakDbFS": -12.660681596597643
+    },
+    {
+      "file": "music/title.m4a",
+      "decodedSamples": 1824768,
+      "canonicalSamples": 1824000,
+      "peakDbFS": -12.847691745259946
+    },
+    {
+      "file": "sfx/voice-grunt-2.ogg",
+      "decodedSamples": 60128,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.5030660387281747,
+      "onsetSeconds": 0.0
+    },
+    {
+      "file": "sfx/voice-grunt-2.m4a",
+      "decodedSamples": 60416,
+      "canonicalSamples": 60000,
+      "peakDbFS": -1.171107085418221,
+      "onsetSeconds": 8.333333333333333e-05
+    },
+    {
+      "file": "music/sanctum/explore.ogg",
+      "decodedSamples": 1920128,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -10.084479173616023,
+      "loopSeamJump": 0.0013210164615884423
+    },
+    {
+      "file": "music/sanctum/explore.m4a",
+      "decodedSamples": 1920000,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -10.020267322062395,
+      "loopSeamJump": 0.0009146791999228299
+    },
+    {
+      "file": "music/sanctum/tension.ogg",
+      "decodedSamples": 1920128,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -16.90160798170271,
+      "loopSeamJump": 5.081992276245728e-05
+    },
+    {
+      "file": "music/sanctum/tension.m4a",
+      "decodedSamples": 1920000,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -17.207754889070586,
+      "loopSeamJump": 7.095112232491374e-05
+    },
+    {
+      "file": "music/sanctum/fight.ogg",
+      "decodedSamples": 1920128,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -6.148742620199767,
+      "loopSeamJump": 0.0041210344061255455
+    },
+    {
+      "file": "music/sanctum/fight.m4a",
+      "decodedSamples": 1920000,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -5.961874138127156,
+      "loopSeamJump": 0.0036428263410925865
+    },
+    {
+      "file": "music/sanctum/boss.ogg",
+      "decodedSamples": 1920128,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -8.382192567608705,
+      "loopSeamJump": 0.0011976539390161633
+    },
+    {
+      "file": "music/sanctum/boss.m4a",
+      "decodedSamples": 1920000,
+      "canonicalSamples": 1920000,
+      "peakDbFS": -8.59623957402919,
+      "loopSeamJump": 0.0019236603984609246
+    },
+    {
+      "file": "music/sanctum/resolve.ogg",
+      "decodedSamples": 192128,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.788066041027566
+    },
+    {
+      "file": "music/sanctum/resolve.m4a",
+      "decodedSamples": 192512,
+      "canonicalSamples": 192000,
+      "peakDbFS": -13.860514104400805
+    },
+    {
+      "file": "ambience/halls.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -42.33269701033901,
+      "loopSeamJump": 5.06213036715053e-05
+    },
+    {
+      "file": "ambience/halls.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -42.228735731755364,
+      "loopSeamJump": 5.650016100844368e-05
+    },
+    {
+      "file": "ambience/crypts.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -40.495648600614594,
+      "loopSeamJump": 4.935956894769333e-05
+    },
+    {
+      "file": "ambience/crypts.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -40.368268538573076,
+      "loopSeamJump": 4.470608109841123e-05
+    },
+    {
+      "file": "ambience/warrens.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -38.09362055746913,
+      "loopSeamJump": 8.883089321898296e-05
+    },
+    {
+      "file": "ambience/warrens.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -38.01326016319447,
+      "loopSeamJump": 8.453935151919723e-05
+    },
+    {
+      "file": "ambience/sanctum.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -43.38911285545541,
+      "loopSeamJump": 0.000328934722347185
+    },
+    {
+      "file": "ambience/sanctum.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -43.42760491438418,
+      "loopSeamJump": 0.00032275987905450165
+    },
+    {
+      "file": "ambience/darkelf.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -41.11416139347181,
+      "loopSeamJump": 0.00020423129899427295
+    },
+    {
+      "file": "ambience/darkelf.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -41.141957174839035,
+      "loopSeamJump": 0.0002613835677038878
+    },
+    {
+      "file": "ambience/greyhold.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -34.8994115429513,
+      "loopSeamJump": 4.968333087163046e-06
+    },
+    {
+      "file": "ambience/greyhold.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -35.0790982398357,
+      "loopSeamJump": 4.6069359086686745e-05
+    },
+    {
+      "file": "ambience/marsh.ogg",
+      "decodedSamples": 1440128,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -36.07521178046526,
+      "loopSeamJump": 0.00023180853168014437
+    },
+    {
+      "file": "ambience/marsh.m4a",
+      "decodedSamples": 1440768,
+      "canonicalSamples": 1440000,
+      "peakDbFS": -36.33826231422954,
+      "loopSeamJump": 0.00026822261861525476
+    }
+  ],
+  "mixes": [
+    {
+      "integratedLufs": -21.43,
+      "truePeakDbTP": -10.38,
+      "theme": "halls",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -23.02,
+      "truePeakDbTP": -9.53,
+      "theme": "halls",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.58,
+      "truePeakDbTP": -4.51,
+      "theme": "halls",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -19.47,
+      "truePeakDbTP": -1.38,
+      "theme": "halls",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.49,
+      "truePeakDbTP": -10.41,
+      "theme": "halls",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -23.07,
+      "truePeakDbTP": -9.5,
+      "theme": "halls",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.61,
+      "truePeakDbTP": -4.56,
+      "theme": "halls",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -19.49,
+      "truePeakDbTP": -1.33,
+      "theme": "halls",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.76,
+      "truePeakDbTP": -10.4,
+      "theme": "crypts",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.13,
+      "truePeakDbTP": -8.41,
+      "theme": "crypts",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.66,
+      "truePeakDbTP": -3.63,
+      "theme": "crypts",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.67,
+      "truePeakDbTP": -1.31,
+      "theme": "crypts",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.79,
+      "truePeakDbTP": -9.49,
+      "theme": "crypts",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.18,
+      "truePeakDbTP": -8.61,
+      "theme": "crypts",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.72,
+      "truePeakDbTP": -3.63,
+      "theme": "crypts",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.71,
+      "truePeakDbTP": -1.41,
+      "theme": "crypts",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.12,
+      "truePeakDbTP": -10.84,
+      "theme": "warrens",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.71,
+      "truePeakDbTP": -9.55,
+      "theme": "warrens",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.32,
+      "truePeakDbTP": -4.43,
+      "theme": "warrens",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.74,
+      "truePeakDbTP": -1.5,
+      "theme": "warrens",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.19,
+      "truePeakDbTP": -10.81,
+      "theme": "warrens",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.78,
+      "truePeakDbTP": -9.63,
+      "theme": "warrens",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.37,
+      "truePeakDbTP": -4.42,
+      "theme": "warrens",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.77,
+      "truePeakDbTP": -1.43,
+      "theme": "warrens",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.59,
+      "truePeakDbTP": -10.08,
+      "theme": "sanctum",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.02,
+      "truePeakDbTP": -8.59,
+      "theme": "sanctum",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.71,
+      "truePeakDbTP": -3.87,
+      "theme": "sanctum",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.78,
+      "truePeakDbTP": -1.78,
+      "theme": "sanctum",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.63,
+      "truePeakDbTP": -10.02,
+      "theme": "sanctum",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.16,
+      "truePeakDbTP": -8.65,
+      "theme": "sanctum",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.77,
+      "truePeakDbTP": -3.85,
+      "theme": "sanctum",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.82,
+      "truePeakDbTP": -1.73,
+      "theme": "sanctum",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.95,
+      "truePeakDbTP": -10.71,
+      "theme": "darkelf",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.41,
+      "truePeakDbTP": -8.8,
+      "theme": "darkelf",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.91,
+      "truePeakDbTP": -4.06,
+      "theme": "darkelf",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.82,
+      "truePeakDbTP": -1.34,
+      "theme": "darkelf",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.01,
+      "truePeakDbTP": -10.79,
+      "theme": "darkelf",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.47,
+      "truePeakDbTP": -8.86,
+      "theme": "darkelf",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.96,
+      "truePeakDbTP": -3.8,
+      "theme": "darkelf",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.86,
+      "truePeakDbTP": -1.35,
+      "theme": "darkelf",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.79,
+      "truePeakDbTP": -9.49,
+      "theme": "greyhold",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.41,
+      "truePeakDbTP": -8.61,
+      "theme": "greyhold",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.86,
+      "truePeakDbTP": -4.32,
+      "theme": "greyhold",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.75,
+      "truePeakDbTP": -1.43,
+      "theme": "greyhold",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -20.85,
+      "truePeakDbTP": -9.55,
+      "theme": "greyhold",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.47,
+      "truePeakDbTP": -8.65,
+      "theme": "greyhold",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -19.92,
+      "truePeakDbTP": -4.21,
+      "theme": "greyhold",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -18.8,
+      "truePeakDbTP": -1.44,
+      "theme": "greyhold",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.53,
+      "truePeakDbTP": -11.62,
+      "theme": "marsh",
+      "format": "ogg",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.72,
+      "truePeakDbTP": -9.03,
+      "theme": "marsh",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.45,
+      "truePeakDbTP": -5.37,
+      "theme": "marsh",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -19.38,
+      "truePeakDbTP": -1.44,
+      "theme": "marsh",
+      "format": "ogg",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    },
+    {
+      "integratedLufs": -21.62,
+      "truePeakDbTP": -11.74,
+      "theme": "marsh",
+      "format": "m4a",
+      "stack": [
+        "explore"
+      ]
+    },
+    {
+      "integratedLufs": -22.78,
+      "truePeakDbTP": -9.06,
+      "theme": "marsh",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension"
+      ]
+    },
+    {
+      "integratedLufs": -20.51,
+      "truePeakDbTP": -5.36,
+      "theme": "marsh",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight"
+      ]
+    },
+    {
+      "integratedLufs": -19.43,
+      "truePeakDbTP": -1.41,
+      "theme": "marsh",
+      "format": "m4a",
+      "stack": [
+        "explore",
+        "tension",
+        "fight",
+        "boss"
+      ]
+    }
+  ],
+  "notVerified": [
+    "subjective sound quality",
+    "realism of synthetic voices",
+    "browser decoder priming",
+    "actual game playback",
+    "20-minute repetition tolerance",
+    "phone performance"
+  ]
+}
