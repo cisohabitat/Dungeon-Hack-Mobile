@@ -84,7 +84,7 @@ export function makeEndScreen(K) {
     if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
     // what was found: the rare gear, the relics and any legend, in the colours of their grades
     const finds = Game.runFinds();
-    if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${f.grade}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');
+    if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${f.grade}${f.grade === 'relic' ? ' relic' : ''}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');
     parts.push(`<div class="end-totals"><div><b>${s.dealt}</b><small>damage dealt</small></div><div><b>${s.taken}</b><small>damage taken</small></div><div><b>${s.healed}</b><small>healed</small></div></div>`);
     $('#end-summary').innerHTML = parts.join('');
   }
