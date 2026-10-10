@@ -984,7 +984,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
 // MONSTERS=many (or few) measures a density other than the default
 /** How many runs made each combination, over the whole bench (COMBOS=1 prints them). */
 const comboSeen = {};
-const opts = { levels: parseInt(process.env.LEVELS || '8', 10), size: process.env.SIZE || 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: process.env.DIFF || 'normal' };
+const opts = { levels: parseInt(process.env.LEVELS || '8', 10), size: process.env.SIZE || 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: (process.env.DIFF || 'normal').replace(/\+\d+$/, '') };
+// DIFF=hard+3: a rung of the ladder past Hard
+const rungAsked = Number(((process.env.DIFF || '').match(/^hard\+(\d+)$/) || [])[1]) || 0;
+if (rungAsked) opts.rung = rungAsked;
 // A fixed seed set so results are comparable between tuning passes. The dice are
 // seeded per run too, so the same command twice gives the same answer.
 // SEEDN / SEEDPFX pick a larger or different seed set (defaults: the 20 bench seeds)

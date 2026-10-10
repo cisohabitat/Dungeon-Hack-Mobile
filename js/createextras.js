@@ -3,7 +3,8 @@
 // first stair, once a veteran companion has seen a hero through. Each shows
 // as a choice once open, and as a locked line saying how to earn it before;
 // ui.js keeps the choice in its `create` and passes it into the run's options.
-import { CLASSES } from './data.js';
+// And, on Hard, the rungs of the ladder past it this class has opened.
+import { CLASSES, LADDER } from './data.js';
 import { Progress } from './progress.js';
 import { escapeHtml } from './uikit.js';
 
@@ -33,4 +34,26 @@ export function renderStart(el, create, changed) {
   for (const b of el.querySelectorAll('[data-kit]')) b.addEventListener('click', () => { create.kit = /** @type {HTMLElement} */ (b).dataset.kit || ''; changed(); });
   const box = /** @type {HTMLInputElement|null} */ (el.querySelector('#c-hound'));
   if (box) box.addEventListener('change', () => { create.hound = box.checked; });
+}
+
+/**
+ * On Hard, the rungs of the ladder past it this class may climb: Hard itself,
+ * then +1 and on to the highest opened, with every rule the chosen rung keeps,
+ * and how the next is opened. Hidden off Hard, or before a class has won there.
+ * @param {HTMLElement} el
+ * @param {{cls: string, difficulty: string, rung: number}} create
+ * @param {() => void} changed
+ */
+export function renderRung(el, create, changed) {
+  const open = create.difficulty === 'hard' ? Progress.rungOpen(create.cls) : 0, c = CLASSES[create.cls];
+  if (create.rung > open) create.rung = open;
+  el.hidden = !open;
+  if (!open) { el.innerHTML = ''; return; }
+  const rungs = Array.from({ length: open + 1 }, (_, n) => n);
+  const rules = LADDER.slice(1, create.rung + 1).map((x, i) => `<li><b>+${i + 1}</b> ${escapeHtml(x.rule)}</li>`).join('');
+  const next = open < LADDER.length - 1 ? `Win on Hard+${open} as a ${c.name} to open Hard+${open + 1}.` : 'Every rung is open.';
+  el.innerHTML = `<div class="seg rung-seg" role="radiogroup" aria-label="Rung past Hard">${rungs.map(n => `<button type="button" role="radio" data-rung="${n}" aria-checked="${n === create.rung}" class="${n === create.rung ? 'on' : ''}">${n ? '+' + n : 'Hard'}</button>`).join('')}</div>`
+    + (rules ? `<ul class="rung-rules">${rules}</ul><p class="dim small">Each rung adds a tenth to the run's score.</p>` : '<p class="dim small">The ladder past Hard: each rung keeps one rule more, and adds a tenth to the score.</p>')
+    + `<p class="dim small rung-next">${escapeHtml(next)}</p>`;
+  for (const b of el.querySelectorAll('[data-rung]')) b.addEventListener('click', () => { create.rung = Number(/** @type {HTMLElement} */ (b).dataset.rung) || 0; changed(); });
 }

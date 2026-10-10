@@ -5,7 +5,7 @@ import { Game } from './game.js';
 import { RELIC_POWERS, RELICS, RELIC_SETS, setOf, toCollect } from './relics.js';
 import { Progress } from './progress.js';
 import { COMBOS } from './combos.js';
-import { $, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
+import { $, escapeHtml, upFirst, diffName, diffLabel } from './uikit.js';
 
 /** Each path's name, by its id, for a legend's codex line. */
 const PATH_NAME = Object.fromEntries(Object.values(PATHS).flat().map(x => [x.id, x.name]));
@@ -141,8 +141,10 @@ function renderTrophies() {
   const head = ['<span></span>', ...Progress.DIFFS.map(d => `<span class="th">${diffName(d)}</span>`)];
   // a class won on Hard is named by its title
   const rows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}${hasHard(cls) ? ` <em class="class-title">${escapeHtml(CLASSES[cls].title)}</em>` : ''}</span>`, ...Progress.DIFFS.map(d => {
-    const n = (v.won[cls] && v.won[cls][d]) || 0, what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
-    return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="button" tabindex="0" aria-label="${what}" title="${what}">${n ? '✦' : ''}</span>`;
+    // (and on Hard, the highest rung of the ladder past it won)
+    const n = (v.won[cls] && v.won[cls][d]) || 0, top = d === 'hard' ? v.rungs[cls] || 0 : 0;
+    const what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}${top ? `, up to Hard+${top}` : ''}`;
+    return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="button" tabindex="0" aria-label="${what}" title="${what}">${n ? '✦' : ''}${top ? `<small class="rung-won">+${top}</small>` : ''}</span>`;
   })].join(''));
   // a win with each path, two to a class, and the class mastered once both are won
   const pathRows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...(PATHS[cls] || []).map(x => {
@@ -193,7 +195,7 @@ function renderHall() {
   const still = f ? `<p class="hall-fallen">Still below: <b>${escapeHtml(f.name)} the ${escapeHtml(CLASSES[f.cls] ? CLASSES[f.cls].name : f.cls)}</b>, ${f.killer ? `killed by ${escapeHtml(f.killer)}${f.killer.includes(',') ? ',' : ''} ` : ''}on floor ${Number(f.depth) || 1}. Their shade keeps watch over their bones until a later delve lays it to rest.</p>` : '';
   if (!list.length) { el.innerHTML = still + '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1}${Number(h.renown) > 0 ? ` \u2605${Number(h.renown)}` : ''} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) <= 2 ? ' · a quick delve' : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1}${Number(h.renown) > 0 ? ` \u2605${Number(h.renown)}` : ''} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) <= 2 ? ' · a quick delve' : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffLabel(h)}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
 export { renderBestiary, renderCodex, renderCombos, renderTrophies, renderHall };

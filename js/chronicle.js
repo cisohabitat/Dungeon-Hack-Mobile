@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS } from './data.js';
+import { BACKGROUNDS, BESTIARY, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -57,7 +57,8 @@ export function makeChronicle(K) {
   function score(p, depth, won) {
     const run = p.xp * 2 + p.deepest * 100, base = won ? Math.round(run * 1.5) + 2000 : run;
     const vows = (K.G && K.G.opts && K.G.opts.vows) || [];
-    return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0)));
+    // (and each rung of the ladder past Hard a tenth more: see LADDER)
+    return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0) + RUNG_SCORE * K.rung()));
   }
   // Only one page is buried per floor, so a short dungeon holds fewer than the
   // archive knows about. Count what this delve can actually yield, not the lot.
@@ -151,7 +152,7 @@ export function makeChronicle(K) {
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     // (a quick delve's win goes in the Hall, but earns no trophy: those wait for four floors or more)
-    if (won && K.G.opts.permadeath && !isQuick()) K.G.earned = Progress.recordWin(p.cls, K.G.opts.difficulty || 'normal', { path: p.path, vows: K.G.opts.vows, levels: K.G.opts.levels, route: K.G.route,
+    if (won && K.G.opts.permadeath && !isQuick()) K.G.earned = Progress.recordWin(p.cls, K.G.opts.difficulty || 'normal', { path: p.path, vows: K.G.opts.vows, rung: K.rung(), levels: K.G.opts.levels, route: K.G.route,
       jobs: (K.G.stats && K.G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (K.G.stats && K.G.stats.shapes) || 0 });
     else if (won) K.G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
@@ -162,6 +163,7 @@ export function makeChronicle(K) {
     if (slain.length) entry.named = slain;
     if (p.path) entry.path = p.path;       // "Level 9 Fighter, Knight"
     if (Array.isArray(K.G.opts.vows) && K.G.opts.vows.length) entry.vows = K.G.opts.vows.slice();
+    if (K.rung()) entry.rung = K.rung();   // "Hard+3"
     // One run, one line: a hero who falls, loads the last save and falls again
     // was written in once per death. The run is known by when it began (a save
     // from before that was kept goes by its seed and hero), and its last end

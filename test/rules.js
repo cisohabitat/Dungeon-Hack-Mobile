@@ -6879,12 +6879,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[],"combos":[],"paths":{},"vows":{},"feats":{}}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"combos":[],"paths":{},"vows":{},"feats":{},"rungs":{}}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
-  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], combos: ['conduction', 'nope', 3, 'conduction'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 } }));
+  ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], combos: ['conduction', 'nope', 3, 'conduction'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 }, rungs: { mage: 9, nope: 2, cleric: 'x', thief: 2 } }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"combos":["conduction"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1}}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"combos":["conduction"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1},"rungs":{"mage":5,"thief":2}}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;
@@ -15242,6 +15242,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-threads.js')({ test, start, meetAndChoose, markLog, linesSince });
   // the vows sworn as pacts, and what wins open for the start of a run (rules-pacts.js)
   await require('./rules-pacts.js')({ test, newContext, start, walk, meetAndChoose, winHere, OPTS, evenStats });
+  // the ladder past Hard (rules-ladder.js)
+  await require('./rules-ladder.js')({ test, newContext, winHere, OPTS, evenStats });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

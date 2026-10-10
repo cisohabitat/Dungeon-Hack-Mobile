@@ -149,6 +149,39 @@ test.describe('progress between runs', () => {
     expect(errors).toEqual([]);
   });
 
+  test('on Hard, a class picks a rung of the ladder it has opened, and the Hall marks the highest won', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.tipsOff', '1'); localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { mage: { hard: 2 }, fighter: { normal: 1 } }, relics: [], rungs: { mage: 1 } })); });
+    await page.click('#btn-hall');
+    await expect(page.locator('[data-trophy="mage-hard"] .rung-won')).toHaveText('+1');
+    await expect(page.locator('[data-trophy="mage-hard"]')).toHaveAttribute('aria-label', /up to Hard\+1/);
+    await page.click('#hall-back');
+    await page.click('#btn-new');
+    // no rung off Hard, nor for a class that has not won there
+    await page.locator('.class-card[data-cls="fighter"]').click();
+    await page.click('#c-difficulty [data-diff="hard"]');
+    await expect(page.locator('#c-rung')).toBeHidden();
+    await page.locator('.class-card[data-cls="mage"]').click();
+    await expect(page.locator('#c-rung')).toBeVisible();
+    await expect(page.locator('#c-rung [data-rung]')).toHaveText(['Hard', '+1', '+2']);
+    await expect(page.locator('#c-rung .rung-next')).toContainText('Win on Hard+2 as a Mage to open Hard+3');
+    await page.click('#c-rung [data-rung="2"]');
+    await expect(page.locator('#c-rung [data-rung="2"]')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('#c-rung .rung-rules li')).toHaveCount(2);
+    await expect(page.locator('#c-summary')).toContainText('Hard+2');
+    await page.click('#c-difficulty [data-diff="normal"]');
+    await expect(page.locator('#c-rung')).toBeHidden();
+    await page.click('#c-difficulty [data-diff="hard"]');
+    await page.click('#c-rung [data-rung="2"]');
+    await page.fill('#c-seed', 'rung-run');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => [Game.state().opts.difficulty, Game.rung()])).toEqual(['hard', 2]);
+    expect(errors).toEqual([]);
+  });
+
   test('each vow shows its share of the score', async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { cleric: { hard: 1 } }, relics: [] })); });

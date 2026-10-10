@@ -14,7 +14,7 @@ export function makeTrader(K) {
   // Each is fetched when called, not copied when the traders are made: much of it
   // lives in modules (items.js, combat.js, curses.js) wired after the traders.
   const later = (/** @type {string} */ name) => (/** @type {any[]} */ ...a) => K[name](...a);
-  const P = later('P'), lvl = later('lvl'), log = later('log'), emit = later('emit'), the = later('the'), cap = later('cap'), relicOf = later('relicOf'), mod = later('mod'), hasTalent = later('hasTalent'), isJewel = later('isJewel'), isKnown = later('isKnown'), vouched = later('vouched'), vowed = later('vowed'), hiddenGear = later('hiddenGear'), cursedWorn = later('cursedWorn'), revealAll = later('revealAll'), breakCurses = later('breakCurses'), spMax = later('spMax'), discoverRelic = later('discoverRelic'), junkInPack = later('junkInPack'), healPlayer = later('healPlayer'), itemName = later('itemName'), beltRoom = later('beltRoom'), giveItem = later('giveItem'), removeOne = later('removeOne');
+  const P = later('P'), lvl = later('lvl'), log = later('log'), emit = later('emit'), the = later('the'), cap = later('cap'), relicOf = later('relicOf'), mod = later('mod'), hasTalent = later('hasTalent'), isJewel = later('isJewel'), isKnown = later('isKnown'), vouched = later('vouched'), vowed = later('vowed'), hiddenGear = later('hiddenGear'), cursedWorn = later('cursedWorn'), revealAll = later('revealAll'), breakCurses = later('breakCurses'), spMax = later('spMax'), discoverRelic = later('discoverRelic'), junkInPack = later('junkInPack'), healPlayer = later('healPlayer'), itemName = later('itemName'), beltRoom = later('beltRoom'), giveItem = later('giveItem'), removeOne = later('removeOne'), climbed = later('climbed');
   // ---------- trading ----------
   // Prices key off the item's own value so the shelf stays sane at any depth.
   // Charisma is how the trader sees you: each point of modifier is six
@@ -25,14 +25,16 @@ export function makeTrader(K) {
   // traders below ask a sixth more of you (a goblin pedlar does not care).
   const lampThread = k => { const G = K.G, t = G.threads || {}; return t[k] && G.depth > t[k] && traderKind() === 'lampfolk'; };
   const grudge = () => (lampThread('robbed') ? 1 / 6 : 0);
+  // and on the ladder's second rung, a quarter dearer for everything they sell and do
+  const dear = () => (climbed(2) ? 1.25 : 1);
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
-    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()) * (1 + grudge()));
+    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()) * (1 + grudge()) * dear());
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
-    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched()) * (1 + grudge())));
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched()) * (1 + grudge()) * dear()));
   }
   // Never more than the trader in front of you would ask for it: at a goblin
   // market's lowest markup, a charming thief with Light Fingers and a
@@ -53,8 +55,12 @@ export function makeTrader(K) {
     return Math.max(1, Math.round(v * 0.45 * Math.max(0.2, 1 + e * 0.8) * (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1) * (1 + charm()) * (hasTalent('light_fingers') ? 1.25 : 1)));
   }
 
-  /** What the trader charges to look your gear over, and to break a curse. */
+  /** What the trader charges to look your gear over, and to break a curse (a quarter more on the ladder's second rung; a job is not theirs to price). */
   function shopServices() {
+    const all = servicesAsked();
+    return dear() === 1 ? all : all.map(x => (x.id === 'bounty' ? x : { ...x, price: Math.round(x.price * dear()) }));
+  }
+  function servicesAsked() {
     if (!shop) return [];
     const hidden = hiddenGear(), cursed = cursedWorn();
     const deep = K.G.depth;

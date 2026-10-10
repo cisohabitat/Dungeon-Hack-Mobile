@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER } from './data.js';
 import { RELICS, toCollect } from './relics.js';
 import { COMBOS } from './combos.js';
 
@@ -12,14 +12,14 @@ const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, rungs: Record<string, number>}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {} };
+  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {} };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   // wins with each path, and with each vow kept: counts, nothing else
   /** @type {[('paths'|'vows'|'feats'), string[]][]} */
@@ -36,6 +36,9 @@ function clean(v) {
       if (n) (out.won[cls] = out.won[cls] || {})[d] = n;
     }
   }
+  // the highest rung of the ladder past Hard each class has won on
+  const rungs = v.rungs && typeof v.rungs === 'object' ? v.rungs : {};
+  for (const cls in CLASSES) { const n = Math.min(LADDER.length - 1, Math.max(0, Math.floor(Number(rungs[cls]) || 0))); if (n) out.rungs[cls] = n; }
   if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
   if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => typeof id === 'string' && COMBOS[id]))];
   return out;
@@ -55,7 +58,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {} };
+  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {} };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -108,6 +111,8 @@ function bgOpen(id, v = load()) {
   if (what === 'legends') return v.relics.filter(r => RELICS[r] && RELICS[r].legend).length >= Number(n);
   return wonAtLeast(b.unlock, v);
 }
+/** The highest rung of the ladder past Hard this class may climb to: the first after a win on Hard, each after with a win on the one below; 0 for none. */
+const rungOpen = (cls, v = load()) => (CLASSES[cls] && hasWon(cls, 'hard', v) ? Math.min(LADDER.length - 1, (v.rungs[cls] || 0) + 1) : 0);
 /** A class's second kit is open once it has won on Normal or Hard. */
 const kitOpen = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].altKit && (hasWon(cls, 'normal', v) || hasWon(cls, 'hard', v));
 /** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
@@ -130,8 +135,8 @@ function unlocks(v = load()) {
 /**
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
- * @param {{path?: string, vows?: string[], levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number}} [how]
- * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, mastered: boolean, firstVows: string[], firstFeats: string[], vowsOpened: boolean}}
+ * @param {{path?: string, vows?: string[], rung?: number, levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number}} [how]
+ * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, mastered: boolean, firstVows: string[], firstFeats: string[], vowsOpened: boolean, rungOpened: number}}
  */
 const WILDHEART = 30;
 function recordWin(cls, difficulty, how = {}) {
@@ -139,6 +144,7 @@ function recordWin(cls, difficulty, how = {}) {
   const v = load();
   const wasOpen = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v)), vowsWere = vowsOpen(v);
   const first = !hasWon(cls, d, v);
+  const rungWas = rungOpen(cls, v);
   if (CLASSES[cls]) {
     v.won[cls] = v.won[cls] || {};
     v.won[cls][d] = (v.won[cls][d] || 0) + 1;
@@ -155,9 +161,12 @@ function recordWin(cls, difficulty, how = {}) {
     ...((how.jobs || 0) >= 3 ? ['friend'] : []), ...(how.veteran ? ['veteran'] : []), ...(cls === 'druid' && (how.shapes || 0) >= WILDHEART ? ['wildheart'] : [])];
   const firstFeats = feats.filter(id => !v.feats[id]);
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
+  // a win on a rung of the ladder (Hard only) opens the next
+  const rung = d === 'hard' ? Math.min(LADDER.length - 1, Math.max(0, Math.floor(Number(how.rung) || 0))) : 0;
+  if (CLASSES[cls] && rung > (v.rungs[cls] || 0)) v.rungs[cls] = rung;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
-  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v) };
+  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v), rungOpened: rungOpen(cls, v) > rungWas ? rungOpen(cls, v) : 0 };
 }
 /** A relic picked up or bought goes in the codex; true the first time. */
 function noteRelic(id) {
@@ -239,5 +248,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

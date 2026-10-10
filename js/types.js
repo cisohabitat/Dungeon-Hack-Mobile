@@ -272,6 +272,7 @@
  * @property {'earned'} [dailyKind]  'earned' for the Ranger & Druid Daily (once the earned classes'); absent on the first
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
  * @property {'alt'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js)
+ * @property {number} [rung]  the rung of the ladder past Hard, 1 to 5, on Hard only (see LADDER in data.js)
  * @property {'hound'} [companion]  a hound from the first stair, chosen at the start once earned (Progress.houndOpen)
  * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it
  */
@@ -352,7 +353,7 @@
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
  * @property {Object<string, number>} [combos]  the combinations this run has made (combos.js), and how often each
- * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean, tested?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
+ * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean, rungOpened?: number, tested?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
  */
 
 export {};

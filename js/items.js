@@ -352,7 +352,8 @@ export function makeItems(K) {
       const was = { hp: p.hp, sp: p.sp };
       try {
         switch (b.effect) {
-          case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
+          // (a third less on the ladder's fifth rung: the same dice, a bitter draught)
+          case 'heal': { const r = d(...b.heal), n = K.climbed(5) ? Math.max(1, Math.round(r * 2 / 3)) : r; healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
           case 'cure': p.poison = null; log('The poison leaves your veins.', 'good'); soon(() => Sound.play('heal')); break;
           case 'might': p.effects.might = { amount: 2, until: K.G.t + 120000 }; log('You feel mighty!', 'good'); soon(() => Sound.play('spell')); break;
           case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); soon(() => Sound.play('spell')); break;

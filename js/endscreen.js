@@ -1,10 +1,10 @@
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
-import { BACKGROUNDS, BOONS, CLASSES, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS } from './data.js';
+import { BACKGROUNDS, BOONS, CLASSES, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
-import { $, diffName, diffOf, escapeHtml, upFirst } from './uikit.js';
+import { $, diffName, diffLabel, escapeHtml, upFirst } from './uikit.js';
 
 /** @param {any} K */
 export function makeEndScreen(K) {
@@ -100,7 +100,7 @@ export function makeEndScreen(K) {
    */
   function runShareLine(won) {
     const G = Game.state(), p = G.player, o = G.opts;
-    const ways = [diffName(diffOf(o))];
+    const ways = [diffLabel(o)];
     if (o.levels && o.levels !== 8) ways.push(`${o.levels} floors`);
     if (o.size && o.size !== 'medium') ways.push(`${o.size} halls`);
     if (o.monsters && o.monsters !== 'normal') ways.push(`${o.monsters} monsters`);
@@ -133,7 +133,7 @@ export function makeEndScreen(K) {
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
     const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender', renegade: 'renegade' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
-    const mode = [diffName(diffOf(o)), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
+    const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
       won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
@@ -161,6 +161,7 @@ export function makeEndScreen(K) {
     if (earned && earned.firstPath) { const x = Object.values(PATHS).flat().find(q => q.id === earned.firstPath); if (x) news.push(`First win on the ${x.name}'s path!`); }
     if (earned && earned.mastered && CLASSES[earned.cls]) news.push(`The ${CLASSES[earned.cls].name} mastered: a win on both its paths, and a trophy of its own.`);
     for (const id of (earned && earned.firstVows) || []) if (VOWS[id]) news.push(`The ${VOWS[id].name} kept to the end: a trophy of its own.`);
+    if (earned && earned.rungOpened && LADDER[earned.rungOpened] && CLASSES[earned.cls]) news.push(`Hard+${earned.rungOpened} is open to the ${CLASSES[earned.cls].name}: ${LADDER[earned.rungOpened].rule.charAt(0).toLowerCase()}${LADDER[earned.rungOpened].rule.slice(1)}`);
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
     if (G.tested) news.push('A test run (a testing tool from the Menu was used): it is not written in the Hall, and earns no trophy.');

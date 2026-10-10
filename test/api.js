@@ -59,6 +59,11 @@ async function main() {
   check(cmds && cmds.some(x => x[1] === 'dd:count:wins'), 'store: the win is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:combowins' && x[2] === '8|normal|fighter') && cmds.some(x => x[1] === 'dd:count:combos' && x[2] === 'conduction'), 'store: a win with a combination, and each combination, are counted');
   check(cmds && !JSON.stringify(cmds).includes('Somebody'), 'store: nothing dropped reaches it');
+  // a rung of the ladder past Hard is counted apart from Hard; a rung off Hard, or out of range, is not one
+  check(tel.clean({ ...run, diff: 'hard', rung: 9 }).rung === 5 && tel.clean({ ...run, diff: 'normal', rung: 3 }).rung === 0, 'a rung: on Hard only, held to its range');
+  sent.length = 0;
+  await call(live.tel, 'POST', JSON.stringify({ ...run, diff: 'hard', rung: 3 }));
+  check(sent[0] && sent[0].body.some(x => x[1] === 'dd:count:runs' && x[2] === '8|hard+3|fighter'), 'store: a Hard+3 run is counted as Hard+3, not Hard');
   global.fetch = async () => { throw new Error('down'); };
   check((await call(live.tel, 'POST', JSON.stringify(run))).status === 204, 'store down: the game still hears 204');
   global.fetch = async (u, o) => ({ ok: true, json: async () => JSON.parse(o.body).map(() => ({ result: ['8|normal|fighter', '3'] })) });

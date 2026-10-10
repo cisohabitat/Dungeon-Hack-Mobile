@@ -1,5 +1,5 @@
 import { Rng, Dice, d } from './rng.js';
-import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, VOWS } from './data.js';
+import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, VOWS, LADDER } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { PIECE_SAY } from './rooms.js';
 import { encounterPlan } from './encounters.js';
@@ -100,6 +100,10 @@ const Game = (() => {
   const cls = () => CLASSES[G.player.cls];
   /** Whether the hero swore this vow at the start of the run. */
   const vowed = v => !!(G && G.opts && Array.isArray(G.opts.vows) && G.opts.vows.includes(v));
+  // the rung of the ladder past Hard this run stands on (LADDER in data.js), 0 for any other
+  const rung = () => (G && G.opts && G.opts.difficulty === 'hard' && G.opts.rung) || 0;
+  /** Whether this run's rung keeps the ladder's rule n: every rung keeps those below it. */
+  const climbed = n => rung() >= n;
 
   // ---------- the dice, in the open ----------
   // Off until asked for: the classic crawlers showed their arithmetic, and
@@ -767,6 +771,9 @@ const Game = (() => {
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: newRunStamp(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
     // only vows that exist, once each; the Daily Delve is the same run for everyone, so it takes none
     if (G.opts.vows) G.opts.vows = G.opts.daily ? [] : [...new Set(G.opts.vows)].filter(v => VOWS[v]);
+    // a rung of the ladder, on Hard only, never in a Daily (it only makes the delve harder, so the
+    // New Game screen alone keeps it to the rungs a class has opened; see rungOpen in progress.js)
+    if (G.opts.rung !== undefined) { const n = Math.floor(Number(G.opts.rung)); if (G.opts.difficulty === 'hard' && !G.opts.daily && n >= 1 && n < LADDER.length) G.opts.rung = n; else delete G.opts.rung; }
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
@@ -1590,6 +1597,7 @@ const Game = (() => {
   };
   // The traders (trader.js) borrow the same way.
   const traderK = {
+    get climbed() { return climbed; },
     get BELT() { return BELT; }, get bounty() { return bounty; },
     get G() { return G; },
     get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; }, get the() { return the; },
@@ -1671,6 +1679,7 @@ const Game = (() => {
 
   // ---------- chronicle: see chronicle.js ----------
   const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle({
+    get rung() { return rung; },
     get G() { return G; }, get HALL_KEY() { return HALL_KEY; }, get LAST_KEY() { return LAST_KEY; }, get P() { return P; },
     get SAVE_KEY() { return SAVE_KEY; }, get cap() { return cap; }, get castingName() { return castingName; }, get companion() { return companion; },
     get emit() { return emit; }, get fx() { return fx; }, get isQuick() { return isQuick; }, get itemName() { return itemName; },
@@ -1707,6 +1716,7 @@ const Game = (() => {
 
   // ---------- pacing: see pacing.js ----------
   const { BLOW_GAP, HEARTSWORN_CAP, KNOCKDOWN_MS, PRESS_HP, QUICK, REGEN_CAP, deepMagic, deepSteel, diff, diffEdge, followBlow, hardenLevel, isLong, isQuick, newMonster, pressLevel, pressSturdier, rest, restShare, shortNormal, twistLevel } = makePacing({
+    get climbed() { return climbed; },
     get DIRS() { return DIRS; }, get G() { return G; }, get P() { return P; }, get T() { return T; }, get WAKE_BEAT() { return WAKE_BEAT; },
     get bargained() { return bargained; }, get companion() { return companion; }, get distField() { return distField; }, get emit() { return emit; },
     get enemiesNear() { return enemiesNear; }, get ensureDist() { return ensureDist; }, get hasTalent() { return hasTalent; },
@@ -1762,6 +1772,7 @@ const Game = (() => {
 
   // ---------- items: see items.js ----------
   const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems({
+    get climbed() { return climbed; },
     get COATINGS() { return COATINGS; }, get COAT_BLOWS() { return COAT_BLOWS; }, get COAT_GLOW() { return COAT_GLOW; }, get DIRS() { return DIRS; },
     get G() { return G; }, get INV_MAX() { return INV_MAX; }, get P() { return P; }, get READ_MS() { return READ_MS; },
     get SCROLL_GLOW() { return SCROLL_GLOW; }, get T() { return T; }, get blocked() { return blocked; }, get boltEnd() { return boltEnd; },
@@ -1833,7 +1844,7 @@ const Game = (() => {
     pendingBoons, chooseBoon, isPathOffer, isCapstoneOffer, isRenownOffer, renownAt, heroSaves: () => heroSaves(), sturdiness: () => diff().hp * shortNormal(), capstoneOf, pathOf, spellCost, spellDesc, berserkerRage, blowRate, epilogue, journal: () => (G && G.journal) || [], pagesInDungeon,
     bestiary, runStats, lastAttacker: () => (G && G.lastAttacker) || null, deathLog: () => (G && G.deathLog) || [],
     knownSpells, spellAvailable, spellLevel, castSpell, rest, toHit, playerAC, weapon, effect, skillDamage, critFloor,
-    wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
+    wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, rung, restShare, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     mood,

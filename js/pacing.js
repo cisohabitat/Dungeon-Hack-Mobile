@@ -28,6 +28,7 @@ export function makePacing(K) {
   const npcAt = (/** @type {any[]} */ ...a) => K.npcAt(...a);
   const passable = (/** @type {any[]} */ ...a) => K.passable(...a);
   const vowed = (/** @type {any[]} */ ...a) => K.vowed(...a);
+  const climbed = (/** @type {any[]} */ ...a) => K.climbed(...a);
   const wander = (/** @type {any[]} */ ...a) => K.wander(...a);
 
   // ---------- resting ----------
@@ -48,7 +49,7 @@ export function makePacing(K) {
    * and the thinning comes a rest later. (It used to add a third to a rest, but the first on a floor
    * already heals everything, and most heroes rest about once a floor.)
    */
-  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = diff().rests; return n >= r.length ? 0 : r[n]; }
+  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = climbed(1) ? [1] : diff().rests; return n >= r.length ? 0 : r[n]; }
   /** Something of this floor finds the sleeper: awake, a few steps off. */
   function ambush() {
     const L = lvl();
@@ -131,7 +132,7 @@ export function makePacing(K) {
   // died there before they had a path, so it comes from the fourth floor, paid for
   // with sturdier creatures (1.8, not 1.7) all the way down. (1.9 since oils, charms,
   // capstones and traders' jobs lifted Hard to about three in five: back to the high fifties.)
-  const diffEdge = () => Math.max(0, diff().edge - (K.G.depth <= 1 || (diff().edge > 1 && K.G.depth <= 3) ? 1 : 0)) + longEdge();
+  const diffEdge = () => Math.max(0, diff().edge - (K.G.depth <= 1 || (diff().edge > 1 && K.G.depth <= 3) ? 1 : 0)) + longEdge() + (climbed(3) ? 1 : 0);
   // The Long Delve's back half: its creatures a step surer from the seventh
   // floor, and a little sturdier with every floor past the sixth. Without it
   // twelve floors were easier than eight (82% on Normal, 60% on Hard): the
@@ -286,14 +287,17 @@ export function makePacing(K) {
     }
   }
   const TWIST_KIN = { smouldering: { id: 'emberling', share: 0.3, dice: 'emberlings' }, overgrown: { id: 'puffcap', share: 0.35, dice: 'puffcaps' }, flooded: { id: 'drowned', share: 0.3, dice: 'drowned' }, dark: { id: 'eyeless', share: 0.25, dice: 'eyeless' } };
+  const LORD_HP = 1.25;
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      const f = MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) * (isQuick() ? QUICK.keeperHp : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal();
-      m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
+      // (and on the ladder's fourth rung, a champion and the last foe a quarter more again)
+      const lord = (MONSTERS[m.id].boss || MONSTERS[m.id].named) && climbed(4) ? LORD_HP : 1;
+      const f = (MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) * (isQuick() ? QUICK.keeperHp : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal());
+      m.maxHp = Math.max(1, Math.round(m.maxHp * f * lord)); m.hp = m.maxHp;
       // a quick delve's keeper is a lesser lich, for a hero of a few levels: less life, and blows less sure and less heavy
       if (isQuick() && MONSTERS[m.id].boss) m.edge = QUICK.keeperEdge;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }

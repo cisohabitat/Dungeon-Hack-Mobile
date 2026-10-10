@@ -75,7 +75,7 @@ function runEnded(G) {
   const p = G.player || {}, k = G.lastAttacker;
   send({
     kind: 'run', seed: String(G.seed || ''), daily: !!(G.opts && G.opts.daily),
-    cls: p.cls || '', path: p.path || '', diff: (G.opts && G.opts.difficulty) || 'normal',
+    cls: p.cls || '', path: p.path || '', diff: (G.opts && G.opts.difficulty) || 'normal', rung: (G.opts && G.opts.difficulty === 'hard' && G.opts.rung) || 0,
     levels: (G.opts && G.opts.levels) || 8, size: (G.opts && G.opts.size) || 'medium',
     outcome: G.status === 'won' ? 'win' : 'death', depth: G.depth || 0, level: p.level || 0,
     cause: G.status === 'won' || !k ? '' : String(k.cause || k.name || ''),

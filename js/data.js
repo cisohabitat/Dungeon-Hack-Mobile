@@ -236,6 +236,21 @@ const VOWS = {
   hunted:  { name: 'Hunted Vow',   score: 0.2, desc: 'The deep knows you are coming: everything in it moves a tenth quicker.' },
   alone:   { name: 'Lone Vow',     score: 0.15, desc: 'No one walks with you: no companion will join you, however it is offered.' },
 };
+// The ladder past Hard, as Slay the Spire climbs past its last difficulty: each
+// rung one rule more, kept with every rung below it, and each worth a tenth
+// more score. A class opens the first rung with a win on Hard, and each rung
+// after with a win on the one before (see rungOpen in js/progress.js). Index 0
+// is Hard itself; the rules are applied in js/pacing.js, js/trader.js and
+// js/items.js, each behind `climbed(n)`.
+const LADDER = [
+  null,
+  { rule: 'One rest a floor, not two.' },
+  { rule: 'Traders ask a quarter more for everything they sell and do.' },
+  { rule: 'Every creature strikes a step surer and harder.' },
+  { rule: 'Champions and the last foe have a quarter more life.' },
+  { rule: 'Healing draughts heal a third less.' },
+];
+const RUNG_SCORE = 0.1;
 // The fork: a third of the way down the stair divides, and the floors
 // between there and the last two lean one way or the other. Each keeps its
 // own colours, its own creatures (kin come three times as often, the other
@@ -1097,4 +1112,4 @@ const SPRITES = {
 /** Floor dressing that stands against a wall rather than out in a room (see dressing.js). */
 const WALL_PROPS = ['barrel', 'crate', 'urn'];
 
-export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS };
+export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };

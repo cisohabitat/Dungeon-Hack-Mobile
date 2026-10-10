@@ -9,8 +9,8 @@ import { Music } from './music.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Progress } from './progress.js';
-import { $, $$, escapeHtml, diffOf, diffName, icon } from './uikit.js';
-import { renderStart } from './createextras.js';
+import { $, $$, escapeHtml, diffOf, diffLabel, icon } from './uikit.js';
+import { renderStart, renderRung } from './createextras.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
@@ -32,8 +32,8 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, mode: 'roll', buy: null, buyTouched: false };
+  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, rung: number, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, rung: 0, mode: 'roll', buy: null, buyTouched: false };
   // Point buy: every score starts at 8 and 27 points raise them, dearer near
   // the top, to 17 at most (a background's bonus goes on after). About what
   // an average roll gives, but placed where the player wants it; 16 and 17
@@ -161,7 +161,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-06', text: 'three new vows that each add to your score, a second kit for every class, a hound from the first stair, and two backgrounds earned by what you find' };
+  const NEWS = { id: '2026-11-13', text: 'the ladder past Hard: five rungs, Hard+1 to Hard+5, each one rule harder and a tenth more score, opened class by class' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -287,6 +287,7 @@ const UI = (() => {
     create.difficulty = DIFFICULTY[d] ? d : 'normal';
     for (const b of $$('#c-difficulty [data-diff]')) { const on = b.dataset.diff === create.difficulty; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
     $('#c-diff-note').textContent = DIFFICULTY[create.difficulty];
+    renderRung(/** @type {HTMLElement} */ ($('#c-rung')), create, () => setDifficulty(create.difficulty));
     createSummary();
   }
 
@@ -301,7 +302,7 @@ const UI = (() => {
   /** The hero chosen so far, beside Descend: the cards that say it can be scrolled far out of sight. */
   function createSummary() {
     const el = $('#c-summary');
-    if (el) el.textContent = `${CLASSES[create.cls] ? CLASSES[create.cls].name : create.cls} \u00b7 ${BACKGROUNDS[create.bg] ? BACKGROUNDS[create.bg].name : create.bg} \u00b7 ${diffName(create.difficulty)}`;
+    if (el) el.textContent = `${CLASSES[create.cls] ? CLASSES[create.cls].name : create.cls} \u00b7 ${BACKGROUNDS[create.bg] ? BACKGROUNDS[create.bg].name : create.bg} \u00b7 ${diffLabel(create)}`;
   }
   function buildCreate() {
     createSummary();
@@ -364,6 +365,8 @@ const UI = (() => {
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
     renderStart(/** @type {HTMLElement} */ ($('#c-start')), create, buildCreate);
+    renderRung(/** @type {HTMLElement} */ ($('#c-rung')), create, () => setDifficulty(create.difficulty));
+    createSummary();
     if (!create.stats) fitStats();
     const buying = create.mode === 'buy';
     if (buying) { if (!create.buy) create.buy = buyStart(create.cls); create.stats = create.buy; }
@@ -481,7 +484,7 @@ const UI = (() => {
       ? `The ${dailyLabel(o.dailyKind)} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
-        : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffName(d)}.` : '');
+        : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
     showScreen('screen-prologue');
   }
   function beginGame() {
@@ -504,6 +507,7 @@ const UI = (() => {
         ...(create.vows.length ? { vows: create.vows.slice() } : {}),
         ...(create.kit ? { kit: create.kit } : {}),
         ...(create.hound ? { companion: 'hound' } : {}),
+        ...(create.difficulty === 'hard' && create.rung ? { rung: create.rung } : {}),
       },
     };
     showPrologue(cfg);
@@ -1554,7 +1558,7 @@ const UI = (() => {
     // (a phone that cannot buzz, an iPhone among them, is not offered the switch)
     $('#m-haptics').hidden = !('vibrate' in navigator);
     $('#m-haptics').textContent = 'Vibration: ' + (store(HAPTICS_OFF) === '1' ? 'Off' : 'On');
-    $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffName(diffOf(G.opts))} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffLabel(G.opts)} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   /** Go to floor: every floor of the run, the next one down picked; and a road while none is taken. */

@@ -55,6 +55,8 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   await page.click('#btn-new');
   await page.click('[data-kit="alt"]');
   await expect(page.locator('#c-vows')).toBeVisible();
+  await page.click('#c-difficulty [data-diff="hard"]');
+  await page.click('#c-rung [data-rung="1"]');
   await scan(page, 'create-unlocked', found);
   await page.evaluate(() => localStorage.removeItem('deepdelve.progress'));
   await page.fill('#c-seed', 'a11y');

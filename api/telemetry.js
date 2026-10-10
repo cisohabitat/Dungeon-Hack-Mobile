@@ -19,7 +19,7 @@ function clean(b) {
     const d = b.device || {};
     return {
       kind: 'run', ...base,
-      cls: word(b.cls, 12), path: word(b.path, 16), diff: word(b.diff, 8), levels: num(b.levels, 1, 32), size: word(b.size, 8),
+      cls: word(b.cls, 12), path: word(b.path, 16), diff: word(b.diff, 8), rung: b.diff === 'hard' ? num(b.rung, 0, 5) : 0, levels: num(b.levels, 1, 32), size: word(b.size, 8),
       outcome: ['win', 'death', 'quit'].includes(b.outcome) ? b.outcome : 'quit',
       depth: num(b.depth, 0, 32), level: num(b.level, 0, 40), cause: word(b.cause, 40), minutes: num(b.minutes, 0, 6000),
       fps, tips: num(b.tips, 0, 999),
@@ -58,7 +58,8 @@ module.exports = async function handler(req, res) {
   if (!ready()) { res.statusCode = 204; return res.end(); }
   try {
     if (e.kind === 'run') {
-      const key = `${e.levels}|${e.diff}|${e.cls}`;
+      // a rung of the ladder past Hard is counted apart, so it does not pull Hard's own rate down
+      const key = `${e.levels}|${e.diff}${e.rung ? `+${e.rung}` : ''}|${e.cls}`;
       const cmds = [
         ['LPUSH', 'dd:runs', JSON.stringify(e)], ['LTRIM', 'dd:runs', 0, RUNS_KEPT - 1],
       ];

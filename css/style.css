@@ -188,6 +188,13 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .start-extras p { margin: 0; }
 .start-extras .locked-line { font-style: italic; }
 .vow-score { color: var(--gold); font-style: normal; font-size: var(--t-sm); }
+.rung-pick { margin: var(--s-4) 0 var(--s-8); }
+.rung-pick .seg { margin: 0 0 var(--s-6); }
+.rung-pick .seg button { min-height: 40px; font-size: var(--t-md); }
+.rung-rules { margin: 0 0 var(--s-4); padding-left: var(--s-16); font-size: var(--t-md); color: var(--text-soft); }
+.rung-rules li { margin: var(--s-2) 0; }
+.rung-pick p { margin: var(--s-2) 0; }
+.trophy-grid .cell .rung-won { font-size: var(--t-2xs); margin-left: var(--s-2); }
 /* the key art behind the prologue, darkened so the words stand clear of it */
 #screen-prologue { background: linear-gradient(rgba(11, 10, 16, 0.84), rgba(11, 10, 16, 0.93) 45%, var(--bg)), url('../img/keyart-portrait.webp') center top / cover no-repeat, var(--bg); }
 @media (orientation: landscape) { #screen-prologue { background: linear-gradient(rgba(11, 10, 16, 0.86), rgba(11, 10, 16, 0.93) 60%, var(--bg)), url('../img/keyart-landscape.webp') left center / cover no-repeat, var(--bg); } }

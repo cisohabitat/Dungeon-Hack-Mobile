@@ -13,6 +13,8 @@ export const upFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
 export const diffOf = o => (o && (o.difficulty === 'easy' || o.difficulty === 'hard') ? o.difficulty : 'normal');
 /** @param {string} d */
 export const diffName = d => d.charAt(0).toUpperCase() + d.slice(1);
+/** A run's difficulty as a player says it, with its rung of the ladder past Hard: "Hard+3". */
+export const diffLabel = o => diffName(diffOf(o)) + (diffOf(o) === 'hard' && o && o.rung > 0 ? `+${Number(o.rung)}` : '');
 
 // The controls' icons: one set of line drawings, all on the same 24-square
 // grid with the same stroke, coloured by the button they sit in. They used to
