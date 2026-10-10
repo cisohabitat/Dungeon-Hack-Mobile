@@ -55,6 +55,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   them beside the README balance table, which it reads as it stands.
 - `art/keyart/`: the title's key art. `REQUEST.md` is the brief for whoever makes it
   (an artist or an image tool); the finished images and their `SOURCES.md` land there.
+- `sound/`: recorded sounds and composed music to replace most of the synthesis.
+  `REQUEST.md` is the brief for whoever makes them; the files, `manifest.json` and
+  `SOURCES.md` land there (magic stays synthesised).
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
