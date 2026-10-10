@@ -73,7 +73,7 @@ This is where a player decides whether a game feels AAA. Deepdelve is good from 
 - [x] **Onboarding fixes from the grades** (October 2026: the level choices say what a lesson is, the hero being made is named over Descend, and someone new meets a five-line card on the title, with a ready hero a tap away): explain "lesson" on the level-2 card; show the chosen background beside the Descend bar; a 60-second "first time here?" card.
 
 **Exit criteria**
-- A fresh-eyes phone grade of 9 or more for first impression, feel and polish (October 2026: 9, 8 and 7.5).
+- A fresh-eyes phone grade of 9 or more for first impression, feel and polish (October 2026: 9, 8 and 7.5; again after the in-repo half of this phase, 8.5, 8 and 7, its code findings since fixed. What the graders still miss is authored: key art behind the title and prologue, recorded sound, composed music).
 - Median session length rises (telemetry).
 - Day-one return rate measured and a target set.
 
