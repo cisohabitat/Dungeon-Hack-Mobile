@@ -100,7 +100,7 @@ export function makePrelude(K) {
         sprites.push({ x: MID + 0.3 + 0.2 * s, y: sy + 0.35 + 0.15 * ((s * 2) % 3), img: Assets.sprites.dress_rubble, scale: 0.34 + 0.06 * s, yOff: 1.15 * (1 - u * u), dress: true });
       }
     }
-    if (t >= FALL_AT) once('fall', () => { Sound.play('rumble'); tell(); });
+    if (t >= FALL_AT) once('fall', () => { Sound.play('collapse'); tell(); });
     // the shake: a shudder at the first rumble, then the roof coming in
     const shake = t >= FALL_AT ? { shakeUntil: on.t0 + DUST_AT + 400, shakeMs: DUST_AT + 400 - FALL_AT, shakeAmp: 6 }
       : t >= WALK_MS ? { shakeUntil: on.t0 + WALK_MS + 500, shakeMs: 500, shakeAmp: 2 } : { shakeUntil: 0 };

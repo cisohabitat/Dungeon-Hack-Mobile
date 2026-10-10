@@ -1245,7 +1245,8 @@ const Game = (() => {
     p.noiseAt = G.t;
     if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
     startCam(lvl().twist === 'flooded' ? Math.round(MOVE_MS * FLOOD_SLOW) : MOVE_MS);
-    Sound.play('step');
+    // (wading, where the floor is flooded or a pool lies, sounds like it)
+    Sound.play('step', { water: elements.wet(p.x, p.y) });
     distFieldAt = -1e9;
     onStep();
     const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0) + (hasPower('seer') ? 0.35 : 0);
@@ -1311,7 +1312,7 @@ const Game = (() => {
       delete L.locks[key(x, y)];
       pick.locks = (pick.locks || 0) + 1;
       log(`${pick.name} kneels at the lock, fiddles a bent wire about in it, and it clicks open.`, 'good');
-      Sound.play('door');
+      Sound.play('door', { how: 'unlock' });
       p.nextAttack = G.t + 1200;
       return true;
     }
@@ -1323,7 +1324,7 @@ const Game = (() => {
         setTile(x, y, T.DOOR_OPEN);
         delete L.locks[key(x, y)];
         log('You throw your shoulder against the door and it bursts open!', 'good');
-        Sound.play('door'); buzz([60, 40, 120]);
+        Sound.play('door', { how: 'forced' }); buzz([60, 40, 120]);
         for (const m of L.monsters) if (Math.abs(m.x - x) + Math.abs(m.y - y) < 10) m.awake = true;
         return true;
       }
@@ -1336,7 +1337,7 @@ const Game = (() => {
     delete L.locks[key(x, y)];
     setTile(x, y, T.DOOR_OPEN);
     log(`You unlock the door with the ${color} key.`, 'good');
-    Sound.play('door');
+    Sound.play('door', { how: 'unlock' });
     emit('inv');
     return true;
   }
@@ -1518,7 +1519,7 @@ const Game = (() => {
       const f = elements.fieldAt(tx, ty);
       if ((lvl().burntDoors || {})[key(tx, ty)]) { log('The door lies burnt in the doorway. There is nothing left to shut.'); return; }
       if (f && f.k === 'fire') { log('Fire burns in the doorway.', 'bad'); return; }
-      setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door'); return;
+      setTile(tx, ty, T.DOOR); log('You pull the door shut.'); Sound.play('door', { how: 'shut' }); return;
     }
     if ((lvl().items[key(tx, ty)] || []).length) { log('Step forward onto it to pick it up.'); return; }
     if (beltFull()) { log(`Your belt holds ${BELT} of each draught. Drink one to make room, or leave these.`); return; }

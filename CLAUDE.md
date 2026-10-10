@@ -55,9 +55,13 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   them beside the README balance table, which it reads as it stands.
 - `art/keyart/`: the title's key art. `REQUEST.md` is the brief for whoever makes it
   (an artist or an image tool); the finished images and their `SOURCES.md` land there.
-- `sound/`: recorded sounds and composed music to replace most of the synthesis.
-  `REQUEST.md` is the brief for whoever makes them; the files, `manifest.json` and
-  `SOURCES.md` land there (magic stays synthesised).
+- `sound/`: the sound pack (a first cut rendered in code; see its `SOURCES.md`) and
+  `REQUEST.md`, the brief it was made to. `js/samples.js` loads it from the slim
+  `sound/index.json` (made from `manifest.json`; `test/run.js` checks every file it
+  names), and `sound.js` / `music.js` play it in place of their synthesis once a
+  sound is loaded, the synthesis standing in until then and for magic. The browser
+  tests start with the pack off (`deepdelve.samples` = `on` turns it on), as with
+  the way in; `sound/listen.html` is a page for listening to all of it.
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js

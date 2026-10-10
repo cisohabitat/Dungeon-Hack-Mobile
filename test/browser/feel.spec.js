@@ -17,9 +17,16 @@ test('an overlay or a screen fades up with the sound of a page, and a calm view 
   expect(anim.ms).toBeLessThanOrEqual(250);
   expect(await page.evaluate(() => window.__heard.includes('page'))).toBe(true);
   // put away, it fades out and lets taps through, then is gone
+  // (watched as it happens: the fade is over in 130 ms, and a busy page could miss it between two looks)
+  await page.evaluate(() => {
+    const el = document.getElementById('ov-menu');
+    window.__closing = null;
+    new MutationObserver(() => {
+      if (el.classList.contains('closing') && !window.__closing) { const st = getComputedStyle(el); window.__closing = { name: st.animationName, taps: st.pointerEvents }; }
+    }).observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
   await page.click('#ov-menu [data-close]');
-  const closing = await page.evaluate(() => { const el = document.getElementById('ov-menu'), st = getComputedStyle(el); return { cls: el.classList.contains('closing'), name: st.animationName, taps: st.pointerEvents }; });
-  expect(closing).toEqual({ cls: true, name: 'go-down', taps: 'none' });
+  await expect.poll(() => page.evaluate(() => window.__closing)).toEqual({ name: 'go-down', taps: 'none' });
   await expect(page.locator('#ov-menu')).toBeHidden();
   await page.click('[data-open="menu"]');
   // a calm view: no fade at all

@@ -20,6 +20,7 @@
 // dice, never Math.random: the game's dice must not be moved by the music.
 
 import { Sound } from './sound.js';
+import { Samples } from './samples.js';
 
 const Music = (() => {
   let enabled = true;
@@ -54,6 +55,8 @@ const Music = (() => {
   const DUCK = 0.4;
   /** How long the quiet after a fight lasts, in seconds, before the bells come back. */
   const HUSH_S = 9;
+  /** How loud the title's cue sits, beside the floors' music: it plays alone, over the key art. */
+  const TITLE_GAIN = 1.4;
   /** How long a layer the music has left behind takes to die away, in seconds. */
   const TAIL_S = 2.4;
   /** The instruments each level of danger brings in, below the bells. */
@@ -174,6 +177,7 @@ const Music = (() => {
   /** @type {any} */ let busCtx = null;
   /** @type {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} told of every note, even with no audio: for tests */
   let listener = null;
+  /** @type {{mood: string, notes: number, cue?: boolean}} */
   let heard = { mood: 'quiet', notes: 0 };
   /**
    * The layers of a mood just left, played on for a moment as they fade: a
@@ -181,6 +185,19 @@ const Music = (() => {
    * @type {{c: any, mood: string, kinds: string[], nextAt: number, until: number, gain: GainNode|null}|null}
    */
   let tail = null;
+  // ---- the pack's music: four stems in step, layers faded with the mood ----
+  // Once a floor's stems are loaded they play in place of the composer's notes
+  // (which go on being written, unheard, for the tests and in case the stems
+  // stop); each stem's gain follows the mood: explore always, tension when
+  // something is awake and close, fight when blows are traded, boss for a
+  // champion, a shade or a boss. A layer comes in quickly and goes slowly.
+  const STEM_UP_S = 0.8, STEM_DOWN_S = TAIL_S;
+  const STEMS = ['explore', 'tension', 'fight', 'boss'];
+  /** The stems each level of danger plays (levels as LEVEL above). */
+  const STEMS_AT = [['explore'], ['explore', 'tension'], ['explore', 'tension', 'fight'], STEMS, STEMS];
+  /** @type {{theme: string, out: GainNode, srcs: Record<string, AudioBufferSourceNode>, gains: Record<string, GainNode>, level: number}|null} */
+  let stems = null;
+  let stemsWanted = '';
   /** The title's swell has been heard this visit. */
   let swelled = false;
   /** @type {GainNode|null} */ let swellGain = null;
@@ -262,6 +279,60 @@ const Music = (() => {
     }
   }
 
+  /** Fade the stems to a level of danger. @param {number} level @param {boolean} [now] */
+  function stemLevel(level, now) {
+    if (!stems || !busCtx) return;
+    stems.level = level;
+    const t = busCtx.currentTime, on = STEMS_AT[level] || STEMS_AT[0];
+    for (const s of STEMS) {
+      const g = stems.gains[s].gain, up = on.includes(s);
+      g.cancelScheduledValues(t); g.setValueAtTime(g.value, t);
+      g.linearRampToValueAtTime(up ? 1 : 0.0001, t + (now ? 0.05 : up ? STEM_UP_S : STEM_DOWN_S));
+    }
+  }
+  /** Let the stems go, fading over `secs`. */
+  function stemsOff(secs) {
+    if (!stems || !busCtx) { stems = null; return; }
+    const old = stems, t = busCtx.currentTime;
+    try {
+      old.out.gain.cancelScheduledValues(t); old.out.gain.setValueAtTime(old.out.gain.value, t); old.out.gain.linearRampToValueAtTime(0.0001, t + secs);
+      for (const s of STEMS) old.srcs[s].stop(t + secs + 0.1);
+    } catch (e) { fault('stems', e); }
+    stems = null;
+  }
+  /**
+   * Keep the floor's stems playing, asking for them first if they are not
+   * here (the composer plays meanwhile), and change to another floor's when
+   * the floor changes. @param {any} a @param {string} theme @param {number} level
+   */
+  function followStems(a, theme, level) {
+    if (stems && stems.theme === theme) { if (stems.level !== level) stemLevel(level); return; }
+    if (stemsWanted === theme) return;
+    stemsWanted = theme;
+    Samples.theme(theme).then(got => {
+      if (!got || !playing || stemsWanted !== theme || !busCtx || busCtx !== a.ctx) return;
+      try {
+        stemsOff(2);
+        const c = a.ctx, at = c.currentTime + 0.1, info = got.info;
+        const out = c.createGain();
+        out.gain.value = info.mixGain || 1;
+        out.connect(bus);
+        const srcs = {}, gains = {};
+        for (const s of STEMS) {
+          const src = c.createBufferSource(), g = c.createGain();
+          src.buffer = got.stems[s]; src.loop = true;
+          // the loop is the manifest's: the encoders leave padding at the end of the file
+          src.loopStart = (info.loopStart || 0) / info.rate; src.loopEnd = (info.loopEnd || info.samples) / info.rate;
+          g.gain.value = 0.0001;
+          src.connect(g); g.connect(out); src.start(at, src.loopStart);
+          srcs[s] = src; gains[s] = g;
+        }
+        stems = { theme, out, srcs, gains, level: -1 };
+        stemLevel(LEVEL[heard.mood] || 0);
+      } catch (e) { fault('stems', e); stems = null; }
+    });
+  }
+
   /**
    * Called every frame while a floor is being played: keep the next steps
    * written a moment ahead.
@@ -288,6 +359,7 @@ const Music = (() => {
     if (a && !busUp) { fadeTo(LEVEL_ALL * (ducked ? DUCK : 1), 1.5); busUp = true; }
     if (mood !== heard.mood) moodChanged(heard.mood, mood, a, now);
     heard.mood = mood;
+    if (a && Samples.on()) followStems(a, Samples.groupOf(theme), LEVEL[mood] || 0);
     // behind (a slow frame, a new floor being made): what was missed is let go, not played in a heap
     if (nextAt < now) nextAt = now + 0.02;
     // write up to a fifth of a second ahead
@@ -297,7 +369,7 @@ const Music = (() => {
       for (const n of s.notes) {
         heard.notes++;
         if (listener) { try { listener(n, mood); } catch (e) { /* ignore */ } }
-        if (a) { try { sound(a.ctx, n, nextAt); } catch (e) { fault(n.k, e); } }
+        if (a && !stems) { try { sound(a.ctx, n, nextAt); } catch (e) { fault(n.k, e); } }
       }
       nextAt += s.dur;
     }
@@ -324,6 +396,14 @@ const Music = (() => {
     if (tail) { endTail(a); }
     const lv = m => LEVEL[m] === undefined ? 0 : LEVEL[m];
     if (lv(to) >= lv(from)) return;
+    // the stems fade their own layers; a fight ending is marked by the theme's phrase coming home
+    if (stems) {
+      const r = lv(from) >= 2 && lv(to) < 2 ? Samples.ready(`music/${stems.theme}/resolve`) : null;
+      if (r && a) {
+        try { const src = a.ctx.createBufferSource(); src.buffer = r; src.connect(stems.out); src.start(now + 0.05); } catch (e) { fault('resolve', e); }
+      }
+      return;
+    }
     const keep = LAYERS[lv(to)];
     const kinds = LAYERS[lv(from)].filter(k => !keep.includes(k));
     if (!kinds.length) return;
@@ -367,13 +447,18 @@ const Music = (() => {
     ];
     for (const { n } of notes) { heard.notes++; if (listener) { try { listener(n, 'swell'); } catch (e) { /* ignore */ } } }
     if (!a) return true;
+    // the pack's title cue, if it has arrived (it is fetched as the title opens), in place of the bells
+    const cue = Samples.ready('music/title');
     try {
       const c = a.ctx, t0 = c.currentTime + 0.05;
       swellGain = c.createGain();
-      swellGain.gain.value = LEVEL_ALL;
+      swellGain.gain.value = cue ? LEVEL_ALL * TITLE_GAIN : LEVEL_ALL;
       swellGain.connect(a.music);
-      if (echoIn) swellGain.connect(echoIn);
-      for (const { at, n } of notes) sound(c, n, t0 + at, swellGain);
+      if (cue) { const src = c.createBufferSource(); src.buffer = cue; src.connect(swellGain); src.start(t0); heard.cue = true; }
+      else {
+        if (echoIn) swellGain.connect(echoIn);
+        for (const { at, n } of notes) sound(c, n, t0 + at, swellGain);
+      }
     } catch (e) { fault('swell', e); }
     return true;
   }
@@ -390,6 +475,8 @@ const Music = (() => {
     playing = false;
     busUp = false;
     endTail(busCtx ? { ctx: busCtx } : null);
+    stemsOff(0.8);
+    stemsWanted = '';
     try { fadeTo(0, 0.8); } catch (e) { fault('fade', e); }
   }
   function toggle() {
@@ -416,7 +503,8 @@ const Music = (() => {
       return n;
     },
     /** What it last heard of the fight, and how many notes it has written: for the tests. */
-    state: () => ({ ...heard, playing, ducked, tail: tail ? tail.mood : '', swelled }),
+    state: () => ({ ...heard, playing, ducked, tail: tail ? tail.mood : '', swelled,
+      stems: stems ? stems.theme : '', layers: stems ? (STEMS_AT[stems.level] || []).slice() : [] }),
   };
 })();
 

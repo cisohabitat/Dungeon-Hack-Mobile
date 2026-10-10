@@ -40,6 +40,17 @@ for (const k in SPRITES) {
     const src = fs.readFileSync(path.join(root, 'js', f), 'utf8');
     check(!/\(\?<[!=]/.test(src), `js/${f} uses a lookbehind, which older Safari cannot read`);
   }
+  // the sound pack: every file sound/index.json names is there, in both formats
+  // (samples.js builds the paths from the names, as the brief set them)
+  const idx = JSON.parse(fs.readFileSync(path.join(root, 'sound', 'index.json'), 'utf8'));
+  const want = [];
+  for (const [id, n] of Object.entries(idx.sfx)) for (let i = 1; i <= n; i++) want.push(`sfx/${id}-${i}`);
+  for (const id of idx.stingers) want.push('stingers/' + id);
+  for (const t of Object.keys(idx.ambience)) want.push('ambience/' + t);
+  for (const t of Object.keys(idx.music)) for (const s of ['explore', 'tension', 'fight', 'boss', 'resolve']) want.push(`music/${t}/${s}`);
+  want.push('music/title');
+  for (const w of want) for (const ext of ['ogg', 'm4a']) check(fs.existsSync(path.join(root, 'sound', `${w}.${ext}`)), `sound/${w}.${ext} is named in sound/index.json but missing`);
+  for (const id of idx.tier1) check(idx.sfx[id] > 0, `tier 1 sound ${id} has no files`);
 }
 
 // every creature the game can put in front of you has a picture

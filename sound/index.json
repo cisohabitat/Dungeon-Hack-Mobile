@@ -1,0 +1,200 @@
+{
+ "about": "The sounds the game plays from sound/, made from manifest.json (which keeps the detail): variation counts, and each theme's loop. Paths are built from these names; each file exists as .ogg and .m4a.",
+ "sfx": {
+  "hit-blade": 3,
+  "hit-blunt": 3,
+  "hit-pierce": 3,
+  "hit-fist": 2,
+  "crit": 2,
+  "swing": 3,
+  "miss": 3,
+  "block": 3,
+  "glance": 2,
+  "hurt": 3,
+  "bow-shoot": 2,
+  "arrow-hit": 2,
+  "door-open": 2,
+  "door-close": 1,
+  "door-locked": 2,
+  "door-unlock": 1,
+  "door-batter": 3,
+  "door-splinter": 1,
+  "secret": 1,
+  "stairs": 1,
+  "trap": 2,
+  "collapse": 1,
+  "fountain": 1,
+  "step-stone": 6,
+  "step-water": 4,
+  "bump": 2,
+  "pickup": 2,
+  "gold": 3,
+  "drink": 2,
+  "eat": 2,
+  "read": 2,
+  "rest": 1,
+  "ui-tap": 2,
+  "ui-page": 2,
+  "ui-error": 1,
+  "voice-growl": 2,
+  "voice-roar": 2,
+  "voice-shriek": 2,
+  "voice-chant": 2,
+  "voice-squelch": 2,
+  "voice-rasp": 2,
+  "voice-hiss": 2,
+  "voice-chitter": 2,
+  "voice-grunt": 2,
+  "voice-bark": 2,
+  "voice-rattle": 2,
+  "voice-howl": 2,
+  "voice-moan": 2,
+  "voice-lament": 2,
+  "voice-wail": 2,
+  "death-blood": 2,
+  "death-rot": 2,
+  "death-bone": 2,
+  "death-goo": 2,
+  "death-ichor": 2,
+  "death-ecto": 2,
+  "death-spore": 2,
+  "death-rust": 2,
+  "far-drip": 3,
+  "far-chain": 2,
+  "far-rumble": 2,
+  "far-wind": 2,
+  "far-creak": 2,
+  "far-bones": 1,
+  "far-moan": 1,
+  "far-clatter": 1
+ },
+ "tier1": [
+  "arrow-hit",
+  "block",
+  "bow-shoot",
+  "bump",
+  "collapse",
+  "crit",
+  "door-batter",
+  "door-close",
+  "door-locked",
+  "door-open",
+  "door-splinter",
+  "door-unlock",
+  "drink",
+  "eat",
+  "fountain",
+  "glance",
+  "gold",
+  "hit-blade",
+  "hit-blunt",
+  "hit-fist",
+  "hit-pierce",
+  "hurt",
+  "miss",
+  "pickup",
+  "read",
+  "rest",
+  "secret",
+  "stairs",
+  "step-stone",
+  "step-water",
+  "swing",
+  "trap",
+  "ui-error",
+  "ui-page",
+  "ui-tap"
+ ],
+ "stingers": [
+  "boss-fall",
+  "champion",
+  "death",
+  "floor",
+  "level-up",
+  "victory"
+ ],
+ "ambience": {
+  "halls": {
+   "samples": 1440000
+  },
+  "crypts": {
+   "samples": 1440000
+  },
+  "warrens": {
+   "samples": 1440000
+  },
+  "sanctum": {
+   "samples": 1440000
+  },
+  "darkelf": {
+   "samples": 1440000
+  },
+  "greyhold": {
+   "samples": 1440000
+  },
+  "marsh": {
+   "samples": 1440000
+  }
+ },
+ "music": {
+  "halls": {
+   "samples": 1645714,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1645714,
+   "mixGain": 1.7467,
+   "bpm": 84
+  },
+  "crypts": {
+   "samples": 1818947,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1818947,
+   "mixGain": 1.8681,
+   "bpm": 76
+  },
+  "warrens": {
+   "samples": 1382400,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1382400,
+   "mixGain": 1.7851,
+   "bpm": 100
+  },
+  "sanctum": {
+   "samples": 1920000,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1920000,
+   "mixGain": 1.9053,
+   "bpm": 72
+  },
+  "darkelf": {
+   "samples": 1728000,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1728000,
+   "mixGain": 1.8836,
+   "bpm": 80
+  },
+  "greyhold": {
+   "samples": 1570909,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1570909,
+   "mixGain": 1.8781,
+   "bpm": 88
+  },
+  "marsh": {
+   "samples": 1974857,
+   "rate": 48000,
+   "loopStart": 0,
+   "loopEnd": 1974857,
+   "mixGain": 1.6668,
+   "bpm": 70
+  }
+ },
+ "title": {
+  "samples": 1824000
+ }
+}

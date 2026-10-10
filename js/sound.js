@@ -8,6 +8,7 @@
 // by a sound, and the balance bot needs every run to come out the same.
 
 import { ITEMS, MONSTERS } from './data.js';
+import { Samples } from './samples.js';
 
 const Sound = (() => {
   /** @type {AudioContext} */
@@ -337,6 +338,77 @@ const Sound = (() => {
     insect_plague(out) { for (let i = 0; i < 3; i++) tone(lp(out, 1400), vary(220, 0.1), 0.7, 'sawtooth', 0.03, vary(40, 0.5), i * 0.05, 0.2); noise(out, 0.7, 0.08, { type: 'bandpass', f: 900, q: 3, attack: 0.2 }); },
   };
 
+  // ---- the sound pack: a rendered sample in place of the synthesis, where there is one ----
+  // How loud each sits beside the synthesis: they are mastered to full scale,
+  // and the synthesis was balanced long ago at a fraction of it. A footstep is
+  // heard hundreds of times and stays soft; a blow is the point of a fight.
+  const SAMPLE_GAIN = {
+    'hit-*': 0.55, crit: 0.45, swing: 0.4, miss: 0.4, block: 0.5, glance: 0.45, hurt: 0.6, 'bow-shoot': 0.45, 'arrow-hit': 0.4,
+    'door-*': 0.45, secret: 0.45, stairs: 0.5, trap: 0.5, collapse: 0.6, fountain: 0.4,
+    'step-stone': 0.2, 'step-water': 0.28, bump: 0.35, pickup: 0.35, gold: 0.35, drink: 0.45, eat: 0.45, read: 0.4, rest: 0.4,
+    'ui-page': 0.16, 'ui-error': 0.3, 'voice-*': 0.5, 'death-*': 0.5, 'far-*': 0.6,
+  };
+  /** The stingers are mastered ten decibels down already, as music is. */
+  const STINGER_GAIN = 0.9;
+  const sampleGain = id => SAMPLE_GAIN[id] != null ? SAMPLE_GAIN[id] : SAMPLE_GAIN[id.split('-')[0] + '-*'] != null ? SAMPLE_GAIN[id.split('-')[0] + '-*'] : 0.45;
+  const STRIKE_SAMPLE = { blade: 'hit-blade', blunt: 'hit-blunt', pierce: 'hit-pierce', fist: 'hit-fist' };
+  const STING = { levelup: 'level-up', die: 'death', win: 'victory', dread: 'champion', namedfall: 'boss-fall', lichfall: 'boss-fall' };
+  /**
+   * The sample a sound plays, if the pack has one: its id, how it is pitched
+   * (a big creature lower), a moment's delay, a second layer after it, and
+   * whether the synthesis plays as well. Null: the synthesis alone. Magic, the
+   * lich's rite and ward, and the monsters' tells have no samples: they stay
+   * as they were made, to be learnt by ear.
+   * @param {string} name @param {Record<string, any>} o
+   * @returns {{id?: string, stinger?: string, rate?: number, delay?: number, also?: any, synthToo?: boolean}|null}
+   */
+  function sampleOf(name, o) {
+    if (STING[name]) return { stinger: STING[name], synthToo: name === 'lichfall' };
+    switch (name) {
+      case 'hit': { const id = STRIKE_SAMPLE[strikeOf(o)]; return id ? { id, also: CRIT[o.tag] ? { id: 'crit' } : null } : null; }
+      case 'swing': return { id: 'swing', rate: o.w && ITEMS[o.w] && ITEMS[o.w].speed >= 800 ? 0.85 : 1 };
+      case 'miss': case 'whiff': return { id: 'miss' };
+      case 'glance': case 'block': case 'hurt': case 'pickup': case 'gold': case 'drink': case 'read': case 'rest':
+      case 'bump': case 'fountain': case 'secret': case 'trap': case 'collapse': return { id: name };
+      case 'eat': return { id: 'eat', delay: 0.3 };      // the bread reaching the mouth in the view first
+      case 'shoot': return o.w === 'sling' || o.w === 'throwknife' ? null : { id: 'bow-shoot' };
+      case 'arrow': return { id: 'arrow-hit' };
+      case 'voice': {
+        const fam = VOICE_OF[o.who] || (MONSTERS[o.who] && MONSTERS[o.who].named ? VOICE_OF[MONSTERS[o.who].named.kin] : '');
+        return fam ? { id: 'voice-' + fam, rate: 1 / sizeOf(o) } : null;
+      }
+      case 'growl': return { id: 'voice-growl' };
+      case 'death': return { id: 'death-' + (o.gore === 'troll' || o.gore === 'bile' || !o.gore ? 'blood' : o.gore), rate: 1 / sizeOf(o) };
+      // a door shut, unlocked, forced, or only pushed open
+      case 'door':
+        if (o.how === 'shut') return { id: 'door-close' };
+        if (o.how === 'unlock' || o.how === 'forced') return { id: o.how === 'unlock' ? 'door-unlock' : 'door-batter', also: { id: 'door-open', delay: 0.3 } };
+        return { id: 'door-open' };
+      case 'batter': return { id: 'door-batter' };
+      case 'splinter': return { id: 'door-splinter' };
+      case 'locked': return { id: 'door-locked' };
+      case 'stairs': return { id: 'stairs', also: { stinger: 'floor', delay: 1.3 } };
+      case 'step': return { id: o.water ? 'step-water' : 'step-stone' };
+      case 'error': return { id: 'ui-error' };
+      case 'page': return { id: 'ui-page' };
+      case 'far': return { id: 'far-' + o.what };
+      default: return null;
+    }
+  }
+  /** Play a sample into a node. False if it is not ready (it is asked for, and the synthesis stands in). */
+  function playSample(out, s) {
+    const buf = s.stinger ? Samples.stinger(s.stinger) : Samples.pick(s.id, rnd);
+    if (!buf) return false;
+    const src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = buf;
+    // a little give in the pitch, so a sound heard often is never quite the same twice
+    src.playbackRate.value = Math.max(0.6, Math.min(1.5, (s.rate || 1) * (s.stinger ? 1 : vary(1, 0.03))));
+    g.gain.value = s.stinger ? STINGER_GAIN : sampleGain(s.id);
+    src.connect(g); g.connect(out);
+    src.start(ctx.currentTime + (s.delay || 0));
+    return true;
+  }
+
   const FX = {
     hit: (out, o) => {
       (STRIKE[strikeOf(o)] || STRIKE.blade)(out);
@@ -528,6 +600,8 @@ const Sound = (() => {
     error: out => tone(lp(out, 800), 150, 0.15, 'sawtooth', 0.08, -50),
     // one of the distant sounds, by name: the ambience plays these on its own
     far: (out, o) => (FAR[o.what] || FAR.drip)(out),
+    // the roof of the way in coming down behind the hero
+    collapse: out => FX.rumble(out),
   };
 
   // ---- ambience: a drone under each floor, its own for each theme ----
@@ -560,6 +634,34 @@ const Sound = (() => {
   };
   /** @type {any} the running drone's nodes */
   let amb = null;
+  // The pack's ambience for the floor, looping under the drone in place of its
+  // noise bed. It is mastered very quiet, near sixty decibels down, so it is
+  // brought up here to sit just under the drone.
+  const AMB_GAIN = 14;
+  /** @type {{src: AudioBufferSourceNode, g: GainNode, theme: string}|null} */
+  let ambBed = null;
+  /** Start (or change to) the floor's ambience loop once it is loaded. */
+  function bedFor(theme) {
+    const want = Samples.on() ? Samples.groupOf(theme) : '';
+    if (!amb || (ambBed && ambBed.theme === want)) return;
+    const buf = want ? Samples.ambience(want) : null;
+    if (want && !buf) return;              // asked for: the noise bed plays meanwhile
+    const t = ctx.currentTime;
+    if (ambBed) {
+      const old = ambBed;
+      old.g.gain.cancelScheduledValues(t); old.g.gain.setValueAtTime(old.g.gain.value, t); old.g.gain.linearRampToValueAtTime(0.0001, t + 2);
+      old.src.stop(t + 2.1);
+      ambBed = null;
+    }
+    if (!buf) return;
+    const src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = buf; src.loop = true;
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(AMB_GAIN, t + 3);
+    src.connect(g); g.connect(amb.out); src.start(t);
+    ambBed = { src, g, theme: want };
+    // the synthesised bed steps aside for it
+    amb.bedGain.gain.cancelScheduledValues(t); amb.bedGain.gain.setValueAtTime(amb.bedGain.gain.value, t); amb.bedGain.gain.linearRampToValueAtTime(0, t + 3);
+  }
   let ambLevel = 0;        // 0 quiet exploration, 1 the lich's fight
   let ambTheme = -1;
   let farAt = 0;           // when the next distant sound comes, in the audio clock
@@ -613,8 +715,10 @@ const Sound = (() => {
       dead.out.gain.setValueAtTime(dead.out.gain.value, t);
       dead.out.gain.linearRampToValueAtTime(0, t + 0.4);
       for (const k of ['osc', 'sub', 'hum', 'lfo', 'bed', 'wind']) dead[k].stop(t + 0.5);
+      if (ambBed) ambBed.src.stop(t + 0.5);
     } catch (e) { /* ignore */ }
     amb = null;
+    ambBed = null;
   }
   /** Bring the drone to a floor's theme and the fight's pitch, over a second and a half. */
   function tune(level, theme) {
@@ -625,7 +729,7 @@ const Sound = (() => {
     ramp(amb.osc.frequency, a.hz * (level ? 1.28 : 1));
     ramp(amb.sub.frequency, a.sub);
     ramp(amb.humGain.gain, a.hum * (level ? 1.6 : 1));
-    ramp(amb.bedGain.gain, a.bed);
+    ramp(amb.bedGain.gain, ambBed ? 0 : a.bed);
     ramp(amb.bedFilter.frequency, a.bedF);
     ramp(amb.windGain.gain, a.wind ? a.bedF * 0.5 : 0);
   }
@@ -634,7 +738,8 @@ const Sound = (() => {
     const a = THEME_AMB[theme] || THEME_AMB[0], t = ctx.currentTime;
     if (farAt && t >= farAt) {
       const name = a.far[Math.floor(rnd() * a.far.length)];
-      FAR[name](bus({ gain: 0.5 + rnd() * 0.5, pan: (rnd() * 2 - 1) * 0.8, cut: 1400 + rnd() * 1400 }));
+      const out = bus({ gain: 0.5 + rnd() * 0.5, pan: (rnd() * 2 - 1) * 0.8, cut: 1400 + rnd() * 1400 });
+      if (!(Samples.on() && playSample(out, { id: 'far-' + name }))) FAR[name](out);
     }
     if (!farAt || t >= farAt) farAt = t + a.gap[0] + rnd() * (a.gap[1] - a.gap[0]);
   }
@@ -645,6 +750,7 @@ const Sound = (() => {
     if (!amb || !ctx) { ambLevel = level; return; }
     try {
       if (level !== ambLevel || theme !== ambTheme) { ambLevel = level; ambTheme = theme; tune(level, theme); }
+      bedFor(theme);
       distant(theme);
     } catch (e) { fault('ambience', e); }
   }
@@ -674,7 +780,16 @@ const Sound = (() => {
       if (name === 'voice' && v.who !== 'lich' && !voiceFree()) return;
       if (listener) { try { listener(name, v); } catch (e) { /* ignore */ } }
       if (!enabled) return;
-      try { const f = FX[name]; if (f && ensure()) f(bus(v), v); } catch (e) { fault(name, e); }
+      try {
+        if (ensure()) {
+          const out = bus(v), s = Samples.on() ? sampleOf(name, v) : null;
+          if (s && playSample(out, s)) {
+            if (s.also) playSample(out, s.also);
+            if (s.synthToo && FX[name]) FX[name](out, v);
+            else if (name === 'die') releaseAll();
+          } else if (FX[name]) FX[name](out, v);
+        }
+      } catch (e) { fault(name, e); }
       // the music steps back under a level gained and under the lich's words
       if (name === 'levelup') duckMusic(1.4);
       else if (name === 'voice' && v.who === 'lich') duckMusic(2.4, 0.22);
@@ -695,7 +810,7 @@ const Sound = (() => {
     /** The audio clock and the master the music plays into, or null while sound is off or cannot be had. */
     audio() { const c = ensure(); return c && master ? { ctx: c, master, music: musicBus || master } : null; },
     /** How the mix stands, for tests: the limiter in place, and whether the music is drawn back. */
-    mix() { return { limiter: !!limiter, music: !!musicBus, ducked: !!ctx && ctx.currentTime < duckedUntil }; },
+    mix() { return { limiter: !!limiter, music: !!musicBus, ducked: !!ctx && ctx.currentTime < duckedUntil, bed: ambBed ? ambBed.theme : '' }; },
     unlock() { ensure(); },
     /** The page was hidden or shown: a hidden page makes no sound at all. */
     away(hidden) {

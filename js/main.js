@@ -5,6 +5,7 @@ import { Assets } from './assets.js';
 import { Renderer } from './renderer.js';
 import { Sound } from './sound.js';
 import { Music } from './music.js';
+import { Samples } from './samples.js';
 import { Game } from './game.js';
 import { UI } from './ui.js';
 import { Telemetry } from './telemetry.js';
@@ -17,7 +18,7 @@ import { Dungeon } from './dungeon.js';
 // drive the game, and how you poke at a dungeon while working on one.
 function exposeForTesting() {
   Object.assign(window, {
-    Game, Dungeon, Renderer, Assets, Sound, Music, UI, Telemetry,
+    Game, Dungeon, Renderer, Assets, Sound, Music, Samples, UI, Telemetry,
     ITEMS: Data.ITEMS, MONSTERS: Data.MONSTERS, CLASSES: Data.CLASSES,
     SPELLS: Data.SPELLS, THEMES: Data.THEMES, SPRITES: Data.SPRITES,
     XP_TABLE: Data.XP_TABLE, MAX_LEVEL: Data.MAX_LEVEL, STAT_NAMES: Data.STAT_NAMES,
@@ -96,6 +97,9 @@ function boot() {
   Renderer.init(document.getElementById('view'));
   UI.init();
   requestAnimationFrame(loop);
+  // the sound pack's list, the title's cue and the everyday sounds, once the title is up
+  // (not with the sound turned off: then each is fetched the first time it is wanted)
+  setTimeout(() => { if (Sound.isEnabled()) Samples.begin(); }, 1200);
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
