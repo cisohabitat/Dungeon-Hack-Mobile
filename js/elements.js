@@ -87,6 +87,8 @@ export function makeElements(K) {
     const kind = fuel(x, y);
     if (!kind) return false;
     fields()[K.key(x, y)] = { k: 'fire', fuel: kind, until: G.t + (kind === 'oil' ? OIL_FIRE_MS : kind === 'door' ? DOOR_FIRE_MS : FIRE_MS), spread: G.t + SPREAD_MS, burn: G.t + 150, gen, ...(wild ? { wild: true } : {}) };
+    // the hero's own fire, catching (a monster's is no combination of the hero's)
+    if (!wild) K.combos.note(kind === 'oil' ? 'oil_fire' : kind === 'door' ? 'door_fire' : 'brushfire');
     const L = lvl();
     // (a door catching is said whenever it is seen: it is news, not more of the same fire)
     if (kind === 'door') { if (dist({ x, y }, K.P()) <= 6) K.log('The door catches fire!', 'bad'); return true; }
@@ -117,6 +119,7 @@ export function makeElements(K) {
       if (m.windup && m.windup.move === 'flare' && K.lvl().monsters.includes(m)) {
         m.windup = null; m.moveReady = K.G.t + 6000; m.nextAct = K.G.t + 600;
         K.log(`The cold dulls the ${K.mstat(m).name}'s glow before it can flare.`, 'good');
+        K.combos.note('quench', m);
         K.learn(m.id, 'answer');
       }
     }
@@ -162,6 +165,7 @@ export function makeElements(K) {
     const comp = K.companionHere();
     const compIn = !!comp && !seen.has('companion') && inWater(comp);
     if (!hit.length && !heroIn && !compIn) return;
+    if (hit.length) K.combos.note('conduction', m);
     if (heroIn) seen.add('hero');
     if (compIn) seen.add('companion');
     Sound.play('cast', K.heard(m, { spell: 'lightning' }));
@@ -187,13 +191,16 @@ export function makeElements(K) {
     for (const [x, y] of squares) fields()[K.key(x, y)] = { k: 'ice', until: G.t + ICE_MS };
     const stands = L.monsters.includes(m);
     const on = (o) => squares.some(([x, y]) => o.x === x && o.y === y);
+    let held = 0;
     for (const o of L.monsters) {
       if (!on(o) || o.collapsed || o.sunk) continue;
+      held++;
       o.nextAct = Math.max(o.nextAct, G.t + ICE_HOLD);
       if (o.windup) o.windup.until += ICE_HOLD;
       o.snaredUntil = Math.max(o.snaredUntil || 0, G.t + ICE_HOLD); o.heldBy = 'ice';
       K.floatText(o, 'frozen in', '#cfeaff');
     }
+    if (held) K.combos.note('flash_freeze', m);
     Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));
     K.log(stands ? `The water freezes solid round the ${K.mstat(m).name}, and holds it fast.` : 'The water freezes solid where it fell.', 'good');
     // (a hold already longer, a basilisk's stone, keeps its own name)
@@ -461,7 +468,7 @@ export function makeElements(K) {
       v.sealedUntil = G.t + VENT_SEAL_MS; v.heat = 0; v.next = v.sealedUntil + 2000;
       n++;
     }
-    if (n) K.log(n > 1 ? 'The cold crusts the glowing cracks over: they will not flare for a while.' : 'The cold crusts the glowing crack over: it will not flare for a while.', 'good');
+    if (n) { K.log(n > 1 ? 'The cold crusts the glowing cracks over: they will not flare for a while.' : 'The cold crusts the glowing crack over: it will not flare for a while.', 'good'); K.combos.note('cold_seal'); }
     return n;
   }
   /** A smouldering floor's cracks for the renderer and the bot: where, how near to flaring (0 to 1, or 0 when quiet), sealed or not, and the squares a flare would cover. */

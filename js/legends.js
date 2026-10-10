@@ -67,11 +67,12 @@ export function makeLegends(K) {
     log(`The Bastion takes the ${MONSTERS[m.id].name}'s blow whole. Your Bash is ready.`, 'good');
     Sound.play('block', K.heard(m));
     K.floatText(m, 'caught', '#ffb040');
+    K.combos.note('shield_wall', m);
     return true;
   }
 
   /** Motley: a blow slipped leaves its maker open. */
-  function mocked(m) { if (has('mock')) K.opening(m); }
+  function mocked(m) { if (has('mock')) { K.opening(m); K.combos.note('jest', m); } }
 
   /** The Lantern of Mercy: what healing would spill past full life is kept as a ward. */
   function overflow(n) {
@@ -91,6 +92,7 @@ export function makeLegends(K) {
     const took = Math.min(dmg, a.hp);
     a.hp -= took;
     if (a.hp <= 0) delete p.aegis;
+    K.combos.note('ward_of_light');
     return { dmg: dmg - took, took };
   }
 
@@ -110,19 +112,25 @@ export function makeLegends(K) {
 
   /** A blow or an arrow of the hero's has landed: the Sunhammer's holy fire, and Thornbinder's knot. */
   function landed(m, survived) {
-    const G = K.G, mb = K.mstat(m);
+    const G = K.G, mb = K.mstat(m), p = P();
     if (survived && has('sunfire') && mb.undead && !(m.dot && m.dot.kind === 'burning' && m.dot.until > G.t + 1000)) {
       m.dot = { kind: 'burning', until: G.t + 3000, next: G.t + 1000, die: 4 };
       K.floatText(m, 'sunfire', '#ffd860');
+      if (p.coating && p.coating.t === 'silver' && p.coating.left > 0) K.combos.note('dawnfire', m);
     }
-    if (survived && has('bind') && m.snaredUntil > G.t) m.snaredUntil = Math.min(m.snaredUntil + 1000, G.t + 6000);
+    if (survived && has('bind') && m.snaredUntil > G.t) { m.snaredUntil = Math.min(m.snaredUntil + 1000, G.t + 6000); K.combos.note('tightening_cord', m); }
   }
 
+  /** When the Last Word's moment was last spent: a kill in that same moment never left the shadows. */
+  let spentAt = -1;
+  /** How deep in one another's bursts the pyres are: one set off by another is a chain. */
+  let pyreDepth = 0;
   /** Whether the Last Word's moment in the shadows is still open; taking it spends it. */
   function unseen() {
     const p = P();
     if (!(p.unseenUntil > K.G.t)) return false;
     p.unseenUntil = 0;
+    spentAt = K.G.t;
     return true;
   }
 
@@ -134,7 +142,7 @@ export function makeLegends(K) {
   function felled(m, tag, how) {
     const p = P(), G = K.G;
     if (tag === 'companion') {
-      if (has('rootbond') && p.hp < p.maxHp) K.healPlayer(d(1, 4));
+      if (has('rootbond') && p.hp < p.maxHp) { K.healPlayer(d(1, 4)); K.combos.note('pack_and_root', m); }
       return;
     }
     if (!OWN(tag) && tag !== 'burning') return;
@@ -142,27 +150,33 @@ export function makeLegends(K) {
       const n = d(1, 8);
       K.healPlayer(n);
       K.floatText(m, 'harvest', '#ff7060');
+      if (K.capped('bloodlust')) K.combos.note('red_feast', m);
     }
     if (has('feast') && K.shaped()) {
       K.healPlayer(d(1, 6));
       p.shape.until += 5000;
+      K.combos.note('feeding_frenzy', m);
     }
     if (how.sneak && has('unseen')) {
+      if (spentAt === G.t) K.combos.note('unbroken_shadow', m);
       p.unseenUntil = G.t + UNSEEN_MS;
       log('You melt back into the shadows.', 'good');
     }
-    if (how.burning && has('pyre')) pyre(m);
-    if (how.brittle && has('shatter')) shatter(m);
+    if (how.burning && has('pyre')) { K.combos.note(pyreDepth ? 'chain_pyre' : 'pyre', m); pyre(m); }
+    if (how.brittle && has('shatter')) { K.combos.note('shatter', m); shatter(m); }
   }
   const besides = m => [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => [m.x + dx, m.y + dy]);
   /** Cinderheart: the burning dead burst, and what stands beside them burns. */
   function pyre(m) {
     log(`The ${K.mstat(m).name} bursts in a gout of flame!`, 'good');
-    for (const [x, y] of besides(m)) {
-      const o = K.monsterAt(x, y);
-      if (o && o !== m && o.hp > 0) K.damageMonster(o, d(2, 6), 'burn');
-      else K.elements.ignite(x, y);
-    }
+    pyreDepth++;
+    try {
+      for (const [x, y] of besides(m)) {
+        const o = K.monsterAt(x, y);
+        if (o && o !== m && o.hp > 0) K.damageMonster(o, d(2, 6), 'burn');
+        else K.elements.ignite(x, y);
+      }
+    } finally { pyreDepth--; }
   }
   /** The Grimoire: a brittle foe that dies shatters, and the cold catches those beside it. */
   function shatter(m) {
@@ -188,6 +202,7 @@ export function makeLegends(K) {
       if (!K.passable(x, y)) return;
       const o = K.monsterAt(x, y);
       if (!o || (o.disguised && !o.creaked)) continue;
+      K.combos.note('skewer', o);
       K.damageMonster(o, Math.max(1, dmg), 'pierce');
       return;
     }

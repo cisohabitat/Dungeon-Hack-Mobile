@@ -21,7 +21,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   what a fight leaves behind and fire scenes (`js/scenes.js`), the render
   state and motion (`js/motion.js`), saving (`js/saving.js`), the paths and
   their capstones (`js/paths.js`), and the grades of what is found with the
-  paths' legendary pieces (`js/legends.js`, their data in `js/relics.js`). A factory
+  paths' legendary pieces (`js/legends.js`, their data in `js/relics.js`), and
+  the combinations (`js/combos.js`): each rule that makes one calls
+  `combos.note(id)` where it acts, and the Journal and the end of a run read them. A factory
   reads `game.js`'s changing state live through `K` (`K.G`, never a copy of
   `G`), and a constant two factories share stays in `game.js`. A factory may
   copy a value from `K` when it is made only if that value is already settled

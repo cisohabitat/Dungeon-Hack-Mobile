@@ -7,6 +7,11 @@
 // address of any kind. What a run's note holds is listed in the Menu's own
 // words, and the server (api/telemetry.js) drops anything else it is sent.
 
+import { RELICS } from './relics.js';
+
+/** The paths' legendary pieces, by id: a run's note says which one it found. */
+const LEGENDS = Object.keys(RELICS).filter(id => RELICS[id].legend);
+
 const KEY = 'deepdelve.reports';
 const ENDPOINT = '/api/telemetry';
 // A page that breaks every frame would send a note every frame: a handful a
@@ -75,6 +80,8 @@ function runEnded(G) {
     outcome: G.status === 'won' ? 'win' : 'death', depth: G.depth || 0, level: p.level || 0,
     cause: G.status === 'won' || !k ? '' : String(k.cause || k.name || ''),
     minutes: Math.round((G.t || 0) / 60000), fps, tips, device: device(),
+    // the combinations the run made, and the legend it found, if any: how much a build was there to name
+    combos: Object.keys(G.combos || {}), legend: ((G.relics && G.relics.found) || []).find(id => LEGENDS.includes(id)) || '',
   });
 }
 

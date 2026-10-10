@@ -4,6 +4,7 @@ import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { RELIC_POWERS, RELICS, RELIC_SETS, setOf, toCollect } from './relics.js';
 import { Progress } from './progress.js';
+import { COMBOS } from './combos.js';
 import { $, escapeHtml, upFirst, diffOf, diffName } from './uikit.js';
 
 /** Each path's name, by its id, for a legend's codex line. */
@@ -116,6 +117,23 @@ function renderCodex(el) {
   return `${set.filter(id => found.includes(id)).length} of ${set.length} found · legends ${legends.filter(id => found.includes(id)).length} of ${legends.length}`;
 }
 
+/**
+ * Fill el with every combination, found or not, bestiary-style: a found one
+ * in full, with how often this run has made it; one still to find by a hint
+ * of what goes into it. Returns the count line.
+ */
+function renderCombos(el) {
+  const found = Progress.load().combos, G = Game.state(), now = (G && G.combos) || {};
+  const ids = Object.keys(COMBOS).sort((a, b) => Number(!found.includes(a)) - Number(!found.includes(b)));
+  el.innerHTML = '<p class="dim small combos-about">Where two things meet and make more than either: an element and the place, an oil and a foe, a relic and a talent, a legend and its path. Each is named the first time it happens, and kept here.</p><div class="codex combos">' + ids.map(id => {
+    const c = COMBOS[id];
+    if (!found.includes(id)) return `<div class="relic-row unfound" data-combo="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${escapeHtml(c.hint)}</p></div></div>`;
+    return `<div class="relic-row" data-combo="${id}"><span class="relic-q combo-mark">✦</span><div><h3 class="relic">${escapeHtml(c.name)}</h3><p class="codex-kind">${escapeHtml(c.text)}</p>`
+      + (now[id] ? `<p class="combo-now">${now[id] > 1 ? `${now[id]} times` : 'Once'} this run</p>` : '') + '</div></div>';
+  }).join('') + '</div>';
+  return `${found.filter(id => COMBOS[id]).length} of ${Object.keys(COMBOS).length} found`;
+}
+
 /** Every class by three difficulties, each lit once that class has won there. */
 function renderTrophies() {
   const v = Progress.load(), { won, total } = Progress.trophyCount(v);
@@ -171,4 +189,4 @@ function renderHall() {
   el.innerHTML = still + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1}${Number(h.renown) > 0 ? ` \u2605${Number(h.renown)}` : ''} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? 'Claimed the Heart' : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) <= 2 ? ' · a quick delve' : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffName(diffOf(h))}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
 }
 
-export { renderBestiary, renderCodex, renderTrophies, renderHall };
+export { renderBestiary, renderCodex, renderCombos, renderTrophies, renderHall };

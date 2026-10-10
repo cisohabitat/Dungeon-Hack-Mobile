@@ -215,6 +215,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .end-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-6); }
 .end-tags .tag { padding: var(--s-4) var(--s-10); border: 1px solid var(--border); border-radius: 999px; background: var(--panel); font-size: var(--t-md); color: var(--text); }
 .end-tags .tag.path { color: var(--gold); border-color: var(--gold); }
+.end-build { margin: 0 0 var(--s-8); text-align: center; font-size: var(--t-md); color: var(--gold); font-style: italic; }
+.end-tags .tag.combo, .finds .tag.combo { color: var(--text-mid); border-style: dashed; }
 .end-tags .tag.g-rare { color: var(--g-rare); border-color: var(--g-rare-edge); }
 .end-tags .tag.g-relic { color: var(--gold); border-color: var(--edge-won); }
 .end-tags .tag.g-legend { color: var(--g-legend); border-color: var(--g-legend-edge); }
@@ -794,6 +796,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .relic-row .codex-kind { margin: 0; color: var(--dim); font-size: var(--t-sm); }
 .relic-row.unfound { border-color: var(--border); background: #111018; padding: var(--s-6) var(--s-12); align-items: center; }
 .relic-row.unfound h3 { color: var(--dim); font-style: italic; font-size: var(--t-lg); }
+/* a combination found: its mark, and how often this run has made it */
+.relic-q.combo-mark { color: var(--gold); border-style: solid; border-color: var(--edge-won); }
+.combo-now { margin: var(--s-2) 0 0; font-size: var(--t-xs); color: var(--good-text); }
+.combos-about { margin: 0 0 var(--s-8); }
 .relic-q { flex: 0 0 48px; height: 32px; display: grid; place-content: center; color: var(--dim); border: 1px dashed var(--border); border-radius: 6px; }
 /* a background still to be earned: dim, and says how */
 .bg-card.locked, .bg-card.locked:disabled { opacity: 1; border-style: dashed; background: #111018; cursor: not-allowed; }

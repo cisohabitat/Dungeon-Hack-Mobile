@@ -27,6 +27,8 @@
 <p id="state">Loading…</p>
 <h2>Win rate by class</h2>
 <div class="wrap"><table id="rates"></table></div>
+<h2>Builds</h2>
+<p id="builds"></p>
 <h2>Frame rate in play</h2>
 <p id="fps"></p>
 <h2>Commonest crashes</h2>
@@ -78,6 +80,12 @@ async function main() {
     }
     t.append(tr);
   }
+  // how many wins made at least one named combination (the aim is 60% or more), and the commonest
+  const allWins = Object.values(wins).reduce((a, b) => a + b, 0), comboWins = Object.values(stats.comboWins || {}).reduce((a, b) => a + b, 0);
+  const most = Object.entries(stats.combos || {}).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id, n]) => `${id.replace(/_/g, ' ')} ${n}`);
+  document.getElementById('builds').textContent = allWins
+    ? `Wins that made a named combination: ${Math.round(comboWins / allWins * 1000) / 10}% of ${allWins}.${most.length ? ` Most made: ${most.join(' · ')}.` : ''}`
+    : 'No wins reported yet.';
   const f = stats.fps || {}, total = [0, 1, 2, 3].reduce((a, i) => a + (f[i] || 0), 0);
   document.getElementById('fps').textContent = total
     ? ['50 or more', '30 to 50', '20 to 30', 'under 20'].map((l, i) => `${l} fps: ${Math.round((f[i] || 0) / total * 1000) / 10}%`).join(' · ')

@@ -162,6 +162,35 @@ test.describe('progress between runs', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a combination is named once, kept in the Journal\'s Combinations tab, listed on the hero sheet, and the end names the build', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await startGame(page, { seed: 'combo-tab', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => { Game.noteCombo('broken_off'); Game.noteCombo('broken_off'); Game.noteCombo('oil_fire'); });
+    // named in the log the first time only
+    const said = await page.evaluate(() => Game.state().log.filter(e => /Broken Off!/.test(e.m)).length);
+    expect(said).toBe(1);
+    await page.click('[data-open="journal"]');
+    await page.click('[data-jtab="combos"]');
+    await expect(page.locator('[data-jtab="combos"]')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#journal-count')).toHaveText(/^2 of \d+ found$/);
+    await expect(page.locator('#journal-list [data-combo="broken_off"]')).toContainText('2 times this run');
+    await expect(page.locator('#journal-list [data-combo="conduction"]')).toHaveClass(/unfound/);
+    await expect(page.locator('#journal-list [data-combo="conduction"]')).toContainText('Lightning, and water.');
+    await page.click('#ov-journal [data-close]');
+    await page.click('[data-open="char"]');
+    await expect(page.locator('#char-sheet')).toContainText('Combinations this run');
+    await expect(page.locator('#char-sheet .tag.combo').first()).toContainText('Broken Off');
+    await page.click('#ov-char [data-close]');
+    // the end of the run names the build in a line
+    await page.evaluate(() => { const p = Game.player(); p.path = 'knight'; p.hp = 1; Game.hurtPlayer(5, 'A test blow.'); });
+    await expect(page.locator('.end-build')).toContainText('Knight, fighting by Broken Off');
+    await expect(page.locator('#end-summary .tag.combo').first()).toContainText('Broken Off');
+    expect(errors).toEqual([]);
+  });
+
   test('an earned background is a locked card until a win opens it, and the victory screen says so', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

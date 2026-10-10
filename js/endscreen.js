@@ -62,6 +62,8 @@ export function makeEndScreen(K) {
   /** The summary block: highlights, the kills as pictures, talents, relics, totals. */
   function renderSummary(G, won) {
     const s = Game.runStats(), p = G.player, parts = [];
+    // the build, in a line: the path, a legend carried, the combinations it leaned on
+    parts.push(`<p class="end-build">${escapeHtml(Game.buildLine())}</p>`);
     parts.push('<div class="end-h"><span>The run</span></div><ul class="end-lines">' + runHighlights(G, won).map(l => `<li>${l}</li>`).join('') + '</ul>');
     // most killed first; a tie goes to the tougher kind
     const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((a, b) => b[1] - a[1] || MONSTERS[b[0]].xp - MONSTERS[a[0]].xp);
@@ -82,6 +84,9 @@ export function makeEndScreen(K) {
     for (const id of p.boons || []) { const b = BOONS.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     for (const id of p.renownTaken || []) { const b = RENOWN.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
+    // the combinations it made, most used first
+    const combos = Game.combosUsed();
+    if (combos.length) parts.push('<div class="end-h"><span>Combinations</span></div><div class="end-tags">' + combos.map(c => `<span class="tag combo">${escapeHtml(c.name)}${c.n > 1 ? ` \u00d7${c.n}` : ''}</span>`).join('') + '</div>');
     // what was found: the rare gear, the relics and any legend, in the colours of their grades
     const finds = Game.runFinds();
     if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${f.grade}${f.grade === 'relic' ? ' relic' : ''}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');

@@ -10,7 +10,7 @@ import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Progress } from './progress.js';
 import { $, $$, escapeHtml, diffOf, diffName, icon } from './uikit.js';
-import { renderBestiary, renderCodex, renderHall } from './hall.js';
+import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
 import { makeMapView } from './mapview.js';
@@ -160,7 +160,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-27', text: 'finds have grades now, fine to legendary, and every path has a legend of its own: bring down a champion once you walk one' };
+  const NEWS = { id: '2026-10-28', text: 'finds have grades now, every path has a legend a champion drops, and the combinations you make are named and kept in the Journal' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1367,6 +1367,7 @@ const UI = (() => {
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
+    if (journalTab === 'combos') { $('#journal-count').textContent = renderCombos($('#journal-list')); return; }
     const got = Game.journal();
     $('#journal-count').textContent = `${got.length} of ${Game.pagesInDungeon()}`;
     const el = $('#journal-list');

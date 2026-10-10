@@ -27,6 +27,7 @@ import { makeCurses } from './curses.js';
 import { makeFallen } from './fallen.js';
 import { makePaths } from './paths.js';
 import { makeLegends } from './legends.js';
+import { makeCombos, COMBOS } from './combos.js';
 
 // Core game state and rules.
 
@@ -541,7 +542,7 @@ const Game = (() => {
     const c = P().coating;
     if (!c || !(c.left > 0) || !P().eq.weapon || wild.shaped()) return 0;
     if (c.t === 'fire') return elemental(m, d(1, 4), 'fire');
-    if (c.t === 'silver' && mstat(m).undead) return d(1, 6);
+    if (c.t === 'silver' && mstat(m).undead) { combos.note('silver_dead', m); return d(1, 6); }
     return 0;
   }
   // The grey dwarves are stout: poison does not take on them, as it does not on the dead,
@@ -558,7 +559,7 @@ const Game = (() => {
     const p = P(), c = p.coating;
     if (!c || !(c.left > 0) || !p.eq.weapon) return;
     const mb = mstat(m);
-    if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; }
+    if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; combos.note('trolls_bane', m); }
     if (survived && c.t === 'venom' && venomTakes(m, mb) && Dice.chance(1 / 3)) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
@@ -1382,7 +1383,13 @@ const Game = (() => {
     get emit() { return emit; }, get focusHas() { return focusHas; }, get hasTalent() { return hasTalent; }, get lvl() { return lvl; }, get noteHealed() { return noteHealed; },
     get opening() { return opening; }, get spellDC() { return spellDC; },
   });
+  const combos = makeCombos({
+    get G() { return G; }, get P() { return P; }, get log() { return log; }, get floatText() { return floatText; }, get pathOf() { return pathOf; },
+    noteCombo: id => Progress.noteCombo(id), className: cls => CLASSES[cls].name,
+    legendCarried: () => { const it = Object.values(P().eq).find(x => x && x.u && RELICS[x.u] && RELICS[x.u].legend); return it ? RELICS[it.u].name : ''; },
+  });
   const legends = makeLegends({
+    get combos() { return combos; }, get capped() { return capped; },
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get hasPower() { return hasPower; }, get log() { return log; }, get pathOf() { return pathOf; },
     get key() { return key; }, get relicItem() { return relicItem; }, get floatText() { return floatText; }, get shaped() { return () => wild.shaped(); }, get heard() { return heard; },
     get opening() { return opening; }, get mstat() { return mstat; }, get healPlayer() { return healPlayer; }, get monsterAt() { return monsterAt; },
@@ -1530,7 +1537,7 @@ const Game = (() => {
   // What that module borrows from here goes through these getters (and setters
   // for the state it changes), so it always sees the game as it is now.
   const foesK = {
-    get legends() { return legends; },
+    get legends() { return legends; }, get combos() { return combos; },
     shaped: () => wild.shaped(),
     quick: () => isQuick(),
     warmthFrom,
@@ -1638,6 +1645,7 @@ const Game = (() => {
   });
   // ---------- the dungeon answers the elements: see elements.js ----------
   const elements = makeElements({
+    get combos() { return combos; },
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get tile() { return tile; }, get T() { return T; }, get key() { return key; },
     get log() { return log; }, get floatText() { return floatText; }, get spray() { return spray; }, get heard() { return heard; }, get mstat() { return mstat; },
     get damageMonster() { return damageMonster; }, get elemental() { return elemental; }, get hurtPlayer() { return hurtPlayer; }, get smash() { return smash; },
@@ -1691,7 +1699,7 @@ const Game = (() => {
 
   // ---------- powers: see powers.js ----------
   const { READ_MS, SCROLL_GLOW, abilityLeft, abilityOf, boltEnd, boltTargets, castLabel, castLast, castSpell, enemiesNear, fireCatches, quaff, quickScroll, rangerAim, readQuick, restLabel, spellFx, spellRange, spellWasteReason, useAbility, wardenHold } = makePowers({
-    get legends() { return legends; },
+    get legends() { return legends; }, get combos() { return combos; },
     get CORD_SQUARE() { return CORD_SQUARE; }, get DIRS() { return DIRS; }, get FROST_SPELLS() { return FROST_SPELLS; }, get G() { return G; },
     get P() { return P; }, get SAVED_SHARE() { return SAVED_SHARE; }, get armStat() { return armStat; }, get berserkerRage() { return berserkerRage; },
     get blocked() { return blocked; }, get buffAmount() { return buffAmount; }, get buffDuration() { return buffDuration; },
@@ -1737,7 +1745,7 @@ const Game = (() => {
 
   // ---------- combat: see combat.js ----------
   const { REMAINS_MAX, REMAINS_MS, attack, checkLevelUp, chooseBoon, damageMonster, floatText, healPlayer, heard, hitGroup, hurtPlayer, isCapstoneOffer, isPathOffer, isRenownOffer, levelNote, offerCapstone, offerPath, packSize, pendingBoons, pendingLevel, pruneRemains, relativeBearing, renownAt } = makeCombat({
-    get legends() { return legends; },
+    get legends() { return legends; }, get combos() { return combos; }, get setWorn() { return setWorn; },
     get BITS_MAX() { return BITS_MAX; }, get CORPSE_MS() { return CORPSE_MS; }, get DIRS() { return DIRS; },
     get DUAL_HIT_PENALTY() { return DUAL_HIT_PENALTY; }, get G() { return G; }, get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; },
     get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get OFF_BALANCE() { return OFF_BALANCE; }, get P() { return P; }, get QUICK() { return QUICK; },
@@ -1828,6 +1836,8 @@ const Game = (() => {
     beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: () => prelude.finish(realNow || performance.now()),
     state: () => G, player: P, level: lvl, log, mod,
     lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
+    /** The run's build in a line, and its combinations, most used first. */
+    buildLine: () => (G ? combos.buildLine() : ''), noteCombo: (/** @type {string} */ id, /** @type {any} */ at) => combos.note(id, at), combosUsed: () => (G ? combos.used().map(([id, n]) => ({ id, n, name: COMBOS[id].name })) : []),
     /** This run's finds, best first: the rare gear known, the relics and legends (a save from before finds were kept lists its relics). */
     runFinds: () => { if (!G || !G.stats) return []; if (G.status === 'playing') legends.noteFinds(); const f = [...(G.stats.finds || [])]; for (const id of (G.relics && G.relics.found) || []) if (RELICS[id] && !f.some(x => x.key.endsWith('|' + id))) f.push({ key: '|' + id, name: RELICS[id].name, grade: RELICS[id].legend ? 'legend' : 'relic', depth: 0 }); const rank = { legend: 0, relic: 1, rare: 2 }; return f.sort((a, b) => rank[a.grade] - rank[b.grade]); }, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,

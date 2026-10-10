@@ -179,6 +179,10 @@ export function makeCombat(K) {
     // (the Last Word: a foe slain from the shadows a moment ago leaves the next blow there too)
     const sneak = p.cls === 'thief' && !atRange && (!m.awake || m.fleeing || stepped || K.legends.unseen()) && sneakMult() > 1;
     if (stepped) p.shadowUntil = 0;
+    // what made a strike from the shadows, or a Warden's or the Dawn's bite, for its combination's name
+    const fromSmoke = sneak && (m.smoked || 0) > K.G.t;
+    const warden = wardenHold(m) > 0 ? (m.heldBy === 'ice' ? 'icebound_prey' : 'snared_prey') : '';
+    const dawn = K.setWorn('dawn') && mb.undead;
     // an arrow at a foe that has not yet seen who loosed it
     const unseen = atRange && !m.awake;
     const marked = unseen && hasTalent('hunters_mark');
@@ -251,6 +255,7 @@ export function makeCombat(K) {
       const n = Math.max(1, Math.floor(dmg / 2));
       if (m.pack && m.pack.includes(behind)) {
         behind.hp -= n;
+        K.combos.note('through_the_pack', m);
         if (behind.hp <= 0) { m.pack.splice(m.pack.indexOf(behind), 1); if (!m.pack.length) delete m.pack; memberDown(m); }
         else log(`Your swing carries into the ${mb.name} behind for ${n}.`);
       } else if (!m.collapsed) damageMonster(m, n, 'cleave');   // it has stepped up into the swing
@@ -258,11 +263,19 @@ export function makeCombat(K) {
     // a flaming weapon burns what it strikes: no troll regrows the wound, and
     // Kindling keeps the fire going
     if (hasPower('flame', 'weapon') && struckSurvived) {
-      if (mb.regen) { if (!(m.burnUntil > K.G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = K.G.t + 6000; }
+      if (mb.regen) { if (!(m.burnUntil > K.G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = K.G.t + 6000; K.combos.note('trolls_bane', m); }
       if (kindles()) setBurning(m);
     }
     if (bladeLanded && !w.claws) coatLanded(m, struckSurvived);
-    if (bladeLanded) K.legends.landed(m, struckSurvived);
+    if (bladeLanded) {
+      K.legends.landed(m, struckSurvived);
+      // and what the blow made of what was already there, named the first time
+      if (sneak && stepped) K.combos.note('shadow_step', m);
+      if (fromSmoke) K.combos.note('smoke_strike', m);
+      if (sneak && K.setWorn('night')) K.combos.note('nightwalk', m);
+      if (warden) K.combos.note(warden, m);
+      if (dawn) K.combos.note('dawn_order', m);
+    }
     // a dark elf's hand crossbow: its bolts carry their sleeping poison, and one in four that lands
     // leaves a living foe drowsy, its next move a second late (not the dead, a stout grey dwarf, a boss or a champion)
     if (!w.claws && P().eq.weapon && ITEMS[P().eq.weapon.t].drowse && atRange && struckSurvived && !mb.undead && !mb.stout && !mb.boss && !mb.named && !(m.windup && m.windup.move === 'rite') && Dice.chance(1 / 4)) {
@@ -347,6 +360,7 @@ export function makeCombat(K) {
     if (m.disguised) { dmg *= 2; spring(m, 'struck'); }
     // what a legendary piece adds to the blow (a brittle foe's third more, a rooted one's 2)
     dmg = K.legends.harder(m, dmg, tag);
+    if (tag === 'companion' && m.heldBy === 'roots' && m.snaredUntil > K.G.t) K.combos.note('held_for_the_pack', m);
     noteDealt(m, dmg, tag);
     const mb = mstat(m);
     m.hp -= dmg;

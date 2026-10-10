@@ -376,6 +376,7 @@ export function makePowers(K) {
       { const o = heard(m); soon(() => Sound.play('block', o)); }
       if (!rite) floatText(m, broke ? 'broken off' : 'reels', '#e8d8a0');
       log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
+      if (broke) K.combos.note('broken_off', m);
       // a Rallying Bash puts heart back into the one who swings it
       if (capped('rally')) healPlayer(d(1, 6));
       // a Berserker puts weight behind it: the bash is a blow of its own

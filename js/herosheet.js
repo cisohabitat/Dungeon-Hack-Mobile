@@ -72,7 +72,7 @@ export function makeHeroSheet(K) {
       ...(p.aegis && p.aegis.until > G.t ? [row('Ward of light', `${p.aegis.hp}, ${Math.ceil((p.aegis.until - G.t) / 1000)}s left`, true)] : []),
     ];
     const scores = Object.keys(STAT_NAMES).map(k => { const m = Game.mod(p.stats[k]); return `<div${k === c.primary ? ' class="key-stat"' : ''}>${STAT_NAMES[k]}<span>${p.stats[k]} (${m >= 0 ? '+' : ''}${m})</span></div>`; });
-    const finds = Game.runFinds();
+    const finds = Game.runFinds(), combos = Game.combosUsed();
     const run = [
       row('Gold', p.gold), row('Kills', p.kills), row('Steps', p.steps), row('Deepest floor', p.deepest),
       row('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
@@ -81,6 +81,7 @@ export function makeHeroSheet(K) {
     const groups = `<h3 class="sheet-h">In a fight</h3><div class="sheet">${fight.join('')}</div>`
       + `<h3 class="sheet-h">Scores</h3><div class="sheet scores">${scores.join('')}</div>`
       + `<h3 class="sheet-h">The run</h3><div class="sheet">${run.join('')}</div>`
+      + (combos.length ? `<h3 class="sheet-h">Combinations this run</h3><div class="finds">${combos.map(x => `<span class="tag combo">${escapeHtml(x.name)}${x.n > 1 ? ` \u00d7${x.n}` : ''}</span>`).join('')}</div>` : '')
       + `<h3 class="sheet-h">This run's finds</h3>${finds.length ? `<div class="finds">${finds.map(f => `<span class="tag g-${f.grade}">${escapeHtml(f.name)}</span>`).join('')}</div>` : '<p class="dim small finds-none">Nothing rare yet. Fine work shows green, rare blue, a relic gold and a legend amber.</p>'}`;
     let extra = '';
     // the path taken, or the two still ahead

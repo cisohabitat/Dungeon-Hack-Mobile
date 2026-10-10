@@ -1,5 +1,6 @@
-// Rule checks for the grades of what is found and the legendary pieces
-// (js/legends.js), run from rules.js with its helpers lent in.
+// Rule checks for the grades of what is found, the legendary pieces
+// (js/legends.js) and the combinations (js/combos.js), run from rules.js
+// with its helpers lent in.
 module.exports = async function legendChecks(h) {
   const { test, start, beside, walk, wearRelic, tallyLines, seedDice, markLog, linesSince } = h;
 
@@ -280,5 +281,67 @@ module.exports = async function legendChecks(h) {
     Game.player().inv.splice(Game.player().inv.indexOf(chain), 1);
     if (!Game.runFinds().some(x => /Sturdy Chain/.test(x.name))) out.push('the chain was forgotten once gone');
     return out.length ? out.join('; ') : true;
+  });
+  await test('a combination is named the first time in a run and counted after, and the journal keeps it from run to run', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'combo-note');
+    const { Game, Progress } = ctx; const G = Game.state();
+    const mark = markLog(G);
+    Game.noteCombo('oil_fire'); Game.noteCombo('oil_fire'); Game.noteCombo('oil_fire');
+    const said = linesSince(G, mark).filter(l => /Sheet of Flame!/.test(l)).length;
+    if (said !== 1) out.push(`named ${said} times`);
+    if (G.combos.oil_fire !== 3) out.push(`counted ${G.combos.oil_fire}`);
+    if (!Progress.load().combos.includes('oil_fire')) out.push('the journal did not keep it');
+    // a new run starts the count afresh, and the journal still has it
+    Game.newGame({ name: 'Again', cls: 'fighter', stats: Game.rollStats(), seed: 'combo-note-2', opts: Game.state().opts });
+    if (Game.state().combos && Game.state().combos.oil_fire) out.push('the count carried into a new run');
+    if (!Progress.load().combos.includes('oil_fire')) out.push('the journal forgot it');
+    Game.noteCombo('not_a_combination');
+    if (Game.state().combos && Game.state().combos.not_a_combination) out.push('an unknown one was counted');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the combinations come about where their rules act: lightning through water, cold freezing it, a Bash breaking off a blow, Cleave into a group', async () => {
+    const out = [];
+    {
+      const { ctx, Game, G, L, put } = await arena('mage', 'combo-water');
+      L.twist = 'flooded';
+      put('goblin', 3); put('goblin', 3, 1);
+      G.t = Math.max(G.t, Game.player().nextAttack) + 10;
+      Game.castSpell(ctx.SPELLS.mage.find(s => s.id === 'lightning'));
+      if (!(G.combos && G.combos.conduction)) out.push('lightning through water was not Conduction');
+      L.monsters.length = 0; L.fields = {};
+      put('goblin', 2); put('goblin', 2, 1);
+      G.t = Math.max(G.t, Game.player().nextAttack) + 10;
+      Game.castSpell(ctx.SPELLS.mage.find(s => s.id === 'cone_cold'));
+      if (!(G.combos && G.combos.flash_freeze)) out.push('cold freezing water was not Flash Freeze');
+    }
+    {
+      const { Game, G, p, put } = await arena('fighter', 'combo-bash');
+      const m = put('goblin', 1);
+      m.windup = { kind: 'blow', at: G.t, until: G.t + 9000 };
+      p.abilityReady = 0;
+      if (!Game.useAbility()) out.push('the Bash would not swing');
+      if (!(G.combos && G.combos.broken_off)) out.push('a Bash breaking off a blow was not Broken Off');
+    }
+    {
+      const { Game, G, p, put, swing } = await arena('fighter', 'combo-cleave');
+      p.talents = [...(p.talents || []), 'cleave'];
+      put('goblin', 1, 0, { pack: [{ hp: 999, maxHp: 999 }] });
+      swing();
+      if (!(G.combos && G.combos.through_the_pack)) out.push('Cleave into a group was not Through the Pack');
+      void Game;
+    }
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the end names the build: the path, a legend carried, and the combinations leaned on most', async () => {
+    const ctx = await start('fighter', 'combo-build');
+    const { Game } = ctx; const p = Game.player();
+    walk(ctx, 'knight');
+    p.eq.shield = null; wearRelic(ctx, 'bastion');
+    Game.noteCombo('broken_off'); Game.noteCombo('broken_off'); Game.noteCombo('shield_wall'); Game.noteCombo('broken_off'); Game.noteCombo('oil_fire');
+    const line = Game.buildLine();
+    return line === 'Knight bearing the Bastion, fighting by Broken Off and The Wall Holds' || `the line read "${line}"`;
   });
 };

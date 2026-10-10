@@ -5,20 +5,21 @@
 
 import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS } from './data.js';
 import { RELICS, toCollect } from './relics.js';
+import { COMBOS } from './combos.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
 const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], paths: {}, vows: {}, feats: {} };
+  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {} };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   // wins with each path, and with each vow kept: counts, nothing else
   /** @type {[('paths'|'vows'|'feats'), string[]][]} */
@@ -36,6 +37,7 @@ function clean(v) {
     }
   }
   if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
+  if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => typeof id === 'string' && COMBOS[id]))];
   return out;
 }
 /** A Hall from before progress was kept still counts its wins: those on one
@@ -53,7 +55,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], paths: {}, vows: {}, feats: {} };
+  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {} };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -146,6 +148,16 @@ function noteRelic(id) {
   return fresh;
 }
 
+/** A combination come about goes in the journal; true the first time on this device. */
+function noteCombo(id) {
+  if (!COMBOS[id]) return false;
+  const v = load();
+  if (v.combos.includes(id)) return false;
+  v.combos.push(id);
+  store(v);
+  return true;
+}
+
 // ---------- the fallen ----------
 // The last hero to die on this device is remembered: who they were, the
 // floor they fell on and what they wore. A later run finds their bones
@@ -201,5 +213,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, vowsOpen, recordWin, noteRelic, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

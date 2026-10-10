@@ -740,6 +740,7 @@ export function makeFoes(K) {
     if (!(p.webbed > K.G.t)) return;
     p.webbed = 0;
     K.log('The fire runs along the web and it shrivels away. You are free!', 'good');
+    K.combos.note('web_burn');
   }
   /** A closed door stands between a charger and the hero, down its line. */
   function doorInCharge(m, w) {

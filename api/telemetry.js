@@ -23,6 +23,8 @@ function clean(b) {
       outcome: ['win', 'death', 'quit'].includes(b.outcome) ? b.outcome : 'quit',
       depth: num(b.depth, 0, 32), level: num(b.level, 0, 40), cause: word(b.cause, 40), minutes: num(b.minutes, 0, 6000),
       fps, tips: num(b.tips, 0, 999),
+      // the combinations a run made and the legend it found: was there a build to name
+      combos: Array.isArray(b.combos) ? b.combos.slice(0, 40).map(x => word(x, 24)).filter(Boolean) : [], legend: word(b.legend, 24),
       device: { w: num(d.w, 0, 10000), h: num(d.h, 0, 10000), dpr: Math.min(8, +d.dpr || 0), cores: num(d.cores, 0, 256), mem: Math.min(64, +d.mem || 0), touch: !!d.touch, family: word(d.family, 20) },
     };
   }
@@ -63,6 +65,9 @@ module.exports = async function handler(req, res) {
       // only a run that ended counts towards a win rate: a quit says nothing either way
       if (e.outcome !== 'quit') cmds.push(['HINCRBY', 'dd:count:runs', key, 1]);
       if (e.outcome === 'win') cmds.push(['HINCRBY', 'dd:count:wins', key, 1]);
+      // a win that made at least one combination, and how often each is made at all
+      if (e.outcome === 'win' && e.combos.length) cmds.push(['HINCRBY', 'dd:count:combowins', key, 1]);
+      for (const c of e.combos) cmds.push(['HINCRBY', 'dd:count:combos', c, 1]);
       // frame-rate buckets summed over every run, for the budget's real-world check
       e.fps.forEach((n, i) => { if (n) cmds.push(['HINCRBY', 'dd:count:fps', String(i), n]); });
       await pipeline(cmds);
