@@ -627,7 +627,7 @@ js/music.js       music composed as it plays, following the fight
 js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input
-js/titlescene.js, shopview.js, choices.js, pack.js, mapview.js, endscreen.js   overlays split from ui.js
+js/titlescene.js, shopview.js, choices.js, pack.js, mapview.js, herosheet.js, endscreen.js   overlays split from ui.js
 js/telemetry.js   opt-in reports
 api/              the reports' Vercel functions
 dashboard.html    real players' win rates beside the bot's

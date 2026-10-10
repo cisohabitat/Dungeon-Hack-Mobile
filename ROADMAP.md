@@ -69,8 +69,8 @@ This is where a player decides whether a game feels AAA. Deepdelve is good from 
 - [ ] **Transitions**: screen changes, overlay openings, descents and level-ups each get a 150–250 ms movement with a sound. No hard cuts anywhere.
 - [ ] **Sound design pass**: mixed samples (CC0 libraries, lightly processed) for blows, doors, footsteps and the interface; keep synthesis for magic. A limiter and a proper mix bus, ducking under the lich's lines and level-ups.
 - [ ] **Adaptive music**: layered stems (exploring, tension, fight, boss) crossfading on the states `music.js` already tracks. Four themes (plain, Crypts, Warrens, the lich) plus the peoples' floors, composed or licensed.
-- [ ] **Haptics**: `navigator.vibrate` patterns for blows taken, level-ups, death and forcing doors, with an off switch in the Menu.
-- [ ] **Onboarding fixes from the grades**: explain "lesson" on the level-2 card; show the chosen background beside the Descend bar; a 60-second "first time here?" card.
+- [x] **Haptics** (October 2026: blows taken and landed, a level, a death, a door forced or not; Vibration in the Menu, hidden on a phone that cannot buzz, which includes every iPhone): `navigator.vibrate` patterns for blows taken, level-ups, death and forcing doors, with an off switch in the Menu.
+- [x] **Onboarding fixes from the grades** (October 2026: the level choices say what a lesson is, the hero being made is named over Descend, and someone new meets a five-line card on the title, with a ready hero a tap away): explain "lesson" on the level-2 card; show the chosen background beside the Descend bar; a 60-second "first time here?" card.
 
 **Exit criteria**
 - A fresh-eyes phone grade of 9 or more for first impression, feel and polish (October 2026: 9, 8 and 7.5).

@@ -148,8 +148,9 @@ export function makeChoices(K) {
     el.appendChild(head);
     const note = document.createElement('p');
     note.className = 'dim small';
-    note.textContent = isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight.'
-      : 'A small lesson. Choose one.';
+    // (a new player met the word "lesson" with nothing to say what one was)
+    note.textContent = isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.'
+      : 'A lesson: a small gain that lasts the run, a point to a score or a knack. Choose one; a talent comes at the next even level.';
     el.appendChild(note);
     // a tap already on its way when the screen opened must not choose for you
     const openedAt = performance.now();

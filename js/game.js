@@ -81,7 +81,8 @@ const Game = (() => {
     fxGen++;
     fx.texts = []; fx.spells = []; fx.corpses = []; fx.doors = {}; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0; fx.landings = [];
   }
-  const buzz = ms => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignore */ } };
+  // the phone in the hand feels the blows, a level, a death and a door forced; Vibration in the Menu turns it off
+  const buzz = ms => { try { if (navigator.vibrate && localStorage.getItem('deepdelve.hapticsOff') !== '1') navigator.vibrate(ms); } catch (e) { /* ignore */ } };
   const cam = { x: 0, y: 0, angle: 0, fromX: 0, fromY: 0, fromA: 0, toX: 0, toY: 0, toA: 0, t0: 0, t1: 0, moving: false };
   const events = []; // messages for the UI layer: 'dead', 'won', 'level', 'inv', 'stats'
 
@@ -1322,12 +1323,12 @@ const Game = (() => {
         setTile(x, y, T.DOOR_OPEN);
         delete L.locks[key(x, y)];
         log('You throw your shoulder against the door and it bursts open!', 'good');
-        Sound.play('door');
+        Sound.play('door'); buzz([60, 40, 120]);
         for (const m of L.monsters) if (Math.abs(m.x - x) + Math.abs(m.y - y) < 10) m.awake = true;
         return true;
       }
       log(`The door is locked. It needs a ${color} key. You fail to force it.`, 'bad');
-      Sound.play('locked');
+      Sound.play('locked'); buzz(35);
       p.nextAttack = G.t + 700; // forcing it costs you a moment
       return false;
     }

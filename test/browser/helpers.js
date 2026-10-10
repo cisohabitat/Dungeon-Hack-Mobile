@@ -34,6 +34,8 @@ async function startGame(page, opts = {}) {
   // behind it (only when the tip happened to be up: a flake). A test that
   // has set the key itself keeps what it set.
   if (!opts.tips) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.tipsOff') === null) localStorage.setItem('deepdelve.tipsOff', '1'); });
+  // the first-time card on the title is put away unless a test is about it
+  if (!opts.firstTime) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.firstSeen') === null) localStorage.setItem('deepdelve.firstSeen', '1'); });
   // The menu's testing tools are folded away for a player; many tests use
   // them, so they start unfolded unless a test is about the folding
   if (!opts.testsFolded) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.testsOpen') === null) localStorage.setItem('deepdelve.testsOpen', '1'); });

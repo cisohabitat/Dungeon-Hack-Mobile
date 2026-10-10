@@ -33,6 +33,18 @@
         <p class="tagline">Descend. Survive. Claim the Heart of the Mountain.</p>
         <p id="last-run" class="last-run dim small" hidden></p>
       </div>
+      <!-- for someone new: the game in a minute, until put away -->
+      <div id="first-time" class="first-card" hidden>
+        <p class="first-head"><b>First time here?</b></p>
+        <ul>
+          <li><b>Go down.</b> The Heart of the Mountain lies at the bottom of the delve: lift it and the run is won.</li>
+          <li><b>Move</b> with the pad or a swipe. <b>Tap the view</b> to use what is in front of you: a door, the stairs, a trader.</li>
+          <li><b>Fight</b> with Attack. A mark over a monster means a blow is coming: step aside, or strike first.</li>
+          <li><b>Each level</b> brings a choice: a talent at the even ones, a smaller lesson at most others.</li>
+          <li><b>One life</b> unless you turn permadeath off. The fallen go into the Hall, and the next hero starts fresh.</li>
+        </ul>
+        <div class="row first-btns"><button id="ft-quick" class="primary">Start with a ready hero</button><button id="ft-close" class="ghost">Got it</button></div>
+      </div>
       <div class="menu">
         <button id="btn-new" class="big primary"><b>New Game</b><small>Roll a hero and pick a seed</small></button>
         <button id="btn-continue" class="big"><b>Continue</b><small id="save-summary">No saved game</small></button>
@@ -106,6 +118,7 @@
         <p class="dim small">Each vow kept to a win on one life, on Normal or Hard, is a trophy of its own.</p>
       </div>
       <div class="row spread create-foot">
+        <p id="c-summary" class="create-sum" aria-live="polite"></p>
         <button id="c-back" class="ghost">Back</button>
         <button id="c-begin" class="big primary">Descend</button>
       </div>
@@ -211,6 +224,7 @@
         <h3>Finds</h3>
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
+        <p>On a phone that can, the game buzzes in your hand when a blow lands on you, when you level up or die, and when you force a door. <b>Vibration</b> under <b>Menu</b> turns it off.</p>
         <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches. It starts on if your phone asks for less motion.</p>
         <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
@@ -527,6 +541,7 @@
         <h3 class="menu-h">Controls</h3>
         <div class="menu-grid">
           <button id="m-hand" class="big">Controls: right-handed</button>
+          <button id="m-haptics" class="big">Vibration: On</button>
         </div>
         <button id="m-testing" class="menu-fold" aria-expanded="false" aria-controls="m-tests">Testing tools <span class="fold-mark" aria-hidden="true">▸</span></button>
         <div id="m-tests" class="menu-tests" hidden>

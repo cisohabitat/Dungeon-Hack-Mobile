@@ -590,7 +590,7 @@ export function makeCombat(K) {
       p.maxHp += gain; p.hp += gain;
       p.maxSp = spMax(p); p.sp = p.maxSp;
       log(`You have reached level ${p.level}! (+${gain} hit points)`, 'good');
-      Sound.play('levelup');
+      Sound.play('levelup'); buzz([30, 50, 30, 50, 90]);
       const unlocked = knownSpells().filter(s => spellLevel(s) === p.level);
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');
       K.G.levelNotes = K.G.levelNotes || {};
@@ -938,7 +938,7 @@ export function makeCombat(K) {
     K.G.status = 'dead';
     K.G.deathLog = K.G.log.filter(e => !e.gone).slice(-6).map(e => e.m);
     log(`${p.name} has died on floor ${K.G.depth}.`, 'bad');
-    Sound.play('die');
+    Sound.play('die'); buzz([150, 80, 300]);
     if (K.G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } noteRun(runKey(), 'ended'); }
     // remembered, for a later run to find where they fell
     if (!K.G.opts.daily && !K.G.tested) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: K.G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
