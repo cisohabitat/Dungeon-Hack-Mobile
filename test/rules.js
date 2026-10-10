@@ -15240,6 +15240,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-legends.js')({ test, start, beside, walk, wearRelic, tallyLines, seedDice, markLog, linesSince });
   // the choices that come back two floors on (rules-threads.js)
   await require('./rules-threads.js')({ test, start, meetAndChoose, markLog, linesSince });
+  // the vows sworn as pacts, and what wins open for the start of a run (rules-pacts.js)
+  await require('./rules-pacts.js')({ test, newContext, start, walk, meetAndChoose, winHere, OPTS, evenStats });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

@@ -111,6 +111,53 @@ test.describe('progress between runs', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a class\'s win opens its second kit and a veteran\'s the hound, chosen on the New Game screen; the Hall lists what is open', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.tipsOff', '1'); });
+    await page.click('#btn-new');
+    // shut: each says how it is earned, and there is nothing to choose
+    await expect(page.locator('#c-start')).toContainText('Raider\'s Kit: locked. Win as a Fighter on Normal or Hard');
+    await expect(page.locator('#c-start')).toContainText('A hound from the first stair: locked');
+    await expect(page.locator('[data-kit]')).toHaveCount(0);
+    await expect(page.locator('#c-hound')).toHaveCount(0);
+    await page.click('#c-back');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { thief: { normal: 1 } }, relics: [], feats: { veteran: 1 } })));
+    await page.click('#btn-hall');
+    await expect(page.locator('[data-trophy="unlock-kit:thief"]')).toHaveClass(/open/);
+    await expect(page.locator('[data-trophy="unlock-kit:mage"]')).not.toHaveClass(/open/);
+    await expect(page.locator('[data-trophy="unlock-hound"]')).toHaveClass(/open/);
+    await page.click('[data-trophy="unlock-kit:mage"]');
+    await expect(page.locator('#trophy-note')).toContainText('locked. Win as a Mage on Normal or Hard.');
+    await page.click('#hall-back');
+    await page.click('#btn-new');
+    // the fighter has not won: still shut; the thief has, and its kit can be chosen
+    await expect(page.locator('[data-kit]')).toHaveCount(0);
+    await page.locator('.class-card[data-cls="thief"]').click();
+    await expect(page.locator('[data-kit="alt"]')).toHaveText('Cutpurse\'s Kit');
+    await expect(page.locator('[data-kit=""]')).toHaveAttribute('aria-checked', 'true');
+    await page.click('[data-kit="alt"]');
+    await expect(page.locator('[data-kit="alt"]')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('#c-start .kit-note')).toContainText('blade venom');
+    await page.check('#c-hound');
+    await page.fill('#c-seed', 'kit-run');
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    const run = await page.evaluate(() => ({ kit: Game.state().opts.kit, weapon: Game.player().eq.weapon.t, hound: Game.companion() && Game.companion().kind }));
+    expect(run).toEqual({ kit: 'alt', weapon: 'dagger', hound: 'hound' });
+    expect(errors).toEqual([]);
+  });
+
+  test('each vow shows its share of the score', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { cleric: { hard: 1 } }, relics: [] })); });
+    await page.click('#btn-new');
+    await expect(page.locator('#c-vow-list label')).toHaveCount(6);
+    await expect(page.locator('#c-vow-list label:has([data-vow="glass"]) .vow-score')).toHaveText('+30% score');
+    await expect(page.locator('#c-vow-list label:has([data-vow="alone"]) .vow-score')).toHaveText('+15% score');
+  });
+
   test('the relic codex shows found relics in full and the rest by kind only, from the Hall and the Journal', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');

@@ -85,6 +85,28 @@ const BACKGROUNDS = {
     unlock: 'hard',
     how: 'Win a run on Hard to unlock.',
   },
+  // And these two are earned by what a player has found over all their runs
+  // (see bgOpen in js/progress.js): `unlock` names what, and how many.
+  lorekeeper: {
+    name: 'The Lorekeeper',
+    blurb: 'You have read every account of the delve that survives.',
+    perk: 'You start with a Scroll of Mapping and a Scroll of Restoration, and know every scroll on sight.',
+    story: 'You have spent your life with the delvers\' accounts, the boastful and the broken alike, and you know what they found down there and how they used it. You have never been down yourself. You know exactly how much that matters, and how little.',
+    motive: 'You came down here to see whether any of it was true.',
+    epi: 'They went down to see whether any of the old accounts were true.',
+    unlock: 'combos:12',
+    how: 'Find twelve combinations to unlock.',
+  },
+  seeker: {
+    name: 'The Legend-Seeker',
+    blurb: 'You came for the old arms, not the Heart.',
+    perk: 'The marked ones carry your path\'s legend twice as often.',
+    story: 'Every delver who never came back took something with them: a blade with a name, a shield that held a gate. You have spent years learning which, and where they went down. The Heart is someone else\'s errand.',
+    motive: 'You came down here for what the last ones carried.',
+    epi: 'They went down for what the last ones carried, not the Heart.',
+    unlock: 'legends:3',
+    how: 'Find three legends to unlock.',
+  },
 };
 
 // Pages left behind by the crews who went first. One per level, in order, so the
@@ -203,11 +225,16 @@ const PATH_LEVEL = 5;
 const CAPSTONE_LEVEL = 9;
 
 // Vows: a harder run chosen at the start, open once any hero has won on Hard.
-// Each one kept to a win (on Normal or Hard, on one life) is a trophy of its own.
+// Each one kept to a win (on Normal or Hard, on one life) is a trophy of its own,
+// and each sworn makes the run's score worth more (`score`: what it adds, a
+// share of the whole; several add together), as a pact should.
 const VOWS = {
-  iron:    { name: 'Iron Vow',     desc: 'No rest until the Heart is won: the Rest button and the trader\'s lamp are closed to you.' },
-  pauper:  { name: 'Pauper\'s Vow', desc: 'No trader will deal with you: no buying, selling or forge work.' },
-  unaided: { name: 'Unaided Vow',  desc: 'No draught passes your lips: healing comes from rest, prayer, scrolls and the fountains alone.' },
+  iron:    { name: 'Iron Vow',     score: 0.25, desc: 'No rest until the Heart is won: the Rest button and the trader\'s lamp are closed to you.' },
+  pauper:  { name: 'Pauper\'s Vow', score: 0.25, desc: 'No trader will deal with you: no buying, selling or forge work.' },
+  unaided: { name: 'Unaided Vow',  score: 0.3, desc: 'No draught passes your lips: healing comes from rest, prayer, scrolls and the fountains alone.' },
+  glass:   { name: 'Glass Vow',    score: 0.3, desc: 'You go down frail: a quarter less life, at the start and from every level after.' },
+  hunted:  { name: 'Hunted Vow',   score: 0.2, desc: 'The deep knows you are coming: everything in it moves a tenth quicker.' },
+  alone:   { name: 'Lone Vow',     score: 0.15, desc: 'No one walks with you: no companion will join you, however it is offered.' },
 };
 // The fork: a third of the way down the stair divides, and the floors
 // between there and the last two lean one way or the other. Each keeps its
@@ -368,6 +395,8 @@ const CLASSES = {
     // how the class plays for someone choosing it, on its card
     ease: 'Forgiving: takes a beating and hits back.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Raider\'s Kit', desc: 'A battle axe that bites harder than the sword, light studded leather in place of mail and shield, and a flask of fire oil.', items: ['battleaxe', 'studded', 'ration', 'ration', 'potion_heal', 'oil_fire'] },
   },
   cleric: {
     name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
@@ -375,30 +404,40 @@ const CLASSES = {
     ease: 'Forgiving: mends its own wounds.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Pilgrim\'s Kit', desc: 'A war hammer, scale mail and a holy symbol in place of a shield: your healing a quarter stronger.', items: ['hammer', 'scale', 'holy_symbol', 'ration', 'ration', 'potion_heal'] },
   },
   mage: {
     name: 'Mage', plural: 'Mages', title: 'Archmage', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     ease: 'Fragile: rewards care, and foes kept at a distance.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Hedge-Wizard\'s Kit', desc: 'A dagger and a spellbook, your points back a quarter faster, with a draught of clarity in place of the scroll.', items: ['dagger', 'spellbook', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_mana'] },
   },
   thief: {
     name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     ease: 'Daring: strikes first, and must not be struck back.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_map'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Cutpurse\'s Kit', desc: 'A dagger, the quickest blade there is, with blade venom and lamp oil in place of the map.', items: ['dagger', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'oil_venom', 'lamp_oil'] },
   },
   ranger: {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
     ease: 'Steady: wins the fight before it reaches you.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Trapper\'s Kit', desc: 'A sling and a spear, studded leather, and two flasks of lamp oil to set a trap with.', items: ['sling', 'spear', 'studded', 'ration', 'ration', 'potion_heal', 'lamp_oil', 'lamp_oil'] },
   },
   druid: {
     name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 1, spells: 'druid', primary: 'wis',
     desc: 'Keeper of the old ways. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher.',
     ease: 'Versatile: a bear or a caster, never both at once.',
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
+    // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
+    altKit: { name: 'Herbalist\'s Kit', desc: 'A quarterstaff, and draughts in place of a spear: two of healing and an antidote.', items: ['staff', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_cure'] },
   },
 };
 

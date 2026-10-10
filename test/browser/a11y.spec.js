@@ -45,6 +45,18 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   await page.click('#btn-new');
   await expect(page.locator('#screen-create')).toBeVisible();
   await scan(page, 'create', found);
+  // and with everything a player can earn open: the second kit, the hound, the vows, and the same in the Hall
+  await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1, normal: 1 } }, relics: [], feats: { veteran: 1 } })));
+  await page.goto('/');
+  await page.click('#btn-hall');
+  await expect(page.locator('[data-trophy="unlock-kit:fighter"]')).toHaveClass(/open/);
+  await scan(page, 'hall-unlocked', found);
+  await page.goto('/');
+  await page.click('#btn-new');
+  await page.click('[data-kit="alt"]');
+  await expect(page.locator('#c-vows')).toBeVisible();
+  await scan(page, 'create-unlocked', found);
+  await page.evaluate(() => localStorage.removeItem('deepdelve.progress'));
   await page.fill('#c-seed', 'a11y');
   await page.click('#c-begin');
   await expect(page.locator('#screen-prologue')).toBeVisible();

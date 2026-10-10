@@ -94,11 +94,37 @@ function trophyCount(v = load()) {
 /** Vows are open once any hero has won on Hard. */
 function vowsOpen(v = load()) { return wonAtLeast('hard', v); }
 
-/** A background with no unlock is always open; one with an unlock needs a win at that difficulty or harder. */
+/**
+ * A background with no unlock is always open; one with an unlock needs a win
+ * at that difficulty or harder, or (`combos:12`, `legends:3`) that many
+ * combinations or legends found over all of a player's runs.
+ */
 function bgOpen(id, v = load()) {
   const b = BACKGROUNDS[id];
   if (!b) return false;
-  return !b.unlock || wonAtLeast(b.unlock, v);
+  if (!b.unlock) return true;
+  const [what, n] = b.unlock.split(':');
+  if (what === 'combos') return v.combos.length >= Number(n);
+  if (what === 'legends') return v.relics.filter(r => RELICS[r] && RELICS[r].legend).length >= Number(n);
+  return wonAtLeast(b.unlock, v);
+}
+/** A class's second kit is open once it has won on Normal or Hard. */
+const kitOpen = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].altKit && (hasWon(cls, 'normal', v) || hasWon(cls, 'hard', v));
+/** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
+const houndOpen = (v = load()) => !!v.feats.veteran;
+/**
+ * Everything a player can earn that opens a new way to start: each class's
+ * second kit, the earned backgrounds, the vows, and a hound from the first
+ * stair. Each with whether it is open, and how it is earned.
+ * @returns {{id: string, name: string, open: boolean, how: string}[]}
+ */
+function unlocks(v = load()) {
+  const out = [];
+  for (const cls of Object.keys(CLASSES)) if (CLASSES[cls].altKit) out.push({ id: 'kit:' + cls, name: `${CLASSES[cls].altKit.name} (${CLASSES[cls].name})`, open: kitOpen(cls, v), how: `Win as a ${CLASSES[cls].name} on Normal or Hard.` });
+  for (const id of Object.keys(BACKGROUNDS)) if (BACKGROUNDS[id].unlock) out.push({ id: 'bg:' + id, name: BACKGROUNDS[id].name, open: bgOpen(id, v), how: BACKGROUNDS[id].how || '' });
+  out.push({ id: 'vows', name: 'The vows', open: vowsOpen(v), how: 'Win a run on Hard.' });
+  out.push({ id: 'hound', name: 'A hound from the first stair', open: houndOpen(v), how: 'Win with a veteran companion at your side.' });
+  return out;
 }
 
 /**
@@ -213,5 +239,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

@@ -524,7 +524,8 @@ export function makeCombat(K) {
     }
     // and the legend made for the hero's path, the first champion to fall once they walk it
     // (or, now and then, one of the marked ones: a feral, armoured or ancient thing)
-    if (mb.named || (m.elite && Math.random() < LEGEND_ELITE)) K.legends.drop(m);
+    // (twice as often for one who came down for them: the Legend-Seeker)
+    if (mb.named || (m.elite && Math.random() < LEGEND_ELITE * (P().bg === 'seeker' ? 2 : 1))) K.legends.drop(m);
     // a renegade at the hero's side when the High Priestess falls has what they came down for
     // (near enough to see it: one told to stay at the far end of the floor only hears of it)
     const rc = companion.here();
@@ -618,7 +619,8 @@ export function makeCombat(K) {
       p.level++;
       // and golden light rises through the view (see drawLevelUp in the renderer)
       fx.levelAt = K.realNow;
-      const gain = Math.max(1, d(1, cls().hitDie) + mod(p.stats.con));
+      // (the Glass Vow: a quarter less from every level too)
+      const gain = Math.max(1, Math.round((d(1, cls().hitDie) + mod(p.stats.con)) * (K.vowed('glass') ? 0.75 : 1)));
       p.maxHp += gain; p.hp += gain;
       p.maxSp = spMax(p); p.sp = p.maxSp;
       log(`You have reached level ${p.level}! (+${gain} hit points)`, 'good');

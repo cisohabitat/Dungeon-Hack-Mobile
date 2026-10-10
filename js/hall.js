@@ -163,15 +163,22 @@ function renderTrophies() {
     const n = v.feats[id] || 0, what = `${FEATS[id].name}: ${FEATS[id].desc} ${n ? (n === 1 ? 'Done once.' : `Done ${n} times.`) : 'Not yet done.'}`;
     return `<span class="cell named${n ? ' won' : ''}" data-trophy="feat-${id}" role="button" tabindex="0" aria-label="${what}" title="${what}">${escapeHtml(FEATS[id].name)}</span>`;
   });
+  // and what the wins have opened: new ways to start a run, each saying how it is earned
+  const opened = Progress.unlocks(v);
+  const unlockCells = opened.map(u => {
+    const what = `${u.name}: ${u.open ? 'open.' : 'locked. ' + u.how}`;
+    return `<span class="unlock${u.open ? ' open' : ''}" data-trophy="unlock-${escapeHtml(u.id)}" role="button" tabindex="0" aria-label="${escapeHtml(what)}" title="${escapeHtml(what)}">${escapeHtml(u.name)}</span>`;
+  });
   $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
     + `<div class="trophy-sub">Paths <small>(both won: the class mastered, ✦)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
     + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`
     + `<div class="trophy-sub">Feats</div><div class="trophy-grid vows">${featCells.join('')}</div>`
+    + `<div class="trophy-sub">Unlocked <small>(${opened.filter(u => u.open).length} of ${opened.length}: new ways to begin)</small></div><div class="trophy-grid vows unlocks">${unlockCells.join('')}</div>`
     + '<p id="trophy-note" class="trophy-note" aria-live="polite">Tap a trophy to see what it asks and how often it is won.</p>';
   // a phone has no hover: a tap on a trophy says what its title would
   const box = $('#hall-trophies');
-  box.onclick = e => { const c = /** @type {HTMLElement} */ (e.target).closest('[data-trophy]'); if (c) { $('#trophy-note').textContent = c.getAttribute('title') || ''; box.querySelectorAll('.cell.picked').forEach(x => x.classList.remove('picked')); c.classList.add('picked'); } };
+  box.onclick = e => { const c = /** @type {HTMLElement} */ (e.target).closest('[data-trophy]'); if (c) { $('#trophy-note').textContent = c.getAttribute('title') || ''; box.querySelectorAll('.picked').forEach(x => x.classList.remove('picked')); c.classList.add('picked'); } };
   box.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { const c = /** @type {HTMLElement} */ ((/** @type {HTMLElement} */ (e.target)).closest('[data-trophy]')); if (c) { e.preventDefault(); c.click(); } } };
   $('#hall-relics-count').textContent = `${toCollect().filter(id => v.relics.includes(id)).length} of ${toCollect().length} found`;
 }

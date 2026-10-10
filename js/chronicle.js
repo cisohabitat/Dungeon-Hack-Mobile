@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ITEMS, JOURNAL, MONSTERS, ROUTES } from './data.js';
+import { BACKGROUNDS, BESTIARY, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -53,7 +53,12 @@ export function makeChronicle(K) {
   // Gold spent well shows in everything else; gold hoarded counts for nothing.
   // claiming the Heart is worth half the run again: a flat bonus alone left a
   // win barely ahead of a death on the last floor (22,146 against 20,562)
-  function score(p, depth, won) { const run = p.xp * 2 + p.deepest * 100; return won ? Math.round(run * 1.5) + 2000 : run; }
+  // (and each vow sworn adds its share to the whole, as a pact should: see VOWS)
+  function score(p, depth, won) {
+    const run = p.xp * 2 + p.deepest * 100, base = won ? Math.round(run * 1.5) + 2000 : run;
+    const vows = (K.G && K.G.opts && K.G.opts.vows) || [];
+    return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0)));
+  }
   // Only one page is buried per floor, so a short dungeon holds fewer than the
   // archive knows about. Count what this delve can actually yield, not the lot.
   function pagesInDungeon() { return Math.min(K.G && K.G.opts ? K.G.opts.levels : JOURNAL.length, JOURNAL.length); }

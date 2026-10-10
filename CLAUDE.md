@@ -37,7 +37,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/data.js`: classes, items, monsters, spells, talents, paths, names.
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
-  `js/hall.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
+  `js/hall.js`, the New Game screen's earned starts (second kit, hound) in
+  `js/createextras.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
   wired at the end of `ui.js` in the same `K` pattern: the title's key art
   (`js/titlescene.js`, drawing `img/keyart-*.webp`, made from `art/keyart/`), the trader (`js/shopview.js`), an encounter's and a level's
   choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`),

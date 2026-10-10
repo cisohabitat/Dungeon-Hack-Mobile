@@ -658,8 +658,10 @@ const Game = (() => {
     const edge = (m.edge || 0) + diffEdge() + (s.boss ? diff().lichEdge || 0 : 0);
     // on a flooded floor everything wades: a quarter slower, the lich aside
     const wade = !s.boss && G && G.levels && lvl() && lvl().twist === 'flooded';
-    if (!edge && !wade) return s;
-    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), ...(wade ? { speed: Math.round(s.speed * FLOOD_SLOW) } : {}) };
+    // and for one sworn to the Hunted Vow, everything is a tenth quicker
+    const hunted = vowed('hunted') ? 0.9 : 1;
+    if (!edge && !wade && hunted === 1) return s;
+    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), speed: Math.round(s.speed * (wade ? FLOOD_SLOW : 1) * hunted) };
   }
   function mstatBase(m) {
     const b = MONSTERS[m.id];
@@ -768,18 +770,29 @@ const Game = (() => {
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
-    // the starting kit is familiar to its owner
-    for (const id of c.startKit) G.known[id] = 1;
-    for (const id of c.startKit) giveItem({ t: id, q: 1, e: 0 });
+    // the starting kit is familiar to its owner (the second kit, once a win has earned it; never in a Daily)
+    const alt = G.opts.kit === 'alt' && !G.opts.daily && Progress.kitOpen(cfg.cls);
+    if (!alt) delete G.opts.kit;
+    const kit = alt ? c.altKit.items : c.startKit;
+    for (const id of kit) G.known[id] = 1;
+    for (const id of kit) giveItem({ t: id, q: 1, e: 0 });
     if (bg === 'returned') { G.known.potion_xheal = 1; giveItem({ t: 'potion_xheal', q: 1, e: 0 }); }   // one good draught kept back
+    if (bg === 'lorekeeper') { for (const id in ITEMS) if (ITEMS[id].kind === 'scroll') G.known[id] = 1; giveItem({ t: 'scroll_map', q: 1, e: 0 }); giveItem({ t: 'scroll_heal', q: 1, e: 0 }); }
+    // the Glass Vow: a quarter less life from the start (and from every level, see checkLevelUp)
+    if (vowed('glass')) { p.maxHp = Math.max(6, Math.round(p.maxHp * 0.75)); p.hp = p.maxHp; }
     for (const it of p.inv.slice()) {
       const k = ITEMS[it.t].kind;
       if ((k === 'weapon' || k === 'armor' || k === 'shield') && !p.eq[k]) equip(it, true);
     }
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
+    // a hound from the first stair, for one who has earned it (not sworn to go alone, nor in a Daily)
+    if (G.opts.companion === 'hound' && !G.opts.daily && !vowed('alone') && Progress.houndOpen()) {
+      companion.join('hound');
+      log(`A rangy hound is waiting at the foot of the stair, as one did for you before. ${G.companion.name} follows you now.`, 'good');
+    } else if (G.opts.companion) delete G.opts.companion;
     // a delve with no hound in it sends a druid a wolf instead, at the first stair
-    if (cfg.cls === 'druid' && !Object.values(encounterPlan(cfg.seed, G.opts.levels || 8, Dungeon.tierAt, Math.max(1, Dungeon.areaOf(G.opts.size)))).some(ids => ids.includes('stray'))) {
+    if (cfg.cls === 'druid' && !G.companion && !vowed('alone') && !Object.values(encounterPlan(cfg.seed, G.opts.levels || 8, Dungeon.tierAt, Math.max(1, Dungeon.areaOf(G.opts.size)))).some(ids => ids.includes('stray'))) {
       companion.join('wolf');
       log(`A grey wolf pads out of the dark at the foot of the stair and falls in beside you, as if it had always meant to. ${G.companion.name} follows you now.`, 'good');
     }
@@ -1595,6 +1608,7 @@ const Game = (() => {
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({
+    get vowed() { return vowed; },
     get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
     get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
     fieldAt: (x, y) => elements.fieldAt(x, y),
@@ -1624,7 +1638,7 @@ const Game = (() => {
   });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({
-    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
+    get vowed() { return vowed; }, get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
     get fx() { return fx; }, get realNow() { return realNow; }, get companion() { return companion; },
     get STAT_WORD() { return STAT_WORD; }, get THREAD_SAID() { return THREAD_SAID; }, get threads() { return threads; },
     get checkBonus() { return checkBonus; }, get checkChance() { return checkChance; }, get statCheck() { return statCheck; },
@@ -1714,7 +1728,7 @@ const Game = (() => {
   // ---------- combat: see combat.js ----------
   const { REMAINS_MAX, REMAINS_MS, attack, checkLevelUp, chooseBoon, damageMonster, floatText, healPlayer, heard, hitGroup, hurtPlayer, isCapstoneOffer, isPathOffer, isRenownOffer, levelNote, offerCapstone, offerPath, packSize, pendingBoons, pendingLevel, pruneRemains, relativeBearing, renownAt } = makeCombat({
     get legends() { return legends; }, get combos() { return combos; }, get setWorn() { return setWorn; },
-    get BITS_MAX() { return BITS_MAX; }, get CORPSE_MS() { return CORPSE_MS; }, get DIRS() { return DIRS; },
+    get vowed() { return vowed; }, get BITS_MAX() { return BITS_MAX; }, get CORPSE_MS() { return CORPSE_MS; }, get DIRS() { return DIRS; },
     get DUAL_HIT_PENALTY() { return DUAL_HIT_PENALTY; }, get G() { return G; }, get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; },
     get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get OFF_BALANCE() { return OFF_BALANCE; }, get P() { return P; }, get QUICK() { return QUICK; },
     get RISE_MS() { return RISE_MS; }, get SAVE_KEY() { return SAVE_KEY; }, get SELF_TAUGHT_MOST() { return SELF_TAUGHT_MOST; },

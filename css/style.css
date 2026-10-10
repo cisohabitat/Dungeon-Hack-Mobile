@@ -183,6 +183,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .bg-card b { display: block; font-weight: normal; font-size: var(--t-base); }
 .bg-card small { color: var(--dim); line-height: 1.3; display: block; }
 .perk-line { color: var(--green); font-size: var(--t-lg); min-height: 1.3em; margin: var(--s-2) 0 var(--s-8); }
+.opts.start-extras { display: flex; flex-direction: column; gap: var(--s-6); margin: 0 0 var(--s-8); }
+.start-extras .seg { margin: 0; }
+.start-extras p { margin: 0; }
+.start-extras .locked-line { font-style: italic; }
+.vow-score { color: var(--gold); font-style: normal; font-size: var(--t-sm); }
 /* the key art behind the prologue, darkened so the words stand clear of it */
 #screen-prologue { background: linear-gradient(rgba(11, 10, 16, 0.84), rgba(11, 10, 16, 0.93) 45%, var(--bg)), url('../img/keyart-portrait.webp') center top / cover no-repeat, var(--bg); }
 @media (orientation: landscape) { #screen-prologue { background: linear-gradient(rgba(11, 10, 16, 0.86), rgba(11, 10, 16, 0.93) 60%, var(--bg)), url('../img/keyart-landscape.webp') left center / cover no-repeat, var(--bg); } }
@@ -779,8 +784,11 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .trophy-grid .cell.named.won { color: var(--gold); }
 /* a vow not yet open is dimmer and dashed, not faded: faded, its name fell below a readable contrast (axe) */
 .trophy-grid .cell.shut { color: var(--dim); border-style: dashed; }
+/* what the wins have opened: not trophies, so drawn plainer, lit once open */
+.trophy-grid .unlock { min-height: 36px; border: 1px dashed var(--border); border-radius: 6px; display: grid; place-content: center; font-size: var(--t-sm); line-height: 1.15; color: var(--dim); padding: var(--s-2) var(--s-4); text-align: center; overflow-wrap: anywhere; }
+.trophy-grid .unlock.open { border-style: solid; border-color: var(--edge-won); color: var(--gold); }
 .trophy-grid .cell { cursor: pointer; }
-.trophy-grid .cell.picked { outline: 2px solid var(--gold); outline-offset: 1px; }
+.trophy-grid .cell.picked, .trophy-grid .unlock.picked { outline: 2px solid var(--gold); outline-offset: 1px; }
 .trophy-note { color: var(--text-soft); font-size: var(--t-md); margin: var(--s-8) var(--s-2) 0; min-height: 2.6em; }
 .trophy-sub { color: var(--dim); font-size: var(--t-sm); letter-spacing: 0.04em; margin: var(--s-10) 0 var(--s-4); }
 .trophy-sub small { font-size: var(--t-xs); }

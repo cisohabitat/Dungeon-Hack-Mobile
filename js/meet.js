@@ -59,6 +59,8 @@ export function makeEncounters(K) {
       // a choice that would bring a second companion, while one stands with you, is not on offer
       const c = K.G.companion;
       if (ch.alone && c && !c.fallen) blocked = `${c.name} is with you: there is no room for another.`;
+      // and none at all for one sworn to go alone, rather than taking their price and then refusing them
+      if (K.vowed('alone') && JSON.stringify(ch).includes('"companion":')) blocked = 'You swore to go alone.';
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, K.G.depth), bonus = knack(ch.check);

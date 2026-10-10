@@ -10,6 +10,7 @@ import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Progress } from './progress.js';
 import { $, $$, escapeHtml, diffOf, diffName, icon } from './uikit.js';
+import { renderStart } from './createextras.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
@@ -31,8 +32,8 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], mode: 'roll', buy: null, buyTouched: false };
+  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, mode: 'roll', buy: null, buyTouched: false };
   // Point buy: every score starts at 8 and 27 points raise them, dearer near
   // the top, to 17 at most (a background's bonus goes on after). About what
   // an average roll gives, but placed where the player wants it; 16 and 17
@@ -160,7 +161,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-30', text: 'legends for every path, named combinations, champions who change the ground and make a last stand, and choices that come back two floors on' };
+  const NEWS = { id: '2026-11-06', text: 'three new vows that each add to your score, a second kit for every class, a hound from the first stair, and two backgrounds earned by what you find' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -341,7 +342,7 @@ const UI = (() => {
     const vowsOpen = Progress.vowsOpen(progress);
     /** @type {HTMLElement} */ ($('#c-vows')).hidden = !vowsOpen;
     if (!vowsOpen) create.vows = [];
-    $('#c-vow-list').innerHTML = Object.keys(VOWS).map(id => `<label class="check"><input type="checkbox" data-vow="${id}"${create.vows.includes(id) ? ' checked' : ''}> <span><b>${escapeHtml(VOWS[id].name)}</b>: ${escapeHtml(VOWS[id].desc)}</span></label>`).join('');
+    $('#c-vow-list').innerHTML = Object.keys(VOWS).map(id => `<label class="check"><input type="checkbox" data-vow="${id}"${create.vows.includes(id) ? ' checked' : ''}> <span><b>${escapeHtml(VOWS[id].name)}</b> <em class="vow-score">+${Math.round(VOWS[id].score * 100)}% score</em>: ${escapeHtml(VOWS[id].desc)}</span></label>`).join('');
     for (const box of $$('#c-vow-list [data-vow]')) box.addEventListener('change', () => {
       const id = /** @type {HTMLInputElement} */ (box).dataset.vow || '';
       create.vows = /** @type {HTMLInputElement} */ (box).checked ? [...new Set([...create.vows, id])] : create.vows.filter(v => v !== id);
@@ -362,6 +363,7 @@ const UI = (() => {
       bgGrid.appendChild(el);
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
+    renderStart(/** @type {HTMLElement} */ ($('#c-start')), create, buildCreate);
     if (!create.stats) fitStats();
     const buying = create.mode === 'buy';
     if (buying) { if (!create.buy) create.buy = buyStart(create.cls); create.stats = create.buy; }
@@ -500,6 +502,8 @@ const UI = (() => {
         permadeath: $('#c-permadeath').checked,
         difficulty: /** @type {'easy'|'normal'|'hard'} */ (create.difficulty),
         ...(create.vows.length ? { vows: create.vows.slice() } : {}),
+        ...(create.kit ? { kit: create.kit } : {}),
+        ...(create.hound ? { companion: 'hound' } : {}),
       },
     };
     showPrologue(cfg);

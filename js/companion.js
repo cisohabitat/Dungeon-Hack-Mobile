@@ -138,6 +138,8 @@ export function makeCompanion(K) {
   function join(kind = 'hound') {
     const G = K.G, p = K.P();
     const k = KINDS[kind] ? kind : 'hound', def = KINDS[k];
+    // one sworn to go alone takes no one with them
+    if (K.vowed && K.vowed('alone')) return `You swore to go alone: the ${def.word} watches you go, and does not follow.`;
     // one at a time: one already at the hero's side will not have another there
     if (G.companion && !G.companion.fallen) return `${G.companion.name} will not share your heel: the ${def.word} thinks better of following, and slips off into the dark.`;
     const name = new Rng(`${G.seed}|${k}`).pick(def.names);

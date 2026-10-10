@@ -271,6 +271,8 @@
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
  * @property {'earned'} [dailyKind]  'earned' for the Ranger & Druid Daily (once the earned classes'); absent on the first
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
+ * @property {'alt'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js)
+ * @property {'hound'} [companion]  a hound from the first stair, chosen at the start once earned (Progress.houndOpen)
  * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it
  */
 
