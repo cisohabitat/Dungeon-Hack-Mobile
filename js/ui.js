@@ -57,13 +57,32 @@ const UI = (() => {
   let finaleTimer = 0;
   function showScreen(id) {
     if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
+    if (id !== 'screen-title') endOpening();
     // a page turned as the screen comes up (not the dungeon's own: it has the arrival)
     if (id !== 'screen-game' && !$('#' + id).classList.contains('active')) Sound.play('page');
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     // the raycaster draws into whichever canvas is on screen
-    if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; refreshTitle(); }
+    if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; title.angle = null; refreshTitle(); }
     else if (id === 'screen-game') { Renderer.init($('#view')); fitView(); }
     syncHistory();
+  }
+
+  // ---------- the title's opening ----------
+  // Once a visit the title comes up out of the dark: the scene, then the name,
+  // then the rest, about two seconds in all (the timings are in style.css). A
+  // tap anywhere ends it at once, and a tap on a button still does what the
+  // button does: nobody waits on it. The first tap also starts the music's
+  // swell, since a phone lets no sound play before one. None in a calm view.
+  const OPENING_MS = 2600;
+  let openingTimer = 0;
+  function startOpening() {
+    if (calmOn()) return;
+    $('#screen-title').classList.add('opening');
+    openingTimer = window.setTimeout(endOpening, OPENING_MS);
+  }
+  function endOpening() {
+    clearTimeout(openingTimer);
+    $('#screen-title').classList.remove('opening');
   }
 
   // ---------- the phone's back gesture ----------
@@ -140,7 +159,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-22b', text: 'screens and overlays fade up with the sound of a page, and the music steps back under a level gained and under the lich; your phone buzzes when a blow lands on you, at a level and a death (Menu: Vibration); the level choices say what a lesson is' };
+  const NEWS = { id: '2026-10-24', text: 'the title opens out of the dark to a swell of music (a tap skips it), the music fades from a fight to quiet instead of stopping dead, and every screen is set in one type and spacing scale' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1717,6 +1736,8 @@ const UI = (() => {
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }
     buildCreate();
     $('#c-seed').value = randomSeedWord();
+    if ($('#screen-title').classList.contains('active')) startOpening();
+    $('#screen-title').addEventListener('pointerdown', () => { endOpening(); Sound.unlock(); Music.swell(); }, { capture: true });
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });

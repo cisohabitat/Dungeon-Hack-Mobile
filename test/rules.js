@@ -10240,6 +10240,50 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     return out.length ? out.join('; ') : true;
   });
 
+  await test('the music fades a fight out rather than stopping dead, and a fight come back ends the fade', async () => {
+    const { Music } = await start('fighter', 'musictail');
+    const out = [];
+    /** @type {Array<{k: string, mood: string, at: number}>} */
+    const c = [];
+    let at = 0;
+    Music.listen((n, mood) => c.push({ k: n.k, mood, at }));
+    const play = (mood, from, ms) => { for (let t = 0; t < ms; t += 50) { at = from + t; Music.update(mood, 0, at); } };
+    try {
+      Music.stop();
+      play('champion', 50000, 4000);
+      c.length = 0;
+      // the fight ends: its beat and horn carry on for the fade, and then stop
+      play('quiet', 54000, 4000);
+      const left = c.filter(n => n.mood === 'champion');
+      if (!left.some(n => n.k === 'thud') || !left.some(n => n.k === 'horn')) out.push(`the fight's layers did not carry on into the quiet: ${[...new Set(left.map(n => n.k))].join(',')}`);
+      if (left.some(n => n.k === 'bell')) out.push('a fading layer rang a bell over the coming home');
+      const last = Math.max(...left.map(n => n.at));
+      if (last - 54000 > Music.TAIL_S * 1000 + 300) out.push(`the fade went on ${last - 54000} ms`);
+      if (Music.state().tail) out.push('the fade was still going after it should have ended');
+      // a fight down to wary keeps the pulse going in the new mood, and fades only the beat
+      play('fight', 60000, 3000);
+      c.length = 0;
+      play('wary', 63000, 2400);
+      if (c.some(n => n.mood === 'fight' && n.k === 'pulse')) out.push('the old pulse played over the wary pulse');
+      if (!c.some(n => n.mood === 'fight' && n.k === 'thud')) out.push('the beat did not fade out under the wary pulse');
+      // the fight comes back inside the fade: the fade ends there, and only one beat plays
+      play('quiet', 65400, 500);
+      if (!Music.state().tail) out.push('no fade began when the danger passed');
+      c.length = 0;
+      play('fight', 65900, 1500);
+      if (Music.state().tail) out.push('the fade went on with the fight back');
+      if (c.some(n => n.mood !== 'fight')) out.push('a faded layer played on with the fight back');
+      // turned off, nothing fades on
+      play('fight', 70000, 2000);
+      play('quiet', 72000, 200);
+      Music.toggle();
+      c.length = 0;
+      play('quiet', 72200, 2000);
+      if (c.length) out.push('a fade played on with the music off');
+    } finally { if (!Music.isEnabled()) Music.toggle(); Music.listen(null); Music.stop(); }
+    return out.length ? out.join('; ') : true;
+  });
+
   // ---------- save codes ----------
   await test('a save code carries a hero to another device, and a bad one says why and harms nothing', async () => {
     const out = [];

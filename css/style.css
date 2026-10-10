@@ -364,6 +364,15 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
    fifth of a second. Opacity only, so nothing moves under a finger, and none
    at all in a calm view or where the phone asks for less motion. */
 @keyframes come-up { from { opacity: 0; } to { opacity: 1; } }
+/* the title's opening, once a visit (ui.js, startOpening): the scene out of the
+   dark, then the name a word at a time, then the rest; opacity only, so every
+   button is where it will be and works from the first moment */
+#screen-title.opening .title-bg { animation: come-up 1400ms ease-out both; }
+#screen-title.opening .logo-rule { animation: come-up 700ms ease-out 500ms both; }
+#screen-title.opening .logo .l1 { animation: come-up 800ms ease-out 700ms both; }
+#screen-title.opening .logo .l2 { animation: come-up 800ms ease-out 1000ms both; }
+#screen-title.opening .tagline, #screen-title.opening .last-run { animation: come-up 700ms ease-out 1400ms both; }
+#screen-title.opening .menu, #screen-title.opening .first-card, #screen-title.opening .news { animation: come-up 600ms ease-out 1800ms both; }
 .screen.active { animation: come-up 200ms ease-out; }
 .overlay.open { animation: come-up 170ms ease-out; }
 /* and an overlay put away fades out, letting taps through to what is behind */

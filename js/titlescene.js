@@ -11,7 +11,7 @@ import { $ } from './uikit.js';
 export function makeTitleScene(K) {
   // ---------- animated title scene ----------
   // A ghost camera drifts through a real generated dungeon behind the menu.
-  const title = { level: null, lit: new Set(), cell: null, dir: 0, mode: 'step', t0: 0, dur: 0, next: null, embers: [], sprites: [], last: 0 };
+  const title = { level: null, lit: new Set(), cell: null, dir: 0, mode: 'step', t0: 0, dur: 0, next: null, embers: [], sprites: [], last: 0, angle: null };
   const TITLE_FX = { damageUntil: 0, healUntil: 0, swingUntil: 0, castUntil: 0, shakeUntil: 0, castColor: '#fff', texts: [] };
   const STEP_MS = 1150, TURN_MS = 800;
 
@@ -67,10 +67,16 @@ export function makeTitleScene(K) {
       const sp = it.t === 'key' ? 'key_' + it.color : (base && base.sprite) || 'gold';
       title.sprites.push({ x: x + 0.5, y: y + 0.5, img: Assets.sprites[sp] || Assets.sprites.gold, scale: it.t === 'artifact' ? 0.5 : 0.3 });
     }
+    // embers at two depths: far ones small, slow and dim, near ones larger and
+    // quicker, and when the camera turns the near ones slide past further (the parallax)
     title.embers = [];
-    for (let i = 0; i < 26; i++) {
-      title.embers.push({ x: Math.random() * 320, y: Math.random() * 200, vy: -(4 + Math.random() * 10), vx: (Math.random() - 0.5) * 6, r: Math.random() < 0.25 ? 2 : 1, life: Math.random() });
-    }
+    for (let i = 0; i < 26; i++) title.embers.push(newEmber(i < 8, Math.random() * 200));
+    title.angle = null;
+  }
+  function newEmber(near, y) {
+    return near
+      ? { near, x: Math.random() * 320, y, vy: -(9 + Math.random() * 8), vx: (Math.random() - 0.5) * 8, r: 2, life: Math.random(), glow: 0.85, shift: 150 }
+      : { near, x: Math.random() * 320, y, vy: -(3 + Math.random() * 5), vx: (Math.random() - 0.5) * 4, r: 1, life: Math.random(), glow: 0.55, shift: 50 };
   }
   // How many open tiles stretch away from a cell in one direction, and how many
   // of them are torchlit. The ghost is drawn toward the light.
@@ -154,11 +160,14 @@ export function makeTitleScene(K) {
     const ctx = c.getContext('2d');
     const dt = title.last ? Math.min(0.05, (now - title.last) / 1000) : 0;
     title.last = now;
+    const turned = title.angle === null ? 0 : cam.angle - title.angle;
+    title.angle = cam.angle;
     for (const e of title.embers) {
-      e.x += e.vx * dt; e.y += e.vy * dt;
+      e.x += e.vx * dt - turned * e.shift; e.y += e.vy * dt;
+      e.x = ((e.x % 320) + 320) % 320;
       e.life += dt * 0.35;
-      if (e.y < -4 || e.life > 1) { e.x = Math.random() * 320; e.y = 204; e.life = 0; e.vy = -(4 + Math.random() * 10); }
-      const a = Math.sin(Math.min(1, e.life) * Math.PI) * 0.75;
+      if (e.y < -4 || e.life > 1) { Object.assign(e, newEmber(e.near, 204)); e.life = 0; }
+      const a = Math.sin(Math.min(1, e.life) * Math.PI) * e.glow;
       ctx.fillStyle = `rgba(255,${150 + Math.floor(e.life * 80)},60,${a.toFixed(2)})`;
       ctx.fillRect(e.x | 0, e.y | 0, e.r, e.r);
     }

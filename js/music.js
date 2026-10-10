@@ -10,6 +10,10 @@
 // foe falls the music comes home: two notes down to the floor's own note, and
 // then quiet for a while before the bells come back.
 //
+// A layer the new mood does not play is not cut off but faded out: when a
+// fight ends, its beat and horn carry on for a couple of seconds, dying away
+// under the coming home. And once a visit the title has a swell of its own.
+//
 // The composer (plan, step) only decides which notes; the player turns them
 // into sound through the same master as everything else (Sound.audio), so the
 // compressor and the sound switch govern both. The composer keeps its own
@@ -50,6 +54,10 @@ const Music = (() => {
   const DUCK = 0.4;
   /** How long the quiet after a fight lasts, in seconds, before the bells come back. */
   const HUSH_S = 9;
+  /** How long a layer the music has left behind takes to die away, in seconds. */
+  const TAIL_S = 2.4;
+  /** The instruments each level of danger brings in, below the bells. */
+  const LAYERS = [[], ['pulse'], ['pulse', 'thud'], ['pulse', 'thud', 'horn'], ['pulse', 'thud', 'horn']];
 
   const scaleOf = theme => SCALES[theme] || SCALES[0];
   /** The note a scale degree names: degree 0 is home, 7 (or 5 on a five-note scale) home an octave up. */
@@ -162,10 +170,20 @@ const Music = (() => {
   let busUp = false;         // the bus has been faded up for this stretch of play
   let ducked = false;        // drawn back while the game is paused
   /** @type {GainNode|null} */ let bus = null;
+  /** @type {DelayNode|null} the cave's echo, for what does not come through the bus */ let echoIn = null;
   /** @type {any} */ let busCtx = null;
   /** @type {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} told of every note, even with no audio: for tests */
   let listener = null;
   let heard = { mood: 'quiet', notes: 0 };
+  /**
+   * The layers of a mood just left, played on for a moment as they fade: a
+   * copy of the composer as it stood, so their rhythm carries on unbroken.
+   * @type {{c: any, mood: string, kinds: string[], nextAt: number, until: number, gain: GainNode|null}|null}
+   */
+  let tail = null;
+  /** The title's swell has been heard this visit. */
+  let swelled = false;
+  /** @type {GainNode|null} */ let swellGain = null;
   const hz = midi => 440 * Math.pow(2, (midi - 69) / 12);
   // a note that throws is a bug, never a reason to stop the game: say so once
   let faulted = false;
@@ -190,6 +208,7 @@ const Music = (() => {
     echo.delayTime.value = 0.42; back.gain.value = 0.38; wet.gain.value = 0.32;
     dull.type = 'lowpass'; dull.frequency.value = 2200;
     bus.connect(echo); echo.connect(dull); dull.connect(back); back.connect(echo); dull.connect(wet); wet.connect(a.music);
+    echoIn = echo;
     busCtx = c;
     return a;
   }
@@ -200,11 +219,11 @@ const Music = (() => {
     bus.gain.setValueAtTime(bus.gain.value, t);
     bus.gain.linearRampToValueAtTime(v, t + secs);
   }
-  /** One note, at `at` on the audio clock. */
-  function sound(c, n, at) {
+  /** One note, at `at` on the audio clock, into the bus or a fading layer of it. */
+  function sound(c, n, at, into = bus) {
     const f = hz(n.midi), end = at + n.len;
     const env = c.createGain();
-    env.connect(bus);
+    env.connect(into);
     const voice = (type, freq, o = {}) => {
       const x = c.createOscillator();
       x.type = type; x.frequency.setValueAtTime(freq, at);
@@ -259,9 +278,15 @@ const Music = (() => {
     // all at once when it starts again.
     if (a && a.ctx.state !== 'running') return;
     const now = a ? a.ctx.currentTime : nowMs / 1000;
-    if (!playing || onAudio !== !!a) { nextAt = now + 0.3; onAudio = !!a; }
-    if (!playing) { playing = true; comp = composer(String(theme)); }
+    if (!playing || onAudio !== !!a) { nextAt = now + 0.3; onAudio = !!a; tail = null; }
+    if (!playing) {
+      playing = true; comp = composer(String(theme)); heard.mood = mood;
+      // the title's swell, if it is still sounding, gives way to the floor
+      if (swellGain && a) { try { const t = a.ctx.currentTime; swellGain.gain.cancelScheduledValues(t); swellGain.gain.setValueAtTime(swellGain.gain.value, t); swellGain.gain.linearRampToValueAtTime(0.0001, t + 1.5); } catch (e) { fault('swell', e); } }
+      swellGain = null;
+    }
     if (a && !busUp) { fadeTo(LEVEL_ALL * (ducked ? DUCK : 1), 1.5); busUp = true; }
+    if (mood !== heard.mood) moodChanged(heard.mood, mood, a, now);
     heard.mood = mood;
     // behind (a slow frame, a new floor being made): what was missed is let go, not played in a heap
     if (nextAt < now) nextAt = now + 0.02;
@@ -276,6 +301,81 @@ const Music = (() => {
       }
       nextAt += s.dur;
     }
+    // the layers left behind, played on under the new mood as they die away
+    if (tail && now >= tail.until) tail = null;
+    guard = 0;
+    while (tail && tail.nextAt < now + 0.2 && tail.nextAt < tail.until && guard++ < 8) {
+      const s = step(tail.c, tail.mood, theme);
+      for (const n of s.notes) {
+        if (!tail.kinds.includes(n.k)) continue;
+        heard.notes++;
+        if (listener) { try { listener(n, tail.mood); } catch (e) { /* ignore */ } }
+        if (a && tail.gain) { try { sound(a.ctx, n, tail.nextAt, tail.gain); } catch (e) { fault(n.k, e); } }
+      }
+      tail.nextAt += s.dur;
+    }
+  }
+  /**
+   * The mood has changed. What the old mood played that the new one does not
+   * is faded out over TAIL_S rather than stopped dead; a mood rising again
+   * ends any fade still going, so two beats never sound at once.
+   */
+  function moodChanged(from, to, a, now) {
+    if (tail) { endTail(a); }
+    const lv = m => LEVEL[m] === undefined ? 0 : LEVEL[m];
+    if (lv(to) >= lv(from)) return;
+    const keep = LAYERS[lv(to)];
+    const kinds = LAYERS[lv(from)].filter(k => !keep.includes(k));
+    if (!kinds.length) return;
+    let gain = null;
+    if (a && bus) {
+      try {
+        gain = a.ctx.createGain();
+        gain.gain.setValueAtTime(1, now);
+        gain.gain.linearRampToValueAtTime(0.0001, now + TAIL_S);
+        gain.connect(bus);
+      } catch (e) { fault('tail', e); gain = null; }
+    }
+    tail = { c: { ...comp }, mood: from, kinds, nextAt, until: now + TAIL_S, gain };
+  }
+  /** Any layer still fading is let go at once (quickly, so it does not click). */
+  function endTail(a) {
+    if (!tail) return;
+    if (a && tail.gain) { try { const t = a.ctx.currentTime, g = tail.gain.gain; g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); g.linearRampToValueAtTime(0.0001, t + 0.08); } catch (e) { fault('tail', e); } }
+    tail = null;
+  }
+
+  /**
+   * The title's swell, once a visit, on the first tap (sound cannot start
+   * before one): the plain floors' home note and its fifth rising out of
+   * nothing, a horn under them, and three bells falling home over the top.
+   * It fades of itself, or gives way to a floor's music when one begins.
+   */
+  function swell() {
+    if (swelled || !enabled || !Sound.isEnabled()) return false;
+    swelled = true;
+    let a = null;
+    try { a = ensureBus(); } catch (e) { fault('bus', e); a = null; }
+    const sc = SCALES[0];
+    const notes = [
+      { at: 0, n: { k: 'pad', midi: note(sc, 0, -1), vel: 0.6, len: 9 } },
+      { at: 0.8, n: { k: 'horn', midi: note(sc, 0, -1), vel: 0.26, len: 6 } },
+      { at: 2.2, n: { k: 'bell', midi: note(sc, 4, 1), vel: 0.4, len: 2.6 } },
+      { at: 2.9, n: { k: 'bell', midi: note(sc, 2, 1), vel: 0.36, len: 2.6 } },
+      { at: 3.6, n: { k: 'bell', midi: note(sc, 0, 1), vel: 0.42, len: 4.5 } },
+      { at: 3.6, n: { k: 'bell', midi: note(sc, 0, 0), vel: 0.22, len: 4.5 } },
+    ];
+    for (const { n } of notes) { heard.notes++; if (listener) { try { listener(n, 'swell'); } catch (e) { /* ignore */ } } }
+    if (!a) return true;
+    try {
+      const c = a.ctx, t0 = c.currentTime + 0.05;
+      swellGain = c.createGain();
+      swellGain.gain.value = LEVEL_ALL;
+      swellGain.connect(a.music);
+      if (echoIn) swellGain.connect(echoIn);
+      for (const { at, n } of notes) sound(c, n, t0 + at, swellGain);
+    } catch (e) { fault('swell', e); }
+    return true;
   }
   /** The game paused, or not: a fight's beat carries on over a frozen scene, so it draws back while paused. */
   function duck(on) {
@@ -289,6 +389,7 @@ const Music = (() => {
     if (!playing) return;
     playing = false;
     busUp = false;
+    endTail(busCtx ? { ctx: busCtx } : null);
     try { fadeTo(0, 0.8); } catch (e) { fault('fade', e); }
   }
   function toggle() {
@@ -299,7 +400,7 @@ const Music = (() => {
   }
 
   return {
-    update, stop, toggle, duck, plan, note, SCALES, MOODS, HUSH_S,
+    update, stop, toggle, duck, swell, plan, note, SCALES, MOODS, HUSH_S, TAIL_S,
     isEnabled: () => enabled,
     /** @param {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} fn */
     listen(fn) { listener = fn; },
@@ -315,7 +416,7 @@ const Music = (() => {
       return n;
     },
     /** What it last heard of the fight, and how many notes it has written: for the tests. */
-    state: () => ({ ...heard, playing, ducked }),
+    state: () => ({ ...heard, playing, ducked, tail: tail ? tail.mood : '', swelled }),
   };
 })();
 

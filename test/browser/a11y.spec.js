@@ -28,6 +28,8 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   const found = [];
   await page.goto('/');
   await expect(page.locator('#screen-title')).toBeVisible();
+  // the opening's fade over, so the colours are read as they stand
+  await expect(page.locator('#screen-title')).not.toHaveClass(/opening/, { timeout: 5000 });
   await scan(page, 'title', found);
   for (const [btn, screen, back] of [['#btn-hall', '#screen-hall', '#hall-back'], ['#btn-beasts', '#screen-beasts', null], ['#btn-help', '#screen-help', null], ['#btn-code', '#screen-code', null]]) {
     await page.click(btn);
