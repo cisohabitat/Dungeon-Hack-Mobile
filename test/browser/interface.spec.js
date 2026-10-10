@@ -248,7 +248,7 @@ test.describe('interface', () => {
     await page.goto('/');
     await expect(page.locator('#screen-title')).toBeVisible();
 
-    // the camera walks the dungeon, so successive frames must differ
+    // the key art drifts and embers rise through it, so successive frames must differ
     const frames = await page.evaluate(async () => {
       const c = document.querySelector('#title-art');
       const g = c.getContext('2d');
@@ -262,7 +262,7 @@ test.describe('interface', () => {
       }
       return new Set(seen).size;
     });
-    expect(frames, 'the title camera should be moving').toBeGreaterThan(1);
+    expect(frames, 'the title should be moving').toBeGreaterThan(1);
 
     await startGame(page, { seed: 'ui-title' });
     await clearBoons(page);

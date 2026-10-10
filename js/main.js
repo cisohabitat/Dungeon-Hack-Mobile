@@ -92,7 +92,8 @@ function boot() {
   // listening for what breaks before anything else runs, so a fault painting the pictures is heard too
   Telemetry.install({ getState: () => Game.state(), version: UI.version() });
   Assets.init();
-  Renderer.init(document.getElementById('title-art'));
+  // the dungeon's own canvas from the start: the title draws its key art on its own (titlescene.js)
+  Renderer.init(document.getElementById('view'));
   UI.init();
   requestAnimationFrame(loop);
   if ('serviceWorker' in navigator && location.protocol === 'https:') {

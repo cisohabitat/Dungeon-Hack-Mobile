@@ -34,8 +34,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
   `js/hall.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
-  wired at the end of `ui.js` in the same `K` pattern: the title's scene
-  (`js/titlescene.js`), the trader (`js/shopview.js`), an encounter's and a level's
+  wired at the end of `ui.js` in the same `K` pattern: the title's key art
+  (`js/titlescene.js`, drawing `img/keyart-*.webp`, made from `art/keyart/`), the trader (`js/shopview.js`), an encounter's and a level's
   choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`),
   the spell list and hero sheet (`js/herosheet.js`) and the end of a run (`js/endscreen.js`).
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects

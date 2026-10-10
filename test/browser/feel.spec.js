@@ -96,3 +96,41 @@ test('each floor is named over the view as the hero arrives, once, and a calm vi
   await page.waitForTimeout(300);
   expect(await card.evaluate(el => getComputedStyle(el).display)).toBe('none');
 });
+
+test('the title shows its key art, framed for how the phone is held, drifting slowly, and still in a calm view', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('deepdelve.firstSeen', '1'));
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => UI.titleArt() && UI.titleArt().ready), { timeout: 10_000 }).toBe(true);
+  const up = await page.evaluate(() => UI.titleArt());
+  expect(up.which).toBe('portrait');
+  // the Heart is where the picture says, and it burns: bright and warm, above the title's name
+  const look = () => page.evaluate(() => {
+    const c = document.getElementById('title-art'), g = c.getContext('2d'), s = UI.titleArt();
+    const px = (u, v) => Array.from(g.getImageData(Math.round(u * c.width), Math.round(v * c.height), 1, 1).data);
+    const name = document.querySelector('#screen-title .logo-block').getBoundingClientRect(), box = c.getBoundingClientRect();
+    return { heart: px(s.heart[0], s.heart[1]), corner: px(0.03, 0.97), at: s.heart, nameTop: (name.top - box.top) / box.height };
+  });
+  const seen = await look();
+  expect(seen.heart[0], `the Heart at ${seen.at}: ${seen.heart}`).toBeGreaterThan(170);
+  expect(seen.heart[0], 'white-hot or warm, never cold').toBeGreaterThanOrEqual(seen.heart[2]);
+  expect(seen.heart[0] + seen.heart[1]).toBeGreaterThan(seen.corner[0] + seen.corner[1] + 120);
+  expect(seen.at[1], 'the Heart sits above the title\'s name').toBeLessThan(seen.nameTop);
+  // it drifts
+  const a = await page.evaluate(() => UI.titleArt());
+  await page.waitForTimeout(700);
+  const b = await page.evaluate(() => UI.titleArt());
+  expect([a.dx, a.dy, a.zoom]).not.toEqual([b.dx, b.dy, b.zoom]);
+  // sideways, the other framing
+  await page.setViewportSize({ width: 851, height: 393 });
+  await expect.poll(() => page.evaluate(() => UI.titleArt().which), { timeout: 10_000 }).toBe('landscape');
+  await expect.poll(() => page.evaluate(() => UI.titleArt().ready), { timeout: 10_000 }).toBe(true);
+  // a calm view holds it still
+  await page.evaluate(() => localStorage.setItem('deepdelve.calm', '1'));
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => UI.titleArt() && UI.titleArt().ready), { timeout: 10_000 }).toBe(true);
+  const c1 = await page.evaluate(() => UI.titleArt());
+  await page.waitForTimeout(500);
+  const c2 = await page.evaluate(() => UI.titleArt());
+  expect(c1.still).toBe(true);
+  expect([c2.dx, c2.dy, c2.zoom]).toEqual([c1.dx, c1.dy, c1.zoom]);
+});

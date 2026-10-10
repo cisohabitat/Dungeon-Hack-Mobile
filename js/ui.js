@@ -62,7 +62,8 @@ const UI = (() => {
     if (id !== 'screen-game' && !$('#' + id).classList.contains('active')) Sound.play('page');
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
     // the raycaster draws into whichever canvas is on screen
-    if (id === 'screen-title') { Renderer.init($('#title-art')); title.t0 = 0; title.last = 0; title.angle = null; refreshTitle(); }
+    // (the key art comes up close again and settles, as it does when the title first opens)
+    if (id === 'screen-title') { title.t0 = 0; title.last = 0; refreshTitle(); }
     else if (id === 'screen-game') { Renderer.init($('#view')); fitView(); }
     syncHistory();
   }
@@ -159,7 +160,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-10-24b', text: 'the title opens out of the dark to a swell of music (a tap skips it), each floor is named as you arrive, the music fades from a fight to quiet instead of stopping dead, and a number no longer hides a warning mark' };
+  const NEWS = { id: '2026-10-25', text: 'new key art: the hero at the head of the stair, the Heart of the Mountain burning far below, behind the title and the prologue' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1912,7 +1913,15 @@ const UI = (() => {
   });
 
   // ---------- titlescene: see titlescene.js ----------
-  const { renderTitle, title } = makeTitleScene({
+  const { renderTitle, title, artState } = makeTitleScene({
+    calm: () => calmOn(),
+    /** How far down the title's picture its name begins, as a share of the picture's height. */
+    nameTop: () => {
+      const art = $('#title-art'), name = $('#screen-title .logo-block');
+      if (!art || !name) return null;
+      const a = art.getBoundingClientRect(), n = name.getBoundingClientRect();
+      return a.height ? (n.top - a.top) / a.height : null;
+    },
   });
 
   // ---------- herosheet: see herosheet.js ----------
@@ -1924,6 +1933,8 @@ const UI = (() => {
   return { init, paused, fitView, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
+    /** The title's key art, which picture and how it lies: for the tests. */
+    titleArt: () => artState(),
     /** Every tip's words, so a test can check each fits where it is shown. */
     // (a tip that suits itself to the spot is given in its widest words, for a test of whether it fits)
     tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar,
