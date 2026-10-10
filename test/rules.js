@@ -15238,6 +15238,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
 
   // the grades of what is found, and the legendary pieces (rules-legends.js)
   await require('./rules-legends.js')({ test, start, beside, walk, wearRelic, tallyLines, seedDice, markLog, linesSince });
+  // the choices that come back two floors on (rules-threads.js)
+  await require('./rules-threads.js')({ test, start, meetAndChoose, markLog, linesSince });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

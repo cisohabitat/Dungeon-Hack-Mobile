@@ -321,7 +321,7 @@
  * @property {number} [lunges]  how many lunges have followed the hero this run: the first-fight lesson reads it
  * @property {Bounty|null} [bounty]  the trader's job the hero has taken, if any (see bounty.js)
  * @property {Record<number, number>} [bountyTaken]  floors whose trader's job has been taken, so it is not offered twice
- * @property {Record<string, number>} [threads]  choices that follow the hero down: each kept with the floor it was made on (see threads in game.js)
+ * @property {Record<string, number>} [threads]  choices that follow the hero down: each kept with the floor it was made on (threads.js); one that comes back two floors on is marked paid with the floor it did, as `<id>Paid`
  * @property {Array<{m: string, c: string, base?: string, n?: number, notes?: Record<string, string[]>, gone?: boolean, at?: number}>} log
  * @property {number} logSeq  messages ever written; the log array itself is capped
  * @property {number} t                      elapsed game time in milliseconds

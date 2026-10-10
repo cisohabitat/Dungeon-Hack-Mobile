@@ -115,6 +115,10 @@ export function makeChronicle(K) {
     if (t.crew) told.push('the third crew lies buried where they fell, because someone stopped to do it');
     if (t.lamp) told.push('the Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp');
     if (t.robbed) told.push('the Lampfolk have a name for them, and do not say it kindly');
+    if (t.spared) told.push('somewhere in the dark a goblin with a scar tells its tribe about the one who let it live');
+    if (t.oathPaid) told.push('they carried a weeping knight\'s blade out of the dark, though they never learned what its task had been');
+    if (t.eggPaid) told.push('a wyrm followed them down for the egg they smashed');
+    if (t.tollowedPaid) told.push('the goblins of the upper halls still curse the one who would not pay their toll');
     if (K.G.companion) told.push(companionFate(K.G.companion, won));
     if (t.bargain) told.push(won ? 'they never speak of the pale thing in the narrow passage, or what it cost them at the end' : 'whatever they bargained with in the narrow passage was paid in full');
     if (!won) {

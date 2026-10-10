@@ -29,6 +29,7 @@ import { makePaths } from './paths.js';
 import { makeLegends } from './legends.js';
 import { makeCombos, COMBOS } from './combos.js';
 import { makeLairs } from './lairs.js';
+import { makeThreads } from './threads.js';
 
 // Core game state and rules.
 
@@ -97,51 +98,6 @@ const Game = (() => {
   /** @returns {import('./types.js').Player} */
   const P = () => G.player;
   const cls = () => CLASSES[G.player.cls];
-  // ---------- threads ----------
-  // A few choices follow the hero down. Each is kept with the floor it was
-  // made on, pays off (or comes due) further down, and the epilogue remembers it.
-  /** @returns {Record<string, number>} */
-  const threads = () => (G.threads = G.threads || {});
-  const THREAD_SAID = {
-    guide: 'He means to go on ahead and mark the way for you.',
-    captive: 'He swears he will put in a word with the traders below.',
-    crew: 'The third crew is at rest.',
-    bargain: '+1 to hit and damage for the rest of the delve. Something far below will be the stronger for it.',
-    lamp: 'The Lampfolk will hear of it.',
-    robbed: 'The Lampfolk will hear of this.',
-  };
-  /** The Pale One's strength, for the rest of the run. */
-  const bargained = () => (G && G.threads && G.threads.bargain ? 1 : 0);
-  /** A trader below the captive you freed has heard of you: a sixth off. */
-  const vouched = () => (G && G.threads && G.threads.captive && G.depth > G.threads.captive ? 1 / 6 : 0);
-  /** Arriving on a floor for the first time: whatever a thread has waiting here. */
-  function threadArrivals(L, depth, fresh = true) {
-    const t = threads();
-    if (t.guide && depth > t.guide && !t.guided) {
-      t.guided = depth; L.explored.fill(1);
-      log('Chalk arrows on the stair wall: the guildsman you dug out came this way, and marked the whole floor for you.', 'good');
-    }
-    if (L.isFinal && t.crew && !t.sung) {
-      t.sung = 1;
-      const p = P(); p.effects.crew_hit = { amount: 2, until: G.t + 600000 };
-      log('On the last stair you hear, faint as breath, a crew\'s marching song. The dead you buried have not forgotten you (+2 to hit).', 'good');
-    }
-    if (L.isFinal && t.bargain && fresh) log('Cold settles in your hands, and something ahead drinks it in. The Pale One\'s price has come due: whatever keeps the Heart is the stronger for your bargain.', 'bad');
-  }
-  /** What the hero carries from their choices, for the hero sheet. */
-  function threadNotes() {
-    const t = G.threads || {}, out = [];
-    if (bounty.note()) out.push(bounty.note());
-    if (t.guide) out.push(t.guided ? `The guildsman you dug out marked floor ${t.guided} for you.` : 'The guildsman you dug out has gone ahead to mark the way.');
-    if (t.captive) out.push('The captive you freed has put in a word: traders below him ask a sixth less for their wares.');
-    if (t.crew) out.push('You buried the third crew. They will be with you at the end.');
-    if (t.bargain) out.push('You took the Pale One\'s strength: +1 to hit and damage. Whatever keeps the Heart will be the stronger for it.');
-    if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
-    if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
-    if (t.mule) out.push(t.muleDone ? 'A trader knew the lost mule you led on, and paid you for it.' : 'You led a lost mule on: the next trader below will know whose it is.');
-    { const n = companion.note(); if (n) out.push(n); }
-    return out;
-  }
   /** Whether the hero swore this vow at the start of the run. */
   const vowed = v => !!(G && G.opts && Array.isArray(G.opts.vows) && G.opts.vows.includes(v));
 
@@ -1389,6 +1345,11 @@ const Game = (() => {
     get G() { return G; }, get P() { return P; }, get log() { return log; }, get floatText() { return floatText; }, get pathOf() { return pathOf; },
     noteCombo: id => Progress.noteCombo(id), className: cls => CLASSES[cls].name,
     legendCarried: () => { const it = Object.values(P().eq).find(x => x && x.u && RELICS[x.u] && RELICS[x.u].legend); return it ? RELICS[it.u].name : ''; },
+  });
+  const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes } = makeThreads({
+    get G() { return G; }, get P() { return P; }, get log() { return log; }, get key() { return key; }, get passable() { return passable; }, get tile() { return tile; },
+    get T() { return T; }, get monsterAt() { return monsterAt; }, get newMonster() { return newMonster; }, get setTile() { return setTile; }, get healPlayer() { return healPlayer; },
+    get farthestFloor() { return farthestFloor; }, get bounty() { return bounty; }, get companion() { return companion; },
   });
   const lairs = makeLairs({
     get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get passable() { return passable; }, get tile() { return tile; }, get T() { return T; },
