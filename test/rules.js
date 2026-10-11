@@ -15335,6 +15335,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-pages.js')({ test, newContext, winHere, evenStats, OPTS });
   // the three endings (rules-endings.js)
   await require('./rules-endings.js')({ test, newContext, evenStats, OPTS, meetAndChoose });
+  // a long delve's regions: the drowned halls and the old forges (rules-regions.js)
+  await require('./rules-regions.js')({ test, newContext, evenStats, OPTS });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

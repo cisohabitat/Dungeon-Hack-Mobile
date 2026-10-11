@@ -44,6 +44,10 @@ const Music = (() => {
     { root: 41, steps: [0, 2, 3, 5, 7, 8, 10], anvil: true },
     // The Sunless Marsh: A, the old minor, slow; and while all is still, frogs: two low croaks every third bar
     { root: 45, steps: [0, 2, 3, 5, 7, 8, 10], frogs: true },
+    // The Drowned Halls: G#, the old minor, low, nothing more: the water swallows the rest
+    { root: 44, steps: [0, 2, 3, 5, 7, 8, 10] },
+    // The Old Forges: F, phrygian, heavy; and far off, the anvil the hold hears, rung by no one
+    { root: 41, steps: [0, 1, 3, 5, 7, 8, 10], anvil: true },
   ];
   // how fast a step goes (eighth notes, in seconds) for each mood
   const STEP_S = { quiet: 0.5, wary: 0.42, fight: 0.31, champion: 0.29, boss: 0.27, warlord: 0.27 };

@@ -99,7 +99,7 @@ The systems are broad. The bar for an AAA roguelike is that by floor 4 a player 
 - [x] **Recurring characters**: one named Lampfolk trader who remembers you between runs (the progress store already has the hooks). The fallen hero's shade already does this well; extend the pattern. (Wick: the last hero it met and their fate, a tale a meeting, a regular's tenth off, its tales in the Hall.)
 - [x] **Three endings**: take the Heart, destroy it, or bargain with it. Each turns on a choice made mid-run and has its own end card and Hall entry. (The kept smith on the floor before the last gives his quench or the smiths' way, and the Pale One's bargain teaches the way too; at the Heart: carry it up, put it out, or stay and keep it. Each has its card, Hall entry, story, feat and Wick's word, scores the same, and telemetry counts the split.)
 - [x] **Environmental storytelling**: the set pieces (shrine, cells, cistern, rubble) each get two or three variants with their own props and log line, so a shrine is not always the same shrine.
-- [ ] **Two more roads or regions** for 12- and 16-floor delves, built on the `BUILDS` table: a drowned level and a forge level are cheapest, since water and fire are already systems.
+- [x] **Two more roads or regions** for 12- and 16-floor delves, built on the `BUILDS` table: a drowned level and a forge level are cheapest, since water and fire are already systems. (REGIONS in dungeon.js: the Drowned Halls, always flooded, and the Old Forges, always smouldering, each with its own walls, halls, music and name, on fixed floors below the divided stair.)
 - [ ] **One narrator's voice**: prologue, tips, encounters and endings edited together as one document in one register.
 
 **Exit criteria**

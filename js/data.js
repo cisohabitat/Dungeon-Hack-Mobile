@@ -1152,6 +1152,10 @@ const THEMES = [
   { name: 'The Grey Hold', people: 'dwarves', face: 'granite', wall: '#5e5c58', mortar: '#1e1c1a', floor: '#2e2b28', ceil: '#141210', accent: '#e8843a', flavor: 'Square-cut granite, and far off the ring of hammers. You have come into the hold of the grey dwarves.', decor: ['banner', 'sconce', 'chains', 'grate', 'ring'], props: ['crate', 'barrel', 'rubble', 'candles'], fog: '#120c08' },
   // the lizardfolk's marsh, the fifth floor of a sixteen-floor delve: wattle and daub, standing water (pools: the share of each room under it)
   { name: 'The Sunless Marsh', people: 'marsh', face: 'reed', wall: '#5a5a3c', mortar: '#1e2414', floor: '#2a3020', ceil: '#121810', accent: '#9ac050', flavor: 'Black water among rotting reeds, and walls of wattle daubed with mud. You have come into the marsh of the lizardfolk.', decor: ['moss', 'roots', 'seep', 'cobweb'], props: ['mushrooms', 'bones', 'puddle'], pools: 0.28, fog: '#0a120a' },
+  // a long delve's regions (REGIONS in dungeon.js): the drowned halls, black water standing in halls once dry
+  { name: 'The Drowned Halls', region: 'drowned', wall: '#4a5a60', mortar: '#162024', floor: '#1e2a2e', ceil: '#0c1416', accent: '#5ab0b8', flavor: 'Black water stands in halls that were dry once, and something moves beneath it.', decor: ['seep', 'moss', 'chains', 'grate', 'seep', 'cobweb'], props: ['puddle', 'barrel', 'bones', 'puddle'], pools: 0.24, fog: '#060e12' },
+  // and the old smiths' forges, soot-black, the cracks in their floors still glowing
+  { name: 'The Old Forges', region: 'forge', wall: '#4a3e3a', mortar: '#160e0c', floor: '#2a201c', ceil: '#100a08', accent: '#ff7a2a', flavor: 'Cold anvils stand in rows, and the cracks in the floor still glow. These were the old smiths\' forges, before there was a valley.', decor: ['sconce', 'chains', 'vein', 'grate', 'stain'], props: ['crate', 'rubble', 'barrel', 'candles'], fog: '#140a06' },
 ];
 
 // Pixel art. '.' is transparent; other characters map to palette colours.

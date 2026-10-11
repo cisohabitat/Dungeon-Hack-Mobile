@@ -22,6 +22,24 @@ const PEOPLES = {
   marsh: { kin: [['lizardfolk', 2], ['lizard_shaman', 1]], from: 16, back: 11, word: "the lizardfolk's marsh" },
 };
 const ELF_KIN = PEOPLES.elves.kin;
+/**
+ * The regions of a long delve: floors of the road below the divided stair that
+ * the deep has made its own, each with walls and halls of its own and its own
+ * trouble. The drowned halls, where the black water stands (a flooded floor,
+ * always), and below them the old smiths' forges, whose cracks still glow (a
+ * smouldering floor, always), above the forge where the Heart was made. On the
+ * floors no champion and no people holds: on twelve floors the seventh and
+ * eighth, back to back (the fifth would take the road's own first floor, where
+ * its walls are first seen and its encounter waits); on sixteen the ninth and
+ * thirteenth. The road's creatures still walk them; the twist brings the rest.
+ * @type {Record<string, { at: Record<number, number>, twist: string, word: string }>}
+ */
+const REGIONS = {
+  drowned: { at: { 12: 7, 16: 9 }, twist: 'flooded', word: 'the drowned halls' },
+  forge: { at: { 12: 8, 16: 13 }, twist: 'smouldering', word: "the old smiths' forges" },
+};
+/** Which region this floor of a delve is, if any. @param {number} levels @param {number} depth */
+function regionAt(levels, depth) { return Object.keys(REGIONS).find(k => REGIONS[k].at[levels] === depth) || null; }
 const TIER_FLOORS = 10;   // the monster tiers are laid out over this many floors
 const QUICK_TIER = 2;     // where on that ladder a quick delve's second floor sits
 /**
@@ -222,6 +240,11 @@ function twistPlan(seed, levels, grow = true) {
   }
   // a people's floor is never twisted: dark, flooded or restless it would hold drowned and undead, not them
   for (const h of homes) delete plan[h];
+  // and a region's floor is always its own twist (struck in last, as the peoples' floors are
+  // struck off, so every other floor's dice fall as they did)
+  // (one smouldering floor to a delve: where the forges are, the deep quarter's own is not dealt)
+  for (const r of Object.values(REGIONS)) if (r.at[levels]) for (const d in plan) if (plan[d] === r.twist && Number(d) !== r.at[levels]) delete plan[d];
+  for (const r of Object.values(REGIONS)) if (r.at[levels]) plan[r.at[levels]] = r.twist;
   return plan;
 }
 const OVERGROWN_SHARE = 0.25, TREMORS_SHARE = 0.25, SMOULDER_SHARE = 0.4;
@@ -289,7 +312,9 @@ const Dungeon = (() => {
     // (each road builds after its own fashion: see BUILDS in rooms.js)
     // a people's floor of a long delve: their walls, their halls, only them
     const people = peopleAt(opts.levels || 8, depth);
-    const build = people ? BUILDS[people] : (route && BUILDS[route]) || BUILDS.plain;
+    // (or one of a long delve's regions: the drowned halls, the old forges)
+    const region = people ? null : regionAt(opts.levels || 8, depth);
+    const build = people ? BUILDS[people] : region ? BUILDS[region] : (route && BUILDS[route]) || BUILDS.plain;
     // the last floor's hall first of all, toward the far side from where the floors are entered
     if (isFinal) {
       const R = sanctum(rng);
@@ -1203,13 +1228,14 @@ const Dungeon = (() => {
     // the ordinary themes take turns down the stair; the last floor and the
     // two roads have their own (the roads' come after the last floor's in THEMES)
     const FINAL = THEMES.findIndex(t => t.final);
-    const theme = isFinal ? FINAL : people ? THEMES.findIndex(t => t.people === people) : route ? ROUTES[route].theme : (depth - 1) % FINAL;
+    const theme = isFinal ? FINAL : people ? THEMES.findIndex(t => t.people === people) : region ? THEMES.findIndex(t => t.region === region) : route ? ROUTES[route].theme : (depth - 1) % FINAL;
     const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
       theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h, shape: r.R.shape })),
     };
     if (pieceInfo) L.piece = pieceInfo;
+    if (region) L.region = region;
     L.dressing = dress(L, seed);
     // the piece keeps a list of what was laid in it, not of what it would have laid
     if (L.piece) L.piece.props = L.piece.props.filter(q => L.dressing.some(d => d.x === q.x && d.y === q.y && d.k === q.k));
@@ -1347,7 +1373,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, areaOf, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt, pagePlan, keeperOf };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, areaOf, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt, pagePlan, keeperOf, REGIONS, regionAt };
 })();
 
 export { Dungeon };

@@ -15,9 +15,10 @@ const STORE = 'deepdelve.samples';
 /**
  * The pack's music theme for each of the game's floor themes (data.js THEMES,
  * by index): the four upper halls share one, the Crypts road's two floors
- * another, and the lich's hall, the Warrens and the three peoples each their own.
+ * another, and the lich's hall, the Warrens and the three peoples each their own;
+ * the long delve's regions borrow the marsh's (the drowned halls) and the hold's (the forges).
  */
-const THEME_GROUP = ['halls', 'halls', 'halls', 'halls', 'crypts', 'sanctum', 'crypts', 'warrens', 'darkelf', 'greyhold', 'marsh'];
+const THEME_GROUP = ['halls', 'halls', 'halls', 'halls', 'crypts', 'sanctum', 'crypts', 'warrens', 'darkelf', 'greyhold', 'marsh', 'marsh', 'greyhold'];
 const BASE = 'sound/';
 /** The rate the music and the ambience are decoded at. */
 const LOW_RATE = 24000;

@@ -41,6 +41,11 @@ const BUILDS = {
   dwarves: { shapes: [['box', 34], ['colonnade', 14], ['niches', 16], ['ell', 14], ['gallery', 12], ['cross', 10]], great: 'hall', dig: 2.4, grain: 0.3, turn: 5, loops: 1 / 5, tries: 2 },
   // the lizardfolk dig nothing: their marsh is caves and burrows the water made, joined crookedly
   marsh: { shapes: [['cave', 34], ['burrow', 22], ['ell', 14], ['box', 14], ['niches', 8]], great: 'hall', dig: 0.8, grain: 3, turn: 0.5, loops: 1 / 3, tries: 4 },
+  // a long delve's regions (REGIONS in dungeon.js): the drowned halls were cisterns and
+  // pillared halls before the water came, and some of them have fallen in to caves;
+  // the old forges are long galleries of hearths and big square halls, cut straight
+  drowned: { shapes: [['colonnade', 30], ['box', 20], ['cave', 16], ['gallery', 14], ['cross', 10], ['niches', 10]], great: 'hall', dig: 1.6, grain: 1.2, turn: 2, loops: 1 / 4, tries: 2 },
+  forge: { shapes: [['gallery', 26], ['box', 24], ['colonnade', 14], ['niches', 14], ['cross', 12], ['ell', 10]], great: 'hall', dig: 2.4, grain: 0.4, turn: 4, loops: 1 / 5, tries: 2 },
 };
 
 /** The set pieces, one to a floor: a block of cells, a shrine, a cistern, a hall half fallen in. */
