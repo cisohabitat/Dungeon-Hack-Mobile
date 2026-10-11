@@ -1213,7 +1213,16 @@ const Dungeon = (() => {
       const k = q.x + ',' + q.y;
       if (taken.has(k) || L.tiles[q.y * w + q.x] !== T.FLOOR) continue;
       taken.add(k);
-      out.push(q.k === 'puddle' ? { x: q.x, y: q.y, k: q.k, ox: 0, oy: 0, r: 0.34 } : { x: q.x, y: q.y, k: q.k, ox: 0, oy: 0 });
+      // (a cask, a crate or an urn leans on the wall it stands by, or stands a little
+      // off the middle, as the rest of the floor's do: square in its square is a
+      // fire scene's cask, set there on purpose)
+      let ox = 0, oy = 0;
+      if (WALL_PROPS.includes(q.k)) {
+        for (const [dx, dy] of wallsBy(q.x, q.y)) { ox += dx * 0.3; oy += dy * 0.3; }
+        if (!ox && !oy) ox = (q.x + q.y) % 2 ? 0.12 : -0.12;
+        ox = Math.max(-0.34, Math.min(0.34, ox)); oy = Math.max(-0.34, Math.min(0.34, oy));
+      }
+      out.push(q.k === 'puddle' ? { x: q.x, y: q.y, k: q.k, ox: 0, oy: 0, r: 0.34 } : { x: q.x, y: q.y, k: q.k, ox, oy });
     }
     for (const cells of byRoom.values()) {
       // a small room one or two things, a great hall up to four
