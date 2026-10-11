@@ -240,18 +240,16 @@ export function makeTrader(K) {
   /** What Wick says on meeting you: who it is, who came before, and a tale. */
   function greetWick() {
     const G = K.G, w = G.wick || { met: 0, told: 0, won: 0, last: null }, l = w.last;
-    if (!w.met) log(`One of the Lampfolk, older than the rest, with a brass lamp and a scarf the colour of rust, looks up from its pack. "${WICK.name}, they call me, for I have burned a long time. Coin for goods, sun-walker. And I remember faces."`, 'info');
+    const say = WICK.says;
+    if (!w.met) log(say.first, 'info');
     else {
-      log(`${WICK.name} lifts its brass lamp and looks you over with its great pale eyes. "Another of you."`, 'info');
+      log(say.again, 'info');
       if (l) {
         const who = `${l.name} the ${(CLASSES[l.cls] || { name: 'sun-walker' }).name}`;
-        if (l.fate === 'won') log(`"The last of you was ${who}. Went down, and came up again with the Heart, they say. A sun-walker who lives is good for trade."`, 'info');
-        else if (l.fate === 'quenched') log(`"The last of you was ${who}. Put it out, they say, with the smiths' own water. The deep is colder for it, and the ones it kept lie down at last. I lit a lamp for all of them."`, 'info');
-        else if (l.fate === 'kept') log(`"The last of you was ${who}. Went down, and stayed. They keep it now, down there, and the valley is warm. I do not go so far down any more."`, 'info');
-        else if (l.fate === 'fell') log(`"The last of you was ${who}. Got as far as floor ${l.depth}${l.killer ? `, and ${l.killer} the rest of the way` : ''}. I kept a lamp lit for them a while."`, 'info');
-        else log(`"The last of you was ${who}. I never heard what became of them."`, 'info');
+        const line = say[l.fate] || say.gone;
+        log(line.replace('{who}', who).replace('{depth}', String(l.depth)).replace('{killer}', l.killer ? say.killer.replace('{killer}', l.killer) : ''), 'info');
       }
-      if (w.met >= REGULAR && !G.opts.daily) log(`"You are getting to be a regular, you sun-walkers. A tenth off, for the face."`, 'good');
+      if (w.met >= REGULAR && !G.opts.daily) log(say.regular, 'good');
     }
     log(`"${w.told < WICK.tales.length ? WICK.tales[w.told] : WICK.done}"`, 'info');
     G.wickMet = G.depth;

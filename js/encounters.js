@@ -23,7 +23,7 @@ const ENCOUNTERS = {
     text: 'A fall of stone has half buried a man in a guild tabard. One hand still moves. "Please," he says. "I know this floor. I can show you the way down."',
     choices: [
       { label: 'Heave the stones off him', check: { stat: 'str', dc: 12 },
-        pass: { text: 'The stones grind aside. He sits up coughing, presses a chalk map of the floor into your hands, and limps off toward the stairs.', effects: [{ map: 1 }, { xp: 25 }, { thread: 'guide' }] },
+        pass: { text: 'The stones grind aside. He sits up coughing, presses a chalk map of the floor into your hands, and limps off towards the stairs.', effects: [{ map: 1 }, { xp: 25 }, { thread: 'guide' }] },
         fail: { text: 'The pile shifts the wrong way and comes down on both of you. He does not move again.', effects: [{ hurtFrac: 0.2 }] } },
       { label: 'Keep him talking while you dig', check: { stat: 'cha', dc: 12 },
         pass: { text: 'He talks you through where each stone will slide. When he is free he tells you where the last crew hid their stores, and draws you the floor.', effects: [{ map: 1 }, { loot: 1 }, { thread: 'guide' }] },
@@ -60,7 +60,7 @@ const ENCOUNTERS = {
       { label: 'Drink from the bowls', check: { stat: 'con', dc: 13 },
         pass: { text: 'The wine is bitter and very old, and it does not want you. You keep it down. Your wounds close, and for a while blows seem to slide off you.', effects: [{ heal: 'full' }, { buff: { stats: [['ac', 2]], dur: 180000 } }] },
         fail: { text: 'The wine fights back. Whatever is in it was never meant for you.', effects: [{ poison: 1 }, { hurtFrac: 0.1 }] } },
-      { label: 'Pry the garnets from its eyes', check: { stat: 'dex', dc: 14, knack: [['thief', null, 3]] },
+      { label: 'Prise the garnets from its eyes', check: { stat: 'dex', dc: 14, knack: [['thief', null, 3]] },
         pass: { text: 'The stones come away with a soft click, heavy and warm. No one comes.', effects: [{ goldPerDepth: 30 }, { xp: 30 }] },
         fail: { text: 'The altar shrieks as the first stone moves, and the halls answer. Blades are coming.', effects: [{ wake: 1 }, { ambush: { id: 'drow_warrior', n: 2 } }] } },
       { label: 'Cast the spider down', check: { stat: 'str', dc: 13 },
@@ -115,7 +115,7 @@ const ENCOUNTERS = {
     text: 'Someone kept a lamp burning here, at the edge of the last halls, and left a bowl beneath it. Coins shine in the bowl. Whatever keeps the lamp lit still answers what is left there.',
     choices: [
       { label: 'Leave gold for a ward against the cold', cost: { goldPerDepth: 25 },
-        outcome: { text: 'The flame leans toward you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },
+        outcome: { text: 'The flame leans towards you, and the chill of the halls ahead eases off your skin.', effects: [{ buff: { stats: [['ac', 3]], dur: 300000 } }] } },
       { label: 'Leave gold for a sure hand', cost: { goldPerDepth: 20 },
         outcome: { text: 'The flame steadies, and so does your grip.', effects: [{ buff: { stats: [['hit', 3]], dur: 300000 } }] } },
       { label: 'Leave a fortune for both, and the flame\'s warmth', cost: { goldPerDepth: 45 },
@@ -422,7 +422,7 @@ const ENCOUNTERS = {
   // places them): kept out of the deck the rest are dealt from.
   ossuary: {
     title: 'The Ossuary', sprite: 'bones', depth: [99, 99], route: 'crypts',
-    text: 'The walls of this chamber are built of skulls, thousands of them, set in patient rows. In the middle stands a reliquary of green bronze, and every empty eye in the room seems turned toward it.',
+    text: 'The walls of this chamber are built of skulls, thousands of them, set in patient rows. In the middle stands a reliquary of green bronze, and every empty eye in the room seems turned towards it.',
     choices: [
       { label: 'Pray for the dead', check: { stat: 'wis', dc: 12, knack: [['cleric', null, 3]] },
         pass: { text: 'You say the old words for them, and the room grows easier to stand in. Something of their long quiet goes with you.', effects: [{ xp: 40 }, { buff: { stats: [['ac', 2]], dur: 240000 } }] },
@@ -498,7 +498,7 @@ const ENCOUNTERS = {
     choices: [
       { label: 'Coax the wick alight', check: { stat: 'dex', dc: 12 },
         pass: { text: 'A spark, a breath, and the flame stands up. Its eyes brighten with it. It touches your hand, very lightly, and says it will tell the others.', effects: [{ xp: 30 }, { thread: 'lamp' }] },
-        fail: { text: 'The oil catches all at once and flares across your hands. It goes out again, and the Lampfolk sighs.', effects: [{ hurtFrac: 0.1 }] } },
+        fail: { text: 'The oil catches all at once and flares across your hands. It goes out again, and its owner sighs.', effects: [{ hurtFrac: 0.1 }] } },
       { label: 'Talk it back to the light', check: { stat: 'cha', dc: 12, knack: [[null, 'deepborn', 3]] },
         pass: { text: 'You talk it along the wall, step by step, to a torch still burning. It lights the lamp from it, and draws you the way it came in the dust.', effects: [{ map: 1 }, { thread: 'lamp' }] },
         fail: { text: 'It does not trust a voice in the dark. It gathers up its pack and shuffles away from you, and you spend a long while getting your bearings again.', effects: [{ food: -10 }] } },
@@ -521,7 +521,7 @@ const ENCOUNTERS = {
       { label: 'Read the maker\'s marks', check: { stat: 'int', dc: 12 },
         pass: { text: 'A ward-rune, cut in the anvil\'s face to draw bad magic out of the iron. It still works: you feel something let go of you as you trace it.', effects: [{ xp: 40 }, { uncurse: 1 }] },
         fail: { text: 'The marks are in a smith\'s cant you do not know. You learn only that the maker was proud of them.', effects: [] } },
-      { label: 'Pry the gold wire off the hilt', outcome: { text: 'It comes away in a bright tangle. Whoever made the blade would not thank you.', effects: [{ goldPerDepth: 8 }] } },
+      { label: 'Prise the gold wire off the hilt', outcome: { text: 'It comes away in a bright tangle. Whoever made the blade would not thank you.', effects: [{ goldPerDepth: 8 }] } },
       { label: 'Leave it for its maker', outcome: { text: 'You leave the blade where it lies, in case they do come back.', effects: [] } },
     ],
   },
@@ -562,7 +562,7 @@ const ENCOUNTERS = {
     title: 'The Weeping Knight', sprite: 'statue', depth: [3, 99],
     text: 'A stone knight kneels on a plinth, head bowed, water running from its eyes in two thin lines down the moss. The sword across its knees is not stone. It is real steel, and bright.',
     choices: [
-      { label: 'Pry the sword out of its hands', check: { stat: 'str', dc: 14 },
+      { label: 'Prise the sword out of its hands', check: { stat: 'str', dc: 14 },
         pass: { text: 'Stone fingers crack, one by one, and the sword is yours. The weeping stops.', effects: [{ loot: 2 }] },
         fail: { text: 'The grip does not give, and your hands slip down the edge.', effects: [{ hurtFrac: 0.12 }] } },
       { label: 'Kneel beside it and swear to finish its task', check: { stat: 'wis', dc: 12, knack: [['cleric', null, 3]] },
@@ -579,7 +579,7 @@ const ENCOUNTERS = {
     title: 'The Idol\'s Eyes', sprite: 'idol', depth: [2, 99],
     text: 'A grinning idol of green stone sits cross-legged in an alcove, its eyes two cut rubies as big as your thumb. The floor in front of it is scorched in a neat circle.',
     choices: [
-      { label: 'Pry out the rubies', check: { stat: 'dex', dc: 14, knack: [['thief', null, 4]] },
+      { label: 'Prise out the rubies', check: { stat: 'dex', dc: 14, knack: [['thief', null, 4]] },
         pass: { text: 'One, then the other, and nothing happens. You do not wait around to find out why.', effects: [{ goldPerDepth: 22 }] },
         fail: { text: 'The scorched circle was a warning. Fire leaps from the idol\'s mouth.', effects: [{ hurtFrac: 0.2 }] } },
       { label: 'Find the trap before you touch it', check: { stat: 'int', dc: 13, knack: [['mage', null, 2]] },

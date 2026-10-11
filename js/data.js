@@ -25,8 +25,8 @@ const BACKGROUNDS = {
   tombwise: {
     name: 'The Tombwise',
     blurb: 'You have opened graves for a living. You know their tricks.',
-    perk: 'A thief’s eye for traps and hidden doors.',
-    story: 'You have been opening other people’s graves since you were eleven, and you are still alive, which puts you ahead of most in the trade. You know what a false flagstone sounds like. You know which walls are lying.',
+    perk: 'A thief\'s eye for traps and hidden doors.',
+    story: 'You have been opening other people\'s graves since you were eleven, and you are still alive, which puts you ahead of most in the trade. You know what a false flagstone sounds like. You know which walls are lying.',
     motive: 'You came down here because it is the largest grave anyone has ever offered you.',
     epi: 'They went down because it was the largest grave anyone had ever offered them.',
   },
@@ -58,7 +58,7 @@ const BACKGROUNDS = {
     name: 'The Debtor',
     blurb: 'Sold down the delve to clear a debt. Paid in advance.',
     perk: 'You start with 150 gold in hand.',
-    story: 'Your father’s debt outlived him and came looking for you. The house that bought it offered a choice: the delve, or the work gangs on the coast. They paid you in advance, which told you what they expect to get back.',
+    story: 'Your father\'s debt outlived him and came looking for you. The house that bought it offered a choice: the delve, or the work gangs on the coast. They paid you in advance, which told you what they expect to get back.',
     motive: 'You came down here owing a debt you intend to close in person.',
     epi: 'They went down owing a debt they meant to close in person.',
   },
@@ -121,28 +121,28 @@ const BACKGROUNDS = {
 // ever go on the end.
 const JOURNAL = [
   { act: 1, rank: 1, step: 1, title: 'A guild roster, water-stained', text: 'Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: "the struck ones still answer to their names. do not use their names."' },
-  { act: 1, rank: 4, step: 3, title: 'A surveyor’s note', text: 'The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.' },
+  { act: 1, rank: 4, step: 3, title: 'A surveyor\'s note', text: 'The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.' },
   { act: 1, rank: 2, step: 6, title: 'A letter, never sent', text: 'Mira — the Heart is not out. I have stood in the vault and felt it beating through the rock. It has been taken down, not extinguished. Something carried it deeper and it is still warm. Tell the guild. Tell them it is still warm.' },
-  { act: 2, road: 'crypts', rank: 1, step: 1, title: 'A page torn from a ledger', text: 'He was the delve’s own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.' },
+  { act: 2, road: 'crypts', rank: 1, step: 1, title: 'A page torn from a ledger', text: 'He was the delve\'s own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.' },
   { act: 2, road: 'crypts', rank: 3, step: 4, title: 'A prayer, scratched into the wall', text: 'Not to any god of the valley. The letters run the wrong way and the last line reads: he says the mountain will keep us warm forever. he says we only have to stop.' },
-  { act: 2, road: 'warrens', rank: 4, step: 2, title: 'A child’s drawing', text: 'A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: "she has never been below the third floor. she has never seen him. ask how she knows."' },
-  { act: 1, rank: 5, step: 5, title: 'The last crew’s log', text: 'Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever was done to the Heart, it was done to the distance as well.' },
+  { act: 2, road: 'warrens', rank: 4, step: 2, title: 'A child\'s drawing', text: 'A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: "she has never been below the third floor. she has never seen him. ask how she knows."' },
+  { act: 1, rank: 5, step: 5, title: 'The last crew\'s log', text: 'Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever was done to the Heart, it was done to the distance as well.' },
   { act: 3, rank: 2, step: 2, title: 'A single line, cut deep', text: 'IT WILL LET YOU TAKE IT. THAT IS THE PART NOBODY WRITES DOWN.' },
   // (from here, the pages added when the story was laid out in acts)
   { act: 1, rank: 3, step: 2, title: 'A guild notice, nailed up', text: 'By order of the Delving Guilds of Karrathal: a fourth crew will go down the Deepdelve to learn why the Heart has gone dark. Pay is triple. The guilds are not answerable for crews who do not come back. Underneath, in charcoal: none have.' },
-  { act: 2, road: 'crypts', rank: 4, step: 2, title: 'From the archivist’s daybook', text: 'The guild’s founding, and every year of it since, in my own hand. I do not tire and I do not age while I keep my desk beside the vault. The Heart keeps me. I should like to know what it would make of the rest of them.' },
-  { act: 2, road: 'crypts', rank: 5, step: 3, title: 'Minutes of the guild council', text: 'Item: the archivist’s request for the Heart, for study. Refused, as every year. Item: he has asked in the same words, in the same hand, every year of the guild’s records. No one at the table could remember him young.' },
-  { act: 2, road: 'crypts', rank: 6, step: 5, title: 'A novice’s account of the last sermon', text: 'He came to the Hollow Chapel the winter the Heart went down. He said it was cold above and would be colder, and that below, beside the Heart, no one need ever grow old, or hungry, or afraid. Only still. Half the chapel went with him. Mother Orla went to bring them back.' },
-  { act: 2, road: 'crypts', rank: 2, step: 6, title: 'The archivist’s last entry', text: 'I have carried it down to where the dead lie quiet. They do not need it to be warm. They need it to keep them, and it does. The crews will come. Let them come. I will keep them too. I will keep everyone.' },
-  { act: 2, road: 'warrens', rank: 1, step: 1, title: 'Goblin marks on a tunnel wall', text: 'Daubed in soot, a crew’s reading written under them: BIG FIRE COME DOWN. DEAD MAN CARRY IT. WE TAKE. KING SIT ON IT. KING NOT COLD. KING NOT STOP.' },
+  { act: 2, road: 'crypts', rank: 4, step: 2, title: 'From the archivist\'s daybook', text: 'The guild\'s founding, and every year of it since, in my own hand. I do not tire and I do not age while I keep my desk beside the vault. The Heart keeps me. I should like to know what it would make of the rest of them.' },
+  { act: 2, road: 'crypts', rank: 5, step: 3, title: 'Minutes of the guild council', text: 'Item: the archivist\'s request for the Heart, for study. Refused, as every year. Item: he has asked in the same words, in the same hand, every year of the guild\'s records. No one at the table could remember him young.' },
+  { act: 2, road: 'crypts', rank: 6, step: 5, title: 'A novice\'s account of the last sermon', text: 'He came to the Hollow Chapel the winter the Heart went down. He said it was cold above and would be colder, and that below, beside the Heart, no one need ever grow old, or hungry, or afraid. Only still. Half the chapel went with him. Mother Orla went to bring them back.' },
+  { act: 2, road: 'crypts', rank: 2, step: 6, title: 'The archivist\'s last entry', text: 'I have carried it down to where the dead lie quiet. They do not need it to be warm. They need it to keep them, and it does. The crews will come. Let them come. I will keep them too. I will keep everyone.' },
+  { act: 2, road: 'warrens', rank: 1, step: 1, title: 'Goblin marks on a tunnel wall', text: 'Daubed in soot, a crew\'s reading written under them: BIG FIRE COME DOWN. DEAD MAN CARRY IT. WE TAKE. KING SIT ON IT. KING NOT COLD. KING NOT STOP.' },
   { act: 2, road: 'warrens', rank: 2, step: 3, title: 'Notes on the goblins', text: 'They will not say its name. They call it the Stopping Fire. A goblin who sleeps too near it does not wake, and does not die either: they stack them at the back of the hall. So the king beats his drum all night, and every goblin who hears it has to get up and move.' },
-  { act: 2, road: 'warrens', rank: 5, step: 4, title: 'A Lampfolk ledger, copied out', text: 'Sold to the dead man in the cold halls: lamp oil, forty measures, for his dead to see by. Sold to the drum-king: nothing. He does not buy. He takes. Note: do not sleep in the drum-king’s hall, however warm.' },
+  { act: 2, road: 'warrens', rank: 5, step: 4, title: 'A Lampfolk ledger, copied out', text: 'Sold to the dead man in the cold halls: lamp oil, forty measures, for his dead to see by. Sold to the drum-king: nothing. He does not buy. He takes. Note: do not sleep in the drum-king\'s hall, however warm.' },
   { act: 2, road: 'warrens', rank: 6, step: 5, title: 'Scratched inside a goblin shield', text: 'drum good. drum mean get up. get up mean not stop. not stop mean not like the ones at the back.' },
-  { act: 2, road: 'warrens', rank: 3, step: 6, title: 'A rubbing from a stone in the orc halls', text: 'Under the orcs’ marks, older letters, square and deep: the old smiths’ hand. THE FIRE IS OURS. WE LIT IT TO BE WARM. WE STAYED TO BE WARM. WE STAYED.' },
-  { act: 3, rank: 1, step: 1, title: 'The first page of the guilds’ charter', text: 'Here the guilds found the Heart of the Mountain: the first fire of the old smiths, lit at the root of the mountain before there were people in the valley. Its warmth rises through the stone and keeps the valley from the frost. It keeps more than that. Whatever stays beside it does not grow old, or change, or die: it is kept. The smiths stayed. Let no one stay. Let no one hold it long.' },
-  { people: 'elves', title: 'A prayer-tablet from the dark elves’ temple', text: 'Goddess, keep the warm fire far from us. When it rested in our halls the grandmothers of our grandmothers did not die. They did not move. Your webs grew over them where they sat, and they are sitting still.' },
-  { people: 'dwarves', title: 'Graven over the Grey Hold’s gate', text: 'WE ARE WHAT IS LEFT OF THE SMITHS WHO WOULD NOT STAY. THE FIRE GOES HOME TO THE FORGE THAT MADE IT, WHOEVER CARRIES IT DOWN. LET IT GO HOME. DO NOT FOLLOW.' },
-  { people: 'marsh', title: 'Marks pressed into the marsh mud', text: 'A crew’s reading, under the claw-marks: once warm water came up from below. Eggs did not hatch. Eggs did not rot. Mothers waited, many lives of mothers. Then the warm went down again, and the eggs hatched, and we were glad of the cold.' },
+  { act: 2, road: 'warrens', rank: 3, step: 6, title: 'A rubbing from a stone in the orc halls', text: 'Under the orcs\' marks, older letters, square and deep: the old smiths\' hand. THE FIRE IS OURS. WE LIT IT TO BE WARM. WE STAYED TO BE WARM. WE STAYED.' },
+  { act: 3, rank: 1, step: 1, title: 'The first page of the guilds\' charter', text: 'Here the guilds found the Heart of the Mountain: the first fire of the old smiths, lit at the root of the mountain before there were people in the valley. Its warmth rises through the stone and keeps the valley from the frost. It keeps more than that. Whatever stays beside it does not grow old, or change, or die: it is kept. The smiths stayed. Let no one stay. Let no one hold it long.' },
+  { people: 'elves', title: 'A prayer-tablet from the dark elves\' temple', text: 'Goddess, keep the warm fire far from us. When it rested in our halls the grandmothers of our grandmothers did not die. They did not move. Your webs grew over them where they sat, and they are sitting still.' },
+  { people: 'dwarves', title: 'Graven over the Grey Hold\'s gate', text: 'WE ARE WHAT IS LEFT OF THE SMITHS WHO WOULD NOT STAY. THE FIRE GOES HOME TO THE FORGE THAT MADE IT, WHOEVER CARRIES IT DOWN. LET IT GO HOME. DO NOT FOLLOW.' },
+  { people: 'marsh', title: 'Marks pressed into the marsh mud', text: 'A crew\'s reading, under the claw-marks: once warm water came up from below. Eggs did not hatch. Eggs did not rot. Mothers waited, many lives of mothers. Then the warm went down again, and the eggs hatched, and we were glad of the cold.' },
 ];
 
 
@@ -803,7 +803,7 @@ const MONSTERS = {
   emberling: { name: 'Emberling', hp: [3, 8, 2],  ac: 14, hit: 6,  dmg: [1, 8, 2], speed: 1000, xp: 110,  tier: [99, 99], sprite: 'emberling', scale: 0.7, move: 'flare', fiery: true, door: 'batter' },
   mimic:    { name: 'Mimic',       hp: [4, 8, 4],    ac: 13, hit: 4,  dmg: [1, 8, 2], speed: 1100, xp: 80,   tier: [99, 99], sprite: 'mimic',    scale: 0.8, move: 'grab', mimic: true, door: 'batter' },
   puffcap:  { name: 'Puffcap',     hp: [2, 8, 0],    ac: 10, hit: 3,  dmg: [1, 6, 0], speed: 1600, xp: 45,   tier: [99, 99], sprite: 'puffcap',  scale: 0.85, spores: true, door: 'batter' },
-  lich:     { name: 'Dread Lich',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
+  lich:     { name: 'Dread Lich', speech: 'A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."',  hp: [12, 10, 20], ac: 16, hit: 9,  dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'lich', reach: 2,     scale: 1.2, undead: true, boss: true, drain: true, move: 'nova',
     // the fight turns as it weakens: at two thirds it steps back behind its
     // guards and throws grave-cold from afar; at one third it puts out the
     // torches, quickens, and tries to drink the Heart's light to mend itself
@@ -824,9 +824,9 @@ const MONSTERS = {
   // (emberlings); at one third it glows white, quicker, and its lines run
   // further. (The same count of hit dice as the lich: the floor's other dice
   // fall as they did.)
-  heartforged: { name: 'Heartforged', hp: [12, 10, 20], ac: 17, hit: 9, dmg: [2, 8, 2], speed: 1300, xp: 1600, tier: [99, 99], sprite: 'heartforged', scale: 1.4, boss: true, move: 'stamp', fiery: true,
+  heartforged: { name: 'Heartforged', speech: 'Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in the fire inside it. It says nothing at all.', hp: [12, 10, 20], ac: 17, hit: 9, dmg: [2, 8, 2], speed: 1300, xp: 1600, tier: [99, 99], sprite: 'heartforged', scale: 1.4, boss: true, move: 'stamp', fiery: true,
     phases: [{ speed: 1200 }, { speed: 1000 }] },
-  warlord:  { name: 'Goblin Warlord', hp: [12, 9, 12], ac: 16, hit: 9, dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'warlord', scale: 1.3, boss: true, move: 'drum', cunning: 1,
+  warlord:  { name: 'Goblin Warlord', speech: 'A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. "Grisk was my sister\'s boy. You will make me a fine footstool."', hp: [12, 9, 12], ac: 16, hit: 9, dmg: [2, 6, 1], speed: 1100, xp: 1500, tier: [99, 99], sprite: 'warlord', scale: 1.3, boss: true, move: 'drum', cunning: 1,
     phases: [
       { ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a spear from his throne at' } },
       { speed: 900 },
@@ -864,12 +864,12 @@ const MONSTERS = {
   orla:     { name: 'Hollow Abbess', hp: [10, 8, 10],  ac: 16, hit: 8,  dmg: [1, 8, 3], speed: 900,  xp: 280,  tier: [6, 12],  sprite: 'wraith', lunge: 1,   scale: 1.2,  undead: true, fly: 0.2, element: 'cold', move: 'drink',
     named: { called: 'Orla', kin: 'wraith', tint: '#8fb0ff', guard: ['skeleton', 2],
       arrive: 'A cold hymn carries through the stone. Orla the Hollow Abbess keeps her vigil somewhere on this floor.',
-      wake: 'The hymn stops. Orla the Hollow Abbess turns her empty hood toward you.',
+      wake: 'The hymn stops. Orla the Hollow Abbess turns her empty hood towards you.',
       fall: 'Orla the Hollow Abbess is destroyed! She comes apart like mist in the sun, and the hymn ends.' } },
   gorrum:   { name: 'Troll-Father',  hp: [10, 10, 10], ac: 16, hit: 9,  dmg: [2, 8, 2], speed: 1200, xp: 500,  tier: [8, 30],  sprite: 'troll',    scale: 1.6,  regen: 2, door: 'smash',
     named: { called: 'Gorrum', kin: 'troll', tint: '#d0a060',
       arrive: 'The floor shakes with slow footsteps. Gorrum the Troll-Father walks this floor.',
-      wake: 'Gorrum the Troll-Father smells you, and lumbers toward the scent.',
+      wake: 'Gorrum the Troll-Father smells you, and lumbers towards the scent.',
       fall: 'Gorrum the Troll-Father is dead! He topples like a felled oak, and this time nothing grows back.' } },
   skarrow:  { name: 'Elder Wyrm',    hp: [12, 10, 12], ac: 17, hit: 9,  dmg: [2, 8, 3], speed: 1100, xp: 600,  tier: [9, 30],  sprite: 'wyrm',     scale: 1.55, move: 'breath', door: 'smash',
     // (the Elder Wyrm lairs beneath both roads: each lists her among its champions)
@@ -1090,7 +1090,7 @@ const BESTIARY = {
     trick: 'It rears back and breathes a gout of fire down the passage, from two squares out to five.',
     answer: 'Close in under its jaws: the fire roars out over your head. Or step out of its line. Stepping back only keeps you in it.' },
   shade:    { lore: 'One of your own, who fell in an earlier delve and did not stay down. It keeps the floor where it died, over the bones and the gear it died in, and it fights the way it did in life: a fighter\'s shade charges, a mage\'s throws cold fire, a cleric\'s mends itself, a thief\'s is quick and follows a step back, a ranger\'s shoots. Undead: holy magic burns it twice as badly. Lay it to rest and its gear is yours.' },
-  heartforged: { lore: 'Below where the lich and the Warlord ever came, the Heart rests where it was made, and the thing the old smiths built to keep it keeps it still: an iron giant twice a man\'s height, a furnace burning in its chest, a hammer in its fist. Fire does it little harm. Cold bites deep.',
+  heartforged: { lore: 'Deeper than the lich or the Warlord ever came, the Heart rests where it was made, and the thing the old smiths built to keep it keeps it still: an iron giant twice a man\'s height, a furnace burning in its chest, a hammer in its fist. Fire does it little harm. Cold bites deep.',
     trick: 'It raises its hammer and stamps, and fire runs out along the floor down all four of its lines, three squares each way (four, once it glows white). At two thirds it tears open its chest-furnace and two emberlings climb out of it; at one third it glows white and moves quicker.',
     answer: 'Step off its lines while the hammer is up, to where it would have to turn to face you: the fire runs past, the hammer sticks in the stone, and it is left open. Cold hurts it half again as much.' },
   warlord:  { lore: 'Grisk was only his sister\'s boy. The Warlord of the Warrens wears a crown of hammered gold, beats a war-drum that every goblin in the deep comes running to, and has dragged the Heart into his own hall. Break the beat by striking him; cut down his shield-bearers and he must leave his throne; and when he kicks open his war-chest, keep your head.',
@@ -1110,10 +1110,10 @@ const BESTIARY = {
   ushgar:   { lore: 'Ushgar holds the middle floors by the simple rule of running over anyone who argues. Goblin runners carry his drums.',
     trick: 'Charges twice as often as any orc, and from four squares off.',
     answer: 'Step out of his line while he lowers his head, and he thunders past, wide open. A door shut across his line stops him cold.' },
-  morrow:   { lore: 'The oldest ghoul in the delve, and the fattest. It has been eating the fourth crew for three winters. Undead: holy magic burns it twice as badly.',
+  morrow:   { lore: 'The oldest ghoul in the delve, and the fattest. It has been eating the fourth crew since they came down. Undead: holy magic burns it twice as badly.',
     trick: 'Reaches out with its numbing claw every other blow, not every third.',
     answer: 'Step back while it reaches, or land a blow first and knock the claw aside. Mind it closely: the next reach comes quickly.' },
-  orla:     { lore: 'She led the valley\'s prayers in the Hollow Chapel before the Heart went out, and she is praying still. Undead: holy magic burns it twice as badly.',
+  orla:     { lore: 'She led the valley\'s prayers in the Hollow Chapel before the Heart went out, and she is praying still. Undead: holy magic burns her twice as badly.',
     trick: 'Every third blow she reaches into your chest to drink. If her hand closes, a weak will loses 3 maximum hit points for good, and she is mended by what she takes.',
     answer: 'Step back while she reaches and her hand closes on air, leaving her open. A strong will, or a ward against the grave, keeps what she would take.' },
   skarrow:  { lore: 'The oldest of the deep\'s wyrms, grown too big for the passages she made, sleeping on a hoard of the fourth crew\'s steel. Fire does little to her; cold bites.',
@@ -1203,6 +1203,18 @@ const WICK = {
     'Every sun-walker who comes up again owes the dark one lamp. Most forget to pay it. Not you, I think.',
   ],
   done: 'I have told you all I know, sun-walker. The rest of it is down there.',
+  // what it says on meeting a hero, and of the last one it met ({who}, {depth}, {killer})
+  says: {
+    first: 'One of the Lampfolk, older than the rest, with a brass lamp and a scarf the colour of rust, looks up from its pack. "Wick, they call me, for I have burned a long time. Coin for goods, sun-walker. And I remember faces."',
+    again: 'Wick lifts its brass lamp and looks you over with its great pale eyes. "Another of you."',
+    won: '"The last of you was {who}. Went down, and came up again with the Heart, they say. A sun-walker who lives is good for trade."',
+    quenched: '"The last of you was {who}. Put it out, they say, with the smiths\' own water. The deep is colder for it, and the ones it kept lie down at last. I lit a lamp for all of them."',
+    kept: '"The last of you was {who}. Went down, and stayed. They keep it now, down there, and the valley is warm. I do not go so far down any more."',
+    fell: '"The last of you was {who}. Got as far as floor {depth}{killer}. I kept a lamp lit for them a while."',
+    killer: ', and {killer} the rest of the way',
+    gone: '"The last of you was {who}. I never heard what became of them."',
+    regular: '"You are getting to be a regular, you sun-walkers. A tenth off, for the face."',
+  },
 };
 
 export { WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };

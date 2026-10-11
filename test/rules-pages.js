@@ -10,7 +10,7 @@ module.exports = async function pageChecks(h) {
     const out = [];
     const { Dungeon, JOURNAL } = await newContext();
     // the first eight keep their places: a save knows a page by its number
-    const FIRST = ['A guild roster, water-stained', 'A surveyor’s note', 'A letter, never sent', 'A page torn from a ledger', 'A prayer, scratched into the wall', 'A child’s drawing', 'The last crew’s log', 'A single line, cut deep'];
+    const FIRST = ['A guild roster, water-stained', 'A surveyor\'s note', 'A letter, never sent', 'A page torn from a ledger', 'A prayer, scratched into the wall', 'A child\'s drawing', 'The last crew\'s log', 'A single line, cut deep'];
     FIRST.forEach((t, i) => { if (!JOURNAL[i] || JOURNAL[i].title !== t) out.push(`page ${i} is now ${JOURNAL[i] && JOURNAL[i].title}`); });
     for (const levels of LENGTHS) for (const route of ['crypts', 'warrens']) {
       const plan = Dungeon.pagePlan(levels, route), span = Dungeon.routeSpan(levels), road = span ? route : 'crypts', key = `${levels} floors by ${road}`;

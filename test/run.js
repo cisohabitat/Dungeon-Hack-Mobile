@@ -25,6 +25,14 @@ for (const k in SPRITES) {
   for (const key in s.pal) check(used.has(key), `${k} palette key '${key}' is never used`);
 }
 
+// docs/NARRATIVE.md is the narrator's every line, gathered from the tables: a line
+// changed in its table and not written there again leaves the document telling
+// an editor something the game no longer says
+{
+  const { narrativeCurrent } = await import('../tools/narrative.mjs');
+  check(await narrativeCurrent(), 'docs/NARRATIVE.md is stale: run node tools/narrative.mjs');
+}
+
 // Every module the game loads must be in the offline cache, or an installed
 // copy fails to start without a connection. New files are easy to forget.
 {

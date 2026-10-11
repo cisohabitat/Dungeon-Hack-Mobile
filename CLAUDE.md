@@ -43,6 +43,7 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   (`js/titlescene.js`, drawing `img/keyart-*.webp`, made from `art/keyart/`), the trader (`js/shopview.js`), an encounter's and a level's
   choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`),
   the spell list and hero sheet (`js/herosheet.js`) and the end of a run (`js/endscreen.js`).
+  The first-moment tips' words are in `js/tips.js` (`makeTips`, lent two of the view's helpers).
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
   over it are in `js/spellfx.js`.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list
@@ -115,6 +116,10 @@ and keep the README balance table current.
   Player-facing text is the same register: short, concrete, no jargon.
 - Every new rule gets a rules test; every new screen or control a browser test.
 - Help text lives in `index.html` (How to Play); keep it true when rules change.
+- The story has one narrator (`docs/VOICE.md`). A line of it goes in its table (`data.js`,
+  `encounters.js`, `rooms.js`, `tips.js`), not in code; then `node tools/narrative.mjs`
+  writes `docs/NARRATIVE.md` again (`test/run.js` fails while it is stale), and
+  `test/rules-voice.js` checks spelling, names and who is speaking.
 - Styles are built from the tokens at the top of `css/style.css`: the colour sheet,
   the type scale (`--t-*`) and the spacing scale (`--s-*`, a 2px grid to 16, then 4px).
   A new rule picks from them; a value outside them is a picture, not the interface.

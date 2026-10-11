@@ -256,7 +256,7 @@ export function makeFoes(K) {
     const mv = rite ? 'rite' : storm ? 'storm' : mb.move;
     if (!mv || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
     let say = '', extra = {};
-    if (rite) say = `The ${mb.name} lifts its hands toward the Heart and begins to drink its light! Strike it to break the rite!`;
+    if (rite) say = `The ${mb.name} lifts its hands towards the Heart and begins to drink its light! Strike it to break the rite!`;
     // and the light it draws calls a guard to stand between you, once a rite
     if (rite && !L0guard(m)) raiseGuards(m, riteGuard(), true);
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
@@ -1414,9 +1414,8 @@ export function makeFoes(K) {
   function speaks(m, mb) {
     if (mb.boss && m.awake && !m.spoke) {
       m.spoke = true;
-      if (m.id === 'heartforged') K.log('Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in the fire inside it. It says nothing at all.', 'bad');
-      else if (m.id === 'warlord') K.log('A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. "Grisk was my sister\'s boy. You will make me a fine footstool."', 'bad');
-      else K.log(`A cold voice fills the hall: "Another thief, come for my Heart. Stay, then. Stay for ever."`, 'bad');
+      // its first words (MONSTERS in data.js, with the rest of the narrator's)
+      K.log(mb.speech, 'bad');
       Sound.play('voice', K.heard(m, { who: m.id === 'warlord' ? 'orc' : m.id }));
       K.fx.shakeAmp = 4; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
     } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);

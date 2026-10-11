@@ -10,3 +10,6 @@ sound/*.py
 sound/manifest.json
 sound/production.json
 sound/validation.json
+# the narrator's whole document and the tool that writes it: for whoever edits the story
+docs
+tools
