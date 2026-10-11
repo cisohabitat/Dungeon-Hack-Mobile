@@ -116,9 +116,53 @@ test.describe('the trader', () => {
       await new Promise(r => setTimeout(r, 150));
       return { title, which };
     });
+    // Wick, by name, on its floor; any other of the Lampfolk; a goblin pedlar at a market
+    await page.evaluate(() => { Game.level().npcs.find(q => q.kind !== 'encounter').wick = true; });
+    expect(await visit()).toEqual({ title: 'Wick, of the Lampfolk', which: 'wick' });
+    await page.evaluate(() => { Game.level().npcs.find(q => q.kind !== 'encounter').wick = false; });
     expect(await visit()).toEqual({ title: 'Lampfolk trader', which: 'merchant' });
     await page.evaluate(() => { Game.level().twist = 'market'; });
     expect(await visit()).toEqual({ title: 'Goblin pedlar', which: 'pedlar' });
+    expect(errors).toEqual([]);
+  });
+
+  test('Wick meets you by name and tells a tale, and the Hall keeps what it has told', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'shop-open', levels: '8' });
+    // down to Wick's floor, and up to its counter
+    const met = await page.evaluate(async () => {
+      const G = Game.state(), p = G.player, T = Dungeon.T;
+      for (let d = 1; d < 8 && !(G.wickAt && G.depth === G.wickAt); d++) {
+        const L = Game.level();
+        if (!L.downStart) return null;
+        p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
+        Game.input('forward');
+        await new Promise(r => setTimeout(r, 280));
+        if (Game.forkPending()) Game.chooseRoute('crypts');
+      }
+      const L = Game.level(), n = L.npcs.find(q => q.wick);
+      if (!n) return null;
+      L.monsters.length = 0;
+      const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(n.y - dy) * L.w + n.x - dx] === T.FLOOR; });
+      const [dx, dy] = Dungeon.DIRS[k];
+      p.x = n.x - dx; p.y = n.y - dy; p.dir = k;
+      Game.input('forward');
+      await new Promise(r => setTimeout(r, 300));
+      return { title: document.querySelector('#shop-title').textContent, said: G.log.slice(-6).map(e => e.m).join(' ') };
+    });
+    test.skip(!met, 'no Wick reachable in this delve');
+    expect(met.title).toBe('Wick, of the Lampfolk');
+    expect(met.said).toContain('Wick, they call me');
+    await page.locator('#ov-shop [data-close]').click();
+    // what it told is kept, and the Hall shows it
+    await page.goto('/');
+    await page.click('#btn-hall');
+    const box = page.locator('.hall-wick');
+    await expect(box.locator('summary')).toContainText("Wick's tales");
+    await expect(box.locator('summary')).toContainText('1 of 8 heard');
+    await box.locator('summary').click();
+    await expect(box.locator('li')).toHaveCount(1);
+    await expect(box.locator('li').first()).toContainText('We were here before the first stair was cut');
     expect(errors).toEqual([]);
   });
 

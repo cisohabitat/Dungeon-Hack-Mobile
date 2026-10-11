@@ -46,10 +46,11 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   await expect(page.locator('#screen-create')).toBeVisible();
   await scan(page, 'create', found);
   // and with everything a player can earn open: the second kit, the hound, the vows, and the same in the Hall
-  await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1, normal: 1 } }, relics: [], feats: { veteran: 1 } })));
+  await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1, normal: 1 } }, relics: [], feats: { veteran: 1 }, wick: { met: 2, told: 2, won: 1, last: { name: 'Ash', cls: 'fighter', run: 'x', fate: 'won', depth: 8 } } })));
   await page.goto('/');
   await page.click('#btn-hall');
   await expect(page.locator('[data-trophy="unlock-kit:fighter"]')).toHaveClass(/open/);
+  await page.click('.hall-wick summary');   // and Wick's tales, open
   await scan(page, 'hall-unlocked', found);
   await page.goto('/');
   await page.click('#btn-new');

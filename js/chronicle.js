@@ -149,6 +149,8 @@ export function makeChronicle(K) {
     // a test run (endless life, spell points or gold) is written nowhere
     if (K.G.tested) { K.G.earned = won ? { tested: true } : null; return; }
     try { localStorage.setItem(LAST_KEY, JSON.stringify({ name: p.name, cls: p.cls, depth: K.G.depth, levels: K.G.opts.levels || 8, won, killer: won ? '' : killerPhrase(), date: Date.now() })); } catch (e) { /* private browsing */ }
+    // Wick hears how it went for the hero it last met, and will say so to the next
+    Progress.wickHears(runKey(), won, K.G.depth, won ? '' : killerPhrase());
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     // (a quick delve's win goes in the Hall, but earns no trophy: those wait for four floors or more)

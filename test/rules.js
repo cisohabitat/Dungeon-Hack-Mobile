@@ -15322,6 +15322,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-pacts.js')({ test, newContext, start, walk, meetAndChoose, winHere, OPTS, evenStats });
   // the ladder past Hard (rules-ladder.js)
   await require('./rules-ladder.js')({ test, newContext, winHere, OPTS, evenStats });
+  // Wick, the Lampfolk trader who remembers (rules-wick.js)
+  await require('./rules-wick.js')({ test, newContext, winHere, fallTo, downTo, evenStats });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

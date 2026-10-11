@@ -69,6 +69,9 @@ function play(ctx, cls, seed, opts, bg, idx) {
     const fell = ['fighter', 'cleric', 'mage', 'thief', 'ranger'][idx % 5];
     ctx.store.set('deepdelve.fallen', JSON.stringify({ name: 'Old', cls: fell, level: 5, depth: Number(process.env.SHADE), run: 'bench', gear: [{ t: 'longsword', q: 1, e: 1 }] }));
   }
+  // WICK=n: Wick has met n of this player's heroes before, so from the third it
+  // asks a regular a tenth less (each run's store is otherwise fresh: a first meeting)
+  if (process.env.WICK) ctx.store.set('deepdelve.progress', JSON.stringify({ wick: { met: Number(process.env.WICK), told: 0, won: 0, last: null } }));
   Game.newGame({ name: 'Bot', cls, bg, stats, seed, opts });
   // Measuring the build, not the drop rate: without this only about a third of
   // runs happen to find a light blade, and the comparison mostly reports how

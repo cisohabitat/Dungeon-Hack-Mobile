@@ -1,4 +1,5 @@
-import { ITEMS, CLASSES } from './data.js';
+import { ITEMS, CLASSES, WICK } from './data.js';
+import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } from './relics.js';
 
@@ -27,14 +28,18 @@ export function makeTrader(K) {
   const grudge = () => (lampThread('robbed') ? 1 / 6 : 0);
   // and on the ladder past Hard, from its first rung, half again for everything they sell and do
   const dear = () => (climbed(1) ? 1.5 : 1);
+  // Wick knows a regular's face: from the third delve it has met you in, a tenth
+  // off its wares (not in a Daily, which is the same delve for everyone)
+  const REGULAR = 2, REGULAR_OFF = 0.1;
+  const regular = () => (shop && shop.wick && !K.G.opts.daily && ((K.G.wick && K.G.wick.met) || 0) >= REGULAR ? REGULAR_OFF : 0);
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
-    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched()) * (1 + grudge()) * dear());
+    if (r) return Math.round(r.value * shop.markup * (1 - charm() - vouched() - regular()) * (1 + grudge()) * dear());
     const v = ITEMS[it.t].value || 5;
     const e = it.h ? 0 : (it.e || 0);
     const pw = (it.pw && !it.h ? 1.7 : 1) * (it.px && !it.h ? 1.25 : 1);
-    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched()) * (1 + grudge()) * dear()));
+    return Math.max(2, Math.round(v * shop.markup * (1 + e * 0.9) * pw * (1 - charm() - vouched() - regular()) * (1 + grudge()) * dear()));
   }
   // Never more than the trader in front of you would ask for it: at a goblin
   // market's lowest markup, a charming thief with Light Fingers and a
@@ -214,9 +219,46 @@ export function makeTrader(K) {
   // down here will harm the ones it buys from; that is how they are still here.
   const traderKind = () => (lvl().twist === 'market' ? 'pedlar' : 'lampfolk');
   const TRADER_NAMES = { lampfolk: 'Lampfolk trader', pedlar: 'Goblin pedlar' };
-  const traderName = () => TRADER_NAMES[traderKind()];
+  /** Who keeps the shop: Wick by name, one of the Lampfolk, or a goblin pedlar. @param {import('./types.js').Trader} [n] */
+  const traderName = (n = shop || (lvl().npcs || []).find(q => q.id === 'merchant')) => (n && n.wick && traderKind() === 'lampfolk' ? `${WICK.name}, of the Lampfolk` : TRADER_NAMES[traderKind()]);
+
+  // ---------- Wick ----------
+  // Every delve but a quick one, the first Lampfolk trader on or below the floor
+  // two fifths of the way down is Wick, who remembers the sun-walkers before you.
+  // Marked when the floor is made, from nothing but the floor, so the map's dice
+  // never move; a goblin market's pedlar is not Wick, nor a floor with no trader.
+  const wickFloor = () => Math.max(2, Math.round((K.G.opts.levels || 8) * 0.4));
+  /** @param {import('./types.js').Level} L @param {number} depth */
+  function wickLevel(L, depth) {
+    const G = K.G;
+    if (G.wickAt || (G.opts.levels || 8) <= 2 || depth < wickFloor() || L.twist === 'market' || L.isFinal) return;
+    const n = (L.npcs || []).find(q => q.id === 'merchant');
+    if (!n) return;
+    n.wick = true;
+    G.wickAt = depth;
+  }
+  /** What Wick says on meeting you: who it is, who came before, and a tale. */
+  function greetWick() {
+    const G = K.G, w = G.wick || { met: 0, told: 0, won: 0, last: null }, l = w.last;
+    if (!w.met) log(`One of the Lampfolk, older than the rest, with a brass lamp and a scarf the colour of rust, looks up from its pack. "${WICK.name}, they call me, for I have burned a long time. Coin for goods, sun-walker. And I remember faces."`, 'info');
+    else {
+      log(`${WICK.name} lifts its brass lamp and looks you over with its great pale eyes. "Another of you."`, 'info');
+      if (l) {
+        const who = `${l.name} the ${(CLASSES[l.cls] || { name: 'sun-walker' }).name}`;
+        if (l.fate === 'won') log(`"The last of you was ${who}. Went down, and came up again with the Heart, they say. A sun-walker who lives is good for trade."`, 'info');
+        else if (l.fate === 'fell') log(`"The last of you was ${who}. Got as far as floor ${l.depth}${l.killer ? `, and ${l.killer} the rest of the way` : ''}. I kept a lamp lit for them a while."`, 'info');
+        else log(`"The last of you was ${who}. I never heard what became of them."`, 'info');
+      }
+      if (w.met >= REGULAR && !G.opts.daily) log(`"You are getting to be a regular, you sun-walkers. A tenth off, for the face."`, 'good');
+    }
+    log(`"${w.told < WICK.tales.length ? WICK.tales[w.told] : WICK.done}"`, 'info');
+    G.wickMet = G.depth;
+    // (a test run is written nowhere; a Daily is: Wick meets everyone)
+    if (!G.tested) Progress.metWick({ name: P().name, cls: P().cls, run: K.runKey() });
+  }
   function greet() {
     const G = K.G;
+    if (shop && shop.wick && traderKind() === 'lampfolk') { greetWick(); G.metLampfolk = true; return; }
     if (traderKind() === 'pedlar') log('A goblin pedlar squats under a heap of pots, blades and trinkets, and grins with every tooth. "Cheap! Cheaper than lamp-eyes. Cheap!"', 'info');
     else if (!G.metLampfolk) log('One of the Lampfolk looks up from a pack taller than itself, its eyes round and pale as lanterns. They have always been down here: they trade with whatever pays, and nothing in the deep will harm the ones it buys from. "Coin for goods, sun-walker."', 'info');
     else log('A Lampfolk trader blinks its great pale eyes at you over its pack. "Coin for goods."', 'info');
@@ -318,6 +360,6 @@ export function makeTrader(K) {
     return gold;
   }
   /** What besides charm moves this trader's prices, for the shop's header. */
-  const priceNotes = () => [vouched() ? 'the captive\'s word: a sixth off' : '', grudge() ? 'the Lampfolk remember: a sixth dearer' : ''].filter(Boolean);
-  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes };
+  const priceNotes = () => [vouched() ? 'the captive\'s word: a sixth off' : '', regular() ? 'a regular: a tenth off' : '', grudge() ? 'the Lampfolk remember: a sixth dearer' : ''].filter(Boolean);
+  return { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes, wickLevel };
 }

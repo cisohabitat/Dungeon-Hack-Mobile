@@ -785,6 +785,7 @@ const Game = (() => {
     if (G.opts.rung !== undefined) { const n = Math.floor(Number(G.opts.rung)); if (G.opts.difficulty === 'hard' && !G.opts.daily && n >= 1 && n < LADDER.length) G.opts.rung = n; else delete G.opts.rung; }
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
+    G.wick = Progress.wick();   // what Wick remembers, as this run begins (trader.js)
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner (the second kit, once a win has earned it; never in a Daily)
     const alt = G.opts.kit === 'alt' && !G.opts.daily && Progress.kitOpen(cfg.cls);
@@ -822,7 +823,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
     G.depth = depth;
     // the view comes up out of the dark of the stair (see drawArrival in the renderer)
     fx.arriveAt = realNow;
@@ -1608,7 +1609,7 @@ const Game = (() => {
   };
   // The traders (trader.js) borrow the same way.
   const traderK = {
-    get climbed() { return climbed; },
+    get climbed() { return climbed; }, get runKey() { return runKey; },
     get BELT() { return BELT; }, get bounty() { return bounty; },
     get G() { return G; },
     get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; }, get the() { return the; },
@@ -1623,7 +1624,7 @@ const Game = (() => {
     houndRests: () => companion.rested(1),
     companionHere: () => companion.here(),
   };
-  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes } = makeTrader(traderK);
+  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes, wickLevel } = makeTrader(traderK);
   const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(foesK);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion({

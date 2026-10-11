@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK } from './data.js';
 import { RELICS, toCollect } from './relics.js';
 import { COMBOS } from './combos.js';
 
@@ -12,14 +12,14 @@ const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, rungs: Record<string, number>}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, rungs: Record<string, number>, wick: import('./types.js').WickMemory}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {} };
+  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null) };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   // wins with each path, and with each vow kept: counts, nothing else
   /** @type {[('paths'|'vows'|'feats'), string[]][]} */
@@ -41,6 +41,24 @@ function clean(v) {
   for (const cls in CLASSES) { const n = Math.min(LADDER.length - 1, Math.max(0, Math.floor(Number(rungs[cls]) || 0))); if (n) out.rungs[cls] = n; }
   if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
   if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => typeof id === 'string' && COMBOS[id]))];
+  out.wick = cleanWick(v.wick);
+  return out;
+}
+/**
+ * What Wick remembers: how many delves it has met you in, how many of its tales
+ * it has told, how many of those heroes went on to win, and the last of them.
+ * @returns {import('./types.js').WickMemory}
+ */
+function cleanWick(v) {
+  const n = x => Math.max(0, Math.floor(Number(x) || 0));
+  const out = { met: 0, told: 0, won: 0, last: null };
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
+  out.met = n(v.met); out.told = Math.min(WICK.tales.length, n(v.told)); out.won = Math.min(out.met, n(v.won));
+  const l = v.last;
+  if (l && typeof l === 'object' && CLASSES[l.cls] && typeof l.name === 'string' && l.name.trim()) {
+    out.last = { name: l.name.trim().slice(0, 24), cls: l.cls, run: String(l.run || '').slice(0, 80), fate: ['won', 'fell'].includes(l.fate) ? l.fate : '',
+      depth: Math.min(16, n(l.depth)), ...(typeof l.killer === 'string' && l.killer ? { killer: l.killer.slice(0, 40) } : {}) };
+  }
   return out;
 }
 /** A Hall from before progress was kept still counts its wins: those on one
@@ -58,7 +76,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {} };
+  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null) };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -193,6 +211,38 @@ function noteCombo(id) {
   return true;
 }
 
+// ---------- Wick ----------
+/** What Wick remembers, as it stood when asked. */
+const wick = (v = load()) => v.wick;
+/**
+ * A hero has met Wick: count the delve, the tale it told (if one was left), and
+ * remember this hero in place of the last.
+ * @param {{name: string, cls: string, run: string}} h
+ */
+function metWick(h) {
+  const v = load(), w = v.wick;
+  w.met++;
+  w.told = Math.min(WICK.tales.length, w.told + 1);
+  w.last = cleanWick({ last: { ...h, fate: '' } }).last;
+  store(v);
+}
+/**
+ * A run has ended: if its hero was the last Wick met, Wick hears how.
+ * @param {string} run
+ * @param {boolean} won
+ * @param {number} depth
+ * @param {string} [killer]
+ */
+function wickHears(run, won, depth, killer = '') {
+  const v = load(), l = v.wick.last;
+  if (!l || l.run !== run || l.fate) return;
+  l.fate = won ? 'won' : 'fell';
+  l.depth = depth;
+  if (killer && !won) l.killer = killer.slice(0, 40);
+  if (won) v.wick.won = Math.min(v.wick.met, v.wick.won + 1);
+  store(v);
+}
+
 // ---------- the fallen ----------
 // The last hero to die on this device is remembered: who they were, the
 // floor they fell on and what they wore. A later run finds their bones
@@ -248,5 +298,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

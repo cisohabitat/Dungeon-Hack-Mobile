@@ -52,6 +52,51 @@ const FOLK = {
     ];
   },
 
+  // Wick, the one of the Lampfolk with a name: older, and travelling lighter
+  // than the rest. No pack, but a crook staff taller than itself with a brass
+  // lamp hung from the hook, a ledger held to its chest, brass spectacles over
+  // the great pale eyes, a scarf the colour of rust, and a long blue-grey cloak
+  // with the hood thrown back.
+  wick: () => {
+    const skin = '#98a0ae', skinDk = '#6c7482', skinLt = '#b4bcc8', robe = '#3e4a5e', robeDk = '#2c3546', robeLt = '#56647a';
+    const scarf = '#a04a2a', scarfDk = '#743220', brass = '#c9a24a', brassDk = '#8a6a2a', wood = '#5a4430';
+    return [
+      // the crook staff on its right, the lamp swinging from the hook
+      line(50, 7, 50, 62, wood), limb(50, 7, 47, 3.5, 0.8, 0.8, wood), limb(47, 3.5, 43, 4.5, 0.8, 0.8, wood), line(43, 4.5, 43, 8.5, '#4a4040'),
+      ball(43, 14, 4.6, 5.6, brassDk), ball(43, 14, 3.4, 4.4, '#ffd060', { glows: true }), ball(42.4, 13, 1.8, 2, '#fff6d0', { glows: true }),
+      sheet([[39.5, 9.5], [46.5, 9.5], [45, 8], [41, 8]], brass), line(39, 19.6, 47, 19.6, brass), hair(40, 9, 46, 9, '#f0d890'),
+      // short legs under the cloak, and bare grey feet
+      ...both64(limb(28, 50, 27, 59, 2.8, 2.4, skinDk)), ...both64(ball(25.6, 61, 4.4, 2, skin)),
+      ...both64(specks([[22, 61.5], [23.5, 62], [25, 62]], '#d4d8e0')),
+      // the long cloak, and the hood fallen back about the shoulders
+      sheet([[20, 33], [44, 33], [47, 59], [41.5, 57.5], [36.5, 59.5], [32, 58], [27.5, 59.5], [22.5, 57.5], [17, 59]], robe, { curve: 1 }),
+      sheet([[20, 33], [24.5, 33], [21.5, 58.5], [17, 59]], robeDk, { curve: 0.4 }),
+      sheet([[19, 31], [45, 31], [43, 37], [21, 37]], robeLt, { curve: 0.8 }), hair(21, 36.5, 43, 36.5, robeDk),
+      ...[[26, 50], [37, 44], [40, 55], [30, 55]].map(([x, y]) => hair(x, y, x + 0.5, y + 3.5, robeDk)),
+      // the right arm out to the staff, the long fingers round it
+      limb(43, 38, 48.5, 41, 2.6, 2.2, robe), ball(50, 41, 2.4, 2.4, skin), ...[39.5, 42.5].map(y => limb(48.6, y, 51.4, y, 0.6, 0.5, skin)),
+      // the ledger held to the chest, its pages edged with use
+      sheet([[23.5, 39], [33, 38], [34, 50], [24.5, 51]], '#5a3424', { curve: 0.2 }), sheet([[24.5, 40], [32.2, 39.2], [33, 49], [25.4, 49.8]], '#6e4430', { curve: 0.2 }),
+      hair(33.2, 39.5, 34, 49.5, '#d8cca8'), hair(24, 41, 24.8, 50.5, '#3a2014'), ball(28.6, 44.5, 1.6, 1.6, brass),
+      limb(21, 37, 24, 47, 2.6, 2.2, robe), ball(25.6, 48, 2.4, 2.2, skin), limb(26, 47, 30, 46, 0.6, 0.5, skin),
+      // the scarf, wound twice and hanging down on the left
+      limb(23, 35.6, 41, 35.6, 2.4, 2.4, scarf), hair(23.5, 34.4, 40.5, 34.4, '#c06a40'), limb(37, 36.5, 38.5, 45, 1.7, 1.2, scarf), limb(39.6, 36.5, 41.6, 44, 1.4, 1.1, scarfDk),
+      ...[[37.6, 45.8], [38.6, 46], [41, 44.8], [42, 45]].map(([x, y]) => hair(x, y - 0.8, x, y + 0.6, scarfDk)),
+      // broad ears that droop, a round head, the great pale eyes behind brass rims
+      sheet([[23, 24], [8, 28], [6, 32], [10, 33.5], [23, 30]], skin, { tilt: [-0.5, 0.2] }), sheet([[41, 24], [56, 28], [58, 32], [54, 33.5], [41, 30]], skin, { tilt: [0.5, 0.2] }),
+      sheet([[22, 26], [11, 29.5], [22, 29]], '#a87e86'), sheet([[42, 26], [53, 29.5], [42, 29]], '#a87e86'),
+      ball(32, 27, 11, 10, skin), ball(29, 23, 6, 4, skinLt),
+      hair(25, 22, 29.5, 22.5, skinDk), hair(39, 22, 34.5, 22.5, skinDk),
+      ...both64(ball(27.4, 26.4, 4.8, 4.8, brass)), ...both64(ball(27.4, 26.4, 3.8, 3.8, '#f4e6a8')), ...both64(ball(27.8, 26.6, 2, 2.2, '#3a3020')),
+      dots([[28, 27], [36, 27]], '#0e0c10'), dots([[27, 25], [35, 25]], '#ffffff'), hair(31, 25.6, 33, 25.6, brass),
+      limb(32, 27, 32, 31, 0.9, 1.4, skin), ball(32, 31.4, 1.4, 1, skinDk),
+      sheet([[28.5, 33], [35.5, 33], [34.5, 34], [29.5, 34]], '#4a4250'),
+      // creases, and the wrinkles of a long life at the eyes
+      hair(23, 29, 25, 31, skinDk), hair(41, 29, 39, 31, skinDk), hair(21.5, 27, 22.5, 29, skinDk), hair(42.5, 27, 41.5, 29, skinDk),
+      hair(26, 19.5, 30, 19, skinDk), specks([[26, 20.5], [37, 19.5], [31, 18.5], [34, 21]], skinDk),
+    ];
+  },
+
   // A goblin who would rather sell you a blade than stick you with one: no
   // weapon in its hands, a floppy cap, and a heap of other people's things on
   // its back, pots and a pan and a sword hilt and a string of trinkets; one

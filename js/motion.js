@@ -295,8 +295,8 @@ export function makeMotion(K) {
     { const hs = companion.sprite(Assets, now); if (hs) sprites.push(hs); }
     for (const n of (L.npcs || [])) {
       const look = n.kind === 'encounter' ? ENCOUNTERS[n.id] : null;
-      // the trader is one of the Lampfolk, or at a goblin market a goblin pedlar
-      const who = look ? look.sprite : traderKind() === 'pedlar' ? 'pedlar' : 'merchant';
+      // the trader is one of the Lampfolk (Wick, by name, on its floor), or at a goblin market a goblin pedlar
+      const who = look ? look.sprite : traderKind() === 'pedlar' ? 'pedlar' : n.wick ? 'wick' : 'merchant';
       sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[who] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
     }
     for (const k in L.items) {

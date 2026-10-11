@@ -39,6 +39,14 @@
  */
 
 /**
+ * What Wick remembers between runs (Progress.wick): the delves it has met you in,
+ * the tales it has told, how many of those heroes won, and the last of them.
+ * @typedef {Object} WickMemory
+ * @property {number} met @property {number} told @property {number} won
+ * @property {{name: string, cls: string, run: string, fate: ''|'won'|'fell', depth: number, killer?: string}|null} last
+ */
+
+/**
  * @typedef {Object} Equipment
  * @property {Item|null} weapon
  * @property {Item|null} armor
@@ -185,6 +193,7 @@
  * @property {number} [markup]    multiplier over an item's own value
  * @property {boolean} [greeted]
  * @property {boolean} [whet]  whether this trader has brought out a whetstone for a sellsword
+ * @property {boolean} [wick]  this is Wick, the one Lampfolk trader with a name (trader.js)
  */
 
 /**
@@ -345,6 +354,9 @@
  * @property {number} [nextUid]  counter for monsters that appear mid-run
  * @property {{kind: string, name: string, x: number, y: number, depth: number, hp: number, maxHp: number, mode: 'follow'|'stay', nextAct: number, kills: number, joined: number, fallen?: number, fromX?: number, fromY?: number, moveT0?: number, moveT1?: number, flashUntil?: number, lungeAt?: number, stuckSince?: number, locks?: number, traps?: number, floors?: number, deepest?: number, charm?: string, mendAt?: number, guarded?: number, windOn?: number, wages?: number, unpaid?: number, tendAt?: number, tending?: boolean, dressAt?: number, flareAt?: number, herbs?: number, herbsOn?: number, mended?: number, dressedOn?: number, avenged?: number}} [companion]  the hero's companion (a hound, a goblin, a wolf, a sellsword, a healer or a renegade dark elf), if one follows them (see companion.js); floors counts the new floors it went down at their side, deepest the deepest of them; charm the item it wears (a charm_ id), and mendAt when a rowan knot next mends it; a sellsword's guarded counts the blows it took for the hero, windOn the floor its second wind was spent on, wages how many floors' pay it has asked past the eighth of a Long Delve, and unpaid the gold it is owed (it will not guard until paid); a healer's tendAt is when it next tends the hero, tending whether it is at it now (drawn holding its hands out over the hero, as it is for a moment after a dressing, from dressAt), herbs what its satchel still holds for the floor herbsOn (the deepest it has filled it on), mended all it has mended of the hero, and dressedOn the floor its Field Dressing was spent on; a renegade's avenged the floor it saw the High Priestess fall on; flareAt is when it last learned a trick, for the golden motes drawn round it
  * @property {boolean} [metLampfolk]  a Lampfolk trader has been met this run (the first says who they are)
+ * @property {WickMemory} [wick]  what Wick remembered when this run began: read once, so its prices and words hold through a reload
+ * @property {number} [wickAt]  the floor Wick keeps its shop on this run, once that floor is made
+ * @property {number} [wickMet]  the floor this run's hero met Wick on
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time

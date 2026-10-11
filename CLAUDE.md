@@ -102,7 +102,7 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 with a bot (`DIFF=hard+3` for a rung of the ladder past Hard). Seed-to-seed noise is about ±5 points, so compare variants on two
 seed sets (`SEEDPFX=alt` for the second), and take a final table over three (`SEEDPFX=third`: a class on one set of 400 still swings by five or more). Other switches: `EARLY=1` (deaths
 before level 5), `CAUSES=1`, `LICH=1`, `NAMED=1`, `NOFORGE=1`, `SHADE=4` (a fallen
-hero's shade on floor 4), `SIZE=small|large` (Medium floors otherwise). `FP=1`
+hero's shade on floor 4), `WICK=2` (Wick has met two heroes before: a regular's tenth off), `SIZE=small|large` (Medium floors otherwise). `FP=1`
 (a fingerprint of each run's final state and log: moving code without
 changing behaviour must leave every one as it was; `FP=keys` hashes each part
 of the state, `FPTRACE=1` prints each line logged, to find where two passes part).

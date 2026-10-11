@@ -1122,4 +1122,23 @@ const SPRITES = {
 /** Floor dressing that stands against a wall rather than out in a room (see dressing.js). */
 const WALL_PROPS = ['barrel', 'crate', 'urn'];
 
-export { WALL_PROPS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };
+// Wick, the one Lampfolk trader with a name, who keeps a shop partway down every
+// delve and remembers the sun-walkers who came before (trader.js, progress.js).
+// One tale a meeting, in this order, over a player's runs; after the last, the
+// closing line. What the lich was and what the Heart is are left for the journal.
+const WICK = {
+  name: 'Wick',
+  tales: [
+    'We were here before the first stair was cut. Your kind came down with picks and called the deep place the Heart of the Mountain. We never called it anything. You do not name the floor you stand on.',
+    'Why the lamps? Our eyes were made for a little light, not for none. One of us whose lamp goes out sits down where it is and waits. Sometimes for a long time.',
+    'Nothing down here harms the ones it buys from. No one made it a rule. The goblins learned it, and the dead learned it, and the thing at the bottom learned it too.',
+    'Old Fennick keeps mules. Do not ask where he gets them, nor where they go.',
+    'The dark elves pay in a coin no one else will take. We take it. Coin is coin, and they remember who would not.',
+    'There was a sun-walker before you, long before: came down for the Heart, like all of you. Did not come up again. Did not die, either. That is all I will say on it.',
+    'We trade with whatever pays. That is not the same as liking it. Some of what pays, I would see buried.',
+    'Every sun-walker who comes up again owes the dark one lamp. Most forget to pay it. Not you, I think.',
+  ],
+  done: 'I have told you all I know, sun-walker. The rest of it is down there.',
+};
+
+export { WALL_PROPS, WICK, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };

@@ -322,6 +322,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 #beasts-list { margin-bottom: var(--s-16); }
 .hall-fallen { margin: 0 0 var(--s-10); padding: var(--s-8) var(--s-10); border-left: 3px solid var(--border); color: var(--dim); }
 .hall-fallen b { color: var(--text); }
+.hall-wick { margin: 0 0 var(--s-10); padding: var(--s-8) var(--s-10); border-left: 3px solid var(--gold); color: var(--dim); }
+.hall-wick summary { cursor: pointer; color: var(--text); }
+.hall-wick small { color: var(--dim); }
+.hall-wick ol { margin: var(--s-8) 0 0; padding-left: var(--s-20); }
+.hall-wick li { margin-bottom: var(--s-6); font-style: italic; }
 .hall-row { display: flex; align-items: center; gap: var(--s-10); padding: var(--s-8) var(--s-10); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
 .hall-row .rank { color: var(--gold); font-size: var(--t-2xl); min-width: 28px; }
 .hall-row .who { flex: 1; }

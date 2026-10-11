@@ -96,7 +96,7 @@ The systems are broad. The bar for an AAA roguelike is that by floor 4 a player 
 ## Phase 3: World and story (5–6 weeks)
 
 - [ ] **A spine**: who the lich was, why the Heart matters, what the peoples below fear. Restructure the journal pages into a three-act arc delivered floor by floor, the two roads (Crypts and Warrens) telling different halves.
-- [ ] **Recurring characters**: one named Lampfolk trader who remembers you between runs (the progress store already has the hooks). The fallen hero's shade already does this well; extend the pattern.
+- [x] **Recurring characters**: one named Lampfolk trader who remembers you between runs (the progress store already has the hooks). The fallen hero's shade already does this well; extend the pattern. (Wick: the last hero it met and their fate, a tale a meeting, a regular's tenth off, its tales in the Hall.)
 - [ ] **Three endings**: take the Heart, destroy it, or bargain with it. Each turns on a choice made mid-run and has its own end card and Hall entry.
 - [x] **Environmental storytelling**: the set pieces (shrine, cells, cistern, rubble) each get two or three variants with their own props and log line, so a shrine is not always the same shrine.
 - [ ] **Two more roads or regions** for 12- and 16-floor delves, built on the `BUILDS` table: a drowned level and a forge level are cheapest, since water and fire are already systems.
