@@ -1637,11 +1637,10 @@ const Renderer = (() => {
         outline();
         ctx.lineWidth = 3; ctx.strokeStyle = full >= 1 ? '#ffffff' : 'rgba(0,0,0,0.9)'; ctx.stroke();
         // what is still to fill, dim; what has filled, bright
-        ctx.fillStyle = s.special ? '#3a1a48' : '#4a3010';
+        ctx.fillStyle = s.special ? (palette === 'safe' ? '#10283c' : '#3a1a48') : '#4a3010';
         ctx.fill();
         ctx.clip();
-        ctx.fillStyle = s.special ? (s.tell >= 1 ? '#ff40e0' : (s.tell > 0.5 ? '#d050ff' : '#a070ff'))
-          : (s.tell >= 1 ? '#ff3020' : (s.tell > 0.5 ? '#ff7a20' : '#ffc030'));
+        ctx.fillStyle = tellColour(!!s.special, s.tell);
         // by area, not height: the wide foot of a triangle would look full at half way
         const f = Math.max(0.12, full), rise = s.special ? f : 1 - Math.sqrt(1 - f);
         const fillTop = bottom - (bottom - top) * rise;
@@ -1876,7 +1875,21 @@ const Renderer = (() => {
     get H() { return H; }, get W() { return W; }, get ctx() { return ctx; }, get ease() { return ease; }, get put() { return put; },
   });
 
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  // A warning mark's colour as its blow comes, from first warning to falling:
+  // yellow to red for a blow, violet to magenta for a trick. The colour-blind
+  // safe colours (Menu > Colours) keep the two apart by blue against orange,
+  // which every kind of colour blindness still tells apart; the fill already
+  // says how long is left without any colour at all.
+  const TELLS = {
+    standard: { normal: ['#ffc030', '#ff7a20', '#ff3020'], special: ['#a070ff', '#d050ff', '#ff40e0'] },
+    safe: { normal: ['#f0e442', '#e69f00', '#d55e00'], special: ['#9ad8ff', '#56b4e9', '#0072b2'] },
+  };
+  let palette = 'standard';
+  function tellColour(special, tell) {
+    const ramp = (TELLS[palette] || TELLS.standard)[special ? 'special' : 'normal'];
+    return ramp[tell >= 1 ? 2 : tell > 0.5 ? 1 : 0];
+  }
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

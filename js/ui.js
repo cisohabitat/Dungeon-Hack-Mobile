@@ -15,6 +15,7 @@ import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js
 import { renderPages } from './pagesview.js';
 import { makeTips } from './tips.js';
 import { makePad } from './pad.js';
+import { makeAccess } from './access.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
 import { makeMapView } from './mapview.js';
@@ -164,7 +165,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-27', text: 'play with a controller: plug one in and press a button, and a gold ring steers every screen; the keyboard gains T to take and L for the log' };
+  const NEWS = { id: '2026-11-28', text: 'easier to play for more of you: text up to twice its size, colour-blind safe colours, a one-handed layout, Calm view stilling the screens too, and the log read aloud to a screen reader' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -580,9 +581,8 @@ const UI = (() => {
   function tipsOn() { return store(TIPS_OFF) !== '1'; }
   // Movement under the left thumb and blows under the right suits most; a
   // left-handed player can swap the halves (and, sideways, the whole panel)
-  const HAND = 'deepdelve.hand';
-  const lefty = () => store(HAND) === 'left';
-  const setHand = () => document.body.classList.toggle('lefty', lefty());
+  // which hand plays, and one-handed: access.js
+  const setHand = () => access.applyHand();
   // Calm view: no shake, no drifting dust, torches that burn steady. Chosen
   // in the menu; until it is, it follows the phone's own ask for less motion.
   // Testing aids: endless life, spell points or gold, and every monster on the
@@ -777,7 +777,9 @@ const UI = (() => {
     el.style.left = Math.round(g.left - w.left + parseFloat(cs.paddingLeft) - 4) + 'px';
     el.style.right = Math.round(w.right - g.right + parseFloat(cs.paddingRight) - 4) + 'px';
     el.style.bottom = Math.round(w.bottom - foot) + 'px';
-    el.style.maxHeight = Math.max(line * 2, Math.round(foot - (w.top + w.height * 0.5))) + 'px';
+    // (the largest text may take the whole view's height before it must scroll)
+    const roof = document.body.classList.contains('big-text') ? w.top + 4 : w.top + w.height * 0.5;
+    el.style.maxHeight = Math.max(line * 2, Math.round(foot - roof)) + 'px';
   }
   function checkTipsNow() {
     const now = performance.now();
@@ -1017,6 +1019,9 @@ const UI = (() => {
     $('#txt-sp').textContent = `SP ${vit.sp}/${p.maxSp}`;
     $('#bar-food').style.width = p.food + '%';
     $('#txt-food').textContent = p.food > 30 ? 'Fed' : (p.food > 0 ? 'Hungry' : 'Starving');
+    access.nameBar('bar-hp', `Life ${vit.hp} of ${p.maxHp}`);
+    if (p.maxSp) access.nameBar('bar-sp', `Spell points ${vit.sp} of ${p.maxSp}`);
+    access.nameBar('bar-food', $('#txt-food').textContent);
     $('#hud-depth').textContent = `Floor ${G.depth}/${G.opts.levels}`;
     $('#hud-gold').textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
@@ -1215,6 +1220,7 @@ const UI = (() => {
     // fight: in the short box it was pushing the blows out (it stays in the history)
     const live = G.log.filter(e => !e.gone && !(e.at > now));
     el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    access.readLog();
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
     // the full history is a tap on Log away. The panel stacks from the bottom, so
@@ -1267,6 +1273,7 @@ const UI = (() => {
     const eye = testingSet().eye;
     const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, Game.preludeOn() ? 1 : 0, hound ? `${hound.x},${hound.y}` : '', eye ? L.monsters.map(m => `${m.x},${m.y},${m.awake ? 1 : 0}`).join(';') : ''].join(',');
     if (sig === miniSig) return;
+    access.describeView();
     const ctx = c.getContext('2d');
     const T = Dungeon.T;
     ctx.clearRect(0, 0, c.width, c.height);
@@ -1294,7 +1301,7 @@ const UI = (() => {
     for (const m of L.monsters) {
       const dx = m.x - p.x, dy = m.y - p.y;
       if (Math.abs(dx) > R || Math.abs(dy) > R || (!eye && (!L.explored[m.y * L.w + m.x] || !m.awake))) continue;
-      ctx.fillStyle = '#e04030';
+      ctx.fillStyle = access.palette() === 'safe' ? MAP_COLOUR.monster : '#e04030';
       ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
     }
     // a pale round mark, nothing like a door or a torch
@@ -1305,7 +1312,7 @@ const UI = (() => {
     ctx.save();
     ctx.translate(R * size + size / 2, R * size + size / 2);
     ctx.rotate(p.dir * Math.PI / 2);
-    ctx.fillStyle = '#ff6a50';
+    ctx.fillStyle = MAP_COLOUR.player;
     ctx.beginPath(); ctx.moveTo(0, -3.5); ctx.lineTo(3, 3); ctx.lineTo(-3, 3); ctx.closePath(); ctx.fill();
     ctx.restore();
     miniSig = sig;
@@ -1347,6 +1354,9 @@ const UI = (() => {
       return;
     }
     closeOverlay(false);
+    // what opened it, to go back to when it closes (a button along the bottom, say)
+    const from = /** @type {HTMLElement|null} */ (document.activeElement);
+    opener = from && from !== document.body && !from.closest('.overlay') ? from : null;
     overlay = name;
     Sound.play('page');
     held.clear();
@@ -1367,9 +1377,9 @@ const UI = (() => {
     if (name === 'encounter') renderEncounter();
     if (name === 'fork') renderFork();
     if (name === 'code') renderCode();
-    // a keyboard's Tab starts inside what has just opened, not behind it
-    // (a pad's ring finds its own way in: pad.js; a touch focuses nothing, so no keyboard springs up)
-    if (lastInput === 'key') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus(); }
+    // a keyboard's Tab, and a screen reader, start inside what has just opened, not behind it
+    // (a pad's ring finds its own way in: pad.js; no box to type in is chosen, so no keyboard springs up on a phone)
+    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus(); }
   }
   /** The hero as a save code, written fresh each time it is asked for. */
   let codeAsk = 0;
@@ -1422,8 +1432,11 @@ const UI = (() => {
     overlay = null;
     setBehind(false);
     syncHistory();
+    // back to what opened it, for a keyboard or a screen reader to carry on from; else nowhere
     const focused = /** @type {HTMLElement|null} */ (document.activeElement);
-    if (focused && focused.blur) focused.blur();
+    if (opener && opener.isConnected && opener.getClientRects().length && lastInput !== 'pad') opener.focus({ preventScroll: true });
+    else if (focused && focused.blur) focused.blur();
+    opener = null;
     selectedItem = null; selectedSlot = null;
     // then whatever was waiting; each one closes itself if it is no longer wanted
     if (next && waiting.length) openOverlay(/** @type {string} */ (waiting.shift()));
@@ -1440,6 +1453,8 @@ const UI = (() => {
   }
   function paused() { return !!overlay; }
   /** While an overlay is open the game behind it is inert: a screen reader or a Tab reaches only the overlay. */
+  /** @type {HTMLElement|null} what opened the overlay now open */
+  let opener = null;
   /** How the player last reached for the game: a touch or click, a key, or a pad. */
   let lastInput = 'pointer';
   /** Back, from the keyboard's Escape or a pad's B: an overlay closes (if it may), the dungeon pauses, another screen goes back. */
@@ -1451,11 +1466,14 @@ const UI = (() => {
   function setBehind(on) { const g = /** @type {HTMLElement|null} */ (document.querySelector('#screen-game .game-layout')); if (g) g.inert = on; }
   let helpFromMenu = false;   // the help was opened from the Menu mid-run: Back returns to it
   // Text size scales the whole interface from the root, so every rem follows.
-  const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 20 }];
+  // (up to twice the normal size; the two largest lay the dungeon's own bars out
+  // afresh, body.big-text in style.css, so nothing is cut short or pushed off)
+  const TEXT_SIZES = [{ label: 'Small', px: 14 }, { label: 'Normal', px: 16 }, { label: 'Large', px: 20 }, { label: 'Larger', px: 24 }, { label: 'Double', px: 32 }];
   function textSize() { const raw = store('deepdelve.textSize'), v = Number(raw); return raw !== null && Number.isInteger(v) && v >= 0 && v < TEXT_SIZES.length ? v : 1; }
   function setTextSize(i) {
     store('deepdelve.textSize', String(i));
     document.documentElement.style.fontSize = TEXT_SIZES[i].px + 'px';
+    document.body.classList.toggle('big-text', TEXT_SIZES[i].px >= 24);
     fitView();
   }
   // whether the menu's testing tools were last left open
@@ -1485,6 +1503,7 @@ const UI = (() => {
     $('#m-text').textContent = 'Text size: ' + TEXT_SIZES[textSize()].label;
     $('#m-tips').textContent = 'Tips: ' + (tipsOn() ? 'On' : 'Off');
     $('#m-calm').textContent = 'Calm view: ' + (calmOn() ? 'On' : 'Off');
+    $('#m-colours').textContent = 'Colours: ' + (access.palette() === 'safe' ? 'colour-blind safe' : 'standard');
     $('#m-numbers').textContent = 'Combat numbers: ' + (bigNumbers() ? 'Large' : 'Normal');
     $('#m-reports').textContent = 'Send reports: ' + (Telemetry.enabled() ? 'On' : 'Off');
     const t = testingSet();
@@ -1497,7 +1516,7 @@ const UI = (() => {
     $('#m-test-level').textContent = G.player.level >= MAX_LEVEL ? 'Gain a rank of renown' : 'Gain a level';
     renderTestFloors();
     renderTestItems();
-    $('#m-hand').textContent = 'Controls: ' + (lefty() ? 'left-handed' : 'right-handed');
+    $('#m-hand').textContent = 'Controls: ' + access.handWords();
     // (a phone that cannot buzz, an iPhone among them, is not offered the switch)
     $('#m-haptics').hidden = !('vibrate' in navigator);
     $('#m-haptics').textContent = 'Vibration: ' + (store(HAPTICS_OFF) === '1' ? 'Off' : 'On');
@@ -1555,7 +1574,16 @@ const UI = (() => {
     $('#map-out').addEventListener('click', () => zoomMap(1 / 1.5));
     wireMapPinch();
     // a tip goes at a tap on it, and the tap goes no further
-    $('#tip').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); $('#tip').classList.remove('show'); tipUntil = performance.now(); Telemetry.tipClosed(); });
+    // (with the largest text a tip may run past its box: there a drag scrolls it, and only a tap that stays put closes it)
+    const closeTip = () => { $('#tip').classList.remove('show'); tipUntil = performance.now(); Telemetry.tipClosed(); };
+    let tipDownY = null;
+    $('#tip').addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (document.body.classList.contains('big-text')) { tipDownY = e.clientY; return; }
+      e.preventDefault(); closeTip();
+    });
+    $('#tip').addEventListener('pointerup', e => { if (tipDownY !== null && Math.abs(e.clientY - tipDownY) < 8) closeTip(); tipDownY = null; });
+    $('#tip').addEventListener('pointercancel', () => { tipDownY = null; });
     $('#log-more').addEventListener('click', () => openOverlay('log'));
 
     // Tap the view to act, swipe to turn or step.
@@ -1612,6 +1640,7 @@ const UI = (() => {
     // turning tips back on starts them over, for a player who wants the tour again
     $('#m-reports').addEventListener('click', () => { Telemetry.setEnabled(!Telemetry.enabled()); renderMenu(); });
     $('#m-calm').addEventListener('click', () => { store(CALM, calmOn() ? '0' : '1'); Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); renderMenu(); });
+    $('#m-colours').addEventListener('click', () => { access.setPalette(access.palette() === 'safe' ? 'standard' : 'safe'); renderMenu(); });
     $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
     // like with like: what you fight with first, what you use up after (the pick stays picked)
     $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
@@ -1630,7 +1659,7 @@ const UI = (() => {
       testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { closeOverlay(); Game.testFloor(depth, road); });
     });
     $('#m-test-give').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { Game.testGive(/** @type {HTMLSelectElement} */ ($('#m-test-item')).value); testSaid(); }));
-    $('#m-hand').addEventListener('click', () => { store(HAND, lefty() ? 'right' : 'left'); setHand(); renderMenu(); fitView(); });
+    $('#m-hand').addEventListener('click', () => { access.nextHand(); renderMenu(); fitView(); });
     $('#m-haptics').addEventListener('click', () => { const off = store(HAPTICS_OFF) === '1'; store(HAPTICS_OFF, off ? '0' : '1'); renderMenu(); if (off) try { navigator.vibrate(30); } catch (e) { /* none */ } });
     $('#m-tips').addEventListener('click', () => { if (tipsOn()) store(TIPS_OFF, '1'); else { store(TIPS_OFF, null); store(TIPS_SEEN, null); tipsSeen = null; } resetTips(); renderMenu(); });
     // How to Play in the middle of a run: the run is kept first (a phone may
@@ -1721,10 +1750,11 @@ const UI = (() => {
     Renderer.setCalm(calmOn());
     document.body.classList.toggle('calm', calmOn());   // (the HUD's own beats are stilled with the view)
     Renderer.setBigNumbers(bigNumbers());
+    access.setPalette(access.palette());
     Game.setTesting(testingSet());
     setHand();
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
-    try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => Renderer.setCalm(calmOn())); } catch (e) { /* older browsers */ }
+    try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => { Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); }); } catch (e) { /* older browsers */ }
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     if ($('#screen-title').classList.contains('active')) startOpening();
@@ -1844,7 +1874,7 @@ const UI = (() => {
   });
 
   // ---------- mapview: see mapview.js ----------
-  const { MAP_COLOUR, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap } = makeMapView({
+  const { MAP_COLOUR, setPalette: setMapPalette, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap } = makeMapView({
     get testingSet() { return testingSet; },
   });
 
@@ -1882,6 +1912,12 @@ const UI = (() => {
   const { renderChar, renderSpells, weaponLine } = makeHeroSheet({
     get amountWords() { return amountWords; }, get closeOverlay() { return closeOverlay; }, get faceOf() { return faceOf; },
     get pathCard() { return pathCard; },
+  });
+
+  // ---------- access: see access.js ----------
+  const access = makeAccess({
+    store,
+    applyPalette: name => { Renderer.setPalette(name); setMapPalette(name); miniSig = ''; if (overlay === 'map') renderMap(); },
   });
 
   // ---------- pad: see pad.js ----------

@@ -69,7 +69,7 @@ body { touch-action: manipulation; -webkit-user-select: none; user-select: none;
 #app { height: 100%; height: 100dvh; width: 100%; overflow: hidden; position: relative; }
 .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
 .screen.active { display: flex; }
-.screen.scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+.screen.scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y pinch-zoom; }
 h1, h2, h3 { margin: 0.4em 0 0.3em; font-weight: normal; letter-spacing: 0.04em; }
 h2 { color: var(--gold); font-size: var(--t-3xl); }
 h3 { color: var(--gold); font-size: var(--t-base); margin-top: 1em; }
@@ -84,6 +84,8 @@ button { font-family: inherit; font-size: var(--t-base); color: var(--text); bac
    pointed at (where there is a pointer to point), and unavailable */
 button:active { background: var(--press); }
 button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* there for a screen reader, not the eye */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 /* every stop a keyboard or a pad can reach shows where it is; a pad's ring
    (pad.js marks the page while one is steering) shows even where a browser
    would hide a ring it moved there itself */
@@ -444,7 +446,7 @@ body.calm .overlay.closing { display: none; }
 .ov-head { display: flex; align-items: center; justify-content: space-between; padding: var(--s-6) var(--s-12); border-bottom: 1px solid var(--border); }
 .ov-head h2 { margin: 0; margin-right: var(--s-10); }
 .close { min-width: 44px; font-size: var(--t-2xl); }
-.ov-body { flex: 1; overflow-y: auto; padding: var(--s-10) var(--s-12) calc(var(--s-12) + var(--sab)); touch-action: pan-y; }
+.ov-body { flex: 1; overflow-y: auto; padding: var(--s-10) var(--s-12) calc(var(--s-12) + var(--sab)); touch-action: pan-y pinch-zoom; }
 /* a heading that opens a panel sits under its bar, not a line below it */
 .ov-body > h3:first-child { margin-top: var(--s-2); }
 .ov-body.center { display: flex; flex-direction: column; align-items: center; }
@@ -1050,3 +1052,62 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .sheet-face { display: block; width: 72px; height: 72px; margin: 0 auto var(--s-8); image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .end-face { display: block; width: 88px; height: 88px; margin: var(--s-6) auto var(--s-4); image-rendering: pixelated; border-radius: 8px; border: 2px solid #c9a24a; background: var(--card-bg); }
 .end-face.fallen { filter: grayscale(0.85) brightness(0.75); border-color: #6a5a4a; }
+
+/* The two largest text sizes (Menu > Text size: Larger, Double). Everything is
+   sized from the root, so it all grows; here the dungeon's own bars are laid
+   out afresh so nothing is cut short or pushed off the screen: the hero's
+   name above the bars, which then run the full width with their numbers; the
+   buttons along the bottom on two rows if they must; a tip that scrolls
+   rather than losing its end. */
+body.big-text .hud { flex-wrap: wrap; row-gap: var(--s-2); }
+body.big-text .hud-name { flex: 1 1 auto; max-width: none; flex-direction: row; flex-wrap: wrap; gap: 0 var(--s-6); }
+body.big-text .hud-bars { order: 3; flex: 1 1 100%; }
+body.big-text .bar { height: calc(0.9rem + 4px); }
+body.big-text .bar span { line-height: calc(0.9rem + 2px); }
+/* the view gives up some of its height (never less than a wide strip) and the
+   log keeps two lines, the rest a tap on Log away at the same size */
+body.big-text .view-wrap { min-height: calc(100vw * 0.4); }
+body.big-text .log { height: 2.9em; min-height: 2.9em; }
+body.big-text .hud-right { flex-direction: row; gap: var(--s-6); }
+body.big-text .bottombar { flex-wrap: wrap; }
+body.big-text .bottombar button { flex: 1 1 auto; padding: var(--s-6) var(--s-6); }
+body.big-text .tip { overflow-y: auto; touch-action: pan-y; overscroll-behavior: contain; }
+
+/* Held sideways with the largest text, a narrow side column cannot hold the
+   bars, the controls and the buttons: the bars run along the top, the
+   buttons along the foot, and the column keeps the pad and the actions. */
+@media (orientation: landscape) and (max-height: 500px) {
+  body.big-text .game-layout { grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-areas: "hud hud" "view ctrl" "log ctrl" "bar bar"; }
+  body.big-text.lefty .game-layout { grid-template-columns: clamp(212px, 27vw, 252px) minmax(0, 1fr); grid-template-areas: "hud hud" "ctrl view" "ctrl log" "bar bar"; }
+  body.big-text .hud { border-left: 0; border-bottom: 1px solid var(--border); }
+  body.big-text .hud-bars { flex-direction: row; gap: var(--s-6); }
+  body.big-text .hud-bars .bar { flex: 1 1 0; min-width: 0; }
+  body.big-text .view-wrap { min-height: 0; }   /* (the upright floor under the view is for a phone held upright) */
+  body.big-text .ctrl-col { display: contents; }
+  body.big-text .controls { grid-area: ctrl; min-height: 0; border-left: 1px solid var(--border); }
+  body.big-text.lefty .controls { border-left: 0; border-right: 1px solid var(--border); }
+  body.big-text .bottombar { grid-area: bar; border-top: 1px solid var(--border); }
+  body.big-text .bottombar button { flex: 1 1 auto; min-width: 0; }
+}
+
+/* Calm view (Menu, and on by itself where the phone asks for less motion)
+   stills the page as well as the view: no fades, pulses, slides or sweeps.
+   Nothing waits on an animation's end (the overlays close on a timer), and a
+   choice's guard still keeps its time: only its bar no longer sweeps. */
+body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+
+/* One-handed (Menu > Controls), held upright: every control a fight needs under
+   one thumb. The actions, with the quick drink brought down from the top of the
+   screen, make a row over the pad, and the two stand together on the thumb's
+   side, a little narrower than the screen. Held sideways the game is played
+   with both hands already, and keeps its usual layout. */
+@media (orientation: portrait) {
+  body.onehand .controls { flex-direction: column; align-items: flex-end; gap: var(--s-6); padding-top: var(--s-8); }
+  body.onehand.lefty .controls { flex-direction: column; align-items: flex-start; }
+  body.onehand .dpad, body.onehand .actions { width: 74%; max-width: 320px; }
+  body.onehand .dpad { height: clamp(120px, 17vh, 150px); height: clamp(120px, 17dvh, 150px); }
+  body.onehand .actions { order: -1; height: 56px; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); grid-auto-flow: column; grid-template-rows: 1fr; }
+  body.onehand .actions .attack { grid-row: auto; font-size: var(--t-xl); }
+  body.onehand .actions .hud-quaff { height: auto; min-height: 0; min-width: 0; }
+}
+

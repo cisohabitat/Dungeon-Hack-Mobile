@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0a10">
 <meta name="description" content="Deepdelve: a first-person, seed-generated dungeon crawler for your phone, in the spirit of the 1993 classics.">
 <meta name="mobile-web-app-capable" content="yes">
@@ -228,7 +228,9 @@
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
         <p>On a phone that can, the game buzzes in your hand when a blow lands on you, when you level up or die, and when you force a door. <b>Vibration</b> under <b>Menu</b> turns it off.</p>
-        <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches. It starts on if your phone asks for less motion.</p>
+        <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches, and every fade, pulse and slide of the screens and buttons. It starts on if your phone asks for less motion.</p>
+        <p><b>Text size</b> under <b>Menu</b> goes from Small up to Double, twice the usual: the bars, the buttons and the log make room for it, and every page and window scrolls rather than cutting anything off. Pinching to zoom works on the pages off the dungeon too. <b>Colours</b> under <b>Menu</b> sets colours that every kind of colour blindness can tell apart: a blow's warning mark goes yellow to orange-red and a trick's light to dark blue, and the map's marks change with them (each still has its own sign as well).</p>
+        <p><b>Controls</b> under <b>Menu</b> puts the pad and the actions on the right or the left, or one-handed for either thumb: the actions and the quick drink sit in a row over the pad, all on that thumb's side, with the phone held upright. A screen reader hears the log line by line as it comes, what lies ahead in the view each time you move or turn, and the bars by their numbers; every window takes the focus when it opens and gives it back when it closes.</p>
         <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, the combinations it made, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
         <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
@@ -371,20 +373,23 @@
 
   <!-- Game -->
   <section id="screen-game" class="screen">
+    <!-- the log, read aloud line by line as each shows (access.js): the lines on screen are redrawn whole, so cannot be;
+         and it stands outside the layout, which goes inert under an overlay, so the shop's and an encounter's lines are heard too -->
+    <div id="sr-log" class="sr-only" role="log" aria-live="polite" aria-relevant="additions"></div>
     <div class="game-layout">
       <div class="view-col">
         <div class="hud">
           <div class="hud-name"><span id="hud-name"></span> <span id="hud-cls" class="dim"></span></div>
           <div class="hud-bars">
-            <div class="bar hp"><div id="bar-hp" class="fill"></div><span id="txt-hp"></span></div>
-            <div class="bar sp"><div id="bar-sp" class="fill"></div><span id="txt-sp"></span></div>
-            <div class="bar food"><div id="bar-food" class="fill"></div><span id="txt-food"></span></div>
+            <div class="bar hp" role="img"><div id="bar-hp" class="fill"></div><span id="txt-hp"></span></div>
+            <div class="bar sp" role="img"><div id="bar-sp" class="fill"></div><span id="txt-sp"></span></div>
+            <div class="bar food" role="img"><div id="bar-food" class="fill"></div><span id="txt-food"></span></div>
           </div>
           <button id="hud-quaff" class="hud-quaff" data-tap="quaff" aria-label="Quaff a healing draught" style="display:none"><span class="q-ico ico" data-icon="flask"></span><small id="hud-quaff-n">Drink</small></button>
           <div class="hud-right"><span id="hud-depth"></span><span id="hud-gold"></span><span id="hud-compass"></span></div>
         </div>
         <div class="view-wrap">
-          <canvas id="view" width="320" height="200"></canvas>
+          <canvas id="view" width="320" height="200" role="img" aria-label="The dungeon."></canvas>
           <!-- while the way in plays: a tap on the view, or any control, skips it -->
           <div id="prelude-skip" class="prelude-skip" hidden>Tap to skip</div>
           <!-- a tip hangs below the view, over the log: never over the fight,
@@ -544,6 +549,7 @@
           <button id="m-text" class="big">Text size: Normal</button>
           <button id="m-tips" class="big">Tips: On</button>
           <button id="m-calm" class="big">Calm view: Off</button>
+          <button id="m-colours" class="big">Colours: standard</button>
           <button id="m-numbers" class="big">Combat numbers: Normal</button>
           <button id="m-rolls" class="big">Combat rolls: Off</button>
         </div>

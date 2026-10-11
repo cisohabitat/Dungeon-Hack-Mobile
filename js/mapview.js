@@ -33,6 +33,19 @@ export function makeMapView(K) {
     { id: 'torch', colour: '#ffb45a', label: 'Torch (*)' },
   ];
   const MAP_COLOUR = Object.fromEntries(MAP_KEY.map(k => [k.id, k.colour]));
+  // The colour-blind safe colours (Menu > Colours), from the Okabe and Ito set:
+  // you, a monster and a trap no longer three reds, nor the stairs up and down
+  // a green and a yellow. Each still has its mark as well (! z × ' and so on).
+  const STANDARD = { ...MAP_COLOUR };
+  const SAFE = { player: '#e69f00', monster: '#d55e00', down: '#f0e442', up: '#56b4e9', door: '#a8865a', locked: '#cc79a7',
+    fountain: '#0072b2', trader: '#ffffff', loot: '#009e73', trap: '#d55e00', torch: '#ffb45a' };
+  /** Colour the map and its legend from one set or the other (the minimap reads MAP_COLOUR as it draws). */
+  function setPalette(name) {
+    for (const k of MAP_KEY) k.colour = (name === 'safe' && SAFE[k.id]) || STANDARD[k.id];
+    for (const k of MAP_KEY) MAP_COLOUR[k.id] = k.colour;
+    const el = $('#map-legend');
+    if (el) el.innerHTML = '';   // (built again, in the new colours, when the map next opens)
+  }
 
   const MAP_TILE_MAX = 28;
   // how far the map is zoomed in (1, the whole of what is known) and how far
@@ -218,7 +231,7 @@ export function makeMapView(K) {
     // The player owns one whole square, ringed so the eye finds it at a glance,
     // with the arrow inside it showing which way they face.
     const cx = p.x * size - ox + size / 2, cy = p.y * size - oy + size / 2;
-    ctx.fillStyle = '#ff6a50';
+    ctx.fillStyle = MAP_COLOUR.player;
     ctx.fillRect(p.x * size - ox, p.y * size - oy, size, size);
     ctx.strokeStyle = '#fff3e0';
     ctx.lineWidth = Math.max(1, size * 0.12);
@@ -259,5 +272,5 @@ export function makeMapView(K) {
       `<span class="key" data-key="${k.id}"><i style="background:${k.colour}"></i>${escapeHtml(k.label)}</span>`).join('');
   }
 
-  return { MAP_COLOUR, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap };
+  return { MAP_COLOUR, MAP_KEY, setPalette, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap };
 }

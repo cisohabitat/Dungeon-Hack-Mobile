@@ -48,6 +48,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   presses what the keys press; elsewhere it moves a focus ring by where the buttons sit. A new
   screen or overlay needs nothing more than real `<button>`s (the browser tests drive a stub pad:
   `usePad`, `padPress` in `helpers.js`).
+  What the game does for access is in `js/access.js` (`makeAccess`): the log read aloud from `#sr-log`,
+  the view in words, the bars named, the colour-blind palette and which hand plays (one-handed too).
+  The two largest text sizes set `body.big-text`, which lays the dungeon's bars and buttons out afresh.
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
   over it are in `js/spellfx.js`.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list
@@ -92,8 +95,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   skips without `PERF=1`, since beside other tests it measures the load.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
-- `test/browser/a11y.spec.js` runs axe over every screen and overlay: no fault
-  rated serious or critical. A new overlay goes into it.
+- `test/browser/a11y.spec.js` runs axe (WCAG 2.2 AA) over every screen and overlay: no fault
+  rated serious or critical. A new overlay goes into it. `test/browser/access.spec.js` checks what
+  axe cannot: text at twice its size on three phone shapes, the reader's log, the palette, Calm view, one-handed reach.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
   three shards, the small phone, and the frame-rate budget alone on every push
   to `main`.

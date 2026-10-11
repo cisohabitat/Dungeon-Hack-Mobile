@@ -5,7 +5,7 @@ const { test } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 const { expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
-const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const BAR = ['serious', 'critical'];
 
 /** Every fault axe finds on the page as it stands, under the name of where it was. */
@@ -159,6 +159,23 @@ test('the divided stair', async ({ page }) => {
   });
   await expect(page.locator('#ov-fork')).toHaveClass(/open/);
   await scan(page, 'fork', found);
+  const bad = report(found);
+  expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
+});
+
+test('the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours', async ({ page }) => {
+  const found = [];
+  await page.addInitScript(() => { localStorage.setItem('deepdelve.textSize', '4'); localStorage.setItem('deepdelve.hand', 'one-right'); localStorage.setItem('deepdelve.palette', 'safe'); });
+  await startGame(page, { seed: 'a11y-big' });
+  await clearBoons(page);
+  await scan(page, 'game-big', found);
+  await page.locator('[data-open="menu"]').click();
+  await expect(page.locator('#ov-menu')).toHaveClass(/open/);
+  await scan(page, 'menu-big', found);
+  await page.keyboard.press('Escape');
+  await page.locator('[data-open="map"]').click();
+  await expect(page.locator('#ov-map')).toHaveClass(/open/);
+  await scan(page, 'map-big', found);
   const bad = report(found);
   expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
 });
