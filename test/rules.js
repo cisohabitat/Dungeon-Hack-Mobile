@@ -60,7 +60,8 @@ function inChild(files) {
     let counts = null;
     child.on('message', m => { counts = m; });
     child.on('error', e => { console.error('THROW: a worker could not start -', e.message); resolve(null); });
-    child.on('exit', code => {
+    // 'close', not 'exit': the report comes over the channel, which may still be draining when the process ends
+    child.on('close', code => {
       if (!counts) console.error(`THROW: a worker died before it reported (exit ${code}): ${files.join(' ')}`);
       resolve(counts);
     });
