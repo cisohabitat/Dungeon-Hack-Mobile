@@ -1,141 +1,248 @@
-# Deepdelve: roadmap towards an AAA feel
+# Deepdelve: roadmap, the second year
 
-A phased plan for taking Deepdelve from a deep, well-tested browser roguelike to
-one that feels finished in every corner. Written October 2026; tick items off
-as they land, and update the "Where we are" table when a phase closes.
+The first roadmap (October 2026) took Deepdelve from a deep, well-tested browser roguelike
+to one finished to one standard in every corner: its Phases 0 to 4 are built, and the store
+builds, cloud save and localisation were dropped by choice. This one was set by the fresh
+review of 11 October 2026 (`docs/REVIEW.md`: a phone playtest, a code review and a design
+review; its findings are cited here as P, C and D with their number). Tick items off as they
+land, and update the table when a phase closes.
 
-## What "AAA" means here
+## What is settled
 
-Not the studio sense (hundreds of people, orchestral score, cinematics): that
-is not the target for a vanilla-JS phone game. The target is an **AAA feel**:
-nothing rough anywhere, every system finished to the same standard, a first ten
-minutes that sells the game, and a presence on stores and devices that does not
-betray its origins. Hades, Slay the Spire and Dead Cells are small-team games
-that read as AAA to players; that is the bar.
+- **A free web game.** No stores, no accounts, no microtransactions, no translations. Save
+  codes carry a hero between devices. (Steam through Electron is an open question, decision 5.)
+- **The software renderer is the game.** No engine rewrite, no 3D, no multiplayer.
+- **The checks stay the gate.** Every rule a rules test, every control a browser test, every
+  balance change benched on three seed sets, every file under 2,000 lines.
+- **Meta-progression adds options, not power.**
 
-## Where we are (October 2026)
+## Where we are (11 October 2026)
 
-| Area | Today | AAA-feel bar |
+| Area | Today | The review's finding |
 |---|---|---|
-| Systems | 6 classes, 12 paths, capstones, renown, relics, encounters, companions, elements, 46 monsters, 3 peoples, Long Delve | Comparable in breadth; depth per system is uneven |
-| Code | About 28,500 lines, no build step; `game.js` 5,400 lines | Fine for shipping; `game.js` size slows every change |
-| Testing | 543 rules tests, 249 browser tests, balance bot, CI | Strong. Missing: performance budget, device matrix |
-| Art | All procedural pixel art, generated at load | Consistent and distinctive; lacks authored "hero" moments (key art, boss reveals, title) |
-| Audio | Fully synthesised in Web Audio, no samples | Coherent but thin; no mixed music, no weight to impacts |
-| Onboarding | Prologue, coached first fight, tips | Good; each grade still finds gaps (lessons unexplained, jargon) |
-| Narrative | Prologue, journal pages, encounter text | No arc, no ending variants, few recurring characters |
-| Platform | PWA on Vercel, offline cache | Not on any store, no cloud save, English only, no controller |
-| Balance | Benched to about ±5 points across seven modes | Best in class for the size; some noisy classes remain |
-| Analytics | None | No view of real players at all |
+| Grades (out of 10, from play) | First impression 8, feel 7.5, polish 7, clarity 7.5, depth 8.5 (the first roadmap began at 9 / 8 / 7.5) | The key art went in and the first impression fell: the first-time card covers it (P9). Feel wants weight (P1, P16, P12); polish wants the modal choices' empty half and Double text (P2, P3) |
+| Systems | 6 classes, 12 paths with capstones and legends, 32 combinations, Hard to Hard+5, 46 monsters, 3 peoples, 2 regions, 3 endings, Wick, the Daily and the Weekly | The build arrives on floor 5 or 6 of 8 and the capstone on the last floor or never (D1); the fork comes before it (D2); rests wipe a floor's wear (D3); three rungs are taxes (D6) |
+| Code | About 32,600 lines in 72 modules, none over 2,000 | Four files within 300 lines of the limit; `test/rules.js` 15,300 lines in one process (C7); the K objects untyped (C8); every fight roll unseeded (C4) |
+| Testing | About 600 rules checks, 301 phone and 60 small-phone browser tests, the frame-rate budget, the balance bot, CI in shards | A flake on unseeded dice (C2); 125 fixed sleeps and CI retries (C9); four rules and two overlays unchecked (C11, C12) |
+| Art | Procedural pixel art, key art behind the title | The prologue has nothing to look at (P10); no boss portraits |
+| Audio | A sound pack and four-stem music, rendered in code, replaceable file for file | Still the one thing between the game and a 9 (P12) |
+| Platform | PWA; controller, screen reader, safe palette, text to Double, one-handed, the wide layout | A held stick walks the next hero (C1); Double text clips (P3) |
+| Analytics | Telemetry and the dashboard built | Counting starts only once an Upstash store is attached in Vercel (decision 1); the API takes free text unthrottled (C3) |
+| Live | Daily, Weekly, run cards, the Hall | No shared number, no season; the meta runs dry in about a month (D13); the score has no clock (D12) |
+
+## Decisions needed
+
+1. **The telemetry store.** Is Upstash attached in Vercel? It cannot be seen from the
+   repository, and the first roadmap's seven unjudged exit criteria and Phase 9's balance work
+   wait on it. If not, it is a few minutes in Vercel's Marketplace (the README says how).
+2. **Leaderboards.** (a) a trusted board, the score sent as the phone reports it, with sanity
+   checks: one batch, cheatable, publishes names; (b) honest dice first (Phase 7), then a
+   friends' board by pasted line verified by replay, no server beyond `api/`, and a public board
+   only if wanted after; (c) none. This roadmap assumes (b).
+3. **Audio.** Commission or license recordings and stems to `sound/REQUEST.md`, or leave the
+   code-rendered pack. Nothing here waits on it, and nothing here can do it.
+4. **The device round.** Someone with a Pixel 3-class phone and an iPhone SE runs
+   `docs/DEVICES.md` once; a tablet covers its own rows.
+5. **Steam.** The controller work "opens a later Steam release through Electron". A store by
+   another door: in or out?
 
 ## Order and dependencies
 
 ```
-Phase 0 (foundation) ──► Phase 1 (first ten minutes) ──► Phase 2 (depth)
-                     └──► Phase 4 (platform), once Phase 1's design system exists
-Phase 3 (story) after Phase 2's synergy and boss work, so endings have mechanics behind them
-Phase 5 (live game) needs Phase 0's telemetry and Phase 4's accounts
+Phase 6 (the review's fixes) ──► Phase 7 (honest dice) ──► Phase 8 (the build by floor 3)
+                                                      └──► Phase 9 (the live game)
+Phase 10 (content cadence) runs alongside from Phase 8
+Phase 11 (authored audio) whenever the recordings arrive; nothing waits on it
 ```
 
-About seven to eight months of focused work, plus commissioned art (one key
-piece, boss portraits), composed or licensed music, and translators.
+Honest dice before the build: the dice are three to five days, the build is six to eight
+weeks of benching every README row, and seeded rolls make each of those benches reproducible
+and let the `FP=1` fingerprint cover the fight. (The bench already seeds `Dice` and
+`Math.random` per run; the browser does not, so the work is to give the game what the bench
+has.) The live game needs the dice too, and the build's timing before anyone is ranked on it.
+
+About eight months in all, plus whatever audio and the device round take outside the repository.
 
 ---
 
-## Phase 0: Foundation (3–4 weeks)
+## Phase 6: The review's fixes (2–3 weeks)
 
-Everything later needs to be measurable. Without this, every later phase is guesswork.
+Everything the review found that is a bug, a rough edge or a one-batch gap, before anything
+is built on top. Each is small; together they are the grade.
 
-- [x] **Opt-in telemetry** (October 2026: `js/telemetry.js`, the Menu's Send reports, `api/telemetry.js` and `api/stats.js`, `dashboard.html`; a note is sent when a run ends, so a run left unfinished sends none; counting starts once an Upstash store is attached in Vercel, see the README): run start and end, floor reached, cause of death, class and path, device, frame-rate buckets, tips dismissed. A static JSON POST to a small endpoint (a Vercel function and KV store). Off by default, one tap on in the Menu, with a plain privacy note.
-- [x] **Crash reporting** (October 2026: through the same switch, at most five a visit, each message once): `window.onerror` and unhandled rejections to the same endpoint, carrying the seed and a save hash, so any crash can be replayed from its seed.
-- [x] **Performance budget in CI** (October 2026: `test/browser/perf.spec.js`, its own CI job; the first runner reading was 47, 48 and 60 fps, measured once the spare-time painting is done): a Playwright test that throttles the CPU 4× and asserts at least 30 FPS on floor 7 during a fight, on a flooded floor, and during the lich's rite. A push that drops below fails.
-- [x] **First-minute hitches on slow phones** (October 2026: a creature is painted a piece at a time, its plain picture first and each pose after, the finer close-up likewise, and a floor's own kinds go first; in the first thirty seconds slowed four times, 10 fps became 30 and the worst frame went from 2.5 seconds to under half a second, every picture unchanged): the pictures painted in spare time after the title (every creature with its poses and champions, the items, the props) take about 8 seconds on a desktop processor and 90 seconds slowed four times, and each creature is one piece of 50 to 440 ms. While that queue runs, a fight slowed four times holds about 12 fps; once it is done, 45 to 56. Paint each creature's poses and champions as their own pieces, the first floor's kinds first.
-- [ ] **Device matrix** (October 2026: the checklist is `docs/DEVICES.md`, and CI runs the interface, play and accessibility tests at iPhone SE size; the first round on real devices is still to do): monthly runs on an old Android (Pixel 3 class) and an iPhone SE, real devices or a device farm, against a written checklist.
-- [x] **Split `game.js`** (October 2026: 5,400 lines to 1,982, eleven new factories, every bench fingerprint unchanged; then `creatures.js`, `ui.js`, `renderer.js` and `assets.js` split into thirteen more modules, every picture and every frame hashed unchanged, so no file in `js/` is over 2,000 lines; `test/rules.js` is 15,000 lines and is still one file): move combat, items and inventory, levelling, and save/load into factories in the pattern `foes.js` already uses. No file over 2,000 lines. Prove behaviour byte-identical with a fingerprint test, as done for the floor-size work.
-- [x] **Accessibility baseline** (October 2026: `test/browser/a11y.spec.js` scans every screen and overlay at two phone sizes; two serious faults fixed, a trophy's contrast and the hero sheet's scrolling; one moderate left, the page's ban on pinch zoom): run axe on every overlay; fix contrast and focus order; label every icon button.
-
-**Exit criteria**
-- A dashboard shows real players' win rates by class beside the bot's.
-- No source file over 2,000 lines.
-- CI enforces the frame-rate budget.
-- No axe violations rated "serious" or above.
-
-## Phase 1: The first ten minutes (5–6 weeks)
-
-This is where a player decides whether a game feels AAA. Deepdelve is good from the first fight; it needs to be good from the first pixel.
-
-- [x] **Title sequence** (October 2026: key art made from the brief in `art/keyart/` with OpenAI's image tool (see `SOURCES.md` there), one framing for a phone held upright and one held sideways; behind the title it comes up close and settles, then drifts, the Heart pulsing, the torch flickering, embers rising; set by where the title's name falls, so the Heart stays above it; still in a calm view; darkened behind the prologue. The opening out of the dark, skipped at a tap, and the music's swell came first): one authored piece of key art, slow parallax, a music swell, and room for the "last run" line already there. Skippable at a tap.
-- [x] **Design system pass**: one type scale, one spacing scale, one set of button states, one sheet of colour tokens, and every overlay rebuilt on them. Each screen was tuned on its own, which is where the graders' "small overlaps" come from. *(Done: the tokens sit at the top of `css/style.css`, a colour sheet, an eleven-step type scale and a 2px/4px spacing scale, and every rule is built from them; buttons share one set of states, focus ring included. Only the glyphs on the pad, the zoom and the landscape Attack stay off the scale, as pictures.)*
-- [x] **Transitions** (October 2026: every screen and overlay fades up over 170 to 200 ms with a page's sound, and an overlay put away fades out over 130 ms, letting taps through; none in a calm view; descents and level-ups had their flourish already. Opacity only, so nothing moves under a finger): screen changes, overlay openings, descents and level-ups each get a 150–250 ms movement with a sound. No hard cuts anywhere.
-- [x] **Sound design pass** (October 2026: a limiter after the master's compressor, the music on its own bus, ducking under a level gained and the lich's words; then the sound pack in `sound/`, a first cut rendered in code rather than recorded (see `sound/SOURCES.md`): blows, doors, steps, items, the interface, voices, deaths, distant sounds and stingers, each played in place of its synthesis once loaded, the synthesis standing in until then and for magic. Recordings could replace it file for file): mixed samples (CC0 libraries, lightly processed) for blows, doors, footsteps and the interface; keep synthesis for magic. A limiter and a proper mix bus, ducking under the lich's lines and level-ups.
-- [x] **Adaptive music** (October 2026: four stems for each of seven themes in `sound/music/`, a first cut rendered in code, playing in step and faded by the mood `music.js` tracks, with a phrase coming home as a fight ends, each floor's ambience looping under the drone, and the title's own cue; the synthesised layers stand in until a floor's stems arrive. Composed or recorded stems could replace them file for file): layered stems (exploring, tension, fight, boss) crossfading on the states `music.js` already tracks. Four themes (plain, Crypts, Warrens, the lich) plus the peoples' floors, composed or licensed.
-- [x] **Haptics** (October 2026: blows taken and landed, a level, a death, a door forced or not; Vibration in the Menu, hidden on a phone that cannot buzz, which includes every iPhone): `navigator.vibrate` patterns for blows taken, level-ups, death and forcing doors, with an off switch in the Menu.
-- [x] **Onboarding fixes from the grades** (October 2026: the level choices say what a lesson is, the hero being made is named over Descend, and someone new meets a five-line card on the title, with a ready hero a tap away): explain "lesson" on the level-2 card; show the chosen background beside the Descend bar; a 60-second "first time here?" card.
-
-**Exit criteria**
-- A fresh-eyes phone grade of 9 or more for first impression, feel and polish (October 2026: 9, 8 and 7.5; again after the in-repo half of this phase, 8.5, 8 and 7, its code findings since fixed. What the graders still miss is authored: key art behind the title and prologue, recorded sound, composed music).
-- Median session length rises (telemetry).
-- Day-one return rate measured and a target set.
-
-## Phase 2: Depth and build identity (6–8 weeks)
-
-The systems are broad. The bar for an AAA roguelike is that by floor 4 a player can name their build.
-
-- [x] **Synergy layer** (October 2026: 32 combinations in `js/combos.js`, two more than planned; the player sees them as "combinations", each named in the log the first time a run makes it and kept in the Journal's Combinations tab, a hint showing for one not yet found; the elements' meetings, the oils, Smoke and Shadow Step, the Warden's snares, the relic pairs, the fighter's Bash and Cleave, the druid's roots, and one or two for each path's legend. The end screen names the build in a line, path, legend and the combinations leaned on most; a run's report carries its combinations, and the dashboard shows the share of wins that made one. The bot's wins make one in 75 to 100% of runs by class): 20–30 explicit interactions between talents, relics, oils and elements that the game names when they happen (for example, a Frostweaver with ice oil shattering frozen foes). Each gets a codex entry, bestiary-style, once discovered.
-- [x] **Item tiers** (October 2026: five grades read from the piece, plain, fine, rare, relic and legend, each with its colour in the pack, the trader's list, the floor and the end of the run; twelve legends in `relics.js`, one to a path, their rules in `js/legends.js`, dropped by the first champion felled once the hero walks a path, or now and then a marked one, so the bot finds one in 40 to 70% of runs; the hero sheet keeps this run's finds; the paths' rules moved to `js/paths.js` to make room, every fingerprint unchanged): affixes exist; add rarity colours, a legendary tier with build-defining effects (one per class per path), and a "this run's finds" row on the hero sheet.
-- [x] **Boss design pass** (October 2026: `js/lairs.js`. Every named champion leads with its trick as it wakes, warned of as ever (the Goblin King's horn before he is hurt); at two thirds of its life it changes the ground, oil spilt round its feet, flames scattered, water welling up round both, or one of its kin called; below a third it makes a last stand, a sixth quicker and a point harder. The Heartforged's turn splits its hall's floor into cracks that flare as a smouldering floor's do, sealed a while by cold, cooling when it falls. Kept gentle: the first cut, a fifth quicker and two harder with two kin, took about ten points off the fighter's and cleric's Normal wins; as it stands, about three, within the bench's noise): give the named champions and the Long Delve's final boss what the lich and the Warlord have: a telegraphed opener, a change to the arena mid-fight (the elements system can do this), and a last-stand behaviour.
-- [x] **Encounter consequences** (October 2026: `js/threads.js`, the thread code moved out of `game.js` with it. Eight choices come back two floors on, on the first arrival at a floor two or more below, waiting at the stair: the spared goblin's bundle and trap marks, the freed captive's unbarred door, the paid toll's purse and the crossed toll's ogre (an orc above the fourth floor), the weeping knight's blade, the old stone's healing lamp, the last delver's meal or their shade, and the smashed egg's wyrm. Each is placed with its own dice, so a floor's are never shifted; the hero sheet and the epilogue tell them): make 6–8 encounter choices pay off visibly two floors later (a freed prisoner opens a door; a refused toll means the ogre waits by the stair).
-- [x] **Meta-progression that adds options, not power** (October 2026: twelve unlocks, listed in the Hall with how each is earned (`Progress.unlocks`): a second starting kit for each of the six classes, opened by a win with it on Normal or Hard (`altKit` in `data.js`, chosen in `js/createextras.js`); two backgrounds earned by finds, the Lorekeeper at twelve combinations and the Legend-Seeker at three legends; the vows, now pacts, each adding its share to the score (15 to 30%), three new ones beside the first three: Glass, Hunted and Lone; and, in place of a fourth companion, the hound from the first stair, opened by Old Campaigners. None in a Daily): renown exists; add 10–12 unlocks such as new backgrounds, a fourth companion, alternative starting kits, and a menu of self-imposed pacts with score multipliers.
-- [x] **Difficulty ladder** (October 2026: five rungs, `LADDER` in `data.js`, each one rule kept by every rung above it: traders half again as dear; one rest a floor; champions and the last foe a quarter sturdier; draughts a third weaker; every creature a step surer. A class opens each rung with a win on the one below, picked under the difficulty on the New Game screen; each adds a tenth to the score, the Hall marks the highest, and telemetry counts each rung apart from Hard. Benched at 61.5% on Hard, then 55.5, 49, 45.5, 38 and 37%: the first cut fell fourteen points at one rung and two at others, and was retuned rung by rung): Hard is a single step. Add Hard+1 to Hard+5, each one clear rule in the manner of Slay the Spire's ascension, benched to a smooth win-rate curve.
+- [ ] **A held stick stops at the end screen** (C1): release every held act when the pad
+  leaves play, clear `held` on a new run; the probe becomes a `pad.spec.js` test.
+- [ ] **The collar test and its kind** (C2): seed what it measures or widen its bar, then sweep
+  `rules.js` for other statistical bars on unseeded paths.
+- [ ] **Harden `api/telemetry.js`** (C3): whitelists from `data.js` for class, difficulty, size,
+  path, legend and combinations; a hashed crash field; a per-IP throttle; a cap on the parsed
+  body; a weekly flag on crashes (C6); tests in `test/api.js`.
+- [ ] **Teach the arrow** (P1): the coached fight or a first-shot tip says what beats an archer
+  (close in, or leave its line), a bowstring on the draw, and the dodge tip stops saying "every
+  time". The end screen's "what killed you" names the bestiary's answer (P11).
+- [ ] **Fill the modal choices' empty half** (P2): the level-up, the path and the divided stair
+  show the hero's portrait and numbers, or the floor, above their cards.
+- [ ] **Double text in the pack, the hero sheet and the log** (P3): slot labels, the scores'
+  columns, padding under "≡ Log"; `access.spec.js` gains the pack and the hero sheet.
+- [ ] **How to Play in order** (P4): Basics starts with moving and ends with the ending, on
+  one screen; Send reports and Testing tools move under Modes; the "behind the counter"
+  line made true (D17); README's counts (D17).
+- [ ] **Words explained where they stand** (P5, P8, P14): a vow's one line under its name on
+  the title and in the prologue; "Search" only where a hidden door is plausible, or a first
+  tip; "In a fight" and "on no path" reworded.
+- [ ] **The prologue** (P6, P10): a Back button, and the portrait or the key art behind it.
+- [ ] **The title for a first visit** (P9, P18): "Load from code" with Continue; the Daily's
+  switch once earned; the Weekly's line to two; "You already have a hero below" says which
+  was being started.
+- [ ] **New Game keeps the name shown** (P7) unless the player asks for another.
+- [ ] **A near goal** (P11): one line on the title and the end screen from the Hall's closest
+  unlock or trophy; the Hall shows the three nearest first.
+- [ ] **A few seconds' grace on the start square** (P17), and the difficulty named on the
+  first floor; on Easy the marks a fifth slower, said on its card (D15).
+- [ ] **Finds and duplicates** (P16, P13): a chime and a rising number for a find; the floor
+  does not hand out a fourth buckler.
+- [ ] **The first tip off the hero's hands** (P15).
+- [ ] **Test gaps** (C11, C12): rules tests for Iron Snare, Tightening Cord, Red Feast and Pyre;
+  `pack_and_root` and `jest` asserted; axe on the Log overlay and the confirm screen.
 
 **Exit criteria**
-- Bench spread between classes of 6 points or less on every mode. (October 2026: met on all eight rows of the README table, the largest 5.3 on the quick delve, after the cleric, fighter, ranger and thief starting life, the quick delve's lesser lich and the Long Delve's deep-floor lifts were moved. The ladder past Hard is held to a smooth curve instead: at the runs it is measured on, a class's figure swings by eight.)
-- Telemetry shows at least 60% of wins use one or more named synergies. (The reports carry them and the dashboard counts them; real players' figure waits on the store being set up. The bot's wins make one in 75 to 100% of runs by class.)
-- The end screen names the run's build in a line. (Done: path, legend and the combinations leaned on most.)
+- A fresh phone grade with polish and clarity at 8.5 or more.
+- Every review finding above "wish" closed or scheduled by name below.
 
-## Phase 3: World and story (5–6 weeks)
+## Phase 7: Honest dice (1–2 weeks)
 
-- [x] **A spine**: who the lich was, why the Heart matters, what the peoples below fear. Restructure the journal pages into a three-act arc delivered floor by floor, the two roads (Crypts and Warrens) telling different halves. (22 pages, one on every floor: the crews; the archivist down the Crypts, the Stopping Fire down the Warrens; the old smiths' first fire; a page for each people. The win says what the Heart is; the Journal shows what is still to find; telemetry counts wins that carried out every page.)
-- [x] **Recurring characters**: one named Lampfolk trader who remembers you between runs (the progress store already has the hooks). The fallen hero's shade already does this well; extend the pattern. (Wick: the last hero it met and their fate, a tale a meeting, a regular's tenth off, its tales in the Hall.)
-- [x] **Three endings**: take the Heart, destroy it, or bargain with it. Each turns on a choice made mid-run and has its own end card and Hall entry. (The kept smith on the floor before the last gives his quench or the smiths' way, and the Pale One's bargain teaches the way too; at the Heart: carry it up, put it out, or stay and keep it. Each has its card, Hall entry, story, feat and Wick's word, scores the same, and telemetry counts the split.)
-- [x] **Environmental storytelling**: the set pieces (shrine, cells, cistern, rubble) each get two or three variants with their own props and log line, so a shrine is not always the same shrine.
-- [x] **Two more roads or regions** for 12- and 16-floor delves, built on the `BUILDS` table: a drowned level and a forge level are cheapest, since water and fire are already systems. (REGIONS in dungeon.js: the Drowned Halls, always flooded, and the Old Forges, always smouldering, each with its own walls, halls, music and name, on fixed floors below the divided stair.)
-- [x] **One narrator's voice**: prologue, tips, encounters and endings edited together as one document in one register. (Every line gathered into `docs/NARRATIVE.md` by `tools/narrative.mjs`, read against `docs/VOICE.md`, held to it by `test/rules-voice.js`.)
-
-**Exit criteria**
-- A player who wins can say what the Heart is.
-- The split between endings shows in telemetry.
-- More than 40% of winners complete the journal.
-
-## Phase 4: Reach and platform (5–6 weeks)
-
-- ~~**Store builds**~~ (dropped: the game stays on the web): a Trusted Web Activity for Google Play and a Capacitor shell for the App Store, from the same codebase, with listings built on Phase 1's key art and screenshots per language.
-- ~~**Cloud save**~~ (dropped: save codes carry a hero between devices): save codes exist; add optional sign-in (Apple, Google) with conflict resolution, so a phone and a tablet share a hero.
-- ~~**Localisation**~~ (dropped: the game stays in English): extract every player-facing string. These are written in the game's voice, so they need translators who write, not a service. Launch languages: German, French, Spanish, Brazilian Portuguese, Japanese, Simplified Chinese. The name tables need per-language versions.
-- [x] **Controller and keyboard**: Gamepad API mapping, focus rings on every overlay, a Steam Deck layout. This opens a later Steam release through Electron. (`js/pad.js`: the standard layout plays as the keys do in the dungeon, and a gold ring steers every screen and overlay by where its buttons sit; keys gain take and the log, Escape is every screen's Back, and what a key opens takes the focus. A browser test plays a whole delve, from the title to the win and back, on a stub controller alone. The landscape layout holds at the Deck's 1280×800; the wide layout with the map docked comes with the tablet and desktop item.)
-- [x] **Tablet and desktop layout**: generalise the landscape layout; add a wide layout with the map docked beside the view. (On a wide screen, 960 by 600 and up, the floor about the hero, 21 squares across, is docked at the head of the control column, which widens with the screen, and follows the hero; the corner map makes way for it. A tablet held upright has a larger corner map. The corner map's drawing moved to `mapview.js` (`drawAround`) to serve both. `test/browser/layout.spec.js` at 1024×768, 768×1024, 1280×800 and 1440×900; axe on the wide layout. This also gives the Steam Deck its layout.)
-- [x] **Full accessibility**: a screen reader can use every menu and the log; colour-blind palettes for warning marks and the map; a reduced-motion mode; text scaling to 200% without breakage; a one-handed mode (the left-handed layout already exists). (`js/access.js`: the log read aloud from its own live region, the view put into words on each move or turn, the bars named, focus into every overlay and back to its opener. One colour-blind safe palette (Okabe and Ito), blow against trick by orange against blue, for the marks, the map and its legend. Calm view now stills the page's own animations. Text to Double (32px) with the dungeon's bars and buttons laid out afresh, upright and sideways, and pinch-zoom allowed. One-handed for either thumb, upright. axe runs at WCAG 2.2 AA, at the largest text and one-handed too; `test/browser/access.spec.js` checks what axe cannot.)
+- [ ] **A run's own dice** (C4, D12): an `Rng` on `G`, seeded from the run and saved with it;
+  `d()` and a `chance(p)` on it; the forty gameplay `Math.random` calls (combat, foes, game,
+  pacing, elements, lairs, names) swapped; the renderer, the title, sound and music keep
+  `Math.random`. Proved by a rules test that plays one seed and one input list twice to one
+  fingerprint, and by the bench's `FP=1` on every row.
+- [ ] **A score with a clock** (D12): turns or seconds in the score, a tiebreak on time and
+  on the companion, said on the end screen and the share line.
+- [ ] **The run recorded** (D12): each frame's length and each press kept with the save,
+  bounded; the bot harness plays one back headless to the same end.
+- [ ] **Split `test/rules.js`** (C7) along its headings into `rules-*.js`, one runner, three
+  or four processes; the slow suite under two minutes.
 
 **Exit criteria**
-- WCAG AA on every menu.
-- A run completed from start to finish on a controller alone.
+- The same seed and inputs give the same run in the browser and under the bot, every time.
+- The frame-rate budget unchanged.
 
-## Phase 5: Live game (ongoing, from month 7)
+## Phase 8: The build by floor 3 (6–8 weeks)
 
-- [ ] **Daily and weekly challenges with leaderboards**: dailies exist; add server-verified scores (the seed and the run's log replayed headlessly by the bot harness that already exists) and a weekly challenge with a fixed set of modifiers. (The weekly is in: `js/weekly.js`, one dungeon a week by the ISO week, its hero, two vows and the dungeon's options dealt from the week, tried as often as you like with the best kept and shared. Leaderboards wait on a decision: server-verified scores need a deterministic engine, since gameplay rolls use `Math.random` and the clock.)
-- [ ] **Content cadence**: a new monster or encounter every two weeks, a named champion every month, a road or people every quarter. The generator makes this cheap; the bench keeps it honest.
-- [ ] **Balance from telemetry**: the bot's figures beside real players', by class and difficulty, reviewed monthly; the README balance table becomes a live dashboard.
-- [ ] **Community hooks**: run cards exist; add seed-of-the-day sharing with a replay link, and a data-only mod format (JSON monsters, items and encounters) loaded from a URL.
-- [ ] **Seasonal pacts**: a themed set of modifiers for six to eight weeks, with its own Hall page.
+The design review's heart: on the delve most people play, the path, the capstone and the
+legend are a last-act event. The numbers below are the change to bench, not the answer; the
+exit criteria are the answer.
+
+- [ ] **Move the build forward** (D1): the path at level 3 (floor 3), talents on the even
+  levels between, the capstone at level 7 (floor 7), the legend from the first champion after
+  the path (floor 3's). Every README row benched again on three seed sets.
+- [ ] **The fork where the path is** (D2): the stair divides after the path, or the path is
+  offered at the fork; each road's card names its champions, its element and its relic.
+- [ ] **A floor's wear carries** (D3): the first rest restores two thirds, the trader's lamp
+  alone a whole night, the Returned's gift a free lamp; benched until a winning run ends with
+  one or two draughts, not six.
+- [ ] **Capstones with a shape** (D4): the seventeen that are a number become one rule each.
+- [ ] **Lessons that change a rule** (D5): the five stat lessons folded into Self-Taught, five
+  rule lessons in their place; a talent offer holds one card over.
+- [ ] **The ladder as five sentences** (D6): dear traders and one rest kept; the three taxes
+  replaced by rules a player plans around; re-benched to the same curve; the share line says
+  the rung in words.
+- [ ] **Elements for every class, combinations pruned** (D7, D8): Frost Oil, a Scroll of Frost,
+  a Scroll of Lightning; `icebound_prey` made possible or cut; a legend's combination counted
+  only when the player did the thing; six two-system combinations a fighter or thief can plan.
+- [ ] **The mage's relics** (D11): three or four on robes and foci, two more for the ranger.
+- [ ] **The economy's holes** (D10): a relic for sale on the floor before last; a job paid by
+  any trader after its floor; a sure first trader on floor 2.
+
+**Exit criteria**
+- The bot walks a path by floor 3 in nine runs of ten, and takes a capstone in four wins of
+  five on eight floors.
+- A winning run ends with two draughts or fewer on average.
+- Every README row within six points across the classes, the ladder a smooth curve.
+- The end screen's build line names a path chosen before the fork.
+
+## Phase 9: The live game (6–8 weeks, then ongoing)
+
+- [ ] **A friends' board** (decision 2): a pasted share line, verified by headless replay in
+  `api/`, shown under the Daily's and the Weekly's own result; a name typed on the phone,
+  nothing else sent, the telemetry's privacy note. A public top fifty only if wanted after.
+- [ ] **A mastery track** (D13): five named stages a class, each opening an option (a third
+  kit, a frame, a starting relic from the codex at a price); Wick's tales to twenty; the Hall
+  to fifty with filters.
+- [ ] **The first season** (D13): six weeks of a vow set, a frequent twist, one new champion
+  and one new legend, dealt from the season's number as the Weekly is, on its own Hall page
+  with its own card; its rules fixed when it opens.
+- [ ] **Balance from telemetry** (decision 1): real players' win rates by class and rung beside
+  the bot's on the dashboard, reviewed monthly; a class ten points off the bot for two months
+  gets a bench and a change. The README's table links to it.
+- [ ] **A replay link** on the run card: the seed and the recording, played back in the view,
+  skippable.
+- [ ] **A data-only mod format**: JSON encounters, relics on existing powers, journal pages,
+  and monsters as kind + existing move + palette, read from a link on New Game, checked
+  against the types, never into the Hall or a board.
+
+**Exit criteria**
+- A friend's line verifies and ranks within a minute of a run's end.
+- A season runs its whole length without a change pushed mid-season.
+- One monthly review reads real win rates and benches a change from them.
+
+## Phase 10: Content cadence (ongoing, from Phase 8)
+
+Each item its own small batch with its art, Bestiary line, tip if it needs one, and its row
+in the bench. Pointed first at the shallow end, where a new player's first ten runs are.
+
+- [ ] **Another answer on floors 1 to 4** (D9): one creature a floor whose answer is not a
+  step at the mark (a gaze, a thing that strikes over the front of a group, a door-batterer met
+  at the door).
+- [ ] **The marks do something** (D9): Feral charges, Armoured turns the first blow, Ancient
+  uses its trick twice as often, Rabid never flees.
+- [ ] **Threads that land** (D14): the spared goblin fights beside you once; the paid toll's
+  guide; the offering's fountain; the shared meal's page.
+- [ ] **The Long Delve's dead stretches** (D16): a marked pack leader on floor 2 or 3 of 16;
+  the smith a floor up; the floor before the keeper with a set piece of its own.
+- [ ] **What the genre expects**: a pack with a leader whose fall scatters it; a thief that
+  steals; a creature that fetches help; a mimic of a chest; blind, slow and silence; a cursed
+  thing worth wearing; a caster above floor 5; a trap a monster can spring.
+- [ ] On a schedule: a monster or encounter every two weeks, a named champion a month, a road
+  or a people a quarter; the device round (decision 4) once a quarter when it is done at all.
+
+**Exit criteria**
+- Twelve months of `NEWS` entries, none a month apart.
+- Every README row within six points after each addition.
+
+## Phase 11: Authored audio (when the recordings arrive)
+
+- [ ] **Recorded sound** (P12): the pack's files replaced one for one from `sound/REQUEST.md`,
+  names and lengths kept so `samples.js` and the tests need no change; a hit stop of a few
+  frames and a heavier shake under a real impact (P1's "weight").
+- [ ] **Composed music**: the seven themes' four stems each, faded by the mood `music.js`
+  already tracks, and the title's cue.
+- [ ] **Boss portraits**, if art is commissioned with the audio.
+
+**Exit criteria**
+- A fresh phone grade of 9 or more for first impression, feel and polish.
+
+## Debts, scheduled, not left
+
+- [ ] `test/rules.js` split: Phase 7.
+- [ ] `ui.js`, `renderer.js`, `game.js`, `foes.js` within 300 lines of the limit (C7): the
+  next slice out of each before the phase that touches it (the title and create screens out of
+  `ui.js` in Phase 6; the K wiring out of `game.js` in Phase 7).
+- [ ] The K objects typed (C8): a `@typedef` per factory in `pad.js`'s style, the five largest
+  first, copies at birth turned to getters; alongside Phase 7.
+- [ ] A Content-Security-Policy (C5), inline styles moved: Phase 6.
+- [ ] Fixed sleeps swapped for state waits, CI retries off (C9): spread over Phases 6 to 8.
+- [ ] The per-frame tidy-up (C13 to C15) and a startup and wide-layout scene in `perf.spec.js`
+  (C16): Phase 7.
 
 ---
 
 ## What not to do
 
-- **No engine rewrite, no 3D.** The software renderer is the game's identity, and it runs on old phones. Polish it (Phase 1); do not replace it.
-- **No multiplayer.** The cost is enormous and the genre does not need it; leaderboards and seeded races give the social side.
-- **No microtransactions.** A premium price on the stores and a free web version is the model that suits the game.
-
-## Where to start
-
-Phase 0's telemetry and the `game.js` split. Telemetry because every later argument stops being a guess; the split because nearly every change in Phases 1–3 touches that file, and at 5,400 lines it already slows work down.
+- **No engine rewrite, no 3D, no multiplayer**, as before.
+- **No accounts.** A board takes a name, not a sign-in; the Hall stays on the phone.
+- **No mid-season changes.** A season's rules are fixed when it opens, so every board on it
+  is one board.
+- **No content without its bench row.** A monster that is not benched is not shipped.
+- **No board before the build moves.** A leaderboard on today's timing ranks builds that
+  arrive on floor 6.
