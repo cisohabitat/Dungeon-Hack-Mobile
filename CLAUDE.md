@@ -92,8 +92,12 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 
 - `npx tsc --noEmit -p .`
 - `node test/run.js`: generator and level checks.
-- `node test/rules.js`: rule checks, about 4 minutes; must end
-  `rule checks complete, 0 failure(s)`. `ONLY="part of a test name"` runs a subset.
+- `node test/rules.js`: rule checks, about 3 minutes; the last line must begin
+  `rule checks complete, 0 failure(s)`. The checks are in `test/rules-<subject>.js`, one file a
+  subject, each lent the shared helpers (`test/rules-lib.js`); `rules.js` shares the files out over
+  four processes. `ONLY="part of a test name"` runs a subset; `WORKERS=1` runs every file in one
+  process, for debugging; `TIMES=1` says how long each file took. A new file of checks needs
+  nothing more than the name: it is found and run.
 - `npx playwright test --project=phone`: browser tests (phone viewport), about 5 minutes.
   Chromium is preinstalled; do not run `playwright install` locally.
 - `PERF=1 npx playwright test --project=perf --workers=1`: the frame-rate
