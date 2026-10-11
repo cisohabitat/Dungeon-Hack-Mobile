@@ -1111,3 +1111,25 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
   body.onehand .actions .hud-quaff { height: auto; min-height: 0; min-width: 0; }
 }
 
+
+/* The docked map. Hidden on a phone, where the corner map serves; on a wide
+   screen (a tablet held sideways, a Steam Deck, a desktop window) the floor
+   about the hero stands at the head of the control column, as large as the
+   column allows, and the corner map makes way for it. The pads draw in a
+   little to give it room. */
+.dock { display: none; }
+#dock-map { display: block; image-rendering: pixelated; cursor: pointer; border: 1px solid var(--border); border-radius: 6px; background: #05050a; }
+@media (min-aspect-ratio: 5/4) and (min-width: 960px) and (min-height: 600px) {
+  .dock { display: flex; flex: 1 1 auto; min-height: 120px; align-items: center; justify-content: center; padding: var(--s-12) var(--s-16) 0; container-type: size; }
+  #dock-map { width: min(100cqw, 100cqh); height: min(100cqw, 100cqh); }
+  #minimap { display: none; }
+  .hud-status { right: var(--s-8); }
+  .controls { flex: 0 0 auto; gap: var(--s-12); padding: var(--s-12) var(--s-16); }
+  .dpad, .actions { height: min(170px, calc((100vh - 420px) / 2)); height: min(170px, calc((100dvh - 420px) / 2)); }
+  .ctrl-col { justify-content: flex-start; flex-basis: clamp(340px, 26vw, 440px); }
+}
+/* A tablet held upright has the room for a larger corner map. */
+@media (orientation: portrait) and (min-width: 700px) and (min-height: 900px) {
+  #minimap { width: 150px; height: 150px; image-rendering: pixelated; }
+  .hud-status { right: calc(150px + 14px); }
+}

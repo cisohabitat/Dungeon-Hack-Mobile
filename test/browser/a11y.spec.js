@@ -179,3 +179,15 @@ test('the dungeon and its Menu with the largest text, one-handed, in the colour-
   const bad = report(found);
   expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
 });
+
+test('the dungeon on a wide screen, with the map docked beside the view', async ({ browser }) => {
+  const found = [];
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, isMobile: false });
+  const page = await ctx.newPage();
+  await startGame(page, { seed: 'a11y-wide' });
+  await clearBoons(page);
+  await scan(page, 'game-wide', found);
+  const bad = report(found);
+  expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
+  await ctx.close();
+});

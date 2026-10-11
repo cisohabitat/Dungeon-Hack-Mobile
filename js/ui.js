@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, PATHS, VOWS } from './data.js';
+import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, PATHS, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -165,7 +165,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-28', text: 'easier to play for more of you: text up to twice its size, colour-blind safe colours, a one-handed layout, Calm view stilling the screens too, and the log read aloud to a screen reader' };
+  const NEWS = { id: '2026-11-29', text: 'on a tablet held sideways, a Steam Deck or a desktop, the map now stands docked beside the view and follows you as you go' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1252,6 +1252,14 @@ const UI = (() => {
 
   // Small live automap in the corner of the view, 15x15 tiles around the player.
   let miniFaded = false;
+  // the docked map shows this many squares each way from the hero
+  const DOCK_R = 10;
+  /** The docked map's canvas sized to its box in whole squares, sharp on the screen it is on. */
+  function fitDock(dock, R) {
+    const n = 2 * R + 1, px = Math.max(n, Math.floor(dock.clientWidth * (window.devicePixelRatio || 1) / n) * n);
+    if (dock.width !== px) { dock.width = px; dock.height = px; }
+    return dock;
+  }
   function refreshMinimap(now) {
     if (now - miniAt < 120) return;
     miniAt = now;
@@ -1265,7 +1273,6 @@ const UI = (() => {
       if (fade !== miniFaded) { miniFaded = fade; c.classList.toggle('faded', fade); }
     }
     const L = Game.level(), p = Game.player();
-    const R = 7, size = 6;
     const hound = houndHere();
     // (with every monster shown, where each one is: they move while you stand still;
     // and the way in ending, when the room the hero stands in is first seen and
@@ -1274,47 +1281,11 @@ const UI = (() => {
     const sig = [p.x, p.y, p.dir, L.depth, L.monsters.length, Game.preludeOn() ? 1 : 0, hound ? `${hound.x},${hound.y}` : '', eye ? L.monsters.map(m => `${m.x},${m.y},${m.awake ? 1 : 0}`).join(';') : ''].join(',');
     if (sig === miniSig) return;
     access.describeView();
-    const ctx = c.getContext('2d');
-    const T = Dungeon.T;
-    ctx.clearRect(0, 0, c.width, c.height);
-    ctx.fillStyle = 'rgba(5,5,10,0.3)';
-    ctx.fillRect(0, 0, c.width, c.height);
-    for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
-      const x = p.x + dx, y = p.y + dy;
-      if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
-      // (the first floor's stair up is under fallen rock: wall, on the map as in the view)
-      const t = L.caved && L.caved.includes(y * L.w + x) ? T.WALL : L.tiles[y * L.w + x];
-      let col = '#46425a';
-      // a torch is a bracket set into a wall, so it reads as wall here: picking
-      // it out in its own colour made the corner map busy and told you nothing
-      // you could act on
-      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#2a2736';
-      else if (t === T.DOOR) col = '#a0783c';
-      else if (t === T.DOOR_OPEN) col = '#6a5030';
-      else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
-      else if (t === T.STAIRS_DOWN) col = '#e0c060';
-      else if (t === T.STAIRS_UP) col = '#80c0e0';
-      else if (t === T.FOUNTAIN) col = '#4090e0';
-      ctx.fillStyle = col;
-      ctx.fillRect((dx + R) * size, (dy + R) * size, size, size);
-    }
-    for (const m of L.monsters) {
-      const dx = m.x - p.x, dy = m.y - p.y;
-      if (Math.abs(dx) > R || Math.abs(dy) > R || (!eye && (!L.explored[m.y * L.w + m.x] || !m.awake))) continue;
-      ctx.fillStyle = access.palette() === 'safe' ? MAP_COLOUR.monster : '#e04030';
-      ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
-    }
-    // a pale round mark, nothing like a door or a torch
-    if (hound && Math.abs(hound.x - p.x) <= R && Math.abs(hound.y - p.y) <= R) {
-      ctx.fillStyle = MAP_COLOUR.hound;
-      ctx.beginPath(); ctx.arc((hound.x - p.x + R) * size + size / 2, (hound.y - p.y + R) * size + size / 2, size / 2 - 0.5, 0, Math.PI * 2); ctx.fill();
-    }
-    ctx.save();
-    ctx.translate(R * size + size / 2, R * size + size / 2);
-    ctx.rotate(p.dir * Math.PI / 2);
-    ctx.fillStyle = MAP_COLOUR.player;
-    ctx.beginPath(); ctx.moveTo(0, -3.5); ctx.lineTo(3, 3); ctx.lineTo(-3, 3); ctx.closePath(); ctx.fill();
-    ctx.restore();
+    // the corner map, where it shows; and on a wide screen the docked map beside the view, a wider stretch of the floor
+    const safe = access.palette() === 'safe';
+    if (c.getClientRects().length) drawAround(c, 7, { eye, safe, hound });
+    const dock = /** @type {HTMLCanvasElement|null} */ ($('#dock-map'));
+    if (dock && dock.getClientRects().length) drawAround(fitDock(dock, DOCK_R), DOCK_R, { eye, safe, hound });
     miniSig = sig;
   }
 
@@ -1570,6 +1541,7 @@ const UI = (() => {
     // every control's icon drawn from the one set
     for (const el of $$('[data-icon]')) el.innerHTML = icon(/** @type {HTMLElement} */ (el).dataset.icon || '');
     $('#minimap').addEventListener('click', () => openOverlay('map'));
+    $('#dock-map').addEventListener('click', () => openOverlay('map'));
     $('#map-in').addEventListener('click', () => zoomMap(1.5));
     $('#map-out').addEventListener('click', () => zoomMap(1 / 1.5));
     wireMapPinch();
@@ -1865,7 +1837,8 @@ const UI = (() => {
     bindControls();
     setTextSize(textSize());
     refreshTitle();
-    window.addEventListener('resize', () => { fitView(); if (overlay === 'map') renderMap(); });
+    // (a resize may move between layouts: the corner map and the docked one are drawn afresh)
+    window.addEventListener('resize', () => { fitView(); miniSig = ''; if (overlay === 'map') renderMap(); });
   }
 
   // ---------- endscreen: see endscreen.js ----------
@@ -1874,7 +1847,7 @@ const UI = (() => {
   });
 
   // ---------- mapview: see mapview.js ----------
-  const { MAP_COLOUR, setPalette: setMapPalette, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap } = makeMapView({
+  const { setPalette: setMapPalette, drawAround, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap } = makeMapView({
     get testingSet() { return testingSet; },
   });
 

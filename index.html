@@ -230,6 +230,7 @@
         <p>On a phone that can, the game buzzes in your hand when a blow lands on you, when you level up or die, and when you force a door. <b>Vibration</b> under <b>Menu</b> turns it off.</p>
         <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches, and every fade, pulse and slide of the screens and buttons. It starts on if your phone asks for less motion.</p>
         <p><b>Text size</b> under <b>Menu</b> goes from Small up to Double, twice the usual: the bars, the buttons and the log make room for it, and every page and window scrolls rather than cutting anything off. Pinching to zoom works on the pages off the dungeon too. <b>Colours</b> under <b>Menu</b> sets colours that every kind of colour blindness can tell apart: a blow's warning mark goes yellow to orange-red and a trick's light to dark blue, and the map's marks change with them (each still has its own sign as well).</p>
+        <p>On a wide screen (a tablet held sideways, a Steam Deck, a desktop window) the floor about you is mapped beside the view, larger than the corner map and kept up to date as you go; a tap on it opens the whole map. A tablet held upright has a larger corner map.</p>
         <p><b>Controls</b> under <b>Menu</b> puts the pad and the actions on the right or the left, or one-handed for either thumb: the actions and the quick drink sit in a row over the pad, all on that thumb's side, with the phone held upright. A screen reader hears the log line by line as it comes, what lies ahead in the view each time you move or turn, and the bars by their numbers; every window takes the focus when it opens and gives it back when it closes.</p>
         <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, the combinations it made, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
@@ -411,6 +412,8 @@
         <div id="log" class="log"></div>
       </div>
       <div class="ctrl-col">
+        <!-- on a wide screen, the floor about the hero, docked beside the view (a tap opens the whole map) -->
+        <div class="dock"><canvas id="dock-map" width="210" height="210" aria-hidden="true" title="Open map"></canvas></div>
         <div class="controls">
           <div class="dpad">
             <button class="ctl" data-act="left" aria-label="Turn left"><span class="ico" data-icon="turnL"></span></button>

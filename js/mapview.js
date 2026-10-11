@@ -272,5 +272,58 @@ export function makeMapView(K) {
       `<span class="key" data-key="${k.id}"><i style="background:${k.colour}"></i>${escapeHtml(k.label)}</span>`).join('');
   }
 
-  return { MAP_COLOUR, MAP_KEY, setPalette, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap };
+  /**
+   * The floor about the hero, R squares each way, into a square canvas: the
+   * corner map over the view, and on a wide screen the docked map beside it.
+   * A square is the canvas's width over 2R + 1 (6 pixels in the corner).
+   * @param {HTMLCanvasElement} c @param {number} R
+   * @param {{eye: boolean, safe: boolean, hound: any}} o  every monster shown (testing), the safe colours, the companion here
+   */
+  function drawAround(c, R, o) {
+    const L = Game.level(), p = Game.player(), T = Dungeon.T, size = c.width / (2 * R + 1);
+    const ctx = /** @type {CanvasRenderingContext2D} */ (c.getContext('2d'));
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.fillStyle = 'rgba(5,5,10,0.3)';
+    ctx.fillRect(0, 0, c.width, c.height);
+    for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+      const x = p.x + dx, y = p.y + dy;
+      if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]) continue;
+      // (the first floor's stair up is under fallen rock: wall, on the map as in the view)
+      const t = L.caved && L.caved.includes(y * L.w + x) ? T.WALL : L.tiles[y * L.w + x];
+      let col = '#46425a';
+      // a torch is a bracket set into a wall, so it reads as wall here: picking
+      // it out in its own colour made the corner map busy and told you nothing
+      // you could act on
+      if (t === T.WALL || t === T.SECRET || t === T.TORCH) col = '#2a2736';
+      else if (t === T.DOOR) col = '#a0783c';
+      else if (t === T.DOOR_OPEN) col = '#6a5030';
+      else if (t === T.DOOR_LOCKED) col = KEY_COLORS[L.locks[x + ',' + y]] || '#c0a040';
+      else if (t === T.STAIRS_DOWN) col = '#e0c060';
+      else if (t === T.STAIRS_UP) col = '#80c0e0';
+      else if (t === T.FOUNTAIN) col = '#4090e0';
+      ctx.fillStyle = col;
+      ctx.fillRect((dx + R) * size, (dy + R) * size, size, size);
+    }
+    for (const m of L.monsters) {
+      const dx = m.x - p.x, dy = m.y - p.y;
+      if (Math.abs(dx) > R || Math.abs(dy) > R || (!o.eye && (!L.explored[m.y * L.w + m.x] || !m.awake))) continue;
+      ctx.fillStyle = o.safe ? MAP_COLOUR.monster : '#e04030';
+      ctx.fillRect((dx + R) * size + 1, (dy + R) * size + 1, size - 2, size - 2);
+    }
+    // a pale round mark, nothing like a door or a torch
+    const hound = o.hound;
+    if (hound && Math.abs(hound.x - p.x) <= R && Math.abs(hound.y - p.y) <= R) {
+      ctx.fillStyle = MAP_COLOUR.hound;
+      ctx.beginPath(); ctx.arc((hound.x - p.x + R) * size + size / 2, (hound.y - p.y + R) * size + size / 2, size / 2 - 0.5, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.save();
+    ctx.translate(R * size + size / 2, R * size + size / 2);
+    ctx.rotate(p.dir * Math.PI / 2);
+    ctx.scale(size / 6, size / 6);   // (drawn for the corner map's six-pixel squares)
+    ctx.fillStyle = MAP_COLOUR.player;
+    ctx.beginPath(); ctx.moveTo(0, -3.5); ctx.lineTo(3, 3); ctx.lineTo(-3, 3); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  return { MAP_COLOUR, MAP_KEY, setPalette, drawAround, houndHere, mapView, renderMap, underfoot, wireMapPinch, zoomMap };
 }
