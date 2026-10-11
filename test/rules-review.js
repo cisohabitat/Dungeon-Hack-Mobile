@@ -35,7 +35,11 @@ module.exports = async function reviewChecks(h) {
     const ctx = await newContext();
     const { Progress, CLASSES, PATHS } = ctx;
     const blank = Progress.load();
-    // nothing won yet: the first thing shut is a kit, and three are named at most
+    // nothing won and nothing reached: a floor to reach comes first, the stair, then the second champion, then the Heart
+    if (Progress.nextGoals(blank, '', 1)[0].how !== 'Reach floor 3') return `a hero dead on floor 1 is told "${Progress.nextGoals(blank, '', 1)[0].how}"`;
+    if (Progress.nextGoals(blank, '', 4)[0].how !== 'Reach floor 6') return `a hero dead on floor 4 is told "${Progress.nextGoals(blank, '', 4)[0].how}"`;
+    if (Progress.nextGoals(blank, '', 7)[0].how !== 'Reach floor 8') return `a hero dead on floor 7 is told "${Progress.nextGoals(blank, '', 7)[0].how}"`;
+    // nothing won but the bottom reached: the first thing shut is a kit, and three are named at most
     const fresh = Progress.nextGoals(blank);
     if (fresh.length !== 3) return `a new player is given ${fresh.length} goals`;
     if (!/^Win as a .* on Normal or Hard$/.test(fresh[0].how)) return `the first goal asks "${fresh[0].how}"`;

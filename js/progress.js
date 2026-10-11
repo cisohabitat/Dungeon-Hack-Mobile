@@ -157,12 +157,18 @@ function unlocks(v = load()) {
  * player with fifty-one empty boxes needs one pointed at. Nearest first: a kit
  * a floor from opening, a class one path from mastered, then the first thing
  * still shut, a feat, a rung. The class just played, if given, goes first.
- * @param {ReturnType<typeof load>} [v] @param {string} [cls]
+ * @param {ReturnType<typeof load>} [v] @param {string} [cls] @param {number} [deepest]  the deepest floor any hero of theirs has reached
  * @returns {{what: string, how: string}[]}
  */
-function nextGoals(v = load(), cls = '') {
+function nextGoals(v = load(), cls = '', deepest = 8) {
   const out = [];
   const add = (what, how) => { if (out.length < 3 && !out.some(g => g.what === what)) out.push({ what, how }); };
+  // someone with no win yet is set a floor to reach, not a trophy: "win on Normal" to a hero dead on floor 1 was a wall
+  if (!Object.keys(v.won).length && deepest < 8) {
+    if (deepest < 3) add('the divided stair', 'Reach floor 3');
+    else if (deepest < 6) add('the second champion', 'Reach floor 6');
+    else add('the Heart of the Mountain', 'Reach floor 8');
+  }
   const order = [...(CLASSES[cls] ? [cls] : []), ...Object.keys(CLASSES).filter(c => c !== cls)];
   // a kit a win away: the class has been down and won on Easy, or just played
   for (const c of order) if (CLASSES[c].altKit && !kitOpen(c, v) && (hasWon(c, 'easy', v) || c === cls)) add(`${CLASSES[c].altKit.name} (${CLASSES[c].name})`, `Win as a ${CLASSES[c].name} on Normal or Hard`);

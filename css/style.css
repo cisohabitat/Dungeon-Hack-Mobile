@@ -172,7 +172,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .pro-hero h3 { margin: 0; }
 .pro-face { width: 56px; height: 56px; flex: none; image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .pro-face:not([src]), .pro-face[src=""] { display: none; }
-/* the hero above a choice (the level-up, the path, the divided stair): the top of the phone is not black */
+/* the hero above a choice (the level-up, the path, the divided stair): the top of the phone is not black,
+   and the dungeon shows dimly through the window, so what lies between the hero and the cards is the floor they stand on */
+#ov-boons, #ov-fork, #ov-encounter { background: rgba(11, 10, 16, 0.84); }
 .choice-head { display: flex; align-items: center; gap: var(--s-12); padding: var(--s-6) 0 var(--s-10); }
 .choice-face { width: 64px; height: 64px; flex: none; image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .choice-who { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
@@ -447,12 +449,13 @@ body.calm #hud-gold.flare { animation: none; }
 /* the title's opening, once a visit (ui.js, startOpening): the scene out of the
    dark, then the name a word at a time, then the rest; opacity only, so every
    button is where it will be and works from the first moment */
-#screen-title.opening .title-bg { animation: come-up 1400ms ease-out both; }
-#screen-title.opening .logo-rule { animation: come-up 700ms ease-out 500ms both; }
-#screen-title.opening .logo .l1 { animation: come-up 800ms ease-out 700ms both; }
-#screen-title.opening .logo .l2 { animation: come-up 800ms ease-out 1000ms both; }
-#screen-title.opening .tagline, #screen-title.opening .last-run { animation: come-up 700ms ease-out 1400ms both; }
-#screen-title.opening .menu, #screen-title.opening .first-card, #screen-title.opening .news { animation: come-up 600ms ease-out 1800ms both; }
+/* (quicker than it was: the menu is there to tap inside a second and a half, not two and a half) */
+#screen-title.opening .title-bg { animation: come-up 1000ms ease-out both; }
+#screen-title.opening .logo-rule { animation: come-up 500ms ease-out 300ms both; }
+#screen-title.opening .logo .l1 { animation: come-up 600ms ease-out 400ms both; }
+#screen-title.opening .logo .l2 { animation: come-up 600ms ease-out 650ms both; }
+#screen-title.opening .tagline, #screen-title.opening .last-run, #screen-title.opening .next-goal { animation: come-up 500ms ease-out 900ms both; }
+#screen-title.opening .menu, #screen-title.opening .first-card, #screen-title.opening .news { animation: come-up 500ms ease-out 1000ms both; }
 /* a floor's name as the hero arrives (ui.js, showFloorCard): up, held, and gone, over the far end of the view */
 .floor-card { position: absolute; left: var(--s-16); right: var(--s-16); top: 22%; z-index: 2; text-align: center; pointer-events: none; opacity: 0;
   color: var(--gold); text-shadow: 0 1px 3px #000, 0 0 12px rgba(0, 0, 0, 0.9); }
@@ -1100,6 +1103,9 @@ body.big-text .bar span { line-height: calc(0.9rem + 2px); }
    log keeps two lines, the rest a tap on Log away at the same size */
 body.big-text .view-wrap { min-height: calc(100vw * 0.4); }
 body.big-text .log { height: 2.9em; min-height: 2.9em; padding-right: 92px; }
+body.big-text .logo { font-size: clamp(1.5rem, 8vw, 2.4rem); letter-spacing: 0.06em; }
+body.big-text .daily-kind button { font-size: var(--t-2xs); padding-left: var(--s-4); padding-right: var(--s-4); white-space: normal; line-height: 1.1; }
+.pro-class { display: block; color: var(--dim); }
 body.big-text .slot { font-size: var(--t-2xs); }
 body.big-text .slot .lbl { font-size: 0.55rem; letter-spacing: 0; }
 body.big-text .sheet.scores { grid-template-columns: 1fr 1fr; }

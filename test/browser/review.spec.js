@@ -23,7 +23,8 @@ test.describe('the title', () => {
     await page.goto('/');
     await expect(page.locator('.daily-kind')).toBeVisible();
     await expect(page.locator('#next-goal')).toBeVisible();
-    await expect(page.locator('#next-goal')).toContainText(/^Next: Win as a /);
+    // (a hero with no win yet is set a floor to reach, not a trophy)
+    await expect(page.locator('#next-goal')).toHaveText('Next: Reach floor 3, for the divided stair.');
     expect(errors).toEqual([]);
   });
 
@@ -117,7 +118,7 @@ test.describe('in the dungeon', () => {
     await expect(page.locator('#end-cause')).toContainText(/Killed by a goblin/i);
     await expect(page.locator('#end-cause .beats')).toContainText(/^What beats it: /);
     await expect(page.locator('#end-goal')).toBeVisible();
-    await expect(page.locator('#end-goal')).toContainText(/^Next: Win as a Mage on Normal or Hard, for /);
+    await expect(page.locator('#end-goal')).toHaveText('Next: Reach floor 3, for the divided stair.');
     expect(errors).toEqual([]);
   });
 

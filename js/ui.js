@@ -138,6 +138,8 @@ const UI = (() => {
     const world = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#pro-world').innerHTML = store(STORY_READ) === '1' ? `<details class="pro-again"><summary>The story so far</summary>${world}</details>` : world;
     $('#pro-who').textContent = b.name;
+    // who is going down, by name and class: a dealt hero (the Daily, Quick Start) was never named before the stair
+    $('#pro-class').textContent = `${cfg.name}, a ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
     const face = /** @type {HTMLImageElement} */ ($('#pro-face'));
     face.src = faceOf(cfg.cls); face.alt = `${cfg.name}, the ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
     $('#pro-story').textContent = b.story;
@@ -381,6 +383,8 @@ const UI = (() => {
     // they move, turn or tap it (or a real warning takes its place)
     if (tip === 'controls') return 0;
     if (coaching && isDodge(tip) && !dodgeSettled && blowComing()) return 0.3;
+    // the first arrow waits as the first blow does: its tip arrived with the arrow
+    if (tip === 'shot') { const p = Game.player(); if (Game.level().monsters.some(m => m.windup && m.windup.kind === 'shot' && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6)) return 0.3; }
     const mv = TRICK_TIPS[tip];
     if (mv) {
       const p = Game.player();
@@ -1455,7 +1459,8 @@ const UI = (() => {
       if (!G || (key && (!st || !st.done))) return;
       // a week's try is shared as the week's best so far (a test run's kept nothing, so it is told as any run)
       const week = G.opts.weekly && !G.tested ? Weekly.shareLine(G.opts.weekly) : '';
-      const line = key ? Daily.shareLine(key, st.done, kind) : week || runShareLine(G.status === 'won'), out = $('#end-share-line');
+      // (with where to play it: a line with no way in brought nobody)
+      const line = `${key ? Daily.shareLine(key, st.done, kind) : week || runShareLine(G.status === 'won')} ${location.origin}`, out = $('#end-share-line');
       // the line is shown as well, to copy by hand if the clipboard says no
       out.textContent = line; out.style.display = '';
       shareText(line).then(how => { $('#end-share').textContent = SHARED[how] || (how === 'closed' ? $('#end-share').textContent : 'Copy the line below'); });

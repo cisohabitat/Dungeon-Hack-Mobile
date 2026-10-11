@@ -170,3 +170,18 @@ Read from the rules and data, with a 100-run bench a class on Normal where a num
 
 Expected real-player figures, against the bot's: first-week Normal wins in the 30s to 40s and
 Easy in the 60s, since the bot never misses a mark; telemetry will say, once it counts.
+
+## The second pass (after Phase 6's first push)
+
+A second grader with the same brief, after the fixes above: first impression 7, feel 7, polish 6,
+clarity 7, depth 8. Harsher than the first, and for new reasons: the title's menu not tappable for
+2.4 seconds; "+1 hit points", "a Throwing Knives", the Hall's goal in lower case; the logo clipped to
+"DEEPDELV" at Double text; the void still between the hero and the cards on a level-up; the archer's
+first arrow landing as its tip appeared; a dealt hero's prologue never naming the class; "Win as a
+Mage on Normal or Hard" as the goal for someone dead on floor 1; the share line with no way in. All
+fixed in the second pass. Still open, for later phases: the cave bat as the first foe met (its
+wind-up too short for the coached tip, D9's shallow end); the fight log's density; the tablet's
+docked map mostly black on arrival; "Thirsting" and other power names in the shop with no gloss; a
+rat on Easy stepped back from two hundred times; the Create screen's eight dungeon options before a
+first run; How to Play's Combat tab without pictures of the marks.
+

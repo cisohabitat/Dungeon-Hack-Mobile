@@ -623,7 +623,7 @@ export function makeCombat(K) {
       const gain = Math.max(1, Math.round((d(1, cls().hitDie) + mod(p.stats.con)) * (K.vowed('glass') ? 0.75 : 1)));
       p.maxHp += gain; p.hp += gain;
       p.maxSp = spMax(p); p.sp = p.maxSp;
-      log(`You have reached level ${p.level}! (+${gain} hit points)`, 'good');
+      log(`You have reached level ${p.level}! (+${gain} hit point${gain === 1 ? '' : 's'})`, 'good');
       Sound.play('levelup'); buzz([30, 50, 30, 50, 90]);
       const unlocked = knownSpells().filter(s => spellLevel(s) === p.level);
       for (const s of unlocked) log(`You have learned ${s.name}.`, 'good');

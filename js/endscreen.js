@@ -204,7 +204,7 @@ export function makeEndScreen(K) {
       cause.textContent = 'Killed by the dungeon itself.';
     } else cause.textContent = '';
     // one thing to go down for next
-    const goal = Progress.nextGoals(Progress.load(), p.cls)[0], goalEl = $('#end-goal');
+    const goal = Progress.nextGoals(Progress.load(), p.cls, Math.max(0, ...Game.hall().map(e => e.depth || 0)))[0], goalEl = $('#end-goal');
     goalEl.hidden = !goal;
     if (goal) goalEl.textContent = `Next: ${goal.how}, for ${goal.what}.`;
     const moments = Game.deathLog();

@@ -42,7 +42,7 @@ export function makeTitleMenu(K) {
     lastEl.hidden = !lr;
     if (lr) lastEl.textContent = `Last time: ${lr.name} the ${CLASSES[lr.cls] ? CLASSES[lr.cls].name : lr.cls} ${lr.won ? `won the Heart of the Mountain (${lr.levels} floors)` : `fell on floor ${lr.depth}${lr.killer ? `, killed by ${lr.killer}` : ''}`}.`;
     // and one thing to go down for next (someone new has the card instead)
-    const goal = Progress.nextGoals(Progress.load(), lr ? lr.cls : '')[0], goalEl = $('#next-goal');
+    const goal = Progress.nextGoals(Progress.load(), lr ? lr.cls : '', Math.max(0, ...Game.hall().map(e => e.depth || 0)))[0], goalEl = $('#next-goal');
     goalEl.hidden = !goal || !returning();
     if (goal) goalEl.textContent = `Next: ${goal.how}, for ${goal.what}.`;
   }
@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-12-07', text: 'the hero above every level-up and the divided stair, a way back from the prologue, what beats what killed you and one goal to go down for on the end screen, Search only at a dead end, and the name you see kept' };
+  const NEWS = { id: '2026-12-14', text: 'the hero above every level-up and the divided stair, a way back from the prologue, what beats what killed you and one goal to go down for on the end screen, Search only at a dead end, and the name you see kept' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

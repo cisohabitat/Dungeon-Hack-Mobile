@@ -46,7 +46,7 @@ test('the Weekly Challenge deals the week\'s hero and vows, keeps the best try a
   await expect(page.locator('#screen-end')).toBeVisible({ timeout: 25_000 });
   await expect(page.locator('#end-share')).toHaveText('Share this week\'s best');
   await page.locator('#end-share').click();
-  await expect(page.locator('#end-share-line')).toContainText(new RegExp(`^Deepdelve weekly ${opts.weekly} \\(.+Vow.*\\): .+, fell on floor \\d+, score \\d+, best of 1 try$`));
+  await expect(page.locator('#end-share-line')).toContainText(new RegExp(`^Deepdelve weekly ${opts.weekly} \\(.+Vow.*\\): .+, fell on floor \\d+, score \\d+, best of 1 try https?:\\/\\/\\S+$`));
   await page.click('#end-title-btn');
   await expect(page.locator('#weekly-summary')).toContainText(/Best: fell on floor \d+, score \d+ \(1 try\)/);
   expect(errors).toEqual([]);

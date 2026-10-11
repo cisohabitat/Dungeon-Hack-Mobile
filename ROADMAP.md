@@ -105,8 +105,16 @@ is built on top. Each is small; together they are the grade.
 - [x] **Test gaps** (C11, C12): rules tests for Iron Snare, Tightening Cord, Red Feast and Pyre;
   `pack_and_root` and `jest` asserted; axe on the Log overlay and the confirm screen.
 
+- [x] **The second grader's findings** (`docs/REVIEW.md`, the second pass): "+1 hit points", "a Throwing
+  Knives", the Hall's lowercased goal; the first arrow waits as the first blow does; the dungeon shows
+  through the level-up, the stair and an encounter; the title tappable inside a second and a half; the
+  prologue names the hero and their class; a floor to reach as the goal before any win; the share line
+  says where to play; the logo and the daily switch whole at Double text.
+
 **Exit criteria**
-- A fresh phone grade with polish and clarity at 8.5 or more.
+- A fresh phone grade with polish and clarity at 8.5 or more. (After the first pass a second grader, with
+  the same brief, gave 7 / 7 / 6 / 7 / 8: harsher than the first on the title's dead seconds, four text
+  faults and the choices' void, all since fixed; not yet measured again.)
 - Every review finding above "wish" closed or scheduled by name below.
 
 ## Phase 7: Honest dice (1–2 weeks)
