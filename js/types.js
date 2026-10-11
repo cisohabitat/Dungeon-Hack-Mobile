@@ -43,7 +43,7 @@
  * the tales it has told, how many of those heroes won, and the last of them.
  * @typedef {Object} WickMemory
  * @property {number} met @property {number} told @property {number} won
- * @property {{name: string, cls: string, run: string, fate: ''|'won'|'fell', depth: number, killer?: string}|null} last
+ * @property {{name: string, cls: string, run: string, fate: ''|'won'|'fell'|'quenched'|'kept', depth: number, killer?: string}|null} last
  */
 
 /**
@@ -357,6 +357,7 @@
  * @property {WickMemory} [wick]  what Wick remembered when this run began: read once, so its prices and words hold through a reload
  * @property {number} [wickAt]  the floor Wick keeps its shop on this run, once that floor is made
  * @property {number} [wickMet]  the floor this run's hero met Wick on
+ * @property {'take'|'quench'|'keep'} [ending]  how a won delve ended, chosen at the Heart (ENDINGS in data.js)
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time

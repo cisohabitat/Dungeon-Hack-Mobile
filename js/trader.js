@@ -246,6 +246,8 @@ export function makeTrader(K) {
       if (l) {
         const who = `${l.name} the ${(CLASSES[l.cls] || { name: 'sun-walker' }).name}`;
         if (l.fate === 'won') log(`"The last of you was ${who}. Went down, and came up again with the Heart, they say. A sun-walker who lives is good for trade."`, 'info');
+        else if (l.fate === 'quenched') log(`"The last of you was ${who}. Put it out, they say, with the smiths' own water. The deep is colder for it, and the ones it kept lie down at last. I lit a lamp for all of them."`, 'info');
+        else if (l.fate === 'kept') log(`"The last of you was ${who}. Went down, and stayed. They keep it now, down there, and the valley is warm. I do not go so far down any more."`, 'info');
         else if (l.fate === 'fell') log(`"The last of you was ${who}. Got as far as floor ${l.depth}${l.killer ? `, and ${l.killer} the rest of the way` : ''}. I kept a lamp lit for them a while."`, 'info');
         else log(`"The last of you was ${who}. I never heard what became of them."`, 'info');
       }

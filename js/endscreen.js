@@ -1,7 +1,7 @@
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
-import { BACKGROUNDS, BOONS, CLASSES, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
+import { BACKGROUNDS, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
@@ -138,7 +138,7 @@ export function makeEndScreen(K) {
     return {
       won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
-      outcome: won ? 'Claimed the Heart' : `Fell on floor ${G.depth}`,
+      outcome: won ? (ENDINGS[G.ending || 'take'] || ENDINGS.take).hall : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level}${p.renown ? ` \u2605${p.renown}` : ''} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
       mode: mode.join(' \u00b7 '),
       seed: String(G.seed),
@@ -148,13 +148,15 @@ export function makeEndScreen(K) {
   function showEnd(won) {
     const G = Game.state(), p = G.player;
     clearOverlays();
-    $('#end-title').textContent = won ? 'VICTORY' : 'YOU HAVE DIED';
+    // each ending its own card: carried up, put out, or kept (ENDINGS)
+    const ending = ENDINGS[G.ending || 'take'] || ENDINGS.take;
+    $('#end-title').textContent = won ? ending.title : 'YOU HAVE DIED';
     // the hero's face under it, gone grey if they fell
     const face = /** @type {HTMLImageElement} */ ($('#end-face'));
     face.src = faceOf(p.cls); face.alt = `${p.name}, the ${CLASSES[p.cls].name}`; face.classList.toggle('fallen', !won);
     $('#end-text').textContent = won
       // (whatever kept the Heart in this delve: the lich, the Warlord or the Heartforged)
-      ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the ${MONSTERS[Dungeon.keeperOf(G.opts.levels || 8, G.route)].name} and lifted the Heart of the Mountain.`
+      ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the ${MONSTERS[Dungeon.keeperOf(G.opts.levels || 8, G.route)].name} and ${ending.did}.`
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
     // a first win for this class at this difficulty, and any past it opened
     const earned = won ? Game.earned() : null, news = [];

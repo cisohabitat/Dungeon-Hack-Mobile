@@ -302,6 +302,40 @@ const FEATS = {
   friend: { name: 'Friend of the Lampfolk', desc: 'Win having done three traders\' jobs in the one run, on Normal or Hard.' },
   veteran: { name: 'Old Campaigners', desc: 'Win with a companion at your side that is a veteran, on Normal or Hard.' },
   wildheart: { name: 'Wildheart', desc: 'Win as a Druid, on Normal or Hard, having taken the bear\'s shape thirty times in the run.' },
+  // the endings past the plain one (ENDINGS)
+  quenched: { name: 'The Fire Goes Out', desc: 'Put out the Heart of the Mountain with the smiths\' quench, on Normal or Hard.' },
+  kept: { name: 'The Keeper', desc: 'Stay below to keep the Heart of the Mountain, on Normal or Hard.' },
+};
+// How a won delve ends, chosen at the Heart once its keeper is down (encounters.js,
+// `heart`): carry it up, as every hero once did; put it out with the kept smith's
+// quench; or stay and keep it, as the smiths did, which the smith or the Pale One
+// teaches. Each has its own end card, Hall entry and story. The score is the same
+// for all three: an ending is the story told, never a better run.
+const ENDINGS = {
+  take: {
+    title: 'VICTORY', hall: 'Claimed the Heart', did: 'lifted the Heart of the Mountain',
+    lift: ['You lift the Heart of the Mountain. Its light pours out between your fingers, over the walls, up through the stone.',
+      'It beats against your palms like a living thing: the first fire of the old smiths, that warms whatever is near it and keeps whatever stays.'],
+    out: 'The light carries you up out of the mountain and into the day. The Heart is yours.',
+    epi: ['{name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.',
+      'The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley will be warm again, and nobody in it means to stand too close.'],
+  },
+  quench: {
+    title: 'THE FIRE GOES OUT', hall: 'Quenched the Heart', did: 'put out the Heart of the Mountain for good',
+    lift: ['You unstop the smiths\' flask and pour the black water over the Heart of the Mountain. It hisses, and fights, and beats once more against the cold.',
+      'Then it goes dark. All through the deep, the things it kept lie down at last: the first fire of the old smiths, that warmed whatever was near it and kept whatever stayed, keeps nothing now.'],
+    out: 'You climb up out of the mountain by your own lamp, and come out into a cold grey dawn.',
+    epi: ['{name} came up out of the Deepdelve with nothing in their hands, and told the valley that the Heart of the Mountain was out for good.',
+      'It was the first fire of the old smiths: it warmed whatever was near it, and kept whatever stayed. Nothing down there is kept now. The valley will have to learn the cold, and the dead of the four crews are only dead.'],
+  },
+  keep: {
+    title: 'KEPT', hall: 'Stayed to keep the Heart', did: 'stayed below to keep the Heart of the Mountain',
+    lift: ['You take up the Heart of the Mountain, and hold it, and do not let go. It asks nothing else.',
+      'Its warmth goes into you and up through the stone: the first fire of the old smiths, that warms whatever is near it and keeps whatever stays. You stay.'],
+    out: 'Far above, a thaw comes to the valley. Down here the hall is warm, and you are not tired, and you will not be.',
+    epi: ['{name} never came up out of the Deepdelve. They stayed beside the Heart of the Mountain, and hold it still.',
+      'The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley is warm again, and will be for as long as someone keeps it. Somewhere below, someone does.'],
+  },
 };
 const PATHS = {
   fighter: [
@@ -634,6 +668,8 @@ const ITEMS = {
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },
   // a job's satchel, lost by one of the Lampfolk: carried back to be paid for, never sold
   satchel: { kind: 'quest', name: 'Lampfolk Satchel', value: 0, sprite: 'satchel', desc: 'Lost by one of the Lampfolk. The next trader you meet will pay for its return.' },
+  // the kept smith's gift (encounters.js): black water that puts the Heart out for good, never sold
+  quench: { kind: 'quest', name: 'Smiths\' Quench', value: 0, sprite: 'quench', desc: 'A stone flask of black water, cold as the deep. Poured on the Heart of the Mountain, it puts the fire out for good.' },
   // Charms for a companion to wear, one at a time: given from the pack, they go with it.
   charm_collar: { kind: 'charm', name: 'Iron-Studded Collar', value: 40, sprite: 'charm_collar', charm: 'collar', desc: 'For your companion to wear: blows find it harder to land (+3 armour).' },
   charm_fang:   { kind: 'charm', name: 'Fang Charm',          value: 40, sprite: 'charm_fang',   charm: 'fang',   desc: 'For your companion to wear: its every blow deals 2 more.' },
@@ -1165,4 +1201,4 @@ const WICK = {
   done: 'I have told you all I know, sun-walker. The rest of it is down there.',
 };
 
-export { WALL_PROPS, WICK, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };
+export { WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };

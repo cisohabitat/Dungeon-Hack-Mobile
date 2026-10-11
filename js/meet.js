@@ -61,6 +61,9 @@ export function makeEncounters(K) {
       if (ch.alone && c && !c.fallen) blocked = `${c.name} is with you: there is no room for another.`;
       // and none at all for one sworn to go alone, rather than taking their price and then refusing them
       if (K.vowed('alone') && JSON.stringify(ch).includes('"companion":')) blocked = 'You swore to go alone.';
+      // an ending at the Heart is open to one who carries the means (the kept smith's quench, or his way, or the Pale One's)
+      if (ch.need === 'quench' && !p.inv.some(it => it.t === 'quench')) blocked = 'You carry nothing that could put it out.';
+      if (ch.need === 'keep' && !(K.threads().smithway || K.threads().bargain)) blocked = 'You do not know how it is kept.';
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, K.G.depth), bonus = knack(ch.check);
@@ -172,6 +175,8 @@ export function makeEncounters(K) {
       if (e.uncurse && K.breakCurses()) out.push('Curse broken');
       // (a caster's spell points follow the score at once, not only at the next load)
       if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; K.refreshSp(p); out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${K.STAT_WORD[e.stat[0]]}`); }
+      // the Heart's choice made: the delve ends as chosen (chronicle.js)
+      if (e.ending) K.claimHeart(e.ending);
       if (e.ambush) {
         // what answers is the floor's own kind of danger: above where wraiths
         // walk, the thing that comes out of the dark is a lesser dead one

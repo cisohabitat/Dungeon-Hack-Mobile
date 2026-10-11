@@ -1,7 +1,7 @@
 // Props for encounters (see encounters.js): things you walk up to, drawn with
 // the same painter so they sit in the same light as the creatures.
 import { CREATURES } from './creatures.js';
-import { ball, both64, hair, limb, line, oval, scragHead, sheet, specks } from './parts.js';
+import { ball, both64, dwarfHead, dwarfKit, hair, limb, line, oval, scragHead, sheet, specks } from './parts.js';
 
 const PROPS = {
   // the dark elves' altar: a black block under a canopy of webs, a spider of
@@ -706,6 +706,47 @@ const PROPS = {
       specks([[30, 62], [44, 62.5], [56, 62]], '#3a3e44'),
     ];
   },
+  // one of the old smiths who stayed by the Heart: a dwarf sat on a block at a
+  // small cold anvil, his hammer raised and never coming down, so still that dust
+  // lies on his head and shoulders and along the raised arm; his beard gone white
+  kept_smith: () => {
+    const k = { ...dwarfKit(), beard: '#c8c4bc', beardDk: '#8e8a84', beardLt: '#e4e0d8', skin: '#8e8c88', skinLt: '#b0aeaa', eye: '#e0a050' };
+    const dust = '#bcb6a8', iron = '#5a5e66', hi = '#7a7e88', apron = '#5a3e2a';
+    return [
+      // the block he sits on
+      sheet([[8, 46], [30, 46], [31, 61], [7, 61]], '#4a4440', { curve: 0.4 }), hair(8, 50, 30, 50, '#3a3430'),
+      // the anvil before him, small and cold, the blade on it half made
+      sheet([[42, 52], [56, 52], [59, 61], [39, 61]], iron, { curve: 0.6 }), sheet([[45, 45], [53, 45], [52, 53], [46, 53]], '#4a4e56'),
+      sheet([[36, 39], [60, 39], [62, 42], [59, 46], [39, 46]], hi, { curve: 0.7 }), limb(37, 40, 31, 42, 2, 0.6, hi),
+      line(38, 38, 58, 37, '#9a9ea8', { lit: 1 }), hair(39, 37.5, 57, 36.6, '#c8ccd4'),
+      // his legs bent at the knee, boots on the floor
+      ...[0, 1].flatMap(i => [limb(18 + i * 6, 47, 30 + i * 4, 48, 3.6, 3.2, '#3a3a3e'), limb(30 + i * 4, 48, 30 + i * 4, 59, 3.2, 2.8, '#3a3a3e'), ball(32 + i * 4, 61, 4, 1.6, '#22201e')]),
+      // the body in a leather apron over a mail shirt
+      sheet([[11, 26], [33, 26], [34, 48], [10, 48]], '#3c3e44', { curve: 1 }), sheet([[14, 29], [30, 29], [31, 48], [13, 48]], apron, { curve: 0.8 }),
+      ...[34, 39, 44].map(y => hair(14, y, 30, y, '#3e2a1c')),
+      // the near arm resting on his knee
+      limb(13, 29, 16, 40, 3, 2.6, '#3c3e44'), ball(19, 43, 2.6, 2.3, k.skin),
+      // the far arm raised, the hammer held up over the anvil and never brought down
+      limb(30, 28, 36, 20, 2.8, 2.4, '#3c3e44'), ball(37.5, 18, 2.4, 2.2, k.skin),
+      limb(37, 19, 41, 8, 0.9, 0.9, '#5a4030'), sheet([[37, 5], [46, 5], [46, 10], [37, 10]], iron, { curve: 0.3 }), hair(37.5, 5.6, 45.5, 5.6, hi),
+      // the head bowed a little, beard to his belt
+      ...dwarfHead(21, 18, k, { grim: true }),
+      // and the dust: on his crown, his shoulders, along the raised arm and the hammer
+      specks([[17, 11], [21, 10.5], [25, 11.5], [12, 25.5], [15, 25], [30, 25], [33, 23], [35, 20.5], [38, 15], [40, 9], [43, 4.6], [27, 26]], dust),
+      specks([[19, 10.6], [23, 10.8], [32, 27], [36, 22]], '#d8d2c4'),
+      specks([[8, 62], [20, 62.5], [46, 62.5], [56, 62]], '#3a3632'),
+    ];
+  },
+  // the Heart of the Mountain on its dais, its keeper down: a knot of red fire
+  // the size of two fists, beating, its light spilling down the steps
+  heart_dais: () => [
+    sheet([[6, 50], [58, 50], [62, 61], [2, 61]], '#3e3836', { curve: 0.4 }), sheet([[14, 42], [50, 42], [54, 50], [10, 50]], '#4a4442', { curve: 0.4 }),
+    hair(4, 55, 60, 55, '#2e2a28'), hair(12, 46, 52, 46, '#3a3432'),
+    ball(32, 41, 20, 4, '#7a2a1a', { glows: true }), ball(32, 41.5, 12, 2.4, '#c8461e', { glows: true }),
+    ball(32, 28, 12, 12.5, '#8a1c14'), ball(32, 28, 10, 10.6, '#c83a1e', { glows: true }), ball(30, 25, 6, 6, '#f07a32', { glows: true }),
+    ball(29, 23, 2.6, 2.4, '#ffd6a0', { glows: true }), hair(24, 30, 30, 36, '#6a140e'), hair(38, 22, 40, 32, '#6a140e'),
+    specks([[18, 18], [46, 16], [14, 30], [50, 33], [24, 10], [40, 9]], '#f0a050'), specks([[20, 57], [44, 58], [32, 53]], '#5a2a1e'),
+  ],
   // black water in a stone basin, perfectly still, something pale on the bottom
   pool: () => [
     ball(32, 52, 26, 10, '#5a564e'), ball(32, 51, 24, 8.6, '#6a665e'),

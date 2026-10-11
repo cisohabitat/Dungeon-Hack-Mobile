@@ -58,7 +58,7 @@ function cleanWick(v) {
   out.met = n(v.met); out.told = Math.min(WICK.tales.length, n(v.told)); out.won = Math.min(out.met, n(v.won));
   const l = v.last;
   if (l && typeof l === 'object' && CLASSES[l.cls] && typeof l.name === 'string' && l.name.trim()) {
-    out.last = { name: l.name.trim().slice(0, 24), cls: l.cls, run: String(l.run || '').slice(0, 80), fate: ['won', 'fell'].includes(l.fate) ? l.fate : '',
+    out.last = { name: l.name.trim().slice(0, 24), cls: l.cls, run: String(l.run || '').slice(0, 80), fate: ['won', 'fell', 'quenched', 'kept'].includes(l.fate) ? l.fate : '',
       depth: Math.min(16, n(l.depth)), ...(typeof l.killer === 'string' && l.killer ? { killer: l.killer.slice(0, 40) } : {}) };
   }
   return out;
@@ -155,7 +155,7 @@ function unlocks(v = load()) {
 /**
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
- * @param {{path?: string, vows?: string[], rung?: number, levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number}} [how]
+ * @param {{path?: string, vows?: string[], rung?: number, levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number, ending?: string}} [how]
  * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, mastered: boolean, firstVows: string[], firstFeats: string[], vowsOpened: boolean, rungOpened: number}}
  */
 const WILDHEART = 30;
@@ -178,7 +178,8 @@ function recordWin(cls, difficulty, how = {}) {
   for (const id of kept) v.vows[id] = (v.vows[id] || 0) + 1;
   // feats: what kind of win this was
   const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : []), ...(how.route && FEATS[how.route] ? [how.route] : []),
-    ...((how.jobs || 0) >= 3 ? ['friend'] : []), ...(how.veteran ? ['veteran'] : []), ...(cls === 'druid' && (how.shapes || 0) >= WILDHEART ? ['wildheart'] : [])];
+    ...((how.jobs || 0) >= 3 ? ['friend'] : []), ...(how.veteran ? ['veteran'] : []), ...(cls === 'druid' && (how.shapes || 0) >= WILDHEART ? ['wildheart'] : []),
+    ...(how.ending === 'quench' ? ['quenched'] : how.ending === 'keep' ? ['kept'] : [])];
   const firstFeats = feats.filter(id => !v.feats[id]);
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
   // a win on a rung of the ladder (Hard only) opens the next
@@ -244,11 +245,13 @@ function metWick(h) {
  * @param {boolean} won
  * @param {number} depth
  * @param {string} [killer]
+ * @param {string} [ending]  how a won delve ended (ENDINGS)
  */
-function wickHears(run, won, depth, killer = '') {
+function wickHears(run, won, depth, killer = '', ending = '') {
   const v = load(), l = v.wick.last;
   if (!l || l.run !== run || l.fate) return;
-  l.fate = won ? 'won' : 'fell';
+  // (a hero who put the Heart out, or stayed to keep it, is heard of as that)
+  l.fate = !won ? 'fell' : ending === 'quench' ? 'quenched' : ending === 'keep' ? 'kept' : 'won';
   l.depth = depth;
   if (killer && !won) l.killer = killer.slice(0, 40);
   if (won) v.wick.won = Math.min(v.wick.met, v.wick.won + 1);

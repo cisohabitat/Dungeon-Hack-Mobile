@@ -771,11 +771,12 @@ await test('every encounter offers a free, safe way out, and every effect is one
   // if there is always a choice that costs and risks nothing.
   const { ENCOUNTERS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'encounters.js')).href);
   const { MONSTERS, ITEMS } = await import(require('url').pathToFileURL(require('path').join(__dirname, '..', 'js', 'data.js')).href);
-  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps', 'goldBack', 'hone']);
+  const known = new Set(['map', 'xp', 'goldPerDepth', 'hurt', 'hurtFrac', 'heal', 'maxHp', 'food', 'loot', 'item', 'buff', 'poison', 'cure', 'uncurse', 'wake', 'identifyAll', 'ambush', 'stat', 'thread', 'companion', 'traps', 'goldBack', 'hone', 'ending']);
   const stats = new Set(['str', 'dex', 'con', 'int', 'wis', 'cha']);
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
     const last = e.choices[e.choices.length - 1];
-    if (last.check || last.cost || !last.outcome || last.outcome.effects.length) return `${id}: the last choice is not a free way out`;
+    // (the Heart's choice ends the run whichever is taken: walking away from it is its way out)
+    if (!e.heart && (last.check || last.cost || !last.outcome || last.outcome.effects.length)) return `${id}: the last choice is not a free way out`;
     for (const ch of e.choices) {
       if (ch.check && !stats.has(ch.check.stat)) return `${id}: "${ch.label}" checks unknown stat ${ch.check.stat}`;
       if (!ch.check && !ch.outcome) return `${id}: "${ch.label}" has neither a check nor an outcome`;
@@ -842,7 +843,8 @@ await test('the whole run meets each encounter at most once, deepest floor excep
     // about one a floor; a very long run can pass by the four that belong
     // only on the upper floors, once it is below them
     // (the starving hound is placed on the second floor besides, not dealt)
-    const dealt = all.filter(e => !ENCOUNTERS[e].early);
+    // (nor the kept smith, placed on the floor before the last, not dealt)
+    const dealt = all.filter(e => !ENCOUNTERS[e].early && !ENCOUNTERS[e].fixed);
     const want = Math.min(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early).length, Math.round((levels - 1) * 1.15));
     if (dealt.length < want - (levels >= 12 ? 4 : 1) || dealt.length > want) return `a ${levels}-floor run met ${dealt.length} encounters, about ${want} expected`;
   }
@@ -892,7 +894,7 @@ await test('across runs every encounter turns up, and no two runs meet the same 
     sets.add(all.slice().sort().join(','));
   }
   // (a road's own encounter is placed by the road, and a people's by their floor, not dealt)
-  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route && !ENCOUNTERS[e].home);
+  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route && !ENCOUNTERS[e].home && !ENCOUNTERS[e].heart);
   if (missing.length) return `never met in 80 runs: ${missing.join(', ')}`;
   return sets.size >= 70 || `80 runs met only ${sets.size} different handfuls`;
 });
@@ -6711,6 +6713,9 @@ function winHere(Game) {
   const heart = { t: 'artifact', q: 1, e: 0 };
   (L.items[k] = L.items[k] || []).push(heart);
   Game.takeItem(heart);
+  // a hero with another ending open to them is asked: these checks carry it up
+  const cur = Game.currentEncounter && Game.currentEncounter();
+  if (cur && cur.def.heart) Game.chooseEncounter(cur.def.choices.length - 1);
   return Game.state().status === 'won';
 }
 const progressOf = ctx => JSON.parse(ctx.store.get('deepdelve.progress') || 'null');
@@ -9314,6 +9319,8 @@ await test('every choice of every encounter can be taken, passed and failed, and
   const { Game } = ctx; const p = Game.player();
   const seen = new Set();
   for (const [id, e] of Object.entries(ENCOUNTERS)) {
+    // (the Heart's choice ends the run: rules-endings.js takes each of its choices)
+    if (e.heart) continue;
     for (let i = 0; i < e.choices.length; i++) {
       // a strong hero and a hopeless one by turns, until both sides of a check
       // have come up (a hopeless hero still passes one time in four or five)
@@ -15326,6 +15333,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-wick.js')({ test, newContext, winHere, fallTo, downTo, evenStats });
   // the story's spine: the crews' pages in three acts (rules-pages.js)
   await require('./rules-pages.js')({ test, newContext, winHere, evenStats, OPTS });
+  // the three endings (rules-endings.js)
+  await require('./rules-endings.js')({ test, newContext, evenStats, OPTS, meetAndChoose });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

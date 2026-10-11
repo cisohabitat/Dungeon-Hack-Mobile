@@ -567,8 +567,11 @@ export function makeItems(K) {
     else if (it.t === 'artifact') {
       // the lich's cold holds the Heart fast: the last fight cannot be walked round
       if (keeper()) { heartHeld(true); Sound.play('error'); return; }
-      list.splice(i, 1);
-      claimHeart();
+      // a hero with another way to end it is asked, and the Heart lies where it is
+      // until they choose (walk away from the choice, and it is still there)
+      const t = K.G.threads || {};
+      if (P().inv.some(x => x.t === 'quench') || t.smithway || t.bargain) { K.openEncounter({ id: 'heart', kind: 'encounter', x: p.x, y: p.y }); return; }
+      claimHeart('take');
     }
     else if (it.t === 'page') {
       list.splice(i, 1);

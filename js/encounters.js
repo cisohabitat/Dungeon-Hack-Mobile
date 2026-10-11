@@ -376,6 +376,30 @@ const ENCOUNTERS = {
     ],
   },
 
+  // One of the old smiths who stayed by the Heart, kept, on the floor before the
+  // last (encounterPlan): what he gives decides which endings a hero may choose
+  // at the Heart (ENDINGS in data.js). One thing only: the quench, or the way.
+  smith: {
+    title: 'The Kept Smith', sprite: 'kept_smith', depth: [1, 99], fixed: true,
+    text: 'An old dwarf sits at a cold anvil with his hammer raised, so still that dust lies along his arm. Only his eyes move. "One of the smiths who stayed," he says, his lips barely moving. "We lit it to be warm, and stayed to be warm, and here I am. You are going down to it. I have two things to give, sun-walker, and you may carry only one."',
+    choices: [
+      { label: 'Take the quench', outcome: { text: 'He opens his other hand, slowly, as if it has been shut a long time: a stone flask of black water, cold as the deep. "Pour it on the fire and it goes out, for good. Everything it keeps will lie down at last, me with it. The valley will have to find its own warmth."', effects: [{ item: { t: 'quench' } }] } },
+      { label: 'Ask how the smiths stayed', outcome: { text: '"You hold it," he says, "and you do not let go. It asks nothing else. Hold it, and it keeps the valley warm for as long as you keep it." He looks at the dust on his hands. "As long as that."', effects: [{ thread: 'smithway' }] } },
+      { label: 'Leave him at his anvil', outcome: { text: 'You go on. Behind you, very slowly, the hammer begins to come down.', effects: [] } },
+    ],
+  },
+  // The Heart itself, once its keeper is down, for a hero with more than one way
+  // to end it (items.js opens it; never dealt). Carrying it up is always last.
+  heart: {
+    title: 'The Heart of the Mountain', sprite: 'heart_dais', depth: [1, 99], fixed: true, heart: true,
+    text: 'The Heart of the Mountain lies before you, beating slow and red, warm as a living thing. Its keeper is down. What you do now is the whole of the delve.',
+    choices: [
+      { label: 'Put it out with the smiths\' quench', need: 'quench', outcome: { text: 'You choose the cold.', effects: [{ ending: 'quench' }] } },
+      { label: 'Stay, and keep it', need: 'keep', outcome: { text: 'You choose to stay.', effects: [{ ending: 'keep' }] } },
+      { label: 'Lift it and carry it up', outcome: { text: 'You choose the day.', effects: [{ ending: 'take' }] } },
+    ],
+  },
+
   laststand: {
     title: 'The Third Crew\'s Last Stand', sprite: 'barricade', depth: [3, 99],
     text: 'A wall of shields across the passage, and behind it the third crew, where they fell holding it. Their banner is still up. Whatever they held this line against, it did not come through.',
@@ -745,7 +769,7 @@ function encounterDc(check, depth) { return check.dc + Math.floor((depth - 1) / 
 function encounterPlan(seed, levels, tierAt = d => d, scale = 1) {
   const rng = new Rng(String(seed) + '|encounters');
   // the last floor's own is kept out of the deck, so the deck deals as it always has
-  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early && !ENCOUNTERS[k].home));
+  const deck = rng.shuffle(Object.keys(ENCOUNTERS).filter(k => !ENCOUNTERS[k].final && !ENCOUNTERS[k].route && !ENCOUNTERS[k].early && !ENCOUNTERS[k].home && !ENCOUNTERS[k].fixed));
   const used = new Set();
   const plan = [];
   const floors = Math.max(1, levels - 1);
@@ -770,6 +794,9 @@ function encounterPlan(seed, levels, tierAt = d => d, scale = 1) {
   // the runs without it keep a caged goblin halfway down instead (one companion a run)
   if (levels >= 3 && new Rng(String(seed) + '|stray').next() < 2 / 3) plan[2].push('stray');
   else if (levels >= 5) plan[Math.min(levels - 1, Math.max(3, Math.round(levels / 2)))].push('caged');
+  // the kept smith, on the floor before the last of any delve of four floors or more
+  // (placed after the deck has dealt, so its draws fall as they did)
+  if (levels >= 4) plan[levels - 1].push('smith');
   return plan;
 }
 

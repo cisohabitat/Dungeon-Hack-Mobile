@@ -84,6 +84,8 @@ function runEnded(G) {
     combos: Object.keys(G.combos || {}), legend: ((G.relics && G.relics.found) || []).find(id => LEGENDS.includes(id)) || '',
     // the crews' pages found of those the delve held: did the story get read
     pages: (G.journal || []).length, pagesOf: (G.opts && G.opts.levels) || 8,
+    // and how a won delve ended: carried up, put out, or kept
+    ending: G.status === 'won' ? G.ending || 'take' : '',
   });
 }
 

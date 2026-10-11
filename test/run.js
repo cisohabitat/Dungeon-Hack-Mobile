@@ -742,7 +742,7 @@ check(traders > 0, 'no traders generated at all');
       t.locks += Object.keys(L.locks).length;
       t.traps += Object.keys(L.traps).length;
       t.secrets += L.tiles.filter(x => x === T.SECRET).length;
-      t.encounters += (L.npcs || []).filter(n => n.kind === 'encounter' && !['vigil', 'stray', 'caged'].includes(n.id)).length;
+      t.encounters += (L.npcs || []).filter(n => n.kind === 'encounter' && !['vigil', 'stray', 'caged', 'smith'].includes(n.id)).length;
       // loops: links between rooms (each room one node) less what a tree would need
       // (what can be walked to from the way in: a hidden room's nine squares would count as loops of their own)
       const reached = new Uint8Array(L.w * L.h), q = [L.start.y * L.w + L.start.x];

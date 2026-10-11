@@ -1658,6 +1658,7 @@ const Game = (() => {
   });
   // ---------- encounters: see meet.js ----------
   const encs = makeEncounters({
+    get claimHeart() { return claimHeart; },
     get vowed() { return vowed; }, get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
     get fx() { return fx; }, get realNow() { return realNow; }, get companion() { return companion; },
     get STAT_WORD() { return STAT_WORD; }, get THREAD_SAID() { return THREAD_SAID; }, get threads() { return threads; },
@@ -1691,7 +1692,7 @@ const Game = (() => {
 
   // ---------- chronicle: see chronicle.js ----------
   const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle({
-    get rung() { return rung; },
+    get rung() { return rung; }, get lvl() { return lvl; },
     get G() { return G; }, get HALL_KEY() { return HALL_KEY; }, get LAST_KEY() { return LAST_KEY; }, get P() { return P; },
     get SAVE_KEY() { return SAVE_KEY; }, get cap() { return cap; }, get castingName() { return castingName; }, get companion() { return companion; },
     get emit() { return emit; }, get fx() { return fx; }, get isQuick() { return isQuick; }, get itemName() { return itemName; },
@@ -1784,7 +1785,7 @@ const Game = (() => {
 
   // ---------- items: see items.js ----------
   const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems({
-    get climbed() { return climbed; },
+    get openEncounter() { return encs.openEncounter; }, get climbed() { return climbed; },
     get COATINGS() { return COATINGS; }, get COAT_BLOWS() { return COAT_BLOWS; }, get COAT_GLOW() { return COAT_GLOW; }, get DIRS() { return DIRS; },
     get G() { return G; }, get INV_MAX() { return INV_MAX; }, get P() { return P; }, get READ_MS() { return READ_MS; },
     get SCROLL_GLOW() { return SCROLL_GLOW; }, get T() { return T; }, get blocked() { return blocked; }, get boltEnd() { return boltEnd; },

@@ -696,6 +696,15 @@ const ITEM_ART = {
     fine([[9, 23], [10, 26], [22, 24]], '#a8784a'),
   ],
 
+  // the smiths' quench: a squat stone flask, stoppered with wax, cold beading on it
+  quench: () => [
+    sheet([[10, 12], [22, 12], [25, 18], [25, 27], [22, 29.5], [10, 29.5], [7, 27], [7, 18]], '#5e5a56', { curve: 0.8 }),
+    sheet([[10, 12], [13, 12], [10, 28.5], [8, 27]], '#76726c', { curve: 0.4 }),
+    sheet([[12.5, 6], [19.5, 6], [20, 12.5], [12, 12.5]], '#4a4642', { curve: 0.5 }), ball(16, 5.4, 4, 1.8, '#8a2a1e'), fine([[14.6, 4.8]], '#c8584a'),
+    limb(8, 19, 24, 19, 0.6, 0.6, '#3e3a36'), ball(16, 23, 3.6, 2.6, '#1a1e26'), fine([[15, 22.4]], '#6a7a8a'),
+    fine([[11, 15], [21, 16], [23, 24], [9, 25], [18, 27]], '#a8c0d0'),
+  ],
+
   // ---- charms, for a companion ----
   charm_collar: () => jewelRing('#6a4424', '#3e2614', null, '#a8784a',
     (cx, cy, rx, ry) => [

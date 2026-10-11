@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ITEMS, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
+import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -31,11 +31,22 @@ export function makeChronicle(K) {
   // through the stone and carries the hero out with it: the view floods gold
   // for a moment before the victory screen, so the ending is seen, not just read.
   const FINALE_MS = 2600;
-  function claimHeart() {
-    P().inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
-    log('You lift the Heart of the Mountain. Its light pours out between your fingers, over the walls, up through the stone.', 'good');
+  /**
+   * The delve ends as the hero chose at the Heart (ENDINGS in data.js): carried
+   * up, put out with the smiths' quench, or kept. The Heart comes off the floor
+   * wherever it lies (asked, the hero left it lying until they chose).
+   * @param {string} [ending]
+   */
+  function claimHeart(ending = 'take') {
+    const how = ENDINGS[ending] ? ending : 'take', p = P(), L = K.lvl();
+    K.G.ending = how;
+    for (const k in L.items) { const j = L.items[k].findIndex(it => it.t === 'artifact'); if (j >= 0) L.items[k].splice(j, 1); }
+    // carried, or held; or the quench poured out over it, and both gone
+    if (how === 'quench') { const q = p.inv.findIndex(it => it.t === 'quench'); if (q >= 0) p.inv.splice(q, 1); }
+    else p.inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
     // and here, once, what it is, plainly: the journal's last act tells it, but not every hero reads
-    log('It beats against your palms like a living thing: the first fire of the old smiths, that warms whatever is near it and keeps whatever stays.', 'info');
+    log(ENDINGS[how].lift[0], 'good');
+    log(ENDINGS[how].lift[1], 'info');
     fx.heartAt = K.realNow;
     fx.shakeAmp = 3; fx.shakeMs = 1600; fx.shakeUntil = K.realNow + 1600;
     Sound.play('heart');
@@ -43,7 +54,7 @@ export function makeChronicle(K) {
   }
   function win() {
     K.G.status = 'won';
-    log('The light carries you up out of the mountain and into the day. The Heart is yours.', 'good');
+    log(ENDINGS[K.G.ending || 'take'].out, 'good');
     Sound.play('win');
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
     if (K.G.opts.permadeath) noteRun(runKey(), 'ended');
@@ -107,8 +118,8 @@ export function makeChronicle(K) {
     const read = K.G.journal ? K.G.journal.length : 0;
     const lines = [];
     if (won) {
-      lines.push(`${p.name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.`);
-      lines.push('The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley will be warm again, and nobody in it means to stand too close.');
+      // how it ended, and what the Heart was (the same words whichever way it went)
+      for (const line of ENDINGS[K.G.ending || 'take'].epi) lines.push(line.replace('{name}', p.name));
       lines.push(bg.epi);
       if (K.G.route && ROUTES[K.G.route]) lines.push(ROUTES[K.G.route].epi);   // the road taken at the divided stair
       const total = pagesInDungeon();
@@ -153,12 +164,12 @@ export function makeChronicle(K) {
     if (K.G.tested) { K.G.earned = won ? { tested: true } : null; return; }
     try { localStorage.setItem(LAST_KEY, JSON.stringify({ name: p.name, cls: p.cls, depth: K.G.depth, levels: K.G.opts.levels || 8, won, killer: won ? '' : killerPhrase(), date: Date.now() })); } catch (e) { /* private browsing */ }
     // Wick hears how it went for the hero it last met, and will say so to the next
-    Progress.wickHears(runKey(), won, K.G.depth, won ? '' : killerPhrase());
+    Progress.wickHears(runKey(), won, K.G.depth, won ? '' : killerPhrase(), won ? K.G.ending || 'take' : '');
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     // (a quick delve's win goes in the Hall, but earns no trophy: those wait for four floors or more)
     if (won && K.G.opts.permadeath && !isQuick()) K.G.earned = Progress.recordWin(p.cls, K.G.opts.difficulty || 'normal', { path: p.path, vows: K.G.opts.vows, rung: K.rung(), levels: K.G.opts.levels, route: K.G.route,
-      jobs: (K.G.stats && K.G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (K.G.stats && K.G.stats.shapes) || 0 });
+      jobs: (K.G.stats && K.G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (K.G.stats && K.G.stats.shapes) || 0, ending: K.G.ending || 'take' });
     else if (won) K.G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, renown: p.renown || 0, depth: K.G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: K.G.seed, date: Date.now(), score: score(p, K.G.depth, won),
@@ -175,6 +186,7 @@ export function makeChronicle(K) {
     // replaces the one before.
     entry.run = runKey();
     if (K.G.rested) entry.rested = K.G.rested;   // an earlier hero's shade laid to rest
+    if (won) entry.ending = K.G.ending || 'take';   // how the delve ended: carried up, quenched or kept
     try {
       const list = hall().filter(h => h.run !== entry.run);
       list.push(entry);

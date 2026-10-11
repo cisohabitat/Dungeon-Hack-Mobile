@@ -244,6 +244,32 @@ test.describe('the endgame', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a hero carrying the smiths\' quench is asked at the Heart, and the end card tells the fire going out', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'end-quench', levels: '4' });
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(); L.monsters.length = 0;
+      p.inv.push({ t: 'quench', q: 1, e: 0 });
+      const k = p.x + ',' + p.y; (L.items[k] = L.items[k] || []).push({ t: 'artifact', q: 1, e: 0 });
+      Game.takeItem(L.items[k].find(i => i.t === 'artifact'));
+    });
+    // the choice, its options and why the third is shut
+    await expect(page.locator('#ov-encounter')).toHaveClass(/open/);
+    await expect(page.locator('#enc-title')).toHaveText('The Heart of the Mountain');
+    const choices = page.locator('.enc-choice');
+    await expect(choices).toHaveCount(3);
+    await expect(choices.nth(1)).toBeDisabled();
+    await expect(choices.nth(1)).toContainText('You do not know how it is kept');
+    await page.waitForTimeout(700);
+    await choices.nth(0).click();
+    await expect(page.locator('#end-title')).toHaveText('THE FIRE GOES OUT', { timeout: 8000 });
+    await expect(page.locator('#end-text')).toContainText('put out the Heart of the Mountain for good');
+    await expect(page.locator('#end-epilogue p').first()).toContainText(/Heart of the Mountain was out for good/);
+    const hall = await page.evaluate(() => Game.hall()[0]);
+    expect(hall.ending).toBe('quench');
+    expect(errors).toEqual([]);
+  });
+
   test('quitting while the light rises leaves the victory behind with its run', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'end-quit', levels: '4' });

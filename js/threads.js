@@ -34,6 +34,8 @@ export function makeThreads(K) {
     fed: 'They will not forget a meal.',
     delverShade: 'They will not forget this either.',
     egg: 'Somewhere far off, something will come looking.',
+    // the kept smith's way (encounters.js): an ending to choose at the Heart
+    smithway: 'You know now how the Heart is kept, if you would keep it.',
   };
   /** The Pale One's strength, for the rest of the run. */
   const bargained = () => (K.G && K.G.threads && K.G.threads.bargain ? 1 : 0);
@@ -178,6 +180,8 @@ export function makeThreads(K) {
     two('fed', 'The last delver left you a meal for the one you shared.', 'You shared a meal with the last delver.');
     two('delverShade', 'The last delver came for what you took.', 'You robbed the last delver.');
     two('egg', 'The wyrm whose egg you smashed came after you.', 'You smashed a wyrm\'s egg.');
+    if (t.smithway) out.push('The kept smith told you how the Heart is kept: you may stay with it, at the end.');
+    if (P().inv.some(it => it.t === 'quench')) out.push('You carry the smiths\' quench: at the end, it can put the Heart out for good.');
     if (t.mule) out.push(t.muleDone ? 'A trader knew the lost mule you led on, and paid you for it.' : 'You led a lost mule on: the next trader below will know whose it is.');
     { const n = K.companion.note(); if (n) out.push(n); }
     return out;
