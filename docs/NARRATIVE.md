@@ -1092,6 +1092,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 
 ## First-moment tips (tips.js)
 
+- *pad*: A controller: the stick or d-pad steps and turns, **LB**/**RB** step aside, **A** attacks, **X** uses, **Y** casts, **B** takes what is underfoot, **LT** drinks. **View** reaches the bottom row; **Menu** pauses.
 - *controls*: Move with the arrows, or swipe the view. **⚔ Attack** strikes what is in front of you; **✋ Use** does whatever it says.
 - *face*: Something is coming, and not from in front. **Turn to face it**: the red chevron at the edge of the view points the way.
 - *monster*: Something is coming. When it is in front of you, tap **⚔ Attack** to strike it.

@@ -148,4 +148,44 @@ async function artReady(page) {
   await page.waitForFunction(() => Assets.painting() === 0, null, { timeout: 60_000, polling: 200 });
 }
 
-module.exports = { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, expect };
+// A controller the page believes is plugged in: the Gamepad API's standard
+// layout, its buttons pressed and its sticks pushed by the test. Playwright
+// cannot make a real one, and the game reads whatever navigator.getGamepads
+// gives it once a frame (pad.js).
+const PAD = { A: 0, B: 1, X: 2, Y: 3, LB: 4, RB: 5, LT: 6, RT: 7, VIEW: 8, MENU: 9, LS: 10, RS: 11, UP: 12, DOWN: 13, LEFT: 14, RIGHT: 15 };
+/** Plug the test's controller in, before the page loads. */
+async function usePad(page) {
+  await page.addInitScript(() => {
+    const pad = { id: 'test pad (standard)', index: 0, connected: true, mapping: 'standard', timestamp: 0, axes: [0, 0, 0, 0],
+      buttons: Array.from({ length: 17 }, () => ({ pressed: false, touched: false, value: 0 })) };
+    /** @type {any} */ (window).__pad = pad;
+    Object.defineProperty(navigator, 'getGamepads', { configurable: true, value: () => [pad, null, null, null] });
+    window.addEventListener('load', () => window.dispatchEvent(new Event('gamepadconnected')));
+  });
+}
+/**
+ * Press a button for exactly one frame of the game's own, then let it go, and
+ * wait ms for what it did. The game reads the pad in its frame (main.js polls
+ * before anything else), and a frame callback asked for between frames runs
+ * after it in the next one: so the press is seen once, and never long enough
+ * to count as held (a held direction repeats, as it should for a player).
+ * Letting go from the test's side instead came late under load: a press
+ * counted two or three times.
+ */
+async function padPress(page, button, ms = 90) {
+  await page.evaluate(i => new Promise(done => {
+    const b = window.__pad.buttons[i]; b.pressed = true; b.value = 1;
+    requestAnimationFrame(() => { b.pressed = false; b.value = 0; done(); });
+  }), PAD[button]);
+  await page.waitForTimeout(ms);
+}
+/** Push the left stick (x, y from -1 to 1) for one frame, as padPress, then let it spring back. */
+async function padStick(page, x, y, ms = 90) {
+  await page.evaluate(([ax, ay]) => new Promise(done => {
+    window.__pad.axes[0] = ax; window.__pad.axes[1] = ay;
+    requestAnimationFrame(() => { window.__pad.axes[0] = 0; window.__pad.axes[1] = 0; done(); });
+  }), [x, y]);
+  await page.waitForTimeout(ms);
+}
+
+module.exports = { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, usePad, padPress, padStick, PAD, expect };

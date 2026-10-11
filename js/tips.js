@@ -10,6 +10,8 @@
  */
 export function makeTips({ asideWay, canStep }) {
   return {
+    // the first press of a controller in the dungeon: what each part of it does
+    pad: 'A controller: the stick or d-pad steps and turns, <b>LB</b>/<b>RB</b> step aside, <b>A</b> attacks, <b>X</b> uses, <b>Y</b> casts, <b>B</b> takes what is underfoot, <b>LT</b> drinks. <b>View</b> reaches the bottom row; <b>Menu</b> pauses.',
     controls: 'Move with the arrows, or swipe the view. <b>⚔ Attack</b> strikes what is in front of you; <b>✋ Use</b> does whatever it says.',
     // the first fight is walked through a step at a time: face it, strike it,
     // step back from its blow (with time slowed while that is learnt)

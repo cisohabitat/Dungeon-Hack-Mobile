@@ -44,6 +44,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`),
   the spell list and hero sheet (`js/herosheet.js`) and the end of a run (`js/endscreen.js`).
   The first-moment tips' words are in `js/tips.js` (`makeTips`, lent two of the view's helpers).
+  A controller is read in `js/pad.js` (`makePad`, polled once a frame from `main.js`): in play it
+  presses what the keys press; elsewhere it moves a focus ring by where the buttons sit. A new
+  screen or overlay needs nothing more than real `<button>`s (the browser tests drive a stub pad:
+  `usePad`, `padPress` in `helpers.js`).
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
   over it are in `js/spellfx.js`.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list

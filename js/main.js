@@ -43,6 +43,8 @@ function loop(now) {
   const dt = last ? Math.min(100, now - last) : 0;
   last = now;
 
+  // a controller is read on every screen, the title's and the end's as much as the dungeon's
+  UI.pollPad(now);
   if (UI.isTitle()) UI.renderTitle(now);
   // the drone belongs to the dungeon: the help, the hall and the end screen are quiet
   if (!UI.isPlaying()) { Sound.stopAmbience(); Music.stop(); }

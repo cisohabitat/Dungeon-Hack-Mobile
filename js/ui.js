@@ -14,6 +14,7 @@ import { renderStart, renderRung } from './createextras.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { renderPages } from './pagesview.js';
 import { makeTips } from './tips.js';
+import { makePad } from './pad.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
 import { makeMapView } from './mapview.js';
@@ -163,7 +164,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-26', text: 'the whole story read through and set in one voice, from the prologue to the last line of each ending' };
+  const NEWS = { id: '2026-11-27', text: 'play with a controller: plug one in and press a button, and a gold ring steers every screen; the keyboard gains T to take and L for the log' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1366,6 +1367,9 @@ const UI = (() => {
     if (name === 'encounter') renderEncounter();
     if (name === 'fork') renderFork();
     if (name === 'code') renderCode();
+    // a keyboard's Tab starts inside what has just opened, not behind it
+    // (a pad's ring finds its own way in: pad.js; a touch focuses nothing, so no keyboard springs up)
+    if (lastInput === 'key') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus(); }
   }
   /** The hero as a save code, written fresh each time it is asked for. */
   let codeAsk = 0;
@@ -1436,6 +1440,14 @@ const UI = (() => {
   }
   function paused() { return !!overlay; }
   /** While an overlay is open the game behind it is inert: a screen reader or a Tab reaches only the overlay. */
+  /** How the player last reached for the game: a touch or click, a key, or a pad. */
+  let lastInput = 'pointer';
+  /** Back, from the keyboard's Escape or a pad's B: an overlay closes (if it may), the dungeon pauses, another screen goes back. */
+  function goBack() {
+    if ($('#screen-game').classList.contains('active')) { if (overlay) closeOverlay(); else openOverlay('menu'); return; }
+    const back = /** @type {HTMLElement|undefined} */ ($$('.screen.active [id$="-back"]').find(b => b.getClientRects().length));
+    if (back) back.click();
+  }
   function setBehind(on) { const g = /** @type {HTMLElement|null} */ (document.querySelector('#screen-game .game-layout')); if (g) g.inert = on; }
   let helpFromMenu = false;   // the help was opened from the Menu mid-run: Back returns to it
   // Text size scales the whole interface from the root, so every rem follows.
@@ -1632,13 +1644,15 @@ const UI = (() => {
     $('#m-quit').addEventListener('click', () => { Game.save(true); closeOverlay(); showScreen('screen-title'); });
 
     const KEYS = { ArrowUp: 'forward', KeyW: 'forward', ArrowDown: 'back', KeyS: 'back', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', KeyQ: 'strafeL', KeyE: 'strafeR', Space: 'attack', KeyF: 'attack' };
-    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest', KeyX: 'quaff', KeyZ: 'read' };
-    const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal' };
+    const TAPS = { KeyU: 'use', KeyC: 'cast', KeyR: 'rest', KeyX: 'quaff', KeyZ: 'read', KeyT: 'take', KeyG: 'take' };
+    const OPENS = { KeyM: 'map', KeyI: 'inv', KeyP: 'spells', KeyH: 'char', KeyJ: 'journal', KeyL: 'log' };
+    window.addEventListener('pointerdown', () => { lastInput = 'pointer'; }, { capture: true });
     window.addEventListener('keydown', e => {
+      lastInput = 'key';
       const target = /** @type {HTMLElement} */ (e.target);
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT')) return;
-      // Escape leaves the help as Back does
-      if (e.code === 'Escape' && $('#screen-help').classList.contains('active')) { $('#help-back').click(); e.preventDefault(); return; }
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) return;
+      // Escape is every screen's Back, as B is on a pad
+      if (e.code === 'Escape' && !$('#screen-game').classList.contains('active')) { goBack(); e.preventDefault(); return; }
       if (!$('#screen-game').classList.contains('active')) return;
       if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }
@@ -1870,7 +1884,28 @@ const UI = (() => {
     get pathCard() { return pathCard; },
   });
 
-  return { init, paused, fitView, pumpHeld, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
+  // ---------- pad: see pad.js ----------
+  const inGame = () => $('#screen-game').classList.contains('active');
+  const pad = makePad({
+    where: () => { if (!inGame() || overlay) return 'ui'; const G = Game.state(); return G && G.status === 'playing' ? 'play' : 'wait'; },
+    root: bar => /** @type {HTMLElement|null} */ (bar ? $('#screen-game .bottombar') : overlay ? $('#ov-' + overlay) : $('.screen.active')),
+    // the same held-to-repeat steps as the keys (pumpHeld)
+    press: act => { held.set(act, performance.now()); Game.input(act); },
+    release: act => { held.delete(act); },
+    tap: act => Game.input(act),
+    open: name => openOverlay(name),
+    back: () => goBack(),
+    menu: () => { if (!inGame()) return; if (overlay === 'menu') closeOverlay(); else if (!overlay) openOverlay('menu'); },
+    woke: () => {
+      lastInput = 'pad';
+      if ($('#screen-title').classList.contains('active')) endOpening();
+      Sound.unlock();
+      // the pad's own controls, said once, the first time one is picked up in the dungeon
+      if (inGame() && !overlay && Game.state() && Game.state().status === 'playing') showTip('pad');
+    },
+  });
+
+  return { init, paused, fitView, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** The title's key art, which picture and how it lies: for the tests. */

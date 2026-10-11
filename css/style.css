@@ -84,6 +84,12 @@ button { font-family: inherit; font-size: var(--t-base); color: var(--text); bac
    pointed at (where there is a pointer to point), and unavailable */
 button:active { background: var(--press); }
 button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* every stop a keyboard or a pad can reach shows where it is; a pad's ring
+   (pad.js marks the page while one is steering) shows even where a browser
+   would hide a ring it moved there itself */
+:is(a, summary, select, input, textarea, [tabindex]):focus-visible,
+body.pad :is(button, a, summary, select, input, textarea, [tabindex]):focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+body.pad .seg button:focus { outline-offset: -2px; }
 @media (hover: hover) { button:not(:disabled):hover { border-color: var(--accent); } }
 button:disabled { opacity: 0.4; cursor: default; }
 /* hidden means hidden, whatever a layout rule says about display */
@@ -745,6 +751,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .diff-note { color: var(--text-soft); font-size: var(--t-md); margin: var(--s-2) 0 var(--s-6); min-height: 1.3em; }
 /* Back and Descend stay on screen however far down the form you are */
 #screen-create .panel { padding-bottom: 0; }
+/* a card ringed by a pad or Tab is scrolled clear of the pinned foot, not under it */
+#screen-create { scroll-padding-bottom: calc(var(--s-16) * 6 + var(--sab)); }
 .row.spread.create-foot { position: sticky; bottom: 0; z-index: 2; margin: var(--s-16) -16px 0; padding: var(--s-10) var(--s-16) calc(var(--s-10) + var(--sab));
   background: var(--bg); border-top: 1px solid var(--border); }
 .create-foot .big { width: auto; flex: 1; }
