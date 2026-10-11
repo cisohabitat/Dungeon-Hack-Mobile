@@ -329,3 +329,27 @@ test.describe('progress between runs', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test.describe('the crews\' pages between runs', () => {
+  test('the Hall keeps every page any hero has found, in the order of the story', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.clear());
+    await page.click('#btn-hall');
+    // nothing until a page has been found
+    await expect(page.locator('.hall-pages')).toHaveCount(0);
+    await page.click('#hall-back');
+    // the line cut deep, a Warrens page, the roster and the charter: told roster first, the Heart's last
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: {}, relics: [], pages: [7, 14, 0, 18] })));
+    await page.click('#btn-hall');
+    const box = page.locator('.hall-pages');
+    await expect(box.locator('summary')).toContainText("The crews' pages");
+    await expect(box.locator('summary')).toContainText(await page.evaluate(() => `4 of ${JOURNAL.length} found`));
+    await box.locator('summary').click();
+    await expect(box.locator('li')).toHaveCount(4);
+    await expect(box.locator('li').first()).toContainText('A guild roster');
+    await expect(box.locator('li').nth(1)).toContainText('Notes on the goblins');
+    await expect(box.locator('li').last()).toContainText('A single line, cut deep');
+    expect(errors).toEqual([]);
+  });
+});

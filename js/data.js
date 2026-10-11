@@ -109,18 +109,42 @@ const BACKGROUNDS = {
   },
 };
 
-// Pages left behind by the crews who went first. One per level, in order, so the
-// story of what happened down here unfolds as you descend.
+// Pages left behind by the crews who went first, one on every floor, telling the
+// story in three acts (see pagePlan in dungeon.js). Act I, above the divided
+// stair, is the crews: who came down and what became of them. Act II is the road
+// taken, each telling half: the Crypts who the keeper was, the Warrens what the
+// deep folk fear of the Heart and how the goblins' king came to sit on it. Act III,
+// the last two floors, is the Heart itself. A people's own floor on a Long Delve
+// holds that people's page instead. `step` is a page's place in its act's telling;
+// an act with fewer floors than pages keeps those with the lowest `rank`. A page
+// is known by its place in this list (a save keeps the number), so new ones only
+// ever go on the end.
 const JOURNAL = [
-  { title: 'A guild roster, water-stained', text: 'Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: "the struck ones still answer to their names. do not use their names."' },
-  { title: 'A surveyor’s note', text: 'The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.' },
-  { title: 'A letter, never sent', text: 'Mira — the Heart is not out. I have stood in the vault and felt it beating through the rock. It has been taken down, not extinguished. Something carried it deeper and it is still warm. Tell the guild. Tell them it is still warm.' },
-  { title: 'A page torn from a ledger', text: 'He was the delve’s own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.' },
-  { title: 'A prayer, scratched into the wall', text: 'Not to any god of the valley. The letters run the wrong way and the last line reads: he says the mountain will keep us warm forever. he says we only have to stop.' },
-  { title: 'A child’s drawing', text: 'A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: "she has never been below the third floor. she has never seen him. ask how she knows."' },
-  { title: 'The last crew’s log', text: 'Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever he did to the Heart, he did it to the distance as well.' },
-  { title: 'A single line, cut deep', text: 'IT WILL LET YOU TAKE IT. THAT IS THE PART NOBODY WRITES DOWN.' },
+  { act: 1, rank: 1, step: 1, title: 'A guild roster, water-stained', text: 'Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: "the struck ones still answer to their names. do not use their names."' },
+  { act: 1, rank: 4, step: 3, title: 'A surveyor’s note', text: 'The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.' },
+  { act: 1, rank: 2, step: 6, title: 'A letter, never sent', text: 'Mira — the Heart is not out. I have stood in the vault and felt it beating through the rock. It has been taken down, not extinguished. Something carried it deeper and it is still warm. Tell the guild. Tell them it is still warm.' },
+  { act: 2, road: 'crypts', rank: 1, step: 1, title: 'A page torn from a ledger', text: 'He was the delve’s own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.' },
+  { act: 2, road: 'crypts', rank: 3, step: 4, title: 'A prayer, scratched into the wall', text: 'Not to any god of the valley. The letters run the wrong way and the last line reads: he says the mountain will keep us warm forever. he says we only have to stop.' },
+  { act: 2, road: 'warrens', rank: 4, step: 2, title: 'A child’s drawing', text: 'A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: "she has never been below the third floor. she has never seen him. ask how she knows."' },
+  { act: 1, rank: 5, step: 5, title: 'The last crew’s log', text: 'Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever was done to the Heart, it was done to the distance as well.' },
+  { act: 3, rank: 2, step: 2, title: 'A single line, cut deep', text: 'IT WILL LET YOU TAKE IT. THAT IS THE PART NOBODY WRITES DOWN.' },
+  // (from here, the pages added when the story was laid out in acts)
+  { act: 1, rank: 3, step: 2, title: 'A guild notice, nailed up', text: 'By order of the Delving Guilds of Karrathal: a fourth crew will go down the Deepdelve to learn why the Heart has gone dark. Pay is triple. The guilds are not answerable for crews who do not come back. Underneath, in charcoal: none have.' },
+  { act: 2, road: 'crypts', rank: 4, step: 2, title: 'From the archivist’s daybook', text: 'The guild’s founding, and every year of it since, in my own hand. I do not tire and I do not age while I keep my desk beside the vault. The Heart keeps me. I should like to know what it would make of the rest of them.' },
+  { act: 2, road: 'crypts', rank: 5, step: 3, title: 'Minutes of the guild council', text: 'Item: the archivist’s request for the Heart, for study. Refused, as every year. Item: he has asked in the same words, in the same hand, every year of the guild’s records. No one at the table could remember him young.' },
+  { act: 2, road: 'crypts', rank: 6, step: 5, title: 'A novice’s account of the last sermon', text: 'He came to the Hollow Chapel the winter the Heart went down. He said it was cold above and would be colder, and that below, beside the Heart, no one need ever grow old, or hungry, or afraid. Only still. Half the chapel went with him. Mother Orla went to bring them back.' },
+  { act: 2, road: 'crypts', rank: 2, step: 6, title: 'The archivist’s last entry', text: 'I have carried it down to where the dead lie quiet. They do not need it to be warm. They need it to keep them, and it does. The crews will come. Let them come. I will keep them too. I will keep everyone.' },
+  { act: 2, road: 'warrens', rank: 1, step: 1, title: 'Goblin marks on a tunnel wall', text: 'Daubed in soot, a crew’s reading written under them: BIG FIRE COME DOWN. DEAD MAN CARRY IT. WE TAKE. KING SIT ON IT. KING NOT COLD. KING NOT STOP.' },
+  { act: 2, road: 'warrens', rank: 2, step: 3, title: 'Notes on the goblins', text: 'They will not say its name. They call it the Stopping Fire. A goblin who sleeps too near it does not wake, and does not die either: they stack them at the back of the hall. So the king beats his drum all night, and every goblin who hears it has to get up and move.' },
+  { act: 2, road: 'warrens', rank: 5, step: 4, title: 'A Lampfolk ledger, copied out', text: 'Sold to the dead man in the cold halls: lamp oil, forty measures, for his dead to see by. Sold to the drum-king: nothing. He does not buy. He takes. Note: do not sleep in the drum-king’s hall, however warm.' },
+  { act: 2, road: 'warrens', rank: 6, step: 5, title: 'Scratched inside a goblin shield', text: 'drum good. drum mean get up. get up mean not stop. not stop mean not like the ones at the back.' },
+  { act: 2, road: 'warrens', rank: 3, step: 6, title: 'A rubbing from a stone in the orc halls', text: 'Under the orcs’ marks, older letters, square and deep: the old smiths’ hand. THE FIRE IS OURS. WE LIT IT TO BE WARM. WE STAYED TO BE WARM. WE STAYED.' },
+  { act: 3, rank: 1, step: 1, title: 'The first page of the guilds’ charter', text: 'Here the guilds found the Heart of the Mountain: the first fire of the old smiths, lit at the root of the mountain before there were people in the valley. Its warmth rises through the stone and keeps the valley from the frost. It keeps more than that. Whatever stays beside it does not grow old, or change, or die: it is kept. The smiths stayed. Let no one stay. Let no one hold it long.' },
+  { people: 'elves', title: 'A prayer-tablet from the dark elves’ temple', text: 'Goddess, keep the warm fire far from us. When it rested in our halls the grandmothers of our grandmothers did not die. They did not move. Your webs grew over them where they sat, and they are sitting still.' },
+  { people: 'dwarves', title: 'Graven over the Grey Hold’s gate', text: 'WE ARE WHAT IS LEFT OF THE SMITHS WHO WOULD NOT STAY. THE FIRE GOES HOME TO THE FORGE THAT MADE IT, WHOEVER CARRIES IT DOWN. LET IT GO HOME. DO NOT FOLLOW.' },
+  { people: 'marsh', title: 'Marks pressed into the marsh mud', text: 'A crew’s reading, under the claw-marks: once warm water came up from below. Eggs did not hatch. Eggs did not rot. Mothers waited, many lives of mothers. Then the warm went down again, and the eggs hatched, and we were glad of the cold.' },
 ];
+
 
 // On every level gained, three of these are offered and one is kept.
 const BOONS = [
@@ -1125,7 +1149,7 @@ const WALL_PROPS = ['barrel', 'crate', 'urn'];
 // Wick, the one Lampfolk trader with a name, who keeps a shop partway down every
 // delve and remembers the sun-walkers who came before (trader.js, progress.js).
 // One tale a meeting, in this order, over a player's runs; after the last, the
-// closing line. What the lich was and what the Heart is are left for the journal.
+// closing line. What the lich was and what the Heart is, the journal tells (JOURNAL).
 const WICK = {
   name: 'Wick',
   tales: [

@@ -92,6 +92,44 @@ function piecePlan(seed, levels) {
 function peopleDepth(people, levels) { const k = PEOPLES[people]; return k && levels >= k.from ? levels - k.back : null; }
 /** Which people hold this floor of a delve, if any. @param {number} levels @param {number} depth */
 function peopleAt(levels, depth) { return Object.keys(PEOPLES).find(k => peopleDepth(k, levels) === depth) || null; }
+/**
+ * What keeps the Heart at the bottom of a delve: the Heartforged on a Long Delve,
+ * down either road; the Goblin Warlord at the end of the Warrens; else the lich.
+ * @param {number} levels @param {string} [route] @returns {string} a monster id
+ */
+function keeperOf(levels, route) { return levels >= 12 ? 'heartforged' : route === 'warrens' ? 'warlord' : 'lich'; }
+/**
+ * Which of the crews' pages (JOURNAL) lies on each floor of a delve: one on
+ * every floor, in three acts. Act I is above the divided stair, Act II the road
+ * taken (where no stair divides the lich keeps the Heart, and the Crypts' half is
+ * told), and Act III the last two floors; a people's floor holds that people's
+ * page. An act with fewer floors than pages keeps its lowest-ranked, told in
+ * order. Until the stair has divided, which road's pages lie below is not yet
+ * known: those floors say null. Nothing here is dealt, so no dice move.
+ * @param {number} levels @param {string} [route]
+ * @returns {{act: number, page: number|null, people?: string}[]}  the first floor first
+ */
+function pagePlan(levels, route) {
+  const span = routeSpan(levels);
+  const actOf = d => (levels <= 2 ? (d === levels ? 3 : 1) : d >= levels - 1 ? 3 : span ? (d < span.from ? 1 : 2) : (d <= Math.ceil((levels - 2) / 2) ? 1 : 2));
+  const road = span ? route : 'crypts';
+  /** @type {{act: number, page: number|null, people?: string}[]} */
+  const out = [];
+  /** @type {Record<number, number[]>} */
+  const floors = { 1: [], 2: [], 3: [] };
+  for (let d = 1; d <= levels; d++) {
+    const people = peopleAt(levels, d);
+    out.push(people ? { act: actOf(d), page: JOURNAL.findIndex(e => e.people === people), people } : { act: actOf(d), page: null });
+    if (!people) floors[actOf(d)].push(d);
+  }
+  for (const act of [1, 2, 3]) {
+    if (act === 2 && !road) continue;
+    const pool = JOURNAL.map((e, i) => ({ e, i })).filter(({ e }) => e.act === act && (act !== 2 || e.road === road));
+    const kept = pool.sort((a, b) => a.e.rank - b.e.rank).slice(0, floors[act].length).sort((a, b) => a.e.step - b.e.step);
+    floors[act].forEach((d, k) => { out[d - 1].page = kept[k] ? kept[k].i : null; });
+  }
+  return out;
+}
 /** @param {number} levels */
 function elfDepth(levels) { return peopleDepth('elves', levels); }
 /** @param {string} seed @param {number} levels @param {string} [route] */
@@ -726,8 +764,14 @@ const Dungeon = (() => {
       addItem(c % w, (c / w) | 0, it);
     };
     for (let i = 0; i < nItems; i++) dropAt(rollLoot(rng, depth));
-    // a page left by the crews who came first, so the story unfolds as you descend
-    if (depth >= 1 && depth <= JOURNAL.length) dropAt({ t: 'page', q: 1, page: depth - 1 });
+    // a page left by the crews who came first, so the story unfolds as you descend (pagePlan)
+    // (a delve saved before the pages were laid out in acts keeps the floors it had
+    // made, with their pages by the old count, one a floor in order: such a run can
+    // find a page twice, and not have every page of its delve to find)
+    // (a road floor is made only once a road is chosen; one made without, as a test
+    // or a tool may, holds the Crypts' page, so a page is dropped on every floor
+    // and the floor's dice fall as they would)
+    { const pg = (pagePlan(opts.levels || 8, opts.route || 'crypts')[depth - 1] || { page: null }).page; if (pg !== null) dropAt({ t: 'page', q: 1, page: pg }); }
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'ration', q: 1 });
     dropAt({ t: 'potion_heal', q: 1 });
@@ -1087,7 +1131,7 @@ const Dungeon = (() => {
       if (hall && farRoom === hall) { const mx = hall.x + hall.R.mouths[0][0], my = hall.y + hall.R.mouths[0][1]; spots.sort((p, q) => Math.abs(p[0] - mx) + Math.abs(p[1] - my) - Math.abs(q[0] - mx) - Math.abs(q[1] - my)); }
       // down the Warrens the Warlord has dragged the Heart into his own hall; every other way, the lich keeps it;
       // at the bottom of a Long Delve, deeper than either came, the Heartforged keeps it where it was made
-      const keeper = (opts.levels || 8) >= 12 ? 'heartforged' : opts.route === 'warrens' ? 'warlord' : 'lich';
+      const keeper = keeperOf(opts.levels || 8, opts.route);
       if (spots.length) { const s = spots[0]; monsters.push(makeMonster(keeper, s[0], s[1])); }
       // one of the floor's creatures stands guard in the hall, in the nave before the dais
       // (moved there, not added: the floor holds as many as it did; two killed one
@@ -1303,7 +1347,7 @@ const Dungeon = (() => {
     return { t: 'gold', q: 5 };
   }
 
-  return { T, generate, dress, rollLoot, DIRS, SIZES, areaOf, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt };
+  return { T, generate, dress, rollLoot, DIRS, SIZES, areaOf, PACK_KINDS, ELF_KIN, PEOPLES, ROOM_WORTH, tierAt, namedPlan, twistPlan, piecePlan, TWIST_IDS, routeSpan, elfDepth, peopleDepth, peopleAt, pagePlan, keeperOf };
 })();
 
 export { Dungeon };

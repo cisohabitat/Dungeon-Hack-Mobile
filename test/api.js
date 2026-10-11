@@ -20,7 +20,7 @@ const fresh = env => {
 
 async function main() {
   const run = { v: 1, kind: 'run', cls: 'fighter', path: 'knight', diff: 'normal', levels: 8, size: 'medium', outcome: 'win', depth: 8, level: 9,
-    cause: '', minutes: 41, fps: [900, 30, 2, 0], tips: 3, combos: ['conduction', 'shield_wall', '<b>x</b>'], legend: 'bastion', seed: 'abc', build: 'deepdelve-v26', device: { w: 393, h: 851, dpr: 2.75, cores: 8, mem: 4, touch: true, family: 'chrome' },
+    cause: '', minutes: 41, fps: [900, 30, 2, 0], tips: 3, combos: ['conduction', 'shield_wall', '<b>x</b>'], legend: 'bastion', pages: 8, pagesOf: 8, seed: 'abc', build: 'deepdelve-v26', device: { w: 393, h: 851, dpr: 2.75, cores: 8, mem: 4, touch: true, family: 'chrome' },
     name: 'Sir Somebody', email: 'x@y.z' };
 
   // what is kept: the fields the game sends, cut to size; anything else dropped
@@ -32,6 +32,7 @@ async function main() {
   check(tel.clean({ ...run, levels: 9999 }).levels === 32, 'numbers are held to their range');
   check(tel.clean({ ...run, cls: '<script>' }).cls === 'script', 'words lose markup');
   check(c.combos.length === 3 && c.combos[0] === 'conduction' && c.combos[2] === 'bxb' && c.legend === 'bastion', 'the combinations and the legend are kept, as words');
+  check(c.pages === 8 && c.pagesOf === 8 && tel.clean({ ...run, pages: 99, pagesOf: 6 }).pages === 6 && tel.clean({ ...run, pages: 'x' }).pages === 0, 'pages found: a number, never more than the delve held');
   check(tel.clean({ ...run, combos: 'conduction' }).combos.length === 0 && tel.clean({ ...run, combos: Array(99).fill('a') }).combos.length === 40, 'combinations: a list, cut to size');
   const cr = tel.clean({ kind: 'crash', msg: 'x'.repeat(900), stack: 'y'.repeat(9000), seed: 's', depth: 3, save: 'abcd1234' });
   check(cr.msg.length === 300 && cr.stack.length === 2000 && cr.save === 'abcd1234', 'a crash report is kept, cut to size');
@@ -58,6 +59,7 @@ async function main() {
   check(cmds && cmds.some(x => x[0] === 'HINCRBY' && x[1] === 'dd:count:runs' && x[2] === '8|normal|fighter'), 'store: the run is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:wins'), 'store: the win is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:combowins' && x[2] === '8|normal|fighter') && cmds.some(x => x[1] === 'dd:count:combos' && x[2] === 'conduction'), 'store: a win with a combination, and each combination, are counted');
+  check(cmds && cmds.some(x => x[1] === 'dd:count:pagewins' && x[2] === '8|normal|fighter'), 'store: a win that carried out every page is counted');
   check(cmds && !JSON.stringify(cmds).includes('Somebody'), 'store: nothing dropped reaches it');
   // a rung of the ladder past Hard is counted apart from Hard; a rung off Hard, or out of range, is not one
   check(tel.clean({ ...run, diff: 'hard', rung: 9 }).rung === 5 && tel.clean({ ...run, diff: 'normal', rung: 3 }).rung === 0, 'a rung: on Hard only, held to its range');

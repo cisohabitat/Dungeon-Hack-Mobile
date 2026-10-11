@@ -82,6 +82,8 @@ function runEnded(G) {
     minutes: Math.round((G.t || 0) / 60000), fps, tips, device: device(),
     // the combinations the run made, and the legend it found, if any: how much a build was there to name
     combos: Object.keys(G.combos || {}), legend: ((G.relics && G.relics.found) || []).find(id => LEGENDS.includes(id)) || '',
+    // the crews' pages found of those the delve held: did the story get read
+    pages: (G.journal || []).length, pagesOf: (G.opts && G.opts.levels) || 8,
   });
 }
 

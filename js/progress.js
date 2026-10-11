@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK, JOURNAL } from './data.js';
 import { RELICS, toCollect } from './relics.js';
 import { COMBOS } from './combos.js';
 
@@ -12,14 +12,14 @@ const HALL_KEY = 'deepdelve.hall';
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
-/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, rungs: Record<string, number>, wick: import('./types.js').WickMemory}} ProgressData */
+/** @typedef {{won: Record<string, Record<string, number>>, relics: string[], combos: string[], paths: Record<string, number>, vows: Record<string, number>, feats: Record<string, number>, rungs: Record<string, number>, wick: import('./types.js').WickMemory, pages: number[]}} ProgressData */
 
 /** Every path of every class, by id. */
 const PATH_IDS = Object.values(PATHS).flat().map(x => x.id);
 
 /** Whatever was stored, it comes back as this shape, never a crash. @returns {ProgressData} */
 function clean(v) {
-  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null) };
+  const out = { won: {}, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null), pages: [] };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   // wins with each path, and with each vow kept: counts, nothing else
   /** @type {[('paths'|'vows'|'feats'), string[]][]} */
@@ -42,6 +42,8 @@ function clean(v) {
   if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
   if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => typeof id === 'string' && COMBOS[id]))];
   out.wick = cleanWick(v.wick);
+  // every crews' page any hero has found, by its place in JOURNAL
+  if (Array.isArray(v.pages)) out.pages = [...new Set(v.pages.filter(i => Number.isInteger(i) && JOURNAL[i]))];
   return out;
 }
 /**
@@ -76,7 +78,7 @@ function fromHall() {
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
   }
-  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null) };
+  return { won, relics: [], combos: [], paths: {}, vows: {}, feats: {}, rungs: {}, wick: cleanWick(null), pages: [] };
 }
 /** @returns {ProgressData} */
 function load() {
@@ -211,6 +213,16 @@ function noteCombo(id) {
   return true;
 }
 
+/** A crews' page found goes in the Hall's archive; true the first time on this device. */
+function notePage(i) {
+  if (!Number.isInteger(i) || !JOURNAL[i]) return false;
+  const v = load();
+  if (v.pages.includes(i)) return false;
+  v.pages.push(i);
+  store(v);
+  return true;
+}
+
 // ---------- Wick ----------
 /** What Wick remembers, as it stood when asked. */
 const wick = (v = load()) => v.wick;
@@ -298,5 +310,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

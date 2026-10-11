@@ -25,6 +25,8 @@ function clean(b) {
       fps, tips: num(b.tips, 0, 999),
       // the combinations a run made and the legend it found: was there a build to name
       combos: Array.isArray(b.combos) ? b.combos.slice(0, 40).map(x => word(x, 24)).filter(Boolean) : [], legend: word(b.legend, 24),
+      // the crews' pages found, of the delve's (one a floor)
+      pagesOf: num(b.pagesOf, 0, 32), pages: Math.min(num(b.pages, 0, 32), num(b.pagesOf, 0, 32)),
       device: { w: num(d.w, 0, 10000), h: num(d.h, 0, 10000), dpr: Math.min(8, +d.dpr || 0), cores: num(d.cores, 0, 256), mem: Math.min(64, +d.mem || 0), touch: !!d.touch, family: word(d.family, 20) },
     };
   }
@@ -69,6 +71,8 @@ module.exports = async function handler(req, res) {
       // a win that made at least one combination, and how often each is made at all
       if (e.outcome === 'win' && e.combos.length) cmds.push(['HINCRBY', 'dd:count:combowins', key, 1]);
       for (const c of e.combos) cmds.push(['HINCRBY', 'dd:count:combos', c, 1]);
+      // a win that carried out every page of its delve: the aim is two in five or more
+      if (e.outcome === 'win' && e.pagesOf && e.pages >= e.pagesOf) cmds.push(['HINCRBY', 'dd:count:pagewins', key, 1]);
       // frame-rate buckets summed over every run, for the budget's real-world check
       e.fps.forEach((n, i) => { if (n) cmds.push(['HINCRBY', 'dd:count:fps', String(i), n]); });
       await pipeline(cmds);

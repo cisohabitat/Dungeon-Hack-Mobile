@@ -848,7 +848,7 @@ const Game = (() => {
       if (depth > 1) log(`You descend to floor ${depth}. ${THEMES[L.theme].flavor}`, 'info');
       else log(THEMES[L.theme].flavor, 'info');
       if (L.isFinal) log(L.monsters.some(m => m.id === 'warlord') ? 'Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart\'s own hall.'
-        : L.monsters.some(m => m.id === 'heartforged') ? 'The stone is warm underfoot, and somewhere ahead a great hammer rings on iron, slow as a heartbeat. This deep, the Heart rests where it was made, and something made to keep it keeps it still.'
+        : L.monsters.some(m => m.id === 'heartforged') ? 'The stone is warm underfoot, and somewhere ahead a great hammer rings on iron, slow as a heartbeat. Whoever carries the Heart down, it draws them deeper, home to the forge where it was made, and something made to keep it keeps it still.'
         : 'A dreadful presence waits somewhere on this floor.', 'bad');
       if (L.twist && TWISTS[L.twist]) log(TWISTS[L.twist].arrive, L.twist === 'market' ? 'good' : 'info');
       namedArrives(L);

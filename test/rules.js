@@ -1255,16 +1255,16 @@ await test('journal pages are recorded once and survive a save', async () => {
 await test('a short delve counts pages out of what it actually buried', async () => {
   const ctx = await newContext();
   const { Game } = ctx;
-  // one page per floor, so a four level delve holds four of the archive's eight
+  // one page per floor, so a four level delve holds four
   Game.newGame({ name: 'Wren', cls: 'fighter', bg: 'tombwise', stats: { ...evenStats }, opts: { ...OPTS, levels: 4 } });
   if (Game.pagesInDungeon() !== 4) return `a four level delve claims ${Game.pagesInDungeon()} pages`;
   for (let i = 0; i < 4; i++) Game.journal().push({ i, depth: i + 1 });
   const won = Game.epilogue(true).join(' ');
   if (/left \d+ of the earlier crews/.test(won)) return 'all four pages found, yet the epilogue mourns missing ones';
   if (!won.includes('every page')) return 'a complete journal did not close the story';
-  // a long delve is still capped by the archive itself
+  // and a long delve holds one on every floor too
   Game.newGame({ name: 'Wren', cls: 'fighter', bg: 'tombwise', stats: { ...evenStats }, opts: { ...OPTS, levels: 16 } });
-  return Game.pagesInDungeon() === 8 || `a sixteen level delve claims ${Game.pagesInDungeon()} pages`;
+  return Game.pagesInDungeon() === 16 || `a sixteen level delve claims ${Game.pagesInDungeon()} pages`;
 });
 
 await test('the epilogue names the hero and reflects the background', async () => {
@@ -6957,12 +6957,12 @@ await test('progress that is missing or corrupt is shrugged off, and an old Hall
   for (const bad of ['{not json', 'null', '[]', '7', JSON.stringify({ won: 'x', relics: 'y' })]) {
     ctx.store.set('deepdelve.progress', bad);
     const v = Progress.load();
-    if (JSON.stringify(v) !== '{"won":{},"relics":[],"combos":[],"paths":{},"vows":{},"feats":{},"rungs":{},"wick":{"met":0,"told":0,"won":0,"last":null}}') return `${bad} read as ${JSON.stringify(v)}`;
+    if (JSON.stringify(v) !== '{"won":{},"relics":[],"combos":[],"paths":{},"vows":{},"feats":{},"rungs":{},"wick":{"met":0,"told":0,"won":0,"last":null},"pages":[]}') return `${bad} read as ${JSON.stringify(v)}`;
     if (Progress.bgOpen('returned')) return `${bad} opened a locked background`;
   }
   ctx.store.set('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 'x', easy: 2 }, nobody: { easy: 3 } }, relics: ['grimtooth', 7, 'nope', 'grimtooth'], combos: ['conduction', 'nope', 3, 'conduction'], paths: { knight: 2, nope: 5, healer: 'x' }, vows: { iron: -1, pauper: 1 }, feats: { long: 1, nope: 2 }, rungs: { mage: 9, nope: 2, cleric: 'x', thief: 2 } }));
   const v = Progress.load();
-  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"combos":["conduction"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1},"rungs":{"mage":5,"thief":2},"wick":{"met":0,"told":0,"won":0,"last":null}}') return `a half-good record read as ${JSON.stringify(v)}`;
+  if (JSON.stringify(v) !== '{"won":{"fighter":{"easy":2}},"relics":["grimtooth"],"combos":["conduction"],"paths":{"knight":2},"vows":{"pauper":1},"feats":{"long":1},"rungs":{"mage":5,"thief":2},"wick":{"met":0,"told":0,"won":0,"last":null},"pages":[]}') return `a half-good record read as ${JSON.stringify(v)}`;
   if (!Progress.noteRelic('thirst') || Progress.load().relics.length !== 2) return 'the codex could not grow after a bad record';
   // storage that throws is no crash, and no unlock
   const real = globalThis.localStorage;
@@ -15324,6 +15324,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-ladder.js')({ test, newContext, winHere, OPTS, evenStats });
   // Wick, the Lampfolk trader who remembers (rules-wick.js)
   await require('./rules-wick.js')({ test, newContext, winHere, fallTo, downTo, evenStats });
+  // the story's spine: the crews' pages in three acts (rules-pages.js)
+  await require('./rules-pages.js')({ test, newContext, winHere, evenStats, OPTS });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

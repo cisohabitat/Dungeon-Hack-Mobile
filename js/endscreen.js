@@ -2,6 +2,7 @@
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
 import { BACKGROUNDS, BOONS, CLASSES, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
+import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
 import { $, diffName, diffLabel, escapeHtml, upFirst } from './uikit.js';
@@ -152,7 +153,8 @@ export function makeEndScreen(K) {
     const face = /** @type {HTMLImageElement} */ ($('#end-face'));
     face.src = faceOf(p.cls); face.alt = `${p.name}, the ${CLASSES[p.cls].name}`; face.classList.toggle('fallen', !won);
     $('#end-text').textContent = won
-      ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the Dread Lich and lifted the Heart of the Mountain.`
+      // (whatever kept the Heart in this delve: the lich, the Warlord or the Heartforged)
+      ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the ${MONSTERS[Dungeon.keeperOf(G.opts.levels || 8, G.route)].name} and lifted the Heart of the Mountain.`
       : `${G.opts.permadeath ? 'The save has been erased.' : ''}`;   // where they fell, the epilogue below says
     // a first win for this class at this difficulty, and any past it opened
     const earned = won ? Game.earned() : null, news = [];

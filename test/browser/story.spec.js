@@ -114,11 +114,13 @@ test.describe('story and progression', () => {
 
     await page.click('[data-open="journal"]');
     await expect(page.locator('#ov-journal')).toHaveClass(/open/);
-    await expect(page.locator('.journal-entry')).toHaveCount(1);
+    // the page found in full; every other floor's as a page still to find, act by act
+    await expect(page.locator('.journal-entry:not(.missing)')).toHaveCount(1);
+    await expect(page.locator('.journal-entry.missing')).toHaveCount(picked.total - 1);
+    await expect(page.locator('.act-head').first()).toHaveText('I. Those who came before');
     await expect(page.locator('#journal-count')).toHaveText(`1 of ${picked.total}`);
-    // the count is out of what this delve buried, never the archive's full eight
-    expect(picked.total, 'a delve holds one page per floor, capped at the archive')
-      .toBe(Math.min(picked.levels, picked.archive));
+    // the count is out of what this delve holds: one page on every floor
+    expect(picked.total, 'a delve holds one page per floor').toBe(picked.levels);
   });
 
   test('the epilogue names the hero and differs between winning and dying', async ({ page }) => {

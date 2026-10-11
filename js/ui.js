@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, PATHS, VOWS } from './data.js';
+import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, PATHS, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -12,6 +12,7 @@ import { Progress } from './progress.js';
 import { $, $$, escapeHtml, diffOf, diffLabel, icon } from './uikit.js';
 import { renderStart, renderRung } from './createextras.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
+import { renderPages } from './pagesview.js';
 import { drawShareCard } from './sharecard.js';
 import { makeEndScreen } from './endscreen.js';
 import { makeMapView } from './mapview.js';
@@ -161,7 +162,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-22', text: 'Wick, a Lampfolk trader with a name, keeps a shop partway down every delve: it remembers your heroes from one delve to the next, has a tale for each visit, and the Hall keeps what it has told' };
+  const NEWS = { id: '2026-11-23', text: 'the pages the crews left now tell the story in three acts, one on every floor: the Crypts and the Warrens each tell their half, the Journal shows the pages still to find, and the Hall keeps every page you have read' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -1376,17 +1377,8 @@ const UI = (() => {
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
     if (journalTab === 'combos') { $('#journal-count').textContent = renderCombos($('#journal-list')); return; }
-    const got = Game.journal();
-    $('#journal-count').textContent = `${got.length} of ${Game.pagesInDungeon()}`;
-    const el = $('#journal-list');
-    if (!got.length) {
-      el.innerHTML = '<p class="dim">The crews who came before you left pages behind. You have not found any yet.</p>';
-      return;
-    }
-    el.innerHTML = got.slice().sort((a, b) => a.i - b.i).map(j => {
-      const e = JOURNAL[j.i];
-      return `<div class="journal-entry"><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.text)}</p><p class="where">Found on floor ${j.depth}</p></div>`;
-    }).join('');
+    // the crews' pages, act by act (pagesview.js)
+    $('#journal-count').textContent = renderPages($('#journal-list'));
   }
   // ---------- the Hall, the bestiary and the relic codex: see hall.js ----------
 

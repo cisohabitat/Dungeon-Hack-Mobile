@@ -3,6 +3,7 @@
 // game comes through K, read live.
 import { Assets } from './assets.js';
 import { CLASSES, ITEMS, JOURNAL, MONSTERS, armorFits, shieldFits } from './data.js';
+import { Progress } from './progress.js';
 import { POWER_SUFFIX, PREFIX_NAME } from './relics.js';
 import { Dice, d } from './rng.js';
 import { Sound } from './sound.js';
@@ -574,6 +575,7 @@ export function makeItems(K) {
       const entry = JOURNAL[it.page];
       if (entry && !K.G.journal.some(j => j.i === it.page)) {
         K.G.journal.push({ i: it.page, depth: K.G.depth });
+        if (!K.G.tested) Progress.notePage(it.page);   // the Hall keeps every page any hero has read
         log(`You find ${entry.title.toLowerCase()}.`, 'info');
         Sound.play('pickup');
         emit('page');

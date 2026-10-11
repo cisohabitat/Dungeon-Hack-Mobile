@@ -29,6 +29,8 @@
 <div class="wrap"><table id="rates"></table></div>
 <h2>Builds</h2>
 <p id="builds"></p>
+<h2>The story</h2>
+<p id="journal"></p>
 <h2>Frame rate in play</h2>
 <p id="fps"></p>
 <h2>Commonest crashes</h2>
@@ -91,6 +93,9 @@ async function main() {
   document.getElementById('builds').textContent = allWins
     ? `Wins that made a named combination: ${Math.round(comboWins / allWins * 1000) / 10}% of ${allWins}.${most.length ? ` Most made: ${most.join(' · ')}.` : ''}`
     : 'No wins reported yet.';
+  // and how many wins carried out every page of the crews' (the aim is 40% or more)
+  const pageWins = Object.values(stats.pageWins || {}).reduce((a, b) => a + b, 0);
+  document.getElementById('journal').textContent = allWins ? `Wins that carried out every page: ${Math.round(pageWins / allWins * 1000) / 10}% of ${allWins}.` : 'No wins reported yet.';
   const f = stats.fps || {}, total = [0, 1, 2, 3].reduce((a, i) => a + (f[i] || 0), 0);
   document.getElementById('fps').textContent = total
     ? ['50 or more', '30 to 50', '20 to 30', 'under 20'].map((l, i) => `${l} fps: ${Math.round((f[i] || 0) / total * 1000) / 10}%`).join(' · ')

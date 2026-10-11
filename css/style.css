@@ -248,6 +248,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .journal-entry h3 { margin: 0 0 var(--s-4); font-size: var(--t-base); }
 .journal-entry p { margin: 0; line-height: 1.5; color: var(--text-soft); font-size: var(--t-lg); }
 .journal-entry .where { color: var(--dim); font-size: var(--t-sm); }
+.journal-entry.missing { background: none; border-style: dashed; padding: var(--s-6) var(--s-12); }
+.journal-entry.missing p { color: var(--dim); font-size: var(--t-sm); }
+.pages-act { margin-bottom: var(--s-12); }
+.act-head { margin: 0 0 var(--s-6); color: var(--gold); font-size: var(--t-sm); letter-spacing: 0.08em; text-transform: uppercase; }
+.hall-pages li b { font-style: normal; color: var(--text); }
 #ov-boons .ov-head { padding: var(--s-10) var(--s-14); }
 #boon-title { font-size: var(--t-base); line-height: 1.3; }
 .boon { display: block; width: 100%; text-align: left; padding: var(--s-12) var(--s-14); margin-bottom: var(--s-8); background: linear-gradient(#232032, #17151f); border-color: #4a4463; }

@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
+import { BACKGROUNDS, BESTIARY, ITEMS, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -34,6 +34,8 @@ export function makeChronicle(K) {
   function claimHeart() {
     P().inv.push({ t: 'artifact', q: 1, e: 0 });   // unique: never blocked by the pack limit
     log('You lift the Heart of the Mountain. Its light pours out between your fingers, over the walls, up through the stone.', 'good');
+    // and here, once, what it is, plainly: the journal's last act tells it, but not every hero reads
+    log('It beats against your palms like a living thing: the first fire of the old smiths, that warms whatever is near it and keeps whatever stays.', 'info');
     fx.heartAt = K.realNow;
     fx.shakeAmp = 3; fx.shakeMs = 1600; fx.shakeUntil = K.realNow + 1600;
     Sound.play('heart');
@@ -60,9 +62,9 @@ export function makeChronicle(K) {
     // (and each rung of the ladder past Hard a tenth more: see LADDER)
     return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0) + RUNG_SCORE * K.rung()));
   }
-  // Only one page is buried per floor, so a short dungeon holds fewer than the
-  // archive knows about. Count what this delve can actually yield, not the lot.
-  function pagesInDungeon() { return Math.min(K.G && K.G.opts ? K.G.opts.levels : JOURNAL.length, JOURNAL.length); }
+  // One page lies on every floor (pagePlan in dungeon.js), so a delve holds as many
+  // as it has floors: a short one fewer of the story than the archive knows.
+  function pagesInDungeon() { return K.G && K.G.opts ? K.G.opts.levels || 8 : 8; }
   // How the story closes, in the voice of the life that brought you here.
   /** What became of the companion, for the epilogue's list of what the valley tells. */
   function companionFate(c, won) {
@@ -106,6 +108,7 @@ export function makeChronicle(K) {
     const lines = [];
     if (won) {
       lines.push(`${p.name} came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.`);
+      lines.push('The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley will be warm again, and nobody in it means to stand too close.');
       lines.push(bg.epi);
       if (K.G.route && ROUTES[K.G.route]) lines.push(ROUTES[K.G.route].epi);   // the road taken at the divided stair
       const total = pagesInDungeon();
