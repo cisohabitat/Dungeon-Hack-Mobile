@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, heroName, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, PATHS, VOWS } from './data.js';
+import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -9,9 +9,7 @@ import { Music } from './music.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Weekly } from './weekly.js';
-import { Progress } from './progress.js';
 import { $, $$, escapeHtml, diffOf, diffLabel, icon } from './uikit.js';
-import { renderStart, renderRung } from './createextras.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { renderPages } from './pagesview.js';
 import { makeTips } from './tips.js';
@@ -25,6 +23,8 @@ import { makeChoices } from './choices.js';
 import { makeShopView } from './shopview.js';
 import { makeTitleScene } from './titlescene.js';
 import { makeHeroSheet } from './herosheet.js';
+import { makeTitleMenu } from './titlemenu.js';
+import { makeCreateView } from './createview.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -37,22 +37,6 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
-  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, rung: number, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, rung: 0, mode: 'roll', buy: null, buyTouched: false };
-  // Point buy: every score starts at 8 and 27 points raise them, dearer near
-  // the top, to 17 at most (a background's bonus goes on after). About what
-  // an average roll gives, but placed where the player wants it; 16 and 17
-  // cost dearly, so a planned hero can match a lucky roll's best score.
-  const BUY_COST = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9, 16: 12, 17: 15 }, BUY_POINTS = 27, BUY_TOP = 17;
-  const buyLeft = b => BUY_POINTS - Object.values(b).reduce((n, v) => n + BUY_COST[v], 0);
-  /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
-  function buyStart(cls) {
-    // (a druid's Wisdom lands the blows, so Dexterity for light armour comes next)
-    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' || cls === 'druid' ? 'dex' : 'str';
-    const b = { str: 10, dex: 10, con: 14, int: 10, wis: 10, cha: 8 };
-    b[key] = 15; if (fight !== key) b[fight] = 13;
-    return b;
-  }
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
@@ -143,345 +127,8 @@ const UI = (() => {
     syncHistory();
   }
 
-  function refreshTitle() {
-    const s = Game.saveSummary();
-    $('#btn-continue').disabled = !s;
-    // with nothing saved, no greyed-out Continue taking the second place on the screen
-    /** @type {HTMLElement} */ ($('#btn-continue')).hidden = !s;
-    // a run waiting to be picked up is the likelier wish
-    $('#btn-continue').classList.toggle('primary', !!s);
-    $('#btn-new').classList.toggle('primary', !s);
-    $('#save-summary').textContent = s
-      ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
-      : 'No saved game';
-    refreshDaily();
-    refreshNews();
-    refreshFirstTime();
-    // the run before, in a line: who, and how it ended
-    const lr = Game.lastRun(), lastEl = $('#last-run');
-    lastEl.hidden = !lr;
-    if (lr) lastEl.textContent = `Last time: ${lr.name} the ${CLASSES[lr.cls] ? CLASSES[lr.cls].name : lr.cls} ${lr.won ? `won the Heart of the Mountain (${lr.levels} floors)` : `fell on floor ${lr.depth}${lr.killer ? `, killed by ${lr.killer}` : ''}`}.`;
-  }
-  // ---------- what's new ----------
-  // A returning player hears once, on the title, what has changed since they
-  // last played; it goes when dismissed or when a run starts. A new player,
-  // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-30', text: 'the Weekly Challenge: one dungeon a week for everyone, with two vows sworn for you; try as often as you like, and your best stands' };
-  const NEWS_SEEN = 'deepdelve.news';
-  const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
-  function refreshNews() {
-    if (store(NEWS_SEEN) !== NEWS.id && !returning()) store(NEWS_SEEN, NEWS.id);
-    $('#news-text').textContent = NEWS.text;
-    $('#news').hidden = store(NEWS_SEEN) === NEWS.id;
-  }
-  function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; }
-  // Someone new, with no run behind them, is met on the title by a card that
-  // says in a minute what the game is and how it is played, once, until put away
-  const FIRST_SEEN = 'deepdelve.firstSeen';
-  function refreshFirstTime() { $('#first-time').hidden = returning() || store(FIRST_SEEN) === '1'; }
-  // Put away, the card fades out first and the title fades up where it now
-  // stands: the name drops down the screen as the card goes, and seen to jump
-  // there it looked like a fault.
-  const CARD_OUT_MS = 160;
-  function firstTimeSeen() {
-    store(FIRST_SEEN, '1');
-    const card = $('#first-time'), inner = $('#screen-title .title-inner');
-    if (card.hidden) return;
-    if (calmOn() || !$('#screen-title').classList.contains('active')) { card.hidden = true; return; }
-    card.classList.add('closing');
-    setTimeout(() => {
-      card.classList.remove('closing'); card.hidden = true;
-      inner.classList.add('settling');
-      setTimeout(() => inner.classList.remove('settling'), 260);
-    }, CARD_OUT_MS);
-  }
-  /** Which daily a button is for, and where it says how it stands. @param {'main'|'earned'} kind */
-  const DAILY_UI = { main: { btn: '#btn-daily', note: '#daily-summary' }, earned: { btn: '#btn-daily', note: '#daily-earned-summary' } };
-  // which daily the title's Daily button is set to: the day's dungeon for any hero, or a Ranger's or a Druid's
-  const DAILY_KIND = 'deepdelve.dailyKind';
-  /** @returns {'main'|'earned'} */
-  function dailyKind() {
-    // left as the player set it; never set, a daily run waiting below sets it to its own kind
-    const k = store(DAILY_KIND), s = Game.saveSummary();
-    if (k) return k === 'earned' ? 'earned' : 'main';
-    return s && s.daily === Daily.today() && s.dailyKind === 'earned' ? 'earned' : 'main';
-  }
-  /** Set the Daily button to one daily or the other, and show how that one stands. */
-  function showDailyKind() {
-    const kind = dailyKind();
-    for (const b of $$('.daily-kind [data-kind]')) { const on = /** @type {HTMLElement} */ (b).dataset.kind === kind; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
-    $('#daily-name').textContent = kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve';
-    /** @type {HTMLElement} */ ($('#daily-summary')).hidden = kind !== 'main';
-    /** @type {HTMLElement} */ ($('#daily-earned-summary')).hidden = kind !== 'earned';
-    $('#btn-daily').classList.toggle('done', $('#btn-daily').dataset[kind === 'earned' ? 'earnedDone' : 'mainDone'] === '1');
-  }
-  /** The Daily Delve buttons say how today stands: fresh, waiting below, or done. */
-  function refreshDaily() {
-    for (const kind of /** @type {('main'|'earned')[]} */ (['main', 'earned'])) {
-      const key = Daily.today(), st = Daily.status(key, kind), s = Game.saveSummary();
-      const btn = /** @type {HTMLButtonElement} */ ($(DAILY_UI[kind].btn)), note = $(DAILY_UI[kind].note);
-      if (!btn || !note) continue;
-      // the day's own run, not a custom one that borrowed its seed
-      const waiting = !!s && s.daily === key && s.dailyKind === kind;
-      const run = Daily.streak(key, kind);
-      btn.dataset[kind === 'earned' ? 'earnedDone' : 'mainDone'] = st.state !== 'fresh' && !waiting ? '1' : '0';
-      if (waiting) note.textContent = `Today's delve waits on floor ${s.depth}`;
-      else if (st.state === 'done') note.textContent = `Today: ${Daily.outcome(st.done)} \u00b7 Share`;
-      else if (st.state === 'started') note.textContent = 'Today: left unfinished';
-      else note.textContent = run ? `One try today \u00b7 streak ${run}` : kind === 'earned' ? 'A Ranger or a Druid, one try' : "Today's dungeon, one try";
-    }
-    // the week's challenge: waiting below, or what it asks, or the best try so far
-    const wk = Weekly.weekKey(), ws = Game.saveSummary();
-    $('#weekly-summary').textContent = ws && ws.weekly === wk ? `This week's delve waits on floor ${ws.depth}` : Weekly.summary(wk);
-    showDailyKind();
-  }
-  /** Copy a line to the clipboard, the old way if the new one is refused. */
-  async function copyText(text) {
-    try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (e) { /* try the old way */ }
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      const ok = document.execCommand('copy');
-      ta.remove();
-      return ok;
-    } catch (e) { return false; }
-  }
-  /**
-   * Pass a line on: through the phone's own share sheet where there is one
-   * (a message, a chat, a note), else onto the clipboard. Closing the sheet
-   * without choosing is not a failure, and copies nothing behind the player's back.
-   * @returns {Promise<'shared'|'closed'|'copied'|'failed'>}
-   */
-  async function shareText(text) {
-    if (navigator.share) {
-      try { await navigator.share({ text }); return 'shared'; } catch (e) { if (e && e.name === 'AbortError') return 'closed'; }
-    }
-    return (await copyText(text)) ? 'copied' : 'failed';
-  }
-  const SHARED = { shared: 'Shared', copied: 'Copied: paste it anywhere' };
-  /** A Daily Delve button: start today's, go back to it, or share how it went. @param {'main'|'earned'} [kind] */
-  function dailyTap(kind = 'main') {
-    const key = Daily.today(), st = Daily.status(key, kind), s = Game.saveSummary(), note = $(DAILY_UI[kind].note);
-    if (s && s.daily === key && s.dailyKind === kind) { if (Game.load()) startPlaying(); return; }
-    if (st.state === 'done') {
-      const line = Daily.shareLine(key, st.done, kind);
-      shareText(line).then(how => { note.textContent = SHARED[how] || line; });
-      return;
-    }
-    // one try a day: a run begun and then given up is still the day's try
-    if (st.state === 'started') { note.textContent = 'One try a day. Back tomorrow'; return; }
-    startNewGameFlow(kind === 'earned' ? 'earned' : 'daily');
-  }
-  /** The Weekly Challenge button: go back to the week's run waiting below, or begin a new try. */
-  function weeklyTap() {
-    const s = Game.saveSummary();
-    if (s && s.weekly === Weekly.weekKey()) { if (Game.load()) startPlaying(); return; }
-    startNewGameFlow('weekly');
-  }
-  /** Today's hero, the same for everyone, into the prologue. @param {'main'|'earned'} [kind] */
-  function dailyStart(kind = 'main') { showPrologue(Daily.heroFor(Daily.today(), kind)); }
-  const DIFFICULTY = {
-    easy: 'Easy: more to find, monsters never grow with you',
-    normal: 'Normal: the intended delve',
-    hard: 'Hard: sturdier monsters, thinner rests, the last foe at full strength',
-  };
-  /** What a delve of this many floors holds, under the options. */
-  function levelsNote() {
-    const n = parseInt($('#c-levels').value, 10);
-    $('#c-levels-note').textContent = n <= 2
-      ? 'A quick delve: two floors, a lesser lich keeping the Heart at the bottom of the second. Over in a quarter of an hour; trophies wait for four floors or more.'
-      : n >= 12
-      ? `The Long Delve: ${n} floors. From the seventh the dark bites harder and its creatures are sturdier, three champions hold it, and a third of the way down the stair divides. A win is a feat of its own.`
-      : Dungeon.routeSpan(n) ? 'A third of the way down, the stair divides: the Crypts or the Warrens, your choice.'
-      : 'A short delve: the stair runs straight down, with no road to choose.';
-  }
-  /** A run's difficulty; a save from before there was a choice is normal. */
-  function setDifficulty(d) {
-    create.difficulty = DIFFICULTY[d] ? d : 'normal';
-    for (const b of $$('#c-difficulty [data-diff]')) { const on = b.dataset.diff === create.difficulty; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
-    $('#c-diff-note').textContent = DIFFICULTY[create.difficulty];
-    renderRung(/** @type {HTMLElement} */ ($('#c-rung')), create, () => setDifficulty(create.difficulty));
-    createSummary();
-  }
 
 
-  // ---------- character creation ----------
-  /** What a class card says of its paths, won and still to win. @param {{name: string}[]} won @param {{name: string}[]} left */
-  const pathGoal = (won, left) => `${won.length ? `Won as ${won.map(x => escapeHtml(x.name)).join(' and ')}; to` : 'To'} master: win as ${left.map(x => escapeHtml(x.name)).join(' and ')}`;
-  /** The classes that forgive a new player's mistakes: marked on the cards, and a first Quick Start's. */
-  const FIRST_HEROES = ['fighter', 'cleric'];
-  /** A class's hero, head and shoulders (see PORTRAITS in creatures.js), as an image's source. */
-  const faceOf = cls => { const s = Assets.sprites['portrait_' + cls]; return s && s.url ? s.url : ''; };
-  /** The hero chosen so far, beside Descend: the cards that say it can be scrolled far out of sight. */
-  function createSummary() {
-    const el = $('#c-summary');
-    if (el) el.textContent = `${CLASSES[create.cls] ? CLASSES[create.cls].name : create.cls} \u00b7 ${BACKGROUNDS[create.bg] ? BACKGROUNDS[create.bg].name : create.bg} \u00b7 ${diffLabel(create)}`;
-  }
-  function buildCreate() {
-    createSummary();
-    const grid = $('#c-classes');
-    grid.innerHTML = '';
-    const known = Progress.load();
-    for (const id in CLASSES) {
-      const c = CLASSES[id];
-      const b = document.createElement('button');
-      b.className = 'class-card' + (id === create.cls ? ' sel' : '');
-      b.type = 'button';
-      b.dataset.cls = id;
-      b.setAttribute('aria-pressed', String(id === create.cls));
-      // a Hard win earns the class's title, shown on its card from then on
-      const titled = Progress.hasWon(id, 'hard', known) ? `<em class="class-title">${escapeHtml(c.title)}</em>` : '';
-      // someone new to the delve is pointed at the classes that forgive mistakes
-      const first = FIRST_HEROES.includes(id) && Game.hall().length < 3 ? '<em class="first-hero">Good first hero</em>' : '';
-      // and once a class has a win, the next thing to aim for with it: both its paths
-      const paths = PATHS[id] || [];
-      const goal = !Progress.highest(id, known) || !paths.length ? ''
-        : Progress.mastered(id, known) ? '<em class="key mastery">Mastered: both paths won</em>'
-          : `<em class="key goal">${pathGoal(paths.filter(x => known.paths[x.id]), paths.filter(x => !known.paths[x.id]))}</em>`;
-      // a card says only enough to choose by: who, and in a line how they play;
-      // the whole of it is told beneath for the one chosen, at the full width
-      b.innerHTML = `<span class="cc-head"><img class="class-face" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
-      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
-      grid.appendChild(b);
-    }
-    {
-      const c = CLASSES[create.cls];
-      $('#c-class-more').innerHTML = `<b>${c.name}</b> ${c.desc} <em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
-    }
-    const bgGrid = $('#c-backgrounds');
-    bgGrid.innerHTML = '';
-    // a past still to be earned cannot stay chosen
-    const progress = Progress.load();
-    // vows, once a hero has won on Hard: each one a harder run and a trophy of its own
-    const vowsOpen = Progress.vowsOpen(progress);
-    /** @type {HTMLElement} */ ($('#c-vows')).hidden = !vowsOpen;
-    if (!vowsOpen) create.vows = [];
-    $('#c-vow-list').innerHTML = Object.keys(VOWS).map(id => `<label class="check"><input type="checkbox" data-vow="${id}"${create.vows.includes(id) ? ' checked' : ''}> <span><b>${escapeHtml(VOWS[id].name)}</b> <em class="vow-score">+${Math.round(VOWS[id].score * 100)}% score</em>: ${escapeHtml(VOWS[id].desc)}</span></label>`).join('');
-    for (const box of $$('#c-vow-list [data-vow]')) box.addEventListener('change', () => {
-      const id = /** @type {HTMLInputElement} */ (box).dataset.vow || '';
-      create.vows = /** @type {HTMLInputElement} */ (box).checked ? [...new Set([...create.vows, id])] : create.vows.filter(v => v !== id);
-    });
-    if (!Progress.bgOpen(create.bg, progress)) create.bg = 'oathbroken';
-    for (const id in BACKGROUNDS) {
-      const b = BACKGROUNDS[id], open = Progress.bgOpen(id, progress);
-      const el = document.createElement('button');
-      el.className = 'bg-card' + (id === create.bg ? ' sel' : '') + (open ? '' : ' locked');
-      el.type = 'button';
-      el.dataset.bg = id;
-      el.setAttribute('aria-pressed', String(id === create.bg));
-      // a locked card says what it is and how to earn it, and cannot be chosen
-      el.innerHTML = open ? `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`
-        : `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key lock">Locked. ${escapeHtml(b.how)}</em>`;
-      el.disabled = !open;
-      if (open) el.addEventListener('click', () => { const was = create.bg; create.bg = id; if (id !== was && $('#c-name').value === autoName) drawHeroName(); buildCreate(); });
-      bgGrid.appendChild(el);
-    }
-    $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;
-    renderStart(/** @type {HTMLElement} */ ($('#c-start')), create, buildCreate);
-    renderRung(/** @type {HTMLElement} */ ($('#c-rung')), create, () => setDifficulty(create.difficulty));
-    createSummary();
-    if (!create.stats) fitStats();
-    const buying = create.mode === 'buy';
-    if (buying) { if (!create.buy) create.buy = buyStart(create.cls); create.stats = create.buy; }
-    for (const b of $$('#c-statmode [data-mode]')) { const on = b.dataset.mode === create.mode; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
-    /** @type {HTMLElement} */ ($('#c-reroll')).hidden = buying;
-    const pts = /** @type {HTMLElement} */ ($('#c-points'));
-    pts.hidden = !buying;
-    if (buying) pts.textContent = `${buyLeft(create.buy)} of ${BUY_POINTS} points left. Scores run from 8 to ${BUY_TOP}, dearer near the top.`;
-    const st = $('#c-stats');
-    st.innerHTML = '';
-    st.classList.toggle('buying', buying);
-    for (const k in STAT_NAMES) {
-      // shown as the hero will have it, background bonus included
-      const boost = create.bg === 'ashborn' && k === 'con' ? 1 : 0;
-      const v = create.stats[k] + boost;
-      const m = Game.mod(v);
-      const div = document.createElement('div');
-      const key = CLASSES[create.cls].primary === k;
-      div.innerHTML = `${STAT_NAMES[k].slice(0, 3).toUpperCase()}${key ? ' \u2605' : ''} <span>${v} (${m >= 0 ? '+' : ''}${m})</span>`;
-      if (key) { div.className = 'key-stat'; div.title = `Key stat for a ${CLASSES[create.cls].name}`; }
-      if (boost) { div.classList.add('bg-boost'); div.title = `Includes +${boost} from your background, ${BACKGROUNDS[create.bg].name}`; }
-      if (buying) {
-        const b = create.buy, step = (dv) => { b[k] += dv; create.stats = b; create.buyTouched = true; buildCreate(); };
-        const less = document.createElement('button'), more = document.createElement('button');
-        less.type = more.type = 'button'; less.className = more.className = 'buy-step';
-        less.textContent = '\u2212'; more.textContent = '+';
-        less.dataset.stat = more.dataset.stat = k; less.dataset.step = '-1'; more.dataset.step = '1';
-        less.setAttribute('aria-label', `Lower ${STAT_NAMES[k]}`); more.setAttribute('aria-label', `Raise ${STAT_NAMES[k]}`);
-        less.disabled = b[k] <= 8;
-        more.disabled = b[k] >= BUY_TOP || BUY_COST[b[k] + 1] - BUY_COST[b[k]] > buyLeft(b);
-        less.addEventListener('click', () => step(-1)); more.addEventListener('click', () => step(1));
-        const row = document.createElement('span'); row.className = 'buy-row';
-        row.append(less, more);
-        div.appendChild(row);
-      }
-      st.appendChild(div);
-    }
-  }
-  /** The best roll belongs in the class's key stat: a thief with 7 dexterity was a
-   * trap. Worked out afresh from the roll each time, so trying Mage and going back to
-   * Fighter gives back the Fighter's numbers rather than keeping the Mage's swap. */
-  function fitStats() {
-    if (!create.rolled) create.rolled = Game.rollStats();
-    const st = { ...create.rolled }, keyStat = CLASSES[create.cls].primary;
-    const best = Object.keys(st).reduce((a, b) => (st[b] > st[a] ? b : a), keyStat);
-    [st[keyStat], st[best]] = [st[best], st[keyStat]];
-    create.stats = st;
-  }
-  /** The name the game last put in the box: a background chosen after it may redraw it, a typed one it leaves alone. */
-  let autoName = '';
-  /** A name that often sounds like the hero's background, never the one given just before. */
-  function drawHeroName() { autoName = heroName(create.bg, $('#c-name').value); $('#c-name').value = autoName; }
-  function openCreation() {
-    // every new hero arrives with a name of their own, to keep or type over
-    if (!Progress.bgOpen(create.bg, Progress.load())) create.bg = 'oathbroken';
-    drawHeroName();
-    create.buy = null; create.buyTouched = false;   // a new hero's points are its own, not the last one's
-    create.rolled = Game.rollStats();
-    fitStats();
-    buildCreate();
-    showScreen('screen-create');
-  }
-  /** A random hero with sensible numbers, straight to the prologue. */
-  function quickStart() {
-    const progress = Progress.load(), classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
-    // someone's very first run gets a class that forgives mistakes
-    const firstRun = !Game.hall().length;
-    const pool = firstRun ? FIRST_HEROES : classes;
-    create.cls = pool[Math.floor(Math.random() * pool.length)];
-    create.bg = pasts[Math.floor(Math.random() * pasts.length)];
-    // "straight in" should not mean a hero who cannot hit a rat: roll again
-    // until the key stat and the fighting stat both pull their weight
-    for (let i = 0; i < 40; i++) {
-      create.rolled = Game.rollStats();
-      fitStats();
-      // (a druid's blows answer Strength or Wisdom, whichever is higher)
-      const s = create.stats, fight = create.cls === 'druid' ? Math.max(s.str, s.wis) : create.cls === 'thief' || create.cls === 'ranger' ? s.dex : s.str;
-      if (s[CLASSES[create.cls].primary] >= 14 && fight >= 12 && s.con >= 10) break;
-    }
-    const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
-      opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal') } };
-    // "straight in" means it for anyone who has been down before; a first
-    // hero still hears why the Heart matters
-    if (firstRun) showPrologue(cfg);
-    else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); if (preludeWanted()) Game.beginPrelude(); startPlaying(); }
-  }
-  /** @type {'new'|'quick'|'daily'|'earned'|'weekly'} what the player asked for, waiting on the replace question */
-  let pendingKind = 'new';
-  /** Which daily a run is, by name. @param {string} [kind] */
-  const dailyLabel = kind => (kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve');
-  function startPending() { if (pendingKind === 'quick') quickStart(); else if (pendingKind === 'daily') dailyStart(); else if (pendingKind === 'earned') dailyStart('earned'); else if (pendingKind === 'weekly') showPrologue(Weekly.heroFor(Weekly.weekKey())); else openCreation(); }
-  /** A run in progress is a real investment, so never discard one silently. @param {'new'|'quick'|'daily'|'earned'|'weekly'} [kind] */
-  function startNewGameFlow(kind = 'new') {
-    pendingKind = kind;
-    const saved = Game.saveSummary();
-    if (!saved) { startPending(); return; }
-    // today's Daily is one try: replacing that hero spends it, so say so
-    $('#confirm-who').textContent =
-      `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily && saved.daily === Daily.today() ? ` This is today\'s ${dailyLabel(saved.dailyKind)}, your one try at it: a new hero ends it unfinished.` : ''}`;
-    showScreen('screen-confirm');
-  }
   function showPrologue(cfg) {
     pendingCfg = cfg;
     const b = BACKGROUNDS[cfg.bg];
@@ -502,31 +149,6 @@ const UI = (() => {
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
     showScreen('screen-prologue');
   }
-  function beginGame() {
-    const cfg = {
-      name: $('#c-name').value,
-      cls: create.cls,
-      bg: create.bg,
-      stats: create.stats,
-      // a custom seed cannot borrow a Daily Delve's or the week's, or the day's one try could be practised first
-      seed: ((($('#c-seed').value || '').trim() || randomSeedWord())).replace(/^daily-/i, 'my-daily-').replace(/^weekly-/i, 'my-weekly-'),
-      opts: {
-        levels: parseInt($('#c-levels').value, 10),
-        size: $('#c-size').value,
-        monsters: $('#c-monsters').value,
-        treasure: $('#c-treasure').value,
-        lockedDoors: $('#c-locked').checked,
-        traps: $('#c-traps').checked,
-        permadeath: $('#c-permadeath').checked,
-        difficulty: /** @type {'easy'|'normal'|'hard'} */ (create.difficulty),
-        ...(create.vows.length ? { vows: create.vows.slice() } : {}),
-        ...(create.kit ? { kit: create.kit } : {}),
-        ...(create.hound ? { companion: 'hound' } : {}),
-        ...(create.difficulty === 'hard' && create.rung ? { rung: create.rung } : {}),
-      },
-    };
-    showPrologue(cfg);
-  }
   const STORY_READ = 'deepdelve.storyRead';
   // the way in plays as every new run opens (see prelude.js). A browser driven by
   // the tests starts without it, unless a test asks for it ('on'): it would take
@@ -543,6 +165,12 @@ const UI = (() => {
     pendingCfg = null;
     Game.save(true);
     // (begun before the first look at the HUD, so the first tip waits for it)
+    if (preludeWanted()) Game.beginPrelude();
+    startPlaying();
+  }
+  /** A hero straight into the dungeon, no prologue: Quick Start for anyone who has been down before. */
+  function startNow(cfg) {
+    pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true);
     if (preludeWanted()) Game.beginPrelude();
     startPlaying();
   }
@@ -1741,14 +1369,12 @@ const UI = (() => {
     setHand();
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => { Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); }); } catch (e) { /* older browsers */ }
+    bindTitle(); bindCreate();
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     if ($('#screen-title').classList.contains('active')) startOpening();
     $('#screen-title').addEventListener('pointerdown', () => { endOpening(); Sound.unlock(); Music.swell(); }, { capture: true });
-    $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
-    $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) startPlaying(); });
     $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });
-    $('#news-close').addEventListener('click', newsSeen);
     // a hero carried over from another device, in place of any waiting here
     $('#btn-code').addEventListener('click', () => {
       /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = '';
@@ -1788,39 +1414,8 @@ const UI = (() => {
       if (playing && helpFromMenu) openOverlay('menu');
       helpFromMenu = false;
     });
-    $('#c-reroll').addEventListener('click', () => { create.rolled = Game.rollStats(); fitStats(); buildCreate(); });
-    for (const b of $$('#c-statmode [data-mode]')) b.addEventListener('click', () => {
-      create.mode = b.dataset.mode || 'roll';
-      // points the player placed are kept across a look at the rolled scores
-      if (create.mode === 'roll') fitStats(); else if (!create.buy || !create.buyTouched) create.buy = buyStart(create.cls);
-      buildCreate();
-      // the scores (and the points left) are what just changed: keep them clear of the sticky footer
-      const el = create.mode === 'buy' ? $('#c-points') : $('#c-stats');
-      if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    });
-    $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
-    $('#c-levels').addEventListener('change', levelsNote);
-    levelsNote();
-    // anything typed in the name box is the player's own, even a name the game might have drawn
-    $('#c-name').addEventListener('input', () => { autoName = ''; });
-    // a name for a hero who would rather not choose; never the same one twice running
-    $('#c-name-rand').addEventListener('click', e => {
-      e.preventDefault();
-      drawHeroName();
-    });
-    $('#c-back').addEventListener('click', () => showScreen('screen-title'));
-    $('#c-begin').addEventListener('click', beginGame);
     $('#pro-begin').addEventListener('click', commitGame);
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
-    $('#end-new').addEventListener('click', () => startNewGameFlow());
-    $('#confirm-keep').addEventListener('click', () => { if (Game.load()) startPlaying(); });
-    $('#confirm-replace').addEventListener('click', startPending);
-    $('#btn-quick').addEventListener('click', () => { Sound.unlock(); startNewGameFlow('quick'); });
-    $('#ft-close').addEventListener('click', firstTimeSeen);
-    $('#ft-quick').addEventListener('click', () => { firstTimeSeen(); Sound.unlock(); startNewGameFlow('quick'); });
-    $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(dailyKind()); });
-    $('#btn-weekly').addEventListener('click', () => { Sound.unlock(); weeklyTap(); });
-    for (const b of $$('.daily-kind [data-kind]')) b.addEventListener('click', () => { store(DAILY_KIND, /** @type {HTMLElement} */ (b).dataset.kind === 'earned' ? 'earned' : 'main'); showDailyKind(); });
     // the run as a picture: to the phone's share sheet where it takes files, else saved
     $('#end-card').addEventListener('click', async () => {
       const b = $('#end-card'), G = Game.state();
@@ -1848,8 +1443,6 @@ const UI = (() => {
       out.textContent = line; out.style.display = '';
       shareText(line).then(how => { $('#end-share').textContent = SHARED[how] || (how === 'closed' ? $('#end-share').textContent : 'Copy the line below'); });
     });
-    for (const b of $$('#c-difficulty [data-diff]')) b.addEventListener('click', () => setDifficulty(b.dataset.diff));
-    setDifficulty('normal');
     $('#end-title-btn').addEventListener('click', () => showScreen('screen-title'));
     bindControls();
     setTextSize(textSize());
@@ -1857,6 +1450,17 @@ const UI = (() => {
     // (a resize may move between layouts: the corner map and the docked one are drawn afresh)
     window.addEventListener('resize', () => { fitView(); miniSig = ''; if (overlay === 'map') renderMap(); });
   }
+
+  // ---------- titlemenu: see titlemenu.js ----------
+  const { refreshTitle, newsSeen, dailyLabel, copyText, shareText, SHARED, bindTitle, NEWS } = makeTitleMenu({
+    store, get calmOn() { return calmOn; }, get showScreen() { return showScreen; }, get showPrologue() { return showPrologue; },
+    get openCreation() { return openCreation; }, get quickStart() { return quickStart; }, get startPlaying() { return startPlaying; },
+  });
+
+  // ---------- createview: see createview.js ----------
+  const { faceOf, buildCreate, openCreation, quickStart, bindCreate } = makeCreateView({
+    get showScreen() { return showScreen; }, get showPrologue() { return showPrologue; }, get startNow() { return startNow; },
+  });
 
   // ---------- endscreen: see endscreen.js ----------
   const { cardInfo, runShareLine, showEnd } = makeEndScreen({

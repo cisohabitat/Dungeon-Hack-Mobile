@@ -42,7 +42,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   wired at the end of `ui.js` in the same `K` pattern: the title's key art
   (`js/titlescene.js`, drawing `img/keyart-*.webp`, made from `art/keyart/`), the trader (`js/shopview.js`), an encounter's and a level's
   choices (`js/choices.js`), the pack (`js/pack.js`), the map (`js/mapview.js`),
-  the spell list and hero sheet (`js/herosheet.js`) and the end of a run (`js/endscreen.js`).
+  the spell list and hero sheet (`js/herosheet.js`), the end of a run (`js/endscreen.js`), the title's menu with the
+  Daily, the Weekly and the replace question (`js/titlemenu.js`) and the New Game screen with Quick Start (`js/createview.js`).
   The first-moment tips' words are in `js/tips.js` (`makeTips`, lent two of the view's helpers).
   A controller is read in `js/pad.js` (`makePad`, polled once a frame from `main.js`): in play it
   presses what the keys press; elsewhere it moves a focus ring by where the buttons sit. A new
