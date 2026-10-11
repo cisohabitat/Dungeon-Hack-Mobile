@@ -31,7 +31,7 @@ export function makeTrader(K) {
   // Wick knows a regular's face: from the third delve it has met you in, a tenth
   // off its wares (not in a Daily, which is the same delve for everyone)
   const REGULAR = 2, REGULAR_OFF = 0.1;
-  const regular = () => (shop && shop.wick && !K.G.opts.daily && ((K.G.wick && K.G.wick.met) || 0) >= REGULAR ? REGULAR_OFF : 0);
+  const regular = () => (shop && shop.wick && !K.G.opts.daily && !K.G.opts.weekly && ((K.G.wick && K.G.wick.met) || 0) >= REGULAR ? REGULAR_OFF : 0);
   // a relic is priced by its legend, not by the iron it is made of
   function buyPrice(shop, it) {
     const r = relicOf(it);
@@ -249,7 +249,7 @@ export function makeTrader(K) {
         const line = say[l.fate] || say.gone;
         log(line.replace('{who}', who).replace('{depth}', String(l.depth)).replace('{killer}', l.killer ? say.killer.replace('{killer}', l.killer) : ''), 'info');
       }
-      if (w.met >= REGULAR && !G.opts.daily) log(say.regular, 'good');
+      if (w.met >= REGULAR && !G.opts.daily && !G.opts.weekly) log(say.regular, 'good');
     }
     log(`"${w.told < WICK.tales.length ? WICK.tales[w.told] : WICK.done}"`, 'info');
     G.wickMet = G.depth;

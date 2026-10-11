@@ -982,7 +982,7 @@ export function makeCombat(K) {
     Sound.play('die'); buzz([150, 80, 300]);
     if (K.G.opts.permadeath) { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } noteRun(runKey(), 'ended'); }
     // remembered, for a later run to find where they fell
-    if (!K.G.opts.daily && !K.G.tested) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: K.G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
+    if (!K.G.opts.daily && !K.G.opts.weekly && !K.G.tested) Progress.recordFallen({ name: p.name, cls: p.cls, level: p.level, depth: K.G.depth, run: runKey(), eq: p.eq, killer: killerPhrase() });
     recordHero(false);
     emit('dead');
   }

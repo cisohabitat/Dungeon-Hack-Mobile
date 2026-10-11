@@ -51,6 +51,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   What the game does for access is in `js/access.js` (`makeAccess`): the log read aloud from `#sr-log`,
   the view in words, the bars named, the colour-blind palette and which hand plays (one-handed too).
   The two largest text sizes set `body.big-text`, which lays the dungeon's bars and buttons out afresh.
+  The Daily Delve is `js/daily.js` and the Weekly Challenge `js/weekly.js` (which deals its hero with the
+  daily's `dealHero`); a run either one starts is shared by everyone, so each guard that keeps a daily the
+  same for all (no bones, hound, second kit, rung, Wick's tenth) checks `opts.weekly` as well.
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
   over it are in `js/spellfx.js`.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list

@@ -211,7 +211,7 @@ export function makeEndScreen(K) {
     $('#end-share').style.display = G.opts.daily && G.tested ? 'none' : '';
     $('#end-card').style.display = '';
     $('#end-card').textContent = 'Share a picture';
-    $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : 'Share this run';
+    $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : G.opts.weekly && !G.tested ? 'Share this week\'s best' : 'Share this run';
     $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
     $('#screen-end').scrollTop = 0;   // a second death, or the win, opens at its title, not where the last was left

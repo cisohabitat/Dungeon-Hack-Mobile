@@ -57,6 +57,7 @@ async function loadGame(opts = {}) {
     // stateless: each call reads the storage installed above
     Progress: (await import(url('progress.js'))).Progress,
     Daily: (await import(url('daily.js'))).Daily,
+    Weekly: (await import(url('weekly.js'))).Weekly,
     ...(({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy, routeRelic, twistRelic }) => ({ RELICS, RELIC_POWERS, relicPlan, relicUsableBy, routeRelic, twistRelic }))(await import(url('relics.js'))),
     ...data,
   };

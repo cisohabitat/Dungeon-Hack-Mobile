@@ -8,6 +8,7 @@ import { Sound } from './sound.js';
 import { Music } from './music.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
+import { Weekly } from './weekly.js';
 import { Progress } from './progress.js';
 import { $, $$, escapeHtml, diffOf, diffLabel, icon } from './uikit.js';
 import { renderStart, renderRung } from './createextras.js';
@@ -165,7 +166,7 @@ const UI = (() => {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-29', text: 'on a tablet held sideways, a Steam Deck or a desktop, the map now stands docked beside the view and follows you as you go' };
+  const NEWS = { id: '2026-11-30', text: 'the Weekly Challenge: one dungeon a week for everyone, with two vows sworn for you; try as often as you like, and your best stands' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -229,6 +230,9 @@ const UI = (() => {
       else if (st.state === 'started') note.textContent = 'Today: left unfinished';
       else note.textContent = run ? `One try today \u00b7 streak ${run}` : kind === 'earned' ? 'A Ranger or a Druid, one try' : "Today's dungeon, one try";
     }
+    // the week's challenge: waiting below, or what it asks, or the best try so far
+    const wk = Weekly.weekKey(), ws = Game.saveSummary();
+    $('#weekly-summary').textContent = ws && ws.weekly === wk ? `This week's delve waits on floor ${ws.depth}` : Weekly.summary(wk);
     showDailyKind();
   }
   /** Copy a line to the clipboard, the old way if the new one is refused. */
@@ -268,6 +272,12 @@ const UI = (() => {
     // one try a day: a run begun and then given up is still the day's try
     if (st.state === 'started') { note.textContent = 'One try a day. Back tomorrow'; return; }
     startNewGameFlow(kind === 'earned' ? 'earned' : 'daily');
+  }
+  /** The Weekly Challenge button: go back to the week's run waiting below, or begin a new try. */
+  function weeklyTap() {
+    const s = Game.saveSummary();
+    if (s && s.weekly === Weekly.weekKey()) { if (Game.load()) startPlaying(); return; }
+    startNewGameFlow('weekly');
   }
   /** Today's hero, the same for everyone, into the prologue. @param {'main'|'earned'} [kind] */
   function dailyStart(kind = 'main') { showPrologue(Daily.heroFor(Daily.today(), kind)); }
@@ -457,12 +467,12 @@ const UI = (() => {
     if (firstRun) showPrologue(cfg);
     else { pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true); if (preludeWanted()) Game.beginPrelude(); startPlaying(); }
   }
-  /** @type {'new'|'quick'|'daily'|'earned'} what the player asked for, waiting on the replace question */
+  /** @type {'new'|'quick'|'daily'|'earned'|'weekly'} what the player asked for, waiting on the replace question */
   let pendingKind = 'new';
   /** Which daily a run is, by name. @param {string} [kind] */
   const dailyLabel = kind => (kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve');
-  function startPending() { if (pendingKind === 'quick') quickStart(); else if (pendingKind === 'daily') dailyStart(); else if (pendingKind === 'earned') dailyStart('earned'); else openCreation(); }
-  /** A run in progress is a real investment, so never discard one silently. @param {'new'|'quick'|'daily'|'earned'} [kind] */
+  function startPending() { if (pendingKind === 'quick') quickStart(); else if (pendingKind === 'daily') dailyStart(); else if (pendingKind === 'earned') dailyStart('earned'); else if (pendingKind === 'weekly') showPrologue(Weekly.heroFor(Weekly.weekKey())); else openCreation(); }
+  /** A run in progress is a real investment, so never discard one silently. @param {'new'|'quick'|'daily'|'earned'|'weekly'} [kind] */
   function startNewGameFlow(kind = 'new') {
     pendingKind = kind;
     const saved = Game.saveSummary();
@@ -486,6 +496,7 @@ const UI = (() => {
     const o = cfg.opts, d = diffOf(o);
     $('#pro-rules').textContent = o.daily
       ? `The ${dailyLabel(o.dailyKind)} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
+      : o.weekly ? `The Weekly Challenge for ${Weekly.longWeek(o.weekly)}: the same dungeon and the same hero for everyone this week, sworn to the ${Weekly.modifiers(o.weekly)}. One life a try; try as often as you like, and your best stands.`
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
@@ -497,8 +508,8 @@ const UI = (() => {
       cls: create.cls,
       bg: create.bg,
       stats: create.stats,
-      // a custom seed cannot borrow a Daily Delve's, or the day's one try could be practised first
-      seed: ((($('#c-seed').value || '').trim() || randomSeedWord())).replace(/^daily-/i, 'my-daily-'),
+      // a custom seed cannot borrow a Daily Delve's or the week's, or the day's one try could be practised first
+      seed: ((($('#c-seed').value || '').trim() || randomSeedWord())).replace(/^daily-/i, 'my-daily-').replace(/^weekly-/i, 'my-weekly-'),
       opts: {
         levels: parseInt($('#c-levels').value, 10),
         size: $('#c-size').value,
@@ -527,6 +538,7 @@ const UI = (() => {
     if (!pendingCfg) return;
     // the day's one try begins here, at the first stair
     if (pendingCfg.opts.daily) Daily.start(pendingCfg.opts.daily, pendingCfg.opts.dailyKind || 'main');
+    if (pendingCfg.opts.weekly) Weekly.start(pendingCfg.opts.weekly);
     Game.newGame(pendingCfg);
     pendingCfg = null;
     Game.save(true);
@@ -1491,7 +1503,7 @@ const UI = (() => {
     // (a phone that cannot buzz, an iPhone among them, is not offered the switch)
     $('#m-haptics').hidden = !('vibrate' in navigator);
     $('#m-haptics').textContent = 'Vibration: ' + (store(HAPTICS_OFF) === '1' ? 'Off' : 'On');
-    $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}Seed "${G.seed}" · ${diffLabel(G.opts)} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
+    $('#m-seed').textContent = `${G.opts.daily ? `${dailyLabel(G.opts.dailyKind)} ${G.opts.daily} · ` : ''}${G.opts.weekly ? `Weekly Challenge ${G.opts.weekly} · ` : ''}Seed "${G.seed}" · ${diffLabel(G.opts)} · ${G.opts.levels} floors${G.route && ROUTES[G.route] ? ` · by ${ROUTES[G.route].name}` : ''} · ${G.opts.size} · ${G.opts.permadeath ? 'permadeath' : 'reload allowed'}`;
   }
 
   /** Go to floor: every floor of the run, the next one down picked; and a road while none is taken. */
@@ -1677,6 +1689,8 @@ const UI = (() => {
 
   /** A daily run's end is kept at once, before any finale, in case the phone is put away. */
   function noteDaily(run, won) {
+    // (a week's try is kept the same way, and as soon)
+    if (run.opts.weekly && !run.tested) Weekly.finish(run.opts.weekly, { won, depth: run.depth, kills: run.player.kills, cls: run.player.cls, score: Game.score(run.player, run.depth, won) });
     if (!run.opts.daily || run.tested) return;
     const p = run.player;
     Daily.finish(run.opts.daily, { won, depth: run.depth, kills: p.kills, cls: p.cls, score: Game.score(p, run.depth, won) }, run.opts.dailyKind || 'main');
@@ -1805,6 +1819,7 @@ const UI = (() => {
     $('#ft-close').addEventListener('click', firstTimeSeen);
     $('#ft-quick').addEventListener('click', () => { firstTimeSeen(); Sound.unlock(); startNewGameFlow('quick'); });
     $('#btn-daily').addEventListener('click', () => { Sound.unlock(); dailyTap(dailyKind()); });
+    $('#btn-weekly').addEventListener('click', () => { Sound.unlock(); weeklyTap(); });
     for (const b of $$('.daily-kind [data-kind]')) b.addEventListener('click', () => { store(DAILY_KIND, /** @type {HTMLElement} */ (b).dataset.kind === 'earned' ? 'earned' : 'main'); showDailyKind(); });
     // the run as a picture: to the phone's share sheet where it takes files, else saved
     $('#end-card').addEventListener('click', async () => {
@@ -1826,7 +1841,9 @@ const UI = (() => {
     $('#end-share').addEventListener('click', () => {
       const G = Game.state(), key = G && G.opts.daily, kind = (G && G.opts.dailyKind) || 'main', st = key ? Daily.status(key, kind) : null;
       if (!G || (key && (!st || !st.done))) return;
-      const line = key ? Daily.shareLine(key, st.done, kind) : runShareLine(G.status === 'won'), out = $('#end-share-line');
+      // a week's try is shared as the week's best so far (a test run's kept nothing, so it is told as any run)
+      const week = G.opts.weekly && !G.tested ? Weekly.shareLine(G.opts.weekly) : '';
+      const line = key ? Daily.shareLine(key, st.done, kind) : week || runShareLine(G.status === 'won'), out = $('#end-share-line');
       // the line is shown as well, to copy by hand if the clipboard says no
       out.textContent = line; out.style.display = '';
       shareText(line).then(how => { $('#end-share').textContent = SHARED[how] || (how === 'closed' ? $('#end-share').textContent : 'Copy the line below'); });

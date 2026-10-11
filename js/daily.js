@@ -44,7 +44,20 @@ function heroFor(key, kind = 'main') {
   const rng = new Rng(seedFor(key, kind));
   // the first daily deals the four classes it always has, so the days already dealt stay as they were;
   // the second deals only the Ranger and the Druid, which came later
-  const cls = rng.pick(kind === 'earned' ? EARNED_CLASSES : DAILY_CLASSES);
+  const hero = dealHero(rng, kind === 'earned' ? EARNED_CLASSES : DAILY_CLASSES);
+  return {
+    ...hero, seed: seedFor(key, kind),
+    opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal'), daily: key, ...(kind === 'earned' ? { dailyKind: 'earned' } : {}) },
+  };
+}
+/**
+ * A hero dealt by the dice, the same from the same seed: class, past, name,
+ * then scores. The Weekly Challenge deals its hero this way too. The order
+ * of the dice must not change, or every date already dealt would deal another.
+ * @param {Rng} rng @param {string[]} classes
+ */
+function dealHero(rng, classes) {
+  const cls = rng.pick(classes);
   const bg = rng.pick(DAILY_BACKGROUNDS.filter(id => BACKGROUNDS[id]));
   const name = rng.pick(HERO_NAMES);
   const keyStat = CLASSES[cls].primary;
@@ -62,10 +75,7 @@ function heroFor(key, kind = 'main') {
     const fight = cls === 'druid' ? Math.max(st.str, st.wis) : cls === 'thief' || cls === 'ranger' ? st.dex : st.str;
     if (st[keyStat] >= 14 && fight >= 12 && st.con >= 10) break;
   }
-  return {
-    name, cls, bg, stats, seed: seedFor(key, kind),
-    opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal'), daily: key, ...(kind === 'earned' ? { dailyKind: 'earned' } : {}) },
-  };
+  return { name, cls, bg, stats };
 }
 
 /** @returns {{streak: number, last: string, days: Object<string, {started?: boolean, done?: {won: boolean, depth: number, kills: number, cls: string, score: number}}>}} */
@@ -117,5 +127,5 @@ function shareLine(key, done, kind = 'main') {
   return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid Daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
 }
 
-const Daily = { today, seedFor, longDate, heroFor, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };
+const Daily = { today, seedFor, longDate, heroFor, dealHero, dayNumber, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };
 export { Daily };

@@ -15339,6 +15339,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-regions.js')({ test, newContext, evenStats, OPTS });
   // the narrator's one voice (rules-voice.js, docs/VOICE.md)
   await require('./rules-voice.js')({ test, newContext });
+  // the weekly challenge (rules-weekly.js)
+  await require('./rules-weekly.js')({ test, newContext, winHere, beside });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

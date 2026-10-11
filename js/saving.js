@@ -202,7 +202,7 @@ export function makeSaving(K) {
       const s = localStorage.getItem(SAVE_KEY);
       if (!s) return null;
       const g = JSON.parse(s);
-      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed, daily: (g.opts && g.opts.daily) || '', dailyKind: (g.opts && g.opts.dailyKind) || 'main' };
+      return { name: g.player.name, cls: CLASSES[g.player.cls].name, level: g.player.level, depth: g.depth, seed: g.seed, daily: (g.opts && g.opts.daily) || '', dailyKind: (g.opts && g.opts.dailyKind) || 'main', weekly: (g.opts && g.opts.weekly) || '' };
     } catch (e) { return null; }
   }
 

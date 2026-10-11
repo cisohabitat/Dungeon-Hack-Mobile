@@ -280,6 +280,7 @@
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
  * @property {'earned'} [dailyKind]  'earned' for the Ranger & Druid Daily (once the earned classes'); absent on the first
+ * @property {string} [weekly]  the week of a Weekly Challenge, as YYYY-Www (an ISO week); absent on any other run
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
  * @property {'alt'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js)
  * @property {number} [rung]  the rung of the ladder past Hard, 1 to 5, on Hard only (see LADDER in data.js)

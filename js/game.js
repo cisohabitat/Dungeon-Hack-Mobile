@@ -782,13 +782,13 @@ const Game = (() => {
     if (G.opts.vows) G.opts.vows = G.opts.daily ? [] : [...new Set(G.opts.vows)].filter(v => VOWS[v]);
     // a rung of the ladder, on Hard only, never in a Daily (it only makes the delve harder, so the
     // New Game screen alone keeps it to the rungs a class has opened; see rungOpen in progress.js)
-    if (G.opts.rung !== undefined) { const n = Math.floor(Number(G.opts.rung)); if (G.opts.difficulty === 'hard' && !G.opts.daily && n >= 1 && n < LADDER.length) G.opts.rung = n; else delete G.opts.rung; }
+    if (G.opts.rung !== undefined) { const n = Math.floor(Number(G.opts.rung)); if (G.opts.difficulty === 'hard' && !G.opts.daily && !G.opts.weekly && n >= 1 && n < LADDER.length) G.opts.rung = n; else delete G.opts.rung; }
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     G.wick = Progress.wick();   // what Wick remembers, as this run begins (trader.js)
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner (the second kit, once a win has earned it; never in a Daily)
-    const alt = G.opts.kit === 'alt' && !G.opts.daily && Progress.kitOpen(cfg.cls);
+    const alt = G.opts.kit === 'alt' && !G.opts.daily && !G.opts.weekly && Progress.kitOpen(cfg.cls);
     if (!alt) delete G.opts.kit;
     const kit = alt ? c.altKit.items : c.startKit;
     for (const id of kit) G.known[id] = 1;
@@ -804,7 +804,7 @@ const Game = (() => {
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
     // a hound from the first stair, for one who has earned it (not sworn to go alone, nor in a Daily)
-    if (G.opts.companion === 'hound' && !G.opts.daily && !vowed('alone') && Progress.houndOpen()) {
+    if (G.opts.companion === 'hound' && !G.opts.daily && !G.opts.weekly && !vowed('alone') && Progress.houndOpen()) {
       companion.join('hound');
       log(`A rangy hound is waiting at the foot of the stair, as one did for you before. ${G.companion.name} follows you now.`, 'good');
     } else if (G.opts.companion) delete G.opts.companion;

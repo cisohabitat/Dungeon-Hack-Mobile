@@ -109,22 +109,20 @@ The systems are broad. The bar for an AAA roguelike is that by floor 4 a player 
 
 ## Phase 4: Reach and platform (5–6 weeks)
 
-- [ ] **Store builds**: a Trusted Web Activity for Google Play and a Capacitor shell for the App Store, from the same codebase, with listings built on Phase 1's key art and screenshots per language.
-- [ ] **Cloud save**: save codes exist; add optional sign-in (Apple, Google) with conflict resolution, so a phone and a tablet share a hero.
-- [ ] **Localisation**: extract every player-facing string. These are written in the game's voice, so they need translators who write, not a service. Launch languages: German, French, Spanish, Brazilian Portuguese, Japanese, Simplified Chinese. The name tables need per-language versions.
+- ~~**Store builds**~~ (dropped: the game stays on the web): a Trusted Web Activity for Google Play and a Capacitor shell for the App Store, from the same codebase, with listings built on Phase 1's key art and screenshots per language.
+- ~~**Cloud save**~~ (dropped: save codes carry a hero between devices): save codes exist; add optional sign-in (Apple, Google) with conflict resolution, so a phone and a tablet share a hero.
+- ~~**Localisation**~~ (dropped: the game stays in English): extract every player-facing string. These are written in the game's voice, so they need translators who write, not a service. Launch languages: German, French, Spanish, Brazilian Portuguese, Japanese, Simplified Chinese. The name tables need per-language versions.
 - [x] **Controller and keyboard**: Gamepad API mapping, focus rings on every overlay, a Steam Deck layout. This opens a later Steam release through Electron. (`js/pad.js`: the standard layout plays as the keys do in the dungeon, and a gold ring steers every screen and overlay by where its buttons sit; keys gain take and the log, Escape is every screen's Back, and what a key opens takes the focus. A browser test plays a whole delve, from the title to the win and back, on a stub controller alone. The landscape layout holds at the Deck's 1280×800; the wide layout with the map docked comes with the tablet and desktop item.)
 - [x] **Tablet and desktop layout**: generalise the landscape layout; add a wide layout with the map docked beside the view. (On a wide screen, 960 by 600 and up, the floor about the hero, 21 squares across, is docked at the head of the control column, which widens with the screen, and follows the hero; the corner map makes way for it. A tablet held upright has a larger corner map. The corner map's drawing moved to `mapview.js` (`drawAround`) to serve both. `test/browser/layout.spec.js` at 1024×768, 768×1024, 1280×800 and 1440×900; axe on the wide layout. This also gives the Steam Deck its layout.)
 - [x] **Full accessibility**: a screen reader can use every menu and the log; colour-blind palettes for warning marks and the map; a reduced-motion mode; text scaling to 200% without breakage; a one-handed mode (the left-handed layout already exists). (`js/access.js`: the log read aloud from its own live region, the view put into words on each move or turn, the bars named, focus into every overlay and back to its opener. One colour-blind safe palette (Okabe and Ito), blow against trick by orange against blue, for the marks, the map and its legend. Calm view now stills the page's own animations. Text to Double (32px) with the dungeon's bars and buttons laid out afresh, upright and sideways, and pinch-zoom allowed. One-handed for either thumb, upright. axe runs at WCAG 2.2 AA, at the largest text and one-handed too; `test/browser/access.spec.js` checks what axe cannot.)
 
 **Exit criteria**
-- Live on both stores with an average of 4.5 or better.
-- Six languages shipped.
 - WCAG AA on every menu.
 - A run completed from start to finish on a controller alone.
 
 ## Phase 5: Live game (ongoing, from month 7)
 
-- [ ] **Daily and weekly challenges with leaderboards**: dailies exist; add server-verified scores (the seed and the run's log replayed headlessly by the bot harness that already exists) and a weekly challenge with a fixed set of modifiers.
+- [ ] **Daily and weekly challenges with leaderboards**: dailies exist; add server-verified scores (the seed and the run's log replayed headlessly by the bot harness that already exists) and a weekly challenge with a fixed set of modifiers. (The weekly is in: `js/weekly.js`, one dungeon a week by the ISO week, its hero, two vows and the dungeon's options dealt from the week, tried as often as you like with the best kept and shared. Leaderboards wait on a decision: server-verified scores need a deterministic engine, since gameplay rolls use `Math.random` and the clock.)
 - [ ] **Content cadence**: a new monster or encounter every two weeks, a named champion every month, a road or people every quarter. The generator makes this cheap; the bench keeps it honest.
 - [ ] **Balance from telemetry**: the bot's figures beside real players', by class and difficulty, reviewed monthly; the README balance table becomes a live dashboard.
 - [ ] **Community hooks**: run cards exist; add seed-of-the-day sharing with a replay link, and a data-only mod format (JSON monsters, items and encounters) loaded from a URL.

@@ -155,7 +155,7 @@ export function makeChronicle(K) {
     if (K.G.rested) lines.push(`On the way down they found ${K.G.rested}, who had gone before them, and laid them to rest.`);
     // the fallen are remembered (Progress.fallen), and the next delve will say so
     // (a test run leaves no bones: recordFallen passes it by)
-    if (!won && !K.G.opts.daily && !K.G.tested) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
+    if (!won && !K.G.opts.daily && !K.G.opts.weekly && !K.G.tested) lines.push(`${p.name} will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.`);
     return lines;
   }
   function recordHero(won) {
@@ -168,12 +168,12 @@ export function makeChronicle(K) {
     // trophies first, so a first win is told on the victory screen
     // only a win on one life counts: a run that could be reloaded proves less
     // (a quick delve's win goes in the Hall, but earns no trophy: those wait for four floors or more)
-    if (won && K.G.opts.permadeath && !isQuick()) K.G.earned = Progress.recordWin(p.cls, K.G.opts.difficulty || 'normal', { path: p.path, vows: K.G.opts.vows, rung: K.rung(), levels: K.G.opts.levels, route: K.G.route,
+    if (won && K.G.opts.permadeath && !isQuick()) K.G.earned = Progress.recordWin(p.cls, K.G.opts.difficulty || 'normal', { path: p.path, vows: K.G.opts.weekly ? [] : K.G.opts.vows, rung: K.rung(), levels: K.G.opts.levels, route: K.G.route,
       jobs: (K.G.stats && K.G.stats.bounties) || 0, veteran: !!(companion.here() && companion.rank() >= 2), shapes: (K.G.stats && K.G.stats.shapes) || 0, ending: K.G.ending || 'take' });
     else if (won) K.G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, renown: p.renown || 0, depth: K.G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: K.G.seed, date: Date.now(), score: score(p, K.G.depth, won),
-      difficulty: K.G.opts.difficulty || 'normal', permadeath: !!K.G.opts.permadeath, levels: K.G.opts.levels || 8, ...(K.G.route ? { route: K.G.route } : {}), ...(K.G.opts.daily ? { daily: K.G.opts.daily, ...(K.G.opts.dailyKind ? { dailyKind: K.G.opts.dailyKind } : {}) } : {}) };
+      difficulty: K.G.opts.difficulty || 'normal', permadeath: !!K.G.opts.permadeath, levels: K.G.opts.levels || 8, ...(K.G.route ? { route: K.G.route } : {}), ...(K.G.opts.weekly ? { weekly: K.G.opts.weekly } : {}), ...(K.G.opts.daily ? { daily: K.G.opts.daily, ...(K.G.opts.dailyKind ? { dailyKind: K.G.opts.dailyKind } : {}) } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
     if (slain.length) entry.named = slain;

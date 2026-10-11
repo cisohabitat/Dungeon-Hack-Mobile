@@ -65,7 +65,7 @@ export function makeFallen(K) {
   }
   /** @param {import('./types.js').Level} L @param {number} depth */
   function placeFallen(L, depth) {
-    if (K.G.opts.daily || L.isFinal) return;
+    if (K.G.opts.daily || K.G.opts.weekly || L.isFinal) return;
     const f = Progress.fallen();
     if (!f || f.run === runKey() || shadeFloor(f) !== depth) return;
     const T = Dungeon.T, w = L.w, at = (x, y) => (x < 0 || y < 0 || x >= w || y >= L.h ? T.WALL : L.tiles[y * w + x]);

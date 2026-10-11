@@ -13,7 +13,7 @@ const num = (v, lo = 0, hi = 1e9) => (Number.isFinite(+v) ? Math.max(lo, Math.mi
 
 /** Only the fields the game sends, each cut to its kind: anything else is dropped. */
 function clean(b) {
-  const base = { v: num(b.v, 0, 99), at: Date.now(), build: word(b.build, 32), seed: word(b.seed, 40), daily: !!b.daily };
+  const base = { v: num(b.v, 0, 99), at: Date.now(), build: word(b.build, 32), seed: word(b.seed, 40), daily: !!b.daily, weekly: !!b.weekly };
   if (b.kind === 'run') {
     const fps = Array.isArray(b.fps) ? b.fps.slice(0, 4).map(x => num(x)) : [];
     const d = b.device || {};
