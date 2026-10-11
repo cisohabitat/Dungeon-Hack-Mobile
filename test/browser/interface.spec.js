@@ -928,7 +928,7 @@ test.describe('the screens around the dungeon', () => {
     await expect(page.locator('#inv-sum')).toContainText('to hit');
     await page.click('#ov-inv [data-close]');
     await page.click('[data-open="char"]');
-    await expect(page.locator('#char-sheet > .sheet-h').first()).toHaveText('In a fight');
+    await expect(page.locator('#char-sheet > .sheet-h').first()).toHaveText('At arms');
     await expect(page.locator('#char-sheet .sheet.scores > div')).toHaveCount(6);
     await expect(page.locator('#char-sheet .sheet.scores .key-stat')).toContainText('Strength');
     await expect(page.locator('#char-sheet .xp-bar')).toBeVisible();

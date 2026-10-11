@@ -22,7 +22,9 @@ export function makeTips({ asideWay, canStep }) {
     dodgelunge: (/** @type {boolean} */ widest) => `<b>A warning mark!</b> Its blow is coming, and this one lunges after a step back: <b>step aside</b> ${asideWay(widest)} now and it hits empty air.`,
     dodgelungeflank: (/** @type {boolean} */ widest) => `<b>A warning mark!</b> Its blow is coming from your side, and this one lunges after a step away: step <b>${widest || (canStep(0) && canStep(2)) ? 'forward or back</b> (↑ or ↓)' : canStep(0) ? 'forward</b> (↑)' : 'back</b> (↓)'}, out of its line, and it hits empty air.`,
     lunged: 'It <b>lunged after you</b>: a rat, a ghoul or a wraith follows a step straight away from it. Step <b>out of its line</b> instead, to the side of it, and it hits empty air.',
-    dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Do this every time a mark appears.',
+    dodged: 'It hit empty air. <b>Step in</b> and strike before it draws back again. Every mark is a blow coming, and each foe has its own answer: the Bestiary keeps them.',
+    // (the first arrow: a step back from an archer is a step along its line, the one answer the coached fight did not teach)
+    shot: '<b>An arrow is drawn</b> from down the line. Step <b>aside, out of its line</b>, or close in and strike: stepping back only keeps you in it.',
     late: 'Too slow: that one landed. Step back <b>the moment</b> a warning mark appears, and the blow misses.',
     trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',

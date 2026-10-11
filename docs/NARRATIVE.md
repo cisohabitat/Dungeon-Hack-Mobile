@@ -1057,7 +1057,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *Troll*: Long-armed and hungry, and very hard to kill: its wounds close as you watch.
 - *Minotaur*: The master of the deep halls, bull-headed and tireless. It hits harder than anything but the lich.
 - *Kobold Trapper*: A small, scaled, sharp-snouted thing that lives by its traps. It will not stand and fight if it can step back and throw instead.
-- *Goblin Archer*: A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses.
+- *Goblin Archer*: A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses; step out of the line, or close in, since a step back only keeps you in it.
 - *Basilisk*: A heavy, many-legged lizard of the lower halls. Whatever meets its eyes when they flare is stone for a while.
 - *Rustmaw*: A burrowing beetle the size of a dog. It eats metal, and leaves rust in its tracks.
 - *Dark Acolyte*: A servant of the dark who hurls bolts of shadow from five squares off.
@@ -1101,7 +1101,8 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *dodgelunge*: **A warning mark!** Its blow is coming, and this one lunges after a step back: **step aside** (← or →) now and it hits empty air.
 - *dodgelungeflank*: **A warning mark!** Its blow is coming from your side, and this one lunges after a step away: step **forward or back** (↑ or ↓), out of its line, and it hits empty air.
 - *lunged*: It **lunged after you**: a rat, a ghoul or a wraith follows a step straight away from it. Step **out of its line** instead, to the side of it, and it hits empty air.
-- *dodged*: It hit empty air. **Step in** and strike before it draws back again. Do this every time a mark appears.
+- *dodged*: It hit empty air. **Step in** and strike before it draws back again. Every mark is a blow coming, and each foe has its own answer: the Bestiary keeps them.
+- *shot*: **An arrow is drawn** from down the line. Step **aside, out of its line**, or close in and strike: stepping back only keeps you in it.
 - *late*: Too slow: that one landed. Step back **the moment** a warning mark appears, and the blow misses.
 - *trick*: A **violet spiked mark** means a trick **armour will not turn**: get out of the way. The log says what is coming, and the **Bestiary** (Journal) records each trick.
 - *gaze*: Its eyes blaze: **turn away!** A basilisk's gaze turns to stone only whoever is looking at it.

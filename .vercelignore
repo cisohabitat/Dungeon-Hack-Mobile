@@ -5,6 +5,7 @@
 art
 sound/masters
 sound/listen.html
+sound/listen.js
 sound/*.md
 sound/*.py
 sound/manifest.json

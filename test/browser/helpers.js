@@ -53,6 +53,8 @@ async function startGame(page, opts = {}) {
   await page.click('#pro-begin');
   await expect(page.locator('#screen-game')).toBeVisible();
   await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
+  // the first floor's grace is for a new hero: a test's monsters are to act at once
+  await page.evaluate(() => { Game.state().graceUntil = 0; });
 }
 
 /** Levelling opens a modal choice that blocks the rest of the interface. */
@@ -103,6 +105,8 @@ async function placeMonster(page, id, distance, patch = {}) {
     }, patch);
     m.x = x; m.y = y; m.rx = x; m.ry = y;
     L.monsters.push(m);
+    // a test's monster is to act now, not after the first floor's grace (it is for a new hero)
+    Game.state().graceUntil = 0;
     return { uid: m.uid, name: base.name, x, y };
   }, { id, distance, patch });
 }

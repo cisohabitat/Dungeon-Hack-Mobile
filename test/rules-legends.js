@@ -112,6 +112,20 @@ module.exports = async function legendChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
+  await test('Red Feast: Red Harvest and Bloodlust feeding on the one kill is a combination; Red Harvest alone is not', async () => {
+    const feast = async capped => {
+      const { ctx, p, G, put, swing, L } = await arena('fighter', 'red-feast-' + capped, 'berserker');
+      p.eq.weapon = null; wearRelic(ctx, 'red_harvest');
+      if (capped) p.capstone = 'bloodlust';
+      p.hp = 4000;
+      const m = put('rat', 1, 0, { hp: 1, maxHp: 1 });
+      for (let i = 0; i < 8 && L.monsters.includes(m); i++) swing();
+      return !!(G.combos && G.combos.red_feast);
+    };
+    if (await feast(false)) return 'Red Harvest alone was called Red Feast';
+    return (await feast(true)) || 'Red Harvest with Bloodlust was not Red Feast';
+  });
+
   await test('the Sunhammer sets the undead it strikes burning, and not the living', async () => {
     const out = [];
     const { ctx, p, put, swing } = await arena('cleric', 'sunhammer', 'templar');
@@ -156,6 +170,14 @@ module.exports = async function legendChecks(h) {
     if (!((await run(true)) < 999)) out.push('the one beside was not scorched');
     if ((await run(false)) !== 999) out.push('a burning death without Cinderheart scorched its neighbour');
     return out.length ? out.join('; ') : true;
+  });
+
+  await test('a foe dying in flames under Cinderheart is the Pyre combination', async () => {
+    const { ctx, p, G, put, swing, L } = await arena('mage', 'pyre-combo', 'pyromancer');
+    p.eq.shield = null; p.eq.weapon = { t: 'dagger', q: 1, e: 0 }; wearRelic(ctx, 'cinderheart');
+    const a = put('goblin', 1, 0, { hp: 1, maxHp: 1, dot: { kind: 'burning', until: G.t + 9000, next: G.t + 9000, die: 4 } });
+    for (let i = 0; i < 8 && L.monsters.includes(a); i++) swing();
+    return (G.combos && G.combos.pyre) ? true : 'the burning death was not Pyre';
   });
 
   await test('the Rimebound Grimoire: cold leaves a foe brittle, a brittle foe takes a third more, and one dying brittle shatters, holding back those beside it', async () => {
@@ -209,7 +231,10 @@ module.exports = async function legendChecks(h) {
     for (let t = 0; t < 120000; t += 25) {
       const mark = markLog(G);
       Game.update(G.t + 25, 25);
-      if (linesSince(G, mark).some(l => /You slip aside/.test(l))) return (p.opening && p.opening.uid === m.uid) || 'a slipped blow left no opening';
+      if (linesSince(G, mark).some(l => /You slip aside/.test(l))) {
+        if (!(p.opening && p.opening.uid === m.uid)) return 'a slipped blow left no opening';
+        return (G.combos && G.combos.jest) ? true : 'the opening Motley made was not the Jest combination';
+      }
     }
     return 'no blow was slipped';
   });
@@ -235,7 +260,29 @@ module.exports = async function legendChecks(h) {
     const m = put('goblin', 1, 0, { snaredUntil: G.t + 2000, heldBy: 'snare' });
     const was = m.snaredUntil;
     swing();
-    return m.snaredUntil >= was + 1000 || `the snare ran to ${m.snaredUntil - was} more`;
+    if (!(m.snaredUntil >= was + 1000)) return `the snare ran to ${m.snaredUntil - was} more`;
+    // and the Journal knows it as Tightening Cord
+    return (G.combos && G.combos.tightening_cord) ? true : 'the blow on a snared foe was not Tightening Cord';
+  });
+
+  await test('Iron Snare: a Warden\'s snared foe takes 2 more from every blow, and 4 with the capstone', async () => {
+    const blow = async capped => {
+      const t = await arena('ranger', 'iron-snare-' + capped, 'warden');
+      t.p.eq.weapon = { t: 'dagger', q: 1, e: 0 }; t.p.eq.offhand = null; seedDice(t.ctx, 'iron-snare');
+      if (capped) t.p.capstone = 'iron_snare';
+      const held = t.put('goblin', 1, 0, { snaredUntil: t.G.t + 9000, heldBy: 'snare' });
+      // (the same dice in both halves: the first blow to land is the same blow, and so are its dice)
+      for (let i = 0; i < 6 && held.hp === 999; i++) t.swing();
+      const a = 999 - held.hp;
+      const t2 = await arena('ranger', 'iron-snare-free-' + capped, 'warden');
+      t2.p.eq.weapon = { t: 'dagger', q: 1, e: 0 }; t2.p.eq.offhand = null; seedDice(t2.ctx, 'iron-snare');
+      if (capped) t2.p.capstone = 'iron_snare';
+      const free = t2.put('goblin', 1, 0);
+      for (let i = 0; i < 6 && free.hp === 999; i++) t2.swing();
+      return a - (999 - free.hp);
+    };
+    const plain = await blow(false), capped = await blow(true);
+    return (plain === 2 && capped === 4) || `a snared foe took ${plain} more without the capstone, ${capped} with it`;
   });
 
   await test('the Moonbound Torc: in Wild Shape every foe felled keeps the shape five seconds longer and heals', async () => {

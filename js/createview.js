@@ -4,7 +4,7 @@
 // factory in the K pattern, wired at the end of ui.js, which keeps the prologue
 // and the run's start.
 import { randomSeedWord } from './rng.js';
-import { heroName, BACKGROUNDS, CLASSES, STAT_NAMES, PATHS, VOWS } from './data.js';
+import { heroName, BACKGROUNDS, CLASSES, STAT_NAMES, PATHS, VOWS, DIFFICULTY_NOTES } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
@@ -36,11 +36,6 @@ export function makeCreateView(K) {
     b[key] = 15; if (fight !== key) b[fight] = 13;
     return b;
   }
-  const DIFFICULTY = {
-    easy: 'Easy: more to find, monsters never grow with you',
-    normal: 'Normal: the intended delve',
-    hard: 'Hard: sturdier monsters, thinner rests, the last foe at full strength',
-  };
   /** What a delve of this many floors holds, under the options. */
   function levelsNote() {
     const n = parseInt($('#c-levels').value, 10);
@@ -53,9 +48,9 @@ export function makeCreateView(K) {
   }
   /** A run's difficulty; a save from before there was a choice is normal. */
   function setDifficulty(d) {
-    create.difficulty = DIFFICULTY[d] ? d : 'normal';
+    create.difficulty = DIFFICULTY_NOTES[d] ? d : 'normal';
     for (const b of $$('#c-difficulty [data-diff]')) { const on = b.dataset.diff === create.difficulty; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
-    $('#c-diff-note').textContent = DIFFICULTY[create.difficulty];
+    $('#c-diff-note').textContent = DIFFICULTY_NOTES[create.difficulty];
     renderRung(/** @type {HTMLElement} */ ($('#c-rung')), create, () => setDifficulty(create.difficulty));
     createSummary();
   }
@@ -129,7 +124,8 @@ export function makeCreateView(K) {
       el.innerHTML = open ? `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key">${escapeHtml(b.perk)}</em>`
         : `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(b.blurb)}</small><em class="key lock">Locked. ${escapeHtml(b.how)}</em>`;
       el.disabled = !open;
-      if (open) el.addEventListener('click', () => { const was = create.bg; create.bg = id; if (id !== was && $('#c-name').value === autoName) drawHeroName(); buildCreate(); });
+      // (the name shown stays: a name that changed under the player read as a fault; the dice beside it draw another)
+      if (open) el.addEventListener('click', () => { create.bg = id; buildCreate(); });
       bgGrid.appendChild(el);
     }
     $('#c-bg-perk').textContent = BACKGROUNDS[create.bg].perk;

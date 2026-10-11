@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS } from './data.js';
+import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -41,6 +41,7 @@ const UI = (() => {
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
+  let goldWas = 0;               // the gold last shown, so a find can flare the number
   /** What of the hound the status row shows, so the row redraws when it changes. */
   const houndSig = () => { const h = Game.companion(); return h ? `${h.hp}/${h.maxHp}/${h.mode}/${h.depth}/${h.fallen || 0}` : ''; };
 
@@ -137,13 +138,16 @@ const UI = (() => {
     const world = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#pro-world').innerHTML = store(STORY_READ) === '1' ? `<details class="pro-again"><summary>The story so far</summary>${world}</details>` : world;
     $('#pro-who').textContent = b.name;
+    const face = /** @type {HTMLImageElement} */ ($('#pro-face'));
+    face.src = faceOf(cfg.cls); face.alt = `${cfg.name}, the ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
     $('#pro-story').textContent = b.story;
     $('#pro-motive').textContent = b.motive;
     // how this run is kept, said plainly before it starts
     const o = cfg.opts, d = diffOf(o);
     $('#pro-rules').textContent = o.daily
       ? `The ${dailyLabel(o.dailyKind)} for ${Daily.longDate(o.daily)}: the same dungeon and the same hero for everyone today. One life and one try; if you put the game away, Continue brings you back.`
-      : o.weekly ? `The Weekly Challenge for ${Weekly.longWeek(o.weekly)}: the same dungeon and the same hero for everyone this week, sworn to the ${Weekly.modifiers(o.weekly)}. One life a try; try as often as you like, and your best stands.`
+      // (a vow is named with what it asks: the title names them, and a name alone said nothing to someone new)
+      : o.weekly ? `The Weekly Challenge for ${Weekly.longWeek(o.weekly)}: the same dungeon and the same hero for everyone this week, sworn to the ${Weekly.modifiers(o.weekly)}. ${(o.vows || []).filter(v => VOWS[v]).map(v => `${VOWS[v].name}: ${VOWS[v].desc}`).join(' ')} One life a try; try as often as you like, and your best stands.`
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
@@ -176,6 +180,8 @@ const UI = (() => {
   }
   function startPlaying() {
     newsSeen();
+    held.clear();
+    goldWas = Game.player().gold;      // (a new hero's purse is not a find)
     logCount = -1; hudSig = '';
     // a testing aid left on is not carried into a run that still counts, new or
     // taken up again: it would mark it at the first step (a test run keeps its own)
@@ -201,7 +207,7 @@ const UI = (() => {
   const TIPS = makeTips({ asideWay, canStep });
 
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'guard', 'swell', 'aimed', 'sweep', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['shot', 'gaze', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'guard', 'swell', 'aimed', 'sweep', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -502,6 +508,8 @@ const UI = (() => {
     if (readying('firepot') && showTip('firepot', true)) return;
     if (readying('snare') && showTip('snare', true)) return;
     if (readying('firearrow') && showTip('firearrow', true)) return;
+    // a plain arrow drawn down the line: the one blow a step back does not answer
+    if (L.monsters.some(m => m.windup && m.windup.kind === 'shot' && !m.windup.move && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6) && showTip('shot', true)) return;
     if (readying('chill') && showTip('chill', true)) return;
     if (readying('storm') && showTip('storm', true)) return;
     if (L.quake && L.quake.falls.length && showTip('tremors', true)) return;
@@ -663,7 +671,10 @@ const UI = (() => {
     if (p.maxSp) access.nameBar('bar-sp', `Spell points ${vit.sp} of ${p.maxSp}`);
     access.nameBar('bar-food', $('#txt-food').textContent);
     $('#hud-depth').textContent = `Floor ${G.depth}/${G.opts.levels}`;
-    $('#hud-gold').textContent = `${p.gold} gold`;
+    const goldEl = $('#hud-gold');
+    if (goldEl.textContent && p.gold > goldWas) { goldEl.classList.remove('flare'); void goldEl.offsetWidth; goldEl.classList.add('flare'); }
+    goldWas = p.gold;
+    goldEl.textContent = `${p.gold} gold`;
     $('#hud-compass').textContent = ['N', 'E', 'S', 'W'][p.dir];
     const st = [];
     if (p.poison) st.push(`<span class="bad">Poisoned ${left(p.poison.until)}s</span>`);
@@ -1010,6 +1021,10 @@ const UI = (() => {
   function renderFork() {
     const el = $('#fork-choices');
     el.innerHTML = '';
+    // the hero at the head of the window, the roads at its foot
+    const body = /** @type {HTMLElement} */ (el.parentElement), old = body.querySelector('.choice-head');
+    if (old) old.remove();
+    body.insertBefore(choiceHead(''), body.firstChild);
     // held off a moment: held sideways, Descend lies over a road's card, and a second tap took that road unread
     const armedAt = performance.now() + BOON_GUARD_MS;
     for (const id of Object.keys(ROUTES)) {
@@ -1415,6 +1430,8 @@ const UI = (() => {
       helpFromMenu = false;
     });
     $('#pro-begin').addEventListener('click', commitGame);
+    // a look at the day's or the week's delve is not a try at it: nothing is spent until the stair is taken
+    $('#pro-back').addEventListener('click', () => { pendingCfg = null; showScreen('screen-title'); });
     $('#end-load').addEventListener('click', () => { if (Game.load()) startPlaying(); });
     // the run as a picture: to the phone's share sheet where it takes files, else saved
     $('#end-card').addEventListener('click', async () => {
@@ -1481,8 +1498,8 @@ const UI = (() => {
   });
 
   // ---------- choices: see choices.js ----------
-  const { BOON_GUARD_MS, pathCard, renderBoons, renderEncounter } = makeChoices({
-    get SHOP_GUARD_MS() { return SHOP_GUARD_MS; }, get closeOverlay() { return closeOverlay; },
+  const { BOON_GUARD_MS, choiceHead, pathCard, renderBoons, renderEncounter } = makeChoices({
+    get SHOP_GUARD_MS() { return SHOP_GUARD_MS; }, get closeOverlay() { return closeOverlay; }, get faceOf() { return faceOf; },
   });
 
   // ---------- shopview: see shopview.js ----------

@@ -2,7 +2,7 @@
 // Play by controller (pad.js): from the title into the dungeon and about it,
 // every overlay steered by the ring, and a choice that must be made kept open.
 const { test } = require('@playwright/test');
-const { watchForErrors, usePad, padPress, padStick, startGame, clearBoons, expect } = require('./helpers');
+const { watchForErrors, usePad, padPress, padStick, startGame, clearBoons, faceOpenGround, expect } = require('./helpers');
 
 /** The quiet start the other specs have: no tips, no first-time card. */
 async function quietStart(page) {
@@ -355,4 +355,33 @@ test.describe('keyboard', () => {
     }
     expect(errors).toEqual([]);
   });
+});
+
+test('a stick held as the hero dies is let go of for them: the next hero stands still (C1)', async ({ page }) => {
+  test.setTimeout(90_000);
+  const errors = watchForErrors(page);
+  await usePad(page);
+  await startGame(page, { seed: 'held-death' });
+  await clearBoons(page);
+  await faceOpenGround(page, 2);
+  // the stick held forward, and not let go of from the test's side until the hero lies dead
+  await page.evaluate(() => { window.__pad.axes[1] = -1; });
+  await page.waitForTimeout(400);
+  await page.evaluate(() => { Game.hurtPlayer(9999, 'The dark takes them', null, 'probe'); });
+  await page.waitForFunction(() => Game.state().status === 'dead');
+  await page.waitForTimeout(200);
+  await page.evaluate(() => { window.__pad.axes[1] = 0; });
+  await expect(page.locator('#screen-end')).toBeVisible({ timeout: 15_000 });
+  await page.click('#end-new');
+  await expect(page.locator('#screen-create')).toBeVisible();
+  await page.fill('#c-seed', 'held-death-2');
+  await page.click('#c-begin');
+  await page.click('#pro-begin');
+  await expect(page.locator('#screen-game')).toBeVisible();
+  await clearBoons(page);
+  await faceOpenGround(page, 3);
+  const before = await page.evaluate(() => { const p = Game.player(); return [p.x, p.y]; });
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => { const p = Game.player(); return [p.x, p.y]; })).toEqual(before);
+  expect(errors).toEqual([]);
 });

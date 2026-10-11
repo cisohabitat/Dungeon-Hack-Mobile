@@ -123,7 +123,7 @@ function crash(/** @type {string} */ msg, /** @type {string} */ where, /** @type
   const G = state();
   // the page's own address is no use in a report and might carry a query: kept to the file
   const tidy = (/** @type {string} */ s) => String(s || '').split(location.origin).join('');
-  send({ kind: 'crash', msg: tidy(msg), where: tidy(where), stack: tidy(stack), seed: G ? String(G.seed || '') : '', daily: !!(G && G.opts && G.opts.daily), depth: G ? G.depth || 0 : 0, save: G ? saveHash(G) : '' });
+  send({ kind: 'crash', msg: tidy(msg), where: tidy(where), stack: tidy(stack), seed: G ? String(G.seed || '') : '', daily: !!(G && G.opts && G.opts.daily), weekly: !!(G && G.opts && G.opts.weekly), depth: G ? G.depth || 0 : 0, save: G ? saveHash(G) : '' });
 }
 
 /**

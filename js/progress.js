@@ -153,6 +153,31 @@ function unlocks(v = load()) {
 }
 
 /**
+ * The goals nearest to hand, for the title, the end of a run and the Hall: a
+ * player with fifty-one empty boxes needs one pointed at. Nearest first: a kit
+ * a floor from opening, a class one path from mastered, then the first thing
+ * still shut, a feat, a rung. The class just played, if given, goes first.
+ * @param {ReturnType<typeof load>} [v] @param {string} [cls]
+ * @returns {{what: string, how: string}[]}
+ */
+function nextGoals(v = load(), cls = '') {
+  const out = [];
+  const add = (what, how) => { if (out.length < 3 && !out.some(g => g.what === what)) out.push({ what, how }); };
+  const order = [...(CLASSES[cls] ? [cls] : []), ...Object.keys(CLASSES).filter(c => c !== cls)];
+  // a kit a win away: the class has been down and won on Easy, or just played
+  for (const c of order) if (CLASSES[c].altKit && !kitOpen(c, v) && (hasWon(c, 'easy', v) || c === cls)) add(`${CLASSES[c].altKit.name} (${CLASSES[c].name})`, `Win as a ${CLASSES[c].name} on Normal or Hard`);
+  // a class one path from mastered
+  for (const c of order) if (PATHS[c] && pathsWon(c, v) === 1 && !mastered(c, v)) { const left = PATHS[c].find(x => !v.paths[x.id]); if (left) add(`${CLASSES[c].name} mastered`, `Win as a ${left.name}`); }
+  // the first thing still shut
+  for (const u of unlocks(v)) if (!u.open) add(u.name, u.how.replace(/\.$/, ''));
+  // a feat not yet done, the endings last
+  for (const id of Object.keys(FEATS)) if (!v.feats[id] && id !== 'collector') add(FEATS[id].name, FEATS[id].desc.replace(/,? on Normal or Hard\.$/, '').replace(/\.$/, ''));
+  // the ladder, a rung at a time
+  for (const c of order) { const r = rungOpen(c, v); if (r && r > (v.rungs[c] || 0)) add(`Hard+${r} as a ${CLASSES[c].name}`, `Win on Hard+${r}`); }
+  return out;
+}
+
+/**
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
  * @param {{path?: string, vows?: string[], rung?: number, levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number, ending?: string}} [how]
@@ -313,5 +338,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

@@ -79,7 +79,7 @@ function makeCombos(K) {
     const G = K.G, p = K.P(), path = K.pathOf(p), cls = K.className(p.cls);
     const legend = K.legendCarried();
     const top = used().slice(0, 2).map(([id]) => COMBOS[id].name);
-    let line = path ? `${path.name}` : `${cls}, on no path`;
+    let line = path ? `${path.name}` : `${cls}, no path yet`;
     if (legend) line += ` bearing ${legend}`;
     if (top.length) line += `, fighting by ${top.join(' and ')}`;
     void G;

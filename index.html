@@ -32,16 +32,15 @@
         <h1 class="logo"><span class="l1">DEEP</span><span class="l2">DELVE</span></h1>
         <p class="tagline">Descend. Survive. Claim the Heart of the Mountain.</p>
         <p id="last-run" class="last-run dim small" hidden></p>
+        <p id="next-goal" class="next-goal small" hidden></p>
       </div>
       <!-- for someone new: the game in a minute, until put away -->
       <div id="first-time" class="first-card" hidden>
         <p class="first-head"><b>First time here?</b></p>
         <ul>
-          <li><b>Go down.</b> The Heart of the Mountain lies at the bottom of the delve: bring down what keeps it, and the run is won.</li>
-          <li><b>Move</b> with the pad or a swipe. <b>Tap the view</b> to use what is in front of you: a door, the stairs, a trader.</li>
-          <li><b>Fight</b> with Attack. A mark over a monster means a blow is coming: step aside, or strike first.</li>
-          <li><b>Each level</b> brings a choice: a talent at the even ones, a smaller lesson at most others.</li>
-          <li><b>One life</b> unless you turn permadeath off. The fallen go into the Hall, and the next hero starts fresh.</li>
+          <li><b>Go down.</b> The Heart of the Mountain lies at the bottom: bring down what keeps it.</li>
+          <li><b>Move</b> with the pad or a swipe; <b>tap the view</b> to use a door, the stairs, a trader.</li>
+          <li><b>A mark over a monster</b> means a blow is coming: step out of its way, or strike first.</li>
         </ul>
         <div class="row first-btns"><button id="ft-quick" class="primary">Start with a ready hero</button><button id="ft-close" class="ghost">Got it</button></div>
       </div>
@@ -66,8 +65,9 @@
         </div>
         <div class="menu-row">
           <button id="btn-weekly" class="ghost two"><b>Weekly Challenge</b><small id="weekly-summary">This week's dungeon and vows</small></button>
-          <button id="btn-code" class="ghost">Load from code</button>
         </div>
+        <!-- a hero from another phone: wanted rarely, and most when there is no Continue to sit beside -->
+        <p class="title-foot"><button id="btn-code" class="linkish">Load a hero from a code</button></p>
       </div>
     </div>
   </section>
@@ -132,6 +132,7 @@
   <section id="screen-confirm" class="screen">
     <div class="title-inner">
       <h2>You already have a hero below</h2>
+      <p id="confirm-what" class="confirm-what"></p>
       <p id="confirm-who" class="tagline"></p>
       <p>Starting a new run will replace that saved character. Heroes who have already fallen or won stay in the Hall of Heroes either way.</p>
       <div class="menu">
@@ -163,11 +164,11 @@
     <div class="panel story">
       <h2 id="pro-title">Karrathal</h2>
       <div id="pro-world"></div>
-      <h3 id="pro-who"></h3>
+      <div class="pro-hero"><img id="pro-face" class="pro-face" alt=""><h3 id="pro-who"></h3></div>
       <p id="pro-story"></p>
       <p id="pro-motive" class="motive"></p>
       <p id="pro-rules" class="pro-rules"></p>
-      <div class="row"><button id="pro-begin" class="big primary">Take the first stair</button></div>
+      <div class="row"><button id="pro-back" class="big ghost">Back</button><button id="pro-begin" class="big primary">Take the first stair</button></div>
     </div>
   </section>
 
@@ -217,8 +218,6 @@
       </div>
       <div class="help-page" data-hpage="basics">
         <p>You are alone in a dungeon generated from a seed. Go down floor by floor, find the <b>Heart of the Mountain</b> on the deepest floor, and take it from the thing that guards it.</p>
-        <p>How the delve ends is yours to choose. On the floor before the last of any delve of four floors or more, one of the old smiths who lit the Heart sits <b>kept</b> at a cold anvil, and has two things to give, of which you may carry one: his <b>quench</b>, which puts the Heart out for good, or the way the smiths <b>stayed</b> to keep it. (The Pale One's bargain teaches the second too.) With either, the Heart asks you, once its keeper is down: carry it up, put it out, or stay and keep it. Each ending has its own card, Hall entry and feat, and none scores more than another. Walk away from the choice and it waits for you.</p>
-        <p>The same seed with the same choices makes the same dungeon. When a run ends, <b>Share this run</b> passes on a line with its seed and any choices you changed (through your phone's share sheet, or copied if it has none), so a friend can try the same halls. <b>Share a picture</b> makes a card of the run instead: the hero, how far they got and what brought them down (or the Heart they lifted), to send or to keep.</p>
         <h3>Who you are</h3>
         <p>Pick a class and a background. The class decides what you can wield and cast; each card says in a word how it plays, and for your first few runs the Fighter and the Cleric, who forgive mistakes best, are marked as a good first hero. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
         <h3>The way in</h3>
@@ -228,17 +227,8 @@
         <h3>Finds</h3>
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
-        <p>On a phone that can, the game buzzes in your hand when a blow lands on you, when you level up or die, and when you force a door. <b>Vibration</b> under <b>Menu</b> turns it off.</p>
-        <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches, and every fade, pulse and slide of the screens and buttons. It starts on if your phone asks for less motion.</p>
-        <p><b>Text size</b> under <b>Menu</b> goes from Small up to Double, twice the usual: the bars, the buttons and the log make room for it, and every page and window scrolls rather than cutting anything off. Pinching to zoom works on the pages off the dungeon too. <b>Colours</b> under <b>Menu</b> sets colours that every kind of colour blindness can tell apart: a blow's warning mark goes yellow to orange-red and a trick's light to dark blue, and the map's marks change with them (each still has its own sign as well).</p>
-        <p>On a wide screen (a tablet held sideways, a Steam Deck, a desktop window) the floor about you is mapped beside the view, larger than the corner map and kept up to date as you go; a tap on it opens the whole map. A tablet held upright has a larger corner map.</p>
-        <p><b>Controls</b> under <b>Menu</b> puts the pad and the actions on the right or the left, or one-handed for either thumb: the actions and the quick drink sit in a row over the pad, all on that thumb's side, with the phone held upright. A screen reader hears the log line by line as it comes, what lies ahead in the view each time you move or turn, and the bars by their numbers; every window takes the focus when it opens and gives it back when it closes.</p>
-        <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, the combinations it made, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
-        <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
-        <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
-        <p>The <b>music</b> follows the fight: quiet bells while nothing is near, a low pulse when something awake is close, a beat once it comes to blows, and a horn for a champion, a shade or the last foe (in the Warlord's hall, his war-drum leads it). When the fight is over it settles and goes quiet for a while, and it draws back whenever the game is paused. <b>Music</b> in the <b>Menu</b> turns it off, and <b>Sound</b> turns off everything.</p>
         <h3>Secrets</h3>
-        <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
+        <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search; at a dead end, walled on three sides, the button says <b>Search</b>, since that is where the builders liked to hide a door. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
         <p>Rooms come in many shapes: halls with rows of pillars to put between you and a blow, caverns, long galleries, rooms with niches in their walls. The corridors loop, so there is usually more than one way round. Past the divided stair each road builds after its own fashion: the Crypts in burial niches, long galleries and straight passages, the Warrens in burrows and crooked tunnels. Every floor holds one <b>set piece</b>: a block of cells along an aisle, each behind a barred gate; a shrine with a basin at its back; a cistern where the water carries lightning and freezes under cold; or a hall half fallen in, with something left at the back of the stone. Each comes in versions: cells made kennels or storerooms, a shrine defiled or still kept, a cistern brimming over or silted up, a fall that buried someone or that someone tried to shore. Each keeps a find worth the detour.</p>
         <h3>Survival</h3>
         <p>Walking makes you hungry. Eat rations from your pack or you will start to starve. Your wounds close on their own only up to half your life (more for the Heartsworn); past that it takes a potion, a prayer or a <b>Rest</b>. Resting costs food and is impossible with enemies close by. The first rest on a floor restores everything; the second does half as much, the third a quarter, and after that the dark is too close to sleep until you find the next floor. The longer you linger, the likelier something finds you asleep. The Rest button shows how much the next rest will do; with anything close it dims and says <i>foes near</i>, and it never drinks for you. Drink in a fight from the <b>Pack</b>, or in one tap: anyone carrying a healing potion they know gets a red <b>Drink</b> button beside the life bar, which says how many they carry, and beats when your life is below a quarter. Watch for traps in corridors. Now and then someone who knows a floor tells you where its traps lie: they show on the map as a red &times;, and you step round them.</p>
@@ -249,6 +239,9 @@
         <p>A controller works everywhere once it is plugged in and a button pressed. In the dungeon: the left stick or the d-pad steps forward and back and turns, <b>LB</b> and <b>RB</b> step aside, <b>A</b> attacks (hold it to keep swinging), <b>X</b> uses, <b>Y</b> casts, <b>B</b> takes what lies underfoot, <b>LT</b> drinks a healing potion, <b>RT</b> reads the scroll at hand, the right stick's click rests and the left stick's opens the log. <b>Menu</b> pauses and opens the Menu; <b>View</b> puts a gold ring on the buttons along the bottom (the map, the pack, the spells, the hero, the journal, Rest), to move along and press with <b>A</b>.</p>
         <p>Everywhere else, in every screen and every window that opens, the d-pad or stick moves the ring from button to button, <b>A</b> presses, <b>B</b> goes back or closes (a level's choice and an encounter wait to be answered), and the right stick scrolls a long page. On a list to pick from, <b>A</b> steps to its next choice and <b>LB</b>/<b>RB</b> step back and on. A touch puts the ring away again.</p>
         <p>On a phone, the <b>back</b> gesture closes whatever is open, and in the dungeon it opens the <b>Menu</b> (pausing the game) rather than leaving it. Put the phone away with something awake close by and you come back to the Menu too, with the fight waiting for you.</p>
+        <h3>How it ends</h3>
+        <p>How the delve ends is yours to choose. On the floor before the last of any delve of four floors or more, one of the old smiths who lit the Heart sits <b>kept</b> at a cold anvil, and has two things to give, of which you may carry one: his <b>quench</b>, which puts the Heart out for good, or the way the smiths <b>stayed</b> to keep it. (The Pale One's bargain teaches the second too.) With either, the Heart asks you, once its keeper is down: carry it up, put it out, or stay and keep it. Each ending has its own card, Hall entry and feat, and none scores more than another. Walk away from the choice and it waits for you.</p>
+        <p>The same seed with the same choices makes the same dungeon. When a run ends, <b>Share this run</b> passes on a line with its seed and any choices you changed (through your phone's share sheet, or copied if it has none), so a friend can try the same halls. <b>Share a picture</b> makes a card of the run instead: the hero, how far they got and what brought them down (or the Heart they lifted), to send or to keep.</p>
       </div>
       <div class="help-page" data-hpage="combat" hidden>
         <h3>Fighting</h3>
@@ -370,6 +363,16 @@
         <p>Set the switch under the Daily Delve button to <b>Ranger &amp; Druid</b> for the <b>Ranger &amp; Druid Daily</b>: a second dungeon a day, the same for everyone, whose hero is always a Ranger or a Druid. It keeps its own record and its own streak, and the first Daily is dealt just as it always was.</p>
         <h3>The Weekly Challenge</h3>
         <p>One dungeon a week, Monday to Sunday, the same for everyone: the hero, the floors and a fixed set of modifiers all come from the week. Two vows are sworn for you (vows you have not opened yet are sworn all the same, but keeping them earns no trophy), and the delve may be large, crowded or poor in treasure. One life a try, but try as often as you like: the title screen shows your best and how many tries it took, and <b>Share</b> passes on the week's best in one line. Like the Daily, it meets nobody's dead and leaves none behind, and takes no hound, second kit or climb past Hard.</p>
+        <h3>Settings</h3>
+        <p>On a phone that can, the game buzzes in your hand when a blow lands on you, when you level up or die, and when you force a door. <b>Vibration</b> under <b>Menu</b> turns it off.</p>
+        <p>If the view's movement bothers you, <b>Calm view</b> under <b>Menu</b> stops the shake when a blow lands, the sway and bob of your hands, the sway and lean of the creatures, the drifting dust, the shimmer of standing water and the flicker of the torches, and every fade, pulse and slide of the screens and buttons. It starts on if your phone asks for less motion.</p>
+        <p><b>Text size</b> under <b>Menu</b> goes from Small up to Double, twice the usual: the bars, the buttons and the log make room for it, and every page and window scrolls rather than cutting anything off. Pinching to zoom works on the pages off the dungeon too. <b>Colours</b> under <b>Menu</b> sets colours that every kind of colour blindness can tell apart: a blow's warning mark goes yellow to orange-red and a trick's light to dark blue, and the map's marks change with them (each still has its own sign as well).</p>
+        <p>On a wide screen (a tablet held sideways, a Steam Deck, a desktop window) the floor about you is mapped beside the view, larger than the corner map and kept up to date as you go; a tap on it opens the whole map. A tablet held upright has a larger corner map.</p>
+        <p><b>Controls</b> under <b>Menu</b> puts the pad and the actions on the right or the left, or one-handed for either thumb: the actions and the quick drink sit in a row over the pad, all on that thumb's side, with the phone held upright. A screen reader hears the log line by line as it comes, what lies ahead in the view each time you move or turn, and the bars by their numbers; every window takes the focus when it opens and gives it back when it closes.</p>
+        <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, the combinations it made, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
+        <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
+        <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
+        <p>The <b>music</b> follows the fight: quiet bells while nothing is near, a low pulse when something awake is close, a beat once it comes to blows, and a horn for a champion, a shade or the last foe (in the Warlord's hall, his war-drum leads it). When the fight is over it settles and goes quiet for a while, and it draws back whenever the game is paused. <b>Music</b> in the <b>Menu</b> turns it off, and <b>Sound</b> turns off everything.</p>
       </div>
       <div class="row"><button id="help-back" class="big primary">Back</button></div>
     </div>
@@ -599,6 +602,7 @@
       <p id="end-trophy" class="trophy-line" style="display:none"></p>
       <div id="end-epilogue" class="epilogue"></div>
       <div id="end-cause" class="cause"></div>
+      <p id="end-goal" class="next-goal" hidden></p>
       <div id="end-summary" class="end-summary"></div>
       <div id="end-stats" class="stats end-stats"></div>
       <details id="end-final" class="final-moments"><summary>Final moments</summary><div id="end-final-log"></div></details>

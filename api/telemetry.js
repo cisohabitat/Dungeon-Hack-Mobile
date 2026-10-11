@@ -5,10 +5,18 @@
 // is counted by class, difficulty and length of delve, so the dashboard
 // (dashboard.html, fed by api/stats.js) can set real players beside the bot.
 const { ready, pipeline } = require('./_store');
+const IDS = require('./_ids');   // the game's own ids (tools/ids.mjs): what a report may name
 
 const MAX_BODY = 6000;
 const RUNS_KEPT = 50000, CRASHES_KEPT = 5000;
+// one address may send this many notes a minute: a run ends once, a crash is sent five times a visit at most
+const RATE_A_MINUTE = 60;
+// how many different crash messages are counted (the list of crashes keeps the rest): a flood of
+// made-up messages would otherwise grow the count without end
+const CRASH_KINDS = 500;
 const word = (v, n = 24) => (typeof v === 'string' ? v.slice(0, n).replace(/[^\w .:'()-]/g, '') : '');
+/** A word the game could have sent, or nothing: the counts are keyed by these, so nothing else may be one. */
+const oneOf = (v, list) => (typeof v === 'string' && list.includes(v) ? v : '');
 const num = (v, lo = 0, hi = 1e9) => (Number.isFinite(+v) ? Math.max(lo, Math.min(hi, Math.round(+v))) : 0);
 
 /** Only the fields the game sends, each cut to its kind: anything else is dropped. */
@@ -19,12 +27,12 @@ function clean(b) {
     const d = b.device || {};
     return {
       kind: 'run', ...base,
-      cls: word(b.cls, 12), path: word(b.path, 16), diff: word(b.diff, 8), rung: b.diff === 'hard' ? num(b.rung, 0, 5) : 0, levels: num(b.levels, 1, 32), size: word(b.size, 8),
+      cls: oneOf(b.cls, IDS.classes), path: oneOf(b.path, IDS.paths), diff: oneOf(b.diff, IDS.diffs) || 'normal', rung: b.diff === 'hard' ? num(b.rung, 0, 5) : 0, levels: num(b.levels, 1, 32), size: oneOf(b.size, IDS.sizes) || 'medium',
       outcome: ['win', 'death', 'quit'].includes(b.outcome) ? b.outcome : 'quit',
       depth: num(b.depth, 0, 32), level: num(b.level, 0, 40), cause: word(b.cause, 40), minutes: num(b.minutes, 0, 6000),
       fps, tips: num(b.tips, 0, 999),
       // the combinations a run made and the legend it found: was there a build to name
-      combos: Array.isArray(b.combos) ? b.combos.slice(0, 40).map(x => word(x, 24)).filter(Boolean) : [], legend: word(b.legend, 24),
+      combos: Array.isArray(b.combos) ? [...new Set(b.combos.slice(0, 40).map(x => oneOf(x, IDS.combos)).filter(Boolean))] : [], legend: oneOf(b.legend, IDS.legends),
       // the crews' pages found, of the delve's (one a floor)
       pagesOf: num(b.pagesOf, 0, 32), pages: Math.min(num(b.pages, 0, 32), num(b.pagesOf, 0, 32)),
       // how a won delve ended, one of the three
@@ -56,11 +64,17 @@ module.exports = async function handler(req, res) {
       });
     }
     if (typeof body === 'string') { if (body.length > MAX_BODY) throw new Error('too long'); body = JSON.parse(body); }
+    // (a body the platform parsed before this ran is measured again: the cap above never saw it)
+    if (body && typeof body === 'object' && JSON.stringify(body).length > MAX_BODY) throw new Error('too long');
   } catch { res.statusCode = 400; return res.end(); }
   const e = body && typeof body === 'object' ? clean(body) : null;
-  if (!e) { res.statusCode = 400; return res.end(); }
+  if (!e || (e.kind === 'run' && !e.cls)) { res.statusCode = 400; return res.end(); }
   if (!ready()) { res.statusCode = 204; return res.end(); }
   try {
+    // so many a minute from one address, and no more: the rest are dropped unread
+    const ip = String((req.headers && (req.headers['x-forwarded-for'] || req.headers['x-real-ip'])) || 'unknown').split(',')[0].trim().slice(0, 64);
+    const [n] = await pipeline([['INCR', `dd:rate:${ip}`], ['EXPIRE', `dd:rate:${ip}`, 60]]);
+    if (Number(n) > RATE_A_MINUTE) { res.statusCode = 429; return res.end(); }
     if (e.kind === 'run') {
       // a rung of the ladder past Hard is counted apart, so it does not pull Hard's own rate down
       const key = `${e.levels}|${e.diff}${e.rung ? `+${e.rung}` : ''}|${e.cls}`;
@@ -81,9 +95,13 @@ module.exports = async function handler(req, res) {
       e.fps.forEach((n, i) => { if (n) cmds.push(['HINCRBY', 'dd:count:fps', String(i), n]); });
       await pipeline(cmds);
     } else {
+      // counted by build and message, the message cut to plain words; a message never seen before
+      // is counted only while there is room for another kind
+      const field = `${e.build} ${word(e.msg, 120)}`.trim().slice(0, 150);
+      const [seen, kinds] = await pipeline([['HEXISTS', 'dd:count:crash', field], ['HLEN', 'dd:count:crash']]);
       await pipeline([
         ['LPUSH', 'dd:crashes', JSON.stringify(e)], ['LTRIM', 'dd:crashes', 0, CRASHES_KEPT - 1],
-        ['HINCRBY', 'dd:count:crash', `${e.build} ${e.msg}`.slice(0, 200), 1],
+        ...(Number(seen) || Number(kinds) < CRASH_KINDS ? [['HINCRBY', 'dd:count:crash', field, 1]] : []),
       ]);
     }
   } catch {

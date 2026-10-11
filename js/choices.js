@@ -120,6 +120,20 @@ export function makeChoices(K) {
     };
     draw();
   }
+  /**
+   * The hero above a choice: who is choosing and how they stand, with their
+   * face. The cards wait at the foot of the screen for the thumb, and the top
+   * of a phone held upright was black above them (style.css hides this where
+   * there is no room: held sideways, or a short screen).
+   */
+  function choiceHead(note) {
+    const G = Game.state(), p = Game.player();
+    const head = document.createElement('div');
+    head.className = 'choice-head';
+    const face = K.faceOf(p.cls);
+    head.innerHTML = `${face ? `<img class="choice-face" src="${face}" alt="">` : ''}<div class="choice-who"><b>${escapeHtml(p.name)}</b><span>${escapeHtml(CLASSES[p.cls].name)}, hero level ${p.level} · floor ${G.depth}</span><span>${p.hp} of ${p.maxHp} hit points · ${p.gold} gold</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</div>`;
+    return head;
+  }
   function renderBoons() {
     const offer = Game.pendingBoons();
     if (!offer) { closeOverlay(); return; }
@@ -134,6 +148,7 @@ export function makeChoices(K) {
     const el = $('#boon-list');
     el.innerHTML = '';
     el.classList.remove('paths');
+    el.appendChild(choiceHead(''));
     // what the level brought, and what comes next
     const level = Game.pendingLevel(), got = Game.levelNote(level);
     const bits = [];
@@ -229,6 +244,7 @@ export function makeChoices(K) {
     el.innerHTML = '';
     // held sideways, the paths sit side by side: one under the other, the second was below the fold
     el.classList.add('paths');
+    el.appendChild(choiceHead(''));
     const bits = [];
     if (got) { bits.push(`+${got.hp} hit point${got.hp === 1 ? '' : 's'}`); for (const sp of got.spells) bits.push(`learned ${sp}`); }
     const head = document.createElement('p');
@@ -271,5 +287,5 @@ export function makeChoices(K) {
     }
   }
 
-  return { BOON_GUARD_MS, pathCard, renderBoons, renderEncounter };
+  return { BOON_GUARD_MS, choiceHead, pathCard, renderBoons, renderEncounter };
 }

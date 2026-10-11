@@ -16,7 +16,7 @@ test('someone new is met by a card that says the game in a minute, and it stays 
   const card = page.locator('#first-time');
   await expect(card).toBeVisible();
   await expect(card).toContainText('First time here?');
-  await expect(card.locator('li')).toHaveCount(5);
+  await expect(card.locator('li')).toHaveCount(3);   // (three lines: the key art shows under it)
   // it fades out rather than vanishing, and the title fades up where it now
   // stands (watched as it happens: the fade is over in a moment)
   await page.evaluate(() => {

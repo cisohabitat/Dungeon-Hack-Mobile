@@ -75,8 +75,9 @@ test('the dungeon and every overlay in it', async ({ page }) => {
   await startGame(page, { seed: 'a11y', cls: 'mage' });
   await clearBoons(page);
   await scan(page, 'game', found);
-  for (const name of ['menu', 'map', 'inv', 'spells', 'char', 'journal']) {
-    await page.click(`[data-open="${name}"]`);
+  for (const name of ['menu', 'map', 'inv', 'spells', 'char', 'journal', 'log']) {
+    // (the log's history opens from its own button, not the bar)
+    if (name === 'log') await page.click('#log-more'); else await page.click(`[data-open="${name}"]`);
     await expect(page.locator(`#ov-${name}`)).toHaveClass(/open/);
     await scan(page, name, found);
     // the journal's other pages, the combinations among them
@@ -113,6 +114,15 @@ test('the dungeon and every overlay in it', async ({ page }) => {
   await page.evaluate(() => { const p = Game.player(); p.hp = 1; p.eq.armor = null; p.eq.shield = null; });
   await expect(page.locator('#screen-end')).toBeVisible({ timeout: 25_000 });
   await scan(page, 'end', found);
+  // and the question asked before a hero waiting below is replaced
+  await page.goto('/');
+  await page.evaluate(() => localStorage.setItem('deepdelve.save', localStorage.getItem('deepdelve.save') || '{}'));
+  await startGame(page, { seed: 'a11y-confirm' });
+  await page.evaluate(() => Game.save(true));
+  await page.goto('/');
+  await page.click('#btn-new');
+  await expect(page.locator('#screen-confirm')).toBeVisible();
+  await scan(page, 'confirm', found);
   const bad = report(found);
   expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
 });

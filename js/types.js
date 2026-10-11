@@ -363,6 +363,7 @@
  * @property {Record<number, number>} [met]  monsters met this run, by uid, so each counts once in the bestiary
  * @property {string[]} [deathLog]
  * @property {number} [blowGate]   no monster blow may land on you before this time
+ * @property {number} [graceUntil]  the first floor's grace: until this time, or the hero's first step or blow, nothing awake acts
  * @property {Object<string, number>} [studied]  item kind -> the level at which studying it last failed
  * @property {string[]} [metEncounters]  encounters already met this run, so none repeats
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found

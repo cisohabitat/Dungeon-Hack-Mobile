@@ -51,9 +51,14 @@ for (const [name, vp] of [['phone', { width: 393, height: 727 }], ['small phone'
       await page.evaluate(o => document.querySelector(`[data-open="${o}"]`) ? document.querySelector(`[data-open="${o}"]`).click() : document.getElementById('log-more').click(), ov);
       await expect(page.locator(`#ov-${ov}`)).toHaveClass(/open/);
       expect(await offScreen(page, `#ov-${ov} [data-close]`), ov).toEqual([]);
+      // the pack's slot labels fit their cells, and the hero sheet's scores and rows their columns (the review found both cut off)
+      if (ov === 'inv') expect(await page.evaluate(() => Array.from(document.querySelectorAll('#ov-inv .slot .lbl')).filter(l => l.getBoundingClientRect().right > l.closest('.slot').getBoundingClientRect().right + 1).map(l => l.textContent)), 'slot labels').toEqual([]);
+      if (ov === 'char') expect(await page.evaluate(() => Array.from(document.querySelectorAll('#ov-char .sheet div')).filter(d => d.scrollWidth > d.clientWidth + 1 || d.getBoundingClientRect().right > innerWidth).map(d => d.textContent.trim().slice(0, 20))), 'the hero sheet').toEqual([]);
       await page.keyboard.press('Escape');
       await expect(page.locator(`#ov-${ov}`)).not.toHaveClass(/open/);
     }
+    // the newest log line stops short of the Log button, not under it
+    expect(await page.evaluate(() => { const l = document.querySelector('#log div:last-child'), b = document.getElementById('log-more'); if (!l || !b) return true; const r = document.createRange(); r.selectNodeContents(l); return r.getBoundingClientRect().right <= b.getBoundingClientRect().left + 1; }), 'the log under its button').toBe(true);
     expect(errors).toEqual([]);
   });
 }

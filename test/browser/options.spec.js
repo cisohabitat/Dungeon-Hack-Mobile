@@ -489,10 +489,11 @@ test.describe('the Daily Delve', () => {
     expect(errors).toEqual([]);
   });
 
-  test('the Ranger & Druid Daily is there from the start, deals one of the two, and keeps apart from the first Daily', async ({ page }) => {
+  test('the Ranger & Druid Daily is there from the first run, deals one of the two, and keeps apart from the first Daily', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.clock.setFixedTime(DAY);
-    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    // (the switch between the dailies shows once a run has been played: a first visit sees one button)
+    await page.addInitScript(() => { localStorage.setItem('deepdelve.tipsOff', '1'); localStorage.setItem('deepdelve.hall', '[]'); });
     await page.goto('/');
     // one Daily button, and a switch under it: set to the Ranger & Druid, it says so
     await expect(page.locator('#btn-daily-earned')).toBeVisible();
@@ -681,17 +682,17 @@ test.describe('the hero\'s name', () => {
     expect(errors).toEqual([]);
   });
 
-  test('choosing another background draws a name to suit it, but never over one the player typed', async ({ page }) => {
+  test('choosing another background keeps the name shown, drawn or typed; the dice draw another', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.click('#btn-new');
     const open = page.locator('.bg-card:not(.locked)');
     expect(await open.count()).toBeGreaterThan(1);
     const before = await page.inputValue('#c-name');
+    expect(await page.evaluate(() => window.HERO_NAMES)).toContain(before);
+    // (a name that changed under the player read as a fault: the one shown stays)
     await open.nth(1).click();
-    const after = await page.inputValue('#c-name');
-    expect(after).not.toBe(before);
-    expect(await page.evaluate(() => window.HERO_NAMES)).toContain(after);
+    expect(await page.inputValue('#c-name')).toBe(before);
     await page.fill('#c-name', 'Mine');
     await open.nth(0).click();
     expect(await page.inputValue('#c-name')).toBe('Mine');

@@ -162,6 +162,9 @@ export function makePad(K) {
     if (any) K.woke();
     const where = K.where();
     if (where !== 'play') bar = false;
+    // leaving play with a direction still held (the hero dead or victorious under a pushed
+    // stick), the release is sent now: it was never sent, and the next hero walked on its own
+    if (where !== 'play' || bar) for (const [k, act] of Object.entries(HELD)) if (was[k]) K.release(act);
     if (where === 'play' && !bar) {
       for (const [k, act] of Object.entries(HELD)) {
         if (now[k] && !was[k]) K.press(act);

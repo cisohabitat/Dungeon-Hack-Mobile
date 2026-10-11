@@ -1,7 +1,7 @@
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
-import { BACKGROUNDS, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
+import { BACKGROUNDS, BESTIARY, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
@@ -197,9 +197,16 @@ export function makeEndScreen(K) {
       // "an ogre", as the lines below it say; a champion keeps its own name
       const who = killer.name.includes(',') || /^the /i.test(killer.name) ? killer.name : `${/^[aeiou]/i.test(killer.name) ? 'an' : 'a'} ${killer.name.toLowerCase()}`;
       cause.innerHTML = `Killed by <b>${escapeHtml(who)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
+      // and what beats it, from the Bestiary: a death is the lesson, learned or not
+      const lore = killer.id && BESTIARY[killer.id];
+      if (lore && lore.answer) cause.innerHTML += ` <span class="beats">What beats it: ${escapeHtml(lore.answer)}</span>`;
     } else if (!won) {
       cause.textContent = 'Killed by the dungeon itself.';
     } else cause.textContent = '';
+    // one thing to go down for next
+    const goal = Progress.nextGoals(Progress.load(), p.cls)[0], goalEl = $('#end-goal');
+    goalEl.hidden = !goal;
+    if (goal) goalEl.textContent = `Next: ${goal.how}, for ${goal.what}.`;
     const moments = Game.deathLog();
     $('#end-final').style.display = (!won && moments.length) ? '' : 'none';
     $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');

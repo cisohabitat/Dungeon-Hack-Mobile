@@ -7,6 +7,7 @@ import { Sound } from './sound.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Weekly } from './weekly.js';
+import { Progress } from './progress.js';
 import { $, $$ } from './uikit.js';
 
 /**
@@ -40,12 +41,16 @@ export function makeTitleMenu(K) {
     const lr = Game.lastRun(), lastEl = $('#last-run');
     lastEl.hidden = !lr;
     if (lr) lastEl.textContent = `Last time: ${lr.name} the ${CLASSES[lr.cls] ? CLASSES[lr.cls].name : lr.cls} ${lr.won ? `won the Heart of the Mountain (${lr.levels} floors)` : `fell on floor ${lr.depth}${lr.killer ? `, killed by ${lr.killer}` : ''}`}.`;
+    // and one thing to go down for next (someone new has the card instead)
+    const goal = Progress.nextGoals(Progress.load(), lr ? lr.cls : '')[0], goalEl = $('#next-goal');
+    goalEl.hidden = !goal || !returning();
+    if (goal) goalEl.textContent = `Next: ${goal.how}, for ${goal.what}.`;
   }
   // ---------- what's new ----------
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-11-30', text: 'the Weekly Challenge: one dungeon a week for everyone, with two vows sworn for you; try as often as you like, and your best stands' };
+  const NEWS = { id: '2026-12-07', text: 'the hero above every level-up and the divided stair, a way back from the prologue, what beats what killed you and one goal to go down for on the end screen, Search only at a dead end, and the name you see kept' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
@@ -90,6 +95,8 @@ export function makeTitleMenu(K) {
     const kind = dailyKind();
     for (const b of $$('.daily-kind [data-kind]')) { const on = /** @type {HTMLElement} */ (b).dataset.kind === kind; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }
     $('#daily-name').textContent = kind === 'earned' ? 'Ranger & Druid Daily' : 'Daily Delve';
+    // which daily is a choice for someone who has played one; a first visit sees one button
+    /** @type {HTMLElement} */ ($('.daily-kind')).hidden = !returning();
     /** @type {HTMLElement} */ ($('#daily-summary')).hidden = kind !== 'main';
     /** @type {HTMLElement} */ ($('#daily-earned-summary')).hidden = kind !== 'earned';
     $('#btn-daily').classList.toggle('done', $('#btn-daily').dataset[kind === 'earned' ? 'earnedDone' : 'mainDone'] === '1');
@@ -170,6 +177,8 @@ export function makeTitleMenu(K) {
     pendingKind = kind;
     const saved = Game.saveSummary();
     if (!saved) { startPending(); return; }
+    // what was asked for, so the question is not a surprise
+    $('#confirm-what').textContent = `You chose ${kind === 'quick' ? 'Quick Start' : kind === 'weekly' ? 'the Weekly Challenge' : kind === 'daily' || kind === 'earned' ? `the ${dailyLabel(kind)}` : 'New Game'}.`;
     // today's Daily is one try: replacing that hero spends it, so say so
     $('#confirm-who').textContent =
       `${saved.name} the ${saved.cls}, level ${saved.level}, waiting on floor ${saved.depth}.${saved.daily && saved.daily === Daily.today() ? ` This is today\'s ${dailyLabel(saved.dailyKind)}, your one try at it: a new hero ends it unfinished.` : ''}`;

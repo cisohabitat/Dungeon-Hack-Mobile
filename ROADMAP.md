@@ -70,39 +70,39 @@ About eight months in all, plus whatever audio and the device round take outside
 Everything the review found that is a bug, a rough edge or a one-batch gap, before anything
 is built on top. Each is small; together they are the grade.
 
-- [ ] **A held stick stops at the end screen** (C1): release every held act when the pad
+- [x] **A held stick stops at the end screen** (C1): release every held act when the pad
   leaves play, clear `held` on a new run; the probe becomes a `pad.spec.js` test.
-- [ ] **The collar test and its kind** (C2): seed what it measures or widen its bar, then sweep
+- [x] **The collar test and its kind** (C2): seed what it measures or widen its bar, then sweep
   `rules.js` for other statistical bars on unseeded paths.
-- [ ] **Harden `api/telemetry.js`** (C3): whitelists from `data.js` for class, difficulty, size,
+- [x] **Harden `api/telemetry.js`** (C3, C6): whitelists from `data.js` for class, difficulty, size,
   path, legend and combinations; a hashed crash field; a per-IP throttle; a cap on the parsed
   body; a weekly flag on crashes (C6); tests in `test/api.js`.
-- [ ] **Teach the arrow** (P1): the coached fight or a first-shot tip says what beats an archer
+- [x] **Teach the arrow** (P1): the coached fight or a first-shot tip says what beats an archer
   (close in, or leave its line), a bowstring on the draw, and the dodge tip stops saying "every
   time". The end screen's "what killed you" names the bestiary's answer (P11).
-- [ ] **Fill the modal choices' empty half** (P2): the level-up, the path and the divided stair
+- [x] **Fill the modal choices' empty half** (P2): the level-up, the path and the divided stair
   show the hero's portrait and numbers, or the floor, above their cards.
-- [ ] **Double text in the pack, the hero sheet and the log** (P3): slot labels, the scores'
+- [x] **Double text in the pack, the hero sheet and the log** (P3): slot labels, the scores'
   columns, padding under "≡ Log"; `access.spec.js` gains the pack and the hero sheet.
-- [ ] **How to Play in order** (P4): Basics starts with moving and ends with the ending, on
+- [x] **How to Play in order** (P4): Basics starts with moving and ends with the ending, on
   one screen; Send reports and Testing tools move under Modes; the "behind the counter"
   line made true (D17); README's counts (D17).
-- [ ] **Words explained where they stand** (P5, P8, P14): a vow's one line under its name on
+- [x] **Words explained where they stand** (P5, P8, P14): a vow's one line under its name on
   the title and in the prologue; "Search" only where a hidden door is plausible, or a first
   tip; "In a fight" and "on no path" reworded.
-- [ ] **The prologue** (P6, P10): a Back button, and the portrait or the key art behind it.
-- [ ] **The title for a first visit** (P9, P18): "Load from code" with Continue; the Daily's
+- [x] **The prologue** (P6, P10): a Back button, and the portrait or the key art behind it.
+- [x] **The title for a first visit** (P9, P18): "Load from code" with Continue; the Daily's
   switch once earned; the Weekly's line to two; "You already have a hero below" says which
   was being started.
-- [ ] **New Game keeps the name shown** (P7) unless the player asks for another.
-- [ ] **A near goal** (P11): one line on the title and the end screen from the Hall's closest
+- [x] **New Game keeps the name shown** (P7) unless the player asks for another.
+- [x] **A near goal** (P11): one line on the title and the end screen from the Hall's closest
   unlock or trophy; the Hall shows the three nearest first.
-- [ ] **A few seconds' grace on the start square** (P17), and the difficulty named on the
+- [x] **A few seconds' grace on the start square** (P17), and the difficulty named on the
   first floor; on Easy the marks a fifth slower, said on its card (D15).
-- [ ] **Finds and duplicates** (P16, P13): a chime and a rising number for a find; the floor
+- [x] **Finds and duplicates** (P16, P13): a chime and a rising number for a find; the floor
   does not hand out a fourth buckler.
-- [ ] **The first tip off the hero's hands** (P15).
-- [ ] **Test gaps** (C11, C12): rules tests for Iron Snare, Tightening Cord, Red Feast and Pyre;
+- [x] **The first tip off the hero's hands** (P15): tried on the roof of the view, and put back: there it covered the map and the fight, which round five's rule keeps clear. The band above the log stands.
+- [x] **Test gaps** (C11, C12): rules tests for Iron Snare, Tightening Cord, Red Feast and Pyre;
   `pack_and_root` and `jest` asserted; axe on the Log overlay and the confirm screen.
 
 **Exit criteria**
@@ -230,7 +230,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   `ui.js` in Phase 6; the K wiring out of `game.js` in Phase 7).
 - [ ] The K objects typed (C8): a `@typedef` per factory in `pad.js`'s style, the five largest
   first, copies at birth turned to getters; alongside Phase 7.
-- [ ] A Content-Security-Policy (C5), inline styles moved: Phase 6.
+- [x] A Content-Security-Policy (C5), inline styles allowed (the page sets a few by attribute; it is the scripts the policy guards): Phase 6.
 - [ ] Fixed sleeps swapped for state waits, CI retries off (C9): spread over Phases 6 to 8.
 - [ ] The per-frame tidy-up (C13 to C15) and a startup and wide-layout scene in `perf.spec.js`
   (C16): Phase 7.

@@ -817,6 +817,8 @@ const Game = (() => {
     return G;
   }
 
+  /** How long the first floor's creatures hold off a hero who has not yet moved (see enterLevel). */
+  const GRACE_MS = 3000;
   function enterLevel(depth, from) {
     const p = P(), cameFrom = G.depth;
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
@@ -840,6 +842,11 @@ const Game = (() => {
     const came = stairsBeside();
     besideKey = came ? came.key : '';
     for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; m.volley = null; }
+    // A few seconds' grace at the foot of the first stair: nothing already awake acts until the
+    // hero has stepped or struck, or the moment has passed (foes.js holds them). A goblin once
+    // came through a door and struck a new hero from the side before their first tap. The first
+    // floor only: a deeper floor's arrival is part of every benched row, and this would move them.
+    if (depth === 1 && from === 'down') G.graceUntil = G.t + GRACE_MS;
     closeShop();
     snapCam();
     distFieldAt = -1e9;
@@ -1018,8 +1025,14 @@ const Game = (() => {
     if (monsterAt(tx, ty)) return monsterAt(tx, ty).disguised ? 'Break' : 'Use';
     if (propAt(tx, ty)) return 'Break';
     if (t === T.DOOR_OPEN && !(lvl().burntDoors || {})[key(tx, ty)]) return 'Close';
-    // a hidden door reads as wall until found, so it must not label differently
-    if (t === T.WALL || t === T.TORCH || t === T.SECRET) return 'Search';
+    // a hidden door reads as wall until found, so it must not label differently;
+    // and a wall is not worth searching unless the way ends at it (a dead end,
+    // which is where the builders hid their doors), or every wall said Search
+    if (t === T.WALL || t === T.TORCH || t === T.SECRET) {
+      const [lx, ly] = DIRS[(p.dir + 1) % 4], [rx, ry] = DIRS[(p.dir + 3) % 4];
+      const solid = v => v === T.WALL || v === T.TORCH || v === T.SECRET;
+      return solid(tile(p.x + lx, p.y + ly)) && solid(tile(p.x + rx, p.y + ry)) ? 'Search' : 'Use';
+    }
     // draughts underfoot the belt has no room for: say why they stay there
     if (beltFull()) return 'Belt full';
     return 'Use';
@@ -1199,6 +1212,9 @@ const Game = (() => {
     if (L.items[k] && L.items[k].length) {
       pickupAll(true); heartHeld();
       const left = (L.items[k] || []).filter(it => !it.left && uselessToClass(it));
+      const spare = (L.items[k] || []).filter(it => !it.left && !uselessToClass(it) && spareToPack(it));
+      for (const it of spare) it.left = 1;
+      if (spare.length) log(`You leave ${spare.length === 1 ? the(spare[0]) : spare.map(it => the(it)).join(', ').replace(/, ([^,]*)$/, ' and $1')} ${spare.length === 1 ? 'where it lies' : 'where they lie'}: you carry two already.`);
       for (const it of left) it.left = 1;   // said once: after this it is simply lying there
       if (left.length) log(`You leave ${left.length === 1 ? the(left[0]) : left.map(it => the(it)).join(', ').replace(/, ([^,]*)$/, ' and $1')} ${left.length === 1 ? 'where it lies' : 'where they lie'}: no use to a ${CLASSES[p.cls].name.toLowerCase()}. Take lifts ${left.length === 1 ? 'it' : 'them'}, for the trader.`);
     }
@@ -1505,6 +1521,9 @@ const Game = (() => {
     if (!G || G.status !== 'playing') return;
     // any control during the way in skips it, and does nothing else
     if (prelude.active()) { prelude.finish(realNow); return; }
+    // the first floor's grace ends at the hero's first step or blow (a turn on the spot, to look
+    // about, keeps it: it is for whoever has not yet found their feet)
+    if (G.graceUntil && !['left', 'right', 'use', 'take', 'rest', 'quaff', 'read'].includes(act)) G.graceUntil = 0;
     switch (act) {
       case 'forward': case 'back': case 'strafeL': case 'strafeR': case 'left': case 'right':
         // a step tapped while the last one is still easing in is kept, not
@@ -1784,7 +1803,7 @@ const Game = (() => {
   });
 
   // ---------- items: see items.js ----------
-  const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems({
+  const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spareToPack, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems({
     get openEncounter() { return encs.openEncounter; }, get climbed() { return climbed; },
     get COATINGS() { return COATINGS; }, get COAT_BLOWS() { return COAT_BLOWS; }, get COAT_GLOW() { return COAT_GLOW; }, get DIRS() { return DIRS; },
     get G() { return G; }, get INV_MAX() { return INV_MAX; }, get P() { return P; }, get READ_MS() { return READ_MS; },
@@ -1841,7 +1860,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: () => prelude.finish(realNow || performance.now()),
     state: () => G, player: P, level: lvl, log, mod,
-    lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
+    lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, spareToPack, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
     /** The run's build in a line, and its combinations, most used first. */
     buildLine: () => (G ? combos.buildLine() : ''), noteCombo: (/** @type {string} */ id, /** @type {any} */ at) => combos.note(id, at),
     /** For the tests: a champion wakes, and a wound as a blow of the hero's would give it. */

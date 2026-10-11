@@ -158,6 +158,35 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .inv-tools button { min-height: 32px; padding: var(--s-4) var(--s-14); }
 /* the run before this one, under the tagline */
 .last-run { text-align: center; margin: var(--s-4) var(--s-12) 0; }
+/* one thing to go down for next, under the last run's line and on the end screen */
+.next-goal { text-align: center; margin: var(--s-4) var(--s-12) 0; color: var(--gold); }
+#screen-end .next-goal { margin: var(--s-8) 0; font-size: var(--t-md); }
+.beats { display: block; margin-top: var(--s-4); color: var(--text-mid); font-size: var(--t-sm); }
+/* a hero from another phone, under the menu rather than beside the Weekly: wanted rarely */
+.title-foot { text-align: center; margin: var(--s-6) 0 0; }
+.linkish { background: none; border: 0; padding: var(--s-6) var(--s-10); min-height: 36px; color: var(--dim); font-size: var(--t-sm); text-decoration: underline; text-underline-offset: 3px; }
+.linkish:hover, .linkish:focus-visible { color: var(--text); }
+.confirm-what { text-align: center; margin: 0 0 var(--s-4); color: var(--gold); }
+/* the prologue: the hero's face beside their past */
+.pro-hero { display: flex; align-items: center; gap: var(--s-12); margin-top: 1.2em; }
+.pro-hero h3 { margin: 0; }
+.pro-face { width: 56px; height: 56px; flex: none; image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
+.pro-face:not([src]), .pro-face[src=""] { display: none; }
+/* the hero above a choice (the level-up, the path, the divided stair): the top of the phone is not black */
+.choice-head { display: flex; align-items: center; gap: var(--s-12); padding: var(--s-6) 0 var(--s-10); }
+.choice-face { width: 64px; height: 64px; flex: none; image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
+.choice-who { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
+.choice-who b { color: var(--gold); font-weight: normal; font-size: var(--t-xl); }
+.choice-who span { color: var(--dim); font-size: var(--t-md); }
+/* no room for it held sideways or on a short screen: the cards come first */
+@media (max-height: 560px), (orientation: landscape) and (max-height: 700px) { .choice-head { display: none; } }
+/* the Hall's nearest goals, before the grid */
+.trophy-near { margin: 0 0 var(--s-8); color: var(--dim); font-size: var(--t-md); line-height: 1.4; }
+.trophy-near b { color: var(--gold); font-weight: normal; }
+/* a find: the gold on the HUD flares as it grows */
+@keyframes gold-flare { 0% { color: #fff8dc; text-shadow: 0 0 10px rgba(255, 214, 102, 0.9); transform: scale(1.18); } 100% { color: var(--gold); text-shadow: none; transform: none; } }
+#hud-gold.flare { animation: gold-flare 650ms ease-out; display: inline-block; transform-origin: right center; }
+body.calm #hud-gold.flare { animation: none; }
 /* the testing tools' pickers: the list takes the room, the button stays a thumb's width */
 .menu-row.test-row select { flex: 1; min-width: 0; }
 .menu-row.test-row button { flex: 0 0 auto; min-width: 64px; }
@@ -987,6 +1016,9 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 @media (orientation: portrait) and (max-width: 600px) {
   #boon-list, #ov-encounter .ov-body, #ov-fork .ov-body { display: flex; flex-direction: column; }
   #boon-list > :first-child, #enc-choices, #fork-choices { margin-top: auto; }
+  /* the hero's head stays at the top; what follows it is pushed to the foot */
+  #boon-list > .choice-head { margin-top: 0; }
+  #boon-list > .choice-head + * { margin-top: auto; }
   #enc-choices, #fork-choices { width: 100%; }
   #boon-list > *, #ov-encounter .ov-body > *, #ov-fork .ov-body > * { flex-shrink: 0; }
   /* the choices sit low, so the picture above them takes some of the room a tall phone leaves */
@@ -1067,7 +1099,11 @@ body.big-text .bar span { line-height: calc(0.9rem + 2px); }
 /* the view gives up some of its height (never less than a wide strip) and the
    log keeps two lines, the rest a tap on Log away at the same size */
 body.big-text .view-wrap { min-height: calc(100vw * 0.4); }
-body.big-text .log { height: 2.9em; min-height: 2.9em; }
+body.big-text .log { height: 2.9em; min-height: 2.9em; padding-right: 92px; }
+body.big-text .slot { font-size: var(--t-2xs); }
+body.big-text .slot .lbl { font-size: 0.55rem; letter-spacing: 0; }
+body.big-text .sheet.scores { grid-template-columns: 1fr 1fr; }
+body.big-text .sheet { grid-template-columns: 1fr; }
 body.big-text .hud-right { flex-direction: row; gap: var(--s-6); }
 body.big-text .bottombar { flex-wrap: wrap; }
 body.big-text .bottombar button { flex: 1 1 auto; padding: var(--s-6) var(--s-6); }

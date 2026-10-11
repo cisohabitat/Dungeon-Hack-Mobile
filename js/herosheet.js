@@ -78,7 +78,7 @@ export function makeHeroSheet(K) {
       row('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
       row('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '\u2014', true),
     ];
-    const groups = `<h3 class="sheet-h">In a fight</h3><div class="sheet">${fight.join('')}</div>`
+    const groups = `<h3 class="sheet-h">At arms</h3><div class="sheet">${fight.join('')}</div>`
       + `<h3 class="sheet-h">Scores</h3><div class="sheet scores">${scores.join('')}</div>`
       + `<h3 class="sheet-h">The run</h3><div class="sheet">${run.join('')}</div>`
       + (combos.length ? `<h3 class="sheet-h">Combinations this run</h3><div class="finds">${combos.map(x => `<span class="tag combo">${escapeHtml(x.name)}${x.n > 1 ? ` \u00d7${x.n}` : ''}</span>`).join('')}</div>` : '')

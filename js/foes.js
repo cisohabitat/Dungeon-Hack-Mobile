@@ -189,7 +189,8 @@ export function makeFoes(K) {
   const poisonFor = () => ({ until: K.G.t + Math.min(20000, 6000 + 3500 * K.G.depth), next: K.G.t + 2000 });
   /** How long a blow is drawn back: most of the gap between blows, up to WINDUP_MS. A
    * rat's used to be 405ms, and seeing it and moving a thumb to Step takes longer. */
-  const windupFor = cycle => Math.round(Math.min(WINDUP_MS, cycle * 0.7));
+  // (on Easy a fifth longer again, past the cap: the mark is the one thing a new player must learn to see)
+  const windupFor = cycle => Math.round(Math.min(WINDUP_MS, cycle * 0.7) * (K.diff().windup || 1));
   /** Draw a blow back: it lands in dur ms, if you are still there. */
   function beginWindup(m, kind, dur) {
     if (m.pressing) { dur = Math.max(350, Math.round(dur * 0.6)); m.pressing = false; }
@@ -1379,6 +1380,8 @@ export function makeFoes(K) {
     if (m.wardUntil > G.t && mb.boss && !m.throne) { m.nextAct = m.wardUntil; return; }
     const di = K.distField[m.y * L.w + m.x];
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
+    // the first floor's grace (game.js): what is awake waits for the hero's first step or blow
+    if (G.graceUntil > G.t) return;
     if (di < 0 || di > 12) { losesYou(m, mb); return; }
     m.lostAt = 0;
     if (m.fleeing && flees(m, mb, L, p, di)) return;

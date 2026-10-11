@@ -69,7 +69,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/telemetry.js`: opt-in reports (a run's end, a crash), off unless turned on
   in the Menu. `api/telemetry.js` and `api/stats.js` are the Vercel functions
   that keep and count them (checked by `test/api.js`); `dashboard.html` shows
-  them beside the README balance table, which it reads as it stands.
+  them beside the README balance table, which it reads as it stands. A report
+  may name only the game's own ids: `api/_ids.js` lists them, written by
+  `node tools/ids.mjs` from the tables (`test/run.js` fails while it is stale).
 - `art/keyart/`: the title's key art. `REQUEST.md` is the brief for whoever makes it
   (an artist or an image tool); the finished images and their `SOURCES.md` land there.
 - `sound/`: the sound pack (a first cut rendered in code; see its `SOURCES.md`) and

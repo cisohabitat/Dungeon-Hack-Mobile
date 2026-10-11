@@ -172,7 +172,9 @@ function renderTrophies() {
     const what = `${u.name}: ${u.open ? 'open.' : 'locked. ' + u.how}`;
     return `<span class="unlock${u.open ? ' open' : ''}" data-trophy="unlock-${escapeHtml(u.id)}" role="button" tabindex="0" aria-label="${escapeHtml(what)}" title="${escapeHtml(what)}">${escapeHtml(u.name)}</span>`;
   });
+  const near = Progress.nextGoals(v);
   $('#hall-trophies').innerHTML = `<div class="trophy-head"><span>Trophies</span><span id="trophy-count">${won} of ${total} won</span></div>`
+    + (near.length ? `<p class="trophy-near">Nearest: ${near.map(g => `<b>${escapeHtml(g.what)}</b> (${escapeHtml(g.how.toLowerCase())})`).join(' · ')}</p>` : '')
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
     + `<div class="trophy-sub">Paths <small>(both won: the class mastered, ✦)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
     + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`

@@ -30,11 +30,14 @@ async function main() {
   check(!('name' in c) && !('email' in c) && !JSON.stringify(c).includes('Somebody'), 'a field the game does not send is dropped');
   check(tel.clean({ ...run, outcome: 'cheated' }).outcome === 'quit', 'an outcome it does not know is read as a quit');
   check(tel.clean({ ...run, levels: 9999 }).levels === 32, 'numbers are held to their range');
-  check(tel.clean({ ...run, cls: '<script>' }).cls === 'script', 'words lose markup');
-  check(c.combos.length === 3 && c.combos[0] === 'conduction' && c.combos[2] === 'bxb' && c.legend === 'bastion', 'the combinations and the legend are kept, as words');
+  // the counts are keyed by these, so only the game's own ids will do: anything else is nothing
+  check(tel.clean({ ...run, cls: '<script>' }).cls === '' && tel.clean({ ...run, cls: 'orc' }).cls === '' && tel.clean({ ...run, path: 'godking' }).path === '' && tel.clean({ ...run, diff: 'brutal' }).diff === 'normal' && tel.clean({ ...run, size: 'vast' }).size === 'medium', 'a class, path, difficulty or size the game does not have is not kept');
+  check(c.combos.length === 2 && c.combos[0] === 'conduction' && c.combos[1] === 'shield_wall' && c.legend === 'bastion' && tel.clean({ ...run, legend: 'excalibur' }).legend === '', 'the combinations and the legend are kept only as the game names them');
+  check(tel.clean({ ...run, combos: ['conduction', 'conduction', 'conduction'] }).combos.length === 1, 'a combination is counted once a run');
   check(c.ending === 'quench' && tel.clean({ ...run, ending: 'bribe' }).ending === '' && tel.clean({ ...run, outcome: 'death' }).ending === '', 'an ending: one of the three, and only for a win');
   check(c.pages === 8 && c.pagesOf === 8 && tel.clean({ ...run, pages: 99, pagesOf: 6 }).pages === 6 && tel.clean({ ...run, pages: 'x' }).pages === 0, 'pages found: a number, never more than the delve held');
-  check(tel.clean({ ...run, combos: 'conduction' }).combos.length === 0 && tel.clean({ ...run, combos: Array(99).fill('a') }).combos.length === 40, 'combinations: a list, cut to size');
+  const known = require('../api/_ids').combos;
+  check(tel.clean({ ...run, combos: 'conduction' }).combos.length === 0 && tel.clean({ ...run, combos: Array(99).fill('a') }).combos.length === 0 && tel.clean({ ...run, combos: known }).combos.length === Math.min(40, known.length), 'combinations: a list of the game\'s own, cut to size');
   const cr = tel.clean({ kind: 'crash', msg: 'x'.repeat(900), stack: 'y'.repeat(9000), seed: 's', depth: 3, save: 'abcd1234' });
   check(cr.msg.length === 300 && cr.stack.length === 2000 && cr.save === 'abcd1234', 'a crash report is kept, cut to size');
   check(tel.clean({ kind: 'other' }) === null, 'an unknown kind is refused');
@@ -47,6 +50,8 @@ async function main() {
   check((await call(tel, 'POST', '{not json')).status === 400, 'bad JSON: 400');
   check((await call(tel, 'POST', 'x'.repeat(7000))).status === 400, 'too long: 400');
   check((await call(tel, 'POST', { kind: 'nope' })).status === 400, 'unknown kind: 400');
+  check((await call(tel, 'POST', { ...run, cls: 'orc' })).status === 400, 'a run with no class of the game\'s: 400');
+  check((await call(tel, 'POST', { ...run, cause: 'x'.repeat(7000) })).status === 400, 'a parsed body too long: 400');
   check(fetched === 0, 'no store: nothing fetched');
   check(JSON.parse((await call(stats, 'GET')).body).ready === false, 'no store: stats says so');
 
@@ -55,8 +60,10 @@ async function main() {
   const live = fresh({ KV_REST_API_URL: 'https://store.example/', KV_REST_API_TOKEN: 't' });
   global.fetch = async (url, o) => { sent.push({ url, body: JSON.parse(o.body), auth: o.headers.Authorization }); return { ok: true, json: async () => JSON.parse(o.body).map(() => ({ result: ['8|normal|fighter', '3'] })) }; };
   check((await call(live.tel, 'POST', JSON.stringify(run))).status === 204, 'store: 204');
-  const cmds = sent[0] && sent[0].body;
-  check(sent.length === 1 && sent[0].url === 'https://store.example/pipeline' && sent[0].auth === 'Bearer t', 'store: one pipeline request, with the token');
+  // the first request asks how many this address has sent this minute; the second writes
+  check(sent.length === 2 && sent[0].body[0][0] === 'INCR' && /^dd:rate:/.test(sent[0].body[0][1]) && sent[0].body[1][0] === 'EXPIRE', 'store: the address\'s minute is counted first');
+  const cmds = sent[1] && sent[1].body;
+  check(sent[1].url === 'https://store.example/pipeline' && sent[1].auth === 'Bearer t', 'store: one pipeline request for the report, with the token');
   check(cmds && cmds.some(x => x[0] === 'HINCRBY' && x[1] === 'dd:count:runs' && x[2] === '8|normal|fighter'), 'store: the run is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:wins'), 'store: the win is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:combowins' && x[2] === '8|normal|fighter') && cmds.some(x => x[1] === 'dd:count:combos' && x[2] === 'conduction'), 'store: a win with a combination, and each combination, are counted');
@@ -67,7 +74,22 @@ async function main() {
   check(tel.clean({ ...run, diff: 'hard', rung: 9 }).rung === 5 && tel.clean({ ...run, diff: 'normal', rung: 3 }).rung === 0, 'a rung: on Hard only, held to its range');
   sent.length = 0;
   await call(live.tel, 'POST', JSON.stringify({ ...run, diff: 'hard', rung: 3 }));
-  check(sent[0] && sent[0].body.some(x => x[1] === 'dd:count:runs' && x[2] === '8|hard+3|fighter'), 'store: a Hard+3 run is counted as Hard+3, not Hard');
+  check(sent[1] && sent[1].body.some(x => x[1] === 'dd:count:runs' && x[2] === '8|hard+3|fighter'), 'store: a Hard+3 run is counted as Hard+3, not Hard');
+  // the sixty-first note in a minute from one address is dropped unread
+  global.fetch = async (url, o) => { const c = JSON.parse(o.body); sent.push({ body: c }); return { ok: true, json: async () => c.map(x => ({ result: x[0] === 'INCR' ? 61 : 1 })) }; };
+  sent.length = 0;
+  const flood = await new Promise(resolve => { const res = { statusCode: 0, setHeader() {}, end() { resolve(this.statusCode); } }; live.tel({ method: 'POST', body: run, headers: { 'x-forwarded-for': '203.0.113.9, 10.0.0.1' } }, res); });
+  check(flood === 429 && sent.length === 1 && sent[0].body[0][1] === 'dd:rate:203.0.113.9', 'store: a flood from one address is turned away at the door, by its first address');
+  // a crash is counted by build and message, in plain words; a new kind only while there is room
+  const crashes = async (kinds, seen) => {
+    sent.length = 0;
+    global.fetch = async (url, o) => { const c = JSON.parse(o.body); sent.push({ body: c }); return { ok: true, json: async () => c.map(x => ({ result: x[0] === 'HLEN' ? kinds : x[0] === 'HEXISTS' ? seen : 1 })) }; };
+    await call(live.tel, 'POST', JSON.stringify({ kind: 'crash', build: 'deepdelve-v41', msg: 'TypeError: <b>x</b> is not a function '.repeat(9), stack: 's' }));
+    return sent[2] ? sent[2].body.find(x => x[0] === 'HINCRBY') : null;
+  };
+  const counted = await crashes(3, 0);
+  check(counted && counted[1] === 'dd:count:crash' && !counted[2].includes('<') && counted[2].length <= 150 && counted[2].startsWith('deepdelve-v41 TypeError'), 'store: a crash is counted by build and message, in plain words, cut to size');
+  check(!(await crashes(500, 0)) && (await crashes(500, 1)), 'store: a new kind of crash is not counted once five hundred are, a known one still is');
   global.fetch = async () => { throw new Error('down'); };
   check((await call(live.tel, 'POST', JSON.stringify(run))).status === 204, 'store down: the game still hears 204');
   global.fetch = async (u, o) => ({ ok: true, json: async () => JSON.parse(o.body).map(() => ({ result: ['8|normal|fighter', '3'] })) });

@@ -17,6 +17,8 @@ const TYPES = {
   '.ico': 'image/x-icon',
 };
 
+// The same Content-Security-Policy as vercel.json: a change to one is a change to both (test/run.js checks).
+const CSP = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')).headers.find(h => h.source === '/(.*)').headers.find(h => h.key === 'Content-Security-Policy').value;
 function serve(req, res) {
   const url = decodeURIComponent((req.url || '/').split('?')[0]);
   let file = path.join(ROOT, url === '/' ? 'index.html' : url);
@@ -32,6 +34,8 @@ function serve(req, res) {
       res.writeHead(200, {
         'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
         'Cache-Control': 'no-store',
+        // the deployment's policy (vercel.json), so the browser tests run under it
+        'Content-Security-Policy': CSP,
       });
       res.end(body);
     });

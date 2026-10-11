@@ -521,6 +521,17 @@ export function makeItems(K) {
     if (b.kind === 'shield') return !shieldFits(c, b);
     return false;
   }
+  /**
+   * A spare the pack already holds two of: a third plain piece of the same gear is left
+   * where it lies (the Take row still offers it). A floor's four bucklers filled the pack
+   * one at a time, each wanting a tap to drop. Plain only: an enchanted, named or hidden
+   * piece may be the better one.
+   */
+  function spareToPack(it, p = P()) {
+    const b = ITEMS[it.t];
+    if (!b || !['weapon', 'armor', 'shield'].includes(b.kind) || it.e || it.pw || it.curse || it.h === 0) return false;
+    return p.inv.filter(x => x.t === it.t).length >= 2;
+  }
   /** The lich, while it stands: the Heart will not come loose until it falls. */
   function keeper() { return lvl().monsters.find(m => MONSTERS[m.id].boss) || null; }
   /** What can be picked up here: not the Heart while its keeper stands. */
@@ -607,12 +618,12 @@ export function makeItems(K) {
   }
   /** Everything here that can be taken; walking on, not what the hero put down nor gear the class cannot use. */
   function pickupAll(walking = false) {
-    for (const it of takeable().filter(it => !(walking && (it.left || uselessToClass(it))))) {
+    for (const it of takeable().filter(it => !(walking && (it.left || uselessToClass(it) || spareToPack(it))))) {
       takeItem(it);
       if (K.G.status !== 'playing') break;   // lifting the Heart ends the run: nothing more is picked up after
     }
   }
 
 
-  return { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason };
+  return { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spareToPack, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason };
 }

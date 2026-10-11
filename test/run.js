@@ -31,6 +31,9 @@ for (const k in SPRITES) {
 {
   const { narrativeCurrent } = await import('../tools/narrative.mjs');
   check(await narrativeCurrent(), 'docs/NARRATIVE.md is stale: run node tools/narrative.mjs');
+  // api/_ids.js is what the telemetry function checks a report against: the game's own ids, written out
+  const { idsCurrent } = await import('../tools/ids.mjs');
+  check(idsCurrent(), 'api/_ids.js is stale: run node tools/ids.mjs');
 }
 
 // Every module the game loads must be in the offline cache, or an installed

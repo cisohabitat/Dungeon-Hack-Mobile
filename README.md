@@ -25,7 +25,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **A story you descend into.** An opening sets up the valley above Karrathal and what went wrong
   beneath it. Each of the eight levels holds one page left by the guild crews who went first, and
   the Journal collects them as the account of what actually happened down there assembles itself.
-- **Eight backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
+- **Ten backgrounds.** The Oathbroken, Tombwise, Ashborn, Cloistered, Deep-born and Debtor. Each
   gives a lasting advantage, a paragraph of the opening, and the line your run closes on. Two more
   are earned: The Returned opens after any win on Normal or Hard, The Heartsworn after a win on
   Hard. The Daily Delve only ever deals the first six.
@@ -55,7 +55,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
 - **Real-time combat.** Monsters wake, path toward you and attack on their own clocks. A door
   pulled shut matters: whatever has hands opens it, but beasts must batter it down over several
-  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Twenty-one monster types, and seven named champions, including undead, poisoners, a regenerating troll, a
+  seconds (you hear every blow), and ogres, trolls and minotaurs smash it to splinters, for good. Forty-six monster types, and ten named champions, including undead, poisoners, a regenerating troll, a
   basilisk whose gaze turns whoever meets it to stone, a rustmaw that eats your armour's
   enchantment, a hound that steps out of the air at your back, a quillback whose raised quills
   punish the blow struck into them, a wyrm whose fire runs down the passage but not under its

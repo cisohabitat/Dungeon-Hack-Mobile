@@ -260,6 +260,13 @@ const VOWS = {
   hunted:  { name: 'Hunted Vow',   score: 0.2, desc: 'The deep knows you are coming: everything in it moves a tenth quicker.' },
   alone:   { name: 'Lone Vow',     score: 0.15, desc: 'No one walks with you: no companion will join you, however it is offered.' },
 };
+// The difficulty picker's one line under each choice (the New Game screen reads it).
+// Easy's names the one mercy a player can see: its blows drawn back a fifth longer (pacing.js).
+const DIFFICULTY_NOTES = {
+  easy: 'Easy: more to find, monsters never grow with you, and every blow is drawn back a fifth longer',
+  normal: 'Normal: the intended delve',
+  hard: 'Hard: sturdier monsters, thinner rests, the last foe at full strength',
+};
 // The ladder past Hard, as Slay the Spire climbs past its last difficulty: each
 // rung one rule more, kept with every rung below it, and each worth a tenth
 // more score. A class opens the first rung with a win on Hard, and each rung
@@ -1026,7 +1033,7 @@ const BESTIARY = {
   kobold:   { lore: 'A small, scaled, sharp-snouted thing that lives by its traps. It will not stand and fight if it can step back and throw instead.',
     trick: 'It sets a wire snare on the stones between you, where you would step to reach it, and backs away from you to throw its darts.',
     answer: 'A snare is set where you can see it glint: go round it, or stand before it and Use to spring it safely. Its snares go slack when it dies.' },
-  archer:   { lore: 'A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses.',
+  archer:   { lore: 'A goblin with a bow, shooting from four squares away down a straight line. It draws before it looses; step out of the line, or close in, since a step back only keeps you in it.',
     trick: 'When you stand on something that will burn (moss, spilt oil), it lights an arrow and looses it at your feet.',
     answer: 'Step aside before it looses: the arrow lights the square where you stood, not you. Then keep away from the flames as they spread.' },
   basilisk: { lore: 'A heavy, many-legged lizard of the lower halls. Whatever meets its eyes when they flare is stone for a while.',
@@ -1217,4 +1224,4 @@ const WICK = {
   },
 };
 
-export { WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE };
+export { WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };

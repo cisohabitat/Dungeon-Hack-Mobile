@@ -12,6 +12,12 @@ const modules = [];
 /** A fresh game world. Each call is isolated from every other. */
 async function newContext() {
   const m = await loadGame();
+  // The first floor's grace (its creatures held off until the hero's first step or blow,
+  // or a few seconds) is for a hero arriving, not for a test that sets one beside a foe
+  // and counts what the foe does: every hero made here arrives with it already spent.
+  // (The grace's own test loads the game itself, past this.)
+  const newGame = m.Game.newGame;
+  m.Game.newGame = cfg => { const G = newGame(cfg); G.graceUntil = 0; return G; };
   modules.push(m);
   return m;
 }
@@ -27,6 +33,17 @@ async function start(cls, seed, opts) {
 // luck unless the dice are the same every run: seed the live combat dice from
 // a name, as the benchmark does.
 const seedDice = (ctx, key) => { ctx.Dice.s = new ctx.Rng('rules|' + key).s; };
+// The bare Math.random rolls too (a monster's wandering, a trick's odds, a
+// wind-up's length): a test that counts over many turns and compares two
+// halves seeds both, as the bench does (test/playtest.js), or its bar sits
+// inside the noise and it fails one run in twenty. Returns what gives
+// Math.random back; a test calls it once it has its counts.
+const seedAll = (ctx, key) => {
+  seedDice(ctx, key);
+  const loose = new ctx.Rng('rules|' + key + '|loose'), real = Math.random;
+  Math.random = () => loose.next();
+  return () => { Math.random = real; };
+};
 
 // Lines logged since a mark, read by count rather than position. The log is
 // capped at eighty, so once full its length stops moving and a slice from the
@@ -398,7 +415,8 @@ await test('standing beside the stairs facing stone, the game points at them', a
   for (let k = 0; k < 4; k++) if (k !== toward && L.tiles[(p.y + Dungeon.DIRS[k][1]) * L.w + (p.x + Dungeon.DIRS[k][0])] === T.WALL) wall = k;
   if (wall < 0) return 'no plain wall beside the approach';
   p.dir = wall;
-  if (Game.useLabel() !== 'Search') return `facing a wall, Use says "${Game.useLabel()}"`;
+  // (a plain wall beside the way says Use, not Search: only a dead end is worth searching; the button still searches)
+  if (!['Use', 'Search'].includes(Game.useLabel())) return `facing a wall, Use says "${Game.useLabel()}"`;
   const bump = say(() => Game.input('forward'));
   if (!/A wall blocks your path\. The stairs down are (on your left|on your right|behind you)\./.test(bump)) return `the bump said: "${bump}"`;
   const search = say(() => Game.input('use'));
@@ -420,12 +438,17 @@ await test('the Use button names each thing it can do', async () => {
   L.dressing = [];
   const ahead = () => { const [dx, dy] = Dungeon.DIRS[p.dir]; return (p.y + dy) * L.w + (p.x + dx); };
   const was = L.tiles[ahead()];
+  // (a wall says Search only at a dead end, with walls to either side: see rules-review.js)
+  const side = k => { const [dx, dy] = Dungeon.DIRS[(p.dir + k) % 4]; return (p.y + dy) * L.w + (p.x + dx); };
+  const sides = [L.tiles[side(1)], L.tiles[side(3)]];
+  L.tiles[side(1)] = T.WALL; L.tiles[side(3)] = T.WALL;
   const expect = [[T.DOOR, 'Open'], [T.DOOR_LOCKED, 'Force'], [T.STAIRS_DOWN, 'Descend'], [T.FOUNTAIN, 'Drink'],
     [T.DOOR_OPEN, 'Close'], [T.WALL, 'Search'], [T.TORCH, 'Search'], [T.SECRET, 'Search'], [T.FLOOR, 'Use']];
   for (const [t, want] of expect) {
     L.tiles[ahead()] = t;
     if (Game.useLabel() !== want) return `facing tile ${t}, Use says "${Game.useLabel()}", wanted "${want}"`;
   }
+  [L.tiles[side(1)], L.tiles[side(3)]] = sides;
   // a crate on the floor ahead is broken with it
   L.dressing.push({ x: ahead() % L.w, y: (ahead() / L.w) | 0, k: 'crate', ox: 0, oy: 0 });
   if (Game.useLabel() !== 'Break') return `facing a crate, Use says "${Game.useLabel()}"`;
@@ -2349,6 +2372,79 @@ await test('an archer draws before it shoots, and stepping out of line makes it 
   return linesSince(G, mark).some(l => /shot flies wide/.test(l)) || `said: ${linesSince(G, mark).join(' | ')}`;
 });
 
+
+await test('the first floor gives a few seconds\' grace: what is awake holds off until the hero steps or strikes, or the moment passes; a turn keeps it, and a deeper floor has none', async () => {
+  const out = [];
+  // (the game as loaded, not the harness's: every other test's hero arrives with the grace spent)
+  const fresh = async seed => {
+    const ctx = await loadGame();
+    ctx.Game.newGame({ name: 'Test', cls: 'fighter', stats: ctx.Game.rollStats(), seed, opts: Object.assign({}, OPTS) });
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 999;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    L.monsters.length = 0;
+    const m = { uid: 93, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(m);
+    return { ctx, Game, G, p, m };
+  };
+  const tick = (Game, G, ms) => { for (let t = 0; t < ms; t += 25) Game.update(G.t + 25, 25); };
+  // left alone: nothing for a few seconds, then the blow is drawn
+  {
+    const { Game, G, m } = await fresh('grace-wait');
+    if (!(G.graceUntil > G.t)) out.push('the first floor gave no grace');
+    tick(Game, G, 2000);
+    if (m.windup) out.push('a rat drew back its blow inside the grace');
+    tick(Game, G, 1500);
+    if (!m.windup) out.push('after the grace the rat still had not drawn back');
+  }
+  // a turn on the spot keeps it; a step ends it at once
+  {
+    const { Game, G, m } = await fresh('grace-step');
+    Game.input('left'); Game.input('right');
+    tick(Game, G, 500);
+    if (!(G.graceUntil > G.t) || m.windup) out.push('a turn on the spot ended the grace');
+    Game.input('back');
+    tick(Game, G, 500);
+    if (G.graceUntil || !m.windup) out.push(`a step left the grace at ${G.graceUntil}, the rat ${m.windup ? 'drawing' : 'idle'}`);
+  }
+  // a blow ends it too
+  {
+    const { Game, G, m } = await fresh('grace-blow');
+    G.t = Math.max(G.t, Game.player().nextAttack) + 10;
+    Game.input('attack');
+    tick(Game, G, 500);
+    if (G.graceUntil || !m.windup) out.push('a blow struck did not end the grace');
+  }
+  // the second floor's arrival has none
+  {
+    const { Game, G } = await fresh('grace-deep');
+    tick(Game, G, 3500);   // (the first floor's spent)
+    Game.level().monsters.length = 0; Game.descend();
+    if (G.graceUntil > G.t) out.push('the second floor gave a grace too');
+  }
+  return out.length ? out.join('; ') : true;
+});
+
+await test('on Easy a blow is drawn back a fifth longer than on Normal; Hard draws as Normal does', async () => {
+  const draw = async difficulty => {
+    const ctx = await start('fighter', 'windup-' + difficulty, { difficulty });
+    const { Game, Dungeon } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
+    p.hp = p.maxHp = 999;
+    const [dx, dy] = Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    L.monsters.length = 0;
+    // (a rat: a cunning fighter never draws back the same way twice)
+    const m = { uid: 94, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 999, maxHp: 999, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+    L.monsters.push(m);
+    Game.update(G.t + 25, 25);
+    return m.windup ? m.windup.until - m.windup.at : 0;
+  };
+  const easy = await draw('easy'), normal = await draw('normal'), hard = await draw('hard');
+  if (!normal) return 'the rat did not draw back';
+  if (Math.abs(easy - normal * 1.2) > 1) return `Easy draws ${easy}ms, Normal ${normal}ms`;
+  return hard === normal || `Hard draws ${hard}ms, Normal ${normal}ms`;
+});
 
 await test('a monster that steps up to you is already winding up as it arrives', async () => {
   const ctx = await start('fighter', 'windup-arrive');
@@ -11948,13 +12044,14 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const bites = async charm => {
       const b = await withHound('charm-fang-' + (charm || 'none'));
       const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
-      clearAround(b); seedDice(b, 'charm-fang');
+      clearAround(b); const back = seedAll(b, 'charm-fang');
       h.charm = charm; h.mode = 'stay';
       const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
       const m = { uid: 95, id: 'ogre', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
       b.Game.level().monsters.push(m);
       let total = 0, n = 0;
       for (let i = 0; i < 16000 && n < 150; i++) { const hp = m.hp; b.Game.update(G2.t + 25, 25); m.nextAct = 1e12; if (m.hp < hp) { total += hp - m.hp; n++; } }
+      back();
       return total / Math.max(1, n);
     };
     const plain = await bites(undefined), sharp = await bites('charm_fang');
@@ -11963,13 +12060,14 @@ await test('two rings of one kind do not add up: the better counts', async () =>
     const landed = async charm => {
       const b = await withHound('charm-collar-' + (charm || 'none'));
       const h = b.Game.companion(), P2 = b.Game.player(), G2 = b.Game.state();
-      clearAround(b); seedDice(b, 'charm-collar');
+      clearAround(b); const back = seedAll(b, 'charm-collar');
       h.charm = charm; h.mode = 'stay';
       const spot = b.Dungeon.DIRS.map(([dx, dy]) => [h.x + dx, h.y + dy]).find(([x, y]) => Math.abs(x - P2.x) + Math.abs(y - P2.y) > 1 && !(x === P2.x && y === P2.y));
       const m = { uid: 94, id: 'orc', x: spot[0], y: spot[1], hp: 1e6, maxHp: 1e6, awake: true, nextAct: G2.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
       b.Game.level().monsters.push(m);
       let hits = 0;
       for (let i = 0; i < 12000; i++) { const hp = h.hp; b.Game.update(G2.t + 25, 25); if (h.hp < hp) hits++; h.hp = h.maxHp; h.fallen = 0; }
+      back();
       return hits;
     };
     // one that falls leaves its charm where it fell, to be taken up again
@@ -15341,6 +15439,8 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   await require('./rules-voice.js')({ test, newContext });
   // the weekly challenge (rules-weekly.js)
   await require('./rules-weekly.js')({ test, newContext, winHere, beside });
+  // the October 2026 review's fixes (rules-review.js, docs/REVIEW.md)
+  await require('./rules-review.js')({ test, newContext, evenStats, OPTS });
 
   console.log(`rule checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

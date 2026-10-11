@@ -120,10 +120,12 @@ export function makePacing(K) {
   // from its ordinary creatures on the way. So on Normal and Hard it hits
   // surer and harder than the floor's edge alone (lichEdge), and its floor
   // holds a quarter fewer of the rest (dungeon.js).
+  // Easy also draws every blow back a fifth longer (windup, applied in foes.js): its other
+  // mercies are numbers a new player cannot see, and the mark is the thing they must learn.
   const DIFFICULTY = {
-    easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25], press: false },
-    normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [1, 0.5, 0.25], press: true },
-    hard:   { hp: 1.9,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true },
+    easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25], press: false, windup: 1.2 },
+    normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [1, 0.5, 0.25], press: true,  windup: 1 },
+    hard:   { hp: 1.9,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true,  windup: 1 },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(K.G && K.G.opts && K.G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;
