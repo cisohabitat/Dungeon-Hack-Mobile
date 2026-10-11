@@ -1097,7 +1097,9 @@ const Game = (() => {
     const L = lvl(), pc = L.piece;
     if (!pc || pc.seen || !L.roomId || L.roomId[P().y * L.w + P().x] !== pc.room) return;
     pc.seen = true;
-    if (PIECE_SAY[pc.kind]) log(PIECE_SAY[pc.kind], 'info');
+    // (in the words of its version; a floor saved before there were versions has the first)
+    const say = PIECE_SAY[pc.kind];
+    if (say) log(say[pc.variant || Object.keys(say)[0]] || Object.values(say)[0], 'info');
   }
   function turn(dd) {
     const p = P();

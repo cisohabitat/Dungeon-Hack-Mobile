@@ -2,7 +2,7 @@ import { Rng } from './rng.js';
 import { ITEMS, MONSTERS, GEMS, ELITES, JOURNAL, THEMES, ROUTES, WALL_PROPS } from './data.js';
 import { encounterPlan, ENCOUNTERS } from './encounters.js';
 import { GEAR_POWERS, GEAR_PREFIXES } from './relics.js';
-import { BUILDS, PIECE_IDS, roomShape, piece, sanctum } from './rooms.js';
+import { BUILDS, PIECE_IDS, PIECE_VARIANTS, roomShape, piece, sanctum } from './rooms.js';
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat', 'drow_warrior'];
@@ -754,7 +754,61 @@ const Dungeon = (() => {
           monsters.push(makeMonster(prng.pick(pool), x, y, prng));
         }
       }
-      pieceInfo = { kind: pieceKind, room: pieceRoom.id, props: (R.props || []).map(q => { const [x, y] = here([q.x, q.y]); return { x, y, k: q.k }; }) };
+      // which version of the piece this is (rooms.js), on dice of its own so nothing
+      // else on the floor moves: what lies in it is the version's
+      const vrng = new Rng(`${seed}|variant|${depth}`);
+      const variant = vrng.pick(Object.keys(PIECE_VARIANTS[pieceKind])), V = PIECE_VARIANTS[pieceKind][variant];
+      let props = (R.props || []).map(q => { const [x, y] = here([q.x, q.y]); return { x, y, k: q.k }; }).filter(q => !(V.drop || []).includes(q.k));
+      const open = [];
+      for (let y = pieceRoom.y; y < pieceRoom.y + pieceRoom.h; y++) for (let x = pieceRoom.x; x < pieceRoom.x + pieceRoom.w; x++) if (tiles[idx(x, y)] === T.FLOOR && roomId[idx(x, y)] === pieceRoom.id) open.push([x, y]);
+      if (V.wet !== undefined) {
+        props = props.filter(q => q.k !== 'puddle');
+        for (const [x, y] of open) if (vrng.next() < V.wet) props.push({ x, y, k: 'puddle' });
+      }
+      if (V.add) {
+        // not where its finds lie, nor where its sleeper lies, nor on another of its things;
+        // a cask, a crate or an urn against a wall if it can be
+        // (nor where the floor's dressing would never lay it: beside a door or the basin, or on a find)
+        const kept = new Set([...(R.loot || []), ...(R.sleeper ? [R.sleeper] : [])].map(sp => here(sp).join(',')));
+        const clear = [T.DOOR, T.DOOR_LOCKED, T.DOOR_OPEN, T.SECRET, T.FOUNTAIN, T.STAIRS_DOWN, T.STAIRS_UP];
+        const byOpening = ([x, y]) => DIRS.some(([dx, dy]) => clear.includes(tiles[idx(x + dx, y + dy)])) || (pieceFountain && Math.abs(x - pieceFountain.x) + Math.abs(y - pieceFountain.y) <= 1);
+        const free = vrng.shuffle(open.filter(([x, y]) => !kept.has(x + ',' + y) && !items[x + ',' + y] && !byOpening([x, y]) && !props.some(q => q.x === x && q.y === y && q.k !== 'puddle')));
+        const byWall = ([x, y]) => DIRS.some(([dx, dy]) => tiles[idx(x + dx, y + dy)] === T.WALL);
+        // a cask, a crate or an urn stands in the way until it is broken, so one goes
+        // only where the rest of the room stays joined as it was: never across an
+        // aisle or the one way round the fallen stone
+        const stood = new Set(props.filter(q => WALL_PROPS.includes(q.k)).map(q => q.x + ',' + q.y));
+        const parts = () => {
+          const seen = new Set(stood); let n = 0;
+          for (const [x0, y0] of open) {
+            if (seen.has(x0 + ',' + y0)) continue;
+            n++; seen.add(x0 + ',' + y0);
+            const todo = [[x0, y0]];
+            while (todo.length) {
+              const [x, y] = /** @type {number[]} */ (todo.pop());
+              for (const [dx, dy] of DIRS) { const c = (x + dx) + ',' + (y + dy); if (!seen.has(c) && tiles[idx(x + dx, y + dy)] === T.FLOOR && roomId[idx(x + dx, y + dy)] === pieceRoom.id) { seen.add(c); todo.push([x + dx, y + dy]); } }
+            }
+          }
+          return n;
+        };
+        const whole = parts();
+        const leavesWhole = ([x, y]) => { stood.add(x + ',' + y); const ok = parts() === whole; stood.delete(x + ',' + y); return ok; };
+        for (const [k, n] of V.add) for (let i = 0; i < n && free.length; i++) {
+          const stands = WALL_PROPS.includes(k);
+          let j = 0;
+          if (stands) {
+            j = free.findIndex(sq => byWall(sq) && leavesWhole(sq));
+            if (j < 0) j = free.findIndex(leavesWhole);
+            if (j < 0) break;
+          }
+          const [x, y] = free.splice(j, 1)[0];
+          if (stands) stood.add(x + ',' + y);
+          // (one thing to a square: a cask or a toadstool stands where a pool would have)
+          props = props.filter(q => !(q.x === x && q.y === y));
+          props.push({ x, y, k });
+        }
+      }
+      pieceInfo = { kind: pieceKind, variant, room: pieceRoom.id, props };
     }
 
     // ---- torches: wall brackets that light corridors and rooms ----
@@ -1113,6 +1167,8 @@ const Dungeon = (() => {
     };
     if (pieceInfo) L.piece = pieceInfo;
     L.dressing = dress(L, seed);
+    // the piece keeps a list of what was laid in it, not of what it would have laid
+    if (L.piece) L.piece.props = L.piece.props.filter(q => L.dressing.some(d => d.x === q.x && d.y === q.y && d.k === q.k));
     return L;
   }
 

@@ -4224,6 +4224,50 @@ await test('the Heart waits on a dais at the far end of a long hall, and its kee
   return !lich.awake || 'the lich woke with the hero outside its hall';
 });
 
+await test('each set piece comes in versions, dealt by the seed, each with its own line and what lies in it', async () => {
+  const ctx = await newContext();
+  const { Dungeon, PIECE_VARIANTS } = ctx;
+  const opts = { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true };
+  const out = [], seen = {};
+  const count = (L, k) => L.piece.props.filter(q => q.k === k).length;
+  for (let s = 0; s < 60; s++) for (let d = 1; d <= 4; d++) {
+    const L = Dungeon.generate('versions-' + s, d, opts), pc = L.piece;
+    if (!pc) continue;
+    const key = pc.kind + '/' + pc.variant;
+    if (!PIECE_VARIANTS[pc.kind] || !PIECE_VARIANTS[pc.kind][pc.variant]) { out.push(`a ${pc.kind} of no known version: ${pc.variant}`); continue; }
+    // nothing it holds that stands in the way cuts the room in two
+    const parts = stood => {
+      const sq = new Set(), at = new Set(stood.map(q => q.x + ',' + q.y));
+      L.roomId.forEach((id, i) => { const c = (i % L.w) + ',' + Math.floor(i / L.w); if (id === pc.room && L.tiles[i] === Dungeon.T.FLOOR && !at.has(c)) sq.add(c); });
+      let n = 0;
+      for (const c of sq) { n++; const todo = [c]; sq.delete(c); while (todo.length) { const [x, y] = todo.pop().split(',').map(Number); for (const [dx, dy] of Dungeon.DIRS) { const o = (x + dx) + ',' + (y + dy); if (sq.delete(o)) todo.push(o); } } }
+      return n;
+    };
+    if (parts(pc.props.filter(q => ['barrel', 'crate', 'urn'].includes(q.k))) !== parts([])) out.push(`versions-${s} floor ${d}: ${key} has its room cut in two by what stands in it`);
+    if (seen[key]) continue;
+    seen[key] = true;
+    // the same seed deals the same version
+    if (Dungeon.generate('versions-' + s, d, opts).piece.variant !== pc.variant) out.push(`${key} not dealt again by its seed`);
+    const open = L.roomId.reduce((n, id, i) => n + (id === pc.room && L.tiles[i] === Dungeon.T.FLOOR ? 1 : 0), 0);
+    if (key === 'cells/stores' && (count(L, 'bones') || count(L, 'crate') < 3 || count(L, 'barrel') < 2)) out.push(`the storerooms hold ${JSON.stringify(pc.props.map(q => q.k))}`);
+    if (key === 'cells/kennels' && count(L, 'shackles') < 2) out.push('the kennels have no chains');
+    if (key === 'shrine/defiled' && (count(L, 'candles') || count(L, 'bones') < 3)) out.push('the defiled shrine still has its candles, or no bones');
+    if (key === 'shrine/kept' && (count(L, 'candles') < 4 || count(L, 'urn') < 3)) out.push('the kept shrine has no offerings');
+    // (all but what stands in the water, and the squares kept clear by its ways in)
+    if (key === 'cistern/brimming' && count(L, 'puddle') < open * 0.8) out.push(`a brimming cistern wet ${count(L, 'puddle')} of ${open} squares`);
+    if (key === 'cistern/silted' && (count(L, 'puddle') > open * 0.5 || count(L, 'mushrooms') < 3)) out.push(`a silted cistern wet ${count(L, 'puddle')} of ${open} squares`);
+    if (key === 'rubble/buried' && count(L, 'bones') < 3) out.push('no bones in the buried hall');
+    // and what lies in it is laid where the floor's dressing puts it
+    for (const q of pc.props) if (q.k !== 'puddle' && !(L.dressing || []).some(r => r.x === q.x && r.y === q.y && r.k === q.k)) { out.push(`${key}: its ${q.k} was not laid`); break; }
+  }
+  const all = Object.entries(PIECE_VARIANTS).flatMap(([k, vs]) => Object.keys(vs).map(v => k + '/' + v));
+  const missing = all.filter(k => !seen[k]);
+  if (missing.length) out.push(`never dealt: ${missing.join(', ')}`);
+  if (all.length < 12) out.push(`only ${all.length} versions`);
+  for (const k of all) { const [kind, v] = k.split('/'); if (!ctx.PIECE_SAY[kind][v]) out.push(`${k} says nothing`); }
+  return out.length ? out.join('; ') : true;
+});
+
 await test('every floor holds a set piece, and the first step into it says what it is, once', async () => {
   const ctx = await start('fighter', 'piece-step', { levels: 8, size: 'medium' });
   const { Game, Dungeon } = ctx; const G = Game.state(), T = Dungeon.T;
@@ -4254,11 +4298,13 @@ await test('every floor holds a set piece, and the first step into it says what 
       return { lines: linesSince(G, m), inside: L.roomId[p.y * L.w + p.x] === pc.room };
     };
     const first = step();
-    if (!first.inside || !first.lines.includes(ctx.PIECE_SAY[pc.kind])) return `stepping into the ${pc.kind} (${first.inside ? 'in' : 'not in'}) said: ${first.lines.join(' | ')}`;
+    const line = ctx.PIECE_SAY[pc.kind][pc.variant];
+    if (!line) return `the ${pc.kind} has a version with nothing to say: ${pc.variant}`;
+    if (!first.inside || !first.lines.includes(line)) return `stepping into the ${pc.kind} (${first.inside ? 'in' : 'not in'}) said: ${first.lines.join(' | ')}`;
     const again = step();
     if (!again.inside) return `the second step did not go into the ${pc.kind}`;
     // (counted over the whole log: a line said again straight after itself is folded into one)
-    const told = countSaid(G.log.map(e => e.m), new RegExp('^' + ctx.PIECE_SAY[pc.kind].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    const told = countSaid(G.log.map(e => e.m), new RegExp('^' + line.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     if (told !== 1) return `the ${pc.kind} was told of ${told} times`;
     said[pc.kind] = true;
   }

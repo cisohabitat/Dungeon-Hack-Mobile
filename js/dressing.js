@@ -11,6 +11,8 @@
 import { ball, limb, sheet, line, specks, hair } from './creatures.js';
 
 const WOOD = '#7a5230', WOOD_DARK = '#4e3320', WOOD_LIGHT = '#9a6c40', IRON = '#3e4048', IRON_LIGHT = '#6a6e78';
+// loose chain on the floor catches the torchlight more than iron bands on wood
+const CHAIN = '#5c606a', CHAIN_LIGHT = '#9a9ea8';
 const BONE = '#d8ceb0', BONE_DARK = '#a89c7c', STONE = '#6e6a66', STONE_DARK = '#4a4744';
 
 /** a cask's body: staves bellied out, hoops round it, the head on top */
@@ -59,6 +61,15 @@ const DRESSING = {
     specks([[17.5, 36], [46.5, 36], [17.5, 60], [46.5, 60], [32, 48]], '#c8b090'),
     // stencilled marks and a nail
     hair(21, 44, 24, 44, '#3a2a18'), hair(22.5, 44, 22.5, 47, '#3a2a18'), specks([[40, 52]], IRON_LIGHT),
+  ],
+  // a chain run from a ring in the floor to a pair of open manacles, rusted where it lies
+  shackles: () => [
+    ball(16, 60, 4.4, 1.8, CHAIN), ball(16, 59.4, 2.8, 1, '#22242a'), hair(13, 59, 19, 59, CHAIN_LIGHT),
+    ...[20, 24.5, 29, 33.5, 38].map((x, i) => ball(x, 60 - (i % 2) * 0.8, 2.4, 1.3, i % 2 ? CHAIN_LIGHT : CHAIN)),
+    ...[20, 29, 38].map(x => ball(x, 60, 1.1, 0.5, '#22242a')),
+    ball(45, 58.4, 5.4, 3.2, CHAIN), ball(45, 58.4, 3.6, 1.8, '#1e2024'), hair(41, 56.6, 49, 56.6, CHAIN_LIGHT),
+    ball(52, 61, 4.4, 2.6, CHAIN), ball(52, 61, 2.8, 1.4, '#1e2024'),
+    specks([[24, 61.5], [33, 62], [47, 61.8], [12, 62]], '#7a3a20'), specks([[43, 59.5], [54, 62]], '#9a4a26'),
   ],
   // long bones and a skull, left where someone fell a long time ago
   bones: () => [
@@ -150,7 +161,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, shackles: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

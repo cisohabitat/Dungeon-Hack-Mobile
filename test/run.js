@@ -586,7 +586,8 @@ check(traders > 0, 'no traders generated at all');
       // what each holds
       const inPiece = k => { const [x, y] = k.split(',').map(Number); return L.roomId[y * L.w + x] === pr; };
       if (L.piece.kind !== 'cistern' && L.piece.kind !== 'shrine' && !Object.keys(L.items).some(inPiece)) missingFind++;
-      if (L.piece.kind === 'cistern' && (L.dressing || []).filter(d => d.k === 'puddle' && L.roomId[d.y * L.w + d.x] === pr).length < 10) dryCistern++;
+      // (a silted cistern keeps a few pools only, but a few it keeps)
+      if (L.piece.kind === 'cistern' && (L.dressing || []).filter(d => d.k === 'puddle' && L.roomId[d.y * L.w + d.x] === pr).length < (L.piece.variant === 'silted' ? 3 : 10)) dryCistern++;
       if (L.piece.kind === 'shrine' && !L.tiles.some((t, i) => t === T.FOUNTAIN && Dungeon.DIRS.some(([dx, dy]) => L.roomId[i + dy * L.w + dx] === pr))) noBasin++;
       // loops: rooms counted as one place each, the corridors as squares; the
       // count of independent rounds a hero could walk

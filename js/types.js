@@ -209,7 +209,7 @@
  * @property {number} theme
  * @property {boolean} isFinal
  * @property {string|null} [route]   the road this floor follows past the fork, if it is one of its floors
- * @property {{kind: string, room: number, props: {x: number, y: number, k: string}[], seen?: boolean}} [piece]  the floor's set piece (rooms.js): which, its room, what lies in it, and whether the hero has stepped in yet
+ * @property {{kind: string, variant?: string, room: number, props: {x: number, y: number, k: string}[], seen?: boolean}} [piece]  the floor's set piece (rooms.js): which, which version of it (absent on a floor made before there were versions), its room, what lies in it, and whether the hero has stepped in yet
  * @property {string|null} [twist]   what sets this floor apart, if anything: dark, flooded, restless, market, overgrown, tremors or (deep down) smouldering
  * @property {Array<{x: number, y: number, next: number, heat: number, sealedUntil: number}>} [vents]  a smouldering floor's glowing cracks: when each next heats up, when it began to (0 when quiet), and how long cold has sealed it (elements.js)
  * @property {boolean} [forgeVents]  the Heartforged has split its hall's floor: its cracks flare as a smouldering floor's do, until it falls

@@ -46,13 +46,39 @@ const BUILDS = {
 /** The set pieces, one to a floor: a block of cells, a shrine, a cistern, a hall half fallen in. */
 const PIECE_IDS = ['cells', 'shrine', 'cistern', 'rubble'];
 
-/** What is said the first time the hero steps into each. */
-const PIECE_SAY = {
-  cells: 'Rows of cells line a narrow aisle. Some of the doors still hold.',
-  shrine: 'A shrine: a ring of pillars about a worn altar, and water in a basin at its back.',
-  cistern: 'An old cistern. Pillars stand in shallow water, which carries lightning and freezes under cold.',
-  rubble: 'Half this hall has come down. Something was left at the back of the fallen stone.',
+/**
+ * Each set piece comes in a few versions, so a shrine is not always the same
+ * shrine: the shape is the piece's own, but what lies in it, and what is said on
+ * the first step inside, are the version's. The first of each is the piece as it
+ * always was. `drop`: the piece's own props taken away; `add`: props laid on its
+ * open floor, so many of each; `wet`: a share of its floor under water in place
+ * of its own pools (the cistern's). Dealt by dungeon.js from dice of their own.
+ * @type {Record<string, Record<string, {say: string, drop?: string[], add?: [string, number][], wet?: number}>>}
+ */
+const PIECE_VARIANTS = {
+  cells: {
+    gaol: { say: 'Rows of cells line a narrow aisle. Some of the doors still hold.' },
+    kennels: { say: 'Low cells with gnawed bars and chains at the walls: kennels. Whatever was kept here was not kept for its company.', add: [['bones', 2], ['shackles', 2]] },
+    stores: { say: 'The cells were made storerooms long ago: crates and casks stand where the prisoners sat.', drop: ['bones'], add: [['crate', 3], ['barrel', 2]] },
+  },
+  shrine: {
+    altar: { say: 'A shrine: a ring of pillars about a worn altar, and water in a basin at its back.' },
+    defiled: { say: 'A shrine, defiled: its candles stamped out and bones heaped about the altar. The water in the basin still runs clean.', drop: ['candles'], add: [['bones', 3], ['rubble', 2]] },
+    kept: { say: 'A shrine someone still keeps: fresh candles about the altar, and sealed urns left as offerings.', add: [['urn', 3]] },
+  },
+  cistern: {
+    pillared: { say: 'An old cistern. Pillars stand in shallow water, which carries lightning and freezes under cold.' },
+    brimming: { say: 'A cistern brimming over: water across the whole floor, and old casks fetched up against the pillars. It carries lightning and freezes under cold.', wet: 1, add: [['barrel', 2]] },
+    silted: { say: 'An old cistern, mostly silted up: pale toadstools grow in the mud, and only a few pools are left.', wet: 0.3, add: [['mushrooms', 3]] },
+  },
+  rubble: {
+    fallen: { say: 'Half this hall has come down. Something was left at the back of the fallen stone.' },
+    buried: { say: 'The roof came down on someone here: bones show among the fallen stone. Something was left at the back of it.', add: [['bones', 3]] },
+    shored: { say: 'Someone tried to shore this fallen hall up with crates and casks, and gave up. Something was left at the back of the stone.', add: [['crate', 2], ['barrel', 1]] },
+  },
 };
+/** What is said the first time the hero steps into each, by piece and version. */
+const PIECE_SAY = Object.fromEntries(Object.entries(PIECE_VARIANTS).map(([k, vs]) => [k, Object.fromEntries(Object.entries(vs).map(([v, x]) => [v, x.say]))]));
 
 /** @param {number} w @param {number} h @param {string} shape @returns {Grid} */
 const blank = (w, h, shape, fill = FLOOR) => ({ w, h, g: new Array(w * h).fill(fill), shape });
@@ -321,4 +347,4 @@ function piece(rng, kind) {
   return turned(R, rng.int(0, 1));
 }
 
-export { SHAPES, BUILDS, PIECE_IDS, PIECE_SAY, roomShape, piece, sanctum, STONE, FLOOR, SOLID, DOOR };
+export { SHAPES, BUILDS, PIECE_IDS, PIECE_SAY, PIECE_VARIANTS, roomShape, piece, sanctum, STONE, FLOOR, SOLID, DOOR };
