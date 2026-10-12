@@ -5,7 +5,7 @@ import { ITEMS } from './data.js';
 import { d } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makePowers(K) {
   const CORD_SQUARE = K.CORD_SQUARE;
   const DIRS = K.DIRS;
@@ -17,7 +17,7 @@ export function makePowers(K) {
   const fx = K.fx;
   const setWorn = K.setWorn;
   const wild = K.wild;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const armStat = (/** @type {any[]} */ ...a) => K.armStat(...a);
   const berserkerRage = (/** @type {any[]} */ ...a) => K.berserkerRage(...a);
   const blocked = (/** @type {any[]} */ ...a) => K.blocked(...a);
@@ -41,7 +41,7 @@ export function makePowers(K) {
   const isKnown = (/** @type {any[]} */ ...a) => K.isKnown(...a);
   const knownSpells = (/** @type {any[]} */ ...a) => K.knownSpells(...a);
   const log = (/** @type {any[]} */ ...a) => K.log(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const meet = (/** @type {any[]} */ ...a) => K.meet(...a);
   const mod = (/** @type {any[]} */ ...a) => K.mod(...a);
   const monsterAt = (/** @type {any[]} */ ...a) => K.monsterAt(...a);

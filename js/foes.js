@@ -7,7 +7,7 @@ import { Sound } from './sound.js';
 // needs from the game comes through K.
 
 /**
- * @param {any} K  what the game lends: its state and the rules the rest of it keeps
+ * @param {import('./types.js').Kit} K  what the game lends: its state and the rules the rest of it keeps
  */
 export function makeFoes(K) {
   // ---------- monsters ----------

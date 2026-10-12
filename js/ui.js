@@ -41,6 +41,14 @@ const UI = (() => {
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
   let logCount = -1, hudSig = '', miniAt = 0, miniSig = '';
+  // The HUD's rows are rebuilt when their signature changes; the signature itself is forty
+  // parts, so it is taken ten times a second, or at once when an event has come (a blow, a
+  // draught, gold) or a screen asks for it. Its rows count in whole seconds: nothing on it
+  // can move between one look and the next.
+  let hudAt = -1e9, hudDirty = true;
+  /** The elements read every frame, looked up once: the page never replaces them. */
+  const fixed = new Map();
+  const fixedEl = sel => { let e = fixed.get(sel); if (!e) { e = $(sel); if (e) fixed.set(sel, e); } return /** @type {HTMLElement|null} */ (e); };
   let goldWas = 0;               // the gold last shown, so a find can flare the number
   /** What of the hound the status row shows, so the row redraws when it changes. */
   const houndSig = () => { const h = Game.companion(); return h ? `${h.hp}/${h.maxHp}/${h.mode}/${h.depth}/${h.fallen || 0}` : ''; };
@@ -195,7 +203,7 @@ const UI = (() => {
     // no spells, no Spells button
     const sb = /** @type {HTMLElement|null} */ (document.querySelector('[data-open="spells"]'));
     if (sb) sb.style.display = CLASSES[Game.player().cls].spells ? '' : 'none';
-    refreshLog(); refreshHud();
+    refreshLog(); refreshHud(true);
     // a choice left waiting when the game was put away is waiting still
     if (Game.pendingBoons()) openOverlay('boons');
   }
@@ -244,7 +252,7 @@ const UI = (() => {
     return testingNow;
   }
   const testingOn = () => { const t = testingSet(); return t.hp || t.sp || t.gold || t.eye; };
-  function toggleTesting(k) { const t = { ...testingSet() }; t[k] = !t[k]; store(TESTING, JSON.stringify(t)); testingNow = t; Game.setTesting(t); miniSig = ''; renderMenu(); if (Game.state()) refreshHud(); }
+  function toggleTesting(k) { const t = { ...testingSet() }; t[k] = !t[k]; store(TESTING, JSON.stringify(t)); testingNow = t; Game.setTesting(t); miniSig = ''; renderMenu(); if (Game.state()) refreshHud(true); }
   // A testing aid takes the run out of the Hall for good, and one tap too many
   // could do it by mistake: while the run still counts, the first tap only arms
   // the tool and says what it costs, and a second within a few seconds uses it.
@@ -272,7 +280,7 @@ const UI = (() => {
   function testSaid() {
     const last = Game.state().log.slice(-1)[0];
     $('#m-test-said').textContent = last ? (last.base || last.m) : '';
-    refreshHud();
+    refreshHud(true);
   }
   // combat numbers drawn larger (the menu), kept on the device
   const NUMBERS = 'deepdelve.bignumbers';
@@ -633,16 +641,17 @@ const UI = (() => {
     void card.offsetWidth;   // (so the fade starts again on a floor taken quickly after the last)
     card.classList.add('show');
   }
-  function refreshHud() {
+  /** @param {boolean} [now]  rebuild at once, not at the next of the ten looks a second (a screen or a tool that has just changed something) */
+  function refreshHud(now) {
     refreshUse();
     refreshFeet();
     checkTips();
     // 'Tap to skip' over the view while the way in plays, where the corner map is: that
     // map is of the first floor, not the passage, so it waits for the floor
-    const skip = /** @type {HTMLElement|null} */ ($('#prelude-skip')), preluding = Game.preludeOn();
+    const skip = fixedEl('#prelude-skip'), preluding = Game.preludeOn();
     if (skip && skip.hidden === preluding) {
       skip.hidden = !preluding;
-      const mini = /** @type {HTMLElement|null} */ ($('#minimap'));
+      const mini = fixedEl('#minimap');
       if (mini) mini.style.visibility = preluding ? 'hidden' : '';
     }
     const G = Game.state();
@@ -650,6 +659,9 @@ const UI = (() => {
     const p = G.player;
     const L = Game.level();
     showFloorCard(G, L, preluding);
+    const at = performance.now();
+    if (!now && !hudDirty && at - hudAt < 100) return;
+    hudAt = at; hudDirty = false;
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
@@ -779,7 +791,7 @@ const UI = (() => {
   let barUp = null, barPx = -1;
   const BAR_ROWS = 24;
   function bossBar(on) {
-    const wrap = $('.view-wrap'), view = $('#view');
+    const wrap = fixedEl('.view-wrap'), view = fixedEl('#view');
     if (!wrap || !view) return;
     const px = on ? Math.ceil(BAR_ROWS / Renderer.H * view.clientHeight) : 0;
     if (on === barUp && px === barPx) return;
@@ -1282,7 +1294,7 @@ const UI = (() => {
     // the floor laid out, and the map opened on it to show it
     $('#m-test-map').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { if (Game.testReveal()) { miniSig = ''; openOverlay('map'); } }));
     // the level's choice takes the Menu's place
-    $('#m-test-level').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { if (Game.testLevel()) { renderMenu(); refreshHud(); } }));
+    $('#m-test-level').addEventListener('click', e => testGate(/** @type {HTMLElement} */ (e.currentTarget), () => { if (Game.testLevel()) { renderMenu(); refreshHud(true); } }));
     $('#m-test-go').addEventListener('click', e => {
       const depth = Number(/** @type {HTMLSelectElement} */ ($('#m-test-floor')).value);
       const road = /** @type {HTMLSelectElement} */ ($('#m-test-road')).value;
@@ -1344,6 +1356,7 @@ const UI = (() => {
   }
   function handleEvents() {
     for (const e of Game.takeEvents()) {
+      hudDirty = true;
       if (e === 'boons') { if (overlay === 'boons') renderBoons(); else openOverlay('boons'); }
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();

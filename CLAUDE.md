@@ -25,8 +25,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   the combinations (`js/combos.js`): each rule that makes one calls
   `combos.note(id)` where it acts, and the Journal and the end of a run read them. A factory
   reads `game.js`'s changing state live through `K` (`K.G`, never a copy of
-  `G`), and a constant two factories share stays in `game.js`. A factory may
-  copy a value from `K` when it is made only if that value is already settled
+  `G`), and a constant two factories share stays in `game.js`. `K` is one object
+  for every factory `game.js` wires (`const K = {...}` before the first of them),
+  typed by name as `Kit` in `js/types.js`: a new thing lent goes in both. A factory
+  may copy a value from `K` when it is made only if that value is already settled
   by then: one made later, or one living in a factory wired after it, must be
   read through `K` at the moment of use.
 - `js/rng.js`: the seeded `Rng`, and `Dice`, the run's own dice: seeded from the run as it begins

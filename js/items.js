@@ -8,7 +8,7 @@ import { POWER_SUFFIX, PREFIX_NAME } from './relics.js';
 import { Dice, d } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeItems(K) {
   const COATINGS = K.COATINGS;
   const COAT_BLOWS = K.COAT_BLOWS;
@@ -35,7 +35,7 @@ export function makeItems(K) {
   const packSize = K.packSize;
   const spellFx = K.spellFx;
   const spring = K.spring;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const blocked = (/** @type {any[]} */ ...a) => K.blocked(...a);
   const bound = (/** @type {any[]} */ ...a) => K.bound(...a);
   const breakCurses = (/** @type {any[]} */ ...a) => K.breakCurses(...a);
@@ -53,7 +53,7 @@ export function makeItems(K) {
   const isKnown = (/** @type {any[]} */ ...a) => K.isKnown(...a);
   const key = (/** @type {any[]} */ ...a) => K.key(...a);
   const log = (/** @type {any[]} */ ...a) => K.log(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const monsterAt = (/** @type {any[]} */ ...a) => K.monsterAt(...a);
   const mstat = (/** @type {any[]} */ ...a) => K.mstat(...a);
   const npcAt = (/** @type {any[]} */ ...a) => K.npcAt(...a);

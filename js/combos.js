@@ -49,7 +49,7 @@ const COMBOS = {
   ward_of_light: { name: 'Ward of Light', text: 'Healing kept by the Lantern of Mercy takes a blow for you.', hint: 'A Healer\'s legend.' },
 };
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 function makeCombos(K) {
   /** This run's combinations and how often each came about. */
   const run = () => { const G = K.G; if (!G.combos) G.combos = {}; return G.combos; };

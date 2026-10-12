@@ -49,7 +49,7 @@ const QUAKE_GAP = [16000, 24000], QUAKE_WARN = 1700, QUAKE_REACH = 3, QUAKE_FALL
 // its fire lasts, and how long cold seals it
 const VENT_GAP = [9000, 15000], VENT_WARN = 1500, VENT_FIRE_MS = 2200, VENT_SEAL_MS = 25000;
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeElements(K) {
   const lvl = () => K.lvl();
   const fields = () => { const L = lvl(); return L.fields || (L.fields = {}); };

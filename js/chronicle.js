@@ -5,7 +5,7 @@ import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, MONSTERS, ROUTES, VOWS, RUNG_SCO
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeChronicle(K) {
   const HALL_KEY = K.HALL_KEY;
   const LAST_KEY = K.LAST_KEY;
@@ -13,7 +13,7 @@ export function makeChronicle(K) {
   const companion = K.companion;
   const fx = K.fx;
   const wild = K.wild;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const cap = (/** @type {any[]} */ ...a) => K.cap(...a);
   const emit = (/** @type {any[]} */ ...a) => K.emit(...a);
   const isQuick = (/** @type {any[]} */ ...a) => K.isQuick(...a);
@@ -39,7 +39,7 @@ export function makeChronicle(K) {
    */
   function claimHeart(ending = 'take') {
     const how = ENDINGS[ending] ? ending : 'take', p = P(), L = K.lvl();
-    K.G.ending = how;
+    K.G.ending = /** @type {'take'|'quench'|'keep'} */ (how);
     for (const k in L.items) { const j = L.items[k].findIndex(it => it.t === 'artifact'); if (j >= 0) L.items[k].splice(j, 1); }
     // carried, or held; or the quench poured out over it, and both gone
     if (how === 'quench') { const q = p.inv.findIndex(it => it.t === 'quench'); if (q >= 0) p.inv.splice(q, 1); }

@@ -9,7 +9,7 @@ import { Sound } from './sound.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS, encounterDc } from './encounters.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 // a deep forge takes a piece one step past the traders' (theirs stop at +3)
 const HONE_MOST = 4;
 

@@ -6,7 +6,7 @@ import { Dungeon } from './dungeon.js';
 import { Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeScenes(K) {
   const DIRS = K.DIRS;
   const REMAINS_MAX = K.REMAINS_MAX;
@@ -16,10 +16,10 @@ export function makeScenes(K) {
   const floatText = K.floatText;
   const fx = K.fx;
   const heard = K.heard;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const key = (/** @type {any[]} */ ...a) => K.key(...a);
   const log = (/** @type {any[]} */ ...a) => K.log(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const tile = (/** @type {any[]} */ ...a) => K.tile(...a);
 
   // ---------- what a blow leaves behind ----------

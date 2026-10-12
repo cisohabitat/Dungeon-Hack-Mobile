@@ -11,7 +11,7 @@ import { MONSTERS } from './data.js';
 // what a job may pay besides the gold
 const REWARDS = [['oil_fire', 3], ['oil_silver', 3], ['oil_venom', 2], ['potion_xheal', 3], ['scroll_uncurse', 1]];
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeBounty(K) {
   /**
    * The job a trader on this floor offers, or null (none for the floor that

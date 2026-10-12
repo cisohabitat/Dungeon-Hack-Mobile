@@ -20,7 +20,7 @@ const UNSEEN_MS = 4000;
 /** How long a foe the cold has held stays brittle for the Grimoire, past the hold itself. */
 const BRITTLE_MS = 1500;
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeLegends(K) {
   const P = () => K.P();
   const lvl = () => K.lvl();

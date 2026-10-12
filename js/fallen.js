@@ -7,7 +7,7 @@ import { Progress } from './progress.js';
 import { Rng } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeFallen(K) {
   const fx = K.fx;
   const heard = K.heard;

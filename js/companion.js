@@ -80,7 +80,7 @@ const ONLY = { charm_whetstone: 'sellsword' };
 /** @param {{kind?: string}|null} c */
 const kindOf = c => KINDS[(c && c.kind) || 'hound'] || KINDS.hound;
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeCompanion(K) {
   /** The companion, if it is on this floor and still standing. */
   const here = () => { const c = K.G && K.G.companion; return c && !c.fallen && c.depth === K.G.depth ? c : null; };

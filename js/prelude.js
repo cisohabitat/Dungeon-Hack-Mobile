@@ -25,7 +25,7 @@ const DUST_AT = FALL_AT + (BURY - 1) * FALL_GAP + 150, DUST_MS = 1200;
 const END_MS = DUST_AT + DUST_MS + 200;
 const ease = u => u * u * (3 - 2 * u);
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makePrelude(K) {
   /** @type {{t0: number, level: any, fired: Set<string>, told: boolean}|null} */
   let on = null;

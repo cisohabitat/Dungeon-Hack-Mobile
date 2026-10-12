@@ -8,7 +8,7 @@
 import { Rng } from './rng.js';
 import { ITEMS, MONSTERS } from './data.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeThreads(K) {
   const P = () => K.P();
   const log = (/** @type {any[]} */ ...a) => K.log(...a);

@@ -8,7 +8,7 @@ import { RELICS } from './relics.js';
 import { Dice, d, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeCombat(K) {
   // (GORE, GORE_OF and BITS_MAX are read from K where used: scenes.js, wired after this, holds them)
   const CORPSE_MS = K.CORPSE_MS;
@@ -49,7 +49,7 @@ export function makeCombat(K) {
   const surface = K.surface;
   const wardenHold = K.wardenHold;
   const wild = K.wild;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const armStat = (/** @type {any[]} */ ...a) => K.armStat(...a);
   const baneDamage = (/** @type {any[]} */ ...a) => K.baneDamage(...a);
   const bargained = (/** @type {any[]} */ ...a) => K.bargained(...a);
@@ -79,7 +79,7 @@ export function makeCombat(K) {
   const leech = (/** @type {any[]} */ ...a) => K.leech(...a);
   const log = (/** @type {any[]} */ ...a) => K.log(...a);
   const look = (/** @type {any[]} */ ...a) => K.look(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const mod = (/** @type {any[]} */ ...a) => K.mod(...a);
   const monsterAt = (/** @type {any[]} */ ...a) => K.monsterAt(...a);
   const mstat = (/** @type {any[]} */ ...a) => K.mstat(...a);

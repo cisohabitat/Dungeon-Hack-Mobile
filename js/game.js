@@ -1387,37 +1387,115 @@ const Game = (() => {
     log('There is nothing to use here.');
   }
 
-  // ---------- trading ---------- see trader.js ----------
-  // ---------- the way in, played as a new run opens: see prelude.js ----------
-  const { FROST_SPELLS, assassinQuiet, berserkerFrenzy, berserkerOpen, berserkerRage, buffAmount, buffDuration, capped, capstoneOf, dawnBlow, healerHeal, healerMercy, healerSp, heroSaves, kindles, knightGuard, knightShieldAC, knightSteadfast, onPath, pathOf, pyroFire, setBurning, setWorn, sneakMult, spellCost, spellDesc, spellHold, templarBlow, templarSmite, tricksterOpening, tricksterPurse, tricksterSlip, tricksterTraps } = makePaths({
-    get G() { return G; }, get STAT_WORD() { return STAT_WORD; }, get wild() { return wild; }, get P() { return P; }, get mstat() { return mstat; }, get effectFrom() { return effectFrom; },
-    get emit() { return emit; }, get focusHas() { return focusHas; }, get hasTalent() { return hasTalent; }, get lvl() { return lvl; }, get noteHealed() { return noteHealed; },
-    get opening() { return opening; }, get spellDC() { return spellDC; },
-  });
-  const combos = makeCombos({
-    get G() { return G; }, get P() { return P; }, get log() { return log; }, get floatText() { return floatText; }, get pathOf() { return pathOf; },
-    noteCombo: id => Progress.noteCombo(id), className: cls => CLASSES[cls].name,
+  // ---------- what the game lends its parts ----------
+  // Every factory wired below (foes.js, trader.js, combat.js and the rest) borrows from the
+  // game through this one object: a getter for each thing it may read, so each sees the game
+  // as it is now and never a copy, and a setter for the little it writes back (the distance
+  // field, a sound's delay, the spell being cast). What each file reads of it is its own
+  // business; a getter reads its value only when asked, so a part wired later than another
+  // may still be lent to it, as long as it is not read before it is made.
+  const K = {
+    get aids() { return aids; }, get armStat() { return armStat; }, get assassinQuiet() { return assassinQuiet; }, get aThing() { return aThing; },
+    get baneDamage() { return baneDamage; }, get bargained() { return bargained; }, get BELT() { return BELT; }, get beltRoom() { return beltRoom; },
+    get berserkerRage() { return berserkerRage; }, get BITS_MAX() { return BITS_MAX; }, get blocked() { return blocked; },
+    get BLOW_GAP() { return BLOW_GAP; }, get boltEnd() { return boltEnd; }, get boltTargets() { return boltTargets; },
+    get bossFalls() { return bossFalls; }, get bound() { return bound; }, get bounty() { return bounty; }, get breakCurses() { return breakCurses; },
+    get breaksBones() { return breaksBones; }, get buffAmount() { return buffAmount; }, get buffDuration() { return buffDuration; },
+    get buildLooks() { return buildLooks; }, get burnLine() { return elements.burnLine; }, get burnWeb() { return burnWeb; },
+    get buzz() { return buzz; }, get cam() { return cam; }, get camProgress() { return camProgress; }, get cap() { return cap; },
+    get capped() { return capped; }, get caskLevel() { return caskLevel; },
+    get castingName() { return castingName; }, set castingName(v) { castingName = v; }, get checkBonus() { return checkBonus; },
+    get checkChance() { return checkChance; }, get checkLevelUp() { return checkLevelUp; }, get checkTile() { return checkTile; },
+    get claimHeart() { return claimHeart; }, className: cls => CLASSES[cls].name, get clearFx() { return clearFx; }, get climbed() { return climbed; },
+    get cls() { return cls; }, get COAT_BLOWS() { return COAT_BLOWS; }, get COAT_GLOW() { return COAT_GLOW; }, get coatDamage() { return coatDamage; },
+    get COATINGS() { return COATINGS; }, get coatLanded() { return coatLanded; }, get combos() { return combos; },
+    get companion() { return companion; }, get companionAt() { return companion.at; }, get companionBreaks() { return companion.breaks; },
+    get companionGuards() { return companion.guards; }, companionHere: () => companion.here(), get companionHurt() { return companion.hurt; },
+    get companionStruck() { return companion.struck; }, get CORD_SQUARE() { return CORD_SQUARE; }, get CORPSE_MS() { return CORPSE_MS; },
+    get critFloor() { return critFloor; }, get cursedWorn() { return cursedWorn; }, get damageMonster() { return damageMonster; },
+    get dawnBlow() { return dawnBlow; }, get deepMagic() { return deepMagic; }, get deepSteel() { return deepSteel; }, get diff() { return diff; },
+    get DIRS() { return DIRS; }, get discoverRelic() { return discoverRelic; },
+    get distField() { return distField; }, set distField(v) { distField = v; },
+    get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; }, get DUAL_HIT_PENALTY() { return DUAL_HIT_PENALTY; },
+    get effect() { return effect; }, get effectFrom() { return effectFrom; }, get elemental() { return elemental; },
+    get elements() { return elements; }, get emit() { return emit; }, get encs() { return encs; }, get enemiesNear() { return enemiesNear; },
+    get ensureDist() { return ensureDist; }, enterLevel: (d, f) => enterLevel(d, f), get farthestFloor() { return farthestFloor; },
+    get fieldAt() { return elements.fieldAt; }, get fireCatches() { return fireCatches; }, firepot: spots => elements.firepot(spots),
+    flame: (x, y, ms) => elements.flame(x, y, ms), get floatText() { return floatText; }, get focusHas() { return focusHas; },
+    get followBlow() { return followBlow; }, get freshStats() { return freshStats; }, get FROST_SPELLS() { return FROST_SPELLS; },
+    fuelAt: (x, y) => elements.fuel(x, y), get fx() { return fx; }, get fxDelay() { return fxDelay; }, set fxDelay(v) { fxDelay = v; },
+    get fxGen() { return fxGen; }, set fxGen(v) { fxGen = v; }, get G() { return G; }, set G(v) { G = v; }, get giveItem() { return giveItem; },
+    get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; }, get HALL_KEY() { return HALL_KEY; }, get hasPower() { return hasPower; },
+    get hasTalent() { return hasTalent; }, get healerHeal() { return healerHeal; }, get healPlayer() { return healPlayer; },
+    get heard() { return heard; }, get heldWhy() { return heldWhy; }, get heroTitle() { return heroTitle; }, get hiddenGear() { return hiddenGear; },
+    get hitGroup() { return hitGroup; }, houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },
+    get houndNoisy() { return companion.noisy; }, houndRests: () => companion.rested(1), get hurtPlayer() { return hurtPlayer; },
+    igniteWild: (x, y) => elements.ignite(x, y, 0, true), get INV_MAX() { return INV_MAX; }, get isGear() { return isGear; },
+    get isJewel() { return isJewel; }, get isKnown() { return isKnown; }, isLong: () => isLong(), get isQuick() { return isQuick; },
+    get itemName() { return itemName; }, get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get jewelBonus() { return jewelBonus; },
+    get jewelPowers() { return jewelPowers; }, get junkInPack() { return junkInPack; }, get key() { return key; },
+    get killerPhrase() { return killerPhrase; }, kinBite: () => wild.kinBite(), get kindles() { return kindles; }, kinFloors: () => wild.kinFloors(),
+    kinHp: () => wild.kinHp(), get knightGuard() { return knightGuard; }, get knightSteadfast() { return knightSteadfast; },
+    get KNOCKDOWN_MS() { return KNOCKDOWN_MS; }, get knownSpells() { return knownSpells; }, get lairs() { return lairs; },
+    get LAST_KEY() { return LAST_KEY; }, get lastBlocked() { return lastBlocked; }, set lastBlocked(v) { lastBlocked = v; },
+    get layRelic() { return layRelic; }, get learn() { return learn; }, get leech() { return leech; },
     legendCarried: () => { const it = Object.values(P().eq).find(x => x && x.u && RELICS[x.u] && RELICS[x.u].legend); return it ? RELICS[it.u].name : ''; },
-  });
-  const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes } = makeThreads({
-    get G() { return G; }, get P() { return P; }, get log() { return log; }, get key() { return key; }, get passable() { return passable; }, get tile() { return tile; },
-    get T() { return T; }, get monsterAt() { return monsterAt; }, get newMonster() { return newMonster; }, get setTile() { return setTile; }, get healPlayer() { return healPlayer; },
-    get farthestFloor() { return farthestFloor; }, get bounty() { return bounty; }, get companion() { return companion; },
-  });
-  const lairs = makeLairs({
-    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get passable() { return passable; }, get tile() { return tile; }, get T() { return T; },
-    get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, companionAt: (x, y) => companion.at(x, y), get log() { return log; }, get floatText() { return floatText; },
-    get fx() { return fx; }, get realNow() { return realNow; }, get learn() { return learn; }, get elements() { return elements; }, get heard() { return heard; }, get newMonster() { return newMonster; },
-  });
-  const legends = makeLegends({
-    get combos() { return combos; }, get capped() { return capped; },
-    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get hasPower() { return hasPower; }, get log() { return log; }, get pathOf() { return pathOf; },
-    get key() { return key; }, get relicItem() { return relicItem; }, get floatText() { return floatText; }, get shaped() { return () => wild.shaped(); }, get heard() { return heard; },
-    get opening() { return opening; }, get mstat() { return mstat; }, get healPlayer() { return healPlayer; }, get monsterAt() { return monsterAt; },
-    get damageMonster() { return damageMonster; }, get elements() { return elements; }, get passable() { return passable; },
-    get runStats() { return runStats; }, get itemName() { return itemName; },
-  });
-  const prelude = makePrelude({ lvl: () => lvl(), get fx() { return fx; }, log: (msg, cls) => log(msg, cls) });
+    get legends() { return legends; }, get liveLine() { return liveLine; }, get log() { return log; }, get look() { return look; },
+    get lvl() { return lvl; }, get meet() { return meet; },
+    mendHero: n => { const p = P(); noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp))); p.hp = Math.min(p.maxHp, p.hp + n); emit('stats'); },
+    get mod() { return mod; }, get monsterAt() { return monsterAt; }, get moveMonster() { return moveMonster; },
+    get moveOnHurt() { return moveOnHurt; }, get mstat() { return mstat; }, get namedBar() { return namedBar; },
+    get namedFalls() { return namedFalls; }, namedPlan: Dungeon.namedPlan, get namedTitle() { return namedTitle; },
+    get newMonster() { return newMonster; }, noteCombo: id => Progress.noteCombo(id), get noteDealt() { return noteDealt; },
+    get noteGold() { return noteGold; }, get noteHealed() { return noteHealed; }, get noteKill() { return noteKill; },
+    get noteRun() { return noteRun; }, get noteSpell() { return noteSpell; }, get noteTaken() { return noteTaken; },
+    get noteUsed() { return noteUsed; }, get npcAt() { return npcAt; }, get OFF_BALANCE() { return OFF_BALANCE; },
+    get offerCapstone() { return offerCapstone; }, get offerPath() { return offerPath; }, get offhandReason() { return offhandReason; },
+    get offhandWeapon() { return offhandWeapon; }, get onPath() { return onPath; }, get openEncounter() { return encs.openEncounter; },
+    get opening() { return opening; }, get ownEffect() { return ownEffect; }, get P() { return P; }, get packSize() { return packSize; },
+    get passable() { return passable; }, get pathOf() { return pathOf; }, get pickupAll() { return pickupAll; }, get playerAC() { return playerAC; },
+    get prelude() { return prelude; }, get PRESS_HP() { return PRESS_HP; }, get propAt() { return propAt; },
+    get pruneRemains() { return pruneRemains; }, get pyroFire() { return pyroFire; },
+    get queuedAttack() { return queuedAttack; }, set queuedAttack(v) { queuedAttack = v; },
+    get queuedMove() { return queuedMove; }, set queuedMove(v) { queuedMove = v; }, quick: () => isQuick(), get QUICK() { return QUICK; },
+    get rangerAim() { return rangerAim; }, get READ_MS() { return READ_MS; }, get realNow() { return realNow; }, set realNow(v) { realNow = v; },
+    get recordHero() { return recordHero; }, get refreshSp() { return refreshSp; }, get relativeBearing() { return relativeBearing; },
+    get relicItem() { return relicItem; }, get relicOf() { return relicOf; }, get REMAINS_MAX() { return REMAINS_MAX; },
+    get REMAINS_MS() { return REMAINS_MS; }, get removeOne() { return removeOne; }, renownAt: n => renownAt(n),
+    resetDist: () => { distFieldAt = -1e9; }, get restShare() { return restShare; }, get revealAll() { return revealAll; },
+    rime: (x, y) => elements.rime(x, y), get riposte() { return riposte; }, get RISE_MS() { return RISE_MS; }, get rollNote() { return rollNote; },
+    get rung() { return rung; }, get runKey() { return runKey; }, get runKeyOf() { return runKeyOf; }, get runStats() { return runStats; },
+    save: q => save(q), get SAVE_KEY() { return SAVE_KEY; }, get SAVED_SHARE() { return SAVED_SHARE; }, get SCROLL_GLOW() { return SCROLL_GLOW; },
+    get SELF_TAUGHT_MOST() { return SELF_TAUGHT_MOST; }, get setBurning() { return setBurning; }, setSnare, get setTile() { return setTile; },
+    get setWorn() { return setWorn; }, get shadeFalls() { return shadeFalls; }, get shadeWakes() { return shadeWakes; },
+    shake: (amp, ms) => { fx.shakeAmp = amp; fx.shakeMs = ms; fx.shakeUntil = realNow + ms; }, get shaped() { return () => wild.shaped(); },
+    get shortNormal() { return shortNormal; }, get showRolls() { return showRolls; }, get skillDamage() { return skillDamage; },
+    get skillSpeed() { return skillSpeed; }, get smash() { return smash; }, get snapCam() { return snapCam; }, snareable, snaresBy,
+    get snaresSlack() { return snaresSlack; }, get sneakMult() { return sneakMult; }, get soon() { return soon; }, get sparks() { return sparks; },
+    get spellAvailable() { return spellAvailable; }, get spellCost() { return spellCost; }, get spellDC() { return spellDC; },
+    get spellDesc() { return spellDesc; }, get spellElement() { return spellElement; }, get spellFx() { return spellFx; },
+    get spellHold() { return spellHold; }, get spellLevel() { return spellLevel; }, get spellSave() { return spellSave; },
+    get spellShrug() { return spellShrug; }, get spMax() { return spMax; }, get sporesOn() { return sporesOn; }, get spray() { return spray; },
+    get spring() { return spring; }, get spriteFor() { return spriteFor; }, get STAT_WORD() { return STAT_WORD; },
+    get statCheck() { return statCheck; }, get steadyAim() { return steadyAim; }, get stepAside() { return stepAside; },
+    get stockLampOil() { return stockLampOil; }, stormAt: (x, y, n) => elements.stormAt(x, y, n), get surface() { return surface; },
+    get T() { return T; }, get tellQuality() { return tellQuality; }, get templarBlow() { return templarBlow; },
+    get templarSmite() { return templarSmite; }, get the() { return the; }, get THREAD_SAID() { return THREAD_SAID; },
+    get threads() { return threads; }, get throwArm() { return throwArm; }, get tile() { return tile; }, get toHit() { return toHit; },
+    get traderKind() { return traderKind; }, get trickSave() { return trickSave; }, get tricksterOpening() { return tricksterOpening; },
+    get tricksterPurse() { return tricksterPurse; }, get tricksterSlip() { return tricksterSlip; }, get useItem() { return useItem; },
+    get venomSave() { return venomSave; }, get venomTakes() { return venomTakes; }, get vouched() { return vouched; }, get vowed() { return vowed; },
+    get WAKE_BEAT() { return WAKE_BEAT; }, get wander() { return wander; }, get wardenHold() { return wardenHold; }, warmthFrom,
+    get weapon() { return weapon; }, wet: (x, y) => elements.wet(x, y), get wild() { return wild; }, get win() { return win; },
+  };
+  // ---------- the parts, each made with K: the paths, the combinations, the threads, the lairs,
+  // the legends, the way in; the traders and the foes further down, after the game's own loop ----------
+  const { FROST_SPELLS, assassinQuiet, berserkerFrenzy, berserkerOpen, berserkerRage, buffAmount, buffDuration, capped, capstoneOf, dawnBlow, healerHeal, healerMercy, healerSp, heroSaves, kindles, knightGuard, knightShieldAC, knightSteadfast, onPath, pathOf, pyroFire, setBurning, setWorn, sneakMult, spellCost, spellDesc, spellHold, templarBlow, templarSmite, tricksterOpening, tricksterPurse, tricksterSlip, tricksterTraps } = makePaths(K);
+  const combos = makeCombos(K);
+  const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes } = makeThreads(K);
+  const lairs = makeLairs(K);
+  const legends = makeLegends(K);
+  const prelude = makePrelude(K);
   // ---------- encounters: see meet.js ----------
   let queuedAttack = false;
   let queuedMove = null;       // one step tapped while the camera was still moving
@@ -1441,11 +1519,7 @@ const Game = (() => {
     return left <= 0 ? 1 : Math.max(0, 1 - left / weapon().speed);
   }
   // ---------- testing aids: see testing.js ----------
-  const aids = makeTesting({
-    get G() { return G; }, P: () => P(), lvl: () => lvl(), log: (m, c) => log(m, c), emit: k => emit(k),
-    enterLevel: (d, f) => enterLevel(d, f), save: q => save(q), checkLevelUp: () => checkLevelUp(), renownAt: n => renownAt(n),
-    giveItem: it => giveItem(it), relicItem: id => relicItem(id), discoverRelic: id => discoverRelic(id),
-  });
+  const aids = makeTesting(K);
   const { setTesting, testingOn, testFloor, testReveal, testLevel, testGifts, testGive, applyTesting } = aids;
   function update(now, dt) {
     realNow = now;
@@ -1557,162 +1631,21 @@ const Game = (() => {
     }
   }
 
-  // ---------- monsters ---------- to how hard the delve is: see foes.js ----------
-  // What that module borrows from here goes through these getters (and setters
-  // for the state it changes), so it always sees the game as it is now.
-  const foesK = {
-    get legends() { return legends; }, get combos() { return combos; }, get lairs() { return lairs; },
-    shaped: () => wild.shaped(),
-    quick: () => isQuick(),
-    warmthFrom,
-    get BLOW_GAP() { return BLOW_GAP; },
-    get DIRS() { return DIRS; },
-    get G() { return G; },
-    get KNOCKDOWN_MS() { return KNOCKDOWN_MS; },
-    get P() { return P; },
-    get PRESS_HP() { return PRESS_HP; },
-    get T() { return T; },
-    get cap() { return cap; },
-    get cls() { return cls; },
-    get damageMonster() { return damageMonster; },
-    get fieldAt() { return elements.fieldAt; }, get burnLine() { return elements.burnLine; },
-    snareable, snaresBy, setSnare,
-    firepot: spots => elements.firepot(spots), fuelAt: (x, y) => elements.fuel(x, y), igniteWild: (x, y) => elements.ignite(x, y, 0, true),
-    rime: (x, y) => elements.rime(x, y), stormAt: (x, y, n) => elements.stormAt(x, y, n), wet: (x, y) => elements.wet(x, y),
-    get castingName() { return castingName; },
-    get assassinQuiet() { return assassinQuiet; },
-    get elemental() { return elemental; },
-    get followBlow() { return followBlow; },
-    get shadeWakes() { return shadeWakes; },
-    get tricksterOpening() { return tricksterOpening; },
-    get diff() { return diff; }, get shortNormal() { return shortNormal; },
-    get distField() { return distField; }, set distField(v) { distField = v; },
-    // the hero's hound: where it stands, and what a blow at it or the quills do
-    get companionAt() { return companion.at; }, get companionStruck() { return companion.struck; }, get companionGuards() { return companion.guards; }, get companionBreaks() { return companion.breaks; }, get companionHurt() { return companion.hurt; }, get houndNoisy() { return companion.noisy; },
-    get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
-    get effectFrom() { return effectFrom; },
-    get emit() { return emit; },
-    get floatText() { return floatText; },
-    get fx() { return fx; },
-    get hasPower() { return hasPower; },
-    get hasTalent() { return hasTalent; },
-    get heard() { return heard; },
-    get hurtPlayer() { return hurtPlayer; },
-    get isJewel() { return isJewel; },
-    get itemName() { return itemName; },
-    get key() { return key; },
-    get knightGuard() { return knightGuard; },
-    get knightSteadfast() { return knightSteadfast; }, flame: (x, y, ms) => elements.flame(x, y, ms),
-    get learn() { return learn; },
-    get log() { return log; },
-    get lvl() { return lvl; },
-    get meet() { return meet; },
-    get monsterAt() { return monsterAt; },
-    get mstat() { return mstat; },
-    get newMonster() { return newMonster; },
-    get npcAt() { return npcAt; },
-    get offhandWeapon() { return offhandWeapon; },
-    get opening() { return opening; },
-    get packSize() { return packSize; },
-    get passable() { return passable; },
-    get playerAC() { return playerAC; },
-    get realNow() { return realNow; },
-    get relativeBearing() { return relativeBearing; },
-    get relicItem() { return relicItem; },
-    get riposte() { return riposte; },
-    get rollNote() { return rollNote; },
-    get setTile() { return setTile; },
-    get showRolls() { return showRolls; },
-    get spray() { return spray; },
-    get the() { return the; },
-    get tile() { return tile; },
-    get trickSave() { return trickSave; },
-    get tricksterSlip() { return tricksterSlip; },
-    get venomSave() { return venomSave; },
-    get weapon() { return weapon; },
-  };
-  // The traders (trader.js) borrow the same way.
-  const traderK = {
-    get climbed() { return climbed; }, get runKey() { return runKey; },
-    get BELT() { return BELT; }, get bounty() { return bounty; },
-    get G() { return G; },
-    get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; }, get the() { return the; },
-    get cap() { return cap; }, get itemName() { return itemName; }, get relicOf() { return relicOf; }, get mod() { return mod; },
-    get hasTalent() { return hasTalent; }, get isJewel() { return isJewel; }, get isKnown() { return isKnown; }, get vouched() { return vouched; },
-    get vowed() { return vowed; }, get hiddenGear() { return hiddenGear; }, get cursedWorn() { return cursedWorn; },
-    get revealAll() { return revealAll; }, get breakCurses() { return breakCurses; }, get healPlayer() { return healPlayer; },
-    get spMax() { return spMax; }, get beltRoom() { return beltRoom; }, get giveItem() { return giveItem; }, get removeOne() { return removeOne; },
-    get discoverRelic() { return discoverRelic; }, get junkInPack() { return junkInPack; },
-    // the hound sleeps by the lamp too, and a hurt one is reason enough to stop there
-    houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },
-    houndRests: () => companion.rested(1),
-    companionHere: () => companion.here(),
-  };
-  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes, wickLevel } = makeTrader(traderK);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(foesK);
+  const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes, wickLevel } = makeTrader(K);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(K);
   // ---------- the hero's hound: see companion.js ----------
-  const companion = makeCompanion({
-    get vowed() { return vowed; },
-    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get lvl() { return lvl; }, get log() { return log; },
-    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get propAt() { return propAt; }, get mstat() { return mstat; },
-    fieldAt: (x, y) => elements.fieldAt(x, y),
-    get damageMonster() { return damageMonster; },
-    get heard() { return heard; }, get realNow() { return realNow; }, get floatText() { return floatText; },
-    get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; },
-    kinHp: () => wild.kinHp(), kinBite: () => wild.kinBite(), kinFloors: () => wild.kinFloors(), isLong: () => isLong(),
-    // a healer's tending: quiet, a little at a time, not a draught's flash and sound
-    mendHero: n => { const p = P(); noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp))); p.hp = Math.min(p.maxHp, p.hp + n); emit('stats'); },
-  });
+  const companion = makeCompanion(K);
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------
-  const wild = makeWild({
-    get G() { return G; }, get P() { return P; }, get DIRS() { return DIRS; }, get log() { return log; }, get emit() { return emit; }, get spellSave() { return spellSave; }, get spellShrug() { return spellShrug; },
-    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get meet() { return meet; }, get floatText() { return floatText; },
-    get onPath() { return onPath; }, get capped() { return capped; }, get hasTalent() { return hasTalent; }, get skillSpeed() { return skillSpeed; }, get hasPower() { return hasPower; },
-  });
+  const wild = makeWild(K);
   // ---------- the dungeon answers the elements: see elements.js ----------
-  const elements = makeElements({
-    get combos() { return combos; },
-    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get tile() { return tile; }, get T() { return T; }, get key() { return key; },
-    get log() { return log; }, get floatText() { return floatText; }, get spray() { return spray; }, get heard() { return heard; }, get mstat() { return mstat; },
-    get damageMonster() { return damageMonster; }, get elemental() { return elemental; }, get hurtPlayer() { return hurtPlayer; }, get smash() { return smash; },
-    get setTile() { return setTile; }, burnWeb: () => burnWeb(),
-    surface: (m, why) => surface(m, why), companionHere: () => companion.here(), companionHurt: (n, what) => companion.hurt(n, what),
-    shake: (amp, ms) => { fx.shakeAmp = amp; fx.shakeMs = ms; fx.shakeUntil = realNow + ms; },
-    learn: (id, what) => learn(id, what), hasPower: k => hasPower(k),
-  });
+  const elements = makeElements(K);
   // ---------- encounters: see meet.js ----------
-  const encs = makeEncounters({
-    get claimHeart() { return claimHeart; },
-    get vowed() { return vowed; }, get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
-    get fx() { return fx; }, get realNow() { return realNow; }, get companion() { return companion; },
-    get STAT_WORD() { return STAT_WORD; }, get THREAD_SAID() { return THREAD_SAID; }, get threads() { return threads; },
-    get checkBonus() { return checkBonus; }, get checkChance() { return checkChance; }, get statCheck() { return statCheck; },
-    get removeOne() { return removeOne; }, get checkLevelUp() { return checkLevelUp; }, get pickupAll() { return pickupAll; }, get itemName() { return itemName; }, get key() { return key; },
-    get tricksterPurse() { return tricksterPurse; }, get hurtPlayer() { return hurtPlayer; }, get healPlayer() { return healPlayer; }, get venomSave() { return venomSave; },
-    get revealAll() { return revealAll; }, get breakCurses() { return breakCurses; }, get refreshSp() { return refreshSp; },
-    get passable() { return passable; }, get monsterAt() { return monsterAt; }, get npcAt() { return npcAt; }, get newMonster() { return newMonster; },
-    resetDist: () => { distFieldAt = -1e9; },
-  });
+  const encs = makeEncounters(K);
   // ---------- jobs from the traders: see bounty.js ----------
-  const bounty = makeBounty({
-    get G() { return G; }, get P() { return P; }, get lvl() { return lvl; }, get log() { return log; }, get emit() { return emit; },
-    get giveItem() { return giveItem; }, get itemName() { return itemName; }, get aThing() { return aThing; }, get key() { return key; },
-    get farthestFloor() { return farthestFloor; }, namedPlan: Dungeon.namedPlan,
-  });
+  const bounty = makeBounty(K);
 
   // ---------- saving: see saving.js ----------
-  const { hasSave, load: loadSaved, loadCode: loadSavedCode, noteRun, save: writeSave, saveCode: writeCode, saveSummary } = makeSaving({
-    get G() { return G; }, set G(v) { G = v; }, get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get SAVE_KEY() { return SAVE_KEY; },
-    get buildLooks() { return buildLooks; }, get caskLevel() { return caskLevel; }, get clearFx() { return clearFx; },
-    get companion() { return companion; }, get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
-    get emit() { return emit; }, get encs() { return encs; }, get freshStats() { return freshStats; }, get fx() { return fx; },
-    get lastBlocked() { return lastBlocked; }, set lastBlocked(v) { lastBlocked = v; }, get log() { return log; },
-    get offerCapstone() { return offerCapstone; }, get offerPath() { return offerPath; }, get prelude() { return prelude; },
-    get pruneRemains() { return pruneRemains; }, get queuedAttack() { return queuedAttack; }, set queuedAttack(v) { queuedAttack = v; },
-    get queuedMove() { return queuedMove; }, set queuedMove(v) { queuedMove = v; }, get realNow() { return realNow; }, set realNow(v) { realNow = v; },
-    get refreshSp() { return refreshSp; }, get runKey() { return runKey; }, get runKeyOf() { return runKeyOf; }, get snapCam() { return snapCam; },
-    get stepAside() { return stepAside; }, get stockLampOil() { return stockLampOil; }, get win() { return win; },
-  });
+  const { hasSave, load: loadSaved, loadCode: loadSavedCode, noteRun, save: writeSave, saveCode: writeCode, saveSummary } = makeSaving(K);
   // the dice's state goes into every save and comes back with every load, so a run taken up
   // again (or carried over by code) rolls on from where it left off; a save from before the
   // run had its own dice is seeded from the run as a new one would be
@@ -1730,142 +1663,31 @@ const Game = (() => {
   async function loadCode(text) { const r = await loadSavedCode(text); takeUpDice(); return r; }
 
   // ---------- chronicle: see chronicle.js ----------
-  const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle({
-    get rung() { return rung; }, get lvl() { return lvl; },
-    get G() { return G; }, get HALL_KEY() { return HALL_KEY; }, get LAST_KEY() { return LAST_KEY; }, get P() { return P; },
-    get SAVE_KEY() { return SAVE_KEY; }, get cap() { return cap; }, get castingName() { return castingName; }, get companion() { return companion; },
-    get emit() { return emit; }, get fx() { return fx; }, get isQuick() { return isQuick; }, get itemName() { return itemName; },
-    get killerPhrase() { return killerPhrase; }, get liveLine() { return liveLine; }, get log() { return log; }, get mstat() { return mstat; },
-    get noteRun() { return noteRun; }, get realNow() { return realNow; }, get runKey() { return runKey; }, get the() { return the; },
-    get wild() { return wild; },
-  });
+  const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle(K);
 
   // ---------- powers: see powers.js ----------
-  const { READ_MS, SCROLL_GLOW, abilityLeft, abilityOf, boltEnd, boltTargets, castLabel, castLast, castSpell, enemiesNear, fireCatches, quaff, quickScroll, rangerAim, readQuick, restLabel, spellFx, spellRange, spellWasteReason, useAbility, wardenHold } = makePowers({
-    get legends() { return legends; }, get combos() { return combos; },
-    get CORD_SQUARE() { return CORD_SQUARE; }, get DIRS() { return DIRS; }, get FROST_SPELLS() { return FROST_SPELLS; }, get G() { return G; },
-    get P() { return P; }, get SAVED_SHARE() { return SAVED_SHARE; }, get armStat() { return armStat; }, get berserkerRage() { return berserkerRage; },
-    get blocked() { return blocked; }, get buffAmount() { return buffAmount; }, get buffDuration() { return buffDuration; },
-    get burnWeb() { return burnWeb; }, get capped() { return capped; }, get castingName() { return castingName; },
-    set castingName(v) { castingName = v; }, get cls() { return cls; }, get companion() { return companion; },
-    get damageMonster() { return damageMonster; }, get deepMagic() { return deepMagic; }, get distField() { return distField; },
-    get elemental() { return elemental; }, get elements() { return elements; }, get emit() { return emit; }, get ensureDist() { return ensureDist; },
-    get floatText() { return floatText; }, get focusHas() { return focusHas; }, get fx() { return fx; }, get fxDelay() { return fxDelay; },
-    set fxDelay(v) { fxDelay = v; }, get hasTalent() { return hasTalent; }, get healPlayer() { return healPlayer; },
-    get healerHeal() { return healerHeal; }, get heard() { return heard; }, get heldWhy() { return heldWhy; }, get hitGroup() { return hitGroup; },
-    get isKnown() { return isKnown; }, get knownSpells() { return knownSpells; }, get log() { return log; }, get lvl() { return lvl; },
-    get meet() { return meet; }, get mod() { return mod; }, get monsterAt() { return monsterAt; }, get moveMonster() { return moveMonster; },
-    get mstat() { return mstat; }, get noteSpell() { return noteSpell; }, get npcAt() { return npcAt; }, get onPath() { return onPath; },
-    get ownEffect() { return ownEffect; }, get packSize() { return packSize; }, get passable() { return passable; },
-    get pyroFire() { return pyroFire; }, get queuedAttack() { return queuedAttack; }, set queuedAttack(v) { queuedAttack = v; },
-    get realNow() { return realNow; }, get restShare() { return restShare; }, get setWorn() { return setWorn; }, get soon() { return soon; },
-    get spellAvailable() { return spellAvailable; }, get spellCost() { return spellCost; }, get spellDesc() { return spellDesc; },
-    get spellElement() { return spellElement; }, get spellHold() { return spellHold; }, get spellSave() { return spellSave; },
-    get spellShrug() { return spellShrug; }, get spring() { return spring; }, get steadyAim() { return steadyAim; },
-    get templarSmite() { return templarSmite; }, get throwArm() { return throwArm; }, get useItem() { return useItem; }, get vowed() { return vowed; },
-    get wild() { return wild; },
-  });
+  const { READ_MS, SCROLL_GLOW, abilityLeft, abilityOf, boltEnd, boltTargets, castLabel, castLast, castSpell, enemiesNear, fireCatches, quaff, quickScroll, rangerAim, readQuick, restLabel, spellFx, spellRange, spellWasteReason, useAbility, wardenHold } = makePowers(K);
 
   // ---------- pacing: see pacing.js ----------
-  const { BLOW_GAP, HEARTSWORN_CAP, KNOCKDOWN_MS, PRESS_HP, QUICK, REGEN_CAP, deepMagic, deepSteel, diff, diffEdge, followBlow, hardenLevel, isLong, isQuick, newMonster, pressLevel, pressSturdier, rest, restShare, shortNormal, twistLevel } = makePacing({
-    get climbed() { return climbed; },
-    get DIRS() { return DIRS; }, get G() { return G; }, get P() { return P; }, get T() { return T; }, get WAKE_BEAT() { return WAKE_BEAT; },
-    get bargained() { return bargained; }, get companion() { return companion; }, get distField() { return distField; }, get emit() { return emit; },
-    get enemiesNear() { return enemiesNear; }, get ensureDist() { return ensureDist; }, get hasTalent() { return hasTalent; },
-    get key() { return key; }, get layRelic() { return layRelic; }, get log() { return log; }, get lvl() { return lvl; },
-    get monsterAt() { return monsterAt; }, get noteHealed() { return noteHealed; }, get npcAt() { return npcAt; }, get passable() { return passable; },
-    get vowed() { return vowed; }, get wander() { return wander; },
-  });
+  const { BLOW_GAP, HEARTSWORN_CAP, KNOCKDOWN_MS, PRESS_HP, QUICK, REGEN_CAP, deepMagic, deepSteel, diff, diffEdge, followBlow, hardenLevel, isLong, isQuick, newMonster, pressLevel, pressSturdier, rest, restShare, shortNormal, twistLevel } = makePacing(K);
 
   // ---------- motion: see motion.js ----------
-  const { CORPSE_MS, DOOR_MS, renderState } = makeMotion({
-    get DIRS() { return DIRS; }, get G() { return G; }, get P() { return P; }, get RISE_MS() { return RISE_MS; }, get T() { return T; },
-    get cam() { return cam; }, get camProgress() { return camProgress; }, get companion() { return companion; }, get effect() { return effect; },
-    get elements() { return elements; }, get fx() { return fx; }, get heroTitle() { return heroTitle; }, get lvl() { return lvl; },
-    get namedBar() { return namedBar; }, get namedTitle() { return namedTitle; }, get packSize() { return packSize; },
-    get passable() { return passable; }, get prelude() { return prelude; }, get spriteFor() { return spriteFor; }, get tile() { return tile; },
-    get traderKind() { return traderKind; }, get wild() { return wild; },
-  });
+  const { CORPSE_MS, DOOR_MS, renderState } = makeMotion(K);
 
   // ---------- combat: see combat.js ----------
-  const { REMAINS_MAX, REMAINS_MS, attack, checkLevelUp, chooseBoon, damageMonster, floatText, healPlayer, heard, hitGroup, hurtPlayer, isCapstoneOffer, isPathOffer, isRenownOffer, levelNote, offerCapstone, offerPath, packSize, pendingBoons, pendingLevel, pruneRemains, relativeBearing, renownAt } = makeCombat({
-    get legends() { return legends; }, get combos() { return combos; }, get setWorn() { return setWorn; },
-    get vowed() { return vowed; }, get BITS_MAX() { return BITS_MAX; }, get CORPSE_MS() { return CORPSE_MS; }, get DIRS() { return DIRS; },
-    get DUAL_HIT_PENALTY() { return DUAL_HIT_PENALTY; }, get G() { return G; }, get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; },
-    get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get OFF_BALANCE() { return OFF_BALANCE; }, get P() { return P; }, get QUICK() { return QUICK; },
-    get RISE_MS() { return RISE_MS; }, get SAVE_KEY() { return SAVE_KEY; }, get SELF_TAUGHT_MOST() { return SELF_TAUGHT_MOST; },
-    get STAT_WORD() { return STAT_WORD; }, get aids() { return aids; }, get armStat() { return armStat; }, get baneDamage() { return baneDamage; },
-    get bargained() { return bargained; }, get berserkerRage() { return berserkerRage; }, get blocked() { return blocked; },
-    get bossFalls() { return bossFalls; }, get bounty() { return bounty; }, get breaksBones() { return breaksBones; }, get buzz() { return buzz; },
-    get cap() { return cap; }, get capped() { return capped; }, get castingName() { return castingName; }, get cls() { return cls; },
-    get coatDamage() { return coatDamage; }, get coatLanded() { return coatLanded; }, get companion() { return companion; },
-    get critFloor() { return critFloor; }, get dawnBlow() { return dawnBlow; }, get deepMagic() { return deepMagic; },
-    get deepSteel() { return deepSteel; }, get effect() { return effect; }, get effectFrom() { return effectFrom; },
-    get elements() { return elements; }, get emit() { return emit; }, get fx() { return fx; }, get fxDelay() { return fxDelay; },
-    set fxDelay(v) { fxDelay = v; }, get fxGen() { return fxGen; }, set fxGen(v) { fxGen = v; }, get hasPower() { return hasPower; },
-    get hasTalent() { return hasTalent; }, get heldWhy() { return heldWhy; }, get heroTitle() { return heroTitle; }, get isQuick() { return isQuick; },
-    get jewelBonus() { return jewelBonus; }, get jewelPowers() { return jewelPowers; }, get key() { return key; },
-    get killerPhrase() { return killerPhrase; }, get kindles() { return kindles; }, get knownSpells() { return knownSpells; },
-    get learn() { return learn; }, get leech() { return leech; }, get log() { return log; }, get look() { return look; }, get lvl() { return lvl; },
-    get meet() { return meet; }, get mod() { return mod; }, get monsterAt() { return monsterAt; }, get moveOnHurt() { return moveOnHurt; },
-    get mstat() { return mstat; }, get namedFalls() { return namedFalls; }, get noteDealt() { return noteDealt; },
-    get noteHealed() { return noteHealed; }, get noteKill() { return noteKill; }, get noteRun() { return noteRun; },
-    get noteTaken() { return noteTaken; }, get offhandWeapon() { return offhandWeapon; }, get onPath() { return onPath; },
-    get passable() { return passable; }, get pathOf() { return pathOf; }, get propAt() { return propAt; }, get rangerAim() { return rangerAim; },
-    get realNow() { return realNow; }, get recordHero() { return recordHero; }, get refreshSp() { return refreshSp; },
-    get relicItem() { return relicItem; }, get rollNote() { return rollNote; }, get runKey() { return runKey; },
-    get setBurning() { return setBurning; }, get shadeFalls() { return shadeFalls; }, get skillDamage() { return skillDamage; },
-    get smash() { return smash; }, get snaresSlack() { return snaresSlack; }, get sneakMult() { return sneakMult; }, get soon() { return soon; },
-    get spMax() { return spMax; }, get sparks() { return sparks; }, get spellAvailable() { return spellAvailable; }, get spellFx() { return spellFx; },
-    get spellLevel() { return spellLevel; }, get sporesOn() { return sporesOn; }, get spray() { return spray; }, get spring() { return spring; },
-    get surface() { return surface; }, get templarBlow() { return templarBlow; }, get the() { return the; }, get toHit() { return toHit; },
-    get venomTakes() { return venomTakes; }, get wardenHold() { return wardenHold; }, get weapon() { return weapon; }, get wild() { return wild; },
-  });
+  const { REMAINS_MAX, REMAINS_MS, attack, checkLevelUp, chooseBoon, damageMonster, floatText, healPlayer, heard, hitGroup, hurtPlayer, isCapstoneOffer, isPathOffer, isRenownOffer, levelNote, offerCapstone, offerPath, packSize, pendingBoons, pendingLevel, pruneRemains, relativeBearing, renownAt } = makeCombat(K);
 
   // ---------- items: see items.js ----------
-  const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spareToPack, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems({
-    get openEncounter() { return encs.openEncounter; }, get climbed() { return climbed; },
-    get COATINGS() { return COATINGS; }, get COAT_BLOWS() { return COAT_BLOWS; }, get COAT_GLOW() { return COAT_GLOW; }, get DIRS() { return DIRS; },
-    get G() { return G; }, get INV_MAX() { return INV_MAX; }, get P() { return P; }, get READ_MS() { return READ_MS; },
-    get SCROLL_GLOW() { return SCROLL_GLOW; }, get T() { return T; }, get blocked() { return blocked; }, get boltEnd() { return boltEnd; },
-    get boltTargets() { return boltTargets; }, get bound() { return bound; }, get bounty() { return bounty; },
-    get breakCurses() { return breakCurses; }, get burnWeb() { return burnWeb; }, get cap() { return cap; }, get castingName() { return castingName; },
-    set castingName(v) { castingName = v; }, get checkTile() { return checkTile; }, get claimHeart() { return claimHeart; }, get cls() { return cls; },
-    get companion() { return companion; }, get cursedWorn() { return cursedWorn; }, get discoverRelic() { return discoverRelic; },
-    get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; }, get elemental() { return elemental; },
-    get elements() { return elements; }, get emit() { return emit; }, get fireCatches() { return fireCatches; }, get fx() { return fx; },
-    get fxDelay() { return fxDelay; }, set fxDelay(v) { fxDelay = v; }, get healPlayer() { return healPlayer; }, get heard() { return heard; },
-    get heldWhy() { return heldWhy; }, get hiddenGear() { return hiddenGear; }, get hitGroup() { return hitGroup; }, get isGear() { return isGear; },
-    get isJewel() { return isJewel; }, get isKnown() { return isKnown; }, get key() { return key; }, get log() { return log; },
-    get lvl() { return lvl; }, get monsterAt() { return monsterAt; }, get mstat() { return mstat; }, get noteGold() { return noteGold; },
-    get noteUsed() { return noteUsed; }, get npcAt() { return npcAt; }, get offhandReason() { return offhandReason; },
-    get packSize() { return packSize; }, get passable() { return passable; }, get propAt() { return propAt; }, get pyroFire() { return pyroFire; },
-    get realNow() { return realNow; }, get refreshSp() { return refreshSp; }, get relicOf() { return relicOf; }, get revealAll() { return revealAll; },
-    get snapCam() { return snapCam; }, get soon() { return soon; }, get spellFx() { return spellFx; }, get spring() { return spring; },
-    get statCheck() { return statCheck; }, get tellQuality() { return tellQuality; }, get the() { return the; },
-    get tricksterPurse() { return tricksterPurse; }, get vowed() { return vowed; },
-  });
+  const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spareToPack, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems(K);
 
   // ---------- scenes: see scenes.js ----------
-  const { BITS_MAX, GORE, GORE_OF, caskLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil } = makeScenes({
-    get DIRS() { return DIRS; }, get G() { return G; }, get P() { return P; }, get REMAINS_MAX() { return REMAINS_MAX; },
-    get REMAINS_MS() { return REMAINS_MS; }, get T() { return T; }, get elements() { return elements; }, get floatText() { return floatText; },
-    get fx() { return fx; }, get fxDelay() { return fxDelay; }, get heard() { return heard; }, get key() { return key; }, get log() { return log; },
-    get lvl() { return lvl; }, get realNow() { return realNow; }, get tile() { return tile; },
-  });
+  const { BITS_MAX, GORE, GORE_OF, caskLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil } = makeScenes(K);
 
   // ---------- curses: see curses.js ----------
-  const { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, tellQuality } = makeCurses({
-    get DIRS() { return DIRS; }, get G() { return G; }, get P() { return P; }, get T() { return T; }, get isJewel() { return isJewel; },
-    get isKnown() { return isKnown; }, get itemName() { return itemName; }, get key() { return key; }, get log() { return log; },
-    get relicItem() { return relicItem; }, get the() { return the; },
-  });
+  const { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, tellQuality } = makeCurses(K);
 
   // ---------- fallen: see fallen.js ----------
-  const { bonesArrive, heroTitle, killerPhrase, newRunStamp, placeFallen, runKey, runKeyOf, shadeFalls, shadeStats, shadeWakes } = makeFallen({
-    get G() { return G; }, get fx() { return fx; }, get heard() { return heard; }, get key() { return key; }, get learn() { return learn; },
-    get log() { return log; }, get meet() { return meet; }, get realNow() { return realNow; },
-  });
+  const { bonesArrive, heroTitle, killerPhrase, newRunStamp, placeFallen, runKey, runKeyOf, shadeFalls, shadeStats, shadeWakes } = makeFallen(K);
 
   return {
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,

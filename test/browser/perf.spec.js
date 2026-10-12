@@ -1,7 +1,9 @@
 'use strict';
 // The frame-rate budget: with the processor slowed four times (an old phone),
 // the view must keep its frame rate in the three heaviest scenes the game has:
-// a fight of eight on floor 7, the same floor flooded, and the lich's rite.
+// a fight of eight on floor 7, the same floor flooded, and the lich's rite; the
+// fight again on a wide screen, where the map is docked beside the view; and a
+// run must open within a few seconds of Begin.
 //
 // It runs as its own project on one worker (see playwright.config.js), and
 // only when PERF=1: beside two hundred other tests it would measure the
@@ -17,6 +19,12 @@ const { startGame, clearBoons, faceOpenGround } = require('./helpers');
 // Frames per second the view must hold in each scene. PERF_MIN_FPS lowers or
 // raises it for a slower or faster machine; PERF_REPORT=1 only reports.
 const MIN_FPS = Number(process.env.PERF_MIN_FPS || 30);
+// The wide screen's own bar: the picture is drawn larger and the map beside it, and it measured
+// a tenth under the phone's fight wherever the two were measured together (October 2026). A
+// laptop is not what the budget is for; it must not fall far behind.
+const MIN_FPS_WIDE = Number(process.env.PERF_MIN_FPS_WIDE || 27);
+// Milliseconds a run may take to open from Begin to its first frame, slowed the same.
+const MAX_START_MS = Number(process.env.PERF_MAX_START || 6000);
 const REPORT_ONLY = process.env.PERF_REPORT === '1';
 const RATE = 4;
 
@@ -70,6 +78,13 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await measure(page, cdp, 3000);
   await settled(page);
   out.fight = await measure(page, cdp, 4000);
+  // the same fight on a wide screen (a laptop, a tablet on its side): the map docked beside the view
+  const phone = page.viewportSize();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await measure(page, cdp, 1000);
+  out.wide = await measure(page, cdp, 4000);
+  await page.setViewportSize(phone);
+  await measure(page, cdp, 500);
   // the same floor flooded: water over every floor square
   await page.evaluate(() => { Game.level().twist = 'flooded'; });
   await measure(page, cdp, 1000);
@@ -90,7 +105,27 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await settled(page);
   out.rite = await measure(page, cdp, 4000);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
-  console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out));
+  // a new run's opening, slowed the same: from Begin on the prologue to the dungeon's first frame
+  // (the pictures painted in spare moments are done by now; it is the floor's making and the first
+  // paint of the view that this measures)
+  // (the hero above cannot die, and a page left mid-run saves the run on its way out: the save
+  // is taken away once the title is up, and the title opened again without it)
+  await page.goto('/');
+  await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
+  await page.goto('/');
+  await page.click('#btn-new');
+  await page.fill('#c-seed', 'perf-start');
+  await page.click('#c-begin');
+  await expect(page.locator('#screen-prologue')).toBeVisible();
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
+  const t0 = Date.now();
+  await page.click('#pro-begin');
+  await expect(page.locator('#screen-game')).toBeVisible();
+  await page.evaluate(() => new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res))));
+  const start = { ms: Date.now() - t0 };
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
   if (REPORT_ONLY) return;
-  for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(MIN_FPS);
+  for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+  expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
 });

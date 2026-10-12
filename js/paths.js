@@ -9,15 +9,15 @@ import { Dice, d } from './rng.js';
 import { ITEMS, PATHS } from './data.js';
 import { RELIC_SETS } from './relics.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makePaths(K) {
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const mstat = (/** @type {any[]} */ ...a) => K.mstat(...a);
   const effectFrom = (/** @type {any[]} */ ...a) => K.effectFrom(...a);
   const emit = (/** @type {any[]} */ ...a) => K.emit(...a);
   const focusHas = (/** @type {any[]} */ ...a) => K.focusHas(...a);
   const hasTalent = (/** @type {any[]} */ ...a) => K.hasTalent(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const noteHealed = (/** @type {any[]} */ ...a) => K.noteHealed(...a);
   const opening = (/** @type {any[]} */ ...a) => K.opening(...a);
   const spellDC = (/** @type {any[]} */ ...a) => K.spellDC(...a);

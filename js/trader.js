@@ -9,7 +9,7 @@ import { GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC } fr
 // it needs from the game comes through K.
 
 /**
- * @param {any} K  what the game lends: its state and the rules the rest of it keeps
+ * @param {import('./types.js').Kit} K  what the game lends: its state and the rules the rest of it keeps
  */
 export function makeTrader(K) {
   // Each is fetched when called, not copied when the traders are made: much of it

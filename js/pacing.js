@@ -7,12 +7,12 @@ import { twistRelic } from './relics.js';
 import { Dice, Rng, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makePacing(K) {
   const DIRS = K.DIRS;
   const T = K.T;
   const companion = K.companion;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const WAKE_BEAT = K.WAKE_BEAT;
   const bargained = (/** @type {any[]} */ ...a) => K.bargained(...a);
   const emit = (/** @type {any[]} */ ...a) => K.emit(...a);
@@ -22,7 +22,7 @@ export function makePacing(K) {
   const key = (/** @type {any[]} */ ...a) => K.key(...a);
   const layRelic = (/** @type {any[]} */ ...a) => K.layRelic(...a);
   const log = (/** @type {any[]} */ ...a) => K.log(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const monsterAt = (/** @type {any[]} */ ...a) => K.monsterAt(...a);
   const noteHealed = (/** @type {any[]} */ ...a) => K.noteHealed(...a);
   const npcAt = (/** @type {any[]} */ ...a) => K.npcAt(...a);

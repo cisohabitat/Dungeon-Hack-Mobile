@@ -6,7 +6,7 @@ import { ITEMS, MONSTERS } from './data.js';
 import { SIZE as DRESS_SIZE } from './dressing.js';
 import { ENCOUNTERS } from './encounters.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeMotion(K) {
   const DIRS = K.DIRS;
   const RISE_MS = K.RISE_MS;
@@ -20,11 +20,11 @@ export function makeMotion(K) {
   const prelude = K.prelude;
   const traderKind = K.traderKind;
   const wild = K.wild;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const camProgress = (/** @type {any[]} */ ...a) => K.camProgress(...a);
   const effect = (/** @type {any[]} */ ...a) => K.effect(...a);
   const heroTitle = (/** @type {any[]} */ ...a) => K.heroTitle(...a);
-  const lvl = (/** @type {any[]} */ ...a) => K.lvl(...a);
+  const lvl = () => K.lvl();
   const packSize = (/** @type {any[]} */ ...a) => K.packSize(...a);
   const passable = (/** @type {any[]} */ ...a) => K.passable(...a);
   const spriteFor = (/** @type {any[]} */ ...a) => K.spriteFor(...a);

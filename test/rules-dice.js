@@ -31,7 +31,8 @@ module.exports = async function diceChecks(h) {
   const SCRIPT = ['forward', null, null, 'attack', null, 'forward', null, 'left', null, 'attack', null, null, 'forward', 'right', null, 'attack'];
   /** A world with nothing kept from the tests before it: no bones on a floor, no Hall, no memory of Wick's. */
   const world = async () => {
-    for (const k of ['deepdelve.progress', 'deepdelve.fallen', 'deepdelve.bestiary', 'deepdelve.hall', 'deepdelve.save', 'deepdelve.lastrun']) globalThis.localStorage.removeItem(k);
+    // (the store is the harness's, made with the first world: a check run alone has none before then)
+    if (globalThis.localStorage) for (const k of ['deepdelve.progress', 'deepdelve.fallen', 'deepdelve.bestiary', 'deepdelve.hall', 'deepdelve.save', 'deepdelve.lastrun']) globalThis.localStorage.removeItem(k);
     return newContext();
   };
 

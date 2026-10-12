@@ -300,17 +300,21 @@ test.describe('the endgame', () => {
     // a fresh page: the game clock has not started when the save is opened. The
     // page saves again as it is put away, so the save is edited only after
     await page.goto('/');
-    const left = await page.evaluate(() => {
+    const light = await page.evaluate(() => {
       const s = JSON.parse(localStorage.getItem('deepdelve.save'));
       s.escaping = true;
       localStorage.setItem('deepdelve.save', JSON.stringify(s));
+      const before = performance.now();
       Game.load();
-      if (Game.state().status !== 'won') return -1;
-      // the renderer runs on the page's clock: the light must start now by that clock
+      if (Game.state().status !== 'won') return { won: false };
+      // the renderer runs on the page's clock: the light must start at the load by that clock,
+      // not at a moment the old page's clock kept (the work the load does after lighting it, the
+      // Hall's entry and the first frame's state, takes what it takes on a busy machine)
       const fx = Game.renderState(performance.now()).fx;
-      return 2600 - (performance.now() - fx.heartAt);
+      return { won: true, startsAtLoad: fx.heartAt >= before && fx.heartAt <= performance.now(), heartAt: fx.heartAt, before };
     });
-    expect(left, 'the light should have its full time to rise').toBeGreaterThan(2000);
+    expect(light.won, 'the save loads as won').toBe(true);
+    expect(light.startsAtLoad, `the light should start at the load, by the page's clock: ${JSON.stringify(light)}`).toBe(true);
   });
 
   test('a run saved on the old climb out loads as won', async ({ page }) => {

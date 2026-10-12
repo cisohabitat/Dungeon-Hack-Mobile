@@ -243,13 +243,19 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] `test/rules.js` split: Phase 7.
 - [ ] `ui.js`, `renderer.js`, `game.js`, `foes.js` within 300 lines of the limit (C7): the
   next slice out of each before the phase that touches it (the title and create screens out of
-  `ui.js` in Phase 6; the K wiring out of `game.js` in Phase 7).
-- [ ] The K objects typed (C8): a `@typedef` per factory in `pad.js`'s style, the five largest
-  first, copies at birth turned to getters; alongside Phase 7.
+  `ui.js` in Phase 6, done; the K wiring out of `game.js` in Phase 7, done: the twenty-four
+  objects lent became one `K`, 1,908 lines to 1,730; `renderer.js` 1,895 and `foes.js` 1,758
+  before the phases that touch them).
+- [x] The K objects typed (C8): one `Kit` typedef in `types.js` for the one `K` every game
+  factory takes (by name, the state and the floor in full), in place of a typedef a factory;
+  copies at birth checked: constants and functions only, none of the state that changes.
 - [x] A Content-Security-Policy (C5), inline styles allowed (the page sets a few by attribute; it is the scripts the policy guards): Phase 6.
 - [ ] Fixed sleeps swapped for state waits, CI retries off (C9): spread over Phases 6 to 8.
-- [ ] The per-frame tidy-up (C13 to C15) and a startup and wide-layout scene in `perf.spec.js`
-  (C16): Phase 7.
+- [x] The per-frame tidy-up (C13 to C15) and a startup and wide-layout scene in `perf.spec.js`
+  (C16): Phase 7. (The HUD's signature ten times a second or on an event, the elements read
+  every frame looked up once, the elements' stains kept from frame to frame. The wide scene
+  measured a tenth under the phone's fight at every commit tried, so its bar is 27 fps to the
+  phone's 30; a run opens in about 3.2 s at 4x slow, against a bar of 6 s.)
 
 ---
 

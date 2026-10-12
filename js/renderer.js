@@ -712,48 +712,65 @@ const Renderer = (() => {
   // Fire, ash, spilt oil and ice on the squares the elements have touched
   // (elements.js): each square a patch on the floor, fire bright and flickering.
   const FIELD_LOOK = { ash: ['#16130f', 0.42], oil: ['#3a2a12', 0.46], ice: ['#a8cce4', 0.46] };
+  // A stain's object is kept from one frame to the next, by its square and part, and the list
+  // they are gathered in is the same list each frame: a floor of many burnt squares was making
+  // them all afresh sixty times a second. (A square's key is parsed once too.)
+  /** @type {Map<string, {x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean}>} */
+  const stainKept = new Map();
+  /** @type {Array<{x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean}>} */
+  const stainList = [];
+  let stainFloor = null;
+  const stain = (key, x, y, r, c, seed, glow, solo) => {
+    let s = stainKept.get(key);
+    if (!s) { s = { x, y, r, c, seed, glow, solo }; stainKept.set(key, s); } else { s.x = x; s.y = y; s.r = r; s.c = c; s.seed = seed; s.glow = glow; s.solo = solo; }
+    stainList.push(s);
+  };
+  /** @type {Map<string, number[]>} */
+  const squareOf = new Map();
+  const xyOf = k => { let v = squareOf.get(k); if (!v) { v = k.split(',').map(Number); squareOf.set(k, v); } return v; };
   function fieldStains(level, now, fx) {
     const F = level.fields;
-    const out = [];
+    if (level !== stainFloor) { stainFloor = level; stainKept.clear(); }
+    stainList.length = 0;
     // the frost a wraith breathes, creeping over the stones toward where it is aimed
-    for (const f of (fx && fx.frost) || []) out.push({ x: f.x + 0.5, y: f.y + 0.5, r: 0.46 * f.a, c: '#a8cce4', seed: f.x * 131 + f.y * 71 });
+    for (const f of (fx && fx.frost) || []) stain('f' + f.x + ',' + f.y, f.x + 0.5, f.y + 0.5, 0.46 * f.a, '#a8cce4', f.x * 131 + f.y * 71);
     // a smouldering floor's cracks: a dull red split in the stones, crusted pale when cold has sealed it;
     // heating up, it brightens and a glow spreads over the squares its flare will cover
     for (const v of (fx && fx.vents) || []) {
-      const seed = v.x * 131 + v.y * 71;
-      if (v.sealed) { out.push({ x: v.x + 0.5, y: v.y + 0.5, r: 0.2, c: '#8a96a2', seed, solo: true }); continue; }
+      const seed = v.x * 131 + v.y * 71, key = 'v' + v.x + ',' + v.y;
+      if (v.sealed) { stain(key, v.x + 0.5, v.y + 0.5, 0.2, '#8a96a2', seed, false, true); continue; }
       const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 220 + seed);
-      out.push({ x: v.x + 0.5, y: v.y + 0.5, r: 0.15 + 0.04 * flick + 0.12 * v.heat, c: v.heat ? '#f08a30' : '#8a2c10', seed, glow: true, solo: true });
+      stain(key, v.x + 0.5, v.y + 0.5, 0.15 + 0.04 * flick + 0.12 * v.heat, v.heat ? '#f08a30' : '#8a2c10', seed, true, true);
       // (the glow comes up from a dull red to a hot orange as the flare nears, and spreads as it does)
       const hot = '#' + [[0x5a, 0xd8], [0x1e, 0x64], [0x0e, 0x1c]].map(([a, b]) => Math.round(a + (b - a) * v.heat).toString(16).padStart(2, '0')).join('');
-      for (const a of v.area) out.push({ x: a.x + 0.5, y: a.y + 0.5, r: 0.08 + 0.16 * v.heat, c: hot, seed: seed + a.x * 7 + a.y * 3, glow: v.heat > 0.85, solo: true });
+      for (const a of v.area) stain(key + '/' + a.x + ',' + a.y, a.x + 0.5, a.y + 0.5, 0.08 + 0.16 * v.heat, hot, seed + a.x * 7 + a.y * 3, v.heat > 0.85, true);
     }
     // where rock will land on a floor of tremors: a ring of grit spreading as it nears, dark at the heart
     for (const r of (fx && fx.rocks) || []) {
-      const seed = r.x * 131 + r.y * 71;
-      out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.22 + 0.26 * r.u, c: '#9a8a6c', seed, solo: true });
-      out.push({ x: r.x + 0.5, y: r.y + 0.5, r: 0.1 + 0.12 * r.u, c: '#2a2218', seed: seed + 5, solo: true });
+      const seed = r.x * 131 + r.y * 71, key = 'r' + r.x + ',' + r.y;
+      stain(key, r.x + 0.5, r.y + 0.5, 0.22 + 0.26 * r.u, '#9a8a6c', seed, false, true);
+      stain(key + '/h', r.x + 0.5, r.y + 0.5, 0.1 + 0.12 * r.u, '#2a2218', seed + 5, false, true);
     }
-    if (!F) return out;
+    if (!F) return stainList;
     const lands = fx && fx.landings && fx.landings.length ? fx.landings.filter(l => now < l.at) : null;
     for (const k in F) {
-      const f = F[k], [x, y] = k.split(',').map(Number), seed = x * 131 + y * 71;
+      const f = F[k], [x, y] = xyOf(k), seed = x * 131 + y * 71;
       // (oil from a flask still in the air is not on the floor yet, nor the fire it would catch from:
       // only what lay there before it was thrown)
       if (lands && lands.some(l => Math.abs(l.x - x) + Math.abs(l.y - y) <= 1 && f.k !== (l.was[k] || ''))) continue;
       if (f.k === 'fire') {
         // embers across the square, a brighter heart that flickers
         const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 90 + seed);
-        out.push({ x: x + 0.5, y: y + 0.5, r: 0.3, c: '#5a1c0a', seed, glow: true, solo: true });
-        out.push({ x: x + 0.5, y: y + 0.5, r: 0.14, c: flick > 0.5 ? '#e87a24' : '#c85a18', seed: seed + 3, glow: true, solo: true });
+        stain(k, x + 0.5, y + 0.5, 0.3, '#5a1c0a', seed, true, true);
+        stain(k + '/h', x + 0.5, y + 0.5, 0.14, flick > 0.5 ? '#e87a24' : '#c85a18', seed + 3, true, true);
       // (a burnt floor can be many squares: each is one patch, without the splashes round it)
       } else if (FIELD_LOOK[f.k]) {
-        out.push({ x: x + 0.5, y: y + 0.5, r: FIELD_LOOK[f.k][1], c: FIELD_LOOK[f.k][0], seed, solo: f.k === 'ash' });
+        stain(k, x + 0.5, y + 0.5, FIELD_LOOK[f.k][1], FIELD_LOOK[f.k][0], seed, false, f.k === 'ash');
         // lamp oil catches the light in a pale sheen, so a spill reads against the dark stone
-        if (f.k === 'oil') out.push({ x: x + 0.42, y: y + 0.56, r: 0.15, c: '#8e6e2c', seed: seed + 5, solo: true });
+        if (f.k === 'oil') stain(k + '/s', x + 0.42, y + 0.56, 0.15, '#8e6e2c', seed + 5, false, true);
       }
     }
-    return out;
+    return stainList;
   }
   function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm, now) {
     if (!list || !list.length) return;

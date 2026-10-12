@@ -19,7 +19,7 @@ const CLAW_MS = 650;
 const SHAPE_AC = 2;
 const ENTANGLE_MS = 3500;
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeWild(K) {
   /** Whether the hero is a bear just now. */
   const shaped = (p = K.P()) => !!(p && p.shape && p.shape.until > K.G.t);

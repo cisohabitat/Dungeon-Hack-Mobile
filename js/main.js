@@ -39,6 +39,8 @@ window.addEventListener('pagehide', saveOnHide);
 let last = 0;
 /** @type {any} the floor whose creatures were last put first to be painted */
 let lastFloor = null;
+/** @type {HTMLElement|null} the view's canvas, looked up once */
+let viewEl = null;
 function loop(now) {
   const dt = last ? Math.min(100, now - last) : 0;
   last = now;
@@ -70,7 +72,7 @@ function loop(now) {
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
       // a boss's bar along the top of the view: the chips and tips make way for it
       UI.bossBar(!!rs.fx.boss);
-      const view = document.getElementById('view');
+      const view = viewEl || (viewEl = document.getElementById('view'));
       if (now < rs.fx.shakeUntil && !Renderer.calm) {
         const a = (rs.fx.shakeUntil - now) / (rs.fx.shakeMs || 220) * (rs.fx.shakeAmp || 4);
         view.style.transform = `translate(${(Math.random() * 2 - 1) * a}px, ${(Math.random() * 2 - 1) * a}px)`;

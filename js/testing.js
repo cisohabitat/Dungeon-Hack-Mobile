@@ -10,7 +10,7 @@ import { ROUTES, XP_TABLE, MAX_LEVEL, ITEMS } from './data.js';
 import { RELICS } from './relics.js';
 import { Dungeon } from './dungeon.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeTesting(K) {
   const P = () => K.P(), lvl = () => K.lvl();
   const log = (/** @type {string} */ m, /** @type {string} */ c) => K.log(m, c);

@@ -47,7 +47,7 @@ const FURY_SPEED = 0.85, FURY_HIT = 0, FURY_DMG = 1;
 /** How many cracks the Heartforged's floor opens at its turn. */
 const FORGE_CRACKS = 4;
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeLairs(K) {
   const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
   /** Open floor squares about a point, nearest first, never the hero's own nor anything's. */

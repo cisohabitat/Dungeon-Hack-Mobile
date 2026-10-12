@@ -6,12 +6,12 @@ import { Dungeon } from './dungeon.js';
 import { routeRelic } from './relics.js';
 import { Rng } from './rng.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeCurses(K) {
   const DIRS = K.DIRS;
   const T = K.T;
   const itemName = K.itemName;
-  const P = (/** @type {any[]} */ ...a) => K.P(...a);
+  const P = () => K.P();
   const isJewel = (/** @type {any[]} */ ...a) => K.isJewel(...a);
   const isKnown = (/** @type {any[]} */ ...a) => K.isKnown(...a);
   const key = (/** @type {any[]} */ ...a) => K.key(...a);

@@ -7,7 +7,7 @@ import { Progress } from './progress.js';
 import { relicPlan } from './relics.js';
 import { decodeSave, encodeSave } from './savecode.js';
 
-/** @param {any} K */
+/** @param {import('./types.js').Kit} K */
 export function makeSaving(K) {
   const JEWEL_SLOTS = K.JEWEL_SLOTS;
   const SAVE_KEY = K.SAVE_KEY;
