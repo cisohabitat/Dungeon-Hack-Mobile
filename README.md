@@ -42,8 +42,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   fire that keeps burning, a slip aside from a blow) and some give something up for it. The path
   is on the Hero sheet, the end screen and the Hall of Heroes.
 - **Mastery at level 7.** A hero on a path masters it, again in place of the lesson: one of the
-  path's two capstones (a Knight's shield that catches one blow in four, a Berserker who will not
-  fall once a floor, a Pyromancer's fire that burns hotter and longer, a Sharpshooter's quicker draw).
+  path's two capstones, each one rule (a Knight's shield that staggers what it catches a blow from,
+  a Berserker who will not fall once a floor, a Pyromancer's fire that deals double to what already
+  burns, a Sharpshooter whose arrow at three squares cannot miss).
 - **Six classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief, Ranger, Druid. Six ability scores
   (4d6 drop lowest), hit dice, armour class, to-hit progression, class weapon and armour limits,
   experience levels up to 12. Each has its own way to stay alive: fighters are hardy and recover

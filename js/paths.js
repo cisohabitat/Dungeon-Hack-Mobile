@@ -45,8 +45,10 @@ export function makePaths(K) {
   /** More armour from a Knight's shield. */
   const knightShieldAC = () => (onPath('knight') ? 1 : 0);
   /** An ordinary blow that lands on a Knight with a shield up: one in eight is caught on it, for half. */
-  function knightGuard(dmg) {
-    if (!onPath('knight') || !P().eq.shield || d(1, capped('unbreakable') ? 4 : 8) !== 1) return dmg;
+  function knightGuard(dmg, m) {
+    if (!onPath('knight') || !P().eq.shield || d(1, 8) !== 1) return dmg;
+    // Shield Wall: the blow caught staggers its maker, which draws its next back half again as long
+    if (m && capped('unbreakable')) { const mb = mstat(m); m.staggerUntil = K.G.t + mb.speed + Math.round(mb.speed / 2); K.floatText(m, 'staggered', '#e4e4ee'); }
     return Math.max(1, Math.ceil(dmg / 2));
   }
   /** A warned trick that lands on a Knight does a quarter less (after Stand Firm, if taken). */
@@ -66,7 +68,7 @@ export function makePaths(K) {
   const berserkerOpen = () => (onPath('berserker') ? -2 : 0);
   // Templar: the front-line priest.
   /** A Templar's blow on the undead: 1d3 more (Sanctified's die adds to it). */
-  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, capped('dawnbringer') ? 6 : 3) : 0);
+  const templarBlow = m => (onPath('templar') && mstat(m).undead ? d(1, 3) : 0);
   /** Holy Smite in a Templar's hands deals a tenth more. */
   /**
    * A tenth more, true on every cast rather than only on big numbers: what
@@ -74,7 +76,7 @@ export function makePaths(K) {
    * stayed 4, and most early Smites and heals were that small.
    */
   const aTenthMore = n => { const x = n * 1.1, whole = Math.floor(x); return whole + (Dice.chance(x - whole) ? 1 : 0); };
-  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? (capped('crusade') ? moreBy(dmg, 0.25) : aTenthMore(dmg)) : dmg);
+  const templarSmite = (sp, dmg) => (sp.id === 'smite' && onPath('templar') ? aTenthMore(dmg) : dmg);
   // Healer: mending, and the points to spend on it.
   /**
    * A Healer's healing spell heals a quarter more (after Healing Hands, if
@@ -92,7 +94,8 @@ export function makePaths(K) {
   }
   // Pyromancer: hotter fire that keeps burning, and the cold given up for it.
   /** The fire spells and the fire scroll in a Pyromancer's hands deal a fifth more. */
-  const pyroFire = dmg => (onPath('pyromancer') ? Math.round(dmg * (capped('inferno') ? 4 / 3 : 1.2)) : dmg);
+  /** A Pyromancer's fire: a fifth more, and with Inferno double to a foe already burning. */
+  const pyroFire = (dmg, m) => (onPath('pyromancer') ? Math.round(dmg * (capped('inferno') && m && m.dot && m.dot.kind === 'burning' && m.dot.until > K.G.t ? 2 : 1.2)) : dmg);
   /** Whether the hero's fire leaves things burning: Kindling, or a Pyromancer's own. */
   const kindles = () => hasTalent('kindling') || onPath('pyromancer');
   /** Set what the hero's fire struck burning: three seconds, six when Kindling and the path both feed it. */
@@ -103,7 +106,7 @@ export function makePaths(K) {
   // Frostweaver: the cold holds things back, and the Shield holds longer.
   const FROST_SPELLS = ['lightning', 'cone_cold'];
   /** How long a spell holds back what it hits: Rime's jolt, a Frostweaver's, or both. */
-  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (sp.id === 'thorn_lash' && onPath('grovewarden') ? 700 : 0) + (sp.id === 'call_lightning' && hasTalent('stormborn') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? (capped('deep_winter') ? 1400 : 700) : 0)
+  const spellHold = sp => (sp.pierce && hasTalent('rime') ? 700 : 0) + (sp.id === 'thorn_lash' && onPath('grovewarden') ? 700 : 0) + (sp.id === 'call_lightning' && hasTalent('stormborn') ? 700 : 0) + (onPath('frostweaver') && FROST_SPELLS.includes(sp.id) ? 700 : 0)
     + (FROST_SPELLS.includes(sp.id) && focusHas('storm') ? 400 : 0);
   // What a spell costs, and what a buff gives and for how long, with the paths in.
   /** Spell points a spell costs this hero. */
@@ -115,10 +118,8 @@ export function makePaths(K) {
     else if (FROST_SPELLS.includes(sp.id) && onPath('pyromancer')) cost += sp.id === 'cone_cold' ? 2 : 1;
     // (and the fire they throw three squares down the passage costs them a point more than a fan in the face)
     else if (sp.id === 'burning_hands' && onPath('pyromancer')) cost += 1;
-    if ((sp.id === 'smite' && capped('crusade')) || (sp.kind === 'heal' && capped('wellspring'))) cost = Math.max(1, cost - 1);
     // a Shapeshifter reaches the bear more easily, and the words less so
     if (onPath('shapeshifter')) cost += sp.id === 'wild_shape' ? -1 : 1;
-    if (sp.id === 'mending_moss' && capped('heartwood')) cost = Math.max(1, cost - 1);
     // an overgrown floor is a druid's own ground
     if (P().cls === 'druid' && K.G && K.G.levels && lvl() && lvl().twist === 'overgrown') cost = Math.max(1, cost - 1);
     // the Robe of the Magi eases the great workings: five points or more cost one less
@@ -127,7 +128,7 @@ export function makePaths(K) {
     return cost;
   }
   /** How much a buff gives: a Frostweaver's Shield gives one more. */
-  const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? (capped('ice_armour') ? 3 : 1) : 0);
+  const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);
   /** How long a buff lasts: Zeal and a Templar each double Bless, and a Frostweaver's Shield lasts half as long again. */
   const buffDuration = sp => sp.dur * (sp.id === 'bless' && hasTalent('zeal') ? 2 : 1) * (sp.id === 'bless' && onPath('templar') ? 2 : 1) * (sp.id === 'shield' && onPath('frostweaver') ? 1.5 : 1);
   const SPAN_WORDS = { 60000: 'a minute', 90000: 'a minute and a half', 120000: 'two minutes', 180000: 'three minutes', 240000: 'four minutes' };
@@ -169,7 +170,7 @@ export function makePaths(K) {
   const assassinQuiet = () => (onPath('assassin') ? 1 : 0);
   // Trickster: never where the blow lands.
   /** One ordinary blow in eight that would land on a Trickster, they slip aside from. */
-  const tricksterSlip = () => onPath('trickster') && d(1, capped('vanish') ? 5 : 8) === 1;
+  const tricksterSlip = () => onPath('trickster') && d(1, 8) === 1;
   /** A Trickster's ordinary blow that swung at the air leaves its maker open, as an answered trick does. */
   function tricksterOpening(m) { if (onPath('trickster')) opening(m); }
   /** A Trickster's eye and feet for a trap. */

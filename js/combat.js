@@ -190,7 +190,11 @@ export function makeCombat(K) {
     // nor, with Opening Blow learned, the first blow at a foe that has not yet struck
     const opener = K.hasBoon('opener') && !m.struck && !m.opened;
     if (opener) m.opened = true;
-    const sure = (unseen && onPath('sharpshooter')) || !!m.disguised || opener;
+    // the masteries that make a blow sure: at the undead (Dawnbringer), at a foe held fast by cold (Deep
+    // Winter) or caught in the cord (Iron Snare), and an arrow from three squares off (Deadeye)
+    const held = m.snaredUntil > K.G.t;
+    const mastered = (capped('dawnbringer') && mb.undead) || (capped('deep_winter') && held && m.heldBy === 'ice') || (capped('iron_snare') && held) || (capped('deadeye') && atRange && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) >= 3);
+    const sure = (unseen && onPath('sharpshooter')) || !!m.disguised || opener || mastered;
     m.awake = true;
     const roll = d(1, 20);
     // an answered trick's opening, taken in time, on the one that left it
@@ -238,7 +242,17 @@ export function makeCombat(K) {
     const lucky = crit && hasTalent('lucky') && roll === critFloor();
     const hpWas = m.hp;
     blowSneak = sneak;
+    // Shadow's Edge: a critical hit on a foe at a third of its life or less is the end of it (not the
+    // Heart's keeper, whose fight has acts)
+    if (crit && capped('shadows_edge') && !mb.boss && m.hp <= m.maxHp / 3 && dmg < m.hp) { dmg = m.hp; floatText(m, 'cut down', '#ffb040'); }
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
+    // what a felling blow gives back: Quick Smoke (the foe fell in the smoke), Swift Draw (the next arrow
+    // is nocked at once) and Dire Bear (the one behind is thrown down)
+    if (!lvl().monsters.includes(m) || m.hp <= 0 || m.collapsed) {
+      if (capped('quick_smoke') && p.smokeUntil > K.G.t) p.abilityReady = K.G.t;
+      if (capped('swift_draw') && atRange) p.nextAttack = K.G.t;
+      if (capped('dire_bear') && w.claws) { const [dx, dy] = DIRS[p.dir]; const behind = lvl().monsters.find(o => o !== m && o.x === m.x + dx && o.y === m.y + dy && o.hp > 0); if (behind) { behind.nextAct = Math.max(behind.nextAct || 0, K.G.t) + 1500; if (behind.windup) behind.windup.until += 1500; floatText(behind, 'thrown down', '#e4e4ee'); log(`The ${mstat(behind).name} behind it is thrown down by the fall.`, 'good'); } }
+    }
     // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
     const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
     // fire on the blade sets alight whatever will burn where the blow lands
@@ -888,11 +902,21 @@ export function makeCombat(K) {
     const hide = wild.shaped(p) && !inside ? p.shape.hide : 0;
     const through = inside ? dmg : wild.soak(dmg);
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }
-    // the Lantern of Mercy's ward of light takes what it can first
+    // Old Hide: in the bear's shape, poison does not reach the druid inside
+    if (cause === 'poison' && capped('old_hide') && wild.shaped(p)) { log('The poison finds nothing in the bear to work on.', 'good'); return; }
+    // the Lantern of Mercy's ward of light takes what it can first, then Wellspring's kept healing
     if (!inside) {
       const w = K.legends.warded(dmg);
       if (w.took) { if (msg) msg += ` (Your ward of light takes ${w.took}.)`; else log(`Your ward of light takes ${w.took}.`, 'good'); dmg = w.dmg; }
-      if (w.took && !dmg) { if (msg) log(msg); return; }
+      let kept = 0;
+      if (dmg > 0 && p.ward > 0 && capped('wellspring')) { kept = Math.min(dmg, p.ward); p.ward -= kept; dmg -= kept; if (msg) msg += ` (Your kept healing takes ${kept}.)`; else log(`Your kept healing takes ${kept}.`, 'good'); }
+      // (a blow the wards took whole is told and done; one the hide took whole goes on, to be counted against the hide)
+      if ((w.took || kept) && !dmg) { if (msg) log(msg); return; }
+    }
+    // Ice Armour: a blow that lands while Shield is up chills its maker, as the Frostweaver's cold does
+    if (from && typeof from === 'object' && 'uid' in from && capped('ice_armour') && p.effects.ac && p.effects.ac.src === 'shield' && p.effects.ac.until > K.G.t) {
+      from.staggerUntil = Math.max(from.staggerUntil || 0, K.G.t + mstat(from).speed + 700);
+      if (msg) msg += ' (The rime of your Shield holds it back.)';
     }
     noteTaken(dmg, from, cause);
     p.hp -= dmg;

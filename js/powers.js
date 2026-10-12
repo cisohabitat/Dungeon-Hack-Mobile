@@ -180,7 +180,7 @@ export function makePowers(K) {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt' && sp.kind !== 'root') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); const hpWas = p.hp; healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; log(`You cast ${sp.name} and heal ${p.hp - hpWas}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${K.G.companion.name} is mended ${kin} with you.`, 'good'); break; }
+      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); const hpWas = p.hp; healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; if (capped('wellspring')) { const over = n - (p.hp - hpWas); if (over > 0) { p.ward = Math.min(Math.floor(p.maxHp / 2), (p.ward || 0) + over); log(`What the spell could not mend is kept: a ward of ${p.ward}.`, 'good'); } } if (sp.id === 'mending_moss' && capped('heartwood') && p.poison) { p.poison = null; log('The moss draws the poison out.', 'good'); } log(`You cast ${sp.name} and heal ${p.hp - hpWas}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${K.G.companion.name} is mended ${kin} with you.`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: K.G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -233,7 +233,7 @@ export function makePowers(K) {
             if (sp.id === 'thorn_lash' && hasTalent('long_thorns')) dmg += 2;
             if (sp.id === 'call_lightning' && hasTalent('stormborn')) dmg = Math.round(dmg * 1.25);
             dmg = Math.round(dmg * deepMagic());
-            if (sp.fire) dmg = pyroFire(dmg);
+            if (sp.fire) dmg = pyroFire(dmg, m);
             dmg = templarSmite(sp, dmg);
             // a blast can be ridden out: a foe that saves takes three quarters of it (a group rides it out
             // together, as it takes one roll of the dice; a heap of bones does not, nor a boss the blast cannot reach)
@@ -254,6 +254,8 @@ export function makePowers(K) {
             // fills the square, takes a whole group; a dart only the front one
             const tag = sp.fire ? 'burn' : 'fire';
             if (sp.pierce || sp.area) hitGroup(m, dmg, tag); else damageMonster(m, dmg, tag);
+            // Crusader's Smite: a Smite that fells its foe is not spent
+            if (sp.id === 'smite' && capped('crusade') && (m.hp <= 0 || m.collapsed || !lvl().monsters.includes(m))) { p.sp = Math.min(p.maxSp, p.sp + spellCost(sp)); log('The Smite was a verdict: its strength comes back to you.', 'good'); }
             // and the place answers it: water carries the lightning, freezes in the cold; moss and oil burn
             elements.strike(m, spellElement(sp), dmg, 'spell', struck);
           }
@@ -282,7 +284,7 @@ export function makePowers(K) {
   /** This hero's move, if their class has one. */
   const abilityOf = (p = P()) => ABILITIES[p.cls] || null;
   // (renown's Well Practised takes a tenth off, twice at most)
-  const abilityCool = a => (1 - (P().perkQuick || 0)) * (a.id === 'bash' && capped('rally') ? 0.5 : 1) * (a.id === 'smoke' && onPath('trickster') ? (capped('quick_smoke') ? 10000 : 16000) : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
+  const abilityCool = a => (1 - (P().perkQuick || 0)) * (a.id === 'bash' && capped('rally') ? 0.5 : 1) * (a.id === 'smoke' && onPath('trickster') ? 16000 : a.id === 'bash' && hasTalent('shield_slam') ? 10000 : a.id === 'snare' ? (hasTalent('long_snare') ? 12000 : 16000) - (onPath('warden') ? 3000 : 0) : a.cool);
   /** Seconds until the move is ready again, 0 when it is. */
   const abilityLeft = () => Math.max(0, Math.ceil(((P().abilityReady || 0) - K.G.t) / 1000));
   function useAbility() {
@@ -344,10 +346,10 @@ export function makePowers(K) {
     const p = P();
     if (!atRange || p.cls !== 'ranger' || !(p.eq.weapon && ITEMS[p.eq.weapon.t].aimed)) return 0;
     const far = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-    return steadyAim(far) + (onPath('sharpshooter') && far >= 3 ? (capped('deadeye') ? 5 : 3) : 0);
+    return steadyAim(far) + (onPath('sharpshooter') && far >= 3 ? 3 : 0);
   }
   /** A Warden's snared foe takes 2 more from every blow and arrow. */
-  const wardenHold = m => (onPath('warden') && m.snaredUntil > K.G.t ? (capped('iron_snare') ? 4 : 2) : 0);
+  const wardenHold = m => (onPath('warden') && m.snaredUntil > K.G.t ? 2 : 0);
   // how long after the Bash button the shove lands (a third of the renderer's BASH_MS)
   const BASH_LANDS = 150;
   function bash(a, p) {

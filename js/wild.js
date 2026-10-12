@@ -27,11 +27,11 @@ export function makeWild(K) {
   const duration = () => (K.onPath('shapeshifter') ? 45000 : SHAPE_MS) + (K.hasPower('wild') ? 10000 : 0);
   /** How thick the hide is: 3 and 1 a level, 8 more with Old Hide, and half again with Thick Hide. */
   function hideFor(p) {
-    const base = 3 + p.level + (K.capped('old_hide') ? 8 : 0) + (K.hasPower('wild') ? 4 : 0);
+    const base = 3 + p.level + (K.hasPower('wild') ? 4 : 0);
     return Math.round(base * (K.hasTalent('thick_hide') ? 1.5 : 1));
   }
   /** What the claws add, beyond the die: a Shapeshifter's, more for a Dire Bear. */
-  const clawBonus = () => (K.onPath('shapeshifter') ? (K.capped('dire_bear') ? 5 : 2) : 0);
+  const clawBonus = () => (K.onPath('shapeshifter') ? 2 : 0);
   /** The bear's claws, in the shape the swing reads a weapon in. */
   function claws() {
     return { name: 'claws', dmg: [CLAWS[0], CLAWS[1], clawBonus()], speed: Math.round(CLAW_MS * K.skillSpeed()), e: 0, px: '', twoHanded: false, range: 0, blunt: false, claws: true, base: 700 };

@@ -324,7 +324,7 @@ const Game = (() => {
   function critFloor() {
     const p = P();
     const base = p.cls !== 'thief' ? 20 : (p.level >= 9 ? 18 : 19);
-    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? (capped('shadows_edge') ? 2 : 1) : 0) - (onPath('sharpshooter') && weapon().range ? 1 : 0);
+    return base - (hasPower('keen', 'weapon') ? 1 : 0) - (hasTalent('lucky') ? 1 : 0) - (onPath('assassin') ? 1 : 0) - (onPath('sharpshooter') && weapon().range ? 1 : 0);
   }
   function skillDamage() { return Math.floor((P().level - 1) / 3); }
   function weapon() {
@@ -335,7 +335,7 @@ const Game = (() => {
     if (!p.eq.weapon) return { name: 'fists', dmg: [1, 2, 0], speed: Math.round(450 * spd), e: 0, px: '', range: 0, blunt: true };
     const b = ITEMS[p.eq.weapon.t];
     // a ranger's talents for the bow: a sixth quicker, and two squares further
-    const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1) * (b.aimed && capped('swift_draw') ? 0.8 : 1);
+    const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1);
     const reach = (b.range || 0) + (b.range && hasTalent('eagle_eye') ? 2 : 0);
     return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: reach, blunt: !!b.blunt };
   }
@@ -354,7 +354,7 @@ const Game = (() => {
     // a two-hander stows the second blade, and a blade moved to the main hand leaves it empty
     const dual = !!p.eq.offhand && p.eq.offhand !== it && !(b && b.twoHanded);
     const base = b ? b.speed : 450;
-    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1) * (b && b.aimed && capped('swift_draw') ? 0.8 : 1);
+    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
     const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
     const finesse = p.cls === 'thief' || p.cls === 'ranger';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
@@ -624,7 +624,7 @@ const Game = (() => {
     // thieves and rangers stay alive by not being where the blow lands (a ranger
     // without it won 59% on Normal and 33% on Hard, well below the others)
     if (p.cls === 'thief' || p.cls === 'ranger') ac += Math.floor((p.level + 2) / 3);
-    if (onPath('warden')) ac += capped('wild_bulwark') ? 3 : 1;
+    if (onPath('warden')) ac += 1;
     if (wild.shaped(p)) ac += wild.SHAPE_AC;
     if (hasTalent('barkskin')) ac += 1;
     // a Grovewarden's skin has taken the bark's grain, companion or none
@@ -1278,7 +1278,7 @@ const Game = (() => {
     const p = P();
     if (p.poison || hasPower('pure')) return null;
     const c = statCheck('con', VENOM_DC[kind] + Math.ceil(G.depth / 2), jewelBonus('evasion') + heroSaves());
-    if (!c.pass) p.poison = poisonFor();
+    if (!c.pass && !(capped('old_hide') && wild.shaped(p))) p.poison = poisonFor();   // (Old Hide: the bear is not poisoned)
     if (!quiet) log(c.pass ? `You shake off ${whose} venom.${c.note}` : `${cap(whose)} venom takes hold: you are poisoned!${c.note}`, c.pass ? 'good' : 'bad');
     return c;
   }

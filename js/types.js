@@ -103,6 +103,7 @@
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
  * @property {string} [path]  the class path taken at PATH_LEVEL (a PATHS id); absent until chosen, and in saves from before paths
+ * @property {number} [ward]  Wellspring: healing past full kept, spent before the next blows take life
  * @property {string} [talentHeld]  the first talent not chosen at the last talent offer, held over to the next (a TALENTS id)
  * @property {boolean} [pathEarly]  the path was taken at the divided stair, before PATH_LEVEL: that level's lesson is forgone, so every hero has the same number of choices
  * @property {{t: string, left: number}|null} [coating]  what the weapon is coated with (fire, silver, venom), and how many more blows that land it lasts
@@ -117,6 +118,8 @@
  * @typedef {Object} Monster
  * @property {boolean} [struck]  it has struck at the hero, hit or miss (Opening Blow is the blow before that)
  * @property {boolean} [opened]  the hero's Opening Blow at it is spent
+ * @property {number} [staggerUntil]  held until this time by a Shield Wall's catch or Ice Armour's rime, applied as its blow ends
+ * @property {boolean} [vanishedOn]  its first blow at a Trickster with Vanish has swung at the air
  * @property {number} uid @property {string} id
  * @property {number} x @property {number} y
  * @property {number} hp @property {number} maxHp

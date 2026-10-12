@@ -357,7 +357,7 @@ const PATHS = {
       'A warned trick that lands does a quarter less to you.',
       'Your Bash sets a foe back most of a second longer.',
     ], capstones: [
-      { id: 'unbreakable', name: 'Unbreakable', flavour: 'The shield is not held any more. It is where you are.', effects: ['With a shield up, one ordinary blow in four that lands is caught on it for half, not one in eight.'] },
+      { id: 'unbreakable', name: 'Shield Wall', flavour: 'The shield is not held any more. It is where you are.', effects: ['A blow caught on your shield staggers its maker: it draws its next blow back half again as long.'] },
       { id: 'rally', name: 'Rallying Bash', flavour: 'Every blow you turn aside puts heart back into you.', effects: ['Your Bash comes back twice as fast, and each one that lands heals you 1d6.'] },
     ] },
     { id: 'berserker', name: 'Berserker', flavour: 'Every wound is fuel. You fight open, and you fight hard.', effects: [
@@ -376,15 +376,15 @@ const PATHS = {
       'Bless lasts twice as long (four times with Zeal).',
       'Holy Smite deals a tenth more.',
     ], capstones: [
-      { id: 'dawnbringer', name: 'Dawnbringer', flavour: 'Where you walk, the dead remember they are dead.', effects: ['Your blows deal +1d6 to the undead, not +1d3.'] },
-      { id: 'crusade', name: 'Crusader\'s Smite', flavour: 'The Smite is not a prayer any more. It is a verdict.', effects: ['Holy Smite deals a quarter more, not a tenth, and costs a spell point less.'] },
+      { id: 'dawnbringer', name: 'Dawnbringer', flavour: 'Where you walk, the dead remember they are dead.', effects: ['Your blows at the undead cannot miss.'] },
+      { id: 'crusade', name: 'Crusader\'s Smite', flavour: 'The Smite is not a prayer any more. It is a verdict.', effects: ['A Holy Smite that fells its foe is not spent: its spell points come back to you.'] },
     ] },
     { id: 'healer', name: 'Healer', flavour: 'You came down to bring people back up. That includes you.', effects: [
       'Your healing spells heal a quarter more.',
       'While Protection is upon you, you heal a hit point every four seconds, even mid-fight.',
       '+1 spell point for every three hero levels.',
     ], capstones: [
-      { id: 'wellspring', name: 'Wellspring', flavour: 'The well does not run dry. You have stopped asking it to.', effects: ['Your healing spells cost a spell point less.'] },
+      { id: 'wellspring', name: 'Wellspring', flavour: 'The well does not run dry. You have stopped asking it to.', effects: ['Healing past full is not lost: it is kept as a ward, up to half your life, and the next blows at you spend it first.'] },
       { id: 'miracle', name: 'Miracle', flavour: 'Something answers when you fall, and it has always answered.', effects: ['Once on each floor, a blow that would kill you heals you to half your life instead.'] },
     ] },
   ],
@@ -395,7 +395,7 @@ const PATHS = {
       'Your fire leaves what it hits burning, 1d4 a second for three seconds (six with Kindling).',
       'You have given up the cold for the fire: Lightning Bolt costs a spell point more, Cone of Cold two.',
     ], capstones: [
-      { id: 'inferno', name: 'Inferno', flavour: 'It was never enough to burn. It has to consume.', effects: ['Your fire spells and the Scroll of Fire deal a third more, not a fifth.'] },
+      { id: 'inferno', name: 'Inferno', flavour: 'It was never enough to burn. It has to consume.', effects: ['Your fire deals double to a foe already burning.'] },
       { id: 'wildfire', name: 'Wildfire', flavour: 'What you set alight stays alight.', effects: ['What your fire leaves burning takes 1d6 a second, not 1d4, for twice as long.'] },
     ] },
     { id: 'frostweaver', name: 'Frostweaver', flavour: 'Cold is patience made into a weapon. Let them come to you slowly.', effects: [
@@ -403,8 +403,8 @@ const PATHS = {
       'Shield gives +5 armour class, not +4, and lasts a minute and a half.',
       'Lightning Bolt costs 4 spell points, not 5, and Cone of Cold 8, not 10.',
     ], capstones: [
-      { id: 'deep_winter', name: 'Deep Winter', flavour: 'The cold settles in the joints, and stays.', effects: ['Your lightning and cold hold back what they hit twice as long.'] },
-      { id: 'ice_armour', name: 'Ice Armour', flavour: 'The shield grows thick with rime, and does not melt.', effects: ['Shield gives +7 armour class, not +5.'] },
+      { id: 'deep_winter', name: 'Deep Winter', flavour: 'The cold settles in the joints, and stays.', effects: ['Anything your cold holds back is held fast: a blow at it cannot miss.'] },
+      { id: 'ice_armour', name: 'Ice Armour', flavour: 'The shield grows thick with rime, and does not melt.', effects: ['While Shield is upon you, a blow that lands on you chills its maker, holding it back as your cold does.'] },
     ] },
   ],
   thief: [
@@ -415,7 +415,7 @@ const PATHS = {
       'Your Smoke hangs half as long again.',
     ], capstones: [
       { id: 'death_mark', name: 'Death Mark', flavour: 'They were dead the moment you chose them.', effects: ['A strike from the shadows deals one more time its damage: four times (five with Assassinate).'] },
-      { id: 'shadows_edge', name: 'Shadow\'s Edge', flavour: 'You no longer look for the gap. You make it.', effects: ['Your critical hits land two numbers sooner on the die, not one.'] },
+      { id: 'shadows_edge', name: 'Shadow\'s Edge', flavour: 'You no longer look for the gap. You make it.', effects: ['A critical hit on a foe at a third of its life or less kills it outright (not the Heart\'s keeper: its fight has acts).'] },
     ] },
     { id: 'trickster', name: 'Trickster', flavour: 'Never where the blow lands, and always leaving with more than you brought.', effects: [
       'One ordinary blow in eight that would land, you slip aside from.',
@@ -423,8 +423,8 @@ const PATHS = {
       '+4 to spot and to dodge a trap, and gold and gems you find are worth a quarter more.',
       'Your Smoke comes back in 16 seconds, not 24.',
     ], capstones: [
-      { id: 'vanish', name: 'Vanish', flavour: 'Where you were is a trick of the light.', effects: ['One ordinary blow in five that would land, you slip aside from, not one in eight.'] },
-      { id: 'quick_smoke', name: 'Quick Smoke', flavour: 'There is always another pellet, somehow.', effects: ['Your Smoke comes back in 10 seconds, not 16.'] },
+      { id: 'vanish', name: 'Vanish', flavour: 'Where you were is a trick of the light.', effects: ['The first blow at you from each foe swings at the air.'] },
+      { id: 'quick_smoke', name: 'Quick Smoke', flavour: 'There is always another pellet, somehow.', effects: ['A foe that falls while your Smoke hangs gives it back to you.'] },
     ] },
   ],
   ranger: [
@@ -434,8 +434,8 @@ const PATHS = {
       'Your first arrow at a foe that has not seen you never misses.',
       'Snare reaches two squares further, and holds a second and a half longer.',
     ], capstones: [
-      { id: 'deadeye', name: 'Deadeye', flavour: 'Farther is easier. You have stopped explaining it.', effects: ['An arrow at a foe three squares off or more deals 5 more damage, not 3.'] },
-      { id: 'swift_draw', name: 'Swift Draw', flavour: 'Nock, draw, loose: one movement, and then another.', effects: ['A bow or a sling draws a fifth faster.'] },
+      { id: 'deadeye', name: 'Deadeye', flavour: 'Farther is easier. You have stopped explaining it.', effects: ['An arrow at a foe three squares off or more cannot miss.'] },
+      { id: 'swift_draw', name: 'Swift Draw', flavour: 'Nock, draw, loose: one movement, and then another.', effects: ['An arrow that fells its foe nocks the next at once: your next shot comes without delay.'] },
     ] },
     { id: 'warden', name: 'Warden', flavour: 'Holds the line where the dark comes through, and lets nothing past.', effects: [
       'Your armour class is 1 better.',
@@ -443,8 +443,8 @@ const PATHS = {
       'A snared foe takes 2 more damage from every blow and arrow of yours.',
       'Snare comes back three seconds sooner.',
     ], capstones: [
-      { id: 'iron_snare', name: 'Iron Snare', flavour: 'What you catch does not get free to fight you whole.', effects: ['A snared foe takes 4 more damage from every blow and arrow of yours, not 2.'] },
-      { id: 'wild_bulwark', name: 'Wild Bulwark', flavour: 'The line holds because you are the line.', effects: ['Your armour class is 3 better, not 1.'] },
+      { id: 'iron_snare', name: 'Iron Snare', flavour: 'What you catch does not get free to fight you whole.', effects: ['No blow or arrow of yours at a snared foe misses.'] },
+      { id: 'wild_bulwark', name: 'Wild Bulwark', flavour: 'The line holds because you are the line.', effects: ['A snared foe\'s blows at you swing at the air.'] },
     ] },
   ],
   druid: [
@@ -453,8 +453,8 @@ const PATHS = {
       'Your claws deal 2 more damage.',
       'Your other spells cost a spell point more.',
     ], capstones: [
-      { id: 'dire_bear', name: 'Dire Bear', flavour: 'The thing you become has forgotten it was ever small.', effects: ['Your claws deal 5 more damage, not 2.'] },
-      { id: 'old_hide', name: 'Old Hide', flavour: 'Scars on scars. Nothing gets through the first time.', effects: ['Your bear\'s hide is 8 thicker.'] },
+      { id: 'dire_bear', name: 'Dire Bear', flavour: 'The thing you become has forgotten it was ever small.', effects: ['A bear\'s blow that fells a foe throws the one behind it down, a moment from getting up.'] },
+      { id: 'old_hide', name: 'Old Hide', flavour: 'Scars on scars. Nothing gets through the first time.', effects: ['In the bear\'s shape, poison and the grave\'s cold do not touch you.'] },
     ] },
     { id: 'grovewarden', name: 'Grovewarden', flavour: 'The wood keeps its own, and so do you.', effects: [
       'Your armour class is 2 better.',
@@ -463,7 +463,7 @@ const PATHS = {
       'Thorn Lash holds back what it strikes a moment.',
       'Entangle holds a second and a half longer.',
     ], capstones: [
-      { id: 'heartwood', name: 'Heartwood', flavour: 'Green things grow where you have bled.', effects: ['Mending Moss costs a spell point less.'] },
+      { id: 'heartwood', name: 'Heartwood', flavour: 'Green things grow where you have bled.', effects: ['Mending Moss draws out poison as it mends.'] },
       { id: 'old_growth', name: 'Old Growth', flavour: 'The roots were here first. They have been waiting.', effects: ['Entangle holds every foe in its reach down the corridor, not only the first.'] },
     ] },
   ],

@@ -139,23 +139,20 @@ await test('at level 7 a hero on a path is offered its two capstones, in place o
   return out.length ? out.join('; ') : true;
 });
 
-await test('capstones: each makes its path\'s own gift stronger', async () => {
+await test('capstones: the shaped ones stand, and the rest change no number of the path (each is one rule, checked in rules-capstones.js)', async () => {
   const out = [];
   const hero = async (cls, path, cap) => { const ctx = await start(cls, 'cap-' + (cap || path)); walk(ctx, path); ctx.Game.player().capstone = cap; return ctx; };
-  // the spell costs: a Crusader's Smite and a Healer's Wellspring are a point cheaper
+  // a Crusader's Smite and a Healer's Wellspring cost what the path's own do
   for (const [path, cap, sid] of [['templar', 'crusade', 'smite'], ['healer', 'wellspring', 'cure_light']]) {
     const a = await hero('cleric', path, undefined), b = await hero('cleric', path, cap);
     const sp = a.SPELLS.cleric.find(s => s.id === sid);
-    if (b.Game.spellCost(sp) !== a.Game.spellCost(sp) - 1) out.push(`${cap}: ${sid} costs ${a.Game.spellCost(sp)} -> ${b.Game.spellCost(sp)}`);
+    if (b.Game.spellCost(sp) !== a.Game.spellCost(sp)) out.push(`${cap}: ${sid} costs ${a.Game.spellCost(sp)} -> ${b.Game.spellCost(sp)}`);
   }
-  // Swift Draw: a bow looses a fifth faster, a sword no faster
+  // Swift Draw quickens no bow of itself
   {
     const a = await hero('ranger', 'sharpshooter', undefined), b = await hero('ranger', 'sharpshooter', 'swift_draw');
     for (const c of [a, b]) { const p = c.Game.player(); p.eq.weapon = { t: 'shortbow', q: 1, e: 0 }; p.eq.offhand = null; }
-    const r = b.Game.blowRate(b.Game.player().eq.weapon) / a.Game.blowRate(a.Game.player().eq.weapon);
-    if (Math.abs(r - 1.25) > 0.01) out.push(`swift_draw: a bow's rate grew by ${r.toFixed(3)}`);
-    for (const c of [a, b]) c.Game.player().eq.weapon = { t: 'longsword', q: 1, e: 0 };
-    if (b.Game.blowRate(b.Game.player().eq.weapon) !== a.Game.blowRate(a.Game.player().eq.weapon)) out.push('swift_draw quickened a sword');
+    if (b.Game.blowRate(b.Game.player().eq.weapon) !== a.Game.blowRate(a.Game.player().eq.weapon)) out.push('swift_draw quickened the bow of itself');
   }
   // Bloodlust: at half life the rage is +4, not +3
   {
@@ -165,15 +162,15 @@ await test('capstones: each makes its path\'s own gift stronger', async () => {
     for (const c of [a, b]) c.Game.player().hp = 1;
     if (a.Game.berserkerRage() !== 4 || b.Game.berserkerRage() !== 6) out.push(`bloodlust: rage near death ${a.Game.berserkerRage()} -> ${b.Game.berserkerRage()}`);
   }
-  // Shadow's Edge, Death Mark, Wild Bulwark: a number each
+  // Death Mark is a number still (the strike's multiple); Shadow's Edge and Wild Bulwark are not
   {
     const a = await hero('thief', 'assassin', undefined), b = await hero('thief', 'assassin', 'shadows_edge'), c = await hero('thief', 'assassin', 'death_mark');
-    if (b.Game.critFloor() !== a.Game.critFloor() - 1) out.push(`shadows_edge: crits from ${a.Game.critFloor()} -> ${b.Game.critFloor()}`);
+    if (b.Game.critFloor() !== a.Game.critFloor()) out.push(`shadows_edge: crits from ${a.Game.critFloor()} -> ${b.Game.critFloor()}`);
     if (c.Game.sneakMult() !== a.Game.sneakMult() + 1) out.push(`death_mark: strike ${a.Game.sneakMult()} -> ${c.Game.sneakMult()}`);
     const w = await hero('ranger', 'warden', undefined), v = await hero('ranger', 'warden', 'wild_bulwark');
-    if (v.Game.playerAC() !== w.Game.playerAC() + 2) out.push(`wild_bulwark: armour class ${w.Game.playerAC()} -> ${v.Game.playerAC()}`);
+    if (v.Game.playerAC() !== w.Game.playerAC()) out.push(`wild_bulwark: armour class ${w.Game.playerAC()} -> ${v.Game.playerAC()}`);
   }
-  // Rallying Bash comes back in half the time and mends; Quick Smoke in 10 seconds
+  // Rallying Bash comes back in half the time and mends; Quick Smoke comes back in the path's 16 seconds
   {
     const left = async (cls, path, cap) => {
       const ctx = await hero(cls, path, cap);
@@ -193,7 +190,7 @@ await test('capstones: each makes its path\'s own gift stronger', async () => {
     }
     const s = await left('thief', 'trickster', undefined), q = await left('thief', 'trickster', 'quick_smoke');
     if (s.err || q.err) out.push(s.err || q.err);
-    else if (s.left !== 16 || q.left !== 10) out.push(`quick_smoke: smoke back in ${s.left}s -> ${q.left}s`);
+    else if (s.left !== 16 || q.left !== 16) out.push(`quick_smoke: smoke back in ${s.left}s -> ${q.left}s`);
   }
   return out.length ? out.join('; ') : true;
 });

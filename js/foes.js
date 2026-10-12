@@ -144,6 +144,10 @@ export function makeFoes(K) {
     }
     // a Trickster slips an ordinary blow now and then; a warned trick is not so easily slipped
     if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
+    // Vanish: the first blow from each foe finds the hero gone (the mirror of Opening Blow)
+    if (!heavy && !m.vanishedOn && K.capped('vanish')) { m.vanishedOn = true; K.log(`The ${mb.name} strikes at where you were, and you are not there.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
+    // Wild Bulwark: a snared foe's blows at the Warden swing at the air
+    if (!heavy && m.snaredUntil > K.G.t && K.capped('wild_bulwark')) { K.log(`The ${mb.name} tears at the cord and its blow swings wide.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
     // a sellsword at your side may step into an ordinary blow and take it
     if (!heavy && K.companionGuards(m, mb)) return false;
     // rounded, since a blow and a half (the tail's sweep) would otherwise leave half a point of hurt
@@ -158,7 +162,7 @@ export function makeFoes(K) {
     if (firm) dmg = Math.max(1, Math.ceil(dmg / 2));
     // a Knight takes a trick on set feet, and an ordinary blow now and then on the shield
     const was = dmg;
-    dmg = heavy ? K.knightSteadfast(dmg) : K.knightGuard(dmg);
+    dmg = heavy ? K.knightSteadfast(dmg) : K.knightGuard(dmg, m);
     // the Bastion catches a blow on the shield whole
     if (!heavy && dmg < was && K.legends.caught(m)) return false;
     const knight = dmg < was ? (heavy ? ' (your footing takes a quarter off)' : ' (caught on your shield: half)') : '';
@@ -660,7 +664,8 @@ export function makeFoes(K) {
           // (a hardy hero, saving by their constitution, is held half as long)
           const c = K.trickSave('con', 'chill'), hold = CHILL_HOLD / (c.pass ? 2 : 1);
           K.hurtPlayer(n, `The grave-cold closes round your feet, and you are frozen fast! (${n})${warm ? ` ${K.warmthFrom(true)} keeps out the worst of it.` : ''}${c.pass ? ' You stamp, and the ice is already cracking.' : ''}${c.note}`, m, 'a wraith\'s grave-cold');
-          if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + hold)) { p.held = K.G.t + hold; p.heldBy = 'ice'; }
+          // (Old Hide: the bear's feet are not held by it)
+          if (K.G.status === 'playing' && !((p.held || 0) > K.G.t + hold) && !(K.capped('old_hide') && K.shaped())) { p.held = K.G.t + hold; p.heldBy = 'ice'; }
           K.G.blowGate = K.G.t + K.BLOW_GAP;
         } else { K.log(`Frost glazes the stones where you stood.`, 'good'); K.learn(m.id, 'answer'); }
         m.moveReady = K.G.t + 7000;
@@ -1712,7 +1717,7 @@ export function makeFoes(K) {
       // every member's blow, the same blows a minute as swinging in turn
       if (w.kind === 'melee' && K.packSize(m) > 1) {
         m.volley = { kind: 'melee', left: K.packSize(m) - 1, next: w.at + cycle };
-        m.nextAct = G.t + K.BLOW_GAP;
+        m.nextAct = Math.max(G.t + K.BLOW_GAP, m.staggerUntil || 0); m.staggerUntil = 0;
         return;
       }
     } else {
@@ -1724,7 +1729,8 @@ export function makeFoes(K) {
       m.lungeAt = K.realNow;               // it still swings, at nothing
       if (w.kind === 'melee') { K.riposte(); K.tricksterOpening(m); }
     }
-    m.nextAct = G.t + Math.max(120, cycle - (w.until - w.at));
+    // (a Knight's Shield Wall or a Frostweaver's Ice Armour may have staggered it as its blow landed: it is held that long)
+    m.nextAct = Math.max(G.t + Math.max(120, cycle - (w.until - w.at)), m.staggerUntil || 0); m.staggerUntil = 0;
   }
   /** The hero's hound is beside it (on this floor, standing). */
   const besideHound = m => K.DIRS.some(([dx, dy]) => K.companionAt(m.x + dx, m.y + dy));

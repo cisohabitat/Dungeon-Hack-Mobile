@@ -161,12 +161,13 @@ module.exports = async function druidChecks(h) {
     if (n.secs !== 40 || s.secs !== 45 || g.secs !== 40) out.push(`the bear lasts ${n.secs}s, a Shapeshifter's ${s.secs}s, a Grovewarden's ${g.secs}s`);
     if (s.hide !== n.hide || s.claws !== n.claws + 2) out.push(`a Shapeshifter's hide ${n.hide}->${s.hide}, claws +${s.claws}`);
     const dire = shaped(await hero('shapeshifter', 'dire_bear')), old = shaped(await hero('shapeshifter', 'old_hide'));
-    if (dire.claws !== n.claws + 5) out.push(`Dire Bear: claws +${dire.claws}`);
-    if (old.hide !== n.hide + 8) out.push(`Old Hide: hide ${n.hide}->${old.hide}`);
+    // (Dire Bear and Old Hide are rules now, checked in rules-capstones.js: the numbers are the path's)
+    if (dire.claws !== n.claws + 2) out.push(`Dire Bear: claws +${dire.claws}`);
+    if (old.hide !== n.hide) out.push(`Old Hide: hide ${n.hide}->${old.hide}`);
     // a Grovewarden is harder to hit, bear or not
     if (gw.Game.playerAC() !== none.Game.playerAC() + 2) out.push(`a Grovewarden's armour class is ${gw.Game.playerAC()}, a druid's with no path ${none.Game.playerAC()}`);
     const hw = await hero('grovewarden', 'heartwood');
-    if (cost(hw, 'mending_moss') !== cost(gw, 'mending_moss') - 1) out.push(`Heartwood: Mending Moss ${cost(gw, 'mending_moss')}->${cost(hw, 'mending_moss')}`);
+    if (cost(hw, 'mending_moss') !== cost(gw, 'mending_moss')) out.push(`Heartwood: Mending Moss ${cost(gw, 'mending_moss')}->${cost(hw, 'mending_moss')} (it cures now, it is not cheaper)`);
     return out.length ? out.join('; ') : true;
   });
 

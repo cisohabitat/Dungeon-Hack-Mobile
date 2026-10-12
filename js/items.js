@@ -403,7 +403,7 @@ export function makeItems(K) {
             try {
               for (const m of targets) {
                 if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
-                hitGroup(m, elemental(m, pyroFire(d(4, 6)), 'fire'), 'burn');
+                hitGroup(m, elemental(m, pyroFire(d(4, 6), m), 'fire'), 'burn');
                 elements.strike(m, 'fire', 0, 'spell');
               }
             } finally { K.castingName = ''; }
