@@ -258,7 +258,7 @@ await test('a named champion slain: its line and fanfare, its xp, a relic from t
   const { Game, MONSTERS, RELICS } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
   p.perkHit = 60;
   const R = G.relics, next = R.shop[R.offered], offered = R.offered;
-  if (!next) return 'this seed keeps no relic for the traders';
+  if (!next || R.shop.length - R.offered < 2) return 'this seed keeps fewer than two relics for the traders (one waits for the floor before last)';
   seedDice(ctx, 'named-spoils');
   const m = beside(ctx, 'grisk', { hp: 1, maxHp: 60, spoke: true, nextAct: 1e12 });
   const xp = p.xp, mark = markLog(G);

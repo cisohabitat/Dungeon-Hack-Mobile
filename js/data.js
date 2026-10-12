@@ -284,9 +284,9 @@ const LADDER = [
   null,
   { rule: 'Traders ask half again for everything they sell and do.' },
   { rule: 'One rest a floor, not two.' },
-  { rule: 'Champions and the last foe have a quarter more life.' },
-  { rule: 'Healing draughts heal a third less.' },
-  { rule: 'Every creature strikes a step surer.' },
+  { rule: 'A rest wakes the floor.' },
+  { rule: 'A draught drunk beside a foe gives it a blow.' },
+  { rule: 'No lamp makes you whole.' },
 ];
 const RUNG_SCORE = 0.1;
 // The fork: a third of the way down the stair divides, and the floors

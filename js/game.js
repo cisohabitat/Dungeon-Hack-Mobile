@@ -664,10 +664,8 @@ const Game = (() => {
     const wade = !s.boss && G && G.levels && lvl() && lvl().twist === 'flooded';
     // and for one sworn to the Hunted Vow, everything is a tenth quicker
     const hunted = vowed('hunted') ? 0.9 : 1;
-    // and on the ladder's fifth rung, a step surer (not harder)
-    const sure = climbed(5) ? 1 : 0;
-    if (!edge && !wade && hunted === 1 && !sure) return s;
-    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), ...(sure ? { hit: s.hit + edge + sure } : {}), speed: Math.round(s.speed * (wade ? FLOOD_SLOW : 1) * hunted) };
+    if (!edge && !wade && hunted === 1) return s;
+    return { ...s, ...(edge ? { hit: s.hit + edge, dmg: [s.dmg[0], s.dmg[1], s.dmg[2] + edge] } : {}), speed: Math.round(s.speed * (wade ? FLOOD_SLOW : 1) * hunted) };
   }
   function mstatBase(m) {
     const b = MONSTERS[m.id];
@@ -1483,7 +1481,7 @@ const Game = (() => {
     get queuedMove() { return queuedMove; }, set queuedMove(v) { queuedMove = v; }, quick: () => isQuick(), get QUICK() { return QUICK; },
     get rangerAim() { return rangerAim; }, get READ_MS() { return READ_MS; }, get realNow() { return realNow; }, set realNow(v) { realNow = v; },
     get recordHero() { return recordHero; }, get refreshSp() { return refreshSp; }, get relativeBearing() { return relativeBearing; },
-    get relicItem() { return relicItem; }, get relicOf() { return relicOf; }, get REMAINS_MAX() { return REMAINS_MAX; },
+    get relicItem() { return relicItem; }, get relicOf() { return relicOf; }, get shelfHolds() { return shelfHolds; }, get REMAINS_MAX() { return REMAINS_MAX; },
     get REMAINS_MS() { return REMAINS_MS; }, get removeOne() { return removeOne; }, renownAt: n => renownAt(n),
     resetDist: () => { distFieldAt = -1e9; }, get restShare() { return restShare; }, get revealAll() { return revealAll; },
     rime: (x, y) => elements.rime(x, y), get riposte() { return riposte; }, get RISE_MS() { return RISE_MS; }, get rollNote() { return rollNote; },
@@ -1707,7 +1705,7 @@ const Game = (() => {
   const { BITS_MAX, GORE, GORE_OF, caskLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil } = makeScenes(K);
 
   // ---------- curses: see curses.js ----------
-  const { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, tellQuality } = makeCurses(K);
+  const { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, shelfHolds, tellQuality } = makeCurses(K);
 
   // ---------- fallen: see fallen.js ----------
   const { bonesArrive, heroTitle, killerPhrase, newRunStamp, placeFallen, runKey, runKeyOf, shadeFalls, shadeStats, shadeWakes } = makeFallen(K);

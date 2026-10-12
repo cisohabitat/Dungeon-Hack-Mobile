@@ -105,6 +105,7 @@ export function makeBounty(K) {
     const G = K.G, b = G.bounty;
     if (!b || b.done) return;
     G.bounty = null;
+    G.stats.bountiesLost = (G.stats.bountiesLost || 0) + 1;
     K.log(`You left floor ${b.depth} with the trader's job undone. Word travels in the dark: there is no pay for it now.`, 'bad');
     K.emit('stats');
   }

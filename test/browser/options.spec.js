@@ -437,8 +437,9 @@ test.describe('sharing a run', () => {
     });
     await startGame(page, { seed: 'share-sheet', cls: 'Fighter' });
     await clearBoons(page);
-    // sworn as a Hard winner could swear it: the vow goes in the line too
-    await page.evaluate(() => { Game.state().opts.vows = ['iron']; });
+    // sworn as a Hard winner could swear it: the vow goes in the line too, and the rung of the
+    // ladder in words (the rule it adds), so the line says what the run was
+    await page.evaluate(() => { Game.state().opts.vows = ['iron']; Game.state().opts.difficulty = 'hard'; Game.state().opts.rung = 3; });
     await faceOpenGround(page, 2);
     await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
     await page.evaluate(() => { Game.player().hp = 1; });
@@ -449,7 +450,7 @@ test.describe('sharing a run', () => {
     await page.click('#end-share');
     await expect(page.locator('#end-share')).toHaveText('Shared');
     const sent = await page.evaluate(() => window.__sheet[1]);
-    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal, Iron Vow\): Fighter, fell on floor 1 in \d+m \d\ds, /);
+    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Hard\+3 \(a rest wakes the floor\), Iron Vow\): Fighter, fell on floor 1 in \d+m \d\ds, /);
     await expect(page.locator('#end-share-line')).toHaveText(sent);
     expect(errors).toEqual([]);
   });

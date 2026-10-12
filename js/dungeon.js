@@ -991,8 +991,10 @@ const Dungeon = (() => {
 
     // ---- a merchant, so the gold you haul up is worth something ----
     // two floors of every delve always have one, so the gold hauled up has somewhere to go:
-    // two fifths of the way down, and the floor before the last
-    const sureTrader = depth === Math.round((opts.levels || 8) * 0.4) || depth === (opts.levels || 8) - 1;
+    // the second floor, and the floor before the last (and on a longer delve a third, two
+    // fifths of the way down, so the middle is not left to chance)
+    const levels = opts.levels || 8;
+    const sureTrader = depth === 2 || depth === levels - 1 || (levels > 8 && depth === Math.round(levels * 0.4));
     if (!isFinal && depth > 1 && (rng.chance(0.45) || sureTrader || twist === 'market')) {
       const cands = plain.filter(r => r !== startRoom);
       for (const r of rng.shuffle(cands.slice())) {

@@ -126,6 +126,14 @@ const ENCOUNTERS = {
       { label: 'Go on without it', outcome: { text: 'You leave the lamp to whoever still tends it.', effects: [] } },
     ],
   },
+  // (the same lamp on the ladder's fifth rung, where no lamp makes you whole: met in its place, never planned)
+  vigil_dark: {
+    title: 'A Vigil Lamp, Out', sprite: 'shrine', depth: [99, 99], final: true, rung: 5,
+    text: 'Someone kept a lamp burning here once, at the edge of the last halls. It is cold now, and the bowl beneath it holds dust and a few coins no one came back for. Nothing here answers.',
+    choices: [
+      { label: 'Go on', outcome: { text: 'You leave the dark lamp where it stands.', effects: [] } },
+    ],
+  },
 
   runes: {
     title: 'Words Cut in the Wall', sprite: 'runestone', depth: [2, 99],

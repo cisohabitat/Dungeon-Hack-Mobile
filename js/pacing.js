@@ -98,11 +98,18 @@ export function makePacing(K) {
     K.G.t += found ? 20000 : 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = K.G.t + 300; }
     const woke = found && ambush();
+    // on the ladder's third rung a rest is heard: everything left on the floor wakes and comes
+    // looking, from wherever it lies (foes.js keeps a hunting creature on the trail at any distance)
+    // (not what lies collapsed, lurks sunk, or sits shut as a barrel: those keep their own rules)
+    const stirs = m => !m.collapsed && !m.sunk && !m.disguised;
+    const roused = climbed(3) && L.monsters.some(m => stirs(m) && (!m.awake || K.distField[m.y * L.w + m.x] > 12));
+    if (climbed(3)) for (const m of L.monsters) if (stirs(m)) { m.awake = true; m.hunting = true; m.groping = false; }
     // (a hero already whole, resting for the hound's sake, gained nothing to count)
     const gained = hp ? ` (+${hp})` : '';
     if (woke) log(`You wake to something moving in the dark!${gained}`, 'bad');
     else if (share >= 1) log('You rest for a while and wake refreshed.', 'good');
     else log(`You rest, but sleep comes thinly here${gained}. The dark is stirring.`, 'info');
+    if (roused) log('Your sleep was heard. The floor stirs, and comes looking.', 'bad');
     Sound.play(woke ? 'ambush' : 'rest');
     emit('stats');
     return true;
@@ -311,17 +318,14 @@ export function makePacing(K) {
     }
   }
   const TWIST_KIN = { smouldering: { id: 'emberling', share: 0.3, dice: 'emberlings' }, overgrown: { id: 'puffcap', share: 0.35, dice: 'puffcaps' }, flooded: { id: 'drowned', share: 0.3, dice: 'drowned' }, dark: { id: 'eyeless', share: 0.25, dice: 'eyeless' } };
-  const LORD_HP = 1.25;
   function hardenLevel(L, depth) {
     const k = diff();
     for (const m of L.monsters) {
       // the first floor is where a hero learns: half the extra life there
       // the lich grows with the hero who comes for it: a tenth more life for every level past sixth
       // and the Pale One's bargain comes due on it: a third more
-      // (and on the ladder's third rung, a champion and the last foe a quarter more again)
-      const lord = (MONSTERS[m.id].boss || MONSTERS[m.id].named) && climbed(3) ? LORD_HP : 1;
       const f = (MONSTERS[m.id].boss ? k.lich * (1 + 0.1 * Math.max(0, P().level - 6)) * (bargained() ? 1.3 : 1) * (isQuick() ? QUICK.keeperHp : 1) : (depth <= 1 ? 1 + (k.hp - 1) / 2 : k.hp) * longSturdier(depth) * shortNormal());
-      m.maxHp = Math.max(1, Math.round(m.maxHp * f * lord)); m.hp = m.maxHp;
+      m.maxHp = Math.max(1, Math.round(m.maxHp * f)); m.hp = m.maxHp;
       // a quick delve's keeper is a lesser lich, for a hero of a few levels: less life, and blows less sure and less heavy
       if (isQuick() && MONSTERS[m.id].boss) m.edge = QUICK.keeperEdge;
       for (const b of m.pack || []) { b.maxHp = Math.max(1, Math.round(b.maxHp * f)); b.hp = b.maxHp; }

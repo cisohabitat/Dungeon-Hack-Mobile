@@ -17,7 +17,8 @@ export function makeEncounters(K) {
   /** The encounter open just now, if one is: its prop, its choices, and what came of the one made. */
   let encounter = null;
   function openEncounter(n) {
-    const def = ENCOUNTERS[n.id];
+    // (on the ladder's fifth rung no lamp makes you whole: the vigil lamp by the last halls is out)
+    const def = ENCOUNTERS[n.id === 'vigil' && K.climbed(5) ? 'vigil_dark' : n.id];
     if (!def) return false;
     encounter = { npc: n, def, result: null };
     Sound.play('door');

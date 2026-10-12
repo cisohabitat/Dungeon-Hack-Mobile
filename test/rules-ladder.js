@@ -2,7 +2,7 @@
 // rule, kept by every rung above it; how a class opens each rung; and what a
 // rung is worth. Run from rules.js with its helpers lent in.
 module.exports = async function ladderChecks(h) {
-  const { test, newContext, winHere, OPTS, evenStats } = h;
+  const { test, newContext, winHere, OPTS, evenStats, beside, markLog, linesSince } = h;
 
   /** A run on Hard at this rung (0 for Hard itself), in a fresh world. */
   const onRung = async (rung, seed, cls = 'fighter', opts = {}) => {
@@ -59,43 +59,112 @@ module.exports = async function ladderChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
-  await test('Hard+5: every creature a step surer, not harder', async () => {
-    const a = await onRung(4, 'rung-edge'), b = await onRung(5, 'rung-edge');
-    for (const c of [a, b]) c.Game.testFloor(4);
-    const m = { id: 'orc', x: 1, y: 1, hp: 9, maxHp: 9 };
-    const x = a.Game.mstat(m), y = b.Game.mstat(m);
-    return (y.hit === x.hit + 1 && y.dmg[2] === x.dmg[2]) || `an orc: hit ${x.hit} → ${y.hit}, damage +${x.dmg[2]} → +${y.dmg[2]}`;
-  });
-
-  await test('Hard+3: the champions and the last foe a quarter sturdier', async () => {
+  await test('Hard+3: a rest wakes the floor, and what it wakes hunts from any distance', async () => {
     const out = [];
-    const floor = async (rung, d) => { const c = await onRung(rung, 'rung-lord'); c.Game.player().level = 6; c.Dice.s = new c.Rng('rung-lord-dice').s; c.Game.testFloor(d); return c.Game.level().monsters; };
-    const a = await floor(2, 4), b = await floor(3, 4);
-    const lich = ms => ms.find(m => m.id === 'lich');
-    if (!lich(a) || !lich(b)) out.push('no lich on the last floor');
-    else if (Math.abs(lich(b).maxHp - lich(a).maxHp * 1.25) > 2) out.push(`the lich: ${lich(a).maxHp} on +2, ${lich(b).maxHp} on +3`);
-    // a named champion, wherever this delve keeps one
-    let seen = false;
-    for (let d = 2; d <= 3 && !seen; d++) {
-      const x = await floor(2, d), y = await floor(3, d);
-      const ch = ms => ms.find(m => m.named || /^(grisk|vessra|ushgar|morrow|orla|gorrum|skarrow|vaelith|hissra|durgrim)$/.test(m.id));
-      if (ch(x) && ch(y)) { seen = true; if (Math.abs(ch(y).maxHp - ch(x).maxHp * 1.25) > 2) out.push(`${ch(x).id}: ${ch(x).maxHp} on +2, ${ch(y).maxHp} on +3`); }
-    }
-    return out.length ? out.join('; ') : (seen || 'no champion on floors 2 and 3 of this delve: the lich alone was checked') && true;
+    const rested = async rung => {
+      const ctx = await newContext();
+      ctx.Game.newGame({ name: 'R', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rung-rouse', opts: { ...OPTS, permadeath: true, difficulty: 'hard', rung } });
+      const { Game } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
+      // a goblin asleep in the farthest corner of the floor, well past the twelve steps it hunts within
+      const T = ctx.Dungeon.T, dist = new Int32Array(L.w * L.h).fill(-1), q = [p.y * L.w + p.x];
+      dist[q[0]] = 0;
+      for (let qi = 0; qi < q.length; qi++) {
+        const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
+        for (const [dx, dy] of ctx.Dungeon.DIRS) {
+          const ni = (y + dy) * L.w + x + dx, t = L.tiles[ni];
+          if (x + dx < 0 || y + dy < 0 || x + dx >= L.w || y + dy >= L.h || dist[ni] >= 0 || (t !== T.FLOOR && t !== T.DOOR_OPEN && t !== T.DOOR)) continue;
+          dist[ni] = dist[i] + 1; q.push(ni);
+        }
+      }
+      let far = null, fd = -1;
+      for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && dist[i] > fd) { fd = dist[i]; far = i; }
+      if (fd <= 12) return { skip: `the first floor of rung-rouse is only ${fd} steps across` };
+      L.monsters.length = 0;
+      const m = { uid: 91, id: 'goblin', x: far % L.w, y: (far / L.w) | 0, hp: 9, maxHp: 9, awake: false, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
+      L.monsters.push(m);
+      p.hp = 1; p.food = 50; G.graceUntil = 0;   // (the first floor's grace would hold the goblin until the hero stepped)
+      const mark = markLog(G);
+      if (!Game.rest()) return { skip: 'the hero would not rest' };
+      const said = linesSince(G, mark).some(l => l.includes('comes looking'));
+      // then a while on the clock: a hunter closes, a sleeper lies where it was
+      const was = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
+      for (let i = 0; i < 200 && L.monsters.includes(m) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) > 1; i++) Game.update(G.t + 50, 50);
+      return { awake: m.awake, hunting: !!m.hunting, said, closed: was - (Math.abs(m.x - p.x) + Math.abs(m.y - p.y)), fd };
+    };
+    const a = await rested(2), b = await rested(3);
+    if (a.skip || b.skip) return (a.skip || b.skip) + ': nothing to check';
+    if (a.awake || a.said) out.push(`on +2 the rest woke the far goblin (awake ${a.awake}, said ${a.said})`);
+    if (!b.awake || !b.said) out.push(`on +3 the rest left the far goblin asleep (awake ${b.awake}, said ${b.said})`);
+    if (b.closed < 8) out.push(`on +3 the roused goblin, ${b.fd} steps off, closed only ${b.closed} steps in ten seconds`);
+    return out.length ? out.join('; ') : true;
   });
 
-  await test('Hard+4: a healing draught heals a third less, on the same dice', async () => {
-    const healed = async rung => {
+  await test('Hard+4: a draught drunk beside a foe is its moment, and heals as the dice say', async () => {
+    const out = [];
+    const drank = async rung => {
       const ctx = await onRung(rung, 'rung-draught');
-      const { Game } = ctx; const p = Game.player();
+      const { Game } = ctx; const G = Game.state(), p = Game.player();
       p.maxHp = 200; p.hp = 1;
-      const it = { t: 'potion_heal', q: 1, e: 0 }; p.inv.push(it); Game.state().known.potion_heal = 1;
+      const m = beside(ctx, 'goblin', { hp: 9, maxHp: 9, nextAct: G.t + 1e9 });
+      const it = { t: 'potion_heal', q: 1, e: 0 }; p.inv.push(it); G.known.potion_heal = 1;
       ctx.Dice.s = new ctx.Rng('rung-draught-dice').s;
+      const mark = markLog(G);
       Game.useItem(it);
-      return p.hp - 1;
+      return { healed: p.hp - 1, soon: m.nextAct <= G.t, said: linesSince(G, mark).some(l => /sees its moment as you drink/.test(l)) };
     };
-    const a = await healed(3), b = await healed(4);
-    return (a > 0 && b === Math.max(1, Math.round(a * 2 / 3))) || `healed ${a} on +3, ${b} on +4`;
+    const a = await drank(3), b = await drank(4);
+    if (a.healed <= 0 || a.healed !== b.healed) out.push(`healed ${a.healed} on +3, ${b.healed} on +4`);
+    if (a.soon || a.said) out.push('on +3 the goblin took its moment');
+    if (!b.soon || !b.said) out.push(`on +4 the goblin did not (acts now ${b.soon}, said ${b.said})`);
+    // out of reach, the draught costs nothing on any rung
+    const ctx = await onRung(4, 'rung-draught-far');
+    const { Game } = ctx; const G = Game.state(), p = Game.player();
+    const m = beside(ctx, 'goblin', { hp: 9, maxHp: 9, nextAct: G.t + 1e9 });
+    m.x += 3;
+    const it = { t: 'potion_heal', q: 1, e: 0 }; p.inv.push(it); G.known.potion_heal = 1; p.hp = 1;
+    Game.useItem(it);
+    if (m.nextAct <= G.t) out.push('on +4 a goblin three steps off took a moment');
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('Hard+5: no lamp makes you whole: the traders keep theirs (the Returned excepted), and the vigil lamp is out', async () => {
+    const out = [];
+    const lamp = async (rung, bg) => {
+      const ctx = await onRung(rung, 'rung-lamp', 'fighter');
+      const { Game, Dungeon } = ctx; const p = Game.player(), L = Game.level();
+      p.bg = bg;
+      const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+      L.monsters.length = 0; L.npcs.length = 0;
+      L.npcs.push({ id: 'merchant', x: p.x + dx, y: p.y + dy, markup: 2, stock: [{ t: 'potion_heal', q: 3, e: 0 }] });
+      p.hp = 1;
+      Game.input('forward');
+      if (!Game.currentShop()) return null;
+      return Game.shopServices().find(s => s.id === 'lodge');
+    };
+    const a = await lamp(4, 'oathbroken'), b = await lamp(5, 'oathbroken'), c = await lamp(5, 'returned');
+    if (!a || !b || !c) return 'the shop would not open';
+    if (a.why) out.push(`on +4 the lamp was refused: ${a.why}`);
+    if (!b.why || !/keep their lamps/.test(b.why)) out.push(`on +5 the lamp was sold: ${b.why || 'no reason given'}`);
+    if (c.why || c.price !== 0) out.push(`on +5 the Returned were refused theirs: ${c.why || `price ${c.price}`}`);
+    // the vigil lamp by the last halls
+    const vigil = async rung => {
+      const ctx = await onRung(rung, 'rung-vigil');
+      const { Game } = ctx;
+      Game.testFloor(8);
+      const p = Game.player(); p.hp = 1;
+      const [dx, dy] = ctx.Dungeon.DIRS[p.dir]; const L = Game.level();
+      L.tiles[(p.y + dy) * L.w + p.x + dx] = ctx.Dungeon.T.FLOOR; L.monsters.length = 0;
+      L.npcs = [{ id: 'vigil', kind: 'encounter', x: p.x + dx, y: p.y + dy }];
+      Game.input('use');
+      const e = Game.currentEncounter();
+      return e ? { title: e.def.title, choices: e.def.choices.length } : null;
+    };
+    const d = await vigil(4), e = await vigil(5);
+    if (!d || !e) return 'the vigil lamp would not open';
+    if (d.title !== 'A Vigil Lamp' || d.choices < 4) out.push(`on +4 the lamp was ${d.title} with ${d.choices} choices`);
+    if (e.title !== 'A Vigil Lamp, Out' || e.choices !== 1) out.push(`on +5 the lamp was ${e.title} with ${e.choices} choices`);
+    return out.length ? out.join('; ') : true;
   });
 
   await test('a rung adds a tenth to the score; a class opens Hard+1 with a Hard win, and each rung with a win on the one below', async () => {

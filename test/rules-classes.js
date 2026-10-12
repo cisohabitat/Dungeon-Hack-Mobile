@@ -328,7 +328,8 @@ await test('across runs every encounter turns up, and no two runs meet the same 
     sets.add(all.slice().sort().join(','));
   }
   // (a road's own encounter is placed by the road, and a people's by their floor, not dealt)
-  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route && !ENCOUNTERS[e].home && !ENCOUNTERS[e].heart);
+  // (one met on a rung of the ladder stands in another's place: it is never planned)
+  const missing = Object.keys(ENCOUNTERS).filter(e => !seen.has(e) && !ENCOUNTERS[e].route && !ENCOUNTERS[e].home && !ENCOUNTERS[e].heart && !ENCOUNTERS[e].rung);
   if (missing.length) return `never met in 80 runs: ${missing.join(', ')}`;
   return sets.size >= 70 || `80 runs met only ${sets.size} different handfuls`;
 });

@@ -67,8 +67,14 @@ export function makeCurses(K) {
     const span = K.G.route && Dungeon.routeSpan(K.G.opts.levels || 8);
     const road = span && depth === span.to ? routeRelic(K.G.route) : '';
     for (const id of [R.floor[depth], road]) if (id) layRelic(L, id);
+    // (one is kept back for the floor before last, where the gold hauled up has nowhere else to go)
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
-    if (trader && depth >= 2 && R.offered < R.shop.length) trader.stock.push(relicItem(R.shop[R.offered++]));
+    if (trader && depth >= 2 && shelfHolds(depth)) trader.stock.push(relicItem(R.shop[R.offered++]));
+  }
+  /** Whether a relic is still to be had from the traders' keeping on this floor: the last of them waits for the floor before last. */
+  function shelfHolds(depth) {
+    const R = K.G.relics;
+    return !!R && R.offered < R.shop.length - (depth >= (K.G.opts.levels || 8) - 1 ? 0 : 1);
   }
   /** The open floor square farthest from the way in, with nothing on it: where a lost thing lies (a bounty's satchel). */
   function farthestFloor(L) {
@@ -191,5 +197,5 @@ export function makeCurses(K) {
     if (trader && rng.chance(CLOAK_SHOP)) trader.stock.push({ t: rng.pick(pool), q: 1, e: 0 });
   }
 
-  return { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, tellQuality };
+  return { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, shelfHolds, tellQuality };
 }

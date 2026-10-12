@@ -164,8 +164,8 @@ exit criteria are the answer.
   is a free lamp. Benched: a winning run ends with 3.8 to 5.5 draughts (it was five to
   seven; two or fewer is the bar, and potion supply, D10's lever, is what is left to pull).
   Normal 82.5% to 81.5%, Hard 62% to 60.5%; the classes 7.0 points apart on Normal and 10.0 on
-  Hard (7.0 before this batch): over the six-point rule, to be evened in the batch that moves
-  the ladder and the economy.
+  Hard (7.0 before this batch): over the six-point rule, to be evened at the end of the phase, once the
+  ladder, the new items and the new relics have each moved the classes.
 - [x] **Capstones with a shape** (D4): the seventeen that were a number are one rule each
   (Shield Wall staggers what it catches a blow from, a Crusader's Smite that fells costs nothing,
   Shadow's Edge ends a foe at a third of its life, Vanish makes each foe's first blow miss, Old

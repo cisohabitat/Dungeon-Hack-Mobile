@@ -353,14 +353,22 @@ export function makeItems(K) {
       const was = { hp: p.hp, sp: p.sp };
       try {
         switch (b.effect) {
-          // (a third less on the ladder's fourth rung: the same dice, a bitter draught)
-          case 'heal': { const r = d(...b.heal), n = K.climbed(4) ? Math.max(1, Math.round(r * 2 / 3)) : r; healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
+          case 'heal': { const n = d(...b.heal); healPlayer(n); log(`You drink the potion and heal ${n}.`, 'good'); break; }
           case 'cure': p.poison = null; log('The poison leaves your veins.', 'good'); soon(() => Sound.play('heal')); break;
           case 'might': p.effects.might = { amount: 2, until: K.G.t + 120000 }; log('You feel mighty!', 'good'); soon(() => Sound.play('spell')); break;
           case 'mana': if (p.maxSp) { p.sp = p.maxSp; log('Your mind clears. Spell points restored.', 'good'); } else log('Your thoughts feel unusually sharp, but nothing else happens.'); soon(() => Sound.play('spell')); break;
         }
         holdVitals(was, K.fxDelay);
       } finally { K.fxDelay = 0; }
+      // on the ladder's fourth rung a draught drunk in reach of a foe is its moment: each awake
+      // creature a step away acts at once (one with a blow already drawn back lands it as it was)
+      if (K.climbed(4)) {
+        const near = K.lvl().monsters.filter(m => m.awake && !m.collapsed && !m.sunk && !m.windup && !m.volley && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1);
+        if (near.length) {
+          for (const m of near) m.nextAct = K.G.t;
+          log(near.length === 1 ? `The ${MONSTERS[near[0].id].name} sees its moment as you drink.` : 'They see their moment as you drink.', 'bad');
+        }
+      }
     } else if (b.kind === 'oil') {
       removeOne(it);
       const was = p.coating;

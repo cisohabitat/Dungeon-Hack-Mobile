@@ -101,7 +101,9 @@ export function makeEndScreen(K) {
    */
   function runShareLine(won) {
     const G = Game.state(), p = G.player, o = G.opts;
-    const ways = [diffLabel(o)];
+    // (a rung of the ladder in words: the rule it adds, so the line says what the run was)
+    const rung = Game.rung();
+    const ways = [diffLabel(o) + (rung && LADDER[rung] ? ` (${LADDER[rung].rule.charAt(0).toLowerCase()}${LADDER[rung].rule.slice(1).replace(/\.$/, '')})` : '')];
     if (o.levels && o.levels !== 8) ways.push(`${o.levels} floors`);
     if (o.size && o.size !== 'medium') ways.push(`${o.size} halls`);
     if (o.monsters && o.monsters !== 'normal') ways.push(`${o.monsters} monsters`);

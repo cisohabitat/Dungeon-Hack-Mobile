@@ -153,6 +153,7 @@
  * @property {{kind: string, left: number, next: number}|null} [volley]  a group's blows still to land after the first
  * @property {boolean} [fleeing]
  * @property {number} [lostAt]    when it last lost your trail
+ * @property {boolean} [hunting]  roused by a rest on the ladder's third rung: on your trail from any distance, until it is near
  * @property {number} [nextRegen]
  * @property {Array<{hp: number, maxHp: number}>} [pack]  the others sharing its square, behind it
  * @property {number} [blows]      plain blows since its last trick
@@ -310,6 +311,7 @@
  * @property {number} potions @property {number} scrolls @property {number} meals
  * @property {number} gold     picked up off the floor, gems included
  * @property {number} [bounties]  traders' jobs done and paid for
+ * @property {number} [bountiesLost]  traders' jobs left undone on their floor
  * @property {number} [shapes]    a druid's Wild Shapes taken this run, for the Wildheart feat
  * @property {{key: string, name: string, grade: string, depth: number}[]} [finds]  this run's finds: each piece of rare gear, relic or legend, once known, by the name it had then
  */
@@ -587,6 +589,7 @@
  * @property {*} relativeBearing
  * @property {*} relicItem
  * @property {*} relicOf
+ * @property {*} shelfHolds
  * @property {*} REMAINS_MAX
  * @property {*} REMAINS_MS
  * @property {*} removeOne

@@ -92,6 +92,22 @@ await test('each floor holds exactly the relic planned for it, and traders keep 
   return true;
 });
 
+await test('the traders keep one relic back for the floor before last, where the gold has nowhere else to go', async () => {
+  const ctx = await start('fighter', 'shelf-kept', { levels: 8 });
+  const { Game } = ctx; const G = Game.state();
+  if (G.relics.shop.length < 1) return 'this seed keeps no relic for the traders';
+  // one relic for the traders: the second floor's trader (sure) leaves it, the seventh floor's (sure) sells it
+  G.relics.shop = G.relics.shop.slice(0, 1); G.relics.offered = 0;
+  const shelf = d => { Game.testFloor(d); const t = (Game.level().npcs || []).find(n => n.kind !== 'encounter' && n.stock); return t ? t.stock.filter(it => it.u).map(it => it.u) : null; };
+  const two = shelf(2);
+  if (!two) return 'no trader on the second floor';
+  if (two.length) return `the second floor's trader sold ${two}, the one kept for the seventh`;
+  const seven = shelf(7);
+  if (!seven) return 'no trader on the seventh floor';
+  if (seven.join() !== G.relics.shop[0]) return `the seventh floor's trader has [${seven}], not ${G.relics.shop[0]}`;
+  return true;
+});
+
 await test('a relic is named plainly, and tells its story once', async () => {
   const ctx = await start('fighter', 'relicname');
   const { Game, RELICS } = ctx;

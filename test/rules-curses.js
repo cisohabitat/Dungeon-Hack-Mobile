@@ -336,15 +336,19 @@ await test('the vigil lamp stands near the lich\'s hall, not at the way in and n
   return out.length ? out.join('; ') : true;
 });
 
-await test('every eight-floor delve has a trader on its third and seventh floors, and a vigil lamp on its last', async () => {
+await test('every eight-floor delve has a trader on its second and seventh floors (a twelve-floor one on its fifth too), and a vigil lamp on its last', async () => {
   const ctx = await newContext();
   for (let i = 0; i < 8; i++) {
     const last = ctx.Dungeon.generate(`traders-${i}`, 8, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
     if (!(last.npcs || []).some(n => n.kind === 'encounter' && n.id === 'vigil')) return `seed traders-${i} has no vigil lamp on its last floor`;
   }
-  for (let i = 0; i < 8; i++) for (const depth of [3, 7]) {
+  for (let i = 0; i < 8; i++) for (const depth of [2, 7]) {
     const L = ctx.Dungeon.generate(`traders-${i}`, depth, { ...OPTS, levels: 8, size: 'medium', monsters: 'normal' });
     if (!(L.npcs || []).some(n => n.kind !== 'encounter' && n.stock)) return `seed traders-${i} has no trader on floor ${depth}`;
+  }
+  for (let i = 0; i < 4; i++) for (const depth of [2, 5, 11]) {
+    const L = ctx.Dungeon.generate(`traders-${i}`, depth, { ...OPTS, levels: 12, size: 'medium', monsters: 'normal' });
+    if (!(L.npcs || []).some(n => n.kind !== 'encounter' && n.stock)) return `seed traders-${i} has no trader on floor ${depth} of 12`;
   }
   return true;
 });

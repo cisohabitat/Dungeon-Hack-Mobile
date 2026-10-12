@@ -440,6 +440,13 @@ Someone kept a lamp burning here, at the edge of the last halls, and left a bowl
 - **Go on without it**
   - You leave the lamp to whoever still tends it.
 
+### A Vigil Lamp, Out (vigil_dark)
+
+Someone kept a lamp burning here once, at the edge of the last halls. It is cold now, and the bowl beneath it holds dust and a few coins no one came back for. Nothing here answers.
+
+- **Go on**
+  - You leave the dark lamp where it stands.
+
 ### Words Cut in the Wall (runes)
 
 A slab of dark stone stands out from the wall, cut deep with the archivist's cramped hand. The letters seem to crawl when you are not looking at them straight.

@@ -16,9 +16,12 @@ export function makeFoes(K) {
     const dist = new Int32Array(L.w * L.h).fill(-1);
     const q = [p.y * L.w + p.x];
     dist[q[0]] = 0;
+    // (twenty steps is as far as anything hunts, unless something roused by a rest on the
+    // ladder's third rung is on the trail from farther off: then the whole floor is walked)
+    const whole = L.monsters.some(m => m.hunting);
     for (let qi = 0; qi < q.length; qi++) {
       const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
-      if (dist[i] > 20) break;
+      if (!whole && dist[i] > 20) break;
       for (const [dx, dy] of K.DIRS) {
         const nx = x + dx, ny = y + dy;
         if (nx < 0 || ny < 0 || nx >= L.w || ny >= L.h) continue;
@@ -1313,7 +1316,7 @@ export function makeFoes(K) {
       const name = K.itemName(it);
       K.log(`${/^[AEIOU]/.test(name) ? 'An' : 'A'} ${name} glints among its things.`, 'good');
     };
-    if (R && R.offered < R.shop.length) {
+    if (R && K.shelfHolds(K.G.depth)) {
       const it = drop(K.relicItem(R.shop[R.offered++]));
       K.log(`Something fine lies where it fell: ${K.the(it)}.`, 'good');
       jewel();
@@ -1389,7 +1392,9 @@ export function makeFoes(K) {
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
     // the first floor's grace (game.js): what is awake waits for the hero's first step or blow
     if (G.graceUntil > G.t) return;
-    if (di < 0 || di > 12) { losesYou(m, mb); return; }
+    // (roused by a rest on the ladder's third rung, it hunts from any distance until it is near)
+    if (m.hunting && di >= 0) { if (di <= 12) m.hunting = false; }
+    else if (di < 0 || di > 12) { losesYou(m, mb); return; }
     m.lostAt = 0;
     if (m.fleeing && flees(m, mb, L, p, di)) return;
     const adjacent = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
