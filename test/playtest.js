@@ -690,10 +690,19 @@ function play(ctx, cls, seed, opts, bg, idx) {
       continue;
     }
 
-    // --- rest when safe and hurt
+    // --- rest when safe and hurt (on the ladder's third rung a rest wakes the floor, so as a
+    // player would: only once little is left on it, or standing on the stairs with the way down
+    // at hand, since what is roused is left behind; a hero near death rests anyway)
     if ((hpFrac < 0.75 || (p.maxSp && p.sp < p.maxSp * 0.4)) && p.food > 10) {
-      const before = p.hp;
-      if (Game.rest()) { rec.rests++; step(); continue; }
+      const roused = Game.rung() >= 3;
+      const byStair = !!L.stairsDown && Math.abs(p.x - L.stairsDown.x) + Math.abs(p.y - L.stairsDown.y) === 1;
+      const left = roused ? L.monsters.filter(m => !m.collapsed && !m.sunk && !m.disguised).length : 0;
+      if (!roused || byStair || left <= 2 || hpFrac < 0.3) {
+        if (Game.rest()) { rec.rests++; if (roused && byStair) rec.restsByStair = (rec.restsByStair || 0) + 1; step(); continue; }
+      } else if (L.stairsDown && hpFrac < 0.6) {
+        // hurt on a floor that would wake: make for the stairs and rest beside them
+        stepToward(L.stairsDown.x, L.stairsDown.y); rec.stairRuns = (rec.stairRuns || 0) + 1; step(); continue;
+      }
     }
 
     // --- answer an encounter the way a thoughtful player would: read what
