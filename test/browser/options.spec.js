@@ -450,7 +450,7 @@ test.describe('sharing a run', () => {
     await page.click('#end-share');
     await expect(page.locator('#end-share')).toHaveText('Shared');
     const sent = await page.evaluate(() => window.__sheet[1]);
-    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Hard\+3 \(a rest wakes the floor\), Iron Vow\): Fighter, fell on floor 1 in \d+m \d\ds, /);
+    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Hard\+3 \(a rest wakes whatever is near enough to hear it\), Iron Vow\): Fighter, fell on floor 1 in \d+m \d\ds, /);
     await expect(page.locator('#end-share-line')).toHaveText(sent);
     expect(errors).toEqual([]);
   });

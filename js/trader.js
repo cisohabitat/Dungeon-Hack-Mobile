@@ -26,8 +26,8 @@ export function makeTrader(K) {
   // traders below ask a sixth more of you (a goblin pedlar does not care).
   const lampThread = k => { const G = K.G, t = G.threads || {}; return t[k] && G.depth > t[k] && traderKind() === 'lampfolk'; };
   const grudge = () => (lampThread('robbed') ? 1 / 6 : 0);
-  // and on the ladder past Hard, from its first rung, half again for everything they sell and do
-  const dear = () => (climbed(1) ? 1.5 : 1);
+  // and on the ladder past Hard, from its first rung, twice for everything they sell and do
+  const dear = () => (climbed(1) ? 2 : 1);
   // Wick knows a regular's face: from the third delve it has met you in, a tenth
   // off its wares (not in a Daily, which is the same delve for everyone)
   const REGULAR = 2, REGULAR_OFF = 0.1;

@@ -179,8 +179,9 @@ exit criteria are the answer.
   offer is drawn before the first is answered, so the held card is not in it: the common case
   is one level at a time.)
 - [x] **The ladder as five sentences** (D6): dear traders and one rest kept; the three taxes
-  replaced by rules a player plans around: Hard+3 a rest wakes the floor (what it wakes hunts
-  from wherever it lies), Hard+4 a draught drunk beside a foe gives it a blow (step out of reach
+  replaced by rules a player plans around (and the first made to bite: traders ask twice):
+  Hard+3 a rest wakes whatever is near enough to hear it, about twenty steps (what it wakes
+  hunts from wherever it lies; the whole floor woke at first, and the rung was a cliff), Hard+4 a draught drunk beside a foe gives it a blow (step out of reach
   first; the draught heals as its dice say again), Hard+5 no lamp makes you whole (no trader
   sells a night by theirs, the Returned keep their gift, and the vigil lamp by the last halls is
   out). The share line says the rung in words. Benched at the batch: Normal 80.5%, Hard 59.5%

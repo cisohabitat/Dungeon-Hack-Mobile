@@ -690,7 +690,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
       continue;
     }
 
-    // --- rest when safe and hurt (on the ladder's third rung a rest wakes the floor, so as a
+    // --- rest when safe and hurt (on the ladder's third rung a rest wakes what can hear it, so as a
     // player would: only once little is left on it, or standing on the stairs with the way down
     // at hand, since what is roused is left behind; a hero near death rests anyway)
     if ((hpFrac < 0.75 || (p.maxSp && p.sp < p.maxSp * 0.4)) && p.food > 10) {

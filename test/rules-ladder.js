@@ -36,7 +36,7 @@ module.exports = async function ladderChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
-  await test('Hard+1: traders ask half again for wares and work, but a job is not priced', async () => {
+  await test('Hard+1: traders ask twice for wares and work, but a job is not priced', async () => {
     const out = [];
     const prices = async rung => {
       const { Game, Dungeon } = await onRung(rung, 'rung-trade');
@@ -53,19 +53,20 @@ module.exports = async function ladderChecks(h) {
     };
     const a = await prices(0), b = await prices(1);
     if (!a || !b) return 'the shop would not open';
-    if (Math.abs(b.ware - a.ware * 1.5) > 1) out.push(`a long sword: ${a.ware} on Hard, ${b.ware} on +1`);
-    if (Math.abs(b.work - a.work * 1.5) > 1) out.push(`appraising: ${a.work} on Hard, ${b.work} on +1`);
+    if (Math.abs(b.ware - a.ware * 2) > 1) out.push(`a long sword: ${a.ware} on Hard, ${b.ware} on +1`);
+    if (Math.abs(b.work - a.work * 2) > 1) out.push(`appraising: ${a.work} on Hard, ${b.work} on +1`);
     if (b.job !== 0) out.push(`a job was priced at ${b.job}`);
     return out.length ? out.join('; ') : true;
   });
 
-  await test('Hard+3: a rest wakes the floor, and what it wakes hunts from any distance', async () => {
+  await test('Hard+3: a rest wakes what is near enough to hear it (twenty steps), and what it wakes hunts from where it lies; farther off, it sleeps on', async () => {
     const out = [];
     const rested = async rung => {
       const ctx = await newContext();
       ctx.Game.newGame({ name: 'R', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'rung-rouse', opts: { ...OPTS, permadeath: true, difficulty: 'hard', rung } });
       const { Game } = ctx; const G = Game.state(), p = Game.player(), L = Game.level();
-      // a goblin asleep in the farthest corner of the floor, well past the twelve steps it hunts within
+      // the floor walked as the creatures walk it: one goblin asleep in the farthest corner, past
+      // earshot; one asleep between twelve and twenty steps off, within it but past where a creature keeps the trail
       const T = ctx.Dungeon.T, dist = new Int32Array(L.w * L.h).fill(-1), q = [p.y * L.w + p.x];
       dist[q[0]] = 0;
       for (let qi = 0; qi < q.length; qi++) {
@@ -76,26 +77,27 @@ module.exports = async function ladderChecks(h) {
           dist[ni] = dist[i] + 1; q.push(ni);
         }
       }
-      let far = null, fd = -1;
-      for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR && dist[i] > fd) { fd = dist[i]; far = i; }
-      if (fd <= 12) return { skip: `the first floor of rung-rouse is only ${fd} steps across` };
+      let far = null, fd = -1, mid = null;
+      for (let i = 0; i < L.w * L.h; i++) if (L.tiles[i] === T.FLOOR) { if (dist[i] > fd) { fd = dist[i]; far = i; } if (!mid && dist[i] >= 15 && dist[i] <= 18) mid = i; }
+      if (fd <= 24 || !mid) return { skip: `the first floor of rung-rouse is only ${fd} steps across, or has no square 15 to 18 steps off` };
       L.monsters.length = 0;
-      const m = { uid: 91, id: 'goblin', x: far % L.w, y: (far / L.w) | 0, hp: 9, maxHp: 9, awake: false, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 };
-      L.monsters.push(m);
-      p.hp = 1; p.food = 50; G.graceUntil = 0;   // (the first floor's grace would hold the goblin until the hero stepped)
+      const mk = (uid, i) => ({ uid, id: 'goblin', x: i % L.w, y: (i / L.w) | 0, hp: 9, maxHp: 9, awake: false, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      const a = mk(91, far), b = mk(92, mid);
+      L.monsters.push(a, b);
+      p.hp = 1; p.food = 50; G.graceUntil = 0;   // (the first floor's grace would hold the goblins until the hero stepped)
       const mark = markLog(G);
       if (!Game.rest()) return { skip: 'the hero would not rest' };
       const said = linesSince(G, mark).some(l => l.includes('comes looking'));
-      // then a while on the clock: a hunter closes, a sleeper lies where it was
-      const was = Math.abs(m.x - p.x) + Math.abs(m.y - p.y);
-      for (let i = 0; i < 200 && L.monsters.includes(m) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) > 1; i++) Game.update(G.t + 50, 50);
-      return { awake: m.awake, hunting: !!m.hunting, said, closed: was - (Math.abs(m.x - p.x) + Math.abs(m.y - p.y)), fd };
+      const was = Math.abs(b.x - p.x) + Math.abs(b.y - p.y);
+      for (let i = 0; i < 200 && L.monsters.includes(b) && Math.abs(b.x - p.x) + Math.abs(b.y - p.y) > 1; i++) Game.update(G.t + 50, 50);
+      return { farAwake: a.awake, nearAwake: b.awake, hunting: !!b.hunting, said, closed: was - (Math.abs(b.x - p.x) + Math.abs(b.y - p.y)), fd, md: dist[mid] };
     };
     const a = await rested(2), b = await rested(3);
     if (a.skip || b.skip) return (a.skip || b.skip) + ': nothing to check';
-    if (a.awake || a.said) out.push(`on +2 the rest woke the far goblin (awake ${a.awake}, said ${a.said})`);
-    if (!b.awake || !b.said) out.push(`on +3 the rest left the far goblin asleep (awake ${b.awake}, said ${b.said})`);
-    if (b.closed < 8) out.push(`on +3 the roused goblin, ${b.fd} steps off, closed only ${b.closed} steps in ten seconds`);
+    if (a.nearAwake || a.farAwake || a.said) out.push(`on +2 the rest woke a goblin (near ${a.nearAwake}, far ${a.farAwake}, said ${a.said})`);
+    if (!b.nearAwake || !b.said) out.push(`on +3 the rest left the goblin ${b.md} steps off asleep (awake ${b.nearAwake}, said ${b.said})`);
+    if (b.farAwake) out.push(`on +3 the rest woke the goblin ${b.fd} steps off, past earshot`);
+    if (b.closed < 8) out.push(`on +3 the roused goblin, ${b.md} steps off, closed only ${b.closed} steps in ten seconds`);
     return out.length ? out.join('; ') : true;
   });
 

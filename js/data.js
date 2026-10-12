@@ -282,9 +282,9 @@ const DIFFICULTY_NOTES = {
 // cost nothing at all, the bot so seldom resting twice on a floor.)
 const LADDER = [
   null,
-  { rule: 'Traders ask half again for everything they sell and do.' },
+  { rule: 'Traders ask twice for everything they sell and do.' },
   { rule: 'One rest a floor, not two.' },
-  { rule: 'A rest wakes the floor.' },
+  { rule: 'A rest wakes whatever is near enough to hear it.' },
   { rule: 'A draught drunk beside a foe gives it a blow.' },
   { rule: 'No lamp makes you whole.' },
 ];

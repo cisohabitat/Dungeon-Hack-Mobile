@@ -98,10 +98,12 @@ export function makePacing(K) {
     K.G.t += found ? 20000 : 60000;
     for (const m of L.monsters) { for (let i = 0; i < 3; i++) if (!m.awake) wander(m); m.nextAct = K.G.t + 300; }
     const woke = found && ambush();
-    // on the ladder's third rung a rest is heard: everything left on the floor wakes and comes
-    // looking, from wherever it lies (foes.js keeps a hunting creature on the trail at any distance)
+    // on the ladder's third rung a rest is heard: whatever lies near enough to hear it (within the
+    // twenty steps the distance field reaches) wakes and comes looking (foes.js keeps a hunting
+    // creature on the trail past the twelve steps it would otherwise lose you at); what lies
+    // farther sleeps on, so where the hero rests is the decision
     // (not what lies collapsed, lurks sunk, or sits shut as a barrel: those keep their own rules)
-    const stirs = m => !m.collapsed && !m.sunk && !m.disguised;
+    const stirs = m => !m.collapsed && !m.sunk && !m.disguised && K.distField[m.y * L.w + m.x] >= 0;
     const roused = climbed(3) && L.monsters.some(m => stirs(m) && (!m.awake || K.distField[m.y * L.w + m.x] > 12));
     if (climbed(3)) for (const m of L.monsters) if (stirs(m)) { m.awake = true; m.hunting = true; m.groping = false; }
     // (a hero already whole, resting for the hound's sake, gained nothing to count)
