@@ -54,6 +54,15 @@ const UI = (() => {
   const houndSig = () => { const h = Game.companion(); return h ? `${h.hp}/${h.maxHp}/${h.mode}/${h.depth}/${h.fallen || 0}` : ''; };
 
   let finaleTimer = 0;
+  // The title's music plays on the title and the screens reached from it (the making of a hero,
+  // the Hall, the help, the prologue), not in the dungeon, which has its own, nor on a run's last
+  // page; from the first moment a browser lets sound play (see Music.swell)
+  const titleMusicHere = id => !!id && id !== 'screen-game' && id !== 'screen-end';
+  let soundAllowed = false;
+  function titleMusic() {
+    const here = document.querySelector('.screen.active');
+    if (soundAllowed && here && titleMusicHere(here.id)) Music.swell();
+  }
   function showScreen(id) {
     if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
     if (id !== 'screen-title') endOpening();
@@ -64,6 +73,8 @@ const UI = (() => {
     // (the key art comes up close again and settles, as it does when the title first opens)
     if (id === 'screen-title') { title.t0 = 0; title.last = 0; refreshTitle(); }
     else if (id === 'screen-game') { Renderer.init($('#view')); fitView(); }
+    if (id === 'screen-end') Music.titleOff();
+    else titleMusic();
     syncHistory();
   }
 
@@ -1279,8 +1290,8 @@ const UI = (() => {
       loadArmed = 0; b.textContent = 'Load Game';
       if (Game.load()) startPlaying();
     });
-    $('#m-sound').addEventListener('click', () => { Sound.toggle(); renderMenu(); });
-    $('#m-music').addEventListener('click', () => { Music.toggle(); renderMenu(); });
+    $('#m-sound').addEventListener('click', () => { if (!Sound.toggle()) Music.titleOff(0.4); renderMenu(); titleMusic(); });
+    $('#m-music').addEventListener('click', () => { Music.toggle(); renderMenu(); titleMusic(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
     // turning tips back on starts them over, for a player who wants the tour again
@@ -1408,7 +1419,19 @@ const UI = (() => {
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     if ($('#screen-title').classList.contains('active')) startOpening();
-    $('#screen-title').addEventListener('pointerdown', () => { endOpening(); Sound.unlock(); Music.swell(); }, { capture: true });
+    $('#screen-title').addEventListener('pointerdown', () => { endOpening(); Sound.unlock(); soundAllowed = true; Music.swell(); }, { capture: true });
+    // the first touch, click or key anywhere lets sound play, and the title's music begins
+    const firstSound = () => {
+      if (soundAllowed) return;
+      soundAllowed = true; Sound.unlock(); titleMusic();
+    };
+    document.addEventListener('pointerdown', firstSound, { capture: true });
+    document.addEventListener('keydown', firstSound, { capture: true });
+    // and where the browser already lets it (a site played before, a setting), at once
+    try {
+      const nav = /** @type {any} */ (navigator);
+      if (nav.getAutoplayPolicy && nav.getAutoplayPolicy('audiocontext') === 'allowed') { soundAllowed = true; Sound.unlock(); titleMusic(); }
+    } catch (e) { /* an older browser: the first touch it is */ }
     $('#btn-help').addEventListener('click', () => { helpFromMenu = false; showScreen('screen-help'); });
     // a hero carried over from another device, in place of any waiting here
     $('#btn-code').addEventListener('click', () => {

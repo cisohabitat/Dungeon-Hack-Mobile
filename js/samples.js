@@ -189,6 +189,9 @@ async function theme(theme) {
   if (keptTheme && keptTheme !== theme) {
     for (const k of [...buffers.keys()]) if (k.startsWith(`music/${keptTheme}/`) || k === 'ambience/' + keptTheme) buffers.delete(k);
   }
+  // (the title's track is a minute long: let go while a floor's music is kept, and fetched again,
+  // from the cache, on the way back to the title)
+  buffers.delete('music/title');
   keptTheme = theme;
   const stems = ['explore', 'tension', 'fight', 'boss'];
   const got = await Promise.all(stems.map(s => load(`music/${theme}/${s}`, LOW_RATE)));
@@ -197,7 +200,16 @@ async function theme(theme) {
   if (j.ambience[theme]) load('ambience/' + theme, LOW_RATE);
   return { stems: Object.fromEntries(stems.map((s, i) => [s, got[i]])), info: j.music[theme] };
 }
-/** A ready buffer by path (the title's cue, a theme's resolve, an ambience), or null. @param {string} path */
+/** Whether the pack's sounds can be had here: turned on, a format this browser decodes, and the title's track not refused. */
+const canPlay = () => on() && !!fmt && !failed.has('music/title');
+/** The title's track, fetched if it is not kept (it is let go while a floor's music is). */
+async function title() {
+  if (!canPlay()) return null;
+  const j = await readIndex();
+  if (!j) return null;
+  return load('music/title', LOW_RATE);
+}
+/** A ready buffer by path (the title's track, a theme's resolve, an ambience), or null. @param {string} path */
 const ready = path => (on() ? buffers.get(path) || null : null);
 /**
  * A floor's ambience, if ready, asking for it if not (it comes with the
@@ -211,7 +223,7 @@ function ambience(theme) {
 }
 
 const Samples = {
-  on, begin, pick, stinger, theme, ready, ambience,
+  on, canPlay, begin, title, pick, stinger, theme, ready, ambience,
   /** The pack's music theme for a floor theme. @param {number} t */
   groupOf: t => THEME_GROUP[t] || 'halls',
   /** Has the list arrived (and so, could a sound be played)? */

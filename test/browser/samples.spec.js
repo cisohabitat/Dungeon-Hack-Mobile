@@ -64,3 +64,37 @@ test('with the sound pack on, the first tap at the title plays its cue in place 
   expect(await page.evaluate(() => Music.state().cue)).toBe(true);
   expect(errors).toEqual([]);
 });
+
+test('the title has music of its own: the first key starts it looping, it plays on through the menus, gives way to a floor, and stops when the music is turned off', async ({ page }) => {
+  test.setTimeout(60_000);
+  const errors = watchForErrors(page);
+  await page.addInitScript(() => { localStorage.setItem('deepdelve.samples', 'on'); localStorage.setItem('deepdelve.firstSeen', '1'); });
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => !!Samples.ready('music/title')), { timeout: 20_000 }).toBe(true);
+  // nothing plays before the browser lets sound play; the first key does
+  expect(await page.evaluate(() => Music.state().title)).toBe(false);
+  await page.keyboard.press('Shift');
+  await expect.poll(() => page.evaluate(() => Music.state().title)).toBe(true);
+  expect(await page.evaluate(() => Music.state().cue)).toBe(true);
+  // a minute long, and looping while the title is up
+  expect(await page.evaluate(() => Samples.ready('music/title').duration)).toBeGreaterThan(60);
+  // the making of a hero is still the title's: it plays on, not started again
+  await page.click('#btn-new');
+  await expect(page.locator('#screen-create')).toHaveClass(/active/);
+  expect(await page.evaluate(() => Music.state().title)).toBe(true);
+  await page.click('#c-back');
+  expect(await page.evaluate(() => Music.state().title)).toBe(true);
+  // a floor's music takes over, and the title's goes
+  await page.evaluate(() => Music.update('quiet', 0, performance.now()));
+  expect(await page.evaluate(() => Music.state().title)).toBe(false);
+  await page.evaluate(() => Music.stop());
+  // back on the title it comes again; turned off, it stops, and turned on, it returns
+  await page.evaluate(() => UI.showScreen('screen-title'));
+  await expect.poll(() => page.evaluate(() => Music.state().title)).toBe(true);
+  await page.evaluate(() => Music.toggle());
+  expect(await page.evaluate(() => Music.state().title)).toBe(false);
+  await page.evaluate(() => Music.toggle());
+  await page.evaluate(() => Music.swell());
+  await expect.poll(() => page.evaluate(() => Music.state().title)).toBe(true);
+  expect(errors).toEqual([]);
+});

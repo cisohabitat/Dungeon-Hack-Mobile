@@ -200,7 +200,7 @@ SFX masters are normalised to -1 dBFS. Codec-specific attenuation prevents lossy
 | `music/marsh/boss` | `music/marsh/boss.ogg`, `music/marsh/boss.m4a` | `masters/music/marsh/boss.flac` | Original generated; slow and wet; low croaks, water; boss; modal/filter render, 16-bit master, dual encode |
 | `music/marsh/resolve` | `music/marsh/resolve.ogg`, `music/marsh/resolve.m4a` | `masters/music/marsh/resolve.flac` | Original generated; return to home note; modal/filter render, 16-bit master, dual encode |
 | `ambience/marsh` | `ambience/marsh.ogg`, `ambience/marsh.m4a` | `masters/ambience/marsh.flac` | Original generated; water, thin insect chirps, and sparse low frog-like croaks; modal/filter render, 16-bit master, dual encode |
-| `music/title` | `music/title.ogg`, `music/title.m4a` | `masters/music/title.flac` | Original generated; 38-second statement of four-note identity; modal/filter render, 16-bit master, dual encode |
+| `music/title` | `music/title.ogg`, `music/title.m4a` | `masters/music/title.flac` | Torchlight at the Threshold, supplied by the game's owner as an MP3 (192 kb/s, 44.1 kHz, 65 s); brought to -21 LUFS with a fixed gain (-9.3 dB), resampled to 48 kHz, 16-bit FLAC master, dual encode (Vorbis q4, AAC 128 kb/s) |
 
 ## Attribution
 

@@ -202,9 +202,15 @@ const Music = (() => {
   /** @type {{theme: string, out: GainNode, srcs: Record<string, AudioBufferSourceNode>, gains: Record<string, GainNode>, level: number}|null} */
   let stems = null;
   let stemsWanted = '';
-  /** The title's swell has been heard this visit. */
+  /** The title's music (or the synthesised swell standing in for it) has been heard this visit. */
   let swelled = false;
   /** @type {GainNode|null} */ let swellGain = null;
+  /** @type {AudioBufferSourceNode|null} the title's track, looping while the title is up */
+  let titleSrc = null;
+  /** the title's track is wanted, and on its way */
+  let titleWanted = false;
+  /** How long the title's track takes to come up, and to go when a run begins. */
+  const TITLE_IN_S = 1.2, TITLE_OUT_S = 1.5;
   const hz = midi => 440 * Math.pow(2, (midi - 69) / 12);
   // a note that throws is a bug, never a reason to stop the game: say so once
   let faulted = false;
@@ -356,9 +362,8 @@ const Music = (() => {
     if (!playing || onAudio !== !!a) { nextAt = now + 0.3; onAudio = !!a; tail = null; }
     if (!playing) {
       playing = true; comp = composer(String(theme)); heard.mood = mood;
-      // the title's swell, if it is still sounding, gives way to the floor
-      if (swellGain && a) { try { const t = a.ctx.currentTime; swellGain.gain.cancelScheduledValues(t); swellGain.gain.setValueAtTime(swellGain.gain.value, t); swellGain.gain.linearRampToValueAtTime(0.0001, t + 1.5); } catch (e) { fault('swell', e); } }
-      swellGain = null;
+      // the title's music, if it is still sounding, gives way to the floor
+      titleOff(TITLE_OUT_S);
     }
     if (a && !busUp) { fadeTo(LEVEL_ALL * (ducked ? DUCK : 1), 1.5); busUp = true; }
     if (mood !== heard.mood) moodChanged(heard.mood, mood, a, now);
@@ -430,13 +435,56 @@ const Music = (() => {
   }
 
   /**
-   * The title's swell, once a visit, on the first tap (sound cannot start
-   * before one): the plain floors' home note and its fifth rising out of
-   * nothing, a horn under them, and three bells falling home over the top.
-   * It fades of itself, or gives way to a floor's music when one begins.
+   * The title's music: the pack's own track (Torchlight at the Threshold),
+   * looping while the title and the screens reached from it are up, from the
+   * first moment the browser lets sound play (the first touch, click or key;
+   * at once where it allows that). It fades as a floor's music begins, and
+   * starts again on the way back to the title. If it has not arrived yet it
+   * starts the moment it does; where the pack cannot be had, the synthesised
+   * swell stands in, once a visit: the plain floors' home note and its fifth
+   * rising out of nothing, a horn under them, and three bells falling home.
+   * @returns {boolean} whether anything was started (or sent for)
    */
   function swell() {
-    if (swelled || !enabled || !Sound.isEnabled()) return false;
+    if (playing || !enabled || !Sound.isEnabled() || titleSrc || titleWanted) return false;
+    const cue = Samples.ready('music/title');
+    if (cue) return startTitle(cue);
+    if (Samples.canPlay()) {
+      // on its way (or let go while a floor's music was kept): it plays the moment it lands
+      titleWanted = true;
+      Samples.title().then(b => {
+        const want = titleWanted;
+        titleWanted = false;
+        if (want && b) startTitle(b); else if (want) bells();
+      });
+      return true;
+    }
+    return bells();
+  }
+  /** The title's track, looping, faded in. @param {AudioBuffer} buf */
+  function startTitle(buf) {
+    if (playing || !enabled || !Sound.isEnabled() || titleSrc) return false;
+    let a = null;
+    try { a = ensureBus(); } catch (e) { fault('bus', e); a = null; }
+    if (!a) return false;
+    swelled = true; heard.cue = true; heard.notes++;
+    if (listener) { try { listener({ k: 'title', midi: 0, vel: 1, len: buf.duration }, 'swell'); } catch (e) { /* ignore */ } }
+    try {
+      const c = a.ctx, t0 = c.currentTime + 0.05;
+      swellGain = c.createGain();
+      swellGain.gain.setValueAtTime(0.0001, t0);
+      swellGain.gain.linearRampToValueAtTime(LEVEL_ALL * TITLE_GAIN, t0 + TITLE_IN_S);
+      swellGain.connect(a.music);
+      const src = c.createBufferSource();
+      src.buffer = buf; src.loop = true;
+      src.connect(swellGain); src.start(t0);
+      titleSrc = src;
+    } catch (e) { fault('title', e); }
+    return true;
+  }
+  /** The synthesised swell, once a visit, where the pack's track cannot be had. */
+  function bells() {
+    if (swelled || playing || !enabled || !Sound.isEnabled()) return false;
     swelled = true;
     let a = null;
     try { a = ensureBus(); } catch (e) { fault('bus', e); a = null; }
@@ -451,20 +499,27 @@ const Music = (() => {
     ];
     for (const { n } of notes) { heard.notes++; if (listener) { try { listener(n, 'swell'); } catch (e) { /* ignore */ } } }
     if (!a) return true;
-    // the pack's title cue, if it has arrived (it is fetched as the title opens), in place of the bells
-    const cue = Samples.ready('music/title');
     try {
       const c = a.ctx, t0 = c.currentTime + 0.05;
       swellGain = c.createGain();
-      swellGain.gain.value = cue ? LEVEL_ALL * TITLE_GAIN : LEVEL_ALL;
+      swellGain.gain.value = LEVEL_ALL;
       swellGain.connect(a.music);
-      if (cue) { const src = c.createBufferSource(); src.buffer = cue; src.connect(swellGain); src.start(t0); heard.cue = true; }
-      else {
-        if (echoIn) swellGain.connect(echoIn);
-        for (const { at, n } of notes) sound(c, n, t0 + at, swellGain);
-      }
+      if (echoIn) swellGain.connect(echoIn);
+      for (const { at, n } of notes) sound(c, n, t0 + at, swellGain);
     } catch (e) { fault('swell', e); }
     return true;
+  }
+  /** The title's music fades out (a run begins, the music is turned off, a run's last page). @param {number} [secs] */
+  function titleOff(secs = TITLE_OUT_S) {
+    titleWanted = false;
+    const g = swellGain, src = titleSrc;
+    swellGain = null; titleSrc = null;
+    if (!g || !busCtx) return;
+    try {
+      const t = busCtx.currentTime;
+      g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value, t); g.gain.linearRampToValueAtTime(0.0001, t + secs);
+      if (src) src.stop(t + secs + 0.05);
+    } catch (e) { fault('title', e); }
   }
   /** The game paused, or not: a fight's beat carries on over a frozen scene, so it draws back while paused. */
   function duck(on) {
@@ -486,12 +541,12 @@ const Music = (() => {
   function toggle() {
     enabled = !enabled;
     try { localStorage.setItem('deepdelve.music', enabled ? 'on' : 'off'); } catch (e) { /* ignore */ }
-    if (!enabled) stop();
+    if (!enabled) { stop(); titleOff(0.4); }
     return enabled;
   }
 
   return {
-    update, stop, toggle, duck, swell, plan, note, SCALES, MOODS, HUSH_S, TAIL_S,
+    update, stop, toggle, duck, swell, titleOff, plan, note, SCALES, MOODS, HUSH_S, TAIL_S,
     isEnabled: () => enabled,
     /** @param {((n: {k: string, midi: number, vel: number, len: number}, mood: string) => void)|null} fn */
     listen(fn) { listener = fn; },
@@ -507,7 +562,7 @@ const Music = (() => {
       return n;
     },
     /** What it last heard of the fight, and how many notes it has written: for the tests. */
-    state: () => ({ ...heard, playing, ducked, tail: tail ? tail.mood : '', swelled,
+    state: () => ({ ...heard, playing, ducked, tail: tail ? tail.mood : '', swelled, title: !!titleSrc, titleWanted,
       stems: stems ? stems.theme : '', layers: stems ? (STEMS_AT[stems.level] || []).slice() : [] }),
   };
 })();

@@ -5739,26 +5739,26 @@
   "title": {
     "file": "music/title",
     "tier": 1,
-    "seconds": 38.0,
-    "samples": 1824000,
+    "seconds": 65.28,
+    "samples": 3133440,
     "sampleRate": 48000,
     "channels": 2,
     "master": "masters/music/title.flac",
-    "description": "38-second statement of four-note identity",
+    "description": "Torchlight at the Threshold: the title music, 65 seconds, looped while the title is up",
     "formats": {
       "ogg": {
-        "bytes": 190035,
-        "decodedSamples": 1824128,
-        "peakDbFS": -12.661,
+        "bytes": 931606,
+        "decodedSamples": 3133440,
+        "peakDbFS": -8.3,
         "encodingGain": 1.0,
-        "sha256": "3ddf5262c06cd3ae50d3dacf60fdc63038577222a62164f8b077b6f8bc41738d"
+        "sha256": "99cfb921739e169ccbdbb11e665a2b2aae2b489152263f3362f4b511d8583e7b"
       },
       "m4a": {
-        "bytes": 428851,
-        "decodedSamples": 1824768,
-        "peakDbFS": -12.848,
+        "bytes": 1049796,
+        "decodedSamples": 3133440,
+        "peakDbFS": -8.4,
         "encodingGain": 1.0,
-        "sha256": "771d12123f67d23bbf4f6b6478831d71e7d1db252fbddd7896d0d5fd40f61b31"
+        "sha256": "cd4d9189c27b1a0f359315120d7e6398c1165025f5936308ebed79e0dc7b262b"
       }
     }
   },
@@ -10308,26 +10308,26 @@
     {
       "file": "music/title",
       "tier": 1,
-      "seconds": 38.0,
-      "samples": 1824000,
+      "seconds": 65.28,
+      "samples": 3133440,
       "sampleRate": 48000,
       "channels": 2,
       "master": "masters/music/title.flac",
-      "description": "38-second statement of four-note identity",
+      "description": "Torchlight at the Threshold: the title music, 65 seconds, looped while the title is up",
       "formats": {
         "ogg": {
-          "bytes": 190035,
-          "decodedSamples": 1824128,
-          "peakDbFS": -12.661,
+          "bytes": 931606,
+          "decodedSamples": 3133440,
+          "peakDbFS": -8.3,
           "encodingGain": 1.0,
-          "sha256": "3ddf5262c06cd3ae50d3dacf60fdc63038577222a62164f8b077b6f8bc41738d"
+          "sha256": "99cfb921739e169ccbdbb11e665a2b2aae2b489152263f3362f4b511d8583e7b"
         },
         "m4a": {
-          "bytes": 428851,
-          "decodedSamples": 1824768,
-          "peakDbFS": -12.848,
+          "bytes": 1049796,
+          "decodedSamples": 3133440,
+          "peakDbFS": -8.4,
           "encodingGain": 1.0,
-          "sha256": "771d12123f67d23bbf4f6b6478831d71e7d1db252fbddd7896d0d5fd40f61b31"
+          "sha256": "cd4d9189c27b1a0f359315120d7e6398c1165025f5936308ebed79e0dc7b262b"
         }
       }
     },

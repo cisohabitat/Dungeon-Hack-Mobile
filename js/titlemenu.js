@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-12-26', text: 'cold and lightning for every class: Frost Oil for the blade, and Scrolls of Frost and Lightning among the loot, so a fighter can freeze a foe in the water or run a bolt through it. Four relics for the mage on robes and foci, and two more a ranger can carry. The ladder past Hard is five rules to plan around now, not three taxes (a rest wakes what can hear it, a draught drunk beside a foe gives it a blow, no lamp makes you whole), a trader is sure on floor 2, and the floor before last always has a relic for sale.' };
+  const NEWS = { id: '2026-12-28', text: 'the title has music of its own now, Torchlight at the Threshold: it plays from your first tap or key and keeps playing through the menus, then gives way to the dungeon. Turn it off under Music in the Menu.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -25,8 +25,10 @@ The complete generation recipes are in `render.py` and `production.json`.
 
 Each theme is twelve bars of 4/4 at its own fixed tempo. All four stems have the
 same canonical sample count and start on bar one. Loop events are rendered
-circularly, so resonant tails continue across the boundary. The title's four-note
-identity is adapted to each floor's scale; the title cue plays once.
+circularly, so resonant tails continue across the boundary. The floors' themes
+keep a four-note identity adapted to each floor's scale. The title's music is
+Torchlight at the Threshold (see `SOURCES.md`): it loops while the title and the
+screens reached from it are up, and fades as a run begins.
 
 ## Integration requirements
 
