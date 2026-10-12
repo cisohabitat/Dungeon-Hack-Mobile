@@ -519,7 +519,7 @@ const CLASSES = {
     altKit: { name: 'Cutpurse\'s Kit', desc: 'A dagger, the quickest blade there is, with blade venom and lamp oil in place of the map.', items: ['dagger', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'oil_venom', 'lamp_oil'] },
   },
   ranger: {
-    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, mildHp: 4, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
+    name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, mildHp: 4, hardHp: 4, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
     ease: 'Steady: wins the fight before it reaches you.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
