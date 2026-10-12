@@ -49,7 +49,7 @@ export function makePacing(K) {
    * and the thinning comes a rest later. (It used to add a third to a rest, but the first on a floor
    * already heals everything, and most heroes rest about once a floor.)
    */
-  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = climbed(2) ? [1] : diff().rests; return n >= r.length ? 0 : r[n]; }
+  function restShare() { const n = Math.max(0, (lvl().rests || 0) - (hasTalent('field_craft') ? 1 : 0)), r = climbed(2) ? [diff().rests[0]] : diff().rests; return n >= r.length ? 0 : r[n]; }
   /** Something of this floor finds the sleeper: awake, a few steps off. */
   function ambush() {
     const L = lvl();
@@ -80,8 +80,7 @@ export function makePacing(K) {
     // a hurt hound is reason enough to stop: it heals by the same rest
     const hound = companion.here();
     if (p.hp >= p.maxHp && p.sp >= p.maxSp && !(hound && hound.hp < hound.maxHp)) { log('You are already well rested.'); return false; }
-    // the Returned sleep their first rest on a floor on nothing
-    const food = p.bg === 'returned' && !(L.rests || 0) ? 0 : REST_FOOD;
+    const food = REST_FOOD;
     if (p.food < food) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
     if (!restShare()) { log(`The dark is too close here to sleep again. ${lvl().isFinal ? 'Finish what you came for.' : 'Find the stairs.'}`, 'bad'); Sound.play('error'); return false; }
     p.food -= food;
@@ -123,9 +122,13 @@ export function makePacing(K) {
   // Easy also draws every blow back a fifth longer (windup, applied in foes.js): its other
   // mercies are numbers a new player cannot see, and the mark is the thing they must learn.
   const DIFFICULTY = {
-    easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25], press: false, windup: 1.2 },
-    normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [1, 0.5, 0.25], press: true,  windup: 1 },
-    hard:   { hp: 1.9,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [1, 0.5],       press: true,  windup: 1 },
+    // (rests: what each rest on a floor restores of what is lacking. A floor's wear carries: on
+    // Normal and Hard the first rest gives two thirds, the next a third, so a hard floor is still
+    // felt on the stair down, and only a trader's lamp makes a hero whole. Easy, where a new
+    // player learns, keeps the whole night.)
+    easy:   { hp: 1,    edge: 0, lich: 1,    lichEdge: 0, rests: [1, 0.5, 0.25],       press: false, windup: 1.2 },
+    normal: { hp: 1.5,  edge: 1, lich: 2,    lichEdge: 4, rests: [2 / 3, 1 / 3, 1 / 6], press: true,  windup: 1 },
+    hard:   { hp: 1.9,  edge: 2, lich: 2.3,  lichEdge: 3, rests: [2 / 3, 1 / 3],        press: true,  windup: 1 },
   };
   /** The run's difficulty settings; a run from before there was a choice is Normal. */
   const diff = () => DIFFICULTY[(K.G && K.G.opts && K.G.opts.difficulty) || 'normal'] || DIFFICULTY.normal;

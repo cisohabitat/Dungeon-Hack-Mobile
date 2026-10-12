@@ -34,8 +34,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   shown as a grid at the top of the Hall of Heroes, and the victory screen says when one is new.
   Every relic any hero picks up or buys goes in the codex, readable from the Hall or the
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
-- **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's own six or seven, each changing how the class fights.
-  Ability gains can be taken repeatedly; the permanent perks only once.
+- **A choice at every level.** A lesson at most levels, three offered at a time, most of them a rule (an opening blow that cannot miss, a floor's first trap stepped over, no grip holds you, every potion known, the stairs on the map) and a few a number; on every even level a class talent instead, one of three from the class's own six or seven, each changing how the class fights, and a talent passed over is held for the next offer.
+  Self-Taught can be taken twice; the rest only once.
 - **A path at level 3.** Each class chooses one of two paths, for good, in place of that level's
   lesson (or at the divided stair, if it comes first): Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
   Each changes two or three rules (a shield that catches blows, rage that grows with your wounds,
@@ -108,7 +108,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Survival.** Hunger, poison (fought off with a Constitution save), traps in corridors (dodged
   with a Dexterity save; a pit is only halved). Wounds close on their own only up to half
   your life; past that it takes a potion, a prayer or a rest. Resting costs food, is blocked by
-  nearby enemies (the Rest button dims and says so; it never drinks for you), and thins out: the first rest on a floor restores everything, the next half,
+  nearby enemies (the Rest button dims and says so; it never drinks for you), and thins out: the first rest on a floor restores up to two thirds of your life, the next a third,
   the third a quarter, and then the dark is too close to sleep. Potions are found rarely enough
   that the gold you carry has something to buy.
 - **An ending that is a fight.** The Heart of the Mountain will not come loose while the Dread

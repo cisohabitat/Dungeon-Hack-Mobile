@@ -217,7 +217,7 @@ await test('every potion in a run has its own bottle, kept once known; in a figh
   Game.input('quaff');
   if (count() !== before - 1) return 'the quaff did not drink the draught';
   Game.level().monsters.length = 0;
-  return Game.restLabel() === 'Rest' || `with the fight over, Rest says ${Game.restLabel()}`;
+  return Game.restLabel() === 'Rest \u2154' || `with the fight over, Rest says ${Game.restLabel()}`;
 });
 
 await test('when its fight turns the lich is wrapped in shadow a few seconds, and blows pass through it', async () => {

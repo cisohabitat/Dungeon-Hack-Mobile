@@ -288,12 +288,10 @@ await test('the earned backgrounds are refused until won, then open with their p
   if (p.bg !== 'returned') return 'the Returned is still refused after a normal win';
   const draught = p.inv.find(it => it.t === 'potion_xheal');
   if (!draught || draught.q !== 1 || !Game.isKnown('potion_xheal')) return 'the Returned did not start with a known Potion of Extra Healing';
-  // the first rest on a floor costs no food, the next the usual
+  // a rest costs the Returned food like anyone (their gift is the trader's lamp for nothing: rules-lessons.js)
   const L = Game.level();
   L.monsters.length = 0; p.hp = 1; p.food = 50;
-  if (!Game.rest() || p.food !== 50) return `the first rest cost ${50 - p.food} food`;
-  L.monsters.length = 0; p.hp = 1;
-  if (!Game.rest() || p.food !== 44) return `the second rest cost ${50 - p.food} food`;
+  if (!Game.rest() || p.food !== 44) return `the first rest cost ${50 - p.food} food`;
   if (make('heartsworn').bg !== 'oathbroken') return 'a normal win opened the Heartsworn';
   // a hard win opens the Heartsworn
   make('oathbroken', 'hard'); winHere(Game);

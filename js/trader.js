@@ -145,8 +145,9 @@ export function makeTrader(K) {
   function lodging() {
     const L = lvl(), p = P();
     const why = vowed('iron') ? 'You swore the Iron Vow: no rest until the Heart is won.' : L.lodged ? 'You have slept by this lamp already.' : p.hp >= p.maxHp && p.sp >= p.maxSp && !K.houndHurt() ? 'You are already well rested.' : null;
+    // (the Returned, who have been down before, are known to the Lampfolk: a night by the lamp costs them nothing)
     return { id: 'lodge', label: 'Sleep safe by the trader\'s lamp', detail: why || 'A whole night, and nothing finds you. Once a floor.',
-      price: Math.round((30 + 15 * K.G.depth) * (1 - charm())), why };
+      price: p.bg === 'returned' ? 0 : Math.round((30 + 15 * K.G.depth) * (1 - charm())), why };
   }
   // Gold's use down here: the trader's forge. Each step up costs more than the
   // last, and nothing goes past +3, or an unknown or cursed piece at all.

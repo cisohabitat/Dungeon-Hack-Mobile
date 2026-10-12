@@ -95,6 +95,7 @@ export function makeFoes(K) {
   function rangedAttack(m) {
     const mb = K.mstat(m), r = mb.ranged;
     m.lungeAt = K.realNow;
+    m.struck = true;   // (a shot is a strike at the hero too: see monsterAttack)
     K.meet(m);
     const roll = d(1, 20);
     const ac = K.playerAC();
@@ -122,6 +123,7 @@ export function makeFoes(K) {
   function monsterAttack(m, heavy, verb, missed) {
     const p = K.P(), mb = K.mstat(m), h = heavy || {};
     m.lungeAt = K.realNow;
+    m.struck = true;   // (it has struck at the hero now, hit or miss: an Opening Blow was its chance)
     K.meet(m);
     const roll = d(1, 20);
     const ac = K.playerAC();
@@ -1560,6 +1562,7 @@ export function makeFoes(K) {
     const p = K.P();
     if (monsterAttack(m, { verb: 'seizes', sure: true }) && K.G.status === 'playing' && !p.grabbed) {
       if (K.hasTalent('stand_firm')) K.log(`You tear out of the ${mb.name}'s grasp before it closes.`, 'good');
+      else if (K.hasBoon('unheld')) K.log(`The ${mb.name}'s grip closes on you and breaks: nothing holds you.`, 'good');
       else {
         p.grabbed = { uid: m.uid, until: K.G.t + 4000, nextTry: 0 };
         K.log(`The ${mb.name} has hold of you! Pull free: stepping away takes strength.`, 'bad');

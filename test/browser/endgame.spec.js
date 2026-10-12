@@ -369,13 +369,13 @@ test('the end screen lists the lessons learnt at each level, with a count for on
   const errors = watchForErrors(page);
   await startGame(page, { seed: 'end-lessons' });
   await clearBoons(page);
-  await page.evaluate(() => { const p = Game.player(); p.boons = ['swift', 'str', 'str']; p.hp = 1; });
+  await page.evaluate(() => { const p = Game.player(); p.boons = ['swift', 'spread', 'spread']; p.hp = 1; });
   await faceOpenGround(page, 2);
   await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
   await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
   const lessons = page.locator('#end-summary .end-h', { hasText: 'Lessons' });
   await expect(lessons).toBeVisible();
   await expect(page.locator('#end-summary')).toContainText('Practised Hands');
-  await expect(page.locator('#end-summary')).toContainText('Hard-Won Strength ×2');
+  await expect(page.locator('#end-summary')).toContainText('Self-Taught ×2');
   expect(errors).toEqual([]);
 });

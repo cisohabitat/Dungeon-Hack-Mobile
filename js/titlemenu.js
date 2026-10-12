@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-12-16', text: 'your path comes at level 3 now and its mastery at 7, so the build is yours for most of the delve; the stair divides after the path, and each road\u2019s card names its champions, its keeper and its relic' };
+  const NEWS = { id: '2026-12-17', text: 'wear carries from floor to floor: a rest restores two thirds, then a third, and only a night by the lamp makes you whole (free for the Returned); the lessons change rules now, and a talent you pass over is held for the next offer' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -68,8 +68,8 @@ const BACKGROUNDS = {
   returned: {
     name: 'The Returned',
     blurb: 'You have been down before, and you came back up.',
-    perk: 'A Potion of Extra Healing to start, and the first rest on each floor costs no food.',
-    story: 'You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and you sleep the first chance you get.',
+    perk: 'A Potion of Extra Healing to start, and a night by any trader\'s lamp costs you nothing.',
+    story: 'You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and the Lampfolk, who remember you, let you sleep by their lamp for nothing.',
     motive: 'You came down here again because the mountain is not finished with you.',
     epi: 'They went down again because the mountain was not finished with them.',
     unlock: 'normal',
@@ -148,16 +148,17 @@ const JOURNAL = [
 
 // On every level gained, three of these are offered and one is kept.
 const BOONS = [
-  // A stat lesson lifts the score to the next even number, so its bonus always
-  // rises by one: +1 to an even score used to change nothing at all.
-  // (not for a ranger, who hits and wounds with Dexterity: Strength would buy nothing in a fight)
-  { id: 'str', stat: 'str', max: 2, name: 'Hard-Won Strength', desc: 'Your Strength bonus rises by one.', apply: p => { p.stats.str += p.stats.str % 2 ? 1 : 2; }, when: p => p.cls !== 'ranger' },
-  { id: 'dex', stat: 'dex', max: 2, name: 'Sure Footing', desc: 'Your Dexterity bonus rises by one.', apply: p => { p.stats.dex += p.stats.dex % 2 ? 1 : 2; } },
-  { id: 'con', stat: 'con', max: 2, name: 'Deep Wind', desc: 'Your Constitution bonus rises by one.', apply: p => { p.stats.con += p.stats.con % 2 ? 1 : 2; } },
-  { id: 'int', stat: 'int', max: 2, name: 'Sharpened Wits', desc: 'Your Intelligence bonus rises by one.', apply: p => { p.stats.int += p.stats.int % 2 ? 1 : 2; }, when: p => p.cls === 'mage' || p.cls === 'thief' },
-  { id: 'wis', stat: 'wis', max: 2, name: 'Clear Sight', desc: 'Your Wisdom bonus rises by one.', apply: p => { p.stats.wis += p.stats.wis % 2 ? 1 : 2; }, when: p => p.cls === 'cleric' || p.cls === 'druid' },
-  // two points placed where the player likes, both in one score if they want: a build planned, not dealt
+  // The one stat lesson: two points placed where the player likes, both in one score if they
+  // want, a build planned rather than dealt. (The five lessons that each raised one score by a
+  // point were folded into it: a lesson should change a rule, not a number.)
   { id: 'spread', name: 'Self-Taught', desc: 'Two points to add to any scores you choose, both to one if it has room.', spread: 2, max: 2, apply: () => {} },
+  // Lessons that change a rule, each a decision a player plans around (game.js and its
+  // parts honour each by id, through hasBoon)
+  { id: 'opener', name: 'Opening Blow', desc: 'Your first blow at a foe that has not yet struck you cannot miss.', unique: true, apply: () => {} },
+  { id: 'nose', name: 'Nose for Draughts', desc: 'You know every potion by its smell: none is unknown to you.', unique: true, apply: () => {} },
+  { id: 'trapsense', name: 'Trap Sense', desc: 'The first trap on each floor never goes off under you: you see it, and step over.', unique: true, apply: () => {} },
+  { id: 'unheld', name: 'Iron Grip', desc: 'Nothing holds you: a grip on you breaks the moment it closes.', unique: true, apply: () => {} },
+  { id: 'wayfinder', name: 'Wayfinder', desc: 'The stairs down are on your map from the moment you arrive on a floor.', unique: true, apply: () => {} },
   { id: 'vigor', name: 'Old Scars', desc: '+6 maximum hit points, and healed by 6 now.', apply: p => { p.maxHp += 6; p.hp += 6; } },
   { id: 'focus', name: 'Quiet Mind', desc: '+4 maximum spell points.', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; }, when: p => !!CLASSES[p.cls].spells },
   { id: 'keen', name: 'Killing Eye', desc: '+1 to hit with every blow, for good.', unique: true, apply: p => { p.perkHit = (p.perkHit || 0) + 1; } },

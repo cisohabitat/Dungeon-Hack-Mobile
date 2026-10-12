@@ -4,20 +4,20 @@ module.exports = async function restChecks(h) {
   const { OPTS, evenStats, newContext, start, seedDice, markLog, linesSince, test, beside } = h;
 
 // ---------- the price of rest ----------
-await test('the first rest on a floor restores all; each after it half as much, and the button says so', async () => {
+await test('the first rest on a floor restores two thirds; the next a third, and the button says so', async () => {
   const ctx = await start('fighter', 'rest-decay');
   const { Game } = ctx; const p = Game.player(), G = Game.state(), L = Game.level();
   L.monsters.length = 0;
   p.maxHp = 100; p.hp = 10; p.food = 100;
-  if (Game.restLabel() !== 'Rest') return `before any rest the button says ${Game.restLabel()}`;
+  if (Game.restLabel() !== 'Rest \u2154') return `before any rest the button says ${Game.restLabel()}`;
   if (!Game.rest()) return 'could not rest';
-  if (p.hp !== 100) return `the first rest left ${p.hp} of 100`;
-  if (Game.restLabel() !== 'Rest \u00bd') return `after one rest the button says ${Game.restLabel()}`;
+  if (p.hp !== 77) return `the first rest left ${p.hp} of 100`;
+  if (Game.restLabel() !== 'Rest \u2153') return `after one rest the button says ${Game.restLabel()}`;
   L.monsters.length = 0; p.hp = 10;
   Game.rest();
   const second = p.hp - 10;
-  // half, or a quarter if something found the sleeper
-  if (second !== 50 && second !== 25) return `the second rest gave ${second}`;
+  // a third, or a sixth if something found the sleeper
+  if (second !== 34 && second !== 17) return `the second rest gave ${second}`;
   return true;
 });
 

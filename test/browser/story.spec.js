@@ -78,7 +78,7 @@ test.describe('story and progression', () => {
     const placed = await placeMonster(page, 'goblin', 1, { hp: 1, maxHp: 1 });
     // every other lesson already learned as often as it can be: Self-Taught and Old Scars are left
     // (level 5's lesson: the path, level 3's choice, is taken already)
-    await page.evaluate(() => { const p = Game.player(); p.level = 4; p.xp = XP_TABLE[4] - 1; p.path = PATHS[p.cls][0].id; p.boons = ['str', 'str', 'dex', 'dex', 'con', 'con', 'keen', 'swift', 'hardy']; });
+    await page.evaluate(() => { const p = Game.player(); p.level = 4; p.xp = XP_TABLE[4] - 1; p.path = PATHS[p.cls][0].id; p.boons = ['opener', 'nose', 'trapsense', 'unheld', 'wayfinder', 'keen', 'swift', 'hardy']; });
     expect(await killMonster(page, placed.uid)).toBe(true);
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
     await page.waitForTimeout(700);   // the guard against a tap already on its way

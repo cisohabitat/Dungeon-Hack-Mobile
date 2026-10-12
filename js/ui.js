@@ -770,7 +770,7 @@ const UI = (() => {
     if (!btn) return;
     const foes = label === 'Foes near';
     // a thinner rest says so in words: "Rest ½" alone told a new player nothing
-    const sub = { 'Foes near': 'foes near', 'Rest \u00bd': 'half rest', 'Rest \u00bc': 'quarter rest', 'No rest': Game.level().isFinal ? 'none left here' : 'find the stairs' }[label];
+    const sub = { 'Foes near': 'foes near', 'Rest \u2154': 'two thirds', 'Rest \u00bd': 'half rest', 'Rest \u2153': 'a third', 'Rest \u00bc': 'quarter rest', 'Rest \u2159': 'a sixth', 'No rest': Game.level().isFinal ? 'none left here' : 'find the stairs' }[label];
     if (sub) btn.innerHTML = `${label === 'No rest' ? 'No rest' : 'Rest'}<small>${sub}</small>`;
     else btn.textContent = label;
     btn.classList.toggle('unavail', foes || label === 'No rest');

@@ -174,7 +174,10 @@ export function makeChoices(K) {
       if (!b) continue;
       const btn = document.createElement('button');
       btn.className = 'boon' + (isTalent ? ' talent' : '');
-      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(isTalent ? b.desc : lessonText(b, p))}</small>`;
+      // (the card held over from the last talent offer says so: a talent a build wants is not lost to the draw)
+      const held = isTalent && id === p.talentHeld;
+      if (held) btn.classList.add('held');
+      btn.innerHTML = `<b>${escapeHtml(b.name)}</b><small>${escapeHtml(isTalent ? b.desc : lessonText(b, p))}${held ? '<em class="held-note">Held over from your last choice</em>' : ''}</small>`;
       btn.disabled = true; btn.classList.add('arming');
       setTimeout(() => { btn.disabled = false; btn.classList.remove('arming'); }, BOON_GUARD_MS);
       btn.addEventListener('click', () => {

@@ -302,6 +302,8 @@ body.calm #hud-gold.flare { animation: none; }
 .boon.renown b { color: #f0e2b0; }
 .boon b { display: block; font-weight: normal; font-size: var(--t-xl); color: var(--gold); }
 .boon small { color: var(--dim); line-height: 1.35; }
+/* the talent card held over from the last offer */
+.boon .held-note { display: block; margin-top: var(--s-2); font-size: var(--t-xs); color: var(--gold); font-style: normal; }
 /* what a road holds, under its card's words: the names the run's own plans give it */
 .fork-choice .road-facts { display: block; margin-top: var(--s-4); font-size: var(--t-sm); color: var(--gold); }
 /* a path: the bigger choice, once a run, so its card says everything it does */

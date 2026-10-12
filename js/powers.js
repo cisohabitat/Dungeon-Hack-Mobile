@@ -509,7 +509,8 @@ export function makePowers(K) {
     if (vowed('iron')) return 'Vowed';
     if (enemiesNear()) return 'Foes near';
     const share = restShare();
-    return share >= 1 ? 'Rest' : share >= 0.5 ? 'Rest \u00bd' : share > 0 ? 'Rest \u00bc' : 'No rest';
+    // (the share of life a rest gives back: whole, two thirds, half, a third, a quarter, a sixth)
+    return share >= 1 ? 'Rest' : share >= 2 / 3 ? 'Rest \u2154' : share >= 0.5 ? 'Rest \u00bd' : share >= 1 / 3 ? 'Rest \u2153' : share >= 0.25 ? 'Rest \u00bc' : share > 0 ? 'Rest \u2159' : 'No rest';
   }
   /** What the Cast button will do: the readied spell, or Quaff for the spell-less. */
   function castLabel() {

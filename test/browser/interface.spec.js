@@ -698,6 +698,35 @@ test.describe('talents', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a talent passed over is held for the next offer, first among the cards and marked as held', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'talent-held', cls: 'Fighter' });
+    await clearBoons(page);
+    const levelTo = lvl => page.evaluate(lvl => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.level = lvl - 1; p.xp = XP_TABLE[lvl - 1] - 1; p.perkHit = 60; p.path = PATHS[p.cls][0].id;
+      L.monsters.push({ uid: 50 + lvl, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    }, lvl);
+    await levelTo(4);
+    await expect(page.locator('#boon-title')).toHaveText("Hero level 4: a Fighter's talent");
+    await expect(page.locator('.boon.talent')).toHaveCount(3);
+    await expect(page.locator('.boon.held')).toHaveCount(0);
+    const passed = (await page.locator('.boon.talent b').nth(1).innerText()).trim();
+    await page.waitForTimeout(700);
+    await page.locator('.boon.talent').first().click();
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    await levelTo(6);
+    await expect(page.locator('#boon-title')).toHaveText("Hero level 6: a Fighter's talent");
+    const held = page.locator('.boon.talent').first();
+    await expect(held).toHaveClass(/held/);
+    await expect(held.locator('b')).toHaveText(passed);
+    await expect(held.locator('.held-note')).toHaveText('Held over from your last choice');
+    await expect(page.locator('.boon.held')).toHaveCount(1);
+    expect(errors).toEqual([]);
+  });
+
   test('a tap already on its way when the level-up opens does not choose, and the screen says what the level gave', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));

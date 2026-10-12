@@ -103,6 +103,7 @@
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
  * @property {string} [path]  the class path taken at PATH_LEVEL (a PATHS id); absent until chosen, and in saves from before paths
+ * @property {string} [talentHeld]  the first talent not chosen at the last talent offer, held over to the next (a TALENTS id)
  * @property {boolean} [pathEarly]  the path was taken at the divided stair, before PATH_LEVEL: that level's lesson is forgone, so every hero has the same number of choices
  * @property {{t: string, left: number}|null} [coating]  what the weapon is coated with (fire, silver, venom), and how many more blows that land it lasts
  * @property {string} [capstone]  the path's capstone taken at CAPSTONE_LEVEL (an id from the path's capstones); absent until chosen
@@ -114,6 +115,8 @@
 /**
  * A monster as it exists on a level, as opposed to its entry in MONSTERS.
  * @typedef {Object} Monster
+ * @property {boolean} [struck]  it has struck at the hero, hit or miss (Opening Blow is the blow before that)
+ * @property {boolean} [opened]  the hero's Opening Blow at it is spent
  * @property {number} uid @property {string} id
  * @property {number} x @property {number} y
  * @property {number} hp @property {number} maxHp
@@ -236,6 +239,7 @@
  * @property {boolean} [heartSaid]  the hero has been told the lich holds the Heart fast
  * @property {Object<string, number>} [snares]  a kobold's snares set on this floor, keyed "x,y", by whose uid set it (each is in traps too)
  * @property {boolean} [trapsKnown]  an encounter told the hero where this floor's traps are
+ * @property {boolean} [trapSpared]  Trap Sense has spared the hero this floor's first trap
  * @property {boolean} [stoodFast]  Undying or Miracle has already turned a killing blow on this floor
  * @property {Object<string, number>} [doorBlows]  blows a beast has landed on each shut door, by square
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
@@ -478,6 +482,7 @@
  * @property {*} GORE
  * @property {*} GORE_OF
  * @property {*} HALL_KEY
+ * @property {*} hasBoon
  * @property {*} hasPower
  * @property {*} hasTalent
  * @property {*} healerHeal

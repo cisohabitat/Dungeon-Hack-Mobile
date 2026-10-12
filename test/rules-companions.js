@@ -928,8 +928,8 @@ module.exports = async function companionsChecks(h) {
       const said = [], healed = [];
       for (let i = 0; i < 4; i++) { p.hp = 1; said.push(Game.restLabel()); Game.rest(); healed.push(p.hp); L.monsters.length = 0; }
       // the second, as good and as quiet as the first: no ambush halves it
-      if (craft && healed[1] !== p.maxHp) out.push(`with Field Craft the second rest mended to ${healed[1]} of ${p.maxHp}`);
-      const want = craft ? 'Rest,Rest,Rest \u00bd,Rest \u00bc' : 'Rest,Rest \u00bd,Rest \u00bc,No rest';
+      if (craft && healed[1] !== healed[0]) out.push(`with Field Craft the second rest mended to ${healed[1]} of ${p.maxHp}, the first to ${healed[0]}`);
+      const want = craft ? 'Rest \u2154,Rest \u2154,Rest \u2153,Rest \u2159' : 'Rest \u2154,Rest \u2153,Rest \u2159,No rest';
       if (said.join() !== want) out.push(`${craft ? 'with' : 'without'} Field Craft the rests read ${said.join(', ')}`);
     }
     // the goblin's fingers: +2 on a Dexterity check with it near, nothing on another score or when it is far off

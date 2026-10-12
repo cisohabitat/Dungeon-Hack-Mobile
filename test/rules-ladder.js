@@ -26,12 +26,12 @@ module.exports = async function ladderChecks(h) {
 
   await test('Hard+2: one rest a floor, not two; every rung above keeps it', async () => {
     const out = [];
-    for (const [rung, want] of [[0, 0.5], [1, 0.5], [2, 0], [5, 0]]) {
+    for (const [rung, want] of [[0, 1 / 3], [1, 1 / 3], [2, 0], [5, 0]]) {
       const { Game } = await onRung(rung, 'rung-rest');
       Game.level().rests = 1;
       if (Game.restShare() !== want) out.push(`on rung ${rung} the second rest gave ${Game.restShare()}, want ${want}`);
       Game.level().rests = 0;
-      if (Game.restShare() !== 1) out.push(`on rung ${rung} the first rest gave ${Game.restShare()}`);
+      if (Game.restShare() !== 2 / 3) out.push(`on rung ${rung} the first rest gave ${Game.restShare()}`);
     }
     return out.length ? out.join('; ') : true;
   });

@@ -737,9 +737,12 @@ const Game = (() => {
     }
     return looks;
   }
+  /** Whether the hero has learned a lesson (BOONS in data.js) that changes a rule. */
+  const hasBoon = id => !!(G && G.player.boons && G.player.boons.includes(id));
   function isKnown(t) {
     const b = ITEMS[t];
-    return !!(!b || !['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) || !G.looks[t] || G.known[t]);
+    // (Nose for Draughts: a potion is known by its smell)
+    return !!(!b || !['potion', 'scroll', 'ring', 'amulet'].includes(b.kind) || !G.looks[t] || G.known[t] || (b.kind === 'potion' && hasBoon('nose')));
   }
   function newGame(cfg) {
     // a way in still playing from a run left at the title is not this run's
@@ -840,6 +843,8 @@ const Game = (() => {
     const s = from === 'down' ? L.start : (L.downStart || L.start);
     p.x = s.x; p.y = s.y; p.dir = s.dir;
     clearLanding(L);
+    // Wayfinder: the stairs down, and the squares about them, on the map from the first step
+    if (hasBoon('wayfinder') && L.stairsDown && L.explored) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const x = L.stairsDown.x + dx, y = L.stairsDown.y + dy; if (x >= 0 && y >= 0 && x < L.w && y < L.h) L.explored[y * L.w + x] = 1; }
     // a floor of tremors starts its count again on arrival: rock left in the air when the hero went
     // never lands on them unmarked as they come back
     if (L.quake) L.quake = null;
@@ -1287,6 +1292,8 @@ const Game = (() => {
     // what was seen), but a quick foot may still pull clear as it snaps
     if (L.snares && L.snares[k]) { delete L.snares[k]; return snareSprung(tr); }
     if (L.trapsKnown) { log(`You step round the ${tr.name} you were told of.`, 'good'); return; }
+    // Trap Sense: the first on each floor is seen before the foot lands, whatever the dice
+    if (!L.trapSpared && hasBoon('trapsense')) { L.trapSpared = true; log(`You see the ${tr.name} before your foot lands, and step over it.`, 'good'); return; }
     // a Wisdom check to notice the loose flagstone, whatever the hero's trade;
     // a thief knows what to look for (more with each level), and so do the
     // tombwise. No eye for it, no lucky twenty: it is noticed or not
@@ -1441,7 +1448,7 @@ const Game = (() => {
     get followBlow() { return followBlow; }, get forkHere() { return forkHere; }, get freshStats() { return freshStats; }, get FROST_SPELLS() { return FROST_SPELLS; },
     fuelAt: (x, y) => elements.fuel(x, y), get fx() { return fx; }, get fxDelay() { return fxDelay; }, set fxDelay(v) { fxDelay = v; },
     get fxGen() { return fxGen; }, set fxGen(v) { fxGen = v; }, get G() { return G; }, set G(v) { G = v; }, get giveItem() { return giveItem; },
-    get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; }, get HALL_KEY() { return HALL_KEY; }, get hasPower() { return hasPower; },
+    get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; }, get HALL_KEY() { return HALL_KEY; }, get hasBoon() { return hasBoon; }, get hasPower() { return hasPower; },
     get hasTalent() { return hasTalent; }, get healerHeal() { return healerHeal; }, get healPlayer() { return healPlayer; },
     get heard() { return heard; }, get heldWhy() { return heldWhy; }, get heroTitle() { return heroTitle; }, get hiddenGear() { return hiddenGear; },
     get hitGroup() { return hitGroup; }, houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },

@@ -178,7 +178,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         'lucky', 'assassinate', 'venom', 'choking_cloud', 'evasion', 'light_fingers', 'shadow_step',
         'eagle_eye', 'hunters_mark', 'swift_quiver', 'volley', 'long_snare', 'field_craft', 'camouflage',
         'thick_hide', 'barkskin', 'rending_claws', 'green_hands', 'beast_bond', 'stormborn', 'long_thorns',
-        'con', 'vigor', 'keen', 'swift', 'str', 'dex', 'spread', 'hardy', 'focus', 'int', 'wis',
+        'opener', 'vigor', 'keen', 'swift', 'spread', 'hardy', 'nose', 'unheld', 'trapsense', 'focus', 'wayfinder',
         // past the top level, renown
         'r_keen', 'r_vigor', 'r_steady', 'r_swift', 'r_quick', 'r_mend', 'r_well'];
       // a ranger's blows go by Dexterity: Strength lessons are nothing to one
@@ -1037,7 +1037,7 @@ for (const cls in results) {
   // the build by floor: which floor the path, the capstone and the legend came on (ROADMAP Phase 8)
   const floors = k => { const by = {}; for (const r of rows) if (r[k]) by[r[k]] = (by[r[k]] || 0) + 1; return Object.entries(by).sort((a, b) => a[0] - b[0]).map(([f, n]) => `floor ${f} ${(n / rows.length * 100).toFixed(0)}%`).join(', ') || 'never'; };
   const wins = rows.filter(r => r.won);
-  console.log(`   path on ${floors('pathAt')}; capstone on ${floors('capAt')} (${wins.length ? (wins.filter(r => r.capstone).length / wins.length * 100).toFixed(0) : 0}% of wins); legend on ${floors('legendAt')}, worn at the end ${(avg('legendWorn') * 100).toFixed(0)}%`);
+  console.log(`   path on ${floors('pathAt')}; capstone on ${floors('capAt')} (${wins.length ? (wins.filter(r => r.capstone).length / wins.length * 100).toFixed(0) : 0}% of wins); legend on ${floors('legendAt')}, worn at the end ${(avg('legendWorn') * 100).toFixed(0)}%; winners end with ${wins.length ? (wins.reduce((a, r) => a + (r.potsAtEnd || 0), 0) / wins.length).toFixed(1) : '-'} draughts`);
   const byCap = {};
   for (const r of rows) if (r.capstone) (byCap[r.capstone] = byCap[r.capstone] || []).push(r);
   if (Object.keys(byCap).length) console.log(`   capstones ${Object.entries(byCap).map(([k, a]) => `${k} ${a.length}, win ${(a.filter(r => r.won).length / a.length * 100).toFixed(0)}%`).join(' | ')}`);

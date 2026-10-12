@@ -61,7 +61,7 @@ What is down there now wears their faces.
 ### The Returned (returned)
 
 - *blurb*: You have been down before, and you came back up.
-- *story*: You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and you sleep the first chance you get.
+- *story*: You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and the Lampfolk, who remember you, let you sleep by their lamp for nothing.
 - *motive*: You came down here again because the mountain is not finished with you.
 - *after*: They went down again because the mountain was not finished with them.
 

@@ -422,7 +422,7 @@ await test('a stat lesson is offered at most twice a run', async () => {
   const { Game, XP_TABLE } = ctx;
   const p = Game.player(), G = Game.state();
   p.perkHit = 60;
-  p.boons = ['con', 'con', 'str', 'str', 'dex', 'dex'];
+  p.boons = ['opener', 'nose', 'trapsense', 'unheld', 'wayfinder', 'keen'];
   for (let run = 0; run < 15; run++) {
     G.pendingBoons = []; G.pendingLevels = [];
     p.level = 3; p.xp = XP_TABLE[3];                  // level 4: a lesson

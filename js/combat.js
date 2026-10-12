@@ -186,8 +186,11 @@ export function makeCombat(K) {
     // an arrow at a foe that has not yet seen who loosed it
     const unseen = atRange && !m.awake;
     const marked = unseen && hasTalent('hunters_mark');
-    // a Sharpshooter's first arrow at it never misses; nor does any blow at a mimic still shut, which is a barrel standing still
-    const sure = (unseen && onPath('sharpshooter')) || !!m.disguised;
+    // a Sharpshooter's first arrow at it never misses; nor does any blow at a mimic still shut, which is a barrel standing still;
+    // nor, with Opening Blow learned, the first blow at a foe that has not yet struck
+    const opener = K.hasBoon('opener') && !m.struck && !m.opened;
+    if (opener) m.opened = true;
+    const sure = (unseen && onPath('sharpshooter')) || !!m.disguised || opener;
     m.awake = true;
     const roll = d(1, 20);
     // an answered trick's opening, taken in time, on the one that left it
@@ -721,7 +724,11 @@ export function makeCombat(K) {
     if (K.G.bossDown) return;
     const pool = talentPool();
     if (!pool.length) { offerBoons(); return; }
-    K.G.pendingBoons = (K.G.pendingBoons || []).concat([Dice.shuffle(pool.slice()).slice(0, 3).map(t => t.id)]);
+    // one card is held over from the last talent offer (the first not chosen): a talent a build
+    // wants comes round again, rather than being lost to the draw
+    const held = p.talentHeld && pool.some(t => t.id === p.talentHeld) ? p.talentHeld : null;
+    if (!held) p.talentHeld = undefined;
+    K.G.pendingBoons = (K.G.pendingBoons || []).concat([(held ? [held] : []).concat(Dice.shuffle(pool.filter(t => t.id !== held)).slice(0, held ? 2 : 3).map(t => t.id))]);
     K.G.pendingLevels = (K.G.pendingLevels || []).concat(p.level);
     emit('boons');
   }
@@ -790,6 +797,8 @@ export function makeCombat(K) {
     const talent = (TALENTS[p.cls] || []).find(t => t.id === id);
     if (talent) {
       p.talents = (p.talents || []).concat(id);
+      // the first card not chosen is held over to the next talent offer
+      p.talentHeld = offer.find(x => x !== id && (TALENTS[p.cls] || []).some(t => t.id === x));
       K.G.pendingBoons.shift(); if (K.G.pendingLevels) K.G.pendingLevels.shift();
       redrawOffers();
       log(`Talent: ${talent.name}. ${talent.desc}`, 'good');
@@ -870,6 +879,8 @@ export function makeCombat(K) {
     // the off hand's blow too) would tell the death twice
     if (K.G.status !== 'playing') return;
     const p = P();
+    // whatever hurt the hero has struck: a gaze, a gout of fire or a thrown pot as much as a blow (Opening Blow)
+    if (from && typeof from === 'object' && 'uid' in from) from.struck = true;
     // a bear's hide takes the blow before the druid inside it does (and what
     // it takes is not counted as taken)
     // (hunger and poison work from inside, where no hide reaches)
