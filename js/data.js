@@ -491,7 +491,7 @@ const CLASSES = {
   // weakest of the six, fifteen to the rest's seventeen or more, and lost more
   // heroes than any other before they chose a path, on Normal and Hard alike)
   cleric: {
-    name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, startHp: 3, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
+    name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, startHp: 3, hardHp: 2, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     ease: 'Forgiving: mends its own wounds.',
     // a cleric fights in the front line as a fighter does, and dresses for it
