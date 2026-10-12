@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2026-12-14', text: 'the hero above every level-up and the divided stair, a way back from the prologue, what beats what killed you and one goal to go down for on the end screen, Search only at a dead end, and the name you see kept' };
+  const NEWS = { id: '2026-12-15', text: 'the dice belong to the run now: the same seed played the same way is the same run, saved and taken up again; a win inside the hour scores up to 600 more, ten fewer a minute, and the Hall and share lines carry the time' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

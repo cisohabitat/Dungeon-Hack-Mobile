@@ -67,8 +67,16 @@ export function makeChronicle(K) {
   // claiming the Heart is worth half the run again: a flat bonus alone left a
   // win barely ahead of a death on the last floor (22,146 against 20,562)
   // (and each vow sworn adds its share to the whole, as a pact should: see VOWS)
-  function score(p, depth, won) {
-    const run = p.xp * 2 + p.deepest * 100, base = won ? Math.round(run * 1.5) + 2000 : run;
+  /** A win inside the hour earns up to this much more, ten fewer for every minute it took. */
+  const QUICK_WIN = 600, QUICK_A_MINUTE = 10;
+  const quickWin = t => Math.max(0, QUICK_WIN - Math.floor(t / 60000) * QUICK_A_MINUTE);
+  /**
+   * The run's score: depth above all, the Heart half as much again and two thousand, and for a
+   * win the clock (a board with no clock in it ranked the slowest, fullest clear first). t is the
+   * run's own time, in milliseconds: the run's by default.
+   */
+  function score(p, depth, won, t = K.G ? K.G.t : 0) {
+    const run = p.xp * 2 + p.deepest * 100, base = won ? Math.round(run * 1.5) + 2000 + quickWin(t) : run;
     const vows = (K.G && K.G.opts && K.G.opts.vows) || [];
     // (and each rung of the ladder past Hard a tenth more: see LADDER)
     return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0) + RUNG_SCORE * K.rung()));
@@ -173,6 +181,8 @@ export function makeChronicle(K) {
     else if (won) K.G.earned = { reloadable: true };
     /** @type {Record<string, any>} */
     const entry = { name: p.name, cls: p.cls, level: p.level, renown: p.renown || 0, depth: K.G.depth, gold: p.gold, xp: p.xp, kills: p.kills, won, seed: K.G.seed, date: Date.now(), score: score(p, K.G.depth, won),
+      // the clock and the companion, to order equal scores by (the quicker, then the one who brought a friend home)
+      time: Math.round(K.G.t / 1000), together: !!(K.G.companion && K.G.companion.depth === K.G.depth && !K.G.companion.fallen),
       difficulty: K.G.opts.difficulty || 'normal', permadeath: !!K.G.opts.permadeath, levels: K.G.opts.levels || 8, ...(K.G.route ? { route: K.G.route } : {}), ...(K.G.opts.weekly ? { weekly: K.G.opts.weekly } : {}), ...(K.G.opts.daily ? { daily: K.G.opts.daily, ...(K.G.opts.dailyKind ? { dailyKind: K.G.opts.dailyKind } : {}) } : {}) };
     // the named champions it cut down, by name, for the Hall's line
     const slain = Object.keys(runStats().kills).filter(id => MONSTERS[id] && MONSTERS[id].named).map(id => MONSTERS[id].named.called);
@@ -190,7 +200,7 @@ export function makeChronicle(K) {
     try {
       const list = hall().filter(h => h.run !== entry.run);
       list.push(entry);
-      list.sort((a, b) => b.score - a.score);
+      list.sort((a, b) => b.score - a.score || (a.time || 1e9) - (b.time || 1e9) || Number(!!b.together) - Number(!!a.together));
       localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
     } catch (e) { /* ignore */ }
   }

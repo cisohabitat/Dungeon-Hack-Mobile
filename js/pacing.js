@@ -4,7 +4,7 @@
 import { ELITES, MONSTERS, THEMES } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { twistRelic } from './relics.js';
-import { Dice, Rng } from './rng.js';
+import { Dice, Rng, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
 /** @param {any} K */
@@ -90,7 +90,7 @@ export function makePacing(K) {
     L.rests = before + 1;
     // the first rest on a floor is quiet (the first two, with Field Craft); after it, each is more likely to be found
     const quiet = hasTalent('field_craft') ? 1 : 0;
-    const found = before > quiet && Math.random() < Math.min(AMBUSH_MOST, (before - quiet) * AMBUSH_STEP);
+    const found = before > quiet && rnd() < Math.min(AMBUSH_MOST, (before - quiet) * AMBUSH_STEP);
     if (found) share /= 2;
     const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
     noteHealed(hp);
@@ -346,7 +346,7 @@ export function makePacing(K) {
     const tougher = n => Math.round(n * (1 + PRESS_HP * L.press));
     for (const m of L.monsters) {
       // (never a pack, as the floor's own champions never are: every member would carry the prefix and its spoils)
-      if (!m.elite && !m.shade && !m.pack && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && Math.random() < PRESS_CHAMPION * L.press) {
+      if (!m.elite && !m.shade && !m.pack && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && rnd() < PRESS_CHAMPION * L.press) {
         const e = Dice.pick(ELITES);
         m.elite = e.prefix; m.maxHp = Math.round(m.maxHp * e.hp);
       }

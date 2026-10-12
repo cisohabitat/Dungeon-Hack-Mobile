@@ -124,7 +124,8 @@ function outcome(done) { return done.won ? 'claimed the Heart' : `fell on floor 
 /** One line to paste anywhere. */
 function shareLine(key, done, kind = 'main') {
   const who = CLASSES[done.cls] ? CLASSES[done.cls].name : done.cls;
-  return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid Daily' : 'daily'} ${key}: ${who}, ${outcome(done)}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
+  const took = Number.isFinite(done.time) ? ` in ${Math.floor(done.time / 60)}m ${String(done.time % 60).padStart(2, '0')}s` : '';
+  return `Deepdelve ${kind === 'earned' ? 'Ranger & Druid Daily' : 'daily'} ${key}: ${who}, ${outcome(done)}${took}, ${done.kills} kill${done.kills === 1 ? '' : 's'}, streak ${Math.max(1, streak(key, kind))}`;
 }
 
 const Daily = { today, seedFor, longDate, heroFor, dealHero, dayNumber, start, finish, status, streak, outcome, shareLine, HERO_NAMES, DAILY_BACKGROUNDS, EARNED_CLASSES };

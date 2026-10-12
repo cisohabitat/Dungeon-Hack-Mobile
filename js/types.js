@@ -342,6 +342,9 @@
  * @property {'playing'|'dead'|'won'} status
  * @property {string|null} lastSpell
  * @property {number} created @property {number} version
+ * @property {number} [diceSeed]  the run's dice as they were seeded, from the run itself (rng.js)
+ * @property {number} [dice]      the dice's state as last saved, so a run taken up again rolls on
+ * @property {number} [odds]      the odds' state (rng.js, the second stream) as last saved
  * @property {Object<string, {adj: string, sprite: string}>} looks
  * @property {Object<string, number>} known
  * @property {boolean} [escaping]  a save from when the Heart had to be carried out: loaded, it is won

@@ -1,5 +1,5 @@
 import { ITEMS, MONSTERS, armorFits, shieldFits } from './data.js';
-import { Dice, d } from './rng.js';
+import { Dice, d, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
 // Monsters: how they wake, move and strike, their signature moves, the lich's
@@ -101,7 +101,7 @@ export function makeFoes(K) {
     const note = K.rollNote(roll, mb.hit, ac, roll === 20);
     Sound.play(m.id === 'archer' ? 'arrow' : 'darkbolt', K.heard(m));
     if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { K.log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
-    if (K.hasTalent('evasion') && Math.random() < 1 / 3) { K.log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
+    if (K.hasTalent('evasion') && rnd() < 1 / 3) { K.log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
     // a mage's Shield is woven against exactly this: bolts of magic break on it
     if (m.id !== 'archer' && K.effectFrom('ac', 'shield')) {
       K.log(`The ${mb.name} ${r.verb} you, and it breaks on your Shield.`, 'good');
@@ -195,7 +195,7 @@ export function makeFoes(K) {
   function beginWindup(m, kind, dur) {
     if (m.pressing) { dur = Math.max(350, Math.round(dur * 0.6)); m.pressing = false; }
     // a cunning fighter never draws back the same way twice: the beat cannot be learned, only the blow watched
-    if (K.mstat(m).cunning) dur = Math.max(300, Math.round(dur * (0.7 + Math.random() * 0.6)));
+    if (K.mstat(m).cunning) dur = Math.max(300, Math.round(dur * (0.7 + rnd() * 0.6)));
     // where you stood when it drew back: a lunge follows you from there
     const p = K.P();
     m.windup = { kind, at: K.G.t, until: K.G.t + dur, px: p.x, py: p.y };
@@ -253,7 +253,7 @@ export function makeFoes(K) {
     // in the dark, a wounded lich turns to the Heart and drinks; strike it to break the rite
     const rite = mb.boss && m.id === 'lich' && (m.phase || 0) >= 2 && m.hp < m.maxHp && K.G.t >= (m.riteReady || 0);
     // an acolyte at a hero wading in water calls lightning into it, in place of its chant
-    const storm = !rite && mb.storm && mb.ranged && K.wet(p.x, p.y) && K.G.t >= (m.moveReady || 0) && hasLineToPlayer(m, mb.ranged.range) && Math.random() < 0.4;
+    const storm = !rite && mb.storm && mb.ranged && K.wet(p.x, p.y) && K.G.t >= (m.moveReady || 0) && hasLineToPlayer(m, mb.ranged.range) && rnd() < 0.4;
     const mv = rite ? 'rite' : storm ? 'storm' : mb.move;
     if (!mv || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
     let say = '', extra = {};
@@ -261,7 +261,7 @@ export function makeFoes(K) {
     // and the light it draws calls a guard to stand between you, once a rite
     if (rite && !L0guard(m)) raiseGuards(m, riteGuard(), true);
     if (mv === 'crush' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} heaves its club high over its head!`;
-    else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' || mb.named ? 4 : 3) && Math.random() < 0.6) {
+    else if (mv === 'charge' && hasLineToPlayer(m, m.id === 'minotaur' || mb.named ? 4 : 3) && rnd() < 0.6) {
       say = `The ${mb.name} lowers its head and charges!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
@@ -274,12 +274,12 @@ export function makeFoes(K) {
     else if (mv === 'grab' && adjacent && (m.blows || 0) >= 1 && !p.grabbed) say = `The ${mb.name} lurches forward to seize you!`;
     else if (mv === 'paralyse' && adjacent && (m.blows || 0) >= (mb.named && mb.named.often ? 1 : 2)) say = `The ${mb.name} reaches out with a numbing claw!`;
     // the storm comes every third blow at first, and later whenever you close on it
-    else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && Math.random() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
-    else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
+    else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && rnd() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
+    else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && rnd() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     // a blink hound steps out of the world and back in at your back
     // (only to a hero it could reach in a few steps: it does not pass through walls)
-    else if (mv === 'blink' && K.distField && K.distField[m.y * K.lvl().w + m.x] > 0 && K.distField[m.y * K.lvl().w + m.x] <= 4 && ((m.blows || 0) >= 1 || !adjacent) && Math.random() < 0.5) {
+    else if (mv === 'blink' && K.distField && K.distField[m.y * K.lvl().w + m.x] > 0 && K.distField[m.y * K.lvl().w + m.x] <= 4 && ((m.blows || 0) >= 1 || !adjacent) && rnd() < 0.5) {
       const spot = hindSpot(m);
       if (spot) {
         moveMonster(m, spot.x, spot.y);
@@ -289,43 +289,43 @@ export function makeFoes(K) {
         extra = { behind: spot.side ? 0 : 1 };
       }
     }
-    else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
+    else if (mv === 'bristle' && adjacent && (m.blows || 0) >= 1 && rnd() < 0.6) say = `The ${mb.name}'s quills rattle up on end! Hold your blow!`;
     // a dark elf warrior crosses its blades in a guard that answers a blow with a cut
-    else if (mv === 'parry' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.5) say = `The ${mb.name} crosses its blades in a guard! Hold your blow!`;
+    else if (mv === 'parry' && adjacent && (m.blows || 0) >= 1 && rnd() < 0.5) say = `The ${mb.name} crosses its blades in a guard! Hold your blow!`;
     // a lizardfolk warrior beside the hero, after a blow, coils its tail to sweep their legs
-    else if (mv === 'sweep' && adjacent && (m.blows || 0) >= 1 && Math.random() < 0.55) {
+    else if (mv === 'sweep' && adjacent && (m.blows || 0) >= 1 && rnd() < 0.55) {
       const pr = mb.named && mb.named.pron;
       say = `The ${mb.name} coils ${pr || 'its'} tail to sweep your legs! Step back!`;
     }
     // a grey dwarf mutters a working that swells it to twice its height, after a blow or from a little way off
-    else if (mv === 'enlarge' && !(m.bigUntil > K.G.t) && (adjacent ? (m.blows || 0) >= 1 : hasLineToPlayer(m, 3)) && Math.random() < 0.5) {
+    else if (mv === 'enlarge' && !(m.bigUntil > K.G.t) && (adjacent ? (m.blows || 0) >= 1 : hasLineToPlayer(m, 3)) && rnd() < 0.5) {
       const pr = mb.named && mb.named.pron, obj = pr === 'his' ? 'him' : pr === 'her' ? 'her' : 'it';
       say = `The ${mb.name} mutters a working, and begins to swell! Strike ${obj} before ${pr === 'his' ? 'he grows' : pr === 'her' ? 'she grows' : 'it grows'}!`;
     }
     // a grey dwarf arbalest sets its crossbow to its shoulder and takes careful aim down its line
-    else if (mv === 'aim' && !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && Math.random() < 0.4) {
+    else if (mv === 'aim' && !adjacent && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && rnd() < 0.4) {
       say = `The ${mb.name} sets its crossbow to its shoulder and takes careful aim! Step out of its line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     // a wyrm breathes down a passage at one who keeps their distance; under its jaws it only bites
-    else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && Math.random() < 0.6) {
+    else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && rnd() < 0.6) {
       const its = (mb.named && mb.named.pron) || 'its';
       say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     // a goblin on its own, from the third floor down, lights a pot of lamp oil
     // and throws it at where the hero stands, a few squares off down a line
-    else if (mv === 'firepot' && K.G.depth >= 3 && hasLineToPlayer(m, 4) && Math.random() < 0.5) {
+    else if (mv === 'firepot' && K.G.depth >= 3 && hasLineToPlayer(m, 4) && rnd() < 0.5) {
       say = `The ${mb.name} lights a clay pot of oil and draws back to throw it! Step aside!`;
       extra = { tx: p.x, ty: p.y, dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     // an archer with a hero standing on something that will burn looses a lit arrow at their feet
-    else if (mv === 'firearrow' && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && K.fuelAt(p.x, p.y) && Math.random() < 0.5) {
+    else if (mv === 'firearrow' && mb.ranged && hasLineToPlayer(m, mb.ranged.range) && K.fuelAt(p.x, p.y) && rnd() < 0.5) {
       say = `The ${mb.name} touches a burning arrow to its bow, aimed at your feet! Step aside!`;
       extra = { tx: p.x, ty: p.y };
     }
     // a wraith breathes a grave-cold across the stones at the feet of a hero a few squares off
-    else if (mv === 'chill' && hasLineToPlayer(m, 3) && Math.random() < 0.5) {
+    else if (mv === 'chill' && hasLineToPlayer(m, 3) && rnd() < 0.5) {
       say = `The ${mb.name} breathes out a grave-cold that creeps across the stones toward you! Step aside!`;
       extra = { tx: p.x, ty: p.y };
     }
@@ -336,7 +336,7 @@ export function makeFoes(K) {
     }
     // a kobold sets a snare on the square before the hero, toward itself, where they would step to reach it
     // (three of its own lying set at most)
-    else if (mv === 'snare' && !adjacent && hasLineToPlayer(m, 4) && K.snaresBy(m.uid) < 3 && Math.random() < 0.45) {
+    else if (mv === 'snare' && !adjacent && hasLineToPlayer(m, 4) && K.snaresBy(m.uid) < 3 && rnd() < 0.45) {
       const tx = p.x + Math.sign(m.x - p.x), ty = p.y + Math.sign(m.y - p.y);
       if (K.snareable(tx, ty)) { say = `The ${mb.name} crouches and sets something that glints on the stones between you!`; extra = { tx, ty }; }
     }
@@ -1465,7 +1465,7 @@ export function makeFoes(K) {
         if (touch) beginWindup(m, 'melee', WAKE_BEAT);
         return;
       }
-      if (Math.random() < 0.3) wander(m);
+      if (rnd() < 0.3) wander(m);
       m.nextAct = G.t + mb.speed * 1.5;
       return;
     }
@@ -1497,7 +1497,7 @@ export function makeFoes(K) {
       return;
     }
     // lost in a thief's smoke, it stands and peers about rather than wandering off
-    if (!(p.smokeUntil > G.t) && Math.random() < 0.25) wander(m);
+    if (!(p.smokeUntil > G.t) && rnd() < 0.25) wander(m);
     m.nextAct = G.t + mb.speed * 1.5;
   }
   // How long a sound hangs about for an eyeless to follow: a thief's steps fade sooner
@@ -1513,7 +1513,7 @@ export function makeFoes(K) {
       K.floatText(m, 'listening', '#c8c0e0');
       if (!m.gropeSaid) { m.gropeSaid = true; K.log(`The ${mb.name} stops dead, its blind head turning, listening for you.`, 'good'); K.learn(m.id, 'answer'); }
     }
-    if (Math.random() < 0.5) wander(m);
+    if (rnd() < 0.5) wander(m);
     m.nextAct = G.t + mb.speed;
   }
   /** A drowned one lies sunk until something comes within two squares of it. */
@@ -1643,7 +1643,7 @@ export function makeFoes(K) {
     if (!m.lostAt) m.lostAt = G.t;
     else if (G.t - m.lostAt > 7000) { m.awake = false; m.lostAt = 0; }
     m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
-    if (Math.random() < 0.3) wander(m);
+    if (rnd() < 0.3) wander(m);
     m.nextAct = G.t + mb.speed * 1.5;
   }
   /** Run for the darkness; recover nerve once far enough away. @returns {boolean} whether it fled (false: cornered, it fights on) */

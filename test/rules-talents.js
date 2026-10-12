@@ -1,7 +1,7 @@
 // Rule checks for the talents, with the sixth round's review and playtest fixes after them.
 // Run from rules.js's worker with the helpers lent in (rules-lib.js).
 module.exports = async function talentsChecks(h) {
-  const { start, markLog, countSaid, linesSince, spreadPicks, test, groupAhead, beside, ahead, shift, run, talent } = h;
+  const { start, seedDice, markLog, countSaid, linesSince, spreadPicks, test, groupAhead, beside, ahead, shift, run, talent } = h;
 
 // ---------- talents ----------
 
@@ -192,6 +192,7 @@ await test('Shadow Step: a sidestep makes the next blow a strike from the shadow
   const { Game, Dungeon } = ctx;
   const p = Game.player(), G = Game.state(), L = Game.level();
   talent(ctx, 'shadow_step'); p.perkHit = 60;
+  seedDice(ctx, 'shadow-step-swing');   // (the run's own dice threw a twenty here: a mighty blow, which says nothing of the shadows)
   const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
   // step aside and back, then strike
   const [sx, sy] = Dungeon.DIRS[(p.dir + 1) % 4];
@@ -235,7 +236,7 @@ await test('a burn and a poison tick their full count at a phone\'s frame rate',
     talent(ctx, id); p.perkHit = 60; p.sp = p.maxSp = 99;
     const m = beside(ctx, 'orc', { hp: 5000, maxHp: 5000, nextAct: 1e12 });
     if (spell) { G.t = p.nextAttack; Game.castSpell(Game.knownSpells().find(s => s.id === spell)); }
-    else { const real = Math.random; Math.random = () => 0; try { for (let i = 0; i < 6 && !m.dot; i++) { G.t = p.nextAttack; Game.input('attack'); } } finally { Math.random = real; } }
+    else { const real = ctx.Odds.next; ctx.Odds.next = () => 0; try { for (let i = 0; i < 6 && !m.dot; i++) { G.t = p.nextAttack; Game.input('attack'); } } finally { ctx.Odds.next = real; } }
     if (!m.dot) return -1;
     const mark = markLog(G);
     for (let i = 0; i < 400; i++) Game.update(G.t + 1000 / 60, 1000 / 60);

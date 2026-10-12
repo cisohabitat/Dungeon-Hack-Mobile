@@ -375,7 +375,7 @@ test.describe('sharing a run', () => {
     await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
     await expect(page.locator('#end-share')).toHaveText('Share this run');
     await page.click('#end-share');
-    await expect(page.locator('#end-share-line')).toHaveText(/^Deepdelve seed share-me \(Normal, 6 floors, large halls, no traps\): Fighter, fell on floor 1, \d+ kills?, score \d+ https?:\/\/\S+$/);
+    await expect(page.locator('#end-share-line')).toHaveText(/^Deepdelve seed share-me \(Normal, 6 floors, large halls, no traps\): Fighter, fell on floor 1 in \d+m \d\ds, \d+ kills?, score \d+ https?:\/\/\S+$/);
     expect(errors).toEqual([]);
   });
 
@@ -449,7 +449,7 @@ test.describe('sharing a run', () => {
     await page.click('#end-share');
     await expect(page.locator('#end-share')).toHaveText('Shared');
     const sent = await page.evaluate(() => window.__sheet[1]);
-    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal, Iron Vow\): Fighter, fell on floor 1, /);
+    expect(sent).toMatch(/^Deepdelve seed share-sheet \(Normal, Iron Vow\): Fighter, fell on floor 1 in \d+m \d\ds, /);
     await expect(page.locator('#end-share-line')).toHaveText(sent);
     expect(errors).toEqual([]);
   });
@@ -562,7 +562,7 @@ test.describe('the Daily Delve', () => {
     await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
     await expect(page.locator('#screen-end')).toBeVisible();
     await page.click('#end-share');
-    await expect(page.locator('#end-share-line')).toContainText(/^Deepdelve daily 2026-09-24: \w+, fell on floor 1, \d+ kills?, streak 1 https?:\/\/\S+$/);
+    await expect(page.locator('#end-share-line')).toContainText(/^Deepdelve daily 2026-09-24: \w+, fell on floor 1 in \d+m \d\ds, \d+ kills?, streak 1 https?:\/\/\S+$/);
 
     await page.goto('/');
     await expect(page.locator('#daily-summary')).toContainText('Today: fell on floor 1');

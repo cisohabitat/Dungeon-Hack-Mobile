@@ -111,9 +111,9 @@ export function makeEndScreen(K) {
     // a vow leaves the dungeon as it is, but it is half of what the run was
     for (const v of o.vows || []) if (VOWS[v]) ways.push(VOWS[v].name);
     const cls = CLASSES[p.cls] ? CLASSES[p.cls].name : p.cls;
-    // and where to play it, when it is being played somewhere a friend can reach
-    const where = location.protocol === 'https:' ? ` ${location.origin}${location.pathname}` : '';
-    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}${where}`;
+    // (where to play it is added by the share button, to every line alike)
+    const secs = Math.round(G.t / 1000), took = ` in ${Math.floor(secs / 60)}m ${String(secs % 60).padStart(2, '0')}s`;
+    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}${took}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
   }
   /** What the share card says of this run, and the picture it shows. */
   function cardInfo(won) {

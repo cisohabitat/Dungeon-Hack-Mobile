@@ -5,7 +5,7 @@ import { BOONS, CAPSTONE_LEVEL, ITEMS, MAX_LEVEL, MONSTERS, PATHS, PATH_LEVEL, R
 import { Dungeon } from './dungeon.js';
 import { Progress } from './progress.js';
 import { RELICS } from './relics.js';
-import { Dice, d } from './rng.js';
+import { Dice, d, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
 /** @param {any} K */
@@ -284,7 +284,7 @@ export function makeCombat(K) {
     }
     if (bladeLanded) wild.rend(m, struckSurvived);
     // Venomed Blades: one hit in four poisons anything living, and only the one struck
-    if (hasTalent('venom') && struckSurvived && Math.random() < 0.25 && venomTakes(m, mb)) {
+    if (hasTalent('venom') && struckSurvived && rnd() < 0.25 && venomTakes(m, mb)) {
       m.dot = { kind: 'venom', until: K.G.t + 4000, next: K.G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
     }
@@ -433,7 +433,7 @@ export function makeCombat(K) {
     // Kindling, or a Pyromancer: the hero's fire keeps burning
     if (tag === 'burn' && kindles()) setBurning(m);
     // wounded, non-boss monsters may break and run (a fungus has nowhere it would rather be)
-    if (!mb.boss && !mb.named && !mb.spores && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && Math.random() < 0.3) {
+    if (!mb.boss && !mb.named && !mb.spores && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && rnd() < 0.3) {
       m.fleeing = true;
       m.windup = null; m.volley = null;
       log(`The ${mb.name} turns to flee!`, 'good');
@@ -500,14 +500,14 @@ export function makeCombat(K) {
     meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     // (a shade leaves only what its hero wore)
-    if (!m.shade && (Math.random() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite)) {
+    if (!m.shade && (rnd() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite)) {
       const k = key(m.x, m.y);
       const loot = Dungeon.rollLoot(Dice, K.G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
     }
     // and the deep's own beasts leave something of themselves now and then
     for (const [t, chance] of TROPHIES[m.id] || []) {
-      if (Math.random() >= chance) continue;
+      if (rnd() >= chance) continue;
       const k = key(m.x, m.y);
       (L.items[k] = L.items[k] || []).push({ t, q: 1, e: 0 });
       // (armour takes no article: 'Elven Chain', not 'a Elven Chain')
@@ -525,7 +525,7 @@ export function makeCombat(K) {
     // and the legend made for the hero's path, the first champion to fall once they walk it
     // (or, now and then, one of the marked ones: a feral, armoured or ancient thing)
     // (twice as often for one who came down for them: the Legend-Seeker)
-    if (mb.named || (m.elite && Math.random() < LEGEND_ELITE * (P().bg === 'seeker' ? 2 : 1))) K.legends.drop(m);
+    if (mb.named || (m.elite && rnd() < LEGEND_ELITE * (P().bg === 'seeker' ? 2 : 1))) K.legends.drop(m);
     // a renegade at the hero's side when the High Priestess falls has what they came down for
     // (near enough to see it: one told to stay at the far end of the floor only hears of it)
     const rc = companion.here();

@@ -46,6 +46,8 @@ async function startGame(page, opts = {}) {
   if (typeof opts.cls === 'number') await page.click(`.class-card:nth-child(${opts.cls})`);
   else if (opts.cls) await page.locator('.class-card', { has: page.locator('b', { hasText: new RegExp(`^${opts.cls}$`, 'i') }) }).click();
   if (opts.bg) await page.locator('.bg-card', { hasText: opts.bg }).click();
+  // scores placed by points rather than rolled: the same hero every time, for a test that needs one
+  if (opts.buy) await page.click('#c-statmode [data-mode="buy"]');
   if (opts.levels) await page.selectOption('#c-levels', opts.levels);
   await page.fill('#c-seed', opts.seed || 'spec');
   await page.click('#c-begin');

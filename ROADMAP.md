@@ -119,21 +119,28 @@ is built on top. Each is small; together they are the grade.
 
 ## Phase 7: Honest dice (1–2 weeks)
 
-- [ ] **A run's own dice** (C4, D12): an `Rng` on `G`, seeded from the run and saved with it;
-  `d()` and a `chance(p)` on it; the forty gameplay `Math.random` calls (combat, foes, game,
-  pacing, elements, lairs, names) swapped; the renderer, the title, sound and music keep
-  `Math.random`. Proved by a rules test that plays one seed and one input list twice to one
-  fingerprint, and by the bench's `FP=1` on every row.
-- [ ] **A score with a clock** (D12): turns or seconds in the score, a tiebreak on time and
-  on the companion, said on the end screen and the share line.
+- [x] **A run's own dice** (C4, D12): two streams in `rng.js`, the dice (`d()`) and the odds
+  (`rnd()`, `chance(p)`), seeded from the run (seed, class, background and name) and saved
+  with it, taken up again on a load and a save code; the gameplay `Math.random` calls (combat,
+  foes, game, pacing, elements, lairs) swapped; the renderer, the title, sound and music keep
+  `Math.random`. Proved by `test/rules-dice.js` (one seed pressed the same way twice to one
+  print, a save taken up twice the same), by `test/browser/dice.spec.js` (the same in the
+  browser, the page's frames held) and by the bench's `FP=1`.
+- [x] **A score with a clock** (D12): a win inside the hour earns up to 600 more, ten fewer a
+  minute; the Hall and the Weekly's best set the quicker of two equal scores first, and a
+  companion at the end before none; the time said on the end screen and in every share line.
 - [ ] **The run recorded** (D12): each frame's length and each press kept with the save,
-  bounded; the bot harness plays one back headless to the same end.
-- [ ] **Split `test/rules.js`** (C7) along its headings into `rules-*.js`, one runner, three
-  or four processes; the slow suite under two minutes.
+  bounded; the bot harness plays one back headless to the same end. *Moved to Phase 9, with
+  the friends' board that needs it (decision 2): every call that changes the run would have to
+  be recorded, and nothing before the board reads such a record.*
+- [x] **Split `test/rules.js`** (C7) along its headings into `rules-*.js`, one runner, three
+  or four processes; the slow suite under two minutes. *55 files, four processes, 2m13s here
+  (the one check that swings a sword 180,000 times sets the floor).*
 
 **Exit criteria**
-- The same seed and inputs give the same run in the browser and under the bot, every time.
-- The frame-rate budget unchanged.
+- [x] The same seed and inputs give the same run in the browser and under the bot, every time.
+  (A loaded run is not the run never put down: a load gives every creature a moment's grace.)
+- [x] The frame-rate budget unchanged.
 
 ## Phase 8: The build by floor 3 (6–8 weeks)
 
@@ -171,8 +178,9 @@ exit criteria are the answer.
 
 ## Phase 9: The live game (6–8 weeks, then ongoing)
 
-- [ ] **A friends' board** (decision 2): a pasted share line, verified by headless replay in
-  `api/`, shown under the Daily's and the Weekly's own result; a name typed on the phone,
+- [ ] **A friends' board** (decision 2): the run recorded first (each frame's length and each
+  press kept with the save, bounded; the bot harness plays one back headless to the same end,
+  from Phase 7); then a pasted share line, verified by headless replay in `api/`, shown under the Daily's and the Weekly's own result; a name typed on the phone,
   nothing else sent, the telemetry's privacy note. A public top fifty only if wanted after.
 - [ ] **A mastery track** (D13): five named stages a class, each opening an option (a third
   kit, a frame, a starting relic from the codex at a price); Wick's tales to twenty; the Hall
@@ -232,7 +240,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 
 ## Debts, scheduled, not left
 
-- [ ] `test/rules.js` split: Phase 7.
+- [x] `test/rules.js` split: Phase 7.
 - [ ] `ui.js`, `renderer.js`, `game.js`, `foes.js` within 300 lines of the limit (C7): the
   next slice out of each before the phase that touches it (the title and create screens out of
   `ui.js` in Phase 6; the K wiring out of `game.js` in Phase 7).

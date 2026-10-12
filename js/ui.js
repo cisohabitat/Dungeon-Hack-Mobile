@@ -1337,10 +1337,10 @@ const UI = (() => {
   /** A daily run's end is kept at once, before any finale, in case the phone is put away. */
   function noteDaily(run, won) {
     // (a week's try is kept the same way, and as soon)
-    if (run.opts.weekly && !run.tested) Weekly.finish(run.opts.weekly, { won, depth: run.depth, kills: run.player.kills, cls: run.player.cls, score: Game.score(run.player, run.depth, won) });
+    if (run.opts.weekly && !run.tested) Weekly.finish(run.opts.weekly, { won, depth: run.depth, kills: run.player.kills, cls: run.player.cls, score: Game.score(run.player, run.depth, won, run.t), time: Math.round(run.t / 1000) });
     if (!run.opts.daily || run.tested) return;
     const p = run.player;
-    Daily.finish(run.opts.daily, { won, depth: run.depth, kills: p.kills, cls: p.cls, score: Game.score(p, run.depth, won) }, run.opts.dailyKind || 'main');
+    Daily.finish(run.opts.daily, { won, depth: run.depth, kills: p.kills, cls: p.cls, score: Game.score(p, run.depth, won, run.t), time: Math.round(run.t / 1000) }, run.opts.dailyKind || 'main');
   }
   function handleEvents() {
     for (const e of Game.takeEvents()) {
@@ -1460,7 +1460,7 @@ const UI = (() => {
       // a week's try is shared as the week's best so far (a test run's kept nothing, so it is told as any run)
       const week = G.opts.weekly && !G.tested ? Weekly.shareLine(G.opts.weekly) : '';
       // (with where to play it: a line with no way in brought nobody)
-      const line = `${key ? Daily.shareLine(key, st.done, kind) : week || runShareLine(G.status === 'won')} ${location.origin}`, out = $('#end-share-line');
+      const line = `${key ? Daily.shareLine(key, st.done, kind) : week || runShareLine(G.status === 'won')} ${location.origin}${location.pathname}`, out = $('#end-share-line');
       // the line is shown as well, to copy by hand if the clipboard says no
       out.textContent = line; out.style.display = '';
       shareText(line).then(how => { $('#end-share').textContent = SHARED[how] || (how === 'closed' ? $('#end-share').textContent : 'Copy the line below'); });

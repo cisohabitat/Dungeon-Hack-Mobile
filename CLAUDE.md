@@ -29,6 +29,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   copy a value from `K` when it is made only if that value is already settled
   by then: one made later, or one living in a factory wired after it, must be
   read through `K` at the moment of use.
+- `js/rng.js`: the seeded `Rng`, and `Dice`, the run's own dice: seeded from the run as it begins
+  (`newGame`), their state carried in the save and taken up again on load, so the same run pressed
+  the same way rolls the same, in the browser as under the bench. A roll play makes goes through
+  `d()`, `rnd()` or `chance()`, never `Math.random`, which is for what changes nothing (pictures,
+  sound, the title's names).
 - `js/dungeon.js`: level generation, deterministic per `(seed, depth)`. Plans
   for a whole run (`namedPlan`, `twistPlan`, `piecePlan`) use their own `Rng`
   streams so they never shift the map's dice. Room shapes and the set pieces

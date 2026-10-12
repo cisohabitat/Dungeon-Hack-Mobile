@@ -10,7 +10,7 @@
 // And the Heartforged's own turn grows a ground to match: at two thirds its
 // hall's floor cracks, and the cracks flare as a smouldering floor's do.
 // Wired near the end of game.js, borrowing what it needs through K.
-import { Dice } from './rng.js';
+import { Dice, rnd } from './rng.js';
 import { MONSTERS } from './data.js';
 import { Sound } from './sound.js';
 
@@ -98,7 +98,7 @@ export function makeLairs(K) {
       // a scatter of flames round it, never on the hero's own square
       const spots = around(m, 2, false);
       for (let i = 0; i < 3 && spots.length; i++) {
-        const [x, y] = spots.splice(Math.floor(Math.random() * spots.length), 1)[0];
+        const [x, y] = spots.splice(Math.floor(rnd() * spots.length), 1)[0];
         K.elements.flame(x, y);
       }
       Sound.play('cast', K.heard(m, { spell: 'burning_hands' }));
@@ -133,7 +133,7 @@ export function makeLairs(K) {
     const L = K.lvl(), spots = around(m, 4);
     L.vents = L.vents || [];
     for (let i = 0; i < FORGE_CRACKS && spots.length; i++) {
-      const [x, y] = spots.splice(Math.floor(Math.random() * spots.length), 1)[0];
+      const [x, y] = spots.splice(Math.floor(rnd() * spots.length), 1)[0];
       if (L.vents.some(v => Math.abs(v.x - x) + Math.abs(v.y - y) <= 1)) continue;
       L.vents.push({ x, y, next: 0, heat: 0, sealedUntil: 0 });
     }

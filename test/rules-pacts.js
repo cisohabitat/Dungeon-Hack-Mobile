@@ -152,9 +152,9 @@ module.exports = async function pactChecks(h) {
       const { ctx, Game, p, G, L, put, swing } = await arena('fighter', 'pact-seeker', 'knight');
       p.bg = bg;
       const m = put('orc', 1, 0, { hp: 1, maxHp: 1, elite: true });
-      // a chance between the plain one (a quarter) and the doubled one (a half)
-      const rand = Math.random; Math.random = () => 0.4;
-      try { for (let i = 0; i < 8 && L.monsters.includes(m); i++) swing(); } finally { Math.random = rand; }
+      // a roll between the plain chance (a quarter) and the doubled one (a half), on the run's own odds
+      const next = ctx.Odds.next; ctx.Odds.next = () => 0.4;
+      try { for (let i = 0; i < 8 && L.monsters.includes(m); i++) swing(); } finally { ctx.Odds.next = next; }
       if (L.monsters.includes(m)) return 'the marked orc would not fall';
       drops[bg] = Object.values(L.items).flat().filter(it => it.u === 'bastion').length;
       void ctx; void Game; void G;

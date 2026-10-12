@@ -29,7 +29,7 @@
 // What lies on each square (fire, ash, oil, ice) is kept on the level in
 // `fields`, keyed like its items, so it is saved with the rest. What it
 // borrows from the game comes through K, as the monsters' and traders' do.
-import { d } from './rng.js';
+import { d, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
 const FIRE_MS = 3000, OIL_FIRE_MS = 4500, DOOR_FIRE_MS = 6000, SPREAD_MS = 700, BURN_MS = 800;
@@ -334,7 +334,7 @@ export function makeElements(K) {
           burstCask(nx, ny, !!f.wild);
           if (!kind) continue;
           if (kind === 'moss' && f.gen >= MOSS_REACH) continue;
-          if (Math.random() < (kind === 'oil' ? 0.9 : 0.5)) ignite(nx, ny, kind === 'oil' ? 0 : f.gen + 1, !!f.wild);
+          if (rnd() < (kind === 'oil' ? 0.9 : 0.5)) ignite(nx, ny, kind === 'oil' ? 0 : f.gen + 1, !!f.wild);
         }
       }
       if (G.t >= f.burn) {
@@ -373,7 +373,7 @@ export function makeElements(K) {
       if (G.status !== 'playing') return;
     }
     if (G.t < q.next) return;
-    q.next = G.t + QUAKE_GAP[0] + Math.random() * (QUAKE_GAP[1] - QUAKE_GAP[0]);
+    q.next = G.t + QUAKE_GAP[0] + rnd() * (QUAKE_GAP[1] - QUAKE_GAP[0]);
     // (none fall round a hero on the stair: they are leaving, and a stair is no place to dodge)
     if (K.tile(p.x, p.y) === K.T.STAIRS_DOWN || K.tile(p.x, p.y) === K.T.STAIRS_UP) return;
     const near = [];
@@ -382,7 +382,7 @@ export function makeElements(K) {
       if ((dx || dy) && Math.abs(dx) + Math.abs(dy) <= QUAKE_REACH && K.tile(x, y) === K.T.FLOOR) near.push({ x, y });
     }
     const spots = [{ x: p.x, y: p.y }];
-    while (spots.length <= QUAKE_FALLS && near.length) spots.push(near.splice(Math.floor(Math.random() * near.length), 1)[0]);
+    while (spots.length <= QUAKE_FALLS && near.length) spots.push(near.splice(Math.floor(rnd() * near.length), 1)[0]);
     for (const s of spots) q.falls.push({ x: s.x, y: s.y, at: G.t, lands: G.t + QUAKE_WARN });
     K.log('The ground shudders, and dust sifts down from the roof! Get out from under it!', 'bad');
     Sound.play('rumble');
@@ -442,7 +442,7 @@ export function makeElements(K) {
     // (a smouldering floor's cracks, or those the Heartforged splits in its forge's floor)
     if (!L.vents || (L.twist !== 'smouldering' && !L.forgeVents)) return;
     for (const v of L.vents) {
-      if (!v.next) v.next = G.t + 2000 + Math.random() * VENT_GAP[1];
+      if (!v.next) v.next = G.t + 2000 + rnd() * VENT_GAP[1];
       if ((v.sealedUntil || 0) > G.t) continue;
       if (!v.heat && G.t >= v.next) {
         // (never 0, which reads as quiet: the clock starts there)
@@ -452,7 +452,7 @@ export function makeElements(K) {
       }
       if (v.heat && G.t >= v.heat + VENT_WARN) {
         v.heat = 0;
-        v.next = G.t + VENT_GAP[0] + Math.random() * (VENT_GAP[1] - VENT_GAP[0]);
+        v.next = G.t + VENT_GAP[0] + rnd() * (VENT_GAP[1] - VENT_GAP[0]);
         for (const s of ventArea(v)) flame(s.x, s.y);
         if (dist(v, p) <= 6 && !(L.ventSaid > G.t)) { L.ventSaid = G.t + 6000; K.log('A crack in the floor flares, and fire sheets out of it!', 'bad'); }
         if (dist(v, p) <= 6) Sound.play('cast', K.heard(v, { spell: 'burning_hands' }));

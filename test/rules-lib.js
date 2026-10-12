@@ -42,9 +42,9 @@ const seedDice = (ctx, key) => { ctx.Dice.s = new ctx.Rng('rules|' + key).s; };
 // Math.random back; a test calls it once it has its counts.
 const seedAll = (ctx, key) => {
   seedDice(ctx, key);
-  const loose = new ctx.Rng('rules|' + key + '|loose'), real = Math.random;
-  Math.random = () => loose.next();
-  return () => { Math.random = real; };
+  const was = ctx.Odds.s;
+  ctx.Odds.s = new ctx.Rng('rules|' + key + '|odds').s;
+  return () => { ctx.Odds.s = was; };
 };
 
 // Lines logged since a mark, read by count rather than position. The log is
@@ -131,11 +131,16 @@ function beside(ctx, id, extra = {}) {
   L.monsters.push(m);
   return m;
 }
-/** Run fn with Math.random pinned, for the few chances the game rolls outside the dice. */
+/**
+ * Run fn with the odds pinned to v (a trick's chance, a wander: what the game once asked
+ * Math.random for). The odds are the run's own now, one stream shared by every world
+ * (rng.js is loaded once), so the pin is on that stream; the dice roll as they will.
+ */
 async function pinned(v, fn) {
-  const real = Math.random;
-  Math.random = () => v;
-  try { return await fn(); } finally { Math.random = real; }
+  const { Odds } = await newContext();
+  const real = Odds.next;
+  Odds.next = () => v;
+  try { return await fn(); } finally { Odds.next = real; }
 }
 /** A monster straight ahead at a distance, down a cleared corridor. */
 function ahead(ctx, id, dist, extra = {}) {

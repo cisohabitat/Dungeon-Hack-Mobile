@@ -67,13 +67,13 @@ function modifiers(key) {
   return bits.join(', ');
 }
 
-/** @typedef {{won: boolean, depth: number, kills: number, cls: string, score: number}} WeeklyDone */
+/** @typedef {{won: boolean, depth: number, kills: number, cls: string, score: number, time?: number}} WeeklyDone */
 /** @returns {{weeks: Object<string, {tries: number, best: WeeklyDone|null, last: WeeklyDone|null}>}} */
 function load() {
   let v = null;
   try { v = JSON.parse(localStorage.getItem(WEEKLY_KEY) || 'null'); } catch (e) { /* start afresh */ }
   const weeks = {};
-  const done = d => (d && typeof d === 'object' && Number.isFinite(d.score) ? { won: !!d.won, depth: Math.max(1, Math.min(16, Math.floor(Number(d.depth) || 1))), kills: Math.max(0, Math.floor(Number(d.kills) || 0)), cls: CLASSES[d.cls] ? d.cls : 'fighter', score: Math.max(0, Math.floor(d.score)) } : null);
+  const done = d => (d && typeof d === 'object' && Number.isFinite(d.score) ? { won: !!d.won, depth: Math.max(1, Math.min(16, Math.floor(Number(d.depth) || 1))), kills: Math.max(0, Math.floor(Number(d.kills) || 0)), cls: CLASSES[d.cls] ? d.cls : 'fighter', score: Math.max(0, Math.floor(d.score)), ...(Number.isFinite(d.time) ? { time: Math.max(0, Math.floor(d.time)) } : {}) } : null);
   if (v && typeof v === 'object' && v.weeks && typeof v.weeks === 'object') {
     for (const [k, w] of Object.entries(v.weeks)) {
       if (!/^\d{4}-W\d{2}$/.test(k) || !w || typeof w !== 'object') continue;
@@ -100,7 +100,8 @@ function finish(key, done) {
   const v = load();
   const w = v.weeks[key] || { tries: 1, best: null, last: null };
   w.last = done;
-  if (!w.best || done.score > w.best.score) w.best = done;
+  // (the quicker of two equal scores stands)
+  if (!w.best || done.score > w.best.score || (done.score === w.best.score && (done.time || 1e9) < (w.best.time || 1e9))) w.best = done;
   v.weeks[key] = w;
   store(v);
 }
@@ -108,6 +109,8 @@ function finish(key, done) {
 function status(key) { return load().weeks[key] || { tries: 0, best: null, last: null }; }
 /** How a try went, in a few words. */
 const outcome = done => (done.won ? 'claimed the Heart' : `fell on floor ${done.depth}`);
+/** How long it took, "41m 10s", or nothing for a try from before the clock was kept. */
+const took = done => (Number.isFinite(done.time) ? ` in ${Math.floor(done.time / 60)}m ${String(done.time % 60).padStart(2, '0')}s` : '');
 /** The title's line under the button: what this week asks, or how the best try went. */
 function summary(key) {
   const w = status(key);
@@ -118,8 +121,8 @@ function summary(key) {
 function shareLine(key) {
   const w = status(key), b = w.best;
   if (!b) return '';
-  return `Deepdelve weekly ${key} (${modifiers(key)}): ${CLASSES[b.cls].name}, ${outcome(b)}, score ${b.score}, best of ${w.tries} ${w.tries === 1 ? 'try' : 'tries'}`;
+  return `Deepdelve weekly ${key} (${modifiers(key)}): ${CLASSES[b.cls].name}, ${outcome(b)}${took(b)}, score ${b.score}, best of ${w.tries} ${w.tries === 1 ? 'try' : 'tries'}`;
 }
 
-const Weekly = { weekKey, monday, longWeek, seedFor, heroFor, modifiers, start, finish, status, outcome, summary, shareLine, WEEKLY_CLASSES, WEEKLY_VOWS };
+const Weekly = { weekKey, monday, longWeek, seedFor, heroFor, modifiers, start, finish, status, outcome, took, summary, shareLine, WEEKLY_CLASSES, WEEKLY_VOWS };
 export { Weekly };

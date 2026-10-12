@@ -267,7 +267,9 @@ push and pull request.
 
 ## Balance
 
-Tuned against the simulator rather than by feel. The bot plays whole runs heading straight
+Tuned against the simulator rather than by feel. (Since October 2026 the fight's dice are the run's
+own, seeded from the run rather than the clock, so a run can be told again; the rows below were
+measured before that, and a row measured again will differ by the bench's own noise and no more.) The bot plays whole runs heading straight
 down, with stats placed as the creation screen places them (`FIT=1`). Every row was measured again
 in October 2026, after the legends, the named combinations, the champions' new fights and the
 choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three

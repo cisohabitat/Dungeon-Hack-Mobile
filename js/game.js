@@ -1,4 +1,4 @@
-import { Rng, Dice, d } from './rng.js';
+import { Rng, Dice, Odds, d, rnd, hashSeed } from './rng.js';
 import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, VOWS, LADDER } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { PIECE_SAY } from './rooms.js';
@@ -778,6 +778,11 @@ const Game = (() => {
     clearFx();
     encs.clear();   // nor does one carry over into a new run
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: newRunStamp(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
+    // the run's dice, seeded from the run itself (not the clock, so the bench and a replay roll the
+    // same): their state travels in the save (see saveRun), so a run taken up again rolls on as it was
+    G.diceSeed = hashSeed(`${cfg.seed}|${cfg.cls}|${bg}|${p.name}`);
+    G.dice = Dice.s = G.diceSeed;
+    G.odds = Odds.s = oddsSeed(G.diceSeed);
     // only vows that exist, once each; the Daily Delve is the same run for everyone, so it takes none
     if (G.opts.vows) G.opts.vows = G.opts.daily ? [] : [...new Set(G.opts.vows)].filter(v => VOWS[v]);
     // a rung of the ladder, on Hard only, never in a Daily (it only makes the delve harder, so the
@@ -841,7 +846,7 @@ const Game = (() => {
     // you arrive beside the stair you came by; that one needs no announcing
     const came = stairsBeside();
     besideKey = came ? came.key : '';
-    for (const m of L.monsters) { m.nextAct = G.t + 600 + Math.random() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; m.volley = null; }
+    for (const m of L.monsters) { m.nextAct = G.t + 600 + rnd() * 600; m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.windup = null; m.volley = null; }
     // A few seconds' grace at the foot of the first stair: nothing already awake acts until the
     // hero has stepped or struck, or the moment has passed (foes.js holds them). A goblin once
     // came through a door and struck a new hero from the side before their first tap. The first
@@ -1101,7 +1106,7 @@ const Game = (() => {
     distFieldAt = -1e9;
     onStep();
     const eye = (p.cls === 'thief' ? 0.5 : 0) + (p.bg === 'tombwise' ? 0.35 : 0) + (hasPower('seer') ? 0.35 : 0);
-    if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && Math.random() < eye) revealSecret(p.x + dx, p.y + dy, true);
+    if (eye > 0) for (const [dx, dy] of DIRS) if (tile(p.x + dx, p.y + dy) === T.SECRET && rnd() < eye) revealSecret(p.x + dx, p.y + dy, true);
     checkTile();
     if (G.status === 'playing') { noticeStairs(); noticePiece(); }
     return true;
@@ -1173,7 +1178,7 @@ const Game = (() => {
     if (!k) {
       // a strong character can force a locked door, slowly and loudly
       const chance = 0.08 + mod(p.stats.str) * 0.05 + (p.cls === 'fighter' ? 0.1 : 0);
-      if (Math.random() < Math.max(0.05, chance)) {
+      if (rnd() < Math.max(0.05, chance)) {
         setTile(x, y, T.DOOR_OPEN);
         delete L.locks[key(x, y)];
         log('You throw your shoulder against the door and it bursts open!', 'good');
@@ -1696,7 +1701,7 @@ const Game = (() => {
   });
 
   // ---------- saving: see saving.js ----------
-  const { hasSave, load, loadCode, noteRun, save, saveCode, saveSummary } = makeSaving({
+  const { hasSave, load: loadSaved, loadCode: loadSavedCode, noteRun, save: writeSave, saveCode: writeCode, saveSummary } = makeSaving({
     get G() { return G; }, set G(v) { G = v; }, get JEWEL_SLOTS() { return JEWEL_SLOTS; }, get SAVE_KEY() { return SAVE_KEY; },
     get buildLooks() { return buildLooks; }, get caskLevel() { return caskLevel; }, get clearFx() { return clearFx; },
     get companion() { return companion; }, get distFieldAt() { return distFieldAt; }, set distFieldAt(v) { distFieldAt = v; },
@@ -1708,6 +1713,21 @@ const Game = (() => {
     get refreshSp() { return refreshSp; }, get runKey() { return runKey; }, get runKeyOf() { return runKeyOf; }, get snapCam() { return snapCam; },
     get stepAside() { return stepAside; }, get stockLampOil() { return stockLampOil; }, get win() { return win; },
   });
+  // the dice's state goes into every save and comes back with every load, so a run taken up
+  // again (or carried over by code) rolls on from where it left off; a save from before the
+  // run had its own dice is seeded from the run as a new one would be
+  const oddsSeed = seed => ((seed ^ 0x5bd1e995) >>> 0) || 1;
+  function takeUpDice() {
+    if (!G) return;
+    if (!G.diceSeed) G.diceSeed = hashSeed(`${G.seed}|${G.player.cls}|${G.player.bg}|${G.player.name}`);
+    Dice.s = G.dice || G.diceSeed;
+    Odds.s = G.odds || oddsSeed(G.diceSeed);
+  }
+  function keepDice() { if (G) { G.dice = Dice.s; G.odds = Odds.s; } }
+  function save(q) { keepDice(); return writeSave(q); }
+  function load() { const ok = loadSaved(); if (ok) takeUpDice(); return ok; }
+  async function saveCode() { keepDice(); return writeCode(); }
+  async function loadCode(text) { const r = await loadSavedCode(text); takeUpDice(); return r; }
 
   // ---------- chronicle: see chronicle.js ----------
   const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle({

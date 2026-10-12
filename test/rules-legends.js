@@ -131,7 +131,7 @@ module.exports = async function legendChecks(h) {
     const { ctx, p, put, swing } = await arena('cleric', 'sunhammer', 'templar');
     p.eq.weapon = null; wearRelic(ctx, 'sunhammer');
     const dead = put('skeleton', 1);
-    swing();
+    for (let i = 0; i < 6 && !dead.dot; i++) swing();   // (the run's own dice may throw a one first)
     if (!(dead.dot && dead.dot.kind === 'burning')) out.push('a skeleton struck did not burn');
     dead.x = -9;
     const live = put('goblin', 1);

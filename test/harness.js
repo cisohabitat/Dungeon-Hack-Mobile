@@ -46,6 +46,8 @@ async function loadGame(opts = {}) {
     Dungeon: dungeon.Dungeon,
     Rng: rng.Rng,
     Dice: rng.Dice,          // the live combat dice, so a benchmark can seed them
+    Odds: rng.Odds,          // and the run's odds (a trick's chance, a wander), the second stream
+    hashSeed: rng.hashSeed,  // how a run seeds them, so a test can say what the seed should be
     store,
     PIECE_SAY: rooms.PIECE_SAY, PIECE_IDS: rooms.PIECE_IDS, PIECE_VARIANTS: rooms.PIECE_VARIANTS,
     SHADE_GEAR: creatures.SHADE_GEAR, CHAMPIONS: creatures.CHAMPIONS, CHAMPION_OF: creatures.CHAMPION_OF, CREATURES: creatures.CREATURES, POSES: creatures.POSES, PROPS: creatures.PROPS, FLOATING: creatures.FLOATING, gridOf: creatures.gridOf, paintParts: creatures.paintParts,

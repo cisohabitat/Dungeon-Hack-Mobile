@@ -357,8 +357,8 @@ await test('a locked door is forced only face-on: a step aside or back into one 
   p.dir = 1;
   const at = rel => { const [dx, dy] = D[(p.dir + rel) % 4]; return [p.x + dx, p.y + dy]; };
   const lockAt = (rel, colour) => { const [x, y] = at(rel); L.tiles[y * L.w + x] = T.DOOR_LOCKED; L.locks[x + ',' + y] = colour; return [x, y]; };
-  const real = Math.random;
-  Math.random = () => 0;          // a shoulder thrown at it would always burst it
+  const real = ctx.Odds.next;
+  ctx.Odds.next = () => 0;          // a shoulder thrown at it would always burst it (the run's own odds)
   try {
     for (const [rel, act] of [[1, 'strafeR'], [3, 'strafeL'], [2, 'back']]) {
       const [x, y] = lockAt(rel, 'iron');
@@ -380,7 +380,7 @@ await test('a locked door is forced only face-on: a step aside or back into one 
       p.inv.push({ t: 'key', q: 1, color: 'silver' });
       Game.input('strafeR');
       if (L.tiles[y * L.w + x] !== T.DOOR_OPEN) out.push('a step aside into a locked door, key in hand, did not unlock it'); }
-  } finally { Math.random = real; }
+  } finally { ctx.Odds.next = real; }
   return out.length ? out.join('; ') : true;
 });
 
