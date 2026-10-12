@@ -216,6 +216,7 @@ export function makePowers(K) {
         K.castingName = (sp.holy && hasTalent('radiance') ? 'radiant ' : hasTalent('empower') ? 'empowered ' : '') + sp.name;
         K.fxDelay = Math.round(look[1] * (SPELL_IMPACT[look[0]] || 0));
         const struck = new Set();
+        let echoed = false;
         try {
           for (const m of targets) {
             // (a spell that slides off a dark elf does nothing to it at all, nor to the place it stands)
@@ -254,6 +255,13 @@ export function makePowers(K) {
             // fills the square, takes a whole group; a dart only the front one
             const tag = sp.fire ? 'burn' : 'fire';
             if (sp.pierce || sp.area) hitGroup(m, dmg, tag); else damageMonster(m, dmg, tag);
+            // Sparkglass: a spell that fells its foe gives a third of its cost back, once a cast
+            if (!echoed && K.hasPower('echo', 'shield') && (m.hp <= 0 || m.collapsed || !lvl().monsters.includes(m))) {
+              echoed = true;
+              const back = Math.ceil(spellCost(sp) / 3);
+              p.sp = Math.min(p.maxSp, p.sp + back);
+              log(`Sparkglass gives the spell back in part (+${back}).`, 'good');
+            }
             // Crusader's Smite: a Smite that fells its foe is not spent
             if (sp.id === 'smite' && capped('crusade') && (m.hp <= 0 || m.collapsed || !lvl().monsters.includes(m))) { p.sp = Math.min(p.maxSp, p.sp + spellCost(sp)); log('The Smite was a verdict: its strength comes back to you.', 'good'); }
             // and the place answers it: water carries the lightning, freezes in the cold; moss and oil burn

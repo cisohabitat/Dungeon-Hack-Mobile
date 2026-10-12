@@ -1,7 +1,7 @@
 // Rule checks for the relics: what each does worn, who may wear it, and how they are dealt.
 // Run from rules.js's worker with the helpers lent in (rules-lib.js).
 module.exports = async function relicsChecks(h) {
-  const { OPTS, evenStats, newContext, start, markLog, linesSince, test, wearRelic } = h;
+  const { OPTS, evenStats, newContext, start, markLog, linesSince, test, wearRelic, arena, seedDice } = h;
 
 // ---------- relics ----------
 const CLASS_IDS = ['fighter', 'cleric', 'mage', 'thief'];
@@ -43,9 +43,11 @@ await test('relic plans suit the class, spread out, and never repeat', async () 
       const byDepth = floors.sort((a, b) => a - b).map(d => RELICS[plan.floor[d]].value);
       if (byDepth.some((v, k) => k && v < byDepth[k - 1])) return 'a stronger relic came before a weaker one';
     }
-    // every class has a few to find
+    // every class has a few to find: the mage eight (four on robes and foci), the ranger nine
     const usable = Object.keys(RELICS).filter(id => relicUsableBy(id, cls));
     if (usable.length < 4) return `${cls} can use only ${usable.length} relics`;
+    const dealt = usable.filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend);
+    if ((cls === 'mage' && dealt.length < 8) || (cls === 'ranger' && dealt.length < 9)) return `a ${cls} can be dealt only ${dealt.length} relics`;
   }
   // a short delve still holds one, and it is not on the Heart's floor
   const short = relicPlan('rp', 'mage', 3);
@@ -106,6 +108,49 @@ await test('the traders keep one relic back for the floor before last, where the
   if (!seven) return 'no trader on the seventh floor';
   if (seven.join() !== G.relics.shop[0]) return `the seventh floor's trader has [${seven}], not ${G.relics.shop[0]}`;
   return true;
+});
+
+await test('a mage\'s relics: the Hearthwool Robe worn and warm, Sparkglass gives a third of a killing spell back once a cast, and Galewind quickens a ranger\'s bow', async () => {
+  const out = [];
+  {
+    const ctx = await start('mage', 'mage-relics');
+    const { Game } = ctx; const p = Game.player();
+    wearRelic(ctx, 'hearthwool');
+    if (!p.eq.armor || p.eq.armor.u !== 'hearthwool') out.push('a mage could not wear the Hearthwool Robe');
+    if (!Game.hasPower('warmth') || !Game.hasPower('mend')) out.push('the robe\'s warmth and mending were not honoured');
+    // (a focus needs a free hand: the staff is put away for a dagger first)
+    const dag = { t: 'dagger', q: 1, e: 0 }; p.inv.push(dag); Game.equip(dag, true);
+    wearRelic(ctx, 'sparkglass');
+    if (!p.eq.shield || p.eq.shield.u !== 'sparkglass') out.push('a mage could not take up Sparkglass');
+  }
+  {
+    const { ctx, Game, p, G, put, cast } = await arena('mage', 'sparkglass');
+    seedDice(ctx, 'sparkglass');
+    p.eq.weapon = { t: 'dagger', q: 1, e: 0 };
+    wearRelic(ctx, 'sparkglass');
+    const sp = ctx.SPELLS.mage.find(s => s.id === 'magic_missile'), cost = Game.spellCost(sp);
+    // a foe that stands: nothing back
+    put('goblin', 1, 0, { hp: 999, maxHp: 999 });
+    p.sp = p.maxSp; cast('magic_missile');
+    if (p.sp !== p.maxSp - cost) out.push(`a spell that felled nothing left ${p.sp} of ${p.maxSp} (cost ${cost})`);
+    // a foe that falls: a third of the cost back, rounded up, over what a kill gives a mage anyway
+    const kill = () => { G.t += 5000; Game.level().monsters.length = 0; put('goblin', 1, 0, { hp: 1, maxHp: 1 }); p.sp = p.maxSp; cast('magic_missile'); return p.sp; };
+    const orb = p.eq.shield; p.eq.shield = null;
+    const plain = kill();
+    p.eq.shield = orb;
+    const echoed = kill();
+    if (echoed - plain !== Math.ceil(cost / 3)) out.push(`a killing spell gave ${echoed - plain} back, not ${Math.ceil(cost / 3)} (cost ${cost})`);
+    if (!G.log.some(l => /Sparkglass gives the spell back/.test(l.m))) out.push('the log did not say the spell came back');
+  }
+  {
+    const ctx = await start('ranger', 'galewind');
+    const { Game } = ctx; const p = Game.player();
+    const plain = { t: 'longbow', q: 1, e: 1 }; p.inv.push(plain); Game.equip(plain, true);
+    const slow = Game.blowRate(plain);
+    wearRelic(ctx, 'galewind');
+    if (!(Game.blowRate(p.eq.weapon) > slow)) out.push(`Galewind looses ${Game.blowRate(p.eq.weapon)} a second against a plain bow's ${slow}`);
+  }
+  return out.length ? out.join('; ') : true;
 });
 
 await test('a relic is named plainly, and tells its story once', async () => {

@@ -339,9 +339,10 @@ await test('a trader may shelve caster gear a tier finer than the floor, but nev
         if (b.tier > maxTier + 1) out.push(`${it.t} (tier ${b.tier}) on a floor-${d} shelf`);
         else if (b.tier === maxTier + 1) deeper++;
       }
+      // (a relic lying on a pile is the relic plan's doing, weakest first, whatever its base piece's tier)
       for (const it of Object.values(Game.level().items).flat()) {
         const b = ITEMS[it.t];
-        if ((b.focus || b.weight === 'cloth') && b.tier > maxTier) out.push(`${it.t} (tier ${b.tier}) on a floor-${d} pile`);
+        if (!it.u && (b.focus || b.weight === 'cloth') && b.tier > maxTier) out.push(`${it.t} (tier ${b.tier}) on a floor-${d} pile`);
       }
     }
   }

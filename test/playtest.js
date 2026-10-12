@@ -307,8 +307,9 @@ function play(ctx, cls, seed, opts, bg, idx) {
         if (x.u && RELICS[x.u].legend) return 1000;
         // a robe's spell points are worth something to a mage too: two of them about a point of armour
         // a focus is worth about its tier: a Spellbook or a Holy Symbol no more than a shield, a Reliquary more
-        if (bx.focus) return 1 + bx.tier * 0.5;
-        if (b.kind !== 'weapon') return bx.ac + e + powers.length + (bx.sp || 0) / 2 + (bx.cheap ? 1 : 0);
+        // (and a relic beats a plain piece of its kind, as a player would wear it for its name)
+        if (bx.focus) return 1 + bx.tier * 0.5 + powers.length + (x.u ? 2 : 0);
+        if (b.kind !== 'weapon') return bx.ac + e + powers.length + (bx.sp || 0) / 2 + (bx.cheap ? 1 : 0) + (x.u ? 2 : 0);
         const speed = bx.speed * (powers.includes('swift') ? 0.85 : 1);
         // a ranger reads the pack's own figure, as a player would: it counts the bow's aim
         const dps = p.cls === 'ranger' ? Game.blowRate(x) : (bx.dmg[0] * (bx.dmg[1] + 1) / 2 + bx.dmg[2] + e) / (speed / 1000);

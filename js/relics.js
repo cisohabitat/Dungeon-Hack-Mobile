@@ -35,6 +35,8 @@ const RELIC_POWERS = {
   lifesave: 'Life Saving: the blow that would kill you leaves you at half your life instead, once.',
   // a druid's: carried into the shape as it is taken, though the bear holds nothing
   wild: 'Wild: your Wild Shape lasts ten seconds longer, and its hide is 4 thicker.',
+  // a mage's, on a focus: the cost of a killing spell comes back in part (once a cast, however many it fells)
+  echo: 'Echo: a spell that fells its foe gives a third of its cost back, rounded up.',
   webwalk: 'Spider-blessed: no web holds you, spat or woven.',
   // the legendary pieces' own, one to a path (see LEGEND below): each turns the way that path fights
   bastion: 'Bastion: a blow caught on your shield is caught whole, and your Bash is ready again at once.',
@@ -121,6 +123,21 @@ const RELICS = {
     lore: 'Sergeant Kest held a stair with it for a night and a day. The shield remembers standing, and lends it to you.' },
   sisters_buckler: { t: 'buckler', e: 2, name: 'the Sisters\' Buckler', powers: ['pure'], value: 260,
     lore: 'Silvered by a convent of healers. Venom beads on its face like water on wax.' },
+  // four on robes and foci, so a mage's pool is not the same four every run (each power once:
+  // a second piece with the same power adds nothing, so no two of these share one)
+  hearthwool: { t: 'robe_silk', e: 1, name: 'the Hearthwool Robe', powers: ['warmth', 'mend'], value: 320,
+    lore: 'Spun from the wool of mountain sheep, and never once cold. Whoever wore it slept well below the snow line, and their cuts had closed by morning.' },
+  archivist: { t: 'robe_warded', e: 1, name: 'the Archivist\'s Robe', powers: ['mind', 'seer'], value: 380,
+    lore: 'Ink-stained at the cuffs, with a hundred pockets. The archivist who wore it read every scroll the guild ever stored, and learned where the floor was false.' },
+  midnight_folio: { t: 'spellbook', e: 1, name: 'the Midnight Folio', powers: ['quiet', 'evasion'], value: 340,
+    lore: 'Bound in black cloth, its pages ruled in silver. Read it softly: the one who wrote it did not want to be heard, and was never caught.' },
+  sparkglass: { t: 'crystal_orb', e: 1, name: 'Sparkglass', powers: ['echo'], value: 400,
+    lore: 'An orb with a crack through it that never spread. What goes out through the crack comes back a little, like a shout off a cliff.' },
+  // and two more a ranger can carry (a fighter too; the spear a druid)
+  boarspear: { t: 'spear', e: 2, name: 'the Boarspear', powers: ['giant'], value: 380,
+    lore: 'A hunting spear with a crossbar below the head, so what it goes into cannot come up the shaft at you. The crossbar is scored to the wood.' },
+  galewind: { t: 'longbow', e: 1, name: 'Galewind', powers: ['swift'], value: 400,
+    lore: 'A bow strung so tight it sings in a draught. Its arrows leave before the archer has quite decided.' },
   // one for each road at the fork, lying on its last floor and nowhere else:
   // worn at the throat or on a finger, so whoever takes the road can use it
   sextons_locket: { t: 'amulet_ward', e: 1, name: 'the Sexton\'s Locket', powers: ['warmth'], value: 320, route: 'crypts',
