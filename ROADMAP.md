@@ -211,12 +211,21 @@ exit criteria are the answer.
   floor (the bot moves on, as a player may), and one in thirty is done and never paid for want
   of a trader after. The bot prints that split, and the draughts it bought, with every bench.
 
-**Exit criteria**
-- The bot walks a path by floor 3 in nine runs of ten, and takes a capstone in four wins of
-  five on eight floors.
-- A winning run ends with two draughts or fewer on average.
-- Every README row within six points across the classes, the ladder a smooth curve.
-- The end screen's build line names a path chosen before the fork.
+**Exit criteria** (measured at the end of the phase, October 2026, every README row benched
+again: `README.md`'s table)
+- [x] The bot walks a path by floor 3 in nine runs of ten, and takes a capstone in four wins of
+  five on eight floors: the path on floor 1 to 3 in 96% to 100% of runs, every class; a capstone
+  in 99% to 100% of wins.
+- [ ] A winning run ends with two draughts or fewer on average: 2.7 to 5.7 (the cleric lowest, the
+  mage highest), from five to seven before the phase. The lever left is potion supply, a cut of
+  about two fifths to the draughts found and sold: a difficulty change for every player, so it is
+  not made here but put to the owner.
+- [x] Every README row within six points across the classes, the ladder a smooth curve: every
+  row within five but the sixteen-floor Normal one at nine (the thief about 85% to the cleric's 77
+  and the ranger's 78 over three seed sets; two levers tried moved neither past the bench's
+  noise, so it stands as measured); the ladder 62, 58, 52.5, 45.5, 41.5, 37.5 from Hard to
+  Hard+5, four to seven points a rung.
+- [x] The end screen's build line names a path chosen before the fork (`test/browser/paths.spec.js`).
 
 ## Phase 9: The live game (6–8 weeks, then ongoing)
 

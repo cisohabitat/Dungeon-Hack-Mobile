@@ -272,7 +272,7 @@ push and pull request.
 Tuned against the simulator rather than by feel. (Since October 2026 the fight's dice are the run's
 own, seeded from the run rather than the clock, so a run can be told again; the rows below were
 measured before that, and a row measured again will differ by the bench's own noise and no more.) The bot plays whole runs heading straight
-down, with stats placed as the creation screen places them (`FIT=1`). The Normal and Hard rows were measured again in October 2026 after Phase 8's first four batches (the path at level 3, a floor's wear that carries, the capstones as rules, the ladder as rules and the economy's holes), 1,200 runs a class over three seed sets; the other rows stand from before Phase 8 and are measured again once at its end, with the new items and relics in the loot and the ladder's rules in the bot's hands (on the third rung it rests beside the stairs, as a player would). Before that, every row was measured
+down, with stats placed as the creation screen places them (`FIT=1`). Every row was measured again in October 2026 at the end of Phase 8 (the path at level 3 and its mastery at 7, a floor's wear that carries, the capstones and the ladder as rules, cold and lightning for every class, the mage's relics, the economy's holes): Normal, Hard and the quick delve over three seed sets, 1,200 runs a class; Easy two sets of 200; the Long Delve rows 400 runs a class (600 for the three at the edges of the sixteen-floor Normal row); the ladder two sets of 100 a rung. What moved them at the end: the ranger has four more hit points on Hard (it fell on floors 5, 6 and 8 to the roads' champions, the basilisk and the Warlord, twice as often as the fighter: 55% to about 60%) and the cleric two (58.5% to about 60.5%). The sixteen-floor Normal row is the one over the six-point rule, the thief about 85% to the cleric's 77 and the ranger's 78 over three seed sets; a lighter brake on the cleric's deep prayers and a steeper deep lift for the ranger's shots moved neither by more than the bench's noise, so it stands as measured. Before that, every row was measured
 in October 2026, after the legends, the named combinations, the champions' new fights and the
 choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three
 seed sets (`SEEDPFX=alt`, `SEEDPFX=third`), 1,200 runs a class, since one set of 400 swings a class
@@ -284,26 +284,26 @@ Normal ones:
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Easy | 100% | 98.5% | 100% | 97.5% | 99.8% | 99% | about 99% |
-| Normal | 78% | 80.5% | 81% | 80% | 81.5% | 81% | about 80.5% |
-| Hard | 57% | 61% | 62% | 61.5% | 55% | 61.5% | about 59.5% |
-| Long Delve (12 floors), Normal | 85.8% | 85.3% | 86% | 84.3% | 87.3% | 85.8% | about 85.5% |
-| Long Delve (12 floors), Hard | 68.3% | 65% | 69.5% | 66.5% | 64.5% | 68.8% | about 67% |
-| Long Delve (16 floors), Normal | 80.8% | 80.2% | 85% | 83.3% | 82.8% | 82.3% | about 82.5% |
-| Long Delve (16 floors), Hard | 61.5% | 59.3% | 62.3% | 62.8% | 58% | 60.5% | about 60.5% |
-| Quick delve (2 floors), Normal | 98.1% | 94.2% | 97.7% | 93.6% | 95% | 99% | about 96.5% |
-| Hard+1 | 52.5% | 64% | 53% | 57% | 51% | 55% | about 55.5% |
-| Hard+2 | 50% | 45.5% | 49.5% | 48% | 50% | 51.5% | about 49% |
-| Hard+3 | 43% | 44% | 45.5% | 47.5% | 44% | 48.5% | about 45.5% |
-| Hard+4 | 47% | 35% | 34.5% | 40% | 31.5% | 40% | about 38% |
-| Hard+5 | 41% | 38.5% | 29% | 38% | 33% | 41% | about 37% |
+| Easy | 100% | 98.5% | 100% | 98.5% | 100% | 100% | about 99.5% |
+| Normal | 79% | 79.5% | 81.5% | 80.5% | 80.5% | 81.5% | about 80.5% |
+| Hard | 60.5% | 65% | 63.5% | 62.5% | 60% | 62% | about 62% |
+| Long Delve (12 floors), Normal | 83% | 85% | 86.5% | 87.5% | 84% | 86.5% | about 85.5% |
+| Long Delve (12 floors), Hard | 71.5% | 66.5% | 70.5% | 69.5% | 70% | 70.5% | about 69.5% |
+| Long Delve (16 floors), Normal | 76.5% | 84.5% | 82.5% | 85.5% | 78% | 79.5% | about 81% |
+| Long Delve (16 floors), Hard | 64.5% | 60% | 59.5% | 61.5% | 60% | 60% | about 60.5% |
+| Quick delve (2 floors), Normal | 97.5% | 94.5% | 98% | 95.5% | 97.5% | 98% | about 97% |
+| Hard+1 | 59.5% | 65% | 61.5% | 58.5% | 48.5% | 54.5% | about 58% |
+| Hard+2 | 56.5% | 54% | 49% | 60% | 43% | 51.5% | about 52.5% |
+| Hard+3 | 55% | 48% | 38% | 50% | 35.5% | 47.5% | about 45.5% |
+| Hard+4 | 50% | 49.5% | 34% | 45% | 32% | 38% | about 41.5% |
+| Hard+5 | 44% | 46% | 31% | 38.5% | 30% | 34% | about 37.5% |
 
-The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets), as a curve rather than a contest between the classes: about five or six points a rung on average, from Hard's 61.5% to 37% at the top. (Those rows are from before the three upper rungs became rules, in Phase 8; they are measured again at the end of the phase.) A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
+The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets) at the end of Phase 8, with the three upper rungs rules rather than taxes and the bot resting beside the stairs on the third (a rest there wakes whatever is near enough to hear it): as a curve rather than a contest between the classes, about four to seven points a rung, from Hard's 62% through 58, 52.5, 45.5 and 41.5 to 37.5% at the top. A rung's overall figure is good to about two points; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above. The first rung's prices and the fifth rung's lamp bite a player who buys draughts and sleeps by the lamp more than they bite the bot, which ends a run with three hundred gold and seldom lights one. A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
 
 What moved them. The cleric starts with three more life on every difficulty: it began the
 weakest of the six (fifteen, where the rest have seventeen or more) and lost the most heroes before
-they chose a path. The fighter has two more on Hard, where a sixth of its heroes died before a path;
-the ranger four more on Easy and Normal. The thief, which led Normal and Hard, starts with one less,
+they chose a path. The fighter has two more on Hard, where a sixth of its heroes died before a path, and since
+the end of Phase 8 the cleric two and the ranger four there as well; the ranger four more on Easy and Normal. The thief, which led Normal and Hard, starts with one less,
 and seven more on a quick delve, where it trailed every other class by twenty points. There the
 lesser lich has less life still (a fifth of its sort's), strikes six steps less surely, and raises one
 of the dead at a time, not two; the quick delve is now a gentle one, nineteen in twenty, as befits a
