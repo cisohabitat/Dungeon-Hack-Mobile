@@ -492,17 +492,21 @@ const Game = (() => {
   // A coating rides on the next COAT_BLOWS blows that land, then it is worn away.
   const COAT_BLOWS = 20;
   // the colour of each coating as it runs off the flask
-  const COAT_GLOW = { fire: '#ff8a30', silver: '#dfe6f0', venom: '#7ad040' };
+  const COAT_GLOW = { fire: '#ff8a30', silver: '#dfe6f0', venom: '#7ad040', frost: '#a8e0ff' };
   const COATINGS = {
     fire: { name: 'fire oil', says: 'It will burn for the next 20 blows that land.' },
     silver: { name: 'silver wash', says: 'The dead will feel the next 20 blows that land.' },
     venom: { name: 'blade venom', says: 'One in three of the next 20 blows that land will poison.' },
+    frost: { name: 'frost oil', says: 'The next 20 blows that land will chill, and hold the foe back a moment.' },
   };
+  // how long a chilled foe is held back by a frost-oiled blow
+  const FROST_HOLD = 500;
   /** What the coating on the weapon adds to a blow on this foe. */
   function coatDamage(m) {
     const c = P().coating;
     if (!c || !(c.left > 0) || !P().eq.weapon || wild.shaped()) return 0;
     if (c.t === 'fire') return elemental(m, d(1, 4), 'fire');
+    if (c.t === 'frost') return elemental(m, d(1, 4), 'cold');
     if (c.t === 'silver' && mstat(m).undead) { combos.note('silver_dead', m); return d(1, 6); }
     return 0;
   }
@@ -521,6 +525,8 @@ const Game = (() => {
     if (!c || !(c.left > 0) || !p.eq.weapon) return;
     const mb = mstat(m);
     if (survived && c.t === 'fire' && mb.regen) { if (!(m.burnUntil > G.t)) log(`The ${mb.name}'s burns do not close.`, 'good'); m.burnUntil = G.t + 6000; combos.note('trolls_bane', m); }
+    // the cold holds it back: its next move, or the blow it was drawing back, comes later
+    if (survived && c.t === 'frost') { m.nextAct = Math.max(m.nextAct, G.t) + FROST_HOLD; if (m.windup) m.windup.until += FROST_HOLD; floatText(m, 'chilled', '#cfeaff'); }
     if (survived && c.t === 'venom' && venomTakes(m, mb) && Dice.chance(1 / 3)) {
       m.dot = { kind: 'venom', until: G.t + 4000, next: G.t + 1000 };
       log(`The ${mb.name} is poisoned.`, 'good');
@@ -1481,7 +1487,7 @@ const Game = (() => {
     get queuedMove() { return queuedMove; }, set queuedMove(v) { queuedMove = v; }, quick: () => isQuick(), get QUICK() { return QUICK; },
     get rangerAim() { return rangerAim; }, get READ_MS() { return READ_MS; }, get realNow() { return realNow; }, set realNow(v) { realNow = v; },
     get recordHero() { return recordHero; }, get refreshSp() { return refreshSp; }, get relativeBearing() { return relativeBearing; },
-    get relicItem() { return relicItem; }, get relicOf() { return relicOf; }, get shelfHolds() { return shelfHolds; }, get REMAINS_MAX() { return REMAINS_MAX; },
+    get relicItem() { return relicItem; }, get relicOf() { return relicOf; }, get shelfHolds() { return shelfHolds; }, get elementFactor() { return elementFactor; }, get REMAINS_MAX() { return REMAINS_MAX; },
     get REMAINS_MS() { return REMAINS_MS; }, get removeOne() { return removeOne; }, renownAt: n => renownAt(n),
     resetDist: () => { distFieldAt = -1e9; }, get restShare() { return restShare; }, get revealAll() { return revealAll; },
     rime: (x, y) => elements.rime(x, y), get riposte() { return riposte; }, get RISE_MS() { return RISE_MS; }, get rollNote() { return rollNote; },

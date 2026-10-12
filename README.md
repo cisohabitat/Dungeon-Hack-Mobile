@@ -77,8 +77,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   anyone can read.
 - **Items.** Weapons, armour and shields with enchantments, potions, scrolls, food, gems, gold,
   and colour-coded keys for locked doors.
-- **Oils.** Fire Oil, Silver Wash and Blade Venom coat the weapon for its next 20 blows that land:
-  more fire damage (and no troll mending), more against the undead, or poison for the living.
+- **Oils.** Fire Oil, Silver Wash, Blade Venom and Frost Oil coat the weapon for its next 20 blows that land:
+  more fire damage (and no troll mending), more against the undead, poison for the living, or cold
+  that holds the foe back a moment and freezes the water round it.
 - **A trader in the dark.** One of the Lampfolk (on a goblin market floor, a goblin pedlar) sets up shop on about two floors in five, selling
   potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
   of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
@@ -119,7 +120,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   a different draught in each seed. Drink or read it to learn what it is.
 - **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
   They hit harder, take more killing, and always drop something worth having.
-- **Fire, cold and lightning.** Spells, a Scroll of Fire, a flaming blade and burns each carry an
+- **Fire, cold and lightning.** Spells, the Scrolls of Fire, Frost and Lightning, a flaming or frost-oiled blade and burns each carry an
   element, and some kinds take half as much again from one and only half from another (slimes,
   spiders, zombies, trolls and quillbacks burn well; the dead barely feel the cold; rustmaws and
   bats draw the lightning; a cave wyrm shrugs off fire and fears the cold). The first hit that finds out says so and the bestiary keeps it. The wraith's touch

@@ -199,6 +199,8 @@ export function makeCombat(K) {
     const roll = d(1, 20);
     // an answered trick's opening, taken in time, on the one that left it
     const open = !!(p.opening && p.opening.uid === m.uid && p.opening.until > K.G.t);
+    // (an opening Motley made, taken: the Fool's Opening)
+    if (open && p.opening.by === 'motley') K.combos.note('jest', m);
     if (open) p.opening = null;
     const crit = open || roll >= critFloor();
     // a riposte: the opening a missed blow left, taken
@@ -255,8 +257,10 @@ export function makeCombat(K) {
     }
     // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
     const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
-    // fire on the blade sets alight whatever will burn where the blow lands
+    // fire on the blade sets alight whatever will burn where the blow lands; frost on it works
+    // its cold on the place (a crack sealed, an emberling quenched, water frozen round the foe)
     if (bladeLanded && !wild.shaped() && (hasPower('flame', 'weapon') || (p.coating && p.coating.t === 'fire' && p.coating.left > 0))) elements.strike(m, 'fire', 0, 'blade');
+    else if (bladeLanded && !wild.shaped() && p.coating && p.coating.t === 'frost' && p.coating.left > 0) elements.strike(m, 'cold', 0, 'blade');
     // a critical blow in close is felt: the view jolts a little, less than a blow taken
     if (crit && !atRange && K.realNow >= fx.shakeUntil) { fx.shakeAmp = Math.min(3.5, 1.5 + dmg / 12); fx.shakeMs = 140; fx.shakeUntil = K.realNow + K.fxDelay + 140; }
     blowSneak = false;

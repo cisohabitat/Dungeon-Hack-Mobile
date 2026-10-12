@@ -97,7 +97,8 @@
  * @property {number} [abilityReady]  when a fighter's Bash or a thief's Smoke can be used again
  * @property {number} [smokeUntil]  a thief's smoke hangs until then: nothing notices them by sight or sound
  * @property {'down'|'frozen'|'stone'|'ice'|'snare'} [heldBy]  what is holding the hero still while `held` lasts
- * @property {{uid: number, until: number}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling
+ * @property {{uid: number, until: number, by?: string}|null} [opening]  an answered trick left this monster open: the next blow at it is sure and telling (`by`: what made it, when it matters)
+ * @property {number} [wallReady]  until when a Bash answers the Bastion's catch (The Wall Holds)
  * @property {boolean} [ritesUsed]  Last Rites has been spent this run
  * @property {number} [windReady]  Second Wind can come again from then
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
@@ -106,7 +107,7 @@
  * @property {number} [ward]  Wellspring: healing past full kept, spent before the next blows take life
  * @property {string} [talentHeld]  the first talent not chosen at the last talent offer, held over to the next (a TALENTS id)
  * @property {boolean} [pathEarly]  the path was taken at the divided stair, before PATH_LEVEL: that level's lesson is forgone, so every hero has the same number of choices
- * @property {{t: string, left: number}|null} [coating]  what the weapon is coated with (fire, silver, venom), and how many more blows that land it lasts
+ * @property {{t: string, left: number}|null} [coating]  what the weapon is coated with (fire, silver, venom, frost), and how many more blows that land it lasts
  * @property {string} [capstone]  the path's capstone taken at CAPSTONE_LEVEL (an id from the path's capstones); absent until chosen
  * @property {number} [nextMercy]  a Healer's mending under Protection: the next hit point from then
  * @property {number} [held]    cannot act until then: frozen by a ghoul's touch, or knocked down by a charge
@@ -590,6 +591,7 @@
  * @property {*} relicItem
  * @property {*} relicOf
  * @property {*} shelfHolds
+ * @property {*} elementFactor
  * @property {*} REMAINS_MAX
  * @property {*} REMAINS_MS
  * @property {*} removeOne

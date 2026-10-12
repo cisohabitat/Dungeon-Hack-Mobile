@@ -9,7 +9,7 @@ import { Rng } from './rng.js';
 import { MONSTERS } from './data.js';
 
 // what a job may pay besides the gold
-const REWARDS = [['oil_fire', 3], ['oil_silver', 3], ['oil_venom', 2], ['potion_xheal', 3], ['scroll_uncurse', 1]];
+const REWARDS = [['oil_fire', 3], ['oil_silver', 3], ['oil_venom', 2], ['oil_frost', 2], ['potion_xheal', 3], ['scroll_uncurse', 1]];
 
 /** @param {import('./types.js').Kit} K */
 export function makeBounty(K) {

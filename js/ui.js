@@ -782,8 +782,8 @@ const UI = (() => {
   // The scroll worth reading this moment, one tap away, low in the view's left
   // corner: Fire when a foe is ahead for it, Restoration when badly hurt,
   // Teleport when cornered and failing. It is not there the rest of the time.
-  const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'],
-    oil_fire: ['Coat', '#ff9030'], oil_silver: ['Coat', '#d0dcec'], oil_venom: ['Coat', '#80d050'] };
+  const QUICK_SCROLL = { scroll_fire: ['Fire', '#ff7020'], scroll_frost: ['Frost', '#a8e0ff'], scroll_lightning: ['Bolt', '#e0f0ff'], scroll_heal: ['Heal', '#60e080'], scroll_teleport: ['Flee', '#c080ff'],
+    oil_fire: ['Coat', '#ff9030'], oil_silver: ['Coat', '#d0dcec'], oil_venom: ['Coat', '#80d050'], oil_frost: ['Coat', '#a8e0ff'] };
   let quickSig = '';
   // The boss's bar takes the top rows of the picture (see drawBossBar): while
   // it shows, the status chips and any tip sit just below it rather than on

@@ -162,6 +162,44 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the quick button offers a Scroll of Lightning at two foes in a line, and Frost Oil for a foe the cold bites', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'quick-bolt', cls: 'Fighter' });
+    await clearBoons(page);
+    const btn = page.locator('#quick-scroll');
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0;
+      p.inv.push({ t: 'scroll_lightning', q: 1, e: 0 }); G.known.scroll_lightning = 1;
+      for (let i = 1; i <= 3; i++) L.tiles[(p.y + dy * i) * L.w + p.x + dx * i] = Dungeon.T.FLOOR;
+      // one goblin ahead is not worth the bolt; two in a line are
+      L.monsters.push({ uid: 93, id: 'goblin', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(btn).toBeHidden();
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.push({ uid: 94, id: 'goblin', x: p.x + dx * 3, y: p.y + dy * 3, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 3, ry: p.y + dy * 3, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(btn).toBeVisible({ timeout: 2000 });
+    await expect(btn).toContainText('Bolt');
+    await btn.click();
+    expect(await page.evaluate(() => Game.player().inv.some(i => i.t === 'scroll_lightning'))).toBe(false);
+    expect(await page.evaluate(() => Game.level().monsters.every(m => m.hp < 500)), 'the bolt went through both').toBe(true);
+    await expect(btn).toBeHidden({ timeout: 2000 });
+    // a bare blade, an emberling coming, and two oils in the pack: the frost is offered first
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(), [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.coating = null;
+      p.inv.push({ t: 'oil_fire', q: 1, e: 0 }, { t: 'oil_frost', q: 1, e: 0 });
+      L.monsters.push({ uid: 95, id: 'emberling', x: p.x + dx * 2, y: p.y + dy * 2, hp: 500, maxHp: 500, awake: true, spoke: true, nextAct: G.t + 1e9, rx: p.x + dx * 2, ry: p.y + dy * 2, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+    });
+    await expect(btn).toBeVisible({ timeout: 2000 });
+    await expect(btn).toContainText('Coat');
+    await btn.click();
+    await expect(page.locator('#hud-status .coat')).toHaveText('Frost oil \u00d720');
+    expect(errors).toEqual([]);
+  });
+
   test('a scroll worth reading now is one tap away at the end of the log, and gone when it is not', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsSeen', JSON.stringify(['controls', 'monster', 'trick'])));

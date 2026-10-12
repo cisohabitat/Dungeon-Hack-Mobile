@@ -129,12 +129,13 @@ export function makeElements(K) {
       ignite(m.x, m.y, 0);
       return;
     }
-    if (how !== 'spell' || !wet(m.x, m.y)) return;
+    // (a frost-oiled blade's cold freezes the water too; lightning runs only from a spell)
+    if ((how !== 'spell' && !(how === 'blade' && el === 'cold')) || !wet(m.x, m.y)) return;
     // (what the struck one's own weakness added to the blow stays with it, and
     // does not run on through the water)
     const f = el === 'lightning' ? K.elemental(m, 100, el) / 100 : 1;
     if (el === 'lightning') arc(m, f > 0 ? dmg / f : dmg, seen);
-    else if (el === 'cold') freeze(m);
+    else if (el === 'cold') freeze(m, how === 'blade');
   }
 
   /** The water joined to a square within so many steps: lightning runs through the water, not through walls. */
@@ -184,8 +185,8 @@ export function makeElements(K) {
     }
   }
 
-  /** Cold freezes the water round what it struck: what stands in it is held fast. */
-  function freeze(m) {
+  /** Cold freezes the water round what it struck: what stands in it is held fast (the hero too, unless it was their own blade's cold: they stand clear of it). */
+  function freeze(m, byBlade = false) {
     const G = K.G, L = lvl(), p = K.P();
     const squares = [[m.x, m.y], ...DIRS4.map(([dx, dy]) => [m.x + dx, m.y + dy])].filter(([x, y]) => wet(x, y));
     for (const [x, y] of squares) fields()[K.key(x, y)] = { k: 'ice', until: G.t + ICE_MS };
@@ -204,7 +205,7 @@ export function makeElements(K) {
     Sound.play('cast', K.heard(m, { spell: 'cone_cold' }));
     K.log(stands ? `The water freezes solid round the ${K.mstat(m).name}, and holds it fast.` : 'The water freezes solid where it fell.', 'good');
     // (a hold already longer, a basilisk's stone, keeps its own name)
-    if (on(p) && !((p.held || 0) > G.t + HERO_ICE_HOLD)) {
+    if (!byBlade && on(p) && !((p.held || 0) > G.t + HERO_ICE_HOLD)) {
       p.held = G.t + HERO_ICE_HOLD; p.heldBy = 'ice';
       K.log('The ice closes round your own feet too!', 'bad');
     }

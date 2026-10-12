@@ -59,20 +59,23 @@ export function makeLegends(K) {
     return true;
   }
 
+  /** How long after the Bastion's catch a Bash still counts as the wall holding. */
+  const WALL_MS = 3000;
   /** The Bastion: a blow caught on the shield is caught whole, and the Bash is ready again. */
   function caught(m) {
     if (!has('bastion') || !P().eq.shield || K.shaped()) return false;
     const p = P();
     p.abilityReady = Math.min(p.abilityReady || 0, K.G.t);
+    // (the combination is the Bash that follows, while the catch is fresh: see powers.js)
+    p.wallReady = K.G.t + WALL_MS;
     log(`The Bastion takes the ${MONSTERS[m.id].name}'s blow whole. Your Bash is ready.`, 'good');
     Sound.play('block', K.heard(m));
     K.floatText(m, 'caught', '#ffb040');
-    K.combos.note('shield_wall', m);
     return true;
   }
 
-  /** Motley: a blow slipped leaves its maker open. */
-  function mocked(m) { if (has('mock')) { K.opening(m); K.combos.note('jest', m); } }
+  /** Motley: a blow slipped leaves its maker open (the combination is the blow struck into it: see combat.js). */
+  function mocked(m) { if (has('mock')) { K.opening(m); P().opening.by = 'motley'; } }
 
   /** The Lantern of Mercy: what healing would spill past full life is kept as a ward. */
   function overflow(n) {

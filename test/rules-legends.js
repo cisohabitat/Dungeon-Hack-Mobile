@@ -97,6 +97,36 @@ module.exports = async function legendChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
+  await test('The Wall Holds is the Bash that answers the Bastion\'s catch, not the catch itself', async () => {
+    const out = [];
+    const ctx = await start('fighter', 'wall-holds');
+    seedDice(ctx, 'wall-holds');
+    const { Game } = ctx; const p = Game.player(), G = Game.state();
+    walk(ctx, 'knight'); p.hp = p.maxHp = 1e6; p.eq.armor = null; p.stats.dex = 3;
+    p.eq.shield = null; wearRelic(ctx, 'bastion');
+    p.abilityReady = G.t + 1e9;
+    const m = beside(ctx, 'goblin', { hp: 1e6, maxHp: 1e6 });
+    let caught = false;
+    for (let t = 0; t < 120000 && !caught; t += 25) {
+      const mark = markLog(G);
+      Game.update(G.t + 25, 25);
+      if (linesSince(G, mark).some(l => /takes the Goblin's blow whole/.test(l))) caught = true;
+    }
+    if (!caught) return 'the Bastion caught nothing in two minutes';
+    if (G.combos && G.combos.shield_wall) out.push('the catch alone was counted as The Wall Holds');
+    if (!Game.useAbility()) out.push('the Bash the catch readied would not go');
+    else if (!(G.combos && G.combos.shield_wall)) out.push('the Bash after the catch was not The Wall Holds');
+    // a Bash with no catch fresh behind it is only a Bash
+    const ctx2 = await start('fighter', 'wall-plain');
+    const p2 = ctx2.Game.player(), G2 = ctx2.Game.state();
+    walk(ctx2, 'knight'); p2.eq.shield = null; wearRelic(ctx2, 'bastion');
+    beside(ctx2, 'goblin', { hp: 1e6, maxHp: 1e6, nextAct: 1e12 });
+    p2.abilityReady = 0;
+    if (!ctx2.Game.useAbility()) out.push('a plain Bash would not go');
+    else if (G2.combos && G2.combos.shield_wall) out.push('a Bash with no catch behind it was The Wall Holds');
+    return out.length ? out.join('; ') : true;
+  });
+
   await test('Red Harvest heals a Berserker below half their life for every foe felled, and not above it', async () => {
     const out = [];
     const { ctx, p, put, swing, L } = await arena('fighter', 'harvest', 'berserker');
@@ -233,7 +263,10 @@ module.exports = async function legendChecks(h) {
       Game.update(G.t + 25, 25);
       if (linesSince(G, mark).some(l => /You slip aside/.test(l))) {
         if (!(p.opening && p.opening.uid === m.uid)) return 'a slipped blow left no opening';
-        return (G.combos && G.combos.jest) ? true : 'the opening Motley made was not the Jest combination';
+        // the combination is the blow struck into the opening, not the slip itself
+        if (G.combos && G.combos.jest) return 'the Jest was counted before the opening was taken';
+        G.t = Math.max(G.t, p.nextAttack); Game.input('attack');
+        return (G.combos && G.combos.jest) ? true : 'the blow into the opening Motley made was not the Jest combination';
       }
     }
     return 'no blow was slipped';

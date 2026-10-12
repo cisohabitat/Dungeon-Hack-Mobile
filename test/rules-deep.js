@@ -544,7 +544,7 @@ await test('a spell\'s number waits for the spell to reach its target: darts fly
   return out.length ? out.join('; ') : true;
 });
 
-await test('the quick scroll: fire with a foe ahead, restoration when badly hurt, nothing otherwise, and only one known by sight', async () => {
+await test('the quick scroll: fire with a foe ahead, a bolt for a line, frost for what the cold bites, restoration when badly hurt, nothing otherwise, and only one known by sight', async () => {
   const ctx = await start('fighter', 'quick-scroll');
   const { Game } = ctx; const p = Game.player(), G = Game.state();
   Game.level().monsters.length = 0;
@@ -560,12 +560,32 @@ await test('the quick scroll: fire with a foe ahead, restoration when badly hurt
   if (p.inv.find(i => i.t === 'scroll_fire').q !== before - 1) out.push('one tap did not read the fire');
   Game.level().monsters.length = 0; p.hp = 1;
   if ((Game.quickScroll() || {}).t !== 'scroll_heal') out.push('no restoration when badly hurt');
+  // a bolt for two in a line, never one; frost for what the cold bites, or any foe ahead when hurt
+  p.hp = p.maxHp; p.inv = p.inv.filter(i => !/^scroll/.test(i.t));
+  p.inv.push({ t: 'scroll_lightning', q: 1, e: 0 }, { t: 'scroll_frost', q: 1, e: 0 }); G.known.scroll_lightning = 1; G.known.scroll_frost = 1;
+  const one = ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
+  if (Game.quickScroll()) out.push(`offered ${Game.quickScroll().t} at one goblin, unhurt`);
+  p.hp = Math.floor(p.maxHp / 3);
+  if ((Game.quickScroll() || {}).t !== 'scroll_frost') out.push(`hurt, with a goblin ahead, offered ${(Game.quickScroll() || {}).t}`);
+  p.hp = p.maxHp; one.id = 'emberling';
+  if ((Game.quickScroll() || {}).t !== 'scroll_frost') out.push(`with an emberling ahead, offered ${(Game.quickScroll() || {}).t}`);
+  one.id = 'goblin';
+  const L = Game.level(), [ddx, ddy] = ctx.Dungeon.DIRS[p.dir];
+  L.tiles[(p.y + ddy * 3) * L.w + p.x + ddx * 3] = ctx.Dungeon.T.FLOOR;
+  L.monsters.push({ ...one, uid: 777, x: p.x + ddx * 3, y: p.y + ddy * 3 });
+  if ((Game.quickScroll() || {}).t !== 'scroll_lightning') out.push(`with two in a line, offered ${(Game.quickScroll() || {}).t}`);
+  Game.input('read');
+  if (p.inv.some(i => i.t === 'scroll_lightning')) out.push('one tap did not read the bolt');
+  if (L.monsters.some(m => m.hp === 500)) out.push('the bolt did not go through both');
+  Game.level().monsters.length = 0;
   // an oil, when a fight comes on and the blade is bare: silver for the dead
   p.hp = p.maxHp; p.inv = p.inv.filter(i => i.kind !== 'scroll' && !/^scroll/.test(i.t));
-  p.inv.push({ t: 'oil_fire', q: 1, e: 0 }, { t: 'oil_silver', q: 1, e: 0 });
+  p.inv.push({ t: 'oil_fire', q: 1, e: 0 }, { t: 'oil_silver', q: 1, e: 0 }, { t: 'oil_frost', q: 1, e: 0 });
   if (Game.quickScroll()) out.push(`offered ${Game.quickScroll().t} with nothing awake`);
   const gob = ahead(ctx, 'goblin', 2, { hp: 500, maxHp: 500, nextAct: 1e12 });
   if ((Game.quickScroll() || {}).t !== 'oil_fire') out.push(`with a goblin coming, offered ${(Game.quickScroll() || {}).t}`);
+  gob.id = 'emberling';
+  if ((Game.quickScroll() || {}).t !== 'oil_frost') out.push(`with an emberling coming, offered ${(Game.quickScroll() || {}).t}`);
   gob.id = 'skeleton';
   if ((Game.quickScroll() || {}).t !== 'oil_silver') out.push(`with a skeleton coming, offered ${(Game.quickScroll() || {}).t}`);
   Game.input('read');

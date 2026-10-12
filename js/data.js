@@ -675,6 +675,8 @@ const ITEMS = {
   potion_mana:  { kind: 'potion', name: 'Potion of Clarity',       stack: true, value: 40, sprite: 'potion_blue',   effect: 'mana', desc: 'Restores all spell points.' },
   // scrolls (usable by anyone)
   scroll_fire:     { kind: 'scroll', name: 'Scroll of Fire',        stack: true, value: 30, sprite: 'scroll', effect: 'fire', desc: 'Hurls a ball of fire (4d6) at the foe ahead. With none, it bursts where it lands, and sets spilt oil alight.' },
+  scroll_frost:    { kind: 'scroll', name: 'Scroll of Frost',       stack: true, value: 30, sprite: 'scroll', effect: 'frost', desc: 'A cone of cold (3d6) over everything up to three squares ahead, holding each back a moment; water round them freezes.' },
+  scroll_lightning: { kind: 'scroll', name: 'Scroll of Lightning',  stack: true, value: 30, sprite: 'scroll', effect: 'lightning', desc: 'A bolt of lightning (3d6) through everything up to three squares ahead, and through water to all standing in it.' },
   scroll_heal:     { kind: 'scroll', name: 'Scroll of Restoration', stack: true, value: 35, sprite: 'scroll', effect: 'heal', heal: [3, 8, 3], desc: 'Restores 3d8+3 hit points.' },
   scroll_map:      { kind: 'scroll', name: 'Scroll of Mapping',     stack: true, value: 30, sprite: 'scroll', effect: 'map', desc: 'Reveals the layout of this floor.' },
   scroll_teleport: { kind: 'scroll', name: 'Scroll of Teleport',    stack: true, value: 30, sprite: 'scroll', effect: 'teleport', desc: 'Whisks you to a random spot on this floor.' },
@@ -694,6 +696,7 @@ const ITEMS = {
   oil_fire:   { kind: 'oil', name: 'Fire Oil',     stack: true, value: 30, sprite: 'oil_fire',   coat: 'fire',   desc: 'Coats your weapon: its next 20 blows that land burn for 1d4 more, and no troll mends the wound.' },
   oil_silver: { kind: 'oil', name: 'Silver Wash',  stack: true, value: 30, sprite: 'oil_silver', coat: 'silver', desc: 'Coats your weapon: its next 20 blows that land deal 1d6 more to the undead.' },
   oil_venom:  { kind: 'oil', name: 'Blade Venom',  stack: true, value: 30, sprite: 'oil_venom',  coat: 'venom',  desc: 'Coats your weapon: for its next 20 blows that land, one in three poisons the living.' },
+  oil_frost:  { kind: 'oil', name: 'Frost Oil',    stack: true, value: 30, sprite: 'oil_frost',  coat: 'frost',  desc: 'Coats your weapon: its next 20 blows that land chill for 1d4 more and hold the foe back a moment, and water round it freezes.' },
   scroll_uncurse:  { kind: 'scroll', name: 'Scroll of Remove Curse', stack: true, value: 40, sprite: 'scroll', effect: 'uncurse', desc: 'Breaks any curse on what you wear, and shows the true quality of all your gear.' },
   // Rings and amulets: anyone may wear two rings and an amulet. Found ones
   // are known only by their look until worn or studied (see RING_LOOKS), and

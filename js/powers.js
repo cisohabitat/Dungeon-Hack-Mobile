@@ -146,7 +146,7 @@ export function makePowers(K) {
   /** Show a spell's effect: where it lands, or the square ahead if nowhere. */
   /** How long a scroll takes to read and burn away, and the colour its writing kindles. */
   const READ_MS = 1000;
-  const SCROLL_GLOW = { fire: '#ff7020', heal: '#60e080', map: '#70b0ff', teleport: '#c080ff', uncurse: '#ffe8a0' };
+  const SCROLL_GLOW = { fire: '#ff7020', frost: '#a8e0ff', lightning: '#e0f0ff', heal: '#60e080', map: '#70b0ff', teleport: '#c080ff', uncurse: '#ffe8a0' };
   /** A spell's picture; delay puts it off (a scroll's fire waits for the page to burn), from moves where it starts, as fractions of the view. */
   function spellFx(style, color, dur, targets, reach, delay = 0, from = null) {
     const p = P(), [dx, dy] = DIRS[p.dir];
@@ -379,6 +379,8 @@ export function makePowers(K) {
       if (!rite) floatText(m, broke ? 'broken off' : 'reels', '#e8d8a0');
       log(`You bash the ${mb.name} with your ${what}${broke ? ' and break off its blow' : ''}. ${rite ? 'Its rite goes on.' : 'It reels back!'}`, 'good');
       if (broke) K.combos.note('broken_off', m);
+      // the Bastion's catch, answered: the wall holds
+      if (p.wallReady > K.G.t) { p.wallReady = 0; K.combos.note('shield_wall', m); }
       // a Rallying Bash puts heart back into the one who swings it
       if (capped('rally')) healPlayer(d(1, 6));
       // a Berserker puts weight behind it: the bash is a blow of its own
@@ -471,6 +473,14 @@ export function makePowers(K) {
     const p = P(), has = t => p.inv.find(i => i.t === t && isKnown(i.t));
     const fire = has('scroll_fire');
     if (fire && boltTargets(3, false).length) return fire;
+    // a bolt for a line of foes, or one standing in water (not with the hero's own feet wet:
+    // it runs back); frost for what the cold bites or stands in water, or any foe ahead when hurt
+    const line = boltTargets(3, true), bolt = has('scroll_lightning'), frost = has('scroll_frost');
+    if (line.length) {
+      const wetOne = line.some(m => elements.wet(m.x, m.y)), bites = line.some(m => K.elementFactor(m, 'cold') > 1);
+      if (bolt && !elements.wet(p.x, p.y) && (line.length > 1 || wetOne)) return bolt;
+      if (frost && (bites || wetOne || p.hp <= p.maxHp * 0.5)) return frost;
+    }
     const heal = has('scroll_heal');
     if (heal && p.hp <= p.maxHp * 0.5) return heal;
     const away = has('scroll_teleport');
@@ -480,8 +490,8 @@ export function makePowers(K) {
       const near = lvl().monsters.filter(m => m.awake && !m.collapsed && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
       const oils = p.inv.filter(i => ITEMS[i.t].kind === 'oil');
       if (near.length && oils.length) {
-        const undead = near.some(m => mstat(m).undead);
-        return oils.find(i => ITEMS[i.t].coat === 'silver' && undead) || oils.find(i => ITEMS[i.t].coat !== 'silver') || oils[0];
+        const undead = near.some(m => mstat(m).undead), cold = near.some(m => elements.wet(m.x, m.y) || K.elementFactor(m, 'cold') > 1);
+        return oils.find(i => ITEMS[i.t].coat === 'silver' && undead) || oils.find(i => ITEMS[i.t].coat === 'frost' && cold) || oils.find(i => ITEMS[i.t].coat !== 'silver' && ITEMS[i.t].coat !== 'frost') || oils.find(i => ITEMS[i.t].coat !== 'silver') || oils[0];
       }
     }
     return null;

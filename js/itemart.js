@@ -739,6 +739,7 @@ const ITEM_ART = {
   lamp_oil: () => flask('#6a4a1a', '#c9a24a'),
   oil_silver: () => flask('#b8c4d4', '#ffffff'),
   oil_venom: () => flask('#4c9a2a', '#b0f070'),
+  oil_frost: () => flask('#3c78b8', '#c8f0ff'),
 
   // ---- paper ----
   scroll: () => [

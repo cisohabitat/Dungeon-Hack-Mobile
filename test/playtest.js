@@ -264,7 +264,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const near = L.monsters.filter(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 4);
       const oils = p.inv.filter(i => ITEMS[i.t].kind === 'oil');
       const undead = near.some(m => Game.mstat(m).undead);
-      const oil = near.length && (oils.find(i => ITEMS[i.t].coat === (undead ? 'silver' : 'fire')) || oils.find(i => ITEMS[i.t].coat !== 'silver') || (undead && oils[0]));
+      // (frost for what the cold bites, a Warden's blade, or a foe standing in water; fire otherwise)
+      const coldBites = near.some(m => ['emberling', 'heartforged', 'wyrm', 'basilisk'].includes(m.id) || Game.wet(m.x, m.y));
+      const want = undead ? 'silver' : coldBites || p.path === 'warden' ? 'frost' : 'fire';
+      const oil = near.length && (oils.find(i => ITEMS[i.t].coat === want) || oils.find(i => ITEMS[i.t].coat !== 'silver' && (undead || ITEMS[i.t].coat !== 'frost' || !near.some(m => Game.mstat(m).undead))) || (undead && oils[0]));
       if (oil) { Game.useItem(oil); rec.oils = (rec.oils || 0) + 1; step(); continue; }
     }
     // --- eat when hungry
@@ -503,6 +506,32 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // --- a Scroll of Lightning at two or more in a line ahead, or one standing in water (never
+    // with the hero's own feet wet: the bolt runs back); a Scroll of Frost at what the cold bites,
+    // at one in water, or at anything two or three squares off when the hero is hurt. NOSCROLLS=1 plays without.
+    if (!process.env.NOSCROLLS && G.t >= p.nextAttack && !Game.shaped()) {
+      const bolt = p.inv.find(i => i.t === 'scroll_lightning'), cone = p.inv.find(i => i.t === 'scroll_frost');
+      if (bolt || cone) {
+        let best = null;
+        for (let k = 0; k < 4; k++) {
+          const [dx, dy] = Dungeon.DIRS[k], line = [];
+          for (let i = 1; i <= 3; i++) {
+            const x = p.x + dx * i, y = p.y + dy * i, t = L.tiles[y * L.w + x];
+            if (t !== T.FLOOR && t !== T.DOOR_OPEN) break;
+            const m = L.monsters.find(mm => mm.x === x && mm.y === y && !mm.sunk && !mm.collapsed && shown(mm) && mm.awake);
+            if (m) line.push({ m, i });
+          }
+          if (!line.length) continue;
+          const wetOne = line.some(o => Game.wet(o.m.x, o.m.y)), cold = line.some(o => ['emberling', 'heartforged', 'wyrm', 'basilisk'].includes(o.m.id));
+          const score = line.length * 2 + (wetOne ? 3 : 0) + (cold ? 2 : 0) + (hpFrac < 0.5 && line[0].i >= 2 ? 2 : 0);
+          if (score >= 4 && (!best || score > best.score)) best = { k, score, wetOne, cold };
+        }
+        if (best) {
+          const read = bolt && !Game.wet(p.x, p.y) && (best.wetOne || !best.cold) ? bolt : cone;
+          if (read) { p.dir = best.k; const q0 = read.q || 1; Game.useItem(read); if (!p.inv.includes(read) || (read.q || 1) < q0) { rec.scrollsRead = (rec.scrollsRead || 0) + 1; step(); continue; } }
+        }
+      }
+    }
     // --- lamp oil: throw a flask at something coming down a passage two or three
     // squares off, then set it alight (a Flame Strike, a fire-oiled shot, a
     // fireball scroll). The living shy from the flames, and it burns meanwhile.
@@ -1031,7 +1060,7 @@ for (const cls in results) {
   const errs = rows.filter(r => (r.cause || '').startsWith('ERROR'));
   const avg = k => rows.reduce((a, r) => a + (r[k] || 0), 0) / rows.length;
   totalWin += won; totalRuns += rows.length; totalDeep += avg('deepest') * rows.length;
-  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)}, lost ${avg('jobsLost').toFixed(2)}, done unpaid ${avg('jobDoneUnpaid').toFixed(2)}, open at the end ${avg('jobOpen').toFixed(2)})  draughts bought ${avg('draughtsBought').toFixed(2)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  rock ${avg('rockSteps').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  legend ${(avg('legend') * 100).toFixed(0)}% (worn ${(avg('legendWorn') * 100).toFixed(0)}%)  combos ${avg('combos').toFixed(1)} (wins with one ${(rows.filter(r => !r.died && r.combos).length / Math.max(1, rows.filter(r => !r.died).length) * 100).toFixed(0)}%)  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
+  console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)}, lost ${avg('jobsLost').toFixed(2)}, done unpaid ${avg('jobDoneUnpaid').toFixed(2)}, open at the end ${avg('jobOpen').toFixed(2)})  draughts bought ${avg('draughtsBought').toFixed(2)}  scrolls read ${avg('scrollsRead').toFixed(2)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  rock ${avg('rockSteps').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  legend ${(avg('legend') * 100).toFixed(0)}% (worn ${(avg('legendWorn') * 100).toFixed(0)}%)  combos ${avg('combos').toFixed(1)} (wins with one ${(rows.filter(r => !r.died && r.combos).length / Math.max(1, rows.filter(r => !r.died).length) * 100).toFixed(0)}%)  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
   if (process.env.COMBOS) console.log('   combos ' + Object.entries(comboSeen).sort((a, b) => b[1] - a[1]).map(([id, n]) => `${id} ${n}`).join(' | '));
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
   // which path each run took at level 5, and how each did (runs that never got there take none)

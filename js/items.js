@@ -17,6 +17,8 @@ export function makeItems(K) {
   const INV_MAX = K.INV_MAX;
   const READ_MS = K.READ_MS;
   const SCROLL_GLOW = K.SCROLL_GLOW;
+  // how long a Scroll of Frost holds back what it strikes
+  const SCROLL_HOLD = 1500;
   const T = K.T;
   const boltEnd = K.boltEnd;
   const boltTargets = K.boltTargets;
@@ -413,6 +415,25 @@ export function makeItems(K) {
                 if (packSize(m) > 1) log(`The fireball engulfs all ${packSize(m)} of the ${mstat(m).name}s!`, 'good');
                 hitGroup(m, elemental(m, pyroFire(d(4, 6), m), 'fire'), 'burn');
                 elements.strike(m, 'fire', 0, 'spell');
+              }
+            } finally { K.castingName = ''; }
+            break;
+          }
+          // a cone of cold or a bolt of lightning through everything in reach, as the spells
+          // are, and the place answers (elements.js): water freezes, or carries the lightning
+          case 'frost': case 'lightning': {
+            const cold = b.effect === 'frost', targets = boltTargets(3, true);
+            spellFx(cold ? 'cone' : 'lightning', SCROLL_GLOW[b.effect], cold ? 450 : 380, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
+            if (!targets.length) { log(cold ? 'A breath of frost rolls down the passage and finds nothing.' : 'The bolt cracks against the stones.'); break; }
+            K.castingName = cold ? 'cone_cold' : 'lightning';
+            K.fxDelay = Math.round(READ_MS * 0.6 + (cold ? 450 : 380) * 0.35);
+            try {
+              const struck = new Set();
+              for (const m of targets) {
+                const dmg = elemental(m, d(3, 6), cold ? 'cold' : 'lightning');
+                if (cold) { m.nextAct = Math.max(m.nextAct, K.G.t) + SCROLL_HOLD; if (m.windup) m.windup.until += SCROLL_HOLD; }
+                hitGroup(m, dmg, 'fire');
+                elements.strike(m, cold ? 'cold' : 'lightning', dmg, 'spell', struck);
               }
             } finally { K.castingName = ''; }
             break;
