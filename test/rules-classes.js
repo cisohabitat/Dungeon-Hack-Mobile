@@ -17,7 +17,7 @@ await test('every class starts with at least ten hit points', async () => {
   return true;
 });
 
-await test('off Hard a fighter starts three hit points sturdier and a ranger four; on Hard a fighter two; no other class moves', async () => {
+await test('off Hard a fighter starts three hit points sturdier and a ranger four; on Hard a fighter two, a cleric two and a ranger four; no other class moves', async () => {
   const out = [];
   for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid']) {
     const hp = {};
@@ -26,8 +26,9 @@ await test('off Hard a fighter starts three hit points sturdier and a ranger fou
       ctx.Game.newGame({ name: 'H', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'mild-hp', opts: { ...OPTS, difficulty } });
       hp[difficulty] = ctx.Game.player().maxHp;
     }
-    // the difference off Hard, the fighter's own two on Hard counted against it
-    const want = { fighter: 3 - 2, ranger: 4 }[cls] || 0;
+    // the difference off Hard, with what a class has of its own on Hard counted against it
+    // (the fighter two, the cleric two, the ranger four: the ranger's four each side cancel)
+    const want = { fighter: 3 - 2, cleric: -2, ranger: 4 - 4 }[cls] || 0;
     if (hp.normal - hp.hard !== want || hp.easy - hp.hard !== want) out.push(`a ${cls} starts on ${hp.easy} / ${hp.normal} / ${hp.hard} (Easy, Normal, Hard)`);
   }
   return out.length ? out.join('; ') : true;
