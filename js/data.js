@@ -244,9 +244,11 @@ const TALENTS = {
 // in place of that level's lesson. A path is a way of fighting, not a bonus:
 // each gives up something, or asks for something, in return. game.js honours
 // each by id (see its paths block); effects are what the player is told.
-const PATH_LEVEL = 5;
-/** At this level a hero on a path masters it: one of the path's two capstones, in place of that level's lesson. */
-const CAPSTONE_LEVEL = 9;
+// (Level 3 comes on the third floor of eight: the build is there for most of
+// the delve, not its last act, and the stair divides after it, not before.)
+const PATH_LEVEL = 3;
+/** At this level a hero on a path masters it: one of the path's two capstones, in place of that level's lesson (the seventh floor of eight). */
+const CAPSTONE_LEVEL = 7;
 
 // Vows: a harder run chosen at the start, open once any hero has won on Hard.
 // Each one kept to a win (on Normal or Hard, on one life) is a trophy of its own,
@@ -293,9 +295,11 @@ const RUNG_SCORE = 0.1;
 // nowhere else, and a relic on its last floor (see routeRelic in relics.js).
 const ROUTES = {
   crypts: { name: 'the Crypts', choice: 'Down into the Crypts', desc: 'Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.',
+    tells: 'Cold is its weapon: the wraith\'s grave-chill, which silver and a steady heart answer.',
     theme: 6, kin: ['skeleton', 'zombie', 'ghoul', 'wraith', 'spider', 'bat', 'slime', 'acolyte'], champions: ['vessra', 'morrow', 'orla', 'skarrow'], encounter: 'ossuary',
     epi: 'They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.' },
   warrens: { name: 'the Warrens', choice: 'Down into the Warrens', desc: 'Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.',
+    tells: 'Weight is its weapon: things that charge and crowd, which fire oil and a wall behind answer.',
     theme: 7, kin: ['goblin', 'rat', 'orc', 'archer', 'ogre', 'troll', 'minotaur'], champions: ['grisk', 'ushgar', 'gorrum', 'skarrow'], encounter: 'warcamp',
     epi: 'They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.' },
 };

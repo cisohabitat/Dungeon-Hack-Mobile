@@ -231,7 +231,9 @@ function goDown(ctx) {
   p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
   L.monsters.length = 0;
   Game.input('use');
-  // at the divided stair, a road (the Crypts unless the test says)
+  // at the divided stair, the path first if the hero has none (the roads part after it), then a
+  // road (the Crypts unless the test says)
+  if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);
   if (Game.forkPending()) Game.chooseRoute(ctx.road || 'crypts');
 }
 /** Every sound played while `fn` runs. */
@@ -262,6 +264,7 @@ function downTo(ctx, depth) {
     const [dx, dy] = Dungeon.DIRS[k];
     p.x = s.x - dx; p.y = s.y - dy; p.dir = k; delete L.items[p.x + ',' + p.y];
     Game.input('use');
+    if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);
     if (Game.forkPending()) Game.chooseRoute(ctx.road || 'crypts');
   }
 }

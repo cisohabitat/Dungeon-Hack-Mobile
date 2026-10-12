@@ -85,8 +85,23 @@ test.describe('core play', () => {
       Game.input('forward');
     });
     await toStair();
+    // a hero still without a path (this one is level 1) chooses it first: the roads part after the path
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#boon-title')).toHaveText('The stair divides: choose your path');
+    await expect(page.locator('#ov-fork')).not.toHaveClass(/open/);
+    await page.waitForTimeout(800);
+    await page.locator('.boon.path').first().click();
+    await page.locator('.boon.path').first().click();
+    expect(await page.evaluate(() => [!!Game.player().path, !!Game.player().pathEarly])).toEqual([true, true]);
+    // and the roads are asked at once
     await expect(page.locator('#ov-fork')).toHaveClass(/open/);
     await expect(page.locator('#ov-fork .fork-choice')).toHaveCount(2);
+    // each road's card names what the run plans for it: its champions, its keeper and its relic
+    const plan = await page.evaluate(() => Game.roadPlan('warrens'));
+    const warrens = page.locator('#ov-fork .fork-choice[data-route="warrens"] .road-facts');
+    await expect(warrens).toContainText(`Keeper: ${plan.keeper}`);
+    for (const name of plan.champions) await expect(warrens).toContainText(name);
+    await expect(warrens).toContainText(/Relic: /);
     // staying put: still on the third floor, nothing chosen
     await page.locator('#ov-fork .ghost').click();
     await expect(page.locator('#ov-fork')).not.toHaveClass(/open/);

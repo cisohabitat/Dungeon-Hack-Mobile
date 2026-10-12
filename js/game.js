@@ -3,7 +3,7 @@ import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONS
 import { Dungeon } from './dungeon.js';
 import { PIECE_SAY } from './rooms.js';
 import { encounterPlan } from './encounters.js';
-import { RELICS, GIANTS, relicPlan } from './relics.js';
+import { RELICS, GIANTS, relicPlan, routeRelic } from './relics.js';
 import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
@@ -914,9 +914,25 @@ const Game = (() => {
     if (!forkHere()) return descend();
     const pinned = pinnedReason();
     if (pinned) { blocked(pinned); return false; }
+    // the roads part after the path, never before it: a hero who reaches the divided stair
+    // still without one (slow to level 3) chooses it here, in place of that level's lesson,
+    // and the roads are asked once it is chosen
+    if (!P().path && offerPath()) { P().pathEarly = true; return true; }
     G.forkPending = true;
     emit('fork');
     return true;
+  }
+  /**
+   * What a road holds, for its card at the divided stair: the champions the run plans on its
+   * floors, its keeper at the bottom, and the relic found nowhere else. Read from the same plans
+   * the floors are made from, so the card promises what the road gives.
+   * @param {string} route @returns {{champions: string[], keeper: string, relic: string}}
+   */
+  function roadPlan(route) {
+    const levels = G.opts.levels || 8, span = Dungeon.routeSpan(levels), plan = Dungeon.namedPlan(G.seed, levels, route);
+    const champions = span ? Object.keys(plan).map(Number).filter(d => d >= span.from && d <= span.to).sort((a, b) => a - b).map(d => MONSTERS[plan[d]].named.called) : [];
+    const relic = RELICS[routeRelic(route)];
+    return { champions, keeper: MONSTERS[Dungeon.keeperOf(levels, route)].name, relic: relic ? relic.name : '' };
   }
   /** @param {string} id */
   function chooseRoute(id) {
@@ -1422,7 +1438,7 @@ const Game = (() => {
     get ensureDist() { return ensureDist; }, enterLevel: (d, f) => enterLevel(d, f), get farthestFloor() { return farthestFloor; },
     get fieldAt() { return elements.fieldAt; }, get fireCatches() { return fireCatches; }, firepot: spots => elements.firepot(spots),
     flame: (x, y, ms) => elements.flame(x, y, ms), get floatText() { return floatText; }, get focusHas() { return focusHas; },
-    get followBlow() { return followBlow; }, get freshStats() { return freshStats; }, get FROST_SPELLS() { return FROST_SPELLS; },
+    get followBlow() { return followBlow; }, get forkHere() { return forkHere; }, get freshStats() { return freshStats; }, get FROST_SPELLS() { return FROST_SPELLS; },
     fuelAt: (x, y) => elements.fuel(x, y), get fx() { return fx; }, get fxDelay() { return fxDelay; }, set fxDelay(v) { fxDelay = v; },
     get fxGen() { return fxGen; }, set fxGen(v) { fxGen = v; }, get G() { return G; }, set G(v) { G = v; }, get giveItem() { return giveItem; },
     get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; }, get HALL_KEY() { return HALL_KEY; }, get hasPower() { return hasPower; },
@@ -1702,7 +1718,7 @@ const Game = (() => {
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: () => prelude.finish(realNow || performance.now()),
     state: () => G, player: P, level: lvl, log, mod,
-    lastRun, sortPack, descend, chooseRoute, leaveFork, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, spareToPack, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
+    lastRun, sortPack, descend, chooseRoute, leaveFork, roadPlan, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, spareToPack, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
     /** The run's build in a line, and its combinations, most used first. */
     buildLine: () => (G ? combos.buildLine() : ''), noteCombo: (/** @type {string} */ id, /** @type {any} */ at) => combos.note(id, at),
     /** For the tests: a champion wakes, and a wound as a blow of the hero's would give it. */

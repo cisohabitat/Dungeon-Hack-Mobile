@@ -385,6 +385,7 @@ await test('the stair divides a third of the way down: stepping onto it asks, an
   const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L3.tiles[(s.y - dy) * L3.w + s.x - dx] === Dungeon.T.FLOOR; });
   const [dx, dy] = Dungeon.DIRS[k];
   p.x = s.x - dx; p.y = s.y - dy; p.dir = k; L3.monsters.length = 0;
+  p.path = 'knight';   // (the roads part after the path: a hero without one is asked it first, checked below)
   Game.input('use');
   if (G.depth !== 3 || !Game.forkPending()) out.push(`stepping onto the divided stair went to ${G.depth}, pending ${Game.forkPending()}`);
   Game.leaveFork();
@@ -708,5 +709,68 @@ await test('two rings of one kind do not add up: the better counts', async () =>
   if (p.eq.ring !== a || p.eq.ring2 !== b) return 'both rings did not go on';
   if (Game.playerAC() !== ac0 + 3) return `two Rings of Protection (+2, +1) made armour ${ac0} into ${Game.playerAC()}, want ${ac0 + 3} (the better one)`;
   return true;
+});
+
+await test('the roads part after the path: a hero at the divided stair without one is offered the paths first, then the roads, and level 3 gives no lesson after', async () => {
+  const out = [];
+  const ctx = await start('fighter', 'fork-path', { levels: 8 });
+  const { Game, Dungeon, XP_TABLE } = ctx; const G = Game.state(), p = Game.player();
+  p.hp = p.maxHp = 9999;
+  downTo(ctx, 2); goDown(Object.assign(ctx, { road: 'none' }));
+  if (G.depth !== 3) return `walked to ${G.depth}`;
+  // a hero slow to level 3: level 2, the path not yet offered
+  p.level = 2; p.xp = XP_TABLE[1]; p.path = undefined; G.pendingBoons = []; G.pendingLevels = [];
+  const L = Game.level(), s = L.stairsDown;
+  const k = [0, 1, 2, 3].find(k => { const [dx, dy] = Dungeon.DIRS[k]; return L.tiles[(s.y - dy) * L.w + s.x - dx] === Dungeon.T.FLOOR; });
+  const [dx, dy] = Dungeon.DIRS[k];
+  const toStair = () => { p.x = s.x - dx; p.y = s.y - dy; p.dir = k; L.monsters.length = 0; Game.input('use'); };
+  toStair();
+  if (Game.forkPending()) out.push('the roads were asked before the path');
+  if (!Game.isPathOffer(Game.pendingBoons())) out.push(`the stair offered ${JSON.stringify(Game.pendingBoons())}, not the paths`);
+  if (G.depth !== 3) out.push(`the stair went down to ${G.depth}`);
+  Game.chooseBoon('knight');
+  if (p.path !== 'knight' || !p.pathEarly) out.push('the path was not taken at the stair');
+  if (!Game.forkPending()) out.push('the roads were not asked once the path was chosen');
+  if (Game.pendingBoons()) out.push('a choice was still pending after the path');
+  Game.leaveFork();
+  // level 3 then brings no lesson (the path was it), and level 4 its talent as ever
+  const kill = () => { const m = beside(ctx, 'rat', { hp: 1, maxHp: 1, nextAct: 1e12 }); p.perkHit = 60; for (let i = 0; i < 6 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); } };
+  p.xp = XP_TABLE[2] - 1; kill();
+  if (p.level !== 3) out.push(`the kill took the hero to level ${p.level}, not 3`);
+  if (Game.pendingBoons()) out.push(`level 3 still offered ${JSON.stringify(Game.pendingBoons())} after the path was taken at the stair`);
+  p.xp = XP_TABLE[3] - 1; kill();
+  if (p.level !== 4 || !Game.pendingBoons() || Game.isPathOffer(Game.pendingBoons())) out.push(`level 4 offered ${JSON.stringify(Game.pendingBoons())}`);
+  // and a hero who has the path already goes straight to the roads
+  const ctx2 = await start('fighter', 'fork-path-2', { levels: 8 });
+  const G2 = ctx2.Game.state(), p2 = ctx2.Game.player();
+  p2.hp = p2.maxHp = 9999; p2.path = 'knight';
+  downTo(ctx2, 2); goDown(Object.assign(ctx2, { road: 'none' }));
+  const L2 = ctx2.Game.level(), s2 = L2.stairsDown;
+  const k2 = [0, 1, 2, 3].find(k => { const [dx, dy] = ctx2.Dungeon.DIRS[k]; return L2.tiles[(s2.y - dy) * L2.w + s2.x - dx] === ctx2.Dungeon.T.FLOOR; });
+  const [dx2, dy2] = ctx2.Dungeon.DIRS[k2];
+  p2.x = s2.x - dx2; p2.y = s2.y - dy2; p2.dir = k2; L2.monsters.length = 0; G2.pendingBoons = []; G2.pendingLevels = [];
+  ctx2.Game.input('use');
+  if (!ctx2.Game.forkPending() || ctx2.Game.pendingBoons()) out.push(`a hero with a path was asked ${JSON.stringify(ctx2.Game.pendingBoons())} at the stair, roads pending ${ctx2.Game.forkPending()}`);
+  return out.length ? out.join('; ') : true;
+});
+
+await test('each road\'s card names what the run plans for it: its champions, its keeper and its relic', async () => {
+  const out = [];
+  for (const levels of [8, 12]) {
+    const ctx = await start('cleric', 'road-facts-' + levels, { levels });
+    const { Game, Dungeon, MONSTERS, RELICS, ROUTES } = ctx; const G = Game.state();
+    for (const route of Object.keys(ROUTES)) {
+      const got = Game.roadPlan(route), span = Dungeon.routeSpan(levels), plan = Dungeon.namedPlan(G.seed, levels, route);
+      const want = Object.keys(plan).map(Number).filter(d => d >= span.from && d <= span.to).sort((a, b) => a - b).map(d => MONSTERS[plan[d]].named.called);
+      if (got.champions.join() !== want.join()) out.push(`${route} on ${levels}: champions ${got.champions.join(', ')}, planned ${want.join(', ')}`);
+      if (!got.champions.length) out.push(`${route} on ${levels}: no champion named`);
+      if (got.keeper !== MONSTERS[Dungeon.keeperOf(levels, route)].name) out.push(`${route} on ${levels}: keeper ${got.keeper}`);
+      const relic = Object.keys(RELICS).find(id => RELICS[id].route === route);
+      if (got.relic !== RELICS[relic].name) out.push(`${route} on ${levels}: relic ${got.relic}`);
+      // (and a champion of one road is not promised by the other)
+    }
+    if (Game.roadPlan('crypts').keeper === Game.roadPlan('warrens').keeper && levels < 12) out.push(`on ${levels} floors both roads name the same keeper`);
+  }
+  return out.length ? out.join('; ') : true;
 });
 };

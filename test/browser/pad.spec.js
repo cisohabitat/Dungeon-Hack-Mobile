@@ -145,7 +145,8 @@ test.describe('controller in the dungeon\'s choices', () => {
     await startGame(page, { seed: 'play-fork' });
     await clearBoons(page);
     await page.evaluate(() => { for (let d = 1; d < 3; d++) { Game.level().monsters.length = 0; Game.descend(); } });
-    await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4; });
+    // (with a path already: the roads part after the path, and this is about the roads)
+    await page.evaluate(() => { const L = Game.level(), p = Game.player(); p.path = PATHS[p.cls][0].id; L.monsters.length = 0; p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4; });
     const depth = await page.evaluate(() => Game.state().depth);
     await padPress(page, 'UP');
     await expect(page.locator('#ov-fork')).toHaveClass(/open/);

@@ -1,4 +1,4 @@
-// Rule checks for the paths offered at level 5, their capstones at level 9, and each path's own gift.
+// Rule checks for the paths offered at level 3, their capstones at level 7, and each path's own gift.
 // Run from rules.js's worker with the helpers lent in (rules-lib.js).
 module.exports = async function pathsChecks(h) {
   const { OPTS, start, seedDice, markLog, linesSince, spreadPicks, test, beside, pinned, ahead, shift, run, talent, walk, tallyLines } = h;
@@ -14,7 +14,7 @@ function levelByKill(ctx, from, to) {
   for (let i = 0; i < 6 && Game.level().monsters.includes(m); i++) { G.t = p.nextAttack; Game.input('attack'); }
 }
 
-await test('at level 5 every class is offered its own two paths, in place of the lesson', async () => {
+await test('at level 3 every class is offered its own two paths, in place of the lesson', async () => {
   const out = [];
   for (const cls of ['fighter', 'cleric', 'mage', 'thief']) {
     const ctx = await start(cls, 'path-offer-' + cls);
@@ -45,23 +45,23 @@ await test('several levels at once still offer the path, between the talents, an
   const ctx = await start('cleric', 'path-multi');
   const { Game, TALENTS, BOONS } = ctx;
   const p = Game.player();
-  levelByKill(ctx, 3, 6);
+  levelByKill(ctx, 1, 4);
   const kinds = [];
   const q = Game.state().pendingBoons.map(o => Game.isPathOffer(o) ? 'P' : o.every(id => TALENTS.cleric.some(t => t.id === id)) ? 'T' : o.every(id => BOONS.some(b => b.id === id)) ? 'L' : '?');
-  if (q.join('') !== 'TPT') return `queued ${q.join('')} for levels 4 to 6`;
+  if (q.join('') !== 'TPT') return `queued ${q.join('')} for levels 2 to 4`;
   while (Game.pendingBoons()) {
     const offer = Game.pendingBoons();
     kinds.push(`${Game.pendingLevel()}:${Game.isPathOffer(offer) ? offer.join('/') : 'T'}`);
     if (!Game.chooseBoon(Game.isPathOffer(offer) ? 'healer' : offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined)) return `could not choose from ${offer.join(', ')}`;
   }
-  if (kinds.join(' ') !== '4:T 5:templar/healer 6:T') return `offers: ${kinds.join(' ')}`;
+  if (kinds.join(' ') !== '2:T 3:templar/healer 4:T') return `offers: ${kinds.join(' ')}`;
   return (p.path === 'healer' && p.talents.length === 2) || `path ${p.path}, talents ${p.talents}`;
 });
 
 await test('a path survives a save, and a save from before paths is offered one at its next level', async () => {
   const ctx = await start('fighter', 'path-save');
-  const { Game } = ctx;
-  levelByKill(ctx, 4, 5);
+  const { Game, PATH_LEVEL } = ctx;
+  levelByKill(ctx, PATH_LEVEL - 1, PATH_LEVEL);
   Game.chooseBoon('knight');
   if (!Game.save(true)) return 'save failed';
   const raw = JSON.parse(ctx.store.get('deepdelve.save'));
@@ -91,7 +91,7 @@ await test('a path survives a save, and a save from before paths is offered one 
   return Game.isPathOffer(Game.pendingBoons() || []) || `a top-level hero came back offered ${Game.pendingBoons()}`;
 });
 
-await test('at level 9 a hero on a path is offered its two capstones, in place of the lesson, and only once', async () => {
+await test('at level 7 a hero on a path is offered its two capstones, in place of the lesson, and only once', async () => {
   const out = [];
   const ctx = await start('fighter', 'capstone-offer');
   const { Game, PATHS, CAPSTONE_LEVEL, BOONS } = ctx;
@@ -100,7 +100,7 @@ await test('at level 9 a hero on a path is offered its two capstones, in place o
   levelByKill(ctx, CAPSTONE_LEVEL - 1, CAPSTONE_LEVEL);
   const offer = Game.pendingBoons();
   const want = PATHS.fighter[0].capstones.map(c => c.id);
-  if (!offer || offer.join() !== want.join() || !Game.isCapstoneOffer(offer)) return `a knight at level 9 was offered ${offer && offer.join(', ')}`;
+  if (!offer || offer.join() !== want.join() || !Game.isCapstoneOffer(offer)) return `a knight at level 7 was offered ${offer && offer.join(', ')}`;
   if (Game.isPathOffer(offer)) out.push('the capstones were taken for a path offer');
   if (Game.pendingLevel() !== CAPSTONE_LEVEL) out.push(`the offer says level ${Game.pendingLevel()}`);
   if (Game.chooseBoon('undying')) out.push('a knight took the berserker\'s capstone');
@@ -112,7 +112,7 @@ await test('at level 9 a hero on a path is offered its two capstones, in place o
   levelByKill(ctx, CAPSTONE_LEVEL + 1, CAPSTONE_LEVEL + 2);
   const next = Game.pendingBoons();
   if (!next || !next.every(id => BOONS.some(b => b.id === id))) out.push(`at level 11 it was offered ${next && next.join(', ')}`);
-  // one who reaches level 9 with the path still to choose has the capstones after it, and the lesson
+  // one who reaches level 7 with the path still to choose has the capstones after it, and the lesson
   const late = await start('mage', 'capstone-late');
   levelByKill(late, CAPSTONE_LEVEL - 1, CAPSTONE_LEVEL);
   const kinds = [];
@@ -121,7 +121,7 @@ await test('at level 9 a hero on a path is offered its two capstones, in place o
     kinds.push(late.Game.isPathOffer(o) ? 'P' : late.Game.isCapstoneOffer(o) ? 'C' : 'L');
     if (!late.Game.chooseBoon(late.Game.isPathOffer(o) ? 'pyromancer' : o[0], o[0] === 'spread' ? spreadPicks(late.Game) : undefined)) { out.push(`could not choose from ${o.join(', ')}`); break; }
   }
-  if (kinds.join('') !== 'PLC') out.push(`a mage without a path at level 9 was offered ${kinds.join('')}`);
+  if (kinds.join('') !== 'PLC') out.push(`a mage without a path at level 7 was offered ${kinds.join('')}`);
   if (late.Game.player().capstone !== 'inferno') out.push(`the late mage mastered ${late.Game.player().capstone}`);
   // a save from before capstones, already at the top level, is offered them on loading
   late.Game.save(true);
@@ -381,12 +381,12 @@ await test('Healer: heals a quarter more, mends under Protection, and has more s
   if (!(healer >= 4 && healer <= 5)) out.push(`a healer mended ${healer} in twenty seconds`);
   if (both !== ward + healer) out.push(`with Warding Light too, ${both} (${ward} + ${healer} apart)`);
   const ctx = await start('cleric', 'healer-sp');
-  const { Game } = ctx; const p = Game.player();
-  levelByKill(ctx, 4, 5);
+  const { Game, PATH_LEVEL } = ctx; const p = Game.player();
+  levelByKill(ctx, PATH_LEVEL - 1, PATH_LEVEL);
   const was = p.maxSp;
   Game.chooseBoon('healer');
-  // a point for every three levels: one at level 5
-  if (p.maxSp !== was + 1 || p.sp !== p.maxSp) out.push(`at level 5 the well went ${was} -> ${p.maxSp}, holding ${p.sp}`);
+  // a point for every three levels: one at level 3
+  if (p.maxSp !== was + 1 || p.sp !== p.maxSp) out.push(`at level 3 the well went ${was} -> ${p.maxSp}, holding ${p.sp}`);
   return out.length ? out.join('; ') : true;
 });
 

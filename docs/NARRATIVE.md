@@ -192,12 +192,14 @@ A crew's reading, under the claw-marks: once warm water came up from below. Eggs
 
 - *choice*: Down into the Crypts
 - *desc*: Old burial halls, cold and quiet: the dead, and what feeds on them. The traders here keep more for curses and poison, and its last floor holds a relic found nowhere else.
+- *tells*: Cold is its weapon: the wraith's grave-chill, which silver and a steady heart answer.
 - *after*: They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.
 
 ### the Warrens (warrens)
 
 - *choice*: Down into the Warrens
 - *desc*: Goblin tunnels and orc halls, loud and crowded, and bigger things further down. The traders here deal in arms, and its last floor holds a relic found nowhere else.
+- *tells*: Weight is its weapon: things that charge and crowd, which fire oil and a wall behind answer.
 - *after*: They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.
 
 ## The places

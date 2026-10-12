@@ -164,6 +164,7 @@ test('the divided stair', async ({ page }) => {
   await page.evaluate(() => {
     const L = Game.level(), p = Game.player();
     L.monsters.length = 0;
+    p.path = PATHS[p.cls][0].id;   // (the roads part after the path: this hero has one)
     p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
     Game.input('forward');
   });

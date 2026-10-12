@@ -683,7 +683,8 @@ test.describe('talents', () => {
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0; p.level = 3; p.xp = XP_TABLE[3] - 1; p.perkHit = 60;
+      // (with a path already: past level 3 without one, the path would be asked before the talent)
+      L.monsters.length = 0; p.level = 3; p.xp = XP_TABLE[3] - 1; p.perkHit = 60; p.path = PATHS[p.cls][0].id;
       L.monsters.push({ uid: 5, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });

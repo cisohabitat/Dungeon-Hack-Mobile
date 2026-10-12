@@ -36,12 +36,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
 - **A choice at every level.** A small lesson at most levels, three offered at a time; on every even level a class talent instead, one of three from the class's own six or seven, each changing how the class fights.
   Ability gains can be taken repeatedly; the permanent perks only once.
-- **A path at level 5.** Each class chooses one of two paths, for good, in place of that level's
-  lesson: Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
+- **A path at level 3.** Each class chooses one of two paths, for good, in place of that level's
+  lesson (or at the divided stair, if it comes first): Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
   Each changes two or three rules (a shield that catches blows, rage that grows with your wounds,
   fire that keeps burning, a slip aside from a blow) and some give something up for it. The path
   is on the Hero sheet, the end screen and the Hall of Heroes.
-- **Mastery at level 9.** A hero on a path masters it, again in place of the lesson: one of the
+- **Mastery at level 7.** A hero on a path masters it, again in place of the lesson: one of the
   path's two capstones (a Knight's shield that catches one blow in four, a Berserker who will not
   fall once a floor, a Pyromancer's fire that burns hotter and longer, a Sharpshooter's quicker draw).
 - **Six classes** with AD&D-flavoured rules: Fighter, Cleric, Mage, Thief, Ranger, Druid. Six ability scores

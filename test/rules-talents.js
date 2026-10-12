@@ -5,7 +5,7 @@ module.exports = async function talentsChecks(h) {
 
 // ---------- talents ----------
 
-await test('levelling offers a lesson at the odd levels, a class talent at the even ones, and the path at the fifth', async () => {
+await test('levelling offers a lesson at the odd levels, a class talent at the even ones, and the path at the third', async () => {
   const ctx = await start('fighter', 'talent-offers');
   const { Game, XP_TABLE, TALENTS, BOONS } = ctx;
   const p = Game.player();
@@ -25,7 +25,7 @@ await test('levelling offers a lesson at the odd levels, a class talent at the e
       if (!Game.chooseBoon(offer[0], offer[0] === 'spread' ? spreadPicks(Game) : undefined)) return `could not choose ${offer[0]}`;
     }
   }
-  if (kinds.join(' ') !== '2:T 3:L 4:T 5:P 6:T') return `offers by level: ${kinds.join(' ')}`;
+  if (kinds.join(' ') !== '2:T 3:P 4:T 5:L 6:T') return `offers by level: ${kinds.join(' ')}`;
   return (p.talents.length === 3 && new Set(p.talents).size === 3) || `talents taken: ${JSON.stringify(p.talents)}`;
 });
 
@@ -34,7 +34,7 @@ await test('a talent is never offered twice', async () => {
   const { Game, XP_TABLE, TALENTS } = ctx;
   const p = Game.player(), G = Game.state();
   p.perkHit = 60;
-  p.path = 'frostweaver';                  // past level 5 without one, the path would be offered first
+  p.path = 'frostweaver'; p.capstone = 'ice_armour';   // past level 3 without a path, or 7 without a mastery, those would be offered first
   const taken = [];
   for (const lvl of [2, 4, 6, 8]) {
     G.pendingBoons = [];

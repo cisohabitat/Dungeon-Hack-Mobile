@@ -239,7 +239,9 @@ export function makeChoices(K) {
     const p = Game.player(), mastery = Game.isCapstoneOffer(offer);
     const paths = mastery ? (Game.pathOf() || { capstones: [] }).capstones : PATHS[p.cls] || [];
     const level = Game.pendingLevel(), got = Game.levelNote(level);
-    $('#boon-title').textContent = mastery ? `Hero level ${level}: master your path` : `Hero level ${level}: choose your path`;
+    // (offered at the divided stair, before the path's own level: the roads part after it)
+    const atStair = !mastery && level < PATH_LEVEL;
+    $('#boon-title').textContent = mastery ? `Hero level ${level}: master your path` : atStair ? 'The stair divides: choose your path' : `Hero level ${level}: choose your path`;
     const el = $('#boon-list');
     el.innerHTML = '';
     // held sideways, the paths sit side by side: one under the other, the second was below the fold
@@ -257,6 +259,7 @@ export function makeChoices(K) {
     // that level before there were paths gets it on top of what the level gives
     const inPlace = Game.pendingLevel() === (mastery ? CAPSTONE_LEVEL : PATH_LEVEL);
     if (mastery) note.textContent = `The ${Game.pathOf().name}'s path ends in one of two masteries. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
+    else if (atStair) note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} chooses a path before the roads part. Choose one: it is yours for the rest of the run, and it takes the place of level ${PATH_LEVEL}'s lesson.`;
     else note.textContent = `Every ${CLASSES[p.cls].name.toLowerCase()} chooses a path here. Choose one: it is yours for the rest of the run${inPlace ? ', and it takes the place of this level\'s lesson' : ', and it comes on top of what this level gives you'}.`;
     el.appendChild(note);
     const openedAt = performance.now();

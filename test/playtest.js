@@ -146,6 +146,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     }
     // the floor the top level was reached on, for how long the hero went on past it
     if (p.level >= MAX_LEVEL && !rec.topAt) rec.topAt = G.depth;
+    // the floor the path's legend fell on (a champion down after the path was taken)
+    if (!rec.legendAt && G.relics && G.relics.found.some(id => RELICS[id] && RELICS[id].legend)) rec.legendAt = G.depth;
     if (p.hp <= p.maxHp * 0.5) { const s2 = snap(); rec.lastAdj = s2.adj; rec.lastNear = s2.near; rec.lastAwake = s2.awake; rec.lastTotal = s2.total; }
     now += TICK;
     // experience offers a choice on every level; take the most useful one
@@ -156,6 +158,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         // HEROPATH=none walks past the offer, to measure what the paths add
         if (HEROPATH === 'none') { Game.state().pendingBoons.shift(); Game.state().pendingLevels.shift(); continue; }
         rec.path = offer.includes(HEROPATH) ? HEROPATH : offer[idx % offer.length];
+        rec.pathAt = G.depth;
         Game.chooseBoon(rec.path);
         continue;
       }
@@ -164,6 +167,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
       if (Game.isCapstoneOffer(offer)) {
         if (process.env.HEROCAP === 'none') { Game.state().pendingBoons.shift(); Game.state().pendingLevels.shift(); continue; }
         rec.capstone = offer.includes(process.env.HEROCAP) ? process.env.HEROCAP : offer[Math.floor(idx / 2) % offer.length];
+        rec.capAt = G.depth;
         Game.chooseBoon(rec.capstone);
         continue;
       }
@@ -1030,6 +1034,10 @@ for (const cls in results) {
   const byPath = {};
   for (const r of rows) (byPath[r.path || 'none'] = byPath[r.path || 'none'] || []).push(r);
   console.log(`   paths ${Object.entries(byPath).map(([k, a]) => `${k} ${a.length} runs, win ${(a.filter(r => r.won).length / a.length * 100).toFixed(0)}%`).join(' | ')}`);
+  // the build by floor: which floor the path, the capstone and the legend came on (ROADMAP Phase 8)
+  const floors = k => { const by = {}; for (const r of rows) if (r[k]) by[r[k]] = (by[r[k]] || 0) + 1; return Object.entries(by).sort((a, b) => a[0] - b[0]).map(([f, n]) => `floor ${f} ${(n / rows.length * 100).toFixed(0)}%`).join(', ') || 'never'; };
+  const wins = rows.filter(r => r.won);
+  console.log(`   path on ${floors('pathAt')}; capstone on ${floors('capAt')} (${wins.length ? (wins.filter(r => r.capstone).length / wins.length * 100).toFixed(0) : 0}% of wins); legend on ${floors('legendAt')}, worn at the end ${(avg('legendWorn') * 100).toFixed(0)}%`);
   const byCap = {};
   for (const r of rows) if (r.capstone) (byCap[r.capstone] = byCap[r.capstone] || []).push(r);
   if (Object.keys(byCap).length) console.log(`   capstones ${Object.entries(byCap).map(([k, a]) => `${k} ${a.length}, win ${(a.filter(r => r.won).length / a.length * 100).toFixed(0)}%`).join(' | ')}`);

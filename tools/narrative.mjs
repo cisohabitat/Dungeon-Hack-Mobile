@@ -55,7 +55,7 @@ export async function narrative() {
   h(2, 'The roads (ROUTES)');
   for (const [id, r] of Object.entries(D.ROUTES)) {
     h(3, `${r.name} (${id})`);
-    li('choice', r.choice); li('desc', r.desc); li('after', r.epi); end();
+    li('choice', r.choice); li('desc', r.desc); li('tells', r.tells); li('after', r.epi); end();
   }
 
   h(2, 'The places');

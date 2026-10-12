@@ -26,6 +26,9 @@ async function findTrader(page) {
       p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
       Game.input('forward');
       await new Promise(r => setTimeout(r, 280));
+      // (the divided stair asks the path first of a hero without one, then the road)
+      if (Game.isPathOffer(Game.pendingBoons())) { Game.chooseBoon(Game.pendingBoons()[0]); await new Promise(r => setTimeout(r, 120)); }
+      if (Game.forkPending()) Game.chooseRoute('crypts');
     }
     return null;
   });
@@ -138,6 +141,7 @@ test.describe('the trader', () => {
         p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
         Game.input('forward');
         await new Promise(r => setTimeout(r, 280));
+        if (Game.isPathOffer(Game.pendingBoons())) { Game.chooseBoon(Game.pendingBoons()[0]); await new Promise(r => setTimeout(r, 120)); }
         if (Game.forkPending()) Game.chooseRoute('crypts');
       }
       const L = Game.level(), n = L.npcs.find(q => q.wick);

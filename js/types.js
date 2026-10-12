@@ -103,6 +103,7 @@
  * @property {number} [mirrors]  Mirror Image: images left to take a blow
  * @property {number} [nextWard]  Warding Light: the next hit point from then
  * @property {string} [path]  the class path taken at PATH_LEVEL (a PATHS id); absent until chosen, and in saves from before paths
+ * @property {boolean} [pathEarly]  the path was taken at the divided stair, before PATH_LEVEL: that level's lesson is forgone, so every hero has the same number of choices
  * @property {{t: string, left: number}|null} [coating]  what the weapon is coated with (fire, silver, venom), and how many more blows that land it lasts
  * @property {string} [capstone]  the path's capstone taken at CAPSTONE_LEVEL (an id from the path's capstones); absent until chosen
  * @property {number} [nextMercy]  a Healer's mending under Protection: the next hit point from then
@@ -465,6 +466,7 @@
  * @property {*} floatText
  * @property {*} focusHas
  * @property {*} followBlow
+ * @property {*} forkHere
  * @property {*} freshStats
  * @property {*} FROST_SPELLS
  * @property {*} fuelAt

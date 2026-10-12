@@ -136,7 +136,8 @@ async function descendTo(page, depth) {
       if (!L.downStart) break;
       p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
       Game.input('forward');
-      // at the divided stair, the Warrens
+      // at the divided stair, the path first if the hero has none (the roads part after it), then the Warrens
+      if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);
       if (Game.forkPending()) Game.chooseRoute('warrens');
       await new Promise(r => setTimeout(r, 280));
     }

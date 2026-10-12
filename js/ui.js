@@ -1047,7 +1047,10 @@ const UI = (() => {
       const r = ROUTES[id], btn = document.createElement('button');
       btn.className = 'boon fork-choice';
       btn.dataset.route = id;
-      btn.innerHTML = `<b>${escapeHtml(r.choice)}</b><small>${escapeHtml(r.desc)}</small>`;
+      // what the road holds, from the run's own plans: its champions, its keeper and its relic
+      const plan = Game.roadPlan(id);
+      const facts = [plan.champions.length ? `Champions: ${plan.champions.join(' and ')}` : '', `Keeper: ${plan.keeper}`, plan.relic ? `Relic: ${plan.relic[0].toUpperCase() + plan.relic.slice(1)}` : ''].filter(Boolean);
+      btn.innerHTML = `<b>${escapeHtml(r.choice)}</b><small>${escapeHtml(r.desc)} ${escapeHtml(r.tells)}</small><small class="road-facts">${facts.map(escapeHtml).join(' \u00b7 ')}</small>`;
       btn.classList.add('arming'); setTimeout(() => btn.classList.remove('arming'), BOON_GUARD_MS);
       btn.addEventListener('click', () => { if (performance.now() < armedAt) return; closeOverlay(false); Game.chooseRoute(id); });
       el.appendChild(btn);

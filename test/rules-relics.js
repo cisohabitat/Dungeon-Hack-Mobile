@@ -82,6 +82,7 @@ await test('each floor holds exactly the relic planned for it, and traders keep 
       if (L.tiles[y * L.w + x] !== T.FLOOR) continue;
       p.x = x; p.y = y; p.dir = k; delete L.items[x + ',' + y];
       Game.input('use'); went = true;
+      if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);   // (the stair asks the path first of a hero without one)
       if (Game.forkPending()) Game.chooseRoute('crypts');
     }
   }

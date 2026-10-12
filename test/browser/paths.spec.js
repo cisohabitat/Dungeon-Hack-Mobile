@@ -1,5 +1,5 @@
 'use strict';
-// The class paths: offered once, at level 5, in the level-up screen, and
+// The class paths: offered once, at level 3, in the level-up screen, and
 // kept on the Hero sheet for the rest of the run.
 const { test } = require('@playwright/test');
 const { watchForErrors, startGame, clearBoons, expect } = require('./helpers');
@@ -14,17 +14,17 @@ test.describe('paths', () => {
     await clearBoons(page);
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0; p.xp = XP_TABLE[4] - 1; p.perkHit = 60;
+      L.monsters.length = 0; p.xp = XP_TABLE[2] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 7, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
       await page.locator('#boon-list .boon').first().click();
       if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
     }
-    await expect(page.locator('#boon-title')).toHaveText('Hero level 5: choose your path');
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 3: choose your path');
     const cards = page.locator('.boon.path');
     await expect(cards).toHaveCount(2);
     await page.waitForTimeout(800);
@@ -40,27 +40,27 @@ test.describe('paths', () => {
     expect(errors).toEqual([]);
   });
 
-  test('level 5 offers the two paths of the class, and the one taken is on the Hero sheet', async ({ page }) => {
+  test('level 3 offers the two paths of the class, and the one taken is on the Hero sheet', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { seed: 'path-ui', cls: 'Fighter' });
     await clearBoons(page);
-    // one kill takes the hero from the first level to the fifth, as a big one can
+    // one kill takes the hero from the first level to the third, as a big one can
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0; p.xp = XP_TABLE[4] - 1; p.perkHit = 60;
+      L.monsters.length = 0; p.xp = XP_TABLE[2] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 7, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
-    // the talents and the lesson of levels 2 to 4 come first, in order
-    for (let i = 0; i < 3; i++) {
+    // the talent of level 2 comes first, in order
+    for (let i = 0; i < 1; i++) {
       await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
       await page.locator('#boon-list .boon').first().click();
       // Self-Taught asks where its two points go first
       if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
     }
-    await expect(page.locator('#boon-title')).toHaveText('Hero level 5: choose your path');
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 3: choose your path');
     const cards = page.locator('.boon.path');
     await expect(cards).toHaveCount(2);
     await expect(cards.nth(0).locator('b')).toHaveText('Knight');
@@ -102,11 +102,11 @@ test.describe('paths', () => {
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
       p.eq.shield = null; p.eq.offhand = { t: 'dagger', q: 1, e: 0 };
-      L.monsters.length = 0; p.xp = XP_TABLE[4] - 1; p.perkHit = 60;
+      L.monsters.length = 0; p.xp = XP_TABLE[2] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 8, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       await expect(page.locator('#boon-title')).toContainText(`Hero level ${i + 2}`);
       await page.locator('#boon-list .boon').first().click();
       // Self-Taught asks where its two points go first
@@ -118,22 +118,22 @@ test.describe('paths', () => {
     expect(errors).toEqual([]);
   });
 
-  test('at level 9 a hero on a path masters it: two capstones, a second tap, and the one taken on the Hero sheet', async ({ page }) => {
+  test('at level 7 a hero on a path masters it: two capstones, a second tap, and the one taken on the Hero sheet', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'capstone-ui', cls: 'Fighter' });
     await clearBoons(page);
-    await page.evaluate(() => { const p = Game.player(); p.path = 'berserker'; p.level = 8; p.xp = XP_TABLE[7]; });
+    await page.evaluate(() => { const p = Game.player(); p.path = 'berserker'; p.level = 6; p.xp = XP_TABLE[5]; });
     await page.click('[data-open="char"]');
-    await expect(page.locator('#char-sheet')).toContainText('At hero level 9 you master your path: Undying or Bloodlust.');
+    await expect(page.locator('#char-sheet')).toContainText('At hero level 7 you master your path: Undying or Bloodlust.');
     await page.click('#ov-char [data-close]');
     await page.evaluate(() => {
       const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
-      L.monsters.length = 0; p.xp = XP_TABLE[8] - 1; p.perkHit = 60;
+      L.monsters.length = 0; p.xp = XP_TABLE[6] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 9, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
     });
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
-    await expect(page.locator('#boon-title')).toHaveText('Hero level 9: master your path');
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 7: master your path');
     await expect(page.locator('#boon-list')).toContainText('takes the place of this level\'s lesson');
     const cards = page.locator('.boon.path');
     await expect(cards).toHaveCount(2);
@@ -185,13 +185,13 @@ test.describe('paths', () => {
     await expect(sheet.locator('.sheet-who small')).toContainText(`/ ${next}`);
     expect(errors).toEqual([]);
   });
-  test('before level 5 the Hero sheet says which paths are ahead', async ({ page }) => {
+  test('before level 3 the Hero sheet says which paths are ahead', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await startGame(page, { seed: 'path-ahead', cls: 'Mage' });
     await clearBoons(page);
     await page.click('[data-open="char"]');
-    await expect(page.locator('#char-sheet')).toContainText('At hero level 5 you choose your path: Pyromancer or Frostweaver.');
+    await expect(page.locator('#char-sheet')).toContainText('At hero level 3 you choose your path: Pyromancer or Frostweaver.');
     expect(errors).toEqual([]);
   });
 });

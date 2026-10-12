@@ -634,6 +634,8 @@ export function makeCombat(K) {
       // past it without one (a save from before paths) is offered it as well
       const path = p.level >= PATH_LEVEL && offerPath();
       if (path && p.level === PATH_LEVEL) continue;
+      // (a path taken at the divided stair, before this level, was this level's lesson)
+      if (p.level === PATH_LEVEL && p.pathEarly) continue;
       // and at CAPSTONE_LEVEL, a hero on a path masters it, again in place of the lesson
       const capstone = p.level >= CAPSTONE_LEVEL && offerCapstone();
       if (capstone && p.level === CAPSTONE_LEVEL) continue;
@@ -770,6 +772,8 @@ export function makeCombat(K) {
       Sound.play('levelup');
       emit('stats');
       if (!pendingBoons()) emit('boonsDone');
+      // chosen at the divided stair: the roads are asked now, as the stair would have
+      if (p.pathEarly && K.forkHere() && !pendingBoons()) { K.G.forkPending = true; emit('fork'); }
       return true;
     }
     const capstone = isCapstoneOffer(offer) && (pathOf(p).capstones || []).find(c => c.id === id);

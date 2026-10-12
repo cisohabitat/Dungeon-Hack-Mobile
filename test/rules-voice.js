@@ -55,6 +55,7 @@ module.exports = async function voiceChecks(h) {
     const after = [
       ...Object.entries(BACKGROUNDS).map(([k, b]) => [`BACKGROUNDS.${k}.epi`, b.epi]),
       ...Object.entries(ROUTES).map(([k, r]) => [`ROUTES.${k}.epi`, r.epi]),
+      ...Object.entries(ROUTES).map(([k, r]) => [`ROUTES.${k}.tells`, r.tells]),
       ...Object.entries(ENDINGS).flatMap(([k, e]) => [[`ENDINGS.${k}.did`, e.did], ...e.epi.map((s, i) => [`ENDINGS.${k}.epi[${i}]`, s])]),
     ];
     for (const [where, s] of after) {
