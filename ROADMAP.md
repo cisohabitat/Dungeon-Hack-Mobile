@@ -178,15 +178,37 @@ exit criteria are the answer.
   offer, first among its three and marked as held. (When several levels come at once the second
   offer is drawn before the first is answered, so the held card is not in it: the common case
   is one level at a time.)
-- [ ] **The ladder as five sentences** (D6): dear traders and one rest kept; the three taxes
-  replaced by rules a player plans around; re-benched to the same curve; the share line says
-  the rung in words.
-- [ ] **Elements for every class, combinations pruned** (D7, D8): Frost Oil, a Scroll of Frost,
-  a Scroll of Lightning; `icebound_prey` made possible or cut; a legend's combination counted
-  only when the player did the thing; six two-system combinations a fighter or thief can plan.
-- [ ] **The mage's relics** (D11): three or four on robes and foci, two more for the ranger.
-- [ ] **The economy's holes** (D10): a relic for sale on the floor before last; a job paid by
-  any trader after its floor; a sure first trader on floor 2.
+- [x] **The ladder as five sentences** (D6): dear traders and one rest kept; the three taxes
+  replaced by rules a player plans around: Hard+3 a rest wakes the floor (what it wakes hunts
+  from wherever it lies), Hard+4 a draught drunk beside a foe gives it a blow (step out of reach
+  first; the draught heals as its dice say again), Hard+5 no lamp makes you whole (no trader
+  sells a night by theirs, the Returned keep their gift, and the vigil lamp by the last halls is
+  out). The share line says the rung in words. Benched at the batch: Normal 80.5%, Hard 59.5%
+  (3 sets); the ladder's curve is measured again in the closing pass with the bot resting by the
+  stairs on the third rung as a player would (it rested mid-floor and the roused floor came for
+  it: the fighter 25% on Hard+3, 44% once it learned).
+- [x] **Elements for every class, combinations pruned** (D7, D8): Frost Oil (chills, holds the
+  foe back a moment, freezes the water round it), a Scroll of Frost and a Scroll of Lightning,
+  in the floors' draw and on the shelves; the blade's cold works on the place as a spell's does,
+  so Flash Freeze, Sealed Crack, Quenched and Conduction are a fighter's or a thief's to plan,
+  with Sheet of Flame, Troll's Bane and Silver and Bone: seven two-system combinations on items
+  any class can carry (`test/rules-kit.js`). `icebound_prey` is possible: a Warden with Frost
+  Oil beside water, or a Scroll of Frost. Of the fifteen combinations a legend or a set makes,
+  two fired on the legend alone and now count on the player's act: The Wall Holds on the Bash
+  that answers the Bastion's catch, the Fool's Opening on the blow into Motley's opening; the
+  other thirteen already turn on a blow, a kill, a spell or an oil the player chose (Pack and
+  Root on the companion's kill is left as the friend's doing, as its hint says). That reading
+  is a judgment: the review counted thirteen as "by owning a legend".
+- [x] **The mage's relics** (D11): four on robes and foci (the Hearthwool Robe, the Archivist's
+  Robe, the Midnight Folio, Sparkglass with the new power Echo) and two more a ranger can carry
+  (the Boarspear, Galewind): the mage's pool four to eight, the ranger's seven to nine.
+- [x] **The economy's holes** (D10): a trader is sure on floor 2 (and the floor before last, as
+  before; a longer delve keeps its two-fifths one too), and the traders keep one relic back for
+  the floor before last, where the gold hauled up has nowhere else to go (a champion's gift
+  leaves it too). A job paid by any trader after its floor was already the rule; the bench says
+  where the rest go: of the bot's jobs a quarter are paid, two thirds are left undone on their
+  floor (the bot moves on, as a player may), and one in thirty is done and never paid for want
+  of a trader after. The bot prints that split, and the draughts it bought, with every bench.
 
 **Exit criteria**
 - The bot walks a path by floor 3 in nine runs of ten, and takes a capstone in four wins of

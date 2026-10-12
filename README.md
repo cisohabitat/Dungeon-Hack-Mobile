@@ -272,7 +272,7 @@ push and pull request.
 Tuned against the simulator rather than by feel. (Since October 2026 the fight's dice are the run's
 own, seeded from the run rather than the clock, so a run can be told again; the rows below were
 measured before that, and a row measured again will differ by the bench's own noise and no more.) The bot plays whole runs heading straight
-down, with stats placed as the creation screen places them (`FIT=1`). The Normal and Hard rows were measured again in October 2026 after Phase 8's first two batches (the path at level 3, a floor's wear that carries), 1,200 runs a class over three seed sets; the other rows stand from before Phase 8 and are measured again once at its end, after the ladder and the economy have moved. Before that, every row was measured
+down, with stats placed as the creation screen places them (`FIT=1`). The Normal and Hard rows were measured again in October 2026 after Phase 8's first four batches (the path at level 3, a floor's wear that carries, the capstones as rules, the ladder as rules and the economy's holes), 1,200 runs a class over three seed sets; the other rows stand from before Phase 8 and are measured again once at its end, with the new items and relics in the loot and the ladder's rules in the bot's hands (on the third rung it rests beside the stairs, as a player would). Before that, every row was measured
 in October 2026, after the legends, the named combinations, the champions' new fights and the
 choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three
 seed sets (`SEEDPFX=alt`, `SEEDPFX=third`), 1,200 runs a class, since one set of 400 swings a class
@@ -285,8 +285,8 @@ Normal ones:
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 100% | 98.5% | 100% | 97.5% | 99.8% | 99% | about 99% |
-| Normal | 80.5% | 82% | 83% | 77.5% | 83% | 84.5% | about 81.5% |
-| Hard | 59% | 62.5% | 60.5% | 60% | 56% | 66% | about 60.5% |
+| Normal | 78% | 80.5% | 81% | 80% | 81.5% | 81% | about 80.5% |
+| Hard | 57% | 61% | 62% | 61.5% | 55% | 61.5% | about 59.5% |
 | Long Delve (12 floors), Normal | 85.8% | 85.3% | 86% | 84.3% | 87.3% | 85.8% | about 85.5% |
 | Long Delve (12 floors), Hard | 68.3% | 65% | 69.5% | 66.5% | 64.5% | 68.8% | about 67% |
 | Long Delve (16 floors), Normal | 80.8% | 80.2% | 85% | 83.3% | 82.8% | 82.3% | about 82.5% |
@@ -298,7 +298,7 @@ Normal ones:
 | Hard+4 | 47% | 35% | 34.5% | 40% | 31.5% | 40% | about 38% |
 | Hard+5 | 41% | 38.5% | 29% | 38% | 33% | 41% | about 37% |
 
-The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets), as a curve rather than a contest between the classes: about five or six points a rung on average, from Hard's 61.5% to 37% at the top. A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
+The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets), as a curve rather than a contest between the classes: about five or six points a rung on average, from Hard's 61.5% to 37% at the top. (Those rows are from before the three upper rungs became rules, in Phase 8; they are measured again at the end of the phase.) A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
 
 What moved them. The cleric starts with three more life on every difficulty: it began the
 weakest of the six (fifteen, where the rest have seventeen or more) and lost the most heroes before
