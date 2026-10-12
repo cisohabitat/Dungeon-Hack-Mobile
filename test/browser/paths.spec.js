@@ -2,7 +2,7 @@
 // The class paths: offered once, at level 3, in the level-up screen, and
 // kept on the Hero sheet for the rest of the run.
 const { test } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, expect } = require('./helpers');
+const { watchForErrors, startGame, clearBoons, expect, faceOpenGround, placeMonster } = require('./helpers');
 
 test.describe('paths', () => {
   test('held sideways, the two paths stand side by side, both in view', async ({ page }) => {
@@ -192,6 +192,36 @@ test.describe('paths', () => {
     await clearBoons(page);
     await page.click('[data-open="char"]');
     await expect(page.locator('#char-sheet')).toContainText('At hero level 3 you choose your path: Pyromancer or Frostweaver.');
+    expect(errors).toEqual([]);
+  });
+  test('the end screen names the build by a path chosen before the fork: taken at level 3 on the first floor, it heads the build line', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
+    await startGame(page, { seed: 'build-line-early', cls: 'Fighter' });
+    await clearBoons(page);
+    await page.evaluate(() => {
+      const p = Game.player(), L = Game.level(), G = Game.state(); const [dx, dy] = Dungeon.DIRS[p.dir];
+      L.monsters.length = 0; p.xp = XP_TABLE[2] - 1; p.perkHit = 60;
+      L.monsters.push({ uid: 7, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
+    });
+    await expect(page.locator('#ov-boons')).toHaveClass(/open/);
+    await expect(page.locator('#boon-title')).toContainText('Hero level 2');
+    await page.locator('#boon-list .boon').first().click();
+    if (await page.locator('.spread-stat').count()) { await page.locator('.spread-stat:not(.full)').first().click(); await page.locator('.spread-stat:not(.full)').first().click(); }
+    await expect(page.locator('#boon-title')).toHaveText('Hero level 3: choose your path');
+    const cards = page.locator('.boon.path');
+    await cards.nth(1).click();
+    await cards.nth(1).click();
+    await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
+    // chosen on the first floor, before the stair divides: no road yet
+    expect(await page.evaluate(() => [Game.player().path, Game.state().depth, Game.state().route || null])).toEqual(['berserker', 1, null]);
+    // then the run ends, and the end screen's build line leads with the path
+    await faceOpenGround(page, 2);
+    await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
+    await page.evaluate(() => { Game.player().hp = 1; Game.player().eq.armor = null; });
+    await expect.poll(() => page.evaluate(() => Game.state().status), { timeout: 15_000 }).toBe('dead');
+    await expect(page.locator('.end-build')).toHaveText(/^Berserker/);
     expect(errors).toEqual([]);
   });
 });
