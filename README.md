@@ -271,7 +271,7 @@ push and pull request.
 Tuned against the simulator rather than by feel. (Since October 2026 the fight's dice are the run's
 own, seeded from the run rather than the clock, so a run can be told again; the rows below were
 measured before that, and a row measured again will differ by the bench's own noise and no more.) The bot plays whole runs heading straight
-down, with stats placed as the creation screen places them (`FIT=1`). Every row was measured again
+down, with stats placed as the creation screen places them (`FIT=1`). The Normal and Hard rows were measured again in October 2026 after Phase 8's first two batches (the path at level 3, a floor's wear that carries), 1,200 runs a class over three seed sets; the other rows stand from before Phase 8 and are measured again once at its end, after the ladder and the economy have moved. Before that, every row was measured
 in October 2026, after the legends, the named combinations, the champions' new fights and the
 choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three
 seed sets (`SEEDPFX=alt`, `SEEDPFX=third`), 1,200 runs a class, since one set of 400 swings a class
@@ -284,8 +284,8 @@ Normal ones:
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 100% | 98.5% | 100% | 97.5% | 99.8% | 99% | about 99% |
-| Normal | 80.9% | 81.4% | 80.8% | 78.8% | 81.7% | 80.4% | about 80.5% |
-| Hard | 59.3% | 62.5% | 61.5% | 62.5% | 61.8% | 61.6% | about 61.5% |
+| Normal | 80.5% | 82% | 83% | 77.5% | 83% | 84.5% | about 81.5% |
+| Hard | 59% | 62.5% | 60.5% | 60% | 56% | 66% | about 60.5% |
 | Long Delve (12 floors), Normal | 85.8% | 85.3% | 86% | 84.3% | 87.3% | 85.8% | about 85.5% |
 | Long Delve (12 floors), Hard | 68.3% | 65% | 69.5% | 66.5% | 64.5% | 68.8% | about 67% |
 | Long Delve (16 floors), Normal | 80.8% | 80.2% | 85% | 83.3% | 82.8% | 82.3% | about 82.5% |

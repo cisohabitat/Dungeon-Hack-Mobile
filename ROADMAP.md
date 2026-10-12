@@ -148,17 +148,36 @@ The design review's heart: on the delve most people play, the path, the capstone
 legend are a last-act event. The numbers below are the change to bench, not the answer; the
 exit criteria are the answer.
 
-- [ ] **Move the build forward** (D1): the path at level 3 (floor 3), talents on the even
-  levels between, the capstone at level 7 (floor 7), the legend from the first champion after
-  the path (floor 3's). Every README row benched again on three seed sets.
-- [ ] **The fork where the path is** (D2): the stair divides after the path, or the path is
-  offered at the fork; each road's card names its champions, its element and its relic.
-- [ ] **A floor's wear carries** (D3): the first rest restores two thirds, the trader's lamp
-  alone a whole night, the Returned's gift a free lamp; benched until a winning run ends with
-  one or two draughts, not six.
-- [ ] **Capstones with a shape** (D4): the seventeen that are a number become one rule each.
-- [ ] **Lessons that change a rule** (D5): the five stat lessons folded into Self-Taught, five
-  rule lessons in their place; a talent offer holds one card over.
+- [x] **Move the build forward** (D1): the path at level 3, talents on the even levels
+  between, the capstone at level 7, the legend from the first champion after the path. Benched:
+  the bot has its path by floor 3 in 98% to 100% of runs (every class), every win takes a
+  capstone, the legend is worn at the end in 52% to 60% of runs (it was 45%). Normal and Hard
+  benched on three seed sets at the path commit (Normal 82.5%, Hard 62%, the README stood at
+  80.5 and 61.5); the other rows wait for the end of the phase.
+- [x] **The fork where the path is** (D2): the stair divides after the path; a hero who reaches
+  it first is asked the path there, in place of level 3's lesson, and the roads the moment it is
+  chosen. Each road's card names the champions the run plans on its floors, its keeper and its
+  relic, from the same plans the floors are made from, and one line on its weapon (cold, weight).
+- [x] **A floor's wear carries** (D3): on Normal and Hard the first rest restores two thirds,
+  the next a third (then a sixth on Normal), Easy keeps the whole night, the ladder's one rest
+  gives a first rest's share, only the trader's lamp makes a hero whole, and the Returned's gift
+  is a free lamp. Benched: a winning run ends with 3.8 to 5.5 draughts (it was five to
+  seven; two or fewer is the bar, and potion supply, D10's lever, is what is left to pull).
+  Normal 82.5% to 81.5%, Hard 62% to 60.5%; the classes 7.0 points apart on Normal and 10.0 on
+  Hard (7.0 before this batch): over the six-point rule, to be evened in the batch that moves
+  the ladder and the economy.
+- [x] **Capstones with a shape** (D4): the seventeen that were a number are one rule each
+  (Shield Wall staggers what it catches a blow from, a Crusader's Smite that fells costs nothing,
+  Shadow's Edge ends a foe at a third of its life, Vanish makes each foe's first blow miss, Old
+  Hide keeps poison and the grave-cold off the bear, and so on: `test/rules-capstones.js`); the
+  paths' numbers are the paths' own again. Wellspring is a ward, not free healing out of a
+  fight, so that it does not undo the wear that carries.
+- [x] **Lessons that change a rule** (D5): the five stat lessons folded into Self-Taught; five
+  rule lessons in their place (Opening Blow, Nose for Draughts, Trap Sense, Iron Grip,
+  Wayfinder, `test/rules-lessons.js`); the first talent passed over is held for the next talent
+  offer, first among its three and marked as held. (When several levels come at once the second
+  offer is drawn before the first is answered, so the held card is not in it: the common case
+  is one level at a time.)
 - [ ] **The ladder as five sentences** (D6): dear traders and one rest kept; the three taxes
   replaced by rules a player plans around; re-benched to the same curve; the share line says
   the rung in words.
