@@ -288,18 +288,20 @@ Normal ones:
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 100% | 98.5% | 100% | 98.5% | 100% | 100% | about 99.5% |
-| Normal | 79% | 79.5% | 81.5% | 80.5% | 80.5% | 81.5% | about 80.5% |
-| Hard | 60.5% | 65% | 63.5% | 62.5% | 60% | 62% | about 62% |
+| Normal | 81% | 82% | 84.5% | 81.5% | 82.5% | 83% | about 82.5% |
+| Hard | 62% | 63% | 64% | 62.5% | 64% | 62.5% | about 63% |
 | Long Delve (12 floors), Normal | 83% | 85% | 86.5% | 87.5% | 84% | 86.5% | about 85.5% |
 | Long Delve (12 floors), Hard | 71.5% | 66.5% | 70.5% | 69.5% | 70% | 70.5% | about 69.5% |
 | Long Delve (16 floors), Normal | 76.5% | 84.5% | 82.5% | 85.5% | 78% | 79.5% | about 81% |
 | Long Delve (16 floors), Hard | 64.5% | 60% | 59.5% | 61.5% | 60% | 60% | about 60.5% |
-| Quick delve (2 floors), Normal | 97.5% | 94.5% | 98% | 95.5% | 97.5% | 98% | about 97% |
+| Quick delve (2 floors), Normal | 98.5% | 96.5% | 98.5% | 92.5% | 96.5% | 98% | about 97% |
 | Hard+1 | 59.5% | 65% | 61.5% | 58.5% | 48.5% | 54.5% | about 58% |
 | Hard+2 | 56.5% | 54% | 49% | 60% | 43% | 51.5% | about 52.5% |
 | Hard+3 | 55% | 48% | 38% | 50% | 35.5% | 47.5% | about 45.5% |
 | Hard+4 | 50% | 49.5% | 34% | 45% | 32% | 38% | about 41.5% |
 | Hard+5 | 44% | 46% | 31% | 38.5% | 30% | 34% | about 37.5% |
+
+Normal, Hard and the quick delve were measured again over the same three seed sets once the first four floors had creatures of their own (the glimmer moth, thornhog, gutter imp and goblin pikeman): Normal rose two points overall and Hard one, each row's classes within six points.
 
 The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets) at the end of Phase 8, with the three upper rungs rules rather than taxes and the bot resting beside the stairs on the third (a rest there wakes whatever is near enough to hear it): as a curve rather than a contest between the classes, about four to seven points a rung, from Hard's 62% through 58, 52.5, 45.5 and 41.5 to 37.5% at the top. A rung's overall figure is good to about two points; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above. The first rung's prices and the fifth rung's lamp bite a player who buys draughts and sleeps by the lamp more than they bite the bot, which ends a run with three hundred gold and seldom lights one. A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
 

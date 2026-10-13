@@ -258,9 +258,10 @@ again: `README.md`'s table)
 Each item its own small batch with its art, Bestiary line, tip if it needs one, and its row
 in the bench. Pointed first at the shallow end, where a new player's first ten runs are.
 
-- [ ] **Another answer on floors 1 to 4** (D9): one creature a floor whose answer is not a
-  step at the mark (a gaze, a thing that strikes over the front of a group, a door-batterer met
-  at the door).
+- [x] **Another answer on floors 1 to 4** (D9): one creature a floor whose answer is not a
+  step at the mark: the glimmer moth's flare (turn away), the thornhog's quills (hold your
+  blow), the gutter imp at your back (turn and face it), the goblin pikeman's reach (close in).
+  Benched over three seed sets: Normal 81–84.5%, Hard 62–64%, quick delve 92.5–98.5%.
 - [ ] **The marks do something** (D9): Feral charges, Armoured turns the first blow, Ancient
   uses its trick twice as often, Rabid never flees.
 - [ ] **Threads that land** (D14): the spared goblin fights beside you once; the paid toll's
