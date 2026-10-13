@@ -262,7 +262,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   step at the mark: the glimmer moth's flare (turn away), the thornhog's quills (hold your
   blow), the gutter imp at your back (turn and face it), the goblin pikeman's reach (close in).
   Benched over three seed sets: Normal 81–84.5%, Hard 62–64%, quick delve 92.5–98.5%.
-- [ ] **The marks do something** (D9): Feral charges, Armoured turns the first blow, Ancient
+- [x] **The marks do something** (D9): Feral charges, Armoured turns the first blow, Ancient
   uses its trick twice as often, Rabid never flees.
 - [ ] **Threads that land** (D14): the spared goblin fights beside you once; the paid toll's
   guide; the offering's fountain; the shared meal's page.

@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS } from './data.js';
+import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS, ELITES } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -745,7 +745,7 @@ const UI = (() => {
     // a coating counts down by the blows that land, not by the clock
     if (p.coating) st.push(`<span class="good coat" title="The ${escapeHtml(Game.coatingName(p.coating.t))} on your weapon: blows that land before it wears off">${escapeHtml(Game.coatingName(p.coating.t)).replace(/^./, c => c.toUpperCase())} \u00d7${Number(p.coating.left)}</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
-    if (champ) st.push(`<span class="bad">${escapeHtml(Game.mstat(champ).name)} near</span>`);
+    if (champ) { const mark = ELITES.find(e => e.prefix === champ.elite); st.push(`<span class="bad"${mark ? ` title="${escapeHtml(mark.says)}"` : ''}>${escapeHtml(Game.mstat(champ).name)} near${mark ? ` · ${escapeHtml(mark.does)}` : ''}</span>`); }
     // the companion, when there is something to say: hurt, told to stay, or waiting on another floor
     const hound = Game.companion(), kindWord = Game.companionWord();
     if (hound && !hound.fallen) {

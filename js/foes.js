@@ -264,8 +264,11 @@ export function makeFoes(K) {
     const rite = mb.boss && m.id === 'lich' && (m.phase || 0) >= 2 && m.hp < m.maxHp && K.G.t >= (m.riteReady || 0);
     // an acolyte at a hero wading in water calls lightning into it, in place of its chant
     const storm = !rite && mb.storm && mb.ranged && K.wet(p.x, p.y) && K.G.t >= (m.moveReady || 0) && hasLineToPlayer(m, mb.ranged.range) && rnd() < 0.4;
-    const mv = rite ? 'rite' : storm ? 'storm' : mb.move;
-    if (!mv || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
+    // a Feral champion lowers its head and charges as an orc does, whatever its kind
+    // (one that shoots keeps its distance, and a charger has its own charge already)
+    const feral = !rite && !storm && m.elite === 'Feral' && mb.move !== 'charge' && !mb.ranged;
+    let mv = rite ? 'rite' : storm ? 'storm' : mb.move;
+    if ((!mv && !feral) || (!rite && K.G.t < (m.moveReady || 0)) || K.packSize(m) > 1) return false;
     let say = '', extra = {};
     if (rite) say = `The ${mb.name} lifts its hands towards the Heart and begins to drink its light! Strike it to break the rite!`;
     // and the light it draws calls a guard to stand between you, once a rite
@@ -364,6 +367,11 @@ export function makeFoes(K) {
     else if (mv === 'stamp' && onLines(m, stampReach(m)) && ((m.blows || 0) >= 1 || (m.phase || 0) >= 2)) say = `The ${mb.name} raises its hammer high, and fire runs down its arm! Step off its lines!`;
     // the Warlord's drum: every third blow, or at once in his frenzy, while his warband is thin
     else if (mv === 'drum' && ((m.blows || 0) >= 2 || (m.phase || 0) >= 2) && warbandThin(m)) say = `The ${mb.name} raises his drumstick over the war-drum! Strike him before the beat!`;
+    if (!say && feral && hasLineToPlayer(m, 3) && rnd() < 0.4) {
+      mv = 'charge';
+      say = `The ${mb.name} lowers its head and charges!`;
+      extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
     if (!say) return false;
     if (m.opener) K.lairs.led(m);
     m.blows = 0;
@@ -413,14 +421,14 @@ export function makeFoes(K) {
         if (short && !(door && Math.abs(door.x - m.x) + Math.abs(door.y - m.y) < Math.abs(short.x - m.x) + Math.abs(short.y - m.y))) {
           if (short.x !== m.x || short.y !== m.y) moveMonster(m, short.x, short.y);
           K.log(`The ${mb.name} pulls up short of the flames, and is left open!`, 'good');
-          K.learn(m.id, 'answer');
+          if (mb.move === 'charge') K.learn(m.id, 'answer');
           K.opening(m);
           m.nextAct = K.G.t + 1600;
         } else if (door) {
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           K.log(`The ${mb.name} slams into the shut door and reels back, wide open!`, 'good');
           Sound.play('smash', K.heard(m));
-          K.learn(m.id, 'answer');
+          if (mb.move === 'charge') K.learn(m.id, 'answer');
           K.opening(m);
           m.nextAct = K.G.t + 1800;
         } else if (inLine && (dist === 1 || hasLineToPlayer(m, 6))) {
@@ -445,7 +453,7 @@ export function makeFoes(K) {
           }
           if (x !== m.x || y !== m.y) moveMonster(m, x, y);
           K.log(`The ${mb.name} thunders past you and stumbles, wide open!`, 'good');
-          K.learn(m.id, 'answer');
+          if (mb.move === 'charge') K.learn(m.id, 'answer');
           K.opening(m);
           Sound.play('bump', K.heard(m));
           m.nextAct = K.G.t + 1600;
@@ -1437,7 +1445,12 @@ export function makeFoes(K) {
     // hit, and kill faster than anyone could turn. Space them so each one
     // is its own flash, sound and line of the log.
     if (m.volley) return volleys(m, mb, adjacent, shot);
-    if (m.windup && m.windup.move) { resolveMove(m, mb, m.windup); return G.status !== 'playing' ? STOP : undefined; }
+    if (m.windup && m.windup.move) {
+      resolveMove(m, mb, m.windup);
+      // an Ancient champion is ready to try it again in half the time
+      if (m.elite === 'Ancient' && m.moveReady > G.t) m.moveReady = G.t + Math.round((m.moveReady - G.t) / 2);
+      return G.status !== 'playing' ? STOP : undefined;
+    }
     // on his throne the Warlord only throws: his shield-bearers do the close work
     if (m.throne && adjacent) { m.windup = null; m.nextAct = G.t + 400; return; }
     // a skirmisher (a kobold) steps back out of reach to throw, now and then, if it has room
@@ -1743,7 +1756,8 @@ export function makeFoes(K) {
     const inReach = w.kind === 'melee' ? adjacent || !!follow : shot;
     if (inReach && G.t < (G.blowGate || 0)) { m.nextAct = G.blowGate; return; }   // held a beat, still coming
     m.windup = null;
-    if (w.kind === 'melee') m.blows = (m.blows || 0) + 1;
+    // (an Ancient champion's every-third-blow trick comes every other blow or so: each counts twice)
+    if (w.kind === 'melee') m.blows = (m.blows || 0) + (m.elite === 'Ancient' ? 2 : 1);
     if (inReach) {
       if (follow && follow.lunge) { moveMonster(m, follow.x, follow.y); G.lunges = (G.lunges || 0) + 1; }
       if (w.kind === 'melee') monsterAttack(m, undefined, follow ? follow.verb : undefined, follow ? follow.miss : undefined); else rangedAttack(m);

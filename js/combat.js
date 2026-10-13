@@ -247,6 +247,8 @@ export function makeCombat(K) {
     // Shadow's Edge: a critical hit on a foe at a third of its life or less is the end of it (not the
     // Heart's keeper, whose fight has acts)
     if (crit && capped('shadows_edge') && !mb.boss && m.hp <= m.maxHp / 3 && dmg < m.hp) { dmg = m.hp; floatText(m, 'cut down', '#ffb040'); }
+    // a thief's blow from the shadows finds the gaps in an Armoured champion's plates, and spends them
+    if (sneak && m.elite === 'Armoured' && !m.plated) { m.plated = true; log(`Your blow from the shadows finds the gaps in the ${mb.name}'s plates!`, 'good'); }
     damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
     // what a felling blow gives back: Quick Smoke (the foe fell in the smoke), Swift Draw (the next arrow
     // is nocked at once) and Dire Bear (the one behind is thrown down)
@@ -339,6 +341,8 @@ export function makeCombat(K) {
   }
   /** Whether the blow now landing came from the shadows: a strike from the shadows is told by its tag only when it was not a crit as well. */
   let blowSneak = false;
+  /** What hurts a monster without being a blow struck or shot: an Armoured champion's plates do not turn it. */
+  const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns']);
   function damageMonster(m, dmg, tag, note) {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
@@ -379,6 +383,16 @@ export function makeCombat(K) {
     if (m.sunk) surface(m, 'struck');
     // a mimic struck while it is still a barrel is caught shut: the blow lands twice over
     if (m.disguised) { dmg *= 2; spring(m, 'struck'); }
+    // an Armoured champion's plates turn the first blow that finds them; a spell,
+    // fire, venom or falling rock is no blow, and goes past them
+    if (m.elite === 'Armoured' && !m.plated && !K.castingName && !NOT_BLOWS.has(tag)) {
+      m.plated = true;
+      floatText(m, 'turned', '#80a0ff');
+      sparks(m);
+      Sound.play('block', heard(m));
+      log(`Your blow rings off the ${mstat(m).name}'s plates and does nothing. The next will find the gaps.`, 'bad');
+      return;
+    }
     // what a legendary piece adds to the blow (a brittle foe's third more, a rooted one's 2)
     dmg = K.legends.harder(m, dmg, tag);
     if (tag === 'companion' && m.heldBy === 'roots' && m.snaredUntil > K.G.t) K.combos.note('held_for_the_pack', m);
@@ -454,7 +468,8 @@ export function makeCombat(K) {
     // Kindling, or a Pyromancer: the hero's fire keeps burning
     if (tag === 'burn' && kindles()) setBurning(m);
     // wounded, non-boss monsters may break and run (a fungus has nowhere it would rather be)
-    if (!mb.boss && !mb.named && !mb.spores && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && rnd() < 0.3) {
+    // (a Rabid champion never does: it fights to the last)
+    if (!mb.boss && !mb.named && !mb.spores && m.elite !== 'Rabid' && !(m.pack && m.pack.length) && m.hp <= m.maxHp * 0.25 && !m.fleeing && rnd() < 0.3) {
       m.fleeing = true;
       m.windup = null; m.volley = null;
       log(`The ${mb.name} turns to flee!`, 'good');

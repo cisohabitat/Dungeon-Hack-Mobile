@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-01-04', text: 'four new creatures on the first four floors, each with a trick a step back will not answer: a glimmer moth (turn away), a thornhog (hold your blow), a gutter imp (turn and face it) and a goblin pikeman (close in under the point).' };
+  const NEWS = { id: '2027-01-11', text: 'the mark on a champion now changes how it fights: Feral ones charge whatever their kind, Armoured ones turn your first blow, Ancient ones use their trick twice as often, and Rabid ones never flee. The bar says which while one is near.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

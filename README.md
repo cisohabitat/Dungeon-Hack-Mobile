@@ -121,7 +121,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   the run is won there and then, with no long walk back.
 - **Unknown potions and scrolls.** Every dungeon shuffles appearances, so a "cloudy potion" is
   a different draught in each seed. Drink or read it to learn what it is.
-- **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend.
+- **Champions.** Feral, Armoured, Ancient and Rabid monsters appear more often as you descend, and each
+  mark changes how one fights: a Feral one charges whatever its kind, an Armoured one's plates turn the
+  first blow, an Ancient one uses its trick twice as often, and a Rabid one never flees.
   They hit harder, take more killing, and always drop something worth having.
 - **Fire, cold and lightning.** Spells, the Scrolls of Fire, Frost and Lightning, a flaming or frost-oiled blade and burns each carry an
   element, and some kinds take half as much again from one and only half from another (slimes,

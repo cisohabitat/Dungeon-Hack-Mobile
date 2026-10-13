@@ -77,6 +77,19 @@ test.describe('dungeon features', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a champion near says on the bar what its mark makes it do, with the whole of it in the title', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page);
+    await clearBoons(page);
+    await faceOpenGround(page, 3);
+    const placed = await placeMonster(page, 'goblin', 2, { hp: 50, maxHp: 50, elite: 'Armoured' });
+    expect(placed).not.toBeNull();
+    const chip = page.locator('#hud-status span', { hasText: 'Armoured Goblin near' });
+    await expect(chip).toContainText('turns the first blow');
+    await expect(chip).toHaveAttribute('title', /plates turn the first blow/);
+    expect(errors).toEqual([]);
+  });
+
   test('unfamiliar potions read as an appearance until one is drunk', async ({ page }) => {
     await startGame(page, { seed: 'feat-ident' });
     const before = await page.evaluate(() => {

@@ -1164,10 +1164,14 @@ const BESTIARY = {
 };
 
 const ELITES = [
-  { prefix: 'Feral',    hp: 1.5, hit: 2, dmg: 2, xp: 2.0, speed: 0.8, tint: '#ff6040' },
-  { prefix: 'Armoured', hp: 1.6, ac: 3,  hit: 1, xp: 2.0, speed: 1.2, tint: '#80a0ff' },
-  { prefix: 'Ancient',  hp: 2.0, hit: 3, dmg: 3, xp: 2.6, speed: 1.0, tint: '#c060ff' },
-  { prefix: 'Rabid',    hp: 1.2, hit: 2, dmg: 1, xp: 1.6, speed: 0.6, tint: '#ffd040' },
+  // does: what the mark makes it do, besides its numbers (foes.js, combat.js); said
+  // on the bar while one is near, with the whole of it in the bar's title
+  { prefix: 'Feral',    hp: 1.5, hit: 2, dmg: 2, xp: 2.0, speed: 0.8, tint: '#ff6040', does: 'charges', says: 'It lowers its head and charges down a line, whatever its kind: step aside.' },
+  // (its plates stand in for some of the life it had: at sixty per cent more, a thief's
+  // short fights grew long enough to cost it eight points on a twelve-floor Hard delve)
+  { prefix: 'Armoured', hp: 1.4, ac: 3,  hit: 1, xp: 2.0, speed: 1.2, tint: '#80a0ff', does: 'turns the first blow', says: 'Its plates turn the first blow that finds them. A spell, fire, venom or a blow from the shadows goes past them.' },
+  { prefix: 'Ancient',  hp: 2.0, hit: 3, dmg: 3, xp: 2.6, speed: 1.0, tint: '#c060ff', does: 'tricks twice as often', says: 'It has done this a long time: its trick comes twice as often.' },
+  { prefix: 'Rabid',    hp: 1.2, hit: 2, dmg: 1, xp: 1.6, speed: 0.6, tint: '#ffd040', does: 'never flees', says: 'It never breaks and runs, however hurt: it fights to the last.' },
 ];
 
 // decor: what a few of each theme's walls are dressed with, drawn in
