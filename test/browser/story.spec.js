@@ -124,6 +124,68 @@ test.describe('story and progression', () => {
     expect(picked.total, 'a delve holds one page per floor').toBe(picked.levels);
   });
 
+  test('two floors below an offering at the old stone, a spring runs from the wall by the stair: drunk, it heals and the bar says the hero is watched over', async ({ page }) => {
+    await startGame(page, { seed: 'story-spring' });
+    const got = await page.evaluate(async () => {
+      const G = Game.state();
+      G.threads = { offering: 1 };
+      for (let d = 2; d <= 3; d++) {
+        const L = Game.level(), p = Game.player();
+        L.monsters.length = 0;
+        p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
+        Game.input('forward');
+        if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);
+        if (Game.forkPending()) Game.chooseRoute('crypts');
+        await new Promise(r => setTimeout(r, 300));
+      }
+      const L = Game.level(), p = Game.player();
+      L.monsters.length = 0;
+      const k = Object.keys(L.features || {}).find(k => L.features[k].blessed);
+      if (!k) return { spring: false };
+      const [x, y] = k.split(',').map(Number);
+      const i = Dungeon.DIRS.findIndex(([dx, dy]) => L.tiles[(y - dy) * L.w + x - dx] === Dungeon.T.FLOOR);
+      p.x = x - Dungeon.DIRS[i][0]; p.y = y - Dungeon.DIRS[i][1]; p.dir = i; p.hp = 2;
+      return { spring: true, tile: L.tiles[y * L.w + x] === Dungeon.T.FOUNTAIN };
+    });
+    expect(got.spring, 'a spring was opened by the stair').toBe(true);
+    expect(got.tile).toBe(true);
+    await page.evaluate(() => Game.input('forward'));
+    expect(await page.evaluate(() => Game.player().hp === Game.player().maxHp)).toBe(true);
+    await expect(page.locator('#hud-status')).toContainText('Warded');
+  });
+
+  test('two floors below a shared meal, the last delver\'s page is found besides the floors\' own, outside their count, and shows the floor\'s hidden doors', async ({ page }) => {
+    await startGame(page, { seed: 'story-delver' });
+    const got = await page.evaluate(async () => {
+      const G = Game.state();
+      G.threads = { fed: 1 };
+      for (let d = 2; d <= 3; d++) {
+        const L = Game.level(), p = Game.player();
+        L.monsters.length = 0;
+        p.x = L.downStart.x; p.y = L.downStart.y; p.dir = (L.downStart.dir + 2) % 4;
+        Game.input('forward');
+        if (Game.isPathOffer(Game.pendingBoons())) Game.chooseBoon(Game.pendingBoons()[0]);
+        if (Game.forkPending()) Game.chooseRoute('crypts');
+        await new Promise(r => setTimeout(r, 300));
+      }
+      const L = Game.level(), own = JOURNAL.findIndex(e => e.thread === 'fed');
+      const k = Object.keys(L.items).find(k => L.items[k].some(i => i.t === 'page' && i.page === own));
+      if (!k) return { depth: G.depth, page: false };
+      const [x, y] = k.split(',').map(Number), p = Game.player();
+      p.x = x; p.y = y;
+      Game.takeItem(L.items[k].find(i => i.t === 'page' && i.page === own));
+      return { depth: G.depth, page: true, total: Game.pagesInDungeon(), hidden: L.tiles.filter(t => t === Dungeon.T.SECRET).length };
+    });
+    expect(got.depth).toBe(3);
+    expect(got.page, 'the last delver left a page by the stair').toBe(true);
+    expect(got.hidden, 'its page shows every hidden door').toBe(0);
+    await page.click('[data-open="journal"]');
+    await expect(page.locator('#ov-journal')).toHaveClass(/open/);
+    await expect(page.locator('.act-head', { hasText: 'Found besides' })).toBeVisible();
+    await expect(page.locator('.journal-entry:not(.missing) h3', { hasText: 'last delver' })).toBeVisible();
+    await expect(page.locator('#journal-count')).toHaveText(`0 of ${got.total}`);
+  });
+
   test('the epilogue names the hero and differs between winning and dying', async ({ page }) => {
     await page.goto('/');
     await page.click('#btn-new');

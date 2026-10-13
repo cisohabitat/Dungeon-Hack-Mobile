@@ -37,15 +37,65 @@ module.exports = async function threadChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
-  await test('two floors on, the spared goblin leaves a bundle by the stair and shows the traps; a toll paid comes back as a purse', async () => {
+  await test('two floors on, the spared goblin shows the traps and watches your back: the first foe to draw back a blow at you takes its knife, once, and is left open', async () => {
     const out = [];
     const a = await twoFloorsOn('spared', 'two-spared');
     if (!/goblin's scratch-mark by the stair/.test(a.said)) out.push(`the spared goblin said nothing: ${a.said}`);
-    if (!near(a.p, a.L.items)) out.push('no bundle near the stair');
     if (!a.G.threads.sparedPaid || a.G.threads.sparedPaid !== 3) out.push(`paid on ${a.G.threads.sparedPaid}, not floor 3`);
     if (/scratch-mark/.test(a.said.split(' | ').filter(l => l.startsWith('2:')).join(' '))) out.push('it came a floor early');
-    const b = await twoFloorsOn('tollpaid', 'two-toll');
-    if (!/drops a purse/.test(b.said) || !Object.values(b.L.items).flat().some(it => it.t === 'gold')) out.push('no purse for the toll paid');
+    // a foe beside the hero draws back a blow: the goblin drops on it instead
+    const { Game, G, p } = a;
+    const [dx, dy] = a.ctx.Dungeon.DIRS[p.dir];
+    a.L.tiles[(p.y + dy) * a.L.w + p.x + dx] = a.ctx.Dungeon.T.FLOOR;
+    const m = { uid: 77, id: 'orc', x: p.x + dx, y: p.y + dy, hp: 200, maxHp: 200, awake: true, nextAct: G.t, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0, moveReady: 1e12 };
+    a.L.monsters.push(m);
+    const mark = markLog(G);
+    for (let i = 0; i < 40 && !G.threads.sparedStruck; i++) Game.update(G.t + 25, 25);
+    const said = linesSince(G, mark).join(' | ');
+    if (!G.threads.sparedStruck) out.push(`it never came: ${said}`);
+    else {
+      if (!(m.hp < 200) || !/the goblin you spared/.test(said)) out.push(`its knife did nothing: ${said}`);
+      if (!p.opening || p.opening.uid !== m.uid) out.push('the foe was not left open');
+      if (m.windup) out.push('the foe\'s blow still came');
+    }
+    // and only once
+    const hp1 = m.hp; m.windup = null; m.nextAct = G.t;
+    for (let i = 0; i < 80; i++) Game.update(G.t + 25, 25);
+    if (linesSince(G, mark).filter(l => /the goblin you spared/.test(l)).length > 1) out.push('it came twice');
+    void hp1;
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('two floors on, a toll paid brings a truce: the floor\'s goblins let the hero by, change places rather than block the way, and fight once one is struck; the stair down is shown', async () => {
+    const out = [];
+    let r = null;
+    for (let i = 0; i < 12 && !r; i++) {
+      const t = await twoFloorsOn('tollpaid', 'two-toll-' + i);
+      if (t.L.monsters.some(m => ['goblin', 'archer', 'pikeman'].includes(m.id))) r = t;
+    }
+    if (!r) return 'no third floor of twelve held a goblin';
+    const { Game, G, p, L } = r;
+    if (!/chalks the way down/.test(r.said)) out.push(`the toll-goblin said nothing: ${r.said}`);
+    const s = L.stairsDown;
+    if (s && !L.explored[s.y * L.w + s.x]) out.push('the stair down was not shown');
+    const kin = L.monsters.filter(m => ['goblin', 'archer', 'pikeman'].includes(m.id));
+    if (!kin.every(m => m.truce)) out.push('a goblin of the floor kept no truce');
+    // one brought beside the hero: it does nothing, and changes places when walked into
+    const g = kin[0];
+    const [dx, dy] = r.ctx.Dungeon.DIRS[p.dir];
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = r.ctx.Dungeon.T.FLOOR;
+    g.x = p.x + dx; g.y = p.y + dy; g.nextAct = G.t;
+    const hp0 = p.hp;
+    for (let i = 0; i < 120; i++) Game.update(G.t + 25, 25);
+    if (p.hp < hp0 || g.windup) out.push('a goblin at truce went for the hero');
+    const x0 = p.x, y0 = p.y;
+    Game.input('forward');
+    if (p.x === x0 && p.y === y0) out.push('a goblin at truce blocked the way');
+    else if (g.x !== x0 || g.y !== y0) out.push(`it did not take the hero's square (${g.x},${g.y})`);
+    // struck, the truce breaks
+    p.dir = (p.dir + 2) % 4; p.stats.str = 30;
+    for (let i = 0; i < 20 && g.truce; i++) { p.nextAttack = 0; Game.input('attack'); G.t += 1500; }
+    if (g.truce) out.push('struck, it kept the truce');
     return out.length ? out.join('; ') : true;
   });
 
@@ -64,7 +114,7 @@ module.exports = async function threadChecks(h) {
     return out.length ? out.join('; ') : true;
   });
 
-  await test('two floors on, the captive\'s door stands unbarred, the knight\'s blade lies on the floor, the old stone heals, the fed delver leaves a meal', async () => {
+  await test('two floors on, the captive\'s door stands unbarred, the knight\'s blade lies on the floor, the old stone opens a spring, the fed delver leaves a page that maps the floor', async () => {
     const out = [];
     {
       // a floor with a locked door: the nearest one is unbarred (a floor with none waits for one that has)
@@ -85,15 +135,50 @@ module.exports = async function threadChecks(h) {
       if (!blade) out.push('no blade for the oath');
     }
     {
-      const ctx = await start('fighter', 'two-offering', { levels: 6 });
-      const { Game } = ctx; const G = Game.state(), p = Game.player();
-      G.threads = { offering: 1 };
-      for (let d = 2; d <= 3; d++) { Game.level().monsters.length = 0; p.hp = 3; Game.descend(); if (Game.forkPending && Game.forkPending()) Game.chooseRoute('crypts'); }
-      if (p.hp !== p.maxHp) out.push(`the old stone left the hero on ${p.hp} of ${p.maxHp}`);
+      // the old stone's keeper opens a spring by the stair; drunk, it heals and watches over the hero
+      const r = await twoFloorsOn('offering', 'two-offering');
+      const { Game, G, p, L } = r;
+      const k = Object.keys(L.features || {}).find(k => L.features[k].blessed);
+      if (!k) out.push(`no spring opened: ${r.said}`);
+      else {
+        const [x, y] = k.split(',').map(Number);
+        if (L.tiles[y * L.w + x] !== r.ctx.Dungeon.T.FOUNTAIN) out.push('the spring is no fountain');
+        if (Math.abs(x - p.x) + Math.abs(y - p.y) > 6) out.push('the spring is not by the stair');
+        p.hp = 3;
+        // face it from a square beside it and step in
+        const dirs = r.ctx.Dungeon.DIRS;
+        const from = dirs.map(([dx, dy], i) => ({ x: x - dx, y: y - dy, i })).find(q => L.tiles[q.y * L.w + q.x] === r.ctx.Dungeon.T.FLOOR);
+        if (!from) out.push('no square beside the spring');
+        else {
+          p.x = from.x; p.y = from.y; p.dir = from.i;
+          Game.input('forward');
+          if (p.hp !== p.maxHp) out.push(`the spring left the hero on ${p.hp}`);
+          if (!(p.effects.boon_hit && p.effects.boon_hit.until > G.t)) out.push('the spring watched over no one');
+        }
+      }
     }
     {
-      const r = await twoFloorsOn('fed', 'two-fed');
-      if (!Object.values(r.L.items).flat().some(it => it.t === 'ration')) out.push('no meal from the fed delver');
+      // the last delver leaves a page of their own; read, it shows the floor's hidden doors and traps
+      let done = false;
+      for (let i = 0; i < 12 && !done; i++) {
+        const r = await twoFloorsOn('fed', 'two-fed-' + i, { traps: true });
+        const T = r.ctx.Dungeon.T, L = r.L;
+        const { JOURNAL } = await import('../js/data.js');
+        const own = JOURNAL.findIndex(e => e.thread === 'fed');
+        const k = Object.keys(L.items).find(k => L.items[k].some(it => it.t === 'page' && it.page === own));
+        if (!k) { out.push(`no page from the fed delver: ${r.said}`); break; }
+        if (!L.tiles.includes(T.SECRET)) continue;
+        done = true;
+        const [x, y] = k.split(',').map(Number);
+        r.p.x = x; r.p.y = y;
+        const m0 = markLog(r.G);
+        r.Game.input('take');
+        const told = linesSince(r.G, m0).join(' | ');
+        if (!r.G.journal.some(j => j.i === own)) out.push(`the delver's page was not read: ${told}`);
+        if (L.tiles.includes(T.SECRET)) out.push(`a hidden door was still hidden after the page was read: ${told}`);
+        if (Object.keys(L.traps || {}).length && !L.trapsKnown) out.push('the traps were not shown');
+      }
+      if (!done) out.push('no floor of twelve held both the page and a hidden door');
     }
     return out.length ? out.join('; ') : true;
   });
@@ -103,12 +188,12 @@ module.exports = async function threadChecks(h) {
     const { Game, G } = r;
     const out = [];
     const notes = Game.threadNotes().join(' ');
-    if (!/paid you back/.test(notes)) out.push(`the sheet said: ${notes}`);
+    if (!/sent word ahead/.test(notes)) out.push(`the sheet said: ${notes}`);
     Game.level().monsters.length = 0;
     const mark = markLog(G);
     Game.descend();
     if (Game.forkPending && Game.forkPending()) Game.chooseRoute('crypts');
-    if (linesSince(G, mark).some(l => /drops a purse/.test(l))) out.push('the purse came again on the next floor');
+    if (linesSince(G, mark).some(l => /chalks the way down/.test(l))) out.push('the toll-goblin came again on the next floor');
     return out.length ? out.join('; ') : true;
   });
 };

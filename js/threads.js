@@ -5,8 +5,8 @@
 // first arrival at a floor where it does: most of them two floors on, so a
 // choice made is a promise kept a little later, where the hero can see it.
 // Wired near the end of game.js, borrowing what it needs through K.
-import { Rng } from './rng.js';
-import { ITEMS, MONSTERS } from './data.js';
+import { Rng, d } from './rng.js';
+import { ITEMS, JOURNAL, MONSTERS } from './data.js';
 
 /** @param {import('./types.js').Kit} K */
 export function makeThreads(K) {
@@ -91,6 +91,46 @@ export function makeThreads(K) {
     m.awake = true;
     return m;
   }
+  /** The goblins a paid toll makes peace with, on the floor where word of it arrives. */
+  const TOLL_KIN = ['goblin', 'archer', 'pikeman'];
+  /** The last delver's own page (JOURNAL), left for a shared meal: never dealt to a floor. */
+  const DELVER_PAGE = JOURNAL.findIndex(e => e.thread === 'fed');
+  /** A plain wall by the hero, with open floor before it, to open a spring in. */
+  function springSpot(L) {
+    for (const [x, y] of stepsAway(L, 0, 4)) {
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const wx = x + dx, wy = y + dy;
+        if (wx < 1 || wy < 1 || wx >= L.w - 1 || wy >= L.h - 1 || K.tile(wx, wy) !== K.T.WALL) continue;
+        if (L.features && L.features[K.key(wx, wy)]) continue;
+        return { x: wx, y: wy };
+      }
+    }
+    return null;
+  }
+  /**
+   * The goblin you spared, about on the floor where it came back: the first time a
+   * foe draws back a blow at the hero, it drops out of the dark onto the foe's back,
+   * once. @returns {boolean} whether it did (the foe's blow is spoiled)
+   */
+  function sparedAid(m) {
+    const t = threads();
+    if (!t.sparedPaid || t.sparedStruck || K.G.depth < t.sparedPaid) return false;
+    t.sparedStruck = K.G.depth;
+    const name = K.mstat(m).name, n = d(2, 6) + K.G.depth;
+    log(`A small shape drops out of the dark onto the ${name}'s back: the goblin you spared, knife first, for ${n}! It is gone again before you can thank it.`, 'good');
+    K.damageMonster(m, n, 'spared');
+    if (m.hp > 0 && K.lvl().monsters.includes(m)) { m.windup = null; m.nextAct = K.G.t + 1400; K.opening(m); }
+    return true;
+  }
+  /** A page a thread left, read: the last delver's shows every hidden door and trap on the floor. */
+  function readThreadPage(entry) {
+    if (!entry || entry.thread !== 'fed') return;
+    const L = K.lvl();
+    let doors = 0;
+    for (let y = 0; y < L.h; y++) for (let x = 0; x < L.w; x++) if (K.tile(x, y) === K.T.SECRET) { K.setTile(x, y, K.T.DOOR); L.explored[y * L.w + x] = 1; doors++; }
+    if (L.traps && Object.keys(L.traps).length) L.trapsKnown = true;
+    log(`On the back, the floor you stand on, every stone of it, drawn in ash: ${doors ? `${doors === 1 ? 'a hidden door' : `${doors} hidden doors`} and ` : ''}every trap marked.`, 'good');
+  }
   /** A blade the hero can use, finely made: the best of a few kinds this deep. */
   function bladeFor(rng, depth) {
     const p = P(), most = 1 + Math.floor(depth / 2);
@@ -108,10 +148,12 @@ export function makeThreads(K) {
     const t = threads(), rng = new Rng(`${K.G.seed}|thread|${depth}`);
     const ripe = id => t[id] && depth >= t[id] + 2 && !t[id + 'Paid'];
     const paid = id => { t[id + 'Paid'] = depth; };
-    if (ripe('spared') && leave(L, rng, [{ t: 'potion_heal', q: 1, e: 0 }, { t: 'gold', q: 8 * depth }])) {
+    // the goblin you spared does not leave a parcel: it is about on this floor, watching
+    // your back, and comes out of the dark the first time a foe draws back a blow at you
+    if (ripe('spared')) {
       paid('spared');
       if (L.traps && Object.keys(L.traps).length) L.trapsKnown = true;
-      log('A goblin\'s scratch-mark by the stair, and a bundle tied up in rags beside it: the one you spared has not forgotten you. Its marks show where this floor\'s traps lie, too.', 'good');
+      log('A goblin\'s scratch-mark by the stair, and its marks on the floor\'s traps: the one you spared has come this way, and it is still about. Something small is watching your back.', 'good');
     }
     if (ripe('captive')) {
       // a door he knew of, unbarred for you: the nearest locked one
@@ -126,9 +168,15 @@ export function makeThreads(K) {
         log('A goblin brand is chalked on a locked door on this floor, and the lock hangs broken: the captive you freed came this way before you, and left it open.', 'good');
       }
     }
-    if (ripe('tollpaid') && leave(L, rng, [{ t: 'gold', q: 12 * depth }])) {
+    // a fair payer's word has gone ahead: the goblins of this floor let the hero by
+    // (until one is struck), and the toll-goblin chalks the stair down on the map
+    if (ripe('tollpaid')) {
       paid('tollpaid');
-      log('A goblin in a dented helmet salutes you from the dark by the stair, and drops a purse: your toll\'s worth, and more. Word of a fair payer travels.', 'good');
+      let kin = 0;
+      for (const m of L.monsters) if (TOLL_KIN.includes(m.id) && !MONSTERS[m.id].boss) { m.truce = true; m.awake = false; m.windup = null; kin++; }
+      const s = L.stairsDown;
+      if (s) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const x = s.x + dx, y = s.y + dy; if (x >= 0 && y >= 0 && x < L.w && y < L.h) L.explored[y * L.w + x] = 1; }
+      log(`A goblin in a dented helmet salutes you from the dark by the stair, and chalks the way down on your map. Word of a fair payer travels${kin ? ': the goblins of this floor will let you by, so long as you leave them be' : ''}.`, 'good');
     }
     if (ripe('tollowed')) {
       const m = waiting(L, rng, depth >= 4 ? 'ogre' : 'orc');
@@ -142,15 +190,22 @@ export function makeThreads(K) {
         log('Something old and patient is at your back again. Somewhere on this floor, where its knights fell, lies the blade the weeping knight swore you to carry.', 'good');
       }
     }
+    // whoever tends the old stone has opened a spring in the wall by the stair: a
+    // fountain blessed, drunk when the hero likes, that heals and watches over them
     if (ripe('offering')) {
-      paid('offering');
-      const p = P();
-      if (p.hp < p.maxHp) K.healPlayer(p.maxHp - p.hp);
-      log('A lamp burns at the foot of the stair, and fresh offerings lie under it: whoever tends the old stone has been here before you. Your wounds close in its light.', 'good');
+      const spot = springSpot(L);
+      if (spot) {
+        paid('offering');
+        K.setTile(spot.x, spot.y, K.T.FOUNTAIN);
+        (L.features = L.features || {})[K.key(spot.x, spot.y)] = { type: 'fountain', used: false, blessed: true };
+        log('Water runs from the wall by the stair, where there was none, and a lamp burns over it among fresh offerings: whoever tends the old stone has opened a spring for you. Drink when you have need of it.', 'good');
+      }
     }
-    if (ripe('fed') && leave(L, rng, [{ t: 'ration', q: 2, e: 0 }, { t: 'potion_heal', q: 1, e: 0 }])) {
+    // the last delver leaves a page of their own: read, it shows every hidden door
+    // and every trap on the floor (items.js reads it, through readThreadPage)
+    if (ripe('fed') && DELVER_PAGE >= 0 && leave(L, rng, [{ t: 'page', q: 1, page: DELVER_PAGE }])) {
       paid('fed');
-      log('A bundle by the stair, tied with a strip of a fine old coat: the last delver has gone down before you, and left you a meal for the one you shared.', 'good');
+      log('A page by the stair, weighted with a bone and tied with a strip of a fine old coat: the last delver has gone down before you, and left you something for the meal you shared.', 'good');
     }
     if (ripe('delverShade')) {
       const m = waiting(L, rng, 'wraith');
@@ -172,12 +227,12 @@ export function makeThreads(K) {
     if (t.lamp) out.push(t.lampGift ? 'A Lampfolk trader thanked you for its kin\'s lamp with a gift of healing.' : 'You relit a Lampfolk\'s lamp: the next Lampfolk trader below will thank you for it.');
     if (t.robbed) out.push('You robbed one of the Lampfolk in the dark: their traders below ask a sixth more.');
     const two = (id, now, later) => { if (t[id]) out.push(t[id + 'Paid'] ? now : later); };
-    two('spared', 'The goblin you spared left you a bundle and marked a floor\'s traps.', 'The goblin you spared will remember you, a floor or two down.');
-    two('tollpaid', 'The toll-goblins paid you back, with interest.', 'You paid the goblins\' toll: word of it travels ahead.');
+    two('spared', t.sparedStruck ? 'The goblin you spared came out of the dark and fought beside you.' : 'The goblin you spared is about, watching your back.', 'The goblin you spared will remember you, a floor or two down.');
+    two('tollpaid', 'The toll-goblins sent word ahead: their kin let you by.', 'You paid the goblins\' toll: word of it travels ahead.');
     two('tollowed', 'The toll-goblins\' big friend found you.', 'You crossed the goblins at their toll: they will not forget it.');
     two('oath', 'The weeping knight\'s blade lay where its knights fell.', 'You swore yourself to the weeping knight\'s task.');
-    two('offering', 'Whoever tends the old stone lit a lamp for you.', 'You left an offering at the old stone.');
-    two('fed', 'The last delver left you a meal for the one you shared.', 'You shared a meal with the last delver.');
+    two('offering', 'Whoever tends the old stone opened a spring for you.', 'You left an offering at the old stone.');
+    two('fed', 'The last delver left you a page of their own, for the meal you shared.', 'You shared a meal with the last delver.');
     two('delverShade', 'The last delver came for what you took.', 'You robbed the last delver.');
     two('egg', 'The wyrm whose egg you smashed came after you.', 'You smashed a wyrm\'s egg.');
     if (t.smithway) out.push('The kept smith told you how the Heart is kept: you may stay with it, at the end.');
@@ -187,5 +242,5 @@ export function makeThreads(K) {
     return out;
   }
 
-  return { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes };
+  return { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes, sparedAid, readThreadPage };
 }

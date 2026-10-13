@@ -143,6 +143,8 @@ const JOURNAL = [
   { people: 'elves', title: 'A prayer-tablet from the dark elves\' temple', text: 'Goddess, keep the warm fire far from us. When it rested in our halls the grandmothers of our grandmothers did not die. They did not move. Your webs grew over them where they sat, and they are sitting still.' },
   { people: 'dwarves', title: 'Graven over the Grey Hold\'s gate', text: 'WE ARE WHAT IS LEFT OF THE SMITHS WHO WOULD NOT STAY. THE FIRE GOES HOME TO THE FORGE THAT MADE IT, WHOEVER CARRIES IT DOWN. LET IT GO HOME. DO NOT FOLLOW.' },
   { people: 'marsh', title: 'Marks pressed into the marsh mud', text: 'A crew\'s reading, under the claw-marks: once warm water came up from below. Eggs did not hatch. Eggs did not rot. Mothers waited, many lives of mothers. Then the warm went down again, and the eggs hatched, and we were glad of the cold.' },
+  // a page no floor is dealt: the last delver leaves it two floors below a shared meal (threads.js)
+  { act: 0, thread: 'fed', rank: 0, step: 0, title: 'The last delver\'s page', text: 'A guild warrant, a hundred years old, with my name on it. I have stopped reading it. I keep it for the back, which is where I draw the floors. You fed me, so here is yours. The warm thing is lower than they think. It is always lower than they think.' },
 ];
 
 

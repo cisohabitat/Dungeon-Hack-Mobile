@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
+import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -123,7 +123,8 @@ export function makeChronicle(K) {
   function epilogue(won) {
     const p = P();
     const bg = BACKGROUNDS[p.bg] || BACKGROUNDS.oathbroken;
-    const read = K.G.journal ? K.G.journal.length : 0;
+    // (the floors' pages: one a choice left, the last delver's, is not among them)
+    const read = K.G.journal ? K.G.journal.filter(j => JOURNAL[j.i] && !JOURNAL[j.i].thread).length : 0;
     const lines = [];
     if (won) {
       // how it ended, and what the Heart was (the same words whichever way it went)

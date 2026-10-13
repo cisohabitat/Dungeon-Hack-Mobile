@@ -620,6 +620,7 @@ export function makeItems(K) {
         K.G.journal.push({ i: it.page, depth: K.G.depth });
         if (!K.G.tested) Progress.notePage(it.page);   // the Hall keeps every page any hero has read
         log(`You find ${entry.title.toLowerCase()}.`, 'info');
+        K.readThreadPage(entry);
         Sound.play('pickup');
         emit('page');
       }

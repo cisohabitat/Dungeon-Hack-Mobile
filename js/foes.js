@@ -1422,6 +1422,9 @@ export function makeFoes(K) {
     // the Warlord comes down from his throne once no one holds it for him
     if (m.throne && (G.t >= m.wardUntil || !L.monsters.some(o => o.bearer === m.uid))) leaveThrone(m);
     if (G.t < m.nextAct) return;
+    // the toll-goblins' kin keep the truce a fair payer earned (threads.js): they watch the
+    // hero by and do nothing, until one of them is struck
+    if (m.truce) { m.awake = false; m.windup = null; m.nextAct = G.t + mb.speed; return; }
     // caught in fire, the living get out of it before anything else (a blow already drawn back still falls)
     if (!m.windup && !m.volley && fiery(m.x, m.y) && fearsFire(mb) && escapesFire(m, mb, L, p)) return;
     // wrapped in shadow, the lich gathers itself and leaves the fighting to its guards
@@ -1461,6 +1464,8 @@ export function makeFoes(K) {
       // (the Warlord throws from his throne only now and then: he cannot be hurt up there, and a
       // spear every blow's worth of time from where no blade reaches was most of the fight)
       const cycle = shot && !adjacent ? mb.speed * (m.throne ? 2.6 : 1.3) : mb.speed;
+      // the goblin the hero spared, about on this floor, drops onto the first foe that draws back a blow
+      if (adjacent && K.sparedAid(m)) return;
       beginWindup(m, adjacent ? 'melee' : 'shot', windupFor(cycle));
       return;
     }

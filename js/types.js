@@ -134,6 +134,8 @@
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {number} [worth]     what it pays in experience, when not its kind's own: a puffcap is worth the creature it grew over
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)
+ * @property {boolean} [letBy]  a goblin at truce has once stepped aside for the hero (said once)
+ * @property {boolean} [truce]  a goblin keeping the truce a paid toll earned (threads.js): it lets the hero by until struck
  * @property {boolean} [plated]  an Armoured champion whose plates have turned their one blow
  * @property {number} [backAt]    a skirmisher (a kobold) may not step back from the hero again before this time
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near
@@ -219,7 +221,8 @@
  * @property {Trader[]} npcs
  * @property {Object<string, string>} traps    keyed "x,y"
  * @property {Object<string, string>} locks    keyed "x,y", valued by key colour
- * @property {Object<string, {type: string, used: boolean}>} features
+ * @property {Object<string, {type: string, used: boolean, blessed?: boolean}>} features
+ *   (a fountain `blessed` was opened for an offering at the old stone: threads.js)
  * @property {Array<{x: number, y: number}>} lights
  * @property {{x: number, y: number, dir: number}} start
  * @property {{x: number, y: number, dir: number}|null} downStart
@@ -663,6 +666,8 @@
  * @property {*} the
  * @property {*} THREAD_SAID
  * @property {*} threads
+ * @property {*} sparedAid
+ * @property {*} readThreadPage
  * @property {*} throwArm
  * @property {*} tile
  * @property {*} toHit

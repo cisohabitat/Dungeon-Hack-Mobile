@@ -36,7 +36,8 @@ function renderPages(el) {
   const stray = got.filter(j => !plan.some(f => f.page === j.i) && JOURNAL[j.i]);
   el.innerHTML = (got.length ? '' : '<p class="dim">The crews who came before you left pages behind, one on every floor. You have not found any yet.</p>')
     + acts.join('') + (stray.length ? `<section class="pages-act"><h3 class="act-head">Found besides</h3>${stray.map(j => pageHtml(j.i, `Found on floor ${j.depth}`)).join('')}</section>` : '');
-  return `${got.length} of ${Game.pagesInDungeon()}`;
+  // (a page a choice left, the last delver's, is told besides: it is not one of the floors')
+  return `${got.filter(j => JOURNAL[j.i] && !JOURNAL[j.i].thread).length} of ${Game.pagesInDungeon()}`;
 }
 
 /**

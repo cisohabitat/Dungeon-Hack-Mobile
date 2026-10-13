@@ -90,6 +90,10 @@ What is down there now wears their faces.
 
 ### Act I: those who came before
 
+**The last delver's page** (page 22)
+
+A guild warrant, a hundred years old, with my name on it. I have stopped reading it. I keep it for the back, which is where I draw the floors. You fed me, so here is yours. The warm thing is lower than they think. It is always lower than they think.
+
 **A guild roster, water-stained** (page 0)
 
 Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: "the struck ones still answer to their names. do not use their names."

@@ -1119,7 +1119,12 @@ const Game = (() => {
     if (m && m.sunk) { surface(m, 'step'); return false; }
     // walking into a barrel kicks it: a mimic so touched has the hero (the step is spent)
     if (m && m.disguised) { spring(m, 'touch'); return true; }
-    if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
+    // a goblin keeping a paid toll's truce (threads.js) steps aside: the two of you change places
+    if (m && m.truce) {
+      m.x = m.rx = m.fromX = p.x; m.y = m.ry = m.fromY = p.y; m.moveT1 = 0;
+      if (!m.letBy) { m.letBy = true; log(`The ${MONSTERS[m.id].name} squeezes against the wall and lets you by.`); }
+    }
+    else if (m) { m.awake = true; log(`The ${MONSTERS[m.id].name} blocks your way.`); return false; }
     // anything the interactive cases above did not claim had better be walkable
     if (!passable(nx, ny)) { blocked('Something blocks your path.'); return false; }
     // the hound steps into your square as you step into its own
@@ -1172,6 +1177,8 @@ const Game = (() => {
     log(keenEyes ? 'Your keen eyes spot a secret door!' : 'You find a secret door!', 'good');
     Sound.play('secret');
   }
+  /** How long a spring opened for an offering watches over the one who drinks (as the offering did). */
+  const BLESSED_MS = 180000;
   function drinkFountain(x, y) {
     const L = lvl(), p = P();
     const f = L.features && L.features[key(x, y)];
@@ -1181,6 +1188,11 @@ const Game = (() => {
     p.hp = p.maxHp; p.sp = p.maxSp; p.poison = null;
     fx.healUntil = realNow + 400;
     log('You drink deeply from the fountain. Your wounds close and your mind clears.', 'good');
+    // a spring opened for an offering (threads.js): the old stone's keeper watches over the one who drinks
+    if (f.blessed) {
+      p.effects.boon_hit = { amount: 2, until: G.t + BLESSED_MS }; p.effects.boon_ac = { amount: 2, until: G.t + BLESSED_MS };
+      log('The water tastes of old stone and lamp oil. For a while you feel watched over (+2 to hit and armour).', 'good');
+    }
     Sound.play('fountain');
     emit('stats');
   }
@@ -1511,7 +1523,7 @@ const Game = (() => {
     get stockLampOil() { return stockLampOil; }, stormAt: (x, y, n) => elements.stormAt(x, y, n), get surface() { return surface; },
     get T() { return T; }, get tellQuality() { return tellQuality; }, get templarBlow() { return templarBlow; },
     get templarSmite() { return templarSmite; }, get the() { return the; }, get THREAD_SAID() { return THREAD_SAID; },
-    get threads() { return threads; }, get throwArm() { return throwArm; }, get tile() { return tile; }, get toHit() { return toHit; },
+    get threads() { return threads; }, get sparedAid() { return sparedAid; }, get readThreadPage() { return readThreadPage; }, get throwArm() { return throwArm; }, get tile() { return tile; }, get toHit() { return toHit; },
     get traderKind() { return traderKind; }, get trickSave() { return trickSave; }, get tricksterOpening() { return tricksterOpening; },
     get tricksterPurse() { return tricksterPurse; }, get tricksterSlip() { return tricksterSlip; }, get useItem() { return useItem; },
     get venomSave() { return venomSave; }, get venomTakes() { return venomTakes; }, get vouched() { return vouched; }, get vowed() { return vowed; },
@@ -1522,7 +1534,7 @@ const Game = (() => {
   // the legends, the way in; the traders and the foes further down, after the game's own loop ----------
   const { FROST_SPELLS, assassinQuiet, berserkerFrenzy, berserkerOpen, berserkerRage, buffAmount, buffDuration, capped, capstoneOf, dawnBlow, healerHeal, healerMercy, healerSp, heroSaves, kindles, knightGuard, knightShieldAC, knightSteadfast, onPath, pathOf, pyroFire, setBurning, setWorn, sneakMult, spellCost, spellDesc, spellHold, templarBlow, templarSmite, tricksterOpening, tricksterPurse, tricksterSlip, tricksterTraps } = makePaths(K);
   const combos = makeCombos(K);
-  const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes } = makeThreads(K);
+  const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes, sparedAid, readThreadPage } = makeThreads(K);
   const lairs = makeLairs(K);
   const legends = makeLegends(K);
   const prelude = makePrelude(K);

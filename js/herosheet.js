@@ -1,7 +1,7 @@
 // The spell list and the hero sheet: what can be cast and what it costs, and who
 // the hero is, what they carry and what it gives them. ui.js opens them, and lends
 // what it needs through K.
-import { BACKGROUNDS, BOONS, CAPSTONE_LEVEL, CLASSES, ITEMS, MAX_LEVEL, PATHS, PATH_LEVEL, RENOWN, STAT_NAMES, TALENTS, XP_TABLE } from './data.js';
+import { BACKGROUNDS, BOONS, CAPSTONE_LEVEL, CLASSES, ITEMS, JOURNAL, MAX_LEVEL, PATHS, PATH_LEVEL, RENOWN, STAT_NAMES, TALENTS, XP_TABLE } from './data.js';
 import { Game } from './game.js';
 import { PREFIX_DESC, PREFIX_NAME, RELIC_POWERS, RELIC_SETS } from './relics.js';
 import { $, escapeHtml, upFirst } from './uikit.js';
@@ -75,7 +75,7 @@ export function makeHeroSheet(K) {
     const finds = Game.runFinds(), combos = Game.combosUsed();
     const run = [
       row('Gold', p.gold), row('Kills', p.kills), row('Steps', p.steps), row('Deepest floor', p.deepest),
-      row('Pages found', `${Game.journal().length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
+      row('Pages found', `${Game.journal().filter(j => JOURNAL[j.i] && !JOURNAL[j.i].thread).length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
       row('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '\u2014', true),
     ];
     const groups = `<h3 class="sheet-h">At arms</h3><div class="sheet">${fight.join('')}</div>`

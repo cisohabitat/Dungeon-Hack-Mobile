@@ -342,7 +342,8 @@ export function makeCombat(K) {
   /** Whether the blow now landing came from the shadows: a strike from the shadows is told by its tag only when it was not a crit as well. */
   let blowSneak = false;
   /** What hurts a monster without being a blow struck or shot: an Armoured champion's plates do not turn it. */
-  const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns']);
+  // (nor the goblin you spared, whose knife knows where the gaps are)
+  const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns', 'spared']);
   function damageMonster(m, dmg, tag, note) {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
@@ -385,6 +386,11 @@ export function makeCombat(K) {
     if (m.disguised) { dmg *= 2; spring(m, 'struck'); }
     // an Armoured champion's plates turn the first blow that finds them; a spell,
     // fire, venom or falling rock is no blow, and goes past them
+    // a goblin at truce (threads.js) is at truce no longer, and neither is any of its kin who sees
+    if (m.truce) {
+      for (const o of lvl().monsters) if (o.truce && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= 6) { o.truce = false; o.awake = true; }
+      log(`The ${mstat(m).name} shrieks: the truce is broken.`, 'bad');
+    }
     if (m.elite === 'Armoured' && !m.plated && !K.castingName && !NOT_BLOWS.has(tag)) {
       m.plated = true;
       floatText(m, 'turned', '#80a0ff');
@@ -443,6 +449,7 @@ export function makeCombat(K) {
     const of = packSize(m) > 1 ? ` (one of ${packSize(m)})` : '';
     if (tag === 'offhand') { log(`Your off hand finds the ${mb.name}${of} for ${dmg}.${note || ''}`); }
     else if (tag === 'thorns') { log(`Your barbs bite the ${mb.name} for ${dmg}.`); }
+    else if (tag === 'spared') { /* told by the goblin's own line (threads.js) */ }
     else if (tag === 'companion') { log(`${K.G.companion ? K.G.companion.name : 'Your companion'} ${companion.verb()} the ${mb.name}${of} for ${dmg}.`); }
     else if (tag === 'burning' || tag === 'blaze') {
       // standing in flames, the first tick is told and the rest show on the creature, so the

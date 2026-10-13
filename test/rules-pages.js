@@ -35,7 +35,9 @@ module.exports = async function pageChecks(h) {
     }
     // every page is on some delve or other, and the roads' halves differ
     const all = new Set(LENGTHS.flatMap(l => ['crypts', 'warrens'].flatMap(r => Dungeon.pagePlan(l, r).map(f => f.page))));
-    if (all.size !== JOURNAL.length) out.push(`only ${all.size} of ${JOURNAL.length} pages lie on any delve`);
+    // (but a page a choice leaves, the last delver's, which no floor is dealt)
+    const dealt = JOURNAL.filter(e => !e.thread).length;
+    if (all.size !== dealt) out.push(`only ${all.size} of ${dealt} pages lie on any delve`);
     // before the stair divides, the road's floors wait on the road: the count does not
     const before = Dungeon.pagePlan(8, undefined);
     if (before.length !== 8 || before.filter(f => f.page === null).length !== 3 || before.some(f => f.page === null && f.act !== 2)) out.push(`before the stair divides: ${JSON.stringify(before)}`);
