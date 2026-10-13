@@ -237,12 +237,17 @@ await test('each set piece comes in versions, dealt by the seed, each with its o
       return n;
     };
     if (parts(pc.props.filter(q => ['barrel', 'crate', 'urn'].includes(q.k))) !== parts([])) out.push(`versions-${s} floor ${d}: ${key} has its room cut in two by what stands in it`);
+    // a storeroom is crates and casks, never bones; a cask gives up its square to a creature
+    // standing there, so the whole stock is looked for in one storeroom or another
+    if (key === 'cells/stores') {
+      if (count(L, 'bones')) out.push(`a storeroom holds bones: ${JSON.stringify(pc.props.map(q => q.k))}`);
+      if (count(L, 'crate') >= 3 && count(L, 'barrel') >= 2) seen.storesWhole = true;
+    }
     if (seen[key]) continue;
     seen[key] = true;
     // the same seed deals the same version
     if (Dungeon.generate('versions-' + s, d, opts).piece.variant !== pc.variant) out.push(`${key} not dealt again by its seed`);
     const open = L.roomId.reduce((n, id, i) => n + (id === pc.room && L.tiles[i] === Dungeon.T.FLOOR ? 1 : 0), 0);
-    if (key === 'cells/stores' && (count(L, 'bones') || count(L, 'crate') < 3 || count(L, 'barrel') < 2)) out.push(`the storerooms hold ${JSON.stringify(pc.props.map(q => q.k))}`);
     if (key === 'cells/kennels' && count(L, 'shackles') < 2) out.push('the kennels have no chains');
     if (key === 'shrine/defiled' && (count(L, 'candles') || count(L, 'bones') < 3)) out.push('the defiled shrine still has its candles, or no bones');
     if (key === 'shrine/kept' && (count(L, 'candles') < 4 || count(L, 'urn') < 3)) out.push('the kept shrine has no offerings');
@@ -258,6 +263,7 @@ await test('each set piece comes in versions, dealt by the seed, each with its o
   if (missing.length) out.push(`never dealt: ${missing.join(', ')}`);
   if (all.length < 12) out.push(`only ${all.length} versions`);
   for (const k of all) { const [kind, v] = k.split('/'); if (!ctx.PIECE_SAY[kind][v]) out.push(`${k} says nothing`); }
+  if (seen['cells/stores'] && !seen.storesWhole) out.push('no storeroom held its three crates and two casks');
   return out.length ? out.join('; ') : true;
 });
 

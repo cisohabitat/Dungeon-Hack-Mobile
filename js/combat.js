@@ -562,7 +562,7 @@ export function makeCombat(K) {
   // shade comes apart into mist, a bat drops out of the air turning over, a
   // puffcap swells and bursts in a last cloud, an emberling gutters out in sparks.
   // (the lich and the Heartforged have deaths of their own)
-  const DEATHS = { skeleton: 'clatter', slime: 'splat', wraith: 'mist', shade: 'mist', bat: 'tumble', puffcap: 'burst', emberling: 'gutter' };
+  const DEATHS = { skeleton: 'clatter', slime: 'splat', wraith: 'mist', shade: 'mist', bat: 'tumble', moth: 'tumble', puffcap: 'burst', emberling: 'gutter' };
   /** What flies from a body as it dies its own way: bones, ooze, mist, spores, sparks. */
   function deathBurst(c, how) {
     const kind = { clatter: 'bone', splat: 'goo', mist: 'ecto', burst: 'spore', gutter: 'spark' }[how];

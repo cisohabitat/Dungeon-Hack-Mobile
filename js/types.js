@@ -87,6 +87,7 @@
  * @property {number} [regenCarry]  the part of a point of natural healing still owed (Slow to Bleed's half again)
  * @property {number} [bonusSp] @property {number} [lastHurt] @property {number} [nextRegen] @property {number} [nextMend]
  * @property {number} [webbed]  stuck in a spider's web until then
+ * @property {number} [dazzled]  a glimmer moth's flare in the eyes until then: blows go wide
  * @property {number} [lastTear]  when the hero last tore at a web
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then

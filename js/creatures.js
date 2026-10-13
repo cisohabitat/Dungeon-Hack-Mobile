@@ -1294,13 +1294,13 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick
 // is readied. Without a 'special' the wind-up serves for both.
-const POSES = { drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], grey_dwarf: ['windup', 'special'], dwarf_arbalest: ['windup', 'special'], lizardfolk: ['windup', 'special'], lizard_shaman: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], renegade: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
+const POSES = { moth: ['windup', 'special'], thornhog: ['windup', 'special'], imp: ['windup', 'special'], pikeman: ['windup', 'special'], drow_warrior: ['windup', 'special'], drow_mage: ['windup', 'special'], grey_dwarf: ['windup', 'special'], dwarf_arbalest: ['windup', 'special'], lizardfolk: ['windup', 'special'], lizard_shaman: ['windup', 'special'], heartforged: ['windup'], emberling: ['windup'], kobold: ['windup'], mimic: ['windup'], basilisk: ['windup', 'special'], rustmaw: ['windup'], hound: ['windup', 'special'], quillback: ['windup', 'special'], wyrm: ['windup', 'special'], dog: ['windup', 'sit'], wolf: ['windup', 'sit'], scrag: ['windup', 'sit'], sellsword: ['windup', 'sit'], renegade: ['windup', 'sit'], mender: ['windup', 'sit', 'heal'], goblin: ['windup'], orc: ['windup'], archer: ['windup', 'special'], skeleton: ['windup'], ogre: ['windup'], minotaur: ['windup'], troll: ['windup'], rat: ['windup'], bat: ['windup'], slime: ['windup'], spider: ['windup'], zombie: ['windup'], ghoul: ['windup'], drowned: ['windup'], eyeless: ['windup'], puffcap: ['windup'], shade: ['windup'], wraith: ['windup', 'special'], warlord: ['windup'], acolyte: ['windup', 'special'], lich: ['windup', 'special'] };
 
 // The hero's own hand, seen from behind at the bottom of the view: a fist
 // on a sleeve, gloved as each class goes armed. It holds the weapon drawn
 // over it, and rises into view to cast.
 // Creatures that hover, and so cast no shadow on the floor.
-const FLOATING = new Set(['bat', 'wraith', 'lich', 'wisp', 'duelist_ghost', 'shade']);
+const FLOATING = new Set(['bat', 'moth', 'wraith', 'lich', 'wisp', 'duelist_ghost', 'shade']);
 
 // Struck, a creature flinches: everything above its hips jolts back from the
 // blow and its head snaps back further, while its feet stay planted; one that
@@ -1347,7 +1347,7 @@ const eyesShut = parts => {
   for (const e of eyes) out.push(hair(e.x - e.r * 0.8, e.y + 0.25, e.x + e.r * 0.8, e.y + 0.25, darker(e.c)));
   return out;
 };
-const REEL_LEFT = new Set(['rat', 'basilisk', 'rustmaw', 'quillback', 'mimic', 'slime', 'puffcap', 'zombie', 'ghoul', 'orc', 'spider', 'dog', 'wolf']);
+const REEL_LEFT = new Set(['rat', 'thornhog', 'basilisk', 'rustmaw', 'quillback', 'mimic', 'slime', 'puffcap', 'zombie', 'ghoul', 'orc', 'spider', 'dog', 'wolf']);
 const flinch = (parts0, k) => {
   const parts = eyesShut(parts0) || parts0;
   const ys = parts.map(p => midOf(p)[1]), top = Math.min(...ys), bot = Math.max(...ys), span = bot - top;
@@ -1369,7 +1369,7 @@ const flinch = (parts0, k) => {
 // bat beats its wings instead (drawn all the while it is aloft), a slime
 // heaves itself along, and a wraith, a shade or the lich only drifts.
 const STEPS = ['stepA', 'stepB'];
-const OWN_STEPS = new Set(['bat']);
+const OWN_STEPS = new Set(['bat', 'moth']);
 const stride = (parts, k, pose) => {
   if (k === 'slime') return pose === 'stepA' ? grow(parts, 32, 62, 1.08, 0.91) : grow(parts, 32, 62, 0.94, 1.07);
   const ys = parts.map(p => midOf(p)[1]), top = Math.min(...ys), bot = Math.max(...ys), span = bot - top, hip = top + span * 0.62;

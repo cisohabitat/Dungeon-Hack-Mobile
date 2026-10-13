@@ -1178,6 +1178,13 @@ const Renderer = (() => {
       corners('rgba(220,240,255,0.55)', 1, 5, Math.min(W, H) * 0.3, 0.5);
     }
     if (st.webbed) corners('rgba(220,220,210,0.5)', 1, 5, Math.min(W, H) * 0.34, 0);
+    if (st.dazzled) {
+      // a moth's flare still in the eyes: a pale bloom over the middle of the view, breathing
+      const g = ctx.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H * 0.45, Math.max(W, H) * 0.55);
+      g.addColorStop(0, `rgba(255,252,235,${0.38 + 0.06 * Math.sin(now / 300)})`);
+      g.addColorStop(1, 'rgba(255,252,235,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    }
   }
 
   /** Where creatures stood in the last frame, as [left, top, right, bottom] in view pixels. */

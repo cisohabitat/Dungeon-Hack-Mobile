@@ -767,6 +767,16 @@ const MONSTERS = {
   basilisk: { name: 'Basilisk',    hp: [6, 10, 0],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1100, xp: 150,  tier: [5, 12],  sprite: 'basilisk', scale: 1.15, move: 'gaze', door: 'batter' },
   rustmaw:  { name: 'Rustmaw',     hp: [4, 10, 2],   ac: 15, hit: 5,  dmg: [1, 6, 2], speed: 1000, xp: 120,  tier: [4, 11],  sprite: 'rustmaw',  scale: 1.08, move: 'rust', door: 'batter' },
   acolyte:  { name: 'Dark Acolyte',  hp: [5, 8, 0],  ac: 14, hit: 6,  dmg: [1, 6, 0], speed: 1200, xp: 110,  tier: [5, 11],  sprite: 'acolyte',  scale: 0.95, move: 'mend', storm: 1, ranged: { range: 5, dmg: [2, 6, 0], verb: 'hurls a bolt of shadow at' } },
+  // The shallows' own, one for each of the first four floors, each asking for
+  // something other than a step back, so the lessons of the deep are first
+  // met where a mistake costs little: a moth whose wings flare (turn away),
+  // a hog whose quills rise (hold your blow), an imp that steps out of the
+  // air at your back (turn and face it), and a goblin whose pike reaches two
+  // squares down its line but not one (close in).
+  moth:     { name: 'Glimmer Moth', hp: [1, 6, 0],  ac: 12, hit: 1,  dmg: [1, 3, 0], speed: 800,  xp: 10,   tier: [1, 3],   sprite: 'moth',     scale: 0.55, fly: 0.5, move: 'dazzle', door: 'batter' },
+  thornhog: { name: 'Thornhog',    hp: [2, 8, 1],    ac: 13, hit: 2,  dmg: [1, 4, 1], speed: 1100, xp: 24,   tier: [2, 5],   sprite: 'thornhog', scale: 0.6, move: 'bristle', quills: 4, door: 'batter' },
+  imp:      { name: 'Gutter Imp',  hp: [2, 8, 2],    ac: 13, hit: 3,  dmg: [1, 4, 1], speed: 900,  xp: 34,   tier: [3, 6],   sprite: 'imp',      scale: 0.6, move: 'blink', bite: [1, 4, 0], door: 'batter' },
+  pikeman:  { name: 'Goblin Pikeman', hp: [3, 8, 2], ac: 14, hit: 4,  dmg: [1, 6, 1], speed: 1100, xp: 50,   tier: [4, 8],   sprite: 'pikeman',  scale: 0.8, move: 'thrust', cunning: 1 },
   // The deep floors' own: each asks for something other than a step back.
   // A hound that comes back into the world behind you (turn and face it), a
   // beast whose quills punish the blow struck while they stand (hold it), and
@@ -985,6 +995,8 @@ const ELEMENTS_TAKEN = {
   basilisk: { cold: 1.5, fire: 0.5 },
   rustmaw:  { lightning: 1.5 },
   quillback: { fire: 1.5 },
+  thornhog: { fire: 1.5 },
+  moth:     { fire: 1.5 },
   puffcap:  { fire: 1.5 },
   mimic:    { fire: 1.5 },
   emberling: { fire: 0.25, cold: 1.5 },
@@ -1059,6 +1071,18 @@ const BESTIARY = {
   quillback: { lore: 'A squat, heavy beast with a mantle of long dark quills and a temper to match. Its quills burn.',
     trick: 'Its quills rattle up on end, and any blow struck at it from beside it drives into them and bites back.',
     answer: 'Hold your blow while the quills stand. When they sink flat it is left open. An arrow or a spell from further off does not touch them.' },
+  moth:     { lore: 'A pale moth as broad as a hand is wide, drawn to any light, the hero\'s own included. Its wings are dusted with something that shines.',
+    trick: 'It spreads its wings and they flare white: whoever is looking at it is dazzled a few seconds, and their blows go wide.',
+    answer: 'Turn away while its wings flare. The light washes over your back, and the moth is left open. A basilisk, far below, asks the same.' },
+  thornhog: { lore: 'A low, bristling hog of the upper halls, nosing for grubs and short of temper. Its quills burn.',
+    trick: 'Its quills rattle up on end, and any blow struck at it from beside it drives into them and bites back.',
+    answer: 'Hold your blow while the quills stand. When they sink flat it is left open. An arrow or a spell from further off does not touch them.' },
+  imp:      { lore: 'A small grey thing with long ears and a longer grin, that lives in the drains. It has learned a trick from something deeper down.',
+    trick: 'It flickers out of the air and steps back in at your back, and bites from behind.',
+    answer: 'Turn round to face it as it comes back: it steps out onto your blade, caught off balance and open.' },
+  pikeman:  { lore: 'A goblin with a pike twice its height, which it holds out in front of it as if it were afraid of what it might meet. It is.',
+    trick: 'It levels its pike and drives it down its line, two squares out. Stepping back only keeps you on the point.',
+    answer: 'Close in under the point: the pike drives past you, and the goblin is left open. Or step out of its line.' },
   drowned:  { lore: 'Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.',
     trick: 'It lies sunk and unseen until you come within two squares, then rises and reaches to seize you. Held, you cannot step away.',
     answer: 'Watch the water for a ripple that does not settle, and go round it, or strike it first. As it rises and lurches, step back and it grabs the air.' },

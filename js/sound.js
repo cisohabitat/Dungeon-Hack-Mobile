@@ -262,7 +262,7 @@ const Sound = (() => {
   };
 
   // ---- monster voices, by family; bigger is lower ----
-  const VOICE_OF = { rat: 'growl', bat: 'shriek', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
+  const VOICE_OF = { rat: 'growl', bat: 'shriek', moth: 'shriek', thornhog: 'growl', imp: 'shriek', pikeman: 'grunt', hound: 'growl', quillback: 'growl', slime: 'squelch', spider: 'hiss', goblin: 'grunt', archer: 'grunt',
     skeleton: 'rattle', zombie: 'moan', ghoul: 'moan', wraith: 'wail', orc: 'roar', ogre: 'roar', troll: 'roar', minotaur: 'roar',
     acolyte: 'chant', lich: 'lich', basilisk: 'rasp', rustmaw: 'chitter', shade: 'lament', dog: 'bark', wolf: 'howl', sellsword: 'oath', renegade: 'oath', mender: 'hum', drowned: 'gurgle', eyeless: 'click', puffcap: 'squelch', mimic: 'growl', heartforged: 'forge', drow_warrior: 'oath', drow_mage: 'chant', grey_dwarf: 'oath', dwarf_arbalest: 'oath', lizardfolk: 'rasp', lizard_shaman: 'chant' };
   const VOICE = {

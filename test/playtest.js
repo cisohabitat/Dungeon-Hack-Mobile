@@ -403,7 +403,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
       // a chant, the lich's rite, a war-horn, the Warlord's drum or a grey dwarf's swelling is answered by striking it, not by stepping away
       const trick = L.monsters.find(m => m.windup && m.windup.move && !['mend', 'rite', 'rally', 'drum', 'enlarge'].includes(m.windup.move) && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 5);
       // a gaze is answered by looking away, and then by not looking back until it has passed
-      if (trick && trick.windup.move === 'gaze') {
+      if (trick && (trick.windup.move === 'gaze' || trick.windup.move === 'dazzle')) {
         const faces = dir => { const [ax, ay] = Dungeon.DIRS[dir], [bx, by] = Dungeon.DIRS[(dir + 1) % 4]; const dx = trick.x - p.x, dy = trick.y - p.y, f = dx * ax + dy * ay; return f > 0 && Math.abs(dx * bx + dy * by) <= f; };
         if (faces(p.dir)) { Game.input(!faces((p.dir + 3) % 4) ? 'left' : 'right'); rec.dodges = (rec.dodges || 0) + 1; }
         step();
@@ -423,7 +423,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           step(); continue;
         }
         if ((mv === 'bristle' || mv === 'parry') && adjacent) { step(); continue; }
-        if (mv === 'breath' && toward >= 0 && (dx === 0 || dy === 0) && Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 2) {
+        if ((mv === 'breath' || mv === 'thrust') && toward >= 0 && (dx === 0 || dy === 0) && Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y) === 2) {
           const t = L.tiles[(p.y + dy) * L.w + p.x + dx];
           if ((t === T.FLOOR || t === T.DOOR_OPEN) && !L.monsters.some(o => o.x === p.x + dx && o.y === p.y + dy)) {
             Game.input(['forward', 'strafeR', 'back', 'strafeL'][(toward - p.dir + 4) % 4]); rec.dodges = (rec.dodges || 0) + 1; step(); continue;
@@ -440,7 +440,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         }
       }
       if (trick) {
-        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm' || mv === 'stamp' || mv === 'aim';
+        const mv = trick.windup.move, sideways = mv === 'charge' || mv === 'web' || mv === 'breath' || mv === 'thrust' || mv === 'firepot' || mv === 'firearrow' || mv === 'chill' || mv === 'storm' || mv === 'stamp' || mv === 'aim';
         const d0 = Math.abs(trick.x - p.x) + Math.abs(trick.y - p.y);
         let best = null, score = -1;
         for (let k = 0; k < 4; k++) {

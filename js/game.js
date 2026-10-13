@@ -619,10 +619,13 @@ const Game = (() => {
   // a ranger looses every arrow and lands every blow by Dexterity
   // (and a druid's, whose staff and claws answer the same wisdom)
   const armStat = p => p.cls === 'cleric' || p.cls === 'druid' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.stats.str;
+  // a glimmer moth's flare in the eyes: the blows go wide until it fades
+  const DAZZLED_HIT = 4;
   function toHit() {
     const p = P();
     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
-      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0);
+      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0)
+      - ((p.dazzled || 0) > G.t ? DAZZLED_HIT : 0);
   }
   function playerAC() {
     const p = P();
@@ -834,7 +837,7 @@ const Game = (() => {
   function enterLevel(depth, from) {
     const p = P(), cameFrom = G.depth;
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
-    p.grabbed = null; p.webbed = 0; p.held = 0;
+    p.grabbed = null; p.webbed = 0; p.held = 0; p.dazzled = 0;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
@@ -1273,7 +1276,7 @@ const Game = (() => {
     const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
     return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
   }
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11, sweep: 11 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, dazzle: 9, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11, sweep: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps

@@ -343,7 +343,7 @@ export function makeMotion(K) {
         phase: 0, rite: false, riteDone: 0, named: true, notches: nb.move === 'rally' ? [1 / 2] : [] };
     }
     // what ails or aids the hero, tinted over the view
-    fx.status = { poison: !!p.poison, held: (p.held || 0) > K.G.t, webbed: (p.webbed || 0) > K.G.t, grabbed: !!p.grabbed,
+    fx.status = { poison: !!p.poison, held: (p.held || 0) > K.G.t, webbed: (p.webbed || 0) > K.G.t, dazzled: (p.dazzled || 0) > K.G.t, grabbed: !!p.grabbed,
       ac: !!effect('ac'), hit: !!effect('hit'), might: !!effect('might'), starving: p.food === 0,
       // (the fire under your own feet is not in the view: this says it is there)
       burning: !!elements.fieldAt(p.x, p.y) && elements.fieldAt(p.x, p.y).k === 'fire' };

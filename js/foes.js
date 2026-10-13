@@ -218,10 +218,11 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, dazzle: 1100, thrust: 900, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
   // how long a grey dwarf stays grown, and how much harder its blows fall while it is
   const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
+  const DAZZLE_MS = 4000;   // how long a glimmer moth's wings leave your blows going wide
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
@@ -285,6 +286,8 @@ export function makeFoes(K) {
     // the storm comes every third blow at first, and later whenever you close on it
     else if (mv === 'nova' && novaReaches(m) && ((m.blows || 0) >= 2 || ((m.phase || 0) >= 1 && rnd() < 0.35))) say = `The ${mb.name} gathers a storm of cold fire around itself. Get away!`;
     else if (mv === 'gaze' && (adjacent || hasLineToPlayer(m, 4)) && ((m.blows || 0) >= 1 || !adjacent) && rnd() < 0.5) say = `The ${mb.name} rears its head, and its eyes begin to blaze! Look away!`;
+    // a glimmer moth's wings flare from a few squares off, or close by after a bite
+    else if (mv === 'dazzle' && (adjacent || hasLineToPlayer(m, 3)) && ((m.blows || 0) >= 1 || !adjacent) && rnd() < 0.5) say = `The ${mb.name} spreads its wings, and they begin to shine! Look away!`;
     else if (mv === 'rust' && adjacent && (m.blows || 0) >= 2) say = `The ${mb.name} rears back, mandibles spread wide!`;
     // a blink hound steps out of the world and back in at your back
     // (only to a hero it could reach in a few steps: it does not pass through walls)
@@ -320,6 +323,11 @@ export function makeFoes(K) {
     else if (mv === 'breath' && !adjacent && hasLineToPlayer(m, 4) && rnd() < 0.6) {
       const its = (mb.named && mb.named.pron) || 'its';
       say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
+      extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
+    }
+    // a goblin pikeman levels its pike at a hero two or three squares off down its line
+    else if (mv === 'thrust' && !adjacent && hasLineToPlayer(m, 3) && rnd() < 0.6) {
+      say = `The ${mb.name} levels its pike at you! Get in under the point, or out of its line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
     // a goblin on its own, from the third floor down, lights a pot of lamp oil
@@ -550,6 +558,29 @@ export function makeFoes(K) {
         m.nextAct = K.G.t + mb.speed;
         break;
       }
+      case 'dazzle': {
+        // as a basilisk's gaze, but only light: a hero looking at it is dazzled, one turned away is not
+        if ((dist === 1 || hasLineToPlayer(m, 4)) && facing(m)) {
+          const c = K.trickSave('con', 'dazzle');
+          p.dazzled = Math.max(p.dazzled || 0, K.G.t + DAZZLE_MS * (K.hasTalent('stand_firm') ? 0.5 : 1) * (c.pass ? 0.5 : 1));
+          K.log(`The ${mb.name}'s wings flare white in your eyes, and you ${c.pass ? 'blink most of it away' : 'are dazzled'}: your blows will go wide a while.${c.note}`, 'bad');
+        } else { K.log(`You turn from the ${mb.name}'s wings. The light washes over your back, and the moth is left open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
+        m.moveReady = K.G.t + 7000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'thrust': {
+        // the pike reaches two and three squares down its line, and passes by one in under the point
+        const inLine = w.dx ? p.y === m.y && Math.sign(p.x - m.x) === w.dx : p.x === m.x && Math.sign(p.y - m.y) === w.dy;
+        if (inLine && dist >= 2 && dist <= 3 && hasLineToPlayer(m, 3)) {
+          monsterAttack(m, { hit: 2, extra: [1, 6, 0], verb: 'drives its pike into', sure: true });
+          K.G.blowGate = K.G.t + K.BLOW_GAP;
+          m.nextAct = K.G.t + mb.speed;
+        } else if (dist === 1) { K.log(`You are in under the point: the ${mb.name}'s pike drives past you, and it is left open!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        else { K.log(`The ${mb.name}'s pike drives into empty air, and leaves it open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        m.moveReady = K.G.t + 6000;
+        break;
+      }
       case 'rust':
         if (dist === 1) {
           if (monsterAttack(m, { hit: 1, verb: 'bites', sure: true }) && K.G.status === 'playing') corrode();
@@ -570,7 +601,7 @@ export function makeFoes(K) {
         // faced, it steps out of the air onto a raised blade; at your back, it bites deep
         if (dist === 1 && facing(m)) { K.log(`You turn to meet the ${mb.name} as it steps out of the air. It is caught off balance!`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
         else if (dist === 1) {
-          monsterAttack(m, { hit: 3, extra: [1, 6, 0], verb: 'sinks its teeth into', sure: true });
+          monsterAttack(m, { hit: 3, extra: mb.bite || [1, 6, 0], verb: 'sinks its teeth into', sure: true });
           K.G.blowGate = K.G.t + K.BLOW_GAP;
           m.nextAct = K.G.t + mb.speed;
         } else { K.log(`The ${mb.name} snaps at the air where you stood.`, 'good'); m.nextAct = K.G.t + mb.speed; }
@@ -855,14 +886,14 @@ export function makeFoes(K) {
   /** What a monster's trick does when it is hurt and still standing. */
   function moveOnHurt(m, mb, tag) {
     // the quills bite a hound's bite as well as a hand
-    if (m.windup && m.windup.move === 'bristle' && tag === 'companion') K.companionHurt(d(1, 6) + Math.floor(K.G.depth / 2), 'The raised quills stab');
+    if (m.windup && m.windup.move === 'bristle' && tag === 'companion') K.companionHurt(d(1, mb.quills || 6) + Math.floor(K.G.depth / 2), 'The raised quills stab');
     // a quillback's raised quills bite back at a hand that strikes it
     if (m.windup && m.windup.move === 'bristle' && HAND_BLOW.has(tag) && !K.castingName && K.G.status === 'playing') {
       const p = K.P();
       if (Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1) {
         m.windup.struck = true;
-        const n = K.knightSteadfast(d(1, 6) + Math.floor(K.G.depth / 2));
-        K.hurtPlayer(n, `You strike into its raised quills, and they bite deep! (${n})`, m, 'a quillback\'s quills');
+        const n = K.knightSteadfast(d(1, mb.quills || 6) + Math.floor(K.G.depth / 2));
+        K.hurtPlayer(n, `You strike into its raised quills, and they bite deep! (${n})`, m, `a ${mb.name.toLowerCase()}'s quills`);
       }
     }
     // a dark elf's crossed blades turn a blow struck into them, and cut back
