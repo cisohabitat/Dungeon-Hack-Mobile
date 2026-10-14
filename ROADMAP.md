@@ -240,9 +240,9 @@ again: `README.md`'s table)
   the frame is bronze from the first, silver from the third, gold at the last; the third
   kit opens at the fourth, and the fifth lets a run begin with a codex relic (no legends)
   for three quarters of the score. None of it in a Daily or a Weekly.*
-- [ ] **The first season** (D13): six weeks of a vow set, a frequent twist, one new champion
+- ~~**The first season** (D13): six weeks of a vow set, a frequent twist, one new champion
   and one new legend, dealt from the season's number as the Weekly is, on its own Hall page
-  with its own card; its rules fixed when it opens.
+  with its own card; its rules fixed when it opens.~~ *Dropped (14 October 2026, the owner's call).*
 - [ ] **Balance from telemetry** (decision 1): real players' win rates by class and rung beside
   the bot's on the dashboard, reviewed monthly; a class ten points off the bot for two months
   gets a bench and a change. The README's table links to it.
@@ -254,7 +254,7 @@ again: `README.md`'s table)
 
 **Exit criteria**
 - A friend's line verifies and ranks within a minute of a run's end.
-- A season runs its whole length without a change pushed mid-season.
+- ~~A season runs its whole length without a change pushed mid-season.~~ (No seasons: dropped.)
 - One monthly review reads real win rates and benches a change from them.
 
 ## Phase 10: Content cadence (ongoing, from Phase 8)
@@ -305,7 +305,8 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   next slice out of each before the phase that touches it (the title and create screens out of
   `ui.js` in Phase 6, done; the K wiring out of `game.js` in Phase 7, done: the twenty-four
   objects lent became one `K`, 1,908 lines to 1,730; `renderer.js` 1,895 and `foes.js` 1,758
-  before the phases that touch them).
+  before the phases that touch them; `foes.js` to 1,549 with the bosses in `bosses.js`, and
+  `renderer.js` to 1,698 with what lies over the whole view in `overlay.js`, both October 2026).
 - [x] The K objects typed (C8): one `Kit` typedef in `types.js` for the one `K` every game
   factory takes (by name, the state and the floor in full), in place of a typedef a factory;
   copies at birth checked: constants and functions only, none of the state that changes.

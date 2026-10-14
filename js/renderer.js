@@ -3,6 +3,7 @@ import { Dungeon } from './dungeon.js';
 import { THEMES } from './data.js';
 import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 import { makeSpellFx } from './spellfx.js';
+import { makeOverlay } from './overlay.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -650,38 +651,6 @@ const Renderer = (() => {
     put(Assets.held(null, pose, cls, false), x, y, s);
   }
 
-  /** The lich's life along the top of the view, marked where its fight turns; or a named champion's, in gold. */
-  function drawBossBar(b, now) {
-    if (!b) return;
-    // in its third act the torches are out: the hall goes dark round the edges
-    if (b.phase >= 2) rim(4, 2, 10, 0.72, 0.12);
-    // along the top left, clear of the minimap in the corner
-    const bx = 8, bw = Math.round(W * 0.6), by = 16, bh = 5;
-    ctx.save();
-    ctx.font = 'bold 9px monospace'; ctx.textAlign = 'left'; ctx.lineJoin = 'round';
-    ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.9)';
-    const label = b.rite ? `${b.name.toUpperCase()}: THE RITE` : b.name.toUpperCase();
-    // a long name (a shade's, say) drawn smaller rather than into the minimap
-    if (ctx.measureText(label).width > bw) ctx.font = 'bold 7px monospace';
-    ctx.strokeText(label, bx, by - 4);
-    ctx.fillStyle = b.rite ? (Math.sin(now / 90) > 0 ? '#ff80ff' : '#c080ff') : b.named ? '#ffe0a0' : '#d8c8ff';
-    ctx.fillText(label, bx, by - 4);
-    // how far its rite has gone: strike it before this fills
-    if (b.rite) {
-      ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by + bh + 2, bw + 2, 4);
-      ctx.fillStyle = '#ff60f0'; ctx.fillRect(bx, by + bh + 3, Math.round(bw * b.riteDone), 2);
-    }
-    ctx.fillStyle = '#000'; ctx.fillRect(bx - 1, by - 1, bw + 2, bh + 2);
-    ctx.fillStyle = b.named ? '#30200c' : '#2a1030'; ctx.fillRect(bx, by, bw, bh);
-    const f = Math.max(0, b.hp / b.maxHp);
-    ctx.fillStyle = b.named ? '#d89a30' : b.phase >= 2 ? '#c02040' : b.phase === 1 ? '#a03cc0' : '#7a5ad8';
-    ctx.fillRect(bx, by, Math.round(bw * f), bh);
-    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(bx, by, Math.round(bw * f), 1);
-    // notches where its fight turns
-    ctx.fillStyle = '#000';
-    for (const n of b.notches || [1 / 3, 2 / 3]) ctx.fillRect(bx + Math.round(bw * n), by, 1, bh);
-    ctx.restore();
-  }
 
   // ---------- what a fight leaves ----------
   const rgbOf = hex => {
@@ -846,44 +815,6 @@ const Renderer = (() => {
     ctx.fillStyle = `rgba(255,248,210,${(0.9 * a).toFixed(3)})`;
     ctx.fillRect(cx - r, cy, r * 2 + 1, 1); ctx.fillRect(cx, cy - r, 1, r * 2 + 1);
     ctx.fillRect(cx - 1, cy - 1, 3, 3);
-    ctx.globalCompositeOperation = 'source-over';
-  }
-  // Come onto a new floor, the view rises out of the dark of the stair: black at
-  // first, lifting quickly and then slowly, like eyes getting used to the light.
-  const ARRIVE_MS = 700;
-  let arrivingN = 0, levellingN = 0;
-  function drawArrival(fx, now) {
-    arrivingN = 0;
-    const u = (now - (fx.arriveAt == null ? -1e9 : fx.arriveAt)) / ARRIVE_MS;
-    if (u < 0 || u >= 1) return;
-    arrivingN = 1;
-    ctx.fillStyle = `rgba(0,0,0,${(0.95 * (1 - u) * (1 - u)).toFixed(3)})`;
-    ctx.fillRect(0, 0, W, H);
-  }
-  // A level gained: shafts of golden light rise through the view from below,
-  // motes climbing in them, and fade; held still in a calm view, only fading.
-  const LEVEL_MS = 1300;
-  function drawLevelUp(fx, now) {
-    levellingN = 0;
-    const u = (now - (fx.levelAt == null ? -1e9 : fx.levelAt)) / LEVEL_MS;
-    if (u < 0 || u >= 1) return;
-    levellingN = 1;
-    const fade = u < 0.15 ? u / 0.15 : 1 - (u - 0.15) / 0.85, rise = calm ? 1 : Math.min(1, u * 2.2);
-    ctx.globalCompositeOperation = 'lighter';
-    for (let i = 0; i < 9; i++) {
-      const x = Math.round(W * (i + 0.5) / 9 + (calm ? 0 : Math.sin(now / 300 + i) * 3)), bw = Math.max(3, Math.round(W / 22));
-      const top = Math.round(H - H * rise * (0.55 + 0.4 * hash(i * 3.3)));
-      const g = ctx.createLinearGradient(0, top, 0, H);
-      g.addColorStop(0, 'rgba(255,220,120,0)'); g.addColorStop(1, `rgba(255,200,90,${(0.32 * fade).toFixed(3)})`);
-      ctx.fillStyle = g;
-      ctx.fillRect(x - (bw >> 1), top, bw, H - top);
-    }
-    for (let i = 0; i < 24; i++) {
-      const ph = calm ? hash(i * 2.1) : (u * 1.4 + hash(i * 2.1)) % 1;
-      const x = Math.round(W * hash(i * 5.3)), y = Math.round(H - ph * H * 0.9);
-      ctx.fillStyle = `rgba(255,236,160,${((1 - ph) * fade).toFixed(3)})`;
-      ctx.fillRect(x, y, 2, 2);
-    }
     ctx.globalCompositeOperation = 'source-over';
   }
   // The columns of fountain wall drawn this frame (column, top, height, texel
@@ -1072,118 +1003,6 @@ const Renderer = (() => {
         fill(x, y, px * 2, px, '#d8b880');
       }
       for (let k = 0; k <= 6; k++) { const [x, y] = at(0.7 + k * 0.04, 0.91 + k * 0.015); fill(x, y, px * 2, px, '#b89860'); }
-    }
-  }
-  /** Blood on the view after a hard blow: a splash at the edge, flecks flung
-   * round it, a thin run down from it; it all fades. Pixel squares, like the rest. */
-  function drawDrops(drops, now) {
-    if (!drops || !drops.length) return;
-    for (let i = 0; i < drops.length; i++) {
-      const d = drops[i];
-      const u = (now - d.born) / d.life;
-      if (u < 0 || u >= 1) continue;
-      const x = Math.round(d.x * W), y = Math.round(d.y * H), r = Math.max(2, Math.round(d.r * H));
-      const run = Math.round(Math.min(1, u * 1.4) * r * 3);
-      ctx.globalAlpha = u < 0.6 ? 0.8 : 0.8 * (1 - (u - 0.6) / 0.4);
-      ctx.fillStyle = '#5a0306';
-      ctx.fillRect(x - r, y - (r >> 1), r * 2, r);
-      ctx.fillRect(x - (r >> 1), y - r, r, r * 2);
-      ctx.fillRect(x - 1, y, 2, r + run);
-      for (let k = 0; k < 5; k++) {
-        const a = hash(d.born + k) * Math.PI * 2, dd = r * (1.4 + hash(d.born + k + 7) * 1.6);
-        ctx.fillRect(Math.round(x + Math.cos(a) * dd), Math.round(y + Math.sin(a) * dd), 2, 2);
-      }
-      ctx.fillStyle = '#9a1418';
-      ctx.fillRect(x - (r >> 1), y - (r >> 1), Math.max(1, r >> 1), Math.max(1, r >> 1));
-    }
-    ctx.globalAlpha = 1;
-  }
-  /** An edge glow in one colour, strongest at the rim, for what ails or aids the hero. */
-  function rim(r, g, b, a, inner = 0.34) {
-    const grad = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * inner, W / 2, H / 2, Math.max(W, H) * 0.66);
-    grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
-    grad.addColorStop(1, `rgba(${r},${g},${b},${a.toFixed(3)})`);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-  }
-  // A web across the corners, and frost that creeps in from them: fixed
-  // strands, placed by hash so they hold still from frame to frame.
-  function corners(color, width, n, reach, jag) {
-    ctx.save();
-    ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round';
-    for (const [cx, cy, sx, sy] of [[0, 0, 1, 1], [W, 0, -1, 1], [0, H, 1, -1], [W, H, -1, -1]]) {
-      for (let i = 0; i < n; i++) {
-        const a = (i + 0.5) / n * Math.PI / 2, len = reach * (0.6 + hash(i * 7 + cx + cy) * 0.5);
-        ctx.beginPath(); ctx.moveTo(cx, cy);
-        let x = cx, y = cy;
-        for (let k = 1; k <= 4; k++) {
-          const j = jag ? (hash(i * 13 + k + cx) - 0.5) * jag : 0;
-          x = cx + sx * Math.cos(a + j) * len * k / 4; y = cy + sy * Math.sin(a + j) * len * k / 4;
-          ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-      if (!jag) {
-        // the web's rings, strung between its spokes
-        for (let ring = 1; ring <= 3; ring++) {
-          ctx.beginPath();
-          for (let i = 0; i < n; i++) {
-            const a = (i + 0.5) / n * Math.PI / 2, rr = reach * ring / 4 * (0.8 + hash(i + ring * 3) * 0.2);
-            const x = cx + sx * Math.cos(a) * rr, y = cy + sy * Math.sin(a) * rr;
-            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-        }
-      }
-    }
-    ctx.restore();
-  }
-  function drawStatus(st, now) {
-    if (!st) return;
-    const slow = 0.5 + 0.5 * Math.sin(now / 600);
-    if (st.poison) rim(70, 170, 40, 0.22 + 0.14 * slow);
-    if (st.burning) {
-      // standing in fire: a hot rim, and flames licking up the foot of the view
-      const flick = calm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 70);
-      rim(255, 110, 30, 0.3 + 0.15 * flick, 0.3);
-      const n = 11, w = W / n;
-      for (let i = 0; i < n; i++) {
-        const h = H * (0.08 + 0.07 * hash(i * 7 + 1) + (calm ? 0 : 0.035 * Math.sin(now / (90 + hash(i) * 60) + i * 2)));
-        const x0 = i * w, cx = x0 + w / 2 + (calm ? 0 : Math.sin(now / 130 + i) * w * 0.15);
-        ctx.fillStyle = i % 2 ? 'rgba(232,110,30,0.85)' : 'rgba(250,170,60,0.8)';
-        ctx.beginPath(); ctx.moveTo(x0 - w * 0.2, H); ctx.quadraticCurveTo(cx - w * 0.3, H - h * 0.5, cx, H - h); ctx.quadraticCurveTo(cx + w * 0.3, H - h * 0.5, x0 + w * 1.2, H); ctx.fill();
-      }
-    }
-    if (st.starving) rim(20, 14, 10, 0.4, 0.3);
-    if (st.grabbed) rim(70, 50, 30, 0.35);
-    if (st.might) rim(230, 110, 40, 0.14 + 0.06 * slow, 0.42);
-    if (st.ac) {
-      // a thin shimmer running round the rim of the shield
-      rim(90, 150, 255, 0.2 + 0.08 * Math.sin(now / 250), 0.4);
-    }
-    if (st.hit) {
-      // motes of gold rising up the sides
-      rim(255, 210, 90, 0.1, 0.44);
-      ctx.fillStyle = '#ffe89a';
-      for (let i = 0; i < 14; i++) {
-        const side = i % 2, speed = 0.25 + hash(i) * 0.2, phase = (now / 1000 * speed + hash(i + 20)) % 1;
-        const x = side ? W - 6 - hash(i + 3) * 26 : 6 + hash(i + 3) * 26, y = H * (1 - phase);
-        ctx.globalAlpha = Math.sin(phase * Math.PI) * 0.9;
-        ctx.fillRect(Math.round(x), Math.round(y), 3, 3);
-      }
-      ctx.globalAlpha = 1;
-    }
-    if (st.held) {
-      rim(170, 220, 255, 0.35, 0.3);
-      corners('rgba(220,240,255,0.55)', 1, 5, Math.min(W, H) * 0.3, 0.5);
-    }
-    if (st.webbed) corners('rgba(220,220,210,0.5)', 1, 5, Math.min(W, H) * 0.34, 0);
-    if (st.dazzled) {
-      // a moth's flare still in the eyes: a pale bloom over the middle of the view, breathing
-      const g = ctx.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H * 0.45, Math.max(W, H) * 0.55);
-      g.addColorStop(0, `rgba(255,252,235,${0.38 + 0.06 * Math.sin(now / 300)})`);
-      g.addColorStop(1, 'rgba(255,252,235,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     }
   }
 
@@ -1845,51 +1664,6 @@ const Renderer = (() => {
       ctx.fillStyle = `rgba(0,0,0,${(u * u).toFixed(3)})`; ctx.fillRect(0, 0, W, H);
     }
   }
-  /** The Heart lifted: it rises in the hero's hands and its light swells from
-   * it, motes streaming up, until the light is all there is. */
-  function drawFinale(t, cls) {
-    const u = Math.min(1, t / 2400), e = ease(u);
-    const cx = W / 2, cy = H * (0.95 - 0.4 * e);
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    const r = Math.max(W, H) * (0.18 + 1.2 * u * u);
-    const g = ctx.createRadialGradient(cx, cy - H * 0.05, 0, cx, cy - H * 0.05, r);
-    g.addColorStop(0, `rgba(255,244,215,${(0.5 + 0.4 * u).toFixed(3)})`);
-    g.addColorStop(0.35, `rgba(255,190,110,${(0.2 + 0.5 * u).toFixed(3)})`);
-    g.addColorStop(1, 'rgba(255,150,60,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-    // motes streaming up out of it, faster as the light grows
-    ctx.fillStyle = '#fff0c0';
-    for (let i = 0; i < 40; i++) {
-      const sp = 0.35 + hash(i) * 0.6, ph = (t / 1000 * sp * (1 + u) + hash(i + 50)) % 1;
-      const x = cx + (hash(i + 7) - 0.5) * W * (0.3 + ph * 0.9), y = cy - ph * H * 1.1;
-      ctx.globalAlpha = Math.sin(ph * Math.PI) * 0.9;
-      ctx.fillRect(Math.round(x), Math.round(y), 2, 2);
-    }
-    ctx.restore();
-    // two open hands raise it, over its own light so they stay seen: the
-    // casting hand, and the same turned about
-    const palm = cls ? Assets.held(null, 'cast', cls, false) : null;
-    if (palm) {
-      const k = artK(), w = palm.img.width * k, h = palm.img.height * k;
-      const hy = Math.round(cy + H * 0.2 - palm.ay * k);
-      ctx.drawImage(palm.img, Math.round(cx - W * 0.1 - palm.ax * k), hy, Math.round(w), Math.round(h));
-      ctx.save(); ctx.translate(Math.round(cx + W * 0.1), 0); ctx.scale(-1, 1);
-      ctx.drawImage(palm.img, Math.round(-palm.ax * k), hy, Math.round(w), Math.round(h));
-      ctx.restore();
-    }
-    const art = Assets.sprites.artifact;
-    if (art) {
-      const size = H * (0.3 + 0.12 * e);
-      ctx.drawImage(art.levels[0], Math.round(cx - size / 2), Math.round(cy - size * 0.6), Math.round(size), Math.round(size));
-    }
-    // and at the last it is all light
-    if (u > 0.62) {
-      ctx.fillStyle = `rgba(255,246,226,${Math.min(1, (u - 0.62) / 0.33).toFixed(3)})`;
-      ctx.fillRect(0, 0, W, H);
-    }
-  }
 
 
   /** @param {number} rows  rows at the top of the picture a tip is covering */
@@ -1898,6 +1672,11 @@ const Renderer = (() => {
   const { READ_MS, USE_MS, drawReading, drawSpells, drawTrap, drawUse, hash } = makeSpellFx({
     get H() { return H; }, get W() { return W; }, get ctx() { return ctx; }, get ease() { return ease; }, get put() { return put; },
   });
+  // ---------- over the whole view: see overlay.js ----------
+  const overlay = makeOverlay({
+    W, get H() { return H; }, get ctx() { return ctx; }, get calm() { return calm; }, hash, ease, artK,
+  });
+  const { ARRIVE_MS, drawArrival, drawBossBar, drawDrops, drawFinale, drawLevelUp, drawStatus } = overlay;
 
   // A warning mark's colour as its blow comes, from first warning to falling:
   // yellow to red for a blow, violet to magenta for a trick. The colour-blind
@@ -1913,7 +1692,7 @@ const Renderer = (() => {
     const ramp = (TELLS[palette] || TELLS.standard)[special ? 'special' : 'normal'];
     return ramp[tell >= 1 ? 2 : tell > 0.5 ? 1 : 0];
   }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return arrivingN; }, get levelling() { return levellingN; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

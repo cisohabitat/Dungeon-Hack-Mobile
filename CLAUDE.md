@@ -64,7 +64,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   daily's `dealHero`); a run either one starts is shared by everyone, so each guard that keeps a daily the
   same for all (no bones, hound, second kit, rung, Wick's tenth) checks `opts.weekly` as well.
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
-  over it are in `js/spellfx.js`.
+  over it are in `js/spellfx.js`, and what lies over the whole view (the hero's state at the rim,
+  a boss's bar, arriving, a level gained, blood, the Heart lifted) in `js/overlay.js`.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list
   of them all; the later creatures are in `js/folk.js`, the parts and shared kits
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
