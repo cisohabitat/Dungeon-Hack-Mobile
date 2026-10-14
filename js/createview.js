@@ -91,13 +91,18 @@ export function makeCreateView(K) {
           : `<em class="key goal">${pathGoal(paths.filter(x => known.paths[x.id]), paths.filter(x => !known.paths[x.id]))}</em>`;
       // a card says only enough to choose by: who, and in a line how they play;
       // the whole of it is told beneath for the one chosen, at the full width
-      b.innerHTML = `<span class="cc-head"><img class="class-face" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
+      const frame = Progress.frameOf(id, known);
+      b.innerHTML = `<span class="cc-head"><img class="class-face${frame ? ' frame-' + frame : ''}" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
       b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
       grid.appendChild(b);
     }
     {
       const c = CLASSES[create.cls];
-      $('#c-class-more').innerHTML = `<b>${c.name}</b> ${c.desc} <em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>`;
+      // and where the class stands on its mastery track, and what the next stage asks
+      const at = Progress.stage(create.cls), name = at ? Progress.stageName(create.cls, at) : '';
+      const track = at >= 5 ? `<em class="key stage-line">Mastery: ${escapeHtml(name)}, the last of five stages.</em>`
+        : `<em class="key stage-line">Mastery: ${at ? `${escapeHtml(name)}, stage ${at} of 5. ` : ''}Next, ${escapeHtml(Progress.stageName(create.cls, at + 1))}: ${escapeHtml(Progress.stageNeed(create.cls, at + 1))}</em>`;
+      $('#c-class-more').innerHTML = `<b>${c.name}</b> ${c.desc} <em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${track}`;
     }
     const bgGrid = $('#c-backgrounds');
     bgGrid.innerHTML = '';

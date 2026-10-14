@@ -352,4 +352,31 @@ test.describe('the crews\' pages between runs', () => {
     await expect(box.locator('li').last()).toContainText('A single line, cut deep');
     expect(errors).toEqual([]);
   });
+
+  test('the mastery track: each class\'s five stages in the Hall, lit as reached, and the class card framed and told the next stage', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1 }, mage: { easy: 1 } }, relics: [] })));
+    await page.click('#btn-hall');
+    await expect(page.locator('[data-trophy^="stage-"]')).toHaveCount(30);
+    // the fighter has won on Hard: three stages; the mage once on Easy: one
+    for (const n of [1, 2, 3]) await expect(page.locator(`[data-trophy="stage-fighter-${n}"]`)).toHaveClass(/won/);
+    for (const n of [4, 5]) await expect(page.locator(`[data-trophy="stage-fighter-${n}"]`)).not.toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="stage-mage-1"]')).toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="stage-mage-2"]')).not.toHaveClass(/won/);
+    await expect(page.locator('[data-trophy="stage-fighter-3"]')).toHaveText('Blademaster');
+    // a tap says what a stage asks and opens
+    await page.click('[data-trophy="stage-fighter-4"]');
+    await expect(page.locator('#trophy-note')).toContainText('Win as a Fighter with both its paths.');
+    await expect(page.locator('#trophy-note')).toContainText('Opens: A third kit.');
+    await page.click('#hall-back');
+    // on the New Game screen the fighter's face wears silver, the mage's bronze, the rest none
+    await page.click('#btn-new');
+    await expect(page.locator('.class-card[data-cls="fighter"] .class-face')).toHaveClass(/frame-silver/);
+    await expect(page.locator('.class-card[data-cls="mage"] .class-face')).toHaveClass(/frame-bronze/);
+    await expect(page.locator('.class-card[data-cls="thief"] .class-face')).not.toHaveClass(/frame-/);
+    await page.click('.class-card[data-cls="fighter"]');
+    await expect(page.locator('#c-class-more .stage-line')).toHaveText('Mastery: Blademaster, stage 3 of 5. Next, Champion: Win as a Fighter with both its paths.');
+    expect(errors).toEqual([]);
+  });
 });

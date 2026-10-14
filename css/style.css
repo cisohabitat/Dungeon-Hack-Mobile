@@ -10,6 +10,10 @@
   --green: #5ec06a;
   --blue: #5a8de0;
   --accent: #b08a3e;
+  /* the portrait frames a class's mastery earns */
+  --frame-bronze: #b0703c;
+  --frame-silver: #c8ccd4;
+  --frame-gold: #e8c050;
   --sat: env(safe-area-inset-top, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
@@ -836,14 +840,15 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .trophy-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr)); gap: var(--s-4); align-items: center; }
 .trophy-grid .th { color: var(--dim); font-size: var(--t-xs); text-align: center; letter-spacing: 0.04em; }
 .trophy-grid .tcls { font-size: var(--t-md); color: var(--text-soft); }
-.trophy-grid .cell { min-height: 36px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: var(--t-base); }
-.trophy-grid .cell.won { border-color: var(--edge-won); background: var(--sel-bg); box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.25); }
+.trophy-grid .cell, .trophy-grid .stagecell { min-height: 36px; border: 1px solid var(--border); border-radius: 6px; background: #121019; display: grid; place-content: center; color: var(--gold); font-size: var(--t-base); }
+.trophy-grid .cell.won, .trophy-grid .stagecell.won { border-color: var(--edge-won); background: var(--sel-bg); box-shadow: inset 0 0 8px rgba(232, 180, 80, 0.25); }
 /* the mastery cell shows its star dim until it is won: blank, the narrow column had no name */
 .trophy-grid .cell.mastery:not(.won) { color: #4a4458; }
 .trophy-grid.paths { grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1.5fr)) minmax(0, 0.5fr); }
 .trophy-grid.vows { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.trophy-grid.stages { grid-template-columns: minmax(0, 1fr) repeat(5, minmax(0, 1fr)); }
 /* a long name wraps onto a second line on the narrowest phones rather than losing its end */
-.trophy-grid .cell.named { font-size: var(--t-sm); line-height: 1.15; color: #b8b0c4; padding: var(--s-2) var(--s-4); text-align: center; overflow-wrap: anywhere; }
+.trophy-grid .cell.named, .trophy-grid .stagecell { font-size: var(--t-sm); line-height: 1.15; color: #b8b0c4; padding: var(--s-2) var(--s-4); text-align: center; overflow-wrap: anywhere; }
 .trophy-grid .cell.named.won { color: var(--gold); }
 /* a vow not yet open is dimmer and dashed, not faded: faded, its name fell below a readable contrast (axe) */
 .trophy-grid .cell.shut { color: var(--dim); border-style: dashed; }
@@ -1088,6 +1093,10 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 
 /* the heroes' faces: on the class cards, the hero sheet and the end of a run */
 .class-face { flex: none; width: 44px; height: 44px; image-rendering: pixelated; border-radius: 6px; border: 1px solid var(--card-edge); background: var(--card-bg); }
+.class-face.frame-bronze, .end-face.frame-bronze { border: 2px solid var(--frame-bronze); }
+.class-face.frame-silver, .end-face.frame-silver { border: 2px solid var(--frame-silver); }
+.class-face.frame-gold, .end-face.frame-gold { border: 2px solid var(--frame-gold); box-shadow: 0 0 6px rgba(232, 192, 80, 0.45); }
+.stage-line { display: block; margin-top: var(--s-4); }
 .sheet-face { display: block; width: 72px; height: 72px; margin: 0 auto var(--s-8); image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .end-face { display: block; width: 88px; height: 88px; margin: var(--s-6) auto var(--s-4); image-rendering: pixelated; border-radius: 8px; border: 2px solid #c9a24a; background: var(--card-bg); }
 .end-face.fallen { filter: grayscale(0.85) brightness(0.75); border-color: #6a5a4a; }

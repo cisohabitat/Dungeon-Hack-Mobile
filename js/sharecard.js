@@ -3,6 +3,8 @@
 // did it. Everything it says comes in `info`, so this knows nothing of rules.
 
 const W = 800, H = 420, SERIF = "Georgia, 'Times New Roman', serif";
+/** The portrait's frame at each stage of the class's mastery (MASTERY in data.js). */
+const FRAMES = { '': '#6a6070', bronze: '#b0703c', silver: '#c8ccd4', gold: '#e8c050' };
 
 /** Write a line, shrinking the type until it fits the width it is given. */
 function fitText(g, text, x, y, maxW, size, weight, colour) {
@@ -16,7 +18,7 @@ function fitText(g, text, x, y, maxW, size, weight, colour) {
  * @param {{ won: boolean, hero: string, outcome: string, killer?: string, stats: string, mode: string,
  *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null,
  *   hound?: { name: string, word?: string, art: HTMLCanvasElement | HTMLImageElement | null } | null,
- *   face?: HTMLCanvasElement | HTMLImageElement | null }} info
+ *   face?: HTMLCanvasElement | HTMLImageElement | null, frame?: string }} info
  * @returns {HTMLCanvasElement}
  */
 function drawShareCard(info) {
@@ -54,7 +56,8 @@ function drawShareCard(info) {
     g.fillStyle = '#15120e'; g.fillRect(32, 32, 84, 84);
     g.imageSmoothingEnabled = false;
     g.drawImage(info.face, 34, 34, 80, 80);
-    g.strokeStyle = '#c9a24a'; g.lineWidth = 2; g.strokeRect(32, 32, 84, 84);
+    // in the frame the class's mastery has earned: bronze, silver, gold, or plain stone before any
+    g.strokeStyle = FRAMES[info.frame || ''] || FRAMES['']; g.lineWidth = info.frame ? 3 : 2; g.strokeRect(32, 32, 84, 84);
   }
   // the words, on the right
   const x = 400, maxW = W - x - 40;

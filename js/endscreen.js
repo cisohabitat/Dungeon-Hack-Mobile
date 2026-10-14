@@ -1,7 +1,7 @@
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
-import { BACKGROUNDS, BESTIARY, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER } from './data.js';
+import { BACKGROUNDS, BESTIARY, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS, PATHS, RENOWN, SPELLS, TALENTS, VOWS, LADDER, MASTERY } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
@@ -138,7 +138,7 @@ export function makeEndScreen(K) {
     const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender', renegade: 'renegade' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
     return {
-      won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]),
+      won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]), frame: Progress.frameOf(p.cls),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
       outcome: won ? (ENDINGS[G.ending || 'take'] || ENDINGS.take).hall : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level}${p.renown ? ` \u2605${p.renown}` : ''} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
@@ -156,6 +156,8 @@ export function makeEndScreen(K) {
     // the hero's face under it, gone grey if they fell
     const face = /** @type {HTMLImageElement} */ ($('#end-face'));
     face.src = faceOf(p.cls); face.alt = `${p.name}, the ${CLASSES[p.cls].name}`; face.classList.toggle('fallen', !won);
+    // (in the frame the class's mastery has earned, as it stands now the run is told)
+    for (const f of ['bronze', 'silver', 'gold']) face.classList.toggle('frame-' + f, Progress.frameOf(p.cls) === f);
     $('#end-text').textContent = won
       // (whatever kept the Heart in this delve: the lich, the Warlord or the Heartforged)
       ? `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name} brought down the ${MONSTERS[Dungeon.keeperOf(G.opts.levels || 8, G.route)].name} and ${ending.did}.`
@@ -170,6 +172,7 @@ export function makeEndScreen(K) {
     if (earned && earned.rungOpened && LADDER[earned.rungOpened] && CLASSES[earned.cls]) news.push(`Hard+${earned.rungOpened} is open to the ${CLASSES[earned.cls].name}: ${LADDER[earned.rungOpened].rule.charAt(0).toLowerCase()}${LADDER[earned.rungOpened].rule.slice(1)}`);
     for (const id of (earned && earned.firstFeats) || []) if (FEATS[id]) news.push(`${FEATS[id].name}: a feat, and a trophy of its own.`);
     if (earned && earned.vowsOpened) news.push('Vows are open: a new hero can swear one for a harder run.');
+    if (earned && earned.stageReached && CLASSES[earned.cls]) news.push(`A new stage for the ${CLASSES[earned.cls].name}: ${Progress.stageName(earned.cls, earned.stageReached)}. ${MASTERY.opens[earned.stageReached - 1]}`);
     if (G.tested) news.push('A test run (a testing tool from the Menu was used): it is not written in the Hall, and earns no trophy.');
     else if (won && (G.opts.levels || 8) <= 2) news.push('A quick delve won: it goes in the Hall, but trophies wait for a delve of four floors or more.');
     else if (earned && earned.reloadable) news.push('Trophies are for a win on one life: tick Permadeath to earn one.');

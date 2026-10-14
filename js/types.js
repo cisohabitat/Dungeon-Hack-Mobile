@@ -398,7 +398,7 @@
  * @property {{floor: Object<number, string>, shop: string[], offered: number, found: string[]}} [relics]  where this run's relics lie, how many traders have shown theirs, and which have been found
  * @property {RunStats} [stats]  this run in numbers, for the end screen; missing from saves made before it was kept
  * @property {Object<string, number>} [combos]  the combinations this run has made (combos.js), and how often each
- * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean, rungOpened?: number, tested?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
+ * @property {{first?: boolean, cls?: string, difficulty?: string, unlocked?: string[], reloadable?: boolean, firstPath?: string, mastered?: boolean, firstVows?: string[], firstFeats?: string[], vowsOpened?: boolean, rungOpened?: number, stageReached?: number, tested?: boolean}} [earned]  what a win added to the progress kept between runs: a first trophy, backgrounds opened; or that it could not count, being reloadable
  */
 
 /**

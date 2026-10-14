@@ -476,6 +476,29 @@ const shieldFits = (c, b) => (b.focus ? c.focus === b.focus : c.shield === true 
 /** Whether a class can wear a body armour: robes are a mage's alone, and a mage wears nothing else. */
 const armorFits = (c, b) => (b.weight === 'cloth' ? c.armor === 'cloth' : c.armor === 'heavy' || (c.armor === 'light' && b.weight === 'light'));
 
+// The mastery track (D13): five stages a class, worked out from the wins a player has kept
+// (progress.js), each needing the one before and each opening something, never more power: a
+// frame for the class's portrait, the second kit, the title, a third kit, and a start with a
+// relic once found. The third stage is the class's title.
+const MASTERY = {
+  // what each stage needs, the class's name in place of {cls}
+  needs: ['Win a run as a {cls}.', 'Win as a {cls} on Normal or Hard.', 'Win as a {cls} on Hard.', 'Win as a {cls} with both its paths.', 'Win as a {cls} on Hard+3 or higher.'],
+  // and what it opens
+  opens: ['A bronze frame for the portrait.', 'The second kit.', 'The title, and a silver frame.', 'A third kit.', 'A start with a relic once found, and a gold frame.'],
+  // the rung of the ladder past Hard the last stage asks for
+  topRung: 3,
+  // the portrait's frame at each stage, from none
+  frames: ['', 'bronze', 'bronze', 'silver', 'silver', 'gold'],
+  names: {
+    fighter: ['Blooded', 'Veteran', 'Blademaster', 'Champion', 'Swordsaint'],
+    cleric: ['Novice', 'Chaplain', 'High Priest', 'Hierophant', 'Saint of the Deep'],
+    mage: ['Apprentice', 'Magus', 'Archmage', 'Thaumaturge', 'Grand Magister'],
+    thief: ['Footpad', 'Burglar', 'Shadowmaster', 'Nightblade', 'The Unseen'],
+    ranger: ['Tracker', 'Pathfinder', 'Deepstalker', 'Huntmaster', 'Lantern of the Deep'],
+    druid: ['Initiate', 'Thornkin', 'Archdruid', 'Stormcaller', 'Old Root'],
+  },
+};
+
 const XP_TABLE = [0, 45, 120, 265, 540, 1020, 1800, 3000, 4800, 7400, 11000, 16200, 22800];
 const MAX_LEVEL = 12;
 
@@ -1284,4 +1307,4 @@ const WICK = {
   },
 };
 
-export { WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };
+export { MASTERY, WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };

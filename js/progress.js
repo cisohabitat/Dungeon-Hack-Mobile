@@ -3,7 +3,7 @@
 // Kept on this device under one key, like the Hall of Heroes and the
 // bestiary, and read afresh each time so there is no state to go stale.
 
-import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK, JOURNAL } from './data.js';
+import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK, JOURNAL, MASTERY } from './data.js';
 import { RELICS, toCollect } from './relics.js';
 import { COMBOS } from './combos.js';
 
@@ -135,6 +135,29 @@ function bgOpen(id, v = load()) {
 const rungOpen = (cls, v = load()) => (CLASSES[cls] && hasWon(cls, 'hard', v) ? Math.min(LADDER.length - 1, (v.rungs[cls] || 0) + 1) : 0);
 /** A class's second kit is open once it has won on Normal or Hard. */
 const kitOpen = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].altKit && (hasWon(cls, 'normal', v) || hasWon(cls, 'hard', v));
+/**
+ * A class's stage on the mastery track (MASTERY in data.js), from 0 to 5: a win, a win on Normal or
+ * Hard, a win on Hard, a win with both its paths, a win on Hard+3; each needs the one before.
+ */
+const STAGE_NEEDS = [
+  (cls, v) => !!highest(cls, v),
+  (cls, v) => hasWon(cls, 'normal', v) || hasWon(cls, 'hard', v),
+  (cls, v) => hasWon(cls, 'hard', v),
+  (cls, v) => mastered(cls, v),
+  (cls, v) => (v.rungs[cls] || 0) >= MASTERY.topRung,
+];
+function stage(cls, v = load()) {
+  if (!CLASSES[cls]) return 0;
+  let n = 0;
+  while (n < STAGE_NEEDS.length && STAGE_NEEDS[n](cls, v)) n++;
+  return n;
+}
+/** The name of a class's stage n (1 to 5). */
+const stageName = (cls, n) => (MASTERY.names[cls] || [])[n - 1] || '';
+/** What reaching stage n (1 to 5) asks, said for the class. */
+const stageNeed = (cls, n) => (MASTERY.needs[n - 1] || '').replace('{cls}', CLASSES[cls] ? CLASSES[cls].name : cls);
+/** The frame a class's portrait wears: '', 'bronze', 'silver' or 'gold'. */
+const frameOf = (cls, v = load()) => MASTERY.frames[stage(cls, v)] || '';
 /** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
 const houndOpen = (v = load()) => !!v.feats.veteran;
 /**
@@ -174,6 +197,8 @@ function nextGoals(v = load(), cls = '', deepest = 8) {
   for (const c of order) if (CLASSES[c].altKit && !kitOpen(c, v) && (hasWon(c, 'easy', v) || c === cls)) add(`${CLASSES[c].altKit.name} (${CLASSES[c].name})`, `Win as a ${CLASSES[c].name} on Normal or Hard`);
   // a class one path from mastered
   for (const c of order) if (PATHS[c] && pathsWon(c, v) === 1 && !mastered(c, v)) { const left = PATHS[c].find(x => !v.paths[x.id]); if (left) add(`${CLASSES[c].name} mastered`, `Win as a ${left.name}`); }
+  // the next stage on the mastery track of the class just played, past its second kit
+  if (CLASSES[cls]) { const n = stage(cls, v) + 1; if (n >= 3 && n <= 5) add(`${stageName(cls, n)} (${CLASSES[cls].name})`, stageNeed(cls, n).replace(/\.$/, '')); }
   // the first thing still shut
   for (const u of unlocks(v)) if (!u.open) add(u.name, u.how.replace(/\.$/, ''));
   // a feat not yet done, the endings last
@@ -187,7 +212,7 @@ function nextGoals(v = load(), cls = '', deepest = 8) {
  * A run won: count it, and say what is new. Daily runs count like any other.
  * A path won with counts at any difficulty; a vow kept, or a feat, on Normal or Hard.
  * @param {{path?: string, vows?: string[], rung?: number, levels?: number, route?: string, jobs?: number, veteran?: boolean, shapes?: number, ending?: string}} [how]
- * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, mastered: boolean, firstVows: string[], firstFeats: string[], vowsOpened: boolean, rungOpened: number}}
+ * @returns {{first: boolean, cls: string, difficulty: string, unlocked: string[], firstPath: string, mastered: boolean, firstVows: string[], firstFeats: string[], vowsOpened: boolean, rungOpened: number, stageReached: number}}
  */
 const WILDHEART = 30;
 function recordWin(cls, difficulty, how = {}) {
@@ -195,7 +220,7 @@ function recordWin(cls, difficulty, how = {}) {
   const v = load();
   const wasOpen = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v)), vowsWere = vowsOpen(v);
   const first = !hasWon(cls, d, v);
-  const rungWas = rungOpen(cls, v);
+  const rungWas = rungOpen(cls, v), stageWas = stage(cls, v);
   if (CLASSES[cls]) {
     v.won[cls] = v.won[cls] || {};
     v.won[cls][d] = (v.won[cls][d] || 0) + 1;
@@ -218,7 +243,7 @@ function recordWin(cls, difficulty, how = {}) {
   if (CLASSES[cls] && rung > (v.rungs[cls] || 0)) v.rungs[cls] = rung;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
-  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v), rungOpened: rungOpen(cls, v) > rungWas ? rungOpen(cls, v) : 0 };
+  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v), rungOpened: rungOpen(cls, v) > rungWas ? rungOpen(cls, v) : 0, stageReached: stage(cls, v) > stageWas ? stage(cls, v) : 0 };
 }
 /** A relic picked up or bought goes in the codex; true the first time. */
 function noteRelic(id) {
@@ -344,5 +369,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, stage, stageName, stageNeed, frameOf, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

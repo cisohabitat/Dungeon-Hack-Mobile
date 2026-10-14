@@ -1,4 +1,4 @@
-import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS } from './data.js';
+import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS, MASTERY } from './data.js';
 import { Assets } from './assets.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
@@ -155,6 +155,15 @@ function renderTrophies() {
     const done = Progress.mastered(cls, v), what = `${CLASSES[cls].name} mastered: ${done ? 'won with both its paths' : `win with both its paths (${Progress.pathsWon(cls, v)} of 2 so far)`}`;
     return `<span class="cell mastery${done ? ' won' : ''}" data-trophy="mastery-${cls}" role="button" tabindex="0" aria-label="${what}" title="${what}">✦</span>`;
   })()].join(''));
+  // and each class's mastery track: five stages, each lit once reached, each saying what it opens
+  const stageRows = Object.keys(CLASSES).map(cls => {
+    const at = Progress.stage(cls, v);
+    return [`<span class="tcls">${CLASSES[cls].name}</span>`, ...[1, 2, 3, 4, 5].map(n => {
+      const name = Progress.stageName(cls, n), opens = MASTERY.opens[n - 1];
+      const what = `${CLASSES[cls].name}, stage ${n}, ${name}: ${n <= at ? 'reached' : Progress.stageNeed(cls, n)} Opens: ${opens}`;
+      return `<span class="stagecell${n <= at ? ' won' : ''}" data-trophy="stage-${cls}-${n}" role="button" tabindex="0" aria-label="${escapeHtml(what)}" title="${escapeHtml(what)}">${escapeHtml(name)}</span>`;
+    })].join('');
+  });
   // and each vow kept, dim until a Hard win opens them
   const open = Progress.vowsOpen(v);
   const vowCells = Object.keys(VOWS).map(id => {
@@ -177,6 +186,7 @@ function renderTrophies() {
     + (near.length ? `<p class="trophy-near">Nearest: ${near.map(g => `<b>${escapeHtml(g.what)}</b> (${escapeHtml(g.how)})`).join(' · ')}</p>` : '')
     + `<div class="trophy-grid">${head.join('')}${rows.join('')}</div>`
     + `<div class="trophy-sub">Paths <small>(both won: the class mastered, ✦)</small></div><div class="trophy-grid paths">${pathRows.join('')}</div>`
+    + `<div class="trophy-sub">Mastery <small>(five stages a class, each opening something)</small></div><div class="trophy-grid stages">${stageRows.join('')}</div>`
     + `<div class="trophy-sub">Vows${open ? '' : ' <small>(open after a win on Hard)</small>'}</div><div class="trophy-grid vows">${vowCells.join('')}</div>`
     + `<div class="trophy-sub">Feats</div><div class="trophy-grid vows">${featCells.join('')}</div>`
     + `<div class="trophy-sub">Unlocked <small>(${opened.filter(u => u.open).length} of ${opened.length}: new ways to begin)</small></div><div class="trophy-grid vows unlocks">${unlockCells.join('')}</div>`
