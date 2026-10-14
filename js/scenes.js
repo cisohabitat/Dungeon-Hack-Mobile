@@ -91,9 +91,9 @@ export function makeScenes(K) {
   // holds is its own, dealt from the seed and where it stands, so breaking
   // it after a reload finds the same: a little gold, a meal now and then, a
   // draught very rarely, most often nothing at all.
-  const SMASHABLE = ['barrel', 'crate', 'urn', 'oilcask'];
-  const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters', oilcask: 'The cask\'s staves give way' };
-  const KICK_WORDS = { barrel: 'You kick the barrel over and its staves give way', crate: 'You kick the crate over and it splinters', urn: 'You knock the urn over and it shatters', oilcask: 'You kick the cask over and its staves give way' };
+  const SMASHABLE = ['barrel', 'crate', 'urn', 'oilcask', 'chest'];
+  const SMASH_WORDS = { barrel: 'The barrel\'s staves give way', crate: 'The crate splinters apart', urn: 'The urn shatters', oilcask: 'The cask\'s staves give way', chest: 'The old chest\'s lid splits under the blow' };
+  const KICK_WORDS = { barrel: 'You kick the barrel over and its staves give way', crate: 'You kick the crate over and it splinters', urn: 'You knock the urn over and it shatters', oilcask: 'You kick the cask over and its staves give way', chest: 'You kick the old chest and its rotten lid gives' };
   // A third of the barrels about the dungeon hold lamp oil (see elements.js),
   // chosen from dice of their own when a floor is first made, so every other
   // barrel, and the floor, fall as they always did.
@@ -104,10 +104,29 @@ export function makeScenes(K) {
     for (const q of L.dressing || []) if (q.k === 'barrel' && rng.next() < OIL_CASKS) q.k = 'oilcask';
     stockLampOil(L, depth);
   }
+  // From the second floor, half the secret vaults keep their gold and their best find in an old
+  // chest in the middle of the vault, which a blow or a kick breaks open. Dice of their own, as soon
+  // as the floor is made, so its other dice fall as they did; and before anything laid for the hero's
+  // class (a relic, a robe, a focus), so the chests are the same whoever comes.
+  const VAULT_CHEST = 0.5;
+  /** @param {import('./types.js').Level} L */
+  function chestLevel(L, depth) {
+    if (depth < 2 || L.isFinal) return;
+    (L.vaults || []).forEach((v, i) => {
+      if (new Rng(`${K.G.seed}|chest|${depth}|${i}`).next() >= VAULT_CHEST) return;
+      if (L.monsters.some(m => m.x === v.x && m.y === v.y) || (L.dressing || []).some(q => q.x === v.x && q.y === v.y)) return;
+      const mid = key(v.x, v.y), far = key(v.x + v.dx, v.y + v.dy);
+      const loot = [...(L.items[mid] || []), ...(L.items[far] || [])];
+      // (a vault that was given the floor's relic keeps it in plain sight, where it was laid)
+      if (!loot.length || loot.some(it => it.u || it.t === 'artifact')) return;
+      delete L.items[mid]; delete L.items[far];
+      (L.dressing = L.dressing || []).push({ k: 'chest', x: v.x, y: v.y, ox: 0, oy: 0, loot });
+    });
+  }
   // Now and then, on the middle floors, one barrel in a room away from the
   // stairs is a mimic (foes.js), chosen from dice of its own when the floor is
   // made, so the floor's other dice fall as they did. It takes the barrel's place.
-  const MIMIC_CHANCE = 0.35;
+  const MIMIC_CHANCE = 0.35, CHEST_MIMIC = 0.5;
   /** @param {import('./types.js').Level} L */
   function mimicLevel(L, depth) {
     const tier = Dungeon.tierAt(depth, K.G.opts.levels || 8);
@@ -115,6 +134,16 @@ export function makeScenes(K) {
     if (tier < 3 || tier > 7 || L.isFinal || (THEMES[L.theme] && THEMES[L.theme].people)) return;
     const rng = new Rng(`${K.G.seed}|mimic|${depth}`);
     if (rng.next() >= MIMIC_CHANCE) return;
+    // where a vault keeps a chest, half the time the mimic is the chest, and what the chest held
+    // it holds, until it falls (a die of its own, so a floor without a chest is as it was)
+    const chest = (L.dressing || []).find(q => q.k === 'chest');
+    if (chest && new Rng(`${K.G.seed}|mimic-chest|${depth}`).next() < CHEST_MIMIC) {
+      L.dressing.splice(L.dressing.indexOf(chest), 1);
+      const mb = MONSTERS.mimic, hp = rng.dice(mb.hp[0], mb.hp[1], mb.hp[2]) + Math.floor((depth - 1) / 2);
+      L.monsters.push({ uid: depth * 1000 + 990, id: 'mimic', x: chest.x, y: chest.y, hp, maxHp: hp, awake: false, disguised: true, disguise: 'chest', hoard: chest.loot || [],
+        dox: 0, doy: 0, nextAct: 0, rx: chest.x, ry: chest.y, fromX: chest.x, fromY: chest.y, moveT0: 0, moveT1: 0, flashUntil: 0 });
+      return;
+    }
     const ends = [L.start, L.stairsUp, L.stairsDown].filter(Boolean);
     const roomOf = (x, y) => (L.roomId ? L.roomId[y * L.w + x] : -1);
     const startRooms = new Set(ends.map(e => roomOf(e.x, e.y)).filter(r => r >= 0));
@@ -300,6 +329,15 @@ export function makeScenes(K) {
     if (K.realNow >= fx.shakeUntil) { fx.shakeAmp = 2; fx.shakeMs = 120; fx.shakeUntil = K.realNow + K.fxDelay + 120; }
     if (fx.bits.length > BITS_MAX) fx.bits.splice(0, fx.bits.length - BITS_MAX);
     Sound.play('smash', heard(d));
+    // a chest spills what it was keeping, and nothing else
+    if (d.k === 'chest') {
+      const held = d.loot || [];
+      if (held.length) (L.items[key(d.x, d.y)] = L.items[key(d.x, d.y)] || []).push(...held);
+      const gold = held.filter(it => it.t === 'gold').reduce((a, it) => a + it.q, 0);
+      if (gold) floatText({ rx: cx - 0.5, ry: cy - 0.5 }, `+${gold}`, '#ffd24a');
+      if (!burst) log(`${(kicked ? KICK_WORDS : SMASH_WORDS).chest}${!held.length ? ': it was empty.' : gold && held.length > 1 ? `, and ${gold} gold and more spill out.` : gold ? `, and ${gold} gold spills out.` : ', and something rolls out.'}`, held.length ? 'good' : '');
+      return;
+    }
     const rng = new Rng(`${K.G.seed}|smash|${K.G.depth}|${d.x},${d.y}`), r = rng.next();
     /** @type {import('./types.js').Item|null} */
     let found = null;
@@ -319,5 +357,5 @@ export function makeScenes(K) {
   function sparks(m) { spray(m, 'spark', 0.05, false); }
 
 
-  return { BITS_MAX, GORE, GORE_OF, caskLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil };
+  return { BITS_MAX, GORE, GORE_OF, caskLevel, chestLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil };
 }

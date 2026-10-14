@@ -60,6 +60,17 @@ const DRESSING = {
     limb(16, 32, 46, 32, 0.6, 0.6, '#9a9ea8', { lit: 1 }), hair(18, 31.5, 44, 31.5, '#c8ccd4'),
     limb(17, 34, 9, 36, 2.4, 0.6, IRON_LIGHT), specks([[30, 37], [38, 38], [24, 35]], '#4a4e56'),
   ],
+  // an old iron-bound chest, its lid domed, a hasp and lock on its front, seen a little from above
+  chest: () => [
+    sheet([[15, 40], [49, 40], [49, 62], [15, 62]], '#6a4426', { tilt: [0, 0.1] }),
+    sheet([[15, 40], [49, 40], [47, 30], [42, 26], [22, 26], [17, 30]], '#8a5a32', { curve: 0.8, tilt: [0, -0.6] }),
+    ...[30, 35].map(y => hair(18 + (40 - y) * 0.2, y, 46 - (40 - y) * 0.2, y, '#6a4426')),
+    ...[19, 32, 45].flatMap(x => [limb(x, 27 + Math.abs(x - 32) * 0.15, x, 62, 1.1, 1.1, IRON), hair(x - 0.6, 30, x - 0.6, 60, IRON_LIGHT)]),
+    limb(15, 40, 49, 40, 0.9, 0.9, IRON), hair(16, 39.5, 48, 39.5, IRON_LIGHT), limb(15, 62, 49, 62, 0.8, 0.8, WOOD_DARK),
+    sheet([[29, 40], [35, 40], [35, 48], [29, 48]], '#b8902a'), ball(32, 44, 1.2, 1.6, '#2a1a10'), hair(30, 41, 34, 41, '#e8c050'),
+    ...[[22, 50], [40, 54], [26, 58], [44, 46]].map(([x, y]) => hair(x, y, x + 3, y + 0.5, '#4e3018')),
+    specks([[17, 61], [47, 61], [24, 32], [40, 31]], '#c8a070'),
+  ],
   // a slatted crate, braced corner to corner, seen a little from above
   crate: () => [
     sheet([[16, 34], [48, 34], [48, 62], [16, 62]], '#8a6a40', { tilt: [0, 0.1] }),
@@ -170,7 +181,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { anvil: 0.5, snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, shackles: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { chest: 0.6, anvil: 0.5, snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, shackles: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

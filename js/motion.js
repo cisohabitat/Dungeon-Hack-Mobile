@@ -204,7 +204,8 @@ export function makeMotion(K) {
       } else { m.rx = m.x; m.ry = m.y; }
       // a mimic still shut is drawn as the barrel it seems, where the barrel stood
       if (m.disguised) {
-        if (Assets.sprites.dress_barrel) sprites.push({ x: m.x + 0.5 + (m.dox || 0), y: m.y + 0.5 + (m.doy || 0), img: Assets.sprites.dress_barrel, scale: DRESS_SIZE.barrel || 0.66, yOff: 0, onFloor: true, dress: true });
+        const seems = m.disguise || 'barrel', img = Assets.sprites['dress_' + seems];
+        if (img) sprites.push({ x: m.x + 0.5 + (m.dox || 0), y: m.y + 0.5 + (m.doy || 0), img, scale: DRESS_SIZE[seems] || 0.66, yOff: 0, onFloor: true, dress: true });
         continue;
       }
       // a drowned one under the water shows only as a ripple that does not settle

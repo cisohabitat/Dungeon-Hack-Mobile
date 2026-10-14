@@ -843,7 +843,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0; p.dazzled = 0; p.hexed = null;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); chestLevel(G.levels[depth], depth); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
     G.depth = depth;
     // the view comes up out of the dark of the stair (see drawArrival in the renderer)
     fx.arriveAt = realNow;
@@ -1448,7 +1448,7 @@ const Game = (() => {
     get breaksBones() { return breaksBones; }, get buffAmount() { return buffAmount; }, get buffDuration() { return buffDuration; },
     get buildLooks() { return buildLooks; }, get burnLine() { return elements.burnLine; }, get burnWeb() { return burnWeb; },
     get buzz() { return buzz; }, get cam() { return cam; }, get camProgress() { return camProgress; }, get cap() { return cap; },
-    get capped() { return capped; }, get caskLevel() { return caskLevel; },
+    get capped() { return capped; }, get caskLevel() { return caskLevel; }, get chestLevel() { return chestLevel; },
     get castingName() { return castingName; }, set castingName(v) { castingName = v; }, get checkBonus() { return checkBonus; },
     get checkChance() { return checkChance; }, get checkLevelUp() { return checkLevelUp; }, get checkTile() { return checkTile; },
     get claimHeart() { return claimHeart; }, className: cls => CLASSES[cls].name, get clearFx() { return clearFx; }, get climbed() { return climbed; },
@@ -1726,7 +1726,7 @@ const Game = (() => {
   const { BELT, STUDY_DC, aThing, beltRoom, canEquip, dropItem, equip, floorItems, giveItem, heartHeld, itemName, keeper, pickupAll, removeOne, spareToPack, spriteFor, study, studyReason, takeHere, takeItem, takeable, throwArm, unequip, useItem, uselessToClass, vitals, wasteReason } = makeItems(K);
 
   // ---------- scenes: see scenes.js ----------
-  const { BITS_MAX, GORE, GORE_OF, caskLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil } = makeScenes(K);
+  const { BITS_MAX, GORE, GORE_OF, caskLevel, chestLevel, look, mimicLevel, notePieces, pieceLevel, propAt, smash, sparks, spray, stockLampOil } = makeScenes(K);
 
   // ---------- curses: see curses.js ----------
   const { bound, breakCurses, cap, cursedWorn, farthestFloor, hiddenGear, isGear, layRelic, placeCloaks, placeJewellery, placeRelics, placeRobes, qualityHidden, revealAll, shelfHolds, tellQuality } = makeCurses(K);

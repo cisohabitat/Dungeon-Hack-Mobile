@@ -50,7 +50,7 @@ export function makeTips({ asideWay, canStep }) {
     stamp: 'The <b>Heartforged</b> has its hammer up: when it comes down, fire runs out along the floor down <b>all four of its lines</b>. <b>Step off its lines</b>, to where it would have to turn to face you, and it is left open.',
     flare: 'An <b>emberling</b> is blazing white-hot: it is about to <b>flare</b> and set the stones round it alight. <b>Step two squares off</b>, or strike it with <b>cold</b> to quench it.',
     tremors: 'The ground is shuddering: <b>rock is coming down</b> where the floor is ringed with grit, <b>your square too</b>. Step onto one that is not marked. It falls on your foes as well, and they never look up.',
-    mimic: 'A barrel that <b>creaks</b> with nothing near is a <b>mimic</b>. <b>Strike it from where you stand</b>: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.',
+    mimic: 'A barrel or a chest that <b>creaks</b> with nothing near is a <b>mimic</b>. <b>Strike it from where you stand</b>: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.',
     eyeless: 'An <b>eyeless stalker</b>: it hunts by sound. <b>Stand still</b> and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.',
     fire: '<b>Fire!</b> It spreads over moss and spilt oil and burns whatever stands in it, <b>you too</b>: step out of it. It burns out, and leaves ash that will not burn again.',
     cask: 'An <b>oil cask</b>: the barrel painted red with a flame. Break it and lamp oil spills round it; a fire spell landing on it, or a flaming blow or arrow striking something on it, sets the oil alight.',

@@ -1729,7 +1729,7 @@ export function makeFoes(K) {
     const di = K.distField[m.y * L.w + m.x], beside = Math.abs(m.x - p.x) + Math.abs(m.y - p.y) === 1;
     if (!m.creaked && di >= 0 && di <= MIMIC_CREAK) {
       m.creaked = true;
-      K.log('A barrel nearby creaks, though nothing touched it.');
+      K.log(`A${m.disguise === 'chest' ? ' chest' : ' barrel'} nearby creaks, though nothing touched it.`);
       Sound.play('creak', K.heard(m));
     }
     if (!beside) { m.springAt = 0; return; }
@@ -1747,9 +1747,10 @@ export function makeFoes(K) {
     delete m.disguised; m.springAt = 0;
     m.awake = true; m.blows = 1;
     Sound.play('voice', K.heard(m, { who: m.id }));
-    K.log(why === 'touch' ? `The barrel splits open into a mouth full of teeth: a ${mb.name}, and it lunges for you!`
-      : why === 'struck' ? `The barrel shrieks and heaves open: a ${mb.name}, caught shut by your blow!`
-        : `The barrel yawns open: a ${mb.name}, and it lunges for you!`, why === 'struck' ? 'good' : 'bad');
+    const it = m.disguise === 'chest' ? 'chest' : 'barrel';
+    K.log(why === 'touch' ? `The ${it} ${it === 'chest' ? 'lid gapes' : 'splits open'} into a mouth full of teeth: a ${mb.name}, and it lunges for you!`
+      : why === 'struck' ? `The ${it} shrieks and heaves open: a ${mb.name}, caught shut by your blow!`
+        : `The ${it} yawns open: a ${mb.name}, and it lunges for you!`, why === 'struck' ? 'good' : 'bad');
     K.meet(m, 'trick');
     if (why === 'struck') K.learn(m.id, 'answer');
     m.nextAct = G.t + WAKE_BEAT;

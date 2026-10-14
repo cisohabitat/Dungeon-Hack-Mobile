@@ -562,6 +562,12 @@ export function makeCombat(K) {
       log(`It drops the ${m.loot} gold it took from you.`, 'good');
       learn(m.id, 'answer');
     }
+    // and what a mimic that was a chest held
+    if (m.hoard && m.hoard.length) {
+      const k = key(m.x, m.y);
+      (L.items[k] = L.items[k] || []).push(...m.hoard);
+      log('What the chest was keeping spills out of it.', 'good');
+    }
     // and the deep's own beasts leave something of themselves now and then
     for (const [t, chance] of TROPHIES[m.id] || []) {
       if (rnd() >= chance) continue;

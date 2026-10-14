@@ -303,7 +303,7 @@ export function makeItems(K) {
     for (const [ox, oy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) { const f = elements.fieldAt(spot.x + ox, spot.y + oy); was[`${spot.x + ox},${spot.y + oy}`] = f ? f.k : ''; }
     fx.landings = fx.landings.filter(l => l.at > K.realNow).concat({ x: spot.x, y: spot.y, at: K.realNow + land, was });
     // a mimic still shut takes it as the barrel it seems, and that is a blow to it
-    if (m && m.disguised) { log('The flask smashes on the barrel.', 'info'); spring(m, 'struck'); }
+    if (m && m.disguised) { log(`The flask smashes on the ${m.disguise || 'barrel'}.`, 'info'); spring(m, 'struck'); }
     else log(m && !m.sunk ? `The flask smashes on the ${mstat(m).name}!` : prop ? `The flask smashes on the ${prop.k === 'oilcask' ? 'oil cask' : prop.k}.` : elements.wet(spot.x, spot.y) ? 'The flask smashes into the water.' : 'The flask smashes on the stones.', 'info');
     { const o = heard(spot); K.fxDelay = land; soon(() => Sound.play('smash', o)); K.fxDelay = 0; }
     elements.spill(spot.x, spot.y);

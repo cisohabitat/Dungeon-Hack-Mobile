@@ -925,6 +925,8 @@ const Dungeon = (() => {
       }
     }
     const nVaults = Math.round((rng.int(0, 2) + (depth >= 3 ? 1 : 0)) * reward);
+    /** @type {Array<{x: number, y: number, dx: number, dy: number}>} the middle of each, and which way is in from its door */
+    const vaults = [];
     for (let v = 0, tries = 0; v < nVaults && tries < 40; tries++) {
       const r = rng.pick(plain);
       const s = wallSlot(r);
@@ -942,6 +944,7 @@ const Dungeon = (() => {
       addItem(cx, cy, { t: 'gold', q: rng.int(20, 40) * depth });
       addItem(cx + od[0], cy + od[1], rollLoot(rng, depth + 2));
       addItem(cx - od[1], cy + od[0], rollLoot(rng, depth + 1));
+      vaults.push({ x: cx, y: cy, dx: od[0], dy: od[1] });
       if (rng.chance(0.4)) monsters.push(makeMonster(rng.pick(pool), cx + od[1], cy - od[0]));
       v++;
     }
@@ -1295,7 +1298,7 @@ const Dungeon = (() => {
     const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,
-      theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h, shape: r.R.shape })),
+      theme, isFinal, twist, route, rooms: rooms.map(r => ({ x: r.x, y: r.y, w: r.w, h: r.h, shape: r.R.shape })), vaults,
     };
     if (pieceInfo) L.piece = pieceInfo;
     if (region) L.region = region;

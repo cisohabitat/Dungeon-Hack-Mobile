@@ -152,6 +152,8 @@
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
  * @property {boolean} [disguised]  a mimic still shut, drawn and taken as the barrel it seems (foes.js springs it)
+ * @property {'chest'} [disguise]  what a shut mimic seems, when not a barrel: a vault's chest (scenes.js)
+ * @property {Item[]} [hoard]  what the chest a mimic took the place of was keeping, dropped when it falls
  * @property {boolean} [creaked]  a shut mimic that has creaked as the hero came near: heard, it can be aimed at
  * @property {number} [springAt]  when a shut mimic beside the hero springs, if the hero stays
  * @property {number} [dox]  where in its square the barrel it seems to be stood, across
@@ -261,6 +263,7 @@
  * @property {number} [press]  levels the hero was ahead of the usual on first entering: its creatures are readier
  * @property {Array<{x: number, y: number, w: number, h: number, shape?: string}>} rooms  each room's bounds and its shape (rooms.js: a box, colonnade, cavern, the set piece's kind...)
  * @property {Dressing[]} [dressing]  what lies about the rooms for looks alone (see Dungeon.dress)
+ * @property {Array<{x: number, y: number, dx: number, dy: number}>} [vaults]  each secret vault's middle, and which way is in from its door (absent on a floor made before)
  * @property {Array<{x: number, y: number, k: string, at: number, until: number}>} [remains]  what the fallen left behind, when it fell, and until when (game time)
  * @property {{name: string, cls: string, x: number, y: number, fell?: number, killer?: string}} [bones]  where an earlier hero's bones lie on this floor, if they do, and the floor they fell on
  * @property {boolean} [bonesSaid]  the log has told of them, on the first time down
@@ -274,6 +277,7 @@
  * @property {number} ox @property {number} oy   where on its square, from the middle
  * @property {number} [r]  a puddle's size
  * @property {boolean} [fell]  rubble that came down from the roof on a floor of tremors
+ * @property {Item[]} [loot]  what a vault's chest is keeping, spilt when it is broken open (scenes.js)
  */
 
 /**
@@ -433,6 +437,7 @@
  * @property {*} cap
  * @property {*} capped
  * @property {*} caskLevel
+ * @property {*} chestLevel
  * @property {string} castingName
  * @property {*} checkBonus
  * @property {*} checkChance

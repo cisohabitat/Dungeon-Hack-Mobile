@@ -1096,7 +1096,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *Forge-Thane*: The Forge-Thane of the grey dwarves, older than their hold, his beard bound in copper rings and his hammer the one that made their gates. Two arbalests stand at his back.
 - *High Priestess*: The High Priestess of the dark elves, crowned in silver spiders, who has kept their temple for longer than the Heart has been gone. Her warriors die for her without being asked.
 - *Emberling*: A knot of cooling rock the size of a dog, crusted black and split with cracks that glow like a forge. It lives where the deep floors smoulder, and fire is its home: it barely feels it. Cold hurts it badly.
-- *Mimic*: A thing that has learned to look like a barrel, staves, hoops and all, and waits among the real ones for someone to come and open it.
+- *Mimic*: A thing that has learned to look like a barrel, staves, hoops and all, and waits among the real ones for someone to come and open it. Some have learned to be a vault's chest, and keep what the chest held.
 - *Eyeless Stalker*: A long pale hunter of the dark floors, with no eyes at all: a smooth, blind head and a mouth full of needles. It hears everything.
 - *Puffcap*: A fungus the size of a crouching man, grown up out of the moss on stubby roots. It shuffles after warm things, slowly.
 - *Cave Wyrm*: A young drake of the deepest halls, wingless and heavy, scaled like rusted iron. Fire does little to it; cold bites.
@@ -1150,7 +1150,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *stamp*: The **Heartforged** has its hammer up: when it comes down, fire runs out along the floor down **all four of its lines**. **Step off its lines**, to where it would have to turn to face you, and it is left open.
 - *flare*: An **emberling** is blazing white-hot: it is about to **flare** and set the stones round it alight. **Step two squares off**, or strike it with **cold** to quench it.
 - *tremors*: The ground is shuddering: **rock is coming down** where the floor is ringed with grit, **your square too**. Step onto one that is not marked. It falls on your foes as well, and they never look up.
-- *mimic*: A barrel that **creaks** with nothing near is a **mimic**. **Strike it from where you stand**: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.
+- *mimic*: A barrel or a chest that **creaks** with nothing near is a **mimic**. **Strike it from where you stand**: caught shut, it takes the blow twice over. Touch it, or stand beside it, and it seizes you.
 - *eyeless*: An **eyeless stalker**: it hunts by sound. **Stand still** and it loses you (turning on the spot makes no sound). Every step, blow or spell tells it where you are.
 - *fire*: **Fire!** It spreads over moss and spilt oil and burns whatever stands in it, **you too**: step out of it. It burns out, and leaves ash that will not burn again.
 - *cask*: An **oil cask**: the barrel painted red with a flame. Break it and lamp oil spills round it; a fire spell landing on it, or a flaming blow or arrow striking something on it, sets the oil alight.

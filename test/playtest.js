@@ -910,6 +910,12 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const [x, y] = k.split(',').map(Number), d = reach[y * L.w + x];
         if (d > 0 && d < gd) { gd = d; goal = y * L.w + x; }
       }
+      // a vault's chest is a find as much as what lies loose: walking into it kicks it open
+      for (const q of L.dressing || []) {
+        if (q.k !== 'chest') continue;
+        const d = reach[q.y * L.w + q.x];
+        if (d > 0 && d < gd) { gd = d; goal = q.y * L.w + q.x; }
+      }
       if (goal < 0 && seen < fl.open * EXPLORE) {
         for (let i = 0; i < reach.length; i++) if (reach[i] > 0 && !fl.seen[i] && reach[i] < gd) { gd = reach[i]; goal = i; }
       }
