@@ -16,14 +16,18 @@ module.exports = async function endingChecks(h) {
     return { ctx, Game, heart, L, k };
   };
 
-  await test('the kept smith waits on the floor before the last of a delve of four floors or more, and never in the deck', async () => {
+  await test('the kept smith waits on the floor before the last of a delve of four floors or more (a floor further up on a long delve, whose floor before the keeper keeps the smiths\' forge), and never in the deck', async () => {
     const out = [];
     const { encounterPlan } = await import('../js/encounters.js');
     for (const levels of [2, 4, 6, 8, 12, 16]) for (let s = 0; s < 6; s++) {
       const plan = encounterPlan('smith-' + s, levels), where = plan.map((ids, d) => (ids || []).filter(id => id === 'smith').length ? d : 0).filter(Boolean);
-      const want = levels >= 4 ? [levels - 1] : [];
+      const want = levels >= 12 ? [levels - 2] : levels >= 4 ? [levels - 1] : [];
       if (JSON.stringify(where) !== JSON.stringify(want)) out.push(`${levels} floors: the smith on floors ${where}, not ${want}`);
       if (plan.some(ids => (ids || []).includes('heart'))) out.push(`${levels} floors: the Heart's choice was dealt`);
+      const { Dungeon } = await import('../js/dungeon.js');
+      const pieces = Dungeon.piecePlan('smith-' + s, levels);
+      if (levels >= 12 && pieces[levels - 1] !== 'forge') out.push(`${levels} floors: the floor before the keeper holds a ${pieces[levels - 1]}, not the forge`);
+      if (Object.entries(pieces).some(([d, k]) => k === 'forge' && !(levels >= 12 && +d === levels - 1))) out.push(`${levels} floors: the forge elsewhere`);
     }
     return out.length ? out.join('; ') : true;
   });

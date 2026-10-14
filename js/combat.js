@@ -492,6 +492,12 @@ export function makeCombat(K) {
     if (mb.boss) { bossFalls(m); log(m.id === 'warlord' ? 'The Warrens fall quiet. The Heart of the Mountain lies unguarded among the plunder.' : m.id === 'heartforged' ? 'The Heart of the Mountain rolls out of the slag, still burning, and lies unguarded where it was made.' : 'The dread presence lifts. The Heart of the Mountain is unguarded.', 'good'); }
     if (mb.named) namedFalls(m, mb);
     if (m.shade) shadeFalls(m);
+    // a warband's leader down (dungeon.js), the rest of it breaks and scatters
+    if (m.leader) {
+      const band = L.monsters.filter(o => o.follows === m.uid);
+      for (const o of band) { o.follows = 0; o.fleeing = true; o.awake = true; o.windup = null; o.volley = null; }
+      if (band.length) log(`With the ${mb.name} down, the rest of its warband breaks and scatters!`, 'good');
+    }
     snaresSlack(m);
     // an emberling bursts as it dies, and its square burns a moment
     if (m.id === 'emberling') { elements.flame(m.x, m.y, 3000); log(`The ${mb.name} bursts in a gout of flame as it dies.`, 'bad'); }

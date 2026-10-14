@@ -266,7 +266,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   uses its trick twice as often, Rabid never flees.
 - [x] **Threads that land** (D14): the spared goblin fights beside you once; the paid toll's
   guide; the offering's fountain; the shared meal's page.
-- [ ] **The Long Delve's dead stretches** (D16): a marked pack leader on floor 2 or 3 of 16;
+- [x] **The Long Delve's dead stretches** (D16): a marked pack leader on floor 2 or 3 of 16;
   the smith a floor up; the floor before the keeper with a set piece of its own.
 - [ ] **What the genre expects**: a pack with a leader whose fall scatters it; a thief that
   steals; a creature that fetches help; a mimic of a chest; blind, slow and silence; a cursed

@@ -803,8 +803,10 @@ function encounterPlan(seed, levels, tierAt = d => d, scale = 1) {
   if (levels >= 3 && new Rng(String(seed) + '|stray').next() < 2 / 3) plan[2].push('stray');
   else if (levels >= 5) plan[Math.min(levels - 1, Math.max(3, Math.round(levels / 2)))].push('caged');
   // the kept smith, on the floor before the last of any delve of four floors or more
-  // (placed after the deck has dealt, so its draws fall as they did)
-  if (levels >= 4) plan[levels - 1].push('smith');
+  // (placed after the deck has dealt, so its draws fall as they did); on a long delve a
+  // floor further up, so the floor after the dark elves' is not his and nothing else's,
+  // and it keeps his old forge instead (piecePlan in dungeon.js)
+  if (levels >= 4) plan[levels >= 12 ? levels - 2 : levels - 1].push('smith');
   return plan;
 }
 

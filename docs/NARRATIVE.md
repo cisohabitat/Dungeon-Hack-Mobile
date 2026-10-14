@@ -252,6 +252,8 @@ A crew's reading, under the claw-marks: once warm water came up from below. Eggs
 - *cistern, pillared*: An old cistern. Pillars stand in shallow water, which carries lightning and freezes under cold.
 - *cistern, brimming*: A cistern brimming over: water across the whole floor, and old casks fetched up against the pillars. It carries lightning and freezes under cold.
 - *cistern, silted*: An old cistern, mostly silted up: pale toadstools grow in the mud, and only a few pools are left.
+- *forge, cold*: The old smiths' forge: a row of hearths in the back wall, cold a long while, anvils worn hollow, and a trough of black water for the quench. They left something by the doors.
+- *forge, banked*: The old smiths' forge. One hearth is still banked, the fire low in it after all this time, as if someone meant to come back. They left something by the doors.
 - *rubble, fallen*: Half this hall has come down. Something was left at the back of the fallen stone.
 - *rubble, buried*: The roof came down on someone here: bones show among the fallen stone. Something was left at the back of it.
 - *rubble, shored*: Someone tried to shore this fallen hall up with crates and casks, and gave up. Something was left at the back of the stone.

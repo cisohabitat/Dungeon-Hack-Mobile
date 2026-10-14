@@ -62,7 +62,7 @@ function lookOf(L, theme = {}) {
       const r = piece.r;
       if (piece.kind === 'shrine') floor[i] = x === r.x + (r.w >> 1) && y === r.y + (r.h >> 1) ? FLOOR.ALTAR : FLOOR.MOSAIC;
       else if (piece.kind === 'cistern') floor[i] = FLOOR.WATER;
-      else if (piece.kind === 'rubble') floor[i] = FLOOR.RUBBLE;
+      else if (piece.kind === 'rubble' || piece.kind === 'forge') floor[i] = FLOOR.RUBBLE;
       else if (piece.kind === 'cells') {
         // the aisle runs down the middle of the long way; the cells lie either side of it
         const aisle = r.w > r.h ? y === r.y + (r.h >> 1) : x === r.x + (r.w >> 1);

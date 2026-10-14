@@ -1431,6 +1431,8 @@ export function makeFoes(K) {
     // (the Warlord on his throne fights on from it, but does not leave it)
     if (m.wardUntil > G.t && mb.boss && !m.throne) { m.nextAct = m.wardUntil; return; }
     const di = K.distField[m.y * L.w + m.x];
+    // a warband wakes as its leader does (dungeon.js)
+    if (!m.awake && m.follows && L.monsters.some(o => o.uid === m.follows && o.awake)) { m.awake = true; m.nextAct = G.t + WAKE_BEAT; return; }
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
     // the first floor's grace (game.js): what is awake waits for the hero's first step or blow
     if (G.graceUntil > G.t) return;

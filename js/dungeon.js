@@ -6,6 +6,9 @@ import { BUILDS, PIECE_IDS, PIECE_VARIANTS, roomShape, piece, sanctum } from './
 
 /** Creatures that go about in twos and threes. */
 const PACK_KINDS = ['goblin', 'rat', 'skeleton', 'bat', 'drow_warrior'];
+// the kinds that go about as a warband behind a champion of their own (see generate), and how often a floor has one
+const WARBAND_KINDS = ['goblin', 'rat', 'skeleton', 'orc', 'pikeman', 'kobold', 'zombie'];
+const WARBAND_CHANCE = 0.25;
 /**
  * The peoples of the deep, each holding one floor of a long enough delve and
  * nobody else on it: who they are (and how many of each, by weight), the
@@ -96,6 +99,9 @@ function piecePlan(seed, levels) {
   /** @type {Record<number, string>} */
   const plan = {};
   for (let d = 1; d <= levels; d++) plan[d] = deck[(d - 1) % deck.length];
+  // a long delve's floor before its keeper has a set piece of its own: the old smiths' forge,
+  // which the kept smith has left for a floor up (encounterPlan)
+  if (levels >= 12) plan[levels - 1] = 'forge';
   return plan;
 }
 
@@ -1231,6 +1237,61 @@ const Dungeon = (() => {
     // two roads have their own (the roads' come after the last floor's in THEMES)
     const FINAL = THEMES.findIndex(t => t.final);
     const theme = isFinal ? FINAL : people ? THEMES.findIndex(t => t.people === people) : region ? THEMES.findIndex(t => t.region === region) : route ? ROUTES[route].theme : (depth - 1) % FINAL;
+    // ---- a warband ----
+    // From the second floor down, now and then, one of a floor's own creatures leads
+    // others of its kind: a champion with a mark (tinted, and named for it), with two
+    // of them (three from the fifth floor) close about it. They wake with it, and when
+    // it falls they break and scatter (combat.js). On a sixteen-floor delve one always
+    // waits on its second or third floor, where the long climb down was long and empty.
+    // Its own dice, and as many bodies taken from elsewhere as it brings, so a floor
+    // holds about as many as before.
+    if (depth >= 2 && !isFinal && !people) {
+      const lrng = new Rng(`${seed}|warband|${depth}`);
+      const levels = opts.levels || 8;
+      const sure = levels >= 16 && depth === (new Rng(`${seed}|warband-floor`).chance(0.5) ? 2 : 3);
+      if (sure || lrng.chance(WARBAND_CHANCE)) {
+        const free = (x, y) => tiles[idx(x, y)] === T.FLOOR && !occupied.has(idx(x, y));
+        // (laid last, so nothing laid after it thins it; never a champion's lair, nor its guard)
+        const byChampion = m => monsters.some(o => MONSTERS[o.id].named && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= 6);
+        const lone = m => !m.elite && !m.pack && !MONSTERS[m.id].boss && !MONSTERS[m.id].named && !byChampion(m) && roomId[idx(m.x, m.y)] >= 0 && roomId[idx(m.x, m.y)] !== startRoom.id;
+        // (the sixteen-floor delve's own takes whatever lone creature it can, if none of the usual kinds is about)
+        const leaders = monsters.filter(m => WARBAND_KINDS.includes(m.id) && lone(m));
+        const pool = leaders.length ? leaders : sure ? monsters.filter(lone) : [];
+        const m = pool.length ? lrng.pick(pool) : null;
+        if (m) {
+          const spots = [];
+          for (let r = 1; r <= 2 && spots.length < 3; r++) for (const [dx, dy] of [[r, 0], [-r, 0], [0, r], [0, -r], [r, r], [-r, -r], [r, -r], [-r, r]]) {
+            const x = m.x + dx, y = m.y + dy;
+            if (spots.length < 3 && free(x, y) && roomId[idx(x, y)] === roomId[idx(m.x, m.y)]) spots.push([x, y]);
+          }
+          // (a crowded room: the passage by it will do)
+          for (let r = 1; r <= 2 && spots.length < 2; r++) for (const [dx, dy] of [[r, 0], [-r, 0], [0, r], [0, -r]]) {
+            const x = m.x + dx, y = m.y + dy;
+            if (spots.length < 2 && free(x, y) && !spots.some(([sx, sy]) => sx === x && sy === y)) spots.push([x, y]);
+          }
+          const n = Math.min(spots.length, depth >= 5 ? 3 : 2);
+          if (n >= 2) {
+            m.elite = lrng.pick(ELITES).prefix;
+            const e = ELITES.find(x => x.prefix === m.elite);
+            m.maxHp = Math.round(m.maxHp * e.hp); m.hp = m.maxHp;
+            m.leader = true;
+            for (let k = 0; k < n; k++) {
+              const f = makeMonster(m.id, spots[k][0], spots[k][1], lrng);
+              f.follows = m.uid;
+              monsters.push(f);
+              // one lone body from elsewhere for each it brings: the weakest, never a champion or a pack
+              const gone = monsters.filter(o => o !== m && !o.follows && !o.elite && !o.pack && !o.leader && !MONSTERS[o.id].named && !byChampion(o)).sort((a, b) => MONSTERS[a.id].xp - MONSTERS[b.id].xp)[0];
+              if (gone) { monsters.splice(monsters.indexOf(gone), 1); occupied.delete(idx(gone.x, gone.y)); }
+            }
+          }
+        }
+      }
+    }
+
+    // a warband thinned by what was laid after it (a shop's room cleared, a lair, a sleeper)
+    // is a warband no longer below two: its champion fights on alone, and the rest as any do
+    for (const m of monsters) if (m.leader && monsters.filter(o => o.follows === m.uid).length < 2) m.leader = false;
+    for (const o of monsters) if (o.follows && !monsters.some(m => m.uid === o.follows && m.leader)) delete o.follows;
     const L = {
       depth, w, h, tiles, roomId, explored: new Array(w * h).fill(0),
       items, monsters, npcs, traps, locks, features, lights, start, downStart, stairsUp: { x: upSlot.x, y: upSlot.y }, stairsDown,

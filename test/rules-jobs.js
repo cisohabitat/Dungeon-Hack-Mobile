@@ -258,6 +258,14 @@ await test('each set piece comes in versions, dealt by the seed, each with its o
     // and what lies in it is laid where the floor's dressing puts it
     for (const q of pc.props) if (q.k !== 'puddle' && !(L.dressing || []).some(r => r.x === q.x && r.y === q.y && r.k === q.k)) { out.push(`${key}: its ${q.k} was not laid`); break; }
   }
+  // the forge is no floor's but a long delve's floor before its keeper
+  for (let s = 0; s < 20; s++) {
+    const L = Dungeon.generate('forge-' + s, 11, { ...opts, levels: 12 }), pc = L.piece;
+    if (!pc || pc.kind !== 'forge') { out.push(`forge-${s}: the floor before the keeper has a ${pc && pc.kind}`); continue; }
+    seen['forge/' + pc.variant] = true;
+    if (pc.variant === 'cold' && pc.props.filter(q => q.k === 'anvil').length < 2) out.push('the forge has no anvils');
+    for (const q of pc.props) if (q.k !== 'puddle' && !(L.dressing || []).some(r => r.x === q.x && r.y === q.y && r.k === q.k)) { out.push(`forge/${pc.variant}: its ${q.k} was not laid`); break; }
+  }
   const all = Object.entries(PIECE_VARIANTS).flatMap(([k, vs]) => Object.keys(vs).map(v => k + '/' + v));
   const missing = all.filter(k => !seen[k]);
   if (missing.length) out.push(`never dealt: ${missing.join(', ')}`);

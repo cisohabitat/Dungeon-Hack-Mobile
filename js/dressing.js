@@ -51,6 +51,15 @@ const DRESSING = {
     sheet([[29.6, 62], [32, 54], [34.4, 62]], '#fff4c0', { curve: 0.5, glows: true }),
     specks([[24, 34], [40, 28], [32, 16], [28, 24], [44, 34], [20, 40]], '#ffb040', { glows: true }),
   ],
+  // a smith's anvil on its block: foot, waist and body, the horn out to one side, its face worn bright
+  anvil: () => [
+    sheet([[22, 52], [42, 52], [44, 62], [20, 62]], '#4a3e34', { curve: 0.5 }), hair(21, 57, 43, 57, '#3a302a'),
+    sheet([[26, 44], [38, 44], [39, 53], [25, 53]], IRON, { curve: 0.6 }),
+    sheet([[24, 40], [40, 40], [37, 46], [27, 46]], '#4a4e56', { curve: 0.5 }),
+    sheet([[16, 32], [46, 32], [50, 36], [46, 41], [20, 41]], IRON_LIGHT, { curve: 0.7 }),
+    limb(16, 32, 46, 32, 0.6, 0.6, '#9a9ea8', { lit: 1 }), hair(18, 31.5, 44, 31.5, '#c8ccd4'),
+    limb(17, 34, 9, 36, 2.4, 0.6, IRON_LIGHT), specks([[30, 37], [38, 38], [24, 35]], '#4a4e56'),
+  ],
   // a slatted crate, braced corner to corner, seen a little from above
   crate: () => [
     sheet([[16, 34], [48, 34], [48, 62], [16, 62]], '#8a6a40', { tilt: [0, 0.1] }),
@@ -161,7 +170,7 @@ const DRESSING = {
 };
 
 /** How tall each stands, as a share of a whole square. */
-const SIZE = { snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, shackles: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
+const SIZE = { anvil: 0.5, snare: 0.42, oilcask: 0.66, flames: 0.55, ripple: 0.9, barrel: 0.66, crate: 0.62, bones: 0.5, shackles: 0.5, rubble: 0.55, candles: 0.46, mushrooms: 0.5, urn: 0.58, remains_bones: 0.46, remains_husk: 0.5, remains_staves: 0.42, remains_shards: 0.4 };
 /** Kinds that stand against a wall rather than out in the room. */
 const BY_WALL = new Set(['barrel', 'crate', 'urn']);
 

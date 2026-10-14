@@ -76,6 +76,11 @@ const PIECE_VARIANTS = {
     brimming: { say: 'A cistern brimming over: water across the whole floor, and old casks fetched up against the pillars. It carries lightning and freezes under cold.', wet: 1, add: [['barrel', 2]] },
     silted: { say: 'An old cistern, mostly silted up: pale toadstools grow in the mud, and only a few pools are left.', wet: 0.3, add: [['mushrooms', 3]] },
   },
+  // (not one of PIECE_IDS: it is dealt only to the floor before a long delve's keeper)
+  forge: {
+    cold: { say: 'The old smiths\' forge: a row of hearths in the back wall, cold a long while, anvils worn hollow, and a trough of black water for the quench. They left something by the doors.' },
+    banked: { say: 'The old smiths\' forge. One hearth is still banked, the fire low in it after all this time, as if someone meant to come back. They left something by the doors.', add: [['flames', 1]] },
+  },
   rubble: {
     fallen: { say: 'Half this hall has come down. Something was left at the back of the fallen stone.' },
     buried: { say: 'The roof came down on someone here: bones show among the fallen stone. Something was left at the back of it.', add: [['bones', 3]] },
@@ -327,6 +332,18 @@ function piece(rng, kind) {
     R.props = [];
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (at(R, x, y) === FLOOR && rng.chance(0.6)) R.props.push({ x, y, k: 'puddle' });
     R.loot = [[rng.pick([0, w - 1]), rng.pick([0, h - 1])]];
+    return turned(R, rng.int(0, 1));
+  }
+  if (kind === 'forge') {
+    // the old smiths' forge, on the floor before a long delve's keeper (piecePlan in
+    // dungeon.js): a long hall, its hearths cut into the back wall, an anvil before
+    // every other one, and a quench-trough of black water down the middle of the floor
+    const w = 11, h = 6, R = blank(w, h, 'forge');
+    for (const x of [1, 3, 5, 7, 9]) set(R, x, 0, SOLID);
+    R.props = [[1, 1], [5, 1], [9, 1]].map(([x, y]) => ({ x, y, k: 'anvil' }));
+    for (let x = 3; x <= 7; x++) R.props.push({ x, y: 3, k: 'puddle' });
+    // what the smiths left: at either end of the hall, by the door they went out by
+    R.loot = [[0, h - 1], [w - 1, h - 1]];
     return turned(R, rng.int(0, 1));
   }
   // rubble: a hall half fallen in, with a nook at the back of the stone

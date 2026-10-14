@@ -745,7 +745,7 @@ const UI = (() => {
     // a coating counts down by the blows that land, not by the clock
     if (p.coating) st.push(`<span class="good coat" title="The ${escapeHtml(Game.coatingName(p.coating.t))} on your weapon: blows that land before it wears off">${escapeHtml(Game.coatingName(p.coating.t)).replace(/^./, c => c.toUpperCase())} \u00d7${Number(p.coating.left)}</span>`);
     if (p.food === 0) st.push('<span class="bad">Starving</span>');
-    if (champ) { const mark = ELITES.find(e => e.prefix === champ.elite); st.push(`<span class="bad"${mark ? ` title="${escapeHtml(mark.says)}"` : ''}>${escapeHtml(Game.mstat(champ).name)} near${mark ? ` · ${escapeHtml(mark.does)}` : ''}</span>`); }
+    if (champ) { const mark = ELITES.find(e => e.prefix === champ.elite); st.push(`<span class="bad"${mark ? ` title="${escapeHtml(mark.says)}${champ.leader ? ' It leads a warband: bring it down and the rest scatter.' : ''}"` : ''}>${escapeHtml(Game.mstat(champ).name)} near${mark ? ` · ${escapeHtml(mark.does)}` : ''}${champ.leader ? ' · leads a warband' : ''}</span>`); }
     // the companion, when there is something to say: hurt, told to stay, or waiting on another floor
     const hound = Game.companion(), kindWord = Game.companionWord();
     if (hound && !hound.fallen) {
