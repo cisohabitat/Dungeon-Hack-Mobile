@@ -352,7 +352,9 @@ test.describe('the crews\' pages between runs', () => {
     await expect(box.locator('li').last()).toContainText('A single line, cut deep');
     expect(errors).toEqual([]);
   });
+});
 
+test.describe('the mastery track', () => {
   test('the mastery track: each class\'s five stages in the Hall, lit as reached, and the class card framed and told the next stage', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
@@ -415,6 +417,36 @@ test.describe('the crews\' pages between runs', () => {
     await page.click('#c-begin');
     await page.click('#pro-begin');
     await expect.poll(() => page.evaluate(r => Object.values(Game.player().eq).some(it => it && it.u === r), id), { timeout: 10_000 }).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
+  test('the Hall keeps fifty runs, and its filters show one class\'s or only the Daily and Weekly runs, each keeping its place', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => {
+      const runs = Array.from({ length: 50 }, (_, i) => ({ name: 'Hero ' + i, cls: i % 3 ? 'mage' : 'thief', level: 1, depth: 1, won: false, score: 100 - i, date: '2026-01-01', seed: 's' + i, run: 'r' + i, ...(i === 7 ? { daily: '2026-10-01' } : {}) }));
+      localStorage.setItem('deepdelve.hall', JSON.stringify(runs));
+    });
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-row')).toHaveCount(50);
+    const filters = page.locator('.hall-filter button');
+    // All, then the classes the Hall holds (in the classes' own order), then the shared runs
+    await expect(filters).toHaveText(['All', 'Mage', 'Thief', 'Daily & Weekly']);
+    await expect(filters.first()).toHaveAttribute('aria-pressed', 'true');
+    await filters.filter({ hasText: 'Thief' }).click();
+    await expect(page.locator('.hall-row')).toHaveCount(17);
+    await expect(page.locator('.hall-row .rank').nth(1)).toHaveText('4');   // Hero 3, fourth of all fifty
+    await expect(filters.filter({ hasText: 'Thief' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(filters.filter({ hasText: 'Thief' })).toBeFocused();
+    await filters.filter({ hasText: 'Daily' }).click();
+    await expect(page.locator('.hall-row')).toHaveCount(1);
+    await expect(page.locator('.hall-row .rank')).toHaveText('8');
+    // the filter holds while the page is open: back out and in again
+    await page.click('#hall-back');
+    await page.click('#btn-hall');
+    await expect(page.locator('.hall-row')).toHaveCount(1);
+    await filters.first().click();
+    await expect(page.locator('.hall-row')).toHaveCount(50);
     expect(errors).toEqual([]);
   });
 });

@@ -233,9 +233,13 @@ again: `README.md`'s table)
   press kept with the save, bounded; the bot harness plays one back headless to the same end,
   from Phase 7); then a pasted share line, verified by headless replay in `api/`, shown under the Daily's and the Weekly's own result; a name typed on the phone,
   nothing else sent, the telemetry's privacy note. A public top fifty only if wanted after.
-- [ ] **A mastery track** (D13): five named stages a class, each opening an option (a third
+- [x] **A mastery track** (D13): five named stages a class, each opening an option (a third
   kit, a frame, a starting relic from the codex at a price); Wick's tales to twenty; the Hall
-  to fifty with filters.
+  to fifty with filters. *Landed: the stages are worked out from the wins already kept
+  (a win, Normal, Hard, both paths, Hard+3), so a returning player starts where they stand;
+  the frame is bronze from the first, silver from the third, gold at the last; the third
+  kit opens at the fourth, and the fifth lets a run begin with a codex relic (no legends)
+  for three quarters of the score. None of it in a Daily or a Weekly.*
 - [ ] **The first season** (D13): six weeks of a vow set, a frequent twist, one new champion
   and one new legend, dealt from the season's number as the Weekly is, on its own Hall page
   with its own card; its rules fixed when it opens.

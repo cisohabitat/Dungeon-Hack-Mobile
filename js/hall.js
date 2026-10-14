@@ -199,6 +199,8 @@ function renderTrophies() {
 }
 /** ", Knight": the path a hero in the Hall took, if they lived to take one. */
 const hallPath = h => { const x = (PATHS[h.cls] || []).find(q => q.id === h.path); return x ? `, ${escapeHtml(x.name)}` : ''; };
+/** Which runs the Hall shows: 'all', a class's id, or 'shared' (Daily and Weekly). Kept while the page is open. */
+let hallShown = 'all';
 function renderHall() {
   renderTrophies();
   const list = Game.hall();
@@ -213,8 +215,22 @@ function renderHall() {
   // and every page of the crews' any hero has found (pagesview.js)
   const kept = tales + pageArchive();
   if (!list.length) { el.innerHTML = still + kept + '<p class="dim">No heroes have entered the deep yet. Their deeds will be recorded here.</p>'; return; }
+  // Fifty runs are kept, too many to read down: a row of filters picks one class, or the runs everyone
+  // was dealt alike (Daily and Weekly). A run keeps its rank among all fifty, so a filtered line still
+  // says where it stands; the filter shown is only offered for runs the Hall holds.
+  const kinds = [['all', 'All'], ...Object.keys(CLASSES).filter(c => list.some(h => h.cls === c)).map(c => [c, CLASSES[c].name]),
+    ...(list.some(h => h.daily || h.weekly) ? [['shared', 'Daily &amp; Weekly']] : [])];
+  if (!kinds.some(k => k[0] === hallShown)) hallShown = 'all';
+  const shows = h => hallShown === 'all' || (hallShown === 'shared' ? !!(h.daily || h.weekly) : h.cls === hallShown);
+  const filters = kinds.length > 2 ? `<div class="seg hall-filter" role="group" aria-label="Show runs">${kinds.map(([k, label]) => `<button type="button" data-hall="${k}" aria-pressed="${k === hallShown}" class="${k === hallShown ? 'on' : ''}">${label}</button>`).join('')}</div>` : '';
   // a daily run is marked with its day; every run says how hard it was, and one from before the choice was normal
-  el.innerHTML = still + kept + '<div class="hall">' + list.map((h, i) => `<div class="hall-row${h.won ? ' won' : ''}${h.daily || h.weekly ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.weekly ? ` <em class="daily-mark">Weekly</em>` : ''}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1}${Number(h.renown) > 0 ? ` \u2605${Number(h.renown)}` : ''} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? (ENDINGS[h.ending] || ENDINGS.take).hall : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) <= 2 ? ' · a quick delve' : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffLabel(h)}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''}${RELICS[h.relic] ? ` · begun with ${escapeHtml(RELICS[h.relic].name)}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.innerHTML = still + kept + filters + '<div class="hall">' + list.map((h, i) => !shows(h) ? '' : `<div class="hall-row${h.won ? ' won' : ''}${h.daily || h.weekly ? ' daily' : ''}"><span class="rank">${i + 1}</span><span class="who">${escapeHtml(h.name)}${h.weekly ? ` <em class="daily-mark">Weekly</em>` : ''}${h.daily ? ` <em class="daily-mark">${h.dailyKind === 'earned' ? 'Ranger &amp; Druid Daily' : 'Daily'} ${escapeHtml(String(h.daily))}</em>` : ''}<small>Level ${Number(h.level) || 1}${Number(h.renown) > 0 ? ` \u2605${Number(h.renown)}` : ''} ${CLASSES[h.cls] ? CLASSES[h.cls].name : escapeHtml(String(h.cls))}${hallPath(h)} · ${h.won ? (ENDINGS[h.ending] || ENDINGS.take).hall : 'Fell on floor ' + (Number(h.depth) || 1)}${ROUTES[h.route] ? ` · by ${ROUTES[h.route].name}` : ''}${Number(h.levels) >= 12 ? ` · the Long Delve (${Number(h.levels)} floors)` : Number(h.levels) && Number(h.levels) <= 2 ? ' · a quick delve' : Number(h.levels) && Number(h.levels) !== 8 ? ` · ${Number(h.levels)} floors` : ''} · ${Number(h.kills) || 0} ${Number(h.kills) === 1 ? 'kill' : 'kills'}${Array.isArray(h.named) && h.named.length ? ` · slew ${andList(h.named.map(n => escapeHtml(String(n))))}` : ''}${typeof h.rested === 'string' && h.rested ? ` · laid ${escapeHtml(h.rested)} to rest` : ''} · ${Number(h.gold) || 0} gold · ${diffLabel(h)}${Array.isArray(h.vows) && h.vows.length ? ` · ${h.vows.filter(v => VOWS[v]).map(v => escapeHtml(VOWS[v].name)).join(', ')}` : ''}${RELICS[h.relic] ? ` · begun with ${escapeHtml(RELICS[h.relic].name)}` : ''} · seed ${escapeHtml(h.seed)}</small></span><span class="score">${Number(h.score) || 0}<small>SCORE</small></span></div>`).join('') + '</div>';
+  el.querySelectorAll('.hall-filter button').forEach(b => b.addEventListener('click', () => {
+    hallShown = /** @type {HTMLElement} */ (b).dataset.hall || 'all';
+    renderHall();
+    const again = el.querySelector(`.hall-filter [data-hall="${hallShown}"]`);
+    if (again) /** @type {HTMLElement} */ (again).focus();
+  }));
 }
 
 export { renderBestiary, renderCodex, renderCombos, renderTrophies, renderHall };

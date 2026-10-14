@@ -110,4 +110,21 @@ module.exports = async function masteryChecks(h) {
     if (Game.state().opts.relic) out.push('a Daily took a relic');
     return out.length ? out.join('; ') : true;
   });
+
+  await test('the Hall keeps fifty runs, the best by score, and lets the fifty-first go', async () => {
+    const ctx = await newContext();
+    const { Game } = ctx;
+    // fifty-four runs already kept (as a save from before the cap might hold), scores 1 to 54
+    ctx.store.set('deepdelve.hall', JSON.stringify(Array.from({ length: 54 }, (_, i) => ({ name: 'Old ' + i, cls: 'mage', level: 1, depth: 1, won: false, score: i + 1, date: '2026-01-01', run: 'old-' + i }))));
+    Game.newGame({ name: 'New', cls: 'fighter', bg: 'oathbroken', stats: { ...evenStats }, seed: 'hall-fifty', opts: { ...OPTS } });
+    const G = Game.state(), p = Game.player();
+    p.xp = 4000; p.deepest = 5; G.depth = 5;
+    Game.hurtPlayer(9999, 'The dark takes them.', null, 'the dark');   // (a death writes the Hall)
+    const hall = Game.hall();
+    const out = [];
+    if (hall.length !== 50) out.push(`the Hall kept ${hall.length}`);
+    if (!hall.some(e => e.name === 'New')) out.push(`the new run (score ${Game.state().score || '?'}) was not kept`);
+    if (hall.some(e => e.score <= 5 && e.name !== 'New')) out.push('a low score outlasted a higher one');
+    return out.length ? out.join('; ') : true;
+  });
 };

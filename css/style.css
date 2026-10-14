@@ -1192,3 +1192,6 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 /* the start with a relic once found, at the last stage of a class's mastery (createextras.js) */
 .relic-line { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-6); }
 .relic-line select { width: 100%; }
+/* the Hall's filters: a class or the shared runs, wrapping on a narrow phone */
+.seg.hall-filter { flex-wrap: wrap; margin: 0 0 var(--s-8); }
+.seg.hall-filter button { flex: 1 0 auto; min-height: 40px; font-size: var(--t-sm); padding: var(--s-2) var(--s-8); border-top: 1px solid var(--border); margin-top: -1px; }

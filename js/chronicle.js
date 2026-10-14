@@ -8,6 +8,8 @@ import { Sound } from './sound.js';
 /** @param {import('./types.js').Kit} K */
 export function makeChronicle(K) {
   const HALL_KEY = K.HALL_KEY;
+  // the Hall keeps fifty runs (it kept twenty before the mastery track; its filters make fifty readable)
+  const HALL_MAX = 50;
   const LAST_KEY = K.LAST_KEY;
   const SAVE_KEY = K.SAVE_KEY;
   const companion = K.companion;
@@ -205,7 +207,7 @@ export function makeChronicle(K) {
       const list = hall().filter(h => h.run !== entry.run);
       list.push(entry);
       list.sort((a, b) => b.score - a.score || (a.time || 1e9) - (b.time || 1e9) || Number(!!b.together) - Number(!!a.together));
-      localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, 20)));
+      localStorage.setItem(HALL_KEY, JSON.stringify(list.slice(0, HALL_MAX)));
     } catch (e) { /* ignore */ }
   }
   /** The last run ended (not a test run), for the title. @returns {{name: string, cls: string, depth: number, levels: number, won: boolean, killer: string, date: number}|null} */

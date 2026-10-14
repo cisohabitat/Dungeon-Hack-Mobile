@@ -47,8 +47,11 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   await scan(page, 'create', found);
   // and with everything a player can earn open: the second kit, the hound, the vows, and the same in the Hall
   await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1, normal: 1 } }, relics: [], feats: { veteran: 1 }, wick: { met: 2, told: 2, won: 1, last: { name: 'Ash', cls: 'fighter', run: 'x', fate: 'won', depth: 8 } }, pages: [0, 3, 19] })));
+  // and runs of two classes, one a Daily, so the Hall's filters show
+  await page.evaluate(() => localStorage.setItem('deepdelve.hall', JSON.stringify([['fighter', 30, {}], ['mage', 20, { daily: '2026-10-01' }]].map(([cls, score, x], i) => ({ name: 'Run ' + i, cls, level: 1, depth: 1, won: false, score, date: '2026-01-01', seed: 's' + i, run: 'r' + i, ...x })))));
   await page.goto('/');
   await page.click('#btn-hall');
+  await expect(page.locator('.hall-filter button')).toHaveCount(4);
   await expect(page.locator('[data-trophy="unlock-kit:fighter"]')).toHaveClass(/open/);
   await page.click('.hall-wick summary');   // and Wick's tales, open
   await page.click('.hall-pages summary');  // and the crews' pages
