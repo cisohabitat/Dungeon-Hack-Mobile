@@ -808,8 +808,10 @@ const Game = (() => {
     if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
     // the starting kit is familiar to its owner (the second kit, once a win has earned it; never in a Daily)
     const alt = G.opts.kit === 'alt' && !G.opts.daily && !G.opts.weekly && Progress.kitOpen(cfg.cls);
-    if (!alt) delete G.opts.kit;
-    const kit = alt ? c.altKit.items : c.startKit;
+    // (and the third, once the fourth stage of the class's mastery has opened it)
+    const third = G.opts.kit === 'third' && !G.opts.daily && !G.opts.weekly && Progress.kit3Open(cfg.cls);
+    if (!alt && !third) delete G.opts.kit;
+    const kit = third ? c.thirdKit.items : alt ? c.altKit.items : c.startKit;
     for (const id of kit) G.known[id] = 1;
     for (const id of kit) giveItem({ t: id, q: 1, e: 0 });
     if (bg === 'returned') { G.known.potion_xheal = 1; giveItem({ t: 'potion_xheal', q: 1, e: 0 }); }   // one good draught kept back

@@ -162,12 +162,12 @@ module.exports = async function pactChecks(h) {
     return (drops.oathbroken === 0 && drops.seeker === 1) || `legends dropped: ${JSON.stringify(drops)}`;
   });
 
-  await test('the unlocks: ten to twelve new ways to begin, each saying how it is earned, opened by the wins that earn them', async () => {
+  await test('the unlocks: sixteen to twenty new ways to begin (the mastery track\'s third kits among them), each saying how it is earned, opened by the wins that earn them', async () => {
     const out = [];
     const ctx = await newContext();
     const { Progress } = ctx;
     const u = Progress.unlocks();
-    if (u.length < 10 || u.length > 12) out.push(`${u.length} unlocks`);
+    if (u.length < 16 || u.length > 20) out.push(`${u.length} unlocks`);
     if (u.some(x => x.open)) out.push(`open at the start: ${u.filter(x => x.open).map(x => x.id).join(', ')}`);
     if (u.some(x => !x.how || !x.name)) out.push('an unlock with no way to earn it');
     // a Hard win as a fighter opens the vows, the Ashborn's past and the fighter's kit, and a win opens the earned past

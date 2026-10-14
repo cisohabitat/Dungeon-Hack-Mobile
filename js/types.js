@@ -307,7 +307,7 @@
  * @property {'earned'} [dailyKind]  'earned' for the Ranger & Druid Daily (once the earned classes'); absent on the first
  * @property {string} [weekly]  the week of a Weekly Challenge, as YYYY-Www (an ISO week); absent on any other run
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
- * @property {'alt'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js)
+ * @property {'alt'|'third'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js), or its third, opened at the fourth stage of its mastery (thirdKit)
  * @property {number} [rung]  the rung of the ladder past Hard, 1 to 5, on Hard only (see LADDER in data.js)
  * @property {'hound'} [companion]  a hound from the first stair, chosen at the start once earned (Progress.houndOpen)
  * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it

@@ -158,6 +158,8 @@ const stageName = (cls, n) => (MASTERY.names[cls] || [])[n - 1] || '';
 const stageNeed = (cls, n) => (MASTERY.needs[n - 1] || '').replace('{cls}', CLASSES[cls] ? CLASSES[cls].name : cls);
 /** The frame a class's portrait wears: '', 'bronze', 'silver' or 'gold'. */
 const frameOf = (cls, v = load()) => MASTERY.frames[stage(cls, v)] || '';
+/** A class's third kit is open at the fourth stage of its mastery track: a win on Hard and with both its paths. */
+const kit3Open = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].thirdKit && stage(cls, v) >= 4;
 /** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
 const houndOpen = (v = load()) => !!v.feats.veteran;
 /**
@@ -169,6 +171,7 @@ const houndOpen = (v = load()) => !!v.feats.veteran;
 function unlocks(v = load()) {
   const out = [];
   for (const cls of Object.keys(CLASSES)) if (CLASSES[cls].altKit) out.push({ id: 'kit:' + cls, name: `${CLASSES[cls].altKit.name} (${CLASSES[cls].name})`, open: kitOpen(cls, v), how: `Win as a ${CLASSES[cls].name} on Normal or Hard.` });
+  for (const cls of Object.keys(CLASSES)) if (CLASSES[cls].thirdKit) out.push({ id: 'kit3:' + cls, name: `${CLASSES[cls].thirdKit.name} (${CLASSES[cls].name})`, open: kit3Open(cls, v), how: stageNeed(cls, 4) + ' And on Hard.' });
   for (const id of Object.keys(BACKGROUNDS)) if (BACKGROUNDS[id].unlock) out.push({ id: 'bg:' + id, name: BACKGROUNDS[id].name, open: bgOpen(id, v), how: BACKGROUNDS[id].how || '' });
   out.push({ id: 'vows', name: 'The vows', open: vowsOpen(v), how: 'Win a run on Hard.' });
   out.push({ id: 'hound', name: 'A hound from the first stair', open: houndOpen(v), how: 'Win with a veteran companion at your side.' });
@@ -369,5 +372,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, stage, stageName, stageNeed, frameOf, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, stage, stageName, stageNeed, frameOf, kit3Open, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

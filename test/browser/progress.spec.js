@@ -379,4 +379,20 @@ test.describe('the crews\' pages between runs', () => {
     await expect(page.locator('#c-class-more .stage-line')).toHaveText('Mastery: Blademaster, stage 3 of 5. Next, Champion: Win as a Fighter with both its paths.');
     expect(errors).toEqual([]);
   });
+
+  test('the third kit: a choice on the New Game screen at the fourth stage, a locked line saying how before', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1 }, mage: { normal: 1 } }, relics: [], paths: { knight: 1, berserker: 1 } })));
+    await page.click('#btn-new');
+    await page.click('.class-card[data-cls="fighter"]');
+    await page.click('[data-kit="third"]');
+    await expect(page.locator('[data-kit="third"]')).toHaveAttribute('aria-checked', 'true');
+    await expect(page.locator('.kit-note').first()).toContainText('war hammer');
+    // the mage has its second kit but not the third: told how to open it
+    await page.click('.class-card[data-cls="mage"]');
+    await expect(page.locator('[data-kit="third"]')).toHaveCount(0);
+    await expect(page.locator('.kit-note.locked-line')).toContainText("Battle-Mage's Kit: locked. Win as a Mage with both its paths.");
+    expect(errors).toEqual([]);
+  });
 });

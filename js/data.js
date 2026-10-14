@@ -511,6 +511,8 @@ const CLASSES = {
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Raider\'s Kit', desc: 'A battle axe that bites harder than the sword, light studded leather in place of mail and shield, and a flask of fire oil.', items: ['battleaxe', 'studded', 'ration', 'ration', 'potion_heal', 'oil_fire'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Sentinel\'s Kit', desc: 'A war hammer that breaks the bones of the dead, chain mail and no shield, and a flask of silver oil.', items: ['hammer', 'chain', 'ration', 'ration', 'potion_heal', 'oil_silver'] },
   },
   // (a few more life to start with than it once had, `startHp`: it began the
   // weakest of the six, fifteen to the rest's seventeen or more, and lost more
@@ -523,6 +525,8 @@ const CLASSES = {
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Pilgrim\'s Kit', desc: 'A war hammer, scale mail and a holy symbol in place of a shield: your healing a quarter stronger.', items: ['hammer', 'scale', 'holy_symbol', 'ration', 'ration', 'potion_heal'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Crusader\'s Kit', desc: 'A flail that swings harder than the mace, light studded leather with the shield, and a scroll of healing.', items: ['flail', 'studded', 'shield', 'ration', 'ration', 'potion_heal', 'scroll_heal'] },
   },
   mage: {
     name: 'Mage', plural: 'Mages', title: 'Archmage', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
@@ -531,6 +535,8 @@ const CLASSES = {
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Hedge-Wizard\'s Kit', desc: 'A dagger and a spellbook, your points back a quarter faster, with a draught of clarity in place of the scroll.', items: ['dagger', 'spellbook', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_mana'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Battle-Mage\'s Kit', desc: 'A silk robe finer than the apprentice\'s, one draught fewer, and two scrolls in place of the fire: lightning and frost.', items: ['staff', 'robe_silk', 'ration', 'ration', 'potion_heal', 'scroll_lightning', 'scroll_frost'] },
   },
   // (one life fewer to start than it had: it led every other class on Normal and
   // Hard, losing the fewest heroes before a path; and seven more on a quick delve
@@ -542,6 +548,8 @@ const CLASSES = {
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_map'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Cutpurse\'s Kit', desc: 'A dagger, the quickest blade there is, with blade venom and lamp oil in place of the map.', items: ['dagger', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'oil_venom', 'lamp_oil'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Acrobat\'s Kit', desc: 'A buckler on the off arm and a scroll to be elsewhere in a breath, in place of the knives, a draught and the map.', items: ['shortsword', 'buckler', 'leather', 'ration', 'ration', 'potion_heal', 'scroll_teleport'] },
   },
   ranger: {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, mildHp: 4, hardHp: 4, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
@@ -550,6 +558,8 @@ const CLASSES = {
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Trapper\'s Kit', desc: 'A sling and a spear, studded leather, and two flasks of lamp oil to set a trap with.', items: ['sling', 'spear', 'studded', 'ration', 'ration', 'potion_heal', 'lamp_oil', 'lamp_oil'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Hunter\'s Kit', desc: 'Studded leather in place of the dagger and a draught, and a flask of fire oil for the arrows.', items: ['shortbow', 'studded', 'ration', 'ration', 'potion_heal', 'oil_fire'] },
   },
   druid: {
     name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 1, spells: 'druid', primary: 'wis',
@@ -558,6 +568,8 @@ const CLASSES = {
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Herbalist\'s Kit', desc: 'A quarterstaff, and draughts in place of a spear: two of healing and an antidote.', items: ['staff', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_cure'] },
+    // a third kit, opened at the fourth stage of the class's mastery track (MASTERY, and stage in js/progress.js)
+    thirdKit: { name: 'Thornward Kit', desc: 'Studded leather and a buckler with the spear, and one draught in place of two.', items: ['spear', 'buckler', 'studded', 'ration', 'ration', 'potion_heal'] },
   },
 };
 

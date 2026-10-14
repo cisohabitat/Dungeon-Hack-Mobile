@@ -2,7 +2,7 @@
 // (progress.js, MASTERY in data.js), and what each opens.
 // Run from rules.js's worker with the helpers lent in (rules-lib.js).
 module.exports = async function masteryChecks(h) {
-  const { newContext, test } = h;
+  const { newContext, test, OPTS, evenStats } = h;
 
   await test('a class climbs its mastery track a stage at a time, each needing the one before: a win, Normal, Hard, both paths, Hard+3', async () => {
     const out = [];
@@ -48,6 +48,36 @@ module.exports = async function masteryChecks(h) {
     if (r.stageReached !== 3) out.push(`a Hard win after an Easy one reached stage ${r.stageReached} (Hard counts as Normal or Hard)`);
     const goals = Progress.nextGoals(Progress.load(), 'mage', 8).map(g => g.what);
     if (!goals.some(g => g.startsWith(Progress.stageName('mage', 4)))) out.push(`the next stage was not a goal: ${goals.join(' | ')}`);
+    return out.length ? out.join('; ') : true;
+  });
+
+  await test('the third kit is every class\'s, all of it worn or carried from the start, given only at the fourth stage and never in a Daily or a Weekly', async () => {
+    const out = [];
+    const ctx = await newContext();
+    const { Game, CLASSES, PATHS, Progress } = ctx;
+    const put = v => ctx.store.set('deepdelve.progress', JSON.stringify(v));
+    const begin = (cls, opts = {}) => { Game.newGame({ name: 'K', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'kit3-' + cls, opts: { ...OPTS, kit: 'third', ...opts } }); return Game.player(); };
+    const held = p => [...p.inv, ...Object.values(p.eq).filter(Boolean)].map(it => it.t);
+    for (const cls of Object.keys(CLASSES)) {
+      const k = CLASSES[cls].thirdKit;
+      if (!k || !k.items.length) { out.push(`${cls} has no third kit`); continue; }
+      // not yet open: the standard kit
+      put({ won: { [cls]: { hard: 1 } } });
+      let p = begin(cls);
+      if (Game.state().opts.kit) out.push(`${cls}: the third kit was given at stage ${Progress.stage(cls)}`);
+      // open: the third kit, each piece of gear worn
+      put({ won: { [cls]: { hard: 1 } }, paths: Object.fromEntries(PATHS[cls].map(x => [x.id, 1])) });
+      p = begin(cls);
+      const have = held(p);
+      for (const id of k.items) if (!have.includes(id)) out.push(`${cls}: the third kit's ${id} is missing`);
+      for (const it of p.inv) { const kind = ctx.ITEMS[it.t].kind; if (['weapon', 'armor', 'shield'].includes(kind) && !Object.values(p.eq).includes(it) && !Game.canEquip(it)) out.push(`${cls}: the third kit's ${it.t} lies unworn`); }
+      for (const id of k.items) { const b = ctx.ITEMS[id]; if (['weapon', 'armor', 'shield'].includes(b.kind) && !Object.values(p.eq).some(e => e && e.t === id)) out.push(`${cls}: ${id} not worn at the start`); }
+      // never in a Daily or a Weekly
+      begin(cls, { daily: '2027-01-01' });
+      if (Game.state().opts.kit) out.push(`${cls}: a Daily took the third kit`);
+      begin(cls, { weekly: '2027-W01' });
+      if (Game.state().opts.kit) out.push(`${cls}: a Weekly took the third kit`);
+    }
     return out.length ? out.join('; ') : true;
   });
 };

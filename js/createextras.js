@@ -16,15 +16,17 @@ import { escapeHtml } from './uikit.js';
  */
 export function renderStart(el, create, changed) {
   const v = Progress.load(), c = CLASSES[create.cls];
-  const kitOpen = Progress.kitOpen(create.cls, v), houndOpen = Progress.houndOpen(v);
-  if (!kitOpen) create.kit = '';
+  const kitOpen = Progress.kitOpen(create.cls, v), houndOpen = Progress.houndOpen(v), kit3Open = Progress.kit3Open(create.cls, v);
+  if (!kitOpen || (create.kit === 'third' && !kit3Open)) create.kit = '';
   if (!houndOpen) create.hound = false;
-  const alt = c && c.altKit;
+  const alt = c && c.altKit, third = c && c.thirdKit;
   const kitLine = !alt ? ''
     : kitOpen ? `<div class="seg kit-seg" role="radiogroup" aria-label="Starting kit">`
       + `<button type="button" role="radio" data-kit="" aria-checked="${!create.kit}" class="${create.kit ? '' : 'on'}">Standard kit</button>`
-      + `<button type="button" role="radio" data-kit="alt" aria-checked="${create.kit === 'alt'}" class="${create.kit === 'alt' ? 'on' : ''}">${escapeHtml(alt.name)}</button></div>`
-      + `<p class="dim small kit-note">${escapeHtml(create.kit === 'alt' ? alt.desc : 'The kit every ' + c.name + ' starts with.')}</p>`
+      + `<button type="button" role="radio" data-kit="alt" aria-checked="${create.kit === 'alt'}" class="${create.kit === 'alt' ? 'on' : ''}">${escapeHtml(alt.name)}</button>`
+      + (kit3Open && third ? `<button type="button" role="radio" data-kit="third" aria-checked="${create.kit === 'third'}" class="${create.kit === 'third' ? 'on' : ''}">${escapeHtml(third.name)}</button>` : '') + '</div>'
+      + `<p class="dim small kit-note">${escapeHtml(create.kit === 'third' && third ? third.desc : create.kit === 'alt' ? alt.desc : 'The kit every ' + c.name + ' starts with.')}</p>`
+      + (third && !kit3Open ? `<p class="dim small kit-note locked-line">${escapeHtml(third.name)}: locked. ${escapeHtml(Progress.stageNeed(create.cls, 4))} And on Hard: the fourth stage of its mastery.</p>` : '')
     : `<p class="dim small kit-note locked-line">${escapeHtml(alt.name)}: locked. Win as a ${escapeHtml(c.name)} on Normal or Hard to unlock it.</p>`;
   const houndLine = houndOpen
     ? `<label class="check"><input type="checkbox" id="c-hound"${create.hound ? ' checked' : ''}> <span><b>A hound from the first stair</b>: start with a hound at your side.</span></label>`
