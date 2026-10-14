@@ -279,6 +279,18 @@ A crew's reading, under the claw-marks: once warm water came up from below. Eggs
 - *tale 6*: There was a sun-walker before you, long before: came down for the Heart, like all of you. Did not come up again. Did not die, either. That is all I will say on it.
 - *tale 7*: We trade with whatever pays. That is not the same as liking it. Some of what pays, I would see buried.
 - *tale 8*: Every sun-walker who comes up again owes the dark one lamp. Most forget to pay it. Not you, I think.
+- *tale 9*: The grey dwarves dug deeper than you will ever go. They stopped when the stone grew warm. Dwarves do not stop for much.
+- *tale 10*: Goblins steal. Everyone says it as if it were news. What they steal they bring to me, and I sell it back to you. Think about that on the stairs.
+- *tale 11*: The water in the drowned halls was not always there. It came up one winter and did not go down. Some of what lives in it was there before the water. Some came with it.
+- *tale 12*: A barrel that creaks with nothing near it is no barrel. My grandmother told me that. She lost a hand learning it.
+- *tale 13*: The lizard people do not trade. They give, and they remember what you gave back. It is a slower way of doing business. It lasts longer.
+- *tale 14*: The old smiths meant the Heart a home, not a cage. Things made for one purpose find another down here.
+- *tale 15*: We do not bury our dead. We leave their lamps lit where they sat down, as long as the oil lasts. If you see a lamp burning in an empty room, walk round it.
+- *tale 16*: Once in a long while one of you comes down who is not looking for the Heart. Those are the ones I worry about.
+- *tale 17*: The goblins have a word for you. It means the ones who go down and come up. They have no word for the ones who only go down. There are too many.
+- *tale 18*: I have sold the same sword four times. It keeps coming back to me off the floors, a little more notched each time. So do you, in a way.
+- *tale 19*: The dark has rules, sun-walker. Fire is a guest: it stays as long as it is fed. Water is a landlord: it never leaves. Cold is a debt, and it is always paid.
+- *tale 20*: That is nineteen. My mother knew twenty. The last she never told me: she said I would hear it at the bottom. I have never been to the bottom. Perhaps one day you will tell it to me.
 - *done*: I have told you all I know, sun-walker. The rest of it is down there.
 
 ### The keepers of the Heart (MONSTERS, speech)
