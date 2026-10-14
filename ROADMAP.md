@@ -268,9 +268,13 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   guide; the offering's fountain; the shared meal's page.
 - [x] **The Long Delve's dead stretches** (D16): a marked pack leader on floor 2 or 3 of 16;
   the smith a floor up; the floor before the keeper with a set piece of its own.
-- [ ] **What the genre expects**: a pack with a leader whose fall scatters it; a thief that
+- [x] **What the genre expects**: a pack with a leader whose fall scatters it; a thief that
   steals; a creature that fetches help; a mimic of a chest; blind, slow and silence; a cursed
-  thing worth wearing; a caster above floor 5; a trap a monster can spring.
+  thing worth wearing; a caster above floor 5; a trap a monster can spring. (The warband, the
+  Goblin Cutpurse, the Goblin Lookout, the vault chest's mimic, the Goblin Hexer's slow and
+  silence beside the glimmer moth's flare, the Gallows Ring, and traps under any walker.)
+- [x] **The sixteen-floor delve evened out**: 82% to 87% on Normal and 61% to 65% on Hard, from
+  13 and 9.5 points apart.
 - [ ] On a schedule: a monster or encounter every two weeks, a named champion a month, a road
   or a people a quarter; the device round (decision 4) once a quarter when it is done at all.
 

@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-01-18', text: 'some choices now come back as something that happens, not a parcel by the stair: the goblin you spared drops onto a foe for you, a toll paid makes the goblins let you by, an offering opens a spring, and the last delver leaves you a page that maps the floor.' };
+  const NEWS = { id: '2027-02-08', text: 'new on the way down: goblins that steal your gold, run for help or hex you; champions leading warbands; chests in the secret vaults, one of them with teeth; a cursed ring worth its curse; traps that catch monsters too; and a sixteen-floor delve with a forge near the bottom.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
