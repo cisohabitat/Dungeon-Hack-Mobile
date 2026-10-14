@@ -8,6 +8,7 @@ import { makeTrader } from './trader.js';
 import { Sound } from './sound.js';
 import { Progress } from './progress.js';
 import { makeFoes } from './foes.js';
+import { makeBosses } from './bosses.js';
 import { makeCompanion } from './companion.js';
 import { makeBounty } from './bounty.js';
 import { makeWild } from './wild.js';
@@ -1444,6 +1445,8 @@ const Game = (() => {
     get baneDamage() { return baneDamage; }, get bargained() { return bargained; }, get BELT() { return BELT; }, get beltRoom() { return beltRoom; },
     get berserkerRage() { return berserkerRage; }, get BITS_MAX() { return BITS_MAX; }, get blocked() { return blocked; },
     get BLOW_GAP() { return BLOW_GAP; }, get boltEnd() { return boltEnd; }, get boltTargets() { return boltTargets; },
+    // (between foes.js and bosses.js, each reading the other's rules)
+    get hasLineToPlayer() { return hasLineToPlayer; }, get monsterAttack() { return monsterAttack; }, get bossTurns() { return bossTurns; }, get L0guard() { return L0guard; }, get leaveThrone() { return leaveThrone; }, get namedMends() { return namedMends; }, get namedResolve() { return namedResolve; }, get namedTrick() { return namedTrick; }, get namedWakes() { return namedWakes; }, get raiseGuards() { return raiseGuards; }, get riteGuard() { return riteGuard; }, get warband() { return warband; }, get warbandThin() { return warbandThin; },
     get bossFalls() { return bossFalls; }, get bound() { return bound; }, get bounty() { return bounty; }, get breakCurses() { return breakCurses; },
     get breaksBones() { return breaksBones; }, get buffAmount() { return buffAmount; }, get buffDuration() { return buffDuration; },
     get buildLooks() { return buildLooks; }, get burnLine() { return elements.burnLine; }, get burnWeb() { return burnWeb; },
@@ -1678,7 +1681,8 @@ const Game = (() => {
   }
 
   const { charm, buyPrice, sellPrice, shopServices, buyService, openShop, currentShop, closeShop, buy, sell, sellJunk, traderKind, traderName, priceNotes, wickLevel } = makeTrader(K);
-  const { RISE_MS, WAKE_BEAT, updateMonsters, bossFalls, breaksBones, burnWeb, ensureDist, moveMonster, moveOnHurt, sporesOn, surface, spring, namedArrives, namedBar, namedFalls, namedTitle, namedWakes, poisonFor, wander } = makeFoes(K);
+  const { RISE_MS, WAKE_BEAT, updateMonsters, breaksBones, burnWeb, ensureDist, hasLineToPlayer, monsterAttack, moveMonster, moveOnHurt, sporesOn, surface, spring, poisonFor, wander } = makeFoes(K);
+  const { L0guard, bossFalls, bossTurns, leaveThrone, namedArrives, namedBar, namedFalls, namedMends, namedResolve, namedTitle, namedTrick, namedWakes, raiseGuards, riteGuard, warband, warbandThin } = makeBosses(K);
   // ---------- the hero's hound: see companion.js ----------
   const companion = makeCompanion(K);
   // ---------- a druid's Wild Shape, Entangle and bond: see wild.js ----------

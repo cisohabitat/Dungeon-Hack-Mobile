@@ -5,7 +5,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 
 ## Layout
 
-- `js/game.js`: the rules, one IIFE (`Game`). Monster AI lives in `js/foes.js`
+- `js/game.js`: the rules, one IIFE (`Game`). Monster AI lives in `js/foes.js` (the lich,
+  the Heartforged, the Warlord and the named champions in `js/bosses.js`, `makeBosses(K)`)
   and the traders in `js/trader.js`; both are factories (`makeFoes(K)`,
   `makeTrader(K)`) that borrow from the game through an object of getters `K`,
   wired near the end of `game.js`. The same pattern holds the companion

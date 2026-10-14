@@ -511,6 +511,19 @@
  * @property {*} healPlayer
  * @property {*} heard
  * @property {*} heldWhy
+ * @property {*} hasLineToPlayer
+ * @property {*} monsterAttack
+ * @property {*} bossTurns
+ * @property {*} L0guard
+ * @property {*} leaveThrone
+ * @property {*} namedMends
+ * @property {*} namedResolve
+ * @property {*} namedTrick
+ * @property {*} namedWakes
+ * @property {*} raiseGuards
+ * @property {*} riteGuard
+ * @property {*} warband
+ * @property {*} warbandThin
  * @property {() => number} hexSlow
  * @property {*} heroTitle
  * @property {*} hiddenGear
