@@ -25,7 +25,7 @@ import { makeTitleScene } from './titlescene.js';
 import { makeHeroSheet } from './herosheet.js';
 import { makeTitleMenu } from './titlemenu.js';
 import { makeCreateView } from './createview.js';
-import { makeNarration } from './narration.js';
+import { makeStoryVoice } from './storyvoice.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -60,24 +60,18 @@ const UI = (() => {
   // page; from the first moment a browser lets sound play (see Music.swell)
   const titleMusicHere = id => !!id && id !== 'screen-game' && id !== 'screen-end';
   let soundAllowed = false;
-  const narration = makeNarration({
-    enabled: () => Sound.isEnabled(),
-    output: () => Sound.audio(),
-    onState(state) {
-      const controls = $('#pro-voice');
-      if (!controls) return;
-      controls.hidden = state === 'idle' || state === 'unavailable';
-      $('#pro-voice-play').textContent = state === 'playing' || state === 'loading' ? 'Pause narration' : state === 'paused' ? 'Resume narration' : 'Replay narration';
-      if (state === 'playing' || state === 'loading') Music.titleOff(0.4);
-      else if (state !== 'idle') titleMusic();
-    },
+  const narration = makeStoryVoice({
+    game: Game, soundOn: () => Sound.isEnabled(), output: () => Sound.audio(),
+    quietTitle: () => Music.titleOff(0.4), titleMusic: () => titleMusic(),
+    screen: () => document.querySelector('.screen.active')?.id,
+    overlay: () => overlay, unlock: () => Sound.unlock(), background: () => pendingCfg?.bg,
   });
   function titleMusic() {
     const here = document.querySelector('.screen.active');
     if (soundAllowed && here && titleMusicHere(here.id)) Music.swell();
   }
   function showScreen(id) {
-    if (id !== 'screen-prologue') narration.stop();
+    narration.stop();
     if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
     if (id !== 'screen-title') endOpening();
     // a page turned as the screen comes up (not the dungeon's own: it has the arrival)
@@ -187,9 +181,8 @@ const UI = (() => {
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
     showScreen('screen-prologue');
-    $('#pro-voice-volume').value = String(Math.round(narration.volume() * 100));
     Sound.unlock();
-    narration.start();
+    narration.prologue(cfg.bg);
   }
   const STORY_READ = 'deepdelve.storyRead';
   // the way in plays as every new run opens (see prelude.js). A browser driven by
@@ -228,6 +221,7 @@ const UI = (() => {
     resetTips();
     clearOverlays();
     showScreen('screen-game');
+    narration.scan();
     // no spells, no Spells button
     const sb = /** @type {HTMLElement|null} */ (document.querySelector('[data-open="spells"]'));
     if (sb) sb.style.display = CLASSES[Game.player().cls].spells ? '' : 'none';
@@ -993,6 +987,7 @@ const UI = (() => {
 
   let journalTab = 'pages';
   function renderJournal() {
+    if (journalTab !== 'pages') narration.leaveJournal();
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
@@ -1045,7 +1040,7 @@ const UI = (() => {
     if (name === 'menu') renderMenu();
     if (name === 'log') renderLogHistory();
     if (name === 'shop') renderShop();
-    if (name === 'journal') renderJournal();
+    if (name === 'journal') { renderJournal(); if (journalTab === 'pages') narration.journal(); }
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
     if (name === 'fork') renderFork();
@@ -1106,6 +1101,7 @@ const UI = (() => {
     if (overlay === 'shop') Game.closeShop();
     if (overlay === 'fork') Game.leaveFork();
     // it fades away rather than vanishing, and lets taps through while it does
+    narration.leaveJournal();
     const gone = $('#ov-' + overlay);
     gone.classList.remove('open'); gone.classList.add('closing');
     setTimeout(() => gone.classList.remove('closing'), CLOSE_MS);
@@ -1123,6 +1119,7 @@ const UI = (() => {
   }
   /** Leaving the game: every overlay comes down, whatever it was holding. */
   function clearOverlays() {
+    narration.stop();
     waiting = [];
     if (overlay === 'encounter') Game.closeEncounter();
     if (overlay === 'shop') Game.closeShop();
@@ -1176,6 +1173,7 @@ const UI = (() => {
     // until folded by hand (not folded under the finger that has just turned the last one off)
     if (testingOn()) store(TESTS_OPEN, '1');
     showTests(store(TESTS_OPEN) === '1');
+    $('#m-voice').textContent = 'Voice: ' + (narration.enabled() ? 'On' : 'Off');
     $('#m-sound').textContent = 'Sound: ' + (Sound.isEnabled() ? 'On' : 'Off');
     // the music plays through the sound: with the sound off it is silent whatever it says
     $('#m-music').textContent = 'Music: ' + (Music.isEnabled() ? (Sound.isEnabled() ? 'On' : 'On (sound is off)') : 'Off');
@@ -1233,10 +1231,7 @@ const UI = (() => {
 
   // ---------- input ----------
   function bindControls() {
-    $('#pro-voice-play').addEventListener('click', () => { Sound.unlock(); narration.toggle(); });
-    $('#pro-voice-volume').addEventListener('input', e => narration.setVolume(Number(e.target.value) / 100));
-    document.addEventListener('visibilitychange', () => { if (document.hidden) narration.pause(); });
-    window.addEventListener('pagehide', () => narration.stop());
+    narration.bind();
     for (const b of $$('.ctl[data-act]')) {
       const act = b.dataset.act;
       const down = e => { e.preventDefault(); Sound.unlock(); try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } held.set(act, performance.now()); b.classList.add('held'); Game.input(act); };
@@ -1319,6 +1314,7 @@ const UI = (() => {
       if (Game.load()) startPlaying();
     });
     $('#m-sound').addEventListener('click', () => { if (!Sound.toggle()) { narration.stop(); Music.titleOff(0.4); } renderMenu(); titleMusic(); });
+    $('#m-voice').addEventListener('click', () => { narration.setEnabled(!narration.enabled()); renderMenu(); });
     $('#m-music').addEventListener('click', () => { Music.toggle(); renderMenu(); titleMusic(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });
@@ -1399,6 +1395,8 @@ const UI = (() => {
   function handleEvents() {
     for (const e of Game.takeEvents()) {
       hudDirty = true;
+      if (e === 'level' || e === 'inv') narration.scan();
+      if (e === 'dead' || e === 'won') narration.stop();
       if (e === 'boons') { if (overlay === 'boons') renderBoons(); else openOverlay('boons'); }
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();
@@ -1423,6 +1421,7 @@ const UI = (() => {
       else if (e === 'inv') { if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
       else if (e === 'stats' && overlay === 'shop') renderShop();
     }
+    narration.tick(performance.now());
   }
 
   function init() {
@@ -1553,6 +1552,7 @@ const UI = (() => {
 
   // ---------- endscreen: see endscreen.js ----------
   const { cardInfo, runShareLine, showEnd } = makeEndScreen({
+    narrateEnd: (G, lines) => narration.ending(G, lines),
     get clearOverlays() { return clearOverlays; }, get faceOf() { return faceOf; }, get showScreen() { return showScreen; },
   });
 
@@ -1624,7 +1624,7 @@ const UI = (() => {
     },
   });
 
-  return { init, paused, fitView, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
+  return { voicePlaying: () => narration.active(), init, paused, fitView, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** The title's key art, which picture and how it lies: for the tests. */

@@ -1788,7 +1788,7 @@ const Game = (() => {
     wasteReason, spellWasteReason, spellRange, setTesting, testingOn, tested: () => !!(G && G.tested), testFloor, testReveal, testLevel, testGifts, testGive, attackReady, castLabel, vowed, rung, restShare, abilityOf, abilityLeft, useAbility, score, finaleLeft, restLabel,
     /** The lich is awake and fighting: the drone under the dungeon tightens. */
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
-    mood,
+    mood, enemiesNear,
     INV_MAX, T,
   };
 })();

@@ -30,6 +30,10 @@ def main():
     parser.add_argument('--voices', required=True, type=Path)
     args = parser.parse_args()
     ort.disable_telemetry_events()
+    catalogue_path = ROOT / 'narration/catalog.json'
+    if catalogue_path.exists():
+        render_catalogue(args)
+        return
     brief = json.loads((ROOT / 'narration/brief.json').read_text())
     engine = Kokoro(str(args.model), str(args.voices))
     parts = []
@@ -62,6 +66,39 @@ def main():
     }
     (ROOT / 'narration/provenance.json').write_text(json.dumps(provenance, indent=2) + '\n')
     print(f"Rendered George prologue: {provenance['seconds']} seconds.")
+
+
+def render_catalogue(args):
+    catalogue = json.loads((ROOT / 'narration/catalog.json').read_text())
+    index_path = ROOT / 'narration/production.json'
+    index = json.loads(index_path.read_text()) if index_path.exists() else {}
+    model_hash = hashlib.sha256(args.model.read_bytes()).hexdigest()
+    voice_hash = hashlib.sha256(args.voices.read_bytes()).hexdigest()
+    signature = model_hash + voice_hash + '|bm_george|0.92|native24-s16-v1'
+    engine = Kokoro(str(args.model), str(args.voices))
+    prior = json.loads((ROOT / 'narration/provenance.json').read_text())
+    for number, (key, entry) in enumerate(catalogue['clips'].items(), 1):
+        output = ROOT / f'narration/{key}'
+        master = ROOT / f'masters/narration/{key}.flac'
+        have = all(p.exists() for p in [master, output.with_suffix('.ogg'), output.with_suffix('.m4a')])
+        if key == 'prologue' and have and prior.get('modelSha256') == model_hash:
+            continue  # the opening was approved already; keep its pauses and exact take
+        if have and index.get(key, {}).get('signature') == signature:
+            continue
+        samples, rate = engine.create(entry['text'], voice='bm_george', speed=0.92, lang='en-gb')
+        samples = np.concatenate([samples, np.zeros(int(rate * 0.2), dtype=np.float32)])
+        with tempfile.TemporaryDirectory(prefix='deepdelve-george-') as tmp:
+            raw = Path(tmp) / 'raw.wav'
+            sf.write(raw, samples, rate, subtype='PCM_24')
+            ffmpeg('-i', raw, '-af', 'loudnorm=I=-18:TP=-1:LRA=7', '-ar', rate,
+                   '-ac', 1, '-sample_fmt', 's16', '-c:a', 'flac', master)
+            for ext, codec in [('ogg', ['-c:a', 'libvorbis', '-q:a', '4']),
+                               ('m4a', ['-c:a', 'aac', '-b:a', '80k', '-movflags', '+faststart'])]:
+                ffmpeg('-i', master, '-af', 'volume=-1dB', *codec, output.with_suffix('.' + ext))
+        index[key] = {'seconds': round(len(samples) / rate, 3), 'signature': signature,
+                      'text': entry['text'], 'voice': 'bm_george', 'modelSha256': model_hash}
+        index_path.write_text(json.dumps(index, indent=2) + '\n')
+        print(f"{number}/{len(catalogue['clips'])}: {key} ({entry['kind']}, {index[key]['seconds']}s)", flush=True)
 
 
 if __name__ == '__main__':

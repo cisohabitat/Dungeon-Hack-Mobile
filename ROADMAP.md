@@ -288,6 +288,8 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 
 ## Phase 11: Authored audio (when the recordings arrive)
 
+- [x] George synthetic narration: opening and backgrounds, found pages, first region and relic discoveries, and death/victory epilogues; default on, separate voice control, combat priority, offline recordings.
+
 - [ ] **Recorded sound** (P12): the pack's files replaced one for one from `sound/REQUEST.md`,
   names and lengths kept so `samples.js` and the tests need no change; a hit stop of a few
   frames and a heavier shake under a real impact (P1's "weight").

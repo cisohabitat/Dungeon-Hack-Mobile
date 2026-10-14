@@ -1,0 +1,961 @@
+{
+  "version": 1,
+  "voice": "bm_george",
+  "speed": 0.92,
+  "clips": {
+    "line-00eee1bd": {
+      "id": "line-00eee1bd",
+      "text": "Whisper. Wrapped in grey felt from pommel to guard. Its last owner was never seen, only missed.",
+      "title": "Whisper",
+      "kind": "relic"
+    },
+    "line-07ecf9ba": {
+      "id": "line-07ecf9ba",
+      "text": "A dark elf came up into the daylight with them, hooded against it, and keeps to the valley's woods and the night.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-08309865": {
+      "id": "line-08309865",
+      "text": "Dawnbringer. A temple mace with a sunburst head. The dead of the lower halls turn their faces from it.",
+      "title": "Dawnbringer",
+      "kind": "relic"
+    },
+    "line-0a982bdc": {
+      "id": "line-0a982bdc",
+      "text": "Black water among rotting reeds, and walls of wattle daubed with mud. You have come into the marsh of the lizardfolk.",
+      "title": "The Sunless Marsh",
+      "kind": "region"
+    },
+    "line-0ad23b07": {
+      "id": "line-0ad23b07",
+      "text": "the Sunhammer. Forged at dawn on a temple roof, and quenched in the first light. The dead it strikes remember the sun, and burn with the memory.",
+      "title": "the Sunhammer",
+      "kind": "relic"
+    },
+    "line-0b3a679f": {
+      "id": "line-0b3a679f",
+      "text": "The goblins of the upper halls still curse the one who would not pay their toll.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-0bed0fe2": {
+      "id": "line-0bed0fe2",
+      "text": "Notes on the goblins. They will not say its name. They call it the Stopping Fire. A goblin who sleeps too near it does not wake, and does not die either: they stack them at the back of the hall. So the king beats his drum all night, and every goblin who hears it has to get up and move.",
+      "title": "Notes on the goblins",
+      "kind": "page"
+    },
+    "line-0eac998a": {
+      "id": "line-0eac998a",
+      "text": "You were born in the lower galleries and did not see open sky until you were nineteen. You still find it too large. Down here you move the way the people down here move, and the dark takes longer to work out that you are not part of it. You came down here because it is the only place that has ever felt like a ceiling and not a lid.",
+      "title": "The Deep-born",
+      "kind": "background"
+    },
+    "line-185aa1a4": {
+      "id": "line-185aa1a4",
+      "text": "Your father's debt outlived him and came looking for you. The house that bought it offered a choice: the delve, or the work gangs on the coast. They paid you in advance, which told you what they expect to get back. You came down here owing a debt you intend to close in person.",
+      "title": "The Debtor",
+      "kind": "background"
+    },
+    "line-199cc677": {
+      "id": "line-199cc677",
+      "text": "The hero came up out of the Deepdelve with nothing in their hands, and told the valley that the Heart of the Mountain was out for good.",
+      "title": "THE FIRE GOES OUT",
+      "kind": "ending"
+    },
+    "line-1a7d7f5f": {
+      "id": "line-1a7d7f5f",
+      "text": "The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley will be warm again, and nobody in it means to stand too close.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-1cd8aaca": {
+      "id": "line-1cd8aaca",
+      "text": "Scratched inside a goblin shield. drum good. drum mean get up. get up mean not stop. not stop mean not like the ones at the back.",
+      "title": "Scratched inside a goblin shield",
+      "kind": "page"
+    },
+    "line-1de045a9": {
+      "id": "line-1de045a9",
+      "text": "A sellsword waited where they were told on the floor below until the food ran out, and then came up cursing.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-2269f03c": {
+      "id": "line-2269f03c",
+      "text": "A sellsword walked out of the mountain at their side, drank the valley dry that night, and still tells it better than they do.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-230cdcd5": {
+      "id": "line-230cdcd5",
+      "text": "the Sexton's Locket. The gravedigger who kept these halls wore it to his last shift. Inside, a lock of hair gone white, and the cold cannot find you through it.",
+      "title": "the Sexton's Locket",
+      "kind": "relic"
+    },
+    "line-26ceaa8e": {
+      "id": "line-26ceaa8e",
+      "text": "Square-cut granite, and far off the ring of hammers. You have come into the hold of the grey dwarves.",
+      "title": "The Grey Hold",
+      "kind": "region"
+    },
+    "line-298f4ac1": {
+      "id": "line-298f4ac1",
+      "text": "The last crew's log. Day nineteen. We are not lost. We have mapped it twice and both maps are right. The delve is longer on the way out than it was on the way in. Whatever was done to the Heart, it was done to the distance as well.",
+      "title": "The last crew's log",
+      "kind": "page"
+    },
+    "line-2a1dbd59": {
+      "id": "line-2a1dbd59",
+      "text": "Galewind. A bow strung so tight it sings in a draught. Its arrows leave before the archer has quite decided.",
+      "title": "Galewind",
+      "kind": "relic"
+    },
+    "line-2a2bd086": {
+      "id": "line-2a2bd086",
+      "text": "the Hearthwool Robe. Spun from the wool of mountain sheep, and never once cold. Whoever wore it slept well below the snow line, and their cuts had closed by morning.",
+      "title": "the Hearthwool Robe",
+      "kind": "relic"
+    },
+    "line-2cef9801": {
+      "id": "line-2cef9801",
+      "text": "The hero came up out of the Deepdelve carrying the Heart of the Mountain, which is a sentence nobody in the valley has been able to write for three winters.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-2df1edb6": {
+      "id": "line-2df1edb6",
+      "text": "They were carrying some of the earlier crews' pages when they fell. In time someone will find those too, along with a new name for the roster.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-311cd9a5": {
+      "id": "line-311cd9a5",
+      "text": "the Ogre's Toll. Forged by a smith whose village paid one toll too many. The haft is scored with tally marks, all of them ogres.",
+      "title": "the Ogre's Toll",
+      "kind": "relic"
+    },
+    "line-313f7783": {
+      "id": "line-313f7783",
+      "text": "Heartseeker. Yew and horn, strung with something that is not gut. Arrows loosed from it curve, very slightly, toward the heart.",
+      "title": "Heartseeker",
+      "kind": "relic"
+    },
+    "line-3182eae3": {
+      "id": "line-3182eae3",
+      "text": "They went down to see whether any of the old accounts were true.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-318a568a": {
+      "id": "line-318a568a",
+      "text": "the Warchief's Knuckle. An iron ring worn over the knuckle, stolen from one warchief by the next, and the next. Its spikes are brown to the root.",
+      "title": "the Warchief's Knuckle",
+      "kind": "relic"
+    },
+    "line-31f4c058": {
+      "id": "line-31f4c058",
+      "text": "The third crew lies buried where they fell, because someone stopped to do it.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-34f0779c": {
+      "id": "line-34f0779c",
+      "text": "A goblin is buried in the depths of the Deepdelve, with a bent wire in its fist.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-3642781f": {
+      "id": "line-3642781f",
+      "text": "A guild notice, nailed up. By order of the Delving Guilds of Karrathal: a fourth crew will go down the Deepdelve to learn why the Heart has gone dark. Pay is triple. The guilds are not answerable for crews who do not come back. Underneath, in charcoal: none have.",
+      "title": "A guild notice, nailed up",
+      "kind": "page"
+    },
+    "line-368a1039": {
+      "id": "line-368a1039",
+      "text": "The last delver's page. A guild warrant, a hundred years old, with my name on it. I have stopped reading it. I keep it for the back, which is where I draw the floors. You fed me, so here is yours. The warm thing is lower than they think. It is always lower than they think.",
+      "title": "The last delver's page",
+      "kind": "page"
+    },
+    "line-36c3156e": {
+      "id": "line-36c3156e",
+      "text": "They went down owing a debt they meant to close in person.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-3948c18e": {
+      "id": "line-3948c18e",
+      "text": "They never speak of the pale thing in the narrow passage, or what it cost them at the end.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-3995c0f5": {
+      "id": "line-3995c0f5",
+      "text": "the Moonbound Torc. A twisted band of pale silver that fits a throat or a bear's neck alike. The beast it wakes is always hungry, and never for long.",
+      "title": "the Moonbound Torc",
+      "kind": "relic"
+    },
+    "line-39b01ff4": {
+      "id": "line-39b01ff4",
+      "text": "Kest's Bulwark. Sergeant Kest held a stair with it for a night and a day. The shield remembers standing, and lends it to you.",
+      "title": "Kest's Bulwark",
+      "kind": "relic"
+    },
+    "line-39f36dfb": {
+      "id": "line-39f36dfb",
+      "text": "the Penitent's Flail. Carried by a priest who walked down here to atone, and prayed with every step. The prayers are still in it.",
+      "title": "the Penitent's Flail",
+      "kind": "relic"
+    },
+    "line-3c98b5e1": {
+      "id": "line-3c98b5e1",
+      "text": "Cinderheart. An orb gone black and red inside, like a coal that will not go out. Whatever it burns, it burns until there is nothing left to hold the fire in.",
+      "title": "Cinderheart",
+      "kind": "relic"
+    },
+    "line-3d0b2ecb": {
+      "id": "line-3d0b2ecb",
+      "text": "It was the first fire of the old smiths: it warmed whatever was near it, and kept whatever stayed. Nothing down there is kept now. The valley will have to learn the cold, and the dead of the four crews are only dead.",
+      "title": "THE FIRE GOES OUT",
+      "kind": "ending"
+    },
+    "line-3eb54827": {
+      "id": "line-3eb54827",
+      "text": "You carried the Heart of the Mountain up out of the dark once, on the hardest road there is, and felt it beat against your ribs the whole way. Since then a second pulse has kept time under your own, slow and warm, and your wounds close faster than they should. Lately it has begun to pull downward. You came down here because the Heart is calling you back, and you mean to learn why.",
+      "title": "The Heartsworn",
+      "kind": "background"
+    },
+    "line-4091ea4a": {
+      "id": "line-4091ea4a",
+      "text": "Cold anvils stand in rows, and the cracks in the floor still glow. These were the old smiths' forges, before there was a valley.",
+      "title": "The Old Forges",
+      "kind": "region"
+    },
+    "line-439adf28": {
+      "id": "line-439adf28",
+      "text": "A healer waited on the floor below where they were told, tending their own scrapes, until the herbs ran out.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-44478586": {
+      "id": "line-44478586",
+      "text": "Motley. A jester's coat of patched leather, every patch a different colour. Whoever swings at its wearer finds only the laughter, and a gap in their guard.",
+      "title": "Motley",
+      "kind": "relic"
+    },
+    "line-46021906": {
+      "id": "line-46021906",
+      "text": "A prayer, scratched into the wall. Not to any god of the valley. The letters run the wrong way and the last line reads: he says the mountain will keep us warm forever. he says we only have to stop.",
+      "title": "A prayer, scratched into the wall",
+      "kind": "page"
+    },
+    "line-49b3267a": {
+      "id": "line-49b3267a",
+      "text": "the Sisters' Buckler. Silvered by a convent of healers. Venom beads on its face like water on wax.",
+      "title": "the Sisters' Buckler",
+      "kind": "relic"
+    },
+    "line-49fb9b87": {
+      "id": "line-49fb9b87",
+      "text": "A goblin is still down there somewhere, picking locks for nobody.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-4c20f82e": {
+      "id": "line-4c20f82e",
+      "text": "Rustwarden Mail. Each ring is stamped with a tiny sigil against the grave. Wraiths touch it and draw back as if burned.",
+      "title": "Rustwarden Mail",
+      "kind": "relic"
+    },
+    "line-4c238cef": {
+      "id": "line-4c238cef",
+      "text": "Goblin marks on a tunnel wall. Daubed in soot, a crew's reading written under them: BIG FIRE COME DOWN. DEAD MAN CARRY IT. WE TAKE. KING SIT ON IT. KING NOT COLD. KING NOT STOP.",
+      "title": "Goblin marks on a tunnel wall",
+      "kind": "page"
+    },
+    "line-4e3601a2": {
+      "id": "line-4e3601a2",
+      "text": "A chill wind moans through these vaults.",
+      "title": "Blue Vaults",
+      "kind": "region"
+    },
+    "line-4e51fa11": {
+      "id": "line-4e51fa11",
+      "text": "Hissra's Tooth. A yellow fang as long as a finger, on a thong of hide, from something that lived in the marsh before the lizardfolk did. Wounds close under it, and nothing foul takes root in them.",
+      "title": "Hissra's Tooth",
+      "kind": "relic"
+    },
+    "line-4edf55dd": {
+      "id": "line-4edf55dd",
+      "text": "They also carried out every page the earlier crews left behind, so the valley will finally learn what became of them.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-4ef03433": {
+      "id": "line-4ef03433",
+      "text": "Briarcoat. The studs have been filed to hooks. Anything that grapples with its wearer lets go bleeding.",
+      "title": "Briarcoat",
+      "kind": "relic"
+    },
+    "line-53431cd9": {
+      "id": "line-53431cd9",
+      "text": "A healer closed their eyes, and went on down alone to find someone who could still be mended.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-54f09a8b": {
+      "id": "line-54f09a8b",
+      "text": "Somewhere in the dark a goblin with a scar tells its tribe about the one who let it live.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-55bc46d6": {
+      "id": "line-55bc46d6",
+      "text": "They went down because the last four chapters of the story were missing.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-5ab412e6": {
+      "id": "line-5ab412e6",
+      "text": "A novice's account of the last sermon. He came to the Hollow Chapel the winter the Heart went down. He said it was cold above and would be colder, and that below, beside the Heart, no one need ever grow old, or hungry, or afraid. Only still. Half the chapel went with him. Mother Orla went to bring them back.",
+      "title": "A novice's account of the last sermon",
+      "kind": "page"
+    },
+    "line-5b559b0d": {
+      "id": "line-5b559b0d",
+      "text": "A dark elf, who saw the High Priestess of their people fall, walked out of the mountain at their side and has never once looked back down it.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-5b6f1ad8": {
+      "id": "line-5b6f1ad8",
+      "text": "A goblin was seen at the mouth of the Deepdelve a month later, with a sack that clinked.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-5ca2a296": {
+      "id": "line-5ca2a296",
+      "text": "A grey wolf came out of the mountain with them, and is seen at the edge of the valley's woods on still nights.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-5d47adfa": {
+      "id": "line-5d47adfa",
+      "text": "The hero will not lie quiet. A later delve will find their bones where they fell, and something keeping watch over them.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-5f30e107": {
+      "id": "line-5f30e107",
+      "text": "Marks pressed into the marsh mud. A crew's reading, under the claw-marks: once warm water came up from below. Eggs did not hatch. Eggs did not rot. Mothers waited, many lives of mothers. Then the warm went down again, and the eggs hatched, and we were glad of the cold.",
+      "title": "Marks pressed into the marsh mud",
+      "kind": "page"
+    },
+    "line-5fb9a0fc": {
+      "id": "line-5fb9a0fc",
+      "text": "A grey wolf is said to walk the deep floors still.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-61b2265f": {
+      "id": "line-61b2265f",
+      "text": "A guild roster, water-stained. Fourth crew. Fourteen names, eleven struck through in a different hand. At the bottom someone has written: \"the struck ones still answer to their names. do not use their names.\"",
+      "title": "A guild roster, water-stained",
+      "kind": "page"
+    },
+    "line-62728e28": {
+      "id": "line-62728e28",
+      "text": "They went down because the Heart was calling them back, and they meant to learn why.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-62b8da42": {
+      "id": "line-62b8da42",
+      "text": "the Last Word. A plain grey knife with no maker's mark. The guild that owned it never spoke its name aloud, and the people it was used on never spoke again.",
+      "title": "the Last Word",
+      "kind": "relic"
+    },
+    "line-67bfa69e": {
+      "id": "line-67bfa69e",
+      "text": "A goblin came out into the daylight with them, blinked at it, and has been opening the valley's locks ever since.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-680bd148": {
+      "id": "line-680bd148",
+      "text": "They went down through the Warrens, and were still picking goblin arrowheads out of their pack a month later.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-6c0a95d4": {
+      "id": "line-6c0a95d4",
+      "text": "Staff of the Ninth Circle. Nine rings of black iron are sunk in the wood. Each one hums a different note when a spell is spoken near it.",
+      "title": "Staff of the Ninth Circle",
+      "kind": "relic"
+    },
+    "line-6c13c5f0": {
+      "id": "line-6c13c5f0",
+      "text": "Emberwood. Cut from a tree that grew around a forge. It is warm to hold, wounds close faster in its warmth, and what it strikes smoulders.",
+      "title": "Emberwood",
+      "kind": "relic"
+    },
+    "line-6ea37fab": {
+      "id": "line-6ea37fab",
+      "text": "A rubbing from a stone in the orc halls. Under the orcs' marks, older letters, square and deep: the old smiths' hand. THE FIRE IS OURS. WE LIT IT TO BE WARM. WE STAYED TO BE WARM. WE STAYED.",
+      "title": "A rubbing from a stone in the orc halls",
+      "kind": "page"
+    },
+    "line-6eb201b7": {
+      "id": "line-6eb201b7",
+      "text": "A brown hound stood over them to the last, and came up out of the dark alone.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-705d51e5": {
+      "id": "line-705d51e5",
+      "text": "A brown hound was found at the foot of the stair, waiting.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-72b715e9": {
+      "id": "line-72b715e9",
+      "text": "the Spider Pendant. A silver spider with garnet eyes, worn by every High Priestess of the dark elves in turn. Their goddess's webs part for whoever wears it, and the blows she sends aside go wide.",
+      "title": "the Spider Pendant",
+      "kind": "relic"
+    },
+    "line-733d91da": {
+      "id": "line-733d91da",
+      "text": "A sellsword lies in the depths of the Deepdelve with the sword across their chest, paid in full.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-7482c0c6": {
+      "id": "line-7482c0c6",
+      "text": "A grey wolf was heard howling at the mouth of the Deepdelve for three nights, and then was gone.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-74917308": {
+      "id": "line-74917308",
+      "text": "They went down because it was the only place that had ever felt like a ceiling and not a lid.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-7569c405": {
+      "id": "line-7569c405",
+      "text": "A surveyor's note. The gallery plans are wrong below the second floor. Not old-wrong. Someone has been cutting new passages and they are cutting them from the inside out.",
+      "title": "A surveyor's note",
+      "kind": "page"
+    },
+    "line-756bbfb1": {
+      "id": "line-756bbfb1",
+      "text": "A man they cut out of goblin chains tells the story in the valley taverns, and gets the details wrong in their favour.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-78b40999": {
+      "id": "line-78b40999",
+      "text": "Shadowskin. Black hide that drinks the lantern light. You can hear your own heartbeat louder than your footsteps.",
+      "title": "Shadowskin",
+      "kind": "relic"
+    },
+    "line-78e0b0a4": {
+      "id": "line-78e0b0a4",
+      "text": "A letter, never sent. Mira — the Heart is not out. I have stood in the vault and felt it beating through the rock. It has been taken down, not extinguished. Something carried it deeper and it is still warm. Tell the guild. Tell them it is still warm.",
+      "title": "A letter, never sent",
+      "kind": "page"
+    },
+    "line-78f0a0d0": {
+      "id": "line-78f0a0d0",
+      "text": "A hound lies buried in the depths of the Deepdelve, and they do not talk about it.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-79b568c1": {
+      "id": "line-79b568c1",
+      "text": "You have been to the bottom of the Deepdelve and walked out again, which nobody else in the valley can say. You do not talk about what you saw on the last floor or who you left on the way. You keep one good draught back for the bad hour, and the Lampfolk, who remember you, let you sleep by their lamp for nothing. You came down here again because the mountain is not finished with you.",
+      "title": "The Returned",
+      "kind": "background"
+    },
+    "line-7d46d00a": {
+      "id": "line-7d46d00a",
+      "text": "A healer walked out of the mountain beside them, and has stitched up half the valley since.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-7e84052f": {
+      "id": "line-7e84052f",
+      "text": "Rough tunnels, dug by many small hands and propped with timber.",
+      "title": "The Warrens",
+      "kind": "region"
+    },
+    "line-8529926e": {
+      "id": "line-8529926e",
+      "text": "Oakheart. Cut from the heart of an oak that was old when the mountain was young. Hold it, and something in you remembers having claws.",
+      "title": "Oakheart",
+      "kind": "relic"
+    },
+    "line-86028ce6": {
+      "id": "line-86028ce6",
+      "text": "A child's drawing. A crooked figure with a crown, holding something round and red, standing over small figures lying down. On the back, in an adult hand: \"she has never been below the third floor. she has never seen him. ask how she knows.\"",
+      "title": "A child's drawing",
+      "kind": "page"
+    },
+    "line-8710ff41": {
+      "id": "line-8710ff41",
+      "text": "A wyrm followed them down for the egg they smashed.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-894240df": {
+      "id": "line-894240df",
+      "text": "the Archivist's Robe. Ink-stained at the cuffs, with a hundred pockets. The archivist who wore it read every scroll the guild ever stored, and learned where the floor was false.",
+      "title": "the Archivist's Robe",
+      "kind": "relic"
+    },
+    "line-8ccfec29": {
+      "id": "line-8ccfec29",
+      "text": "A dark elf stood over them to the last, and went back down into the dark, where nobody would have them.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-8d5626bd": {
+      "id": "line-8d5626bd",
+      "text": "Graven over the Grey Hold's gate. WE ARE WHAT IS LEFT OF THE SMITHS WHO WOULD NOT STAY. THE FIRE GOES HOME TO THE FORGE THAT MADE IT, WHOEVER CARRIES IT DOWN. LET IT GO HOME. DO NOT FOLLOW.",
+      "title": "Graven over the Grey Hold's gate",
+      "kind": "page"
+    },
+    "line-8db8b5ee": {
+      "id": "line-8db8b5ee",
+      "text": "They went down by the Crypts, among the old dead, and for a long while after they could not sleep without a lamp lit.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-8de8f9f2": {
+      "id": "line-8de8f9f2",
+      "text": "A dark elf, who saw the High Priestess of their people fall, went on down alone, for the debt was paid and the dark was theirs again.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-8eee3828": {
+      "id": "line-8eee3828",
+      "text": "A grey wolf stood over them to the last, and went back into the dark.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-9248ae22": {
+      "id": "line-9248ae22",
+      "text": "They left some of the earlier crews' pages down there in the dark. Someone else will have to go back for those.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-937efbc8": {
+      "id": "line-937efbc8",
+      "text": "The hero fell in the depths of the Deepdelve, in the shallow halls where it takes most of those who try.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-93d0a7e1": {
+      "id": "line-93d0a7e1",
+      "text": "Whatever they bargained with in the narrow passage was paid in full.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-950d74a3": {
+      "id": "line-950d74a3",
+      "text": "They carried a weeping knight's blade out of the dark, though they never learned what its task had been.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-95a4ce89": {
+      "id": "line-95a4ce89",
+      "text": "They carried nothing out and left nothing behind but another name for the roster.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-9653438d": {
+      "id": "line-9653438d",
+      "text": "The hero never came up out of the Deepdelve. They stayed beside the Heart of the Mountain, and hold it still.",
+      "title": "KEPT",
+      "kind": "ending"
+    },
+    "line-98cf3943": {
+      "id": "line-98cf3943",
+      "text": "A sellsword came up a day after them, bloodied, and asked for the rest of the pay.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-9afb3428": {
+      "id": "line-9afb3428",
+      "text": "A dark elf, who saw the High Priestess of their people fall, came up out of the Deepdelve a night after them, and was gone again before dawn.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-9b37239f": {
+      "id": "line-9b37239f",
+      "text": "A brown hound sleeps by their fire, and will not be parted from them.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-a024d486": {
+      "id": "line-a024d486",
+      "text": "Thirst. The blade is dark where the fuller runs, as if it were never quite cleaned. It feels warmer after a fight.",
+      "title": "Thirst",
+      "kind": "relic"
+    },
+    "line-a16f64b0": {
+      "id": "line-a16f64b0",
+      "text": "A goblin slipped away into the dark with their purse, which is only what goblins do.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-a2b96b75": {
+      "id": "line-a2b96b75",
+      "text": "A prayer-tablet from the dark elves' temple. Goddess, keep the warm fire far from us. When it rested in our halls the grandmothers of our grandmothers did not die. They did not move. Your webs grew over them where they sat, and they are sitting still.",
+      "title": "A prayer-tablet from the dark elves' temple",
+      "kind": "page"
+    },
+    "line-a5fd5a5e": {
+      "id": "line-a5fd5a5e",
+      "text": "A single line, cut deep. IT WILL LET YOU TAKE IT. THAT IS THE PART NOBODY WRITES DOWN.",
+      "title": "A single line, cut deep",
+      "kind": "page"
+    },
+    "line-a603a237": {
+      "id": "line-a603a237",
+      "text": "They went down to make certain the mountain never did that again.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-a637a9d5": {
+      "id": "line-a637a9d5",
+      "text": "Heartroot. A staff that is still, quietly, a living root. The ground knows it, and holds whatever its bearer and their friends are fighting.",
+      "title": "Heartroot",
+      "kind": "relic"
+    },
+    "line-a9f7ae63": {
+      "id": "line-a9f7ae63",
+      "text": "The Lampfolk have a name for them, and do not say it kindly.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-ac391fe1": {
+      "id": "line-ac391fe1",
+      "text": "Water drips and moss clings to every stone.",
+      "title": "Mossy Depths",
+      "kind": "region"
+    },
+    "line-ad181499": {
+      "id": "line-ad181499",
+      "text": "The first page of the guilds' charter. Here the guilds found the Heart of the Mountain: the first fire of the old smiths, lit at the root of the mountain before there were people in the valley. Its warmth rises through the stone and keeps the valley from the frost. It keeps more than that. Whatever stays beside it does not grow old, or change, or die: it is kept. The smiths stayed. Let no one stay. Let no one hold it long.",
+      "title": "The first page of the guilds' charter",
+      "kind": "page"
+    },
+    "line-b0c3b2cf": {
+      "id": "line-b0c3b2cf",
+      "text": "The Lampfolk still tell of a sun-walker who stopped in the dark to light a lamp.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-b0ec1fe9": {
+      "id": "line-b0ec1fe9",
+      "text": "Cold stone halls stretch into darkness.",
+      "title": "Grey Halls",
+      "kind": "region"
+    },
+    "line-b16fc6d9": {
+      "id": "line-b16fc6d9",
+      "text": "A dark elf waited where they were told on the floor below, and is waiting still.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-b84215e3": {
+      "id": "line-b84215e3",
+      "text": "Durgrim's Ring. A heavy band of dark iron with a vein of copper through it, forged in the first fire of the grey dwarves' hold. Every Thane has worn it at the anvil, and none of them has been burnt.",
+      "title": "Durgrim's Ring",
+      "kind": "relic"
+    },
+    "line-bab87cbb": {
+      "id": "line-bab87cbb",
+      "text": "A brown hound came up out of the Deepdelve a week after them, thin as a rake, and will not be parted from them again.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-bb99c940": {
+      "id": "line-bb99c940",
+      "text": "The archivist's last entry. I have carried it down to where the dead lie quiet. They do not need it to be warm. They need it to keep them, and it does. The crews will come. Let them come. I will keep them too. I will keep everyone.",
+      "title": "The archivist's last entry",
+      "kind": "page"
+    },
+    "line-bea3b75f": {
+      "id": "line-bea3b75f",
+      "text": "Black water stands in halls that were dry once, and something moves beneath it.",
+      "title": "The Drowned Halls",
+      "kind": "region"
+    },
+    "line-bf22f80b": {
+      "id": "line-bf22f80b",
+      "text": "A Lampfolk ledger, copied out. Sold to the dead man in the cold halls: lamp oil, forty measures, for his dead to see by. Sold to the drum-king: nothing. He does not buy. He takes. Note: do not sleep in the drum-king's hall, however warm.",
+      "title": "A Lampfolk ledger, copied out",
+      "kind": "page"
+    },
+    "line-bf8833a0": {
+      "id": "line-bf8833a0",
+      "text": "A dark elf lies in the depths of the Deepdelve, the two blades crossed on their breast, having seen the High Priestess fall first.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-c2d6007f": {
+      "id": "line-c2d6007f",
+      "text": "the Cinder Ring. A plain iron band, still warm, found in the ash where the floor burns. Whoever wore it last walked through fire for a living, and the fire let them.",
+      "title": "the Cinder Ring",
+      "kind": "relic"
+    },
+    "line-c7df7cf9": {
+      "id": "line-c7df7cf9",
+      "text": "Red Harvest. The haft is wrapped in strips of every banner it has cut down. The worse its bearer bleeds, the lighter it swings.",
+      "title": "Red Harvest",
+      "kind": "relic"
+    },
+    "line-c9594837": {
+      "id": "line-c9594837",
+      "text": "The Heart is the first fire of the old smiths: it warms whatever is near it, and keeps whatever stays. The valley is warm again, and will be for as long as someone keeps it. Somewhere below, someone does.",
+      "title": "KEPT",
+      "kind": "ending"
+    },
+    "line-c9766f70": {
+      "id": "line-c9766f70",
+      "text": "A grey wolf lies under a cairn in the depths of the Deepdelve, and the valley's dogs will not go near it.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-c9ec7603": {
+      "id": "line-c9ec7603",
+      "text": "A dark elf lies in the depths of the Deepdelve, the two blades crossed on their breast, further from home than any of their people had gone.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-ccd79733": {
+      "id": "line-ccd79733",
+      "text": "Black stone laid true, and violet lamps. You have come into the country of the dark elves.",
+      "title": "The Dark Elf Halls",
+      "kind": "region"
+    },
+    "line-ceee657e": {
+      "id": "line-ceee657e",
+      "text": "Thornbinder. Its shaft is wound with briar that never dries. Every blow it lands on a thing already caught pulls the knot a little tighter.",
+      "title": "Thornbinder",
+      "kind": "relic"
+    },
+    "line-cf6e3bf3": {
+      "id": "line-cf6e3bf3",
+      "text": "A healer came up out of the Deepdelve a week after them, with a full satchel and a long story.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-d1354a35": {
+      "id": "line-d1354a35",
+      "text": "the Rimebound Grimoire. Its pages are frost, and the words on them are cut, not written. A thing held in its cold grows brittle, and breaks like ice in spring.",
+      "title": "the Rimebound Grimoire",
+      "kind": "relic"
+    },
+    "line-d13e2034": {
+      "id": "line-d13e2034",
+      "text": "Black glass walls hum with a terrible power.",
+      "title": "Obsidian Sanctum",
+      "kind": "region"
+    },
+    "line-d41eecb1": {
+      "id": "line-d41eecb1",
+      "text": "On the way down they found an earlier delver, who had gone before them, and laid them to rest.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-d5cf65ba": {
+      "id": "line-d5cf65ba",
+      "text": "You have spent your life with the delvers' accounts, the boastful and the broken alike, and you know what they found down there and how they used it. You have never been down yourself. You know exactly how much that matters, and how little. You came down here to see whether any of it was true.",
+      "title": "The Lorekeeper",
+      "kind": "background"
+    },
+    "line-d614088d": {
+      "id": "line-d614088d",
+      "text": "The hero got as far as the deep floors of the Deepdelve, which is further than the fourth crew managed.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-d7bd0618": {
+      "id": "line-d7bd0618",
+      "text": "the Lantern of Mercy. A healer's sunburst, its rays worn smooth by a lifetime of hands. What it mends beyond the wound it keeps, and spends on the next.",
+      "title": "the Lantern of Mercy",
+      "kind": "relic"
+    },
+    "line-d8b3ccd6": {
+      "id": "line-d8b3ccd6",
+      "text": "the Mossmantle. A cloak of living moss over soft hide, green even this far from the sun. It closes its wearer's wounds, and nothing foul takes root in them.",
+      "title": "the Mossmantle",
+      "kind": "relic"
+    },
+    "line-db6ae642": {
+      "id": "line-db6ae642",
+      "text": "You were sworn to the valley guard, and at Cairn Ford you ran. Forty held the ford without you and none of them walked home. No one in the valley has said the word coward to your face. They do not have to. You came down here to spend what is left of yourself well.",
+      "title": "The Oathbroken",
+      "kind": "background"
+    },
+    "line-dbf1d903": {
+      "id": "line-dbf1d903",
+      "text": "From the archivist's daybook. The guild's founding, and every year of it since, in my own hand. I do not tire and I do not age while I keep my desk beside the vault. The Heart keeps me. I should like to know what it would make of the rest of them.",
+      "title": "From the archivist's daybook",
+      "kind": "page"
+    },
+    "line-dc2c559f": {
+      "id": "line-dc2c559f",
+      "text": "A dark elf came up out of the Deepdelve a night after them, and was gone again before dawn.",
+      "title": "VICTORY",
+      "kind": "ending"
+    },
+    "line-e2252f2c": {
+      "id": "line-e2252f2c",
+      "text": "The walls here are stained a rusty red.",
+      "title": "Crimson Crypts",
+      "kind": "region"
+    },
+    "line-e3f64f82": {
+      "id": "line-e3f64f82",
+      "text": "They went down to spend what was left of themselves well.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-e48600d3": {
+      "id": "line-e48600d3",
+      "text": "They went down again because the mountain was not finished with them.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-e51132f1": {
+      "id": "line-e51132f1",
+      "text": "Farstrider. A bow of black yew, longer than its owner was tall. Its arrows do not stop for the first thing they meet.",
+      "title": "Farstrider",
+      "kind": "relic"
+    },
+    "line-e562e5fa": {
+      "id": "line-e562e5fa",
+      "text": "They went down for what the last ones carried, not the Heart.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-e8410370": {
+      "id": "line-e8410370",
+      "text": "Sparkglass. An orb with a crack through it that never spread. What goes out through the crack comes back a little, like a shout off a cliff.",
+      "title": "Sparkglass",
+      "kind": "relic"
+    },
+    "line-e856d52d": {
+      "id": "line-e856d52d",
+      "text": "The dead are stacked to the roof here, skull upon skull.",
+      "title": "The Ossuary",
+      "kind": "region"
+    },
+    "line-e8edd542": {
+      "id": "line-e8edd542",
+      "text": "When the mountain first shifted, the fires came up through the floor of your village and took it in a night. You carried two children out and went back for a third. You are told you should not have survived the third trip. You came down here to make certain it never does that again.",
+      "title": "The Ashborn",
+      "kind": "background"
+    },
+    "line-e906b1a9": {
+      "id": "line-e906b1a9",
+      "text": "the Midnight Folio. Bound in black cloth, its pages ruled in silver. Read it softly: the one who wrote it did not want to be heard, and was never caught.",
+      "title": "the Midnight Folio",
+      "kind": "relic"
+    },
+    "line-e918094f": {
+      "id": "line-e918094f",
+      "text": "You have been opening other people's graves since you were eleven, and you are still alive, which puts you ahead of most in the trade. You know what a false flagstone sounds like. You know which walls are lying. You came down here because it is the largest grave anyone has ever offered you.",
+      "title": "The Tombwise",
+      "kind": "background"
+    },
+    "line-e97ba8aa": {
+      "id": "line-e97ba8aa",
+      "text": "Grimtooth. A goblin chieftain's knife, notched once for every rival it outlived. There is no room left for more notches.",
+      "title": "Grimtooth",
+      "kind": "relic"
+    },
+    "line-ede29d1c": {
+      "id": "line-ede29d1c",
+      "text": "A page torn from a ledger. He was the delve's own archivist. Nine hundred years of it in his head and no one thought that strange. He asked for the Heart to study. The guild said no. The guild has been saying no for four hundred years.",
+      "title": "A page torn from a ledger",
+      "kind": "page"
+    },
+    "line-eed5c812": {
+      "id": "line-eed5c812",
+      "text": "the Bastion. A door from a dwarven gatehouse, cut down and strapped for an arm. It held the gate for a hundred years, and does not mean to start giving way now.",
+      "title": "the Bastion",
+      "kind": "relic"
+    },
+    "line-efb17a17": {
+      "id": "line-efb17a17",
+      "text": "Every delver who never came back took something with them: a blade with a name, a shield that held a gate. You have spent years learning which, and where they went down. The Heart is someone else's errand. You came down here for what the last ones carried.",
+      "title": "The Legend-Seeker",
+      "kind": "background"
+    },
+    "line-f0b5475a": {
+      "id": "line-f0b5475a",
+      "text": "A healer lies in the depths of the Deepdelve, with the satchel for a pillow and nobody left to mend them.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-f239de0d": {
+      "id": "line-f239de0d",
+      "text": "A guildsman they dug out of the rubble keeps their chalk map on his wall.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-f385e3a1": {
+      "id": "line-f385e3a1",
+      "text": "They went down because it was the largest grave anyone had ever offered them.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-f54476b7": {
+      "id": "line-f54476b7",
+      "text": "the Boarspear. A hunting spear with a crossbar below the head, so what it goes into cannot come up the shaft at you. The crossbar is scored to the wood.",
+      "title": "the Boarspear",
+      "kind": "relic"
+    },
+    "line-f771c1c5": {
+      "id": "line-f771c1c5",
+      "text": "A sellsword carried them up out of the dark, and would not take a coin for it.",
+      "title": "The fallen hero",
+      "kind": "ending"
+    },
+    "line-f784c318": {
+      "id": "line-f784c318",
+      "text": "You were left at the door of the Hollow Library as an infant and raised among its shelves. You can name any draught by the cast of its light and any scroll by the hand that wrote it. You have also never held a weapon in anger. You came down here because the last four chapters of the story are missing.",
+      "title": "The Cloistered",
+      "kind": "background"
+    },
+    "line-f8ac921b": {
+      "id": "line-f8ac921b",
+      "text": "Minutes of the guild council. Item: the archivist's request for the Heart, for study. Refused, as every year. Item: he has asked in the same words, in the same hand, every year of the guild's records. No one at the table could remember him young.",
+      "title": "Minutes of the guild council",
+      "kind": "page"
+    },
+    "line-fc4ee330": {
+      "id": "line-fc4ee330",
+      "text": "Vashti's Needles. A juggler's knives, balanced so fine they seem to find the gap on their own. Vashti never missed. Once was enough.",
+      "title": "Vashti's Needles",
+      "kind": "relic"
+    },
+    "line-fd665fd6": {
+      "id": "line-fd665fd6",
+      "text": "The air is thick with dust and old bones.",
+      "title": "Brown Catacombs",
+      "kind": "region"
+    },
+    "prologue": {
+      "id": "prologue",
+      "text": "For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost. Three winters ago it went out. The wells came up black. The orchards died standing. The old road filled with people walking the other way. The delving guilds sent crews down the Deepdelve to find out why. None of the crews came back, and after the fourth the guilds stopped sending them. What is down there now wears their faces.",
+      "title": "Karrathal",
+      "kind": "prologue"
+    }
+  }
+}

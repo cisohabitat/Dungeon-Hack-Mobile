@@ -163,9 +163,10 @@
   <section id="screen-prologue" class="screen scroll">
     <div class="panel story">
       <h2 id="pro-title">Karrathal</h2>
-      <div id="pro-voice" class="row" hidden>
-        <button id="pro-voice-play" type="button">Listen to the story</button>
-        <label for="pro-voice-volume">Voice volume <input id="pro-voice-volume" type="range" min="0" max="100" step="5" value="85"></label>
+      <div id="pro-voice" class="row voice-controls" data-voice-context="prologue" hidden>
+        <button id="pro-voice-play" data-voice-toggle type="button">Listen to the story</button>
+        <button type="button" data-voice-background>Your story</button><button type="button" data-voice-stop>Skip narration</button>
+        <label for="pro-voice-volume">Voice volume <input id="pro-voice-volume" data-voice-volume type="range" min="0" max="100" step="5" value="85"></label>
       </div>
       <div id="pro-world"></div>
       <div class="pro-hero"><img id="pro-face" class="pro-face" alt=""><div><h3 id="pro-who"></h3><small id="pro-class" class="pro-class"></small></div></div>
@@ -183,6 +184,7 @@
       <div id="hall-trophies" class="trophies"></div>
       <button id="hall-relics" class="ghost codex-btn"><b>Relic codex</b><small id="hall-relics-count"></small></button>
       <p class="dim small">Score rewards depth above all: twice your experience, plus 100 for every floor reached. Taking the Heart adds half as much again, and 2000 more, and each vow sworn adds its share of the whole. Gold hoarded counts for nothing. A win inside the hour earns up to 600 more, ten fewer for every minute it took, and the Hall sets the quicker of two equal scores first.</p>
+      <div class="row voice-controls" data-voice-context="hall" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
       <div id="hall-list"></div>
       <div class="row"><button id="hall-back" class="big primary">Back</button></div>
     </div>
@@ -379,6 +381,7 @@
         <p><b>Send reports</b> under <b>Menu</b> is off unless you turn it on. When on, the game sends a short note when a run ends (class, difficulty, how deep, what killed the hero, the combinations it made, how smooth the view ran) and when something breaks, so it can be tuned to real delves and its faults found. It never sends the hero's name, nor anything that says who you are.</p>
         <p><b>Combat numbers</b> under <b>Menu</b> draws the damage and other words that rise off a struck creature larger, for a small screen. In the <b>Pack</b>, <b>Sort</b> puts like with like: what you fight with first, what you use up after. The title screen says how your last run ended.</p>
         <p>For testing the game, <b>Menu</b> has a row of <b>Testing tools</b>, folded away until you open it (and open whenever one of them is on): <b>Endless life</b>, <b>Endless spell points</b> and <b>Endless gold</b>: each keeps that full while it is on (no blow kills you with endless life). <b>Show every monster</b> marks them all on the map, asleep (z) or awake (!), seen or not. <b>Reveal this floor</b> lays it all out on the map; <b>Gain a level</b> does what it says; <b>Go</b> takes you straight to the floor picked (past the divided stair, by the road picked beside it); <b>Give</b> puts the item picked in your pack, or a key for each locked door left on the floor. They are all switched off when a new run begins, or when a run that still counts is taken up again. While a run still counts, each of them asks first: the first tap only says what it will cost, and a second tap, within a few seconds, uses it. A run that has used any of them says <i>Test run</i> at the top of the view, and is not written in the Hall, earns no trophy, and leaves no bones for a later hero. A Daily tested so still spends the day's try, but keeps no result.</p>
+        <p><b>Voice</b> is on by default. George reads the opening, your background, found Journal pages, new regions and relics, and the end of a delve. Each found page has a <b>Listen</b> button. Pause, replay or skip a reading; closing the Journal stops it. Discoveries wait until no enemy is near and stop for a warning. <b>Voice</b> in the <b>Menu</b> turns narration off; its volume is separate. Recordings work offline after the game has finished saving them. Personal names and exact counts remain on the page; the recordings speak of the hero.</p>
         <p>The <b>music</b> follows the fight: quiet bells while nothing is near, a low pulse when something awake is close, a beat once it comes to blows, and a horn for a champion, a shade or the last foe (in the Warlord's hall, his war-drum leads it). When the fight is over it settles and goes quiet for a while, and it draws back whenever the game is paused. <b>Music</b> in the <b>Menu</b> turns it off, and <b>Sound</b> turns off everything.</p>
       </div>
       <div class="row"><button id="help-back" class="big primary">Back</button></div>
@@ -403,6 +406,7 @@
           <div class="hud-right"><span id="hud-depth"></span><span id="hud-gold"></span><span id="hud-compass"></span></div>
         </div>
         <div class="view-wrap">
+          <div id="discovery-voice" class="discovery-voice" data-voice-context="discovery" hidden><p id="discovery-voice-caption"></p><button type="button" data-voice-toggle data-voice-compact>Pause narration</button><button type="button" data-voice-stop aria-label="Skip narration">Skip</button></div>
           <canvas id="view" width="320" height="200" role="img" aria-label="The dungeon."></canvas>
           <!-- while the way in plays: a tap on the view, or any control, skips it -->
           <div id="prelude-skip" class="prelude-skip" hidden>Tap to skip</div>
@@ -506,6 +510,7 @@
           <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
           <button class="tab" data-jtab="combos" role="tab" aria-selected="false">Combinations</button>
         </div>
+        <div class="row voice-controls" data-voice-context="journal" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
         <div id="journal-list"></div>
       </div>
     </div>
@@ -558,8 +563,10 @@
         <h3 class="menu-h">Sound</h3>
         <div class="menu-grid">
           <button id="m-sound" class="big">Sound: On</button>
+          <button id="m-voice" class="big">Voice: On</button>
           <button id="m-music" class="big">Music: On</button>
         </div>
+        <label class="voice-volume">Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label>
         <h3 class="menu-h">Display</h3>
         <div class="menu-grid">
           <button id="m-text" class="big">Text size: Normal</button>
@@ -607,6 +614,7 @@
       <img id="end-face" class="end-face" alt="">
       <p id="end-text" class="tagline"></p>
       <p id="end-trophy" class="trophy-line" style="display:none"></p>
+      <div class="row voice-controls" data-voice-context="end" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
       <div id="end-epilogue" class="epilogue"></div>
       <div id="end-cause" class="cause"></div>
       <p id="end-goal" class="next-goal" hidden></p>

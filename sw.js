@@ -1,24 +1,58 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v45';
+const CACHE = 'deepdelve-v46';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './img/keyart-portrait.webp', './img/keyart-landscape.webp', './sound/index.json',
   './js/package.json',
-  './js/narration.js',
+  './js/narration.js', './js/storyvoice.js', './js/voicelines.js', './sound/narration/catalog.json',
   './sound/narration/prologue.ogg', './sound/narration/prologue.m4a',
   './js/rng.js', './js/data.js', './js/parts.js', './js/painter.js', './js/creatures.js', './js/folk.js', './js/props.js', './js/champions.js', './js/itemart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/walldecor.js', './js/assets.js', './js/dungeon.js', './js/spellfx.js', './js/overlay.js', './js/renderer.js', './js/samples.js', './js/sound.js', './js/music.js', './js/foes.js', './js/bosses.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/chronicle.js', './js/powers.js', './js/pacing.js', './js/motion.js', './js/combat.js', './js/items.js', './js/scenes.js', './js/curses.js', './js/fallen.js', './js/paths.js', './js/legends.js', './js/combos.js', './js/lairs.js', './js/threads.js', './js/telemetry.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/pagesview.js', './js/tips.js', './js/pad.js', './js/access.js', './js/weekly.js', './js/titlescene.js', './js/shopview.js', './js/choices.js', './js/pack.js', './js/mapview.js', './js/endscreen.js', './js/herosheet.js', './js/createextras.js', './js/titlemenu.js', './js/createview.js', './js/ui.js', './js/main.js',
 ];
+async function cacheVoices(c) {
+  const manifest = await c.match('./sound/narration/catalog.json');
+  const { clips } = await manifest.json();
+  const paths = Object.keys(clips).filter(id => id !== 'prologue').flatMap(id => ['ogg', 'm4a'].map(ext => `./sound/narration/${id}.${ext}`));
+  // Keep only a few requests in flight on a phone's connection.
+  for (let i = 0; i < paths.length; i += 8) await c.addAll(paths.slice(i, i + 8));
+}
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(async c => { await c.addAll(ASSETS); await cacheVoices(c); }).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
+// Phone media players ask for parts of a recording, even on their first play.
+// Serve those parts from the installed copy instead of downloading it again.
+async function recordedVoice(request) {
+  const cache = await caches.open(CACHE), cached = await cache.match(request);
+  if (!cached) {
+    const response = await fetch(request);
+    if (response.status === 200 && !response.redirected) cache.put(request, response.clone()).catch(() => {});
+    return response;
+  }
+  const range = request.headers.get('Range');
+  if (!range) return cached;
+  const bytes = await cached.arrayBuffer(), size = bytes.byteLength;
+  const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+  const start = match && match[1] ? Number(match[1]) : match && match[2] ? Math.max(0, size - Number(match[2])) : size;
+  const end = match && match[1] && match[2] ? Math.min(size - 1, Number(match[2])) : size - 1;
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start >= size || start > end) {
+    return new Response(null, { status: 416, headers: { 'Content-Range': `bytes */${size}` } });
+  }
+  const headers = new Headers(cached.headers);
+  headers.delete('Content-Encoding');
+  headers.set('Accept-Ranges', 'bytes'); headers.set('Content-Range', `bytes ${start}-${end}/${size}`);
+  headers.set('Content-Length', String(end - start + 1));
+  return new Response(bytes.slice(start, end + 1), { status: 206, headers });
+}
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   // the sound pack's sounds are kept as they are heard, but never its masters,
   // nor what its listening page (sound/listen.html) fetches to be tried
   const path = new URL(e.request.url).pathname;
   if (path.startsWith('/sound/masters/') || path.startsWith('/sound/listen') || /\/sound\/listen/.test(e.request.referrer || '')) return;
+  if (/\/sound\/narration\/(?:line-[a-f0-9]{8}|prologue)\.(?:ogg|m4a)$/.test(path)) {
+    e.respondWith(recordedVoice(e.request)); return;
+  }
   e.respondWith(
     fetch(e.request).then(res => {
       // only a good answer is kept: a server's error page saved over the game

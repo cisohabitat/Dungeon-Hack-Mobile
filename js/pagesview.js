@@ -16,7 +16,7 @@ function actName(act, levels, route) {
   if (!Dungeon.routeSpan(levels)) return 'II. The keeper';
   return route && ROUTES[route] ? `II. Down ${ROUTES[route].name}` : 'II. The road below';
 }
-const pageHtml = (i, where) => `<div class="journal-entry"><h3>${escapeHtml(JOURNAL[i].title)}</h3><p>${escapeHtml(JOURNAL[i].text)}</p>${where ? `<p class="where">${where}</p>` : ''}</div>`;
+const pageHtml = (i, where) => `<div class="journal-entry"><h3>${escapeHtml(JOURNAL[i].title)}</h3><p>${escapeHtml(JOURNAL[i].text)}</p><button type="button" data-voice-page="${i}">Listen</button>${where ? `<p class="where">${where}</p>` : ''}</div>`;
 
 /**
  * Fill el with this delve's pages, act by act, found and still to find.
@@ -52,7 +52,7 @@ function pageArchive() {
   const group = e => (e.people ? 9 : e.act === 2 ? (e.road === 'warrens' ? 3 : 2) : e.act === 3 ? 4 : 1);
   const order = JOURNAL.map((e, i) => i).filter(i => seen.includes(i)).sort((a, b) => group(JOURNAL[a]) - group(JOURNAL[b]) || (JOURNAL[a].step || 0) - (JOURNAL[b].step || 0));
   return `<details class="hall-wick hall-pages"><summary><b>The crews' pages</b> <small>${seen.length} of ${JOURNAL.length} found over all your delves</small></summary>`
-    + `<ol>${order.map(i => `<li><b>${escapeHtml(JOURNAL[i].title)}.</b> ${escapeHtml(JOURNAL[i].text)}</li>`).join('')}</ol></details>`;
+    + `<ol>${order.map(i => `<li><b>${escapeHtml(JOURNAL[i].title)}.</b> ${escapeHtml(JOURNAL[i].text)} <button type="button" data-voice-page="${i}">Listen</button></li>`).join('')}</ol></details>`;
 }
 
 export { renderPages, pageArchive };

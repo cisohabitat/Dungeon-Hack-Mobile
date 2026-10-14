@@ -1,12 +1,16 @@
 # Deepdelve sound sources
 
-Original procedural audio generated locally on 2026-10-10 for cisohabitat. This is a workaround authorised by the user: none of these assets is a live recording. The original effects and music use no third-party recordings, instrument samples, voices or generated-service outputs. The synthetic prologue added on 2026-10-14 uses the third-party Kokoro George neural voice described below.
+Original procedural audio generated locally on 2026-10-10 for cisohabitat. This is a workaround authorised by the user: none of these assets is a live recording. The original effects and music use no third-party recordings, instrument samples, voices or generated-service outputs. The synthetic narration added on 2026-10-14 uses the third-party Kokoro George neural voice described below.
 
-## Synthetic opening narration
+## Synthetic narration
 
 `narration/prologue.ogg`, `narration/prologue.m4a`, and `masters/narration/prologue.flac` were generated locally with Kokoro 82M v1.0, the British English `bm_george` neural voice selected by the user, and `kokoro-onnx` 0.6.1. No live performance or paid voice-generation service was used. Only the reading is shipped; the model does not run on players' devices.
 
 The words are the four existing paragraphs of `PROLOGUE` in `js/data.js`, copied verbatim into `narration/brief.json`. `render-narration.py` is the reproducible recipe: `en-gb`, 0.92 synthesis speed as in the approved audition, 1.25-second paragraph pauses with two seconds before the final line, and a mono 48 kHz FLAC master normalised to -18 LUFS with -1 dB true-peak target. The Vorbis and AAC-LC exports receive another 1 dB of headroom. No pitch shifting, time stretching, music or effects are baked into the reading. Native synthesis is 24 kHz; the master is resampled to the pack's 48 kHz format. Exact model and voice-file hashes are in `narration/provenance.json`.
+
+The expanded catalogue (`narration/catalog.json`) also covers all ten backgrounds, 23 Journal pages, 13 region descriptions, 41 relics, and 71 epilogue clauses, for 159 readings including the approved opening. The source tables and `Game.epilogue` provide the script; `node tools/voice-catalog.mjs` regenerates it. Player names and exact floor/page counts remain in the written epilogue; `endingSpeech` speaks those passages generically so the same George recordings work offline. Each clause is a separate reading, with no synthetic speech engine in the browser.
+
+The expanded readings keep the approved model, voice and synthesis speed, with a 0.2-second tail. Their lossless masters retain the native 24 kHz mono output as 16-bit FLAC; loudness target is -18 LUFS / -1 dBTP, with another 1 dB export headroom. Exports are Vorbis q4 and AAC-LC 80 kb/s. `narration/production.json` records the exact text, duration, model hash and render signature of each expanded clip; `narration/provenance.json` retains the opening's original take. No pitch or tempo stretching is used. All narration is precached in both formats after the application files for offline play; production records, masters and model weights stay out of the deployment.
 
 Model: https://huggingface.co/hexgrad/Kokoro-82M (Apache-2.0). ONNX engine and model conversion: https://github.com/thewh1teagle/kokoro-onnx (MIT for the engine); model files from its `model-files-v1.1` release. Licence notices are preserved in `narration/kokoro-model-license.txt` and `narration/kokoro-onnx-license.txt`. The original game script remains under the repository's MIT licence. The model and engine are credited to their original authors; no endorsement is implied.
 
@@ -18,7 +22,7 @@ Original work is delivered under the repository MIT licence ([../LICENSE](../LIC
 
 Effects use damped resonant modes, filtered contact/friction noise, timing patterns and pitch variation. Music uses modal bells, string-like resonances, drums, horn-like and wordless choir-like oscillations. These are synthetic approximations of acoustic timbres. Each theme uses 12 bars of 4/4 to fit both format budgets. One common gain balances the four stems; stems are not normalised separately. Loop events wrap circularly; no loop fades are added. One-shots have short end tapers.
 
-SFX masters are normalised to -1 dBFS. Codec-specific attenuation prevents lossy overshoot. All masters are 48 kHz, 16-bit lossless FLAC. OGG is Vorbis quality 4; M4A is AAC-LC at 96 kbps mono / 128 kbps stereo. Exact decoded counts, encoding gains and SHA-256 values are in `manifest.json`. Vorbis exports receive a 128-frame silent guard to prevent short decoded output; AAC may decode extra trailing frames. Integrations must preserve encoder delay metadata and trim both formats to the specified loop sample count.
+SFX masters are normalised to -1 dBFS. Codec-specific attenuation prevents lossy overshoot. Effects and music masters are 48 kHz, 16-bit lossless FLAC. OGG is Vorbis quality 4; M4A is AAC-LC at 96 kbps mono / 128 kbps stereo. Exact decoded counts, encoding gains and SHA-256 values are in `manifest.json`. Vorbis exports receive a 128-frame silent guard to prevent short decoded output; AAC may decode extra trailing frames. Integrations must preserve encoder delay metadata and trim both formats to the specified loop sample count.
 
 ## Asset-by-asset provenance
 

@@ -176,6 +176,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   and shields ring, each kind of creature has its own voice and its own death, and every spell
   its own sound. Each floor has its own drone and distant noises (drips, chains, wind), which
   tighten while the lich is fighting, and you hear your own heartbeat once badly wounded.
+- **George narrates the story.** The opening and backgrounds, found Journal pages, first region
+  and relic discoveries, and death/victory epilogues have recorded British narration. Voice is on
+  by default, with pause, replay, skip and its own volume and switch. Discoveries wait for quiet
+  and stop for combat warnings. Both audio formats are saved for offline play.
 - **Music that follows the fight.** Written as it plays, in each floor's own scale: a few bell
   notes and long silences while nothing is near, a low pulse when something awake is close, a
   quicker beat and a repeating figure once it comes to blows, and a horn beneath for a named

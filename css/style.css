@@ -1195,3 +1195,11 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 /* the Hall's filters: a class or the shared runs, wrapping on a narrow phone */
 .seg.hall-filter { flex-wrap: wrap; margin: 0 0 var(--s-8); }
 .seg.hall-filter button { flex: 1 0 auto; min-height: 40px; font-size: var(--t-sm); padding: var(--s-2) var(--s-8); border-top: 1px solid var(--border); margin-top: -1px; }
+
+/* The storyteller stays in reach while the dungeon is quiet. */
+.voice-controls { flex-wrap: wrap; margin-block: var(--s-8); }
+.voice-controls label, .voice-volume { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-4); }
+.voice-controls input, .voice-volume input { max-width: 100%; }
+.discovery-voice { position: absolute; z-index: 8; bottom: var(--s-8); left: var(--s-8); right: var(--s-8); padding: var(--s-8); background: var(--bg); border: 1px solid var(--border); font-size: var(--t-sm); max-height: calc(100% - var(--s-16)); overflow-y: auto; }
+.discovery-voice p { margin: 0 0 var(--s-4); max-height: 4.5em; overflow-y: auto; }
+.discovery-voice button { padding: var(--s-4); font-size: inherit; min-width: 44px; }

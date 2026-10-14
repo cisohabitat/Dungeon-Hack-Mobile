@@ -216,7 +216,8 @@ export function makeEndScreen(K) {
     const moments = Game.deathLog();
     $('#end-final').style.display = (!won && moments.length) ? '' : 'none';
     $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');
-    $('#end-epilogue').innerHTML = Game.epilogue(won).map(t => `<p>${escapeHtml(t)}</p>`).join('');
+    const epilogue = Game.epilogue(won);
+    $('#end-epilogue').innerHTML = epilogue.map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#end-load').style.display = (!won && !G.opts.permadeath && Game.hasSave()) ? '' : 'none';
     // any run can be told in one line: a daily one with its streak, another with
     // its seed, so a friend can walk the same halls
@@ -227,6 +228,7 @@ export function makeEndScreen(K) {
     $('#end-share').textContent = G.opts.daily ? 'Share today\'s result' : G.opts.weekly && !G.tested ? 'Share this week\'s best' : 'Share this run';
     $('#end-share-line').style.display = 'none';
     showScreen('screen-end');
+    K.narrateEnd(G, epilogue);
     $('#screen-end').scrollTop = 0;   // a second death, or the win, opens at its title, not where the last was left
   }
 
