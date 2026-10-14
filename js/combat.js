@@ -343,7 +343,7 @@ export function makeCombat(K) {
   let blowSneak = false;
   /** What hurts a monster without being a blow struck or shot: an Armoured champion's plates do not turn it. */
   // (nor the goblin you spared, whose knife knows where the gaps are)
-  const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns', 'spared']);
+  const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns', 'spared', 'trap']);
   function damageMonster(m, dmg, tag, note) {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
@@ -465,6 +465,7 @@ export function makeCombat(K) {
     else if (tag === 'volley') { log(`A second arrow follows the first into the ${mb.name}, for ${dmg}.`); }
     else if (tag === 'snare') { log(`The cord bites the ${mb.name} for ${dmg}.`); }
     else if (tag === 'rockfall') { log(`Rock crashes down on the ${mb.name}${of} for ${dmg}!`, 'good'); }
+    else if (tag === 'trap') { /* told by the trap itself (foes.js), and only of one near enough to see */ }
     else if (tag === 'shock') { log(`The lightning runs through the water into the ${mb.name}${of} for ${dmg}.`); }
     else {
       const pre = { crit: 'A mighty blow! ', opening: 'You take the opening! ', lucky: 'A lucky blow! ', 'riposte-crit': 'Riposte! A mighty blow! ', sneak: 'You strike from the shadows! ', riposte: 'Riposte! ' }[tag] || '';

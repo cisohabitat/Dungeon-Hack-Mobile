@@ -1,4 +1,4 @@
-import { ITEMS, MONSTERS, armorFits, shieldFits } from './data.js';
+import { ITEMS, MONSTERS, TRAP_TYPES, armorFits, shieldFits } from './data.js';
 import { Dice, d, rnd } from './rng.js';
 import { Sound } from './sound.js';
 
@@ -43,6 +43,26 @@ export function makeFoes(K) {
     m.x = nx; m.y = ny;
     m.moveT0 = K.realNow;
     m.moveT1 = K.realNow + Math.max(200, Math.round(MONSTERS[m.id].speed * 0.45));
+    springs(m, nx, ny);
+  }
+  /**
+   * A trap that a creature walks onto goes off under it, as under the hero: so a
+   * hero who knows where one lies can lead a chase across it. What flies goes over,
+   * and a kobold's wire is set where its own kind knows to step round it.
+   */
+  function springs(m, x, y) {
+    const L = K.lvl(), k = K.key(x, y);
+    if (!L.traps || !L.traps[k] || (L.snares && L.snares[k])) return;
+    const mb = K.mstat(m);
+    if (mb.fly || mb.boss) return;
+    const tr = TRAP_TYPES[L.traps[k]];
+    delete L.traps[k];
+    const p = K.P(), seen = Math.abs(x - p.x) + Math.abs(y - p.y) <= 8;
+    if (seen) Sound.play('trap', K.heard(m));
+    // a pit holds what falls in a moment; a gong wakes the floor about it
+    if (tr === TRAP_TYPES.pit) m.snaredUntil = Math.max(m.snaredUntil || 0, K.G.t + MONSTER_PIT_MS);
+    if (tr.alarm) { for (const o of L.monsters) if (Math.abs(o.x - x) + Math.abs(o.y - y) <= 10) o.awake = true; if (seen) K.log(`The ${mb.name} treads on an alarm: a gong sounds, and things stir.`, 'bad'); return; }
+    if (tr.dmg) { const n = Math.max(1, d(...tr.dmg)); if (seen) K.log(`The ${mb.name} springs a ${tr.name} for ${n}!`, 'good'); K.damageMonster(m, n, 'trap'); }
   }
   // The living will not walk into fire, and one caught in it gets out: a line
   // of burning moss across a passage holds back whatever breathes. The dead,
@@ -222,7 +242,8 @@ export function makeFoes(K) {
   // how long a grey dwarf stays grown, and how much harder its blows fall while it is
   const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
-  const DAZZLE_MS = 4000;   // how long a glimmer moth's wings leave your blows going wide
+  const DAZZLE_MS = 4000;
+  const MONSTER_PIT_MS = 1500;   // how long a creature that walks into a pit is caught in it   // how long a glimmer moth's wings leave your blows going wide
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
