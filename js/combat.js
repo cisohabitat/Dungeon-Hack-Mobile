@@ -153,7 +153,7 @@ export function makeCombat(K) {
         if (t && !(t.disguised && !t.creaked)) { m = t; atRange = true; break; }
       }
     }
-    p.nextAttack = K.G.t + w.speed;
+    p.nextAttack = K.G.t + Math.round(w.speed * K.hexSlow());
     fx.swingUntil = K.realNow + 160;
     fx.swingAt = K.realNow; fx.swingMs = Math.max(200, Math.min(380, Math.round(w.speed * 0.55)));
     if (w.range) Sound.play('shoot', { w: p.eq.weapon.t });

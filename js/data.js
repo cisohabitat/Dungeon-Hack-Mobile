@@ -784,6 +784,9 @@ const MONSTERS = {
   // One that fetches help: on seeing the hero it runs for the nearest of the floor's sleepers
   // and whistles them awake, unless it is brought down first (foes.js).
   lookout:  { name: 'Goblin Lookout', hp: [2, 6, 1], ac: 13, hit: 2,  dmg: [1, 4, 0], speed: 850,  xp: 26,   tier: [2, 7],   sprite: 'lookout',  scale: 0.72, fetches: true, cunning: 1 },
+  // A caster before the acolytes: it chants a hex at the hero from a few squares off,
+  // that binds a caster's tongue or slows anyone else, unless the chant is broken (foes.js).
+  hexer:    { name: 'Goblin Hexer',   hp: [2, 6, 0], ac: 12, hit: 2,  dmg: [1, 4, 0], speed: 950,  xp: 34,   tier: [2, 6],   sprite: 'hexer',    scale: 0.72, move: 'hex', cunning: 1 },
   pikeman:  { name: 'Goblin Pikeman', hp: [3, 8, 2], ac: 14, hit: 4,  dmg: [1, 6, 1], speed: 1100, xp: 50,   tier: [4, 8],   sprite: 'pikeman',  scale: 0.8, move: 'thrust', cunning: 1 },
   // The deep floors' own: each asks for something other than a step back.
   // A hound that comes back into the world behind you (turn and face it), a
@@ -1094,6 +1097,9 @@ const BESTIARY = {
   lookout:  { lore: 'A goblin with a bone whistle on a cord round its neck, posted where it can see who comes. It is quick, and it does not fight if it can run.',
     trick: 'It turns and runs, shrieking, for the nearest of the floor\'s sleepers, and when it reaches them it blows its whistle: everything about wakes.',
     answer: 'Bring it down before it gets there: an arrow, a snare, a spell, or a quick chase. Or kill what it runs to first.' },
+  hexer:    { lore: 'A goblin in a cap of rat skulls, with a bundle of bones on a stick that it shakes at whatever it dislikes. It dislikes most things.',
+    trick: 'It shakes its bones and chants a hex from a few squares off. On one who casts spells, the hex binds the tongue: no spells for a while. On anyone else, it drags at the limbs: steps and blows come slow.',
+    answer: 'Strike it as it chants, and the hex is broken. Or get out of its sight before the chant ends: a hex needs to see where it is going.' },
   pikeman:  { lore: 'A goblin with a pike twice its height, which it holds out in front of it as if it were afraid of what it might meet. It is.',
     trick: 'It levels its pike and drives it down its line, two squares out. Stepping back only keeps you on the point.',
     answer: 'Close in under the point: the pike drives past you, and the goblin is left open. Or step out of its line.' },

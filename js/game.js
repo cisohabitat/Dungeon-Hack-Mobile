@@ -45,6 +45,9 @@ const Game = (() => {
   const LAST_KEY = 'deepdelve.lastrun';
   const MOVE_MS = 220;
   const FLOOD_SLOW = 1.25;   // how much slower everything goes through a flooded floor's water
+  const HEX_SLOW = 1.5;      // and how much slower a hexer's slowing hex makes the hero's steps, blows and spells
+  /** What the hero's steps, blows and spells take, against their own: half as long again under a slowing hex. */
+  function hexSlow() { const h = P().hexed; return h && h.kind === 'slow' && h.until > G.t ? HEX_SLOW : 1; }
   const TURN_MS = 200;
 
   /** @type {import('./types.js').GameState|null} */
@@ -837,7 +840,7 @@ const Game = (() => {
   function enterLevel(depth, from) {
     const p = P(), cameFrom = G.depth;
     queuedAttack = false; queuedMove = null;   // a swing or step waiting on the last floor stays there
-    p.grabbed = null; p.webbed = 0; p.held = 0; p.dazzled = 0;
+    p.grabbed = null; p.webbed = 0; p.held = 0; p.dazzled = 0; p.hexed = null;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
     if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
@@ -1133,7 +1136,7 @@ const Game = (() => {
     // a step is heard (by the eyeless, which hunt by it); a turn on the spot is not
     p.noiseAt = G.t;
     if (rel === 1 || rel === 3) p.shadowUntil = G.t + 2500;
-    startCam(lvl().twist === 'flooded' ? Math.round(MOVE_MS * FLOOD_SLOW) : MOVE_MS);
+    startCam(Math.round(MOVE_MS * (lvl().twist === 'flooded' ? FLOOD_SLOW : 1) * hexSlow()));
     // (wading, where the floor is flooded or a pool lies, sounds like it)
     Sound.play('step', { water: elements.wet(p.x, p.y) });
     distFieldAt = -1e9;
@@ -1288,7 +1291,7 @@ const Game = (() => {
     const moss = lvl().twist === 'overgrown' && p.cls !== 'druid' ? MOSS_HIDES : 0;
     return (p.cls === 'thief' ? 8 + Math.floor(p.level / 2) : 0) + (p.bg === 'tombwise' ? 7 : 0) + jewelBonus('seer') + tricksterTraps() - moss;
   }
-  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, dazzle: 9, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11, sweep: 11 };
+  const SAVE_DC = { claw: 10, grip: 10, drain: 4, drink: 8, gaze: 11, dazzle: 9, hex: 10, web: 11, charge: 12, nova: 11, spot: 18, breath: 11, firepot: 11, stamp: 11, chill: 11, storm: 11, flare: 11, sweep: 11 };
   const saveDC = kind => SAVE_DC[kind] + Math.ceil(G.depth / 2);
   /** A saving throw against a monster's trick. */
   // a Ring of Evasion counts toward every save: the tricks, venom and traps
@@ -1469,7 +1472,7 @@ const Game = (() => {
     get fxGen() { return fxGen; }, set fxGen(v) { fxGen = v; }, get G() { return G; }, set G(v) { G = v; }, get giveItem() { return giveItem; },
     get GORE() { return GORE; }, get GORE_OF() { return GORE_OF; }, get HALL_KEY() { return HALL_KEY; }, get hasBoon() { return hasBoon; }, get hasPower() { return hasPower; },
     get hasTalent() { return hasTalent; }, get healerHeal() { return healerHeal; }, get healPlayer() { return healPlayer; },
-    get heard() { return heard; }, get heldWhy() { return heldWhy; }, get heroTitle() { return heroTitle; }, get hiddenGear() { return hiddenGear; },
+    get heard() { return heard; }, get heldWhy() { return heldWhy; }, get hexSlow() { return hexSlow; }, get heroTitle() { return heroTitle; }, get hiddenGear() { return hiddenGear; },
     get hitGroup() { return hitGroup; }, houndHurt: () => { const c = companion.here(); return !!c && c.hp < c.maxHp; },
     get houndNoisy() { return companion.noisy; }, houndRests: () => companion.rested(1), get hurtPlayer() { return hurtPlayer; },
     igniteWild: (x, y) => elements.ignite(x, y, 0, true), get INV_MAX() { return INV_MAX; }, get isGear() { return isGear; },

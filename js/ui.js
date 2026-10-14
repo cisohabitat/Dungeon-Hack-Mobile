@@ -228,7 +228,7 @@ const UI = (() => {
   const TIPS = makeTips({ asideWay, canStep });
 
   /** The tips that each tell the answer to one trick. */
-  const ANSWER_TIPS = ['shot', 'gaze', 'dazzle', 'pike', 'snatch', 'fetch', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'guard', 'swell', 'aimed', 'sweep', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
+  const ANSWER_TIPS = ['shot', 'gaze', 'dazzle', 'pike', 'snatch', 'fetch', 'hex', 'rust', 'claw', 'crush', 'webspit', 'charge', 'horn', 'drum', 'throne', 'drink', 'blink', 'quills', 'guard', 'swell', 'aimed', 'sweep', 'spores', 'drowned', 'eyeless', 'breath', 'firepot', 'firearrow', 'chill', 'storm', 'snare', 'mimic', 'tremors', 'vents', 'flare', 'stamp', 'web', 'webtear', 'opening'];
   let tipFrom = '';                // where the hero stood and faced when the tip came up
   let tipSwing = 0;                // the hero's next swing when the tip came up: it moves when they attack
   let tipHurt = 0;                 // when the hero was last hurt, as the tip came up
@@ -491,7 +491,7 @@ const UI = (() => {
     if (el && el.classList.contains('show') && G0 && G0.status === 'playing') {
       const p0 = Game.player(), L0 = Game.level();
       const near = mv => L0.monsters.some(m => m.windup && m.windup.move && (!mv || m.windup.move === mv) && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 6);
-      const still = { gaze: () => near('gaze'), dazzle: () => near('dazzle'), pike: () => near('thrust'), snatch: () => near('snatch'), fetch: () => L0.monsters.some(m => m.fetching && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 12), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), guard: () => near('parry'), swell: () => near('enlarge'), aimed: () => near('aim'), sweep: () => near('sweep'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), vents: () => ventNear(4), flare: () => near('flare'), stamp: () => near('stamp'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
+      const still = { gaze: () => near('gaze'), dazzle: () => near('dazzle'), pike: () => near('thrust'), snatch: () => near('snatch'), hex: () => near('hex'), fetch: () => L0.monsters.some(m => m.fetching && Math.abs(m.x - p0.x) + Math.abs(m.y - p0.y) <= 12), rust: () => near('rust'), claw: () => near('paralyse'), crush: () => near('crush'), webspit: () => near('web'), charge: () => near('charge'), horn: () => near('rally'), drum: () => near('drum'), throne: () => L0.monsters.some(m => m.throne), drink: () => near('drink'), blink: () => near('blink'), quills: () => near('bristle'), guard: () => near('parry'), swell: () => near('enlarge'), aimed: () => near('aim'), sweep: () => near('sweep'), spores: () => puffcapNear(3), drowned: () => kinNear('drowned', 3), eyeless: () => kinNear('eyeless', 6), breath: () => near('breath'), firepot: () => near('firepot'), firearrow: () => near('firearrow'), chill: () => near('chill'), storm: () => near('storm'), snare: () => near('snare'), mimic: () => kinNear('mimic', 3) || mimicHeard(), tremors: () => !!(L0.quake && L0.quake.falls.length), vents: () => ventNear(4), flare: () => near('flare'), stamp: () => near('stamp'), web: () => (p0.webbed || 0) > G0.t, webtear: () => (p0.webbed || 0) > G0.t, quickscroll: () => !/** @type {HTMLButtonElement} */ ($('#quick-scroll')).hidden, trick: () => near(''), opening: () => !!(p0.opening && p0.opening.until > G0.t) }[el.dataset.tip || ''];
       const read = el.dataset.tip === 'trick' ? 2500 : 1200;
       if (still && !still() && now - tipAt > read) { el.classList.remove('show'); tipUntil = now; }
     }
@@ -513,6 +513,7 @@ const UI = (() => {
     if (readying('dazzle') && showTip('dazzle', true)) return;
     if (readying('thrust') && showTip('pike', true)) return;
     if (readying('snatch') && showTip('snatch', true)) return;
+    if (readying('hex') && showTip('hex', true)) return;
     if (L.monsters.some(m => m.fetching && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 12) && showTip('fetch', true)) return;
     if (readying('rust') && showTip('rust', true)) return;
     if (readying('paralyse') && showTip('claw', true)) return;
@@ -685,7 +686,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.renown || 0, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, (p.dazzled || 0) > G.t, p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.renown || 0, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, (p.dazzled || 0) > G.t, p.hexed && p.hexed.until > G.t ? p.hexed.kind : '', p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -717,6 +718,7 @@ const UI = (() => {
     if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : p.heldBy === 'snare' ? 'Snared' : 'Frozen'}</span>`);
     if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
     if ((p.dazzled || 0) > G.t) st.push('<span class="bad" title="A glimmer moth\'s flare: your blows go wide until it fades">Dazzled</span>');
+    if (p.hexed && p.hexed.until > G.t) st.push(p.hexed.kind === 'silence' ? '<span class="bad" title="A goblin hexer\'s hex: no spells until it lifts">Silenced</span>' : '<span class="bad" title="A goblin hexer\'s hex: your steps and blows come slow until it lifts">Slowed</span>');
     if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
     // what the hero stands in, which the view cannot show under their own feet: a burning
     // arrow looks for oil, and an acolyte's lightning for water

@@ -1109,6 +1109,30 @@ const FOLK = {
     ];
   },
 
+  // A goblin hexer: a goblin in a long robe the colour of a bruise, a cap of rat skulls on its
+  // head, and a crooked staff with a bundle of bones lashed to its top. Chanting, it thrusts the
+  // staff up and the bones glow violet.
+  hexer: (pose = 'idle') => {
+    const chant = pose === 'special';
+    const base = recolour(CREATURES.goblin(chant ? 'windup' : pose), { '#6aa84a': '#7a9a5a', '#3f6e2c': '#4a6436', '#8ac66a': '#94b878', '#6a4628': '#4a3a5a', '#4a3018': '#30263c', '#8a6a40': '#6a5a7a' });
+    const up = chant ? -3 : 0, glow = chant ? { glows: true } : {};
+    const sway = pose === 'stepA' ? -2 : pose === 'stepB' ? 2 : 0;
+    return [
+      // the robe, hanging to its ankles behind its legs, frayed at the hem
+      sheet([[25, 26], [39, 26], [43 + sway, 44], [45 + sway, 57], [40 + sway, 55], [36 + sway, 58], [32 + sway, 55], [28 + sway, 58], [24 + sway, 55], [19 + sway, 57], [21 + sway, 44]], '#3e3050', { curve: 0.6 }),
+      hair(26 + sway, 44, 22 + sway, 55, '#52426a'), hair(38 + sway, 44, 42 + sway, 55, '#52426a'),
+      // the staff, crooked, held at its right side; the bundle of bones lashed to its top
+      limb(52, 60 + up / 2, 53, 9 + up, 1.3, 1.1, '#5a4430'), limb(53, 9 + up, 50, 4 + up, 1.1, 0.9, '#5a4430'),
+      ...[[-4, -2], [-1, -4], [2, -3], [4, 0], [-3, 2], [1, 1]].map(([dx, dy]) => limb(52, 9 + up, 52 + dx * 1.6, 9 + up + dy * 1.6, 0.9, 1.2, chant ? '#e8d0ff' : '#e0d6bc', glow)),
+      limb(49.5, 10 + up, 54.5, 10 + up, 0.7, 0.7, '#3a2a1a'),
+      ...(chant ? [specks([[46, 2], [58, 4], [44, 10], [60, 12], [50, 0], [56, 16]], '#c8a0ff', { glows: true })] : []),
+      ...base,
+      // the cap of rat skulls, three in a row over the brow, their eyes dark
+      ...[27, 32, 37].flatMap(x => [ball(x, 10, 2.6, 2.2, '#e8e0cc'), specks([[x - 1, 9.75], [x + 1, 9.75]], '#2a2420')]),
+      hair(26, 12, 38, 12, '#a89a7c'),
+    ];
+  },
+
   // A glimmer moth, hovering square on: a furred body and a banded abdomen,
   // great dark eyes, feathered antennae, and four broad wings dusted pale with
   // an eye on each forewing. It beats them as it hangs in the air; about to

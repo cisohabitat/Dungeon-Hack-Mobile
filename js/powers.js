@@ -112,6 +112,8 @@ export function makePowers(K) {
   }
   function spellWasteReason(sp) {
     const p = P();
+    // (a bound tongue wastes every spell: said here too, so whatever asks before casting is told)
+    if (p.hexed && p.hexed.kind === 'silence' && p.hexed.until > K.G.t) return 'A hex binds your tongue: no spells until it lifts.';
     // (a druid's healing mends a hurt companion too, so it is not wasted on them)
     const kinHurt = p.cls === 'druid' && !!companion.here() && companion.here().hp < companion.here().maxHp;
     if (sp.kind === 'heal' && p.hp >= p.maxHp && !kinHurt) return `You are unhurt. ${sp.name} would be wasted.`;
@@ -159,6 +161,7 @@ export function makePowers(K) {
     const p = P();
     K.queuedAttack = false;
     if (p.held > K.G.t) { blocked(heldWhy()); return false; }
+    if (p.hexed && p.hexed.kind === 'silence' && p.hexed.until > K.G.t) { blocked('A hex binds your tongue: no spells until it lifts.'); return false; }
     if (!spellAvailable(sp)) { log(`You are not experienced enough to cast ${sp.name}.`, 'bad'); return false; }
     // choosing a spell readies it on the Cast button, even if it cannot fly
     // yet: a mage picks Burning Hands before the fight, not during it
@@ -169,7 +172,7 @@ export function makePowers(K) {
     if (K.G.t < p.nextAttack) { blocked('You are still recovering from your last action.'); return false; }
     // the words are heard
     p.noiseAt = K.G.t;
-    p.nextAttack = K.G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1));
+    p.nextAttack = K.G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1) * K.hexSlow());
     // a bear cannot say the words: the druid lets it go to speak any other spell
     if (sp.kind !== 'shape' && wild.shaped(p)) wild.end('cast');
     p.sp -= spellCost(sp);

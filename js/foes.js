@@ -238,7 +238,7 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, dazzle: 1100, thrust: 900, snatch: 700, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, dazzle: 1100, thrust: 900, snatch: 700, hex: 1600, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
   // how long a grey dwarf stays grown, and how much harder its blows fall while it is
   const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
@@ -248,6 +248,9 @@ export function makeFoes(K) {
   // and is gone for good once it is this many steps off with it
   // how far off a lookout will run for help, in steps, and how far its whistle wakes
   const FETCH_REACH = 16, FETCH_WAKE = 6;
+  // how long a goblin hexer's hex lies on the hero (half, on a Wisdom save), and how long before it
+  // chants another
+  const HEX_MS = 6000, HEX_AGAIN = 9000;
   const SNATCH_LEAST = 10, SNATCH_SHARE = 0.25, SNATCH_MOST = 25, SNATCH_GONE = 14;   // how long a creature that walks into a pit is caught in it   // how long a glimmer moth's wings leave your blows going wide
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -354,6 +357,10 @@ export function makeFoes(K) {
       say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
+    // a goblin hexer chants at a hero it can see down its line a few squares off, or beside it after a
+    // blow, while none of its hexes is on them
+    else if (mv === 'hex' && !(p.hexed && p.hexed.until > K.G.t) && (adjacent ? (m.blows || 0) >= 1 : hasLineToPlayer(m, 4)) && rnd() < 0.5)
+      say = `The ${mb.name} shakes its bundle of bones at you and begins to chant a hex! Strike it, or get out of its sight!`;
     // a cutpurse's hand darts for the purse of a hero beside it, who has one worth the taking
     else if (mv === 'snatch' && adjacent && K.P().gold >= SNATCH_LEAST && !m.loot && rnd() < 0.5) say = `The ${mb.name}'s hand darts for your purse! Step back!`;
     // a goblin pikeman levels its pike at a hero two or three squares off down its line
@@ -602,6 +609,21 @@ export function makeFoes(K) {
           K.log(`The ${mb.name}'s wings flare white in your eyes, and you ${c.pass ? 'blink most of it away' : 'are dazzled'}: your blows will go wide a while.${c.note}`, 'bad');
         } else { K.log(`You turn from the ${mb.name}'s wings. The light washes over your back, and the moth is left open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.moveReady = K.G.t + 7000;
+        m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'hex': {
+        // a hex must see where it is going: beside it, or down its line still, it lands; out of its
+        // sight, it falls on the stones. On one who has cast a spell it binds the tongue; on anyone
+        // else it drags at the limbs
+        if (dist === 1 || hasLineToPlayer(m, 5)) {
+          const kind = p.maxSp > 0 && K.G.lastSpell ? 'silence' : 'slow';
+          const c = K.trickSave('wis', 'hex');
+          p.hexed = { kind, until: K.G.t + HEX_MS * (c.pass ? 0.5 : 1) };
+          K.log(kind === 'silence' ? `The hex lands, and your tongue goes thick and dumb: no spells until it lifts.${c.note}`
+            : `The hex lands, and your limbs go heavy: your steps and blows come slow until it lifts.${c.note}`, 'bad');
+        } else { K.log(`The ${mb.name}'s hex falls on the stones where you stood.`, 'good'); K.learn(m.id, 'answer'); }
+        m.moveReady = K.G.t + HEX_AGAIN;
         m.nextAct = K.G.t + mb.speed;
         break;
       }
@@ -975,8 +997,8 @@ export function makeFoes(K) {
       K.log(`Your blow breaks the ${mb.name}'s working, and ${mb.named && mb.named.pron === 'his' ? 'he shrinks' : 'it shrinks'} back!`, 'good');
       K.learn(m.id, 'answer');
     }
-    // a chant is broken by any wound
-    if (byHero && m.windup && m.windup.move === 'mend') {
+    // a chant is broken by any wound, a hexer's as an acolyte's
+    if (byHero && m.windup && (m.windup.move === 'mend' || m.windup.move === 'hex')) {
       m.windup = null; m.moveReady = K.G.t + 3000; m.nextAct = K.G.t + 700;
       K.log(`You break the ${mb.name}'s chant!`, 'good');
       K.learn(m.id, 'answer');

@@ -113,6 +113,7 @@
  * @property {number} [nextMercy]  a Healer's mending under Protection: the next hit point from then
  * @property {number} [held]    cannot act until then: frozen by a ghoul's touch, or knocked down by a charge
  * @property {{uid: number, until: number, nextTry: number}|null} [grabbed]  held by a zombie
+ * @property {{kind: 'slow'|'silence', until: number}|null} [hexed]  a goblin hexer's hex: a caster's tongue bound (no spells), or anyone's limbs slowed, until then
  */
 
 /**
@@ -505,6 +506,7 @@
  * @property {*} healPlayer
  * @property {*} heard
  * @property {*} heldWhy
+ * @property {() => number} hexSlow
  * @property {*} heroTitle
  * @property {*} hiddenGear
  * @property {*} hitGroup

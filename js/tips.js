@@ -30,6 +30,7 @@ export function makeTips({ asideWay, canStep }) {
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     dazzle: 'Its wings are beginning to shine: <b>turn away!</b> The flare dazzles only whoever is looking at it, and a dazzled hero\'s blows go wide a while.',
     fetch: 'A <b>lookout</b> is running for help: when it reaches the others it <b>whistles them awake</b>. Bring it down <b>before it gets there</b>: an arrow, a snare, a spell, or a quick chase.',
+    hex: 'It is chanting a <b>hex</b>: <b>strike it</b> to break the chant, or <b>get out of its sight</b> before it ends. On a caster the hex binds the tongue (no spells); on anyone else it slows steps and blows.',
     snatch: 'Its hand darts for your <b>purse</b>: <b>step back</b>, and it closes on air. Robbed, bring it down <b>before it gets away</b>, and it drops your gold.',
     pike: 'It levels its pike down its line. <b>Close in</b> under the point, or <b>step out of its line</b>: the pike reaches two squares, so a step back only keeps you on it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
