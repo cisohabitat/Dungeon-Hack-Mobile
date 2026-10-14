@@ -1064,6 +1064,23 @@ const FOLK = {
     return out;
   },
 
+  // A goblin cutpurse: a goblin gone thin and pale in the dark, in a dark hood and
+  // tunic, a clinking sack at its belt. About to snatch, its hand darts out low.
+  cutpurse: (pose = 'idle') => {
+    const base = recolour(CREATURES.goblin(pose === 'special' ? 'windup' : pose), {
+      '#6aa84a': '#7e9c66', '#3f6e2c': '#4e6640', '#8ac66a': '#9ab884', '#6a4628': '#2e2a32', '#4a3018': '#1e1c22', '#8a6a40': '#4a4450', '#b8bcc4': '#8a8e96',
+    });
+    return [
+      ...base,
+      // the hood drawn up over the skull, the ears out through slits in it
+      sheet([[24.5, 19], [25.5, 10.5], [32, 8], [38.5, 10.5], [39.5, 19], [37, 14.5], [32, 13], [27, 14.5]], '#2a2630', { curve: 0.8 }),
+      hair(26, 12, 31, 9, '#3e3a46'),
+      // the sack at its belt, clinking, a coin showing at its neck
+      ball(39, 47, 4.6, 4.2, '#5a4a36'), ball(39, 43, 2.4, 1.2, '#3e3224'), line(37, 42.5, 41, 42.5, '#2a2018'),
+      ball(40, 42, 1, 0.8, '#e8c050', { glows: true }), specks([[37, 48], [41, 49]], '#3e3224'),
+    ];
+  },
+
   // A glimmer moth, hovering square on: a furred body and a banded abdomen,
   // great dark eyes, feathered antennae, and four broad wings dusted pale with
   // an eye on each forewing. It beats them as it hangs in the air; about to

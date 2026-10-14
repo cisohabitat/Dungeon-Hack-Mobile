@@ -555,6 +555,13 @@ export function makeCombat(K) {
       const loot = Dungeon.rollLoot(Dice, K.G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
     }
+    // what a cutpurse took, dropped where it falls
+    if (m.loot) {
+      const k = key(m.x, m.y);
+      (L.items[k] = L.items[k] || []).push({ t: 'gold', q: m.loot });
+      log(`It drops the ${m.loot} gold it took from you.`, 'good');
+      learn(m.id, 'answer');
+    }
     // and the deep's own beasts leave something of themselves now and then
     for (const [t, chance] of TROPHIES[m.id] || []) {
       if (rnd() >= chance) continue;

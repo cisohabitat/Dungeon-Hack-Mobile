@@ -238,12 +238,15 @@ export function makeFoes(K) {
   // a plain blow, marked in violet and announced, and each has an answer:
   // step out of the ogre's smash, out of the orc's line, strike the chanting
   // acolyte, crush the skeleton's bones, burn the troll.
-  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, dazzle: 1100, thrust: 900, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
+  const SPECIAL_MS = { crush: 900, charge: 700, web: 650, mend: 1800, nova: 1300, grab: 750, paralyse: 750, rite: 2400, drum: 1600, gaze: 1100, dazzle: 1100, thrust: 900, snatch: 700, rust: 800, rally: 1500, drink: 800, blink: 900, bristle: 1400, parry: 1400, breath: 1000, firepot: 1100, firearrow: 1000, chill: 1000, storm: 1200, snare: 900, flare: 1300, stamp: 1400, enlarge: 1300, aim: 1200, sweep: 1100 };
   // how long a grey dwarf stays grown, and how much harder its blows fall while it is
   const ENLARGE_MS = 8000, ENLARGE_HIT = 1.5;
   const GAZE_MS = 1500;     // how long a basilisk's gaze leaves you stone
   const DAZZLE_MS = 4000;
-  const MONSTER_PIT_MS = 1500;   // how long a creature that walks into a pit is caught in it   // how long a glimmer moth's wings leave your blows going wide
+  const MONSTER_PIT_MS = 1500;
+  // a cutpurse takes a quarter of the purse, ten at least and no more than so many a floor deep,
+  // and is gone for good once it is this many steps off with it
+  const SNATCH_LEAST = 10, SNATCH_SHARE = 0.25, SNATCH_MOST = 25, SNATCH_GONE = 14;   // how long a creature that walks into a pit is caught in it   // how long a glimmer moth's wings leave your blows going wide
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
   const RITE_MEND = 0.2;    // the share of its life the lich takes back if its rite is let finish
@@ -349,6 +352,8 @@ export function makeFoes(K) {
       say = `The ${mb.name} rears back, and fire kindles in ${its} throat! Get in under ${its} jaws, or out of ${its} line!`;
       extra = { dx: Math.sign(p.x - m.x), dy: Math.sign(p.y - m.y) };
     }
+    // a cutpurse's hand darts for the purse of a hero beside it, who has one worth the taking
+    else if (mv === 'snatch' && adjacent && K.P().gold >= SNATCH_LEAST && !m.loot && rnd() < 0.5) say = `The ${mb.name}'s hand darts for your purse! Step back!`;
     // a goblin pikeman levels its pike at a hero two or three squares off down its line
     else if (mv === 'thrust' && !adjacent && hasLineToPlayer(m, 3) && rnd() < 0.6) {
       say = `The ${mb.name} levels its pike at you! Get in under the point, or out of its line!`;
@@ -596,6 +601,19 @@ export function makeFoes(K) {
         } else { K.log(`You turn from the ${mb.name}'s wings. The light washes over your back, and the moth is left open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); }
         m.moveReady = K.G.t + 7000;
         m.nextAct = K.G.t + mb.speed;
+        break;
+      }
+      case 'snatch': {
+        // beside the hero still, it has the purse: a share of the gold, and it runs
+        if (dist === 1) {
+          const take = Math.min(p.gold, Math.max(SNATCH_LEAST, Math.round(p.gold * SNATCH_SHARE)), SNATCH_MOST * K.G.depth);
+          p.gold -= take; m.loot = (m.loot || 0) + take;
+          m.fleeing = true; m.awake = true;
+          K.log(`The ${mb.name} snatches ${take} gold from your purse, and runs for it! Bring it down before it gets away.`, 'bad');
+          Sound.play('pickup', K.heard(m));
+          m.nextAct = K.G.t + 300;
+        } else { K.log(`The ${mb.name}'s hand closes on air, and it is left open.`, 'good'); K.learn(m.id, 'answer'); K.opening(m); m.nextAct = K.G.t + 1400; }
+        m.moveReady = K.G.t + 6000;
         break;
       }
       case 'thrust': {
@@ -1457,6 +1475,12 @@ export function makeFoes(K) {
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
     // the first floor's grace (game.js): what is awake waits for the hero's first step or blow
     if (G.graceUntil > G.t) return;
+    // a cutpurse far enough off with the gold is gone with it, for good
+    if (m.fleeing && m.loot && (di < 0 || di > SNATCH_GONE)) {
+      L.monsters.splice(L.monsters.indexOf(m), 1);
+      K.log(`The ${mb.name} is gone into the dark, and ${m.loot} of your gold with it.`, 'bad');
+      return;
+    }
     // (roused by a rest on the ladder's third rung, it hunts from any distance until it is near)
     if (m.hunting && di >= 0) { if (di <= 12) m.hunting = false; }
     else if (di < 0 || di > 12) { losesYou(m, mb); return; }
@@ -1734,6 +1758,7 @@ export function makeFoes(K) {
   /** Run for the darkness; recover nerve once far enough away. @returns {boolean} whether it fled (false: cornered, it fights on) */
   function flees(m, mb, L, p, di) {
     const G = K.G;
+
     if (di > 8) { m.fleeing = false; m.nextAct = G.t + mb.speed; return true; }
     let away = null, ad = di;
     for (const [dx, dy] of K.DIRS) {

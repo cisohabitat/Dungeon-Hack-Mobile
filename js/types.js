@@ -138,6 +138,7 @@
  * @property {boolean} [truce]  a goblin keeping the truce a paid toll earned (threads.js): it lets the hero by until struck
  * @property {boolean} [leader]  a champion that leads a warband of its kind (dungeon.js): when it falls, they scatter
  * @property {number} [follows]  the uid of the warband leader this one follows (0 once it has scattered)
+ * @property {number} [loot]  the gold a cutpurse has taken from the hero, dropped when it falls
  * @property {boolean} [plated]  an Armoured champion whose plates have turned their one blow
  * @property {number} [backAt]    a skirmisher (a kobold) may not step back from the hero again before this time
  * @property {boolean} [sunk]     a drowned one lying unseen under the black water, until something comes near

@@ -9,8 +9,8 @@ test.describe('the shallows', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.waitForSelector('#btn-new', { state: 'visible' });
-    await page.evaluate(() => Assets.paintFirst(['moth', 'thornhog', 'imp', 'pikeman']));
-    await expect.poll(() => page.evaluate(() => ['moth', 'thornhog', 'imp', 'pikeman'].filter(k => { const s = Assets.sprites[k]; return !(s.w > 0 && s.windup && s.special && s.hurt && s.stepA); })), { timeout: 40_000 }).toEqual([]);
+    await page.evaluate(() => Assets.paintFirst(['moth', 'thornhog', 'imp', 'pikeman', 'cutpurse']));
+    await expect.poll(() => page.evaluate(() => ['moth', 'thornhog', 'imp', 'pikeman', 'cutpurse'].filter(k => { const s = Assets.sprites[k]; return !(s.w > 0 && s.windup && s.special && s.hurt && s.stepA); })), { timeout: 40_000 }).toEqual([]);
     // the moth beats its own wings rather than walking, and casts no shadow on the floor
     expect(await page.evaluate(() => MONSTERS.moth.fly > 0)).toBe(true);
     expect(errors).toEqual([]);

@@ -29,6 +29,7 @@ export function makeTips({ asideWay, canStep }) {
     trick: 'A <b>violet spiked mark</b> means a trick <b>armour will not turn</b>: get out of the way. The log says what is coming, and the <b>Bestiary</b> (Journal) records each trick.',
     gaze: 'Its eyes blaze: <b>turn away!</b> A basilisk\'s gaze turns to stone only whoever is looking at it.',
     dazzle: 'Its wings are beginning to shine: <b>turn away!</b> The flare dazzles only whoever is looking at it, and a dazzled hero\'s blows go wide a while.',
+    snatch: 'Its hand darts for your <b>purse</b>: <b>step back</b>, and it closes on air. Robbed, bring it down <b>before it gets away</b>, and it drops your gold.',
     pike: 'It levels its pike down its line. <b>Close in</b> under the point, or <b>step out of its line</b>: the pike reaches two squares, so a step back only keeps you on it.',
     rust: 'It means to bite your armour. <b>Step back!</b> A rustmaw\'s bite rusts metal for good, though a trader\'s forge can mend it.',
     claw: 'A numbing claw reaches for you. <b>Step back</b> out of reach, or <b>strike</b>: a blow that lands knocks the claw aside.',

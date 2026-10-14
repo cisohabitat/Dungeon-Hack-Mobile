@@ -778,6 +778,9 @@ const MONSTERS = {
   moth:     { name: 'Glimmer Moth', hp: [1, 6, 0],  ac: 12, hit: 1,  dmg: [1, 3, 0], speed: 800,  xp: 10,   tier: [1, 3],   sprite: 'moth',     scale: 0.55, fly: 0.5, move: 'dazzle', door: 'batter' },
   thornhog: { name: 'Thornhog',    hp: [2, 8, 1],    ac: 13, hit: 2,  dmg: [1, 4, 1], speed: 1100, xp: 24,   tier: [2, 5],   sprite: 'thornhog', scale: 0.6, move: 'bristle', quills: 4, door: 'batter' },
   imp:      { name: 'Gutter Imp',  hp: [2, 8, 2],    ac: 13, hit: 3,  dmg: [1, 4, 1], speed: 900,  xp: 34,   tier: [3, 6],   sprite: 'imp',      scale: 0.6, move: 'blink', bite: [1, 4, 0], door: 'batter' },
+  // A thief: it snatches a share of the hero's gold and runs for the dark with it;
+  // brought down before it gets away, it drops the gold (foes.js, combat.js).
+  cutpurse: { name: 'Goblin Cutpurse', hp: [2, 8, 0], ac: 14, hit: 3,  dmg: [1, 4, 0], speed: 800,  xp: 30,   tier: [2, 6],   sprite: 'cutpurse', scale: 0.72, move: 'snatch', cunning: 1 },
   pikeman:  { name: 'Goblin Pikeman', hp: [3, 8, 2], ac: 14, hit: 4,  dmg: [1, 6, 1], speed: 1100, xp: 50,   tier: [4, 8],   sprite: 'pikeman',  scale: 0.8, move: 'thrust', cunning: 1 },
   // The deep floors' own: each asks for something other than a step back.
   // A hound that comes back into the world behind you (turn and face it), a
@@ -1082,6 +1085,9 @@ const BESTIARY = {
   imp:      { lore: 'A small grey thing with long ears and a longer grin, that lives in the drains. It has learned a trick from something deeper down.',
     trick: 'It flickers out of the air and steps back in at your back, and bites from behind.',
     answer: 'Turn round to face it as it comes back: it steps out onto your blade, caught off balance and open.' },
+  cutpurse: { lore: 'A thin goblin in a dark hood, light on its feet, with a sack at its belt that clinks. It is not here to fight you.',
+    trick: 'Its hand darts for your purse. If it finds it, it takes a share of your gold and runs for the dark; once out of sight for good, the gold goes with it.',
+    answer: 'Step back as its hand darts, and it closes on air and is left open. Robbed, catch it before it gets away: an arrow, a snare or a spell, and it drops what it took.' },
   pikeman:  { lore: 'A goblin with a pike twice its height, which it holds out in front of it as if it were afraid of what it might meet. It is.',
     trick: 'It levels its pike and drives it down its line, two squares out. Stepping back only keeps you on the point.',
     answer: 'Close in under the point: the pike drives past you, and the goblin is left open. Or step out of its line.' },

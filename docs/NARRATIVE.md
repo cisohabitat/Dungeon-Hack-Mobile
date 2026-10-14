@@ -1081,6 +1081,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *Glimmer Moth*: A pale moth as broad as a hand is wide, drawn to any light, the hero's own included. Its wings are dusted with something that shines.
 - *Thornhog*: A low, bristling hog of the upper halls, nosing for grubs and short of temper. Its quills burn.
 - *Gutter Imp*: A small grey thing with long ears and a longer grin, that lives in the drains. It has learned a trick from something deeper down.
+- *Goblin Cutpurse*: A thin goblin in a dark hood, light on its feet, with a sack at its belt that clinks. It is not here to fight you.
 - *Goblin Pikeman*: A goblin with a pike twice its height, which it holds out in front of it as if it were afraid of what it might meet. It is.
 - *Drowned One*: Something that went into the black water and did not come out, bloated and pale. It lies under the surface with only a ripple to show for it. Undead: holy magic burns it twice as badly; the water keeps fire off it, and carries lightning in.
 - *Dark Elf Warrior*: A dark elf in black mail, grey-skinned and white-haired, with a curved blade in each hand. They are quick, and they fight as if they had been taught to by someone who would kill them for doing it badly.
@@ -1126,6 +1127,7 @@ A skeleton in a surveyor's coat sits against the wall, a satchel of rolled maps 
 - *trick*: A **violet spiked mark** means a trick **armour will not turn**: get out of the way. The log says what is coming, and the **Bestiary** (Journal) records each trick.
 - *gaze*: Its eyes blaze: **turn away!** A basilisk's gaze turns to stone only whoever is looking at it.
 - *dazzle*: Its wings are beginning to shine: **turn away!** The flare dazzles only whoever is looking at it, and a dazzled hero's blows go wide a while.
+- *snatch*: Its hand darts for your **purse**: **step back**, and it closes on air. Robbed, bring it down **before it gets away**, and it drops your gold.
 - *pike*: It levels its pike down its line. **Close in** under the point, or **step out of its line**: the pike reaches two squares, so a step back only keeps you on it.
 - *rust*: It means to bite your armour. **Step back!** A rustmaw's bite rusts metal for good, though a trader's forge can mend it.
 - *claw*: A numbing claw reaches for you. **Step back** out of reach, or **strike**: a blow that lands knocks the claw aside.
