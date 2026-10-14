@@ -1064,20 +1064,48 @@ const FOLK = {
     return out;
   },
 
-  // A goblin cutpurse: a goblin gone thin and pale in the dark, in a dark hood and
-  // tunic, a clinking sack at its belt. About to snatch, its hand darts out low.
+  // A goblin cutpurse: a goblin gone thin and pale in the dark, in a dark hood and a
+  // long cloak, a clinking sack at its belt. About to snatch, its hand darts out low.
   cutpurse: (pose = 'idle') => {
     const base = recolour(CREATURES.goblin(pose === 'special' ? 'windup' : pose), {
       '#6aa84a': '#7e9c66', '#3f6e2c': '#4e6640', '#8ac66a': '#9ab884', '#6a4628': '#2e2a32', '#4a3018': '#1e1c22', '#8a6a40': '#4a4450', '#b8bcc4': '#8a8e96',
     });
+    const sway = pose === 'stepA' ? -2 : pose === 'stepB' ? 2 : pose === 'special' ? 3 : 0;
     return [
+      // the cloak, hanging behind it from the shoulders nearly to the ground, flared and ragged
+      sheet([[24, 23], [40, 23], [47 + sway, 38], [54 + sway, 58], [47 + sway, 55], [41 + sway, 60], [32 + sway, 57], [23 + sway, 60], [17 + sway, 55], [10 + sway, 58], [17 + sway, 38]], '#24212a', { curve: 0.6 }),
+      hair(22 + sway, 40, 14 + sway, 55, '#34303c'), hair(42 + sway, 40, 50 + sway, 55, '#34303c'),
       ...base,
       // the hood drawn up over the skull, the ears out through slits in it
-      sheet([[24.5, 19], [25.5, 10.5], [32, 8], [38.5, 10.5], [39.5, 19], [37, 14.5], [32, 13], [27, 14.5]], '#2a2630', { curve: 0.8 }),
+      sheet([[24.5, 19], [25.5, 10.5], [30, 6], [32, 1.5], [34, 6], [38.5, 10.5], [39.5, 19], [37, 14.5], [32, 13], [27, 14.5]], '#2a2630', { curve: 0.8 }),
       hair(26, 12, 31, 9, '#3e3a46'),
       // the sack at its belt, clinking, a coin showing at its neck
       ball(39, 47, 4.6, 4.2, '#5a4a36'), ball(39, 43, 2.4, 1.2, '#3e3224'), line(37, 42.5, 41, 42.5, '#2a2018'),
       ball(40, 42, 1, 0.8, '#e8c050', { glows: true }), specks([[37, 48], [41, 49]], '#3e3224'),
+    ];
+  },
+
+  // A goblin lookout: a goblin in a mottled green jerkin, a bone whistle on a cord at
+  // its throat, a rag tied round its brow, and a tall crooked pole with a rag flag to
+  // wave from a high place. Whistling, the whistle is at its lips and the pole held high.
+  lookout: (pose = 'idle') => {
+    const blow = pose === 'special';
+    const base = recolour(CREATURES.goblin(blow ? 'windup' : pose), { '#6a4628': '#4e5a30', '#4a3018': '#323c1e', '#8a6a40': '#6a6a40' });
+    const up = blow ? -8 : 0, lean = blow ? -3 : 0;
+    return [
+      // the pole, behind it, gripped at its side; the flag at its top streaming out
+      limb(17 + lean, 2 + up, 19, 60 + up / 2, 1.5, 1.6, '#6a5232'), hair(16 + lean, 14 + up, 18, 22 + up, '#4a3820'),
+      sheet([[17 + lean, 2 + up], [8 + lean * 2, 3 + up], [1 + lean * 2, 7 + up], [7 + lean * 2, 12 + up], [1 + lean * 2, 17 + up], [9 + lean * 2, 22 + up], [17 + lean, 20 + up]], blow ? '#c85a40' : '#a84a34', { curve: 0.7 }),
+      hair(15 + lean, 6 + up, 7 + lean * 2, 7 + up, '#7a3424'), hair(15 + lean, 15 + up, 6 + lean * 2, 17 + up, '#7a3424'),
+      // a signal drum slung at its back, showing past its right side, its skin laced tight
+      ball(49, 37, 6, 7, '#7a5a34'), ball(50.5, 37, 4, 5.6, '#d8c8a0'), limb(44, 31, 55, 43, 0.5, 0.5, '#4a3820'), limb(44, 43, 55, 31, 0.5, 0.5, '#4a3820'),
+      ...base,
+      // the rag round its brow, its knot's ends hanging
+      limb(25, 14, 39, 14, 1.2, 1.2, '#8a3a2a'), hair(26, 13.5, 38, 13.5, '#a84a34'), limb(38, 14, 41, 18, 0.6, 0.4, '#8a3a2a'),
+      // the cord and the whistle: at its throat, or at its lips
+      ...(blow ? [hair(29, 25, 31, 28, '#c8bca0'), limb(31.5, 24.5, 37, 23, 1, 0.8, '#e8dcbc'), ball(37.4, 23, 1, 1, '#c8bca0'),
+        specks([[40, 21], [42, 19], [41, 23]], '#f0ecd8', { glows: true })]
+        : [hair(29, 26, 32, 31, '#c8bca0'), hair(35, 26, 32, 31, '#c8bca0'), limb(32, 31, 33, 35, 1, 0.8, '#e8dcbc')]),
     ];
   },
 

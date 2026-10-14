@@ -246,6 +246,8 @@ export function makeFoes(K) {
   const MONSTER_PIT_MS = 1500;
   // a cutpurse takes a quarter of the purse, ten at least and no more than so many a floor deep,
   // and is gone for good once it is this many steps off with it
+  // how far off a lookout will run for help, in steps, and how far its whistle wakes
+  const FETCH_REACH = 16, FETCH_WAKE = 6;
   const SNATCH_LEAST = 10, SNATCH_SHARE = 0.25, SNATCH_MOST = 25, SNATCH_GONE = 14;   // how long a creature that walks into a pit is caught in it   // how long a glimmer moth's wings leave your blows going wide
   // what a rustmaw's bite can find to eat: metal armour, any shield, a blade or a mace
   const RUSTS = { armor: ['studded', 'scale', 'chain', 'splint', 'plate', 'dwarfplate'], weapon: id => !['staff', 'club', 'sling', 'shortbow', 'longbow'].includes(id) };
@@ -1475,6 +1477,8 @@ export function makeFoes(K) {
     if (!m.awake) { stirs(m, mb, L, p, di); return; }
     // the first floor's grace (game.js): what is awake waits for the hero's first step or blow
     if (G.graceUntil > G.t) return;
+    // a lookout runs for help before it fights (fetchHelp below)
+    if (mb.fetches && !m.fetched && fetchHelp(m, mb, L, p)) return;
     // a cutpurse far enough off with the gold is gone with it, for good
     if (m.fleeing && m.loot && (di < 0 || di > SNATCH_GONE)) {
       L.monsters.splice(L.monsters.indexOf(m), 1);
@@ -1754,6 +1758,55 @@ export function makeFoes(K) {
     m.windup = null; m.volley = null;  // a blow drawn at you is dropped once it has lost you
     if (rnd() < 0.3) wander(m);
     m.nextAct = G.t + mb.speed * 1.5;
+  }
+  /**
+   * A lookout that has seen the hero runs for the nearest of the floor's sleepers,
+   * a step a turn by the shortest way, and once within two squares of them blows
+   * its whistle: everything within six wakes. It fights only once that is done, or
+   * once there is no one left asleep near enough to fetch.
+   * @returns {boolean} whether it spent its turn on it
+   */
+  function fetchHelp(m, mb, L, p) {
+    const G = K.G;
+    const asleep = o => o !== m && !o.awake && !o.disguised && !o.truce && !o.sunk && !MONSTERS[o.id].boss;
+    // the way to every square within reach of it, by steps
+    const prev = new Map([[m.y * L.w + m.x, -1]]), q = [m.y * L.w + m.x];
+    let goal = -1;
+    for (let qi = 0; qi < q.length && goal < 0; qi++) {
+      const i = q[qi], x = i % L.w, y = (i / L.w) | 0;
+      if (L.monsters.some(o => asleep(o) && Math.abs(o.x - x) + Math.abs(o.y - y) <= 1)) { goal = i; break; }
+      for (const [dx, dy] of K.DIRS) {
+        const nx = x + dx, ny = y + dy, j = ny * L.w + nx;
+        if (prev.has(j) || !K.passable(nx, ny) || (nx === p.x && ny === p.y)) continue;
+        if (prev.size > 900) break;
+        prev.set(j, i); q.push(j);
+      }
+    }
+    if (goal < 0 || (() => { let n = 0; for (let i = goal; prev.get(i) >= 0; i = prev.get(i)) n++; return n > FETCH_REACH; })()) { m.fetched = true; return false; }
+    if (!m.fetching) {
+      m.fetching = true;
+      K.log(`The ${mb.name} turns and runs, shrieking, for the others! Bring it down before it reaches them.`, 'bad');
+      K.meet(m, 'trick');
+      Sound.play('voice', K.heard(m, { who: m.id }));
+    }
+    // there: the whistle
+    const near = L.monsters.filter(o => asleep(o) && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= 2);
+    if (near.length || goal === m.y * L.w + m.x) {
+      for (const o of L.monsters) if (o !== m && !o.disguised && !o.truce && Math.abs(o.x - m.x) + Math.abs(o.y - m.y) <= FETCH_WAKE) o.awake = true;
+      m.fetched = true; m.fetching = false;
+      K.log(`The ${mb.name} blows a shrill whistle, and all about it things stir and get up!`, 'bad');
+      Sound.play('special', K.heard(m));
+      m.nextAct = G.t + mb.speed;
+      return true;
+    }
+    // a step along the way
+    let step = goal;
+    while (prev.get(step) >= 0 && prev.get(step) !== m.y * L.w + m.x) step = prev.get(step);
+    const sx = step % L.w, sy = (step / L.w) | 0;
+    if (K.monsterAt(sx, sy) || K.npcAt(sx, sy) || K.companionAt(sx, sy)) { m.nextAct = G.t + 300; return true; }
+    moveMonster(m, sx, sy);
+    m.nextAct = G.t + Math.round(mb.speed * 0.75);
+    return true;
   }
   /** Run for the darkness; recover nerve once far enough away. @returns {boolean} whether it fled (false: cornered, it fights on) */
   function flees(m, mb, L, p, di) {
