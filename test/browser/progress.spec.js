@@ -394,7 +394,7 @@ test.describe('the mastery track', () => {
     // the mage has its second kit but not the third: told how to open it
     await page.click('.class-card[data-cls="mage"]');
     await expect(page.locator('[data-kit="third"]')).toHaveCount(0);
-    await expect(page.locator('.kit-note.locked-line')).toContainText("Battle-Mage's Kit: locked. Win as a Mage with both its paths.");
+    await expect(page.locator('.kit-lock')).toContainText("Battle-Mage's Kit: locked. Win as a Mage with both its paths.");
     expect(errors).toEqual([]);
   });
 

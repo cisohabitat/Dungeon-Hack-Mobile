@@ -27,7 +27,7 @@ export function renderStart(el, create, changed) {
       + `<button type="button" role="radio" data-kit="alt" aria-checked="${create.kit === 'alt'}" class="${create.kit === 'alt' ? 'on' : ''}">${escapeHtml(alt.name)}</button>`
       + (kit3Open && third ? `<button type="button" role="radio" data-kit="third" aria-checked="${create.kit === 'third'}" class="${create.kit === 'third' ? 'on' : ''}">${escapeHtml(third.name)}</button>` : '') + '</div>'
       + `<p class="dim small kit-note">${escapeHtml(create.kit === 'third' && third ? third.desc : create.kit === 'alt' ? alt.desc : 'The kit every ' + c.name + ' starts with.')}</p>`
-      + (third && !kit3Open ? `<p class="dim small kit-note locked-line">${escapeHtml(third.name)}: locked. ${escapeHtml(Progress.stageNeed(create.cls, 4))} And on Hard: the fourth stage of its mastery.</p>` : '')
+      + (third && !kit3Open ? `<p class="dim small kit-lock locked-line">${escapeHtml(third.name)}: locked. ${escapeHtml(Progress.stageNeed(create.cls, 4))} It is the fourth stage of its mastery, so a win on Hard comes first.</p>` : '')
     : `<p class="dim small kit-note locked-line">${escapeHtml(alt.name)}: locked. Win as a ${escapeHtml(c.name)} on Normal or Hard to unlock it.</p>`;
   const houndLine = houndOpen
     ? `<label class="check"><input type="checkbox" id="c-hound"${create.hound ? ' checked' : ''}> <span><b>A hound from the first stair</b>: start with a hound at your side.</span></label>`

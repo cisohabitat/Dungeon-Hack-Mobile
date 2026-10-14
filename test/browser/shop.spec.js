@@ -163,7 +163,7 @@ test.describe('the trader', () => {
     await page.click('#btn-hall');
     const box = page.locator('.hall-wick');
     await expect(box.locator('summary')).toContainText("Wick's tales");
-    await expect(box.locator('summary')).toContainText('1 of 8 heard');
+    await expect(box.locator('summary')).toContainText('1 of 20 heard');
     await box.locator('summary').click();
     await expect(box.locator('li')).toHaveCount(1);
     await expect(box.locator('li').first()).toContainText('We were here before the first stair was cut');
