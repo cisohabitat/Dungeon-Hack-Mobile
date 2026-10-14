@@ -395,4 +395,26 @@ test.describe('the crews\' pages between runs', () => {
     await expect(page.locator('.kit-note.locked-line')).toContainText("Battle-Mage's Kit: locked. Win as a Mage with both its paths.");
     expect(errors).toEqual([]);
   });
+
+  test('at the last stage of mastery the New Game screen offers a relic once found to begin with, and the run starts wearing it', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    const id = await page.evaluate(async () => {
+      const { RELICS, relicUsableBy } = await import('./js/relics.js');
+      const id = Object.keys(RELICS).find(r => !RELICS[r].legend && relicUsableBy(r, 'fighter') && ITEMS[RELICS[r].t].kind === 'weapon');
+      localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1 }, mage: { normal: 1 } }, paths: { knight: 1, berserker: 1 }, rungs: { fighter: 3 }, relics: [id] }));
+      return id;
+    });
+    await page.click('#btn-new');
+    await page.click('.class-card[data-cls="mage"]');
+    await expect(page.locator('#c-relic')).toHaveCount(0);
+    await expect(page.locator('.relic-line.locked-line')).toContainText('A start with a relic once found: locked.');
+    await page.click('.class-card[data-cls="fighter"]');
+    await expect(page.locator('#c-relic option')).toHaveCount(2);
+    await page.selectOption('#c-relic', id);
+    await page.click('#c-begin');
+    await page.click('#pro-begin');
+    await expect.poll(() => page.evaluate(r => Object.values(Game.player().eq).some(it => it && it.u === r), id), { timeout: 10_000 }).toBe(true);
+    expect(errors).toEqual([]);
+  });
 });

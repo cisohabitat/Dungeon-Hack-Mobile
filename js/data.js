@@ -487,6 +487,8 @@ const MASTERY = {
   opens: ['A bronze frame for the portrait.', 'The second kit.', 'The title, and a silver frame.', 'A third kit.', 'A start with a relic once found, and a gold frame.'],
   // the rung of the ladder past Hard the last stage asks for
   topRung: 3,
+  // what a run begun with a relic once found scores, against one begun without
+  codexScore: 0.75,
   // the portrait's frame at each stage, from none
   frames: ['', 'bronze', 'bronze', 'silver', 'silver', 'gold'],
   names: {

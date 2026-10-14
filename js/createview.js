@@ -20,8 +20,8 @@ import { renderStart, renderRung } from './createextras.js';
  * }} K
  */
 export function makeCreateView(K) {
-  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, rung: number, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
-  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, rung: 0, mode: 'roll', buy: null, buyTouched: false };
+  /** @type {{cls: string, bg: string, stats: any, rolled: any, difficulty: string, vows: string[], kit: string, hound: boolean, relic: string, rung: number, mode: string, buy: Record<string, number>|null, buyTouched: boolean}} */
+  let create = { cls: 'fighter', bg: 'oathbroken', stats: null, rolled: null, difficulty: 'normal', vows: [], kit: '', hound: false, relic: '', rung: 0, mode: 'roll', buy: null, buyTouched: false };
   // Point buy: every score starts at 8 and 27 points raise them, dearer near
   // the top, to 17 at most (a background's bonus goes on after). About what
   // an average roll gives, but placed where the player wants it; 16 and 17
@@ -242,6 +242,7 @@ export function makeCreateView(K) {
         difficulty: /** @type {'easy'|'normal'|'hard'} */ (create.difficulty),
         ...(create.vows.length ? { vows: create.vows.slice() } : {}),
         ...(create.kit ? { kit: create.kit } : {}),
+        ...(create.relic ? { relic: create.relic } : {}),
         ...(create.hound ? { companion: 'hound' } : {}),
         ...(create.difficulty === 'hard' && create.rung ? { rung: create.rung } : {}),
       },

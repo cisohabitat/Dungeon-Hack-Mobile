@@ -4,7 +4,7 @@
 // bestiary, and read afresh each time so there is no state to go stale.
 
 import { BACKGROUNDS, CLASSES, PATHS, VOWS, FEATS, ITEMS, LADDER, WICK, JOURNAL, MASTERY } from './data.js';
-import { RELICS, toCollect } from './relics.js';
+import { RELICS, toCollect, relicUsableBy } from './relics.js';
 import { COMBOS } from './combos.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
@@ -160,6 +160,12 @@ const stageNeed = (cls, n) => (MASTERY.needs[n - 1] || '').replace('{cls}', CLAS
 const frameOf = (cls, v = load()) => MASTERY.frames[stage(cls, v)] || '';
 /** A class's third kit is open at the fourth stage of its mastery track: a win on Hard and with both its paths. */
 const kit3Open = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].thirdKit && stage(cls, v) >= 4;
+/**
+ * At the last stage of a class's mastery, a run may begin with a relic once found: any in the
+ * codex the class can use, but a path's legend (it belongs to its path). These are they.
+ */
+const codexOpen = (cls, v = load()) => stage(cls, v) >= 5;
+const codexStarts = (cls, v = load()) => (codexOpen(cls, v) ? v.relics.filter(id => RELICS[id] && !RELICS[id].legend && relicUsableBy(id, cls)) : []);
 /** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
 const houndOpen = (v = load()) => !!v.feats.veteran;
 /**
@@ -372,5 +378,5 @@ function layToRest(run) {
   try { localStorage.removeItem(FALLEN_KEY); } catch (e) { /* ignore */ }
 }
 
-const Progress = { load, hasWon, highest, pathsWon, mastered, stage, stageName, stageNeed, frameOf, kit3Open, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
+const Progress = { load, hasWon, highest, pathsWon, mastered, stage, stageName, stageNeed, frameOf, kit3Open, codexOpen, codexStarts, trophyCount, bgOpen, kitOpen, houndOpen, rungOpen, unlocks, nextGoals, vowsOpen, recordWin, noteRelic, noteCombo, notePage, wick, metWick, wickHears, fallen, recordFallen, layToRest, DIFFS, PATH_IDS, KEY: PROGRESS_KEY, FALLEN_KEY };
 export { Progress };

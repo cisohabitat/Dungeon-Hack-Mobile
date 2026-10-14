@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE } from './data.js';
+import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE, MASTERY } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -79,7 +79,9 @@ export function makeChronicle(K) {
     const run = p.xp * 2 + p.deepest * 100, base = won ? Math.round(run * 1.5) + 2000 + quickWin(t) : run;
     const vows = (K.G && K.G.opts && K.G.opts.vows) || [];
     // (and each rung of the ladder past Hard a tenth more: see LADDER)
-    return Math.round(base * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0) + RUNG_SCORE * K.rung()));
+    // (and a run begun with a relic once found, a quarter less: MASTERY.codexScore)
+    const brought = K.G && K.G.opts && K.G.opts.relic ? MASTERY.codexScore : 1;
+    return Math.round(base * brought * (1 + vows.reduce((a, v) => a + ((VOWS[v] && VOWS[v].score) || 0), 0) + RUNG_SCORE * K.rung()));
   }
   // One page lies on every floor (pagePlan in dungeon.js), so a delve holds as many
   // as it has floors: a short one fewer of the story than the archive knows.
@@ -190,6 +192,7 @@ export function makeChronicle(K) {
     if (slain.length) entry.named = slain;
     if (p.path) entry.path = p.path;       // "Level 9 Fighter, Knight"
     if (Array.isArray(K.G.opts.vows) && K.G.opts.vows.length) entry.vows = K.G.opts.vows.slice();
+    if (K.G.opts.relic) entry.relic = K.G.opts.relic;   // begun with a relic once found
     if (K.rung()) entry.rung = K.rung();   // "Hard+3"
     // One run, one line: a hero who falls, loads the last save and falls again
     // was written in once per death. The run is known by when it began (a save

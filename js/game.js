@@ -822,6 +822,21 @@ const Game = (() => {
       const k = ITEMS[it.t].kind;
       if ((k === 'weapon' || k === 'armor' || k === 'shield') && !p.eq[k]) equip(it, true);
     }
+    // a relic once found, brought down from the first stair at the last stage of the class's mastery
+    // (one from the codex the class can use, never a legend, never in a Daily or a Weekly): worn
+    // from the start, and taken out of this run's own relics so it is not found again
+    if (G.opts.relic) {
+      const id = G.opts.relic;
+      if (!G.opts.daily && !G.opts.weekly && Progress.codexStarts(cfg.cls).includes(id)) {
+        G.relics.found.push(id); G.known[RELICS[id].t] = 1;
+        for (const d in G.relics.floor) if (G.relics.floor[d] === id) delete G.relics.floor[d];
+        G.relics.shop = G.relics.shop.filter(x => x !== id);
+        const it = relicItem(id);
+        giveItem(it);
+        const held = p.inv.find(x => x.u === id);
+        if (held && !canEquip(held)) equip(held, true);
+      } else delete G.opts.relic;
+    }
     enterLevel(1, 'down');
     log(`Welcome, ${p.name} the ${c.name}. ${G.opts.levels} floors lie below. Find the Heart of the Mountain.`, 'good');
     // a hound from the first stair, for one who has earned it (not sworn to go alone, nor in a Daily)

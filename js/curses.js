@@ -66,7 +66,7 @@ export function makeCurses(K) {
     if (!R) return;
     const span = K.G.route && Dungeon.routeSpan(K.G.opts.levels || 8);
     const road = span && depth === span.to ? routeRelic(K.G.route) : '';
-    for (const id of [R.floor[depth], road]) if (id) layRelic(L, id);
+    for (const id of [R.floor[depth], road]) if (id && !R.found.includes(id)) layRelic(L, id);
     // (one is kept back for the floor before last, where the gold hauled up has nowhere else to go)
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && depth >= 2 && shelfHolds(depth)) trader.stock.push(relicItem(R.shop[R.offered++]));

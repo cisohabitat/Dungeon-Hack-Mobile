@@ -80,4 +80,34 @@ module.exports = async function masteryChecks(h) {
     }
     return out.length ? out.join('; ') : true;
   });
+
+  await test('at the last stage, a run may begin with a relic once found: worn from the first stair, never found again that run, a quarter off the score; refused before, for a legend, or in a Daily', async () => {
+    const out = [];
+    const ctx = await newContext();
+    const { Game, PATHS, Progress, RELICS, MASTERY, relicUsableBy } = ctx;
+    const cls = 'fighter';
+    const usable = Object.keys(RELICS).filter(id => !RELICS[id].legend && relicUsableBy(id, cls));
+    const legend = Object.keys(RELICS).find(id => RELICS[id].legend && relicUsableBy(id, cls));
+    const id = usable.find(x => ['weapon', 'armor'].includes(ctx.ITEMS[RELICS[x].t].kind)) || usable[0];
+    const progress = top => ({ won: { [cls]: { hard: 1 } }, paths: Object.fromEntries(PATHS[cls].map(x => [x.id, 1])), rungs: { [cls]: top }, relics: [...usable, legend].filter(Boolean) });
+    const begin = (relic, opts = {}) => { Game.newGame({ name: 'R', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'codex-' + relic, opts: { ...OPTS, relic, ...opts } }); return Game.player(); };
+    const worn = p => Object.values(p.eq).some(it => it && it.u === id);
+    ctx.store.set('deepdelve.progress', JSON.stringify(progress(MASTERY.topRung - 1)));
+    let p = begin(id);
+    if (worn(p) || Game.state().opts.relic) out.push('a relic was brought before the last stage');
+    ctx.store.set('deepdelve.progress', JSON.stringify(progress(MASTERY.topRung)));
+    if (!Progress.codexStarts(cls).includes(id) || (legend && Progress.codexStarts(cls).includes(legend))) out.push(`the codex offered ${Progress.codexStarts(cls).join(', ')}`);
+    p = begin(id);
+    const G = Game.state();
+    if (!worn(p)) out.push(`${id} was not worn from the start`);
+    if (!G.relics.found.includes(id) || Object.values(G.relics.floor).includes(id) || G.relics.shop.includes(id)) out.push('the brought relic could still be found again this run');
+    const s = Game.score(p, 8, true);
+    G.opts.relic = undefined;
+    const plain = Game.score(p, 8, true);
+    if (Math.abs(s / plain - MASTERY.codexScore) > 0.01) out.push(`a run begun with a relic scored ${s} to a plain run's ${plain}`);
+    if (legend) { begin(legend); if (Game.state().opts.relic) out.push('a legend was brought'); }
+    begin(id, { daily: '2027-01-01' });
+    if (Game.state().opts.relic) out.push('a Daily took a relic');
+    return out.length ? out.join('; ') : true;
+  });
 };

@@ -308,6 +308,7 @@
  * @property {string} [weekly]  the week of a Weekly Challenge, as YYYY-Www (an ISO week); absent on any other run
  * @property {string[]} [vows]  the vows sworn at the start (see VOWS in data.js)
  * @property {'alt'|'third'} [kit]  the class's second kit, chosen at the start once a win has earned it (see altKit in data.js), or its third, opened at the fourth stage of its mastery (thirdKit)
+ * @property {string} [relic]  a relic once found, brought from the first stair at the last stage of the class's mastery (codexStarts in progress.js): the run scores a quarter less
  * @property {number} [rung]  the rung of the ladder past Hard, 1 to 5, on Hard only (see LADDER in data.js)
  * @property {'hound'} [companion]  a hound from the first stair, chosen at the start once earned (Progress.houndOpen)
  * @property {string} [route]  the road taken at the fork (see ROUTES in data.js), passed to the generator; absent before it

@@ -1188,3 +1188,7 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
   #minimap { width: 150px; height: 150px; image-rendering: pixelated; }
   .hud-status { right: calc(150px + 14px); }
 }
+
+/* the start with a relic once found, at the last stage of a class's mastery (createextras.js) */
+.relic-line { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-6); }
+.relic-line select { width: 100%; }

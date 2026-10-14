@@ -5,6 +5,7 @@ import { BACKGROUNDS, BESTIARY, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS,
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
+import { RELICS } from './relics.js';
 import { $, diffName, diffLabel, escapeHtml, upFirst } from './uikit.js';
 
 /** @param {any} K */
@@ -136,7 +137,7 @@ export function makeEndScreen(K) {
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
     const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender', renegade: 'renegade' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
-    const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name)];
+    const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name), ...(o.relic && RELICS[o.relic] ? [`begun with ${RELICS[o.relic].name}`] : [])];
     return {
       won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]), frame: Progress.frameOf(p.cls),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
