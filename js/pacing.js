@@ -80,6 +80,8 @@ export function makePacing(K) {
     // a hurt hound is reason enough to stop: it heals by the same rest
     const hound = companion.here();
     if (p.hp >= p.maxHp && p.sp >= p.maxSp && !(hound && hound.hp < hound.maxHp)) { log('You are already well rested.'); return false; }
+    // (under a Gallows Ring, with spell points full and no hound to mend, a rest would give nothing)
+    if (K.hasPower('gallows') && p.sp >= p.maxSp && !(hound && hound.hp < hound.maxHp)) { log('Resting would do nothing: the Gallows Ring keeps your wounds open.', 'bad'); Sound.play('error'); return false; }
     const food = REST_FOOD;
     if (p.food < food) { log('You are too hungry to rest.', 'bad'); Sound.play('error'); return false; }
     if (!restShare()) { log(`The dark is too close here to sleep again. ${lvl().isFinal ? 'Finish what you came for.' : 'Find the stairs.'}`, 'bad'); Sound.play('error'); return false; }
@@ -91,7 +93,9 @@ export function makePacing(K) {
     const quiet = hasTalent('field_craft') ? 1 : 0;
     const found = before > quiet && rnd() < Math.min(AMBUSH_MOST, (before - quiet) * AMBUSH_STEP);
     if (found) share /= 2;
-    const hp = Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
+    // (a Gallows Ring keeps its wearer's wounds open through sleep too: the rest is for spell points)
+    const gallows = K.hasPower('gallows');
+    const hp = gallows ? 0 : Math.min(p.maxHp - p.hp, Math.ceil(p.maxHp * share)), sp = Math.min(p.maxSp - p.sp, Math.ceil(p.maxSp * share));
     noteHealed(hp);
     p.hp += hp; p.sp += sp;
     companion.rested(share);
@@ -112,6 +116,7 @@ export function makePacing(K) {
     else if (share >= 1) log('You rest for a while and wake refreshed.', 'good');
     else log(`You rest, but sleep comes thinly here${gained}. The dark is stirring.`, 'info');
     if (roused) log('Your sleep was heard. The floor stirs, and comes looking.', 'bad');
+    if (gallows && p.hp < p.maxHp) log('The Gallows Ring is cold on your finger: your wounds stay open.', 'bad');
     Sound.play(woke ? 'ambush' : 'rest');
     emit('stats');
     return true;

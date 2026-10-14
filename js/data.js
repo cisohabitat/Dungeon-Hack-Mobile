@@ -714,6 +714,9 @@ const ITEMS = {
   ring_warmth:  { kind: 'ring', name: 'Ring of Warmth',       value: 90,  sprite: 'ring_copper', power: 'warmth', tier: 3, desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   // the Forge-Thane's, from his hand as he falls (tier 99: never found lying, never on a shelf;
   // last of the rings, so every other ring keeps the look a seed gave it)
+  // a cursed thing worth wearing: always cursed, it binds once on, and while it is worn wounds
+  // close only by a draught, a spell or a prayer (game.js, pacing.js)
+  ring_gallows: { kind: 'ring', name: 'Gallows Ring',       value: 120, sprite: 'ring_black',  power: ['might', 'gallows'], bonus: 3, tier: 3, cursed: true, desc: '+3 to hit and to damage with every blow. It is cursed: once on, it will not come off until the curse is broken, and while it is worn your wounds do not close by themselves, nor with rest.' },
   ring_forge:   { kind: 'ring', name: 'Forge Ring',           value: 200, sprite: 'ring_forge', power: 'might', bonus: 1, tier: 99, desc: '+1 to hit and to damage with every blow, more if finely made.' },
   amulet_life:  { kind: 'amulet', name: 'Amulet of Life Saving', value: 260, sprite: 'amulet_amber', power: 'lifesave', tier: 4, desc: 'The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust.' },
   // what the Spider Pendant (a relic: see relics.js) hangs on; never found bare
@@ -987,6 +990,7 @@ const POTION_LOOKS = [
 const RING_LOOKS = [
   ['silver', 'ring_silver'], ['gold', 'ring_gold'], ['jade', 'ring_jade'], ['bone', 'ring_bone'],
   ['garnet', 'ring_garnet'], ['iron', 'ring_iron'], ['onyx', 'ring_onyx'], ['copper', 'ring_copper'],
+  ['blackened', 'ring_black'],
 ];
 const AMULET_LOOKS = [['amber', 'amulet_amber'], ['silver', 'amulet_silver'], ['obsidian', 'amulet_obsidian'], ['bone', 'amulet_bone']];
 const SCROLL_LOOKS = [

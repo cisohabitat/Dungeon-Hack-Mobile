@@ -1588,7 +1588,8 @@ const Game = (() => {
     // out of combat and unpursued, wounds close slowly on their own
     // (only up to half the hero's life: past that it takes a rest, a draught or a prayer)
     const regenTo = Math.ceil(p.maxHp * (p.bg === 'heartsworn' ? HEARTSWORN_CAP : REGEN_CAP));
-    if (p.hp < regenTo && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0)) {
+    // (not under a Gallows Ring, which keeps its wearer's wounds open)
+    if (p.hp < regenTo && p.food > 0 && G.t - (p.lastHurt || 0) > 5000 && G.t >= (p.nextRegen || 0) && !hasPower('gallows')) {
       ensureDist();
       const L = lvl();
       const hunted = L.monsters.some(m => m.awake && distField[m.y * L.w + m.x] >= 0 && distField[m.y * L.w + m.x] <= 6);

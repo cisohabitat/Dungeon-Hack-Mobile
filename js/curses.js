@@ -146,7 +146,8 @@ export function makeCurses(K) {
     const piles = Object.keys(L.items).filter(k => !L.items[k].some(it => it.t === 'artifact'));
     if (piles.length && rng.chance(JEWEL_FIND)) {
       const id = rng.pick(pool), b = ITEMS[id], it = { t: id, q: 1, e: 0 };
-      if (b.bonus) {
+      if (b.cursed) { it.curse = 1; it.h = 1; }
+      else if (b.bonus) {
         const r = rng.next();
         if (r < 0.2) { it.e = r < 0.07 ? -2 : -1; it.curse = 1; }
         else if (r > 0.65) it.e = r > 0.92 ? 2 : 1;
@@ -156,7 +157,7 @@ export function makeCurses(K) {
     }
     const trader = (L.npcs || []).find(n => n.kind !== 'encounter' && n.stock);
     if (trader && rng.chance(JEWEL_SHOP)) {
-      const id = rng.pick(pool);
+      const id = rng.pick(pool.filter(j => !ITEMS[j].cursed));
       trader.stock.push({ t: id, q: 1, e: ITEMS[id].bonus && rng.chance(0.3) ? 1 : 0 });
     }
   }

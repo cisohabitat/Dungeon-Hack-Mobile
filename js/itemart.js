@@ -220,6 +220,7 @@ const ITEM_ART = {
   ring_garnet: () => jewelRing('#b4bcc8', '#6e727c', '#8a1a3a', '#e06080'),
   ring_onyx: () => jewelRing('#c8ccd4', '#80868f', '#1a1a22', '#8a8a9a'),
   ring_copper: () => jewelRing('#c87a40', '#7a4420', '#e8a030', '#ffe0a0'),
+  ring_black: () => jewelRing('#5a5650', '#2a2622', '#3a0e0c', '#b83a2a'),
   // the Forge-Thane's: dark iron with a vein of copper, and a stone like a coal
   ring_forge: () => [...jewelRing('#585c64', '#2c2e32', '#e0602a', '#ffb070'), ...[0.15, 0.35, 0.55, 0.75].map(t => hair(16 + Math.cos(t * Math.PI) * 6.4, 20 + Math.sin(t * Math.PI) * 4.4, 16 + Math.cos((t + 0.12) * Math.PI) * 6.4, 20 + Math.sin((t + 0.12) * Math.PI) * 4.4, '#c87a3a'))],
   ring_jade: () => jewelRing('#4aa070', '#2a6a48', null, '#9ae0b8', (cx, cy, rx, ry) => [fine([[cx - 4, cy + ry - 0.5], [cx - 3, cy + ry], [cx + 2, cy + ry + 0.2]], '#bff0d0')]),

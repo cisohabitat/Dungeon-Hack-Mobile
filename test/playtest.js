@@ -693,7 +693,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // --- rest when safe and hurt (on the ladder's third rung a rest wakes what can hear it, so as a
     // player would: only once little is left on it, or standing on the stairs with the way down
     // at hand, since what is roused is left behind; a hero near death rests anyway)
-    if ((hpFrac < 0.75 || (p.maxSp && p.sp < p.maxSp * 0.4)) && p.food > 10) {
+    // (under a Gallows Ring rest mends no life: only spell points send it to rest then)
+    if (((hpFrac < 0.75 && !Game.hasPower('gallows')) || (p.maxSp && p.sp < p.maxSp * 0.4)) && p.food > 10) {
       const roused = Game.rung() >= 3;
       const byStair = !!L.stairsDown && Math.abs(p.x - L.stairsDown.x) + Math.abs(p.y - L.stairsDown.y) === 1;
       const left = roused ? L.monsters.filter(m => !m.collapsed && !m.sunk && !m.disguised).length : 0;

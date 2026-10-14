@@ -1411,7 +1411,7 @@ export function makeFoes(K) {
     const most = 2 + Math.floor(K.G.depth / 2);
     // and a champion wears something worth taking off it: a ring or an amulet,
     // never cursed, and finely made where that counts (what it is, you find out)
-    const jewels = Object.keys(ITEMS).filter(id => K.isJewel({ t: id }) && ITEMS[id].tier <= most);
+    const jewels = Object.keys(ITEMS).filter(id => K.isJewel({ t: id }) && ITEMS[id].tier <= most && !ITEMS[id].cursed);
     const jewel = () => {
       if (!jewels.length) return;
       const id = Dice.pick(jewels), it = drop({ t: id, q: 1, e: ITEMS[id].bonus ? 1 : 0 });

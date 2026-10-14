@@ -27,6 +27,7 @@ const RELIC_POWERS = {
   // worn on a finger or at the throat (see the rings and amulets in data.js)
   protect: 'Protection: armour class +1, more if finely made.',
   might:  'Might: +1 to hit and to damage, more if finely made.',
+  gallows: 'Gallows: your wounds do not close by themselves, nor with rest; only a draught, a spell or a prayer mends them.',
   evasion: 'Evasion: +2 to every saving throw.',
   seer:   'The Seer: +6 to spot traps, and hidden doors show as you pass.',
   warmth: 'Warmth: cold does half as much to you.',
