@@ -526,13 +526,19 @@ await test('in a Hard Long Delve a fighter\'s blows, a druid\'s bear\'s claws an
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`a ${cls}'s blows on ${diff} floor 11 were ${r.toFixed(2)} times those on floor 6`);
   }
-  // sixteen floors on Normal: six past the tenth, 6% a floor for a fighter and 4% for a druid; four past the twelfth, 3.5% for a ranger
-  for (const [cls, lo, hi] of [['fighter', 1.28, 1.44], ['druid', 1.19, 1.31], ['ranger', 1.08, 1.21]]) {
+  // sixteen floors on Normal: six past the tenth, 6% a floor for a fighter and a druid, 5% for a ranger
+  for (const [cls, lo, hi] of [['fighter', 1.28, 1.44], ['druid', 1.28, 1.44], ['ranger', 1.22, 1.38]]) {
     const shallow = await hurt(10, cls, 'normal', 16), deep = await hurt(16, cls, 'normal', 16);
     if (shallow < 0 || deep < 0) { out.push('the druid could not take the bear\'s shape on sixteen floors'); continue; }
     if (!shallow) { out.push(`no ${cls} blow landed on sixteen floors`); continue; }
     const r = deep / shallow;
     if (!(r > lo && r < hi)) out.push(`on sixteen Normal floors a ${cls}'s blows on floor 16 were ${r.toFixed(2)} times those on floor 10`);
+  }
+  // and sixteen floors on Hard: five past the sixth, 5% a floor for a ranger there
+  {
+    const shallow = await hurt(6, 'ranger', 'hard', 16), deep = await hurt(11, 'ranger', 'hard', 16);
+    const r = shallow ? deep / shallow : 0;
+    if (!(r > 1.17 && r < 1.33)) out.push(`on sixteen Hard floors a ranger's blows on floor 11 were ${r.toFixed(2)} times those on floor 6`);
   }
   // eight floors: three past the fifth, 4% a floor for a fighter on Hard, none for a mage's staff nor on Normal
   for (const [cls, diff, lo, hi] of [['fighter', 'hard', 1.07, 1.18], ['fighter', 'normal', 0.97, 1.03], ['ranger', 'hard', 0.97, 1.03]]) {

@@ -294,8 +294,8 @@ Normal ones:
 | Hard | 62.5% | 64% | 63.5% | 62.5% | 61% | 63% | about 63% |
 | Long Delve (12 floors), Normal | 81.5% | 86% | 90% | 89% | 84% | 86% | about 86% |
 | Long Delve (12 floors), Hard | 74% | 74% | 72% | 70.5% | 72% | 71.5% | about 72% |
-| Long Delve (16 floors), Normal | 75% | 85% | 83% | 88% | 77% | 77% | about 81% |
-| Long Delve (16 floors), Hard | 63% | 62% | 65% | 71.5% | 63% | 63.5% | about 65% |
+| Long Delve (16 floors), Normal | 84.5% | 82% | 82.5% | 87% | 82.5% | 82% | about 83.5% |
+| Long Delve (16 floors), Hard | 62% | 62% | 61% | 65% | 63% | 62.5% | about 62.5% |
 | Quick delve (2 floors), Normal | 98.5% | 96% | 98.5% | 92.5% | 96.5% | 98% | about 97% |
 | Hard+1 | 59.5% | 65% | 61.5% | 58.5% | 48.5% | 54.5% | about 58% |
 | Hard+2 | 56.5% | 54% | 49% | 60% | 43% | 51.5% | about 52.5% |
@@ -306,6 +306,8 @@ Normal ones:
 Normal, Hard and the quick delve were measured again over the same three seed sets once the first four floors had creatures of their own (the glimmer moth, thornhog, gutter imp and goblin pikeman): Normal rose two points overall and Hard one, each row's classes within six points.
 
 Every row but Easy and the ladder was measured again once the champions' marks changed how they fight (Phase 10). Normal, Hard, the quick delve and the twelve-floor Hard row hold within six points. The twelve-floor Normal row reads 8.5 apart, a row whose classes have read between 5.5 and 8.5 on these seeds over this work. The sixteen-floor rows stand 13 and 9.5 apart: they were 9.5 and 11 apart on the same seeds before the marks, so the gap is theirs, not the marks' (the marks first cost the cleric and ranger five points there through an Ancient champion's readier odds, since taken out, and the thief eight on twelve floors through an Armoured one's longer fights, since trimmed).
+
+Then the sixteen-floor rows were evened out (Phase 10), and stand 5 and 4 points apart. On Normal the cleric's deep trim, meant for twelve floors, no longer applies on sixteen (75% to 84.5%), the bear's claws grow 6% a floor in the deep as the fighter's blows do (77% to 82%), and the ranger is lifted from the tenth floor with its shots growing 5% a floor (77% to 82.5%). On Hard the thief's lighter sneak blow past the sixth floor applies as it does below Hard (71.5% to 65%), and the ranger's shots grow 5% a floor there rather than 3.5% (56% to 63%). The classes changed were measured over three seed sets, 600 runs each; the rest are the row as it stood, over two.
 
 The ladder past Hard was measured over 200 runs a class at each rung (`DIFF=hard+N SEEDN=10`, both sets) at the end of Phase 8, with the three upper rungs rules rather than taxes and the bot resting beside the stairs on the third (a rest there wakes whatever is near enough to hear it): as a curve rather than a contest between the classes, about four to seven points a rung, from Hard's 62% through 58, 52.5, 45.5 and 41.5 to 37.5% at the top. A rung's overall figure is good to about two points; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above. The first rung's prices and the fifth rung's lamp bite a player who buys draughts and sleeps by the lamp more than they bite the bot, which ends a run with three hundred gold and seldom lights one. A rung's overall figure is good to about two points, so the small last step is within the noise; at this many runs a class's own figure swings by eight, so its spread is not held to the six points of the rows above.
 

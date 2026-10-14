@@ -75,14 +75,14 @@ await test('on a quick delve of two floors a thief starts seven hit points sturd
   return out.length ? out.join('; ') : true;
 });
 
-await test('past the sixth floor of sixteen, on Normal, a sneak blow is one less (a plain thief\'s no better than any blow); not on Hard, nor above it, nor on a shorter delve', async () => {
+await test('past the sixth floor of sixteen, on Normal or Hard, a sneak blow is one less (a plain thief\'s no better than any blow); not above it, nor on a shorter delve', async () => {
   const out = [];
   // an Assassin's (three), so the trim shows; a thief with nothing to add never falls below the double blow
   const at = async (opts, depth, path = 'assassin') => { const ctx = await start('thief', 'deep-sneak', opts); ctx.Game.state().depth = depth; ctx.Game.player().path = path; return ctx.Game.sneakMult(); };
   if (await at({ levels: 16, difficulty: 'normal' }, 9, null) !== 1) out.push('a thief with nothing to add kept the double blow past the sixth of sixteen');
   const base = await at({ levels: 16, difficulty: 'normal' }, 6);
   if (await at({ levels: 16, difficulty: 'normal' }, 7) !== base - 1) out.push('a sneak blow on the seventh of sixteen was not one less');
-  if (await at({ levels: 16, difficulty: 'hard' }, 7) !== base) out.push('the trim reached Hard');
+  if (await at({ levels: 16, difficulty: 'hard' }, 7) !== base - 1) out.push('the trim missed Hard');
   if (await at({ levels: 12, difficulty: 'normal' }, 12) !== base) out.push('the trim reached a twelve-floor delve');
   return out.length ? out.join('; ') : true;
 });

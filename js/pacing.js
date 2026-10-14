@@ -201,16 +201,19 @@ export function makePacing(K) {
     if (K.G.opts.difficulty === 'hard') return K.G.depth >= 7 ? 1 + ((P().cls === 'mage' && K.G.opts.levels < 16) || P().cls === 'cleric' ? 0.04 : 0.06) * (K.G.depth - 6) : 1;
     const from = deepFrom();
     const lift = (K.G.opts.levels || 8) >= 16 && K.G.depth > from ? 1 + 0.06 * (K.G.depth - from) : 1;
-    return lift * (P().cls === 'cleric' && K.G.depth >= 7 ? LONG_CLERIC : 1);
+    return lift * (P().cls === 'cleric' && K.G.depth >= 7 && (K.G.opts.levels || 8) < 16 ? LONG_CLERIC : 1);
   };
-  // Below Hard, on a Long Delve, a cleric's prayers and blows are a tenth weaker past
+  // Below Hard, on a twelve-floor Long Delve, a cleric's prayers and blows are a tenth weaker past
   // the sixth floor: with three more life to start, and the god's healing as deep as
-  // the delve, it won 92% of twelve floors where the rest won 84% to 87%.
+  // the delve, it won 92% of twelve floors where the rest won 84% to 87%. (On sixteen floors the
+  // trim left it last, at 75% to the thief's 87%, dying on the thirteenth floor and below to the
+  // minotaurs and the trolls: there it is not trimmed, and won 84.5% over three seed sets.)
   const LONG_CLERIC = 0.9;
   // Below which floor of sixteen, on Normal or Easy, the deep lifts a hero's spells and blows: the
   // twelfth, and for the three left last there (the fighter, the mage and the druid, 70% to 73% where
-  // the rest won 81% and more) the tenth
-  const LIFTED_EARLY = ['fighter', 'mage', 'druid'];
+  // the rest won 81% and more) the tenth; and the ranger's too, once it was left last there (80.5%,
+  // the rest 82% to 87%)
+  const LIFTED_EARLY = ['fighter', 'mage', 'druid', 'ranger'];
   const deepFrom = () => (LIFTED_EARLY.includes(P().cls) ? 10 : 12);
   // And the fighter, whose one answer is the blow, fell behind there once the
   // casters were lifted (37% wins, the rest 40% to 59%): a fighter's blows grow
@@ -232,15 +235,19 @@ export function makePacing(K) {
     // blows and the bear's claws grow as they do on Hard: with the spells lifted
     // there they were left last (70% and 66%), and came to 73% and 70.5%
     // (the fighter's by 6% a floor there, and the ranger's shots by 3.5%: they were left
-    // last on sixteen Normal floors again, at 78% and 80% to the rest's 82% to 85%)
+    // last on sixteen Normal floors again, at 78% and 80% to the rest's 82% to 85%. Then, with
+    // the cleric untrimmed there, the druid at 78% and the ranger at 80.5% trailed the thief's 87%:
+    // the bear's claws grow 6% a floor as the fighter's blows do, and the ranger's shots 5% from
+    // the tenth floor, and the six came to 82% to 87% over three seed sets)
     if (K.G.opts.difficulty !== 'hard') {
-      const r = P().cls === 'fighter' ? 0.06 : P().cls === 'ranger' ? 0.035 : P().cls === 'druid' ? rate : 0;
+      const r = P().cls === 'fighter' || P().cls === 'druid' ? 0.06 : P().cls === 'ranger' ? 0.05 : 0;
       return r && (K.G.opts.levels || 8) >= 16 && K.G.depth > deepFrom() ? 1 + r * (K.G.depth - deepFrom()) : 1;
     }
     // (on Hard the fighter's grow by 6% a floor and the ranger's by 3.5%: once the champions
     // fought harder they trailed there again, by five points and more; and on sixteen
-    // floors the bear's claws by 5%, the druid then last there by six)
-    const hardRate = P().cls === 'fighter' ? 0.06 : P().cls === 'ranger' ? 0.035 : P().cls === 'druid' && (K.G.opts.levels || 8) >= 16 ? 0.05 : rate;
+    // floors the bear's claws by 5%, the druid then last there by six; and on sixteen the
+    // ranger's by 5%, last there by six at 56%, which came to 63%)
+    const hardRate = P().cls === 'fighter' ? 0.06 : P().cls === 'ranger' ? ((K.G.opts.levels || 8) >= 16 ? 0.05 : 0.035) : P().cls === 'druid' && (K.G.opts.levels || 8) >= 16 ? 0.05 : rate;
     return hardRate && K.G.depth >= 7 ? 1 + hardRate * (K.G.depth - 6) : 1;
   };
   /** A new floor's creatures, as sturdy as the difficulty makes them. @param {import('./types.js').Level} L */

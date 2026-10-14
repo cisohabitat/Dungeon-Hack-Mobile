@@ -149,15 +149,16 @@ export function makePaths(K) {
   }
   // Assassin: the blow from the dark.
   /** What a strike from the shadows multiplies by: two, one more for Assassinate, one more for the path. */
-  // (past the sixth floor of sixteen, on Normal or Easy, what sleeps there sleeps lightly and
+  // (past the sixth floor of sixteen, on any difficulty, what sleeps there sleeps lightly and
   // turns from the blade a little as it falls: one less. The thief alone was left untouched by
   // the deep floors' reckoning, and won 87.5% there where the classes together won 77.5%; with
   // this, 84.75%, and the Assassin no longer five to eight points over the Trickster. From the
   // thirteenth floor only, it was worth one point)
   // (floored at the double blow, the trim was undone: a Trickster lost nothing, and the thief came
   // back to 87.75%. A thief with nothing to add strikes there as any blow, and is not told otherwise)
+  // (and on Hard too, where the thief led sixteen floors at 71.5% to the rest's 56% to 62.5%: 65%)
   const sneakMult = () => 2 + (hasTalent('assassinate') ? 1 : 0) + (onPath('assassin') ? 1 : 0) + (capped('death_mark') ? 1 : 0) + (setWorn('night') ? 1 : 0)
-    - (K.G && (K.G.opts.levels || 8) >= 16 && K.G.opts.difficulty !== 'hard' && K.G.depth > 6 ? 1 : 0);
+    - (K.G && (K.G.opts.levels || 8) >= 16 && K.G.depth > 6 ? 1 : 0);
   /** Whether every piece of a relic set is worn at once. */
   const setWorn = (id, p = P()) => RELIC_SETS[id].pieces.every(u => Object.values(p.eq).some(it => it && it.u === u));
   /** The Order of the Dawn's pair: +1d4 on the undead. */
