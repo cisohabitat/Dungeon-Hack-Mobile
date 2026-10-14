@@ -1,0 +1,19 @@
+{
+  "status": "George neural voice selected by the user; full prologue rendered",
+  "selectedVoice": {"engine": "Kokoro 82M v1.0", "voice": "bm_george", "language": "en-gb", "speed": 0.92},
+  "scene": "The full written prologue, before the animated descent",
+  "scriptSource": "js/data.js: PROLOGUE",
+  "script": [
+    "For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost.",
+    "Three winters ago it went out. The wells came up black. The orchards died standing. The old road filled with people walking the other way.",
+    "The delving guilds sent crews down the Deepdelve to find out why. None of the crews came back, and after the fourth the guilds stopped sending them.",
+    "What is down there now wears their faces."
+  ],
+  "direction": "A weary storyteller in a low, lightly weathered register. Restrained British diction, close and intimate. Tell the dark plainly. No theatrical villain delivery, trailer boom, whisper effect, or growling. Preserve clarity on a phone speaker.",
+  "auditions": ["Kokoro bm_george (selected)", "Kokoro bm_fable"],
+  "pacing": "The approved George audition's 0.92 synthesis speed. 1.25 seconds between paragraphs and 2 seconds before the final line. Let the final line stand without a dramatic swell.",
+  "pronunciation": {"Karrathal": "Proposed: KARR-uh-thal; confirm before the final recording", "Deepdelve": "DEEP-delv"},
+  "mix": "Dry mono voice, no baked-in music or sound effects, light natural room only, no clipping or heavy bass. Target approximately -18 LUFS integrated and at most -1 dBTP. Keep a lossless master.",
+  "deliverables": ["sound/narration/prologue.ogg", "sound/narration/prologue.m4a", "sound/masters/narration/prologue.flac"],
+  "provenance": "Kokoro model: Apache-2.0; kokoro-onnx engine: MIT. See sound/SOURCES.md, narration/provenance.json and the accompanying notices."
+}

@@ -1,0 +1,21 @@
+{
+  "engine": "kokoro-onnx 0.6.1",
+  "model": "Kokoro 82M v1.0",
+  "voice": "bm_george",
+  "language": "en-gb",
+  "speed": 0.92,
+  "modelLicence": "Apache-2.0",
+  "engineLicence": "MIT",
+  "source": "https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.1",
+  "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a",
+  "voicesSha256": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d",
+  "scriptSource": "js/data.js: PROLOGUE",
+  "script": [
+    "For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost.",
+    "Three winters ago it went out. The wells came up black. The orchards died standing. The old road filled with people walking the other way.",
+    "The delving guilds sent crews down the Deepdelve to find out why. None of the crews came back, and after the fourth the guilds stopped sending them.",
+    "What is down there now wears their faces."
+  ],
+  "seconds": 36.147,
+  "postProcessing": "Paragraph silence and loudness normalisation only; no pitch or tempo stretching"
+}

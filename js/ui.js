@@ -25,6 +25,7 @@ import { makeTitleScene } from './titlescene.js';
 import { makeHeroSheet } from './herosheet.js';
 import { makeTitleMenu } from './titlemenu.js';
 import { makeCreateView } from './createview.js';
+import { makeNarration } from './narration.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -59,11 +60,24 @@ const UI = (() => {
   // page; from the first moment a browser lets sound play (see Music.swell)
   const titleMusicHere = id => !!id && id !== 'screen-game' && id !== 'screen-end';
   let soundAllowed = false;
+  const narration = makeNarration({
+    enabled: () => Sound.isEnabled(),
+    output: () => Sound.audio(),
+    onState(state) {
+      const controls = $('#pro-voice');
+      if (!controls) return;
+      controls.hidden = state === 'idle' || state === 'unavailable';
+      $('#pro-voice-play').textContent = state === 'playing' || state === 'loading' ? 'Pause narration' : state === 'paused' ? 'Resume narration' : 'Replay narration';
+      if (state === 'playing' || state === 'loading') Music.titleOff(0.4);
+      else if (state !== 'idle') titleMusic();
+    },
+  });
   function titleMusic() {
     const here = document.querySelector('.screen.active');
     if (soundAllowed && here && titleMusicHere(here.id)) Music.swell();
   }
   function showScreen(id) {
+    if (id !== 'screen-prologue') narration.stop();
     if (id !== 'screen-game') clearTimeout(finaleTimer);   // leaving the run: its victory screen goes with it
     if (id !== 'screen-title') endOpening();
     // a page turned as the screen comes up (not the dungeon's own: it has the arrival)
@@ -173,6 +187,9 @@ const UI = (() => {
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
     showScreen('screen-prologue');
+    $('#pro-voice-volume').value = String(Math.round(narration.volume() * 100));
+    Sound.unlock();
+    narration.start();
   }
   const STORY_READ = 'deepdelve.storyRead';
   // the way in plays as every new run opens (see prelude.js). A browser driven by
@@ -1216,6 +1233,10 @@ const UI = (() => {
 
   // ---------- input ----------
   function bindControls() {
+    $('#pro-voice-play').addEventListener('click', () => { Sound.unlock(); narration.toggle(); });
+    $('#pro-voice-volume').addEventListener('input', e => narration.setVolume(Number(e.target.value) / 100));
+    document.addEventListener('visibilitychange', () => { if (document.hidden) narration.pause(); });
+    window.addEventListener('pagehide', () => narration.stop());
     for (const b of $$('.ctl[data-act]')) {
       const act = b.dataset.act;
       const down = e => { e.preventDefault(); Sound.unlock(); try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } held.set(act, performance.now()); b.classList.add('held'); Game.input(act); };
@@ -1297,7 +1318,7 @@ const UI = (() => {
       loadArmed = 0; b.textContent = 'Load Game';
       if (Game.load()) startPlaying();
     });
-    $('#m-sound').addEventListener('click', () => { if (!Sound.toggle()) Music.titleOff(0.4); renderMenu(); titleMusic(); });
+    $('#m-sound').addEventListener('click', () => { if (!Sound.toggle()) { narration.stop(); Music.titleOff(0.4); } renderMenu(); titleMusic(); });
     $('#m-music').addEventListener('click', () => { Music.toggle(); renderMenu(); titleMusic(); });
     $('#m-rolls').addEventListener('click', () => { Game.toggleRolls(); renderMenu(); });
     $('#m-text').addEventListener('click', () => { setTextSize((textSize() + 1) % TEXT_SIZES.length); renderMenu(); });

@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-03-01', text: 'new between runs: each class climbs five named stages of mastery, its portrait framed in bronze, silver and gold; a third starting kit at the fourth stage, and at the last a run begun with a relic once found; Wick has twenty tales to tell; and the Hall keeps fifty runs, with buttons to show one class or the Daily and Weekly runs.' };
+  const NEWS = { id: '2027-03-01-voice', text: 'The opening story is now spoken, with pause, replay and its own voice volume. Between runs: each class climbs five named stages of mastery, its portrait framed in bronze, silver and gold; a third starting kit at the fourth stage, and at the last a run begun with a relic once found; Wick has twenty tales to tell; and the Hall keeps fifty runs, with buttons to show one class or the Daily and Weekly runs.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {
