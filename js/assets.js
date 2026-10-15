@@ -6,11 +6,12 @@ import { RELICS } from './relics.js';
 import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
 import { makeWallDecor } from './walldecor.js';
+import { makePortrait } from './portraits.js';
 
 /** The edge a legendary piece wears, on the floor, in the pack and in the hand: warmer than a relic's gold. */
 const LEGEND_EDGE = '#ffa040';
 
-// Builds all textures and sprites procedurally at startup: no image files needed.
+// Builds the dungeon's textures and sprites; the heroes have painted portraits.
 
 const Assets = (() => {
   const TEX = 64;
@@ -1602,7 +1603,7 @@ const Assets = (() => {
       return s;
     });
     // the heroes' portraits, one to a class (see PORTRAITS)
-    for (const k in PORTRAITS) later('portrait_' + k, () => makeSprite({ parts: PORTRAITS[k](), shadow: 0, elites: false, fine: true, grid: 64 }));
+    for (const k in PORTRAITS) later('portrait_' + k, () => makePortrait(k, () => makeSprite({ parts: PORTRAITS[k](), shadow: 0, elites: false, fine: true, grid: 64 })));
     // items painted from parts replace their old grids too
     // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit.
     // They are set on the creatures' finer grid and lit as they are, softly grim (see ramp), clean of the

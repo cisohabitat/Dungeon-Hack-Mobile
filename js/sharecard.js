@@ -54,7 +54,7 @@ function drawShareCard(info) {
   // the hero's own face, in a frame in the corner
   if (info.face && info.face.width) {
     g.fillStyle = '#15120e'; g.fillRect(32, 32, 84, 84);
-    g.imageSmoothingEnabled = false;
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
     g.drawImage(info.face, 34, 34, 80, 80);
     // in the frame the class's mastery has earned: bronze, silver, gold, or plain stone before any
     g.strokeStyle = FRAMES[info.frame || ''] || FRAMES['']; g.lineWidth = info.frame ? 3 : 2; g.strokeRect(32, 32, 84, 84);

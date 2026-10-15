@@ -11,7 +11,7 @@ These run in CI on every push to `main` (`.github/workflows/test.yml`):
 | Check | Stands for | Where |
 |---|---|---|
 | Browser tests, `phone` project | Pixel 5, 393×851, Chromium | `npx playwright test --project=phone` |
-| `small` project: the interface, the core loop and the accessibility scan | iPhone SE, 375×667, in Chromium | `npx playwright test --project=small` |
+| `small` project: the interface, the core loop, painted portraits and the accessibility scan | iPhone SE, 375×667, in Chromium | `npx playwright test --project=small` |
 | `layout.spec.js` in the `phone` project: a tablet held sideways and upright, a Steam Deck, a desktop window | 1024×768, 768×1024, 1280×800, 1440×900 | `npx playwright test --project=phone test/browser/layout.spec.js` |
 | Frame-rate budget, processor slowed 4× | an old Android, Pixel 3 class | `PERF=1 npx playwright test --project=perf --workers=1` |
 

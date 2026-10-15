@@ -1,8 +1,9 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v46';
+const CACHE = 'deepdelve-v47';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './img/keyart-portrait.webp', './img/keyart-landscape.webp', './sound/index.json',
-  './js/package.json',
+  './js/package.json', './js/portraits.js',
+  './img/portraits/fighter.webp', './img/portraits/thief.webp', './img/portraits/mage.webp', './img/portraits/cleric.webp', './img/portraits/ranger.webp', './img/portraits/druid.webp',
   './js/narration.js', './js/storyvoice.js', './js/voicelines.js', './sound/narration/catalog.json',
   './sound/narration/prologue.ogg', './sound/narration/prologue.m4a',
   './js/rng.js', './js/data.js', './js/parts.js', './js/painter.js', './js/creatures.js', './js/folk.js', './js/props.js', './js/champions.js', './js/itemart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/walldecor.js', './js/assets.js', './js/dungeon.js', './js/spellfx.js', './js/overlay.js', './js/renderer.js', './js/samples.js', './js/sound.js', './js/music.js', './js/foes.js', './js/bosses.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/chronicle.js', './js/powers.js', './js/pacing.js', './js/motion.js', './js/combat.js', './js/items.js', './js/scenes.js', './js/curses.js', './js/fallen.js', './js/paths.js', './js/legends.js', './js/combos.js', './js/lairs.js', './js/threads.js', './js/telemetry.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/pagesview.js', './js/tips.js', './js/pad.js', './js/access.js', './js/weekly.js', './js/titlescene.js', './js/shopview.js', './js/choices.js', './js/pack.js', './js/mapview.js', './js/endscreen.js', './js/herosheet.js', './js/createextras.js', './js/titlemenu.js', './js/createview.js', './js/ui.js', './js/main.js',

@@ -36,7 +36,7 @@ test.describe('the title', () => {
     await page.click('#btn-daily');
     await expect(page.locator('#screen-prologue')).toBeVisible();
     await expect(page.locator('#pro-face')).toBeVisible();
-    expect(await page.locator('#pro-face').getAttribute('src')).toMatch(/^data:|^blob:/);
+    expect(await page.locator('#pro-face').getAttribute('src')).toMatch(/^img\/portraits\/[a-z]+\.webp$/);
     await page.click('#pro-back');
     await expect(page.locator('#screen-title')).toBeVisible();
     // the day's one try is still to be had

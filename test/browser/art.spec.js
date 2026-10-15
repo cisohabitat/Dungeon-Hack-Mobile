@@ -118,7 +118,7 @@ test.describe('art', () => {
     // a face on every class card, each its own
     const faces = await page.locator('#c-classes .class-face').evaluateAll(els => els.map(e => /** @type {HTMLImageElement} */ (e).src));
     expect(faces.length).toBe(await page.evaluate(() => Object.keys(CLASSES).length));
-    expect(faces.every(f => f.startsWith('data:image/png'))).toBe(true);
+    expect(faces.every(f => /\/img\/portraits\/[a-z]+\.webp$/.test(f))).toBe(true);
     expect(new Set(faces).size).toBe(faces.length);
     await page.click('#c-begin');
     await page.click('#pro-begin');
@@ -139,7 +139,7 @@ test.describe('art', () => {
     const end = page.locator('#end-face');
     await expect(end).toBeVisible();
     await expect(end).toHaveClass(/fallen/);
-    expect(await end.evaluate(e => /** @type {HTMLImageElement} */ (e).src.startsWith('data:image/png'))).toBe(true);
+    expect(await end.evaluate(e => /** @type {HTMLImageElement} */ (e).src.endsWith(`/img/portraits/${Game.player().cls}.webp`))).toBe(true);
     expect(errors).toEqual([]);
   });
 

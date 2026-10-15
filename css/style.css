@@ -1203,3 +1203,6 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 .discovery-voice { position: absolute; z-index: 8; bottom: var(--s-8); left: var(--s-8); right: var(--s-8); padding: var(--s-8); background: var(--bg); border: 1px solid var(--border); font-size: var(--t-sm); max-height: calc(100% - var(--s-16)); overflow-y: auto; }
 .discovery-voice p { margin: 0 0 var(--s-4); max-height: 4.5em; overflow-y: auto; }
 .discovery-voice button { padding: var(--s-4); font-size: inherit; min-width: 44px; }
+
+/* Painted faces keep their brushwork at every size; the dungeon stays crisp. */
+.class-face, .pro-face, .choice-face, .sheet-face, .end-face { image-rendering: auto; object-fit: cover; }

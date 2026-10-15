@@ -295,6 +295,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   frames and a heavier shake under a real impact (P1's "weight").
 - [ ] **Composed music**: the seven themes' four stems each, faded by the mood `music.js`
   already tracks, and the title's cue.
+- [x] **Class portraits**: six painted faces matched to the title art, carried through character creation, prologue, choices, hero sheet, endings and share cards, with mastery frames and an offline cache.
 - [ ] **Boss portraits**, if art is commissioned with the audio.
 
 **Exit criteria**
