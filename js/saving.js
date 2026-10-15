@@ -44,6 +44,19 @@ export function makeSaving(K) {
       if (!auto) log('Game saved.', 'info');
       return true;
     } catch (e) {
+      // A replay must never crowd out the hero's save. Keep the ordinary run
+      // if the browser has room for it after the optional record is released.
+      const record = K.G.recording;
+      if (record && record.size) {
+        record.unavailable ||= 'Recording was dropped to make room for your saved game.';
+        record.events = []; record.size = 0;
+        if (record.header) record.header.store = {};
+        try {
+          localStorage.setItem(SAVE_KEY, JSON.stringify(K.G));
+          if (!auto) log('Game saved.', 'info');
+          return true;
+        } catch { /* a full or unavailable store still uses the usual error */ }
+      }
       log('Could not save: ' + e.message, 'bad');
       return false;
     }

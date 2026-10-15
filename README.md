@@ -14,7 +14,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   pause it or play at up to 4× speed. Playback leaves saves, trophies and Daily results
   untouched and works offline once cached. Records continue with saved games; older,
   imported, testing-aid or over-limit runs do not offer replay. Playback requires the
-  same build and is currently available from the finished run's end screen.
+  same build and is currently available from the finished run's end screen. If storage
+  is tight, the optional recording is dropped before retrying the game save.
   See [recording details and limits](docs/REPLAY.md).
 
 - **A welcome on the title.** Unread News comes first; otherwise a random game fact

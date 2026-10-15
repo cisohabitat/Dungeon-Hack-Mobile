@@ -24,8 +24,10 @@ A recording is bounded to 1,500,000 JSON characters (roughly 3 MB of UTF-16 stor
 small format metadata. There is no fixed time limit: size depends on frame rate and the
 number of actions and loads. On reaching the limit capture stops, ordinary play continues,
 and the end screen explains why replay is unavailable. An incomplete record is never
-presented as a complete replay. Storage restrictions can still prevent ordinary saves;
-they use the existing save error path.
+presented as a complete replay. If a save fails, the optional recording is dropped and
+the ordinary game save is retried. Only a store that cannot keep that smaller save
+uses the existing save error path. The end screen explains when storage prevented
+keeping a replay. A resumed run from another build still plays, with replay unavailable.
 
 Playback requires the same build identifier and format. Bump the build when publishing
 rules or recording changes. A terminal state fingerprint detects reproduction failures;
@@ -63,6 +65,8 @@ and Hard over three seed sets, and then reproduces the recorded outcomes headles
 It also covers inventory references, save/load continuation, recording limits, testing
 aids and build rejection. These are deterministic parity checks, not new balance
 measurements; passive observation does not change the rules or their simulation times.
+The existing browser dice check excludes only the recording metadata from its gameplay
+comparison, while continuing to compare the hero, all remaining game state and the log.
 
 `test/browser/replay.spec.js` covers pause/speed controls, outcome verification,
 Escape/focus restoration, accessibility, offline use and unchanged live saves/progress

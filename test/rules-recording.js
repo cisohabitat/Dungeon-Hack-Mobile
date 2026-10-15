@@ -45,6 +45,23 @@ module.exports = async h => {
     try { await reproduce(data); } catch (e) { return e.message; }
     return true;
   });
+  await test('a recording never crowds out a save when the ordinary run fits in storage', async () => {
+    const { Game: G } = await newContext(); G.recordRuns(true); G.newGame(cfg());
+    for (let n = 0; n < 400; n++) G.update(n * 50, 50);
+    const bare = { ...G.state() }; delete bare.recording;
+    const budget = JSON.stringify(bare).length + 1000, set = localStorage.setItem;
+    localStorage.setItem = (key, value) => {
+      if (key === 'deepdelve.save' && value.length > budget) throw new Error('Storage quota');
+      set(key, value);
+    };
+    try {
+      if (!G.save(true)) return 'the optional recording prevented the hero from being saved';
+      const saved = JSON.parse(localStorage.getItem('deepdelve.save'));
+      if (!saved.recording.unavailable || saved.player.hp !== G.player().hp) return 'the fallback changed the hero or kept the oversized record';
+      G.hurtPlayer(99999, 'The storage check');
+      return G.recording() === null;
+    } finally { localStorage.setItem = set; }
+  });
   await test('oversized and testing-aid recordings are unavailable, and mismatched builds are rejected', async () => {
     const { Game: G } = await newContext(); G.recordRuns(true); G.newGame(cfg());
     G.hurtPlayer(99999, 'The version check'); const data = G.recording();
@@ -53,6 +70,9 @@ module.exports = async h => {
     for (let i = 0; i < 1600 && !G.state().recording.unavailable; i++) G.log('x'.repeat(1000));
     G.hurtPlayer(99999, 'The size check');
     if (G.recording() || G.state().recording.size > RECORD_LIMIT + 20) return 'a partial oversized recording was offered';
+    G.newGame(cfg()); G.state().recording.build = 'previous build';
+    G.save(true); G.load(); G.hurtPlayer(99999, 'The older-build check');
+    if (G.recording() || !G.recordingReason().includes('another game build')) return 'a resumed older-build recording was offered';
     G.newGame(cfg()); G.setTesting({ hp: true }); G.hurtPlayer(99999, 'The testing check');
     return G.recording() === null || 'a testing-aid recording was offered';
   });

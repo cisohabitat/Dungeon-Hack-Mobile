@@ -28,7 +28,9 @@ async function playAndPrint(page, from, to) {
     // count and leaves a place-holder, which the log's cap prunes at moments the load's line shifts
     const log = G.log.filter(e => !e.gone && e.m && e.m !== 'Game loaded.').map(e => ({ ...e, m: e.m.replace(/ \(\u00d7\d+\)$/, '') }));
     const parts = {};
-    for (const k of Object.keys(G).sort()) if (!['created', 'log', 'logSeq'].includes(k)) parts[k] = hash(G[k]);
+    // The observation record holds page timestamps and starting memories;
+    // its replay parity is tested separately from the simulation state.
+    for (const k of Object.keys(G).sort()) if (!['created', 'log', 'logSeq', 'recording'].includes(k)) parts[k] = hash(G[k]);
     // the hero's own fields apart too, so a failure names the one that parted
     const hero = {};
     for (const k of Object.keys(G.player).sort()) hero[k] = hash(G.player[k]);

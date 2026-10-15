@@ -97,9 +97,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/recording.js`: bounded local input/timing records attached to browser saves;
   headless benchmarks leave capture off. Add every new player-facing mutator to
   `RECORD_METHODS`, preserve exact call order and clocks, and verify recorded and
-  unrecorded outcomes match. `replay.html` / `js/replayview.js` run in an isolated
+  unrecorded outcomes match. Exclude the observational `recording` metadata from
+  gameplay-state fingerprints; its own timestamps and starting memories can vary. `replay.html` / `js/replayview.js` run in an isolated
   frame with memory storage; never replay through the live Game instance or
-  persistent storage. `js/replaycontrols.js` wires the end-screen dialog.
+  persistent storage. On a failed save, discard the optional recording and retry
+  the ordinary save before reporting failure. `js/replaycontrols.js` wires the end-screen dialog.
   `docs/REPLAY.md` documents limits; `node test/replay.js recording.json` verifies
   a record through the bot harness. Add replay coverage when changing save/load,
   inventory choices or input timing. Keep the browser's end-screen action

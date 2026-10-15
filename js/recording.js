@@ -129,6 +129,7 @@ export function recordGame(target, runtime) {
     const result = load();
     record = result && enabled ? api.state().recording || null : record;
     if (result && record) {
+      if (record.format !== 1 || record.build !== BUILD_ID) stopped('This run began in another game build.');
       delete saved.recording;
       append([-1, saved, at]);
       api.state().recording = record;
