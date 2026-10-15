@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 
 ## Features
 
+- **A welcome on the title.** Unread News comes first; otherwise a random game fact
+  appears. Dismiss it to unlock the theme music, subject to your sound settings.
+  The release and build are shown at the bottom of the main page.
 - **Seeded dungeons.** Every level is generated from your seed string, so the same seed always
   gives the same dungeon. Share seeds with friends.
 - **Customisable descent.** Choose the number of levels (4 to 16), map size, monster density,
@@ -51,6 +54,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   faster, clerics heal, mages kill at range, thieves dodge, crit often and backstab, rangers keep
   their distance, and druids take a bear's shape, whose hide takes the blows first (any other
   spell lets it go). All six can be chosen from the start.
+- **Heroes with a past.** Each class has its own backstory on the selection screen.
+  Select a class, then tap its portrait to expand the artwork.
+- **A painted bestiary.** Every creature has portrait art in the bestiary and Journal,
+  with an enlarged view and a sprite fallback if the painting cannot load.
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
@@ -160,6 +167,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **A map you can read.** Explored ground is cropped and scaled to fill the screen, the player
   is a ringed square with a facing arrow, stairs, doors, locked doors, fountains and traders each
   have their own colour and symbol, and a legend names them all. A live corner minimap too.
+  Discovery stops at the view's fog limit; unseen ground stays hidden, and both the corner
+  and docked maps wait until the opening passage ends.
 - **You are told what is happening.** Attacks name the direction they came from, the edge of the
   view flashes on that side, walking into a wall says so, and the death screen names your killer
   and replays your last moments. Win or lose, the end screen sums up the run: your best blow,
@@ -251,23 +260,42 @@ Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
 
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
-npm test              # typecheck, then generator, sprite, report-endpoint and rule checks
-npm run test:browser  # 192 Playwright tests against a real browser, at phone size
+npm run check:agents  # reject missing or stale AGENTS.md guidance
+npm test              # guidance, types, generator, sprites, APIs, narration, voices and rules
+npm run test:browser  # Playwright suites on phone and small-phone viewports
 npm run test:all      # both
-npm run playtest      # 40 simulated runs for each of the five classes, reports win rate
+npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
+PERF=1 npx playwright test --project=perf --workers=1  # performance budget, run alone
 ```
 
 The browser suite drives the real game in headless Chromium: the core loop, dungeon features,
 the trader, the story layer, the endgame, and an interface pass that asserts every
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
-crowded level renders inside a 60fps budget. It runs in about six minutes on one machine, and in
-CI on every push, split three ways. `npm start` serves the game locally on port 4173 with no dependencies.
+crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime depends on
+the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
+performance job on pushes to `main` and pull requests. `npm start` serves the game locally on
+port 4173 with no server dependencies.
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
 depth per class, which is how the balance below was tuned rather than guessed at. Runs take
 each class's two paths in turn and report how each did; `HEROPATH=knight` (or any path) forces
-one. `npm test` runs the headless generator checks, plus a rule suite that loads the real game logic and
+one. The default is 20 dungeon seeds with two trials per seed for each class. For a larger,
+single-class benchmark:
+
+```bash
+FIT=1 DIFF=normal SEEDN=40 npm run playtest -- fighter 10  # 400 Fighter runs
+FIT=1 DIFF=hard SEEDN=40 npm run playtest -- fighter 10    # Hard difficulty
+FIT=1 DIFF=normal SEEDN=40 SEEDPFX=alt npm run playtest -- fighter 10
+```
+
+`FIT=1` places the best stat in the class's primary ability, as character creation does.
+Use `SEEDPFX=alt` and `SEEDPFX=third` to compare independent seed sets. The bot measures
+balance; it does not change the game's rules. Published win rates below are prior benchmark
+results, not live results from the current checkout. Re-run the relevant classes and
+difficulties before replacing them, recording the revision, settings and seed sets.
+
+`npm test` runs the headless generator checks, plus a rule suite that loads the real game logic and
 exercises the edge cases that are easy to break quietly: enchanted duplicates not merging in the
 pack, two-handed weapons stowing the shield, save surviving a JSON round trip with buffs intact,
 dropping from a full pack, poison and buffs expiring, the Heart resisting sale, and a trader
@@ -672,6 +700,9 @@ js/renderer.js    canvas raycaster
 js/spellfx.js     spells, scrolls, drinks and traps over the view
 js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
+js/bestiaryart.js painted creature portraits, with sprite fallbacks
+js/release.js     release and build, shared by the title footer and reports
+js/narration.js, storyvoice.js   recorded readings and their story cues
 js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input
@@ -689,9 +720,23 @@ test/harness.js   loads the game's modules into Node
 test/run.js       generator, sprite and balance checks
 test/api.js       the report functions' checks
 test/rules.js     rule-level regression checks
+test/playtest.js  balance simulations across classes, paths, seeds and difficulties
 test/browser/     Playwright suites
-test/server.js    dependency-free static server
+test/server.js    dependency-free static server with media byte-range support
+CLAUDE.md         source instructions for repository contributors and coding agents
+AGENTS.md         generated copy of the repository instructions
+tools/agent-docs.mjs  generates and checks AGENTS.md
 ```
+
+## Keeping documentation current
+
+Review this README with every change and update affected features, controls, setup,
+commands, tests, layout and measured balance results in the same commit. This requirement
+also lives in the [agent instructions](AGENTS.md).
+
+Edit `CLAUDE.md` when contributor guidance changes, then run `npm run docs:agents` to
+regenerate `AGENTS.md`. `npm run check:agents`, also part of `npm test`, CI and the pre-push
+hook, rejects a missing or outdated generated copy.
 
 ## License
 

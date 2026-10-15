@@ -10,6 +10,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - Update this file in the same change whenever repository layout, commands,
   conventions, required checks or known pitfalls change. Review the guidance
   before finishing each task; add durable findings, not a log of routine work.
+- Review `README.md` before finishing every task. Update it in the same change
+  whenever features, controls, setup, commands, tests, project layout or balance
+  change. Keep examples runnable and remove stale counts or timing claims.
+  Balance figures must come from recorded simulations: include settings and
+  seed sets, and distinguish previous measurements from a fresh benchmark.
 - `CLAUDE.md` is the source for `AGENTS.md`. After editing it, run
   `npm run docs:agents` and commit both files. Do not edit `AGENTS.md` directly.
 - `npm run check:agents` rejects a missing or stale `AGENTS.md`. It also runs
