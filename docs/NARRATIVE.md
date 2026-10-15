@@ -14,6 +14,32 @@ The delving guilds sent crews down the Deepdelve to find out why. None of the cr
 
 What is down there now wears their faces.
 
+## The six heroes (CLASSES)
+
+### Fighter (fighter)
+
+You found the blade in a heap of broken armour. Its edge was gone, but the tang held. You spent a winter setting it right and wearing cuts into a wooden post. When the guilds stopped sending crews below, you wrapped the grip in fresh leather and took it down from the wall.
+
+### Cleric (cleric)
+
+You kept a candle burning through the first winter without the Heart. People came to warm their hands above it, though it gave almost no heat. One night you felt an answering warmth through the flagstones. You lifted the candle. The warmth stayed below.
+
+### Mage (mage)
+
+You copied the old smiths' workings until the ink stained your hands. Every account of the first fire ended with the same page cut out. Then a word you had copied began to glow in the dark. You packed the unfinished book and followed the light beneath the mountain.
+
+### Thief (thief)
+
+You bought a chalk map for a copper, mostly for the dry paper wrapped round it. The map showed a door beneath Karrathal that no guild survey marked. Beside it someone had written your name. You tried washing the words away. They were still there when the paper dried.
+
+### Ranger (ranger)
+
+You followed a wounded animal by the drops it left on stone. At a sealed stair the blood stopped, but the tracks went on beneath the door. You waited there until morning with an arrow on the string. Nothing came out. You returned with a lamp and enough cord to find the way back.
+
+### Druid (druid)
+
+You carried an acorn through three winters in which nothing took root. One night it split in your palm. Its root bent towards the mountain, even when you turned your hand. You wrapped it in damp cloth and followed where it pointed. Beneath the first stair, it put out a leaf.
+
 ## Who the hero was (BACKGROUNDS)
 
 ### The Oathbroken (oathbroken)

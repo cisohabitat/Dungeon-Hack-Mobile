@@ -30,6 +30,57 @@ test('all six painted class portraits load with smooth scaling and the earned ma
   expect(errors).toEqual([]);
 });
 
+test('selecting each hero shows a larger portrait and its own backstory, and the portrait expands by touch or keyboard', async ({ page }, testInfo) => {
+  const errors = watchForErrors(page);
+  await prepare(page); await page.goto('/'); await page.click('#btn-new');
+  const stories = await page.evaluate(() => Object.fromEntries(Object.entries(CLASSES).map(([id, c]) => [id, c.story])));
+  expect(new Set(Object.values(stories)).size).toBe(6);
+  for (const [cls, story] of Object.entries(stories)) {
+    const card = page.locator(`.class-card[data-cls="${cls}"]`);
+    await card.click();
+    await expect(card).toBeFocused();
+    await expect(page.locator('.class-backstory')).toHaveText(story);
+    const face = page.locator('#c-portrait'), toggle = page.locator('#c-portrait-toggle');
+    await expect(face).toHaveAttribute('src', `img/portraits/${cls}.webp`);
+    await expect.poll(() => face.evaluate(i => i.complete && i.naturalWidth === 512)).toBe(true);
+    const cardWidth = (await card.locator('img').boundingBox()).width;
+    const smallWidth = (await face.boundingBox()).width;
+    expect(smallWidth).toBeGreaterThan(cardWidth * 2);
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    if (cls === 'mage') { await toggle.focus(); await page.keyboard.press('Space'); }
+    else await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    const box = await face.boundingBox();
+    expect(box.width).toBeGreaterThan(smallWidth * 1.5);
+    expect(Math.abs(box.width - box.height)).toBeLessThan(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (cls === 'mage') await page.keyboard.press('Enter');
+    else await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  }
+  await page.locator('[data-cls="druid"]').click();
+  await page.locator('#c-portrait-toggle').click();
+  await page.locator('#c-class-more').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: testInfo.outputPath('expanded-character-backstory.png') });
+  expect(errors).toEqual([]);
+});
+
+test('changing a class resets the expanded portrait and keeps the chosen name and background', async ({ page }) => {
+  await prepare(page); await page.goto('/'); await page.click('#btn-new');
+  await page.fill('#c-name', 'Mira');
+  await page.click('[data-bg="tombwise"]');
+  await page.click('#c-portrait-toggle');
+  await expect(page.locator('#c-portrait-toggle')).toHaveAttribute('aria-expanded', 'true');
+  await page.click('[data-cls="thief"]');
+  await expect(page.locator('#c-portrait-toggle')).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#c-portrait')).toHaveAttribute('src', 'img/portraits/thief.webp');
+  await expect(page.locator('#c-name')).toHaveValue('Mira');
+  await expect(page.locator('[data-bg="tombwise"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.click('#c-begin');
+  await expect(page.locator('#screen-prologue')).toBeVisible();
+  await expect(page.locator('#pro-face')).toHaveAttribute('src', 'img/portraits/thief.webp');
+});
+
 test('the chosen portrait follows the hero into the story, hero sheet, ending and exported share card', async ({ page }) => {
   const errors = watchForErrors(page);
   await prepare(page); await startGame(page, { cls: 'Druid', seed: 'painted-hero' });
@@ -58,6 +109,9 @@ test('a missing painted portrait falls back to the original face without blockin
   const face = page.locator('[data-cls="fighter"] .class-face');
   await expect(face).toHaveAttribute('src', /^data:image\/png/);
   expect(await face.evaluate(i => i.complete && i.naturalWidth > 0)).toBe(true);
+  await expect(page.locator('#c-portrait')).toHaveAttribute('src', /^data:image\/png/);
+  await page.click('#c-portrait-toggle');
+  await expect(page.locator('#c-portrait-toggle')).toHaveAttribute('aria-expanded', 'true');
   await page.click('#c-begin'); await expect(page.locator('#screen-prologue')).toBeVisible();
   await expect(page.locator('#pro-face')).toHaveAttribute('src', /^data:image\/png/);
 });
@@ -69,5 +123,8 @@ test('the installed game retains all six class portraits offline', async ({ page
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
   await context.setOffline(true); await page.reload(); await page.click('#btn-new');
   await expect.poll(() => page.locator('.class-face').evaluateAll(imgs => imgs.length === 6 && imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
+  await page.click('[data-cls="ranger"]'); await page.click('#c-portrait-toggle');
+  await expect.poll(() => page.locator('#c-portrait').evaluate(i => i.complete && i.naturalWidth === 512)).toBe(true);
+  await expect(page.locator('.class-backstory')).toHaveText(await page.evaluate(() => CLASSES.ranger.story));
   expect(errors).toEqual([]);
 });

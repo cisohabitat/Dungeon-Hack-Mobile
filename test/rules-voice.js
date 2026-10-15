@@ -82,7 +82,7 @@ module.exports = async function voiceChecks(h) {
 
   await test('the narrator\'s whole document is current, and every table it reads has a line in it', async () => {
     const doc = await narrative();
-    const want = ['## The prologue (PROLOGUE)', '(BACKGROUNDS)', '(JOURNAL)', '(ROUTES)', '(THEMES)', '(TWISTS)', '(PIECE_VARIANTS)', '(WICK)', 'MONSTERS, speech', 'MONSTERS, named', '(ENCOUNTERS)', '(ENDINGS)', '(BESTIARY)', '(tips.js)'];
+    const want = ['## The prologue (PROLOGUE)', '(CLASSES)', '(BACKGROUNDS)', '(JOURNAL)', '(ROUTES)', '(THEMES)', '(TWISTS)', '(PIECE_VARIANTS)', '(WICK)', 'MONSTERS, speech', 'MONSTERS, named', '(ENCOUNTERS)', '(ENDINGS)', '(BESTIARY)', '(tips.js)'];
     const missing = want.filter(w => !doc.includes(w));
     const fs = require('fs'), path = require('path');
     const have = fs.readFileSync(path.join(__dirname, '..', 'docs', 'NARRATIVE.md'), 'utf8');

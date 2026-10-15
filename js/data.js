@@ -510,6 +510,7 @@ const CLASSES = {
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
     // how the class plays for someone choosing it, on its card
     ease: 'Forgiving: takes a beating and hits back.',
+    story: 'You found the blade in a heap of broken armour. Its edge was gone, but the tang held. You spent a winter setting it right and wearing cuts into a wooden post. When the guilds stopped sending crews below, you wrapped the grip in fresh leather and took it down from the wall.',
     startKit: ['longsword', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Raider\'s Kit', desc: 'A battle axe that bites harder than the sword, light studded leather in place of mail and shield, and a flask of fire oil.', items: ['battleaxe', 'studded', 'ration', 'ration', 'potion_heal', 'oil_fire'] },
@@ -523,6 +524,7 @@ const CLASSES = {
     name: 'Cleric', plural: 'Clerics', title: 'High Priest', hitDie: 9, startHp: 3, hardHp: 2, hitProg: 3 / 4, armor: 'heavy', shield: true, focus: 'cleric', castMs: 850, spells: 'cleric', primary: 'wis',
     desc: 'Armoured priest. Heals, blesses and smites the undead, and faith guides the mace: Wisdom lands its blows.',
     ease: 'Forgiving: mends its own wounds.',
+    story: 'You kept a candle burning through the first winter without the Heart. People came to warm their hands above it, though it gave almost no heat. One night you felt an answering warmth through the flagstones. You lifted the candle. The warmth stayed below.',
     // a cleric fights in the front line as a fighter does, and dresses for it
     startKit: ['mace', 'scale', 'shield', 'ration', 'ration', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
@@ -534,6 +536,7 @@ const CLASSES = {
     name: 'Mage', plural: 'Mages', title: 'Archmage', hitDie: 5, startHp: 7, hitProg: 1 / 3, armor: 'cloth', shield: false, focus: 'mage', castMs: 500, spMul: 1.75, spells: 'mage', primary: 'int',
     desc: 'Fragile scholar with deep reserves of power and quick words to spend them. Each foe a spell destroys gives back a spell point.',
     ease: 'Fragile: rewards care, and foes kept at a distance.',
+    story: 'You copied the old smiths\' workings until the ink stained your hands. Every account of the first fire ended with the same page cut out. Then a word you had copied began to glow in the dark. You packed the unfinished book and followed the light beneath the mountain.',
     startKit: ['staff', 'dagger', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_fire'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Hedge-Wizard\'s Kit', desc: 'A dagger and a spellbook, your points back a quarter faster, with a draught of clarity in place of the scroll.', items: ['dagger', 'spellbook', 'robe_apprentice', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_mana'] },
@@ -547,6 +550,7 @@ const CLASSES = {
     name: 'Thief', plural: 'Thieves', title: 'Shadowmaster', hitDie: 8, startHp: 2, quickHp: 7, hitProg: 2 / 3, armor: 'light', shield: 'light', spells: null, primary: 'dex',
     desc: 'Quick and quiet. Monsters notice a thief late, a sleeping foe takes a double blow, and Smoke makes everything close lose them. Light armour, and a buckler at most.',
     ease: 'Daring: strikes first, and must not be struck back.',
+    story: 'You bought a chalk map for a copper, mostly for the dry paper wrapped round it. The map showed a door beneath Karrathal that no guild survey marked. Beside it someone had written your name. You tried washing the words away. They were still there when the paper dried.',
     startKit: ['shortsword', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'scroll_map'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Cutpurse\'s Kit', desc: 'A dagger, the quickest blade there is, with blade venom and lamp oil in place of the map.', items: ['dagger', 'throwknife', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'oil_venom', 'lamp_oil'] },
@@ -557,6 +561,7 @@ const CLASSES = {
     name: 'Ranger', plural: 'Rangers', title: 'Deepstalker', hitDie: 9, startHp: 3, mildHp: 4, hardHp: 4, hitProg: 3 / 4, armor: 'light', shield: false, spells: null, primary: 'dex',
     desc: 'A hunter of the deep, bow in hand. Dexterity looses every arrow and lands every blow, a shot from two squares off or more bites harder, and Snare catches the first foe down the corridor.',
     ease: 'Steady: wins the fight before it reaches you.',
+    story: 'You followed a wounded animal by the drops it left on stone. At a sealed stair the blood stopped, but the tracks went on beneath the door. You waited there until morning with an arrow on the string. Nothing came out. You returned with a lamp and enough cord to find the way back.',
     startKit: ['shortbow', 'dagger', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Trapper\'s Kit', desc: 'A sling and a spear, studded leather, and two flasks of lamp oil to set a trap with.', items: ['sling', 'spear', 'studded', 'ration', 'ration', 'potion_heal', 'lamp_oil', 'lamp_oil'] },
@@ -567,6 +572,7 @@ const CLASSES = {
     name: 'Druid', plural: 'Druids', title: 'Archdruid', hitDie: 8, startHp: 3, hitProg: 2 / 3, armor: 'light', shield: 'light', castMs: 800, spMul: 1, spells: 'druid', primary: 'wis',
     desc: 'Keeper of the old ways. Wild Shape makes a bear of you, all claws and hide; thorns, moss and storm answer Wisdom, and so does the spear; and a companion at a druid\'s side grows tougher.',
     ease: 'Versatile: a bear or a caster, never both at once.',
+    story: 'You carried an acorn through three winters in which nothing took root. One night it split in your palm. Its root bent towards the mountain, even when you turned your hand. You wrapped it in damp cloth and followed where it pointed. Beneath the first stair, it put out a leaf.',
     startKit: ['spear', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal'],
     // a second kit, earned by a win with the class on Normal or Hard (see kitOpen in js/progress.js)
     altKit: { name: 'Herbalist\'s Kit', desc: 'A quarterstaff, and draughts in place of a spear: two of healing and an antidote.', items: ['staff', 'leather', 'ration', 'ration', 'potion_heal', 'potion_heal', 'potion_cure'] },

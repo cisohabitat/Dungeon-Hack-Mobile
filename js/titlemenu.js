@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-03-05-bestiary-art', text: 'Every creature in the bestiary now has a painted portrait. Meet one, then tap its picture in the bestiary or Journal to look closer.' };
+  const NEWS = { id: '2027-03-06-hero-stories', text: 'Each of the six heroes now has a backstory on the selection screen. Choose a class, then tap its portrait to look closer.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

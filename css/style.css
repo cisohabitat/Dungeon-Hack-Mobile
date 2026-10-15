@@ -216,6 +216,16 @@ body.calm #hud-gold.flare { animation: none; }
 .class-more { margin: var(--s-2) 0 var(--s-10); padding: var(--s-8) var(--s-10); border: 1px solid var(--card-edge); border-radius: 8px; background: var(--card-bg); color: var(--dim); line-height: 1.4; font-size: var(--t-lg); }
 .class-more b { color: var(--gold); font-weight: normal; margin-right: var(--s-2); }
 .class-more .key { display: block; margin-top: var(--s-4); }
+.class-intro { display: flex; align-items: flex-start; gap: var(--s-12); flex-wrap: wrap; }
+.class-intro > div { flex: 1 1 180px; min-width: 0; }
+.class-intro h3 { margin: 0 0 var(--s-8); color: var(--gold); font-size: var(--t-xl); }
+.class-backstory, .class-play { margin: 0; color: var(--text-soft); }
+.class-play { margin-top: var(--s-12); }
+.portrait-toggle { flex: 0 0 144px; max-width: 100%; padding: 0; border: 0; background: transparent; text-align: center; cursor: zoom-in; }
+.portrait-toggle > span { display: block; padding: var(--s-6) 0; color: var(--text); font-size: var(--t-sm); }
+.create-portrait { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; image-rendering: auto; border-radius: 8px; border: 1px solid var(--card-edge); }
+.portrait-toggle.expanded { flex-basis: 100%; cursor: zoom-out; }
+.portrait-toggle.expanded .create-portrait { max-width: 512px; margin: 0 auto; }
 /* titles in a row line up: the cards used to centre their words, so a two-line blurb sat its title higher */
 .class-card.sel { border-color: var(--gold); background: var(--sel-bg); }
 .class-card b { display: block; font-size: var(--t-base); }
@@ -1093,9 +1103,9 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 
 /* the heroes' faces: on the class cards, the hero sheet and the end of a run */
 .class-face { flex: none; width: 44px; height: 44px; image-rendering: pixelated; border-radius: 6px; border: 1px solid var(--card-edge); background: var(--card-bg); }
-.class-face.frame-bronze, .end-face.frame-bronze { border: 2px solid var(--frame-bronze); }
-.class-face.frame-silver, .end-face.frame-silver { border: 2px solid var(--frame-silver); }
-.class-face.frame-gold, .end-face.frame-gold { border: 2px solid var(--frame-gold); box-shadow: 0 0 6px rgba(232, 192, 80, 0.45); }
+.class-face.frame-bronze, .create-portrait.frame-bronze, .end-face.frame-bronze { border: 2px solid var(--frame-bronze); }
+.class-face.frame-silver, .create-portrait.frame-silver, .end-face.frame-silver { border: 2px solid var(--frame-silver); }
+.class-face.frame-gold, .create-portrait.frame-gold, .end-face.frame-gold { border: 2px solid var(--frame-gold); box-shadow: 0 0 6px rgba(232, 192, 80, 0.45); }
 .stage-line { display: block; margin-top: var(--s-4); }
 .sheet-face { display: block; width: 72px; height: 72px; margin: 0 auto var(--s-8); image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .end-face { display: block; width: 88px; height: 88px; margin: var(--s-6) auto var(--s-4); image-rendering: pixelated; border-radius: 8px; border: 2px solid #c9a24a; background: var(--card-bg); }

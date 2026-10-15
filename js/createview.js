@@ -93,7 +93,13 @@ export function makeCreateView(K) {
       // the whole of it is told beneath for the one chosen, at the full width
       const frame = Progress.frameOf(id, known);
       b.innerHTML = `<span class="cc-head"><img class="class-face${frame ? ' frame-' + frame : ''}" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
-      b.addEventListener('click', () => { create.cls = id; fitStats(); if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id); buildCreate(); });
+      b.addEventListener('click', () => {
+        create.cls = id; fitStats();
+        if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id);
+        buildCreate();
+        // Rebuilding the cards must not strand a keyboard or controller's focus.
+        grid.querySelector(`[data-cls="${id}"]`)?.focus();
+      });
       grid.appendChild(b);
     }
     {
@@ -102,7 +108,15 @@ export function makeCreateView(K) {
       const at = Progress.stage(create.cls), name = at ? Progress.stageName(create.cls, at) : '';
       const track = at >= 5 ? `<em class="key stage-line">Mastery: ${escapeHtml(name)}, the last of five stages.</em>`
         : `<em class="key stage-line">Mastery: ${at ? `${escapeHtml(name)}, stage ${at} of 5. ` : ''}Next, ${escapeHtml(Progress.stageName(create.cls, at + 1))}: ${escapeHtml(Progress.stageNeed(create.cls, at + 1))}</em>`;
-      $('#c-class-more').innerHTML = `<b>${c.name}</b> ${c.desc} <em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${track}`;
+      const frame = Progress.frameOf(create.cls, known);
+      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${track}`;
+      $('#c-portrait-toggle').addEventListener('click', () => {
+        const toggle = $('#c-portrait-toggle');
+        const expanded = toggle.classList.toggle('expanded');
+        toggle.setAttribute('aria-expanded', String(expanded));
+        toggle.setAttribute('aria-label', `${expanded ? 'Shrink' : 'Look closer at'} the ${c.name} portrait`);
+        toggle.querySelector('span').textContent = expanded ? 'Show smaller' : 'Look closer';
+      });
     }
     const bgGrid = $('#c-backgrounds');
     bgGrid.innerHTML = '';
