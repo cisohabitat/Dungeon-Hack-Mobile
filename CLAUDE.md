@@ -3,6 +3,17 @@
 A first-person, seed-generated dungeon crawler for mobile browsers. Vanilla ES
 modules, no build step, no framework. `main` deploys to Vercel as it is.
 
+## Keep these instructions current
+
+- Update this file in the same change whenever repository layout, commands,
+  conventions, required checks or known pitfalls change. Review the guidance
+  before finishing each task; add durable findings, not a log of routine work.
+- `CLAUDE.md` is the source for `AGENTS.md`. After editing it, run
+  `npm run docs:agents` and commit both files. Do not edit `AGENTS.md` directly.
+- `npm run check:agents` rejects a missing or stale `AGENTS.md`. It also runs
+  through `npm test`, CI and the pre-push hook, so the two files cannot drift
+  in a passing change. Keep this maintenance section in both documents.
+
 ## Layout
 
 - `js/game.js`: the rules, one IIFE (`Game`). Monster AI lives in `js/foes.js` (the lich,
@@ -44,6 +55,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   the rooms as a tree plus a few loops, dug by a cheapest-path search.
 - `js/data.js`: classes, items, monsters, spells, talents, paths, names.
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
+  Title greetings live in `FUN_FACTS`; `js/titlemenu.js` shows one when there
+  is no unread News. Keep their random choice outside the run's seeded dice.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
   `js/hall.js`, the New Game screen's earned starts (second kit, hound) in
   `js/createextras.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
@@ -73,6 +86,12 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `js/champions.js`. `js/assets.js` turns them into sprites (a creature a piece at
   a time, in spare moments) and paints the walls, floors and doors; the wall
   decorations are in `js/walldecor.js`.
+- `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
+  sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
+  prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
+- `js/release.js`: release version and build number, shared by the main-page
+  footer and telemetry. Keep the version in step with `package.json` and
+  increment the build for each published build.
 - No file in `js/` is over 2,000 lines; split one that grows past it.
 - `js/types.js`: JSDoc types, checked by `tsc` (`checkJs`).
 - `js/telemetry.js`: opt-in reports (a run's end, a crash), off unless turned on
@@ -92,6 +111,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   the way in; `sound/listen.html` is a page for listening to all of it. It, `sound/masters/`,
   the pack's tools and notes, and `art/` stay in the repository and out of the
   deployment (`.vercelignore`): players get `sound/index.json` and the ogg and m4a files.
+  `js/storyvoice.js` chooses narration and `js/narration.js` reuses one unlocked
+  audio element across readings. Test both the browser's preferred format and
+  Ogg fallback. `test/server.js` must serve byte ranges and media types so
+  Chromium can read Ogg duration accurately, as it does on the deployment.
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
@@ -99,6 +122,7 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 
 ## Checks (run all before every push)
 
+- `npm run check:agents`: verify `AGENTS.md` matches these source notes.
 - `npx tsc --noEmit -p .`
 - `node test/run.js`: generator and level checks.
 - `node test/rules.js`: rule checks, about 3 minutes; the last line must begin
@@ -150,13 +174,19 @@ and keep the README balance table current.
 - Styles are built from the tokens at the top of `css/style.css`: the colour sheet,
   the type scale (`--t-*`) and the spacing scale (`--s-*`, a 2px grid to 16, then 4px).
   A new rule picks from them; a value outside them is a picture, not the interface.
-- A batch of player-visible changes updates `NEWS` in `js/ui.js` (a new `id` and a
+- A batch of player-visible changes updates `NEWS` in `js/titlemenu.js` (a new `id` and a
   one-line `text`): returning players see it once on the title screen.
 - New state on the player, a monster or a level is saved automatically (the
   whole of `G` is written as JSON), but give it a JSDoc property in `types.js`.
 
 ## Pitfalls seen before
 
+- A controller initially focuses the first visible `.primary` button. An
+  optional title greeting must not take that class from New Game or Continue;
+  run the controller tests when adding title controls.
+- The narration audio element changes its `src` as readings advance. Playback
+  tests must associate captured evidence with the intended recording, and
+  exercise Ogg as well as the browser default (local Chrome may prefer AAC).
 - A d20 check always fails on a natural 1: a test that relies on one check
   passing must retry, or it flakes about one time in twenty.
 - Self-Taught (`spread`) needs picks, and gives a score at most two points a

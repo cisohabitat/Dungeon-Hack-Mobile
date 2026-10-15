@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "start": "node test/server.js 4173",
-    "test": "npm run typecheck && node test/run.js && node test/api.js && node test/narration.js && node test/voice-catalog.js && node test/rules.js",
+    "test": "npm run check:agents && npm run typecheck && node test/run.js && node test/api.js && node test/narration.js && node test/voice-catalog.js && node test/rules.js",
+    "docs:agents": "node tools/agent-docs.mjs",
+    "check:agents": "node tools/agent-docs.mjs --check",
     "test:browser": "playwright test",
     "test:all": "npm test && npm run test:browser",
     "playtest": "node test/playtest.js",
