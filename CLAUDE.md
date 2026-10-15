@@ -155,6 +155,35 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 
 ## Balance bench
 
+### When balance testing is required
+
+- Before implementing each feature, decide whether it can change gameplay
+  outcomes. Changes to classes, enemies, abilities, combat, loot, economy,
+  progression or dungeon generation require balance simulations before merging
+  or pushing the feature. Rule tests alone do not replace this benchmark.
+- Record a baseline on the previous revision and compare the changed revision
+  with matching settings, seeds and trial counts. Test affected classes and
+  paths on Normal and Hard; shared systems require all six classes. Also test
+  affected run lengths and ladder rungs when those systems change.
+- Compare at least two seed sets during tuning. Validate final gameplay or
+  balance changes on three sets (`bench`, `alt`, `third`), normally 400 runs per
+  class, difficulty and set, using the command below. Check win rates, depth,
+  early deaths, death causes and resource use; do not tune to a single seed set
+  or hide a regression by changing the bot or weakening checks.
+- Record the compared revisions, commands, settings, seed sets, run counts and
+  results in the change description or a committed balance report. Update the
+  README's affected measured rows only from those results. Explain any accepted
+  regression or tradeoff; if the benchmark cannot run, report the blocker and
+  leave the gameplay change unpushed until it has been validated.
+- Before each release, review balance across all six classes on Normal and
+  Hard, plus affected run lengths and rungs. Reuse recorded results only when
+  gameplay has not changed since their measured revision.
+- Art, audio, presentation-only UI and documentation changes need appropriate
+  regression checks, not balance simulations. UI or performance work that
+  changes targeting, controls, timing, visibility or other gameplay outcomes
+  follows the gameplay rule above. State why balance testing was or was not
+  needed when reporting a completed feature.
+
 `FIT=1 DIFF=normal|hard SEEDN=40 node test/playtest.js <cls> 10` plays 400 runs
 with a bot (`DIFF=hard+3` for a rung of the ladder past Hard). Seed-to-seed noise is about ±5 points, so compare variants on two
 seed sets (`SEEDPFX=alt` for the second), and take a final table over three (`SEEDPFX=third`: a class on one set of 400 still swings by five or more). Other switches: `EARLY=1` (deaths

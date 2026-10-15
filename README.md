@@ -295,6 +295,21 @@ balance; it does not change the game's rules. Published win rates below are prio
 results, not live results from the current checkout. Re-run the relevant classes and
 difficulties before replacing them, recording the revision, settings and seed sets.
 
+Balance testing is required before shipping changes to classes, enemies, abilities,
+combat, loot, economy, progression or dungeon generation. Compare the previous and
+changed revisions with matching settings on Normal and Hard, covering affected classes
+and paths (all six classes for shared systems). Tune on at least two seed sets and
+validate the final change on `bench`, `alt` and `third`, normally 400 runs per class,
+difficulty and set. Record commands, revisions, run counts, win rates, depth, early
+deaths, death causes and resource use before updating measured results. If testing is
+blocked, report it and keep the gameplay change unpushed until validated.
+
+Review balance across all six classes before each release, including affected run
+lengths and ladder rungs. Existing benchmark results can be reused when gameplay has
+not changed. Art, audio, presentation-only UI and documentation changes need relevant
+regression checks; changes to controls, targeting, timing or visibility also require
+balance testing when they affect gameplay. The full rule lives in [AGENTS.md](AGENTS.md).
+
 `npm test` runs the headless generator checks, plus a rule suite that loads the real game logic and
 exercises the edge cases that are easy to break quietly: enchanted duplicates not merging in the
 pack, two-handed weapons stowing the shield, save surviving a JSON round trip with buffs intact,
