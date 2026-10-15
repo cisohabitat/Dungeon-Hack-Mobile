@@ -11,8 +11,25 @@ wav.writeUInt32LE(rate, 24); wav.writeUInt32LE(rate * 2, 28);
 wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34);
 wav.write('data', 36); wav.writeUInt32LE(bytes, 40);
 
-async function openPrologue(page) {
-  await page.addInitScript(() => {
+test('the server supports media byte ranges, including suffixes and invalid ranges', async ({ request }) => {
+  const file = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../sound/narration/prologue.ogg'));
+  for (const [range, start, end] of [['bytes=0-63', 0, 63], ['bytes=-64', file.length - 64, file.length - 1], [`bytes=${file.length - 64}-`, file.length - 64, file.length - 1]]) {
+    const response = await request.get('/sound/narration/prologue.ogg', { headers: { Range: range } });
+    expect(response.status()).toBe(206);
+    expect(response.headers()['content-type']).toBe('audio/ogg');
+    expect(response.headers()['content-range']).toBe(`bytes ${start}-${end}/${file.length}`);
+    expect(Number(response.headers()['content-length'])).toBe(end - start + 1);
+    expect(await response.body()).toEqual(file.subarray(start, end + 1));
+  }
+  for (const range of [`bytes=${file.length}-`, 'bytes=10-2', 'bytes=-0']) {
+    const response = await request.get('/sound/narration/prologue.ogg', { headers: { Range: range } });
+    expect(response.status()).toBe(416);
+    expect(response.headers()['content-range']).toBe(`bytes */${file.length}`);
+  }
+});
+
+async function openPrologue(page, ogg = false) {
+  await page.addInitScript(forceOgg => {
     localStorage.setItem('deepdelve.firstSeen', '1');
     localStorage.setItem('deepdelve.prelude', 'off');
     localStorage.setItem('deepdelve.samples', 'off');
@@ -22,6 +39,7 @@ async function openPrologue(page) {
     window.__narrationPlayback = [];
     window.Audio = function (...args) {
       const audio = new Native(...args);
+      if (forceOgg) audio.canPlayType = () => '';
       // The player reuses this element for the background after the prologue.
       // Keep evidence of each recording playing before its src is replaced.
       audio.addEventListener('timeupdate', () => {
@@ -31,15 +49,16 @@ async function openPrologue(page) {
       });
       window.__narrations.push(audio); return audio;
     };
-  });
+  }, ogg);
   await page.goto('/');
   await page.click('#btn-new'); await page.click('#c-begin');
   await expect(page.locator('#screen-prologue')).toBeVisible();
 }
 
-test('narration is on by default and plays the real George recording without a separate tap', async ({ page }) => {
+for (const ogg of [false, true]) test(`narration is on by default and plays the real George recording without a separate tap (${ogg ? 'Ogg fallback' : 'browser format'})`, async ({ page }) => {
   const errors = watchForErrors(page);
-  await openPrologue(page);
+  await openPrologue(page, ogg);
+  if (ogg) expect(await page.evaluate(() => window.__narrations.at(-1).src)).toMatch(/\.ogg$/);
   expect(await page.evaluate(() => Sound.isEnabled())).toBe(true);
   await expect(page.locator('#pro-voice-volume')).toHaveValue('85');
   await expect.poll(() => page.evaluate(() => window.__narrationPlayback.some(p => /\/prologue\.(m4a|ogg)$/.test(p.src)))).toBe(true);

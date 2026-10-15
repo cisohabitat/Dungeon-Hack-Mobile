@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v56';
+const CACHE = 'deepdelve-v57';
 const ASSETS = [
   './js/release.js',
   './js/bestiaryart.js',

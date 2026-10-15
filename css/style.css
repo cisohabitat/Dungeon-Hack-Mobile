@@ -1092,7 +1092,7 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .news p { margin: 0; flex: 1; line-height: 1.35; padding-top: var(--s-2); }
 .news .close { background: transparent; border: 0; padding: 0; min-height: 36px; min-width: 40px; }
 .game-fact { flex-direction: column; padding: var(--s-12); }
-.game-fact button { align-self: flex-end; min-height: 44px; }
+.game-fact button { align-self: flex-end; min-height: 44px; background: var(--primary-bg); border-color: var(--accent); color: var(--primary-text); }
 @media (max-height: 560px) and (min-aspect-ratio: 6/5) { .news { right: auto; max-width: 44%; } }
 /* On a narrow screen a picture looked at close takes the card's whole width, above the words */
 @media (max-width: 480px) {

@@ -15,6 +15,8 @@ const TYPES = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  '.ogg': 'audio/ogg',
+  '.m4a': 'audio/mp4',
 };
 
 // The same Content-Security-Policy as vercel.json: a change to one is a change to both (test/run.js checks).
@@ -31,12 +33,28 @@ function serve(req, res) {
     }
     fs.readFile(file, (err2, body) => {
       if (err2) { res.writeHead(404).end('not found'); return; }
-      res.writeHead(200, {
+      const headers = {
         'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
+        'Content-Length': body.length,
+        'Accept-Ranges': 'bytes',
         'Cache-Control': 'no-store',
         // the deployment's policy (vercel.json), so the browser tests run under it
         'Content-Security-Policy': CSP,
-      });
+      };
+      // Media readers seek to the final Ogg page for its duration. Without
+      // byte ranges Chromium estimates a shorter duration from the first pages.
+      const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+      if (range) {
+        const start = range[1] ? Number(range[1]) : Math.max(0, body.length - Number(range[2]));
+        const end = range[1] && range[2] ? Math.min(body.length - 1, Number(range[2])) : body.length - 1;
+        if ((!range[1] && !range[2]) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= body.length) {
+          res.writeHead(416, { ...headers, 'Content-Length': 0, 'Content-Range': `bytes */${body.length}` });
+          res.end(); return;
+        }
+        res.writeHead(206, { ...headers, 'Content-Length': end - start + 1, 'Content-Range': `bytes ${start}-${end}/${body.length}` });
+        res.end(body.subarray(start, end + 1)); return;
+      }
+      res.writeHead(200, headers);
       res.end(body);
     });
   });
