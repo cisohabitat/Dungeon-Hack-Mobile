@@ -62,8 +62,15 @@ function decode(v, state) {
   return Array.isArray(v) ? v.map(x => decode(x, state)) : v;
 }
 
-/** @param {any} api @param {{now: () => number, rolls: () => boolean, restore: (header: any) => void}} runtime */
-export function recordGame(api, runtime) {
+/**
+ * @template T
+ * @param {T} target
+ * @param {{now: () => number, rolls: () => boolean, restore: (header: any) => void}} runtime
+ * @returns {T & {recordRuns: (on: boolean) => void, recording: () => any, recordingReason: () => string, startReplay: (data: any) => void, replayCall: (event: any[]) => any}}
+ */
+export function recordGame(target, runtime) {
+  // Preserve the public API's inferred types while decorating its functions.
+  const api = /** @type {any} */ (target);
   let enabled = !globalThis['__deepdelveHeadless'], replaying = false, record = null, depth = 0;
   const stopped = why => { if (record) record.unavailable = why; };
   function append(event) {
