@@ -259,6 +259,7 @@ export function makeCombat(K) {
     }
     // (a blow turned aside by a shadow or a shield-bearer did not land, for what rides on the blade)
     const bladeLanded = !lvl().monsters.includes(m) || m.hp < hpWas || !!(m.pack && m.pack.length);
+    if (bladeLanded && !atRange && !w.range && m.hp < hpWas) m.meleeImpact = { at: K.realNow + K.fxDelay, kind: w.blunt ? 'blunt' : 'slash', critical: !!crit };
     // fire on the blade sets alight whatever will burn where the blow lands; frost on it works
     // its cold on the place (a crack sealed, an emberling quenched, water frozen round the foe)
     if (bladeLanded && !wild.shaped() && (hasPower('flame', 'weapon') || (p.coating && p.coating.t === 'fire' && p.coating.left > 0))) elements.strike(m, 'fire', 0, 'blade');
@@ -337,7 +338,9 @@ export function makeCombat(K) {
     // a Ring of Might, a Berserker's rage and Weapon Master's +1 promise every blow, and this is one
     const dmg = Math.max(1, Math.round((d(...o.dmg) + o.e + (o.px === 'heavy' ? 1 : 0) + jewelBonus('might') + berserkerRage() + (hasTalent('weapon_master') ? 1 : 0) + baneDamage(m, 'offhand') + bargained()) * deepSteel()));
     leech(Math.min(dmg, m.hp), 'offhand');
+    const hpWas = m.hp;
     damageMonster(m, dmg, 'offhand', note);
+    if (m.hp < hpWas) m.meleeImpact = { at: K.realNow + K.fxDelay, kind: o.blunt ? 'blunt' : 'slash', critical: false };
   }
   /** Whether the blow now landing came from the shadows: a strike from the shadows is told by its tag only when it was not a crit as well. */
   let blowSneak = false;
@@ -395,7 +398,7 @@ export function makeCombat(K) {
       m.plated = true;
       floatText(m, 'turned', '#80a0ff');
       sparks(m);
-      Sound.play('block', heard(m));
+      Sound.play('block', heard(m, { metal: true }));
       log(`Your blow rings off the ${mstat(m).name}'s plates and does nothing. The next will find the gaps.`, 'bad');
       return;
     }

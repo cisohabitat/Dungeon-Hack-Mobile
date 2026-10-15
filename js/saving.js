@@ -127,7 +127,7 @@ export function makeSaving(K) {
         // staggered by a bash, frozen, coughing) stays held as long as it was
         m.nextAct = Math.max(m.nextAct || 0, K.G.t + 800); m.rx = m.x; m.ry = m.y; m.moveT1 = 0; m.flashUntil = 0; m.volley = null;
         // the page's clock starts again at nothing: a flash or a held life bar timed by the old one would hang on for good
-        m.flashAt = 0; delete m.hpShown;
+        m.flashAt = 0; delete m.hpShown; delete m.meleeImpact;
         // a blow being drawn back is still coming after a reload, or quitting to the
         // title would be a way out of every warned crush: it keeps its warning, and
         // the same moment's grace as everything else

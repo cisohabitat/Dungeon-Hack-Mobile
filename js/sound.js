@@ -409,6 +409,8 @@ const Sound = (() => {
     return true;
   }
 
+  // A plate turning a blade has a short iron ring, distinct from a shield's thud.
+  const armourRing = out => { ring(out, 1480, 0.12, 0.045); ring(out, 2230, 0.08, 0.018); };
   const FX = {
     hit: (out, o) => {
       (STRIKE[strikeOf(o)] || STRIKE.blade)(out);
@@ -425,7 +427,7 @@ const Sound = (() => {
     miss: out => FX.swing(out, {}),
     // turned aside by hide or armour, where the sparks fly
     glance: out => { noise(out, 0.1, 0.1, { type: 'bandpass', f: 500, to: 1400, q: 1.3, attack: 0.03 }); ring(out, vary(1200, 0.1), 0.3, 0.06, 0.06); noise(out, 0.03, 0.12, { type: 'highpass', f: 3000, delay: 0.06 }); },
-    block: out => { noise(out, 0.09, 0.26, { f: 1400, to: 400 }); tone(out, 170, 0.14, 'sine', 0.22, -60); ring(out, 700, 0.22, 0.035); },
+    block: (out, o) => { noise(out, 0.09, 0.26, { f: 1400, to: 400 }); tone(out, 170, 0.14, 'sine', 0.22, -60); ring(out, 700, 0.22, 0.035); if (o.metal) armourRing(out); },
     whiff: out => noise(out, 0.2, 0.25, { type: 'bandpass', f: 350, to: 1000, q: 1.2, attack: 0.06 }),
     hurt: out => {
       noise(out, 0.12, 0.22, { f: 900, to: 200 }); tone(out, 105, 0.2, 'sine', 0.22, -50);
@@ -784,6 +786,7 @@ const Sound = (() => {
         if (ensure()) {
           const out = bus(v), s = Samples.on() ? sampleOf(name, v) : null;
           if (s && playSample(out, s)) {
+            if (name === 'block' && v.metal) armourRing(out);
             if (s.also) playSample(out, s.also);
             if (s.synthToo && FX[name]) FX[name](out, v);
             else if (name === 'die') releaseAll();

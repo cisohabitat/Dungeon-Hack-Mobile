@@ -297,6 +297,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   already tracks, and the title's cue.
 - [x] **Class portraits**: six painted faces matched to the title art, carried through character creation, prologue, choices, hero sheet, endings and share cards, with mastery frames and an offline cache.
 - [x] **Boss portraits**: painted Dread Lich, Goblin Warlord and Heartforged introductions, held until dismissed; portraits unlock in the bestiary on meeting them, with a closer look and offline support.
+- [x] **Melee feedback preview**: short marks where close blows land, distinct blunt and blade shapes, a metallic ring when an Armoured foe turns a blade, and a pale rim for the final quarter of an enemy wind-up. Calm view uses a smaller, still mark; combat timing stays the same.
 
 **Exit criteria**
 - A fresh phone grade of 9 or more for first impression, feel and polish.

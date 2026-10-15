@@ -4,6 +4,7 @@ import { THEMES } from './data.js';
 import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 import { makeSpellFx } from './spellfx.js';
 import { makeOverlay } from './overlay.js';
+import { drawMeleeImpact } from './meleeview.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -1413,6 +1414,14 @@ const Renderer = (() => {
       if (nRuns && s.aff && img !== art.flash) drawAfflictions(s.aff, left, sw, top, sh, shiftTop, art.top || 0, tY, now);
       if (nRuns && s.glint) drawGlint(s, screenX, drawnTop, floorY - drawnTop, tY, now);
       // a creature, with room above it for its bar and warning mark
+      if (s.impact && nRuns) {
+        ctx.save(); ctx.beginPath();
+        // The same wall columns that hide the creature hide its impact too.
+        for (let k = 0; k < nRuns; k += 2) ctx.rect(runs[k], 0, runs[k + 1] - runs[k], H);
+        ctx.clip();
+        drawMeleeImpact(ctx, s.impact, screenX, drawnTop + (floorY - drawnTop) * 0.55, Math.max(6, Math.min(18, sw * 0.18)), calm);
+        ctx.restore();
+      }
       if (s.scale >= 0.5 && seenR >= 0) crowd.push([seenL, Math.floor(drawnTop) - 34, seenR + 1, floorY]);
       if (s.maxHp != null && seenR >= 0) shown.push({ top: drawnTop, bottom: floorY, dist: tY, texel: sh / img.height });
       if (s.dress && seenR >= 0) dressedN++;
@@ -1478,7 +1487,9 @@ const Renderer = (() => {
         ctx.save();
         ctx.lineJoin = 'round';
         outline();
-        ctx.lineWidth = 3; ctx.strokeStyle = full >= 1 ? '#ffffff' : 'rgba(0,0,0,0.9)'; ctx.stroke();
+        ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(0,0,0,0.9)'; ctx.stroke();
+        // A pale inner rim marks the final quarter without a pulse or flash.
+        if (full >= 0.75) { ctx.lineWidth = 2; ctx.strokeStyle = '#fff0cf'; ctx.stroke(); }
         // what is still to fill, dim; what has filled, bright
         ctx.fillStyle = s.special ? (palette === 'safe' ? '#10283c' : '#3a1a48') : '#4a3010';
         ctx.fill();

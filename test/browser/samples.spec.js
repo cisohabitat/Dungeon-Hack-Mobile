@@ -18,9 +18,9 @@ test('with the sound pack on, the game plays its samples, its music stems follow
   await expect.poll(() => page.evaluate(() => Samples.state().waiting), { timeout: 40_000 }).toBe(0);
   expect(await page.evaluate(() => Samples.state().failed)).toBe(0);
   // a blow, a door pulled shut, a step, a level: each from the pack
-  await page.evaluate(() => { Sound.play('hit', {}); Sound.play('door', { how: 'shut' }); Sound.play('step', {}); Sound.play('levelup'); });
+  await page.evaluate(() => { Sound.play('hit', {}); Sound.play('block', { metal: true }); Sound.play('door', { how: 'shut' }); Sound.play('step', {}); Sound.play('levelup'); });
   const played = await page.evaluate(() => Samples.state().played);
-  for (const id of ['hit-blade', 'door-close', 'step-stone', 'stinger:level-up']) expect(played, id).toContain(id);
+  for (const id of ['hit-blade', 'block', 'door-close', 'step-stone', 'stinger:level-up']) expect(played, id).toContain(id);
   // the first floor's music theme: its stems take over from the composer, quiet at first
   await expect.poll(() => page.evaluate(() => Music.state().stems), { timeout: 30_000 }).toBe('halls');
   expect(await page.evaluate(() => Music.state().layers)).toEqual(['explore']);

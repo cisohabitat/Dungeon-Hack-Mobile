@@ -132,6 +132,7 @@
  * @property {number} moveT0 @property {number} moveT1 @property {number} flashUntil
  * @property {number} [flashAt]  when its hit flash starts: later than the blow for a fireball still in the air
  * @property {number} [hpShown]  the life its bar shows until then
+ * @property {{at: number, kind: string, critical: boolean}} [meleeImpact]  the last close blow, drawn briefly where it landed
  * @property {string} [elite]     the champion prefix, if it is one
  * @property {number} [worth]     what it pays in experience, when not its kind's own: a puffcap is worth the creature it grew over
  * @property {number} [sporedAt]  when a puffcap last burst in spores (a second blade in the same breath looses no second cloud)

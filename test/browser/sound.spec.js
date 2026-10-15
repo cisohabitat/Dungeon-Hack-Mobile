@@ -18,6 +18,7 @@ test.describe('sound', () => {
       const { fx, far } = Sound.names();
       const shapes = [
         {},
+        { metal: true },
         { dist: 1, pan: -1, who: 'orc', gore: 'bone', tag: 'crit', w: 'mace', spell: 'lightning', ms: 300, kind: 'shot' },
         { dist: 9, pan: 0.7, behind: true, who: 'lich', gore: 'ecto', tag: 'burn', w: 'shortbow', spell: 'bless', ms: 300 },
       ];
