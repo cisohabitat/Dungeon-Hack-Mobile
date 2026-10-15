@@ -524,6 +524,47 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a fresh floor is hidden until seen, and mapping stops at the fog', async ({ page }) => {
+    await startGame(page, { seed: 'mini-fog' });
+    const result = await page.evaluate(() => {
+      const L = Game.level(), T = Dungeon.T;
+      const fresh = L.explored.filter(Boolean).length;
+      // A straight passage longer than either sight range, with a branch
+      // behind stone. Render synchronously so no game frame changes the probe.
+      L.tiles.fill(T.WALL);
+      for (let x = 2; x <= 25; x++) L.tiles[10 * L.w + x] = T.FLOOR;
+      L.tiles[12 * L.w + 5] = T.FLOOR;
+      const rs = Game.renderState(performance.now());
+      const probe = twist => {
+        L.twist = twist;
+        L.explored.fill(0);
+        Renderer.render(L, { ...rs.cam, x: 2.5, y: 10.5, angle: 0 }, [], rs.fx, performance.now());
+        return [4, 8, 14].map(x => L.explored[10 * L.w + x]);
+      };
+      const normal = probe(null), dark = probe('dark');
+      return { fresh, total: L.explored.length, normal, dark, behind: L.explored[12 * L.w + 5] };
+    });
+    expect(result.fresh).toBeGreaterThan(0);
+    expect(result.fresh).toBeLessThan(result.total / 4);
+    expect(result.normal).toEqual([1, 1, 0]);
+    expect(result.dark).toEqual([1, 0, 0]);
+    expect(result.behind).toBe(0);
+  });
+
+  test('both maps wait for the opening passage to finish', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.addInitScript(() => localStorage.setItem('deepdelve.prelude', 'on'));
+    await startGame(page, { seed: 'mini-opening' });
+    await expect(page.locator('#minimap')).toBeHidden();
+    await expect(page.locator('#dock-map')).toBeHidden();
+    expect(await page.evaluate(() => Game.level().explored.some(Boolean))).toBe(false);
+    await page.locator('#view').click();
+    await expect(page.locator('#dock-map')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => Game.level().explored.some(Boolean))).toBe(true);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.locator('#minimap')).toBeVisible();
+  });
+
   test('the corner map draws a torch as the wall it is set into', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page, { seed: 'mini-torch' });

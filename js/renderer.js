@@ -1137,7 +1137,10 @@ const Renderer = (() => {
       while (n++ < 64) {
         if (sdx < sdy) { sdx += ddx; mapX += stepX; side = 0; } else { sdy += ddy; mapY += stepY; side = 1; }
         tile = getT(mapX, mapY);
-        if (mapX >= 0 && mapY >= 0 && mapX < w && mapY < h) explored[mapY * w + mapX] = 1;
+        // Rays continue to distant stone for drawing, but ground swallowed by
+        // the fog has not been seen and must stay hidden on both maps.
+        const seenAt = side === 0 ? sdx - ddx : sdy - ddy;
+        if (seenAt < fog && mapX >= 0 && mapY >= 0 && mapX < w && mapY < h) explored[mapY * w + mapX] = 1;
         // stone struck just after passing beside a door is the side of its doorway
         jamb = pastDoor; pastDoor = false;
         // A door hangs halfway into the depth of its doorway, not flush with the

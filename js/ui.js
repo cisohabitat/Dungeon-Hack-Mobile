@@ -681,8 +681,10 @@ const UI = (() => {
     const skip = fixedEl('#prelude-skip'), preluding = Game.preludeOn();
     if (skip && skip.hidden === preluding) {
       skip.hidden = !preluding;
-      const mini = fixedEl('#minimap');
-      if (mini) mini.style.visibility = preluding ? 'hidden' : '';
+      for (const id of ['#minimap', '#dock-map']) {
+        const map = fixedEl(id);
+        if (map) map.style.visibility = preluding ? 'hidden' : '';
+      }
     }
     const G = Game.state();
     if (!G) return;
