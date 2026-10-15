@@ -2,7 +2,7 @@
 // new, the first-time card, and the question asked before a hero waiting below
 // is replaced. A factory in the K pattern, wired at the end of ui.js, which keeps
 // the prologue, the run's start and the hero made by hand.
-import { CLASSES } from './data.js';
+import { CLASSES, FUN_FACTS } from './data.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
@@ -52,15 +52,28 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'map-fog', text: 'The map now leaves ground beyond your sight hidden, including on dark floors. Both maps wait until the opening passage ends.' };
+  const NEWS = { id: 'title-facts', text: 'When there is no unread news, the title greets you with a small fact about the game. Tap to put it away and hear the theme.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
+  let greetingChosen = false;
   function refreshNews() {
     if (store(NEWS_SEEN) !== NEWS.id && !returning()) store(NEWS_SEEN, NEWS.id);
     $('#news-text').textContent = NEWS.text;
     $('#news').hidden = store(NEWS_SEEN) === NEWS.id;
+    // One greeting per visit: dismissing news does not ask for another tap.
+    if (!greetingChosen) {
+      greetingChosen = true;
+      if ($('#news').hidden) {
+        const last = Number(store('deepdelve.lastFact') ?? -1);
+        const choices = FUN_FACTS.map((_, i) => i).filter(i => i !== last);
+        const pick = choices[Math.floor(Math.random() * choices.length)];
+        store('deepdelve.lastFact', String(pick));
+        $('#game-fact-text').textContent = FUN_FACTS[pick];
+        $('#game-fact').hidden = false;
+      }
+    }
   }
-  function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; }
+  function newsSeen() { store(NEWS_SEEN, NEWS.id); $('#news').hidden = true; $('#game-fact').hidden = true; }
   // Someone new, with no run behind them, is met on the title by a card that
   // says in a minute what the game is and how it is played, once, until put away
   const FIRST_SEEN = 'deepdelve.firstSeen';
@@ -192,6 +205,7 @@ export function makeTitleMenu(K) {
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) K.startPlaying(); });
     $('#news-close').addEventListener('click', newsSeen);
+    $('#game-fact-close').addEventListener('click', () => { $('#game-fact').hidden = true; });
     $('#end-new').addEventListener('click', () => startNewGameFlow());
     $('#confirm-keep').addEventListener('click', () => { if (Game.load()) K.startPlaying(); });
     $('#confirm-replace').addEventListener('click', startPending);

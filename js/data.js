@@ -1,6 +1,16 @@
 // Static game data: classes, items, monsters, spells, level themes and pixel art.
 // All art and content here is original.
 
+// Small title greetings, chosen outside the dungeon's seeded dice.
+const FUN_FACTS = [
+  'The title theme is called "Torchlight at the Threshold".',
+  'Each of the six hero classes has a backstory of its own.',
+  'A dungeon seed lets you return to the same layout with the same dungeon settings.',
+  'The bestiary has a painted portrait for every creature.',
+  'A warning mark over a monster tells you that a blow is coming.',
+  'The map remembers ground you have seen. Stone and darkness keep the rest hidden.',
+];
+
 // ---------- Story, backgrounds and progression ----------
 
 // The frame the whole run hangs on, shown before the first step.
@@ -1339,4 +1349,4 @@ const WICK = {
   },
 };
 
-export { MASTERY, WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };
+export { FUN_FACTS, MASTERY, WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };

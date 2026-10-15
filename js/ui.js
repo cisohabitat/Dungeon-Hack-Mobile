@@ -1470,10 +1470,14 @@ const UI = (() => {
     $('#screen-title').addEventListener('pointerdown', () => { endOpening(); Sound.unlock(); soundAllowed = true; Music.swell(); }, { capture: true });
     // the first touch, click or key anywhere lets sound play, and the title's music begins
     const firstSound = () => {
+      Sound.unlock();
       if (soundAllowed) return;
-      soundAllowed = true; Sound.unlock(); titleMusic();
+      soundAllowed = true; titleMusic();
     };
     document.addEventListener('pointerdown', firstSound, { capture: true });
+    // A touch's click is an activation Safari accepts even when pointerdown
+    // left the audio context suspended. Retry there without making more music.
+    document.addEventListener('click', firstSound, { capture: true });
     document.addEventListener('keydown', firstSound, { capture: true });
     // and where the browser already lets it (a site played before, a setting), at once
     try {

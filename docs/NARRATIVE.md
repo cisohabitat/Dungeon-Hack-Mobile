@@ -4,6 +4,20 @@ Made by `node tools/narrative.mjs` from the tables in `js/`; do not edit it here
 in its table, write this again, and read it against `docs/VOICE.md`. Each heading names the
 table its lines come from.
 
+## Title facts (FUN_FACTS)
+
+The title theme is called "Torchlight at the Threshold".
+
+Each of the six hero classes has a backstory of its own.
+
+A dungeon seed lets you return to the same layout with the same dungeon settings.
+
+The bestiary has a painted portrait for every creature.
+
+A warning mark over a monster tells you that a blow is coming.
+
+The map remembers ground you have seen. Stone and darkness keep the rest hidden.
+
 ## The prologue (PROLOGUE)
 
 For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost.

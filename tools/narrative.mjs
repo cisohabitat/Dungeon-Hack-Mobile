@@ -32,6 +32,9 @@ export async function narrative() {
     'in its table, write this again, and read it against `docs/VOICE.md`. Each heading names the',
     'table its lines come from.');
 
+  h(2, 'Title facts (FUN_FACTS)');
+  D.FUN_FACTS.forEach(p);
+
   h(2, 'The prologue (PROLOGUE)');
   D.PROLOGUE.forEach(p);
 

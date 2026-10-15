@@ -524,6 +524,57 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a fact greets a quiet title, its first tap starts the theme, and it stays dismissed for the visit', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.addInitScript(() => {
+      localStorage.setItem('deepdelve.firstSeen', '1');
+      localStorage.setItem('deepdelve.samples', 'on');
+    });
+    await page.goto('/');
+    await expect(page.locator('#news')).toBeHidden();
+    await expect(page.locator('#game-fact')).toBeVisible();
+    const first = await page.locator('#game-fact-text').textContent();
+    expect(first.length).toBeGreaterThan(20);
+    expect(await page.evaluate(() => Music.state().title)).toBe(false);
+    await page.locator('#game-fact-close').tap();
+    await expect(page.locator('#game-fact')).toBeHidden();
+    await expect.poll(() => page.evaluate(() => Music.state().title), { timeout: 20000 }).toBe(true);
+    expect(await page.evaluate(() => Sound.audio().ctx.state)).toBe('running');
+    await page.click('#btn-help');
+    await page.click('#help-back');
+    await expect(page.locator('#game-fact')).toBeHidden();
+    await page.reload();
+    await expect(page.locator('#game-fact')).toBeVisible();
+    expect(await page.locator('#game-fact-text').textContent()).not.toBe(first);
+    // A keyboard user can dismiss the greeting too.
+    await page.locator('#game-fact-close').focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#game-fact')).toBeHidden();
+    expect(errors).toEqual([]);
+  });
+
+  test('unread news takes priority over a fact without asking for a second dismissal', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('deepdelve.hall', '[]'));
+    await page.goto('/');
+    await expect(page.locator('#news')).toBeVisible();
+    await expect(page.locator('#game-fact')).toBeHidden();
+    await page.click('#news-close');
+    await expect(page.locator('#news')).toBeHidden();
+    await expect(page.locator('#game-fact')).toBeHidden();
+    await page.reload();
+    await expect(page.locator('#news')).toBeHidden();
+    await expect(page.locator('#game-fact')).toBeVisible();
+  });
+
+  for (const setting of ['sound', 'music']) test(`dismissing a fact respects ${setting} being turned off`, async ({ page }) => {
+    await page.addInitScript(key => localStorage.setItem(`deepdelve.${key}`, 'off'), setting);
+    await page.goto('/');
+    await page.locator('#game-fact-close').tap();
+    await expect(page.locator('#game-fact')).toBeHidden();
+    expect(await page.evaluate(() => Music.state().title)).toBe(false);
+    expect(await page.evaluate(key => key === 'sound' ? Sound.isEnabled() : Music.isEnabled(), setting)).toBe(false);
+  });
+
   test('a fresh floor is hidden until seen, and mapping stops at the fog', async ({ page }) => {
     await startGame(page, { seed: 'mini-fog' });
     const result = await page.evaluate(() => {

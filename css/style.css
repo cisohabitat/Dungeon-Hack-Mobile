@@ -1091,6 +1091,8 @@ ul.tricks li { margin-bottom: 0.35em; line-height: 1.4; }
 .news { position: absolute; z-index: 2; top: calc(10px + var(--sat)); left: 12px; right: 12px; max-width: 460px; margin: 0 auto; display: flex; gap: var(--s-6); align-items: flex-start; background: rgba(18, 16, 26, 0.9); border: 1px solid var(--accent); border-radius: 8px; padding: var(--s-8) var(--s-4) var(--s-8) var(--s-12); font-size: var(--t-md); }
 .news p { margin: 0; flex: 1; line-height: 1.35; padding-top: var(--s-2); }
 .news .close { background: transparent; border: 0; padding: 0; min-height: 36px; min-width: 40px; }
+.game-fact { flex-direction: column; padding: var(--s-12); }
+.game-fact button { align-self: flex-end; min-height: 44px; }
 @media (max-height: 560px) and (min-aspect-ratio: 6/5) { .news { right: auto; max-width: 44%; } }
 /* On a narrow screen a picture looked at close takes the card's whole width, above the words */
 @media (max-width: 480px) {
