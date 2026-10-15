@@ -41,6 +41,8 @@ test.describe('the endgame', () => {
       }
     });
     await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Goblin Warlord');
+    await expect(page.locator('#ov-boss')).toHaveClass(/open/);
+    await page.getByRole('button', { name: 'Face the keeper' }).click();
     expect(await page.evaluate(() => Game.state().log.some(e => /fine footstool/.test(e.m)))).toBe(true);
     // (his picture is painted in the background, the first time a floor wants it: under load it can be a moment coming)
     await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.warlord)), { timeout: 8000 }).toBe(true);
@@ -69,6 +71,8 @@ test.describe('the endgame', () => {
       }
     });
     await expect.poll(() => page.evaluate(() => (Game.renderState(performance.now()).fx.boss || {}).name)).toBe('Heartforged');
+    await expect(page.locator('#ov-boss')).toHaveClass(/open/);
+    await page.getByRole('button', { name: 'Face the keeper' }).click();
     expect(await page.evaluate(() => Game.state().log.some(e => /a furnace opens in its chest/.test(e.m)))).toBe(true);
     // (polled: under load its picture can be a frame or two behind the bar at the top)
     await expect.poll(() => page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.heartforged)), { timeout: 8000 }).toBe(true);

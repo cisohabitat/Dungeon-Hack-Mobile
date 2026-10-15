@@ -13,6 +13,9 @@ await test('the lich speaks when it wakes, and its life shows across the top of 
   const mark = markLog(G);
   Game.update(G.t + 25, 25);
   if (!linesSince(G, mark).some(l => /A cold voice/.test(l))) return `it said: ${linesSince(G, mark).join(' | ')}`;
+  if (Game.takeEvents().filter(e => e === 'boss:lich').length !== 1) return 'no single introduction when it woke';
+  Game.update(G.t + 25, 25);
+  if (Game.takeEvents().some(e => e === 'boss:lich')) return 'the introduction repeated';
   const b = Game.renderState(0).fx.boss;
   return (b && b.hp === m.hp && b.maxHp === m.maxHp && b.name === 'Dread Lich') || JSON.stringify(b);
 });

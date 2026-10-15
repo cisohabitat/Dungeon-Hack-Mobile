@@ -107,6 +107,11 @@ async function play(page, opts) {
       if (!G || G.status !== 'playing') return { status: G ? G.status : 'gone' };
       const p = Game.player(), L = Game.level();
 
+      // Read the keeper's first words, then carry on through the same button
+      // a player uses: the fight waits while the introduction is open.
+      const introduction = document.querySelector('#ov-boss.open .boss-reveal [data-close]');
+      if (introduction) { introduction.click(); return { acted: 'keeper' }; }
+
       // a level-up choice blocks everything until it is made
       if (Game.pendingBoons()) { const id = Game.pendingBoons()[0]; const t = Game.player().taught || {}; const k = ['con', 'str', 'dex', 'wis', 'int', 'cha'].find(s => !t[s]); Game.chooseBoon(id, id === 'spread' ? [k, k] : undefined); return { acted: 'boon' }; }
 

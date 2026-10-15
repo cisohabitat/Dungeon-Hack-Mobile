@@ -1,5 +1,6 @@
 import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS, MASTERY } from './data.js';
 import { Assets } from './assets.js';
+import { bossPortrait, fillBossPortraits } from './bossart.js';
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { RELIC_POWERS, RELICS, RELIC_SETS, setOf, toCollect } from './relics.js';
@@ -46,7 +47,8 @@ function renderBestiary(el) {
     const art = Assets.sprites[mb.sprite], own = mb.named && art && art.elite && art.elite[id];
     const img = `<img src="${own ? own.url : art ? art.url : ''}" alt="">`;
     // met, its picture can be looked at close: a tap enlarges it
-    const bigImg = `<img class="beast-art" src="${own ? own.url : art ? art.url : ''}" alt="${escapeHtml(mb.name)}" role="button" tabindex="0" aria-pressed="false" aria-label="Look closer at the ${escapeHtml(mb.name)}">`;
+    const portrait = bossPortrait(id);
+    const bigImg = `<img class="beast-art${portrait ? ' boss-portrait' : ''}" ${portrait ? `data-boss-portrait="${id}"` : `src="${own ? own.url : art ? art.url : ''}"`} alt="${escapeHtml(mb.name)}" role="button" tabindex="0" aria-pressed="false" aria-label="Look closer at the ${escapeHtml(mb.name)}">`;
     // the first floor of this delve (or an eight-floor one, from the title) it can be met on
     const levels = (Game.state() && Game.state().opts.levels) || 8;
     let first = 1;
@@ -78,6 +80,7 @@ function renderBestiary(el) {
     bits.push(`<p class="where">${rec.join(' · ')}</p>`);
     return `<div class="beast" data-beast="${id}">${bigImg}<div>${bits.join('')}</div></div>`;
   }).join('') + '</div>';
+  fillBossPortraits(el);
   // a tap (or Enter) on a met creature's picture looks at it close
   const zoom = /** @param {Event} e */ e => {
     const t = /** @type {HTMLElement} */ (e.target);

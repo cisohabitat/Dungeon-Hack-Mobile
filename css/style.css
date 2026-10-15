@@ -1206,3 +1206,20 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 
 /* Painted faces keep their brushwork at every size; the dungeon stays crisp. */
 .class-face, .pro-face, .choice-face, .sheet-face, .end-face { image-rendering: auto; object-fit: cover; }
+
+/* A keeper's first words wait for the hero; no timer takes the page away. */
+#ov-boss { background: var(--bg); }
+.boss-reveal { display: flex; flex-direction: column; align-items: center; gap: var(--s-16); }
+.boss-reveal > img { width: min(100%, 280px); height: auto; aspect-ratio: 1; flex-shrink: 0; border: 1px solid var(--accent); border-radius: 8px; }
+.boss-reveal > p { max-width: 36em; margin: 0; color: var(--text); line-height: 1.5; }
+.boss-reveal > button { width: 100%; max-width: 360px; flex-shrink: 0; }
+.boss-portrait, .beast img.boss-portrait { image-rendering: auto; object-fit: cover; }
+.beast img.boss-portrait { flex-basis: 96px; width: 96px; height: 96px; border: 1px solid var(--accent); border-radius: 6px; }
+.beast img.boss-portrait.zoom { flex-basis: 256px; width: 256px; height: 256px; }
+@media (max-width: 480px) {
+  .beast img.boss-portrait.zoom { flex-basis: 100%; width: 100%; height: auto; aspect-ratio: 1; }
+}
+@media (max-height: 560px) and (min-aspect-ratio: 6/5) {
+  .boss-reveal { display: grid; grid-template-columns: min(36%, 240px) 1fr; align-content: start; }
+  .boss-reveal > img { grid-row: span 2; width: 100%; }
+}

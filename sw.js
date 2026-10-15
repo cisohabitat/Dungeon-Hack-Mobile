@@ -1,8 +1,9 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v47';
+const CACHE = 'deepdelve-v48';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './img/keyart-portrait.webp', './img/keyart-landscape.webp', './sound/index.json',
-  './js/package.json', './js/portraits.js',
+  './js/package.json', './js/portraits.js', './js/bossart.js',
+  './img/bosses/lich.webp', './img/bosses/warlord.webp', './img/bosses/heartforged.webp',
   './img/portraits/fighter.webp', './img/portraits/thief.webp', './img/portraits/mage.webp', './img/portraits/cleric.webp', './img/portraits/ranger.webp', './img/portraits/druid.webp',
   './js/narration.js', './js/storyvoice.js', './js/voicelines.js', './sound/narration/catalog.json',
   './sound/narration/prologue.ogg', './sound/narration/prologue.m4a',

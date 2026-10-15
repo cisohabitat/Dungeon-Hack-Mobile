@@ -1,5 +1,5 @@
 import { randomSeedWord } from './rng.js';
-import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS, ELITES } from './data.js';
+import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS, ELITES, MONSTERS } from './data.js';
 import { Assets } from './assets.js';
 import { Telemetry } from './telemetry.js';
 import { Dungeon } from './dungeon.js';
@@ -26,6 +26,7 @@ import { makeHeroSheet } from './herosheet.js';
 import { makeTitleMenu } from './titlemenu.js';
 import { makeCreateView } from './createview.js';
 import { makeStoryVoice } from './storyvoice.js';
+import { bossPortrait, fillBossPortraits } from './bossart.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -38,6 +39,7 @@ const UI = (() => {
   let overlay = null;
   /** @type {string[]} overlays the game asked for while a choice or a result was on screen */
   let waiting = [];
+  let bossReveal = '';
   let pendingCfg = null;
   let selectedItem = null, selectedSlot = null;
   let logDue = 0;              // when the next line held back for its moment is due
@@ -1013,11 +1015,11 @@ const UI = (() => {
   // A level-up choice or an encounter holds the screen until it is dealt
   // with: what the game asks for meanwhile (another choice, a shop) waits its
   // turn rather than covering it, and what the player taps for is ignored.
-  const GAME_ASKS = ['boons', 'encounter', 'shop', 'fork'];
+  const GAME_ASKS = ['boons', 'encounter', 'shop', 'fork', 'boss'];
   function openOverlay(name) {
     // the pack, the spells or the map opened while the way in plays end it first: what they do is done on the floor itself
     if (Game.preludeOn()) Game.skipPrelude();
-    if (overlay === 'boons' || overlay === 'encounter') {
+    if (overlay === 'boons' || overlay === 'encounter' || overlay === 'boss') {
       if (name !== overlay && GAME_ASKS.includes(name) && !waiting.includes(name)) waiting.push(name);
       return;
     }
@@ -1044,10 +1046,21 @@ const UI = (() => {
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
     if (name === 'fork') renderFork();
+    if (name === 'boss') renderBoss();
     if (name === 'code') renderCode();
     // a keyboard's Tab, and a screen reader, start inside what has just opened, not behind it
     // (a pad's ring finds its own way in: pad.js; no box to type in is chosen, so no keyboard springs up on a phone)
     if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus(); }
+  }
+  /** Its first words have already been spoken into the log; time waits here. */
+  function renderBoss() {
+    const mb = MONSTERS[bossReveal], face = $('#boss-portrait');
+    if (!mb || !bossPortrait(bossReveal) || Game.state()?.status !== 'playing') { closeOverlay(); return; }
+    $('#boss-title').textContent = mb.name;
+    $('#boss-speech').textContent = mb.speech;
+    face.setAttribute('alt', mb.name);
+    face.dataset.bossPortrait = bossReveal;
+    fillBossPortraits($('#ov-boss'));
   }
   /** The hero as a save code, written fresh each time it is asked for. */
   let codeAsk = 0;
@@ -1121,6 +1134,7 @@ const UI = (() => {
   function clearOverlays() {
     narration.stop();
     waiting = [];
+    bossReveal = '';
     if (overlay === 'encounter') Game.closeEncounter();
     if (overlay === 'shop') Game.closeShop();
     $$('.overlay.open').forEach(el => el.classList.remove('open'));
@@ -1401,6 +1415,10 @@ const UI = (() => {
       else if (e === 'boonsDone') { if (overlay === 'boons') closeOverlay(); }
       else if (e === 'page' && overlay === 'journal') renderJournal();
       else if (e === 'shop') openOverlay('shop');
+      else if (e.startsWith('boss:') && Game.state()?.status === 'playing') {
+        bossReveal = e.slice(5);
+        if (bossPortrait(bossReveal)) openOverlay('boss');
+      }
       else if (e === 'fork') { if (Game.forkPending() && Game.state().status === 'playing') openOverlay('fork'); }
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       // the view goes dark a moment first, then the end screen, for this run only

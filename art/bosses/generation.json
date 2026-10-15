@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-15",
+  "tool": "image_gen.imagegen",
+  "model": null,
+  "modelNote": "The tool did not disclose an underlying model identifier.",
+  "briefNote": "Briefs below are summaries of the generation instructions, not verbatim prompts.",
+  "sharedBrief": "Square head-and-shoulders painted dark fantasy portraits matching the title artwork: amber firelight, blue-violet cavern shadows, weathered tangible materials, readable large faces. Edge-to-edge artwork without text, borders or UI.",
+  "portraits": [
+    {
+      "id": "lich",
+      "original": "exec-df2ea69c-562f-4cec-abc0-c42b87e2a288.png",
+      "references": ["img/keyart-portrait.webp", "img/portraits/mage.webp"],
+      "brief": "Ancient skeletal keeper of the Heart, parchment-dry skin, faint violet eye embers, corroded black iron crown, ragged indigo cowl, tarnished bronze ornament and a grave-magic hand. Calm calculating menace in a cavernous stone hall."
+    },
+    {
+      "id": "warlord",
+      "original": "exec-32dcec41-dc4e-4b6e-8728-85bbe07bed62.png",
+      "references": ["img/keyart-portrait.webp", "art/bosses/lich.png"],
+      "brief": "Massive living goblin king, earthy olive-grey skin, flattened nose, pointed ears, short lower tusks, calculating eyes, battered hammered gold crown, dark iron armour, leather, plundered gold clasps and one fur shoulder. A grounded master of a hoard."
+    },
+    {
+      "id": "heartforged",
+      "original": "exec-a1b7dc1a-50fe-4513-8b15-356d115032ed.png",
+      "references": ["img/keyart-portrait.webp", "art/bosses/lich.png"],
+      "brief": "Ancient dwarven forge automaton, geometric black iron mask, heavy hammered plates, rivets, soot and weathered engraving. Narrow amber eye slits and the Heart crystal burning inside its ribbed chest furnace. Massive hammer at the edge; no flesh, crown or futuristic technology."
+    }
+  ],
+  "export": { "width": 512, "height": 512, "format": "webp", "encoder": "ffmpeg/libwebp", "quality": 85, "resampling": "lanczos" }
+}

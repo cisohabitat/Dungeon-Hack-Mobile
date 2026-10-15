@@ -130,6 +130,18 @@ test('the dungeon and every overlay in it', async ({ page }) => {
   expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
 });
 
+test('a keeper introduction', async ({ page }) => {
+  const found = [];
+  await startGame(page, { seed: 'a11y-boss' });
+  await page.evaluate(() => { Game.level().monsters.length = 0; });
+  await faceOpenGround(page, 2);
+  await placeMonster(page, 'lich', 2, { awake: false, nextAct: 0 });
+  await expect(page.locator('#ov-boss')).toHaveClass(/open/);
+  await scan(page, 'boss', found);
+  const bad = report(found);
+  expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
+});
+
 test('an encounter', async ({ page }) => {
   test.setTimeout(120_000);
   const found = [];

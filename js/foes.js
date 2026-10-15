@@ -1156,6 +1156,7 @@ export function makeFoes(K) {
       m.spoke = true;
       // its first words (MONSTERS in data.js, with the rest of the narrator's)
       K.log(mb.speech, 'bad');
+      K.emit('boss:' + m.id);
       Sound.play('voice', K.heard(m, { who: m.id === 'warlord' ? 'orc' : m.id }));
       K.fx.shakeAmp = 4; K.fx.shakeMs = 500; K.fx.shakeUntil = K.realNow + 500;
     } else if (mb.named && m.awake && !m.spoke) namedWakes(m, mb);
