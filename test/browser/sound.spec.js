@@ -19,6 +19,7 @@ test.describe('sound', () => {
       const shapes = [
         {},
         { metal: true },
+        { spell: 'cone_cold' },
         { dist: 1, pan: -1, who: 'orc', gore: 'bone', tag: 'crit', w: 'mace', spell: 'lightning', ms: 300, kind: 'shot' },
         { dist: 9, pan: 0.7, behind: true, who: 'lich', gore: 'ecto', tag: 'burn', w: 'shortbow', spell: 'bless', ms: 300 },
       ];

@@ -322,7 +322,7 @@ const Sound = (() => {
     burning_hands(out) { noise(out, 0.4, 0.24, { type: 'bandpass', f: 600, to: 1600, q: 0.8, attack: 0.04 }); noise(out, 0.4, 0.12, { f: 300 }); },
     shield(out) { tone(out, 880, 0.6, 'sine', 0.05, 0, 0, 0.1); tone(out, 1324, 0.6, 'sine', 0.04, 0, 0.05, 0.1); tone(out, 440, 0.4, 'triangle', 0.05, 440); },
     lightning(out) { noise(out, 0.07, 0.22, { type: 'highpass', f: 2000 }); noise(out, 0.6, 0.2, { f: 600, to: 120, delay: 0.03 }); tone(lp(out, 900), 90, 0.25, 'sawtooth', 0.08, -20); },
-    cone_cold(out) { noise(out, 0.55, 0.12, { type: 'highpass', f: 4000, to: 2000, attack: 0.05 }); for (let i = 0; i < 4; i++) tone(out, vary(2100, 0.15), 0.3, 'sine', 0.025, 0, 0.1 + i * 0.08); },
+    cone_cold(out) { clicks(out, 4, 0.09, 2700, 0.04); noise(out, 0.55, 0.12, { type: 'highpass', f: 4000, to: 2000, attack: 0.05 }); for (let i = 0; i < 4; i++) tone(out, vary(2100, 0.15), 0.3, 'sine', 0.025, 0, 0.1 + i * 0.08); },
     cure_light(out) { tone(out, 523, 0.3, 'sine', 0.1); tone(out, 659, 0.4, 'sine', 0.09, 0, 0.12); },
     cure_serious(out) { tone(out, 523, 0.4, 'sine', 0.1); tone(out, 659, 0.45, 'sine', 0.09, 0, 0.12); tone(out, 784, 0.6, 'sine', 0.08, 0, 0.24); },
     bless(out) { ring(out, 784, 0.9, 0.08); tone(out, 392, 0.8, 'sine', 0.05, 0, 0, 0.1); },

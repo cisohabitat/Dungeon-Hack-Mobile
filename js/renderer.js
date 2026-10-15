@@ -1681,7 +1681,7 @@ const Renderer = (() => {
   function keepTopClear(rows) { keepClear = Math.max(0, Math.min(Math.round(rows), Math.floor(H * 0.6))); }
   // ---------- spellfx: see spellfx.js ----------
   const { READ_MS, USE_MS, drawReading, drawSpells, drawTrap, drawUse, hash } = makeSpellFx({
-    get H() { return H; }, get W() { return W; }, get ctx() { return ctx; }, get ease() { return ease; }, get put() { return put; },
+    get H() { return H; }, get W() { return W; }, get ctx() { return ctx; }, get calm() { return calm; }, get ease() { return ease; }, get put() { return put; },
   });
   // ---------- over the whole view: see overlay.js ----------
   const overlay = makeOverlay({

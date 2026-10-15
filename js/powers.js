@@ -137,22 +137,22 @@ export function makePowers(K) {
   // How far into each picture the spell reaches its target: the darts fly for
   // half of theirs, the fan of flame a little less; lightning and a shaft of
   // light are there at once. What the blow looks like waits for that moment.
-  const SPELL_IMPACT = { missile: 0.5, hands: 0.45, cone: 0.3, pillar: 0.15, smite: 0.08, lightning: 0 };
+  const SPELL_IMPACT = { missile: 0.5, hands: 0.45, cone: 0.3, swarm: 0.3, pillar: 0.15, smite: 0.08, lightning: 0 };
   const SPELL_FX = {
     magic_missile: ['missile', 650], burning_hands: ['hands', 450], shield: ['buff', 600], lightning: ['lightning', 380],
     cone_cold: ['cone', 520], cure_light: ['heal', 800], bless: ['buff', 600], smite: ['smite', 560],
     cure_serious: ['heal', 850], protection: ['buff', 600], flame_strike: ['pillar', 700],
     thorn_lash: ['missile', 600], wild_shape: ['buff', 700], mending_moss: ['heal', 800], entangle: ['smite', 560],
-    call_lightning: ['lightning', 380], insect_plague: ['cone', 560],
+    call_lightning: ['lightning', 380], insect_plague: ['swarm', 560],
   };
   /** Show a spell's effect: where it lands, or the square ahead if nowhere. */
   /** How long a scroll takes to read and burn away, and the colour its writing kindles. */
   const READ_MS = 1000;
   const SCROLL_GLOW = { fire: '#ff7020', frost: '#a8e0ff', lightning: '#e0f0ff', heal: '#60e080', map: '#70b0ff', teleport: '#c080ff', uncurse: '#ffe8a0' };
   /** A spell's picture; delay puts it off (a scroll's fire waits for the page to burn), from moves where it starts, as fractions of the view. */
-  function spellFx(style, color, dur, targets, reach, delay = 0, from = null) {
+  function spellFx(style, color, dur, targets, reach, delay = 0, from = null, impact = null) {
     const p = P(), [dx, dy] = DIRS[p.dir];
-    fx.spells.push({ style, color, born: K.realNow + delay, until: K.realNow + delay + dur, from,
+    fx.spells.push({ style, color, born: K.realNow + delay, until: K.realNow + delay + dur, from, impact: impact ?? SPELL_IMPACT[style] ?? (style === 'fireball' ? 0.35 : 0),
       pts: targets.map(m => ({ x: m.rx + 0.5, y: m.ry + 0.5 })),
       ahead: { x: p.x + dx * (reach || 1) + 0.5, y: p.y + dy * (reach || 1) + 0.5 } });
   }

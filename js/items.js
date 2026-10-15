@@ -423,7 +423,7 @@ export function makeItems(K) {
           // are, and the place answers (elements.js): water freezes, or carries the lightning
           case 'frost': case 'lightning': {
             const cold = b.effect === 'frost', targets = boltTargets(3, true);
-            spellFx(cold ? 'cone' : 'lightning', SCROLL_GLOW[b.effect], cold ? 450 : 380, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 });
+            spellFx(cold ? 'cone' : 'lightning', SCROLL_GLOW[b.effect], cold ? 450 : 380, targets, 3, READ_MS * 0.6, { x: 0.3, y: 0.58 }, 0.35);
             if (!targets.length) { log(cold ? 'A breath of frost rolls down the passage and finds nothing.' : 'The bolt cracks against the stones.'); break; }
             K.castingName = cold ? 'cone_cold' : 'lightning';
             K.fxDelay = Math.round(READ_MS * 0.6 + (cold ? 450 : 380) * 0.35);

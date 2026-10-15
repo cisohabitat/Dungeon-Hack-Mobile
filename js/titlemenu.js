@@ -50,7 +50,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-03-03-melee', text: 'Close blows leave brief marks where they land, and a pale rim shows when an enemy is almost ready to strike. Turned blades ring on iron plates. Calm view keeps the marks small and still.' };
+  const NEWS = { id: '2027-03-04-elements', text: 'Fire flares into embers, cold breaks into frost, and lightning branches toward its targets. Calm view keeps the impacts small and still.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -2,6 +2,7 @@
 // the hand and what it hits, reading a scroll, drinking or eating, and a trap going
 // off. Drawn on the view's canvas by renderer.js, which lends what it needs through K.
 import { Assets } from './assets.js';
+import { makeElementFx } from './elementfx.js';
 
 /** @param {any} K */
 export function makeSpellFx(K) {
@@ -30,6 +31,7 @@ export function makeSpellFx(K) {
     const n = parseInt(h, 16);
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${Math.max(0, Math.min(1, a)).toFixed(3)})`;
   }
+  const elements = makeElementFx({ get ctx() { return K.ctx; }, get calm() { return !!K.calm; }, hash, hexA, glow });
   // ---------- reading a scroll ----------
   // The off hand brings the scroll up, unrolled. Its writing kindles line by
   // line in the colour of what it does (fire orange, restoration green,
@@ -289,6 +291,24 @@ export function makeSpellFx(K) {
     K.ctx.restore();
   }
 
+  /** Burning Hands lands at the same moment as its damage flash (powers.js).
+   * Keep the flare on the body, below the face and the warning over it. */
+  function drawFireHands(hand, target, t, color) {
+    const calm = !!K.calm, r = Math.max(12, Math.min(54, target.r * 0.26));
+    if (!calm) {
+      // A short, readable fan; each tongue follows the same path every frame.
+      for (let i = 0; i < 14; i++) {
+        const u = (t - hash(i + 10) * 0.12) / 0.45;
+        if (u <= 0 || u >= 1) continue;
+        const side = (hash(i + 31) - 0.5) * r * 1.2 * u;
+        const x = hand.x + (target.x - hand.x) * u + side;
+        const y = hand.y + (target.y - hand.y) * u - Math.sin(u * Math.PI) * r * 0.12;
+        glow(x, y, 3 + u * r * 0.16, u < 0.5 ? '#ffd040' : color, (1 - u * 0.6) * 0.55);
+      }
+    }
+    elements.fireImpact(target, (t - 0.45) / 0.55);
+  }
+
   function drawSpells(fx, now, proj) {
     if (!fx.spells || !fx.spells.length) return;
     K.ctx.save();
@@ -322,24 +342,11 @@ export function makeSpellFx(K) {
           break;
         }
         case 'hands': {
-          // a fan of flame from the hand into the square ahead
-          for (let i = 0; i < 26; i++) {
-            const u = clamp01(t * 1.7 - hash(i) * 0.5);
-            if (u <= 0 || u >= 1) continue;
-            const spread = (hash(i + 31) - 0.5) * first.r * 0.9 * u;
-            const x = hand.x + (first.x - hand.x) * u + spread, y = hand.y + (first.y - hand.y) * u - hash(i + 7) * first.r * 0.2 * u;
-            glow(x, y, 4 + u * first.r * 0.12, u < 0.5 ? '#ffd040' : c, (1 - u) * 0.9);
-          }
+          drawFireHands(hand, first, t, c);
           break;
         }
         case 'pillar': {
-          // a column of fire rising out of the floor where the foe stands
-          glow(first.x, first.y + first.r * 0.3, first.r * 0.6, '#ff9040', fade * 0.9);
-          for (let i = 0; i < 34; i++) {
-            const u = (t * 1.6 + hash(i)) % 1;
-            const x = first.x + (hash(i + 11) - 0.5) * first.r * 0.55, y = first.y + first.r * 0.35 - u * first.r * 1.4;
-            glow(x, y, 5 + (1 - u) * first.r * 0.12, u < 0.35 ? '#fff0a0' : '#ff8030', Math.min(1, fade * 1.3) * (1 - u * 0.8));
-          }
+          elements.pillar(pts.length ? pts : [first], t, s.impact ?? 0.15);
           break;
         }
         case 'knife': case 'stone': case 'arrow': {
@@ -437,41 +444,19 @@ export function makeSpellFx(K) {
           break;
         }
         case 'fireball': {
-          // an orb flies, then bursts
-          const u = clamp01(t / 0.35);
-          if (u < 1) glow(hand.x + (first.x - hand.x) * u, hand.y + (first.y - hand.y) * u, 8 + u * 6, c, 1);
-          else {
-            const b = clamp01((t - 0.35) / 0.65);
-            for (const q of pts.length ? pts : [first]) {
-              glow(q.x, q.y, q.r * (0.25 + b * 0.8), '#ff8030', (1 - b) * 0.9);
-              glow(q.x, q.y, q.r * (0.1 + b * 0.35), '#ffe080', (1 - b));
-            }
-          }
+          elements.fireball(hand, pts.length ? pts : [first], t, s.impact ?? 0.35);
           break;
         }
         case 'lightning': {
-          // a jagged bolt to the furthest foe, forking to each one it passes
-          const seed = Math.floor(now / 45);
-          const bolt = (a, b, width, alpha, salt) => {
-            K.ctx.beginPath();
-            K.ctx.moveTo(a.x, a.y);
-            const n = 9;
-            for (let k = 1; k < n; k++) {
-              const f = k / n;
-              const j = (hash(seed * 31 + k * 7 + salt) - 0.5) * W * 0.09 * Math.sin(Math.PI * f);
-              K.ctx.lineTo(a.x + (b.x - a.x) * f + j, a.y + (b.y - a.y) * f + j * 0.4);
-            }
-            K.ctx.lineTo(b.x, b.y);
-            K.ctx.lineWidth = width * 3; K.ctx.strokeStyle = hexA(c, alpha * 0.35); K.ctx.stroke();
-            K.ctx.lineWidth = width; K.ctx.strokeStyle = `rgba(255,255,240,${alpha.toFixed(3)})`; K.ctx.stroke();
-          };
-          const a = fade * (0.7 + 0.3 * hash(seed));
-          bolt(hand, aim, 2.2, a, 0);
-          pts.forEach((q, i) => { glow(q.x, q.y, q.r * 0.3, c, a); if (q !== aim) bolt({ x: q.x, y: q.y - q.r * 0.3 }, q, 1.2, a * 0.8, 50 + i); });
+          elements.lightning(hand, pts.length ? pts : [first], aim, t, s.impact ?? 0);
           break;
         }
         case 'cone': {
-          // a widening cone of frost to the furthest foe it reaches
+          elements.cold(hand, pts.length ? pts : [first], aim, t, s.impact ?? 0.3);
+          break;
+        }
+        case 'swarm': {
+          // the existing swarm keeps its own cloud, apart from the cold
           const half = Math.max(aim.r * 0.9, W * 0.18);
           const g = K.ctx.createLinearGradient(hand.x, hand.y, aim.x, aim.y);
           g.addColorStop(0, hexA('#ffffff', fade * 0.55));
