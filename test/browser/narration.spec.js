@@ -19,8 +19,17 @@ async function openPrologue(page) {
     localStorage.setItem('deepdelve.tipsOff', '1');
     const Native = window.Audio;
     window.__narrations = [];
+    window.__narrationPlayback = [];
     window.Audio = function (...args) {
-      const audio = new Native(...args); window.__narrations.push(audio); return audio;
+      const audio = new Native(...args);
+      // The player reuses this element for the background after the prologue.
+      // Keep evidence of each recording playing before its src is replaced.
+      audio.addEventListener('timeupdate', () => {
+        if (audio.currentTime > 0.1 && !window.__narrationPlayback.some(p => p.src === audio.src)) {
+          window.__narrationPlayback.push({ src: audio.src, duration: audio.duration });
+        }
+      });
+      window.__narrations.push(audio); return audio;
     };
   });
   await page.goto('/');
@@ -33,9 +42,16 @@ test('narration is on by default and plays the real George recording without a s
   await openPrologue(page);
   expect(await page.evaluate(() => Sound.isEnabled())).toBe(true);
   await expect(page.locator('#pro-voice-volume')).toHaveValue('85');
-  await expect.poll(() => page.evaluate(() => window.__narrations.at(-1).currentTime)).toBeGreaterThan(0.1);
+  await expect.poll(() => page.evaluate(() => window.__narrationPlayback.some(p => /\/prologue\.(m4a|ogg)$/.test(p.src)))).toBe(true);
   await expect(page.locator('#pro-voice-play')).toHaveText('Pause narration');
-  expect(await page.evaluate(() => window.__narrations.at(-1).duration)).toBeGreaterThan(30);
+  // Exercise the handoff explicitly: a slow CI runner can reach this point
+  // after the opening has already finished and the background has begun.
+  await page.evaluate(() => {
+    const audio = window.__narrations.at(-1);
+    if (/\/prologue\.(m4a|ogg)$/.test(audio.src)) audio.dispatchEvent(new Event('ended'));
+  });
+  await expect.poll(() => page.evaluate(() => window.__narrations.at(-1).src)).not.toMatch(/\/prologue\.(m4a|ogg)$/);
+  expect(await page.evaluate(() => window.__narrationPlayback.find(p => /\/prologue\.(m4a|ogg)$/.test(p.src)).duration)).toBeGreaterThan(30);
   expect(errors).toEqual([]);
 });
 
