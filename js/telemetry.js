@@ -128,7 +128,7 @@ function crash(/** @type {string} */ msg, /** @type {string} */ where, /** @type
 
 /**
  * Listen for what breaks. `getState` gives the game's state at the moment, for
- * the seed and floor; `version` names the build (the latest news line's id).
+ * the seed and floor; `version` names the published release and build.
  * @param {{ getState: () => any, version: string }} o
  */
 function install(o) {

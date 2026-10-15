@@ -116,7 +116,9 @@ label.field .row button.small { flex: 0 0 auto; min-width: 44px; min-height: 44p
 canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 /* Title */
-#screen-title { overflow: hidden; }
+#screen-title { overflow-y: auto; }
+#screen-title > .title-inner { flex-shrink: 0; padding-bottom: var(--s-8); }
+.release-info { position: relative; z-index: 1; flex-shrink: 0; padding: var(--s-6) var(--s-12) calc(var(--s-8) + var(--sab)); background: var(--bg); color: var(--text-soft); font-size: var(--t-sm); text-align: center; line-height: 1.4; }
 /* the end screen shares the title's inner block but has no art to sit under */
 #screen-end .title-inner { margin-top: auto; margin-bottom: auto; padding-top: calc(var(--s-16) + var(--sat)); }
 /* a question, not a title: it sits in the middle of the screen */
@@ -147,6 +149,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .tagline { color: #bdb2a0; margin: var(--s-10) 0 0; font-size: var(--t-lg); text-shadow: 0 1px 3px #000; text-wrap: balance; }   /* no word left alone on a narrow phone */
 .menu { display: flex; flex-direction: column; gap: var(--s-8); }
 .menu-row { display: flex; gap: var(--s-8); }
+body.big-text #screen-title .menu-row { flex-wrap: wrap; }
+body.big-text #screen-title .menu-row > * { flex: 1 1 140px; min-width: 0; }
 /* the in-game menu in short groups: a heading each, the switches two to a row */
 .menu-h { margin: var(--s-8) 0 -2px; font-size: var(--t-sm); font-weight: normal; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
 .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); }

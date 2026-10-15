@@ -8,6 +8,7 @@ import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Weekly } from './weekly.js';
 import { Progress } from './progress.js';
+import { RELEASE_VERSION, BUILD_NUMBER } from './release.js';
 import { $, $$ } from './uikit.js';
 
 /**
@@ -24,6 +25,7 @@ import { $, $$ } from './uikit.js';
 export function makeTitleMenu(K) {
   const { store } = K;
   function refreshTitle() {
+    $('#release-info').textContent = `Release ${RELEASE_VERSION} · Build ${BUILD_NUMBER}`;
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
     // with nothing saved, no greyed-out Continue taking the second place on the screen
@@ -50,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: '2027-03-06-hero-stories', text: 'Each of the six heroes now has a backstory on the selection screen. Choose a class, then tap its portrait to look closer.' };
+  const NEWS = { id: 'v1.0.0-build-1', text: 'Release 1.0.0 is here. Painted portraits fill the bestiary, and each of the six heroes has a story of their own.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   function refreshNews() {

@@ -27,6 +27,7 @@ import { makeTitleMenu } from './titlemenu.js';
 import { makeCreateView } from './createview.js';
 import { makeStoryVoice } from './storyvoice.js';
 import { bossPortrait, fillBossPortraits } from './bossart.js';
+import { BUILD_ID } from './release.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -1558,7 +1559,7 @@ const UI = (() => {
   }
 
   // ---------- titlemenu: see titlemenu.js ----------
-  const { refreshTitle, newsSeen, dailyLabel, copyText, shareText, SHARED, bindTitle, NEWS } = makeTitleMenu({
+  const { refreshTitle, newsSeen, dailyLabel, copyText, shareText, SHARED, bindTitle } = makeTitleMenu({
     store, get calmOn() { return calmOn; }, get showScreen() { return showScreen; }, get showPrologue() { return showPrologue; },
     get openCreation() { return openCreation; }, get quickStart() { return quickStart; }, get startPlaying() { return startPlaying; },
   });
@@ -1650,8 +1651,8 @@ const UI = (() => {
     /** Every tip's words, so a test can check each fits where it is shown. */
     // (a tip that suits itself to the spot is given in its widest words, for a test of whether it fits)
     tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar,
-    /** The build, named by its latest news line (sent with a report). */
-    version: () => NEWS.id };
+    /** The published release and build (sent with a report). */
+    version: () => BUILD_ID };
 })();
 
 export { UI };

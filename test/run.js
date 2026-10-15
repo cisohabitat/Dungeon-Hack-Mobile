@@ -42,6 +42,11 @@ for (const k in SPRITES) {
   const fs = require('fs'), path = require('path');
   const root = path.join(__dirname, '..');
   const sw = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+  const { RELEASE_VERSION, BUILD_NUMBER, BUILD_ID } = await import('../js/release.js');
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  check(RELEASE_VERSION === pkg.version, 'release version differs from package.json');
+  check(Number.isSafeInteger(BUILD_NUMBER) && BUILD_NUMBER > 0, 'release build must be a positive integer');
+  check(BUILD_ID.length <= 32 && /^[\w .:'()-]+$/.test(BUILD_ID), 'release build is not preserved by telemetry');
   const listed = new Set([...sw.matchAll(/'\.\/(js\/[a-z]+\.js)'/g)].map(m => m[1]));
   for (const f of fs.readdirSync(path.join(root, 'js'))) {
     if (!f.endsWith('.js') || f === 'types.js') continue;   // types.js is read by the checker only
