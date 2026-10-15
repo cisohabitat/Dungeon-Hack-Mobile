@@ -51,6 +51,17 @@ for (const k in SPRITES) {
     const src = fs.readFileSync(path.join(root, 'js', f), 'utf8');
     check(!/\(\?<[!=]/.test(src), `js/${f} uses a lookbehind, which older Safari cannot read`);
   }
+  // Every bestiary entry has its own painting, ready even on an offline first
+  // visit. A new monster must bring a portrait as well as its dungeon sprite.
+  const { bestiaryPortrait } = await import('../js/bestiaryart.js');
+  const pictures = new Set();
+  for (const id in MONSTERS) {
+    const portrait = bestiaryPortrait(id);
+    check(!!portrait && fs.existsSync(path.join(root, portrait)), `monster ${id} has no bestiary portrait`);
+    check(sw.includes(`'./${portrait}'`), `portrait for ${id} is not in the offline cache`);
+    check(!pictures.has(portrait), `monster ${id} shares another creature's bestiary portrait`);
+    pictures.add(portrait);
+  }
   // the sound pack: every file sound/index.json names is there, in both formats
   // (samples.js builds the paths from the names, as the brief set them)
   const idx = JSON.parse(fs.readFileSync(path.join(root, 'sound', 'index.json'), 'utf8'));

@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-15",
+  "tool": "image_gen.imagegen",
+  "model": null,
+  "modelNote": "The tool did not disclose an underlying model identifier.",
+  "sheets": [
+    {
+      "source": "sheet-1.png",
+      "columns": 4,
+      "portraits": [
+        "rat",
+        "bat",
+        "slime",
+        "spider",
+        "goblin",
+        "skeleton",
+        "zombie",
+        "orc",
+        "ghoul",
+        "wraith",
+        "ogre",
+        "troll",
+        "minotaur",
+        "kobold",
+        "archer",
+        "basilisk"
+      ],
+      "prompt": "Create a square high-resolution painted dark fantasy bestiary portrait CONTACT SHEET, exactly 4 columns by 4 rows, 16 equal SQUARE edge-to-edge tiles. Request 1536x1536 resolution or largest square available. Each tile is an independent finished detailed original illustration, with no borders, gutters, lettering, numbers, captions, logos or UI. Hard straight tile boundaries at exact equal fractions of the full image. Every creature stays entirely inside its own tile, no overlap. Close portrait composition; face and upper body for humanoids; characteristic head and body for animals/monsters. Faces large and readable. Hand-painted realistic fantasy cover art, rich fine brushwork, weathered tangible materials, warm amber torchlight from left, deep blue-violet cavern shadows, atmospheric dungeon setting behind each subject. Dramatic ominous grounded mood. No pixel art, no sprites, no cartoon style. Distinct species anatomy and silhouettes. Keep the essential eyes, ears, horns, weapons and identifying details inside each square with a little room around them. Read LEFT TO RIGHT, TOP TO BOTTOM, use this EXACT order:\nRow 1, column 1: Giant Rat: huge brown sewer rat, wet whiskers, yellow incisors.\nRow 1, column 2: Cave Bat: cave bat with huge ears, leathery wings.\nRow 1, column 3: Green Slime: translucent emerald slime, bubbling jelly, no humanoid face.\nRow 1, column 4: Cave Spider: violet-black cave spider with eight legs and clustered red eyes.\nRow 2, column 1: Goblin: small olive goblin with pointed ears, scrap leather and knife.\nRow 2, column 2: Skeleton: animated skeleton with rusty sword and remnants of mail.\nRow 2, column 3: Zombie: shambling pale dead human, ragged clothes.\nRow 2, column 4: Orc: heavy green-grey orc with short tusks, iron axe and leather.\nRow 3, column 1: Ghoul: gaunt grey-green grave ghoul with many teeth and clawed hands.\nRow 3, column 2: Wraith: spectral violet figure in ragged hood, cold eyes in darkness.\nRow 3, column 3: Ogre: massive brutish ogre with blunt features, rough hide and club.\nRow 3, column 4: Troll: green mossy troll with long nose and wild coarse hair.\nRow 4, column 1: Minotaur: bull-headed warrior with broad horns and battle axe.\nRow 4, column 2: Kobold Trapper: small rusty red reptilian trapper, dart, leather snares.\nRow 4, column 3: Goblin Archer: olive goblin archer with bow and quiver.\nRow 4, column 4: Basilisk: low reptilian basilisk with amber petrifying eyes and stony scales."
+    },
+    {
+      "source": "sheet-2.png",
+      "columns": 4,
+      "portraits": [
+        "rustmaw",
+        "acolyte",
+        "moth",
+        "thornhog",
+        "imp",
+        "cutpurse",
+        "lookout",
+        "hexer",
+        "pikeman",
+        "hound",
+        "quillback",
+        "wyrm",
+        "drowned",
+        "eyeless",
+        "drow_warrior",
+        "drow_mage"
+      ],
+      "prompt": "Create a square high-resolution painted dark fantasy bestiary portrait CONTACT SHEET, exactly 4 columns by 4 rows, 16 equal SQUARE edge-to-edge tiles. Request 1536x1536 resolution or largest square available. Each tile is an independent finished detailed original illustration, with no borders, gutters, lettering, numbers, captions, logos or UI. Hard straight tile boundaries at exact equal fractions of the full image. Every creature stays entirely inside its own tile, no overlap. Close portrait composition; face and upper body for humanoids; characteristic head and body for animals/monsters. Faces large and readable. Hand-painted realistic fantasy cover art, rich fine brushwork, weathered tangible materials, warm amber torchlight from left, deep blue-violet cavern shadows, atmospheric dungeon setting behind each subject. Dramatic ominous grounded mood. No pixel art, no sprites, no cartoon style. Distinct species anatomy and silhouettes. Keep the essential eyes, ears, horns, weapons and identifying details inside each square with a little room around them. Read LEFT TO RIGHT, TOP TO BOTTOM, use this EXACT order:\nRow 1, column 1: Rustmaw: rust-brown armoured beetle-like beast, feathery antennae, huge mandibles.\nRow 1, column 2: Dark Acolyte: dark human acolyte in black hooded robes, violet shadow magic.\nRow 1, column 3: Glimmer Moth: luminous pale gold cave moth with huge glimmering wings.\nRow 1, column 4: Thornhog: small brown boar covered in sharp quills.\nRow 2, column 1: Gutter Imp: small red-brown horned gutter imp, mischievous, smoke.\nRow 2, column 2: Goblin Cutpurse: goblin thief in dark hood, stolen gold pouch, dagger.\nRow 2, column 3: Goblin Lookout: goblin sentry holding a whistle, alert ears, rough leather.\nRow 2, column 4: Goblin Hexer: goblin witch with bone charms and purple hex magic.\nRow 3, column 1: Goblin Pikeman: goblin infantry holding a long pike, dented iron helmet.\nRow 3, column 2: Blink Hound: blink hound, sleek dark dog fading into violet mist.\nRow 3, column 3: Quillback: heavy brown bear-like beast with tall ivory quills.\nRow 3, column 4: Cave Wyrm: red-brown cave dragon with curled horns, ember throat.\nRow 4, column 1: Drowned One: waterlogged undead sailor rising from black water, dripping weeds.\nRow 4, column 2: Eyeless Stalker: pale blind cave predator, smooth eyeless face, long claws.\nRow 4, column 3: Dark Elf Warrior: ash-dark elf with white hair, two curved blades, black armour.\nRow 4, column 4: Dark Elf Mage: ash-dark elf caster with white hair, violet robes and violet fire."
+    },
+    {
+      "source": "sheet-3.png",
+      "columns": 3,
+      "portraits": [
+        "grey_dwarf",
+        "dwarf_arbalest",
+        "lizardfolk",
+        "lizard_shaman",
+        "emberling",
+        "mimic",
+        "puffcap",
+        "shade",
+        "grisk"
+      ],
+      "prompt": "Create a square high-resolution painted dark fantasy bestiary portrait CONTACT SHEET, exactly 3 columns by 3 rows, 9 equal SQUARE edge-to-edge tiles. Request 1536x1536 resolution or largest square available. Each tile is an independent finished detailed original illustration, with no borders, gutters, lettering, numbers, captions, logos or UI. Hard straight tile boundaries at exact equal fractions of the full image. Every creature stays entirely inside its own tile, no overlap. Close portrait composition; face and upper body for humanoids; characteristic head and body for animals/monsters. Faces large and readable. Hand-painted realistic fantasy cover art, rich fine brushwork, weathered tangible materials, warm amber torchlight from left, deep blue-violet cavern shadows, atmospheric dungeon setting behind each subject. Dramatic ominous grounded mood. No pixel art, no sprites, no cartoon style. Distinct species anatomy and silhouettes. Keep the essential eyes, ears, horns, weapons and identifying details inside each square with a little room around them. Read LEFT TO RIGHT, TOP TO BOTTOM, use this EXACT order:\nRow 1, column 1: Grey Dwarf: broad grey-skinned dwarf with dark beard, heavy chainmail and hammer.\nRow 1, column 2: Grey Dwarf Arbalest: grey-skinned dwarf with crossbow, iron helm and copper fittings.\nRow 1, column 3: Lizardfolk Warrior: green lizard warrior with orange crest, spear and long tail.\nRow 2, column 1: Lizardfolk Shaman: reptilian shaman with reeds, bone charms, staff and swamp lightning.\nRow 2, column 2: Emberling: small living coal creature, cracked basalt skin and glowing orange seams.\nRow 2, column 3: Mimic: wooden treasure chest with huge tooth-lined mouth and tongue.\nRow 3, column 1: Puffcap: large living pale mushroom puffball releasing luminous spores.\nRow 3, column 2: Shade: spectral dead knight, cold blue armour, shield and sword.\nRow 3, column 3: Goblin King: goblin king, dented tin bucket crown with bent spoons, ragged red cloak."
+    },
+    {
+      "source": "sheet-4.png",
+      "columns": 3,
+      "portraits": [
+        "vessra",
+        "ushgar",
+        "morrow",
+        "orla",
+        "gorrum",
+        "skarrow",
+        "vaelith",
+        "hissra",
+        "durgrim"
+      ],
+      "prompt": "Create a square high-resolution painted dark fantasy bestiary portrait CONTACT SHEET, exactly 3 columns by 3 rows, 9 equal SQUARE edge-to-edge tiles. Request 1536x1536 resolution or largest square available. Each tile is an independent finished detailed original illustration, with no borders, gutters, lettering, numbers, captions, logos or UI. Hard straight tile boundaries at exact equal fractions of the full image. Every creature stays entirely inside its own tile, no overlap. Close portrait composition; face and upper body for humanoids; characteristic head and body for animals/monsters. Faces large and readable. Hand-painted realistic fantasy cover art, rich fine brushwork, weathered tangible materials, warm amber torchlight from left, deep blue-violet cavern shadows, atmospheric dungeon setting behind each subject. Dramatic ominous grounded mood. No pixel art, no sprites, no cartoon style. Distinct species anatomy and silhouettes. Keep the essential eyes, ears, horns, weapons and identifying details inside each square with a little room around them. Read LEFT TO RIGHT, TOP TO BOTTOM, use this EXACT order:\nRow 1, column 1: Web-Mother: elder brown spider queen, ivory marking, egg sacs and hanging silk.\nRow 1, column 2: Orc Warchief: orc warchief, horned iron helm, red face paint, bearskin, skull belt.\nRow 1, column 3: Ghoul Lord: old fat yellow-grey ghoul lord, finger-bone crown and thighbone held in jaws.\nRow 2, column 1: Hollow Abbess: ghostly hollow abbess in grey habit, white wimple around an empty dark face, prayer beads and cracked halo.\nRow 2, column 2: Troll-Father: ancient huge grey-green troll with long white moss beard and skull necklace.\nRow 2, column 3: Elder Wyrm: elder ash-brown cave dragon, three horns, scarred face, clouded eye, golden hoard.\nRow 3, column 1: High Priestess: dark elf high priestess, ash skin, white hair, silver spider crown, black and wine-red robes.\nRow 3, column 2: Marsh-Mother: elder female lizard matriarch, dark green scales, white crest, tooth collar and reed mantle.\nRow 3, column 3: Forge-Thane: grey dwarf forge-thane, long white beard bound in copper, iron crown, scorched red cloak, smith hammer."
+    }
+  ],
+  "export": {
+    "width": 512,
+    "height": 512,
+    "format": "webp",
+    "encoder": "ImageMagick",
+    "quality": 85,
+    "resampling": "Lanczos",
+    "crop": "Equal tiles, read left to right then top to bottom; boundaries rounded to the nearest pixel."
+  }
+}

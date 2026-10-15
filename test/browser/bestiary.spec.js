@@ -47,7 +47,7 @@ test.describe('bestiary', () => {
     await expect(bas).toHaveClass(/zoom/);
     await expect(bas).toHaveAttribute('aria-pressed', 'true');
     // every picture is a real one
-    expect(await page.evaluate(() => [...document.querySelectorAll('#beasts-list img')].every(i => i.complete && i.naturalWidth > 0))).toBe(true);
+    await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('#beasts-list img')].every(i => i.complete && i.naturalWidth > 0))).toBe(true);
     expect(errors).toEqual([]);
   });
 
@@ -101,5 +101,61 @@ test.describe('bestiary', () => {
     await page.click('[data-jtab="pages"]');
     await expect(page.locator('#journal-list .beast')).toHaveCount(0);
     expect(errors).toEqual([]);
+  });
+
+  test('every creature has its own painting in the title bestiary and Journal', async ({ page }, testInfo) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.evaluate(() => localStorage.setItem('deepdelve.bestiary', JSON.stringify(Object.fromEntries(Object.keys(MONSTERS).map(id => [id, { met: 1, kills: 1 }])))));
+    await page.click('#btn-beasts');
+    async function paintings(root) {
+      const faces = page.locator(`${root} img.bestiary-portrait`);
+      await expect(faces).toHaveCount(await kinds(page));
+      await expect.poll(() => faces.evaluateAll(imgs => imgs.every(i => i.complete && i.naturalWidth === 512 && i.naturalHeight === 512))).toBe(true);
+      const srcs = await faces.evaluateAll(imgs => imgs.map(i => i.getAttribute('src')));
+      expect(new Set(srcs).size).toBe(await kinds(page));
+      expect(srcs.every(src => /^img\/(bestiary|bosses)\/[a-z_]+\.webp$/.test(src))).toBe(true);
+      expect(await faces.evaluateAll(imgs => imgs.every(i => getComputedStyle(i).imageRendering === 'auto'))).toBe(true);
+    }
+    await paintings('#beasts-list');
+    const rat = page.locator('[data-beast="rat"] .beast-art');
+    await rat.focus(); await page.keyboard.press('Space');
+    await expect(rat).toHaveAttribute('aria-pressed', 'true');
+    const [w, h] = await rat.evaluate(e => [e.getBoundingClientRect().width, e.getBoundingClientRect().height]);
+    expect(Math.abs(w - h)).toBeLessThan(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await rat.click();
+    await page.screenshot({ path: testInfo.outputPath('painted-bestiary.png') });
+    await page.click('#beasts-back');
+    await startGame(page, { seed: 'painted-bestiary' });
+    await clearBoons(page);
+    await page.click('[data-open="journal"]'); await page.click('[data-jtab="beasts"]');
+    await paintings('#journal-list');
+    expect(errors).toEqual([]);
+  });
+
+  test('all painted creatures are available after an offline reload', async ({ page, context }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.setItem('deepdelve.bestiary', JSON.stringify(Object.fromEntries(Object.keys(MONSTERS).map(id => [id, { met: 1 }]))));
+      return navigator.serviceWorker.register('/sw.js');
+    });
+    await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
+    await context.setOffline(true); await page.reload(); await page.click('#btn-beasts');
+    await expect.poll(() => page.locator('#beasts-list img').evaluateAll(imgs => imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
+  });
+
+  test('a missing champion painting falls back to its own sprite once', async ({ page }) => {
+    await page.route('**/img/bestiary/grisk.webp', route => route.abort());
+    await page.addInitScript(() => localStorage.setItem('deepdelve.bestiary', JSON.stringify({ grisk: { met: 1 } })));
+    await page.goto('/'); await page.click('#btn-beasts');
+    const face = page.locator('[data-beast="grisk"] .beast-art');
+    await expect(face).toHaveAttribute('src', /^data:image\/png/);
+    await expect.poll(() => face.evaluate(i => i.complete && i.naturalWidth > 0)).toBe(true);
+    expect(await face.evaluate(async i => {
+      const { Assets } = await import('/js/assets.js');
+      return i.src === Assets.sprites.goblin.elite.grisk.url && i.onerror === null;
+    })).toBe(true);
+    await face.click(); await expect(face).toHaveAttribute('aria-pressed', 'true');
   });
 });

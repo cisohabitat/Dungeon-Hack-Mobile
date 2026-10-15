@@ -1,6 +1,20 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v51';
+const CACHE = 'deepdelve-v52';
 const ASSETS = [
+  './js/bestiaryart.js',
+  './img/bestiary/rat.webp', './img/bestiary/bat.webp', './img/bestiary/slime.webp', './img/bestiary/spider.webp',
+  './img/bestiary/goblin.webp', './img/bestiary/skeleton.webp', './img/bestiary/zombie.webp', './img/bestiary/orc.webp',
+  './img/bestiary/ghoul.webp', './img/bestiary/wraith.webp', './img/bestiary/ogre.webp', './img/bestiary/troll.webp',
+  './img/bestiary/minotaur.webp', './img/bestiary/kobold.webp', './img/bestiary/archer.webp', './img/bestiary/basilisk.webp',
+  './img/bestiary/rustmaw.webp', './img/bestiary/acolyte.webp', './img/bestiary/moth.webp', './img/bestiary/thornhog.webp',
+  './img/bestiary/imp.webp', './img/bestiary/cutpurse.webp', './img/bestiary/lookout.webp', './img/bestiary/hexer.webp',
+  './img/bestiary/pikeman.webp', './img/bestiary/hound.webp', './img/bestiary/quillback.webp', './img/bestiary/wyrm.webp',
+  './img/bestiary/drowned.webp', './img/bestiary/eyeless.webp', './img/bestiary/drow_warrior.webp', './img/bestiary/drow_mage.webp',
+  './img/bestiary/grey_dwarf.webp', './img/bestiary/dwarf_arbalest.webp', './img/bestiary/lizardfolk.webp', './img/bestiary/lizard_shaman.webp',
+  './img/bestiary/emberling.webp', './img/bestiary/mimic.webp', './img/bestiary/puffcap.webp', './img/bestiary/shade.webp',
+  './img/bestiary/grisk.webp', './img/bestiary/vessra.webp', './img/bestiary/ushgar.webp', './img/bestiary/morrow.webp',
+  './img/bestiary/orla.webp', './img/bestiary/gorrum.webp', './img/bestiary/skarrow.webp', './img/bestiary/vaelith.webp',
+  './img/bestiary/hissra.webp', './img/bestiary/durgrim.webp',
   './', './index.html', './css/style.css', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './img/keyart-portrait.webp', './img/keyart-landscape.webp', './sound/index.json',
   './js/package.json', './js/portraits.js', './js/bossart.js', './js/meleeview.js', './js/elementfx.js',
   './img/bosses/lich.webp', './img/bosses/warlord.webp', './img/bosses/heartforged.webp',
