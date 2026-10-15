@@ -352,6 +352,7 @@
 /**
  * Everything a save file holds.
  * @typedef {Object} GameState
+ * @property {any} [recording] bounded local input and timing record
  * @property {string} seed
  * @property {DungeonOptions} opts
  * @property {Player} player

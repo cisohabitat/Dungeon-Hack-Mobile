@@ -9,6 +9,14 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 
 ## Features
 
+- **Watch a recorded delve.** New runs record their actions and timing locally. After
+  victory or defeat, choose **Replay this run** to watch the first-person journey,
+  pause it or play at up to 4× speed. Playback leaves saves, trophies and Daily results
+  untouched and works offline once cached. Records continue with saved games; older,
+  imported, testing-aid or over-limit runs do not offer replay. Playback requires the
+  same build and is currently available from the finished run's end screen.
+  See [recording details and limits](docs/REPLAY.md).
+
 - **A welcome on the title.** Unread News comes first; otherwise a random game fact
   appears. Dismiss it to unlock the theme music, subject to your sound settings.
   The release and build are shown at the bottom of the main page.
@@ -717,6 +725,8 @@ js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
 js/release.js     release and build, shared by the title footer and reports
+js/recording.js   bounded action/timing records and deterministic replay
+js/replaycontrols.js, replayview.js, replay.html   isolated end-screen replay viewer
 js/narration.js, storyvoice.js   recorded readings and their story cues
 js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
@@ -736,6 +746,7 @@ test/run.js       generator, sprite and balance checks
 test/api.js       the report functions' checks
 test/rules.js     rule-level regression checks
 test/playtest.js  balance simulations across classes, paths, seeds and difficulties
+test/replay.js    reproduce and verify a local recording through the bot harness
 test/browser/     Playwright suites
 test/server.js    dependency-free static server with media byte-range support
 CLAUDE.md         source instructions for repository contributors and coding agents

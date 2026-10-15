@@ -129,10 +129,11 @@ is built on top. Each is small; together they are the grade.
 - [x] **A score with a clock** (D12): a win inside the hour earns up to 600 more, ten fewer a
   minute; the Hall and the Weekly's best set the quicker of two equal scores first, and a
   companion at the end before none; the time said on the end screen and in every share line.
-- [ ] **The run recorded** (D12): each frame's length and each press kept with the save,
-  bounded; the bot harness plays one back headless to the same end. *Moved to Phase 9, with
-  the friends' board that needs it (decision 2): every call that changes the run would have to
-  be recorded, and nothing before the board reads such a record.*
+- [x] **The run recorded** (D12): bounded public actions and exact frame/simulation times
+  travel with browser saves, including load continuation. The bot harness verifies
+  the same terminal state; the end screen has an isolated first-person replay with
+  pause and speed controls. Same-build, current-run playback; older/imported saves,
+  testing-aid runs and over-limit records are unavailable. See `docs/REPLAY.md`.
 - [x] **Split `test/rules.js`** (C7) along its headings into `rules-*.js`, one runner, three
   or four processes; the slow suite under two minutes. *55 files, four processes, 2m13s here
   (the one check that swings a sword 180,000 times sets the floor).*
@@ -246,7 +247,7 @@ again: `README.md`'s table)
 - [ ] **Balance from telemetry** (decision 1): real players' win rates by class and rung beside
   the bot's on the dashboard, reviewed monthly; a class ten points off the bot for two months
   gets a bench and a change. The README's table links to it.
-- [ ] **A replay link** on the run card: the seed and the recording, played back in the view,
+- [ ] **A replay link** on the run card (local end-screen playback has landed): the seed and the recording, played back in the view,
   skippable.
 - [ ] **A data-only mod format**: JSON encounters, relics on existing powers, journal pages,
   and monsters as kind + existing move + palette, read from a link on New Game, checked

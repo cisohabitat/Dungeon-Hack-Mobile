@@ -12,6 +12,7 @@ let counter = 0;
 function installGlobals() {
   const store = new Map();
   globalThis.localStorage = {
+    get length() { return store.size; }, key: i => [...store.keys()][i] ?? null,
     getItem: k => (store.has(k) ? store.get(k) : null),
     setItem: (k, v) => store.set(k, String(v)),
     removeItem: k => store.delete(k),
@@ -41,6 +42,9 @@ async function loadGame(opts = {}) {
   const rooms = await import(url('rooms.js'));           // pure: room shapes and set pieces
   const dungeon = await import(url('dungeon.js') + bust);
   const game = await import(url('game.js') + bust);
+  // Replay evaluates the view's clocks too; companions need a shape, not pixels.
+  const assets = (await import(url('assets.js'))).Assets;
+  assets.sprites.dog ||= { url: '', levels: [{ width: 1, height: 1 }] };
   return {
     Game: game.Game,
     Dungeon: dungeon.Dungeon,

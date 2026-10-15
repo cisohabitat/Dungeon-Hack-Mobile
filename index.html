@@ -638,6 +638,8 @@
         <button id="end-share" class="big" style="display:none">Share today's result</button>
         <button id="end-card" class="big ghost" style="display:none">Share a picture</button>
         <p id="end-share-line" class="share-line" style="display:none"></p>
+        <button id="end-replay" class="big ghost" hidden>Replay this run</button>
+        <p id="end-replay-note" class="dim small" hidden></p>
         <button id="end-load" class="big">Load Last Save</button>
         <button id="end-new" class="big primary">New Game</button>
         <button id="end-title-btn" class="big ghost">Title</button>
@@ -648,5 +650,9 @@
 </div>
 <noscript>Deepdelve needs JavaScript to run.</noscript>
 <script type="module" src="js/main.js"></script>
+<dialog id="run-replay" class="run-replay" aria-labelledby="run-replay-title">
+  <div class="row spread"><h2 id="run-replay-title">Your recorded run</h2><button id="run-replay-close" type="button">Close replay</button></div>
+  <iframe id="run-replay-frame" title="Recorded dungeon run" src="about:blank"></iframe>
+</dialog>
 </body>
 </html>

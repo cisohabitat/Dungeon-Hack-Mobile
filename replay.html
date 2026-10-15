@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Deepdelve replay</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="replay-page">
+  <main class="replay-player" aria-label="Recorded run">
+    <p id="replay-status" role="status">Loading your recording...</p>
+    <canvas id="replay-view" width="320" height="200" aria-label="First-person replay"></canvas>
+    <p id="replay-hero"></p>
+    <div class="row">
+      <button id="replay-pause" type="button" disabled>Pause</button>
+      <label>Speed <select id="replay-speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+    </div>
+  </main>
+  <script type="module" src="js/replayview.js"></script>
+</body>
+</html>

@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'title-facts', text: 'When there is no unread news, the title greets you with a small fact about the game. Tap to put it away and hear the theme.' };
+  const NEWS = { id: 'run-replay', text: 'New delves can be watched again. Choose Replay this run after victory or defeat, then pause or speed up the recorded journey.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

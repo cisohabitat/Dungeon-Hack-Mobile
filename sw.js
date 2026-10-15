@@ -1,6 +1,7 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v57';
+const CACHE = 'deepdelve-v58';
 const ASSETS = [
+  './replay.html', './js/recording.js', './js/replayview.js', './js/replaycontrols.js',
   './js/release.js',
   './js/bestiaryart.js',
   './img/bestiary/rat.webp', './img/bestiary/bat.webp', './img/bestiary/slime.webp', './img/bestiary/spider.webp',

@@ -1,3 +1,4 @@
+import { bindReplay } from './replaycontrols.js';
 import { randomSeedWord } from './rng.js';
 import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS, ELITES, MONSTERS } from './data.js';
 import { Assets } from './assets.js';
@@ -1153,6 +1154,8 @@ const UI = (() => {
   let lastInput = 'pointer';
   /** Back, from the keyboard's Escape or a pad's B: an overlay closes (if it may), the dungeon pauses, another screen goes back. */
   function goBack() {
+    const replay = /** @type {HTMLDialogElement} */ ($('#run-replay'));
+    if (replay.open) { replay.close(); return; }
     if ($('#screen-game').classList.contains('active')) { if (overlay) closeOverlay(); else openOverlay('menu'); return; }
     const back = /** @type {HTMLElement|undefined} */ ($$('.screen.active [id$="-back"]').find(b => b.getClientRects().length));
     if (back) back.click();
@@ -1464,6 +1467,7 @@ const UI = (() => {
     // until Calm view is chosen in the menu, it follows the phone's setting as that changes
     try { const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)'); if (mq && mq.addEventListener) mq.addEventListener('change', () => { Renderer.setCalm(calmOn()); document.body.classList.toggle('calm', calmOn()); }); } catch (e) { /* older browsers */ }
     bindTitle(); bindCreate();
+    bindReplay(Game, () => narration.stop());
     buildCreate();
     $('#c-seed').value = randomSeedWord();
     if ($('#screen-title').classList.contains('active')) startOpening();
@@ -1632,7 +1636,7 @@ const UI = (() => {
   const inGame = () => $('#screen-game').classList.contains('active');
   const pad = makePad({
     where: () => { if (!inGame() || overlay) return 'ui'; const G = Game.state(); return G && G.status === 'playing' ? 'play' : 'wait'; },
-    root: bar => /** @type {HTMLElement|null} */ (bar ? $('#screen-game .bottombar') : overlay ? $('#ov-' + overlay) : $('.screen.active')),
+    root: bar => /** @type {HTMLElement|null} */ (/** @type {HTMLDialogElement} */ ($('#run-replay')).open ? $('#run-replay') : bar ? $('#screen-game .bottombar') : overlay ? $('#ov-' + overlay) : $('.screen.active')),
     // the same held-to-repeat steps as the keys (pumpHeld)
     press: act => { held.set(act, performance.now()); Game.input(act); },
     release: act => { held.delete(act); },

@@ -94,6 +94,16 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
+- `js/recording.js`: bounded local input/timing records attached to browser saves;
+  headless benchmarks leave capture off. Add every new player-facing mutator to
+  `RECORD_METHODS`, preserve exact call order and clocks, and verify recorded and
+  unrecorded outcomes match. `replay.html` / `js/replayview.js` run in an isolated
+  frame with memory storage; never replay through the live Game instance or
+  persistent storage. `js/replaycontrols.js` wires the end-screen dialog.
+  `docs/REPLAY.md` documents limits; `node test/replay.js recording.json` verifies
+  a record through the bot harness. Add replay coverage when changing save/load,
+  inventory choices or input timing. Keep the browser's end-screen action
+  secondary so controller focus still starts on New Game.
 - `js/release.js`: release version and build number, shared by the main-page
   footer and telemetry. Keep the version in step with `package.json` and
   increment the build for each published build.

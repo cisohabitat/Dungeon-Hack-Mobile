@@ -1,3 +1,4 @@
+import { recordGame } from './recording.js';
 import { Rng, Dice, Odds, d, rnd, hashSeed } from './rng.js';
 import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, VOWS, LADDER } from './data.js';
 import { Dungeon } from './dungeon.js';
@@ -1756,7 +1757,7 @@ const Game = (() => {
   // ---------- fallen: see fallen.js ----------
   const { bonesArrive, heroTitle, killerPhrase, newRunStamp, placeFallen, runKey, runKeyOf, shadeFalls, shadeStats, shadeWakes } = makeFallen(K);
 
-  return {
+  return recordGame({
     newGame, load, save, hasSave, saveSummary, saveCode, loadCode, rollStats, hall, earned: () => (G && G.earned) || null,
     companion: () => (G && G.companion) || null, companionSprite: (/** @type {any} */ Assets, /** @type {number} */ now) => companion.sprite(Assets, now), companionNote: () => companion.note(), companionWord: () => companion.word(), companionRank: () => companion.rank(),
     /** Give a charm from the pack to the companion: why not, or null when it is worn. */
@@ -1767,7 +1768,7 @@ const Game = (() => {
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
-    beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: () => prelude.finish(realNow || performance.now()),
+    beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: (now = realNow || performance.now()) => prelude.finish(now),
     state: () => G, player: P, level: lvl, log, mod,
     lastRun, sortPack, descend, chooseRoute, leaveFork, roadPlan, forkPending: () => !!(G && G.forkPending), route: () => (G && G.route) || null, routeSpan: () => (G ? Dungeon.routeSpan(G.opts.levels || 8) : null), giveItem, sneakMult, setWorn, threadNotes, uselessToClass, spareToPack, junkInPack, sellJunk, pressSturdier, qualityHidden, focusOf, itemName, relicOf, grade: (/** @type {any} */ it) => legends.grade(it), GRADES: legends.GRADES,
     /** The run's build in a line, and its combinations, most used first. */
@@ -1790,7 +1791,14 @@ const Game = (() => {
     bossAwake: () => !!(G && G.status === 'playing' && lvl().monsters.some(m => MONSTERS[m.id].boss && m.spoke && m.awake)),
     mood, enemiesNear,
     INV_MAX, T,
-  };
+  }, {
+    now: () => realNow, rolls: () => showRolls,
+    restore: header => {
+      realNow = header.at; showRolls = header.rolls;
+      newGame(header.cfg);
+      G.created = header.created;
+    },
+  });
 })();
 
 export { Game };

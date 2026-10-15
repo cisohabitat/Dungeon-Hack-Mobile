@@ -149,6 +149,10 @@ export function makeEndScreen(K) {
     };
   }
   function showEnd(won) {
+    const recording = Game.recording();
+    $('#end-replay').hidden = !recording;
+    $('#end-replay-note').hidden = !!recording;
+    $('#end-replay-note').textContent = recording ? '' : Game.recordingReason();
     const G = Game.state(), p = G.player;
     clearOverlays();
     // each ending its own card: carried up, put out, or kept (ENDINGS)
