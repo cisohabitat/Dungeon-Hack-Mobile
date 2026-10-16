@@ -137,7 +137,12 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 
-## Checks (run all before every push)
+## Checks
+
+Before every push, run `npm test`, both Chromium projects and the isolated
+frame-rate budget below. CI additionally runs the focused WebKit project,
+which is not installed in this local container. Wait for all CI jobs to pass
+before reporting a pushed change as verified.
 
 - `npm run check:agents`: verify `AGENTS.md` matches these source notes.
 - `npx tsc --noEmit -p .`
