@@ -1,0 +1,12 @@
+diff --git a/test/playtest.js b/test/playtest.js
+index 71857f6..b866253 100644
+--- a/test/playtest.js
++++ b/test/playtest.js
+@@ -1231,2 +1231,7 @@ if (process.env.EARLY) {
+ console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);
++// Keep exact counts and individual outcomes for an audit; the human-readable
++// summary rounds percentages and cannot be used to reconstruct those counts.
++if (process.env.JSON_OUT) require('fs').writeFileSync(process.env.JSON_OUT, JSON.stringify({
++  format: 1, options: opts, seeds: SEEDS, trialsPerSeed: TRIALS, fit: !!process.env.FIT, results,
++}) + '\n');
+ }

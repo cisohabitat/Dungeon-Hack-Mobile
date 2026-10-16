@@ -302,12 +302,20 @@ single-class benchmark:
 FIT=1 DIFF=normal SEEDN=40 npm run playtest -- fighter 10  # 400 Fighter runs
 FIT=1 DIFF=hard SEEDN=40 npm run playtest -- fighter 10    # Hard difficulty
 FIT=1 DIFF=normal SEEDN=40 SEEDPFX=alt npm run playtest -- fighter 10
+FIT=1 DIFF=normal SEEDN=40 JSON_OUT=/tmp/balance.json npm run playtest -- fighter 10
 ```
 
 `FIT=1` places the best stat in the class's primary ability, as character creation does.
-Use `SEEDPFX=alt` and `SEEDPFX=third` to compare independent seed sets. The bot measures
-balance; it does not change the game's rules. Published win rates below are prior benchmark
-results, not live results from the current checkout. Re-run the relevant classes and
+Use `SEEDPFX=alt` and `SEEDPFX=third` to compare separate seed sets. `JSON_OUT`
+keeps exact individual outcomes, run options, seeds and trial counts; the text
+summary rounds percentages. Record the revision and any other environment flags
+with the command.
+`EARLY=1` counts deaths below level 5; deaths before choosing a path are recorded
+as `died && !path` in the JSON. Default path rates also use different background
+mixes, so use matched, forced `HEROPATH` runs before deciding a path needs tuning.
+The bot measures balance; it does not change the game's rules. Published win rates
+below are measurements at the recorded revision, not an automatic run of the
+current checkout. Re-run the relevant classes and
 difficulties before replacing them, recording the revision, settings and seed sets.
 
 Balance testing is required before shipping changes to classes, enemies, abilities,
@@ -336,24 +344,27 @@ push and pull request.
 
 ## Balance
 
-Tuned against the simulator rather than by feel. (Since October 2026 the fight's dice are the run's
-own, seeded from the run rather than the clock, so a run can be told again; the rows below were
-measured before that, and a row measured again will differ by the bench's own noise and no more.) The bot plays whole runs heading straight
-down, with stats placed as the creation screen places them (`FIT=1`). Every row was measured again in October 2026 at the end of Phase 8 (the path at level 3 and its mastery at 7, a floor's wear that carries, the capstones and the ladder as rules, cold and lightning for every class, the mage's relics, the economy's holes): Normal, Hard and the quick delve over three seed sets, 1,200 runs a class; Easy two sets of 200; the Long Delve rows 400 runs a class (600 for the three at the edges of the sixteen-floor Normal row); the ladder two sets of 100 a rung. What moved them at the end: the ranger has four more hit points on Hard (it fell on floors 5, 6 and 8 to the roads' champions, the basilisk and the Warlord, twice as often as the fighter: 55% to about 60%) and the cleric two (58.5% to about 60.5%). The sixteen-floor Normal row is the one over the six-point rule, the thief about 85% to the cleric's 77 and the ranger's 78 over three seed sets; a lighter brake on the cleric's deep prayers and a steeper deep lift for the ranger's shots moved neither by more than the bench's noise, so it stands as measured. Before that, every row was measured
-in October 2026, after the legends, the named combinations, the champions' new fights and the
-choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three
-seed sets (`SEEDPFX=alt`, `SEEDPFX=third`), 1,200 runs a class, since one set of 400 swings a class
-by five points or more; Easy over two sets of 200; the Long Delve rows 400 runs a class (`LEVELS=12`
-or `16`, `SEEDN=20`, both sets), and 600 for a class on the edge of its row. The rule for the classes:
-no two more than six points apart on any row. Before this pass they ran 7.9 points apart on Normal,
-8.1 on Hard, 20 on the quick delve, 13.8 and 11.3 on the Long Delve's Hard rows and 7.8 and 6.8 on its
-Normal ones:
+Normal and Hard were remeasured on **16 October 2026** against game revision
+`143d6b5` (Build 3): all six classes on eight Medium floors, `FIT=1`, three seed
+sets (`bench`, `alt`, `third`), 40 dungeons and 10 trials per dungeon in each set.
+That is **1,200 runs per class and difficulty, 14,400 runs total**, with zero
+errors or timeouts. These are bot outcomes, not player win rates. The table
+rounds the new rows to one decimal; exact counts, paths, death causes, resources,
+uncertainty intervals and reproduction commands are in the
+[full audit](docs/balance/2026-10-16/).
+
+Normal’s observed class spread is **6.33 percentage points**, marginally above
+the six-point target (Fighter 85.33%, Thief 79%). Hard’s is **4.17 points**, within
+the observed target. No game rules or bot decisions changed in this audit. Path
+comparisons need matching backgrounds before a tune; the current bot’s default
+assignment confounds them. **All other rows below are historical measurements**
+and were not refreshed by this audit.
 
 | Difficulty | Cleric | Fighter | Mage | Thief | Ranger | Druid | Overall |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Easy | 100% | 98.5% | 100% | 98.5% | 100% | 100% | about 99.5% |
-| Normal | 83.5% | 85.5% | 83.5% | 79% | 81% | 82% | about 82.5% |
-| Hard | 63.5% | 64.5% | 65.5% | 65.5% | 62.5% | 61.5% | about 64% |
+| Normal | 83.6% | 85.3% | 83.3% | 79.0% | 80.8% | 81.8% | about 82.3% |
+| Hard | 63.5% | 64.6% | 65.7% | 65.6% | 62.6% | 61.5% | about 63.9% |
 | Long Delve (12 floors), Normal | 81.5% | 86% | 90% | 89% | 84% | 86% | about 86% |
 | Long Delve (12 floors), Hard | 74% | 74% | 72% | 70.5% | 72% | 71.5% | about 72% |
 | Long Delve (16 floors), Normal | 84.5% | 82% | 82.5% | 87% | 82.5% | 82% | about 83.5% |
@@ -364,6 +375,21 @@ Normal ones:
 | Hard+3 | 55% | 48% | 38% | 50% | 35.5% | 47.5% | about 45.5% |
 | Hard+4 | 50% | 49.5% | 34% | 45% | 32% | 38% | about 41.5% |
 | Hard+5 | 44% | 46% | 31% | 38.5% | 30% | 34% | about 37.5% |
+
+### Earlier benchmark history
+
+The following paragraphs describe earlier passes, not fresh measurements of every
+mode in the current checkout.
+
+Every row was measured again in October 2026 at the end of Phase 8 (the path at level 3 and its mastery at 7, a floor's wear that carries, the capstones and the ladder as rules, cold and lightning for every class, the mage's relics, the economy's holes): Normal, Hard and the quick delve over three seed sets, 1,200 runs a class; Easy two sets of 200; the Long Delve rows 400 runs a class (600 for the three at the edges of the sixteen-floor Normal row); the ladder two sets of 100 a rung. What moved them at the end: the ranger has four more hit points on Hard (it fell on floors 5, 6 and 8 to the roads' champions, the basilisk and the Warlord, twice as often as the fighter: 55% to about 60%) and the cleric two (58.5% to about 60.5%). The sixteen-floor Normal row is the one over the six-point rule, the thief about 85% to the cleric's 77 and the ranger's 78 over three seed sets; a lighter brake on the cleric's deep prayers and a steeper deep lift for the ranger's shots moved neither by more than the bench's noise, so it stands as measured. Before that, every row was measured
+in October 2026, after the legends, the named combinations, the champions' new fights and the
+choices that come back two floors on had moved it all: Normal, Hard and the quick delve over three
+seed sets (`SEEDPFX=alt`, `SEEDPFX=third`), 1,200 runs a class, since one set of 400 swings a class
+by five points or more; Easy over two sets of 200; the Long Delve rows 400 runs a class (`LEVELS=12`
+or `16`, `SEEDN=20`, both sets), and 600 for a class on the edge of its row. The rule for the classes:
+no two more than six points apart on any row. Before this pass they ran 7.9 points apart on Normal,
+8.1 on Hard, 20 on the quick delve, 13.8 and 11.3 on the Long Delve's Hard rows and 7.8 and 6.8 on its
+Normal ones.
 
 Normal, Hard and the quick delve were measured again over the same three seed sets once the first four floors had creatures of their own (the glimmer moth, thornhog, gutter imp and goblin pikeman): Normal rose two points overall and Hard one, each row's classes within six points.
 
@@ -753,6 +779,7 @@ test/run.js       generator, sprite and balance checks
 test/api.js       the report functions' checks
 test/rules.js     rule-level regression checks
 test/playtest.js  balance simulations across classes, paths, seeds and difficulties
+docs/balance/    versioned audits, exact outcomes and reproduction tools
 test/replay.js    reproduce and verify a local recording through the bot harness
 test/browser/     Playwright suites
 test/server.js    dependency-free static server with media byte-range support

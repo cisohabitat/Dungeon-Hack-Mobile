@@ -218,6 +218,24 @@ of the state, `FPTRACE=1` prints each line logged, to find where two passes part
 Run variants in git worktrees under the scratchpad, not in the main checkout,
 and keep the README balance table current.
 
+`JSON_OUT=/tmp/balance.json` also writes the exact individual results, options,
+seed list, trials per seed and `FIT` setting after the usual summary. Keep these
+records when publishing a balance audit: the console percentages are rounded.
+`EARLY=1` means deaths below level 5, not deaths before choosing a path; use
+`died && !path` in the JSON records for the latter. Paths are offered at level 3
+or at the divided stair.
+
+The default bot ties path alternation and background rotation to the same run
+index, so its conditional path rates use different background mixes. Before
+tuning a path, compare forced `HEROPATH` passes on matching seeds, trials,
+backgrounds and settings. Trials also share a dungeon seed and can repeat an
+identity: group uncertainty estimates by dungeon seed rather than treating all
+trials as independent. Resource fields also need care: `potionsDrunk` counts bot
+attempts (which can be blocked), `goldFound` is end-of-run cash, and `goldSpent`
+is an unpopulated legacy field. Use the game's recorded `casts` for actual
+spell casts and the final inventory for potions remaining. A reproducible audit
+and its raw records live in `docs/balance/2026-10-16/`.
+
 ## Conventions
 
 - Comments explain why, in plain prose, in the game's voice; British spelling.

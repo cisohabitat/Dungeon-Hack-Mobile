@@ -16,9 +16,9 @@ const ENC = process.env.ENC !== '0';
 // bot heads straight down, which is not how people play, and a class balance
 // tuned only against it rewards fragility that thorough play then punishes.
 const EXPLORE = parseFloat(process.env.EXPLORE || '0');
-// HEROPATH=knight (or berserker, templar, healer, pyromancer, frostweaver,
-// assassin, trickster) forces that path at level 5; otherwise the runs take
-// the class's two paths in turn, so each is measured over half the seeds.
+// HEROPATH=knight (or any class path) forces that path when it is offered;
+// otherwise the runs alternate paths. Backgrounds also rotate by run index,
+// so compare forced paths on identical inputs before attributing a gap to one.
 // (Not PATH: that would take the shell's own with it.)
 const HEROPATH = process.env.HEROPATH || '';
 
@@ -1080,7 +1080,7 @@ for (const cls in results) {
   console.log(`${cls.padEnd(8)} win ${(won / rows.length * 100).toFixed(0).padStart(3)}%  avgDeepest ${avg('deepest').toFixed(2)}  avgLevel ${avg('level').toFixed(1)}  kills ${avg('kills').toFixed(0)}  rests ${avg('rests').toFixed(1)}  potions ${avg('potionsDrunk').toFixed(1)}  boons ${avg('boons').toFixed(1)}  bought ${avg('bought').toFixed(1)}  goldLeft ${avg('goldFound').toFixed(0)}  stuck ${stuck}  abilities ${avg('abilities').toFixed(1)}  dual ${(rows.filter(r => r.dual).length / rows.length * 100).toFixed(0)}%  heals ${avg('healsCast').toFixed(1)}  buffs ${avg('buffsCast').toFixed(1)}  shapes ${avg('shapes').toFixed(1)}  roots ${avg('roots').toFixed(1)}  cursed ${(avg('cursedTicks') / 1000).toFixed(1)}k ticks, freed ${avg('uncursed').toFixed(2)}, stuck at end ${(avg('cursedAtEnd') * 100).toFixed(0)}%  forged ${avg('forged').toFixed(1)}  runes ${avg('runes').toFixed(1)}  made ${avg('made').toFixed(1)}  tonics ${avg('tonics').toFixed(1)}  oils ${avg('oils').toFixed(1)} (bought ${avg('oilsBought').toFixed(1)})  charms ${avg('charms').toFixed(2)}  jobs ${avg('jobs').toFixed(2)} (paid ${avg('jobsPaid').toFixed(2)}, lost ${avg('jobsLost').toFixed(2)}, done unpaid ${avg('jobDoneUnpaid').toFixed(2)}, open at the end ${avg('jobOpen').toFixed(2)})  draughts bought ${avg('draughtsBought').toFixed(2)}  scrolls read ${avg('scrollsRead').toFixed(2)}  lodged ${avg('lodged').toFixed(1)}  answers struck ${avg('struckAside').toFixed(2)} burned ${avg('burned').toFixed(2)} shut ${avg('shut').toFixed(2)}  puff ${avg('puffAnswers').toFixed(2)}  rock ${avg('rockSteps').toFixed(2)}  fire ${avg('fireSteps').toFixed(2)} (fields ${avg('fieldsSeen').toFixed(2)})  flasks ${avg('flasksThrown').toFixed(2)} (lit ${avg('flasksLit').toFixed(2)}, bought ${avg('flasksBought').toFixed(2)})  relics ${avg('relics').toFixed(1)} (worn ${avg('relicsWorn').toFixed(1)}, bought ${avg('relicsBought').toFixed(2)})  legend ${(avg('legend') * 100).toFixed(0)}% (worn ${(avg('legendWorn') * 100).toFixed(0)}%)  combos ${avg('combos').toFixed(1)} (wins with one ${(rows.filter(r => !r.died && r.combos).length / Math.max(1, rows.filter(r => !r.died).length) * 100).toFixed(0)}%)  jewels ${avg("jewels").toFixed(2)} (bought ${avg("jewelsBought").toFixed(2)})  enc ${avg('encounters').toFixed(1)} (${(rows.reduce((a, r) => a + (r.encPass || 0), 0) / Math.max(1, rows.reduce((a, r) => a + (r.encPass || 0) + (r.encFail || 0), 0)) * 100).toFixed(0)}% pass)  diedOnFloor1 ${(rows.filter(r => r.died && r.deepest === 1).length / rows.length * 100).toFixed(0)}%  hound ${(rows.filter(r => r.hound).length / rows.length * 100).toFixed(0)}% (fell ${(rows.filter(r => r.houndFell).length / Math.max(1, rows.filter(r => r.hound).length) * 100).toFixed(0)}%, kills ${(rows.reduce((a, r) => a + (r.houndKills || 0), 0) / Math.max(1, rows.filter(r => r.hound).length)).toFixed(1)})`);
   if (process.env.COMBOS) console.log('   combos ' + Object.entries(comboSeen).sort((a, b) => b[1] - a[1]).map(([id, n]) => `${id} ${n}`).join(' | '));
   if (errs.length) console.log('   errors:', errs.slice(0, 2).map(e => e.cause).join(' | '));
-  // which path each run took at level 5, and how each did (runs that never got there take none)
+  // Which path each run took, and how each did; runs that never chose one take none.
   const byPath = {};
   for (const r of rows) (byPath[r.path || 'none'] = byPath[r.path || 'none'] || []).push(r);
   console.log(`   paths ${Object.entries(byPath).map(([k, a]) => `${k} ${a.length} runs, win ${(a.filter(r => r.won).length / a.length * 100).toFixed(0)}%`).join(' | ')}`);
@@ -1218,8 +1218,8 @@ if (process.env.CAUSES) {
   }
   Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 14).forEach(([k, n]) => console.log(`   ${String(n).padStart(3)}  ${k}`));
 }
-// EARLY=1 lists what killed the heroes who died before their path (level 5),
-// and on which floor: where a class's early game is weakest
+// EARLY=1 lists deaths below level 5 by cause and floor. Paths are now offered
+// at level 3 or the divided stair; JSON records without a path measure pre-path deaths.
 if (process.env.EARLY) {
   for (const cls in results) {
     const tally = {}, early = results[cls].filter(r => r.died && (r.level || 0) < 5);
@@ -1229,6 +1229,11 @@ if (process.env.EARLY) {
   }
 }
 console.log(`OVERALL win ${(totalWin / totalRuns * 100).toFixed(1)}%  avgDeepest ${(totalDeep / totalRuns).toFixed(2)}  (${totalRuns} runs)`);
+// Keep exact counts and individual outcomes for an audit; the human-readable
+// summary rounds percentages and cannot be used to reconstruct those counts.
+if (process.env.JSON_OUT) require('fs').writeFileSync(process.env.JSON_OUT, JSON.stringify({
+  format: 1, options: opts, seeds: SEEDS, trialsPerSeed: TRIALS, fit: !!process.env.FIT, results,
+}) + '\n');
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
