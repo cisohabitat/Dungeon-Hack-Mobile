@@ -1,6 +1,7 @@
 'use strict';
 // Reports (js/telemetry.js): off unless turned on in the Menu, and then a note
-// when a run ends and when something breaks, holding nothing that names anyone.
+// when a run ends and when something breaks. No hero-name field is sent;
+// the consent text explains that private error details can include input.
 const { test } = require('@playwright/test');
 const { expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
@@ -30,7 +31,10 @@ test('reports are off unless turned on, and a run that ends says so when they ar
   // off to begin with, and the Menu says what would be sent
   await page.click('[data-open="menu"]');
   await expect(page.locator('#m-reports')).toHaveText('Send reports: Off');
-  await expect(page.locator('#ov-menu .menu-note', { hasText: 'Never the hero' })).toBeVisible();
+  const privacy = page.locator('#ov-menu .menu-note', { hasText: 'No account or hero-name field' });
+  await expect(privacy).toBeVisible();
+  await expect(privacy).toContainText('Error details can include text involved in a fault');
+  await expect(privacy).toContainText('only counts and crash signatures are public');
   await page.keyboard.press('Escape');
   // a run that ends with them off sends nothing
   await fall(page);

@@ -66,7 +66,7 @@ export function makePack(K) {
     grid.innerHTML = '';
     $('#inv-count').textContent = `${p.inv.length} of ${Game.INV_MAX} squares`;
     // what the gear worn comes to, so a change of it is seen to count
-    $('#inv-sum').innerHTML = `<span>Armour class <b>${Game.playerAC()}</b></span><span>${escapeHtml(weaponLine())}, <b>${(Game.toHit() >= 0 ? '+' : '') + Game.toHit()}</b> to hit</span><span><b>${p.gold}</b> gold</span>`;
+    $('#inv-sum').innerHTML = `<span>Armour class <b>${escapeHtml(Game.playerAC())}</b></span><span>${escapeHtml(weaponLine())}, <b>${escapeHtml((Game.toHit() >= 0 ? '+' : '') + Game.toHit())}</b> to hit</span><span><b>${escapeHtml(p.gold)}</b> gold</span>`;
     /** @type {HTMLButtonElement} */ ($('#inv-sort')).disabled = p.inv.length < 2;
     for (let i = 0; i < Game.INV_MAX; i++) {
       const it = p.inv[i];

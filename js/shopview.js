@@ -128,7 +128,7 @@ export function makeShopView(K) {
     const p = Game.player();
     // say what charisma is doing to the prices, or it is invisible
     const charm = Math.round(Game.charm() * 100);
-    $('#shop-gold').innerHTML = `${p.gold} gold` + (charm > 0 ? `<br><small>your Charisma: <span class="nowrap">prices ${charm}% lower</span></small>` : charm < 0 ? `<br><small>your low Charisma: <span class="nowrap">prices ${-charm}% higher</span></small>` : '')
+    $('#shop-gold').innerHTML = `${escapeHtml(p.gold)} gold` + (charm > 0 ? `<br><small>your Charisma: <span class="nowrap">prices ${charm}% lower</span></small>` : charm < 0 ? `<br><small>your low Charisma: <span class="nowrap">prices ${-charm}% higher</span></small>` : '')
       + Game.priceNotes().map(n => `<br><small>${escapeHtml(n)}</small>`).join('');
     const stock = $('#shop-stock');
     stock.innerHTML = '';

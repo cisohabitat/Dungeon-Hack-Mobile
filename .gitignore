@@ -1,6 +1,11 @@
 node_modules
 .vercel/
 .DS_Store
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
 test-results/
 playwright-report/
 .playwright/

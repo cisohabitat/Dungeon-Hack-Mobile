@@ -6,6 +6,7 @@ import { Dungeon } from './dungeon.js';
 import { Progress } from './progress.js';
 import { relicPlan } from './relics.js';
 import { decodeSave, encodeSave } from './savecode.js';
+import { parseSave } from './savecheck.js';
 
 /** @param {import('./types.js').Kit} K */
 export function makeSaving(K) {
@@ -71,8 +72,7 @@ export function makeSaving(K) {
     // a save that cannot be read leaves the game that was running as it was
     const before = K.G;
     try {
-      const data = JSON.parse(s);
-      if (!data || !data.player || !data.levels) return false;
+      const data = parseSave(s);
       K.G = data;
       // an encounter left open belonged to the game that was running, not the one loaded
       encs.clear();
@@ -184,17 +184,21 @@ export function makeSaving(K) {
   /** The running hero as a code to carry to another device (saved first, so it is now). */
   async function saveCode() {
     if (!save(true)) return null;
-    return encodeSave(JSON.stringify(K.G));
+    // The local recording includes starting memories (such as the Hall), which
+    // another device cannot replay and need not receive with this hero.
+    const { recording, ...hero } = K.G;
+    return encodeSave(JSON.stringify(hero));
   }
   /** Take up the hero a code holds, in place of any saved here. @returns {Promise<{ok: boolean, why?: string}>} */
   async function loadCode(text) {
     let data;
-    try { data = JSON.parse(await decodeSave(text)); } catch (e) { return { ok: false, why: e instanceof SyntaxError ? 'That code is not whole: it may have been cut short when it was copied.' : e.message }; }
-    if (!data || !data.player || !data.levels || !CLASSES[data.player.cls]) return { ok: false, why: 'That code does not hold a hero.' };
+    try { data = parseSave(await decodeSave(text)); } catch (e) { return { ok: false, why: e instanceof SyntaxError ? 'That code is not whole: it may have been cut short when it was copied.' : e.message }; }
+    // An imported recording has no trusted starting context on this device.
+    // Drop it before persistence too, so reloading cannot revive that context.
+    delete data.recording;
     // a code comes from somewhere else: what the page writes out as markup is
     // made safe first (a log line's class, the numbers the Hall shows)
     for (const e of Array.isArray(data.log) ? data.log : []) if (e && !['good', 'bad', 'info'].includes(e.c)) e.c = '';
-    for (const k of ['hp', 'maxHp', 'sp', 'maxSp', 'level', 'xp', 'gold', 'kills', 'deepest']) if (k in data.player) data.player[k] = Number(data.player[k]) || 0;
     data.depth = Number(data.depth) || 1; data.t = Number(data.t) || 0;
     const key = runKeyOf(data), seen = runsSeen()[key];
     if (data.opts && data.opts.permadeath) {

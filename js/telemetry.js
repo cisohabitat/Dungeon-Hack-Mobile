@@ -3,9 +3,9 @@
 // learns what real players meet, beside what the balance bot meets, and how a
 // crash on a phone nobody here owns can be found again from its seed.
 //
-// Nothing that names the player is sent: no hero's name, no account, no
-// address of any kind. What a run's note holds is listed in the Menu's own
-// words, and the server (api/telemetry.js) drops anything else it is sent.
+// No account or hero-name field is sent. Seeds and error details are input,
+// though, and may contain personal text: the Menu explains that. The server
+// drops unknown fields and publishes counts and opaque crash signatures only.
 
 import { RELICS } from './relics.js';
 

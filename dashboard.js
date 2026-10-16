@@ -66,7 +66,7 @@ async function main() {
     ? ['50 or more', '30 to 50', '20 to 30', 'under 20'].map((l, i) => `${l} fps: ${Math.round((f[i] || 0) / total * 1000) / 10}%`).join(' · ')
     : 'No frames reported yet.';
   const ct = document.getElementById('crashes');
-  const ch = el('tr'); ch.append(el('th', 'Build and message'), el('th', 'Times')); ct.append(ch);
+  const ch = el('tr'); ch.append(el('th', 'Build and crash signature'), el('th', 'Times')); ct.append(ch);
   for (const [m, n] of stats.crashes || []) { const tr = el('tr'); tr.append(el('td', m), el('td', String(n))); ct.append(tr); }
   if (!(stats.crashes || []).length) { const tr = el('tr'); tr.append(el('td', 'None reported.'), el('td', '')); ct.append(tr); }
 }

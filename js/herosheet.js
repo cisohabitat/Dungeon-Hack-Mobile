@@ -21,13 +21,13 @@ export function makeHeroSheet(K) {
     const spells = Game.knownSpells();
     list.innerHTML = '';
     if (!spells.length) { list.innerHTML = `<p class="dim">${CLASSES[p.cls].plural} cannot cast spells, but anyone can read scrolls from their pack.</p>`; return; }
-    list.innerHTML = `<p class="dim small">Spell points: <b>${p.sp}/${p.maxSp}</b>. They return slowly as you walk and fully when you rest.</p>`;
+    list.innerHTML = `<p class="dim small">Spell points: <b>${escapeHtml(p.sp)}/${escapeHtml(p.maxSp)}</b>. They return slowly as you walk and fully when you rest.</p>`;
     for (const sp of spells) {
       const ok = Game.spellAvailable(sp);
       const b = document.createElement('button');
       const ready = ok && Game.castLabel() === sp.name;
       b.className = 'spell' + (ok ? '' : ' locked') + (ready ? ' ready' : '');
-      b.innerHTML = `<div class="cost">${Game.spellCost(sp)} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${Game.spellDesc(sp)}${ok ? '' : ` Requires level ${Game.spellLevel(sp)}.`}</small></div>`;
+      b.innerHTML = `<div class="cost">${escapeHtml(Game.spellCost(sp))} sp</div><div><b>${sp.name}</b>${ready ? '<em class="on-cast">On the Cast button</em>' : ''}<small>${escapeHtml(Game.spellDesc(sp))}${ok ? '' : ` Requires level ${escapeHtml(Game.spellLevel(sp))}.`}</small></div>`;
       b.disabled = !ok;
       b.addEventListener('click', () => {
         const seq = Game.state().logSeq;
@@ -55,15 +55,15 @@ export function makeHeroSheet(K) {
     const path = Game.pathOf();
     // In groups: who the hero is at the top, then what counts in a fight, the
     // six scores, and the run so far. One long list read as a ledger.
-    const row = (k, v, full) => `<div class="${full ? 'full' : ''}">${k}<span>${v}</span></div>`;
+    const row = (k, v, full) => `<div class="${full ? 'full' : ''}">${escapeHtml(k)}<span>${escapeHtml(v)}</span></div>`;
     // at the top level the bar fills toward the next rank of renown
     const top12 = p.level >= MAX_LEVEL, rank = p.renown || 0;
     const next = top12 ? Game.renownAt(rank + 1) : XP_TABLE[p.level], prev = top12 ? Game.renownAt(rank) : p.level > 1 ? XP_TABLE[p.level - 1] || 0 : 0;
     const toNext = next ? Math.max(0, Math.min(100, Math.round((p.xp - prev) / Math.max(1, next - prev) * 100))) : 100;
     const top = `<div class="sheet-top"><img class="sheet-face" src="${faceOf(p.cls)}" alt="${escapeHtml(p.name)}, the ${escapeHtml(c.name)}">`
-      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${p.level}${rank ? `, renown\u00a0\u2605${rank}` : ''}</span>`
-      + `<div class="xp-bar" role="img" aria-label="Experience ${p.xp} of ${next || p.xp}"><i style="width:${toNext}%"></i></div>`
-      + `<small>Experience ${p.xp} / ${next || '\u2014'}${top12 ? ` to renown \u2605${rank + 1}` : ''}</small></div></div>`;
+      + `<div class="sheet-who"><b>${escapeHtml(p.name)}</b><span>${path ? `${c.name}, ${escapeHtml(path.name)}` : c.name}, hero level ${escapeHtml(p.level)}${rank ? `, renown\u00a0\u2605${escapeHtml(rank)}` : ''}</span>`
+      + `<div class="xp-bar" role="img" aria-label="Experience ${escapeHtml(p.xp)} of ${escapeHtml(next || p.xp)}"><i style="width:${toNext}%"></i></div>`
+      + `<small>Experience ${escapeHtml(p.xp)} / ${escapeHtml(next || '\u2014')}${top12 ? ` to renown \u2605${escapeHtml(rank + 1)}` : ''}</small></div></div>`;
     const fight = [
       row('Hit points', `${p.hp} / ${p.maxHp}`), row('Spell points', p.maxSp ? `${p.sp} / ${p.maxSp}` : '\u2014'),
       row('Armour class', Game.playerAC()), row('To hit', (Game.toHit() >= 0 ? '+' : '') + Game.toHit()),
@@ -71,18 +71,18 @@ export function makeHeroSheet(K) {
       // the Lantern of Mercy's ward of light, while it holds
       ...(p.aegis && p.aegis.until > G.t ? [row('Ward of light', `${p.aegis.hp}, ${Math.ceil((p.aegis.until - G.t) / 1000)}s left`, true)] : []),
     ];
-    const scores = Object.keys(STAT_NAMES).map(k => { const m = Game.mod(p.stats[k]); return `<div${k === c.primary ? ' class="key-stat"' : ''}>${STAT_NAMES[k]}<span>${p.stats[k]} (${m >= 0 ? '+' : ''}${m})</span></div>`; });
+    const scores = Object.keys(STAT_NAMES).map(k => { const m = Game.mod(p.stats[k]); return `<div${k === c.primary ? ' class="key-stat"' : ''}>${STAT_NAMES[k]}<span>${escapeHtml(p.stats[k])} (${m >= 0 ? '+' : ''}${m})</span></div>`; });
     const finds = Game.runFinds(), combos = Game.combosUsed();
     const run = [
       row('Gold', p.gold), row('Kills', p.kills), row('Steps', p.steps), row('Deepest floor', p.deepest),
-      row('Pages found', `${Game.journal().filter(j => JOURNAL[j.i] && !JOURNAL[j.i].thread).length} of ${Game.pagesInDungeon()}`), row('Seed', escapeHtml(G.seed)),
+      row('Pages found', `${Game.journal().filter(j => JOURNAL[j.i] && !JOURNAL[j.i].thread).length} of ${Game.pagesInDungeon()}`), row('Seed', G.seed),
       row('Background', BACKGROUNDS[p.bg] ? `${BACKGROUNDS[p.bg].name}: ${BACKGROUNDS[p.bg].perk}` : '\u2014', true),
     ];
     const groups = `<h3 class="sheet-h">At arms</h3><div class="sheet">${fight.join('')}</div>`
       + `<h3 class="sheet-h">Scores</h3><div class="sheet scores">${scores.join('')}</div>`
       + `<h3 class="sheet-h">The run</h3><div class="sheet">${run.join('')}</div>`
-      + (combos.length ? `<h3 class="sheet-h">Combinations this run</h3><div class="finds">${combos.map(x => `<span class="tag combo">${escapeHtml(x.name)}${x.n > 1 ? ` \u00d7${x.n}` : ''}</span>`).join('')}</div>` : '')
-      + `<h3 class="sheet-h">This run's finds</h3>${finds.length ? `<div class="finds">${finds.map(f => `<span class="tag g-${f.grade}">${escapeHtml(f.name)}</span>`).join('')}</div>` : '<p class="dim small finds-none">Nothing rare yet. Fine work shows green, rare blue, a relic gold and a legend amber.</p>'}`;
+      + (combos.length ? `<h3 class="sheet-h">Combinations this run</h3><div class="finds">${combos.map(x => `<span class="tag combo">${escapeHtml(x.name)}${x.n > 1 ? ` \u00d7${escapeHtml(x.n)}` : ''}</span>`).join('')}</div>` : '')
+      + `<h3 class="sheet-h">This run's finds</h3>${finds.length ? `<div class="finds">${finds.map(f => `<span class="tag g-${escapeHtml(f.grade)}">${escapeHtml(f.name)}</span>`).join('')}</div>` : '<p class="dim small finds-none">Nothing rare yet. Fine work shows green, rare blue, a relic gold and a legend amber.</p>'}`;
     let extra = '';
     // the path taken, or the two still ahead
     const paths = PATHS[p.cls] || [];

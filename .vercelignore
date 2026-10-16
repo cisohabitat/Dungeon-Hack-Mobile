@@ -17,3 +17,22 @@ sound/narration/production.json
 # the narrator's whole document and the tool that writes it: for whoever edits the story
 docs
 tools
+
+# Development tools and checks are not part of the public app.
+test
+.github
+.githooks
+CLAUDE.md
+AGENTS.md
+playwright.config.js
+tsconfig.json
+package-lock.json
+node_modules
+.vercel
+.env*
+*.pem
+*.key
+*.p12
+*.log
+test-results
+playwright-report

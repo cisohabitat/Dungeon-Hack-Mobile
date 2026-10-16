@@ -24,22 +24,22 @@ export function makeEndScreen(K) {
   function runHighlights(G, won) {
     const s = Game.runStats(), p = G.player, out = [];
     const b = s.best;
-    if (b) out.push(`Your best blow: <b>${b.dmg}</b> to ${escapeHtml(aName(b.id, b.to))}, with ${escapeHtml(b.how)}.`);
+    if (b) out.push(`Your best blow: <b>${escapeHtml(b.dmg)}</b> to ${escapeHtml(aName(b.id, b.to))}, with ${escapeHtml(b.how)}.`);
     else out.push('You never landed a blow.');
     const w = s.worst;
-    if (w) out.push(w.from ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : (w.cause ? `The hardest hit you took: <b>${w.dmg}</b>, from ${escapeHtml(w.cause)}.` : `The hardest hit you took: <b>${w.dmg}</b>, and no monster dealt it.`));
+    if (w) out.push(w.from ? `The hardest hit you took: <b>${escapeHtml(w.dmg)}</b>, from ${escapeHtml(aName(w.id, w.from))}.` : (w.cause ? `The hardest hit you took: <b>${escapeHtml(w.dmg)}</b>, from ${escapeHtml(w.cause)}.` : `The hardest hit you took: <b>${escapeHtml(w.dmg)}</b>, and no monster dealt it.`));
     else out.push('Nothing so much as scratched you.');
     // the named champions cut down are told by name
     const named = Object.keys(s.kills).filter(id => MONSTERS[id] && MONSTERS[id].named);
     if (named.length) out.push(`You cut down <b>${named.map(id => escapeHtml(namedTitle(id))).join('</b> and <b>')}</b>.`);
     // the pictures below carry no names, so the kind that fell most often gets one here
     const kills = Object.entries(s.kills).filter(([id]) => MONSTERS[id]).sort((x, y) => y[1] - x[1]);
-    if (kills.length && kills[0][1] >= 3) out.push(`The ${escapeHtml(MONSTERS[kills[0][0]].name)}s came off worst: <b>${kills[0][1]}</b> never got up.`);
+    if (kills.length && kills[0][1] >= 3) out.push(`The ${escapeHtml(MONSTERS[kills[0][0]].name)}s came off worst: <b>${escapeHtml(kills[0][1])}</b> never got up.`);
     // the floor that cost the most, when there was more than one to compare
     const floors = Object.keys(s.hurtOn).map(Number).filter(f => s.hurtOn[f] > 0);
     if (floors.length > 1) {
       const worst = floors.reduce((a, f) => (s.hurtOn[f] > s.hurtOn[a] ? f : a));
-      out.push(`Floor ${worst} took the most out of you: <b>${s.hurtOn[worst]}</b> of the ${s.taken} hit points you lost.`);
+      out.push(`Floor ${worst} took the most out of you: <b>${escapeHtml(s.hurtOn[worst])}</b> of the ${escapeHtml(s.taken)} hit points you lost.`);
     }
     const casts = Object.entries(s.spells).sort((x, y) => y[1] - x[1]);
     if (casts.length) {
@@ -48,17 +48,17 @@ export function makeEndScreen(K) {
       const total = casts.reduce((n, [, k]) => n + k, 0);
       const [topId, topN] = casts[0];
       out.push(casts.length === 1
-        ? `You cast ${escapeHtml(nameOf(topId))} ${topN === 1 ? 'once' : `<b>${topN}</b> times`}, and nothing else.`
+        ? `You cast ${escapeHtml(nameOf(topId))} ${topN === 1 ? 'once' : `<b>${escapeHtml(topN)}</b> times`}, and nothing else.`
         : (topN * 2 > total
-          ? `You cast <b>${total}</b> spells, most of them ${escapeHtml(nameOf(topId))}.`
-          : `You cast <b>${total}</b> spells, ${escapeHtml(nameOf(topId))} more than any other.`));
+          ? `You cast <b>${escapeHtml(total)}</b> spells, most of them ${escapeHtml(nameOf(topId))}.`
+          : `You cast <b>${escapeHtml(total)}</b> spells, ${escapeHtml(nameOf(topId))} more than any other.`));
     }
     // dying with the cure in your pack is worth a word
     const heals = !won ? p.inv.filter(it => ITEMS[it.t] && ITEMS[it.t].kind === 'potion' && ITEMS[it.t].effect === 'heal') : [];
     const healing = heals.reduce((n, it) => n + it.q, 0), unknown = heals.filter(it => !Game.isKnown(it.t)).reduce((n, it) => n + it.q, 0);
     // and the ones it never knew for healing get that said, now it no longer matters
-    if (healing) out.push(`You died with ${healing === 1 ? 'a healing potion' : `<b>${healing}</b> healing potions`} still in your pack${unknown ? (unknown === healing ? `, not knowing ${healing === 1 ? 'it' : 'them'} for what ${healing === 1 ? 'it was' : 'they were'}` : `, ${unknown} of them never known for what they were`) : ''}.`);
-    else if (s.potions) out.push(`You drank ${s.potions === 1 ? 'one potion' : `<b>${s.potions}</b> potions`}${s.scrolls ? ` and read ${s.scrolls === 1 ? 'one scroll' : `<b>${s.scrolls}</b> scrolls`}` : ''}.`);
+    if (healing) out.push(`You died with ${healing === 1 ? 'a healing potion' : `<b>${escapeHtml(healing)}</b> healing potions`} still in your pack${unknown ? (unknown === healing ? `, not knowing ${healing === 1 ? 'it' : 'them'} for what ${healing === 1 ? 'it was' : 'they were'}` : `, ${escapeHtml(unknown)} of them never known for what they were`) : ''}.`);
+    else if (s.potions) out.push(`You drank ${s.potions === 1 ? 'one potion' : `<b>${escapeHtml(s.potions)}</b> potions`}${s.scrolls ? ` and read ${s.scrolls === 1 ? 'one scroll' : `<b>${escapeHtml(s.scrolls)}</b> scrolls`}` : ''}.`);
     return out;
   }
   /** The summary block: highlights, the kills as pictures, talents, relics, totals. */
@@ -73,7 +73,7 @@ export function makeEndScreen(K) {
       parts.push('<div class="end-h"><span>Slain</span></div><div class="end-kills">' + kills.map(([id, n]) => {
         const mb = MONSTERS[id], base = Assets.sprites[mb.sprite], art = (mb.named && base && base.elite && base.elite[id]) || base;
         const label = `${mb.named ? namedTitle(id) : mb.name} \u00d7${n}`;
-        return `<div class="kill" data-kill="${id}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}"><img src="${art ? art.url : ''}" alt=""><span>\u00d7${n}</span></div>`;
+        return `<div class="kill" data-kill="${id}" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}"><img src="${art ? art.url : ''}" alt=""><span>\u00d7${escapeHtml(n)}</span></div>`;
       }).join('') + '</div>');
     } else parts.push('<p class="end-none">Nothing died by your hand.</p>');
     const own = TALENTS[p.cls] || [];
@@ -85,14 +85,14 @@ export function makeEndScreen(K) {
     const learnt = new Map();
     for (const id of p.boons || []) { const b = BOONS.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
     for (const id of p.renownTaken || []) { const b = RENOWN.find(x => x.id === id); if (b) learnt.set(b.name, (learnt.get(b.name) || 0) + 1); }
-    if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${n}` : ''}</span>`).join('') + '</div>');
+    if (learnt.size) parts.push('<div class="end-h"><span>Lessons</span></div><div class="end-tags">' + [...learnt].map(([name, n]) => `<span class="tag">${escapeHtml(name)}${n > 1 ? ` \u00d7${escapeHtml(n)}` : ''}</span>`).join('') + '</div>');
     // the combinations it made, most used first
     const combos = Game.combosUsed();
-    if (combos.length) parts.push('<div class="end-h"><span>Combinations</span></div><div class="end-tags">' + combos.map(c => `<span class="tag combo">${escapeHtml(c.name)}${c.n > 1 ? ` \u00d7${c.n}` : ''}</span>`).join('') + '</div>');
+    if (combos.length) parts.push('<div class="end-h"><span>Combinations</span></div><div class="end-tags">' + combos.map(c => `<span class="tag combo">${escapeHtml(c.name)}${c.n > 1 ? ` \u00d7${escapeHtml(c.n)}` : ''}</span>`).join('') + '</div>');
     // what was found: the rare gear, the relics and any legend, in the colours of their grades
     const finds = Game.runFinds();
-    if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${f.grade}${f.grade === 'relic' ? ' relic' : ''}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');
-    parts.push(`<div class="end-totals"><div><b>${s.dealt}</b><small>damage dealt</small></div><div><b>${s.taken}</b><small>damage taken</small></div><div><b>${s.healed}</b><small>healed</small></div></div>`);
+    if (finds.length) parts.push('<div class="end-h"><span>Finds</span></div><div class="end-tags">' + finds.map(f => `<span class="tag g-${escapeHtml(f.grade)}${f.grade === 'relic' ? ' relic' : ''}">${escapeHtml(upFirst(f.name))}</span>`).join('') + '</div>');
+    parts.push(`<div class="end-totals"><div><b>${escapeHtml(s.dealt)}</b><small>damage dealt</small></div><div><b>${escapeHtml(s.taken)}</b><small>damage taken</small></div><div><b>${escapeHtml(s.healed)}</b><small>healed</small></div></div>`);
     $('#end-summary').innerHTML = parts.join('');
   }
 
@@ -200,13 +200,13 @@ export function makeEndScreen(K) {
     const cause = $('#end-cause');
     const killer = Game.lastAttacker();
     if (!won && killer && killer.encounter) {
-      cause.innerHTML = `Died at <b>${escapeHtml(killer.name)}</b>, when a choice went wrong (${killer.dmg} damage).`;
+      cause.innerHTML = `Died at <b>${escapeHtml(killer.name)}</b>, when a choice went wrong (${escapeHtml(killer.dmg)} damage).`;
     } else if (!won && killer && killer.cause) {
-      cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b> (${killer.dmg} damage).`;
+      cause.innerHTML = `Killed by <b>${escapeHtml(killer.name)}</b> (${escapeHtml(killer.dmg)} damage).`;
     } else if (!won && killer) {
       // "an ogre", as the lines below it say; a champion keeps its own name
       const who = killer.name.includes(',') || /^the /i.test(killer.name) ? killer.name : `${/^[aeiou]/i.test(killer.name) ? 'an' : 'a'} ${killer.name.toLowerCase()}`;
-      cause.innerHTML = `Killed by <b>${escapeHtml(who)}</b>, striking ${escapeHtml(killer.bearing)} for ${killer.dmg}.`;
+      cause.innerHTML = `Killed by <b>${escapeHtml(who)}</b>, striking ${escapeHtml(killer.bearing)} for ${escapeHtml(killer.dmg)}.`;
       // and what beats it, from the Bestiary: a death is the lesson, learned or not
       const lore = killer.id && BESTIARY[killer.id];
       if (lore && lore.answer) cause.innerHTML += ` <span class="beats">What beats it: ${escapeHtml(lore.answer)}</span>`;

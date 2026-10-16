@@ -16,7 +16,7 @@ function actName(act, levels, route) {
   if (!Dungeon.routeSpan(levels)) return 'II. The keeper';
   return route && ROUTES[route] ? `II. Down ${ROUTES[route].name}` : 'II. The road below';
 }
-const pageHtml = (i, where) => `<div class="journal-entry"><h3>${escapeHtml(JOURNAL[i].title)}</h3><p>${escapeHtml(JOURNAL[i].text)}</p><button type="button" data-voice-page="${i}">Listen</button>${where ? `<p class="where">${where}</p>` : ''}</div>`;
+const pageHtml = (i, where) => `<div class="journal-entry"><h3>${escapeHtml(JOURNAL[i].title)}</h3><p>${escapeHtml(JOURNAL[i].text)}</p><button type="button" data-voice-page="${i}">Listen</button>${where ? `<p class="where">${escapeHtml(where)}</p>` : ''}</div>`;
 
 /**
  * Fill el with this delve's pages, act by act, found and still to find.

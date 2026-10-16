@@ -111,6 +111,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/release.js`: release version and build number, shared by the main-page
   footer and telemetry. Keep the version in step with `package.json` and
   increment the build for each published build.
+- `js/savecheck.js`: validate local saves and imported codes before assigning game
+  state. `js/savecode.js` bounds encoded input and streamed gzip output; the file
+  picker checks size before reading. Preserve valid saves and legacy migrations.
+  Exported codes omit local recordings and their starting memories; discard
+  imported recording context before persistence, not just from live state.
 - No file in `js/` is over 2,000 lines; split one that grows past it.
 - `js/types.js`: JSDoc types, checked by `tsc` (`checkJs`).
 - `js/telemetry.js`: opt-in reports (a run's end, a crash), off unless turned on
@@ -147,6 +152,9 @@ which is not installed in this local container. Wait for all CI jobs to pass
 before reporting a pushed change as verified.
 
 - `npm run check:agents`: verify `AGENTS.md` matches these source notes.
+- `npm run test:security`: adversarial save/zip/markup, local file-boundary and
+  telemetry checks; also part of `npm test`. Browser injection and API-cache
+  regressions live in `test/browser/security.spec.js` (phone and small).
 - `npx tsc --noEmit -p .`
 - `node test/run.js`: generator and level checks.
 - `node test/rules.js`: rule checks, about 3 minutes; the last line must begin
@@ -239,6 +247,17 @@ spell casts and the final inventory for potions remaining. A reproducible audit
 and its raw records live in `docs/balance/2026-10-16/`.
 
 ## Conventions
+
+- Treat imported saves, local storage and telemetry as untrusted. Escape quotes
+  as well as HTML delimiters in markup; numeric-looking saved fields are still
+  input. Keep prototype keys out of imported structures, bound decompression
+  while reading, and validate before touching the saved or live hero.
+- Telemetry accepts bounded fields, rejects cross-origin browser submissions and
+  throttles using short-lived keyed address digests. The public stats API must
+  never return individual reports or error messages, including old counters.
+  Keep Redis credentials server-side. API responses bypass the service worker.
+- `SECURITY.md` documents security boundaries; record reviews under `docs/`.
+  CI uses Node 24, read-only permissions and no persisted checkout credentials.
 
 - Comments explain why, in plain prose, in the game's voice; British spelling.
   Player-facing text is the same register: short, concrete, no jargon.

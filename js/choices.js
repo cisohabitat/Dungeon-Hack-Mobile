@@ -131,7 +131,7 @@ export function makeChoices(K) {
     const head = document.createElement('div');
     head.className = 'choice-head';
     const face = K.faceOf(p.cls);
-    head.innerHTML = `${face ? `<img class="choice-face" src="${face}" alt="">` : ''}<div class="choice-who"><b>${escapeHtml(p.name)}</b><span>${escapeHtml(CLASSES[p.cls].name)}, hero level ${p.level} · floor ${G.depth}</span><span>${p.hp} of ${p.maxHp} hit points · ${p.gold} gold</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</div>`;
+    head.innerHTML = `${face ? `<img class="choice-face" src="${face}" alt="">` : ''}<div class="choice-who"><b>${escapeHtml(p.name)}</b><span>${escapeHtml(CLASSES[p.cls].name)}, hero level ${escapeHtml(p.level)} · floor ${escapeHtml(G.depth)}</span><span>${escapeHtml(p.hp)} of ${escapeHtml(p.maxHp)} hit points · ${escapeHtml(p.gold)} gold</span>${note ? `<small>${escapeHtml(note)}</small>` : ''}</div>`;
     return head;
   }
   function renderBoons() {

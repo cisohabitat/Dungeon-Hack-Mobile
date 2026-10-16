@@ -12,13 +12,19 @@ const ready = () => !!(URL_ && TOKEN);
 
 /** Run several commands in one request; each is an array such as ['HINCRBY', 'k', 'f', 1]. */
 async function pipeline(commands) {
+  if (!URL_.startsWith('https://')) throw new Error('store requires HTTPS');
   const r = await fetch(`${URL_.replace(/\/$/, '')}/pipeline`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(commands),
+    signal: AbortSignal.timeout(5000),
+    redirect: 'error',
   });
   if (!r.ok) throw new Error(`store answered ${r.status}`);
-  return (await r.json()).map(x => x.result);
+  const results = await r.json();
+  if (!Array.isArray(results) || results.length !== commands.length || results.some(x => !x || typeof x !== 'object'
+    || !Object.prototype.hasOwnProperty.call(x, 'result') || Object.prototype.hasOwnProperty.call(x, 'error'))) throw new Error('store command failed');
+  return results.map(x => x.result);
 }
 
 module.exports = { ready, pipeline };

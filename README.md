@@ -245,7 +245,8 @@ Screen" to work. Vercel does this by default.
 **Reports (optional)**
 
 Players can turn on **Send reports** in the Menu: a short note when a run ends and when
-something breaks, with nothing that names them. The notes go to `api/telemetry.js`, a Vercel
+something breaks. No account or hero-name field is sent, but seeds and error details can
+include user-supplied text. The notes go to `api/telemetry.js`, a Vercel
 function that counts them in an Upstash Redis database; `dashboard.html` shows real players'
 win rates beside the bot's figures in the balance table below. To switch the store on, add the
 **Upstash for Redis** integration to the project from Vercel's Marketplace (it sets
@@ -253,24 +254,52 @@ win rates beside the bot's figures in the balance table below. To switch the sto
 `UPSTASH_REDIS_REST_TOKEN` by hand, and redeploy. Without them the function answers and keeps
 nothing, and the dashboard says no store is set up.
 
+Only aggregate counts and opaque crash signatures are public. Individual reports and error
+details remain in the private Redis store. Reports are limited to 6,000 UTF-8 bytes and 60
+per address per minute; short-lived rate keys use a keyed digest instead of storing the IP.
+Browser requests from another origin are refused. These are abuse controls, not proof that
+a reported run is genuine: this public endpoint does not authenticate players.
+
+## Security
+
+Save codes are untrusted data. Imports check dungeon dimensions, core field types and ids,
+reject prototype keys and excessive nesting, and leave the current hero intact on refusal.
+Codes/files are limited to 24 MiB before decoding and 16 MiB after decoding, including gzip
+expansion. Valid game numbers are preserved; this is not an anti-cheat system. Avoid putting
+personal information in seeds or shared saves. Browser storage and save codes are not encrypted.
+Exported codes omit the local recording and its starting memories; recordings remain in
+the browser's own save and imported recording context is discarded before persistence.
+
+The deployment applies a restrictive Content Security Policy, blocks framing by other sites,
+and disables camera, microphone and geolocation access. The service worker excludes API and
+cross-origin requests. Development tests and tools are excluded from deployment.
+
+Run `npm run test:security` for adversarial import, decompression, telemetry and local-server
+checks. The browser security tests also cover markup injection and API-cache isolation.
+See [security policy](SECURITY.md) and the [16 October review](docs/SECURITY-2026-10-16.md)
+for scope, findings and remaining operational limits.
+
 ## Run locally
 
-Any static server works. For example:
+With Node 24, use the included server, which binds only to this computer and
+refuses hidden files and paths outside the project:
 
 ```bash
-npx serve .
-# or
-python3 -m http.server 8000
+npm start
 ```
 
-Then open the printed URL on your phone (same Wi-Fi) or in a desktop browser.
+Open http://127.0.0.1:4173 in a desktop browser. For phone/tablet testing, use the
+deployed site or a Vercel preview. If you choose another static server, configure
+its file exclusions before exposing a checkout on your network; a generic
+directory server can expose local configuration and development files.
 
 ## Tests
 
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm run check:agents  # reject missing or stale AGENTS.md guidance
-npm test              # guidance, types, generator, sprites, APIs, narration, voices and rules
+npm test              # guidance, types, generator, sprites, security, APIs, narration, voices and rules
+npm run test:security  # adversarial save/import, telemetry and local-server checks
 npm run test:browser  # Playwright suites on phone and small-phone viewports
 npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
@@ -285,11 +314,13 @@ crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime 
 the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
 performance job on pushes to `main` and pull requests. A separate WebKit job checks the
 mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
-expansion, touch controls and save/resume after navigating away. The default browser
+expansion, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
+Node 24, a read-only repository token and checkouts without persisted credentials. The default browser
 script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
 Safari, speaker output or OS tab eviction. `npm start` serves the game locally on
 port 4173 with no server dependencies.
+Use Node 24 for the included server, tests and Vercel functions (`package.json` pins the runtime).
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
@@ -762,6 +793,7 @@ js/recording.js   bounded action/timing records and deterministic replay
 js/replaycontrols.js, replayview.js, replay.html   isolated end-screen replay viewer
 js/narration.js, storyvoice.js   recorded readings and their story cues
 js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
+js/savecheck.js   validation before local saves and shared codes become game state
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input
 js/titlescene.js, shopview.js, choices.js, pack.js, mapview.js, herosheet.js, endscreen.js   overlays split from ui.js
@@ -777,6 +809,7 @@ vercel.json       Vercel headers
 test/harness.js   loads the game's modules into Node
 test/run.js       generator, sprite and balance checks
 test/api.js       the report functions' checks
+test/security.js  hostile imports, gzip expansion and local-server file boundaries
 test/rules.js     rule-level regression checks
 test/playtest.js  balance simulations across classes, paths, seeds and difficulties
 docs/balance/    versioned audits, exact outcomes and reproduction tools

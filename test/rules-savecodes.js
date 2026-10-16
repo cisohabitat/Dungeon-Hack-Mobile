@@ -83,10 +83,8 @@ module.exports = async function savecodesChecks(h) {
     a.Game.player().gold = '<b>1</b>';
     const code = await a.Game.saveCode();
     const b = await newContext();
-    if (!(await b.Game.loadCode(code)).ok) return 'the code would not load';
-    const bad = b.Game.state().log.find(e => /onerror/.test(e.c || ''));
-    if (bad) return 'a log line kept a class with markup in it';
-    return b.Game.player().gold === 0 || `gold came in as ${JSON.stringify(b.Game.player().gold)}`;
+    const result = await b.Game.loadCode(code);
+    return !result.ok && !b.Game.state() || 'a code with markup in a numeric field was not refused';
   });
 
   await test('a hero dies once, however many blows land in the swing that kills them', async () => {

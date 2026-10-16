@@ -89,8 +89,18 @@ test('a saved run continues recording after a page reload and replays the load g
 
 test('an imported save plays normally without offering an incomplete recording', async ({ page }) => {
   await recordedRun(page, false);
-  const imported = await page.evaluate(async () => Game.loadCode(await Game.saveCode()));
+  const exported = await page.evaluate(async () => {
+    const code = await Game.saveCode();
+    const { decodeSave } = await import('/js/savecode.js');
+    return { code, recordingExported: 'recording' in JSON.parse(await decodeSave(code)), recordingKept: !!JSON.parse(localStorage.getItem('deepdelve.save')).recording };
+  });
+  expect(exported.recordingExported).toBe(false);
+  expect(exported.recordingKept).toBe(true);
+  const imported = await page.evaluate(code => Game.loadCode(code), exported.code);
   expect(imported.ok).toBe(true);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('deepdelve.save')).recording)).toBeUndefined();
+  await page.reload(); await page.click('#btn-continue');
+  await expect(page.locator('#screen-game')).toBeVisible();
   await page.evaluate(() => Game.hurtPlayer(99999, 'The imported trial'));
   await expect(page.locator('#screen-end')).toBeVisible();
   await expect(page.locator('#end-replay')).toBeHidden();

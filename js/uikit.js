@@ -6,7 +6,14 @@ export const $ = s => document.querySelector(s);
 /** @param {string} s @returns {any[]} */
 export const $$ = s => Array.from(document.querySelectorAll(s));
 /** @param {any} s */
-export function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
+export function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+/** Set the first dice roll apart without repeated scans of a hostile saved line. */
+export function logHtml(message) {
+  const text = escapeHtml(message), start = text.indexOf(' (d20 ');
+  const end = start < 0 ? -1 : text.indexOf(')', start + 1);
+  return end < 0 ? text : text.slice(0, start) + ' <span class="roll">'
+    + text.slice(start + 1, end + 1) + '</span>' + text.slice(end + 1);
+}
 /** @param {string} s */
 export const upFirst = s => s.charAt(0).toUpperCase() + s.slice(1);
 /** A run's difficulty; a save from before there was a choice is normal. */

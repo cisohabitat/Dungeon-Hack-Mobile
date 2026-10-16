@@ -10,7 +10,8 @@ import { Music } from './music.js';
 import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Weekly } from './weekly.js';
-import { $, $$, escapeHtml, diffOf, diffLabel, icon } from './uikit.js';
+import { $, $$, escapeHtml, diffOf, diffLabel, icon, logHtml as logLine } from './uikit.js';
+import { CODE_BYTES } from './savecode.js';
 import { renderBestiary, renderCodex, renderCombos, renderHall } from './hall.js';
 import { renderPages } from './pagesview.js';
 import { makeTips } from './tips.js';
@@ -921,7 +922,7 @@ const UI = (() => {
     // a Bestiary note shows while it is the newest line, then gives way to the
     // fight: in the short box it was pushing the blows out (it stays in the history)
     const live = G.log.filter(e => !e.gone && !(e.at > now));
-    el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('');
+    el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${escapeHtml(e.c)}">${logLine(e.m)}</div>`).join('');
     access.readLog();
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
@@ -945,13 +946,6 @@ const UI = (() => {
     const want = Renderer.W * box.height / box.width;
     if (Math.abs(want - Renderer.H) >= 2) Renderer.setHeight(want);
   }
-  // The dice come in one fixed shape, so set them apart as a footnote that
-  // stays in one piece and drops to its own line when the phone is narrow.
-  // It was the tail of the line, which is exactly what an ellipsis cuts.
-  function logLine(m) {
-    return escapeHtml(m).replace(/ \((d20 [^)]*)\)/, ' <span class="roll">($1)</span>');
-  }
-
   // Small live automap in the corner of the view, 15x15 tiles around the player.
   let miniFaded = false;
   // the docked map shows this many squares each way from the hero
@@ -1012,7 +1006,7 @@ const UI = (() => {
     const G = Game.state();
     const lines = G.log.filter(e => !e.gone && (logKind === 'all' || e.c === logKind)).reverse();
     $('#log-history').innerHTML = '<div class="log-kinds" role="group" aria-label="Show">' + LOG_KINDS.map(([k, name]) => `<button type="button" class="chip" data-kind="${k}" aria-pressed="${k === logKind}">${name}</button>`).join('') + '</div>'
-      + '<div class="log-history">' + (lines.length ? lines.map(e => `<div class="${e.c}">${logLine(e.m)}</div>`).join('') : '<p class="dim small">Nothing of that kind yet.</p>') + '</div>';
+      + '<div class="log-history">' + (lines.length ? lines.map(e => `<div class="${escapeHtml(e.c)}">${logLine(e.m)}</div>`).join('') : '<p class="dim small">Nothing of that kind yet.</p>') + '</div>';
     for (const b of $$('#log-history .log-kinds [data-kind]')) b.addEventListener('click', () => { logKind = /** @type {HTMLElement} */ (b).dataset.kind || 'all'; renderLogHistory(); });
   }
   // ---------- overlays ----------
@@ -1502,7 +1496,11 @@ const UI = (() => {
     $('#code-open').addEventListener('click', () => $('#code-pick').click());
     $('#code-pick').addEventListener('change', async () => {
       const pick = /** @type {HTMLInputElement} */ ($('#code-pick')), f = pick.files && pick.files[0];
-      if (f) /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = await f.text();
+      if (f) {
+        if (f.size > CODE_BYTES) $('#code-why').textContent = 'That save file is too large to open safely.';
+        else try { /** @type {HTMLTextAreaElement} */ ($('#code-in')).value = await f.text(); }
+        catch { $('#code-why').textContent = 'That save file could not be read.'; }
+      }
       pick.value = '';
     });
     $('#code-load').addEventListener('click', async () => {

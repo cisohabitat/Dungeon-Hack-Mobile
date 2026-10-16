@@ -5,10 +5,10 @@ const path = require('path');
 let failures = 0;
 const check = (ok, msg) => { if (!ok) { failures++; console.error('FAIL', msg); } };
 
-function call(handler, method, body) {
-  return new Promise(resolve => {
+function call(handler, method, body, headers = {}) {
+  return new Promise((resolve, reject) => {
     const res = { statusCode: 0, headers: {}, setHeader(k, v) { this.headers[k] = v; }, end(b) { resolve({ status: this.statusCode, body: b, headers: this.headers }); } };
-    handler({ method, body }, res);
+    Promise.resolve(handler({ method, body, headers }, res)).catch(reject);
   });
 }
 const fresh = env => {
@@ -41,6 +41,13 @@ async function main() {
   const cr = tel.clean({ kind: 'crash', msg: 'x'.repeat(900), stack: 'y'.repeat(9000), seed: 's', depth: 3, save: 'abcd1234' });
   check(cr.msg.length === 300 && cr.stack.length === 2000 && cr.save === 'abcd1234', 'a crash report is kept, cut to size');
   check(tel.clean({ kind: 'other' }) === null, 'an unknown kind is refused');
+  for (const value of [null, [], {}, { valueOf: 1, toString: 1 }, 'not a number']) {
+    const bad = tel.clean({ ...run, v: value, minutes: value, device: { dpr: value, mem: value } });
+    check(bad.v === 0 && bad.minutes === 0 && bad.device.dpr === 0 && bad.device.mem === 0, 'objects and invalid numeric fields cannot throw during cleaning');
+  }
+  const badCrash = tel.clean({ kind: 'crash', msg: { toString: 1 }, where: [], stack: { valueOf: 1 } });
+  check(badCrash.msg === '' && badCrash.where === '' && badCrash.stack === '', 'crash text is accepted only as strings');
+  check(tel.clean({ ...run, device: { dpr: -3, mem: -4 } }).device.dpr === 0, 'negative device values are clamped');
 
   // with no store: answered at once, nothing sent anywhere
   let fetched = 0;
@@ -52,18 +59,38 @@ async function main() {
   check((await call(tel, 'POST', { kind: 'nope' })).status === 400, 'unknown kind: 400');
   check((await call(tel, 'POST', { ...run, cls: 'orc' })).status === 400, 'a run with no class of the game\'s: 400');
   check((await call(tel, 'POST', { ...run, cause: 'x'.repeat(7000) })).status === 400, 'a parsed body too long: 400');
+  check((await call(tel, 'POST', { ...run, cause: '界'.repeat(2100) })).status === 400, 'the body limit counts UTF-8 bytes, not characters');
+  check((await call(tel, 'POST', run, { origin: 'https://attacker.invalid', host: 'game.example' })).status === 403, 'a cross-origin beacon is rejected');
+  check((await call(tel, 'POST', run, { 'sec-fetch-site': 'cross-site' })).status === 403, 'cross-site fetch metadata is rejected');
+  check((await call(tel, 'POST', run, { origin: 'https://game.example', host: 'game.example', 'sec-fetch-site': 'same-origin' })).status === 204, 'a normal same-origin report is accepted');
+  const streamed = async chunks => {
+    const { EventEmitter } = require('node:events');
+    const req = new EventEmitter(); req.method = 'POST'; req.headers = {};
+    let done;
+    const answer = new Promise(resolve => { done = resolve; });
+    const res = { statusCode: 0, setHeader() {}, end() { done(this.statusCode); } };
+    const handled = tel(req, res);
+    for (const chunk of chunks) req.emit('data', chunk);
+    req.emit('end'); await handled; return answer;
+  };
+  const utf8 = Buffer.from(JSON.stringify({ ...run, cause: '雪' }));
+  const split = utf8.indexOf(Buffer.from('雪')) + 1;
+  check(await streamed([utf8.subarray(0, split), utf8.subarray(split)]) === 204, 'streamed JSON preserves a UTF-8 character split across chunks');
+  check(await streamed([Buffer.alloc(6001, 120), Buffer.alloc(6001, 120)]) === 400, 'oversize streamed data is refused and later chunks are discarded');
   check(fetched === 0, 'no store: nothing fetched');
   check(JSON.parse((await call(stats, 'GET')).body).ready === false, 'no store: stats says so');
+  check((await call(stats, 'POST')).status === 405, 'stats accepts GET only');
 
   // with a store: one pipeline, counted by delve, difficulty and class
   const sent = [];
   const live = fresh({ KV_REST_API_URL: 'https://store.example/', KV_REST_API_TOKEN: 't' });
-  global.fetch = async (url, o) => { sent.push({ url, body: JSON.parse(o.body), auth: o.headers.Authorization }); return { ok: true, json: async () => JSON.parse(o.body).map(() => ({ result: ['8|normal|fighter', '3'] })) }; };
+  global.fetch = async (url, o) => { sent.push({ url, body: JSON.parse(o.body), auth: o.headers.Authorization, redirect: o.redirect, signal: o.signal }); return { ok: true, json: async () => JSON.parse(o.body).map(c => ({ result: c[0] === 'INCR' || c[0] === 'EXPIRE' ? 1 : ['8|normal|fighter', '3'] })) }; };
   check((await call(live.tel, 'POST', JSON.stringify(run))).status === 204, 'store: 204');
   // the first request asks how many this address has sent this minute; the second writes
   check(sent.length === 2 && sent[0].body[0][0] === 'INCR' && /^dd:rate:/.test(sent[0].body[0][1]) && sent[0].body[1][0] === 'EXPIRE', 'store: the address\'s minute is counted first');
   const cmds = sent[1] && sent[1].body;
   check(sent[1].url === 'https://store.example/pipeline' && sent[1].auth === 'Bearer t', 'store: one pipeline request for the report, with the token');
+  check(sent[1].redirect === 'error' && sent[1].signal instanceof AbortSignal, 'store requests refuse redirects and have a deadline');
   check(cmds && cmds.some(x => x[0] === 'HINCRBY' && x[1] === 'dd:count:runs' && x[2] === '8|normal|fighter'), 'store: the run is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:wins'), 'store: the win is counted');
   check(cmds && cmds.some(x => x[1] === 'dd:count:combowins' && x[2] === '8|normal|fighter') && cmds.some(x => x[1] === 'dd:count:combos' && x[2] === 'conduction'), 'store: a win with a combination, and each combination, are counted');
@@ -79,22 +106,33 @@ async function main() {
   global.fetch = async (url, o) => { const c = JSON.parse(o.body); sent.push({ body: c }); return { ok: true, json: async () => c.map(x => ({ result: x[0] === 'INCR' ? 61 : 1 })) }; };
   sent.length = 0;
   const flood = await new Promise(resolve => { const res = { statusCode: 0, setHeader() {}, end() { resolve(this.statusCode); } }; live.tel({ method: 'POST', body: run, headers: { 'x-forwarded-for': '203.0.113.9, 10.0.0.1' } }, res); });
-  check(flood === 429 && sent.length === 1 && sent[0].body[0][1] === 'dd:rate:203.0.113.9', 'store: a flood from one address is turned away at the door, by its first address');
+  check(flood === 429 && sent.length === 1 && /^dd:rate:\d+:[a-f0-9]{64}$/.test(sent[0].body[0][1]) && !JSON.stringify(sent).includes('203.0.113.9'), 'store: a flood is refused, and its address is not retained');
   // a crash is counted by build and message, in plain words; a new kind only while there is room
-  const crashes = async (kinds, seen) => {
+  const crashes = async () => {
     sent.length = 0;
-    global.fetch = async (url, o) => { const c = JSON.parse(o.body); sent.push({ body: c }); return { ok: true, json: async () => c.map(x => ({ result: x[0] === 'HLEN' ? kinds : x[0] === 'HEXISTS' ? seen : 1 })) }; };
+    global.fetch = async (url, o) => { const c = JSON.parse(o.body); sent.push({ body: c }); return { ok: true, json: async () => c.map(() => ({ result: 1 })) }; };
     await call(live.tel, 'POST', JSON.stringify({ kind: 'crash', build: 'deepdelve-v41', msg: 'TypeError: <b>x</b> is not a function '.repeat(9), stack: 's' }));
-    return sent[2] ? sent[2].body.find(x => x[0] === 'HINCRBY') : null;
+    return sent[1] ? sent[1].body.find(x => x[0] === 'EVAL') : null;
   };
-  const counted = await crashes(3, 0);
-  check(counted && counted[1] === 'dd:count:crash' && !counted[2].includes('<') && counted[2].length <= 150 && counted[2].startsWith('deepdelve-v41 TypeError'), 'store: a crash is counted by build and message, in plain words, cut to size');
-  check(!(await crashes(500, 0)) && (await crashes(500, 1)), 'store: a new kind of crash is not counted once five hundred are, a known one still is');
+  const counted = await crashes();
+  check(counted && counted[2] === 1 && counted[3] === 'dd:count:crash' && /^deepdelve-v41 crash-[a-f0-9]{24}$/.test(counted[4]), 'store: the crash counter contains a build and digest, not message text');
+  check(counted && counted[5] === 500 && counted[1].includes("redis.call('HEXISTS'") && counted[1].includes("redis.call('HLEN'") && counted[1].includes("redis.call('HINCRBY'"), 'store: the distinct-crash cap and increment are submitted atomically');
+  check((await crashes())[4] === counted[4], 'the same crash keeps the same opaque counter');
   global.fetch = async () => { throw new Error('down'); };
   check((await call(live.tel, 'POST', JSON.stringify(run))).status === 204, 'store down: the game still hears 204');
   global.fetch = async (u, o) => ({ ok: true, json: async () => JSON.parse(o.body).map(() => ({ result: ['8|normal|fighter', '3'] })) });
   const st = JSON.parse((await call(live.stats, 'GET')).body);
   check(st.ready && st.runs['8|normal|fighter'] === 3, 'stats: counts come back as numbers');
+  global.fetch = async (u, o) => ({ ok: true, json: async () => JSON.parse(o.body).map(c => ({ result: c[1] === 'dd:count:crash' ? ['deepdelve-v3 error for alice@example.com', '2'] : [] })) });
+  const legacy = await call(live.stats, 'GET');
+  check(!legacy.body.includes('alice') && !legacy.body.includes('example.com') && JSON.parse(legacy.body).crashes[0][1] === 2, 'legacy crash messages are never exposed by the public stats endpoint');
+  global.fetch = async (u, o) => ({ ok: true, json: async () => JSON.parse(o.body).map(() => ({ error: 'ERR rejected' })) });
+  const failed = await call(live.stats, 'GET');
+  check(failed.status === 502 && failed.headers['Cache-Control'] === 'no-store', 'store command errors fail closed and are not cached');
+  const insecure = fresh({ KV_REST_API_URL: 'http://store.example', KV_REST_API_TOKEN: 't' });
+  let insecureFetch = false;
+  global.fetch = async () => { insecureFetch = true; throw new Error('must not send credentials'); };
+  check((await call(insecure.stats, 'GET')).status === 502 && !insecureFetch, 'store credentials are never sent over HTTP');
 
   console.log(`telemetry checks complete, ${failures} failure(s)`);
   process.exit(failures ? 1 : 0);

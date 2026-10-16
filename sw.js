@@ -1,8 +1,8 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v59';
+const CACHE = 'deepdelve-v60';
 const ASSETS = [
   './replay.html', './js/recording.js', './js/replayview.js', './js/replaycontrols.js',
-  './js/release.js',
+  './js/release.js', './js/savecheck.js',
   './js/bestiaryart.js',
   './img/bestiary/rat.webp', './img/bestiary/bat.webp', './img/bestiary/slime.webp', './img/bestiary/spider.webp',
   './img/bestiary/goblin.webp', './img/bestiary/skeleton.webp', './img/bestiary/zombie.webp', './img/bestiary/orc.webp',
@@ -66,7 +66,9 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   // the sound pack's sounds are kept as they are heard, but never its masters,
   // nor what its listening page (sound/listen.html) fetches to be tried
-  const path = new URL(e.request.url).pathname;
+  const url = new URL(e.request.url), path = url.pathname;
+  // Reports and live statistics keep the server's own privacy/cache policy.
+  if (url.origin !== self.location.origin || /^\/api(?:\/|$)/.test(path)) return;
   if (path.startsWith('/sound/masters/') || path.startsWith('/sound/listen') || /\/sound\/listen/.test(e.request.referrer || '')) return;
   if (/\/sound\/narration\/(?:line-[a-f0-9]{8}|prologue)\.(?:ogg|m4a)$/.test(path)) {
     e.respondWith(recordedVoice(e.request)); return;
