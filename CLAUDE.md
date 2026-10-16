@@ -155,11 +155,17 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   skips without `PERF=1`, since beside other tests it measures the load.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
+- `npx playwright test --project=safari`: focused `@mobile` tests in Playwright
+  WebKit, installed in a separate CI job. Keep tags on the audio unlock/mute,
+  portrait, fog and touch/save regressions. `npm run test:browser` runs the two
+  Chromium projects locally; do not install WebKit in the local container.
+  Linux WebKit and an iPhone-sized Chromium viewport do not establish a real
+  iOS Safari pass; record physical checks separately in `docs/DEVICES.md`.
 - `test/browser/a11y.spec.js` runs axe (WCAG 2.2 AA) over every screen and overlay: no fault
   rated serious or critical. A new overlay goes into it. `test/browser/access.spec.js` checks what
   axe cannot: text at twice its size on three phone shapes, the reader's log, the palette, Calm view, one-handed reach.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
-  three shards, the small phone, and the frame-rate budget alone on every push
+  three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
   to `main`.
 - `.githooks/pre-push` runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on

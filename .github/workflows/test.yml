@@ -56,6 +56,26 @@ jobs:
         env:
           PERF: '1'
 
+  safari:
+    name: Safari engine mobile checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx playwright install --with-deps webkit
+      - run: npx playwright test --project=safari
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-safari
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
   small:
     # the smallest phone in the device matrix (docs/DEVICES.md)
     name: Smallest phone

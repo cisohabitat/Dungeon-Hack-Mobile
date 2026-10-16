@@ -12,12 +12,21 @@ These run in CI on every push to `main` (`.github/workflows/test.yml`):
 |---|---|---|
 | Browser tests, `phone` project | Pixel 5, 393×851, Chromium | `npx playwright test --project=phone` |
 | `small` project: the interface, the core loop, portraits, melee and elemental feedback and the accessibility scan | iPhone SE, 375×667, in Chromium | `npx playwright test --project=small` |
+| `safari` project: first-tap theme music, mute preferences, map fog, class portraits, touch controls and save/resume | iPhone SE viewport, Playwright WebKit on Linux | `npx playwright test --project=safari` |
 | `layout.spec.js` in the `phone` project: a tablet held sideways and upright, a Steam Deck, a desktop window | 1024×768, 768×1024, 1280×800, 1440×900 | `npx playwright test --project=phone test/browser/layout.spec.js` |
 | Frame-rate budget, processor slowed 4× | an old Android, Pixel 3 class | `PERF=1 npx playwright test --project=perf --workers=1` |
 
-The `small` project runs in Chromium because WebKit is not installed in the
-containers this is built in. It catches a screen too short or too narrow, not
-Safari's own faults: those are what the real iPhone below is for.
+The `small` project catches layout faults in Chromium. The `safari` project
+runs the tests tagged `@mobile` in WebKit, the engine Safari uses; CI installs
+it in its own job. The default `npm run test:browser` stays on Chromium, which
+is preinstalled locally. Run the Safari project separately where WebKit is
+already available; do not install browsers in the local container.
+
+Playwright WebKit on Linux is not Safari on iOS. These checks cannot establish
+speaker output, real background/resume behaviour, OS process eviction, Home
+Screen installation or Safari's storage eviction policy. The real-device round
+below remains required. An empty rounds table means no physical-device result
+has been recorded.
 
 ## The monthly round on real devices
 
@@ -32,7 +41,7 @@ Sauce Labs all have both):
 
 Open the live site (or a preview deployment of the change being checked), then
 work down the list. Note anything wrong in the table with the device and the
-build (the news line's id, shown in the dashboard's crash list).
+release and build shown at the bottom of the main page, plus the OS and browser version.
 
 ### Checklist
 
@@ -40,8 +49,9 @@ build (the news line's id, shown in the dashboard's crash list).
    last run's line and the news line fit without overlapping.
 2. **Install.** Add to Home Screen; the app opens full screen from the icon,
    with the right icon and name.
-3. **New game.** Pick each class card; the text is readable without zoom; Begin
-   is reachable without scrolling past the keyboard.
+3. **New game.** Pick all six class cards; each has its own backstory. Tap each
+   portrait to expand and collapse it; changing class resets the expansion.
+   Check at Double text too. Begin is reachable without scrolling past the keyboard.
 4. **First minute.** Through the prologue to the first floor. Walk, turn and
    sidestep by buttons and by swipe. The view keeps up (no visible stutter for
    more than a moment once the first floor is reached).
@@ -50,8 +60,11 @@ build (the news line's id, shown in the dashboard's crash list).
 6. **Overlays.** Open the Map, Pack, Spells, Hero and Journal, and the Menu.
    Each fits the screen, scrolls where it is long, and closes by its ✕ and by
    the phone's back gesture.
-7. **Sound.** Sound and music start after the first tap; they stop when the app
-   is put away and come back when it returns.
+7. **Sound.** On a clean visit, dismiss News with the first tap: the theme starts
+   without a second tap. Reload and dismiss the fun fact: the theme starts there
+   too. Repeat with Sound off, then Music off: neither dismissal overrides the
+   saved choice. Check narration hands over to floor music. Sound stops when the
+   app is put away and comes back when it returns.
 8. **Saving.** Put the app away mid-floor, close it from the app switcher,
    reopen: Continue resumes on the same floor.
 9. **A heavy floor.** With the testing tools, go to floor 7 and turn on Show
@@ -62,6 +75,9 @@ build (the news line's id, shown in the dashboard's crash list).
     reopen it: it loads and a new game starts.
 12. **Reports.** Turn on Send reports in the Menu, die on the first floor, and
     check the dashboard counts the run within a few minutes. Turn it off again.
+13. **Map fog.** Both maps stay hidden during the opening passage. On arrival,
+    only the visible area is mapped; distant rooms and squares behind walls stay
+    hidden. Check a dark floor too: its mapped range is shorter.
 
 ## Rounds
 

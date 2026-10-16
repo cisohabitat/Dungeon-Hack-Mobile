@@ -30,14 +30,14 @@ test('all six painted class portraits load with smooth scaling and the earned ma
   expect(errors).toEqual([]);
 });
 
-test('selecting each hero shows a larger portrait and its own backstory, and the portrait expands by touch or keyboard', async ({ page }, testInfo) => {
+test('selecting each hero shows a larger portrait and its own backstory, and the portrait expands by touch or keyboard', { tag: '@mobile' }, async ({ page }, testInfo) => {
   const errors = watchForErrors(page);
   await prepare(page); await page.goto('/'); await page.click('#btn-new');
   const stories = await page.evaluate(() => Object.fromEntries(Object.entries(CLASSES).map(([id, c]) => [id, c.story])));
   expect(new Set(Object.values(stories)).size).toBe(6);
   for (const [cls, story] of Object.entries(stories)) {
     const card = page.locator(`.class-card[data-cls="${cls}"]`);
-    await card.click();
+    await card.tap();
     await expect(card).toBeFocused();
     await expect(page.locator('.class-backstory')).toHaveText(story);
     const face = page.locator('#c-portrait'), toggle = page.locator('#c-portrait-toggle');
@@ -48,14 +48,14 @@ test('selecting each hero shows a larger portrait and its own backstory, and the
     expect(smallWidth).toBeGreaterThan(cardWidth * 2);
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
     if (cls === 'mage') { await toggle.focus(); await page.keyboard.press('Space'); }
-    else await toggle.click();
+    else await toggle.tap();
     await expect(toggle).toHaveAttribute('aria-expanded', 'true');
     const box = await face.boundingBox();
     expect(box.width).toBeGreaterThan(smallWidth * 1.5);
     expect(Math.abs(box.width - box.height)).toBeLessThan(2);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (cls === 'mage') await page.keyboard.press('Enter');
-    else await toggle.click();
+    else await toggle.tap();
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   }
   await page.locator('[data-cls="druid"]').click();

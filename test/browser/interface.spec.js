@@ -524,7 +524,7 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
-  test('a fact greets a quiet title, its first tap starts the theme, and it stays dismissed for the visit', async ({ page }) => {
+  test('a fact greets a quiet title, its first tap starts the theme, and it stays dismissed for the visit', { tag: '@mobile' }, async ({ page }) => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => {
       localStorage.setItem('deepdelve.firstSeen', '1');
@@ -553,20 +553,22 @@ test.describe('interface', () => {
     expect(errors).toEqual([]);
   });
 
-  test('unread news takes priority over a fact without asking for a second dismissal', async ({ page }) => {
+  test('unread news takes priority over a fact without asking for a second dismissal', { tag: '@mobile' }, async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('deepdelve.hall', '[]'));
     await page.goto('/');
     await expect(page.locator('#news')).toBeVisible();
     await expect(page.locator('#game-fact')).toBeHidden();
-    await page.click('#news-close');
+    await page.locator('#news-close').tap();
     await expect(page.locator('#news')).toBeHidden();
     await expect(page.locator('#game-fact')).toBeHidden();
+    await expect.poll(() => page.evaluate(() => Music.state().title)).toBe(true);
+    expect(await page.evaluate(() => Sound.audio().ctx.state)).toBe('running');
     await page.reload();
     await expect(page.locator('#news')).toBeHidden();
     await expect(page.locator('#game-fact')).toBeVisible();
   });
 
-  for (const setting of ['sound', 'music']) test(`dismissing a fact respects ${setting} being turned off`, async ({ page }) => {
+  for (const setting of ['sound', 'music']) test(`dismissing a fact respects ${setting} being turned off`, { tag: '@mobile' }, async ({ page }) => {
     await page.addInitScript(key => localStorage.setItem(`deepdelve.${key}`, 'off'), setting);
     await page.goto('/');
     await page.locator('#game-fact-close').tap();
@@ -575,7 +577,7 @@ test.describe('interface', () => {
     expect(await page.evaluate(key => key === 'sound' ? Sound.isEnabled() : Music.isEnabled(), setting)).toBe(false);
   });
 
-  test('a fresh floor is hidden until seen, and mapping stops at the fog', async ({ page }) => {
+  test('a fresh floor is hidden until seen, and mapping stops at the fog', { tag: '@mobile' }, async ({ page }) => {
     await startGame(page, { seed: 'mini-fog' });
     const result = await page.evaluate(() => {
       const L = Game.level(), T = Dungeon.T;
@@ -602,7 +604,7 @@ test.describe('interface', () => {
     expect(result.behind).toBe(0);
   });
 
-  test('both maps wait for the opening passage to finish', async ({ page }) => {
+  test('both maps wait for the opening passage to finish', { tag: '@mobile' }, async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.addInitScript(() => localStorage.setItem('deepdelve.prelude', 'on'));
     await startGame(page, { seed: 'mini-opening' });

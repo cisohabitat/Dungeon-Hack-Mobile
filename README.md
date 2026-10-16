@@ -272,6 +272,7 @@ npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm run check:agents  # reject missing or stale AGENTS.md guidance
 npm test              # guidance, types, generator, sprites, APIs, narration, voices and rules
 npm run test:browser  # Playwright suites on phone and small-phone viewports
+npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
 npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
 PERF=1 npx playwright test --project=perf --workers=1  # performance budget, run alone
@@ -282,7 +283,12 @@ the trader, the story layer, the endgame, and an interface pass that asserts eve
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
 crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime depends on
 the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
-performance job on pushes to `main` and pull requests. `npm start` serves the game locally on
+performance job on pushes to `main` and pull requests. A separate WebKit job checks the
+mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
+expansion, touch controls and save/resume after navigating away. The default browser
+script uses Chromium so it works with the locally preinstalled browser. WebKit tests
+supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
+Safari, speaker output or OS tab eviction. `npm start` serves the game locally on
 port 4173 with no server dependencies.
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
