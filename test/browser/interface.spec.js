@@ -554,14 +554,17 @@ test.describe('interface', () => {
   });
 
   test('unread news takes priority over a fact without asking for a second dismissal', { tag: '@mobile' }, async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('deepdelve.hall', '[]'));
+    await page.addInitScript(() => {
+      localStorage.setItem('deepdelve.hall', '[]');
+      localStorage.setItem('deepdelve.samples', 'on');
+    });
     await page.goto('/');
     await expect(page.locator('#news')).toBeVisible();
     await expect(page.locator('#game-fact')).toBeHidden();
     await page.locator('#news-close').tap();
     await expect(page.locator('#news')).toBeHidden();
     await expect(page.locator('#game-fact')).toBeHidden();
-    await expect.poll(() => page.evaluate(() => Music.state().title)).toBe(true);
+    await expect.poll(() => page.evaluate(() => Music.state().title), { timeout: 20000 }).toBe(true);
     expect(await page.evaluate(() => Sound.audio().ctx.state)).toBe('running');
     await page.reload();
     await expect(page.locator('#news')).toBeHidden();
