@@ -178,6 +178,7 @@ test.describe('the endgame', () => {
     expect(await page.evaluate(() => (Game.level().npcs || []).some(n => n.id === 'egg_clutch') && !!Assets.sprites.egg_clutch)).toBe(true);
     expect(await page.evaluate(() => Game.level().dressing.filter(d => d.k === 'puddle').length)).toBeGreaterThan(20);
     await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; for (let k = 0; k < 4; k++) { const [dx, dy] = Dungeon.DIRS[k]; if ([1, 2].every(n => L.tiles[(p.y + dy * n) * L.w + p.x + dx * n] === Dungeon.T.FLOOR)) { p.dir = k; break; } } });
+    await artReady(page);
     for (const id of ['lizardfolk', 'lizard_shaman', 'hissra']) {
       await page.evaluate(() => { Game.level().monsters.length = 0; });
       expect(await placeMonster(page, id, 2, { hp: 200 })).not.toBeNull();
