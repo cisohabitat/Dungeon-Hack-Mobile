@@ -256,3 +256,13 @@ The fresh-process diagnostic run reproduced the exact native `std::optional`
 assertion in #37766 in both reward reload cases. Process isolation did not fix
 it and has been removed; `test:webkit` uses the ordinary Playwright runner on
 one worker. All 17 selected mobile cases and their original assertions remain.
+
+Local validation with Playwright 1.59.1: `npm test` passed all 712 rule checks
+and the type, generator, security, API, narration and voice checks. The complete
+531-case Chromium run passed 530 cases; the art-loading deadline timed out
+while generator checks were running, then passed unchanged alone in 9.8 s.
+Both reward reload cases passed on both phone projects. The isolated 4× CPU
+budget passed at 59.8 fps (fight), 55.1 (wide), 55.1 (flooded), 59.5 (rite),
+with 1,622 ms startup. The public build 8 smoke also verified the unlock effect,
+gear collection, duplicate-claim rejection and no page errors. These are
+Chromium checks; the corrected WebKit binary still requires CI verification.
