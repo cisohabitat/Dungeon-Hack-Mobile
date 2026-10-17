@@ -10,6 +10,9 @@ export function renderPuzzle(close, opening = false) {
   if (!q) { close(); return; }
   const justSolved = q.solved && !solvedBefore && !opening;
   const reveal = $('#puzzle-unlock');
+  // The final pose is the base style; a finished effect need not retain a layer.
+  reveal.onanimationend = e => { if (e.animationName === 'cache-open') reveal.classList.remove('opening'); };
+  reveal.onanimationcancel = e => { if (e.animationName === 'cache-open') reveal.classList.remove('opening'); };
   reveal.hidden = !q.solved;
   reveal.classList.toggle('opening', justSolved || (!opening && reveal.classList.contains('opening')));
   if (opening || (q.solved && !solvedBefore) || (rewardBefore === 'pending' && q.reward !== 'pending')) armedAt = performance.now() + 350;

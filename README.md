@@ -18,8 +18,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   no wrong-answer damage. Once opened, keep its gold and gems or, when the
   purse covers it, choose a Potion of Healing or class-usable unidentified gear
   instead of some coins. Remaining coins come with the item. Choose once, then
-  collect the share from the floor; a full pack never destroys it. The catch lifts
-  with a short sound and animation (still in Calm view or with reduced motion). Keys, relics, quest objects, passages,
+  collect the share from the floor; a full pack never destroys it. The lid lifts
+  once with a short sound; Calm view and reduced-motion settings show a still
+  open cache. Keys, relics, quest objects, passages,
   stairs and the Heart are never gated. Progress travels in saves, save codes and
   same-build replays. Daily and Weekly challenges keep puzzles off so their rules
   stay fixed. Floors without a suitable treasure pile, and the final floor, have no cache.

@@ -195,6 +195,7 @@ test('reward choices stay accessible at double text; Calm view and reduced motio
   });
   await page.click('[data-tap="use"]'); await solve(page, q);
   await expect(page.locator('#puzzle-reward-gold')).toBeEnabled();
+  await expect.poll(() => page.locator('#puzzle-unlock').evaluate(el => el.getAnimations({ subtree: true }).length)).toBe(0);
   const bounds = await page.locator('#ov-puzzle').evaluate(el => ({ w: el.clientWidth, scroll: el.scrollWidth }));
   expect(bounds.scroll).toBeLessThanOrEqual(bounds.w + 1);
   const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();

@@ -222,3 +222,16 @@ full reload, narration, restored-state, reward and console-error assertions.
 The restored puzzle fixtures are byte-identical to the history-wait version
 that passed all 20 Chromium phone/small cases. Neither game rules, assets nor
 the balance observer changed for these CI/test follow-ups.
+
+
+Build 8 additionally releases the lid animation on completion/cancellation and
+when the cache closes, using the base style for its final pose. This changes only
+the decorative effect's lifecycle; reward rules, clue timing, control guards,
+world simulation and the observer remain those measured at `cc08b0b`. The
+existing balance records apply; targeted browser/release and isolated performance
+checks verify the presentation follow-up. Direct reload and full narration
+assertions remain in the WebKit tests.
+
+Build 8 local checks: 26 puzzle/release cases passed across phone and small
+Chromium projects. The isolated 4×-throttled budget passed at 58.0 fps (fight),
+59.8 (wide), 58.6 (flooded) and 60.4 (rite), with 1,553 ms startup. Types pass.

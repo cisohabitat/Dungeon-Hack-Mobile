@@ -1110,7 +1110,7 @@ const UI = (() => {
     // an encounter must be answered: every one offers a way to leave, so
     // backing out would only be a free look at the odds
     if (overlay === 'encounter') { const e = Game.currentEncounter(); if (e && !e.result) return; Game.closeEncounter(); }
-    if (overlay === 'puzzle') Game.closePuzzle();
+    if (overlay === 'puzzle') { $('#puzzle-unlock').classList.remove('opening'); Game.closePuzzle(); }
     if (overlay === 'shop') Game.closeShop();
     if (overlay === 'fork') Game.leaveFork();
     // it fades away rather than vanishing, and lets taps through while it does
@@ -1136,7 +1136,7 @@ const UI = (() => {
     waiting = [];
     bossReveal = '';
     if (overlay === 'encounter') Game.closeEncounter();
-    if (overlay === 'puzzle') Game.closePuzzle();
+    if (overlay === 'puzzle') { $('#puzzle-unlock').classList.remove('opening'); Game.closePuzzle(); }
     if (overlay === 'shop') Game.closeShop();
     $$('.overlay.open').forEach(el => el.classList.remove('open'));
     overlay = null;

@@ -1274,7 +1274,7 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 .puzzle-box, .puzzle-lid { position: absolute; left: 0; width: 64px; border: 2px solid var(--gold); border-radius: 4px; background: var(--card-bg); }
 .puzzle-box { bottom: 0; height: 28px; box-shadow: 0 0 16px rgba(232, 180, 80, 0.2); }
 .puzzle-lid { top: 0; height: 16px; transform: translateY(-4px) rotate(-8deg); transform-origin: left bottom; }
-.puzzle-unlock.opening .puzzle-lid { animation: cache-open 550ms ease-out both; }
+.puzzle-unlock.opening .puzzle-lid { animation: cache-open 550ms ease-out; }
 .puzzle-reward { text-align: left; padding: var(--s-12); }
 .puzzle-reward b, .puzzle-reward small { display: block; }
 .puzzle-reward small { margin-top: var(--s-4); color: var(--dim); }
