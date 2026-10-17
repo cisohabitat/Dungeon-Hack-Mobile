@@ -244,3 +244,10 @@ Browser process diagnostics and filtered kernel memory/segfault logs are kept
 on failure. This is test-process isolation, not a change to game balance or
 a reduction of mobile coverage. `node tools/webkit-tests.mjs --list` validates
 the complete plan locally without installing or launching WebKit.
+
+Upstream investigation identified Playwright 1.56's confirmed WebKit reload
+crash ([#37766](https://github.com/microsoft/playwright/issues/37766)), fixed in
+1.57. The test dependency is now pinned to 1.59.1, after that fix and before
+the separate reload regression reported in 1.60+ (#43070). This changes only
+test tooling; recorded simulations remain applicable. CI must verify the new
+browser binary with the original native reload and narration assertions.

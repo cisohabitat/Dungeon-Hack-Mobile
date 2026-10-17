@@ -317,7 +317,7 @@ npm run check:agents  # reject missing or stale AGENTS.md guidance
 npm test              # guidance, types, generator, sprites, security, APIs, narration, voices and rules
 npm run test:security  # adversarial save/import, telemetry and local-server checks
 npm run test:browser  # Playwright suites on phone and small-phone viewports
-npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
+npm run test:webkit  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
 PUZZLES=solve PUZZLE_REWARD=potion FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # healing choice when affordable; gold|gear also valid
 npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
@@ -337,6 +337,8 @@ script uses Chromium so it works with the locally preinstalled browser. WebKit t
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
 Safari, speaker output or OS tab eviction. `npm start` serves the game locally on
 port 4173 with no server dependencies.
+Playwright is pinned to 1.59.1: 1.56's WebKit has a confirmed
+[reload crash](https://github.com/microsoft/playwright/issues/37766), fixed in 1.57.
 Use Node 24 for the included server, tests and Vercel functions (`package.json` pins the runtime).
 
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that

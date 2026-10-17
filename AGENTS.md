@@ -207,6 +207,8 @@ before reporting a pushed change as verified.
   `node tools/webkit-tests.mjs --list` checks this plan without a local browser. Keep tags on the audio unlock/mute,
   portrait, fog and touch/save regressions. `npm run test:browser` runs the two
   Chromium projects locally; do not install WebKit in the local container.
+  Playwright is pinned to 1.59.1. Version 1.56's WebKit crashes on reload
+  (microsoft/playwright#37766, fixed in 1.57); verify native reloads when upgrading.
   Linux WebKit and an iPhone-sized Chromium viewport do not establish a real
   iOS Safari pass; record physical checks separately in `docs/DEVICES.md`.
 - `test/browser/a11y.spec.js` runs axe (WCAG 2.2 AA) over every screen and overlay: no fault
