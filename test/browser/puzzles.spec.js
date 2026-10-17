@@ -144,6 +144,9 @@ test('Daily and Weekly starts explain that their puzzle rules stay fixed', async
 for (const choice of ['potion', 'gear']) {
   test(`cache ${choice} choice survives leaving and a reload, then grants only one share @mobile`, async ({ page }) => {
     const errors = watchForErrors(page);
+    // Exercise persistence independently of a narration stream being torn down.
+    // The partial-save case and the media suites retain their voice coverage.
+    await page.addInitScript(() => localStorage.setItem('deepdelve.narration', 'off'));
     await startGame(page, { seed: 'puzzle1', puzzles: true, permadeath: false });
     const q = await reachCache(page);
     // A rich cache exercises every affordable option and a co-located key.

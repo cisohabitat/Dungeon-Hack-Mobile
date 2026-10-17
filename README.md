@@ -338,6 +338,8 @@ Safari, speaker output or OS tab eviction. `npm start` serves the game locally o
 port 4173 with no server dependencies.
 Use Node 24 for the included server, tests and Vercel functions (`package.json` pins the runtime).
 
+State-only cache reward reload checks disable narration; the voice-enabled partial-save and dedicated audio/narration suites keep their media coverage.
+
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
 depth per class, which is how the balance below was tuned rather than guessed at. Runs take

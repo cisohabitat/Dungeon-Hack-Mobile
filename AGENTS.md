@@ -132,6 +132,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   closing animation and history entry before interacting with the restored run.
   Before reloading after leaving a cache, wait for `history.state.dd === 'game'`:
   the fade finishing does not prove Safari's `history.back()` has settled.
+  State-only reward reload checks disable narration, leaving sound/music enabled;
+  keep the voice-enabled partial-save and media suites separate, and retain
+  full reload, restored-state and console-error assertions.
   `PUZZLES=solve` in
   the balance bot explicitly answers caches at the current square and collects
   only their guarded currency or chosen conversion, preserving the walking pickup
