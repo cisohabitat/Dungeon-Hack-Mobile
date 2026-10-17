@@ -160,9 +160,13 @@ for (const choice of ['potion', 'gear']) {
     expect(await page.evaluate(() => window.__puzzleGuardReward)).toBe('pending');
     await page.click('#puzzle-leave');
     await expect(page.locator('#ov-puzzle')).not.toHaveClass(/open|closing/);
+    // The fade and Safari's same-document history traversal settle separately.
+    await expect.poll(() => page.evaluate(() => history.state?.dd)).toBe('game');
     await page.evaluate(() => Game.save(true));
     await page.reload(); await page.click('#btn-continue');
     await expect(page.locator('#screen-game')).toBeVisible();
+    expect(await page.evaluate(() => Game.level().puzzle.reward)).toBe('pending');
+    await expect(page.locator('[data-tap="use"]')).toHaveAttribute('aria-label', 'Puzzle');
     await page.click('[data-tap="use"]');
     await expect(page.locator('#puzzle-reward-' + choice)).toBeVisible();
     expect(await page.evaluate(() => Game.puzzleOffers())).toEqual(offers);

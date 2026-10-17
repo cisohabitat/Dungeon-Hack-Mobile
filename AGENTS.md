@@ -130,6 +130,8 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Keep Tab inside the puzzle dialog even during its input guard; disabled
   controls must not strand focus. Save-transfer browser checks wait for the
   closing animation and history entry before interacting with the restored run.
+  Before reloading after leaving a cache, wait for `history.state.dd === 'game'`:
+  the fade finishing does not prove Safari's `history.back()` has settled.
   `PUZZLES=solve` in
   the balance bot explicitly answers caches at the current square and collects
   only their guarded currency or chosen conversion, preserving the walking pickup

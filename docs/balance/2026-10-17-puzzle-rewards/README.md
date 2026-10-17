@@ -211,3 +211,12 @@ are 200 against 206. Resource, cause and path differences were reviewed rather
 than treating an aggregate win-rate pass as proof that every choice improves
 every run. No ordinary bot decision or acceptance limit was changed to conceal
 a loss.
+
+
+The first CI pass verified the game in all six other jobs, but the two new
+Safari reward reload tests began reload after the fade without waiting for
+the same-document history traversal. Their navigation readiness now matches
+the existing save-transfer guard, and they assert the restored pending state
+and Puzzle control before reopening. Narration remains enabled; neither game
+rules, assets nor the balance observer changed for this test-only follow-up.
+The strengthened puzzle checks pass all 20 phone/small Chromium cases.
