@@ -13,10 +13,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
       - run: npm ci
+      - run: npm run release:check
+        env:
+          RELEASE_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
       - run: npm test
 
   browser:
@@ -115,3 +119,25 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  release:
+    name: Publish version
+    needs: [rules, browser, perf, safari, small]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: publish-main-release
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node tools/release.mjs publish
+        env:
+          GH_TOKEN: ${{ github.token }}

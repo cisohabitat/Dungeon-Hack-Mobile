@@ -109,8 +109,21 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   inventory choices or input timing. Keep the browser's end-screen action
   secondary so controller focus still starts on New Game.
 - `js/release.js`: release version and build number, shared by the main-page
-  footer and telemetry. Keep the version in step with `package.json` and
-  increment the build for each published build.
+  footer and telemetry. Do not hand-edit release numbers. For every publication,
+  stage intended changes, then run `npm run release:prepare -- --message "<commit subject>"`.
+  It detects player files since the current version tag (or last metadata commit),
+  selects major for `type!:` / `BREAKING CHANGE:`, minor for `feat:`, otherwise
+  patch, and increments the build and offline cache. Docs/tests/CI-only changes
+  leave both numbers unchanged. Stage its four updated files before committing.
+  Use conventional commit subjects for player changes; an unlabelled change
+  defaults to patch. `--bump major|minor|patch` is an explicit reviewed override,
+  including an intentional release of existing features. Never infer compatibility
+  breaks from file names alone. Keep all three package/lock versions consistent.
+  CI rejects unversioned player changes and creates the version tag and GitHub
+  release only after all seven required checks pass on main. Publication reruns
+  are idempotent, skip stale main runs and never move an existing tag.
+  The release job alone has `contents: write`; test jobs retain read-only tokens.
+  Vercel still deploys main on push; the CI gate governs the GitHub release.
 - `js/puzzles.js`: optional catches on existing gold/gems, placed after the floor's
   other rules with a separate seeded stream. `js/puzzledata.js` holds the clues and
   `js/puzzleview.js` their accessible overlay. Every fresh custom/Quick Start hero
@@ -180,6 +193,8 @@ frame-rate budget below. CI additionally runs the focused WebKit project,
 which is not installed in this local container. Wait for all CI jobs to pass
 before reporting a pushed change as verified.
 
+- `npm run test:release`: isolated Git fixtures check release selection, metadata,
+  CI rejection and publication retries/API failures; included in `npm test`.
 - `npm run check:agents`: verify `AGENTS.md` matches these source notes.
 - `npm run test:security`: adversarial save/zip/markup, local file-boundary and
   telemetry checks; also part of `npm test`. Browser injection and API-cache
@@ -214,7 +229,8 @@ before reporting a pushed change as verified.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
   three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
   to `main`.
-- `.githooks/pre-push` runs `npm test` on the exact commit being pushed to
+- `.githooks/pre-push` checks the version against the remote main commit, then
+  runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
   in each fresh clone: `git config core.hooksPath .githooks`.
 
@@ -292,7 +308,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
   never return individual reports or error messages, including old counters.
   Keep Redis credentials server-side. API responses bypass the service worker.
 - `SECURITY.md` documents security boundaries; record reviews under `docs/`.
-  CI uses Node 24, read-only permissions and no persisted checkout credentials.
+  CI uses Node 24 and no persisted checkout credentials. Tests use read-only
+  permissions; only the successful main release job may write GitHub releases.
 
 - Comments explain why, in plain prose, in the game's voice; British spelling.
   Player-facing text is the same register: short, concrete, no jargon.

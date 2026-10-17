@@ -255,6 +255,30 @@ vercel          # preview deployment
 vercel --prod   # production deployment
 ```
 
+**Automatic versions and GitHub releases**
+
+For each update, stage the intended changes, then run:
+
+```bash
+npm run release:prepare -- --message "feat: describe the new feature"
+git add package.json package-lock.json js/release.js sw.js
+```
+
+The tool chooses a minor release for `feat:`, a major release for `type!:` or
+`BREAKING CHANGE:`, and a patch for fixes or other player changes. It increments
+the build and offline cache together, keeping the footer and package/lock versions
+in sync. Docs, tests and CI-only changes leave the numbers unchanged. Use
+`--bump major|minor|patch` only for an intentional override. This is based on
+commit intent, so breaking changes must be labelled explicitly. Repository agent
+instructions require this preparation automatically before publishing updates.
+
+The pre-push hook and CI reject player changes without a suitable version/build bump. After all seven
+test jobs pass on main, it creates the version tag and a GitHub release with
+generated notes. Repeated runs skip existing releases, older main runs skip
+publication, and existing tags are never moved. Only that publication job receives
+a write token; tests and pull requests remain read-only. Vercel continues to deploy
+main on push, independently of the later GitHub release publication.
+
 The app must be served over HTTPS for the service worker (offline mode) and "Add to Home
 Screen" to work. Vercel does this by default.
 
@@ -315,6 +339,7 @@ directory server can expose local configuration and development files.
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm run check:agents  # reject missing or stale AGENTS.md guidance
 npm test              # guidance, types, generator, sprites, security, APIs, narration, voices and rules
+npm run test:release   # automatic versions and publication safeguards in isolated Git fixtures
 npm run test:security  # adversarial save/import, telemetry and local-server checks
 npm run test:browser  # Playwright suites on phone and small-phone viewports
 npm run test:webkit  # focused WebKit checks; CI installs this browser

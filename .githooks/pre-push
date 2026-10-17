@@ -14,7 +14,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   git -C "$root" worktree add --detach -q "$dir" "$local_sha"
   ln -s "$root/node_modules" "$dir/node_modules"
   echo "pre-push: checking $local_sha before it goes to main..."
-  if (cd "$dir" && npm test --silent > "$dir.log" 2>&1); then
+  if (cd "$dir" && RELEASE_BASE="$remote_sha" node tools/release.mjs check > "$dir.log" 2>&1 && npm test --silent >> "$dir.log" 2>&1); then
     tail -n 1 "$dir.log"
     status=0
   else
