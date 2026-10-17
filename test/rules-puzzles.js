@@ -164,12 +164,14 @@ module.exports = async h => {
     const { Game: G, Sound } = await ready('puzzle1'), q = G.level().puzzle;
     G.level().items[`${q.x},${q.y}`] = [{ t: 'gold', q: 1, puzzle: true }];
     const sounds = []; Sound.listen(name => sounds.push(name));
-    G.input('use'); answer(G); G.puzzleAction('submit');
-    if (sounds.filter(s => s === 'door').length !== 1) return 'the opening sound was lost or repeated';
-    if (G.puzzleOffers().length !== 1 || G.puzzleAction('claim', 'potion') || G.puzzleAction('claim', 'gear')) return 'a poor cache created an unaffordable item';
-    G.closePuzzle(); G.input('use');
-    if (sounds.filter(s => s === 'door').length !== 1) return 'reopening replayed the unlock sound';
-    return G.puzzleAction('claim', 'gold') && G.level().puzzle.reward === 'gold' || 'a poor cache could not release its coin';
+    try {
+      G.input('use'); answer(G); G.puzzleAction('submit');
+      if (sounds.filter(s => s === 'door').length !== 1) return 'the opening sound was lost or repeated';
+      if (G.puzzleOffers().length !== 1 || G.puzzleAction('claim', 'potion') || G.puzzleAction('claim', 'gear')) return 'a poor cache created an unaffordable item';
+      G.closePuzzle(); G.input('use');
+      if (sounds.filter(s => s === 'door').length !== 1) return 'reopening replayed the unlock sound';
+      return G.puzzleAction('claim', 'gold') && G.level().puzzle.reward === 'gold' || 'a poor cache could not release its coin';
+    } finally { Sound.listen(null); }
   });
   await test('legacy puzzle saves release coins without asking for a new reward', async () => {
     const { Game: G } = await ready('puzzle1'); delete G.level().puzzle.reward;

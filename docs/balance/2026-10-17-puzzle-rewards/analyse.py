@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """Check declared regression/balance bars; retain all observed resource changes."""
 import argparse,collections,gzip,json,pathlib
-p=argparse.ArgumentParser();p.add_argument('archive',type=pathlib.Path);a=p.parse_args()
-data=json.loads(gzip.decompress(a.archive.read_bytes()));groups=collections.defaultdict(dict)
+p=argparse.ArgumentParser();p.add_argument('archive',type=pathlib.Path,nargs='+');a=p.parse_args()
+archives=[json.loads(gzip.decompress(p.read_bytes())) for p in a.archive]
+data=archives[0]
+if len(archives)>1:
+ data['provenance']['additionalPasses']=[d['provenance'] for d in archives[1:]]
+ data['measurements'] += [r for d in archives[1:] for r in d['measurements']]
+groups=collections.defaultdict(dict)
 for row in data['measurements']:
  c=row['case'];groups[tuple(c[k] for k in ['set','diff','cls','levels','size','rung'])+(row['sentinel'],)][row['mode']]=row
 summary=dict(provenance={k:v for k,v in data['provenance'].items() if k!='observerSource'},errors=[],regressions=[],bars=[],standard={},sentinels={},rewards=collections.Counter(),pathReview={})
+summary.update(totalRuns=sum(len(r['data']['results'][r['case']['cls']]) for r in data['measurements']),totalCells=len(data['measurements']))
 fields=['deepest','level','ticks','kills','rests','potionsDrunk','potsAtEnd','goldFound','bought','hpLow','jobsPaid','relicsWorn']
 pooled=collections.defaultdict(list);sentinels=collections.defaultdict(list);paths=collections.defaultdict(list)
 for key,group in sorted(groups.items()):
@@ -34,6 +40,7 @@ def describe(records):
 for name,table in [('standard',pooled),('sentinels',sentinels),('pathReview',paths)]:
  summary[name]={'/'.join(map(str,k)):describe(v) for k,v in sorted(table.items())}
 for diff in ['normal','hard']:
+ if not any(k[0]==diff for k in pooled):continue
  rates={}
  for mode in ['baseline','potion','gear']:
   records=[r for (d,c,m,n,z,rank),rs in pooled.items() if d==diff and m==mode for r in rs]

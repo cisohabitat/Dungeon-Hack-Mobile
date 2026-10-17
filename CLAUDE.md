@@ -221,6 +221,9 @@ before reporting a pushed change as verified.
   with matching settings, seeds and trial counts. Test affected classes and
   paths on Normal and Hard; shared systems require all six classes. Also test
   affected run lengths and ladder rungs when those systems change.
+- For treasure or exploration rewards, include a matched `EXPLORE=0.8` pass
+  and record how often the new feature was used. The default stair-seeking bot
+  can miss caches; unvisited rewards do not establish their balance.
 - Compare at least two seed sets during tuning. Validate final gameplay or
   balance changes on three sets (`bench`, `alt`, `third`), normally 400 runs per
   class, difficulty and set, using the command below. Check win rates, depth,

@@ -386,3 +386,14 @@ test('a stick held as the hero dies is let go of for them: the next hero stands 
   expect(await page.evaluate(() => { const p = Game.player(); return [p.x, p.y]; })).toEqual(before);
   expect(errors).toEqual([]);
 });
+
+test('switching from keyboard focus to controller rings the current button before selecting it', async ({ page }) => {
+  await quietStart(page); await usePad(page); await page.goto('/');
+  await page.locator('#btn-new').focus();
+  await padPress(page, 'A');
+  await expect(page.locator('body')).toHaveClass(/\bpad\b/);
+  await expect(page.locator('#btn-new')).toBeFocused();
+  await expect(page.locator('#screen-title')).toBeVisible();
+  await padPress(page, 'A');
+  await expect(page.locator('#screen-create')).toBeVisible();
+});

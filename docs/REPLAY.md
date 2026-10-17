@@ -74,3 +74,10 @@ comparison, while continuing to compare the hero, all remaining game state and t
 `test/browser/replay.spec.js` covers pause/speed controls, outcome verification,
 Escape/focus restoration, accessibility, offline use and unchanged live saves/progress
 on the phone and small-phone projects. The performance budget checks recording in play.
+
+Optional cache reward choices use the existing recorded `puzzleAction('claim', id)`
+mutator. The puzzle regression walks to a real cache through public inputs, solves
+it, chooses unidentified gear and replays to the same terminal state. Saving a
+solved but unclaimed cache preserves its choice; loading never keeps an open
+overlay or grants a second share. Legacy caches without reward metadata retain
+their original coin release.

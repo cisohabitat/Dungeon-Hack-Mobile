@@ -318,7 +318,7 @@ npm run test:security  # adversarial save/import, telemetry and local-server che
 npm run test:browser  # Playwright suites on phone and small-phone viewports
 npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
-PUZZLES=solve PUZZLE_REWARD=potion FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # explicit puzzle-solving bench
+PUZZLES=solve PUZZLE_REWARD=potion FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # healing choice when affordable; gold|gear also valid
 npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
 PERF=1 npx playwright test --project=perf --workers=1  # performance budget, run alone
 ```
@@ -330,7 +330,7 @@ crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime 
 the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
 performance job on pushes to `main` and pull requests. A separate WebKit job checks the
 mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
-expansion, puzzle choices/retries/save transfer, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
+expansion, puzzle choices/retries/rewards/save transfer, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
 Node 24, a read-only repository token and checkouts without persisted credentials. The default browser
 script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
@@ -431,6 +431,16 @@ matched every recorded outcome/resource field, with zero errors or timeouts.
 This was a regression comparison using 40-run standard cells, not a new win-rate
 estimate; the table above remains tied to its larger recorded audit. See the
 [puzzle comparison, raw records and reproduction commands](docs/balance/2026-10-17-puzzles/).
+
+Budgeted puzzle rewards were compared on **17 October 2026** against build 6
+(`a1a4c43`), using game/observer revision `cc08b0b`: **18,216 matched simulations**
+in 450 cells. All six classes on Normal/Hard use three seed sets and targeted
+120-run standard cells; separate checks cover exploration, lengths, sizes and
+Hard+1–5. All 1,440 off-mode fingerprints and 1,440 original-gold comparisons
+match the baseline, with no errors or timeouts. Potion/gear policies met the
+predefined aggregate, class and spread limits; choices can help or hurt a run.
+These smaller samples do not replace the larger default-mode audit above. See the
+[reward comparison, scope, raw records and commands](docs/balance/2026-10-17-puzzle-rewards/).
 
 ### Earlier benchmark history
 

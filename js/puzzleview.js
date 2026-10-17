@@ -40,7 +40,7 @@ export function renderPuzzle(close, opening = false) {
     for (const offer of Game.puzzleOffers()) {
       const btn = document.createElement('button'); btn.type = 'button'; btn.id = `puzzle-reward-${offer.id}`; btn.className = 'puzzle-reward';
       const name = offer.id === 'gear' ? `${Game.itemName(offer.item)} — ${PUZZLE_WORDS.gear}` : PUZZLE_WORDS[offer.id];
-      btn.innerHTML = `<b>${escapeHtml(name)}</b><small>${offer.gold} gold${offer.id === 'gear' ? `. ${escapeHtml(PUZZLE_WORDS.unknown)}` : ''}</small>`;
+      btn.innerHTML = `<b>${escapeHtml(name)}</b><small>${offer.item ? '+ ' : ''}${offer.gold} gold${offer.id === 'gear' ? `. ${escapeHtml(PUZZLE_WORDS.unknown)}` : ''}</small>`;
       guarded(btn, () => { Game.puzzleAction('claim', offer.id); renderPuzzle(close); });
       el.appendChild(btn);
     }
