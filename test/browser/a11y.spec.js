@@ -217,3 +217,21 @@ test('the dungeon on a wide screen, with the map docked beside the view', async 
   expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
   await ctx.close();
 });
+
+
+for (const seed of ['puzzle1', 'puzzle3', 'puzzle0']) test(`optional cache ${seed} exposes its clues and controls to assistive technology`, async ({ page }) => {
+  const found = [];
+  await startGame(page, { seed, puzzles: true });
+  await page.evaluate(() => {
+    const q = Game.level().puzzle;
+    Game.player().x = q.x; Game.player().y = q.y;
+    Game.level().monsters = []; Game.level().traps = {};
+  });
+  await page.click('[data-tap="use"]');
+  await expect(page.locator('#ov-puzzle')).toHaveClass(/open/);
+  await scan(page, 'puzzle-' + seed, found);
+  await page.click('#puzzle-submit');
+  await scan(page, 'puzzle-retry-' + seed, found);
+  const bad = report(found);
+  expect(bad, JSON.stringify(bad, null, 1)).toEqual([]);
+});

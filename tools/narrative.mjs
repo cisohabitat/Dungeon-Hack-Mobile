@@ -35,6 +35,14 @@ export async function narrative() {
   h(2, 'Title facts (FUN_FACTS)');
   D.FUN_FACTS.forEach(p);
 
+  const { PUZZLE_WORDS } = await import(new URL('js/puzzledata.js', root).href);
+  h(2, 'The old caches (PUZZLE_WORDS)');
+  for (const [id, words] of Object.entries(PUZZLE_WORDS)) {
+    if (typeof words === 'string') li(id, words);
+    else { h(3, id); for (const [key, value] of Object.entries(words)) li(key, value); }
+  }
+  end();
+
   h(2, 'The prologue (PROLOGUE)');
   D.PROLOGUE.forEach(p);
 

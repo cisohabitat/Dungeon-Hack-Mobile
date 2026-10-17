@@ -75,7 +75,7 @@ export function makeSaving(K) {
       const data = parseSave(s);
       K.G = data;
       // an encounter left open belonged to the game that was running, not the one loaded
-      encs.clear();
+      encs.clear(); K.puzzles.clear();
       K.G.status = 'playing';
       K.G.forkPending = false;   // saved with the divided stair's question open: it is asked again at the stair
       K.G.player.xp = Math.round(K.G.player.xp || 0);   // a shade's fraction of a point, from before it was rounded

@@ -5,7 +5,7 @@ import { BUILD_ID } from './release.js';
 export const RECORD_LIMIT = 1500000;
 export const RECORD_METHODS = ['update', 'tick', 'renderState', 'input', 'beginPrelude', 'skipPrelude',
   'equip', 'unequip', 'useItem', 'dropItem', 'takeItem', 'sortPack', 'castSpell', 'useAbility',
-  'chooseBoon', 'chooseRoute', 'leaveFork', 'chooseEncounter', 'closeEncounter', 'closeShop',
+  'puzzleAction', 'closePuzzle', 'chooseBoon', 'chooseRoute', 'leaveFork', 'chooseEncounter', 'closeEncounter', 'closeShop',
   'buy', 'sell', 'sellJunk', 'buyService', 'study', 'giveCharm', 'claimHeart', 'rest', 'quickScroll',
   'toggleRolls', 'save', 'log', 'runFinds', 'hurtPlayer', 'descend', 'giveItem', 'setWorn'];
 const clone = v => v === undefined ? null : JSON.parse(JSON.stringify(v));

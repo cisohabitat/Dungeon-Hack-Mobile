@@ -1,3 +1,4 @@
+import { renderPuzzle } from './puzzleview.js';
 import { bindReplay } from './replaycontrols.js';
 import { randomSeedWord } from './rng.js';
 import { ROUTES, TWISTS, THEMES, PROLOGUE, BACKGROUNDS, MAX_LEVEL, CLASSES, ITEMS, VOWS, ELITES, MONSTERS } from './data.js';
@@ -185,6 +186,10 @@ const UI = (() => {
       : (o.permadeath
         ? 'One life: permadeath is on. The run is saved whenever you put the game away, so you can come back to it, but if you die the save is gone.'
         : 'Permadeath is off: save from the menu, and load it again if you die.') + (d !== 'normal' ? ` Difficulty: ${diffLabel(o)}.` : '');
+    const puzzleBox = /** @type {HTMLInputElement} */ ($('#pro-puzzles'));
+    puzzleBox.checked = false;
+    puzzleBox.disabled = !!(o.daily || o.weekly);
+    $('#pro-puzzle-note').textContent = puzzleBox.disabled ? 'Puzzles stay off in Daily and Weekly challenges so their rules are fixed.' : 'Rune sequences, watchfires and keeper seals guard some gold and gems. Optional, with unlimited retries; never needed for the stairs or the Heart.';
     showScreen('screen-prologue');
     Sound.unlock();
     narration.prologue(cfg.bg);
@@ -201,16 +206,11 @@ const UI = (() => {
     // the day's one try begins here, at the first stair
     if (pendingCfg.opts.daily) Daily.start(pendingCfg.opts.daily, pendingCfg.opts.dailyKind || 'main');
     if (pendingCfg.opts.weekly) Weekly.start(pendingCfg.opts.weekly);
+    if (/** @type {HTMLInputElement} */ ($('#pro-puzzles')).checked && !pendingCfg.opts.daily && !pendingCfg.opts.weekly) pendingCfg.opts.puzzles = true;
     Game.newGame(pendingCfg);
     pendingCfg = null;
     Game.save(true);
     // (begun before the first look at the HUD, so the first tip waits for it)
-    if (preludeWanted()) Game.beginPrelude();
-    startPlaying();
-  }
-  /** A hero straight into the dungeon, no prologue: Quick Start for anyone who has been down before. */
-  function startNow(cfg) {
-    pendingCfg = cfg; Game.newGame(pendingCfg); pendingCfg = null; Game.save(true);
     if (preludeWanted()) Game.beginPrelude();
     startPlaying();
   }
@@ -1013,11 +1013,11 @@ const UI = (() => {
   // A level-up choice or an encounter holds the screen until it is dealt
   // with: what the game asks for meanwhile (another choice, a shop) waits its
   // turn rather than covering it, and what the player taps for is ignored.
-  const GAME_ASKS = ['boons', 'encounter', 'shop', 'fork', 'boss'];
+  const GAME_ASKS = ['boons', 'encounter', 'puzzle', 'shop', 'fork', 'boss'];
   function openOverlay(name) {
     // the pack, the spells or the map opened while the way in plays end it first: what they do is done on the floor itself
     if (Game.preludeOn()) Game.skipPrelude();
-    if (overlay === 'boons' || overlay === 'encounter' || overlay === 'boss') {
+    if (overlay === 'boons' || overlay === 'encounter' || overlay === 'puzzle' || overlay === 'boss') {
       if (name !== overlay && GAME_ASKS.includes(name) && !waiting.includes(name)) waiting.push(name);
       return;
     }
@@ -1043,6 +1043,7 @@ const UI = (() => {
     if (name === 'journal') { renderJournal(); if (journalTab === 'pages') narration.journal(); }
     if (name === 'boons') renderBoons();
     if (name === 'encounter') renderEncounter();
+    if (name === 'puzzle') renderPuzzle(() => closeOverlay(), true);
     if (name === 'fork') renderFork();
     if (name === 'boss') renderBoss();
     if (name === 'code') renderCode();
@@ -1109,6 +1110,7 @@ const UI = (() => {
     // an encounter must be answered: every one offers a way to leave, so
     // backing out would only be a free look at the odds
     if (overlay === 'encounter') { const e = Game.currentEncounter(); if (e && !e.result) return; Game.closeEncounter(); }
+    if (overlay === 'puzzle') Game.closePuzzle();
     if (overlay === 'shop') Game.closeShop();
     if (overlay === 'fork') Game.leaveFork();
     // it fades away rather than vanishing, and lets taps through while it does
@@ -1134,6 +1136,7 @@ const UI = (() => {
     waiting = [];
     bossReveal = '';
     if (overlay === 'encounter') Game.closeEncounter();
+    if (overlay === 'puzzle') Game.closePuzzle();
     if (overlay === 'shop') Game.closeShop();
     $$('.overlay.open').forEach(el => el.classList.remove('open'));
     overlay = null;
@@ -1420,6 +1423,7 @@ const UI = (() => {
         if (bossPortrait(bossReveal)) openOverlay('boss');
       }
       else if (e === 'fork') { if (Game.forkPending() && Game.state().status === 'playing') openOverlay('fork'); }
+      else if (e === 'puzzle') { if (overlay === 'puzzle') renderPuzzle(() => closeOverlay()); else if (Game.currentPuzzle()) openOverlay('puzzle'); }
       else if (e === 'encounter') { if (overlay === 'encounter') renderEncounter(); else if (Game.currentEncounter()) openOverlay('encounter'); }
       // the view goes dark a moment first, then the end screen, for this run only
       else if (e === 'dead') {
@@ -1574,7 +1578,7 @@ const UI = (() => {
 
   // ---------- createview: see createview.js ----------
   const { faceOf, buildCreate, openCreation, quickStart, bindCreate } = makeCreateView({
-    get showScreen() { return showScreen; }, get showPrologue() { return showPrologue; }, get startNow() { return startNow; },
+    get showScreen() { return showScreen; }, get showPrologue() { return showPrologue; },
   });
 
   // ---------- endscreen: see endscreen.js ----------

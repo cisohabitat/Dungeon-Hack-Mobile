@@ -1,6 +1,6 @@
 // The New Game screen: the hero made by hand. Its classes, backgrounds and vows as
 // cards, the scores rolled or bought, the name drawn to suit the background, the
-// difficulty and the delve's length; and Quick Start, a ready hero straight in. A
+// difficulty and the delve's length; and Quick Start, a ready hero at the stair. A
 // factory in the K pattern, wired at the end of ui.js, which keeps the prologue
 // and the run's start.
 import { randomSeedWord } from './rng.js';
@@ -16,7 +16,6 @@ import { renderStart, renderRung } from './createextras.js';
  * @param {{
  *   showScreen: (id: string) => void,
  *   showPrologue: (cfg: any) => void,
- *   startNow: (cfg: any) => void,
  * }} K
  */
 export function makeCreateView(K) {
@@ -232,10 +231,8 @@ export function makeCreateView(K) {
     }
     const cfg = { name: heroName(create.bg), cls: create.cls, bg: create.bg, stats: create.stats, seed: randomSeedWord(),
       opts: { levels: 8, size: 'medium', monsters: 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: true, difficulty: /** @type {'normal'} */ ('normal') } };
-    // "straight in" means it for anyone who has been down before; a first
-    // hero still hears why the Heart matters
-    if (firstRun) K.showPrologue(cfg);
-    else K.startNow(cfg);
+    // Every hero pauses at the stair to choose whether to include puzzles.
+    K.showPrologue(cfg);
   }
   function beginGame() {
     const cfg = {

@@ -1,5 +1,8 @@
 # Local run recording and replay
 
+Puzzle guesses, resets and closing the cache are recorded alongside other inputs.
+Optional caches replay with the same clues, marks and treasure as the original run.
+
 New browser runs record the seed, hero configuration, build, starting game memories,
 public player actions and exact simulation/frame times. The end screen offers **Replay
 this run** after victory or defeat. Playback has pause/resume and 1×, 2× and 4× speed.

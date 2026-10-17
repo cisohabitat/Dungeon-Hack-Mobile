@@ -1253,3 +1253,17 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 
 .run-replay > .row, .replay-player > .row { flex-wrap: wrap; }
 .run-replay h2 { min-width: 0; overflow-wrap: anywhere; }
+
+/* The catches on optional treasure: four named marks, never colour alone. */
+.puzzle-clue { padding: var(--s-12); border: 1px solid var(--border); color: var(--primary-text); background: var(--card-bg); }
+.puzzle-marks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-8); }
+.puzzle-marks button { min-height: 48px; }
+.puzzle-marks small { display: block; }
+.puzzle-marks [aria-pressed="true"] { border-color: var(--gold); background: var(--sel-bg); }
+#puzzle-controls { display: grid; gap: var(--s-8); }
+#puzzle-feedback { color: var(--gold); }
+
+/* Keep each hero's puzzle choice and the stair in reach while the story scrolls. */
+.pro-start { position: sticky; bottom: 0; z-index: 2; padding: var(--s-10) 0 calc(var(--s-10) + var(--sab)); background: var(--bg); border-top: 1px solid var(--border); }
+.pro-start .opts { grid-template-columns: 1fr; }
+@media (max-height: 600px) { .pro-start { position: static; } }

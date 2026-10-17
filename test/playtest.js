@@ -125,6 +125,25 @@ function play(ctx, cls, seed, opts, bg, idx) {
   // favoured slow weapons over fast ones, and hid the dual-wield swing cost
   // entirely: a 700ms and an 805ms swing both came out at 900ms.
   const step = () => {
+    // Only the explicit puzzle benchmark answers catches. Read the same marks
+    // shown to a player, at their current square; no navigation or combat rule changes.
+    if (process.env.PUZZLES === 'solve') {
+      const q = Game.level().puzzle;
+      if (q && !q.solved && q.x === p.x && q.y === p.y && G.status === 'playing') {
+        Game.input('use');
+        if (Game.currentPuzzle()) {
+          // A catch holds coins, not the ignored gear lying beside them.
+          const held = Game.floorItems().filter(it => it.puzzle);
+          Game.puzzleAction('reset');
+          const marks = q.kind === 'runes' ? q.order : q.kind === 'torches' ? [0, 1, 2, 3].filter(i => q.target & (1 << i)) : [q.order[0]];
+          for (const mark of marks) Game.puzzleAction('mark', mark);
+          if (!Game.puzzleAction('submit')) throw new Error('The puzzle benchmark could not release a catch.');
+          Game.closePuzzle();
+          for (const it of held) Game.takeItem(it);
+          rec.puzzlesSolved = (rec.puzzlesSolved || 0) + 1;
+        }
+      }
+    }
     const wait = p.nextAttack - G.t;
     const dt = wait > 0 && wait < TICK ? Math.max(16, Math.ceil(wait)) : TICK;
     Game.update(now, dt);
@@ -1041,7 +1060,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
 // MONSTERS=many (or few) measures a density other than the default
 /** How many runs made each combination, over the whole bench (COMBOS=1 prints them). */
 const comboSeen = {};
-const opts = { levels: parseInt(process.env.LEVELS || '8', 10), size: process.env.SIZE || 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: (process.env.DIFF || 'normal').replace(/\+\d+$/, '') };
+const opts = { ...(process.env.PUZZLES ? { puzzles: true } : {}), levels: parseInt(process.env.LEVELS || '8', 10), size: process.env.SIZE || 'medium', monsters: process.env.MONSTERS || 'normal', treasure: 'normal', lockedDoors: true, traps: true, permadeath: false, difficulty: (process.env.DIFF || 'normal').replace(/\+\d+$/, '') };
 // DIFF=hard+3: a rung of the ladder past Hard
 const rungAsked = Number(((process.env.DIFF || '').match(/^hard\+(\d+)$/) || [])[1]) || 0;
 if (rungAsked) opts.rung = rungAsked;

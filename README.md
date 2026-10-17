@@ -9,6 +9,17 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 
 ## Features
 
+- **Optional dungeon puzzles.** At the first stair of every new custom or Quick
+  Start run, tick **Include dungeon puzzles**. It starts unticked for each hero.
+  Rune sequences, watchfire patterns and keeper-seal deductions guard some existing
+  gold and gems, with clues beside their controls. Stand on a cache or face it and
+  press **Puzzle** (Use); the dungeon pauses while it is open. **Start again** clears
+  a guess, and **Leave for later** keeps your progress. There are unlimited retries,
+  no wrong-answer damage and no extra loot. Keys, relics, quest objects, passages,
+  stairs and the Heart are never gated. Progress travels in saves, save codes and
+  same-build replays. Daily and Weekly challenges keep puzzles off so their rules
+  stay fixed. Floors without a suitable treasure pile, and the final floor, have no cache.
+
 - **Watch a recorded delve.** New runs record their actions and timing locally. After
   victory or defeat, choose **Replay this run** to watch the first-person journey,
   pause it or play at up to 4× speed. Playback leaves saves, trophies and Daily results
@@ -23,7 +34,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   The release and build are shown at the bottom of the main page.
 - **Seeded dungeons.** Every level is generated from your seed string, so the same seed always
   gives the same dungeon. Share seeds with friends.
-- **Customisable descent.** Choose the number of levels (4 to 16), map size, monster density,
+- **Customisable descent.** Choose the number of levels (2 to 16), map size, monster density,
   treasure density, locked doors and keys, traps, and permadeath, just like the original's
   dungeon-customisation screen. A difficulty picker at the top sets Easy, Normal or Hard.
 - **One life by default.** Permadeath is on unless you untick it. The run is still saved when
@@ -303,6 +314,7 @@ npm run test:security  # adversarial save/import, telemetry and local-server che
 npm run test:browser  # Playwright suites on phone and small-phone viewports
 npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
+PUZZLES=solve FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # explicit puzzle-solving bench
 npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
 PERF=1 npx playwright test --project=perf --workers=1  # performance budget, run alone
 ```
@@ -314,7 +326,7 @@ crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime 
 the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
 performance job on pushes to `main` and pull requests. A separate WebKit job checks the
 mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
-expansion, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
+expansion, puzzle choices/retries/save transfer, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
 Node 24, a read-only repository token and checkouts without persisted credentials. The default browser
 script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
@@ -793,6 +805,7 @@ js/recording.js   bounded action/timing records and deterministic replay
 js/replaycontrols.js, replayview.js, replay.html   isolated end-screen replay viewer
 js/narration.js, storyvoice.js   recorded readings and their story cues
 js/game.js        rules and state; combat, items, powers, pacing, saving and more in their own modules
+js/puzzles.js     optional seeded treasure catches; clues in puzzledata.js and controls in puzzleview.js
 js/savecheck.js   validation before local saves and shared codes become game state
 js/foes.js        monsters: waking, moving, striking, signature moves, the lich, champions
 js/ui.js          screens, overlays, touch and keyboard input

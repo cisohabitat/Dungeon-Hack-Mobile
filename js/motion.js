@@ -303,7 +303,10 @@ export function makeMotion(K) {
       sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[who] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
     }
     for (const k in L.items) {
-      const list = L.items[k];
+      const q = L.puzzle;
+      const locked = K.G.opts.puzzles === true && q && !q.solved && k === `${q.x},${q.y}`;
+      if (locked && Assets.sprites.dress_chest) sprites.push({ x: q.x + 0.5, y: q.y + 0.5, img: Assets.sprites.dress_chest, scale: 0.5, yOff: 0, onFloor: true });
+      const list = locked ? L.items[k].filter(it => !it.puzzle) : L.items[k];
       if (!list.length) continue;
       const [x, y] = k.split(',').map(Number);
       // what lies on a square is scattered across it, each thing where it fell,

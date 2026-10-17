@@ -599,6 +599,7 @@ export function makeItems(K) {
     const list = L.items[k] || [];
     const i = list.indexOf(it);
     if (i < 0) return;
+    if (K.puzzles.blocks(it)) return false;
     const was = it.left;
     delete it.left;
     if (it.t === 'gold' || it.t === 'gem') { it.q = tricksterPurse(it.q); noteGold(it.q); }
@@ -649,6 +650,7 @@ export function makeItems(K) {
   /** Everything here that can be taken; walking on, not what the hero put down nor gear the class cannot use. */
   function pickupAll(walking = false) {
     for (const it of takeable().filter(it => !(walking && (it.left || uselessToClass(it) || spareToPack(it))))) {
+      if (K.puzzles.blocks(it, walking)) continue;
       takeItem(it);
       if (K.G.status !== 'playing') break;   // lifting the Heart ends the run: nothing more is picked up after
     }

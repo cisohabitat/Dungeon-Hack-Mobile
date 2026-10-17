@@ -109,6 +109,22 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/release.js`: release version and build number, shared by the main-page
   footer and telemetry. Keep the version in step with `package.json` and
   increment the build for each published build.
+- `js/puzzles.js`: optional catches on existing gold/gems, placed after the floor's
+  other rules with a separate seeded stream. `js/puzzledata.js` holds the clues and
+  `js/puzzleview.js` their accessible overlay. Every fresh custom/Quick Start hero
+  chooses `opts.puzzles` at the prologue; it resets off, and Daily/Weekly keep it off.
+  Never gate keys, relics, quest objects or travel, change loot totals, or shift the
+  map/combat dice. `Item.puzzle` guards collection through both walking and the pack;
+  puzzle progress lives on `Level.puzzle`, but the open overlay is transient and
+  cleared on load/new game. Validate imported controls in `savecheck.js`, record all
+  puzzle mutators, and include clues in the narrative document. Keep the prologue's
+  puzzle choice and stair reachable in `.pro-start`; short screens scroll normally.
+  Recheck the returning-story and large-text flows when changing that footer.
+  `PUZZLES=solve` in
+  the balance bot explicitly answers caches at the current square and collects
+  only their guarded currency, preserving the walking pickup policy for other
+  loot. Default runs keep their decisions. Browser and rules checks are `puzzles.spec.js` and
+  `rules-puzzles.js`; the overlay also has axe coverage.
 - `js/savecheck.js`: validate local saves and imported codes before assigning game
   state. `js/savecode.js` bounds encoded input and streamed gzip output; the file
   picker checks size before reading. Preserve valid saves and legacy migrations.

@@ -49,9 +49,11 @@ async function startGame(page, opts = {}) {
   // scores placed by points rather than rolled: the same hero every time, for a test that needs one
   if (opts.buy) await page.click('#c-statmode [data-mode="buy"]');
   if (opts.levels) await page.selectOption('#c-levels', opts.levels);
+  if (opts.permadeath === false) await page.uncheck('#c-permadeath');
   await page.fill('#c-seed', opts.seed || 'spec');
   await page.click('#c-begin');
   await expect(page.locator('#screen-prologue')).toBeVisible();
+  if (opts.puzzles) await page.check('#pro-puzzles');
   await page.click('#pro-begin');
   await expect(page.locator('#screen-game')).toBeVisible();
   await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());

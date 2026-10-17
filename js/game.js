@@ -1,3 +1,4 @@
+import { makePuzzles } from './puzzles.js';
 import { recordGame } from './recording.js';
 import { Rng, Dice, Odds, d, rnd, hashSeed } from './rng.js';
 import { ROUTES, TWISTS, heroName, BACKGROUNDS, CLASSES, ITEMS, TRAP_TYPES, MONSTERS, SPELLS, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, THEMES, VOWS, LADDER } from './data.js';
@@ -791,7 +792,7 @@ const Game = (() => {
     p.maxSp = spMax(p); p.sp = p.maxSp;
     lastBlocked = -1e9; queuedAttack = false; queuedMove = null;   // nothing carries over from the last run's clock
     clearFx();
-    encs.clear();   // nor does one carry over into a new run
+    encs.clear(); puzzles.clear();   // nor does one carry over into a new run
     G = { seed: cfg.seed, opts: cfg.opts, player: p, levels: {}, depth: 1, log: [], logSeq: 0, t: 0, status: 'playing', lastSpell: null, created: newRunStamp(), version: 4, looks: buildLooks(cfg.seed), known: {}, journal: [], pendingBoons: null };
     // the run's dice, seeded from the run itself (not the clock, so the bench and a replay roll the
     // same): their state travels in the save (see saveRun), so a run taken up again rolls on as it was
@@ -803,6 +804,7 @@ const Game = (() => {
     // a rung of the ladder, on Hard only, never in a Daily (it only makes the delve harder, so the
     // New Game screen alone keeps it to the rungs a class has opened; see rungOpen in progress.js)
     if (G.opts.rung !== undefined) { const n = Math.floor(Number(G.opts.rung)); if (G.opts.difficulty === 'hard' && !G.opts.daily && !G.opts.weekly && n >= 1 && n < LADDER.length) G.opts.rung = n; else delete G.opts.rung; }
+    if (G.opts.puzzles !== true || G.opts.daily || G.opts.weekly) delete G.opts.puzzles;
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     G.wick = Progress.wick();   // what Wick remembers, as this run begins (trader.js)
@@ -862,7 +864,7 @@ const Game = (() => {
     p.grabbed = null; p.webbed = 0; p.held = 0; p.dazzled = 0; p.hexed = null;
     const fresh = !G.levels[depth];
     if (!fresh) { stepAside(G.levels[depth]); pruneRemains(G.levels[depth]); }
-    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); chestLevel(G.levels[depth], depth); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); }
+    if (!G.levels[depth]) { G.levels[depth] = Dungeon.generate(G.seed, depth, G.route ? { ...G.opts, route: G.route } : G.opts); chestLevel(G.levels[depth], depth); placeRelics(G.levels[depth], depth); placeJewellery(G.levels[depth], depth); placeRobes(G.levels[depth], depth); placeFoci(G.levels[depth], depth); placeCloaks(G.levels[depth], depth); twistLevel(G.levels[depth], depth); caskLevel(G.levels[depth], depth); mimicLevel(G.levels[depth], depth); pieceLevel(G.levels[depth], depth); placeFallen(G.levels[depth], depth); hardenLevel(G.levels[depth], depth); pressLevel(G.levels[depth], depth); wickLevel(G.levels[depth], depth); puzzles.place(G.levels[depth], depth); }
     G.depth = depth;
     // the view comes up out of the dark of the stair (see drawArrival in the renderer)
     fx.arriveAt = realNow;
@@ -1064,6 +1066,7 @@ const Game = (() => {
   function useLabel() {
     if (!G || G.status !== 'playing') return 'Use';
     const p = P();
+    if (puzzles.nearby()) return 'Puzzle';
     if (takeable().length) return 'Take';
     const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1], t = tile(tx, ty);
     if (t === T.DOOR) return 'Open';
@@ -1425,6 +1428,7 @@ const Game = (() => {
     const p = P();
     const [dx, dy] = DIRS[p.dir];
     const tx = p.x + dx, ty = p.y + dy, t = tile(tx, ty);
+    if (puzzles.nearby()) return puzzles.open();
     if (takeable().length) { pickupAll(); return; }
     if (t === T.DOOR) return openDoor(tx, ty);
     if (t === T.DOOR_LOCKED) return tryUnlock(tx, ty);
@@ -1519,7 +1523,7 @@ const Game = (() => {
     get offerCapstone() { return offerCapstone; }, get offerPath() { return offerPath; }, get offhandReason() { return offhandReason; },
     get offhandWeapon() { return offhandWeapon; }, get onPath() { return onPath; }, get openEncounter() { return encs.openEncounter; },
     get opening() { return opening; }, get ownEffect() { return ownEffect; }, get P() { return P; }, get packSize() { return packSize; },
-    get passable() { return passable; }, get pathOf() { return pathOf; }, get pickupAll() { return pickupAll; }, get playerAC() { return playerAC; },
+    get puzzles() { return puzzles; }, get passable() { return passable; }, get pathOf() { return pathOf; }, get pickupAll() { return pickupAll; }, get playerAC() { return playerAC; },
     get prelude() { return prelude; }, get PRESS_HP() { return PRESS_HP; }, get propAt() { return propAt; },
     get pruneRemains() { return pruneRemains; }, get pyroFire() { return pyroFire; },
     get queuedAttack() { return queuedAttack; }, set queuedAttack(v) { queuedAttack = v; },
@@ -1585,11 +1589,12 @@ const Game = (() => {
     return left <= 0 ? 1 : Math.max(0, 1 - left / weapon().speed);
   }
   // ---------- testing aids: see testing.js ----------
+  const puzzles = makePuzzles(K);
   const aids = makeTesting(K);
   const { setTesting, testingOn, testFloor, testReveal, testLevel, testGifts, testGive, applyTesting } = aids;
   function update(now, dt) {
     realNow = now;
-    if (!G || G.status !== 'playing') return;
+    if (!G || G.status !== 'playing' || puzzles.current()) return;
     // the dungeon holds still while the way in plays
     if (prelude.active()) return;
     G.t += dt;
@@ -1664,7 +1669,7 @@ const Game = (() => {
 
   /** @param {string} act @param {boolean} [repeat]  sent again because a button is still held, not a fresh press */
   function input(act, repeat) {
-    if (!G || G.status !== 'playing') return;
+    if (!G || G.status !== 'playing' || puzzles.current()) return;
     // any control during the way in skips it, and does nothing else
     if (prelude.active()) { prelude.finish(realNow); return; }
     // the first floor's grace ends at the hero's first step or blow (a turn on the spot, to look
@@ -1779,6 +1784,7 @@ const Game = (() => {
     runFinds: () => { if (!G || !G.stats) return []; if (G.status === 'playing') legends.noteFinds(); const f = [...(G.stats.finds || [])]; for (const id of (G.relics && G.relics.found) || []) if (RELICS[id] && !f.some(x => x.key.endsWith('|' + id))) f.push({ key: '|' + id, name: RELICS[id].name, grade: RELICS[id].legend ? 'legend' : 'relic', depth: 0 }); const rank = { legend: 0, relic: 1, rare: 2 }; return f.sort((a, b) => rank[a.grade] - rank[b.grade]); }, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
+    currentPuzzle: () => puzzles.current(), puzzleAction: (act, value) => puzzles.action(act, value), closePuzzle: () => puzzles.clear(),
     currentEncounter: () => encs.current(), encounterOptions: () => encs.encounterOptions(), chooseEncounter: i => encs.chooseEncounter(i), closeEncounter: () => encs.closeEncounter(),
     pendingLevel, levelNote, currentShop, closeShop, buy, sell, buyPrice, sellPrice, shopServices, buyService, traderName, priceNotes,
     COAT_BLOWS, coatingName: t => (COATINGS[t] ? COATINGS[t].name : ''),

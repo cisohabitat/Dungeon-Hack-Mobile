@@ -13,6 +13,7 @@
 /**
  * One thing in a pack, on the floor, or on a trader's shelf.
  * @typedef {Object} Item
+ * @property {boolean} [puzzle]  kept in this floor's optional cache until its catch releases
  * @property {string} t          the key into ITEMS
  * @property {number} q          how many, or the value in coin for gold and gems
  * @property {number} [e]        enchantment, added to damage or armour
@@ -221,6 +222,7 @@
 /**
  * One generated floor of the dungeon.
  * @typedef {Object} Level
+ * @property {Puzzle} [puzzle]  at most one optional cache on this floor
  * @property {number} depth @property {number} w @property {number} h
  * @property {number[]} tiles     one of Dungeon.T per square
  * @property {number[]} roomId    which room a square belongs to, or -1
@@ -302,6 +304,7 @@
  * @property {number} levels @property {string} size
  * @property {string} monsters @property {string} treasure
  * @property {boolean} lockedDoors @property {boolean} traps
+ * @property {boolean} [puzzles]  optional treasure catches; fixed challenges keep these off
  * @property {boolean} [permadeath]
  * @property {'easy'|'normal'|'hard'} [difficulty]  how hard the delve is; a run from before the choice is Normal
  * @property {string} [daily]  the date of a Daily Delve, as YYYY-MM-DD; absent on any other run
@@ -410,6 +413,7 @@
  * needs of it as it goes. Typed by name, so a part can ask only for what is lent; the handful
  * read everywhere are typed in full, the rest as what their getter returns.
  * @typedef {Object} Kit
+ * @property {*} puzzles
  * @property {*} aids
  * @property {*} armStat
  * @property {*} assassinQuiet
@@ -720,3 +724,16 @@
  */
 
 export {};
+
+/**
+ * @typedef {Object} Puzzle
+ * @property {number} x @property {number} y
+ * @property {string} kind
+ * @property {number[]} order
+ * @property {number} target
+ * @property {number[]} input
+ * @property {boolean[]} lit
+ * @property {boolean} solved
+ * @property {boolean} [seen]
+ * @property {string} [feedback]
+ */

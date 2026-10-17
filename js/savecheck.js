@@ -41,6 +41,7 @@ export function checkSave(data) {
     }
   }
   if (!object(data) || !object(data.player) || !object(data.opts) || !object(data.levels)) invalid();
+  if (data.opts.puzzles !== undefined && typeof data.opts.puzzles !== 'boolean') invalid();
   const p = data.player;
   if (!own(CLASSES, p.cls) || typeof p.name !== 'string' || p.name.length > 256 || typeof data.seed !== 'string' || data.seed.length > 1024) invalid();
   if (!integer(data.depth, 1, 32) || !integer(data.opts.levels, 1, 32) || !Number.isFinite(data.t) || data.t < 0) invalid();
@@ -72,6 +73,16 @@ export function checkSave(data) {
         if (!object(room) || !integer(room.x, 0, floor.w - 1) || !integer(room.y, 0, floor.h - 1)
           || !integer(room.w, 1, floor.w - room.x) || !integer(room.h, 1, floor.h - room.y)) invalid();
       }
+    }
+    if (floor.puzzle !== undefined) {
+      const q = floor.puzzle;
+      if (!object(q) || !integer(q.x, 0, floor.w - 1) || !integer(q.y, 0, floor.h - 1)
+        || !['runes', 'torches', 'seals'].includes(q.kind) || typeof q.solved !== 'boolean'
+        || !Array.isArray(q.order) || q.order.length !== 4 || new Set(q.order).size !== 4 || !q.order.every(n => integer(n, 0, 3))
+        || !integer(q.target, 1, 14) || !Array.isArray(q.input) || q.input.length > 4 || !q.input.every(n => integer(n, 0, 3))
+        || !Array.isArray(q.lit) || q.lit.length !== 4 || !q.lit.every(n => typeof n === 'boolean')
+        || (q.seen !== undefined && typeof q.seen !== 'boolean')
+        || (q.feedback !== undefined && !['wrong', 'reset', 'solved'].includes(q.feedback))) invalid();
     }
     if (!Array.isArray(floor.monsters) || floor.monsters.length > 10000) invalid();
     for (const m of floor.monsters) if (!object(m) || !own(MONSTERS, m.id) || !Number.isFinite(m.x) || !Number.isFinite(m.y)) invalid();

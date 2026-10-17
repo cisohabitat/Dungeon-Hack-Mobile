@@ -336,3 +336,13 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - **No content without its bench row.** A monster that is not benched is not shipped.
 - **No board before the build moves.** A leaderboard on today's timing ranks builds that
   arrive on floor 6.
+
+## Optional dungeon puzzles (17 October 2026)
+
+- [x] Per-run choice at the first stair, including returning Quick Start heroes;
+  fixed Daily and Weekly rules preserved.
+- [x] Three seeded catches on existing gold/gem caches: rune sequences, watchfires
+  and keeper-seal deductions. Clues remain visible; retries cost nothing, and the
+  player can leave and return. No progression gates or added loot.
+- [x] Save/code validation, replay, touch/keyboard/controller controls and automated
+  rules/browser/accessibility coverage.

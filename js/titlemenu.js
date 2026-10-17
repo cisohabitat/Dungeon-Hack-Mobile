@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'safer-save-codes', text: 'Save codes now check the dungeon before loading it. Reports keep error details private; the dashboard shows counts and crash signatures.' };
+  const NEWS = { id: 'optional-dungeon-puzzles', text: 'Choose dungeon puzzles at the first stair: rune sequences, watchfires and keeper seals on optional treasure caches. Leave and return, or retry without penalty.' };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;
