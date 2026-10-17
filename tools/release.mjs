@@ -90,10 +90,10 @@ function check(base) {
 }
 function publish() {
   if (process.env.GITHUB_EVENT_NAME !== 'push' || process.env.GITHUB_REF !== 'refs/heads/main' || git('rev-parse', 'HEAD') !== process.env.GITHUB_SHA) throw new Error('Publishing requires the tested main push commit.');
-  const remote = git('ls-remote', 'origin', 'refs/heads/main').split(/\s/)[0];
+  const gh = (...args) => execFileSync('gh', args, { encoding: 'utf8' });
+  const remote = gh('api', 'repos/{owner}/{repo}/git/ref/heads/main', '--jq', '.object.sha').trim();
   if (remote !== process.env.GITHUB_SHA) return console.log('A newer main commit exists; leave publishing to its CI run.');
   const { version, build } = validate(), tag = `v${version}`;
-  const gh = (...args) => execFileSync('gh', args, { encoding: 'utf8' });
   // A failed API request must fail the job, never be mistaken for a missing release.
   const releases = JSON.parse(gh('release', 'list', '--limit', '1000', '--json', 'tagName'));
   if (releases.some(r => r.tagName === tag)) return console.log(`${tag} is already published; nothing to do.`);

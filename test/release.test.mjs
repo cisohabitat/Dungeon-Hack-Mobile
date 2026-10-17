@@ -89,7 +89,8 @@ test('publication creates once, reruns safely, and fails closed on API errors', 
 const fs = require('fs'), args = process.argv.slice(2), path = process.env.RELEASE_TEST_STATE;
 if (process.env.RELEASE_TEST_API_FAIL) process.exit(1);
 const releases = JSON.parse(fs.readFileSync(path, 'utf8'));
-if (args[1] === 'list') console.log(JSON.stringify(releases));
+if (args[0] === 'api') console.log(process.env.GITHUB_SHA);
+else if (args[1] === 'list') console.log(JSON.stringify(releases));
 else if (args[1] === 'create') { releases.push({tagName: args[2]}); fs.writeFileSync(path, JSON.stringify(releases)); }
 else process.exit(2);
 `, { mode: 0o755 });
