@@ -81,6 +81,8 @@ test('puzzle overlay pauses the world, supports keyboard and controller, and pas
   await page.keyboard.press('ArrowUp');
   await page.keyboard.press('Tab');
   expect(await page.evaluate(() => !!document.activeElement.closest('#ov-puzzle'))).toBe(true);
+  await expect(page.locator('#puzzle-mark-0')).toBeEnabled();
+  await page.locator('#puzzle-mark-0').focus();
   await padPress(page, 'A');
   const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
   expect(axe.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
@@ -92,20 +94,32 @@ test('puzzle overlay pauses the world, supports keyboard and controller, and pas
 });
 
 test('a reload and a save code keep the same partially answered puzzle @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
   await startGame(page, { seed: 'puzzle1', puzzles: true, permadeath: false });
   const q = await reachCache(page);
-  await page.locator('[data-tap="use"]').tap(); await page.click('#puzzle-mark-2');
+  await page.locator('[data-tap="use"]').tap();
+  await expect(page.locator('#ov-puzzle')).toHaveClass(/open/);
+  await page.click('#puzzle-mark-2');
   await page.evaluate(() => Game.save(true));
   const code = await page.evaluate(() => Game.saveCode());
   await page.reload(); await page.click('#btn-continue');
   await expect(page.locator('#screen-game')).toBeVisible();
-  await page.locator('[data-tap="use"]').tap();
+  expect(await page.evaluate(() => Game.level().puzzle.input)).toEqual([2]);
+  await expect(page.locator('[data-tap="use"]')).toHaveAttribute('aria-label', 'Puzzle');
+  await page.click('[data-tap="use"]');
+  await expect(page.locator('#ov-puzzle')).toHaveClass(/open/);
   await expect(page.locator('#puzzle-progress')).toContainText('Crown');
   await page.click('#puzzle-reset'); await page.click('#puzzle-leave');
+  await expect(page.locator('#ov-puzzle')).not.toHaveClass(/open|closing/);
+  await expect.poll(() => page.evaluate(() => history.state?.dd)).toBe('game');
   expect(await page.evaluate(code => Game.loadCode(code), code)).toMatchObject({ ok: true });
-  await page.locator('[data-tap="use"]').tap();
+  expect(await page.evaluate(() => Game.level().puzzle.input)).toEqual([2]);
+  await expect(page.locator('[data-tap="use"]')).toHaveAttribute('aria-label', 'Puzzle');
+  await page.click('[data-tap="use"]');
+  await expect(page.locator('#ov-puzzle')).toHaveClass(/open/);
   await expect(page.locator('#puzzle-progress')).toContainText('Crown');
   await solve(page, q);
+  expect(errors).toEqual([]);
 });
 
 test('Daily and Weekly starts explain that their puzzle rules stay fixed', async ({ page }) => {

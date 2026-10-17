@@ -1376,6 +1376,17 @@ const UI = (() => {
     window.addEventListener('pointerdown', () => { lastInput = 'pointer'; }, { capture: true });
     window.addEventListener('keydown', e => {
       lastInput = 'key';
+      // While a cache's controls arm, only its clue and Close may be ready.
+      // Tab still stays in the dialog rather than escaping to the browser.
+      if (overlay === 'puzzle' && e.key === 'Tab') {
+        const tabs = /** @type {HTMLElement[]} */ ([...$('#ov-puzzle').querySelectorAll('button:not(:disabled), [tabindex="0"]')]).filter(b => b.getClientRects().length);
+        if (tabs.length) {
+          const at = tabs.indexOf(/** @type {HTMLElement} */ (document.activeElement));
+          const next = at < 0 ? 0 : (at + (e.shiftKey ? -1 : 1) + tabs.length) % tabs.length;
+          e.preventDefault(); tabs[next].focus();
+        }
+        return;
+      }
       const target = /** @type {HTMLElement} */ (e.target);
       if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) return;
       // Escape is every screen's Back, as B is on a pad

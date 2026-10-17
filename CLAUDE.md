@@ -120,6 +120,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   puzzle mutators, and include clues in the narrative document. Keep the prologue's
   puzzle choice and stair reachable in `.pro-start`; short screens scroll normally.
   Recheck the returning-story and large-text flows when changing that footer.
+  Keep Tab inside the puzzle dialog even during its input guard; disabled
+  controls must not strand focus. Save-transfer browser checks wait for the
+  closing animation and history entry before interacting with the restored run.
   `PUZZLES=solve` in
   the balance bot explicitly answers caches at the current square and collects
   only their guarded currency, preserving the walking pickup policy for other

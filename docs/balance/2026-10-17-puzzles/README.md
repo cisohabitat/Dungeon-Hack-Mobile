@@ -125,3 +125,7 @@ passed 18 targeted story, accessibility, large-text, controller and start-option
 checks. The isolated 4× CPU frame-rate test passed at 58–60 FPS across all four
 scenes (30 FPS required). Fresh CI tests the final published revision separately.
 
+
+Build 6 follows with puzzle-dialog Tab containment and browser-test readiness
+checks after save transfer. It changes no game rule, bot choice or resource
+calculation, so these paired balance results remain applicable.

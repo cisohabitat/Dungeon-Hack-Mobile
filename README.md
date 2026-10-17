@@ -13,7 +13,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   Start run, tick **Include dungeon puzzles**. It starts unticked for each hero.
   Rune sequences, watchfire patterns and keeper-seal deductions guard some existing
   gold and gems, with clues beside their controls. Stand on a cache or face it and
-  press **Puzzle** (Use); the dungeon pauses while it is open. **Start again** clears
+  press **Puzzle** (Use); the dungeon pauses while it is open and keyboard focus stays inside the dialog. **Start again** clears
   a guess, and **Leave for later** keeps your progress. There are unlimited retries,
   no wrong-answer damage and no extra loot. Keys, relics, quest objects, passages,
   stairs and the Heart are never gated. Progress travels in saves, save codes and
