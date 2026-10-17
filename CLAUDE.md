@@ -186,10 +186,15 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 
 ## Checks
 
-Before every push, run `npm test`, both Chromium projects and the isolated
-frame-rate budget below. CI additionally runs the focused WebKit project,
-which is not installed in this local container. Wait for all CI jobs to pass
-before reporting a pushed change as verified.
+Before every push, run `npm test`. Player-facing implementation changes also
+require both full Chromium projects and the isolated frame-rate budget below.
+For release tooling, documentation and version-metadata-only changes, run
+`npm run test:release` and `release.spec.js` on both Chromium projects locally;
+CI still runs the full Chromium, WebKit and performance suites and blocks GitHub
+publication until all seven required checks pass. Do not weaken assertions or
+skip any CI job for this exception. WebKit is not installed in this container.
+Wait for every CI job, including publication when applicable, before reporting
+a pushed change as verified.
 
 - `npm run test:release`: isolated Git fixtures check release selection, metadata,
   CI rejection and publication retries/API failures; included in `npm test`.

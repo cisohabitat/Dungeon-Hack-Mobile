@@ -275,7 +275,10 @@ instructions require this preparation automatically before publishing updates.
 The pre-push hook and CI reject player changes without a suitable version/build bump. After all seven
 test jobs pass on main, it creates the version tag and a GitHub release with
 generated notes. Repeated runs skip existing releases, older main runs skip
-publication, and existing tags are never moved. Only that publication job receives
+publication, and existing tags are never moved. Release-tool-only changes use the isolated Git fixtures and both phone
+release/footer/offline checks locally; the complete browser, security, rule and
+performance suites still gate publication in CI. Gameplay changes retain the
+full local browser and balance checks. Only that publication job receives
 a write token; tests and pull requests remain read-only. Vercel continues to deploy
 main on push, independently of the later GitHub release publication.
 
