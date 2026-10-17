@@ -132,9 +132,6 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   closing animation and history entry before interacting with the restored run.
   Before reloading after leaving a cache, wait for `history.state.dd === 'game'`:
   the fade finishing does not prove Safari's `history.back()` has settled.
-  State-only reward reload checks disable narration, leaving sound/music enabled;
-  keep the voice-enabled partial-save and media suites separate, and retain
-  full reload, restored-state and console-error assertions.
   `PUZZLES=solve` in
   the balance bot explicitly answers caches at the current square and collects
   only their guarded currency or chosen conversion, preserving the walking pickup
@@ -200,8 +197,10 @@ before reporting a pushed change as verified.
   skips without `PERF=1`, since beside other tests it measures the load.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
-- `npx playwright test --project=safari`: focused `@mobile` tests in Playwright
-  WebKit, installed in a separate CI job. Keep tags on the audio unlock/mute,
+- `npx playwright test --project=safari --workers=1`: focused `@mobile` tests in Playwright
+  WebKit, installed in a separate CI job. Run that job on one worker so native
+  media/navigation teardown does not compete across renderers; keep the full
+  navigation, narration and console-error assertions. Keep tags on the audio unlock/mute,
   portrait, fog and touch/save regressions. `npm run test:browser` runs the two
   Chromium projects locally; do not install WebKit in the local container.
   Linux WebKit and an iPhone-sized Chromium viewport do not establish a real

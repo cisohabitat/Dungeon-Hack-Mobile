@@ -213,14 +213,12 @@ every run. No ordinary bot decision or acceptance limit was changed to conceal
 a loss.
 
 
-The state-only reward reload cases wait for both the overlay fade and the
-same-document history traversal, then assert the restored pending state and
-Puzzle control before reopening. Linux WebKit's failed reload traces stop after
-an active narration stream and the replacement document request, before that
-document initialises; waiting for history alone did not resolve the hang. These
-two persistence fixtures now disable narration while leaving sound/music enabled.
-The original voice-enabled partial-save test and dedicated audio/narration suites
-remain unchanged. Full reload, console-error and reward assertions are retained;
-neither game rules, assets nor the balance observer change for this test-only
-follow-up. Both the history-wait and narration-independent fixtures pass all 20 Chromium
-puzzle cases before pushing.
+Reward reload checks wait for the overlay fade and same-document history
+traversal, then assert the restored pending state and Puzzle control before
+reopening. Parallel Linux WebKit runs stalled or crashed during both reload
+and older puzzle controls. Disabling narration did not resolve that behaviour
+and was reverted. The focused Safari CI job now runs on one worker, retaining
+full reload, narration, restored-state, reward and console-error assertions.
+The restored puzzle fixtures are byte-identical to the history-wait version
+that passed all 20 Chromium phone/small cases. Neither game rules, assets nor
+the balance observer changed for these CI/test follow-ups.
