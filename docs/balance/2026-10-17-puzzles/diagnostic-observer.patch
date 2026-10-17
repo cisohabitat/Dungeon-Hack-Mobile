@@ -1,0 +1,28 @@
+--- a/test/playtest.js
++++ b/test/playtest.js
+@@ -83,6 +83,16 @@
+   const G = Game.state();
+   const p = Game.player();
+   const rec = { cls, bg, seed, depth: 1, deepest: 1, died: false, won: false, cause: '', ticks: 0, kills: 0, potionsDrunk: 0, rests: 0, starved: 0, packFull: 0, goldFound: 0, hpLow: 0 };
++  const coinLedger = [];
++  for (const name of ['input', 'update', 'takeItem', 'buy', 'sell', 'sellJunk', 'buyService', 'chooseEncounter', 'useItem', 'castSpell', 'useAbility']) {
++    const fn = Game[name];
++    Game[name] = (...args) => {
++      const before = { gold: p.gold, t: G.t, depth: G.depth, x: p.x, y: p.y }, detail = args.map(x => x && typeof x === 'object' ? x.t || x.id || '?' : x);
++      const result = fn(...args);
++      if (p.gold !== before.gold) coinLedger.push({ ...before, action: name, detail, delta: p.gold - before.gold, after: p.gold, lines: G.log.slice(-3).map(x => x.m) });
++      return result;
++    };
++  }
+   const fieldsCounted = new WeakSet();   // the floors counted in fieldsSeen
+ 
+   // BFS from the player over passable tiles, returning a distance field
+@@ -1049,6 +1059,8 @@
+   rec.combos = Object.keys(G.combos || {}).length;
+   for (const id of Object.keys(G.combos || {})) comboSeen[id] = (comboSeen[id] || 0) + 1;
+   rec.legendWorn = Object.values(p.eq).some(i => i && i.u && RELICS[i.u] && RELICS[i.u].legend) ? 1 : 0;
++  rec.coinLedger = coinLedger;
++  rec.cacheLedger = Object.entries(G.levels).filter(([_, L]) => L.puzzle).map(([depth, L]) => ({ depth: Number(depth), kind: L.puzzle.kind, solved: L.puzzle.solved, seen: !!L.puzzle.seen, remaining: (L.items[`${L.puzzle.x},${L.puzzle.y}`] || []).filter(it => it.puzzle).map(it => ({ t: it.t, q: it.q })) }));
+   rec.casts = { ...((G.stats && G.stats.spells) || {}) };
+   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
+   return rec;

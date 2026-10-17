@@ -1,0 +1,46 @@
+{
+  "groups": 90,
+  "runs": 4968,
+  "standardRuns": 4320,
+  "sentinelRuns": 648,
+  "offFingerprintMismatches": [],
+  "outcomeDifferences": [],
+  "errors": [],
+  "puzzlesSolved": 664,
+  "wins": {
+    "hard": {
+      "baseline": 432,
+      "off": 432,
+      "on": 432
+    },
+    "normal": {
+      "baseline": 587,
+      "off": 587,
+      "on": 587
+    }
+  },
+  "solvedByClass": {
+    "cleric": 121,
+    "druid": 102,
+    "fighter": 108,
+    "mage": 123,
+    "ranger": 110,
+    "thief": 100
+  },
+  "provenance": {
+    "nodeVersion": "v24.19.0",
+    "startedUtc": "2026-10-17T09:31:06Z",
+    "seedsPerCell": 4,
+    "trialsPerSeed": 10,
+    "baselineRevision": "98813a3a384ff8de3f77849144c2ee4d190b7c25",
+    "rulesSha256": {
+      "baseline": "dcccaba3e0497e1b74a8540b0dcfae8eb62d0c188ef7ffea843674c721ac5a37",
+      "changed": "c28f8c7360dd539bca592618801f6756e364cd7c977548fd153f331b2769be8e"
+    },
+    "observerSha256": "14f8d6799457a9948ec358d3298833414183e342932c2f90472bfb3e35bcf228",
+    "finishedUtc": "2026-10-17T09:44:44Z",
+    "changedRevision": "779f4a4357242ad985e9079f93582704e319b46f",
+    "completedCells": 270,
+    "completedRuns": 4968
+  }
+}

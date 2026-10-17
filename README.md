@@ -419,6 +419,15 @@ and were not refreshed by this audit.
 | Hard+4 | 50% | 49.5% | 34% | 45% | 32% | 38% | about 41.5% |
 | Hard+5 | 44% | 46% | 31% | 38.5% | 30% | 34% | about 37.5% |
 
+Optional puzzles were compared on **17 October 2026** against `98813a3`, with
+feature revision `779f4a4`: **4,968 matched simulations**, including all six classes
+on Normal/Hard over three seed sets and sentinel checks for lengths, sizes and
+Hard+1 through Hard+5. Puzzles off matched every state fingerprint; the solver
+matched every recorded outcome/resource field, with zero errors or timeouts.
+This was a regression comparison using 40-run standard cells, not a new win-rate
+estimate; the table above remains tied to its larger recorded audit. See the
+[puzzle comparison, raw records and reproduction commands](docs/balance/2026-10-17-puzzles/).
+
 ### Earlier benchmark history
 
 The following paragraphs describe earlier passes, not fresh measurements of every
