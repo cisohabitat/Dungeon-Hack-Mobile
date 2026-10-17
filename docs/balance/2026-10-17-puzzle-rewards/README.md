@@ -235,3 +235,12 @@ assertions remain in the WebKit tests.
 Build 8 local checks: 26 puzzle/release cases passed across phone and small
 Chromium projects. The isolated 4×-throttled budget passed at 58.0 fps (fight),
 59.8 (wide), 58.6 (flooded) and 60.4 (rite), with 1,553 ms startup. Types pass.
+
+The native WebKit crashes also persisted with a single worker and animation
+cleanup. The CI wrapper now validates a one-to-one partition of all 17 selected
+mobile cases, then uses an independent browser process and artifact directory
+for each. Full narration, direct reloads and every assertion remain enabled.
+Browser process diagnostics and filtered kernel memory/segfault logs are kept
+on failure. This is test-process isolation, not a change to game balance or
+a reduction of mobile coverage. `node tools/webkit-tests.mjs --list` validates
+the complete plan locally without installing or launching WebKit.

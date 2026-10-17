@@ -12,7 +12,8 @@
     "test:browser": "playwright test --project=phone --project=small",
     "test:all": "npm test && npm run test:browser",
     "playtest": "node test/playtest.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:webkit": "node tools/webkit-tests.mjs"
   },
   "license": "MIT",
   "devDependencies": {

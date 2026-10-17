@@ -197,10 +197,12 @@ before reporting a pushed change as verified.
   skips without `PERF=1`, since beside other tests it measures the load.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
-- `npx playwright test --project=safari --workers=1`: focused `@mobile` tests in Playwright
-  WebKit, installed in a separate CI job. Run that job on one worker so native
-  media/navigation teardown does not compete across renderers; keep the full
-  navigation, narration and console-error assertions. Keep tags on the audio unlock/mute,
+- `npm run test:webkit`: focused `@mobile` tests in Playwright
+  WebKit, installed in a separate CI job. `tools/webkit-tests.mjs` validates that
+  every selected mobile case appears exactly once, then runs each in a fresh
+  browser process with its own artifact directory. This releases native renderer/
+  media caches between cases; keep full navigation, narration and error assertions.
+  `node tools/webkit-tests.mjs --list` checks this plan without a local browser. Keep tags on the audio unlock/mute,
   portrait, fog and touch/save regressions. `npm run test:browser` runs the two
   Chromium projects locally; do not install WebKit in the local container.
   Linux WebKit and an iPhone-sized Chromium viewport do not establish a real
