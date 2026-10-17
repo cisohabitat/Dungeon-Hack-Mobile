@@ -130,7 +130,13 @@ export function makePad(K) {
   /** What A does to whatever is ringed. */
   function pressRinged(root) {
     // with nothing ringed yet, the first press only shows where the ring is
-    if (!root.contains(document.activeElement) || !document.body.classList.contains('pad')) { settle(root); return false; }
+    if (!root.contains(document.activeElement) || !document.body.classList.contains('pad')) {
+      const list = settle(root), cur = /** @type {HTMLElement} */ (document.activeElement);
+      // Touch or keyboard may already have focused a valid stop. Show its ring
+      // even when settle had no reason to move it, then let the next A select it.
+      if (list.includes(cur)) ring(cur);
+      return false;
+    }
     const list = settle(root), cur = /** @type {HTMLElement} */ (document.activeElement);
     if (!list.includes(cur)) return false;
     // a box to type in is ready once ringed (a Steam Deck brings up its keyboard)

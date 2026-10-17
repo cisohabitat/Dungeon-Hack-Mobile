@@ -16,6 +16,11 @@ async function solve(page, q) {
   await page.click('#puzzle-reset');
   const marks = q.kind === 'runes' ? q.order : q.kind === 'torches' ? [0, 1, 2, 3].filter(i => q.target & (1 << i)) : [q.order[0]];
   for (const mark of marks) await page.click(`#puzzle-mark-${mark}`);
+  await page.evaluate(() => document.querySelector('#puzzle-submit').addEventListener('click', () => {
+    // Run in the submit event, before a test round trip can outlast the guard.
+    document.querySelector('#puzzle-reward-gold')?.click();
+    window.__puzzleGuardReward = Game.currentPuzzle().reward;
+  }, { once: true }));
   await page.click('#puzzle-submit');
   await expect(page.locator('#puzzle-feedback')).toContainText('cache is open');
 }
@@ -64,6 +69,7 @@ for (const [seed, kind] of [['puzzle1', 'runes'], ['puzzle3', 'torches'], ['puzz
     // The short interval spent outside the overlay may advance the clock.
     expect(end.hp).toBe(start.hp); expect(end.food).toBe(start.food);
     expect(await page.evaluate(() => Game.player().gold)).toBe(q.gold);
+    await page.click('#puzzle-reward-gold');
     await page.click('#puzzle-leave'); await expect(dialog).not.toHaveClass(/open/);
     await page.click('#feet');
     expect(await page.evaluate(() => Game.player().gold)).toBeGreaterThan(q.gold);
@@ -133,4 +139,70 @@ test('Daily and Weekly starts explain that their puzzle rules stay fixed', async
     await expect(page.locator('#pro-puzzle-note')).toContainText('fixed');
     await page.click('#pro-back');
   }
+});
+
+for (const choice of ['potion', 'gear']) {
+  test(`cache ${choice} choice survives leaving and a reload, then grants only one share @mobile`, async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { seed: 'puzzle1', puzzles: true, permadeath: false });
+    const q = await reachCache(page);
+    // A rich cache exercises every affordable option and a co-located key.
+    await page.evaluate(() => {
+      const L = Game.level(), q = L.puzzle;
+      L.items[`${q.x},${q.y}`] = [{ t: 'gold', q: 200, puzzle: true }, { t: 'key', q: 1, color: 'silver' }];
+    });
+    await page.locator('[data-tap="use"]').tap();
+    await solve(page, q);
+    await expect(page.locator('#puzzle-unlock')).toBeVisible();
+    const offers = await page.evaluate(() => Game.puzzleOffers());
+    expect(offers).toHaveLength(3);
+    // A fast second press cannot pick the reward under the submit button.
+    expect(await page.evaluate(() => window.__puzzleGuardReward)).toBe('pending');
+    await page.click('#puzzle-leave');
+    await expect(page.locator('#ov-puzzle')).not.toHaveClass(/open|closing/);
+    await page.evaluate(() => Game.save(true));
+    await page.reload(); await page.click('#btn-continue');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await page.click('[data-tap="use"]');
+    await expect(page.locator('#puzzle-reward-' + choice)).toBeVisible();
+    expect(await page.evaluate(() => Game.puzzleOffers())).toEqual(offers);
+    await page.click('#puzzle-reward-' + choice);
+    await expect(page.locator('#puzzle-hint')).toContainText('share waits');
+    expect(await page.evaluate(() => Game.puzzleAction('claim', 'gold'))).toBe(false);
+    const offer = offers.find(o => o.id === choice);
+    await page.click('#puzzle-leave');
+    await expect(page.locator('#ov-puzzle')).not.toHaveClass(/open/);
+    await page.click('#feet');
+    expect(await page.evaluate(() => Game.player().gold)).toBe(q.gold + offer.gold);
+    expect(await page.evaluate(id => Game.player().inv.some(it => it.t === id), offer.item.t)).toBe(true);
+    expect(await page.evaluate(() => Game.player().inv.some(it => it.t === 'key' && it.color === 'silver'))).toBe(true);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('reward choices stay accessible at double text; Calm view and reduced motion keep the catch still', async ({ page }) => {
+  await usePad(page);
+  await startGame(page, { seed: 'puzzle1', puzzles: true });
+  const q = await reachCache(page);
+  await page.evaluate(() => {
+    const L = Game.level(), q = L.puzzle;
+    L.items[`${q.x},${q.y}`] = [{ t: 'gold', q: 200, puzzle: true }];
+    document.documentElement.style.fontSize = '32px';
+  });
+  await page.click('[data-tap="use"]'); await solve(page, q);
+  await expect(page.locator('#puzzle-reward-gold')).toBeEnabled();
+  const bounds = await page.locator('#ov-puzzle').evaluate(el => ({ w: el.clientWidth, scroll: el.scrollWidth }));
+  expect(bounds.scroll).toBeLessThanOrEqual(bounds.w + 1);
+  const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+  expect(axe.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+  await padPress(page, 'A'); // the first press brings in the controller's ring
+  await page.locator('#puzzle-reward-gear').focus(); await padPress(page, 'A');
+  expect(await page.evaluate(() => Game.currentPuzzle().reward)).toBe('gear');
+  await page.evaluate(() => document.body.classList.add('calm'));
+  expect(await page.locator('.puzzle-lid').evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+  await page.evaluate(() => document.body.classList.remove('calm'));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await page.locator('.puzzle-lid').evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => !!document.activeElement.closest('#ov-puzzle'))).toBe(true);
 });

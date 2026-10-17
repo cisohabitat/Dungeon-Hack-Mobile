@@ -4,12 +4,16 @@ import { Game } from './game.js';
 import { $, escapeHtml } from './uikit.js';
 import { PUZZLE_MARKS, PUZZLE_WORDS } from './puzzledata.js';
 
-let armedAt = 0, solvedBefore = false;
+let armedAt = 0, solvedBefore = false, rewardBefore = '';
 export function renderPuzzle(close, opening = false) {
   const q = Game.currentPuzzle();
   if (!q) { close(); return; }
-  if (opening || (q.solved && !solvedBefore)) armedAt = performance.now() + 350;
-  solvedBefore = q.solved;
+  const justSolved = q.solved && !solvedBefore && !opening;
+  const reveal = $('#puzzle-unlock');
+  reveal.hidden = !q.solved;
+  reveal.classList.toggle('opening', justSolved || (!opening && reveal.classList.contains('opening')));
+  if (opening || (q.solved && !solvedBefore) || (rewardBefore === 'pending' && q.reward !== 'pending')) armedAt = performance.now() + 350;
+  solvedBefore = q.solved; rewardBefore = q.reward || '';
   const guarded = (btn, fn, full = false) => {
     const wait = Math.max(0, armedAt - performance.now());
     btn.disabled = full || wait > 0;
@@ -19,7 +23,7 @@ export function renderPuzzle(close, opening = false) {
   const words = PUZZLE_WORDS[q.kind];
   $('#puzzle-title').textContent = words.title;
   $('#puzzle-text').textContent = q.solved ? PUZZLE_WORDS.solved : words.text;
-  $('#puzzle-hint').textContent = PUZZLE_WORDS.hint;
+  $('#puzzle-hint').textContent = q.solved ? (q.reward === 'pending' ? PUZZLE_WORDS.rewards : PUZZLE_WORDS.chosen) : PUZZLE_WORDS.hint;
   $('#puzzle-feedback').textContent = q.feedback ? PUZZLE_WORDS[q.feedback] : '';
   const clue = q.kind === 'seals'
     ? words.clue.replace('{a}', PUZZLE_MARKS[q.order[1]]).replace('{b}', PUZZLE_MARKS[q.order[2]]).replace('{c}', PUZZLE_MARKS[q.order[3]])
@@ -32,7 +36,15 @@ export function renderPuzzle(close, opening = false) {
   const el = $('#puzzle-controls');
   const focused = document.activeElement?.id;
   el.innerHTML = '';
-  if (!q.solved) {
+  if (q.solved && q.reward === 'pending') {
+    for (const offer of Game.puzzleOffers()) {
+      const btn = document.createElement('button'); btn.type = 'button'; btn.id = `puzzle-reward-${offer.id}`; btn.className = 'puzzle-reward';
+      const name = offer.id === 'gear' ? `${Game.itemName(offer.item)} — ${PUZZLE_WORDS.gear}` : PUZZLE_WORDS[offer.id];
+      btn.innerHTML = `<b>${escapeHtml(name)}</b><small>${offer.gold} gold${offer.id === 'gear' ? `. ${escapeHtml(PUZZLE_WORDS.unknown)}` : ''}</small>`;
+      guarded(btn, () => { Game.puzzleAction('claim', offer.id); renderPuzzle(close); });
+      el.appendChild(btn);
+    }
+  } else if (!q.solved) {
     const grid = document.createElement('div'); grid.className = 'puzzle-marks';
     PUZZLE_MARKS.forEach((name, i) => {
       const btn = document.createElement('button'); btn.type = 'button'; btn.id = `puzzle-mark-${i}`;
@@ -49,11 +61,11 @@ export function renderPuzzle(close, opening = false) {
     }
   }
   const leave = document.createElement('button'); leave.type = 'button'; leave.id = 'puzzle-leave';
-  leave.textContent = q.solved ? 'Continue' : 'Leave for later';
+  leave.textContent = q.solved && q.reward !== 'pending' ? 'Continue' : 'Leave for later';
   guarded(leave, close); el.appendChild(leave);
   if (focused && focused.startsWith('puzzle-')) {
     const next = document.getElementById(focused);
-    const target = next || (q.solved ? leave : $('#puzzle-submit'));
+    const target = next || (q.solved ? $('#puzzle-reward-gold') || leave : $('#puzzle-submit'));
     (/** @type {HTMLButtonElement} */ (target).disabled ? $('#puzzle-clue') : target).focus({ preventScroll: true });
   }
 }

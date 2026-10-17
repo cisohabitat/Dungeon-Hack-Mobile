@@ -81,6 +81,8 @@ export function checkSave(data) {
         || !Array.isArray(q.order) || q.order.length !== 4 || new Set(q.order).size !== 4 || !q.order.every(n => integer(n, 0, 3))
         || !integer(q.target, 1, 14) || !Array.isArray(q.input) || q.input.length > 4 || !q.input.every(n => integer(n, 0, 3))
         || !Array.isArray(q.lit) || q.lit.length !== 4 || !q.lit.every(n => typeof n === 'boolean')
+        || (q.reward !== undefined && !['pending', 'gold', 'potion', 'gear'].includes(q.reward))
+        || (!q.solved && q.reward !== undefined && q.reward !== 'pending')
         || (q.seen !== undefined && typeof q.seen !== 'boolean')
         || (q.feedback !== undefined && !['wrong', 'reset', 'solved'].includes(q.feedback))) invalid();
     }

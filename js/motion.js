@@ -304,7 +304,7 @@ export function makeMotion(K) {
     }
     for (const k in L.items) {
       const q = L.puzzle;
-      const locked = K.G.opts.puzzles === true && q && !q.solved && k === `${q.x},${q.y}`;
+      const locked = K.G.opts.puzzles === true && q && (!q.solved || q.reward === 'pending') && k === `${q.x},${q.y}`;
       if (locked && Assets.sprites.dress_chest) sprites.push({ x: q.x + 0.5, y: q.y + 0.5, img: Assets.sprites.dress_chest, scale: 0.5, yOff: 0, onFloor: true });
       const list = locked ? L.items[k].filter(it => !it.puzzle) : L.items[k];
       if (!list.length) continue;

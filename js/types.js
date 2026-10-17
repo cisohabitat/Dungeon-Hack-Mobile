@@ -734,6 +734,7 @@ export {};
  * @property {number[]} input
  * @property {boolean[]} lit
  * @property {boolean} solved
+ * @property {'pending'|'gold'|'potion'|'gear'} [reward]  absent on legacy caches
  * @property {boolean} [seen]
  * @property {string} [feedback]
  */

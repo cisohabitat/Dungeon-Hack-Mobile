@@ -75,6 +75,7 @@ module.exports = async h => {
       if (JSON.stringify([q.input, q.lit]) !== progress) return 'leaving lost the marks';
       if (!answer(G) || !q.solved) return 'the clue did not open the catch';
       if (G.puzzleAction('submit')) return 'a second submission was accepted';
+      if (!G.puzzleAction('claim', 'gold')) return 'the original currency choice failed';
       G.closePuzzle(); G.input('take');
       if (p.gold !== start.gold + amount) return `expected ${amount} coins, got ${p.gold - start.gold}`;
       G.input('take');
@@ -102,10 +103,79 @@ module.exports = async h => {
   });
   await test('imported puzzle controls are bounded and validated before loading', async () => {
     const { Game: G } = await ready('puzzle1');
-    for (const mutate of [q => q.order = [0, 0, 1, 2], q => q.order = 'x', q => q.input = Array(10).fill(0), q => q.lit = [1, 0, 0, 0], q => q.kind = '__proto__', q => q.target = 100, q => q.x = -1, q => q.feedback = '<svg>', q => q.solved = 'yes']) {
+    for (const mutate of [q => q.order = [0, 0, 1, 2], q => q.order = 'x', q => q.input = Array(10).fill(0), q => q.lit = [1, 0, 0, 0], q => q.kind = '__proto__', q => q.target = 100, q => q.x = -1, q => q.feedback = '<svg>', q => q.solved = 'yes', q => q.reward = '__proto__', q => q.reward = 'gear']) {
       const copy = JSON.parse(JSON.stringify(G.state())); mutate(copy.levels[1].puzzle);
       try { checkSave(copy); return 'an invalid imported puzzle was accepted'; } catch { /* expected */ }
     }
+    return true;
+  });
+  await test('puzzle rewards spend only the guarded purse, fit all six classes and respect ladder prices', async () => {
+    const { CLASSES, ITEMS, armorFits, shieldFits } = await import('../js/data.js');
+    for (const cls of Object.keys(CLASSES)) for (const rung of [0, 1, 5]) {
+      const { Game: G, Dice, Odds } = await loadGame();
+      G.newGame({ ...cfg('puzzle1', { difficulty: 'hard', rung }), cls });
+      const q = G.level().puzzle, p = G.player(), k = `${q.x},${q.y}`;
+      p.x = q.x; p.y = q.y;
+      G.level().items[k] = [{ t: 'gold', q: 200, puzzle: true }, { t: 'key', q: 1, color: 'silver' }];
+      G.input('use'); const dice = [Dice.s, Odds.s];
+      if (G.puzzleAction('claim', 'gear')) return 'an unsolved catch gave a reward';
+      answer(G); const offers = G.puzzleOffers(), before = JSON.stringify(offers);
+      G.closePuzzle(); G.save(); G.load(); G.input('use');
+      if (JSON.stringify(G.puzzleOffers()) !== before || Dice.s !== dice[0] || Odds.s !== dice[1]) return 'a reload changed the offers or dice';
+      if (offers.length !== 3) return 'an affordable choice is missing';
+      for (const offer of offers) {
+        const it = offer.item, cost = it ? Math.ceil(ITEMS[it.t].value * (1 + it.e * 0.9) * 1.6 * (rung ? 2 : 1)) : 0;
+        if (offer.gold + cost !== 200 || offer.gold < 0) return 'an offer added treasure value';
+        if (offer.id === 'gear') {
+          const b = ITEMS[it.t], c = CLASSES[cls];
+          if (!it.h || it.u || it.curse || !(b.kind === 'weapon' ? b.cls.includes(cls) : b.kind === 'armor' ? armorFits(c, b) : shieldFits(c, b))) return 'the gear cannot be used by its hero';
+        }
+      }
+      if (G.puzzleAction('claim', '__proto__') || G.puzzleAction('claim', 0)) return 'an invalid reward was accepted';
+      const gear = offers.find(o => o.id === 'gear');
+      if (!G.puzzleAction('claim', 'gear') || G.level().items[k].some(it => it.puzzle)) return 'the choice did not release the cache';
+      const items = G.level().items[k];
+      if (!items.some(it => it.t === 'key') || !items.some(it => it.t === gear.item.t && it.h)) return 'other loot was lost or gear was identified';
+      if (G.puzzleAction('claim', 'gold')) return 'a second reward was granted';
+    }
+    return true;
+  });
+  await test('a solved cache waits for its choice through walking, Take, saves and codes, even with a full pack', async () => {
+    const { Game: G } = await ready('puzzle1'); const q = G.level().puzzle, p = G.player(), k = `${q.x},${q.y}`;
+    G.level().items[k] = [{ t: 'gold', q: 100, puzzle: true }];
+    G.input('use'); answer(G);
+    const cash = p.gold, before = JSON.stringify(G.puzzleOffers());
+    G.closePuzzle(); G.input('take');
+    if (p.gold !== cash || !G.currentPuzzle()) return 'Take bypassed the pending choice';
+    G.closePuzzle(); G.save(); const code = await G.saveCode();
+    if (!(await G.loadCode(code)).ok || G.currentPuzzle()) return 'a pending reward did not load';
+    G.input('use');
+    if (JSON.stringify(G.puzzleOffers()) !== before) return 'the code changed the reward offers';
+    const hero = G.player(); hero.inv = Array.from({ length: 20 }, () => ({ t: 'dagger', q: 1, e: 0 }));
+    const offer = G.puzzleOffers().find(o => o.id === 'potion');
+    G.puzzleAction('claim', 'potion'); G.closePuzzle(); G.input('take');
+    if (hero.gold !== cash + offer.gold || !G.floorItems().some(it => it.t === 'potion_heal')) return 'the full pack lost a reward or its change';
+    hero.inv.pop(); G.input('take');
+    if (!hero.inv.some(it => it.t === 'potion_heal') || !G.isKnown('potion_heal')) return 'the potion could not be collected or named';
+    G.save(); G.load(); G.input('use');
+    return !G.currentPuzzle() && G.level().puzzle.reward === 'potion' || 'the claimed reward returned after loading';
+  });
+  await test('small puzzle purses offer only affordable shares and the catch sounds once', async () => {
+    const { Game: G, Sound } = await ready('puzzle1'), q = G.level().puzzle;
+    G.level().items[`${q.x},${q.y}`] = [{ t: 'gold', q: 1, puzzle: true }];
+    const sounds = []; Sound.listen(name => sounds.push(name));
+    G.input('use'); answer(G); G.puzzleAction('submit');
+    if (sounds.filter(s => s === 'door').length !== 1) return 'the opening sound was lost or repeated';
+    if (G.puzzleOffers().length !== 1 || G.puzzleAction('claim', 'potion') || G.puzzleAction('claim', 'gear')) return 'a poor cache created an unaffordable item';
+    G.closePuzzle(); G.input('use');
+    if (sounds.filter(s => s === 'door').length !== 1) return 'reopening replayed the unlock sound';
+    return G.puzzleAction('claim', 'gold') && G.level().puzzle.reward === 'gold' || 'a poor cache could not release its coin';
+  });
+  await test('legacy puzzle saves release coins without asking for a new reward', async () => {
+    const { Game: G } = await ready('puzzle1'); delete G.level().puzzle.reward;
+    G.save(); if (!G.load()) return 'the legacy catch did not load';
+    G.input('use'); answer(G);
+    if (G.puzzleOffers().length || G.floorItems().some(it => it.puzzle)) return 'legacy coins stayed locked';
     return true;
   });
   await test('puzzle actions are recorded and replay to the same outcome without touching live storage', async () => {
@@ -131,6 +201,7 @@ module.exports = async h => {
     if (p.x !== q.x || p.y !== q.y) return 'the recorded route missed its cache';
     G.input('use'); G.puzzleAction('mark', 1); G.closePuzzle(); G.input('use');
     if (!answer(G)) return 'the recorded catch did not open';
+    if (!G.puzzleAction('claim', 'gear')) return 'the recorded gear choice failed';
     G.closePuzzle(); G.input('take'); G.hurtPlayer(99999, 'The puzzle recording check');
     const data = G.recording(), before = recordingPrint(G.state());
     if (!data || !data.events.some(e => e[0] === RECORD_METHODS.indexOf('puzzleAction'))) return 'the puzzle actions were not captured';

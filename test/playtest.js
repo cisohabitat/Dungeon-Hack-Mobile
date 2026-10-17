@@ -133,13 +133,22 @@ function play(ctx, cls, seed, opts, bg, idx) {
         Game.input('use');
         if (Game.currentPuzzle()) {
           // A catch holds coins, not the ignored gear lying beside them.
-          const held = Game.floorItems().filter(it => it.puzzle);
+          const original = new Set(Game.floorItems()), held = Game.floorItems().filter(it => it.puzzle);
           Game.puzzleAction('reset');
           const marks = q.kind === 'runes' ? q.order : q.kind === 'torches' ? [0, 1, 2, 3].filter(i => q.target & (1 << i)) : [q.order[0]];
           for (const mark of marks) Game.puzzleAction('mark', mark);
           if (!Game.puzzleAction('submit')) throw new Error('The puzzle benchmark could not release a catch.');
+          const offers = Game.puzzleOffers ? Game.puzzleOffers() : [];
+          const desired = process.env.PUZZLE_REWARD || 'gold';
+          const offer = offers.find(o => o.id === desired) || offers.find(o => o.id === 'gold');
+          if (offer && !Game.puzzleAction('claim', offer.id)) throw new Error('The puzzle benchmark could not choose its reward.');
+          // Collect the chosen share only, never gear the normal walker ignored.
+          const reward = offer && offer.id !== 'gold' ? Game.floorItems().filter(it => !original.has(it)) : held;
           Game.closePuzzle();
-          for (const it of held) Game.takeItem(it);
+          for (const it of reward) Game.takeItem(it);
+          if (offer) {
+            rec.puzzleRewards = rec.puzzleRewards || {}; rec.puzzleRewards[offer.id] = (rec.puzzleRewards[offer.id] || 0) + 1;
+          }
           rec.puzzlesSolved = (rec.puzzlesSolved || 0) + 1;
         }
       }

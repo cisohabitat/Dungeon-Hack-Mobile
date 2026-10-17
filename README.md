@@ -15,7 +15,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   gold and gems, with clues beside their controls. Stand on a cache or face it and
   press **Puzzle** (Use); the dungeon pauses while it is open and keyboard focus stays inside the dialog. **Start again** clears
   a guess, and **Leave for later** keeps your progress. There are unlimited retries,
-  no wrong-answer damage and no extra loot. Keys, relics, quest objects, passages,
+  no wrong-answer damage. Once opened, keep its gold and gems or, when the
+  purse covers it, choose a Potion of Healing or class-usable unidentified gear
+  instead of some coins. Remaining coins come with the item. Choose once, then
+  collect the share from the floor; a full pack never destroys it. The catch lifts
+  with a short sound and animation (still in Calm view or with reduced motion). Keys, relics, quest objects, passages,
   stairs and the Heart are never gated. Progress travels in saves, save codes and
   same-build replays. Daily and Weekly challenges keep puzzles off so their rules
   stay fixed. Floors without a suitable treasure pile, and the final floor, have no cache.
@@ -314,7 +318,7 @@ npm run test:security  # adversarial save/import, telemetry and local-server che
 npm run test:browser  # Playwright suites on phone and small-phone viewports
 npx playwright test --project=safari  # focused WebKit checks; CI installs this browser
 npm run test:all      # both
-PUZZLES=solve FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # explicit puzzle-solving bench
+PUZZLES=solve PUZZLE_REWARD=potion FIT=1 DIFF=normal SEEDN=40 node test/playtest.js fighter 10  # explicit puzzle-solving bench
 npm run playtest      # 40 simulated runs per class, all six classes (240 runs)
 PERF=1 npx playwright test --project=perf --workers=1  # performance budget, run alone
 ```

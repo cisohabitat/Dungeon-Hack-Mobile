@@ -113,8 +113,13 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   other rules with a separate seeded stream. `js/puzzledata.js` holds the clues and
   `js/puzzleview.js` their accessible overlay. Every fresh custom/Quick Start hero
   chooses `opts.puzzles` at the prologue; it resets off, and Daily/Weekly keep it off.
-  Never gate keys, relics, quest objects or travel, change loot totals, or shift the
-  map/combat dice. `Item.puzzle` guards collection through both walking and the pack;
+  Never gate keys, relics, quest objects or travel, or shift the map/combat dice.
+  New caches use `Puzzle.reward`: pending through solving until one share is chosen.
+  Alternatives spend the guarded currency at fixed 1.6× base value (enchantment
+  included), doubled on Hard ladder rungs, leaving change on the floor. Gear must
+  fit the class and depth; no relics or bonus purse. Legacy caches without this
+  field release their original coins on solving. Leaving, loading or a full pack
+  must never reroll, duplicate or destroy a share. `Item.puzzle` guards collection through both walking and the pack;
   puzzle progress lives on `Level.puzzle`, but the open overlay is transient and
   cleared on load/new game. Validate imported controls in `savecheck.js`, record all
   puzzle mutators, and include clues in the narrative document. Keep the prologue's
@@ -125,8 +130,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   closing animation and history entry before interacting with the restored run.
   `PUZZLES=solve` in
   the balance bot explicitly answers caches at the current square and collects
-  only their guarded currency, preserving the walking pickup policy for other
-  loot. Default runs keep their decisions. Browser and rules checks are `puzzles.spec.js` and
+  only their guarded currency or chosen conversion, preserving the walking pickup
+  policy for other loot. `PUZZLE_REWARD=gold|potion|gear` requests a choice, falling
+  back to coins when unaffordable; gold is the default. Default runs keep their decisions. Browser and rules checks are `puzzles.spec.js` and
   `rules-puzzles.js`; the overlay also has axe coverage.
 - `js/savecheck.js`: validate local saves and imported codes before assigning game
   state. `js/savecode.js` bounds encoded input and streamed gzip output; the file
@@ -294,6 +300,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
 
 ## Pitfalls seen before
 
+- Switching from touch/keyboard to a controller must show the ring even when
+  focus already sits on a valid stop; the first A rings, the next A selects.
 - A controller initially focuses the first visible `.primary` button. An
   optional title greeting must not take that class from New Game or Continue;
   run the controller tests when adding title controls.

@@ -346,3 +346,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   player can leave and return. No progression gates or added loot.
 - [x] Save/code validation, replay, touch/keyboard/controller controls and automated
   rules/browser/accessibility coverage.
+
+- [x] Budgeted cache reward choices: original coins, healing draught or class-usable
+  unidentified gear, with change, a persistent one-time choice and a short
+  unlocking effect that respects Calm view and reduced motion.
