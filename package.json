@@ -13,7 +13,7 @@
     "test:all": "npm test && npm run test:browser",
     "playtest": "node test/playtest.js",
     "typecheck": "tsc --noEmit",
-    "test:webkit": "node tools/webkit-tests.mjs"
+    "test:webkit": "playwright test --project=safari --workers=1"
   },
   "license": "MIT",
   "devDependencies": {

@@ -251,3 +251,8 @@ crash ([#37766](https://github.com/microsoft/playwright/issues/37766)), fixed in
 the separate reload regression reported in 1.60+ (#43070). This changes only
 test tooling; recorded simulations remain applicable. CI must verify the new
 browser binary with the original native reload and narration assertions.
+
+The fresh-process diagnostic run reproduced the exact native `std::optional`
+assertion in #37766 in both reward reload cases. Process isolation did not fix
+it and has been removed; `test:webkit` uses the ordinary Playwright runner on
+one worker. All 17 selected mobile cases and their original assertions remain.

@@ -329,7 +329,7 @@ the trader, the story layer, the endgame, and an interface pass that asserts eve
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
 crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime depends on
 the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
-performance job on pushes to `main` and pull requests. A separate WebKit job runs each selected test in a fresh browser process and checks the
+performance job on pushes to `main` and pull requests. A separate WebKit job runs on one worker and checks the
 mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
 expansion, puzzle choices/retries/rewards/save transfer, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
 Node 24, a read-only repository token and checkouts without persisted credentials. The default browser

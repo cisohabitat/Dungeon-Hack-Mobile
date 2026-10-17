@@ -197,18 +197,15 @@ before reporting a pushed change as verified.
   skips without `PERF=1`, since beside other tests it measures the load.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
-- `npm run test:webkit`: focused `@mobile` tests in Playwright
-  WebKit, installed in a separate CI job. `tools/webkit-tests.mjs` validates that
-  every selected mobile case appears exactly once, then runs each in a fresh
-  browser process with its own artifact directory. This releases native renderer/
-  media caches between cases; keep full navigation, narration and error assertions.
-  `node tools/webkit-tests.mjs --list` checks this plan without a local browser. Keep tags on the audio unlock/mute,
-  portrait, fog and touch/save regressions. `npm run test:browser` runs the two
-  Chromium projects locally; do not install WebKit in the local container.
-  Playwright is pinned to 1.59.1. Version 1.56's WebKit crashes on reload
-  (microsoft/playwright#37766, fixed in 1.57); verify native reloads when upgrading.
-  Linux WebKit and an iPhone-sized Chromium viewport do not establish a real
-  iOS Safari pass; record physical checks separately in `docs/DEVICES.md`.
+- `npm run test:webkit`: focused `@mobile` tests in Playwright WebKit, installed
+  in a separate CI job and run on one worker. Keep full navigation, narration
+  and error assertions, and tags on the audio unlock/mute, portrait, fog and
+  touch/save regressions. Playwright is pinned to 1.59.1: version 1.56's WebKit
+  crashes on reload (microsoft/playwright#37766, fixed in 1.57). Verify native
+  reloads when upgrading. `npm run test:browser` runs the two Chromium projects
+  locally; do not install WebKit in the local container. Linux WebKit and an
+  iPhone-sized Chromium viewport do not establish a real iOS Safari pass;
+  record physical checks separately in `docs/DEVICES.md`.
 - `test/browser/a11y.spec.js` runs axe (WCAG 2.2 AA) over every screen and overlay: no fault
   rated serious or critical. A new overlay goes into it. `test/browser/access.spec.js` checks what
   axe cannot: text at twice its size on three phone shapes, the reader's log, the palette, Calm view, one-handed reach.
