@@ -350,3 +350,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] Budgeted cache reward choices: original coins, healing draught or class-usable
   unidentified gear, with change, a persistent one-time choice and a short
   unlocking effect that respects Calm view and reduced motion.
+
+## Regional architecture (18 October 2026)
+
+- [x] Cached masonry, floor patterns and door materials across the existing themes,
+  including crypt ledger stones, dwarf ironwork and rope-bound marsh wood.
+- [x] Preserve lighting/fog ranges, map generation, lock colours, water cues and
+  foe visibility; cover deterministic textures and Calm view in browser checks.

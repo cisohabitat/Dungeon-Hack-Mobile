@@ -115,6 +115,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Oils.** Fire Oil, Silver Wash, Blade Venom and Frost Oil coat the weapon for its next 20 blows that land:
   more fire damage (and no troll mending), more against the undead, poison for the living, or cold
   that holds the foe back a moment and freezes the water round it.
+- **Regional architecture.** Crypts have carved burial masonry and long ledger stones;
+  the Grey Hold has iron uprights, geometric paving and metal-clad doors; the marsh
+  has muddy ground, reed litter and rope-bound weathered wood. Elven halls, the
+  Sanctum, drowned halls and old forges have their own inlays, stains and ironwork.
+  Details are painted into cached textures, with the existing light and fog ranges,
+  lock colours, water cues and Calm view preserved.
 - **A trader in the dark.** One of the Lampfolk (on a goblin market floor, a goblin pedlar) sets up shop on about two floors in five, selling
   potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
   of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
@@ -855,6 +861,7 @@ js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
 js/release.js     release and build, shared by the title footer and reports
+js/regionart.js   regional wall courses, paving and door materials, baked into textures
 js/recording.js   bounded action/timing records and deterministic replay
 js/replaycontrols.js, replayview.js, replay.html   isolated end-screen replay viewer
 js/narration.js, storyvoice.js   recorded readings and their story cues

@@ -90,7 +90,14 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`. `js/assets.js` turns them into sprites (a creature a piece at
   a time, in spare moments) and paints the walls, floors and doors; the wall
-  decorations are in `js/walldecor.js`.
+  decorations are in `js/walldecor.js`. `js/regionart.js` adds regional masonry,
+  floor inlays and door materials before textures are shaded and cached. Keep this
+  painter independent of level generation and the run's dice; its own seeded RNG
+  must remain deterministic across reloads. Preserve coloured lock plates and
+  keyholes, actual pool colours, lighting/fog distances and sprite occlusion.
+  Add no per-frame surface painting or animations. `region-art.spec.js` checks
+  stable textures, cached shades, unchanged lock colours and visible-foe geometry
+  across every theme, including Calm view on both phone sizes and WebKit.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.

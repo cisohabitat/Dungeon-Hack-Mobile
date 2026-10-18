@@ -7,6 +7,7 @@ import { DRESSING } from './dressing.js';
 import { heldParts, carriedParts } from './heldart.js';
 import { makeWallDecor } from './walldecor.js';
 import { makePortrait } from './portraits.js';
+import { makeRegionArt } from './regionart.js';
 
 /** The edge a legendary piece wears, on the floor, in the pack and in the hand: warmer than a relic's gold. */
 const LEGEND_EDGE = '#ffa040';
@@ -979,7 +980,7 @@ const Assets = (() => {
     P.ctx.drawImage(wallTex, 0, 0);
     const src = P.ctx.getImageData(0, 0, TEX, TEX).data;
     for (let i = 0; i < TEX * TEX; i++) { const x = i % TEX, y = (i / TEX) | 0; P.set(x, y, [src[i * 4], src[i * 4 + 1], src[i * 4 + 2]]); }
-    const oak = [[122, 86, 50], [107, 74, 42], [116, 80, 46], [100, 70, 40], [118, 84, 48], [110, 76, 44]];
+    const oak = regionArt.wood(theme, [[122, 86, 50], [107, 74, 42], [116, 80, 46], [100, 70, 40], [118, 84, 48], [110, 76, 44]]);
     for (let y = 2; y < TEX; y++) for (let x = 6; x < 58; x++) {
       // the frame: a deep reveal, darker at the top where the lintel shades it
       if (x < 8 || x > 55 || y < 4) { P.set(x, y, [26, 20, 16], (hash2(x, y, s) - 0.5) * 8 - (y < 4 ? 4 : 0)); continue; }
@@ -1163,7 +1164,7 @@ const Assets = (() => {
     });
   }
 
-  function makeDoor(theme, wallTex, lockColor) { return makePlankDoor(theme, wallTex, lockColor); }
+  function makeDoor(theme, wallTex, lockColor) { return regionArt.door(theme, makePlankDoor(theme, wallTex, lockColor)); }
 
   // A door a beast is battering shows each blow: a plank splits, then the
   // splits run and an iron band bends, and on the third the wood gives
@@ -1258,7 +1259,8 @@ const Assets = (() => {
     }
     return out;
   }
-  function makeFloor(theme, seed) {
+  function makeFloor(theme, seed) { return regionArt.floor(theme, makeFloorBase(theme, seed)); }
+  function makeFloorBase(theme, seed) {
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
     const rng = new Rng(seed);
@@ -1396,8 +1398,8 @@ const Assets = (() => {
     return c;
   }
   function makeTheme(theme, i) {
-    const wall = footShade(makeWall(theme, 'wall' + i, false));
-    const wallCracked = footShade(makeWall(theme, 'crack' + i, true));
+    const wall = footShade(regionArt.wall(theme, makeWall(theme, 'wall' + i, false)));
+    const wallCracked = footShade(regionArt.wall(theme, makeWall(theme, 'crack' + i, true)));
     const locked = {};
     for (const k in KEY_COLORS) locked[k] = makeDoor(theme, wall, KEY_COLORS[k]);
     const torches = makeTorch(theme, wall, 'torch' + i);
@@ -1421,8 +1423,8 @@ const Assets = (() => {
       /** The roof of each kind (looks.js CEIL), at each shade. */
       ceilOf: k => roofs[k] || (roofs[k] = toLevels(ROOFS[k] ? ROOFS[k]() : ROOFS[0]())),
       // the same stone laid again, and the same stone where the damp has got in, so a long wall does not repeat
-      get wallB() { return kept('wallB', () => footShade(makeWall(theme, 'wallb' + i, false))); },
-      get wallDamp() { return kept('wallDamp', () => makeDampWall(theme, kept('wallB', () => footShade(makeWall(theme, 'wallb' + i, false))), 'damp' + i)); },
+      get wallB() { return kept('wallB', () => footShade(regionArt.wall(theme, makeWall(theme, 'wallb' + i, false)))); },
+      get wallDamp() { return kept('wallDamp', () => makeDampWall(theme, kept('wallB', () => footShade(regionArt.wall(theme, makeWall(theme, 'wallb' + i, false)))), 'damp' + i)); },
       get rock() { return kept('rock', () => footShade(makeCaveWall(theme, 'rock' + i))); },
       get rockPillar() { return kept('rockPillar', () => makeRockPillar(kept('rock', () => footShade(makeCaveWall(theme, 'rock' + i))))); },
       get fallen() { return kept('fallen', () => footShade(makeFallen(theme, 'fallen' + i))); },
@@ -1694,6 +1696,8 @@ const Assets = (() => {
     unpainted.splice(begun < 0 ? unpainted.length : begun, 0, ...first);
     paintSoon();
   }
+  const regionArt = makeRegionArt({ adjust, hexToRgb });
+
   // ---------- walldecor: see walldecor.js ----------
   const { BONE, DECOR, LONG_BONE, SKULL, isMortar, line, moss, px, stamp } = makeWallDecor({
     get TEX() { return TEX; }, get adjust() { return adjust; }, get canvas() { return canvas; }, get hexToRgb() { return hexToRgb; },
