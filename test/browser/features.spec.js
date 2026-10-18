@@ -1677,9 +1677,14 @@ test.describe('dungeon features', () => {
     await p2.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('deepdelve.hall', '[]'); sessionStorage.setItem('seeded', '1'); } });
     await p2.goto('/');
     await expect(p2.locator('#news')).toBeVisible();
-    // the note is whatever NEWS says now, read from the source so the test outlives each note
-    const news = /const NEWS = \{ id: '[^']*', text: '([^']*)' \};/.exec(require('fs').readFileSync(require('path').join(__dirname, '../../js/titlemenu.js'), 'utf8'))[1];
-    await expect(p2.locator('#news-text')).toContainText(news.slice(0, 40));
+    // Read the module's announcement, independent of how its string is quoted.
+    const news = await p2.evaluate(async () => {
+      const { makeTitleMenu } = await import('/js/titlemenu.js');
+      const noop = () => {};
+      return makeTitleMenu({ store: () => null, calmOn: () => true, showScreen: noop,
+        showPrologue: noop, openCreation: noop, quickStart: noop, startPlaying: noop }).NEWS.text;
+    });
+    await expect(p2.locator('#news-text')).toHaveText(news);
     // clear of the menu
     const nb = await p2.locator('#news').boundingBox(), mb = await p2.locator('#btn-new').boundingBox();
     expect(nb.y + nb.height).toBeLessThanOrEqual(mb.y);
