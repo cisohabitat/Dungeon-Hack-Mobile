@@ -131,8 +131,8 @@ for (const k in POSES) {
   if (!CREATURES[k]) continue;
   const rest = paint32(k).color;
   for (const pose of POSES[k]) {
-    // (a creature flinches when struck; a companion also sits, when told to stay, and the healer tends)
-    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender', 'renegade'].includes(k)) || (pose === 'heal' && k === 'mender') || ['hurt', 'stepA', 'stepB', 'blink'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
+    // (a creature follows through, flinches and recovers; a companion also sits, and the healer tends)
+    check(['windup', 'special'].includes(pose) || (pose === 'sit' && ['dog', 'wolf', 'scrag', 'sellsword', 'mender', 'renegade'].includes(k)) || (pose === 'heal' && k === 'mender') || ['hurt', 'recover', 'strike', 'stepA', 'stepB', 'blink'].includes(pose), `${k} has a pose '${pose}' the view never shows`);
     const { color } = paint32(k, pose);
     const filled = color.filter(Boolean);
     check(filled.length > 120 && filled.every(c => /^#[0-9a-f]{6}$/.test(c)), `${k} painted badly in its ${pose} pose`);

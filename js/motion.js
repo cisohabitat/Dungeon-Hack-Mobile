@@ -2,8 +2,9 @@
 // (steps easing, blows landing, creatures swaying and falling, the camera's
 // shake). What it borrows from the game comes through K, read live.
 import { Assets } from './assets.js';
-import { ITEMS, MONSTERS } from './data.js';
+import { ITEMS, MONSTERS, THEMES } from './data.js';
 import { SIZE as DRESS_SIZE } from './dressing.js';
+import { regionalProp } from './regionalprops.js';
 import { ENCOUNTERS } from './encounters.js';
 
 /** @param {import('./types.js').Kit} K */
@@ -111,7 +112,7 @@ export function makeMotion(K) {
     // (BREATH), and the dead and the bloodless do not breathe at all
     if (!mb.fly && !mb.undead && !BREATHLESS.has(mb.sprite)) {
       const [ms, depth] = mb.scale > 1.2 ? BREATH.big : mb.scale < 0.8 ? BREATH.small : BREATH.mid;
-      const ph = Math.sin(now / (ms * Math.max(1, mb.scale)) + m.uid * 1.7 + i * 2.1);
+      const ph = Math.sin(now / (ms * Math.max(1, mb.scale) * (m.awake ? 1 : 1.5)) + m.uid * 1.7 + i * 2.1);
       // the breath in is quicker than the breath out
       const b = (ph > 0 ? ph : ph * 0.7) * depth;
       sqy += b; sqx -= b * 0.5;
@@ -237,6 +238,11 @@ export function makeMotion(K) {
       const shut = !tell && !step && img && img.blink && (!m.awake || (now + m.uid * 977) % (3200 + (m.uid % 5) * 450) < 130);
       const walking = step ? img[step] : shut ? img.blink : img;
       const shown = reeling && img && img.hurt ? img.hurt : walking;
+      // These cached poses only dress the existing lunge and flinch. A new
+      // wind-up always takes priority, and Calm view keeps its usual picture.
+      const age = now - (m.lungeAt ?? -1e9);
+      const reaction = !tell && img ? reeling && now >= m.flashUntil + 120 ? img.recover
+        : !reeling && age >= 0 && age < 130 ? img.strike : null : null;
       // what is upon it, drawn on its body: fire, venom, a bleeding wound, and what holds it fast
       const aff = afflictions(m);
       if (m.collapsed) {
@@ -250,7 +256,7 @@ export function makeMotion(K) {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reaction, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > K.G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -262,7 +268,7 @@ export function makeMotion(K) {
       spots.slice(0, n).forEach(([side, back], i) => {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
-        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reeling, aff, step } : {}), scale: mb.scale * 0.88 * big, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
+        sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reaction, reeling, aff, step } : {}), scale: mb.scale * 0.88 * big, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
           flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { impact, hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
       });
     }
@@ -289,7 +295,8 @@ export function makeMotion(K) {
     }
     // what lies about the room for looks, and what the fallen left (puddles are drawn flat by the renderer)
     for (const d of (L.dressing || [])) {
-      if (d.k !== 'puddle' && Assets.sprites['dress_' + d.k]) sprites.push({ x: d.x + 0.5 + d.ox, y: d.y + 0.5 + d.oy, img: Assets.sprites['dress_' + d.k], scale: DRESS_SIZE[d.k] || 0.34, yOff: 0, onFloor: true, dress: true });
+      const art = regionalProp(THEMES[L.theme], d.k, d.fell);
+      if (d.k !== 'puddle' && Assets.sprites['dress_' + art]) sprites.push({ x: d.x + 0.5 + d.ox, y: d.y + 0.5 + d.oy, img: Assets.sprites['dress_' + art], scale: DRESS_SIZE[d.k] || 0.34, yOff: 0, onFloor: true, dress: true });
     }
     for (const r of (L.remains || [])) {
       // shown once the body has sunk out of sight over it
@@ -320,7 +327,7 @@ export function makeMotion(K) {
         const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
         // what is worth stooping for catches the light now and then: a relic, the Heart, a ring or amulet, gear with an edge to it
         const glint = !!(it.u || it.t === 'artifact' || it.e > 0 || ['ring', 'amulet'].includes((ITEMS[it.t] || {}).kind));
-        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint });
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint, treasure: K.legends.grade(it) });
       });
     }
     // the fallen: knocked back, sinking into a heap and fading

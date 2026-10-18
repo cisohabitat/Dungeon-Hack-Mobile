@@ -95,9 +95,22 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   painter independent of level generation and the run's dice; its own seeded RNG
   must remain deterministic across reloads. Preserve coloured lock plates and
   keyholes, actual pool colours, lighting/fog distances and sprite occlusion.
-  Add no per-frame surface painting or animations. `region-art.spec.js` checks
+  Add no per-frame surface painting or animations. `js/regionalprops.js` substitutes
+  cached art for existing non-interactive scenery; keep its saved kind, position,
+  scale and count, and never substitute barrels, oil casks or other rule-bearing props.
+  Keep rubble marked `fell` in its original picture, matching the stones seen falling. `region-art.spec.js` checks
   stable textures, cached shades, unchanged lock colours and visible-foe geometry
   across every theme, including Calm view on both phone sizes and WebKit.
+- `js/arcanefx.js`: force, thorn, root, holy, healing, ward and swarm shapes,
+  delegated by `spellfx.js` alongside `elementfx.js`. Read existing effect style,
+  colour and impact metadata; never change a spell's cost or impact time to fit
+  its art. Keep target marks below faces and warnings, with fixed, fading shapes
+  and no travel in Calm view. Creature `strike` and `recover` poses are cached
+  with their other art; `motion.js` exposes them only after an existing lunge or
+  hit, and the renderer omits them in Calm view and gives wind-ups priority.
+  Treasure inspection reads `Game.grade`, never hidden quality. Clip glints to
+  visible wall columns. `visual-polish.spec.js` covers poses, scenery invariants,
+  hidden grades, reduced motion and actual spell cost/timing on both phone sizes.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.

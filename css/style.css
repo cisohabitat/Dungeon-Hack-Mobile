@@ -44,6 +44,8 @@
   --g-fine-edge: #3c5a3a;
   --g-rare-edge: #34486a;
   --overlay-bg: #08070c;
+  --frame-radius: 8px;
+  --frame-sheen: inset 0 1px 0 rgba(232, 215, 180, 0.08);
   --t-2xs: 0.62rem;
   --t-xs: 0.7rem;
   --t-sm: 0.78rem;
@@ -546,6 +548,16 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .floor-item span { flex: 1; }
 .detail { margin-top: var(--s-12); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: var(--s-10); display: none; }
 .detail.open { display: block; }
+/* The chosen treasure has room to be looked at, without another modal or a
+   delay before its actions. Its grade is always written as well as coloured. */
+.item-showcase { display: flex; align-items: center; gap: var(--s-12); margin-bottom: var(--s-8); }
+.item-showcase > img { flex: 0 0 48px; width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; border: 1px solid var(--border); border-radius: var(--frame-radius); background: radial-gradient(ellipse, var(--panel2), var(--bg)); }
+.item-showcase > div { min-width: 0; overflow-wrap: anywhere; }
+.item-showcase .grade-word { margin-bottom: 0; }
+.detail:is([data-grade="rare"], [data-grade="relic"], [data-grade="legend"]) .item-showcase > img { flex-basis: 64px; width: 64px; height: 64px; border-color: currentColor; animation: come-up 240ms ease-out; }
+.detail[data-grade="rare"] { border-color: var(--g-rare-edge); }
+.detail[data-grade="relic"] { border-color: var(--edge-won); }
+.detail[data-grade="legend"] { border-color: var(--g-legend-edge); }
 /* in the pack the chosen item's panel keeps to the bottom of the screen, so
    Read or Drink is in reach however full the pack is and however small the phone */
 #ov-inv .detail.open { position: sticky; bottom: 0; z-index: 2; max-height: 60vh; overflow-y: auto; box-shadow: 0 -10px 18px var(--overlay-bg); }
@@ -1281,3 +1293,12 @@ body.calm *, body.calm *::before, body.calm *::after { animation-duration: 0.01m
 @keyframes cache-open { from { transform: translateY(16px) rotate(0); } to { transform: translateY(-4px) rotate(-8deg); } }
 body.calm .puzzle-unlock.opening .puzzle-lid { animation: none; }
 @media (prefers-reduced-motion: reduce) { .puzzle-unlock.opening .puzzle-lid { animation: none; } }
+
+/* Shared frames and selected states across the pack, creature book and hero
+   screens. Mastery metals and treasure colours still belong to their owners. */
+:is(.class-card, .bg-card, .slot, .beast, .relic-row, .detail) { border-radius: var(--frame-radius); box-shadow: var(--frame-sheen); }
+:is(.class-card.sel, .bg-card.sel, .slot.sel) { border-color: var(--gold); background: var(--sel-bg); box-shadow: var(--frame-sheen), inset 0 -3px 0 var(--gold); }
+:is(.create-portrait, .class-face, .sheet-face, .end-face, .beast img.bestiary-portrait) { border-radius: var(--frame-radius); background-color: var(--panel); }
+:is(.ov-head, .sheet-top) { background-image: linear-gradient(100deg, rgba(224, 184, 74, 0.07), transparent 70%); }
+body.calm .item-showcase > img { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .item-showcase > img { animation: none !important; } }

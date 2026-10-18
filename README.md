@@ -120,7 +120,18 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   has muddy ground, reed litter and rope-bound weathered wood. Elven halls, the
   Sanctum, drowned halls and old forges have their own inlays, stains and ironwork.
   Details are painted into cached textures, with the existing light and fog ranges,
-  lock colours, water cues and Calm view preserved.
+  lock colours, water cues and Calm view preserved. Broken ledger lids, discarded
+  ironwork, crystal shards, roots and reed bundles dress the existing scenery
+  positions without adding obstacles or changing generation.
+- **Finishing touches.** Creatures follow through after a blow and ease out of a
+  flinch; sleeping creatures breathe more slowly. Valuable finds catch a small
+  glint, with known rare and legendary pieces in their own colours, and selecting
+  an item in the pack shows its framed artwork, grade and usual actions together.
+  Hidden quality stays hidden. Force darts, thorn whips, roots, holy seals,
+  healing motes, shields, blessings and a bear's paw give magic distinct shapes.
+  Calm view (also the default for reduced motion) omits the new reaction poses,
+  glints and travelling magic, retaining small, still impacts which fade away.
+  Character, bestiary and inventory screens share rounded frames and selection marks.
 - **A trader in the dark.** One of the Lampfolk (on a goblin market floor, a goblin pedlar) sets up shop on about two floors in five, selling
   potions, scrolls, food and the odd weapon, and buying whatever you do not want for about a quarter
   of what they would ask. Buying something identifies it. Gold you never spend is just a number on your
@@ -862,6 +873,8 @@ js/music.js       music composed as it plays, following the fight
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
 js/release.js     release and build, shared by the title footer and reports
 js/regionart.js   regional wall courses, paving and door materials, baked into textures
+js/regionalprops.js   regional pictures for existing scenery, without changing placement
+js/arcanefx.js    force, nature, holy and restorative spell effects, including Calm view
 js/recording.js   bounded action/timing records and deterministic replay
 js/replaycontrols.js, replayview.js, replay.html   isolated end-screen replay viewer
 js/narration.js, storyvoice.js   recorded readings and their story cues

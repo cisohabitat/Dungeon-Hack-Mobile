@@ -4,6 +4,7 @@ import { SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS,
 import { ITEM_ART } from './itemart.js';
 import { RELICS } from './relics.js';
 import { DRESSING } from './dressing.js';
+import { REGIONAL_PROPS } from './regionalprops.js';
 import { heldParts, carriedParts } from './heldart.js';
 import { makeWallDecor } from './walldecor.js';
 import { makePortrait } from './portraits.js';
@@ -1624,7 +1625,7 @@ const Assets = (() => {
     // props stand in the world too, painted as finely
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
-    for (const k in DRESSING) later('dress_' + k, () => makeSprite({ parts: DRESSING[k](), shadow: 1, fine: true, grim: true, grid: 64 }));
+    for (const [k, draw] of Object.entries({ ...DRESSING, ...REGIONAL_PROPS })) later('dress_' + k, () => makeSprite({ parts: draw(), shadow: 1, fine: true, grim: true, grid: 64 }));
     THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
     setTimeout(paintSoon, 200);
   }

@@ -357,3 +357,16 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   including crypt ledger stones, dwarf ironwork and rope-bound marsh wood.
 - [x] Preserve lighting/fog ranges, map generation, lock colours, water cues and
   foe visibility; cover deterministic textures and Calm view in browser checks.
+
+## Visual finishing pass (18 October 2026)
+
+- [x] Cached attack follow-through and hit recovery, slower sleeping breaths;
+  existing wind-ups retain priority and Calm view omits the new poses.
+- [x] Grade-coloured treasure glints and framed inventory inspection, with hidden
+  quality preserved and no extra pickup delay or modal.
+- [x] Broken burial lids, iron scrap, crystal shards, roots and bundled reeds
+  replace existing scenery pictures without changing maps, counts or obstacles.
+- [x] Force, thorns, roots, holy seals, restorative motes, ward outlines, blessings
+  and a bear's paw; bounded effects and still, fading marks in Calm view.
+- [x] Shared frame radii, subtle panel edges and selection marks across character
+  creation, bestiary and inventory; mastery and treasure colours retained.

@@ -2,14 +2,14 @@
 // where age or office would change it, with what the stories give it laid
 // behind and over. Each moves through its kind's poses, flinch and all, and is
 // painted into the slot a colour wash used to fill (see creaturePieces in assets.js).
-import { CREATURES, STEPS, eyesShut, flinch, stride } from './creatures.js';
+import { CREATURES, STEPS, eyesShut, flinch, followThrough, stride } from './creatures.js';
 import { ball, both64, dots, hair, limb, line, oval, recolour, sheet, specks, turn } from './parts.js';
 
 const CHAMPION_OF = { vaelith: 'drow_mage', durgrim: 'grey_dwarf', hissra: 'lizardfolk', grisk: 'goblin', vessra: 'spider', ushgar: 'orc', morrow: 'ghoul', orla: 'wraith', gorrum: 'troll', skarrow: 'wyrm' };
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
-  return (pose = 'idle') => (pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('idle') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
+  return (pose = 'idle') => (pose === 'strike' ? followThrough(draw('idle'), kind) : pose === 'recover' ? flinch(draw('idle'), kind, 0.3) : pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('idle') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
 };
 const CHAMPIONS = {
   // Vaelith, High Priestess of the dark elves: robed in black and wine-red, a

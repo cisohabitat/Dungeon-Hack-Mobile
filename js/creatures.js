@@ -1348,19 +1348,26 @@ const eyesShut = parts => {
   return out;
 };
 const REEL_LEFT = new Set(['rat', 'thornhog', 'basilisk', 'rustmaw', 'quillback', 'mimic', 'slime', 'puffcap', 'zombie', 'ghoul', 'orc', 'spider', 'dog', 'wolf']);
-const flinch = (parts0, k) => {
+const flinch = (parts0, k, strength = 1) => {
   const parts = eyesShut(parts0) || parts0;
   const ys = parts.map(p => midOf(p)[1]), top = Math.min(...ys), bot = Math.max(...ys), span = bot - top;
   const deg = REEL_LEFT.has(k) ? -1 : 1;
-  if (FLOATING.has(k)) { const mid = top + span * 0.5; return turn(grow(parts, 32, mid, 1.05, 0.93), 32, mid, 10 * deg); }
+  if (FLOATING.has(k)) { const mid = top + span * 0.5; return turn(grow(parts, 32, mid, 1 + 0.05 * strength, 1 - 0.07 * strength), 32, mid, 10 * deg * strength); }
   const hip = top + span * 0.62, neck = top + span * 0.24;
-  const [nx, ny] = turn([ball(32, neck, 1, 1, '#000')], 32, hip, 9 * deg).map(q => [q.x, q.y])[0];
+  const [nx, ny] = turn([ball(32, neck, 1, 1, '#000')], 32, hip, 9 * deg * strength).map(q => [q.x, q.y])[0];
   return parts.map(p => {
     const y = midOf(p)[1];
     if (y >= hip) return p;
-    const q = turn([p], 32, hip, 9 * deg)[0];
-    return y < neck ? turn([q], nx, ny, 8 * deg)[0] : q;
+    const q = turn([p], 32, hip, 9 * deg * strength)[0];
+    return y < neck ? turn([q], nx, ny, 8 * deg * strength)[0] : q;
   });
+};
+// The arm has come down from its raised wind-up: a short follow-through,
+// chest turned over planted feet. Painted once, never rebuilt in the frame.
+const followThrough = (parts, k) => {
+  const ys = parts.map(p => midOf(p)[1]), top = Math.min(...ys), bot = Math.max(...ys);
+  const hip = top + (bot - top) * 0.65, side = REEL_LEFT.has(k) ? 1 : -1;
+  return parts.map(p => midOf(p)[1] >= hip ? p : turn([p], 32, hip, side * 5)[0]);
 };
 // Walking, a creature strides: one side's legs lifted, more at the foot than at
 // the hip, the other side's planted, the body leaning a touch over them; drawn
@@ -1385,8 +1392,8 @@ const stride = (parts, k, pose) => {
 // a creature with eyes to shut blinks now and then (see renderState in game.js)
 for (const k in POSES) {
   const f = CREATURES[k], walks = !FLOATING.has(k) || OWN_STEPS.has(k), blinks = !!eyesShut(f());
-  CREATURES[k] = (pose = 'idle') => (pose === 'hurt' ? flinch(f(), k) : pose === 'blink' ? eyesShut(f()) || f() : STEPS.includes(pose) && !OWN_STEPS.has(k) ? stride(f(), k, pose) : f(pose));
-  POSES[k].push('hurt', ...(walks ? STEPS : []), ...(blinks ? ['blink'] : []));
+  CREATURES[k] = (pose = 'idle') => (pose === 'strike' ? followThrough(f(), k) : pose === 'recover' ? flinch(f(), k, 0.3) : pose === 'hurt' ? flinch(f(), k) : pose === 'blink' ? eyesShut(f()) || f() : STEPS.includes(pose) && !OWN_STEPS.has(k) ? stride(f(), k, pose) : f(pose));
+  POSES[k].push('strike', 'recover', 'hurt', ...(walks ? STEPS : []), ...(blinks ? ['blink'] : []));
 }
 
-export { STEPS, eyesShut, flinch, stride, SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2, ball, limb, sheet, line, dots, specks, hair, both };
+export { STEPS, eyesShut, flinch, followThrough, stride, SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2, ball, limb, sheet, line, dots, specks, hair, both };

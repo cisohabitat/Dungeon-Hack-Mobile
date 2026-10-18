@@ -806,17 +806,24 @@ const Renderer = (() => {
     ctx.fillRect(x - 5 * s, y + 5 * s, 10 * s, 3 * s);                                               // the base
   }
   /** A four-pointed glint over loot worth stooping for, now and then, each in its own time. */
-  function drawGlint(s, x, top, h, tY, now) {
+  function drawGlint(s, x, top, h, tY, now, nRuns) {
     if (calm) return;
     const ph = (now / 1000 + hash(s.x * 7.3 + s.y * 13.1) * 3) % 2.8;
     if (ph > 0.4 || x < 0 || x >= W || tY >= zbuf[x | 0]) return;
     glintsN++;
+    ctx.save(); ctx.beginPath();
+    for (let i = 0; i < nRuns; i += 2) ctx.rect(runs[i], 0, runs[i + 1] - runs[i], H);
+    ctx.clip();
     const a = Math.sin(ph / 0.4 * Math.PI), r = Math.max(2, Math.round(h * 0.18 * a)), cy = Math.round(top + h * 0.3), cx = Math.round(x);
     ctx.globalCompositeOperation = 'lighter';
-    ctx.fillStyle = `rgba(255,248,210,${(0.9 * a).toFixed(3)})`;
+    const rgb = s.treasure === 'legend' ? '255,180,86' : s.treasure === 'rare' ? '170,205,255' : '255,248,210';
+    ctx.fillStyle = `rgba(${rgb},${(0.75 * a).toFixed(3)})`;
     ctx.fillRect(cx - r, cy, r * 2 + 1, 1); ctx.fillRect(cx, cy - r, 1, r * 2 + 1);
     ctx.fillRect(cx - 1, cy - 1, 3, 3);
-    ctx.globalCompositeOperation = 'source-over';
+    if (s.treasure === 'legend' || s.treasure === 'relic') {
+      ctx.fillRect(cx + r + 2, cy + 3, 1, 3); ctx.fillRect(cx + r + 1, cy + 4, 3, 1);
+    }
+    ctx.restore();
   }
   // The columns of fountain wall drawn this frame (column, top, height, texel
   // across, distance), for the water moving on it.
@@ -1337,7 +1344,7 @@ const Renderer = (() => {
       const screenX = (W / 2) * (1 + tX / tY);
       let hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
-      let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : s.img;
+      let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : (!calm && s.reaction) || s.img;
       // a monster winding up a blow swells a little toward you as it draws back
       let floorY = H / 2 + hFull / 2;
       // Held sideways the view is short, and a creature right in front of you
@@ -1415,7 +1422,7 @@ const Renderer = (() => {
       }
       if (fading || ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
       if (nRuns && s.aff && img !== art.flash) drawAfflictions(s.aff, left, sw, top, sh, shiftTop, art.top || 0, tY, now);
-      if (nRuns && s.glint) drawGlint(s, screenX, drawnTop, floorY - drawnTop, tY, now);
+      if (nRuns && s.glint) drawGlint(s, screenX, drawnTop, floorY - drawnTop, tY, now, nRuns);
       // a creature, with room above it for its bar and warning mark
       if (s.impact && nRuns) {
         ctx.save(); ctx.beginPath();
