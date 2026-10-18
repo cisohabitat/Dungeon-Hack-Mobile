@@ -48,6 +48,16 @@ module.exports = async function(h) {
     M.guard(5);p.eq.shield=null;M.equipment();if(p.mythicCharge!==undefined)return 'unequip';
     const thief=await factory('thief');thief.p.eq.amulet={t:'amulet_mind',u:'nightglass',q:1,e:0};return thief.M.blow(false,true)===6&&thief.M.blow(false,false)===2&&thief.M.blow(true,true)===0&&thief.M.armour()===-1;
   });
+  await test('Mythics: a Last Gate charge saves fractional frame clocks while rejecting invalid timers and charges', async () => {
+    const {G,p,M}=await factory('fighter');p.eq.shield={t:'shield',u:'last_gate',q:1,e:1};
+    G.t=123.125;M.guard(5);const {checkSave}=await import('../js/savecheck.js');
+    checkSave(JSON.parse(JSON.stringify(G)));if(p.mythicChargeUntil!==5123.125)return 'clock rounded';
+    for(const [key,value] of [['mythicCharge',1.5],['mythicCharge',4],['mythicChargeUntil',-1],['mythicChargeUntil',1e12+1],['mythicChargeUntil','5123.125']]){
+      const bad=JSON.parse(JSON.stringify(G));bad.player[key]=value;let refused=false;try{checkSave(bad);}catch{refused=true;}
+      if(!refused)return 'accepted invalid '+key;
+    }
+    return true;
+  });
   await test('Mythics: caster bargains and druid/ranger tradeoffs apply only while worn', async () => {
     const c=await factory('cleric');c.p.eq.shield={t:'holy_symbol',u:'mercys_oath',q:1,e:0};
     if(c.M.healing(20)!==25||c.M.spellCost({kind:'bolt'})!==1||c.M.spellCost({kind:'heal'})!==0)return 'cleric';

@@ -1,0 +1,4599 @@
+{
+  "provenance": {
+    "baseline": {
+      "revision": "77c71598de045144b78b296c9f757a5d49a7eb34",
+      "suite": "sentinel",
+      "seeds": 2,
+      "trials": 2,
+      "node": "v24.19.0",
+      "observerSha256": "4476bdeba993aadb563480a110eea44b7b8fd0b7a72bc30db51c9775a04ea223",
+      "sourceSha256": "129702ea130e8efe4c8c3ba4c7deedb819471b256800f29a7dee5bcf8f3b9772",
+      "started": "2026-10-18T05:54:52Z",
+      "finished": "2026-10-18T05:56:33Z"
+    },
+    "changed": {
+      "revision": "d403e877f5e339aabc49f799cac6dbd45fe2d8b8",
+      "suite": "sentinel",
+      "seeds": 2,
+      "trials": 2,
+      "node": "v24.19.0",
+      "observerSha256": "4476bdeba993aadb563480a110eea44b7b8fd0b7a72bc30db51c9775a04ea223",
+      "sourceSha256": "5daea8556e40e08e5e32482c3c2009f7cafb3324378c604b86716aed7498a4c8",
+      "started": "2026-10-18T05:56:34Z",
+      "finished": "2026-10-18T05:58:52Z"
+    }
+  },
+  "cells": [
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "cleric",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "druid",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "fighter",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "mage",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "ranger",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 4
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard",
+        "cls": "thief",
+        "levels": 16,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "cleric",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "druid",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "fighter",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "mage",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "ranger",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+1",
+        "cls": "thief",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "cleric",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 4
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "druid",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "fighter",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "mage",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "ranger",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 0,
+      "changedWins": 0
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+3",
+        "cls": "thief",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 1,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "cleric",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "druid",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "fighter",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "mage",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "ranger",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 0,
+      "changedWins": 0
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "hard+5",
+        "cls": "thief",
+        "levels": 8,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 1,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "cleric",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "druid",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 1,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "fighter",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "mage",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 1,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "ranger",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 1,
+      "changedWins": 1
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "thief",
+        "levels": 4,
+        "size": "small"
+      },
+      "runs": 4,
+      "baselineWins": 0,
+      "changedWins": 0
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "cleric",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 4
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "druid",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 4
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "fighter",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 3,
+      "changedWins": 2
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "mage",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 4
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "ranger",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 2,
+      "changedWins": 3
+    },
+    {
+      "case": {
+        "prefix": "bench",
+        "diff": "normal",
+        "cls": "thief",
+        "levels": 12,
+        "size": "medium"
+      },
+      "runs": 4,
+      "baselineWins": 4,
+      "changedWins": 4
+    }
+  ],
+  "groups": [
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 12.5,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "poison": 1
+        },
+        "endingPotions": 2.75,
+        "potionAttempts": 9.0,
+        "rests": 22.0,
+        "endingCash": 533.5,
+        "casts": 144.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 12.5,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "poison": 1
+        },
+        "endingPotions": 3.5,
+        "potionAttempts": 8.25,
+        "rests": 22.0,
+        "endingCash": 352.75,
+        "casts": 143.5,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 99.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 15.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Troll": 1,
+          "Cave Wyrm": 1
+        },
+        "endingPotions": 3.75,
+        "potionAttempts": 9.0,
+        "rests": 9.5,
+        "endingCash": 609.0,
+        "casts": 110.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 15.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Troll": 1,
+          "Cave Wyrm": 1
+        },
+        "endingPotions": 3.25,
+        "potionAttempts": 9.0,
+        "rests": 9.25,
+        "endingCash": 542.25,
+        "casts": 108.75,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 74.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 13.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Lizardfolk Warrior": 1
+        },
+        "endingPotions": 3.0,
+        "potionAttempts": 9.5,
+        "rests": 19.5,
+        "endingCash": 189.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 13.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Lizardfolk Warrior": 1
+        },
+        "endingPotions": 3.0,
+        "potionAttempts": 9.25,
+        "rests": 19.5,
+        "endingCash": 373.5,
+        "casts": 0.0,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 78.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 14.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1
+        },
+        "endingPotions": 7.5,
+        "potionAttempts": 2.75,
+        "rests": 15.5,
+        "endingCash": 360.25,
+        "casts": 270.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 14.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1
+        },
+        "endingPotions": 7.25,
+        "potionAttempts": 2.75,
+        "rests": 15.75,
+        "endingCash": 335.75,
+        "casts": 271.0,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 53.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 16.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 3.75,
+        "potionAttempts": 11.25,
+        "rests": 21.0,
+        "endingCash": 308.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 16.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 4.0,
+        "potionAttempts": 11.25,
+        "rests": 21.25,
+        "endingCash": 372.0,
+        "casts": 0.0,
+        "trials": 4,
+        "trialsWon": 4,
+        "wornAtEnd": 4,
+        "used": 4,
+        "ticks": 100.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard 16 floors medium",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 9.0,
+        "earlyDeaths": 2,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Goblin Archer": 1,
+          "Goblin Cutpurse": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 3.5,
+        "rests": 6.5,
+        "endingCash": 190.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 9.0,
+        "earlyDeaths": 2,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Goblin Archer": 1,
+          "Goblin Cutpurse": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 3.5,
+        "rests": 6.5,
+        "endingCash": 262.0,
+        "casts": 0.0,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 50.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rabid Goblin Cutpurse": 1,
+          "Feral Ogre": 1
+        },
+        "endingPotions": 2.0,
+        "potionAttempts": 3.5,
+        "rests": 10.5,
+        "endingCash": 223.5,
+        "casts": 63.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rabid Goblin Cutpurse": 1,
+          "Feral Ogre": 1
+        },
+        "endingPotions": 1.75,
+        "potionAttempts": 3.75,
+        "rests": 10.5,
+        "endingCash": 232.0,
+        "casts": 63.75,
+        "trials": 2,
+        "trialsWon": 1,
+        "wornAtEnd": 1,
+        "used": 1,
+        "ticks": 32.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1,
+          "Ghoul": 1
+        },
+        "endingPotions": 2.5,
+        "potionAttempts": 3.5,
+        "rests": 7.25,
+        "endingCash": 282.25,
+        "casts": 48.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1
+        },
+        "endingPotions": 2.5,
+        "potionAttempts": 3.5,
+        "rests": 8.0,
+        "endingCash": 270.25,
+        "casts": 51.25,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 214.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          50.0
+        ],
+        "gainedWins": 1,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Rustmaw": 1
+        },
+        "endingPotions": 2.25,
+        "potionAttempts": 3.0,
+        "rests": 9.75,
+        "endingCash": 395.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Rustmaw": 1
+        },
+        "endingPotions": 2.5,
+        "potionAttempts": 3.25,
+        "rests": 9.25,
+        "endingCash": 492.5,
+        "casts": 0.0,
+        "trials": 3,
+        "trialsWon": 1,
+        "wornAtEnd": 1,
+        "used": 1,
+        "ticks": 1.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Ancient Zombie": 1,
+          "Feral Ogre": 1
+        },
+        "endingPotions": 4.75,
+        "potionAttempts": 0.0,
+        "rests": 6.0,
+        "endingCash": 398.5,
+        "casts": 102.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Ancient Zombie": 1,
+          "Feral Ogre": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 0.25,
+        "rests": 6.25,
+        "endingCash": 404.5,
+        "casts": 101.75,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 33.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Feral Dark Acolyte": 1,
+          "Feral Orc": 1
+        },
+        "endingPotions": 0.75,
+        "potionAttempts": 7.75,
+        "rests": 6.5,
+        "endingCash": 502.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 6.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Goblin Warlord": 1,
+          "Feral Dark Acolyte": 1,
+          "Feral Orc": 1
+        },
+        "endingPotions": 0.5,
+        "potionAttempts": 7.75,
+        "rests": 6.25,
+        "endingCash": 349.5,
+        "casts": 0.0,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 64.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": -25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -50.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 5.5,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Zombie": 1,
+          "Ancient Ghoul": 1
+        },
+        "endingPotions": 3.25,
+        "potionAttempts": 3.5,
+        "rests": 4.0,
+        "endingCash": 516.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 5.5,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Zombie": 1,
+          "Ancient Ghoul": 1
+        },
+        "endingPotions": 3.25,
+        "potionAttempts": 3.5,
+        "rests": 4.25,
+        "endingCash": 549.25,
+        "casts": 0.0,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 71.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 8.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Dread Lich": 1
+        },
+        "endingPotions": 1.0,
+        "potionAttempts": 8.0,
+        "rests": 5.5,
+        "endingCash": 317.5,
+        "casts": 77.25,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 8.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 0.5,
+        "potionAttempts": 8.5,
+        "rests": 5.5,
+        "endingCash": 403.25,
+        "casts": 77.5,
+        "trials": 4,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 114.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          50.0
+        ],
+        "gainedWins": 1,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rustmaw": 1
+        },
+        "endingPotions": 2.25,
+        "potionAttempts": 3.5,
+        "rests": 2.5,
+        "endingCash": 357.75,
+        "casts": 50.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rustmaw": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 1.5,
+        "potionAttempts": 4.25,
+        "rests": 2.5,
+        "endingCash": 418.0,
+        "casts": 49.75,
+        "trials": 3,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 136.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 0
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": -25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -50.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 8.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 1.25,
+        "potionAttempts": 5.5,
+        "rests": 5.25,
+        "endingCash": 450.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 8.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Skeleton": 1
+        },
+        "endingPotions": 1.25,
+        "potionAttempts": 5.75,
+        "rests": 5.0,
+        "endingCash": 224.5,
+        "casts": 0.0,
+        "trials": 4,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 90.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": -25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -50.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 2
+        },
+        "endingPotions": 3.5,
+        "potionAttempts": 3.0,
+        "rests": 3.25,
+        "endingCash": 394.25,
+        "casts": 110.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 2
+        },
+        "endingPotions": 2.75,
+        "potionAttempts": 4.0,
+        "rests": 3.25,
+        "endingCash": 351.25,
+        "casts": 109.5,
+        "trials": 2,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 38.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 6.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1,
+          "Wraith": 1,
+          "Ancient Blink Hound": 1,
+          "Ghoul": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 9.5,
+        "rests": 3.25,
+        "endingCash": 435.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 6.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1,
+          "Wraith": 1,
+          "Ancient Blink Hound": 1,
+          "Ghoul": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 9.5,
+        "rests": 3.25,
+        "endingCash": 435.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Ancient Zombie": 2,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 3.0,
+        "potionAttempts": 1.75,
+        "rests": 2.0,
+        "endingCash": 61.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Ancient Zombie": 2,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 2.75,
+        "potionAttempts": 2.0,
+        "rests": 2.0,
+        "endingCash": 61.25,
+        "casts": 0.0,
+        "trials": 1,
+        "trialsWon": 1,
+        "wornAtEnd": 1,
+        "used": 1,
+        "ticks": 32.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Troll": 1
+        },
+        "endingPotions": 0.25,
+        "potionAttempts": 8.0,
+        "rests": 5.5,
+        "endingCash": 521.75,
+        "casts": 73.25,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Ancient Troll": 1
+        },
+        "endingPotions": 0.25,
+        "potionAttempts": 8.75,
+        "rests": 6.0,
+        "endingCash": 452.75,
+        "casts": 76.5,
+        "trials": 3,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 90.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1,
+          "Wraith": 1
+        },
+        "endingPotions": 1.5,
+        "potionAttempts": 4.25,
+        "rests": 3.0,
+        "endingCash": 606.75,
+        "casts": 50.75,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 1.5,
+        "potionAttempts": 4.75,
+        "rests": 2.75,
+        "endingCash": 556.0,
+        "casts": 49.75,
+        "trials": 3,
+        "trialsWon": 2,
+        "wornAtEnd": 2,
+        "used": 2,
+        "ticks": 126.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Skeleton": 1,
+          "Goblin": 1
+        },
+        "endingPotions": 2.0,
+        "potionAttempts": 4.5,
+        "rests": 4.25,
+        "endingCash": 695.5,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 1,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 6.25,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Dread Lich": 1,
+          "Goblin": 1
+        },
+        "endingPotions": 2.0,
+        "potionAttempts": 4.5,
+        "rests": 3.75,
+        "endingCash": 653.75,
+        "casts": 0.0,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 94.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 1,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 7.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Feral Ogre": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 3.75,
+        "rests": 3.75,
+        "endingCash": 680.75,
+        "casts": 118.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 7.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Goblin Warlord": 1,
+          "Feral Ogre": 1
+        },
+        "endingPotions": 2.5,
+        "potionAttempts": 5.75,
+        "rests": 3.75,
+        "endingCash": 618.5,
+        "casts": 120.25,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 76.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": -25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -50.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 6.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 2,
+          "Ancient Blink Hound": 1,
+          "Troll": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 6.5,
+        "rests": 4.0,
+        "endingCash": 355.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 6.5,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Gorrum, the Troll-Father": 2,
+          "Ancient Blink Hound": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 6.5,
+        "rests": 4.0,
+        "endingCash": 355.0,
+        "casts": 0.0,
+        "trials": 1,
+        "trialsWon": 1,
+        "wornAtEnd": 1,
+        "used": 1,
+        "ticks": 13.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 5.0,
+        "earlyDeaths": 2,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Armoured Orc": 1,
+          "Ancient Zombie": 1,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 1.75,
+        "potionAttempts": 4.5,
+        "rests": 2.75,
+        "endingCash": 269.5,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 5.0,
+        "earlyDeaths": 2,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Armoured Orc": 1,
+          "Ancient Zombie": 1,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 2.0,
+        "potionAttempts": 4.0,
+        "rests": 2.75,
+        "endingCash": 293.0,
+        "casts": 0.0,
+        "trials": 1,
+        "trialsWon": 1,
+        "wornAtEnd": 1,
+        "used": 1,
+        "ticks": 23.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 6.25,
+        "potionAttempts": 3.75,
+        "rests": 28.5,
+        "endingCash": 208.5,
+        "casts": 139.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 5.5,
+        "potionAttempts": 4.25,
+        "rests": 28.75,
+        "endingCash": 173.25,
+        "casts": 140.75,
+        "trials": 4,
+        "trialsWon": 4,
+        "wornAtEnd": 4,
+        "used": 4,
+        "ticks": 156.5,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 6.5,
+        "potionAttempts": 2.25,
+        "rests": 6.25,
+        "endingCash": 585.75,
+        "casts": 69.75,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 6.75,
+        "potionAttempts": 2.0,
+        "rests": 6.5,
+        "endingCash": 490.5,
+        "casts": 70.75,
+        "trials": 4,
+        "trialsWon": 4,
+        "wornAtEnd": 4,
+        "used": 4,
+        "ticks": 156.25,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 11.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 2.0,
+        "rests": 15.5,
+        "endingCash": 628.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 11.75,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1,
+          "Heartforged": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 2.0,
+        "rests": 15.25,
+        "endingCash": 659.5,
+        "casts": 0.0,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 65.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": -25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -50.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 7.75,
+        "potionAttempts": 1.0,
+        "rests": 15.25,
+        "endingCash": 596.5,
+        "casts": 209.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 7.5,
+        "potionAttempts": 1.25,
+        "rests": 15.25,
+        "endingCash": 480.75,
+        "casts": 209.75,
+        "trials": 4,
+        "trialsWon": 4,
+        "wornAtEnd": 4,
+        "used": 4,
+        "ticks": 68.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 11.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Cave Wyrm": 1,
+          "Heartforged": 1
+        },
+        "endingPotions": 4.5,
+        "potionAttempts": 4.5,
+        "rests": 12.0,
+        "endingCash": 703.5,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 3,
+        "winRate": 75.0,
+        "depth": 11.25,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Cave Wyrm": 1
+        },
+        "endingPotions": 5.75,
+        "potionAttempts": 3.5,
+        "rests": 12.25,
+        "endingCash": 731.0,
+        "casts": 0.0,
+        "trials": 3,
+        "trialsWon": 3,
+        "wornAtEnd": 3,
+        "used": 3,
+        "ticks": 89.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          50.0
+        ],
+        "gainedWins": 1,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 7.0,
+        "potionAttempts": 1.75,
+        "rests": 10.25,
+        "endingCash": 649.75,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 2
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 4,
+        "winRate": 100.0,
+        "depth": 12.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {},
+        "endingPotions": 6.0,
+        "potionAttempts": 2.75,
+        "rests": 10.25,
+        "endingCash": 599.25,
+        "casts": 0.0,
+        "trials": 4,
+        "trialsWon": 4,
+        "wornAtEnd": 4,
+        "used": 4,
+        "ticks": 78.75,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 2
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "cleric",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rustmaw": 1,
+          "Rabid Basilisk": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 4.0,
+        "rests": 3.0,
+        "endingCash": 101.25,
+        "casts": 28.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Rustmaw": 1,
+          "Rabid Basilisk": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 4.0,
+        "rests": 3.0,
+        "endingCash": 101.25,
+        "casts": 28.5,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "druid",
+      "baseline": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Wraith": 1,
+          "Dread Lich": 1,
+          "Ancient Cave Wyrm": 1
+        },
+        "endingPotions": 0.5,
+        "potionAttempts": 4.5,
+        "rests": 2.5,
+        "endingCash": 96.5,
+        "casts": 21.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Wraith": 1,
+          "Dread Lich": 1,
+          "Ancient Cave Wyrm": 1
+        },
+        "endingPotions": 0.5,
+        "potionAttempts": 4.5,
+        "rests": 2.5,
+        "endingCash": 96.5,
+        "casts": 21.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "fighter",
+      "baseline": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Morrow, the Ghoul Lord": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 1.25,
+        "potionAttempts": 2.75,
+        "rests": 1.75,
+        "endingCash": 66.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 2,
+        "winRate": 50.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Morrow, the Ghoul Lord": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 1.25,
+        "potionAttempts": 2.75,
+        "rests": 1.75,
+        "endingCash": 66.25,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "mage",
+      "baseline": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 3.5,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Dread Lich": 1,
+          "Morrow, the Ghoul Lord": 2
+        },
+        "endingPotions": 4.0,
+        "potionAttempts": 0.25,
+        "rests": 2.25,
+        "endingCash": 56.25,
+        "casts": 34.25,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 3.5,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Dread Lich": 1,
+          "Morrow, the Ghoul Lord": 2
+        },
+        "endingPotions": 4.0,
+        "potionAttempts": 0.25,
+        "rests": 2.25,
+        "endingCash": 56.25,
+        "casts": 34.25,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "frostweaver": {
+            "runs": 2,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "ranger",
+      "baseline": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Dread Lich": 2,
+          "Armoured Cave Wyrm": 1
+        },
+        "endingPotions": 0.25,
+        "potionAttempts": 6.25,
+        "rests": 1.25,
+        "endingCash": 95.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 1,
+        "winRate": 25.0,
+        "depth": 4.0,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Dread Lich": 2,
+          "Armoured Cave Wyrm": 1
+        },
+        "endingPotions": 0.25,
+        "potionAttempts": 6.25,
+        "rests": 1.25,
+        "endingCash": 95.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "cls": "thief",
+      "baseline": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Wraith": 2,
+          "Zombie": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 4.75,
+        "rests": 0.75,
+        "endingCash": 110.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 4,
+        "wins": 0,
+        "winRate": 0.0,
+        "depth": 3.75,
+        "earlyDeaths": 1,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Wraith": 2,
+          "Zombie": 1,
+          "Dread Lich": 1
+        },
+        "endingPotions": 0.0,
+        "potionAttempts": 4.75,
+        "rests": 0.75,
+        "endingCash": 110.0,
+        "casts": 0.0,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 4,
+        "earlyDeathsIdentical": 4
+      }
+    }
+  ],
+  "difficulty": [
+    {
+      "difficulty": "hard 16 floors medium",
+      "baseline": {
+        "runs": 24,
+        "wins": 17,
+        "winRate": 70.83333333333333,
+        "depth": 13.4583,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "poison": 1,
+          "Troll": 1,
+          "Cave Wyrm": 1,
+          "Lizardfolk Warrior": 1,
+          "Minotaur": 1,
+          "Goblin Archer": 1,
+          "Goblin Cutpurse": 1
+        },
+        "endingPotions": 4.2083,
+        "potionAttempts": 7.5,
+        "rests": 15.6667,
+        "endingCash": 365.0417,
+        "casts": 87.3333,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 1,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 17,
+        "winRate": 70.83333333333333,
+        "depth": 13.4583,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "poison": 1,
+          "Troll": 1,
+          "Cave Wyrm": 1,
+          "Lizardfolk Warrior": 1,
+          "Minotaur": 1,
+          "Goblin Archer": 1,
+          "Goblin Cutpurse": 1
+        },
+        "endingPotions": 4.25,
+        "potionAttempts": 7.3333,
+        "rests": 15.7083,
+        "endingCash": 373.0417,
+        "casts": 87.2083,
+        "trials": 17,
+        "trialsWon": 17,
+        "wornAtEnd": 17,
+        "used": 17,
+        "ticks": 76.0417,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 1,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 2
+          }
+        }
+      },
+      "delta": 0.0,
+      "spreadBaseline": 50.0,
+      "spreadChanged": 50.0,
+      "spreadDelta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    },
+    {
+      "difficulty": "hard+1 8 floors medium",
+      "baseline": {
+        "runs": 24,
+        "wins": 13,
+        "winRate": 54.166666666666664,
+        "depth": 6.5833,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Rabid Goblin Cutpurse": 1,
+          "Feral Ogre": 2,
+          "Gorrum, the Troll-Father": 1,
+          "Ghoul": 1,
+          "Ancient Rustmaw": 1,
+          "Ancient Zombie": 2,
+          "Feral Dark Acolyte": 1,
+          "Feral Orc": 1,
+          "Ancient Ghoul": 1
+        },
+        "endingPotions": 2.5833,
+        "potionAttempts": 3.5417,
+        "rests": 7.3333,
+        "endingCash": 386.5,
+        "casts": 35.6667,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 1,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 13,
+        "winRate": 54.166666666666664,
+        "depth": 6.5833,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Rabid Goblin Cutpurse": 1,
+          "Feral Ogre": 2,
+          "Gorrum, the Troll-Father": 1,
+          "Ancient Rustmaw": 1,
+          "Ancient Zombie": 2,
+          "Goblin Warlord": 1,
+          "Feral Dark Acolyte": 1,
+          "Feral Orc": 1,
+          "Ancient Ghoul": 1
+        },
+        "endingPotions": 2.5,
+        "potionAttempts": 3.6667,
+        "rests": 7.4167,
+        "endingCash": 383.0,
+        "casts": 36.125,
+        "trials": 14,
+        "trialsWon": 11,
+        "wornAtEnd": 11,
+        "used": 11,
+        "ticks": 69.6667,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 1,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "spreadBaseline": 25.0,
+      "spreadChanged": 50.0,
+      "spreadDelta": 25.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -8.333333333333332,
+          8.333333333333332
+        ],
+        "gainedWins": 1,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    },
+    {
+      "difficulty": "hard+3 8 floors medium",
+      "baseline": {
+        "runs": 24,
+        "wins": 13,
+        "winRate": 54.166666666666664,
+        "depth": 6.7917,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Dread Lich": 1,
+          "Rustmaw": 1,
+          "Gorrum, the Troll-Father": 3,
+          "Wraith": 1,
+          "Ancient Blink Hound": 1,
+          "Ghoul": 1,
+          "Ancient Zombie": 2,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 1.8333,
+        "potionAttempts": 5.2083,
+        "rests": 3.625,
+        "endingCash": 336.2083,
+        "casts": 39.5417,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 2
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 12,
+        "winRate": 50.0,
+        "depth": 6.7917,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Rustmaw": 1,
+          "Dread Lich": 1,
+          "Skeleton": 1,
+          "Gorrum, the Troll-Father": 3,
+          "Wraith": 1,
+          "Ancient Blink Hound": 1,
+          "Ghoul": 1,
+          "Ancient Zombie": 2,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 1.4583,
+        "potionAttempts": 5.6667,
+        "rests": 3.5833,
+        "endingCash": 315.6667,
+        "casts": 39.4583,
+        "trials": 14,
+        "trialsWon": 11,
+        "wornAtEnd": 11,
+        "used": 11,
+        "ticks": 68.5833,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 0
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": -4.166666666666664,
+      "spreadBaseline": 100.0,
+      "spreadChanged": 100.0,
+      "spreadDelta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -8.333333333333332,
+          0.0
+        ],
+        "gainedWins": 1,
+        "lostWins": 2,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    },
+    {
+      "difficulty": "hard+5 8 floors medium",
+      "baseline": {
+        "runs": 24,
+        "wins": 11,
+        "winRate": 45.833333333333336,
+        "depth": 6.7917,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 2,
+        "causes": {
+          "Ancient Troll": 1,
+          "Gorrum, the Troll-Father": 3,
+          "Wraith": 1,
+          "Skeleton": 1,
+          "Goblin": 1,
+          "Feral Ogre": 1,
+          "Ancient Blink Hound": 1,
+          "Troll": 1,
+          "Armoured Orc": 1,
+          "Ancient Zombie": 1,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 1.6667,
+        "potionAttempts": 5.25,
+        "rests": 3.875,
+        "endingCash": 521.5417,
+        "casts": 40.3333,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 1,
+            "wins": 1
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 2,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 10,
+        "winRate": 41.666666666666664,
+        "depth": 6.7917,
+        "earlyDeaths": 3,
+        "deathsBeforePath": 2,
+        "causes": {
+          "Ancient Troll": 1,
+          "Gorrum, the Troll-Father": 3,
+          "Dread Lich": 3,
+          "Goblin": 1,
+          "Goblin Warlord": 1,
+          "Feral Ogre": 1,
+          "Ancient Blink Hound": 1,
+          "Armoured Orc": 1,
+          "Ancient Zombie": 1,
+          "Feral Zombie": 1
+        },
+        "endingPotions": 1.375,
+        "potionAttempts": 5.7083,
+        "rests": 3.8333,
+        "endingCash": 488.1667,
+        "casts": 41.0833,
+        "trials": 14,
+        "trialsWon": 12,
+        "wornAtEnd": 12,
+        "used": 12,
+        "ticks": 70.6667,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 1,
+            "wins": 1
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 1
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "none": {
+            "runs": 2,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 1
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 1,
+            "wins": 1
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "delta": -4.166666666666671,
+      "spreadBaseline": 75.0,
+      "spreadChanged": 75.0,
+      "spreadDelta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          -8.333333333333332,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    },
+    {
+      "difficulty": "normal 12 floors medium",
+      "baseline": {
+        "runs": 24,
+        "wins": 21,
+        "winRate": 87.5,
+        "depth": 11.8333,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1,
+          "Cave Wyrm": 1,
+          "Heartforged": 1
+        },
+        "endingPotions": 6.0833,
+        "potionAttempts": 2.5417,
+        "rests": 14.625,
+        "endingCash": 562.125,
+        "casts": 69.7917,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 2
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 2
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 2
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 0
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 21,
+        "winRate": 87.5,
+        "depth": 11.8333,
+        "earlyDeaths": 0,
+        "deathsBeforePath": 0,
+        "causes": {
+          "Minotaur": 1,
+          "Heartforged": 1,
+          "Cave Wyrm": 1
+        },
+        "endingPotions": 6.0,
+        "potionAttempts": 2.625,
+        "rests": 14.7083,
+        "endingCash": 522.375,
+        "casts": 70.2083,
+        "trials": 22,
+        "trialsWon": 22,
+        "wornAtEnd": 22,
+        "used": 22,
+        "ticks": 102.375,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 2
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 2
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 2
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "knight": {
+            "runs": 2,
+            "wins": 1
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 2
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 2
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 2
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 2
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "spreadBaseline": 50.0,
+      "spreadChanged": 50.0,
+      "spreadDelta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 1,
+        "lostWins": 1,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    },
+    {
+      "difficulty": "normal 4 floors small",
+      "baseline": {
+        "runs": 24,
+        "wins": 7,
+        "winRate": 29.166666666666668,
+        "depth": 3.7917,
+        "earlyDeaths": 7,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Rustmaw": 1,
+          "Rabid Basilisk": 1,
+          "Wraith": 3,
+          "Dread Lich": 6,
+          "Ancient Cave Wyrm": 1,
+          "Morrow, the Ghoul Lord": 3,
+          "Armoured Cave Wyrm": 1,
+          "Zombie": 1
+        },
+        "endingPotions": 1.0,
+        "potionAttempts": 3.75,
+        "rests": 1.9167,
+        "endingCash": 87.5417,
+        "casts": 13.9583,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 0
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "changed": {
+        "runs": 24,
+        "wins": 7,
+        "winRate": 29.166666666666668,
+        "depth": 3.7917,
+        "earlyDeaths": 7,
+        "deathsBeforePath": 1,
+        "causes": {
+          "Rustmaw": 1,
+          "Rabid Basilisk": 1,
+          "Wraith": 3,
+          "Dread Lich": 6,
+          "Ancient Cave Wyrm": 1,
+          "Morrow, the Ghoul Lord": 3,
+          "Armoured Cave Wyrm": 1,
+          "Zombie": 1
+        },
+        "endingPotions": 1.0,
+        "potionAttempts": 3.75,
+        "rests": 1.9167,
+        "endingCash": 87.5417,
+        "casts": 13.9583,
+        "trials": 0,
+        "trialsWon": 0,
+        "wornAtEnd": 0,
+        "used": 0,
+        "ticks": 0.0,
+        "errors": 0,
+        "timeouts": 0,
+        "paths": {
+          "assassin": {
+            "runs": 2,
+            "wins": 0
+          },
+          "berserker": {
+            "runs": 2,
+            "wins": 1
+          },
+          "frostweaver": {
+            "runs": 2,
+            "wins": 0
+          },
+          "grovewarden": {
+            "runs": 2,
+            "wins": 1
+          },
+          "healer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "knight": {
+            "runs": 1,
+            "wins": 1
+          },
+          "none": {
+            "runs": 1,
+            "wins": 0
+          },
+          "pyromancer": {
+            "runs": 2,
+            "wins": 1
+          },
+          "shapeshifter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "sharpshooter": {
+            "runs": 2,
+            "wins": 0
+          },
+          "templar": {
+            "runs": 2,
+            "wins": 1
+          },
+          "trickster": {
+            "runs": 2,
+            "wins": 0
+          },
+          "warden": {
+            "runs": 2,
+            "wins": 1
+          }
+        }
+      },
+      "delta": 0.0,
+      "spreadBaseline": 50.0,
+      "spreadChanged": 50.0,
+      "spreadDelta": 0.0,
+      "paired": {
+        "seedClusters": 2,
+        "pairedSeedBootstrap95pp": [
+          0.0,
+          0.0
+        ],
+        "gainedWins": 0,
+        "lostWins": 0,
+        "arrivalResourcesIdentical": 24,
+        "earlyDeathsIdentical": 24
+      }
+    }
+  ],
+  "passesDeclaredBars": false
+}

@@ -85,3 +85,24 @@ release acceptance. Exact outcomes and resources are in `explore.{md,json}` and
 `explore-{baseline,changed}.json.gz`; the predeclared standard bars apply to the
 three-set 1,200-run class/difficulty cells. Investigate any structural failure
 in these sentinels rather than interpreting one result as a 12.5-point estimate.
+
+## Low-life observer correction
+
+Reviewing the first standard cells found that the bot's bolt-selection loops
+could keep attempting an unavailable Bloodstar spell at two life or less.
+Observer v4 filters that unavailable action only under `MYTHIC=trial`, only
+for a Mage wearing the Bloodstar; it falls through to the bot's ordinary legal
+attacks. It does not unequip the item or change its life cost, damage or any
+game rule. Baseline heroes cannot enter this branch, and every other class's
+policy is unchanged. Retain the original policy's complete records, prove
+baseline equivalence, and repeat all six 400-run Mage cells plus affected
+exploration and sentinel cells. Do not tune game numbers to compensate for
+repeated invalid actions or erase the first policy's losses.
+
+Observer v4 also matches all **480 baseline state fingerprints** from v1/v2/v3.
+Its source and raw results are retained as `observer-v4.js.gz` and
+`observer-v4-baseline.json.gz`. The final source additionally accepts finite,
+bounded fractional Last Gate expiry times when loading a save: browser clocks
+are fractional. That validation correction changes no combat rule or observer
+decision and is covered by a real-blow/native-reload browser check and invalid
+save-value rule checks; simulations do not import saves.

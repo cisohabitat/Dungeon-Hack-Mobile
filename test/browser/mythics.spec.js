@@ -1,7 +1,7 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { startGame, watchForErrors } = require('./helpers');
+const { startGame, faceOpenGround, placeMonster, watchForErrors } = require('./helpers');
 
 async function lamp(page) {
   await startGame(page, {seed:'mythic-vigil',cls:'Fighter',permadeath:false});
@@ -74,5 +74,26 @@ for(const [cls,id] of [['Fighter','last_gate'],['Cleric','mercys_oath'],['Mage',
   expect(await page.evaluate(id=>Object.values(Game.player().eq).some(it=>it?.u===id),id)).toBe(true);
   await page.evaluate(()=>Game.save(true));await page.reload();await page.click('#btn-continue');
   expect(await page.evaluate(id=>Object.values(Game.player().eq).some(it=>it?.u===id),id)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+
+test('Last Gate charges from a real blow survive fractional-clock saves and native reload @mobile',async({page})=>{
+  const errors=watchForErrors(page);await startGame(page,{seed:'mythic-fractional-save',cls:'Fighter',permadeath:false});
+  await page.evaluate(()=>{Game.level().monsters=[];Game.level().traps={};});
+  expect(await faceOpenGround(page,2)).toBeGreaterThanOrEqual(2);
+  await placeMonster(page,'ogre',1,{hp:999,maxHp:999,nextAct:0,awake:true});
+  const result=await page.evaluate(()=>{
+    const G=Game.state(),p=Game.player(),m=Game.level().monsters[0];
+    p.hp=p.maxHp=9999;p.eq.armor=null;p.eq.ring=null;p.eq.ring2=null;p.eq.cloak=null;
+    p.eq.shield={t:'shield',u:'last_gate',q:1,e:1};p.stats.dex=3;G.graceUntil=0;G.t=0.125;
+    for(let n=0;n<1000&&!p.mythicCharge;n++)Game.update(G.t+100,100);
+    if(!p.mythicCharge)throw new Error('no close blow landed');
+    m.nextAct=1e12;
+    return {charge:p.mythicCharge,until:p.mythicChargeUntil,saved:Game.save(true)};
+  });
+  expect(result.charge).toBeGreaterThan(0);expect(Number.isInteger(result.until)).toBe(false);expect(result.saved).toBe(true);
+  await page.reload();await page.click('#btn-continue');
+  expect(await page.evaluate(()=>({charge:Game.player().mythicCharge,until:Game.player().mythicChargeUntil}))).toEqual({charge:result.charge,until:result.until});
   expect(errors).toEqual([]);
 });

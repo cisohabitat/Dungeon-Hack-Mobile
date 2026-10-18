@@ -64,7 +64,9 @@ export function checkSave(data) {
   for (const it of Object.values(p.eq)) if (it !== null) item(it);
   const wornMythics = Object.values(p.eq).filter(it => it && it.u && RELICS[it.u]?.mythic);
   if (wornMythics.length > 1 || wornMythics.some(it => RELICS[it.u].mythic !== p.cls || RELICS[it.u].t !== it.t)) invalid();
-  for (const k of ['mythicCharge', 'mythicChargeUntil']) if (p[k] !== undefined && !integer(p[k], 0, k === 'mythicCharge' ? 3 : 1e12)) invalid();
+  if (p.mythicCharge !== undefined && !integer(p.mythicCharge, 0, 3)) invalid();
+  // Browser frame clocks are fractional; expiry keeps the same clock as G.t.
+  if (p.mythicChargeUntil !== undefined && (!Number.isFinite(p.mythicChargeUntil) || p.mythicChargeUntil < 0 || p.mythicChargeUntil > 1e12)) invalid();
   const floors = Object.entries(data.levels);
   if (!floors.length || floors.length > 32 || !Object.prototype.hasOwnProperty.call(data.levels, data.depth)) invalid();
   for (const [key, floor] of floors) {
