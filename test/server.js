@@ -4,6 +4,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const {commitSha,stampHTML}=require('../stamp-commit.cjs');
+const COMMIT=commitSha();
 
 const ROOT = path.join(__dirname, '..');
 const TYPES = {
@@ -45,6 +47,7 @@ function serve(req, res) {
       }
       fs.readFile(real, (err2, body) => {
         if (err2) { res.writeHead(404).end('not found'); return; }
+        if(real===path.join(ROOT,'index.html'))body=Buffer.from(stampHTML(body.toString('utf8'),COMMIT));
         const headers = {
           'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
           'Content-Length': body.length,

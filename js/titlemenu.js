@@ -8,7 +8,7 @@ import { Game } from './game.js';
 import { Daily } from './daily.js';
 import { Weekly } from './weekly.js';
 import { Progress } from './progress.js';
-import { RELEASE_VERSION, BUILD_NUMBER } from './release.js';
+import { RELEASE_VERSION, COMMIT_ID } from './release.js';
 import { $, $$ } from './uikit.js';
 
 /**
@@ -25,7 +25,7 @@ import { $, $$ } from './uikit.js';
 export function makeTitleMenu(K) {
   const { store } = K;
   function refreshTitle() {
-    $('#release-info').textContent = `Release ${RELEASE_VERSION} · Build ${BUILD_NUMBER}`;
+    $('#release-info').textContent = `Release ${RELEASE_VERSION} · Commit ${COMMIT_ID}`;
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
     // with nothing saved, no greyed-out Continue taking the second place on the screen
@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'core-offline-first', text: "The game becomes ready offline before the voice finishes downloading. The title shows what is ready; interrupted voice downloads resume when you reconnect." };
+  const NEWS = { id: 'commit-identity', text: "The title identifies your release by its Git commit. Game and voice readiness are shown separately; interrupted voice downloads resume when you reconnect." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

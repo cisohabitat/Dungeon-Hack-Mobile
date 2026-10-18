@@ -30,7 +30,7 @@ import { makeTitleMenu } from './titlemenu.js';
 import { makeCreateView } from './createview.js';
 import { makeStoryVoice } from './storyvoice.js';
 import { bossPortrait, fillBossPortraits } from './bossart.js';
-import { BUILD_ID } from './release.js';
+import { VERSION_ID } from './release.js';
 
 // DOM, touch controls, overlays and screens.
 
@@ -1676,7 +1676,7 @@ const UI = (() => {
     // (a tip that suits itself to the spot is given in its widest words, for a test of whether it fits)
     tips: () => Object.fromEntries(Object.entries(TIPS).map(([k, v]) => [k, typeof v === 'function' ? v(true) : v])), placeTip, timeScale, bossBar,
     /** The published release and build (sent with a report). */
-    version: () => BUILD_ID };
+    version: () => VERSION_ID };
 })();
 
 export { UI };

@@ -1,7 +1,7 @@
 # Deepdelve: notes for working on this repo
 
 A first-person, seed-generated dungeon crawler for mobile browsers. Vanilla ES
-modules, no build step, no framework. `main` deploys to Vercel as it is.
+modules, no compilation, no framework. Vercel stamps main's commit into the page.
 
 ## Keep these instructions current
 
@@ -160,9 +160,17 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   a record through the bot harness. Add replay coverage when changing save/load,
   inventory choices or input timing. Keep the browser's end-screen action
   secondary so controller focus still starts on New Game.
-- `js/release.js`: release version and build number, shared by the main-page
-  footer and telemetry. Do not hand-edit release numbers. For every publication,
-  stage intended changes, then run `npm run release:prepare -- --message "<commit subject>"`.
+- `js/release.js`: release version and an internal counter for offline readiness.
+  The main-page footer, telemetry identity and GitHub release show the short
+  commit ID instead of a build number. `stamp-commit.cjs` stamps the deployed
+  full Git SHA into index.html's commit meta tag using Vercel's commit variable
+  (or checkout HEAD), never a parent SHA committed into its own source. The local
+  server stamps responses in memory. Keep this identity in the cached HTML so
+  offline reloads identify the same deployment. Do not hand-edit release numbers.
+  `VERSION_ID` is the public identity; keep `BUILD_ID` internal for recordings
+  so browser saves and the headless replay harness agree without a DOM.
+  For every publication, stage intended changes, then run
+  `npm run release:prepare -- --message "<commit subject>"`.
   It detects player files since the current version tag (or last metadata commit),
   defaults to patch even for `feat:` or breaking-change labels, and increments
   the build and offline cache. Group small changes into release batches. A minor

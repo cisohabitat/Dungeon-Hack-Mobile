@@ -91,7 +91,7 @@ if (process.env.RELEASE_TEST_API_FAIL) process.exit(1);
 const releases = JSON.parse(fs.readFileSync(path, 'utf8'));
 if (args[0] === 'api') console.log(process.env.GITHUB_SHA);
 else if (args[1] === 'list') console.log(JSON.stringify(releases));
-else if (args[1] === 'create') { releases.push({tagName: args[2], latest: args.includes('--latest')}); fs.writeFileSync(path, JSON.stringify(releases)); }
+else if (args[1] === 'create') { releases.push({tagName: args[2], latest: args.includes('--latest'), title: args[args.indexOf('--title')+1], notes: args[args.indexOf('--notes')+1]}); fs.writeFileSync(path, JSON.stringify(releases)); }
 else process.exit(2);
 `, { mode: 0o755 });
   const env = { PATH: `${join(dir, 'bin')}:${process.env.PATH}`, RELEASE_TEST_STATE: state, GITHUB_EVENT_NAME: 'push', GITHUB_REF: 'refs/heads/main', GITHUB_SHA: base };
@@ -100,8 +100,24 @@ else process.exit(2);
   result = run(['publish'], env); assert.equal(result.status, 0, result.stderr);
   assert.equal(JSON.parse(read('releases.json')).length, 1);
   assert.equal(JSON.parse(read('releases.json'))[0].latest, true);
+  assert.equal(JSON.parse(read('releases.json'))[0].title, `Deepdelve 1.2.3 · ${base.slice(0,7)}`);
+  assert.match(JSON.parse(read('releases.json'))[0].notes, new RegExp(`commit ${base.slice(0,7)}`));
+  assert.doesNotMatch(JSON.parse(read('releases.json'))[0].notes, /build/i);
   result = run(['publish'], env); assert.equal(result.status, 0, result.stderr);
   assert.equal(JSON.parse(read('releases.json')).length, 1); assert.match(result.stdout, /already published/);
+}));
+test('deployment stamps the exact checkout or Vercel commit, never its parent', () => fixture(({git,write,read,base}) => {
+  const dir=git('rev-parse','--show-toplevel');
+  write('stamp-commit.cjs',readFileSync(resolve('stamp-commit.cjs')));
+  write('index.html','<meta name="commit" content="__COMMIT_SHA__">');
+  const stamp=env=>spawnSync(process.execPath,['stamp-commit.cjs'],{cwd:dir,encoding:'utf8',env:{...process.env,...env}});
+  let result=stamp({VERCEL_GIT_COMMIT_SHA:''});assert.equal(result.status,0,result.stderr);
+  assert.equal(read('index.html'),`<meta name="commit" content="${base}">`);
+  const deployed='a'.repeat(40);
+  result=stamp({VERCEL_GIT_COMMIT_SHA:deployed});assert.equal(result.status,0,result.stderr);
+  assert.equal(read('index.html'),`<meta name="commit" content="${deployed}">`);
+  result=stamp({VERCEL_GIT_COMMIT_SHA:'\"><script>alert(1)</script>'});assert.notEqual(result.status,0);
+  assert.equal(read('index.html'),`<meta name="commit" content="${deployed}">`);
 }));
 test('version and build cannot move backwards or advance separately', () => fixture(({ git, write, run, base }) => {
   write('js/release.js', "export const RELEASE_VERSION = '1.2.3';\nexport const BUILD_NUMBER = 9;\n");

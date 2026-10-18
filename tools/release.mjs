@@ -119,14 +119,14 @@ function publish() {
   const gh = (...args) => execFileSync('gh', args, { encoding: 'utf8' });
   const remote = gh('api', 'repos/{owner}/{repo}/git/ref/heads/main', '--jq', '.object.sha').trim();
   if (remote !== process.env.GITHUB_SHA) return console.log('A newer main commit exists; leave publishing to its CI run.');
-  const { version, build } = validate(), tag = `v${version}`;
+  const { version } = validate(), tag = `v${version}`, commit = process.env.GITHUB_SHA.slice(0, 7);
   // A failed API request must fail the job, never be mistaken for a missing release.
   const releases = JSON.parse(gh('release', 'list', '--limit', '1000', '--json', 'tagName'));
   if (releases.some(r => r.tagName === tag)) return console.log(`${tag} is already published; nothing to do.`);
   const tagged = git('tag', '--list', tag);
   if (tagged && git('rev-list', '-1', tag) !== process.env.GITHUB_SHA) throw new Error('Existing tag points elsewhere; refusing to move it.');
-  gh('release', 'create', tag, '--target', process.env.GITHUB_SHA, '--title', `Deepdelve ${version} · Build ${build}`, '--latest', '--generate-notes', '--notes', `Release ${version}, build ${build}. All required CI jobs passed.`, ...(tagged ? ['--verify-tag'] : []));
-  console.log(`Published ${tag}, build ${build}.`);
+  gh('release', 'create', tag, '--target', process.env.GITHUB_SHA, '--title', `Deepdelve ${version} · ${commit}`, '--latest', '--generate-notes', '--notes', `Release ${version}, commit ${commit}. All required CI jobs passed.`, ...(tagged ? ['--verify-tag'] : []));
+  console.log(`Published ${tag}, commit ${commit}.`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {

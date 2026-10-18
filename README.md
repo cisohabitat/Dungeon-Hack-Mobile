@@ -258,7 +258,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   it to act, haptic feedback, portrait and landscape layouts, safe-area aware, installable as a
   PWA with offline support. Keyboard controls on desktop.
 
-The code is plain ES modules with no build step: the page loads `js/main.js` and the browser
+The code is plain ES modules with no compilation: the page loads `js/main.js` and the browser
 resolves the rest, so what you edit is what ships. Types are written as JSDoc and checked by
 TypeScript in `--noEmit` mode, which catches renamed fields and bad shapes without putting a
 compiler between the source and the browser. Everything is original: the raycast renderer
@@ -286,14 +286,14 @@ worn. Each has its own picture, spoken lore and a cost to weigh against its powe
 
 ## Deploy on Vercel
 
-The game is a static site with no build step, so Vercel needs no special configuration beyond
-the included `vercel.json` (cache headers for the service worker and basic security headers).
+The game is a static site. The included `vercel.json` runs a small commit-stamping
+step and configures service-worker caching and security headers; game code is not compiled.
 
 **From the dashboard**
 
 1. Push this repository to GitHub.
 2. In Vercel, click **Add New → Project** and import the repository.
-3. Leave **Framework Preset** as **Other**, keep the build command empty, and leave the output
+3. Leave **Framework Preset** as **Other**, use the build command from `vercel.json`, and leave the output
    directory as the repository root.
 4. Click **Deploy**. Every push to the default branch redeploys automatically.
 
@@ -318,8 +318,11 @@ Small additions, fixes and polish default to a **patch**, including `feat:` comm
 Choose `--bump minor` for a substantial gameplay feature or sizeable content batch;
 reserve `--bump major` for a major overhaul approved by the owner. Commit labels
 alone never select a larger milestone. Group small changes into a release batch.
-The build and offline cache increase with each prepared release, keeping the
-footer and package/lock versions in sync. Docs, tests and CI-only changes leave
+The title footer shows the release version and the deployed seven-character Git
+commit ID. Vercel stamps the full commit into the page during deployment with
+`node stamp-commit.cjs`; the local server stamps its checkout in memory. The same
+identity is retained offline and used in opt-in reports. Internal release and
+offline cache counters still increase with each prepared release. Docs, tests and CI-only changes leave
 the numbers unchanged. Repository agent instructions require preparation before
 publishing updates.
 
@@ -935,7 +938,8 @@ js/music.js       music composed as it plays, following the fight
 js/mythics.js, mythicdata.js   optional Vigil trial, class Mythics and their tradeoffs
 js/namedart.js    individual legendary and relic pictures, shared by item views and held gear
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
-js/release.js     release and build, shared by the title footer and reports
+js/release.js     release and stamped commit for the title footer and reports
+stamp-commit.cjs  stamp the deployed Git commit into the static page
 js/regionart.js   regional wall courses, paving and door materials, baked into textures
 js/regionalprops.js   regional pictures for existing scenery, without changing placement
 js/arcanefx.js    force, nature, holy and restorative spell effects, including Calm view
