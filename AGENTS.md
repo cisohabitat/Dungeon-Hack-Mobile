@@ -259,6 +259,10 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   the real worker with recordings held back on an isolated test server, including
   offline play and recovery in both Chromium sizes and CI WebKit. Unheard-voice
   tests wait for voice readiness before taking the connection away.
+  WebKit's Playwright offline emulation aborts controlled navigations with an
+  internal engine error. The isolated offline fixture cuts the origin's actual
+  sockets in both engines, asserts rejected requests, and retains native reload,
+  play, recovery and range checks; Chromium also uses browser offline mode.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 

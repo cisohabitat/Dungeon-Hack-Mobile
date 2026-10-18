@@ -5,9 +5,11 @@ const {serve}=require('../server');
 const {watchForErrors}=require('./helpers');
 const AxeBuilder=require('@axe-core/playwright').default;
 
-test('core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile', async({page,context})=>{
+test('core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile', async({page,context,browserName})=>{
   const errors=watchForErrors(page), held=new Set(), counts=new Map();let blocked=true;
+  let connected=true, rejected=0;
   const server=http.createServer((req,res)=>{
+    if(!connected){rejected++;req.socket.destroy();return;}
     if (/^\/sound\/narration\/.*\.(?:ogg|m4a)$/.test(req.url)) {
       counts.set(req.url,(counts.get(req.url)||0)+1);
       if (blocked) {const entry={req,res};held.add(entry);res.on('close',()=>held.delete(entry));return;}
@@ -16,6 +18,13 @@ test('core play is ready offline while all recordings are delayed, then voices r
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const root=`http://127.0.0.1:${server.address().port}`;
+  // Cut the actual origin connection, retaining native reloads in both engines.
+  // WebKit's browser-offline emulation aborts controlled navigations internally;
+  // Chromium additionally exercises that emulation after the cache is complete.
+  const connection=async online=>{
+    connected=online;
+    if(!online){for(const entry of held)entry.res.destroy();held.clear();}
+  };
   try {
     await page.addInitScript(()=>{
       for(const [k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);
@@ -27,8 +36,9 @@ test('core play is ready offline while all recordings are delayed, then voices r
     await expect(status).toContainText('Voice downloading');
     expect(held.size).toBeGreaterThan(0);
     // The worker has claimed the page even though no voice request can finish.
-    await context.setOffline(true);await page.reload();
+    await connection(false);await page.reload();
     await expect(status).toContainText('Game ready offline');
+    expect(rejected).toBeGreaterThan(0);
     await page.click('#btn-new');await page.click('#c-begin');await page.click('#pro-begin');
     await expect(page.locator('#screen-game')).toBeVisible();
     const dir=await page.evaluate(()=>Game.player().dir);
@@ -38,12 +48,14 @@ test('core play is ready offline while all recordings are delayed, then voices r
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
     expect(axe.violations.filter(v=>['serious','critical'].includes(v.impact))).toEqual([]);
     blocked=false;for(const entry of held)if(!entry.res.destroyed)serve(entry.req,entry.res);held.clear();
-    await context.setOffline(false);
+    await connection(true);
     await expect(status).toHaveAttribute('data-voice','ready',{timeout:30000});
     const before=[...counts];await page.reload();
     await expect(status).toContainText('Game and voice ready offline');
     expect([...counts]).toEqual(before);
-    await context.setOffline(true);await page.reload();
+    await connection(false);
+    if(browserName!=='webkit')await context.setOffline(true);
+    await page.reload();
     await expect(status).toContainText('Game and voice ready offline');
     const range=await page.evaluate(async()=>{
       const r=await fetch('/sound/narration/prologue.m4a',{headers:{Range:'bytes=0-9'}});
