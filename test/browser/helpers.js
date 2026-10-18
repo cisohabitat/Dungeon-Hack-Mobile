@@ -151,10 +151,16 @@ async function descendTo(page, depth) {
  * Wait for every picture painted in spare time to be done. A creature is
  * painted its plain picture first and its poses, champions and a shade's gear
  * after (see creaturePieces in assets.js): a test about how one is drawn waits
- * for the lot, rather than catching it in its plain picture.
+ * for the lot, rather than catching it in its plain picture. A map such as
+ * { grey_dwarf: ['windup', 'special'] } waits only for the pictures asserted:
+ * unrelated art can take over a minute on a deliberately slowed processor.
  */
-async function artReady(page) {
-  await page.waitForFunction(() => Assets.painting() === 0, null, { timeout: 60_000, polling: 200 });
+async function artReady(page, wanted = null) {
+  await page.waitForFunction(wanted => wanted
+    ? Object.entries(wanted).every(([kind, poses]) => {
+      const art = Assets.sprites[kind];
+      return art && poses.every(pose => !!art[pose]);
+    }) : Assets.painting() === 0, wanted, { timeout: 60_000, polling: 200 });
 }
 
 // A controller the page believes is plugged in: the Gamepad API's standard

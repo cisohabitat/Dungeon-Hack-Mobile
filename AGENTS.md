@@ -382,4 +382,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
   misses: take the hero's armour off, or give it several seconds.
 - A creature's poses, champions and close-up are painted after its plain
   picture, in spare moments: a test about how one is drawn calls `artReady(page)`
-  (helpers.js) first.
+  (helpers.js) first. When asserting specific poses, pass their names, for
+  example `artReady(page, { grey_dwarf: ['windup', 'special'] })`: this waits
+  for those pictures without waiting for unrelated art. The whole cache can
+  take over a minute at 4x CPU slowdown; keep the existing timeout and await
+  the relevant readiness signal instead of adding a fixed sleep.

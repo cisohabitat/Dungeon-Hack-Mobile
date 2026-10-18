@@ -136,6 +136,9 @@ test.describe('the endgame', () => {
     expect(await page.evaluate(() => THEMES[Game.level().theme].name)).toBe('The Grey Hold');
     expect(await page.evaluate(() => (Game.level().npcs || []).some(n => n.id === 'dwarf_forge') && !!Assets.sprites.dwarf_forge)).toBe(true);
     await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; for (let k = 0; k < 4; k++) { const [dx, dy] = Dungeon.DIRS[k]; if ([1, 2].every(n => L.tiles[(p.y + dy * n) * L.w + p.x + dx * n] === Dungeon.T.FLOOR)) { p.dir = k; break; } } });
+    // Base pictures arrive before their poses; a busy runner may still be
+    // painting the dwarf's working when its warning is checked below.
+    await artReady(page, { grey_dwarf: ['windup', 'special'] });
     for (const id of ['grey_dwarf', 'dwarf_arbalest', 'durgrim']) {
       await page.evaluate(() => { Game.level().monsters.length = 0; });
       expect(await placeMonster(page, id, 2, { hp: 200 })).not.toBeNull();
