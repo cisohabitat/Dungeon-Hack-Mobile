@@ -61,7 +61,7 @@ The flame bends towards the bowl. Iron feet strike the floor: an ogre steps out 
 
 The last shield carried out of a fallen hold. Its face is split, and the split will not close. It keeps a little of every blow, to give back through the other hand.
 
-Last Gate: an ordinary close blow loses 1 damage, stored for your next close hit within five seconds (up to 3). Armour class −1.
+Last Gate: an ordinary close blow loses 2 damage, stored for your next close hit within five seconds (up to 3). Armour class −1.
 
 ### Mercy's Oath (mercys_oath)
 
@@ -79,13 +79,13 @@ Bloodstar: damaging spells deal a fifth more, but cost 2 life when cast. You can
 
 A shard of a mirror that never showed a face. Through it, the gaps in another creature's guard are plain. Through those same gaps, the creature sees you.
 
-Nightglass: a close strike from the shadows deals 3 extra damage. Armour class −1.
+Nightglass: close strikes deal 2 extra damage, or 6 from the shadows. Armour class −1.
 
 ### Horizon (horizon)
 
 A bow of white ash with iron at the tips. It takes a steady pull and will not be hurried. When the string is loosed, the passage seems a little shorter.
 
-Horizon: arrows deal 2 extra damage, but drawing this bow takes 15% longer.
+Horizon: arrows deal 4 extra damage, but drawing this bow takes 15% longer.
 
 ### the Elderseed (elderseed)
 

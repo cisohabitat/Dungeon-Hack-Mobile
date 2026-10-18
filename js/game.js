@@ -369,7 +369,7 @@ const Game = (() => {
       + berserkerRage() + jewelBonus('might') + (effect('might') ? 2 : 0);
     // (a ranger's bow is reckoned as it is used, from a distance, with Steady Aim)
     const steady = b && b.aimed && p.cls === 'ranger' ? steadyAim() : 0;
-    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady + (it?.u === 'horizon' && p.cls === 'ranger' ? 2 : 0));
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady + (it?.u === 'horizon' && p.cls === 'ranger' ? 4 : 0));
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained() + (hasTalent('weapon_master') ? 1 : 0));
     return blow / (speed / 1000);
   }

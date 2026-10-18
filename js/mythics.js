@@ -43,12 +43,12 @@ export function makeMythics(K) {
   function guard(dmg) {
     if (!has('last_gate') || dmg <= 0) return dmg;
     const p = K.P(), old = p.mythicChargeUntil > K.G.t ? p.mythicCharge || 0 : 0;
-    p.mythicCharge = Math.min(3, old + 1); p.mythicChargeUntil = K.G.t + 5000;
-    return Math.max(0, dmg - 1);
+    p.mythicCharge = Math.min(3, old + Math.min(2, dmg)); p.mythicChargeUntil = K.G.t + 5000;
+    return Math.max(0, dmg - 2);
   }
   function blow(atRange, sneak) {
-    if (atRange) return has('horizon') ? 2 : 0;
-    const p = K.P(); let n = has('nightglass') && sneak ? 3 : 0;
+    if (atRange) return has('horizon') ? 4 : 0;
+    const p = K.P(); let n = has('nightglass') ? (sneak ? 6 : 2) : 0;
     if (has('last_gate') && p.mythicChargeUntil > K.G.t) { n += p.mythicCharge || 0; delete p.mythicCharge; delete p.mythicChargeUntil; }
     return n;
   }

@@ -23,3 +23,18 @@ Use matching forced-path diagnostics if a path needs tuning. Compare two seed
 sets during tuning and three sets for final acceptance. Add matched EXPLORE=0.8
 runs plus long-delve and ladder sentinel checks. Small sentinels establish
 regression coverage, not precise win-rate estimates. Retain exact inputs/results.
+
+## Initial tuning (not final validation)
+
+The two-set, two-seed/ten-trial preflight used 40 runs per class/difficulty
+(480 per variant). It failed the declared bars, with Ranger at −12.5 points
+on Normal and −17.5 on Hard; Fighter and Thief also fell on Normal.
+Retained raw records are tuning-v1-{baseline,changed}.json.gz; tuning-v1.md
+holds the full table. These small cells are noisy: Cleric's four additional
+Hard wins are not enough evidence to weaken its item.
+
+Before the final audit, Horizon gained +1 make and 4 flat arrow damage instead
+of 2, keeping the 15% longer draw. Last Gate gained +1 make and blocks/stores
+2 rather than 1 (still capped at 3 for five seconds, with AC −1). Nightglass
+now gives 2 on ordinary close hits and 6 from the shadows, with AC −1. Repeat
+the same tuning inputs, then validate final rules on all three 400-run sets.

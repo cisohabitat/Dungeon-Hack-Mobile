@@ -215,7 +215,7 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
     // a road's own relic is a ring or an amulet, for whoever takes the road; so is a twisted floor's, for whoever comes to it (and a shapeshifter's legend hangs at the throat, where the bear can wear it)
     check(b && (['weapon', 'armor', 'shield'].includes(b.kind) || ((r.route || r.twist || r.champion || r.legend || r.mythic) && ['ring', 'amulet'].includes(b.kind))), `relic ${id} rides on '${r.t}', which is not gear`);
     check(r.powers.length && r.powers.every(k => RELIC_POWERS[k]), `relic ${id} has a power the rules do not know`);
-    check(r.mythic ? r.e === 0 : r.e >= 1 && r.e <= 2, `relic ${id} is +${r.e}`);
+    check(r.mythic ? r.e >= 0 && r.e <= 1 : r.e >= 1 && r.e <= 2, `relic ${id} is +${r.e}`);
     check(r.name && r.lore && r.value > 0, `relic ${id} is missing its name, story or value`);
     check(!names.has(r.name.toLowerCase()), `two relics are called ${r.name}`);
     check(/^(the |[A-Z])/.test(r.name), `relic ${id}'s name "${r.name}" will not read right mid-sentence`);

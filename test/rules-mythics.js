@@ -43,10 +43,10 @@ module.exports = async function(h) {
   });
   await test('Mythics: Last Gate counter is capped, expires, spends once and clears when removed; Nightglass has its cost', async () => {
     const {p,G,M}=await factory('fighter');p.eq.shield={t:'shield',u:'last_gate',q:1,e:0};
-    if(M.armour()!==-1)return 'armour';for(let i=0;i<10;i++)if(M.guard(5)!==4)return 'guard';
+    if(M.armour()!==-1)return 'armour';for(let i=0;i<10;i++)if(M.guard(5)!==3)return 'guard';
     if(M.blow(false,false)!==3||M.blow(false,false)!==0)return 'cap/spend';M.guard(5);G.t+=5001;if(M.blow(false,false)!==0)return 'expiry';
     M.guard(5);p.eq.shield=null;M.equipment();if(p.mythicCharge!==undefined)return 'unequip';
-    const thief=await factory('thief');thief.p.eq.amulet={t:'amulet_mind',u:'nightglass',q:1,e:0};return thief.M.blow(false,true)===3&&thief.M.blow(true,true)===0&&thief.M.armour()===-1;
+    const thief=await factory('thief');thief.p.eq.amulet={t:'amulet_mind',u:'nightglass',q:1,e:0};return thief.M.blow(false,true)===6&&thief.M.blow(false,false)===2&&thief.M.blow(true,true)===0&&thief.M.armour()===-1;
   });
   await test('Mythics: caster bargains and druid/ranger tradeoffs apply only while worn', async () => {
     const c=await factory('cleric');c.p.eq.shield={t:'holy_symbol',u:'mercys_oath',q:1,e:0};
@@ -54,7 +54,7 @@ module.exports = async function(h) {
     const m=await factory('mage');m.p.eq.shield={t:'crystal_orb',u:'bloodstar',q:1,e:0};m.p.hp=10;m.M.cast({kind:'bolt'});
     if(m.p.hp!==8||m.M.spellDamage(20)!==24)return 'mage';m.p.hp=2;if(!m.M.spellBlocked({kind:'bolt'}))return 'low life';m.M.cast({kind:'buff'});if(m.p.hp!==2)return 'non-damage';
     const d=await factory('druid');d.p.eq.amulet={t:'amulet_ward',u:'elderseed',q:1,e:0};if(d.M.hide()!==4||d.M.roots()!==1000||d.M.healing(20)!==16)return 'druid';
-    const r=await factory('ranger');r.p.eq.weapon={t:'longbow',u:'horizon',q:1,e:0};return r.M.blow(true,false)===2&&r.M.blow(false,false)===0&&r.M.pace(r.p.eq.weapon)===1.15;
+    const r=await factory('ranger');r.p.eq.weapon={t:'longbow',u:'horizon',q:1,e:0};return r.M.blow(true,false)===4&&r.M.blow(false,false)===0&&r.M.pace(r.p.eq.weapon)===1.15;
   });
   await test('Mythics: live casts charge life after validation, ignore wards, preserve spell timing and apply the damage bonus', async () => {
     const ctx=await start('mage','mythic-live-cast'),{Game}=ctx,p=Game.player(),G=Game.state();

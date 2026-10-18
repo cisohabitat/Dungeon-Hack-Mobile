@@ -52,7 +52,7 @@ for(const [cls,id] of [['Fighter','last_gate'],['Cleric','mercys_oath'],['Mage',
   const errors=watchForErrors(page);await startGame(page,{seed:'mythic-pack-'+id,cls,permadeath:false});
   const expected=await page.evaluate(async id=>{
     const {RELICS}=await import('/js/relics.js'),r=RELICS[id],p=Game.player();Game.level().monsters=[];p.eq.weapon=null;p.eq.shield=null;p.eq.amulet=null;
-    p.inv=[{t:r.t,u:id,e:0,q:1}];return Assets.sprites[Game.spriteFor(p.inv[0])].url;
+    p.inv=[{t:r.t,u:id,e:r.e,q:1}];return Assets.sprites[Game.spriteFor(p.inv[0])].url;
   },id);
   await page.click('[data-open="inv"]');await page.locator('#inv-grid .slot.g-mythic').click();
   await expect(page.locator('#item-detail .grade-word')).toHaveText('Mythic');

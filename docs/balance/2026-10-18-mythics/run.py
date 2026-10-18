@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Matched Mythic audit, using the same explicit observer on both snapshots."""
+"""Matched Mythic audit, with recorded observer versions and an explicit trial policy."""
 import argparse,concurrent.futures,gzip,hashlib,json,os,pathlib,re,subprocess,time
 p=argparse.ArgumentParser();p.add_argument('--repo',type=pathlib.Path,required=True);p.add_argument('--output',type=pathlib.Path,required=True);p.add_argument('--suite',choices=['standard','explore','sentinel','passive','tuning','observer'],default='standard');p.add_argument('--workers',type=int,default=4);a=p.parse_args();root=a.output.resolve();root.mkdir(parents=True,exist_ok=True)
 classes=['fighter','cleric','mage','thief','ranger','druid'];repo=a.repo.resolve();observer=(repo/'test/playtest.js').read_text();keys=set(re.findall(r'process\.env\.([A-Z_]+)',observer));env={k:v for k,v in os.environ.items() if k not in keys};seeds=40 if a.suite=='standard' else 4 if a.suite=='passive' else 2;trials=10 if a.suite in ['standard','passive','tuning','observer'] else 2
