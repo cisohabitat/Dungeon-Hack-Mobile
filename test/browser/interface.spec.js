@@ -543,6 +543,12 @@ test.describe('interface', () => {
     await page.click('#btn-help');
     await page.click('#help-back');
     await expect(page.locator('#game-fact')).toBeHidden();
+    // WebKit can report a cancelled old document's sample fetch as an
+    // access-control error during reload. Finish the pack's background work
+    // first; the first-tap autoplay assertions above still run immediately.
+    await expect.poll(() => page.evaluate(() => Samples.state().listed), { timeout: 15_000 }).toBe(true);
+    await expect.poll(() => page.evaluate(() => Samples.state().waiting), { timeout: 40_000 }).toBe(0);
+    expect(await page.evaluate(() => Samples.state().failed)).toBe(0);
     await page.reload();
     await expect(page.locator('#game-fact')).toBeVisible();
     expect(await page.locator('#game-fact-text').textContent()).not.toBe(first);

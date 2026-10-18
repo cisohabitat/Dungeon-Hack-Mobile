@@ -360,6 +360,11 @@ and its raw records live in `docs/balance/2026-10-16/`.
 - The narration audio element changes its `src` as readings advance. Playback
   tests must associate captured evidence with the intended recording, and
   exercise Ogg as well as the browser default (local Chrome may prefer AAC).
+- A test with the sound pack enabled waits for `Samples.state().listed` and
+  `Samples.state().waiting === 0`, and asserts no failed loads, before a deliberate
+  native reload. WebKit can report cancelled old-document sample fetches as
+  access-control page errors. Keep the reload, autoplay and error assertions;
+  do not hide those errors in the global watcher.
 - A d20 check always fails on a natural 1: a test that relies on one check
   passing must retry, or it flakes about one time in twenty.
 - Self-Taught (`spread`) needs picks, and gives a score at most two points a
