@@ -361,6 +361,11 @@ and its raw records live in `docs/balance/2026-10-16/`.
 
 ## Pitfalls seen before
 
+- Prepare release metadata before starting browser workers. `release.spec.js`
+  reads the package version when its worker loads; changing the version during
+  a run leaves that assertion comparing a cached version with the current page.
+  If this happens, finish the run and recheck the release spec in fresh workers.
+
 - Switching from touch/keyboard to a controller must show the ring even when
   focus already sits on a valid stop; the first A rings, the next A selects.
 - A controller initially focuses the first visible `.primary` button. An
