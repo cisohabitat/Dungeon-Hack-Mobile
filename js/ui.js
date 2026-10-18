@@ -217,6 +217,7 @@ const UI = (() => {
   function startPlaying() {
     newsSeen();
     held.clear();
+    resetTreasure();
     goldWas = Game.player().gold;      // (a new hero's purse is not a find)
     logCount = -1; hudSig = '';
     // a testing aid left on is not carried into a run that still counts, new or
@@ -1033,7 +1034,7 @@ const UI = (() => {
     $('#ov-' + name).classList.add('open');
     setBehind(true);
     syncHistory();
-    if (name === 'inv') renderInv();
+    if (name === 'inv') { prepareTreasure(); renderInv(); }
     if (name === 'map') { mapView.panX = 0; mapView.panY = 0; renderMap(); }
     if (name === 'spells') renderSpells();
     if (name === 'char') renderChar();
@@ -1049,7 +1050,7 @@ const UI = (() => {
     if (name === 'code') renderCode();
     // a keyboard's Tab, and a screen reader, start inside what has just opened, not behind it
     // (a pad's ring finds its own way in: pad.js; no box to type in is chosen, so no keyboard springs up on a phone)
-    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus(); }
+    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus({ preventScroll: name === 'inv' && $('#item-detail').classList.contains('treasure-reveal') }); }
   }
   /** Its first words have already been spoken into the log; time waits here. */
   function renderBoss() {
@@ -1604,7 +1605,7 @@ const UI = (() => {
   });
 
   // ---------- pack: see pack.js ----------
-  const { compareText, renderInv } = makePack({
+  const { compareText, renderInv, resetTreasure, prepareTreasure } = makePack({
     get closeOverlay() { return closeOverlay; }, get damageShare() { return damageShare; }, get itemBlurb() { return itemBlurb; },
     get knownE() { return knownE; }, get overlay() { return overlay; }, get selectedItem() { return selectedItem; },
     set selectedItem(v) { selectedItem = v; }, get selectedSlot() { return selectedSlot; }, set selectedSlot(v) { selectedSlot = v; },

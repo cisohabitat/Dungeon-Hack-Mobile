@@ -129,6 +129,15 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Bloodstar caster must fall through to legal attacks instead of retrying a
   blocked bolt. Benchmark both policies,
   actual trial/reward use, exploration, long delves and ladder rungs.
+- Landmark carvings live in `js/regionart.js`: stair art stays on the solid
+  jambs and keystone, with the original transparent arch opening preserved.
+  Shrine and final-sanctum inlays are baked before shading, never new lights.
+  `js/pack.js` reveals newly acquired Legendary/Mythic art only when the player
+  opens the pack or takes it there; its memory resets from the carried gear on
+  start/load. Never open a modal or pause combat for a find, expose hidden grades,
+  or replay the reveal when sorting/equipping. Keep the normal pack actions and
+  disable reveal movement in Calm view and reduced motion. Floor Take uses the
+  inventory event to redraw once, so a second render cannot cut the reveal short.
 - `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
   floor sprites, pack inspection, discovered codex and held weapons/foci.
   Resolve identity with `namedSprite` and base weapon type with `namedBase`;

@@ -260,3 +260,83 @@ test('named pictures agree in floor treasure, pack inspection and the discovered
   }
   expect(errors).toEqual([]);
 });
+
+test('new Legendary and Mythic finds reveal in the opened pack without changing play @mobile', async ({ page }, testInfo) => {
+  const errors = watchForErrors(page);
+  await scene(page);
+  await page.evaluate(() => {
+    const p = Game.player(), L = Game.level();
+    L.items[`${p.x},${p.y}`] = [{ t: 'towershield', q: 1, e: 1, u: 'bastion' }];
+    Game.takeItem(Game.floorItems()[0]);
+  });
+  await expect(page.locator('.overlay.open')).toHaveCount(0);
+  const before = await page.evaluate(() => JSON.stringify(Game.player()));
+  await page.click('[data-open="inv"]');
+  const detail = page.locator('#item-detail');
+  await expect(detail).toHaveClass(/treasure-reveal/);
+  await expect(detail.locator('.treasure-new')).toHaveText('New find');
+  await expect(detail.locator('.grade-word')).toHaveText('Legendary');
+  await expect(detail.locator('.item-showcase img')).toBeInViewport();
+  await expect(detail.getByRole('button', { name: 'Equip', exact: true })).toBeVisible();
+  expect(await page.evaluate(() => JSON.stringify(Game.player()))).toBe(before);
+  expect(await detail.locator('img').evaluate(el => getComputedStyle(el).width)).toBe('96px');
+  await page.screenshot({ path: testInfo.outputPath('legendary-reveal.png') });
+  await testInfo.attach('legendary-reveal', { path: testInfo.outputPath('legendary-reveal.png'), contentType: 'image/png' });
+  await page.locator('#inv-sort').click();
+  await expect(detail).not.toHaveClass(/treasure-reveal/);
+  await page.click('#ov-inv [data-close]');
+  await page.waitForFunction(() => history.state?.dd === 'game');
+  await page.evaluate(() => {
+    const p = Game.player(), L = Game.level();
+    L.items[`${p.x},${p.y}`] = [{ t: 'shield', q: 1, e: 1, u: 'last_gate' }];
+  });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.click('[data-open="inv"]');
+  await page.locator('#floor-box').getByRole('button', { name: 'Take', exact: true }).click();
+  await expect(detail.locator('.grade-word')).toHaveText('Mythic');
+  await expect(detail).toHaveClass(/treasure-reveal/);
+  expect(await detail.locator('img').evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+  await expect(detail.locator('.relic-lore')).toBeVisible();
+  const AxeBuilder = require('@axe-core/playwright').default;
+  const audit = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+  expect(audit.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.click('#ov-inv [data-close]');
+  await page.waitForFunction(() => history.state?.dd === 'game');
+  await page.evaluate(() => { Game.save(true); });
+  await page.reload();
+  await page.click('#btn-continue');
+  await page.click('[data-open="inv"]');
+  await expect(detail).not.toHaveClass(/treasure-reveal/);
+  expect(errors).toEqual([]);
+});
+
+test('landmark textures keep clear arches, deterministic shade caches and game state @mobile', async ({ page }, testInfo) => {
+  const errors = watchForErrors(page);
+  await scene(page);
+  const result = await page.evaluate(async () => {
+    const { Dice, Odds } = await import('/js/rng.js');
+    const snapshot = JSON.stringify(Game.state()), dice = [Dice.s, Odds.s];
+    const sheet = document.createElement('canvas'); sheet.width = 480; sheet.height = THEMES.length * 100;
+    const c = sheet.getContext('2d'); c.fillStyle = '#15121a'; c.fillRect(0, 0, sheet.width, sheet.height); c.font = '11px sans-serif';
+    const out = Assets.themes.map((tex, i) => {
+      const pixels = tex.stairArch.getContext('2d').getImageData(0, 0, 64, 64).data;
+      let clear = true, solid = true;
+      for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) {
+        const open = y >= 20 ? Math.abs(x - 31.5) <= 21 : Math.hypot((x - 31.5) / 21, (y - 20) / 22) <= 1;
+        if (open && pixels[(y * 64 + x) * 4 + 3] !== 0) clear = false;
+        if (!open && pixels[(y * 64 + x) * 4 + 3] !== 255) solid = false;
+      }
+      const mosaic = tex.floorOf(2), altar = tex.floorOf(3);
+      const flat = levels => { const a = document.createElement('canvas'); a.width = a.height = 64; const cx = a.getContext('2d'); const image = cx.createImageData(64, 64); image.data.set(new Uint8Array(levels[0].buffer)); cx.putImageData(image, 0, 0); return a; };
+      [tex.stairArch, flat(mosaic), flat(altar), flat(tex.floorOf(0))].forEach((image, j) => c.drawImage(image, 180 + j * 72, i * 100 + 24));
+      c.fillStyle = '#ede2c9'; c.fillText(THEMES[i].name, 4, i * 100 + 48);
+      return { clear, solid, cached: mosaic === tex.floorOf(2) && altar === tex.floorOf(3), distinct: mosaic[0].some((v, n) => v !== altar[0][n]) };
+    });
+    return { out, unchanged: snapshot === JSON.stringify(Game.state()) && Dice.s === dice[0] && Odds.s === dice[1], sheet: sheet.toDataURL().split(',')[1] };
+  });
+  for (const row of result.out) expect(row).toEqual({ clear: true, solid: true, cached: true, distinct: true });
+  expect(result.unchanged).toBe(true);
+  await testInfo.attach('landmark-surfaces', { body: Buffer.from(result.sheet, 'base64'), contentType: 'image/png' });
+  expect(errors).toEqual([]);
+});

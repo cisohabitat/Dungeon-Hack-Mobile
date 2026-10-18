@@ -135,6 +135,57 @@ export function makeRegionArt(K) {
     }
     c.restore(); return image;
   }
+  // Cut marks stay on the solid jambs. The renderer keeps the same opening,
+  // recess and shaded columns; these are carvings, never new light sources.
+  function stair(t, image) {
+    const c = image.getContext('2d'), s = style(t);
+    const dark = K.adjust(t.wall, -20), edge = K.adjust(t.wall, 19);
+    const inlay = colour(t.wall, t.accent, 0.3);
+    c.save();
+    for (const x of [3, 57]) {
+      px(c, dark, x, 17, 4, 45); px(c, edge, x, 17, 1, 44);
+      rim(c, edge, x - 1, 54, 6, 6);
+      if (s === 'dwarves' || s === 'forge') {
+        for (const y of [23, 35, 47]) { line(c, edge, x, y, x + 2, y + 3); line(c, inlay, x + 2, y + 3, x + 4, y); }
+      } else if (s === 'elves' || s === 'glass' || s === 'vaults') {
+        for (const y of [25, 42]) diamond(c, inlay, x + 2, y, 2);
+      } else {
+        for (const y of [23, 34, 45]) { px(c, inlay, x + 1, y, 2, 5); px(c, dark, x + 2, y + 2); }
+      }
+    }
+    // Fitted crown stones; the original clear arch mask is applied afterwards.
+    px(c, dark, 26, 0, 12, 4); px(c, edge, 27, 0, 10); px(c, inlay, 30, 1, 4, 2);
+    c.restore(); return image;
+  }
+  function shrine(t, image, altar) {
+    const c = image.getContext('2d'), dark = K.adjust(t.floor, -10);
+    const ink = colour(t.floor, t.accent, 0.33);
+    c.save();
+    if (altar) {
+      // Concentric incisions and four compass cuts give the slab a clear centre.
+      diamond(c, dark, 31, 31, 12); diamond(c, ink, 31, 31, 10);
+      for (const [x, y] of [[31, 13], [49, 31], [31, 49], [13, 31]]) diamond(c, ink, x, y, 2);
+    } else {
+      for (const x of [6, 56]) for (const y of [6, 56]) {
+        diamond(c, dark, x, y, 4); diamond(c, ink, x, y, 2);
+      }
+      rim(c, ink, 9, 9, 46, 46);
+    }
+    c.restore(); return image;
+  }
+  function sanctum(t, image) {
+    if (!t.final) return image;
+    const c = image.getContext('2d'), dark = K.adjust(t.floor, -9);
+    const ink = colour(t.floor, t.accent, 0.24);
+    c.save();
+    // A dark glass carpet, with broken silver-purple compass inlays. Its low
+    // contrast leaves the Heart, traps, pools and creatures as the clear cues.
+    rim(c, dark, 2, 2, 60, 60); rim(c, ink, 5, 5, 54, 54);
+    diamond(c, dark, 32, 32, 23); diamond(c, ink, 32, 32, 21);
+    for (const [x, y] of [[32, 11], [53, 32], [32, 53], [11, 32]]) diamond(c, ink, x, y, 3);
+    diamond(c, dark, 32, 32, 6); diamond(c, ink, 32, 32, 4);
+    c.restore(); return image;
+  }
   function wood(t, palette) {
     const s = style(t);
     const target = s === 'dwarves' ? [68, 70, 73] : s === 'marsh' ? [63, 76, 42]
@@ -144,5 +195,5 @@ export function makeRegionArt(K) {
     const mix = s === 'dwarves' ? 0.78 : s === 'crypts' || s === 'bones' ? 0.3 : 0.6;
     return palette.map(rgb => rgb.map((v, i) => Math.round(v * (1 - mix) + target[i] * mix)));
   }
-  return { wall, floor, door, wood };
+  return { wall, floor, door, wood, stair, shrine, sanctum };
 }

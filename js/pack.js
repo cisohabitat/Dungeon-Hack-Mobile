@@ -14,6 +14,19 @@ export function makePack(K) {
   const knownE = (/** @type {any[]} */ ...a) => K.knownE(...a);
   const weaponLine = (/** @type {any[]} */ ...a) => K.weaponLine(...a);
 
+  // Presentation memory only: taking up a save does not replay old discoveries.
+  // Nothing opens the pack or holds the dungeon still on the player's behalf.
+  const presented = new Set();
+  const treasures = () => [...Game.player().inv, ...Object.values(Game.player().eq)].filter(it => it && ['legend', 'mythic'].includes(Game.grade(it)));
+  function resetTreasure() {
+    presented.clear();
+    for (const it of treasures()) presented.add(it.u);
+  }
+  function prepareTreasure() {
+    const it = treasures().find(it => !presented.has(it.u));
+    if (it) { K.selectedItem = it; K.selectedSlot = Object.keys(Game.player().eq).find(s => Game.player().eq[s] === it) || null; }
+  }
+
   function slotEl(it, label) {
     const div = document.createElement(it ? 'button' : 'div');
     if (it) {
@@ -95,7 +108,8 @@ export function makePack(K) {
         }
         const b = document.createElement('button');
         b.className = 'small'; b.textContent = 'Take';
-        b.addEventListener('click', () => { Game.takeItem(it); renderInv(); });
+        // The inventory event redraws once, so the reveal gets its whole animation.
+        b.addEventListener('click', () => { Game.takeItem(it); prepareTreasure(); });
         row.appendChild(b);
         fb.appendChild(row);
       }
@@ -131,8 +145,12 @@ export function makePack(K) {
       : (it.pw && !it.h && RELIC_POWERS[it.pw] ? `<ul class="relic-powers"><li>${escapeHtml(RELIC_POWERS[it.pw])}</li></ul>` : '');
     const gr = Game.grade(it);
     const art = Assets.sprites[Game.spriteFor(it)];
+    const reveal = (gr === 'legend' || gr === 'mythic') && !presented.has(it.u);
+    if (reveal) presented.add(it.u);
+    box.classList.toggle('treasure-reveal', reveal);
     box.dataset.grade = gr;
-    box.innerHTML = `<div class="item-showcase g-${gr}"><img src="${art.url}" alt=""><div><h3 class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}</div></div><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
+    box.innerHTML = `<div class="item-showcase g-${gr}"><img src="${art.url}" alt=""><div>${reveal ? '<p class="treasure-new">New find</p>' : ''}<h3 class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}</div></div><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
+    if (reveal) box.scrollIntoView({ block: 'nearest' });
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); K.selectedItem = null; K.selectedSlot = null; renderInv(); }); btns.appendChild(bt); };
     // a worn piece offers only taking it off, and a cursed one not even that
@@ -223,5 +241,5 @@ export function makePack(K) {
     return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armour class</p>`;
   }
 
-  return { compareText, renderInv };
+  return { compareText, renderInv, resetTreasure, prepareTreasure };
 }

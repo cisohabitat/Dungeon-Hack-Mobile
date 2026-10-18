@@ -743,7 +743,7 @@ const Assets = (() => {
         for (let j = -2; j <= 2; j++) P.set(Math.round(cx + Math.cos(a + m) * j * 0.6), Math.round(cy + Math.sin(a + m) * j), mixRgb(ac, [0, 0, 0], 0.3));
       }
     }
-    return P.done();
+    return regionArt.shrine(theme, P.done(), altar);
   }
   /** A cistern's floor: flags under a hand's depth of still, black water that catches the light in its ripples. */
   function makeWaterFloor(theme, seed) {
@@ -1081,7 +1081,7 @@ const Assets = (() => {
         P.set(x, y, stone, edge && y < 22 ? -40 : 14 + (seg % 2) * 8 + (hash2(x, y, s) - 0.5) * 14 + (inArch(x, y, 22.4) ? -12 : 4));
       }
     }
-    const c = P.done(), ctx = c.getContext('2d'), img = ctx.getImageData(0, 0, TEX, TEX);
+    const c = regionArt.stair(theme, P.done()), ctx = c.getContext('2d'), img = ctx.getImageData(0, 0, TEX, TEX);
     // the opening: clear, so the stairwell behind shows through it
     for (let y = 0; y < TEX; y++) for (let x = 0; x < TEX; x++) if (inArch(x, y, 21)) img.data[(y * TEX + x) * 4 + 3] = 0;
     ctx.putImageData(img, 0, 0);
@@ -1261,7 +1261,7 @@ const Assets = (() => {
     }
     return out;
   }
-  function makeFloor(theme, seed) { return regionArt.floor(theme, makeFloorBase(theme, seed)); }
+  function makeFloor(theme, seed) { return regionArt.sanctum(theme, regionArt.floor(theme, makeFloorBase(theme, seed))); }
   function makeFloorBase(theme, seed) {
     const c = canvas(TEX, TEX);
     const ctx = c.getContext('2d');
@@ -1439,8 +1439,8 @@ const Assets = (() => {
       get decor() { return decor || (decor = makeDecor(theme, wall, i)); },
       door: makeDoor(theme, wall, null),
       locked,
-      stairsDown: makeStairs(theme, wall, true),
-      stairsUp: makeStairs(theme, wall, false),
+      stairsDown: regionArt.stair(theme, makeStairs(theme, wall, true)),
+      stairsUp: regionArt.stair(theme, makeStairs(theme, wall, false)),
       // the stairwell drawn in depth: its arch, and the flight beyond it
       stairArch: makeStairArch(theme, wall),
       stairsUpBack: makeStairBack(theme, false),

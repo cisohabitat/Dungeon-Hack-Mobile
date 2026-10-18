@@ -1310,3 +1310,14 @@ body.calm .item-showcase > img { animation: none !important; }
 .detail[data-grade="mythic"], .finds .tag.g-mythic, .end-tags .tag.g-mythic { border-color: var(--g-mythic-edge); }
 
 .end-tags .tag.g-mythic { color: var(--g-mythic); }
+
+/* A find is revealed in the pack the player already opened, clear of combat. */
+.detail:is([data-grade="legend"], [data-grade="mythic"]) .item-showcase {
+  padding: var(--s-12); border: 1px solid currentColor; border-radius: var(--frame-radius);
+  background: radial-gradient(ellipse at 20% 50%, rgba(224,184,74,.12), transparent 75%);
+}
+.detail[data-grade="mythic"] .item-showcase { background: radial-gradient(ellipse at 20% 50%, rgba(200,150,240,.14), transparent 75%); }
+.detail:is([data-grade="legend"], [data-grade="mythic"]) .item-showcase > img { flex-basis: 96px; width: 96px; height: 96px; }
+.treasure-new { font-size: var(--t-sm); color: var(--text); margin-bottom: var(--s-4); }
+.detail.treasure-reveal .item-showcase > img { animation: treasure-unveil 650ms ease-out; }
+@keyframes treasure-unveil { from { opacity: .25; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }

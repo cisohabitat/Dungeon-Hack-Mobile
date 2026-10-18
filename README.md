@@ -88,6 +88,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   guardian for your class's piece; a full pack leaves it safely on the floor.
   Daily/Weekly and shorter delves keep their current rules. Mythics are never
   sold by traders or offered as mastery starting gear.
+- **Landmarks and treasure reveals.** Carved stair jambs, shrine compass inlays
+  and the final sanctum's glass floorwork use cached art, with the same fog,
+  light and clear stair openings. Open the pack after finding a Legendary or
+  Mythic piece to see its larger artwork, powers and lore. The brief reveal
+  respects Calm view and reduced motion; finding treasure never opens a popup
+  or pauses combat. Taking up a save does not repeat old reveals.
 - **Named treasure artwork.** Every Mythic, legendary piece and named relic has its own lore-led
   picture in the pack, treasure inspection and discovered codex, and matching
   held weapons, bows, shields and foci. Ordinary enchanted gear keeps its base art.

@@ -388,3 +388,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   encounter/pack controls; no ordinary deals or mastery starts.
 - [x] Matched six-class Normal/Hard balance comparison, exploration and long/rung
   checks, plus full browser and isolated performance validation.
+
+## Landmark and treasure finishing (18 October 2026)
+
+- [x] Regional carved stair jambs and keystones, shrine compass inlays and
+  dark-glass sanctum floorwork, cached with existing lighting and openings.
+- [x] Larger Legendary/Mythic artwork reveals in the player-opened pack,
+  with powers and lore, no pickup popup or combat pause, and Calm/reduced motion.
