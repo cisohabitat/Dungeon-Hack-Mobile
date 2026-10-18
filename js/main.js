@@ -11,6 +11,7 @@ import { UI } from './ui.js';
 import { Telemetry } from './telemetry.js';
 import * as Data from './data.js';
 import { Dungeon } from './dungeon.js';
+import { initOffline } from './offline.js';
 
 // Modules keep their names to themselves, which is usually what you want. This
 // game is a single-player offline page, and having the pieces reachable from
@@ -104,9 +105,7 @@ function boot() {
   // the sound pack's list, the title's cue and the everyday sounds, once the title is up
   // (not with the sound turned off: then each is fetched the first time it is wanted)
   setTimeout(() => { if (Sound.isEnabled()) Samples.begin(); }, 1200);
-  if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
+  initOffline();
 }
 
 // A module script is deferred, so the document is already parsed by now.

@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'landmark-treasure', text: "Carved stairways, shrine inlays and the final sanctum have new detail. Open your pack after finding a Legendary or Mythic piece for a larger artwork reveal, with its powers and story." };
+  const NEWS = { id: 'core-offline-first', text: "The game becomes ready offline before the voice finishes downloading. The title shows what is ready; interrupted voice downloads resume when you reconnect." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

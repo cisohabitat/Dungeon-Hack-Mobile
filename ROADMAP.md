@@ -395,3 +395,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   dark-glass sanctum floorwork, cached with existing lighting and openings.
 - [x] Larger Legendary/Mythic artwork reveals in the player-opened pack,
   with powers and lore, no pickup popup or combat pause, and Calm/reduced motion.
+
+## Faster offline preparation (18 October 2026)
+
+- [x] Activate the core game before optional narration downloads; show separate
+  core/voice readiness, resume missing recordings and preserve text-only play.
+- [x] Exercise delayed downloads, real offline controls, reconnect, cached voice
+  ranges and reload on the mobile browser matrix.

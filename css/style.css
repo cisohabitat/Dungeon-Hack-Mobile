@@ -1321,3 +1321,5 @@ body.calm .item-showcase > img { animation: none !important; }
 .treasure-new { font-size: var(--t-sm); color: var(--text); margin-bottom: var(--s-4); }
 .detail.treasure-reveal .item-showcase > img { animation: treasure-unveil 650ms ease-out; }
 @keyframes treasure-unveil { from { opacity: .25; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }
+
+.offline-status { position: relative; z-index: 1; flex-shrink: 0; margin: 0; padding: var(--s-4) var(--s-12); background: var(--bg); color: var(--text-soft); font-size: var(--t-sm); line-height: 1.4; text-align: center; overflow-wrap: anywhere; }

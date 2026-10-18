@@ -5,7 +5,7 @@ A first-person, real-time dungeon crawler for mobile browsers, built in the spir
 
 **Play it now:** https://dungeon-hack-mobile.vercel.app
 
-Open it on your phone and choose "Add to Home Screen" to install it as an app. It works offline after the first load.
+Open it on your phone and choose "Add to Home Screen" to install it as an app. The title shows when the game is ready offline. Voice recordings download separately in the background and resume after reconnecting.
 
 ## Features
 
@@ -246,7 +246,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **George narrates the story.** The opening and backgrounds, found Journal pages, first region
   and relic discoveries, and death/victory epilogues have recorded British narration. Voice is on
   by default, with pause, replay, skip and its own volume and switch. Discoveries wait for quiet
-  and stop for combat warnings. Both audio formats are saved for offline play.
+  and stop for combat warnings. Both audio formats are saved in the background; the title says when all voice recordings are ready offline. The game can already be played offline while they download.
 - **Music that follows the fight.** Written as it plays, in each floor's own scale: a few bell
   notes and long silences while nothing is near, a low pulse when something awake is close, a
   quicker beat and a repeating figure once it comes to blows, and a horn beneath for a named
@@ -954,7 +954,8 @@ dashboard.html    real players' win rates beside the bot's
 js/daily.js       the Daily Delve: the day's hero, the one try, the streak
 js/main.js        entry point, game loop, debug surface
 js/types.js       JSDoc shapes for the type checker
-sw.js             offline cache
+js/offline.js     title offline readiness, reconnect and worker status
+sw.js             core-first offline cache and resumable voice downloads
 manifest.json     PWA manifest
 vercel.json       Vercel headers
 test/harness.js   loads the game's modules into Node

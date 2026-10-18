@@ -270,6 +270,7 @@ test('the installed game can read an unheard Journal page with the connection of
   await openPrologue(page);
   await page.evaluate(() => navigator.serviceWorker.register('/sw.js'));
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
+  await expect(page.locator('#offline-status')).toHaveAttribute('data-voice', 'ready', { timeout: 30000 });
   await quietGame(page);
   await page.evaluate(() => { Game.state().journal = [{ i: 22, depth: 1 }]; });
   await context.setOffline(true);

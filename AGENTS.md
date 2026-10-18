@@ -244,6 +244,21 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Chromium can read Ogg duration accurately, as it does on the deployment.
 - `ROADMAP.md`: the phased plan towards an AAA feel; check it before starting
   a large piece of work, and tick items off as they land.
+- `js/offline.js` reports core and voice readiness on the title without touching
+  gameplay state. Only the current controller's matching build can report ready.
+  `sw.js` installs core assets first and activates before downloading narration;
+  the page starts resumable downloads through a message event, never install or
+  activate `waitUntil` (which would hold functional fetch events). Keep four
+  recording requests in flight, preserve completed files on interruption and
+  resume on reconnect, visibility or a quiet poll. Both formats, including the
+  prologue, belong to the background voice set. Mark all voice ready only after
+  every required recording is cached. Keep previous recordings available until
+  then; delete only owned old caches on completion. Offline core fetches must
+  use the current cache, while voice ranges may use previous recordings.
+  `test/offline.js` covers worker lifecycle/recovery; `offline.spec.js` serves
+  the real worker with recordings held back on an isolated test server, including
+  offline play and recovery in both Chromium sizes and CI WebKit. Unheard-voice
+  tests wait for voice readiness before taking the connection away.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 

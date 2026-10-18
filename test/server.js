@@ -84,4 +84,4 @@ if (require.main === module) {
   const port = parseInt(process.env.PORT || process.argv[2] || '4173', 10);
   start(port).then(() => console.log(`Deepdelve served at http://127.0.0.1:${port}`));
 }
-module.exports = { start };
+module.exports = { start, serve };
