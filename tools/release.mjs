@@ -1,16 +1,15 @@
 // Prepare immutable release metadata before committing; publish only tested main.
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const read = path => readFileSync(path, 'utf8');
-export function bumpKind(messages) {
-  messages = messages.map(m => m.trim());
-  if (messages.some(m => /^[a-z]+(?:\([^\n)]+\))?!:/.test(m) || /^BREAKING[ -]CHANGE:/m.test(m))) return 'major';
-  if (messages.some(m => /^feat(?:\([^\n)]+\))?:/.test(m))) return 'minor';
-  return 'patch';
-}
+// A feature commit can still be a small addition. Larger version milestones
+// are a deliberate --bump decision, never inferred from commit labels.
+export function bumpKind(_messages) { return 'patch'; }
+const RESET_FILE = 'tools/version-resets.json';
+const resets = () => existsSync(RESET_FILE) ? JSON.parse(read(RESET_FILE)) : [];
 export function bump(version, kind) {
   if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('Expected a stable semantic version.');
   const [a, b, c] = version.split('.').map(Number);
@@ -58,19 +57,33 @@ function prepare(options) {
   const tag = `v${current.version}`;
   const comparison = git('tag', '--list', tag) ? git('rev-list', '-1', tag) : base;
   const files = changed(comparison, true);
-  if (!files.length && !options.bump) { console.log('No player-facing changes; version/build unchanged.'); return; }
+  if (!files.length && !options.bump && !options['reset-version']) { console.log('No player-facing changes; version/build unchanged.'); return; }
   const kind = options.bump || bumpKind([...messages(comparison), options.message || '']);
-  const version = bump(current.version, kind), build = current.build + 1;
+  const version = options['reset-version'] || bump(current.version, kind), build = current.build + 1;
+  if (options['reset-version']) {
+    bump(version, 'patch'); // Validate before any file is written.
+    if (options.bump || !options.reason?.trim()) throw new Error('A version reset requires --reason and cannot use --bump.');
+    const order = version.split('.').map(Number).reduce((n, v, i) => n || Math.sign(v - Number(current.version.split('.')[i])), 0);
+    if (order >= 0) throw new Error('A reset must name a lower version. Use --bump for ordinary releases.');
+    if (files.some(f => f !== 'sw.js')) throw new Error('Publish version resets separately from player-facing changes.');
+    if (git('tag', '--list', `v${version}`)) throw new Error('The reset version already has a tag; never reuse published versions.');
+  } else if (options.reason) throw new Error('--reason is only used with --reset-version.');
   if (!Number.isSafeInteger(build) || `${version} (build ${build})`.length > 32) throw new Error('Release exceeds telemetry limits.');
   const sw = read('sw.js'), match = sw.match(/const CACHE = 'deepdelve-v(\d+)';/);
   if (!match) throw new Error('Unknown service-worker cache format.');
+  if (options['reset-version']) {
+    const records = resets();
+    records.push({ from: current.version, fromBuild: current.build, to: version, toBuild: build, reason: options.reason.trim() });
+    mkdirSync('tools', { recursive: true });
+    writeFileSync(RESET_FILE, JSON.stringify(records, null, 2) + '\n');
+  }
   const pkg = JSON.parse(read('package.json')), lock = JSON.parse(read('package-lock.json'));
   pkg.version = lock.version = lock.packages[''].version = version;
   writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
   writeFileSync('package-lock.json', JSON.stringify(lock, null, 2) + '\n');
   writeFileSync('js/release.js', read('js/release.js').replace(/RELEASE_VERSION = '[^']+'/, `RELEASE_VERSION = '${version}'`).replace(/BUILD_NUMBER = \d+;/, `BUILD_NUMBER = ${build};`));
   writeFileSync('sw.js', sw.replace(match[0], `const CACHE = 'deepdelve-v${Number(match[1]) + 1}';`));
-  console.log(`Prepared ${kind} release ${version}, build ${build}. Stage package.json, package-lock.json, js/release.js and sw.js before committing.`);
+  console.log(`Prepared ${options['reset-version'] ? 'numbering reset' : kind + ' release'} ${version}, build ${build}. Stage package.json, package-lock.json, js/release.js, sw.js${options['reset-version'] ? ' and ' + RESET_FILE : ''} before committing.`);
 }
 function check(base) {
   const current = validate();
@@ -79,7 +92,20 @@ function check(base) {
   base = git('rev-parse', '--verify', `${base}^{commit}`);
   const prior = metadata(git('show', `${base}:js/release.js`));
   const order = current.version.split('.').map(Number).reduce((n, v, i) => n || Math.sign(v - Number(prior.version.split('.')[i])), 0);
-  if (order < 0 || current.build < prior.build || (order > 0) !== (current.build > prior.build)) throw new Error('Version and build must advance together, never backwards.');
+  if (order < 0) {
+    const entries = resets();
+    const entry = entries.find(r => r.from === prior.version && r.fromBuild === prior.build && r.to === current.version && r.toBuild === current.build && typeof r.reason === 'string' && r.reason.trim());
+    const before = git('ls-tree', '--name-only', base, '--', RESET_FILE) ? JSON.parse(git('show', `${base}:${RESET_FILE}`)) : [];
+    const oldSw = execFileSync('git', ['show', `${base}:sw.js`], { encoding: 'utf8' }), cache = oldSw.match(/const CACHE = 'deepdelve-v(\d+)';/);
+    if (!entry || current.build !== prior.build + 1 || entries.length !== before.length + 1
+      || JSON.stringify(entries.slice(0, -1)) !== JSON.stringify(before) || entries.at(-1) !== entry
+      || changed(base).some(f => f !== 'sw.js') || !cache
+      || read('sw.js') !== oldSw.replace(cache[0], `const CACHE = 'deepdelve-v${Number(cache[1]) + 1}';`)) {
+      throw new Error('A version reset needs a new matching audit record, one newer build/cache and no gameplay changes.');
+    }
+    return console.log(`Authorised version reset ${prior.version} to ${current.version}, build ${current.build}: ${entry.reason}`);
+  }
+  if (current.build < prior.build || (order > 0) !== (current.build > prior.build)) throw new Error('Version and build must advance together, never backwards.');
   if (!changed(base).length) return console.log('No player-facing changes to version.');
   const kind = bumpKind(messages(base));
   const floor = bump(prior.version, kind).split('.').map(Number);
@@ -99,7 +125,7 @@ function publish() {
   if (releases.some(r => r.tagName === tag)) return console.log(`${tag} is already published; nothing to do.`);
   const tagged = git('tag', '--list', tag);
   if (tagged && git('rev-list', '-1', tag) !== process.env.GITHUB_SHA) throw new Error('Existing tag points elsewhere; refusing to move it.');
-  gh('release', 'create', tag, '--target', process.env.GITHUB_SHA, '--title', `Deepdelve ${version} · Build ${build}`, '--generate-notes', '--notes', `Release ${version}, build ${build}. All required CI jobs passed.`, ...(tagged ? ['--verify-tag'] : []));
+  gh('release', 'create', tag, '--target', process.env.GITHUB_SHA, '--title', `Deepdelve ${version} · Build ${build}`, '--latest', '--generate-notes', '--notes', `Release ${version}, build ${build}. All required CI jobs passed.`, ...(tagged ? ['--verify-tag'] : []));
   console.log(`Published ${tag}, build ${build}.`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
@@ -107,7 +133,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const [command, ...args] = process.argv.slice(2), options = {};
     while (args.length) {
       const arg = args.shift();
-      if (!['--message', '--bump'].includes(arg) || !args.length) throw new Error('Use prepare [--message TEXT] [--bump patch|minor|major], check or publish.');
+      if (!['--message', '--bump', '--reset-version', '--reason'].includes(arg) || !args.length) throw new Error('Use prepare [--message TEXT] [--bump patch|minor|major] or [--reset-version VERSION --reason TEXT], check or publish.');
       options[arg.slice(2)] = args.shift();
     }
     if (command === 'prepare') prepare(options);

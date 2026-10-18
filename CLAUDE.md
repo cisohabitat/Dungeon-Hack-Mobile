@@ -164,13 +164,20 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   footer and telemetry. Do not hand-edit release numbers. For every publication,
   stage intended changes, then run `npm run release:prepare -- --message "<commit subject>"`.
   It detects player files since the current version tag (or last metadata commit),
-  selects major for `type!:` / `BREAKING CHANGE:`, minor for `feat:`, otherwise
-  patch, and increments the build and offline cache. Docs/tests/CI-only changes
-  leave both numbers unchanged. Stage its four updated files before committing.
-  Use conventional commit subjects for player changes; an unlabelled change
-  defaults to patch. `--bump major|minor|patch` is an explicit reviewed override,
-  including an intentional release of existing features. Never infer compatibility
-  breaks from file names alone. Keep all three package/lock versions consistent.
+  defaults to patch even for `feat:` or breaking-change labels, and increments
+  the build and offline cache. Group small changes into release batches. A minor
+  release needs a substantial gameplay feature or sizeable content batch and an
+  explicit `--bump minor`; a major overhaul needs the owner's decision and
+  `--bump major`. Docs/tests/CI-only changes leave both numbers unchanged. Stage
+  its four updated files before committing. Keep all three package/lock versions
+  consistent. Do not infer version milestones from commit labels or file names.
+  The owner reset 1.6.0 to 0.9.0 at build 15; subsequent small updates use 0.9.x.
+  For an explicitly authorised numbering reset only, use `--reset-version VERSION
+  --reason TEXT`. Its new record in `tools/version-resets.json` must match the
+  exact old/new versions and builds, with one newer cache and no gameplay changes.
+  Never reset build numbers, reuse version tags or move published history. The
+  publication job explicitly marks the tested current version as latest, even
+  when its number is lower than archived releases.
   CI rejects unversioned player changes and creates the version tag and GitHub
   release only after all seven required checks pass on main. Publication reruns
   are idempotent, skip stale main runs and never move an existing tag.

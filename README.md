@@ -314,14 +314,30 @@ npm run release:prepare -- --message "feat: describe the new feature"
 git add package.json package-lock.json js/release.js sw.js
 ```
 
-The tool chooses a minor release for `feat:`, a major release for `type!:` or
-`BREAKING CHANGE:`, and a patch for fixes or other player changes. It increments
-the build and offline cache together, keeping the footer and package/lock versions
-in sync. Docs, tests and CI-only changes leave the numbers unchanged. Use
-`--bump major|minor|patch` only for an intentional override. This is based on
-commit intent, so breaking changes must be labelled explicitly. Repository agent
-instructions require this preparation automatically before publishing updates.
+Small additions, fixes and polish default to a **patch**, including `feat:` commits.
+Choose `--bump minor` for a substantial gameplay feature or sizeable content batch;
+reserve `--bump major` for a major overhaul approved by the owner. Commit labels
+alone never select a larger milestone. Group small changes into a release batch.
+The build and offline cache increase with each prepared release, keeping the
+footer and package/lock versions in sync. Docs, tests and CI-only changes leave
+the numbers unchanged. Repository agent instructions require preparation before
+publishing updates.
 
+The owner reset the displayed version from 1.6.0 to **0.9.0** on 18 October 2026,
+with build 15. Game content and saves are retained. Earlier releases and tags stay
+in the history; 0.9.0 becomes the latest release. Small updates continue as 0.9.1,
+0.9.2 and so on. This is a numbering reset, not a checkout of older game code.
+
+An authorised numbering reset uses:
+
+```bash
+npm run release:prepare -- --reset-version 0.9.0 --reason "Owner requested pre-1.0 numbering"
+```
+
+Stage its `tools/version-resets.json` audit record alongside the four metadata
+files. CI accepts that exact old/new version and build transition
+only with one newer build/cache and no bundled gameplay changes. Never reset
+builds, reuse an existing version tag or edit published history.
 The pre-push hook and CI reject player changes without a suitable version/build bump. After all seven
 test jobs pass on main, it creates the version tag and a GitHub release with
 generated notes. Repeated runs skip existing releases, older main runs skip

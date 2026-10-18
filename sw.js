@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v70';
+const CACHE = 'deepdelve-v71';
 const ASSETS = [
   './js/regionart.js', './js/regionalprops.js', './js/arcanefx.js',
   './js/puzzles.js', './js/puzzledata.js', './js/puzzleview.js',

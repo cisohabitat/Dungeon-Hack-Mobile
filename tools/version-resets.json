@@ -1,0 +1,9 @@
+[
+  {
+    "from": "1.6.0",
+    "fromBuild": 14,
+    "to": "0.9.0",
+    "toBuild": 15,
+    "reason": "Owner requested pre-1.0 numbering; retain current game content and published history"
+  }
+]
