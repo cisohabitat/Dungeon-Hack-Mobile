@@ -316,6 +316,8 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const blade = focus && p.inv.filter(i => ITEMS[i.t].kind === 'weapon' && !ITEMS[i.t].twoHanded && !Game.canEquip(i) && !ITEMS[i.t].range)[0];
       if (blade && Game.equip(blade, true)) Game.equip(focus, true);
     }
+    // Explicit audit policy: wear the earned Mythic, without changing ordinary decisions.
+    if (process.env.MYTHIC === 'trial') for (const it of p.inv.slice()) if (it.u && RELICS[it.u].mythic) Game.equip(it, true);
     // --- equip anything better that we can use
     for (const it of p.inv.slice()) {
       const b = ITEMS[it.t];
@@ -332,6 +334,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
         const powers = x.u ? RELICS[x.u].powers : [];
         const e = x.h ? 0 : (x.e || 0);      // no peeking at a quality still hidden
         // the legend made for the hero's path goes on, whatever its numbers: it is what the run is built round
+        if (x.u && process.env.MYTHIC === 'trial' && RELICS[x.u].mythic) return 1001;
         if (x.u && RELICS[x.u].legend) return 1000;
         // a robe's spell points are worth something to a mage too: two of them about a point of armour
         // a focus is worth about its tier: a Spellbook or a Holy Symbol no more than a shield, a Reliquary more
@@ -351,6 +354,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
       const b = ITEMS[it.t];
       if ((b.kind !== 'ring' && b.kind !== 'amulet') || (it.curse && !it.h)) continue;
       // (a legend at the throat takes the place of whatever hangs there)
+      if (process.env.MYTHIC === 'trial' && p.eq.amulet?.u && RELICS[p.eq.amulet.u].mythic && b.kind === 'amulet') continue;
       const free = b.kind === 'ring' ? !p.eq.ring || !p.eq.ring2 : !p.eq.amulet || (it.u && RELICS[it.u].legend && !(p.eq.amulet.curse));
       if (free && Game.equip(it, true)) rec.jewels = (rec.jewels || 0) + 1;
     }
@@ -787,6 +791,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
         // nothing worth the risk: take the way out, which is always last
         // (ENCLEAVE=1 always walks away: the detour without the rewards)
         if (!best || process.env.ENCLEAVE) best = Game.encounterOptions()[cur.def.choices.length - 1];
+        if (process.env.MYTHIC === 'trial') {
+          const trial = cur.def.choices.findIndex(ch => ch.outcome && ch.outcome.effects.some(e => e.mythic));
+          if (trial >= 0 && !Game.encounterOptions()[trial].blocked) best = Game.encounterOptions()[trial];
+        }
         const r = Game.chooseEncounter(best.i);
         rec.encounters = (rec.encounters || 0) + 1;
         if (cur.def.final) rec.lamp = cur.def.choices[best.i] && cur.def.choices[best.i].cost ? best.label : 'nothing bought';
@@ -956,6 +964,19 @@ function play(ctx, cls, seed, opts, bg, idx) {
       }
     }
 
+    // The explicit trial policy collects only its earned Mythic. Ordinary loot
+    // still follows the existing navigation and pickup policy.
+    if (process.env.MYTHIC === 'trial' && L.mythicTrial === 'won') {
+      const prize = Object.entries(L.items).find(([,pile]) => pile.some(it => it.u && RELICS[it.u].mythic));
+      if (prize) {
+        const [x,y] = prize[0].split(',').map(Number);
+        if (p.x === x && p.y === y) {
+          const it = prize[1].find(it => it.u && RELICS[it.u].mythic);
+          if (p.inv.length < Game.INV_MAX) { Game.takeItem(it); step(); continue; }
+        } else { stepToward(x,y); step(); continue; }
+      }
+    }
+
     // --- otherwise head for the down stairs, picking up what we pass
     const target = L.stairsDown;
     if (!target) {
@@ -1056,6 +1077,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
   rec.relics = [...p.inv, ...Object.values(p.eq)].filter(i => i && i.u).length;
   rec.relicsWorn = Object.values(p.eq).filter(i => i && i.u).length;
   // a legend for the hero's path: found at all, and worn at the end
+  rec.mythicTrial = Object.values(G.levels).some(l => l.mythicTrial) ? 1 : 0;
+  rec.mythicWon = Object.values(G.levels).some(l => l.mythicTrial === 'won') ? 1 : 0;
+  rec.mythicWorn = Object.values(p.eq).some(i => i && i.u && RELICS[i.u].mythic) ? 1 : 0;
+  rec.mythicTicks = G.stats && G.stats.mythicTicks || 0;
   rec.legend = ((G.relics && G.relics.found) || []).some(id => RELICS[id] && RELICS[id].legend) ? 1 : 0;
   // the combinations the run made (combos.js), for how often a win had one to name
   rec.combos = Object.keys(G.combos || {}).length;

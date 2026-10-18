@@ -21,6 +21,12 @@
       "title": "Dawnbringer",
       "kind": "relic"
     },
+    "line-084b1058": {
+      "id": "line-084b1058",
+      "text": "Mercy's Oath. A lamp held open by two silver hands. The priest who made it vowed that no prayer would be wasted on a wound. The god agreed, and charged more for every prayer spoken in anger.",
+      "title": "Mercy's Oath",
+      "kind": "relic"
+    },
     "line-0a982bdc": {
       "id": "line-0a982bdc",
       "text": "Black water among rotting reeds, and walls of wattle daubed with mud. You have come into the marsh of the lizardfolk.",
@@ -50,6 +56,12 @@
       "text": "You were born in the lower galleries and did not see open sky until you were nineteen. You still find it too large. Down here you move the way the people down here move, and the dark takes longer to work out that you are not part of it. You came down here because it is the only place that has ever felt like a ceiling and not a lid.",
       "title": "The Deep-born",
       "kind": "background"
+    },
+    "line-149e1a5c": {
+      "id": "line-149e1a5c",
+      "text": "Horizon. A bow of white ash with iron at the tips. It takes a steady pull and will not be hurried. When the string is loosed, the passage seems a little shorter.",
+      "title": "Horizon",
+      "kind": "relic"
     },
     "line-185aa1a4": {
       "id": "line-185aa1a4",
@@ -375,6 +387,12 @@
       "title": "the Last Word",
       "kind": "relic"
     },
+    "line-64ec81e6": {
+      "id": "line-64ec81e6",
+      "text": "the Elderseed. An acorn from the first oak to grow above the mountain. It remembers bark, roots and claws more clearly than flesh. What it strengthens in the beast, it takes from the healer.",
+      "title": "the Elderseed",
+      "kind": "relic"
+    },
     "line-67bfa69e": {
       "id": "line-67bfa69e",
       "text": "A goblin came out into the daylight with them, blinked at it, and has been opening the valley's locks ever since.",
@@ -397,6 +415,12 @@
       "id": "line-6c13c5f0",
       "text": "Emberwood. Cut from a tree that grew around a forge. It is warm to hold, wounds close faster in its warmth, and what it strikes smoulders.",
       "title": "Emberwood",
+      "kind": "relic"
+    },
+    "line-6d6a0559": {
+      "id": "line-6d6a0559",
+      "text": "Nightglass. A shard of a mirror that never showed a face. Through it, the gaps in another creature's guard are plain. Through those same gaps, the creature sees you.",
+      "title": "Nightglass",
       "kind": "relic"
     },
     "line-6ea37fab": {
@@ -511,6 +535,12 @@
       "id": "line-894240df",
       "text": "the Archivist's Robe. Ink-stained at the cuffs, with a hundred pockets. The archivist who wore it read every scroll the guild ever stored, and learned where the floor was false.",
       "title": "the Archivist's Robe",
+      "kind": "relic"
+    },
+    "line-8c64d701": {
+      "id": "line-8c64d701",
+      "text": "the Bloodstar. A red star caught in clear glass. It burns brighter for a drop of its bearer's blood. The glass is whole; the blood finds its way inside all the same.",
+      "title": "the Bloodstar",
       "kind": "relic"
     },
     "line-8ccfec29": {
@@ -950,6 +980,12 @@
       "text": "The air is thick with dust and old bones.",
       "title": "Brown Catacombs",
       "kind": "region"
+    },
+    "line-ff89cbb9": {
+      "id": "line-ff89cbb9",
+      "text": "the Last Gate. The last shield carried out of a fallen hold. Its face is split, and the split will not close. It keeps a little of every blow, to give back through the other hand.",
+      "title": "the Last Gate",
+      "kind": "relic"
     },
     "prologue": {
       "id": "prologue",

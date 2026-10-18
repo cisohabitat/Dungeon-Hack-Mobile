@@ -45,6 +45,12 @@ const base = id => ITEM_ART[ITEMS[RELICS[id].t].sprite]();
 // Each entry is deliberately authored: shared bases remain recognisable, while
 // the sunburst, gatehouse, banners, briars and other marks belong to their lore.
 const NAMED_ART = {
+  last_gate: () => [...base('last_gate'), ...crack('#e2c4f0', [[13, 5], [17, 11], [14, 17], [18, 25]]), ...[10, 22].map(x => limb(x, 9, x, 20, 0.8, 0.8, '#a8a0b8'))],
+  mercys_oath: () => [sheet([[10, 10], [22, 10], [24, 25], [8, 25]], '#a79bb8'), ...ring(16, 6, 4, '#d7cce9'), ball(16, 17, 4, 6, '#f4d9b7'), ...ray(16, 17, 5, '#e7d8f6', 4), limb(7, 26, 25, 26, 1, 1, '#8b769a')],
+  bloodstar: () => [...base('bloodstar'), sheet([[16, 4], [18, 11], [24, 14], [18, 17], [16, 24], [14, 17], [8, 14], [14, 11]], '#b64072'), ball(16, 14, 1.8, 1.8, '#ffb9c4')],
+  nightglass: () => [...ring(16, 9, 7, '#9c8bad'), sheet([[12, 15], [22, 12], [19, 28], [14, 24]], '#383047'), hair(13, 16, 18, 25, '#e7d1f5'), ...crack('#9989b3', [[20, 14], [17, 19], [18, 22]])],
+  horizon: () => [...bow('#c6b99a', '#62667c'), ...[7, 25].flatMap(y => [limb(10, y, 15, y, 0.8, 0.8, '#9392ad'), ball(14, y, 1.1, 1.1, '#e1b9f5')])],
+  elderseed: () => [...ring(16, 10, 7, '#826749'), ball(16, 22, 4.4, 6, '#ac8459'), ball(16, 18, 5.1, 2.5, '#646a48'), ...[11, 21].map(x => leaf(x, 23, '#8c9a6b')), hair(16, 21, 16, 26, '#e6c6e8')],
   grimtooth: () => [...blade(29, 1.7, '#a4aa8d'), ...[15, 18, 21, 24].map(s => cross(s, 1.8, '#433a30')), gem(3, '#7a943f')],
   whisper: () => [...blade(32, 1.4, '#727984'), ...[3, 5, 7, 9].map(s => cross(s, 1.7, '#a5a3a6')), cross(10, 3.5, '#99979c')],
   thirst: () => [...blade(35, 1.7, '#62606c', '#863b47'), rod(14, 30, 0.45, '#742b3c'), gem(3, '#b83c4c')],
@@ -92,8 +98,8 @@ const NAMED_ART = {
   heartroot: () => staff('#744d35', [limb(...at(23), ...at(31, -4), 1.5, 0.4, '#744d35'), limb(...at(24), ...at(32, 3), 1.3, 0.3, '#744d35'),
     gem(27, '#c68167', 2), leaf(...at(30, -3), '#83a05e'), leaf(...at(31, 3), '#628947')]),
 };
-const namedSprite = id => Object.hasOwn(RELICS, id) ? (RELICS[id].legend ? 'legend_' : 'relic_') + id : null;
+const namedSprite = id => Object.hasOwn(RELICS, id) ? (RELICS[id].mythic ? 'mythic_' : RELICS[id].legend ? 'legend_' : 'relic_') + id : null;
 const NAMED_IDS = Object.fromEntries(Object.keys(NAMED_ART).map(id => [namedSprite(id), id]));
 const namedId = sprite => Object.hasOwn(NAMED_IDS, sprite) ? NAMED_IDS[sprite] : null;
-const namedBase = sprite => { const id = namedId(sprite); return id ? ITEMS[RELICS[id].t].sprite : sprite && sprite.replace(/^(relic|legend)_/, ''); };
+const namedBase = sprite => { const id = namedId(sprite); return id ? ITEMS[RELICS[id].t].sprite : sprite && sprite.replace(/^(relic|legend|mythic)_/, ''); };
 export { NAMED_ART, namedSprite, namedId, namedBase };

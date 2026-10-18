@@ -7,11 +7,13 @@
 // none of them is dead weight, and the rest are what the traders keep behind
 // the counter for anyone with the coin.
 
+import { MYTHICS, MYTHIC_POWERS } from './mythicdata.js';
 import { Rng } from './rng.js';
 import { ITEMS, CLASSES, armorFits, shieldFits } from './data.js';
 
 /** What each power does, in the words the pack shows. */
 const RELIC_POWERS = {
+  ...MYTHIC_POWERS,
   keen:   'Keen: critical hits land one number sooner on the die.',
   swift:  'Swift: strikes 15% faster.',
   undead: 'Bane of the dead: +1d6 damage against the undead.',
@@ -94,6 +96,7 @@ const GIANTS = ['ogre', 'troll', 'minotaur'];
 // Names are written as they read mid-sentence ("the Ogre's Toll"); the pack
 // capitalises them. value drives the price: a trader asks about twice this, less for charm
 const RELICS = {
+  ...MYTHICS,
   grimtooth: { t: 'dagger', e: 2, name: 'Grimtooth', powers: ['keen', 'swift'], value: 300,
     lore: 'A goblin chieftain\'s knife, notched once for every rival it outlived. There is no room left for more notches.' },
   whisper: { t: 'shortsword', e: 2, name: 'Whisper', powers: ['quiet'], value: 240,
@@ -201,6 +204,7 @@ const legendFor = path => Object.keys(RELICS).find(id => RELICS[id].legend === p
 /** Whether this class could ever wear or wield the relic. */
 function relicUsableBy(id, cls) {
   const r = RELICS[id], b = ITEMS[r.t], c = CLASSES[cls];
+  if (r.mythic && r.mythic !== cls) return false;
   if (r.cls && r.cls !== cls) return false;
   if (b.kind === 'ring' || b.kind === 'amulet') return true;
   if (b.kind === 'weapon') return b.cls.includes(cls);
@@ -220,7 +224,7 @@ function relicPlan(seed, cls, levels) {
   const rng = new Rng(`${seed}|relics|${cls}`);
   // a road's own relic waits down that road (see routeRelic), never on a trader's shelf
   // (and a twisted floor's own lies on that floor, if the run has one; a champion's own falls with it)
-  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend && relicUsableBy(id, cls)));
+  const pool = rng.shuffle(Object.keys(RELICS).filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend && !RELICS[id].mythic && relicUsableBy(id, cls)));
   // keep at least one back for the traders, whenever there are two to share
   const n = Math.min(Math.max(1, Math.round((levels - 1) * 0.4)), Math.max(1, pool.length - 1));
   const chosen = pool.slice(0, n).sort((a, b) => RELICS[a].value - RELICS[b].value);
@@ -243,6 +247,6 @@ const routeRelic = route => Object.keys(RELICS).find(id => RELICS[id].route === 
 const twistRelic = twist => Object.keys(RELICS).find(id => RELICS[id].twist === twist) || '';
 
 /** The relics the Collector's feat asks for: every one but a find beyond the set. */
-const toCollect = () => Object.keys(RELICS).filter(id => !RELICS[id].beyond && !RELICS[id].legend);
+const toCollect = () => Object.keys(RELICS).filter(id => !RELICS[id].beyond && !RELICS[id].legend && !RELICS[id].mythic);
 
 export { legendFor, toCollect, routeRelic, twistRelic, RELICS, RELIC_POWERS, GIANTS, GEAR_POWERS, POWER_SUFFIX, GEAR_PREFIXES, PREFIX_NAME, PREFIX_DESC, RELIC_SETS, setOf, relicUsableBy, relicPlan };

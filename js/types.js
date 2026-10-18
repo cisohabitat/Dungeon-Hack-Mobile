@@ -93,6 +93,8 @@
  * @property {string[]} [talents]  class talents taken, by id
  * @property {number} [shadowUntil]  Shadow Step: a sidestep's shadow lasts until then
  * @property {number} [unseenUntil]  the Last Word: a foe slain from the shadows leaves the next blow there too, until then
+ * @property {number} [mythicCharge]  Last Gate counterblow, capped at three
+ * @property {number} [mythicChargeUntil]  five-second counterblow expiry
  * @property {{hp: number, until: number}} [aegis]  the Lantern of Mercy's ward of light: what it will take of the next blows, and when it fades
  * @property {number} [noiseAt]  when the hero last made a sound (a step, a blow, a spell, a door), for the eyeless, which hunt by it
  * @property {number} [riposteUntil]  Riposte: the opening a missed blow left lasts until then
@@ -150,6 +152,7 @@
  * @property {boolean} [opener]  a champion just woken, leading with its trick (lairs.js)
  * @property {boolean} [turned]  a champion past two thirds of its life, its ground changed
  * @property {boolean} [fury]  a champion below a third of its life, in its last stand: quicker and harder
+ * @property {boolean} [mythicGuard]  the optional Vigil trial guardian
  * @property {number} [brittleUntil]  held back by the hero's cold: brittle to the Rimebound Grimoire until then
  * @property {boolean} [groping]  an eyeless that has lost the sound of the hero, listening for it
  * @property {boolean} [gropeSaid]  its first groping told in the log
@@ -222,6 +225,7 @@
 /**
  * One generated floor of the dungeon.
  * @typedef {Object} Level
+ * @property {'active'|'won'} [mythicTrial]  optional final-floor Vigil trial
  * @property {Puzzle} [puzzle]  at most one optional cache on this floor
  * @property {number} depth @property {number} w @property {number} h
  * @property {number[]} tiles     one of Dungeon.T per square
@@ -321,6 +325,7 @@
 /**
  * What happened over one run, kept for the end screen. The rules never read it.
  * @typedef {Object} RunStats
+ * @property {number} [mythicTicks]  simulation steps with a class Mythic worn
  * @property {number} dealt    damage the hero's blows, spells and burns did
  * @property {number} taken    damage the hero took, from anything
  * @property {number} healed   hit points actually restored, not counting what overflowed
@@ -568,6 +573,7 @@
  * @property {*} learn
  * @property {*} leech
  * @property {*} legendCarried
+ * @property {*} mythics
  * @property {*} legends
  * @property {*} liveLine
  * @property {*} log

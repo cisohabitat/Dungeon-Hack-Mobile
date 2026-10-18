@@ -14,7 +14,7 @@ import { RELICS, legendFor } from './relics.js';
 import { Sound } from './sound.js';
 
 /** How a found thing ranks, lowest first: the word the pack shows, and its colour's name in the style sheet. */
-const GRADES = { plain: 'Plain', fine: 'Fine', rare: 'Rare', relic: 'Relic', legend: 'Legendary' };
+const GRADES = { plain: 'Plain', fine: 'Fine', rare: 'Rare', relic: 'Relic', legend: 'Legendary', mythic: 'Mythic' };
 /** How long the strike from the shadows a slain foe gives the Last Word's bearer lasts. */
 const UNSEEN_MS = 4000;
 /** How long a foe the cold has held stays brittle for the Grimoire, past the hold itself. */
@@ -31,11 +31,11 @@ export function makeLegends(K) {
    * How a found thing ranks, as far as the player can tell: a relic or a
    * legend says so at a glance; ordinary gear only once its make is known,
    * fine for a good enchantment, rare for a quality of make or a power.
-   * @returns {'plain'|'fine'|'rare'|'relic'|'legend'}
+   * @returns {'plain'|'fine'|'rare'|'relic'|'legend'|'mythic'}
    */
   function grade(it) {
     const r = it && it.u && RELICS[it.u];
-    if (r) return r.legend ? 'legend' : 'relic';
+    if (r) return r.mythic ? 'mythic' : r.legend ? 'legend' : 'relic';
     const b = it && ITEMS[it.t];
     if (!b || !['weapon', 'armor', 'shield', 'ring', 'amulet', 'cloak'].includes(b.kind) || it.h) return 'plain';
     if (it.curse || (it.e || 0) < 0) return 'plain';
@@ -222,7 +222,7 @@ export function makeLegends(K) {
     for (const it of [...p.inv, ...Object.values(p.eq)]) {
       if (!it) continue;
       const g = grade(it);
-      if (g !== 'rare' && g !== 'relic' && g !== 'legend') continue;
+      if (g !== 'rare' && g !== 'relic' && g !== 'legend' && g !== 'mythic') continue;
       const key = [it.t, it.e || 0, it.pw || '', it.px || '', it.u || ''].join('|');
       if (finds.some(f => f.key === key)) continue;
       finds.push({ key, name: K.itemName({ ...it, q: 1 }), grade: g, depth: K.G.depth });

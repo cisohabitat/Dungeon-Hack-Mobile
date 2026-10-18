@@ -18,8 +18,9 @@ export function makeEncounters(K) {
   let encounter = null;
   function openEncounter(n) {
     // (on the ladder's fifth rung no lamp makes you whole: the vigil lamp by the last halls is out)
-    const def = ENCOUNTERS[n.id === 'vigil' && K.climbed(5) ? 'vigil_dark' : n.id];
+    let def = ENCOUNTERS[n.id === 'vigil' && K.climbed(5) ? 'vigil_dark' : n.id];
     if (!def) return false;
+    def = K.mythics.offer(n, def);
     encounter = { npc: n, def, result: null };
     Sound.play('door');
     K.emit('encounter');
@@ -65,6 +66,7 @@ export function makeEncounters(K) {
       // an ending at the Heart is open to one who carries the means (the kept smith's quench, or his way, or the Pale One's)
       if (ch.need === 'quench' && !p.inv.some(it => it.t === 'quench')) blocked = 'You carry nothing that could put it out.';
       if (ch.need === 'keep' && !(K.threads().smithway || K.threads().bargain)) blocked = 'You do not know how it is kept.';
+      if (ch.outcome?.effects.some(e => e.mythic)) blocked = K.mythics.blocked(encounter.npc);
       const o = { i, label: ch.label, cost: cost ? cost.text : null, blocked };
       if (ch.check) {
         const dc = encounterDc(ch.check, K.G.depth), bonus = knack(ch.check);
@@ -111,6 +113,7 @@ export function makeEncounters(K) {
     // named after it is taken, so gold says what the purse really gained (a trickster's is a quarter more)
     const pickUp = it => { (L.items[K.key(p.x, p.y)] = L.items[K.key(p.x, p.y)] || []).push(it); K.pickupAll(); return K.itemName(it); };
     for (const e of effects) {
+      if (e.mythic) K.mythics.begin(encounter.npc);
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       // told where the floor's traps are: they show on the map, and a hero who knows steps round them
       if (e.traps && Object.keys(L.traps || {}).length) { L.trapsKnown = true; out.push('You know where this floor\'s traps are.'); }

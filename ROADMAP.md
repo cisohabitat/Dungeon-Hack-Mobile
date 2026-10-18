@@ -377,3 +377,14 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   shared by floor treasure, inventory inspection and discovered codex entries.
 - [x] Matching weapon and focus pictures in the hands, and recognisable bow and
   shield backs with existing grip positions and string anchors preserved.
+
+## Mythic class bargains (18 October 2026)
+
+- [x] Six class items, each with a unique power, drawback, lore and matching art;
+  one equipped at a time, available to both paths.
+- [x] Optional final Vigil Lamp trial in custom delves of eight floors or more,
+  replacing ordinary aid. Daily/Weekly and shorter runs preserve their rules.
+- [x] Persistent guardian and one-time floor reward, save validation and accessible
+  encounter/pack controls; no ordinary deals or mastery starts.
+- [ ] Matched six-class Normal/Hard balance comparison, exploration and long/rung
+  checks, then full browser/performance validation and release.

@@ -140,7 +140,7 @@ const BOWS = {
 };
 function bowParts(cls, base, id = null) {
   const name = namedId(id);
-  const detail = { heartseeker: { wood: '#87503b', nock: '#eee0bd' }, galewind: { wood: '#ac895c', nock: '#e5e6cd' }, farstrider: { wood: '#302c38', nock: '#bdc6cf', sap: '#8c969e' } }[name];
+  const detail = { horizon: { wood: '#c6b99a', nock: '#62667c', sap: '#e1b9f5' }, heartseeker: { wood: '#87503b', nock: '#eee0bd' }, galewind: { wood: '#ac895c', nock: '#e5e6cd' }, farstrider: { wood: '#302c38', nock: '#bdc6cf', sap: '#8c969e' } }[name];
   const B = { ...BOWS[base], ...detail };
   const a = deg(-94);
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
@@ -204,6 +204,7 @@ function shieldParts(base, cls, id = null) {
     grid: GRID, anchor: [C, C],
     parts: [
       ...rim, ...face, ...grain, rivets,
+      ...(name === 'last_gate' ? [hair(C - 4, C - 10, C + 1, C - 4, '#c6a5df'), hair(C + 1, C - 4, C - 3, C + 8, '#c6a5df')] : []),
       ...(name === 'bastion' ? [-8, 7].map(y => limb(C - 10, C + y, C + 10, C + y, 1.1, 1.1, '#b69b69')) : []),
       ...(name === 'kests_bulwark' ? [sheet([[C - 8, C - 8], [C - 3, C - 8], [C - 3, C + 6], [C - 8, C + 9]], '#8b3c36')] : []),
       ...(name === 'sisters_buckler' ? [ball(C, C, 9.3, 9.3, '#bac9c7'), ...grain] : []),

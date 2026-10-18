@@ -111,6 +111,19 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Treasure inspection reads `Game.grade`, never hidden quality. Clip glints to
   visible wall columns. `visual-polish.spec.js` covers poses, scenery invariants,
   hidden grades, reduced motion and actual spell cost/timing on both phone sizes.
+- `js/mythics.js` and `js/mythicdata.js`: six class Mythics and their tradeoffs.
+  Only the final Vigil Lamp in custom delves of at least eight floors offers a
+  trial, replacing its normal aid; Daily/Weekly and short delves keep their rules.
+  It reuses the encounter control/recording path and never changes map placement.
+  `Level.mythicTrial` and one marked ogre persist; death leaves exactly one class
+  reward on the floor, including with a full pack. No ordinary loot or XP from
+  the guardian. Never deal Mythics through ordinary relic plans, shops, Collector
+  or mastery starts. Validate new save fields, wrong-class and multiple equipment.
+  Bloodstar pays life after cast validation, bypasses wards, and snapshots its
+  bonus with that payment. Last Gate stores at most three for five seconds and
+  clears on removal. `MYTHIC=trial` explicitly accepts/uses the reward in the
+  balance observer; ordinary policy remains unchanged. Benchmark both policies,
+  actual trial/reward use, exploration, long delves and ladder rungs.
 - `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
   floor sprites, pack inspection, discovered codex and held weapons/foci.
   Resolve identity with `namedSprite` and base weapon type with `namedBase`;

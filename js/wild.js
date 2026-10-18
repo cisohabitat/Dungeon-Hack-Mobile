@@ -27,7 +27,7 @@ export function makeWild(K) {
   const duration = () => (K.onPath('shapeshifter') ? 45000 : SHAPE_MS) + (K.hasPower('wild') ? 10000 : 0);
   /** How thick the hide is: 3 and 1 a level, 8 more with Old Hide, and half again with Thick Hide. */
   function hideFor(p) {
-    const base = 3 + p.level + (K.hasPower('wild') ? 4 : 0);
+    const base = K.mythics.hide() + 3 + p.level + (K.hasPower('wild') ? 4 : 0);
     return Math.round(base * (K.hasTalent('thick_hide') ? 1.5 : 1));
   }
   /** What the claws add, beyond the die: a Shapeshifter's, more for a Dire Bear. */
@@ -124,7 +124,7 @@ export function makeWild(K) {
       // blow (held half as long, the druid's moment to mend under the roots was gone, and the bot's druid
       // on Hard fell eight points); a boss always tears free in half the time, and does not roll as well
       const sv = mb.boss ? { pass: false, note: '' } : K.spellSave(m, 'str');
-      const hold = Math.round((ENTANGLE_MS + (K.onPath('grovewarden') ? 1500 : 0)) * (mb.boss ? 1 / 2 : sv.pass ? 2 / 3 : 1));
+      const hold = Math.round((ENTANGLE_MS + K.mythics.roots() + (K.onPath('grovewarden') ? 1500 : 0)) * (mb.boss ? 1 / 2 : sv.pass ? 2 / 3 : 1));
       if (!rite) m.nextAct = Math.max(m.nextAct, G.t + hold);
       m.snaredUntil = G.t + hold; m.heldBy = 'roots';
       m.awake = true;

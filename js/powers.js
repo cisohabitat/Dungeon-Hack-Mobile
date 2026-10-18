@@ -112,6 +112,8 @@ export function makePowers(K) {
   }
   function spellWasteReason(sp) {
     const p = P();
+    const blood = K.mythics.spellBlocked(sp);
+    if (blood) return blood;
     // (a bound tongue wastes every spell: said here too, so whatever asks before casting is told)
     if (p.hexed && p.hexed.kind === 'silence' && p.hexed.until > K.G.t) return 'A hex binds your tongue: no spells until it lifts.';
     // (a druid's healing mends a hurt companion too, so it is not wasted on them)
@@ -175,6 +177,7 @@ export function makePowers(K) {
     p.nextAttack = K.G.t + Math.round((cls().castMs || CAST_MS) * (hasTalent('quick_words') ? 0.75 : 1) * K.hexSlow());
     // a bear cannot say the words: the druid lets it go to speak any other spell
     if (sp.kind !== 'shape' && wild.shaped(p)) wild.end('cast');
+    const mythicDamage = K.mythics.cast(sp);
     p.sp -= spellCost(sp);
     noteSpell(sp);
     K.G.lastSpell = sp.id;
@@ -183,7 +186,7 @@ export function makePowers(K) {
     const look = SPELL_FX[sp.id] || ['buff', 500];
     if (sp.kind !== 'bolt' && sp.kind !== 'root') spellFx(look[0], sp.color, look[1], [], 1);
     switch (sp.kind) {
-      case 'heal': { const n = healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic())); const hpWas = p.hp; healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; if (capped('wellspring')) { const over = n - (p.hp - hpWas); if (over > 0) { p.ward = Math.min(Math.floor(p.maxHp / 2), (p.ward || 0) + over); log(`What the spell could not mend is kept: a ward of ${p.ward}.`, 'good'); } } if (sp.id === 'mending_moss' && capped('heartwood') && p.poison) { p.poison = null; log('The moss draws the poison out.', 'good'); } log(`You cast ${sp.name} and heal ${p.hp - hpWas}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${K.G.companion.name} is mended ${kin} with you.`, 'good'); break; }
+      case 'heal': { const n = K.mythics.healing(healerHeal(Math.round(d(...sp.heal(p.level)) * (hasTalent('healing_hands') || hasTalent('green_hands') ? 4 / 3 : 1) * (sp.id === 'mending_moss' && onPath('grovewarden') ? 1.25 : 1) * (focusHas('mercy') ? 1.25 : 1) * (setWorn('dawn') ? 1.25 : 1) * deepMagic()))); const hpWas = p.hp; healPlayer(n); const kin = p.cls === 'druid' ? companion.mend(n) : 0; if (capped('wellspring')) { const over = n - (p.hp - hpWas); if (over > 0) { p.ward = Math.min(Math.floor(p.maxHp / 2), (p.ward || 0) + over); log(`What the spell could not mend is kept: a ward of ${p.ward}.`, 'good'); } } if (sp.id === 'mending_moss' && capped('heartwood') && p.poison) { p.poison = null; log('The moss draws the poison out.', 'good'); } log(`You cast ${sp.name} and heal ${p.hp - hpWas}.${hasTalent('healing_hands') ? ' (Healing Hands)' : ''}${focusHas('mercy') ? ` (${ITEMS[p.eq.shield.t].name})` : ''}`, 'good'); if (kin) log(`${K.G.companion.name} is mended ${kin} with you.`, 'good'); break; }
       case 'buff':
         p.effects[sp.stat] = { amount: buffAmount(sp), until: K.G.t + buffDuration(sp), src: sp.id };
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
@@ -238,7 +241,7 @@ export function makePowers(K) {
             if (sp.id === 'call_lightning' && hasTalent('stormborn')) dmg = Math.round(dmg * 1.25);
             dmg = Math.round(dmg * deepMagic());
             if (sp.fire) dmg = pyroFire(dmg, m);
-            dmg = templarSmite(sp, dmg);
+            dmg = K.mythics.spellDamage(templarSmite(sp, dmg), mythicDamage);
             // a blast can be ridden out: a foe that saves takes three quarters of it (a group rides it out
             // together, as it takes one roll of the dice; a heap of bones does not, nor a boss the blast cannot reach)
             const unreached = m.wardUntil > K.G.t && mstat(m).boss && !m.throne;

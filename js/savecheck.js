@@ -1,6 +1,7 @@
 // Saves are data from another device, not trusted game objects. Check their
 // shape before loading can allocate a floor or change the running hero.
 import { CLASSES, ITEMS, MONSTERS, STAT_NAMES, MAX_LEVEL, RENOWN_XP, XP_TABLE } from './data.js';
+import { RELICS } from './relics.js';
 import { SAVE_BYTES } from './savecode.js';
 
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -61,6 +62,9 @@ export function checkSave(data) {
   const item = it => { if (!object(it) || !own(ITEMS, it.t) || !Number.isFinite(it.q)) invalid(); };
   p.inv.forEach(item);
   for (const it of Object.values(p.eq)) if (it !== null) item(it);
+  const wornMythics = Object.values(p.eq).filter(it => it && it.u && RELICS[it.u]?.mythic);
+  if (wornMythics.length > 1 || wornMythics.some(it => RELICS[it.u].mythic !== p.cls || RELICS[it.u].t !== it.t)) invalid();
+  for (const k of ['mythicCharge', 'mythicChargeUntil']) if (p[k] !== undefined && !integer(p[k], 0, k === 'mythicCharge' ? 3 : 1e12)) invalid();
   const floors = Object.entries(data.levels);
   if (!floors.length || floors.length > 32 || !Object.prototype.hasOwnProperty.call(data.levels, data.depth)) invalid();
   for (const [key, floor] of floors) {
@@ -86,8 +90,11 @@ export function checkSave(data) {
         || (q.seen !== undefined && typeof q.seen !== 'boolean')
         || (q.feedback !== undefined && !['wrong', 'reset', 'solved'].includes(q.feedback))) invalid();
     }
+    if (floor.mythicTrial !== undefined && !['active', 'won'].includes(floor.mythicTrial)) invalid();
     if (!Array.isArray(floor.monsters) || floor.monsters.length > 10000) invalid();
-    for (const m of floor.monsters) if (!object(m) || !own(MONSTERS, m.id) || !Number.isFinite(m.x) || !Number.isFinite(m.y)) invalid();
+    for (const m of floor.monsters) if (!object(m) || !own(MONSTERS, m.id) || !Number.isFinite(m.x) || !Number.isFinite(m.y) || (m.mythicGuard !== undefined && typeof m.mythicGuard !== 'boolean')) invalid();
+    const guardians = floor.monsters.filter(m => m.mythicGuard);
+    if (guardians.length > 1 || guardians.some(m => m.mythicGuard !== true || m.id !== 'ogre') || (guardians.length && !floor.mythicTrial)) invalid();
   }
   const floor = data.levels[data.depth];
   if (!integer(p.x, 0, floor.w - 1) || !integer(p.y, 0, floor.h - 1) || !integer(p.dir, 0, 3)) invalid();

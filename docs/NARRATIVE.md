@@ -49,6 +49,50 @@ The map remembers ground you have seen. Stone and darkness keep the rest hidden.
 - *reset*: The marks are cleared. Try again.
 - *hint*: There is no time limit or penalty. The dungeon waits while you read. Leave for later to return to the same cache.
 
+## Mythic bargains (MYTHICS)
+
+A single Mythic can be earned here instead of the lamp's usual aid: defeat an extra ogre, without a free heal. The item has a class power and a drawback. Only one Mythic may be worn at a time.
+
+Face the lamp's trial for a Mythic
+
+The flame bends towards the bowl. Iron feet strike the floor: an ogre steps out of the dark to keep the lamp's last gift. The lamp's other aid is spent. Defeat it to claim the piece made for your class.
+
+### the Last Gate (last_gate)
+
+The last shield carried out of a fallen hold. Its face is split, and the split will not close. It keeps a little of every blow, to give back through the other hand.
+
+Last Gate: an ordinary close blow loses 1 damage, stored for your next close hit within five seconds (up to 3). Armour class −1.
+
+### Mercy's Oath (mercys_oath)
+
+A lamp held open by two silver hands. The priest who made it vowed that no prayer would be wasted on a wound. The god agreed, and charged more for every prayer spoken in anger.
+
+Mercy's Oath: healing spells mend a quarter more. Damaging spells cost 1 extra spell point.
+
+### the Bloodstar (bloodstar)
+
+A red star caught in clear glass. It burns brighter for a drop of its bearer's blood. The glass is whole; the blood finds its way inside all the same.
+
+Bloodstar: damaging spells deal a fifth more, but cost 2 life when cast. You cannot cast them with 2 life or less; wards cannot pay the price.
+
+### Nightglass (nightglass)
+
+A shard of a mirror that never showed a face. Through it, the gaps in another creature's guard are plain. Through those same gaps, the creature sees you.
+
+Nightglass: a close strike from the shadows deals 3 extra damage. Armour class −1.
+
+### Horizon (horizon)
+
+A bow of white ash with iron at the tips. It takes a steady pull and will not be hurried. When the string is loosed, the passage seems a little shorter.
+
+Horizon: arrows deal 2 extra damage, but drawing this bow takes 15% longer.
+
+### the Elderseed (elderseed)
+
+An acorn from the first oak to grow above the mountain. It remembers bark, roots and claws more clearly than flesh. What it strengthens in the beast, it takes from the healer.
+
+Elderseed: the bear's hide takes 4 more damage, and Entangle lasts a second longer. Healing spells mend a fifth less.
+
 ## The prologue (PROLOGUE)
 
 For nine hundred years the Heart of the Mountain burned in the dark beneath Karrathal, and the valley above it never knew a killing frost.

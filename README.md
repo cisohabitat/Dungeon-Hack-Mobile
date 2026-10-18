@@ -81,7 +81,14 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
   spell lets it go). All six can be chosen from the start.
 - **Heroes with a past.** Each class has its own backstory on the selection screen.
   Select a class, then tap its portrait to expand the artwork.
-- **Named treasure artwork.** Every legendary piece and named relic has its own lore-led
+- **Six Mythic bargains.** One signature piece for each class, usable on either
+  path, with its own power, drawback and lavender artwork. Only one Mythic may
+  be worn at a time. In custom delves of at least eight floors, the final Vigil
+  Lamp offers an optional extra ogre fight instead of its usual aid. Defeat the
+  guardian for your class's piece; a full pack leaves it safely on the floor.
+  Daily/Weekly and shorter delves keep their current rules. Mythics are never
+  sold by traders or offered as mastery starting gear.
+- **Named treasure artwork.** Every Mythic, legendary piece and named relic has its own lore-led
   picture in the pack, treasure inspection and discovered codex, and matching
   held weapons, bows, shields and foci. Ordinary enchanted gear keeps its base art.
 - **A painted bestiary.** Every creature has portrait art in the bestiary and Journal,
@@ -873,6 +880,7 @@ js/renderer.js    canvas raycaster
 js/spellfx.js     spells, scrolls, drinks and traps over the view
 js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
+js/mythics.js, mythicdata.js   optional Vigil trial, class Mythics and their tradeoffs
 js/namedart.js    individual legendary and relic pictures, shared by item views and held gear
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
 js/release.js     release and build, shared by the title footer and reports

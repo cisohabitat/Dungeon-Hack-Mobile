@@ -29,6 +29,7 @@ import { makeScenes } from './scenes.js';
 import { makeCurses } from './curses.js';
 import { makeFallen } from './fallen.js';
 import { makePaths } from './paths.js';
+import { makeMythics } from './mythics.js';
 import { makeLegends } from './legends.js';
 import { makeCombos, COMBOS } from './combos.js';
 import { makeLairs } from './lairs.js';
@@ -343,7 +344,7 @@ const Game = (() => {
     // a ranger's talents for the bow: a sixth quicker, and two squares further
     const swift = (hasPower('swift', 'weapon') ? 0.85 : 1) * (b.range && hasTalent('swift_quiver') ? 5 / 6 : 1);
     const reach = (b.range || 0) + (b.range && hasTalent('eagle_eye') ? 2 : 0);
-    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: reach, blunt: !!b.blunt };
+    return { name: b.name, dmg: b.dmg, speed: Math.round(b.speed * spd * swift * mythics.pace(p.eq.weapon)), e: p.eq.weapon.e || 0, px: p.eq.weapon.px || '', twoHanded: !!b.twoHanded, range: reach, blunt: !!b.blunt };
   }
   /**
    * Damage per second a main-hand weapon would give you, as far as you know
@@ -360,7 +361,7 @@ const Game = (() => {
     // a two-hander stows the second blade, and a blade moved to the main hand leaves it empty
     const dual = !!p.eq.offhand && p.eq.offhand !== it && !(b && b.twoHanded);
     const base = b ? b.speed : 450;
-    const speed = base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
+    const speed = mythics.pace(it) * base * skillSpeed() * (dual ? DUAL_SWING_COST : 1) * berserkerFrenzy() * (swift ? 0.85 : 1);
     const avg = dmg => dmg[0] * (dmg[1] + 1) / 2 + dmg[2];
     const finesse = p.cls === 'thief' || p.cls === 'ranger';
     const flat = (finesse ? mod(p.stats.dex) : mod(armStat(p))) + skillDamage();
@@ -368,7 +369,7 @@ const Game = (() => {
       + berserkerRage() + jewelBonus('might') + (effect('might') ? 2 : 0);
     // (a ranger's bow is reckoned as it is used, from a distance, with Steady Aim)
     const steady = b && b.aimed && p.cls === 'ranger' ? steadyAim() : 0;
-    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady);
+    let blow = Math.max(1, avg(b ? b.dmg : [1, 2, 0]) + known(it) + (it && it.px === 'heavy' && !it.h ? 1 : 0) + bargained() + (finesse ? flat : flat * (base / 700)) + knack + steady + (it?.u === 'horizon' && p.cls === 'ranger' ? 2 : 0));
     if (dual) blow += Math.max(1, avg(ITEMS[p.eq.offhand.t].dmg) + known(p.eq.offhand) + (p.eq.offhand.px === 'heavy' && !p.eq.offhand.h ? 1 : 0) + jewelBonus('might') + berserkerRage() + bargained() + (hasTalent('weapon_master') ? 1 : 0));
     return blow / (speed / 1000);
   }
@@ -655,7 +656,7 @@ const Game = (() => {
     if (p.eq.offhand && !bear) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
     if (p.eq.cloak) ac += (ITEMS[p.eq.cloak.t].ac || 0) + (p.eq.cloak.e || 0);
-    return ac + jewelBonus('protect', p) + berserkerOpen();
+    return ac + jewelBonus('protect', p) + berserkerOpen() + mythics.armour();
   }
   function knownSpells() {
     const c = cls();
@@ -1510,7 +1511,7 @@ const Game = (() => {
     get LAST_KEY() { return LAST_KEY; }, get lastBlocked() { return lastBlocked; }, set lastBlocked(v) { lastBlocked = v; },
     get layRelic() { return layRelic; }, get learn() { return learn; }, get leech() { return leech; },
     legendCarried: () => { const it = Object.values(P().eq).find(x => x && x.u && RELICS[x.u] && RELICS[x.u].legend); return it ? RELICS[it.u].name : ''; },
-    get legends() { return legends; }, get liveLine() { return liveLine; }, get log() { return log; }, get look() { return look; },
+    get mythics() { return mythics; }, get legends() { return legends; }, get liveLine() { return liveLine; }, get log() { return log; }, get look() { return look; },
     get lvl() { return lvl; }, get meet() { return meet; },
     mendHero: n => { const p = P(); noteHealed(Math.max(0, Math.min(n, p.maxHp - p.hp))); p.hp = Math.min(p.maxHp, p.hp + n); emit('stats'); },
     get mod() { return mod; }, get monsterAt() { return monsterAt; }, get moveMonster() { return moveMonster; },
@@ -1564,6 +1565,7 @@ const Game = (() => {
   const combos = makeCombos(K);
   const { threads, THREAD_SAID, bargained, vouched, threadArrivals, threadNotes, sparedAid, readThreadPage } = makeThreads(K);
   const lairs = makeLairs(K);
+  const mythics = makeMythics(K);
   const legends = makeLegends(K);
   const prelude = makePrelude(K);
   // ---------- encounters: see meet.js ----------
@@ -1598,6 +1600,7 @@ const Game = (() => {
     // the dungeon holds still while the way in plays
     if (prelude.active()) return;
     G.t += dt;
+    mythics.tick();
     applyTesting();
     const p = P();
     fx.hpFrac = p.hp / p.maxHp;
@@ -1781,7 +1784,7 @@ const Game = (() => {
     /** For the tests: a champion wakes, and a wound as a blow of the hero's would give it. */
     namedWake: (/** @type {any} */ m) => namedWakes(m, mstat(m)), hurtMonster: (/** @type {any} */ m, /** @type {number} */ n) => damageMonster(m, n, null), combosUsed: () => (G ? combos.used().map(([id, n]) => ({ id, n, name: COMBOS[id].name })) : []),
     /** This run's finds, best first: the rare gear known, the relics and legends (a save from before finds were kept lists its relics). */
-    runFinds: () => { if (!G || !G.stats) return []; if (G.status === 'playing') legends.noteFinds(); const f = [...(G.stats.finds || [])]; for (const id of (G.relics && G.relics.found) || []) if (RELICS[id] && !f.some(x => x.key.endsWith('|' + id))) f.push({ key: '|' + id, name: RELICS[id].name, grade: RELICS[id].legend ? 'legend' : 'relic', depth: 0 }); const rank = { legend: 0, relic: 1, rare: 2 }; return f.sort((a, b) => rank[a.grade] - rank[b.grade]); }, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
+    runFinds: () => { if (!G || !G.stats) return []; if (G.status === 'playing') legends.noteFinds(); const f = [...(G.stats.finds || [])]; for (const id of (G.relics && G.relics.found) || []) if (RELICS[id] && !f.some(x => x.key.endsWith('|' + id))) f.push({ key: '|' + id, name: RELICS[id].name, grade: RELICS[id].mythic ? 'mythic' : RELICS[id].legend ? 'legend' : 'relic', depth: 0 }); const rank = { mythic: -1, legend: 0, relic: 1, rare: 2 }; return f.sort((a, b) => rank[a.grade] - rank[b.grade]); }, hasPower, spriteFor, equip, unequip, useItem, dropItem, takeItem, floorItems, canEquip, isKnown, mstat,
     offhandReason, offhandWeapon, canDualWield, heartHeldFast: () => !!keeper(), heartKeeper: () => { const k = keeper(); return k ? k.id : ''; }, rollsShown, toggleRolls, useLabel, stairsBeside,
     statCheck, checkChance, checkBonus, charm, study, studyReason, STUDY_DC,
     puzzleOffers: () => puzzles.offers(), currentPuzzle: () => puzzles.current(), puzzleAction: (act, value) => puzzles.action(act, value), closePuzzle: () => puzzles.clear(),

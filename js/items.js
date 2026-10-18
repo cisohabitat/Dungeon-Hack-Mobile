@@ -143,6 +143,8 @@ export function makeItems(K) {
   }
   function canEquip(it) {
     const p = P(), b = ITEMS[it.t], c = cls();
+    const mythic = K.mythics.reason(it);
+    if (mythic) return mythic;
     if (b.kind === 'ring' || b.kind === 'amulet' || b.kind === 'cloak') return null;     // anyone can wear one
     if (b.kind === 'weapon') return b.cls.includes(p.cls) ? null : `${c.plural} cannot wield ${aThing(b.name.toLowerCase())}.`;
     if (b.kind === 'armor') {
@@ -171,7 +173,7 @@ export function makeItems(K) {
     if (b.kind === 'ring') slot = toSlot === 'ring' || toSlot === 'ring2' ? toSlot : !p.eq.ring ? 'ring' : !p.eq.ring2 ? 'ring2' : bound(p.eq.ring) ? 'ring2' : 'ring';
     if (p.eq[slot] === it) return true;                      // already worn
     if (p.inv.indexOf(it) < 0) { log('You are not carrying that.', 'bad'); return false; }
-    const why = slot === 'offhand' ? offhandReason(it) : canEquip(it);
+    const why = K.mythics.reason(it, slot) || (slot === 'offhand' ? offhandReason(it) : canEquip(it));
     if (why) { if (!quiet) log(why, 'bad'); return false; }
     // nothing takes the place of a cursed piece, or the hand it holds
     const inTheWay = [p.eq[slot]];
@@ -209,6 +211,7 @@ export function makeItems(K) {
     // what it was made for as it goes on, then how well
     if (isJewel(it) && !isKnown(it.t)) { K.G.known[it.t] = 1; log(`It is ${ITEMS[it.t].kind === 'amulet' ? 'an' : 'a'} ${ITEMS[it.t].name}.`, 'info'); }
     if (it.h) { delete it.h; tellQuality(it); }
+    K.mythics.equipment();
     emit('inv');
     return true;
   }
@@ -228,6 +231,7 @@ export function makeItems(K) {
     log(`You remove ${the(p.eq[slot])}.`);
     if (slot === 'weapon') coatingGoes(p);
     p.eq[slot] = null;
+    K.mythics.equipment();
     refreshSp(p);
     emit('inv');
   }

@@ -816,11 +816,11 @@ const Renderer = (() => {
     ctx.clip();
     const a = Math.sin(ph / 0.4 * Math.PI), r = Math.max(2, Math.round(h * 0.18 * a)), cy = Math.round(top + h * 0.3), cx = Math.round(x);
     ctx.globalCompositeOperation = 'lighter';
-    const rgb = s.treasure === 'legend' ? '255,180,86' : s.treasure === 'rare' ? '170,205,255' : '255,248,210';
+    const rgb = s.treasure === 'mythic' ? '226,188,255' : s.treasure === 'legend' ? '255,180,86' : s.treasure === 'rare' ? '170,205,255' : '255,248,210';
     ctx.fillStyle = `rgba(${rgb},${(0.75 * a).toFixed(3)})`;
     ctx.fillRect(cx - r, cy, r * 2 + 1, 1); ctx.fillRect(cx, cy - r, 1, r * 2 + 1);
     ctx.fillRect(cx - 1, cy - 1, 3, 3);
-    if (s.treasure === 'legend' || s.treasure === 'relic') {
+    if (s.treasure === 'legend' || s.treasure === 'relic' || s.treasure === 'mythic') {
       ctx.fillRect(cx + r + 2, cy + 3, 1, 3); ctx.fillRect(cx + r + 1, cy + 4, 3, 1);
     }
     ctx.restore();

@@ -25,7 +25,7 @@ export function makePack(K) {
     }
     // its grade, at a glance: fine, rare, a relic or a legend each wear their own colour
     const gr = it ? Game.grade(it) : 'plain';
-    div.className = 'slot' + (it ? ' filled' : '') + (gr !== 'plain' ? ` g-${gr}` : '') + (gr === 'relic' || gr === 'legend' ? ' relic' : '') + (it && it.curse && !it.h ? ' cursed' : '');
+    div.className = 'slot' + (it ? ' filled' : '') + (gr !== 'plain' ? ` g-${gr}` : '') + (gr === 'relic' || gr === 'legend' || gr === 'mythic' ? ' relic' : '') + (it && it.curse && !it.h ? ' cursed' : '');
     if (label) div.innerHTML = `<span class="lbl">${label}</span>`;
     if (it) {
       const img = document.createElement('img');
@@ -143,7 +143,7 @@ export function makePack(K) {
         // a light blade can go in either hand, so offer the second one
         if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'));
       }
-      else if (b.kind === 'ring' || b.kind === 'amulet') {
+      else if ((b.kind === 'ring' || b.kind === 'amulet') && !why) {
         const eq = Game.player().eq, warn = it.curse && !it.h, cls = warn ? 'danger' : 'primary';
         // both fingers taken, and neither held by a curse: you say which ring comes off
         if (b.kind === 'ring' && eq.ring && eq.ring2 && !eq.ring.curse && !eq.ring2.curse) {

@@ -201,6 +201,7 @@ export function makeFoes(K) {
     // the Bastion catches a blow on the shield whole
     if (!heavy && dmg < was && K.legends.caught(m)) return false;
     const knight = dmg < was ? (heavy ? ' (your footing takes a quarter off)' : ' (caught on your shield: half)') : '';
+    if (!heavy) dmg = K.mythics.guard(dmg);
     // a cold touch: a Ring of Warmth takes half of it
     const warm = mb.element === 'cold' && K.hasPower('warmth');
     if (warm) dmg = Math.max(1, Math.ceil(dmg / 2));

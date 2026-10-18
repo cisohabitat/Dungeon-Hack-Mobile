@@ -232,6 +232,7 @@ export function makeCombat(K) {
     if (crit) dmg *= 2;
     if (sneak) dmg *= sneakMult();
     if (marked) dmg *= 2;
+    dmg += K.mythics.blow(atRange, sneak);
     dmg = Math.max(1, dmg);
     if (p.cls === 'cleric') dmg = Math.round(dmg * deepMagic());
     dmg = Math.round(dmg * deepSteel());
@@ -524,6 +525,7 @@ export function makeCombat(K) {
   function memberDown(m, note) {
     const L = lvl(), p = P(), mb = mstat(m);
     fallen(m);
+    K.mythics.felled(m);
     bounty.killed(m);                      // each one of a group counts toward a trader's cull
     { const o = heard(m, { gore: K.GORE_OF[m.id] || 'blood', who: m.id }); soon(() => Sound.play('death', o)); }
     p.kills++;
@@ -533,7 +535,7 @@ export function makeCombat(K) {
     // experience once ran to fourteen places, and the score after it)
     // (a puffcap is worth what it grew over)
     // (a quick delve's hero learns twice as fast: see QUICK)
-    const worth = (m.worth || mb.xp) * (isQuick() ? QUICK.xp : 1), xp = Math.round(m.split ? Math.ceil(worth / 2) : worth);
+    const worth = (m.mythicGuard ? 0 : m.worth || mb.xp) * (isQuick() ? QUICK.xp : 1), xp = Math.round(m.split ? Math.ceil(worth / 2) : worth);
     p.xp = Math.round(p.xp + xp);
     // a mage draws back a little of the power their spell has unmade: fire in
     // the deep floors, where a mage's points ran dry before the fighting did
@@ -553,7 +555,7 @@ export function makeCombat(K) {
     meet(m, 'kill');
     // champions and bosses always drop something worthwhile
     // (a shade leaves only what its hero wore)
-    if (!m.shade && (rnd() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite)) {
+    if (!m.mythicGuard && !m.shade && (rnd() < (m.split ? 0.2 : 0.4) * (hasTalent('light_fingers') ? 1.5 : 1) || mb.boss || m.elite)) {
       const k = key(m.x, m.y);
       const loot = Dungeon.rollLoot(Dice, K.G.depth + (m.elite ? 2 : 0));
       (L.items[k] = L.items[k] || []).push(loot);
@@ -947,7 +949,7 @@ export function makeCombat(K) {
     // a bear's hide takes the blow before the druid inside it does (and what
     // it takes is not counted as taken)
     // (hunger and poison work from inside, where no hide reaches)
-    const inside = cause === 'hunger' || cause === 'poison';
+    const inside = cause === 'hunger' || cause === 'poison' || cause === 'bloodstar';
     const hide = wild.shaped(p) && !inside ? p.shape.hide : 0;
     const through = inside ? dmg : wild.soak(dmg);
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }

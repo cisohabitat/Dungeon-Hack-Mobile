@@ -1104,5 +1104,47 @@
     "text": "The air is thick with dust and old bones.",
     "voice": "bm_george",
     "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-084b1058": {
+    "seconds": 13.543,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "Mercy's Oath. A lamp held open by two silver hands. The priest who made it vowed that no prayer would be wasted on a wound. The god agreed, and charged more for every prayer spoken in anger.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-149e1a5c": {
+    "seconds": 10.994,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "Horizon. A bow of white ash with iron at the tips. It takes a steady pull and will not be hurried. When the string is loosed, the passage seems a little shorter.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-64ec81e6": {
+    "seconds": 12.913,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "the Elderseed. An acorn from the first oak to grow above the mountain. It remembers bark, roots and claws more clearly than flesh. What it strengthens in the beast, it takes from the healer.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-6d6a0559": {
+    "seconds": 10.872,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "Nightglass. A shard of a mirror that never showed a face. Through it, the gaps in another creature's guard are plain. Through those same gaps, the creature sees you.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-8c64d701": {
+    "seconds": 11.954,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "the Bloodstar. A red star caught in clear glass. It burns brighter for a drop of its bearer's blood. The glass is whole; the blood finds its way inside all the same.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
+  },
+  "line-ff89cbb9": {
+    "seconds": 12.305,
+    "signature": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3abca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d|bm_george|0.92|native24-s16-v1",
+    "text": "the Last Gate. The last shield carried out of a fallen hold. Its face is split, and the split will not close. It keeps a little of every blow, to give back through the other hand.",
+    "voice": "bm_george",
+    "modelSha256": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a"
   }
 }

@@ -82,7 +82,7 @@ export function makeHeroSheet(K) {
       + `<h3 class="sheet-h">Scores</h3><div class="sheet scores">${scores.join('')}</div>`
       + `<h3 class="sheet-h">The run</h3><div class="sheet">${run.join('')}</div>`
       + (combos.length ? `<h3 class="sheet-h">Combinations this run</h3><div class="finds">${combos.map(x => `<span class="tag combo">${escapeHtml(x.name)}${x.n > 1 ? ` \u00d7${escapeHtml(x.n)}` : ''}</span>`).join('')}</div>` : '')
-      + `<h3 class="sheet-h">This run's finds</h3>${finds.length ? `<div class="finds">${finds.map(f => `<span class="tag g-${escapeHtml(f.grade)}">${escapeHtml(f.name)}</span>`).join('')}</div>` : '<p class="dim small finds-none">Nothing rare yet. Fine work shows green, rare blue, a relic gold and a legend amber.</p>'}`;
+      + `<h3 class="sheet-h">This run's finds</h3>${finds.length ? `<div class="finds">${finds.map(f => `<span class="tag g-${escapeHtml(f.grade)}">${escapeHtml(f.name)}</span>`).join('')}</div>` : '<p class="dim small finds-none">Nothing rare yet. Fine work shows green, rare blue, a relic gold a legend amber and a Mythic lavender.</p>'}`;
     let extra = '';
     // the path taken, or the two still ahead
     const paths = PATHS[p.cls] || [];

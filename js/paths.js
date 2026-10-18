@@ -125,7 +125,7 @@ export function makePaths(K) {
     // the Robe of the Magi eases the great workings: five points or more cost one less
     const robe = P().eq.armor;
     if (robe && ITEMS[robe.t].cheap && cost >= 5) cost -= 1;
-    return cost;
+    return cost + K.mythics.spellCost(sp);
   }
   /** How much a buff gives: a Frostweaver's Shield gives one more. */
   const buffAmount = sp => sp.amount + (sp.id === 'shield' && onPath('frostweaver') ? 1 : 0);

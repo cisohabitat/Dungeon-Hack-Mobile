@@ -46,7 +46,7 @@ await test('relic plans suit the class, spread out, and never repeat', async () 
     // every class has a few to find: the mage eight (four on robes and foci), the ranger nine
     const usable = Object.keys(RELICS).filter(id => relicUsableBy(id, cls));
     if (usable.length < 4) return `${cls} can use only ${usable.length} relics`;
-    const dealt = usable.filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend);
+    const dealt = usable.filter(id => !RELICS[id].route && !RELICS[id].twist && !RELICS[id].champion && !RELICS[id].legend && !RELICS[id].mythic);
     if ((cls === 'mage' && dealt.length < 8) || (cls === 'ranger' && dealt.length < 9)) return `a ${cls} can be dealt only ${dealt.length} relics`;
   }
   // a short delve still holds one, and it is not on the Heart's floor

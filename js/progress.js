@@ -165,7 +165,7 @@ const kit3Open = (cls, v = load()) => !!CLASSES[cls] && !!CLASSES[cls].thirdKit 
  * codex the class can use, but a path's legend (it belongs to its path). These are they.
  */
 const codexOpen = (cls, v = load()) => stage(cls, v) >= 5;
-const codexStarts = (cls, v = load()) => (codexOpen(cls, v) ? v.relics.filter(id => RELICS[id] && !RELICS[id].legend && relicUsableBy(id, cls)) : []);
+const codexStarts = (cls, v = load()) => (codexOpen(cls, v) ? v.relics.filter(id => RELICS[id] && !RELICS[id].legend && !RELICS[id].mythic && relicUsableBy(id, cls)) : []);
 /** A hound to start with is open once a hero has won with a veteran companion beside them (Old Campaigners). */
 const houndOpen = (v = load()) => !!v.feats.veteran;
 /**

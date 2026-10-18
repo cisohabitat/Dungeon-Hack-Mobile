@@ -86,7 +86,7 @@ module.exports = async function masteryChecks(h) {
     const ctx = await newContext();
     const { Game, PATHS, Progress, RELICS, MASTERY, relicUsableBy } = ctx;
     const cls = 'fighter';
-    const usable = Object.keys(RELICS).filter(id => !RELICS[id].legend && relicUsableBy(id, cls));
+    const usable = Object.keys(RELICS).filter(id => !RELICS[id].legend && !RELICS[id].mythic && relicUsableBy(id, cls));
     const legend = Object.keys(RELICS).find(id => RELICS[id].legend && relicUsableBy(id, cls));
     const id = usable.find(x => ['weapon', 'armor'].includes(ctx.ITEMS[RELICS[x].t].kind)) || usable[0];
     const progress = top => ({ won: { [cls]: { hard: 1 } }, paths: Object.fromEntries(PATHS[cls].map(x => [x.id, 1])), rungs: { [cls]: top }, relics: [...usable, legend].filter(Boolean) });

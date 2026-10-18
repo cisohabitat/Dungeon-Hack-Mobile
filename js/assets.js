@@ -1624,7 +1624,7 @@ const Assets = (() => {
       if (ITEM_ART[k]) later('legend_' + k, () => makeSprite({ parts: itemParts(k), outline: LEGEND_EDGE, fine: true, grim: 'soft', grid: 64 }));
     }
     for (const [id, draw] of Object.entries(NAMED_ART)) later(namedSprite(id), () => makeSprite({
-      parts: draw().map(p => ({ ...up2(p), smooth: 1 })), outline: RELICS[id].legend ? LEGEND_EDGE : '#e8b84a', fine: true, grim: 'soft', grid: 64,
+      parts: draw().map(p => ({ ...up2(p), smooth: 1 })), outline: RELICS[id].mythic ? '#e2bcff' : RELICS[id].legend ? LEGEND_EDGE : '#e8b84a', fine: true, grim: 'soft', grid: 64,
     }));
     // props stand in the world too, painted as finely
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
@@ -1664,7 +1664,7 @@ const Assets = (() => {
     // in the same light as the pictures in the pack: softly grim, clean of grain
     return trim(paintParts(h.parts.map(p => ({ ...p, smooth: 1 })), h.grid, SCALE, 'soft'), outline, h.anchor.map(v => v * SCALE), m);
   };
-  const outlineFor = id => (id && id.startsWith('relic_') ? '#e8b84a' : id && id.startsWith('legend_') ? LEGEND_EDGE : '#0a0810');
+  const outlineFor = id => (id && id.startsWith('mythic_') ? '#e2bcff' : id && id.startsWith('relic_') ? '#e8b84a' : id && id.startsWith('legend_') ? LEGEND_EDGE : '#0a0810');
   /** One pose of a held weapon (or bare fist, id null) with the hand on it. */
   function held(id, pose, cls, two) {
     const key = `${id}|${pose}|${cls}|${two ? 2 : 1}`;

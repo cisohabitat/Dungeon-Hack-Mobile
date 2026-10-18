@@ -201,7 +201,7 @@ test.describe('progress between runs', () => {
     await page.click('#hall-relics');
     await expect(page.locator('#screen-relics')).toHaveClass(/active/);
     // (the legends are counted apart, as no one hero can gather them all)
-    await expect(page.locator('#relics-count')).toHaveText(`1 of ${total} found · legends 0 of 12`);
+    await expect(page.locator('#relics-count')).toHaveText(`1 of ${total} found · legends 0 of 12 · mythics 0 of 6`);
     const tooth = page.locator('#relics-list [data-relic="grimtooth"]');
     await expect(tooth).toContainText('Grimtooth');
     await expect(tooth).toContainText('Weapon');
@@ -234,7 +234,7 @@ test.describe('progress between runs', () => {
     await page.click('[data-open="journal"]');
     await page.click('[data-jtab="relics"]');
     await expect(page.locator('[data-jtab="relics"]')).toHaveAttribute('aria-selected', 'true');
-    await expect(page.locator('#journal-count')).toHaveText(`2 of ${total} found · legends 0 of 12`);
+    await expect(page.locator('#journal-count')).toHaveText(`2 of ${total} found · legends 0 of 12 · mythics 0 of 6`);
     await expect(page.locator('#journal-list [data-relic="whisper"]')).toContainText('Whisper');
     await expect(page.locator('#journal-list [data-relic="whisper"]')).not.toHaveClass(/unfound/);
     await page.click('[data-jtab="pages"]');
