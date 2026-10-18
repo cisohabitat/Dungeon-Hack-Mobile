@@ -106,3 +106,98 @@ bounded fractional Last Gate expiry times when loading a save: browser clocks
 are fractional. That validation correction changes no combat rule or observer
 decision and is covered by a real-blow/native-reload browser check and invalid
 save-value rule checks; simulations do not import saves.
+
+## Final acceptance
+
+The unchanged game rules at `d403e87`, with the corrected Mage observer from
+`93fe329`, pass every predeclared standard bar. Each variant has 14,400 runs:
+1,200 per class/difficulty over bench, alt and third, with 40 seeds and ten
+trials in each set. Normal moves **+0.07 percentage points** overall and Hard
+**−0.03**. Every class stays within five points (largest movement: Mage Hard
+−3.83); class spread changes by **0.00** on Normal and **+0.42** on Hard.
+There are no errors or timeouts. Seed-cluster paired bootstrap intervals for
+aggregate movement are approximately −0.64 to +0.83 points on Normal and
+−1.04 to +0.96 on Hard; they describe simulation uncertainty, not player odds.
+
+All 14,400 paired runs have identical floor-arrival resources and early-death
+flags. Depth, deaths before choosing a path and early-death counts are also
+unchanged. The changed policy starts 11,872 trials, wins 11,064 and wears the
+reward during 10,717 runs. Mean ending potions move by at most 0.67 per run;
+Mage Hard uses more of its stock (3.98 → 3.31 left), consistent with the life
+price. Mean actual casts change by at most 1.38 per run, and mean ending cash
+by at most 26.38 gold. Ending cash is not total gold found, and bot potion
+attempts are not confirmed drinks. Full death causes, resources, paired win
+losses, intervals and both paths are in `standard.json`.
+
+Both paths are represented with matching identities before/after. Their
+conditional rates must not be compared as intrinsic path strength: backgrounds
+rotate with path assignment. In the paired observations, Grovewarden Hard gains
+38 wins, while Frostweaver Hard loses 33; Sharpshooter Hard loses 25 while
+Warden gains 16. These are different bargains for different builds, not automatic
+upgrades. No path-specific numbers were tuned, so no forced-path claim is made.
+The class and aggregate acceptance limits remain as declared before the audit.
+
+The 144-run-per-variant length/rung pass has no errors/timeouts and exercises
+12-floor Normal, 16-floor Hard, and Hard+1/+3/+5 at eight floors. Its 24 short
+four-floor records match all individual outcome/resource fields, with no trials.
+The eligible settings start 81 trials, win 73 and wear 73 rewards. These are
+coverage checks with four runs per class/setting, not fresh ladder win rates.
+`sentinel.json` keeps each length/rung separate instead of pooling them.
+
+Final reports retain actual per-measurement provenance. `standard-changed.json.gz`
+is a composite of unchanged non-Mage observer-v3 cells and all six repeated
+400-run Mage observer-v4 cells; `combine.py` asserts the same game source hash,
+case keys, seeds, backgrounds and trial counts before combining. Every original
+policy result remains in `standard-v3*`, alongside the repeated
+`standard-mage-v4.json.gz`. Exploration and sentinel records follow the same
+pattern. The final observer correction cannot enter a non-Mage run; all four
+observer revisions also match the 480 baseline fingerprints. Passive off-mode
+uses v3 on both sides and cannot enter the v4 branch: all 1,440 full-state
+fingerprints match. None of these data replace the README's historical
+default-policy table with optional-trial outcomes.
+
+## Reproduction
+
+Use Node 24 and Python 3. Prepare detached worktrees at `77c7159` (baseline),
+`d403e87` (trial rules/observer v3) and `93fe329` (same rules, observer v4).
+For the original standard baseline, unpack `observer-v1.js.gz` into its
+`test/playtest.js`; use the archived v3 observer for auxiliary baseline pairs.
+The v4 baseline equivalence pass uses `observer-v4.js.gz` at `77c7159`.
+The runner clears inherited gameplay flags and records exact commands/settings,
+source/observer hashes, seeds and runtime versions in every retained corpus.
+For example, with those worktrees at the following paths and fresh output dirs:
+
+```sh
+python docs/balance/2026-10-18-mythics/run.py --repo /tmp/mythics-before --output /tmp/mythics-base-standard --suite standard --workers 4
+python docs/balance/2026-10-18-mythics/run.py --repo /tmp/mythics-v3 --output /tmp/mythics-v3-standard --suite standard --workers 4
+python docs/balance/2026-10-18-mythics/run.py --repo /tmp/mythics-v4 --output /tmp/mythics-mage-standard --suite standard --classes mage --workers 4
+python docs/balance/2026-10-18-mythics/combine.py --original /tmp/mythics-v3-standard --mages /tmp/mythics-mage-standard --output /tmp/mythics-final-standard
+python docs/balance/2026-10-18-mythics/analyse.py --baseline /tmp/mythics-base-standard --changed /tmp/mythics-final-standard --output /tmp/mythics-summary
+```
+
+Repeat auxiliary pairs with `--suite passive` (1,440 runs), `explore` (96) and
+`sentinel` (144); repeat only Mage cells for v4 exploration/sentinels before
+combining. `--suite observer` is the 480-run fingerprint proof, and `tuning`
+the two-set 480-run preflight. Standard/auxiliary final pairs total **32,160
+simulations**, with additional original-policy, tuning and observer diagnostics
+retained separately. Raw JSON is compressed deterministically with gzip; no
+master audio, source art or benchmark records are part of the Vercel deployment.
+
+A final wording correction makes Horizon's existing at-least-two-square bonus
+explicit in the tooltip and README. Its combat behaviour and audited numbers
+are unchanged; the final diff from the measured game contains only that text
+and the fractional save-timer validation fix described above.
+
+## Local release validation
+
+Both full Chromium projects pass: **573 checks** across phone and iPhone SE
+viewports. A fresh Ranger phone check also passes after the final range-wording
+clarification. The isolated 4× CPU budget passes its 30 fps minimum: fight
+59.3 fps, wide 51.3, flooded 51.0 and rite 60.4; startup is 1.55 seconds in
+that recorded run. No simulation workers ran beside these checks. Fractional
+Last Gate timers have a real incoming-blow/save/native-reload regression, and
+preview/cancellation/victory/equipment replay reaches the same final state.
+`AGENTS.md` is regenerated from `CLAUDE.md`. The exact publication commit is
+checked again by the mandatory `npm test` pre-push hook, and all seven CI jobs
+(including WebKit and isolated performance) gate the GitHub release. Local
+Chromium phone viewports do not establish a physical iPhone/iPad Safari pass.

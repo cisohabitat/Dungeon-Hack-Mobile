@@ -275,7 +275,7 @@ worn. Each has its own picture, spoken lore and a cost to weigh against its powe
 | Cleric | Mercy's Oath | Healing spells mend 25% more | Damaging spells cost 1 extra spell point |
 | Mage | The Bloodstar | Damaging spells deal 20% more | Each costs 2 life, bypassing wards; unavailable at 2 life or less |
 | Thief | Nightglass | Close hits add 2 damage, or 6 from the shadows | −1 armour class |
-| Ranger | Horizon | Arrows add 4 damage | Draw takes 15% longer |
+| Ranger | Horizon | Arrows from at least two squares add 4 damage | Draw takes 15% longer |
 | Druid | The Elderseed | Bear's base hide gains 4; Entangle's base duration gains one second | Healing spells mend 20% less |
 
 ## Deploy on Vercel
@@ -516,6 +516,19 @@ match the baseline, with no errors or timeouts. Potion/gear policies met the
 predefined aggregate, class and spread limits; choices can help or hurt a run.
 These smaller samples do not replace the larger default-mode audit above. See the
 [reward comparison, scope, raw records and commands](docs/balance/2026-10-17-puzzle-rewards/).
+
+Mythic trials were compared on **18 October 2026** against build 12
+(`77c7159`), using trial rules `d403e87` and corrected Mage observer `93fe329`:
+**32,160 final matched simulations**, including 14,400 standard runs per variant
+(all classes, Normal/Hard, three sets, 400 runs per class/difficulty/set).
+The optional trial policy moves overall wins by **+0.07 points on Normal** and
+**−0.03 on Hard**, with every class within the predeclared five-point limit and
+class spread within its limit. All 1,440 declined-trial state fingerprints match.
+Exploration and length/rung checks exercised rewards without errors/timeouts;
+10,717 standard runs wore a Mythic. These optional bargains have costs: Mage
+Hard moves −3.83 points while Druid Hard gains 3.25. The default table above
+remains tied to its recorded policy. See the [Mythic audit, original tuning,
+observer corrections and exact records](docs/balance/2026-10-18-mythics/).
 
 ### Earlier benchmark history
 

@@ -123,8 +123,11 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   or mastery starts. Validate new save fields, wrong-class and multiple equipment.
   Bloodstar pays life after cast validation, bypasses wards, and snapshots its
   bonus with that payment. Last Gate stores at most three for five seconds and
-  clears on removal. `MYTHIC=trial` explicitly accepts/uses the reward in the
-  balance observer; ordinary policy remains unchanged. Benchmark both policies,
+  clears on removal. Its expiry follows fractional `G.t`: validate a finite,
+  bounded number, not an integer. `MYTHIC=trial` explicitly accepts/uses the reward in the
+  balance observer; ordinary policy remains unchanged. At two life or less, its
+  Bloodstar caster must fall through to legal attacks instead of retrying a
+  blocked bolt. Benchmark both policies,
   actual trial/reward use, exploration, long delves and ladder rungs.
 - `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
   floor sprites, pack inspection, discovered codex and held weapons/foci.

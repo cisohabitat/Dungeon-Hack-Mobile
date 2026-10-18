@@ -17,10 +17,41 @@
       "seeds": 2,
       "trials": 2,
       "node": "v24.19.0",
-      "observerSha256": "4476bdeba993aadb563480a110eea44b7b8fd0b7a72bc30db51c9775a04ea223",
+      "observerSha256": null,
       "sourceSha256": "5daea8556e40e08e5e32482c3c2009f7cafb3324378c604b86716aed7498a4c8",
       "started": "2026-10-18T05:50:31Z",
-      "finished": "2026-10-18T05:54:50Z"
+      "finished": "2026-10-18T06:04:36Z",
+      "finalPolicyObserverSha256": "e39a877aca2c506d0838d543aaaac2ff5c43922a1f3c82a087c9a91bde61351e",
+      "observerVariants": [
+        {
+          "revision": "d403e877f5e339aabc49f799cac6dbd45fe2d8b8",
+          "suite": "explore",
+          "seeds": 2,
+          "trials": 2,
+          "node": "v24.19.0",
+          "observerSha256": "4476bdeba993aadb563480a110eea44b7b8fd0b7a72bc30db51c9775a04ea223",
+          "sourceSha256": "5daea8556e40e08e5e32482c3c2009f7cafb3324378c604b86716aed7498a4c8",
+          "started": "2026-10-18T05:50:31Z",
+          "finished": "2026-10-18T05:54:50Z"
+        },
+        {
+          "classes": [
+            "mage"
+          ],
+          "revision": "93fe3295be6f179d8bb9c13f59426c26c35f10ff",
+          "suite": "explore",
+          "seeds": 2,
+          "trials": 2,
+          "node": "v24.19.0",
+          "observerSha256": "e39a877aca2c506d0838d543aaaac2ff5c43922a1f3c82a087c9a91bde61351e",
+          "sourceSha256": "5daea8556e40e08e5e32482c3c2009f7cafb3324378c604b86716aed7498a4c8",
+          "started": "2026-10-18T06:03:33Z",
+          "finished": "2026-10-18T06:04:36Z"
+        }
+      ],
+      "reusedCells": 20,
+      "repeatedMageCells": 4,
+      "reuseReason": "Game source is identical. Observer v4 changes legal-action fallback only for a Mage wearing Bloodstar at <=2 life under MYTHIC=trial. All other class decisions are unchanged; baseline fingerprints match. Per-measurement provenance records the actual observer."
     }
   },
   "cells": [

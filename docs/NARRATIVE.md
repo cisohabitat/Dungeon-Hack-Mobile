@@ -93,7 +93,7 @@ Nightglass: close strikes deal 2 extra damage, or 6 from the shadows. Armour cla
 
 A bow of white ash with iron at the tips. It takes a steady pull and will not be hurried. When the string is loosed, the passage seems a little shorter.
 
-Horizon: arrows deal 4 extra damage, but drawing this bow takes 15% longer.
+Horizon: arrows fired from at least two squares deal 4 extra damage, but drawing this bow takes 15% longer.
 
 ### the Elderseed (elderseed)
 

@@ -4,7 +4,7 @@ const MYTHIC_POWERS = {
   mercy_oath: 'Mercy\'s Oath: healing spells mend a quarter more. Damaging spells cost 1 extra spell point.',
   bloodstar: 'Bloodstar: damaging spells deal a fifth more, but cost 2 life when cast. You cannot cast them with 2 life or less; wards cannot pay the price.',
   nightglass: 'Nightglass: close strikes deal 2 extra damage, or 6 from the shadows. Armour class −1.',
-  horizon: 'Horizon: arrows deal 4 extra damage, but drawing this bow takes 15% longer.',
+  horizon: 'Horizon: arrows fired from at least two squares deal 4 extra damage, but drawing this bow takes 15% longer.',
   elderseed: 'Elderseed: the bear\'s hide takes 4 more damage, and Entangle lasts a second longer. Healing spells mend a fifth less.',
 };
 const MYTHICS = {

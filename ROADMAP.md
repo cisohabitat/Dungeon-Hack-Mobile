@@ -386,5 +386,5 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   after its ordinary aid at its ordinary cost. Daily/Weekly and shorter runs preserve their rules.
 - [x] Persistent guardian and one-time floor reward, save validation and accessible
   encounter/pack controls; no ordinary deals or mastery starts.
-- [ ] Matched six-class Normal/Hard balance comparison, exploration and long/rung
-  checks, then full browser/performance validation and release.
+- [x] Matched six-class Normal/Hard balance comparison, exploration and long/rung
+  checks, plus full browser and isolated performance validation.
