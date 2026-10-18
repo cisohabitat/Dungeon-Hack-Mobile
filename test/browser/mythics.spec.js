@@ -16,6 +16,11 @@ async function lamp(page) {
 async function answer(page, text) {
   const button=page.locator('#enc-choices button').filter({hasText:text});
   await expect(button).not.toHaveClass(/arming/);await button.click();
+  if (await page.evaluate(()=>!!Game.currentEncounter()?.preparing && !Game.currentEncounter()?.result)) {
+    await expect(page.locator('#enc-text')).toContainText('usual aid');
+    const next=page.locator('#enc-choices button').filter({hasText:/Go on without/});
+    await expect(next).not.toHaveClass(/arming/);await next.click();
+  }
   const done=page.locator('#enc-choices button.primary');await expect(done).toBeVisible();
   // The encounter's existing double-tap guard releases with the game clock.
   await expect(async()=>{await done.click();await expect(page.locator('#ov-encounter')).not.toBeVisible({timeout:500});}).toPass({timeout:5000});
@@ -43,6 +48,11 @@ test('the trial explains its bargain accessibly and can be declined without spaw
   const errors=watchForErrors(page);await page.addInitScript(()=>localStorage.setItem('deepdelve.textSize','4'));await lamp(page);
   const scan=await new AxeBuilder({page}).include('#ov-encounter').withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
   expect(scan.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
+  const trial=page.locator('#enc-choices button').filter({hasText:/Face the lamp/});
+  await expect(trial).not.toHaveClass(/arming/);await trial.click();
+  const cancel=page.locator('#enc-choices button').filter({hasText:/Cancel the trial/});
+  await expect(cancel).not.toHaveClass(/arming/);await cancel.click();
+  await expect(page.locator('#enc-text')).toContainText('Only one Mythic');
   await answer(page,/Go on without/);
   expect(await page.evaluate(()=>!!Game.level().mythicTrial||Game.level().monsters.some(m=>m.mythicGuard))).toBe(false);
   expect(errors).toEqual([]);

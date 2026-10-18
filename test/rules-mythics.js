@@ -75,7 +75,8 @@ module.exports = async function(h) {
     const ctx=await start('fighter','mythic-live-trial',{levels:8}),{Game}=ctx,p=Game.player(),G=Game.state(),L=Game.level();
     G.depth=8;G.levels[8]=L;L.isFinal=true;L.monsters=[];L.npcs=[];
     // Open normally, with the original choice indexes preserved before the new trial.
-    const r=meetAndChoose(ctx,'vigil',4);if(!r||L.mythicTrial!=='active')return 'trial not started';Game.closeEncounter();
+    const r=meetAndChoose(ctx,'vigil',4);if(!r?.preparing||L.mythicTrial)return 'trial preview committed';
+    Game.chooseEncounter(Game.encounterOptions().length-1);if(L.mythicTrial!=='active')return 'trial not started';Game.closeEncounter();
     const guard=L.monsters.find(m=>m.mythicGuard);if(!guard)return 'guardian absent';
     p.inv=Array.from({length:Game.INV_MAX},()=>({t:'dagger',q:1,e:0}));Game.hurtMonster(guard,10000);
     if(L.mythicTrial!=='won')return 'reward not won';
@@ -83,6 +84,17 @@ module.exports = async function(h) {
     const {checkSave}=await import('../js/savecheck.js');checkSave(JSON.parse(JSON.stringify(G)));
     const bad=JSON.parse(JSON.stringify(G));bad.player.mythicCharge=4;let refused=false;try{checkSave(bad);}catch{refused=true;}
     return refused;
+  });
+
+  await test('Mythics: the preview cancels freely and normal paid aid is applied before the guardian wakes', async () => {
+    const ctx=await start('fighter','mythic-preparation',{levels:8}),{Game}=ctx,p=Game.player(),G=Game.state(),L=Game.level();
+    G.depth=8;G.levels[8]=L;L.isFinal=true;L.monsters=[];p.gold=1000;p.hp=1;
+    meetAndChoose(ctx,'vigil',4);const before=JSON.stringify(G);
+    const cancel=Game.currentEncounter().def.choices.findIndex(ch=>ch.outcome?.effects.some(e=>e.mythicBack));
+    Game.chooseEncounter(cancel);if(JSON.stringify(G)!==before||Game.currentEncounter().preparing)return 'cancel changed state';
+    Game.chooseEncounter(4);if(!Game.currentEncounter().preparing||p.gold!==1000||L.mythicTrial)return 'preview spent resources';
+    Game.chooseEncounter(2);
+    return p.gold===640&&p.hp===p.maxHp&&L.mythicTrial==='active'&&L.monsters.filter(m=>m.mythicGuard).length===1&&G.metEncounters.filter(id=>id==='vigil').length===1;
   });
 
 };

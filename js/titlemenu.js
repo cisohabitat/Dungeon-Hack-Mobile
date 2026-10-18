@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'mythic-bargains', text: "Six Mythics, one for each class: a new power with a price. In custom delves of eight floors or more, the final Vigil Lamp offers an optional guardian fight instead of its usual aid. Only one Mythic may be worn at a time." };
+  const NEWS = { id: 'mythic-bargains', text: "Six Mythics, one for each class: a new power with a price. In custom delves of eight floors or more, the final Vigil Lamp offers an optional guardian fight after its usual aid. Only one Mythic may be worn at a time." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

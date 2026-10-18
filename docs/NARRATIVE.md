@@ -51,11 +51,19 @@ The map remembers ground you have seen. Stone and darkness keep the rest hidden.
 
 ## Mythic bargains (MYTHICS)
 
-A single Mythic can be earned here instead of the lamp's usual aid: defeat an extra ogre, without a free heal. The item has a class power and a drawback. Only one Mythic may be worn at a time.
+A single Mythic can be earned here: defeat an extra ogre after choosing the lamp's usual aid at its usual cost. The item has a class power and a drawback. Only one Mythic may be worn at a time.
 
 Face the lamp's trial for a Mythic
 
-The flame bends towards the bowl. Iron feet strike the floor: an ogre steps out of the dark to keep the lamp's last gift. The lamp's other aid is spent. Defeat it to claim the piece made for your class.
+Before the guardian wakes, the lamp still takes its usual offerings. Choose its aid, or go on without it.
+
+You have chosen the trial. First choose the lamp's usual aid, at its usual cost, or go without it. The guardian wakes after this choice. You can still cancel the trial before choosing.
+
+An ogre steps out of the dark to keep the lamp's last gift. Defeat it for the Mythic made for your class.
+
+Cancel the trial; return to the lamp
+
+The guardian stays asleep. The lamp still answers.
 
 ### the Last Gate (last_gate)
 

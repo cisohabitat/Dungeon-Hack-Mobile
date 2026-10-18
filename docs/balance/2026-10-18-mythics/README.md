@@ -3,7 +3,7 @@
 Baseline: 77c71598de045144b78b296c9f757a5d49a7eb34 (v1.4.0).
 Six class-specific items, one equipped at a time, each with a drawback.
 An optional trial at the existing final-floor Vigil Lamp in custom delves of
-at least eight floors replaces that encounter's ordinary aid. Daily/Weekly,
+at least eight floors follows that encounter's ordinary aid at its ordinary cost. Daily/Weekly,
 short delves, existing map placement and all unaccepted encounters stay unchanged.
 
 Compare all six classes on Normal and Hard, with matching `FIT=1`, eight Medium
@@ -38,3 +38,15 @@ of 2, keeping the 15% longer draw. Last Gate gained +1 make and blocks/stores
 2 rather than 1 (still capped at 3 for five seconds, with AC −1). Nightglass
 now gives 2 on ordinary close hits and 6 from the shadows, with AC −1. Repeat
 the same tuning inputs, then validate final rules on all three 400-run sets.
+
+## Trial preparation revision
+
+The second two-set preflight is retained as tuning-v2-changed.json.gz and
+tuning-v2.md. Horizon still lost 20 points on Hard. Paired lost runs arrived
+on the final floor with identical resources: the changed policy then lost
+the normal Vigil's AC/hit wards or healing, unlike the baseline. The trial
+therefore now has a cancellable preview followed by the existing aid choices
+at their existing prices. Only then does the guardian wake. No aid is granted
+for free, and declining the trial still follows the old rules. Acceptance
+bars remain unchanged. The observer handles this new paused preview without
+advancing game time; ordinary baseline behaviour cannot enter this branch.

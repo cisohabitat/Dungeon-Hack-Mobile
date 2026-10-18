@@ -84,7 +84,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. I
 - **Six Mythic bargains.** One signature piece for each class, usable on either
   path, with its own power, drawback and lavender artwork. Only one Mythic may
   be worn at a time. In custom delves of at least eight floors, the final Vigil
-  Lamp offers an optional extra ogre fight instead of its usual aid. Defeat the
+  Lamp offers an optional extra ogre fight after its usual aid, at its usual cost. Defeat the
   guardian for your class's piece; a full pack leaves it safely on the floor.
   Daily/Weekly and shorter delves keep their current rules. Mythics are never
   sold by traders or offered as mastery starting gear.

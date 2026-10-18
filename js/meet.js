@@ -20,8 +20,9 @@ export function makeEncounters(K) {
     // (on the ladder's fifth rung no lamp makes you whole: the vigil lamp by the last halls is out)
     let def = ENCOUNTERS[n.id === 'vigil' && K.climbed(5) ? 'vigil_dark' : n.id];
     if (!def) return false;
+    const base = def;
     def = K.mythics.offer(n, def);
-    encounter = { npc: n, def, result: null };
+    encounter = { npc: n, def, base, preparing: false, result: null };
     Sound.play('door');
     K.emit('encounter');
     return true;
@@ -85,6 +86,14 @@ export function makeEncounters(K) {
     if (!ch) return null;
     const opt = encounterOptions()[i];
     if (opt.blocked) { K.log(opt.blocked, 'bad'); return null; }
+    if (ch.outcome?.effects.some(e => e.mythic)) {
+      encounter.preparing = true; encounter.def = K.mythics.preparation(encounter.base);
+      K.emit('encounter'); return { preparing: true };
+    }
+    if (ch.outcome?.effects.some(e => e.mythicBack)) {
+      encounter.preparing = false; encounter.def = K.mythics.offer(npc, encounter.base);
+      K.emit('encounter'); return { preparing: false };
+    }
     const cost = costOf(ch);
     const lines = [];
     if (cost && cost.gold) { p.gold -= cost.gold; lines.push(`−${cost.gold} gold`); }
@@ -101,6 +110,7 @@ export function makeEncounters(K) {
     (K.G.metEncounters = K.G.metEncounters || []).push(npc.id);
     K.log(`${def.title}: ${outcome.text}${c ? c.note : ''}`, c ? (c.pass ? 'good' : 'bad') : 'info');
     lines.push(...applyEffects(outcome.effects, def));
+    if (encounter.preparing) { const begun = K.mythics.begin(npc); if (begun) lines.push(begun); }
     encounter.result = { label: ch.label, text: outcome.text, check: c, lines };
     K.checkLevelUp();
     K.emit('encounter'); K.emit('inv'); K.emit('stats');
@@ -113,7 +123,6 @@ export function makeEncounters(K) {
     // named after it is taken, so gold says what the purse really gained (a trickster's is a quarter more)
     const pickUp = it => { (L.items[K.key(p.x, p.y)] = L.items[K.key(p.x, p.y)] || []).push(it); K.pickupAll(); return K.itemName(it); };
     for (const e of effects) {
-      if (e.mythic) K.mythics.begin(encounter.npc);
       if (e.map) { L.explored.fill(1); out.push('You know the layout of this floor.'); }
       // told where the floor's traps are: they show on the map, and a hero who knows steps round them
       if (e.traps && Object.keys(L.traps || {}).length) { L.trapsKnown = true; out.push('You know where this floor\'s traps are.'); }

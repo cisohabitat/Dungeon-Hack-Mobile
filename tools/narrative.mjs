@@ -43,9 +43,9 @@ export async function narrative() {
   }
   end();
 
-  const { MYTHICS, MYTHIC_POWERS, MYTHIC_CHOICE, MYTHIC_OFFER } = await import(new URL('js/mythicdata.js', root).href);
+  const { MYTHICS, MYTHIC_POWERS, MYTHIC_CHOICE, MYTHIC_OFFER, MYTHIC_PREPARE, MYTHIC_STARTED, MYTHIC_CANCEL } = await import(new URL('js/mythicdata.js', root).href);
   h(2, 'Mythic bargains (MYTHICS)');
-  p(MYTHIC_OFFER); p(MYTHIC_CHOICE.label); p(MYTHIC_CHOICE.outcome.text);
+  p(MYTHIC_OFFER); p(MYTHIC_CHOICE.label); p(MYTHIC_CHOICE.outcome.text); p(MYTHIC_PREPARE); p(MYTHIC_STARTED); p(MYTHIC_CANCEL.label); p(MYTHIC_CANCEL.outcome.text);
   for (const [id, item] of Object.entries(MYTHICS)) { h(3, `${item.name} (${id})`); p(item.lore); item.powers.forEach(power => p(MYTHIC_POWERS[power])); }
 
   h(2, 'The prologue (PROLOGUE)');

@@ -1,6 +1,6 @@
 import { ITEMS } from './data.js';
 import { RELICS, RELIC_POWERS } from './relics.js';
-import { MYTHICS, MYTHIC_CHOICE, MYTHIC_OFFER } from './mythicdata.js';
+import { MYTHICS, MYTHIC_CHOICE, MYTHIC_OFFER, MYTHIC_PREPARE, MYTHIC_STARTED, MYTHIC_CANCEL } from './mythicdata.js';
 
 const mythicFor = cls => Object.keys(MYTHICS).find(id => MYTHICS[id].mythic === cls);
 /** @param {import('./types.js').Kit} K */
@@ -19,6 +19,7 @@ export function makeMythics(K) {
     return { ...def, text: `${def.text}\n\n${MYTHIC_OFFER}\n${RELICS[id].name}: ${Object.values(RELICS[id].powers).map(p => RELIC_POWERS[p]).join(' ')}`,
       choices: [...def.choices.slice(0, -1), MYTHIC_CHOICE, def.choices.at(-1)] };
   }
+  function preparation(def) { return { ...def, text: MYTHIC_PREPARE, choices: [...def.choices.slice(0, -1), MYTHIC_CANCEL, def.choices.at(-1)] }; }
   function blocked(npc) {
     const L = K.lvl();
     if (!npc || L.mythicTrial || L.monsters.some(m => m.x === npc.x && m.y === npc.y && m.hp > 0) || K.companionAt(npc.x, npc.y)) return 'There is no room for the guardian here.';
@@ -30,6 +31,8 @@ export function makeMythics(K) {
     L.mythicTrial = 'active';
     const m = K.newMonster('ogre', npc.x, npc.y, 36);
     m.mythicGuard = true; m.nextAct = G.t + 1800;
+    K.log(MYTHIC_STARTED, 'info');
+    return MYTHIC_STARTED;
   }
   function felled(m) {
     const L = K.lvl();
@@ -63,6 +66,6 @@ export function makeMythics(K) {
   const hide = () => has('elderseed') ? 4 : 0;
   const roots = () => has('elderseed') ? 1000 : 0;
   function tick() { if (Object.values(K.P().eq).some(it => it && it.u && MYTHICS[it.u]?.mythic === K.P().cls)) { const st = K.runStats(); st.mythicTicks = (st.mythicTicks || 0) + 1; } }
-  return { tick, offer, blocked, begin, felled, reason, guard, blow, armour, pace, healing, spellCost, spellBlocked, spellDamage, cast, equipment, hide, roots };
+  return { tick, offer, preparation, blocked, begin, felled, reason, guard, blow, armour, pace, healing, spellCost, spellBlocked, spellDamage, cast, equipment, hide, roots };
 }
 export { mythicFor };

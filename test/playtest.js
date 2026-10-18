@@ -796,6 +796,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
           if (trial >= 0 && !Game.encounterOptions()[trial].blocked) best = Game.encounterOptions()[trial];
         }
         const r = Game.chooseEncounter(best.i);
+        if (r && r.preparing === true) continue;
         rec.encounters = (rec.encounters || 0) + 1;
         if (cur.def.final) rec.lamp = cur.def.choices[best.i] && cur.def.choices[best.i].cost ? best.label : 'nothing bought';
         // tally what the encounter actually handed over, for ENCLOG=1
