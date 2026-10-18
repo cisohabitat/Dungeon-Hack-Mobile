@@ -619,7 +619,10 @@ function play(ctx, cls, seed, opts, bg, idx) {
       for (const o of pool) { const v = o.dmg ? avgDmg(o) * taken(m, o) : 0; if (v > bv) { best = o; bv = v; } }
       return best;
     };
-    const bolts = process.env.NOBOLT || G.t < p.nextAttack || Game.shaped() ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
+    // The explicit Mythic policy must not repeatedly try a spell the Bloodstar blocks.
+    // All ordinary policies and every other class retain their decisions.
+    const bloodstarBlocked = process.env.MYTHIC === 'trial' && p.cls === 'mage' && p.eq.shield?.u === 'bloodstar' && p.hp <= 2;
+    const bolts = process.env.NOBOLT || bloodstarBlocked || G.t < p.nextAttack || Game.shaped() ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && sp.kind === 'bolt');
     if (bolts.length) {
       let shot = null;
       for (let k = 0; k < 4 && !shot; k++) {
@@ -700,7 +703,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     // a puffcap beside it, with no fire on the blade and not yet poisoned: a
     // spell looses no spores, and one with a bow steps back (a puffcap is slow) to shoot
     if (adj && adj.m.id === 'puffcap' && puffNear && !p.poison && !(p.coating && p.coating.t === 'fire') && !Game.hasPower('flame', 'weapon')) {
-      const bolt = Game.shaped() ? null : Game.knownSpells().filter(s => s.kind === 'bolt' && Game.spellAvailable(s) && p.sp >= Game.spellCost(s)).pop();
+      const bolt = Game.shaped() || bloodstarBlocked ? null : Game.knownSpells().filter(s => s.kind === 'bolt' && Game.spellAvailable(s) && p.sp >= Game.spellCost(s)).pop();
       if (bolt && G.t >= p.nextAttack) { p.dir = adj.dir; Game.castSpell(bolt); rec.puffAnswers = (rec.puffAnswers || 0) + 1; step(); continue; }
       if (Game.weapon().range) {
         const bx = p.x - Dungeon.DIRS[adj.dir][0], by = p.y - Dungeon.DIRS[adj.dir][1], t = L.tiles[by * L.w + bx];
@@ -712,7 +715,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
     if (adj) {
       if (p.dir !== adj.dir) { p.dir = adj.dir; }
       // cast when it is clearly better than swinging
-      const spells = process.env.NOBOLT || Game.shaped() ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt' && !shocksMe(s, 1));
+      const spells = process.env.NOBOLT || bloodstarBlocked || Game.shaped() ? [] : Game.knownSpells().filter(s => Game.spellAvailable(s) && p.sp >= Game.spellCost(s) && s.kind === 'bolt' && !shocksMe(s, 1));
       // points kept back for the next fight are no use against the last one
       // a Pyromancer reaches for fire first, at the same moments
       const pick = against(adj.m, (p.path === 'pyromancer' && spells.find(s => s.id === 'burning_hands')) || spells[spells.length - 1], spells);

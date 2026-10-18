@@ -50,6 +50,8 @@ test('the trial explains its bargain accessibly and can be declined without spaw
   expect(scan.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   const trial=page.locator('#enc-choices button').filter({hasText:/Face the lamp/});
   await expect(trial).not.toHaveClass(/arming/);await trial.click();
+  const preparation=await new AxeBuilder({page}).include('#ov-encounter').withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+  expect(preparation.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   const cancel=page.locator('#enc-choices button').filter({hasText:/Cancel the trial/});
   await expect(cancel).not.toHaveClass(/arming/);await cancel.click();
   await expect(page.locator('#enc-text')).toContainText('Only one Mythic');

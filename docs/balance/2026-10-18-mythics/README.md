@@ -13,6 +13,8 @@ floors, normal monsters/treasure, traps/locks, fresh storage, ten trials per see
 explicitly chooses the offered trial and equips its earned reward; baseline
 runs use the same observer and the same switch, which finds no trial there.
 Record attempted/won trials and actual equipment use, not just win rates.
+The report's `used` count means the correct class Mythic was worn for at least
+one game update (`mythicTicks > 0`); it does not count individual power triggers.
 
 Acceptance fixed before full-cell outcomes: no errors or timeouts; passive
 fingerprints match; aggregate win-rate movement within 3 points and each class
@@ -50,3 +52,36 @@ at their existing prices. Only then does the guardian wake. No aid is granted
 for free, and declining the trial still follows the old rules. Acceptance
 bars remain unchanged. The observer handles this new paused preview without
 advancing game time; ordinary baseline behaviour cannot enter this branch.
+
+The third preflight, with normal preparation retained, is recorded in
+`tuning-v3-changed.json.gz` and `tuning-v3.md`. Aggregate movement improved to
+−0.42 points on Normal and +0.83 on Hard, with every class within five points.
+The 40-run Normal cells still exceed the spread bar (+7.5 points), so this is
+not release acceptance. Freeze this gameplay revision (`d403e87`) and use the
+predeclared three-set, 1,200-run class/difficulty cells to assess that signal.
+Do not select another tuning revision from these small samples alone.
+
+## Observer equivalence
+
+The large baseline started with observer v1. Revision v2 explicitly collects the
+earned Mythic and keeps an equipped Mythic amulet; v3 handles the paused aid
+preview. Neither branch can act on the old game. This was checked empirically:
+all **480 baseline state fingerprints match across v1, v2 and v3** on matching
+two-set Normal/Hard inputs for all classes. The source and complete records are
+retained as `observer-v{1,2,3}.js.gz` and `observer-v{1,2,3}-baseline.json.gz`.
+The standard comparison therefore records different observer hashes honestly;
+it does not claim their source bytes were identical. Passive/exploration and
+sentinel pairs use the same final v3 observer on both game revisions.
+
+## Exploration coverage
+
+`EXPLORE=0.8` used 96 runs per variant (two sets, two seeds and two trials for
+each class/difficulty). The changed policy began 86 trials, won 79 and wore a
+reward during 77 runs; every class/difficulty exercised the reward. There were
+no errors or timeouts. Normal gained one win out of 48; Hard lost two out of 48.
+These eight-run class cells are coverage sentinels, not precise rate estimates:
+the generic analyser's rate-bar flag is false for this small pass and is not
+release acceptance. Exact outcomes and resources are in `explore.{md,json}` and
+`explore-{baseline,changed}.json.gz`; the predeclared standard bars apply to the
+three-set 1,200-run class/difficulty cells. Investigate any structural failure
+in these sentinels rather than interpreting one result as a 12.5-point estimate.

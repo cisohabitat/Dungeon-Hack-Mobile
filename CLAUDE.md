@@ -114,7 +114,9 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
 - `js/mythics.js` and `js/mythicdata.js`: six class Mythics and their tradeoffs.
   Only the final Vigil Lamp in custom delves of at least eight floors offers a
   trial, after choosing its normal aid at its normal cost; Daily/Weekly and short delves keep their rules.
-  The trial preview can be cancelled before aid is chosen. It reuses the encounter control/recording path and never changes map placement.
+  The trial preview can be cancelled before aid is chosen. It reuses the encounter
+  control/recording path and never changes map placement. Record both choices,
+  and do not advance the balance bot's clock while the preview is paused.
   `Level.mythicTrial` and one marked ogre persist; death leaves exactly one class
   reward on the floor, including with a full pack. No ordinary loot or XP from
   the guardian. Never deal Mythics through ordinary relic plans, shops, Collector

@@ -261,6 +261,23 @@ wall textures, pixel-art sprites and sound effects are all generated in code. No
 assets or dependencies. Creatures are drawn as 24x24 tone art; the outline, contact shadow and
 overhead light are applied at load time so every sprite reads the same way against a dark wall.
 
+## Mythic class items
+
+The final Vigil Lamp in custom delves of eight floors or more offers an optional
+trial. Preview the bargain, choose the lamp's normal aid at its normal price (or
+none), then defeat its guardian. Cancelling the preview spends nothing. The
+reward belongs to your class and works with either path; only one Mythic can be
+worn. Each has its own picture, spoken lore and a cost to weigh against its power.
+
+| Class | Mythic | Power | Drawback |
+| --- | --- | --- | --- |
+| Fighter | The Last Gate | Blocks 2 from ordinary close blows; stores up to 3 for the next close hit within five seconds | −1 armour class |
+| Cleric | Mercy's Oath | Healing spells mend 25% more | Damaging spells cost 1 extra spell point |
+| Mage | The Bloodstar | Damaging spells deal 20% more | Each costs 2 life, bypassing wards; unavailable at 2 life or less |
+| Thief | Nightglass | Close hits add 2 damage, or 6 from the shadows | −1 armour class |
+| Ranger | Horizon | Arrows add 4 damage | Draw takes 15% longer |
+| Druid | The Elderseed | Bear's base hide gains 4; Entangle's base duration gains one second | Healing spells mend 20% less |
+
 ## Deploy on Vercel
 
 The game is a static site with no build step, so Vercel needs no special configuration beyond

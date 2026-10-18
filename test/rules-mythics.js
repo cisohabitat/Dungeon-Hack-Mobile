@@ -96,5 +96,29 @@ module.exports = async function(h) {
     Game.chooseEncounter(2);
     return p.gold===640&&p.hp===p.maxHp&&L.mythicTrial==='active'&&L.monsters.filter(m=>m.mythicGuard).length===1&&G.metEncounters.filter(id=>id==='vigil').length===1;
   });
+  await test('Mythics: a resumed trial records preview, cancellation, victory and equipment for exact replay', async () => {
+    const { recordingPrint, replayHeadless, replayStorage } = await import('../js/recording.js');
+    const { Game: G, Dungeon } = await h.loadGame();
+    G.recordRuns(true);G.newGame({name:'Recorded trial',cls:'fighter',stats:{...h.evenStats},seed:'mythic-replay',opts:{...h.OPTS,levels:8}});
+    // Resume a valid final-floor save, then use only recorded public actions.
+    const state=G.state(),L=G.level(),p=G.player(),[dx,dy]=Dungeon.DIRS[p.dir];
+    state.depth=8;state.levels[8]=L;L.isFinal=true;L.monsters=[];L.traps={};p.hp=p.maxHp=999;
+    L.tiles[(p.y+dy)*L.w+p.x+dx]=Dungeon.T.FLOOR;
+    L.npcs=[{id:'vigil',kind:'encounter',x:p.x+dx,y:p.y+dy}];
+    G.giveItem({t:'shortsword',q:1,e:100});G.equip(p.inv.find(it=>it.e===100));
+    G.save(true);if(!G.load())return 'resume failed';
+    G.input('use');G.chooseEncounter(4);
+    G.chooseEncounter(G.currentEncounter().def.choices.findIndex(ch=>ch.outcome?.effects.some(e=>e.mythicBack)));
+    G.chooseEncounter(4);G.chooseEncounter(G.encounterOptions().length-1);G.closeEncounter();
+    for(let t=0;t<5000&&G.level().mythicTrial!=='won';t+=50){G.input('attack');G.update(t,50);}
+    if(G.level().mythicTrial!=='won')return 'trial not won';
+    G.input('forward');G.input('take');
+    const reward=G.player().inv.find(it=>it.u==='last_gate');if(!reward||!G.equip(reward))return 'reward not worn';
+    G.hurtPlayer(99999,'The trial replay check');
+    const data=G.recording(),print=recordingPrint(G.state());if(!data)return G.recordingReason();
+    const ctx=await h.loadGame(),storage=globalThis.localStorage;globalThis.localStorage=replayStorage(data);
+    try{replayHeadless(ctx.Game,data);return recordingPrint(ctx.Game.state())===print||'trial replay diverged';}
+    finally{globalThis.localStorage=storage;}
+  });
 
 };
