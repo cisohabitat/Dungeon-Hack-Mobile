@@ -370,3 +370,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   and a bear's paw; bounded effects and still, fading marks in Calm view.
 - [x] Shared frame radii, subtle panel edges and selection marks across character
   creation, bestiary and inventory; mastery and treasure colours retained.
+
+## Named treasure artwork (18 October 2026)
+
+- [x] Individual lore-led pictures for every legendary piece and named relic,
+  shared by floor treasure, inventory inspection and discovered codex entries.
+- [x] Matching weapon and focus pictures in the hands, and recognisable bow and
+  shield backs with existing grip positions and string anchors preserved.

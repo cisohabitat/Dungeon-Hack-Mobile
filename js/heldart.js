@@ -10,6 +10,7 @@
 // their pack pictures show the side the enemy sees.
 
 import { ITEM_ART, HELD_ART, GRIPS, ICON_AXIS } from './itemart.js';
+import { NAMED_ART, namedId, namedBase } from './namedart.js';
 import { ball, limb, sheet, hair, specks } from './creatures.js';
 
 /** glove, cuff and sleeve, by class */
@@ -137,8 +138,10 @@ const BOWS = {
   shortbow: { seg: 4.8, r: 1.35, taper: 0.17, flare: -0.8, wood: '#9a6a3a', nock: '#6a4424', wrap: 3.4, nockLen: 0 },
   longbow: { seg: 6.3, r: 1.3, taper: 0.13, flare: 0, wood: '#5a3218', nock: '#e2d4b0', wrap: 4.4, nockLen: 2.6, sap: '#b88a54' },
 };
-function bowParts(cls, base) {
-  const B = BOWS[base];
+function bowParts(cls, base, id = null) {
+  const name = namedId(id);
+  const detail = { heartseeker: { wood: '#87503b', nock: '#eee0bd' }, galewind: { wood: '#ac895c', nock: '#e5e6cd' }, farstrider: { wood: '#302c38', nock: '#bdc6cf', sap: '#8c969e' } }[name];
+  const B = { ...BOWS[base], ...detail };
   const a = deg(-94);
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
   const P = (u, v = 0) => [C + ux * u + vx * v, C + uy * u + vy * v];
@@ -169,6 +172,8 @@ function bowParts(cls, base) {
       ...nocks,
       limb(...P(-B.wrap), ...P(B.wrap), 1.6, 1.6, '#5a3a22'),
       ...bands.map(u => hair(...P(u, -1.6), ...P(u, 1.6), '#3a2414')),
+      ...(name ? [-1, 1].map(s => limb(...P(s * 11, -1), ...P(s * 14, -1), 1.7, 1.7, B.nock)) : []),
+      ...(name === 'heartseeker' ? [ball(...P(7), 1.8, 1.8, '#b54a51')] : []),
       ...h.front,
     ],
   };
@@ -179,7 +184,8 @@ function bowParts(cls, base) {
  * the straps, and the left forearm through them with the hand on the grip.
  * @param {string} base  buckler, shield or towershield
  */
-function shieldParts(base, cls) {
+function shieldParts(base, cls, id = null) {
+  const name = namedId(id);
   const arm = deg(146), wx = Math.cos(arm), wy = Math.sin(arm);
   const rim = base === 'buckler' ? [ball(C, C, 10.6, 10.6, RIM)]
     : base === 'towershield' ? [sheet([[C - 11, C - 9], [C - 8, C - 13.5], [C + 8, C - 13.5], [C + 11, C - 9], [C + 11, C + 17], [C - 11, C + 17]], RIM)]
@@ -198,6 +204,9 @@ function shieldParts(base, cls) {
     grid: GRID, anchor: [C, C],
     parts: [
       ...rim, ...face, ...grain, rivets,
+      ...(name === 'bastion' ? [-8, 7].map(y => limb(C - 10, C + y, C + 10, C + y, 1.1, 1.1, '#b69b69')) : []),
+      ...(name === 'kests_bulwark' ? [sheet([[C - 8, C - 8], [C - 3, C - 8], [C - 3, C + 6], [C - 8, C + 9]], '#8b3c36')] : []),
+      ...(name === 'sisters_buckler' ? [ball(C, C, 9.3, 9.3, '#bac9c7'), ...grain] : []),
       ...(base === 'buckler' ? [ball(C, C - 0.5, 3.2, 3.2, '#5a5e68')] : []),   // the boss, from inside
       limb(C, C - 4.6, C, C + 4.6, 1.1, 1.1, LEATHER),                          // the grip the hand closes on
       ...h.behind,
@@ -218,14 +227,14 @@ function shieldParts(base, cls) {
  */
 function heldParts(id, pose, cls, two = false) {
   const P = POSES[pose];
-  const base = id && id.replace(/^(relic|legend)_/, '');
-  if (base && BOWS[base]) return bowParts(cls, base);
+  const base = id && namedBase(id), name = namedId(id);
+  if (base && BOWS[base]) return bowParts(cls, base, id);
   const behind = [], front = [];
   let weapon = [];
   // a weapon too long for the usual room gets more of it
   const grid = (base && GRIPS[base] && GRIPS[base].grid) || GRID, c = grid / 2;
   if (base) {
-    const g = GRIPS[base], art = HELD_ART[base] || ITEM_ART[base];
+    const g = GRIPS[base], art = (name && NAMED_ART[name]) || HELD_ART[base] || ITEM_ART[base];
     if (!g || !art) return null;
     const d = g.fixed ? 0 : P.a - ICON_AXIS, cos = Math.cos(d), sin = Math.sin(d);
     const [gx, gy] = g.at;
@@ -244,17 +253,17 @@ function heldParts(id, pose, cls, two = false) {
 
 /** The back of a shield, by its sprite. */
 function carriedParts(id, cls) {
-  const base = id.replace(/^(relic|legend)_/, '');
+  const base = namedBase(id), name = namedId(id);
   // the quill shield is held up as its own picture is drawn, round and bristling
-  if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls);
+  if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls, name);
   if (!['buckler', 'shield', 'towershield'].includes(base)) return null;
-  return shieldParts(base, cls);
+  return shieldParts(base, cls, id);
 }
 
 /** A caster's focus, held up in the left hand: the item's own picture, resting on the palm. */
 const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
-function focusParts(base, cls) {
-  const art = ITEM_ART[base];
+function focusParts(base, cls, name = null) {
+  const art = (name && NAMED_ART[name]) || ITEM_ART[base];
   if (!art) return null;
   const size = 0.62, lift = 5;
   const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));

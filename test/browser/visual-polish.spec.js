@@ -189,3 +189,74 @@ for (const [cls, entries] of [
   if (process.env.POLISH_REVIEW_DIR) require('fs').writeFileSync(`${process.env.POLISH_REVIEW_DIR}/${cls.toLowerCase()}-magic.png`, Buffer.from(result.sheet, 'base64'));
   expect(errors).toEqual([]);
 });
+
+test('every named treasure has distinct cached art and matching held shapes @mobile', async ({ page }, testInfo) => {
+  const errors = watchForErrors(page);
+  await scene(page);
+  const result = await page.evaluate(async () => {
+    const { RELICS } = await import('/js/relics.js');
+    const { namedSprite, namedBase } = await import('/js/namedart.js');
+    const { heldParts, carriedParts, POSES } = await import('/js/heldart.js');
+    const { GRIPS } = await import('/js/itemart.js');
+    const { Dice, Odds } = await import('/js/rng.js');
+    const snapshot = JSON.stringify(Game.state()), dice = [Dice.s, Odds.s];
+    const sheet = document.createElement('canvas'); sheet.width = 700; sheet.height = Math.ceil(Object.keys(RELICS).length / 7) * 180;
+    const cx = sheet.getContext('2d'); cx.fillStyle = '#19161f'; cx.fillRect(0, 0, sheet.width, sheet.height); cx.font = '10px sans-serif';
+    const out = Object.entries(RELICS).map(([id, r], i) => {
+      const key = namedSprite(id), base = ITEMS[r.t].sprite, s = Assets.sprites[key], b = Assets.sprites[base];
+      const x = i % 7 * 100, y = Math.floor(i / 7) * 180;
+      cx.drawImage(s.levels[0], x + 18, y + 2, 64, 64); cx.fillStyle = '#ede2c9'; cx.fillText(id, x + 2, y + 85, 96);
+      const poses = GRIPS[base] ? Object.keys(POSES).every(p => !!heldParts(key, p, 'fighter', !!ITEMS[r.t].twoHanded)) : true;
+      let held = true;
+      if (GRIPS[base]) held = JSON.stringify(heldParts(key, 'rest', 'fighter')) !== JSON.stringify(heldParts(base, 'rest', 'fighter'));
+      if (['shortbow', 'longbow'].includes(base)) {
+        const a = heldParts(key, 'rest', 'ranger'), plain = heldParts(base, 'rest', 'ranger');
+        held = JSON.stringify(a.parts) !== JSON.stringify(plain.parts) && JSON.stringify(a.marks) === JSON.stringify(plain.marks);
+      }
+      if (ITEMS[r.t].kind === 'shield') {
+        const a = carriedParts(key, 'mage'), plain = carriedParts(base, 'mage');
+        held = !!a && JSON.stringify(a.parts) !== JSON.stringify(plain.parts) && JSON.stringify(a.anchor) === JSON.stringify(plain.anchor);
+      }
+      const frame = ITEMS[r.t].kind === 'shield' ? Assets.carried(key, 'mage') : (GRIPS[base] || ['shortbow', 'longbow'].includes(base)) ? Assets.held(key, 'rest', 'fighter', !!ITEMS[r.t].twoHanded) : null;
+      if (frame) { const scale = Math.min(80 / frame.img.width, 75 / frame.img.height); cx.drawImage(frame.img, x + 50 - frame.img.width * scale / 2, y + 95, frame.img.width * scale, frame.img.height * scale); }
+      return { id, key, distinct: s.url !== b.url, stable: s === Assets.sprites[Game.spriteFor({ t: r.t, u: id, e: r.e, q: 1 })], base: namedBase(key) === base, poses, held, url: s.url };
+    });
+    return { out, unchanged: snapshot === JSON.stringify(Game.state()) && dice[0] === Dice.s && dice[1] === Odds.s, sheet: sheet.toDataURL().split(',')[1] };
+  });
+  expect(result.unchanged).toBe(true);
+  expect(new Set(result.out.map(r => r.url)).size).toBe(result.out.length);
+  for (const r of result.out) expect(r, r.id).toMatchObject({ distinct: true, stable: true, base: true, poses: true, held: true });
+  await testInfo.attach('named-treasure', { body: Buffer.from(result.sheet, 'base64'), contentType: 'image/png' });
+  if (process.env.POLISH_REVIEW_DIR) require('fs').writeFileSync(process.env.POLISH_REVIEW_DIR + '/named-treasure.png', Buffer.from(result.sheet, 'base64'));
+  expect(errors).toEqual([]);
+});
+
+test('named pictures agree in floor treasure, pack inspection and the discovered codex', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await scene(page);
+  const urls = await page.evaluate(async () => {
+    const { RELICS } = await import('/js/relics.js');
+    const { Progress } = await import('/js/progress.js');
+    const { renderCodex } = await import('/js/hall.js');
+    const ids = ['bastion', 'red_harvest', 'cinderheart', 'rimebound', 'ninth_circle', 'emberwood', 'oakheart', 'heartroot'];
+    const p = Game.player(); p.inv = ids.map(u => ({ t: RELICS[u].t, u, e: RELICS[u].e, q: 1 }));
+    const L = Game.level(); L.items = Object.fromEntries(p.inv.map((it, i) => [`${p.x + i},${p.y}`, [it]]));
+    const rs = Game.renderState(performance.now());
+    const el = document.createElement('div');
+    renderCodex(el); const hidden = !el.querySelector('[data-relic="bastion"] img');
+    for (const id of ids) Progress.noteRelic(id);
+    renderCodex(el);
+    return { hidden, rows: p.inv.map(it => {
+      const s = Assets.sprites[Game.spriteFor(it)];
+      return { url: s.url, floor: rs.sprites.some(p => p.onFloor && p.img === s), codex: el.querySelector(`[data-relic="${it.u}"] img`).getAttribute('src') === s.url };
+    }) };
+  });
+  expect(urls.hidden).toBe(true);
+  await page.click('[data-open="inv"]');
+  for (const [i, row] of urls.rows.entries()) {
+    expect(row.floor).toBe(true); expect(row.codex).toBe(true);
+    await page.locator('#inv-grid button').nth(i).click();
+    await expect(page.locator('#item-detail .item-showcase img')).toHaveAttribute('src', row.url);
+  }
+  expect(errors).toEqual([]);
+});

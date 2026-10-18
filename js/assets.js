@@ -2,6 +2,7 @@ import { Rng } from './rng.js';
 import { SPRITES, THEMES, KEY_COLORS, ELITES, ITEMS, MONSTERS } from './data.js';
 import { SHADE_GEAR, PORTRAITS, CHAMPIONS, CHAMPION_OF, CREATURES, POSES, PROPS, FLOATING, gridOf, paintParts, up2 } from './creatures.js';
 import { ITEM_ART } from './itemart.js';
+import { NAMED_ART, namedSprite } from './namedart.js';
 import { RELICS } from './relics.js';
 import { DRESSING } from './dressing.js';
 import { REGIONAL_PROPS } from './regionalprops.js';
@@ -1622,6 +1623,9 @@ const Assets = (() => {
     for (const k of new Set(Object.values(RELICS).filter(r => r.legend).map(r => ITEMS[r.t].sprite))) {
       if (ITEM_ART[k]) later('legend_' + k, () => makeSprite({ parts: itemParts(k), outline: LEGEND_EDGE, fine: true, grim: 'soft', grid: 64 }));
     }
+    for (const [id, draw] of Object.entries(NAMED_ART)) later(namedSprite(id), () => makeSprite({
+      parts: draw().map(p => ({ ...up2(p), smooth: 1 })), outline: RELICS[id].legend ? LEGEND_EDGE : '#e8b84a', fine: true, grim: 'soft', grid: 64,
+    }));
     // props stand in the world too, painted as finely
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)

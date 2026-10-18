@@ -10,6 +10,27 @@ const T = Dungeon.T;
 let failures = 0;
 function check(cond, msg) { if (!cond) { failures++; console.error('FAIL:', msg); } }
 
+// Named artwork must cover every piece, preserve its base type, and be distinct
+// in pixels as well as in parts. Rendering must not mutate its source tables.
+{
+  const { NAMED_ART, namedSprite, namedBase } = await import('../js/namedart.js');
+  check(namedSprite('__proto__') === null && namedSprite('constructor') === null, 'inherited names must not become treasure art');
+  const before = JSON.stringify({ ITEMS, RELICS });
+  const hashes = new Set();
+  for (const [id, relic] of Object.entries(RELICS)) {
+    check(typeof NAMED_ART[id] === 'function', `missing named art: ${id}`);
+    if (!NAMED_ART[id]) continue;
+    const parts = NAMED_ART[id](), again = NAMED_ART[id]();
+    check(JSON.stringify(parts) === JSON.stringify(again), `unstable named art: ${id}`);
+    check(namedBase(namedSprite(id)) === ITEMS[relic.t].sprite, `lost base type: ${id}`);
+    const pixels = paintParts(parts).color.join('|');
+    check(!hashes.has(pixels), `duplicate named picture: ${id}`); hashes.add(pixels);
+    check(pixels !== paintParts(ITEM_ART[ITEMS[relic.t].sprite]()).color.join('|'), `unchanged base art: ${id}`);
+  }
+  check(before === JSON.stringify({ ITEMS, RELICS }), 'art mutated item rules');
+  console.log(`${hashes.size} distinct named treasure pictures`);
+}
+
 // sprites are rectangular, square and fully described by their palette
 for (const k in SPRITES) {
   const s = SPRITES[k];

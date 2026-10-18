@@ -1,3 +1,4 @@
+import { namedSprite } from './namedart.js';
 // Items: what each thing in the pack is called and worth, what it does when
 // used, worn or taken off, and how the pack is kept. What it borrows from the
 // game comes through K, read live.
@@ -100,7 +101,8 @@ export function makeItems(K) {
   }
   function spriteFor(it) {
     if (it.t === 'key') return 'key_' + it.color;
-    if (relicOf(it) && relicOf(it).legend && Assets.sprites['legend_' + ITEMS[it.t].sprite]) return 'legend_' + ITEMS[it.t].sprite;
+    const named = relicOf(it) && namedSprite(it.u);
+    if (named && Assets.sprites[named]) return named;
     if (it.u && Assets.sprites['relic_' + ITEMS[it.t].sprite]) return 'relic_' + ITEMS[it.t].sprite;
     // a potion keeps its bottle once it is known: the same draught, now named
     // (and a ring its stone)

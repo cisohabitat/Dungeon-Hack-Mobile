@@ -1,3 +1,4 @@
+import { namedSprite } from './namedart.js';
 import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS, MASTERY } from './data.js';
 import { Assets } from './assets.js';
 import { bossPortrait } from './bossart.js';
@@ -110,7 +111,7 @@ function renderCodex(el) {
     const where = r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : r.beyond ? ' · found only in a sixteen-floor delve, beyond the Collector\'s count'
       : r.legend ? ` · legendary: a ${escapeHtml(PATH_NAME[r.legend] || r.legend)}'s, dropped by a champion` : '';
     if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' || /[^s]s$/i.test(b.name) ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
-    const art = Assets.sprites[(r.legend ? 'legend_' : 'relic_') + b.sprite] || Assets.sprites[b.sprite];
+    const art = Assets.sprites[namedSprite(id)] || Assets.sprites[b.sprite];
     return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="${r.legend ? 'g-legend' : 'relic'}">${escapeHtml(upFirst(r.name))}</h3>`
       + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)} +${r.e}${where}</p>`
       + `<ul class="relic-powers">${jewel ? `<li>${escapeHtml(b.desc)}</li>` : ''}${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`

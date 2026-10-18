@@ -163,7 +163,7 @@ test.describe('the endgame', () => {
     expect(scales[1] / scales[0]).toBeGreaterThan(1.3);
     // a champion's own jewel shows in the pack as itself, edged in gold, not as the seed's plain ring or amulet
     expect(await page.evaluate(() => [Game.spriteFor({ t: 'ring_forge', q: 1, e: 1, u: 'thane_ring' }), Game.spriteFor({ t: 'amulet_spider', q: 1, e: 1, u: 'spider_pendant' })]
-      .map(k => k + ':' + !!Assets.sprites[k]))).toEqual(['relic_ring_forge:true', 'relic_amulet_spider:true']);
+      .map(k => k + ':' + !!Assets.sprites[k]))).toEqual(['relic_thane_ring:true', 'relic_spider_pendant:true']);
     expect(errors).toEqual([]);
   });
 

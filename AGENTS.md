@@ -113,6 +113,13 @@ modules, no build step, no framework. `main` deploys to Vercel as it is.
   Treasure inspection reads `Game.grade`, never hidden quality. Clip glints to
   visible wall columns. `visual-polish.spec.js` covers poses, scenery invariants,
   hidden grades, reduced motion and actual spell cost/timing on both phone sizes.
+- `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
+  floor sprites, pack inspection, discovered codex and held weapons/foci.
+  Resolve identity with `namedSprite` and base weapon type with `namedBase`;
+  never strip a named id and assume it is an ordinary sprite. Bow and shield
+  backs keep their real grips and bow string anchors, with matching materials
+  and construction marks. Preserve legacy base-rarity sprite aliases for callers,
+  and leave unknown codex entries hidden. Art must not mutate item data or dice.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
