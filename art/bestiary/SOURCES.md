@@ -17,6 +17,15 @@ Tile boundaries are rounded to the nearest pixel, then each tile is exported
 at 512 × 512 using Lanczos resampling and WebP quality 85. There are no colour
 or composition changes. Run `python3 art/bestiary/export.py` from the repo root
 to reproduce the exports with ImageMagick's `identify` and `convert` installed.
+Use `--check` to reproduce them in a temporary directory and reject stale exports.
+
+On 2026-10-18, a reference-based `image_gen.imagegen` edit repaired the Dark Elf
+Warrior's disconnected viewer-right blade. The corrected original is preserved
+in `overrides/drow_warrior.png`; `generation.json` records its reference and brief.
+The exporter applies this individual override after cropping the original sheets,
+so regenerating the set cannot restore the faulty tile. The original sheet stays
+unaltered as provenance. Both swords in the replacement visibly meet a crossguard
+and a hilt held by a gloved hand.
 
 Only `img/bestiary/*.webp` ships to players; `art/` is excluded from deployment.
 The three keeper portraits still come from `img/bosses/` (see

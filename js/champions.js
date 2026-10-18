@@ -2,6 +2,7 @@
 // where age or office would change it, with what the stories give it laid
 // behind and over. Each moves through its kind's poses, flinch and all, and is
 // painted into the slot a colour wash used to fill (see creaturePieces in assets.js).
+import { PORTRAITS } from './heroart.js';
 import { CREATURES, STEPS, eyesShut, flinch, followThrough, stride } from './creatures.js';
 import { ball, both64, dots, hair, limb, line, oval, recolour, sheet, specks, turn } from './parts.js';
 
@@ -9,7 +10,7 @@ const CHAMPION_OF = { vaelith: 'drow_mage', durgrim: 'grey_dwarf', hissra: 'liza
 /** @param {string} kind @param {(pose: string) => {back?: object[], front?: object[], map?: Record<string, string>}} extra */
 const champion = (kind, extra) => {
   const draw = pose => { const e = extra(pose); return [...(e.back || []), ...recolour(CREATURES[kind](pose), e.map || {}), ...(e.front || [])]; };
-  return (pose = 'idle') => (pose === 'strike' ? followThrough(draw('idle'), kind) : pose === 'recover' ? flinch(draw('idle'), kind, 0.3) : pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('idle') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
+  return (pose = 'idle') => (pose === 'strike' ? followThrough(draw('idle'), kind) : pose === 'recover' ? flinch(draw('idle'), kind, 0.3) : pose === 'hurt' ? flinch(draw('idle'), kind) : pose === 'blink' ? eyesShut(draw('idle')) || draw('blink') : STEPS.includes(pose) ? stride(draw('idle'), kind, pose) : draw(pose));
 };
 const CHAMPIONS = {
   // Vaelith, High Priestess of the dark elves: robed in black and wine-red, a
@@ -38,7 +39,7 @@ const CHAMPIONS = {
   // more copper, a crown of dark iron set with copper studs, and a short cloak
   // of forge-scorched red behind his shoulders.
   durgrim: champion('grey_dwarf', () => ({
-    map: { '#6a6c70': '#b8b8b4', '#46484c': '#8a8a86', '#8e9094': '#dcdcd6' },
+    map: { '#382b24': '#b8b8b4', '#211b18': '#8a8a86', '#5d4836': '#dcdcd6' },
     back: [sheet([[14, 24], [50, 24], [54, 50], [46, 54], [32, 50], [18, 54], [10, 50]], '#6a2a1a', { curve: 1 }), hair(12, 48, 52, 48, '#3a1610')],
     front: [
       sheet([[24.6, 6.6], [24, 1], [27.5, 3.6], [30, -0.4], [32, 3], [34, -0.4], [36.5, 3.6], [40, 1], [39.4, 6.6]], '#3a3c40', { curve: 0.3 }),
@@ -129,10 +130,11 @@ const CHAMPIONS = {
   })),
   // Orla, the Hollow Abbess: her habit gone grey, a white wimple about the dark
   // where her face was, her beads still in her hands, a cracked halo behind her
-  orla: champion('wraith', () => ({
+  orla: champion('wraith', pose => ({
     map: { '#5b4483': '#8a8698', '#3a2a58': '#5a5668', '#22183a': '#2e2c38', '#7a64a4': '#b4b0c0', '#8a7ab4': '#a8a4b8' },
-    back: oval(32, 6, 11, 2.6, 18).filter((_, i) => i !== 4 && i !== 5).map(([x, y]) => ball(x, y, 0.8, 0.7, '#f0e0a0', { glows: true })),
+    back: oval(32, 6, 11, 2.6, 18).filter((_, i) => i !== 4 && i !== 5).map(([x, y]) => ball(x, y, 0.8, 0.7, pose === 'blink' ? '#b8ac7a' : '#f0e0a0', { glows: true })),
     front: [
+      sheet([[25.5, 21], [26, 11], [29, 7], [35, 7], [38, 11], [38.5, 21]], '#100e16'),
       sheet([[23.4, 22], [24.4, 10.6], [28.4, 5.6], [29.2, 6.6], [25.8, 11.2], [24.8, 22]], '#e8e4dc'),
       sheet([[40.6, 22], [39.6, 10.6], [35.6, 5.6], [34.8, 6.6], [38.2, 11.2], [39.2, 22]], '#e8e4dc'),
       sheet([[25, 20.6], [39, 20.6], [37.4, 26.6], [32, 28.4], [26.6, 26.6]], '#e8e4dc', { curve: 0.8 }), hair(27, 22, 37, 22, '#b8b4ac'),
@@ -178,9 +180,9 @@ const CHAMPIONS = {
 };
 
 // A fallen hero's shade rises in the gear of their trade: the dead knight's
-// shape, and over it a thief's hood and cloak, a mage's hat, robe and staff, a
-// cleric's mitre and tabard, a ranger's hood and bow, a druid's antlers and
-// staff, all as cold and pale as the rest of it. (A fighter's is the knight.)
+// shape, and over it the same hood, robe, tabard, bow, leaf mantle and staff
+// that identify the painted classes, all cold and pale. A fighter's is the
+// knight; no invented masks, mitres, pointed hats or antlers return here.
 /** What hangs from the shield arm, turned with it as the blade swings (see the shade's windup). */
 const shieldSide = (pose, parts) => (pose === 'windup' ? turn(parts, 20.5, 25, 25) : parts);
 const SHADE_GEAR = {
@@ -188,20 +190,17 @@ const SHADE_GEAR = {
     ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 52], [5, 48], [7, 34]], '#3a4a62', { curve: 0.8 }), hair(16, 30, 9, 46, '#5a6a84'), hair(20, 30, 15, 49, '#2e3a50')]),
     sheet([[23.4, 22], [24, 11], [28, 6.4], [36, 6.4], [40, 11], [40.6, 22], [38, 17], [32, 13.6], [26, 17]], '#4a5c78', { curve: 0.9 }),
     hair(24.5, 12, 28.5, 7, '#7a8ca8'), hair(39.5, 12, 35.5, 7, '#2e3a50'),
-    sheet([[25.6, 17.4], [38.4, 17.4], [37.6, 21], [32, 22.6], [26.4, 21]], '#3a4a62', { curve: 0.6 }), hair(27, 19.5, 37, 19.5, '#5a6a84'),
   ] })),
   mage: champion('shade', pose => ({ front: [
     sheet([[19, 23], [45, 23], [48, 44], [44, 58], [38, 52], [32, 60], [26, 52], [20, 58], [16, 44]], '#4e5a8a', { curve: 1 }),
     ...[[24, 28, 21, 54], [32, 30, 32, 58], [40, 28, 43, 54]].map(([a, b, c, d]) => hair(a, b, c, d, '#3a4470')), hair(26, 23.5, 38, 23.5, '#9aa8d0'),
     ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 50], [7, 46], [8, 34]], '#4e5a8a', { curve: 0.8 }), limb(9, 58, 11, 9, 0.9, 0.8, '#8a9ab0'),
       ball(11, 7, 2.4, 2.6, '#b4e0ff', { glows: true }), specks([[8, 4], [14, 5], [12, 2]], '#e0f4ff', { glows: true })]),
-    ball(32, 12.4, 11, 1.8, '#4e5a8a'), sheet([[23, 12], [41, 12], [36, 6.4], [31, 0.6], [28.6, 6.4]], '#4e5a8a', { curve: 0.6 }), hair(25, 11.75, 39, 11.75, '#9aa8d0'),
   ] })),
   cleric: champion('shade', () => ({ front: [
     sheet([[25, 23], [39, 23], [40, 41], [32, 43], [24, 41]], '#c8d4e8', { curve: 0.8 }), hair(25.5, 24, 25.5, 40, '#e8e0a0'), hair(38.5, 24, 38.5, 40, '#e8e0a0'),
     ball(32, 30, 2.6, 2.6, '#f0e8b0', { glows: true }),
     ...Array.from({ length: 8 }, (_, i) => i / 8 * Math.PI * 2).map(t => limb(32 + Math.cos(t) * 2.8, 30 + Math.sin(t) * 2.8, 32 + Math.cos(t) * 4.4, 30 + Math.sin(t) * 4.4, 0.45, 0.25, '#f4ecc0')),
-    sheet([[25.6, 10], [28, 4], [32, 1.4], [36, 4], [38.4, 10], [38.4, 12.4], [25.6, 12.4]], '#c8d4e8', { curve: 0.4 }), hair(26, 11.5, 38, 11.5, '#e8e0a0'), line(32, 2.4, 32, 11, '#e8e0a0'),
   ] })),
   ranger: champion('shade', pose => ({ front: [
     limb(44, 25, 50, 11, 1.8, 1.6, '#5a6e6e'), ...[[48.6, 9.4], [50.6, 8.6], [52.4, 10]].map(([x, y]) => sheet([[x - 0.9, y + 3], [x, y], [x + 0.9, y + 3]], '#d8e8e8')),
@@ -215,136 +214,8 @@ const SHADE_GEAR = {
     ...[[18, 26], [24, 28], [30, 29], [36, 29], [42, 28], [47, 26]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.6 : 0.6), y + 3, '#8ab09a')),
     ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 50], [7, 46], [8, 34]], '#5a7a6a', { curve: 0.8 }), limb(9, 58, 10, 9, 1, 0.9, '#7a8a80'),
       ...[[7, 10], [13, 8], [9, 6.5]].map(([x, y]) => sheet([[x - 1.6, y], [x, y - 2.2], [x + 1.6, y], [x, y + 1.2]], '#8ac0a0'))]),
-    ...both64(limb(27, 9, 22, 2, 0.9, 0.5, '#d0dce0')), ...both64(limb(24.4, 5.4, 20.6, 5, 0.6, 0.3, '#d0dce0')), ...both64(limb(23, 3.4, 24, 0.6, 0.5, 0.3, '#d0dce0')),
     hair(25.5, 9.75, 38.5, 9.75, '#6a8a7a'), ...[[27, 9.4], [32, 8.8], [37, 9.4]].map(([x, y]) => sheet([[x - 1.4, y], [x, y - 2], [x + 1.4, y], [x, y + 1.1]], '#8ac0a0')),
   ] })),
-};
-
-// The heroes, one to a class, head and shoulders, for the class picker, the
-// hero sheet, the end of a run and its picture card: drawn as the creatures
-// are, in the same light. Each is anyone at all who might take up that trade.
-/** The face every portrait shares, in its own colours: eyes, brows, nose, mouth, ears. */
-const face = (skin, skinDk, skinLt, eye, brow, lip) => [
-  ...both64(ball(22.8, 27.4, 1.6, 2.6, skin)), ...both64(hair(22.6, 26, 22.8, 29, skinDk)),
-  ball(32, 26, 9, 10.4, skin), ball(32, 32, 6.6, 4.2, skin), ball(30, 22, 4, 2.4, skinLt),
-  ...both64(ball(28, 26.2, 2.4, 1.4, '#f2ece4')), ...both64(ball(28.3, 26.3, 1.2, 1.2, eye)), ...both64(ball(28.3, 26.3, 0.5, 0.5, '#140c0a')),
-  ...both64(specks([[28.75, 25.75]], '#ffffff')), ...both64(hair(25.6, 24.9, 30.4, 24.9, skinDk)),
-  ...both64(limb(25.2, 23, 30.2, 22.6, 0.9, 0.6, brow)),
-  limb(32, 25.4, 32.3, 30, 0.9, 1.3, skinLt), ...both64(dots([[31, 31]], skinDk)), hair(30.5, 31.25, 33.5, 31.25, skinDk),
-  ball(32, 34.4, 2.6, 0.9, lip), hair(29.6, 34.25, 34.4, 34.25, skinDk),
-];
-const PORTRAITS = {
-  // the fighter: a nasal helm over a mail coif, plate at the shoulders, a red surcoat, a hilt over the shoulder
-  fighter: () => {
-    const steel = '#a8b0bc', steelDk = '#6a7280', steelLt = '#e0e8f0', mail = '#7e8692', skin = '#d8a888', skinDk = '#a87858', skinLt = '#ecc4a4';
-    return [
-      limb(47, 62, 52.6, 30, 1.2, 1.2, '#5a3a20'), line(48.6, 33, 56.4, 31.6, '#c9a24a'), ball(53, 28.4, 1.6, 1.6, '#c9a24a'),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], mail, { curve: 1 }),
-      ...[48, 52, 56, 60].map(y => hair(8, y, 56, y, '#5e6672')), specks([[12, 50], [20, 47], [44, 47], [52, 50], [10, 58], [54, 58]], '#c8ced8'),
-      sheet([[21, 45], [43, 45], [45, 64], [19, 64]], '#8a2020', { curve: 0.6 }), sheet([[29, 50], [35, 50], [35, 56], [32, 59], [29, 56]], '#d8a840', { curve: 0.4 }),
-      hair(30, 51, 34, 55, '#8a6018'), hair(21, 45.5, 43, 45.5, '#c84040'),
-      ...both64(ball(13, 49, 8.4, 6, steel)), ...both64(hair(7, 46, 17, 44, steelLt)), ...both64(hair(8, 51, 18, 50, steelDk)),
-      sheet([[21, 22], [43, 22], [44, 42], [32, 45], [20, 42]], mail, { curve: 1 }), ...[36, 39, 42].map(y => hair(21, y, 43, y, '#5e6672')),
-      ...face(skin, skinDk, skinLt, '#5a7a9a', '#5a3a24', '#9a5a4a'),
-      sheet([[22, 24], [22.6, 16], [26, 11], [32, 9.4], [38, 11], [41.4, 16], [42, 24], [39, 21.6], [32, 20.8], [25, 21.6]], steel, { curve: 0.8 }),
-      hair(25, 14, 31, 11, steelLt), line(22, 21.6, 42, 21.6, steelDk), limb(32, 19, 32, 29, 1, 0.9, steel), hair(31.75, 20, 31.75, 27, steelLt),
-      ...both64(sheet([[22, 22], [25, 22], [24.4, 33], [22.4, 31]], steel, { curve: 0.4 })),
-      specks([[24, 18], [40, 18], [32, 15]], steelDk),
-    ];
-  },
-  // the cleric: white and gold vestments, a sun on a chain, close-cropped hair, a mace's head at the shoulder
-  cleric: () => {
-    const white = '#e8e2d2', whiteDk = '#b8b0a0', gold = '#d0a040', goldLt = '#f4d878', skin = '#8a5a3e', skinDk = '#5e3a26', skinLt = '#a8765a';
-    return [
-      limb(50, 64, 52, 36, 1, 1, '#6a4a2a'), ball(52.4, 33, 3.4, 3.2, '#8a909c'), ...[-1, 1].map(s => limb(52.4 + s * 3, 33, 52.4 + s * 4.6, 33, 0.8, 0.4, '#a8b0bc')),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], white, { curve: 1 }),
-      ...[[14, 48, 10, 64], [50, 48, 54, 64], [26, 46, 24, 64], [38, 46, 40, 64]].map(([a, b, c, d]) => hair(a, b, c, d, whiteDk)),
-      sheet([[24, 43], [29, 43], [29, 64], [24, 64]], gold, { curve: 0.3 }), sheet([[35, 43], [40, 43], [40, 64], [35, 64]], gold, { curve: 0.3 }),
-      ...[48, 54, 60].flatMap(y => [hair(24.5, y, 28.5, y + 1.5, '#8a6018'), hair(35.5, y, 39.5, y + 1.5, '#8a6018')]),
-      limb(32, 37, 32, 44, 4.4, 5, skinDk),
-      ...face(skin, skinDk, skinLt, '#3a2414', '#1e140e', '#5a2e24'),
-      sheet([[23, 22], [24, 15], [28, 11.4], [36, 11.4], [40, 15], [41, 22], [38, 17.4], [32, 16], [26, 17.4]], '#1e1612', { curve: 0.8 }),
-      specks([[27, 15], [31, 13], [35, 14], [38, 17]], '#3a2a20'),
-      hair(26, 40, 32, 47, gold), hair(38, 40, 32, 47, gold),
-      ball(32, 49.6, 2.8, 2.8, gold), ball(32, 49.6, 1.4, 1.4, goldLt, { glows: true }),
-      ...Array.from({ length: 8 }, (_, i) => i / 8 * Math.PI * 2).map(t => limb(32 + Math.cos(t) * 3, 49.6 + Math.sin(t) * 3, 32 + Math.cos(t) * 4.6, 49.6 + Math.sin(t) * 4.6, 0.5, 0.3, goldLt)),
-    ];
-  },
-  // the mage: dark hair to the shoulders, a silver circlet with a lit stone, a high-collared robe, a staff crowned in crystal
-  mage: () => {
-    const robe = '#2a3a7a', robeDk = '#1a2450', robeLt = '#4a5aa0', silver = '#c8d0dc', skin = '#c08a68', skinDk = '#8a5a40', skinLt = '#d8a888', locks = '#2a1a14';
-    return [
-      limb(10, 64, 10, 18, 1.2, 1.2, '#4a3626'), ...[-1, 1].map(s => limb(10 + s * 1.6, 18, 10 + s * 2.4, 12, 0.5, 0.3, '#4a3626')),
-      ball(10, 13, 2.8, 3.4, '#8ad0ff', { glows: true }), ball(9.4, 12, 1.2, 1.4, '#e0f4ff', { glows: true }), specks([[6, 9], [14, 10], [12, 6]], '#c0e8ff', { glows: true }),
-      sheet([[20, 18], [44, 18], [47, 44], [17, 44]], locks, { curve: 1 }),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], robe, { curve: 1 }),
-      ...[[14, 48, 11, 64], [50, 48, 53, 64], [32, 50, 32, 64]].map(([a, b, c, d]) => hair(a, b, c, d, robeDk)),
-      sheet([[22, 40], [42, 40], [40, 48], [32, 51], [24, 48]], robeLt, { curve: 0.8 }), hair(23, 41, 41, 41, silver), hair(25, 47, 32, 50.5, silver), hair(39, 47, 32, 50.5, silver),
-      ball(32, 50.4, 2, 2, '#8ad0ff', { glows: true }),
-      limb(32, 37, 32, 42, 4.2, 4.8, skinDk),
-      ...face(skin, skinDk, skinLt, '#3a6a3a', '#2a1a14', '#8a4a40'),
-      sheet([[22.4, 24], [23, 16], [27, 11], [37, 11], [41, 16], [41.6, 24], [38.6, 17], [32, 15.4], [25.4, 17]], locks, { curve: 0.9 }),
-      limb(23, 22, 21.6, 40, 1.8, 1.2, locks), limb(41, 22, 42.4, 40, 1.8, 1.2, locks), ...[[24, 20, 23, 34], [40, 20, 41, 34]].map(([a, b, c, d]) => hair(a, b, c, d, '#4a3428')),
-      hair(23.5, 19.5, 40.5, 19.5, silver), ball(32, 19.4, 1.3, 1.1, '#8ad0ff', { glows: true }),
-    ];
-  },
-  // the thief: hood up, a cloth over the mouth and nose, sharp eyes, a scar, leather and straps, a knife's hilt
-  thief: () => {
-    const hood = '#2e2a30', hoodDk = '#1a181c', hoodLt = '#48424a', leather = '#4a3424', skin = '#e0b896', skinDk = '#b08868', skinLt = '#f0d0b0';
-    return [
-      limb(13, 62, 10, 40, 1, 1, '#3a2a1a'), line(7.4, 41.6, 12.6, 40.4, '#a8b0bc'), ball(9.6, 38, 1.3, 1.3, '#a8b0bc'),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], leather, { curve: 1 }),
-      limb(14, 46, 50, 64, 1.2, 1.2, '#2e2014'), ...[[23, 50.5], [38, 58]].map(([x, y]) => sheet([[x - 1.6, y - 1.2], [x + 1.6, y - 1.2], [x + 1.6, y + 1.2], [x - 1.6, y + 1.2]], '#c9a24a')),
-      hair(10, 56, 18, 52, '#2e2014'), hair(46, 52, 54, 56, '#2e2014'),
-      sheet([[14, 50], [19, 30], [22, 14], [32, 7], [42, 14], [45, 30], [50, 50], [40, 46], [32, 48], [24, 46]], hood, { curve: 1 }),
-      ...face(skin, skinDk, skinLt, '#6a5a2a', '#3a2a1a', '#9a6050'),
-      sheet([[22.8, 28.6], [41.2, 28.6], [40.4, 37], [32, 40], [23.6, 37]], '#3a3438', { curve: 0.8 }), hair(24, 31, 40, 31, '#4e484e'), hair(26, 35, 38, 35, '#4e484e'),
-      hair(37, 22, 39.5, 28.5, '#a8705a'),
-      sheet([[22, 30], [23, 17], [28, 12], [36, 12], [41, 17], [42, 30], [40, 21], [32, 17.6], [24, 21]], hoodLt, { curve: 0.9 }),
-      sheet([[22, 30], [23, 17], [26, 14], [24.4, 22]], hoodDk, { curve: 0.5 }), sheet([[42, 30], [41, 17], [38, 14], [39.6, 22]], hoodDk, { curve: 0.5 }),
-      specks([[30, 10], [36, 12], [18, 40], [46, 40]], hoodDk),
-    ];
-  },
-  // the ranger: a braid, a feather in it, a green cloak's hood thrown back, a quiver of fletched arrows over the shoulder, the bowstring across the chest
-  ranger: () => {
-    const cloak = '#3e5a2e', cloakDk = '#28401c', cloakLt = '#5a7a44', leather = '#6a4a2e', skin = '#b07a58', skinDk = '#7e5038', skinLt = '#c89a78', locks = '#7a3a1e';
-    return [
-      limb(42, 64, 52, 26, 2.6, 2.6, '#5a3a22'), ...(/** @type {[number, number, string][]} */ ([[50, 24, '#f0ece0'], [52.6, 23, '#c84040'], [54.6, 25, '#f0ece0']])).map(([x, y, c]) => sheet([[x - 1, y + 4], [x, y], [x + 1, y + 4]], c)),
-      ...[[49.5, 28], [52, 27], [54, 29]].map(([x, y]) => line(x, y, x - 1, y + 5, '#c8b890')),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], cloak, { curve: 1 }),
-      ...[[12, 50, 9, 64], [52, 50, 55, 64]].map(([a, b, c, d]) => hair(a, b, c, d, cloakDk)),
-      sheet([[22, 45], [42, 45], [42, 64], [22, 64]], leather, { curve: 0.6 }), ...[50, 56].map(y => hair(23, y, 41, y, '#4a321e')),
-      sheet([[15, 46], [22, 38], [42, 38], [49, 46], [42, 44], [32, 46], [22, 44]], cloakLt, { curve: 0.8 }),
-      line(16, 62, 46, 40, '#e8e0c8'),
-      limb(32, 37, 32, 43, 4.2, 4.8, skinDk),
-      ...face(skin, skinDk, skinLt, '#4a6a2a', '#5a2a14', '#8a4a38'),
-      sheet([[22.4, 24], [23, 16], [27, 11], [37, 11], [41, 16], [41.6, 24], [37, 17.4], [32, 15.4], [27, 17.4]], locks, { curve: 0.9 }),
-      ...[0, 1, 2, 3, 4].map(i => ball(41.6 + i * 0.6, 26 + i * 3.4, 1.6, 1.8, i % 2 ? '#8a4422' : locks)), ball(44.2, 42.4, 1, 1, '#c9a24a'),
-      sheet([[40.4, 16], [44, 6.4], [42.4, 15.4]], '#d8d0b0'), hair(41.5, 15, 43.5, 8, '#8a7a5a'),
-      hair(26, 13.5, 31, 12, '#a85a30'),
-    ];
-  },
-  // the druid: wild hair under a circlet of antler and leaf, woad on the cheek, a fur mantle, a staff in leaf
-  druid: () => {
-    const robe = '#4e5a34', robeDk = '#323a20', fur = '#6a5a44', furLt = '#8a7a60', antler = '#d8c8a8', leaf = '#5a9a3a', skin = '#9a6a4a', skinDk = '#6a4430', skinLt = '#b4866a', locks = '#4a3a28';
-    return [
-      limb(53, 64, 54, 16, 1.4, 1.4, '#5a4026'), ...[[54, 18, 58, 13], [54, 22, 50, 17]].map(([a, b, c, d]) => limb(a, b, c, d, 0.7, 0.4, '#5a4026')),
-      ...[[58.6, 12], [49.4, 16], [55, 14.6], [52, 20]].map(([x, y]) => sheet([[x - 1.6, y], [x, y - 2.4], [x + 1.6, y], [x, y + 1.4]], leaf)),
-      sheet([[18, 16], [24, 8], [32, 6], [40, 8], [46, 16], [48, 34], [45, 44], [19, 44], [16, 34]], locks, { curve: 1 }),
-      sheet([[4, 64], [7, 52], [16, 45], [26, 42], [38, 42], [48, 45], [57, 52], [60, 64]], robe, { curve: 1 }),
-      ...[[14, 52, 10, 64], [50, 52, 54, 64], [32, 52, 32, 64]].map(([a, b, c, d]) => hair(a, b, c, d, robeDk)),
-      sheet([[6, 56], [9, 47], [18, 42], [32, 44], [46, 42], [55, 47], [58, 56], [48, 52], [40, 54], [32, 51], [24, 54], [16, 52]], fur, { curve: 1 }),
-      ...[[10, 50], [16, 46], [22, 47], [28, 46], [36, 46], [42, 47], [48, 46], [54, 50]].map(([x, y]) => hair(x, y, x + (x < 32 ? -1 : 1), y + 4, furLt)),
-      limb(32, 37, 32, 43, 4.2, 4.8, skinDk),
-      ...face(skin, skinDk, skinLt, '#7a6a2a', '#3a2a18', '#7a4434'),
-      hair(26.5, 28.5, 25, 31.5, '#3e8a6a'), hair(27.5, 29, 26.5, 33, '#3e8a6a'), hair(37.5, 28.5, 39, 31.5, '#3e8a6a'),
-      sheet([[22.4, 23], [23, 16], [27, 11.4], [37, 11.4], [41, 16], [41.6, 23], [38, 17.4], [32, 15], [26, 17.4]], locks, { curve: 0.9 }),
-      ...[[20, 30, 19, 40], [44, 30, 45, 40], [22, 24, 20, 34], [42, 24, 44, 34]].map(([a, b, c, d]) => hair(a, b, c, d, '#6a5238')),
-      hair(23.5, 17.5, 40.5, 17.5, '#6a4a2a'),
-      ...both64(limb(25, 15, 20, 6, 1, 0.6, antler)), ...both64(limb(22, 10, 17, 8.6, 0.7, 0.3, antler)), ...both64(limb(20.6, 7.6, 21.6, 2.6, 0.6, 0.3, antler)),
-      ...[[27, 16], [32, 15.4], [37, 16], [29.5, 15], [34.5, 15]].map(([x, y], i) => sheet([[x - 1.6, y], [x, y - 2.2], [x + 1.6, y], [x, y + 1.2]], i % 2 ? '#7ab84a' : leaf)),
-    ];
-  },
 };
 
 export { CHAMPIONS, CHAMPION_OF, PORTRAITS, SHADE_GEAR };

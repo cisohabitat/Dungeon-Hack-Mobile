@@ -91,5 +91,15 @@
     "quality": 85,
     "resampling": "Lanczos",
     "crop": "Equal tiles, read left to right then top to bottom; boundaries rounded to the nearest pixel."
+  },
+  "overrides": {
+    "drow_warrior": {
+      "source": "overrides/drow_warrior.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/drow_warrior.webp (original sheet-2 export)",
+      "reason": "The viewer-right curved blade floated beside the forearm, disconnected from the fist.",
+      "promptSummary": "Edit the existing Dark Elf Warrior portrait to preserve identity, face, white hair, black armour, amber and blue lighting, and square composition. Replace the floating viewer-right blade with one continuous curved steel sword emerging directly from a crossguard and wrapped hilt visibly held in the gloved hand. Keep the viewer-left sword connected and intact. Exactly two hands and two swords, one per hand, no floating fragments or extra limbs. No text or border."
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { wyrmHead } from './creatureidentity.js';
 // The creatures that came later: the traders, the companions, the peoples below
 // (dark elves, dwarves, lizardfolk) and the deep beasts, drawn from the same parts
 // as the rest (see creatures.js, which keeps them all in one list).
@@ -789,7 +790,7 @@ const FOLK = {
   // to slats of itself and only the eyes stay whole; about to bite, its
   // hackles stand and its head drops, jaws open.
   hound: (pose = 'idle') => {
-    const coat = '#767a86', dark = '#4c505c', pale = '#94989f', muzzle = '#8c909a', nose = '#16161e', sinew = '#5e626e', socket = '#24262e', eyeC = '#c8ecff';
+    const coat = '#35303f', dark = '#211d2d', pale = '#5b5069', muzzle = '#494051', nose = '#16161e', sinew = '#5e626e', socket = '#24262e', eyeC = '#bd8af0';
     const fade = pose === 'special', bite = pose === 'windup';
     const hy = bite ? 30 : 23;    // the head
     const sh = bite ? 2 : 0;      // the shoulders, hunched for the spring
@@ -802,7 +803,7 @@ const FOLK = {
       ...both64(ball(17.6, 61, 2.8, 1.4, dark)), ...both64(hair(19.5, 38, 17.5, 46, sinew)),
       // the barrel of the ribs, and the shoulder blades standing up out of it
       ball(31.5, 33 + sh, 12.8, 8.4, coat), ball(31.5, 40 + sh, 9, 3.2, dark),
-      ...both64(ball(22.4, 28 + sh, 4.6, 4, '#686c78')),
+      ...both64(ball(22.4, 28 + sh, 4.6, 4, '#41384e')),
       ...[29.5, 32.5, 35.5].flatMap(y => both64(hair(21, y + sh, 26.5, y + 1.25 + sh, dark))),
       hair(31.5, 25 + sh, 31.5, 29 + sh, sinew),
     ];
@@ -828,11 +829,11 @@ const FOLK = {
       // a narrow keel of a chest under the head
       ball(31.5, 38.4, 4.8, 6.4, pale), hair(31.5, 34, 31.5, 43, '#a8acb4'),
       // tall ears, pricked, or laid back flat for the bite
-      ...both64(sheet(bite ? [[26, hy - 3], [17, hy - 9], [28.4, hy - 6]] : [[26, hy - 3], [22.6, hy - 17], [29.6, hy - 6]], coat, { tilt: [-0.4, -0.3] })),
-      ...both64(sheet(bite ? [[26, hy - 4], [20, hy - 8], [27.6, hy - 6]] : [[26.4, hy - 4.4], [24, hy - 14], [28.6, hy - 6.4]], '#3a2e3e', { tilt: [-0.2, -0.2] })),
+      ...both64(sheet(bite ? [[26, hy - 3], [17, hy - 9], [28.4, hy - 6]] : [[26, hy - 3], [22.6, hy - 11], [29.6, hy - 6]], coat, { tilt: [-0.4, -0.3] })),
+      ...both64(sheet(bite ? [[26, hy - 4], [20, hy - 8], [27.6, hy - 6]] : [[26.4, hy - 4.4], [24, hy - 9], [28.6, hy - 6.4]], '#3a2e3e', { tilt: [-0.2, -0.2] })),
       ...both64(hair(bite ? 22 : 24.5, bite ? hy - 6.5 : hy - 11, bite ? 25 : 26, bite ? hy - 5 : hy - 6, '#9a8a9e')),
       // a wedge of a head: broad at the skull, down to a long muzzle
-      ball(31.5, hy, 7.6, 6, coat), ...both64(ball(26.8, hy + 3.6, 3.4, 3, coat)), ball(31.5, hy - 3.6, 4.4, 1.8, '#848894'),
+      ball(31.5, hy, 7.6, 6, coat), ...both64(ball(26.8, hy + 3.6, 3.4, 3, coat)), ball(31.5, hy - 3.6, 4.4, 1.8, '#51465e'),
       // a heavy brow over deep sockets
       ...both64(ball(27.8, hy - 0.8, 3, 2.2, socket)), ...both64(limb(24, hy - 3.4, 29.6, hy - 2, 1.2, 0.8, dark)),
     );
@@ -877,14 +878,12 @@ const FOLK = {
     return gone;
   },
 
-  // A squat, heavy beast like a boar, under a mantle of long quills banded
-  // dark and pale. Coarse bristled hide on a deep chest, small mean eyes sunk
-  // under the brow, a snout like a stopper, tusks, legs hardly longer than
-  // hooves. Roused, the quills stand straight out all round it in a bristling
-  // crown; about to gore, its head goes down and the tusks come up and forward.
+  // A heavy bear-like beast under a mantle of long banded quills. Rounded
+  // ears, a brown muzzle and broad clawed paws match its painted portrait.
+  // Roused, the quills stand; about to strike, it lowers its head.
   quillback: (pose = 'idle') => {
-    const hide = '#5e4a3a', hideLt = '#76604c', dark = '#3a2c24', quill = '#2c2630', quill2 = '#3e3440', mantle = '#2e2830', tip = '#e2d8ba', band = '#8a7e6a',
-      snout = '#9a7466', tusk = '#f0e8d0', hoof = '#221a18';
+    const hide = '#5e4a3a', hideLt = '#76604c', dark = '#3a2c24', quill = '#2c2630', quill2 = '#3e3440', mantle = '#4c3525', tip = '#e4d7b8', band = '#8a7e6a',
+      snout = '#6b4c34', hoof = '#221a18';
     const bristle = pose === 'special', gore = pose === 'windup';
     const hy = gore ? 48 : 43;    // the head
     const my = gore ? 33 : 36;    // the crown of the mantle
@@ -911,7 +910,7 @@ const FOLK = {
       ...rake.flatMap((q, i) => quillAt(q, i, true)),
       ...rake.filter((_, i) => i % 2).map(([a, l]) => [a + (bristle ? 4 : 5), l]).flatMap((q, i) => quillAt(q, i, false)),
       // the hind legs, stubby and set wide, split hooves
-      ...both64(limb(16, 48, 14, 59, 4.2, 3.8, dark)), ...both64(ball(14, 60.6, 4.6, 2, hoof)), ...both64(hair(14, 59, 14, 62.5, '#5a4838')),
+      ...both64(limb(16, 48, 14, 59, 4.2, 3.8, dark)), ...both64(ball(14, 60.6, 4.6, 2, hoof)), ...both64(specks([[11.5, 62], [14, 62.5], [16.5, 62]], '#d8cdb0')),
       // the body under its mantle: a deep chest, coarse bristled hide
       ball(32, 44, 21, 13.6, hide), ball(32, 50, 14, 6, hideLt),
       ball(32, my + 3, 21.6, 11.2, mantle),
@@ -923,15 +922,15 @@ const FOLK = {
       })).flat(),
       // forelegs, short and thick, braced out when it lowers its head
       ...(gore
-        ? [...both64(limb(23, 50, 20, 59.6, 4.6, 4, hide)), ...both64(ball(19.6, 60.8, 4.8, 2, hoof)), ...both64(hair(19.6, 59.5, 19.6, 62.75, '#5a4838'))]
-        : [...both64(limb(24, 50, 23, 59.6, 4.4, 4, hide)), ...both64(ball(22.6, 60.8, 4.6, 2, hoof)), ...both64(hair(22.6, 59.5, 22.6, 62.75, '#5a4838'))]),
+        ? [...both64(limb(23, 50, 20, 59.6, 4.6, 4, hide)), ...both64(ball(19.6, 60.8, 4.8, 2, hoof)), ...both64(specks([[17.2, 62], [19.6, 62.75], [22, 62]], '#d8cdb0'))]
+        : [...both64(limb(24, 50, 23, 59.6, 4.4, 4, hide)), ...both64(ball(22.6, 60.8, 4.6, 2, hoof)), ...both64(specks([[20.2, 62], [22.6, 62.75], [25, 62]], '#d8cdb0'))]),
       // coarse bristles over the chest and shoulders
       ...[[16, 46], [19, 49], [22, 51], [42, 51], [45, 49], [48, 46], [27, 53], [37, 53], [32, 55]].map(([x, y]) => hair(x, y, x + (x < 32 ? -0.75 : 0.75), y + 3, '#2a201a')),
       // small ears poking out of the quills
-      ...both64(sheet([[23, hy - 5], [18, hy - 11], [27, hy - 7.6]], hide, { tilt: [-0.4, -0.2] })), ...both64(sheet([[23.4, hy - 5.6], [20, hy - 9.6], [26, hy - 7.2]], '#8a6a5a')),
+      ...both64(ball(23, hy - 7, 3, 3, hide)), ...both64(ball(23, hy - 7, 1.6, 1.6, '#8a6a5a')),
       // the head, square on: a broad skull, jowls, a snout like a stopper
       ball(32, hy, 10.8, 8, hide), ...both64(ball(25, hy + 4, 4.4, 4, hide)), ball(32, hy - 4, 9.6, 2.8, '#4a3a2e'),
-      ball(32, hy + 6.4, 6, 4.2, snout), ball(32, hy + 6, 4.4, 2.8, '#b08878'),
+      ball(32, hy + 6.4, 6, 4.2, snout), ball(32, hy + 6, 4.4, 2.8, '#8a6849'),
       ball(30, hy + 6.6, 1, 0.9, '#2a1614'), ball(34, hy + 6.6, 1, 0.9, '#2a1614'), specks([[29.5, hy + 5.25], [33.5, hy + 5.25]], '#d0a898'),
       // small, mean, red, sunk under the brow
       ball(26.6, hy - 1.4, 2.4, 1.6, '#1c1010'), ball(37.4, hy - 1.4, 2.4, 1.6, '#1c1010'),
@@ -942,12 +941,6 @@ const FOLK = {
       specks([[29, hy + 3.5], [35, hy + 3.5], [32, hy + 3], [26, hy + 6], [38, hy + 6]], '#6a5040'),
       specks([[25, hy + 11], [39, hy + 10]], '#c8d0d8'),
     ];
-    // tusks up out of the corners of the mouth; brought forward to gore, they
-    // curve out wide and long
-    const tk = gore ? [25, hy + 9, 17, hy + 3, 15, hy - 5] : [25.6, hy + 8.4, 21.6, hy + 5, 21, hy + 0.4];
-    const [x1, y1, x2, y2, x3, y3] = tk;
-    out.push(...both64(limb(x1, y1, x2, y2, gore ? 2.2 : 1.8, gore ? 1.6 : 1.4, tusk)), ...both64(limb(x2, y2, x3, y3, gore ? 1.6 : 1.4, 0.6, tusk)),
-      ...both64(hair(x1 - 0.5, y1 - 1, x2 - 0.5, y2 - 1, '#c8bca0')));
     return out;
   },
 
@@ -958,7 +951,7 @@ const FOLK = {
   // Winding up, the neck coils back to strike and the jaws part; rearing, it
   // lifts its forelegs, claws out, and the throat glows like a furnace.
   wyrm: (pose = 'idle') => {
-    const hide = '#8a3622', dark = '#5a2016', deep = '#3e140c', scale = '#a44428', belly = '#c8966a', bellyDk = '#a87a52', horn = '#dccaa0', hornDk = '#a8987a', claw = '#efe4c8';
+    const hide = '#8a3622', dark = '#5a2016', deep = '#3e140c', scale = '#a44428', belly = '#c8966a', bellyDk = '#a87a52', horn = '#dccaa0', claw = '#efe4c8';
     const rear = pose === 'special', coil = pose === 'windup';
     const hx = coil ? 29 : 32, hy = rear ? 12 : coil ? 25 : 21;    // the head
     const cy = rear ? -3 : coil ? -1.5 : 0;                         // how high the shoulders ride
@@ -1017,49 +1010,7 @@ const FOLK = {
       if (Math.abs(x - 32) < 12 && y > 38) continue;
       out.push(...arc(x, y, '#6a2618'));
     }
-    // the horns, swept back and up, ringed, and a spur at each hinge of the jaw
-    out.push(
-      ...[1, -1].flatMap(s => [
-        limb(hx - s * 7.4, hy - 3.4, hx - s * 14.6, hy - 9.4, 2.6, 1.8, horn), limb(hx - s * 14.6, hy - 9.4, hx - s * 19.6, hy - 11.4, 1.8, 0.7, horn),
-        hair(hx - s * 10, hy - 6.5, hx - s * 11, hy - 4.75, hornDk), hair(hx - s * 13.5, hy - 9.5, hx - s * 14.5, hy - 7.75, hornDk),
-        limb(hx - s * 3.6, hy - 5, hx - s * 6, hy - 12, 1.6, 0.6, horn),
-        limb(hx - s * 8.6, hy + 2.4, hx - s * 15, hy + (rear ? -1 : 2), 1.6, 0.6, horn),
-      ]),
-      // a long head: a broad skull narrowing to the snout, the cheeks plated
-      ball(hx, hy, 9.4, 6.4, hide), ...[-1, 1].map(s => ball(hx + s * 6, hy + 2, 3.6, 3.4, scale)), ball(hx, hy - 3.6, 5.4, 2, '#9a3e26'),
-    );
-    const ey = hy - 1;
-    if (rear) {
-      // the jaws wide, the throat a furnace: the fire is not lit by anything, it is the light
-      out.push(
-        ball(hx, hy + 10, 8, 7.4, '#5a1a10'), sheet(oval(hx, hy + 10, 6.4, 6), '#e8641a', { tilt: [-0.4, -0.6], glows: true }),
-        ball(hx, hy + 10.6, 4.6, 4.2, '#ffb030', { glows: true }), ball(hx, hy + 10.6, 2.8, 2.6, '#ffe070', { glows: true }), ball(hx, hy + 10.4, 1.2, 1.4, '#fff8d8', { glows: true }),
-        limb(hx, hy + 1, hx, hy + 3.6, 7.4, 6.6, scale), ...[-1, 1].map(s => ball(hx + s * 3.2, hy + 3.6, 2.2, 1.8, scale)),
-        ball(hx, hy + 18.4, 6.8, 2.4, scale),
-        ...[[-6, 5.6], [6, 5.6], [-4, 5.2], [4, 5.2]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.9, hy + y + 2, 0.7, 0.2, '#f4ecd4')),
-        ...[[-5.5, 17], [5.5, 17], [-3, 17.4], [3, 17.4]].map(([d, y]) => limb(hx + d, hy + y, hx + d * 0.9, hy + y - 2, 0.7, 0.2, '#f4ecd4')),
-        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.3, '#ffd040', { glows: true }), ball(x, ey, 0.9, 0.8, '#fff8c0', { glows: true })]),
-        specks([[hx - 8, hy - 2], [hx + 9, hy - 4], [hx - 4, hy - 8], [hx + 5, hy - 10], [hx - 11, hy + 6], [hx + 12, hy + 5], [hx - 2, hy - 13], [hx + 7, hy - 16]], '#ffd060', { glows: true }),
-      );
-    } else {
-      const o = coil ? 2.8 : 0;    // how far the jaws part
-      out.push(
-        ball(hx, hy + 10.8 + o, 7, 2.6, dark),
-        ...(coil ? [sheet([[hx - 6.4, hy + 8], [hx + 6.4, hy + 8], [hx + 5.2, hy + 12.8], [hx - 5.2, hy + 12.8]], '#3a0e0a'), ball(hx, hy + 11.6, 3, 1.2, '#a03028')] : []),
-        limb(hx, hy + 1, hx, hy + 8.8, 7.6, 5.2, scale), ...[-1, 1].map(s => ball(hx + s * 2.6, hy + 8.8, 2, 1.6, scale)),
-        ball(hx - 2, hy + 9.4, 0.8, 0.7, '#1a0806'), ball(hx + 2, hy + 9.4, 0.8, 0.7, '#1a0806'),
-        ...(coil ? [[-5.5, 9.6, 1], [5.5, 9.6, 1], [-3.5, 13, -1], [3.5, 13, -1]] : [[-5.5, 10.4, 1], [5.5, 10.4, 1], [-3.6, 11.6, 0.6], [3.6, 11.6, 0.6]])
-          .map(([d, y, s]) => limb(hx + d, hy + y, hx + d * 0.92, hy + y + s * 2, 0.7, 0.2, '#f4ecd4')),
-        ...[hx - 5, hx + 5].flatMap(x => [ball(x, ey, 2.2, 1.2, '#ffb020', { glows: true }), limb(x, ey - 1, x, ey + 1, 0.4, 0.4, '#2a0c04'), specks([[x - 1, ey - 0.75]], '#fff0b0')]),
-        // a curl of smoke from each nostril, and an old claw scar across the snout
-        specks([[hx - 3, hy + 7.5], [hx - 4, hy + 6], [hx - 3.5, hy + 4.5], [hx + 3, hy + 7.5], [hx + 4, hy + 6], [hx + 4.5, hy + 4.5]], '#8a8078'),
-        hair(hx + 1.5, hy + 1, hx + 4.5, hy + 6, '#c86a44'),
-      );
-    }
-    // the brow ridges over the eyes, drawn down in anger, and the scales of the skull
-    out.push(limb(hx - 9, ey - 2.6, hx - 2.4, ey - 0.6 + (coil ? 1 : 0), 1.6, 1.1, dark), limb(hx + 9, ey - 2.6, hx + 2.4, ey - 0.6 + (coil ? 1 : 0), 1.6, 1.1, dark),
-      ...[[-3, -4.5], [0, -5.25], [3, -4.5], [-1.5, -3], [1.5, -3]].flatMap(([d, y]) => arc(hx + d, hy + y, '#6a2618')),
-      specks([[hx - 6, hy + 3], [hx + 6.5, hy + 3.5], [hx - 7, hy + 1], [hx + 7.5, hy + 0.5]], '#c05a36'));
+    out.push(...wyrmHead(hx, hy, pose));
     for (const q of /** @type {any[]} */ (out)) if (q.k !== 'hair' && q.k !== 'specks') Object.assign(q, { smooth: 1 });
     return out;
   },
@@ -1085,20 +1036,12 @@ const FOLK = {
     ];
   },
 
-  // A goblin lookout: a goblin in a mottled green jerkin, a bone whistle on a cord at
-  // its throat, a rag tied round its brow, and a tall crooked pole with a rag flag to
-  // wave from a high place. Whistling, the whistle is at its lips and the pole held high.
+  // The painted lookout's whistle and rough shoulder cape distinguish the
+  // sentry from a common goblin. The whistle rises to its lips as it calls.
   lookout: (pose = 'idle') => {
     const blow = pose === 'special';
     const base = recolour(CREATURES.goblin(blow ? 'windup' : pose), { '#6a4628': '#4e5a30', '#4a3018': '#323c1e', '#8a6a40': '#6a6a40' });
-    const up = blow ? -8 : 0, lean = blow ? -3 : 0;
     return [
-      // the pole, behind it, gripped at its side; the flag at its top streaming out
-      limb(17 + lean, 2 + up, 19, 60 + up / 2, 1.5, 1.6, '#6a5232'), hair(16 + lean, 14 + up, 18, 22 + up, '#4a3820'),
-      sheet([[17 + lean, 2 + up], [8 + lean * 2, 3 + up], [1 + lean * 2, 7 + up], [7 + lean * 2, 12 + up], [1 + lean * 2, 17 + up], [9 + lean * 2, 22 + up], [17 + lean, 20 + up]], blow ? '#c85a40' : '#a84a34', { curve: 0.7 }),
-      hair(15 + lean, 6 + up, 7 + lean * 2, 7 + up, '#7a3424'), hair(15 + lean, 15 + up, 6 + lean * 2, 17 + up, '#7a3424'),
-      // a signal drum slung at its back, showing past its right side, its skin laced tight
-      ball(49, 37, 6, 7, '#7a5a34'), ball(50.5, 37, 4, 5.6, '#d8c8a0'), limb(44, 31, 55, 43, 0.5, 0.5, '#4a3820'), limb(44, 43, 55, 31, 0.5, 0.5, '#4a3820'),
       ...base,
       // the rag round its brow, its knot's ends hanging
       limb(25, 14, 39, 14, 1.2, 1.2, '#8a3a2a'), hair(26, 13.5, 38, 13.5, '#a84a34'), limb(38, 14, 41, 18, 0.6, 0.4, '#8a3a2a'),
@@ -1218,7 +1161,7 @@ const FOLK = {
   // the world it frays at the edges in violet sparks.
   imp: (pose = 'idle') => {
     const atk = pose === 'windup', fade = pose === 'special';
-    const skin = fade ? '#8c84a6' : '#7c7a88', skinDk = fade ? '#5c5478' : '#54525e', skinLt = '#9c9aa8', claw = '#e8e2d0';
+    const skin = fade ? '#9b625b' : '#a15838', skinDk = fade ? '#683b40' : '#633324', skinLt = '#c58055', claw = '#e8e2d0';
     return [
       // the tail, curling up behind it to a barbed tip
       limb(36, 50, 46, 52, 1, 0.8, skinDk), limb(46, 52, 52, 44, 0.8, 0.6, skinDk), limb(52, 44, 50, 37, 0.6, 0.4, skinDk), sheet([[48.6, 37], [50, 33], [51.6, 37.5]], skinDk),

@@ -90,7 +90,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   of them all; the later creatures are in `js/folk.js`, the parts and shared kits
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
-  `js/champions.js`. `js/assets.js` turns them into sprites (a creature a piece at
+  `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
+  `js/creatureidentity.js` aligns older anatomy, equipment and colours to the
+  painted portraits before deriving cached movement poses. `art/identity.json`
+  records the identifying traits reviewed for every monster and class;
+  `check:art` rejects missing entries. Preserve an empty Abbess face, a smooth
+  blind Stalker head, the pale Puffcap, and each class's painted identity.
+  `js/assets.js` turns them into sprites (a creature a piece at
   a time, in spare moments) and paints the walls, floors and doors; the wall
   decorations are in `js/walldecor.js`. `js/regionart.js` adds regional masonry,
   floor inlays and door materials before textures are shaded and cached. Keep this
@@ -150,6 +156,20 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
+  Individual repairs live in `art/bestiary/overrides/`, selected by `generation.json`;
+  export them after the sheet tiles. `python3 art/bestiary/export.py --check`
+  rejects stale exports. `npm run check:art` (also in `npm test`) verifies the
+  reviewed source/export hashes in `art/review.json` and every painting's offline
+  entry. Re-export and visually inspect changed art before updating those hashes;
+  the check records review currency, not an automated judgement of anatomy.
+  The six class and three keeper paintings also select current `overrides/`
+  from their generation manifests; `python3 art/portraits/export.py --check`
+  reproduces all nine WebPs. Keep original PNGs as provenance when refreshing
+  paintings; retain the hero identities already used by the pixel fallbacks.
+  Lich, Warlord and Heartforged are bestiary creatures: use the existing
+  bestiary paintings as their style/composition references, with characteristic
+  bodies, equipment and dungeon habitats. Share those paintings between the
+  bestiary and keeper introductions; keep hero portrait framing separate.
 - `js/recording.js`: bounded local input/timing records attached to browser saves;
   headless benchmarks leave capture off. Add every new player-facing mutator to
   `RECORD_METHODS`, preserve exact call order and clocks, and verify recorded and

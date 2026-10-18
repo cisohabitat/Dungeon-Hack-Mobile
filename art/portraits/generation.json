@@ -51,5 +51,85 @@
       ],
       "prompt": "Create one finished square 1024 x 1024 head-and-shoulders class portrait for the dark fantasy dungeon crawler Deepdelve. Use the attached title artwork as the visual reference for the SAME world and painting style: rich painterly digital illustration, confident visible brushwork, weathered believable materials, ember-orange and amber torchlight against deep blue-black and muted violet shadows, atmospheric cavern darkness. This is a portrait of a person who could have walked down the stairs in that reference. Keep the light restrained, faces clearly readable on a phone; no crushed-black eyes. Not photographic, not cartoon, not anime, not pixel art, not glossy superhero art.\nComposition for the matching six-portrait set: centered face, full head and both shoulders, crown at 8% of frame, eyes at 38%, bottom crops across upper chest; head occupies about 55% of frame width. Gaze meets viewer, face turned slightly toward image left; one warm light from upper image left, cool reflected shadow on the right. Simple soft blue-violet cavern background with faint amber haze, no focal scenery. Equipment frames face without hiding it. Natural, grounded anatomy and lived-in expression. Opaque full-bleed square, no borders or frames, no lettering, text, signatures, logo, watermarks, interface or panels. Exactly one person, one portrait. Class-specific direction: ROGUE: an adult woman with olive skin, dark hair partly tucked into a worn charcoal hood, alert grey eyes, lean angular face and quiet wary confidence. Scuffed dark leather armour, dull brass buckles, a discreet sheathed dagger hilt near shoulder. Face uncovered, no face mask. Silhouette distinct from the heavily armoured fighter.\nThe second reference is the approved fighter portrait from this set. Match its painterly material treatment, close portrait scale, warm left light and cool shadows, while giving this character their own face, class equipment and identity. Do not copy the fighter's helmet, armour or facial features."
     }
+  },
+  "overrides": {
+    "fighter": {
+      "source": "overrides/fighter.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-04a1ce7a-4194-4f3b-a55b-a5f6eefd12f4.png",
+      "references": [
+        "img/bestiary/grey_dwarf.webp",
+        "img/bestiary/vaelith.webp",
+        "art/portraits/fighter.png (original identity reference; WebP export supplied to tool)"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one square Fighter class portrait for Deepdelve. First two references (grey dwarf and dark-elf priestess) define the LATER BESTIARY illustration style. Third reference defines the SAME HUMAN FIGHTER whose identity must be preserved. Repaint him with the later bestiary's hand-painted dark fantasy cover illustration, visible controlled brushwork, matte weathered tangible steel/mail/leather, nuanced amber torchlight on the left and muted cool blue-violet stone shadows on the right. Reduce the old image's over-sharpened photographic texture and uniform orange rim lighting. Replace repeated flaming cavern-city scenery with a simple softly painted ancient dungeon wall, one out-of-focus torch, quiet darkness; no scenery competing with the face. Same weathered middle-aged pale-skinned man, short brown beard, cheek scar, steady tired grey eyes, battered open-faced nasal helmet and chainmail coif, worn steel shoulders, faded dark red cloth. Keep him human and recognizable; do NOT copy dwarf anatomy, elf traits or other reference clothing. Full head and both shoulders inside square with 8% clear breathing room above crown; face around 45% width, eyes near 38% height, bottom crops upper chest. Slight three-quarter view, face readable at 80px. Sword stowed in a visible scabbard behind one shoulder: single continuous pommel, wrapped grip, guard and sheath, no exposed floating blade. Hands outside crop, no hands needed. Grounded anatomy, exactly one person, coherent gear connections, no invented extra weapons. Rich but restrained paint, consistent with latest bestiary. Opaque square 1024x1024 or largest square, full bleed, no text, border, captions or watermark."
+    },
+    "cleric": {
+      "source": "overrides/cleric.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-331be277-861b-4fc1-874d-3a3ec9b82eac.png",
+      "references": [
+        "art/portraits/cleric.png (original identity reference; WebP export supplied to tool)",
+        "art/portraits/overrides/fighter.png",
+        "img/bestiary/vaelith.webp"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one finished square class portrait for Deepdelve. Reference 1 is the SAME ORIGINAL CHARACTER: preserve that person's face, age, gender, skin tone, hair and class identity. Reference 2 is the refreshed Fighter, which defines the consistent framing, restrained painterly material treatment, amber left light and cool shadow. Reference 3 is a later bestiary illustration, defining the same world's visible brushwork and matte weathered surfaces. Repaint with nuanced hand-painted dark fantasy cover-art brushwork, less photographic oversharpening, no glossy plastic. Replace the old repeated blazing cavern-city background with quiet softly painted old dungeon stone, one small blurred amber torch and blue-violet darkness, face is the focus. Full head and both shoulders inside the square, 6-8% margin above head, face about 45% frame width, eyes near 38% height, upper chest bottom crop. Slight three-quarter view, same readable portrait scale across the set, eyes clear even at 80px. Grounded coherent anatomy. Stowed equipment must have continuous shafts, guards and grips; no floating blades, extra objects or limbs, no disconnected straps. Hands outside crop. Opaque full-bleed square, 1024x1024 or largest square available, no text, border, logos or watermark. Do not copy the fighter's face, helmet or equipment onto another class. CHARACTER: Mature dark-brown-skinned woman with close-cropped black hair touched with grey, strong face, calm stern compassionate gaze, worn ivory linen vestments over chainmail, muted antique-gold trim, old sun medallion hanging on a connected chain at upper chest. Practical mace stowed behind shoulder, shaft continuous into visible wrapped grip and compact solid flanged head. No halo or crown. Cream cloth and a subtle gold accent are her class colours."
+    },
+    "mage": {
+      "source": "overrides/mage.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-60b38c2d-cd38-43f5-bdcf-3d69bb7a2580.png",
+      "references": [
+        "art/portraits/mage.png (original identity reference; WebP export supplied to tool)",
+        "art/portraits/overrides/fighter.png",
+        "img/bestiary/vaelith.webp"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one finished square class portrait for Deepdelve. Reference 1 is the SAME ORIGINAL CHARACTER: preserve that person's face, age, gender, skin tone, hair and class identity. Reference 2 is the refreshed Fighter, which defines the consistent framing, restrained painterly material treatment, amber left light and cool shadow. Reference 3 is a later bestiary illustration, defining the same world's visible brushwork and matte weathered surfaces. Repaint with nuanced hand-painted dark fantasy cover-art brushwork, less photographic oversharpening, no glossy plastic. Replace the old repeated blazing cavern-city background with quiet softly painted old dungeon stone, one small blurred amber torch and blue-violet darkness, face is the focus. Full head and both shoulders inside the square, 6-8% margin above head, face about 45% frame width, eyes near 38% height, upper chest bottom crop. Slight three-quarter view, same readable portrait scale across the set, eyes clear even at 80px. Grounded coherent anatomy. Stowed equipment must have continuous shafts, guards and grips; no floating blades, extra objects or limbs, no disconnected straps. Hands outside crop. Opaque full-bleed square, 1024x1024 or largest square available, no text, border, logos or watermark. Do not copy the fighter's face, helmet or equipment onto another class. CHARACTER: Older brown-skinned man with close-cut salt-and-pepper hair, short grey beard, lined face and thoughtful determined eyes. Worn dark navy layered robe and mantle with restrained geometric bronze stitching; a modest old clasp. A slender wooden staff behind shoulder, continuous shaft with a small amber ember held in a metal cage joined at its top. No pointed hat or circlet, no change to age or ethnicity. Navy cloth, muted bronze, small amber focus, no overpowering fire."
+    },
+    "thief": {
+      "source": "overrides/thief.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-4638744d-6eb4-4b4c-a468-360adaad22bd.png",
+      "references": [
+        "art/portraits/thief.png (original identity reference; WebP export supplied to tool)",
+        "art/portraits/overrides/fighter.png",
+        "img/bestiary/vaelith.webp"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one finished square class portrait for Deepdelve. Reference 1 is the SAME ORIGINAL CHARACTER: preserve that person's face, age, gender, skin tone, hair and class identity. Reference 2 is the refreshed Fighter, which defines the consistent framing, restrained painterly material treatment, amber left light and cool shadow. Reference 3 is a later bestiary illustration, defining the same world's visible brushwork and matte weathered surfaces. Repaint with nuanced hand-painted dark fantasy cover-art brushwork, less photographic oversharpening, no glossy plastic. Replace the old repeated blazing cavern-city background with quiet softly painted old dungeon stone, one small blurred amber torch and blue-violet darkness, face is the focus. Full head and both shoulders inside the square, 6-8% margin above head, face about 45% frame width, eyes near 38% height, upper chest bottom crop. Slight three-quarter view, same readable portrait scale across the set, eyes clear even at 80px. Grounded coherent anatomy. Stowed equipment must have continuous shafts, guards and grips; no floating blades, extra objects or limbs, no disconnected straps. Hands outside crop. Opaque full-bleed square, 1024x1024 or largest square available, no text, border, logos or watermark. Do not copy the fighter's face, helmet or equipment onto another class. CHARACTER: Adult light-olive-skinned woman with messy dark-brown hair, sharp hazel-grey eyes, a small healed cheek scar, alert restrained expression. Face fully visible with nose and mouth unobscured inside a worn charcoal-brown leather hood. Fitted weathered leather shoulders, practical leather strap and buckle, no chest armour copied from Fighter. One short dagger in a sheath stowed behind shoulder with continuous pommel/grip/guard/sheath. No mask, no glowing eyes. Dark leather with subdued copper buckles."
+    },
+    "ranger": {
+      "source": "overrides/ranger.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-84a9f35e-3489-4d12-a822-f2679f72c227.png",
+      "references": [
+        "art/portraits/ranger.png (original identity reference; WebP export supplied to tool)",
+        "art/portraits/overrides/fighter.png",
+        "img/bestiary/vaelith.webp"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one finished square class portrait for Deepdelve. Reference 1 is the SAME ORIGINAL CHARACTER: preserve that person's face, age, gender, skin tone, hair and class identity. Reference 2 is the refreshed Fighter, which defines the consistent framing, restrained painterly material treatment, amber left light and cool shadow. Reference 3 is a later bestiary illustration, defining the same world's visible brushwork and matte weathered surfaces. Repaint with nuanced hand-painted dark fantasy cover-art brushwork, less photographic oversharpening, no glossy plastic. Replace the old repeated blazing cavern-city background with quiet softly painted old dungeon stone, one small blurred amber torch and blue-violet darkness, face is the focus. Full head and both shoulders inside the square, 6-8% margin above head, face about 45% frame width, eyes near 38% height, upper chest bottom crop. Slight three-quarter view, same readable portrait scale across the set, eyes clear even at 80px. Grounded coherent anatomy. Stowed equipment must have continuous shafts, guards and grips; no floating blades, extra objects or limbs, no disconnected straps. Hands outside crop. Opaque full-bleed square, 1024x1024 or largest square available, no text, border, logos or watermark. Do not copy the fighter's face, helmet or equipment onto another class. CHARACTER: Adult tan freckled man with windburned cheeks, loose shoulder-length wavy auburn hair, a short auburn beard and focused green-brown eyes. Moss-brown travelling cloak hood down over layered worn leather, simple connected cloak fastening. Wooden longbow and small quiver of feathered arrows behind one shoulder: a physically continuous curved stave with exactly one straight taut bowstring joining both tips, bow may continue naturally beyond bottom crop; arrows individually continuous shafts and fletching attached. No braids, no hat, muted earth colours, no saturated green."
+    },
+    "druid": {
+      "source": "overrides/druid.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-ac9ccaef-d4f6-45a2-aa65-d8e5d0376fed.png",
+      "references": [
+        "art/portraits/druid.png (original identity reference; WebP export supplied to tool)",
+        "art/portraits/overrides/fighter.png",
+        "img/bestiary/vaelith.webp"
+      ],
+      "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+      "prompt": "Refresh one finished square class portrait for Deepdelve. Reference 1 is the SAME ORIGINAL CHARACTER: preserve that person's face, age, gender, skin tone, hair and class identity. Reference 2 is the refreshed Fighter, which defines the consistent framing, restrained painterly material treatment, amber left light and cool shadow. Reference 3 is a later bestiary illustration, defining the same world's visible brushwork and matte weathered surfaces. Repaint with nuanced hand-painted dark fantasy cover-art brushwork, less photographic oversharpening, no glossy plastic. Replace the old repeated blazing cavern-city background with quiet softly painted old dungeon stone, one small blurred amber torch and blue-violet darkness, face is the focus. Full head and both shoulders inside the square, 6-8% margin above head, face about 45% frame width, eyes near 38% height, upper chest bottom crop. Slight three-quarter view, same readable portrait scale across the set, eyes clear even at 80px. Grounded coherent anatomy. Stowed equipment must have continuous shafts, guards and grips; no floating blades, extra objects or limbs, no disconnected straps. Hands outside crop. Opaque full-bleed square, 1024x1024 or largest square available, no text, border, logos or watermark. Do not copy the fighter's face, helmet or equipment onto another class. CHARACTER: Mature warm medium-brown-skinned woman with unruly long dark curly hair with silver strands, deep-set thoughtful eyes and fierce gentle expression, same recognizable woman. Rough bark-textured leather mantle, dry moss, a few bone and wooden beads on connected cords, one short twig woven into hair. Earthy muted greens/browns. No antlers, beard, animal head, ornate crown or glowing green magic. Keep hair curly and loose, no huge uniform dreadlocks."
+    }
   }
 }

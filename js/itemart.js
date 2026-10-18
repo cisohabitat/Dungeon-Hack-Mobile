@@ -1248,7 +1248,8 @@ const ironclad = parts => parts.map(p => { if (!/^#[0-9a-f]{6}$/i.test(p.c)) ret
 /** @type {any} */ (ITEM_ART).dwarfplate = () => dwarven(ITEM_ART.plate());
 /** @type {any} */ (ITEM_ART).dwarfhammer = () => dwarven(ITEM_ART.hammer());
 /** @type {any} */ (ITEM_ART).runeshield = () => [...ironclad(ITEM_ART.towershield()), ...[[13, 12, 16, 16], [16, 16, 19, 12], [16, 16, 16, 22], [13, 22, 19, 22]].map(([a, b, c, d]) => hair(a, b, c, d, '#7ad0e8', { glows: true }))];
-/** @type {any} */ (HELD_ART).dwarfhammer = () => dwarven(HELD_ART.hammer());
+// The held hammer uses ITEM_ART.dwarfhammer through the ordinary fallback;
+// only the greatsword has a separate HELD_ART drawing.
 // The lizardfolk's marsh-hide: the leather coat's own picture, in green-brown scaled hide
 /** @type {any} */ (ITEM_ART).marshhide = () => [...ITEM_ART.leather().map(p => (/^#[0-9a-f]{6}$/i.test(p.c) ? { ...p, c: (n => { const r = n >> 16, g = (n >> 8) & 255, b = n & 255, l = (r * 0.3 + g * 0.59 + b * 0.11) / 255; return '#' + [l * 120 + 10, l * 150 + 18, l * 90 + 8].map(v => Math.round(Math.min(255, v)).toString(16).padStart(2, '0')).join(''); })(parseInt(p.c.slice(1), 16)) } : p)),
   ...[[12, 12], [18, 12], [15, 16], [12, 20], [18, 20], [15, 24]].map(([x, y]) => ball(x, y, 1.1, 0.8, '#7e9e52'))];

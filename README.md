@@ -80,7 +80,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   their distance, and druids take a bear's shape, whose hide takes the blows first (any other
   spell lets it go). All six can be chosen from the start.
 - **Heroes with a past.** Each class has its own backstory on the selection screen.
-  Select a class, then tap its portrait to expand the artwork.
+  Select a class, then tap its portrait to expand the artwork. The six hero
+  paintings are refreshed with quieter dungeon backgrounds. The Lich, Warlord
+  and Heartforged use the bestiary's creature compositions, equipment and
+  dungeon settings, shared with their introductions.
 - **Six Mythic bargains.** One signature piece for each class, usable on either
   path, with its own power, drawback and lavender artwork. Only one Mythic may
   be worn at a time. In custom delves of at least eight floors, the final Vigil
@@ -99,6 +102,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   held weapons, bows, shields and foci. Ordinary enchanted gear keeps its base art.
 - **A painted bestiary.** Every creature has portrait art in the bestiary and Journal,
   with an enlarged view and a sprite fallback if the painting cannot load.
+  Animated creatures and fallback hero faces match the paintings' identities,
+  anatomy and equipment while keeping their original animation style.
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.
@@ -410,7 +415,10 @@ directory server can expose local configuration and development files.
 ```bash
 npm run typecheck     # JSDoc types, via tsc; nothing is compiled
 npm run check:agents  # reject missing or stale AGENTS.md guidance
-npm test              # guidance, types, generator, sprites, security, APIs, narration, voices and rules
+npm run check:art     # reviewed art sources/exports and offline inventory
+python3 art/bestiary/export.py --check  # reproduce bestiary exports without changing them
+python3 art/portraits/export.py --check # reproduce current class/keeper paintings
+npm test              # guidance, art, types, generator, sprites, security, APIs, narration, voices and rules
 npm run test:release   # automatic versions and publication safeguards in isolated Git fixtures
 npm run test:security  # adversarial save/import, telemetry and local-server checks
 npm run test:browser  # Playwright suites on phone and small-phone viewports
@@ -938,6 +946,8 @@ js/music.js       music composed as it plays, following the fight
 js/mythics.js, mythicdata.js   optional Vigil trial, class Mythics and their tradeoffs
 js/namedart.js    individual legendary and relic pictures, shared by item views and held gear
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
+js/heroart.js     hero fallback faces matching the six painted class portraits
+js/creatureidentity.js   cached sprite anatomy and equipment aligned to paintings
 js/release.js     release and stamped commit for the title footer and reports
 stamp-commit.cjs  stamp the deployed Git commit into the static page
 js/regionart.js   regional wall courses, paving and door materials, baked into textures
@@ -975,6 +985,11 @@ test/server.js    dependency-free static server with media byte-range support
 CLAUDE.md         source instructions for repository contributors and coding agents
 AGENTS.md         generated copy of the repository instructions
 tools/agent-docs.mjs  generates and checks AGENTS.md
+tools/check-art.mjs   verifies reviewed source/export hashes and offline art coverage
+art/review.json       dated review of painted art and its current file hashes
+art/identity.json     identifying traits reviewed for every bestiary entry and class
+art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
+art/bestiary/overrides/  individual corrected paintings, preserved across re-exports
 ```
 
 ## Keeping documentation current

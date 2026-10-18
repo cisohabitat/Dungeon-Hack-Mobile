@@ -31,6 +31,40 @@ function check(cond, msg) { if (!cond) { failures++; console.error('FAIL:', msg)
   console.log(`${hashes.size} distinct named treasure pictures`);
 }
 
+// Every held weapon must render, including regional gear that falls back to its
+// pack picture. A dwarven hammer once called a separate drawing that did not exist.
+{
+  const { GRIPS } = await import('../js/itemart.js');
+  const { heldParts, POSES: heldPoses } = await import('../js/heldart.js');
+  for (const id of [...Object.keys(GRIPS), 'shortbow', 'longbow']) {
+    for (const pose of Object.keys(heldPoses)) {
+      const held = heldParts(id, pose, 'fighter', true);
+      const pixels = paintParts(held.parts, held.grid).color;
+      check(pixels.some(Boolean), `held ${id} has no picture in ${pose}`);
+    }
+  }
+  const ordinary = heldParts('hammer', 'rest', 'fighter');
+  const dwarven = heldParts('dwarfhammer', 'rest', 'fighter');
+  check(JSON.stringify(dwarven.parts) !== JSON.stringify(ordinary.parts), 'held dwarven hammer lost its dark iron');
+}
+
+// The fallback face must remain connected to the body. The previous portraits
+// also invented masks, circlets and antlers absent from their painted people.
+{
+  const { PORTRAITS } = await import('../js/heroart.js');
+  check(JSON.stringify(Object.keys(PORTRAITS).sort()) === JSON.stringify(Object.keys(CLASSES).sort()), 'hero fallback coverage differs from painted classes');
+  for (const id of Object.keys(CLASSES)) {
+    const { color } = paintParts(PORTRAITS[id](), 64);
+    for (let y = 36; y <= 45; y++) check(!!color[y * 64 + 32], `${id}'s fallback face is detached from its collar at row ${y}`);
+  }
+  const eye = paintParts(CREATURES.eyeless(), 64).color;
+  check(!eye.some((c, i) => c && i / 64 < 17 && (i % 64 < 20 || i % 64 > 44)), 'eyeless stalker regained wide ears above its smooth head');
+  const fungus = paintParts(CREATURES.puffcap(), 64).color;
+  check(fungus.slice(40 * 64, 41 * 64).filter(Boolean).length > 35, 'puffcap reverted to the narrow skull-like stalk');
+  const chest = paintParts(CREATURES.mimic(), 64).color;
+  check(chest[58 * 64 + 8] && chest[58 * 64 + 55], 'active mimic lost its broad chest body');
+}
+
 // sprites are rectangular, square and fully described by their palette
 for (const k in SPRITES) {
   const s = SPRITES[k];

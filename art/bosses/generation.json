@@ -9,21 +9,129 @@
     {
       "id": "lich",
       "original": "exec-df2ea69c-562f-4cec-abc0-c42b87e2a288.png",
-      "references": ["img/keyart-portrait.webp", "img/portraits/mage.webp"],
+      "references": [
+        "img/keyart-portrait.webp",
+        "img/portraits/mage.webp"
+      ],
       "brief": "Ancient skeletal keeper of the Heart, parchment-dry skin, faint violet eye embers, corroded black iron crown, ragged indigo cowl, tarnished bronze ornament and a grave-magic hand. Calm calculating menace in a cavernous stone hall."
     },
     {
       "id": "warlord",
       "original": "exec-32dcec41-dc4e-4b6e-8728-85bbe07bed62.png",
-      "references": ["img/keyart-portrait.webp", "art/bosses/lich.png"],
+      "references": [
+        "img/keyart-portrait.webp",
+        "art/bosses/lich.png"
+      ],
       "brief": "Massive living goblin king, earthy olive-grey skin, flattened nose, pointed ears, short lower tusks, calculating eyes, battered hammered gold crown, dark iron armour, leather, plundered gold clasps and one fur shoulder. A grounded master of a hoard."
     },
     {
       "id": "heartforged",
       "original": "exec-a1b7dc1a-50fe-4513-8b15-356d115032ed.png",
-      "references": ["img/keyart-portrait.webp", "art/bosses/lich.png"],
+      "references": [
+        "img/keyart-portrait.webp",
+        "art/bosses/lich.png"
+      ],
       "brief": "Ancient dwarven forge automaton, geometric black iron mask, heavy hammered plates, rivets, soot and weathered engraving. Narrow amber eye slits and the Heart crystal burning inside its ribbed chest furnace. Massive hammer at the edge; no flesh, crown or futuristic technology."
     }
   ],
-  "export": { "width": 512, "height": 512, "format": "webp", "encoder": "ffmpeg/libwebp", "quality": 85, "resampling": "lanczos" }
+  "export": {
+    "width": 512,
+    "height": 512,
+    "format": "webp",
+    "encoder": "ffmpeg/libwebp",
+    "quality": 85,
+    "resampling": "lanczos"
+  },
+  "overrides": {
+    "lich": {
+      "source": "overrides/lich.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-deb0cc1a-ee66-4bc7-b55a-a2072e29c54f.png",
+      "references": [
+        "img/bestiary/acolyte.webp",
+        "art/bestiary/sheet-4.png",
+        "img/bosses/lich.webp (identity only: previous generated painting exec-df0b5e04-5ce1-43bc-b1f6-9dcf0847b60e.png)"
+      ],
+      "reason": "Keepers are bestiary creatures: match existing bestiary brushwork, upper-body/gear composition and dungeon habitat directly. Hero portraits are not style references.",
+      "prompt": "Create ONE finished square painted BESTIARY ENTRY illustration for Deepdelve. The first TWO images are the authoritative bestiary style and composition references; match them closely. The THIRD image supplies only the keeper's identity, face/head design and identifying materials. This keeper belongs in the SAME CREATURE BESTIARY as the first two, with their hand-painted dark fantasy illustration, rich controlled fine brushwork, weathered tangible materials, amber dungeon light from left, deep blue-violet shadow, old stone arches and cave atmosphere. Show the creature's HEAD AND UPPER BODY DOWN TO WAIST with characteristic arms/gear and a real sense of its dungeon habitat, as the reference creature entries do. Head occupies about a THIRD of square width, face readable; full head/crown and identifying gear inside the square with 5% breathing room. Species silhouette, outfit and characteristic role are more important than an isolated facial close-up. Recompose the third image into a creature illustration. Avoid the third image's tight hero-selection bust crop, repeated identical portrait backdrop, photographic pore-sharpening and character-card lighting. The first two bestiary references define the final brushwork and composition. Exactly one main subject, anatomically coherent, no extra limbs, no detached weapon pieces, grips physically meet shafts, joints continuous. Full-bleed opaque square 1024x1024 or largest available. NO text, captions, borders, UI, grids or watermark. SUBJECT: Dread Lich, ancient undead human sorcerer, dry skeletal skull, hollow nose, cold violet eyes, irregular antique-gold crown around a frayed black-purple hood, dark layered robes with restrained old gold/bronze trim. Same identifiable keeper as third reference. Lean upper body and both arms in the lower half, commanding a violet spell inside an ancient torchlit crypt. One skeletal hand extends palm up at chest height, tiny violet wisps hovering above it; four long fingers and one thumb with natural knuckles, wrist visibly attached to a continuous robed forearm. Other arm rests naturally against the body within the robe. No new staff or sword, no floating detached hand, no horns, no fleshy human face. Crown fully inside frame. Subject and habitat visually belong beside the bestiary's Dark Acolyte and Hollow Abbess. Keep dark hood, crown and cold magic as the identity, not a hero's shoulder-hilt pose."
+    },
+    "warlord": {
+      "source": "overrides/warlord.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-02449167-2964-432e-aafe-326201d89efb.png",
+      "references": [
+        "img/bestiary/grisk.webp",
+        "art/bestiary/sheet-4.png",
+        "img/bosses/warlord.webp (identity only: previous generated painting exec-44dd34c4-835e-44e1-983c-00ea0279b932.png)"
+      ],
+      "reason": "Keepers are bestiary creatures: match existing bestiary brushwork, upper-body/gear composition and dungeon habitat directly. Hero portraits are not style references.",
+      "prompt": "Create ONE finished square painted BESTIARY ENTRY illustration for Deepdelve. The first TWO images are the authoritative bestiary style and composition references; match them closely. The THIRD image supplies only the keeper's identity, face/head design and identifying materials. This keeper belongs in the SAME CREATURE BESTIARY as the first two, with their hand-painted dark fantasy illustration, rich controlled fine brushwork, weathered tangible materials, amber dungeon light from left, deep blue-violet shadow, old stone arches and cave atmosphere. Show the creature's HEAD AND UPPER BODY DOWN TO WAIST with characteristic arms/gear and a real sense of its dungeon habitat, as the reference creature entries do. Head occupies about a THIRD of square width, face readable; full head/crown and identifying gear inside the square with 5% breathing room. Species silhouette, outfit and characteristic role are more important than an isolated facial close-up. Recompose the third image into a creature illustration. Avoid the third image's tight hero-selection bust crop, repeated identical portrait backdrop, photographic pore-sharpening and character-card lighting. The first two bestiary references define the final brushwork and composition. Exactly one main subject, anatomically coherent, no extra limbs, no detached weapon pieces, grips physically meet shafts, joints continuous. Full-bleed opaque square 1024x1024 or largest available. NO text, captions, borders, UI, grids or watermark. SUBJECT: Goblin Warlord of the Warrens: broad heavy olive-grey GOBLIN, large pointed ears, short lower tusks, calculating amber eyes, battered hammered GOLD crown with angular lozenge, dark red cloak, worn leather/iron armour with restrained gold fittings. Keep recognizable face and crown from third reference but show broad upper body, arms, wide belly and characteristic equipment like the Goblin King reference. In a battered stone throne hall with plunder at the lower edge. A small WOODEN WAR-DRUM hangs against his lower torso on one continuous leather shoulder strap; his right hand holds one short wood drum beater, all four fingers and thumb close around a continuous grip, the single beater tip rests visibly on the drum skin. Left broad goblin hand rests on the throne arm. No weapon needed, no extra arms or sticks, no dwarf or human facial proportions. Complete crown and ears within square. The dark creature anatomy, materials, brushwork and inhabitable dungeon background must match the Goblin King and other bestiary champions, no giant face filling most of frame."
+    },
+    "heartforged": {
+      "source": "overrides/heartforged.png",
+      "date": "2026-10-18",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7e4a8800-9520-41a9-9dba-a1b8de782d51.png",
+      "references": [
+        "img/bestiary/durgrim.webp",
+        "art/bestiary/sheet-4.png",
+        "img/bosses/heartforged.webp (identity only: previous generated painting exec-28cf0374-6e61-40f7-bfe2-a424f08d4472.png)"
+      ],
+      "reason": "Keepers are bestiary creatures: match existing bestiary brushwork, upper-body/gear composition and dungeon habitat directly. Hero portraits are not style references.",
+      "prompt": "Create ONE finished square painted BESTIARY ENTRY illustration for Deepdelve. The first TWO images are the authoritative bestiary style and composition references; match them closely. The THIRD image supplies only the keeper's identity, face/head design and identifying materials. This keeper belongs in the SAME CREATURE BESTIARY as the first two, with their hand-painted dark fantasy illustration, rich controlled fine brushwork, weathered tangible materials, amber dungeon light from left, deep blue-violet shadow, old stone arches and cave atmosphere. Show the creature's HEAD AND UPPER BODY DOWN TO WAIST with characteristic arms/gear and a real sense of its dungeon habitat, as the reference creature entries do. Head occupies about a THIRD of square width, face readable; full head/crown and identifying gear inside the square with 5% breathing room. Species silhouette, outfit and characteristic role are more important than an isolated facial close-up. Recompose the third image into a creature illustration. Avoid the third image's tight hero-selection bust crop, repeated identical portrait backdrop, photographic pore-sharpening and character-card lighting. The first two bestiary references define the final brushwork and composition. Exactly one main subject, anatomically coherent, no extra limbs, no detached weapon pieces, grips physically meet shafts, joints continuous. Full-bleed opaque square 1024x1024 or largest available. NO text, captions, borders, UI, grids or watermark. SUBJECT: The Heartforged, monumental ancient DWARVEN IRON FURNACE GUARDIAN. Same angular squared iron head, narrow orange eye slits, iron-bar mouth grille, riveted slab shoulders and angular dwarven engravings as third reference. Show head, full broad upper torso including glowing CHEST FURNACE and both heavy iron arms, waist at lower edge, in a ruined subterranean forge. Its square head is about one-third the image width. Cage ribs and a continuous riveted metal rim surround a contained molten-orange Heart in the chest. A massive smith's HAMMER is held low diagonally across the body, like the Forge-Thane reference: one block-shaped iron head attached firmly to a single continuous long dark wood/iron haft, and two articulated metal hands grasp the same uninterrupted haft at spaced positions; five broad mechanical digits per hand, no flesh. Forearms join hands and body, hammer stays fully inside square and never crosses the face or furnace. No floating slabs or staff fragments. Recognizably an old iron giant, not human armour, futuristic robot or dwarf with beard. Subject in its forge, matched to the painted creature compendium, not an isolated bust or a giant furnace head."
+    }
+  },
+  "supersededRefreshes": [
+    {
+      "date": "2026-10-18",
+      "note": "Superseded by direct bestiary-style compositions. Original tool outputs remain preserved under their generatedFile names. Historical source paths below are not active selectors.",
+      "overrides": {
+        "lich": {
+          "source": "overrides/lich.png",
+          "date": "2026-10-18",
+          "tool": "image_gen.imagegen",
+          "generatedFile": "exec-df0b5e04-5ce1-43bc-b1f6-9dcf0847b60e.png",
+          "references": [
+            "art/bosses/lich.png (original identity reference; WebP export supplied to tool)",
+            "img/bestiary/grey_dwarf.webp",
+            "art/portraits/overrides/fighter.png"
+          ],
+          "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+          "prompt": "Refresh one square Deepdelve keeper portrait. Reference 1 defines the SAME EXISTING BOSS identity and reference 2 (latest bestiary dwarf) defines the painted-world materials, controlled visible brushwork, warm amber light against soft blue-violet shadow. Reference 3 (refreshed fighter) defines a quieter dungeon background and a cohesive newly refreshed portrait set. A finished hand-painted dark fantasy cover illustration, weathered matte materials, no photographic oversharpening, no glossy cinematic render. Replace the old repeated huge blazing cavern-city panorama with soft ancient dungeon stone and atmospheric shadow, one blurred small torch or forge glow; subject stays readable and dominant. Full head and both shoulders entirely inside square with breathing room above crown/head, upper torso visible, face large and legible on a phone. Preserve the boss's distinguishing anatomy and equipment, not another reference's race, face or clothing. Every gear element physically continuous and attached. Opaque full-bleed square 1024x1024 or largest square available. No border, UI, text, logos or watermark. SUBJECT: The Dread Lich: an unmistakably DEAD ancient human sorcerer, exposed dry bone skull with deep empty nose opening, gaunt sockets and tiny cold violet eye lights; no human fleshy face. Same worn hammered antique-gold crown with tall uneven points and inset angular lozenge, dark black-purple hood wraps skull and crown, layered frayed near-black robes and aged bronze geometric embroidery. Keep old skull's features, retain the looming three-quarter head angle. A hint of violet spell wisps at the lower right beside the robe only; both hands outside crop, no detached skeletal fingers or floating hand. No horns, no huge flames, no glowing orange eyes. Crown completely in frame. Distinctive sinister patient expression, more painterly and less orange than the original.",
+          "framingCorrection": {
+            "initialGeneratedFile": "exec-49e42e35-f977-4780-a217-017249cf0399.png",
+            "prompt": "Correct only the framing of this same Dread Lich painting. The tallest central crown point currently reaches the very top edge. Pull the camera back about 12 percent, retaining the same square composition, so the ENTIRE crown has a clearly visible band of dark painted dungeon background of at least 6 percent of the image height above its tallest point, and both shoulders have room at the edges. Preserve exactly this dry skull, cold violet eyes, worn angular gold crown, dark frayed hood and robes, small lower-right violet mist, existing amber torch on left and cool stone shadows. Maintain same hand-painted material treatment, pose, colours and identity. Expand the surrounding dungeon naturally. No hands, weapons, text, frame, logos or new objects. Opaque square 1024x1024 or largest square. This is a small camera/framing correction, not a redesign."
+          }
+        },
+        "warlord": {
+          "source": "overrides/warlord.png",
+          "date": "2026-10-18",
+          "tool": "image_gen.imagegen",
+          "generatedFile": "exec-44dd34c4-835e-44e1-983c-00ea0279b932.png",
+          "references": [
+            "art/bosses/warlord.png (original identity reference; WebP export supplied to tool)",
+            "img/bestiary/grey_dwarf.webp",
+            "art/portraits/overrides/fighter.png"
+          ],
+          "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+          "prompt": "Refresh one square Deepdelve keeper portrait. Reference 1 defines the SAME EXISTING BOSS identity and reference 2 (latest bestiary dwarf) defines the painted-world materials, controlled visible brushwork, warm amber light against soft blue-violet shadow. Reference 3 (refreshed fighter) defines a quieter dungeon background and a cohesive newly refreshed portrait set. A finished hand-painted dark fantasy cover illustration, weathered matte materials, no photographic oversharpening, no glossy cinematic render. Replace the old repeated huge blazing cavern-city panorama with soft ancient dungeon stone and atmospheric shadow, one blurred small torch or forge glow; subject stays readable and dominant. Full head and both shoulders entirely inside square with breathing room above crown/head, upper torso visible, face large and legible on a phone. Preserve the boss's distinguishing anatomy and equipment, not another reference's race, face or clothing. Every gear element physically continuous and attached. Opaque full-bleed square 1024x1024 or largest square available. No border, UI, text, logos or watermark. SUBJECT: The Goblin Warlord: same broad olive-grey male goblin face, pointed ears, short thick upturned lower tusks, heavily weathered skin, mean amber eyes, dark cropped coarse hair. Heavy battered hammered-gold crown with angular lozenge and blunt crenellations, a dark crimson mantle over worn dark leather/iron scale armour with restrained old gold fittings. Keep him GOBLIN, not an orc, dwarf or human; same recognizable face and crown. Both ears and crown inside frame. Large heavy silhouette and commanding gaze. Hands and weapons outside crop, no floating axe or sword. Gold stays antique, no all-over shiny gold suit. Simple dungeon stronghold background."
+        },
+        "heartforged": {
+          "source": "overrides/heartforged.png",
+          "date": "2026-10-18",
+          "tool": "image_gen.imagegen",
+          "generatedFile": "exec-28cf0374-6e61-40f7-bfe2-a424f08d4472.png",
+          "references": [
+            "art/bosses/heartforged.png (original identity reference; WebP export supplied to tool)",
+            "img/bestiary/grey_dwarf.webp",
+            "art/portraits/overrides/fighter.png"
+          ],
+          "reason": "Refresh the early standalone painting to the later bestiary style while retaining its existing identity; simplify the repeated fiery background and preserve physically connected gear.",
+          "prompt": "Refresh one square Deepdelve keeper portrait. Reference 1 defines the SAME EXISTING BOSS identity and reference 2 (latest bestiary dwarf) defines the painted-world materials, controlled visible brushwork, warm amber light against soft blue-violet shadow. Reference 3 (refreshed fighter) defines a quieter dungeon background and a cohesive newly refreshed portrait set. A finished hand-painted dark fantasy cover illustration, weathered matte materials, no photographic oversharpening, no glossy cinematic render. Replace the old repeated huge blazing cavern-city panorama with soft ancient dungeon stone and atmospheric shadow, one blurred small torch or forge glow; subject stays readable and dominant. Full head and both shoulders entirely inside square with breathing room above crown/head, upper torso visible, face large and legible on a phone. Preserve the boss's distinguishing anatomy and equipment, not another reference's race, face or clothing. Every gear element physically continuous and attached. Opaque full-bleed square 1024x1024 or largest square available. No border, UI, text, logos or watermark. SUBJECT: The Heartforged: same old dwarven-made monumental humanoid IRON FURNACE GUARDIAN, no skin/flesh, heavy squared rusted black iron head, riveted slab shoulders and engraved angular bronze lozenge markings. Two narrow furnace-orange eye slits and a continuous iron-bar mouth grille; contained small internal orange glow, not an open hole replacing entire face. Keep same recognizable squared head silhouette. Upper chest contains a small recessed molten orange furnace core protected by a physically attached metal cage and riveted rim, all metal connected. Broad shoulders, head fully in frame. No crystal gemstone replacing a furnace, no disconnected slabs, no floating weapon. Hands/hammer outside crop. Soft dark ancient smithy stone, dim forge spill only; clean controlled glowing core contrast rather than a whole burning background."
+        }
+      }
+    }
+  ]
 }

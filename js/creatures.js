@@ -17,6 +17,7 @@
 
 import { CHAMPIONS, CHAMPION_OF, PORTRAITS, SHADE_GEAR } from './champions.js';
 import { FOLK } from './folk.js';
+import { alignCreature } from './creatureidentity.js';
 import { paintParts } from './painter.js';
 import { ball, both, both64, dots, drowHair, drowHand, drowHead, drowKit, grow, hair, limb, line, m64, midOf, nudge, oval, scimitar, sheet, specks, turn, up2 } from './parts.js';
 import { PROPS } from './props.js';
@@ -76,7 +77,7 @@ const CREATURES = {
   // war-drum at his hip and a cleaver raised in his fist.
   warlord: (pose = 'idle') => {
     const atk = pose === 'windup';
-    const skin = '#5f9a42', skinDk = '#3a6428', skinLt = '#7cb85a', gold = '#d8a830', goldLt = '#f4d470', deep = '#8a6418';
+    const skin = '#6b7043', skinDk = '#40452b', skinLt = '#939266', gold = '#d8a830', goldLt = '#f4d470', deep = '#8a6418';
     const cloak = '#8a1c1c', cloakDk = '#5a1010', leather = '#4a3020', boot = '#2e2218', steel = '#a8b0bc', steelLt = '#e8eef6';
     return [
       // the cloak, falling wide behind him to the floor
@@ -86,10 +87,10 @@ const CREATURES = {
       ...both64(limb(27, 42, 26, 52, 3.6, 3.2, skinDk)), ...both64(limb(26, 52, 25.5, 59, 3.2, 3, boot)),
       ...both64(sheet([[21.5, 51], [30.5, 51], [30, 54], [22, 54]], '#6a5a44', { curve: 0.6 })),
       ...both64(ball(24.5, 61.2, 4.4, 1.8, boot)),
-      // the belly under the coat, the coat of gilded scales, row on row
+      // the belly under the coat, leather scales row on row
       ball(32, 33, 11, 10, skin),
-      sheet([[20, 23], [44, 23], [45.5, 43], [18.5, 43]], deep, { curve: 1 }),
-      ...[25, 28.5, 32, 35.5, 39].flatMap((y, r) => [21.5, 25.5, 29.5, 33.5, 37.5, 41.5].map(x => ball(x + (r % 2 ? 2 : 0), y, 1.9, 1.5, gold))),
+      sheet([[20, 23], [44, 23], [45.5, 43], [18.5, 43]], '#392a24', { curve: 1 }),
+      ...[25, 28.5, 32, 35.5, 39].flatMap((y, r) => [21.5, 25.5, 29.5, 33.5, 37.5, 41.5].map(x => ball(x + (r % 2 ? 2 : 0), y, 1.9, 1.5, '#614733'))),
       // a broad belt, its buckle a skull
       sheet([[18.5, 41], [45.5, 41], [45.5, 45], [18.5, 45]], leather, { curve: 0.8 }),
       ball(32, 43, 2.4, 2.2, '#e8e0c8'), dots([[31, 43], [33, 43]], '#1a1010'),
@@ -108,8 +109,8 @@ const CREATURES = {
       sheet([[53.5, 0.6], [63, 1.2], [62.4, 13], [54.2, 11.4]], steel, { tilt: [0.5, -0.1] }),
       line(62.6, 1.8, 62.2, 12.4, steelLt), sheet([[54.5, 7], [56, 7], [56, 11.6], [54.5, 11.4]], '#6a1818'),
       ball(54, 21, 2.9, 2.8, skin), hair(52.5, 20, 55.5, 20, skinDk)]),
-      // the pauldrons, gold and spiked
-      ...both64(ball(18.5, 23.5, 6, 4.4, gold)), ...both64(hair(14, 21.5, 22, 20.5, goldLt)),
+      // the pauldrons, dark leather and spiked
+      ...both64(ball(18.5, 23.5, 6, 4.4, '#51402f')), ...both64(hair(14, 21.5, 22, 20.5, '#8c7454')),
       ...both64(sheet([[14, 21], [12, 15], [17, 20]], deep)), ...both64(sheet([[19, 20], [18.5, 14], [22, 19.6]], deep)),
       // a bull neck, the great ears, notched with age and fighting, rings in them
       limb(32, 17, 32, 22, 5, 5.6, skinDk),
@@ -839,9 +840,8 @@ const CREATURES = {
       // the shoulders bony and high, the neck thrust forward
       ...both64(ball(23, 27, 3.6, 2.8, skin)),
       limb(32, 23, 32, 28, 2.2, 2.6, skinDk),
-      // long pointed ears, a narrow skull, the cheeks sunk
-      sheet([[25, 16], [15, 9], [24.5, 20]], skin, { tilt: [-0.5, -0.2] }), sheet([[39, 16], [49, 9], [39.5, 20]], skin, { tilt: [0.5, -0.2] }),
-      hair(23.5, 16.5, 17.5, 11.5, skinDk), hair(40.5, 16.5, 46.5, 11.5, skinDk),
+      // A humanoid skull and small ears, as in the painted ghoul.
+      ball(25.5, 18, 1, 1.7, skin), ball(38.5, 18, 1, 1.7, skin),
       ball(32, 18, 6.6, 7, skin), ball(27.6, 21, 1.6, 2, skinDk), ball(36.4, 21, 1.6, 2, skinDk),
       // eyes deep in shadowed sockets, a cold yellow light in them
       ball(28.8, 16.6, 2.2, 1.8, '#1e2218'), ball(35.2, 16.6, 2.2, 1.8, '#1e2218'),
@@ -1279,10 +1279,9 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
       sheet([[31.3, 11.4], [32.7, 11.4], [32, 10]], '#2a1e20'),
       ...[30, 31, 32, 33, 34].map(x => hair(x, 12.5, x, 14, '#5a5246')), hair(29.75, 13.25, 34.25, 13.25, '#5a5246'),
       hair(28.5, 6.5, 29.5, 8, boneDk), hair(35.5, 6.5, 34.5, 8, boneDk),
-      // the horned helm over it, a crest of gold
-      sheet([[27.2, 8], [27.8, 4.4], [30, 2.6], [34, 2.6], [36.2, 4.4], [36.8, 8], [34.5, 6.4], [29.5, 6.4]], steel, { curve: 0.8 }),
+      // the gold crown within its dark hood
+      sheet([[27.2, 8], [27.8, 4.4], [30, 2.6], [34, 2.6], [36.2, 4.4], [36.8, 8], [34.5, 6.4], [29.5, 6.4]], gold, { curve: 0.8 }),
       hair(28.5, 4, 32, 2.75, steelLt), line(32, 2.6, 32, 6.4, gold), sheet([[30.5, 4.5], [33.5, 4.5], [32, 6.2]], gold),
-      ...both64(limb(27.8, 5.5, 24.5, 3.5, 0.9, 0.7, '#d8ccb0')), ...both64(limb(24.5, 3.5, 23.6, 0.8, 0.7, 0.3, '#e8e0cc')),
       // the cold kindling in its sockets as it strikes or casts
       ...(atk || cast ? [ball(30, 9, 1.2, 1.1, ice, { glows: true }), ball(34, 9, 1.2, 1.1, ice, { glows: true })] : []),
     ];
@@ -1290,6 +1289,12 @@ specks([[27.5, 21], [36.5, 20.5], [26, 25.5], [38, 26.5], [29, 31], [35.5, 31.5]
   ...FOLK,
 };
 
+
+// Align identity before deriving the shared movement and combat poses.
+for (const id of Object.keys(CREATURES)) {
+  const draw = CREATURES[id];
+  CREATURES[id] = (pose = 'idle') => alignCreature(id, draw(pose), pose);
+}
 
 // Other pictures of a creature, painted from the same parts with a pose
 // given: 'windup' while a blow is drawn back, 'special' while its own trick

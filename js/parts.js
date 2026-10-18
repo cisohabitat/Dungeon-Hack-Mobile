@@ -273,10 +273,10 @@ const scimitar = (x, y, u, v, len, c, k) => {
   ];
 };
 // The grey dwarves' looks, shared by the warrior, the arbalest and their
-// Thane: skin the grey of the rock, an iron-coloured beard in braids bound
+// Thane: skin the grey of the rock, a dark brown beard in braids bound
 // with copper, eyes like coals, mail and plate as dark as the iron they dig.
 const dwarfKit = () => ({
-  skin: '#8a8a8c', skinDk: '#5e5e62', skinLt: '#aeaeb0', beard: '#6a6c70', beardDk: '#46484c', beardLt: '#8e9094', eye: '#ff9a3a',
+  skin: '#8a8a8c', skinDk: '#5e5e62', skinLt: '#aeaeb0', beard: '#382b24', beardDk: '#211b18', beardLt: '#5d4836', eye: '#ff9a3a',
   iron: '#4e5258', ironLt: '#7e848c', ironDk: '#2c2e32', mail: '#3c3e44', leather: '#4a3424', boot: '#22201e', copper: '#c87a3a', haft: '#5a4030',
 });
 /** A grey dwarf's head: bald and broad, a brow like a ledge, coal eyes, a big nose, and the beard in two braids to the belt. */
@@ -328,14 +328,15 @@ const dwarfJerkin = k => [
   ...both64(ball(20, 26, 4, 3.2, k.leather)),
   limb(32, 18, 32, 25, 5, 5.4, k.skinDk),
 ];
-/** A war pick from the grip at (x, y) along (u, v): the haft, and its head across the top, a spike one way and a hammer the other. */
+/** The old warPick name is retained for callers; the painting carries a block-headed smith's hammer. */
 const warPick = (x, y, u, v, len, k) => {
   const ex = x + u * len, ey = y + v * len, px = -v, py = u;
-  return [
-    limb(x - u * 4, y - v * 4, ex, ey, 1.2, 1.1, k.haft), ...[0.35, 0.55].map(t => hair(x + u * len * t + px * 1.2, y + v * len * t + py * 1.2, x + u * len * t - px * 1.2, y + v * len * t - py * 1.2, k.copper)),
-    limb(ex - px * 2, ey - py * 2, ex + px * 9, ey + py * 9, 1.8, 0.3, k.iron), limb(ex - px * 6, ey - py * 6, ex - px * 1, ey - py * 1, 2.6, 2.6, k.iron),
-    hair(ex + px * 1, ey + py * 1 - 1, ex + px * 8, ey + py * 8 - 0.5, k.ironLt), ball(ex - px * 6.5, ey - py * 6.5, 2.6, 2.6, k.ironDk),
-  ];
+  const at = (along, across) => [ex + u * along + px * across, ey + v * along + py * across];
+  return [limb(x - u * 4, y - v * 4, ex, ey, 1.2, 1.1, k.haft),
+    sheet([at(-2.6, -6), at(2.6, -6), at(2.6, 6), at(-2.6, 6)], k.iron, { curve: 0.3 }),
+    hair(...at(-1.8, -5), ...at(-1.8, 5), k.ironLt), hair(...at(1.8, -5), ...at(1.8, 5), k.ironDk),
+    ...[-3, 3].map(d => limb(...at(-2.7, d), ...at(2.7, d), 0.4, 0.4, k.copper)),
+    limb(x - u * 2, y - v * 2, x + u * 3, y + v * 3, 1.4, 1.4, k.haft)];
 };
 
 // The lizardfolk's looks, shared by the warrior, the shaman and their
@@ -347,8 +348,9 @@ const lizardKit = () => ({
 });
 /** A lizardfolk's head seen from the front: a broad flat skull, a long snout narrowing to the nostrils, slit eyes either side, a crest above. */
 const lizardHead = (hx, hy, k, { open: jaw = false } = {}) => [
-  ...[-1, 1].map(sd => sheet([[hx + sd * 1, hy - 6], [hx + sd * 3, hy - 9.5], [hx + sd * 2.4, hy - 5]], k.crest, { curve: 0.3 })),
-  sheet([[hx - 1.2, hy - 7], [hx, hy - 11], [hx + 1.2, hy - 7]], k.crest),
+  sheet([[hx + 1, hy], [hx + 5, hy - 9], [hx + 10, hy - 6], [hx + 16, hy - 11], [hx + 13, hy - 2], [hx + 20, hy - 3], [hx + 14, hy + 3], [hx + 8, hy + 5]], k.crest, { curve: 0.3 }),
+  ...[-1, 1].map(sd => sheet([[hx + sd * 1, hy - 6], [hx + sd * 5, hy - 13], [hx + sd * 2.4, hy - 5]], k.crest, { curve: 0.3 })),
+  sheet([[hx - 1.2, hy - 7], [hx, hy - 14], [hx + 1.2, hy - 7]], k.crest),
   ball(hx, hy - 2, 7.4, 5.6, k.scale), ball(hx, hy - 3.6, 5, 2.6, k.scaleLt),
   // the snout coming toward you, and its jaw
   sheet([[hx - 4.4, hy], [hx + 4.4, hy], [hx + 3.2, hy + 6.5], [hx, hy + 7.6], [hx - 3.2, hy + 6.5]], k.scale, { curve: 0.8 }),
