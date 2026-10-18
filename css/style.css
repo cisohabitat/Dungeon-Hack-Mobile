@@ -556,7 +556,7 @@ button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { o
 .item-showcase > img { flex: 0 0 48px; width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; border: 1px solid var(--border); border-radius: var(--frame-radius); background: radial-gradient(ellipse, var(--panel2), var(--bg)); }
 .item-showcase > div { min-width: 0; overflow-wrap: anywhere; }
 .item-showcase .grade-word { margin-bottom: 0; }
-.detail:is([data-grade="rare"], [data-grade="relic"], [data-grade="legend"]) .item-showcase > img { flex-basis: 64px; width: 64px; height: 64px; border-color: currentColor; animation: come-up 240ms ease-out; }
+.detail:is([data-grade="rare"], [data-grade="relic"], [data-grade="legend"], [data-grade="mythic"]) .item-showcase > img { flex-basis: 64px; width: 64px; height: 64px; border-color: currentColor; animation: come-up 240ms ease-out; }
 .detail[data-grade="rare"] { border-color: var(--g-rare-edge); }
 .detail[data-grade="relic"] { border-color: var(--edge-won); }
 .detail[data-grade="legend"] { border-color: var(--g-legend-edge); }
@@ -1308,6 +1308,5 @@ body.calm .item-showcase > img { animation: none !important; }
 .g-mythic { color: var(--g-mythic); }
 .slot.g-mythic { color: var(--g-mythic); border-color: var(--g-mythic-edge); box-shadow: inset 0 0 10px rgba(200,150,240,.25); }
 .detail[data-grade="mythic"], .finds .tag.g-mythic, .end-tags .tag.g-mythic { border-color: var(--g-mythic-edge); }
-.item-showcase.g-mythic > img { width: 64px; height: 64px; }
 
 .end-tags .tag.g-mythic { color: var(--g-mythic); }
