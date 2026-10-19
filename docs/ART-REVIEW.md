@@ -148,6 +148,48 @@ sizes, including introductions, enlargement, missing-file fallbacks and offline
 reloads. Release-tooling tests also pass. The broader browser/performance
 results remain the recorded failures above; no assertion or threshold changed.
 
+## Deferred-art readiness repair — 19 October
+
+Commit `4e89a3d` passed six CI checks, including performance and Safari, but
+the first Chromium shard failed the unchanged 25-second deferred-art deadline:
+21 pictures were pending initially and 56 on retry. Release publication was
+correctly skipped. The local failures recorded above did not establish that
+this readiness budget would pass on the runner.
+
+The follow-up reduces rasterisation work in `js/painter.js`. Polygon edge
+crossings are calculated once per row with the same arithmetic and odd/even
+fill rule as `insidePoly`; curved-sheet bounds are reused, and each part's
+material ramp is resolved once. Unused generic elite colour variants retain
+their metadata and pose links immediately, while their tint/shade canvases are
+built once when requested and cached, following the existing finer-elite
+behavior. Normal, relic and legendary item variants share the same base raster,
+with separate outlines and finished canvases. Base pictures, poses and queue
+priorities remain prepared as before.
+No test deadline, assertion, frame-rate threshold or CI job was weakened.
+
+Back-to-back isolated system-Chromium profiles measured readiness at 18.6
+seconds before the raster/elite changes and 9.8 seconds after, including
+navigation. After adding item-raster sharing, a separate final run measured
+15.8 seconds with no page errors. All 5,412 captured sprite, pose, elite, shade
+and flash canvas-layer hashes still match the original exactly. These are
+local measurements, not a guarantee of every device's timing.
+
+The final two-worker regression run passed all 12 checks: three repetitions
+each of the unchanged readiness deadline, throttled queue-priority behavior,
+elite-cache/pose links and the Dark Elf parry flow. The core regression checks
+compare rasterised coverage with `insidePoly` for concave, clipped, fractional,
+reversed and self-intersecting polygons at four scales. Browser checks retain
+the original readiness deadline and verify cached elite images, shade levels
+and pose links.
+
+The broad local run passed 85 checks, including the original readiness test,
+then exposed a Dark Elf parry check racing its deliberately deferred special
+pose. That test now uses the same bounded `artReady` helper already used by
+the dwarf test; its final pose/tell assertion is unchanged. The isolated local
+frame budget measured fight 48.4 fps, wide 16.2 fps, flooded 30.4 fps, rite
+46.1 fps and start 2304 ms. The wide result still fails the unchanged 27 fps
+bar. Full browser and performance verification remains gated by CI.
+
 ## Earlier repair validation
 
 The core checks passed: agent guidance, release tooling, types, generator and

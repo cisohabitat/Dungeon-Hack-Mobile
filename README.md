@@ -930,12 +930,12 @@ index.html        app shell, loads one module
 css/style.css     mobile-first styles
 js/rng.js         seeded PRNG
 js/data.js        classes, items, monsters, spells, themes, pixel art
-js/assets.js      procedural textures and sprite rasterisation (a creature a piece at a time)
+js/assets.js      procedural textures and queued creature sprites; elite tints cached on first use
 js/walldecor.js   moss, roots, skulls and rings on a theme's walls
 js/creatures.js   the creatures built from lit parts, their poses, the one list of them
 js/folk.js        the later creatures: traders, companions, the peoples below, deep beasts
 js/parts.js       the parts and the kits creatures share
-js/painter.js     parts to lit pixels
+js/painter.js     parts to lit pixels, reusing polygon crossings per row and material ramps per part
 js/props.js       the encounters' props
 js/champions.js   named champions, a shade's gear, the heroes' portraits
 js/dungeon.js     level generator

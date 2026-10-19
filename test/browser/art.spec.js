@@ -50,6 +50,30 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
+  test('an elite colour keeps its cached picture, shades and pose links when first shown', async ({ page }) => {
+    const errors = watchForErrors(page);
+    await page.goto('/');
+    await page.waitForSelector('#btn-new', { state: 'visible' });
+    const shown = await page.evaluate(() => {
+      const base = Assets.sprites.orc, elite = base.elite.Feral;
+      // Exercise picture-first access as in the bestiary, then the view's
+      // shaded canvases; repeated requests must keep the same cached objects.
+      const url = elite.url, levels = elite.levels;
+      const brightness = c => { const p = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let sum = 0; for (let i = 0; i < p.length; i += 4) sum += p[i] + p[i + 1] + p[i + 2]; return sum; };
+      return { url: url.startsWith('data:image/png'), cached: elite.url === url && elite.levels === levels && base.elite.Feral === elite,
+        sizes: levels.every(c => c.width === elite.w && c.height === elite.h), count: levels.length,
+        darker: brightness(levels[levels.length - 1]) < brightness(levels[0]), flash: elite.flash === base.flash };
+    });
+    expect(shown).toEqual({ url: true, cached: true, sizes: true, count: 5, darker: true, flash: true });
+    await expect.poll(() => page.evaluate(() => !!Assets.sprites.orc.windup), { timeout: 40000 }).toBe(true);
+    expect(await page.evaluate(() => {
+      const base = Assets.sprites.orc, own = base.elite.Feral, pose = base.windup.elite.Feral;
+      const levels = pose.levels;
+      return own.windup === pose && pose.levels === levels && levels.length === own.levels.length && pose.url.startsWith('data:image/png');
+    })).toBe(true);
+    expect(errors).toEqual([]);
+  });
+
   test('a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour', async ({ page }) => {
     const errors = watchForErrors(page);
     await startGame(page);

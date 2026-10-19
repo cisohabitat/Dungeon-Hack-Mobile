@@ -74,6 +74,16 @@ function insidePoly(pts, x, y) {
   }
   return inside;
 }
+// All pixels on one scanline meet the same polygon edges. Keep the exact
+// crossing calculation used by insidePoly, once per row rather than per pixel.
+function crossingsAt(pts, y) {
+  const crossings = [];
+  for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+    const [xi, yi] = pts[i], [xj, yj] = pts[j];
+    if ((yi > y) !== (yj > y)) crossings.push((xj - xi) * (y - yi) / (yj - yi) + xi);
+  }
+  return crossings;
+}
 /**
  * @param {number} [scale]  how many pixels to paint for each unit of the 32-grid
  *   the parts are drawn on: 2 paints a monster at 64x64, with smoother curves,
@@ -164,30 +174,37 @@ function paintParts(parts, grid = 32, scale = 1, grim = false) {
       }
       return t;
     };
-    for (let y = by0; y <= by1; y++) for (let x = bx0; x <= bx1; x++) {
-      const px = (x + 0.5) / scale, py = (y + 0.5) / scale;
-      if (p.k === 'ball') {
-        const nx = (px - p.x) / p.rx, ny = (py - p.y) / p.ry, d2 = nx * nx + ny * ny;
-        if (d2 > 1) continue;
-        put(x, y, i, p.c, tn(nx, ny, Math.sqrt(1 - d2), x, y));
-      } else if (p.k === 'limb') {
-        const ax = p.x2 - p.x1, ay = p.y2 - p.y1, L2 = ax * ax + ay * ay || 1;
-        const t = Math.max(0, Math.min(1, ((px - p.x1) * ax + (py - p.y1) * ay) / L2));
-        const cx = p.x1 + ax * t, cy = p.y1 + ay * t, r = p.r1 + (p.r2 - p.r1) * t;
-        const ex = px - cx, ey = py - cy, d = Math.hypot(ex, ey);
-        if (d > Math.max(r, 0.55)) continue;
-        const u = Math.min(1, d / Math.max(r, 0.55));
-        put(x, y, i, p.c, tn(ex / (d || 1) * u, ey / (d || 1) * u, Math.sqrt(1 - u * u), x, y));
-      } else if (p.k === 'sheet') {
-        if (!insidePoly(p.pts, px, py)) continue;
-        let nx = 0, ny = -0.2, nz = 1;
-        if (p.tilt) { nx = p.tilt[0]; ny = p.tilt[1]; }
-        if (p.curve) {
-          const xs = p.pts.map(q => q[0]), lo = Math.min(...xs), hi = Math.max(...xs);
-          nx = ((px - lo) / ((hi - lo) || 1) * 2 - 1) * 0.85 * p.curve;
-          nz = Math.sqrt(Math.max(0.05, 1 - nx * nx - ny * ny));
+    for (let y = by0; y <= by1; y++) {
+      const py = (y + 0.5) / scale;
+      const crossings = p.k === 'sheet' ? crossingsAt(p.pts, py) : null;
+      for (let x = bx0; x <= bx1; x++) {
+        const px = (x + 0.5) / scale;
+        if (p.k === 'ball') {
+          const nx = (px - p.x) / p.rx, ny = (py - p.y) / p.ry, d2 = nx * nx + ny * ny;
+          if (d2 > 1) continue;
+          put(x, y, i, p.c, tn(nx, ny, Math.sqrt(1 - d2), x, y));
+        } else if (p.k === 'limb') {
+          const ax = p.x2 - p.x1, ay = p.y2 - p.y1, L2 = ax * ax + ay * ay || 1;
+          const t = Math.max(0, Math.min(1, ((px - p.x1) * ax + (py - p.y1) * ay) / L2));
+          const cx = p.x1 + ax * t, cy = p.y1 + ay * t, r = p.r1 + (p.r2 - p.r1) * t;
+          const ex = px - cx, ey = py - cy, d = Math.hypot(ex, ey);
+          if (d > Math.max(r, 0.55)) continue;
+          const u = Math.min(1, d / Math.max(r, 0.55));
+          put(x, y, i, p.c, tn(ex / (d || 1) * u, ey / (d || 1) * u, Math.sqrt(1 - u * u), x, y));
+        } else if (p.k === 'sheet') {
+          let inside = false;
+          for (const crossing of crossings) if (px < crossing) inside = !inside;
+          if (!inside) continue;
+          let nx = 0, ny = -0.2, nz = 1;
+          if (p.tilt) { nx = p.tilt[0]; ny = p.tilt[1]; }
+          if (p.curve) {
+            // These bounds were already found once for this part. Rebuilding
+            // its vertex array for every covered pixel dominated curved cloth.
+            nx = ((px - x0) / ((x1 - x0) || 1) * 2 - 1) * 0.85 * p.curve;
+            nz = Math.sqrt(Math.max(0.05, 1 - nx * nx - ny * ny));
+          }
+          put(x, y, i, p.c, tn(nx, ny, nz, x, y));
         }
-        put(x, y, i, p.c, tn(nx, ny, nz, x, y));
       }
     }
   });
@@ -218,7 +235,13 @@ function paintParts(parts, grid = 32, scale = 1, grim = false) {
     }
   }
   // (what gives its own light, an orb or a burning stone, is not muted with the rest)
-  for (let k = 0; k < N; k++) if (tone[k] >= 0) col[k] = ramp(base[k], grim && !parts[owner[k]].glows)[shadeK[k]];
+  // A part has one material ramp. Resolve it once, rather than rebuilding
+  // the cache key and looking it up for every pixel of that part.
+  const palettes = [];
+  for (let k = 0; k < N; k++) if (tone[k] >= 0) {
+    const i = owner[k], palette = palettes[i] || (palettes[i] = ramp(base[k], grim && !parts[i].glows));
+    col[k] = palette[shadeK[k]];
+  }
   return { aw: size, ah: size, color: col };
 }
 

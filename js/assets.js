@@ -59,7 +59,7 @@ const Assets = (() => {
   function makeSprite(def, scale) {
     // a creature built from parts arrives already lit; the old grids are flat
     const sc = scale || (def.fine ? 2 : 1);
-    const painted = def.parts ? paintParts(def.parts, def.grid || 32, sc, def.grim || false) : null;
+    const painted = def.raster || (def.parts ? paintParts(def.parts, def.grid || 32, sc, def.grim || false) : null);
     const aw = painted ? painted.aw : def.rows[0].length, ah = painted ? painted.ah : def.rows.length;
     // the outline keeps its weight in a finer painting: two of its pixels wide
     const ow = sc * (def.grid || 32) / 32 >= 4 ? 2 : 1;
@@ -178,16 +178,21 @@ const Assets = (() => {
     // a named champion's own wash rides on its kind's picture, keyed by its id
     if (def.elites) for (const e of [...ELITES, ...(def.named || [])]) {
       const wash = () => {
-        const washed = tintOf(e.tint, 0.4);
+        // Pose links need the metadata, but most colour variants are never
+        // shown. Cache their canvases on first use, as for the finer sprites.
+        let washed = null, washedUrl = null, levels = null;
+        const baseOf = () => {
+          if (!washed) { washed = tintOf(e.tint, 0.4); washedUrl = lazyUrl(washed); }
+          return washed;
+        };
         const shade = a => {
           const c = canvas(w, h);
           const cx = c.getContext('2d');
-          cx.drawImage(washed, 0, 0);
+          cx.drawImage(baseOf(), 0, 0);
           if (a > 0) { cx.globalCompositeOperation = 'source-atop'; cx.fillStyle = '#000'; cx.globalAlpha = a; cx.fillRect(0, 0, w, h); }
           return c;
         };
-        const washedUrl = lazyUrl(washed);
-        return { w, h, top, levels: SHADES.map(shade), flash: sprite.flash, get url() { return washedUrl(); }, near: /** @type {null | (() => any)} */ (null) };
+        return { w, h, top, get levels() { return levels || (levels = SHADES.map(shade)); }, flash: sprite.flash, get url() { baseOf(); return washedUrl(); }, near: /** @type {null | (() => any)} */ (null) };
       };
       // the finer painting washes a champion's colour on only when one comes near
       if (scale) { let made = null; Object.defineProperty(sprite.elite, e.prefix, { get: () => made || (made = wash()), enumerable: true }); }
@@ -1612,16 +1617,22 @@ const Assets = (() => {
     // items are painted finely too: a pack slot on a phone shows them at two or three device pixels to the unit.
     // They are set on the creatures' finer grid and lit as they are, softly grim (see ramp), clean of the
     // painter's grain: their own fine work carries the wood and the steel, where grain read as rust on all of it
-    const itemParts = k => ITEM_ART[k]().map(p => ({ ...up2(p), smooth: 1 }));
-    for (const k in ITEM_ART) later(k, () => makeSprite({ parts: itemParts(k), fine: true, grim: 'soft', grid: 64 }));
+    // Normal, relic and legendary edges wrap the same item painting. Reuse
+    // that raster; only their outlines and finished canvases differ.
+    const itemRasters = new Map();
+    const itemRaster = k => {
+      if (!itemRasters.has(k)) itemRasters.set(k, paintParts(ITEM_ART[k]().map(p => ({ ...up2(p), smooth: 1 })), 64, 2, 'soft'));
+      return itemRasters.get(k);
+    };
+    for (const k in ITEM_ART) later(k, () => makeSprite({ raster: itemRaster(k), fine: true, grim: 'soft', grid: 64 }));
     // relics wear their base item's picture with a gold edge, on the floor and in the pack
     // (and a champion's own jewel, never dealt a seed's look, wears its own picture so: the Spider Pendant, Durgrim's Ring)
     for (const k of new Set(Object.values(ITEMS).filter(b => ['weapon', 'armor', 'shield'].includes(b.kind) || (['ring', 'amulet'].includes(b.kind) && b.tier >= 99)).map(b => b.sprite))) {
-      if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ parts: itemParts(k), outline: '#e8b84a', fine: true, grim: 'soft', grid: 64 }));
+      if (ITEM_ART[k]) later('relic_' + k, () => makeSprite({ raster: itemRaster(k), outline: '#e8b84a', fine: true, grim: 'soft', grid: 64 }));
     }
     // and the legendary pieces with a brighter, warmer edge than a relic's
     for (const k of new Set(Object.values(RELICS).filter(r => r.legend).map(r => ITEMS[r.t].sprite))) {
-      if (ITEM_ART[k]) later('legend_' + k, () => makeSprite({ parts: itemParts(k), outline: LEGEND_EDGE, fine: true, grim: 'soft', grid: 64 }));
+      if (ITEM_ART[k]) later('legend_' + k, () => makeSprite({ raster: itemRaster(k), outline: LEGEND_EDGE, fine: true, grim: 'soft', grid: 64 }));
     }
     for (const [id, draw] of Object.entries(NAMED_ART)) later(namedSprite(id), () => makeSprite({
       parts: draw().map(p => ({ ...up2(p), smooth: 1 })), outline: RELICS[id].mythic ? '#e2bcff' : RELICS[id].legend ? LEGEND_EDGE : '#e8b84a', fine: true, grim: 'soft', grid: 64,

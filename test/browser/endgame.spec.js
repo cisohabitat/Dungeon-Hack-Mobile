@@ -103,6 +103,9 @@ test.describe('the endgame', () => {
     expect(await page.evaluate(() => THEMES[Game.level().theme].name)).toBe('The Dark Elf Halls');
     // their altar stands on the floor, drawn as itself, and the bestiary says where they live
     expect(await page.evaluate(() => (Game.level().npcs || []).some(n => n.id === 'spider_altar') && !!Assets.sprites.spider_altar)).toBe(true);
+    // The parry below checks the painted pose, not the intentional plain
+    // fallback shown while that pose is still in the deferred queue.
+    await artReady(page, { drow_warrior: ['special'] });
     // each of them stands before the hero in turn, drawn as itself
     await page.evaluate(() => { const L = Game.level(), p = Game.player(); L.monsters.length = 0; for (let k = 0; k < 4; k++) { const [dx, dy] = Dungeon.DIRS[k]; if ([1, 2].every(n => L.tiles[(p.y + dy * n) * L.w + p.x + dx * n] === Dungeon.T.FLOOR)) { p.dir = k; break; } } });
     for (const [id, art] of [['drow_warrior', 'drow_warrior'], ['drow_mage', 'drow_mage'], ['vaelith', 'vaelith']]) {

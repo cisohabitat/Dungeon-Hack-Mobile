@@ -96,6 +96,16 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   records the identifying traits reviewed for every monster and class;
   `check:art` rejects missing entries. Preserve an empty Abbess face, a smooth
   blind Stalker head, the pale Puffcap, and each class's painted identity.
+  In `js/painter.js`, polygon crossings are calculated once per scanline and
+  material ramps once per part, preserving the `insidePoly` odd/even fill rule
+  and its exact crossing arithmetic. Keep curved-sheet bounds outside the
+  pixel loop. The deferred-art readiness deadline stays at 25 seconds; improve
+  preparation work rather than extending it or weakening queue/pose checks.
+  Generic elite colour variants keep pose links/metadata immediately, but
+  their tint canvases and shade arrays are built once on first use and cached.
+  Avoid forcing those getters while wiring pose links or warming unused art.
+  Normal, relic and legendary item variants reuse their base raster while
+  retaining separate outlines and finished canvases.
   `js/assets.js` turns them into sprites (a creature a piece at
   a time, in spare moments) and paints the walls, floors and doors; the wall
   decorations are in `js/walldecor.js`. `js/regionart.js` adds regional masonry,

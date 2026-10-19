@@ -10,6 +10,23 @@ const T = Dungeon.T;
 let failures = 0;
 function check(cond, msg) { if (!cond) { failures++; console.error('FAIL:', msg); } }
 
+// Scanline rasterisation must preserve the point-in-polygon fill rule, even
+// for concave, clipped, reversed, fractional and self-intersecting sheets.
+{
+  const { insidePoly } = await import('../js/painter.js');
+  const polygons = [
+    [[2, 2], [24, 2], [24, 8], [10, 8], [10, 24], [2, 24]],
+    [[-3, 4], [14, 1], [33, 13], [17, 32], [12, 16], [-3, 20]],
+    [[4, 4], [12, 4], [12, 4], [28, 14], [20, 14], [20, 26], [4, 26]],
+    [[4, 4], [4.25, 4.25], [20, 25], [19.75, 25.25]],
+    [[2, 2], [29, 29], [2, 29], [29, 2]],
+  ];
+  for (const points of polygons) for (const pts of [points, [...points].reverse()]) for (const scale of [1, 2, 3, 4]) {
+    const { aw, color } = paintParts([{ k: 'sheet', pts, c: '#878787', curve: 0.7, tilt: [-0.2, -0.4] }], 32, scale, true);
+    check(color.every((c, i) => !!c === insidePoly(pts, (i % aw + 0.5) / scale, (Math.floor(i / aw) + 0.5) / scale)), `scanline fill changed at scale ${scale}: ${JSON.stringify(pts)}`);
+  }
+}
+
 // Named artwork must cover every piece, preserve its base type, and be distinct
 // in pixels as well as in parts. Rendering must not mutate its source tables.
 {
