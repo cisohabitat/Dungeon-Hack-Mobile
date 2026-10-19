@@ -54,6 +54,92 @@
   },
   "overrides": {
     "fighter": {
+      "source": "refined/fighter.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        22,
+        9,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    },
+    "cleric": {
+      "source": "refined/cleric.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        531,
+        9,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    },
+    "mage": {
+      "source": "refined/mage.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        1040,
+        9,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    },
+    "thief": {
+      "source": "refined/thief.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        22,
+        515,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    },
+    "ranger": {
+      "source": "refined/ranger.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        531,
+        515,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    },
+    "druid": {
+      "source": "refined/druid.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "generatedFile": "exec-7f5bace9-8194-42df-9773-2df76c7bb481.png",
+      "sheet": "refined/approved-sheet.png",
+      "crop": [
+        1040,
+        515,
+        474,
+        474
+      ],
+      "reason": "User-approved refined six-class preview: quieter backgrounds, distinct expressions, simplified clothing and foliage; established identities retained."
+    }
+  },
+  "previousOverrides": {
+    "fighter": {
       "source": "overrides/fighter.png",
       "date": "2026-10-18",
       "tool": "image_gen.imagegen",

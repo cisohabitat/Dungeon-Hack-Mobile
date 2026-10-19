@@ -1,7 +1,7 @@
 {
-  "date": "2026-10-18",
+  "date": "2026-10-19",
   "scope": "All 61 shipped paintings: 50 bestiary, three bosses, six classes, two title compositions. Visual check for floating or disconnected weapons, incoherent grips and visible anatomy. Not a claim about every procedural animation frame.",
-  "finding": "Repaired the Dark Elf Warrior sword connection and refreshed six hero paintings. Lich, Warlord and Heartforged are bestiary creatures: their current paintings directly match the creature entries in brushwork, upper-body framing, characteristic equipment and dungeon habitat; they are shared by bestiary and introductions. Source/export anatomy and equipment continuity visually reviewed.",
+  "finding": "Repaired the Dark Elf Warrior sword connection and refreshed six hero paintings. Lich, Warlord and Heartforged are bestiary creatures: their current paintings directly match the creature entries in brushwork, upper-body framing, characteristic equipment and dungeon habitat; they are shared by bestiary and introductions. Source/export anatomy and equipment continuity visually reviewed. The approved 19 October hero refinement preserves identities with clearer expressions and quieter backgrounds; all six source crops and shipped exports were visually inspected.",
   "sha256": {
     "art/bestiary/overrides/drow_warrior.png": "5bc81d238ecefca93a2e88cecf838f081fcdb1e6b7d8bf84a6019903850dbb6c",
     "art/bestiary/sheet-1.png": "7d6e6d60bd3e1bb6baabb1649d44f314408a226b3e15d13343468f839b465a19",
@@ -27,6 +27,13 @@
     "art/portraits/overrides/ranger.png": "3c6dc6f8dbfc7fe0f0fe2b6607f5dadf92b6f64a5f5b49783350d040221bc67b",
     "art/portraits/overrides/thief.png": "98d4f14189d579dbde05e90a60a83cb0100b5b3d5e0183450b701e6cda251ade",
     "art/portraits/ranger.png": "84ed3cd19dda4644a3c0b5a47769bf257730813971e8d2e9f4800f6f7366b409",
+    "art/portraits/refined/approved-sheet.png": "4e01a649984c0d83def430001d13c15c1aea29c38463096fc5737ff54490aa1e",
+    "art/portraits/refined/cleric.png": "9f8aace178ccf94ee53bc6b720ac1f0cf533ea04aa5a7687c5cf64cfd2ef0fb5",
+    "art/portraits/refined/druid.png": "08c0054f922eb8a326385237abfa7fad4adf798e3f190295b4fdcd28cd8e892d",
+    "art/portraits/refined/fighter.png": "6fa9ea620a51f94c7bd46007c28b85e790fea8c1172e365320e207e95216f741",
+    "art/portraits/refined/mage.png": "020d44d4738174fa098522e4967996fdf1c65ce759d6dcb47a9b5cd1dbe6e31e",
+    "art/portraits/refined/ranger.png": "ca757926c2fb5451ee4e38a4ef2357b37d1b824b91db3a73118d652144be1b2d",
+    "art/portraits/refined/thief.png": "0072b11f94f2a10de32023e22e69f1782ab89bdc672ef1bc4ab90f107293a8f3",
     "art/portraits/thief.png": "dd65a7d6ea6a1a9b8f28fb7b804be8197a33358868e38ef28033ce2eb4b93403",
     "icons/icon-192.png": "01d65b21a2ab5024548e103f9c0b72d422177d9c99efd406a156c599e8a9651f",
     "icons/icon-512.png": "d80ec630db6e37fc1eb7130c318f97574b0501a000b3515f9f90a765dc578b8c",
@@ -86,12 +93,12 @@
     "img/bosses/warlord.webp": "e76f59e7157d7fbc54dbdfb7e4972c4cd2a87647a64e3abfc2a6eb90fda2c512",
     "img/keyart-landscape.webp": "77a6d0b455cd6de641355a1414628887912705de6a38e36c2c3ec5517c50b47b",
     "img/keyart-portrait.webp": "d88e1c6409be6c1cf666962a0850c11baf5afde363126028ecd468cd60798ee9",
-    "img/portraits/cleric.webp": "fe32409b1bcd1f9cb76cbf5410ef69006fd0c969e4c639d4057f71fb89157227",
-    "img/portraits/druid.webp": "91bbc78eb66811a4b47a8667c817791591690500ec3864836110af50129825ce",
-    "img/portraits/fighter.webp": "23221370ebbf0758abf1216d3ac921c90d534c3eb3ddb8f5bea75e4fdaaa2e9f",
-    "img/portraits/mage.webp": "d8d6e2e994fba16f2dd3d10ee50a082412d1df5ee142a5ca17146c1f5c6dc7aa",
-    "img/portraits/ranger.webp": "f8c8d78aa0e8843c29fbda6395de1ed53b270b52c6cd8435e331013d9b8d2d64",
-    "img/portraits/thief.webp": "b1e6901bb45de2ddd3a6213b85e38272369a380deea6c533eeee542154ebc1b2"
+    "img/portraits/cleric.webp": "33390d96b37c928afffb469cfe6d325be7d9761c1bac46b8e13ebb0c6863c99a",
+    "img/portraits/druid.webp": "76a616d63fc404f336bae99f4f27c68321a1c7c4a8f397e4c6f766a7d45b8191",
+    "img/portraits/fighter.webp": "3a664b77dda04acfc54cfceb473077fa056fa2e050d719c98c70163217fb4f31",
+    "img/portraits/mage.webp": "d15885e6c8be01b38f0a433aea6e54542f2ab2f154569a4bdfd1ec96222327e8",
+    "img/portraits/ranger.webp": "8de24a4312cfd0817a7eb724b7eed1ce424e27790481fb220c357ca1f3b34fcf",
+    "img/portraits/thief.webp": "d37eb739591bd1beea970a2e5db890753dc328daa50395ec0948f275285412ed"
   },
   "proceduralReview": {
     "scope": "All creature poses, champion defaults, shade gear, base and named item icons; base and named first-person weapons in rest/windup/cut/through; carried named shields/foci; encounter props, floor dressing and fallback class portraits. Reviewed rendered inspection sheets for obvious disconnected parts.",

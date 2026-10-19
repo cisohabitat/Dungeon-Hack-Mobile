@@ -225,3 +225,29 @@ These variable, failing measurements do not establish performance parity or
 clear a performance regression. No rendering thresholds were lowered, and the
 changes have not been pushed or deployed. The source/export and portrait-flow
 results above are verified; full-suite and performance verification remain open.
+
+
+## Approved hero refinement — 19 October 2026
+
+Applied the approved final six-class preview to Fighter, Cleric, Mage, Thief,
+Ranger and Druid. Each portrait retains the established face, hair, skin tone
+and class equipment. Quieter backgrounds, simpler clothing and distinct
+expressions improve the visual focus on faces. Druid foliage is reduced around
+the face; the Ranger retains a continuous bow and coherent quiver. No hands or
+exposed weapon blades are introduced. Animated pixel fallbacks remain aligned
+with the same identities.
+
+The approved sheet and six label-free square crops are retained under
+`art/portraits/refined/`. Crop coordinates and prior overrides are preserved in
+the generation manifest. The 474-pixel sources are exported to the existing
+512-pixel WebP slots using the documented recipe. No image regeneration after
+approval was used. This batch changes portrait assets and the release notice,
+with no gameplay or procedural rendering changes.
+
+All 12 portrait-flow checks pass on phone and small-phone Chromium, covering
+class selection, enlargement, fallback, story/sheet/end/share use and offline
+retention. Source/export reproduction and the art inventory checks pass. A
+broader local run was stopped after 22 passes to focus local checks on this
+asset batch; full browser and frame-rate verification is delegated to the
+unchanged CI matrix. Release-display checks initially encountered an old local
+server commit stamp; the server was restarted before rerunning those checks.

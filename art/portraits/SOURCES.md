@@ -7,8 +7,8 @@ Terms: [OpenAI Terms of Use](https://openai.com/policies/terms-of-use/), includi
 The game's existing `../keyart/portrait.png` supplied the world, colour palette and lighting reference. The fighter was generated first; the other five use both the title artwork and fighter as references for a consistent set. The rogue archetype is exported as `thief.webp` for the game's Thief class. Each character has distinct class equipment and a clear face. `generation.json` preserves the exact prompts, reference paths and original generation filenames.
 
 The original 15 October PNGs are preserved here without editing. The current
-paintings are the six 18 October refreshes in `overrides/`, selected by
-`generation.json`. They use the original faces as identity references, the
+18 October paintings are the six refreshes in `overrides/`, retained as
+`previousOverrides` in `generation.json`. They use the original faces as identity references, the
 later Grey Dwarf/High Priestess bestiary art as style references, and the
 refreshed Fighter for set consistency. The quieter dungeon backgrounds replace
 the repeated burning cavern city; class identities and animated pixel fallbacks
@@ -35,3 +35,23 @@ to depict the same six people as these paintings, including hair, skin tone,
 facial hair and class equipment. At that stage the paintings stayed unchanged.
 The paintings were subsequently refreshed as described above, preserving those
 identities. The related animated bestiary alignment is in `art/identity.json`.
+
+## Approved refinement — 19 October 2026
+
+The current portraits are the user-approved six-class refinement in `refined/`.
+`approved-sheet.png` preserves the exact generated preview, including labels.
+The six square source crops exclude labels and gutters; their coordinates are
+recorded in the active override entries in `generation.json`. The existing
+exporter resamples these 474-pixel crops to the game's 512-pixel slots. This
+is resampling, not additional generated detail.
+
+The preview was iteratively edited with `image_gen.imagegen` using the prior
+six-class sheets as references. The final reference was
+`exec-ec169f31-49c9-4cf1-9c98-bb8a6d4db88b.png`; final output was
+`exec-7f5bace9-8194-42df-9773-2df76c7bb481.png`. Direction: preserve all six
+identities and mature dark-fantasy tone; simplify fabric, clasps and druid
+foliage; distinguish expressions; reduce orange lighting and background detail;
+keep natural faces and physically coherent equipment readable on a phone.
+This paragraph summarizes the direction, rather than quoting the full prompt.
+The tool did not expose a model identifier. The user approved this final preview
+for application and a push to main. Earlier source images remain preserved.

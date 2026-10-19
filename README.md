@@ -1005,3 +1005,5 @@ hook, rejects a missing or outdated generated copy.
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+The six hero portraits use the approved 19 October refinement, with source crops and provenance in `art/portraits/refined/` and `art/portraits/SOURCES.md`.
