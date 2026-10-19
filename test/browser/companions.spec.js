@@ -1,5 +1,7 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
+const http = require('http');
+const { serve } = require('../server');
 const { startGame, clearBoons, watchForErrors } = require('./helpers');
 const kinds = ['hound', 'wolf', 'goblin', 'sellsword', 'mender', 'renegade'];
 
@@ -76,27 +78,43 @@ test('meeting a companion without recruiting unlocks it in the Journal and survi
   expect(errors).toEqual([]);
 });
 
-test('all companion portraits load, zoom by touch and keyboard, and remain available offline', { tag: '@mobile' }, async ({ page, context }, testInfo) => {
+test('all companion portraits load, zoom by touch and keyboard, and remain available offline', { tag: '@mobile' }, async ({ page, context, browserName }, testInfo) => {
   const errors = watchForErrors(page);
-  await page.goto('/');
-  await page.evaluate(ids => localStorage.setItem('deepdelve.companions', JSON.stringify(ids)), kinds);
-  await page.click('#btn-companions');
-  await expect(page.locator('#companions-count')).toHaveText('6 of 6 met');
-  const faces = page.locator('#companions-list img');
-  await expect(faces).toHaveCount(6);
-  await expect.poll(() => faces.evaluateAll(imgs => imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
-  const hound = page.locator('[data-companion="hound"] img');
-  await hound.click(); await expect(hound).toHaveAttribute('aria-pressed', 'true');
-  await hound.press(' '); await expect(hound).toHaveAttribute('aria-pressed', 'false');
-  await hound.press('Enter'); await expect(hound).toHaveClass(/zoom/);
-  await expect.poll(() => page.evaluate(() => document.querySelector('#screen-companions').scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: testInfo.outputPath('companion-collection.png') });
-  await page.evaluate(() => navigator.serviceWorker.register('/sw.js'));
-  await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
-  await context.setOffline(true); await page.reload();
-  await page.click('#btn-companions');
-  await expect.poll(() => faces.evaluateAll(imgs => imgs.length === 6 && imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
-  expect(errors).toEqual([]);
+  let connected = true, rejected = 0;
+  const server = http.createServer((req, res) => {
+    if (!connected) { rejected++; req.socket.destroy(); return; }
+    serve(req, res);
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  try {
+    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await page.evaluate(ids => localStorage.setItem('deepdelve.companions', JSON.stringify(ids)), kinds);
+    await page.click('#btn-companions');
+    await expect(page.locator('#companions-count')).toHaveText('6 of 6 met');
+    const faces = page.locator('#companions-list img');
+    await expect(faces).toHaveCount(6);
+    await expect.poll(() => faces.evaluateAll(imgs => imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
+    const hound = page.locator('[data-companion="hound"] img');
+    await hound.click(); await expect(hound).toHaveAttribute('aria-pressed', 'true');
+    await hound.press(' '); await expect(hound).toHaveAttribute('aria-pressed', 'false');
+    await hound.press('Enter'); await expect(hound).toHaveClass(/zoom/);
+    await expect.poll(() => page.evaluate(() => document.querySelector('#screen-companions').scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath('companion-collection.png') });
+    await page.evaluate(() => navigator.serviceWorker.register('/sw.js'));
+    await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
+    // Cut the origin itself: WebKit's offline emulation aborts SW reloads.
+    connected = false;
+    await page.reload();
+    expect(rejected).toBeGreaterThan(0);
+    if (browserName !== 'webkit') { await context.setOffline(true); await page.reload(); }
+    await page.click('#btn-companions');
+    await expect.poll(() => faces.evaluateAll(imgs => imgs.length === 6 && imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
+    expect(errors).toEqual([]);
+  } finally {
+    await context.setOffline(false);
+    const closed = new Promise(resolve => server.close(resolve));
+    server.closeAllConnections(); await closed;
+  }
 });
 
 test('a missing companion painting falls back to its sprite', async ({ page }) => {

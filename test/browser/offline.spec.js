@@ -45,6 +45,8 @@ test('core play is ready offline while all recordings are delayed, then voices r
     await page.locator('[data-act="left"]').click();
     expect(await page.evaluate(()=>Game.player().dir)).not.toBe(dir);
     await page.reload();await expect(status).toContainText('Voice download paused');
+    // Cache status can settle before the menu's entrance fade finishes.
+    await expect(page.locator('#screen-title')).not.toHaveClass(/opening/);
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
     expect(axe.violations.filter(v=>['serious','critical'].includes(v.impact))).toEqual([]);
     blocked=false;for(const entry of held)if(!entry.res.destroyed)serve(entry.req,entry.res);held.clear();

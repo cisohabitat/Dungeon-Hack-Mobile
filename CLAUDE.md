@@ -308,6 +308,9 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   internal engine error. The isolated offline fixture cuts the origin's actual
   sockets in both engines, asserts rejected requests, and retains native reload,
   play, recovery and range checks; Chromium also uses browser offline mode.
+  Companion portrait offline checks use the same actual-origin cutoff. Wait for
+  the title opening to finish before auditing contrast after an offline reload;
+  worker readiness can arrive while the menu is still fading in.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 
