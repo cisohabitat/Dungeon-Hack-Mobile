@@ -92,7 +92,11 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
   `js/creatureidentity.js` aligns older anatomy, equipment and colours to the
-  painted portraits before deriving cached movement poses. `art/identity.json`
+  painted portraits before deriving cached movement poses. Creature redraws belong
+  there so named champions inherit the same anatomy. Combat creatures face the
+  player; preserve frontal heads and eye contact when refining their silhouettes.
+  Keep blink slicing on the
+  64-unit grid, and inspect raised equipment plus head crests for clipped tips. `art/identity.json`
   records the identifying traits reviewed for every monster and class;
   `check:art` rejects missing entries. Preserve an empty Abbess face, a smooth
   blind Stalker head, the pale Puffcap, and each class's painted identity.

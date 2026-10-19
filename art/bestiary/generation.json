@@ -100,6 +100,46 @@
       "reference": "../../img/bestiary/drow_warrior.webp (original sheet-2 export)",
       "reason": "The viewer-right curved blade floated beside the forearm, disconnected from the fist.",
       "promptSummary": "Edit the existing Dark Elf Warrior portrait to preserve identity, face, white hair, black armour, amber and blue lighting, and square composition. Replace the floating viewer-right blade with one continuous curved steel sword emerging directly from a crossguard and wrapped hilt visibly held in the gloved hand. Keep the viewer-left sword connected and intact. Exactly two hands and two swords, one per hand, no floating fragments or extra limbs. No text or border."
+    },
+    "lizardfolk": {
+      "source": "overrides/lizardfolk.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/lizardfolk.webp (original sheet export)",
+      "reason": "Add a clearly visible turtle-shell shield on the free arm on viewer-left, attached with believable straps, scuted convex shell facing viewer. Keep the other hand gripping the existing continuous spear, preserve face, green scales, orange crest, tail and leather armor. Adjust arms only as necessary: exactly two arms, one spear hand and one shield arm.",
+      "prompt": "Edit this existing bestiary portrait. Output one finished square portrait only, no labels, border or collage. Preserve the original creature identity and established painted dark fantasy style, amber torchlight and cool blue cavern shadows, tactile brushwork and weathered materials. Specific correction: Add a clearly visible turtle-shell shield on the free arm on viewer-left, attached with believable straps, scuted convex shell facing viewer. Keep the other hand gripping the existing continuous spear, preserve face, green scales, orange crest, tail and leather armor. Adjust arms only as necessary: exactly two arms, one spear hand and one shield arm. Save the resulting full-resolution image to /workspace/Dungeon-Hack-Mobile/art/bestiary/overrides/lizardfolk.png if file output is supported."
+    },
+    "dwarf_arbalest": {
+      "source": "overrides/dwarf_arbalest.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/dwarf_arbalest.webp (original sheet export)",
+      "reason": "Redraw the crossbow as a simple mechanically coherent medieval steel arbalest, clearly readable in three-quarter view: one straight wooden stock and central bolt groove, a single straight bolt aligned on it pointing forward, one transverse bow with two symmetric steel limbs connected to the nose of the stock, and ONE taut bowstring connecting both limb tips through the rear latch behind the bolt. Give sufficient separation and negative space to trace each part. Two natural hands, rear hand holding grip under stock and support hand under fore-stock, all fingers below bolt path. Preserve grey dwarf face, beard, iron helmet, chainmail and copper fittings.",
+      "prompt": "Edit this existing bestiary portrait. Output one finished square portrait only, no labels, border or collage. Preserve the original creature identity and established painted dark fantasy style, amber torchlight and cool blue cavern shadows, tactile brushwork and weathered materials. Specific correction: Redraw the crossbow as a simple mechanically coherent medieval steel arbalest, clearly readable in three-quarter view: one straight wooden stock and central bolt groove, a single straight bolt aligned on it pointing forward, one transverse bow with two symmetric steel limbs connected to the nose of the stock, and ONE taut bowstring connecting both limb tips through the rear latch behind the bolt. Give sufficient separation and negative space to trace each part. Two natural hands, rear hand holding grip under stock and support hand under fore-stock, all fingers below bolt path. Preserve grey dwarf face, beard, iron helmet, chainmail and copper fittings. Save the resulting full-resolution image to /workspace/Dungeon-Hack-Mobile/art/bestiary/overrides/dwarf_arbalest.png if file output is supported."
+    },
+    "slime": {
+      "source": "overrides/slime.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/slime.webp (original sheet export)",
+      "reason": "Replace the mouth-like cavity with a continuous rounded translucent emerald jelly mound: genuinely faceless, no mouth, teeth, eyes or skull-like cavities. Rich bubbles trapped inside the gel, soft amorphous lobes and viscous rounded drips, shallow pseudopod spreading over stones. Preserve ominous dungeon habitat and lush green material, beautiful handpainted lighting; not a cute cartoon.",
+      "prompt": "Edit this existing bestiary portrait. Output one finished square portrait only, no labels, border or collage. Preserve the original creature identity and established painted dark fantasy style, amber torchlight and cool blue cavern shadows, tactile brushwork and weathered materials. Specific correction: Replace the mouth-like cavity with a continuous rounded translucent emerald jelly mound: genuinely faceless, no mouth, teeth, eyes or skull-like cavities. Rich bubbles trapped inside the gel, soft amorphous lobes and viscous rounded drips, shallow pseudopod spreading over stones. Preserve ominous dungeon habitat and lush green material, beautiful handpainted lighting; not a cute cartoon. Save the resulting full-resolution image to /workspace/Dungeon-Hack-Mobile/art/bestiary/overrides/slime.png if file output is supported."
+    },
+    "hound": {
+      "source": "overrides/hound.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/hound.webp (original sheet export)",
+      "reason": "Keep a lean charcoal-black canine with violet eyes and subtle blink magic. Clarify solid canine anatomy and silhouette: one head, two ears, four correctly attached legs, paws, lean shoulders, one tail. Reduce violet smoke dramatically around the face, shoulders and legs, concentrate a few wisps behind the back and tail. Keep energetic stalking movement, dark dungeon and handpainted realism. Use restrained cool rim light to separate the body from background.",
+      "prompt": "Edit this existing bestiary portrait. Output one finished square portrait only, no labels, border or collage. Preserve the original creature identity and established painted dark fantasy style, amber torchlight and cool blue cavern shadows, tactile brushwork and weathered materials. Specific correction: Keep a lean charcoal-black canine with violet eyes and subtle blink magic. Clarify solid canine anatomy and silhouette: one head, two ears, four correctly attached legs, paws, lean shoulders, one tail. Reduce violet smoke dramatically around the face, shoulders and legs, concentrate a few wisps behind the back and tail. Keep energetic stalking movement, dark dungeon and handpainted realism. Use restrained cool rim light to separate the body from background. Save the resulting full-resolution image to /workspace/Dungeon-Hack-Mobile/art/bestiary/overrides/hound.png if file output is supported."
+    },
+    "rustmaw": {
+      "source": "overrides/rustmaw.png",
+      "date": "2026-10-19",
+      "tool": "image_gen.imagegen",
+      "reference": "../../img/bestiary/rustmaw.webp (original sheet export)",
+      "reason": "Keep rust-brown armored beetle, two feathered antennae and two huge curved mandibles. Improve anatomical readability: clearly distinct head, layered shell and six jointed insect legs attached below the thorax (far legs can be partly occluded naturally). Two mandibles visibly hinge to opposite sides of head and curve forward with open negative space between, never merge into legs. Separate foreground legs from mandibles and shell using pose, restrained edge highlights and simpler darker background. Preserve weathered copper-rust chitin and menacing dungeon mood.",
+      "prompt": "Edit this existing bestiary portrait. Output one finished square portrait only, no labels, border or collage. Preserve the original creature identity and established painted dark fantasy style, amber torchlight and cool blue cavern shadows, tactile brushwork and weathered materials. Specific correction: Keep rust-brown armored beetle, two feathered antennae and two huge curved mandibles. Improve anatomical readability: clearly distinct head, layered shell and six jointed insect legs attached below the thorax (far legs can be partly occluded naturally). Two mandibles visibly hinge to opposite sides of head and curve forward with open negative space between, never merge into legs. Separate foreground legs from mandibles and shell using pose, restrained edge highlights and simpler darker background. Preserve weathered copper-rust chitin and menacing dungeon mood. Save the resulting full-resolution image to /workspace/Dungeon-Hack-Mobile/art/bestiary/overrides/rustmaw.png if file output is supported."
     }
   }
 }

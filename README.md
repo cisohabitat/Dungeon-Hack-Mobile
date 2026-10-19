@@ -107,7 +107,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 - **A painted bestiary.** Every creature has portrait art in the bestiary and Journal,
   with an enlarged view and a sprite fallback if the painting cannot load.
   Animated creatures and fallback hero faces match the paintings' identities,
-  anatomy and equipment while keeping their original animation style.
+  anatomy and equipment while keeping their original animation style. Refined creature
+  sprites include clearer canine and wyrm silhouettes, connected crossbows, shell
+  shields, dimensional mimics and distinct spellcasting poses.
 - **Melee and missile arms.** Throwing knives, slings and bows reach down a corridor, so archers
   and casters are not the only ones with an answer at range. Monsters move faster than they
   swing, so a missile weapon buys you a few shots rather than an endless retreat.

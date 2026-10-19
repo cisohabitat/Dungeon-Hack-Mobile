@@ -347,16 +347,26 @@ const lizardKit = () => ({
   hide: '#6a5232', hideDk: '#4a3820', shell: '#6a6a3a', shellDk: '#4a4a26', shellLt: '#9a9a5a', wood: '#7a5a34', bone: '#e8dcc0', boneDk: '#b8aa88',
 });
 /** A lizardfolk's head seen from the front: a broad flat skull, a long snout narrowing to the nostrils, slit eyes either side, a crest above. */
-const lizardHead = (hx, hy, k, { open: jaw = false } = {}) => [
+const lizardHead = (hx, hy, k, { open: jaw = false, broad = false } = {}) => [
   sheet([[hx + 1, hy], [hx + 5, hy - 9], [hx + 10, hy - 6], [hx + 16, hy - 11], [hx + 13, hy - 2], [hx + 20, hy - 3], [hx + 14, hy + 3], [hx + 8, hy + 5]], k.crest, { curve: 0.3 }),
   ...[-1, 1].map(sd => sheet([[hx + sd * 1, hy - 6], [hx + sd * 5, hy - 13], [hx + sd * 2.4, hy - 5]], k.crest, { curve: 0.3 })),
   sheet([[hx - 1.2, hy - 7], [hx, hy - 14], [hx + 1.2, hy - 7]], k.crest),
   ball(hx, hy - 2, 7.4, 5.6, k.scale), ball(hx, hy - 3.6, 5, 2.6, k.scaleLt),
-  // the snout coming toward you, and its jaw
+  // A broad muzzle projects below the eye ridge; nostrils sit on top,
+  // with a separate horizontal mouth and lower jaw underneath.
+  ...(broad ? [
+    sheet([[hx-4,hy-1],[hx+4,hy-1],[hx+7,hy+3],[hx+6,hy+6],[hx-6,hy+6],[hx-7,hy+3]],k.scaleLt,{curve:0.8}),
+    ...[-3.5,3.5].map(d=>ball(hx+d,hy+2.5,0.8,0.55,k.scaleDk)),
+    ...(jaw ? [sheet([[hx-5.5,hy+6],[hx+5.5,hy+6],[hx+4,hy+10],[hx-4,hy+10]],'#351e17'),
+      ...[-4,-1.5,1.5,4].map(d=>limb(hx+d,hy+6,hx+d,hy+8,0.55,0.1,k.bone)),
+      limb(hx-4,hy+10,hx+4,hy+10,1,1,k.scale)]
+      : [limb(hx-5,hy+7,hx+5,hy+7,1.2,1.2,k.scale),hair(hx-5.5,hy+6,hx+5.5,hy+6,k.scaleDk)]),
+    hair(hx-3,hy,hx+2,hy,k.belly)] : [
   sheet([[hx - 4.4, hy], [hx + 4.4, hy], [hx + 3.2, hy + 6.5], [hx, hy + 7.6], [hx - 3.2, hy + 6.5]], k.scale, { curve: 0.8 }),
   ...(jaw ? [sheet([[hx - 3.2, hy + 4], [hx + 3.2, hy + 4], [hx + 2.4, hy + 8.6], [hx - 2.4, hy + 8.6]], '#5a1a1a'), ...[-2, -0.7, 0.7, 2].map(d => limb(hx + d, hy + 4.4, hx + d, hy + 5.6, 0.35, 0.15, k.bone))]
     : [hair(hx - 3, hy + 5, hx + 3, hy + 5, k.scaleDk)]),
   ball(hx - 1, hy + 6.4, 0.5, 0.4, '#1a1a10'), ball(hx + 1, hy + 6.4, 0.5, 0.4, '#1a1a10'),
+  ]),
   ...[-1, 1].flatMap(sd => [ball(hx + sd * 4.6, hy - 2.4, 1.6, 1.3, k.eye, { glows: true }), limb(hx + sd * 4.6, hy - 3.4, hx + sd * 4.6, hy - 1.4, 0.3, 0.3, '#1a1a10')]),
   specks([[hx - 3, hy - 5], [hx + 2, hy - 4], [hx - 1, hy + 2], [hx + 2.5, hy + 3]], k.scaleDk),
 ];

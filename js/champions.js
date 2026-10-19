@@ -163,7 +163,7 @@ const CHAMPIONS = {
   // a clouded eye, and the fourth crew's steel heaped under her forefeet
   skarrow: champion('wyrm', pose => {
     const rear = pose === 'special', coil = pose === 'windup';
-    const hx = coil ? 29 : 32, hy = rear ? 12 : coil ? 25 : 21, ey = hy - 1;
+    const hx = 32, hy = rear ? 16 : coil ? 28 : 24, ey = hy - 1;
     return {
       map: { '#8a3622': '#5a4a3e', '#5a2016': '#3a2e26', '#3e140c': '#241a14', '#a44428': '#6e5e4e', '#c8966a': '#a89a86', '#a87a52': '#857866', '#dccaa0': '#e8e0d0', '#9a3e26': '#4e4034', '#b85438': '#7a6a58', '#6a2618': '#463a30', '#c05a36': '#8a7a68', '#c86a44': '#9a8a76' },
       front: [

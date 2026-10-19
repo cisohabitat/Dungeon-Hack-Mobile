@@ -452,14 +452,14 @@ const FOLK = {
     const k = lizardKit();
     const hand = (x, y) => [ball(x, y, 2.4, 2.2, k.scale), hair(x - 1.2, y + 1, x + 1.2, y + 1, k.scaleDk)];
     const spear = (x0, y0, x1, y1) => [limb(x0, y0, x1, y1, 0.9, 0.9, k.wood), sheet([[x1 - 1.6, y1 + 0.5], [x1, y1 - 5], [x1 + 1.6, y1 + 0.5]], k.boneDk), hair(x1 - 0.4, y1, x1, y1 - 4, k.bone)];
-    const shield = (x, y) => [ball(x, y, 7, 8, k.shellDk), ball(x, y - 0.5, 6, 7, k.shell), ...[[0, -3], [-3, 1], [3, 1], [0, 4]].map(([dx, dy]) => ball(x + dx, y + dy, 2, 1.7, k.shellLt)), hair(x - 5, y - 4, x - 2, y - 6.5, '#c8c890')];
+    const shield = (x, y) => [ball(x, y, 9, 11, k.shellDk), ball(x, y - 0.5, 8, 10, k.shell), sheet([[x-3,y-5],[x+3,y-5],[x+5,y],[x+2,y+5],[x-3,y+5],[x-5,y]],k.shellLt,{curve:0.35}), ...[[-3,-5,-5,-8],[3,-5,5,-8],[-5,0,-8,0],[5,0,8,0],[-3,5,-4,9],[2,5,4,9]].map(([a,b,c,d]) => hair(x+a,y+b,x+c,y+d,k.shellDk)), hair(x - 5, y - 4, x - 2, y - 6.5, '#c8c890')];
     let arms;
-    if (atk) arms = [limb(43, 23, 48, 14, 3, 2.6, k.scale), ...hand(48.5, 12.5), ...spear(48.5, 30, 49, 0.5), limb(21, 23, 16, 30, 3, 2.6, k.scale), ...shield(14, 31)];
+    if (atk) arms = [limb(43, 23, 55, 18, 3, 2.6, k.scale), ...hand(55, 17), ...spear(55, 39, 56, 9), limb(21, 23, 16, 30, 3, 2.6, k.scale), ...shield(14, 31)];
     else if (sweep) arms = [limb(21, 23, 13, 26, 3, 2.6, k.scale), ...shield(10, 26), limb(43, 23, 51, 28, 3, 2.6, k.scale), ...hand(52, 29), ...spear(52, 44, 56, 14)];
-    else arms = [limb(43, 23, 47, 33, 3, 2.6, k.scale), ...hand(47.5, 35), ...spear(47.5, 56, 47.5, 9), limb(21, 23, 17, 32, 3, 2.6, k.scale), ...shield(15, 34)];
+    else arms = [limb(43, 23, 53, 33, 3, 2.6, k.scale), ...hand(54, 35), ...spear(54, 58, 56, 9), limb(21, 23, 17, 32, 3, 2.6, k.scale), ...shield(15, 34)];
     // coiled to sweep: the tail swung round low across the front of its feet, the body leaning into it
     const tail = sweep ? [limb(44, 48, 50, 56, 4.4, 3.6, k.scale), limb(50, 56, 34, 60, 3.6, 2.6, k.scale), limb(34, 60, 14, 57, 2.6, 1.2, k.scale), hair(48, 55, 16, 57, k.scaleDk), specks([[40, 59], [28, 59], [20, 57.5]], k.scaleLt)] : [];
-    return [...lizardBody(k, { tail: sweep ? 'none' : 'rest' }), ...arms, ...lizardHead(32, 11, k, { open: atk || sweep }), ...tail];
+    return [...lizardBody(k, { tail: sweep ? 'none' : 'rest' }), ...arms, ...lizardHead(32, 11, k, { open: atk || sweep, broad: true }).map(p => p.c === k.crest && 'pts' in p ? { ...p, pts: p.pts.map(([x, y]) => [x, Math.max(4, y)]) } : p), ...tail];
   },
   // A lizardfolk shaman: slighter, in a cloak of hanging reeds and a headdress
   // of bones, a staff hung with charms. Spitting fire, the staff comes forward;

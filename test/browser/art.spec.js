@@ -705,3 +705,28 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test('refined bestiary sprites retain readable blink and unclipped raised equipment', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.goto('/');
+  await artReady(page, { hound: ['special'], lizardfolk: ['windup'], dwarf_arbalest: ['windup', 'special'], wyrm: ['windup', 'special'], drow_mage: ['windup', 'special'] });
+  const result = await page.evaluate(() => {
+    const solid = s => {
+      const c = s.levels[0], data = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+      let count = 0, top = c.height, bottom = 0;
+      for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) if (data[(y * c.width + x) * 4 + 3] > 128) { count++; top = Math.min(top, y); bottom = Math.max(bottom, y); }
+      return { count, top, bottom };
+    };
+    const hound = Assets.sprites.hound;
+    return { idle: solid(hound), blink: solid(hound.special), spear: solid(Assets.sprites.lizardfolk.windup),
+      champion: ['skarrow', 'vaelith'].map(id => {
+        const base = Assets.sprites[MONSTERS[id].sprite], own = base.elite[id];
+        return { id, distinct: own.url !== base.url, windup: own.windup.url !== own.url, special: own.special.url !== own.url };
+      }) };
+  });
+  expect(result.blink.count).toBeGreaterThan(result.idle.count * 0.25);
+  expect(result.blink.bottom).toBeGreaterThan(result.idle.bottom - 8);
+  expect(result.spear.top, 'the raised spearhead has transparent space above its point').toBeGreaterThan(2);
+  for (const c of result.champion) expect(c).toEqual({ id: c.id, distinct: true, windup: true, special: true });
+  expect(errors).toEqual([]);
+});
